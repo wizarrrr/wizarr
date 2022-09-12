@@ -15,6 +15,13 @@ Wizarr is a automatic user invitation system for Plex. Create a unique link and 
 
 *Don't forget to only include /invite in forward-auth
 
+## Planned features
+
+- Discord Bot Integration 
+- Plex Quality guide 
+- 
+
+
 ## Installation
 
 ### Docker Compose (recommended)
