@@ -19,7 +19,7 @@ def verify_password(username, password):
         return username
 
 
-database = SqliteDatabase("database.db")
+database = SqliteDatabase("database/database.db")
 
 class BaseModel(Model):
     class Meta:
