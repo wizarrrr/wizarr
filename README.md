@@ -27,7 +27,7 @@ services:
     container_name: wizarr
     image: wizarr/wizarr
     ports:
-    - 8080:8080
+    - 5690:5690
     volumes:
       - ./data:/data/database
     environment:
@@ -57,4 +57,4 @@ services:
     APP_URL: Public Facing Url of your Wizarr instance
 
 3.  Run `docker compose up -d` or for older version: `docker-compose up -d`
-4.  Access WebUI at http://localhost:8080
+4.  Access WebUI at http://localhost:5690
