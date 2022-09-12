@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  wizarr:
+    container_name: wizarr
+    image: wizarr/wizarr
+    ports: 
+    - 8080:8080
+    volumes:
+      - ./data:/data/database
+    environment:
+      - "ADMIN_USERNAME=admin"
+      - "ADMIN_PASSWORD=password"
+      - "OVERSEERR_URL=https://overseerr.domain.com"
+      - "PLEX_NAME=Wizarr"
+      - "PLEX_URL=https://plex.domain.com"
+      - "PLEX_TOKEN=XXXXXXXXXXXXXXXXXXX"
+      - "PLEX_SECTIONS=Movies,TV Shows,Audiobooks" # Important: Make sure to not leave any unnecessary spaces
+      - "APP_URL=https://join.domain.com"
