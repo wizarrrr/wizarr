@@ -1,4 +1,5 @@
 # Wizarr
+Attention! Wizarr is still under development, but the basic features work!
 
 Wizarr is a automatic user invitation system for Plex. Create a unique link and share it to a user and they will automatically be invited to your Plex Server! They will even be guided to download the Plex client and instructions on how to use Overseerr!
 
