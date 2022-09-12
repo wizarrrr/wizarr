@@ -1,0 +1,172 @@
+# Slovak translations for WTForms.
+# Copyright (C) 2020 WTForms Team
+# This file is distributed under the same license as the WTForms project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: WTForms 2.0dev\n"
+"Report-Msgid-Bugs-To: wtforms+i18n@jamescrasta.com\n"
+"POT-Creation-Date: 2020-04-25 11:34-0700\n"
+"PO-Revision-Date: 2017-11-30 18:03+0100\n"
+"Last-Translator: Marek Šuppa <marek@suppa.sk>\n"
+"Language: sk\n"
+"Language-Team: sk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+
+#: src/wtforms/validators.py:87
+#, python-format
+msgid "Invalid field name '%s'."
+msgstr "Neplatný názov poľa '%s'."
+
+#: src/wtforms/validators.py:98
+#, python-format
+msgid "Field must be equal to %(other_name)s."
+msgstr "Hodnota poľa musí byť rovnaká ako v prípade %(other_name)s."
+
+#: src/wtforms/validators.py:134
+#, python-format
+msgid "Field must be at least %(min)d character long."
+msgid_plural "Field must be at least %(min)d characters long."
+msgstr[0] "Pole musí obsahovať aspoň %(min)d znak."
+msgstr[1] "Pole musí obsahovať aspoň %(min)d znaky."
+msgstr[2] "Pole musí obsahovať aspoň %(min)d znakov."
+
+#: src/wtforms/validators.py:140
+#, python-format
+msgid "Field cannot be longer than %(max)d character."
+msgid_plural "Field cannot be longer than %(max)d characters."
+msgstr[0] "Pole nesmie byť dlhšie ako %(max)d znak."
+msgstr[1] "Pole nesmie byť dlhšie ako %(max)d znaky."
+msgstr[2] "Pole nesmie byť dlhšie ako %(max)d znakov."
+
+#: src/wtforms/validators.py:146
+#, python-format
+msgid "Field must be exactly %(max)d character long."
+msgid_plural "Field must be exactly %(max)d characters long."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: src/wtforms/validators.py:152
+#, python-format
+msgid "Field must be between %(min)d and %(max)d characters long."
+msgstr "Počet znakov v poli musí byť medzi %(min)d a %(max)d."
+
+#: src/wtforms/validators.py:197
+#, python-format
+msgid "Number must be at least %(min)s."
+msgstr "Číslo musí byť aspoň %(min)s."
+
+#: src/wtforms/validators.py:199
+#, python-format
+msgid "Number must be at most %(max)s."
+msgstr "Číslo musí byť najviac %(max)s."
+
+#: src/wtforms/validators.py:201
+#, python-format
+msgid "Number must be between %(min)s and %(max)s."
+msgstr "Číslo musí byť medzi %(min)s a %(max)s."
+
+#: src/wtforms/validators.py:269 src/wtforms/validators.py:294
+msgid "This field is required."
+msgstr "Toto pole je povinné."
+
+#: src/wtforms/validators.py:327
+msgid "Invalid input."
+msgstr "Neplatný vstup."
+
+#: src/wtforms/validators.py:387
+msgid "Invalid email address."
+msgstr "Neplatná emailová adresa."
+
+#: src/wtforms/validators.py:423
+msgid "Invalid IP address."
+msgstr "Neplatná IP adresa."
+
+#: src/wtforms/validators.py:466
+msgid "Invalid Mac address."
+msgstr "Neplatná MAC adresa."
+
+#: src/wtforms/validators.py:501
+msgid "Invalid URL."
+msgstr "Neplatné URL."
+
+#: src/wtforms/validators.py:522
+msgid "Invalid UUID."
+msgstr "Neplatné UUID."
+
+#: src/wtforms/validators.py:553
+#, python-format
+msgid "Invalid value, must be one of: %(values)s."
+msgstr "Neplatná hodnota, povolené hodnoty sú: %(values)s."
+
+#: src/wtforms/validators.py:588
+#, python-format
+msgid "Invalid value, can't be any of: %(values)s."
+msgstr "Neplatná hodnota, nesmie byť jedna z: %(values)s."
+
+#: src/wtforms/csrf/core.py:96
+msgid "Invalid CSRF Token."
+msgstr "Neplatný CSRF token."
+
+#: src/wtforms/csrf/session.py:63
+msgid "CSRF token missing."
+msgstr "Chýba CSRF token."
+
+#: src/wtforms/csrf/session.py:71
+msgid "CSRF failed."
+msgstr "Chyba CSRF."
+
+#: src/wtforms/csrf/session.py:76
+msgid "CSRF token expired."
+msgstr "CSRF token expiroval."
+
+#: src/wtforms/fields/core.py:534
+msgid "Invalid Choice: could not coerce."
+msgstr "Neplatná voľba: hodnotu sa nepodarilo previesť."
+
+#: src/wtforms/fields/core.py:538
+msgid "Choices cannot be None."
+msgstr ""
+
+#: src/wtforms/fields/core.py:545
+msgid "Not a valid choice."
+msgstr "Neplatná voľba."
+
+#: src/wtforms/fields/core.py:573
+msgid "Invalid choice(s): one or more data inputs could not be coerced."
+msgstr "Neplatná voľba: jeden alebo viacero vstupov sa nepodarilo previesť."
+
+#: src/wtforms/fields/core.py:584
+#, python-format
+msgid "'%(value)s' is not a valid choice for this field."
+msgstr "'%(value)s' nieje platnou voľbou pre toto pole."
+
+#: src/wtforms/fields/core.py:679 src/wtforms/fields/core.py:689
+msgid "Not a valid integer value."
+msgstr "Neplatná hodnota pre celé číslo."
+
+#: src/wtforms/fields/core.py:760
+msgid "Not a valid decimal value."
+msgstr ""
+
+#: src/wtforms/fields/core.py:788
+msgid "Not a valid float value."
+msgstr "Neplatná hodnota pre desatinné číslo."
+
+#: src/wtforms/fields/core.py:853
+msgid "Not a valid datetime value."
+msgstr "Neplatná hodnota pre dátum a čas."
+
+#: src/wtforms/fields/core.py:871
+msgid "Not a valid date value."
+msgstr "Neplatná hodnota pre dátum."
+
+#: src/wtforms/fields/core.py:889
+msgid "Not a valid time value."
+msgstr ""

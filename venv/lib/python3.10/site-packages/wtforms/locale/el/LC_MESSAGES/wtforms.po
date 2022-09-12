@@ -1,0 +1,169 @@
+# Greek translations for WTForms.
+# Copyright (C) 2020 WTForms Team
+# This file is distributed under the same license as the WTForms project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: WTForms 2.0dev\n"
+"Report-Msgid-Bugs-To: wtforms+i18n@jamescrasta.com\n"
+"POT-Creation-Date: 2020-04-25 11:34-0700\n"
+"PO-Revision-Date: 2014-04-04 20:18+0300\n"
+"Last-Translator: Daniel Dourvaris <dourvaris@gmail.com>\n"
+"Language: el\n"
+"Language-Team: el <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+
+#: src/wtforms/validators.py:87
+#, python-format
+msgid "Invalid field name '%s'."
+msgstr "Λάθος όνομα πεδίου '%s'."
+
+#: src/wtforms/validators.py:98
+#, python-format
+msgid "Field must be equal to %(other_name)s."
+msgstr "Το πεδίο πρέπει να είναι το ίδιο με το %(other_name)s."
+
+#: src/wtforms/validators.py:134
+#, python-format
+msgid "Field must be at least %(min)d character long."
+msgid_plural "Field must be at least %(min)d characters long."
+msgstr[0] "Το πεδίο πρέπει να έχει τουλάχιστον %(min)d χαρακτήρα."
+msgstr[1] "Το πεδίο πρέπει να έχει τουλάχιστον %(min)d χαρακτήρες."
+
+#: src/wtforms/validators.py:140
+#, python-format
+msgid "Field cannot be longer than %(max)d character."
+msgid_plural "Field cannot be longer than %(max)d characters."
+msgstr[0] "Το πεδίο δεν μπορεί να έχει πάνω από %(max)d χαρακτήρα."
+msgstr[1] "Το πεδίο δεν μπορεί να έχει πάνω από %(max)d χαρακτήρες."
+
+#: src/wtforms/validators.py:146
+#, python-format
+msgid "Field must be exactly %(max)d character long."
+msgid_plural "Field must be exactly %(max)d characters long."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/wtforms/validators.py:152
+#, python-format
+msgid "Field must be between %(min)d and %(max)d characters long."
+msgstr "Το πεδίο πρέπει να είναι ανάμεσα από %(min)d και %(max)d χαρακτήρες."
+
+#: src/wtforms/validators.py:197
+#, python-format
+msgid "Number must be at least %(min)s."
+msgstr "Το νούμερο πρέπει να είναι τουλάχιστον %(min)s."
+
+#: src/wtforms/validators.py:199
+#, python-format
+msgid "Number must be at most %(max)s."
+msgstr "Το νούμερο πρέπει να είναι μέγιστο %(max)s."
+
+#: src/wtforms/validators.py:201
+#, python-format
+msgid "Number must be between %(min)s and %(max)s."
+msgstr "Το νούμερο πρέπει να είναι ανάμεσα %(min)s και %(max)s."
+
+#: src/wtforms/validators.py:269 src/wtforms/validators.py:294
+msgid "This field is required."
+msgstr "Αυτό το πεδίο είναι υποχρεωτικό"
+
+#: src/wtforms/validators.py:327
+msgid "Invalid input."
+msgstr "Λανθασμένα δεδομένα"
+
+#: src/wtforms/validators.py:387
+msgid "Invalid email address."
+msgstr "Λανθασμένο email."
+
+#: src/wtforms/validators.py:423
+msgid "Invalid IP address."
+msgstr "Λανθασμένη διεύθυνση IP."
+
+#: src/wtforms/validators.py:466
+msgid "Invalid Mac address."
+msgstr "Λανθασμένο διεύθυνση Mac."
+
+#: src/wtforms/validators.py:501
+msgid "Invalid URL."
+msgstr "Λανθασμένο URL."
+
+#: src/wtforms/validators.py:522
+msgid "Invalid UUID."
+msgstr "Λανθασμένο UUID."
+
+#: src/wtforms/validators.py:553
+#, python-format
+msgid "Invalid value, must be one of: %(values)s."
+msgstr "Λάθος επιλογή, πρέπει να είναι ένα από: %(values)s."
+
+#: src/wtforms/validators.py:588
+#, python-format
+msgid "Invalid value, can't be any of: %(values)s."
+msgstr "Λάθος επιλογή, δεν μπορεί να είναι ένα από: %(values)s."
+
+#: src/wtforms/csrf/core.py:96
+msgid "Invalid CSRF Token."
+msgstr "Λάθος CSRF"
+
+#: src/wtforms/csrf/session.py:63
+msgid "CSRF token missing."
+msgstr "To CSRF δεν υπάρχει"
+
+#: src/wtforms/csrf/session.py:71
+msgid "CSRF failed."
+msgstr "Αποτυχία CSRF"
+
+#: src/wtforms/csrf/session.py:76
+msgid "CSRF token expired."
+msgstr "Έχει λήξει το διακριτικό CSRF"
+
+#: src/wtforms/fields/core.py:534
+msgid "Invalid Choice: could not coerce."
+msgstr "Λανθασμένη Επιλογή: δεν μετατρέπεται"
+
+#: src/wtforms/fields/core.py:538
+msgid "Choices cannot be None."
+msgstr ""
+
+#: src/wtforms/fields/core.py:545
+msgid "Not a valid choice."
+msgstr "Άγνωστη επιλογή"
+
+#: src/wtforms/fields/core.py:573
+msgid "Invalid choice(s): one or more data inputs could not be coerced."
+msgstr "Λανθασμένη επιλογή(ές): κάποιες τιμές δεν μπορούσαν να μετατραπούν"
+
+#: src/wtforms/fields/core.py:584
+#, python-format
+msgid "'%(value)s' is not a valid choice for this field."
+msgstr "'%(value)s' δεν είναι έγκυρη επιλογή για αυτό το πεδίο"
+
+#: src/wtforms/fields/core.py:679 src/wtforms/fields/core.py:689
+msgid "Not a valid integer value."
+msgstr "Δεν είναι ακέραιο νούμερο"
+
+#: src/wtforms/fields/core.py:760
+msgid "Not a valid decimal value."
+msgstr "Δεν είναι δεκαδικό"
+
+#: src/wtforms/fields/core.py:788
+msgid "Not a valid float value."
+msgstr "Δεν είναι δεκαδικό"
+
+#: src/wtforms/fields/core.py:853
+msgid "Not a valid datetime value."
+msgstr "Δεν είναι σωστή ημερομηνία/ώρα"
+
+#: src/wtforms/fields/core.py:871
+msgid "Not a valid date value."
+msgstr "Δεν είναι σωστή ημερομηνία"
+
+#: src/wtforms/fields/core.py:889
+msgid "Not a valid time value."
+msgstr ""

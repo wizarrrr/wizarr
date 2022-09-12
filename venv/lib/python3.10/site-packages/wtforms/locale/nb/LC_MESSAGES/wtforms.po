@@ -1,0 +1,169 @@
+# Norwegian Bokmål translations for WTForms.
+# Copyright (C) 2020 WTForms Team
+# This file is distributed under the same license as the WTForms project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: WTForms 2.0dev\n"
+"Report-Msgid-Bugs-To: wtforms+i18n@jamescrasta.com\n"
+"POT-Creation-Date: 2020-04-25 11:34-0700\n"
+"PO-Revision-Date: 2014-05-05 16:18+0100\n"
+"Last-Translator: Frode Danielsen <frode@e5r.no>\n"
+"Language: nb\n"
+"Language-Team: nb <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+
+#: src/wtforms/validators.py:87
+#, python-format
+msgid "Invalid field name '%s'."
+msgstr "Ugyldig feltnavn '%s'."
+
+#: src/wtforms/validators.py:98
+#, python-format
+msgid "Field must be equal to %(other_name)s."
+msgstr "Feltet må være lik som %(other_name)s."
+
+#: src/wtforms/validators.py:134
+#, python-format
+msgid "Field must be at least %(min)d character long."
+msgid_plural "Field must be at least %(min)d characters long."
+msgstr[0] "Feltet må være minst %(min)d tegn langt."
+msgstr[1] "Feltet må være minst %(min)d tegn langt."
+
+#: src/wtforms/validators.py:140
+#, python-format
+msgid "Field cannot be longer than %(max)d character."
+msgid_plural "Field cannot be longer than %(max)d characters."
+msgstr[0] "Feltet kan ikke være lenger enn %(max)d tegn."
+msgstr[1] "Feltet kan ikke være lenger enn %(max)d tegn."
+
+#: src/wtforms/validators.py:146
+#, python-format
+msgid "Field must be exactly %(max)d character long."
+msgid_plural "Field must be exactly %(max)d characters long."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/wtforms/validators.py:152
+#, python-format
+msgid "Field must be between %(min)d and %(max)d characters long."
+msgstr "Feltet må være mellom %(min)d og %(max)d tegn langt."
+
+#: src/wtforms/validators.py:197
+#, python-format
+msgid "Number must be at least %(min)s."
+msgstr "Tall må være minst %(min)s."
+
+#: src/wtforms/validators.py:199
+#, python-format
+msgid "Number must be at most %(max)s."
+msgstr "Tall må være maks %(max)s."
+
+#: src/wtforms/validators.py:201
+#, python-format
+msgid "Number must be between %(min)s and %(max)s."
+msgstr "Tall må være mellom %(min)s og %(max)s."
+
+#: src/wtforms/validators.py:269 src/wtforms/validators.py:294
+msgid "This field is required."
+msgstr "Dette feltet er påkrevd."
+
+#: src/wtforms/validators.py:327
+msgid "Invalid input."
+msgstr "Ugyldig verdi."
+
+#: src/wtforms/validators.py:387
+msgid "Invalid email address."
+msgstr "Ugyldig e-postadresse."
+
+#: src/wtforms/validators.py:423
+msgid "Invalid IP address."
+msgstr "Ugyldig IP-adresse."
+
+#: src/wtforms/validators.py:466
+msgid "Invalid Mac address."
+msgstr "Ugyldig MAC-adresse."
+
+#: src/wtforms/validators.py:501
+msgid "Invalid URL."
+msgstr "Ugyldig URL."
+
+#: src/wtforms/validators.py:522
+msgid "Invalid UUID."
+msgstr "Ugyldig UUID."
+
+#: src/wtforms/validators.py:553
+#, python-format
+msgid "Invalid value, must be one of: %(values)s."
+msgstr "Ugyldig verdi, den må være en av følgende: %(values)s."
+
+#: src/wtforms/validators.py:588
+#, python-format
+msgid "Invalid value, can't be any of: %(values)s."
+msgstr "Ugyldig verdi, den kan ikke være en av følgende: %(values)s."
+
+#: src/wtforms/csrf/core.py:96
+msgid "Invalid CSRF Token."
+msgstr "Ugyldig CSRF-pollett"
+
+#: src/wtforms/csrf/session.py:63
+msgid "CSRF token missing."
+msgstr "Manglende CSRF-pollett"
+
+#: src/wtforms/csrf/session.py:71
+msgid "CSRF failed."
+msgstr "CSRF-sjekk feilet"
+
+#: src/wtforms/csrf/session.py:76
+msgid "CSRF token expired."
+msgstr "Utløpt CSRF-pollett"
+
+#: src/wtforms/fields/core.py:534
+msgid "Invalid Choice: could not coerce."
+msgstr "Ugyldig valg: Kunne ikke oversette"
+
+#: src/wtforms/fields/core.py:538
+msgid "Choices cannot be None."
+msgstr ""
+
+#: src/wtforms/fields/core.py:545
+msgid "Not a valid choice."
+msgstr "Ikke et gyldig valg"
+
+#: src/wtforms/fields/core.py:573
+msgid "Invalid choice(s): one or more data inputs could not be coerced."
+msgstr "Ugyldig(e) valg: En eller flere dataverdier kunne ikke oversettes"
+
+#: src/wtforms/fields/core.py:584
+#, python-format
+msgid "'%(value)s' is not a valid choice for this field."
+msgstr "'%(value)s' er ikke et gyldig valg for dette feltet"
+
+#: src/wtforms/fields/core.py:679 src/wtforms/fields/core.py:689
+msgid "Not a valid integer value."
+msgstr "Ikke en gyldig heltallsverdi"
+
+#: src/wtforms/fields/core.py:760
+msgid "Not a valid decimal value."
+msgstr "Ikke en gyldig desimalverdi"
+
+#: src/wtforms/fields/core.py:788
+msgid "Not a valid float value."
+msgstr "Ikke en gyldig flyttallsverdi"
+
+#: src/wtforms/fields/core.py:853
+msgid "Not a valid datetime value."
+msgstr "Ikke en gyldig dato- og tidsverdi"
+
+#: src/wtforms/fields/core.py:871
+msgid "Not a valid date value."
+msgstr "Ikke en gyldig datoverdi"
+
+#: src/wtforms/fields/core.py:889
+msgid "Not a valid time value."
+msgstr ""
