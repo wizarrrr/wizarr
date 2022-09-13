@@ -1,4 +1,4 @@
-#!/Users/matthieu/Nextcloud/Coding/plex-wizard/venv/bin/python3.10
+#!/Users/matthieu/Nextcloud/Coding/wizarr/venv/bin/python3.10
 
 import datetime
 import os

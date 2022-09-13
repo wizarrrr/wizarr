@@ -81,7 +81,8 @@ def invite():
       return abort(401) #Already Exists
     Invitations.create(code=code, used=False, created=datetime.datetime.now())
     link = os.getenv("APP_URL") + "/j/" + code
-    return render_template("code.html", link = link)
+    invitations = Invitations.select().order_by(Invitations.created.desc())
+    return render_template("code.html", link = link, invitations=invitations)
   else:
     invitations = Invitations.select().order_by(Invitations.created.desc())
     return render_template("invite.html", invitations=invitations)
