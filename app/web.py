@@ -44,7 +44,7 @@ def join():
     try:
       sections = (os.environ.get("PLEX_SECTIONS").split(","))
       plex.myPlexAccount().inviteFriend(user=email, server=plex, sections=sections)
-      Invitations.update(used=True, used_at=datetime.datetime.now(), used_by=email).where(Invitations.code == code).execute()
+      Invitations.update(used=True, used_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
       return redirect("/setup")
     except Exception as e:
       if 'Unable to find user' in str(e):
@@ -82,10 +82,10 @@ def invite():
       code = ''.join(secrets.choice(string.ascii_uppercase + string.digits) for _ in range(6))
     if Invitations.get_or_none(code=code):
       return abort(401) #Already Exists
-    Invitations.create(code=code, used=False, created=datetime.datetime.now())
+    Invitations.create(code=code, used=False, created=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
     link = os.getenv("APP_URL") + "/j/" + code
     invitations = Invitations.select().order_by(Invitations.created.desc())
-    return render_template("code.html", link = link, invitations=invitations)
+    return render_template("invite.html", link = link, invitations=invitations)
   else:
     invitations = Invitations.select().order_by(Invitations.created.desc())
     return render_template("invite.html", invitations=invitations)
