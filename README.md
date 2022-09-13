@@ -3,7 +3,9 @@
 
 Wizarr is a automatic user invitation system for Plex. Create a unique link and share it to a user and they will automatically be invited to your Plex Server! They will even be guided to download the Plex client and instructions on how to use Overseerr!
 
-![alt](./screenshots/invitation.png)
+
+![alt](./screenshots/welcome.png)
+
 
 ## Major Features Include
 
@@ -44,6 +46,7 @@ services:
       - "PLEX_NAME=Wizarr"
       - "PLEX_URL=https://plex.domain.com"
       - "PLEX_TOKEN=XXXXXXXXXXXXXXXXXXX"
+      - "PLEX_SECTIONS=Movies,TV Shows,Audiobooks"
       - "APP_URL=https://join.domain.com"
 ```
 
@@ -60,8 +63,17 @@ services:
     PLEX_URL: The URL of your plex server
 
     PLEX_TOKEN: https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/
+    
+    PLEX_SECTIONS: Comma Seperated list of Plex Libraries you wish to share (No unecessary spaces!)
 
     APP_URL: Public Facing Url of your Wizarr instance
 
 3.  Run `docker compose up -d` or for older version: `docker-compose up -d`
 4.  Access WebUI at http://localhost:5690
+
+## Screenshots
+
+![alt](./screenshots/share.png)
+![alt](./screenshots/invitation.png)
+![alt](./screenshots/Download.png)
+![alt](./screenshots/request.png)
