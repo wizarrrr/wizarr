@@ -74,6 +74,8 @@ services:
 
 ## Screenshots
 
+*These may be out of date*
+
 ![alt](./screenshots/share.png)
 ![alt](./screenshots/invitation.png)
 ![alt](./screenshots/Download.png)
