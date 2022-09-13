@@ -47,7 +47,7 @@ services:
       - "PLEX_NAME=Wizarr"
       - "PLEX_URL=https://plex.domain.com"
       - "PLEX_TOKEN=XXXXXXXXXXXXXXXXXXX"
-      - "PLEX_SECTIONS=Movies,TV Shows,Audiobooks"
+      - "PLEX_SECTIONS=Movies,TV Shows,Audiobooks" nb 
       - "APP_URL=https://join.domain.com"
   watchtower: #Optional but recommended, as Wizarr is still in development and will be updated frequently
     image: containrrr/watchtower
@@ -81,7 +81,13 @@ services:
 
 *These may be out of date*
 
+#### Light Mode
 ![alt](./screenshots/share.png)
 ![alt](./screenshots/invitation.png)
 ![alt](./screenshots/Download.png)
 ![alt](./screenshots/request.png)
+
+#### Dark Mode
+![alt](./screenshots/download_dark.png)
+![alt](./screenshots/join_dark.png)
+![alt](./screenshots/welcome_dark.png)
