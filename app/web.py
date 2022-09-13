@@ -43,13 +43,16 @@ def join():
           return render_template("join.html", name = os.getenv("PLEX_NAME"), code = code, code_error="That invite code has already been used.", email=email)
     try:
       sections = (os.environ.get("PLEX_SECTIONS").split(","))
-      plex.myPlexAccount().updateFriend(user=email, server=plex, sections=sections)
+      plex.myPlexAccount().inviteFriend(user=email, server=plex, sections=sections)
       Invitations.update(used=True, used_at=datetime.datetime.now(), used_by=email).where(Invitations.code == code).execute()
       return redirect("/setup")
     except Exception as e:
       if 'Unable to find user' in str(e):
         error = "That email does not match any Plex account. Please try again."
         logging.error("Unable to find user: " + email)
+      elif "You're already sharing this server" in str(e):
+        error = "This user is already invited to this server."
+        logging.error("User already shared: " + email)
       else:
         logging.error(str(e))
         error = "Something went wrong. Please try again or contact an administrator."
