@@ -3,7 +3,8 @@ services:
   wizarr:
     container_name: wizarr
     image: wizarr/wizarr
-    ports: 
+    #image: wizarr/wizarr:arm64 #For Arm64
+    ports:
     - 5690:5690
     volumes:
       - ./data:/data/database
@@ -14,5 +15,5 @@ services:
       - "PLEX_NAME=Wizarr"
       - "PLEX_URL=https://plex.domain.com"
       - "PLEX_TOKEN=XXXXXXXXXXXXXXXXXXX"
-      - "PLEX_SECTIONS=Movies,TV Shows,Audiobooks" # Important: Make sure to not leave any unnecessary spaces
+      - "PLEX_SECTIONS=Movies,TV Shows,Audiobooks"
       - "APP_URL=https://join.domain.com"

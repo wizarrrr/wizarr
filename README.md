@@ -35,6 +35,7 @@ services:
   wizarr:
     container_name: wizarr
     image: wizarr/wizarr
+    #image: wizarr/wizarr:arm64 #For Arm64
     ports:
     - 5690:5690
     volumes:
