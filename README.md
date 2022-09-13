@@ -49,6 +49,11 @@ services:
       - "PLEX_TOKEN=XXXXXXXXXXXXXXXXXXX"
       - "PLEX_SECTIONS=Movies,TV Shows,Audiobooks"
       - "APP_URL=https://join.domain.com"
+  watchtower: #Optional but recommended, as Wizarr is still in development and will be updated frequently
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: wizarr --interval 30
 ```
 
 2.  **Important** Edit Variables
