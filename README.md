@@ -34,8 +34,8 @@ version: "3.8"
 services:
   wizarr:
     container_name: wizarr
-    image: wizarr/wizarr
-    #image: wizarr/wizarr:arm64 #For Arm64
+    image: ghcr.io/wizarrrr/wizarr
+    #image: ghcr.io/wizarrrr/wizarr:arm64 #For Arm64
     ports:
     - 5690:5690
     volumes:
