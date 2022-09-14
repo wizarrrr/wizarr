@@ -1,6 +1,6 @@
 # Wizarr 
 
-![alt](./screenshots/wizard.png)
+<img src="./screenshots/wizard.png" height="200">
 
 **Attention! Wizarr is still under development, you may experience issues.**
 
