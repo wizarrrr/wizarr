@@ -42,6 +42,7 @@ services:
       - ./data:/data/database
     environment:
       - "APP_URL=https://join.domain.com"
+  
   watchtower: #Optional but recommended, as Wizarr is still in development and will be updated frequently
     image: containrrr/watchtower
     volumes:
@@ -53,7 +54,7 @@ services:
 
     APP_URL: Public Facing Url of your Wizarr instance
 
-3.  Run `docker compose up -d` or for older version: `docker-compose up -d`
+3.  Run `docker compose up -d` or for older Docekr versions: `docker-compose up -d`
 4.  Access WebUI at http://localhost:5690 and setup your Plex Server
 
 ## Screenshots
