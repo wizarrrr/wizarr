@@ -96,7 +96,7 @@ def join():
     if code:
       return render_template("join.html", name = getValue("plex_name"), code = code)
     else:
-      return  render_template("Join.html", name = getValue("plex_name"))
+      return  render_template("join.html", name = getValue("plex_name"))
     
   
 @app.route('/setup', methods=["GET"])
