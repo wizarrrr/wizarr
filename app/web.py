@@ -68,7 +68,9 @@ def join():
     if not Invitations.select().where(Invitations.code == code).exists():
       return render_template("join.html", name = getValue("plex_name"), code = code, code_error="That invite code does not exist.", email=email)
     if Invitations.select().where(Invitations.code == code, Invitations.used == True).exists():
-          return render_template("join.html", name = getValue("plex_name"), code = code, code_error="That invite code has already been used.", email=email)
+      return render_template("join.html", name = getValue("plex_name"), code = code, code_error="That invite code has already been used.", email=email)
+    if Invitations.select().where(Invitations.code == code, Invitations.used_by == email, Invitations.expires < datetime.datetime.now()).exists():
+      return render_template("join.html", name = getValue("plex_name"), code = code, code_error="That invite code has expired.", email=email)
     try:
       sections = getValue("plex_libraries")
       plex = PlexServer(getValue("plex_url"),getValue("plex_token"))
@@ -125,12 +127,19 @@ def invite():
       code = request.form.get("code").upper()
       if not len(code) == 6:
         return abort(401)
-      print("doing fine")
     except:
       code = ''.join(secrets.choice(string.ascii_uppercase + string.digits) for _ in range(6))
     if Invitations.get_or_none(code=code):
       return abort(401) #Already Exists
-    Invitations.create(code=code, used=False, created=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
+    expires = None
+    print(request.form.get("expires"))
+    if request.form.get("expires") == "day":
+      expires = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d %H:%M")
+    if request.form.get("expires") == "week":
+      expires = (datetime.datetime.now() + datetime.timedelta(days=7)).strftime("%Y-%m-%d %H:%M")
+    if request.form.get("expires") == "month":
+      expires = (datetime.datetime.now() + datetime.timedelta(days=30)).strftime("%Y-%m-%d %H:%M")
+    Invitations.create(code=code, used=False, created=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), expires=expires)
     link = os.getenv("APP_URL") + "/j/" + code
     invitations = Invitations.select().order_by(Invitations.created.desc())
     return render_template("invite.html", link = link, invitations=invitations)

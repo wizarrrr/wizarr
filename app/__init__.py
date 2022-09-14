@@ -1,8 +1,10 @@
 from flask import Flask, redirect
 from peewee import *
+from playhouse.migrate import *
 from flask_httpauth import HTTPBasicAuth
 import os
 from dotenv import load_dotenv
+import datetime
 from werkzeug.security import check_password_hash
 
 load_dotenv()
@@ -37,29 +39,28 @@ class Invitations(BaseModel):
     used_at = DateTimeField(null=True)
     created = DateTimeField()
     used_by = CharField(null=True)
+    expires = DateTimeField(null=True)
 
 class Settings(BaseModel):
     key = CharField()
     value = CharField()
 
-# Below is Database Initialisation in case of new instance
-def all_subclasses(base: type) -> list[type]:
-    return [
-        cls
-        for sub in base.__subclasses__()
-        for cls in [sub] + all_subclasses(sub)
-    ]
 
-
+#Add Expires if not existing. WILL BE REMOVED IN FUTURE VERSIONS
 try:
-    models = [
-        sub for sub in all_subclasses(Model)
-        if not sub.__name__.startswith('_')
-    ]
+    Invitations.get_or_none(Invitations.expires == None)
+except: 
+    try:  
+        migrator = SqliteMigrator(database)
+        migrate(
+            migrator.add_column('Invitations', 'expires', Invitations.expires),
+        )
+    except:
+        pass
 
-    database.create_tables(models)
-except:
-    pass
+# Below is Database Initialisation in case of new instance
+database.create_tables([Invitations, Settings])
+
 
 from app import admin, web
 
