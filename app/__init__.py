@@ -12,7 +12,7 @@ load_dotenv()
 app = Flask(__name__)
 auth = HTTPBasicAuth()
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-VERSION = "0.3.0"
+VERSION = "0.4.0"
 
 @auth.verify_password
 def verify_password(username, password):
