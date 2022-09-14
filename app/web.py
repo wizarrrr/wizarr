@@ -158,3 +158,6 @@ def delete(code):
 def plex_requests():
   return render_template("requests.html", overseerr_url=getValue("overseerr_url"))
 
+@app.route('/setup/tips')
+def tips():
+  return render_template("tips.html")
