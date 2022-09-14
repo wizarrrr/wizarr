@@ -41,13 +41,6 @@ services:
     volumes:
       - ./data:/data/database
     environment:
-      - "ADMIN_USERNAME=admin"
-      - "ADMIN_PASSWORD=password"
-      - "OVERSEERR_URL=https://overseerr.domain.com"
-      - "PLEX_NAME=Wizarr"
-      - "PLEX_URL=https://plex.domain.com"
-      - "PLEX_TOKEN=XXXXXXXXXXXXXXXXXXX"
-      - "PLEX_SECTIONS=Movies,TV Shows,Audiobooks" nb 
       - "APP_URL=https://join.domain.com"
   watchtower: #Optional but recommended, as Wizarr is still in development and will be updated frequently
     image: containrrr/watchtower
@@ -58,24 +51,10 @@ services:
 
 2.  **Important** Edit Variables
 
-    ADMIN_USERNAME: A username for the invitation panel
-
-    ADMIN_PASSWORD: A password for said invitation panel
-
-    OVERSEERR_URL: Your overseerr instance
-
-    PLEX_NAME: The name for your plex server!
-
-    PLEX_URL: The URL of your plex server
-
-    PLEX_TOKEN: https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/
-    
-    PLEX_SECTIONS: Comma Seperated list of Plex Libraries you wish to share (No unecessary spaces!)
-
     APP_URL: Public Facing Url of your Wizarr instance
 
 3.  Run `docker compose up -d` or for older version: `docker-compose up -d`
-4.  Access WebUI at http://localhost:5690
+4.  Access WebUI at http://localhost:5690 and setup your Plex Server
 
 ## Screenshots
 

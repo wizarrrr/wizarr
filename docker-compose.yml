@@ -9,13 +9,6 @@ services:
     volumes:
       - ./data:/data/database
     environment:
-      - "ADMIN_USERNAME=admin"
-      - "ADMIN_PASSWORD=password"
-      - "OVERSEERR_URL=https://overseerr.domain.com"
-      - "PLEX_NAME=Wizarr"
-      - "PLEX_URL=https://plex.domain.com"
-      - "PLEX_TOKEN=XXXXXXXXXXXXXXXXXXX"
-      - "PLEX_SECTIONS=Movies,TV Shows,Audiobooks"
       - "APP_URL=https://join.domain.com"
   watchtower: #Optional but recommended, as Wizarr is still in development and will be updated frequently
     image: containrrr/watchtower

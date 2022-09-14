@@ -2,23 +2,51 @@ import logging
 import secrets
 import string
 import os
+import requests
 import datetime
 from flask import request, redirect,render_template, abort, make_response
-from app import app, Invitations, auth
+from app import app, Invitations, auth, Settings, VERSION
 from plexapi.server import PlexServer
 
-plex = PlexServer(os.getenv("PLEX_URL"), os.getenv("PLEX_TOKEN"))
 
-def check_plex_credentials():
-  logging.info("Checking Plex Credentials from Env variables.")
-  try:
-    plex.myPlexAccount()
-  except (IOError,NameError) as e: 
-    logging.error('Could not start Wizarr, check ENV variables. ', str(e))
-    exit()
+def getValue(value):
+  if value == "overseerr_url":
+    if os.getenv("OVERSEERR_URL"):
+      print("ENV VARIABLES ARE DEPRECATED, PLEASE REMOVE THEM AND VISIT THE /settings PAGE")
+      return os.getenv("OVERSEERR_URL")
+    elif Settings.select().where(Settings.key == "overseerr_url").exists():
+      return Settings.get(Settings.key == "overseerr_url").value
+  if value == "plex_name":
+    if os.getenv("PLEX_NAME"):
+      print("ENV VARIABLES ARE DEPRECATED, PLEASE REMOVE THEM AND VISIT THE /settings PAGE")
+      return os.getenv("PLEX_NAME")
+    elif Settings.select().where(Settings.key == "plex_name").exists():
+      return Settings.get(Settings.key == "plex_name").value
+  if value == "plex_token":
+    if os.getenv("PLEX_TOKEN"):
+      print("ENV VARIABLES ARE DEPRECATED, PLEASE REMOVE THEM AND VISIT THE /settings PAGE")
+      return os.getenv("PLEX_TOKEN")
+    elif Settings.select().where(Settings.key == "plex_token").exists():
+      return Settings.get(Settings.key == "plex_token").value
+  if value == "plex_libraries":
+    if os.getenv("PLEX_SECTIONS"):
+      print("ENV VARIABLES ARE DEPRECATED, PLEASE REMOVE THEM AND VISIT THE /settings PAGE")
+      return (os.environ.get("PLEX_SECTIONS").split(","))
+    elif Settings.select().where(Settings.key == "plex_libraries").exists():
+      return list((Settings.get(Settings.key == "plex_libraries").value).split(","))
+  if value == "plex_url":
+    if os.getenv("PLEX_URL"):
+      print("ENV VARIABLES ARE DEPRECATED, PLEASE REMOVE THEM AND VISIT THE /settings PAGE")
+      return os.getenv("PLEX_URL")
+    elif Settings.select().where(Settings.key == "plex_url").exists():
+      return Settings.get(Settings.key == "plex_url").value
+  else:
+    return
 
 @app.route('/')
 def redirect_to_invite():
+  if not Settings.select().where(Settings.key == 'admin_username').exists():
+    return redirect('/settings')
   return redirect('/invite')
 
 
@@ -26,7 +54,7 @@ def redirect_to_invite():
 def welcome(code):
   if not Invitations.select().where(Invitations.code == code).exists():
     return abort(401)
-  resp = make_response(render_template('welcome.html', name=os.getenv("PLEX_NAME"), code=code))
+  resp = make_response(render_template('welcome.html', name=getValue("plex_name"), code=code))
   resp.set_cookie('code', code)
   return resp
   
@@ -38,11 +66,12 @@ def join():
     code = request.form.get('code')
     email = request.form.get("email")
     if not Invitations.select().where(Invitations.code == code).exists():
-      return render_template("join.html", name = os.getenv("PLEX_NAME"), code = code, code_error="That invite code does not exist.", email=email)
+      return render_template("join.html", name = getValue("plex_name"), code = code, code_error="That invite code does not exist.", email=email)
     if Invitations.select().where(Invitations.code == code, Invitations.used == True).exists():
-          return render_template("join.html", name = os.getenv("PLEX_NAME"), code = code, code_error="That invite code has already been used.", email=email)
+          return render_template("join.html", name = getValue("plex_name"), code = code, code_error="That invite code has already been used.", email=email)
     try:
-      sections = (os.environ.get("PLEX_SECTIONS").split(","))
+      sections = getValue("plex_libraries")
+      plex = PlexServer(getValue("plex_url"),getValue("plex_token"))
       plex.myPlexAccount().inviteFriend(user=email, server=plex, sections=sections)
       Invitations.update(used=True, used_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
       return redirect("/setup")
@@ -53,25 +82,44 @@ def join():
       elif "You're already sharing this server" in str(e):
         error = "This user is already invited to this server."
         logging.error("User already shared: " + email)
+      elif "The username or email entered appears to be invalid." in str(e):
+        error = "The email entered appears to be invalid."
+        logging.error("Invalid email: " + email)
       else:
         logging.error(str(e))
         error = "Something went wrong. Please try again or contact an administrator."
-      return render_template("join.html", name = os.getenv("PLEX_NAME"), code = code, email_error=error, email=email)
+      return render_template("join.html", name = getValue("plex_name"), code = code, email_error=error, email=email)
   else:
     code = request.cookies.get('code')
     if code:
-      return render_template("join.html", name = os.getenv("PLEX_NAME"), code = code)
+      return render_template("join.html", name = getValue("plex_name"), code = code)
     else:
-      return  render_template("Join.html", name = os.getenv("PLEX_NAME"))
+      return  render_template("Join.html", name = getValue("plex_name"))
     
   
 @app.route('/setup', methods=["GET"])
 def setup():
   return render_template("setup.html")
 
+def needUpdate():
+  try:
+    data = str(requests.get(url = "https://wizarr.jaseroque.com/check").text)
+    print(data)
+    if VERSION != data:
+      return True
+    else:
+      return False
+  except:
+    #Nevermind
+    return False
+
+
 @app.route('/invite', methods=["GET", "POST"])
 @auth.login_required
 def invite():
+  update_msg = False
+  if os.getenv("ADMIN_USERNAME"):
+    update_msg = True
   if request.method == "POST":
     try:
       code = request.form.get("code").upper()
@@ -88,7 +136,8 @@ def invite():
     return render_template("invite.html", link = link, invitations=invitations)
   else:
     invitations = Invitations.select().order_by(Invitations.created.desc())
-    return render_template("invite.html", invitations=invitations)
+    needUpdate()
+    return render_template("invite.html", invitations=invitations, update_msg=update_msg, needUpdate=needUpdate())
   
 @app.route('/invite/delete=<code>', methods=["GET"])
 @auth.login_required
@@ -97,6 +146,6 @@ def delete(code):
   return redirect('/invite')
 
 @app.route('/setup/requests', methods=["GET"])
-def requests():
-  return render_template("requests.html", overseerr_url=os.getenv("OVERSEERR_URL"))
+def plex_requests():
+  return render_template("requests.html", overseerr_url=getValue("overseerr_url"))
 
