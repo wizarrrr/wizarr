@@ -33,7 +33,7 @@ def getValue(value):
       print("ENV VARIABLES ARE DEPRECATED, PLEASE REMOVE THEM AND VISIT THE /settings PAGE")
       return (os.environ.get("PLEX_SECTIONS").split(","))
     elif Settings.select().where(Settings.key == "plex_libraries").exists():
-      return list((Settings.get(Settings.key == "plex_libraries").value).split(","))
+      return list((Settings.get(Settings.key == "plex_libraries").value).split(", "))
   if value == "plex_url":
     if os.getenv("PLEX_URL"):
       print("ENV VARIABLES ARE DEPRECATED, PLEASE REMOVE THEM AND VISIT THE /settings PAGE")

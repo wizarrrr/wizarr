@@ -18,43 +18,98 @@ Wizarr Settings
           Change Server Settings
         </h1>
         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ error }}</p>
-        <form class="space-y-4 md:space-y-6" action="/settings" method="POST">
+        <form class="space-y-4 md:space-y-6" action="/settings/" method="POST">
           <div>
-            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Plex Display Name</label>
+            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Plex Display
+              Name</label>
             <input type="name" name="name" id="name"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              value="{{ plex_name }}"" required="">
+              value="{{ plex_name }}" required="">
           </div>
           <div>
-            <label for="plex_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Plex URL</label>
+            <label for=" plex_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Plex
+            URL</label>
             <input type="plex_url" name="plex_url" id="plex_url"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value="{{ plex_url }}" required="">
           </div>
           <div>
-            <label for="plex_token" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Plex Token</label>
-            <input type="plex_tokeplex_librariesn" name="plex_token" id="plex_token"
+            <label for="plex_token" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Plex
+              Token</label>
+            <input type="text" name="plex_token" id="plex_token"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="XXXXXXXXXXXXXXXXX" required="">
           </div>
           <div>
-            <label for="plex_libraries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Plex Libraries</label>
-            <input type="plex_libraries" name="plex_libraries" id="plex_libraries"
-              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              value="{{ plex_libraries }}" required="">
-          </div>
-          <div>
-            <label for="overseerr_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Overseerr URL</label>
+            <label for="overseerr_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Overseerr
+              URL</label>
             <input type="url" name="overseerr_url" id="overseerr_url"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value="{{ overseerr_url }}" required="">
           </div>
+
+          <div>
+
+            <label for="plex_libraries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Plex
+              Libraries</label>
+            <a href="#" class="block mb-2 text-sm font-medium text-amber-900 dark:text-amber-200" onclick="scanLibraries()">Scan
+              For Libraries</a>
+            <input hidden name="library_count" id="library_count" type="number" value="0">
+            <div class="" id="libraries">
+            </div>
+          </div>
           <button type="submit"
-            class="w-full text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">Verify and Confirm</button>
+            class="w-full text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">Verify
+            and Confirm</button>
         </form>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  function scanLibraries() {
+
+    var container = document.getElementById("libraries");
+    while (container.hasChildNodes()) {
+      container.removeChild(container.lastChild);
+    }
+    var plex_url = document.getElementById("plex_url").value;
+    var plex_token = document.getElementById("plex_token").value;
+    url = "/scan?plex_url=" + plex_url + "&plex_token=" + plex_token;
+    const response = fetch(url, {
+        method: "POST"
+      }).then((response) => response.json())
+      .then(function (data) {
+        for (var i = 0; i < data.length; i++) {
+          var checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.name = "plex_library_" + i;
+          checkbox.className =
+            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+          checkbox.value = data[i];
+          var label = document.createElement("label");
+          label.for = "plex_library_" + i;
+          label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
+          label.innerHTML = data[i];
+
+          var structure = document.createElement("div");
+          structure.className = "flex items-center mb-4";
+          container.appendChild(structure);
+          container.appendChild(checkbox);
+          container.appendChild(label);
+
+          var library_count_helper = document.getElementById("library_count");
+          library_count_helper.value = i;
+        }
+      })
+      .catch(function (error) {
+        var error_message = document.createElement("p");
+        error_message.innerHTML = "Error: Please Check Your Plex URL and Token";
+        error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
+        container.appendChild(error_message);
+      })
+  }
+</script>
 
 {% endblock %}
