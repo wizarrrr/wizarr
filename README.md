@@ -23,7 +23,7 @@ Wizarr is a automatic user invitation system for Plex. Create a unique link and 
 ## Planned features
 
 - Discord Bot Integration 
-- Plex Quality guide 
+- jellyfin support
 
 
 ## Installation
