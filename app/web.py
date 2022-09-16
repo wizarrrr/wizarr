@@ -112,8 +112,9 @@ def invite():
     needUpdate()
     return render_template("invite.html", invitations=invitations, update_msg=update_msg, needUpdate=needUpdate())
   
-@login_required
+
 @app.route('/invite/delete=<code>', methods=["GET"])
+@login_required
 def delete(code):
   Invitations.delete().where(Invitations.code == code).execute()
   return redirect('/invite')

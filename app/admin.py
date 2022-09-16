@@ -15,8 +15,8 @@ import os
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if os.getenv("DISABLE_ADMIN_AUTH"):
-            if os.getenv("DISABLE_ADMIN_AUTH"):
+        if os.getenv("DISABLE_BUILTIN_AUTH"):
+            if os.getenv("DISABLE_BUILTIN_AUTH") == "true":
                 return f(*args, **kwargs)
         if not Settings.get_or_none(Settings.key == "admin_username"):
             return redirect('/settings')
@@ -93,8 +93,8 @@ def preferences():
         return redirect('/settings/')
 
 
-@login_required
 @app.route('/settings/', methods=["GET", "POST"])
+@login_required
 def secure_settings():
     if request.method == 'GET':
         plex_name = Settings.get(Settings.key == "plex_name").value
@@ -170,6 +170,9 @@ def scan():
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == 'GET':
+        if os.getenv("DISABLE_BUILTIN_AUTH"):
+            if os.getenv("DISABLE_BUILTIN_AUTH") == "true":
+                return redirect("/")
         # Todo redirect to setup if not password
         return render_template("login.html")
     if request.method == 'POST':

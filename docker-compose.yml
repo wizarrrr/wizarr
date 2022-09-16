@@ -10,6 +10,7 @@ services:
       - ./data:/data/database
     environment:
       - "APP_URL=https://join.domain.com"
+      - "DISABLE_INBUILT_AUTH=false" #Set to true ONLY if you are using another auth provider (Authelia, Authentik, etc)
       
   watchtower: #Optional but recommended, as Wizarr is still in development and will be updated frequently
     image: containrrr/watchtower
