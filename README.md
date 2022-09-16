@@ -16,7 +16,8 @@ Wizarr is a automatic user invitation system for Plex. Create a unique link and 
 - Secured invitation environment (HTTP AUTH)
 - Plug and Play SSO Support (Via Forward-auth)\*
 - Guide user on how to download Plex client
-- Guide user on how to request Movies
+- (Optional!) Overseer Integration: Guide users on how to request Movies
+
 
 *Don't forget to only include /invite in forward-auth
 
