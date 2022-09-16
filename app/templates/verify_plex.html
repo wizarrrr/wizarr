@@ -39,23 +39,22 @@ Setup Wizarr
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="XXXXXXXXXXXXXXXXX" required="">
           </div>
-
           <div>
-            <label for="overseerr_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Overseerr
-              URL</label>
-            <input type="url" name="overseerr_url" id="overseerr_url"
-              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Optional, leave empty to disable">
-          </div>
-          <div>
-
             <label for="plex_libraries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Plex
               Libraries</label>
-            <a href="#" class="block mb-2 text-sm font-medium text-amber-900 dark:text-amber-200" onclick="scanLibraries()">Scan
+            <a href="#" class="block mb-2 text-sm font-medium text-amber-900 dark:text-amber-200"
+              onclick="scanLibraries()">Scan
               For Libraries</a>
             <input hidden name="library_count" id="library_count" type="number" value="0">
             <div class="" id="libraries">
             </div>
+          </div>
+          <div>
+            <label for="requests_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Request
+              instance (Ombi, Overseerr...)</label>
+            <input type="url" name="requests_url" id="requests_url"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Optional, leave empty to disable">
           </div>
           <button type="submit"
             class="w-full text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">Verify
