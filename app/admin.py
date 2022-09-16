@@ -101,7 +101,9 @@ def secure_settings():
         plex_url = Settings.get(Settings.key == "plex_url").value
         plex_libraries = Settings.get(Settings.key == "plex_libraries").value
         overseerr_url = Settings.get_or_none(
-            Settings.key == "overseerr_url").value
+            Settings.key == "overseerr_url")
+        if overseerr_url:
+            overseerr_url = overseerr_url.value
         return render_template("settings.html", plex_name=plex_name, plex_url=plex_url, plex_libraries=plex_libraries, overseerr_url=overseerr_url)
 
     elif request.method == 'POST':
