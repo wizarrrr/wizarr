@@ -51,12 +51,19 @@ def preferences():
       libraries = ', '.join(libraries)
       if not libraries:
         return render_template("settings.html", error="You must select at least one library.")
-      overseerr_url = request.form.get("overseerr_url")
+
+      
+      try:
+        overseerr_url = request.form.get("overseerr_url")
+      except:
+        overseerr_url = None
+      
       Settings.create(key="plex_name", value=name)
       Settings.create(key="plex_url", value=plex_url)
       Settings.create(key="plex_token", value=plex_token)
       Settings.create(key="plex_libraries", value=libraries)
-      Settings.create(key="overseerr_url", value=overseerr_url)
+      if overseerr_url:
+        Settings.create(key="overseerr_url", value=overseerr_url)
       Settings.create(key="plex_verified", value="True")
       return redirect("/")
   elif Settings.select().where(Settings.key == 'admin_username').exists() and Settings.select().where(Settings.key == "plex_verified", Settings.value == "True").exists():
@@ -70,7 +77,7 @@ def secure_settings():
       plex_name = Settings.get(Settings.key == "plex_name").value
       plex_url = Settings.get(Settings.key == "plex_url").value
       plex_libraries = Settings.get(Settings.key == "plex_libraries").value
-      overseerr_url = Settings.get(Settings.key == "overseerr_url").value
+      overseerr_url = Settings.get_or_none(Settings.key == "overseerr_url").value
       return render_template("settings.html", plex_name=plex_name, plex_url=plex_url, plex_libraries=plex_libraries, overseerr_url=overseerr_url)
     
     elif request.method == 'POST':
@@ -89,7 +96,10 @@ def secure_settings():
 
       if not libraries:
         return render_template("settings.html", error="You must select at least one library.")
-      overseerr_url = request.form.get("overseerr_url")
+      try:
+        overseerr_url = request.form.get("overseerr_url")
+      except:
+        overseerr_url = None
       try:
         plex = PlexServer(plex_url, token=plex_token)
       except Exception as e:
@@ -103,7 +113,10 @@ def secure_settings():
       Settings.update(value=plex_url).where(Settings.key == "plex_url").execute()
       Settings.update(value=plex_token).where(Settings.key == "plex_token").execute()
       Settings.update(value=libraries).where(Settings.key == "plex_libraries").execute()
-      Settings.update(value=overseerr_url).where(Settings.key == "overseerr_url").execute()
+      if overseerr_url:
+        Settings.update(value=overseerr_url).where(Settings.key == "overseerr_url").execute()
+      elif not overseerr_url:
+        Settings.delete().where(Settings.key == "overseerr_url").execute()
       return redirect("/")
 
 @app.route('/scan', methods=["POST"])

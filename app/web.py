@@ -156,8 +156,24 @@ def delete(code):
 
 @app.route('/setup/requests', methods=["GET"])
 def plex_requests():
-  return render_template("requests.html", overseerr_url=getValue("overseerr_url"))
+  if getValue("overseerr_url"):
+    return render_template("requests.html", overseerr_url=getValue("overseerr_url"))
+  else:
+    return redirect("/setup/tips")
 
 @app.route('/setup/tips')
 def tips():
   return render_template("tips.html")
+
+
+@app.errorhandler(500)
+def server_error(e):
+  return render_template('500.html'), 500
+
+@app.errorhandler(404)
+def server_error(e):
+  return render_template('404.html'), 404
+
+@app.errorhandler(401)
+def server_error(e):
+  return render_template('401.html'), 401
