@@ -106,11 +106,11 @@ def invite():
     Invitations.create(code=code, used=False, created=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), expires=expires)
     link = os.getenv("APP_URL") + "/j/" + code
     invitations = Invitations.select().order_by(Invitations.created.desc())
-    return render_template("invite.html", link = link, invitations=invitations)
+    return render_template("invite.html", link = link, invitations=invitations, url = os.getenv("APP_URL"))
   else:
     invitations = Invitations.select().order_by(Invitations.created.desc())
     needUpdate()
-    return render_template("invite.html", invitations=invitations, update_msg=update_msg, needUpdate=needUpdate())
+    return render_template("invite.html", invitations=invitations, update_msg=update_msg, needUpdate=needUpdate(), url = os.getenv("APP_URL"))
   
 
 @app.route('/invite/delete=<code>', methods=["GET"])
