@@ -121,7 +121,7 @@ def delete(code):
 
 @app.route('/setup/requests', methods=["GET"])
 def plex_requests():
-  if Settings.get(Settings.key == "overseerr_url").value:
+  if Settings.get_or_none(Settings.key == "overseerr_url"):
     return render_template("requests.html", overseerr_url=Settings.get(Settings.key == "overseerr_url").value)
   else:
     return redirect("/setup/tips")
