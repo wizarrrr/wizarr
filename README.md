@@ -32,7 +32,7 @@ Attention! While setting up Wizarr, you will still be asked for a username and p
 To Setup, protect the Wizarr App with your SSO provider using Authelia for example or in the case of Authentik, using a Proxy Provider.
 However, make sure to whitelist the following paths, or users will not be able to join!
 - /join
-- /j*
+- /j/*
 - /setup*
 
 ## Installation
