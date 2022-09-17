@@ -35,7 +35,7 @@ def join():
       return render_template("join.html", name = Settings.get(Settings.key == "plex_name").value, code = code, code_error="That invite code does not exist.", email=email)
     if Invitations.select().where(Invitations.code == code, Invitations.used == True).exists():
       return render_template("join.html", name = Settings.get(Settings.key == "plex_name").value, code = code, code_error="That invite code has already been used.", email=email)
-    if Invitations.select().where(Invitations.code == code, Invitations.used_by == email, Invitations.expires < datetime.datetime.now()).exists():
+    if Invitations.select().where(Invitations.code == code, Invitations.expires <= datetime.datetime.now()).exists():
       return render_template("join.html", name = Settings.get(Settings.key == "plex_name").value, code = code, code_error="That invite code has expired.", email=email)
     try:
       sections = list((Settings.get(Settings.key == "plex_libraries").value).split(", "))
