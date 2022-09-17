@@ -42,7 +42,7 @@ def join():
       plex = PlexServer(Settings.get(Settings.key == "plex_url").value, Settings.get(Settings.key == "plex_token").value)
       plex.myPlexAccount().inviteFriend(user=email, server=plex, sections=sections)
       Invitations.update(used=True, used_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
-      return redirect("/setup")
+      return redirect("/setup/accept")
     except Exception as e:
       if 'Unable to find user' in str(e):
         error = "That email does not match any Plex account. Please try again."
@@ -65,7 +65,7 @@ def join():
       return  render_template("join.html", name = Settings.get(Settings.key == "plex_name").value)
     
   
-@app.route('/setup', methods=["GET"])
+@app.route('/setup/download', methods=["GET"])
 def setup():
   return render_template("setup.html")
 
@@ -118,6 +118,10 @@ def invite():
 def delete(code):
   Invitations.delete().where(Invitations.code == code).execute()
   return redirect('/invite')
+
+@app.route('/setup/accept', methods=["GET"])
+def accept():
+  return render_template("accept.html") 
 
 @app.route('/setup/requests', methods=["GET"])
 def plex_requests():
