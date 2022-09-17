@@ -18,7 +18,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = "./database/sessions"
 Session(app)
 
-VERSION = "0.10.0"
+VERSION = "0.10.1"
 
 
 database = SqliteDatabase("./database/database.db")
