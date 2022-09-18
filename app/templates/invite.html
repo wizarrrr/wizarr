@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Invite User
+{{ _("Invite User") }}
 {% endblock %}
 
 {% block main %}
@@ -14,43 +14,44 @@ Invite User
         {% if needUpdate %}
         <a href="https://github.com/Wizarrrr/wizarr"
             class="py-3 font-medium text-amber-600 hover:underline dark:text-amber-500"><span
-                class="font-bold">Attention! </span>Update available. Click here.</a>
+                class="font-bold">{{ _("Attention!") }} </span> {{ _("Update available. Click here.") }}</a>
         {% endif %}
         <div
             class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                    Invite user
+                    {{ _("Invite user") }}
                 </h1>
                 {% if update_msg %}
                 <div class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800"
                     role="alert">
-                    <span class="font-medium">Attention!</span> Environment Variables are being deprecated and replaced
-                    by a secure sign-up. Please visit <a href="/settings">/settings. See Repo for more info</a>
+                    <span
+                        class="font-medium">{{ _("Attention!") }}</span>{{ _("Environment Variables are being deprecated and replaced by a secure sign-up. Please visit ") }}<a
+                        href="/settings">{{ _("/settings. See Repo for more info") }}</a>
                 </div>
                 {% endif %}
                 {% if not link %}
                 <form class="space-y-4 md:space-y-6" action="/invite" method="post">
                     <div>
-                        <label for="code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Invite
-                            Code String <a class="text-gray-500">(optional)</a></label>
+                        <label for="code"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Invite Code String") }}<a
+                                class="text-gray-500">{{ _("(optional)") }}</a></label>
                         <input minlength="6" maxlength="6" type="code" name="code" id="code"
                             class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500"
                             placeholder="XMFGEJI">
                     </div>
                     <div>
                         <label for="expires"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Expiration</label>
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">{{ _("Expiration") }}</label>
                         <select id="expires" name="expires"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="day">1 day</option>
-                            <option value="week">1 week</option>
-                            <option value="month">1 month</option>
+                            <option value="day">{{ _("1 day") }}</option>
+                            <option value="week">{{ _("1 week") }}</option>
+                            <option value="month">{{ _("1 month") }}</option>
                         </select>
                     </div>
                     <button type="submit"
-                        class="w-full text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">Create
-                        Invitation</button>
+                        class="w-full text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">{{ _("Create Invitation") }}</button>
                 </form>
                 <div class="text-center">
                     <a href="/settings">
@@ -64,32 +65,31 @@ Invite User
                                     d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
 
-                            Server Settings
+                            {{ _("Server Settings") }}
                         </button>
                     </a>
                 </div>
                 {% endif %}
                 {% if link %}
                 <div>
-                    <label for="link" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Successfully
-                        generated an Invitation!</label>
+                    <label for="link" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Successfully generated an Invitation!") }}</label>
                     <input disabled type="link" name="link" id="link"
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ link }}">
                     <p hidden id="successfully_copied" class="mt-2 text-sm text-green-600 dark:text-green-500"><span
-                            class="font-medium">Great!</span> Link has been copied to clipboard!</p>
+                            class="font-medium">{{ _("Great!") }}</span>{{ _("Link has been copied to clipboard!") }}</p>
 
                 </div>
                 <div class="flex">
                     <div class="w-1/2 text-center">
                         <a href="/invite">
                             <button type="back"
-                                class="w-3/4 text-amber-400 hover:text-white border border-amber-400 hover:bg-amber-500 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-amber-300 dark:text-amber-300 dark:hover:text-white dark:hover:bg-amber-400 dark:focus:ring-amber-900">Back</button>
+                                class="w-3/4 text-amber-400 hover:text-white border border-amber-400 hover:bg-amber-500 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-amber-300 dark:text-amber-300 dark:hover:text-white dark:hover:bg-amber-400 dark:focus:ring-amber-900">{{ _("Back") }}</button>
                         </a>
                     </div>
                     <div class="w-1/2 text-center">
                         <button onclick="copyLink()" type="share"
-                            class="w-3/4 text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">Share</button>
+                            class="w-3/4 text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">{{ _("Share") }}</button>
 
                     </div>
 
@@ -105,22 +105,22 @@ Invite User
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="py-3 px-6">
-                        Invite Code
+                        {{ _("Invite Code") }}
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        Used
+                        {{ _("Used") }}
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        Used At
+                        {{ _("Used At") }}
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        Created
+                        {{ _("Created") }}
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        User
+                        {{ _("User") }}
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        Expires
+                        {{ _("Expires") }}
                     </th>
                     <th scope="col" class="py-3 px-6">
 
@@ -153,11 +153,11 @@ Invite User
                     <td class="py-4 px-6">{{ invite.expires }}</td>
                     {% endif %}
                     {% if not invite.expires %}
-                    <td class="py-4 px-6">Never</td>
+                    <td class="py-4 px-6">{{ _("Never") }}</td>
                     {% endif %}
                     <td class="py-4 px-6"><a id="copy_{{ invite.code}}" class="font-bold"
-                            onclick="tableCopyLink('{{ url }}', '{{ invite.code }}')" href="#">Copy</a></td>
-                    <td class="py-4 px-6"><a class="font-bold" href="/invite/delete={{ invite.code }}">Delete</a></td>
+                            onclick="tableCopyLink('{{ url }}', '{{ invite.code }}')" href="#">{{ _("Copy") }}</a></td>
+                    <td class="py-4 px-6"><a class="font-bold" href="/invite/delete={{ invite.code }}">{{ _("Delete") }}</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -10,6 +10,7 @@ import requests
 import random
 import string
 import os
+from flask_babel import _
 
 
 def login_required(f):
@@ -42,13 +43,13 @@ def preferences():
             password = request.form.get("password")
 
             if password != request.form.get("confirm-password"):
-                return render_template("register_admin.html", error="Passwords do not match.")
+                return render_template("register_admin.html", error=_("Passwords do not match."))
 
             if len(username) < 3 or len(username) > 15:
-                return render_template("register_admin.html", error="Username must be between 3 and 15 characters.")
+                return render_template("register_admin.html", error=_("Username must be between 3 and 15 characters."))
 
             if len(password) < 3 or len(password) > 40:
-                return render_template("register_admin.html", error="Password must be between 3 and 40 characters.")
+                return render_template("register_admin.html", error=_("Password must be between 3 and 40 characters."))
             hash = generate_password_hash(password, "sha256")
             Settings.create(key="admin_username", value=username)
             Settings.create(key="admin_password", value=hash)
@@ -74,7 +75,7 @@ def preferences():
                         "plex_library_" + str(library)))
             libraries = ', '.join(libraries)
             if not libraries:
-                return render_template("settings.html", error="You must select at least one library.")
+                return render_template("settings.html", error=_("You must select at least one library."))
 
             try:
                 overseerr_url = request.form.get("overseerr_url")
@@ -122,7 +123,7 @@ def secure_settings():
         libraries = ', '.join(libraries)
 
         if not libraries:
-            return render_template("settings.html", error="You must select at least one library.")
+            return render_template("settings.html", error=_("You must select at least one library."))
         try:
             overseerr_url = request.form.get("overseerr_url")
         except:
@@ -132,9 +133,9 @@ def secure_settings():
         except Exception as e:
             logging.error(str(e))
             if "unauthorized" in str(e):
-                error = "It is likely that your token does not work."
+                error = _("It is likely that your token does not work.")
             else:
-                error = "Unable to connect to your Plex server. See Logs for more information."
+                error = _("Unable to connect to your Plex server. See Logs for more information.")
             return render_template("verify_plex.html", error=error)
         Settings.update(value=name).where(
             Settings.key == "plex_name").execute()
@@ -196,12 +197,12 @@ def login():
                     session.permanent = False
                 return redirect("/")
             else:
-                return render_template("login.html", error="Invalid Username or Password")
+                return render_template("login.html", _(error="Invalid Username or Password"))
         else:
-            return render_template("login.html", error="Invalid Username or Password")
+            return render_template("login.html", _(error="Invalid Username or Password"))
 
     else:
-        return render_template("login.html", error="Invalid Password.")
+        return render_template("login.html", _(error="Invalid Password."))
 
 
 def needUpdate():

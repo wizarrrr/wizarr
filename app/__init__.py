@@ -1,12 +1,10 @@
 
-from flask import Flask, redirect, session
+from flask import Flask, request, session
 from peewee import *
 from playhouse.migrate import *
-
+from flask_babel import Babel
 import os
 from dotenv import load_dotenv
-import datetime
-from werkzeug.security import check_password_hash
 from flask_session import Session
 
 load_dotenv()
@@ -18,9 +16,19 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = "./database/sessions"
 Session(app)
 
-VERSION = "0.10.1"
+VERSION = "0.10.2"
+
+#Translation stuff
+babel = Babel(app)
+
+app.config["LANGUAGES"] = ['en', 'fr']
+
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
+#Database stuff
 database = SqliteDatabase("./database/database.db")
 
 
@@ -69,4 +77,5 @@ database.create_tables([Invitations, Settings])
 if __name__ == "__main__":
     web.check_plex_credentials()
     app.run()
+
 from app import admin, web

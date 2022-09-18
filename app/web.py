@@ -8,6 +8,7 @@ from flask import request, redirect,render_template, abort, make_response
 from app import app, Invitations, Settings, VERSION
 from app.admin import login_required
 from plexapi.server import PlexServer
+from flask_babel import _
 
 @app.route('/')
 def redirect_to_invite():
@@ -45,17 +46,17 @@ def join():
       return redirect("/setup/accept")
     except Exception as e:
       if 'Unable to find user' in str(e):
-        error = "That email does not match any Plex account. Please try again."
+        error = _("That email does not match any Plex account. Please try again.")
         logging.error("Unable to find user: " + email)
       elif "You're already sharing this server" in str(e):
-        error = "This user is already invited to this server."
+        error = _("This user is already invited to this server.")
         logging.error("User already shared: " + email)
       elif "The username or email entered appears to be invalid." in str(e):
-        error = "The email entered appears to be invalid."
+        error = _("The email entered appears to be invalid.")
         logging.error("Invalid email: " + email)
       else:
         logging.error(str(e))
-        error = "Something went wrong. Please try again or contact an administrator."
+        error = _("Something went wrong. Please try again or contact an administrator.")
       return render_template("join.html", name = Settings.get(Settings.key == "plex_name").value, code = code, email_error=error, email=email)
   else:
     code = request.cookies.get('code')
