@@ -47,8 +47,8 @@ def preferences():
             if len(username) < 3 or len(username) > 15:
                 return render_template("register_admin.html", error="Username must be between 3 and 15 characters.")
 
-            if len(password) < 3 or len(password) > 20:
-                return render_template("register_admin.html", error="Password must be between 3 and 20 characters.")
+            if len(password) < 3 or len(password) > 40:
+                return render_template("register_admin.html", error="Password must be between 3 and 40 characters.")
             hash = generate_password_hash(password, "sha256")
             Settings.create(key="admin_username", value=username)
             Settings.create(key="admin_password", value=hash)
