@@ -36,6 +36,7 @@ However, make sure to whitelist the following paths, or users will not be able t
 - /join
 - /j/*
 - /setup*
+- /static/*
 
 ## Installation
 
