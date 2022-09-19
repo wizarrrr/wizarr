@@ -16,7 +16,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = "./database/sessions"
 Session(app)
 
-VERSION = "0.10.2"
+VERSION = "0.10.3"
 
 #Translation stuff
 babel = Babel(app)
