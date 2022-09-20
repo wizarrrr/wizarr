@@ -1,4 +1,5 @@
 
+
 from flask import Flask, request, session
 from peewee import *
 from playhouse.migrate import *
@@ -18,17 +19,18 @@ Session(app)
 
 VERSION = "0.10.3"
 
-#Translation stuff
+# Translation stuff
 babel = Babel(app)
 
-app.config["LANGUAGES"] = ['en', 'fr']
+app.config["LANGUAGES"] = {'en': 'English', 'fr': 'French'}
+
 
 @babel.localeselector
 def get_locale():
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
-#Database stuff
+# Database stuff
 database = SqliteDatabase("./database/database.db")
 
 
@@ -77,5 +79,4 @@ database.create_tables([Invitations, Settings])
 if __name__ == "__main__":
     web.check_plex_credentials()
     app.run()
-
 from app import admin, web
