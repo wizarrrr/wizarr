@@ -7,6 +7,8 @@ from flask_babel import Babel
 import os
 from dotenv import load_dotenv
 from flask_session import Session
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
 
 load_dotenv()
 
@@ -19,12 +21,23 @@ Session(app)
 
 VERSION = "0.10.3"
 
+#Bug Reporting Stuff
+if os.getenv("ALLOW_BUG_REPORTING") == "true":
+    sentry_sdk.init(
+        dsn="https://1ce2ff6a6de6495cb8045ea2f64b924c@o1419304.ingest.sentry.io/6763170",
+        integrations=[
+            FlaskIntegration(),
+        ],
+
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=1.0
+    )
+
 # Translation stuff
 babel = Babel(app)
-
 app.config["LANGUAGES"] = {'en': 'English', 'fr': 'French'}
-
-
 @babel.localeselector
 def get_locale():
     return request.accept_languages.best_match(app.config['LANGUAGES'])
