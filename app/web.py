@@ -64,7 +64,7 @@ def join():
       return render_template("join.html", name = Settings.get(Settings.key == "plex_name").value, code = code)
     else:
       return  render_template("join.html", name = Settings.get(Settings.key == "plex_name").value)
-    
+
   
 @app.route('/setup/download', methods=["GET"])
 def setup():

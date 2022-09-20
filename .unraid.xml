@@ -42,9 +42,16 @@
       <Name>DISABLE_INBUILT_AUTH</Name>
       <Mode />
     </Variable>
+    <Variable>
+      <Value>false</Value>
+      <Name>ALLOW_BUG_REPORTING</Name>
+      <Mode />
+    </Variable>
   </Environment>
   <Config Name="Data Folder" Target="/data/database" Default="/mnt/user/appdata/wizarr/" Mode="rw" Description="Data Folder" Type="Path" Display="always" Required="true" Mask="false" />
   <Config Name="WebUI" Target="5690" Default="5690" Mode="tcp" Description="Web Port" Type="Port" Display="always" Required="true" Mask="false" />
   <Config Name="Application URL" Target="APP_URL" Default="http://localhost:5690" Mode="" Description="URL at which you will access your application" Type="Variable" Display="always" Required="true" Mask="false" />
   <Config Name="Disable In-Built Auth" Target="DISABLE_INBUILT_AUTH" Default="false" Mode="" Description="Only set to true if you are using another Authentication method, see docs" Type="Variable" Display="always" Required="false" Mask="false" />
+  <Config Name="Enable bug reporting to Sentry.io" Target="ALLOW_BUG_REPORTING" Default="false" Mode="" Description="Helps me find and patch bugs and performance issues better. Completely optional. Does not pass any sensitive data whatsoever" Type="Variable" Display="always" Required="true" Mask="false" />
+
 </Container>
