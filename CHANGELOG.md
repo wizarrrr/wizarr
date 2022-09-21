@@ -2,6 +2,19 @@
 # Change Log
 All notable changes to Wizarr will be documented in this file.
  
+## [0.10.6] - 21-09-2022
+ 
+Added new Error page for unauthorized actions (401)
+
+### Added
+- new Error page for unauthorized actions (401)
+
+### Changed
+- removed 'abort' messages when handling 401 errors
+
+### Fixed
+  
+
 ## [0.10.5] - 21-09-2022
  
 Bug fixes and improvements.
