@@ -75,6 +75,14 @@ services:
 3.  Run `docker compose up -d` or for older Docekr versions: `docker-compose up -d`
 4.  Access WebUI at http://localhost:5690 and setup your Plex Server
 
+## Changelog
+
+View Changelog by clicking [here](./CHANGELOG.md)
+
+## Translations
+
+In the process of adding a Translation system for the community to help translate Wizarr
+
 ## Screenshots
 
 *These may be out of date*
@@ -91,3 +99,4 @@ services:
 ![alt](./screenshots/tips-dark.png)
 ![alt](./screenshots/join_dark.png)
 ![alt](./screenshots/welcome_dark.png)
+
