@@ -197,12 +197,12 @@ def login():
                     session.permanent = False
                 return redirect("/")
             else:
-                return render_template("login.html", _(error="Invalid Username or Password"))
+                return render_template("login.html", error=_("Invalid Username or Password"))
         else:
-            return render_template("login.html", _(error="Invalid Username or Password"))
+            return render_template("login.html", error=_("Invalid Username or Password"))
 
-    else:
-        return render_template("login.html", _(error="Invalid Password."))
+    #else:
+        #return render_template("login.html", _(error="Invalid Password."))
 
 
 def needUpdate():

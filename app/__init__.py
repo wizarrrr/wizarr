@@ -36,11 +36,12 @@ if os.getenv("ALLOW_BUG_REPORTING") == "true":
     )
 
 # Translation stuff
+app.config["LANGUAGES"] = {'en': 'english', 'fr': 'french'}
+app.config["BABEL_TRANSLATION_DIRECTORIES"] = "./app/translation"
 babel = Babel(app)
-app.config["LANGUAGES"] = {'en': 'English', 'fr': 'French'}
 @babel.localeselector
 def get_locale():
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
+    return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
 # Database stuff
