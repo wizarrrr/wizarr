@@ -20,7 +20,7 @@ def redirect_to_invite():
 @app.route("/j/<code>", methods=["GET"])
 def welcome(code):
   if not Invitations.select().where(Invitations.code == code).exists():
-    return abort(401)
+    return render_template('401.html'), 401
   resp = make_response(render_template('welcome.html', name=Settings.get(Settings.key == "plex_name").value, code=code))
   resp.set_cookie('code', code)
   return resp
