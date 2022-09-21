@@ -201,9 +201,6 @@ def login():
         else:
             return render_template("login.html", error=_("Invalid Username or Password"))
 
-    #else:
-        #return render_template("login.html", _(error="Invalid Password."))
-
 
 def needUpdate():
     try:
