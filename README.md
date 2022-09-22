@@ -22,7 +22,7 @@ Wizarr is a automatic user invitation system for Plex. Create a unique link and 
 
 ## Planned features
 
-- Discord Bot Integration 
+- Discord Bot Integration
 - jellyfin support
 - Multilingual Support
 
@@ -57,9 +57,9 @@ services:
       - ./data:/data/database
     environment:
       - APP_URL=https://join.domain.com
-      - DISABLE_INBUILT_AUTH=false #Set to true ONLY if you are using another auth provider (Authelia, Authentik, etc)
+      - DISABLE_BUILTIN_AUTH=false #Set to true ONLY if you are using another auth provider (Authelia, Authentik, etc)
       - ALLOW_BUG_REPORTING=#true #Helps me fix bugs, but you can disable it if you want! I use Sentry.io for this.
-      
+
   watchtower: #Optional but recommended, as Wizarr is still in development and will be updated frequently
     image: containrrr/watchtower
     volumes:
