@@ -42,18 +42,19 @@ def join():
       sections = list((Settings.get(Settings.key == "plex_libraries").value).split(", "))
       plex = PlexServer(Settings.get(Settings.key == "plex_url").value, Settings.get(Settings.key == "plex_token").value)
       plex.myPlexAccount().inviteFriend(user=email, server=plex, sections=sections)
+      logging.info("Invited " + email + " to Plex Server")
       Invitations.update(used=True, used_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
       return redirect("/setup/accept")
     except Exception as e:
       if 'Unable to find user' in str(e):
         error = _("That email does not match any Plex account. Please try again.")
-        logging.error("Unable to find user: " + email)
+        logging.info("Unable to invite user, cause: no plex account with email: " + email)
       elif "You're already sharing this server" in str(e):
         error = _("This user is already invited to this server.")
-        logging.error("User already shared: " + email)
+        logging.info("Unable to invite user, cause: plex account already invited with email: " + email)
       elif "The username or email entered appears to be invalid." in str(e):
         error = _("The email entered appears to be invalid.")
-        logging.error("Invalid email: " + email)
+        logging.info("Unable to invite user, cause: email is invalid: " + email)
       else:
         logging.error(str(e))
         error = _("Something went wrong. Please try again or contact an administrator.")
@@ -74,6 +75,7 @@ def needUpdate():
   try:
     data = str(requests.get(url = "https://wizarr.jaseroque.com/check").text)
     if VERSION != data:
+      logging.warning("Current version differs from Server, server reporting " + data + ' but we have ' + VERSION)
       return True
     else:
       return False
@@ -138,12 +140,15 @@ def tips():
 
 @app.errorhandler(500)
 def server_error(e):
+  logging.error(e)
   return render_template('500.html'), 500
 
 @app.errorhandler(404)
 def server_error(e):
+  logging.error(e)
   return render_template('404.html'), 404
 
 @app.errorhandler(401)
 def server_error(e):
+  logging.error(e)
   return render_template('401.html'), 401
