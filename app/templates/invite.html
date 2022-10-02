@@ -48,7 +48,14 @@
                             <option value="day">{{ _("1 day") }}</option>
                             <option value="week">{{ _("1 week") }}</option>
                             <option value="month">{{ _("1 month") }}</option>
+                            <option value="never">{{ _("Never") }}</option>
                         </select>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <input id="unlimited" name="unlimited" type="checkbox" value="  "
+                            class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="unlimited"
+                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Unlimited Usages") }}</label>
                     </div>
                     <button type="submit"
                         class="w-full text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">{{ _("Create Invitation") }}</button>
@@ -72,12 +79,14 @@
                 {% endif %}
                 {% if link %}
                 <div>
-                    <label for="link" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Successfully generated an Invitation!") }}</label>
+                    <label for="link"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Successfully generated an Invitation!") }}</label>
                     <input disabled type="link" name="link" id="link"
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ link }}">
                     <p hidden id="successfully_copied" class="mt-2 text-sm text-green-600 dark:text-green-500"><span
-                            class="font-medium">{{ _("Great!") }}</span>{{ _("Link has been copied to clipboard!") }}</p>
+                            class="font-medium">{{ _("Great!") }}</span>{{ _("Link has been copied to clipboard!") }}
+                    </p>
 
                 </div>
                 <div class="flex">
@@ -123,6 +132,9 @@
                         {{ _("Expires") }}
                     </th>
                     <th scope="col" class="py-3 px-6">
+                        {{ _("Unlimited") }}
+                    </th>
+                    <th scope="col" class="py-3 px-6">
 
                     </th>
                     <th scope="col" class="py-3 px-6">
@@ -155,9 +167,11 @@
                     {% if not invite.expires %}
                     <td class="py-4 px-6">{{ _("Never") }}</td>
                     {% endif %}
+                    <td class="py-4 px-6">{{ invite.unlimited }}</td>
                     <td class="py-4 px-6"><a id="copy_{{ invite.code}}" class="font-bold"
                             onclick="tableCopyLink('{{ url }}', '{{ invite.code }}')" href="#">{{ _("Copy") }}</a></td>
-                    <td class="py-4 px-6"><a class="font-bold" href="/invite/delete={{ invite.code }}">{{ _("Delete") }}</a></td>
+                    <td class="py-4 px-6"><a class="font-bold"
+                            href="/invite/delete={{ invite.code }}">{{ _("Delete") }}</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

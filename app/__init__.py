@@ -19,9 +19,9 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = "./database/sessions"
 Session(app)
 
-VERSION = "0.10.6"
+VERSION = "0.11.0"
 
-#Bug Reporting Stuff
+# Bug Reporting Stuff
 if os.getenv("ALLOW_BUG_REPORTING") == "true":
     sentry_sdk.init(
         dsn="https://1ce2ff6a6de6495cb8045ea2f64b924c@o1419304.ingest.sentry.io/6763170",
@@ -36,12 +36,16 @@ if os.getenv("ALLOW_BUG_REPORTING") == "true":
     )
 
 # Translation stuff
+base_dir = os.path.abspath(os.path.dirname(__file__))
 app.config["LANGUAGES"] = {'en': 'english', 'fr': 'french'}
-app.config["BABEL_TRANSLATION_DIRECTORIES"] = "./app/translation"
+app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
+    base_dir, "app/translations")
 babel = Babel(app)
+
+
 @babel.localeselector
 def get_locale():
-    return request.accept_languages.best_match(app.config["LANGUAGES"])
+    return 'fr'
 
 
 # Database stuff
@@ -60,6 +64,7 @@ class Invitations(BaseModel):
     created = DateTimeField()
     used_by = CharField(null=True)
     expires = DateTimeField(null=True)
+    unlimited = BooleanField(null=True)
 
 
 class Settings(BaseModel):
@@ -75,16 +80,13 @@ if os.getenv("ADMIN_USERNAME"):
 
 
 # Add Expires if not existing. WILL BE REMOVED IN FUTURE VERSIONS
+
 try:
-    Invitations.get_or_none(Invitations.expires == None)
+    Invitations.get_or_none(Invitations.unlimited == 0)
 except:
-    try:
-        migrator = SqliteMigrator(database)
-        migrate(
-            migrator.add_column('Invitations', 'expires', Invitations.expires),
-        )
-    except:
-        pass
+    migrator = SqliteMigrator(database)
+    migrate(
+        migrator.add_column('Invitations', 'unlimited', Invitations.unlimited),)
 
 
 # Below is Database Initialisation in case of new instance
