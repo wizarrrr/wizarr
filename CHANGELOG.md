@@ -9,6 +9,7 @@ Added new Error page for unauthorized actions (401)
 ### Added
 - Allow the creation of unlimited usage Invitations
 - Allow the creation of never expiring invitations
+- Added Favicon
 
 ### Changed
 - General Improvements
