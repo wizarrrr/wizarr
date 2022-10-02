@@ -5,7 +5,7 @@ import string
 import os
 import requests
 import datetime
-from flask import request, redirect, render_template, abort, make_response
+from flask import request, redirect, render_template, abort, make_response, send_from_directory
 from app import app, Invitations, Settings, VERSION
 from app.admin import login_required
 from plexapi.server import PlexServer
@@ -18,6 +18,10 @@ def redirect_to_invite():
         return redirect('/settings')
     return redirect('/invite')
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.route("/j/<code>", methods=["GET"])
 def welcome(code):
