@@ -1,7 +1,21 @@
 
 # Change Log
 All notable changes to Wizarr will be documented in this file.
+
+## [0.11.0] - 02-10-2022
  
+Added new Error page for unauthorized actions (401)
+
+### Added
+- Allow the creation of unlimited usage Invitations
+- Allow the creation of never expiring invitations
+
+### Changed
+- General Improvements
+
+### Fixed
+- General Bug Fixes
+
 ## [0.10.6] - 21-09-2022
  
 Added new Error page for unauthorized actions (401)
