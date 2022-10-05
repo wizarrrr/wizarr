@@ -84,10 +84,12 @@ if os.getenv("ADMIN_USERNAME"):
 try:
     Invitations.get_or_none(Invitations.unlimited == 0)
 except:
-    migrator = SqliteMigrator(database)
-    migrate(
-        migrator.add_column('Invitations', 'unlimited', Invitations.unlimited),)
-
+    try:
+        migrator = SqliteMigrator(database)
+        migrate(
+            migrator.add_column('Invitations', 'unlimited', Invitations.unlimited),)
+    except:
+        pass
 
 # Below is Database Initialisation in case of new instance
 database.create_tables([Invitations, Settings])
