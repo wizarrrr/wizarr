@@ -27,8 +27,13 @@ def favicon():
 def welcome(code):
     if not Invitations.select().where(Invitations.code == code).exists():
         return render_template('401.html'), 401
-    resp = make_response(render_template('welcome.html', name=Settings.get(
-        Settings.key == "plex_name").value, code=code))
+    name = Settings.get_or_none(
+        Settings.key == "plex_name")
+    if name:
+        name = name.value
+    else:   
+        name = "Wizarr"
+    resp = make_response(render_template('welcome.html', name=name, code=code))
     resp.set_cookie('code', code)
     return resp
 
