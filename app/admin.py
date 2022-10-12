@@ -198,10 +198,10 @@ def login():
                 logging.info("User successfully logged in the username " + username)
                 return redirect("/")
             else:
-                logging.warning("User attempted to login with incorrect password for user: " + username)
+                logging.warning("A user attempted to login with incorrect password for user: " + username)
                 return render_template("login.html", error=_("Invalid Username or Password"))
         else:
-            logging.warning("User attempted to login with incorrect username: " + username)
+            logging.warning("A user attempted to login with incorrect username: " + username)
             return render_template("login.html", error=_("Invalid Username or Password"))
 
 
