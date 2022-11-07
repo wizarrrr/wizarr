@@ -3,7 +3,6 @@ services:
   wizarr:
     container_name: wizarr
     image: ghcr.io/wizarrrr/wizarr
-    #image: ghcr.io/wizarrrr/wizarr:arm64 #For Arm64
     ports:
     - 5690:5690
     volumes:
