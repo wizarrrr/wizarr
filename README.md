@@ -2,7 +2,7 @@
 
 <img src="./screenshots/wizard.png" height="200">
 
-https://github.com/Wizarrrr/wizarr/actions/workflows/docker-build.yml/badge.svg
+<img src="https://github.com/Wizarrrr/wizarr/actions/workflows/docker-build.yml/badge.svg">
 
 **Attention! Wizarr is still under development, you may experience issues.**
 
