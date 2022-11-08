@@ -1,6 +1,19 @@
 
 # Change Log
 All notable changes to Wizarr will be documented in this file.
+## [0.11.1] - 08-11-2022
+ 
+Small bug fixes
+Merged ARM64 tag into latest!
+
+### Added
+
+### Changed
+- General Improvements
+- ARM64 Is now merged into the latest tag
+
+### Fixed
+- General Bug Fixes
 
 ## [0.11.0] - 02-10-2022
  
