@@ -12,7 +12,7 @@ jobs:
       - name: Prepare parameters
         id: prep
         run: |
-          DOCKER_IMAGE=ghcr.io/${{ github.repository_owner }}/wizarr
+          DOCKER_IMAGE=ghcr.io/wizarrrr/wizarr
           TAGS="${DOCKER_IMAGE}:latest"
           # Set output parameters.
           echo ::set-output name=tags::${TAGS}
