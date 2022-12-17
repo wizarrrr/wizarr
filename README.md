@@ -31,7 +31,7 @@ Wizarr is a automatic user invitation system for Plex. Create a unique link and 
 
 ## A note on SSO (Authelia, Authentik, etc)
 
-As mentionned in the features, Wizarr supports SSO via disabling its inbuilt authentication!
+As mentioned in the features, Wizarr supports SSO via disabling its inbuilt authentication!
 Attention! While setting up Wizarr, you will still be asked for a username and password, but these will be ignored if you enabled `DISABLE_BUILTIN_AUTH`
 To Setup, protect the Wizarr App with your SSO provider using Authelia for example or in the case of Authentik, using a Proxy Provider.
 However, make sure to whitelist the following paths, or users will not be able to join!
