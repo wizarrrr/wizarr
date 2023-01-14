@@ -13,7 +13,7 @@ jobs:
         id: prep
         run: |
           DOCKER_IMAGE=ghcr.io/wizarrrr/wizarr
-          TAGS="${DOCKER_IMAGE}:latest"
+          TAGS="${DOCKER_IMAGE}:dev"
           # Set output parameters.
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=docker_image::${DOCKER_IMAGE}
