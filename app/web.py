@@ -164,6 +164,7 @@ def accept():
     return render_template("accept.html")
 
 
+
 @app.route('/setup/requests', methods=["GET"])
 def plex_requests():
     if Settings.get_or_none(Settings.key == "overseerr_url"):
@@ -175,7 +176,6 @@ def plex_requests():
 @app.route('/setup/tips')
 def tips():
     return render_template("tips.html")
-
 
 @app.errorhandler(500)
 def server_error(e):
@@ -193,3 +193,13 @@ def server_error(e):
 def server_error(e):
     logging.error(e)
     return render_template('401.html'), 401
+
+@app.context_processor
+def inject_user():
+    name = ""
+    try:
+        name = Settings.get(Settings.key == "plex_name").value
+    except:
+        name="Wizarr"
+        print("Could not find name :( ")
+    return dict(header_name=name)
