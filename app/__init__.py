@@ -19,7 +19,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = "./database/sessions"
 Session(app)
 
-VERSION = "0.11.0"
+VERSION = "1.0.0"
 
 # Bug Reporting Stuff
 if os.getenv("ALLOW_BUG_REPORTING") == "true":
