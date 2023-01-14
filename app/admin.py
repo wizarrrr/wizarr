@@ -11,6 +11,7 @@ import random
 import string
 import os
 from flask_babel import _
+from packaging import version
 
 
 def login_required(f):
@@ -209,8 +210,10 @@ def needUpdate():
     try:
         r = requests.get(url="https://wizarr.jaseroque.com/check")
         data = r.content
-        if VERSION != data:
+        if version.parse(VERSION) < version.parse(data):
             return True
+        elif version.parse(VERSION) >= version.parse(data):
+            return False
         else:
             return False
     except:
