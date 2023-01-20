@@ -3,7 +3,7 @@
 from flask import Flask, request, session
 from peewee import *
 from playhouse.migrate import *
-#from flask_babel import Babel
+from flask_babel import Babel
 import os
 from dotenv import load_dotenv
 from flask_session import Session
@@ -36,16 +36,16 @@ if os.getenv("ALLOW_BUG_REPORTING") == "true":
     )
 
 # Translation stuff
-#base_dir = os.path.abspath(os.path.dirname(__file__))
-#app.config["LANGUAGES"] = {'en': 'english', 'fr': 'french'}
-#app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
-#    base_dir, "app/translations")
-#babel = Babel(app)
+base_dir = os.path.abspath(os.path.dirname(__file__))
+app.config["LANGUAGES"] = {'en': 'english', 'fr': 'french'}
+app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
+    base_dir, "app/translations")
+babel = Babel(app)
 
 
-#@babel.localeselector
-##def get_locale():
-#    return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
 
 
 # Database stuff
