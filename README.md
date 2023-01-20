@@ -79,7 +79,7 @@ In the process of adding a Translation system for the community to help translat
 
 ## Thank you
 
-A big thank you ❤️ to these amazing people for contributing and/or sponsoring this projet!
+A big thank you ❤️ to these amazing people for contributing to this projet!
 <a href="https://github.com/wizarrrr/wizarr/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=wizarrrr/wizarr" />
 </a>
