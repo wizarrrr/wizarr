@@ -19,28 +19,14 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = "./database/sessions"
 Session(app)
 
-VERSION = "1.0.1"
-
-# Bug Reporting Stuff
-if os.getenv("ALLOW_BUG_REPORTING") == "true":
-    sentry_sdk.init(
-        dsn="https://1ce2ff6a6de6495cb8045ea2f64b924c@o1419304.ingest.sentry.io/6763170",
-        integrations=[
-            FlaskIntegration(),
-        ],
-
-        # Set traces_sample_rate to 1.0 to capture 100%
-        # of transactions for performance monitoring.
-        # We recommend adjusting this value in production.
-        traces_sample_rate=1.0
-    )
+VERSION = "1.0.2"
 
 def get_locale():
     return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
 
 # Translation stuff
 base_dir = os.path.abspath(os.path.dirname(__file__))
-app.config["LANGUAGES"] = {'fr': 'french'}
+app.config["LANGUAGES"] = {'fr': 'french', 'en': 'english'}
 app.config["BABEL_DEFAULT_LOCALE"] = "fr"
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
     base_dir, "app/translations")
