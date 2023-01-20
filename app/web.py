@@ -10,6 +10,8 @@ from app import app, Invitations, Settings, VERSION
 from app.admin import login_required
 from plexapi.server import PlexServer
 from flask_babel import _
+from packaging import version
+
 
 
 @app.route('/')
@@ -98,15 +100,15 @@ def setup():
 
 def needUpdate():
     try:
-        data = str(requests.get(url="https://wizarr.jaseroque.com/check").text)
-        if VERSION != data:
-            logging.warning(
-                "Current version differs from Server, server reporting " + data + ' but we have ' + VERSION)
+        r = requests.get(url="https://raw.githubusercontent.com/Wizarrrr/wizarr/master/.github/latest")
+        data = r.content.decode("utf-8")
+        if version.parse(VERSION) < version.parse(data):
             return True
+        elif version.parse(VERSION) >= version.parse(data):
+            return False
         else:
             return False
     except:
-        # Nevermind
         return False
 
 

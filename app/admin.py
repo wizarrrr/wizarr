@@ -206,16 +206,4 @@ def login():
             return render_template("login.html", error=_("Invalid Username or Password"))
 
 
-def needUpdate():
-    try:
-        r = requests.get(url="https://wizarr.jaseroque.com/check")
-        data = r.content
-        if version.parse(VERSION) < version.parse(data):
-            return True
-        elif version.parse(VERSION) >= version.parse(data):
-            return False
-        else:
-            return False
-    except:
-        # Nevermind
-        return False
+

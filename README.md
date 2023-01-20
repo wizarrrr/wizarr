@@ -57,7 +57,6 @@ services:
     environment:
       - APP_URL=https://join.domain.com
       - DISABLE_BUILTIN_AUTH=false #Set to true ONLY if you are using another auth provider (Authelia, Authentik, etc)
-      - ALLOW_BUG_REPORTING=true #Helps me fix bugs, but you can disable it if you want! I use Sentry.io for this.
       - TZ=Europe/London #Set your timezone here
 ```
 
