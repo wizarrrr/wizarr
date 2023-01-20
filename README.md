@@ -77,6 +77,14 @@ View Changelog by clicking [here](./CHANGELOG.md)
 
 In the process of adding a Translation system for the community to help translate Wizarr
 
+## Thank you
+
+A big thank you ❤️ to these amazing people for sponsoring me and my project ! 
+[ahsee](https://github.com/ahsee)
+[Jb589](https://github.com/Jb589)
+
+
+
 ## Screenshots
 
 *These may be out of date*
