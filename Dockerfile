@@ -1,4 +1,4 @@
-FROM python:3.10.4-alpine
+FROM python:3.11.1-alpine
 RUN apk add --no-cache tzdata
 RUN mkdir /data
 WORKDIR /data

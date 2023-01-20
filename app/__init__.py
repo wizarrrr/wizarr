@@ -35,17 +35,20 @@ if os.getenv("ALLOW_BUG_REPORTING") == "true":
         traces_sample_rate=1.0
     )
 
-# Translation stuff
-base_dir = os.path.abspath(os.path.dirname(__file__))
-app.config["LANGUAGES"] = {'en': 'english', 'fr': 'french'}
-app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
-    base_dir, "app/translations")
-babel = Babel(app)
-
-
-@babel.localeselector
 def get_locale():
     return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
+
+# Translation stuff
+base_dir = os.path.abspath(os.path.dirname(__file__))
+app.config["LANGUAGES"] = {'fr': 'french'}
+app.config["BABEL_DEFAULT_LOCALE"] = "fr"
+app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
+    base_dir, "app/translations")
+
+babel = Babel(app, locale_selector=get_locale)
+
+
+
 
 
 # Database stuff
