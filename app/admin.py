@@ -11,7 +11,6 @@ import random
 import string
 import os
 from flask_babel import _
-from packaging import version
 
 
 def login_required(f):
@@ -129,6 +128,7 @@ def secure_settings():
             overseerr_url = request.form.get("overseerr_url")
         except:
             overseerr_url = None
+        print(overseerr_url)
         try:
             plex = PlexServer(plex_url, token=plex_token)
         except Exception as e:
@@ -147,8 +147,8 @@ def secure_settings():
         Settings.update(value=libraries).where(
             Settings.key == "plex_libraries").execute()
         if overseerr_url:
-            Settings.update(value=overseerr_url).where(
-                Settings.key == "overseerr_url").execute()
+            Settings.delete().where(Settings.key == "overseerr_url").execute()
+            Settings.create(key="overseerr_url", value=overseerr_url)
         elif not overseerr_url:
             Settings.delete().where(Settings.key == "overseerr_url").execute()
         return redirect("/")
