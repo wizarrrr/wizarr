@@ -1,0 +1,28 @@
+<a href="#">
+  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ _("Accept our invitation") }}
+  </h5>
+</a>
+<p class="mb-3 font-bold text-gray-700 dark:text-gray-400">
+  {{ _("We have sent an invitation to your Plex Account! Almost there!") }}
+<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+  {{ _("Click the button below to be taken to Plex, here you will see an invitation from us.") }} </p>
+<img class="py-2 text-center max-w-full h-auto" src="{{ url_for('static', filename='accept.png') }}"
+  alt="image description">
+
+<a href="https://app.plex.tv/desktop/#!/settings/manage-library-access" target="_blank"
+  class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-amber-700 rounded-lg hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-amber-300 dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">
+  {{ _("Accept") }}
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+    class="ml-2 -mr-1 w-4 h-4">
+    <path stroke-linecap="round" stroke-linejoin="round"
+      d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25" />
+  </svg>
+</a>
+<a href="/setup/download"
+  class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-gray-900 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">{{
+  _("Next") }}
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+    class="ml-2 -mr-1 w-4 h-4">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+  </svg>
+</a>

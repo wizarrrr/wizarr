@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-21 15:32+0000\n"
+"POT-Creation-Date: 2023-01-21 16:06+0000\n"
 "PO-Revision-Date: 2023-01-21 15:32+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -40,7 +40,9 @@ msgstr "Il est probable que votre jeton ne fonctionne pas."
 
 #: app/admin.py:139
 msgid "Unable to connect to your Plex server. See Logs for more information."
-msgstr "Impossible de se connecter à votre serveur Plex. Consultez les journaux pour plus d'informations."
+msgstr ""
+"Impossible de se connecter à votre serveur Plex. Consultez les journaux "
+"pour plus d'informations."
 
 #: app/admin.py:203 app/admin.py:206
 msgid "Invalid Username or Password"
@@ -60,7 +62,9 @@ msgstr "L'e-mail saisi semble être invalide."
 
 #: app/web.py:85
 msgid "Something went wrong. Please try again or contact an administrator."
-msgstr "Quelque chose s'est mal passé. Veuillez réessayer ou contacter un administrateur."
+msgstr ""
+"Quelque chose s'est mal passé. Veuillez réessayer ou contacter un "
+"administrateur."
 
 #: app/templates/401.html:20
 msgid "Permission denied."
@@ -76,7 +80,9 @@ msgstr "Quelque chose manque."
 
 #: app/templates/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "Désolé, nous ne pouvons pas trouver cette page. Il semble qu'elle n'existe pas!"
+msgstr ""
+"Désolé, nous ne pouvons pas trouver cette page. Il semble qu'elle "
+"n'existe pas!"
 
 #: app/templates/500.html:19
 msgid "Internal Server Error."
@@ -135,7 +141,9 @@ msgstr "Inviter un utilisateur"
 msgid ""
 "Environment Variables are being deprecated and replaced by a secure sign-"
 "up. Please visit "
-msgstr "Les variables d'environnement sont dépréciées et remplacées par une inscription sécurisée. Veuillez visiter "
+msgstr ""
+"Les variables d'environnement sont dépréciées et remplacées par une "
+"inscription sécurisée. Veuillez visiter "
 
 #: app/templates/invite.html:30
 msgid "/settings. See Repo for more info"
@@ -570,7 +578,6 @@ msgstr ""
 msgid "I have a Plex Account"
 msgstr ""
 
-#: app/templates/wizard.html:4
-msgid "Wizard"
-msgstr ""
+#~ msgid "Wizard"
+#~ msgstr ""
 
