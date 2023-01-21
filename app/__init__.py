@@ -26,10 +26,10 @@ def get_locale():
 
 # Translation stuff
 base_dir = os.path.abspath(os.path.dirname(__file__))
-app.config["LANGUAGES"] = {'fr': 'french', 'en': 'english'}
-app.config["BABEL_DEFAULT_LOCALE"] = "fr"
-app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
-    base_dir, "app/translations")
+app.config["LANGUAGES"] = {'en': 'english'}
+app.config["BABEL_DEFAULT_LOCALE"] = "en"
+app.config["BABEL_TRANSLATION_DIRECTORIES"] = ('./translations')
+
 
 babel = Babel(app, locale_selector=get_locale)
 
