@@ -34,9 +34,6 @@ app.config["BABEL_TRANSLATION_DIRECTORIES"] = ('./translations')
 babel = Babel(app, locale_selector=get_locale)
 
 
-
-
-
 # Database stuff
 database = SqliteDatabase("./database/database.db")
 
