@@ -19,7 +19,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = "./database/sessions"
 Session(app)
 
-VERSION = "1.0.2"
+VERSION = "1.1.0"
 
 def get_locale():
     return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
