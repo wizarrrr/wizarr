@@ -85,6 +85,8 @@ A big thank you ❤️ to these amazing people for contributing to this projet!
 
 Wizarr is provided under the 'Common Clause' license, see [here](./LICENSE.md)
 
+The Translations however are provided under a MIT license.
+
 ## Screenshots
 
 *These may be out of date*
