@@ -71,7 +71,7 @@ services:
 
 ## Translations
 
-Help us translate the project by clicking [](https://hosted.weblate.org/engage/wizarr/)
+Help us translate the project by clicking [here](https://hosted.weblate.org/engage/wizarr/)
 
 ## Thank you
 
