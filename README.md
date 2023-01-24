@@ -71,7 +71,7 @@ services:
 
 ## Translations
 
-Help us translate the project by clicking [](https://hosted.weblate.org/engage/wizarr/)
+Help us translate the project by clicking [here](https://hosted.weblate.org/engage/wizarr/)
 
 ## Thank you
 
@@ -83,7 +83,7 @@ A big thank you ❤️ to these amazing people for contributing to this projet!
 
 ## License
 
-Wizarr is provided under the 'Common Clause' license, see [here](./LICENSE.md)
+Wizarr is provided under the 'MIT' license, see [here](./LICENSE.md)
 
 The Translations however are provided under a MIT license.
 

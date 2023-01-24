@@ -7,12 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-22 15:41+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
+"POT-Creation-Date: 2023-01-24 14:15+0000\n"
+"PO-Revision-Date: 2023-01-24 13:51+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language: nb_NO\n"
-"Language-Team: none\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Team: Norwegian Bokmål "
+"<https://hosted.weblate.org/projects/wizarr/app/nb_NO/>\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,67 +21,67 @@ msgstr ""
 
 #: app/admin.py:46
 msgid "Passwords do not match."
-msgstr ""
+msgstr "Passordene samsvarer ikke."
 
 #: app/admin.py:49
 msgid "Username must be between 3 and 15 characters."
-msgstr ""
+msgstr "Brukernavn må være mellom 3 og 15 tegn."
 
 #: app/admin.py:52
 msgid "Password must be between 3 and 40 characters."
-msgstr ""
+msgstr "Passord må være mellom 3 og 40 tegn."
 
 #: app/admin.py:78 app/admin.py:126
 msgid "You must select at least one library."
-msgstr ""
+msgstr "Du må velge minst ett bibliotek."
 
 #: app/admin.py:137
 msgid "It is likely that your token does not work."
-msgstr ""
+msgstr "Det er sannsynlig at symbolet ditt ikke virker."
 
 #: app/admin.py:139
 msgid "Unable to connect to your Plex server. See Logs for more information."
-msgstr ""
+msgstr "Kunne ikke koble til din Plex-tjener. Sjekk loggføringen for mer info."
 
 #: app/admin.py:203 app/admin.py:206
 msgid "Invalid Username or Password"
-msgstr ""
+msgstr "Ugyldig brukernavn eller passord"
 
 #: app/web.py:71
 msgid "That email does not match any Plex account. Please try again."
-msgstr ""
+msgstr "Denne e-postadressen samsvarer ikke med noen Plex-konto. Prøv igjen."
 
 #: app/web.py:76
 msgid "This user is already invited to this server."
-msgstr ""
+msgstr "Denne brukeren er allerede invitert til denne tjeneren."
 
 #: app/web.py:80
 msgid "The email entered appears to be invalid."
-msgstr ""
+msgstr "Denne e-postadressen ser ikke ut til å være gyldig."
 
 #: app/web.py:85
 msgid "Something went wrong. Please try again or contact an administrator."
-msgstr ""
+msgstr "Noe gikk galt. Prøv igjen eller kontakt en administrator."
 
 #: app/templates/401.html:20
 msgid "Permission denied."
-msgstr ""
+msgstr "Tilgang nektet."
 
 #: app/templates/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr ""
+msgstr "Du prøver å utføre noe du ikke burde …"
 
 #: app/templates/404.html:19
 msgid "Something's missing."
-msgstr ""
+msgstr "Noe mangler."
 
 #: app/templates/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
+msgstr "Finner ikke den siden. Den ser ikke ut til å eksistere."
 
 #: app/templates/500.html:19
 msgid "Internal Server Error."
-msgstr ""
+msgstr "Intern tjenerfeil"
 
 #: app/templates/500.html:21
 msgid " Something has gone wrong. Please try again later."
@@ -88,11 +89,11 @@ msgstr ""
 
 #: app/templates/accept.html:4
 msgid "Accept Invitation"
-msgstr ""
+msgstr "Godta invitasjon"
 
 #: app/templates/accept.html:11 app/templates/wizard/accept.html:2
 msgid "Accept our invitation"
-msgstr ""
+msgstr "Godta vår invitasjon"
 
 #: app/templates/accept.html:15 app/templates/wizard/accept.html:6
 msgid "We have sent an invitation to your Plex Account! Almost there!"
@@ -106,16 +107,16 @@ msgstr ""
 
 #: app/templates/accept.html:23 app/templates/wizard/accept.html:14
 msgid "Accept"
-msgstr ""
+msgstr "Godta"
 
 #: app/templates/accept.html:31 app/templates/requests.html:71
 #: app/templates/wizard/accept.html:23
 msgid "Next"
-msgstr ""
+msgstr "Neste"
 
 #: app/templates/invite.html:4
 msgid "Invite User"
-msgstr ""
+msgstr "Inviter bruker"
 
 #: app/templates/invite.html:17 app/templates/invite.html:29
 msgid "Attention!"
@@ -123,11 +124,11 @@ msgstr ""
 
 #: app/templates/invite.html:17
 msgid "Update available. Click here."
-msgstr ""
+msgstr "Oppdatering tilgjengelig. Klikk her."
 
 #: app/templates/invite.html:23
 msgid "Invite user"
-msgstr ""
+msgstr "Inviter bruker"
 
 #: app/templates/invite.html:29
 msgid ""
@@ -145,39 +146,39 @@ msgstr ""
 
 #: app/templates/invite.html:38
 msgid "(optional)"
-msgstr ""
+msgstr "(valgfritt)"
 
 #: app/templates/invite.html:45
 msgid "Expiration"
-msgstr ""
+msgstr "Utløp"
 
 #: app/templates/invite.html:48
 msgid "1 day"
-msgstr ""
+msgstr "1 dag"
 
 #: app/templates/invite.html:49
 msgid "1 week"
-msgstr ""
+msgstr "1 uke"
 
 #: app/templates/invite.html:50
 msgid "1 month"
-msgstr ""
+msgstr "1 måned"
 
 #: app/templates/invite.html:51 app/templates/invite.html:168
 msgid "Never"
-msgstr ""
+msgstr "Aldri"
 
 #: app/templates/invite.html:58
 msgid "Unlimited Usages"
-msgstr ""
+msgstr "Ubegrenset bruk"
 
 #: app/templates/invite.html:61
 msgid "Create Invitation"
-msgstr ""
+msgstr "Opprett invitasjon"
 
 #: app/templates/invite.html:75
 msgid "Server Settings"
-msgstr ""
+msgstr "Tjenerinnstillinger"
 
 #: app/templates/invite.html:83
 msgid "Successfully generated an Invitation!"
@@ -189,15 +190,15 @@ msgstr ""
 
 #: app/templates/invite.html:88
 msgid "Link has been copied to clipboard!"
-msgstr ""
+msgstr "Lenke kopiert til utklippstavlen."
 
 #: app/templates/invite.html:96
 msgid "Back"
-msgstr ""
+msgstr "Tilbake"
 
 #: app/templates/invite.html:101
 msgid "Share"
-msgstr ""
+msgstr "Del"
 
 #: app/templates/invite.html:117 app/templates/join.html:42
 #: app/templates/join.html:51
@@ -206,35 +207,35 @@ msgstr ""
 
 #: app/templates/invite.html:120
 msgid "Used"
-msgstr ""
+msgstr "Brukt"
 
 #: app/templates/invite.html:123
 msgid "Used At"
-msgstr ""
+msgstr "Brukt"
 
 #: app/templates/invite.html:126
 msgid "Created"
-msgstr ""
+msgstr "Opprettet"
 
 #: app/templates/invite.html:129
 msgid "User"
-msgstr ""
+msgstr "Bruker"
 
 #: app/templates/invite.html:132
 msgid "Expires"
-msgstr ""
+msgstr "Utløper"
 
 #: app/templates/invite.html:135
 msgid "Unlimited"
-msgstr ""
+msgstr "Ubegrenset"
 
 #: app/templates/invite.html:172
 msgid "Copy"
-msgstr ""
+msgstr "Kopier"
 
 #: app/templates/invite.html:174
 msgid "Delete"
-msgstr ""
+msgstr "Slett"
 
 #: app/templates/join.html:12
 msgid "Great! Now, let's get you invited!"
@@ -242,7 +243,7 @@ msgstr ""
 
 #: app/templates/join.html:18
 msgid "Join the Plex Server"
-msgstr ""
+msgstr "Ta del i Plex-tjeneren"
 
 #: app/templates/join.html:24 app/templates/join.html:34
 msgid "Your Plex email"
@@ -250,11 +251,11 @@ msgstr ""
 
 #: app/templates/join.html:28 app/templates/join.html:55
 msgid "Oops!"
-msgstr ""
+msgstr "Oida!"
 
 #: app/templates/join.html:60
 msgid "Join"
-msgstr ""
+msgstr "Ta del"
 
 #: app/templates/join.html:62
 msgid "Don't have a Plex account, yet?"
@@ -270,19 +271,19 @@ msgstr ""
 
 #: app/templates/login.html:23 app/templates/register_admin.html:24
 msgid "Username"
-msgstr ""
+msgstr "Brukernavn"
 
 #: app/templates/login.html:29 app/templates/register_admin.html:30
 msgid "Password"
-msgstr ""
+msgstr "Passord"
 
 #: app/templates/login.html:41
 msgid "Remember me"
-msgstr ""
+msgstr "Husk meg"
 
 #: app/templates/login.html:46
 msgid "Sign in"
-msgstr ""
+msgstr "Logg inn"
 
 #: app/templates/register_admin.html:18 app/templates/verify_plex.html:18
 msgid "Setup Wizarr"
@@ -290,11 +291,11 @@ msgstr ""
 
 #: app/templates/register_admin.html:36
 msgid "Confirm password"
-msgstr ""
+msgstr "Bekreft passord"
 
 #: app/templates/register_admin.html:42
 msgid "Create an account"
-msgstr ""
+msgstr "Opprett en konto"
 
 #: app/templates/requests.html:10
 msgid "Requesting Media"
@@ -310,7 +311,7 @@ msgstr ""
 
 #: app/templates/requests.html:23
 msgid "Plex Requests"
-msgstr ""
+msgstr "Plex-forespørsler"
 
 #: app/templates/requests.html:35
 msgid "Request any available Movie or Tv Show"
@@ -334,27 +335,27 @@ msgstr ""
 
 #: app/templates/settings.html:18
 msgid "Change Server Settings"
-msgstr ""
+msgstr "Endre tjenerinnstillinger"
 
 #: app/templates/settings.html:23 app/templates/verify_plex.html:23
 msgid "Plex Display Name"
-msgstr ""
+msgstr "Plex-visningsnavn"
 
 #: app/templates/settings.html:29 app/templates/verify_plex.html:29
 msgid "Plex URL"
-msgstr ""
+msgstr "Plex-nettadresse"
 
 #: app/templates/settings.html:35 app/templates/verify_plex.html:35
 msgid "Plex Token"
-msgstr ""
+msgstr "Plex-symbol"
 
 #: app/templates/settings.html:44 app/templates/verify_plex.html:41
 msgid "Plex Libraries"
-msgstr ""
+msgstr "Plex-bibliotek"
 
 #: app/templates/settings.html:46 app/templates/verify_plex.html:43
 msgid "Scan For Libraries"
-msgstr ""
+msgstr "Se etter bibliotek"
 
 #: app/templates/settings.html:53 app/templates/verify_plex.html:49
 msgid "Request instance (Ombi, Overseerr...)"
@@ -380,11 +381,11 @@ msgstr ""
 
 #: app/templates/setup.html:20
 msgid "Download"
-msgstr ""
+msgstr "Last ned"
 
 #: app/templates/setup.html:28
 msgid "Skip"
-msgstr ""
+msgstr "Hopp over"
 
 #: app/templates/tips.html:12
 msgid "How to Use Plex?"
@@ -442,7 +443,7 @@ msgstr ""
 
 #: app/templates/tips.html:34
 msgid "Expand"
-msgstr ""
+msgstr "Utvid"
 
 #: app/templates/tips.html:34
 msgid "button to reveal all the different types of media you have access to."
@@ -562,9 +563,9 @@ msgstr ""
 
 #: app/templates/welcome.html:18
 msgid "Create Plex Account"
-msgstr ""
+msgstr "Opprett Plex-konto"
 
 #: app/templates/welcome.html:22
 msgid "I have a Plex Account"
-msgstr ""
+msgstr "Jeg har en Plex-konto"
 
