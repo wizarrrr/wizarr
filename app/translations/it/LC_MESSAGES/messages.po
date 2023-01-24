@@ -11,8 +11,7 @@ msgstr ""
 "PO-Revision-Date: 2023-01-21 16:51+0000\n"
 "Last-Translator: Matthieu B <matthieu@jaseroque.com>\n"
 "Language: it\n"
-"Language-Team: Italian "
-"<https://hosted.weblate.org/projects/wizarr/app/it/>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/wizarr/app/it/>\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -25,281 +24,288 @@ msgstr "Le password non corrispondono."
 
 #: app/admin.py:49
 msgid "Username must be between 3 and 15 characters."
-msgstr ""
+msgstr "Il nome utente deve essere compreso tra 3 e 15 caratteri."
 
 #: app/admin.py:52
 msgid "Password must be between 3 and 40 characters."
-msgstr ""
+msgstr "La password deve essere compresa tra 3 e 40 caratteri."
 
 #: app/admin.py:78 app/admin.py:126
 msgid "You must select at least one library."
-msgstr ""
+msgstr "È necessario selezionare almeno una raccolta."
 
 #: app/admin.py:137
 msgid "It is likely that your token does not work."
-msgstr ""
+msgstr "È probabile che il gettone non funzioni."
 
 #: app/admin.py:139
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
+"Impossibile connettersi al server Plex. Per ulteriori informazioni, vedere "
+"Registri."
 
 #: app/admin.py:203 app/admin.py:206
 msgid "Invalid Username or Password"
-msgstr ""
+msgstr "Nome utente o password non validi"
 
 #: app/web.py:71
 msgid "That email does not match any Plex account. Please try again."
-msgstr ""
+msgstr "Quell'e-mail non corrisponde a nessun account Plex. Riprova."
 
 #: app/web.py:76
 msgid "This user is already invited to this server."
-msgstr ""
+msgstr "Questo utente è già invitato a questo server."
 
 #: app/web.py:80
 msgid "The email entered appears to be invalid."
-msgstr ""
+msgstr "L'e-mail inserita sembra non essere valida."
 
 #: app/web.py:85
 msgid "Something went wrong. Please try again or contact an administrator."
-msgstr ""
+msgstr "Qualcosa è andato storto. Riprovare o contattare un amministratore."
 
 #: app/templates/401.html:20
 msgid "Permission denied."
-msgstr ""
+msgstr "Permesso negato."
 
 #: app/templates/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr ""
+msgstr "Stai cercando di fare qualcosa che non dovresti fare…"
 
 #: app/templates/404.html:19
 msgid "Something's missing."
-msgstr ""
+msgstr "Manca qualcosa."
 
 #: app/templates/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
 msgstr ""
+"Spiacenti, non riusciamo a trovare quella pagina. Sembra che non esista!"
 
 #: app/templates/500.html:19
 msgid "Internal Server Error."
-msgstr ""
+msgstr "Errore interno del server."
 
 #: app/templates/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr ""
+msgstr " Qualcosa è andato storto. Riprovare più tardi."
 
 #: app/templates/accept.html:4
 msgid "Accept Invitation"
-msgstr ""
+msgstr "Accetta l'invito"
 
 #: app/templates/accept.html:11 app/templates/wizard/accept.html:2
 msgid "Accept our invitation"
-msgstr ""
+msgstr "Accetta il nostro invito"
 
 #: app/templates/accept.html:15 app/templates/wizard/accept.html:6
 msgid "We have sent an invitation to your Plex Account! Almost there!"
-msgstr ""
+msgstr "Abbiamo inviato un invito al tuo account Plex! Ci siamo quasi!"
 
 #: app/templates/accept.html:17 app/templates/wizard/accept.html:8
 msgid ""
-"Click the button below to be taken to Plex, here you will see an "
-"invitation from us."
+"Click the button below to be taken to Plex, here you will see an invitation "
+"from us."
 msgstr ""
+"Clicca sul pulsante sottostante per essere portati su Plex, dove vedrete un "
+"nostro invito."
 
 #: app/templates/accept.html:23 app/templates/wizard/accept.html:14
 msgid "Accept"
-msgstr ""
+msgstr "Accetta"
 
 #: app/templates/accept.html:31 app/templates/requests.html:71
 #: app/templates/wizard/accept.html:23
 msgid "Next"
-msgstr ""
+msgstr "Successivo"
 
 #: app/templates/invite.html:4
 msgid "Invite User"
-msgstr ""
+msgstr "Invita un utente"
 
 #: app/templates/invite.html:17 app/templates/invite.html:29
 msgid "Attention!"
-msgstr ""
+msgstr "Attenzione!"
 
 #: app/templates/invite.html:17
 msgid "Update available. Click here."
-msgstr ""
+msgstr "Aggiornamento disponibile. Clicca qui."
 
 #: app/templates/invite.html:23
 msgid "Invite user"
-msgstr ""
+msgstr "Invita un utente"
 
 #: app/templates/invite.html:29
 msgid ""
-"Environment Variables are being deprecated and replaced by a secure sign-"
-"up. Please visit "
+"Environment Variables are being deprecated and replaced by a secure sign-up. "
+"Please visit "
 msgstr ""
+"Le variabili d'ambiente sono state deprecate e sostituite da una "
+"registrazione sicura. Si prega di visitare "
 
 #: app/templates/invite.html:30
 msgid "/settings. See Repo for more info"
-msgstr ""
+msgstr "/settings. Vedi la repository per maggiori informazioni"
 
 #: app/templates/invite.html:37
 msgid "Invite Code String"
-msgstr ""
+msgstr "Codice di invito"
 
 #: app/templates/invite.html:38
 msgid "(optional)"
-msgstr ""
+msgstr "(facoltativo)"
 
 #: app/templates/invite.html:45
 msgid "Expiration"
-msgstr ""
+msgstr "Scadenza"
 
 #: app/templates/invite.html:48
 msgid "1 day"
-msgstr ""
+msgstr "1 giorno"
 
 #: app/templates/invite.html:49
 msgid "1 week"
-msgstr ""
+msgstr "1 settimana"
 
 #: app/templates/invite.html:50
 msgid "1 month"
-msgstr ""
+msgstr "1 mese"
 
 #: app/templates/invite.html:51 app/templates/invite.html:168
 msgid "Never"
-msgstr ""
+msgstr "Mai"
 
 #: app/templates/invite.html:58
 msgid "Unlimited Usages"
-msgstr ""
+msgstr "Usi illimitati"
 
 #: app/templates/invite.html:61
 msgid "Create Invitation"
-msgstr ""
+msgstr "Crea un invito"
 
 #: app/templates/invite.html:75
 msgid "Server Settings"
-msgstr ""
+msgstr "Impostazioni del server"
 
 #: app/templates/invite.html:83
 msgid "Successfully generated an Invitation!"
-msgstr ""
+msgstr "Invito generato con successo!"
 
 #: app/templates/invite.html:88
 msgid "Great!"
-msgstr ""
+msgstr "Benissimo!"
 
 #: app/templates/invite.html:88
 msgid "Link has been copied to clipboard!"
-msgstr ""
+msgstr "Il collegamento è stato copiato negli appunti!"
 
 #: app/templates/invite.html:96
 msgid "Back"
-msgstr ""
+msgstr "Indietro"
 
 #: app/templates/invite.html:101
 msgid "Share"
-msgstr ""
+msgstr "Condividi"
 
 #: app/templates/invite.html:117 app/templates/join.html:42
 #: app/templates/join.html:51
 msgid "Invite Code"
-msgstr ""
+msgstr "Codice d'invito"
 
 #: app/templates/invite.html:120
 msgid "Used"
-msgstr ""
+msgstr "Usato"
 
 #: app/templates/invite.html:123
 msgid "Used At"
-msgstr ""
+msgstr "Usato a"
 
 #: app/templates/invite.html:126
 msgid "Created"
-msgstr ""
+msgstr "Creato"
 
 #: app/templates/invite.html:129
 msgid "User"
-msgstr ""
+msgstr "Utente"
 
 #: app/templates/invite.html:132
 msgid "Expires"
-msgstr ""
+msgstr "Scade"
 
 #: app/templates/invite.html:135
 msgid "Unlimited"
-msgstr ""
+msgstr "Illimitato"
 
 #: app/templates/invite.html:172
 msgid "Copy"
-msgstr ""
+msgstr "Copia"
 
 #: app/templates/invite.html:174
 msgid "Delete"
-msgstr ""
+msgstr "Elimina"
 
 #: app/templates/join.html:12
 msgid "Great! Now, let's get you invited!"
-msgstr ""
+msgstr "Ottimo! Ora, invitiamo anche te!"
 
 #: app/templates/join.html:18
 msgid "Join the Plex Server"
-msgstr ""
+msgstr "Unisciti al server Plex"
 
 #: app/templates/join.html:24 app/templates/join.html:34
 msgid "Your Plex email"
-msgstr ""
+msgstr "La tua e-mail Plex"
 
 #: app/templates/join.html:28 app/templates/join.html:55
 msgid "Oops!"
-msgstr ""
+msgstr "Ops!"
 
 #: app/templates/join.html:60
 msgid "Join"
-msgstr ""
+msgstr "Unisciti"
 
 #: app/templates/join.html:62
 msgid "Don't have a Plex account, yet?"
-msgstr ""
+msgstr "Non hai ancora un account Plex?"
 
 #: app/templates/join.html:63
 msgid "Get one here."
-msgstr ""
+msgstr "Procuratene uno qui."
 
 #: app/templates/login.html:18
 msgid "Login"
-msgstr ""
+msgstr "Accedi"
 
 #: app/templates/login.html:23 app/templates/register_admin.html:24
 msgid "Username"
-msgstr ""
+msgstr "Nome utente"
 
 #: app/templates/login.html:29 app/templates/register_admin.html:30
 msgid "Password"
-msgstr ""
+msgstr "Password"
 
 #: app/templates/login.html:41
 msgid "Remember me"
-msgstr ""
+msgstr "Ricordati di me"
 
 #: app/templates/login.html:46
 msgid "Sign in"
-msgstr ""
+msgstr "Registra"
 
 #: app/templates/register_admin.html:18 app/templates/verify_plex.html:18
 msgid "Setup Wizarr"
-msgstr ""
+msgstr "Configura Wizarr"
 
 #: app/templates/register_admin.html:36
 msgid "Confirm password"
-msgstr ""
+msgstr "Conferma la password"
 
 #: app/templates/register_admin.html:42
 msgid "Create an account"
-msgstr ""
+msgstr "Crea un account"
 
 #: app/templates/requests.html:10
 msgid "Requesting Media"
-msgstr ""
+msgstr "Richiesta di media"
 
 #: app/templates/requests.html:13
 msgid ""
@@ -308,10 +314,14 @@ msgid ""
 "user-friendly request system that can automatically search for the media "
 "you're looking for. "
 msgstr ""
+"Siamo entusiasti di offrirti un'ampia selezione di supporti tra cui "
+"scegliere. Se non riusci a trovare qualcosa che ti piace, non preoccuparti! "
+"Abbiamo un sistema di richiesta facile da usare che può cercare "
+"automaticamente i supporti che state cercando. "
 
 #: app/templates/requests.html:23
 msgid "Plex Requests"
-msgstr ""
+msgstr "Richieste Plex"
 
 #: app/templates/requests.html:35
 msgid "Request any available Movie or Tv Show"
@@ -371,12 +381,13 @@ msgstr ""
 
 #: app/templates/setup.html:15
 msgid ""
-"Great news! You now have access to our server's media collection. Let's "
-"make sure you know how to use it with Plex."
+"Great news! You now have access to our server's media collection. Let's make "
+"sure you know how to use it with Plex."
 msgstr ""
 
 #: app/templates/setup.html:17
-msgid "Planning on watching Movies on this device? Download Plex for this device."
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
 
 #: app/templates/setup.html:20
@@ -393,9 +404,12 @@ msgstr ""
 
 #: app/templates/tips.html:15
 msgid ""
-"Congratulations on accepting the email invitation from Plex! You're now "
-"one step closer to enjoying all the amazing content on our server. "
+"Congratulations on accepting the email invitation from Plex! You're now one "
+"step closer to enjoying all the amazing content on our server. "
 msgstr ""
+"Congratulazioni per aver accettato l'invito via posta elettronica di Plex! "
+"Ora sei un passo avanti per godere di tutti i fantastici contenuti del "
+"nostro server. "
 
 #: app/templates/tips.html:18
 msgid "Eh, So, What is Plex exactly??"
@@ -403,11 +417,11 @@ msgstr ""
 
 #: app/templates/tips.html:20
 msgid ""
-"Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If you've received an invitation, it "
-"means someone wants to share their library with you. With Plex, you'll "
-"have access to all of the movies, TV shows, music, and photos that are "
-"stored on their server. Enjoy!"
+"Great question! Plex is a software that allows individuals to share their "
+"media collections with others. If you've received an invitation, it means "
+"someone wants to share their library with you. With Plex, you'll have access "
+"to all of the movies, TV shows, music, and photos that are stored on their "
+"server. Enjoy!"
 msgstr ""
 
 #: app/templates/tips.html:23
@@ -418,8 +432,8 @@ msgstr ""
 msgid ""
 "It couldn't be simpler! Plex is available on a wide variety of devices "
 "including laptops, tablets, smartphones, and TVs. All you need to do is "
-"download the Plex app on your device, sign in with your account, and "
-"you're ready to start streaming your media. It's that easy!"
+"download the Plex app on your device, sign in with your account, and you're "
+"ready to start streaming your media. It's that easy!"
 msgstr ""
 
 #: app/templates/tips.html:28
@@ -428,9 +442,9 @@ msgstr ""
 
 #: app/templates/tips.html:30
 msgid ""
-"While Plex is a free service, they do have to generate revenue in order "
-"to continue providing the platform. One way they do this is by displaying"
-" their own content before the content of the server you are joining."
+"While Plex is a free service, they do have to generate revenue in order to "
+"continue providing the platform. One way they do this is by displaying their "
+"own content before the content of the server you are joining."
 msgstr ""
 
 #: app/templates/tips.html:31
@@ -451,10 +465,10 @@ msgstr ""
 
 #: app/templates/tips.html:37
 msgid ""
-"To avoid seeing Plex's content first, we recommend hiding it. To do this,"
-" select all the content types you don't want (such as 'Movies and TV on "
-"Plex') and 'Unpin' them from your home screen. This way you'll only see "
-"the content that you really want to watch!"
+"To avoid seeing Plex's content first, we recommend hiding it. To do this, "
+"select all the content types you don't want (such as 'Movies and TV on "
+"Plex') and 'Unpin' them from your home screen. This way you'll only see the "
+"content that you really want to watch!"
 msgstr ""
 
 #: app/templates/tips.html:40
@@ -483,10 +497,9 @@ msgstr ""
 
 #: app/templates/tips.html:46
 msgid ""
-"By default, Plex plays all content at a lower quality. This can be a bit "
-"of a disappointment. But don't worry, it's a simple fix! You can easily "
-"change the settings to increase the quality of the media that you're "
-"streaming."
+"By default, Plex plays all content at a lower quality. This can be a bit of "
+"a disappointment. But don't worry, it's a simple fix! You can easily change "
+"the settings to increase the quality of the media that you're streaming."
 msgstr ""
 
 #: app/templates/tips.html:48
@@ -499,8 +512,8 @@ msgstr ""
 
 #: app/templates/tips.html:48
 msgid ""
-"page. This is usually in the top right hand corner, depending on the "
-"device you are on."
+"page. This is usually in the top right hand corner, depending on the device "
+"you are on."
 msgstr ""
 
 #: app/templates/tips.html:50
@@ -545,9 +558,9 @@ msgstr ""
 
 #: app/templates/tips.html:61
 msgid ""
-"And there you have it! In case you encounter buffering issues, remember "
-"that you can always adjust the playback quality just like you do in "
-"YouTube. This way you can get the best streaming experience possible."
+"And there you have it! In case you encounter buffering issues, remember that "
+"you can always adjust the playback quality just like you do in YouTube. This "
+"way you can get the best streaming experience possible."
 msgstr ""
 
 #: app/templates/welcome.html:12
@@ -557,8 +570,8 @@ msgstr ""
 
 #: app/templates/welcome.html:14
 msgid ""
-"To join our Plex server, create a Plex account! Once you're done, come "
-"back here!"
+"To join our Plex server, create a Plex account! Once you're done, come back "
+"here!"
 msgstr ""
 
 #: app/templates/welcome.html:18
@@ -568,4 +581,3 @@ msgstr ""
 #: app/templates/welcome.html:22
 msgid "I have a Plex Account"
 msgstr ""
-
