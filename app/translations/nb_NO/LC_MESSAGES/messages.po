@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-01-24 14:36+0000\n"
-"PO-Revision-Date: 2023-01-24 13:51+0000\n"
+"PO-Revision-Date: 2023-01-24 14:47+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/wizarr/"
+"app/nb_NO/>\n"
 "Language: nb_NO\n"
-"Language-Team: Norwegian Bokmål "
-"<https://hosted.weblate.org/projects/wizarr/app/nb_NO/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.16-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:46
@@ -98,13 +99,15 @@ msgstr "Godta vår invitasjon"
 
 #: app/templates/accept.html:15 app/templates/wizard/accept.html:6
 msgid "We have sent an invitation to your Plex Account! Almost there!"
-msgstr ""
+msgstr "En invitasjon har blitt sendt til din Plex-konto. Snart klar."
 
 #: app/templates/accept.html:17 app/templates/wizard/accept.html:8
 msgid ""
 "Click the button below to be taken to Plex, here you will see an "
 "invitation from us."
 msgstr ""
+"Klikk på knappen nedenfor slik at du kommer til Plex. Der vil du finne en "
+"invitasjon fra oss."
 
 #: app/templates/accept.html:23 app/templates/wizard/accept.html:14
 msgid "Accept"
@@ -121,7 +124,7 @@ msgstr "Inviter bruker"
 
 #: app/templates/invite.html:17 app/templates/invite.html:29
 msgid "Attention!"
-msgstr ""
+msgstr "Merk."
 
 #: app/templates/invite.html:17
 msgid "Update available. Click here."
@@ -135,15 +138,15 @@ msgstr "Inviter bruker"
 msgid ""
 "Environment Variables are being deprecated and replaced by a secure sign-"
 "up. Please visit "
-msgstr ""
+msgstr "Miljøvariabler er foreldet og erstattet av sikker innlogging. Besøk "
 
 #: app/templates/invite.html:30
 msgid "/settings. See Repo for more info"
-msgstr ""
+msgstr "/settings. Sjekk kodelageret for mer info"
 
 #: app/templates/invite.html:37
 msgid "Invite Code String"
-msgstr ""
+msgstr "Invitasjonskodestreng"
 
 #: app/templates/invite.html:38
 msgid "(optional)"
@@ -183,11 +186,11 @@ msgstr "Tjenerinnstillinger"
 
 #: app/templates/invite.html:83
 msgid "Successfully generated an Invitation!"
-msgstr ""
+msgstr "Invitasjon generert."
 
 #: app/templates/invite.html:88
 msgid "Great!"
-msgstr ""
+msgstr "Storartet."
 
 #: app/templates/invite.html:88
 msgid "Link has been copied to clipboard!"
@@ -204,7 +207,7 @@ msgstr "Del"
 #: app/templates/invite.html:117 app/templates/join.html:42
 #: app/templates/join.html:51
 msgid "Invite Code"
-msgstr ""
+msgstr "Invitasjonskode"
 
 #: app/templates/invite.html:120
 msgid "Used"
@@ -240,7 +243,7 @@ msgstr "Slett"
 
 #: app/templates/join.html:12
 msgid "Great! Now, let's get you invited!"
-msgstr ""
+msgstr "Flott. La oss fikse en invitasjon for deg."
 
 #: app/templates/join.html:18
 msgid "Join the Plex Server"
@@ -248,7 +251,7 @@ msgstr "Ta del i Plex-tjeneren"
 
 #: app/templates/join.html:24 app/templates/join.html:34
 msgid "Your Plex email"
-msgstr ""
+msgstr "Din Plex-e-post."
 
 #: app/templates/join.html:28 app/templates/join.html:55
 msgid "Oops!"
@@ -260,11 +263,11 @@ msgstr "Ta del"
 
 #: app/templates/join.html:62
 msgid "Don't have a Plex account, yet?"
-msgstr ""
+msgstr "Har du ikke Plex-konto enda?"
 
 #: app/templates/join.html:63
 msgid "Get one here."
-msgstr ""
+msgstr "Skaff en her."
 
 #: app/templates/login.html:18
 msgid "Login"
@@ -309,6 +312,9 @@ msgid ""
 "user-friendly request system that can automatically search for the media "
 "you're looking for. "
 msgstr ""
+"Her har du et bredt spekter av media å velge mellom. Hvis du ikke finner noe "
+"du liker kan du bruke forespørselssystemet for å automatisk søke etter media "
+"du ser etter. "
 
 #: app/templates/requests.html:23
 msgid "Plex Requests"
@@ -320,19 +326,20 @@ msgstr "Forespør alle tilgjengelige filmer eller TV-programmer"
 
 #: app/templates/requests.html:45
 msgid "Requested media will be automatically downloaded and added to server"
-msgstr ""
+msgstr "Forespurt media vil lastes ned automatisk og legges til på tjeneren"
 
 #: app/templates/requests.html:55
+#, fuzzy
 msgid "If enabled, receive notifications"
-msgstr ""
+msgstr "Motta merknader"
 
 #: app/templates/requests.html:60
 msgid "*Depending on availability"
-msgstr ""
+msgstr "*Avhengig av tilgjengelighet"
 
 #: app/templates/requests.html:62
 msgid "Check it Out"
-msgstr ""
+msgstr "Sjekk det ut"
 
 #: app/templates/settings.html:18
 msgid "Change Server Settings"
@@ -360,7 +367,7 @@ msgstr "Se etter bibliotek"
 
 #: app/templates/settings.html:53 app/templates/verify_plex.html:49
 msgid "Request instance (Ombi, Overseerr...)"
-msgstr ""
+msgstr "Forespørselsinstans (Ombi, Overseerr …)"
 
 #: app/templates/settings.html:63 app/templates/verify_plex.html:55
 msgid "Verify and Confirm"
@@ -375,10 +382,12 @@ msgid ""
 "Great news! You now have access to our server's media collection. Let's "
 "make sure you know how to use it with Plex."
 msgstr ""
+"Godt nytt. Du har nå tilgang til tjenerens mediasamling. La oss forsikre at "
+"du vet hvordan du bruker den med Plex."
 
 #: app/templates/setup.html:17
 msgid "Planning on watching Movies on this device? Download Plex for this device."
-msgstr ""
+msgstr "Planlegger du å se filmer på denne enheten? Last ned Plex."
 
 #: app/templates/setup.html:20
 msgid "Download"
@@ -397,10 +406,12 @@ msgid ""
 "Congratulations on accepting the email invitation from Plex! You're now "
 "one step closer to enjoying all the amazing content on our server. "
 msgstr ""
+"Du har godtatt invitasjonen fra Plex. Du vil snart kunne spille innholdet på "
+"tjeneren vår. "
 
 #: app/templates/tips.html:18
 msgid "Eh, So, What is Plex exactly??"
-msgstr ""
+msgstr "Hva er egentlig Plex?"
 
 #: app/templates/tips.html:20
 msgid ""
@@ -410,10 +421,14 @@ msgid ""
 "have access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
 msgstr ""
+"Plex lar brukere dele media-samlingene sine med andre. Hvis du har fått en "
+"invitasjon betyr det at noen vil dele biblioteket sitt med deg. Du har "
+"tilgang til alle filmer, TV-programmer, og bilder som er lagret på tjeneren "
+"deres."
 
 #: app/templates/tips.html:23
 msgid "Right, so how do I watch stuff?"
-msgstr ""
+msgstr "OK, så hvordan spiller jeg av ting?"
 
 #: app/templates/tips.html:25
 msgid ""
@@ -422,6 +437,9 @@ msgid ""
 "download the Plex app on your device, sign in with your account, and "
 "you're ready to start streaming your media. It's that easy!"
 msgstr ""
+"Plex fungerer på bærbare, nettbrett, smarttelefoner, og TV-er. Du trenger "
+"Plex-programmet på din enhet, og en konto for å logge inn slik at du kan "
+"strømme media."
 
 #: app/templates/tips.html:28
 msgid "I've logged in but I am overwhelmed with content!"
@@ -433,6 +451,9 @@ msgid ""
 "to continue providing the platform. One way they do this is by displaying"
 " their own content before the content of the server you are joining."
 msgstr ""
+"Plex er en gratis-tjeneste, men de må generere overskudd for å fortsette å "
+"tilby plattformen. En måte å gjøre dette på er å vise deres innhold før "
+"innholdet på tjeneren du tar del i."
 
 #: app/templates/tips.html:31
 msgid "No need to worry though, this can be easily resolved!"
@@ -459,6 +480,9 @@ msgid ""
 "Plex') and 'Unpin' them from your home screen. This way you'll only see "
 "the content that you really want to watch!"
 msgstr ""
+"Unngå å se Plex sitt eget innhold først ved å skru av alle innholdstypene du "
+"ikke vil ha (som f.eks. «Filmer og TV på Plex» og løsne dem fra "
+"hjemmeskjermen."
 
 #: app/templates/tips.html:40
 msgid "Now that everything we"
@@ -482,7 +506,7 @@ msgstr " ha."
 
 #: app/templates/tips.html:44
 msgid "How can I make sure to have the best experience?"
-msgstr ""
+msgstr "Hvordan kan jeg tilpasse opplevelsen?"
 
 #: app/templates/tips.html:46
 msgid ""
@@ -491,6 +515,7 @@ msgid ""
 "change the settings to increase the quality of the media that you're "
 "streaming."
 msgstr ""
+"Plex spiller som forvalg innhold i lavere kvalitet. Øk den i innstillingene."
 
 #: app/templates/tips.html:48
 msgid "Go to the Plex "
@@ -554,6 +579,7 @@ msgid ""
 "that you can always adjust the playback quality just like you do in "
 "YouTube. This way you can get the best streaming experience possible."
 msgstr ""
+"Hvis du ikke kan spille av kontinuerlig kan du justere ned kvaliteten igjen."
 
 #: app/templates/welcome.html:12
 #, python-format
@@ -575,4 +601,3 @@ msgstr "Opprett Plex-konto"
 #: app/templates/welcome.html:22
 msgid "I have a Plex Account"
 msgstr "Jeg har en Plex-konto"
-
