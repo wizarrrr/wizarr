@@ -4,6 +4,8 @@
 
 <img src="https://github.com/Wizarrrr/wizarr/actions/workflows/docker-build.yml/badge.svg">
 
+<img src="https://hosted.weblate.org/widgets/wizarr/-/svg-badge.svg">
+
 Wizarr is a automatic user invitation system for Plex. Create a unique link and share it to a user and they will automatically be invited to your Plex Server! They will even be guided to download the Plex client and instructions on how to use your requests software!
 
 ### **Discord**
