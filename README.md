@@ -83,7 +83,7 @@ A big thank you ❤️ to these amazing people for contributing to this projet!
 
 ## License
 
-Wizarr is provided under the 'Common Clause' license, see [here](./LICENSE.md)
+Wizarr is provided under the 'MIT' license, see [here](./LICENSE.md)
 
 ## Screenshots
 
