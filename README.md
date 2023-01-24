@@ -73,7 +73,10 @@ services:
 
 ## Translations
 
-Help us translate the project by clicking [here](https://hosted.weblate.org/engage/wizarr/)
+We use Weblate to translate Wizarr, help us out by clicking [here](https://hosted.weblate.org/engage/wizarr/)
+
+<img src="https://hosted.weblate.org/widgets/wizarr/-/app/multi-auto.svg" alt="Translation status" />
+</a>
 
 ## Thank you
 
