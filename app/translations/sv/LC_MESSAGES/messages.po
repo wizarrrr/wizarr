@@ -8,297 +8,302 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-01-25 17:52+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2023-01-26 18:52+0000\n"
+"Last-Translator: kallegrens <k.github@lundgrens.net>\n"
+"Language-Team: Swedish <https://hosted.weblate.org/projects/wizarr/app/sv/>\n"
 "Language: sv\n"
-"Language-Team: none\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.16-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:46
 msgid "Passwords do not match."
-msgstr ""
+msgstr "Lösenorden matchar inte."
 
 #: app/admin.py:49
 msgid "Username must be between 3 and 15 characters."
-msgstr ""
+msgstr "Användarnamnet måste vara mellan 3 och 15 tecken."
 
 #: app/admin.py:52
 msgid "Password must be between 3 and 40 characters."
-msgstr ""
+msgstr "Lösenordet måste vara mellan 3 och 40 tecken."
 
 #: app/admin.py:78 app/admin.py:126
 msgid "You must select at least one library."
-msgstr ""
+msgstr "Du måste välja minst ett bibliotek."
 
 #: app/admin.py:137
 msgid "It is likely that your token does not work."
-msgstr ""
+msgstr "Det verkar som att ditt Plex-token inte fungerar."
 
 #: app/admin.py:139
 msgid "Unable to connect to your Plex server. See Logs for more information."
-msgstr ""
+msgstr "Kan inte ansluta till din Plex-server. Se loggarna för mer information."
 
 #: app/admin.py:203 app/admin.py:206
 msgid "Invalid Username or Password"
-msgstr ""
+msgstr "Felaktigt användarnamn eller lösenord"
 
 #: app/web.py:71
 msgid "That email does not match any Plex account. Please try again."
-msgstr ""
+msgstr "Den mejladressen matchar inget Plex-konto. Vänligen försök igen."
 
 #: app/web.py:76
 msgid "This user is already invited to this server."
-msgstr ""
+msgstr "Denna användare är redan inbjuden till denna server."
 
 #: app/web.py:80
 msgid "The email entered appears to be invalid."
-msgstr ""
+msgstr "Den angivna mejladressen verkar vara ogiltig."
 
 #: app/web.py:85
 msgid "Something went wrong. Please try again or contact an administrator."
 msgstr ""
+"Någonting gick fel. Vänligen försök igen eller kontakta en administratör."
 
 #: app/templates/401.html:20
 msgid "Permission denied."
-msgstr ""
+msgstr "Åtkomst nekad."
 
 #: app/templates/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr ""
+msgstr "Du försöker göra något som du inte borde göra..."
 
 #: app/templates/404.html:19
 msgid "Something's missing."
-msgstr ""
+msgstr "Något saknas."
 
 #: app/templates/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
+msgstr "Ledsen, vi kan inte hitta den sidan. Den verkar inte finnas!"
 
 #: app/templates/500.html:19
 msgid "Internal Server Error."
-msgstr ""
+msgstr "Internt serverfel."
 
 #: app/templates/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr ""
+msgstr " Något har gått fel. Vänligen försök igen senare."
 
 #: app/templates/accept.html:4
 msgid "Accept Invitation"
-msgstr ""
+msgstr "Acceptera inbjudan"
 
 #: app/templates/accept.html:11 app/templates/wizard/accept.html:2
 msgid "Accept our invitation"
-msgstr ""
+msgstr "Acceptera vår inbjudan"
 
 #: app/templates/accept.html:15 app/templates/wizard/accept.html:6
 msgid "We have sent an invitation to your Plex Account! Almost there!"
-msgstr ""
+msgstr "Vi har skickat en inbjudan till ditt Plex-konto. Nästan där!"
 
 #: app/templates/accept.html:17 app/templates/wizard/accept.html:8
 msgid ""
 "Click the button below to be taken to Plex, here you will see an "
 "invitation from us."
 msgstr ""
+"Klicka på knappen nedan för att tas till Plex. Där kommer du se en inbjudan "
+"från oss."
 
 #: app/templates/accept.html:23 app/templates/wizard/accept.html:14
 msgid "Accept"
-msgstr ""
+msgstr "Acceptera"
 
 #: app/templates/accept.html:31 app/templates/requests.html:71
 #: app/templates/wizard/accept.html:23
 msgid "Next"
-msgstr ""
+msgstr "Nästa"
 
 #: app/templates/invite.html:4
 msgid "Invite User"
-msgstr ""
+msgstr "Bjud in användare"
 
 #: app/templates/invite.html:17 app/templates/invite.html:29
 msgid "Attention!"
-msgstr ""
+msgstr "Observera!"
 
 #: app/templates/invite.html:17
 msgid "Update available. Click here."
-msgstr ""
+msgstr "Uppdatering tillgänglig. Klicka här."
 
 #: app/templates/invite.html:23
 msgid "Invite user"
-msgstr ""
+msgstr "Bjud in användare"
 
 #: app/templates/invite.html:29
 msgid ""
 "Environment Variables are being deprecated and replaced by a secure sign-"
 "up. Please visit "
 msgstr ""
+"Miljövariabler fasas ut och ersätts av en säker registrering. Vänligen besök "
 
 #: app/templates/invite.html:30
 msgid "/settings. See Repo for more info"
-msgstr ""
+msgstr "/settings. Se källkodsförvaringen för mer information"
 
 #: app/templates/invite.html:37
 msgid "Invite Code String"
-msgstr ""
+msgstr "Inbjudningskod"
 
 #: app/templates/invite.html:38
 msgid "(optional)"
-msgstr ""
+msgstr "(valfritt)"
 
 #: app/templates/invite.html:45
 msgid "Expiration"
-msgstr ""
+msgstr "Löper ut"
 
 #: app/templates/invite.html:48
 msgid "1 day"
-msgstr ""
+msgstr "1 dag"
 
 #: app/templates/invite.html:49
 msgid "1 week"
-msgstr ""
+msgstr "1 vecka"
 
 #: app/templates/invite.html:50
 msgid "1 month"
-msgstr ""
+msgstr "1 månad"
 
 #: app/templates/invite.html:51 app/templates/invite.html:168
 msgid "Never"
-msgstr ""
+msgstr "Aldrig"
 
 #: app/templates/invite.html:58
 msgid "Unlimited Usages"
-msgstr ""
+msgstr "Obegränsad användning"
 
 #: app/templates/invite.html:61
 msgid "Create Invitation"
-msgstr ""
+msgstr "Skapa inbjudan"
 
 #: app/templates/invite.html:75
 msgid "Server Settings"
-msgstr ""
+msgstr "Serverinställningar"
 
 #: app/templates/invite.html:83
 msgid "Successfully generated an Invitation!"
-msgstr ""
+msgstr "Skapandet av en inbjudan lyckades!"
 
 #: app/templates/invite.html:88
 msgid "Great!"
-msgstr ""
+msgstr "Bra!"
 
 #: app/templates/invite.html:88
 msgid "Link has been copied to clipboard!"
-msgstr ""
+msgstr "Länken har kopierats till urklipp!"
 
 #: app/templates/invite.html:96
 msgid "Back"
-msgstr ""
+msgstr "Tillbaka"
 
 #: app/templates/invite.html:101
 msgid "Share"
-msgstr ""
+msgstr "Dela"
 
 #: app/templates/invite.html:117 app/templates/join.html:42
 #: app/templates/join.html:51
 msgid "Invite Code"
-msgstr ""
+msgstr "Inbjudningskod"
 
 #: app/templates/invite.html:120
 msgid "Used"
-msgstr ""
+msgstr "Förbrukad"
 
 #: app/templates/invite.html:123
 msgid "Used At"
-msgstr ""
+msgstr "Använd vid"
 
 #: app/templates/invite.html:126
 msgid "Created"
-msgstr ""
+msgstr "Skapade"
 
 #: app/templates/invite.html:129
 msgid "User"
-msgstr ""
+msgstr "Användare"
 
 #: app/templates/invite.html:132
 msgid "Expires"
-msgstr ""
+msgstr "Löper ut"
 
 #: app/templates/invite.html:135
 msgid "Unlimited"
-msgstr ""
+msgstr "Obegränsad"
 
 #: app/templates/invite.html:172
 msgid "Copy"
-msgstr ""
+msgstr "Kopiera"
 
 #: app/templates/invite.html:174
 msgid "Delete"
-msgstr ""
+msgstr "Ta bort"
 
 #: app/templates/join.html:12
 msgid "Great! Now, let's get you invited!"
-msgstr ""
+msgstr "Toppen! Låt oss få dig inbjuden!"
 
 #: app/templates/join.html:18
 msgid "Join the Plex Server"
-msgstr ""
+msgstr "Ta del av Plex-servern"
 
 #: app/templates/join.html:24 app/templates/join.html:34
 msgid "Your Plex email"
-msgstr ""
+msgstr "Din Plex-e-post"
 
 #: app/templates/join.html:28 app/templates/join.html:55
 msgid "Oops!"
-msgstr ""
+msgstr "Hoppsan!"
 
 #: app/templates/join.html:60
 msgid "Join"
-msgstr ""
+msgstr "Ta del"
 
 #: app/templates/join.html:62
 msgid "Don't have a Plex account, yet?"
-msgstr ""
+msgstr "Har du inte ett Plex-konto ännu?"
 
 #: app/templates/join.html:63
 msgid "Get one here."
-msgstr ""
+msgstr "Skaffa ett här."
 
 #: app/templates/login.html:18
 msgid "Login"
-msgstr ""
+msgstr "Logga in"
 
 #: app/templates/login.html:23 app/templates/register_admin.html:24
 msgid "Username"
-msgstr ""
+msgstr "Användarnamn"
 
 #: app/templates/login.html:29 app/templates/register_admin.html:30
 msgid "Password"
-msgstr ""
+msgstr "Lösenord"
 
 #: app/templates/login.html:41
 msgid "Remember me"
-msgstr ""
+msgstr "Kom ihåg mig"
 
 #: app/templates/login.html:46
 msgid "Sign in"
-msgstr ""
+msgstr "Logga in"
 
 #: app/templates/register_admin.html:18 app/templates/verify_plex.html:18
 msgid "Setup Wizarr"
-msgstr ""
+msgstr "Konfigurera Wizarr"
 
 #: app/templates/register_admin.html:36
 msgid "Confirm password"
-msgstr ""
+msgstr "Bekräfta lösenord"
 
 #: app/templates/register_admin.html:42
 msgid "Create an account"
-msgstr ""
+msgstr "Skapa ett konto"
 
 #: app/templates/requests.html:10
 msgid "Requesting Media"
-msgstr ""
+msgstr "Efterfråga medier"
 
 #: app/templates/requests.html:13
 msgid ""
@@ -567,4 +572,3 @@ msgstr ""
 #: app/templates/welcome.html:22
 msgid "I have a Plex Account"
 msgstr ""
-
