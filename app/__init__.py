@@ -21,12 +21,19 @@ Session(app)
 
 VERSION = "1.1.0"
 
+
 def get_locale():
     return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
 
+
 # Translation stuff
 base_dir = os.path.abspath(os.path.dirname(__file__))
-app.config["LANGUAGES"] = {'en': 'english', 'de': 'german', 'fr': 'french', 'es': 'spanish', 'se': 'swedish', 'no': 'norwegian'}
+app.config["LANGUAGES"] = {'en': 'english',
+                           'de': 'german',
+                           'fr': 'french',
+                           'es': 'spanish',
+                           'sv': 'swedish',
+                           'nb_NO': 'norwegian'}
 app.config["BABEL_DEFAULT_LOCALE"] = "en"
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = ('./translations')
 
