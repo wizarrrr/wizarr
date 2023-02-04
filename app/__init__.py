@@ -23,7 +23,11 @@ VERSION = "1.1.0"
 
 
 def get_locale():
-    return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
+    if request.args.get('lang'):
+        session['lang'] = request.args.get('lang')
+        return session.get('lang', 'en')
+    else:
+        return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
 
 
 # Translation stuff
