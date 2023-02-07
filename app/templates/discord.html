@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ _("Join our Discord Server") }}
+{% endblock %}
+
+{% block main %}
+<div class="bg-white dark:bg-gray-900">
+    <div class="px-4 mx-auto max-w-screen-xl  lg:px-6">
+        <div class="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
+            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">{{ _("Join Our Discord
+                Server!") }}
+            </h2>
+        </div>
+
+    </div>
+
+</div>
+<div class="flex flex-col items-center justify-center px-6 py-2 mb-10 mx-auto lg:py-0">
+    <div
+        class="p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+        <iframe src="https://discord.com/widget?id={{ discord_id }}&theme=dark" width="350" height="500"
+            allowtransparency="true" frameborder="0"
+            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+    </div>
+    <div class="my-3">
+        <a href="/setup/tips"
+            class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-gray-900 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">{{
+            _("Next") }}
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="ml-2 -mr-1 w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
+        </a>
+    </div>
+</div>
+{% endblock %}
