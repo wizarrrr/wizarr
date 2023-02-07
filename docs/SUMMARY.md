@@ -14,3 +14,7 @@
 ## ⛑ Support
 
 * [Discord](support/discord.md)
+
+## Contribute
+
+* [Translate](contribute/translate.md)
