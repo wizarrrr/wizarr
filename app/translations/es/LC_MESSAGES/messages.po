@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-07 12:43+0000\n"
+"POT-Creation-Date: 2023-02-07 13:22+0000\n"
 "PO-Revision-Date: 2023-02-02 13:32+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language: es\n"
@@ -31,21 +31,21 @@ msgstr "El nombre de usuario debe tener entre 3 y 15 caracteres."
 msgid "Password must be between 3 and 40 characters."
 msgstr "La contraseña debe tener entre 3 y 40 caracteres."
 
-#: app/admin.py:78 app/admin.py:126
+#: app/admin.py:78 app/admin.py:132
 msgid "You must select at least one library."
 msgstr "Debes seleccionar al menos una biblioteca."
 
-#: app/admin.py:137
+#: app/admin.py:143
 msgid "It is likely that your token does not work."
 msgstr "Parece que tu token no funciona."
 
-#: app/admin.py:139
+#: app/admin.py:145
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
 "Imposible conectar con tu servidor de Plex. Mire los Logs para más "
 "información."
 
-#: app/admin.py:203 app/admin.py:206
+#: app/admin.py:214 app/admin.py:217
 msgid "Invalid Username or Password"
 msgstr "Usuario o contraseña no válidos"
 
@@ -115,10 +115,20 @@ msgstr ""
 msgid "Accept"
 msgstr "Aceptar"
 
-#: app/templates/accept.html:31 app/templates/requests.html:71
-#: app/templates/wizard/accept.html:23
+#: app/templates/accept.html:31 app/templates/discord.html:29
+#: app/templates/requests.html:71 app/templates/wizard/accept.html:23
 msgid "Next"
 msgstr "Siguiente"
+
+#: app/templates/discord.html:4
+msgid "Join our Discord Server"
+msgstr ""
+
+#: app/templates/discord.html:11
+msgid ""
+"Join Our Discord\n"
+"                Server!"
+msgstr ""
 
 #: app/templates/invite.html:4
 msgid "Invite User"
@@ -351,31 +361,35 @@ msgstr "Compruébelo"
 msgid "Change Server Settings"
 msgstr "Cambiar configuración del servidor"
 
-#: app/templates/settings.html:23 app/templates/verify_plex.html:23
+#: app/templates/settings.html:23
 msgid "Plex Display Name"
 msgstr "Nombre para mostrar de Plex"
 
-#: app/templates/settings.html:29 app/templates/verify_plex.html:29
+#: app/templates/settings.html:29 app/templates/verify_plex.html:30
 msgid "Plex URL"
 msgstr "URL de Plex"
 
-#: app/templates/settings.html:35 app/templates/verify_plex.html:35
+#: app/templates/settings.html:35
 msgid "Plex Token"
 msgstr "Ficha Plex"
 
-#: app/templates/settings.html:44 app/templates/verify_plex.html:41
+#: app/templates/settings.html:44
 msgid "Plex Libraries"
 msgstr "Bibliotecas de Plex"
 
-#: app/templates/settings.html:46 app/templates/verify_plex.html:43
+#: app/templates/settings.html:46 app/templates/verify_plex.html:47
 msgid "Scan For Libraries"
 msgstr "Buscar bibliotecas"
 
-#: app/templates/settings.html:53 app/templates/verify_plex.html:49
+#: app/templates/settings.html:53
 msgid "Request instance (Ombi, Overseerr...)"
 msgstr "Solicitud de la instancia (Ombi, Overseerr...)"
 
-#: app/templates/settings.html:63 app/templates/verify_plex.html:55
+#: app/templates/settings.html:59
+msgid "Discord Server ID"
+msgstr ""
+
+#: app/templates/settings.html:65 app/templates/verify_plex.html:68
 msgid "Verify and Confirm"
 msgstr "Verificar y confirmar"
 
@@ -599,6 +613,37 @@ msgstr ""
 " búfer, recuerde que siempre puede ajustar la calidad de reproducción "
 "como lo hace en YouTube. De esta manera, puede obtener la mejor "
 "experiencia de transmisión posible."
+
+#: app/templates/verify_plex.html:23
+msgid ""
+"Plex Display\n"
+"              Name"
+msgstr ""
+
+#: app/templates/verify_plex.html:37
+msgid ""
+"Plex\n"
+"              Token"
+msgstr ""
+
+#: app/templates/verify_plex.html:44
+msgid ""
+"Plex\n"
+"              Libraries"
+msgstr ""
+
+#: app/templates/verify_plex.html:53
+#, fuzzy
+msgid ""
+"Request\n"
+"              instance (Ombi, Overseerr...)"
+msgstr "Solicitud de la instancia (Ombi, Overseerr...)"
+
+#: app/templates/verify_plex.html:60
+msgid ""
+"Discord\n"
+"              Server ID"
+msgstr ""
 
 #: app/templates/welcome.html:12
 #, python-format
