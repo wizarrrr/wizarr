@@ -77,10 +77,10 @@ def preferences():
             if not libraries:
                 return render_template("settings.html", error=_("You must select at least one library."))
 
-            try:
+            if request.form.get("discord_id"):
+                discord_id = request.form.get("discord_id")
+            if request.forn.get("overseerr_url"):
                 overseerr_url = request.form.get("overseerr_url")
-            except:
-                overseerr_url = None
 
             Settings.create(key="plex_name", value=name)
             Settings.create(key="plex_url", value=plex_url)
@@ -88,6 +88,8 @@ def preferences():
             Settings.create(key="plex_libraries", value=libraries)
             if overseerr_url:
                 Settings.create(key="overseerr_url", value=overseerr_url)
+            if discord_id:
+                Settings.create(key="discord_id", value=discord_id)
             Settings.create(key="plex_verified", value="True")
             return redirect("/")
     elif Settings.select().where(Settings.key == 'admin_username').exists() and Settings.select().where(Settings.key == "plex_verified", Settings.value == "True").exists():
@@ -101,11 +103,15 @@ def secure_settings():
         plex_name = Settings.get(Settings.key == "plex_name").value
         plex_url = Settings.get(Settings.key == "plex_url").value
         plex_libraries = Settings.get(Settings.key == "plex_libraries").value
+        plex_token = Settings.get(Settings.key == "plex_token").value
         overseerr_url = Settings.get_or_none(
             Settings.key == "overseerr_url")
+        discord_id = Settings.get_or_none(Settings.key == "discord_id")
         if overseerr_url:
             overseerr_url = overseerr_url.value
-        return render_template("settings.html", plex_name=plex_name, plex_url=plex_url, plex_libraries=plex_libraries, overseerr_url=overseerr_url)
+        if discord_id:
+            discord_id = discord_id.value
+        return render_template("settings.html", plex_name=plex_name, plex_url=plex_url, plex_libraries=plex_libraries, plex_token=plex_token, overseerr_url=overseerr_url, discord_id=discord_id)
 
     elif request.method == 'POST':
         name = request.form.get("name")
@@ -124,11 +130,11 @@ def secure_settings():
 
         if not libraries:
             return render_template("settings.html", error=_("You must select at least one library."))
-        try:
+        
+        if request.form.get("discord_id"):
+            discord_id = request.form.get("discord_id")
+        if request.form.get("overseerr_url"):
             overseerr_url = request.form.get("overseerr_url")
-        except:
-            overseerr_url = None
-        print(overseerr_url)
         try:
             plex = PlexServer(plex_url, token=plex_token)
         except Exception as e:
@@ -151,6 +157,11 @@ def secure_settings():
             Settings.create(key="overseerr_url", value=overseerr_url)
         elif not overseerr_url:
             Settings.delete().where(Settings.key == "overseerr_url").execute()
+        if discord_id:
+            Settings.delete().where(Settings.key == "discord_id").execute()
+            Settings.create(key="discord_id", value=discord_id)
+        elif not discord_id:
+            Settings.delete().where(Settings.key == "discord_id").execute()
         return redirect("/")
 
 
