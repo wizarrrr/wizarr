@@ -13,5 +13,5 @@
 
 Enabling the widget and the invite channel makes the Discord API dynamically generate an invitation link for the purpose of the widget.
 
-This means that to use this integration, you don't need to generate a Never expiring invitation, which some users might prefer.
+This means that to use this integration, you don't need to generate a Never expiring invitation, which some users might want to avoid.
 {% endhint %}
