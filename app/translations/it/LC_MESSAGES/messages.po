@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-07 16:08+0000\n"
+"POT-Creation-Date: 2023-02-07 16:15+0000\n"
 "PO-Revision-Date: 2023-01-21 16:51+0000\n"
 "Last-Translator: Matthieu B <matthieu@jaseroque.com>\n"
 "Language: it\n"
@@ -357,35 +357,35 @@ msgstr ""
 msgid "Change Server Settings"
 msgstr ""
 
-#: app/templates/settings.html:23
+#: app/templates/settings.html:23 app/templates/verify_plex.html:23
 msgid "Plex Display Name"
 msgstr ""
 
-#: app/templates/settings.html:29 app/templates/verify_plex.html:30
+#: app/templates/settings.html:29 app/templates/verify_plex.html:29
 msgid "Plex URL"
 msgstr ""
 
-#: app/templates/settings.html:35
+#: app/templates/settings.html:35 app/templates/verify_plex.html:36
 msgid "Plex Token"
 msgstr ""
 
-#: app/templates/settings.html:44
+#: app/templates/settings.html:44 app/templates/verify_plex.html:42
 msgid "Plex Libraries"
 msgstr ""
 
-#: app/templates/settings.html:46 app/templates/verify_plex.html:47
+#: app/templates/settings.html:46 app/templates/verify_plex.html:44
 msgid "Scan For Libraries"
 msgstr ""
 
-#: app/templates/settings.html:53
+#: app/templates/settings.html:53 app/templates/verify_plex.html:50
 msgid "Request instance (Ombi, Overseerr...)"
 msgstr ""
 
-#: app/templates/settings.html:59
+#: app/templates/settings.html:59 app/templates/verify_plex.html:56
 msgid "Discord Server ID"
 msgstr ""
 
-#: app/templates/settings.html:65 app/templates/verify_plex.html:68
+#: app/templates/settings.html:65 app/templates/verify_plex.html:63
 msgid "Verify and Confirm"
 msgstr ""
 
@@ -577,36 +577,6 @@ msgid ""
 "YouTube. This way you can get the best streaming experience possible."
 msgstr ""
 
-#: app/templates/verify_plex.html:23
-msgid ""
-"Plex Display\n"
-"              Name"
-msgstr ""
-
-#: app/templates/verify_plex.html:37
-msgid ""
-"Plex\n"
-"              Token"
-msgstr ""
-
-#: app/templates/verify_plex.html:44
-msgid ""
-"Plex\n"
-"              Libraries"
-msgstr ""
-
-#: app/templates/verify_plex.html:53
-msgid ""
-"Request\n"
-"              instance (Ombi, Overseerr...)"
-msgstr ""
-
-#: app/templates/verify_plex.html:60
-msgid ""
-"Discord\n"
-"              Server ID"
-msgstr ""
-
 #: app/templates/welcome.html:12
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
@@ -625,4 +595,29 @@ msgstr ""
 #: app/templates/welcome.html:22
 msgid "I have a Plex Account"
 msgstr ""
+
+#~ msgid ""
+#~ "Plex Display\n"
+#~ "              Name"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Plex\n"
+#~ "              Token"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Plex\n"
+#~ "              Libraries"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Request\n"
+#~ "              instance (Ombi, Overseerr...)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Discord\n"
+#~ "              Server ID"
+#~ msgstr ""
 
