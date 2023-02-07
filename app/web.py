@@ -172,12 +172,20 @@ def plex_requests():
     if Settings.get_or_none(Settings.key == "overseerr_url"):
         return render_template("requests.html", overseerr_url=Settings.get(Settings.key == "overseerr_url").value)
     else:
-        return redirect("/setup/tips")
+        return redirect("/setup/discord")
 
+
+@app.route('/setup/discord', methods=["GET"])
+def plex_discord():
+    if Settings.get_or_none(Settings.key == "discord_id"):
+        return render_template("discord.html", discord_id=Settings.get(Settings.key == "discord_id").value)
+    else:
+        return redirect("/setup/tips")
 
 @app.route('/setup/tips')
 def tips():
     return render_template("tips.html")
+
 
 @app.errorhandler(500)
 def server_error(e):
