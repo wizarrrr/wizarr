@@ -39,11 +39,11 @@ Then, start all services defined in the Compose file:
 
 Pull the latest image:
 
-`docker compose pull wizarr` **or** `docker-compose pull wizarr`
+`docker compose pull wizarr` or `docker-compose pull wizarr`
 
 Then, restart all services defined in the Compose file:
 
-`docker compose up -d` **or** `docker-compose up -d`
+`docker compose up -d` or `docker-compose up -d`
 {% endtab %}
 
 {% tab title="Docker CLI" %}
