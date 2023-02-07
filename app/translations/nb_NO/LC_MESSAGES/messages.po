@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-07 12:43+0000\n"
+"POT-Creation-Date: 2023-02-07 13:22+0000\n"
 "PO-Revision-Date: 2023-01-24 14:47+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language: nb_NO\n"
@@ -31,19 +31,19 @@ msgstr "Brukernavn må være mellom 3 og 15 tegn."
 msgid "Password must be between 3 and 40 characters."
 msgstr "Passord må være mellom 3 og 40 tegn."
 
-#: app/admin.py:78 app/admin.py:126
+#: app/admin.py:78 app/admin.py:132
 msgid "You must select at least one library."
 msgstr "Du må velge minst ett bibliotek."
 
-#: app/admin.py:137
+#: app/admin.py:143
 msgid "It is likely that your token does not work."
 msgstr "Det er sannsynlig at symbolet ditt ikke virker."
 
-#: app/admin.py:139
+#: app/admin.py:145
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr "Kunne ikke koble til din Plex-tjener. Sjekk loggføringen for mer info."
 
-#: app/admin.py:203 app/admin.py:206
+#: app/admin.py:214 app/admin.py:217
 msgid "Invalid Username or Password"
 msgstr "Ugyldig brukernavn eller passord"
 
@@ -112,10 +112,20 @@ msgstr ""
 msgid "Accept"
 msgstr "Godta"
 
-#: app/templates/accept.html:31 app/templates/requests.html:71
-#: app/templates/wizard/accept.html:23
+#: app/templates/accept.html:31 app/templates/discord.html:29
+#: app/templates/requests.html:71 app/templates/wizard/accept.html:23
 msgid "Next"
 msgstr "Neste"
+
+#: app/templates/discord.html:4
+msgid "Join our Discord Server"
+msgstr ""
+
+#: app/templates/discord.html:11
+msgid ""
+"Join Our Discord\n"
+"                Server!"
+msgstr ""
 
 #: app/templates/invite.html:4
 msgid "Invite User"
@@ -344,31 +354,35 @@ msgstr "Sjekk det ut"
 msgid "Change Server Settings"
 msgstr "Endre tjenerinnstillinger"
 
-#: app/templates/settings.html:23 app/templates/verify_plex.html:23
+#: app/templates/settings.html:23
 msgid "Plex Display Name"
 msgstr "Plex-visningsnavn"
 
-#: app/templates/settings.html:29 app/templates/verify_plex.html:29
+#: app/templates/settings.html:29 app/templates/verify_plex.html:30
 msgid "Plex URL"
 msgstr "Plex-nettadresse"
 
-#: app/templates/settings.html:35 app/templates/verify_plex.html:35
+#: app/templates/settings.html:35
 msgid "Plex Token"
 msgstr "Plex-symbol"
 
-#: app/templates/settings.html:44 app/templates/verify_plex.html:41
+#: app/templates/settings.html:44
 msgid "Plex Libraries"
 msgstr "Plex-bibliotek"
 
-#: app/templates/settings.html:46 app/templates/verify_plex.html:43
+#: app/templates/settings.html:46 app/templates/verify_plex.html:47
 msgid "Scan For Libraries"
 msgstr "Se etter bibliotek"
 
-#: app/templates/settings.html:53 app/templates/verify_plex.html:49
+#: app/templates/settings.html:53
 msgid "Request instance (Ombi, Overseerr...)"
 msgstr "Forespørselsinstans (Ombi, Overseerr …)"
 
-#: app/templates/settings.html:63 app/templates/verify_plex.html:55
+#: app/templates/settings.html:59
+msgid "Discord Server ID"
+msgstr ""
+
+#: app/templates/settings.html:65 app/templates/verify_plex.html:68
 msgid "Verify and Confirm"
 msgstr "Gjennomse og bekreft"
 
@@ -581,6 +595,37 @@ msgid ""
 msgstr ""
 "Hvis du ikke kan spille av kontinuerlig kan du justere ned kvaliteten "
 "igjen."
+
+#: app/templates/verify_plex.html:23
+msgid ""
+"Plex Display\n"
+"              Name"
+msgstr ""
+
+#: app/templates/verify_plex.html:37
+msgid ""
+"Plex\n"
+"              Token"
+msgstr ""
+
+#: app/templates/verify_plex.html:44
+msgid ""
+"Plex\n"
+"              Libraries"
+msgstr ""
+
+#: app/templates/verify_plex.html:53
+#, fuzzy
+msgid ""
+"Request\n"
+"              instance (Ombi, Overseerr...)"
+msgstr "Forespørselsinstans (Ombi, Overseerr …)"
+
+#: app/templates/verify_plex.html:60
+msgid ""
+"Discord\n"
+"              Server ID"
+msgstr ""
 
 #: app/templates/welcome.html:12
 #, python-format

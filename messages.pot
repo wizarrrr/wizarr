@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-07 12:43+0000\n"
+"POT-Creation-Date: 2023-02-07 13:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,19 +29,19 @@ msgstr ""
 msgid "Password must be between 3 and 40 characters."
 msgstr ""
 
-#: app/admin.py:78 app/admin.py:126
+#: app/admin.py:78 app/admin.py:132
 msgid "You must select at least one library."
 msgstr ""
 
-#: app/admin.py:137
+#: app/admin.py:143
 msgid "It is likely that your token does not work."
 msgstr ""
 
-#: app/admin.py:139
+#: app/admin.py:145
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
 
-#: app/admin.py:203 app/admin.py:206
+#: app/admin.py:214 app/admin.py:217
 msgid "Invalid Username or Password"
 msgstr ""
 
@@ -107,9 +107,19 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
-#: app/templates/accept.html:31 app/templates/requests.html:71
-#: app/templates/wizard/accept.html:23
+#: app/templates/accept.html:31 app/templates/discord.html:29
+#: app/templates/requests.html:71 app/templates/wizard/accept.html:23
 msgid "Next"
+msgstr ""
+
+#: app/templates/discord.html:4
+msgid "Join our Discord Server"
+msgstr ""
+
+#: app/templates/discord.html:11
+msgid ""
+"Join Our Discord\n"
+"                Server!"
 msgstr ""
 
 #: app/templates/invite.html:4
@@ -335,31 +345,35 @@ msgstr ""
 msgid "Change Server Settings"
 msgstr ""
 
-#: app/templates/settings.html:23 app/templates/verify_plex.html:23
+#: app/templates/settings.html:23
 msgid "Plex Display Name"
 msgstr ""
 
-#: app/templates/settings.html:29 app/templates/verify_plex.html:29
+#: app/templates/settings.html:29 app/templates/verify_plex.html:30
 msgid "Plex URL"
 msgstr ""
 
-#: app/templates/settings.html:35 app/templates/verify_plex.html:35
+#: app/templates/settings.html:35
 msgid "Plex Token"
 msgstr ""
 
-#: app/templates/settings.html:44 app/templates/verify_plex.html:41
+#: app/templates/settings.html:44
 msgid "Plex Libraries"
 msgstr ""
 
-#: app/templates/settings.html:46 app/templates/verify_plex.html:43
+#: app/templates/settings.html:46 app/templates/verify_plex.html:47
 msgid "Scan For Libraries"
 msgstr ""
 
-#: app/templates/settings.html:53 app/templates/verify_plex.html:49
+#: app/templates/settings.html:53
 msgid "Request instance (Ombi, Overseerr...)"
 msgstr ""
 
-#: app/templates/settings.html:63 app/templates/verify_plex.html:55
+#: app/templates/settings.html:59
+msgid "Discord Server ID"
+msgstr ""
+
+#: app/templates/settings.html:65 app/templates/verify_plex.html:68
 msgid "Verify and Confirm"
 msgstr ""
 
@@ -546,6 +560,36 @@ msgid ""
 "And there you have it! In case you encounter buffering issues, remember "
 "that you can always adjust the playback quality just like you do in "
 "YouTube. This way you can get the best streaming experience possible."
+msgstr ""
+
+#: app/templates/verify_plex.html:23
+msgid ""
+"Plex Display\n"
+"              Name"
+msgstr ""
+
+#: app/templates/verify_plex.html:37
+msgid ""
+"Plex\n"
+"              Token"
+msgstr ""
+
+#: app/templates/verify_plex.html:44
+msgid ""
+"Plex\n"
+"              Libraries"
+msgstr ""
+
+#: app/templates/verify_plex.html:53
+msgid ""
+"Request\n"
+"              instance (Ombi, Overseerr...)"
+msgstr ""
+
+#: app/templates/verify_plex.html:60
+msgid ""
+"Discord\n"
+"              Server ID"
 msgstr ""
 
 #: app/templates/welcome.html:12
