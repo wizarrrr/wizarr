@@ -18,3 +18,4 @@
 ## Contribute
 
 * [Translate](contribute/translate.md)
+* [Development](contribute/development.md)
