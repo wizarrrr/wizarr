@@ -42,13 +42,6 @@ A big thank you ❤️ to these amazing people for contributing to this projet!
   <img src="https://contrib.rocks/image?repo=wizarrrr/wizarr" />
 </a>
 
-
-## License
-
-Wizarr is provided under the 'MIT' license, see [here](./LICENSE.md)
-
-The Translations however are provided under a MIT license.
-
 ## Screenshots
 
 *These may be out of date*
