@@ -129,8 +129,8 @@ def secure_settings():
         libraries = ', '.join(libraries)
 
         if not libraries:
-            return render_template("settings.html", error=_("You must select at least one library."))
-        
+            libraries = Settings.get(Settings.key == "plex_libraries").value
+
         if request.form.get("discord_id"):
             discord_id = request.form.get("discord_id")
         if request.form.get("overseerr_url"):
