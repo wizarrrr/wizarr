@@ -23,12 +23,12 @@ VERSION = "1.1.0"
 
 
 def get_locale():
-    if request.args.get('lang'):
+     if os.getenv("FORCE_LANGUAGE"):
+        return os.getenv("FORCE_LANGUAGE")
+     elif request.args.get('lang'):
         session['lang'] = request.args.get('lang')
         return session.get('lang', 'en')
-    elif os.getenv("FORCE_LANGUAGE"):
-        return os.getenv("FORCE_LANGUAGE")
-    else:
+     else:
         return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
 
 
