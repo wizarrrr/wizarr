@@ -7,8 +7,6 @@ from flask_babel import Babel
 import os
 from dotenv import load_dotenv
 from flask_session import Session
-import sentry_sdk
-from sentry_sdk.integrations.flask import FlaskIntegration
 
 load_dotenv()
 
