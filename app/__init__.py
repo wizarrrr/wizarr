@@ -33,11 +33,11 @@ def get_locale():
 # Translation stuff
 base_dir = os.path.abspath(os.path.dirname(__file__))
 app.config["LANGUAGES"] = {'en': 'english',
-                           #'de': 'german',
+                           'de': 'german',
                            'fr': 'french',
-                           #'es': 'spanish',
-                           #'sv': 'swedish',
-                           #'nb_NO': 'norwegian'
+                           'es': 'spanish',
+                           'sv': 'swedish',
+                           'nb_NO': 'norwegian'
                            }
 app.config["BABEL_DEFAULT_LOCALE"] = "en"
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = ('./translations')
