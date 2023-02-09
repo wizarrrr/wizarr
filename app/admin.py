@@ -79,7 +79,7 @@ def preferences():
 
             if request.form.get("discord_id"):
                 discord_id = request.form.get("discord_id")
-            if request.forn.get("overseerr_url"):
+            if request.form.get("overseerr_url"):
                 overseerr_url = request.form.get("overseerr_url")
 
             Settings.create(key="plex_name", value=name)
