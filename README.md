@@ -37,7 +37,7 @@ We use Weblate to translate Wizarr, help us out by clicking [here](https://hoste
 
 ## Thank you
 
-A big thank you ❤️ to these amazing people for contributing to this projet!
+A big thank you ❤️ to these amazing people for contributing to this project!
 <a href="https://github.com/wizarrrr/wizarr/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=wizarrrr/wizarr" />
 </a>

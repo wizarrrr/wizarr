@@ -55,7 +55,7 @@ Then, restart all services defined in the Compose file:
   -e DISABLE_BUILTIN_AUTH=false \
   -e TZ=Europe/London \
   -p 5690:5690 \
-  -v /path/to/appdata/config:/app/config \
+  -v /path/to/appdata/config:/data/database \
   --restart unless-stopped \
   ghcr.io/wizarrrr/wizarr
 </code></pre>
