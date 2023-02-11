@@ -64,9 +64,12 @@ def preferences():
             name = request.form.get("name")
             plex_url = request.form.get("plex_url")
             plex_token = request.form.get("plex_token")
+            overseerr_url = None
+            discord_id = None
 
             # Getting Libraries Properly
             libraries = []
+            
             library_count = int(request.form.get("library_count"))
             for library in range(library_count+1):
 
@@ -117,6 +120,8 @@ def secure_settings():
         name = request.form.get("name")
         plex_url = request.form.get("plex_url")
         plex_token = request.form.get("plex_token")
+        discord_id = None
+        overseerr_url = None
 
         # Getting Libraries Properly
         libraries = []
@@ -155,12 +160,12 @@ def secure_settings():
         if overseerr_url:
             Settings.delete().where(Settings.key == "overseerr_url").execute()
             Settings.create(key="overseerr_url", value=overseerr_url)
-        elif not overseerr_url:
+        if not overseerr_url:
             Settings.delete().where(Settings.key == "overseerr_url").execute()
         if discord_id:
             Settings.delete().where(Settings.key == "discord_id").execute()
             Settings.create(key="discord_id", value=discord_id)
-        elif not discord_id:
+        if not discord_id:
             Settings.delete().where(Settings.key == "discord_id").execute()
         return redirect("/")
 
