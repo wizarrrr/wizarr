@@ -17,7 +17,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = "./database/sessions"
 Session(app)
 
-VERSION = "1.3.0"
+VERSION = "1.3.1"
 
 
 def get_locale():
