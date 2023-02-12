@@ -231,7 +231,7 @@ def invites():
         if invite.expires and datetime.datetime.strptime(invite.expires, format) <= datetime.datetime.now():
            invite.expired = True
         else:
-            invite.expired = False
+           invite.expired = False
     return render_template("invites.html", invitations=invitations, rightnow=datetime.datetime.now())
 
 
