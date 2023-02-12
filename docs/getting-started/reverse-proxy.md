@@ -1,23 +1,10 @@
 # Reverse Proxy
 
-{% hint style="warning" %}
-Base URLs cannot be configured in wizarr. With this limitation, only subdomain configurations are supported.
-
-A Nginx subfolder workaround configuration is provided below, but it is not officially supported.
-{% endhint %}
-
 ## Nginx
 
 {% tabs %}
 {% tab title="SWAG" %}
-
-A sample proxy configuration is included in [SWAG (Secure Web Application Gateway)](https://github.com/linuxserver/docker-swag).
-
-However, this page is still the only source of truth, so the SWAG sample configuration is not guaranteed to be up-to-date. If you find an inconsistency, please [report it to the LinuxServer team](https://github.com/linuxserver/reverse-proxy-confs/issues/new) or [submit a pull request to update it](https://github.com/linuxserver/reverse-proxy-confs/pulls).
-
-To use the bundled configuration file, simply rename `wizarr.subdomain.conf.sample` in the `proxy-confs` folder to `wizarr.subdomain.conf`.
-
-Alternatively, you can create a new file `wizarr.subdomain.conf` in `proxy-confs` with the following configuration:
+Create a new file `wizarr.subdomain.conf` in `proxy-confs` with the following configuration:
 
 ```nginx
 server {
@@ -41,32 +28,28 @@ server {
 
 }
 ```
-
 {% endtab %}
 
 {% tab title="Nginx Proxy Manager" %}
-
 Add a new proxy host with the following settings:
 
-### Details
+#### Details
 
-- **Domain Names:** Your desired external wizarr hostname; e.g., `wizarr.example.com`
-- **Scheme:** `http`
-- **Forward Hostname / IP:** Internal wizarr hostname or IP
-- **Forward Port:** `5690`
-- **Cache Assets:** yes
-- **Block Common Exploits:** yes
+* **Domain Names:** Your desired external wizarr hostname; e.g., `wizarr.example.com`
+* **Scheme:** `http`
+* **Forward Hostname / IP:** Internal wizarr hostname or IP
+* **Forward Port:** `5690`
+* **Cache Assets:** yes
+* **Block Common Exploits:** yes
 
-### SSL
+#### SSL
 
-- **SSL Certificate:** Select one of the options; if you are not sure, pick “Request a new SSL Certificate”
-- **Force SSL:** yes
-- **HTTP/2 Support:** yes
-
+* **SSL Certificate:** Select one of the options; if you are not sure, pick “Request a new SSL Certificate”
+* **Force SSL:** yes
+* **HTTP/2 Support:** yes
 {% endtab %}
 
 {% tab title="Subdomain" %}
-
 Add the following configuration to a new file `/etc/nginx/sites-available/wizarr.example.com.conf`:
 
 ```nginx
@@ -105,52 +88,6 @@ Then, create a symlink to `/etc/nginx/sites-enabled`:
 ```bash
 sudo ln -s /etc/nginx/sites-available/wizarr.example.com.conf /etc/nginx/sites-enabled/wizarr.example.com.conf
 ```
-
-{% endtab %}
-
-{% tab title="Subfolder" %}
-
-{% hint style="warning" %}
-This Nginx subfolder reverse proxy is an unsupported workaround, and only provided as an example. The filters may stop working when wizarr is updated.
-
-If you encounter any issues with wizarr while using this workaround, we may ask you to try to reproduce the problem without the Nginx proxy.
-{% endhint %}
-
-Add the following location block to your existing `nginx.conf` file.
-
-```nginx
-location ^~ /wizarr {
-    set $app 'wizarr';
-
-    # Remove /wizarr path to pass to the app
-    rewrite ^/wizarr/?(.*)$ /$1 break;
-    proxy_pass http://127.0.0.1:5690; # NO TRAILING SLASH
-
-    # Redirect location headers
-    proxy_redirect ^ /$app;
-    proxy_redirect /setup /$app/setup;
-    proxy_redirect /login /$app/login;
-
-    # Sub filters to replace hardcoded paths
-    proxy_set_header Accept-Encoding "";
-    sub_filter_once off;
-    sub_filter_types *;
-    sub_filter 'href="/"' 'href="/$app"';
-    sub_filter 'href="/login"' 'href="/$app/login"';
-    sub_filter 'href:"/"' 'href:"/$app"';
-    sub_filter '\/_next' '\/$app\/_next';
-    sub_filter '/_next' '/$app/_next';
-    sub_filter '/api/v1' '/$app/api/v1';
-    sub_filter '/login/plex/loading' '/$app/login/plex/loading';
-    sub_filter '/images/' '/$app/images/';
-    sub_filter '/android-' '/$app/android-';
-    sub_filter '/apple-' '/$app/apple-';
-    sub_filter '/favicon' '/$app/favicon';
-    sub_filter '/logo_' '/$app/logo_';
-    sub_filter '/site.webmanifest' '/$app/site.webmanifest';
-}
-```
-
 {% endtab %}
 {% endtabs %}
 
@@ -158,7 +95,7 @@ location ^~ /wizarr {
 
 Add the following labels to the wizarr service in your `docker-compose.yml` file:
 
-```text
+```
 labels:
   - "traefik.enable=true"
   ## HTTP Routers
