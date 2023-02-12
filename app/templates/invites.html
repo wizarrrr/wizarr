@@ -46,12 +46,17 @@
                             <span class="inline-block py-1 px-2 text-white bg-orange-500 rounded-full">Expired</span>
                         </td>
                         {% endif %}
-                        {% if not invite.expired %}
+                        {% if not invite.expired and invite.expires %}
                         <td>
-                            <span class="inline-block py-1 px-2 text-white bg-green-500 rounded-full">{{ invite.expires
-                                }}</span>
+                            <span class="inline-block py-1 px-2 text-white bg-green-500 rounded-full">{{ invite.expires }}</span>
                         </td>
                         {% endif %}
+                        {% if not invite.expires %}
+                        <td>
+                            <span class="inline-block py-1 px-2 text-white bg-green-500 rounded-full">Never</span>
+                        </td>
+                        {% endif %}
+
                         {% if invite.unlimited %}
                         <td>
                             <a class="inline-block mr-2" href="#">
@@ -91,9 +96,9 @@
                     </tr>
                     {% endfor %}
                 </tbody>
-                
+
             </table>
-            
+
         </div>
         {% if not invitations %}
         <p class="text-center">There are currently no invitations.</p>
