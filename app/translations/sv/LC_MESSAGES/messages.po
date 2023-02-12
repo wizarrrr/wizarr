@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-12 15:57+0000\n"
+"POT-Creation-Date: 2023-02-12 17:57+0000\n"
 "PO-Revision-Date: 2023-02-02 13:32+0000\n"
 "Last-Translator: thu3n <elias.thuen@gmail.com>\n"
 "Language: sv\n"
@@ -19,31 +19,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: app/admin.py:46
+#: app/admin.py:47
 msgid "Passwords do not match."
 msgstr "Lösenorden matchar inte."
 
-#: app/admin.py:49
+#: app/admin.py:50
 msgid "Username must be between 3 and 15 characters."
 msgstr "Användarnamnet måste vara mellan 3 och 15 tecken."
 
-#: app/admin.py:52
+#: app/admin.py:53
 msgid "Password must be between 3 and 40 characters."
 msgstr "Lösenordet måste vara mellan 3 och 40 tecken."
 
-#: app/admin.py:81
+#: app/admin.py:82
 msgid "You must select at least one library."
 msgstr "Du måste välja minst ett bibliotek."
 
-#: app/admin.py:148
+#: app/admin.py:149
 msgid "It is likely that your token does not work."
 msgstr "Det verkar som att ditt Plex-token inte fungerar."
 
-#: app/admin.py:150
+#: app/admin.py:151
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr "Kan inte ansluta till din Plex-server. Se loggarna för mer information."
 
-#: app/admin.py:219 app/admin.py:222
+#: app/admin.py:220 app/admin.py:223
 msgid "Invalid Username or Password"
 msgstr "Felaktigt användarnamn eller lösenord"
 
@@ -116,6 +116,20 @@ msgstr "Acceptera"
 msgid "Next"
 msgstr "Nästa"
 
+#: app/templates/admin-nav.html:13
+msgid "Home"
+msgstr ""
+
+#: app/templates/admin-nav.html:16
+#, fuzzy
+msgid "Invitations"
+msgstr "Skapa inbjudan"
+
+#: app/templates/admin-nav.html:19
+#, fuzzy
+msgid "Settings"
+msgstr "inställningar."
+
 #: app/templates/discord.html:4
 msgid "Join our Discord Server"
 msgstr "Gå med i vår Discord Server"
@@ -128,23 +142,28 @@ msgstr ""
 "Gå med i vår Discord\n"
 "                Server!"
 
-#: app/templates/invite.html:4
+#: app/templates/invite.html:5 app/templates/invites.html:5
 msgid "Invite User"
 msgstr "Bjud in användare"
 
-#: app/templates/invite.html:17 app/templates/invite.html:29
+#: app/templates/invite.html:36 app/templates/invite.html:58
+#: app/templates/invite.html:70
 msgid "Attention!"
 msgstr "Observera!"
 
-#: app/templates/invite.html:17
+#: app/templates/invite.html:37 app/templates/invite.html:58
 msgid "Update available. Click here."
 msgstr "Uppdatering tillgänglig. Klicka här."
 
-#: app/templates/invite.html:23
+#: app/templates/invite.html:53
+msgid "Quick Invite"
+msgstr ""
+
+#: app/templates/invite.html:64
 msgid "Invite user"
 msgstr "Bjud in användare"
 
-#: app/templates/invite.html:29
+#: app/templates/invite.html:70
 msgid ""
 "Environment Variables are being deprecated and replaced by a secure sign-"
 "up. Please visit "
@@ -152,106 +171,86 @@ msgstr ""
 "Miljövariabler fasas ut och ersätts av en säker registrering. Vänligen "
 "besök "
 
-#: app/templates/invite.html:30
+#: app/templates/invite.html:71
 msgid "/settings. See Repo for more info"
 msgstr "/settings. Se källkodsförvaringen för mer information"
 
-#: app/templates/invite.html:37
+#: app/templates/invite.html:78
 msgid "Invite Code String"
 msgstr "Inbjudningskod"
 
-#: app/templates/invite.html:38
+#: app/templates/invite.html:79
 msgid "(optional)"
 msgstr "(valfritt)"
 
-#: app/templates/invite.html:45
+#: app/templates/invite.html:86
 msgid "Expiration"
 msgstr "Löper ut"
 
-#: app/templates/invite.html:48
+#: app/templates/invite.html:89
 msgid "1 day"
 msgstr "1 dag"
 
-#: app/templates/invite.html:49
+#: app/templates/invite.html:90
 msgid "1 week"
 msgstr "1 vecka"
 
-#: app/templates/invite.html:50
+#: app/templates/invite.html:91
 msgid "1 month"
 msgstr "1 månad"
 
-#: app/templates/invite.html:51 app/templates/invite.html:168
+#: app/templates/invite.html:92 app/templates/users.html:72
 msgid "Never"
 msgstr "Aldrig"
 
-#: app/templates/invite.html:58
+#: app/templates/invite.html:99
 msgid "Unlimited Usages"
 msgstr "Obegränsad användning"
 
-#: app/templates/invite.html:61
+#: app/templates/invite.html:102
 msgid "Create Invitation"
 msgstr "Skapa inbjudan"
 
-#: app/templates/invite.html:75
-msgid "Server Settings"
-msgstr "Serverinställningar"
-
-#: app/templates/invite.html:83
+#: app/templates/invite.html:108
 msgid "Successfully generated an Invitation!"
 msgstr "Skapandet av en inbjudan lyckades!"
 
-#: app/templates/invite.html:88
+#: app/templates/invite.html:113
 msgid "Great!"
 msgstr "Bra!"
 
-#: app/templates/invite.html:88
+#: app/templates/invite.html:113
 msgid "Link has been copied to clipboard!"
 msgstr "Länken har kopierats till urklipp!"
 
-#: app/templates/invite.html:96
+#: app/templates/invite.html:121
 msgid "Back"
 msgstr "Tillbaka"
 
-#: app/templates/invite.html:101
+#: app/templates/invite.html:126
 msgid "Share"
 msgstr "Dela"
 
-#: app/templates/invite.html:117 app/templates/join.html:42
-#: app/templates/join.html:51
+#: app/templates/invites.html:21 app/templates/join.html:42
+#: app/templates/join.html:51 app/templates/users.html:21
 msgid "Invite Code"
 msgstr "Inbjudningskod"
 
-#: app/templates/invite.html:120
+#: app/templates/invites.html:22 app/templates/users.html:24
 msgid "Used"
 msgstr "Förbrukad"
 
-#: app/templates/invite.html:123
-msgid "Used At"
-msgstr "Använd vid"
-
-#: app/templates/invite.html:126
+#: app/templates/invites.html:23 app/templates/users.html:30
 msgid "Created"
 msgstr "Skapade"
 
-#: app/templates/invite.html:129
-msgid "User"
-msgstr "Användare"
-
-#: app/templates/invite.html:132
+#: app/templates/invites.html:24 app/templates/users.html:36
 msgid "Expires"
 msgstr "Löper ut"
 
-#: app/templates/invite.html:135
+#: app/templates/invites.html:25 app/templates/users.html:39
 msgid "Unlimited"
 msgstr "Obegränsad"
-
-#: app/templates/invite.html:172
-msgid "Copy"
-msgstr "Kopiera"
-
-#: app/templates/invite.html:174
-msgid "Delete"
-msgstr "Ta bort"
 
 #: app/templates/join.html:12
 msgid "Great! Now, let's get you invited!"
@@ -355,39 +354,39 @@ msgstr "*Beroende på tillgänglighet"
 msgid "Check it Out"
 msgstr "Kolla in"
 
-#: app/templates/settings.html:18
+#: app/templates/settings.html:20
 msgid "Change Server Settings"
 msgstr "Ändra serverinställningar"
 
-#: app/templates/settings.html:23 app/templates/verify_plex.html:23
+#: app/templates/settings.html:25 app/templates/verify_plex.html:23
 msgid "Plex Display Name"
 msgstr "Plex visningsnamn"
 
-#: app/templates/settings.html:29 app/templates/verify_plex.html:29
+#: app/templates/settings.html:31 app/templates/verify_plex.html:29
 msgid "Plex URL"
 msgstr "Plex URL"
 
-#: app/templates/settings.html:35 app/templates/verify_plex.html:36
+#: app/templates/settings.html:37 app/templates/verify_plex.html:36
 msgid "Plex Token"
 msgstr "Plex Token"
 
-#: app/templates/settings.html:44 app/templates/verify_plex.html:42
+#: app/templates/settings.html:46 app/templates/verify_plex.html:42
 msgid "Plex Libraries"
 msgstr "Plex bibliotek"
 
-#: app/templates/settings.html:46 app/templates/verify_plex.html:44
+#: app/templates/settings.html:48 app/templates/verify_plex.html:44
 msgid "Scan For Libraries"
 msgstr "Skanna för bibliotek"
 
-#: app/templates/settings.html:53 app/templates/verify_plex.html:50
+#: app/templates/settings.html:55 app/templates/verify_plex.html:50
 msgid "Request instance (Ombi, Overseerr...)"
 msgstr "Föfrågningssida (Ombi, Overseerr...)"
 
-#: app/templates/settings.html:59 app/templates/verify_plex.html:56
+#: app/templates/settings.html:61 app/templates/verify_plex.html:56
 msgid "Discord Server ID"
 msgstr "Discord Server ID"
 
-#: app/templates/settings.html:65 app/templates/verify_plex.html:63
+#: app/templates/settings.html:67 app/templates/verify_plex.html:63
 msgid "Verify and Confirm"
 msgstr "Verifiera och bekräfta"
 
@@ -603,6 +602,27 @@ msgstr ""
 "kvalité precis som du gör på Youtube. På de sättet får du bästa möjliga "
 "upplevelse."
 
+#: app/templates/users.html:5
+#, fuzzy
+msgid "Users"
+msgstr "Användare"
+
+#: app/templates/users.html:27
+msgid "Used At"
+msgstr "Använd vid"
+
+#: app/templates/users.html:33
+msgid "User"
+msgstr "Användare"
+
+#: app/templates/users.html:76
+msgid "Copy"
+msgstr "Kopiera"
+
+#: app/templates/users.html:78
+msgid "Delete"
+msgstr "Ta bort"
+
 #: app/templates/welcome.html:12
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
@@ -628,4 +648,7 @@ msgstr "Jag har redan ett Plex konto"
 #~ "Request\n"
 #~ "              instance (Ombi, Overseerr...)"
 #~ msgstr "Föfrågningssida (Ombi, Overseerr...)"
+
+#~ msgid "Server Settings"
+#~ msgstr "Serverinställningar"
 
