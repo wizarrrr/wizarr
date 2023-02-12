@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-12 15:57+0000\n"
+"POT-Creation-Date: 2023-02-12 17:57+0000\n"
 "PO-Revision-Date: 2023-01-24 14:47+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language: nb_NO\n"
@@ -19,31 +19,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: app/admin.py:46
+#: app/admin.py:47
 msgid "Passwords do not match."
 msgstr "Passordene samsvarer ikke."
 
-#: app/admin.py:49
+#: app/admin.py:50
 msgid "Username must be between 3 and 15 characters."
 msgstr "Brukernavn må være mellom 3 og 15 tegn."
 
-#: app/admin.py:52
+#: app/admin.py:53
 msgid "Password must be between 3 and 40 characters."
 msgstr "Passord må være mellom 3 og 40 tegn."
 
-#: app/admin.py:81
+#: app/admin.py:82
 msgid "You must select at least one library."
 msgstr "Du må velge minst ett bibliotek."
 
-#: app/admin.py:148
+#: app/admin.py:149
 msgid "It is likely that your token does not work."
 msgstr "Det er sannsynlig at symbolet ditt ikke virker."
 
-#: app/admin.py:150
+#: app/admin.py:151
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr "Kunne ikke koble til din Plex-tjener. Sjekk loggføringen for mer info."
 
-#: app/admin.py:219 app/admin.py:222
+#: app/admin.py:220 app/admin.py:223
 msgid "Invalid Username or Password"
 msgstr "Ugyldig brukernavn eller passord"
 
@@ -117,6 +117,20 @@ msgstr "Godta"
 msgid "Next"
 msgstr "Neste"
 
+#: app/templates/admin-nav.html:13
+msgid "Home"
+msgstr ""
+
+#: app/templates/admin-nav.html:16
+#, fuzzy
+msgid "Invitations"
+msgstr "Opprett invitasjon"
+
+#: app/templates/admin-nav.html:19
+#, fuzzy
+msgid "Settings"
+msgstr "-innstillingene."
+
 #: app/templates/discord.html:4
 msgid "Join our Discord Server"
 msgstr ""
@@ -127,128 +141,113 @@ msgid ""
 "                Server!"
 msgstr ""
 
-#: app/templates/invite.html:4
+#: app/templates/invite.html:5 app/templates/invites.html:5
 msgid "Invite User"
 msgstr "Inviter bruker"
 
-#: app/templates/invite.html:17 app/templates/invite.html:29
+#: app/templates/invite.html:36 app/templates/invite.html:58
+#: app/templates/invite.html:70
 msgid "Attention!"
 msgstr "Merk."
 
-#: app/templates/invite.html:17
+#: app/templates/invite.html:37 app/templates/invite.html:58
 msgid "Update available. Click here."
 msgstr "Oppdatering tilgjengelig. Klikk her."
 
-#: app/templates/invite.html:23
+#: app/templates/invite.html:53
+msgid "Quick Invite"
+msgstr ""
+
+#: app/templates/invite.html:64
 msgid "Invite user"
 msgstr "Inviter bruker"
 
-#: app/templates/invite.html:29
+#: app/templates/invite.html:70
 msgid ""
 "Environment Variables are being deprecated and replaced by a secure sign-"
 "up. Please visit "
 msgstr "Miljøvariabler er foreldet og erstattet av sikker innlogging. Besøk "
 
-#: app/templates/invite.html:30
+#: app/templates/invite.html:71
 msgid "/settings. See Repo for more info"
 msgstr "/settings. Sjekk kodelageret for mer info"
 
-#: app/templates/invite.html:37
+#: app/templates/invite.html:78
 msgid "Invite Code String"
 msgstr "Invitasjonskodestreng"
 
-#: app/templates/invite.html:38
+#: app/templates/invite.html:79
 msgid "(optional)"
 msgstr "(valgfritt)"
 
-#: app/templates/invite.html:45
+#: app/templates/invite.html:86
 msgid "Expiration"
 msgstr "Utløp"
 
-#: app/templates/invite.html:48
+#: app/templates/invite.html:89
 msgid "1 day"
 msgstr "1 dag"
 
-#: app/templates/invite.html:49
+#: app/templates/invite.html:90
 msgid "1 week"
 msgstr "1 uke"
 
-#: app/templates/invite.html:50
+#: app/templates/invite.html:91
 msgid "1 month"
 msgstr "1 måned"
 
-#: app/templates/invite.html:51 app/templates/invite.html:168
+#: app/templates/invite.html:92 app/templates/users.html:72
 msgid "Never"
 msgstr "Aldri"
 
-#: app/templates/invite.html:58
+#: app/templates/invite.html:99
 msgid "Unlimited Usages"
 msgstr "Ubegrenset bruk"
 
-#: app/templates/invite.html:61
+#: app/templates/invite.html:102
 msgid "Create Invitation"
 msgstr "Opprett invitasjon"
 
-#: app/templates/invite.html:75
-msgid "Server Settings"
-msgstr "Tjenerinnstillinger"
-
-#: app/templates/invite.html:83
+#: app/templates/invite.html:108
 msgid "Successfully generated an Invitation!"
 msgstr "Invitasjon generert."
 
-#: app/templates/invite.html:88
+#: app/templates/invite.html:113
 msgid "Great!"
 msgstr "Storartet."
 
-#: app/templates/invite.html:88
+#: app/templates/invite.html:113
 msgid "Link has been copied to clipboard!"
 msgstr "Lenke kopiert til utklippstavlen."
 
-#: app/templates/invite.html:96
+#: app/templates/invite.html:121
 msgid "Back"
 msgstr "Tilbake"
 
-#: app/templates/invite.html:101
+#: app/templates/invite.html:126
 msgid "Share"
 msgstr "Del"
 
-#: app/templates/invite.html:117 app/templates/join.html:42
-#: app/templates/join.html:51
+#: app/templates/invites.html:21 app/templates/join.html:42
+#: app/templates/join.html:51 app/templates/users.html:21
 msgid "Invite Code"
 msgstr "Invitasjonskode"
 
-#: app/templates/invite.html:120
+#: app/templates/invites.html:22 app/templates/users.html:24
 msgid "Used"
 msgstr "Brukt"
 
-#: app/templates/invite.html:123
-msgid "Used At"
-msgstr "Brukt"
-
-#: app/templates/invite.html:126
+#: app/templates/invites.html:23 app/templates/users.html:30
 msgid "Created"
 msgstr "Opprettet"
 
-#: app/templates/invite.html:129
-msgid "User"
-msgstr "Bruker"
-
-#: app/templates/invite.html:132
+#: app/templates/invites.html:24 app/templates/users.html:36
 msgid "Expires"
 msgstr "Utløper"
 
-#: app/templates/invite.html:135
+#: app/templates/invites.html:25 app/templates/users.html:39
 msgid "Unlimited"
 msgstr "Ubegrenset"
-
-#: app/templates/invite.html:172
-msgid "Copy"
-msgstr "Kopier"
-
-#: app/templates/invite.html:174
-msgid "Delete"
-msgstr "Slett"
 
 #: app/templates/join.html:12
 msgid "Great! Now, let's get you invited!"
@@ -350,39 +349,39 @@ msgstr "*Avhengig av tilgjengelighet"
 msgid "Check it Out"
 msgstr "Sjekk det ut"
 
-#: app/templates/settings.html:18
+#: app/templates/settings.html:20
 msgid "Change Server Settings"
 msgstr "Endre tjenerinnstillinger"
 
-#: app/templates/settings.html:23 app/templates/verify_plex.html:23
+#: app/templates/settings.html:25 app/templates/verify_plex.html:23
 msgid "Plex Display Name"
 msgstr "Plex-visningsnavn"
 
-#: app/templates/settings.html:29 app/templates/verify_plex.html:29
+#: app/templates/settings.html:31 app/templates/verify_plex.html:29
 msgid "Plex URL"
 msgstr "Plex-nettadresse"
 
-#: app/templates/settings.html:35 app/templates/verify_plex.html:36
+#: app/templates/settings.html:37 app/templates/verify_plex.html:36
 msgid "Plex Token"
 msgstr "Plex-symbol"
 
-#: app/templates/settings.html:44 app/templates/verify_plex.html:42
+#: app/templates/settings.html:46 app/templates/verify_plex.html:42
 msgid "Plex Libraries"
 msgstr "Plex-bibliotek"
 
-#: app/templates/settings.html:46 app/templates/verify_plex.html:44
+#: app/templates/settings.html:48 app/templates/verify_plex.html:44
 msgid "Scan For Libraries"
 msgstr "Se etter bibliotek"
 
-#: app/templates/settings.html:53 app/templates/verify_plex.html:50
+#: app/templates/settings.html:55 app/templates/verify_plex.html:50
 msgid "Request instance (Ombi, Overseerr...)"
 msgstr "Forespørselsinstans (Ombi, Overseerr …)"
 
-#: app/templates/settings.html:59 app/templates/verify_plex.html:56
+#: app/templates/settings.html:61 app/templates/verify_plex.html:56
 msgid "Discord Server ID"
 msgstr ""
 
-#: app/templates/settings.html:65 app/templates/verify_plex.html:63
+#: app/templates/settings.html:67 app/templates/verify_plex.html:63
 msgid "Verify and Confirm"
 msgstr "Gjennomse og bekreft"
 
@@ -596,6 +595,27 @@ msgstr ""
 "Hvis du ikke kan spille av kontinuerlig kan du justere ned kvaliteten "
 "igjen."
 
+#: app/templates/users.html:5
+#, fuzzy
+msgid "Users"
+msgstr "Bruker"
+
+#: app/templates/users.html:27
+msgid "Used At"
+msgstr "Brukt"
+
+#: app/templates/users.html:33
+msgid "User"
+msgstr "Bruker"
+
+#: app/templates/users.html:76
+msgid "Copy"
+msgstr "Kopier"
+
+#: app/templates/users.html:78
+msgid "Delete"
+msgstr "Slett"
+
 #: app/templates/welcome.html:12
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
@@ -641,4 +661,7 @@ msgstr "Jeg har en Plex-konto"
 #~ "Discord\n"
 #~ "              Server ID"
 #~ msgstr ""
+
+#~ msgid "Server Settings"
+#~ msgstr "Tjenerinnstillinger"
 

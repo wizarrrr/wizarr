@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-12 15:57+0000\n"
+"POT-Creation-Date: 2023-02-12 17:57+0000\n"
 "PO-Revision-Date: 2023-01-21 16:51+0000\n"
 "Last-Translator: Matthieu B <matthieu@jaseroque.com>\n"
 "Language: it\n"
@@ -19,33 +19,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: app/admin.py:46
+#: app/admin.py:47
 msgid "Passwords do not match."
 msgstr "Le password non corrispondono."
 
-#: app/admin.py:49
+#: app/admin.py:50
 msgid "Username must be between 3 and 15 characters."
 msgstr "Il nome utente deve essere compreso tra 3 e 15 caratteri."
 
-#: app/admin.py:52
+#: app/admin.py:53
 msgid "Password must be between 3 and 40 characters."
 msgstr "La password deve essere compresa tra 3 e 40 caratteri."
 
-#: app/admin.py:81
+#: app/admin.py:82
 msgid "You must select at least one library."
 msgstr "È necessario selezionare almeno una raccolta."
 
-#: app/admin.py:148
+#: app/admin.py:149
 msgid "It is likely that your token does not work."
 msgstr "È probabile che il gettone non funzioni."
 
-#: app/admin.py:150
+#: app/admin.py:151
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
 "Impossibile connettersi al server Plex. Per ulteriori informazioni, "
 "vedere Registri."
 
-#: app/admin.py:219 app/admin.py:222
+#: app/admin.py:220 app/admin.py:223
 msgid "Invalid Username or Password"
 msgstr "Nome utente o password non validi"
 
@@ -118,6 +118,20 @@ msgstr "Accetta"
 msgid "Next"
 msgstr "Successivo"
 
+#: app/templates/admin-nav.html:13
+msgid "Home"
+msgstr ""
+
+#: app/templates/admin-nav.html:16
+#, fuzzy
+msgid "Invitations"
+msgstr "Crea un invito"
+
+#: app/templates/admin-nav.html:19
+#, fuzzy
+msgid "Settings"
+msgstr "Impostazioni del server"
+
 #: app/templates/discord.html:4
 msgid "Join our Discord Server"
 msgstr ""
@@ -128,23 +142,28 @@ msgid ""
 "                Server!"
 msgstr ""
 
-#: app/templates/invite.html:4
+#: app/templates/invite.html:5 app/templates/invites.html:5
 msgid "Invite User"
 msgstr "Invita un utente"
 
-#: app/templates/invite.html:17 app/templates/invite.html:29
+#: app/templates/invite.html:36 app/templates/invite.html:58
+#: app/templates/invite.html:70
 msgid "Attention!"
 msgstr "Attenzione!"
 
-#: app/templates/invite.html:17
+#: app/templates/invite.html:37 app/templates/invite.html:58
 msgid "Update available. Click here."
 msgstr "Aggiornamento disponibile. Clicca qui."
 
-#: app/templates/invite.html:23
+#: app/templates/invite.html:53
+msgid "Quick Invite"
+msgstr ""
+
+#: app/templates/invite.html:64
 msgid "Invite user"
 msgstr "Invita un utente"
 
-#: app/templates/invite.html:29
+#: app/templates/invite.html:70
 msgid ""
 "Environment Variables are being deprecated and replaced by a secure sign-"
 "up. Please visit "
@@ -152,106 +171,86 @@ msgstr ""
 "Le variabili d'ambiente sono state deprecate e sostituite da una "
 "registrazione sicura. Si prega di visitare "
 
-#: app/templates/invite.html:30
+#: app/templates/invite.html:71
 msgid "/settings. See Repo for more info"
 msgstr "/settings. Vedi la repository per maggiori informazioni"
 
-#: app/templates/invite.html:37
+#: app/templates/invite.html:78
 msgid "Invite Code String"
 msgstr "Codice di invito"
 
-#: app/templates/invite.html:38
+#: app/templates/invite.html:79
 msgid "(optional)"
 msgstr "(facoltativo)"
 
-#: app/templates/invite.html:45
+#: app/templates/invite.html:86
 msgid "Expiration"
 msgstr "Scadenza"
 
-#: app/templates/invite.html:48
+#: app/templates/invite.html:89
 msgid "1 day"
 msgstr "1 giorno"
 
-#: app/templates/invite.html:49
+#: app/templates/invite.html:90
 msgid "1 week"
 msgstr "1 settimana"
 
-#: app/templates/invite.html:50
+#: app/templates/invite.html:91
 msgid "1 month"
 msgstr "1 mese"
 
-#: app/templates/invite.html:51 app/templates/invite.html:168
+#: app/templates/invite.html:92 app/templates/users.html:72
 msgid "Never"
 msgstr "Mai"
 
-#: app/templates/invite.html:58
+#: app/templates/invite.html:99
 msgid "Unlimited Usages"
 msgstr "Usi illimitati"
 
-#: app/templates/invite.html:61
+#: app/templates/invite.html:102
 msgid "Create Invitation"
 msgstr "Crea un invito"
 
-#: app/templates/invite.html:75
-msgid "Server Settings"
-msgstr "Impostazioni del server"
-
-#: app/templates/invite.html:83
+#: app/templates/invite.html:108
 msgid "Successfully generated an Invitation!"
 msgstr "Invito generato con successo!"
 
-#: app/templates/invite.html:88
+#: app/templates/invite.html:113
 msgid "Great!"
 msgstr "Benissimo!"
 
-#: app/templates/invite.html:88
+#: app/templates/invite.html:113
 msgid "Link has been copied to clipboard!"
 msgstr "Il collegamento è stato copiato negli appunti!"
 
-#: app/templates/invite.html:96
+#: app/templates/invite.html:121
 msgid "Back"
 msgstr "Indietro"
 
-#: app/templates/invite.html:101
+#: app/templates/invite.html:126
 msgid "Share"
 msgstr "Condividi"
 
-#: app/templates/invite.html:117 app/templates/join.html:42
-#: app/templates/join.html:51
+#: app/templates/invites.html:21 app/templates/join.html:42
+#: app/templates/join.html:51 app/templates/users.html:21
 msgid "Invite Code"
 msgstr "Codice d'invito"
 
-#: app/templates/invite.html:120
+#: app/templates/invites.html:22 app/templates/users.html:24
 msgid "Used"
 msgstr "Usato"
 
-#: app/templates/invite.html:123
-msgid "Used At"
-msgstr "Usato a"
-
-#: app/templates/invite.html:126
+#: app/templates/invites.html:23 app/templates/users.html:30
 msgid "Created"
 msgstr "Creato"
 
-#: app/templates/invite.html:129
-msgid "User"
-msgstr "Utente"
-
-#: app/templates/invite.html:132
+#: app/templates/invites.html:24 app/templates/users.html:36
 msgid "Expires"
 msgstr "Scade"
 
-#: app/templates/invite.html:135
+#: app/templates/invites.html:25 app/templates/users.html:39
 msgid "Unlimited"
 msgstr "Illimitato"
-
-#: app/templates/invite.html:172
-msgid "Copy"
-msgstr "Copia"
-
-#: app/templates/invite.html:174
-msgid "Delete"
-msgstr "Elimina"
 
 #: app/templates/join.html:12
 msgid "Great! Now, let's get you invited!"
@@ -353,39 +352,39 @@ msgstr ""
 msgid "Check it Out"
 msgstr ""
 
-#: app/templates/settings.html:18
+#: app/templates/settings.html:20
 msgid "Change Server Settings"
 msgstr ""
 
-#: app/templates/settings.html:23 app/templates/verify_plex.html:23
+#: app/templates/settings.html:25 app/templates/verify_plex.html:23
 msgid "Plex Display Name"
 msgstr ""
 
-#: app/templates/settings.html:29 app/templates/verify_plex.html:29
+#: app/templates/settings.html:31 app/templates/verify_plex.html:29
 msgid "Plex URL"
 msgstr ""
 
-#: app/templates/settings.html:35 app/templates/verify_plex.html:36
+#: app/templates/settings.html:37 app/templates/verify_plex.html:36
 msgid "Plex Token"
 msgstr ""
 
-#: app/templates/settings.html:44 app/templates/verify_plex.html:42
+#: app/templates/settings.html:46 app/templates/verify_plex.html:42
 msgid "Plex Libraries"
 msgstr ""
 
-#: app/templates/settings.html:46 app/templates/verify_plex.html:44
+#: app/templates/settings.html:48 app/templates/verify_plex.html:44
 msgid "Scan For Libraries"
 msgstr ""
 
-#: app/templates/settings.html:53 app/templates/verify_plex.html:50
+#: app/templates/settings.html:55 app/templates/verify_plex.html:50
 msgid "Request instance (Ombi, Overseerr...)"
 msgstr ""
 
-#: app/templates/settings.html:59 app/templates/verify_plex.html:56
+#: app/templates/settings.html:61 app/templates/verify_plex.html:56
 msgid "Discord Server ID"
 msgstr ""
 
-#: app/templates/settings.html:65 app/templates/verify_plex.html:63
+#: app/templates/settings.html:67 app/templates/verify_plex.html:63
 msgid "Verify and Confirm"
 msgstr ""
 
@@ -576,6 +575,27 @@ msgid ""
 "that you can always adjust the playback quality just like you do in "
 "YouTube. This way you can get the best streaming experience possible."
 msgstr ""
+
+#: app/templates/users.html:5
+#, fuzzy
+msgid "Users"
+msgstr "Utente"
+
+#: app/templates/users.html:27
+msgid "Used At"
+msgstr "Usato a"
+
+#: app/templates/users.html:33
+msgid "User"
+msgstr "Utente"
+
+#: app/templates/users.html:76
+msgid "Copy"
+msgstr "Copia"
+
+#: app/templates/users.html:78
+msgid "Delete"
+msgstr "Elimina"
 
 #: app/templates/welcome.html:12
 #, python-format
