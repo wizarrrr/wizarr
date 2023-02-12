@@ -26,7 +26,7 @@ services:
     volumes:
       - /path/to/appdata/config:/data/database
     environment:
-      - APP_URL=https://join.domain.com
+      - APP_URL=https://wizarr.domain.com
       - DISABLE_BUILTIN_AUTH=false #Set to true ONLY if you are using another auth provider (Authelia, Authentik, etc)
       - TZ=Europe/London #Set your timezone here
 ```
