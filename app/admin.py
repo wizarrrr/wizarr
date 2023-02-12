@@ -6,11 +6,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from plexapi.server import PlexServer
 import logging
 from functools import wraps
-import requests
+import datetime
 import random
 import string
 import os
 from flask_babel import _
+
 
 
 def login_required(f):
@@ -221,5 +222,21 @@ def login():
             logging.warning("A user attempted to login with incorrect username: " + username)
             return render_template("login.html", error=_("Invalid Username or Password"))
 
+@app.route('/invites')
+@login_required
+def invites():
+    invitations = Invitations.select().order_by(Invitations.created.desc())
+    format = "%Y-%m-%d %H:%M"
+    for invite in invitations:
+        if datetime.datetime.strptime(invite.expires, format) <= datetime.datetime.now():
+           invite.expired = True
+        else:
+            invite.expired = False
+    return render_template("invites.html", invitations=invitations, rightnow=datetime.datetime.now())
 
 
+@app.route('/users')
+@login_required
+def users():
+    plex = PlexServer(Settings.get(Settings.key == "plex_url").value, Settings.get(Settings.key == "plex_token").value)
+    return render_template("users.html", users=users)

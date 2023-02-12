@@ -116,8 +116,6 @@ def needUpdate():
 @login_required
 def invite():
     update_msg = False
-    if os.getenv("ADMIN_USERNAME"):
-        update_msg = True
     if request.method == "POST":
         try:
             code = request.form.get("code").upper()
@@ -158,7 +156,7 @@ def invite():
 @login_required
 def delete(code):
     Invitations.delete().where(Invitations.code == code).execute()
-    return redirect('/invite')
+    return redirect('/invites')
 
 
 @app.route('/setup/accept', methods=["GET"])
