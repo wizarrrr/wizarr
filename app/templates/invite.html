@@ -1,185 +1,138 @@
 {% extends "base.html" %}
 
+
 {% block title %}
 {{ _("Invite User") }}
 {% endblock %}
 
+
+
+
 {% block main %}
 
-<section class="py-5 bg-gray-50 dark:bg-gray-900">
-    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
-        <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-            Wizarr Admin Panel
-        </a>
-        {% if needUpdate %}
-        <a href="https://github.com/Wizarrrr/wizarr"
-            class="py-3 font-medium text-amber-600 hover:underline dark:text-amber-500"><span
-                class="font-bold">{{ _("Attention!") }} </span> {{ _("Update available. Click here.") }}</a>
-        {% endif %}
-        <div
-            class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                    {{ _("Invite user") }}
-                </h1>
-                {% if update_msg %}
-                <div class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800"
-                    role="alert">
-                    <span
-                        class="font-medium">{{ _("Attention!") }}</span>{{ _("Environment Variables are being deprecated and replaced by a secure sign-up. Please visit ") }}<a
-                        href="/settings">{{ _("/settings. See Repo for more info") }}</a>
-                </div>
-                {% endif %}
-                {% if not link %}
-                <form class="space-y-4 md:space-y-6" action="/invite" method="post">
-                    <div>
-                        <label for="code"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Invite Code String") }}<a
-                                class="text-gray-500">{{ _("(optional)") }}</a></label>
-                        <input minlength="6" maxlength="6" type="code" name="code" id="code"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500"
-                            placeholder="XMFGEJI">
-                    </div>
-                    <div>
-                        <label for="expires"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">{{ _("Expiration") }}</label>
-                        <select id="expires" name="expires"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="day">{{ _("1 day") }}</option>
-                            <option value="week">{{ _("1 week") }}</option>
-                            <option value="month">{{ _("1 month") }}</option>
-                            <option value="never">{{ _("Never") }}</option>
-                        </select>
-                    </div>
-                    <div class="flex items-center mb-4">
-                        <input id="unlimited" name="unlimited" type="checkbox" value="  "
-                            class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="unlimited"
-                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Unlimited Usages") }}</label>
-                    </div>
-                    <button type="submit"
-                        class="w-full text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">{{ _("Create Invitation") }}</button>
-                </form>
-                <div class="text-center">
-                    <a href="/settings">
-                        <button type="button"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="mr-2 -ml-1 w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+
+
+{% include "admin-nav.html" %}
+
+
+
+{% if needUpdate %}
+
+    <div class="z-50 fixed left-0 bottom-0 p-4">
+        <a href="https://github.com/wizarrrr/wizarr">
+            <div class="w-full max-w-xl p-6 mt-auto ml-auto bg-slate-700 rounded-lg">
+                <div class="flex items-start justify-between -mx-2">
+                    <div class="flex items-start px-2">
+                        <span class="flex-shrink-0">
+                            <svg width="24" height="21" viewBox="0 0 24 21" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12.0005 15C11.8027 15 11.6093 15.0587 11.4449 15.1686C11.2804 15.2784 11.1523 15.4346 11.0766 15.6173C11.0009 15.8001 10.9811 16.0011 11.0197 16.1951C11.0583 16.3891 11.1535 16.5673 11.2933 16.7071C11.4332 16.847 11.6114 16.9422 11.8054 16.9808C11.9993 17.0194 12.2004 16.9996 12.3831 16.9239C12.5659 16.8482 12.722 16.72 12.8319 16.5556C12.9418 16.3911 13.0005 16.1978 13.0005 16C13.0005 15.7348 12.8951 15.4805 12.7076 15.2929C12.52 15.1054 12.2657 15 12.0005 15ZM22.6705 16.47L14.6205 2.47003C14.3603 2.00354 13.9802 1.61498 13.5196 1.3445C13.0591 1.07401 12.5346 0.931396 12.0005 0.931396C11.4663 0.931396 10.9419 1.07401 10.4813 1.3445C10.0207 1.61498 9.64065 2.00354 9.38046 2.47003L1.38046 16.47C1.11125 16.924 0.966598 17.441 0.9611 17.9688C0.955602 18.4966 1.08945 19.0166 1.34914 19.4761C1.60883 19.9356 1.98516 20.3185 2.44014 20.5861C2.89512 20.8536 3.41264 20.9964 3.94046 21H20.0605C20.5925 21.0053 21.1164 20.8689 21.5784 20.6049C22.0403 20.341 22.4238 19.9589 22.6894 19.4978C22.9551 19.0368 23.0933 18.5134 23.09 17.9814C23.0866 17.4493 22.9418 16.9277 22.6705 16.47ZM20.9405 18.47C20.8528 18.626 20.7249 18.7556 20.5701 18.8453C20.4154 18.935 20.2393 18.9815 20.0605 18.98H3.94046C3.76157 18.9815 3.58556 18.935 3.43077 18.8453C3.27599 18.7556 3.14811 18.626 3.06046 18.47C2.97269 18.318 2.92648 18.1456 2.92648 17.97C2.92648 17.7945 2.97269 17.622 3.06046 17.47L11.0605 3.47003C11.1444 3.30623 11.2719 3.16876 11.4289 3.07277C11.5859 2.97678 11.7664 2.92599 11.9505 2.92599C12.1345 2.92599 12.315 2.97678 12.472 3.07277C12.629 3.16876 12.7565 3.30623 12.8405 3.47003L20.8905 17.47C20.9897 17.6199 21.0467 17.7937 21.0555 17.9732C21.0643 18.1527 21.0245 18.3312 20.9405 18.49V18.47ZM12.0005 7.00003C11.7352 7.00003 11.4809 7.10538 11.2933 7.29292C11.1058 7.48046 11.0005 7.73481 11.0005 8.00003V12C11.0005 12.2652 11.1058 12.5196 11.2933 12.7071C11.4809 12.8947 11.7352 13 12.0005 13C12.2657 13 12.52 12.8947 12.7076 12.7071C12.8951 12.5196 13.0005 12.2652 13.0005 12V8.00003C13.0005 7.73481 12.8951 7.48046 12.7076 7.29292C12.52 7.10538 12.2657 7.00003 12.0005 7.00003Z"
+                                    fill="#FFC107"></path>
                             </svg>
-
-                            {{ _("Server Settings") }}
-                        </button>
-                    </a>
-                </div>
-                {% endif %}
-                {% if link %}
-                <div>
-                    <label for="link"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Successfully generated an Invitation!") }}</label>
-                    <input disabled type="link" name="link" id="link"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value="{{ link }}">
-                    <p hidden id="successfully_copied" class="mt-2 text-sm text-green-600 dark:text-green-500"><span
-                            class="font-medium">{{ _("Great!") }}</span>{{ _("Link has been copied to clipboard!") }}
-                    </p>
-
-                </div>
-                <div class="flex">
-                    <div class="w-1/2 text-center">
-                        <a href="/invite">
-                            <button type="back"
-                                class="w-3/4 text-amber-400 hover:text-white border border-amber-400 hover:bg-amber-500 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-amber-300 dark:text-amber-300 dark:hover:text-white dark:hover:bg-amber-400 dark:focus:ring-amber-900">{{ _("Back") }}</button>
-                        </a>
+                        </span>
+                        <div class="ml-2">
+                            <h5 class="text-gray-100 font-semibold">{{
+                                _("Attention!") }}</h5>
+                            <span class="text-xs font-medium text-gray-300">{{ _("Update available. Click here.")
+                                }}</span>
+                        </div>
                     </div>
-                    <div class="w-1/2 text-center">
-                        <button onclick="copyLink()" type="share"
-                            class="w-3/4 text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">{{ _("Share") }}</button>
+                    <div class="px-2">
 
                     </div>
-
                 </div>
+            </div>
+        </a>
+    </div>
+    {% endif %}
 
-                {% endif %}
+    <section class="py-5 bg-gray-50 dark:bg-gray-900">
+        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
+            <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+               {{ _("Quick Invite") }}
+            </a>
+            {% if needUpdate %}
+            <a href="https://github.com/Wizarrrr/wizarr"
+                class="py-3 font-medium text-amber-600 hover:underline dark:text-amber-500"><span
+                    class="font-bold">{{ _("Attention!") }} </span> {{ _("Update available. Click here.") }}</a>
+            {% endif %}
+            <div
+                class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                        {{ _("Invite user") }}
+                    </h1>
+                    {% if update_msg %}
+                    <div class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800"
+                        role="alert">
+                        <span
+                            class="font-medium">{{ _("Attention!") }}</span>{{ _("Environment Variables are being deprecated and replaced by a secure sign-up. Please visit ") }}<a
+                            href="/settings">{{ _("/settings. See Repo for more info") }}</a>
+                    </div>
+                    {% endif %}
+                    {% if not link %}
+                    <form class="space-y-4 md:space-y-6" action="/invite" method="post">
+                        <div>
+                            <label for="code"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Invite Code String") }}<a
+                                    class="text-gray-500">{{ _("(optional)") }}</a></label>
+                            <input minlength="6" maxlength="6" type="code" name="code" id="code"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500"
+                                placeholder="XMFGEJI">
+                        </div>
+                        <div>
+                            <label for="expires"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">{{ _("Expiration") }}</label>
+                            <select id="expires" name="expires"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option value="day">{{ _("1 day") }}</option>
+                                <option value="week">{{ _("1 week") }}</option>
+                                <option value="month">{{ _("1 month") }}</option>
+                                <option value="never">{{ _("Never") }}</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <input id="unlimited" name="unlimited" type="checkbox" value="  "
+                                class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="unlimited"
+                                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Unlimited Usages") }}</label>
+                        </div>
+                        <button type="submit"
+                            class="w-full text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">{{ _("Create Invitation") }}</button>
+                    </form>
+                    {% endif %}
+                    {% if link %}
+                    <div>
+                        <label for="link"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Successfully generated an Invitation!") }}</label>
+                        <input disabled type="link" name="link" id="link"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            value="{{ link }}">
+                        <p hidden id="successfully_copied" class="mt-2 text-sm text-green-600 dark:text-green-500"><span
+                                class="font-medium">{{ _("Great!") }}</span>{{ _("Link has been copied to clipboard!") }}
+                        </p>
+    
+                    </div>
+                    <div class="flex">
+                        <div class="w-1/2 text-center">
+                            <a href="/invite">
+                                <button type="back"
+                                    class="w-3/4 text-amber-400 hover:text-white border border-amber-400 hover:bg-amber-500 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-amber-300 dark:text-amber-300 dark:hover:text-white dark:hover:bg-amber-400 dark:focus:ring-amber-900">{{ _("Back") }}</button>
+                            </a>
+                        </div>
+                        <div class="w-1/2 text-center">
+                            <button onclick="copyLink()" type="share"
+                                class="w-3/4 text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">{{ _("Share") }}</button>
+    
+                        </div>
+    
+                    </div>
+    
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
-    <br>
-    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
-        <table class="shadow-2xl rounded-2xl w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="py-3 px-6">
-                        {{ _("Invite Code") }}
-                    </th>
-                    <th scope="col" class="py-3 px-6">
-                        {{ _("Used") }}
-                    </th>
-                    <th scope="col" class="py-3 px-6">
-                        {{ _("Used At") }}
-                    </th>
-                    <th scope="col" class="py-3 px-6">
-                        {{ _("Created") }}
-                    </th>
-                    <th scope="col" class="py-3 px-6">
-                        {{ _("User") }}
-                    </th>
-                    <th scope="col" class="py-3 px-6">
-                        {{ _("Expires") }}
-                    </th>
-                    <th scope="col" class="py-3 px-6">
-                        {{ _("Unlimited") }}
-                    </th>
-                    <th scope="col" class="py-3 px-6">
-
-                    </th>
-                    <th scope="col" class="py-3 px-6">
-
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for invite in invitations %}
-                <tr
-                    class="bg-white-100 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <td class="py-4 px-6">{{ invite.code }}</td>
-                    <td class="py-4 px-6">{{ invite.used }}</td>
-                    {% if invite.used_at %}
-                    <td class="py-4 px-6">{{ invite.used_at }}</td>
-                    {% endif %}
-                    {% if not invite.used_at %}
-                    <td class="py-4 px-6"></td>
-                    {% endif %}
-                    <td class="py-4 px-6">{{ invite.created }}</td>
-                    {% if invite.used_by %}
-                    <td class="py-4 px-6">{{ invite.used_by }}</td>
-                    {% endif %}
-                    {% if not invite.used_by %}
-                    <td class="py-4 px-6"></td>
-                    {% endif %}
-                    {% if invite.expires %}
-                    <td class="py-4 px-6">{{ invite.expires }}</td>
-                    {% endif %}
-                    {% if not invite.expires %}
-                    <td class="py-4 px-6">{{ _("Never") }}</td>
-                    {% endif %}
-                    <td class="py-4 px-6">{{ invite.unlimited }}</td>
-                    <td class="py-4 px-6"><a id="copy_{{ invite.code}}" class="font-bold"
-                            onclick="tableCopyLink('{{ url }}', '{{ invite.code }}')" href="#">{{ _("Copy") }}</a></td>
-                    <td class="py-4 px-6"><a class="font-bold"
-                            href="/invite/delete={{ invite.code }}">{{ _("Delete") }}</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-</section>
-
 <script>
     function copyLink() {
         // Get the text field
@@ -192,23 +145,10 @@
         // Copy the text inside the text field
         navigator.clipboard.writeText(copyText.value);
 
-        copyText.className =
-            "bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400";
+        //copyText.className =
+        //   "bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400";
         document.getElementById("successfully_copied").hidden = false;
     }
-
-    function tableCopyLink(url, invite_code) {
-        // Get the text field
-        var copyText = document.getElementById("copy_" + invite_code);
-
-        // Copy the text inside the text field
-        navigator.clipboard.writeText(url + "/j/" + invite_code);
-
-        //copyText.className =
-        copyText.innerHTML = "Copied";
-        setTimeout(() => {
-            copyText.innerHTML = "Copy";
-        }, 1000);
-    }
 </script>
+
 {% endblock %}
