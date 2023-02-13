@@ -44,7 +44,7 @@ def plex(code):
     return resp
 
 
-@app.route("/connect", methods=["POST"])
+@app.route("/join", methods=["POST"])
 def connect():
     code = request.form.get('code')
     if not Invitations.select().where(Invitations.code == code).exists():

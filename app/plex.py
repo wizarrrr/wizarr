@@ -3,7 +3,6 @@ from app import app, Invitations, Settings, Users, Oauth
 from flask import render_template, make_response, abort, request, redirect
 import datetime
 import os
-import threading
 import logging
 
 
@@ -11,11 +10,10 @@ import logging
 
 def plexoauth(id, code):
     oauth = MyPlexPinLogin(oauth=True)
-    print("got here")
     url = oauth.oauthUrl(forwardUrl=(os.getenv('APP_URL') + '/setup/download'))
-    print("got here1")
+
     Oauth.update(url=url).where(Oauth.id == id).execute()
-    print("got here2")
+
     oauth.run(timeout=120)
     oauth.waitForLogin()
     token = oauth.token
@@ -51,6 +49,5 @@ def inviteUser(email, code):
 
 def acceptInvite(token):
     admin_email = MyPlexAccount(Settings.get(Settings.key == "plex_token").value).email
-    print(admin_email)
     user = MyPlexAccount(token)
     user.acceptInvite(admin_email)
