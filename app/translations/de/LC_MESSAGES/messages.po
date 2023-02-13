@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-13 01:09+0000\n"
+"POT-Creation-Date: 2023-02-13 11:49+0000\n"
 "PO-Revision-Date: 2023-02-06 13:38+0000\n"
 "Last-Translator: Ben <ben.david.wallner@gmail.com>\n"
 "Language: de\n"
@@ -120,7 +120,7 @@ msgid "Accept"
 msgstr "Akzeptieren"
 
 #: app/templates/accept.html:31 app/templates/discord.html:29
-#: app/templates/requests.html:71 app/templates/wizard/accept.html:23
+#: app/templates/requests.html:69 app/templates/wizard/accept.html:23
 msgid "Next"
 msgstr "Nächste"
 
@@ -343,18 +343,18 @@ msgid "Request any available Movie or TV Show"
 msgstr "Anfrage für jeden verfügbaren Film oder jede Serie"
 
 #: app/templates/requests.html:45
-msgid "Requested media will be automatically downloaded and added to the library (if available)"
-msgstr "Angeforderte Medien werden automatisch heruntergeladen und der Bibliothek (sofern verfügbar)"
+msgid ""
+"Requested media will be automatically downloaded and added to the library"
+" (if available)"
+msgstr ""
+"Angeforderte Medien werden automatisch heruntergeladen und der Bibliothek"
+" (sofern verfügbar)"
 
 #: app/templates/requests.html:55
 msgid "If enabled, receive notifications"
 msgstr "Falls aktiviert, erhältst du Benachrichtigungen"
 
-#: app/templates/requests.html:60
-msgid "*Depending on availability"
-msgstr "*Je nach Verfügbarkeit"
-
-#: app/templates/requests.html:62
+#: app/templates/requests.html:61
 msgid "Check it Out"
 msgstr "Probier es aus"
 
@@ -539,6 +539,11 @@ msgstr "tun"
 msgid " want!"
 msgstr " will!"
 
+#: app/templates/tips.html:40
+#, python-format
+msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
+msgstr ""
+
 #: app/templates/tips.html:44
 msgid "How can I make sure to have the best experience?"
 msgstr "Wie kann ich sicherstellen, dass ich die beste Erfahrung mache?"
@@ -690,4 +695,7 @@ msgstr "Ich habe ein Plex-Konto"
 
 #~ msgid "Server Settings"
 #~ msgstr "Server Einstellungen"
+
+#~ msgid "*Depending on availability"
+#~ msgstr "*Je nach Verfügbarkeit"
 

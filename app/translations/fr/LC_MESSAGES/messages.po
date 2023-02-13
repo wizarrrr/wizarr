@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-13 01:09+0000\n"
+"POT-Creation-Date: 2023-02-13 11:49+0000\n"
 "PO-Revision-Date: 2023-01-21 21:55+0000\n"
 "Last-Translator: Matthieu B <matthieu@jaseroque.com>\n"
 "Language: fr\n"
@@ -116,7 +116,7 @@ msgid "Accept"
 msgstr "Accepter"
 
 #: app/templates/accept.html:31 app/templates/discord.html:29
-#: app/templates/requests.html:71 app/templates/wizard/accept.html:23
+#: app/templates/requests.html:69 app/templates/wizard/accept.html:23
 msgid "Next"
 msgstr "Suivant"
 
@@ -342,18 +342,18 @@ msgid "Request any available Movie or TV Show"
 msgstr "Demandez n'importe quel film ou série"
 
 #: app/templates/requests.html:45
-msgid "Requested media will be automatically downloaded and added to the library (if available)"
-msgstr "Les médias demandés seront automatiquement téléchargés et ajoutés à la bibliothèque (si disponible)"
+msgid ""
+"Requested media will be automatically downloaded and added to the library"
+" (if available)"
+msgstr ""
+"Les médias demandés seront automatiquement téléchargés et ajoutés à la "
+"bibliothèque (si disponible)"
 
 #: app/templates/requests.html:55
 msgid "If enabled, receive notifications"
 msgstr "Si cette option est activée, vous recevrez des notifications"
 
-#: app/templates/requests.html:60
-msgid "*Depending on availability"
-msgstr "*Selon disponibilité"
-
-#: app/templates/requests.html:62
+#: app/templates/requests.html:61
 msgid "Check it Out"
 msgstr "Jeter un œil"
 
@@ -536,6 +536,7 @@ msgid " want!"
 msgstr " !"
 
 #: app/templates/tips.html:40
+#, python-format
 msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
 msgstr "Epinglez simplement les sections Films / Séries du serveur de %(name)s !"
 
@@ -699,4 +700,7 @@ msgstr "J'ai déjà un compte Plex"
 
 #~ msgid "Server Settings"
 #~ msgstr "Paramètres du serveur"
+
+#~ msgid "*Depending on availability"
+#~ msgstr "*Selon disponibilité"
 
