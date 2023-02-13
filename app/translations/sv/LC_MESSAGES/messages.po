@@ -333,14 +333,12 @@ msgid "Plex Requests"
 msgstr "Plex förfrågningar"
 
 #: app/templates/requests.html:35
-msgid "Request any available Movie or Tv Show"
+msgid "Request any available Movie or TV Show"
 msgstr "Förfråga efter en tillgänglig film eller TV-serie"
 
 #: app/templates/requests.html:45
-msgid "Requested media will be automatically downloaded and added to server"
-msgstr ""
-"Förfrågad titel kommer att automatiskt laddas ner och läggas till på "
-"servern"
+msgid "Requested media will be automatically downloaded and added to the library (if available)"
+msgstr "Förfrågad titel kommer att automatiskt laddas ner och läggas till i biblioteket (om tillgängligt)"
 
 #: app/templates/requests.html:55
 msgid "If enabled, receive notifications"
@@ -485,7 +483,7 @@ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
 msgstr "Till vänster på skärmen ska du se en meny. klicka på den. "
 
 #: app/templates/tips.html:34
-msgid "Expand"
+msgid "More"
 msgstr "Expandera"
 
 #: app/templates/tips.html:34
@@ -625,8 +623,8 @@ msgstr "Ta bort"
 
 #: app/templates/welcome.html:12
 #, python-format
-msgid "You've been invited to join the %(name)s server!"
-msgstr "Du har blivit inbjuden till %(name)s server!"
+msgid "You've been invited to join %(name)s!"
+msgstr "Du har blivit inbjuden till %(name)s!"
 
 #: app/templates/welcome.html:14
 msgid ""

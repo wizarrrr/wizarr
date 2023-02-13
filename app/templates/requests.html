@@ -23,7 +23,7 @@ Download Plex Client
       <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ _("Plex Requests") }}
       </h5>
     </a>
-    <ul class="mb-8 space-y-4 text-left text-gray-500 dark:text-gray-400">
+    <ul class="space-y-4 text-left text-gray-500 dark:text-gray-400">
       <li class="flex items-center space-x-3">
         <!-- Icon -->
         <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20"
@@ -32,7 +32,7 @@ Download Plex Client
             d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
             clip-rule="evenodd"></path>
         </svg>
-        <span>{{ _("Request any available Movie or Tv Show") }}</span>
+        <span>{{ _("Request any available Movie or TV Show") }}</span>
       </li>
       <li class="flex items-center space-x-3">
         <!-- Icon -->
@@ -42,7 +42,7 @@ Download Plex Client
             d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
             clip-rule="evenodd"></path>
         </svg>
-        <span>{{ _("Requested media will be automatically downloaded and added to server") }}*</span>
+        <span>{{ _("Requested media will be automatically downloaded and added to the library (if available)") }}</span>
       </li>
       <li class="flex items-center space-x-3">
         <!-- Icon -->
@@ -57,8 +57,7 @@ Download Plex Client
 
     </ul>
 
-    <p class="mb-3 font-normal text-gray-400 dark:text-gray-400">{{ _("*Depending on availability") }}</p>
-    <a target=”_blank” href="{{ overseerr_url }}" class="inline-flex items-center text-blue-600 hover:underline">
+    <a href="{{ overseerr_url }}" target="_blank" class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-amber-700 rounded-lg hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-amber-300 dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">
       {{ _("Check it Out") }}
       <svg class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z">
@@ -66,7 +65,6 @@ Download Plex Client
         <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
       </svg>
     </a>
-    <br>
     <a href="/setup/discord"
       class="inline-flex items-center mt-4 py-2 px-4 text-sm font-medium text-center text-gray-900 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">{{ _("Next") }}
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"

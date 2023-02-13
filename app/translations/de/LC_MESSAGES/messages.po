@@ -339,14 +339,12 @@ msgid "Plex Requests"
 msgstr "Plex-Anfragen"
 
 #: app/templates/requests.html:35
-msgid "Request any available Movie or Tv Show"
+msgid "Request any available Movie or TV Show"
 msgstr "Anfrage für jeden verfügbaren Film oder jede Serie"
 
 #: app/templates/requests.html:45
-msgid "Requested media will be automatically downloaded and added to server"
-msgstr ""
-"Angeforderte Medien werden automatisch heruntergeladen und dem Server "
-"hinzugefügt"
+msgid "Requested media will be automatically downloaded and added to the library (if available)"
+msgstr "Angeforderte Medien werden automatisch heruntergeladen und der Bibliothek (sofern verfügbar)"
 
 #: app/templates/requests.html:55
 msgid "If enabled, receive notifications"
@@ -497,7 +495,7 @@ msgstr ""
 "das "
 
 #: app/templates/tips.html:34
-msgid "Expand"
+msgid "More"
 msgstr "Erweitern"
 
 #: app/templates/tips.html:34
@@ -646,8 +644,8 @@ msgstr "Löschen"
 
 #: app/templates/welcome.html:12
 #, python-format
-msgid "You've been invited to join the %(name)s server!"
-msgstr "Du wurdest eingeladen, dem %(name)s-Server beizutreten!"
+msgid "You've been invited to join %(name)s!"
+msgstr "Sie wurden eingeladen, sich %(name)s anzuschließen!"
 
 #: app/templates/welcome.html:14
 msgid ""
