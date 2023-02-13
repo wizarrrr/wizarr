@@ -24,288 +24,301 @@ msgstr "Wachtwoorden komen niet overeen."
 
 #: app/admin.py:50
 msgid "Username must be between 3 and 15 characters."
-msgstr ""
+msgstr "De gebruikersnaam moet tussen de 3 en 15 tekens bevatten."
 
 #: app/admin.py:53
 msgid "Password must be between 3 and 40 characters."
-msgstr ""
+msgstr "Het wachtwoord moet tussen de 3 en 40 tekens bevatten."
 
 #: app/admin.py:82
 msgid "You must select at least one library."
-msgstr ""
+msgstr "Je moet minstens één bibliotheek selecteren."
 
 #: app/admin.py:149
 msgid "It is likely that your token does not work."
-msgstr ""
+msgstr "Mogelijk werkt je toegangstoken niet."
 
 #: app/admin.py:151
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
+"De verbinding met je Plex server is onderbroken. Bekijk de Logs voor meer "
+"informatie."
 
 #: app/admin.py:220 app/admin.py:223
 msgid "Invalid Username or Password"
-msgstr ""
+msgstr "Ongeldige gebruikersnaam of wachtwoord"
 
 #: app/web.py:71
 msgid "That email does not match any Plex account. Please try again."
 msgstr ""
+"Het e-mailadres komt niet overeen met een bestaande Plex account. Probeer "
+"opnieuw."
 
 #: app/web.py:76
 msgid "This user is already invited to this server."
-msgstr ""
+msgstr "Deze gebruiker is al uitgenodigd voor deze server."
 
 #: app/web.py:80
 msgid "The email entered appears to be invalid."
-msgstr ""
+msgstr "Ongeldig e-mailadres."
 
 #: app/web.py:85
 msgid "Something went wrong. Please try again or contact an administrator."
 msgstr ""
+"Er is iets misgelopen. Probeer opnieuw of neem contact op met de "
+"administrator."
 
 #: app/templates/401.html:20
 msgid "Permission denied."
-msgstr ""
+msgstr "Toegang geweigerd."
 
 #: app/templates/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr ""
+msgstr "Je probeert iets te doen waarvoor je geen toestemming hebt..."
 
 #: app/templates/404.html:19
 msgid "Something's missing."
-msgstr ""
+msgstr "Er ontbreekt iets."
 
 #: app/templates/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
+msgstr "Sorry, we kunnen deze pagina niet vinden. Deze lijkt niet te bestaan!"
 
 #: app/templates/500.html:19
 msgid "Internal Server Error."
-msgstr ""
+msgstr "Interne serverfout."
 
 #: app/templates/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr ""
+msgstr " Er is iets misgelopen. Probeer later opnieuw."
 
 #: app/templates/accept.html:4
 msgid "Accept Invitation"
-msgstr ""
+msgstr "Accepteer uitnodiging"
 
 #: app/templates/accept.html:11 app/templates/wizard/accept.html:2
 msgid "Accept our invitation"
-msgstr ""
+msgstr "Accepteer onze uitnodiging"
 
 #: app/templates/accept.html:15 app/templates/wizard/accept.html:6
 msgid "We have sent an invitation to your Plex Account! Almost there!"
 msgstr ""
+"We hebben een uitnodiging verstuurd naar je Plex account! Je bent er bijna!"
 
 #: app/templates/accept.html:17 app/templates/wizard/accept.html:8
 msgid ""
-"Click the button below to be taken to Plex, here you will see an "
-"invitation from us."
+"Click the button below to be taken to Plex, here you will see an invitation "
+"from us."
 msgstr ""
+"Klik op de onderstaande knop om naar Plex te gaan. Hier zal je een "
+"uitnodiging vinden."
 
 #: app/templates/accept.html:23 app/templates/wizard/accept.html:14
 msgid "Accept"
-msgstr ""
+msgstr "Accepteer"
 
 #: app/templates/accept.html:31 app/templates/discord.html:29
 #: app/templates/requests.html:69 app/templates/wizard/accept.html:23
 msgid "Next"
-msgstr ""
+msgstr "Volgende"
 
 #: app/templates/admin-nav.html:13
 msgid "Home"
-msgstr ""
+msgstr "Home"
 
 #: app/templates/admin-nav.html:16
 msgid "Invitations"
-msgstr ""
+msgstr "Uitnodigingen"
 
 #: app/templates/admin-nav.html:19
 msgid "Settings"
-msgstr ""
+msgstr "Instellingen"
 
 #: app/templates/discord.html:4
 msgid "Join our Discord Server"
-msgstr ""
+msgstr "Word lid van de Discord server"
 
 #: app/templates/discord.html:11
 msgid ""
 "Join Our Discord\n"
 "                Server!"
 msgstr ""
+"Word lid van de Discord\n"
+"…………………………Server!"
 
 #: app/templates/invite.html:5 app/templates/invites.html:5
 msgid "Invite User"
-msgstr ""
+msgstr "Gebruiker uitnodigen"
 
 #: app/templates/invite.html:36 app/templates/invite.html:58
 #: app/templates/invite.html:70
 msgid "Attention!"
-msgstr ""
+msgstr "Aandacht!"
 
 #: app/templates/invite.html:37 app/templates/invite.html:58
 msgid "Update available. Click here."
-msgstr ""
+msgstr "Update beschikbaar. Klik hier."
 
 #: app/templates/invite.html:53
 msgid "Quick Invite"
-msgstr ""
+msgstr "Snelle uitnodiging"
 
 #: app/templates/invite.html:64
 msgid "Invite user"
-msgstr ""
+msgstr "Gebruiker uitnodigen"
 
 #: app/templates/invite.html:70
 msgid ""
-"Environment Variables are being deprecated and replaced by a secure sign-"
-"up. Please visit "
+"Environment Variables are being deprecated and replaced by a secure sign-up. "
+"Please visit "
 msgstr ""
+"Environment Variables worden stopgezet en vervangen door veilig aanmelden. "
+"Bezoek "
 
 #: app/templates/invite.html:71
 msgid "/settings. See Repo for more info"
-msgstr ""
+msgstr "/instellingen. Bekijk Repo voor meer informatie"
 
 #: app/templates/invite.html:78
 msgid "Invite Code String"
-msgstr ""
+msgstr "Uitnodigingscode"
 
 #: app/templates/invite.html:79
 msgid "(optional)"
-msgstr ""
+msgstr "(optioneel)"
 
 #: app/templates/invite.html:86
 msgid "Expiration"
-msgstr ""
+msgstr "Vervaldatum"
 
 #: app/templates/invite.html:89
 msgid "1 day"
-msgstr ""
+msgstr "1 dag"
 
 #: app/templates/invite.html:90
 msgid "1 week"
-msgstr ""
+msgstr "1 week"
 
 #: app/templates/invite.html:91
 msgid "1 month"
-msgstr ""
+msgstr "1 maand"
 
 #: app/templates/invite.html:92 app/templates/users.html:72
 msgid "Never"
-msgstr ""
+msgstr "Nooit"
 
 #: app/templates/invite.html:99
 msgid "Unlimited Usages"
-msgstr ""
+msgstr "Ongelimiteerd te gebruiken"
 
 #: app/templates/invite.html:102
 msgid "Create Invitation"
-msgstr ""
+msgstr "Maak een uitnodiging"
 
 #: app/templates/invite.html:108
 msgid "Successfully generated an Invitation!"
-msgstr ""
+msgstr "De uitnodiging werd met succes aangemaakt!"
 
 #: app/templates/invite.html:113
 msgid "Great!"
-msgstr ""
+msgstr "Geweldig!"
 
 #: app/templates/invite.html:113
 msgid "Link has been copied to clipboard!"
-msgstr ""
+msgstr "De link werd gekopieerd naar je klembord!"
 
 #: app/templates/invite.html:121
 msgid "Back"
-msgstr ""
+msgstr "Terug"
 
 #: app/templates/invite.html:126
 msgid "Share"
-msgstr ""
+msgstr "Deel"
 
 #: app/templates/invites.html:21 app/templates/join.html:42
 #: app/templates/join.html:51 app/templates/users.html:21
 msgid "Invite Code"
-msgstr ""
+msgstr "Uitnodigingscode"
 
 #: app/templates/invites.html:22 app/templates/users.html:24
 msgid "Used"
-msgstr ""
+msgstr "Gebruikt"
 
 #: app/templates/invites.html:23 app/templates/users.html:30
 msgid "Created"
-msgstr ""
+msgstr "Aangemaakt"
 
 #: app/templates/invites.html:24 app/templates/users.html:36
 msgid "Expires"
-msgstr ""
+msgstr "Verloopt"
 
 #: app/templates/invites.html:25 app/templates/users.html:39
 msgid "Unlimited"
-msgstr ""
+msgstr "Ongelimiteerd"
 
 #: app/templates/join.html:12
 msgid "Great! Now, let's get you invited!"
-msgstr ""
+msgstr "Geweldig! Laten we je nu een uitnodiging sturen!"
 
 #: app/templates/join.html:18
 msgid "Join the Plex Server"
-msgstr ""
+msgstr "Neem deel aan de Plex server"
 
 #: app/templates/join.html:24 app/templates/join.html:34
 msgid "Your Plex email"
-msgstr ""
+msgstr "Je Plex e-mailadres"
 
 #: app/templates/join.html:28 app/templates/join.html:55
 msgid "Oops!"
-msgstr ""
+msgstr "Oeps!"
 
 #: app/templates/join.html:60
 msgid "Join"
-msgstr ""
+msgstr "Meedoen"
 
 #: app/templates/join.html:62
 msgid "Don't have a Plex account, yet?"
-msgstr ""
+msgstr "Heb je nog geen Plex account?"
 
 #: app/templates/join.html:63
 msgid "Get one here."
-msgstr ""
+msgstr "Maak hier eentje."
 
 #: app/templates/login.html:18
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: app/templates/login.html:23 app/templates/register_admin.html:24
 msgid "Username"
-msgstr ""
+msgstr "Gebruikersnaam"
 
 #: app/templates/login.html:29 app/templates/register_admin.html:30
 msgid "Password"
-msgstr ""
+msgstr "Wachtwoord"
 
 #: app/templates/login.html:41
 msgid "Remember me"
-msgstr ""
+msgstr "Onthouden"
 
 #: app/templates/login.html:46
 msgid "Sign in"
-msgstr ""
+msgstr "Inloggen"
 
 #: app/templates/register_admin.html:18 app/templates/verify_plex.html:18
 msgid "Setup Wizarr"
-msgstr ""
+msgstr "Configureer Wizarr"
 
 #: app/templates/register_admin.html:36
 msgid "Confirm password"
-msgstr ""
+msgstr "Bevestig wachtwoord"
 
 #: app/templates/register_admin.html:42
 msgid "Create an account"
-msgstr ""
+msgstr "Maak een account"
 
 #: app/templates/requests.html:10
 msgid "Requesting Media"
-msgstr ""
+msgstr "Media aanvragen"
 
 #: app/templates/requests.html:13
 msgid ""
@@ -314,291 +327,327 @@ msgid ""
 "user-friendly request system that can automatically search for the media "
 "you're looking for. "
 msgstr ""
+"Je hebt de keuze uit een uitgebreide mediacollectie. Als je niet meteen "
+"vindt wat je zoekt, is er een gebruiksvriendelijk verzoeksysteem dat "
+"automatisch de media die je zoekt kan tonen. "
 
 #: app/templates/requests.html:23
 msgid "Plex Requests"
-msgstr ""
+msgstr "Plex verzoeken"
 
 #: app/templates/requests.html:35
 msgid "Request any available Movie or TV Show"
-msgstr ""
+msgstr "Maak een verzoek voor eender welke beschikbare film of tvserie"
 
 #: app/templates/requests.html:45
 msgid ""
-"Requested media will be automatically downloaded and added to the library"
-" (if available)"
+"Requested media will be automatically downloaded and added to the library "
+"(if available)"
 msgstr ""
+"Aangevraagde media zal automatisch worden gedownload en toegevoegd aan de "
+"bibliotheek (indien beschikbaar)"
 
 #: app/templates/requests.html:55
 msgid "If enabled, receive notifications"
-msgstr ""
+msgstr "Indien ingeschakeld, ontvang notificaties"
 
 #: app/templates/requests.html:61
 msgid "Check it Out"
-msgstr ""
+msgstr "Bekijken"
 
 #: app/templates/settings.html:20
 msgid "Change Server Settings"
-msgstr ""
+msgstr "Wijzig serverinstellingen"
 
 #: app/templates/settings.html:25 app/templates/verify_plex.html:23
 msgid "Plex Display Name"
-msgstr ""
+msgstr "Plex Gebruikersnaam"
 
 #: app/templates/settings.html:31 app/templates/verify_plex.html:29
 msgid "Plex URL"
-msgstr ""
+msgstr "Plex URL"
 
 #: app/templates/settings.html:37 app/templates/verify_plex.html:36
 msgid "Plex Token"
-msgstr ""
+msgstr "Plex Toegangstoken"
 
 #: app/templates/settings.html:46 app/templates/verify_plex.html:42
 msgid "Plex Libraries"
-msgstr ""
+msgstr "Plex Bibliotheken"
 
 #: app/templates/settings.html:48 app/templates/verify_plex.html:44
 msgid "Scan For Libraries"
-msgstr ""
+msgstr "Bibliotheken scannen"
 
 #: app/templates/settings.html:55 app/templates/verify_plex.html:50
 msgid "Request instance (Ombi, Overseerr...)"
-msgstr ""
+msgstr "URL verzoeksysteem (Ombi, Overseerr...)"
 
 #: app/templates/settings.html:61 app/templates/verify_plex.html:56
 msgid "Discord Server ID"
-msgstr ""
+msgstr "Discord Server ID"
 
 #: app/templates/settings.html:67 app/templates/verify_plex.html:63
 msgid "Verify and Confirm"
-msgstr ""
+msgstr "Verifiëren en bevestigen"
 
 #: app/templates/setup.html:11
 msgid "Join & Download Plex for this device"
-msgstr ""
+msgstr "Doe mee en download Plex voor dit apparaat"
 
 #: app/templates/setup.html:15
 msgid ""
-"Great news! You now have access to our server's media collection. Let's "
-"make sure you know how to use it with Plex."
+"Great news! You now have access to our server's media collection. Let's make "
+"sure you know how to use it with Plex."
 msgstr ""
+"Goed nieuws! Je hebt nu toegang tot de mediacollectie van deze server. Laten "
+"we even tonen hoe je deze gebruikt met Plex."
 
 #: app/templates/setup.html:17
-msgid "Planning on watching Movies on this device? Download Plex for this device."
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
+"Ben je van plan om media te bekijken op dit toestel? Download dan Plex voor "
+"dit toestel."
 
 #: app/templates/setup.html:20
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 #: app/templates/setup.html:28
 msgid "Skip"
-msgstr ""
+msgstr "Overslaan"
 
 #: app/templates/tips.html:12
 msgid "How to Use Plex?"
-msgstr ""
+msgstr "Hoe gebruik je Plex?"
 
 #: app/templates/tips.html:15
 msgid ""
-"Congratulations on accepting the email invitation from Plex! You're now "
-"one step closer to enjoying all the amazing content on our server. "
+"Congratulations on accepting the email invitation from Plex! You're now one "
+"step closer to enjoying all the amazing content on our server. "
 msgstr ""
+"Bedankt om de uitnodiging van Plex te accepteren! Je bent nu één stap "
+"dichter om de inhoud van deze mediaserver te bekijken. "
 
 #: app/templates/tips.html:18
 msgid "Eh, So, What is Plex exactly??"
-msgstr ""
+msgstr "Ok, maar wat is Plex nu precies?"
 
 #: app/templates/tips.html:20
 msgid ""
-"Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If you've received an invitation, it "
-"means someone wants to share their library with you. With Plex, you'll "
-"have access to all of the movies, TV shows, music, and photos that are "
-"stored on their server. Enjoy!"
+"Great question! Plex is a software that allows individuals to share their "
+"media collections with others. If you've received an invitation, it means "
+"someone wants to share their library with you. With Plex, you'll have access "
+"to all of the movies, TV shows, music, and photos that are stored on their "
+"server. Enjoy!"
 msgstr ""
+"Goede vraag! Plex is software waarmee het mogelijk is om je mediacollectie "
+"met anderen te delen. Wanneer je een uitnodiging ontvangt, betekent dat dat "
+"iemand haar mediabibliotheek met je wil delen. Met Plex heb je toegang tot "
+"alle films, series, muziek of foto's dat op deze server staat. Veel plezier!"
 
 #: app/templates/tips.html:23
 msgid "Right, so how do I watch stuff?"
-msgstr ""
+msgstr "Goed, hoe bekijk je iets?"
 
 #: app/templates/tips.html:25
 msgid ""
 "It couldn't be simpler! Plex is available on a wide variety of devices "
 "including laptops, tablets, smartphones, and TVs. All you need to do is "
-"download the Plex app on your device, sign in with your account, and "
-"you're ready to start streaming your media. It's that easy!"
+"download the Plex app on your device, sign in with your account, and you're "
+"ready to start streaming your media. It's that easy!"
 msgstr ""
+"Plex is beschikbaar voor laptops, tablets, smartphones en TV's. Het enige "
+"dat je moet doen is de Plex applicatie op je toestel downloaden en inloggen "
+"met je account. Nu ben je klaar om te kijken, zo simpel is het!"
 
 #: app/templates/tips.html:28
 msgid "I've logged in but I am overwhelmed with content!"
-msgstr ""
+msgstr "Ik ben ingelogd maar word overstelpt met inhoud!"
 
 #: app/templates/tips.html:30
 msgid ""
-"While Plex is a free service, they do have to generate revenue in order "
-"to continue providing the platform. One way they do this is by displaying"
-" their own content before the content of the server you are joining."
+"While Plex is a free service, they do have to generate revenue in order to "
+"continue providing the platform. One way they do this is by displaying their "
+"own content before the content of the server you are joining."
 msgstr ""
+"Plex is gratis te gebruiken, maar moet inkomsten genereren voor het blijven "
+"aanbieden van hun platform. Een manier waarop ze die inkomsten genereren is "
+"door hun eigen content te tonen vóór deze van de server waar je lid van "
+"wordt."
 
 #: app/templates/tips.html:31
 msgid "No need to worry though, this can be easily resolved!"
-msgstr ""
+msgstr "Maar geen probleem, dit is gemakkelijk op te lossen!"
 
 #: app/templates/tips.html:33
 msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
-msgstr ""
+msgstr "Op het linkerdeel van je scherm zie je een menu. Klik op de "
 
 #: app/templates/tips.html:34
 msgid "More"
-msgstr ""
+msgstr "Meer"
 
 #: app/templates/tips.html:34
 msgid "button to reveal all the different types of media you have access to."
-msgstr ""
+msgstr "knop om alle mediatypes te tonen waartot je toegang hebt."
 
 #: app/templates/tips.html:37
 msgid ""
-"To avoid seeing Plex's content first, we recommend hiding it. To do this,"
-" select all the content types you don't want (such as 'Movies and TV on "
-"Plex') and 'Unpin' them from your home screen. This way you'll only see "
-"the content that you really want to watch!"
+"To avoid seeing Plex's content first, we recommend hiding it. To do this, "
+"select all the content types you don't want (such as 'Movies and TV on "
+"Plex') and 'Unpin' them from your home screen. This way you'll only see the "
+"content that you really want to watch!"
 msgstr ""
+"Om te vermijden dat je de inhoud van Plex eerst ziet, raden we aan deze te "
+"verbergen. Om dit te doen selecteer je alle inhoudstypes die je niet wenst "
+"(zoals 'Movies and TV on Plex') en 'Ontpin' je deze van je startscherm. Op "
+"deze manier zie je enkel de inhoud die je echt wil zien."
 
 #: app/templates/tips.html:40
 msgid "Now that everything we"
-msgstr ""
+msgstr "Nu dat alles wat we"
 
 #: app/templates/tips.html:40
 msgid "don't"
-msgstr ""
+msgstr "niet"
 
 #: app/templates/tips.html:40
 msgid "want is out of the way, we can focus on the things we "
-msgstr ""
+msgstr "willen opgeruimd is, kunnen we ons focussen op wat we "
 
 #: app/templates/tips.html:40
 msgid "do"
-msgstr ""
+msgstr "wel"
 
 #: app/templates/tips.html:40
 msgid " want!"
-msgstr ""
+msgstr " willen!"
 
 #: app/templates/tips.html:40
 #, python-format
 msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
-msgstr ""
+msgstr "Pin de secties films/tvseries van %(name)s!"
 
 #: app/templates/tips.html:44
 msgid "How can I make sure to have the best experience?"
-msgstr ""
+msgstr "Hoe zorg ik voor de beste kijkervaring?"
 
 #: app/templates/tips.html:46
 msgid ""
-"By default, Plex plays all content at a lower quality. This can be a bit "
-"of a disappointment. But don't worry, it's a simple fix! You can easily "
-"change the settings to increase the quality of the media that you're "
-"streaming."
+"By default, Plex plays all content at a lower quality. This can be a bit of "
+"a disappointment. But don't worry, it's a simple fix! You can easily change "
+"the settings to increase the quality of the media that you're streaming."
 msgstr ""
+"Standaard toont Plex alle inhoud op een lagere kwaliteit. Dit kan een "
+"teleurstelling zijn. Maar maak je geen zorgen, het is gemakkelijk op te "
+"lossen. Je kan eenvoudig de instelling wijzigen om de kwaliteit van de "
+"stream te verhogen."
 
 #: app/templates/tips.html:48
 msgid "Go to the Plex "
-msgstr ""
+msgstr "Ga naar Plex "
 
 #: app/templates/tips.html:48
 msgid "Settings "
-msgstr ""
+msgstr "Instellingen "
 
 #: app/templates/tips.html:48
 msgid ""
-"page. This is usually in the top right hand corner, depending on the "
-"device you are on."
+"page. This is usually in the top right hand corner, depending on the device "
+"you are on."
 msgstr ""
+"pagina. Dit zou in de rechterbovenhoek zijn, afhankelijk van het toestel "
+"waarop je zit."
 
 #: app/templates/tips.html:50
 msgid "Go to the "
-msgstr ""
+msgstr "Ga naar "
 
 #: app/templates/tips.html:50
 msgid "Quality"
-msgstr ""
+msgstr "Kwaliteit"
 
 #: app/templates/tips.html:50
 msgid "or"
-msgstr ""
+msgstr "of"
 
 #: app/templates/tips.html:51
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: app/templates/tips.html:51
 msgid "settings."
-msgstr ""
+msgstr "instellingen."
 
 #: app/templates/tips.html:53 app/templates/tips.html:57
 msgid "Set the "
-msgstr ""
+msgstr "Zet "
 
 #: app/templates/tips.html:53
 msgid "Remote/Internet Streaming"
-msgstr ""
+msgstr "Internet streamen"
 
 #: app/templates/tips.html:53 app/templates/tips.html:57
 msgid "to "
-msgstr ""
+msgstr "op "
 
 #: app/templates/tips.html:54 app/templates/tips.html:58
 msgid "Maximum/Original"
-msgstr ""
+msgstr "Maximum/Origineel"
 
 #: app/templates/tips.html:57
 msgid "Local Streaming "
-msgstr ""
+msgstr "Thuis streamen "
 
 #: app/templates/tips.html:61
 msgid ""
-"And there you have it! In case you encounter buffering issues, remember "
-"that you can always adjust the playback quality just like you do in "
-"YouTube. This way you can get the best streaming experience possible."
+"And there you have it! In case you encounter buffering issues, remember that "
+"you can always adjust the playback quality just like you do in YouTube. This "
+"way you can get the best streaming experience possible."
 msgstr ""
+"Klaar! Als je problemen ondervindt met het bufferen, kan je altijd de "
+"kwaliteit verlagen zoals je bij YouTube doet. Zo heb je steeds de beste "
+"streamingervaring."
 
 #: app/templates/users.html:5
 msgid "Users"
-msgstr ""
+msgstr "Gebruikers"
 
 #: app/templates/users.html:27
 msgid "Used At"
-msgstr ""
+msgstr "Gebruikt op"
 
 #: app/templates/users.html:33
 msgid "User"
-msgstr ""
+msgstr "Gebruiker"
 
 #: app/templates/users.html:76
 msgid "Copy"
-msgstr ""
+msgstr "Kopieer"
 
 #: app/templates/users.html:78
 msgid "Delete"
-msgstr ""
+msgstr "Verwijder"
 
 #: app/templates/welcome.html:12
 #, python-format
 msgid "You've been invited to join %(name)s!"
-msgstr ""
+msgstr "Je bent uitgenodigd voor %(name)s!"
 
 #: app/templates/welcome.html:14
 msgid ""
-"To join our Plex server, create a Plex account! Once you're done, come "
-"back here!"
+"To join our Plex server, create a Plex account! Once you're done, come back "
+"here!"
 msgstr ""
+"Om toegang tot de Plex server te verkrijgen, heb je een Plex account nodig. "
+"Zodra je dit hebt, kan je terug naar hier komen!"
 
 #: app/templates/welcome.html:18
 msgid "Create Plex Account"
-msgstr ""
+msgstr "Maak een Plex account"
 
 #: app/templates/welcome.html:22
 msgid "I have a Plex Account"
-msgstr ""
-
+msgstr "Ik heb al een Plex account"
