@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-13 19:32+0000\n"
+"POT-Creation-Date: 2023-02-13 20:27+0000\n"
 "PO-Revision-Date: 2023-01-21 21:55+0000\n"
 "Last-Translator: Matthieu B <matthieu@jaseroque.com>\n"
 "Language: fr\n"
@@ -48,24 +48,6 @@ msgstr ""
 #: app/admin.py:220 app/admin.py:223
 msgid "Invalid Username or Password"
 msgstr "Nom d'utilisateur ou mot de passe invalide"
-
-#: app/web.py:71
-msgid "That email does not match any Plex account. Please try again."
-msgstr "Cet e-mail ne correspond à aucun compte Plex. Veuillez réessayer."
-
-#: app/web.py:76
-msgid "This user is already invited to this server."
-msgstr "Cet utilisateur est déjà invité sur ce serveur."
-
-#: app/web.py:80
-msgid "The email entered appears to be invalid."
-msgstr "L'e-mail saisi semble être invalide."
-
-#: app/web.py:85
-msgid "Something went wrong. Please try again or contact an administrator."
-msgstr ""
-"Quelque chose s'est mal passé. Veuillez réessayer ou contacter un "
-"administrateur."
 
 #: app/templates/401.html:20
 msgid "Permission denied."
@@ -236,7 +218,8 @@ msgid "Share"
 msgstr "Partager"
 
 #: app/templates/invites.html:21 app/templates/join.html:42
-#: app/templates/join.html:51 app/templates/users.html:21
+#: app/templates/join.html:51 app/templates/user-plex-login.html:27
+#: app/templates/user-plex-login.html:37 app/templates/users.html:21
 msgid "Invite Code"
 msgstr "Code d'invitation"
 
@@ -260,7 +243,7 @@ msgstr "Illimité"
 msgid "Great! Now, let's get you invited!"
 msgstr "Super ! Maintenant, on va vous inviter !"
 
-#: app/templates/join.html:18
+#: app/templates/join.html:18 app/templates/user-plex-login.html:21
 msgid "Join the Plex Server"
 msgstr "Rejoindre le serveur Plex"
 
@@ -269,10 +252,11 @@ msgid "Your Plex email"
 msgstr "Votre e-mail Plex"
 
 #: app/templates/join.html:28 app/templates/join.html:55
+#: app/templates/user-plex-login.html:42
 msgid "Oops!"
 msgstr "Oups !"
 
-#: app/templates/join.html:60
+#: app/templates/join.html:60 app/templates/user-plex-login.html:49
 msgid "Join"
 msgstr "Rejoindre"
 
@@ -303,6 +287,10 @@ msgstr "Se souvenir de moi"
 #: app/templates/login.html:46
 msgid "Sign in"
 msgstr "Se connecter"
+
+#: app/templates/new-tips.html:11 app/templates/tips.html:12
+msgid "How to Use Plex?"
+msgstr "Comment utiliser Plex ?"
 
 #: app/templates/register_admin.html:18 app/templates/verify_plex.html:18
 msgid "Setup Wizarr"
@@ -418,10 +406,6 @@ msgstr "Télécharger"
 #: app/templates/setup.html:28
 msgid "Skip"
 msgstr "Ignorer"
-
-#: app/templates/tips.html:12
-msgid "How to Use Plex?"
-msgstr "Comment utiliser Plex ?"
 
 #: app/templates/tips.html:15
 msgid ""
@@ -623,6 +607,11 @@ msgstr ""
 " vous le faites sur YouTube. Vous obtiendrez ainsi la meilleure "
 "expérience de streaming possible."
 
+#: app/templates/user-plex-login.html:12
+#, fuzzy, python-format
+msgid "You've been invited to join the %(name)s server!"
+msgstr "Vous avez été invité à rejoindre %(name)s !"
+
 #: app/templates/users.html:5
 #, fuzzy
 msgid "Users"
@@ -703,4 +692,18 @@ msgstr "J'ai déjà un compte Plex"
 
 #~ msgid "*Depending on availability"
 #~ msgstr "*Selon disponibilité"
+
+#~ msgid "That email does not match any Plex account. Please try again."
+#~ msgstr "Cet e-mail ne correspond à aucun compte Plex. Veuillez réessayer."
+
+#~ msgid "This user is already invited to this server."
+#~ msgstr "Cet utilisateur est déjà invité sur ce serveur."
+
+#~ msgid "The email entered appears to be invalid."
+#~ msgstr "L'e-mail saisi semble être invalide."
+
+#~ msgid "Something went wrong. Please try again or contact an administrator."
+#~ msgstr ""
+#~ "Quelque chose s'est mal passé. Veuillez"
+#~ " réessayer ou contacter un administrateur."
 
