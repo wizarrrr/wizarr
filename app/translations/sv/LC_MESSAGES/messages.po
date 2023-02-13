@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-12 21:50+0000\n"
+"POT-Creation-Date: 2023-02-13 19:32+0000\n"
 "PO-Revision-Date: 2023-02-02 13:32+0000\n"
 "Last-Translator: thu3n <elias.thuen@gmail.com>\n"
 "Language: sv\n"
@@ -53,7 +53,7 @@ msgstr "Den mejladressen matchar inget Plex-konto. Vänligen försök igen."
 
 #: app/web.py:76
 msgid "This user is already invited to this server."
-msgstr "Denna användare är redan inbjuden till denna server."
+msgstr "Den här användaren är redan inbjuden till denna server."
 
 #: app/web.py:80
 msgid "The email entered appears to be invalid."
@@ -112,23 +112,21 @@ msgid "Accept"
 msgstr "Acceptera"
 
 #: app/templates/accept.html:31 app/templates/discord.html:29
-#: app/templates/requests.html:71 app/templates/wizard/accept.html:23
+#: app/templates/requests.html:69 app/templates/wizard/accept.html:23
 msgid "Next"
 msgstr "Nästa"
 
 #: app/templates/admin-nav.html:13
 msgid "Home"
-msgstr ""
+msgstr "Hem"
 
 #: app/templates/admin-nav.html:16
-#, fuzzy
 msgid "Invitations"
-msgstr "Skapa inbjudan"
+msgstr "Inbjudan"
 
 #: app/templates/admin-nav.html:19
-#, fuzzy
 msgid "Settings"
-msgstr "inställningar."
+msgstr "Inställningar"
 
 #: app/templates/discord.html:4
 msgid "Join our Discord Server"
@@ -157,7 +155,7 @@ msgstr "Uppdatering tillgänglig. Klicka här."
 
 #: app/templates/invite.html:53
 msgid "Quick Invite"
-msgstr ""
+msgstr "Snabb inbjudningar"
 
 #: app/templates/invite.html:64
 msgid "Invite user"
@@ -242,7 +240,7 @@ msgstr "Förbrukad"
 
 #: app/templates/invites.html:23 app/templates/users.html:30
 msgid "Created"
-msgstr "Skapade"
+msgstr "Skapad"
 
 #: app/templates/invites.html:24 app/templates/users.html:36
 msgid "Expires"
@@ -333,24 +331,22 @@ msgid "Plex Requests"
 msgstr "Plex förfrågningar"
 
 #: app/templates/requests.html:35
-msgid "Request any available Movie or Tv Show"
+msgid "Request any available Movie or TV Show"
 msgstr "Förfråga efter en tillgänglig film eller TV-serie"
 
 #: app/templates/requests.html:45
-msgid "Requested media will be automatically downloaded and added to server"
+msgid ""
+"Requested media will be automatically downloaded and added to the library"
+" (if available)"
 msgstr ""
-"Förfrågad titel kommer att automatiskt laddas ner och läggas till på "
-"servern"
+"Förfrågad titel kommer att automatiskt laddas ner och läggas till i "
+"biblioteket (om tillgängligt)"
 
 #: app/templates/requests.html:55
 msgid "If enabled, receive notifications"
 msgstr "Om det är tillgängligt, lägg till notiser"
 
-#: app/templates/requests.html:60
-msgid "*Depending on availability"
-msgstr "*Beroende på tillgänglighet"
-
-#: app/templates/requests.html:62
+#: app/templates/requests.html:61
 msgid "Check it Out"
 msgstr "Kolla in"
 
@@ -458,8 +454,8 @@ msgid ""
 "you're ready to start streaming your media. It's that easy!"
 msgstr ""
 "Plex finns tillgängligt på massor av enheter, datorer, surfplatta, "
-"telefoner och smarttv. Allt du behöver göra är att leta reda på plex där "
-"appar finns. Logga sedan in me ditt konto, så är du redo att streama!"
+"telefoner och smart-tv. Allt du behöver göra är att leta reda på plex där"
+" appar finns. Logga sedan in me ditt konto, så är du redo att streama!"
 
 #: app/templates/tips.html:28
 msgid "I've logged in but I am overwhelmed with content!"
@@ -478,14 +474,14 @@ msgstr ""
 
 #: app/templates/tips.html:31
 msgid "No need to worry though, this can be easily resolved!"
-msgstr "Det är dock inga problem att lösa!"
+msgstr "Det är dock enkelt att göra sig av med!"
 
 #: app/templates/tips.html:33
 msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
 msgstr "Till vänster på skärmen ska du se en meny. klicka på den. "
 
 #: app/templates/tips.html:34
-msgid "Expand"
+msgid "More"
 msgstr "Expandera"
 
 #: app/templates/tips.html:34
@@ -500,9 +496,9 @@ msgid ""
 "the content that you really want to watch!"
 msgstr ""
 "För att slippa se Plex egna innehåll så rekommenderar vi att gömma det. "
-"För att göra det, välj de innehållet du inte vill se(som 'Filmer och TV "
-"på plex' och Ta bort/lossa från hemmskärmen. På de sättet ska du nu bara "
-"kunna se innehållet från servern du precis gått med i!"
+"För att göra det, välj de innehållet du inte vill se (som 'Filmer och TV "
+"på plex') och Ta bort/lossa från hemmskärmen. På de sättet ska du nu bara"
+" kunna se innehållet från servern du precis gått med i!"
 
 #: app/templates/tips.html:40
 msgid "Now that everything we"
@@ -523,6 +519,11 @@ msgstr "vill"
 #: app/templates/tips.html:40
 msgid " want!"
 msgstr " ha!"
+
+#: app/templates/tips.html:40
+#, python-format
+msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
+msgstr ""
 
 #: app/templates/tips.html:44
 msgid "How can I make sure to have the best experience?"
@@ -550,7 +551,7 @@ msgstr "Inställningar "
 msgid ""
 "page. This is usually in the top right hand corner, depending on the "
 "device you are on."
-msgstr "Det är oftast uppe till höger, beroende på vilken enhet du sitter på."
+msgstr ". Det är oftast uppe till höger, beroende på vilken enhet du sitter på."
 
 #: app/templates/tips.html:50
 msgid "Go to the "
@@ -586,7 +587,7 @@ msgstr "till "
 
 #: app/templates/tips.html:54 app/templates/tips.html:58
 msgid "Maximum/Original"
-msgstr "Maximal/Orignal"
+msgstr "Maximal/Original"
 
 #: app/templates/tips.html:57
 msgid "Local Streaming "
@@ -603,7 +604,6 @@ msgstr ""
 "upplevelse."
 
 #: app/templates/users.html:5
-#, fuzzy
 msgid "Users"
 msgstr "Användare"
 
@@ -625,8 +625,8 @@ msgstr "Ta bort"
 
 #: app/templates/welcome.html:12
 #, python-format
-msgid "You've been invited to join the %(name)s server!"
-msgstr "Du har blivit inbjuden till %(name)s server!"
+msgid "You've been invited to join %(name)s!"
+msgstr "Du har blivit inbjuden till %(name)s!"
 
 #: app/templates/welcome.html:14
 msgid ""
@@ -651,4 +651,7 @@ msgstr "Jag har redan ett Plex konto"
 
 #~ msgid "Server Settings"
 #~ msgstr "Serverinställningar"
+
+#~ msgid "*Depending on availability"
+#~ msgstr "*Beroende på tillgänglighet"
 

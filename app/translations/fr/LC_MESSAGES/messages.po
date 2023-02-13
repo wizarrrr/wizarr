@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-12 21:50+0000\n"
+"POT-Creation-Date: 2023-02-13 19:32+0000\n"
 "PO-Revision-Date: 2023-01-21 21:55+0000\n"
 "Last-Translator: Matthieu B <matthieu@jaseroque.com>\n"
 "Language: fr\n"
@@ -116,7 +116,7 @@ msgid "Accept"
 msgstr "Accepter"
 
 #: app/templates/accept.html:31 app/templates/discord.html:29
-#: app/templates/requests.html:71 app/templates/wizard/accept.html:23
+#: app/templates/requests.html:69 app/templates/wizard/accept.html:23
 msgid "Next"
 msgstr "Suivant"
 
@@ -338,24 +338,22 @@ msgid "Plex Requests"
 msgstr "Requêtes de médias"
 
 #: app/templates/requests.html:35
-msgid "Request any available Movie or Tv Show"
+msgid "Request any available Movie or TV Show"
 msgstr "Demandez n'importe quel film ou série"
 
 #: app/templates/requests.html:45
-msgid "Requested media will be automatically downloaded and added to server"
+msgid ""
+"Requested media will be automatically downloaded and added to the library"
+" (if available)"
 msgstr ""
-"Les médias demandés seront automatiquement téléchargés et ajoutés au "
-"serveur"
+"Les médias demandés seront automatiquement téléchargés et ajoutés à la "
+"bibliothèque (si disponible)"
 
 #: app/templates/requests.html:55
 msgid "If enabled, receive notifications"
 msgstr "Si cette option est activée, vous recevrez des notifications"
 
-#: app/templates/requests.html:60
-msgid "*Depending on availability"
-msgstr "*Selon disponibilité"
-
-#: app/templates/requests.html:62
+#: app/templates/requests.html:61
 msgid "Check it Out"
 msgstr "Jeter un œil"
 
@@ -436,7 +434,7 @@ msgstr ""
 
 #: app/templates/tips.html:18
 msgid "Eh, So, What is Plex exactly??"
-msgstr "Euh, alors, qu'est-ce que Plex exactement ??"
+msgstr "Euh, alors, qu'est-ce que Plex exactement ?"
 
 #: app/templates/tips.html:20
 msgid ""
@@ -497,7 +495,7 @@ msgstr ""
 "bouton "
 
 #: app/templates/tips.html:34
-msgid "Expand"
+msgid "More"
 msgstr "Développer"
 
 #: app/templates/tips.html:34
@@ -513,7 +511,7 @@ msgid ""
 msgstr ""
 "Pour éviter de voir le contenu commercial de Plex en premier, nous vous "
 "recommandons de le masquer. Pour ce faire, sélectionnez tous les types de"
-" contenu dont vous ne voulez pas (par exemple, \"Films et télévision sur "
+" contenu dont vous ne voulez pas (par exemple, \"Films et séries sur "
 "Plex\") et désépinglez-les de votre écran d'accueil. Ainsi, vous ne "
 "verrez que le contenu que vous voulez vraiment regarder !"
 
@@ -536,6 +534,11 @@ msgstr "voulons"
 #: app/templates/tips.html:40
 msgid " want!"
 msgstr " !"
+
+#: app/templates/tips.html:40
+#, python-format
+msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
+msgstr "Epinglez simplement les sections Films / Séries du serveur de %(name)s !"
 
 #: app/templates/tips.html:44
 msgid "How can I make sure to have the best experience?"
@@ -643,8 +646,8 @@ msgstr "Supprimer"
 
 #: app/templates/welcome.html:12
 #, python-format
-msgid "You've been invited to join the %(name)s server!"
-msgstr "Vous avez été invité à rejoindre le serveur %(name)s !"
+msgid "You've been invited to join %(name)s!"
+msgstr "Vous avez été invité à rejoindre %(name)s !"
 
 #: app/templates/welcome.html:14
 msgid ""
@@ -697,4 +700,7 @@ msgstr "J'ai déjà un compte Plex"
 
 #~ msgid "Server Settings"
 #~ msgstr "Paramètres du serveur"
+
+#~ msgid "*Depending on availability"
+#~ msgstr "*Selon disponibilité"
 

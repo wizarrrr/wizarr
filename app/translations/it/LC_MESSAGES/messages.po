@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-12 21:50+0000\n"
+"POT-Creation-Date: 2023-02-13 19:32+0000\n"
 "PO-Revision-Date: 2023-01-21 16:51+0000\n"
 "Last-Translator: Matthieu B <matthieu@jaseroque.com>\n"
 "Language: it\n"
@@ -114,7 +114,7 @@ msgid "Accept"
 msgstr "Accetta"
 
 #: app/templates/accept.html:31 app/templates/discord.html:29
-#: app/templates/requests.html:71 app/templates/wizard/accept.html:23
+#: app/templates/requests.html:69 app/templates/wizard/accept.html:23
 msgid "Next"
 msgstr "Successivo"
 
@@ -333,22 +333,20 @@ msgid "Plex Requests"
 msgstr "Richieste Plex"
 
 #: app/templates/requests.html:35
-msgid "Request any available Movie or Tv Show"
+msgid "Request any available Movie or TV Show"
 msgstr ""
 
 #: app/templates/requests.html:45
-msgid "Requested media will be automatically downloaded and added to server"
+msgid ""
+"Requested media will be automatically downloaded and added to the library"
+" (if available)"
 msgstr ""
 
 #: app/templates/requests.html:55
 msgid "If enabled, receive notifications"
 msgstr ""
 
-#: app/templates/requests.html:60
-msgid "*Depending on availability"
-msgstr ""
-
-#: app/templates/requests.html:62
+#: app/templates/requests.html:61
 msgid "Check it Out"
 msgstr ""
 
@@ -468,7 +466,7 @@ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
 msgstr ""
 
 #: app/templates/tips.html:34
-msgid "Expand"
+msgid "More"
 msgstr ""
 
 #: app/templates/tips.html:34
@@ -501,6 +499,11 @@ msgstr ""
 
 #: app/templates/tips.html:40
 msgid " want!"
+msgstr ""
+
+#: app/templates/tips.html:40
+#, python-format
+msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
 msgstr ""
 
 #: app/templates/tips.html:44
@@ -599,7 +602,7 @@ msgstr "Elimina"
 
 #: app/templates/welcome.html:12
 #, python-format
-msgid "You've been invited to join the %(name)s server!"
+msgid "You've been invited to join %(name)s!"
 msgstr ""
 
 #: app/templates/welcome.html:14
@@ -639,5 +642,8 @@ msgstr ""
 #~ msgid ""
 #~ "Discord\n"
 #~ "              Server ID"
+#~ msgstr ""
+
+#~ msgid "*Depending on availability"
 #~ msgstr ""
 
