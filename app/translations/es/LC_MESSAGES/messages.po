@@ -337,14 +337,12 @@ msgid "Plex Requests"
 msgstr "Solicitudes de Plex"
 
 #: app/templates/requests.html:35
-msgid "Request any available Movie or Tv Show"
+msgid "Request any available Movie or TV Show"
 msgstr "Solicitar cualquier película o programa de televisión disponible"
 
 #: app/templates/requests.html:45
-msgid "Requested media will be automatically downloaded and added to server"
-msgstr ""
-"Los medios solicitados se descargarán automáticamente y se añadirán al "
-"servidor"
+msgid "Requested media will be automatically downloaded and added to the library (if available)"
+msgstr "Los medios solicitados se descargarán automáticamente y se añadirán a la biblioteca (si está disponible)"
 
 #: app/templates/requests.html:55
 msgid "If enabled, receive notifications"
@@ -493,7 +491,7 @@ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
 msgstr "En el lado izquierdo de la pantalla, verá un menú. Haga clic en el "
 
 #: app/templates/tips.html:34
-msgid "Expand"
+msgid "More"
 msgstr "Expandir"
 
 #: app/templates/tips.html:34
@@ -638,8 +636,8 @@ msgstr "Eliminar"
 
 #: app/templates/welcome.html:12
 #, python-format
-msgid "You've been invited to join the %(name)s server!"
-msgstr "¡Has sido invitado a unirte al servidor %(name)s!"
+msgid "You've been invited to join %(name)s!"
+msgstr "¡Has sido invitado a unirte %(name)s!"
 
 #: app/templates/welcome.html:14
 msgid ""
