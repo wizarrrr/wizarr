@@ -8,15 +8,18 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-13 18:41+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2023-02-13 19:31+0000\n"
+"Last-Translator: Luke Keude <kingrun424@gmail.com>\n"
+"Language-Team: Lithuanian <https://hosted.weblate.org/projects/wizarr/app/lt/"
+">\n"
 "Language: lt\n"
-"Language-Team: none\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"(n%100<10 || n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > "
+"19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? "
+"1 : 2);\n"
+"X-Generator: Weblate 4.16-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:47
@@ -25,288 +28,299 @@ msgstr "Slaptažodžiai nesutampa."
 
 #: app/admin.py:50
 msgid "Username must be between 3 and 15 characters."
-msgstr ""
+msgstr "Slapyvardis turi buti tarp 3 ir 15 simbolių."
 
 #: app/admin.py:53
 msgid "Password must be between 3 and 40 characters."
-msgstr ""
+msgstr "Slaptažodis turi buti tarp 3 ir 40 simbolių."
 
 #: app/admin.py:82
 msgid "You must select at least one library."
-msgstr ""
+msgstr "Turite pasirinkti bent vieną biblioteką."
 
 #: app/admin.py:149
 msgid "It is likely that your token does not work."
-msgstr ""
+msgstr "Tikėtina, kad jūsų prieigos raktas neveikiantis."
 
 #: app/admin.py:151
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
+"Nepavyko prisijungti prie jūsų „Plex“ serverio. Daugiau informacijos rasite "
+"žurnalo duomenyse."
 
 #: app/admin.py:220 app/admin.py:223
 msgid "Invalid Username or Password"
-msgstr ""
+msgstr "Neteisingas Prisijungimo vardas arba Slaptažodis"
 
 #: app/web.py:71
 msgid "That email does not match any Plex account. Please try again."
 msgstr ""
+"Šis el. pašto adresas neatitinka jokios „Plex“ paskyros. Pabandykite dar "
+"kartą."
 
 #: app/web.py:76
 msgid "This user is already invited to this server."
-msgstr ""
+msgstr "Šis vartotojas jau pakviestas į šį serverį."
 
 #: app/web.py:80
 msgid "The email entered appears to be invalid."
-msgstr ""
+msgstr "Įvestas el. pašto adresas neteisingas."
 
 #: app/web.py:85
 msgid "Something went wrong. Please try again or contact an administrator."
 msgstr ""
+"Kažkas nutiko. Bandykite dar kartą arba susisiekite su administratoriumi."
 
 #: app/templates/401.html:20
 msgid "Permission denied."
-msgstr ""
+msgstr "Leidimas nesuteiktas."
 
 #: app/templates/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr ""
+msgstr "Jūs bandote padaryti tai, ko neturėtumėte daryti..."
 
 #: app/templates/404.html:19
 msgid "Something's missing."
-msgstr ""
+msgstr "Kažko trūksta."
 
 #: app/templates/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
+msgstr "Atsiprašome, šio puslapio neradome. Panašu, jog jis neegzistuoja!"
 
 #: app/templates/500.html:19
 msgid "Internal Server Error."
-msgstr ""
+msgstr "Vidinė serverio klaida."
 
 #: app/templates/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr ""
+msgstr " Kažkas ne taip. Pabandykite dar kartą vėliau."
 
 #: app/templates/accept.html:4
 msgid "Accept Invitation"
-msgstr ""
+msgstr "Priimti pakvietimą"
 
 #: app/templates/accept.html:11 app/templates/wizard/accept.html:2
 msgid "Accept our invitation"
-msgstr ""
+msgstr "Priimkite mūsų kvietimą"
 
 #: app/templates/accept.html:15 app/templates/wizard/accept.html:6
 msgid "We have sent an invitation to your Plex Account! Almost there!"
-msgstr ""
+msgstr "Išsiuntėme kvietimą į jūsų Plex paskyrą! Pabaiga jau netoli!"
 
 #: app/templates/accept.html:17 app/templates/wizard/accept.html:8
 msgid ""
 "Click the button below to be taken to Plex, here you will see an "
 "invitation from us."
 msgstr ""
+"Spustelėkite žemiau esantį mygtuką, kad patektumėte į Plex, čia pamatysite "
+"mūsų kvietimą."
 
 #: app/templates/accept.html:23 app/templates/wizard/accept.html:14
 msgid "Accept"
-msgstr ""
+msgstr "Priimti"
 
 #: app/templates/accept.html:31 app/templates/discord.html:29
 #: app/templates/requests.html:69 app/templates/wizard/accept.html:23
 msgid "Next"
-msgstr ""
+msgstr "Kitas"
 
 #: app/templates/admin-nav.html:13
 msgid "Home"
-msgstr ""
+msgstr "Pradinis"
 
 #: app/templates/admin-nav.html:16
 msgid "Invitations"
-msgstr ""
+msgstr "Kvietimai"
 
 #: app/templates/admin-nav.html:19
 msgid "Settings"
-msgstr ""
+msgstr "Nustatymai"
 
 #: app/templates/discord.html:4
 msgid "Join our Discord Server"
-msgstr ""
+msgstr "Prisijunkite prie mūsų „Discord“ serverio"
 
 #: app/templates/discord.html:11
 msgid ""
 "Join Our Discord\n"
 "                Server!"
 msgstr ""
+"Prisijunkite prie mūsų\n"
+"                Serverio!"
 
 #: app/templates/invite.html:5 app/templates/invites.html:5
 msgid "Invite User"
-msgstr ""
+msgstr "Pakviesti vartotoją"
 
 #: app/templates/invite.html:36 app/templates/invite.html:58
 #: app/templates/invite.html:70
 msgid "Attention!"
-msgstr ""
+msgstr "Dėmesio!"
 
 #: app/templates/invite.html:37 app/templates/invite.html:58
 msgid "Update available. Click here."
-msgstr ""
+msgstr "Galimas atnaujinimas. Paspauskite čia."
 
 #: app/templates/invite.html:53
 msgid "Quick Invite"
-msgstr ""
+msgstr "Greitas pakvietimas"
 
 #: app/templates/invite.html:64
 msgid "Invite user"
-msgstr ""
+msgstr "Pakviesti naudotoją"
 
 #: app/templates/invite.html:70
 msgid ""
 "Environment Variables are being deprecated and replaced by a secure sign-"
 "up. Please visit "
 msgstr ""
+"Aplinks kintamieji nebenaudojami ir yra keičiami saugia registracija. "
+"Prašome apsilankyti "
 
 #: app/templates/invite.html:71
 msgid "/settings. See Repo for more info"
-msgstr ""
+msgstr "/settings. Daugiau informacijos rasite „Repo“"
 
 #: app/templates/invite.html:78
 msgid "Invite Code String"
-msgstr ""
+msgstr "Kvietimo kodo eilutė"
 
 #: app/templates/invite.html:79
 msgid "(optional)"
-msgstr ""
+msgstr "(neprivaloma)"
 
 #: app/templates/invite.html:86
 msgid "Expiration"
-msgstr ""
+msgstr "Galiojimo laikas"
 
 #: app/templates/invite.html:89
 msgid "1 day"
-msgstr ""
+msgstr "1 diena"
 
 #: app/templates/invite.html:90
 msgid "1 week"
-msgstr ""
+msgstr "1 savaitė"
 
 #: app/templates/invite.html:91
 msgid "1 month"
-msgstr ""
+msgstr "1 mėnuo"
 
 #: app/templates/invite.html:92 app/templates/users.html:72
 msgid "Never"
-msgstr ""
+msgstr "Niekada"
 
 #: app/templates/invite.html:99
 msgid "Unlimited Usages"
-msgstr ""
+msgstr "Neribotas naudojimas"
 
 #: app/templates/invite.html:102
 msgid "Create Invitation"
-msgstr ""
+msgstr "Sukurti kvietimą"
 
 #: app/templates/invite.html:108
 msgid "Successfully generated an Invitation!"
-msgstr ""
+msgstr "Kvietimas sėkmingai sugeneruotas!"
 
 #: app/templates/invite.html:113
 msgid "Great!"
-msgstr ""
+msgstr "Puiku!"
 
 #: app/templates/invite.html:113
 msgid "Link has been copied to clipboard!"
-msgstr ""
+msgstr "Nuoroda nukopijuota į iškarpinę!"
 
 #: app/templates/invite.html:121
 msgid "Back"
-msgstr ""
+msgstr "Atgal"
 
 #: app/templates/invite.html:126
 msgid "Share"
-msgstr ""
+msgstr "Dalintis"
 
 #: app/templates/invites.html:21 app/templates/join.html:42
 #: app/templates/join.html:51 app/templates/users.html:21
 msgid "Invite Code"
-msgstr ""
+msgstr "Pakvietimo kodas"
 
 #: app/templates/invites.html:22 app/templates/users.html:24
 msgid "Used"
-msgstr ""
+msgstr "Panaudota"
 
 #: app/templates/invites.html:23 app/templates/users.html:30
 msgid "Created"
-msgstr ""
+msgstr "Sukurta"
 
 #: app/templates/invites.html:24 app/templates/users.html:36
 msgid "Expires"
-msgstr ""
+msgstr "Baigia galioti"
 
 #: app/templates/invites.html:25 app/templates/users.html:39
 msgid "Unlimited"
-msgstr ""
+msgstr "Neribota"
 
 #: app/templates/join.html:12
 msgid "Great! Now, let's get you invited!"
-msgstr ""
+msgstr "Puiku! Dabar pakvieskime jus!"
 
 #: app/templates/join.html:18
 msgid "Join the Plex Server"
-msgstr ""
+msgstr "Prisijunkite prie Plex serverio"
 
 #: app/templates/join.html:24 app/templates/join.html:34
 msgid "Your Plex email"
-msgstr ""
+msgstr "Jūsų „Plex“ el. paštas"
 
 #: app/templates/join.html:28 app/templates/join.html:55
 msgid "Oops!"
-msgstr ""
+msgstr "Oi!"
 
 #: app/templates/join.html:60
 msgid "Join"
-msgstr ""
+msgstr "Prisijungti"
 
 #: app/templates/join.html:62
 msgid "Don't have a Plex account, yet?"
-msgstr ""
+msgstr "Dar neturite Plex paskyros?"
 
 #: app/templates/join.html:63
 msgid "Get one here."
-msgstr ""
+msgstr "Gaukite vieną čia."
 
 #: app/templates/login.html:18
 msgid "Login"
-msgstr ""
+msgstr "Prisijungti"
 
 #: app/templates/login.html:23 app/templates/register_admin.html:24
 msgid "Username"
-msgstr ""
+msgstr "Slapyvardis"
 
 #: app/templates/login.html:29 app/templates/register_admin.html:30
 msgid "Password"
-msgstr ""
+msgstr "Slaptažodis"
 
 #: app/templates/login.html:41
 msgid "Remember me"
-msgstr ""
+msgstr "Prisiminti mane"
 
 #: app/templates/login.html:46
 msgid "Sign in"
-msgstr ""
+msgstr "Prisijungti"
 
 #: app/templates/register_admin.html:18 app/templates/verify_plex.html:18
 msgid "Setup Wizarr"
-msgstr ""
+msgstr "Sąrankos vedlys"
 
 #: app/templates/register_admin.html:36
 msgid "Confirm password"
-msgstr ""
+msgstr "Patvirtinti slaptažodį"
 
 #: app/templates/register_admin.html:42
 msgid "Create an account"
-msgstr ""
+msgstr "Sukurti paskyrą"
 
 #: app/templates/requests.html:10
 msgid "Requesting Media"
-msgstr ""
+msgstr "Medijos failų užklausa"
 
 #: app/templates/requests.html:13
 msgid ""
@@ -315,100 +329,111 @@ msgid ""
 "user-friendly request system that can automatically search for the media "
 "you're looking for. "
 msgstr ""
+"Džiaugiamės galėdami jums pasiūlyti platų medijos pasirinkimą. Jei jums "
+"sunku rasti tai, kas jums patinka, nesijaudinkite! Turime patogią užklausų "
+"sistemą, kuri gali automatiškai ieškoti jūsų ieškomos medijos. "
 
 #: app/templates/requests.html:23
 msgid "Plex Requests"
-msgstr ""
+msgstr "„Plex“ užklausos"
 
 #: app/templates/requests.html:35
 msgid "Request any available Movie or TV Show"
-msgstr ""
+msgstr "Prašykite bet kurio galimo filmo ar TV laidos"
 
 #: app/templates/requests.html:45
 msgid ""
 "Requested media will be automatically downloaded and added to the library"
 " (if available)"
 msgstr ""
+"Prašoma medija bus automatiškai atsisiųsta ir pridėta prie bibliotekos ("
+"jeigu yra)"
 
 #: app/templates/requests.html:55
 msgid "If enabled, receive notifications"
-msgstr ""
+msgstr "Jeigu įgalinta, gaukite pranešimus"
 
 #: app/templates/requests.html:61
 msgid "Check it Out"
-msgstr ""
+msgstr "Pasižiūrėk"
 
 #: app/templates/settings.html:20
 msgid "Change Server Settings"
-msgstr ""
+msgstr "Pakeiskite serverio nustatymus"
 
 #: app/templates/settings.html:25 app/templates/verify_plex.html:23
 msgid "Plex Display Name"
-msgstr ""
+msgstr "Plex rodomas pavadinimas"
 
 #: app/templates/settings.html:31 app/templates/verify_plex.html:29
 msgid "Plex URL"
-msgstr ""
+msgstr "Plex nuoroda"
 
 #: app/templates/settings.html:37 app/templates/verify_plex.html:36
 msgid "Plex Token"
-msgstr ""
+msgstr "Plex prieigos raktas"
 
 #: app/templates/settings.html:46 app/templates/verify_plex.html:42
 msgid "Plex Libraries"
-msgstr ""
+msgstr "Plex bibliotekos"
 
 #: app/templates/settings.html:48 app/templates/verify_plex.html:44
 msgid "Scan For Libraries"
-msgstr ""
+msgstr "Ieškoti bibliotekų"
 
 #: app/templates/settings.html:55 app/templates/verify_plex.html:50
 msgid "Request instance (Ombi, Overseerr...)"
-msgstr ""
+msgstr "Prašymų serveris (Ombi, Overseerr...)"
 
 #: app/templates/settings.html:61 app/templates/verify_plex.html:56
 msgid "Discord Server ID"
-msgstr ""
+msgstr "„Discord“ serverio ID"
 
 #: app/templates/settings.html:67 app/templates/verify_plex.html:63
 msgid "Verify and Confirm"
-msgstr ""
+msgstr "Patikrinti ir patvirtinti"
 
 #: app/templates/setup.html:11
 msgid "Join & Download Plex for this device"
-msgstr ""
+msgstr "Prisijunkite ir atsisiųskite šiam įrengininiui „Plex“"
 
 #: app/templates/setup.html:15
 msgid ""
 "Great news! You now have access to our server's media collection. Let's "
 "make sure you know how to use it with Plex."
 msgstr ""
+"Puiki naujiena! Dabar turite prieigą prie mūsų serverio medijos kolekcijos. "
+"Įsitikinkime, kad žinote, kaip jį naudoti su „Plex“."
 
 #: app/templates/setup.html:17
 msgid "Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
+"Planuojate žiūrėti filmus šiuo įrenginiu? Atsisiųskite „Plex“ šiam "
+"įrenginiui."
 
 #: app/templates/setup.html:20
 msgid "Download"
-msgstr ""
+msgstr "Parsisiųsti"
 
 #: app/templates/setup.html:28
 msgid "Skip"
-msgstr ""
+msgstr "Praleisti"
 
 #: app/templates/tips.html:12
 msgid "How to Use Plex?"
-msgstr ""
+msgstr "Kaip naudotis \"Plex\"?"
 
 #: app/templates/tips.html:15
 msgid ""
 "Congratulations on accepting the email invitation from Plex! You're now "
 "one step closer to enjoying all the amazing content on our server. "
 msgstr ""
+"Sveikiname priėmus kvietimą el. paštu iš Plex! Dabar esate vienu žingsniu "
+"arčiau, kad galėtumėte mėgautis visu nuostabiu turiniu mūsų serveryje. "
 
 #: app/templates/tips.html:18
 msgid "Eh, So, What is Plex exactly??"
-msgstr ""
+msgstr "Taigi, kas tiksliai yra „Plex“??"
 
 #: app/templates/tips.html:20
 msgid ""
@@ -418,10 +443,15 @@ msgid ""
 "have access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
 msgstr ""
+"Puikus klausimas! „Plex“ yra programinė įranga, leidžianti asmenims dalytis "
+"savo medijos kolekcijomis su kitais. Jei gavote kvietimą, tai reiškia, kad "
+"kažkas nori su jumis dalintis savo biblioteka. Naudodami „Plex“ turėsite "
+"prieigą prie visų filmų, TV laidų, muzikos ir nuotraukų, saugomų jų "
+"serveryje. Mėgaukitės!"
 
 #: app/templates/tips.html:23
 msgid "Right, so how do I watch stuff?"
-msgstr ""
+msgstr "Supratau, tai kaip man pradėti žiūrėti dalykus?"
 
 #: app/templates/tips.html:25
 msgid ""
@@ -430,10 +460,15 @@ msgid ""
 "download the Plex app on your device, sign in with your account, and "
 "you're ready to start streaming your media. It's that easy!"
 msgstr ""
+"Tai negali būti paprasčiau! „Plex“ galima naudoti įvairiuose įrenginiuose, "
+"įskaitant nešiojamuosius kompiuterius, planšetinius kompiuterius, "
+"išmaniuosius telefonus ir televizorius. Viskas, ką jums reikia padaryti, tai "
+"atsisiųsti „Plex“ programą į savo įrenginį, prisijungti naudodami savo "
+"paskyrą ir būsite pasiruošę pradėti transliuoti mediją. Tai taip paprasta!"
 
 #: app/templates/tips.html:28
 msgid "I've logged in but I am overwhelmed with content!"
-msgstr ""
+msgstr "Aš prisijungiau, bet esu priblokštas turinio!"
 
 #: app/templates/tips.html:30
 msgid ""
@@ -441,22 +476,27 @@ msgid ""
 "to continue providing the platform. One way they do this is by displaying"
 " their own content before the content of the server you are joining."
 msgstr ""
+"Nors „Plex“ yra nemokama paslauga, jie turi uždirbti pajamų, kad galėtų "
+"toliau teikti platformą. Vienas iš būdų kaip tai daroma – rodyti savo turinį "
+"prieš serverio, prie kurio prisijungiate, turinį."
 
 #: app/templates/tips.html:31
 msgid "No need to worry though, this can be easily resolved!"
-msgstr ""
+msgstr "Tačiau nereikia jaudintis, tai galima lengvai išspręsti!"
 
 #: app/templates/tips.html:33
 msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
-msgstr ""
+msgstr "Kairėje ekrano pusėje matysite meniu. Spustelėkite ant "
 
 #: app/templates/tips.html:34
 msgid "More"
-msgstr ""
+msgstr "Daugiau"
 
 #: app/templates/tips.html:34
 msgid "button to reveal all the different types of media you have access to."
 msgstr ""
+"mygtuko, kad atskleistumėte visus skirtingus medijos tipus, prie kurių "
+"turite prieigą."
 
 #: app/templates/tips.html:37
 msgid ""
@@ -465,35 +505,39 @@ msgid ""
 "Plex') and 'Unpin' them from your home screen. This way you'll only see "
 "the content that you really want to watch!"
 msgstr ""
+"Norint išvengti \"Plex“ turinio, rekomenduojame jį paslėpti. Norėdami tai "
+"padaryti, pasirinkite visus turinio tipus, kurių nenorite (pvz., „Filmai ir "
+"TV naudojant Plex“) ir „Atsegti“ juos nuo pagrindinio ekrano. Taip matysite "
+"tik tą turinį, kurį tikrai norite žiūrėti!"
 
 #: app/templates/tips.html:40
 msgid "Now that everything we"
-msgstr ""
+msgstr "Dabar viskas, ko mes"
 
 #: app/templates/tips.html:40
 msgid "don't"
-msgstr ""
+msgstr "nebe"
 
 #: app/templates/tips.html:40
 msgid "want is out of the way, we can focus on the things we "
-msgstr ""
+msgstr "norime, galime sutelkti dėmesį į tai "
 
 #: app/templates/tips.html:40
 msgid "do"
-msgstr ""
+msgstr "ko"
 
 #: app/templates/tips.html:40
 msgid " want!"
-msgstr ""
+msgstr " norime!"
 
 #: app/templates/tips.html:40
 #, python-format
 msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
-msgstr ""
+msgstr "Tiesiog prisekite Filmai / TV laidų skyrius iš %(name)s!"
 
 #: app/templates/tips.html:44
 msgid "How can I make sure to have the best experience?"
-msgstr ""
+msgstr "Kaip galiu užtikrinti, kad mano patirtis būtų geriausia?"
 
 #: app/templates/tips.html:46
 msgid ""
@@ -502,60 +546,66 @@ msgid ""
 "change the settings to increase the quality of the media that you're "
 "streaming."
 msgstr ""
+"Pagal numatytuosius nustatymus „Plex“ atkuria visą turinį žemesne kokybe. "
+"Tai gali šiek tiek nuvilti. Bet nesijaudinkite, tai galima nesunkiai "
+"pataisyti! Galite lengvai pakeisti nustatymus, kad pagerintumėte srautu "
+"perduodamos medijos kokybę."
 
 #: app/templates/tips.html:48
 msgid "Go to the Plex "
-msgstr ""
+msgstr "Pereiti į \"Plex\" "
 
 #: app/templates/tips.html:48
 msgid "Settings "
-msgstr ""
+msgstr "Nustatymų "
 
 #: app/templates/tips.html:48
 msgid ""
 "page. This is usually in the top right hand corner, depending on the "
 "device you are on."
 msgstr ""
+"langą. Tai įpaprastai randasi viršutiniame dešiniajame kampe, atsižvelgiant "
+"į įrenginį, kurį naudojate."
 
 #: app/templates/tips.html:50
 msgid "Go to the "
-msgstr ""
+msgstr "Eikite į "
 
 #: app/templates/tips.html:50
 msgid "Quality"
-msgstr ""
+msgstr "Kokybės"
 
 #: app/templates/tips.html:50
 msgid "or"
-msgstr ""
+msgstr "arba"
 
 #: app/templates/tips.html:51
 msgid "Video"
-msgstr ""
+msgstr "Vaizdo"
 
 #: app/templates/tips.html:51
 msgid "settings."
-msgstr ""
+msgstr "nustatymus."
 
 #: app/templates/tips.html:53 app/templates/tips.html:57
 msgid "Set the "
-msgstr ""
+msgstr "Nustatykite "
 
 #: app/templates/tips.html:53
 msgid "Remote/Internet Streaming"
-msgstr ""
+msgstr "\"Išorinis srautas\""
 
 #: app/templates/tips.html:53 app/templates/tips.html:57
 msgid "to "
-msgstr ""
+msgstr "į "
 
 #: app/templates/tips.html:54 app/templates/tips.html:58
 msgid "Maximum/Original"
-msgstr ""
+msgstr "Maximum/Originalus"
 
 #: app/templates/tips.html:57
 msgid "Local Streaming "
-msgstr ""
+msgstr "Vietinis Srautas "
 
 #: app/templates/tips.html:61
 msgid ""
@@ -563,43 +613,48 @@ msgid ""
 "that you can always adjust the playback quality just like you do in "
 "YouTube. This way you can get the best streaming experience possible."
 msgstr ""
+"Štai ir viskas! Jei susidursite su vaizdo strigimo problemomis, atminkite, "
+"kad visada galite koreguoti atkūrimo kokybę taip, kaip tai darote pvz. "
+"„YouTube“. Tokiu būdu galite gauti geriausią įmanomą srautinio perdavimo "
+"patirtį."
 
 #: app/templates/users.html:5
 msgid "Users"
-msgstr ""
+msgstr "Vartotojai"
 
 #: app/templates/users.html:27
 msgid "Used At"
-msgstr ""
+msgstr "Naudojami"
 
 #: app/templates/users.html:33
 msgid "User"
-msgstr ""
+msgstr "Vartotojas"
 
 #: app/templates/users.html:76
 msgid "Copy"
-msgstr ""
+msgstr "Kopijuoti"
 
 #: app/templates/users.html:78
 msgid "Delete"
-msgstr ""
+msgstr "Ištrinti"
 
 #: app/templates/welcome.html:12
 #, python-format
 msgid "You've been invited to join %(name)s!"
-msgstr ""
+msgstr "Jus pakvietė prisijungti %(name)s!"
 
 #: app/templates/welcome.html:14
 msgid ""
 "To join our Plex server, create a Plex account! Once you're done, come "
 "back here!"
 msgstr ""
+"Norėdami prisijungti prie mūsų Plex serverio, susikurkite Plex paskyrą! Kai "
+"baigsite, grįžkite čia!"
 
 #: app/templates/welcome.html:18
 msgid "Create Plex Account"
-msgstr ""
+msgstr "Sukurti„Plex“ paskyrą"
 
 #: app/templates/welcome.html:22
 msgid "I have a Plex Account"
-msgstr ""
-
+msgstr "Jau turiu \"Plex\" paskyrą"
