@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-13 19:32+0000\n"
+"POT-Creation-Date: 2023-02-13 20:27+0000\n"
 "PO-Revision-Date: 2023-02-13 19:31+0000\n"
 "Last-Translator: Luke Keude <kingrun424@gmail.com>\n"
 "Language: lt\n"
@@ -50,24 +50,6 @@ msgstr ""
 #: app/admin.py:220 app/admin.py:223
 msgid "Invalid Username or Password"
 msgstr "Neteisingas Prisijungimo vardas arba Slaptažodis"
-
-#: app/web.py:71
-msgid "That email does not match any Plex account. Please try again."
-msgstr ""
-"Šis el. pašto adresas neatitinka jokios „Plex“ paskyros. Pabandykite dar "
-"kartą."
-
-#: app/web.py:76
-msgid "This user is already invited to this server."
-msgstr "Šis vartotojas jau pakviestas į šį serverį."
-
-#: app/web.py:80
-msgid "The email entered appears to be invalid."
-msgstr "Įvestas el. pašto adresas neteisingas."
-
-#: app/web.py:85
-msgid "Something went wrong. Please try again or contact an administrator."
-msgstr "Kažkas nutiko. Bandykite dar kartą arba susisiekite su administratoriumi."
 
 #: app/templates/401.html:20
 msgid "Permission denied."
@@ -236,7 +218,8 @@ msgid "Share"
 msgstr "Dalintis"
 
 #: app/templates/invites.html:21 app/templates/join.html:42
-#: app/templates/join.html:51 app/templates/users.html:21
+#: app/templates/join.html:51 app/templates/user-plex-login.html:27
+#: app/templates/user-plex-login.html:37 app/templates/users.html:21
 msgid "Invite Code"
 msgstr "Pakvietimo kodas"
 
@@ -260,7 +243,7 @@ msgstr "Neribota"
 msgid "Great! Now, let's get you invited!"
 msgstr "Puiku! Dabar pakvieskime jus!"
 
-#: app/templates/join.html:18
+#: app/templates/join.html:18 app/templates/user-plex-login.html:21
 msgid "Join the Plex Server"
 msgstr "Prisijunkite prie Plex serverio"
 
@@ -269,10 +252,11 @@ msgid "Your Plex email"
 msgstr "Jūsų „Plex“ el. paštas"
 
 #: app/templates/join.html:28 app/templates/join.html:55
+#: app/templates/user-plex-login.html:42
 msgid "Oops!"
 msgstr "Oi!"
 
-#: app/templates/join.html:60
+#: app/templates/join.html:60 app/templates/user-plex-login.html:49
 msgid "Join"
 msgstr "Prisijungti"
 
@@ -303,6 +287,10 @@ msgstr "Prisiminti mane"
 #: app/templates/login.html:46
 msgid "Sign in"
 msgstr "Prisijungti"
+
+#: app/templates/new-tips.html:11 app/templates/tips.html:12
+msgid "How to Use Plex?"
+msgstr "Kaip naudotis \"Plex\"?"
 
 #: app/templates/register_admin.html:18 app/templates/verify_plex.html:18
 msgid "Setup Wizarr"
@@ -416,10 +404,6 @@ msgstr "Parsisiųsti"
 #: app/templates/setup.html:28
 msgid "Skip"
 msgstr "Praleisti"
-
-#: app/templates/tips.html:12
-msgid "How to Use Plex?"
-msgstr "Kaip naudotis \"Plex\"?"
 
 #: app/templates/tips.html:15
 msgid ""
@@ -617,6 +601,11 @@ msgstr ""
 "darote pvz. „YouTube“. Tokiu būdu galite gauti geriausią įmanomą "
 "srautinio perdavimo patirtį."
 
+#: app/templates/user-plex-login.html:12
+#, fuzzy, python-format
+msgid "You've been invited to join the %(name)s server!"
+msgstr "Jus pakvietė prisijungti %(name)s!"
+
 #: app/templates/users.html:5
 msgid "Users"
 msgstr "Vartotojai"
@@ -657,4 +646,20 @@ msgstr "Sukurti„Plex“ paskyrą"
 #: app/templates/welcome.html:22
 msgid "I have a Plex Account"
 msgstr "Jau turiu \"Plex\" paskyrą"
+
+#~ msgid "That email does not match any Plex account. Please try again."
+#~ msgstr ""
+#~ "Šis el. pašto adresas neatitinka jokios"
+#~ " „Plex“ paskyros. Pabandykite dar kartą."
+
+#~ msgid "This user is already invited to this server."
+#~ msgstr "Šis vartotojas jau pakviestas į šį serverį."
+
+#~ msgid "The email entered appears to be invalid."
+#~ msgstr "Įvestas el. pašto adresas neteisingas."
+
+#~ msgid "Something went wrong. Please try again or contact an administrator."
+#~ msgstr ""
+#~ "Kažkas nutiko. Bandykite dar kartą arba"
+#~ " susisiekite su administratoriumi."
 
