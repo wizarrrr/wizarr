@@ -1,0 +1,602 @@
+# Translations template for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-02-13 11:49+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+#: app/admin.py:47
+msgid "Passwords do not match."
+msgstr ""
+
+#: app/admin.py:50
+msgid "Username must be between 3 and 15 characters."
+msgstr ""
+
+#: app/admin.py:53
+msgid "Password must be between 3 and 40 characters."
+msgstr ""
+
+#: app/admin.py:82
+msgid "You must select at least one library."
+msgstr ""
+
+#: app/admin.py:149
+msgid "It is likely that your token does not work."
+msgstr ""
+
+#: app/admin.py:151
+msgid "Unable to connect to your Plex server. See Logs for more information."
+msgstr ""
+
+#: app/admin.py:220 app/admin.py:223
+msgid "Invalid Username or Password"
+msgstr ""
+
+#: app/web.py:71
+msgid "That email does not match any Plex account. Please try again."
+msgstr ""
+
+#: app/web.py:76
+msgid "This user is already invited to this server."
+msgstr ""
+
+#: app/web.py:80
+msgid "The email entered appears to be invalid."
+msgstr ""
+
+#: app/web.py:85
+msgid "Something went wrong. Please try again or contact an administrator."
+msgstr ""
+
+#: app/templates/401.html:20
+msgid "Permission denied."
+msgstr ""
+
+#: app/templates/401.html:23
+msgid "You are attempting to do something you shouldn't be doing..."
+msgstr ""
+
+#: app/templates/404.html:19
+msgid "Something's missing."
+msgstr ""
+
+#: app/templates/404.html:21
+msgid "Sorry, we can't find that page. It doesn't seem to exist!"
+msgstr ""
+
+#: app/templates/500.html:19
+msgid "Internal Server Error."
+msgstr ""
+
+#: app/templates/500.html:21
+msgid " Something has gone wrong. Please try again later."
+msgstr ""
+
+#: app/templates/accept.html:4
+msgid "Accept Invitation"
+msgstr ""
+
+#: app/templates/accept.html:11 app/templates/wizard/accept.html:2
+msgid "Accept our invitation"
+msgstr ""
+
+#: app/templates/accept.html:15 app/templates/wizard/accept.html:6
+msgid "We have sent an invitation to your Plex Account! Almost there!"
+msgstr ""
+
+#: app/templates/accept.html:17 app/templates/wizard/accept.html:8
+msgid ""
+"Click the button below to be taken to Plex, here you will see an "
+"invitation from us."
+msgstr ""
+
+#: app/templates/accept.html:23 app/templates/wizard/accept.html:14
+msgid "Accept"
+msgstr ""
+
+#: app/templates/accept.html:31 app/templates/discord.html:29
+#: app/templates/requests.html:69 app/templates/wizard/accept.html:23
+msgid "Next"
+msgstr ""
+
+#: app/templates/admin-nav.html:13
+msgid "Home"
+msgstr ""
+
+#: app/templates/admin-nav.html:16
+msgid "Invitations"
+msgstr ""
+
+#: app/templates/admin-nav.html:19
+msgid "Settings"
+msgstr ""
+
+#: app/templates/discord.html:4
+msgid "Join our Discord Server"
+msgstr ""
+
+#: app/templates/discord.html:11
+msgid ""
+"Join Our Discord\n"
+"                Server!"
+msgstr ""
+
+#: app/templates/invite.html:5 app/templates/invites.html:5
+msgid "Invite User"
+msgstr ""
+
+#: app/templates/invite.html:36 app/templates/invite.html:58
+#: app/templates/invite.html:70
+msgid "Attention!"
+msgstr ""
+
+#: app/templates/invite.html:37 app/templates/invite.html:58
+msgid "Update available. Click here."
+msgstr ""
+
+#: app/templates/invite.html:53
+msgid "Quick Invite"
+msgstr ""
+
+#: app/templates/invite.html:64
+msgid "Invite user"
+msgstr ""
+
+#: app/templates/invite.html:70
+msgid ""
+"Environment Variables are being deprecated and replaced by a secure sign-"
+"up. Please visit "
+msgstr ""
+
+#: app/templates/invite.html:71
+msgid "/settings. See Repo for more info"
+msgstr ""
+
+#: app/templates/invite.html:78
+msgid "Invite Code String"
+msgstr ""
+
+#: app/templates/invite.html:79
+msgid "(optional)"
+msgstr ""
+
+#: app/templates/invite.html:86
+msgid "Expiration"
+msgstr ""
+
+#: app/templates/invite.html:89
+msgid "1 day"
+msgstr ""
+
+#: app/templates/invite.html:90
+msgid "1 week"
+msgstr ""
+
+#: app/templates/invite.html:91
+msgid "1 month"
+msgstr ""
+
+#: app/templates/invite.html:92 app/templates/users.html:72
+msgid "Never"
+msgstr ""
+
+#: app/templates/invite.html:99
+msgid "Unlimited Usages"
+msgstr ""
+
+#: app/templates/invite.html:102
+msgid "Create Invitation"
+msgstr ""
+
+#: app/templates/invite.html:108
+msgid "Successfully generated an Invitation!"
+msgstr ""
+
+#: app/templates/invite.html:113
+msgid "Great!"
+msgstr ""
+
+#: app/templates/invite.html:113
+msgid "Link has been copied to clipboard!"
+msgstr ""
+
+#: app/templates/invite.html:121
+msgid "Back"
+msgstr ""
+
+#: app/templates/invite.html:126
+msgid "Share"
+msgstr ""
+
+#: app/templates/invites.html:21 app/templates/join.html:42
+#: app/templates/join.html:51 app/templates/users.html:21
+msgid "Invite Code"
+msgstr ""
+
+#: app/templates/invites.html:22 app/templates/users.html:24
+msgid "Used"
+msgstr ""
+
+#: app/templates/invites.html:23 app/templates/users.html:30
+msgid "Created"
+msgstr ""
+
+#: app/templates/invites.html:24 app/templates/users.html:36
+msgid "Expires"
+msgstr ""
+
+#: app/templates/invites.html:25 app/templates/users.html:39
+msgid "Unlimited"
+msgstr ""
+
+#: app/templates/join.html:12
+msgid "Great! Now, let's get you invited!"
+msgstr ""
+
+#: app/templates/join.html:18
+msgid "Join the Plex Server"
+msgstr ""
+
+#: app/templates/join.html:24 app/templates/join.html:34
+msgid "Your Plex email"
+msgstr ""
+
+#: app/templates/join.html:28 app/templates/join.html:55
+msgid "Oops!"
+msgstr ""
+
+#: app/templates/join.html:60
+msgid "Join"
+msgstr ""
+
+#: app/templates/join.html:62
+msgid "Don't have a Plex account, yet?"
+msgstr ""
+
+#: app/templates/join.html:63
+msgid "Get one here."
+msgstr ""
+
+#: app/templates/login.html:18
+msgid "Login"
+msgstr ""
+
+#: app/templates/login.html:23 app/templates/register_admin.html:24
+msgid "Username"
+msgstr ""
+
+#: app/templates/login.html:29 app/templates/register_admin.html:30
+msgid "Password"
+msgstr ""
+
+#: app/templates/login.html:41
+msgid "Remember me"
+msgstr ""
+
+#: app/templates/login.html:46
+msgid "Sign in"
+msgstr ""
+
+#: app/templates/register_admin.html:18 app/templates/verify_plex.html:18
+msgid "Setup Wizarr"
+msgstr ""
+
+#: app/templates/register_admin.html:36
+msgid "Confirm password"
+msgstr ""
+
+#: app/templates/register_admin.html:42
+msgid "Create an account"
+msgstr ""
+
+#: app/templates/requests.html:10
+msgid "Requesting Media"
+msgstr ""
+
+#: app/templates/requests.html:13
+msgid ""
+"We are excited to offer you a wide selection of media to choose from. If "
+"you're having trouble finding something you like, don't worry! We have a "
+"user-friendly request system that can automatically search for the media "
+"you're looking for. "
+msgstr ""
+
+#: app/templates/requests.html:23
+msgid "Plex Requests"
+msgstr ""
+
+#: app/templates/requests.html:35
+msgid "Request any available Movie or TV Show"
+msgstr ""
+
+#: app/templates/requests.html:45
+msgid ""
+"Requested media will be automatically downloaded and added to the library"
+" (if available)"
+msgstr ""
+
+#: app/templates/requests.html:55
+msgid "If enabled, receive notifications"
+msgstr ""
+
+#: app/templates/requests.html:61
+msgid "Check it Out"
+msgstr ""
+
+#: app/templates/settings.html:20
+msgid "Change Server Settings"
+msgstr ""
+
+#: app/templates/settings.html:25 app/templates/verify_plex.html:23
+msgid "Plex Display Name"
+msgstr ""
+
+#: app/templates/settings.html:31 app/templates/verify_plex.html:29
+msgid "Plex URL"
+msgstr ""
+
+#: app/templates/settings.html:37 app/templates/verify_plex.html:36
+msgid "Plex Token"
+msgstr ""
+
+#: app/templates/settings.html:46 app/templates/verify_plex.html:42
+msgid "Plex Libraries"
+msgstr ""
+
+#: app/templates/settings.html:48 app/templates/verify_plex.html:44
+msgid "Scan For Libraries"
+msgstr ""
+
+#: app/templates/settings.html:55 app/templates/verify_plex.html:50
+msgid "Request instance (Ombi, Overseerr...)"
+msgstr ""
+
+#: app/templates/settings.html:61 app/templates/verify_plex.html:56
+msgid "Discord Server ID"
+msgstr ""
+
+#: app/templates/settings.html:67 app/templates/verify_plex.html:63
+msgid "Verify and Confirm"
+msgstr ""
+
+#: app/templates/setup.html:11
+msgid "Join & Download Plex for this device"
+msgstr ""
+
+#: app/templates/setup.html:15
+msgid ""
+"Great news! You now have access to our server's media collection. Let's "
+"make sure you know how to use it with Plex."
+msgstr ""
+
+#: app/templates/setup.html:17
+msgid "Planning on watching Movies on this device? Download Plex for this device."
+msgstr ""
+
+#: app/templates/setup.html:20
+msgid "Download"
+msgstr ""
+
+#: app/templates/setup.html:28
+msgid "Skip"
+msgstr ""
+
+#: app/templates/tips.html:12
+msgid "How to Use Plex?"
+msgstr ""
+
+#: app/templates/tips.html:15
+msgid ""
+"Congratulations on accepting the email invitation from Plex! You're now "
+"one step closer to enjoying all the amazing content on our server. "
+msgstr ""
+
+#: app/templates/tips.html:18
+msgid "Eh, So, What is Plex exactly??"
+msgstr ""
+
+#: app/templates/tips.html:20
+msgid ""
+"Great question! Plex is a software that allows individuals to share their"
+" media collections with others. If you've received an invitation, it "
+"means someone wants to share their library with you. With Plex, you'll "
+"have access to all of the movies, TV shows, music, and photos that are "
+"stored on their server. Enjoy!"
+msgstr ""
+
+#: app/templates/tips.html:23
+msgid "Right, so how do I watch stuff?"
+msgstr ""
+
+#: app/templates/tips.html:25
+msgid ""
+"It couldn't be simpler! Plex is available on a wide variety of devices "
+"including laptops, tablets, smartphones, and TVs. All you need to do is "
+"download the Plex app on your device, sign in with your account, and "
+"you're ready to start streaming your media. It's that easy!"
+msgstr ""
+
+#: app/templates/tips.html:28
+msgid "I've logged in but I am overwhelmed with content!"
+msgstr ""
+
+#: app/templates/tips.html:30
+msgid ""
+"While Plex is a free service, they do have to generate revenue in order "
+"to continue providing the platform. One way they do this is by displaying"
+" their own content before the content of the server you are joining."
+msgstr ""
+
+#: app/templates/tips.html:31
+msgid "No need to worry though, this can be easily resolved!"
+msgstr ""
+
+#: app/templates/tips.html:33
+msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
+msgstr ""
+
+#: app/templates/tips.html:34
+msgid "More"
+msgstr ""
+
+#: app/templates/tips.html:34
+msgid "button to reveal all the different types of media you have access to."
+msgstr ""
+
+#: app/templates/tips.html:37
+msgid ""
+"To avoid seeing Plex's content first, we recommend hiding it. To do this,"
+" select all the content types you don't want (such as 'Movies and TV on "
+"Plex') and 'Unpin' them from your home screen. This way you'll only see "
+"the content that you really want to watch!"
+msgstr ""
+
+#: app/templates/tips.html:40
+msgid "Now that everything we"
+msgstr ""
+
+#: app/templates/tips.html:40
+msgid "don't"
+msgstr ""
+
+#: app/templates/tips.html:40
+msgid "want is out of the way, we can focus on the things we "
+msgstr ""
+
+#: app/templates/tips.html:40
+msgid "do"
+msgstr ""
+
+#: app/templates/tips.html:40
+msgid " want!"
+msgstr ""
+
+#: app/templates/tips.html:40
+#, python-format
+msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
+msgstr ""
+
+#: app/templates/tips.html:44
+msgid "How can I make sure to have the best experience?"
+msgstr ""
+
+#: app/templates/tips.html:46
+msgid ""
+"By default, Plex plays all content at a lower quality. This can be a bit "
+"of a disappointment. But don't worry, it's a simple fix! You can easily "
+"change the settings to increase the quality of the media that you're "
+"streaming."
+msgstr ""
+
+#: app/templates/tips.html:48
+msgid "Go to the Plex "
+msgstr ""
+
+#: app/templates/tips.html:48
+msgid "Settings "
+msgstr ""
+
+#: app/templates/tips.html:48
+msgid ""
+"page. This is usually in the top right hand corner, depending on the "
+"device you are on."
+msgstr ""
+
+#: app/templates/tips.html:50
+msgid "Go to the "
+msgstr ""
+
+#: app/templates/tips.html:50
+msgid "Quality"
+msgstr ""
+
+#: app/templates/tips.html:50
+msgid "or"
+msgstr ""
+
+#: app/templates/tips.html:51
+msgid "Video"
+msgstr ""
+
+#: app/templates/tips.html:51
+msgid "settings."
+msgstr ""
+
+#: app/templates/tips.html:53 app/templates/tips.html:57
+msgid "Set the "
+msgstr ""
+
+#: app/templates/tips.html:53
+msgid "Remote/Internet Streaming"
+msgstr ""
+
+#: app/templates/tips.html:53 app/templates/tips.html:57
+msgid "to "
+msgstr ""
+
+#: app/templates/tips.html:54 app/templates/tips.html:58
+msgid "Maximum/Original"
+msgstr ""
+
+#: app/templates/tips.html:57
+msgid "Local Streaming "
+msgstr ""
+
+#: app/templates/tips.html:61
+msgid ""
+"And there you have it! In case you encounter buffering issues, remember "
+"that you can always adjust the playback quality just like you do in "
+"YouTube. This way you can get the best streaming experience possible."
+msgstr ""
+
+#: app/templates/users.html:5
+msgid "Users"
+msgstr ""
+
+#: app/templates/users.html:27
+msgid "Used At"
+msgstr ""
+
+#: app/templates/users.html:33
+msgid "User"
+msgstr ""
+
+#: app/templates/users.html:76
+msgid "Copy"
+msgstr ""
+
+#: app/templates/users.html:78
+msgid "Delete"
+msgstr ""
+
+#: app/templates/welcome.html:12
+#, python-format
+msgid "You've been invited to join %(name)s!"
+msgstr ""
+
+#: app/templates/welcome.html:14
+msgid ""
+"To join our Plex server, create a Plex account! Once you're done, come "
+"back here!"
+msgstr ""
+
+#: app/templates/welcome.html:18
+msgid "Create Plex Account"
+msgstr ""
+
+#: app/templates/welcome.html:22
+msgid "I have a Plex Account"
+msgstr ""
