@@ -329,12 +329,12 @@ msgid "Plex Requests"
 msgstr "Plex-forespørsler"
 
 #: app/templates/requests.html:35
-msgid "Request any available Movie or Tv Show"
+msgid "Request any available Movie or TV Show"
 msgstr "Forespør alle tilgjengelige filmer eller TV-programmer"
 
 #: app/templates/requests.html:45
 msgid "Requested media will be automatically downloaded and added to server"
-msgstr "Forespurt media vil lastes ned automatisk og legges til på tjeneren"
+msgstr "Forespurt media vil lastes ned automatisk og legges til biblioteket (hvis tilgjengelig)"
 
 #: app/templates/requests.html:55
 #, fuzzy
@@ -476,7 +476,7 @@ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
 msgstr "På venstresiden av skjermen har du en meny. Klikk på "
 
 #: app/templates/tips.html:34
-msgid "Expand"
+msgid "More"
 msgstr "Utvid"
 
 #: app/templates/tips.html:34
@@ -618,8 +618,8 @@ msgstr "Slett"
 
 #: app/templates/welcome.html:12
 #, python-format
-msgid "You've been invited to join the %(name)s server!"
-msgstr "Du har blitt invitert til %(name)s-tjeneren."
+msgid "You've been invited to join %(name)s!"
+msgstr "Du har blitt invitert til %(name)!"
 
 #: app/templates/welcome.html:14
 msgid ""
