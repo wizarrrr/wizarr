@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-13 01:09+0000\n"
+"POT-Creation-Date: 2023-02-13 11:49+0000\n"
 "PO-Revision-Date: 2023-01-24 14:47+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language: nb_NO\n"
@@ -113,7 +113,7 @@ msgid "Accept"
 msgstr "Godta"
 
 #: app/templates/accept.html:31 app/templates/discord.html:29
-#: app/templates/requests.html:71 app/templates/wizard/accept.html:23
+#: app/templates/requests.html:69 app/templates/wizard/accept.html:23
 msgid "Next"
 msgstr "Neste"
 
@@ -333,19 +333,20 @@ msgid "Request any available Movie or TV Show"
 msgstr "Forespør alle tilgjengelige filmer eller TV-programmer"
 
 #: app/templates/requests.html:45
-msgid "Requested media will be automatically downloaded and added to server"
-msgstr "Forespurt media vil lastes ned automatisk og legges til biblioteket (hvis tilgjengelig)"
+#, fuzzy
+msgid ""
+"Requested media will be automatically downloaded and added to the library"
+" (if available)"
+msgstr ""
+"Forespurt media vil lastes ned automatisk og legges til biblioteket (hvis"
+" tilgjengelig)"
 
 #: app/templates/requests.html:55
 #, fuzzy
 msgid "If enabled, receive notifications"
 msgstr "Motta merknader"
 
-#: app/templates/requests.html:60
-msgid "*Depending on availability"
-msgstr "*Avhengig av tilgjengelighet"
-
-#: app/templates/requests.html:62
+#: app/templates/requests.html:61
 msgid "Check it Out"
 msgstr "Sjekk det ut"
 
@@ -516,6 +517,11 @@ msgstr "vil"
 msgid " want!"
 msgstr " ha."
 
+#: app/templates/tips.html:40
+#, python-format
+msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
+msgstr ""
+
 #: app/templates/tips.html:44
 msgid "How can I make sure to have the best experience?"
 msgstr "Hvordan kan jeg tilpasse opplevelsen?"
@@ -664,4 +670,7 @@ msgstr "Jeg har en Plex-konto"
 
 #~ msgid "Server Settings"
 #~ msgstr "Tjenerinnstillinger"
+
+#~ msgid "*Depending on availability"
+#~ msgstr "*Avhengig av tilgjengelighet"
 
