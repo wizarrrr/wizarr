@@ -69,30 +69,22 @@ class Settings(BaseModel):
     key = CharField()
     value = CharField()
 
+class Users(BaseModel):
+    id = IntegerField(primary_key=True)
+    token = CharField()
+    username = CharField()
+    email = CharField()
+    code = CharField()
 
-# Security Feature, prevent Wizarr From starting if OS.GETENV set
+class Oauth(BaseModel):
+    id = IntegerField(primary_key=True)
+    url = CharField(null=True)
 
-if os.getenv("ADMIN_USERNAME"):
-    print("Admin username is set in the .env file. This has been deprecated and for security reasons, I have exited your app. Please consult the Github repo!")
-    exit()
-
-
-# Add Expires if not existing. WILL BE REMOVED IN FUTURE VERSIONS
-
-try:
-    Invitations.get_or_none(Invitations.unlimited == 0)
-except:
-    try:
-        migrator = SqliteMigrator(database)
-        migrate(
-            migrator.add_column('Invitations', 'unlimited', Invitations.unlimited),)
-    except:
-        pass
 
 # Below is Database Initialisation in case of new instance
-database.create_tables([Invitations, Settings])
+database.create_tables([Invitations, Settings, Users, Oauth])
 
 if __name__ == "__main__":
     web.check_plex_credentials()
     app.run()
-from app import admin, web
+from app import admin, web, plex

@@ -6,11 +6,14 @@ import os
 import requests
 import datetime
 from flask import request, redirect, render_template, abort, make_response, send_from_directory
-from app import app, Invitations, Settings, VERSION
+from app import app, Invitations, Settings, VERSION, Users, Oauth
+from app.plex import *
 from app.admin import login_required
 from plexapi.server import PlexServer
 from flask_babel import _
 from packaging import version
+import threading
+
 
 
 
@@ -26,71 +29,37 @@ def favicon():
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.route("/j/<code>", methods=["GET"])
-def welcome(code):
+def plex(code):
     if not Invitations.select().where(Invitations.code == code).exists():
         return render_template('401.html'), 401
     name = Settings.get_or_none(
         Settings.key == "plex_name")
     if name:
         name = name.value
-    else:   
+    else:
         name = "Wizarr"
-    resp = make_response(render_template('welcome.html', name=name, code=code))
+    resp = make_response(render_template(
+        'user-plex-login.html', name=name, code=code))
     resp.set_cookie('code', code)
     return resp
 
 
-@app.route("/join", methods=["GET", "POST"])
-def join():
-    if request.method == "POST":
-        error = None
-        code = request.form.get('code')
-        email = request.form.get("email")
-        if not Invitations.select().where(Invitations.code == code).exists():
-            return render_template("join.html", name=Settings.get(Settings.key == "plex_name").value, code=code, code_error="That invite code does not exist.", email=email)
-        if Invitations.select().where(Invitations.code == code, Invitations.used == True, Invitations.unlimited == False).exists():
-            return render_template("join.html", name=Settings.get(Settings.key == "plex_name").value, code=code, code_error="That invite code has already been used.", email=email)
-        if Invitations.select().where(Invitations.code == code, Invitations.expires <= datetime.datetime.now()).exists():
-            return render_template("join.html", name=Settings.get(Settings.key == "plex_name").value, code=code, code_error="That invite code has expired.", email=email)
-        try:
-            sections = list(
-                (Settings.get(Settings.key == "plex_libraries").value).split(", "))
-            plex = PlexServer(Settings.get(Settings.key == "plex_url").value, Settings.get(
-                Settings.key == "plex_token").value)
-            plex.myPlexAccount().inviteFriend(user=email, server=plex, sections=sections)
-            logging.info("Invited " + email + " to Plex Server")
-            if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
-              Invitations.update(used=True, used_at=datetime.datetime.now().strftime(
-                  "%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
-            else:
-              Invitations.update(used_at=datetime.datetime.now().strftime(
-                  "%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
-            return redirect("/setup/accept")
-        except Exception as e:
-            if 'Unable to find user' in str(e):
-                error = _(
-                    "That email does not match any Plex account. Please try again.")
-                logging.info(
-                    "Unable to invite user, cause: no plex account with email: " + email)
-            elif "You're already sharing this server" in str(e):
-                error = _("This user is already invited to this server.")
-                logging.info(
-                    "Unable to invite user, cause: plex account already invited with email: " + email)
-            elif "The username or email entered appears to be invalid." in str(e):
-                error = _("The email entered appears to be invalid.")
-                logging.info(
-                    "Unable to invite user, cause: email is invalid: " + email)
-            else:
-                logging.error(str(e))
-                error = _(
-                    "Something went wrong. Please try again or contact an administrator.")
-            return render_template("join.html", name=Settings.get(Settings.key == "plex_name").value, code=code, email_error=error, email=email)
-    else:
-        code = request.cookies.get('code')
-        if code:
-            return render_template("join.html", name=Settings.get(Settings.key == "plex_name").value, code=code)
-        else:
-            return render_template("join.html", name=Settings.get(Settings.key == "plex_name").value)
+@app.route("/connect", methods=["POST"])
+def connect():
+    code = request.form.get('code')
+    if not Invitations.select().where(Invitations.code == code).exists():
+        return render_template("user-plex-login.html", name=Settings.get(Settings.key == "plex_name").value, code=code, code_error="That invite code does not exist.")
+    if Invitations.select().where(Invitations.code == code, Invitations.used == True, Invitations.unlimited == False).exists():
+        return render_template("user-plex-login.html", name=Settings.get(Settings.key == "plex_name").value, code=code, code_error="That invite code has already been used.")
+    if Invitations.select().where(Invitations.code == code, Invitations.expires <= datetime.datetime.now()).exists():
+        return render_template("user-plex-login.html", name=Settings.get(Settings.key == "plex_name").value, code=code, code_error="That invite code has expired.")
+
+    oauth = Oauth.create()
+    threading.Thread(target=plexoauth, args=(oauth.id, code)).start()
+    while not Oauth.get_by_id(oauth.id).url:
+        pass
+    return redirect(Oauth.get_by_id(oauth.id).url)
+
 
 
 @app.route('/setup/download', methods=["GET"])
@@ -159,12 +128,6 @@ def delete(code):
     return redirect('/invites')
 
 
-@app.route('/setup/accept', methods=["GET"])
-def accept():
-    return render_template("accept.html")
-
-
-
 @app.route('/setup/requests', methods=["GET"])
 def plex_requests():
     if Settings.get_or_none(Settings.key == "overseerr_url"):
@@ -211,3 +174,4 @@ def inject_user():
         name="Wizarr"
         print("Could not find name :( ")
     return dict(header_name=name)
+
