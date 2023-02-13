@@ -182,7 +182,7 @@ def plex_discord():
 
 @app.route('/setup/tips')
 def tips():
-    return render_template("tips.html")
+    return render_template("tips.html", name=Settings.get(Settings.key == "plex_name").value)
 
 
 @app.errorhandler(500)
