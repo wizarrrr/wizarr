@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-14 11:33+0000\n"
+"POT-Creation-Date: 2023-02-14 14:43+0000\n"
 "PO-Revision-Date: 2023-02-13 19:31+0000\n"
 "Last-Translator: Luke Keude <kingrun424@gmail.com>\n"
 "Language: lt\n"
@@ -79,15 +79,15 @@ msgstr " Kažkas ne taip. Pabandykite dar kartą vėliau."
 msgid "Accept Invitation"
 msgstr "Priimti pakvietimą"
 
-#: app/templates/accept.html:11 app/templates/wizard/accept.html:2
+#: app/templates/accept.html:11
 msgid "Accept our invitation"
 msgstr "Priimkite mūsų kvietimą"
 
-#: app/templates/accept.html:15 app/templates/wizard/accept.html:6
+#: app/templates/accept.html:15
 msgid "We have sent an invitation to your Plex Account! Almost there!"
 msgstr "Išsiuntėme kvietimą į jūsų Plex paskyrą! Pabaiga jau netoli!"
 
-#: app/templates/accept.html:17 app/templates/wizard/accept.html:8
+#: app/templates/accept.html:17
 msgid ""
 "Click the button below to be taken to Plex, here you will see an "
 "invitation from us."
@@ -95,12 +95,12 @@ msgstr ""
 "Spustelėkite žemiau esantį mygtuką, kad patektumėte į Plex, čia "
 "pamatysite mūsų kvietimą."
 
-#: app/templates/accept.html:23 app/templates/wizard/accept.html:14
+#: app/templates/accept.html:23
 msgid "Accept"
 msgstr "Priimti"
 
 #: app/templates/accept.html:31 app/templates/discord.html:29
-#: app/templates/requests.html:67 app/templates/wizard/accept.html:23
+#: app/templates/requests.html:71
 msgid "Next"
 msgstr "Kitas"
 
@@ -309,25 +309,27 @@ msgid "Requesting Media"
 msgstr "Medijos failų užklausa"
 
 #: app/templates/requests.html:13
+#, fuzzy
 msgid ""
 "We are excited to offer you a wide selection of media to choose from. If "
-"you're having trouble finding something you like, don't worry! We have a "
-"user-friendly request system that can automatically search for the media "
-"you're looking for. "
+"you're having trouble finding\n"
+"        something you like, don't worry! We have a user-friendly request "
+"system that can automatically search for the\n"
+"        media you're looking for. "
 msgstr ""
 "Džiaugiamės galėdami jums pasiūlyti platų medijos pasirinkimą. Jei jums "
 "sunku rasti tai, kas jums patinka, nesijaudinkite! Turime patogią "
 "užklausų sistemą, kuri gali automatiškai ieškoti jūsų ieškomos medijos. "
 
-#: app/templates/requests.html:21
+#: app/templates/requests.html:23 app/templates/wizard/requests.html:3
 msgid "Plex Requests"
 msgstr "„Plex“ užklausos"
 
-#: app/templates/requests.html:33
+#: app/templates/requests.html:35 app/templates/wizard/requests.html:15
 msgid "Request any available Movie or TV Show"
 msgstr "Prašykite bet kurio galimo filmo ar TV laidos"
 
-#: app/templates/requests.html:43
+#: app/templates/requests.html:45 app/templates/wizard/requests.html:25
 msgid ""
 "Requested media will be automatically downloaded and added to the library"
 " (if available)"
@@ -335,11 +337,11 @@ msgstr ""
 "Prašoma medija bus automatiškai atsisiųsta ir pridėta prie bibliotekos "
 "(jeigu yra)"
 
-#: app/templates/requests.html:53
+#: app/templates/requests.html:55 app/templates/wizard/requests.html:35
 msgid "If enabled, receive notifications"
 msgstr "Jeigu įgalinta, gaukite pranešimus"
 
-#: app/templates/requests.html:59
+#: app/templates/requests.html:62 app/templates/wizard/requests.html:41
 msgid "Check it Out"
 msgstr "Pasižiūrėk"
 
@@ -391,13 +393,13 @@ msgstr ""
 "Puiki naujiena! Dabar turite prieigą prie mūsų serverio medijos "
 "kolekcijos. Įsitikinkime, kad žinote, kaip jį naudoti su „Plex“."
 
-#: app/templates/setup.html:17
+#: app/templates/setup.html:17 app/templates/wizard/download.html:11
 msgid "Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
 "Planuojate žiūrėti filmus šiuo įrenginiu? Atsisiųskite „Plex“ šiam "
 "įrenginiui."
 
-#: app/templates/setup.html:20
+#: app/templates/setup.html:20 app/templates/wizard/download.html:14
 msgid "Download"
 msgstr "Parsisiųsti"
 
@@ -409,22 +411,24 @@ msgstr "Praleisti"
 #, fuzzy, python-format
 msgid ""
 "Congratulations on joining %(name)s! You're now one step closer to "
-"enjoying all kinds of amazing content."
+"enjoying all kinds of amazing\n"
+"        content."
 msgstr ""
 "Sveikiname priėmus kvietimą el. paštu iš Plex! Dabar esate vienu žingsniu"
 " arčiau, kad galėtumėte mėgautis visu nuostabiu turiniu mūsų serveryje. "
 
-#: app/templates/tips.html:22
+#: app/templates/tips.html:23 app/templates/wizard/tips.html:4
 msgid "Eh, So, What is Plex exactly?"
 msgstr "Taigi, kas tiksliai yra „Plex“??"
 
-#: app/templates/tips.html:25
+#: app/templates/tips.html:26
 #, fuzzy
 msgid ""
 "Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If you've received this invitation, it "
-"means someone wants to share their library with you. With Plex, you'll "
-"have access to all of the movies, TV shows, music, and photos that are "
+" media collections with others. If\n"
+"      you've received this invitation, it means someone wants to share "
+"their library with you. With Plex, you'll have\n"
+"      access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
 msgstr ""
 "Puikus klausimas! „Plex“ yra programinė įranga, leidžianti asmenims "
@@ -433,16 +437,18 @@ msgstr ""
 "„Plex“ turėsite prieigą prie visų filmų, TV laidų, muzikos ir nuotraukų, "
 "saugomų jų serveryje. Mėgaukitės!"
 
-#: app/templates/tips.html:28
+#: app/templates/tips.html:31 app/templates/wizard/tips.html:12
 msgid "Right, so how do I watch stuff?"
 msgstr "Supratau, tai kaip man pradėti žiūrėti dalykus?"
 
-#: app/templates/tips.html:31
+#: app/templates/tips.html:34
+#, fuzzy
 msgid ""
 "It couldn't be simpler! Plex is available on a wide variety of devices "
-"including laptops, tablets, smartphones, and TVs. All you need to do is "
-"download the Plex app on your device, sign in with your account, and "
-"you're ready to start streaming your media. It's that easy!"
+"including laptops, tablets,\n"
+"      smartphones, and TVs. All you need to do is download the Plex app "
+"on your device, sign in with your account, and\n"
+"      you're ready to start streaming your media. It's that easy!"
 msgstr ""
 "Tai negali būti paprasčiau! „Plex“ galima naudoti įvairiuose "
 "įrenginiuose, įskaitant nešiojamuosius kompiuterius, planšetinius "
@@ -451,31 +457,34 @@ msgstr ""
 "prisijungti naudodami savo paskyrą ir būsite pasiruošę pradėti "
 "transliuoti mediją. Tai taip paprasta!"
 
-#: app/templates/tips.html:34
+#: app/templates/tips.html:39 app/templates/wizard/tips.html:20
 msgid "How can I make sure to have the best experience?"
 msgstr "Kaip galiu užtikrinti, kad mano patirtis būtų geriausia?"
 
-#: app/templates/tips.html:37
+#: app/templates/tips.html:42
 msgid ""
 "Because Plex is a free service, they promote their own content before the"
-" awesome content your friend is now sharing with you - they also, by "
-"default, play content at a lower quality. "
+" awesome content your friend is now\n"
+"      sharing with you - they also, by default, play content at a lower "
+"quality. "
 msgstr ""
 
-#: app/templates/tips.html:39
+#: app/templates/tips.html:45 app/templates/wizard/tips.html:26
 #, fuzzy
 msgid "No need to worry though, this can be easily resolved"
 msgstr "Tačiau nereikia jaudintis, tai galima lengvai išspręsti!"
 
-#: app/templates/tips.html:39
-msgid "We highly recommend you to go through those steps first!"
+#: app/templates/tips.html:45
+msgid ""
+"We highly\n"
+"        recommend you to go through those steps first!"
 msgstr ""
 
-#: app/templates/tips.html:44
+#: app/templates/tips.html:54 app/templates/wizard/tips.html:35
 msgid "Configure Plex in your browser"
 msgstr ""
 
-#: app/templates/tips.html:58
+#: app/templates/tips.html:76 app/templates/wizard/tips.html:56
 msgid "Configure Plex's app on your computer, mobile device or TV"
 msgstr ""
 
@@ -524,6 +533,69 @@ msgstr "Sukurti„Plex“ paskyrą"
 #: app/templates/welcome.html:22
 msgid "I have a Plex Account"
 msgstr "Jau turiu \"Plex\" paskyrą"
+
+#: app/templates/wizard/download.html:3
+#, fuzzy
+msgid ""
+"Join & Download Plex\n"
+"            for this device"
+msgstr "Prisijunkite ir atsisiųskite šiam įrengininiui „Plex“"
+
+#: app/templates/wizard/download.html:8
+#, fuzzy
+msgid ""
+"Great news! You now have access to our server's media collection. Let's "
+"make sure you know how to use\n"
+"        it with Plex."
+msgstr ""
+"Puiki naujiena! Dabar turite prieigą prie mūsų serverio medijos "
+"kolekcijos. Įsitikinkime, kad žinote, kaip jį naudoti su „Plex“."
+
+#: app/templates/wizard/tips.html:7
+#, fuzzy
+msgid ""
+"Great question! Plex is a software that allows individuals to share their"
+" media collections with others. If\n"
+"    you've received this invitation, it means someone wants to share "
+"their library with you. With Plex, you'll have\n"
+"    access to all of the movies, TV shows, music, and photos that are "
+"stored on their server. Enjoy!"
+msgstr ""
+"Puikus klausimas! „Plex“ yra programinė įranga, leidžianti asmenims "
+"dalytis savo medijos kolekcijomis su kitais. Jei gavote kvietimą, tai "
+"reiškia, kad kažkas nori su jumis dalintis savo biblioteka. Naudodami "
+"„Plex“ turėsite prieigą prie visų filmų, TV laidų, muzikos ir nuotraukų, "
+"saugomų jų serveryje. Mėgaukitės!"
+
+#: app/templates/wizard/tips.html:15
+#, fuzzy
+msgid ""
+"It couldn't be simpler! Plex is available on a wide variety of devices "
+"including laptops, tablets,\n"
+"    smartphones, and TVs. All you need to do is download the Plex app on "
+"your device, sign in with your account, and\n"
+"    you're ready to start streaming your media. It's that easy!"
+msgstr ""
+"Tai negali būti paprasčiau! „Plex“ galima naudoti įvairiuose "
+"įrenginiuose, įskaitant nešiojamuosius kompiuterius, planšetinius "
+"kompiuterius, išmaniuosius telefonus ir televizorius. Viskas, ką jums "
+"reikia padaryti, tai atsisiųsti „Plex“ programą į savo įrenginį, "
+"prisijungti naudodami savo paskyrą ir būsite pasiruošę pradėti "
+"transliuoti mediją. Tai taip paprasta!"
+
+#: app/templates/wizard/tips.html:23
+msgid ""
+"Because Plex is a free service, they promote their own content before the"
+" awesome content your friend is now\n"
+"    sharing with you - they also, by default, play content at a lower "
+"quality. "
+msgstr ""
+
+#: app/templates/wizard/tips.html:26
+msgid ""
+"We highly\n"
+"      recommend you to go through those steps first!"
+msgstr ""
 
 #~ msgid "That email does not match any Plex account. Please try again."
 #~ msgstr ""
@@ -683,4 +755,16 @@ msgstr "Jau turiu \"Plex\" paskyrą"
 #~ " taip, kaip tai darote pvz. "
 #~ "„YouTube“. Tokiu būdu galite gauti "
 #~ "geriausią įmanomą srautinio perdavimo patirtį."
+
+#~ msgid ""
+#~ "Because Plex is a free service, "
+#~ "they promote their own content before"
+#~ " the awesome content your friend is"
+#~ " now sharing with you - they "
+#~ "also, by default, play content at "
+#~ "a lower quality. "
+#~ msgstr ""
+
+#~ msgid "We highly recommend you to go through those steps first!"
+#~ msgstr ""
 

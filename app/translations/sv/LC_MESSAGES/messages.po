@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-14 11:33+0000\n"
+"POT-Creation-Date: 2023-02-14 14:43+0000\n"
 "PO-Revision-Date: 2023-02-02 13:32+0000\n"
 "Last-Translator: thu3n <elias.thuen@gmail.com>\n"
 "Language: sv\n"
@@ -75,15 +75,15 @@ msgstr " Något har gått fel. Vänligen försök igen senare."
 msgid "Accept Invitation"
 msgstr "Acceptera inbjudan"
 
-#: app/templates/accept.html:11 app/templates/wizard/accept.html:2
+#: app/templates/accept.html:11
 msgid "Accept our invitation"
 msgstr "Acceptera vår inbjudan"
 
-#: app/templates/accept.html:15 app/templates/wizard/accept.html:6
+#: app/templates/accept.html:15
 msgid "We have sent an invitation to your Plex Account! Almost there!"
 msgstr "Vi har skickat en inbjudan till ditt Plex-konto. Nästan där!"
 
-#: app/templates/accept.html:17 app/templates/wizard/accept.html:8
+#: app/templates/accept.html:17
 msgid ""
 "Click the button below to be taken to Plex, here you will see an "
 "invitation from us."
@@ -91,12 +91,12 @@ msgstr ""
 "Klicka på knappen nedan för att tas till Plex. Där kommer du se en "
 "inbjudan från oss."
 
-#: app/templates/accept.html:23 app/templates/wizard/accept.html:14
+#: app/templates/accept.html:23
 msgid "Accept"
 msgstr "Acceptera"
 
 #: app/templates/accept.html:31 app/templates/discord.html:29
-#: app/templates/requests.html:67 app/templates/wizard/accept.html:23
+#: app/templates/requests.html:71
 msgid "Next"
 msgstr "Nästa"
 
@@ -305,26 +305,28 @@ msgid "Requesting Media"
 msgstr "Efterfråga titlar"
 
 #: app/templates/requests.html:13
+#, fuzzy
 msgid ""
 "We are excited to offer you a wide selection of media to choose from. If "
-"you're having trouble finding something you like, don't worry! We have a "
-"user-friendly request system that can automatically search for the media "
-"you're looking for. "
+"you're having trouble finding\n"
+"        something you like, don't worry! We have a user-friendly request "
+"system that can automatically search for the\n"
+"        media you're looking for. "
 msgstr ""
 "Vi är glada att kunna erbjuda dig ett brett utbud av titlar att välja "
 "mellan. Om du har svårt att hitta något du gillar, oroa dig inte! Vi har "
 "ett användarvänligt förfrågningssystem som automatiskt kan söka efter de "
 "titlar du söker. "
 
-#: app/templates/requests.html:21
+#: app/templates/requests.html:23 app/templates/wizard/requests.html:3
 msgid "Plex Requests"
 msgstr "Plex förfrågningar"
 
-#: app/templates/requests.html:33
+#: app/templates/requests.html:35 app/templates/wizard/requests.html:15
 msgid "Request any available Movie or TV Show"
 msgstr "Förfråga efter en tillgänglig film eller TV-serie"
 
-#: app/templates/requests.html:43
+#: app/templates/requests.html:45 app/templates/wizard/requests.html:25
 msgid ""
 "Requested media will be automatically downloaded and added to the library"
 " (if available)"
@@ -332,11 +334,11 @@ msgstr ""
 "Förfrågad titel kommer att automatiskt laddas ner och läggas till i "
 "biblioteket (om tillgängligt)"
 
-#: app/templates/requests.html:53
+#: app/templates/requests.html:55 app/templates/wizard/requests.html:35
 msgid "If enabled, receive notifications"
 msgstr "Om det är tillgängligt, lägg till notiser"
 
-#: app/templates/requests.html:59
+#: app/templates/requests.html:62 app/templates/wizard/requests.html:41
 msgid "Check it Out"
 msgstr "Kolla in"
 
@@ -388,13 +390,13 @@ msgstr ""
 "Nu har du åtkomst till vårat serverinnehåll. Gå vidare för att veta hur "
 "du använder Plex."
 
-#: app/templates/setup.html:17
+#: app/templates/setup.html:17 app/templates/wizard/download.html:11
 msgid "Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
 "Kommer du att titta på filmer och serier på den här enheten? Ladda ner "
 "Plex här."
 
-#: app/templates/setup.html:20
+#: app/templates/setup.html:20 app/templates/wizard/download.html:14
 msgid "Download"
 msgstr "Ladda ner"
 
@@ -406,22 +408,24 @@ msgstr "Hoppa över"
 #, fuzzy, python-format
 msgid ""
 "Congratulations on joining %(name)s! You're now one step closer to "
-"enjoying all kinds of amazing content."
+"enjoying all kinds of amazing\n"
+"        content."
 msgstr ""
 "Grattis, du har nu accepterat inbjudan till Plex! Nu är du ett steg "
 "närmare till att kunna njuta av innehållet på våran server. "
 
-#: app/templates/tips.html:22
+#: app/templates/tips.html:23 app/templates/wizard/tips.html:4
 msgid "Eh, So, What is Plex exactly?"
 msgstr "Okej, så vad är Plex?"
 
-#: app/templates/tips.html:25
+#: app/templates/tips.html:26
 #, fuzzy
 msgid ""
 "Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If you've received this invitation, it "
-"means someone wants to share their library with you. With Plex, you'll "
-"have access to all of the movies, TV shows, music, and photos that are "
+" media collections with others. If\n"
+"      you've received this invitation, it means someone wants to share "
+"their library with you. With Plex, you'll have\n"
+"      access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
 msgstr ""
 "Bra fråga! Plex är ett program som tillåter ägaren att dela med sig av "
@@ -430,46 +434,51 @@ msgstr ""
 "tillgång till Filmer, Serier, Musik och bilder som de vill dela med sig "
 "av på sin server till dig!"
 
-#: app/templates/tips.html:28
+#: app/templates/tips.html:31 app/templates/wizard/tips.html:12
 msgid "Right, so how do I watch stuff?"
 msgstr "Jag förstår, hur kollar jag på innehållet?"
 
-#: app/templates/tips.html:31
+#: app/templates/tips.html:34
+#, fuzzy
 msgid ""
 "It couldn't be simpler! Plex is available on a wide variety of devices "
-"including laptops, tablets, smartphones, and TVs. All you need to do is "
-"download the Plex app on your device, sign in with your account, and "
-"you're ready to start streaming your media. It's that easy!"
+"including laptops, tablets,\n"
+"      smartphones, and TVs. All you need to do is download the Plex app "
+"on your device, sign in with your account, and\n"
+"      you're ready to start streaming your media. It's that easy!"
 msgstr ""
 "Plex finns tillgängligt på massor av enheter, datorer, surfplatta, "
 "telefoner och smart-tv. Allt du behöver göra är att leta reda på plex där"
 " appar finns. Logga sedan in me ditt konto, så är du redo att streama!"
 
-#: app/templates/tips.html:34
+#: app/templates/tips.html:39 app/templates/wizard/tips.html:20
 msgid "How can I make sure to have the best experience?"
 msgstr "Hur kan jag säkerställa så att jag får den bästa upplevelsen?"
 
-#: app/templates/tips.html:37
+#: app/templates/tips.html:42
 msgid ""
 "Because Plex is a free service, they promote their own content before the"
-" awesome content your friend is now sharing with you - they also, by "
-"default, play content at a lower quality. "
+" awesome content your friend is now\n"
+"      sharing with you - they also, by default, play content at a lower "
+"quality. "
 msgstr ""
 
-#: app/templates/tips.html:39
+#: app/templates/tips.html:45 app/templates/wizard/tips.html:26
 #, fuzzy
 msgid "No need to worry though, this can be easily resolved"
 msgstr "Det är dock enkelt att göra sig av med!"
 
-#: app/templates/tips.html:39
-msgid "We highly recommend you to go through those steps first!"
+#: app/templates/tips.html:45
+msgid ""
+"We highly\n"
+"        recommend you to go through those steps first!"
 msgstr ""
 
-#: app/templates/tips.html:44
+#: app/templates/tips.html:54 app/templates/wizard/tips.html:35
 msgid "Configure Plex in your browser"
 msgstr ""
 
-#: app/templates/tips.html:58
+#: app/templates/tips.html:76 app/templates/wizard/tips.html:56
 msgid "Configure Plex's app on your computer, mobile device or TV"
 msgstr ""
 
@@ -518,6 +527,66 @@ msgstr "Skapa ett Plex konto"
 #: app/templates/welcome.html:22
 msgid "I have a Plex Account"
 msgstr "Jag har redan ett Plex konto"
+
+#: app/templates/wizard/download.html:3
+#, fuzzy
+msgid ""
+"Join & Download Plex\n"
+"            for this device"
+msgstr "Gå med & ladda ner Plex för denna enhet"
+
+#: app/templates/wizard/download.html:8
+#, fuzzy
+msgid ""
+"Great news! You now have access to our server's media collection. Let's "
+"make sure you know how to use\n"
+"        it with Plex."
+msgstr ""
+"Nu har du åtkomst till vårat serverinnehåll. Gå vidare för att veta hur "
+"du använder Plex."
+
+#: app/templates/wizard/tips.html:7
+#, fuzzy
+msgid ""
+"Great question! Plex is a software that allows individuals to share their"
+" media collections with others. If\n"
+"    you've received this invitation, it means someone wants to share "
+"their library with you. With Plex, you'll have\n"
+"    access to all of the movies, TV shows, music, and photos that are "
+"stored on their server. Enjoy!"
+msgstr ""
+"Bra fråga! Plex är ett program som tillåter ägaren att dela med sig av "
+"sitt innehåll till andra. Har du fått en inbjudan så betyder det att "
+"någon vill dela sitt innehåll med dig. Med plex så kommer du att få "
+"tillgång till Filmer, Serier, Musik och bilder som de vill dela med sig "
+"av på sin server till dig!"
+
+#: app/templates/wizard/tips.html:15
+#, fuzzy
+msgid ""
+"It couldn't be simpler! Plex is available on a wide variety of devices "
+"including laptops, tablets,\n"
+"    smartphones, and TVs. All you need to do is download the Plex app on "
+"your device, sign in with your account, and\n"
+"    you're ready to start streaming your media. It's that easy!"
+msgstr ""
+"Plex finns tillgängligt på massor av enheter, datorer, surfplatta, "
+"telefoner och smart-tv. Allt du behöver göra är att leta reda på plex där"
+" appar finns. Logga sedan in me ditt konto, så är du redo att streama!"
+
+#: app/templates/wizard/tips.html:23
+msgid ""
+"Because Plex is a free service, they promote their own content before the"
+" awesome content your friend is now\n"
+"    sharing with you - they also, by default, play content at a lower "
+"quality. "
+msgstr ""
+
+#: app/templates/wizard/tips.html:26
+msgid ""
+"We highly\n"
+"      recommend you to go through those steps first!"
+msgstr ""
 
 #~ msgid ""
 #~ "Request\n"
@@ -680,4 +749,16 @@ msgstr "Jag har redan ett Plex konto"
 #~ "ändra kvalité precis som du gör på"
 #~ " Youtube. På de sättet får du "
 #~ "bästa möjliga upplevelse."
+
+#~ msgid ""
+#~ "Because Plex is a free service, "
+#~ "they promote their own content before"
+#~ " the awesome content your friend is"
+#~ " now sharing with you - they "
+#~ "also, by default, play content at "
+#~ "a lower quality. "
+#~ msgstr ""
+
+#~ msgid "We highly recommend you to go through those steps first!"
+#~ msgstr ""
 
