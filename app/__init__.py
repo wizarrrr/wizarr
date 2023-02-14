@@ -16,7 +16,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = "./database/sessions"
 Session(app)
 
-VERSION = "1.3.1"
+VERSION = "1.4.0"
 
 
 # Translation stuff
