@@ -24,10 +24,12 @@ def redirect_to_invite():
         return redirect('/settings')
     return redirect('/invite')
 
+
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 
 @app.route("/j/<code>", methods=["GET"])
 def plex(code):
@@ -62,15 +64,10 @@ def connect():
     return redirect(Oauth.get_by_id(oauth.id).url)
 
 
-
-@app.route('/setup/download', methods=["GET"])
-def setup():
-    return render_template("setup.html")
-
-
 def needUpdate():
     try:
-        r = requests.get(url="https://raw.githubusercontent.com/Wizarrrr/wizarr/master/.github/latest")
+        r = requests.get(
+            url="https://raw.githubusercontent.com/Wizarrrr/wizarr/master/.github/latest")
         data = r.content.decode("utf-8")
         if version.parse(VERSION) < version.parse(data):
             return True
@@ -129,6 +126,84 @@ def delete(code):
     return redirect('/invites')
 
 
+@app.route('/setup', methods=["GET"])
+def setup():
+
+    if Settings.get_or_none(Settings.key == "discord_id"):
+        discord = True
+    if Settings.get_or_none(Settings.key == "overseerr_url"):
+        requests = True
+    resp = make_response(render_template("wizard.html"))
+    resp.set_cookie('current', "0")
+    return resp
+
+@app.route('/setup/download', methods=["GET"])
+def download():
+    return render_template("setup.html")
+
+
+@app.route('/setup/action=<action>', methods=["POST"])
+def wizard(action):
+    video_lang = get_locale()
+    videos = {
+        "en": {
+            "web_video": "https://www.youtube.com/embed/yO_oPny-Y_I",
+            "app_video": "https://www.youtube.com/embed/e7Gy4FHDy5k"
+        },
+        "fr": {
+
+            "web_video": "https://www.youtube.com/embed/f1ce3_OY5OE",
+            "app_video": "https://www.youtube.com/embed/u8ejqsGfntw"
+        }
+    }
+    if video_lang not in videos:
+        video_lang = "en"
+    current = int(request.cookies.get('current'))
+
+    discord_id_setting = Settings.get_or_none(Settings.key == "discord_id")
+    overseerr_url_setting = Settings.get_or_none(Settings.key == "overseerr_url")
+
+    if discord_id_setting and overseerr_url_setting:
+        steps = {0: "wizard/download.html",
+                1: "wizard/requests.html",
+                2: "wizard/discord.html",
+                3: "wizard/tips.html"}
+    elif discord_id_setting and not overseerr_url_setting:
+        steps = {0: "wizard/download.html",
+                1: "wizard/discord.html",
+                2: "wizard/tips.html"}
+    elif not discord_id_setting and overseerr_url_setting:
+        steps = {0: "wizard/download.html",
+                1: "wizard/requests.html",
+                2: "wizard/tips.html"}
+    else:
+        steps = {0: "wizard/download.html",
+                1: "wizard/tips.html"}
+                
+    if action == "next":
+        if current+1 in steps:
+            resp = make_response(render_template(
+                steps[current+1], videos=videos, video_lang=video_lang))
+            resp.set_cookie('current', str(current + 1))
+            return resp
+        else:
+            resp = make_response(render_template(
+                steps[current], videos=videos, video_lang=video_lang))
+            resp.set_cookie('current', str(current))
+            return resp
+    elif action == "prev":
+        if current-1 in steps:
+            resp = make_response(render_template(
+                steps[current-1], videos=videos, video_lang=video_lang))
+            resp.set_cookie('current', str(current - 1))
+            return resp
+        else:
+            resp = make_response(render_template(
+                steps[current], videos=videos, video_lang=video_lang))
+            resp.set_cookie('current', str(current))
+            return resp
+
+
 @app.route('/setup/requests', methods=["GET"])
 def plex_requests():
     if Settings.get_or_none(Settings.key == "overseerr_url"):
@@ -144,13 +219,24 @@ def plex_discord():
     else:
         return redirect("/setup/tips")
 
+
 @app.route('/setup/tips')
 def tips():
     video_lang = get_locale()
-    base_dir = os.path.abspath(os.path.dirname(__file__))
-    if not os.path.isfile(os.path.join(base_dir, f"static/web_{video_lang}.mp4")):
+    videos = {
+        "en": {
+            "web_video": "https://www.youtube.com/embed/yO_oPny-Y_I",
+            "app_video": "https://www.youtube.com/embed/e7Gy4FHDy5k"
+        },
+        "fr": {
+
+            "web_video": "https://www.youtube.com/embed/f1ce3_OY5OE",
+            "app_video": "https://www.youtube.com/embed/u8ejqsGfntw"
+        }
+    }
+    if video_lang not in videos:
         video_lang = "en"
-    return render_template("tips.html", name=Settings.get(Settings.key == "plex_name").value, video_lang=video_lang)
+    return render_template("tips.html", name=Settings.get(Settings.key == "plex_name").value, video_lang=video_lang, videos=videos)
 
 
 @app.errorhandler(500)
@@ -170,13 +256,13 @@ def server_error(e):
     logging.error(e)
     return render_template('401.html'), 401
 
+
 @app.context_processor
 def inject_user():
     name = ""
     try:
         name = Settings.get(Settings.key == "plex_name").value
     except:
-        name="Wizarr"
+        name = "Wizarr"
         print("Could not find name :( ")
     return dict(header_name=name)
-
