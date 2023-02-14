@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-13 21:27+0000\n"
+"POT-Creation-Date: 2023-02-14 04:11+0000\n"
 "PO-Revision-Date: 2023-02-02 13:32+0000\n"
 "Last-Translator: thu3n <elias.thuen@gmail.com>\n"
 "Language: sv\n"
 "Language-Team: Swedish "
 "<https://hosted.weblate.org/projects/wizarr/app/sv/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.8.0\n"
 
 #: app/admin.py:47
 msgid "Passwords do not match."
@@ -96,7 +96,7 @@ msgid "Accept"
 msgstr "Acceptera"
 
 #: app/templates/accept.html:31 app/templates/discord.html:29
-#: app/templates/requests.html:69 app/templates/wizard/accept.html:23
+#: app/templates/requests.html:67 app/templates/wizard/accept.html:23
 msgid "Next"
 msgstr "Nästa"
 
@@ -284,7 +284,7 @@ msgstr "Kom ihåg mig"
 msgid "Sign in"
 msgstr "Logga in"
 
-#: app/templates/new-tips.html:11 app/templates/tips.html:12
+#: app/templates/new-tips.html:11 app/templates/tips.html:11
 msgid "How to Use Plex?"
 msgstr "Hur du använder Plex?"
 
@@ -316,15 +316,15 @@ msgstr ""
 "ett användarvänligt förfrågningssystem som automatiskt kan söka efter de "
 "titlar du söker. "
 
-#: app/templates/requests.html:23
+#: app/templates/requests.html:21
 msgid "Plex Requests"
 msgstr "Plex förfrågningar"
 
-#: app/templates/requests.html:35
+#: app/templates/requests.html:33
 msgid "Request any available Movie or TV Show"
 msgstr "Förfråga efter en tillgänglig film eller TV-serie"
 
-#: app/templates/requests.html:45
+#: app/templates/requests.html:43
 msgid ""
 "Requested media will be automatically downloaded and added to the library"
 " (if available)"
@@ -332,11 +332,11 @@ msgstr ""
 "Förfrågad titel kommer att automatiskt laddas ner och läggas till i "
 "biblioteket (om tillgängligt)"
 
-#: app/templates/requests.html:55
+#: app/templates/requests.html:53
 msgid "If enabled, receive notifications"
 msgstr "Om det är tillgängligt, lägg till notiser"
 
-#: app/templates/requests.html:61
+#: app/templates/requests.html:59
 msgid "Check it Out"
 msgstr "Kolla in"
 
@@ -402,22 +402,24 @@ msgstr "Ladda ner"
 msgid "Skip"
 msgstr "Hoppa över"
 
-#: app/templates/tips.html:15
+#: app/templates/tips.html:14
+#, fuzzy, python-format
 msgid ""
-"Congratulations on accepting the email invitation from Plex! You're now "
-"one step closer to enjoying all the amazing content on our server. "
+"Congratulations on joining %(name)s! You're now one step closer to "
+"enjoying all kinds of amazing content."
 msgstr ""
 "Grattis, du har nu accepterat inbjudan till Plex! Nu är du ett steg "
 "närmare till att kunna njuta av innehållet på våran server. "
 
-#: app/templates/tips.html:18
-msgid "Eh, So, What is Plex exactly??"
+#: app/templates/tips.html:22
+msgid "Eh, So, What is Plex exactly?"
 msgstr "Okej, så vad är Plex?"
 
-#: app/templates/tips.html:20
+#: app/templates/tips.html:25
+#, fuzzy
 msgid ""
 "Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If you've received an invitation, it "
+" media collections with others. If you've received this invitation, it "
 "means someone wants to share their library with you. With Plex, you'll "
 "have access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
@@ -428,11 +430,11 @@ msgstr ""
 "tillgång till Filmer, Serier, Musik och bilder som de vill dela med sig "
 "av på sin server till dig!"
 
-#: app/templates/tips.html:23
+#: app/templates/tips.html:28
 msgid "Right, so how do I watch stuff?"
 msgstr "Jag förstår, hur kollar jag på innehållet?"
 
-#: app/templates/tips.html:25
+#: app/templates/tips.html:31
 msgid ""
 "It couldn't be simpler! Plex is available on a wide variety of devices "
 "including laptops, tablets, smartphones, and TVs. All you need to do is "
@@ -443,151 +445,33 @@ msgstr ""
 "telefoner och smart-tv. Allt du behöver göra är att leta reda på plex där"
 " appar finns. Logga sedan in me ditt konto, så är du redo att streama!"
 
-#: app/templates/tips.html:28
-msgid "I've logged in but I am overwhelmed with content!"
-msgstr "Jag har loggat in, men jag är överväldigad av allt innehåll!"
-
-#: app/templates/tips.html:30
-msgid ""
-"While Plex is a free service, they do have to generate revenue in order "
-"to continue providing the platform. One way they do this is by displaying"
-" their own content before the content of the server you are joining."
-msgstr ""
-"Då Plex är en gratis tjänst så måste dom få in intäckter för att kunna "
-"fortsätta tillhandhålla platformen. Ett sätt att göra det på för dom är "
-"att visa sitt egna innehåll innan du ser innehållet på den servern du "
-"precis har gått med i."
-
-#: app/templates/tips.html:31
-msgid "No need to worry though, this can be easily resolved!"
-msgstr "Det är dock enkelt att göra sig av med!"
-
-#: app/templates/tips.html:33
-msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
-msgstr "Till vänster på skärmen ska du se en meny. klicka på den. "
-
 #: app/templates/tips.html:34
-msgid "More"
-msgstr "Expandera"
-
-#: app/templates/tips.html:34
-msgid "button to reveal all the different types of media you have access to."
-msgstr "knapparna för att visa alla typer av media som du har tillgång till."
-
-#: app/templates/tips.html:37
-msgid ""
-"To avoid seeing Plex's content first, we recommend hiding it. To do this,"
-" select all the content types you don't want (such as 'Movies and TV on "
-"Plex') and 'Unpin' them from your home screen. This way you'll only see "
-"the content that you really want to watch!"
-msgstr ""
-"För att slippa se Plex egna innehåll så rekommenderar vi att gömma det. "
-"För att göra det, välj de innehållet du inte vill se (som 'Filmer och TV "
-"på plex') och Ta bort/lossa från hemmskärmen. På de sättet ska du nu bara"
-" kunna se innehållet från servern du precis gått med i!"
-
-#: app/templates/tips.html:40
-msgid "Now that everything we"
-msgstr "Nu när allt som vi"
-
-#: app/templates/tips.html:40
-msgid "don't"
-msgstr "inte"
-
-#: app/templates/tips.html:40
-msgid "want is out of the way, we can focus on the things we "
-msgstr "vill ha är borttaget, så kan vi fokusera på det som vi "
-
-#: app/templates/tips.html:40
-msgid "do"
-msgstr "vill"
-
-#: app/templates/tips.html:40
-msgid " want!"
-msgstr " ha!"
-
-#: app/templates/tips.html:40
-#, python-format
-msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
-msgstr ""
-
-#: app/templates/tips.html:44
 msgid "How can I make sure to have the best experience?"
 msgstr "Hur kan jag säkerställa så att jag får den bästa upplevelsen?"
 
-#: app/templates/tips.html:46
+#: app/templates/tips.html:37
 msgid ""
-"By default, Plex plays all content at a lower quality. This can be a bit "
-"of a disappointment. But don't worry, it's a simple fix! You can easily "
-"change the settings to increase the quality of the media that you're "
-"streaming."
+"Because Plex is a free service, they promote their own content before the"
+" awesome content your friend is now sharing with you - they also, by "
+"default, play content at a lower quality. "
 msgstr ""
-"Standard är att Plex alltid spelar upp innehållet i en längre kavlié. Det"
-" kan du enkelt ändra i inställningarna för det du streamar."
 
-#: app/templates/tips.html:48
-msgid "Go to the Plex "
-msgstr "Gå till Plex "
+#: app/templates/tips.html:39
+#, fuzzy
+msgid "No need to worry though, this can be easily resolved"
+msgstr "Det är dock enkelt att göra sig av med!"
 
-#: app/templates/tips.html:48
-msgid "Settings "
-msgstr "Inställningar "
-
-#: app/templates/tips.html:48
-msgid ""
-"page. This is usually in the top right hand corner, depending on the "
-"device you are on."
-msgstr ". Det är oftast uppe till höger, beroende på vilken enhet du sitter på."
-
-#: app/templates/tips.html:50
-msgid "Go to the "
-msgstr "Gå till "
-
-#: app/templates/tips.html:50
-msgid "Quality"
-msgstr "Kvalité"
-
-#: app/templates/tips.html:50
-msgid "or"
-msgstr "eller"
-
-#: app/templates/tips.html:51
-msgid "Video"
-msgstr "Video"
-
-#: app/templates/tips.html:51
-msgid "settings."
-msgstr "inställningar."
-
-#: app/templates/tips.html:53 app/templates/tips.html:57
-msgid "Set the "
-msgstr "Ändra "
-
-#: app/templates/tips.html:53
-msgid "Remote/Internet Streaming"
-msgstr "Fjärr/internet Strömmning"
-
-#: app/templates/tips.html:53 app/templates/tips.html:57
-msgid "to "
-msgstr "till "
-
-#: app/templates/tips.html:54 app/templates/tips.html:58
-msgid "Maximum/Original"
-msgstr "Maximal/Original"
-
-#: app/templates/tips.html:57
-msgid "Local Streaming "
-msgstr "Lokal strömmning "
-
-#: app/templates/tips.html:61
-msgid ""
-"And there you have it! In case you encounter buffering issues, remember "
-"that you can always adjust the playback quality just like you do in "
-"YouTube. This way you can get the best streaming experience possible."
+#: app/templates/tips.html:39
+msgid "We highly recommend you to go through those steps first!"
 msgstr ""
-"Nu är du klar! Skulle du uppleva buffer, så går det alltid att ändra "
-"kvalité precis som du gör på Youtube. På de sättet får du bästa möjliga "
-"upplevelse."
+
+#: app/templates/tips.html:44
+msgid "Configure Plex in your browser"
+msgstr ""
+
+#: app/templates/tips.html:58
+msgid "Configure Plex's app on your computer, mobile device or TV"
+msgstr ""
 
 #: app/templates/user-plex-login.html:12
 #, fuzzy, python-format
@@ -659,4 +543,141 @@ msgstr "Jag har redan ett Plex konto"
 #~ msgstr ""
 #~ "Någonting gick fel. Vänligen försök igen"
 #~ " eller kontakta en administratör."
+
+#~ msgid "I've logged in but I am overwhelmed with content!"
+#~ msgstr "Jag har loggat in, men jag är överväldigad av allt innehåll!"
+
+#~ msgid ""
+#~ "While Plex is a free service, they"
+#~ " do have to generate revenue in "
+#~ "order to continue providing the "
+#~ "platform. One way they do this is"
+#~ " by displaying their own content "
+#~ "before the content of the server "
+#~ "you are joining."
+#~ msgstr ""
+#~ "Då Plex är en gratis tjänst så "
+#~ "måste dom få in intäckter för att"
+#~ " kunna fortsätta tillhandhålla platformen. "
+#~ "Ett sätt att göra det på för "
+#~ "dom är att visa sitt egna innehåll"
+#~ " innan du ser innehållet på den "
+#~ "servern du precis har gått med i."
+
+#~ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
+#~ msgstr "Till vänster på skärmen ska du se en meny. klicka på den. "
+
+#~ msgid "More"
+#~ msgstr "Expandera"
+
+#~ msgid "button to reveal all the different types of media you have access to."
+#~ msgstr "knapparna för att visa alla typer av media som du har tillgång till."
+
+#~ msgid ""
+#~ "To avoid seeing Plex's content first,"
+#~ " we recommend hiding it. To do "
+#~ "this, select all the content types "
+#~ "you don't want (such as 'Movies "
+#~ "and TV on Plex') and 'Unpin' them"
+#~ " from your home screen. This way "
+#~ "you'll only see the content that "
+#~ "you really want to watch!"
+#~ msgstr ""
+#~ "För att slippa se Plex egna "
+#~ "innehåll så rekommenderar vi att gömma"
+#~ " det. För att göra det, välj de"
+#~ " innehållet du inte vill se (som "
+#~ "'Filmer och TV på plex') och Ta"
+#~ " bort/lossa från hemmskärmen. På de "
+#~ "sättet ska du nu bara kunna se "
+#~ "innehållet från servern du precis gått"
+#~ " med i!"
+
+#~ msgid "Now that everything we"
+#~ msgstr "Nu när allt som vi"
+
+#~ msgid "don't"
+#~ msgstr "inte"
+
+#~ msgid "want is out of the way, we can focus on the things we "
+#~ msgstr "vill ha är borttaget, så kan vi fokusera på det som vi "
+
+#~ msgid "do"
+#~ msgstr "vill"
+
+#~ msgid " want!"
+#~ msgstr " ha!"
+
+#~ msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "By default, Plex plays all content "
+#~ "at a lower quality. This can be"
+#~ " a bit of a disappointment. But "
+#~ "don't worry, it's a simple fix! "
+#~ "You can easily change the settings "
+#~ "to increase the quality of the "
+#~ "media that you're streaming."
+#~ msgstr ""
+#~ "Standard är att Plex alltid spelar "
+#~ "upp innehållet i en längre kavlié. "
+#~ "Det kan du enkelt ändra i "
+#~ "inställningarna för det du streamar."
+
+#~ msgid "Go to the Plex "
+#~ msgstr "Gå till Plex "
+
+#~ msgid "Settings "
+#~ msgstr "Inställningar "
+
+#~ msgid ""
+#~ "page. This is usually in the top"
+#~ " right hand corner, depending on the"
+#~ " device you are on."
+#~ msgstr ". Det är oftast uppe till höger, beroende på vilken enhet du sitter på."
+
+#~ msgid "Go to the "
+#~ msgstr "Gå till "
+
+#~ msgid "Quality"
+#~ msgstr "Kvalité"
+
+#~ msgid "or"
+#~ msgstr "eller"
+
+#~ msgid "Video"
+#~ msgstr "Video"
+
+#~ msgid "settings."
+#~ msgstr "inställningar."
+
+#~ msgid "Set the "
+#~ msgstr "Ändra "
+
+#~ msgid "Remote/Internet Streaming"
+#~ msgstr "Fjärr/internet Strömmning"
+
+#~ msgid "to "
+#~ msgstr "till "
+
+#~ msgid "Maximum/Original"
+#~ msgstr "Maximal/Original"
+
+#~ msgid "Local Streaming "
+#~ msgstr "Lokal strömmning "
+
+#~ msgid ""
+#~ "And there you have it! In case "
+#~ "you encounter buffering issues, remember "
+#~ "that you can always adjust the "
+#~ "playback quality just like you do "
+#~ "in YouTube. This way you can get"
+#~ " the best streaming experience possible."
+#~ msgstr ""
+#~ "Nu är du klar! Skulle du uppleva"
+#~ " buffer, så går det alltid att "
+#~ "ändra kvalité precis som du gör på"
+#~ " Youtube. På de sättet får du "
+#~ "bästa möjliga upplevelse."
 

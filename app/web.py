@@ -3,18 +3,19 @@ from re import I
 import secrets
 import string
 import os
+import os.path
 import requests
 import datetime
 from flask import request, redirect, render_template, abort, make_response, send_from_directory
 from app import app, Invitations, Settings, VERSION, Users, Oauth
 from app.plex import *
 from app.admin import login_required
+from app.utils import get_locale
 from plexapi.server import PlexServer
 from flask_babel import _
 from packaging import version
 import threading
-
-
+from pathlib import Path
 
 
 @app.route('/')
@@ -145,7 +146,11 @@ def plex_discord():
 
 @app.route('/setup/tips')
 def tips():
-    return render_template("tips.html", name=Settings.get(Settings.key == "plex_name").value)
+    video_lang = get_locale()
+    base_dir = os.path.abspath(os.path.dirname(__file__))
+    if not os.path.isfile(os.path.join(base_dir, f"static/web_{video_lang}.mp4")):
+        video_lang = "en"
+    return render_template("tips.html", name=Settings.get(Settings.key == "plex_name").value, video_lang=video_lang)
 
 
 @app.errorhandler(500)

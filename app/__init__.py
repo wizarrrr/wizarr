@@ -1,5 +1,3 @@
-
-
 from flask import Flask, request, session
 from peewee import *
 from playhouse.migrate import *
@@ -7,6 +5,7 @@ from flask_babel import Babel
 import os
 from dotenv import load_dotenv
 from flask_session import Session
+from .utils import get_locale
 
 load_dotenv()
 
@@ -20,16 +19,6 @@ Session(app)
 VERSION = "1.3.1"
 
 
-def get_locale():
-     if os.getenv("FORCE_LANGUAGE"):
-        return os.getenv("FORCE_LANGUAGE")
-     elif request.args.get('lang'):
-        session['lang'] = request.args.get('lang')
-        return session.get('lang', 'en')
-     else:
-        return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
-
-
 # Translation stuff
 base_dir = os.path.abspath(os.path.dirname(__file__))
 app.config["LANGUAGES"] = {'en': 'english',
@@ -41,7 +30,6 @@ app.config["LANGUAGES"] = {'en': 'english',
                            }
 app.config["BABEL_DEFAULT_LOCALE"] = "en"
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = ('./translations')
-
 
 babel = Babel(app, locale_selector=get_locale)
 
