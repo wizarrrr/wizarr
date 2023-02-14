@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-13 21:27+0000\n"
+"POT-Creation-Date: 2023-02-14 04:11+0000\n"
 "PO-Revision-Date: 2023-02-13 19:31+0000\n"
 "Last-Translator: Luke Keude <kingrun424@gmail.com>\n"
 "Language: lt\n"
@@ -15,11 +15,11 @@ msgstr ""
 "<https://hosted.weblate.org/projects/wizarr/app/lt/>\n"
 "Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100"
 " > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > "
-"19)) ? 1 : 2);\n"
+"19)) ? 1 : 2)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.8.0\n"
 
 #: app/admin.py:47
 msgid "Passwords do not match."
@@ -100,7 +100,7 @@ msgid "Accept"
 msgstr "Priimti"
 
 #: app/templates/accept.html:31 app/templates/discord.html:29
-#: app/templates/requests.html:69 app/templates/wizard/accept.html:23
+#: app/templates/requests.html:67 app/templates/wizard/accept.html:23
 msgid "Next"
 msgstr "Kitas"
 
@@ -288,7 +288,7 @@ msgstr "Prisiminti mane"
 msgid "Sign in"
 msgstr "Prisijungti"
 
-#: app/templates/new-tips.html:11 app/templates/tips.html:12
+#: app/templates/new-tips.html:11 app/templates/tips.html:11
 msgid "How to Use Plex?"
 msgstr "Kaip naudotis \"Plex\"?"
 
@@ -319,15 +319,15 @@ msgstr ""
 "sunku rasti tai, kas jums patinka, nesijaudinkite! Turime patogią "
 "užklausų sistemą, kuri gali automatiškai ieškoti jūsų ieškomos medijos. "
 
-#: app/templates/requests.html:23
+#: app/templates/requests.html:21
 msgid "Plex Requests"
 msgstr "„Plex“ užklausos"
 
-#: app/templates/requests.html:35
+#: app/templates/requests.html:33
 msgid "Request any available Movie or TV Show"
 msgstr "Prašykite bet kurio galimo filmo ar TV laidos"
 
-#: app/templates/requests.html:45
+#: app/templates/requests.html:43
 msgid ""
 "Requested media will be automatically downloaded and added to the library"
 " (if available)"
@@ -335,11 +335,11 @@ msgstr ""
 "Prašoma medija bus automatiškai atsisiųsta ir pridėta prie bibliotekos "
 "(jeigu yra)"
 
-#: app/templates/requests.html:55
+#: app/templates/requests.html:53
 msgid "If enabled, receive notifications"
 msgstr "Jeigu įgalinta, gaukite pranešimus"
 
-#: app/templates/requests.html:61
+#: app/templates/requests.html:59
 msgid "Check it Out"
 msgstr "Pasižiūrėk"
 
@@ -405,22 +405,24 @@ msgstr "Parsisiųsti"
 msgid "Skip"
 msgstr "Praleisti"
 
-#: app/templates/tips.html:15
+#: app/templates/tips.html:14
+#, fuzzy, python-format
 msgid ""
-"Congratulations on accepting the email invitation from Plex! You're now "
-"one step closer to enjoying all the amazing content on our server. "
+"Congratulations on joining %(name)s! You're now one step closer to "
+"enjoying all kinds of amazing content."
 msgstr ""
 "Sveikiname priėmus kvietimą el. paštu iš Plex! Dabar esate vienu žingsniu"
 " arčiau, kad galėtumėte mėgautis visu nuostabiu turiniu mūsų serveryje. "
 
-#: app/templates/tips.html:18
-msgid "Eh, So, What is Plex exactly??"
+#: app/templates/tips.html:22
+msgid "Eh, So, What is Plex exactly?"
 msgstr "Taigi, kas tiksliai yra „Plex“??"
 
-#: app/templates/tips.html:20
+#: app/templates/tips.html:25
+#, fuzzy
 msgid ""
 "Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If you've received an invitation, it "
+" media collections with others. If you've received this invitation, it "
 "means someone wants to share their library with you. With Plex, you'll "
 "have access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
@@ -431,11 +433,11 @@ msgstr ""
 "„Plex“ turėsite prieigą prie visų filmų, TV laidų, muzikos ir nuotraukų, "
 "saugomų jų serveryje. Mėgaukitės!"
 
-#: app/templates/tips.html:23
+#: app/templates/tips.html:28
 msgid "Right, so how do I watch stuff?"
 msgstr "Supratau, tai kaip man pradėti žiūrėti dalykus?"
 
-#: app/templates/tips.html:25
+#: app/templates/tips.html:31
 msgid ""
 "It couldn't be simpler! Plex is available on a wide variety of devices "
 "including laptops, tablets, smartphones, and TVs. All you need to do is "
@@ -449,157 +451,33 @@ msgstr ""
 "prisijungti naudodami savo paskyrą ir būsite pasiruošę pradėti "
 "transliuoti mediją. Tai taip paprasta!"
 
-#: app/templates/tips.html:28
-msgid "I've logged in but I am overwhelmed with content!"
-msgstr "Aš prisijungiau, bet esu priblokštas turinio!"
-
-#: app/templates/tips.html:30
-msgid ""
-"While Plex is a free service, they do have to generate revenue in order "
-"to continue providing the platform. One way they do this is by displaying"
-" their own content before the content of the server you are joining."
-msgstr ""
-"Nors „Plex“ yra nemokama paslauga, jie turi uždirbti pajamų, kad galėtų "
-"toliau teikti platformą. Vienas iš būdų kaip tai daroma – rodyti savo "
-"turinį prieš serverio, prie kurio prisijungiate, turinį."
-
-#: app/templates/tips.html:31
-msgid "No need to worry though, this can be easily resolved!"
-msgstr "Tačiau nereikia jaudintis, tai galima lengvai išspręsti!"
-
-#: app/templates/tips.html:33
-msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
-msgstr "Kairėje ekrano pusėje matysite meniu. Spustelėkite ant "
-
 #: app/templates/tips.html:34
-msgid "More"
-msgstr "Daugiau"
-
-#: app/templates/tips.html:34
-msgid "button to reveal all the different types of media you have access to."
-msgstr ""
-"mygtuko, kad atskleistumėte visus skirtingus medijos tipus, prie kurių "
-"turite prieigą."
-
-#: app/templates/tips.html:37
-msgid ""
-"To avoid seeing Plex's content first, we recommend hiding it. To do this,"
-" select all the content types you don't want (such as 'Movies and TV on "
-"Plex') and 'Unpin' them from your home screen. This way you'll only see "
-"the content that you really want to watch!"
-msgstr ""
-"Norint išvengti \"Plex“ turinio, rekomenduojame jį paslėpti. Norėdami tai"
-" padaryti, pasirinkite visus turinio tipus, kurių nenorite (pvz., „Filmai"
-" ir TV naudojant Plex“) ir „Atsegti“ juos nuo pagrindinio ekrano. Taip "
-"matysite tik tą turinį, kurį tikrai norite žiūrėti!"
-
-#: app/templates/tips.html:40
-msgid "Now that everything we"
-msgstr "Dabar viskas, ko mes"
-
-#: app/templates/tips.html:40
-msgid "don't"
-msgstr "nebe"
-
-#: app/templates/tips.html:40
-msgid "want is out of the way, we can focus on the things we "
-msgstr "norime, galime sutelkti dėmesį į tai "
-
-#: app/templates/tips.html:40
-msgid "do"
-msgstr "ko"
-
-#: app/templates/tips.html:40
-msgid " want!"
-msgstr " norime!"
-
-#: app/templates/tips.html:40
-#, python-format
-msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
-msgstr "Tiesiog prisekite Filmai / TV laidų skyrius iš %(name)s!"
-
-#: app/templates/tips.html:44
 msgid "How can I make sure to have the best experience?"
 msgstr "Kaip galiu užtikrinti, kad mano patirtis būtų geriausia?"
 
-#: app/templates/tips.html:46
+#: app/templates/tips.html:37
 msgid ""
-"By default, Plex plays all content at a lower quality. This can be a bit "
-"of a disappointment. But don't worry, it's a simple fix! You can easily "
-"change the settings to increase the quality of the media that you're "
-"streaming."
+"Because Plex is a free service, they promote their own content before the"
+" awesome content your friend is now sharing with you - they also, by "
+"default, play content at a lower quality. "
 msgstr ""
-"Pagal numatytuosius nustatymus „Plex“ atkuria visą turinį žemesne kokybe."
-" Tai gali šiek tiek nuvilti. Bet nesijaudinkite, tai galima nesunkiai "
-"pataisyti! Galite lengvai pakeisti nustatymus, kad pagerintumėte srautu "
-"perduodamos medijos kokybę."
 
-#: app/templates/tips.html:48
-msgid "Go to the Plex "
-msgstr "Pereiti į \"Plex\" "
+#: app/templates/tips.html:39
+#, fuzzy
+msgid "No need to worry though, this can be easily resolved"
+msgstr "Tačiau nereikia jaudintis, tai galima lengvai išspręsti!"
 
-#: app/templates/tips.html:48
-msgid "Settings "
-msgstr "Nustatymų "
-
-#: app/templates/tips.html:48
-msgid ""
-"page. This is usually in the top right hand corner, depending on the "
-"device you are on."
+#: app/templates/tips.html:39
+msgid "We highly recommend you to go through those steps first!"
 msgstr ""
-"langą. Tai įpaprastai randasi viršutiniame dešiniajame kampe, "
-"atsižvelgiant į įrenginį, kurį naudojate."
 
-#: app/templates/tips.html:50
-msgid "Go to the "
-msgstr "Eikite į "
-
-#: app/templates/tips.html:50
-msgid "Quality"
-msgstr "Kokybės"
-
-#: app/templates/tips.html:50
-msgid "or"
-msgstr "arba"
-
-#: app/templates/tips.html:51
-msgid "Video"
-msgstr "Vaizdo"
-
-#: app/templates/tips.html:51
-msgid "settings."
-msgstr "nustatymus."
-
-#: app/templates/tips.html:53 app/templates/tips.html:57
-msgid "Set the "
-msgstr "Nustatykite "
-
-#: app/templates/tips.html:53
-msgid "Remote/Internet Streaming"
-msgstr "\"Išorinis srautas\""
-
-#: app/templates/tips.html:53 app/templates/tips.html:57
-msgid "to "
-msgstr "į "
-
-#: app/templates/tips.html:54 app/templates/tips.html:58
-msgid "Maximum/Original"
-msgstr "Maximum/Originalus"
-
-#: app/templates/tips.html:57
-msgid "Local Streaming "
-msgstr "Vietinis Srautas "
-
-#: app/templates/tips.html:61
-msgid ""
-"And there you have it! In case you encounter buffering issues, remember "
-"that you can always adjust the playback quality just like you do in "
-"YouTube. This way you can get the best streaming experience possible."
+#: app/templates/tips.html:44
+msgid "Configure Plex in your browser"
 msgstr ""
-"Štai ir viskas! Jei susidursite su vaizdo strigimo problemomis, "
-"atminkite, kad visada galite koreguoti atkūrimo kokybę taip, kaip tai "
-"darote pvz. „YouTube“. Tokiu būdu galite gauti geriausią įmanomą "
-"srautinio perdavimo patirtį."
+
+#: app/templates/tips.html:58
+msgid "Configure Plex's app on your computer, mobile device or TV"
+msgstr ""
 
 #: app/templates/user-plex-login.html:12
 #, fuzzy, python-format
@@ -662,4 +540,147 @@ msgstr "Jau turiu \"Plex\" paskyrą"
 #~ msgstr ""
 #~ "Kažkas nutiko. Bandykite dar kartą arba"
 #~ " susisiekite su administratoriumi."
+
+#~ msgid "I've logged in but I am overwhelmed with content!"
+#~ msgstr "Aš prisijungiau, bet esu priblokštas turinio!"
+
+#~ msgid ""
+#~ "While Plex is a free service, they"
+#~ " do have to generate revenue in "
+#~ "order to continue providing the "
+#~ "platform. One way they do this is"
+#~ " by displaying their own content "
+#~ "before the content of the server "
+#~ "you are joining."
+#~ msgstr ""
+#~ "Nors „Plex“ yra nemokama paslauga, jie"
+#~ " turi uždirbti pajamų, kad galėtų "
+#~ "toliau teikti platformą. Vienas iš būdų"
+#~ " kaip tai daroma – rodyti savo "
+#~ "turinį prieš serverio, prie kurio "
+#~ "prisijungiate, turinį."
+
+#~ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
+#~ msgstr "Kairėje ekrano pusėje matysite meniu. Spustelėkite ant "
+
+#~ msgid "More"
+#~ msgstr "Daugiau"
+
+#~ msgid "button to reveal all the different types of media you have access to."
+#~ msgstr ""
+#~ "mygtuko, kad atskleistumėte visus skirtingus"
+#~ " medijos tipus, prie kurių turite "
+#~ "prieigą."
+
+#~ msgid ""
+#~ "To avoid seeing Plex's content first,"
+#~ " we recommend hiding it. To do "
+#~ "this, select all the content types "
+#~ "you don't want (such as 'Movies "
+#~ "and TV on Plex') and 'Unpin' them"
+#~ " from your home screen. This way "
+#~ "you'll only see the content that "
+#~ "you really want to watch!"
+#~ msgstr ""
+#~ "Norint išvengti \"Plex“ turinio, "
+#~ "rekomenduojame jį paslėpti. Norėdami tai "
+#~ "padaryti, pasirinkite visus turinio tipus, "
+#~ "kurių nenorite (pvz., „Filmai ir TV "
+#~ "naudojant Plex“) ir „Atsegti“ juos nuo"
+#~ " pagrindinio ekrano. Taip matysite tik "
+#~ "tą turinį, kurį tikrai norite žiūrėti!"
+
+#~ msgid "Now that everything we"
+#~ msgstr "Dabar viskas, ko mes"
+
+#~ msgid "don't"
+#~ msgstr "nebe"
+
+#~ msgid "want is out of the way, we can focus on the things we "
+#~ msgstr "norime, galime sutelkti dėmesį į tai "
+
+#~ msgid "do"
+#~ msgstr "ko"
+
+#~ msgid " want!"
+#~ msgstr " norime!"
+
+#~ msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
+#~ msgstr "Tiesiog prisekite Filmai / TV laidų skyrius iš %(name)s!"
+
+#~ msgid ""
+#~ "By default, Plex plays all content "
+#~ "at a lower quality. This can be"
+#~ " a bit of a disappointment. But "
+#~ "don't worry, it's a simple fix! "
+#~ "You can easily change the settings "
+#~ "to increase the quality of the "
+#~ "media that you're streaming."
+#~ msgstr ""
+#~ "Pagal numatytuosius nustatymus „Plex“ atkuria"
+#~ " visą turinį žemesne kokybe. Tai gali"
+#~ " šiek tiek nuvilti. Bet nesijaudinkite, "
+#~ "tai galima nesunkiai pataisyti! Galite "
+#~ "lengvai pakeisti nustatymus, kad pagerintumėte"
+#~ " srautu perduodamos medijos kokybę."
+
+#~ msgid "Go to the Plex "
+#~ msgstr "Pereiti į \"Plex\" "
+
+#~ msgid "Settings "
+#~ msgstr "Nustatymų "
+
+#~ msgid ""
+#~ "page. This is usually in the top"
+#~ " right hand corner, depending on the"
+#~ " device you are on."
+#~ msgstr ""
+#~ "langą. Tai įpaprastai randasi viršutiniame "
+#~ "dešiniajame kampe, atsižvelgiant į įrenginį,"
+#~ " kurį naudojate."
+
+#~ msgid "Go to the "
+#~ msgstr "Eikite į "
+
+#~ msgid "Quality"
+#~ msgstr "Kokybės"
+
+#~ msgid "or"
+#~ msgstr "arba"
+
+#~ msgid "Video"
+#~ msgstr "Vaizdo"
+
+#~ msgid "settings."
+#~ msgstr "nustatymus."
+
+#~ msgid "Set the "
+#~ msgstr "Nustatykite "
+
+#~ msgid "Remote/Internet Streaming"
+#~ msgstr "\"Išorinis srautas\""
+
+#~ msgid "to "
+#~ msgstr "į "
+
+#~ msgid "Maximum/Original"
+#~ msgstr "Maximum/Originalus"
+
+#~ msgid "Local Streaming "
+#~ msgstr "Vietinis Srautas "
+
+#~ msgid ""
+#~ "And there you have it! In case "
+#~ "you encounter buffering issues, remember "
+#~ "that you can always adjust the "
+#~ "playback quality just like you do "
+#~ "in YouTube. This way you can get"
+#~ " the best streaming experience possible."
+#~ msgstr ""
+#~ "Štai ir viskas! Jei susidursite su "
+#~ "vaizdo strigimo problemomis, atminkite, kad"
+#~ " visada galite koreguoti atkūrimo kokybę"
+#~ " taip, kaip tai darote pvz. "
+#~ "„YouTube“. Tokiu būdu galite gauti "
+#~ "geriausią įmanomą srautinio perdavimo patirtį."
 

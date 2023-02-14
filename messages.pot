@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-13 21:27+0000\n"
+"POT-Creation-Date: 2023-02-14 04:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.8.0\n"
 
 #: app/admin.py:47
 msgid "Passwords do not match."
@@ -92,7 +92,7 @@ msgid "Accept"
 msgstr ""
 
 #: app/templates/accept.html:31 app/templates/discord.html:29
-#: app/templates/requests.html:69 app/templates/wizard/accept.html:23
+#: app/templates/requests.html:67 app/templates/wizard/accept.html:23
 msgid "Next"
 msgstr ""
 
@@ -276,7 +276,7 @@ msgstr ""
 msgid "Sign in"
 msgstr ""
 
-#: app/templates/new-tips.html:11 app/templates/tips.html:12
+#: app/templates/new-tips.html:11 app/templates/tips.html:11
 msgid "How to Use Plex?"
 msgstr ""
 
@@ -304,25 +304,25 @@ msgid ""
 "you're looking for. "
 msgstr ""
 
-#: app/templates/requests.html:23
+#: app/templates/requests.html:21
 msgid "Plex Requests"
 msgstr ""
 
-#: app/templates/requests.html:35
+#: app/templates/requests.html:33
 msgid "Request any available Movie or TV Show"
 msgstr ""
 
-#: app/templates/requests.html:45
+#: app/templates/requests.html:43
 msgid ""
 "Requested media will be automatically downloaded and added to the library"
 " (if available)"
 msgstr ""
 
-#: app/templates/requests.html:55
+#: app/templates/requests.html:53
 msgid "If enabled, receive notifications"
 msgstr ""
 
-#: app/templates/requests.html:61
+#: app/templates/requests.html:59
 msgid "Check it Out"
 msgstr ""
 
@@ -384,30 +384,31 @@ msgstr ""
 msgid "Skip"
 msgstr ""
 
-#: app/templates/tips.html:15
+#: app/templates/tips.html:14
+#, python-format
 msgid ""
-"Congratulations on accepting the email invitation from Plex! You're now "
-"one step closer to enjoying all the amazing content on our server. "
+"Congratulations on joining %(name)s! You're now one step closer to "
+"enjoying all kinds of amazing content."
 msgstr ""
 
-#: app/templates/tips.html:18
-msgid "Eh, So, What is Plex exactly??"
+#: app/templates/tips.html:22
+msgid "Eh, So, What is Plex exactly?"
 msgstr ""
 
-#: app/templates/tips.html:20
+#: app/templates/tips.html:25
 msgid ""
 "Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If you've received an invitation, it "
+" media collections with others. If you've received this invitation, it "
 "means someone wants to share their library with you. With Plex, you'll "
 "have access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
 msgstr ""
 
-#: app/templates/tips.html:23
+#: app/templates/tips.html:28
 msgid "Right, so how do I watch stuff?"
 msgstr ""
 
-#: app/templates/tips.html:25
+#: app/templates/tips.html:31
 msgid ""
 "It couldn't be simpler! Plex is available on a wide variety of devices "
 "including laptops, tablets, smartphones, and TVs. All you need to do is "
@@ -415,137 +416,31 @@ msgid ""
 "you're ready to start streaming your media. It's that easy!"
 msgstr ""
 
-#: app/templates/tips.html:28
-msgid "I've logged in but I am overwhelmed with content!"
-msgstr ""
-
-#: app/templates/tips.html:30
-msgid ""
-"While Plex is a free service, they do have to generate revenue in order "
-"to continue providing the platform. One way they do this is by displaying"
-" their own content before the content of the server you are joining."
-msgstr ""
-
-#: app/templates/tips.html:31
-msgid "No need to worry though, this can be easily resolved!"
-msgstr ""
-
-#: app/templates/tips.html:33
-msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
-msgstr ""
-
 #: app/templates/tips.html:34
-msgid "More"
-msgstr ""
-
-#: app/templates/tips.html:34
-msgid "button to reveal all the different types of media you have access to."
+msgid "How can I make sure to have the best experience?"
 msgstr ""
 
 #: app/templates/tips.html:37
 msgid ""
-"To avoid seeing Plex's content first, we recommend hiding it. To do this,"
-" select all the content types you don't want (such as 'Movies and TV on "
-"Plex') and 'Unpin' them from your home screen. This way you'll only see "
-"the content that you really want to watch!"
+"Because Plex is a free service, they promote their own content before the"
+" awesome content your friend is now sharing with you - they also, by "
+"default, play content at a lower quality. "
 msgstr ""
 
-#: app/templates/tips.html:40
-msgid "Now that everything we"
+#: app/templates/tips.html:39
+msgid "No need to worry though, this can be easily resolved"
 msgstr ""
 
-#: app/templates/tips.html:40
-msgid "don't"
-msgstr ""
-
-#: app/templates/tips.html:40
-msgid "want is out of the way, we can focus on the things we "
-msgstr ""
-
-#: app/templates/tips.html:40
-msgid "do"
-msgstr ""
-
-#: app/templates/tips.html:40
-msgid " want!"
-msgstr ""
-
-#: app/templates/tips.html:40
-#, python-format
-msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
+#: app/templates/tips.html:39
+msgid "We highly recommend you to go through those steps first!"
 msgstr ""
 
 #: app/templates/tips.html:44
-msgid "How can I make sure to have the best experience?"
+msgid "Configure Plex in your browser"
 msgstr ""
 
-#: app/templates/tips.html:46
-msgid ""
-"By default, Plex plays all content at a lower quality. This can be a bit "
-"of a disappointment. But don't worry, it's a simple fix! You can easily "
-"change the settings to increase the quality of the media that you're "
-"streaming."
-msgstr ""
-
-#: app/templates/tips.html:48
-msgid "Go to the Plex "
-msgstr ""
-
-#: app/templates/tips.html:48
-msgid "Settings "
-msgstr ""
-
-#: app/templates/tips.html:48
-msgid ""
-"page. This is usually in the top right hand corner, depending on the "
-"device you are on."
-msgstr ""
-
-#: app/templates/tips.html:50
-msgid "Go to the "
-msgstr ""
-
-#: app/templates/tips.html:50
-msgid "Quality"
-msgstr ""
-
-#: app/templates/tips.html:50
-msgid "or"
-msgstr ""
-
-#: app/templates/tips.html:51
-msgid "Video"
-msgstr ""
-
-#: app/templates/tips.html:51
-msgid "settings."
-msgstr ""
-
-#: app/templates/tips.html:53 app/templates/tips.html:57
-msgid "Set the "
-msgstr ""
-
-#: app/templates/tips.html:53
-msgid "Remote/Internet Streaming"
-msgstr ""
-
-#: app/templates/tips.html:53 app/templates/tips.html:57
-msgid "to "
-msgstr ""
-
-#: app/templates/tips.html:54 app/templates/tips.html:58
-msgid "Maximum/Original"
-msgstr ""
-
-#: app/templates/tips.html:57
-msgid "Local Streaming "
-msgstr ""
-
-#: app/templates/tips.html:61
-msgid ""
-"And there you have it! In case you encounter buffering issues, remember "
-"that you can always adjust the playback quality just like you do in "
-"YouTube. This way you can get the best streaming experience possible."
+#: app/templates/tips.html:58
+msgid "Configure Plex's app on your computer, mobile device or TV"
 msgstr ""
 
 #: app/templates/user-plex-login.html:12
