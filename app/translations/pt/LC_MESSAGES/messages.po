@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-13 21:27+0000\n"
+"POT-Creation-Date: 2023-02-14 04:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language: pt\n"
 "Language-Team: none\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.8.0\n"
 
 #: app/admin.py:47
 msgid "Passwords do not match."
@@ -97,7 +97,7 @@ msgid "Accept"
 msgstr "Aceitar"
 
 #: app/templates/accept.html:31 app/templates/discord.html:29
-#: app/templates/requests.html:69 app/templates/wizard/accept.html:23
+#: app/templates/requests.html:67 app/templates/wizard/accept.html:23
 msgid "Next"
 msgstr "Seguinte"
 
@@ -283,7 +283,7 @@ msgstr "Lembrar-me"
 msgid "Sign in"
 msgstr "Registrar"
 
-#: app/templates/new-tips.html:11 app/templates/tips.html:12
+#: app/templates/new-tips.html:11 app/templates/tips.html:11
 msgid "How to Use Plex?"
 msgstr "Como utilizar o Plex?"
 
@@ -315,15 +315,15 @@ msgstr ""
 " preocupes! Nós temos um sistema de pedidos de fácil interação que "
 "pesquisa automaticamente o conteúdo que está a procura. "
 
-#: app/templates/requests.html:23
+#: app/templates/requests.html:21
 msgid "Plex Requests"
 msgstr "Pedidos Plex"
 
-#: app/templates/requests.html:35
+#: app/templates/requests.html:33
 msgid "Request any available Movie or TV Show"
 msgstr "Requisitar algum filme ou série disponível"
 
-#: app/templates/requests.html:45
+#: app/templates/requests.html:43
 msgid ""
 "Requested media will be automatically downloaded and added to the library"
 " (if available)"
@@ -331,11 +331,11 @@ msgstr ""
 "Conteúdo requisitado é transferido automaticamente e adicionado à "
 "biblioteca (se disponível)"
 
-#: app/templates/requests.html:55
+#: app/templates/requests.html:53
 msgid "If enabled, receive notifications"
 msgstr "Se ligado, receber notificações"
 
-#: app/templates/requests.html:61
+#: app/templates/requests.html:59
 msgid "Check it Out"
 msgstr "Veja isto"
 
@@ -401,22 +401,24 @@ msgstr "Transferência"
 msgid "Skip"
 msgstr "Saltar"
 
-#: app/templates/tips.html:15
+#: app/templates/tips.html:14
+#, fuzzy, python-format
 msgid ""
-"Congratulations on accepting the email invitation from Plex! You're now "
-"one step closer to enjoying all the amazing content on our server. "
+"Congratulations on joining %(name)s! You're now one step closer to "
+"enjoying all kinds of amazing content."
 msgstr ""
 "Parabéns por aceitar o convite do Plex! Está agora um passo mais perto de"
 " desfrutar de todo o incrível conteúdo no nosso servidor. "
 
-#: app/templates/tips.html:18
-msgid "Eh, So, What is Plex exactly??"
+#: app/templates/tips.html:22
+msgid "Eh, So, What is Plex exactly?"
 msgstr "Hum, o que é o Plex exatamente?"
 
-#: app/templates/tips.html:20
+#: app/templates/tips.html:25
+#, fuzzy
 msgid ""
 "Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If you've received an invitation, it "
+" media collections with others. If you've received this invitation, it "
 "means someone wants to share their library with you. With Plex, you'll "
 "have access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
@@ -426,11 +428,11 @@ msgstr ""
 "partilhar a sua biblioteca contigo. Com o Plex, tens acesso a todos os "
 "files, séries, música e fotos que estão guadados no servidor. Desfruta!"
 
-#: app/templates/tips.html:23
+#: app/templates/tips.html:28
 msgid "Right, so how do I watch stuff?"
 msgstr "Certo, como é que consigo ver algo?"
 
-#: app/templates/tips.html:25
+#: app/templates/tips.html:31
 msgid ""
 "It couldn't be simpler! Plex is available on a wide variety of devices "
 "including laptops, tablets, smartphones, and TVs. All you need to do is "
@@ -444,157 +446,33 @@ msgstr ""
 "estás pronto para começar a fazer streaming do teu conteúdo. É tão "
 "simples!"
 
-#: app/templates/tips.html:28
-msgid "I've logged in but I am overwhelmed with content!"
-msgstr "Eu iniciei sessão mas estou sobrecarregado com conteúdo!"
-
-#: app/templates/tips.html:30
-msgid ""
-"While Plex is a free service, they do have to generate revenue in order "
-"to continue providing the platform. One way they do this is by displaying"
-" their own content before the content of the server you are joining."
-msgstr ""
-"Embora Plex seja um serviço gratuito, eles têm de gerar receitas a fim de"
-" continuar a fornecer a plataforma. Uma forma de o fazerem é a mostrar o "
-"seu próprio conteúdo antes do conteúdo do servidor ao qual se está a "
-"juntar."
-
-#: app/templates/tips.html:31
-msgid "No need to worry though, this can be easily resolved!"
-msgstr "Não te preocupes, pode ser facilmente resolvido!"
-
-#: app/templates/tips.html:33
-msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
-msgstr "No lado esquerdo do ecrã, vais ver um menu. Clica no botão "
-
 #: app/templates/tips.html:34
-msgid "More"
-msgstr "Mais"
-
-#: app/templates/tips.html:34
-msgid "button to reveal all the different types of media you have access to."
-msgstr "para revelar todo o tipo de conteúdo que tens acesso."
-
-#: app/templates/tips.html:37
-msgid ""
-"To avoid seeing Plex's content first, we recommend hiding it. To do this,"
-" select all the content types you don't want (such as 'Movies and TV on "
-"Plex') and 'Unpin' them from your home screen. This way you'll only see "
-"the content that you really want to watch!"
-msgstr ""
-"Para evitar ver o conteúdo do Plex primeiro, recomendamos esconder-lo. "
-"Para o fazer, seleciona os tipos de conteúdo que não queres (como Filmes "
-"e Séries Plex) e 'Desmarcar' para sairem do menu principal. Desta forma, "
-"só vês o conteúdo que queres ver!"
-
-#: app/templates/tips.html:40
-msgid "Now that everything we"
-msgstr "Agora que tudo o que nós"
-
-#: app/templates/tips.html:40
-msgid "don't"
-msgstr "não"
-
-#: app/templates/tips.html:40
-msgid "want is out of the way, we can focus on the things we "
-msgstr "queremos está fora do caminho, podemos focar nas coisas "
-
-#: app/templates/tips.html:40
-msgid "do"
-msgstr "que"
-
-#: app/templates/tips.html:40
-msgid " want!"
-msgstr " queremos!"
-
-#: app/templates/tips.html:40
-#, python-format
-msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
-msgstr ""
-"Simplesmente carrega no botão Fixar nas secções de Filmes e Séries do "
-"servidor %(name)s!"
-
-#: app/templates/tips.html:44
 msgid "How can I make sure to have the best experience?"
 msgstr "Como posso garantir que tenho a melhor experiência?"
 
-#: app/templates/tips.html:46
+#: app/templates/tips.html:37
 msgid ""
-"By default, Plex plays all content at a lower quality. This can be a bit "
-"of a disappointment. But don't worry, it's a simple fix! You can easily "
-"change the settings to increase the quality of the media that you're "
-"streaming."
+"Because Plex is a free service, they promote their own content before the"
+" awesome content your friend is now sharing with you - they also, by "
+"default, play content at a lower quality. "
 msgstr ""
-"Por defeito, o Plex reproduz todo o conteúdo uma resolução mais baixo. "
-"Poderá ser deanimador. Mas não te preocupes, a solução é simples! Podes "
-"alterar facilmente as tuas preferências para aumentar a qualidade do "
-"conteúdo que estás a ver."
 
-#: app/templates/tips.html:48
-msgid "Go to the Plex "
-msgstr "Vai para as "
+#: app/templates/tips.html:39
+#, fuzzy
+msgid "No need to worry though, this can be easily resolved"
+msgstr "Não te preocupes, pode ser facilmente resolvido!"
 
-#: app/templates/tips.html:48
-msgid "Settings "
-msgstr "preferências do Plex "
-
-#: app/templates/tips.html:48
-msgid ""
-"page. This is usually in the top right hand corner, depending on the "
-"device you are on."
+#: app/templates/tips.html:39
+msgid "We highly recommend you to go through those steps first!"
 msgstr ""
-"Está normalmente localizado no canto superior direito, dependendo do "
-"dispositivo que estás a usar."
 
-#: app/templates/tips.html:50
-msgid "Go to the "
-msgstr "Vai para "
-
-#: app/templates/tips.html:50
-msgid "Quality"
-msgstr "a opção Qualidade"
-
-#: app/templates/tips.html:50
-msgid "or"
-msgstr "ou"
-
-#: app/templates/tips.html:51
-msgid "Video"
-msgstr "definições de"
-
-#: app/templates/tips.html:51
-msgid "settings."
-msgstr "Video."
-
-#: app/templates/tips.html:53 app/templates/tips.html:57
-msgid "Set the "
-msgstr "Configura a opção \"Qualidade de vídeo\" na categoria "
-
-#: app/templates/tips.html:53
-msgid "Remote/Internet Streaming"
-msgstr "Streaming pela Internet"
-
-#: app/templates/tips.html:53 app/templates/tips.html:57
-msgid "to "
-msgstr "para "
-
-#: app/templates/tips.html:54 app/templates/tips.html:58
-msgid "Maximum/Original"
-msgstr "Máximo/Original"
-
-#: app/templates/tips.html:57
-msgid "Local Streaming "
-msgstr "Streaming local "
-
-#: app/templates/tips.html:61
-msgid ""
-"And there you have it! In case you encounter buffering issues, remember "
-"that you can always adjust the playback quality just like you do in "
-"YouTube. This way you can get the best streaming experience possible."
+#: app/templates/tips.html:44
+msgid "Configure Plex in your browser"
 msgstr ""
-"E está pronto! Se encontrar problemas de buffering, lembra-te que podes "
-"sempre ajustar a qualidade do video como se faz no YouTube. Desta forma, "
-"consegue desfrutar na melhor experiência de streaming possivel."
+
+#: app/templates/tips.html:58
+msgid "Configure Plex's app on your computer, mobile device or TV"
+msgstr ""
 
 #: app/templates/user-plex-login.html:12
 #, fuzzy, python-format
@@ -657,4 +535,150 @@ msgstr "Eu já tenho uma conta Plex"
 #~ msgstr ""
 #~ "Algo correu mal. Por favor tente "
 #~ "novamente ou contacte um administrador."
+
+#~ msgid "I've logged in but I am overwhelmed with content!"
+#~ msgstr "Eu iniciei sessão mas estou sobrecarregado com conteúdo!"
+
+#~ msgid ""
+#~ "While Plex is a free service, they"
+#~ " do have to generate revenue in "
+#~ "order to continue providing the "
+#~ "platform. One way they do this is"
+#~ " by displaying their own content "
+#~ "before the content of the server "
+#~ "you are joining."
+#~ msgstr ""
+#~ "Embora Plex seja um serviço gratuito,"
+#~ " eles têm de gerar receitas a "
+#~ "fim de continuar a fornecer a "
+#~ "plataforma. Uma forma de o fazerem "
+#~ "é a mostrar o seu próprio conteúdo"
+#~ " antes do conteúdo do servidor ao "
+#~ "qual se está a juntar."
+
+#~ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
+#~ msgstr "No lado esquerdo do ecrã, vais ver um menu. Clica no botão "
+
+#~ msgid "More"
+#~ msgstr "Mais"
+
+#~ msgid "button to reveal all the different types of media you have access to."
+#~ msgstr "para revelar todo o tipo de conteúdo que tens acesso."
+
+#~ msgid ""
+#~ "To avoid seeing Plex's content first,"
+#~ " we recommend hiding it. To do "
+#~ "this, select all the content types "
+#~ "you don't want (such as 'Movies "
+#~ "and TV on Plex') and 'Unpin' them"
+#~ " from your home screen. This way "
+#~ "you'll only see the content that "
+#~ "you really want to watch!"
+#~ msgstr ""
+#~ "Para evitar ver o conteúdo do Plex"
+#~ " primeiro, recomendamos esconder-lo. Para"
+#~ " o fazer, seleciona os tipos de "
+#~ "conteúdo que não queres (como Filmes "
+#~ "e Séries Plex) e 'Desmarcar' para "
+#~ "sairem do menu principal. Desta forma,"
+#~ " só vês o conteúdo que queres "
+#~ "ver!"
+
+#~ msgid "Now that everything we"
+#~ msgstr "Agora que tudo o que nós"
+
+#~ msgid "don't"
+#~ msgstr "não"
+
+#~ msgid "want is out of the way, we can focus on the things we "
+#~ msgstr "queremos está fora do caminho, podemos focar nas coisas "
+
+#~ msgid "do"
+#~ msgstr "que"
+
+#~ msgid " want!"
+#~ msgstr " queremos!"
+
+#~ msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
+#~ msgstr ""
+#~ "Simplesmente carrega no botão Fixar nas"
+#~ " secções de Filmes e Séries do "
+#~ "servidor %(name)s!"
+
+#~ msgid ""
+#~ "By default, Plex plays all content "
+#~ "at a lower quality. This can be"
+#~ " a bit of a disappointment. But "
+#~ "don't worry, it's a simple fix! "
+#~ "You can easily change the settings "
+#~ "to increase the quality of the "
+#~ "media that you're streaming."
+#~ msgstr ""
+#~ "Por defeito, o Plex reproduz todo "
+#~ "o conteúdo uma resolução mais baixo. "
+#~ "Poderá ser deanimador. Mas não te "
+#~ "preocupes, a solução é simples! Podes"
+#~ " alterar facilmente as tuas preferências"
+#~ " para aumentar a qualidade do "
+#~ "conteúdo que estás a ver."
+
+#~ msgid "Go to the Plex "
+#~ msgstr "Vai para as "
+
+#~ msgid "Settings "
+#~ msgstr "preferências do Plex "
+
+#~ msgid ""
+#~ "page. This is usually in the top"
+#~ " right hand corner, depending on the"
+#~ " device you are on."
+#~ msgstr ""
+#~ "Está normalmente localizado no canto "
+#~ "superior direito, dependendo do dispositivo"
+#~ " que estás a usar."
+
+#~ msgid "Go to the "
+#~ msgstr "Vai para "
+
+#~ msgid "Quality"
+#~ msgstr "a opção Qualidade"
+
+#~ msgid "or"
+#~ msgstr "ou"
+
+#~ msgid "Video"
+#~ msgstr "definições de"
+
+#~ msgid "settings."
+#~ msgstr "Video."
+
+#~ msgid "Set the "
+#~ msgstr "Configura a opção \"Qualidade de vídeo\" na categoria "
+
+#~ msgid "Remote/Internet Streaming"
+#~ msgstr "Streaming pela Internet"
+
+#~ msgid "to "
+#~ msgstr "para "
+
+#~ msgid "Maximum/Original"
+#~ msgstr "Máximo/Original"
+
+#~ msgid "Local Streaming "
+#~ msgstr "Streaming local "
+
+#~ msgid ""
+#~ "And there you have it! In case "
+#~ "you encounter buffering issues, remember "
+#~ "that you can always adjust the "
+#~ "playback quality just like you do "
+#~ "in YouTube. This way you can get"
+#~ " the best streaming experience possible."
+#~ msgstr ""
+#~ "E está pronto! Se encontrar problemas"
+#~ " de buffering, lembra-te que podes"
+#~ " sempre ajustar a qualidade do video"
+#~ " como se faz no YouTube. Desta "
+#~ "forma, consegue desfrutar na melhor "
+#~ "experiência de streaming possivel."
 
