@@ -231,7 +231,7 @@ def invites():
 @login_required
 def table(delete_code):
     if delete_code != "None":
-        print("Deleting " + delete_code)
+
         Invitations.delete().where(Invitations.code == delete_code).execute()
     invitations = Invitations.select().order_by(Invitations.created.desc())
     format = "%Y-%m-%d %H:%M"
