@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-14 11:33+0000\n"
+"POT-Creation-Date: 2023-02-14 14:43+0000\n"
 "PO-Revision-Date: 2023-02-06 13:38+0000\n"
 "Last-Translator: Ben <ben.david.wallner@gmail.com>\n"
 "Language: de\n"
@@ -79,15 +79,15 @@ msgstr " Etwas ist schief gelaufen. Bitte versuchen Sie es später erneut."
 msgid "Accept Invitation"
 msgstr "Die Einladung annehmen"
 
-#: app/templates/accept.html:11 app/templates/wizard/accept.html:2
+#: app/templates/accept.html:11
 msgid "Accept our invitation"
 msgstr "Nehmen Sie unsere Einladung an"
 
-#: app/templates/accept.html:15 app/templates/wizard/accept.html:6
+#: app/templates/accept.html:15
 msgid "We have sent an invitation to your Plex Account! Almost there!"
 msgstr "Wir haben eine Einladung an Ihr Plex-Konto gesendet! Fast fertig!"
 
-#: app/templates/accept.html:17 app/templates/wizard/accept.html:8
+#: app/templates/accept.html:17
 msgid ""
 "Click the button below to be taken to Plex, here you will see an "
 "invitation from us."
@@ -95,12 +95,12 @@ msgstr ""
 "Klicke auf die Schaltfläche unten, um zu Plex zu gelangen, dort siehst du"
 " eine Einladung von uns."
 
-#: app/templates/accept.html:23 app/templates/wizard/accept.html:14
+#: app/templates/accept.html:23
 msgid "Accept"
 msgstr "Akzeptieren"
 
 #: app/templates/accept.html:31 app/templates/discord.html:29
-#: app/templates/requests.html:67 app/templates/wizard/accept.html:23
+#: app/templates/requests.html:71
 msgid "Next"
 msgstr "Nächste"
 
@@ -309,26 +309,28 @@ msgid "Requesting Media"
 msgstr "Medien anfordern"
 
 #: app/templates/requests.html:13
+#, fuzzy
 msgid ""
 "We are excited to offer you a wide selection of media to choose from. If "
-"you're having trouble finding something you like, don't worry! We have a "
-"user-friendly request system that can automatically search for the media "
-"you're looking for. "
+"you're having trouble finding\n"
+"        something you like, don't worry! We have a user-friendly request "
+"system that can automatically search for the\n"
+"        media you're looking for. "
 msgstr ""
 "Wir freuen uns, dir eine große Auswahl an Inhalten anbieten zu können. "
 "Wenn du Probleme hast, etwas zu finden, das dir gefällt, mach dir keine "
 "Sorgen! Wir haben ein benutzerfreundliches Anfragesystem, das automatisch"
 " nach den von dir gesuchten Inhalten suchen kann. "
 
-#: app/templates/requests.html:21
+#: app/templates/requests.html:23 app/templates/wizard/requests.html:3
 msgid "Plex Requests"
 msgstr "Plex-Anfragen"
 
-#: app/templates/requests.html:33
+#: app/templates/requests.html:35 app/templates/wizard/requests.html:15
 msgid "Request any available Movie or TV Show"
 msgstr "Anfrage für jeden verfügbaren Film oder jede Serie"
 
-#: app/templates/requests.html:43
+#: app/templates/requests.html:45 app/templates/wizard/requests.html:25
 msgid ""
 "Requested media will be automatically downloaded and added to the library"
 " (if available)"
@@ -336,11 +338,11 @@ msgstr ""
 "Angeforderte Medien werden automatisch heruntergeladen und der Bibliothek"
 " (sofern verfügbar)"
 
-#: app/templates/requests.html:53
+#: app/templates/requests.html:55 app/templates/wizard/requests.html:35
 msgid "If enabled, receive notifications"
 msgstr "Falls aktiviert, erhältst du Benachrichtigungen"
 
-#: app/templates/requests.html:59
+#: app/templates/requests.html:62 app/templates/wizard/requests.html:41
 msgid "Check it Out"
 msgstr "Probier es aus"
 
@@ -393,13 +395,13 @@ msgstr ""
 "Servers. Wir wollen sicherstellen, dass du weißt, wie man sie mit Plex "
 "benutzt."
 
-#: app/templates/setup.html:17
+#: app/templates/setup.html:17 app/templates/wizard/download.html:11
 msgid "Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
 "Du willst auf diesem Gerät Filme ansehen? Lade Plex für dieses Gerät "
 "herunter."
 
-#: app/templates/setup.html:20
+#: app/templates/setup.html:20 app/templates/wizard/download.html:14
 msgid "Download"
 msgstr "Download"
 
@@ -411,23 +413,25 @@ msgstr "Überspringen"
 #, fuzzy, python-format
 msgid ""
 "Congratulations on joining %(name)s! You're now one step closer to "
-"enjoying all kinds of amazing content."
+"enjoying all kinds of amazing\n"
+"        content."
 msgstr ""
 "Herzlichen Glückwunsch, du hast die E-Mail-Einladung für Plex angenommen!"
 " Du bist jetzt einen Schritt näher dran, all die tollen Inhalte auf dem "
 "Server zu genießen. "
 
-#: app/templates/tips.html:22
+#: app/templates/tips.html:23 app/templates/wizard/tips.html:4
 msgid "Eh, So, What is Plex exactly?"
 msgstr "Äh, also, was ist Plex genau??"
 
-#: app/templates/tips.html:25
+#: app/templates/tips.html:26
 #, fuzzy
 msgid ""
 "Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If you've received this invitation, it "
-"means someone wants to share their library with you. With Plex, you'll "
-"have access to all of the movies, TV shows, music, and photos that are "
+" media collections with others. If\n"
+"      you've received this invitation, it means someone wants to share "
+"their library with you. With Plex, you'll have\n"
+"      access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
 msgstr ""
 "Gute Frage! Plex ist eine Software, mit der Einzelpersonen ihre "
@@ -436,16 +440,18 @@ msgstr ""
 "möchte. Mit Plex hast du Zugriff auf alle Filme, Fernsehsendungen, Musik "
 "und Fotos, die auf dem Server gespeichert sind. Viel Spaß!"
 
-#: app/templates/tips.html:28
+#: app/templates/tips.html:31 app/templates/wizard/tips.html:12
 msgid "Right, so how do I watch stuff?"
 msgstr "Richtig, also wie schaue ich mir Sachen an?"
 
-#: app/templates/tips.html:31
+#: app/templates/tips.html:34
+#, fuzzy
 msgid ""
 "It couldn't be simpler! Plex is available on a wide variety of devices "
-"including laptops, tablets, smartphones, and TVs. All you need to do is "
-"download the Plex app on your device, sign in with your account, and "
-"you're ready to start streaming your media. It's that easy!"
+"including laptops, tablets,\n"
+"      smartphones, and TVs. All you need to do is download the Plex app "
+"on your device, sign in with your account, and\n"
+"      you're ready to start streaming your media. It's that easy!"
 msgstr ""
 "Einfacher geht's nicht! Plex ist auf einer Vielzahl von Geräten "
 "verfügbar, darunter Laptops, Tablets, Smartphones und Fernsehgeräte. "
@@ -453,34 +459,39 @@ msgstr ""
 "herunterzuladen, dich mit deinem Konto anzumelden und schon kannst du mit"
 " dem Streaming deiner Medien beginnen. So einfach ist das!"
 
-#: app/templates/tips.html:34
+#: app/templates/tips.html:39 app/templates/wizard/tips.html:20
 msgid "How can I make sure to have the best experience?"
 msgstr "Wie kann ich sicherstellen, dass ich die beste Erfahrung mache?"
 
-#: app/templates/tips.html:37
+#: app/templates/tips.html:42
+#, fuzzy
 msgid ""
 "Because Plex is a free service, they promote their own content before the"
-" awesome content your friend is now sharing with you - they also, by "
-"default, play content at a lower quality. "
+" awesome content your friend is now\n"
+"      sharing with you - they also, by default, play content at a lower "
+"quality. "
 msgstr ""
 "Da Plex ein kostenloser Dienst ist, werben sie für ihre eigenen Inhalte "
 "vor den tollen Inhalten, die Ihr Freund jetzt mit Ihnen teilt – sie "
 "spielen Inhalte standardmäßig auch in geringerer Qualität ab. "
 
-#: app/templates/tips.html:39
+#: app/templates/tips.html:45 app/templates/wizard/tips.html:26
 #, fuzzy
 msgid "No need to worry though, this can be easily resolved"
 msgstr "Aber keine Sorge, das lässt sich leicht lösen!"
 
-#: app/templates/tips.html:39
-msgid "We highly recommend you to go through those steps first!"
+#: app/templates/tips.html:45
+#, fuzzy
+msgid ""
+"We highly\n"
+"        recommend you to go through those steps first!"
 msgstr "Wir empfehlen Ihnen dringend, diese Schritte zuerst durchzugehen!"
 
-#: app/templates/tips.html:44
+#: app/templates/tips.html:54 app/templates/wizard/tips.html:35
 msgid "Configure Plex in your browser"
 msgstr "Konfigurieren Sie Plex in Ihrem Browser"
 
-#: app/templates/tips.html:58
+#: app/templates/tips.html:76 app/templates/wizard/tips.html:56
 msgid "Configure Plex's app on your computer, mobile device or TV"
 msgstr ""
 "Konfigurieren Sie die Plex-App auf Ihrem Computer, Mobilgerät oder "
@@ -532,6 +543,74 @@ msgstr "Erstellen Sie ein Plex-Konto"
 #: app/templates/welcome.html:22
 msgid "I have a Plex Account"
 msgstr "Ich habe ein Plex-Konto"
+
+#: app/templates/wizard/download.html:3
+#, fuzzy
+msgid ""
+"Join & Download Plex\n"
+"            for this device"
+msgstr "Plex für dieses Gerät beitreten und herunterladen"
+
+#: app/templates/wizard/download.html:8
+#, fuzzy
+msgid ""
+"Great news! You now have access to our server's media collection. Let's "
+"make sure you know how to use\n"
+"        it with Plex."
+msgstr ""
+"Tolle Neuigkeiten! Du hast jetzt Zugriff auf die Mediensammlung unseres "
+"Servers. Wir wollen sicherstellen, dass du weißt, wie man sie mit Plex "
+"benutzt."
+
+#: app/templates/wizard/tips.html:7
+#, fuzzy
+msgid ""
+"Great question! Plex is a software that allows individuals to share their"
+" media collections with others. If\n"
+"    you've received this invitation, it means someone wants to share "
+"their library with you. With Plex, you'll have\n"
+"    access to all of the movies, TV shows, music, and photos that are "
+"stored on their server. Enjoy!"
+msgstr ""
+"Gute Frage! Plex ist eine Software, mit der Einzelpersonen ihre "
+"Mediensammlungen mit anderen teilen können. Wenn du eine Einladung "
+"erhalten hast, bedeutet das, dass jemand seine Bibliothek mit dir teilen "
+"möchte. Mit Plex hast du Zugriff auf alle Filme, Fernsehsendungen, Musik "
+"und Fotos, die auf dem Server gespeichert sind. Viel Spaß!"
+
+#: app/templates/wizard/tips.html:15
+#, fuzzy
+msgid ""
+"It couldn't be simpler! Plex is available on a wide variety of devices "
+"including laptops, tablets,\n"
+"    smartphones, and TVs. All you need to do is download the Plex app on "
+"your device, sign in with your account, and\n"
+"    you're ready to start streaming your media. It's that easy!"
+msgstr ""
+"Einfacher geht's nicht! Plex ist auf einer Vielzahl von Geräten "
+"verfügbar, darunter Laptops, Tablets, Smartphones und Fernsehgeräte. "
+"Alles, was du tun musst, ist, die Plex-App auf dein Gerät "
+"herunterzuladen, dich mit deinem Konto anzumelden und schon kannst du mit"
+" dem Streaming deiner Medien beginnen. So einfach ist das!"
+
+#: app/templates/wizard/tips.html:23
+#, fuzzy
+msgid ""
+"Because Plex is a free service, they promote their own content before the"
+" awesome content your friend is now\n"
+"    sharing with you - they also, by default, play content at a lower "
+"quality. "
+msgstr ""
+"Da Plex ein kostenloser Dienst ist, werben sie für ihre eigenen Inhalte "
+"vor den tollen Inhalten, die Ihr Freund jetzt mit Ihnen teilt – sie "
+"spielen Inhalte standardmäßig auch in geringerer Qualität ab. "
+
+#: app/templates/wizard/tips.html:26
+#, fuzzy
+msgid ""
+"We highly\n"
+"      recommend you to go through those steps first!"
+msgstr "Wir empfehlen Ihnen dringend, diese Schritte zuerst durchzugehen!"
 
 #~ msgid ""
 #~ "Plex Display\n"
