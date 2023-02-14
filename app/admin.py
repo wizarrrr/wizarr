@@ -225,6 +225,14 @@ def login():
 @app.route('/invites')
 @login_required
 def invites():
+    return render_template("invites.html")
+
+@app.route('/invite/table/delete=<delete_code>', methods=["POST"])
+@login_required
+def table(delete_code):
+    if delete_code != "None":
+        print("Deleting " + delete_code)
+        Invitations.delete().where(Invitations.code == delete_code).execute()
     invitations = Invitations.select().order_by(Invitations.created.desc())
     format = "%Y-%m-%d %H:%M"
     for invite in invitations:
@@ -232,7 +240,7 @@ def invites():
            invite.expired = True
         else:
            invite.expired = False
-    return render_template("invites.html", invitations=invitations, rightnow=datetime.datetime.now())
+    return render_template("invite_table.html", invitations=invitations, rightnow=datetime.datetime.now())
 
 
 @app.route('/users')
