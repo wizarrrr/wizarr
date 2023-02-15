@@ -83,4 +83,5 @@ database.create_tables([Invitations, Settings, Users, Oauth])
 if __name__ == "__main__":
     web.check_plex_credentials()
     app.run()
+    
 from app import admin, web, plex
