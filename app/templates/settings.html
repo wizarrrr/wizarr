@@ -22,19 +22,22 @@ Wizarr Settings
         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ error }}</p>
         <form class="space-y-4 md:space-y-6" action="/settings/" method="POST">
           <div>
-            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Plex Display Name") }}</label>
+            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Plex Display
+              Name") }}</label>
             <input type="name" name="name" id="name"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value="{{ plex_name }}" required="">
           </div>
           <div>
-            <label for=" plex_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Plex URL") }}</label>
+            <label for=" plex_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Plex URL")
+              }}</label>
             <input type="plex_url" name="plex_url" id="plex_url"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value="{{ plex_url }}" required="">
           </div>
           <div>
-            <label for="plex_token" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Plex Token") }}</label>
+            <label for="plex_token" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Plex
+              Token") }}</label>
             <input type="password" name="plex_token" id="plex_token"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value="{{ plex_token }}" placeholder="XXXXXXXXXXXXXXXXX" required="">
@@ -43,7 +46,8 @@ Wizarr Settings
 
           <div>
 
-            <label for="plex_libraries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Plex Libraries") }}</label>
+            <label for="plex_libraries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Plex
+              Libraries") }}</label>
             <a href="#" class="block mb-2 text-sm font-medium text-amber-900 dark:text-amber-200"
               onclick="scanLibraries()">{{ _("Scan For Libraries") }}</a>
             <input hidden name="library_count" id="library_count" type="number" value="0">
@@ -52,19 +56,30 @@ Wizarr Settings
 
           </div>
           <div>
-            <label for="requests_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request instance (Ombi, Overseerr...)") }}</label>
+            <label for="requests_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request
+              instance (Ombi, Overseerr...)") }}</label>
             <input type="url" name="overseerr_url" id="requests_url"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              value="{% if overseerr_url %}{{ overseerr_url }}{% endif %}" placeholder="Optional, leave empty to disable">
+              value="{% if overseerr_url %}{{ overseerr_url }}{% endif %}"
+              placeholder="Optional, leave empty to disable">
           </div>
           <div>
-            <label for="discord_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Discord Server ID") }}</label>
+            <label for="discord_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Discord
+              Server ID") }}</label>
             <input type="text" name="discord_id" id="discord_id"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value="{% if discord_id %}{{ discord_id }}{% endif %}" placeholder="Optional, leave empty to disable">
           </div>
+          <div class="mb-6">
+            <label for="custom_html" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Custom
+              HTML") }}</label>
+            <input type="text" name="custom_html" id="custom_html"
+              value="{% if custom_html %}{{ custom_html }}{% endif %}" placeholder="Optional, leave empty to disable"
+              class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          </div>
           <button type="submit"
-            class="w-full text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">{{ _("Verify and Confirm") }}</button>
+            class="w-full text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">{{
+            _("Verify and Confirm") }}</button>
         </form>
       </div>
     </div>
@@ -82,8 +97,8 @@ Wizarr Settings
     var plex_token = document.getElementById("plex_token").value;
     url = "/scan?plex_url=" + plex_url + "&plex_token=" + plex_token;
     const response = fetch(url, {
-        method: "POST"
-      }).then((response) => response.json())
+      method: "POST"
+    }).then((response) => response.json())
       .then(function (data) {
         for (var i = 0; i < data.length; i++) {
           var checkbox = document.createElement("input");
