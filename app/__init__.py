@@ -1,4 +1,3 @@
-from app import admin, web, plex
 from flask import Flask, request, session
 from peewee import *
 from playhouse.migrate import *
@@ -84,3 +83,4 @@ database.create_tables([Invitations, Settings, Users, Oauth])
 if __name__ == "__main__":
     web.check_plex_credentials()
     app.run()
+from app import admin, web, plex
