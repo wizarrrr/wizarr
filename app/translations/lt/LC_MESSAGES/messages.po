@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-15 14:17+0000\n"
+"POT-Creation-Date: 2023-02-15 16:41+0000\n"
 "PO-Revision-Date: 2023-02-13 19:31+0000\n"
 "Last-Translator: Luke Keude <kingrun424@gmail.com>\n"
 "Language: lt\n"
@@ -47,7 +47,7 @@ msgstr ""
 "Nepavyko prisijungti prie jūsų „Plex“ serverio. Daugiau informacijos "
 "rasite žurnalo duomenyse."
 
-#: app/admin.py:231 app/admin.py:234
+#: app/admin.py:234 app/admin.py:238
 msgid "Invalid Username or Password"
 msgstr "Neteisingas Prisijungimo vardas arba Slaptažodis"
 
@@ -112,10 +112,15 @@ msgid "Invitations"
 msgstr "Kvietimai"
 
 #: app/templates/admin-nav.html:19
+msgid "Users"
+msgstr "Vartotojai"
+
+#: app/templates/admin-nav.html:22
 msgid "Settings"
 msgstr "Nustatymai"
 
 #: app/templates/invite.html:5 app/templates/invites.html:5
+#: app/templates/users.html:5
 msgid "Invite User"
 msgstr "Pakviesti vartotoją"
 
@@ -172,7 +177,7 @@ msgstr "1 savaitė"
 msgid "1 month"
 msgstr "1 mėnuo"
 
-#: app/templates/invite.html:92 app/templates/users.html:72
+#: app/templates/invite.html:92
 msgid "Never"
 msgstr "Niekada"
 
@@ -206,23 +211,23 @@ msgstr "Dalintis"
 
 #: app/templates/invite_table.html:4 app/templates/join.html:42
 #: app/templates/join.html:51 app/templates/user-plex-login.html:27
-#: app/templates/user-plex-login.html:37 app/templates/users.html:21
+#: app/templates/user-plex-login.html:37
 msgid "Invite Code"
 msgstr "Pakvietimo kodas"
 
-#: app/templates/invite_table.html:5 app/templates/users.html:24
+#: app/templates/invite_table.html:5
 msgid "Used"
 msgstr "Panaudota"
 
-#: app/templates/invite_table.html:6 app/templates/users.html:30
+#: app/templates/invite_table.html:6
 msgid "Created"
 msgstr "Sukurta"
 
-#: app/templates/invite_table.html:7 app/templates/users.html:36
+#: app/templates/invite_table.html:7
 msgid "Expires"
 msgstr "Baigia galioti"
 
-#: app/templates/invite_table.html:8 app/templates/users.html:39
+#: app/templates/invite_table.html:8
 msgid "Unlimited"
 msgstr "Neribota"
 
@@ -348,25 +353,18 @@ msgstr "Patikrinti ir patvirtinti"
 msgid "You've been invited to join the %(name)s server!"
 msgstr "Jus pakvietė prisijungti %(name)s!"
 
-#: app/templates/users.html:5
-msgid "Users"
-msgstr "Vartotojai"
-
-#: app/templates/users.html:27
-msgid "Used At"
-msgstr "Naudojami"
-
-#: app/templates/users.html:33
+#: app/templates/user_table.html:5
 msgid "User"
 msgstr "Vartotojas"
 
-#: app/templates/users.html:76
-msgid "Copy"
-msgstr "Kopijuoti"
+#: app/templates/user_table.html:6
+msgid "Email"
+msgstr ""
 
-#: app/templates/users.html:78
-msgid "Delete"
-msgstr "Ištrinti"
+#: app/templates/user_table.html:7
+#, fuzzy
+msgid "Home User"
+msgstr "Pakviesti naudotoją"
 
 #: app/templates/verify_plex.html:23
 msgid "Plex Display Name"
@@ -805,4 +803,13 @@ msgstr ""
 
 #~ msgid "I have a Plex Account"
 #~ msgstr "Jau turiu \"Plex\" paskyrą"
+
+#~ msgid "Used At"
+#~ msgstr "Naudojami"
+
+#~ msgid "Copy"
+#~ msgstr "Kopijuoti"
+
+#~ msgid "Delete"
+#~ msgstr "Ištrinti"
 

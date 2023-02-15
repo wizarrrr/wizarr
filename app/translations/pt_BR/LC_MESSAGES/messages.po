@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-15 14:17+0000\n"
+"POT-Creation-Date: 2023-02-15 16:41+0000\n"
 "PO-Revision-Date: 2023-02-15 04:33+0000\n"
 "Last-Translator: ClankJake <nascimentoaragao@gmail.com>\n"
 "Language: pt_BR\n"
@@ -45,7 +45,7 @@ msgstr ""
 "Não é possível conectar ao seu servidor Plex. Consulte Logs para obter "
 "mais informações."
 
-#: app/admin.py:231 app/admin.py:234
+#: app/admin.py:234 app/admin.py:238
 msgid "Invalid Username or Password"
 msgstr "Nome de usuário ou senha inválida"
 
@@ -110,10 +110,15 @@ msgid "Invitations"
 msgstr "Convites"
 
 #: app/templates/admin-nav.html:19
+msgid "Users"
+msgstr "Usuários"
+
+#: app/templates/admin-nav.html:22
 msgid "Settings"
 msgstr "Configurações"
 
 #: app/templates/invite.html:5 app/templates/invites.html:5
+#: app/templates/users.html:5
 msgid "Invite User"
 msgstr "Convidar Usuário"
 
@@ -170,7 +175,7 @@ msgstr "1 semana"
 msgid "1 month"
 msgstr "1 mês"
 
-#: app/templates/invite.html:92 app/templates/users.html:72
+#: app/templates/invite.html:92
 msgid "Never"
 msgstr "Nunca"
 
@@ -204,23 +209,23 @@ msgstr "Compartilhar"
 
 #: app/templates/invite_table.html:4 app/templates/join.html:42
 #: app/templates/join.html:51 app/templates/user-plex-login.html:27
-#: app/templates/user-plex-login.html:37 app/templates/users.html:21
+#: app/templates/user-plex-login.html:37
 msgid "Invite Code"
 msgstr "Código do convite"
 
-#: app/templates/invite_table.html:5 app/templates/users.html:24
+#: app/templates/invite_table.html:5
 msgid "Used"
 msgstr "Usado"
 
-#: app/templates/invite_table.html:6 app/templates/users.html:30
+#: app/templates/invite_table.html:6
 msgid "Created"
 msgstr "Criado"
 
-#: app/templates/invite_table.html:7 app/templates/users.html:36
+#: app/templates/invite_table.html:7
 msgid "Expires"
 msgstr "Expira"
 
-#: app/templates/invite_table.html:8 app/templates/users.html:39
+#: app/templates/invite_table.html:8
 msgid "Unlimited"
 msgstr "Ilimitado"
 
@@ -348,25 +353,18 @@ msgstr "Verificar e confirmar"
 msgid "You've been invited to join the %(name)s server!"
 msgstr "Você foi convidado a participar do servidor %(name)s!"
 
-#: app/templates/users.html:5
-msgid "Users"
-msgstr "Usuários"
-
-#: app/templates/users.html:27
-msgid "Used At"
-msgstr "Usado em"
-
-#: app/templates/users.html:33
+#: app/templates/user_table.html:5
 msgid "User"
 msgstr "Usuário"
 
-#: app/templates/users.html:76
-msgid "Copy"
-msgstr "Copiado"
+#: app/templates/user_table.html:6
+msgid "Email"
+msgstr ""
 
-#: app/templates/users.html:78
-msgid "Delete"
-msgstr "Deletado"
+#: app/templates/user_table.html:7
+#, fuzzy
+msgid "Home User"
+msgstr "Convidar Usuário"
 
 #: app/templates/verify_plex.html:23
 msgid "Plex Display Name"
@@ -741,4 +739,13 @@ msgstr "Configure o aplicativo do Plex em seu computador, celular ou TV"
 
 #~ msgid "I have a Plex Account"
 #~ msgstr "Eu tenho uma conta Plex"
+
+#~ msgid "Used At"
+#~ msgstr "Usado em"
+
+#~ msgid "Copy"
+#~ msgstr "Copiado"
+
+#~ msgid "Delete"
+#~ msgstr "Deletado"
 
