@@ -1,3 +1,4 @@
+from app import admin, web, plex
 from flask import Flask, request, session
 from peewee import *
 from playhouse.migrate import *
@@ -16,17 +17,23 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = "./database/sessions"
 Session(app)
 
-VERSION = "1.4.0"
+VERSION = "1.5.0"
 
 
 # Translation stuff
 base_dir = os.path.abspath(os.path.dirname(__file__))
 app.config["LANGUAGES"] = {'en': 'english',
-                           #'de': 'german',
+                           'de': 'german',
                            'fr': 'french',
-                           'es': 'spanish',
                            'sv': 'swedish',
-                           #'nb_NO': 'norwegian'
+                           'pt': 'portuguese',
+                           'nl': 'dutch',
+                           'pt_BR': 'portuguese',
+                           'lt': 'lithuanian',
+                           # 'nb_NO': 'norwegian',
+                           # 'es': 'spanish',
+                           # 'it': 'italian',
+
                            }
 app.config["BABEL_DEFAULT_LOCALE"] = "en"
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = ('./translations')
@@ -57,12 +64,14 @@ class Settings(BaseModel):
     key = CharField()
     value = CharField()
 
+
 class Users(BaseModel):
     id = IntegerField(primary_key=True)
     token = CharField()
     username = CharField()
     email = CharField()
     code = CharField()
+
 
 class Oauth(BaseModel):
     id = IntegerField(primary_key=True)
@@ -75,4 +84,3 @@ database.create_tables([Invitations, Settings, Users, Oauth])
 if __name__ == "__main__":
     web.check_plex_credentials()
     app.run()
-from app import admin, web, plex
