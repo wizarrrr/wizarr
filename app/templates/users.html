@@ -2,7 +2,7 @@
 
 
 {% block title %}
-{{ _("Users") }}
+{{ _("Invite User") }}
 {% endblock %}
 
 
@@ -13,94 +13,15 @@
 {% include "admin-nav.html" %}
 
 
-<div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 dark:text-white">
-    <table class="rounded-2xl w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="py-3 px-6">
-                    {{ _("Invite Code") }}
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    {{ _("Used") }}
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    {{ _("Used At") }}
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    {{ _("Created") }}
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    {{ _("User") }}
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    {{ _("Expires") }}
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    {{ _("Unlimited") }}
-                </th>
-                <th scope="col" class="py-3 px-6">
+<section class="py-8">
+    <div class="container px-4 mx-auto">
+        <div hx-get="/users/table" hx-trigger="load" hx-target="#user_table" hx-swap="outerHTML"
+            class="p-4 mb-6 bg-white shadow-lg rounded-lg overflow-x-auto dark:bg-gray-800 dark:border-gray-700">
 
-                </th>
-                <th scope="col" class="py-3 px-6">
+            <div id="user_table"></div>
 
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for invite in invitations %}
-            <tr
-                class="bg-white-100 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="py-4 px-6">{{ invite.code }}</td>
-                <td class="py-4 px-6">{{ invite.used }}</td>
-                {% if invite.used_at %}
-                <td class="py-4 px-6">{{ invite.used_at }}</td>
-                {% endif %}
-                {% if not invite.used_at %}
-                <td class="py-4 px-6"></td>
-                {% endif %}
-                <td class="py-4 px-6">{{ invite.created }}</td>
-                {% if invite.used_by %}
-                <td class="py-4 px-6">{{ invite.used_by }}</td>
-                {% endif %}
-                {% if not invite.used_by %}
-                <td class="py-4 px-6"></td>
-                {% endif %}
-                {% if invite.expires %}
-                <td class="py-4 px-6">{{ invite.expires }}</td>
-                {% endif %}
-                {% if not invite.expires %}
-                <td class="py-4 px-6">{{ _("Never") }}</td>
-                {% endif %}
-                <td class="py-4 px-6">{{ invite.unlimited }}</td>
-                <td class="py-4 px-6"><a id="copy_{{ invite.code}}" class="font-bold"
-                        onclick="tableCopyLink('{{ url }}', '{{ invite.code }}')" href="#">{{ _("Copy") }}</a></td>
-                <td class="py-4 px-6"><a class="font-bold"
-                        href="/invite/delete={{ invite.code }}">{{ _("Delete") }}</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-       
-    </table>
-    {% if not invitations %}
-    There are currently no invitations.
-    {% endif %}
-</div>
-<script>
+        </div>
 
-    function tableCopyLink(invite_code) {
-        var url = window.location.origin;
-
-        // Get the text field
-        var copyText = document.getElementById("copy_" + invite_code);
-
-        // Copy the text inside the text field
-        navigator.clipboard.writeText(url + "/j/" + invite_code);
-
-        //copyText.className =
-        copyText.innerHTML = "Copied";
-        setTimeout(() => {
-            copyText.innerHTML = "Copy";
-        }, 1000);
-    }
-</script>
+    </div>
+</section>
 {% endblock %}

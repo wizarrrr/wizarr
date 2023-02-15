@@ -4,6 +4,7 @@ from flask import request, redirect, render_template, abort, jsonify
 from app import app, Invitations, Settings, VERSION, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from plexapi.server import PlexServer
+from plexapi.myplex import MyPlexAccount
 import logging
 from functools import wraps
 import datetime
@@ -11,7 +12,6 @@ import random
 import string
 import os
 from flask_babel import _
-
 
 
 def login_required(f):
@@ -70,7 +70,7 @@ def preferences():
 
             # Getting Libraries Properly
             libraries = []
-            
+
             library_count = int(request.form.get("library_count"))
             for library in range(library_count+1):
 
@@ -154,7 +154,8 @@ def secure_settings():
             if "unauthorized" in str(e):
                 error = _("It is likely that your token does not work.")
             else:
-                error = _("Unable to connect to your Plex server. See Logs for more information.")
+                error = _(
+                    "Unable to connect to your Plex server. See Logs for more information.")
             return render_template("verify_plex.html", error=error)
         Settings.update(value=name).where(
             Settings.key == "plex_name").execute()
@@ -224,19 +225,24 @@ def login():
                     session.permanent = True
                 else:
                     session.permanent = False
-                logging.info("User successfully logged in the username " + username)
+                logging.info(
+                    "User successfully logged in the username " + username)
                 return redirect("/")
             else:
-                logging.warning("A user attempted to login with incorrect password for user: " + username)
+                logging.warning(
+                    "A user attempted to login with incorrect password for user: " + username)
                 return render_template("login.html", error=_("Invalid Username or Password"))
         else:
-            logging.warning("A user attempted to login with incorrect username: " + username)
+            logging.warning(
+                "A user attempted to login with incorrect username: " + username)
             return render_template("login.html", error=_("Invalid Username or Password"))
+
 
 @app.route('/invites')
 @login_required
 def invites():
     return render_template("invites.html")
+
 
 @app.route('/invite/table/delete=<delete_code>', methods=["POST"])
 @login_required
@@ -248,14 +254,39 @@ def table(delete_code):
     format = "%Y-%m-%d %H:%M"
     for invite in invitations:
         if invite.expires and datetime.datetime.strptime(invite.expires, format) <= datetime.datetime.now():
-           invite.expired = True
+            invite.expired = True
         else:
-           invite.expired = False
+            invite.expired = False
     return render_template("invite_table.html", invitations=invitations, rightnow=datetime.datetime.now())
 
 
 @app.route('/users')
 @login_required
 def users():
-    plex = PlexServer(Settings.get(Settings.key == "plex_url").value, Settings.get(Settings.key == "plex_token").value)
+    admin = MyPlexAccount(Settings.get(Settings.key == "plex_token").value)
+    users = admin.users()
     return render_template("users.html", users=users)
+
+
+@app.route('/users/table')
+@login_required
+def users_table():
+    admin = MyPlexAccount(Settings.get(Settings.key == "plex_token").value)
+    if request.args.get("delete"):
+        print("Deleting user " + request.args.get("delete"))
+        try:
+            admin.removeFriend(request.args.get("delete"))
+        except Exception as e:
+            if "429" in str(e):
+                logging.error("Too many requests to Plex API")
+            else:
+                logging.error("Unable to delete user: " + str(e))
+
+    users=None
+    try:
+        users = admin.users()
+    except Exception as e:
+        if "429" in str(e):
+            logging.error("Too many requests to Plex API")
+    
+    return render_template("user_table.html", users=users)
