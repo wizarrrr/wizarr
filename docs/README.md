@@ -10,9 +10,11 @@ Wizarr is a automatic user invitation system for Plex. Create a unique link and 
 
 * Automatic Invitation to your Plex Server
 * Secured invitation environment
-* SSO Support (Authentik...)
+* Plug and Play SSO Support*
 * Guide user on how to download Plex client
 * Requests Integration: Guide users on how to request Movies (Overseerr, Ombi...)
+* Discord Server Integration: Invite users to your Discord Server
+* Customizable: Add any Custom HTML 
 
 \
 \
