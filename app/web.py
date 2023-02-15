@@ -121,11 +121,6 @@ def invite():
 
 @app.route('/setup', methods=["GET"])
 def setup():
-
-    if Settings.get_or_none(Settings.key == "discord_id"):
-        discord = True
-    if Settings.get_or_none(Settings.key == "overseerr_url"):
-        requests = True
     resp = make_response(render_template("wizard.html"))
     resp.set_cookie('current', "0")
     return resp
@@ -152,8 +147,10 @@ def wizard(action):
     discord_id_setting = Settings.get_or_none(Settings.key == "discord_id")
     overseerr_url_setting = Settings.get_or_none(
         Settings.key == "overseerr_url")
+    custom_html_setting = Settings.get_or_none(Settings.key == "custom_html")
     discord_id = None
     overseerr_url = None
+    custom_html = None
 
     steps = ["wizard/download.html", "wizard/tips.html"]
     if overseerr_url_setting:
@@ -162,6 +159,9 @@ def wizard(action):
     if discord_id_setting:
         steps.insert((len(steps)-1), "wizard/discord.html")
         discord_id = Settings.get(Settings.key == "discord_id").value
+    if custom_html_setting:
+        steps.insert((len(steps)-1), "wizard/custom.html")
+        custom_html = Settings.get(Settings.key == "custom_html").value
 
     if action == "next":
 
@@ -170,6 +170,7 @@ def wizard(action):
             video_lang=video_lang,
             discord_id=discord_id,
             overseerr_url=overseerr_url,
+            custom_html=custom_html,
             next=True))
         
         #Check if no next step
@@ -179,8 +180,8 @@ def wizard(action):
         else:
             resp.headers['max'] = "0"
 
-        resp.headers['current'] = str(current + 1)
-        resp.set_cookie('current', str(current + 1))
+        resp.headers['current'] = str(current+1)
+        resp.set_cookie('current', str(current+1))
         return resp
 
     elif action == "prev":
@@ -191,11 +192,11 @@ def wizard(action):
             video_lang=video_lang,
             discord_id=discord_id,
             overseerr_url=overseerr_url,
+            custom_html=custom_html,
             prev=True))
-        resp.headers['current'] = str(current - 1)
+        resp.headers['current'] = str(current-1)
         resp.headers['max'] = "0"
-        resp.set_cookie('max', "0")
-        resp.set_cookie('current', str(current - 1))
+        resp.set_cookie('current', str(current-1))
         return resp
 
 

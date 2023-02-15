@@ -111,11 +111,14 @@ def secure_settings():
         overseerr_url = Settings.get_or_none(
             Settings.key == "overseerr_url")
         discord_id = Settings.get_or_none(Settings.key == "discord_id")
+        custom_html = Settings.get_or_none(Settings.key == "custom_html")
         if overseerr_url:
             overseerr_url = overseerr_url.value
         if discord_id:
             discord_id = discord_id.value
-        return render_template("settings.html", plex_name=plex_name, plex_url=plex_url, plex_libraries=plex_libraries, plex_token=plex_token, overseerr_url=overseerr_url, discord_id=discord_id)
+        if custom_html:
+            custom_html = custom_html.value
+        return render_template("settings.html", plex_name=plex_name, plex_url=plex_url, plex_libraries=plex_libraries, plex_token=plex_token, overseerr_url=overseerr_url, discord_id=discord_id, custom_html=custom_html)
 
     elif request.method == 'POST':
         name = request.form.get("name")
@@ -123,6 +126,7 @@ def secure_settings():
         plex_token = request.form.get("plex_token")
         discord_id = None
         overseerr_url = None
+        custom_html = None
 
         # Getting Libraries Properly
         libraries = []
@@ -141,6 +145,8 @@ def secure_settings():
             discord_id = request.form.get("discord_id")
         if request.form.get("overseerr_url"):
             overseerr_url = request.form.get("overseerr_url")
+        if request.form.get("custom_html"):
+            custom_html = request.form.get("custom_html")
         try:
             plex = PlexServer(plex_url, token=plex_token)
         except Exception as e:
@@ -168,6 +174,11 @@ def secure_settings():
             Settings.create(key="discord_id", value=discord_id)
         if not discord_id:
             Settings.delete().where(Settings.key == "discord_id").execute()
+        if not custom_html:
+            Settings.delete().where(Settings.key == "custom_html").execute()
+        if custom_html:
+            Settings.delete().where(Settings.key == "custom_html").execute()
+            Settings.create(key="custom_html", value=custom_html)
         return redirect("/")
 
 
