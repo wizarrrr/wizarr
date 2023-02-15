@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-15 14:17+0000\n"
+"POT-Creation-Date: 2023-02-15 16:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language: nl\n"
@@ -44,7 +44,7 @@ msgstr ""
 "De verbinding met je Plex server is onderbroken. Bekijk de Logs voor meer"
 " informatie."
 
-#: app/admin.py:231 app/admin.py:234
+#: app/admin.py:234 app/admin.py:238
 msgid "Invalid Username or Password"
 msgstr "Ongeldige gebruikersnaam of wachtwoord"
 
@@ -111,10 +111,15 @@ msgid "Invitations"
 msgstr "Uitnodigingen"
 
 #: app/templates/admin-nav.html:19
+msgid "Users"
+msgstr "Gebruikers"
+
+#: app/templates/admin-nav.html:22
 msgid "Settings"
 msgstr "Instellingen"
 
 #: app/templates/invite.html:5 app/templates/invites.html:5
+#: app/templates/users.html:5
 msgid "Invite User"
 msgstr "Gebruiker uitnodigen"
 
@@ -171,7 +176,7 @@ msgstr "1 week"
 msgid "1 month"
 msgstr "1 maand"
 
-#: app/templates/invite.html:92 app/templates/users.html:72
+#: app/templates/invite.html:92
 msgid "Never"
 msgstr "Nooit"
 
@@ -205,23 +210,23 @@ msgstr "Deel"
 
 #: app/templates/invite_table.html:4 app/templates/join.html:42
 #: app/templates/join.html:51 app/templates/user-plex-login.html:27
-#: app/templates/user-plex-login.html:37 app/templates/users.html:21
+#: app/templates/user-plex-login.html:37
 msgid "Invite Code"
 msgstr "Uitnodigingscode"
 
-#: app/templates/invite_table.html:5 app/templates/users.html:24
+#: app/templates/invite_table.html:5
 msgid "Used"
 msgstr "Gebruikt"
 
-#: app/templates/invite_table.html:6 app/templates/users.html:30
+#: app/templates/invite_table.html:6
 msgid "Created"
 msgstr "Aangemaakt"
 
-#: app/templates/invite_table.html:7 app/templates/users.html:36
+#: app/templates/invite_table.html:7
 msgid "Expires"
 msgstr "Verloopt"
 
-#: app/templates/invite_table.html:8 app/templates/users.html:39
+#: app/templates/invite_table.html:8
 msgid "Unlimited"
 msgstr "Ongelimiteerd"
 
@@ -347,25 +352,18 @@ msgstr "Verifiëren en bevestigen"
 msgid "You've been invited to join the %(name)s server!"
 msgstr "Je bent uitgenodigd voor %(name)s!"
 
-#: app/templates/users.html:5
-msgid "Users"
-msgstr "Gebruikers"
-
-#: app/templates/users.html:27
-msgid "Used At"
-msgstr "Gebruikt op"
-
-#: app/templates/users.html:33
+#: app/templates/user_table.html:5
 msgid "User"
 msgstr "Gebruiker"
 
-#: app/templates/users.html:76
-msgid "Copy"
-msgstr "Kopieer"
+#: app/templates/user_table.html:6
+msgid "Email"
+msgstr ""
 
-#: app/templates/users.html:78
-msgid "Delete"
-msgstr "Verwijder"
+#: app/templates/user_table.html:7
+#, fuzzy
+msgid "Home User"
+msgstr "Gebruiker uitnodigen"
 
 #: app/templates/verify_plex.html:23
 msgid "Plex Display Name"
@@ -802,4 +800,13 @@ msgstr ""
 
 #~ msgid "I have a Plex Account"
 #~ msgstr "Ik heb al een Plex account"
+
+#~ msgid "Used At"
+#~ msgstr "Gebruikt op"
+
+#~ msgid "Copy"
+#~ msgstr "Kopieer"
+
+#~ msgid "Delete"
+#~ msgstr "Verwijder"
 

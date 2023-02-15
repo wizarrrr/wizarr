@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-15 14:17+0000\n"
+"POT-Creation-Date: 2023-02-15 16:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language: pl\n"
@@ -43,7 +43,7 @@ msgstr ""
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
 
-#: app/admin.py:231 app/admin.py:234
+#: app/admin.py:234 app/admin.py:238
 msgid "Invalid Username or Password"
 msgstr ""
 
@@ -106,10 +106,15 @@ msgid "Invitations"
 msgstr ""
 
 #: app/templates/admin-nav.html:19
+msgid "Users"
+msgstr ""
+
+#: app/templates/admin-nav.html:22
 msgid "Settings"
 msgstr ""
 
 #: app/templates/invite.html:5 app/templates/invites.html:5
+#: app/templates/users.html:5
 msgid "Invite User"
 msgstr ""
 
@@ -164,7 +169,7 @@ msgstr ""
 msgid "1 month"
 msgstr ""
 
-#: app/templates/invite.html:92 app/templates/users.html:72
+#: app/templates/invite.html:92
 msgid "Never"
 msgstr ""
 
@@ -198,23 +203,23 @@ msgstr ""
 
 #: app/templates/invite_table.html:4 app/templates/join.html:42
 #: app/templates/join.html:51 app/templates/user-plex-login.html:27
-#: app/templates/user-plex-login.html:37 app/templates/users.html:21
+#: app/templates/user-plex-login.html:37
 msgid "Invite Code"
 msgstr ""
 
-#: app/templates/invite_table.html:5 app/templates/users.html:24
+#: app/templates/invite_table.html:5
 msgid "Used"
 msgstr ""
 
-#: app/templates/invite_table.html:6 app/templates/users.html:30
+#: app/templates/invite_table.html:6
 msgid "Created"
 msgstr ""
 
-#: app/templates/invite_table.html:7 app/templates/users.html:36
+#: app/templates/invite_table.html:7
 msgid "Expires"
 msgstr ""
 
-#: app/templates/invite_table.html:8 app/templates/users.html:39
+#: app/templates/invite_table.html:8
 msgid "Unlimited"
 msgstr ""
 
@@ -336,24 +341,16 @@ msgstr ""
 msgid "You've been invited to join the %(name)s server!"
 msgstr ""
 
-#: app/templates/users.html:5
-msgid "Users"
-msgstr ""
-
-#: app/templates/users.html:27
-msgid "Used At"
-msgstr ""
-
-#: app/templates/users.html:33
+#: app/templates/user_table.html:5
 msgid "User"
 msgstr ""
 
-#: app/templates/users.html:76
-msgid "Copy"
+#: app/templates/user_table.html:6
+msgid "Email"
 msgstr ""
 
-#: app/templates/users.html:78
-msgid "Delete"
+#: app/templates/user_table.html:7
+msgid "Home User"
 msgstr ""
 
 #: app/templates/verify_plex.html:23
@@ -781,5 +778,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "I have a Plex Account"
+#~ msgstr ""
+
+#~ msgid "Used At"
+#~ msgstr ""
+
+#~ msgid "Copy"
+#~ msgstr ""
+
+#~ msgid "Delete"
 #~ msgstr ""
 
