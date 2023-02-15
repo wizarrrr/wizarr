@@ -10,7 +10,7 @@ import logging
 
 def plexoauth(id, code):
     oauth = MyPlexPinLogin(oauth=True)
-    url = oauth.oauthUrl(forwardUrl=(os.getenv('APP_URL') + '/setup/download'))
+    url = oauth.oauthUrl(forwardUrl=(os.getenv('APP_URL') + '/setup'))
 
     Oauth.update(url=url).where(Oauth.id == id).execute()
 

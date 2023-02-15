@@ -119,9 +119,6 @@ def invite():
         return render_template("invite.html", invitations=invitations, update_msg=update_msg, needUpdate=needUpdate(), url=os.getenv("APP_URL"))
 
 
-
-
-
 @app.route('/setup', methods=["GET"])
 def setup():
 
@@ -132,10 +129,6 @@ def setup():
     resp = make_response(render_template("wizard.html"))
     resp.set_cookie('current', "0")
     return resp
-
-@app.route('/setup/download', methods=["GET"])
-def download():
-    return render_template("setup.html")
 
 
 @app.route('/setup/action=<action>', methods=["POST"])
@@ -157,82 +150,53 @@ def wizard(action):
     current = int(request.cookies.get('current'))
 
     discord_id_setting = Settings.get_or_none(Settings.key == "discord_id")
-    overseerr_url_setting = Settings.get_or_none(Settings.key == "overseerr_url")
+    overseerr_url_setting = Settings.get_or_none(
+        Settings.key == "overseerr_url")
+    discord_id = None
+    overseerr_url = None
 
-    if discord_id_setting and overseerr_url_setting:
-        steps = {0: "wizard/download.html",
-                1: "wizard/requests.html",
-                2: "wizard/discord.html",
-                3: "wizard/tips.html"}
-    elif discord_id_setting and not overseerr_url_setting:
-        steps = {0: "wizard/download.html",
-                1: "wizard/discord.html",
-                2: "wizard/tips.html"}
-    elif not discord_id_setting and overseerr_url_setting:
-        steps = {0: "wizard/download.html",
-                1: "wizard/requests.html",
-                2: "wizard/tips.html"}
-    else:
-        steps = {0: "wizard/download.html",
-                1: "wizard/tips.html"}
-                
+    steps = ["wizard/download.html", "wizard/tips.html"]
+    if overseerr_url_setting:
+        steps.insert((len(steps)-1), "wizard/requests.html")
+        overseerr_url = Settings.get(Settings.key == "overseerr_url").value
+    if discord_id_setting:
+        steps.insert((len(steps)-1), "wizard/discord.html")
+        discord_id = Settings.get(Settings.key == "discord_id").value
+
     if action == "next":
-        if current+1 in steps:
-            resp = make_response(render_template(
-                steps[current+1], videos=videos, video_lang=video_lang))
-            resp.set_cookie('current', str(current + 1))
+
+        resp = make_response(render_template(
+            steps[current+1], videos=videos,
+            video_lang=video_lang,
+            discord_id=discord_id,
+            overseerr_url=overseerr_url,
+            next=True))
+        
+        #Check if no next step
+        if current+1 == len(steps)-1:
+            resp.headers['max'] = "1"
             return resp
         else:
-            resp = make_response(render_template(
-                steps[current], videos=videos, video_lang=video_lang))
-            resp.set_cookie('current', str(current))
-            return resp
+            resp.headers['max'] = "0"
+
+        resp.headers['current'] = str(current + 1)
+        resp.set_cookie('current', str(current + 1))
+        return resp
+
     elif action == "prev":
-        if current-1 in steps:
-            resp = make_response(render_template(
-                steps[current-1], videos=videos, video_lang=video_lang))
-            resp.set_cookie('current', str(current - 1))
-            return resp
-        else:
-            resp = make_response(render_template(
-                steps[current], videos=videos, video_lang=video_lang))
-            resp.set_cookie('current', str(current))
-            return resp
 
-
-@app.route('/setup/requests', methods=["GET"])
-def plex_requests():
-    if Settings.get_or_none(Settings.key == "overseerr_url"):
-        return render_template("requests.html", overseerr_url=Settings.get(Settings.key == "overseerr_url").value)
-    else:
-        return redirect("/setup/discord")
-
-
-@app.route('/setup/discord', methods=["GET"])
-def plex_discord():
-    if Settings.get_or_none(Settings.key == "discord_id"):
-        return render_template("discord.html", discord_id=Settings.get(Settings.key == "discord_id").value)
-    else:
-        return redirect("/setup/tips")
-
-
-@app.route('/setup/tips')
-def tips():
-    video_lang = get_locale()
-    videos = {
-        "en": {
-            "web_video": "https://www.youtube.com/embed/yO_oPny-Y_I",
-            "app_video": "https://www.youtube.com/embed/e7Gy4FHDy5k"
-        },
-        "fr": {
-
-            "web_video": "https://www.youtube.com/embed/f1ce3_OY5OE",
-            "app_video": "https://www.youtube.com/embed/u8ejqsGfntw"
-        }
-    }
-    if video_lang not in videos:
-        video_lang = "en"
-    return render_template("tips.html", name=Settings.get(Settings.key == "plex_name").value, video_lang=video_lang, videos=videos)
+        # Add current variable to header
+        resp = make_response(render_template(
+            steps[current-1], videos=videos,
+            video_lang=video_lang,
+            discord_id=discord_id,
+            overseerr_url=overseerr_url,
+            prev=True))
+        resp.headers['current'] = str(current - 1)
+        resp.headers['max'] = "0"
+        resp.set_cookie('max', "0")
+        resp.set_cookie('current', str(current - 1))
+        return resp
 
 
 @app.errorhandler(500)
