@@ -15,8 +15,8 @@ Download Plex
     <div class="flex flex-col items-center py-2">
         <div id="button-divider" class="flex">
             <button id="prevBtn"
-                class="inline-flex items-center px-4 py-2 mr-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                hx-post="/setup/action=prev" hx-trigger="click" hx-target="#wizard" hx-swap="outerHTML settle:1s">
+                class="hidden inline-flex items-center px-4 py-2 mr-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                hx-post="/setup/action=prev" hx-trigger="click" hx-target="#wizard" hx-swap="outerHTML">
                 <svg aria-hidden="true" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
@@ -27,7 +27,7 @@ Download Plex
             </button>
             <button id="nextBtn"
                 class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                hx-post="/setup/action=next" hx-trigger="click" hx-target="#wizard" hx-swap="outerHTML settle:1s">
+                hx-post="/setup/action=next" hx-trigger="click" hx-target="#wizard" hx-swap="outerHTML">
                 Next
                 <svg aria-hidden="true" class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
@@ -40,4 +40,34 @@ Download Plex
     </div>
 
 </div>
+<script>
+
+    // code block
+    document.body.addEventListener("htmx:afterSwap", function (evt) {
+        // get the response header value
+        var current = evt.detail.xhr.getResponseHeader("current");
+        var max = evt.detail.xhr.getResponseHeader("max");
+
+        // if current is equal to 0, hide the prevBtn by adding the hidden class
+        if (current == 0) {
+            document.getElementById("prevBtn").classList.add("hidden");
+        }
+        // if current is greater than 0, show the prevBtn by removing the hidden class
+        else {
+            document.getElementById("prevBtn").classList.remove("hidden");
+        }
+
+        // if max is equal to 1, hide the nextBtn by adding the hidden class
+        if (max == 1) {
+            document.getElementById("nextBtn").classList.add("hidden");
+        }
+        if (max == 0) {
+            document.getElementById("nextBtn").classList.remove("hidden");
+        }
+
+    });
+
+
+</script>
+
 {% endblock %}
