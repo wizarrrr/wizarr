@@ -7,10 +7,9 @@ import os.path
 import requests
 import datetime
 from flask import request, redirect, render_template, abort, make_response, send_from_directory
-from app import app, Invitations, Settings, VERSION, Users, Oauth
+from app import app, Invitations, Settings, VERSION, Users, Oauth, get_locale
 from app.plex import *
 from app.admin import login_required
-from app.utils import get_locale
 from plexapi.server import PlexServer
 from flask_babel import _
 from packaging import version
