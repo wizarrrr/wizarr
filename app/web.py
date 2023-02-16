@@ -7,7 +7,7 @@ import os.path
 import requests
 import datetime
 from flask import request, redirect, render_template, abort, make_response, send_from_directory
-from app import app, Invitations, Settings, VERSION, Users, Oauth, get_locale
+from app import app, Invitations, Settings, VERSION, Users, Oauth, get_locale, SourcesToRemove
 from app.plex import *
 from app.admin import login_required
 from plexapi.server import PlexServer
@@ -122,7 +122,21 @@ def invite():
 def setup():
     resp = make_response(render_template("wizard.html"))
     resp.set_cookie('current', "0")
+
     return resp
+
+
+@app.route('/setup/open-plex', methods=["GET"])
+def open_plex():
+
+    tobedone = SourcesToRemove.select().where(SourcesToRemove.done == 0)
+    if tobedone:
+        for account in tobedone:
+            email = account.email
+            threading.Thread(target=disableSources, args=(email,)).start()
+            SourcesToRemove.update(done=1).where(
+                SourcesToRemove.email == email).execute()
+    return redirect('https://app.plex.tv/desktop/#!/')
 
 
 @app.route('/setup/action=<action>', methods=["POST"])
@@ -171,8 +185,8 @@ def wizard(action):
             overseerr_url=overseerr_url,
             custom_html=custom_html,
             next=True))
-        
-        #Check if no next step
+
+        # Check if no next step
         if current+1 == len(steps)-1:
             resp.headers['max'] = "1"
             return resp

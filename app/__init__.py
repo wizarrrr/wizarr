@@ -84,9 +84,12 @@ class Oauth(BaseModel):
     id = IntegerField(primary_key=True)
     url = CharField(null=True)
 
+class SourcesToRemove(BaseModel):
+    email = CharField()
+    done = IntegerField()
 
 # Below is Database Initialisation in case of new instance
-database.create_tables([Invitations, Settings, Users, Oauth])
+database.create_tables([Invitations, Settings, Users, Oauth, SourcesToRemove])
 
 if __name__ == "__main__":
     web.check_plex_credentials()
