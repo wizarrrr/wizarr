@@ -1,7 +1,7 @@
 import re
 from typing import Set
 from flask import request, redirect, render_template, abort, jsonify
-from app import app, Invitations, Settings, VERSION, session
+from app import app, Invitations, Settings, VERSION, session, Users
 from werkzeug.security import generate_password_hash, check_password_hash
 from plexapi.server import PlexServer
 from plexapi.myplex import MyPlexAccount
@@ -276,6 +276,7 @@ def users_table():
         print("Deleting user " + request.args.get("delete"))
         try:
             admin.removeFriend(request.args.get("delete"))
+            Users.delete().where(Users.email == request.args.get("delete")).execute()
         except Exception as e:
             if "429" in str(e):
                 logging.error("Too many requests to Plex API")
