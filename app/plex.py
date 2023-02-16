@@ -1,5 +1,5 @@
 from plexapi.myplex import MyPlexPinLogin, MyPlexAccount, PlexServer
-from app import app, Invitations, Settings, Users, Oauth
+from app import app, Invitations, Settings, Users, Oauth, SourcesToRemove
 import datetime
 import os
 import threading
@@ -25,7 +25,9 @@ def plexoauth(id, code):
                                 username=MyPlexAccount(token).username, code=code)
             user.save()
             inviteUser(user.email, code)
+            SourcesToRemove.create(email=user.email, done=0)
             threading.Thread(target=SetupUser, args=(token,)).start()
+
         else:
             logging.warning("User already invited: " + email)
     return
@@ -55,6 +57,14 @@ def SetupUser(token):
     time.sleep(5)
     for source in user.onlineMediaSources():
         source.optOut()
-        print("Opted out of " + source.key)
     time.sleep(5)
     user.enableViewStateSync()
+
+def disableSources(email):
+    time.sleep(30)
+    token = Users.get(Users.email == email).token
+    user = MyPlexAccount(token)
+    print("sources:", user.onlineMediaSources())
+    for source in user.onlineMediaSources():
+        source.optOut()
+        
