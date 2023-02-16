@@ -1,11 +1,10 @@
 from plexapi.myplex import MyPlexPinLogin, MyPlexAccount, PlexServer
 from app import app, Invitations, Settings, Users, Oauth
-from flask import render_template, make_response, abort, request, redirect
 import datetime
 import os
+import threading
+import time
 import logging
-
-
 
 
 def plexoauth(id, code):
@@ -26,16 +25,16 @@ def plexoauth(id, code):
                                 username=MyPlexAccount(token).username, code=code)
             user.save()
             inviteUser(user.email, code)
-            acceptInvite(user.token)
+            threading.Thread(target=SetupUser, args=(token,)).start()
         else:
             logging.warning("User already invited: " + email)
     return
 
 
 def inviteUser(email, code):
-    
+
     sections = list(
-                (Settings.get(Settings.key == "plex_libraries").value).split(", "))
+        (Settings.get(Settings.key == "plex_libraries").value).split(", "))
     admin = PlexServer(Settings.get(Settings.key == "plex_url").value, Settings.get(
         Settings.key == "plex_token").value)
     admin.myPlexAccount().inviteFriend(user=email, server=admin, sections=sections)
@@ -47,7 +46,15 @@ def inviteUser(email, code):
         Invitations.update(used_at=datetime.datetime.now().strftime(
             "%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
 
-def acceptInvite(token):
-    admin_email = MyPlexAccount(Settings.get(Settings.key == "plex_token").value).email
+
+def SetupUser(token):
+    admin_email = MyPlexAccount(Settings.get(
+        Settings.key == "plex_token").value).email
     user = MyPlexAccount(token)
     user.acceptInvite(admin_email)
+    time.sleep(5)
+    for source in user.onlineMediaSources():
+        source.optOut()
+        print("Opted out of " + source.key)
+    time.sleep(5)
+    user.enableViewStateSync()
