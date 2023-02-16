@@ -1,7 +1,7 @@
 import re
 from typing import Set
 from flask import request, redirect, render_template, abort, jsonify
-from app import app, Invitations, Settings, VERSION, session, Users
+from app import app, Invitations, Settings, session, Users
 from werkzeug.security import generate_password_hash, check_password_hash
 from plexapi.server import PlexServer
 from plexapi.myplex import MyPlexAccount
