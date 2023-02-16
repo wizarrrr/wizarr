@@ -5,7 +5,6 @@ from flask_babel import Babel
 import os
 from dotenv import load_dotenv
 from flask_session import Session
-from .utils import get_locale
 
 load_dotenv()
 
@@ -18,6 +17,15 @@ Session(app)
 
 VERSION = "1.5.0"
 
+
+def get_locale():
+      if os.getenv("FORCE_LANGUAGE"):
+         return os.getenv("FORCE_LANGUAGE")
+      elif request.args.get('lang'):
+         session['lang'] = request.args.get('lang')
+         return session.get('lang', 'en')
+      else:
+         return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
 
 # Translation stuff
 base_dir = os.path.abspath(os.path.dirname(__file__))
