@@ -45,18 +45,7 @@ A big thank you ❤️ to these amazing people for contributing to this project!
 
 ## Screenshots
 
-*These may be out of date*
-
 #### Light Mode
-![alt](./screenshots/share.png)
-![alt](./screenshots/tips-light.png)
-![alt](./screenshots/invitation.png)
-![alt](./screenshots/Download.png)
-![alt](./screenshots/request.png)
-
-#### Dark Mode
-![alt](./screenshots/download_dark.png)
-![alt](./screenshots/tips-dark.png)
-![alt](./screenshots/join_dark.png)
-![alt](./screenshots/welcome_dark.png)
-
+![alt](./screenshots/invite.png)
+![alt](./screenshots/tips.png)
+![alt](./screenshots/join.png)
