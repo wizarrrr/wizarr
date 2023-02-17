@@ -45,7 +45,7 @@ A big thank you ❤️ to these amazing people for contributing to this project!
 
 ## Screenshots
 
-#### Light Mode
+
 ![alt](./screenshots/invite.png)
 ![alt](./screenshots/tips.png)
 ![alt](./screenshots/join.png)

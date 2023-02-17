@@ -1,5 +1,5 @@
 from plexapi.myplex import MyPlexPinLogin, MyPlexAccount, PlexServer
-from app import app, Invitations, Settings, Users, Oauth
+from app import app, Invitations, Settings, Users, Oauth, ExpiringInvitations, scheduler
 import datetime
 import os
 import threading
@@ -32,6 +32,7 @@ def plexoauth(id, code):
             logging.warning("User already invited: " + email)
     return
 
+
 @cached(cache=TTLCache(maxsize=1024, ttl=600))
 def getUsers():
     admin = MyPlexAccount(Settings.get(Settings.key == "plex_token").value)
@@ -61,6 +62,17 @@ def inviteUser(email, code):
         Invitations.update(used_at=datetime.datetime.now().strftime(
             "%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
 
+    if Invitations.select().where(Invitations.code == code, Invitations.duration != None):
+
+        # Set Expires, duration is in days, in format %Y-%m-%d %H:%M
+        expires = datetime.datetime.now().strftime(
+            "%Y-%m-%d %H:%M") + datetime.timedelta(
+            days=int(Invitations.get(Invitations.code == code).duration))
+
+        ExpiringInvitations.create(code=code, created=datetime.datetime.now().strftime(
+            "%Y-%m-%d %H:%M"), used_by=Users.get(Users.email == email).id, expires=expires)
+
+
 def SetupUser(token):
     try:
         getUsers.cache_clear()
@@ -88,3 +100,13 @@ def scan():
     for library in libraries_raw:
         libraries.append(library.title)
     return jsonify(libraries)
+
+
+@scheduler.task('interval', id='checkExpiring', minutes=15, misfire_grace_time=900)
+def checkExpiring():
+    expiring = ExpiringInvitations.select().where(ExpiringInvitations.expires <
+                                                  datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
+    for invite in expiring:
+        deleteUser(Users.get_by_id(invite.used_by).email)
+        ExpiringInvitations.delete().where(
+            ExpiringInvitations.used_by == invite.used_by).execute()
