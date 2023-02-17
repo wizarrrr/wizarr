@@ -17,7 +17,6 @@ Session(app)
 
 VERSION = "1.5.0"
 
-
 def get_locale():
       if os.getenv("FORCE_LANGUAGE"):
          return os.getenv("FORCE_LANGUAGE")
@@ -45,7 +44,10 @@ app.config["LANGUAGES"] = {'en': 'english',
 app.config["BABEL_DEFAULT_LOCALE"] = "en"
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = ('./translations')
 
+
+#Translation
 babel = Babel(app, locale_selector=get_locale)
+
 
 
 # Database stuff
@@ -84,12 +86,8 @@ class Oauth(BaseModel):
     id = IntegerField(primary_key=True)
     url = CharField(null=True)
 
-class SourcesToRemove(BaseModel):
-    email = CharField()
-    done = IntegerField()
-
 # Below is Database Initialisation in case of new instance
-database.create_tables([Invitations, Settings, Users, Oauth, SourcesToRemove])
+database.create_tables([Invitations, Settings, Users, Oauth])
 
 if __name__ == "__main__":
     web.check_plex_credentials()
