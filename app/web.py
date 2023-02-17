@@ -7,14 +7,12 @@ import os.path
 import requests
 import datetime
 from flask import request, redirect, render_template, abort, make_response, send_from_directory
-from app import app, Invitations, Settings, VERSION, Users, Oauth, get_locale, SourcesToRemove
+from app import app, Invitations, Settings, VERSION, Oauth, get_locale
 from app.plex import *
 from app.admin import login_required
-from plexapi.server import PlexServer
 from flask_babel import _
 from packaging import version
 import threading
-from pathlib import Path
 
 
 @app.route('/')
@@ -128,14 +126,6 @@ def setup():
 
 @app.route('/setup/open-plex', methods=["GET"])
 def open_plex():
-
-    tobedone = SourcesToRemove.select().where(SourcesToRemove.done == 0)
-    if tobedone:
-        for account in tobedone:
-            email = account.email
-            threading.Thread(target=disableSources, args=(email,)).start()
-            SourcesToRemove.update(done=1).where(
-                SourcesToRemove.email == email).execute()
     return redirect('https://app.plex.tv/desktop/#!/')
 
 

@@ -1,10 +1,11 @@
 from plexapi.myplex import MyPlexPinLogin, MyPlexAccount, PlexServer
-from app import app, Invitations, Settings, Users, Oauth, SourcesToRemove
+from app import app, Invitations, Settings, Users, Oauth
 import datetime
 import os
 import threading
-import time
+from flask import request, abort, jsonify
 import logging
+from cachetools import cached, TTLCache
 
 
 def plexoauth(id, code):
@@ -25,16 +26,28 @@ def plexoauth(id, code):
                                 username=MyPlexAccount(token).username, code=code)
             user.save()
             inviteUser(user.email, code)
-            SourcesToRemove.create(email=user.email, done=0)
             threading.Thread(target=SetupUser, args=(token,)).start()
 
         else:
             logging.warning("User already invited: " + email)
     return
 
+@cached(cache=TTLCache(maxsize=1024, ttl=600))
+def getUsers():
+    admin = MyPlexAccount(Settings.get(Settings.key == "plex_token").value)
+    users = admin.users()
+    return users
+
+
+def deleteUser(email):
+    getUsers.cache_clear()
+    admin = MyPlexAccount(Settings.get(Settings.key == "plex_token").value)
+    admin.removeFriend(email)
+    Users.delete().where(Users.email == email).execute()
+
 
 def inviteUser(email, code):
-
+    getUsers.cache_clear()
     sections = list(
         (Settings.get(Settings.key == "plex_libraries").value).split(", "))
     admin = PlexServer(Settings.get(Settings.key == "plex_url").value, Settings.get(
@@ -48,23 +61,30 @@ def inviteUser(email, code):
         Invitations.update(used_at=datetime.datetime.now().strftime(
             "%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
 
-
 def SetupUser(token):
-    admin_email = MyPlexAccount(Settings.get(
-        Settings.key == "plex_token").value).email
-    user = MyPlexAccount(token)
-    user.acceptInvite(admin_email)
-    time.sleep(5)
-    for source in user.onlineMediaSources():
-        source.optOut()
-    time.sleep(5)
-    user.enableViewStateSync()
+    try:
+        getUsers.cache_clear()
+        admin_email = MyPlexAccount(Settings.get(
+            Settings.key == "plex_token").value).email
+        user = MyPlexAccount(token)
+        user.acceptInvite(admin_email)
+        user.enableViewStateSync()
+    except Exception as e:
+        logging.error("Failed to setup user: " + str(e))
 
-def disableSources(email):
-    time.sleep(30)
-    token = Users.get(Users.email == email).token
-    user = MyPlexAccount(token)
-    print("sources:", user.onlineMediaSources())
-    for source in user.onlineMediaSources():
-        source.optOut()
-        
+
+@app.route('/scan', methods=["POST"])
+def scan():
+    plex_url = request.args.get('plex_url')
+    plex_token = request.args.get('plex_token')
+    if not plex_url or not plex_token:
+        abort(400)
+    try:
+        plex = PlexServer(plex_url, token=plex_token)
+        libraries_raw = plex.library.sections()
+    except:
+        abort(400)
+    libraries = []
+    for library in libraries_raw:
+        libraries.append(library.title)
+    return jsonify(libraries)

@@ -1,10 +1,8 @@
-import re
-from typing import Set
-from flask import request, redirect, render_template, abort, jsonify
+from flask import request, redirect, render_template
 from app import app, Invitations, Settings, session, Users
+from app.plex import *
 from werkzeug.security import generate_password_hash, check_password_hash
 from plexapi.server import PlexServer
-from plexapi.myplex import MyPlexAccount
 import logging
 from functools import wraps
 import datetime
@@ -183,21 +181,6 @@ def secure_settings():
         return redirect("/")
 
 
-@app.route('/scan', methods=["POST"])
-def scan():
-    plex_url = request.args.get('plex_url')
-    plex_token = request.args.get('plex_token')
-    if not plex_url or not plex_token:
-        abort(400)
-    try:
-        plex = PlexServer(plex_url, token=plex_token)
-        libraries_raw = plex.library.sections()
-    except:
-        abort(400)
-    libraries = []
-    for library in libraries_raw:
-        libraries.append(library.title)
-    return jsonify(libraries)
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -263,20 +246,18 @@ def table(delete_code):
 @app.route('/users')
 @login_required
 def users():
-    admin = MyPlexAccount(Settings.get(Settings.key == "plex_token").value)
-    users = admin.users()
+   
     return render_template("users.html", users=users)
 
 
 @app.route('/users/table')
 @login_required
 def users_table():
-    admin = MyPlexAccount(Settings.get(Settings.key == "plex_token").value)
+    
     if request.args.get("delete"):
         print("Deleting user " + request.args.get("delete"))
         try:
-            admin.removeFriend(request.args.get("delete"))
-            Users.delete().where(Users.email == request.args.get("delete")).execute()
+            deleteUser(request.args.get("delete"))
         except Exception as e:
             if "429" in str(e):
                 logging.error("Too many requests to Plex API")
@@ -285,7 +266,7 @@ def users_table():
 
     users=None
     try:
-        users = admin.users()
+        users = getUsers()
     except Exception as e:
         if "429" in str(e):
             logging.error("Too many requests to Plex API")
