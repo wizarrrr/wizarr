@@ -21,15 +21,19 @@ def plexoauth(id, code):
         logging.error("Failed to get token from Plex")
     if token:
         email = MyPlexAccount(token).email
-        if not Users.select().where(Users.email == email).exists():
+        try:
+            inviteUser(email, code)
+            if Users.select().where(Users.email == email).exists():
+                Users.delete().where(Users.email == email).execute()
             user = Users.create(token=token, email=email,
                                 username=MyPlexAccount(token).username, code=code)
             user.save()
-            inviteUser(user.email, code)
             threading.Thread(target=SetupUser, args=(token,)).start()
-
-        else:
-            logging.warning("User already invited: " + email)
+        except Exception as e:
+            if "already exists" in str(e):
+                logging.error("User already exists")
+            else:
+                logging.error("Failed to invite user: " + str(e))
     return
 
 
