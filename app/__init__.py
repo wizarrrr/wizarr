@@ -5,6 +5,8 @@ from flask_babel import Babel
 import os
 from dotenv import load_dotenv
 from flask_session import Session
+from flask_apscheduler import APScheduler
+
 
 load_dotenv()
 
@@ -49,6 +51,12 @@ app.config["BABEL_TRANSLATION_DIRECTORIES"] = ('./translations')
 babel = Babel(app, locale_selector=get_locale)
 
 
+# Scheduler
+app.config["SCHEDULER_API_ENABLED"] = True
+scheduler = APScheduler()
+scheduler.init_app(app)
+scheduler.start()
+
 
 # Database stuff
 database = SqliteDatabase("./database/database.db")
@@ -65,8 +73,9 @@ class Invitations(BaseModel):
     used_at = DateTimeField(null=True)
     created = DateTimeField()
     used_by = CharField(null=True)
-    expires = DateTimeField(null=True)
+    expires = DateTimeField(null=True) #How long the invite is valid for
     unlimited = BooleanField(null=True)
+    duration = CharField(null=True) #How long the membership is kept for
 
 
 class Settings(BaseModel):
@@ -86,11 +95,28 @@ class Oauth(BaseModel):
     id = IntegerField(primary_key=True)
     url = CharField(null=True)
 
+class ExpiringInvitations(BaseModel):
+    code = CharField()
+    created = DateTimeField()
+    used_by = IntegerField()
+    expires = DateTimeField(null=True)
+
 # Below is Database Initialisation in case of new instance
-database.create_tables([Invitations, Settings, Users, Oauth])
+database.create_tables([Invitations, Settings, Users, Oauth, ExpiringInvitations])
+
+# Migrations
+try:
+    migrator = SqliteMigrator(database)
+    duration = CharField(null=True) #Add Duration after update
+    migrate(
+        migrator.add_column('Invitations', 'duration', duration)
+    )
+except:
+    pass
 
 if __name__ == "__main__":
     web.check_plex_credentials()
     app.run()
-    
+
+
 from app import admin, web, plex

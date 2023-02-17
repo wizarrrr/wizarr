@@ -92,6 +92,7 @@ def invite():
             return abort(401)  # Already Exists
         expires = None
         unlimited = 0
+        duration = None
         if request.form.get("expires") == "day":
             expires = (datetime.datetime.now() +
                        datetime.timedelta(days=1)).strftime("%Y-%m-%d %H:%M")
@@ -105,8 +106,10 @@ def invite():
             expires = None
         if request.form.get("unlimited"):
             unlimited = 1
+        if request.form.get("duration"):
+            duration = request.form.get("duration")
         Invitations.create(code=code, used=False, created=datetime.datetime.now(
-        ).strftime("%Y-%m-%d %H:%M"), expires=expires, unlimited=unlimited)
+        ).strftime("%Y-%m-%d %H:%M"), expires=expires, unlimited=unlimited, duration=duration)
         link = os.getenv("APP_URL") + "/j/" + code
         invitations = Invitations.select().order_by(Invitations.created.desc())
         return render_template("invite.html", link=link, invitations=invitations, url=os.getenv("APP_URL"))
