@@ -15,7 +15,7 @@
             <td class="py-5 px-6 font-medium">{{ invite.code }}</td>
             {% if not invite.used %}
             <td>
-                <span class="inline-block py-1 px-2 text-white bg-green-500 rounded-full">Available</span>
+                <span class="inline-block py-1 px-2 text-white bg-green-500 rounded-full">{{ _("Available") }}</span>
             </td>
             {% endif %}
             {% if invite.used %}
@@ -27,7 +27,7 @@
             <td class="font-medium">{{ invite.created }}</td>
             {% if invite.expired %}
             <td>
-                <span class="inline-block py-1 px-2 text-white bg-orange-500 rounded-full">Expired</span>
+                <span class="inline-block py-1 px-2 text-white bg-orange-500 rounded-full">{{ _("Expired") }}</span>
             </td>
             {% endif %}
             {% if not invite.expired and invite.expires %}
@@ -37,7 +37,7 @@
             {% endif %}
             {% if not invite.expires %}
             <td>
-                <span class="inline-block py-1 px-2 text-white bg-green-500 rounded-full">Never</span>
+                <span class="inline-block py-1 px-2 text-white bg-green-500 rounded-full">{{ _("Never") }}</span>
             </td>
             {% endif %}
 
@@ -59,7 +59,7 @@
             {% if invite.specific_libraries %}
             {% if invite.specific_libraries == "[]" %}
 
-            <td class="py-5 px-6 font-medium">Default</td>
+            <td class="py-5 px-6 font-medium">{{ _("Default") }}</td>
             {% endif %}
             {% if invite.specific_libraries != "[]" %}
 
@@ -68,7 +68,7 @@
             {% endif %}
 
             {% if not invite.specific_libraries %}
-            <td class="py-5 px-6 font-medium">Default</td>
+            <td class="py-5 px-6 font-medium">{{ _("Default") }}</td>
             {% endif %}
             <td>
                 <button onclick="tableCopyLink('{{ invite.code }}')" id="copy_{{ invite.code}}" class="inline-block">
