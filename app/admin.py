@@ -181,8 +181,6 @@ def secure_settings():
         return redirect("/")
 
 
-
-
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == 'GET':
@@ -246,14 +244,14 @@ def table(delete_code):
 @app.route('/users')
 @login_required
 def users():
-   
+
     return render_template("users.html", users=users)
 
 
 @app.route('/users/table')
 @login_required
 def users_table():
-    
+
     if request.args.get("delete"):
         print("Deleting user " + request.args.get("delete"))
         try:
@@ -263,15 +261,24 @@ def users_table():
                 logging.error("Too many requests to Plex API")
             else:
                 logging.error("Unable to delete user: " + str(e))
-
-    users=None
+    users = None
     try:
         users = getUsers()
+        expiring = {}
         for user in users:
-           expiring =  ExpiringInvitations.select().where(ExpiringInvitations.used_by == user.email)
-           user.expiring = expiring
+            expires = ExpiringInvitations.get_or_none(
+                ExpiringInvitations.used_by == user.email)
+            if expires:
+                expires = expires.expires
+            if expiring:
+                expiring[user] = expires
+            else:
+                expiring[user] = None
+
     except Exception as e:
         if "429" in str(e):
             logging.error("Too many requests to Plex API")
-    
-    return render_template("user_table.html", users=users)
+        else:
+            logging.error("Unable to get users: " + str(e))
+
+    return render_template("user_table.html", users=users, expiring=expiring)

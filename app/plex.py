@@ -75,9 +75,10 @@ def inviteUser(email, code):
     if Invitations.select().where(Invitations.code == code, Invitations.duration != None):
 
         # Set Expires, duration is in days, in format %Y-%m-%d %H:%M
-        expires = datetime.datetime.now().strftime(
-            "%Y-%m-%d %H:%M") + datetime.timedelta(
+        expires = datetime.datetime.now() + datetime.timedelta(
             days=int(Invitations.get(Invitations.code == code).duration))
+        expires = expires.strftime(
+            "%Y-%m-%d %H:%M")
 
         ExpiringInvitations.create(code=code, created=datetime.datetime.now().strftime(
             "%Y-%m-%d %H:%M"), used_by=email, expires=expires)
