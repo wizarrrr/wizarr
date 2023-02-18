@@ -267,6 +267,9 @@ def users_table():
     users=None
     try:
         users = getUsers()
+        for user in users:
+           expiring =  ExpiringInvitations.select().where(ExpiringInvitations.used_by == user.id)
+           user.expiring = expiring
     except Exception as e:
         if "429" in str(e):
             logging.error("Too many requests to Plex API")

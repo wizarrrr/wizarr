@@ -5,6 +5,7 @@
             <th class="pb-3 font-medium">{{ _("User") }}</th>
             <th class="pb-3 font-medium">{{ _("Email") }}</th>
             <th class="pb-3 font-medium">{{ _("Home User") }}</th>
+            <th class="pb-3 font-medium">{{ _("Expires") }}</th>
         </tr>
     </thead>
     <tbody>
@@ -28,6 +29,14 @@
             </td>
             {% endif %}
             {% if not user.home %}
+            <td>
+            </td>
+            {% endif %}
+            {% if user.expiring %}
+            <td>
+            </td>
+            {% endif %}
+            {% if not user.expiring %}
             <td>
             </td>
             {% endif %}
