@@ -7,6 +7,7 @@
             <th class="pb-3 font-medium">{{ _("Expires") }}</th>
             <th class="pb-3 font-medium">{{ _("Unlimited") }}</th>
             <th class="pb-3 font-medium">{{ _("Libraries") }}</th>
+            <th class="pb-3 font-medium">{{ _("Duration") }}</th>
         </tr>
     </thead>
     <tbody>
@@ -63,6 +64,14 @@
 
             {% if not invite.specific_libraries %}
             <td class="py-5 px-6 font-medium">{{ _("Default") }}</td>
+            {% endif %}
+            {% if invite.duration %}
+
+            <td class="py-5 px-6 font-medium">{{ invite.duration }} days</td>
+            {% endif %}
+
+            {% if not invite.duration %}
+            <td class="py-5 px-6 font-medium"></td>
             {% endif %}
             <td>
                 <button onclick="tableCopyLink('{{ invite.code }}')" id="copy_{{ invite.code}}" class="inline-block">
