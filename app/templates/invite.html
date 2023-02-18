@@ -114,7 +114,8 @@
                                 class="absolute z-10 invisible inline-block text-sm font-light text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
                                 <div class="p-3 space-y-2">
                                     <h3 class="font-semibold text-gray-900 dark:text-white">{{ _("Duration") }}</h3>
-                                    <p>{{ _("When set, invited user(s) will be removed from the Plex server after a number of
+                                    <p>{{ _("When set, invited user(s) will be removed from the Plex server after a
+                                        number of
                                         days. (1-999)") }}</p>
                                 </div>
                                 <div data-popper-arrow></div>
@@ -122,6 +123,19 @@
 
                             <input min="1" max="999" type="number" name="duration"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
+                        </div>
+
+                        <div class="pt-4">
+
+                            <label for="plex_libraries"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Specific
+                                Libraries") }}</label>
+                            <a href="#" class="block mb-2 text-sm font-medium text-amber-900 dark:text-amber-200"
+                                onclick="scanLibraries()">{{ _("Scan For Libraries") }}</a>
+                            <input hidden name="library_count" id="library_count" type="number" value="0">
+                            <div class="" id="libraries">
+                            </div>
+
                         </div>
                     </div>
                     <button type="submit"
@@ -187,6 +201,46 @@
             } else {
                 x.style.display = "none";
             }
+        }
+        function scanLibraries() {
+
+            var container = document.getElementById("libraries");
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
+            }
+            url = "/scan-specific";
+            const response = fetch(url, {
+                method: "POST"
+            }).then((response) => response.json())
+                .then(function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        checkbox.name = "plex_library_" + i;
+                        checkbox.className =
+                            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+                        checkbox.value = data[i];
+                        var label = document.createElement("label");
+                        label.for = "plex_library_" + i;
+                        label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
+                        label.innerHTML = data[i];
+
+                        var structure = document.createElement("div");
+                        structure.className = "flex items-center mb-4";
+                        container.appendChild(structure);
+                        container.appendChild(checkbox);
+                        container.appendChild(label);
+
+                        var library_count_helper = document.getElementById("library_count");
+                        library_count_helper.value = i;
+                    }
+                })
+                .catch(function (error) {
+                    var error_message = document.createElement("p");
+                    error_message.innerHTML = "Error: Please Check Your Plex URL and Token";
+                    error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
+                    container.appendChild(error_message);
+                })
         }
     </script>
 
