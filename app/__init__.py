@@ -76,6 +76,7 @@ class Invitations(BaseModel):
     expires = DateTimeField(null=True) #How long the invite is valid for
     unlimited = BooleanField(null=True)
     duration = CharField(null=True) #How long the membership is kept for
+    specific_libraries = CharField(null=True)
 
 
 class Settings(BaseModel):
@@ -104,12 +105,23 @@ class ExpiringInvitations(BaseModel):
 # Below is Database Initialisation in case of new instance
 database.create_tables([Invitations, Settings, Users, Oauth, ExpiringInvitations])
 
-# Migrations
+# Migrations 1
 try:
     migrator = SqliteMigrator(database)
     duration = CharField(null=True) #Add Duration after update
     migrate(
         migrator.add_column('Invitations', 'duration', duration)
+    )
+except:
+    pass
+
+
+# Migrations 2
+try:
+    migrator = SqliteMigrator(database)
+    specific_libraries = CharField(null=True) #Add Duration after update
+    migrate(
+        migrator.add_column('Invitations', 'specific_libraries', specific_libraries)
     )
 except:
     pass

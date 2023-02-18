@@ -57,6 +57,9 @@ def inviteUser(email, code):
         (Settings.get(Settings.key == "plex_libraries").value).split(", "))
     admin = PlexServer(Settings.get(Settings.key == "plex_url").value, Settings.get(
         Settings.key == "plex_token").value)
+    if Invitations.select().where(Invitations.code == code, Invitations.specific_libraries != None):
+        sections = list(
+            (Invitations.get(Invitations.code == code).specific_libraries).split(", "))
     admin.myPlexAccount().inviteFriend(user=email, server=admin, sections=sections)
     logging.info("Invited " + email + " to Plex Server")
     if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
@@ -89,6 +92,12 @@ def SetupUser(token):
         logging.error("Failed to setup user: " + str(e))
 
 
+def optOutOnlineSources(token):
+    user = MyPlexAccount(token)
+    for source in user.onlineMediaSources():
+        source.optOut()
+    return
+
 @app.route('/scan', methods=["POST"])
 def scan():
     plex_url = request.args.get('plex_url')
@@ -105,6 +114,21 @@ def scan():
         libraries.append(library.title)
     return jsonify(libraries)
 
+@app.route('/scan-specific', methods=["POST"])
+def scan_specific():
+    plex_url = Settings.get(Settings.key == "plex_url").value
+    plex_token = Settings.get(Settings.key == "plex_token").value
+    if not plex_url or not plex_token:
+        abort(400)
+    try:
+        plex = PlexServer(plex_url, token=plex_token)
+        libraries_raw = plex.library.sections()
+    except:
+        abort(400)
+    libraries = []
+    for library in libraries_raw:
+        libraries.append(library.title)
+    return jsonify(libraries)
 
 @scheduler.task('interval', id='checkExpiring', minutes=15, misfire_grace_time=900)
 def checkExpiring():
