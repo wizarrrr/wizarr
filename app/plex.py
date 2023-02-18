@@ -80,7 +80,7 @@ def inviteUser(email, code):
             days=int(Invitations.get(Invitations.code == code).duration))
 
         ExpiringInvitations.create(code=code, created=datetime.datetime.now().strftime(
-            "%Y-%m-%d %H:%M"), used_by=Users.get(Users.email == email).id, expires=expires)
+            "%Y-%m-%d %H:%M"), used_by=email, expires=expires)
 
 
 def SetupUser(token):

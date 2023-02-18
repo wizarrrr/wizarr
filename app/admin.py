@@ -268,7 +268,7 @@ def users_table():
     try:
         users = getUsers()
         for user in users:
-           expiring =  ExpiringInvitations.select().where(ExpiringInvitations.used_by == user.id)
+           expiring =  ExpiringInvitations.select().where(ExpiringInvitations.used_by == user.email)
            user.expiring = expiring
     except Exception as e:
         if "429" in str(e):
