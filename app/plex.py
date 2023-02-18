@@ -21,19 +21,20 @@ def plexoauth(id, code):
         logging.error("Failed to get token from Plex")
     if token:
         email = MyPlexAccount(token).email
-        try:
-            inviteUser(email, code)
-            if Users.select().where(Users.email == email).exists():
-                Users.delete().where(Users.email == email).execute()
-            user = Users.create(token=token, email=email,
-                                username=MyPlexAccount(token).username, code=code)
-            user.save()
-            threading.Thread(target=SetupUser, args=(token,)).start()
-        except Exception as e:
-            if "already exists" in str(e):
-                logging.error("User already exists")
-            else:
-                logging.error("Failed to invite user: " + str(e))
+        inviteUser(email, code)
+        if Users.select().where(Users.email == email).exists():
+            Users.delete().where(Users.email == email).execute()
+        user = Users.create(token=token, email=email,
+                            username=MyPlexAccount(token).username, code=code)
+        user.save()
+        threading.Thread(target=SetupUser, args=(token,)).start()
+       # try:
+
+        # except Exception as e:
+        #    if "already exists" in str(e):
+        #       logging.error("User already exists")
+        # else:
+        #     logging.error("Failed to invite user: " + str(e))
     return
 
 
@@ -55,11 +56,13 @@ def inviteUser(email, code):
     getUsers.cache_clear()
     sections = list(
         (Settings.get(Settings.key == "plex_libraries").value).split(", "))
+    print(sections)
     admin = PlexServer(Settings.get(Settings.key == "plex_url").value, Settings.get(
         Settings.key == "plex_token").value)
     if Invitations.select().where(Invitations.code == code, Invitations.specific_libraries != None):
         sections = list(
             (Invitations.get(Invitations.code == code).specific_libraries).split(", "))
+        print(sections)
     admin.myPlexAccount().inviteFriend(user=email, server=admin, sections=sections)
     logging.info("Invited " + email + " to Plex Server")
     if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
@@ -98,6 +101,7 @@ def optOutOnlineSources(token):
         source.optOut()
     return
 
+
 @app.route('/scan', methods=["POST"])
 def scan():
     plex_url = request.args.get('plex_url')
@@ -114,6 +118,7 @@ def scan():
         libraries.append(library.title)
     return jsonify(libraries)
 
+
 @app.route('/scan-specific', methods=["POST"])
 def scan_specific():
     plex_url = Settings.get(Settings.key == "plex_url").value
@@ -129,6 +134,7 @@ def scan_specific():
     for library in libraries_raw:
         libraries.append(library.title)
     return jsonify(libraries)
+
 
 @scheduler.task('interval', id='checkExpiring', minutes=15, misfire_grace_time=900)
 def checkExpiring():

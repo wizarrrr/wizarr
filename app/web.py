@@ -93,7 +93,7 @@ def invite():
         expires = None
         unlimited = 0
         duration = None
-        specific_libraries = []
+        specific_libraries = None
         if request.form.get("expires") == "day":
             expires = (datetime.datetime.now() +
                        datetime.timedelta(days=1)).strftime("%Y-%m-%d %H:%M")
@@ -110,15 +110,15 @@ def invite():
         if request.form.get("duration"):
             duration = request.form.get("duration")
         if int(request.form.get("library_count")) > 0:
+            specific_libraries = []
             library_count = int(request.form.get("library_count"))
-            print("Library Count: " + str(library_count))
             for library in range(library_count+1):
 
                 if request.form.get("plex_library_" + str(library)):
                     specific_libraries.append(request.form.get(
                         "plex_library_" + str(library)))
             if not specific_libraries:
-                specific_libraries = []
+                specific_libraries = None
             else:
                 specific_libraries = ', '.join(specific_libraries)
         Invitations.create(code=code, used=False, created=datetime.datetime.now(

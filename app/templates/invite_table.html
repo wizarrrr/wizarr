@@ -57,14 +57,8 @@
             </td>
             {% endif %}
             {% if invite.specific_libraries %}
-            {% if invite.specific_libraries == "[]" %}
-
-            <td class="py-5 px-6 font-medium">{{ _("Default") }}</td>
-            {% endif %}
-            {% if invite.specific_libraries != "[]" %}
 
             <td class="py-5 px-6 font-medium">{{ invite.specific_libraries }}</td>
-            {% endif %}
             {% endif %}
 
             {% if not invite.specific_libraries %}
