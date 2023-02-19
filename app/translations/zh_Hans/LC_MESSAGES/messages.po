@@ -8,373 +8,390 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-17 14:03+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-02-19 17:52+0000\n"
+"Last-Translator: 江海炎 <jiang948502378@gmail.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"wizarr/app/zh_Hans/>\n"
 "Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.16-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:45
 msgid "Passwords do not match."
-msgstr ""
+msgstr "密码不匹配。"
 
 #: app/admin.py:48
 msgid "Username must be between 3 and 15 characters."
-msgstr ""
+msgstr "用户名必须在3到15个字符之间。"
 
 #: app/admin.py:51
 msgid "Password must be between 3 and 40 characters."
-msgstr ""
+msgstr "密码必须在3到40个字符之间。"
 
 #: app/admin.py:80
 msgid "You must select at least one library."
-msgstr ""
+msgstr "您必须至少选择一个库。"
 
 #: app/admin.py:153
 msgid "It is likely that your token does not work."
-msgstr ""
+msgstr "您的令牌很可能不起作用。"
 
 #: app/admin.py:155
 msgid "Unable to connect to your Plex server. See Logs for more information."
-msgstr ""
+msgstr "无法连接到Plex服务器。有关详细信息，请参阅日志。"
 
 #: app/admin.py:217 app/admin.py:221
 msgid "Invalid Username or Password"
-msgstr ""
+msgstr "用户名或密码错误"
 
 #: app/templates/401.html:20
 msgid "Permission denied."
-msgstr ""
+msgstr "权限不足。"
 
 #: app/templates/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr ""
+msgstr "你试图做一些你不应该做的事情。。。"
 
 #: app/templates/404.html:19
 msgid "Something's missing."
-msgstr ""
+msgstr "有些东西不见了。"
 
 #: app/templates/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
+msgstr "抱歉，我们找不到该页面。它似乎不存在！"
 
 #: app/templates/500.html:19
 msgid "Internal Server Error."
-msgstr ""
+msgstr "内部服务器错误。"
 
 #: app/templates/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr ""
+msgstr " 出了点问题。请稍后再试。"
 
 #: app/templates/accept.html:4
 msgid "Accept Invitation"
-msgstr ""
+msgstr "接受邀请"
 
 #: app/templates/accept.html:11
 msgid "Accept our invitation"
-msgstr ""
+msgstr "接受我们的邀请"
 
 #: app/templates/accept.html:15
 msgid "We have sent an invitation to your Plex Account! Almost there!"
-msgstr ""
+msgstr "我们已向您的Plex帐户发出邀请！邮件快到了！"
 
 #: app/templates/accept.html:17
 msgid ""
 "Click the button below to be taken to Plex, here you will see an "
 "invitation from us."
-msgstr ""
+msgstr "点击下面的按钮前往Plex，在这里您将看到我们的邀请。"
 
 #: app/templates/accept.html:23
 msgid "Accept"
-msgstr ""
+msgstr "接受"
 
 #: app/templates/accept.html:31
 msgid "Next"
-msgstr ""
+msgstr "下一个"
 
 #: app/templates/admin-nav.html:13
 msgid "Home"
-msgstr ""
+msgstr "主页"
 
 #: app/templates/admin-nav.html:16
 msgid "Invitations"
-msgstr ""
+msgstr "邀请"
 
 #: app/templates/admin-nav.html:19
 msgid "Users"
-msgstr ""
+msgstr "用户"
 
 #: app/templates/admin-nav.html:22
 msgid "Settings"
-msgstr ""
+msgstr "设置"
 
 #: app/templates/invite.html:5 app/templates/invites.html:5
 #: app/templates/users.html:5
 msgid "Invite User"
-msgstr ""
+msgstr "邀请用户"
 
 #: app/templates/invite.html:36 app/templates/invite.html:65
 msgid "Attention!"
-msgstr ""
+msgstr "注意！"
 
 #: app/templates/invite.html:37
 msgid "Update available. Click here."
-msgstr ""
+msgstr "更新可用。请单击此处。"
 
 #: app/templates/invite.html:53
 msgid "Quick Invite"
-msgstr ""
+msgstr "快速邀请"
 
 #: app/templates/invite.html:59
 msgid "Invite user"
-msgstr ""
+msgstr "邀请用户"
 
 #: app/templates/invite.html:65
 msgid ""
 "Environment Variables are being deprecated and replaced by a secure sign-"
 "up. Please visit "
-msgstr ""
+msgstr "环境变量已被弃用，取而代之的是安全注册。请访问 "
 
 #: app/templates/invite.html:66
 msgid "/settings. See Repo for more info"
-msgstr ""
+msgstr "/设置。有关更多信息，请参阅Repo"
 
 #: app/templates/invite.html:73
 msgid "Invite Code String"
-msgstr ""
+msgstr "邀请代码"
 
 #: app/templates/invite.html:74
 msgid "(optional)"
-msgstr ""
+msgstr "（可选）"
 
 #: app/templates/invite.html:81
 msgid "Expiration"
-msgstr ""
+msgstr "到期"
 
 #: app/templates/invite.html:84
 msgid "1 day"
-msgstr ""
+msgstr "1天"
 
 #: app/templates/invite.html:85
 msgid "1 week"
-msgstr ""
+msgstr "1个星期"
 
 #: app/templates/invite.html:86
 msgid "1 month"
-msgstr ""
+msgstr "1个月"
 
 #: app/templates/invite.html:87
 msgid "Never"
-msgstr ""
+msgstr "从不"
 
 #: app/templates/invite.html:94
 msgid "Unlimited Usages"
-msgstr ""
+msgstr "无限制使用"
 
 #: app/templates/invite.html:97
 msgid "Create Invitation"
-msgstr ""
+msgstr "创建邀请"
 
 #: app/templates/invite.html:103
 msgid "Successfully generated an Invitation!"
-msgstr ""
+msgstr "已成功生成邀请！"
 
 #: app/templates/invite.html:108
 msgid "Great!"
-msgstr ""
+msgstr "卧槽太jb牛逼了！"
 
 #: app/templates/invite.html:108
 msgid "Link has been copied to clipboard!"
-msgstr ""
+msgstr "链接已复制到剪贴板！"
 
 #: app/templates/invite.html:116
 msgid "Back"
-msgstr ""
+msgstr "返回"
 
 #: app/templates/invite.html:121
 msgid "Share"
-msgstr ""
+msgstr "分享"
 
 #: app/templates/invite_table.html:4 app/templates/join.html:42
 #: app/templates/join.html:51 app/templates/user-plex-login.html:27
 #: app/templates/user-plex-login.html:37
 msgid "Invite Code"
-msgstr ""
+msgstr "邀请代码"
 
 #: app/templates/invite_table.html:5
 msgid "Used"
-msgstr ""
+msgstr "已使用"
 
 #: app/templates/invite_table.html:6
 msgid "Created"
-msgstr ""
+msgstr "创建"
 
 #: app/templates/invite_table.html:7
 msgid "Expires"
-msgstr ""
+msgstr "到期"
 
 #: app/templates/invite_table.html:8
 msgid "Unlimited"
-msgstr ""
+msgstr "无限制"
 
 #: app/templates/join.html:12
 msgid "Great! Now, let's get you invited!"
-msgstr ""
+msgstr "太棒了现在，让我们邀请你！"
 
 #: app/templates/join.html:18 app/templates/user-plex-login.html:21
 msgid "Join the Plex Server"
-msgstr ""
+msgstr "加入Plex服务器"
 
 #: app/templates/join.html:24 app/templates/join.html:34
 msgid "Your Plex email"
-msgstr ""
+msgstr "您的Plex邮件"
 
 #: app/templates/join.html:28 app/templates/join.html:55
 #: app/templates/user-plex-login.html:42
 msgid "Oops!"
-msgstr ""
+msgstr "啊噢！"
 
 #: app/templates/join.html:60 app/templates/user-plex-login.html:49
 msgid "Join"
-msgstr ""
+msgstr "加入"
 
 #: app/templates/join.html:62
 msgid "Don't have a Plex account, yet?"
-msgstr ""
+msgstr "还没有Plex账户是吗？"
 
 #: app/templates/join.html:63
 msgid "Get one here."
-msgstr ""
+msgstr "在这里申请一个。"
 
 #: app/templates/login.html:18
 msgid "Login"
-msgstr ""
+msgstr "登录"
 
 #: app/templates/login.html:23 app/templates/register_admin.html:24
 msgid "Username"
-msgstr ""
+msgstr "用户名"
 
 #: app/templates/login.html:29 app/templates/register_admin.html:30
 msgid "Password"
-msgstr ""
+msgstr "密码"
 
 #: app/templates/login.html:41
 msgid "Remember me"
-msgstr ""
+msgstr "记住我"
 
 #: app/templates/login.html:46
 msgid "Sign in"
-msgstr ""
+msgstr "登录"
 
 #: app/templates/register_admin.html:18 app/templates/verify_plex.html:18
 msgid "Setup Wizarr"
-msgstr ""
+msgstr "设置Wizarr"
 
 #: app/templates/register_admin.html:36
 msgid "Confirm password"
-msgstr ""
+msgstr "确认密码"
 
 #: app/templates/register_admin.html:42
 msgid "Create an account"
-msgstr ""
+msgstr "创建一个账号"
 
 #: app/templates/settings.html:20
 msgid "Change Server Settings"
-msgstr ""
+msgstr "更改服务器设置"
 
 #: app/templates/settings.html:25
 msgid ""
 "Plex Display\n"
 "              Name"
 msgstr ""
+"Plex 显示\n"
+"              名字"
 
 #: app/templates/settings.html:32 app/templates/verify_plex.html:29
 msgid "Plex URL"
-msgstr ""
+msgstr "Plex 网址"
 
 #: app/templates/settings.html:39
 msgid ""
 "Plex\n"
 "              Token"
 msgstr ""
+"Plex\n"
+"              令牌"
 
 #: app/templates/settings.html:49
 msgid ""
 "Plex\n"
 "              Libraries"
 msgstr ""
+"Plex\n"
+"              媒体库"
 
 #: app/templates/settings.html:52 app/templates/verify_plex.html:44
 msgid "Scan For Libraries"
-msgstr ""
+msgstr "扫描库"
 
 #: app/templates/settings.html:59
 msgid ""
 "Request\n"
 "              instance (Ombi, Overseerr...)"
 msgstr ""
+"请求\n"
+"              实例 (Ombi, Overseerr...)"
 
 #: app/templates/settings.html:67
 msgid ""
 "Discord\n"
 "              Server ID"
 msgstr ""
+"Discord\n"
+"              服务ID"
 
 #: app/templates/settings.html:74
 msgid ""
 "Custom\n"
 "              HTML"
 msgstr ""
+"自定义\n"
+"              HTML"
 
 #: app/templates/settings.html:82 app/templates/verify_plex.html:63
 msgid "Verify and Confirm"
-msgstr ""
+msgstr "验证和确认"
 
 #: app/templates/user-plex-login.html:12
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr ""
+msgstr "您已经被邀请加入 %(name)s 服务器！"
 
 #: app/templates/user_table.html:5
 msgid "User"
-msgstr ""
+msgstr "用户"
 
 #: app/templates/user_table.html:6
 msgid "Email"
-msgstr ""
+msgstr "邮件"
 
 #: app/templates/user_table.html:7
 msgid "Home User"
-msgstr ""
+msgstr "家庭用户"
 
 #: app/templates/verify_plex.html:23
 msgid "Plex Display Name"
-msgstr ""
+msgstr "Plex显示名称"
 
 #: app/templates/verify_plex.html:36
 msgid "Plex Token"
-msgstr ""
+msgstr "Plex令牌"
 
 #: app/templates/verify_plex.html:42
 msgid "Plex Libraries"
-msgstr ""
+msgstr "Plex媒体库"
 
 #: app/templates/verify_plex.html:50
 msgid "Request instance (Ombi, Overseerr...)"
-msgstr ""
+msgstr "请求实例（Ombi、Overserr…）"
 
 #: app/templates/verify_plex.html:56
 msgid "Discord Server ID"
-msgstr ""
+msgstr "Discord服务器ID"
 
 #: app/templates/wizard/download.html:3
 msgid ""
 "Join & Download Plex\n"
 "            for this device"
 msgstr ""
+"加入并下载Plex\n"
+"            用于此设备"
 
 #: app/templates/wizard/download.html:8
 msgid ""
@@ -382,18 +399,20 @@ msgid ""
 "make sure you know how to use\n"
 "        it with Plex."
 msgstr ""
+"好消息！您现在可以访问我们服务器的媒体列表。 让我们确保您知道如何在plex上\n"
+"        使用它。"
 
 #: app/templates/wizard/download.html:11
 msgid "Planning on watching Movies on this device? Download Plex for this device."
-msgstr ""
+msgstr "计划在此设备上观看电影？下载适用于此设备的Plex。"
 
 #: app/templates/wizard/download.html:14
 msgid "Download"
-msgstr ""
+msgstr "下载"
 
 #: app/templates/wizard/requests.html:4
 msgid "Plex Requests"
-msgstr ""
+msgstr "Plex请求"
 
 #: app/templates/wizard/requests.html:9
 msgid ""
@@ -403,28 +422,31 @@ msgid ""
 "system that can automatically search for the\n"
 "    media you're looking for. "
 msgstr ""
+"我们很高兴为您提供种类丰富的媒体库。\n"
+"    如果没找到您想要看的电影或者电视剧，别担心！我们有一个全自动求片系统\n"
+"    可以搜寻和下载您正在寻找的资源。 "
 
 #: app/templates/wizard/requests.html:23
 msgid "Request any available Movie or TV Show"
-msgstr ""
+msgstr "请求任何可用的电影或电视剧"
 
 #: app/templates/wizard/requests.html:33
 msgid ""
 "Requested media will be automatically downloaded and added to the library"
 " (if available)"
-msgstr ""
+msgstr "请求的媒体将自动下载并添加到库中（如果有资源的话）"
 
 #: app/templates/wizard/requests.html:43
 msgid "If enabled, receive notifications"
-msgstr ""
+msgstr "如果成功的话，则接收通知"
 
 #: app/templates/wizard/requests.html:50
 msgid "Check it Out"
-msgstr ""
+msgstr "检查"
 
 #: app/templates/wizard/tips.html:4
 msgid "Eh, So, What is Plex exactly?"
-msgstr ""
+msgstr "呃，那么，Plex到底是什么？"
 
 #: app/templates/wizard/tips.html:7
 msgid ""
@@ -435,10 +457,14 @@ msgid ""
 "    access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
 msgstr ""
+"好问题！Plex是一款允许个人与他人共享媒体库的软件。\n"
+"    如果您收到邀请，这意味着有人想与您共享他们的库。\n"
+"    使用Plex，您可以访问存储在服务器上的所有电影、电视节目、音乐和照片。享受"
+"它吧！"
 
 #: app/templates/wizard/tips.html:12
 msgid "Right, so how do I watch stuff?"
-msgstr ""
+msgstr "对，那我该怎么使用它来观看？"
 
 #: app/templates/wizard/tips.html:15
 msgid ""
@@ -448,10 +474,14 @@ msgid ""
 "your device, sign in with your account, and\n"
 "    you're ready to start streaming your media. It's that easy!"
 msgstr ""
+"这再简单不过了！Plex可用于各种设备\n"
+"    包括笔记本电脑、平板电脑、智能手机和电视。您需要做的就是\n"
+"    在您的设备上下载Plex应用程序，使用您的帐户登录，然后你就已经可以观看流媒"
+"体了。就是这么简单！"
 
 #: app/templates/wizard/tips.html:20
 msgid "How can I make sure to have the best experience?"
-msgstr ""
+msgstr "我如何才能确保获得最佳体验？"
 
 #: app/templates/wizard/tips.html:23
 msgid ""
@@ -460,25 +490,30 @@ msgid ""
 "    sharing with you - they also, by default, play content at a lower "
 "quality. "
 msgstr ""
+"因为Plex是一项免费服务，但是在默认情况下\n"
+"    "
+"他们在你的朋友现在与你分享的精彩内容之前会以较低的质量播放并推广自己的内容。 "
 
 #: app/templates/wizard/tips.html:26
 msgid "No need to worry though, this can be easily resolved"
-msgstr ""
+msgstr "不必担心，这很容易解决"
 
 #: app/templates/wizard/tips.html:26
 msgid ""
 "We highly\n"
 "      recommend you to go through those steps first!"
 msgstr ""
+"我们强烈建议\n"
+"      您先完成这些步骤！"
 
 #: app/templates/wizard/tips.html:33
 msgid "Configure Plex in your browser"
-msgstr ""
+msgstr "在浏览器中配置Plex"
 
 #: app/templates/wizard/tips.html:58
 msgid "Configure Plex's app on your computer, mobile device or TV"
-msgstr ""
+msgstr "在您的计算机、移动设备或电视上配置Plex的应用程序"
 
 #: app/templates/wizard/tips.html:86
 msgid "Open Plex"
-msgstr ""
+msgstr "打开Plex"
