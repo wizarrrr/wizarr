@@ -1,3 +1,4 @@
+from app import admin, web, plex, tasks
 from flask import Flask, request, session
 from peewee import *
 from playhouse.migrate import *
@@ -19,25 +20,28 @@ Session(app)
 
 VERSION = "1.5.0"
 
+
 def get_locale():
-      if os.getenv("FORCE_LANGUAGE"):
-         return os.getenv("FORCE_LANGUAGE")
-      elif request.args.get('lang'):
-         session['lang'] = request.args.get('lang')
-         return session.get('lang', 'en')
-      else:
-         return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
+    if os.getenv("FORCE_LANGUAGE"):
+        return os.getenv("FORCE_LANGUAGE")
+    elif request.args.get('lang'):
+        session['lang'] = request.args.get('lang')
+        return session.get('lang', 'en')
+    else:
+        return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
+
 
 # Translation stuff
 base_dir = os.path.abspath(os.path.dirname(__file__))
 app.config["LANGUAGES"] = {'en': 'english',
-                           'de': 'german',
+                           # 'de': 'german',
+                           'zh': 'chinese',
                            'fr': 'french',
-                           'sv': 'swedish',
-                           'pt': 'portuguese',
-                           'nl': 'dutch',
-                           'pt_BR': 'portuguese',
-                           'lt': 'lithuanian',
+                           # 'sv': 'swedish',
+                           # 'pt': 'portuguese',
+                           # 'nl': 'dutch',
+                           # 'pt_BR': 'portuguese',
+                           # 'lt': 'lithuanian',
                            # 'nb_NO': 'norwegian',
                            # 'es': 'spanish',
                            # 'it': 'italian',
@@ -47,7 +51,7 @@ app.config["BABEL_DEFAULT_LOCALE"] = "en"
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = ('./translations')
 
 
-#Translation
+# Translation
 babel = Babel(app, locale_selector=get_locale)
 
 
@@ -73,9 +77,9 @@ class Invitations(BaseModel):
     used_at = DateTimeField(null=True)
     created = DateTimeField()
     used_by = CharField(null=True)
-    expires = DateTimeField(null=True) #How long the invite is valid for
+    expires = DateTimeField(null=True)  # How long the invite is valid for
     unlimited = BooleanField(null=True)
-    duration = CharField(null=True) #How long the membership is kept for
+    duration = CharField(null=True)  # How long the membership is kept for
     specific_libraries = CharField(null=True)
 
 
@@ -96,20 +100,19 @@ class Oauth(BaseModel):
     id = IntegerField(primary_key=True)
     url = CharField(null=True)
 
+
 class ExpiringInvitations(BaseModel):
     code = CharField()
     created = DateTimeField()
     used_by = CharField()
     expires = DateTimeField(null=True)
 
-# Below is Database Initialisation in case of new instance
-database.create_tables([Invitations, Settings, Users, Oauth, ExpiringInvitations])
 
+# Below is Database Initialisation in case of new instance
+database.create_tables(
+    [Invitations, Settings, Users, Oauth, ExpiringInvitations])
 
 
 if __name__ == "__main__":
     web.check_plex_credentials()
     app.run()
-
-
-from app import admin, web, plex, tasks
