@@ -281,4 +281,5 @@ def users_table():
             abort(429)
         else:
             logging.error("Unable to get users: " + str(e))
+            abort(500)
     return render_template("user_table.html", users=users, expiring=expiring)

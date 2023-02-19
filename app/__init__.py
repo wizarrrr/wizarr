@@ -105,39 +105,6 @@ class ExpiringInvitations(BaseModel):
 # Below is Database Initialisation in case of new instance
 database.create_tables([Invitations, Settings, Users, Oauth, ExpiringInvitations])
 
-# Migrations 1
-try:
-    migrator = SqliteMigrator(database)
-    duration = CharField(null=True) #Add Duration after update
-    migrate(
-        migrator.add_column('Invitations', 'duration', duration)
-    )
-except:
-    pass
-
-
-# Migrations 2
-try:
-    migrator = SqliteMigrator(database)
-    specific_libraries = CharField(null=True) #Add Duration after update
-    migrate(
-        migrator.add_column('Invitations', 'specific_libraries', specific_libraries)
-    )
-except:
-    pass
-
-# Migrations 2
-try:
-
-    if ExpiringInvitations.used_by == IntegerField():
-        migrator = SqliteMigrator(database)
-        used_by = CharField(null=True) #Add Duration after update
-        migrate(
-            migrator.drop_column('Invitations', 'used_by'),
-            migrator.add_column('Invitations', 'used_by', used_by)
-        )
-except:
-    pass
 
 
 if __name__ == "__main__":
@@ -145,4 +112,4 @@ if __name__ == "__main__":
     app.run()
 
 
-from app import admin, web, plex
+from app import admin, web, plex, tasks
