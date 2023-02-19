@@ -18,10 +18,26 @@
         <div hx-get="/users/table" hx-trigger="load" hx-target="#user_table" hx-swap="outerHTML"
             class="p-4 mb-6 bg-white shadow-lg rounded-lg overflow-x-auto dark:bg-gray-800 dark:border-gray-700">
 
-            <div id="user_table"></div>
+            <div id="user_table">
+                <p id="error_message" class="hidden text-center dark:text-white"></p>
+            </div>
 
         </div>
 
     </div>
 </section>
+<script>
+    document.body.addEventListener("htmx:responseError", (event) => {
+        // handle the error here
+        if (event.detail.xhr.status == 429) {
+            document.getElementById("error_message").classList.remove("hidden");
+            document.getElementById("error_message").innerHTML = "Plex API request limit reached. Please try again later.";
+        }
+        else {
+            document.getElementById("error_message").classList.remove("hidden");
+            document.getElementById("error_message").innerHTML = "An error occurred. Please try again later.";
+        }
+    });
+
+</script>
 {% endblock %}

@@ -245,7 +245,7 @@ def table(delete_code):
 @login_required
 def users():
 
-    return render_template("users.html", users=users)
+    return render_template("users.html")
 
 
 @app.route('/users/table')
@@ -278,7 +278,7 @@ def users_table():
     except Exception as e:
         if "429" in str(e):
             logging.error("Too many requests to Plex API")
+            abort(429)
         else:
             logging.error("Unable to get users: " + str(e))
-
     return render_template("user_table.html", users=users, expiring=expiring)
