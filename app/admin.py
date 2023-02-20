@@ -234,7 +234,7 @@ def table(delete_code):
     invitations = Invitations.select().order_by(Invitations.created.desc())
     format = "%Y-%m-%d %H:%M"
     for invite in invitations:
-        if invite.expires and datetime.datetime.strptime(invite.expires, format) <= datetime.datetime.now():
+        if invite.expires and (invite.expires <= datetime.datetime.now()):
             invite.expired = True
         else:
             invite.expired = False
