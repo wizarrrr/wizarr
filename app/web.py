@@ -83,42 +83,53 @@ def invite():
     if request.method == "POST":
         try:
             code = request.form.get("code").upper()
-            if len(code) != 6:
+            if not len(code) == 6:
                 return abort(401)
         except:
             code = ''.join(secrets.choice(
                 string.ascii_uppercase + string.digits) for _ in range(6))
         if Invitations.get_or_none(code=code):
             return abort(401)  # Already Exists
+        expires = None
+        unlimited = 0
+        duration = None
+        specific_libraries = None
+        if request.form.get("expires") == "day":
+            expires = (datetime.datetime.now() +
+                       datetime.timedelta(days=1)).strftime("%Y-%m-%d %H:%M")
+        if request.form.get("expires") == "week":
+            expires = (datetime.datetime.now() +
+                       datetime.timedelta(days=7)).strftime("%Y-%m-%d %H:%M")
+        if request.form.get("expires") == "month":
+            expires = (datetime.datetime.now() +
+                       datetime.timedelta(days=30)).strftime("%Y-%m-%d %H:%M")
+        if request.form.get("expires") == "never":
+            expires = None
+        if request.form.get("unlimited"):
+            unlimited = 1
+        if request.form.get("duration"):
+            duration = request.form.get("duration")
+        if int(request.form.get("library_count")) > 0:
+            specific_libraries = []
+            library_count = int(request.form.get("library_count"))
+            for library in range(library_count+1):
 
-        expires_map = {
-            "day": (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d %H:%M"),
-            "week": (datetime.datetime.now() + datetime.timedelta(days=7)).strftime("%Y-%m-%d %H:%M"),
-            "month": (datetime.datetime.now() + datetime.timedelta(days=30)).strftime("%Y-%m-%d %H:%M"),
-            "never": None
-        }
-        expires = expires_map.get(request.form.get("expires"))
-
-        unlimited = 1 if request.form.get("unlimited") else 0
-        duration = request.form.get("duration")
-
-        specific_libraries = [request.form.get("plex_library_" + str(library))
-                              for library in range(int(request.form.get("library_count")) + 1)
-                              if request.form.get("plex_library_" + str(library))]
-        specific_libraries = ', '.join(
-            specific_libraries) if specific_libraries else None
-
-        Invitations.insert(code=code, used=False, created=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
-                           expires=expires, unlimited=unlimited,
-                           duration=duration, specific_libraries=specific_libraries).execute()
+                if request.form.get("plex_library_" + str(library)):
+                    specific_libraries.append(request.form.get(
+                        "plex_library_" + str(library)))
+            if not specific_libraries:
+                specific_libraries = None
+            else:
+                specific_libraries = ', '.join(specific_libraries)
+        Invitations.create(code=code, used=False, created=datetime.datetime.now(
+        ).strftime("%Y-%m-%d %H:%M"), expires=expires, unlimited=unlimited, duration=duration, specific_libraries=specific_libraries)
         link = os.getenv("APP_URL") + "/j/" + code
-
-        return render_template("invite.html", link=link, url=os.getenv("APP_URL"))
+        invitations = Invitations.select().order_by(Invitations.created.desc())
+        return render_template("invite.html", link=link, invitations=invitations, url=os.getenv("APP_URL"))
     else:
-        invitations = Invitations.select().order_by(
-            Invitations.created.desc()).limit(10)
-        need_update = needUpdate()
-        return render_template("invite.html", invitations=invitations, update_msg=update_msg, need_update=need_update, url=os.getenv("APP_URL"))
+        invitations = Invitations.select().order_by(Invitations.created.desc())
+        needUpdate()
+        return render_template("invite.html", invitations=invitations, update_msg=update_msg, needUpdate=needUpdate(), url=os.getenv("APP_URL"))
 
 
 @app.route('/setup', methods=["GET"])
