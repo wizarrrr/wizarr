@@ -229,15 +229,17 @@ def invites():
 @login_required
 def table(delete_code):
     if delete_code != "None":
-
         Invitations.delete().where(Invitations.code == delete_code).execute()
     invitations = Invitations.select().order_by(Invitations.created.desc())
-    format = "%Y-%m-%d %H:%M"
     for invite in invitations:
-        if invite.expires and datetime.datetime.strptime(invite.expires, format) <= datetime.datetime.now():
+        if invite.expires and type(invite.expires) == str:
+            invite.expires = datetime.datetime.strptime(
+                invite.expires, "%Y-%m-%d %H:%M")
+        if invite.expires and invite.expires.strftime("%Y-%m-%d %H:%M") < datetime.datetime.now().strftime("%Y-%m-%d %H:%M"):
             invite.expired = True
         else:
             invite.expired = False
+
     return render_template("invite_table.html", invitations=invitations, rightnow=datetime.datetime.now())
 
 

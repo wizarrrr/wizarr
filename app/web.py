@@ -96,13 +96,13 @@ def invite():
         specific_libraries = None
         if request.form.get("expires") == "day":
             expires = (datetime.datetime.now() +
-                       datetime.timedelta(days=1)).strftime("%Y-%m-%d %H:%M")
+                       datetime.timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
         if request.form.get("expires") == "week":
             expires = (datetime.datetime.now() +
-                       datetime.timedelta(days=7)).strftime("%Y-%m-%d %H:%M")
+                       datetime.timedelta(days=7)).strftime("%Y-%m-%d %H:%M:%S")
         if request.form.get("expires") == "month":
             expires = (datetime.datetime.now() +
-                       datetime.timedelta(days=30)).strftime("%Y-%m-%d %H:%M")
+                       datetime.timedelta(days=30)).strftime("%Y-%m-%d %H:%M:%S")
         if request.form.get("expires") == "never":
             expires = None
         if request.form.get("unlimited"):

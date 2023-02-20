@@ -1,5 +1,6 @@
 from app import *
 import logging
+import datetime
 
 
 # Migrations 1
@@ -36,6 +37,16 @@ try:
         )
 except:
     pass
+
+# For all invitations, if the expires is not a string, make it a string
+for invitation in Invitations.select():
+    if invitation.expires == "None":
+        invitation.expires = None
+        invitation.save()
+    elif type(invitation.expires) == str:
+        invitation.expires = datetime.datetime.strptime(
+            invitation.expires, "%Y-%m-%d %H:%M")
+        invitation.save()
 
 
 if not os.getenv("APP_URL"):
