@@ -8,373 +8,395 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-17 14:03+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-02-20 20:07+0000\n"
+"Last-Translator: Bernat <btqqryrzo@mozmail.com>\n"
+"Language-Team: Catalan <https://hosted.weblate.org/projects/wizarr/app/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.16-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:45
 msgid "Passwords do not match."
-msgstr ""
+msgstr "Les contrassenyes no coincideixen."
 
 #: app/admin.py:48
 msgid "Username must be between 3 and 15 characters."
-msgstr ""
+msgstr "El nom d'usuari ha de tenir entre 3 i 15 caràcters."
 
 #: app/admin.py:51
 msgid "Password must be between 3 and 40 characters."
-msgstr ""
+msgstr "La contrassenya ha de tenir entre 3 i 40 caràcters."
 
 #: app/admin.py:80
 msgid "You must select at least one library."
-msgstr ""
+msgstr "Has de seleccionar almenys una biblioteca."
 
 #: app/admin.py:153
 msgid "It is likely that your token does not work."
-msgstr ""
+msgstr "És probable que el teu token no funcioni."
 
 #: app/admin.py:155
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
+"Impossible conectar-se al teu servidor de Plex. Mira els Logs per a més "
+"informació."
 
 #: app/admin.py:217 app/admin.py:221
 msgid "Invalid Username or Password"
-msgstr ""
+msgstr "Nom d'usuari o contrassenya incorrecte"
 
 #: app/templates/401.html:20
 msgid "Permission denied."
-msgstr ""
+msgstr "Permís denegat."
 
 #: app/templates/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr ""
+msgstr "Estàs intentant fer alguna cosa que no hauries de fer..."
 
 #: app/templates/404.html:19
 msgid "Something's missing."
-msgstr ""
+msgstr "Falta alguna cosa."
 
 #: app/templates/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
+msgstr "Ho sentim, no podem trobar aquesta pàgina. Sembla que no existeix!"
 
 #: app/templates/500.html:19
 msgid "Internal Server Error."
-msgstr ""
+msgstr "Error del servidor intern."
 
 #: app/templates/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr ""
+msgstr " Alguna cosa ha anat malament. Si us plau, intenta-ho més tard."
 
 #: app/templates/accept.html:4
 msgid "Accept Invitation"
-msgstr ""
+msgstr "Accepta la invitació"
 
 #: app/templates/accept.html:11
 msgid "Accept our invitation"
-msgstr ""
+msgstr "Accepta la nostra invitació"
 
 #: app/templates/accept.html:15
 msgid "We have sent an invitation to your Plex Account! Almost there!"
-msgstr ""
+msgstr "Hem enviat una invitació al teu compte de Plex! Ja gairebé estem!"
 
 #: app/templates/accept.html:17
 msgid ""
 "Click the button below to be taken to Plex, here you will see an "
 "invitation from us."
 msgstr ""
+"Fes clic al botó següent per ser portat a Plex, allà veuràs una invitació "
+"nostra."
 
 #: app/templates/accept.html:23
 msgid "Accept"
-msgstr ""
+msgstr "Acceptar"
 
 #: app/templates/accept.html:31
 msgid "Next"
-msgstr ""
+msgstr "Següent"
 
 #: app/templates/admin-nav.html:13
 msgid "Home"
-msgstr ""
+msgstr "Inici"
 
 #: app/templates/admin-nav.html:16
 msgid "Invitations"
-msgstr ""
+msgstr "Invitacions"
 
 #: app/templates/admin-nav.html:19
 msgid "Users"
-msgstr ""
+msgstr "Usuaris"
 
 #: app/templates/admin-nav.html:22
 msgid "Settings"
-msgstr ""
+msgstr "Configuració"
 
 #: app/templates/invite.html:5 app/templates/invites.html:5
 #: app/templates/users.html:5
 msgid "Invite User"
-msgstr ""
+msgstr "Convidar l'usuari"
 
 #: app/templates/invite.html:36 app/templates/invite.html:65
 msgid "Attention!"
-msgstr ""
+msgstr "Atenció!"
 
 #: app/templates/invite.html:37
 msgid "Update available. Click here."
-msgstr ""
+msgstr "Actualització disponible. Clica aquí."
 
 #: app/templates/invite.html:53
 msgid "Quick Invite"
-msgstr ""
+msgstr "Invitació ràpida"
 
 #: app/templates/invite.html:59
 msgid "Invite user"
-msgstr ""
+msgstr "Convidar l'usuari"
 
 #: app/templates/invite.html:65
 msgid ""
 "Environment Variables are being deprecated and replaced by a secure sign-"
 "up. Please visit "
 msgstr ""
+"Les Variables d'Entorn estan sent obsoletes i substituïdes per un registre "
+"segur. Si us plau, visiteu "
 
 #: app/templates/invite.html:66
 msgid "/settings. See Repo for more info"
-msgstr ""
+msgstr "/Configuració. Veure Repo per a més informació"
 
 #: app/templates/invite.html:73
 msgid "Invite Code String"
-msgstr ""
+msgstr "Convida cadena de codi"
 
 #: app/templates/invite.html:74
 msgid "(optional)"
-msgstr ""
+msgstr "(opcional)"
 
 #: app/templates/invite.html:81
 msgid "Expiration"
-msgstr ""
+msgstr "Expiració"
 
 #: app/templates/invite.html:84
 msgid "1 day"
-msgstr ""
+msgstr "1 dia"
 
 #: app/templates/invite.html:85
 msgid "1 week"
-msgstr ""
+msgstr "1 setmana"
 
 #: app/templates/invite.html:86
 msgid "1 month"
-msgstr ""
+msgstr "1 mes"
 
 #: app/templates/invite.html:87
 msgid "Never"
-msgstr ""
+msgstr "Mai"
 
 #: app/templates/invite.html:94
 msgid "Unlimited Usages"
-msgstr ""
+msgstr "Usos il·limitats"
 
 #: app/templates/invite.html:97
 msgid "Create Invitation"
-msgstr ""
+msgstr "Crear Invitació"
 
 #: app/templates/invite.html:103
 msgid "Successfully generated an Invitation!"
-msgstr ""
+msgstr "S'ha generat una invitació correctament!"
 
 #: app/templates/invite.html:108
 msgid "Great!"
-msgstr ""
+msgstr "Genial!"
 
 #: app/templates/invite.html:108
 msgid "Link has been copied to clipboard!"
-msgstr ""
+msgstr "L'enllaç s'ha copiat al porta-retalls!"
 
 #: app/templates/invite.html:116
 msgid "Back"
-msgstr ""
+msgstr "Enrere"
 
 #: app/templates/invite.html:121
 msgid "Share"
-msgstr ""
+msgstr "Compartir"
 
 #: app/templates/invite_table.html:4 app/templates/join.html:42
 #: app/templates/join.html:51 app/templates/user-plex-login.html:27
 #: app/templates/user-plex-login.html:37
 msgid "Invite Code"
-msgstr ""
+msgstr "Codi d'invitació"
 
 #: app/templates/invite_table.html:5
 msgid "Used"
-msgstr ""
+msgstr "Utilitzat"
 
 #: app/templates/invite_table.html:6
 msgid "Created"
-msgstr ""
+msgstr "Creat"
 
 #: app/templates/invite_table.html:7
 msgid "Expires"
-msgstr ""
+msgstr "Expira"
 
 #: app/templates/invite_table.html:8
 msgid "Unlimited"
-msgstr ""
+msgstr "Il·limitat"
 
 #: app/templates/join.html:12
 msgid "Great! Now, let's get you invited!"
-msgstr ""
+msgstr "Genial! Ara, anem a convidar-te!"
 
 #: app/templates/join.html:18 app/templates/user-plex-login.html:21
 msgid "Join the Plex Server"
-msgstr ""
+msgstr "Uneix-te al servidor de Plex"
 
 #: app/templates/join.html:24 app/templates/join.html:34
 msgid "Your Plex email"
-msgstr ""
+msgstr "El teu correu de Plex"
 
 #: app/templates/join.html:28 app/templates/join.html:55
 #: app/templates/user-plex-login.html:42
 msgid "Oops!"
-msgstr ""
+msgstr "Vaja!"
 
 #: app/templates/join.html:60 app/templates/user-plex-login.html:49
 msgid "Join"
-msgstr ""
+msgstr "Uneix-te"
 
 #: app/templates/join.html:62
 msgid "Don't have a Plex account, yet?"
-msgstr ""
+msgstr "Encara no tens un compte de Plex?"
 
 #: app/templates/join.html:63
 msgid "Get one here."
-msgstr ""
+msgstr "Fes-te un aquí."
 
 #: app/templates/login.html:18
 msgid "Login"
-msgstr ""
+msgstr "Iniciar sessió"
 
 #: app/templates/login.html:23 app/templates/register_admin.html:24
 msgid "Username"
-msgstr ""
+msgstr "Nom d'usuari"
 
 #: app/templates/login.html:29 app/templates/register_admin.html:30
 msgid "Password"
-msgstr ""
+msgstr "Contrassenya"
 
 #: app/templates/login.html:41
 msgid "Remember me"
-msgstr ""
+msgstr "Recorda'm"
 
 #: app/templates/login.html:46
 msgid "Sign in"
-msgstr ""
+msgstr "Registrar-se"
 
 #: app/templates/register_admin.html:18 app/templates/verify_plex.html:18
 msgid "Setup Wizarr"
-msgstr ""
+msgstr "Configurar Wizarr"
 
 #: app/templates/register_admin.html:36
 msgid "Confirm password"
-msgstr ""
+msgstr "Confirma la contrassenya"
 
 #: app/templates/register_admin.html:42
 msgid "Create an account"
-msgstr ""
+msgstr "Crea un compte"
 
 #: app/templates/settings.html:20
 msgid "Change Server Settings"
-msgstr ""
+msgstr "Canvia la configuració del servidor"
 
 #: app/templates/settings.html:25
 msgid ""
 "Plex Display\n"
 "              Name"
 msgstr ""
+"Nom públic\n"
+"de Plex"
 
 #: app/templates/settings.html:32 app/templates/verify_plex.html:29
 msgid "Plex URL"
-msgstr ""
+msgstr "URL de Plex"
 
 #: app/templates/settings.html:39
 msgid ""
 "Plex\n"
 "              Token"
 msgstr ""
+"Token\n"
+"de Plex"
 
 #: app/templates/settings.html:49
 msgid ""
 "Plex\n"
 "              Libraries"
 msgstr ""
+"Biblioteques\n"
+"de Plex"
 
 #: app/templates/settings.html:52 app/templates/verify_plex.html:44
 msgid "Scan For Libraries"
-msgstr ""
+msgstr "Busca biblioteques"
 
 #: app/templates/settings.html:59
 msgid ""
 "Request\n"
 "              instance (Ombi, Overseerr...)"
 msgstr ""
+"Sol·licita\n"
+"instància (Ombi, Overseerr, etc.)"
 
 #: app/templates/settings.html:67
 msgid ""
 "Discord\n"
 "              Server ID"
 msgstr ""
+"ID del servidor\n"
+"de Discord"
 
 #: app/templates/settings.html:74
 msgid ""
 "Custom\n"
 "              HTML"
 msgstr ""
+"HTML\n"
+"personalitzat"
 
 #: app/templates/settings.html:82 app/templates/verify_plex.html:63
 msgid "Verify and Confirm"
-msgstr ""
+msgstr "Verificar i Confirmar"
 
 #: app/templates/user-plex-login.html:12
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr ""
+msgstr "T'han convidat a unir-te al servidor %(name)s!"
 
 #: app/templates/user_table.html:5
 msgid "User"
-msgstr ""
+msgstr "Usuari"
 
 #: app/templates/user_table.html:6
 msgid "Email"
-msgstr ""
+msgstr "Correu electrònic"
 
 #: app/templates/user_table.html:7
 msgid "Home User"
-msgstr ""
+msgstr "Usuari local"
 
 #: app/templates/verify_plex.html:23
 msgid "Plex Display Name"
-msgstr ""
+msgstr "Nom públic de Plex"
 
 #: app/templates/verify_plex.html:36
 msgid "Plex Token"
-msgstr ""
+msgstr "Token de Plex"
 
 #: app/templates/verify_plex.html:42
 msgid "Plex Libraries"
-msgstr ""
+msgstr "Biblioteques de Plex"
 
 #: app/templates/verify_plex.html:50
 msgid "Request instance (Ombi, Overseerr...)"
-msgstr ""
+msgstr "Sol·licitud d'instància (Ombi, Overseerr, etc.)"
 
 #: app/templates/verify_plex.html:56
 msgid "Discord Server ID"
-msgstr ""
+msgstr "ID del servidor de Discord"
 
 #: app/templates/wizard/download.html:3
 msgid ""
 "Join & Download Plex\n"
 "            for this device"
 msgstr ""
+"Uneix-te i baixa Plex\n"
+"per a aquest dispositiu"
 
 #: app/templates/wizard/download.html:8
 msgid ""
@@ -382,18 +404,23 @@ msgid ""
 "make sure you know how to use\n"
 "        it with Plex."
 msgstr ""
+"Bones notícies! Ara tens accés a la col·lecció de mitjans del nostre "
+"servidor. Assegurem-nos que saps com\n"
+"utilitzar-la amb Plex."
 
 #: app/templates/wizard/download.html:11
 msgid "Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
+"Estàs pensant en veure pel·lícules en aquest dispositiu? Baixa Plex per a "
+"aquest dispositiu."
 
 #: app/templates/wizard/download.html:14
 msgid "Download"
-msgstr ""
+msgstr "Baixa"
 
 #: app/templates/wizard/requests.html:4
 msgid "Plex Requests"
-msgstr ""
+msgstr "Sol·licituds de Plex"
 
 #: app/templates/wizard/requests.html:9
 msgid ""
@@ -403,28 +430,35 @@ msgid ""
 "system that can automatically search for the\n"
 "    media you're looking for. "
 msgstr ""
+"Ens complau oferir-vos una àmplia selecció de mitjans per triar. Si teniu "
+"problemes per trobar\n"
+"alguna cosa que us agradi, no us preocupeu! Disposem d'un sistema de sol·"
+"licitud fàcil d'utilitzar que pot\n"
+"cercar automàticament els mitjans que busqueu. "
 
 #: app/templates/wizard/requests.html:23
 msgid "Request any available Movie or TV Show"
-msgstr ""
+msgstr "Sol·licita qualsevol pel·lícula o programa de televisió disponible"
 
 #: app/templates/wizard/requests.html:33
 msgid ""
 "Requested media will be automatically downloaded and added to the library"
 " (if available)"
 msgstr ""
+"Els mitjans sol·licitats es baixaran automàticament i s'afegiran a la "
+"biblioteca (si estan disponibles)"
 
 #: app/templates/wizard/requests.html:43
 msgid "If enabled, receive notifications"
-msgstr ""
+msgstr "Si està activat, rep notificacions"
 
 #: app/templates/wizard/requests.html:50
 msgid "Check it Out"
-msgstr ""
+msgstr "Comprova-ho"
 
 #: app/templates/wizard/tips.html:4
 msgid "Eh, So, What is Plex exactly?"
-msgstr ""
+msgstr "Eh, doncs, què és exactament Plex?"
 
 #: app/templates/wizard/tips.html:7
 msgid ""
@@ -435,10 +469,16 @@ msgid ""
 "    access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
 msgstr ""
+"Gran pregunta! Plex és un programari que permet a les persones compartir les "
+"seves col·leccions multimèdia amb altres persones.\n"
+"Si has rebut aquesta invitació, vol dir que algú vol compartir la seva "
+"biblioteca amb tu. Amb Plex, tindràs accés a totes\n"
+"les pel·lícules, programes de televisió, música i fotos que s'emmagatzemen "
+"al seu servidor. Gaudeix!"
 
 #: app/templates/wizard/tips.html:12
 msgid "Right, so how do I watch stuff?"
-msgstr ""
+msgstr "D'acord, llavors, com puc veure coses?"
 
 #: app/templates/wizard/tips.html:15
 msgid ""
@@ -448,10 +488,16 @@ msgid ""
 "your device, sign in with your account, and\n"
 "    you're ready to start streaming your media. It's that easy!"
 msgstr ""
+"No podria ser més senzill! Plex està disponible en una gran varietat de "
+"dispositius, com ara ordinadors portàtils,\n"
+"tauletes, telèfons intel·ligents i televisors. Tot el que has de fer és "
+"descarregar l'aplicació Plex al vostre dispositiu, iniciar\n"
+"sessió amb el vostre compte i ja estaràs preparat per començar a veure els "
+"teus mitjans. Així de fàcil!"
 
 #: app/templates/wizard/tips.html:20
 msgid "How can I make sure to have the best experience?"
-msgstr ""
+msgstr "Com puc assegurar-me de tenir la millor experiència?"
 
 #: app/templates/wizard/tips.html:23
 msgid ""
@@ -460,25 +506,33 @@ msgid ""
 "    sharing with you - they also, by default, play content at a lower "
 "quality. "
 msgstr ""
+"Com que Plex és un servei gratuït, promocionen el seu propi contingut abans "
+"que el contingut fantàstic\n"
+"que el teu amic està compartint amb tu; també, per defecte, reprodueixen "
+"contingut a una qualitat inferior. "
 
 #: app/templates/wizard/tips.html:26
 msgid "No need to worry though, this can be easily resolved"
-msgstr ""
+msgstr "No cal que et preocupis, això es pot resoldre fàcilment"
 
 #: app/templates/wizard/tips.html:26
 msgid ""
 "We highly\n"
 "      recommend you to go through those steps first!"
 msgstr ""
+"Et recomanem\n"
+"que segueixis aquests passos primer!"
 
 #: app/templates/wizard/tips.html:33
 msgid "Configure Plex in your browser"
-msgstr ""
+msgstr "Configura Plex al teu navegador"
 
 #: app/templates/wizard/tips.html:58
 msgid "Configure Plex's app on your computer, mobile device or TV"
 msgstr ""
+"Configureu l'aplicació de Plex al vostre ordinador, dispositiu mòbil o "
+"televisor"
 
 #: app/templates/wizard/tips.html:86
 msgid "Open Plex"
-msgstr ""
+msgstr "Obre Plex"
