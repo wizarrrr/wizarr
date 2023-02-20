@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-17 14:03+0000\n"
-"PO-Revision-Date: 2023-01-21 16:51+0000\n"
-"Last-Translator: Matthieu B <matthieu@jaseroque.com>\n"
+"PO-Revision-Date: 2023-02-20 20:07+0000\n"
+"Last-Translator: Filippo Scatigna <scatignafilippo@gmail.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/wizarr/app/it/>\n"
 "Language: it\n"
-"Language-Team: Italian "
-"<https://hosted.weblate.org/projects/wizarr/app/it/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.16-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:45
@@ -37,13 +37,13 @@ msgstr "È necessario selezionare almeno una raccolta."
 
 #: app/admin.py:153
 msgid "It is likely that your token does not work."
-msgstr "È probabile che il gettone non funzioni."
+msgstr "È probabile che il token non funzioni."
 
 #: app/admin.py:155
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
-"Impossibile connettersi al server Plex. Per ulteriori informazioni, "
-"vedere Registri."
+"Impossibile connettersi al server Plex. Per ulteriori informazioni vedere "
+"Registri."
 
 #: app/admin.py:217 app/admin.py:221
 msgid "Invalid Username or Password"
@@ -71,7 +71,7 @@ msgstr "Errore interno del server."
 
 #: app/templates/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr " Qualcosa è andato storto. Riprovare più tardi."
+msgstr " Qualcosa è andato storto. Riprova più tardi."
 
 #: app/templates/accept.html:4
 msgid "Accept Invitation"
@@ -90,8 +90,8 @@ msgid ""
 "Click the button below to be taken to Plex, here you will see an "
 "invitation from us."
 msgstr ""
-"Clicca sul pulsante sottostante per essere portati su Plex, dove vedrete "
-"un nostro invito."
+"Clicca sul pulsante sottostante per aprire Plex, dove vedrete il nostro "
+"invito."
 
 #: app/templates/accept.html:23
 msgid "Accept"
@@ -103,22 +103,19 @@ msgstr "Successivo"
 
 #: app/templates/admin-nav.html:13
 msgid "Home"
-msgstr ""
+msgstr "Home"
 
 #: app/templates/admin-nav.html:16
-#, fuzzy
 msgid "Invitations"
-msgstr "Crea un invito"
+msgstr "Inviti"
 
 #: app/templates/admin-nav.html:19
-#, fuzzy
 msgid "Users"
-msgstr "Utente"
+msgstr "Utenti"
 
 #: app/templates/admin-nav.html:22
-#, fuzzy
 msgid "Settings"
-msgstr "Impostazioni del server"
+msgstr "Impostazioni"
 
 #: app/templates/invite.html:5 app/templates/invites.html:5
 #: app/templates/users.html:5
@@ -135,7 +132,7 @@ msgstr "Aggiornamento disponibile. Clicca qui."
 
 #: app/templates/invite.html:53
 msgid "Quick Invite"
-msgstr ""
+msgstr "Invito rapido"
 
 #: app/templates/invite.html:59
 msgid "Invite user"
@@ -151,7 +148,7 @@ msgstr ""
 
 #: app/templates/invite.html:66
 msgid "/settings. See Repo for more info"
-msgstr "/settings. Vedi la repository per maggiori informazioni"
+msgstr "/settings. Vedi il repository per maggiori informazioni"
 
 #: app/templates/invite.html:73
 msgid "Invite Code String"
@@ -195,7 +192,7 @@ msgstr "Invito generato con successo!"
 
 #: app/templates/invite.html:108
 msgid "Great!"
-msgstr "Benissimo!"
+msgstr "Ottimo!"
 
 #: app/templates/invite.html:108
 msgid "Link has been copied to clipboard!"
@@ -233,7 +230,7 @@ msgstr "Illimitato"
 
 #: app/templates/join.html:12
 msgid "Great! Now, let's get you invited!"
-msgstr "Ottimo! Ora, invitiamo anche te!"
+msgstr "Ottimo! Ora passiamo all'invito!"
 
 #: app/templates/join.html:18 app/templates/user-plex-login.html:21
 msgid "Join the Plex Server"
@@ -278,7 +275,7 @@ msgstr "Ricordati di me"
 
 #: app/templates/login.html:46
 msgid "Sign in"
-msgstr "Registra"
+msgstr "Registrati"
 
 #: app/templates/register_admin.html:18 app/templates/verify_plex.html:18
 msgid "Setup Wizarr"
@@ -294,7 +291,7 @@ msgstr "Crea un account"
 
 #: app/templates/settings.html:20
 msgid "Change Server Settings"
-msgstr ""
+msgstr "Cambia le impostazioni del server"
 
 #: app/templates/settings.html:25
 msgid ""
@@ -342,12 +339,12 @@ msgstr ""
 
 #: app/templates/settings.html:82 app/templates/verify_plex.html:63
 msgid "Verify and Confirm"
-msgstr ""
+msgstr "Verifica e conferma"
 
 #: app/templates/user-plex-login.html:12
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr ""
+msgstr "Sei stato invitato ad unirti al server di %(name)s!"
 
 #: app/templates/user_table.html:5
 msgid "User"
@@ -355,12 +352,11 @@ msgstr "Utente"
 
 #: app/templates/user_table.html:6
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: app/templates/user_table.html:7
-#, fuzzy
 msgid "Home User"
-msgstr "Invita un utente"
+msgstr "Home Utente"
 
 #: app/templates/verify_plex.html:23
 msgid "Plex Display Name"
@@ -408,7 +404,6 @@ msgid "Plex Requests"
 msgstr "Richieste Plex"
 
 #: app/templates/wizard/requests.html:9
-#, fuzzy
 msgid ""
 "We are excited to offer you a wide selection of media to choose from. If "
 "you're having trouble finding\n"
@@ -416,10 +411,10 @@ msgid ""
 "system that can automatically search for the\n"
 "    media you're looking for. "
 msgstr ""
-"Siamo entusiasti di offrirti un'ampia selezione di supporti tra cui "
-"scegliere. Se non riusci a trovare qualcosa che ti piace, non "
-"preoccuparti! Abbiamo un sistema di richiesta facile da usare che può "
-"cercare automaticamente i supporti che state cercando. "
+"Siamo entusiasti di offrirti un'ampia selezione di media tra cui scegliere. "
+"Se non riesci a trovare qualcosa che ti piace, non preoccuparti!\n"
+"Abbiamo un sistema di richiesta facile da usare, richiedi qualcosa e presto "
+"verrà aggiunto sul server! "
 
 #: app/templates/wizard/requests.html:23
 msgid "Request any available Movie or TV Show"
@@ -804,4 +799,3 @@ msgstr ""
 
 #~ msgid "Delete"
 #~ msgstr "Elimina"
-
