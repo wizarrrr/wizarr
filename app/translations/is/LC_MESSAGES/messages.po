@@ -8,30 +8,33 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-17 14:03+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-02-20 20:07+0000\n"
+"Last-Translator: Eaglinn <arnarinn105@gmail.com>\n"
+"Language-Team: Icelandic <https://hosted.weblate.org/projects/wizarr/app/is/>"
+"\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n % 10 != 1 || n % 100 == 11;\n"
+"X-Generator: Weblate 4.16-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:45
 msgid "Passwords do not match."
-msgstr ""
+msgstr "lykilorð eru ekki eins."
 
 #: app/admin.py:48
 msgid "Username must be between 3 and 15 characters."
-msgstr ""
+msgstr "Notendanafn verður að vera á milli 3 og 15 stafir."
 
 #: app/admin.py:51
 msgid "Password must be between 3 and 40 characters."
-msgstr ""
+msgstr "lykilorð verður að vera á milli 3 og 40 stafir."
 
 #: app/admin.py:80
 msgid "You must select at least one library."
-msgstr ""
+msgstr "Þú verður að velja allavega eitt safn."
 
 #: app/admin.py:153
 msgid "It is likely that your token does not work."
@@ -40,38 +43,40 @@ msgstr ""
 #: app/admin.py:155
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
+"Plex netþjóninn þinn er óaðgengilegur. Skoðaðu \"Logs\" fyrir meiri "
+"upplýsingar."
 
 #: app/admin.py:217 app/admin.py:221
 msgid "Invalid Username or Password"
-msgstr ""
+msgstr "Ógilt notendanafn eða lykilorð"
 
 #: app/templates/401.html:20
 msgid "Permission denied."
-msgstr ""
+msgstr "Leifi hafnað."
 
 #: app/templates/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr ""
+msgstr "Þú ert að reyna eitthvað sem þú ættir ekki að vera gera..."
 
 #: app/templates/404.html:19
 msgid "Something's missing."
-msgstr ""
+msgstr "Það vantar eitthvað."
 
 #: app/templates/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
+msgstr "Afsakið en við getum ekki fundið þessa síðu. Hún sýnist ekki vera til!"
 
 #: app/templates/500.html:19
 msgid "Internal Server Error."
-msgstr ""
+msgstr "Innra netþjóns villa."
 
 #: app/templates/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr ""
+msgstr " Eitthvað fór úrskeiðis. Vinsamlegast prófaðu aftur seinna."
 
 #: app/templates/accept.html:4
 msgid "Accept Invitation"
-msgstr ""
+msgstr "Samþyggja boð"
 
 #: app/templates/accept.html:11
 msgid "Accept our invitation"
