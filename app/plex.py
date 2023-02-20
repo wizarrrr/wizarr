@@ -139,9 +139,12 @@ def scan_specific():
 
 @scheduler.task('interval', id='checkExpiring', minutes=15, misfire_grace_time=900)
 def checkExpiring():
+    logging.info('Checking for expiring invites...')
     expiring = ExpiringInvitations.select().where(ExpiringInvitations.expires <
                                                   datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
     for invite in expiring:
         deleteUser(Users.get(invite.used_by).email)
+        logging.info("Deleting user " + invite.used_by + " due to expired invite.")
         ExpiringInvitations.delete().where(
             ExpiringInvitations.used_by == invite.used_by).execute()
+    return
