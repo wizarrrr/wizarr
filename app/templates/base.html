@@ -5,11 +5,10 @@
 <head>
 
   <meta charset="utf-8">
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <script src="https://unpkg.com/htmx.org@1.8.5"></script>
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}" />
+  <link rel="stylesheet" href="{{ url_for ('static', filename='node_modules/animate.css/animate.min.css') }}">
+  <script src="{{ url_for('static', filename='node_modules/htmx.org/dist/htmx.min.js') }}"></script>
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
   <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover, user-scalable=no">
 
@@ -24,13 +23,13 @@
   {% block main %}
 
   {% endblock %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+  <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}" />
 
-  <!-- Alpine Plugins -->
-  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+  <script src="{{url_for('static', filename='node_modules/alpinejs/dist/cdn.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='node_modules/flowbite/dist/flowbite.min.js') }}"></script>
+  <script src="{{url_for('static', filename='node_modules/@alpinejs/collapse/dist/cdn.min.js')}}"></script>
 
-  <!-- Alpine Core -->
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 </body>
 
 

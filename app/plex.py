@@ -28,13 +28,7 @@ def plexoauth(id, code):
                             username=MyPlexAccount(token).username, code=code)
         user.save()
         threading.Thread(target=SetupUser, args=(token,)).start()
-       # try:
 
-        # except Exception as e:
-        #    if "already exists" in str(e):
-        #       logging.error("User already exists")
-        # else:
-        #     logging.error("Failed to invite user: " + str(e))
     return
 
 
