@@ -31,7 +31,7 @@ try:
     expires = DateTimeField(null=True)  # Add Duration after update
     migrate(
         migrator.add_column(
-            'Invitations', 'expires', expires)
+            'Users', 'expires', expires)
     )
 except:
     pass
