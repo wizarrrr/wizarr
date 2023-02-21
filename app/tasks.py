@@ -25,15 +25,26 @@ try:
 except:
     pass
 
-# Migrations 2
+# Migrations 3
+try:
+    migrator = SqliteMigrator(database)
+    expires = DateTimeField(null=True)  # Add Duration after update
+    migrate(
+        migrator.add_column(
+            'Invitations', 'expires', expires)
+    )
+except:
+    pass
+
+# Migrations 4
 try:
 
     if ExpiringInvitations.used_by == IntegerField():
         migrator = SqliteMigrator(database)
         used_by = CharField(null=True)  # Add Duration after update
         migrate(
-            migrator.drop_column('Invitations', 'used_by'),
-            migrator.add_column('Invitations', 'used_by', used_by)
+            migrator.drop_column('ExpiringInvitations', 'used_by'),
+            migrator.add_column('ExpiringInvitations', 'used_by', used_by)
         )
 except:
     pass
