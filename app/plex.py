@@ -143,7 +143,7 @@ def checkExpiring():
     expiring = ExpiringInvitations.select().where(ExpiringInvitations.expires <
                                                   datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
     for invite in expiring:
-        deleteUser(Users.get(invite.used_by).email)
+        deleteUser(invite.used_by)
         logging.info("Deleting user " + invite.used_by + " due to expired invite.")
         ExpiringInvitations.delete().where(
             ExpiringInvitations.used_by == invite.used_by).execute()
