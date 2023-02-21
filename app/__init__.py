@@ -123,6 +123,7 @@ class Users(BaseModel):
     username = CharField()
     email = CharField()
     code = CharField()
+    expires = DateTimeField(null=True)
 
 
 class Oauth(BaseModel):
