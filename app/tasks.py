@@ -49,6 +49,6 @@ for invitation in Invitations.select():
         invitation.save()
 
 
-if not os.getenv("APP_URL"):
-    logging.error("APP_URL not set")
+if not os.getenv("APP_URL") or os.getenv("APP_URL").endswith("/"):
+    logging.error("APP_URL not set or wrong format. See docs for more info.")
     exit(1)
