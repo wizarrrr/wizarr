@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-17 14:03+0000\n"
-"PO-Revision-Date: 2023-02-18 20:39+0000\n"
-"Last-Translator: Daniel Lenz <sethosx@gmail.com>\n"
+"PO-Revision-Date: 2023-02-20 20:07+0000\n"
+"Last-Translator: Adrian Konopczynski <adrikonop@anomalie.ga>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/wizarr/app/de/>\n"
 "Language: de\n"
-"Language-Team: German "
-"<https://hosted.weblate.org/projects/wizarr/app/de/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.16-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:45
@@ -299,7 +299,7 @@ msgstr "Servereinstellungen ändern"
 msgid ""
 "Plex Display\n"
 "              Name"
-msgstr ""
+msgstr "Plex-Anzeige Name"
 
 #: app/templates/settings.html:32 app/templates/verify_plex.html:29
 msgid "Plex URL"
@@ -309,43 +309,42 @@ msgstr "Plex-URL"
 msgid ""
 "Plex\n"
 "              Token"
-msgstr ""
+msgstr "Plex Token"
 
 #: app/templates/settings.html:49
 msgid ""
 "Plex\n"
 "              Libraries"
-msgstr ""
+msgstr "Plex Bibliotheken"
 
 #: app/templates/settings.html:52 app/templates/verify_plex.html:44
 msgid "Scan For Libraries"
 msgstr "Suche nach Bibliotheken"
 
 #: app/templates/settings.html:59
-#, fuzzy
 msgid ""
 "Request\n"
 "              instance (Ombi, Overseerr...)"
-msgstr "Anforderungsinstanz (Ombi, Overseerr...)"
+msgstr "Anfrageinstanz (Ombi, Overseerr...)"
 
 #: app/templates/settings.html:67
 msgid ""
 "Discord\n"
 "              Server ID"
-msgstr ""
+msgstr "Discord Server-ID"
 
 #: app/templates/settings.html:74
 msgid ""
 "Custom\n"
 "              HTML"
-msgstr ""
+msgstr "Benutzerdefiniertes HTML"
 
 #: app/templates/settings.html:82 app/templates/verify_plex.html:63
 msgid "Verify and Confirm"
 msgstr "Überprüfen und bestätigen"
 
 #: app/templates/user-plex-login.html:12
-#, fuzzy, python-format
+#, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "Sie wurden eingeladen, sich %(name)s anzuschließen!"
 
@@ -355,12 +354,11 @@ msgstr "Nutzer"
 
 #: app/templates/user_table.html:6
 msgid "Email"
-msgstr ""
+msgstr "E-Mail"
 
 #: app/templates/user_table.html:7
-#, fuzzy
 msgid "Home User"
-msgstr "Benutzer einladen"
+msgstr "Home Benutzer"
 
 #: app/templates/verify_plex.html:23
 msgid "Plex Display Name"
@@ -380,25 +378,22 @@ msgstr "Anforderungsinstanz (Ombi, Overseerr...)"
 
 #: app/templates/verify_plex.html:56
 msgid "Discord Server ID"
-msgstr ""
+msgstr "Discord Server ID"
 
 #: app/templates/wizard/download.html:3
-#, fuzzy
 msgid ""
 "Join & Download Plex\n"
 "            for this device"
-msgstr "Plex für dieses Gerät beitreten und herunterladen"
+msgstr "Beitreten & Plex für dieses Gerät herunterladen"
 
 #: app/templates/wizard/download.html:8
-#, fuzzy
 msgid ""
 "Great news! You now have access to our server's media collection. Let's "
 "make sure you know how to use\n"
 "        it with Plex."
 msgstr ""
 "Tolle Neuigkeiten! Du hast jetzt Zugriff auf die Mediensammlung unseres "
-"Servers. Wir wollen sicherstellen, dass du weißt, wie man sie mit Plex "
-"benutzt."
+"Servers. Wir wollen sicherstellen, dass du weißt, wie man Plex benutzt."
 
 #: app/templates/wizard/download.html:11
 msgid "Planning on watching Movies on this device? Download Plex for this device."
@@ -415,7 +410,6 @@ msgid "Plex Requests"
 msgstr "Plex-Anfragen"
 
 #: app/templates/wizard/requests.html:9
-#, fuzzy
 msgid ""
 "We are excited to offer you a wide selection of media to choose from. If "
 "you're having trouble finding\n"
@@ -423,22 +417,22 @@ msgid ""
 "system that can automatically search for the\n"
 "    media you're looking for. "
 msgstr ""
-"Wir freuen uns, dir eine große Auswahl an Inhalten anbieten zu können. "
-"Wenn du Probleme hast, etwas zu finden, das dir gefällt, mach dir keine "
-"Sorgen! Wir haben ein benutzerfreundliches Anfragesystem, das automatisch"
-" nach den von dir gesuchten Inhalten suchen kann. "
+"Wir freuen uns, dir eine große Auswahl an Inhalten anbieten zu können. Wenn "
+"du Probleme hast, etwas zu finden, das dir gefällt, mach dir keine Sorgen! "
+"Wir haben ein benutzerfreundliches Anfragesystem, das automatisch nach den "
+"von dir gesuchten Inhalten suchen kann. "
 
 #: app/templates/wizard/requests.html:23
 msgid "Request any available Movie or TV Show"
-msgstr "Anfrage für jeden verfügbaren Film oder jede Serie"
+msgstr "Anfragen von Filmen und TV-Shows"
 
 #: app/templates/wizard/requests.html:33
 msgid ""
 "Requested media will be automatically downloaded and added to the library"
 " (if available)"
 msgstr ""
-"Angeforderte Medien werden automatisch heruntergeladen und der Bibliothek"
-" (sofern verfügbar)"
+"Angeforderte Medien werden automatisch heruntergeladen und der Bibliothek "
+"hinzugefügt (sofern verfügbar)"
 
 #: app/templates/wizard/requests.html:43
 msgid "If enabled, receive notifications"
@@ -453,7 +447,6 @@ msgid "Eh, So, What is Plex exactly?"
 msgstr "Äh, also, was ist Plex genau??"
 
 #: app/templates/wizard/tips.html:7
-#, fuzzy
 msgid ""
 "Great question! Plex is a software that allows individuals to share their"
 " media collections with others. If\n"
@@ -463,17 +456,16 @@ msgid ""
 "stored on their server. Enjoy!"
 msgstr ""
 "Gute Frage! Plex ist eine Software, mit der Einzelpersonen ihre "
-"Mediensammlungen mit anderen teilen können. Wenn du eine Einladung "
-"erhalten hast, bedeutet das, dass jemand seine Bibliothek mit dir teilen "
-"möchte. Mit Plex hast du Zugriff auf alle Filme, Fernsehsendungen, Musik "
-"und Fotos, die auf dem Server gespeichert sind. Viel Spaß!"
+"Mediensammlungen mit anderen teilen können. Wenn du eine Einladung erhalten "
+"hast, bedeutet das, dass jemand seine Bibliothek mit dir teilen möchte. Mit "
+"Plex hast du Zugriff auf alle Filme, Fernsehsendungen, Musik und Fotos, die "
+"auf dem Server gespeichert sind. Viel Spaß!"
 
 #: app/templates/wizard/tips.html:12
 msgid "Right, so how do I watch stuff?"
 msgstr "Richtig, also wie schaue ich mir Sachen an?"
 
 #: app/templates/wizard/tips.html:15
-#, fuzzy
 msgid ""
 "It couldn't be simpler! Plex is available on a wide variety of devices "
 "including laptops, tablets,\n"
@@ -481,39 +473,36 @@ msgid ""
 "your device, sign in with your account, and\n"
 "    you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"Einfacher geht's nicht! Plex ist auf einer Vielzahl von Geräten "
-"verfügbar, darunter Laptops, Tablets, Smartphones und Fernsehgeräte. "
-"Alles, was du tun musst, ist, die Plex-App auf dein Gerät "
-"herunterzuladen, dich mit deinem Konto anzumelden und schon kannst du mit"
-" dem Streaming deiner Medien beginnen. So einfach ist das!"
+"Einfacher geht's nicht! Plex ist auf einer Vielzahl von Geräten verfügbar, "
+"darunter Laptops, Tablets, Smartphones und Fernsehgeräte. Alles, was du tun "
+"musst, ist, die Plex-App auf dein Gerät herunterzuladen, dich mit deinem "
+"Konto anzumelden und schon kannst du mit dem Streaming deiner Medien "
+"beginnen. So einfach ist das!"
 
 #: app/templates/wizard/tips.html:20
 msgid "How can I make sure to have the best experience?"
 msgstr "Wie kann ich sicherstellen, dass ich die beste Erfahrung mache?"
 
 #: app/templates/wizard/tips.html:23
-#, fuzzy
 msgid ""
 "Because Plex is a free service, they promote their own content before the"
 " awesome content your friend is now\n"
 "    sharing with you - they also, by default, play content at a lower "
 "quality. "
 msgstr ""
-"Da Plex ein kostenloser Dienst ist, werben sie für ihre eigenen Inhalte "
-"vor den tollen Inhalten, die Ihr Freund jetzt mit Ihnen teilt – sie "
-"spielen Inhalte standardmäßig auch in geringerer Qualität ab. "
+"Da Plex ein kostenloser Dienst ist, werben sie für ihre eigenen Inhalte vor "
+"den tollen Inhalten, die Ihr Freund jetzt mit Ihnen teilt – sie spielen "
+"Inhalte standardmäßig auch in geringerer Qualität ab. "
 
 #: app/templates/wizard/tips.html:26
-#, fuzzy
 msgid "No need to worry though, this can be easily resolved"
 msgstr "Aber keine Sorge, das lässt sich leicht lösen!"
 
 #: app/templates/wizard/tips.html:26
-#, fuzzy
 msgid ""
 "We highly\n"
 "      recommend you to go through those steps first!"
-msgstr "Wir empfehlen Ihnen dringend, diese Schritte zuerst durchzugehen!"
+msgstr "Wir empfehlen Dir dringend, diese Schritte zuerst durchzugehen!"
 
 #: app/templates/wizard/tips.html:33
 msgid "Configure Plex in your browser"
@@ -527,7 +516,7 @@ msgstr ""
 
 #: app/templates/wizard/tips.html:86
 msgid "Open Plex"
-msgstr ""
+msgstr "Öffne Plex"
 
 #~ msgid ""
 #~ "Plex Display\n"
@@ -865,4 +854,3 @@ msgstr ""
 
 #~ msgid "Delete"
 #~ msgstr "Löschen"
-
