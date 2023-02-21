@@ -25,7 +25,7 @@
                     }}</span>
             </td>
             {% endif %}
-            <td class="font-medium">{{ invite.created }}</td>
+            <td class="font-medium">{{ (invite.created|string)[0:16] }}</td>
             {% if invite.expired %}
             <td>
                 <span class="inline-block py-1 px-2 text-white bg-orange-500 rounded-full">{{ _("Expired") }}</span>
@@ -33,7 +33,7 @@
             {% endif %}
             {% if not invite.expired and invite.expires %}
             <td>
-                <span class="inline-block py-1 px-2 text-white bg-green-500 rounded-full">{{ invite.expires }}</span>
+                <span class="inline-block py-1 px-2 text-white bg-green-500 rounded-full">{{ (invite.expires|string)[0:16] }}</span>
             </td>
             {% endif %}
             {% if not invite.expires %}
