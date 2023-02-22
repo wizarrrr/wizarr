@@ -17,7 +17,7 @@ except:
 # Migrations 2
 try:
     migrator = SqliteMigrator(database)
-    specific_libraries = CharField(null=True)  # Add Duration after update
+    specific_libraries = CharField(null=True)  # Add Specific Libraries after update
     migrate(
         migrator.add_column(
             'Invitations', 'specific_libraries', specific_libraries)
@@ -28,7 +28,7 @@ except:
 # Migrations 3
 try:
     migrator = SqliteMigrator(database)
-    expires = DateTimeField(null=True)  # Add Duration after update
+    expires = DateTimeField(null=True)  # Add Expires after update
     migrate(
         migrator.add_column(
             'Users', 'expires', expires)
@@ -36,18 +36,6 @@ try:
 except:
     pass
 
-# Migrations 4
-try:
-
-    if ExpiringInvitations.used_by == IntegerField():
-        migrator = SqliteMigrator(database)
-        used_by = CharField(null=True)  # Add Duration after update
-        migrate(
-            migrator.drop_column('ExpiringInvitations', 'used_by'),
-            migrator.add_column('ExpiringInvitations', 'used_by', used_by)
-        )
-except:
-    pass
 
 # For all invitations, if the expires is not a string, make it a string
 for invitation in Invitations.select():

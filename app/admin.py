@@ -264,18 +264,12 @@ def users_table():
             else:
                 logging.error("Unable to delete user: " + str(e))
     users = None
+
     try:
         users = getUsers()
-        expiring = {}
         for user in users:
-            expires = ExpiringInvitations.get_or_none(
-                ExpiringInvitations.used_by == user.email)
-            if expires:
-                expires = expires.expires
-            if expiring:
-                expiring[user] = expires
-            else:
-                expiring[user] = None
+            user.expires = Users.get_or_none(Users.email == str(
+                user.email)).expires if Users.get_or_none(Users.email == str(user.email)) else None
 
     except Exception as e:
         if "429" in str(e):
@@ -284,4 +278,4 @@ def users_table():
         else:
             logging.error("Unable to get users: " + str(e))
             abort(500)
-    return render_template("user_table.html", users=users, expiring=expiring)
+    return render_template("user_table.html", users=users, rightnow=datetime.datetime.now())

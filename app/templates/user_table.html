@@ -33,12 +33,12 @@
             {% endif %}
 
 
-            {% if expiring[user] %}
+            {% if user.expires %}
             <td>
-                <span class="inline-block py-1 px-2 text-white bg-green-500 rounded-full">{{ expiring[user] }}</span>
+                <span class="inline-block py-1 px-2 text-white bg-green-500 rounded-full">{{ (user.expires|string)[0:16] }}</span>
             </td>
             {% endif %}
-            {% if not expiring[user] %}
+            {% if not user.expires %}
             <td>
 
             </td>

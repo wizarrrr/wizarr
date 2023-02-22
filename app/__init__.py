@@ -130,17 +130,9 @@ class Oauth(BaseModel):
     id = IntegerField(primary_key=True)
     url = CharField(null=True)
 
-
-class ExpiringInvitations(BaseModel):
-    code = CharField()
-    created = DateTimeField()
-    used_by = CharField()
-    expires = DateTimeField(null=True)
-
-
 # Below is Database Initialisation in case of new instance
 database.create_tables(
-    [Invitations, Settings, Users, Oauth, ExpiringInvitations])
+    [Invitations, Settings, Users, Oauth])
 
 
 if __name__ == "__main__":
