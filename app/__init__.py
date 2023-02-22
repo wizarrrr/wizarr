@@ -1,4 +1,3 @@
-from app import admin, web, plex, tasks
 from flask import Flask, request, session
 from peewee import *
 from playhouse.migrate import *
@@ -138,3 +137,5 @@ database.create_tables(
 if __name__ == "__main__":
     web.check_plex_credentials()
     app.run()
+
+from app import admin, web, plex, tasks
