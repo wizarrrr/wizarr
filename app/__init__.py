@@ -5,7 +5,6 @@ from flask_babel import Babel
 import os
 from dotenv import load_dotenv
 from flask_session import Session
-import logging.config
 from flask_apscheduler import APScheduler
 
 
@@ -31,30 +30,7 @@ def get_locale():
         return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
 
 
-LOGGING_CONFIG = {
-    "version": 1,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-            "level": "DEBUG",
-            "formatter": "simple",
-        },
-    },
-    "formatters": {
-        "simple": {
-            "format": "%(asctime)s - %(levelname)s - %(message)s",
-        },
-    },
-    "loggers": {
-        "": {
-            "handlers": ["console"],
-            "level": os.getenv("LOG_LEVEL", "ERROR"),
-            "propagate": True,
-        },
-    },
-}
 
-logging.config.dictConfig(LOGGING_CONFIG)
 
 
 # Translation stuff

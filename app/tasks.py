@@ -1,6 +1,7 @@
 from app import *
-import logging
 import datetime
+import logging, logging.config
+
 
 
 # Migrations 1
@@ -48,6 +49,34 @@ for invitation in Invitations.select():
         invitation.save()
 
 
-if not os.getenv("APP_URL") or os.getenv("APP_URL").endswith("/"):
+if not os.getenv("APP_URL"):
     logging.error("APP_URL not set or wrong format. See docs for more info.")
     exit(1)
+
+LOGGING_CONFIG = {
+    "version": 1,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": "DEBUG",
+            "formatter": "simple",
+        },
+    },
+    "formatters": {
+        "simple": {
+            "format": "%(asctime)s - %(levelname)s - %(message)s",
+        },
+    },
+    "loggers": {
+        "": {
+            "handlers": ["console"],
+            "level": os.getenv("LOG_LEVEL", "ERROR"),
+            "propagate": True,
+        },
+    },
+}
+
+try:
+    logging.config.dictConfig(LOGGING_CONFIG)
+except:
+    logging.critical("Error in logging config, ignoring")
