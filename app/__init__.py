@@ -1,3 +1,4 @@
+from app import admin, web, plex, tasks
 from flask import Flask, request, session
 from peewee import *
 from playhouse.migrate import *
@@ -31,9 +32,6 @@ def get_locale():
         return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
 
 
-
-
-
 LOGGING_CONFIG = {
     "version": 1,
     "handlers": {
@@ -63,17 +61,18 @@ logging.config.dictConfig(LOGGING_CONFIG)
 # Translation stuff
 base_dir = os.path.abspath(os.path.dirname(__file__))
 app.config["LANGUAGES"] = {'en': 'english',
-                           # 'de': 'german',
+                           'de': 'german',
                            'zh': 'chinese',
                            'fr': 'french',
                            # 'sv': 'swedish',
                            'pt': 'portuguese',
                            # 'nl': 'dutch',
                            'pt_BR': 'portuguese',
-                           # 'lt': 'lithuanian',
+                           'lt': 'lithuanian',
                            # 'nb_NO': 'norwegian',
                            'es': 'spanish',
                            # 'it': 'italian',
+                           'ca': 'catalan',
 
                            }
 app.config["BABEL_DEFAULT_LOCALE"] = "en"
@@ -130,6 +129,7 @@ class Oauth(BaseModel):
     id = IntegerField(primary_key=True)
     url = CharField(null=True)
 
+
 # Below is Database Initialisation in case of new instance
 database.create_tables(
     [Invitations, Settings, Users, Oauth])
@@ -138,5 +138,3 @@ database.create_tables(
 if __name__ == "__main__":
     web.check_plex_credentials()
     app.run()
-
-from app import admin, web, plex, tasks
