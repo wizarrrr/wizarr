@@ -1,5 +1,5 @@
 from plexapi.myplex import MyPlexPinLogin, MyPlexAccount, PlexServer
-from app import app, Invitations, Settings, Users, Oauth, ExpiringInvitations, scheduler
+from app import app, Invitations, Settings, Users, Oauth, scheduler
 import datetime
 import os
 import threading
@@ -17,6 +17,7 @@ def plexoauth(id, code):
     oauth.run(timeout=120)
     oauth.waitForLogin()
     token = oauth.token
+
     if not token:
         logging.error("Failed to get token from Plex")
     if token:
@@ -24,8 +25,10 @@ def plexoauth(id, code):
         inviteUser(email, code)
         if Users.select().where(Users.email == email).exists():
             Users.delete().where(Users.email == email).execute()
+        expires = datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration)) if Invitations.get(code=code).duration else None
         user = Users.create(token=token, email=email,
-                            username=MyPlexAccount(token).username, code=code)
+                            username=MyPlexAccount(token).username, code=code, expires=expires)
+                            
         user.save()
         threading.Thread(target=SetupUser, args=(token,)).start()
 
@@ -65,17 +68,7 @@ def inviteUser(email, code):
     else:
         Invitations.update(used_at=datetime.datetime.now().strftime(
             "%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
-
-    if Invitations.select().where(Invitations.code == code, Invitations.duration != None):
-
-        # Set Expires, duration is in days, in format %Y-%m-%d %H:%M
-        expires = datetime.datetime.now() + datetime.timedelta(
-            days=int(Invitations.get(Invitations.code == code).duration))
-        expires = expires.strftime(
-            "%Y-%m-%d %H:%M")
-
-        ExpiringInvitations.create(code=code, created=datetime.datetime.now().strftime(
-            "%Y-%m-%d %H:%M"), used_by=email, expires=expires)
+    return
 
 
 def SetupUser(token):
@@ -134,11 +127,8 @@ def scan_specific():
 @scheduler.task('interval', id='checkExpiring', minutes=15, misfire_grace_time=900)
 def checkExpiring():
     logging.info('Checking for expiring invites...')
-    expiring = ExpiringInvitations.select().where(ExpiringInvitations.expires <
-                                                  datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
+    expiring = Users.select().where(Users.expires < datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
     for invite in expiring:
         deleteUser(invite.used_by)
         logging.info("Deleting user " + invite.used_by + " due to expired invite.")
-        ExpiringInvitations.delete().where(
-            ExpiringInvitations.used_by == invite.used_by).execute()
     return
