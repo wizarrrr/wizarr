@@ -105,6 +105,10 @@ def preferences():
     elif not Settings.select().where(Settings.key == 'admin_username').exists():
 
         if request.method == 'GET':
+            if request.args.get("type") == 'jellyfin' or request.args.get("type") == 'plex':
+                Settings.update(value=request.args.get("type")).where(Settings.key == "server_type").execute()
+                logging.info("Server type set to " + request.args.get("type"))
+                return redirect("/settings")
             return render_template("register_admin.html")
 
         elif request.method == 'POST':
@@ -134,7 +138,7 @@ def preferences():
             
 
         elif request.method == 'POST':
-            server_name = request.form.get("name")
+            server_name = request.form.get("server_name")
             server_url = request.form.get("server_url")
             api_key = request.form.get("api_key")
             overseerr_url = None
