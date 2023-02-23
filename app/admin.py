@@ -212,6 +212,7 @@ def secure_settings():
         discord_id = None
         overseerr_url = None
         custom_html = None
+        server_type = Settings.get(Settings.key == "server_type").value
 
         # Getting Libraries Properly
         libraries = []
