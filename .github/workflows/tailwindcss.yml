@@ -16,3 +16,10 @@ jobs:
     - name: Build CSS
       working-directory: app/static
       run: npx tailwindcss -o css/main.css --minify
+    - name: Commit and push changes
+      run: |
+        git config --global user.email "github-actions@github.com"
+        git config --global user.name "Github Actions"
+        git add app/static/
+        git commit -m "Minifed CSS"
+        git push
