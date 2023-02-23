@@ -57,7 +57,7 @@ def getUsers():
 
     for dbuser in Users.select():
         if dbuser.username not in [u.title for u in plexusers]:
-            user.delete_instance()
+            dbuser.delete_instance()
     return plexusers
 
 
