@@ -4,8 +4,10 @@ from app import *
 from flask import abort, jsonify, render_template, redirect
 import logging
 
-API_KEY = Settings.get_or_none(Settings.key == "api_key").value if Settings.get_or_none(Settings.key == "api_key") else None
-JELLYFIN_URL = Settings.get_or_none(Settings.key == "server_url").value if Settings.get_or_none(Settings.key == "server_url") else None
+API_KEY = Settings.get_or_none(Settings.key == "api_key").value if Settings.get_or_none(
+    Settings.key == "api_key") else None
+JELLYFIN_URL = Settings.get_or_none(Settings.key == "server_url").value if Settings.get_or_none(
+    Settings.key == "server_url") else None
 
 
 def Post(path, data):
@@ -74,10 +76,15 @@ def jf_scan():
     jellyfin_url = request.args.get('jellyfin_url')
     api_key = request.args.get('jellyfin_api_key')
     if not jellyfin_url or not api_key:
+        logging.error("Jellyfin URL or API Key not set")
         abort(400)
     try:
-        response = Get("/Library/MediaFolders")
-    except:
+        headers = {
+            "X-Emby-Token": api_key,
+        }
+        response = requests.get(f"{jellyfin_url}/Library/MediaFolders", headers=headers)
+    except Exception as e:
+        logging.error("Error getting Jellyfin Libraries: " + str(e))
         abort(400)
     libraries = {}
     for library in response.json()["Items"]:
@@ -95,7 +102,8 @@ def jf_scan_specific():
     try:
         response = Get("/Library/MediaFolders")
         libraries_raw = response.json()
-    except:
+    except Exception as e:
+        logging.error("Error getting Jellyfin Libraries: " + str(e))
         abort(400)
     libraries = {}
     for library in response.json()["Items"]:
@@ -130,12 +138,14 @@ def jf_GetUsers():
     # Compare user to database
     for user in response.json():
         if not Users.select().where(Users.token == user["Id"]).exists():
-            Users.create(username=user["Name"], email="empty",code="empty", password="empty", token=user["Id"])
-    
-    #Compare database to users
-    for user in Users.select():
-        if not any(d['Id'] == user.token for d in response.json()):
-            user.delete_instance()
+            Users.create(username=user["Name"], email="empty",
+                         code="empty", password="empty", token=user["Id"])
+
+    # Compare database to users
+    if Users.select():
+        for user in Users.select():
+            if not any(d['Id'] == user.token for d in response.json()):
+                user.delete_instance()
     return response.json()
 
 

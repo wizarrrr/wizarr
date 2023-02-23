@@ -11,7 +11,7 @@
         <tr class="text-xs bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
             <td class="py-5 px-6 font-medium">{{ user.username }}</td>
             <td class="py-5 px-6 font-medium">{% if user.email != 'empty' %}{{ user.email }}{% endif %}</td>
-            <td class="py-5 px-6 font-medium">{{ user.expires }}</td>
+            <td class="py-5 px-6 font-medium">{% if user.expires %} {{ user.expires }}{% endif %}</td>
 
 
             <td>
