@@ -17,6 +17,14 @@
   <meta name="HandheldFriendly" content="true" />
 
   <meta name="robots" content="noindex">
+  <script>
+    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  </script>
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900">
@@ -29,6 +37,7 @@
   <script src="{{ url_for('static', filename='node_modules/flowbite/dist/flowbite.min.js') }}"></script>
   <script src="{{url_for('static', filename='node_modules/@alpinejs/collapse/dist/cdn.min.js')}}"></script>
 
+  <script src="{{url_for('static', filename='js/dark-mode-switch.js')}}"></script>
 
 </body>
 
