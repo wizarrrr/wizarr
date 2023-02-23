@@ -85,6 +85,7 @@ except:
 if Settings.select().where(Settings.key == 'admin_username').exists():
     if Settings.select().where(Settings.key == 'plex_verified').exists():
         if not Settings.select().where(Settings.key == 'server_type').exists() :
+            Settings.create(key='server_type', value='plex')
             Settings.create(key='api_key', value=Settings.get(Settings.key == 'plex_token').value)
             Settings.delete().where(Settings.key == 'plex_token').execute()
             Settings.create(key='server_url', value=Settings.get(Settings.key == 'plex_url').value)
@@ -95,4 +96,4 @@ if Settings.select().where(Settings.key == 'admin_username').exists():
             Settings.delete().where(Settings.key == 'plex_libraries').execute()
             Settings.create(key='server_verified', value=Settings.get(Settings.key == 'plex_verified').value)
             Settings.delete().where(Settings.key == 'plex_verified').execute()
-            Settings.insert(key='server_type', value='plex').execute()
+        
