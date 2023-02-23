@@ -11,6 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
+      working-directory: app/static
       run: npm install
     - name: Build CSS
       working-directory: app/static
