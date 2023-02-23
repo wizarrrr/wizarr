@@ -60,6 +60,12 @@ def jf_inviteUser(username, password, code, email):
     response = Post(f"/Users/{user_id}/Policy", folders)
     Users.create(username=username, email=email,
                  password=password, token=user_id, code=code)
+    if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
+        Invitations.update(used=True, used_at=datetime.datetime.now().strftime(
+            "%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
+    else:
+        Invitations.update(used_at=datetime.datetime.now().strftime(
+            "%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
     return
 
 
