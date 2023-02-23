@@ -72,9 +72,9 @@ def invite():
             library_count = int(request.form.get("library_count"))
             for library in range(library_count+1):
 
-                if request.form.get("plex_library_" + str(library)):
+                if request.form.get("library_" + str(library)):
                     specific_libraries.append(request.form.get(
-                        "plex_library_" + str(library)))
+                        "library_" + str(library)))
             if not specific_libraries:
                 specific_libraries = None
             else:

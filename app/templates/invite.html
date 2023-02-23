@@ -212,8 +212,6 @@
     while (container.hasChildNodes()) {
       container.removeChild(container.lastChild);
     }
-    var plex_url = document.getElementById("server_url").value;
-    var plex_token = document.getElementById("api_key").value;
     url = "/scan-specific";
     const response = fetch(url, {
       method: "POST"
