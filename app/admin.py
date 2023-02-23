@@ -1,11 +1,15 @@
 from flask import request, redirect, render_template
 from app import app, Invitations, Settings, session, Users
 from app.plex import *
+import secrets
+from app.jellyfin import *
+from app.helpers import *
 from werkzeug.security import generate_password_hash, check_password_hash
 from plexapi.server import PlexServer
 import logging
 from functools import wraps
 import datetime
+from packaging import version
 import random
 import string
 import os
@@ -30,9 +34,75 @@ def login_required(f):
     return decorated_function
 
 
+@app.route('/invite', methods=["GET", "POST"])
+@login_required
+def invite():
+    update_msg = False
+    if request.method == "POST":
+        try:
+            code = request.form.get("code").upper()
+            if not len(code) == 6:
+                return abort(401)
+        except:
+            code = ''.join(secrets.choice(
+                string.ascii_uppercase + string.digits) for _ in range(6))
+        if Invitations.get_or_none(code=code):
+            return abort(401)  # Already Exists
+        expires = None
+        unlimited = 0
+        duration = None
+        specific_libraries = None
+        if request.form.get("expires") == "day":
+            expires = (datetime.datetime.now() +
+                       datetime.timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
+        if request.form.get("expires") == "week":
+            expires = (datetime.datetime.now() +
+                       datetime.timedelta(days=7)).strftime("%Y-%m-%d %H:%M:%S")
+        if request.form.get("expires") == "month":
+            expires = (datetime.datetime.now() +
+                       datetime.timedelta(days=30)).strftime("%Y-%m-%d %H:%M:%S")
+        if request.form.get("expires") == "never":
+            expires = None
+        if request.form.get("unlimited"):
+            unlimited = 1
+        if request.form.get("duration"):
+            duration = request.form.get("duration")
+        if int(request.form.get("library_count")) > 0:
+            specific_libraries = []
+            library_count = int(request.form.get("library_count"))
+            for library in range(library_count+1):
+
+                if request.form.get("plex_library_" + str(library)):
+                    specific_libraries.append(request.form.get(
+                        "plex_library_" + str(library)))
+            if not specific_libraries:
+                specific_libraries = None
+            else:
+                specific_libraries = ', '.join(specific_libraries)
+        Invitations.create(code=code, used=False, created=datetime.datetime.now(
+        ).strftime("%Y-%m-%d %H:%M"), expires=expires, unlimited=unlimited, duration=duration, specific_libraries=specific_libraries)
+        link = os.getenv("APP_URL") + "/j/" + code
+        invitations = Invitations.select().order_by(Invitations.created.desc())
+        return render_template("invite.html", link=link, invitations=invitations, url=os.getenv("APP_URL"))
+    else:
+        invitations = Invitations.select().order_by(Invitations.created.desc())
+        needUpdate()
+        server_type = Settings.get(Settings.key == "server_type").value
+        return render_template("invite.html", invitations=invitations, update_msg=update_msg, needUpdate=needUpdate(), url=os.getenv("APP_URL"),server_type=server_type)
+
+
 @app.route('/settings', methods=["GET", "POST"])
 def preferences():
-    if not Settings.select().where(Settings.key == 'admin_username').exists():
+
+    if not Settings.select().where(Settings.key == 'server_type').exists():
+        if request.method == 'GET':
+            type = request.args.get("type")
+            if type == 'jellyfin' or type == 'plex':
+                Settings.create(key="server_type", value=type)
+                return redirect("/settings")
+
+            return render_template("server_type.html")
+    elif not Settings.select().where(Settings.key == 'admin_username').exists():
 
         if request.method == 'GET':
             return render_template("register_admin.html")
@@ -54,15 +124,19 @@ def preferences():
             Settings.create(key="admin_password", value=hash)
             return redirect("/settings")
 
-    elif Settings.select().where(Settings.key == 'admin_username').exists() and not Settings.select().where(Settings.key == "plex_verified", Settings.value == "True").exists():
+    elif not Settings.select().where(Settings.key == 'server_verified').exists():
 
+
+        server_type = Settings.get(Settings.key == "server_type").value
         if request.method == 'GET':
-            return render_template("verify_plex.html")
+
+            return render_template("verify-server.html", server_type=server_type)
+            
 
         elif request.method == 'POST':
-            name = request.form.get("name")
-            plex_url = request.form.get("plex_url")
-            plex_token = request.form.get("plex_token")
+            server_name = request.form.get("name")
+            server_url = request.form.get("server_url")
+            api_key = request.form.get("api_key")
             overseerr_url = None
             discord_id = None
 
@@ -72,29 +146,30 @@ def preferences():
             library_count = int(request.form.get("library_count"))
             for library in range(library_count+1):
 
-                if request.form.get("plex_library_" + str(library)):
+                if request.form.get("library_" + str(library)):
                     libraries.append(request.form.get(
-                        "plex_library_" + str(library)))
+                        "library_" + str(library)))
             libraries = ', '.join(libraries)
             if not libraries:
-                return render_template("settings.html", error=_("You must select at least one library."))
+                return render_template("verify-server.html", error=_("You must select at least one library."), server_type=server_type)
 
             if request.form.get("discord_id"):
                 discord_id = request.form.get("discord_id")
             if request.form.get("overseerr_url"):
                 overseerr_url = request.form.get("overseerr_url")
 
-            Settings.create(key="plex_name", value=name)
-            Settings.create(key="plex_url", value=plex_url)
-            Settings.create(key="plex_token", value=plex_token)
-            Settings.create(key="plex_libraries", value=libraries)
+            Settings.create(key="server_name", value=server_name) 
+            Settings.create(key="server_url", value=server_url) 
+            Settings.create(key="api_key", value=api_key)
+            Settings.create(key="libraries", value=libraries) 
             if overseerr_url:
                 Settings.create(key="overseerr_url", value=overseerr_url)
             if discord_id:
                 Settings.create(key="discord_id", value=discord_id)
-            Settings.create(key="plex_verified", value="True")
+            Settings.create(key="server_verified", value="True")
             return redirect("/")
-    elif Settings.select().where(Settings.key == 'admin_username').exists() and Settings.select().where(Settings.key == "plex_verified", Settings.value == "True").exists():
+
+    else:
         return redirect('/settings/')
 
 
@@ -102,10 +177,16 @@ def preferences():
 @login_required
 def secure_settings():
     if request.method == 'GET':
-        plex_name = Settings.get(Settings.key == "plex_name").value
-        plex_url = Settings.get(Settings.key == "plex_url").value
-        plex_libraries = Settings.get(Settings.key == "plex_libraries").value
-        plex_token = Settings.get(Settings.key == "plex_token").value
+
+        server_type = Settings.get(Settings.key == "server_type").value
+
+        server_name = Settings.get(Settings.key == "server_name").value
+        server_url = Settings.get(Settings.key == "server_url").value
+        libraries = Settings.get(
+            Settings.key == "libraries").value
+        api_key = Settings.get(Settings.key == "api_key").value
+
+
         overseerr_url = Settings.get_or_none(
             Settings.key == "overseerr_url")
         discord_id = Settings.get_or_none(Settings.key == "discord_id")
@@ -116,12 +197,14 @@ def secure_settings():
             discord_id = discord_id.value
         if custom_html:
             custom_html = custom_html.value
-        return render_template("settings.html", plex_name=plex_name, plex_url=plex_url, plex_libraries=plex_libraries, plex_token=plex_token, overseerr_url=overseerr_url, discord_id=discord_id, custom_html=custom_html)
+
+
+        return render_template("server-settings.html", server_name=server_name, server_url=server_url, server_type=server_type, api_key=api_key, overseerr_url=overseerr_url, discord_id=discord_id, custom_html=custom_html)
 
     elif request.method == 'POST':
-        name = request.form.get("name")
-        plex_url = request.form.get("plex_url")
-        plex_token = request.form.get("plex_token")
+        server_name = request.form.get("server_name")
+        server_url = request.form.get("server_url")
+        api_key = request.form.get("api_key")
         discord_id = None
         overseerr_url = None
         custom_html = None
@@ -131,13 +214,13 @@ def secure_settings():
         library_count = int(request.form.get("library_count"))
         for library in range(library_count+1):
 
-            if request.form.get("plex_library_" + str(library)):
+            if request.form.get("library_" + str(library)):
                 libraries.append(request.form.get(
-                    "plex_library_" + str(library)))
+                    "library_" + str(library)))
         libraries = ', '.join(libraries)
 
         if not libraries:
-            libraries = Settings.get(Settings.key == "plex_libraries").value
+            libraries = Settings.get(Settings.key == "libraries").value 
 
         if request.form.get("discord_id"):
             discord_id = request.form.get("discord_id")
@@ -145,24 +228,33 @@ def secure_settings():
             overseerr_url = request.form.get("overseerr_url")
         if request.form.get("custom_html"):
             custom_html = request.form.get("custom_html")
-        try:
-            plex = PlexServer(plex_url, token=plex_token)
-        except Exception as e:
-            logging.error(str(e))
-            if "unauthorized" in str(e):
-                error = _("It is likely that your token does not work.")
-            else:
-                error = _(
-                    "Unable to connect to your Plex server. See Logs for more information.")
-            return render_template("verify_plex.html", error=error)
-        Settings.update(value=name).where(
-            Settings.key == "plex_name").execute()
-        Settings.update(value=plex_url).where(
-            Settings.key == "plex_url").execute()
-        Settings.update(value=plex_token).where(
-            Settings.key == "plex_token").execute()
+
+        if server_type == "plex":
+            try:
+                plex = PlexServer(server_url, token=api_key)
+
+            except Exception as e:
+                logging.error(str(e))
+                if "unauthorized" in str(e):
+                    error = _("It is likely that your token does not work.")
+                else:
+                    error = _(
+                        "Unable to connect to your Plex server. See Logs for more information.")
+                return render_template("plex-settings.html", error=error)
+        elif server_type == "jellyfin":
+            response = Get("/Users")
+            if response.status_code != 200:
+                error = _("Unable to connect to your Jellyfin server.")
+                return render_template("jellyfin-settings.html", error=error)
+
+        Settings.update(value=server_name).where(
+            Settings.key == "server_name").execute()
+        Settings.update(value=server_url).where(
+            Settings.key == "server_url").execute()
+        Settings.update(value=api_key).where(
+            Settings.key == "api_key").execute()
         Settings.update(value=libraries).where(
-            Settings.key == "plex_libraries").execute()
+            Settings.key == "libraries").execute()
         if overseerr_url:
             Settings.delete().where(Settings.key == "overseerr_url").execute()
             Settings.create(key="overseerr_url", value=overseerr_url)
@@ -256,26 +348,40 @@ def users_table():
 
     if request.args.get("delete"):
         print("Deleting user " + request.args.get("delete"))
-        try:
-            deleteUser(request.args.get("delete"))
-        except Exception as e:
-            if "429" in str(e):
-                logging.error("Too many requests to Plex API")
-            else:
-                logging.error("Unable to delete user: " + str(e))
+        GlobalDeleteUser(request.args.get("delete"))
     users = None
 
-    try:
-        users = getUsers()
+    users = GlobalGetUsers()
+
+    if Settings.get(Settings.key == "server_type").value == "plex":
         for user in users:
             user.expires = Users.get_or_none(Users.email == str(
                 user.email)).expires if Users.get_or_none(Users.email == str(user.email)) else None
+        return render_template("user_table.html", users=users, rightnow=datetime.datetime.now())
+    elif Settings.get(Settings.key == "server_type").value == "jellyfin":
+        return render_template("jellyfin_user_table.html", users=users, rightnow=datetime.datetime.now())
 
-    except Exception as e:
-        if "429" in str(e):
-            logging.error("Too many requests to Plex API")
-            abort(429)
+
+def needUpdate():
+    try:
+        r = requests.get(
+            url="https://raw.githubusercontent.com/Wizarrrr/wizarr/master/.github/latest")
+        data = r.content.decode("utf-8")
+        if version.parse(VERSION) < version.parse(data):
+            return True
+        elif version.parse(VERSION) >= version.parse(data):
+            return False
         else:
-            logging.error("Unable to get users: " + str(e))
-            abort(500)
-    return render_template("user_table.html", users=users, rightnow=datetime.datetime.now())
+            return False
+    except:
+        return False
+    
+
+@scheduler.task('interval', id='checkExpiring', minutes=15, misfire_grace_time=900)
+def checkExpiring():
+    logging.info('Checking for expiring invites...')
+    expiring = Users.select().where(Users.expires < datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
+    for invite in expiring:
+        GlobalDeleteUser(invite.used_by)
+        logging.info("Deleting user " + invite.used_by + " due to expired invite.")
+    return

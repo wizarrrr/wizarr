@@ -8,6 +8,12 @@ import logging
 from cachetools import cached, TTLCache
 
 
+TOKEN = Settings.get_or_none(Settings.key == "api_key").value if Settings.get_or_none(
+    Settings.key == "api_key") else None
+PLEX_URL = Settings.get_or_none(Settings.key == "server_url").value if Settings.get_or_none(
+    Settings.key == "server_url") else None
+
+
 def plexoauth(id, code):
     oauth = MyPlexPinLogin(oauth=True)
     url = oauth.oauthUrl(forwardUrl=(os.getenv('APP_URL') + '/setup'))
@@ -25,10 +31,11 @@ def plexoauth(id, code):
         inviteUser(email, code)
         if Users.select().where(Users.email == email).exists():
             Users.delete().where(Users.email == email).execute()
-        expires = datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration)) if Invitations.get(code=code).duration else None
+        expires = datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration)
+                                                               ) if Invitations.get(code=code).duration else None
         user = Users.create(token=token, email=email,
                             username=MyPlexAccount(token).username, code=code, expires=expires)
-                            
+
         user.save()
         threading.Thread(target=SetupUser, args=(token,)).start()
 
@@ -37,14 +44,26 @@ def plexoauth(id, code):
 
 @cached(cache=TTLCache(maxsize=1024, ttl=600))
 def getUsers():
-    admin = MyPlexAccount(Settings.get(Settings.key == "plex_token").value)
-    users = admin.users()
-    return users
+    admin = MyPlexAccount(TOKEN)
+    plexusers = admin.users()
+    # Compare database to users
+
+    for user in plexusers:
+        if not user.email:
+            user.email = "None"
+        if not Users.select().where(Users.username == user.title).exists():
+            Users.create(email=user.email, username=user.title,
+                         token="None", code="None")
+
+    for dbuser in Users.select():
+        if dbuser.username not in [u.title for u in plexusers]:
+            user.delete_instance()
+    return plexusers
 
 
 def deleteUser(email):
     getUsers.cache_clear()
-    admin = MyPlexAccount(Settings.get(Settings.key == "plex_token").value)
+    admin = MyPlexAccount(TOKEN)
     admin.removeFriend(email)
     Users.delete().where(Users.email == email).execute()
 
@@ -52,14 +71,11 @@ def deleteUser(email):
 def inviteUser(email, code):
     getUsers.cache_clear()
     sections = list(
-        (Settings.get(Settings.key == "plex_libraries").value).split(", "))
-    print(sections)
-    admin = PlexServer(Settings.get(Settings.key == "plex_url").value, Settings.get(
-        Settings.key == "plex_token").value)
+        (Settings.get(Settings.key == "libraries").value).split(", "))
+    admin = PlexServer(PLEX_URL, TOKEN)
     if Invitations.select().where(Invitations.code == code, Invitations.specific_libraries != None):
         sections = list(
             (Invitations.get(Invitations.code == code).specific_libraries).split(", "))
-        print(sections)
     admin.myPlexAccount().inviteFriend(user=email, server=admin, sections=sections)
     logging.info("Invited " + email + " to Plex Server")
     if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
@@ -74,8 +90,7 @@ def inviteUser(email, code):
 def SetupUser(token):
     try:
         getUsers.cache_clear()
-        admin_email = MyPlexAccount(Settings.get(
-            Settings.key == "plex_token").value).email
+        admin_email = MyPlexAccount(TOKEN).email
         user = MyPlexAccount(token)
         user.acceptInvite(admin_email)
         user.enableViewStateSync()
@@ -109,8 +124,8 @@ def scan():
 
 @app.route('/scan-specific', methods=["POST"])
 def scan_specific():
-    plex_url = Settings.get(Settings.key == "plex_url").value
-    plex_token = Settings.get(Settings.key == "plex_token").value
+    plex_url = PLEX_URL
+    plex_token = TOKEN
     if not plex_url or not plex_token:
         abort(400)
     try:
@@ -122,13 +137,3 @@ def scan_specific():
     for library in libraries_raw:
         libraries.append(library.title)
     return jsonify(libraries)
-
-
-@scheduler.task('interval', id='checkExpiring', minutes=15, misfire_grace_time=900)
-def checkExpiring():
-    logging.info('Checking for expiring invites...')
-    expiring = Users.select().where(Users.expires < datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
-    for invite in expiring:
-        deleteUser(invite.used_by)
-        logging.info("Deleting user " + invite.used_by + " due to expired invite.")
-    return

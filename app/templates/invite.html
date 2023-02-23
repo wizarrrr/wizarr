@@ -33,8 +33,7 @@
                     <div class="ml-2">
                         <h5 class="text-gray-100 font-semibold">{{
                             _("Attention!") }}</h5>
-                        <span class="text-xs font-medium text-gray-300">{{ _("Update available. Click here.")
-                            }}</span>
+                        <span class="text-xs font-medium text-gray-300">{{ _("Update available. Click here.") }}</span>
                     </div>
                 </div>
                 <div class="px-2">
@@ -202,46 +201,103 @@
                 x.style.display = "none";
             }
         }
-        function scanLibraries() {
-
-            var container = document.getElementById("libraries");
-            while (container.hasChildNodes()) {
-                container.removeChild(container.lastChild);
-            }
-            url = "/scan-specific";
-            const response = fetch(url, {
-                method: "POST"
-            }).then((response) => response.json())
-                .then(function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        var checkbox = document.createElement("input");
-                        checkbox.type = "checkbox";
-                        checkbox.name = "plex_library_" + i;
-                        checkbox.className =
-                            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
-                        checkbox.value = data[i];
-                        var label = document.createElement("label");
-                        label.for = "plex_library_" + i;
-                        label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
-                        label.innerHTML = data[i];
-
-                        var structure = document.createElement("div");
-                        structure.className = "flex items-center mb-4";
-                        container.appendChild(structure);
-                        container.appendChild(checkbox);
-                        container.appendChild(label);
-
-                        var library_count_helper = document.getElementById("library_count");
-                        library_count_helper.value = i;
-                    }
-                })
-                .catch(function (error) {
-                    var error_message = document.createElement("p");
-                    error_message.innerHTML = "Error: Please Check Your Plex URL and Token";
-                    error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
-                    container.appendChild(error_message);
-                })
-        }
     </script>
 
-    {% endblock %}
+
+{% if server_type == "plex" %}
+<script>
+  function scanLibraries() {
+
+    var container = document.getElementById("libraries");
+    while (container.hasChildNodes()) {
+      container.removeChild(container.lastChild);
+    }
+    var plex_url = document.getElementById("server_url").value;
+    var plex_token = document.getElementById("api_key").value;
+    url = "/scan-specific";
+    const response = fetch(url, {
+      method: "POST"
+    }).then((response) => response.json())
+      .then(function (data) {
+        for (var i = 0; i < data.length; i++) {
+          var checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.name = "library_" + i;
+          checkbox.className =
+            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+          checkbox.value = data[i];
+          var label = document.createElement("label");
+          label.for = "library_" + i;
+          label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
+          label.innerHTML = data[i];
+
+          var structure = document.createElement("div");
+          structure.className = "flex items-center mb-4";
+          container.appendChild(structure);
+          container.appendChild(checkbox);
+          container.appendChild(label);
+
+          var library_count_helper = document.getElementById("library_count");
+          library_count_helper.value = i;
+        }
+      })
+      .catch(function (error) {
+        var error_message = document.createElement("p");
+        error_message.innerHTML = "Error: Please Check Your Server URL and Token";
+        error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
+        container.appendChild(error_message);
+      })
+  }
+</script>
+{% endif %}
+
+{% if server_type == "jellyfin" %}
+<script>
+  function scanLibraries() {
+    var container = document.getElementById("libraries");
+    while (container.hasChildNodes()) {
+      container.removeChild(container.lastChild);
+    }
+    var url = "/jf-scan-specific";
+
+    var i = 0;
+
+    fetch(url, {
+      method: "POST"
+    })
+      .then((response) => response.json())
+      .then(function (data) {
+        for (var [key, value] of Object.entries(data)) {
+          i = i + 1;
+          var checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.name = "library_" + i;
+          checkbox.className =
+            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+          checkbox.value = value;
+          var label = document.createElement("label");
+          label.for = "library_" + i;
+          label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
+          label.innerHTML = key;
+
+          var structure = document.createElement("div");
+          structure.className = "flex items-center mb-4";
+          container.appendChild(structure);
+          container.appendChild(checkbox);
+          container.appendChild(label);
+
+          var library_count_helper = document.getElementById("library_count");
+          library_count_helper.value = i;
+        }
+      })
+      .catch(function (error) {
+        var error_message = document.createElement("p");
+        error_message.innerHTML = "Error: Please Check Your Jellyfin URL and Token";
+        error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
+        container.appendChild(error_message);
+      })
+  }
+</script>
+{% endif %}
+    
+{% endblock %}

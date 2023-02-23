@@ -93,7 +93,7 @@ class Settings(BaseModel):
 
 class Users(BaseModel):
     id = IntegerField(primary_key=True)
-    token = CharField()
+    token = CharField() # Plex Token or Jellyfin ID
     username = CharField()
     email = CharField()
     code = CharField()
@@ -114,4 +114,4 @@ if __name__ == "__main__":
     web.check_plex_credentials()
     app.run()
 
-from app import admin, web, plex, tasks
+from app import admin, web, plex, tasks, jellyfin
