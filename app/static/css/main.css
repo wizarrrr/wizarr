@@ -2335,6 +2335,11 @@ input:checked + .toggle-bg {
   --tw-ring-color: rgb(254 65 85 / var(--tw-ring-opacity));
 }
 
+.dark .dark\:focus\:ring-primary_hover:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(152 38 51 / var(--tw-ring-opacity));
+}
+
 @media (min-width: 640px) {
   .sm\:flex {
     display: flex;
