@@ -99,15 +99,9 @@ class Users(BaseModel):
     code = CharField()
     expires = DateTimeField(null=True)
 
-
-class Oauth(BaseModel):
-    id = IntegerField(primary_key=True)
-    url = CharField(null=True)
-
-
 # Below is Database Initialisation in case of new instance
 database.create_tables(
-    [Invitations, Settings, Users, Oauth])
+    [Invitations, Settings, Users])
 
 
 if __name__ == "__main__":

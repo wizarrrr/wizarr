@@ -1,5 +1,5 @@
 from plexapi.myplex import MyPlexPinLogin, MyPlexAccount, PlexServer
-from app import app, Invitations, Settings, Users, Oauth, scheduler
+from app import app, Invitations, Settings, Users, scheduler
 import datetime
 import os
 import threading
@@ -14,7 +14,7 @@ PLEX_URL = Settings.get_or_none(Settings.key == "server_url").value if Settings.
     Settings.key == "server_url") else None
 
 
-def plexoauth(token, code):
+def handleOauthToken(token, code):
     email = MyPlexAccount(token).email
     inviteUser(email, code)
     if Users.select().where(Users.email == email).exists():
