@@ -26,7 +26,7 @@ def favicon():
 @app.route("/j/<code>", methods=["GET"])
 def plex(code):
     if Settings.get(key="server_type").value == "jellyfin":
-        return render_template("signup-jellyfin.html", code=code)
+        return render_template("welcome-jellyfin.html", code=code)
     if not Invitations.select().where(Invitations.code == code).exists():
         return render_template('401.html'), 401
     name = Settings.get_or_none(
@@ -115,7 +115,7 @@ def wizard(action):
         steps.append("wizard/custom.html")
         custom_html = Settings.get(Settings.key == "custom_html").value
     
-    steps.append("wizard/plex/tips.html") 
+    steps.append(f"wizard/{server_type}/tips.html") 
     if action == "next":
 
         resp = make_response(render_template(

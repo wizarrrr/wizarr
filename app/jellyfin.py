@@ -3,6 +3,7 @@ import datetime
 from app import *
 from flask import abort, jsonify, render_template, redirect
 import logging
+import re
 
 API_KEY = Settings.get_or_none(Settings.key == "api_key").value if Settings.get_or_none(
     Settings.key == "api_key") else None
@@ -60,6 +61,7 @@ def jf_inviteUser(username, password, code, email):
             (Settings.get(Settings.key == "libraries").value).split(", "))
     
     policy = dict(Get(f"/Users/{user_id}").json()["Policy"])
+    print("Policy: ", policy)
     policy["EnableAllFolders"] = False
     policy["EnabledFolders"] = sections
 
@@ -117,6 +119,10 @@ def jf_scan_specific():
     return jsonify(libraries)
 
 
+@app.route('/setup/open-Jellyfin', methods=["GET"])
+def open_jellyfin():
+    return redirect(JELLYFIN_URL)
+
 @app.route('/setup/jellyfin', methods=["POST"])
 def join_jellyfin():
     username = request.form.get('username')
@@ -124,16 +130,25 @@ def join_jellyfin():
     confirm_password = request.form.get('confirm-password')
     code = request.form.get('code')
     email = request.form.get("email")
+
+    if not (re.fullmatch(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b', email)):
+        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Invalid email addres")
+
     if not username or not password or not code or not email:
-        return render_template("signup-jellyfin.html", username=username, email=email, code=code, error="Please fill out all fields")
+        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Please fill out all fields")
+    
+    #check password validity
+    if not (len(password) >= 8 and len(password) <= 20):
+        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Password must be between 8 and 20 characters")
+
     if password != confirm_password:
-        return render_template("signup-jellyfin.html", username=username, email=email, code=code, error="Passwords do not match")
+        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Passwords do not match")
     if not Invitations.select().where(Invitations.code == code, Invitations.expires >= datetime.datetime.now()).exists():
-        return render_template("signup-jellyfin.html", username=username, email=email, code=code, error="Invalid code")
+        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Invalid code")
     if Users.select().where(Users.username == username).exists():
-        return render_template("signup-jellyfin.html", username=username, email=email, code=code, error="Username already exists")
+        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="User already exists")
     if Users.select().where(Users.email == email).exists():
-        return render_template("signup-jellyfin.html", username=username, email=email, code=code, error="Email already exists")
+        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Email already exists")
     jf_inviteUser(username, password, code, email)
     return redirect('/setup')
 
