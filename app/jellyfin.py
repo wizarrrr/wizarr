@@ -10,6 +10,8 @@ JELLYFIN_URL = Settings.get_or_none(Settings.key == "server_url").value if Setti
     Settings.key == "server_url") else None
 
 
+
+
 def Post(path, data):
 
     headers = {
@@ -56,12 +58,13 @@ def jf_inviteUser(username, password, code, email):
     else:
         sections = list(
             (Settings.get(Settings.key == "libraries").value).split(", "))
-    folders = {
-        #"EnableAllFolders": "false",
-        "EnabledFolders": sections
-    }
-    response = Post(f"/Users/{user_id}/Policy", folders)
-    print(response.json())
+    
+    policy = dict(Get(f"/Users/{user_id}").json()["Policy"])
+    policy["EnableAllFolders"] = False
+    policy["EnabledFolders"] = sections
+
+    
+    Post(f"/Users/{user_id}/Policy", policy)
     Users.create(username=username, email=email,
                  password=password, token=user_id, code=code)
     if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
