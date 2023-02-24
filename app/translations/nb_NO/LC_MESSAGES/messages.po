@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-24 16:06+0000\n"
+"POT-Creation-Date: 2023-02-24 17:39+0000\n"
 "PO-Revision-Date: 2023-02-21 13:32+0000\n"
 "Last-Translator: Adam Bjørklund <adambjorklund95@gmail.com>\n"
 "Language: nb_NO\n"
@@ -19,259 +19,58 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: app/admin.py:119
+#: app/admin.py:126
 msgid "Passwords do not match."
 msgstr "Passordene samsvarer ikke."
 
-#: app/admin.py:122
+#: app/admin.py:129
 msgid "Username must be between 3 and 15 characters."
 msgstr "Brukernavn må være mellom 3 og 15 tegn."
 
-#: app/admin.py:125
+#: app/admin.py:132
 msgid "Password must be between 3 and 40 characters."
 msgstr "Passord må være mellom 3 og 40 tegn."
 
-#: app/admin.py:158
+#: app/admin.py:163
 msgid "You must select at least one library."
 msgstr "Du må velge minst ett bibliotek."
 
-#: app/admin.py:244
+#: app/admin.py:247
 msgid "It is likely that your token does not work."
 msgstr "Det er sannsynlig at symbolet ditt ikke virker."
 
-#: app/admin.py:246
+#: app/admin.py:249
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr "Kunne ikke koble til din Plex-tjener. Sjekk loggføringen for mer info."
 
-#: app/admin.py:252
+#: app/admin.py:259
 #, fuzzy
 msgid "Unable to connect to your Jellyfin server."
 msgstr "Kunne ikke koble til din Plex-tjener. Sjekk loggføringen for mer info."
 
-#: app/admin.py:312 app/admin.py:316
+#: app/admin.py:319 app/admin.py:323
 msgid "Invalid Username or Password"
 msgstr "Ugyldig brukernavn eller passord"
 
-#: app/templates/401.html:20
-msgid "Permission denied."
-msgstr "Tilgang nektet."
+#: app/templates/admin.html:5
+msgid "Admin"
+msgstr ""
 
-#: app/templates/401.html:23
-msgid "You are attempting to do something you shouldn't be doing..."
-msgstr "Du prøver å utføre noe du ikke burde …"
-
-#: app/templates/404.html:19
-msgid "Something's missing."
-msgstr "Noe mangler."
-
-#: app/templates/404.html:21
-msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "Finner ikke den siden. Den ser ikke ut til å eksistere."
-
-#: app/templates/500.html:19
-msgid "Internal Server Error."
-msgstr "Intern tjenerfeil"
-
-#: app/templates/500.html:21
-#, fuzzy
-msgid " Something has gone wrong. Please try again later."
-msgstr " Noe har gått galt. Prøv igjen senere."
-
-#: app/templates/admin-nav.html:23
+#: app/templates/admin.html:30
 msgid "Home"
 msgstr "Hjem"
 
-#: app/templates/admin-nav.html:28
+#: app/templates/admin.html:35
 msgid "Invitations"
 msgstr "Invitasjoner"
 
-#: app/templates/admin-nav.html:33
+#: app/templates/admin.html:40
 msgid "Users"
 msgstr "Brukere"
 
-#: app/templates/admin-nav.html:38
+#: app/templates/admin.html:45
 msgid "Settings"
 msgstr "-innstillinger"
-
-#: app/templates/invite.html:5 app/templates/invites.html:5
-#: app/templates/users.html:5
-msgid "Invite User"
-msgstr "Inviter bruker"
-
-#: app/templates/invite.html:35 app/templates/invite.html:62
-msgid "Attention!"
-msgstr "Merk."
-
-#: app/templates/invite.html:36
-msgid "Update available. Click here."
-msgstr "Oppdatering tilgjengelig. Klikk her."
-
-#: app/templates/invite.html:51
-msgid "Quick Invite"
-msgstr "Hurtig Invitasjon"
-
-#: app/templates/invite.html:57
-msgid "Invite user"
-msgstr "Inviter bruker"
-
-#: app/templates/invite.html:62
-#, fuzzy
-msgid ""
-"Environment Variables are being\n"
-"                    deprecated and replaced by a secure sign-up. Please "
-"visit "
-msgstr "Miljøvariabler er foreldet og erstattet av sikker innlogging. Besøk "
-
-#: app/templates/invite.html:63
-#, fuzzy
-msgid ""
-"/settings.\n"
-"                        See Repo for more info"
-msgstr "/settings. Sjekk kodelageret for mer info"
-
-#: app/templates/invite.html:71
-msgid "Invite Code String"
-msgstr "Invitasjonskodestreng"
-
-#: app/templates/invite.html:71
-msgid "(optional)"
-msgstr "(valgfritt)"
-
-#: app/templates/invite.html:78
-msgid "Expiration"
-msgstr "Utløp"
-
-#: app/templates/invite.html:81
-msgid "1 day"
-msgstr "1 dag"
-
-#: app/templates/invite.html:82
-msgid "1 week"
-msgstr "1 uke"
-
-#: app/templates/invite.html:83
-msgid "1 month"
-msgstr "1 måned"
-
-#: app/templates/invite.html:84 app/templates/invite_table.html:41
-msgid "Never"
-msgstr "Aldri"
-
-#: app/templates/invite.html:89
-msgid "Advanced Options"
-msgstr ""
-
-#: app/templates/invite.html:97
-msgid "Unlimited Usages"
-msgstr "Ubegrenset bruk"
-
-#: app/templates/invite.html:103 app/templates/invite.html:115
-#: app/templates/invite_table.html:10
-#, fuzzy
-msgid "Duration"
-msgstr "Utløp"
-
-#: app/templates/invite.html:103
-msgid "(in days)"
-msgstr ""
-
-#: app/templates/invite.html:111
-msgid "Show Information"
-msgstr ""
-
-#: app/templates/invite.html:116
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a\n"
-"                                        number of\n"
-"                                        days. (1-999)"
-msgstr ""
-
-#: app/templates/invite.html:130
-#, fuzzy
-msgid ""
-"Specific\n"
-"                                Libraries"
-msgstr ""
-"Plex\n"
-"              Bibliotek"
-
-#: app/templates/invite.html:133 app/templates/server-settings.html:49
-#: app/templates/verify-server.html:48
-msgid "Scan For Libraries"
-msgstr "Se etter bibliotek"
-
-#: app/templates/invite.html:142
-msgid "Create Invitation"
-msgstr "Opprett invitasjon"
-
-#: app/templates/invite.html:149
-msgid "Successfully generated an Invitation!"
-msgstr "Invitasjon generert."
-
-#: app/templates/invite.html:154
-msgid "Great!"
-msgstr "Storartet."
-
-#: app/templates/invite.html:154
-msgid "Link has been copied to clipboard!"
-msgstr "Lenke kopiert til utklippstavlen."
-
-#: app/templates/invite.html:163
-msgid "Back"
-msgstr "Tilbake"
-
-#: app/templates/invite.html:169
-msgid "Share"
-msgstr "Del"
-
-#: app/templates/invite_table.html:4 app/templates/user-plex-login.html:27
-#: app/templates/user-plex-login.html:38
-msgid "Invite Code"
-msgstr "Invitasjonskode"
-
-#: app/templates/invite_table.html:5
-msgid "Used"
-msgstr "Brukt"
-
-#: app/templates/invite_table.html:6
-msgid "Created"
-msgstr "Opprettet"
-
-#: app/templates/invite_table.html:7 app/templates/jellyfin_user_table.html:6
-#: app/templates/user_table.html:8
-msgid "Expires"
-msgstr "Utløper"
-
-#: app/templates/invite_table.html:8
-msgid "Unlimited"
-msgstr "Ubegrenset"
-
-#: app/templates/invite_table.html:9
-#, fuzzy
-msgid "Libraries"
-msgstr "Plex-bibliotek"
-
-#: app/templates/invite_table.html:19
-msgid "Available"
-msgstr ""
-
-#: app/templates/invite_table.html:31
-#, fuzzy
-msgid "Expired"
-msgstr "Utløper"
-
-#: app/templates/invite_table.html:66
-msgid "Default"
-msgstr ""
-
-#: app/templates/jellyfin_user_table.html:4 app/templates/user_table.html:5
-msgid "User"
-msgstr "Bruker"
-
-#: app/templates/jellyfin_user_table.html:5 app/templates/user_table.html:6
-#: app/templates/welcome-jellyfin.html:36
-msgid "Email"
-msgstr "Epost"
 
 #: app/templates/login.html:18
 msgid "Login"
@@ -307,64 +106,6 @@ msgstr "Bekreft passord"
 msgid "Create an account"
 msgstr "Opprett en konto"
 
-#: app/templates/server-settings.html:17
-msgid "Change Server Settings"
-msgstr "Endre tjenerinnstillinger"
-
-#: app/templates/server-settings.html:22 app/templates/verify-server.html:23
-#, fuzzy
-msgid ""
-"Server Display\n"
-"              Name"
-msgstr ""
-"Plex Bruker\n"
-"              Navn"
-
-#: app/templates/server-settings.html:29
-msgid "Server URL"
-msgstr ""
-
-#: app/templates/server-settings.html:36 app/templates/verify-server.html:38
-#, fuzzy
-msgid ""
-"Server\n"
-"              Token / API Key"
-msgstr ""
-"Plex\n"
-"              Token"
-
-#: app/templates/server-settings.html:46
-#, fuzzy
-msgid ""
-"Server\n"
-"              Libraries"
-msgstr ""
-"Plex\n"
-"              Bibliotek"
-
-#: app/templates/server-settings.html:56 app/templates/verify-server.html:54
-#, fuzzy
-msgid ""
-"Request\n"
-"              instance (Ombi, Overseerr...)"
-msgstr "Forespørselsinstans (Ombi, Overseerr …)"
-
-#: app/templates/server-settings.html:64 app/templates/verify-server.html:61
-msgid ""
-"Discord\n"
-"              Server ID"
-msgstr ""
-
-#: app/templates/server-settings.html:71
-msgid ""
-"Custom\n"
-"              HTML"
-msgstr ""
-
-#: app/templates/server-settings.html:79 app/templates/verify-server.html:69
-msgid "Verify and Confirm"
-msgstr "Gjennomse og bekreft"
-
 #: app/templates/user-plex-login.html:12 app/templates/welcome-jellyfin.html:12
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
@@ -374,6 +115,11 @@ msgstr "Du har blitt invitert til %(name)s server!"
 msgid "Join the Plex Server"
 msgstr "Ta del i Plex-tjeneren"
 
+#: app/templates/tables/invite_table.html:4
+#: app/templates/user-plex-login.html:27 app/templates/user-plex-login.html:38
+msgid "Invite Code"
+msgstr "Invitasjonskode"
+
 #: app/templates/user-plex-login.html:43
 msgid "Oops!"
 msgstr "Oida!"
@@ -382,10 +128,18 @@ msgstr "Oida!"
 msgid "Join"
 msgstr "Ta del"
 
-#: app/templates/user_table.html:7
-#, fuzzy
-msgid "Home User"
+#: app/templates/users.html:5
+msgid "Invite User"
 msgstr "Inviter bruker"
+
+#: app/templates/verify-server.html:23
+#, fuzzy
+msgid ""
+"Server Display\n"
+"              Name"
+msgstr ""
+"Plex Bruker\n"
+"              Navn"
 
 #: app/templates/verify-server.html:30
 #, fuzzy
@@ -396,15 +150,52 @@ msgstr ""
 "Plex\n"
 "              Token"
 
+#: app/templates/verify-server.html:38
+#, fuzzy
+msgid ""
+"Server\n"
+"              Token / API Key"
+msgstr ""
+"Plex\n"
+"              Token"
+
 #: app/templates/verify-server.html:46
 #, fuzzy
 msgid "Server Libraries"
 msgstr "Plex-bibliotek"
 
+#: app/templates/admin/invite.html:106 app/templates/admin/settings.html:39
+#: app/templates/verify-server.html:48
+msgid "Scan For Libraries"
+msgstr "Se etter bibliotek"
+
+#: app/templates/verify-server.html:54
+#, fuzzy
+msgid ""
+"Request\n"
+"              instance (Ombi, Overseerr...)"
+msgstr "Forespørselsinstans (Ombi, Overseerr …)"
+
+#: app/templates/verify-server.html:61
+msgid ""
+"Discord\n"
+"              Server ID"
+msgstr ""
+
+#: app/templates/verify-server.html:69
+msgid "Verify and Confirm"
+msgstr "Gjennomse og bekreft"
+
 #: app/templates/welcome-jellyfin.html:20
 #, fuzzy
 msgid "Set up Account"
 msgstr "Opprett en konto"
+
+#: app/templates/tables/jellyfin_user_table.html:6
+#: app/templates/tables/user_table.html:6
+#: app/templates/welcome-jellyfin.html:36
+msgid "Email"
+msgstr "Epost"
 
 #: app/templates/welcome-jellyfin.html:53
 msgid ""
@@ -418,9 +209,249 @@ msgid ""
 "                                Code"
 msgstr ""
 
+#: app/templates/admin/invite.html:16
+msgid "Attention!"
+msgstr "Merk."
+
+#: app/templates/admin/invite.html:17
+msgid "Update available. Click here."
+msgstr "Oppdatering tilgjengelig. Klikk her."
+
+#: app/templates/admin/invite.html:32
+msgid "Quick Invite"
+msgstr "Hurtig Invitasjon"
+
+#: app/templates/admin/invite.html:38
+msgid "Invite user"
+msgstr "Inviter bruker"
+
+#: app/templates/admin/invite.html:44
+msgid "Invite Code String"
+msgstr "Invitasjonskodestreng"
+
+#: app/templates/admin/invite.html:44
+msgid "(optional)"
+msgstr "(valgfritt)"
+
+#: app/templates/admin/invite.html:51
+msgid "Expiration"
+msgstr "Utløp"
+
+#: app/templates/admin/invite.html:54
+msgid "1 day"
+msgstr "1 dag"
+
+#: app/templates/admin/invite.html:55
+msgid "1 week"
+msgstr "1 uke"
+
+#: app/templates/admin/invite.html:56
+msgid "1 month"
+msgstr "1 måned"
+
+#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:41
+msgid "Never"
+msgstr "Aldri"
+
+#: app/templates/admin/invite.html:62
+msgid "Advanced Options"
+msgstr ""
+
+#: app/templates/admin/invite.html:70
+msgid "Unlimited Usages"
+msgstr "Ubegrenset bruk"
+
+#: app/templates/admin/invite.html:76 app/templates/admin/invite.html:88
+#: app/templates/tables/invite_table.html:10
+#, fuzzy
+msgid "Duration"
+msgstr "Utløp"
+
+#: app/templates/admin/invite.html:76
+msgid "(in days)"
+msgstr ""
+
+#: app/templates/admin/invite.html:84
+msgid "Show Information"
+msgstr ""
+
+#: app/templates/admin/invite.html:89
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a\n"
+"                                        number of\n"
+"                                        days. (1-999)"
+msgstr ""
+
+#: app/templates/admin/invite.html:103
+#, fuzzy
+msgid ""
+"Specific\n"
+"                                Libraries"
+msgstr ""
+"Plex\n"
+"              Bibliotek"
+
+#: app/templates/admin/invite.html:115
+msgid "Create Invitation"
+msgstr "Opprett invitasjon"
+
+#: app/templates/admin/invite.html:122
+msgid "Successfully generated an Invitation!"
+msgstr "Invitasjon generert."
+
+#: app/templates/admin/invite.html:127
+msgid "Great!"
+msgstr "Storartet."
+
+#: app/templates/admin/invite.html:127
+msgid "Link has been copied to clipboard!"
+msgstr "Lenke kopiert til utklippstavlen."
+
+#: app/templates/admin/invite.html:136
+msgid "Back"
+msgstr "Tilbake"
+
+#: app/templates/admin/invite.html:142
+msgid "Share"
+msgstr "Del"
+
+#: app/templates/admin/settings.html:7
+msgid "Change Server Settings"
+msgstr "Endre tjenerinnstillinger"
+
+#: app/templates/admin/settings.html:12
+#, fuzzy
+msgid ""
+"Server Display\n"
+"                Name"
+msgstr ""
+"Plex Bruker\n"
+"              Navn"
+
+#: app/templates/admin/settings.html:19
+msgid "Server URL"
+msgstr ""
+
+#: app/templates/admin/settings.html:26
+#, fuzzy
+msgid ""
+"Server\n"
+"                Token / API Key"
+msgstr ""
+"Plex\n"
+"              Token"
+
+#: app/templates/admin/settings.html:36
+#, fuzzy
+msgid ""
+"Server\n"
+"                Libraries"
+msgstr ""
+"Plex\n"
+"              Bibliotek"
+
+#: app/templates/admin/settings.html:46
+#, fuzzy
+msgid ""
+"Request\n"
+"                instance (Ombi, Overseerr...)"
+msgstr "Forespørselsinstans (Ombi, Overseerr …)"
+
+#: app/templates/admin/settings.html:54
+msgid ""
+"Discord\n"
+"                Server ID"
+msgstr ""
+
+#: app/templates/admin/settings.html:61
+msgid ""
+"Custom\n"
+"                HTML"
+msgstr ""
+
+#: app/templates/admin/settings.html:69
+msgid "Save"
+msgstr ""
+
+#: app/templates/error/401.html:20
+msgid "Permission denied."
+msgstr "Tilgang nektet."
+
+#: app/templates/error/401.html:23
+msgid "You are attempting to do something you shouldn't be doing..."
+msgstr "Du prøver å utføre noe du ikke burde …"
+
+#: app/templates/error/404.html:19
+msgid "Something's missing."
+msgstr "Noe mangler."
+
+#: app/templates/error/404.html:21
+msgid "Sorry, we can't find that page. It doesn't seem to exist!"
+msgstr "Finner ikke den siden. Den ser ikke ut til å eksistere."
+
+#: app/templates/error/500.html:19
+msgid "Internal Server Error."
+msgstr "Intern tjenerfeil"
+
+#: app/templates/error/500.html:21
+#, fuzzy
+msgid " Something has gone wrong. Please try again later."
+msgstr " Noe har gått galt. Prøv igjen senere."
+
+#: app/templates/tables/invite_table.html:5
+msgid "Used"
+msgstr "Brukt"
+
+#: app/templates/tables/invite_table.html:6
+msgid "Created"
+msgstr "Opprettet"
+
+#: app/templates/tables/invite_table.html:7
+#: app/templates/tables/jellyfin_user_table.html:7
+#: app/templates/tables/user_table.html:8
+msgid "Expires"
+msgstr "Utløper"
+
+#: app/templates/tables/invite_table.html:8
+msgid "Unlimited"
+msgstr "Ubegrenset"
+
+#: app/templates/tables/invite_table.html:9
+#, fuzzy
+msgid "Libraries"
+msgstr "Plex-bibliotek"
+
+#: app/templates/tables/invite_table.html:19
+msgid "Available"
+msgstr ""
+
+#: app/templates/tables/invite_table.html:31
+#, fuzzy
+msgid "Expired"
+msgstr "Utløper"
+
+#: app/templates/tables/invite_table.html:66
+msgid "Default"
+msgstr ""
+
+#: app/templates/tables/jellyfin_user_table.html:4
+#, fuzzy
+msgid "Invite Used"
+msgstr "Inviter bruker"
+
+#: app/templates/tables/jellyfin_user_table.html:5
+#: app/templates/tables/user_table.html:5
+msgid "User"
+msgstr "Bruker"
+
+#: app/templates/tables/user_table.html:7
+#, fuzzy
+msgid "Home User"
+msgstr "Inviter bruker"
+
 #: app/templates/wizard/requests.html:4
-msgid "Plex Requests"
-msgstr "Plex-forespørsler"
+msgid "Automatic Media Requests"
+msgstr ""
 
 #: app/templates/wizard/requests.html:9
 #, fuzzy
@@ -977,4 +1008,23 @@ msgstr ""
 
 #~ msgid "Discord Server ID"
 #~ msgstr ""
+
+#~ msgid ""
+#~ "Environment Variables are being\n"
+#~ "                    deprecated and replaced by"
+#~ " a secure sign-up. Please visit \n"
+#~ msgstr "Miljøvariabler er foreldet og erstattet av sikker innlogging. Besøk "
+
+#~ msgid ""
+#~ "/settings.\n"
+#~ "                        See Repo for more info"
+#~ msgstr "/settings. Sjekk kodelageret for mer info"
+
+#~ msgid ""
+#~ "Custom\n"
+#~ "              HTML"
+#~ msgstr ""
+
+#~ msgid "Plex Requests"
+#~ msgstr "Plex-forespørsler"
 
