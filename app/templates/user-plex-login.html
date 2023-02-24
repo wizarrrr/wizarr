@@ -97,7 +97,8 @@
             code: pin.code
         });
 
-        const popup = window.open(`https://app.plex.tv/auth/#!?${params}`, "Plex", 'width=600, height=700, toolbar=no, menubar=no');
+        let popup = window.open("", "Plex", 'width=600, height=700, toolbar=no, menubar=no'); // move this to the start of the oauth function, so above line 65
+        popup.location.href = `https://app.plex.tv/auth/#!?${params}`
 
         const authToken = await new Promise((resolve, reject) => {
             const currentTime = Date.now()
