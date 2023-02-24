@@ -42,6 +42,7 @@ def plex(code):
 @app.route("/join", methods=["POST"])
 def connect():
     code = request.form.get('code')
+    token = request.form.get("token")
     if not Invitations.select().where(Invitations.code == code).exists():
         return render_template("user-plex-login.html", name=Settings.get(Settings.key == "server_name").value, code=code, code_error="That invite code does not exist.")
     if Invitations.select().where(Invitations.code == code, Invitations.used == True, Invitations.unlimited == False).exists():
@@ -50,11 +51,8 @@ def connect():
         return render_template("user-plex-login.html", name=Settings.get(Settings.key == "server_name").value, code=code, code_error="That invite code has expired.")
 
     if Settings.get(key="server_type").value == "plex":
-        oauth = Oauth.create()
-        threading.Thread(target=plexoauth, args=(oauth.id, code)).start()
-        while not Oauth.get_by_id(oauth.id).url:
-            pass
-        return redirect(Oauth.get_by_id(oauth.id).url)
+        threading.Thread(target=plexoauth, args=(token, code)).start()
+        return redirect(os.getenv("APP_URL") + "/setup")
     
     elif Settings.get(key="server_type").value == "jellyfin":
         return render_template("signup-jellyfin.html", code=code)

@@ -13,7 +13,7 @@
 
         <div class="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
 
-        </div>  
+        </div>
         <div
             class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -28,6 +28,7 @@
                         <input type="code" name="code" id="code"
                             class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="XMFGEJI" value="{{ code }}" required="">
+                        <input type="hidden" name="token" id="token" value="">
                     </div>
                     {% endif %}
                     {% if code_error %}
@@ -44,7 +45,7 @@
                             {{ code_error }}</p>
                     </div>
                     {% endif %}
-                    <button type="submit"
+                    <button onClick="oauth(); return false;"
                         class="w-full text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">{{
                         _("Join") }}</button>
                     </p>
@@ -54,12 +55,69 @@
     </div>
 </section>
 
-
+<script src="https://unpkg.com/bowser@2.7.0/es5.js"></script> <!-- needed for plexHeaders -->
 <script>
-    // Creaet a fucntion that opens a popup
-    function openPopup() {
-        window.open("https://app.plex.tv/auth/#!?clientID=0x22f050b978eb&context%5Bdevice%5D%5Bproduct%5D=PlexAPI&context%5Bdevice%5D%5Bversion%5D=4.13.2&context%5Bdevice%5D%5Bplatform%5D=Darwin&context%5Bdevice%5D%5BplatformVersion%5D=22.2.0&context%5Bdevice%5D%5Bdevice%5D=Darwin&context%5Bdevice%5D%5BdeviceName%5D=Matthieus-MacBook-Pro.local&code=vnmn0ecwlhd2p3s9fuvnszrar", "Login", "width=600,height=400");
+    // nanoid package, for generating client-identifier in plexHeaders
+    let nanoid = (t = 21) => crypto.getRandomValues(new Uint8Array(t)).reduce(((t, e) => t += (e &= 63) < 36 ? e.toString(36) : e < 62 ? (e - 26).toString(36).toUpperCase() : e > 62 ? "-" : "_"), "");
 
+    // adapted from overseerr
+    async function oauth() {
+        const browser = window.bowser.getParser(window.navigator.userAgent);
+        const plexHeaders = {
+            Accept: 'application/json',
+            'X-Plex-Product': 'Wizarr',
+            'X-Plex-Version': 'Plex OAuth',
+            'X-Plex-Client-Identifier': nanoid(),
+            'X-Plex-Model': 'Plex OAuth',
+            'X-Plex-Platform': browser.getBrowserName(),
+            'X-Plex-Platform-Version': browser.getBrowserVersion(),
+            'X-Plex-Device': browser.getOSName(),
+            'X-Plex-Device-Name': `${browser.getBrowserName()} (Wizarr)`,
+            'X-Plex-Device-Screen-Resolution':
+                `${window.screen.width}x${window.screen.height}`,
+        }
+        const pin = await fetch("https://plex.tv/api/v2/pins?strong=true", {
+            method: "POST",
+            headers: plexHeaders
+        }).then(r => r.json())
+
+        const params = new URLSearchParams({
+            clientID: plexHeaders['X-Plex-Client-Identifier'],
+            'context[device][product]': plexHeaders['X-Plex-Product'],
+            'context[device][version]': plexHeaders['X-Plex-Version'],
+            'context[device][platform]': plexHeaders['X-Plex-Platform'],
+            'context[device][platformVersion]':
+                plexHeaders['X-Plex-Platform-Version'],
+            'context[device][device]': plexHeaders['X-Plex-Device'],
+            'context[device][deviceName]': plexHeaders['X-Plex-Device-Name'],
+            'context[device][model]': plexHeaders['X-Plex-Model'],
+            'context[device][screenResolution]':
+                plexHeaders['X-Plex-Device-Screen-Resolution'],
+            'context[device][layout]': 'desktop',
+            code: pin.code
+        });
+
+        const popup = window.open(`https://app.plex.tv/auth/#!?${params}`, "Plex", 'width=600, height=700, toolbar=no, menubar=no');
+
+        const authToken = await new Promise((resolve, reject) => {
+            const currentTime = Date.now()
+            const interval = setInterval(async () => {
+                if (popup.closed) return location.reload();
+                const resp = await fetch(`https://plex.tv/api/v2/pins/${pin.id}`, {
+                    headers: plexHeaders
+                }).then(r => r.json())
+
+                if (resp?.errors?.length) return location.reload();
+                if (resp?.authToken) {
+                    clearInterval(interval)
+                    resolve(resp.authToken);
+                    return;
+                }
+            }, 1000)
+        });
+        document.querySelector("#token").value = authToken;
+
+        document.forms[0].submit();
     }
 </script>
 {% endblock %}
