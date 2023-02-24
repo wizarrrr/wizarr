@@ -1,6 +1,7 @@
 <table id="user_table" class="table-auto w-full ">
     <thead>
         <tr class="text-xs text-gray-500 text-left dark:text-white">
+            <th class="pl-5 pb-3 font-medium">{{ _("Invite Used") }}</th>
             <th class="pl-5 pb-3 font-medium">{{ _("User") }}</th>
             <th class="pl-5 pb-3 font-medium">{{ _("Email") }}</th>\
             <th class="pl-5 pb-3 font-medium">{{ _("Expires") }}</th>
@@ -9,6 +10,7 @@
     <tbody>
         {% for user in users %} 
         <tr class="text-xs bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+            <td class="py-5 px-3 font-medium">{%if user.code != "empty"%}{{ user.code }}{% endif %}</td>
             <td class="py-5 px-6 font-medium">{{ user.username }}</td>
             <td class="py-5 px-6 font-medium">{% if user.email != 'empty' %}{{ user.email }}{% endif %}</td>
             <td class="py-5 px-6 font-medium">{% if user.expires %} {{ user.expires }}{% endif %}</td>
