@@ -4,7 +4,7 @@ import os
 import os.path
 import datetime
 from flask import request, redirect, render_template, abort, make_response, send_from_directory
-from app import app, Invitations, Settings, VERSION, Oauth, get_locale
+from app import app, Invitations, Settings, VERSION, get_locale
 from app.plex import *
 from flask_babel import _
 import threading
@@ -51,7 +51,7 @@ def connect():
         return render_template("user-plex-login.html", name=Settings.get(Settings.key == "server_name").value, code=code, code_error="That invite code has expired.")
 
     if Settings.get(key="server_type").value == "plex":
-        threading.Thread(target=plexoauth, args=(token, code)).start()
+        threading.Thread(target=handleOauthToken, args=(token, code)).start()
         return redirect(os.getenv("APP_URL") + "/setup")
     
     elif Settings.get(key="server_type").value == "jellyfin":
