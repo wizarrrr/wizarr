@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-24 16:06+0000\n"
-"PO-Revision-Date: 2023-02-16 15:15+0000\n"
-"Last-Translator: Matthieu B <matthieu@jaseroque.com>\n"
+"PO-Revision-Date: 2023-02-24 16:32+0000\n"
+"Last-Translator: Rémi Guerrero <remidu34070@hotmail.fr>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/wizarr/app/fr/>\n"
 "Language: fr\n"
-"Language-Team: fr <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.16-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:119
@@ -45,11 +46,8 @@ msgstr ""
 "pour plus d'informations."
 
 #: app/admin.py:252
-#, fuzzy
 msgid "Unable to connect to your Jellyfin server."
-msgstr ""
-"Impossible de se connecter à votre serveur Plex. Consultez les journaux "
-"pour plus d'informations."
+msgstr "Impossible de se connecter à votre serveur Jellyfin."
 
 #: app/admin.py:312 app/admin.py:316
 msgid "Invalid Username or Password"
@@ -117,7 +115,6 @@ msgid "Invite user"
 msgstr "Inviter un utilisateur"
 
 #: app/templates/invite.html:62
-#, fuzzy
 msgid ""
 "Environment Variables are being\n"
 "                    deprecated and replaced by a secure sign-up. Please "
@@ -127,11 +124,12 @@ msgstr ""
 "inscription sécurisée. Veuillez visiter "
 
 #: app/templates/invite.html:63
-#, fuzzy
 msgid ""
 "/settings.\n"
 "                        See Repo for more info"
-msgstr "/settings. Voir le dépôt pour plus d'informations"
+msgstr ""
+"/settings.\n"
+"Voir le dépôt pour plus d'informations"
 
 #: app/templates/invite.html:71
 msgid "Invite Code String"
@@ -163,7 +161,7 @@ msgstr "Jamais"
 
 #: app/templates/invite.html:89
 msgid "Advanced Options"
-msgstr ""
+msgstr "Options avancées"
 
 #: app/templates/invite.html:97
 msgid "Unlimited Usages"
@@ -171,17 +169,16 @@ msgstr "Utilisations illimitées"
 
 #: app/templates/invite.html:103 app/templates/invite.html:115
 #: app/templates/invite_table.html:10
-#, fuzzy
 msgid "Duration"
-msgstr "Expiration"
+msgstr "Durée"
 
 #: app/templates/invite.html:103
 msgid "(in days)"
-msgstr ""
+msgstr "(en jours)"
 
 #: app/templates/invite.html:111
 msgid "Show Information"
-msgstr ""
+msgstr "Montrer les informations"
 
 #: app/templates/invite.html:116
 msgid ""
@@ -189,15 +186,17 @@ msgid ""
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
+"Si renseigné, les utilisateurs invités\n"
+"seront retirés du serveur\n"
+"Plex après (1-999) jours."
 
 #: app/templates/invite.html:130
-#, fuzzy
 msgid ""
 "Specific\n"
 "                                Libraries"
 msgstr ""
 "Bibliothèques\n"
-"              Plex"
+"              spécifiques"
 
 #: app/templates/invite.html:133 app/templates/server-settings.html:49
 #: app/templates/verify-server.html:48
@@ -251,22 +250,20 @@ msgid "Unlimited"
 msgstr "Illimité"
 
 #: app/templates/invite_table.html:9
-#, fuzzy
 msgid "Libraries"
-msgstr "Bibliothèques de Plex"
+msgstr "Bibliothèques"
 
 #: app/templates/invite_table.html:19
 msgid "Available"
-msgstr ""
+msgstr "Disponible"
 
 #: app/templates/invite_table.html:31
-#, fuzzy
 msgid "Expired"
-msgstr "Expiration"
+msgstr "Expiré"
 
 #: app/templates/invite_table.html:66
 msgid "Default"
-msgstr ""
+msgstr "Défaut"
 
 #: app/templates/jellyfin_user_table.html:4 app/templates/user_table.html:5
 msgid "User"
@@ -316,35 +313,32 @@ msgid "Change Server Settings"
 msgstr "Modifier les paramètres du serveur"
 
 #: app/templates/server-settings.html:22 app/templates/verify-server.html:23
-#, fuzzy
 msgid ""
 "Server Display\n"
 "              Name"
 msgstr ""
-"Nom d'affichage\n"
-"              Plex"
+"Nom\n"
+"              du serveur"
 
 #: app/templates/server-settings.html:29
 msgid "Server URL"
-msgstr ""
+msgstr "URL du serveur"
 
 #: app/templates/server-settings.html:36 app/templates/verify-server.html:38
-#, fuzzy
 msgid ""
 "Server\n"
 "              Token / API Key"
 msgstr ""
-"Token\n"
-"              Plex"
+"Token / clé API\n"
+"              du serveur"
 
 #: app/templates/server-settings.html:46
-#, fuzzy
 msgid ""
 "Server\n"
 "              Libraries"
 msgstr ""
 "Bibliothèques\n"
-"              Plex"
+"              du serveur"
 
 #: app/templates/server-settings.html:56 app/templates/verify-server.html:54
 msgid ""
@@ -396,35 +390,36 @@ msgid "Home User"
 msgstr "Utilisateur Maison"
 
 #: app/templates/verify-server.html:30
-#, fuzzy
 msgid ""
 "Server\n"
 "              URL"
 msgstr ""
-"Token\n"
-"              Plex"
+"URL\n"
+"              du serveur"
 
 #: app/templates/verify-server.html:46
-#, fuzzy
 msgid "Server Libraries"
-msgstr "Bibliothèques de Plex"
+msgstr "Bibliothèques du serveur"
 
 #: app/templates/welcome-jellyfin.html:20
-#, fuzzy
 msgid "Set up Account"
-msgstr "Créer un compte"
+msgstr "Configurer un compte"
 
 #: app/templates/welcome-jellyfin.html:53
 msgid ""
 "Confirm\n"
 "                                password"
 msgstr ""
+"Confirmer le\n"
+"Mot de passe"
 
 #: app/templates/welcome-jellyfin.html:61
 msgid ""
 "Invite\n"
 "                                Code"
 msgstr ""
+"Code\n"
+"d’invitation"
 
 #: app/templates/wizard/requests.html:4
 msgid "Plex Requests"
@@ -466,16 +461,14 @@ msgid "Check it Out"
 msgstr "Jeter un œil"
 
 #: app/templates/wizard/jellyfin/download.html:3
-#, fuzzy
 msgid ""
 "Join & Download Jellyfin\n"
 "            for this device"
 msgstr ""
 "Nous rejoindre et télécharger\n"
-"Plex pour cet appareil"
+"Jellyfin pour cet appareil"
 
 #: app/templates/wizard/jellyfin/download.html:8
-#, fuzzy
 msgid ""
 "Great news! You now have access to our server's media collection. Let's "
 "make sure you know how to use\n"
@@ -483,15 +476,14 @@ msgid ""
 msgstr ""
 "Bonne nouvelle ! Vous avez maintenant accès à la collection de médias de "
 "notre serveur.\n"
-"Assurons-nous que vous savez comment l'utiliser avec Plex."
+"Assurons-nous que vous savez comment l'utiliser avec Jellyfin."
 
 #: app/templates/wizard/jellyfin/download.html:11
-#, fuzzy
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
 msgstr ""
-"Vous prévoyez de regarder des films sur cet appareil ? Téléchargez Plex "
+"Vous prévoyez de regarder des films sur cet appareil ? Téléchargez Jellyfin "
 "pour celui-ci."
 
 #: app/templates/wizard/jellyfin/download.html:14
@@ -500,9 +492,8 @@ msgid "Download"
 msgstr "Télécharger"
 
 #: app/templates/wizard/jellyfin/tips.html:4
-#, fuzzy
 msgid "Eh, So, What is Jellyfin exactly?"
-msgstr "Euh, alors, qu'est-ce que Plex exactement ?"
+msgstr "Euh, alors, qu'est-ce que Jellyfin exactement ?"
 
 #: app/templates/wizard/jellyfin/tips.html:7
 msgid ""
@@ -1032,4 +1023,3 @@ msgstr "Ouvrir Plex"
 
 #~ msgid "Discord Server ID"
 #~ msgstr "ID du serveur Discord"
-
