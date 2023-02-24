@@ -14,7 +14,7 @@ import threading
 def redirect_to_invite():
     if not Settings.select().where(Settings.key == 'admin_username').exists():
         return redirect('/settings')
-    return redirect('/invite')
+    return redirect('/admin')
 
 
 @app.route('/favicon.ico')
