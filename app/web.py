@@ -25,6 +25,8 @@ def favicon():
 
 @app.route("/j/<code>", methods=["GET"])
 def plex(code):
+    if Settings.get(key="server_type").value == "jellyfin":
+        return render_template("signup-jellyfin.html", code=code)
     if not Invitations.select().where(Invitations.code == code).exists():
         return render_template('401.html'), 401
     name = Settings.get_or_none(
