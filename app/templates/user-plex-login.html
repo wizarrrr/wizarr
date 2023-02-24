@@ -62,6 +62,7 @@
 
     // adapted from overseerr
     async function oauth() {
+        let popup = window.open("", "Plex", 'width=600, height=700, toolbar=no, menubar=no');
         const browser = window.bowser.getParser(window.navigator.userAgent);
         const plexHeaders = {
             Accept: 'application/json',
@@ -97,8 +98,7 @@
             code: pin.code
         });
 
-        let popup = window.open("", "Plex", 'width=600, height=700, toolbar=no, menubar=no'); // move this to the start of the oauth function, so above line 65
-        popup.location.href = `https://app.plex.tv/auth/#!?${params}`
+        popup.location.href = `https://app.plex.tv/auth/#!?${params}`;
 
         const authToken = await new Promise((resolve, reject) => {
             const currentTime = Date.now()
