@@ -1,5 +1,5 @@
 from plexapi.myplex import MyPlexPinLogin, MyPlexAccount, PlexServer
-from app import app, Invitations, Settings, Users, Oauth, scheduler
+from app import app, Invitations, Settings, Users, scheduler
 import datetime
 import os
 import threading
@@ -14,32 +14,18 @@ PLEX_URL = Settings.get_or_none(Settings.key == "server_url").value if Settings.
     Settings.key == "server_url") else None
 
 
-def plexoauth(id, code):
-    oauth = MyPlexPinLogin(oauth=True)
-    url = oauth.oauthUrl(forwardUrl=(os.getenv('APP_URL') + '/setup'))
+def handleOauthToken(token, code):
+    email = MyPlexAccount(token).email
+    inviteUser(email, code)
+    if Users.select().where(Users.email == email).exists():
+        Users.delete().where(Users.email == email).execute()
+    expires = datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration)
+                                                           ) if Invitations.get(code=code).duration else None
+    user = Users.create(token=token, email=email,
+                        username=MyPlexAccount(token).username, code=code, expires=expires)
 
-    Oauth.update(url=url).where(Oauth.id == id).execute()
-
-    oauth.run(timeout=120)
-    oauth.waitForLogin()
-    token = oauth.token
-
-    if not token:
-        logging.error("Failed to get token from Plex")
-    if token:
-        email = MyPlexAccount(token).email
-        inviteUser(email, code)
-        if Users.select().where(Users.email == email).exists():
-            Users.delete().where(Users.email == email).execute()
-        expires = datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration)
-                                                               ) if Invitations.get(code=code).duration else None
-        user = Users.create(token=token, email=email,
-                            username=MyPlexAccount(token).username, code=code, expires=expires)
-
-        user.save()
-        threading.Thread(target=SetupUser, args=(token,)).start()
-
-    return
+    user.save()
+    threading.Thread(target=SetupUser, args=(token,)).start()
 
 
 @cached(cache=TTLCache(maxsize=1024, ttl=600))
