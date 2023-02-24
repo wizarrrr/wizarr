@@ -17,6 +17,7 @@ def Post(path, data):
     }
     response = requests.post(
         f"{JELLYFIN_URL}{path}", json=data, headers=headers)
+    logging.info("POST " + path + " " + str(response.status_code))
     return response
 
 
@@ -56,10 +57,11 @@ def jf_inviteUser(username, password, code, email):
         sections = list(
             (Settings.get(Settings.key == "libraries").value).split(", "))
     folders = {
-        "EnableAllFolders": "false",
+        #"EnableAllFolders": "false",
         "EnabledFolders": sections
     }
     response = Post(f"/Users/{user_id}/Policy", folders)
+    print(response.json())
     Users.create(username=username, email=email,
                  password=password, token=user_id, code=code)
     if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):

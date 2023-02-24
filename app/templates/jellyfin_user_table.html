@@ -15,7 +15,7 @@
 
 
             <td>
-                <button id="delete" class="inline-block" hx-get="/users/table?delete={{ user['Id'] }}"
+                <button id="delete" class="inline-block" hx-get="/users/table?delete={{ user.token }}"
                     hx-target="#user_table" hx-swap="outerHTML swap:0.5s"
                     hx-confirm="Are you sure you wish to remove {{ user.title }} from your server?">
                     <svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
