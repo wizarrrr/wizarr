@@ -34,6 +34,12 @@ def login_required(f):
     return decorated_function
 
 
+@app.route('/admin')
+@login_required
+def admin():
+    return render_template("admin.html")
+
+
 @app.route('/invite', methods=["GET", "POST"])
 @login_required
 def invite():
@@ -83,12 +89,12 @@ def invite():
         ).strftime("%Y-%m-%d %H:%M"), expires=expires, unlimited=unlimited, duration=duration, specific_libraries=specific_libraries)
         link = os.getenv("APP_URL") + "/j/" + code
         invitations = Invitations.select().order_by(Invitations.created.desc())
-        return render_template("invite.html", link=link, invitations=invitations, url=os.getenv("APP_URL"))
+        return render_template("admin/invite.html", link=link, invitations=invitations, url=os.getenv("APP_URL"))
     else:
         invitations = Invitations.select().order_by(Invitations.created.desc())
         needUpdate()
         server_type = Settings.get(Settings.key == "server_type").value
-        return render_template("invite.html", invitations=invitations, update_msg=update_msg, needUpdate=needUpdate(), url=os.getenv("APP_URL"),server_type=server_type)
+        return render_template("admin/invite.html", invitations=invitations, update_msg=update_msg, needUpdate=needUpdate(), url=os.getenv("APP_URL"), server_type=server_type)
 
 
 @app.route('/settings', methods=["GET", "POST"])
@@ -106,7 +112,8 @@ def preferences():
 
         if request.method == 'GET':
             if request.args.get("type") == 'jellyfin' or request.args.get("type") == 'plex':
-                Settings.update(value=request.args.get("type")).where(Settings.key == "server_type").execute()
+                Settings.update(value=request.args.get("type")).where(
+                    Settings.key == "server_type").execute()
                 logging.info("Server type set to " + request.args.get("type"))
                 return redirect("/settings")
             return render_template("register_admin.html")
@@ -130,12 +137,10 @@ def preferences():
 
     elif not Settings.select().where(Settings.key == 'server_verified').exists():
 
-
         server_type = Settings.get(Settings.key == "server_type").value
         if request.method == 'GET':
 
             return render_template("verify-server.html", server_type=server_type)
-            
 
         elif request.method == 'POST':
             server_name = request.form.get("server_name")
@@ -162,10 +167,10 @@ def preferences():
             if request.form.get("overseerr_url"):
                 overseerr_url = request.form.get("overseerr_url")
 
-            Settings.create(key="server_name", value=server_name) 
-            Settings.create(key="server_url", value=server_url) 
+            Settings.create(key="server_name", value=server_name)
+            Settings.create(key="server_url", value=server_url)
             Settings.create(key="api_key", value=api_key)
-            Settings.create(key="libraries", value=libraries) 
+            Settings.create(key="libraries", value=libraries)
             if overseerr_url:
                 Settings.create(key="overseerr_url", value=overseerr_url)
             if discord_id:
@@ -190,7 +195,6 @@ def secure_settings():
             Settings.key == "libraries").value
         api_key = Settings.get(Settings.key == "api_key").value
 
-
         overseerr_url = Settings.get_or_none(
             Settings.key == "overseerr_url")
         discord_id = Settings.get_or_none(Settings.key == "discord_id")
@@ -202,8 +206,7 @@ def secure_settings():
         if custom_html:
             custom_html = custom_html.value
 
-
-        return render_template("server-settings.html", server_name=server_name, server_url=server_url, server_type=server_type, api_key=api_key, overseerr_url=overseerr_url, discord_id=discord_id, custom_html=custom_html)
+        return render_template("admin/settings.html", server_name=server_name, server_url=server_url, server_type=server_type, api_key=api_key, overseerr_url=overseerr_url, discord_id=discord_id, custom_html=custom_html)
 
     elif request.method == 'POST':
         server_name = request.form.get("server_name")
@@ -225,7 +228,7 @@ def secure_settings():
         libraries = ', '.join(libraries)
 
         if not libraries:
-            libraries = Settings.get(Settings.key == "libraries").value 
+            libraries = Settings.get(Settings.key == "libraries").value
 
         if request.form.get("discord_id"):
             discord_id = request.form.get("discord_id")
@@ -245,12 +248,16 @@ def secure_settings():
                 else:
                     error = _(
                         "Unable to connect to your Plex server. See Logs for more information.")
-                return render_template("plex-settings.html", error=error)
+                return render_template("admin/settings.html", error=error)
         elif server_type == "jellyfin":
-            response = Get("/Users")
+            headers = {
+                "X-Emby-Token": api_key,
+            }
+            response = requests.get(
+                f"{server_url}/Users", headers=headers)
             if response.status_code != 200:
                 error = _("Unable to connect to your Jellyfin server.")
-                return render_template("jellyfin-settings.html", error=error)
+                return render_template("admin/settings.html", error=error)
 
         Settings.update(value=server_name).where(
             Settings.key == "server_name").execute()
@@ -275,7 +282,7 @@ def secure_settings():
         if custom_html:
             Settings.delete().where(Settings.key == "custom_html").execute()
             Settings.create(key="custom_html", value=custom_html)
-        return redirect("/")
+        return render_template("admin/settings.html", server_name=server_name, server_url=server_url, server_type=server_type, api_key=api_key, overseerr_url=overseerr_url, discord_id=discord_id, custom_html=custom_html)
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -319,7 +326,7 @@ def login():
 @app.route('/invites')
 @login_required
 def invites():
-    return render_template("invites.html")
+    return render_template("admin/invites.html")
 
 
 @app.route('/invite/table/delete=<delete_code>', methods=["POST"])
@@ -337,14 +344,14 @@ def table(delete_code):
         else:
             invite.expired = False
 
-    return render_template("invite_table.html", invitations=invitations, rightnow=datetime.datetime.now())
+    return render_template("tables/invite_table.html", invitations=invitations, rightnow=datetime.datetime.now())
 
 
 @app.route('/users')
 @login_required
 def users():
 
-    return render_template("users.html")
+    return render_template("admin/users.html")
 
 
 @app.route('/users/table')
@@ -362,9 +369,9 @@ def users_table():
         for user in users:
             user.expires = Users.get_or_none(Users.email == str(
                 user.email)).expires if Users.get_or_none(Users.email == str(user.email)) else None
-        return render_template("user_table.html", users=users, rightnow=datetime.datetime.now())
+        return render_template("tables/user_table.html", users=users, rightnow=datetime.datetime.now())
     elif Settings.get(Settings.key == "server_type").value == "jellyfin":
-        return render_template("jellyfin_user_table.html", users=users, rightnow=datetime.datetime.now())
+        return render_template("tables/jellyfin_user_table.html", users=users, rightnow=datetime.datetime.now())
 
 
 def needUpdate():
@@ -380,13 +387,15 @@ def needUpdate():
             return False
     except:
         return False
-    
+
 
 @scheduler.task('interval', id='checkExpiring', minutes=15, misfire_grace_time=900)
 def checkExpiring():
     logging.info('Checking for expiring invites...')
-    expiring = Users.select().where(Users.expires < datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
+    expiring = Users.select().where(
+        Users.expires < datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
     for invite in expiring:
         GlobalDeleteUser(invite.used_by)
-        logging.info("Deleting user " + invite.used_by + " due to expired invite.")
+        logging.info("Deleting user " + invite.used_by +
+                     " due to expired invite.")
     return

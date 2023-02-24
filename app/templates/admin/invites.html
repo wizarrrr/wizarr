@@ -1,17 +1,3 @@
-{% extends "base.html" %}
-
-
-{% block title %}
-{{ _("Invite User") }}
-{% endblock %}
-
-
-
-
-{% block main %}
-
-{% include "admin-nav.html" %}
-
 <section class="py-8 animate__animated animate__fadeIn">
     <div class="container px-4 mx-auto">
         <div hx-post="/invite/table/delete=None" hx-trigger="load" hx-target="#invite_table" hx-swap="outerHTML"
@@ -44,4 +30,3 @@
         }, 1000);
     }
 </script>
-{% endblock %}
