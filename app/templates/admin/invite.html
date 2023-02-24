@@ -1,23 +1,4 @@
-{% extends "base.html" %}
-
-
-{% block title %}
-{{ _("Invite User") }}
-{% endblock %}
-
-
-
-
-{% block main %}
-
-
-
-{% include "admin-nav.html" %}
-
-
-
 {% if needUpdate %}
-
 <div class="z-50 fixed left-0 bottom-0 p-4 ">
     <a href="https://github.com/wizarrrr/wizarr">
         <div class="w-full max-w-xl p-6 mt-auto ml-auto bg-slate-700 rounded-lg">
@@ -47,7 +28,7 @@
 
 <section class="py-5 bg-gray-50 dark:bg-gray-900 animate__animated animate__fadeIn">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
-        <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+        <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
             {{ _("Quick Invite") }}
         </a>
         <div
@@ -56,16 +37,8 @@
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                     {{ _("Invite user") }}
                 </h1>
-                {% if update_msg %}
-                <div class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800"
-                    role="alert">
-                    <span class="font-medium">{{ _("Attention!") }}</span>{{ _("Environment Variables are being
-                    deprecated and replaced by a secure sign-up. Please visit ") }}<a href="/settings">{{ _("/settings.
-                        See Repo for more info") }}</a>
-                </div>
-                {% endif %}
                 {% if not link %}
-                <form class="space-y-4 md:space-y-6" action="/invite" method="post">
+                <form class="space-y-4 md:space-y-6" hx-post="/invite" hx-target="#content" hx-swap="innerHTML">
                     <div>
                         <label for="code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                             _("Invite Code String") }} <a class="text-gray-500">{{ _("(optional)") }}</a></label>
@@ -157,7 +130,7 @@
                 </div>
                 <div class="flex">
                     <div class="w-1/2 text-center">
-                        <a href="/invite">
+                        <a hx-get="/invite" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">
                             <button type="back"
                                 class="w-3/4 text-amber-400 hover:text-white border border-amber-400 hover:bg-amber-500 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-amber-300 dark:text-amber-300 dark:hover:text-white dark:hover:bg-amber-400 dark:focus:ring-amber-900">{{
                                 _("Back") }}</button>
@@ -204,98 +177,96 @@
     </script>
 
 
-{% if server_type == "plex" %}
-<script>
-  function scanLibraries() {
+    {% if server_type == "plex" %}
+    <script>
+        function scanLibraries() {
 
-    var container = document.getElementById("libraries");
-    while (container.hasChildNodes()) {
-      container.removeChild(container.lastChild);
-    }
-    url = "/scan-specific";
-    const response = fetch(url, {
-      method: "POST"
-    }).then((response) => response.json())
-      .then(function (data) {
-        for (var i = 0; i < data.length; i++) {
-          var checkbox = document.createElement("input");
-          checkbox.type = "checkbox";
-          checkbox.name = "library_" + i;
-          checkbox.className =
-            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
-          checkbox.value = data[i];
-          var label = document.createElement("label");
-          label.for = "library_" + i;
-          label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
-          label.innerHTML = data[i];
+            var container = document.getElementById("libraries");
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
+            }
+            url = "/scan-specific";
+            const response = fetch(url, {
+                method: "POST"
+            }).then((response) => response.json())
+                .then(function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        checkbox.name = "library_" + i;
+                        checkbox.className =
+                            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+                        checkbox.value = data[i];
+                        var label = document.createElement("label");
+                        label.for = "library_" + i;
+                        label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
+                        label.innerHTML = data[i];
 
-          var structure = document.createElement("div");
-          structure.className = "flex items-center mb-4";
-          container.appendChild(structure);
-          container.appendChild(checkbox);
-          container.appendChild(label);
+                        var structure = document.createElement("div");
+                        structure.className = "flex items-center mb-4";
+                        container.appendChild(structure);
+                        container.appendChild(checkbox);
+                        container.appendChild(label);
 
-          var library_count_helper = document.getElementById("library_count");
-          library_count_helper.value = i;
+                        var library_count_helper = document.getElementById("library_count");
+                        library_count_helper.value = i;
+                    }
+                })
+                .catch(function (error) {
+                    var error_message = document.createElement("p");
+                    error_message.innerHTML = "Error: Please Check Your Server URL and Token";
+                    error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
+                    container.appendChild(error_message);
+                })
         }
-      })
-      .catch(function (error) {
-        var error_message = document.createElement("p");
-        error_message.innerHTML = "Error: Please Check Your Server URL and Token";
-        error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
-        container.appendChild(error_message);
-      })
-  }
-</script>
-{% endif %}
+    </script>
+    {% endif %}
 
-{% if server_type == "jellyfin" %}
-<script>
-  function scanLibraries() {
-    var container = document.getElementById("libraries");
-    while (container.hasChildNodes()) {
-      container.removeChild(container.lastChild);
-    }
-    var url = "/jf-scan-specific";
+    {% if server_type == "jellyfin" %}
+    <script>
+        function scanLibraries() {
+            var container = document.getElementById("libraries");
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
+            }
+            var url = "/jf-scan-specific";
 
-    var i = 0;
+            var i = 0;
 
-    fetch(url, {
-      method: "POST"
-    })
-      .then((response) => response.json())
-      .then(function (data) {
-        for (var [key, value] of Object.entries(data)) {
-          i = i + 1;
-          var checkbox = document.createElement("input");
-          checkbox.type = "checkbox";
-          checkbox.name = "library_" + i;
-          checkbox.className =
-            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
-          checkbox.value = value;
-          var label = document.createElement("label");
-          label.for = "library_" + i;
-          label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
-          label.innerHTML = key;
+            fetch(url, {
+                method: "POST"
+            })
+                .then((response) => response.json())
+                .then(function (data) {
+                    for (var [key, value] of Object.entries(data)) {
+                        i = i + 1;
+                        var checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        checkbox.name = "library_" + i;
+                        checkbox.className =
+                            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+                        checkbox.value = value;
+                        var label = document.createElement("label");
+                        label.for = "library_" + i;
+                        label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
+                        label.innerHTML = key;
 
-          var structure = document.createElement("div");
-          structure.className = "flex items-center mb-4";
-          container.appendChild(structure);
-          container.appendChild(checkbox);
-          container.appendChild(label);
+                        var structure = document.createElement("div");
+                        structure.className = "flex items-center mb-4";
+                        container.appendChild(structure);
+                        container.appendChild(checkbox);
+                        container.appendChild(label);
 
-          var library_count_helper = document.getElementById("library_count");
-          library_count_helper.value = i;
+                        var library_count_helper = document.getElementById("library_count");
+                        library_count_helper.value = i;
+                    }
+                })
+                .catch(function (error) {
+                    var error_message = document.createElement("p");
+                    error_message.innerHTML = "Error: Please Check Your Jellyfin URL and Token";
+                    error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
+                    container.appendChild(error_message);
+                })
         }
-      })
-      .catch(function (error) {
-        var error_message = document.createElement("p");
-        error_message.innerHTML = "Error: Please Check Your Jellyfin URL and Token";
-        error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
-        container.appendChild(error_message);
-      })
-  }
-</script>
-{% endif %}
-    
-{% endblock %}
+    </script>
+    {% endif %}
