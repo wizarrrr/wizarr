@@ -11,8 +11,6 @@ JELLYFIN_URL = Settings.get_or_none(Settings.key == "server_url").value if Setti
     Settings.key == "server_url") else None
 
 
-
-
 def Post(path, data):
 
     headers = {
@@ -59,16 +57,17 @@ def jf_inviteUser(username, password, code, email):
     else:
         sections = list(
             (Settings.get(Settings.key == "libraries").value).split(", "))
-    
+
     policy = dict(Get(f"/Users/{user_id}").json()["Policy"])
     print("Policy: ", policy)
     policy["EnableAllFolders"] = False
     policy["EnabledFolders"] = sections
 
-    
     Post(f"/Users/{user_id}/Policy", policy)
+    expires = datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration)
+                                                           ) if Invitations.get(code=code).duration else None
     Users.create(username=username, email=email,
-                 password=password, token=user_id, code=code)
+                 password=password, token=user_id, code=code, expires=expires)
     if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
         Invitations.update(used=True, used_at=datetime.datetime.now().strftime(
             "%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
@@ -89,7 +88,8 @@ def jf_scan():
         headers = {
             "X-Emby-Token": api_key,
         }
-        response = requests.get(f"{jellyfin_url}/Library/MediaFolders", headers=headers)
+        response = requests.get(
+            f"{jellyfin_url}/Library/MediaFolders", headers=headers)
     except Exception as e:
         logging.error("Error getting Jellyfin Libraries: " + str(e))
         abort(400)
@@ -123,6 +123,7 @@ def jf_scan_specific():
 def open_jellyfin():
     return redirect(JELLYFIN_URL)
 
+
 @app.route('/setup/jellyfin', methods=["POST"])
 def join_jellyfin():
     username = request.form.get('username')
@@ -136,8 +137,8 @@ def join_jellyfin():
 
     if not username or not password or not code or not email:
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Please fill out all fields")
-    
-    #check password validity
+
+    # check password validity
     if not (len(password) >= 8 and len(password) <= 20):
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Password must be between 8 and 20 characters")
 
