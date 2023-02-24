@@ -43,7 +43,7 @@
                         <label for="code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                             _("Invite Code String") }} <a class="text-gray-500">{{ _("(optional)") }}</a></label>
                         <input minlength="6" maxlength="6" type="code" name="code" id="code"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
                             placeholder="XMFGEJI">
                     </div>
                     <div>
@@ -58,7 +58,7 @@
                         </select>
                     </div>
                     <div>
-                        <a href="#" class="block mb-2 text-sm font-medium text-amber-900 dark:text-amber-200"
+                        <a href="#" class="block mb-2 text-sm font-medium text-secondary dark:text-primary"
                             onclick="showOptions()">{{ _("Advanced Options") }}</a>
 
                     </div>
@@ -94,7 +94,7 @@
                             </div>
 
                             <input min="1" max="999" type="number" name="duration"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
                         </div>
 
                         <div class="pt-4">
@@ -111,7 +111,7 @@
                         </div>
                     </div>
                     <button type="submit"
-                        class="w-full text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">{{
+                        class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">{{
                         _("Create Invitation") }}</button>
 
                 </form>
@@ -121,7 +121,7 @@
                     <label for="link" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                         _("Successfully generated an Invitation!") }}</label>
                     <input disabled type="link" name="link" id="link"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ link }}">
                     <p hidden id="successfully_copied" class="mt-2 text-sm text-green-600 dark:text-green-500"><span
                             class="font-medium">{{ _("Great!") }}</span>{{ _("Link has been copied to clipboard!") }}
@@ -132,13 +132,13 @@
                     <div class="w-1/2 text-center">
                         <a hx-get="/invite" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">
                             <button type="back"
-                                class="w-3/4 text-amber-400 hover:text-white border border-amber-400 hover:bg-amber-500 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-amber-300 dark:text-amber-300 dark:hover:text-white dark:hover:bg-amber-400 dark:focus:ring-amber-900">{{
+                                class="w-3/4 text-amber-400 hover:text-white border border-secondary hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-amber-300 dark:text-amber-300 dark:hover:text-white dark:hover:bg-amber-400 dark:focus:ring-amber-900">{{
                                 _("Back") }}</button>
                         </a>
                     </div>
                     <div class="w-1/2 text-center">
                         <button onclick="copyLink()" type="share"
-                            class="w-3/4 text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">{{
+                            class="w-3/4 text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">{{
                             _("Share") }}</button>
 
                     </div>

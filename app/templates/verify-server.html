@@ -23,7 +23,7 @@ Setup Wizarr
             <label for="server_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Display
               Name") }}</label>
             <input type="server_name" name="server_name" id="server_name"
-              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Wizarr" required="">
           </div>
           <div>
@@ -31,20 +31,20 @@ Setup Wizarr
               URL")
               }}</label>
             <input type="server_url" name="server_url" id="server_url"
-              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="https://plex.domain.com" required="">
           </div>
           <div>
             <label for="server_token" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server
               Token / API Key") }}</label>
             <input type="text" name="api_key" id="api_key"
-              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="XXXXXXXXXXXXXXXXX" required="">
           </div>
           <div>
             <label for="libraries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
               _("Server Libraries") }}</label>
-            <a href="#" class="block mb-2 text-sm font-medium text-amber-900 dark:text-amber-200"
+            <a href="#" class="block mb-2 text-sm font-medium text-secondary dark:text-primary"
               onclick="scanLibraries()">{{ _("Scan For Libraries") }}</a>
             <input hidden name="library_count" id="library_count" type="number" value="0">
             <div class="" id="libraries">
@@ -54,18 +54,18 @@ Setup Wizarr
             <label for="requests_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request
               instance (Ombi, Overseerr...)") }}</label>
             <input type="url" name="overseerr_url" id="requests_url"
-              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Optional, leave empty to disable">
           </div>
           <div>
             <label for="discord_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Discord
               Server ID") }}</label>
             <input type="text" name="discord_id" id="discord_id"
-              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-amber-600 focus:border-amber-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value="" placeholder="Optional, leave empty to disable">
           </div>
           <button type="submit"
-            class="w-full text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">{{
+            class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">{{
             _("Verify and Confirm") }}</button>
         </form>
       </div>
