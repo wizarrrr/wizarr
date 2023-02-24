@@ -8,17 +8,18 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-24 17:39+0000\n"
-"PO-Revision-Date: 2023-02-20 20:07+0000\n"
+"PO-Revision-Date: 2023-02-26 17:02+0000\n"
 "Last-Translator: Luke Keude <kingrun424@gmail.com>\n"
+"Language-Team: Lithuanian <https://hosted.weblate.org/projects/wizarr/app/lt/"
+">\n"
 "Language: lt\n"
-"Language-Team: Lithuanian "
-"<https://hosted.weblate.org/projects/wizarr/app/lt/>\n"
-"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100"
-" > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > "
-"19)) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > "
+"19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? "
+"1 : 2);\n"
+"X-Generator: Weblate 4.16-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:126
@@ -48,11 +49,8 @@ msgstr ""
 "rasite žurnalo duomenyse."
 
 #: app/admin.py:259
-#, fuzzy
 msgid "Unable to connect to your Jellyfin server."
-msgstr ""
-"Nepavyko prisijungti prie jūsų „Plex“ serverio. Daugiau informacijos "
-"rasite žurnalo duomenyse."
+msgstr "Nepavyko prisijungti prie jūsų „Jellyfin“ serverio."
 
 #: app/admin.py:319 app/admin.py:323
 msgid "Invalid Username or Password"
@@ -60,7 +58,7 @@ msgstr "Neteisingas Prisijungimo vardas arba Slaptažodis"
 
 #: app/templates/admin.html:5
 msgid "Admin"
-msgstr ""
+msgstr "Administratorius"
 
 #: app/templates/admin.html:30
 msgid "Home"
@@ -139,36 +137,32 @@ msgid "Invite User"
 msgstr "Pakviesti vartotoją"
 
 #: app/templates/verify-server.html:23
-#, fuzzy
 msgid ""
 "Server Display\n"
 "              Name"
 msgstr ""
-"Plex Rodomasis\n"
+"Serverio Rodomasis\n"
 "              Pavadinimas"
 
 #: app/templates/verify-server.html:30
-#, fuzzy
 msgid ""
 "Server\n"
 "              URL"
 msgstr ""
-"Plex\n"
-"              Raktas"
+"Serverio\n"
+"              Nuoroda"
 
 #: app/templates/verify-server.html:38
-#, fuzzy
 msgid ""
 "Server\n"
 "              Token / API Key"
 msgstr ""
-"Plex\n"
+"Serverio\n"
 "              Raktas"
 
 #: app/templates/verify-server.html:46
-#, fuzzy
 msgid "Server Libraries"
-msgstr "Plex bibliotekos"
+msgstr "Serverio bibliotekos"
 
 #: app/templates/admin/invite.html:106 app/templates/admin/settings.html:39
 #: app/templates/verify-server.html:48
@@ -196,7 +190,6 @@ msgid "Verify and Confirm"
 msgstr "Patikrinti ir patvirtinti"
 
 #: app/templates/welcome-jellyfin.html:20
-#, fuzzy
 msgid "Set up Account"
 msgstr "Sukurti paskyrą"
 
@@ -211,12 +204,16 @@ msgid ""
 "Confirm\n"
 "                                password"
 msgstr ""
+"Patvirtinkite\n"
+"                                slaptažodį"
 
 #: app/templates/welcome-jellyfin.html:61
 msgid ""
 "Invite\n"
 "                                Code"
 msgstr ""
+"Pakvietimo\n"
+"                                Kodas"
 
 #: app/templates/admin/invite.html:16
 msgid "Attention!"
@@ -264,7 +261,7 @@ msgstr "Niekada"
 
 #: app/templates/admin/invite.html:62
 msgid "Advanced Options"
-msgstr ""
+msgstr "Išplėstiniai nustatymai"
 
 #: app/templates/admin/invite.html:70
 msgid "Unlimited Usages"
@@ -272,17 +269,16 @@ msgstr "Neribotas naudojimas"
 
 #: app/templates/admin/invite.html:76 app/templates/admin/invite.html:88
 #: app/templates/tables/invite_table.html:10
-#, fuzzy
 msgid "Duration"
-msgstr "Galiojimo laikas"
+msgstr "Trukmė"
 
 #: app/templates/admin/invite.html:76
 msgid "(in days)"
-msgstr ""
+msgstr "(dienomis)"
 
 #: app/templates/admin/invite.html:84
 msgid "Show Information"
-msgstr ""
+msgstr "Rodyti informaciją"
 
 #: app/templates/admin/invite.html:89
 msgid ""
@@ -290,14 +286,16 @@ msgid ""
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
+"Kai bus nustatyta, pavkiesti vartotojai bus pašalinti iš jūsų Plex serverio\n"
+"                                        po\n"
+"                                        dienų. (1-999)"
 
 #: app/templates/admin/invite.html:103
-#, fuzzy
 msgid ""
 "Specific\n"
 "                                Libraries"
 msgstr ""
-"Plex\n"
+"Konkrečios\n"
 "              Bibliotekos"
 
 #: app/templates/admin/invite.html:115
@@ -329,38 +327,34 @@ msgid "Change Server Settings"
 msgstr "Pakeiskite serverio nustatymus"
 
 #: app/templates/admin/settings.html:12
-#, fuzzy
 msgid ""
 "Server Display\n"
 "                Name"
 msgstr ""
-"Plex Rodomasis\n"
+"Serverio Rodomasis\n"
 "              Pavadinimas"
 
 #: app/templates/admin/settings.html:19
 msgid "Server URL"
-msgstr ""
+msgstr "Serverio nuoroda"
 
 #: app/templates/admin/settings.html:26
-#, fuzzy
 msgid ""
 "Server\n"
 "                Token / API Key"
 msgstr ""
-"Plex\n"
+"Serverio\n"
 "              Raktas"
 
 #: app/templates/admin/settings.html:36
-#, fuzzy
 msgid ""
 "Server\n"
 "                Libraries"
 msgstr ""
-"Plex\n"
+"Serverio\n"
 "              Bibliotekos"
 
 #: app/templates/admin/settings.html:46
-#, fuzzy
 msgid ""
 "Request\n"
 "                instance (Ombi, Overseerr...)"
@@ -369,7 +363,6 @@ msgstr ""
 "              serveris (Ombi, Overseerr...)"
 
 #: app/templates/admin/settings.html:54
-#, fuzzy
 msgid ""
 "Discord\n"
 "                Server ID"
@@ -378,7 +371,6 @@ msgstr ""
 "                Serverio ID"
 
 #: app/templates/admin/settings.html:61
-#, fuzzy
 msgid ""
 "Custom\n"
 "                HTML"
@@ -388,7 +380,7 @@ msgstr ""
 
 #: app/templates/admin/settings.html:69
 msgid "Save"
-msgstr ""
+msgstr "Išsaugoti"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
@@ -433,27 +425,24 @@ msgid "Unlimited"
 msgstr "Neribota"
 
 #: app/templates/tables/invite_table.html:9
-#, fuzzy
 msgid "Libraries"
-msgstr "Plex bibliotekos"
+msgstr "Bibliotekos"
 
 #: app/templates/tables/invite_table.html:19
 msgid "Available"
-msgstr ""
+msgstr "Prieinami"
 
 #: app/templates/tables/invite_table.html:31
-#, fuzzy
 msgid "Expired"
-msgstr "Baigia galioti"
+msgstr "Pasibaigęs galiojimo laikas"
 
 #: app/templates/tables/invite_table.html:66
 msgid "Default"
-msgstr ""
+msgstr "Numatyti"
 
 #: app/templates/tables/jellyfin_user_table.html:4
-#, fuzzy
 msgid "Invite Used"
-msgstr "Pakviesti naudotoją"
+msgstr "Pakvietimas panaudotas"
 
 #: app/templates/tables/jellyfin_user_table.html:5
 #: app/templates/tables/user_table.html:5
@@ -466,7 +455,7 @@ msgstr "Namų vartotojas"
 
 #: app/templates/wizard/requests.html:4
 msgid "Automatic Media Requests"
-msgstr ""
+msgstr "Automatinės medijos užklausos"
 
 #: app/templates/wizard/requests.html:9
 msgid ""
@@ -502,32 +491,29 @@ msgid "Check it Out"
 msgstr "Pasižiūrėk"
 
 #: app/templates/wizard/jellyfin/download.html:3
-#, fuzzy
 msgid ""
 "Join & Download Jellyfin\n"
 "            for this device"
 msgstr ""
-"Prisijunkite ir atsisiųskite „Plex“\n"
+"Prisijunkite ir atsisiųskite „Jellyfin“\n"
 "             šiam įrengininiui"
 
 #: app/templates/wizard/jellyfin/download.html:8
-#, fuzzy
 msgid ""
 "Great news! You now have access to our server's media collection. Let's "
 "make sure you know how to use\n"
 "        it with Jellyfin."
 msgstr ""
-"Puiki naujiena! Dabar turite prieigą prie mūsų serverio medijos "
-"kolekcijos. Įsitikinkime, kad žinote, kaip jį naudoti\n"
-"        su „Plex“."
+"Puiki naujiena! Dabar turite prieigą prie mūsų serverio medijos kolekcijos. "
+"Įsitikinkime, kad žinote, kaip jį naudoti\n"
+"        su „Jellyfin“."
 
 #: app/templates/wizard/jellyfin/download.html:11
-#, fuzzy
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
 msgstr ""
-"Planuojate žiūrėti filmus šiuo įrenginiu? Atsisiųskite „Plex“ šiam "
+"Planuojate žiūrėti filmus šiuo įrenginiu? Atsisiųskite „Jellyfin“ šiam "
 "įrenginiui."
 
 #: app/templates/wizard/jellyfin/download.html:14
@@ -536,9 +522,8 @@ msgid "Download"
 msgstr "Parsisiųsti"
 
 #: app/templates/wizard/jellyfin/tips.html:4
-#, fuzzy
 msgid "Eh, So, What is Jellyfin exactly?"
-msgstr "Taigi, kas tiksliai yra „Plex“??"
+msgstr "Taigi, kas tiksliai yra „Jellyfin“??"
 
 #: app/templates/wizard/jellyfin/tips.html:7
 msgid ""
@@ -550,6 +535,14 @@ msgid ""
 "device - your phone, tablet, laptop, smart TV,\n"
 "        you name it."
 msgstr ""
+"Jellyfin yra platforma, leidžianti vienoje vietoje transliuoti visus "
+"mėgstamus filmus, TV laidas ir muziką.\n"
+"        Tai tarsi po ranka turėti savo asmeninį kino teatrą! Pagalvokite "
+"apie tai kaip apie skaitmeninę biblioteką\n"
+"        mėgstamam turiniui, kurį galite pasiekti iš bet kur ir bet kuriame "
+"įrenginyje – telefone, planšetiniame kompiuteryje, nešiojamajame "
+"kompiuteryje, išmaniajame televizoriuje,\n"
+"        ar kitur."
 
 #: app/templates/wizard/jellyfin/tips.html:13
 #: app/templates/wizard/plex/tips.html:12
@@ -557,7 +550,6 @@ msgid "Right, so how do I watch stuff?"
 msgstr "Supratau, tai kaip man pradėti žiūrėti dalykus?"
 
 #: app/templates/wizard/jellyfin/tips.html:16
-#, fuzzy
 msgid ""
 "It couldn't be simpler! Jellyfin is available on a wide variety of "
 "devices including laptops, tablets,\n"
@@ -566,17 +558,18 @@ msgid ""
 "        and\n"
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"Tai negali būti paprasčiau! „Plex“ galima naudoti įvairiuose "
+"Tai negali būti paprasčiau! „Jellyfin“ galima naudoti įvairiuose "
 "įrenginiuose, įskaitant nešiojamuosius kompiuterius, planšetinius "
 "kompiuterius,\n"
-"    išmaniuosius telefonus ir televizorius. Viskas, ką jums reikia "
-"padaryti, tai atsisiųsti „Plex“ programą į savo įrenginį, prisijungti "
-"naudodami savo paskyrą ir\n"
+"    išmaniuosius telefonus ir televizorius. Viskas, ką jums reikia padaryti, "
+"tai atsisiųsti „Jellyfin“ programą į savo įrenginį, prisijungti naudodami "
+"savo paskyrą \n"
+"        ir\n"
 "    būsite pasiruošę pradėti transliuoti mediją. Tai taip paprasta!"
 
 #: app/templates/wizard/jellyfin/tips.html:25
 msgid "Open Jellyfin"
-msgstr ""
+msgstr "Atidaryti \"Jellyfin\""
 
 #: app/templates/wizard/plex/download.html:3
 msgid ""
@@ -1039,4 +1032,3 @@ msgstr "Atidaryti \"Plex\""
 
 #~ msgid "Plex Requests"
 #~ msgstr "„Plex“ užklausos"
-
