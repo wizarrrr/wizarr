@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-24 17:39+0000\n"
+"POT-Creation-Date: 2023-02-24 16:06+0000\n"
 "PO-Revision-Date: 2023-02-24 16:32+0000\n"
 "Last-Translator: Rémi Guerrero <remidu34070@hotmail.fr>\n"
 "Language: fr\n"
@@ -228,7 +228,24 @@ msgstr "Invitation rapide"
 msgid "Invite user"
 msgstr "Inviter un utilisateur"
 
-#: app/templates/admin/invite.html:44
+#: app/templates/invite.html:62
+msgid ""
+"Environment Variables are being\n"
+"                    deprecated and replaced by a secure sign-up. Please "
+"visit "
+msgstr ""
+"Les variables d'environnement sont dépassées et remplacées par une "
+"inscription sécurisée. Veuillez visiter "
+
+#: app/templates/invite.html:63
+msgid ""
+"/settings.\n"
+"                        See Repo for more info"
+msgstr ""
+"/settings.\n"
+"Voir le dépôt pour plus d'informations"
+
+#: app/templates/invite.html:71
 msgid "Invite Code String"
 msgstr "Code d'invitation"
 
@@ -283,9 +300,9 @@ msgid ""
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
-"Si renseigné, les utilisateurs invités\n"
-"seront retirés du serveur\n"
-"Plex après (1-999) jours."
+"Si renseigné, les utilisateurs invités seront retirés\n"
+"du serveur Plex après un nombre de jours.\n"
+"(1-999)"
 
 #: app/templates/admin/invite.html:103
 msgid ""
@@ -541,6 +558,13 @@ msgid ""
 "device - your phone, tablet, laptop, smart TV,\n"
 "        you name it."
 msgstr ""
+"Jellyfin est une plateforme qui permet de diffuser des films, séries et "
+"musique où vous voulez.\n"
+"C’est comme avoir un cinéma au bout des doigts. Voyez ça comme une "
+"bibliothèque numérique\n"
+"de vos médias préférés que vous pouvez regarder sur n’importe quel appareil,"
+"\n"
+"téléphone, tablette, PC, smart TV, ce que vous voulez."
 
 #: app/templates/wizard/jellyfin/tips.html:13
 #: app/templates/wizard/plex/tips.html:12
@@ -548,7 +572,6 @@ msgid "Right, so how do I watch stuff?"
 msgstr "D’accord, alors comment je regarde quelque chose ?"
 
 #: app/templates/wizard/jellyfin/tips.html:16
-#, fuzzy
 msgid ""
 "It couldn't be simpler! Jellyfin is available on a wide variety of "
 "devices including laptops, tablets,\n"
@@ -557,16 +580,17 @@ msgid ""
 "        and\n"
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"Rien de plus facile ! Plex est disponible sur une grande variété "
-"d'appareils, notamment les ordinateurs portables,\n"
-"les tablettes, les smartphones et les téléviseurs. Tout ce que vous avez "
-"à faire est de télécharger l'application Plex sur votre appareil,\n"
-"de vous connecter avec votre compte, et vous êtes prêt pour profiter de "
-"vos médias. C'est aussi simple que ça !"
+"Rien de plus facile ! Jellyfin est disponible sur une grande variété "
+"d'appareils, comme les PC,\n"
+"les tablettes, les smartphones et les téléviseurs. Tout ce que vous avez à "
+"faire est de télécharger l'application Jellyfin\n"
+"sur votre appareil, de vous connecter avec votre compte, et vous êtes prêt "
+"pour profiter de vos médias.\n"
+"C'est aussi simple que ça !"
 
 #: app/templates/wizard/jellyfin/tips.html:25
 msgid "Open Jellyfin"
-msgstr ""
+msgstr "Ouvrir Jellyfin"
 
 #: app/templates/wizard/plex/download.html:3
 msgid ""
