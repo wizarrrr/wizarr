@@ -96,4 +96,9 @@ if Settings.select().where(Settings.key == 'admin_username').exists():
             Settings.delete().where(Settings.key == 'plex_libraries').execute()
             Settings.create(key='server_verified', value=Settings.get(Settings.key == 'plex_verified').value)
             Settings.delete().where(Settings.key == 'plex_verified').execute()
+            try:
+                os.system("cp ./database/database.db ./database/database-backup.db")
+                logging.info("Database backup created due to major version update.")
+            except:
+                pass
         
