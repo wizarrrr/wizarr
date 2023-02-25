@@ -11,7 +11,7 @@ Wizarr is a automatic user invitation system for Plex, Jellyfin and Emby. Create
 
 ## Major Features Include
 
-- Automatic Invitation to your Media Server (Plex, Jellyfin*, Emby*...)
+- Automatic Invitation to your Media Server (Plex, Jellyfin, Emby...)
 - Secured invitation environment
 - Plug and Play SSO Support*
 - Multi-tiered Invitations
@@ -21,10 +21,6 @@ Wizarr is a automatic user invitation system for Plex, Jellyfin and Emby. Create
 - Discord Server Integration: Invite users to your Discord Server
 - Customizable: Add any Custom HTML 
 
-
-
-
-*Jellyfin and Emby support is currently only available in the dev image which can be unstable, use at your own risk!
 
 
 ## Getting Started
