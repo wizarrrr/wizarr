@@ -85,6 +85,11 @@ except:
 if Settings.select().where(Settings.key == 'admin_username').exists():
     if Settings.select().where(Settings.key == 'plex_verified').exists():
         if not Settings.select().where(Settings.key == 'server_type').exists() :
+            try:
+                os.system("cp ./database/database.db ./database/1.6.5-database-backup.db")
+                logging.info("Database backup created due to major version update.")
+            except:
+                pass
             Settings.create(key='server_type', value='plex')
             Settings.create(key='api_key', value=Settings.get(Settings.key == 'plex_token').value)
             Settings.delete().where(Settings.key == 'plex_token').execute()
@@ -96,9 +101,5 @@ if Settings.select().where(Settings.key == 'admin_username').exists():
             Settings.delete().where(Settings.key == 'plex_libraries').execute()
             Settings.create(key='server_verified', value=Settings.get(Settings.key == 'plex_verified').value)
             Settings.delete().where(Settings.key == 'plex_verified').execute()
-            try:
-                os.system("cp ./database/database.db ./database/database-backup.db")
-                logging.info("Database backup created due to major version update.")
-            except:
-                pass
+            
         
