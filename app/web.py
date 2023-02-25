@@ -55,18 +55,15 @@ def connect():
     if Settings.get(key="server_type").value == "plex":
         threading.Thread(target=handleOauthToken, args=(token, code)).start()
         return redirect(os.getenv("APP_URL") + "/setup")
-    
+
     elif Settings.get(key="server_type").value == "jellyfin":
         return render_template("signup-jellyfin.html", code=code)
 
 
-
-
-
-
 @app.route('/setup', methods=["GET"])
 def setup():
-    resp = make_response(render_template("wizard.html", server_type=Settings.get(Settings.key == "server_type").value))
+    resp = make_response(render_template(
+        "wizard.html", server_type=Settings.get(Settings.key == "server_type").value))
     resp.set_cookie('current', "0")
 
     return resp
@@ -79,6 +76,7 @@ def open_plex():
 
 @app.route('/setup/action=<action>', methods=["POST"])
 def wizard(action):
+    # Get video language and URL based on language
     video_lang = get_locale()
     videos = {
         "en": {
@@ -86,70 +84,67 @@ def wizard(action):
             "app_video": "https://www.youtube.com/embed/e7Gy4FHDy5k"
         },
         "fr": {
-
             "web_video": "https://www.youtube.com/embed/f1ce3_OY5OE",
             "app_video": "https://www.youtube.com/embed/u8ejqsGfntw"
         }
     }
+
     if video_lang not in videos:
         video_lang = "en"
+    
+
+    # Get current step from cookies
     current = int(request.cookies.get('current'))
 
-    discord_id_setting = Settings.get_or_none(Settings.key == "discord_id")
-    overseerr_url_setting = Settings.get_or_none(
-        Settings.key == "overseerr_url")
-    custom_html_setting = Settings.get_or_none(Settings.key == "custom_html")
-    discord_id = None
-    overseerr_url = None
-    custom_html = None
-    server_type = Settings.get(Settings.key == "server_type").value
+    # Get settings from database
+    settings = {}
+    for setting in Settings.select():
+        settings[setting.key] = setting.value
 
+    server_type = settings.get("server_type", "")
+
+    # Build list of steps
     steps = [f"wizard/{server_type}/download.html",]
-    if overseerr_url_setting:
+
+    if settings.get("overseerr_url"):
         steps.append("wizard/requests.html")
-        overseerr_url = Settings.get(Settings.key == "overseerr_url").value
-    if discord_id_setting:
+
+    if settings.get("discord_id"):
         steps.append("wizard/discord.html")
-        discord_id = Settings.get(Settings.key == "discord_id").value
-    if custom_html_setting:
+
+    if settings.get("custom_html"):
         steps.append("wizard/custom.html")
-        custom_html = Settings.get(Settings.key == "custom_html").value
-    
-    steps.append(f"wizard/{server_type}/tips.html") 
+
+    steps.append(f"wizard/{server_type}/tips.html")
+
+    # Render template for next or previous step
     if action == "next":
-
+        next_step = current + 1
+        max_step = len(steps) - 1
         resp = make_response(render_template(
-            steps[current+1], videos=videos,
+            steps[next_step], videos=videos,
             video_lang=video_lang,
-            discord_id=discord_id,
-            overseerr_url=overseerr_url,
-            custom_html=custom_html,
+            discord_id=settings.get("discord_id"),
+            overseerr_url=settings.get("overseerr_url"),
+            custom_html=settings.get("custom_html"),
             next=True))
-
-        # Check if no next step
-        if current+1 == len(steps)-1:
-            resp.headers['max'] = "1"
-            return resp
-        else:
-            resp.headers['max'] = "0"
-
-        resp.headers['current'] = str(current+1)
-        resp.set_cookie('current', str(current+1))
+        resp.headers['current'] = str(next_step)
+        resp.headers['max'] = "1" if next_step == max_step else "0"
+        resp.set_cookie('current', str(next_step))
         return resp
 
     elif action == "prev":
-
-        # Add current variable to header
+        prev_step = current - 1
         resp = make_response(render_template(
-            steps[current-1], videos=videos,
+            steps[prev_step], videos=videos,
             video_lang=video_lang,
-            discord_id=discord_id,
-            overseerr_url=overseerr_url,
-            custom_html=custom_html,
+            discord_id=settings.get("discord_id"),
+            overseerr_url=settings.get("overseerr_url"),
+            custom_html=settings.get("custom_html"),
             prev=True))
-        resp.headers['current'] = str(current-1)
+        resp.headers['current'] = str(prev_step)
         resp.headers['max'] = "0"
-        resp.set_cookie('current', str(current-1))
+        resp.set_cocokie('current', str(prev_step))
         return resp
 
 
