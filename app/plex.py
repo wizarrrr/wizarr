@@ -44,7 +44,7 @@ def getUsers():
 
 def deleteUser(email):
     getUsers.cache_clear()
-    plex_token = request.args.get('plex_token')
+    plex_token = Settings.get(Settings.key == "api_key").value
     admin = MyPlexAccount(plex_token)
     admin.removeFriend(email)
     Users.delete().where(Users.email == email).execute()
