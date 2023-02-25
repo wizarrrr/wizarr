@@ -144,7 +144,7 @@ def wizard(action):
             prev=True))
         resp.headers['current'] = str(prev_step)
         resp.headers['max'] = "0"
-        resp.set_cocokie('current', str(prev_step))
+        resp.set_cookie('current', str(prev_step))
         return resp
 
 

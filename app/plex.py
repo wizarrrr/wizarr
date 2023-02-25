@@ -44,7 +44,8 @@ def getUsers():
 
 def deleteUser(email):
     getUsers.cache_clear()
-    admin = MyPlexAccount(TOKEN)
+    plex_token = request.args.get('plex_token')
+    admin = MyPlexAccount(plex_token)
     admin.removeFriend(email)
     Users.delete().where(Users.email == email).execute()
 
@@ -73,7 +74,8 @@ def inviteUser(email, code):
 def SetupUser(token):
     try:
         getUsers.cache_clear()
-        admin_email = MyPlexAccount(TOKEN).email
+        plex_token = Settings.get(Settings.key == "api_key").value
+        admin_email = MyPlexAccount(plex_token).email
         user = MyPlexAccount(token)
         user.acceptInvite(admin_email)
         user.enableViewStateSync()
