@@ -49,6 +49,18 @@ for invitation in Invitations.select():
         invitation.save()
 
 
+# Make value nullable
+
+try:
+    migrator = SqliteMigrator(database)
+    
+    migrate(
+        #Make Settings.value nullable
+        migrator.alter_column('Settings', 'value', null=True),
+    )
+except:
+    pass
+
 if not os.getenv("APP_URL"):
     logging.error("APP_URL not set or wrong format. See docs for more info.")
     exit(1)

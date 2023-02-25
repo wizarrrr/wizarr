@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 from flask_session import Session
 from flask_apscheduler import APScheduler
+from flask_htmx import HTMX
 
 
 load_dotenv()
@@ -16,6 +17,7 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = "./database/sessions"
 Session(app)
+htmx = HTMX(app)
 
 VERSION = "2.0.0"
 
@@ -90,7 +92,7 @@ class Invitations(BaseModel):
 
 class Settings(BaseModel):
     key = CharField()
-    value = CharField()
+    value = CharField(null=True)
 
 
 class Users(BaseModel):

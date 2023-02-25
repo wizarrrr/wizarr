@@ -11,8 +11,8 @@ Setup Wizarr
     <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
       Wizarr
     </a>
-    <div
-      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+    <div id="settings"
+      class="animate__animated w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
       <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
         <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
           {{ _("Setup Wizarr") }}
@@ -20,11 +20,22 @@ Setup Wizarr
         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ error }}</p>
         <form class="space-y-4 md:space-y-6" action="/settings" method="POST">
           <div>
-            <label for="server_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Display
+            <label for="server_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server
+              Display
               Name") }}</label>
             <input type="server_name" name="server_name" id="server_name"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Wizarr" required="">
+          </div>
+          <div>
+            <label for="server_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server")
+              }}</label>
+            <select name="server_type" id="server_type"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <option selected>Choose a server</option>
+              <option value="jellyfin">Jellyfin</option>
+              <option value="plex">Plex Media Server</option>
+            </select>
           </div>
           <div>
             <label for="server_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server
@@ -35,7 +46,8 @@ Setup Wizarr
               placeholder="https://plex.domain.com" required="">
           </div>
           <div>
-            <label for="server_token" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server
+            <label for="server_token" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
+              _("Server
               Token / API Key") }}</label>
             <input type="text" name="api_key" id="api_key"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -51,7 +63,8 @@ Setup Wizarr
             </div>
           </div>
           <div>
-            <label for="requests_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request
+            <label for="requests_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
+              _("Request
               instance (Ombi, Overseerr...)") }}</label>
             <input type="url" name="overseerr_url" id="requests_url"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -73,102 +86,105 @@ Setup Wizarr
   </div>
 </section>
 
-{% if server_type == "plex" %}
+
+
 <script>
   function scanLibraries() {
+    document.getElementById('settings').classList.remove('animate__shakeX');
+    if (document.getElementById("server_type").value == "jellyfin") {
 
-    var container = document.getElementById("libraries");
-    while (container.hasChildNodes()) {
-      container.removeChild(container.lastChild);
+      var container = document.getElementById("libraries");
+      while (container.hasChildNodes()) {
+        container.removeChild(container.lastChild);
+      }
+      var jellyfin_url = document.getElementById("server_url").value;
+      var jellyfin_api_key = document.getElementById("api_key").value;
+      var url = "/jf-scan?jellyfin_url=" + jellyfin_url + "&jellyfin_api_key=" + jellyfin_api_key;
+
+      var i = 0;
+
+      fetch(url, {
+        method: "POST"
+      })
+        .then((response) => response.json())
+        .then(function (data) {
+          for (var [key, value] of Object.entries(data)) {
+            i = i + 1;
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.name = "library_" + i;
+            checkbox.className =
+              "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+            checkbox.value = value;
+            var label = document.createElement("label");
+            label.for = "library_" + i;
+            label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
+            label.innerHTML = key;
+
+            var structure = document.createElement("div");
+            structure.className = "flex items-center mb-4";
+            container.appendChild(structure);
+            container.appendChild(checkbox);
+            container.appendChild(label);
+
+            var library_count_helper = document.getElementById("library_count");
+            library_count_helper.value = i;
+          }
+        })
+        .catch(function (error) {
+          var error_message = document.createElement("p");
+          error_message.innerHTML = "Error: Please Check Your Jellyfin URL and Token";
+          error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
+          container.appendChild(error_message);
+          document.getElementById('settings').classList.add('animate__shakeX');
+        })
     }
-    var plex_url = document.getElementById("server_url").value;
-    var plex_token = document.getElementById("api_key").value;
-    url = "/scan?plex_url=" + plex_url + "&plex_token=" + plex_token;
-    const response = fetch(url, {
-      method: "POST"
-    }).then((response) => response.json())
-      .then(function (data) {
-        for (var i = 0; i < data.length; i++) {
-          var checkbox = document.createElement("input");
-          checkbox.type = "checkbox";
-          checkbox.name = "library_" + i;
-          checkbox.className =
-            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
-          checkbox.value = data[i];
-          var label = document.createElement("label");
-          label.for = "library_" + i;
-          label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
-          label.innerHTML = data[i];
 
-          var structure = document.createElement("div");
-          structure.className = "flex items-center mb-4";
-          container.appendChild(structure);
-          container.appendChild(checkbox);
-          container.appendChild(label);
 
-          var library_count_helper = document.getElementById("library_count");
-          library_count_helper.value = i;
-        }
-      })
-      .catch(function (error) {
-        var error_message = document.createElement("p");
-        error_message.innerHTML = "Error: Please Check Your Server URL and Token";
-        error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
-        container.appendChild(error_message);
-      })
+    if (document.getElementById("server_type").value == "plex") {
+
+      var container = document.getElementById("libraries");
+      while (container.hasChildNodes()) {
+        container.removeChild(container.lastChild);
+      }
+      var plex_url = document.getElementById("server_url").value;
+      var plex_token = document.getElementById("api_key").value;
+      url = "/scan?plex_url=" + plex_url + "&plex_token=" + plex_token;
+      const response = fetch(url, {
+        method: "POST"
+      }).then((response) => response.json())
+        .then(function (data) {
+          for (var i = 0; i < data.length; i++) {
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.name = "library_" + i;
+            checkbox.className =
+              "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+            checkbox.value = data[i];
+            var label = document.createElement("label");
+            label.for = "library_" + i;
+            label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
+            label.innerHTML = data[i];
+
+            var structure = document.createElement("div");
+            structure.className = "flex items-center mb-4";
+            container.appendChild(structure);
+            container.appendChild(checkbox);
+            container.appendChild(label);
+
+            var library_count_helper = document.getElementById("library_count");
+            library_count_helper.value = i;
+          }
+        })
+        .catch(function (error) {
+          var error_message = document.createElement("p");
+          error_message.innerHTML = "Error: Please Check Your Server URL and Token";
+          error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
+          container.appendChild(error_message);
+          document.getElementById('settings').classList.add('animate__shakeX');
+        })
+    }
   }
 </script>
-{% endif %}
-
-{% if server_type == "jellyfin" %}
-<script>
-  function scanLibraries() {
-    var container = document.getElementById("libraries");
-    while (container.hasChildNodes()) {
-      container.removeChild(container.lastChild);
-    }
-    var jellyfin_url = document.getElementById("server_url").value;
-    var jellyfin_api_key = document.getElementById("api_key").value;
-    var url = "/jf-scan?jellyfin_url=" + jellyfin_url + "&jellyfin_api_key=" + jellyfin_api_key;
-
-    var i = 0;
-
-    fetch(url, {
-      method: "POST"
-    })
-      .then((response) => response.json())
-      .then(function (data) {
-        for (var [key, value] of Object.entries(data)) {
-          i = i + 1;
-          var checkbox = document.createElement("input");
-          checkbox.type = "checkbox";
-          checkbox.name = "library_" + i;
-          checkbox.className =
-            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
-          checkbox.value = value;
-          var label = document.createElement("label");
-          label.for = "library_" + i;
-          label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
-          label.innerHTML = key;
-
-          var structure = document.createElement("div");
-          structure.className = "flex items-center mb-4";
-          container.appendChild(structure);
-          container.appendChild(checkbox);
-          container.appendChild(label);
-
-          var library_count_helper = document.getElementById("library_count");
-          library_count_helper.value = i;
-        }
-      })
-      .catch(function (error) {
-        var error_message = document.createElement("p");
-        error_message.innerHTML = "Error: Please Check Your Jellyfin URL and Token";
-        error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
-        container.appendChild(error_message);
-      })
-  }
-</script>
-{% endif %}
 
 {% endblock %}

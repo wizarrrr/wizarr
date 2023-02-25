@@ -1,5 +1,5 @@
 from flask import request, redirect, render_template
-from app import app, Invitations, Settings, session, Users
+from app import app, Invitations, Settings, session, Users, htmx, database
 from app.plex import *
 import secrets
 from app.jellyfin import *
@@ -43,79 +43,92 @@ def admin():
 @app.route('/invite', methods=["GET", "POST"])
 @login_required
 def invite():
-    update_msg = False
-    if request.method == "POST":
-        try:
-            code = request.form.get("code").upper()
-            if not len(code) == 6:
-                return abort(401)
-        except:
-            code = ''.join(secrets.choice(
-                string.ascii_uppercase + string.digits) for _ in range(6))
-        if Invitations.get_or_none(code=code):
-            return abort(401)  # Already Exists
-        expires = None
-        unlimited = 0
-        duration = None
-        specific_libraries = None
-        if request.form.get("expires") == "day":
-            expires = (datetime.datetime.now() +
-                       datetime.timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
-        if request.form.get("expires") == "week":
-            expires = (datetime.datetime.now() +
-                       datetime.timedelta(days=7)).strftime("%Y-%m-%d %H:%M:%S")
-        if request.form.get("expires") == "month":
-            expires = (datetime.datetime.now() +
-                       datetime.timedelta(days=30)).strftime("%Y-%m-%d %H:%M:%S")
-        if request.form.get("expires") == "never":
-            expires = None
-        if request.form.get("unlimited"):
-            unlimited = 1
-        if request.form.get("duration"):
-            duration = request.form.get("duration")
-        if int(request.form.get("library_count")) > 0:
-            specific_libraries = []
-            library_count = int(request.form.get("library_count"))
-            for library in range(library_count+1):
+    if htmx:
+        if request.method == "POST":
+            try:
+                code = request.form.get("code").upper()
+                if len(code) != 6:
+                    return abort(401)
+            except:
+                code = ''.join(secrets.choice(
+                    string.ascii_uppercase + string.digits) for _ in range(6))
+            if Invitations.get_or_none(code=code):
+                return abort(401)  # Already Exists
 
-                if request.form.get("library_" + str(library)):
-                    specific_libraries.append(request.form.get(
-                        "library_" + str(library)))
-            if not specific_libraries:
-                specific_libraries = None
-            else:
-                specific_libraries = ', '.join(specific_libraries)
-        Invitations.create(code=code, used=False, created=datetime.datetime.now(
-        ).strftime("%Y-%m-%d %H:%M"), expires=expires, unlimited=unlimited, duration=duration, specific_libraries=specific_libraries)
-        link = os.getenv("APP_URL") + "/j/" + code
-        invitations = Invitations.select().order_by(Invitations.created.desc())
-        return render_template("admin/invite.html", link=link, invitations=invitations, url=os.getenv("APP_URL"))
+            # Set invitation attributes
+            expires_options = {
+                "day": (datetime.datetime.now() + datetime.timedelta(days=1)),
+                "week": (datetime.datetime.now() + datetime.timedelta(days=7)),
+                "month": (datetime.datetime.now() + datetime.timedelta(days=30)),
+                "never": None
+            }
+            expires = expires_options.get(request.form.get("expires"))
+            unlimited = 1 if request.form.get("unlimited") else 0
+            duration = request.form.get("duration")
+            specific_libraries = None
+            library_count = int(request.form.get("library_count", 0))
+            if library_count > 0:
+                specific_libraries = ', '.join(filter(None, [
+                    request.form.get("library_" + str(library))
+                    for library in range(library_count + 1)
+                ]))
+
+            # Create invitation
+            Invitations.create(
+                code=code,
+                used=False,
+                created=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+                expires=expires.strftime(
+                    "%Y-%m-%d %H:%M:%S") if expires else None,
+                unlimited=unlimited,
+                duration=duration,
+                specific_libraries=specific_libraries
+            )
+            link = os.getenv("APP_URL") + "/j/" + code
+
+            # Retrieve invitations
+            invitations = Invitations.select().order_by(Invitations.created.desc())
+
+            # Render template
+            return render_template(
+                "admin/invite.html",
+                link=link,
+                invitations=invitations,
+                url=os.getenv("APP_URL")
+            )
+        else:
+            server_type = Settings.get(Settings.key == "server_type").value
+            return render_template("admin/invite.html", needUpdate=needUpdate(), url=os.getenv("APP_URL"), server_type=server_type)
     else:
-        invitations = Invitations.select().order_by(Invitations.created.desc())
-        needUpdate()
-        server_type = Settings.get(Settings.key == "server_type").value
-        return render_template("admin/invite.html", invitations=invitations, update_msg=update_msg, needUpdate=needUpdate(), url=os.getenv("APP_URL"), server_type=server_type)
+        return redirect("/admin")
 
 
 @app.route('/settings', methods=["GET", "POST"])
 def preferences():
 
-    if not Settings.select().where(Settings.key == 'server_type').exists():
-        if request.method == 'GET':
-            type = request.args.get("type")
-            if type == 'jellyfin' or type == 'plex':
-                Settings.create(key="server_type", value=type)
-                return redirect("/settings")
+    settings = {
+        'server_type': None,
+        'admin_username': None,
+        'server_verified': None,
+        'admin_password': None,
+        'server_url': None,
+        'api_key': None,
+        'server_name': None,
+        'libraries': None,
+        'overseerr_url': None,
+        'discord_id': None,
+        'server_verified': None,
+    }
 
-            return render_template("server_type.html")
-    elif not Settings.select().where(Settings.key == 'admin_username').exists():
+    for key in settings.keys():
+        obj, created = Settings.get_or_create(key=key)
+        if created:
+            obj.save()
+        settings[key] = obj
+
+    if not settings['admin_username'].value or not settings['admin_password'].value:
 
         if request.method == 'GET':
-            if request.args.get("type") == 'jellyfin' or request.args.get("type") == 'plex':
-                Settings.update(value=request.args.get("type")).where(
-                    Settings.key == "server_type").execute()
-                logging.info("Server type set to " + request.args.get("type"))
-                return redirect("/settings")
             return render_template("register_admin.html")
 
         elif request.method == 'POST':
@@ -131,116 +144,90 @@ def preferences():
             if len(password) < 3 or len(password) > 40:
                 return render_template("register_admin.html", error=_("Password must be between 3 and 40 characters."))
             hash = generate_password_hash(password, "sha256")
-            Settings.create(key="admin_username", value=username)
-            Settings.create(key="admin_password", value=hash)
-            return redirect("/settings")
+            settings['admin_username'].value = username
+            settings['admin_username'].save()
+            settings['admin_password'].value = hash
+            settings['admin_password'].save()
+            return redirect('/settings')
 
-    elif not Settings.select().where(Settings.key == 'server_verified').exists():
+    elif not settings['server_verified'].value:
 
-        server_type = Settings.get(Settings.key == "server_type").value
         if request.method == 'GET':
 
-            return render_template("verify-server.html", server_type=server_type)
+            return render_template("verify-server.html")
 
         elif request.method == 'POST':
             server_name = request.form.get("server_name")
+            server_type = request.form.get("server_type")
             server_url = request.form.get("server_url")
             api_key = request.form.get("api_key")
-            overseerr_url = None
-            discord_id = None
-
-            # Getting Libraries Properly
-            libraries = []
-
-            library_count = int(request.form.get("library_count"))
-            for library in range(library_count+1):
-
-                if request.form.get("library_" + str(library)):
-                    libraries.append(request.form.get(
-                        "library_" + str(library)))
-            libraries = ', '.join(libraries)
+            overseerr_url = request.form.get("overseerr_url")
+            discord_id = request.form.get("discord_id")
+            libraries = [request.form.get("library_{}".format(i)) for i in range(int(
+                request.form.get("library_count")) + 1) if request.form.get("library_{}".format(i))]
             if not libraries:
                 return render_template("verify-server.html", error=_("You must select at least one library."), server_type=server_type)
 
-            if request.form.get("discord_id"):
-                discord_id = request.form.get("discord_id")
-            if request.form.get("overseerr_url"):
-                overseerr_url = request.form.get("overseerr_url")
-
-            Settings.create(key="server_name", value=server_name)
-            Settings.create(key="server_url", value=server_url)
-            Settings.create(key="api_key", value=api_key)
-            Settings.create(key="libraries", value=libraries)
+            settings['server_name'].value = server_name
+            settings['server_name'].save()
+            settings['server_type'].value = server_type
+            settings['server_type'].save()
+            settings['server_url'].value = server_url
+            settings['server_url'].save()
+            settings['api_key'].value = api_key
+            settings['api_key'].save()
+            settings['libraries'].value = ', '.join(libraries)
+            settings['libraries'].save()
             if overseerr_url:
-                Settings.create(key="overseerr_url", value=overseerr_url)
+                settings['overseerr_url'].value = overseerr_url
+                settings['overseerr_url'].save()
             if discord_id:
-                Settings.create(key="discord_id", value=discord_id)
-            Settings.create(key="server_verified", value="True")
-            return redirect("/")
-
+                settings['discord_id'].value = discord_id
+                settings['discord_id'].save()
+            settings['server_verified'].value = True
+            settings['server_verified'].save()
+            return redirect('/admin')
     else:
-        return redirect('/settings/')
+        return redirect('/admin')
 
 
 @app.route('/settings/', methods=["GET", "POST"])
 @login_required
 def secure_settings():
+
     if request.method == 'GET':
+        if htmx:
+            settings = {}
+            for s in Settings.select():
+                settings[s.key] = s.value
 
-        server_type = Settings.get(Settings.key == "server_type").value
-
-        server_name = Settings.get(Settings.key == "server_name").value
-        server_url = Settings.get(Settings.key == "server_url").value
-        libraries = Settings.get(
-            Settings.key == "libraries").value
-        api_key = Settings.get(Settings.key == "api_key").value
-
-        overseerr_url = Settings.get_or_none(
-            Settings.key == "overseerr_url")
-        discord_id = Settings.get_or_none(Settings.key == "discord_id")
-        custom_html = Settings.get_or_none(Settings.key == "custom_html")
-        if overseerr_url:
-            overseerr_url = overseerr_url.value
-        if discord_id:
-            discord_id = discord_id.value
-        if custom_html:
-            custom_html = custom_html.value
-
-        return render_template("admin/settings.html", server_name=server_name, server_url=server_url, server_type=server_type, api_key=api_key, overseerr_url=overseerr_url, discord_id=discord_id, custom_html=custom_html)
+            return render_template("admin/settings.html", **settings)
+        else:
+            return redirect("/admin")
 
     elif request.method == 'POST':
-        server_name = request.form.get("server_name")
-        server_url = request.form.get("server_url")
-        api_key = request.form.get("api_key")
-        discord_id = None
-        overseerr_url = None
-        custom_html = None
         server_type = Settings.get(Settings.key == "server_type").value
-
-        # Getting Libraries Properly
+        server_name = request.form.get(
+            "server_name", Settings.get(Settings.key == "server_name").value)
+        server_url = request.form.get(
+            "server_url", Settings.get(Settings.key == "server_url").value)
+        api_key = request.form.get(
+            "api_key", Settings.get(Settings.key == "api_key").value)
         libraries = []
-        library_count = int(request.form.get("library_count"))
+        library_count = int(request.form.get("library_count", 0))
         for library in range(library_count+1):
-
-            if request.form.get("library_" + str(library)):
-                libraries.append(request.form.get(
-                    "library_" + str(library)))
-        libraries = ', '.join(libraries)
-
-        if not libraries:
-            libraries = Settings.get(Settings.key == "libraries").value
-
-        if request.form.get("discord_id"):
-            discord_id = request.form.get("discord_id")
-        if request.form.get("overseerr_url"):
-            overseerr_url = request.form.get("overseerr_url")
-        if request.form.get("custom_html"):
-            custom_html = request.form.get("custom_html")
+            library_value = request.form.get(f"library_{library}")
+            if library_value:
+                libraries.append(library_value)
+        libraries = ', '.join(libraries) or Settings.get(
+            Settings.key == "libraries").value
+        overseerr_url = request.form.get("overseerr_url", None)
+        discord_id = request.form.get("discord_id", None)
+        custom_html = request.form.get("custom_html", None)
 
         if server_type == "plex":
             try:
-                plex = PlexServer(server_url, token=api_key)
-
+                PlexServer(server_url, token=api_key)
             except Exception as e:
                 logging.error(str(e))
                 if "unauthorized" in str(e):
@@ -253,36 +240,47 @@ def secure_settings():
             headers = {
                 "X-Emby-Token": api_key,
             }
-            response = requests.get(
-                f"{server_url}/Users", headers=headers)
+            response = requests.get(f"{server_url}/Users", headers=headers)
             if response.status_code != 200:
                 error = _("Unable to connect to your Jellyfin server.")
                 return render_template("admin/settings.html", error=error)
 
-        Settings.update(value=server_name).where(
-            Settings.key == "server_name").execute()
-        Settings.update(value=server_url).where(
-            Settings.key == "server_url").execute()
-        Settings.update(value=api_key).where(
-            Settings.key == "api_key").execute()
-        Settings.update(value=libraries).where(
-            Settings.key == "libraries").execute()
-        if overseerr_url:
-            Settings.delete().where(Settings.key == "overseerr_url").execute()
-            Settings.create(key="overseerr_url", value=overseerr_url)
-        if not overseerr_url:
-            Settings.delete().where(Settings.key == "overseerr_url").execute()
-        if discord_id:
-            Settings.delete().where(Settings.key == "discord_id").execute()
-            Settings.create(key="discord_id", value=discord_id)
-        if not discord_id:
-            Settings.delete().where(Settings.key == "discord_id").execute()
-        if not custom_html:
-            Settings.delete().where(Settings.key == "custom_html").execute()
-        if custom_html:
-            Settings.delete().where(Settings.key == "custom_html").execute()
-            Settings.create(key="custom_html", value=custom_html)
-        return render_template("admin/settings.html", server_name=server_name, server_url=server_url, server_type=server_type, api_key=api_key, overseerr_url=overseerr_url, discord_id=discord_id, custom_html=custom_html)
+        with database.atomic():
+            Settings.update(value=server_name).where(
+                Settings.key == "server_name").execute()
+            Settings.update(value=server_url).where(
+                Settings.key == "server_url").execute()
+            Settings.update(value=api_key).where(
+                Settings.key == "api_key").execute()
+            Settings.update(value=libraries).where(
+                Settings.key == "libraries").execute()
+            if overseerr_url:
+                Settings.delete().where(Settings.key == "overseerr_url").execute()
+                Settings.create(key="overseerr_url", value=overseerr_url)
+            else:
+                Settings.delete().where(Settings.key == "overseerr_url").execute()
+            if discord_id:
+                Settings.delete().where(Settings.key == "discord_id").execute()
+                Settings.create(key="discord_id", value=discord_id)
+            else:
+                Settings.delete().where(Settings.key == "discord_id").execute()
+            if custom_html:
+                Settings.delete().where(Settings.key == "custom_html").execute()
+                Settings.create(key="custom_html", value=custom_html)
+            else:
+                Settings.delete().where(Settings.key == "custom_html").execute()
+
+        settings = {
+            "server_name": server_name,
+            "server_url": server_url,
+            "server_type": server_type,
+            "api_key": api_key,
+            "overseerr_url": overseerr_url,
+            "discord_id": discord_id,
+            "custom_html": custom_html
+        }
+
+        return render_template("admin/settings.html", **settings)
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -326,14 +324,17 @@ def login():
 @app.route('/invites')
 @login_required
 def invites():
-    return render_template("admin/invites.html")
+    if htmx:
+        return render_template("admin/invites.html")
+    else:
+        return redirect("/admin")
 
 
-@app.route('/invite/table/delete=<delete_code>', methods=["POST"])
+@app.route('/invite/table', methods=["POST"])
 @login_required
-def table(delete_code):
-    if delete_code != "None":
-        Invitations.delete().where(Invitations.code == delete_code).execute()
+def table():
+    if request.args.get("delete"):
+        Invitations.delete().where(Invitations.code == request.args.get("delete")).execute()
     invitations = Invitations.select().order_by(Invitations.created.desc())
     for invite in invitations:
         if invite.expires and type(invite.expires) == str:
