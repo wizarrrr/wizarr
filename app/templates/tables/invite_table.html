@@ -85,7 +85,7 @@
                 </button>
             </td>
             <td>
-                <button id="delete" class="inline-block" hx-post="/invite/table/delete={{ invite.code }}"
+                <button id="delete" class="inline-block" hx-post="/invite/table?delete={{ invite.code }}"
                     hx-trigger="click" hx-target="#invite_table" hx-swap="outerHTML swap:0.5s">
                     <svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
