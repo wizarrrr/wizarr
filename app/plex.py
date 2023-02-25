@@ -8,12 +8,6 @@ import logging
 from cachetools import cached, TTLCache
 
 
-TOKEN = Settings.get_or_none(Settings.key == "api_key").value if Settings.get_or_none(
-    Settings.key == "api_key") else None
-PLEX_URL = Settings.get_or_none(Settings.key == "server_url").value if Settings.get_or_none(
-    Settings.key == "server_url") else None
-
-
 def handleOauthToken(token, code):
     email = MyPlexAccount(token).email
     inviteUser(email, code)
@@ -30,7 +24,8 @@ def handleOauthToken(token, code):
 
 @cached(cache=TTLCache(maxsize=1024, ttl=600))
 def getUsers():
-    admin = MyPlexAccount(TOKEN)
+    token = Settings.get(Settings.key == "api_key").value
+    admin = MyPlexAccount(token)
     plexusers = admin.users()
     # Compare database to users
 
@@ -58,7 +53,9 @@ def inviteUser(email, code):
     getUsers.cache_clear()
     sections = list(
         (Settings.get(Settings.key == "libraries").value).split(", "))
-    admin = PlexServer(PLEX_URL, TOKEN)
+    plex_url = Settings.get(Settings.key == "server_url").value
+    plex_token = Settings.get(Settings.key == "api_key").value
+    admin = PlexServer(plex_url, plex_token)
     if Invitations.select().where(Invitations.code == code, Invitations.specific_libraries != None):
         sections = list(
             (Invitations.get(Invitations.code == code).specific_libraries).split(", "))
@@ -110,8 +107,8 @@ def scan():
 
 @app.route('/scan-specific', methods=["POST"])
 def scan_specific():
-    plex_url = PLEX_URL
-    plex_token = TOKEN
+    plex_url = Settings.get(Settings.key == "server_url").value
+    plex_token = Settings.get(Settings.key == "api_key").value
     if not plex_url or not plex_token:
         abort(400)
     try:

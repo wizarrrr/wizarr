@@ -5,30 +5,29 @@ from flask import abort, jsonify, render_template, redirect
 import logging
 import re
 
-API_KEY = Settings.get_or_none(Settings.key == "api_key").value if Settings.get_or_none(
-    Settings.key == "api_key") else None
-JELLYFIN_URL = Settings.get_or_none(Settings.key == "server_url").value if Settings.get_or_none(
-    Settings.key == "server_url") else None
-
 
 def Post(path, data):
+    jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
+    api_key = Settings.get_or_none(Settings.key == "api_key").value
 
     headers = {
-        "X-Emby-Token": API_KEY,
+        "X-Emby-Token": api_key,
     }
     response = requests.post(
-        f"{JELLYFIN_URL}{path}", json=data, headers=headers)
+        f"{jellyfin_url}{path}", json=data, headers=headers)
     logging.info("POST " + path + " " + str(response.status_code))
     return response
 
 
 def Get(path):
+    jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
+    api_key = Settings.get_or_none(Settings.key == "api_key").value
 
     headers = {
-        "X-Emby-Token": API_KEY,
+        "X-Emby-Token": api_key,
     }
     response = requests.get(
-        f"{JELLYFIN_URL}{path}", headers=headers)
+        f"{jellyfin_url}{path}", headers=headers)
     return response
 
 
@@ -123,7 +122,8 @@ def jf_scan_specific():
 
 @app.route('/setup/open-Jellyfin', methods=["GET"])
 def open_jellyfin():
-    return redirect(JELLYFIN_URL)
+    jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
+    return redirect(jellyfin_url)
 
 
 @app.route('/setup/jellyfin', methods=["POST"])
@@ -173,9 +173,12 @@ def jf_GetUsers():
 
 
 def jf_DeleteUser(user):
+    jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
+    api_key = Settings.get_or_none(Settings.key == "api_key").value
     headers = {
-        "X-Emby-Token": API_KEY,
+        "X-Emby-Token": api_key,
     }
+    jellyfin_url 
     response = requests.delete(
-        f"{JELLYFIN_URL}/Users/{user}", headers=headers)
+        f"{jellyfin_url}/Users/{user}", headers=headers)
     return response
