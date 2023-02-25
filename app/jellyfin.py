@@ -64,8 +64,10 @@ def jf_inviteUser(username, password, code, email):
     policy["EnabledFolders"] = sections
 
     Post(f"/Users/{user_id}/Policy", policy)
-    expires = datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration)
-                                                           ) if Invitations.get(code=code).duration else None
+    expires = (datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration)
+                                                           )) if Invitations.get(code=code).duration else None
+    
+    print(expires)
     Users.create(username=username, email=email,
                  password=password, token=user_id, code=code, expires=expires)
     if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
