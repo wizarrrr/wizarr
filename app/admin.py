@@ -364,6 +364,7 @@ def table():
 @login_required
 def users():
 
+    ombi_RunAllUserImporters()
     return render_template("admin/users.html")
 
 @app.route('/user/<user>', methods=["GET", "POST"])
@@ -441,6 +442,11 @@ def checkExpiring():
     return
 
 def ombi_RunUserImporter(name):
+    if not Settings.get_or_none(Settings.key == "overseerr_url"):
+        return
+    if not Settings.get_or_none(Settings.key == "ombi_api_key"):
+        return
+
     overseerr_url = Settings.get_or_none(Settings.key == "overseerr_url").value
     ombi_api_key = Settings.get_or_none(Settings.key == "ombi_api_key").value
     headers = {
