@@ -103,8 +103,8 @@ def jf_scan():
 
 @app.route('/jf-scan-specific', methods=["POST"])
 def jf_scan_specific():
-    jellyfin_url = JELLYFIN_URL
-    api_key = API_KEY
+    jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
+    api_key = Settings.get_or_none(Settings.key == "api_key").value
     if not jellyfin_url or not api_key:
         abort(400)
     try:
