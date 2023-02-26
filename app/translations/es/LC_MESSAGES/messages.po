@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-24 17:39+0000\n"
-"PO-Revision-Date: 2023-02-26 17:02+0000\n"
+"PO-Revision-Date: 2023-02-26 17:15+0000\n"
 "Last-Translator: Bernat <btqqryrzo@mozmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/wizarr/app/es/>\n"
 "Language: es\n"
@@ -345,25 +345,22 @@ msgstr ""
 "                del servidor"
 
 #: app/templates/admin/settings.html:36
-#, fuzzy
 msgid ""
 "Server\n"
 "                Libraries"
 msgstr ""
 "Bibliotecas\n"
-"de Plex"
+"del servidor"
 
 #: app/templates/admin/settings.html:46
-#, fuzzy
 msgid ""
 "Request\n"
 "                instance (Ombi, Overseerr...)"
 msgstr ""
-"Solicitud de\n"
-"la instancia (Ombi, Overseerr, etc.)"
+"Solicita\n"
+"la instancia (Ombi, Overseerr...)"
 
 #: app/templates/admin/settings.html:54
-#, fuzzy
 msgid ""
 "Discord\n"
 "                Server ID"
@@ -434,13 +431,12 @@ msgid "Available"
 msgstr "Disponible"
 
 #: app/templates/tables/invite_table.html:31
-#, fuzzy
 msgid "Expired"
 msgstr "Expirado"
 
 #: app/templates/tables/invite_table.html:66
 msgid "Default"
-msgstr ""
+msgstr "Predeterminado"
 
 #: app/templates/tables/jellyfin_user_table.html:4
 msgid "Invite Used"
@@ -457,7 +453,7 @@ msgstr "Usuario local"
 
 #: app/templates/wizard/requests.html:4
 msgid "Automatic Media Requests"
-msgstr ""
+msgstr "Solicitudes de medios automáticas"
 
 #: app/templates/wizard/requests.html:9
 msgid ""
@@ -494,32 +490,29 @@ msgid "Check it Out"
 msgstr "Compruébalo"
 
 #: app/templates/wizard/jellyfin/download.html:3
-#, fuzzy
 msgid ""
 "Join & Download Jellyfin\n"
 "            for this device"
 msgstr ""
-"Únete y descarga Plex\n"
+"Únete y descarga Jellyfin\n"
 "para este dispositivo"
 
 #: app/templates/wizard/jellyfin/download.html:8
-#, fuzzy
 msgid ""
 "Great news! You now have access to our server's media collection. Let's "
 "make sure you know how to use\n"
 "        it with Jellyfin."
 msgstr ""
-"¡Buenas noticias! Ahora tienes acceso a la colección de medios de nuestro"
-" servidor.\n"
-"Asegurémonos de que sabes cómo usarla con Plex."
+"¡Buenas noticias! Ahora tienes acceso a la colección de medios de nuestro "
+"servidor. Asegurémonos de que sabes\n"
+"cómo usarla con Jellyfin."
 
 #: app/templates/wizard/jellyfin/download.html:11
-#, fuzzy
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
 msgstr ""
-"¿Planeando ver películas en este dispositivo? Descarga Plex para este "
+"¿Planeando ver películas en este dispositivo? Descarga Jellyfin para este "
 "dispositivo."
 
 #: app/templates/wizard/jellyfin/download.html:14
@@ -541,6 +534,13 @@ msgid ""
 "device - your phone, tablet, laptop, smart TV,\n"
 "        you name it."
 msgstr ""
+"Jellyfin es una plataforma que te permite reproducir todas tus películas, "
+"series de televisión y música favoritas en un mismo lugar.\n"
+"Es como tener tu propia sala de cine en tus manos! Piénsalo como si fuera "
+"una biblioteca digital de\n"
+"tu contenido favorito a la que puedes acceder des de cualquier sitio, en "
+"cualquier dispositivo - tu móvil, tablet, portátil, Smart TV,\n"
+"lo que tú quieras."
 
 #: app/templates/wizard/jellyfin/tips.html:13
 #: app/templates/wizard/plex/tips.html:12
@@ -559,9 +559,10 @@ msgstr ""
 "¡No podría ser más simple! Jellyfin está disponible en una amplia variedad "
 "de dispositivos, incluidos portátiles, tabletas,\n"
 "teléfonos inteligentes y televisores. Todo lo que necesitas hacer es "
-"descargar la aplicación Jellyfin en tu dispositivo, iniciar sesión\n"
-"con tu cuenta y estarás listo para comenzar a transmitir tus medios. ¡Así de "
-"fácil!"
+"descargar la aplicación Jellyfin en tu dispositivo, iniciar sesión con tu "
+"cuenta\n"
+"y\n"
+"estarás listo para comenzar a transmitir tus medios. ¡Así de fácil!"
 
 #: app/templates/wizard/jellyfin/tips.html:25
 msgid "Open Jellyfin"
