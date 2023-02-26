@@ -354,6 +354,30 @@ def users():
 
     return render_template("admin/users.html")
 
+@app.route('/user/<user>', methods=["GET", "POST"])
+@login_required
+def user(user):
+    if htmx:
+        if request.method == "POST":
+            info = Get(f"/Users/{user}").json()
+            print(info["Policy"])
+            for key, value in request.form.items():
+                
+                for field in info["Policy"]:
+                    if key == field:
+                        info["Policy"][field] = value
+                for field in info["Configuration"]:
+                    if key == field:
+                        info["Configuration"][field] = value
+            print(info["Policy"])
+            Post(f"/Users/{user}/Configuration", info["Configuration"])
+            Post(f"/Users/{user}/Policy", info["Policy"])
+            return redirect("/users/table")
+                
+        info = Get(f"/Users/{user}").json()
+        return render_template("admin/user.html", user=info)
+    else:
+        return redirect("/admin")
 
 @app.route('/users/table')
 @login_required
@@ -365,11 +389,14 @@ def users_table():
     users = None
 
     users = GlobalGetUsers()
+    db_users = Users.select()
 
     if Settings.get(Settings.key == "server_type").value == "plex":
         for user in users:
             user.expires = Users.get_or_none(Users.email == str(
                 user.email)).expires if Users.get_or_none(Users.email == str(user.email)) else None
+            user.code = Users.get_or_none(Users.email == str(
+                user.email)).code if Users.get_or_none(Users.email == str(user.email)) else None
         return render_template("tables/user_table.html", users=users, rightnow=datetime.datetime.now())
     elif Settings.get(Settings.key == "server_type").value == "jellyfin":
         return render_template("tables/jellyfin_user_table.html", users=users, rightnow=datetime.datetime.now())

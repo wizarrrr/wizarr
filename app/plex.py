@@ -35,6 +35,7 @@ def getUsers():
         if not Users.select().where(Users.username == user.title).exists():
             Users.create(email=user.email, username=user.title,
                          token="None", code="None")
+            
     if Users.select():
         for dbuser in Users.select():
             if dbuser.username not in [u.title for u in plexusers]:
