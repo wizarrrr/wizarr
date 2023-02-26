@@ -364,7 +364,6 @@ def table():
 @login_required
 def users():
 
-    ombi_RunAllUserImporters()
     return render_template("admin/users.html")
 
 @app.route('/user/<user>', methods=["GET", "POST"])
