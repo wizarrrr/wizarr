@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-24 16:06+0000\n"
-"PO-Revision-Date: 2023-02-24 16:32+0000\n"
+"PO-Revision-Date: 2023-02-26 17:02+0000\n"
 "Last-Translator: Rémi Guerrero <remidu34070@hotmail.fr>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/wizarr/app/fr/>\n"
 "Language: fr\n"
-"Language-Team: French "
-"<https://hosted.weblate.org/projects/wizarr/app/fr/>\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.16-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:126
@@ -55,7 +55,7 @@ msgstr "Nom d'utilisateur ou mot de passe invalide"
 
 #: app/templates/admin.html:5
 msgid "Admin"
-msgstr ""
+msgstr "Administrateur"
 
 #: app/templates/admin.html:30
 msgid "Home"
@@ -154,7 +154,7 @@ msgid ""
 "Server\n"
 "              Token / API Key"
 msgstr ""
-"Token / clé API\n"
+"Jeton / clé API\n"
 "              du serveur"
 
 #: app/templates/verify-server.html:46
@@ -202,7 +202,7 @@ msgid ""
 "                                password"
 msgstr ""
 "Confirmer le\n"
-"Mot de passe"
+"mot de passe"
 
 #: app/templates/welcome-jellyfin.html:61
 msgid ""
@@ -234,8 +234,8 @@ msgid ""
 "                    deprecated and replaced by a secure sign-up. Please "
 "visit "
 msgstr ""
-"Les variables d'environnement sont dépassées et remplacées par une "
-"inscription sécurisée. Veuillez visiter "
+"Les variables d'environnement sont dépassées et remplacées\n"
+"par une inscription sécurisée. Veuillez visiter "
 
 #: app/templates/invite.html:63
 msgid ""
@@ -341,7 +341,6 @@ msgid "Change Server Settings"
 msgstr "Modifier les paramètres du serveur"
 
 #: app/templates/admin/settings.html:12
-#, fuzzy
 msgid ""
 "Server Display\n"
 "                Name"
@@ -354,16 +353,14 @@ msgid "Server URL"
 msgstr "URL du serveur"
 
 #: app/templates/admin/settings.html:26
-#, fuzzy
 msgid ""
 "Server\n"
 "                Token / API Key"
 msgstr ""
-"Token / clé API\n"
+"Jeton / clé API\n"
 "              du serveur"
 
 #: app/templates/admin/settings.html:36
-#, fuzzy
 msgid ""
 "Server\n"
 "                Libraries"
@@ -372,7 +369,6 @@ msgstr ""
 "              du serveur"
 
 #: app/templates/admin/settings.html:46
-#, fuzzy
 msgid ""
 "Request\n"
 "                instance (Ombi, Overseerr...)"
@@ -381,7 +377,6 @@ msgstr ""
 "requête (Ombi, Overseerr...)"
 
 #: app/templates/admin/settings.html:54
-#, fuzzy
 msgid ""
 "Discord\n"
 "                Server ID"
@@ -390,7 +385,6 @@ msgstr ""
 "                  Discord"
 
 #: app/templates/admin/settings.html:61
-#, fuzzy
 msgid ""
 "Custom\n"
 "                HTML"
@@ -400,7 +394,7 @@ msgstr ""
 
 #: app/templates/admin/settings.html:69
 msgid "Save"
-msgstr ""
+msgstr "Enregistrer"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
@@ -461,9 +455,8 @@ msgid "Default"
 msgstr "Défaut"
 
 #: app/templates/tables/jellyfin_user_table.html:4
-#, fuzzy
 msgid "Invite Used"
-msgstr "Inviter un utilisateur"
+msgstr "Invitation utilisée"
 
 #: app/templates/tables/jellyfin_user_table.html:5
 #: app/templates/tables/user_table.html:5
@@ -472,11 +465,11 @@ msgstr "Utilisateur"
 
 #: app/templates/tables/user_table.html:7
 msgid "Home User"
-msgstr "Utilisateur Maison"
+msgstr "Utilisateur maison"
 
 #: app/templates/wizard/requests.html:4
 msgid "Automatic Media Requests"
-msgstr ""
+msgstr "Requêtes de médias automatiques"
 
 #: app/templates/wizard/requests.html:9
 msgid ""
@@ -559,7 +552,7 @@ msgid ""
 "        you name it."
 msgstr ""
 "Jellyfin est une plateforme qui permet de diffuser des films, séries et "
-"musique où vous voulez.\n"
+"musiques où vous voulez.\n"
 "C’est comme avoir un cinéma au bout des doigts. Voyez ça comme une "
 "bibliothèque numérique\n"
 "de vos médias préférés que vous pouvez regarder sur n’importe quel appareil,"
@@ -583,10 +576,10 @@ msgstr ""
 "Rien de plus facile ! Jellyfin est disponible sur une grande variété "
 "d'appareils, comme les PC,\n"
 "les tablettes, les smartphones et les téléviseurs. Tout ce que vous avez à "
-"faire est de télécharger l'application Jellyfin\n"
-"sur votre appareil, de vous connecter avec votre compte, et vous êtes prêt "
-"pour profiter de vos médias.\n"
-"C'est aussi simple que ça !"
+"faire est de télécharger\n"
+"l'application Jellyfin sur votre appareil, de vous connecter avec votre "
+"compte,\n"
+"et vous êtes prêt pour profiter de vos médias. C'est aussi simple que ça !"
 
 #: app/templates/wizard/jellyfin/tips.html:25
 msgid "Open Jellyfin"
@@ -629,11 +622,11 @@ msgid ""
 "    access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
 msgstr ""
-"Excellente question ! Plex est un logiciel qui permet à des particuliers "
-"de partager leurs collections multimédias avec d’autres.\n"
-"Si vous avez reçu une invitation, cela signifie que quelqu’un veut "
-"partager sa bibliothèque avec vous.\n"
-"Avec Plex, vous aurez accès à tous les films, séries, musique et photos "
+"Excellente question ! Plex est un logiciel qui permet à des particuliers de "
+"partager leurs collections multimédias avec d’autres.\n"
+"Si vous avez reçu une invitation, cela signifie que quelqu’un veut partager "
+"sa bibliothèque avec vous.\n"
+"Avec Plex, vous aurez accès à tous les films, séries, musiques et photos "
 "stockés sur leur serveur. Bon Visionnage !"
 
 #: app/templates/wizard/plex/tips.html:15
@@ -645,11 +638,11 @@ msgid ""
 "    you're ready to start streaming your media. It's that easy!"
 msgstr ""
 "Rien de plus facile ! Plex est disponible sur une grande variété "
-"d'appareils, notamment les ordinateurs portables,\n"
-"les tablettes, les smartphones et les téléviseurs. Tout ce que vous avez "
-"à faire est de télécharger l'application Plex sur votre appareil,\n"
-"de vous connecter avec votre compte, et vous êtes prêt pour profiter de "
-"vos médias. C'est aussi simple que ça !"
+"d'appareils, comme les PC,\n"
+"les tablettes, les smartphones et les téléviseurs. Tout ce que vous avez à "
+"faire est de télécharger\n"
+"l'application Plex sur votre appareil, de vous connecter avec votre compte,\n"
+"et vous êtes prêt pour profiter de vos médias. C'est aussi simple que ça !"
 
 #: app/templates/wizard/plex/tips.html:20
 msgid "How can I make sure to have the best experience?"
@@ -1102,4 +1095,3 @@ msgstr "Ouvrir Plex"
 
 #~ msgid "Plex Requests"
 #~ msgstr "Requêtes de médias"
-
