@@ -439,3 +439,20 @@ def checkExpiring():
         logging.info("Deleting user " + invite.used_by +
                      " due to expired invite.")
     return
+
+def ombi_RunUserImporter(name):
+    overseerr_url = Settings.get_or_none(Settings.key == "overseerr_url").value
+    ombi_api_key = Settings.get_or_none(Settings.key == "ombi_api_key").value
+    headers = {
+        "ApiKey": ombi_api_key,
+    }
+    response = requests.post(
+        f"{overseerr_url}/api/v1/Job/{name}UserImporter/", headers=headers)
+    logging.info(f"POST {overseerr_url}/api/v1/Job/{name}UserImporter/ - {str(response.status_code)}")
+
+    return response
+
+def ombi_RunAllUserImporters():
+    #ombi_RunUserImporter('plex')
+    #ombi_RunUserImporter('emby')
+    return ombi_RunUserImporter('jellyfin')
