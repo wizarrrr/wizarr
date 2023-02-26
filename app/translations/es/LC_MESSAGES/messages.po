@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-24 17:39+0000\n"
-"PO-Revision-Date: 2023-02-20 20:07+0000\n"
-"Last-Translator: Bernat <btqqryrzo@mozmail.com>\n"
+"PO-Revision-Date: 2023-02-26 17:02+0000\n"
+"Last-Translator: Mario <shopping.uncate@aleeas.com>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/wizarr/app/es/>\n"
 "Language: es\n"
-"Language-Team: Spanish "
-"<https://hosted.weblate.org/projects/wizarr/app/es/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.16-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:126
@@ -46,11 +46,8 @@ msgstr ""
 "información."
 
 #: app/admin.py:259
-#, fuzzy
 msgid "Unable to connect to your Jellyfin server."
-msgstr ""
-"Imposible conectar con tu servidor de Plex. Mire los Logs para más "
-"información."
+msgstr "Imposible conectarse a tu servidor de Jellyfin."
 
 #: app/admin.py:319 app/admin.py:323
 msgid "Invalid Username or Password"
@@ -58,7 +55,7 @@ msgstr "Usuario o contraseña no válidos"
 
 #: app/templates/admin.html:5
 msgid "Admin"
-msgstr ""
+msgstr "Administrador"
 
 #: app/templates/admin.html:30
 msgid "Home"
@@ -137,36 +134,32 @@ msgid "Invite User"
 msgstr "Invitar usuario"
 
 #: app/templates/verify-server.html:23
-#, fuzzy
 msgid ""
 "Server Display\n"
 "              Name"
 msgstr ""
 "Nombre público\n"
-"de Plex"
+"del servidor"
 
 #: app/templates/verify-server.html:30
-#, fuzzy
 msgid ""
 "Server\n"
 "              URL"
 msgstr ""
-"Token\n"
-"de Plex"
+"Enlace\n"
+"              del servidor"
 
 #: app/templates/verify-server.html:38
-#, fuzzy
 msgid ""
 "Server\n"
 "              Token / API Key"
 msgstr ""
-"Token\n"
-"de Plex"
+"Token / API\n"
+"              del servidor"
 
 #: app/templates/verify-server.html:46
-#, fuzzy
 msgid "Server Libraries"
-msgstr "Bibliotecas de Plex"
+msgstr "Bibliotecas"
 
 #: app/templates/admin/invite.html:106 app/templates/admin/settings.html:39
 #: app/templates/verify-server.html:48
@@ -209,12 +202,16 @@ msgid ""
 "Confirm\n"
 "                                password"
 msgstr ""
+"Confirmar\n"
+"                                contraseña"
 
 #: app/templates/welcome-jellyfin.html:61
 msgid ""
 "Invite\n"
 "                                Code"
 msgstr ""
+"Código\n"
+"                                de invitación"
 
 #: app/templates/admin/invite.html:16
 msgid "Attention!"
@@ -262,7 +259,7 @@ msgstr "Nunca"
 
 #: app/templates/admin/invite.html:62
 msgid "Advanced Options"
-msgstr ""
+msgstr "Opciones avanzadas"
 
 #: app/templates/admin/invite.html:70
 msgid "Unlimited Usages"
@@ -276,11 +273,11 @@ msgstr "Caducidad"
 
 #: app/templates/admin/invite.html:76
 msgid "(in days)"
-msgstr ""
+msgstr "(en días)"
 
 #: app/templates/admin/invite.html:84
 msgid "Show Information"
-msgstr ""
+msgstr "Mostrar información"
 
 #: app/templates/admin/invite.html:89
 msgid ""
@@ -288,15 +285,18 @@ msgid ""
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
+"Cuando se establezca una opción, el/los usuario/s invitados serán eliminados "
+"del servidor después de\n"
+"                                        un número específico\n"
+"                                        de días (1-999)"
 
 #: app/templates/admin/invite.html:103
-#, fuzzy
 msgid ""
 "Specific\n"
 "                                Libraries"
 msgstr ""
-"Bibliotecas\n"
-"de Plex"
+"Especificar\n"
+"                                bibliotecas"
 
 #: app/templates/admin/invite.html:115
 msgid "Create Invitation"
@@ -1048,4 +1048,3 @@ msgstr "Abre Plex"
 
 #~ msgid "Plex Requests"
 #~ msgstr "Solicitudes de Plex"
-
