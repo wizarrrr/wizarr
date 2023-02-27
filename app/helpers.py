@@ -1,6 +1,7 @@
 from app import *
 from app.plex import *
 from app.jellyfin import *
+from app.ombi import *
 
 def GlobalDeleteUser(user):
     server_type = Settings.get(Settings.key == "server_type").value
