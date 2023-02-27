@@ -116,6 +116,7 @@ def preferences():
         'server_name': None,
         'libraries': None,
         'overseerr_url': None,
+        'ombi_api_key': None,
         'discord_id': None,
         'server_verified': None,
     }
@@ -162,6 +163,7 @@ def preferences():
             server_url = request.form.get("server_url")
             api_key = request.form.get("api_key")
             overseerr_url = request.form.get("overseerr_url")
+            ombi_api_key = request.form.get("ombi_api_key")
             discord_id = request.form.get("discord_id")
             libraries = [request.form.get("library_{}".format(i)) for i in range(int(
                 request.form.get("library_count")) + 1) if request.form.get("library_{}".format(i))]
@@ -181,6 +183,9 @@ def preferences():
             if overseerr_url:
                 settings['overseerr_url'].value = overseerr_url
                 settings['overseerr_url'].save()
+            if ombi_api_key:
+                settings['ombi_api_key'].value = ombi_api_key
+                settings['ombi_api_key'].save()
             if discord_id:
                 settings['discord_id'].value = discord_id
                 settings['discord_id'].save()
@@ -222,6 +227,7 @@ def secure_settings():
         libraries = ', '.join(libraries) or Settings.get(
             Settings.key == "libraries").value
         overseerr_url = request.form.get("overseerr_url", None)
+        ombi_api_key = request.form.get("ombi_api_key", None)
         discord_id = request.form.get("discord_id", None)
         custom_html = request.form.get("custom_html", None)
 
@@ -259,6 +265,11 @@ def secure_settings():
                 Settings.create(key="overseerr_url", value=overseerr_url)
             else:
                 Settings.delete().where(Settings.key == "overseerr_url").execute()
+            if ombi_api_key:
+                Settings.delete().where(Settings.key == "ombi_api_key").execute()
+                Settings.create(key="ombi_api_key", value=ombi_api_key)
+            else:
+                Settings.delete().where(Settings.key == "ombi_api_key").execute()
             if discord_id:
                 Settings.delete().where(Settings.key == "discord_id").execute()
                 Settings.create(key="discord_id", value=discord_id)
@@ -276,6 +287,7 @@ def secure_settings():
             "server_type": server_type,
             "api_key": api_key,
             "overseerr_url": overseerr_url,
+            "ombi_api_key": ombi_api_key,
             "discord_id": discord_id,
             "custom_html": custom_html
         }

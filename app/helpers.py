@@ -1,6 +1,7 @@
 from app import *
 from app.plex import *
 from app.jellyfin import *
+from app.ombi import *
 
 def GlobalDeleteUser(user):
     server_type = Settings.get(Settings.key == "server_type").value
@@ -14,6 +15,8 @@ def GlobalDeleteUser(user):
                 logging.error("Unable to delete user: " + str(e))
     elif server_type == "jellyfin":
         jf_DeleteUser(user)
+
+    ombi_DeleteUser(user)
     
 
 
