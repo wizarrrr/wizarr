@@ -178,7 +178,6 @@ def jf_DeleteUser(user):
     headers = {
         "X-Emby-Token": api_key,
     }
-    jellyfin_url 
     response = requests.delete(
         f"{jellyfin_url}/Users/{user}", headers=headers)
     return response
