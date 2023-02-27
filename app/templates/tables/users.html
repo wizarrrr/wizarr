@@ -1,0 +1,57 @@
+<table id="invite_table" class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
+    <thead>
+        <tr class="text-xs text-gray-500 text-left dark:text-white">
+            <th class="pl-5 pb-3 font-medium">{{ _("Name") }}</th>
+            <th class="pl-5 pb-3 font-medium">{{ _("Expires") }}</th>
+            <th class="pl-5 pb-3 font-medium">{{ _("Invite Code"") }}</th>
+            <th class="pl-5 pb-3 font-medium">{{ _("Actions") }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users%}
+        <tr class="animate__animated text-xs bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+            <td class="py-5 px-6 font-medium">{% if user.photo %}<img class="w-10 h-10 rounded-full"
+                    src="{{ user.photo }}">{% endif %}
+                <div class="pl-3">
+                    <div class="text-base  font-semibold">{{ user.username }}</div>
+                    <div class="font-normal text-gray-500">{% if user.email != "empty" %} {{ user.email }}{% endif
+                        %}</div>
+                </div>
+            </td>
+
+            <td class="px-6 py-4">
+                {% if user.expires %} {{ (user.expires|string)[0:16] }}{% endif %}
+            </td>
+            <td class="px-6 py-4">
+                {% if user.code != "None" %}{% if user.code != "empty" %}{{ user.code }}{% endif %}{% endif %}
+            </td>
+
+            <td class="px-6 py-4">
+                <button id="edit" class="hidden inline-block" hx-get="/user/{{ user.id }}" hx-target="#modal-user"
+                    hx-swap="innerHTML" onclick="document.getElementById('modal').classList.remove('hidden');"
+                    class="font-medium text-primary hover:underline">View</button>
+                <button id="delete" class="inline-block" hx-get="/users/table?delete={{ user.id }}"
+                    hx-target="#user_table" hx-swap="outerHTML swap:0.5s"
+                    hx-confirm="Are you sure you wish to remove {{ user.title }} from your server?">
+                    Delete
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+
+
+</table>
+{% if not invitations %}
+<p class="text-center dark:text-white">There are currently no invitations.</p>
+{% endif %}
+<script>
+
+    // when a button is clicked with an id of "delete", add the "animate__fadeOut" to its parent 'tr'
+    document.querySelectorAll('button#delete').forEach(button => {
+        button.addEventListener('click', function () {
+            this.closest('tr').classList.add('animate__fadeOut');
+        });
+    });
+
+
+</script>
