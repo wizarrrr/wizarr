@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-24 17:39+0000\n"
+"POT-Creation-Date: 2023-02-27 18:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language: pl\n"
@@ -19,35 +19,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: app/admin.py:126
+#: app/admin.py:141
 msgid "Passwords do not match."
 msgstr ""
 
-#: app/admin.py:129
+#: app/admin.py:144
 msgid "Username must be between 3 and 15 characters."
 msgstr ""
 
-#: app/admin.py:132
+#: app/admin.py:147
 msgid "Password must be between 3 and 40 characters."
 msgstr ""
 
-#: app/admin.py:163
+#: app/admin.py:172
 msgid "You must select at least one library."
 msgstr ""
 
-#: app/admin.py:247
+#: app/admin.py:242
 msgid "It is likely that your token does not work."
 msgstr ""
 
-#: app/admin.py:249
+#: app/admin.py:244
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
 
-#: app/admin.py:259
+#: app/admin.py:253
 msgid "Unable to connect to your Jellyfin server."
 msgstr ""
 
-#: app/admin.py:319 app/admin.py:323
+#: app/admin.py:334 app/admin.py:338
 msgid "Invalid Username or Password"
 msgstr ""
 
@@ -93,7 +93,7 @@ msgstr ""
 msgid "Sign in"
 msgstr ""
 
-#: app/templates/register_admin.html:18 app/templates/verify-server.html:18
+#: app/templates/register_admin.html:18
 msgid "Setup Wizarr"
 msgstr ""
 
@@ -105,6 +105,67 @@ msgstr ""
 msgid "Create an account"
 msgstr ""
 
+#: app/templates/settings.html:7
+msgid "Server Settings"
+msgstr ""
+
+#: app/templates/admin/settings.html:12 app/templates/settings.html:12
+msgid ""
+"Server Display\n"
+"                Name"
+msgstr ""
+
+#: app/templates/settings.html:19
+msgid "Server"
+msgstr ""
+
+#: app/templates/admin/settings.html:19 app/templates/settings.html:29
+msgid "Server URL"
+msgstr ""
+
+#: app/templates/admin/settings.html:26 app/templates/settings.html:36
+msgid ""
+"Server\n"
+"                Token / API Key"
+msgstr ""
+
+#: app/templates/admin/settings.html:36 app/templates/settings.html:46
+msgid ""
+"Server\n"
+"                Libraries"
+msgstr ""
+
+#: app/templates/admin/invite.html:106 app/templates/admin/settings.html:39
+#: app/templates/settings.html:49
+msgid "Scan For Libraries"
+msgstr ""
+
+#: app/templates/admin/settings.html:46 app/templates/settings.html:56
+msgid ""
+"Request\n"
+"                instance (Ombi, Overseerr...)"
+msgstr ""
+
+#: app/templates/admin/settings.html:54 app/templates/settings.html:64
+msgid "Ombi API Key (Only used for user import currently.)"
+msgstr ""
+
+#: app/templates/admin/settings.html:61 app/templates/settings.html:71
+msgid ""
+"Discord\n"
+"                Server ID"
+msgstr ""
+
+#: app/templates/admin/settings.html:68 app/templates/settings.html:78
+msgid ""
+"Custom\n"
+"                HTML"
+msgstr ""
+
+#: app/templates/admin/settings.html:76 app/templates/settings.html:86
+msgid "Save"
+msgstr ""
+
 #: app/templates/user-plex-login.html:12 app/templates/welcome-jellyfin.html:12
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
@@ -114,6 +175,7 @@ msgstr ""
 msgid "Join the Plex Server"
 msgstr ""
 
+#: app/templates/tables/global-users.html:19
 #: app/templates/tables/invite_table.html:4
 #: app/templates/user-plex-login.html:27 app/templates/user-plex-login.html:38
 msgid "Invite Code"
@@ -129,49 +191,6 @@ msgstr ""
 
 #: app/templates/users.html:5
 msgid "Invite User"
-msgstr ""
-
-#: app/templates/verify-server.html:23
-msgid ""
-"Server Display\n"
-"              Name"
-msgstr ""
-
-#: app/templates/verify-server.html:30
-msgid ""
-"Server\n"
-"              URL"
-msgstr ""
-
-#: app/templates/verify-server.html:38
-msgid ""
-"Server\n"
-"              Token / API Key"
-msgstr ""
-
-#: app/templates/verify-server.html:46
-msgid "Server Libraries"
-msgstr ""
-
-#: app/templates/admin/invite.html:106 app/templates/admin/settings.html:39
-#: app/templates/verify-server.html:48
-msgid "Scan For Libraries"
-msgstr ""
-
-#: app/templates/verify-server.html:54
-msgid ""
-"Request\n"
-"              instance (Ombi, Overseerr...)"
-msgstr ""
-
-#: app/templates/verify-server.html:61
-msgid ""
-"Discord\n"
-"              Server ID"
-msgstr ""
-
-#: app/templates/verify-server.html:69
-msgid "Verify and Confirm"
 msgstr ""
 
 #: app/templates/welcome-jellyfin.html:20
@@ -236,7 +255,7 @@ msgstr ""
 msgid "1 month"
 msgstr ""
 
-#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:41
+#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:43
 msgid "Never"
 msgstr ""
 
@@ -283,10 +302,6 @@ msgid "Successfully generated an Invitation!"
 msgstr ""
 
 #: app/templates/admin/invite.html:127
-msgid "Great!"
-msgstr ""
-
-#: app/templates/admin/invite.html:127
 msgid "Link has been copied to clipboard!"
 msgstr ""
 
@@ -302,48 +317,12 @@ msgstr ""
 msgid "Change Server Settings"
 msgstr ""
 
-#: app/templates/admin/settings.html:12
-msgid ""
-"Server Display\n"
-"                Name"
+#: app/templates/admin/user.html:44
+msgid "User Configuration"
 msgstr ""
 
-#: app/templates/admin/settings.html:19
-msgid "Server URL"
-msgstr ""
-
-#: app/templates/admin/settings.html:26
-msgid ""
-"Server\n"
-"                Token / API Key"
-msgstr ""
-
-#: app/templates/admin/settings.html:36
-msgid ""
-"Server\n"
-"                Libraries"
-msgstr ""
-
-#: app/templates/admin/settings.html:46
-msgid ""
-"Request\n"
-"                instance (Ombi, Overseerr...)"
-msgstr ""
-
-#: app/templates/admin/settings.html:54
-msgid ""
-"Discord\n"
-"                Server ID"
-msgstr ""
-
-#: app/templates/admin/settings.html:61
-msgid ""
-"Custom\n"
-"                HTML"
-msgstr ""
-
-#: app/templates/admin/settings.html:69
-msgid "Save"
+#: app/templates/admin/user.html:90
+msgid "User Policy"
 msgstr ""
 
 #: app/templates/error/401.html:20
@@ -370,18 +349,27 @@ msgstr ""
 msgid " Something has gone wrong. Please try again later."
 msgstr ""
 
+#: app/templates/tables/global-users.html:13
+msgid "Name"
+msgstr ""
+
+#: app/templates/tables/global-users.html:16
+#: app/templates/tables/invite_table.html:7
+#: app/templates/tables/jellyfin_user_table.html:7
+#: app/templates/tables/user_table.html:8
+msgid "Expires"
+msgstr ""
+
+#: app/templates/tables/global-users.html:22
+msgid "Actions"
+msgstr ""
+
 #: app/templates/tables/invite_table.html:5
 msgid "Used"
 msgstr ""
 
 #: app/templates/tables/invite_table.html:6
 msgid "Created"
-msgstr ""
-
-#: app/templates/tables/invite_table.html:7
-#: app/templates/tables/jellyfin_user_table.html:7
-#: app/templates/tables/user_table.html:8
-msgid "Expires"
 msgstr ""
 
 #: app/templates/tables/invite_table.html:8
@@ -400,7 +388,7 @@ msgstr ""
 msgid "Expired"
 msgstr ""
 
-#: app/templates/tables/invite_table.html:66
+#: app/templates/tables/invite_table.html:68
 msgid "Default"
 msgstr ""
 
@@ -965,7 +953,7 @@ msgstr ""
 #~ msgid ""
 #~ "Environment Variables are being\n"
 #~ "                    deprecated and replaced by"
-#~ " a secure sign-up. Please visit \n"
+#~ " a secure sign-up. Please visit \n\n"
 #~ msgstr ""
 
 #~ msgid ""
@@ -984,5 +972,39 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Plex Requests"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Server Display\n"
+#~ "              Name"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Server\n"
+#~ "              URL"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Server\n"
+#~ "              Token / API Key"
+#~ msgstr ""
+
+#~ msgid "Server Libraries"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Request\n"
+#~ "              instance (Ombi, Overseerr...)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Discord\n"
+#~ "              Server ID"
+#~ msgstr ""
+
+#~ msgid "Verify and Confirm"
+#~ msgstr ""
+
+#~ msgid "Great!"
 #~ msgstr ""
 
