@@ -15,7 +15,7 @@ def GlobalDeleteUser(user):
                 logging.error("Unable to delete user: " + str(e))
     elif server_type == "jellyfin":
         jf_DeleteUser(user)
-
+    Users.delete().where(Users.id == user).execute()
     ombi_DeleteUser(user)
     
 
@@ -33,8 +33,7 @@ def GlobalGetUsers():
                 logging.error("Unable to get users: " + str(e))
     elif server_type == "jellyfin":
         try:
-            jf_GetUsers()
-            users = Users.select()
+            users = jf_GetUsers()
             return users
         except Exception as e:
             if "429" in str(e):
