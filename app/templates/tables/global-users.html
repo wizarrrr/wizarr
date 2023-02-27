@@ -1,11 +1,11 @@
 
-    <table id="user_table" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
+    <table id="user_table" class="bg-gray-50 dark:bg-gray-800 shadow-lg rounded-lg w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 rounded-lg uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400">
+            <tr class="text-xs text-gray-500 text-left dark:text-white">
                 <th scope="col" class="p-4">
                     <div class="flex items-center">
                         <input disabled id="checkbox-all-search" type="checkbox"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            class="hidden w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <label for="checkbox-all-search" class="sr-only">checkbox</label>
                     </div>
                 </th>
@@ -19,7 +19,7 @@
                     {{ _("Invite Code") }}
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    {{ _("Actions") }}}
+                    {{ _("Actions") }}
                 </th>
             </tr>
         </thead>
@@ -34,7 +34,7 @@
                     </div>
                 </td>
                 <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                    <img class="w-10 h-10 rounded-full" src="{{ user.photo }}">
+                    {% if user.photo %}<img class="w-10 h-10 rounded-full" src="{{ user.photo }}">{% endif %}
                     <div class="pl-3">
                         <div class="text-base font-semibold">{{ user.username }}</div>
                         <div class="font-normal text-gray-500">{% if user.email != "empty" %} {{ user.email }}{% endif
@@ -48,7 +48,7 @@
                 {% if user.code != "None" %}{% if user.code != "empty" %}{{ user.code }}{% endif %}{% endif %}
                 </td>
                 <td class="px-6 py-4">
-                    <button id="edit" class="inline-block" hx-get="/user/{{ user.id }}" hx-target="#modal-user" hx-swap="innerHTML"
+                    <button id="edit" class="hidden inline-block" hx-get="/user/{{ user.id }}" hx-target="#modal-user" hx-swap="innerHTML"
                        onclick="document.getElementById('modal').classList.remove('hidden');" class="font-medium text-primary hover:underline">View</button>
                     <button id="delete" class="inline-block" hx-get="/users/table?delete={{ user.id }}"
                         hx-target="#user_table" hx-swap="outerHTML swap:0.5s"
