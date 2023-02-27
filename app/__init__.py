@@ -1,3 +1,4 @@
+from app import admin, web, plex, tasks, jellyfin, helpers, ombi
 from flask import Flask, request, session
 from peewee import *
 from playhouse.migrate import *
@@ -32,16 +33,13 @@ def get_locale():
         return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
 
 
-
-
-
 # Translation stuff
 base_dir = os.path.abspath(os.path.dirname(__file__))
 app.config["LANGUAGES"] = {'en': 'english',
                            'de': 'german',
                            'zh': 'chinese',
                            'fr': 'french',
-                           # 'sv': 'swedish',
+                           'sv': 'swedish',
                            'pt': 'portuguese',
                            # 'nl': 'dutch',
                            'pt_BR': 'portuguese',
@@ -50,6 +48,7 @@ app.config["LANGUAGES"] = {'en': 'english',
                            'es': 'spanish',
                            # 'it': 'italian',
                            'ca': 'catalan',
+                           'pl': 'polish',
 
                            }
 app.config["BABEL_DEFAULT_LOCALE"] = "en"
@@ -69,8 +68,6 @@ scheduler.start()
 
 # Database stuff
 database = SqliteDatabase("./database/database.db")
-
-
 
 
 class BaseModel(Model):
@@ -97,11 +94,12 @@ class Settings(BaseModel):
 
 class Users(BaseModel):
     id = IntegerField(primary_key=True)
-    token = CharField() # Plex Token or Jellyfin ID
+    token = CharField()  # Plex Token or Jellyfin ID
     username = CharField()
     email = CharField()
     code = CharField()
     expires = DateTimeField(null=True)
+
 
 # Below is Database Initialisation in case of new instance
 database.create_tables(
@@ -110,5 +108,3 @@ database.create_tables(
 
 if __name__ == "__main__":
     app.run()
-
-from app import admin, web, plex, tasks, jellyfin, helpers, ombi
