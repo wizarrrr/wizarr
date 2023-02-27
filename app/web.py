@@ -9,7 +9,6 @@ from app.plex import *
 from app.ombi import *
 from flask_babel import _
 import threading
-import requests
 
 
 @app.route('/')
