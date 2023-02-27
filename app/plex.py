@@ -22,6 +22,29 @@ def handleOauthToken(token, code):
     threading.Thread(target=SetupUser, args=(token,)).start()
 
 
+def GetPlexUser(user):
+    print("user is ", user)
+    email = Users.get_by_id(user).email
+    plex_token = Settings.get(Settings.key == "api_key").value
+    admin = MyPlexAccount(plex_token)
+
+    my_plex_user = admin.user(email)
+    user = {
+        "Name": my_plex_user.title,
+        "Id": my_plex_user.id,
+        "Configuration": {
+            "allowCameraUpload": my_plex_user.allowCameraUpload,
+            "allowChannels": my_plex_user.allowChannels,
+            "allowSync": my_plex_user.allowSync,
+        },
+        "Policy": {
+            "sections": "na"
+        }
+    }
+
+    return user
+
+
 @cached(cache=TTLCache(maxsize=1024, ttl=600))
 def getUsers():
     token = Settings.get(Settings.key == "api_key").value
@@ -35,20 +58,31 @@ def getUsers():
         if not Users.select().where(Users.username == user.title).exists():
             Users.create(email=user.email, username=user.title,
                          token="None", code="None")
-            
+
     if Users.select():
         for dbuser in Users.select():
             if dbuser.username not in [u.title for u in plexusers]:
                 dbuser.delete_instance()
-    return plexusers
+    users = Users.select()
+    for user in users:
+        user.expires = Users.get_or_none(Users.email == str(
+            user.email)).expires if Users.get_or_none(Users.email == str(user.email)) else None
+        user.code = Users.get_or_none(Users.email == str(
+            user.email)).code if Users.get_or_none(Users.email == str(user.email)) else None
+        for plexuser in plexusers:
+            if user.email == plexuser.email:
+                user.photo = plexuser.thumb
+
+    return users
 
 
-def deleteUser(email):
+def deleteUser(id):
     getUsers.cache_clear()
+    email = Users.get(Users.id == id).email
     plex_token = Settings.get(Settings.key == "api_key").value
     admin = MyPlexAccount(plex_token)
     admin.removeFriend(email)
-    Users.delete().where(Users.email == email).execute()
+
 
 
 def inviteUser(email, code):

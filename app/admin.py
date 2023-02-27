@@ -13,6 +13,7 @@ from packaging import version
 import random
 import string
 import os
+import json
 from flask_babel import _
 
 
@@ -168,7 +169,7 @@ def preferences():
             libraries = [request.form.get("library_{}".format(i)) for i in range(int(
                 request.form.get("library_count")) + 1) if request.form.get("library_{}".format(i))]
             if not libraries:
-                return render_template("verify-server.html", error=_("You must select at least one library."), server_type=server_type)
+                return render_template("verify-server.html", error=_("You must select at least one library."))
 
             settings['server_name'].value = server_name
             settings['server_name'].save()
@@ -206,12 +207,13 @@ def secure_settings():
             for s in Settings.select():
                 settings[s.key] = s.value
 
-            return render_template("admin/settings.html", **settings)
+            return render_template("settings.html", **settings)
         else:
             return redirect("/admin")
 
     elif request.method == 'POST':
-        server_type = Settings.get(Settings.key == "server_type").value
+        server_type = request.form.get(
+            "server_type", Settings.get(Settings.key == "server_type").value)
         server_name = request.form.get(
             "server_name", Settings.get(Settings.key == "server_name").value)
         server_url = request.form.get(
@@ -241,7 +243,7 @@ def secure_settings():
                 else:
                     error = _(
                         "Unable to connect to your Plex server. See Logs for more information.")
-                return render_template("admin/settings.html", error=error)
+                return render_template("settings.html", error=error, )
         elif server_type == "jellyfin":
             headers = {
                 "X-Emby-Token": api_key,
@@ -249,9 +251,11 @@ def secure_settings():
             response = requests.get(f"{server_url}/Users", headers=headers)
             if response.status_code != 200:
                 error = _("Unable to connect to your Jellyfin server.")
-                return render_template("admin/settings.html", error=error)
+                return render_template("settings.html", error=error)
 
         with database.atomic():
+            Settings.update(value=server_type).where(
+                Settings.key == "server_type").execute()
             Settings.update(value=server_name).where(
                 Settings.key == "server_name").execute()
             Settings.update(value=server_url).where(
@@ -282,6 +286,7 @@ def secure_settings():
                 Settings.delete().where(Settings.key == "custom_html").execute()
 
         settings = {
+            "server_type": server_type,
             "server_name": server_name,
             "server_url": server_url,
             "server_type": server_type,
@@ -292,7 +297,7 @@ def secure_settings():
             "custom_html": custom_html
         }
 
-        return render_template("admin/settings.html", **settings)
+        return render_template("settings.html", **settings)
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -366,59 +371,112 @@ def users():
 
     return render_template("admin/users.html")
 
+
 @app.route('/user/<user>', methods=["GET", "POST"])
 @login_required
 def user(user):
     if htmx:
-        if request.method == "POST":
-            info = Get(f"/Users/{user}").json()
-            print(info["Policy"])
-            for key, value in request.form.items():
-                
-                for field in info["Policy"]:
-                    if key == field:
-                        info["Policy"][field] = value
-                for field in info["Configuration"]:
-                    if key == field:
-                        info["Configuration"][field] = value
-            print(info["Policy"])
-            Post(f"/Users/{user}/Configuration", info["Configuration"])
-            Post(f"/Users/{user}/Policy", info["Policy"])
-            return redirect("/users/table")
-                
-        info = Get(f"/Users/{user}").json()
-        return render_template("admin/user.html", user=info)
+        server_type = Settings.get(Settings.key == "server_type").value
+        info = {}
+        if server_type == "jellyfin":
+            user_id = Users.get_by_id(user).token
+            if request.method == "GET":
+                info = Get(f"/Users/{user_id}").json()
+                for key, value in info["Policy"].items():
+                    if type(value) == list:
+                        if not value:
+                            info["Policy"][key] = ""
+                        else:
+                            #Slip value into a string
+                            info["Policy"][key] = ", ".join(value)
+                for key, value in info["Configuration"].items():
+                    if type(value) == list:
+                        if not value:
+                            info["Configuration"][key] = ""
+                        else:
+                            #Slip value into a string
+                            info["Configuration"][key] = ", ".join(value)
+
+            elif request.method == "POST":
+                info = Get(f"/Users/{user_id}").json()
+                print(info["Policy"])
+                for key, value in request.form.items():
+
+                    for field in info["Policy"]:
+                        if key == field:
+                            if type(info["Policy"][field]) == bool:
+                                if type(info["Policy"][field]) == bool:
+                                    if value == "True":
+                                        value = True
+                                    else:
+                                        value = False
+                            if type(info["Policy"][field]) == int:
+                                value = int(value)
+                            if type(info["Policy"][field]) == list:
+                                if value == "":
+                                    value = []
+                                else:
+                                    value = value.split(", ")
+                            info["Policy"][field] = value
+                    for field in info["Configuration"]:
+                        
+                        if key == field:
+                            if type(info["Configuration"][field]) == bool:
+                                if value == "True":
+                                    value = True
+                                else:
+                                    value = False
+                            if type(info["Configuration"][field]) == int:
+                                value = int(value)
+                            if type(info["Configuration"][field]) == list:
+                                if value == "":
+                                    value = []
+                                else:
+                                    value = value.split(", ")
+                            info["Configuration"][field] = value
+                print(info["Policy"])
+                response = Post(f"/Users/{user_id}", info)
+                return redirect("/users/table")
+
+        else:
+            info = GetPlexUser(user)
+            if request.method == "POST":
+                plex_token = Settings.get(Settings.key == "api_key").value
+                plex_url = Settings.get(Settings.key == "server_url").value
+                admin = MyPlexAccount(plex_token)
+                server = PlexServer(plex_url, plex_token)
+                username = info["Name"]
+                for form in request.form.items():
+                    print(form)
+                response = admin.updateFriend(username, server, allowSync=bool(request.form.get("allowSync")), 
+                                   allowCameraUpload=bool(request.form.get("allowCameraUpload")), 
+                                   allowChannels=bool(request.form.get("allowChannels")))
+                print(response)
+                return redirect("/users/table")
+        return render_template("admin/user.html", user=info, db_id=user)
+
     else:
         return redirect("/admin")
 
-@app.route('/users/table')
-@login_required
+@ app.route('/users/table')
+@ login_required
 def users_table():
 
     if request.args.get("delete"):
         print("Deleting user " + request.args.get("delete"))
         GlobalDeleteUser(request.args.get("delete"))
-    users = None
 
-    users = GlobalGetUsers()
-    db_users = Users.select()
+    users=GlobalGetUsers()
 
-    if Settings.get(Settings.key == "server_type").value == "plex":
-        for user in users:
-            user.expires = Users.get_or_none(Users.email == str(
-                user.email)).expires if Users.get_or_none(Users.email == str(user.email)) else None
-            user.code = Users.get_or_none(Users.email == str(
-                user.email)).code if Users.get_or_none(Users.email == str(user.email)) else None
-        return render_template("tables/user_table.html", users=users, rightnow=datetime.datetime.now())
-    elif Settings.get(Settings.key == "server_type").value == "jellyfin":
-        return render_template("tables/jellyfin_user_table.html", users=users, rightnow=datetime.datetime.now())
+
+    return render_template('tables/global-users.html', users=users)
 
 
 def needUpdate():
     try:
-        r = requests.get(
+        r=requests.get(
             url="https://raw.githubusercontent.com/Wizarrrr/wizarr/master/.github/latest")
-        data = r.content.decode("utf-8")
+        data=r.content.decode("utf-8")
         if version.parse(VERSION) < version.parse(data):
             return True
         elif version.parse(VERSION) >= version.parse(data):
@@ -429,10 +487,10 @@ def needUpdate():
         return False
 
 
-@scheduler.task('interval', id='checkExpiring', minutes=15, misfire_grace_time=900)
+@ scheduler.task('interval', id='checkExpiring', minutes=15, misfire_grace_time=900)
 def checkExpiring():
     logging.info('Checking for expiring users...')
-    expiring = Users.select().where(
+    expiring=Users.select().where(
         Users.expires < datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
     for user in expiring:
         GlobalDeleteUser(user)

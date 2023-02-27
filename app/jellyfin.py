@@ -15,7 +15,7 @@ def Post(path, data):
     }
     response = requests.post(
         f"{jellyfin_url}{path}", json=data, headers=headers)
-    logging.info("POST " + path + " " + str(response.status_code))
+    logging.info("POST " + jellyfin_url + path + " " + str(response.status_code))
     return response
 
 
@@ -169,15 +169,16 @@ def jf_GetUsers():
         for user in Users.select():
             if not any(d['Id'] == user.token for d in response.json()):
                 user.delete_instance()
-    return response.json()
+    return Users.select()
 
 
 def jf_DeleteUser(user):
+    jf_id = Users.get_by_id(user).token
     jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
     api_key = Settings.get_or_none(Settings.key == "api_key").value
     headers = {
         "X-Emby-Token": api_key,
     }
     response = requests.delete(
-        f"{jellyfin_url}/Users/{user}", headers=headers)
+        f"{jellyfin_url}/Users/{jf_id}", headers=headers)
     return response
