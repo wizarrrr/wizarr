@@ -6,6 +6,7 @@ import datetime
 from flask import request, redirect, render_template, abort, make_response, send_from_directory
 from app import app, Invitations, Settings, VERSION, get_locale
 from app.plex import *
+from app.ombi import *
 from flask_babel import _
 import threading
 
@@ -59,9 +60,10 @@ def connect():
     elif Settings.get(key="server_type").value == "jellyfin":
         return render_template("signup-jellyfin.html", code=code)
 
-
 @app.route('/setup', methods=["GET"])
 def setup():
+    ombi_RunAllUserImporters()
+
     resp = make_response(render_template(
         "wizard.html", server_type=Settings.get(Settings.key == "server_type").value))
     resp.set_cookie('current', "0")
