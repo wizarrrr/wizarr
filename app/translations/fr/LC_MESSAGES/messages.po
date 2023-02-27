@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-27 18:41+0000\n"
-"PO-Revision-Date: 2023-02-26 17:02+0000\n"
+"PO-Revision-Date: 2023-02-27 21:14+0000\n"
 "Last-Translator: Rémi Guerrero <remidu34070@hotmail.fr>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/wizarr/app/fr/>\n"
 "Language: fr\n"
-"Language-Team: French "
-"<https://hosted.weblate.org/projects/wizarr/app/fr/>\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.16-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:141
@@ -108,9 +108,8 @@ msgid "Create an account"
 msgstr "Créer un compte"
 
 #: app/templates/settings.html:7
-#, fuzzy
 msgid "Server Settings"
-msgstr "Modifier les paramètres du serveur"
+msgstr "Paramètres du serveur"
 
 #: app/templates/admin/settings.html:12 app/templates/settings.html:12
 msgid ""
@@ -121,9 +120,8 @@ msgstr ""
 "              du serveur"
 
 #: app/templates/settings.html:19
-#, fuzzy
 msgid "Server"
-msgstr "Jamais"
+msgstr "Serveur"
 
 #: app/templates/admin/settings.html:19 app/templates/settings.html:29
 msgid "Server URL"
@@ -161,6 +159,7 @@ msgstr ""
 #: app/templates/admin/settings.html:54 app/templates/settings.html:64
 msgid "Ombi API Key (Only used for user import currently.)"
 msgstr ""
+"Clé API Ombi (Seulement pour l’importation des utilisateurs pour le moment.)"
 
 #: app/templates/admin/settings.html:61 app/templates/settings.html:71
 msgid ""
@@ -344,11 +343,11 @@ msgstr "Modifier les paramètres du serveur"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
-msgstr ""
+msgstr "Configuration de l’utilisateur"
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
-msgstr ""
+msgstr "Politique de l'utilisateur"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
@@ -375,9 +374,8 @@ msgid " Something has gone wrong. Please try again later."
 msgstr " Quelque chose s'est mal passé. Veuillez réessayer plus tard."
 
 #: app/templates/tables/global-users.html:13
-#, fuzzy
 msgid "Name"
-msgstr "Nom d’utilisateur"
+msgstr "Nom"
 
 #: app/templates/tables/global-users.html:16
 #: app/templates/tables/invite_table.html:7
@@ -387,9 +385,8 @@ msgid "Expires"
 msgstr "Expiration"
 
 #: app/templates/tables/global-users.html:22
-#, fuzzy
 msgid "Actions"
-msgstr "Invitations"
+msgstr "Actions"
 
 #: app/templates/tables/invite_table.html:5
 msgid "Used"
@@ -1101,4 +1098,3 @@ msgstr "Ouvrir Plex"
 
 #~ msgid "Great!"
 #~ msgstr "Super !"
-
