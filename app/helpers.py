@@ -14,6 +14,8 @@ def GlobalDeleteUser(user):
                 logging.error("Unable to delete user: " + str(e))
     elif server_type == "jellyfin":
         jf_DeleteUser(user)
+
+    ombi_DeleteUser(user)
     
 
 

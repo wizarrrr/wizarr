@@ -211,7 +211,6 @@ def ombi_DeleteUser(internal_user_token):
         return
 
 def jf_DeleteUser(user):
-    ombi_DeleteUser(user)
     jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
     api_key = Settings.get_or_none(Settings.key == "api_key").value
     headers = {
