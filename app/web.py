@@ -72,7 +72,7 @@ def ombi_RunUserImporter(name):
         "ApiKey": ombi_api_key,
     }
     response = requests.post(
-        f"{overseerr_url}/api/v1/Job/{name}UserImporter/", headers=headers)
+        f"{overseerr_url}/api/v1/Job/{name}UserImporter/", headers=headers, timeout=5)
     logging.info(f"POST {overseerr_url}/api/v1/Job/{name}UserImporter/ - {str(response.status_code)}")
 
     return response
