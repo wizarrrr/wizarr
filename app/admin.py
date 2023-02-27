@@ -419,11 +419,11 @@ def needUpdate():
 
 @scheduler.task('interval', id='checkExpiring', minutes=15, misfire_grace_time=900)
 def checkExpiring():
-    logging.info('Checking for expiring invites...')
+    logging.info('Checking for expiring users...')
     expiring = Users.select().where(
         Users.expires < datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
-    for invite in expiring:
-        GlobalDeleteUser(invite.used_by)
-        logging.info("Deleting user " + invite.used_by +
+    for user in expiring:
+        GlobalDeleteUser(user)
+        logging.info("Deleting user " + user.email +
                      " due to expired invite.")
     return
