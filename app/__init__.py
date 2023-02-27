@@ -1,4 +1,3 @@
-from app import admin, web, plex, tasks, jellyfin, helpers, ombi
 from flask import Flask, request, session
 from peewee import *
 from playhouse.migrate import *
@@ -108,3 +107,5 @@ database.create_tables(
 
 if __name__ == "__main__":
     app.run()
+
+from app import admin, web, plex, tasks, jellyfin, helpers, ombi
