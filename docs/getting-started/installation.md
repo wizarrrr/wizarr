@@ -22,7 +22,7 @@ services:
     container_name: wizarr
     image: ghcr.io/wizarrrr/wizarr
     ports:
-    - 5690:5690
+      - 5690:5690
     volumes:
       - /path/to/appdata/config:/data/database
     environment:
