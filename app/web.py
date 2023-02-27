@@ -6,6 +6,7 @@ import datetime
 from flask import request, redirect, render_template, abort, make_response, send_from_directory
 from app import app, Invitations, Settings, VERSION, get_locale
 from app.plex import *
+from app.ombi import *
 from flask_babel import _
 import threading
 import requests
@@ -59,28 +60,6 @@ def connect():
 
     elif Settings.get(key="server_type").value == "jellyfin":
         return render_template("signup-jellyfin.html", code=code)
-
-def ombi_RunUserImporter(name):
-    if not Settings.get_or_none(Settings.key == "overseerr_url"):
-        return
-    if not Settings.get_or_none(Settings.key == "ombi_api_key"):
-        return
-
-    overseerr_url = Settings.get_or_none(Settings.key == "overseerr_url").value
-    ombi_api_key = Settings.get_or_none(Settings.key == "ombi_api_key").value
-    headers = {
-        "ApiKey": ombi_api_key,
-    }
-    response = requests.post(
-        f"{overseerr_url}/api/v1/Job/{name}UserImporter/", headers=headers, timeout=5)
-    logging.info(f"POST {overseerr_url}/api/v1/Job/{name}UserImporter/ - {str(response.status_code)}")
-
-    return response
-
-def ombi_RunAllUserImporters():
-    #ombi_RunUserImporter('plex')
-    #ombi_RunUserImporter('emby')
-    return ombi_RunUserImporter('jellyfin')
 
 @app.route('/setup', methods=["GET"])
 def setup():
