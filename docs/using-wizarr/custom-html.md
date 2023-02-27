@@ -1,6 +1,6 @@
 # Custom HTML
 
-With the ability to add a custom HTML section to the setup wizard for Plex, you can create a custom page that will be automatically centred and placed in a div with a background, making it a seamless addition to your setup process
+With the ability to add a custom HTML section to the setup wizard for Plex and Jellyfin, you can create a custom page that will be automatically centred and placed in a div with a background, making it a seamless addition to your setup process
 
 ### Adding Custom HTML
 
