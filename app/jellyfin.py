@@ -172,13 +172,41 @@ def jf_GetUsers():
     return response.json()
 
 
+def ombi_DeleteUser(internal_user_id):
+    if not Settings.get_or_none(Settings.key == "overseerr_url"):
+        return
+    if not Settings.get_or_none(Settings.key == "ombi_api_key"):
+        return
+
+    overseerr_url = Settings.get_or_none(Settings.key == "overseerr_url").value
+    ombi_api_key = Settings.get_or_none(Settings.key == "ombi_api_key").value
+    headers = {
+        "ApiKey": ombi_api_key,
+    }
+    resp = requests.get(
+        f"{overseerr_url}/api/v1/Identity/Users", headers=headers, timeout=5)
+
+    # XXX: retrieve the user's name from the wizarr database 
+    # XXX: based on internal_user_id
+    #username = getUsernameById()
+    ombi_user_id = None
+    for user in resp.json():
+        if user['userName'] == username:
+            ombi_user_id = user['id']
+            continue
+    response = requests.delete(
+        f"{overseerr_url}/api/v1/Identity/{ombi_user_id}", headers=headers, timeout=5)
+    logging.info(f"DELETE {overseerr_url}/api/v1/Identity/{ombi_user_id} - {str(response.status_code)}")
+
+    return response
+
 def jf_DeleteUser(user):
+    #ombi_DeleteUser(user)
     jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
     api_key = Settings.get_or_none(Settings.key == "api_key").value
     headers = {
         "X-Emby-Token": api_key,
     }
-    jellyfin_url 
     response = requests.delete(
         f"{jellyfin_url}/Users/{user}", headers=headers)
     return response
