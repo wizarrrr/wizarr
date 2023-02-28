@@ -57,8 +57,13 @@ def jf_inviteUser(username, password, code, email):
         sections = list(
             (Settings.get(Settings.key == "libraries").value).split(", "))
 
-    policy = dict(Get(f"/Users/{user_id}").json()["Policy"])
-    print("Policy: ", policy)
+    try:
+        response = Get(f"/Users/{user_id}").json()
+        policy = dict(response["Policy"])
+    except Exception as e:
+        logging.error("Error getting Jellyfin User Policy: " + str(e))
+        logging.error("Response was: ", response.json())
+
     policy["EnableAllFolders"] = False
     policy["EnabledFolders"] = sections
 
