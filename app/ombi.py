@@ -6,9 +6,12 @@ import logging
 import re
 
 def ombi_RunUserImporter(name):
-    if not Settings.get_or_none(Settings.key == "overseerr_url").value:
-        return
-    if not Settings.get_or_none(Settings.key == "ombi_api_key").value:
+    try:
+        if not Settings.get_or_none(Settings.key == "overseerr_url").value:
+            return
+        if not Settings.get_or_none(Settings.key == "ombi_api_key").value:
+            return
+    except:
         return
 
     overseerr_url = Settings.get_or_none(Settings.key == "overseerr_url").value
