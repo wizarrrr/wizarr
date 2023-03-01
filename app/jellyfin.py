@@ -4,7 +4,7 @@ from app import *
 from flask import abort, jsonify, render_template, redirect
 import logging
 import re
-
+import time
 
 def Post(path, data):
     jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
@@ -56,7 +56,7 @@ def jf_inviteUser(username, password, code, email):
     else:
         sections = list(
             (Settings.get(Settings.key == "libraries").value).split(", "))
-
+    #time.sleep(1)
     try:
         response = Get(f"/Users/{user_id}").json()
         policy = dict(response["Policy"])
