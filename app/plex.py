@@ -92,10 +92,15 @@ def inviteUser(email, code):
     plex_url = Settings.get(Settings.key == "server_url").value
     plex_token = Settings.get(Settings.key == "api_key").value
     admin = PlexServer(plex_url, plex_token)
-    if Invitations.select().where(Invitations.code == code, Invitations.specific_libraries != None):
-        sections = list(
-            (Invitations.get(Invitations.code == code).specific_libraries).split(", "))
-    admin.myPlexAccount().inviteFriend(user=email, server=admin, sections=sections)
+    invitation = Invitations.select().where(Invitations.code == code).first()
+    if invitation.specific_libraries != None:
+        sections = list(invitation.specific_libraries.split(", "))
+    try:
+        allowSync = True if invitation.plex_allow_sync == 1 else False
+    except:
+        allowSync = False
+
+    admin.myPlexAccount().inviteFriend(user=email, server=admin, sections=sections, allowSync=allowSync)
     logging.info("Invited " + email + " to Plex Server")
     if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
         Invitations.update(used=True, used_at=datetime.datetime.now().strftime(
