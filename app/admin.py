@@ -38,7 +38,11 @@ def login_required(f):
 @app.route('/admin')
 @login_required
 def admin():
-    return render_template("admin.html")
+    setup = Settings.get_or_none(Settings.key == "server_verified")
+    if setup:
+        if setup.value == True:
+            return render_template("admin.html")
+    return redirect('/settings')
 
 
 @app.route('/invite', methods=["GET", "POST"])
