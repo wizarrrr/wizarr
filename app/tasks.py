@@ -66,7 +66,7 @@ try:
     
     migrate(
         #Make Settings.value nullable
-        migrator.alter_column('Settings', 'value', null=True),
+        migrator.drop_not_null('Settings', 'value')
     )
 except:
     pass
