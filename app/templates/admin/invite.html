@@ -69,7 +69,8 @@
                             <label for="unlimited" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{
                                 _("Unlimited Usages") }}</label>
                         </div>
-                        <div>
+
+                        <div class="mb-4">
                             </label>
 
                             <label for="code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
@@ -93,11 +94,19 @@
                                 <div data-popper-arrow></div>
                             </div>
 
+
                             <input min="1" max="999" type="number" name="duration"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
                         </div>
-
-                        <div class="pt-4">
+                        {% if server_type == "plex" %}
+                        <div class="flex items-center mb-4">
+                            <input id="allowsync" name="allowsync" type="checkbox" value="  "
+                                class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="unlimited" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{
+                                _("Allow Downloads") }}</label>
+                        </div>
+                        {% endif %}
+                        <div class="mb=4">
 
                             <label for="plex_libraries"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Specific

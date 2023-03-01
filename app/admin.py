@@ -65,6 +65,7 @@ def invite():
             }
             expires = expires_options.get(request.form.get("expires"))
             unlimited = 1 if request.form.get("unlimited") else 0
+            allowsync = 1 if request.form.get("allowsync") else 0
             duration = request.form.get("duration")
             specific_libraries = None
             library_count = int(request.form.get("library_count", 0))
@@ -83,7 +84,8 @@ def invite():
                     "%Y-%m-%d %H:%M:%S") if expires else None,
                 unlimited=unlimited,
                 duration=duration,
-                specific_libraries=specific_libraries
+                specific_libraries=specific_libraries,
+                plex_allow_sync=allowsync
             )
             link = os.getenv("APP_URL") + "/j/" + code
 
@@ -362,7 +364,7 @@ def table():
         else:
             invite.expired = False
 
-    return render_template("tables/invite_table.html", invitations=invitations, rightnow=datetime.datetime.now())
+    return render_template("tables/invite_table.html", server_type=Settings.get(key="server_type").value, invitations=invitations, rightnow=datetime.datetime.now())
 
 
 @app.route('/users')

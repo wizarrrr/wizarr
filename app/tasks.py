@@ -14,6 +14,16 @@ try:
 except:
     pass
 
+# Add plex_allow_sync field
+try:
+    migrator = SqliteMigrator(database)
+    plex_allow_sync = BooleanField(null=True)  # Add plex_allow_sync after update
+    migrate(
+        migrator.add_column(
+            'Invitations', 'plex_allow_sync', plex_allow_sync)
+    )
+except:
+    pass
 
 # Migrations 2
 try:
@@ -114,4 +124,4 @@ if Settings.select().where(Settings.key == 'admin_username').exists():
             Settings.create(key='server_verified', value=Settings.get(Settings.key == 'plex_verified').value)
             Settings.delete().where(Settings.key == 'plex_verified').execute()
             
-        
+
