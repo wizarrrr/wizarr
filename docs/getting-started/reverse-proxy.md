@@ -40,7 +40,7 @@ Add a new proxy host with the following settings:
 * **Forward Hostname / IP:** Internal wizarr hostname or IP
 * **Forward Port:** `5690`
 * **Cache Assets:** yes
-* **Block Common Exploits:** yes
+* **Block Common Exploits:** no 
 
 #### SSL
 
