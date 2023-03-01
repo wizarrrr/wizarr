@@ -48,7 +48,6 @@ def jf_inviteUser(username, password, code, email):
 
         # Create user and get user ID
         response = Post("/Users/New", user)
-        response.raise_for_status()
         user_id = response.json()["Id"]
 
         # Set user policy for libraries
@@ -56,9 +55,9 @@ def jf_inviteUser(username, password, code, email):
         sections = list((invitation.specific_libraries).split(", ")) if invitation else list((Settings.get(Settings.key == "libraries").value).split(", "))
         policy = {"EnableAllFolders": False, "EnabledFolders": sections}
         try:
-            response = Get(f"/Users/{user_id}").json()
+            response = Get(f"/Users/{user_id}")
             response.raise_for_status()
-            policy.update(response["Policy"])
+            policy.update(response.json()["Policy"])
         except Exception as e:
             logging.error(f"Error getting Jellyfin User Policy: {str(e)}")
             logging.error("Response was: ", response.json())
