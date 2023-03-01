@@ -40,7 +40,8 @@ def login_required(f):
 def admin():
     setup = Settings.get_or_none(Settings.key == "server_verified")
     if setup:
-        if setup.value == True:
+        print(setup.value)
+        if setup.value == "True":
             return render_template("admin.html")
     return redirect('/settings')
 
