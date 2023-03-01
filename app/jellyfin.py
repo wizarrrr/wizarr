@@ -160,10 +160,12 @@ def join_jellyfin():
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Passwords do not match")
     if not Invitations.select().where(Invitations.code == code, Invitations.expires >= datetime.datetime.now()).exists():
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Invalid code")
+    jf_GetUsers()
     if Users.select().where(Users.username == username).exists():
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="User already exists")
     if Users.select().where(Users.email == email).exists():
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Email already exists")
+    
     if jf_inviteUser(username, password, code, email):
         return redirect('/setup')
     else:
