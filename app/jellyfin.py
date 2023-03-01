@@ -5,6 +5,7 @@ from flask import abort, jsonify, render_template, redirect
 import logging
 import re
 import time
+from peewee import PeeweeException
 
 def Post(path, data):
     jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
@@ -30,57 +31,63 @@ def Get(path):
         f"{jellyfin_url}{path}", headers=headers)
     return response
 
-
 def jf_inviteUser(username, password, code, email):
-    user = {
-        "Name": username,
-        "Password": password,
-    }
-    if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
-        Invitations.update(used=True, used_at=datetime.datetime.now().strftime(
-            "%Y-%m-%d %H:%M"), used_by=username).where(Invitations.code == code).execute()
-    else:
-        Invitations.update(used_at=datetime.datetime.now().strftime(
-            "%Y-%m-%d %H:%M"), used_by=username).where(Invitations.code == code).execute()
-
-    response = Post("/Users/New", user)
-    logging.info("Invited " + username + " to Jellyfin Server")
-
-    user_id = response.json()["Id"]
-
-    sections = None
-    if Invitations.select().where(Invitations.code == code, Invitations.specific_libraries != None):
-        sections = list(
-            (Invitations.get(Invitations.code == code).specific_libraries).split(", "))
-
-    else:
-        sections = list(
-            (Settings.get(Settings.key == "libraries").value).split(", "))
-    #time.sleep(1)
     try:
-        response = Get(f"/Users/{user_id}").json()
-        policy = dict(response["Policy"])
+        # Create user dictionary
+        user = {"Name": username, "Password": password}
+
+        # Update invitation status
+        invitation = Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0).first()
+        if invitation:
+            invitation.used = True
+            invitation.used_at = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+            invitation.used_by = username
+            invitation.save()
+        else:
+            Invitations.update(used_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), used_by=username).where(Invitations.code == code).execute()
+
+        # Create user and get user ID
+        response = Post("/Users/New", user)
+        response.raise_for_status()
+        user_id = response.json()["Id"]
+
+        # Set user policy for libraries
+        invitation = Invitations.select().where(Invitations.code == code, Invitations.specific_libraries != None).first()
+        sections = list((invitation.specific_libraries).split(", ")) if invitation else list((Settings.get(Settings.key == "libraries").value).split(", "))
+        policy = {"EnableAllFolders": False, "EnabledFolders": sections}
+        try:
+            response = Get(f"/Users/{user_id}").json()
+            response.raise_for_status()
+            policy.update(response["Policy"])
+        except Exception as e:
+            logging.error(f"Error getting Jellyfin User Policy: {str(e)}")
+            logging.error("Response was: ", response.json())
+        Post(f"/Users/{user_id}/Policy", policy).raise_for_status()
+
+        # Create user and set expiration date
+        expires = (datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration))) if Invitations.get(code=code).duration else None
+        Users.create(username=username, email=email, password=password, token=user_id, code=code, expires=expires)
+
+        # Update invitation status again
+        if invitation:
+            invitation.used = True
+            invitation.used_at = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+            invitation.used_by = email
+            invitation.save()
+        else:
+            Invitations.update(used_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
+
+        # Log invitation
+        logging.info(f"Invited {username} to Jellyfin Server")
+        return True
+
+
+    except requests.exceptions.HTTPError as e:
+        logging.error(f"Error {e.response.status_code} {e.response.reason}: {e.response.text}")
+        return False
     except Exception as e:
-        logging.error("Error getting Jellyfin User Policy: " + str(e))
-        logging.error("Response was: ", response.json())
-
-    policy["EnableAllFolders"] = False
-    policy["EnabledFolders"] = sections
-
-    Post(f"/Users/{user_id}/Policy", policy)
-    expires = (datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration)
-                                                           )) if Invitations.get(code=code).duration else None
-    
-    print(expires)
-    Users.create(username=username, email=email,
-                 password=password, token=user_id, code=code, expires=expires)
-    if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
-        Invitations.update(used=True, used_at=datetime.datetime.now().strftime(
-            "%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
-    else:
-        Invitations.update(used_at=datetime.datetime.now().strftime(
-            "%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
-    return
+        logging.error(f"Error: {str(e)}")
+        return False
 
 
 @app.route('/jf-scan', methods=["POST"])
@@ -157,8 +164,10 @@ def join_jellyfin():
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="User already exists")
     if Users.select().where(Users.email == email).exists():
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Email already exists")
-    jf_inviteUser(username, password, code, email)
-    return redirect('/setup')
+    if jf_inviteUser(username, password, code, email):
+        return redirect('/setup')
+    else:
+        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="An error occured. Please contact an administrator.")
 
 
 def jf_GetUsers():
@@ -174,16 +183,24 @@ def jf_GetUsers():
         for user in Users.select():
             if not any(d['Id'] == user.token for d in response.json()):
                 user.delete_instance()
+    users = Users.select()
+    if not users:
+        abort(400)
     return Users.select()
 
 
 def jf_DeleteUser(user):
-    jf_id = Users.get_by_id(user).token
-    jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
-    api_key = Settings.get_or_none(Settings.key == "api_key").value
-    headers = {
-        "X-Emby-Token": api_key,
-    }
-    response = requests.delete(
-        f"{jellyfin_url}/Users/{jf_id}", headers=headers)
-    return response
+    try:
+        jf_id = Users.get_by_id(user).token
+        jellyfin_url = Settings.get(Settings.key == "server_url").value
+        api_key = Settings.get(Settings.key == "api_key").value
+        headers = {
+            "X-Emby-Token": api_key,
+        }
+        response = requests.delete(
+            f"{jellyfin_url}/Users/{jf_id}", headers=headers)
+        response.raise_for_status()  # raise exception for non-2xx status codes
+        return response
+    except (PeeweeException, requests.exceptions.RequestException) as e:
+        logging.error(f"Error deleting Jellyfin user {user}: {str(e)}")
+        return None  # or return some other value indicating failure

@@ -8,7 +8,8 @@
         </tr>
     </thead>
     <tbody>
-        {% for user in users%}
+        {% if users %}
+        {% for user in users %}
         <tr class="animate__animated text-xs bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
             <td class="py-5 px-6 font-medium">{% if user.photo %}<img class="w-10 h-10 rounded-full"
                     src="{{ user.photo }}">{% endif %}
@@ -38,11 +39,12 @@
             </td>
         </tr>
         {% endfor %}
+        {% endif %}
 
 
 </table>
-{% if not invitations %}
-<p class="text-center dark:text-white">There are currently no invitations.</p>
+{% if not users %}
+<p class="text-center dark:text-white">There are currently no users.</p>
 {% endif %}
 <script>
 

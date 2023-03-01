@@ -19,11 +19,15 @@ def ombi_RunUserImporter(name):
     headers = {
         "ApiKey": ombi_api_key,
     }
-    response = requests.post(
-        f"{overseerr_url}/api/v1/Job/{name}UserImporter/", headers=headers, timeout=5)
-    logging.info(f"POST {overseerr_url}/api/v1/Job/{name}UserImporter/ - {str(response.status_code)}")
+    try:
+        response = requests.post(
+            f"{overseerr_url}/api/v1/Job/{name}UserImporter/", headers=headers, timeout=5)
+        logging.info(f"POST {overseerr_url}/api/v1/Job/{name}UserImporter/ - {str(response.status_code)}")
 
-    return response
+        return response
+    except Exception as e:
+        logging.error("Error running ombi user importer: " + str(e))
+        return
 
 def ombi_RunAllUserImporters():
     #ombi_RunUserImporter('plex')
@@ -31,9 +35,12 @@ def ombi_RunAllUserImporters():
     return ombi_RunUserImporter('jellyfin')
 
 def ombi_DeleteUser(internal_user_token):
-    if not Settings.get_or_none(Settings.key == "overseerr_url").value:
-        return
-    if not Settings.get_or_none(Settings.key == "ombi_api_key").value:
+    try:
+        if not Settings.get_or_none(Settings.key == "overseerr_url").value:
+            return
+        if not Settings.get_or_none(Settings.key == "ombi_api_key").value:
+            return
+    except:
         return
 
     overseerr_url = Settings.get_or_none(Settings.key == "overseerr_url").value
@@ -43,8 +50,13 @@ def ombi_DeleteUser(internal_user_token):
     }
 
     # Get the ombi users
-    resp = requests.get(
-        f"{overseerr_url}/api/v1/Identity/Users", headers=headers, timeout=5)
+    try:
+        resp = requests.get(
+            f"{overseerr_url}/api/v1/Identity/Users", headers=headers, timeout=5)
+        logging.info(f"GET {overseerr_url}/api/v1/Identity/Users - {str(resp.status_code)}")
+    except Exception as e:
+        logging.error("Error getting ombi users: " + str(e))
+        return
 
     # get the wizarr username from internal_user_token
     dbQuery = Users.select().where(Users.token == internal_user_token)
@@ -60,10 +72,14 @@ def ombi_DeleteUser(internal_user_token):
 
     # Remove ombi user.
     if ombi_user_id:
-        response = requests.delete(
-            f"{overseerr_url}/api/v1/Identity/{ombi_user_id}", headers=headers, timeout=5)
-        logging.info(f"DELETE {overseerr_url}/api/v1/Identity/{ombi_user_id} - {str(response.status_code)}")
+        try:
+            response = requests.delete(
+                f"{overseerr_url}/api/v1/Identity/{ombi_user_id}", headers=headers, timeout=5)
+            logging.info(f"DELETE {overseerr_url}/api/v1/Identity/{ombi_user_id} - {str(response.status_code)}")
 
-        return response
+            return response
+        except:
+            logging.error("Error deleting ombi user: " + str(e))
+            return
     else:
         return
