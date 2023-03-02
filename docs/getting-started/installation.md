@@ -10,7 +10,7 @@ The `TZ` environment variable value should also be set to the [TZ database name]
 
 {% tabs %}
 {% tab title="Docker Compose (recommended)" %}
-#### Installation:
+**Installation:**
 
 Define the `wizarr` service in your `docker-compose.yml` as follows:
 
@@ -21,12 +21,13 @@ services:
   wizarr:
     container_name: wizarr
     image: ghcr.io/wizarrrr/wizarr
+    #user: 1000:1000 #Optional but recommended
     ports:
       - 5690:5690
     volumes:
       - /path/to/appdata/config:/data/database
     environment:
-      - APP_URL=https://wizarr.domain.com
+      - APP_URL=https://wizarr.domain.com #URL at which you will access and share 
       - DISABLE_BUILTIN_AUTH=false #Set to true ONLY if you are using another auth provider (Authelia, Authentik, etc)
       - TZ=Europe/London #Set your timezone here
 ```
@@ -35,7 +36,7 @@ Then, start all services defined in the Compose file:
 
 `docker compose up -d` **or** `docker-compose up -d`
 
-#### Updating
+**Updating**
 
 Pull the latest image:
 
@@ -47,7 +48,7 @@ Then, restart all services defined in the Compose file:
 {% endtab %}
 
 {% tab title="Docker CLI" %}
-#### Installation
+**Installation**
 
 <pre class="language-docker"><code class="lang-docker"><strong>docker run -d \
 </strong>  --name wizarr \
@@ -60,7 +61,7 @@ Then, restart all services defined in the Compose file:
   ghcr.io/wizarrrr/wizarr
 </code></pre>
 
-#### **Updating**
+**Updating**
 
 Stop and remove the existing container:
 
@@ -82,8 +83,6 @@ docker run -d ...
 {% endtab %}
 {% endtabs %}
 
-
-
 ## Unraid
 
 1. Ensure you have the **Community Applications** plugin installed.
@@ -91,4 +90,3 @@ docker run -d ...
 3. Click the **Install Button**.
 4. On the following **Add Container** screen, make changes to the **Host Port** and **Host Path 1**(Appdata) as needed, as well as the environment variables.
 5. Click apply and access "Wizarr" at your `<ServerIP:HostPort>` in a web browser.
-
