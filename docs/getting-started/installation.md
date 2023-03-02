@@ -21,7 +21,7 @@ services:
   wizarr:
     container_name: wizarr
     image: ghcr.io/wizarrrr/wizarr
-    #user: 1000:1000 #Optional but recommended
+    #user: 1000:1000 #Optional but recommended, sets the user uid that Wizarr will run with
     ports:
       - 5690:5690
     volumes:
@@ -52,7 +52,7 @@ Then, restart all services defined in the Compose file:
 
 <pre class="language-docker"><code class="lang-docker"><strong>docker run -d \
 </strong>  --name wizarr \
-  -e APP_URL=https://join.domain.com \
+  -e APP_URL=https://wizarr.domain.com \
   -e DISABLE_BUILTIN_AUTH=false \
   -e TZ=Europe/London \
   -p 5690:5690 \
