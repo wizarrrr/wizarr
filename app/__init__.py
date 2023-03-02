@@ -105,8 +105,7 @@ class Users(BaseModel):
 database.create_tables(
     [Invitations, Settings, Users])
 
-
 if __name__ == "__main__":
     app.run()
 
-from app import admin, web, plex, tasks, jellyfin, helpers, ombi
+from app import admin, web, plex, tasks, jellyfin, helpers, ombi, universal

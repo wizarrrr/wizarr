@@ -2,8 +2,8 @@ from flask import request, redirect, render_template
 from app import app, Invitations, Settings, session, Users, htmx, database
 from app.plex import *
 import secrets
-from app.jellyfin import *
 from app.helpers import *
+from app.universal import *
 from werkzeug.security import generate_password_hash, check_password_hash
 from plexapi.server import PlexServer
 import logging
@@ -13,7 +13,6 @@ from packaging import version
 import random
 import string
 import os
-import json
 from flask_babel import _
 
 
@@ -55,7 +54,7 @@ def invite():
                 code = request.form.get("code").upper()
                 if len(code) != 6:
                     return abort(401)
-            except:
+            except :
                 code = ''.join(secrets.choice(
                     string.ascii_uppercase + string.digits) for _ in range(6))
             if Invitations.get_or_none(code=code):
