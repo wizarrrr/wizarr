@@ -60,6 +60,7 @@ def connect():
     elif Settings.get(key="server_type").value == "jellyfin":
         return render_template("signup-jellyfin.html", code=code)
 
+
 @app.route('/setup', methods=["GET"])
 def setup():
     ombi_run_all_user_importers()

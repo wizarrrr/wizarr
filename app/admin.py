@@ -441,7 +441,6 @@ def user(user):
                                 else:
                                     value = value.split(", ")
                             info["Configuration"][field] = value
-                print(info["Policy"])
                 response = Post(f"/Users/{user_id}", info)
                 return redirect("/users/table")
 

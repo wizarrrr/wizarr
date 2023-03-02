@@ -6,7 +6,10 @@
 
 <img src="https://hosted.weblate.org/widgets/wizarr/-/svg-badge.svg">
 
+
 Wizarr is a automatic user invitation system for Plex, Jellyfin and Emby. Create a unique link and share it to a user and they will automatically be invited to your Media Server! They will even be guided to download the clients and instructions on how to use your requests software!
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N4FKA28)
 
 
 ## Major Features Include
