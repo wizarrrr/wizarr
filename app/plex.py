@@ -8,9 +8,9 @@ import logging
 from cachetools import cached, TTLCache
 
 
-def handleOauthToken(token, code):
+def plex_handle_oauth_token(token, code):
     email = MyPlexAccount(token).email
-    inviteUser(email, code)
+    plex_invite_user(email, code)
     if Users.select().where(Users.email == email).exists():
         Users.delete().where(Users.email == email).execute()
     expires = datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration)
@@ -19,10 +19,10 @@ def handleOauthToken(token, code):
                         username=MyPlexAccount(token).username, code=code, expires=expires)
 
     user.save()
-    threading.Thread(target=SetupUser, args=(token,)).start()
+    threading.Thread(target=plex_setup_user, args=(token,)).start()
 
 
-def GetPlexUser(user):
+def plex_get_user(user):
     print("user is ", user)
     email = Users.get_by_id(user).email
     plex_token = Settings.get(Settings.key == "api_key").value
@@ -46,7 +46,7 @@ def GetPlexUser(user):
 
 
 @cached(cache=TTLCache(maxsize=1024, ttl=600))
-def getUsers():
+def plex_get_users():
     token = Settings.get(Settings.key == "api_key").value
     admin = MyPlexAccount(token)
     plexusers = admin.users()
@@ -76,17 +76,16 @@ def getUsers():
     return users
 
 
-def deleteUser(id):
-    getUsers.cache_clear()
+def plex_delete_user(id):
+    plex_get_users.cache_clear()
     email = Users.get(Users.id == id).email
     plex_token = Settings.get(Settings.key == "api_key").value
     admin = MyPlexAccount(plex_token)
     admin.removeFriend(email)
 
 
-
-def inviteUser(email, code):
-    getUsers.cache_clear()
+def plex_invite_user(email, code):
+    plex_get_users.cache_clear()
     sections = list(
         (Settings.get(Settings.key == "libraries").value).split(", "))
     plex_url = Settings.get(Settings.key == "server_url").value
@@ -111,9 +110,9 @@ def inviteUser(email, code):
     return
 
 
-def SetupUser(token):
+def plex_setup_user(token):
     try:
-        getUsers.cache_clear()
+        plex_get_users.cache_clear()
         plex_token = Settings.get(Settings.key == "api_key").value
         admin_email = MyPlexAccount(plex_token).email
         user = MyPlexAccount(token)
@@ -123,7 +122,7 @@ def SetupUser(token):
         logging.error("Failed to setup user: " + str(e))
 
 
-def optOutOnlineSources(token):
+def plex_opt_out_online_sources(token):
     user = MyPlexAccount(token)
     for source in user.onlineMediaSources():
         source.optOut()
@@ -131,7 +130,7 @@ def optOutOnlineSources(token):
 
 
 @app.route('/scan', methods=["POST"])
-def scan():
+def plex_scan():
     plex_url = request.args.get('plex_url')
     plex_token = request.args.get('plex_token')
     if not plex_url or not plex_token:
@@ -148,7 +147,7 @@ def scan():
 
 
 @app.route('/scan-specific', methods=["POST"])
-def scan_specific():
+def plex_scan_specific():
     plex_url = Settings.get(Settings.key == "server_url").value
     plex_token = Settings.get(Settings.key == "api_key").value
     if not plex_url or not plex_token:

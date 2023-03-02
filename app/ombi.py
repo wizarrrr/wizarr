@@ -5,7 +5,8 @@ from flask import abort, jsonify, render_template, redirect
 import logging
 import re
 
-def ombi_RunUserImporter(name):
+
+def ombi_run_user_importer(name):
     try:
         if not Settings.get_or_none(Settings.key == "overseerr_url").value:
             return
@@ -29,12 +30,14 @@ def ombi_RunUserImporter(name):
         logging.error("Error running ombi user importer: " + str(e))
         return
 
-def ombi_RunAllUserImporters():
-    #ombi_RunUserImporter('plex')
-    #ombi_RunUserImporter('emby')
-    return ombi_RunUserImporter('jellyfin')
 
-def ombi_DeleteUser(internal_user_token):
+def ombi_run_all_user_importers():
+    # ombi_RunUserImporter('plex')
+    # ombi_RunUserImporter('emby')
+    return ombi_run_user_importer('jellyfin')
+
+
+def ombi_delete_user(internal_user_token):
     try:
         if not Settings.get_or_none(Settings.key == "overseerr_url").value:
             return
@@ -61,7 +64,7 @@ def ombi_DeleteUser(internal_user_token):
     # get the wizarr username from internal_user_token
     dbQuery = Users.select().where(Users.token == internal_user_token)
     for u in dbQuery:
-        username=u.username
+        username = u.username
 
     # Match wizarr username with ombi username and get the ombi_user_id.
     ombi_user_id = None

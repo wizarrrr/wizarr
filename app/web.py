@@ -48,13 +48,13 @@ def connect():
     code = request.form.get('code')
     token = request.form.get("token")
 
-    valid, message = isInviteValid(code)
+    valid, message = is_invite_valid(code)
 
     if not valid:
         return render_template("user-plex-login.html", name=Settings.get(Settings.key == "server_name").value, code=code, code_error=message)
 
     if Settings.get(key="server_type").value == "plex":
-        threading.Thread(target=handleOauthToken, args=(token, code)).start()
+        threading.Thread(target=plex_handle_oauth_token, args=(token, code)).start()
         return redirect(os.getenv("APP_URL") + "/setup")
 
     elif Settings.get(key="server_type").value == "jellyfin":
@@ -62,7 +62,7 @@ def connect():
 
 @app.route('/setup', methods=["GET"])
 def setup():
-    ombi_RunAllUserImporters()
+    ombi_run_all_user_importers()
 
     resp = make_response(render_template(
         "wizard.html", server_type=Settings.get(Settings.key == "server_type").value))
