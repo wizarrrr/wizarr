@@ -1,6 +1,7 @@
 import requests
 import datetime
 from app import *
+from app.helpers import isInviteValid
 from flask import abort, jsonify, render_template, redirect
 import logging
 import re
@@ -157,8 +158,11 @@ def join_jellyfin():
 
     if password != confirm_password:
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Passwords do not match")
-    if not Invitations.select().where(Invitations.code == code, Invitations.expires >= datetime.datetime.now()).exists():
-        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Invalid code")
+    
+    valid, message = isInviteValid(code)
+    if not valid:
+        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error=message)
+    
     jf_GetUsers()
     if Users.select().where(Users.username == username).exists():
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="User already exists")
