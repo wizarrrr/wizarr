@@ -1,7 +1,7 @@
 import requests
 import datetime
 from app import *
-from app.helpers import isInviteValid
+from app.helpers import is_invite_valid
 from flask import abort, jsonify, render_template, redirect
 import logging
 import re
@@ -32,7 +32,7 @@ def Get(path):
         f"{jellyfin_url}{path}", headers=headers)
     return response
 
-def jf_inviteUser(username, password, code, email):
+def jf_invite_user(username, password, code, email):
     try:
         # Create user dictionary
         user = {"Name": username, "Password": password}
@@ -159,23 +159,23 @@ def join_jellyfin():
     if password != confirm_password:
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Passwords do not match")
     
-    valid, message = isInviteValid(code)
+    valid, message = is_invite_valid(code)
     if not valid:
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error=message)
     
-    jf_GetUsers()
+    jf_get_users()
     if Users.select().where(Users.username == username).exists():
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="User already exists")
     if Users.select().where(Users.email == email).exists():
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Email already exists")
     
-    if jf_inviteUser(username, password, code, email):
+    if jf_invite_user(username, password, code, email):
         return redirect('/setup')
     else:
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="An error occured. Please contact an administrator.")
 
 
-def jf_GetUsers():
+def jf_get_users():
     response = Get("/Users")
     # Compare user to database
     for user in response.json():
@@ -194,7 +194,7 @@ def jf_GetUsers():
     return Users.select()
 
 
-def jf_DeleteUser(user):
+def jf_delete_user(user):
     try:
         jf_id = Users.get_by_id(user).token
         jellyfin_url = Settings.get(Settings.key == "server_url").value

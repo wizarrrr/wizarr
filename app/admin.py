@@ -54,7 +54,7 @@ def invite():
                 code = request.form.get("code").upper()
                 if len(code) != 6:
                     return abort(401)
-            except :
+            except:
                 code = ''.join(secrets.choice(
                     string.ascii_uppercase + string.digits) for _ in range(6))
             if Invitations.get_or_none(code=code):
@@ -105,14 +105,14 @@ def invite():
             )
         else:
             server_type = Settings.get(Settings.key == "server_type").value
-            return render_template("admin/invite.html", needUpdate=needUpdate(), url=os.getenv("APP_URL"), server_type=server_type)
+            return render_template("admin/invite.html", needUpdate=need_update(), url=os.getenv("APP_URL"),
+                                   server_type=server_type)
     else:
         return redirect("/admin")
 
 
 @app.route('/settings', methods=["GET", "POST"])
 def preferences():
-
     settings = {
         'server_type': None,
         'admin_username': None,
@@ -156,6 +156,7 @@ def preferences():
             settings['admin_username'].save()
             settings['admin_password'].value = hash
             settings['admin_password'].save()
+
             return redirect('/settings')
 
     elif not settings['server_verified'].value:
@@ -206,7 +207,6 @@ def preferences():
 @app.route('/settings/', methods=["GET", "POST"])
 @login_required
 def secure_settings():
-
     if request.method == 'GET':
         if htmx:
             settings = {}
@@ -228,7 +228,7 @@ def secure_settings():
             "api_key", Settings.get(Settings.key == "api_key").value)
         libraries = []
         library_count = int(request.form.get("library_count", 0))
-        for library in range(library_count+1):
+        for library in range(library_count + 1):
             library_value = request.form.get(f"library_{library}")
             if library_value:
                 libraries.append(library_value)
@@ -363,18 +363,19 @@ def table():
         if invite.expires and type(invite.expires) == str:
             invite.expires = datetime.datetime.strptime(
                 invite.expires, "%Y-%m-%d %H:%M")
-        if invite.expires and invite.expires.strftime("%Y-%m-%d %H:%M") < datetime.datetime.now().strftime("%Y-%m-%d %H:%M"):
+        if invite.expires and invite.expires.strftime("%Y-%m-%d %H:%M") < datetime.datetime.now().strftime(
+            "%Y-%m-%d %H:%M"):
             invite.expired = True
         else:
             invite.expired = False
 
-    return render_template("tables/invite_table.html", server_type=Settings.get(key="server_type").value, invitations=invitations, rightnow=datetime.datetime.now())
+    return render_template("tables/invite_table.html", server_type=Settings.get(key="server_type").value,
+                           invitations=invitations, rightnow=datetime.datetime.now())
 
 
 @app.route('/users')
 @login_required
 def users():
-
     return render_template("admin/users.html")
 
 
@@ -393,14 +394,14 @@ def user(user):
                         if not value:
                             info["Policy"][key] = ""
                         else:
-                            #Slip value into a string
+                            # Slip value into a string
                             info["Policy"][key] = ", ".join(value)
                 for key, value in info["Configuration"].items():
                     if type(value) == list:
                         if not value:
                             info["Configuration"][key] = ""
                         else:
-                            #Slip value into a string
+                            # Slip value into a string
                             info["Configuration"][key] = ", ".join(value)
 
             elif request.method == "POST":
@@ -425,7 +426,7 @@ def user(user):
                                     value = value.split(", ")
                             info["Policy"][field] = value
                     for field in info["Configuration"]:
-                        
+
                         if key == field:
                             if type(info["Configuration"][field]) == bool:
                                 if value == "True":
@@ -445,7 +446,7 @@ def user(user):
                 return redirect("/users/table")
 
         else:
-            info = GetPlexUser(user)
+            info = plex_get_user(user)
             if request.method == "POST":
                 plex_token = Settings.get(Settings.key == "api_key").value
                 plex_url = Settings.get(Settings.key == "server_url").value
@@ -454,9 +455,9 @@ def user(user):
                 username = info["Name"]
                 for form in request.form.items():
                     print(form)
-                response = admin.updateFriend(username, server, allowSync=bool(request.form.get("allowSync")), 
-                                   allowCameraUpload=bool(request.form.get("allowCameraUpload")), 
-                                   allowChannels=bool(request.form.get("allowChannels")))
+                response = admin.updateFriend(username, server, allowSync=bool(request.form.get("allowSync")),
+                                              allowCameraUpload=bool(request.form.get("allowCameraUpload")),
+                                              allowChannels=bool(request.form.get("allowChannels")))
                 print(response)
                 return redirect("/users/table")
         return render_template("admin/user.html", user=info, db_id=user)
@@ -464,25 +465,24 @@ def user(user):
     else:
         return redirect("/admin")
 
-@ app.route('/users/table')
-@ login_required
-def users_table():
 
+@app.route('/users/table')
+@login_required
+def users_table():
     if request.args.get("delete"):
         print("Deleting user " + request.args.get("delete"))
-        GlobalDeleteUser(request.args.get("delete"))
+        global_delete_user(request.args.get("delete"))
 
-    users=GlobalGetUsers()
-
+    users = global_get_users()
 
     return render_template('tables/global-users.html', users=users)
 
 
-def needUpdate():
+def need_update():
     try:
-        r=requests.get(
+        r = requests.get(
             url="https://raw.githubusercontent.com/Wizarrrr/wizarr/master/.github/latest")
-        data=r.content.decode("utf-8")
+        data = r.content.decode("utf-8")
         if version.parse(VERSION) < version.parse(data):
             return True
         elif version.parse(VERSION) >= version.parse(data):
@@ -493,13 +493,13 @@ def needUpdate():
         return False
 
 
-@ scheduler.task('interval', id='checkExpiring', minutes=15, misfire_grace_time=900)
-def checkExpiring():
+@scheduler.task('interval', id='checkExpiring', minutes=15, misfire_grace_time=900)
+def check_expiring():
     logging.info('Checking for expiring users...')
-    expiring=Users.select().where(
+    expiring = Users.select().where(
         Users.expires < datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
     for user in expiring:
-        GlobalDeleteUser(user)
+        global_delete_user(user)
         logging.info("Deleting user " + user.email +
                      " due to expired invite.")
     return
