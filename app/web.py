@@ -7,6 +7,7 @@ from flask import request, redirect, render_template, abort, make_response, send
 from app import app, Invitations, Settings, VERSION, get_locale
 from app.plex import *
 from app.ombi import *
+from app.helpers import *
 from flask_babel import _
 import threading
 
@@ -46,12 +47,11 @@ def plex(code):
 def connect():
     code = request.form.get('code')
     token = request.form.get("token")
-    if not Invitations.select().where(Invitations.code == code).exists():
-        return render_template("user-plex-login.html", name=Settings.get(Settings.key == "server_name").value, code=code, code_error="That invite code does not exist.")
-    if Invitations.select().where(Invitations.code == code, Invitations.used == True, Invitations.unlimited == False).exists():
-        return render_template("user-plex-login.html", name=Settings.get(Settings.key == "server_name").value, code=code, code_error="That invite code has already been used.")
-    if Invitations.select().where(Invitations.code == code, Invitations.expires <= datetime.datetime.now()).exists():
-        return render_template("user-plex-login.html", name=Settings.get(Settings.key == "server_name").value, code=code, code_error="That invite code has expired.")
+
+    valid, message = isInviteValid(code)
+
+    if not valid:
+        return render_template("user-plex-login.html", name=Settings.get(Settings.key == "server_name").value, code=code, code_error=message)
 
     if Settings.get(key="server_type").value == "plex":
         threading.Thread(target=handleOauthToken, args=(token, code)).start()
