@@ -108,3 +108,50 @@ labels:
 ```
 
 For more information, please refer to the [Traefik documentation](https://doc.traefik.io/traefik/user-guides/docker-compose/basic-example/).
+
+## Caddy
+
+{% tabs %}
+{% tab title="Subdomain" %}
+Add the following site block to your Caddyfile:
+
+```
+wizarr.example.com {
+    reverse_proxy http://127.0.0.1:5690
+}
+```
+{% endtab %}
+
+{% tab title="Path" %}
+You need the [responce replacement](https://github.com/caddyserver/replace-response) module to use this config.
+
+Add the following site block to your Caddyfile:
+
+```
+plex.example.com {
+    handle /wizarr {
+        redir https://plex.example.com/wizarr/admin
+    }
+    handle_path /wizarr/* {
+        replace {
+            "href=\"/"      "href=\"/wizarr/"
+            "action=\"/"    "action=\"/wizarr/"
+            "\"/static"       "\"/wizarr/static"
+            "hx-post=\"/"   "hx-post=\"/wizarr/"
+            "hx-get=\"/"    "hx-get=\"/wizarr/"
+            "scan=\"/"      "href=\"/wizarr/"
+            "/scan"         "/wizarr/scan"
+            # include in join code path copy
+            "navigator.clipboard.writeText(url + \"/j/\" + invite_code);" "navigator.clipboard.writeText(url + \"/wizarr/j/\" + invite_code);"
+        }
+        
+        # Your wizarr backend
+        reverse_proxy http://127.0.0.1:5690
+    }
+    # Your main service that you want at /
+    reverse_proxy http://127.0.0.1:5055
+}
+```
+
+
+{% endtab %}
