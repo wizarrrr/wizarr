@@ -123,7 +123,7 @@ wizarr.example.com {
 {% endtab %}
 
 {% tab title="Path" %}
-You need the [responce replacement](https://github.com/caddyserver/replace-response) module to use this config.
+You need the [response replacement](https://github.com/caddyserver/replace-response) module to use this config.
 
 Add the following site block to your Caddyfile:
 
