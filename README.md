@@ -4,7 +4,9 @@
 
 <img src="https://github.com/Wizarrrr/wizarr/actions/workflows/docker-build.yml/badge.svg">
 
-<img src="https://hosted.weblate.org/widgets/wizarr/-/svg-badge.svg">
+<a href="https://hosted.weblate.org/engage/wizarr/">
+<img src="https://hosted.weblate.org/widgets/wizarr/-/app/svg-badge.svg" alt="Übersetzungsstatus" />
+</a>
 
 
 Wizarr is a automatic user invitation system for Plex, Jellyfin and Emby. Create a unique link and share it to a user and they will automatically be invited to your Media Server! They will even be guided to download the clients and instructions on how to use your requests software!
@@ -39,8 +41,8 @@ https://docs.wizarr.dev/getting-started/installation
 
 We use Weblate to translate Wizarr, help us out by clicking [here](https://hosted.weblate.org/engage/wizarr/)
 
-<img src="https://hosted.weblate.org/widgets/wizarr/-/app/multi-auto.svg" alt="Translation status" />
-</a>
+<a href="https://hosted.weblate.org/engage/wizarr/">
+<img src="https://hosted.weblate.org/widgets/wizarr/-/app/multi-auto.svg" alt="Übersetzungsstatus" />
 
 ## Thank you
 
