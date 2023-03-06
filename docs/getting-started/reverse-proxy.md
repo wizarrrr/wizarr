@@ -130,7 +130,7 @@ Add the following site block to your Caddyfile:
 ```
 plex.example.com {
     redir /wizarr /wizarr/admin
-    
+
     handle_path /wizarr/* {
         replace {
             "href=\"/"      "href=\"/wizarr/"
@@ -154,3 +154,4 @@ plex.example.com {
 
 
 {% endtab %}
+{% endtabs %}
