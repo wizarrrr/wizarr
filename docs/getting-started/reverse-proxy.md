@@ -129,9 +129,8 @@ Add the following site block to your Caddyfile:
 
 ```
 plex.example.com {
-    handle /wizarr {
-        redir https://plex.example.com/wizarr/admin
-    }
+    redir /wizarr /wizarr/admin
+    
     handle_path /wizarr/* {
         replace {
             "href=\"/"      "href=\"/wizarr/"
