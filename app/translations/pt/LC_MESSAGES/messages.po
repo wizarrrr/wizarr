@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-27 18:41+0000\n"
-"PO-Revision-Date: 2023-02-26 17:02+0000\n"
-"Last-Translator: CaldeiraG <cal@caldeirag.xyz>\n"
+"PO-Revision-Date: 2023-03-09 16:41+0000\n"
+"Last-Translator: Pedro fRADE <pfrade1996@protonmail.com>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/wizarr/app/pt/"
+">\n"
 "Language: pt\n"
-"Language-Team: Portuguese "
-"<https://hosted.weblate.org/projects/wizarr/app/pt/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:141
@@ -108,9 +109,8 @@ msgid "Create an account"
 msgstr "Criar uma conta"
 
 #: app/templates/settings.html:7
-#, fuzzy
 msgid "Server Settings"
-msgstr "Alterar preferências do servidor"
+msgstr "Preferências do Servidor"
 
 #: app/templates/admin/settings.html:12 app/templates/settings.html:12
 msgid ""
@@ -121,9 +121,8 @@ msgstr ""
 "servidor"
 
 #: app/templates/settings.html:19
-#, fuzzy
 msgid "Server"
-msgstr "Nunca"
+msgstr "Servidor"
 
 #: app/templates/admin/settings.html:19 app/templates/settings.html:29
 msgid "Server URL"
@@ -161,6 +160,7 @@ msgstr ""
 #: app/templates/admin/settings.html:54 app/templates/settings.html:64
 msgid "Ombi API Key (Only used for user import currently.)"
 msgstr ""
+"Chave API do Ombi (De momento apenas é usado para importação de utilizadores)"
 
 #: app/templates/admin/settings.html:61 app/templates/settings.html:71
 msgid ""
@@ -345,11 +345,11 @@ msgstr "Alterar preferências do servidor"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
-msgstr ""
+msgstr "Configuração de Utilizador"
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
-msgstr ""
+msgstr "Política de Utilizador"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
@@ -376,9 +376,8 @@ msgid " Something has gone wrong. Please try again later."
 msgstr " Algo correu mal. Por favor, tente novamente mais tarde."
 
 #: app/templates/tables/global-users.html:13
-#, fuzzy
 msgid "Name"
-msgstr "Nome de Utilizador"
+msgstr "Nome"
 
 #: app/templates/tables/global-users.html:16
 #: app/templates/tables/invite_table.html:7
@@ -388,9 +387,8 @@ msgid "Expires"
 msgstr "Expira"
 
 #: app/templates/tables/global-users.html:22
-#, fuzzy
 msgid "Actions"
-msgstr "Convites"
+msgstr "Ações"
 
 #: app/templates/tables/invite_table.html:5
 msgid "Used"
@@ -1058,4 +1056,3 @@ msgstr "Abrir Plex"
 
 #~ msgid "Great!"
 #~ msgstr "Boa!"
-

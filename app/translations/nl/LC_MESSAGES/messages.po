@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-27 18:41+0000\n"
-"PO-Revision-Date: 2023-02-23 12:04+0000\n"
-"Last-Translator: Victor Matla <Weblate@matla-app.nl>\n"
+"PO-Revision-Date: 2023-03-07 18:41+0000\n"
+"Last-Translator: Arne Cuperus <cuperusarne@gmail.com>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/app/nl/>\n"
 "Language: nl\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/app/nl/>"
-"\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:141
@@ -46,11 +46,8 @@ msgstr ""
 " informatie."
 
 #: app/admin.py:253
-#, fuzzy
 msgid "Unable to connect to your Jellyfin server."
-msgstr ""
-"De verbinding met je Plex server is onderbroken. Bekijk de Logs voor meer"
-" informatie."
+msgstr "Er is geen verbinding mogelijk met de Jellyfin server."
 
 #: app/admin.py:334 app/admin.py:338
 msgid "Invalid Username or Password"
@@ -58,7 +55,7 @@ msgstr "Ongeldige gebruikersnaam of wachtwoord"
 
 #: app/templates/admin.html:5
 msgid "Admin"
-msgstr ""
+msgstr "Administrator"
 
 #: app/templates/admin.html:30
 msgid "Home"
@@ -111,9 +108,8 @@ msgid "Create an account"
 msgstr "Maak een account"
 
 #: app/templates/settings.html:7
-#, fuzzy
 msgid "Server Settings"
-msgstr "Wijzig serverinstellingen"
+msgstr "Server Instellingen"
 
 #: app/templates/admin/settings.html:12 app/templates/settings.html:12
 #, fuzzy
@@ -123,13 +119,13 @@ msgid ""
 msgstr "Plex weergavenaam"
 
 #: app/templates/settings.html:19
-#, fuzzy
 msgid "Server"
-msgstr "Nooit"
+msgstr "Server"
 
 #: app/templates/admin/settings.html:19 app/templates/settings.html:29
+#, fuzzy
 msgid "Server URL"
-msgstr ""
+msgstr "Server URL"
 
 #: app/templates/admin/settings.html:26 app/templates/settings.html:36
 #, fuzzy
@@ -181,7 +177,7 @@ msgstr ""
 
 #: app/templates/admin/settings.html:76 app/templates/settings.html:86
 msgid "Save"
-msgstr ""
+msgstr "Opslaan"
 
 #: app/templates/user-plex-login.html:12 app/templates/welcome-jellyfin.html:12
 #, fuzzy, python-format
@@ -211,15 +207,14 @@ msgid "Invite User"
 msgstr "Gebruiker uitnodigen"
 
 #: app/templates/welcome-jellyfin.html:20
-#, fuzzy
 msgid "Set up Account"
-msgstr "Maak een account"
+msgstr "Maak een account aan"
 
 #: app/templates/tables/jellyfin_user_table.html:6
 #: app/templates/tables/user_table.html:6
 #: app/templates/welcome-jellyfin.html:36
 msgid "Email"
-msgstr "E-mailadres"
+msgstr "Email"
 
 #: app/templates/welcome-jellyfin.html:53
 msgid ""
@@ -1032,4 +1027,3 @@ msgstr ""
 
 #~ msgid "Great!"
 #~ msgstr "Geweldig!"
-

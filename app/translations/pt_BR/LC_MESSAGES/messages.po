@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-27 18:41+0000\n"
-"PO-Revision-Date: 2023-02-26 17:02+0000\n"
-"Last-Translator: ClankJake <nascimentoaragao@gmail.com>\n"
+"PO-Revision-Date: 2023-03-09 16:41+0000\n"
+"Last-Translator: Pedro fRADE <pfrade1996@protonmail.com>\n"
+"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
+"wizarr/app/pt_BR/>\n"
 "Language: pt_BR\n"
-"Language-Team: Portuguese (Brazil) "
-"<https://hosted.weblate.org/projects/wizarr/app/pt_BR/>\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:141
@@ -55,7 +56,7 @@ msgstr "Nome de usuário ou senha inválida"
 
 #: app/templates/admin.html:5
 msgid "Admin"
-msgstr ""
+msgstr "Administrador"
 
 #: app/templates/admin.html:30
 msgid "Home"
@@ -121,9 +122,8 @@ msgstr ""
 "              Servidor"
 
 #: app/templates/settings.html:19
-#, fuzzy
 msgid "Server"
-msgstr "Nunca"
+msgstr "Servidor"
 
 #: app/templates/admin/settings.html:19 app/templates/settings.html:29
 msgid "Server URL"
@@ -201,7 +201,6 @@ msgid "Invite Code"
 msgstr "Código do convite"
 
 #: app/templates/user-plex-login.html:43
-#, fuzzy
 msgid "Oops!"
 msgstr "Oops!"
 
@@ -336,7 +335,7 @@ msgstr "Convite gerado com sucesso!"
 
 #: app/templates/admin/invite.html:127
 msgid "Link has been copied to clipboard!"
-msgstr "O link foi copiado para a área de transferência!"
+msgstr "Link copiado para a área de transferência!"
 
 #: app/templates/admin/invite.html:136
 msgid "Back"
@@ -352,11 +351,11 @@ msgstr "Alterar configurações do servidor"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
-msgstr ""
+msgstr "Configuração de Usuário"
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
-msgstr ""
+msgstr "Política de Usuário"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
@@ -383,9 +382,8 @@ msgid " Something has gone wrong. Please try again later."
 msgstr " Algo deu errado. Por favor, tente novamente mais tarde."
 
 #: app/templates/tables/global-users.html:13
-#, fuzzy
 msgid "Name"
-msgstr "Usuário"
+msgstr "Nome"
 
 #: app/templates/tables/global-users.html:16
 #: app/templates/tables/invite_table.html:7
@@ -395,9 +393,8 @@ msgid "Expires"
 msgstr "Expira"
 
 #: app/templates/tables/global-users.html:22
-#, fuzzy
 msgid "Actions"
-msgstr "Convites"
+msgstr "Ações"
 
 #: app/templates/tables/invite_table.html:5
 msgid "Used"
@@ -428,9 +425,8 @@ msgid "Default"
 msgstr "Padrão"
 
 #: app/templates/tables/jellyfin_user_table.html:4
-#, fuzzy
 msgid "Invite Used"
-msgstr "Convidar Usuário"
+msgstr "Convite utilizado"
 
 #: app/templates/tables/jellyfin_user_table.html:5
 #: app/templates/tables/user_table.html:5
@@ -988,4 +984,3 @@ msgstr "Abrir Plex"
 
 #~ msgid "Great!"
 #~ msgstr "Ótimo!"
-
