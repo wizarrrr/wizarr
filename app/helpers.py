@@ -1,6 +1,5 @@
 from app import Invitations
-from datetime import datetime
-
+import datetime
 
 def is_invite_valid(code):
     invitation = Invitations.get_or_none(Invitations.code == code)
