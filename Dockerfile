@@ -1,5 +1,4 @@
 FROM python:3.11.2-alpine
-RUN apk add --no-cache tzdata
 RUN mkdir /data
 WORKDIR /data
 COPY requirements.txt requirements.txt
