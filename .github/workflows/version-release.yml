@@ -1,8 +1,12 @@
-name: docker-ci-version
+name: Build and push Docker image
 
 on:
   release:
-    types: [published]
+    types: [created]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: wizarrrr/wizarr
 
 jobs:
   build-and-push-image:
@@ -14,15 +18,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Prepare parameters
-        id: prep
-        run: |
-          VERSION=$(echo ${GITHUB_REF} | cut -d '/' -f 3)
-          VERSION_TAG="${DOCKER_IMAGE}:${VERSION}"
-          TAGS="${VERSION_TAG}, ${DOCKER_IMAGE}:latest"
-          # Set output parameters.
-          echo ::set-output name=tags::${TAGS}
-          echo ::set-output name=docker_image::${DOCKER_IMAGE}
+
       - name: Log into registry
         uses: docker/login-action@v1 
         with:
@@ -35,6 +31,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images : ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags : latest, ${{ github.event.release.tag_name }} # use release name as tag 
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -48,6 +45,6 @@ jobs:
           platforms : linux/amd64,linux/arm64,linux/arm/v7 # specify architectures here 
           context : .
           file : ./Dockerfile
-          tags : ${{ steps.prep.outputs.tags }} # use metadata action output 
           push : true # set this to false if you don't want to push 
+          tags : ${{ steps.meta.outputs.tags }} # use metadata action output 
           labels : ${{ steps.meta.outputs.labels }} # use metadata action output 
