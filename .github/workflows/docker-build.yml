@@ -1,41 +1,35 @@
-name: docker-ci
+name: Build and push image
 
 on:
-  push:
+  push: # Trigger on every commit to the repository
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  docker-build:
-    runs-on: ubuntu-latest 
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2.4.0
-      - name: Prepare parameters
-        id: prep
-        run: |
-          DOCKER_IMAGE=ghcr.io/wizarrrr/wizarr
-          TAGS="${DOCKER_IMAGE}:dev"
-          # Set output parameters.
-          echo ::set-output name=tags::${TAGS}
-          echo ::set-output name=docker_image::${DOCKER_IMAGE}
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v1 
         with:
-          platforms: arm64, arm/v7
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v2
-      - name: Login to GHCR
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build
+
+      - name: Build and push image
         uses: docker/build-push-action@v2
         with:
-          builder: ${{ steps.buildx.outputs.name }}
           context: .
-          file: ./Dockerfile
-          platforms: linux/amd64,linux/arm64, linux/arm/v7
+          file: ./Dockerfile # Replace with your Dockerfile path if different
           push: true
-          tags: ${{ steps.prep.outputs.tags }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} # Replace with your desired tag format if different
+          platforms: linux/amd64,linux/arm64,linux/arm/v7 # Replace with your desired platforms if different
