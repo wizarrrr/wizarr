@@ -37,6 +37,7 @@ jobs:
         uses : docker/build-push-action@v2 
         with :
           context : .
+          builder: ${{ steps.buildx.outputs.name }}
           file : ./Dockerfile
           platforms : linux/amd64,linux/arm64,linux/arm/v7 # specify architectures here 
           push : true # set this to false if you don't want to push 
