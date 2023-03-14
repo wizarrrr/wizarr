@@ -42,7 +42,6 @@ jobs:
         uses : docker/build-push-action@v2 
         with :
           context : .
-          builder: mybuilder
           file : ./Dockerfile
           push : true # set this to false if you don't want to push 
           tags : ${{ steps.meta.outputs.tags }} # use metadata action output 
