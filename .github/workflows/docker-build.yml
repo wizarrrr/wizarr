@@ -5,7 +5,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: wizarrrr/wizarr
 
 jobs:
   build-and-push-image:
@@ -31,5 +31,5 @@ jobs:
           context: .
           file: ./Dockerfile # Replace with your Dockerfile path if different
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} # Replace with your desired tag format if different
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:dev # Replace with your desired tag format if different
           platforms: linux/amd64,linux/arm64,linux/arm/v7 # Replace with your desired platforms if different
