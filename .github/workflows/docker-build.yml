@@ -20,7 +20,7 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
-          platforms: arm64
+          platforms: arm64, arm/v7
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
