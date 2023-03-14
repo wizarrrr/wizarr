@@ -30,12 +30,12 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push Docker image 
-        uses: docker/build-push-action@v2.7.0 
+      - name: Build
+        uses: docker/build-push-action@v2
         with:
-            builder: ${steps.buildx.outputs.name}
-            context: .
-            file: Dockerfile 
-            platforms: linux/amd64,linux/arm64, linux/arm/v7 
-            push: true 
-            tags: ${steps.prep.outputs.tags}
+          builder: ${{ steps.buildx.outputs.name }}
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64, linux/arm/v7
+          push: true
+          tags: ${{ steps.prep.outputs.tags }}
