@@ -49,7 +49,6 @@ jobs:
           context : .
           file : ./Dockerfile
           tags : ${{ steps.meta.outputs.tags }} # use metadata action output 
-          
 
           push : true # set this to false if you don't want to push 
           tags : ${{ steps.meta.outputs.tags }} # use metadata action output 
