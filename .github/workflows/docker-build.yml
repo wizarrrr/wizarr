@@ -2,8 +2,7 @@ name: Build and push Docker image
 
 on:
   push:
-
-
+  
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: wizarrrr/wizarr
@@ -33,13 +32,18 @@ jobs:
           images : ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags : dev # use a fixed tag 
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
       - name: Build and push Docker image
         uses : docker/build-push-action@v2 
         with :
           context : .
-          builder: ${{ steps.buildx.outputs.name }}
+          builder: mybuilder
           file : ./Dockerfile
-          platforms : linux/amd64,linux/arm64,linux/arm/v7 # specify architectures here 
           push : true # set this to false if you don't want to push 
           tags : ${{ steps.meta.outputs.tags }} # use metadata action output 
           labels : ${{ steps.meta.outputs.labels }} # use metadata action output 
