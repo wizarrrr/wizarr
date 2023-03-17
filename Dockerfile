@@ -1,10 +1,11 @@
 FROM python:3.11.2-alpine
-RUN apk add --no-cache tzdata
-RUN mkdir /data
+
 WORKDIR /data
-COPY requirements.txt requirements.txt
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
 COPY . /data
-CMD [ "gunicorn", "--workers",  "3" , "--bind", "0.0.0.0:5690", "-m", "007", "run:app" ]
+
+RUN apk add --no-cache tzdata && \
+    pip3 install --no-cache --upgrade pip && \
+    pip3 install --no-cache -r requirements.txt
+
 EXPOSE 5690
+CMD [ "gunicorn", "--workers",  "3" , "--bind", "0.0.0.0:5690", "-m", "007", "run:app" ]
