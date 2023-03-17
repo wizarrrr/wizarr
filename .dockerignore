@@ -3,10 +3,18 @@ app/__pycache__/
 .env
 .DS_Store
 .gitignore
-README.md
-.buildHelper.txt
-screenshots/*
-docs/*
 .git
-.idea
 .github
+.idea
+.buildHelper.txt
+
+# All hidden files
+.*
+
+Dockerfile
+README.md
+babel.cfg
+unraid.xml
+
+screenshots/
+docs/
