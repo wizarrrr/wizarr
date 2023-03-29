@@ -1,0 +1,567 @@
+# Translations template for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-02-27 18:41+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: gsw\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+#: app/admin.py:141
+msgid "Passwords do not match."
+msgstr ""
+
+#: app/admin.py:144
+msgid "Username must be between 3 and 15 characters."
+msgstr ""
+
+#: app/admin.py:147
+msgid "Password must be between 3 and 40 characters."
+msgstr ""
+
+#: app/admin.py:172
+msgid "You must select at least one library."
+msgstr ""
+
+#: app/admin.py:242
+msgid "It is likely that your token does not work."
+msgstr ""
+
+#: app/admin.py:244
+msgid "Unable to connect to your Plex server. See Logs for more information."
+msgstr ""
+
+#: app/admin.py:253
+msgid "Unable to connect to your Jellyfin server."
+msgstr ""
+
+#: app/admin.py:334 app/admin.py:338
+msgid "Invalid Username or Password"
+msgstr ""
+
+#: app/templates/admin.html:5
+msgid "Admin"
+msgstr ""
+
+#: app/templates/admin.html:30
+msgid "Home"
+msgstr ""
+
+#: app/templates/admin.html:35
+msgid "Invitations"
+msgstr ""
+
+#: app/templates/admin.html:40
+msgid "Users"
+msgstr ""
+
+#: app/templates/admin.html:45
+msgid "Settings"
+msgstr ""
+
+#: app/templates/login.html:18
+msgid "Login"
+msgstr ""
+
+#: app/templates/login.html:23 app/templates/register_admin.html:24
+#: app/templates/welcome-jellyfin.html:28
+msgid "Username"
+msgstr ""
+
+#: app/templates/login.html:29 app/templates/register_admin.html:30
+#: app/templates/welcome-jellyfin.html:45
+msgid "Password"
+msgstr ""
+
+#: app/templates/login.html:41
+msgid "Remember me"
+msgstr ""
+
+#: app/templates/login.html:46
+msgid "Sign in"
+msgstr ""
+
+#: app/templates/register_admin.html:18
+msgid "Setup Wizarr"
+msgstr ""
+
+#: app/templates/register_admin.html:36
+msgid "Confirm password"
+msgstr ""
+
+#: app/templates/register_admin.html:42 app/templates/welcome-jellyfin.html:70
+msgid "Create an account"
+msgstr ""
+
+#: app/templates/settings.html:7
+msgid "Server Settings"
+msgstr ""
+
+#: app/templates/admin/settings.html:12 app/templates/settings.html:12
+msgid ""
+"Server Display\n"
+"                Name"
+msgstr ""
+
+#: app/templates/settings.html:19
+msgid "Server"
+msgstr ""
+
+#: app/templates/admin/settings.html:19 app/templates/settings.html:29
+msgid "Server URL"
+msgstr ""
+
+#: app/templates/admin/settings.html:26 app/templates/settings.html:36
+msgid ""
+"Server\n"
+"                Token / API Key"
+msgstr ""
+
+#: app/templates/admin/settings.html:36 app/templates/settings.html:46
+msgid ""
+"Server\n"
+"                Libraries"
+msgstr ""
+
+#: app/templates/admin/invite.html:106 app/templates/admin/settings.html:39
+#: app/templates/settings.html:49
+msgid "Scan For Libraries"
+msgstr ""
+
+#: app/templates/admin/settings.html:46 app/templates/settings.html:56
+msgid ""
+"Request\n"
+"                instance (Ombi, Overseerr...)"
+msgstr ""
+
+#: app/templates/admin/settings.html:54 app/templates/settings.html:64
+msgid "Ombi API Key (Only used for user import currently.)"
+msgstr ""
+
+#: app/templates/admin/settings.html:61 app/templates/settings.html:71
+msgid ""
+"Discord\n"
+"                Server ID"
+msgstr ""
+
+#: app/templates/admin/settings.html:68 app/templates/settings.html:78
+msgid ""
+"Custom\n"
+"                HTML"
+msgstr ""
+
+#: app/templates/admin/settings.html:76 app/templates/settings.html:86
+msgid "Save"
+msgstr ""
+
+#: app/templates/user-plex-login.html:12 app/templates/welcome-jellyfin.html:12
+#, python-format
+msgid "You've been invited to join the %(name)s server!"
+msgstr ""
+
+#: app/templates/user-plex-login.html:21
+msgid "Join the Plex Server"
+msgstr ""
+
+#: app/templates/tables/global-users.html:19
+#: app/templates/tables/invite_table.html:4
+#: app/templates/user-plex-login.html:27 app/templates/user-plex-login.html:38
+msgid "Invite Code"
+msgstr ""
+
+#: app/templates/user-plex-login.html:43
+msgid "Oops!"
+msgstr ""
+
+#: app/templates/user-plex-login.html:50
+msgid "Join"
+msgstr ""
+
+#: app/templates/users.html:5
+msgid "Invite User"
+msgstr ""
+
+#: app/templates/welcome-jellyfin.html:20
+msgid "Set up Account"
+msgstr ""
+
+#: app/templates/tables/jellyfin_user_table.html:6
+#: app/templates/tables/user_table.html:6
+#: app/templates/welcome-jellyfin.html:36
+msgid "Email"
+msgstr ""
+
+#: app/templates/welcome-jellyfin.html:53
+msgid ""
+"Confirm\n"
+"                                password"
+msgstr ""
+
+#: app/templates/welcome-jellyfin.html:61
+msgid ""
+"Invite\n"
+"                                Code"
+msgstr ""
+
+#: app/templates/admin/invite.html:16
+msgid "Attention!"
+msgstr ""
+
+#: app/templates/admin/invite.html:17
+msgid "Update available. Click here."
+msgstr ""
+
+#: app/templates/admin/invite.html:32
+msgid "Quick Invite"
+msgstr ""
+
+#: app/templates/admin/invite.html:38
+msgid "Invite user"
+msgstr ""
+
+#: app/templates/admin/invite.html:44
+msgid "Invite Code String"
+msgstr ""
+
+#: app/templates/admin/invite.html:44
+msgid "(optional)"
+msgstr ""
+
+#: app/templates/admin/invite.html:51
+msgid "Expiration"
+msgstr ""
+
+#: app/templates/admin/invite.html:54
+msgid "1 day"
+msgstr ""
+
+#: app/templates/admin/invite.html:55
+msgid "1 week"
+msgstr ""
+
+#: app/templates/admin/invite.html:56
+msgid "1 month"
+msgstr ""
+
+#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:43
+msgid "Never"
+msgstr ""
+
+#: app/templates/admin/invite.html:62
+msgid "Advanced Options"
+msgstr ""
+
+#: app/templates/admin/invite.html:70
+msgid "Unlimited Usages"
+msgstr ""
+
+#: app/templates/admin/invite.html:76 app/templates/admin/invite.html:88
+#: app/templates/tables/invite_table.html:10
+msgid "Duration"
+msgstr ""
+
+#: app/templates/admin/invite.html:76
+msgid "(in days)"
+msgstr ""
+
+#: app/templates/admin/invite.html:84
+msgid "Show Information"
+msgstr ""
+
+#: app/templates/admin/invite.html:89
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a\n"
+"                                        number of\n"
+"                                        days. (1-999)"
+msgstr ""
+
+#: app/templates/admin/invite.html:103
+msgid ""
+"Specific\n"
+"                                Libraries"
+msgstr ""
+
+#: app/templates/admin/invite.html:115
+msgid "Create Invitation"
+msgstr ""
+
+#: app/templates/admin/invite.html:122
+msgid "Successfully generated an Invitation!"
+msgstr ""
+
+#: app/templates/admin/invite.html:127
+msgid "Link has been copied to clipboard!"
+msgstr ""
+
+#: app/templates/admin/invite.html:136
+msgid "Back"
+msgstr ""
+
+#: app/templates/admin/invite.html:142
+msgid "Share"
+msgstr ""
+
+#: app/templates/admin/settings.html:7
+msgid "Change Server Settings"
+msgstr ""
+
+#: app/templates/admin/user.html:44
+msgid "User Configuration"
+msgstr ""
+
+#: app/templates/admin/user.html:90
+msgid "User Policy"
+msgstr ""
+
+#: app/templates/error/401.html:20
+msgid "Permission denied."
+msgstr ""
+
+#: app/templates/error/401.html:23
+msgid "You are attempting to do something you shouldn't be doing..."
+msgstr ""
+
+#: app/templates/error/404.html:19
+msgid "Something's missing."
+msgstr ""
+
+#: app/templates/error/404.html:21
+msgid "Sorry, we can't find that page. It doesn't seem to exist!"
+msgstr ""
+
+#: app/templates/error/500.html:19
+msgid "Internal Server Error."
+msgstr ""
+
+#: app/templates/error/500.html:21
+msgid " Something has gone wrong. Please try again later."
+msgstr ""
+
+#: app/templates/tables/global-users.html:13
+msgid "Name"
+msgstr ""
+
+#: app/templates/tables/global-users.html:16
+#: app/templates/tables/invite_table.html:7
+#: app/templates/tables/jellyfin_user_table.html:7
+#: app/templates/tables/user_table.html:8
+msgid "Expires"
+msgstr ""
+
+#: app/templates/tables/global-users.html:22
+msgid "Actions"
+msgstr ""
+
+#: app/templates/tables/invite_table.html:5
+msgid "Used"
+msgstr ""
+
+#: app/templates/tables/invite_table.html:6
+msgid "Created"
+msgstr ""
+
+#: app/templates/tables/invite_table.html:8
+msgid "Unlimited"
+msgstr ""
+
+#: app/templates/tables/invite_table.html:9
+msgid "Libraries"
+msgstr ""
+
+#: app/templates/tables/invite_table.html:19
+msgid "Available"
+msgstr ""
+
+#: app/templates/tables/invite_table.html:31
+msgid "Expired"
+msgstr ""
+
+#: app/templates/tables/invite_table.html:68
+msgid "Default"
+msgstr ""
+
+#: app/templates/tables/jellyfin_user_table.html:4
+msgid "Invite Used"
+msgstr ""
+
+#: app/templates/tables/jellyfin_user_table.html:5
+#: app/templates/tables/user_table.html:5
+msgid "User"
+msgstr ""
+
+#: app/templates/tables/user_table.html:7
+msgid "Home User"
+msgstr ""
+
+#: app/templates/wizard/requests.html:4
+msgid "Automatic Media Requests"
+msgstr ""
+
+#: app/templates/wizard/requests.html:9
+msgid ""
+"We are excited to offer you a wide selection of media to choose from. If "
+"you're having trouble finding\n"
+"    something you like, don't worry! We have a user-friendly request "
+"system that can automatically search for the\n"
+"    media you're looking for. "
+msgstr ""
+
+#: app/templates/wizard/requests.html:23
+msgid "Request any available Movie or TV Show"
+msgstr ""
+
+#: app/templates/wizard/requests.html:33
+msgid ""
+"Requested media will be automatically downloaded and added to the library"
+" (if available)"
+msgstr ""
+
+#: app/templates/wizard/requests.html:43
+msgid "If enabled, receive notifications"
+msgstr ""
+
+#: app/templates/wizard/requests.html:50
+msgid "Check it Out"
+msgstr ""
+
+#: app/templates/wizard/jellyfin/download.html:3
+msgid ""
+"Join & Download Jellyfin\n"
+"            for this device"
+msgstr ""
+
+#: app/templates/wizard/jellyfin/download.html:8
+msgid ""
+"Great news! You now have access to our server's media collection. Let's "
+"make sure you know how to use\n"
+"        it with Jellyfin."
+msgstr ""
+
+#: app/templates/wizard/jellyfin/download.html:11
+msgid ""
+"Planning on watching Movies on this device? Download Jellyfin for this "
+"device."
+msgstr ""
+
+#: app/templates/wizard/jellyfin/download.html:14
+#: app/templates/wizard/plex/download.html:14
+msgid "Download"
+msgstr ""
+
+#: app/templates/wizard/jellyfin/tips.html:4
+msgid "Eh, So, What is Jellyfin exactly?"
+msgstr ""
+
+#: app/templates/wizard/jellyfin/tips.html:7
+msgid ""
+"Jellyfin is a platform that lets you stream all your favorite movies, TV "
+"shows, and music in one place.\n"
+"        It's like having your own personal movie theater right at your "
+"fingertips! Think of it as a digital library of\n"
+"        your favorite content that you can access from anywhere, on any "
+"device - your phone, tablet, laptop, smart TV,\n"
+"        you name it."
+msgstr ""
+
+#: app/templates/wizard/jellyfin/tips.html:13
+#: app/templates/wizard/plex/tips.html:12
+msgid "Right, so how do I watch stuff?"
+msgstr ""
+
+#: app/templates/wizard/jellyfin/tips.html:16
+msgid ""
+"It couldn't be simpler! Jellyfin is available on a wide variety of "
+"devices including laptops, tablets,\n"
+"        smartphones, and TVs. All you need to do is download the Jellyfin"
+" app on your device, sign in with your account,\n"
+"        and\n"
+"        you're ready to start streaming your media. It's that easy!"
+msgstr ""
+
+#: app/templates/wizard/jellyfin/tips.html:25
+msgid "Open Jellyfin"
+msgstr ""
+
+#: app/templates/wizard/plex/download.html:3
+msgid ""
+"Join & Download Plex\n"
+"            for this device"
+msgstr ""
+
+#: app/templates/wizard/plex/download.html:8
+msgid ""
+"Great news! You now have access to our server's media collection. Let's "
+"make sure you know how to use\n"
+"        it with Plex."
+msgstr ""
+
+#: app/templates/wizard/plex/download.html:11
+msgid "Planning on watching Movies on this device? Download Plex for this device."
+msgstr ""
+
+#: app/templates/wizard/plex/tips.html:4
+msgid "Eh, So, What is Plex exactly?"
+msgstr ""
+
+#: app/templates/wizard/plex/tips.html:7
+msgid ""
+"Great question! Plex is a software that allows individuals to share their"
+" media collections with others. If\n"
+"    you've received this invitation, it means someone wants to share "
+"their library with you. With Plex, you'll have\n"
+"    access to all of the movies, TV shows, music, and photos that are "
+"stored on their server. Enjoy!"
+msgstr ""
+
+#: app/templates/wizard/plex/tips.html:15
+msgid ""
+"It couldn't be simpler! Plex is available on a wide variety of devices "
+"including laptops, tablets,\n"
+"    smartphones, and TVs. All you need to do is download the Plex app on "
+"your device, sign in with your account, and\n"
+"    you're ready to start streaming your media. It's that easy!"
+msgstr ""
+
+#: app/templates/wizard/plex/tips.html:20
+msgid "How can I make sure to have the best experience?"
+msgstr ""
+
+#: app/templates/wizard/plex/tips.html:23
+msgid ""
+"Because Plex is a free service, they promote their own content before the"
+" awesome content your friend is now\n"
+"    sharing with you - they also, by default, play content at a lower "
+"quality. "
+msgstr ""
+
+#: app/templates/wizard/plex/tips.html:26
+msgid "No need to worry though, this can be easily resolved"
+msgstr ""
+
+#: app/templates/wizard/plex/tips.html:26
+msgid ""
+"We highly\n"
+"      recommend you to go through those steps first!"
+msgstr ""
+
+#: app/templates/wizard/plex/tips.html:33
+msgid "Configure Plex in your browser"
+msgstr ""
+
+#: app/templates/wizard/plex/tips.html:58
+msgid "Configure Plex's app on your computer, mobile device or TV"
+msgstr ""
+
+#: app/templates/wizard/plex/tips.html:86
+msgid "Open Plex"
+msgstr ""
