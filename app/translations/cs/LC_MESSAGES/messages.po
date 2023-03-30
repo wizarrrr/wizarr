@@ -8,104 +8,110 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-27 18:41+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-03-31 01:37+0000\n"
+"Last-Translator: Květoslav Bastard <github@flippy.cz>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/wizarr/app/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 4.17-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:141
 msgid "Passwords do not match."
-msgstr ""
+msgstr "Zadaná hesla nesouhlasí."
 
 #: app/admin.py:144
 msgid "Username must be between 3 and 15 characters."
-msgstr ""
+msgstr "Uživatelské jméno musí obsahovat 3 až 15 znaků."
 
 #: app/admin.py:147
 msgid "Password must be between 3 and 40 characters."
-msgstr ""
+msgstr "Heslo musí obsahovat 3 až 40 znaků."
 
 #: app/admin.py:172
 msgid "You must select at least one library."
-msgstr ""
+msgstr "Musíte vybrat alespoň jednu knihovnu."
 
 #: app/admin.py:242
 msgid "It is likely that your token does not work."
-msgstr ""
+msgstr "Je pravděpodobné, že Váš token nefunguje."
 
 #: app/admin.py:244
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
+"Nepodařilo se spojit s Vaším Plex serverem. Zkontrolujte logy pro více "
+"informací."
 
 #: app/admin.py:253
 msgid "Unable to connect to your Jellyfin server."
-msgstr ""
+msgstr "Nepodařilo se spojit s Vaším Jellyfin serverem."
 
 #: app/admin.py:334 app/admin.py:338
 msgid "Invalid Username or Password"
-msgstr ""
+msgstr "Neplatné Uživatelské jméno nebo Heslo"
 
 #: app/templates/admin.html:5
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: app/templates/admin.html:30
+#, fuzzy
 msgid "Home"
-msgstr ""
+msgstr "Domů"
 
 #: app/templates/admin.html:35
 msgid "Invitations"
-msgstr ""
+msgstr "Pozvánky"
 
 #: app/templates/admin.html:40
 msgid "Users"
-msgstr ""
+msgstr "Uživatelé"
 
 #: app/templates/admin.html:45
 msgid "Settings"
-msgstr ""
+msgstr "Nastavení"
 
 #: app/templates/login.html:18
 msgid "Login"
-msgstr ""
+msgstr "Přihlášení"
 
 #: app/templates/login.html:23 app/templates/register_admin.html:24
 #: app/templates/welcome-jellyfin.html:28
 msgid "Username"
-msgstr ""
+msgstr "Uživatelské jméno"
 
 #: app/templates/login.html:29 app/templates/register_admin.html:30
 #: app/templates/welcome-jellyfin.html:45
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: app/templates/login.html:41
 msgid "Remember me"
-msgstr ""
+msgstr "Zapamatovat"
 
 #: app/templates/login.html:46
+#, fuzzy
 msgid "Sign in"
-msgstr ""
+msgstr "Registrace"
 
 #: app/templates/register_admin.html:18
 msgid "Setup Wizarr"
-msgstr ""
+msgstr "Nastavit Wizarr"
 
 #: app/templates/register_admin.html:36
 msgid "Confirm password"
-msgstr ""
+msgstr "Potvrdit heslo"
 
 #: app/templates/register_admin.html:42 app/templates/welcome-jellyfin.html:70
 msgid "Create an account"
-msgstr ""
+msgstr "Vytvořit účet"
 
 #: app/templates/settings.html:7
 msgid "Server Settings"
-msgstr ""
+msgstr "Nastavení serveru"
 
 #: app/templates/admin/settings.html:12 app/templates/settings.html:12
 msgid ""
@@ -115,11 +121,11 @@ msgstr ""
 
 #: app/templates/settings.html:19
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #: app/templates/admin/settings.html:19 app/templates/settings.html:29
 msgid "Server URL"
-msgstr ""
+msgstr "Adresa URL serveru"
 
 #: app/templates/admin/settings.html:26 app/templates/settings.html:36
 msgid ""
@@ -136,7 +142,7 @@ msgstr ""
 #: app/templates/admin/invite.html:106 app/templates/admin/settings.html:39
 #: app/templates/settings.html:49
 msgid "Scan For Libraries"
-msgstr ""
+msgstr "Skenovat knihovny"
 
 #: app/templates/admin/settings.html:46 app/templates/settings.html:56
 msgid ""
@@ -162,50 +168,53 @@ msgstr ""
 
 #: app/templates/admin/settings.html:76 app/templates/settings.html:86
 msgid "Save"
-msgstr ""
+msgstr "Uložit"
 
 #: app/templates/user-plex-login.html:12 app/templates/welcome-jellyfin.html:12
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr ""
+msgstr "Byl/a jste pozván/a k připojení k %(name)s serveru!"
 
 #: app/templates/user-plex-login.html:21
 msgid "Join the Plex Server"
-msgstr ""
+msgstr "Připojit se k Plex serveru"
 
 #: app/templates/tables/global-users.html:19
 #: app/templates/tables/invite_table.html:4
 #: app/templates/user-plex-login.html:27 app/templates/user-plex-login.html:38
+#, fuzzy
 msgid "Invite Code"
-msgstr ""
+msgstr "Zvací kód"
 
 #: app/templates/user-plex-login.html:43
 msgid "Oops!"
-msgstr ""
+msgstr "Jejda!"
 
 #: app/templates/user-plex-login.html:50
 msgid "Join"
-msgstr ""
+msgstr "Připojit"
 
 #: app/templates/users.html:5
 msgid "Invite User"
-msgstr ""
+msgstr "Pozvat uživatele"
 
 #: app/templates/welcome-jellyfin.html:20
 msgid "Set up Account"
-msgstr ""
+msgstr "Založit účet"
 
 #: app/templates/tables/jellyfin_user_table.html:6
 #: app/templates/tables/user_table.html:6
 #: app/templates/welcome-jellyfin.html:36
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: app/templates/welcome-jellyfin.html:53
 msgid ""
 "Confirm\n"
 "                                password"
 msgstr ""
+"Potvrdit\n"
+"                                heslo"
 
 #: app/templates/welcome-jellyfin.html:61
 msgid ""
@@ -215,19 +224,19 @@ msgstr ""
 
 #: app/templates/admin/invite.html:16
 msgid "Attention!"
-msgstr ""
+msgstr "Upozornění!"
 
 #: app/templates/admin/invite.html:17
 msgid "Update available. Click here."
-msgstr ""
+msgstr "Aktualizace k dispozici. Klikněte zde."
 
 #: app/templates/admin/invite.html:32
 msgid "Quick Invite"
-msgstr ""
+msgstr "Rychlá pozvánka"
 
 #: app/templates/admin/invite.html:38
 msgid "Invite user"
-msgstr ""
+msgstr "Pozvat uživatele"
 
 #: app/templates/admin/invite.html:44
 msgid "Invite Code String"
@@ -235,48 +244,51 @@ msgstr ""
 
 #: app/templates/admin/invite.html:44
 msgid "(optional)"
-msgstr ""
+msgstr "(volitelné)"
 
 #: app/templates/admin/invite.html:51
+#, fuzzy
 msgid "Expiration"
-msgstr ""
+msgstr "Doba platnosti"
 
 #: app/templates/admin/invite.html:54
 msgid "1 day"
-msgstr ""
+msgstr "1 den"
 
 #: app/templates/admin/invite.html:55
 msgid "1 week"
-msgstr ""
+msgstr "1 týden"
 
 #: app/templates/admin/invite.html:56
 msgid "1 month"
-msgstr ""
+msgstr "1 měsíc"
 
 #: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:43
 msgid "Never"
-msgstr ""
+msgstr "Nikdy"
 
 #: app/templates/admin/invite.html:62
 msgid "Advanced Options"
-msgstr ""
+msgstr "Pokročilé možnosti"
 
 #: app/templates/admin/invite.html:70
+#, fuzzy
 msgid "Unlimited Usages"
-msgstr ""
+msgstr "Neomezené použití"
 
 #: app/templates/admin/invite.html:76 app/templates/admin/invite.html:88
 #: app/templates/tables/invite_table.html:10
+#, fuzzy
 msgid "Duration"
-msgstr ""
+msgstr "Délka trvání"
 
 #: app/templates/admin/invite.html:76
 msgid "(in days)"
-msgstr ""
+msgstr "(ve dnech)"
 
 #: app/templates/admin/invite.html:84
 msgid "Show Information"
-msgstr ""
+msgstr "Zobrazit informace"
 
 #: app/templates/admin/invite.html:89
 msgid ""
@@ -293,31 +305,32 @@ msgstr ""
 
 #: app/templates/admin/invite.html:115
 msgid "Create Invitation"
-msgstr ""
+msgstr "Vytvořit pozvánku"
 
 #: app/templates/admin/invite.html:122
 msgid "Successfully generated an Invitation!"
-msgstr ""
+msgstr "Pozvánka úspěšně vytvořena!"
 
 #: app/templates/admin/invite.html:127
 msgid "Link has been copied to clipboard!"
-msgstr ""
+msgstr "Odkaz byl zkopírován do schránky!"
 
 #: app/templates/admin/invite.html:136
 msgid "Back"
-msgstr ""
+msgstr "Zpět"
 
 #: app/templates/admin/invite.html:142
 msgid "Share"
-msgstr ""
+msgstr "Sdílet"
 
 #: app/templates/admin/settings.html:7
 msgid "Change Server Settings"
-msgstr ""
+msgstr "Upravit nastavení serveru"
 
 #: app/templates/admin/user.html:44
+#, fuzzy
 msgid "User Configuration"
-msgstr ""
+msgstr "Nastavení uživatele"
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
@@ -329,79 +342,86 @@ msgstr ""
 
 #: app/templates/error/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr ""
+msgstr "Pokoušíte se o něco, o co byste se pokoušet neměli..."
 
 #: app/templates/error/404.html:19
 msgid "Something's missing."
-msgstr ""
+msgstr "Něco chybí."
 
 #: app/templates/error/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
+msgstr "Omlouváme se, ale nemůžeme najít tuto stránku. Vypadá to že neexistuje!"
 
 #: app/templates/error/500.html:19
 msgid "Internal Server Error."
-msgstr ""
+msgstr "Interní chyba serveru."
 
 #: app/templates/error/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr ""
+msgstr " Něco se pokazilo. Zkuste to prosím později."
 
 #: app/templates/tables/global-users.html:13
+#, fuzzy
 msgid "Name"
-msgstr ""
+msgstr "Název"
 
 #: app/templates/tables/global-users.html:16
 #: app/templates/tables/invite_table.html:7
 #: app/templates/tables/jellyfin_user_table.html:7
 #: app/templates/tables/user_table.html:8
+#, fuzzy
 msgid "Expires"
-msgstr ""
+msgstr "Vyprší"
 
 #: app/templates/tables/global-users.html:22
 msgid "Actions"
 msgstr ""
 
 #: app/templates/tables/invite_table.html:5
+#, fuzzy
 msgid "Used"
-msgstr ""
+msgstr "Použito"
 
 #: app/templates/tables/invite_table.html:6
+#, fuzzy
 msgid "Created"
-msgstr ""
+msgstr "Vytvořeno"
 
 #: app/templates/tables/invite_table.html:8
+#, fuzzy
 msgid "Unlimited"
-msgstr ""
+msgstr "Neomezené"
 
 #: app/templates/tables/invite_table.html:9
 msgid "Libraries"
-msgstr ""
+msgstr "Knihovny"
 
 #: app/templates/tables/invite_table.html:19
+#, fuzzy
 msgid "Available"
-msgstr ""
+msgstr "Dostupné"
 
 #: app/templates/tables/invite_table.html:31
+#, fuzzy
 msgid "Expired"
-msgstr ""
+msgstr "Vypršelo"
 
 #: app/templates/tables/invite_table.html:68
 msgid "Default"
-msgstr ""
+msgstr "Základní"
 
 #: app/templates/tables/jellyfin_user_table.html:4
 msgid "Invite Used"
-msgstr ""
+msgstr "Pozvat uživatele"
 
 #: app/templates/tables/jellyfin_user_table.html:5
 #: app/templates/tables/user_table.html:5
 msgid "User"
-msgstr ""
+msgstr "Uživatel"
 
 #: app/templates/tables/user_table.html:7
 msgid "Home User"
-msgstr ""
+msgstr "Domácí uživatel"
 
 #: app/templates/wizard/requests.html:4
 msgid "Automatic Media Requests"
@@ -439,28 +459,36 @@ msgid ""
 "Join & Download Jellyfin\n"
 "            for this device"
 msgstr ""
+"Přihlásit se a stáhnout Jellyfin\n"
+"            pro toto zařízení"
 
 #: app/templates/wizard/jellyfin/download.html:8
+#, fuzzy
 msgid ""
 "Great news! You now have access to our server's media collection. Let's "
 "make sure you know how to use\n"
 "        it with Jellyfin."
 msgstr ""
+"Skvělé zprávy! Nyní máte přístup do kolekce médií na našem serveru. Pojďme "
+"se ujistit že víte jak je využít\n"
+"        s Jellyfin."
 
 #: app/templates/wizard/jellyfin/download.html:11
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
 msgstr ""
+"Chystáte sledovat filmy na tomto zařízení? Stáhněte si Jellyfin pro toto "
+"zařízení."
 
 #: app/templates/wizard/jellyfin/download.html:14
 #: app/templates/wizard/plex/download.html:14
 msgid "Download"
-msgstr ""
+msgstr "Stáhnout"
 
 #: app/templates/wizard/jellyfin/tips.html:4
 msgid "Eh, So, What is Jellyfin exactly?"
-msgstr ""
+msgstr "Eh, no, co je přesně Jellyfin?"
 
 #: app/templates/wizard/jellyfin/tips.html:7
 msgid ""
@@ -490,7 +518,7 @@ msgstr ""
 
 #: app/templates/wizard/jellyfin/tips.html:25
 msgid "Open Jellyfin"
-msgstr ""
+msgstr "Otevřít Jellyfin"
 
 #: app/templates/wizard/plex/download.html:3
 msgid ""
@@ -556,12 +584,12 @@ msgstr ""
 
 #: app/templates/wizard/plex/tips.html:33
 msgid "Configure Plex in your browser"
-msgstr ""
+msgstr "Nastavit Plex ve Vašem prohlížeči"
 
 #: app/templates/wizard/plex/tips.html:58
 msgid "Configure Plex's app on your computer, mobile device or TV"
-msgstr ""
+msgstr "Nastavit aplikaci Plex pro Váš počítač, mobilní zařízení nebo televizi"
 
 #: app/templates/wizard/plex/tips.html:86
 msgid "Open Plex"
-msgstr ""
+msgstr "Otevřít Plex"
