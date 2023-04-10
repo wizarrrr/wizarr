@@ -8,234 +8,254 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-27 18:41+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-04-11 20:48+0000\n"
+"Last-Translator: vp-en <zmwc.vpn@gmail.com>\n"
+"Language-Team: Danish <https://hosted.weblate.org/projects/wizarr/app/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:141
 msgid "Passwords do not match."
-msgstr ""
+msgstr "Adgangskoderne stemmer ikke overens."
 
 #: app/admin.py:144
 msgid "Username must be between 3 and 15 characters."
-msgstr ""
+msgstr "Brugernavnet skal være mellem 3 og 15 tegn."
 
 #: app/admin.py:147
 msgid "Password must be between 3 and 40 characters."
-msgstr ""
+msgstr "Adgangskoden skal være mellem 3 og 40 tegn."
 
 #: app/admin.py:172
 msgid "You must select at least one library."
-msgstr ""
+msgstr "Du skal vælge mindst ét bibliotek."
 
 #: app/admin.py:242
 msgid "It is likely that your token does not work."
-msgstr ""
+msgstr "Det er sandsynligt, at din token ikke virker."
 
 #: app/admin.py:244
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
+"Det er ikke muligt at oprette forbindelse til din Plex-server. Se Logfiler "
+"for at få flere oplysninger."
 
 #: app/admin.py:253
 msgid "Unable to connect to your Jellyfin server."
-msgstr ""
+msgstr "Det er ikke muligt at oprette forbindelse til din Jellyfin-server."
 
 #: app/admin.py:334 app/admin.py:338
 msgid "Invalid Username or Password"
-msgstr ""
+msgstr "Ugyldigt brugernavn eller adgangskode"
 
 #: app/templates/admin.html:5
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: app/templates/admin.html:30
 msgid "Home"
-msgstr ""
+msgstr "Hjem"
 
 #: app/templates/admin.html:35
 msgid "Invitations"
-msgstr ""
+msgstr "Invitationer"
 
 #: app/templates/admin.html:40
 msgid "Users"
-msgstr ""
+msgstr "Brugere"
 
 #: app/templates/admin.html:45
 msgid "Settings"
-msgstr ""
+msgstr "Indstillinger"
 
 #: app/templates/login.html:18
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: app/templates/login.html:23 app/templates/register_admin.html:24
 #: app/templates/welcome-jellyfin.html:28
 msgid "Username"
-msgstr ""
+msgstr "Brugernavn"
 
 #: app/templates/login.html:29 app/templates/register_admin.html:30
 #: app/templates/welcome-jellyfin.html:45
 msgid "Password"
-msgstr ""
+msgstr "Adgangskode"
 
 #: app/templates/login.html:41
 msgid "Remember me"
-msgstr ""
+msgstr "Husk mig"
 
 #: app/templates/login.html:46
 msgid "Sign in"
-msgstr ""
+msgstr "Log ind"
 
 #: app/templates/register_admin.html:18
 msgid "Setup Wizarr"
-msgstr ""
+msgstr "Opsætning af Wizarr"
 
 #: app/templates/register_admin.html:36
 msgid "Confirm password"
-msgstr ""
+msgstr "Bekræft adgangskode"
 
 #: app/templates/register_admin.html:42 app/templates/welcome-jellyfin.html:70
 msgid "Create an account"
-msgstr ""
+msgstr "Opret en konto"
 
 #: app/templates/settings.html:7
 msgid "Server Settings"
-msgstr ""
+msgstr "Serverindstillinger"
 
 #: app/templates/admin/settings.html:12 app/templates/settings.html:12
 msgid ""
 "Server Display\n"
 "                Name"
 msgstr ""
+"Navnet på\n"
+"                serveren"
 
 #: app/templates/settings.html:19
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #: app/templates/admin/settings.html:19 app/templates/settings.html:29
 msgid "Server URL"
-msgstr ""
+msgstr "Server URL"
 
 #: app/templates/admin/settings.html:26 app/templates/settings.html:36
 msgid ""
 "Server\n"
 "                Token / API Key"
 msgstr ""
+"Server\n"
+"                Token / API Nøgle"
 
 #: app/templates/admin/settings.html:36 app/templates/settings.html:46
 msgid ""
 "Server\n"
 "                Libraries"
 msgstr ""
+"Server\n"
+"                Biblioteker"
 
 #: app/templates/admin/invite.html:106 app/templates/admin/settings.html:39
 #: app/templates/settings.html:49
 msgid "Scan For Libraries"
-msgstr ""
+msgstr "Scan for biblioteker"
 
 #: app/templates/admin/settings.html:46 app/templates/settings.html:56
 msgid ""
 "Request\n"
 "                instance (Ombi, Overseerr...)"
 msgstr ""
+"Anmodnings\n"
+"                instans (Ombi, Overseerr...)"
 
 #: app/templates/admin/settings.html:54 app/templates/settings.html:64
 msgid "Ombi API Key (Only used for user import currently.)"
-msgstr ""
+msgstr "Ombi API Nøgle (bruges kun til brugerimport i øjeblikket.)"
 
 #: app/templates/admin/settings.html:61 app/templates/settings.html:71
 msgid ""
 "Discord\n"
 "                Server ID"
 msgstr ""
+"Discord\n"
+"                Server ID"
 
 #: app/templates/admin/settings.html:68 app/templates/settings.html:78
 msgid ""
 "Custom\n"
 "                HTML"
 msgstr ""
+"Brugerdefineret\n"
+"                HTML"
 
 #: app/templates/admin/settings.html:76 app/templates/settings.html:86
 msgid "Save"
-msgstr ""
+msgstr "Gem"
 
 #: app/templates/user-plex-login.html:12 app/templates/welcome-jellyfin.html:12
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr ""
+msgstr "Du er blevet inviteret til at tilmelde dig %(name)s server!"
 
 #: app/templates/user-plex-login.html:21
 msgid "Join the Plex Server"
-msgstr ""
+msgstr "Tilmeld dig Plex-serveren"
 
 #: app/templates/tables/global-users.html:19
 #: app/templates/tables/invite_table.html:4
 #: app/templates/user-plex-login.html:27 app/templates/user-plex-login.html:38
 msgid "Invite Code"
-msgstr ""
+msgstr "Invitationskode"
 
 #: app/templates/user-plex-login.html:43
 msgid "Oops!"
-msgstr ""
+msgstr "Ups!"
 
 #: app/templates/user-plex-login.html:50
 msgid "Join"
-msgstr ""
+msgstr "Tilmeld"
 
 #: app/templates/users.html:5
 msgid "Invite User"
-msgstr ""
+msgstr "Inviter bruger"
 
 #: app/templates/welcome-jellyfin.html:20
 msgid "Set up Account"
-msgstr ""
+msgstr "Oprettelse af konto"
 
 #: app/templates/tables/jellyfin_user_table.html:6
 #: app/templates/tables/user_table.html:6
 #: app/templates/welcome-jellyfin.html:36
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: app/templates/welcome-jellyfin.html:53
 msgid ""
 "Confirm\n"
 "                                password"
 msgstr ""
+"Bekræft\n"
+"                                adgangskode"
 
 #: app/templates/welcome-jellyfin.html:61
 msgid ""
 "Invite\n"
 "                                Code"
 msgstr ""
+"Invatiations\n"
+"                                kode"
 
 #: app/templates/admin/invite.html:16
 msgid "Attention!"
-msgstr ""
+msgstr "OBS!"
 
 #: app/templates/admin/invite.html:17
 msgid "Update available. Click here."
-msgstr ""
+msgstr "Opdatering tilgængelig. Klik her."
 
 #: app/templates/admin/invite.html:32
 msgid "Quick Invite"
-msgstr ""
+msgstr "Hurtig invitation"
 
 #: app/templates/admin/invite.html:38
 msgid "Invite user"
-msgstr ""
+msgstr "Inviter bruger"
 
 #: app/templates/admin/invite.html:44
 msgid "Invite Code String"
-msgstr ""
+msgstr "Invitationskode String"
 
 #: app/templates/admin/invite.html:44
 msgid "(optional)"
-msgstr ""
+msgstr "(valgfrit)"
 
 #: app/templates/admin/invite.html:51
 msgid "Expiration"
