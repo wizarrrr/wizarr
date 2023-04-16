@@ -47,6 +47,16 @@ try:
 except:
     pass
 
+# Migrations 4
+try:
+    migrator = SqliteMigrator(database)
+    plex_home = BooleanField(null=True)  # Add Expires after update
+    migrate(
+        migrator.add_column(
+            'Invitations', 'plex_home', plex_home)
+    )
+except:
+    pass
 
 # For all invitations, if the expires is not a string, make it a string
 for invitation in Invitations.select():
@@ -72,8 +82,9 @@ except:
     pass
 
 if not os.getenv("APP_URL"):
+    os.environ["APP_URL"] = "http://127.0.0.1:5000"
     logging.error("APP_URL not set or wrong format. See docs for more info.")
-    exit(1)
+    # exit(1)
 
 LOGGING_CONFIG = {
     "version": 1,
