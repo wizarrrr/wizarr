@@ -69,6 +69,7 @@ def invite():
             }
             expires = expires_options.get(request.form.get("expires"))
             unlimited = 1 if request.form.get("unlimited") else 0
+            plex_home = 1 if request.form.get("plex_home") else 0
             allowsync = 1 if request.form.get("allowsync") else 0
             duration = request.form.get("duration")
             specific_libraries = None
@@ -87,6 +88,7 @@ def invite():
                 expires=expires.strftime(
                     "%Y-%m-%d %H:%M:%S") if expires else None,
                 unlimited=unlimited,
+                plex_home=plex_home,
                 duration=duration,
                 specific_libraries=specific_libraries,
                 plex_allow_sync=allowsync
