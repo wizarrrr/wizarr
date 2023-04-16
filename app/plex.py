@@ -79,9 +79,11 @@ def plex_get_users():
 def plex_delete_user(id):
     plex_get_users.cache_clear()
     email = Users.get(Users.id == id).email
-    plex_token = Settings.get(Settings.key == "api_key").value
-    admin = MyPlexAccount(plex_token)
-    admin.removeFriend(email)
+    if(email != None):
+        plex_token = Settings.get(Settings.key == "api_key").value
+        admin = MyPlexAccount(plex_token)
+        admin.removeHomeUser(email)
+        admin.removeFriend(email)
 
 
 def plex_invite_user(email, code):
