@@ -82,9 +82,8 @@ except:
     pass
 
 if not os.getenv("APP_URL"):
-    os.environ["APP_URL"] = "http://127.0.0.1:5000"
     logging.error("APP_URL not set or wrong format. See docs for more info.")
-    # exit(1)
+    exit(1)
 
 LOGGING_CONFIG = {
     "version": 1,
