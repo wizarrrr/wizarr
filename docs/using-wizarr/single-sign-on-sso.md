@@ -11,8 +11,8 @@ To Disable Wizarr's inbuilt authentication in order to put it behind a Proxy Pro
 In order to make the invitation process available for non signed in users, make sure you whitelist the following paths:
 
 ```
-- /join
-- /j/*
-- /setup*
-- /static/*
+- '^/join/'
+- '^/j/'
+- '^/setup/*'
+- '^/static/'
 ```
