@@ -109,4 +109,4 @@ database.create_tables(
 if __name__ == "__main__":
     app.run()
 
-from app import admin, web, plex, tasks, jellyfin, helpers, ombi, universal
+from app import admin, web, plex, tasks, jellyfin, helpers, ombi, universal, notifications
