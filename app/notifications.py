@@ -23,7 +23,7 @@ def notify_discord(message):
 
 
 def notify_ntfy(message, title, tags):
-    requests.post("https://ntfy.sh/matthieu_oratoire_jaseroque",
+    requests.post(Settings.get("notification_ntfy_url"),
                   data=message,
                   headers={
                       "Title": title,
