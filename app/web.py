@@ -24,13 +24,13 @@ def favicon():
 
 @app.route("/j/<code>", methods=["GET"])
 def plex(code):
+    valid, message = is_invite_valid(code)
+
+    if not valid:
+        return render_template('invalid-invite.html', error=message)
     if Settings.get(key="server_type").value == "jellyfin":
         return render_template("welcome-jellyfin.html", code=code)
-    if not Invitations.select().where(Invitations.code == code).exists():
-        return render_template('401.html'), 401
-    resp = make_response(render_template('user-plex-login.html', code=code))
-    resp.set_cookie('code', code)
-    return resp
+    return render_template('user-plex-login.html', code=code)
 
 
 @app.route("/join", methods=["POST"])
@@ -84,7 +84,6 @@ def wizard(action):
 
     if video_lang not in videos:
         video_lang = "en"
-    
 
     # Get current step from cookies
     current = int(request.cookies.get('current'))
