@@ -79,9 +79,11 @@ def plex_get_users():
 def plex_delete_user(id):
     plex_get_users.cache_clear()
     email = Users.get(Users.id == id).email
-    plex_token = Settings.get(Settings.key == "api_key").value
-    admin = MyPlexAccount(plex_token)
-    admin.removeFriend(email)
+    if(email != "None"):
+        plex_token = Settings.get(Settings.key == "api_key").value
+        admin = MyPlexAccount(plex_token)
+        admin.removeHomeUser(email)
+        admin.removeFriend(email)
 
 
 def plex_invite_user(email, code):
@@ -98,8 +100,11 @@ def plex_invite_user(email, code):
         allowSync = True if invitation.plex_allow_sync == 1 else False
     except:
         allowSync = False
-
-    admin.myPlexAccount().inviteFriend(user=email, server=admin, sections=sections, allowSync=allowSync)
+    if Invitations.select().where(Invitations.code == code, Invitations.plex_home == 1):
+        admin.myPlexAccount().createExistingUser(user=email, server=admin, sections=sections, allowSync=allowSync)
+    else:
+        admin.myPlexAccount().inviteFriend(user=email, server=admin, sections=sections, allowSync=allowSync)
+    
     logging.info("Invited " + email + " to Plex Server")
     if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
         Invitations.update(used=True, used_at=datetime.datetime.now().strftime(

@@ -47,6 +47,16 @@ try:
 except:
     pass
 
+# Migrations 4
+try:
+    migrator = SqliteMigrator(database)
+    plex_home = BooleanField(null=True)  # Add Expires after update
+    migrate(
+        migrator.add_column(
+            'Invitations', 'plex_home', plex_home)
+    )
+except:
+    pass
 
 # For all invitations, if the expires is not a string, make it a string
 for invitation in Invitations.select():

@@ -85,6 +85,7 @@ class Invitations(BaseModel):
     duration = CharField(null=True)  # How long the membership is kept for
     specific_libraries = CharField(null=True)
     plex_allow_sync = BooleanField(null=True)
+    plex_home = BooleanField(null=True)
 
 
 class Settings(BaseModel):
