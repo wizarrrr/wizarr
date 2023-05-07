@@ -1,14 +1,11 @@
 import logging
-from re import I
 import os
 import os.path
-import datetime
-from flask import request, redirect, render_template, abort, make_response, send_from_directory
-from app import app, Invitations, Settings, VERSION, get_locale
+from flask import request, redirect, render_template, make_response, send_from_directory
+from app import app, Invitations, Settings, get_locale
 from app.plex import *
 from app.ombi import *
 from app.helpers import *
-from flask_babel import _
 import threading
 
 
@@ -31,14 +28,7 @@ def plex(code):
         return render_template("welcome-jellyfin.html", code=code)
     if not Invitations.select().where(Invitations.code == code).exists():
         return render_template('401.html'), 401
-    name = Settings.get_or_none(
-        Settings.key == "server_name")
-    if name:
-        name = name.value
-    else:
-        name = "Wizarr"
-    resp = make_response(render_template(
-        'user-plex-login.html', name=name, code=code))
+    resp = make_response(render_template('user-plex-login.html', code=code))
     resp.set_cookie('code', code)
     return resp
 
@@ -177,4 +167,4 @@ def inject_user():
     except:
         name = "Wizarr"
         print("Could not find name :( ")
-    return dict(header_name=name)
+    return dict(server_name=name)
