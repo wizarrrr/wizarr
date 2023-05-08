@@ -8,275 +8,294 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-27 18:41+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-05-08 06:07+0000\n"
+"Last-Translator: chuanru <roe081499roe@gmail.com>\n"
+"Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
+"wizarr/app/zh_Hant/>\n"
 "Language: zh_Hant\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.18-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: app/admin.py:141
 msgid "Passwords do not match."
-msgstr ""
+msgstr "密碼不正確。"
 
 #: app/admin.py:144
 msgid "Username must be between 3 and 15 characters."
-msgstr ""
+msgstr "用户名稱必須在3-15 個字元之間。"
 
 #: app/admin.py:147
 msgid "Password must be between 3 and 40 characters."
-msgstr ""
+msgstr "密碼必須在3到40個字元之間。"
 
 #: app/admin.py:172
 msgid "You must select at least one library."
-msgstr ""
+msgstr "您必須至少選擇一個媒體庫。"
 
 #: app/admin.py:242
 msgid "It is likely that your token does not work."
-msgstr ""
+msgstr "您的 token 很可能不起作用。"
 
 #: app/admin.py:244
 msgid "Unable to connect to your Plex server. See Logs for more information."
-msgstr ""
+msgstr "無法連線至 Plex 伺服器。有關詳細訊息，請參閱 Log 檔。"
 
 #: app/admin.py:253
 msgid "Unable to connect to your Jellyfin server."
-msgstr ""
+msgstr "無法連線到你的Jellyfin伺服器。"
 
 #: app/admin.py:334 app/admin.py:338
 msgid "Invalid Username or Password"
-msgstr ""
+msgstr "使用者名稱或密碼錯誤"
 
 #: app/templates/admin.html:5
 msgid "Admin"
-msgstr ""
+msgstr "管理員"
 
 #: app/templates/admin.html:30
 msgid "Home"
-msgstr ""
+msgstr "主頁"
 
 #: app/templates/admin.html:35
 msgid "Invitations"
-msgstr ""
+msgstr "邀請"
 
 #: app/templates/admin.html:40
 msgid "Users"
-msgstr ""
+msgstr "使用者"
 
 #: app/templates/admin.html:45
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 #: app/templates/login.html:18
 msgid "Login"
-msgstr ""
+msgstr "登入"
 
 #: app/templates/login.html:23 app/templates/register_admin.html:24
 #: app/templates/welcome-jellyfin.html:28
 msgid "Username"
-msgstr ""
+msgstr "用戶名稱"
 
 #: app/templates/login.html:29 app/templates/register_admin.html:30
 #: app/templates/welcome-jellyfin.html:45
 msgid "Password"
-msgstr ""
+msgstr "密碼"
 
 #: app/templates/login.html:41
 msgid "Remember me"
-msgstr ""
+msgstr "記住我"
 
 #: app/templates/login.html:46
 msgid "Sign in"
-msgstr ""
+msgstr "登入"
 
 #: app/templates/register_admin.html:18
 msgid "Setup Wizarr"
-msgstr ""
+msgstr "設定 Wizarr"
 
 #: app/templates/register_admin.html:36
 msgid "Confirm password"
-msgstr ""
+msgstr "確認密碼"
 
 #: app/templates/register_admin.html:42 app/templates/welcome-jellyfin.html:70
 msgid "Create an account"
-msgstr ""
+msgstr "建立一個帳號"
 
 #: app/templates/settings.html:7
 msgid "Server Settings"
-msgstr ""
+msgstr "伺服器設定"
 
 #: app/templates/admin/settings.html:12 app/templates/settings.html:12
 msgid ""
 "Server Display\n"
 "                Name"
 msgstr ""
+"伺服器\n"
+"              名稱"
 
 #: app/templates/settings.html:19
 msgid "Server"
-msgstr ""
+msgstr "伺服器"
 
 #: app/templates/admin/settings.html:19 app/templates/settings.html:29
 msgid "Server URL"
-msgstr ""
+msgstr "伺服器網址"
 
 #: app/templates/admin/settings.html:26 app/templates/settings.html:36
 msgid ""
 "Server\n"
 "                Token / API Key"
 msgstr ""
+"伺服器\n"
+"              Token / API Key"
 
 #: app/templates/admin/settings.html:36 app/templates/settings.html:46
 msgid ""
 "Server\n"
 "                Libraries"
 msgstr ""
+"伺服器\n"
+"                媒體庫"
 
 #: app/templates/admin/invite.html:106 app/templates/admin/settings.html:39
 #: app/templates/settings.html:49
 msgid "Scan For Libraries"
-msgstr ""
+msgstr "掃描媒體庫"
 
 #: app/templates/admin/settings.html:46 app/templates/settings.html:56
 msgid ""
 "Request\n"
 "                instance (Ombi, Overseerr...)"
 msgstr ""
+"要求\n"
+"                實例 (Ombi, Overseerr...)"
 
 #: app/templates/admin/settings.html:54 app/templates/settings.html:64
 msgid "Ombi API Key (Only used for user import currently.)"
-msgstr ""
+msgstr "Ombi API Key (僅用於使用者導入)"
 
 #: app/templates/admin/settings.html:61 app/templates/settings.html:71
 msgid ""
 "Discord\n"
 "                Server ID"
 msgstr ""
+"Discord\n"
+"                伺服器ID"
 
 #: app/templates/admin/settings.html:68 app/templates/settings.html:78
 msgid ""
 "Custom\n"
 "                HTML"
 msgstr ""
+"自定義\n"
+"                HTML"
 
 #: app/templates/admin/settings.html:76 app/templates/settings.html:86
 msgid "Save"
-msgstr ""
+msgstr "儲存"
 
 #: app/templates/user-plex-login.html:12 app/templates/welcome-jellyfin.html:12
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr ""
+msgstr "您已經被邀請加入 %(name)s 伺服器！"
 
 #: app/templates/user-plex-login.html:21
 msgid "Join the Plex Server"
-msgstr ""
+msgstr "加入 Plex 伺服器"
 
 #: app/templates/tables/global-users.html:19
 #: app/templates/tables/invite_table.html:4
 #: app/templates/user-plex-login.html:27 app/templates/user-plex-login.html:38
 msgid "Invite Code"
-msgstr ""
+msgstr "邀請代碼"
 
 #: app/templates/user-plex-login.html:43
 msgid "Oops!"
-msgstr ""
+msgstr "哎呀！"
 
 #: app/templates/user-plex-login.html:50
 msgid "Join"
-msgstr ""
+msgstr "加入"
 
 #: app/templates/users.html:5
 msgid "Invite User"
-msgstr ""
+msgstr "邀請使用者"
 
 #: app/templates/welcome-jellyfin.html:20
 msgid "Set up Account"
-msgstr ""
+msgstr "設定帳戶"
 
 #: app/templates/tables/jellyfin_user_table.html:6
 #: app/templates/tables/user_table.html:6
 #: app/templates/welcome-jellyfin.html:36
 msgid "Email"
-msgstr ""
+msgstr "電子郵件"
 
 #: app/templates/welcome-jellyfin.html:53
 msgid ""
 "Confirm\n"
 "                                password"
 msgstr ""
+"確認\n"
+"                                密碼"
 
 #: app/templates/welcome-jellyfin.html:61
 msgid ""
 "Invite\n"
 "                                Code"
 msgstr ""
+"邀請\n"
+"                                代碼"
 
 #: app/templates/admin/invite.html:16
 msgid "Attention!"
-msgstr ""
+msgstr "注意！"
 
 #: app/templates/admin/invite.html:17
 msgid "Update available. Click here."
-msgstr ""
+msgstr "有可用的更新。請點擊此處。"
 
 #: app/templates/admin/invite.html:32
 msgid "Quick Invite"
-msgstr ""
+msgstr "快速邀請"
 
 #: app/templates/admin/invite.html:38
 msgid "Invite user"
-msgstr ""
+msgstr "邀請使用者"
 
 #: app/templates/admin/invite.html:44
 msgid "Invite Code String"
-msgstr ""
+msgstr "邀請代碼"
 
 #: app/templates/admin/invite.html:44
 msgid "(optional)"
-msgstr ""
+msgstr "(可選)"
 
 #: app/templates/admin/invite.html:51
 msgid "Expiration"
-msgstr ""
+msgstr "到期"
 
 #: app/templates/admin/invite.html:54
 msgid "1 day"
-msgstr ""
+msgstr "1天"
 
 #: app/templates/admin/invite.html:55
 msgid "1 week"
-msgstr ""
+msgstr "一週"
 
 #: app/templates/admin/invite.html:56
 msgid "1 month"
-msgstr ""
+msgstr "一個月"
 
 #: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:43
 msgid "Never"
-msgstr ""
+msgstr "從不"
 
 #: app/templates/admin/invite.html:62
 msgid "Advanced Options"
-msgstr ""
+msgstr "進階選項"
 
 #: app/templates/admin/invite.html:70
 msgid "Unlimited Usages"
-msgstr ""
+msgstr "無限制使用"
 
 #: app/templates/admin/invite.html:76 app/templates/admin/invite.html:88
 #: app/templates/tables/invite_table.html:10
 msgid "Duration"
-msgstr ""
+msgstr "持續時間"
 
 #: app/templates/admin/invite.html:76
 msgid "(in days)"
-msgstr ""
+msgstr "(以天為單位)"
 
 #: app/templates/admin/invite.html:84
 msgid "Show Information"
-msgstr ""
+msgstr "顯示資訊"
 
 #: app/templates/admin/invite.html:89
 msgid ""
@@ -284,128 +303,133 @@ msgid ""
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
+"當設定時，被邀請的使用者將在以下情况下被從 Plex 伺服器上删除\n"
+"                                        用戶數\n"
+"                                        天候從 Plex 伺服器上删除。(1-999)"
 
 #: app/templates/admin/invite.html:103
 msgid ""
 "Specific\n"
 "                                Libraries"
 msgstr ""
+"特定\n"
+"                                媒體庫"
 
 #: app/templates/admin/invite.html:115
 msgid "Create Invitation"
-msgstr ""
+msgstr "建立邀請"
 
 #: app/templates/admin/invite.html:122
 msgid "Successfully generated an Invitation!"
-msgstr ""
+msgstr "已成功產生邀請！"
 
 #: app/templates/admin/invite.html:127
 msgid "Link has been copied to clipboard!"
-msgstr ""
+msgstr "邀請連結以複製到剪貼簿！"
 
 #: app/templates/admin/invite.html:136
 msgid "Back"
-msgstr ""
+msgstr "返回"
 
 #: app/templates/admin/invite.html:142
 msgid "Share"
-msgstr ""
+msgstr "分享"
 
 #: app/templates/admin/settings.html:7
 msgid "Change Server Settings"
-msgstr ""
+msgstr "更改伺服器設定"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
-msgstr ""
+msgstr "使用者設置"
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
-msgstr ""
+msgstr "使用者政策"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
-msgstr ""
+msgstr "權限不足。"
 
 #: app/templates/error/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr ""
+msgstr "您嘗試做一些你不該做的事..."
 
 #: app/templates/error/404.html:19
 msgid "Something's missing."
-msgstr ""
+msgstr "有些東西不見了。"
 
 #: app/templates/error/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
+msgstr "抱歉，我們找不到該頁面。 它似乎不存在！"
 
 #: app/templates/error/500.html:19
 msgid "Internal Server Error."
-msgstr ""
+msgstr "内部伺服器錯誤。"
 
 #: app/templates/error/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr ""
+msgstr " 出了點問題。請稍後在試。"
 
 #: app/templates/tables/global-users.html:13
 msgid "Name"
-msgstr ""
+msgstr "名稱"
 
 #: app/templates/tables/global-users.html:16
 #: app/templates/tables/invite_table.html:7
 #: app/templates/tables/jellyfin_user_table.html:7
 #: app/templates/tables/user_table.html:8
 msgid "Expires"
-msgstr ""
+msgstr "到期"
 
 #: app/templates/tables/global-users.html:22
 msgid "Actions"
-msgstr ""
+msgstr "動作"
 
 #: app/templates/tables/invite_table.html:5
 msgid "Used"
-msgstr ""
+msgstr "已使用"
 
 #: app/templates/tables/invite_table.html:6
 msgid "Created"
-msgstr ""
+msgstr "建立"
 
 #: app/templates/tables/invite_table.html:8
 msgid "Unlimited"
-msgstr ""
+msgstr "無限制"
 
 #: app/templates/tables/invite_table.html:9
 msgid "Libraries"
-msgstr ""
+msgstr "媒體庫"
 
 #: app/templates/tables/invite_table.html:19
 msgid "Available"
-msgstr ""
+msgstr "允許的"
 
 #: app/templates/tables/invite_table.html:31
 msgid "Expired"
-msgstr ""
+msgstr "已到期"
 
 #: app/templates/tables/invite_table.html:68
 msgid "Default"
-msgstr ""
+msgstr "預設"
 
 #: app/templates/tables/jellyfin_user_table.html:4
 msgid "Invite Used"
-msgstr ""
+msgstr "邀請使用者"
 
 #: app/templates/tables/jellyfin_user_table.html:5
 #: app/templates/tables/user_table.html:5
 msgid "User"
-msgstr ""
+msgstr "使用者"
 
 #: app/templates/tables/user_table.html:7
 msgid "Home User"
-msgstr ""
+msgstr "家庭使用者"
 
 #: app/templates/wizard/requests.html:4
 msgid "Automatic Media Requests"
-msgstr ""
+msgstr "自動媒體請求"
 
 #: app/templates/wizard/requests.html:9
 msgid ""
@@ -415,30 +439,36 @@ msgid ""
 "system that can automatically search for the\n"
 "    media you're looking for. "
 msgstr ""
+"我們很高興為您提供多種媒體供您選擇。 如果您找不到自己喜歡的東西，請不要擔心！"
+"\n"
+"    我們有一個使用者優化的請求系統，\n"
+"    可以自動搜索您正在尋找的媒體。 "
 
 #: app/templates/wizard/requests.html:23
 msgid "Request any available Movie or TV Show"
-msgstr ""
+msgstr "請求任何可用的電影或電視節目"
 
 #: app/templates/wizard/requests.html:33
 msgid ""
 "Requested media will be automatically downloaded and added to the library"
 " (if available)"
-msgstr ""
+msgstr "要求的媒體將自動下載并添加到媒體庫中（如果可用的話）"
 
 #: app/templates/wizard/requests.html:43
 msgid "If enabled, receive notifications"
-msgstr ""
+msgstr "如果可用，接收通知"
 
 #: app/templates/wizard/requests.html:50
 msgid "Check it Out"
-msgstr ""
+msgstr "檢查"
 
 #: app/templates/wizard/jellyfin/download.html:3
 msgid ""
 "Join & Download Jellyfin\n"
 "            for this device"
 msgstr ""
+"加入並下載 Jellyfin\n"
+"            提供給此裝置"
 
 #: app/templates/wizard/jellyfin/download.html:8
 msgid ""
@@ -446,21 +476,23 @@ msgid ""
 "make sure you know how to use\n"
 "        it with Jellyfin."
 msgstr ""
+"好消息！你現在可以訪問我們伺服器的媒體收藏\n"
+"        讓我們確保您知道如何在 Jellyfin 上使用它。"
 
 #: app/templates/wizard/jellyfin/download.html:11
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
-msgstr ""
+msgstr "計畫在此裝置上觀看電影？下载此裝置的 Jellyfin。"
 
 #: app/templates/wizard/jellyfin/download.html:14
 #: app/templates/wizard/plex/download.html:14
 msgid "Download"
-msgstr ""
+msgstr "下載"
 
 #: app/templates/wizard/jellyfin/tips.html:4
 msgid "Eh, So, What is Jellyfin exactly?"
-msgstr ""
+msgstr "嗯，那麼，Jellyfin 到底是什麼？"
 
 #: app/templates/wizard/jellyfin/tips.html:7
 msgid ""
@@ -472,11 +504,17 @@ msgid ""
 "device - your phone, tablet, laptop, smart TV,\n"
 "        you name it."
 msgstr ""
+"Jellyfin 是一個平台，可讓您在一個地方流式傳輸所有喜愛的電影、電視節目和音樂。"
+"\n"
+"        這就像觸手可及的私人電影院！ "
+"把它想象成一个包含您最喜爱内容的數位媒體庫，\n"
+"        您可以從任何地方在任何設備上瀏覽您最喜愛的內容\n"
+"        （您的手機、平板電腦、筆記型電腦、智慧電視）。"
 
 #: app/templates/wizard/jellyfin/tips.html:13
 #: app/templates/wizard/plex/tips.html:12
 msgid "Right, so how do I watch stuff?"
-msgstr ""
+msgstr "對，那我該如何觀看？"
 
 #: app/templates/wizard/jellyfin/tips.html:16
 msgid ""
@@ -487,16 +525,24 @@ msgid ""
 "        and\n"
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
+"再簡單不過了！Jellyfin "
+"適用於多種設備，包括筆記型電腦、平板電腦、智慧手機和電視。\n"
+"        您需要做的就是在您的設備上下載 Jellyfin 應用程序，使用您的帳戶登錄，"
+"\n"
+"        然後\n"
+"        您就可以開始串流媒體了。 就這麼簡單！"
 
 #: app/templates/wizard/jellyfin/tips.html:25
 msgid "Open Jellyfin"
-msgstr ""
+msgstr "打開 Jellyfin"
 
 #: app/templates/wizard/plex/download.html:3
 msgid ""
 "Join & Download Plex\n"
 "            for this device"
 msgstr ""
+"加入並下載 Plex\n"
+"            提供給此裝置"
 
 #: app/templates/wizard/plex/download.html:8
 msgid ""
@@ -504,14 +550,16 @@ msgid ""
 "make sure you know how to use\n"
 "        it with Plex."
 msgstr ""
+"好消息！你現在可以訪問我們伺服器的媒體收藏\n"
+"        讓我們確保您知道如何在 Plex 上使用它。"
 
 #: app/templates/wizard/plex/download.html:11
 msgid "Planning on watching Movies on this device? Download Plex for this device."
-msgstr ""
+msgstr "計畫在此裝置上觀看電影？下载此裝置的 Plex。"
 
 #: app/templates/wizard/plex/tips.html:4
 msgid "Eh, So, What is Plex exactly?"
-msgstr ""
+msgstr "嗯，那麼，Plex到底是什麼？"
 
 #: app/templates/wizard/plex/tips.html:7
 msgid ""
@@ -522,6 +570,10 @@ msgid ""
 "    access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
 msgstr ""
+"好問題！ Plex 是一種允許個人與他人共享媒體收藏的程式。\n"
+"    如果您收到此邀請，則表示有人想與您共享他們的媒體庫。\n"
+"    使用 Plex，您可以瀏覽存儲在其伺服器上的所有電影、電視節目、音樂和照片。 "
+"享受愉快！"
 
 #: app/templates/wizard/plex/tips.html:15
 msgid ""
@@ -531,10 +583,14 @@ msgid ""
 "your device, sign in with your account, and\n"
 "    you're ready to start streaming your media. It's that easy!"
 msgstr ""
+"再簡單不過了！ Plex "
+"適用於多種設備，包括筆記型電腦、平板電腦、智慧手機和電視。\n"
+"    您需要做的就是在您的設備上下載 Plex 應用程序，使用您的帳戶登錄，\n"
+"    然後您就可以開始串流媒體了。 就這麼簡單！"
 
 #: app/templates/wizard/plex/tips.html:20
 msgid "How can I make sure to have the best experience?"
-msgstr ""
+msgstr "我怎樣才能確保擁有最好的體驗？"
 
 #: app/templates/wizard/plex/tips.html:23
 msgid ""
@@ -543,25 +599,30 @@ msgid ""
 "    sharing with you - they also, by default, play content at a lower "
 "quality. "
 msgstr ""
+"因為 Plex 是一項免費服務，"
+"所以他們會在您朋友現在的精彩內容之前宣傳自己的內容\n"
+"    與您分享 - 默認情況下，他們還以較低質量播放內容。 "
 
 #: app/templates/wizard/plex/tips.html:26
 msgid "No need to worry though, this can be easily resolved"
-msgstr ""
+msgstr "不過不用擔心，這很容易解決"
 
 #: app/templates/wizard/plex/tips.html:26
 msgid ""
 "We highly\n"
 "      recommend you to go through those steps first!"
 msgstr ""
+"我們強烈建議\n"
+"      您先完成這些步驟！"
 
 #: app/templates/wizard/plex/tips.html:33
 msgid "Configure Plex in your browser"
-msgstr ""
+msgstr "在瀏覽器中設置 Plex"
 
 #: app/templates/wizard/plex/tips.html:58
 msgid "Configure Plex's app on your computer, mobile device or TV"
-msgstr ""
+msgstr "在您的電腦、移動裝置或電視上設置 Plex 的應用程式"
 
 #: app/templates/wizard/plex/tips.html:86
 msgid "Open Plex"
-msgstr ""
+msgstr "打開 Plex"
