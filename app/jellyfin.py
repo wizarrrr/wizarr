@@ -1,6 +1,7 @@
 import requests
 import datetime
 from app import *
+from app.notifications import notify
 from app.helpers import is_invite_valid
 from flask import abort, jsonify, render_template, redirect
 import logging
@@ -67,6 +68,7 @@ def jf_invite_user(username, password, code, email):
         # Create user and set expiration date
         expires = (datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration))) if Invitations.get(code=code).duration else None
         Users.create(username=username, email=email, password=password, token=user_id, code=code, expires=expires)
+        notify("jellyfin_new", email)
 
         # Update invitation status again
         if invitation:
