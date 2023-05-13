@@ -1,215 +1,235 @@
 <section class="bg-gray-50 dark:bg-gray-900 animate__animated animate__fadeIn">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto">
-      <div
-        id="settings" class="animate__animated w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            {{ _("Server Settings") }}
-          </h1>
-          <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ error }}</p>
-          <form class="space-y-4 md:space-y-6" hx-post="{{ url_for(request.endpoint) }}" hx-target="#content" hx-swap="innerHTML">
-            <div>
-              <label for="server_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Display
+        <div
+            id="settings"
+            class="animate__animated w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                        {{ _("Server Settings") }}
+                    </h1>
+
+                    <button hx-get="/settings/notifications" hx-trigger="click" hx-target="#content"
+                            hx-swap="innerHTML">
+                        <svg class="w-6 h-6 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"></path>
+                        </svg>
+                    </button>
+                </div>
+
+
+                <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ error }}</p>
+                <form class="space-y-4 md:space-y-6" hx-post="{{ url_for(request.endpoint) }}" hx-target="#content"
+                      hx-swap="innerHTML">
+                    <div>
+                        <label for="server_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Display
                 Name") }}</label>
-              <input type="server_name" name="server_name" id="server_name"
-                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value="{% if server_name %}{{ server_name }}{% endif %}" required="">
-            </div>
-            <div>
-                <label for="server_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server")
-                  }}</label>
-                <select name="server_type" id="server_type"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  <option {% if not server_type %} selected {% endif %} >Choose a server</option>
-                  <option {% if server_type == "jellyfin" %} selected {% endif %} value="jellyfin">Jellyfin (or Emby)</option>
-                  <option {% if server_type == 'plex' %} selected {% endif %} value="plex">Plex Media Server</option>
-                </select>
-              </div>
-            <div>
-              <label for=" server_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server URL")
-                }}</label>
-              <input type="server_url" name="server_url" id="server_url"
-                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value="{% if server_url %}{{ server_url }}{% endif %}" required="">
-            </div>
-            <div>
-              <label for="api_key" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server
+                        <input type="server_name" name="server_name" id="server_name"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                               value="{% if server_name %}{{ server_name }}{% endif %}" required="">
+                    </div>
+                    <div>
+                        <label for="server_type"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server") }}</label>
+                        <select name="server_type" id="server_type"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option {% if not server_type %} selected {% endif %} >Choose a server</option>
+                            <option {% if server_type == "jellyfin" %} selected {% endif %} value="jellyfin">Jellyfin
+                                (or Emby)
+                            </option>
+                            <option {% if server_type == 'plex' %} selected {% endif %} value="plex">Plex Media Server
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for=" server_url"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server URL") }}</label>
+                        <input type="server_url" name="server_url" id="server_url"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                               value="{% if server_url %}{{ server_url }}{% endif %}" required="">
+                    </div>
+                    <div>
+                        <label for="api_key" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server
                 Token / API Key") }}</label>
-              <input type="password" name="api_key" id="api_key" autocomplete="off"
-                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value="{% if api_key %}{{ api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX" required="">
-            </div>
-  
-  
-            <div>
-  
-              <label for="plex_libraries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server
+                        <input type="password" name="api_key" id="api_key" autocomplete="off"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                               value="{% if api_key %}{{ api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX"
+                               required="">
+                    </div>
+
+
+                    <div>
+
+                        <label for="plex_libraries"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server
                 Libraries") }}</label>
-              <a href="#" class="block mb-2 text-sm font-medium text-secondary dark:text-primary"
-                onclick="scanLibraries()">{{ _("Scan For Libraries") }}</a>
-              <input hidden name="library_count" id="library_count" type="number" value="0">
-              <div class="" id="libraries">
-              </div>
-  
-            </div>
-            <div>
-              <label for="requests_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request
+                        <a href="#" class="block mb-2 text-sm font-medium text-secondary dark:text-primary"
+                           onclick="scanLibraries()">{{ _("Scan For Libraries") }}</a>
+                        <input hidden name="library_count" id="library_count" type="number" value="0">
+                        <div class="" id="libraries">
+                        </div>
+
+                    </div>
+                    <div>
+                        <label for="requests_url"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request
                 instance (Ombi, Overseerr...) URL") }}</label>
-                
-              <input type="url" name="overseerr_url" id="requests_url"
-                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value="{% if overseerr_url %}{{ overseerr_url }}{% endif %}"
-                placeholder="Optional, leave empty to disable">
-            </div>
-            <div id ="ombi_api" class="hidden">
-              <label for="ombi_api_key" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">{{ _("Ombi API Key (Only used for user import currently.)") }}</label>
-              <input type="text" name="ombi_api_key" id="ombi_api_key"
-                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value="{% if ombi_api_key %}{{ ombi_api_key }}{% endif %}"
-                placeholder="Optional, leave empty to disable">
-            </div>
-            <div>
-              <label for="discord_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Discord
+
+                        <input type="url" name="overseerr_url" id="requests_url"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                               value="{% if overseerr_url %}{{ overseerr_url }}{% endif %}"
+                               placeholder="Optional, leave empty to disable">
+                    </div>
+                    <div id="ombi_api" class="hidden">
+                        <label for="ombi_api_key"
+                               class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">{{ _("Ombi API Key (Only used for user import currently.)") }}</label>
+                        <input type="text" name="ombi_api_key" id="ombi_api_key"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                               value="{% if ombi_api_key %}{{ ombi_api_key }}{% endif %}"
+                               placeholder="Optional, leave empty to disable">
+                    </div>
+                    <div>
+                        <label for="discord_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Discord
                 Server ID") }}</label>
-              <input type="text" name="discord_id" id="discord_id"
-                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value="{% if discord_id %}{{ discord_id }}{% endif %}" placeholder="Optional, leave empty to disable">
-            </div>
-            <div class="mb-6">
-              <label for="custom_html" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Custom
+                        <input type="text" name="discord_id" id="discord_id"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                               value="{% if discord_id %}{{ discord_id }}{% endif %}"
+                               placeholder="Optional, leave empty to disable">
+                    </div>
+                    <div class="mb-6">
+                        <label for="custom_html" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Custom
                 HTML") }}</label>
-              <input type="text" name="custom_html" id="custom_html"
-                value="{% if custom_html %}{{ custom_html }}{% endif %}" placeholder="Optional, leave empty to disable"
-                class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input type="text" name="custom_html" id="custom_html"
+                               value="{% if custom_html %}{{ custom_html }}{% endif %}"
+                               placeholder="Optional, leave empty to disable"
+                               class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+                    <button type="submit" hx-post="{{ url_for(request.endpoint) }}"
+                            class="w-full text-white bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">{{ _("Save") }}</button>
+                </form>
             </div>
-            <button type="submit" hx-post="{{ url_for(request.endpoint) }}"
-              class="w-full text-white bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">{{
-              _("Save") }}</button>
-          </form>
         </div>
-      </div>
     </div>
-  </section>
-  
-  <script>
+</section>
+
+<script>
     function scanLibraries() {
-      document.getElementById('settings').classList.remove('animate__shakeX');
-      if (document.getElementById("server_type").value == "jellyfin") {
-  
-        var container = document.getElementById("libraries");
-        while (container.hasChildNodes()) {
-          container.removeChild(container.lastChild);
-        }
-        var jellyfin_url = document.getElementById("server_url").value;
+        document.getElementById('settings').classList.remove('animate__shakeX');
+        if (document.getElementById("server_type").value == "jellyfin") {
 
-        //enocde the url
-        jellyfin_url = encodeURIComponent(jellyfin_url);
-
-        var jellyfin_api_key = document.getElementById("api_key").value;
-        var url = "/jf-scan?jellyfin_url=" + jellyfin_url + "&jellyfin_api_key=" + jellyfin_api_key;
-  
-        var i = 0;
-  
-        fetch(url, {
-          method: "POST"
-        })
-          .then((response) => response.json())
-          .then(function (data) {
-            for (var [key, value] of Object.entries(data)) {
-              i = i + 1;
-              var checkbox = document.createElement("input");
-              checkbox.type = "checkbox";
-              checkbox.name = "library_" + i;
-              checkbox.className =
-                "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
-              checkbox.value = value;
-              var label = document.createElement("label");
-              label.for = "library_" + i;
-              label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
-              label.innerHTML = key;
-  
-              var structure = document.createElement("div");
-              structure.className = "flex items-center mb-4";
-              container.appendChild(structure);
-              container.appendChild(checkbox);
-              container.appendChild(label);
-  
-              var library_count_helper = document.getElementById("library_count");
-              library_count_helper.value = i;
+            var container = document.getElementById("libraries");
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
             }
-          })
-          .catch(function (error) {
-            var error_message = document.createElement("p");
-            error_message.innerHTML = "Error: Please Check Your Jellyfin URL and Token";
-            error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
-            container.appendChild(error_message);
-            document.getElementById('settings').classList.add('animate__shakeX');
-          })
-      }
-  
-  
-      if (document.getElementById("server_type").value == "plex") {
-  
-        var container = document.getElementById("libraries");
-        while (container.hasChildNodes()) {
-          container.removeChild(container.lastChild);
+            var jellyfin_url = document.getElementById("server_url").value;
+
+            //enocde the url
+            jellyfin_url = encodeURIComponent(jellyfin_url);
+
+            var jellyfin_api_key = document.getElementById("api_key").value;
+            var url = "/jf-scan?jellyfin_url=" + jellyfin_url + "&jellyfin_api_key=" + jellyfin_api_key;
+
+            var i = 0;
+
+            fetch(url, {
+                method: "POST"
+            })
+                .then((response) => response.json())
+                .then(function (data) {
+                    for (var [key, value] of Object.entries(data)) {
+                        i = i + 1;
+                        var checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        checkbox.name = "library_" + i;
+                        checkbox.className =
+                            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+                        checkbox.value = value;
+                        var label = document.createElement("label");
+                        label.for = "library_" + i;
+                        label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
+                        label.innerHTML = key;
+
+                        var structure = document.createElement("div");
+                        structure.className = "flex items-center mb-4";
+                        container.appendChild(structure);
+                        container.appendChild(checkbox);
+                        container.appendChild(label);
+
+                        var library_count_helper = document.getElementById("library_count");
+                        library_count_helper.value = i;
+                    }
+                })
+                .catch(function (error) {
+                    var error_message = document.createElement("p");
+                    error_message.innerHTML = "Error: Please Check Your Jellyfin URL and Token";
+                    error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
+                    container.appendChild(error_message);
+                    document.getElementById('settings').classList.add('animate__shakeX');
+                })
         }
-        var plex_url = document.getElementById("server_url").value;
-        var plex_token = document.getElementById("api_key").value;
 
-        //encode the url
-        plex_url = encodeURIComponent(plex_url);
 
-        
-        url = "/scan?plex_url=" + plex_url + "&plex_token=" + plex_token;
-        const response = fetch(url, {
-          method: "POST"
-        }).then((response) => response.json())
-          .then(function (data) {
-            for (var i = 0; i < data.length; i++) {
-              var checkbox = document.createElement("input");
-              checkbox.type = "checkbox";
-              checkbox.name = "library_" + i;
-              checkbox.className =
-                "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
-              checkbox.value = data[i];
-              var label = document.createElement("label");
-              label.for = "library_" + i;
-              label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
-              label.innerHTML = data[i];
-  
-              var structure = document.createElement("div");
-              structure.className = "flex items-center mb-4";
-              container.appendChild(structure);
-              container.appendChild(checkbox);
-              container.appendChild(label);
-  
-              var library_count_helper = document.getElementById("library_count");
-              library_count_helper.value = i;
+        if (document.getElementById("server_type").value == "plex") {
+
+            var container = document.getElementById("libraries");
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
             }
-          })
-          .catch(function (error) {
-            var error_message = document.createElement("p");
-            error_message.innerHTML = "Error: Please Check Your Server URL and Token";
-            error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
-            container.appendChild(error_message);
-            document.getElementById('settings').classList.add('animate__shakeX');
-          })
-      }
+            var plex_url = document.getElementById("server_url").value;
+            var plex_token = document.getElementById("api_key").value;
+
+            //encode the url
+            plex_url = encodeURIComponent(plex_url);
+
+
+            url = "/scan?plex_url=" + plex_url + "&plex_token=" + plex_token;
+            const response = fetch(url, {
+                method: "POST"
+            }).then((response) => response.json())
+                .then(function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        checkbox.name = "library_" + i;
+                        checkbox.className =
+                            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+                        checkbox.value = data[i];
+                        var label = document.createElement("label");
+                        label.for = "library_" + i;
+                        label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
+                        label.innerHTML = data[i];
+
+                        var structure = document.createElement("div");
+                        structure.className = "flex items-center mb-4";
+                        container.appendChild(structure);
+                        container.appendChild(checkbox);
+                        container.appendChild(label);
+
+                        var library_count_helper = document.getElementById("library_count");
+                        library_count_helper.value = i;
+                    }
+                })
+                .catch(function (error) {
+                    var error_message = document.createElement("p");
+                    error_message.innerHTML = "Error: Please Check Your Server URL and Token";
+                    error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
+                    container.appendChild(error_message);
+                    document.getElementById('settings').classList.add('animate__shakeX');
+                })
+        }
     }
-  </script>
-  <script>
+</script>
+<script>
     // when user types in field `requests_url`, and requests url is not empty, remove hiden form `ombi_api` div, if not add the hidden class
     document.getElementById("requests_url").addEventListener("input", function () {
-      if (document.getElementById("requests_url").value != "") {
-        document.getElementById("ombi_api").classList.remove("hidden");
-      } else {
-        document.getElementById("ombi_api").classList.add("hidden");
-      }
+        if (document.getElementById("requests_url").value != "") {
+            document.getElementById("ombi_api").classList.remove("hidden");
+        } else {
+            document.getElementById("ombi_api").classList.add("hidden");
+        }
     });
 
-    
-    
 
-    
-  </script>
+</script>

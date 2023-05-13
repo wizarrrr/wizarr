@@ -1,11 +1,12 @@
 from plexapi.myplex import MyPlexPinLogin, MyPlexAccount, PlexServer
 from app import app, Invitations, Settings, Users, scheduler
+from app.notifications import notify
 import datetime
 import os
 import threading
 from flask import request, abort, jsonify
 import logging
-from cachetools import cached, TTLCache
+from cachetools import cached, TTLCache 
 
 
 def plex_handle_oauth_token(token, code):
@@ -17,7 +18,7 @@ def plex_handle_oauth_token(token, code):
                                                            ) if Invitations.get(code=code).duration else None
     user = Users.create(token=token, email=email,
                         username=MyPlexAccount(token).username, code=code, expires=expires)
-
+    notify("plex_new", email)
     user.save()
     threading.Thread(target=plex_setup_user, args=(token,)).start()
 
@@ -79,11 +80,14 @@ def plex_get_users():
 def plex_delete_user(id):
     plex_get_users.cache_clear()
     email = Users.get(Users.id == id).email
-    if(email != "None"):
+    if email != "None":
         plex_token = Settings.get(Settings.key == "api_key").value
         admin = MyPlexAccount(plex_token)
-        admin.removeHomeUser(email)
-        admin.removeFriend(email)
+        try:
+            admin.removeHomeUser(email)
+        except:
+            admin.removeFriend(email)
+    return
 
 
 def plex_invite_user(email, code):

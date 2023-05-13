@@ -134,4 +134,3 @@ if Settings.select().where(Settings.key == 'admin_username').exists():
             Settings.create(key='server_verified', value=Settings.get(Settings.key == 'plex_verified').value)
             Settings.delete().where(Settings.key == 'plex_verified').execute()
             
-

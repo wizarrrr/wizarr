@@ -1,8 +1,9 @@
-from flask import request, redirect, render_template
+from flask import request, redirect, render_template, make_response
 from app import app, Invitations, Settings, session, Users, htmx, database
 from app.plex import *
 import secrets
 from app.helpers import *
+from app.notifications import *
 from app.universal import *
 from werkzeug.security import generate_password_hash, check_password_hash
 from plexapi.server import PlexServer
@@ -373,6 +374,58 @@ def table():
 
     return render_template("tables/invite_table.html", server_type=Settings.get(key="server_type").value,
                            invitations=invitations, rightnow=datetime.datetime.now())
+
+
+@app.route('/settings/notifications', methods=["GET", "POST"])
+@login_required
+def notifications():
+    if request.args.get("delete"):
+        Notifications.delete().where(Notifications.id == request.args.get("delete")).execute()
+    agents = Notifications.select()
+    return render_template("admin/notifications.html", agents=agents)
+
+
+@app.route('/settings/notifications/create', methods=["GET", "POST"])
+@login_required
+def create_notification():
+    if request.method == "POST":
+        form = {
+            "name": request.form.get("name"),
+            "url": request.form.get("url"),
+            "notification_service": request.form.get("notification_service"),
+            "username": request.form.get("username") if request.form.get("username") else None,
+            "password": request.form.get("password") if request.form.get("password") else None
+
+        }
+        if form["notification_service"] == "discord":
+            if notify_discord("Wizarr here! Can you hear me?", form["url"]):
+                Notifications.create(name=form["name"], url=form["url"], type=form["notification_service"])
+                return redirect("/settings/notifications")
+            else:
+                resp = make_response(render_template("modals/create-notification-agent.html", error="Could Not "
+                                                                                                    "Connect to "
+                                                                                                    "Discord "
+                                                                                                    "Webhook"))
+                resp.headers['HX-Retarget'] = '#create-modal'
+                return resp
+        
+        elif form["notification_service"] == "ntfy":
+            if notify_ntfy("Wizarr here! Can you hear me?", "Wizarr", "tada", form["url"], username=form["username"],
+                           password=form["password"]):
+                Notifications.create(name=form["name"], url=form["url"], type=form["notification_service"],
+                                     username=form["username"], password=form["password"])
+                return redirect("/settings/notifications")
+            else:
+                print("error")
+                resp = make_response(render_template("modals/create-notification-agent.html", error="Could "
+                                                                                                    "not "
+                                                                                                    "Connect "
+                                                                                                    "to Ntfy"))
+                resp.headers['HX-Retarget'] = '#create-modal'
+                return resp
+
+    else:
+        return render_template("modals/create-notification-agent.html")
 
 
 @app.route('/users')

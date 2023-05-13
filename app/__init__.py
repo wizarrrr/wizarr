@@ -8,7 +8,6 @@ from flask_session import Session
 from flask_apscheduler import APScheduler
 from flask_htmx import HTMX
 
-
 load_dotenv()
 
 app = Flask(__name__)
@@ -53,17 +52,14 @@ app.config["LANGUAGES"] = {'en': 'english',
 app.config["BABEL_DEFAULT_LOCALE"] = "en"
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = ('./translations')
 
-
 # Translation
 babel = Babel(app, locale_selector=get_locale)
-
 
 # Scheduler
 app.config["SCHEDULER_API_ENABLED"] = True
 scheduler = APScheduler()
 scheduler.init_app(app)
 scheduler.start()
-
 
 # Database stuff
 database = SqliteDatabase("./database/database.db")
@@ -102,9 +98,18 @@ class Users(BaseModel):
     expires = DateTimeField(null=True)
 
 
+class Notifications(BaseModel):
+    id = IntegerField(primary_key=True)
+    name = CharField()
+    type = CharField()
+    url = CharField()
+    username = CharField(null=True)
+    password = CharField(null=True)
+
+
 # Below is Database Initialisation in case of new instance
 database.create_tables(
-    [Invitations, Settings, Users])
+    [Invitations, Settings, Users, Notifications], safe=True)
 
 if __name__ == "__main__":
     app.run()
