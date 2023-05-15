@@ -31,7 +31,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images : ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags : latest, ${{ github.event.release.tag_name }} # use release name as tag 
+          tags : ${{ github.event.release.tag_name }}, latest # use release name as tag 
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
