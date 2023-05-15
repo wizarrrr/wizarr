@@ -18,7 +18,7 @@ app.config["SESSION_FILE_DIR"] = "./database/sessions"
 Session(app)
 htmx = HTMX(app)
 
-VERSION = "2.1.2"
+VERSION = "2.2.0"
 
 
 def get_locale():
