@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: wizarrrr/wizarr
+
 
 jobs:
   build-and-push-image:
@@ -31,7 +31,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images : ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags : ${{ github.event.release.tag_name }}, latest # use release name as tag 
+          tags : ${{ steps.meta.outputs.tags }} 
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -46,5 +46,8 @@ jobs:
           context : .
           file : ./Dockerfile
           push : true # set this to false if you don't want to push 
-          tags : ${{ steps.meta.outputs.tags }} # use metadata action output 
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.event.release.tag_name }}
           labels : ${{ steps.meta.outputs.labels }} # use metadata action output 
+
