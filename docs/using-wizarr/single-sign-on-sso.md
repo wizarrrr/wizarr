@@ -10,9 +10,25 @@ To Disable Wizarr's inbuilt authentication in order to put it behind a Proxy Pro
 
 In order to make the invitation process available for non signed in users, make sure you whitelist the following paths:
 
+{% tabs %}
+{% tab title="Authelia" %}
+```
+    - domain: wizarr.domain.com
+      resources:
+        - '^/join(/.*)?$
+        - '^/j(/.*)?$'
+        - '^/static/.*)?$'
+        - '^/setup(/.*)?$'
+      policy: bypass
+```
+{% endtab %}
+
+{% tab title="Authentik/Other" %}
 ```
 - '^/join/'
 - '^/j/'
 - '^/setup/*'
 - '^/static/'
 ```
+{% endtab %}
+{% endtabs %}
