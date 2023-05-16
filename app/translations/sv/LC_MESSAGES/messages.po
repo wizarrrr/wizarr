@@ -7,48 +7,49 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-24 17:39+0000\n"
+"POT-Creation-Date: 2023-05-16 17:27+0100\n"
 "PO-Revision-Date: 2023-03-15 13:38+0000\n"
 "Last-Translator: thu3n <elias.thuen@gmail.com>\n"
-"Language-Team: Swedish <https://hosted.weblate.org/projects/wizarr/app/sv/>\n"
 "Language: sv\n"
+"Language-Team: Swedish "
+"<https://hosted.weblate.org/projects/wizarr/app/sv/>\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.12.1\n"
 
-#: app/admin.py:126
+#: app/admin.py:150
 msgid "Passwords do not match."
 msgstr "Lösenorden matchar inte."
 
-#: app/admin.py:129
+#: app/admin.py:153
 msgid "Username must be between 3 and 15 characters."
 msgstr "Användarnamnet måste vara mellan 3 och 15 tecken."
 
-#: app/admin.py:132
+#: app/admin.py:156
 msgid "Password must be between 3 and 40 characters."
 msgstr "Lösenordet måste vara mellan 3 och 40 tecken."
 
-#: app/admin.py:163
+#: app/admin.py:182
 msgid "You must select at least one library."
 msgstr "Du måste välja minst ett bibliotek."
 
-#: app/admin.py:247
+#: app/admin.py:251
 msgid "It is likely that your token does not work."
 msgstr "Det verkar som att ditt Plex-token inte fungerar."
 
-#: app/admin.py:249
+#: app/admin.py:253
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr "Kan inte ansluta till din Plex-server. Se loggarna för mer information."
 
-#: app/admin.py:259
+#: app/admin.py:262
 msgid "Unable to connect to your Jellyfin server."
 msgstr ""
-"Kan inte ansluta till din Jellyfin-server. Se loggarna för mer information."
+"Kan inte ansluta till din Jellyfin-server. Se loggarna för mer "
+"information."
 
-#: app/admin.py:319 app/admin.py:323
+#: app/admin.py:343 app/admin.py:347
 msgid "Invalid Username or Password"
 msgstr "Felaktigt användarnamn eller lösenord"
 
@@ -72,17 +73,22 @@ msgstr "Användare"
 msgid "Settings"
 msgstr "Inställningar"
 
+#: app/templates/invalid-invite.html:16
+#, fuzzy
+msgid "Invalid Invitation"
+msgstr "Inbjudan"
+
 #: app/templates/login.html:18
 msgid "Login"
 msgstr "Logga in"
 
-#: app/templates/login.html:23 app/templates/register_admin.html:24
-#: app/templates/welcome-jellyfin.html:28
+#: app/templates/login.html:23 app/templates/register_admin.html:23
+#: app/templates/welcome-jellyfin.html:30
 msgid "Username"
 msgstr "Användarnamn"
 
-#: app/templates/login.html:29 app/templates/register_admin.html:30
-#: app/templates/welcome-jellyfin.html:45
+#: app/templates/login.html:29 app/templates/register_admin.html:29
+#: app/templates/welcome-jellyfin.html:47
 msgid "Password"
 msgstr "Lösenord"
 
@@ -94,37 +100,114 @@ msgstr "Kom ihåg mig"
 msgid "Sign in"
 msgstr "Logga in"
 
-#: app/templates/register_admin.html:18 app/templates/verify-server.html:18
+#: app/templates/register_admin.html:18
 msgid "Setup Wizarr"
 msgstr "Konfigurera Wizarr"
 
-#: app/templates/register_admin.html:36
+#: app/templates/register_admin.html:35
 msgid "Confirm password"
 msgstr "Bekräfta lösenord"
 
-#: app/templates/register_admin.html:42 app/templates/welcome-jellyfin.html:70
+#: app/templates/register_admin.html:41 app/templates/welcome-jellyfin.html:72
 msgid "Create an account"
 msgstr "Skapa ett konto"
 
-#: app/templates/user-plex-login.html:12 app/templates/welcome-jellyfin.html:12
+#: app/templates/settings.html:9
+#, fuzzy
+msgid "Server Settings"
+msgstr "Ändra serverinställningar"
+
+#: app/templates/settings.html:27
+msgid ""
+"Server Display\n"
+"                Name"
+msgstr ""
+"Server uppvisning\n"
+"                Namn"
+
+#: app/templates/settings.html:35
+#, fuzzy
+msgid "Server"
+msgstr "Server adress"
+
+#: app/templates/settings.html:48
+msgid "Server URL"
+msgstr "Server adress"
+
+#: app/templates/settings.html:54
+msgid ""
+"Server\n"
+"                Token / API Key"
+msgstr ""
+"Server\n"
+"                Tecken / API nyckel"
+
+#: app/templates/settings.html:66
+msgid ""
+"Server\n"
+"                Libraries"
+msgstr ""
+"Server\n"
+"                bibliotek"
+
+#: app/templates/admin/invite.html:125 app/templates/settings.html:69
+msgid "Scan For Libraries"
+msgstr "Skanna för bibliotek"
+
+#: app/templates/settings.html:77
+#, fuzzy
+msgid ""
+"Request\n"
+"                instance (Ombi, Overseerr...) URL"
+msgstr ""
+"Förfrågningar\n"
+"                exempel (Ombi, Overseerr...)"
+
+#: app/templates/settings.html:87
+msgid "Ombi API Key (Only used for user import currently.)"
+msgstr ""
+
+#: app/templates/settings.html:94
+msgid ""
+"Discord\n"
+"                Server ID"
+msgstr ""
+"Discord\n"
+"                Server ID"
+
+#: app/templates/settings.html:102
+msgid ""
+"Custom\n"
+"                HTML"
+msgstr ""
+"Anpassad\n"
+"                HTML"
+
+#: app/templates/settings.html:110
+msgid "Save"
+msgstr "Spara"
+
+#: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
+#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "Du har blivit inbjuden till %(name)s!"
 
-#: app/templates/user-plex-login.html:21
+#: app/templates/user-plex-login.html:23
 msgid "Join the Plex Server"
 msgstr "Ta del av Plex-servern"
 
+#: app/templates/tables/global-users.html:19
 #: app/templates/tables/invite_table.html:4
-#: app/templates/user-plex-login.html:27 app/templates/user-plex-login.html:38
+#: app/templates/user-plex-login.html:29 app/templates/user-plex-login.html:40
 msgid "Invite Code"
 msgstr "Inbjudningskod"
 
-#: app/templates/user-plex-login.html:43
+#: app/templates/user-plex-login.html:45
 msgid "Oops!"
 msgstr "Hoppsan!"
 
-#: app/templates/user-plex-login.html:50
+#: app/templates/user-plex-login.html:52
 msgid "Join"
 msgstr "Gå med"
 
@@ -132,70 +215,15 @@ msgstr "Gå med"
 msgid "Invite User"
 msgstr "Bjud in användare"
 
-#: app/templates/verify-server.html:23
-msgid ""
-"Server Display\n"
-"              Name"
-msgstr ""
-"Server \n"
-"             visningsnamn"
-
-#: app/templates/verify-server.html:30
-msgid ""
-"Server\n"
-"              URL"
-msgstr ""
-"Server\n"
-"             URL"
-
-#: app/templates/verify-server.html:38
-msgid ""
-"Server\n"
-"              Token / API Key"
-msgstr ""
-"Server\n"
-"              Token / API Nyckel"
-
-#: app/templates/verify-server.html:46
-msgid "Server Libraries"
-msgstr "Server bibliotek"
-
-#: app/templates/admin/invite.html:106 app/templates/admin/settings.html:39
-#: app/templates/verify-server.html:48
-msgid "Scan For Libraries"
-msgstr "Skanna för bibliotek"
-
-#: app/templates/verify-server.html:54
-msgid ""
-"Request\n"
-"              instance (Ombi, Overseerr...)"
-msgstr ""
-"Förfrågningssida \n"
-"              (Ombi, Overseerr...)"
-
-#: app/templates/verify-server.html:61
-msgid ""
-"Discord\n"
-"              Server ID"
-msgstr ""
-"Gå med i vår Discord\n"
-"                Server!"
-
-#: app/templates/verify-server.html:69
-msgid "Verify and Confirm"
-msgstr "Verifiera och bekräfta"
-
-#: app/templates/welcome-jellyfin.html:20
+#: app/templates/welcome-jellyfin.html:22
 msgid "Set up Account"
 msgstr "Skapa ett konto"
 
-#: app/templates/tables/jellyfin_user_table.html:6
-#: app/templates/tables/user_table.html:6
-#: app/templates/welcome-jellyfin.html:36
+#: app/templates/welcome-jellyfin.html:38
 msgid "Email"
 msgstr "Epost"
 
-#: app/templates/welcome-jellyfin.html:53
+#: app/templates/welcome-jellyfin.html:55
 msgid ""
 "Confirm\n"
 "                                password"
@@ -203,7 +231,7 @@ msgstr ""
 "Bekräfta \n"
 "                                lösenord"
 
-#: app/templates/welcome-jellyfin.html:61
+#: app/templates/welcome-jellyfin.html:63
 msgid ""
 "Invite\n"
 "                                Code"
@@ -251,7 +279,7 @@ msgstr "1 vecka"
 msgid "1 month"
 msgstr "1 månad"
 
-#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:41
+#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:48
 msgid "Never"
 msgstr "Aldrig"
 
@@ -263,30 +291,42 @@ msgstr "Avancerade inställningar"
 msgid "Unlimited Usages"
 msgstr "Obegränsad användning"
 
-#: app/templates/admin/invite.html:76 app/templates/admin/invite.html:88
-#: app/templates/tables/invite_table.html:10
+#: app/templates/admin/invite.html:78
+#, fuzzy
+msgid "Invite to Plex Home"
+msgstr "Inbjudningskod"
+
+#: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
+#: app/templates/tables/invite_table.html:13
 msgid "Duration"
 msgstr "Löper ut"
 
-#: app/templates/admin/invite.html:76
+#: app/templates/admin/invite.html:87
 msgid "(in days)"
 msgstr "(inom dagar)"
 
-#: app/templates/admin/invite.html:84
+#: app/templates/admin/invite.html:95
 msgid "Show Information"
 msgstr "Visa information"
 
-#: app/templates/admin/invite.html:89
+#: app/templates/admin/invite.html:100
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a\n"
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
-"När satt kommer inbjuden användare bli borttagen från Plex servern efter \n"
+"När satt kommer inbjuden användare bli borttagen från Plex servern efter"
+" \n"
 "                                        antal\n"
 "                                        dagar. (1-999)"
 
-#: app/templates/admin/invite.html:103
+#: app/templates/admin/invite.html:116
+#: app/templates/tables/invite_table.html:11
+#, fuzzy
+msgid "Allow Downloads"
+msgstr "Ladda ner"
+
+#: app/templates/admin/invite.html:122
 msgid ""
 "Specific\n"
 "                                Libraries"
@@ -294,89 +334,47 @@ msgstr ""
 "Specifika\n"
 "                                bibliotek"
 
-#: app/templates/admin/invite.html:115
+#: app/templates/admin/invite.html:134
 msgid "Create Invitation"
 msgstr "Skapa inbjudan"
 
-#: app/templates/admin/invite.html:122
+#: app/templates/admin/invite.html:141
 msgid "Successfully generated an Invitation!"
 msgstr "Skapandet av en inbjudan lyckades!"
 
-#: app/templates/admin/invite.html:127
-msgid "Great!"
-msgstr "Bra!"
-
-#: app/templates/admin/invite.html:127
+#: app/templates/admin/invite.html:146
 msgid "Link has been copied to clipboard!"
 msgstr "Länken har kopierats till urklipp!"
 
-#: app/templates/admin/invite.html:136
+#: app/templates/admin/invite.html:155
 msgid "Back"
 msgstr "Tillbaka"
 
-#: app/templates/admin/invite.html:142
+#: app/templates/admin/invite.html:161
 msgid "Share"
 msgstr "Dela"
 
-#: app/templates/admin/settings.html:7
-msgid "Change Server Settings"
-msgstr "Ändra serverinställningar"
-
-#: app/templates/admin/settings.html:12
-msgid ""
-"Server Display\n"
-"                Name"
+#: app/templates/admin/notifications.html:11
+msgid "Notification Agents"
 msgstr ""
-"Server uppvisning\n"
-"                Namn"
 
-#: app/templates/admin/settings.html:19
-msgid "Server URL"
-msgstr "Server adress"
+#: app/templates/admin/notifications.html:27
+#, fuzzy
+msgid "Delete"
+msgstr "Standard"
 
-#: app/templates/admin/settings.html:26
-msgid ""
-"Server\n"
-"                Token / API Key"
+#: app/templates/admin/notifications.html:37
+#, fuzzy
+msgid "Create Agent"
+msgstr "Skapa ett konto"
+
+#: app/templates/admin/user.html:44
+msgid "User Configuration"
 msgstr ""
-"Server\n"
-"                Tecken / API nyckel"
 
-#: app/templates/admin/settings.html:36
-msgid ""
-"Server\n"
-"                Libraries"
+#: app/templates/admin/user.html:90
+msgid "User Policy"
 msgstr ""
-"Server\n"
-"                bibliotek"
-
-#: app/templates/admin/settings.html:46
-msgid ""
-"Request\n"
-"                instance (Ombi, Overseerr...)"
-msgstr ""
-"Förfrågningar\n"
-"                exempel (Ombi, Overseerr...)"
-
-#: app/templates/admin/settings.html:54
-msgid ""
-"Discord\n"
-"                Server ID"
-msgstr ""
-"Discord\n"
-"                Server ID"
-
-#: app/templates/admin/settings.html:61
-msgid ""
-"Custom\n"
-"                HTML"
-msgstr ""
-"Anpassad\n"
-"                HTML"
-
-#: app/templates/admin/settings.html:69
-msgid "Save"
-msgstr "Spara"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
@@ -402,6 +400,56 @@ msgstr "Internt serverfel."
 msgid " Something has gone wrong. Please try again later."
 msgstr " Något har gått fel. Vänligen försök igen senare."
 
+#: app/templates/modals/create-notification-agent.html:31
+msgid "New Agent"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:60
+#, fuzzy
+msgid ""
+"Username\n"
+"                                (optional)"
+msgstr ""
+"Inbjudnings\n"
+"                                kod"
+
+#: app/templates/modals/create-notification-agent.html:65
+#, fuzzy
+msgid "Password (optional)"
+msgstr "(valfritt)"
+
+#: app/templates/modals/create-notification-agent.html:70
+#, fuzzy
+msgid ""
+"Agent\n"
+"                                URL"
+msgstr ""
+"Inbjudnings\n"
+"                                kod"
+
+#: app/templates/modals/create-notification-agent.html:81
+msgid "Test & Create Agent"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:85
+msgid "Cancel"
+msgstr ""
+
+#: app/templates/tables/global-users.html:13
+#, fuzzy
+msgid "Name"
+msgstr "Användarnamn"
+
+#: app/templates/tables/global-users.html:16
+#: app/templates/tables/invite_table.html:7
+msgid "Expires"
+msgstr "Löper ut"
+
+#: app/templates/tables/global-users.html:22
+#, fuzzy
+msgid "Actions"
+msgstr "Inbjudan"
+
 #: app/templates/tables/invite_table.html:5
 msgid "Used"
 msgstr "Använd"
@@ -409,12 +457,6 @@ msgstr "Använd"
 #: app/templates/tables/invite_table.html:6
 msgid "Created"
 msgstr "Skapad"
-
-#: app/templates/tables/invite_table.html:7
-#: app/templates/tables/jellyfin_user_table.html:7
-#: app/templates/tables/user_table.html:8
-msgid "Expires"
-msgstr "Löper ut"
 
 #: app/templates/tables/invite_table.html:8
 msgid "Unlimited"
@@ -424,30 +466,17 @@ msgstr "Obegränsad"
 msgid "Libraries"
 msgstr "Bibliotek"
 
-#: app/templates/tables/invite_table.html:19
+#: app/templates/tables/invite_table.html:22
 msgid "Available"
 msgstr "Tillgänglig"
 
-#: app/templates/tables/invite_table.html:31
+#: app/templates/tables/invite_table.html:35
 msgid "Expired"
 msgstr "Löpt ut"
 
-#: app/templates/tables/invite_table.html:66
+#: app/templates/tables/invite_table.html:73
 msgid "Default"
 msgstr "Standard"
-
-#: app/templates/tables/jellyfin_user_table.html:4
-msgid "Invite Used"
-msgstr "Inbjudan används"
-
-#: app/templates/tables/jellyfin_user_table.html:5
-#: app/templates/tables/user_table.html:5
-msgid "User"
-msgstr "Användare"
-
-#: app/templates/tables/user_table.html:7
-msgid "Home User"
-msgstr "Hemma användare"
 
 #: app/templates/wizard/requests.html:4
 msgid "Automatic Media Requests"
@@ -501,8 +530,8 @@ msgid ""
 "make sure you know how to use\n"
 "        it with Jellyfin."
 msgstr ""
-"Fantastiska nyheter! Du har nu tillgång till vår servers media samling. Låt "
-"oss se till att du vet hur du använder det\n"
+"Fantastiska nyheter! Du har nu tillgång till vår servers media samling. "
+"Låt oss se till att du vet hur du använder det\n"
 "        med Jellyfin."
 
 #: app/templates/wizard/jellyfin/download.html:11
@@ -532,12 +561,13 @@ msgid ""
 "device - your phone, tablet, laptop, smart TV,\n"
 "        you name it."
 msgstr ""
-"Jellyfin är en plattform som låter dig strömma alla dina favorit filmer, tv-"
-"serier och musik på en plats.\n"
+"Jellyfin är en plattform som låter dig strömma alla dina favorit filmer, "
+"tv-serier och musik på en plats.\n"
 "        Det är som att ha sin egen personliga film salong vid sina "
 "fingerspetsar! Tänkt på det som ett digitalt bibliotek av\n"
-"        ditt favoritinnehåll som du kan komma åt var du än är och på vilken "
-"enhet du vill (telefon, surfplatta, bärbar dator eller smart TV),\n"
+"        ditt favoritinnehåll som du kan komma åt var du än är och på "
+"vilken enhet du vill (telefon, surfplatta, bärbar dator eller smart TV),"
+"\n"
 "        du bestämmer."
 
 #: app/templates/wizard/jellyfin/tips.html:13
@@ -554,8 +584,8 @@ msgid ""
 "        and\n"
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"Det kan inte vara enklare! Jellyfin finns tillgängligt på massor av enheter, "
-"datorer, surfplatta, telefoner och smart-tv. \n"
+"Det kan inte vara enklare! Jellyfin finns tillgängligt på massor av "
+"enheter, datorer, surfplatta, telefoner och smart-tv. \n"
 "Allt du behöver göra är att leta reda på var Jellyfin appar finns. \n"
 "Logga sedan in med ditt konto, så är du redo att strömma!"
 
@@ -577,8 +607,8 @@ msgid ""
 "make sure you know how to use\n"
 "        it with Plex."
 msgstr ""
-"Fantastiska nyheter! Nu har du åtkomst till vår media samling. Gå vidare för "
-"att veta hur du använder \n"
+"Fantastiska nyheter! Nu har du åtkomst till vår media samling. Gå vidare "
+"för att veta hur du använder \n"
 "         det med Plex."
 
 #: app/templates/wizard/plex/download.html:11
@@ -600,11 +630,11 @@ msgid ""
 "    access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
 msgstr ""
-"Bra fråga! Plex är ett program som tillåter ägaren att dela med sig av sitt "
-"innehåll till andra. Har du fått en inbjudan så betyder det att någon vill "
-"dela sitt innehåll med dig. Med Plex så kommer du att få tillgång till "
-"Filmer, Serier, Musik och bilder som de vill dela med sig av på sin server "
-"till dig!"
+"Bra fråga! Plex är ett program som tillåter ägaren att dela med sig av "
+"sitt innehåll till andra. Har du fått en inbjudan så betyder det att "
+"någon vill dela sitt innehåll med dig. Med Plex så kommer du att få "
+"tillgång till Filmer, Serier, Musik och bilder som de vill dela med sig "
+"av på sin server till dig!"
 
 #: app/templates/wizard/plex/tips.html:15
 msgid ""
@@ -615,8 +645,8 @@ msgid ""
 "    you're ready to start streaming your media. It's that easy!"
 msgstr ""
 "Plex finns tillgängligt på massor av enheter, datorer, surfplatta, \n"
-"    telefoner och smart-tv. Allt du behöver göra är att leta reda på Plex "
-"där appar finns. Logga sedan in med ditt konto, \n"
+"    telefoner och smart-tv. Allt du behöver göra är att leta reda på Plex"
+" där appar finns. Logga sedan in med ditt konto, \n"
 "    så är du redo att strömma!"
 
 #: app/templates/wizard/plex/tips.html:20
@@ -630,10 +660,10 @@ msgid ""
 "    sharing with you - they also, by default, play content at a lower "
 "quality. "
 msgstr ""
-"Eftersom att Plex är en gratis plattform i sig, så behöver dom på intäkter "
-"igenom att visa sitt eget innehåll av filmer och serier. \n"
-"    Det är de första du ser när du loggar in på Plex - de spelar även upp "
-"innehåll i lägre kvalité. "
+"Eftersom att Plex är en gratis plattform i sig, så behöver dom på "
+"intäkter igenom att visa sitt eget innehåll av filmer och serier. \n"
+"    Det är de första du ser när du loggar in på Plex - de spelar även upp"
+" innehåll i lägre kvalité. "
 
 #: app/templates/wizard/plex/tips.html:26
 msgid "No need to worry though, this can be easily resolved"
@@ -662,7 +692,9 @@ msgstr "Öppna Plex"
 #~ msgid ""
 #~ "Request\n"
 #~ "              instance (Ombi, Overseerr...)"
-#~ msgstr "Föfrågningssida (Ombi, Overseerr...)"
+#~ msgstr ""
+#~ "Förfrågningssida \n"
+#~ "              (Ombi, Overseerr...)"
 
 #~ msgid "Server Settings"
 #~ msgstr "Serverinställningar"
@@ -1022,10 +1054,11 @@ msgstr "Öppna Plex"
 #~ msgid ""
 #~ "Environment Variables are being\n"
 #~ "                    deprecated and replaced by"
-#~ " a secure sign-up. Please visit \n"
+#~ " a secure sign-up. Please visit \n\n"
 #~ msgstr ""
 #~ "Miljövariabler fasas ut och ersätts av"
-#~ " en säker registrering. Vänligen besök \n"
+#~ " en säker registrering. Vänligen besök"
+#~ " \n"
 
 #~ msgid ""
 #~ "/settings.\n"
@@ -1044,3 +1077,50 @@ msgstr "Öppna Plex"
 
 #~ msgid "Plex Requests"
 #~ msgstr "Plex förfrågningar"
+
+#~ msgid ""
+#~ "Server Display\n"
+#~ "              Name"
+#~ msgstr ""
+#~ "Server \n"
+#~ "             visningsnamn"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "              URL"
+#~ msgstr ""
+#~ "Server\n"
+#~ "             URL"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "              Token / API Key"
+#~ msgstr ""
+#~ "Server\n"
+#~ "              Token / API Nyckel"
+
+#~ msgid "Server Libraries"
+#~ msgstr "Server bibliotek"
+
+#~ msgid ""
+#~ "Discord\n"
+#~ "              Server ID"
+#~ msgstr ""
+#~ "Gå med i vår Discord\n"
+#~ "                Server!"
+
+#~ msgid "Verify and Confirm"
+#~ msgstr "Verifiera och bekräfta"
+
+#~ msgid "Great!"
+#~ msgstr "Bra!"
+
+#~ msgid "Invite Used"
+#~ msgstr "Inbjudan används"
+
+#~ msgid "User"
+#~ msgstr "Användare"
+
+#~ msgid "Home User"
+#~ msgstr "Hemma användare"
+

@@ -7,49 +7,49 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-27 18:41+0000\n"
+"POT-Creation-Date: 2023-05-16 17:27+0100\n"
 "PO-Revision-Date: 2023-04-30 16:48+0000\n"
 "Last-Translator: Laurant Marijnissen <laurant@gigafyde.dev>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/app/nl/>\n"
 "Language: nl\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/app/nl/>"
+"\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.12.1\n"
 
-#: app/admin.py:141
+#: app/admin.py:150
 msgid "Passwords do not match."
 msgstr "Wachtwoorden komen niet overeen."
 
-#: app/admin.py:144
+#: app/admin.py:153
 msgid "Username must be between 3 and 15 characters."
 msgstr "De gebruikersnaam moet tussen de 3 en 15 tekens bevatten."
 
-#: app/admin.py:147
+#: app/admin.py:156
 msgid "Password must be between 3 and 40 characters."
 msgstr "Het wachtwoord moet tussen de 3 en 40 tekens bevatten."
 
-#: app/admin.py:172
+#: app/admin.py:182
 msgid "You must select at least one library."
 msgstr "Je moet minstens één bibliotheek selecteren."
 
-#: app/admin.py:242
+#: app/admin.py:251
 msgid "It is likely that your token does not work."
 msgstr "Mogelijk werkt je toegangstoken niet."
 
-#: app/admin.py:244
+#: app/admin.py:253
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
 "De verbinding met je Plex server is onderbroken. Bekijk de Logs voor meer"
 " informatie."
 
-#: app/admin.py:253
+#: app/admin.py:262
 msgid "Unable to connect to your Jellyfin server."
 msgstr "Er is geen verbinding mogelijk met de Jellyfin server."
 
-#: app/admin.py:334 app/admin.py:338
+#: app/admin.py:343 app/admin.py:347
 msgid "Invalid Username or Password"
 msgstr "Ongeldige gebruikersnaam of wachtwoord"
 
@@ -73,17 +73,22 @@ msgstr "Gebruikers"
 msgid "Settings"
 msgstr "Instellingen"
 
+#: app/templates/invalid-invite.html:16
+#, fuzzy
+msgid "Invalid Invitation"
+msgstr "Uitnodigingen"
+
 #: app/templates/login.html:18
 msgid "Login"
 msgstr "Login"
 
-#: app/templates/login.html:23 app/templates/register_admin.html:24
-#: app/templates/welcome-jellyfin.html:28
+#: app/templates/login.html:23 app/templates/register_admin.html:23
+#: app/templates/welcome-jellyfin.html:30
 msgid "Username"
 msgstr "Gebruikersnaam"
 
-#: app/templates/login.html:29 app/templates/register_admin.html:30
-#: app/templates/welcome-jellyfin.html:45
+#: app/templates/login.html:29 app/templates/register_admin.html:29
+#: app/templates/welcome-jellyfin.html:47
 msgid "Password"
 msgstr "Wachtwoord"
 
@@ -99,65 +104,64 @@ msgstr "Inloggen"
 msgid "Setup Wizarr"
 msgstr "Configureer Wizarr"
 
-#: app/templates/register_admin.html:36
+#: app/templates/register_admin.html:35
 msgid "Confirm password"
 msgstr "Bevestig wachtwoord"
 
-#: app/templates/register_admin.html:42 app/templates/welcome-jellyfin.html:70
+#: app/templates/register_admin.html:41 app/templates/welcome-jellyfin.html:72
 msgid "Create an account"
 msgstr "Maak een account"
 
-#: app/templates/settings.html:7
+#: app/templates/settings.html:9
 msgid "Server Settings"
 msgstr "Server Instellingen"
 
-#: app/templates/admin/settings.html:12 app/templates/settings.html:12
+#: app/templates/settings.html:27
 #, fuzzy
 msgid ""
 "Server Display\n"
 "                Name"
 msgstr "Plex weergavenaam"
 
-#: app/templates/settings.html:19
+#: app/templates/settings.html:35
 msgid "Server"
 msgstr "Server"
 
-#: app/templates/admin/settings.html:19 app/templates/settings.html:29
+#: app/templates/settings.html:48
 #, fuzzy
 msgid "Server URL"
 msgstr "Server URL"
 
-#: app/templates/admin/settings.html:26 app/templates/settings.html:36
+#: app/templates/settings.html:54
 #, fuzzy
 msgid ""
 "Server\n"
 "                Token / API Key"
 msgstr "Plex Token"
 
-#: app/templates/admin/settings.html:36 app/templates/settings.html:46
+#: app/templates/settings.html:66
 #, fuzzy
 msgid ""
 "Server\n"
 "                Libraries"
 msgstr "Plex Bibliotheken"
 
-#: app/templates/admin/invite.html:106 app/templates/admin/settings.html:39
-#: app/templates/settings.html:49
+#: app/templates/admin/invite.html:125 app/templates/settings.html:69
 msgid "Scan For Libraries"
 msgstr "Bibliotheken scannen"
 
-#: app/templates/admin/settings.html:46 app/templates/settings.html:56
+#: app/templates/settings.html:77
 #, fuzzy
 msgid ""
 "Request\n"
-"                instance (Ombi, Overseerr...)"
+"                instance (Ombi, Overseerr...) URL"
 msgstr "URL verzoeksysteem (Ombi, Overseerr...)"
 
-#: app/templates/admin/settings.html:54 app/templates/settings.html:64
+#: app/templates/settings.html:87
 msgid "Ombi API Key (Only used for user import currently.)"
 msgstr ""
 
-#: app/templates/admin/settings.html:61 app/templates/settings.html:71
+#: app/templates/settings.html:94
 #, fuzzy
 msgid ""
 "Discord\n"
@@ -166,7 +170,7 @@ msgstr ""
 "Word lid van de Discord\n"
 "…………………………Server!"
 
-#: app/templates/admin/settings.html:68 app/templates/settings.html:78
+#: app/templates/settings.html:102
 #, fuzzy
 msgid ""
 "Custom\n"
@@ -175,30 +179,31 @@ msgstr ""
 "Aangepaste\n"
 "                HTML"
 
-#: app/templates/admin/settings.html:76 app/templates/settings.html:86
+#: app/templates/settings.html:110
 msgid "Save"
 msgstr "Opslaan"
 
-#: app/templates/user-plex-login.html:12 app/templates/welcome-jellyfin.html:12
+#: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
+#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
 #, fuzzy, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "Je bent uitgenodigd voor %(name)s!"
 
-#: app/templates/user-plex-login.html:21
+#: app/templates/user-plex-login.html:23
 msgid "Join the Plex Server"
 msgstr "Neem deel aan de Plex server"
 
 #: app/templates/tables/global-users.html:19
 #: app/templates/tables/invite_table.html:4
-#: app/templates/user-plex-login.html:27 app/templates/user-plex-login.html:38
+#: app/templates/user-plex-login.html:29 app/templates/user-plex-login.html:40
 msgid "Invite Code"
 msgstr "Uitnodigingscode"
 
-#: app/templates/user-plex-login.html:43
+#: app/templates/user-plex-login.html:45
 msgid "Oops!"
 msgstr "Oeps!"
 
-#: app/templates/user-plex-login.html:50
+#: app/templates/user-plex-login.html:52
 msgid "Join"
 msgstr "Meedoen"
 
@@ -206,23 +211,21 @@ msgstr "Meedoen"
 msgid "Invite User"
 msgstr "Gebruiker uitnodigen"
 
-#: app/templates/welcome-jellyfin.html:20
+#: app/templates/welcome-jellyfin.html:22
 msgid "Set up Account"
 msgstr "Maak een account aan"
 
-#: app/templates/tables/jellyfin_user_table.html:6
-#: app/templates/tables/user_table.html:6
-#: app/templates/welcome-jellyfin.html:36
+#: app/templates/welcome-jellyfin.html:38
 msgid "Email"
 msgstr "Email"
 
-#: app/templates/welcome-jellyfin.html:53
+#: app/templates/welcome-jellyfin.html:55
 msgid ""
 "Confirm\n"
 "                                password"
 msgstr ""
 
-#: app/templates/welcome-jellyfin.html:61
+#: app/templates/welcome-jellyfin.html:63
 msgid ""
 "Invite\n"
 "                                Code"
@@ -268,7 +271,7 @@ msgstr "1 week"
 msgid "1 month"
 msgstr "1 maand"
 
-#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:43
+#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:48
 msgid "Never"
 msgstr "Nooit"
 
@@ -280,57 +283,78 @@ msgstr "Geavanceerde Opties"
 msgid "Unlimited Usages"
 msgstr "Ongelimiteerd te gebruiken"
 
-#: app/templates/admin/invite.html:76 app/templates/admin/invite.html:88
-#: app/templates/tables/invite_table.html:10
+#: app/templates/admin/invite.html:78
+#, fuzzy
+msgid "Invite to Plex Home"
+msgstr "Uitnodigingscode"
+
+#: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
+#: app/templates/tables/invite_table.html:13
 #, fuzzy
 msgid "Duration"
 msgstr "Vervaldatum"
 
-#: app/templates/admin/invite.html:76
+#: app/templates/admin/invite.html:87
 msgid "(in days)"
 msgstr ""
 
-#: app/templates/admin/invite.html:84
+#: app/templates/admin/invite.html:95
 msgid "Show Information"
 msgstr "Toon Informatie"
 
-#: app/templates/admin/invite.html:89
+#: app/templates/admin/invite.html:100
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a\n"
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
 
-#: app/templates/admin/invite.html:103
+#: app/templates/admin/invite.html:116
+#: app/templates/tables/invite_table.html:11
+#, fuzzy
+msgid "Allow Downloads"
+msgstr "Download"
+
+#: app/templates/admin/invite.html:122
 #, fuzzy
 msgid ""
 "Specific\n"
 "                                Libraries"
 msgstr "Plex Bibliotheken"
 
-#: app/templates/admin/invite.html:115
+#: app/templates/admin/invite.html:134
 msgid "Create Invitation"
 msgstr "Maak een uitnodiging"
 
-#: app/templates/admin/invite.html:122
+#: app/templates/admin/invite.html:141
 msgid "Successfully generated an Invitation!"
 msgstr "De uitnodiging werd met succes aangemaakt!"
 
-#: app/templates/admin/invite.html:127
+#: app/templates/admin/invite.html:146
 msgid "Link has been copied to clipboard!"
 msgstr "De link werd gekopieerd naar je klembord!"
 
-#: app/templates/admin/invite.html:136
+#: app/templates/admin/invite.html:155
 msgid "Back"
 msgstr "Terug"
 
-#: app/templates/admin/invite.html:142
+#: app/templates/admin/invite.html:161
 msgid "Share"
 msgstr "Deel"
 
-#: app/templates/admin/settings.html:7
-msgid "Change Server Settings"
-msgstr "Wijzig serverinstellingen"
+#: app/templates/admin/notifications.html:11
+msgid "Notification Agents"
+msgstr ""
+
+#: app/templates/admin/notifications.html:27
+#, fuzzy
+msgid "Delete"
+msgstr "Standaard"
+
+#: app/templates/admin/notifications.html:37
+#, fuzzy
+msgid "Create Agent"
+msgstr "Maak een account"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
@@ -364,6 +388,37 @@ msgstr "Interne serverfout."
 msgid " Something has gone wrong. Please try again later."
 msgstr " Er is iets misgelopen. Probeer later opnieuw."
 
+#: app/templates/modals/create-notification-agent.html:31
+msgid "New Agent"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:60
+#, fuzzy
+msgid ""
+"Username\n"
+"                                (optional)"
+msgstr "Plex Bibliotheken"
+
+#: app/templates/modals/create-notification-agent.html:65
+#, fuzzy
+msgid "Password (optional)"
+msgstr "(optioneel)"
+
+#: app/templates/modals/create-notification-agent.html:70
+#, fuzzy
+msgid ""
+"Agent\n"
+"                                URL"
+msgstr "Plex Bibliotheken"
+
+#: app/templates/modals/create-notification-agent.html:81
+msgid "Test & Create Agent"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:85
+msgid "Cancel"
+msgstr ""
+
 #: app/templates/tables/global-users.html:13
 #, fuzzy
 msgid "Name"
@@ -371,8 +426,6 @@ msgstr "Gebruikersnaam"
 
 #: app/templates/tables/global-users.html:16
 #: app/templates/tables/invite_table.html:7
-#: app/templates/tables/jellyfin_user_table.html:7
-#: app/templates/tables/user_table.html:8
 msgid "Expires"
 msgstr "Verloopt"
 
@@ -398,33 +451,18 @@ msgstr "Ongelimiteerd"
 msgid "Libraries"
 msgstr "Plex Bibliotheken"
 
-#: app/templates/tables/invite_table.html:19
+#: app/templates/tables/invite_table.html:22
 msgid "Available"
 msgstr "Beschikbaar"
 
-#: app/templates/tables/invite_table.html:31
+#: app/templates/tables/invite_table.html:35
 #, fuzzy
 msgid "Expired"
 msgstr "Verloopt"
 
-#: app/templates/tables/invite_table.html:68
+#: app/templates/tables/invite_table.html:73
 msgid "Default"
 msgstr "Standaard"
-
-#: app/templates/tables/jellyfin_user_table.html:4
-#, fuzzy
-msgid "Invite Used"
-msgstr "Gebruiker uitnodigen"
-
-#: app/templates/tables/jellyfin_user_table.html:5
-#: app/templates/tables/user_table.html:5
-msgid "User"
-msgstr "Gebruiker"
-
-#: app/templates/tables/user_table.html:7
-#, fuzzy
-msgid "Home User"
-msgstr "Gebruiker uitnodigen"
 
 #: app/templates/wizard/requests.html:4
 msgid "Automatic Media Requests"
@@ -974,7 +1012,9 @@ msgstr ""
 #~ msgid ""
 #~ "Environment Variables are being\n"
 #~ "                    deprecated and replaced by"
-#~ " a secure sign-up. Please visit \n\n"
+#~ " a secure sign-up. Please visit \n"
+#~ ""
+#~ "\n"
 #~ msgstr ""
 #~ "Environment Variables worden stopgezet en "
 #~ "vervangen door veilig aanmelden. Bezoek "
@@ -1027,3 +1067,16 @@ msgstr ""
 
 #~ msgid "Great!"
 #~ msgstr "Geweldig!"
+
+#~ msgid "Change Server Settings"
+#~ msgstr "Wijzig serverinstellingen"
+
+#~ msgid "Invite Used"
+#~ msgstr "Gebruiker uitnodigen"
+
+#~ msgid "User"
+#~ msgstr "Gebruiker"
+
+#~ msgid "Home User"
+#~ msgstr "Gebruiker uitnodigen"
+
