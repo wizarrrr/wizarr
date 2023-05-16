@@ -1,4 +1,4 @@
-# Translations template for PROJECT.
+# Romanian translations for PROJECT.
 # Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
@@ -7,51 +7,50 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-27 18:41+0000\n"
+"POT-Creation-Date: 2023-05-16 17:27+0100\n"
 "PO-Revision-Date: 2023-05-04 16:49+0000\n"
 "Last-Translator: Serbanescu Bogdan <sherbibv@gmail.com>\n"
-"Language-Team: Romanian <https://hosted.weblate.org/projects/wizarr/app/ro/>"
-"\n"
 "Language: ro\n"
+"Language-Team: Romanian "
+"<https://hosted.weblate.org/projects/wizarr/app/ro/>\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 "
+"< 20)) ? 1 : 2;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.18-dev\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.12.1\n"
 
-#: app/admin.py:141
+#: app/admin.py:150
 msgid "Passwords do not match."
 msgstr "Parolele nu coincid."
 
-#: app/admin.py:144
+#: app/admin.py:153
 msgid "Username must be between 3 and 15 characters."
 msgstr "Numele de utilizator trebuie să conțină între 3 și 15 caractere."
 
-#: app/admin.py:147
+#: app/admin.py:156
 msgid "Password must be between 3 and 40 characters."
 msgstr "Parola trebuie să conțină între 3 și 40 de caractere."
 
-#: app/admin.py:172
+#: app/admin.py:182
 msgid "You must select at least one library."
 msgstr "Cel puțin o bibliotecă trebuie selectată."
 
-#: app/admin.py:242
+#: app/admin.py:251
 msgid "It is likely that your token does not work."
 msgstr "Este posibil ca tokenul să nu funcționeze."
 
-#: app/admin.py:244
+#: app/admin.py:253
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
 "Nu sa putut conecta la serverul Plex. Vedeți logo-urile pentru mai multe "
 "informații."
 
-#: app/admin.py:253
+#: app/admin.py:262
 msgid "Unable to connect to your Jellyfin server."
 msgstr "Nu sa putut conecta la serverul Jellyfin."
 
-#: app/admin.py:334 app/admin.py:338
+#: app/admin.py:343 app/admin.py:347
 msgid "Invalid Username or Password"
 msgstr "Nume de utilizator sau parolă incorectă"
 
@@ -75,17 +74,22 @@ msgstr "Utilizatori"
 msgid "Settings"
 msgstr "Setări"
 
+#: app/templates/invalid-invite.html:16
+#, fuzzy
+msgid "Invalid Invitation"
+msgstr "Invitații"
+
 #: app/templates/login.html:18
 msgid "Login"
 msgstr "Logare"
 
-#: app/templates/login.html:23 app/templates/register_admin.html:24
-#: app/templates/welcome-jellyfin.html:28
+#: app/templates/login.html:23 app/templates/register_admin.html:23
+#: app/templates/welcome-jellyfin.html:30
 msgid "Username"
 msgstr "Nume de utilizator"
 
-#: app/templates/login.html:29 app/templates/register_admin.html:30
-#: app/templates/welcome-jellyfin.html:45
+#: app/templates/login.html:29 app/templates/register_admin.html:29
+#: app/templates/welcome-jellyfin.html:47
 msgid "Password"
 msgstr "Parolă"
 
@@ -101,19 +105,19 @@ msgstr "Înregistrare"
 msgid "Setup Wizarr"
 msgstr "Configurează Wizarr"
 
-#: app/templates/register_admin.html:36
+#: app/templates/register_admin.html:35
 msgid "Confirm password"
 msgstr "Confirmă parola"
 
-#: app/templates/register_admin.html:42 app/templates/welcome-jellyfin.html:70
+#: app/templates/register_admin.html:41 app/templates/welcome-jellyfin.html:72
 msgid "Create an account"
 msgstr "Creează un cont"
 
-#: app/templates/settings.html:7
+#: app/templates/settings.html:9
 msgid "Server Settings"
 msgstr "Setări server"
 
-#: app/templates/admin/settings.html:12 app/templates/settings.html:12
+#: app/templates/settings.html:27
 msgid ""
 "Server Display\n"
 "                Name"
@@ -121,15 +125,15 @@ msgstr ""
 "Afișaj server\n"
 "                Nume"
 
-#: app/templates/settings.html:19
+#: app/templates/settings.html:35
 msgid "Server"
 msgstr "Server"
 
-#: app/templates/admin/settings.html:19 app/templates/settings.html:29
+#: app/templates/settings.html:48
 msgid "Server URL"
 msgstr "URL Server"
 
-#: app/templates/admin/settings.html:26 app/templates/settings.html:36
+#: app/templates/settings.html:54
 msgid ""
 "Server\n"
 "                Token / API Key"
@@ -137,7 +141,7 @@ msgstr ""
 "Server\n"
 "                   Token / API Key"
 
-#: app/templates/admin/settings.html:36 app/templates/settings.html:46
+#: app/templates/settings.html:66
 msgid ""
 "Server\n"
 "                Libraries"
@@ -145,24 +149,24 @@ msgstr ""
 "Bibliotecile\n"
 "                server-ului"
 
-#: app/templates/admin/invite.html:106 app/templates/admin/settings.html:39
-#: app/templates/settings.html:49
+#: app/templates/admin/invite.html:125 app/templates/settings.html:69
 msgid "Scan For Libraries"
 msgstr "Scanează Pentru Biblioteci"
 
-#: app/templates/admin/settings.html:46 app/templates/settings.html:56
+#: app/templates/settings.html:77
+#, fuzzy
 msgid ""
 "Request\n"
-"                instance (Ombi, Overseerr...)"
+"                instance (Ombi, Overseerr...) URL"
 msgstr ""
 "Cerere\n"
 "                instanță (Ombi, Overseerr...)"
 
-#: app/templates/admin/settings.html:54 app/templates/settings.html:64
+#: app/templates/settings.html:87
 msgid "Ombi API Key (Only used for user import currently.)"
 msgstr "Ombi API Key (Momentan folosit doar pentru importarea de utilizatori.)"
 
-#: app/templates/admin/settings.html:61 app/templates/settings.html:71
+#: app/templates/settings.html:94
 msgid ""
 "Discord\n"
 "                Server ID"
@@ -170,7 +174,7 @@ msgstr ""
 "Discord\n"
 "                ID Server"
 
-#: app/templates/admin/settings.html:68 app/templates/settings.html:78
+#: app/templates/settings.html:102
 msgid ""
 "Custom\n"
 "                HTML"
@@ -178,30 +182,31 @@ msgstr ""
 "Personalizat\n"
 "                HTML"
 
-#: app/templates/admin/settings.html:76 app/templates/settings.html:86
+#: app/templates/settings.html:110
 msgid "Save"
 msgstr "Salvare"
 
-#: app/templates/user-plex-login.html:12 app/templates/welcome-jellyfin.html:12
+#: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
+#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "Ai fost invitat să te alături server-ului %(name)s!"
 
-#: app/templates/user-plex-login.html:21
+#: app/templates/user-plex-login.html:23
 msgid "Join the Plex Server"
 msgstr "Alătura-te server-ului Plex"
 
 #: app/templates/tables/global-users.html:19
 #: app/templates/tables/invite_table.html:4
-#: app/templates/user-plex-login.html:27 app/templates/user-plex-login.html:38
+#: app/templates/user-plex-login.html:29 app/templates/user-plex-login.html:40
 msgid "Invite Code"
 msgstr "Cod de invitație"
 
-#: app/templates/user-plex-login.html:43
+#: app/templates/user-plex-login.html:45
 msgid "Oops!"
 msgstr "Oops!"
 
-#: app/templates/user-plex-login.html:50
+#: app/templates/user-plex-login.html:52
 msgid "Join"
 msgstr "Alătură-te"
 
@@ -209,17 +214,15 @@ msgstr "Alătură-te"
 msgid "Invite User"
 msgstr "Invită Utilizator"
 
-#: app/templates/welcome-jellyfin.html:20
+#: app/templates/welcome-jellyfin.html:22
 msgid "Set up Account"
 msgstr "Configurează Cont"
 
-#: app/templates/tables/jellyfin_user_table.html:6
-#: app/templates/tables/user_table.html:6
-#: app/templates/welcome-jellyfin.html:36
+#: app/templates/welcome-jellyfin.html:38
 msgid "Email"
 msgstr "Email"
 
-#: app/templates/welcome-jellyfin.html:53
+#: app/templates/welcome-jellyfin.html:55
 msgid ""
 "Confirm\n"
 "                                password"
@@ -227,7 +230,7 @@ msgstr ""
 "Confirmă\n"
 "                                parolă"
 
-#: app/templates/welcome-jellyfin.html:61
+#: app/templates/welcome-jellyfin.html:63
 msgid ""
 "Invite\n"
 "                                Code"
@@ -275,7 +278,7 @@ msgstr "1 săptămână"
 msgid "1 month"
 msgstr "1 lună"
 
-#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:43
+#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:48
 msgid "Never"
 msgstr "Niciodată"
 
@@ -287,31 +290,42 @@ msgstr "Opțiuni avansate"
 msgid "Unlimited Usages"
 msgstr "Utilizări nelimitate"
 
-#: app/templates/admin/invite.html:76 app/templates/admin/invite.html:88
-#: app/templates/tables/invite_table.html:10
+#: app/templates/admin/invite.html:78
+#, fuzzy
+msgid "Invite to Plex Home"
+msgstr "Cod de invitație"
+
+#: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
+#: app/templates/tables/invite_table.html:13
 msgid "Duration"
 msgstr "Durată"
 
-#: app/templates/admin/invite.html:76
+#: app/templates/admin/invite.html:87
 msgid "(in days)"
 msgstr "(în zile)"
 
-#: app/templates/admin/invite.html:84
+#: app/templates/admin/invite.html:95
 msgid "Show Information"
 msgstr "Arată informața"
 
-#: app/templates/admin/invite.html:89
+#: app/templates/admin/invite.html:100
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a\n"
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
-"Odată setat, utilizatorul(ii) invitați vor fii înlăturați din serverul Plex "
-"după \n"
+"Odată setat, utilizatorul(ii) invitați vor fii înlăturați din serverul "
+"Plex după \n"
 "                                        un număr de\n"
 "                                        zile. (1-999)"
 
-#: app/templates/admin/invite.html:103
+#: app/templates/admin/invite.html:116
+#: app/templates/tables/invite_table.html:11
+#, fuzzy
+msgid "Allow Downloads"
+msgstr "Descarcă"
+
+#: app/templates/admin/invite.html:122
 msgid ""
 "Specific\n"
 "                                Libraries"
@@ -319,29 +333,39 @@ msgstr ""
 "Biblioteci\n"
 "                                Specifice"
 
-#: app/templates/admin/invite.html:115
+#: app/templates/admin/invite.html:134
 msgid "Create Invitation"
 msgstr "Creează Invitație"
 
-#: app/templates/admin/invite.html:122
+#: app/templates/admin/invite.html:141
 msgid "Successfully generated an Invitation!"
 msgstr "Invitație generată cu succes!"
 
-#: app/templates/admin/invite.html:127
+#: app/templates/admin/invite.html:146
 msgid "Link has been copied to clipboard!"
 msgstr "Link-ul a fost copiat cu succes în clipboard!"
 
-#: app/templates/admin/invite.html:136
+#: app/templates/admin/invite.html:155
 msgid "Back"
 msgstr "Înapoi"
 
-#: app/templates/admin/invite.html:142
+#: app/templates/admin/invite.html:161
 msgid "Share"
 msgstr "Partajează"
 
-#: app/templates/admin/settings.html:7
-msgid "Change Server Settings"
-msgstr "Schimbă setările server-ului"
+#: app/templates/admin/notifications.html:11
+msgid "Notification Agents"
+msgstr ""
+
+#: app/templates/admin/notifications.html:27
+#, fuzzy
+msgid "Delete"
+msgstr "Implicit"
+
+#: app/templates/admin/notifications.html:37
+#, fuzzy
+msgid "Create Agent"
+msgstr "Creează un cont"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
@@ -375,14 +399,47 @@ msgstr "Eroare internă a server-ului."
 msgid " Something has gone wrong. Please try again later."
 msgstr " Ceva nu a mers bine. Te rog să reîncerci mai târziu."
 
+#: app/templates/modals/create-notification-agent.html:31
+msgid "New Agent"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:60
+#, fuzzy
+msgid ""
+"Username\n"
+"                                (optional)"
+msgstr ""
+"Cod de\n"
+"                                invitație"
+
+#: app/templates/modals/create-notification-agent.html:65
+#, fuzzy
+msgid "Password (optional)"
+msgstr "(opțional)"
+
+#: app/templates/modals/create-notification-agent.html:70
+#, fuzzy
+msgid ""
+"Agent\n"
+"                                URL"
+msgstr ""
+"Cod de\n"
+"                                invitație"
+
+#: app/templates/modals/create-notification-agent.html:81
+msgid "Test & Create Agent"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:85
+msgid "Cancel"
+msgstr ""
+
 #: app/templates/tables/global-users.html:13
 msgid "Name"
 msgstr "Nume"
 
 #: app/templates/tables/global-users.html:16
 #: app/templates/tables/invite_table.html:7
-#: app/templates/tables/jellyfin_user_table.html:7
-#: app/templates/tables/user_table.html:8
 msgid "Expires"
 msgstr "Expiră"
 
@@ -406,30 +463,17 @@ msgstr "Nelimitat"
 msgid "Libraries"
 msgstr "Biblioteci"
 
-#: app/templates/tables/invite_table.html:19
+#: app/templates/tables/invite_table.html:22
 msgid "Available"
 msgstr "Disponibil"
 
-#: app/templates/tables/invite_table.html:31
+#: app/templates/tables/invite_table.html:35
 msgid "Expired"
 msgstr "Expirat"
 
-#: app/templates/tables/invite_table.html:68
+#: app/templates/tables/invite_table.html:73
 msgid "Default"
 msgstr "Implicit"
-
-#: app/templates/tables/jellyfin_user_table.html:4
-msgid "Invite Used"
-msgstr "Invitație utilizată"
-
-#: app/templates/tables/jellyfin_user_table.html:5
-#: app/templates/tables/user_table.html:5
-msgid "User"
-msgstr "Utilizator"
-
-#: app/templates/tables/user_table.html:7
-msgid "Home User"
-msgstr "Utilizator al casei"
 
 #: app/templates/wizard/requests.html:4
 msgid "Automatic Media Requests"
@@ -443,10 +487,10 @@ msgid ""
 "system that can automatically search for the\n"
 "    media you're looking for. "
 msgstr ""
-"Suntem încântați să vă oferim o gamă largă de media din care puteți alege. "
-"Dacă aveți dificultăți în a găsi\n"
-"   ceva ce vă place, nu vă temeți! Avem un sistem de cereri ușor de utilizat "
-"care poate căuta automat\n"
+"Suntem încântați să vă oferim o gamă largă de media din care puteți "
+"alege. Dacă aveți dificultăți în a găsi\n"
+"   ceva ce vă place, nu vă temeți! Avem un sistem de cereri ușor de "
+"utilizat care poate căuta automat\n"
 "    media pe care le dorești. "
 
 #: app/templates/wizard/requests.html:23
@@ -458,8 +502,8 @@ msgid ""
 "Requested media will be automatically downloaded and added to the library"
 " (if available)"
 msgstr ""
-"Media cerute vor fii descărcate și adăugate îl bibliotecă automat (dacă sunt "
-"disponibile)"
+"Media cerute vor fii descărcate și adăugate îl bibliotecă automat (dacă "
+"sunt disponibile)"
 
 #: app/templates/wizard/requests.html:43
 msgid "If enabled, receive notifications"
@@ -492,8 +536,8 @@ msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
 msgstr ""
-"Ai de gând sa vizionezi filme pe acest dispozitiv? Descarcă Jellyfin pentru "
-"acest dispozitiv."
+"Ai de gând sa vizionezi filme pe acest dispozitiv? Descarcă Jellyfin "
+"pentru acest dispozitiv."
 
 #: app/templates/wizard/jellyfin/download.html:14
 #: app/templates/wizard/plex/download.html:14
@@ -514,12 +558,12 @@ msgid ""
 "device - your phone, tablet, laptop, smart TV,\n"
 "        you name it."
 msgstr ""
-"Jellyfin este o platformă care îți permite sa redai filmele, serialele și "
-"muzica ta preferată într-un singur loc.\n"
-"         Este ca și cum ai avea propriul cinema la vârful degetelor! Îl poți "
-"considera o bibliotecă digitală\n"
-"        cu conținutul tău favorit pe care îl poți accesa de oriunde, de pe "
-"orice dispozitiv - telefon, tabletă, laptop, smart TV         ."
+"Jellyfin este o platformă care îți permite sa redai filmele, serialele și"
+" muzica ta preferată într-un singur loc.\n"
+"         Este ca și cum ai avea propriul cinema la vârful degetelor! Îl "
+"poți considera o bibliotecă digitală\n"
+"        cu conținutul tău favorit pe care îl poți accesa de oriunde, de "
+"pe orice dispozitiv - telefon, tabletă, laptop, smart TV         ."
 
 #: app/templates/wizard/jellyfin/tips.html:13
 #: app/templates/wizard/plex/tips.html:12
@@ -535,13 +579,14 @@ msgid ""
 "        and\n"
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"Nimic mai ușor! Jellyfin este disponibil pe o gamă largă de dispozitive cum "
-"ar fii laptopuri, tablete,\n"
+"Nimic mai ușor! Jellyfin este disponibil pe o gamă largă de dispozitive "
+"cum ar fii laptopuri, tablete,\n"
 "        smartphoneuri, si televizoare. Tot ce trebuie să faci este să "
 "descarci aplicația Jellyfin pe dispozitiv, să te autentifici cu propriul "
 "cont,\n"
 "        și\n"
-"        ești gata să începi să vizionezi conținutul tău. Este atât de ușor!"
+"        ești gata să începi să vizionezi conținutul tău. Este atât de "
+"ușor!"
 
 #: app/templates/wizard/jellyfin/tips.html:25
 msgid "Open Jellyfin"
@@ -561,8 +606,8 @@ msgid ""
 "make sure you know how to use\n"
 "        it with Plex."
 msgstr ""
-"Vești bune! Ai acum acces la colecția media de pe serverul nostru. Hai să ne "
-"asigurăm că știi să o folosești\n"
+"Vești bune! Ai acum acces la colecția media de pe serverul nostru. Hai să"
+" ne asigurăm că știi să o folosești\n"
 "\tcu Plex."
 
 #: app/templates/wizard/plex/download.html:11
@@ -584,12 +629,12 @@ msgid ""
 "    access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
 msgstr ""
-"Bună întrebare! Plex este un soft care permite indivizilor să-și partajeze "
-"colecțiile media cu alții. Dacă \n"
+"Bună întrebare! Plex este un soft care permite indivizilor să-și "
+"partajeze colecțiile media cu alții. Dacă \n"
 "ai primit această invitație, înseamnă că cineva vrea să-și partajeze "
 "biblioteca cu tine. Cu Plex, vei avea\n"
-"     acces la toate filmele, serialele, muzica și pozele care sunt stocate "
-"pe serverul lor. Savurează!"
+"     acces la toate filmele, serialele, muzica și pozele care sunt "
+"stocate pe serverul lor. Savurează!"
 
 #: app/templates/wizard/plex/tips.html:15
 msgid ""
@@ -599,12 +644,13 @@ msgid ""
 "your device, sign in with your account, and\n"
 "    you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"Nimic mai ușor! Plex este disponibil pe o gamă largă de dispozitive cum ar "
-"fii laptopuri, tablete,\n"
+"Nimic mai ușor! Plex este disponibil pe o gamă largă de dispozitive cum "
+"ar fii laptopuri, tablete,\n"
 "        smartphoneuri, si televizoare. Tot ce trebuie să faci este să "
 "descarci aplicația Jellyfin pe dispozitiv, să te autentifici cu propriul "
 "cont, și\n"
-"        ești gata să începi să vizionezi conținutul tău. Este atât de ușor!"
+"        ești gata să începi să vizionezi conținutul tău. Este atât de "
+"ușor!"
 
 #: app/templates/wizard/plex/tips.html:20
 msgid "How can I make sure to have the best experience?"
@@ -617,8 +663,8 @@ msgid ""
 "    sharing with you - they also, by default, play content at a lower "
 "quality. "
 msgstr ""
-"Pentru că Plex este un serviciu gratuit, ei își promovează propriul conținut "
-"înaintea conținutului pe care prietenul tău \n"
+"Pentru că Plex este un serviciu gratuit, ei își promovează propriul "
+"conținut înaintea conținutului pe care prietenul tău \n"
 "    îl partajează acum cu tine - ei de asemenea, în mod implicit, redau "
 "conținutul la o calitate inferioară. "
 
@@ -640,9 +686,21 @@ msgstr "Configureaza Plex pentru browserul tău"
 
 #: app/templates/wizard/plex/tips.html:58
 msgid "Configure Plex's app on your computer, mobile device or TV"
-msgstr ""
-"Configurează aplicația Plex pe calculatorul tău, dispozitiv mobil sau TV"
+msgstr "Configurează aplicația Plex pe calculatorul tău, dispozitiv mobil sau TV"
 
 #: app/templates/wizard/plex/tips.html:86
 msgid "Open Plex"
 msgstr "Deschide Plex"
+
+#~ msgid "Change Server Settings"
+#~ msgstr "Schimbă setările server-ului"
+
+#~ msgid "Invite Used"
+#~ msgstr "Invitație utilizată"
+
+#~ msgid "User"
+#~ msgstr "Utilizator"
+
+#~ msgid "Home User"
+#~ msgstr "Utilizator al casei"
+

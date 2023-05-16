@@ -1,4 +1,4 @@
-# Translations template for PROJECT.
+# Danish translations for PROJECT.
 # Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
@@ -7,49 +7,49 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-27 18:41+0000\n"
+"POT-Creation-Date: 2023-05-16 17:27+0100\n"
 "PO-Revision-Date: 2023-04-28 23:48+0000\n"
 "Last-Translator: vp-en <zmwc.vpn@gmail.com>\n"
-"Language-Team: Danish <https://hosted.weblate.org/projects/wizarr/app/da/>\n"
 "Language: da\n"
+"Language-Team: Danish "
+"<https://hosted.weblate.org/projects/wizarr/app/da/>\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.12.1\n"
 
-#: app/admin.py:141
+#: app/admin.py:150
 msgid "Passwords do not match."
 msgstr "Adgangskoderne stemmer ikke overens."
 
-#: app/admin.py:144
+#: app/admin.py:153
 msgid "Username must be between 3 and 15 characters."
 msgstr "Brugernavnet skal være mellem 3 og 15 tegn."
 
-#: app/admin.py:147
+#: app/admin.py:156
 msgid "Password must be between 3 and 40 characters."
 msgstr "Adgangskoden skal være mellem 3 og 40 tegn."
 
-#: app/admin.py:172
+#: app/admin.py:182
 msgid "You must select at least one library."
 msgstr "Du skal vælge mindst ét bibliotek."
 
-#: app/admin.py:242
+#: app/admin.py:251
 msgid "It is likely that your token does not work."
 msgstr "Det er sandsynligt, at din token ikke virker."
 
-#: app/admin.py:244
+#: app/admin.py:253
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
-"Det er ikke muligt at oprette forbindelse til din Plex-server. Se Logfiler "
-"for at få flere oplysninger."
+"Det er ikke muligt at oprette forbindelse til din Plex-server. Se "
+"Logfiler for at få flere oplysninger."
 
-#: app/admin.py:253
+#: app/admin.py:262
 msgid "Unable to connect to your Jellyfin server."
 msgstr "Det er ikke muligt at oprette forbindelse til din Jellyfin-server."
 
-#: app/admin.py:334 app/admin.py:338
+#: app/admin.py:343 app/admin.py:347
 msgid "Invalid Username or Password"
 msgstr "Ugyldigt brugernavn eller adgangskode"
 
@@ -73,17 +73,22 @@ msgstr "Brugere"
 msgid "Settings"
 msgstr "Indstillinger"
 
+#: app/templates/invalid-invite.html:16
+#, fuzzy
+msgid "Invalid Invitation"
+msgstr "Invitationer"
+
 #: app/templates/login.html:18
 msgid "Login"
 msgstr "Login"
 
-#: app/templates/login.html:23 app/templates/register_admin.html:24
-#: app/templates/welcome-jellyfin.html:28
+#: app/templates/login.html:23 app/templates/register_admin.html:23
+#: app/templates/welcome-jellyfin.html:30
 msgid "Username"
 msgstr "Brugernavn"
 
-#: app/templates/login.html:29 app/templates/register_admin.html:30
-#: app/templates/welcome-jellyfin.html:45
+#: app/templates/login.html:29 app/templates/register_admin.html:29
+#: app/templates/welcome-jellyfin.html:47
 msgid "Password"
 msgstr "Adgangskode"
 
@@ -99,19 +104,19 @@ msgstr "Log ind"
 msgid "Setup Wizarr"
 msgstr "Opsætning af Wizarr"
 
-#: app/templates/register_admin.html:36
+#: app/templates/register_admin.html:35
 msgid "Confirm password"
 msgstr "Bekræft adgangskode"
 
-#: app/templates/register_admin.html:42 app/templates/welcome-jellyfin.html:70
+#: app/templates/register_admin.html:41 app/templates/welcome-jellyfin.html:72
 msgid "Create an account"
 msgstr "Opret en konto"
 
-#: app/templates/settings.html:7
+#: app/templates/settings.html:9
 msgid "Server Settings"
 msgstr "Serverindstillinger"
 
-#: app/templates/admin/settings.html:12 app/templates/settings.html:12
+#: app/templates/settings.html:27
 msgid ""
 "Server Display\n"
 "                Name"
@@ -119,15 +124,15 @@ msgstr ""
 "Navnet på\n"
 "                serveren"
 
-#: app/templates/settings.html:19
+#: app/templates/settings.html:35
 msgid "Server"
 msgstr "Server"
 
-#: app/templates/admin/settings.html:19 app/templates/settings.html:29
+#: app/templates/settings.html:48
 msgid "Server URL"
 msgstr "Server URL"
 
-#: app/templates/admin/settings.html:26 app/templates/settings.html:36
+#: app/templates/settings.html:54
 msgid ""
 "Server\n"
 "                Token / API Key"
@@ -135,7 +140,7 @@ msgstr ""
 "Server\n"
 "                Token / API Nøgle"
 
-#: app/templates/admin/settings.html:36 app/templates/settings.html:46
+#: app/templates/settings.html:66
 msgid ""
 "Server\n"
 "                Libraries"
@@ -143,24 +148,24 @@ msgstr ""
 "Server\n"
 "                Biblioteker"
 
-#: app/templates/admin/invite.html:106 app/templates/admin/settings.html:39
-#: app/templates/settings.html:49
+#: app/templates/admin/invite.html:125 app/templates/settings.html:69
 msgid "Scan For Libraries"
 msgstr "Scan for biblioteker"
 
-#: app/templates/admin/settings.html:46 app/templates/settings.html:56
+#: app/templates/settings.html:77
+#, fuzzy
 msgid ""
 "Request\n"
-"                instance (Ombi, Overseerr...)"
+"                instance (Ombi, Overseerr...) URL"
 msgstr ""
 "Anmodnings\n"
 "                instans (Ombi, Overseerr...)"
 
-#: app/templates/admin/settings.html:54 app/templates/settings.html:64
+#: app/templates/settings.html:87
 msgid "Ombi API Key (Only used for user import currently.)"
 msgstr "Ombi API Nøgle (bruges kun til brugerimport i øjeblikket.)"
 
-#: app/templates/admin/settings.html:61 app/templates/settings.html:71
+#: app/templates/settings.html:94
 msgid ""
 "Discord\n"
 "                Server ID"
@@ -168,7 +173,7 @@ msgstr ""
 "Discord\n"
 "                Server ID"
 
-#: app/templates/admin/settings.html:68 app/templates/settings.html:78
+#: app/templates/settings.html:102
 msgid ""
 "Custom\n"
 "                HTML"
@@ -176,30 +181,31 @@ msgstr ""
 "Brugerdefineret\n"
 "                HTML"
 
-#: app/templates/admin/settings.html:76 app/templates/settings.html:86
+#: app/templates/settings.html:110
 msgid "Save"
 msgstr "Gem"
 
-#: app/templates/user-plex-login.html:12 app/templates/welcome-jellyfin.html:12
+#: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
+#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "Du er blevet inviteret til at tilmelde dig %(name)s server!"
 
-#: app/templates/user-plex-login.html:21
+#: app/templates/user-plex-login.html:23
 msgid "Join the Plex Server"
 msgstr "Tilmeld dig Plex-serveren"
 
 #: app/templates/tables/global-users.html:19
 #: app/templates/tables/invite_table.html:4
-#: app/templates/user-plex-login.html:27 app/templates/user-plex-login.html:38
+#: app/templates/user-plex-login.html:29 app/templates/user-plex-login.html:40
 msgid "Invite Code"
 msgstr "Invitationskode"
 
-#: app/templates/user-plex-login.html:43
+#: app/templates/user-plex-login.html:45
 msgid "Oops!"
 msgstr "Ups!"
 
-#: app/templates/user-plex-login.html:50
+#: app/templates/user-plex-login.html:52
 msgid "Join"
 msgstr "Tilmeld"
 
@@ -207,17 +213,15 @@ msgstr "Tilmeld"
 msgid "Invite User"
 msgstr "Inviter bruger"
 
-#: app/templates/welcome-jellyfin.html:20
+#: app/templates/welcome-jellyfin.html:22
 msgid "Set up Account"
 msgstr "Oprettelse af konto"
 
-#: app/templates/tables/jellyfin_user_table.html:6
-#: app/templates/tables/user_table.html:6
-#: app/templates/welcome-jellyfin.html:36
+#: app/templates/welcome-jellyfin.html:38
 msgid "Email"
 msgstr "Email"
 
-#: app/templates/welcome-jellyfin.html:53
+#: app/templates/welcome-jellyfin.html:55
 msgid ""
 "Confirm\n"
 "                                password"
@@ -225,7 +229,7 @@ msgstr ""
 "Bekræft\n"
 "                                adgangskode"
 
-#: app/templates/welcome-jellyfin.html:61
+#: app/templates/welcome-jellyfin.html:63
 msgid ""
 "Invite\n"
 "                                Code"
@@ -273,7 +277,7 @@ msgstr "1 uge"
 msgid "1 month"
 msgstr "1 måned"
 
-#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:43
+#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:48
 msgid "Never"
 msgstr "Aldrig"
 
@@ -285,20 +289,25 @@ msgstr "Avancerede indstillinger"
 msgid "Unlimited Usages"
 msgstr "Ubegrænsede anvendelser"
 
-#: app/templates/admin/invite.html:76 app/templates/admin/invite.html:88
-#: app/templates/tables/invite_table.html:10
+#: app/templates/admin/invite.html:78
+#, fuzzy
+msgid "Invite to Plex Home"
+msgstr "Invitationskode"
+
+#: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
+#: app/templates/tables/invite_table.html:13
 msgid "Duration"
 msgstr "Varighed"
 
-#: app/templates/admin/invite.html:76
+#: app/templates/admin/invite.html:87
 msgid "(in days)"
 msgstr "(i dage)"
 
-#: app/templates/admin/invite.html:84
+#: app/templates/admin/invite.html:95
 msgid "Show Information"
 msgstr "Vis oplysninger"
 
-#: app/templates/admin/invite.html:89
+#: app/templates/admin/invite.html:100
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a\n"
 "                                        number of\n"
@@ -309,7 +318,13 @@ msgstr ""
 "                                        antal\n"
 "                                        dage. (1-999)"
 
-#: app/templates/admin/invite.html:103
+#: app/templates/admin/invite.html:116
+#: app/templates/tables/invite_table.html:11
+#, fuzzy
+msgid "Allow Downloads"
+msgstr "Download"
+
+#: app/templates/admin/invite.html:122
 msgid ""
 "Specific\n"
 "                                Libraries"
@@ -317,29 +332,39 @@ msgstr ""
 "Specifikke\n"
 "                                biblioteker"
 
-#: app/templates/admin/invite.html:115
+#: app/templates/admin/invite.html:134
 msgid "Create Invitation"
 msgstr "Opret invitation"
 
-#: app/templates/admin/invite.html:122
+#: app/templates/admin/invite.html:141
 msgid "Successfully generated an Invitation!"
 msgstr "Det lykkedes at oprette en invitation!"
 
-#: app/templates/admin/invite.html:127
+#: app/templates/admin/invite.html:146
 msgid "Link has been copied to clipboard!"
 msgstr "Linket er blevet kopieret til udklipsholderen!"
 
-#: app/templates/admin/invite.html:136
+#: app/templates/admin/invite.html:155
 msgid "Back"
 msgstr "Tilbage"
 
-#: app/templates/admin/invite.html:142
+#: app/templates/admin/invite.html:161
 msgid "Share"
 msgstr "Del"
 
-#: app/templates/admin/settings.html:7
-msgid "Change Server Settings"
-msgstr "Ændre serverindstillingerne"
+#: app/templates/admin/notifications.html:11
+msgid "Notification Agents"
+msgstr ""
+
+#: app/templates/admin/notifications.html:27
+#, fuzzy
+msgid "Delete"
+msgstr "Standard"
+
+#: app/templates/admin/notifications.html:37
+#, fuzzy
+msgid "Create Agent"
+msgstr "Opret en konto"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
@@ -363,8 +388,7 @@ msgstr "Der er noget, der mangler."
 
 #: app/templates/error/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
-"Vi kan desværre ikke finde den side. Den eksisterer tilsyneladende ikke!"
+msgstr "Vi kan desværre ikke finde den side. Den eksisterer tilsyneladende ikke!"
 
 #: app/templates/error/500.html:19
 msgid "Internal Server Error."
@@ -374,14 +398,47 @@ msgstr "Intern serverfejl."
 msgid " Something has gone wrong. Please try again later."
 msgstr " Noget er gået galt. Prøv venligst igen senere."
 
+#: app/templates/modals/create-notification-agent.html:31
+msgid "New Agent"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:60
+#, fuzzy
+msgid ""
+"Username\n"
+"                                (optional)"
+msgstr ""
+"Invatiations\n"
+"                                kode"
+
+#: app/templates/modals/create-notification-agent.html:65
+#, fuzzy
+msgid "Password (optional)"
+msgstr "(valgfrit)"
+
+#: app/templates/modals/create-notification-agent.html:70
+#, fuzzy
+msgid ""
+"Agent\n"
+"                                URL"
+msgstr ""
+"Invatiations\n"
+"                                kode"
+
+#: app/templates/modals/create-notification-agent.html:81
+msgid "Test & Create Agent"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:85
+msgid "Cancel"
+msgstr ""
+
 #: app/templates/tables/global-users.html:13
 msgid "Name"
 msgstr "Navn"
 
 #: app/templates/tables/global-users.html:16
 #: app/templates/tables/invite_table.html:7
-#: app/templates/tables/jellyfin_user_table.html:7
-#: app/templates/tables/user_table.html:8
 msgid "Expires"
 msgstr "Udløber"
 
@@ -405,30 +462,17 @@ msgstr "Ubegrænset"
 msgid "Libraries"
 msgstr "Biblioteker"
 
-#: app/templates/tables/invite_table.html:19
+#: app/templates/tables/invite_table.html:22
 msgid "Available"
 msgstr "Tilgængelige"
 
-#: app/templates/tables/invite_table.html:31
+#: app/templates/tables/invite_table.html:35
 msgid "Expired"
 msgstr "Udløbet"
 
-#: app/templates/tables/invite_table.html:68
+#: app/templates/tables/invite_table.html:73
 msgid "Default"
 msgstr "Standard"
-
-#: app/templates/tables/jellyfin_user_table.html:4
-msgid "Invite Used"
-msgstr "Invitation brugt"
-
-#: app/templates/tables/jellyfin_user_table.html:5
-#: app/templates/tables/user_table.html:5
-msgid "User"
-msgstr "Bruger"
-
-#: app/templates/tables/user_table.html:7
-msgid "Home User"
-msgstr "Hjemmebruger"
 
 #: app/templates/wizard/requests.html:4
 msgid "Automatic Media Requests"
@@ -444,8 +488,8 @@ msgid ""
 msgstr ""
 "Vi er glade for at kunne tilbyde dig et bredt udvalg af medier at vælge "
 "imellem. Hvis du har problemer med at finde\n"
-"    noget, du kan lide, skal du ikke bekymre dig! Vi har et brugervenligt "
-"anmodningssystem, der automatisk kan søge efter det\n"
+"    noget, du kan lide, skal du ikke bekymre dig! Vi har et brugervenligt"
+" anmodningssystem, der automatisk kan søge efter det\n"
 "    medier, du leder efter. "
 
 #: app/templates/wizard/requests.html:23
@@ -482,8 +526,8 @@ msgid ""
 "make sure you know how to use\n"
 "        it with Jellyfin."
 msgstr ""
-"Gode nyheder! Du har nu adgang til vores servers mediesamling. Lad os sørge "
-"for, at du ved, hvordan du skal bruge\n"
+"Gode nyheder! Du har nu adgang til vores servers mediesamling. Lad os "
+"sørge for, at du ved, hvordan du skal bruge\n"
 "        den med Jellyfin."
 
 #: app/templates/wizard/jellyfin/download.html:11
@@ -515,10 +559,11 @@ msgid ""
 msgstr ""
 "Jellyfin er en platform, hvor du kan streame alle dine yndlingsfilm, tv-"
 "serier og musik på ét sted.\n"
-"        Det er som at have din egen personlige biograf lige ved hånden! Tænk "
-"på det som et digitalt bibliotek med\n"
-"        dit yndlingsindhold, som du kan få adgang til hvor som helst og på "
-"hvilken som helst enhed - din telefon, tablet, bærbare computer, smart-tv,\n"
+"        Det er som at have din egen personlige biograf lige ved hånden! "
+"Tænk på det som et digitalt bibliotek med\n"
+"        dit yndlingsindhold, som du kan få adgang til hvor som helst og "
+"på hvilken som helst enhed - din telefon, tablet, bærbare computer, "
+"smart-tv,\n"
 "        du kan selv vælge."
 
 #: app/templates/wizard/jellyfin/tips.html:13
@@ -560,14 +605,13 @@ msgid ""
 "make sure you know how to use\n"
 "        it with Plex."
 msgstr ""
-"Gode nyheder! Du har nu adgang til vores servers mediesamling. Lad os sørge "
-"for, at du ved, hvordan du skal bruge\n"
+"Gode nyheder! Du har nu adgang til vores servers mediesamling. Lad os "
+"sørge for, at du ved, hvordan du skal bruge\n"
 "        den med Plex."
 
 #: app/templates/wizard/plex/download.html:11
 msgid "Planning on watching Movies on this device? Download Plex for this device."
-msgstr ""
-"Har du planer om at se film på denne enhed? Download Plex til denne enhed."
+msgstr "Har du planer om at se film på denne enhed? Download Plex til denne enhed."
 
 #: app/templates/wizard/plex/tips.html:4
 msgid "Eh, So, What is Plex exactly?"
@@ -582,12 +626,12 @@ msgid ""
 "    access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
 msgstr ""
-"Godt spørgsmål! Plex er en software, der gør det muligt for enkeltpersoner "
-"at dele deres mediesamlinger med andre. Hvis\n"
-"    du har modtaget denne invitation, betyder det, at nogen ønsker at dele "
-"deres bibliotek med dig. Med Plex har du\n"
-"    adgang til alle de film, tv-serier, musik og fotos, der er gemt på deres "
-"server. God fornøjelse!"
+"Godt spørgsmål! Plex er en software, der gør det muligt for "
+"enkeltpersoner at dele deres mediesamlinger med andre. Hvis\n"
+"    du har modtaget denne invitation, betyder det, at nogen ønsker at "
+"dele deres bibliotek med dig. Med Plex har du\n"
+"    adgang til alle de film, tv-serier, musik og fotos, der er gemt på "
+"deres server. God fornøjelse!"
 
 #: app/templates/wizard/plex/tips.html:15
 msgid ""
@@ -599,8 +643,8 @@ msgid ""
 msgstr ""
 "Det kunne ikke være nemmere! Plex er tilgængelig på en lang række "
 "forskellige enheder, herunder bærbare computere, tablets,\n"
-"    smartphones og tv'er. Det eneste du skal gøre er at downloade Plex-appen "
-"på din enhed, logge ind med din konto, og\n"
+"    smartphones og tv'er. Det eneste du skal gøre er at downloade Plex-"
+"appen på din enhed, logge ind med din konto, og\n"
 "    og du er klar til at begynde at streame dine medier. Så nemt er det!"
 
 #: app/templates/wizard/plex/tips.html:20
@@ -614,8 +658,8 @@ msgid ""
 "    sharing with you - they also, by default, play content at a lower "
 "quality. "
 msgstr ""
-"Fordi Plex er en gratis tjeneste, promoverer de deres eget indhold før det "
-"fantastiske indhold, som din ven nu er\n"
+"Fordi Plex er en gratis tjeneste, promoverer de deres eget indhold før "
+"det fantastiske indhold, som din ven nu er\n"
 "    deler med dig - de afspiller også som standard indhold i en lavere "
 "kvalitet. "
 
@@ -642,3 +686,16 @@ msgstr "Konfigurer Plex-appen på din computer, mobilenhed eller dit tv"
 #: app/templates/wizard/plex/tips.html:86
 msgid "Open Plex"
 msgstr "Åben Plex"
+
+#~ msgid "Change Server Settings"
+#~ msgstr "Ændre serverindstillingerne"
+
+#~ msgid "Invite Used"
+#~ msgstr "Invitation brugt"
+
+#~ msgid "User"
+#~ msgstr "Bruger"
+
+#~ msgid "Home User"
+#~ msgstr "Hjemmebruger"
+

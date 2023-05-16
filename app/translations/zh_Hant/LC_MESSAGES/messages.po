@@ -1,4 +1,4 @@
-# Translations template for PROJECT.
+# Chinese (Traditional) translations for PROJECT.
 # Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
@@ -7,48 +7,47 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-27 18:41+0000\n"
+"POT-Creation-Date: 2023-05-16 17:27+0100\n"
 "PO-Revision-Date: 2023-05-08 06:07+0000\n"
 "Last-Translator: chuanru <roe081499roe@gmail.com>\n"
-"Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
-"wizarr/app/zh_Hant/>\n"
 "Language: zh_Hant\n"
+"Language-Team: Chinese (Traditional) "
+"<https://hosted.weblate.org/projects/wizarr/app/zh_Hant/>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.18-dev\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.12.1\n"
 
-#: app/admin.py:141
+#: app/admin.py:150
 msgid "Passwords do not match."
 msgstr "密碼不正確。"
 
-#: app/admin.py:144
+#: app/admin.py:153
 msgid "Username must be between 3 and 15 characters."
 msgstr "用户名稱必須在3-15 個字元之間。"
 
-#: app/admin.py:147
+#: app/admin.py:156
 msgid "Password must be between 3 and 40 characters."
 msgstr "密碼必須在3到40個字元之間。"
 
-#: app/admin.py:172
+#: app/admin.py:182
 msgid "You must select at least one library."
 msgstr "您必須至少選擇一個媒體庫。"
 
-#: app/admin.py:242
+#: app/admin.py:251
 msgid "It is likely that your token does not work."
 msgstr "您的 token 很可能不起作用。"
 
-#: app/admin.py:244
+#: app/admin.py:253
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr "無法連線至 Plex 伺服器。有關詳細訊息，請參閱 Log 檔。"
 
-#: app/admin.py:253
+#: app/admin.py:262
 msgid "Unable to connect to your Jellyfin server."
 msgstr "無法連線到你的Jellyfin伺服器。"
 
-#: app/admin.py:334 app/admin.py:338
+#: app/admin.py:343 app/admin.py:347
 msgid "Invalid Username or Password"
 msgstr "使用者名稱或密碼錯誤"
 
@@ -72,17 +71,22 @@ msgstr "使用者"
 msgid "Settings"
 msgstr "設定"
 
+#: app/templates/invalid-invite.html:16
+#, fuzzy
+msgid "Invalid Invitation"
+msgstr "邀請"
+
 #: app/templates/login.html:18
 msgid "Login"
 msgstr "登入"
 
-#: app/templates/login.html:23 app/templates/register_admin.html:24
-#: app/templates/welcome-jellyfin.html:28
+#: app/templates/login.html:23 app/templates/register_admin.html:23
+#: app/templates/welcome-jellyfin.html:30
 msgid "Username"
 msgstr "用戶名稱"
 
-#: app/templates/login.html:29 app/templates/register_admin.html:30
-#: app/templates/welcome-jellyfin.html:45
+#: app/templates/login.html:29 app/templates/register_admin.html:29
+#: app/templates/welcome-jellyfin.html:47
 msgid "Password"
 msgstr "密碼"
 
@@ -98,19 +102,19 @@ msgstr "登入"
 msgid "Setup Wizarr"
 msgstr "設定 Wizarr"
 
-#: app/templates/register_admin.html:36
+#: app/templates/register_admin.html:35
 msgid "Confirm password"
 msgstr "確認密碼"
 
-#: app/templates/register_admin.html:42 app/templates/welcome-jellyfin.html:70
+#: app/templates/register_admin.html:41 app/templates/welcome-jellyfin.html:72
 msgid "Create an account"
 msgstr "建立一個帳號"
 
-#: app/templates/settings.html:7
+#: app/templates/settings.html:9
 msgid "Server Settings"
 msgstr "伺服器設定"
 
-#: app/templates/admin/settings.html:12 app/templates/settings.html:12
+#: app/templates/settings.html:27
 msgid ""
 "Server Display\n"
 "                Name"
@@ -118,15 +122,15 @@ msgstr ""
 "伺服器\n"
 "              名稱"
 
-#: app/templates/settings.html:19
+#: app/templates/settings.html:35
 msgid "Server"
 msgstr "伺服器"
 
-#: app/templates/admin/settings.html:19 app/templates/settings.html:29
+#: app/templates/settings.html:48
 msgid "Server URL"
 msgstr "伺服器網址"
 
-#: app/templates/admin/settings.html:26 app/templates/settings.html:36
+#: app/templates/settings.html:54
 msgid ""
 "Server\n"
 "                Token / API Key"
@@ -134,7 +138,7 @@ msgstr ""
 "伺服器\n"
 "              Token / API Key"
 
-#: app/templates/admin/settings.html:36 app/templates/settings.html:46
+#: app/templates/settings.html:66
 msgid ""
 "Server\n"
 "                Libraries"
@@ -142,24 +146,24 @@ msgstr ""
 "伺服器\n"
 "                媒體庫"
 
-#: app/templates/admin/invite.html:106 app/templates/admin/settings.html:39
-#: app/templates/settings.html:49
+#: app/templates/admin/invite.html:125 app/templates/settings.html:69
 msgid "Scan For Libraries"
 msgstr "掃描媒體庫"
 
-#: app/templates/admin/settings.html:46 app/templates/settings.html:56
+#: app/templates/settings.html:77
+#, fuzzy
 msgid ""
 "Request\n"
-"                instance (Ombi, Overseerr...)"
+"                instance (Ombi, Overseerr...) URL"
 msgstr ""
 "要求\n"
 "                實例 (Ombi, Overseerr...)"
 
-#: app/templates/admin/settings.html:54 app/templates/settings.html:64
+#: app/templates/settings.html:87
 msgid "Ombi API Key (Only used for user import currently.)"
 msgstr "Ombi API Key (僅用於使用者導入)"
 
-#: app/templates/admin/settings.html:61 app/templates/settings.html:71
+#: app/templates/settings.html:94
 msgid ""
 "Discord\n"
 "                Server ID"
@@ -167,7 +171,7 @@ msgstr ""
 "Discord\n"
 "                伺服器ID"
 
-#: app/templates/admin/settings.html:68 app/templates/settings.html:78
+#: app/templates/settings.html:102
 msgid ""
 "Custom\n"
 "                HTML"
@@ -175,30 +179,31 @@ msgstr ""
 "自定義\n"
 "                HTML"
 
-#: app/templates/admin/settings.html:76 app/templates/settings.html:86
+#: app/templates/settings.html:110
 msgid "Save"
 msgstr "儲存"
 
-#: app/templates/user-plex-login.html:12 app/templates/welcome-jellyfin.html:12
+#: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
+#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "您已經被邀請加入 %(name)s 伺服器！"
 
-#: app/templates/user-plex-login.html:21
+#: app/templates/user-plex-login.html:23
 msgid "Join the Plex Server"
 msgstr "加入 Plex 伺服器"
 
 #: app/templates/tables/global-users.html:19
 #: app/templates/tables/invite_table.html:4
-#: app/templates/user-plex-login.html:27 app/templates/user-plex-login.html:38
+#: app/templates/user-plex-login.html:29 app/templates/user-plex-login.html:40
 msgid "Invite Code"
 msgstr "邀請代碼"
 
-#: app/templates/user-plex-login.html:43
+#: app/templates/user-plex-login.html:45
 msgid "Oops!"
 msgstr "哎呀！"
 
-#: app/templates/user-plex-login.html:50
+#: app/templates/user-plex-login.html:52
 msgid "Join"
 msgstr "加入"
 
@@ -206,17 +211,15 @@ msgstr "加入"
 msgid "Invite User"
 msgstr "邀請使用者"
 
-#: app/templates/welcome-jellyfin.html:20
+#: app/templates/welcome-jellyfin.html:22
 msgid "Set up Account"
 msgstr "設定帳戶"
 
-#: app/templates/tables/jellyfin_user_table.html:6
-#: app/templates/tables/user_table.html:6
-#: app/templates/welcome-jellyfin.html:36
+#: app/templates/welcome-jellyfin.html:38
 msgid "Email"
 msgstr "電子郵件"
 
-#: app/templates/welcome-jellyfin.html:53
+#: app/templates/welcome-jellyfin.html:55
 msgid ""
 "Confirm\n"
 "                                password"
@@ -224,7 +227,7 @@ msgstr ""
 "確認\n"
 "                                密碼"
 
-#: app/templates/welcome-jellyfin.html:61
+#: app/templates/welcome-jellyfin.html:63
 msgid ""
 "Invite\n"
 "                                Code"
@@ -272,7 +275,7 @@ msgstr "一週"
 msgid "1 month"
 msgstr "一個月"
 
-#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:43
+#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:48
 msgid "Never"
 msgstr "從不"
 
@@ -284,20 +287,25 @@ msgstr "進階選項"
 msgid "Unlimited Usages"
 msgstr "無限制使用"
 
-#: app/templates/admin/invite.html:76 app/templates/admin/invite.html:88
-#: app/templates/tables/invite_table.html:10
+#: app/templates/admin/invite.html:78
+#, fuzzy
+msgid "Invite to Plex Home"
+msgstr "邀請代碼"
+
+#: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
+#: app/templates/tables/invite_table.html:13
 msgid "Duration"
 msgstr "持續時間"
 
-#: app/templates/admin/invite.html:76
+#: app/templates/admin/invite.html:87
 msgid "(in days)"
 msgstr "(以天為單位)"
 
-#: app/templates/admin/invite.html:84
+#: app/templates/admin/invite.html:95
 msgid "Show Information"
 msgstr "顯示資訊"
 
-#: app/templates/admin/invite.html:89
+#: app/templates/admin/invite.html:100
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a\n"
 "                                        number of\n"
@@ -307,7 +315,13 @@ msgstr ""
 "                                        用戶數\n"
 "                                        天候從 Plex 伺服器上删除。(1-999)"
 
-#: app/templates/admin/invite.html:103
+#: app/templates/admin/invite.html:116
+#: app/templates/tables/invite_table.html:11
+#, fuzzy
+msgid "Allow Downloads"
+msgstr "下載"
+
+#: app/templates/admin/invite.html:122
 msgid ""
 "Specific\n"
 "                                Libraries"
@@ -315,29 +329,39 @@ msgstr ""
 "特定\n"
 "                                媒體庫"
 
-#: app/templates/admin/invite.html:115
+#: app/templates/admin/invite.html:134
 msgid "Create Invitation"
 msgstr "建立邀請"
 
-#: app/templates/admin/invite.html:122
+#: app/templates/admin/invite.html:141
 msgid "Successfully generated an Invitation!"
 msgstr "已成功產生邀請！"
 
-#: app/templates/admin/invite.html:127
+#: app/templates/admin/invite.html:146
 msgid "Link has been copied to clipboard!"
 msgstr "邀請連結以複製到剪貼簿！"
 
-#: app/templates/admin/invite.html:136
+#: app/templates/admin/invite.html:155
 msgid "Back"
 msgstr "返回"
 
-#: app/templates/admin/invite.html:142
+#: app/templates/admin/invite.html:161
 msgid "Share"
 msgstr "分享"
 
-#: app/templates/admin/settings.html:7
-msgid "Change Server Settings"
-msgstr "更改伺服器設定"
+#: app/templates/admin/notifications.html:11
+msgid "Notification Agents"
+msgstr ""
+
+#: app/templates/admin/notifications.html:27
+#, fuzzy
+msgid "Delete"
+msgstr "預設"
+
+#: app/templates/admin/notifications.html:37
+#, fuzzy
+msgid "Create Agent"
+msgstr "建立一個帳號"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
@@ -371,14 +395,47 @@ msgstr "内部伺服器錯誤。"
 msgid " Something has gone wrong. Please try again later."
 msgstr " 出了點問題。請稍後在試。"
 
+#: app/templates/modals/create-notification-agent.html:31
+msgid "New Agent"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:60
+#, fuzzy
+msgid ""
+"Username\n"
+"                                (optional)"
+msgstr ""
+"邀請\n"
+"                                代碼"
+
+#: app/templates/modals/create-notification-agent.html:65
+#, fuzzy
+msgid "Password (optional)"
+msgstr "(可選)"
+
+#: app/templates/modals/create-notification-agent.html:70
+#, fuzzy
+msgid ""
+"Agent\n"
+"                                URL"
+msgstr ""
+"邀請\n"
+"                                代碼"
+
+#: app/templates/modals/create-notification-agent.html:81
+msgid "Test & Create Agent"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:85
+msgid "Cancel"
+msgstr ""
+
 #: app/templates/tables/global-users.html:13
 msgid "Name"
 msgstr "名稱"
 
 #: app/templates/tables/global-users.html:16
 #: app/templates/tables/invite_table.html:7
-#: app/templates/tables/jellyfin_user_table.html:7
-#: app/templates/tables/user_table.html:8
 msgid "Expires"
 msgstr "到期"
 
@@ -402,30 +459,17 @@ msgstr "無限制"
 msgid "Libraries"
 msgstr "媒體庫"
 
-#: app/templates/tables/invite_table.html:19
+#: app/templates/tables/invite_table.html:22
 msgid "Available"
 msgstr "允許的"
 
-#: app/templates/tables/invite_table.html:31
+#: app/templates/tables/invite_table.html:35
 msgid "Expired"
 msgstr "已到期"
 
-#: app/templates/tables/invite_table.html:68
+#: app/templates/tables/invite_table.html:73
 msgid "Default"
 msgstr "預設"
-
-#: app/templates/tables/jellyfin_user_table.html:4
-msgid "Invite Used"
-msgstr "邀請使用者"
-
-#: app/templates/tables/jellyfin_user_table.html:5
-#: app/templates/tables/user_table.html:5
-msgid "User"
-msgstr "使用者"
-
-#: app/templates/tables/user_table.html:7
-msgid "Home User"
-msgstr "家庭使用者"
 
 #: app/templates/wizard/requests.html:4
 msgid "Automatic Media Requests"
@@ -439,8 +483,7 @@ msgid ""
 "system that can automatically search for the\n"
 "    media you're looking for. "
 msgstr ""
-"我們很高興為您提供多種媒體供您選擇。 如果您找不到自己喜歡的東西，請不要擔心！"
-"\n"
+"我們很高興為您提供多種媒體供您選擇。 如果您找不到自己喜歡的東西，請不要擔心！\n"
 "    我們有一個使用者優化的請求系統，\n"
 "    可以自動搜索您正在尋找的媒體。 "
 
@@ -504,10 +547,8 @@ msgid ""
 "device - your phone, tablet, laptop, smart TV,\n"
 "        you name it."
 msgstr ""
-"Jellyfin 是一個平台，可讓您在一個地方流式傳輸所有喜愛的電影、電視節目和音樂。"
-"\n"
-"        這就像觸手可及的私人電影院！ "
-"把它想象成一个包含您最喜爱内容的數位媒體庫，\n"
+"Jellyfin 是一個平台，可讓您在一個地方流式傳輸所有喜愛的電影、電視節目和音樂。\n"
+"        這就像觸手可及的私人電影院！ 把它想象成一个包含您最喜爱内容的數位媒體庫，\n"
 "        您可以從任何地方在任何設備上瀏覽您最喜愛的內容\n"
 "        （您的手機、平板電腦、筆記型電腦、智慧電視）。"
 
@@ -525,10 +566,8 @@ msgid ""
 "        and\n"
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"再簡單不過了！Jellyfin "
-"適用於多種設備，包括筆記型電腦、平板電腦、智慧手機和電視。\n"
-"        您需要做的就是在您的設備上下載 Jellyfin 應用程序，使用您的帳戶登錄，"
-"\n"
+"再簡單不過了！Jellyfin 適用於多種設備，包括筆記型電腦、平板電腦、智慧手機和電視。\n"
+"        您需要做的就是在您的設備上下載 Jellyfin 應用程序，使用您的帳戶登錄，\n"
 "        然後\n"
 "        您就可以開始串流媒體了。 就這麼簡單！"
 
@@ -572,8 +611,7 @@ msgid ""
 msgstr ""
 "好問題！ Plex 是一種允許個人與他人共享媒體收藏的程式。\n"
 "    如果您收到此邀請，則表示有人想與您共享他們的媒體庫。\n"
-"    使用 Plex，您可以瀏覽存儲在其伺服器上的所有電影、電視節目、音樂和照片。 "
-"享受愉快！"
+"    使用 Plex，您可以瀏覽存儲在其伺服器上的所有電影、電視節目、音樂和照片。 享受愉快！"
 
 #: app/templates/wizard/plex/tips.html:15
 msgid ""
@@ -583,8 +621,7 @@ msgid ""
 "your device, sign in with your account, and\n"
 "    you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"再簡單不過了！ Plex "
-"適用於多種設備，包括筆記型電腦、平板電腦、智慧手機和電視。\n"
+"再簡單不過了！ Plex 適用於多種設備，包括筆記型電腦、平板電腦、智慧手機和電視。\n"
 "    您需要做的就是在您的設備上下載 Plex 應用程序，使用您的帳戶登錄，\n"
 "    然後您就可以開始串流媒體了。 就這麼簡單！"
 
@@ -599,8 +636,7 @@ msgid ""
 "    sharing with you - they also, by default, play content at a lower "
 "quality. "
 msgstr ""
-"因為 Plex 是一項免費服務，"
-"所以他們會在您朋友現在的精彩內容之前宣傳自己的內容\n"
+"因為 Plex 是一項免費服務，所以他們會在您朋友現在的精彩內容之前宣傳自己的內容\n"
 "    與您分享 - 默認情況下，他們還以較低質量播放內容。 "
 
 #: app/templates/wizard/plex/tips.html:26
@@ -626,3 +662,16 @@ msgstr "在您的電腦、移動裝置或電視上設置 Plex 的應用程式"
 #: app/templates/wizard/plex/tips.html:86
 msgid "Open Plex"
 msgstr "打開 Plex"
+
+#~ msgid "Change Server Settings"
+#~ msgstr "更改伺服器設定"
+
+#~ msgid "Invite Used"
+#~ msgstr "邀請使用者"
+
+#~ msgid "User"
+#~ msgstr "使用者"
+
+#~ msgid "Home User"
+#~ msgstr "家庭使用者"
+
