@@ -7,17 +7,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2023-05-16 17:27+0100\n"
 "PO-Revision-Date: 2023-02-26 23:30+0000\n"
+=======
+"POT-Creation-Date: 2023-02-27 18:41+0000\n"
+"PO-Revision-Date: 2023-05-15 18:52+0000\n"
+>>>>>>> 2a70cacdc6431b40eb4cf75fd90923b411cee55a
 "Last-Translator: Bernat <btqqryrzo@mozmail.com>\n"
+"Language-Team: Catalan <https://hosted.weblate.org/projects/wizarr/app/ca/>\n"
 "Language: ca\n"
-"Language-Team: Catalan "
-"<https://hosted.weblate.org/projects/wizarr/app/ca/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+<<<<<<< HEAD
 "Generated-By: Babel 2.12.1\n"
+=======
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.18-dev\n"
+"Generated-By: Babel 2.11.0\n"
+>>>>>>> 2a70cacdc6431b40eb4cf75fd90923b411cee55a
 
 #: app/admin.py:150
 msgid "Passwords do not match."
@@ -112,10 +121,14 @@ msgstr "Confirma la contrassenya"
 msgid "Create an account"
 msgstr "Crea un compte"
 
+<<<<<<< HEAD
 #: app/templates/settings.html:9
 #, fuzzy
+=======
+#: app/templates/settings.html:7
+>>>>>>> 2a70cacdc6431b40eb4cf75fd90923b411cee55a
 msgid "Server Settings"
-msgstr "Canvia la configuració del servidor"
+msgstr "Configuració del servidor"
 
 #: app/templates/settings.html:27
 msgid ""
@@ -125,10 +138,14 @@ msgstr ""
 "Nom públic\n"
 "del servidor"
 
+<<<<<<< HEAD
 #: app/templates/settings.html:35
 #, fuzzy
+=======
+#: app/templates/settings.html:19
+>>>>>>> 2a70cacdc6431b40eb4cf75fd90923b411cee55a
 msgid "Server"
-msgstr "Mai"
+msgstr "Servidor"
 
 #: app/templates/settings.html:48
 msgid "Server URL"
@@ -165,7 +182,7 @@ msgstr ""
 
 #: app/templates/settings.html:87
 msgid "Ombi API Key (Only used for user import currently.)"
-msgstr ""
+msgstr "Clau API Ombi (Només usada per importar usuaris)"
 
 #: app/templates/settings.html:94
 msgid ""
@@ -370,11 +387,11 @@ msgstr "Crea un compte"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
-msgstr ""
+msgstr "Configuració d'usuari"
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
-msgstr ""
+msgstr "Política d'usuari"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
@@ -436,9 +453,8 @@ msgid "Cancel"
 msgstr ""
 
 #: app/templates/tables/global-users.html:13
-#, fuzzy
 msgid "Name"
-msgstr "Nom d'usuari"
+msgstr "Nom"
 
 #: app/templates/tables/global-users.html:16
 #: app/templates/tables/invite_table.html:7
@@ -446,9 +462,8 @@ msgid "Expires"
 msgstr "Expira"
 
 #: app/templates/tables/global-users.html:22
-#, fuzzy
 msgid "Actions"
-msgstr "Invitacions"
+msgstr "Accions"
 
 #: app/templates/tables/invite_table.html:5
 msgid "Used"
@@ -809,6 +824,7 @@ msgstr "Obre Plex"
 
 #~ msgid "Great!"
 #~ msgstr "Genial!"
+<<<<<<< HEAD
 
 #~ msgid "Change Server Settings"
 #~ msgstr "Canvia la configuració del servidor"
@@ -822,3 +838,5 @@ msgstr "Obre Plex"
 #~ msgid "Home User"
 #~ msgstr "Usuari local"
 
+=======
+>>>>>>> 2a70cacdc6431b40eb4cf75fd90923b411cee55a
