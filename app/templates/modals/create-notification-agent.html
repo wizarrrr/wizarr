@@ -31,7 +31,8 @@
                             {{ _("New Agent") }}
                         </h1>
                     </div>
-                    <p class="mt-2 pb-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ error }}</p>
+                    <p class="mt-2 pb-2 text-sm text-red-600 dark:text-red-500"><span
+                        class="font-medium">{{ error }}</span></p>
                     <form class="space-y-4 md:space-y-6" hx-post="{{ url_for(request.endpoint) }}"
                           hx-target="#content"
                           hx-swap="innerHTML">
@@ -55,18 +56,19 @@
                             </select>
                         </div>
                         <div id="credentialsSection" style="display: none;">
-                            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username
-                                (optional)</label>
+                            <label for="username"
+                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username
+                                (optional)") }}</label>
                             <input type="text" name="username" id="username"
                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password
-                                (optional)</label>
+                            <label for="password"
+                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Password (optional)") }}</label>
                             <input type="password" name="password" id="password"
                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                         <div>
-                            <label for="url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Agent
-                                URL</label>
+                            <label for="url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Agent
+                                URL") }}</label>
                             <input type="url" name="url" id="url" placeholder="e.g. https://example.com"
                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                    required>
@@ -76,11 +78,11 @@
                         <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-gray-800">
                             <button type="submit"
                                     class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:ml-3 sm:w-auto">
-                                Test & Create Agent
+                                {{ _("Test & Create Agent") }}
                             </button>
                             <button onclick="closeModal()" type="button"
                                     class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
-                                Cancel
+                                {{ _("Cancel") }}
                             </button>
                         </div>
                     </form>

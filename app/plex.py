@@ -18,7 +18,7 @@ def plex_handle_oauth_token(token, code):
                                                            ) if Invitations.get(code=code).duration else None
     user = Users.create(token=token, email=email,
                         username=MyPlexAccount(token).username, code=code, expires=expires)
-    notify("plex_new", email)
+    notify("User Joined", f"User {user.email} has joined your server!", "tada")
     user.save()
     threading.Thread(target=plex_setup_user, args=(token,)).start()
 
