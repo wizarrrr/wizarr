@@ -68,7 +68,7 @@ def jf_invite_user(username, password, code, email):
         # Create user and set expiration date
         expires = (datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration))) if Invitations.get(code=code).duration else None
         Users.create(username=username, email=email, password=password, token=user_id, code=code, expires=expires)
-        notify("jellyfin_new", email)
+        notify("New User", f"User {username} has joined your server!", "tada")
 
         # Update invitation status again
         if invitation:
