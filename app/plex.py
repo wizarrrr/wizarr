@@ -18,7 +18,7 @@ def plex_handle_oauth_token(token, code):
                                                            ) if Invitations.get(code=code).duration else None
     user = Users.create(token=token, email=email,
                         username=MyPlexAccount(token).username, code=code, expires=expires)
-    notify("User Joined", f"User {user.email} has joined your server!", "tada")
+    notify("User Joined", f"User {MyPlexAccount(token).username} has joined your server!", "tada")
     user.save()
     threading.Thread(target=plex_setup_user, args=(token,)).start()
 
@@ -91,31 +91,35 @@ def plex_delete_user(id):
 
 
 def plex_invite_user(email, code):
-    plex_get_users.cache_clear()
-    sections = list(
-        (Settings.get(Settings.key == "libraries").value).split(", "))
-    plex_url = Settings.get(Settings.key == "server_url").value
-    plex_token = Settings.get(Settings.key == "api_key").value
-    admin = PlexServer(plex_url, plex_token)
-    invitation = Invitations.select().where(Invitations.code == code).first()
-    if invitation.specific_libraries != None:
-        sections = list(invitation.specific_libraries.split(", "))
     try:
-        allowSync = True if invitation.plex_allow_sync == 1 else False
-    except:
-        allowSync = False
-    if Invitations.select().where(Invitations.code == code, Invitations.plex_home == 1):
-        admin.myPlexAccount().createExistingUser(user=email, server=admin, sections=sections, allowSync=allowSync)
-    else:
-        admin.myPlexAccount().inviteFriend(user=email, server=admin, sections=sections, allowSync=allowSync)
-    
-    logging.info("Invited " + email + " to Plex Server")
-    if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
-        Invitations.update(used=True, used_at=datetime.datetime.now().strftime(
-            "%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
-    else:
-        Invitations.update(used_at=datetime.datetime.now().strftime(
-            "%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
+        plex_get_users.cache_clear()
+        sections = list(
+            (Settings.get(Settings.key == "libraries").value).split(", "))
+        plex_url = Settings.get(Settings.key == "server_url").value
+        plex_token = Settings.get(Settings.key == "api_key").value
+        admin = PlexServer(plex_url, plex_token)
+        invitation = Invitations.select().where(Invitations.code == code).first()
+        if invitation.specific_libraries != None:
+            sections = list(invitation.specific_libraries.split(", "))
+        try:
+            allowSync = True if invitation.plex_allow_sync == 1 else False
+        except:
+            allowSync = False
+        if Invitations.select().where(Invitations.code == code, Invitations.plex_home == 1):
+            admin.myPlexAccount().createExistingUser(user=email, server=admin, sections=sections, allowSync=allowSync)
+        else:
+            admin.myPlexAccount().inviteFriend(user=email, server=admin, sections=sections, allowSync=allowSync)
+        
+        logging.info("Invited " + email + " to Plex Server")
+        if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
+            Invitations.update(used=True, used_at=datetime.datetime.now().strftime(
+                "%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
+        else:
+            Invitations.update(used_at=datetime.datetime.now().strftime(
+                "%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
+    except Exception as e:
+        logging.error("Failed to invite user: " + str(e))
+        notify("Wizarr Error", "Wizarr Failed to Invite user: " + str(e), "skull")
     return
 
 
@@ -129,6 +133,8 @@ def plex_setup_user(token):
         user.enableViewStateSync()
     except Exception as e:
         logging.error("Failed to setup user: " + str(e))
+        
+        
 
 
 def plex_opt_out_online_sources(token):
