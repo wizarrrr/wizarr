@@ -154,7 +154,7 @@ def preferences():
 
             if len(password) < 3 or len(password) > 40:
                 return render_template("register_admin.html", error=_("Password must be between 3 and 40 characters."))
-            hash = generate_password_hash(password, "sha256")
+            hash = generate_password_hash(password, "scrypt")
             settings['admin_username'].value = username
             settings['admin_username'].save()
             settings['admin_password'].value = hash
@@ -325,6 +325,11 @@ def login():
         if Settings.get(Settings.key == "admin_username").value == username:
             if check_password_hash(Settings.get(Settings.key == "admin_password").value, password):
 
+                # Migrate to scrypt
+                if Settings.get(Settings.key == "admin_password").value.startswith("sha256"):
+                    new_hash = generate_password_hash(password, method='scrypt')
+                    Settings.update(value=new_hash).where(Settings.key == "admin_password").execute()
+
                 key = ''.join(random.choices(
                     string.ascii_uppercase + string.digits, k=20))
                 session["admin_key"] = key
@@ -408,7 +413,7 @@ def create_notification():
                                                                                                     "Webhook"))
                 resp.headers['HX-Retarget'] = '#create-modal'
                 return resp
-        
+
         elif form["notification_service"] == "ntfy":
             if notify_ntfy("Wizarr here! Can you hear me?", "Wizarr", "tada", form["url"], username=form["username"],
                            password=form["password"]):
