@@ -325,8 +325,8 @@ def login():
         if Settings.get(Settings.key == "admin_username").value == username:
             if check_password_hash(Settings.get(Settings.key == "admin_password").value, password):
 
-                # Migrate to scrypt
-                if Settings.get(Settings.key == "admin_password").value.startswith("sha256"):
+                # Migrate to scrypt from sha 256
+                if Settings.get(Settings.key == "admin_password").value.startswith("sha256"): 
                     new_hash = generate_password_hash(password, method='scrypt')
                     Settings.update(value=new_hash).where(Settings.key == "admin_password").execute()
 
