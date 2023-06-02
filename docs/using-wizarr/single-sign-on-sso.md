@@ -15,9 +15,9 @@ In order to make the invitation process available for non signed in users, make 
 ```
     - domain: wizarr.domain.com
       resources:
-        - '^/join(/.*)?$
+        - '^/join(/.*)?$'
         - '^/j(/.*)?$'
-        - '^/static/.*)?$'
+        - '^/static(/.*)?$'
         - '^/setup(/.*)?$'
       policy: bypass
 ```
