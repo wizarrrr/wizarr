@@ -15,18 +15,18 @@ In order to make the invitation process available for non signed in users, make 
 ```
     - domain: wizarr.domain.com
       resources:
-        - '^/join(/.*)?$'
-        - '^/j(/.*)?$'
-        - '^/static(/.*)?$'
-        - '^/setup(/.*)?$'
+        - '^/j/'
+        - '^/join/'
+        - '^/setup/*'
+        - '^/static/'
       policy: bypass
 ```
 {% endtab %}
 
 {% tab title="Authentik/Other" %}
 ```
-- '^/join/'
 - '^/j/'
+- '^/join/'
 - '^/setup/*'
 - '^/static/'
 ```
