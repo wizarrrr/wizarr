@@ -157,8 +157,8 @@ def join_jellyfin():
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Please fill out all fields",)
 
     # check password validity
-    if not (len(password) >= min_password_length and len(password) <= max_password_length):
-        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Password must be between 8 and 20 characters")
+    if not (min_password_length <= len(password) <= max_password_length):
+        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error=f"Password must be between {min_password_length} and {max_password_length} characters")
 
     if password != confirm_password:
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Passwords do not match")
