@@ -147,15 +147,17 @@ def join_jellyfin():
     confirm_password = request.form.get('confirm-password')
     code = request.form.get('code')
     email = request.form.get("email")
+    min_password_length = int(os.getenv("MIN_PASSWORD_LENGTH", "8"))
+    max_password_length = int(os.getenv("MAX_PASSWORD_LENGTH", "20"))
 
     if not (re.fullmatch(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b', email)):
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Invalid email addres")
 
     if not username or not password or not code or not email:
-        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Please fill out all fields")
+        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Please fill out all fields",)
 
     # check password validity
-    if not (len(password) >= 8 and len(password) <= 20):
+    if not (len(password) >= min_password_length and len(password) <= max_password_length):
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Password must be between 8 and 20 characters")
 
     if password != confirm_password:
