@@ -1,5 +1,8 @@
 import requests
 import datetime
+
+from password_strength import PasswordPolicy
+
 from app import *
 from app.notifications import notify
 from app.helpers import is_invite_valid
@@ -147,16 +150,31 @@ def join_jellyfin():
     confirm_password = request.form.get('confirm-password')
     code = request.form.get('code')
     email = request.form.get("email")
+    min_password_length = int(os.getenv("MIN_PASSWORD_LENGTH", "8"))
+    max_password_length = int(os.getenv("MAX_PASSWORD_LENGTH", "20"))
+    min_password_uppercase = int(os.getenv("MIN_PASSWORD_UPPERCASE", "1"))
+    min_password_numbers = int(os.getenv("MIN_PASSWORD_NUMBERS", "1"))
+    min_password_special = int(os.getenv("MIN_PASSWORD_SPECIAL", "0"))
+
+    password_policy = PasswordPolicy.from_names(
+        length=min_password_length,
+        uppercase=min_password_uppercase,
+        numbers=min_password_numbers,
+        special=min_password_special,
+    )
 
     if not (re.fullmatch(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b', email)):
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Invalid email addres")
 
     if not username or not password or not code or not email:
-        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Please fill out all fields")
+        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Please fill out all fields",)
 
     # check password validity
-    if not (len(password) >= 8 and len(password) <= 20):
-        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Password must be between 8 and 20 characters")
+    if not (min_password_length <= len(password) <= max_password_length):
+        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error=f"Password must be between {min_password_length} and {max_password_length} characters")
+
+    if len(password_policy.test(password)) > 0:
+        return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error=f"Password must contain {min_password_uppercase} uppercase, {min_password_numbers} numbers and {min_password_special} special characters")
 
     if password != confirm_password:
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Passwords do not match")

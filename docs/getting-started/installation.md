@@ -28,6 +28,11 @@ services:
       - /path/to/appdata/config:/data/database
     environment:
       - APP_URL=https://wizarr.domain.com #URL at which you will access and share 
+      - MIN_PASSWORD_LENGTH=8 # Minimum password length required for new users (default: 8)
+      - MAX_PASSWORD_LENGTH=20 # Maximum password length for new users (default: 20)
+      - MIN_PASSWORD_UPPERCASE=1 # Minimum password chars that are uppercase (default: 1)
+      - MIN_PASSWORD_NUMBERS=1 # Minimum password chars that are numbers (default: 1)
+      - MIN_PASSWORD_SPECIAL=0 # Minimum password chars that are special (default: 0)
       - DISABLE_BUILTIN_AUTH=false #Set to true ONLY if you are using another auth provider (Authelia, Authentik, etc)
       - TZ=Europe/London #Set your timezone here
 ```
