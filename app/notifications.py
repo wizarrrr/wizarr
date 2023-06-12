@@ -12,6 +12,8 @@ def notify(title, message, tags):
             notify_discord(message, agents.url)
         elif agents.type == "ntfy":
             notify_ntfy(message, title, tags, agents.url, agents.username, agents.password)
+        elif agents.type == "telegram":
+            notify_telegram(message, agents.url, agents.username)
 
 
 def notify_discord(message, webhook_url):
@@ -22,6 +24,13 @@ def notify_discord(message, webhook_url):
         logging.error(f"Failed to send Discord message. URL is invalid: {webhook_url}")
     return success
 
+def notify_telegram(message, bot_token, chat_id):
+    data = json.dumps({"chat_id": chat_id, "text": message})
+    headers = {"Content-Type": "application/json"}
+    success = send_request(f"https://api.telegram.org/bot{bot_token}/sendMessage", data, headers)
+    if not success:
+        logging.error(f"Failed to send Telegram message. Invalid bot token or chat ID")
+    return success
 
 def notify_ntfy(message, title, tags, url, username, password):
     headers = {"Title": title,
