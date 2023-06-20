@@ -399,9 +399,11 @@ def create_notification():
             "url": request.form.get("url"),
             "notification_service": request.form.get("notification_service"),
             "username": request.form.get("username") if request.form.get("username") else None,
-            "password": request.form.get("password") if request.form.get("password") else None
-
+            "password": request.form.get("password") if request.form.get("password") else None,
+            "userkey": request.form.get("userkey") if request.form.get("userkey") else None,
+            "apitoken": request.form.get("apitoken") if request.form.get("apitoken") else None
         }
+        
         if form["notification_service"] == "discord":
             if notify_discord("Wizarr here! Can you hear me?", form["url"]):
                 Notifications.create(name=form["name"], url=form["url"], type=form["notification_service"])
@@ -428,9 +430,21 @@ def create_notification():
                                                                                                     "to Ntfy"))
                 resp.headers['HX-Retarget'] = '#create-modal'
                 return resp
-
+            
+        elif form["notification_service"] == "pushover":
+            if notify_pushover("Wizarr here! Can you hear me?", "Wizarr", form["url"], username=form["userkey"], password=form["apitoken"]):
+                Notifications.create(name=form["name"], url=form["url"], type=form["notification_service"], username=form["userkey"], password=form["apitoken"])
+                return redirect("/settings/notifications")
+            else:
+                print("error")
+                resp = make_response(render_template("modals/create-notification-agent.html", error="Could not Connect to Pushover"))
+                resp.headers['HX-Retarget'] = '#create-modal'
+                return resp
+            
     else:
         return render_template("modals/create-notification-agent.html")
+    
+    logging.info("A user created a new notification agent")
 
 
 @app.route('/users')

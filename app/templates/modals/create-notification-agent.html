@@ -53,6 +53,7 @@
                                 <option selected>Choose a service</option>
                                 <option value="ntfy">Ntfy</option>
                                 <option value="discord">Discord</option>
+                                <option value="pushover">Pushover</option>
                             </select>
                         </div>
                         <div id="credentialsSection" style="display: none;">
@@ -64,6 +65,16 @@
                             <label for="password"
                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Password (optional)") }}</label>
                             <input type="password" name="password" id="password"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+                        <div id="credentialsSectionPushover" style="display: none;">
+                            <label for="userkey"
+                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("User Key") }}</label>
+                            <input type="text" name="userkey" id="userkey"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <label for="apitoken"
+                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("API Token") }}</label>
+                            <input type="text" name="apitoken" id="apitoken"
                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                         <div>
@@ -99,11 +110,34 @@
     }
 
     function toggleCredentials(value) {
+
+        const agentURL = document.getElementById('url');
+
+        // Better Placeholder Text for Agent URL
+        if (value === 'ntfy') {
+            agentURL.placeholder = 'e.g. https://example.com';
+        } else if (value === 'discord') {
+            agentURL.placeholder = 'e.g. https://discord.com/api/webhooks/123456789/abcde';
+        } else if (value === 'pushover') {
+            agentURL.placeholder = 'e.g. https://api.pushover.net/1/messages.json';
+        }
+
+        // Clear Agent URL value when changing service because Pushover gets automatically populated
+        agentURL.value = '';
+
         const credentialsSection = document.getElementById('credentialsSection');
         if (value === 'ntfy') {
             credentialsSection.style.display = 'block';
         } else {
             credentialsSection.style.display = 'none';
+        }
+
+        const credentialsSectionPushover = document.getElementById('credentialsSectionPushover');
+        if (value === 'pushover') {
+            credentialsSectionPushover.style.display = 'block';
+            agentURL.value = 'https://api.pushover.net/1/messages.json';
+        } else {
+            credentialsSectionPushover.style.display = 'none';
         }
     }
 </script>
