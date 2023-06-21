@@ -14,6 +14,8 @@ def notify(title, message, tags):
             notify_ntfy(message, title, tags, agents.url, agents.username, agents.password)
         elif agents.type == "telegram":
             notify_telegram(message, agents.url, agents.username)
+        elif agents.type == "pushover":
+            notify_pushover(message, title, agents.url, agents.username, agents.password)
 
 
 def notify_discord(message, webhook_url):
@@ -46,6 +48,16 @@ def notify_ntfy(message, title, tags, url, username, password):
         logging.error(f"Failed to send ntfy message. Invalid URL")
     return success
 
+def notify_pushover(message, title, url, username, password):
+    data = json.dumps({"token": password, "user": username, "message": message, "title": title})
+    headers = {"Content-Type": "application/json"}
+    
+    success = send_request(url, data, headers)
+    if not success:
+        logging.error(f"Failed to send Pushover message. Invalid URL or Token")
+    return success
+    
+            
 
 def send_request(url, data, headers):
     try:
