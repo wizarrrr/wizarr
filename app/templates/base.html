@@ -46,6 +46,21 @@
 
   <script src="{{url_for('static', filename='js/dark-mode-switch.js')}}"></script>
 
+<script>
+var navbarContainer = document.querySelector('#navbar-default');
+navbarContainer.addEventListener('click', function(event) {
+  if (event.target.tagName === 'BUTTON') {
+    var hxGet = event.target.getAttribute('hx-get');
+    hxGet = hxGet.replace(/[^a-zA-Z0-9-]/g, '');
+    history.pushState(null, null, '/admin/' + hxGet);
+  }
+});
+
+var hxGet = window.location.pathname.replace('/admin', '');
+if (hxGet == '/settings') hxGet = '/settings/';
+if (hxGet) htmx.ajax('GET', hxGet, '#content');
+</script>
+
 </body>
 
 
