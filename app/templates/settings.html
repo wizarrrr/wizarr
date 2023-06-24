@@ -115,6 +115,14 @@
                                value="{% if discord_id %}{{ discord_id }}{% endif %}"
                                placeholder="Optional, leave empty to disable">
                     </div>
+                    <div>
+                        <label for="discord_widget" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Discord
+                Widget") }}</label>
+                        <div class="switch">
+                          <input type="checkbox" name="discord_widget" {% if discord_widget == "on" %} checked {% endif %} id="discord_toggle_checkbox">
+                          <span class="slider round" id="discord_toggle"></span>
+                        </div>
+                    </div>
                     <div class="mb-6">
                         <label for="custom_html" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Custom
                 HTML") }}</label>
@@ -130,7 +138,172 @@
         </div>
     </div>
 </section>
+<style>
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
 
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+<script>
+    function scanLibraries() {
+        document.getElementById('settings').classList.remove('animate__shakeX');
+        if (document.getElementById("server_type").value == "jellyfin") {
+
+            var container = document.getElementById("libraries");
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
+            }
+            var jellyfin_url = document.getElementById("server_url").value;
+
+            //enocde the url
+            jellyfin_url = encodeURIComponent(jellyfin_url);
+
+            var jellyfin_api_key = document.getElementById("api_key").value;
+            var url = "/jf-scan?jellyfin_url=" + jellyfin_url + "&jellyfin_api_key=" + jellyfin_api_key;
+
+            var i = 0;
+
+            fetch(url, {
+                method: "POST"
+            })
+                .then((response) => response.json())
+                .then(function (data) {
+                    for (var [key, value] of Object.entries(data)) {
+                        i = i + 1;
+                        var checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        checkbox.name = "library_" + i;
+                        checkbox.className =
+                            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+                        checkbox.value = value;
+                        var label = document.createElement("label");
+                        label.for = "library_" + i;
+                        label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
+                        label.innerHTML = key;
+
+                        var structure = document.createElement("div");
+                        structure.className = "flex items-center mb-4";
+                        container.appendChild(structure);
+                        container.appendChild(checkbox);
+                        container.appendChild(label);
+
+                        var library_count_helper = document.getElementById("library_count");
+                        library_count_helper.value = i;
+                    }
+                })
+                .catch(function (error) {
+                    var error_message = document.createElement("p");
+                    error_message.innerHTML = "Error: Please Check Your Jellyfin URL and Token";
+                    error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
+                    container.appendChild(error_message);
+                    document.getElementById('settings').classList.add('animate__shakeX');
+                })
+        }
+
+
+        if (document.getElementById("server_type").value == "plex") {
+
+            var container = document.getElementById("libraries");
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
+            }
+            var plex_url = document.getElementById("server_url").value;
+            var plex_token = document.getElementById("api_key").value;
+
+            //encode the url
+            plex_url = encodeURIComponent(plex_url);
+
+
+            url = "/scan?plex_url=" + plex_url + "&plex_token=" + plex_token;
+            const response = fetch(url, {
+                method: "POST"
+            }).then((response) => response.json())
+                .then(function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        checkbox.name = "library_" + i;
+                        checkbox.className =
+                            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+                        checkbox.value = data[i];
+                        var label = document.createElement("label");
+                        label.for = "library_" + i;
+                        label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
+                        label.innerHTML = data[i];
+
+                        var structure = document.createElement("div");
+                        structure.className = "flex items-center mb-4";
+                        container.appendChild(structure);
+                        container.appendChild(checkbox);
+                        container.appendChild(label);
+
+                        var library_count_helper = document.getElementById("library_count");
+                        library_count_helper.value = i;
+                    }
+                })
+                .catch(function (error) {
+                    var error_message = document.createElement("p");
+                    error_message.innerHTML = "Error: Please Check Your Server URL and Token";
+                    error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
+                    container.appendChild(error_message);
+                    document.getElementById('settings').classList.add('animate__shakeX');
+                })
+        }
+    }
+</script>
 <script>
     function scanLibraries() {
         document.getElementById('settings').classList.remove('animate__shakeX');
@@ -321,4 +494,16 @@
 
     // Add event listener
     serverTypeSelect.addEventListener("change", handleServerTypeChange);
+</script>
+<script>
+    var discord_toggle = document.getElementById("discord_toggle");
+    var discord_toggle_checkbox = document.getElementById("discord_toggle_checkbox");
+
+    discord_toggle.addEventListener("click", function () {
+        if (discord_toggle_checkbox.checked == true) {
+            discord_toggle_checkbox.checked = false;
+        } else {
+            discord_toggle_checkbox.checked = true;
+        }
+    });
 </script>
