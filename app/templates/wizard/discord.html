@@ -40,7 +40,7 @@
 <script>
 // Fetch discord server data
 async function fetchDiscordServerData() {
-    const response = await fetch('https://discord.com/api/guilds/{{ discord_id }}/widget.json', { cache: 'no-cache' });
+    const response = await fetch('https://discord.com/api/guilds/{{ discord_id }}/widget.json', { cache: 'no-store' });
     const data = await response.json();
     return data;
 }
@@ -72,6 +72,12 @@ async function fillDiscordServerData() {
         if (element.status == "online") {
             usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('bg-green-500');
             usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('dark:bg-green-500');
+        } else if (element.status == "idle") {
+            usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('bg-yellow-500');
+            usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('dark:bg-yellow-500');
+        } else if (element.status == "dnd") {
+            usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('bg-red-500');
+            usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('dark:bg-red-500');
         } else {
             usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('bg-gray-500');
             usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('dark:bg-gray-500');
