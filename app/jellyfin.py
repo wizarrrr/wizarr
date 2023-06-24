@@ -11,6 +11,7 @@ import logging
 import re
 import time
 from peewee import PeeweeException
+from app.mediarequest import *
 
 def Post(path, data):
     jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
@@ -71,6 +72,11 @@ def jf_invite_user(username, password, code, email):
         # Create user and set expiration date
         expires = (datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration))) if Invitations.get(code=code).duration else None
         Users.create(username=username, email=email, password=password, token=user_id, code=code, expires=expires)
+        
+        # Add user to Request Server
+        mediarequest_import_users([user_id])
+        
+        # Notify admin of new user
         notify("New User", f"User {username} has joined your server!", "tada")
 
         # Update invitation status again
@@ -184,6 +190,7 @@ def join_jellyfin():
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error=message)
     
     jf_get_users()
+    
     if Users.select().where(Users.username == username).exists():
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="User already exists")
     if Users.select().where(Users.email == email).exists():

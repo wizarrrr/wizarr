@@ -91,11 +91,12 @@ class Settings(BaseModel):
 
 class Users(BaseModel):
     id = IntegerField(primary_key=True)
-    token = CharField()  # Plex Token or Jellyfin ID
+    token = CharField()  # Plex ID or Jellyfin ID
     username = CharField()
     email = CharField()
     code = CharField()
     expires = DateTimeField(null=True)
+    auth = CharField(null=True)
 
 
 class Notifications(BaseModel):
@@ -114,4 +115,4 @@ database.create_tables(
 if __name__ == "__main__":
     app.run()
 
-from app import admin, web, plex, tasks, jellyfin, helpers, ombi, universal, notifications
+from app import admin, web, plex, tasks, jellyfin, helpers, universal, notifications, mediarequest

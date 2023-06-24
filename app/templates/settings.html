@@ -35,7 +35,7 @@
                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server") }}</label>
                         <select name="server_type" id="server_type"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option {% if not server_type %} selected {% endif %} >Choose a server</option>
+                            <option {% if not server_type %} selected {% endif %} disabled>Choose a server</option>
                             <option {% if server_type == "jellyfin" %} selected {% endif %} value="jellyfin">Jellyfin
                                 (or Emby)
                             </option>
@@ -72,24 +72,41 @@
                         </div>
 
                     </div>
-                    <div>
-                        <label for="requests_url"
-                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request
-                instance (Ombi, Overseerr...) URL") }}</label>
 
-                        <input type="url" name="overseerr_url" id="requests_url"
+                    <div id="requests_type_block">
+                        <label for="requests_type"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request
+                Server") }}</label>
+                        <select name="request_type" id="request_type"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option {% if not request_type %} selected {% endif %} value="">Disabled</option>
+                            <option {% if request_type == "jellyseerr" %} selected {% endif %} value="jellyseerr" {% if server_type == "plex" %} disabled {% endif%}>Jellyseerr</option>
+                            <option {% if request_type == "overseerr" %} selected {% endif %} value="overseerr" {% if server_type == "jellyfin" %} disabled {% endif%}>Overseerr</option>
+                            <option {% if request_type == "ombi" %} selected {% endif %} value="ombi">Ombi</option>
+                            </option>
+                        </select>
+                    </div>
+
+                    <div id="request_url_block" class="hidden">
+                        <label for="request_url"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request
+                Server URL") }}</label>
+
+                        <input type="url" name="request_url" id="request_url"
                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               value="{% if overseerr_url %}{{ overseerr_url }}{% endif %}"
+                               value="{% if request_url %}{{ request_url }}{% endif %}"
                                placeholder="Optional, leave empty to disable">
                     </div>
-                    <div id="ombi_api" class="hidden">
-                        <label for="ombi_api_key"
-                               class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">{{ _("Ombi API Key (Only used for user import currently.)") }}</label>
-                        <input type="text" name="ombi_api_key" id="ombi_api_key"
+
+                    <div id="request_api_block" class="hidden">
+                        <label for="request_api_key"
+                               class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request
+                Server API Key") }}</label>
+                        <input type="text" name="request_api_key" id="request_api_key"
                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               value="{% if ombi_api_key %}{{ ombi_api_key }}{% endif %}"
-                               placeholder="Optional, leave empty to disable">
+                               value="{% if request_api_key %}{{ request_api_key }}{% endif %}">
                     </div>
+                    
                     <div>
                         <label for="discord_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Discord
                 Server ID") }}</label>
@@ -222,14 +239,86 @@
     }
 </script>
 <script>
-    // when user types in field `requests_url`, and requests url is not empty, remove hiden form `ombi_api` div, if not add the hidden class
-    document.getElementById("requests_url").addEventListener("input", function () {
-        if (document.getElementById("requests_url").value != "") {
-            document.getElementById("ombi_api").classList.remove("hidden");
+    // Get the request type select and request url input elements
+    var requestTypeSelect = document.getElementById("request_type");
+    var requestUrlInput = document.getElementById("request_url");
+    var requestApiInput = document.getElementById("request_api_key");
+
+    var requestTypeBlock = document.getElementById("request_type_block");
+    var requestUrlBlock = document.getElementById("request_url_block");
+    var requestApiBlock = document.getElementById("request_api_block");
+
+    // Function to handle the change event of the request type select
+    function handleRequestTypeChange() {
+      // Check if the request type select is set to an option
+      if (requestTypeSelect.children[0].selected) {
+        // Hide the request url input and request api input
+        requestUrlBlock.style.display = "none";
+        requestApiBlock.style.display = "none";
+      } else {
+        // Show the request url input
+        requestUrlBlock.style.display = "block";
+
+        // Check if the request url input is not empty
+        if (requestUrlInput.value !== "") {
+          // Show the request api input
+          requestApiBlock.style.display = "block";
         } else {
-            document.getElementById("ombi_api").classList.add("hidden");
+          // Hide the request api input
+          requestApiBlock.style.display = "none";
         }
-    });
+      }
+    }
 
+    // Function to handle the input event of the request url input
+    function handleRequestUrlInput() {
+      // Check if the request url input is not empty
+      if (requestUrlInput.value !== "") {
+        // Show the request api input
+        requestApiBlock.style.display = "block";
+      } else {
+        // Hide the request api input
+        requestApiBlock.style.display = "none";
+      }
+    }
 
+    // Add event listeners
+    requestTypeSelect.addEventListener("change", handleRequestTypeChange);
+    requestUrlInput.addEventListener("input", handleRequestUrlInput);
+
+    // Run the initial check on page load
+    handleRequestTypeChange();
+
+</script>
+<script>
+    // Get the request_type select element and server_type select element
+    var requestTypeSelect = document.getElementById("request_type");
+    var serverTypeSelect = document.getElementById("server_type");
+
+    // If server_type is set to "plex" (child 2) then set the request_type "jellyseerr" (child 1) to disabled
+    // If server_type is set to "jellyfin" (child 1) then set the request_type "overseerr" (child 2) to disabled
+    // If request_type is selected when attempting to disable it then set the request_type to (child 0)
+    function handleServerTypeChange() {
+      if (serverTypeSelect.children[2].selected) {
+        requestTypeSelect.children[2].disabled = false;
+        requestTypeSelect.children[1].disabled = true;
+
+        if (requestTypeSelect.children[1].selected) {
+            requestTypeSelect.children[0].selected = true;
+            handleRequestTypeChange();
+        }
+
+      } else if (serverTypeSelect.children[1].selected) {
+        requestTypeSelect.children[1].disabled = false;
+        requestTypeSelect.children[2].disabled = true;
+
+        if (requestTypeSelect.children[2].selected) {
+            requestTypeSelect.children[0].selected = true;
+            handleRequestTypeChange();
+        }
+      }
+    }
+
+    // Add event listener
+    serverTypeSelect.addEventListener("change", handleServerTypeChange);
 </script>

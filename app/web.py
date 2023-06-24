@@ -4,7 +4,6 @@ import os.path
 from flask import request, redirect, render_template, make_response, send_from_directory
 from app import app, Invitations, Settings, get_locale
 from app.plex import *
-from app.ombi import *
 from app.helpers import *
 import threading
 
@@ -53,8 +52,6 @@ def connect():
 
 @app.route('/setup', methods=["GET"])
 def setup():
-    ombi_run_all_user_importers()
-
     resp = make_response(render_template(
         "wizard.html", server_type=Settings.get(Settings.key == "server_type").value, server_url=Settings.get(Settings.key == "server_url").value))
     resp.set_cookie('current', "0")
@@ -98,7 +95,7 @@ def wizard(action):
     # Build list of steps
     steps = [f"wizard/{server_type}/download.html",]
 
-    if settings.get("overseerr_url"):
+    if settings.get("request_url"):
         steps.append("wizard/requests.html")
 
     if settings.get("discord_id"):
@@ -117,7 +114,7 @@ def wizard(action):
             steps[next_step], videos=videos,
             video_lang=video_lang,
             discord_id=settings.get("discord_id"),
-            overseerr_url=settings.get("overseerr_url"),
+            request_url=settings.get("request_url"),
             custom_html=settings.get("custom_html"),
             server_url=settings.get("server_url"),
             next=True))
@@ -132,7 +129,7 @@ def wizard(action):
             steps[prev_step], videos=videos,
             video_lang=video_lang,
             discord_id=settings.get("discord_id"),
-            overseerr_url=settings.get("overseerr_url"),
+            request_url=settings.get("request_url"),
             custom_html=settings.get("custom_html"),
             server_url=settings.get("server_url"),
             prev=True))
