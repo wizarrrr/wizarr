@@ -14,17 +14,17 @@
             <h3 class="text-s font-semibold uppercase text-gray-400 mb-1" id="discordChannel">#unknown</h3>
             <h3 class="text-xs font-semibold uppercase text-gray-500 mb-2">MEMBERS ONLINE</h3>
 
-            <span id="usersOnlineList">
-                <div class="flex mb-1 hidden" id="usersOnlineListTemplate">
-                    <div class="w-16 h-16 relative" style="margin-right: 7px;">
-                        <img class="rounded-full w-5" id="discordPicture" alt="Profile Picture">
-                        <span class="bg-green-500 dark:bg-green-500 rounded-full absolute bottom-0 right-0" style="width: 6px; height: 6px; margin-bottom: 1px; margin-right: 1px;"></span>
-                    </div>
-                    <div class="">
-                        <h5 class="text-sm font-semibold text-gray-900 dark:text-white" id="discordUsername">realashleybailey</h5>
-                    </div>
+            <span id="usersOnlineList"></span>
+
+            <div class="flex mb-1 hidden" id="usersOnlineListTemplate">
+                <div class="w-16 h-16 relative" style="margin-right: 7px;">
+                    <img class="rounded-full w-5" id="discordPicture" alt="Profile Picture">
+                    <span class="rounded-full absolute bottom-0 right-0" id="discordOnline" style="width: 6px; height: 6px; margin-bottom: 1px; margin-right: 1px;"></span>
                 </div>
-            </span>
+                <div class="">
+                    <h5 class="text-sm font-semibold text-gray-900 dark:text-white" id="discordUsername">realashleybailey</h5>
+                </div>
+            </div>
         </div>
 
         <span class="flex border-b border-gray-200 dark:border-gray-700 w-100"></span>
@@ -40,7 +40,7 @@
 <script>
 // Fetch discord server data
 async function fetchDiscordServerData() {
-    const response = await fetch('https://discord.com/api/guilds/{{ discord_id }}/widget.json');
+    const response = await fetch('https://discord.com/api/guilds/{{ discord_id }}/widget.json', { cache: 'no-cache' });
     const data = await response.json();
     return data;
 }
@@ -61,11 +61,22 @@ async function fillDiscordServerData() {
     discordMembersOnline.innerText = discordServerData.presence_count;
     discordChannel.innerText = discordServerData.channels[0].name;
 
+    usersOnlineList.innerHTML = '';
+
     for (const element of discordServerData.members) {
         var usersOnlineListTemplateClone = usersOnlineListTemplate.cloneNode(true);
-        usersOnlineListTemplateClone.id = '';
+        usersOnlineListTemplateClone.id = element.id;
         usersOnlineListTemplateClone.classList.remove('hidden');
         usersOnlineListTemplateClone.querySelector('#discordPicture').src = element.avatar_url;
+        
+        if (element.status == "online") {
+            usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('bg-green-500');
+            usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('dark:bg-green-500');
+        } else {
+            usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('bg-gray-500');
+            usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('dark:bg-gray-500');
+        }
+
         usersOnlineListTemplateClone.querySelector('#discordUsername').innerText = element.username;
         usersOnlineList.appendChild(usersOnlineListTemplateClone);
     }
@@ -74,4 +85,15 @@ async function fillDiscordServerData() {
 }
 
 fillDiscordServerData();
+
+var refresh = setInterval(function() {
+    fillDiscordServerData();
+}, 5000);
+
+document.getElementById('prevBtn').addEventListener('click', function() {
+    clearInterval(refresh);
+});
+document.getElementById('nextBtn').addEventListener('click', function() {
+    clearInterval(refresh);
+});
 </script>
