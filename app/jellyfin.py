@@ -208,11 +208,17 @@ def jf_get_users():
         for user in Users.select():
             if not any(d['Id'] == user.token for d in response.json()):
                 user.delete_instance()
-    users = Users.select()
+    users = Users.select()    
+    
     if not users:
         abort(400)
-    return Users.select()
 
+    # Add photo to users
+    for user in users:
+        jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
+        user.photo = f"{jellyfin_url}/Users/{user.token}/Images/Primary?maxHeight=150&maxWidth=150&tag=%7Btag%7D&quality=30"
+    
+    return users
 
 def jf_delete_user(user):
     try:
