@@ -7,6 +7,7 @@ import threading
 from flask import request, abort, jsonify
 import logging
 from cachetools import cached, TTLCache 
+from app.mediarequest import *
 
 
 def plex_handle_oauth_token(token, code):
@@ -16,8 +17,8 @@ def plex_handle_oauth_token(token, code):
         Users.delete().where(Users.email == email).execute()
     expires = datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration)
                                                            ) if Invitations.get(code=code).duration else None
-    user = Users.create(token=token, email=email,
-                        username=MyPlexAccount(token).username, code=code, expires=expires)
+    user = Users.create(token=MyPlexAccount(token).id, email=email,
+                        username=MyPlexAccount(token).username, code=code, expires=expires, auth=token)
     notify("User Joined", f"User {MyPlexAccount(token).username} has joined your server!", "tada")
     user.save()
     threading.Thread(target=plex_setup_user, args=(token,)).start()
@@ -58,7 +59,8 @@ def plex_get_users():
             user.email = "None"
         if not Users.select().where(Users.username == user.title).exists():
             Users.create(email=user.email, username=user.title,
-                         token="None", code="None")
+                         token=user.id, code="None")
+            logging.info(f"Added {user.title} to database")
 
     if Users.select():
         for dbuser in Users.select():
@@ -131,6 +133,7 @@ def plex_setup_user(token):
         user = MyPlexAccount(token)
         user.acceptInvite(admin_email)
         user.enableViewStateSync()
+        mediarequest_import_users([user.id])
     except Exception as e:
         logging.error("Failed to setup user: " + str(e))
         
