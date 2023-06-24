@@ -72,6 +72,12 @@ async function fillDiscordServerData() {
         if (element.status == "online") {
             usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('bg-green-500');
             usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('dark:bg-green-500');
+        } else if (element.status == "idle") {
+            usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('bg-yellow-500');
+            usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('dark:bg-yellow-500');
+        } else if (element.status == "dnd") {
+            usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('bg-red-500');
+            usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('dark:bg-red-500');
         } else {
             usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('bg-gray-500');
             usersOnlineListTemplateClone.querySelector('#discordOnline').classList.add('dark:bg-gray-500');
