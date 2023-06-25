@@ -254,7 +254,7 @@ def overseerr_delete_user(internal_user_id):
     
     # Get the overseerr users
     try:
-        resp = requests.get(f"{request_url}/api/v1/user?take=2000&skip=0&sort=created", headers=headers, timeout=5)
+        resp = requests.get(f"{request_url}/api/v1/user?take=20000&skip=0&sort=created", headers=headers, timeout=5)
         logging.info(f"GET {request_url}/api/v1/user - {str(resp.status_code)}")
     except Exception as e:
         logging.error("Error getting overseerr users: " + str(e))
@@ -297,7 +297,7 @@ def jellyseerr_delete_user(internal_user_id):
     
     # Get the jellyseerr users
     try:
-        resp = requests.get(f"{request_url}/api/v1/user", headers=headers, timeout=5)
+        resp = requests.get(f"{request_url}/api/v1/user?take=20000&skip=0&sort=created", headers=headers, timeout=5)
         logging.info(f"GET {request_url}/api/v1/user - {str(resp.status_code)}")
     except Exception as e:
         logging.error("Error getting jellyseerr users: " + str(e))
