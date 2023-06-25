@@ -45,6 +45,16 @@ def admin():
             return render_template("admin.html")
     return redirect('/settings')
 
+@app.route('/admin/<path:path>')
+@login_required
+def admin_catch_all(path):
+    setup = Settings.get_or_none(Settings.key == "server_verified")
+    if setup:
+        print(setup.value)
+        if setup.value == "True":
+            return render_template("admin.html")
+    return redirect('/settings')
+
 
 @app.route('/invite', methods=["GET", "POST"])
 @login_required
