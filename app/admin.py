@@ -139,6 +139,7 @@ def preferences():
         'request_url': None,
         'request_api_key': None,
         'discord_id': None,
+        'discord_widget': None,
         'server_verified': None,
     }
 
@@ -188,6 +189,7 @@ def preferences():
             request_url = request.form.get("request_url")
             request_api_key = request.form.get("request_api_key")
             discord_id = request.form.get("discord_id")
+            discord_widget = request.form.get("discord_widget")
             libraries = [request.form.get("library_{}".format(i)) for i in range(int(
                 request.form.get("library_count")) + 1) if request.form.get("library_{}".format(i))]
             if not libraries:
@@ -215,6 +217,9 @@ def preferences():
             if discord_id:
                 settings['discord_id'].value = discord_id
                 settings['discord_id'].save()
+            if discord_widget:
+                settings['discord_widget'].value = discord_widget
+                settings['discord_widget'].save()
             settings['server_verified'].value = True
             settings['server_verified'].save()
             return redirect('/admin')
@@ -256,6 +261,7 @@ def secure_settings():
         request_url = request.form.get("request_url", None)
         request_api_key = request.form.get("request_api_key", None)
         discord_id = request.form.get("discord_id", None)
+        discord_widget = request.form.get("discord_widget", None)
         custom_html = request.form.get("custom_html", None)
 
         if server_type == "plex":
@@ -309,6 +315,11 @@ def secure_settings():
                 Settings.create(key="discord_id", value=discord_id)
             else:
                 Settings.delete().where(Settings.key == "discord_id").execute()
+            if discord_widget:
+                Settings.delete().where(Settings.key == "discord_widget").execute()
+                Settings.create(key="discord_widget", value=discord_widget)
+            else:
+                Settings.delete().where(Settings.key == "discord_widget").execute()
             if custom_html:
                 Settings.delete().where(Settings.key == "custom_html").execute()
                 Settings.create(key="custom_html", value=custom_html)
@@ -325,6 +336,7 @@ def secure_settings():
             "request_url": request_url,
             "request_api_key": request_api_key,
             "discord_id": discord_id,
+            "discord_widget": discord_widget,
             "custom_html": custom_html
         }
 
@@ -421,9 +433,11 @@ def create_notification():
             "url": request.form.get("url"),
             "notification_service": request.form.get("notification_service"),
             "username": request.form.get("username") if request.form.get("username") else None,
-            "password": request.form.get("password") if request.form.get("password") else None
-
+            "password": request.form.get("password") if request.form.get("password") else None,
+            "userkey": request.form.get("userkey") if request.form.get("userkey") else None,
+            "apitoken": request.form.get("apitoken") if request.form.get("apitoken") else None
         }
+        
         if form["notification_service"] == "discord":
             if notify_discord("Wizarr here! Can you hear me?", form["url"]):
                 Notifications.create(name=form["name"], url=form["url"], type=form["notification_service"])
@@ -450,9 +464,21 @@ def create_notification():
                                                                                                     "to Ntfy"))
                 resp.headers['HX-Retarget'] = '#create-modal'
                 return resp
-
+            
+        elif form["notification_service"] == "pushover":
+            if notify_pushover("Wizarr here! Can you hear me?", "Wizarr", form["url"], username=form["userkey"], password=form["apitoken"]):
+                Notifications.create(name=form["name"], url=form["url"], type=form["notification_service"], username=form["userkey"], password=form["apitoken"])
+                return redirect("/settings/notifications")
+            else:
+                print("error")
+                resp = make_response(render_template("modals/create-notification-agent.html", error="Could not Connect to Pushover"))
+                resp.headers['HX-Retarget'] = '#create-modal'
+                return resp
+            
     else:
         return render_template("modals/create-notification-agent.html")
+    
+    logging.info("A user created a new notification agent")
 
 
 @app.route('/users')
