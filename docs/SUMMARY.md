@@ -11,6 +11,7 @@
 
 * [Single-Sign-On (SSO)](using-wizarr/single-sign-on-sso.md)
 * [Custom HTML](using-wizarr/custom-html.md)
+* [Requests Integration](using-wizarr/requests-integration.md)
 * [Discord Integration](using-wizarr/discord-integration.md)
 
 ## ⛑ Support
