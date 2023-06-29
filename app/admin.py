@@ -135,9 +135,11 @@ def preferences():
         'api_key': None,
         'server_name': None,
         'libraries': None,
-        'overseerr_url': None,
-        'ombi_api_key': None,
+        'request_type': None,
+        'request_url': None,
+        'request_api_key': None,
         'discord_id': None,
+        'discord_widget': None,
         'server_verified': None,
     }
 
@@ -183,9 +185,11 @@ def preferences():
             server_type = request.form.get("server_type")
             server_url = request.form.get("server_url")
             api_key = request.form.get("api_key")
-            overseerr_url = request.form.get("overseerr_url")
-            ombi_api_key = request.form.get("ombi_api_key")
+            request_type = request.form.get("request_type")
+            request_url = request.form.get("request_url")
+            request_api_key = request.form.get("request_api_key")
             discord_id = request.form.get("discord_id")
+            discord_widget = request.form.get("discord_widget")
             libraries = [request.form.get("library_{}".format(i)) for i in range(int(
                 request.form.get("library_count")) + 1) if request.form.get("library_{}".format(i))]
             if not libraries:
@@ -201,15 +205,21 @@ def preferences():
             settings['api_key'].save()
             settings['libraries'].value = ', '.join(libraries)
             settings['libraries'].save()
-            if overseerr_url:
-                settings['overseerr_url'].value = overseerr_url
-                settings['overseerr_url'].save()
-            if ombi_api_key:
-                settings['ombi_api_key'].value = ombi_api_key
-                settings['ombi_api_key'].save()
+            if request_type:
+                settings['request_type'].value = request_type
+                settings['request_type'].save()
+            if request_url:
+                settings['request_url'].value = request_url
+                settings['request_url'].save()
+            if request_api_key:
+                settings['request_api_key'].value = request_api_key
+                settings['request_api_key'].save()
             if discord_id:
                 settings['discord_id'].value = discord_id
                 settings['discord_id'].save()
+            if discord_widget:
+                settings['discord_widget'].value = discord_widget
+                settings['discord_widget'].save()
             settings['server_verified'].value = True
             settings['server_verified'].save()
             return redirect('/admin')
@@ -247,9 +257,11 @@ def secure_settings():
                 libraries.append(library_value)
         libraries = ', '.join(libraries) or Settings.get(
             Settings.key == "libraries").value
-        overseerr_url = request.form.get("overseerr_url", None)
-        ombi_api_key = request.form.get("ombi_api_key", None)
+        request_type = request.form.get("request_type", None)
+        request_url = request.form.get("request_url", None)
+        request_api_key = request.form.get("request_api_key", None)
         discord_id = request.form.get("discord_id", None)
+        discord_widget = request.form.get("discord_widget", None)
         custom_html = request.form.get("custom_html", None)
 
         if server_type == "plex":
@@ -283,21 +295,31 @@ def secure_settings():
                 Settings.key == "api_key").execute()
             Settings.update(value=libraries).where(
                 Settings.key == "libraries").execute()
-            if overseerr_url:
-                Settings.delete().where(Settings.key == "overseerr_url").execute()
-                Settings.create(key="overseerr_url", value=overseerr_url)
+            if request_type:
+                Settings.delete().where(Settings.key == "request_type").execute()
+                Settings.create(key="request_type", value=request_type)
             else:
-                Settings.delete().where(Settings.key == "overseerr_url").execute()
-            if ombi_api_key:
-                Settings.delete().where(Settings.key == "ombi_api_key").execute()
-                Settings.create(key="ombi_api_key", value=ombi_api_key)
+                Settings.delete().where(Settings.key == "request_type").execute()
+            if request_url:
+                Settings.delete().where(Settings.key == "request_url").execute()
+                Settings.create(key="request_url", value=request_url)
             else:
-                Settings.delete().where(Settings.key == "ombi_api_key").execute()
+                Settings.delete().where(Settings.key == "request_url").execute()
+            if request_api_key:
+                Settings.delete().where(Settings.key == "request_api_key").execute()
+                Settings.create(key="request_api_key", value=request_api_key)
+            else:
+                Settings.delete().where(Settings.key == "request_api_key").execute()
             if discord_id:
                 Settings.delete().where(Settings.key == "discord_id").execute()
                 Settings.create(key="discord_id", value=discord_id)
             else:
                 Settings.delete().where(Settings.key == "discord_id").execute()
+            if discord_widget:
+                Settings.delete().where(Settings.key == "discord_widget").execute()
+                Settings.create(key="discord_widget", value=discord_widget)
+            else:
+                Settings.delete().where(Settings.key == "discord_widget").execute()
             if custom_html:
                 Settings.delete().where(Settings.key == "custom_html").execute()
                 Settings.create(key="custom_html", value=custom_html)
@@ -310,9 +332,11 @@ def secure_settings():
             "server_url": server_url,
             "server_type": server_type,
             "api_key": api_key,
-            "overseerr_url": overseerr_url,
-            "ombi_api_key": ombi_api_key,
+            "request_type": request_type,
+            "request_url": request_url,
+            "request_api_key": request_api_key,
             "discord_id": discord_id,
+            "discord_widget": discord_widget,
             "custom_html": custom_html
         }
 
@@ -409,9 +433,11 @@ def create_notification():
             "url": request.form.get("url"),
             "notification_service": request.form.get("notification_service"),
             "username": request.form.get("username") if request.form.get("username") else None,
-            "password": request.form.get("password") if request.form.get("password") else None
-
+            "password": request.form.get("password") if request.form.get("password") else None,
+            "userkey": request.form.get("userkey") if request.form.get("userkey") else None,
+            "apitoken": request.form.get("apitoken") if request.form.get("apitoken") else None
         }
+        
         if form["notification_service"] == "discord":
             if notify_discord("Wizarr here! Can you hear me?", form["url"]):
                 Notifications.create(name=form["name"], url=form["url"], type=form["notification_service"])
@@ -438,9 +464,21 @@ def create_notification():
                                                                                                     "to Ntfy"))
                 resp.headers['HX-Retarget'] = '#create-modal'
                 return resp
-
+            
+        elif form["notification_service"] == "pushover":
+            if notify_pushover("Wizarr here! Can you hear me?", "Wizarr", form["url"], username=form["userkey"], password=form["apitoken"]):
+                Notifications.create(name=form["name"], url=form["url"], type=form["notification_service"], username=form["userkey"], password=form["apitoken"])
+                return redirect("/settings/notifications")
+            else:
+                print("error")
+                resp = make_response(render_template("modals/create-notification-agent.html", error="Could not Connect to Pushover"))
+                resp.headers['HX-Retarget'] = '#create-modal'
+                return resp
+            
     else:
         return render_template("modals/create-notification-agent.html")
+    
+    logging.info("A user created a new notification agent")
 
 
 @app.route('/users')
