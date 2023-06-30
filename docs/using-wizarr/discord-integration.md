@@ -10,15 +10,15 @@
 
 #### Toggle the Discord Widget
 
-Wizarr supports using either the default Discord widget, or a custom widget utilizing the Discord API. The custom widget is enabled by default, and provides a more integrated look and feel, however if this is not desired you can toggle the default widget on in Wizarr's settings.
+Wizarr supports using either the standard Discord widget, or a custom widget utilizing the Discord API. The custom widget is enabled by default, and provides a more integrated look and feel, however if this is not desired you can toggle the standard widget on in Wizarr's settings.
 
 {% tabs %}
 {% tab title="Custom Widget" %}
-![alt](./screenshots/discord/custom-widget.png)
+<figure><img src="../.gitbook/assets/custom-widget.png" alt=""><figcaption><p>Custom Discord Widget</p></figcaption></figure>
 {% endtab %}
 
-{% tab title="Default Widget" %}
-![alt](./screenshots/discord/default-widget.png)
+{% tab title="Standard Widget" %}
+<figure><img src="../.gitbook/assets/default-widget.png" alt=""><figcaption><p>Standard Discord Widget</p></figcaption></figure>
 {% endtab %}
 {% endtabs %}
 
