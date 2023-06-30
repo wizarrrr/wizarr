@@ -54,23 +54,19 @@ A big thank you ❤️ to these amazing people for contributing to this project!
 ## Screenshots
 
 **Signup Pages**
-<div style="display: flex; justify-content: space-between; margin-bottom: 15px">
-    <img src="./screenshots/signup/jellyfin.png" style="max-width: 49.5%;" />
-    <img src="./screenshots/signup/plex.png" style="max-width: 49.5%;" />
-</div>
+
+| ![jellyfin](./screenshots/signup/jellyfin.png) | ![plex](./screenshots/signup/plex.png) |
+|:---:|:---:|
+| Jellyfin | Plex |
 
 **Walkthrough Pages**
-<div style="display: flex; justify-content: space-between; margin-bottom: 15px">
-    <img src="./screenshots/setup/step1.png" style="max-width: 24.5%;" />
-    <img src="./screenshots/setup/step2.png" style="max-width: 24.5%;" />
-    <img src="./screenshots/setup/step3.png" style="max-width: 24.5%;" />
-    <img src="./screenshots/setup/step4.png" style="max-width: 24.5%;" />
-</div>
+
+| ![step1](./screenshots/setup/step1.png) | ![step2](./screenshots/setup/step2.png) | ![step3](./screenshots/setup/step3.png) | ![step4](./screenshots/setup/step4.png) |
+|:---:|:---:|:---:|:---:|
+| Step 1 | Step 2 | Step 3 | Step 4 |
 
 **Admin Pages**
-<div style="display: flex; justify-content: space-between; margin-bottom: 15px">
-    <img src="./screenshots/admin/page1.png" style="max-width: 24.5%;" />
-    <img src="./screenshots/admin/page2.png" style="max-width: 24.5%;" />
-    <img src="./screenshots/admin/page3.png" style="max-width: 24.5%;" />
-    <img src="./screenshots/admin/page4.png" style="max-width: 24.5%;" />
-</div>
+
+| ![page1](./screenshots/admin/page1.png) | ![page2](./screenshots/admin/page2.png) | ![page3](./screenshots/admin/page3.png) | ![page4](./screenshots/admin/page4.png) |
+|:---:|:---:|:---:|:---:|
+| Page 1 | Page 2 | Page 3 | Page 4 |
