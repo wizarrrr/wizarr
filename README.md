@@ -53,7 +53,20 @@ A big thank you ❤️ to these amazing people for contributing to this project!
 
 ## Screenshots
 
+**Signup Pages**
 
-![alt](./screenshots/invite.png)
-![alt](./screenshots/tips.png)
-![alt](./screenshots/join.png)
+| ![jellyfin](./screenshots/signup/jellyfin.png) | ![plex](./screenshots/signup/plex.png) |
+|:---:|:---:|
+| Jellyfin | Plex |
+
+**Walkthrough Pages**
+
+| ![step1](./screenshots/setup/step1.png) | ![step2](./screenshots/setup/step2.png) | ![step3](./screenshots/setup/step3.png) | ![step4](./screenshots/setup/step4.png) |
+|:---:|:---:|:---:|:---:|
+| Step 1 | Step 2 | Step 3 | Step 4 |
+
+**Admin Pages**
+
+| ![page1](./screenshots/admin/page1.png) | ![page2](./screenshots/admin/page2.png) | ![page3](./screenshots/admin/page3.png) | ![page4](./screenshots/admin/page4.png) |
+|:---:|:---:|:---:|:---:|
+| Page 1 | Page 2 | Page 3 | Page 4 |
