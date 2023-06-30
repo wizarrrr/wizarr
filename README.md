@@ -53,7 +53,24 @@ A big thank you ❤️ to these amazing people for contributing to this project!
 
 ## Screenshots
 
+**Signup Pages**
+<div style="display: flex; justify-content: space-between; margin-bottom: 15px">
+    <img src="./screenshots/signup/jellyfin.png" style="max-width: 49.5%;" />
+    <img src="./screenshots/signup/plex.png" style="max-width: 49.5%;" />
+</div>
 
-![alt](./screenshots/invite.png)
-![alt](./screenshots/tips.png)
-![alt](./screenshots/join.png)
+**Walkthrough Pages**
+<div style="display: flex; justify-content: space-between; margin-bottom: 15px">
+    <img src="./screenshots/setup/step1.png" style="max-width: 24.5%;" />
+    <img src="./screenshots/setup/step2.png" style="max-width: 24.5%;" />
+    <img src="./screenshots/setup/step3.png" style="max-width: 24.5%;" />
+    <img src="./screenshots/setup/step4.png" style="max-width: 24.5%;" />
+</div>
+
+**Admin Pages**
+<div style="display: flex; justify-content: space-between; margin-bottom: 15px">
+    <img src="./screenshots/admin/page1.png" style="max-width: 24.5%;" />
+    <img src="./screenshots/admin/page2.png" style="max-width: 24.5%;" />
+    <img src="./screenshots/admin/page3.png" style="max-width: 24.5%;" />
+    <img src="./screenshots/admin/page4.png" style="max-width: 24.5%;" />
+</div>
