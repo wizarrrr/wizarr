@@ -77,7 +77,7 @@ def invite():
                 "week": (datetime.datetime.now() + datetime.timedelta(days=7)),
                 "month": (datetime.datetime.now() + datetime.timedelta(days=30)),
                 "6months": (datetime.datetime.now() + datetime.timedelta(days=123)),
-                "year": (datetime.datetime.now() + datetime.timedelta(days=123)),                
+                "year": (datetime.datetime.now() + datetime.timedelta(days=365)),        
                 "never": None
             }
             expires = expires_options.get(request.form.get("expires"))
