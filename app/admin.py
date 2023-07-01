@@ -10,6 +10,7 @@ from plexapi.server import PlexServer
 import logging
 from functools import wraps
 import datetime
+from datetime import date, timedelta
 from packaging import version
 import random
 import string
@@ -72,12 +73,13 @@ def invite():
                 return abort(401)  # Already Exists
 
             # Set invitation attributes
+            current_date = date.today()
             expires_options = {
-                "day": (datetime.datetime.now() + datetime.timedelta(days=1)),
-                "week": (datetime.datetime.now() + datetime.timedelta(days=7)),
-                "month": (datetime.datetime.now() + datetime.timedelta(days=30)),
-                "6months": (datetime.datetime.now() + datetime.timedelta(days=123)),
-                "year": (datetime.datetime.now() + datetime.timedelta(days=365)),        
+                "day": (current_date + timedelta(days=1)),
+                "week": (current_date + timedelta(weeks=1)),
+                "month": (current_date + timedelta(weeks=30)), # Approximation for 1 month
+                "6months": (current_date + timedelta(days=30*6)), # Approximation for 6 months
+                "year": (current_date + timedelta(days=365)),   # Approximation for 1 year     
                 "never": None
             }
             expires = expires_options.get(request.form.get("expires"))
