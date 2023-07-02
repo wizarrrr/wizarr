@@ -77,7 +77,7 @@ def invite():
             expires_options = {
                 "day": (current_date + timedelta(days=1)),
                 "week": (current_date + timedelta(weeks=1)),
-                "month": (current_date + timedelta(weeks=30)), # Approximation for 1 month
+                "month": (current_date + timedelta(days=30)), # Approximation for 1 month
                 "6months": (current_date + timedelta(days=30*6)), # Approximation for 6 months
                 "year": (current_date + timedelta(days=365)),   # Approximation for 1 year     
                 "never": None
