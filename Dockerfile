@@ -3,6 +3,15 @@ FROM python:3.11.3-alpine
 WORKDIR /data
 COPY . /data
 
+RUN apk add --update nodejs npm
+
+WORKDIR /data/app/static
+
+RUN npm ci && npm install
+RUN npx tailwindcss -i src/style.css -o css/main.css --minify
+
+WORKDIR /data
+
 RUN apk add --no-cache tzdata && \
     pip3 install --no-cache --upgrade pip && \
     pip3 install --no-cache -r requirements.txt
