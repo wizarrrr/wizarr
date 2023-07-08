@@ -9,11 +9,6 @@ def api_settings_get():
     # Get all settings
     result = controllers.get_settings()
 
-    # If the request is a hx-request, return the partial instead
-    if request.headers.get("Hx-Request") == "true":
-        subpath = request.headers.get("Hx-Template")
-        return partials.settings_partials(subpath)
-
     # Otherwise, return the JSON result
     return result
 
@@ -21,11 +16,6 @@ def api_settings_get():
 def api_settings_post():
     # Post the settings
     result = controllers.post_settings(request.form)
-
-    # If the request is a hx-request, return the partial instead
-    if request.headers.get("Hx-Request") == "true":
-        subpath = request.headers.get("Hx-Template")
-        return partials.settings_partials(subpath)
 
     # Otherwise, return the JSON result
     return result
@@ -35,10 +25,6 @@ def api_settings_id_get(path_id):
     # Get the setting with the specified ID
     result = controllers.get_setting(path_id)
 
-    # If the request is a hx-request, return the partial instead
-    if request.headers.get("Hx-Request") == "true":
-        return partials.settings_partials(request.headers.get("Hx-Template"))
-
     # Otherwise, return the JSON result
     return result
 
@@ -47,10 +33,6 @@ def api_settings_id_put(path_id):
     # Put the setting with the specified ID
     result = controllers.put_setting(path_id, request.form)
 
-    # If the request is a hx-request, return the partial instead
-    if request.headers.get("Hx-Request") == "true":
-        return partials.settings_partials(request.headers.get("Hx-Template"))
-
     # Otherwise, return the JSON result
     return result
 
@@ -58,10 +40,6 @@ def api_settings_id_put(path_id):
 def api_settings_id_delete(path_id):
     # Delete the setting with the specified ID
     result = controllers.delete_setting(path_id)
-
-    # If the request is a hx-request, return the partial instead
-    if request.headers.get("Hx-Request") == "true":
-        return partials.settings_partials(request.headers.get("Hx-Template"))
 
     # Otherwise, return the JSON result
     return result

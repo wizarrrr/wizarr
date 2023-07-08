@@ -1,16 +1,16 @@
 from datetime import datetime
 from os import getenv, listdir, path
 
-from flask import abort, render_template, request
+from flask import abort, make_response, render_template, request
 
-from app import Invitations, Settings, app
+from app import Invitations, Settings, app, controllers
 from app.helpers import get_api_keys, get_notifications, get_settings
 from app.universal import global_get_users
 
 
 # All admin partials
-@app.route('/partials/admin', defaults={'subpath': ''}, methods=["GET", "POST"])
-@app.route('/partials/admin/<path:subpath>', methods=["GET", "POST"])
+@app.get('/partials/admin', defaults={'subpath': ''})
+@app.get('/partials/admin/<path:subpath>')
 # @login_required
 def admin_partials(subpath):
     # Get valid settings partials
@@ -30,8 +30,8 @@ def admin_partials(subpath):
 
 
 # All settings partials
-@app.route('/partials/admin/settings', defaults={'subpath': ''}, methods=["GET", "POST"])
-@app.route('/partials/admin/settings/<path:subpath>', methods=["GET", "POST"])
+@app.get('/partials/admin/settings', defaults={'subpath': ''})
+@app.get('/partials/admin/settings/<path:subpath>')
 # @login_required
 def settings_partials(subpath):
     # Get valid settings partials
@@ -45,15 +45,26 @@ def settings_partials(subpath):
     settings = get_settings()
     settings["agents"] = get_notifications()
     settings["api_keys"] = get_api_keys()
+    settings["template"] = subpath if subpath else "general"
 
     # If no subpath is specified, render the admin dashboard
     if not subpath:
-        return render_template("admin/settings.html", settings_subpath=f"admin/settings/general.html", **settings)
+        return render_template("admin/settings.html", settings_subpath="admin/settings/general.html", **settings)
 
     # All possible admin partials
     return render_template(f"admin/settings/{subpath}.html", **settings)
 
-
+@app.post('/partials/admin/settings', defaults={'subpath': ''})
+@app.post('/partials/admin/settings/<path:subpath>')
+def post_settings_routes(subpath):
+    # Get valid settings partials
+    if subpath in ["general", "request", "discord", "html"]:
+        controllers.post_settings(request.form)
+        
+    response = make_response(settings_partials(subpath))
+    response.headers['showToast'] = "Settings saved successfully!"
+    
+    return response
 
 # All modal partials
 @app.route('/partials/modals/<path:path>')

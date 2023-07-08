@@ -21,8 +21,6 @@ async function scanLibraries() {
     // let settings = document.getElementById("settings");
     // settings.classList.add('animate__shakeX');
 
-    console.log(document.getElementById("server_type").value)
-
     if (document.getElementById("server_type").value == "jellyfin") {
 
         let container = document.getElementById("libraries");
@@ -401,6 +399,30 @@ document.addEventListener("htmx:load", function (data) {
 
     if (requestPath.includes("/admin/settings")) {
         navbarSettings();
+    }
+});
+
+document.addEventListener("htmx:afterRequest", function (e) {
+    // Error handling
+    if (e.detail.failed) {
+        console.error(e.detail.error);
+    }
+
+    // Headers for showToast
+    let toastText = e.detail.xhr.getResponseHeader("showToast");
+
+    // If the header is set, show the toast
+    if (toastText) {
+        let toast = {
+            text: toastText,
+            duration: 3000,
+            gravity: "bottom",
+            position: "right",
+            stopOnFocus: true,
+            className: "show-toast", 
+        }
+
+        Toastify(toast).showToast();
     }
 });
 

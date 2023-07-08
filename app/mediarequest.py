@@ -1,9 +1,12 @@
-import requests
 import datetime
-from app import *
-from flask import abort, jsonify, render_template, redirect
 import logging
 import re
+
+import requests
+from flask import abort, jsonify, redirect, render_template
+
+from app import *
+
 
 def get_request_settings():
     settings = {

@@ -6,27 +6,11 @@ from flask import abort, redirect, render_template, request, session
 from app import VERSION, app
 from app.helpers import (get_api_keys, get_notifications, get_settings,
                          login_required)
-from app.jellyfin import jf_get_users
 
-
-@app.before_request
-def before_every_request():
-    # Ignore if directoy begins with /static /setup or /api
-    # if any(request.path.startswith(path) for path in ("/static", "/setup/", "/api", "/partials")):
-    #     return
-
-    # if not Settings.get_or_none(Settings.key == "admin_username"):
-    #     return redirect("/setup/welcome")
-
-    print(f"Request: {request.path}")
-
-@app.route('/test')
-def test():
-    return jf_get_users()
 
 # All admin routes
-@app.route('/admin', defaults={'subpath': ''}, methods=["GET", "POST"])
-@app.route('/admin/<path:subpath>', methods=["GET", "POST"])
+@app.get('/admin', defaults={'subpath': ''})
+@app.get('/admin/<path:subpath>')
 @login_required
 def admin_routes(subpath):
     # Get valid settings partials
@@ -46,8 +30,8 @@ def admin_routes(subpath):
 
 
 # All settings routes
-@app.route('/admin/settings', defaults={'subpath': ''}, methods=["GET", "POST"])
-@app.route('/admin/settings/<path:subpath>', methods=["GET", "POST"])
+@app.get('/admin/settings', defaults={'subpath': ''})
+@app.get('/admin/settings/<path:subpath>')
 @login_required
 def settings_routes(subpath):
     # Get valid settings partials
@@ -62,10 +46,11 @@ def settings_routes(subpath):
     settings = get_settings()
     settings["agents"] = get_notifications()
     settings["api_keys"] = get_api_keys()
+    settings["template"] = subpath if subpath else "general"
 
     # If no subpath is specified, render the admin dashboard
     if not subpath:
-        return render_template("admin.html", subpath="admin/settings.html", settings_subpath="admin/settings/general.html")
+        return render_template("admin.html", subpath="admin/settings.html", settings_subpath="admin/settings/general.html", **settings)
 
     # All possible admin routes
     return render_template("admin.html", subpath="admin/settings.html", settings_subpath=f"admin/settings/{subpath}.html", **settings)
