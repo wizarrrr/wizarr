@@ -1,14 +1,37 @@
-<section class="py-8 animate__animated animate__fadeIn">
-    <div class="container px-4 mx-auto">
-        <div hx-post="/invite/table" hx-trigger="load" hx-target="#invite_table" hx-swap="outerHTML"
-            class="p-4 mb-6 bg-white shadow-lg rounded-lg overflow-x-auto dark:bg-gray-800 dark:border-gray-700">
+<section class="bg-gray-50 dark:bg-gray-900 animate__animated animate__fadeIn">
+    <div class="flex flex-col items-center justify-center py-8 mx-auto container px-2 sm:px-4 md:px-0">
+        <div hx-get="/partials/tables/invite-table" hx-trigger="load" hx-target="#invite-table" hx-swap="outerHTML" class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md min-w-full xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div class="space-y-4 md:space-y-6">
+                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
 
-            <div id="invite_table"></div>
+                    <!-- Top Bar -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                                {{ _("Server Invites") }}
+                            </h1>
+                        </div>
+                    </div>
 
+                    <!-- Table -->
+                    <div id="invite-table"></div>
+
+                    <!-- Bottom Bar -->
+                    <div class="flex items-center justify-end space-x-2">
+                        <button hx-get="" hx-target="" hx-trigger="click" class="bg-gray-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm">
+                            {{ _("Create Invite") }}
+                        </button>
+                        <button hx-get="" hx-target="" hx-trigger="click" class="bg-red-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm">
+                            {{ _("Delete All") }}
+                        </button>
+                    </div>
+
+                </div>
+            </div>
         </div>
-
     </div>
 </section>
+
 <script>
 
     function tableCopyLink(invite_code) {
@@ -24,7 +47,7 @@
         // Add class="text-green-500" to icon
         icon.classList.add("text-green-500");
         // wait for 1 second
-        setTimeout(function() {
+        setTimeout(function () {
             // remove class="text-green-500" from icon
             icon.classList.remove("text-green-500");
         }, 1000);

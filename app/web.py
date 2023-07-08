@@ -1,17 +1,20 @@
 import logging
 import os
 import os.path
-from flask import request, redirect, render_template, make_response, send_from_directory
-from app import app, Invitations, Settings, get_locale
-from app.plex import *
-from app.helpers import *
 import threading
+
+from flask import (make_response, redirect, render_template, request,
+                   send_from_directory)
+
+from app import Settings, app, get_locale
+from app.helpers import is_invite_valid
+from app.plex import plex_handle_oauth_token
 
 
 @app.route('/')
 def redirect_to_invite():
-    if not Settings.select().where(Settings.key == 'admin_username').exists():
-        return redirect('/settings')
+    # if not Settings.get_or_none("server_verified"):
+    #     return redirect('/settings')
     return redirect('/admin')
 
 
@@ -142,22 +145,15 @@ def wizard(action):
         return resp
 
 
-@app.errorhandler(500)
-def server_error(e):
-    logging.error(e)
-    return render_template('error/500.html'), 500
+def error_handler(code):
+    @app.errorhandler(code)
+    def handler(exception):
+        logging.error(exception)
+        return render_template(f'error/{code}.html'), code
 
-
-@app.errorhandler(404)
-def server_error(e):
-    logging.error(e)
-    return render_template('error/404.html'), 404
-
-
-@app.errorhandler(401)
-def server_error(e):
-    logging.error(e)
-    return render_template('error/401.html'), 401
+error_handler(500)
+error_handler(404)
+error_handler(401)
 
 
 @app.context_processor

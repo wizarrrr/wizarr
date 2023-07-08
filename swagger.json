@@ -1,0 +1,414 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Wizarr API",
+        "description": "Wizarr is a web application that allows you to invite your friends to watch movies and series on Jellyfin or Plex"
+    },
+    "servers": [
+        {
+            "url": "/api",
+            "description": "Local server"
+        }
+    ],
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "tags": [
+        {
+            "name": "Users",
+            "description": "Endpoint related to user management"
+        },
+        {
+            "name": "Settings",
+            "description": "Endpoint related to settings management"
+        }
+    ],
+    "paths": {
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users",
+                "description": "Get all users",
+                "operationId": "getUsers",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a user",
+                "description": "Create a user",
+                "operationId": "createUser",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "User object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a user",
+                "description": "Get a user",
+                "operationId": "getUser",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update a user",
+                "description": "Update a user",
+                "operationId": "updateUser",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "User object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete a user",
+                "description": "Delete a user",
+                "operationId": "deleteUser",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/settings": {
+            "get": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Get all settings",
+                "description": "Get all settings",
+                "operationId": "getSettings",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Create settings",
+                "description": "Create settings",
+                "operationId": "createSettings",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "setting",
+                        "in": "body",
+                        "description": "Setting object",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/settings/{id}": {
+            "get": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Get a setting",
+                "description": "Get a setting",
+                "operationId": "getSetting",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Setting id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Update a setting",
+                "description": "Update a setting",
+                "operationId": "updateSetting",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Setting id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "setting",
+                        "in": "body",
+                        "description": "Setting object",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Delete a setting",
+                "description": "Delete a setting",
+                "operationId": "deleteSetting",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Setting id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "cookieAuth": {
+                "type": "apiKey",
+                "in": "cookie",
+                "name": "connect.sid"
+            },
+            "apiKey": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-API-Key"
+            }
+        }
+    }
+}

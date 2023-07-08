@@ -5,7 +5,7 @@ from flask import abort, jsonify, render_template, redirect
 import logging
 import re
 
-def get_settings():
+def get_request_settings():
     settings = {
         setting.key: setting.value
         for setting in Settings.select().where(
@@ -60,7 +60,7 @@ def mediarequest_import_users(users):
     logging.error("Invalid operation")
 
 def mediarequest_delete_users(users):
-    settings = get_settings()
+    settings = get_request_settings()
     
     server_type = settings.get("server_type")
     request_type = settings.get("request_type")
@@ -101,7 +101,7 @@ def mediarequest_delete_users(users):
 #
 
 def ombi_import_users():
-    settings = get_settings()
+    settings = get_request_settings()
     
     request_url = settings.get("request_url")
     request_api_key = settings.get("request_api_key")
@@ -128,7 +128,7 @@ def ombi_import_users():
     
     
 def overseerr_import_users(users):
-    settings = get_settings()
+    settings = get_request_settings()
 
     request_url = settings.get("request_url")
     request_api_key = settings.get("request_api_key")
@@ -160,7 +160,7 @@ def overseerr_import_users(users):
         return
     
 def jellyseerr_import_users(users):
-    settings = get_settings()
+    settings = get_request_settings()
 
     request_url = settings.get("request_url")
     request_api_key = settings.get("request_api_key")
@@ -197,7 +197,7 @@ def jellyseerr_import_users(users):
 #
 
 def ombi_delete_users(internal_user_id):
-    settings = get_settings()
+    settings = get_request_settings()
     
     request_url = settings.get("request_url")
     request_api_key = settings.get("request_api_key")
@@ -243,7 +243,7 @@ def ombi_delete_users(internal_user_id):
         return
 
 def overseerr_delete_user(internal_user_id):
-    settings = get_settings()
+    settings = get_request_settings()
     
     request_url = settings.get("request_url")
     request_api_key = settings.get("request_api_key")
@@ -286,7 +286,7 @@ def overseerr_delete_user(internal_user_id):
         return
 
 def jellyseerr_delete_user(internal_user_id):
-    settings = get_settings()
+    settings = get_request_settings()
     
     request_url = settings.get("request_url")
     request_api_key = settings.get("request_api_key")

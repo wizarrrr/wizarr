@@ -1,0 +1,20 @@
+<form class="space-y-4 md:space-y-6" hx-post="/api/settings" hx-headers='{"hx-Template": "discord"}' hx-target="#settings-content" hx-swap="innerHTML">
+    <div>
+        <label for="discord_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Discord Server ID") }}</label>
+        <input type="text" name="discord_id" id="discord_id" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if discord_id %}{{ discord_id }}{% endif %}" placeholder="Optional, leave empty to disable">
+    </div>
+
+    <div>
+        <label for="discord_widget" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Discord Widget") }}</label>
+        <div class="switch">
+            <input type="checkbox" name="discord_widget" {% if discord_widget=="on" %} checked {% endif %} id="discord_toggle_checkbox">
+            <span class="slider round" id="discord_toggle"></span>
+        </div>
+    </div>
+
+    <div class="flex items-center justify-end mt-4">
+        <button type="submit" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
+            {{ _("Save") }}
+        </button>
+    </div>
+</form>

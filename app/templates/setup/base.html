@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}
+Setup Wizarr
+{% endblock %}
+
+{% block main %}
+<div id="create-modal"></div>
+
+<div id="content">
+    <div class="flex justify-center items-center flex-col mt-12 mb-3 space-y-2">
+        <img style="width: 150px;" src="/static/img/wizard.png" alt="logo"></span>
+        <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">{{ _("Setup Wizarr") }}</h1>
+    </div>
+    <div class="carousel-container">
+        <div class="subpage-carousel">
+            {% for partial in partials %}
+            <section class="bg-gray-50 dark:bg-gray-900 subpage">
+                <div class="flex flex-col items-center justify-center w-full md:w-2/4 py-8 mx-auto container px-2 sm:px-4 md:px-0">
+                    <div class="w-full bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700">
+                        <div class="p-6 space-y-4 md:space-y-6 sm:p-8 text-gray-900 dark:text-white">
+                            {% include partial %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="navBtns" class="flex justify-center mb-6 space-x-2">
+        <button id="prevBtn" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">Previous</button>
+        <button id="nextBtn" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">Next</button>
+    </div>
+</div>
+<style>
+    .carousel-container {
+        width: 100%;
+        height: auto;
+        position: relative;
+        margin-bottom: 10px;
+        transition: max-height 0.3s ease-out;
+    }
+
+    .subpage-carousel {
+        width: 400%;
+        /* Four subpages, each taking 25% width */
+        height: 100%;
+        display: flex;
+        transition: transform 5.5s ease;
+    }
+
+    .subpage {
+        width: 25%;
+        flex-shrink: 0;
+        overflow-y: hidden;
+        padding: 20px;
+        box-sizing: border-box;
+        height: 0px;
+        transition: height 0.5s ease;
+    }
+
+    .subpage.active {
+        height: auto;
+    }
+</style>
+<script>
+    let navBtns = (current) => {
+        if (current == 2 || carousel == 3) document.getElementById('navBtns').classList.add('hidden');
+        else document.getElementById('navBtns').classList.remove('hidden');
+    }
+
+    const carousel = new Carousel({
+        container: document.querySelector('.subpage-carousel'),
+        items: document.querySelectorAll('.subpage'),
+        navigation: {
+            prevEl: document.querySelector('#prevBtn'),
+            nextEl: document.querySelector('#nextBtn')
+        },
+        events: {
+            onSlideChange: (current) => {
+                if ([2, 3, 4].includes(current)) document.getElementById('navBtns').classList.add('hidden');
+                else document.getElementById('navBtns').classList.remove('hidden');
+            },
+            onStart: (current) => {
+                if ([2, 3, 4].includes(current)) document.getElementById('navBtns').classList.add('hidden');
+                else document.getElementById('navBtns').classList.remove('hidden');
+            }
+        },
+        paths: {{ pages| tojson }},
+        disabled: {
+            4: {
+                next: true,
+                prev: true
+            }
+        }
+    });
+
+    carousel.setSlide({{ current }}, false);
+
+    document.querySelector('#prevBtn').addEventListener('click', () => carousel.prev());
+    document.querySelector('#nextBtn').addEventListener('click', () => carousel.next());
+
+    window.carousel = carousel;
+</script>
+{% endblock %}

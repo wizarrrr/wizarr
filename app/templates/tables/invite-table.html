@@ -1,0 +1,190 @@
+<!-- Users Table -->
+<div class="mt-7 overflow-x-auto">
+    {% if invitations %}
+    <table class="w-full whitespace-nowrap">
+        <thead>
+            <tr class="rounded-lg border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white text-xs text-left">
+                <th class="pl-7 py-3">{{ _("Invite Code") }}</th>
+                <th class="py-3 text-center">{{ _("Used") }}</th>
+                <th class="py-3 text-center">{{ _("Created") }}</th>
+                <th class="py-3 text-center">{{ _("Expired") }}</th>
+                <th class="py-3 text-center">{{ _("Unlimited") }}</th>
+                <th class="py-3 text-center">{{ _("Libraries") }}</th>
+                {% if server_type == "plex" %}
+                <th class="py-3 text-center">{{ _("Allow Downloads") }}</th>
+                {% endif %}
+                <th class="py-3 text-center">{{ _("Duration") }}</th>
+                <th></th>
+            </tr>
+
+            <tr class="h-0 md:h-3"></tr>
+        </thead>
+        <tbody>
+
+            {% for invite in invitations %}
+            <tr id="invite-{{invite}}" tabindex="0" class="focus:outline-none h-16 rounded-lg border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
+
+                <td class="pl-5">
+                    {% if invite.code %}
+                    <button class="py-2 px-3 text-sm focus:outline-none border dark:border-gray-500 leading-none rounded" data-code="{{ invite.code }}" data-url="{{ app_url }}" onclick="copyToClipboard(this)">
+                        {{ invite.code }}
+                    </button>
+                    {% endif %}
+                </td>
+
+                <td class="text-center">
+                    {% if invite.used %}
+                    <span class="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
+                    {% else %}
+                    <span class="inline-block w-3 h-3 bg-yellow-400 rounded-full"></span>
+                    {% endif %}
+                </td>
+
+                <td class="text-center text-xs whitespace-nowrap">
+                    {% if invite.created %}
+                    {{ (invite.created|string)[0:16] }}
+                    {% endif %}
+                </td>
+
+                <td class="text-center">
+                    {% if invite.expired %}
+                    <span class="inline-block w-3 h-3 bg-red-600 rounded-full"></span>
+                    {% elif not invite.expired and invite.expires %}
+                    <span class="inline-block w-3 h-3 bg-yellow-400 rounded-full"></span>
+                    {% elif not invite.expired and not invite.expires %}
+                    <span class="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
+                    {% else %}
+                    <span class="inline-block w-3 h-3 bg-gray-400 rounded-full"></span>
+                    {% endif %}
+                </td>
+
+                <td class="text-center">
+                    {% if invite.unlimited %}
+                    <span class="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
+                    {% else %}
+                    <span class="inline-block w-3 h-3 bg-red-600 rounded-full"></span>
+                    {% endif %}
+                </td>
+
+                <td class="text-center">
+                    <button class="text-gray-600 text-xs leading-none py-2 px-3 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none">View Libraries</button>
+                </td>
+
+                {% if server_type == "plex" %}
+                <td class="text-center">
+                    {% if invite.plex_allow_sync %}
+                    <span class="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
+                    {% else %}
+                    <span class="inline-block w-3 h-3 bg-red-600 rounded-full"></span>
+                    {% endif %}
+                </td>
+                {% endif %}
+
+                <td class="text-center">
+                    {% if invite.duration %}
+                    {{ invite.duration }} days
+                    {% else %}
+                    Unlimited
+                    {% endif %}
+                </td>
+
+                <td class="p-5 pr-8 text-right flex col justify-end space-x-3">
+                    <button id="delete" class="inline-block" hx-post="/invite/table?delete={{ invite.code }}" hx-trigger="click" hx-target="#invite_table" hx-swap="outerHTML swap:0.5s">
+                        <i class="text-red-600 fa-regular fa-trash-can"></i>
+                    </button>
+                    <div class="block md:hidden">
+                        <button class="text-gray-600 text-sm leading-none py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none">View</button>
+                    </div>
+                    <div class="hidden md:block">
+                        <span class="relative">
+                            <button class="focus:ring-2 rounded-md focus:outline-none" onclick="dropdownFunction(this)" role="button" aria-label="option">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                            <div class="dropdown-content bg-white dark:bg-gray-800 dark:border dark:border-gray-700 shadow w-24 absolute z-30 right-0 mr-6 hidden">
+                                <div tabindex="0" class="focus:outline-none text-xs w-full hover:bg-primary py-4 px-4 cursor-pointer hover:text-white">
+                                    <p>Edit</p>
+                                </div>
+                                <div tabindex="0" class="focus:outline-none text-xs w-full hover:bg-primary py-4 px-4 cursor-pointer hover:text-white">
+                                    <p>Delete</p>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr id="invite-{{invite}}-spacer" class="h-0 md:h-3"></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-center dark:text-white">There are currently no invitations.</p>
+    {% endif %}
+</div>
+
+
+<script>
+    function dropdownFunction(element) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        let list = element.parentElement.parentElement.getElementsByClassName("dropdown-content")[0];
+        list.classList.add("target");
+        for (i = 0; i < dropdowns.length; i++) {
+            if (!dropdowns[i].classList.contains("target")) {
+                dropdowns[i].classList.add("hidden");
+            }
+        }
+        list.classList.toggle("hidden");
+    }
+
+    document.querySelectorAll('button#delete').forEach(button => {
+        button.addEventListener('click', function () {
+            let tr = this.closest('tr');
+            let spacer = document.getElementById(tr.id + "-spacer");
+            tr.remove();
+            spacer.remove();
+        });
+    });
+
+    function normalizeUrl(url) {
+        // Check if the URL starts with "http://" or "https://"
+        if (!/^https?:\/\//i.test(url)) {
+            // Add "http://" as the default protocol
+            url = "http://" + url;
+        }
+
+        // Parse the URL using the URL constructor
+        const parsedUrl = new URL(url);
+
+        // Check if the port is specified and not the default for the protocol
+        if (
+            parsedUrl.port &&
+            (
+                (parsedUrl.protocol === "http:" && parsedUrl.port !== "80") ||
+                (parsedUrl.protocol === "https:" && parsedUrl.port !== "443")
+            )
+        ) {
+            // Include the port in the normalized URL
+            return parsedUrl.href;
+        } else {
+            // Remove the port from the normalized URL
+            return parsedUrl.origin + parsedUrl.pathname + parsedUrl.search + parsedUrl.hash;
+        }
+    }
+
+    function copyToClipboard(element) {
+        let code = element.getAttribute("data-code");
+        let url = normalizeUrl(element.getAttribute("data-url"));
+
+        let uri = new URL(url);
+        uri.pathname = '/j/' + code;
+
+        navigator.clipboard.writeText(uri.href).then(function () {
+            element.innerText = "Copied!";
+            setTimeout(function () {
+                element.innerText = code;
+            }, 1000);
+        }, function (err) {
+            console.error('Async: Could not copy text: ', err);
+        });
+    }
+</script>

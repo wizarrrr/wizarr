@@ -1,0 +1,77 @@
+<div class="flex justify-between items-center pb-3">
+    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        {{ _("Server Libraries") }}
+    </h1>
+</div>
+
+<p class="{% if not error %}hidden{% endif %} mt-2 pb-2 text-sm text-red-600 dark:text-red-500">
+    <span class="font-medium">{{ error }}</span>
+</p>
+
+<form id="update-libraries" class="space-y-4 md:space-y-6" autocomplete="off">
+
+    <input hidden name="library_count" id="library_count" type="number" value="0">
+    <div id="libraries"></div>
+
+    <div class="flex flex-row-reverse">
+        <button onclick="updateLibraries(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:ml-3 sm:w-auto">
+            {{ _("Update Libraries") }}
+        </button>
+        <button onclick="closeModal(this)" type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+            {{ _("Cancel") }}
+        </button>
+    </div>
+
+    <div id="library-spinner" class="hidden absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity" style="margin: 0px;">
+        <i class="fa-solid fa-spinner fa-spin fa-2xl"></i>
+    </div>
+
+</form>
+
+<script>
+    scanLibraries();
+
+    async function updateLibraries(button) {
+        let spinner = button.parentElement.parentElement.querySelector('#library-spinner')
+
+        button.disabled = true;
+        spinner.classList.remove('hidden');
+
+        var form = document.getElementById('update-libraries');
+        var formData = new FormData(form);
+
+        var response = await fetch('/api/libraries', {
+            method: 'POST',
+            body: formData,
+            timeout: 0
+        });
+
+        var data = await response.json();
+
+        var toast = {
+            text: "Unable to update libraries",
+            duration: 5000,
+            gravity: "bottom",
+            position: "right",
+            style: {
+                background: "#ff5858"
+            },
+            stopOnFocus: true,
+        };
+
+        if (data.error) {
+            button.disabled = false;
+            button.innerHTML = '{{ _("Update Libraries") }}';
+            document.getElementById('error').innerHTML = data.error;
+            spinner.classList.add('hidden');
+            toast.text = data.error;
+        } else {
+            closeModal(button);
+            spinner.classList.add('hidden');
+            toast.text = "Libraries updated";
+            toast.style.background = "#68d391";
+        }
+
+        Toastify(toast).showToast();
+    }
+</script>

@@ -1,0 +1,23 @@
+<div id="delete-modal"></div>
+
+<label for="apikey" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("API Keys") }}</label>
+<div class="flex flex-col space-y-2">
+    {% for api_key in api_keys %}
+    <div class="flex flex-row items-center justify-between h-10">
+        <input type="text" name="apikey" id="apikey" value="{{ api_key.key }}" class="block w-full h-full p-2.5 text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+        <button type="submit" class="py-2.5 px-8 h-full text-sm bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
+            <i class="fas fa-copy"></i>
+        </button>
+        <button hx-get="/partials/modals/delete-api-key?api={{ api_key.id }}" hx-target="#delete-modal" hx-trigger="click"  type="submit" class="py-2.5 pr-5 pl-4 h-full text-sm bg-primary ml-0.5 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-r-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
+            <i class="fas fa-trash"></i>
+        </button>
+    </div>
+    {% else %}
+    <p class="text-center dark:text-white">You do not have any API keys, try creating one.</p>
+    {% endfor %}
+</div>
+<div class="flex items-center justify-end mt-4">
+    <button type="submit" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
+        {{ _("Create API Key") }}
+    </button>
+</div>
