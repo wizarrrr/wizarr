@@ -1,8 +1,8 @@
-<section class="bg-gray-50 dark:bg-gray-900 animate__animated animate__fadeIn">
+<section class="bg-gray-50 dark:bg-gray-900">
     <div class="flex flex-col items-center justify-center py-8 mx-auto container px-2 sm:px-4 md:px-0">
-        <div hx-get="/partials/tables/global-users" hx-trigger="load" hx-target="#user_table" hx-swap="outerHTML" class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md min-w-full xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-            <div class="relative overflow-x-auto">
-                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <div hx-get="/partials/tables/global-users" hx-trigger="load" hx-target="#user_table" hx-swap="innerHTML" class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md min-w-full xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8 animate__animated animate__fadeIn flex flex-col justify-between" style="min-height: 220px; transition: min-height 0.5s ease 0s;">
+                <div class="relative overflow-x-auto">
 
                     <!-- Top Bar -->
                     <div class="flex items-center justify-between">
@@ -45,8 +45,8 @@
     </div>
 
 </div>
-<script>
-    let error = () => {
+{# <script>
+    error = () => {
         document.getElementById("loader").classList.add("hidden");
         document.getElementById("error_message").classList.remove("hidden");
         document.getElementById("error_message").innerHTML = "An error occurred. Please try again later.";
@@ -56,7 +56,7 @@
 
     document.body.addEventListener("htmx:sendError", error);
     document.body.addEventListener("htmx:requestError", error);
-</script>
+</script> #}
 <script>
 
     // when a button is clicked with an id of "delete", add the "animate__fadeOut" to its parent 'tr'

@@ -1,13 +1,13 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from logging import info, warning
 from random import choices
 from string import ascii_uppercase, digits
 
-from flask import make_response, redirect, render_template
+from flask import make_response, redirect, render_template, request
 from peewee import IntegrityError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from app import Admins, Libraries, Notifications, Settings, session
+from app import Admins, Libraries, Notifications, Sessions, Settings, session
 from app.helpers import scan_jellyfin_libraries
 from app.notifications import notify_discord, notify_ntfy, notify_pushover
 from app.partials import modal_partials, settings_partials
@@ -24,6 +24,15 @@ def get_settings():
     return settings
 
 def post_settings(settings):
+    # Verify settings data to prevent arbitrary sql injection
+    # TODO: Add more verification
+    
+    # If discord_widget is empty or does not exist, set it to off
+    try:
+        if not settings.get("discord_widget"): settings["discord_widget"] = "off"
+    except:
+        pass
+    
     # Update all settings in the database where the key is in settings
     for key, value in settings.items():
         Settings.get_or_create(key=key)
@@ -58,11 +67,7 @@ def delete_setting(setting):
 
 
 
-def get_notifications(request):
-    if request.headers.get("HX-Request"):
-        # Return settings partial for notifications
-        return settings_partials("notifications")
-
+def get_notifications():
     # Get all notification agents from the database
     return list(Notifications.select().dicts())
 
@@ -74,27 +79,25 @@ def post_notifications(request):
 
     # Create object from form data
     form = {
-        "name": request.form.get("name"),
-        "url": request.form.get("url"),
-        "notification_service": request.form.get("notification_service"),
-        "username": request.form.get("username") or None,
-        "password": request.form.get("password") or None,
-        "userkey": request.form.get("userkey") or None, # (Pushover only) TODO: Make this use username
-        "apitoken": request.form.get("apitoken") or None # (Pushover only) TODO: Make this use password
+        "agent_name": request.form.get("agent_name"),
+        "agent_url": request.form.get("agent_url"),
+        "agent_service": request.form.get("agent_service"),
+        "agent_username": request.form.get("agent_username") or None,
+        "agent_password": request.form.get("agent_password") or None
     }
 
     # Initialize object for functions to test notification agents
     notify_test = {
-        "discord": lambda: notify_discord(message, form["url"]),
-        "ntfy": lambda: notify_ntfy(message, title, tags, form["url"], form["username"], form["password"]),
-        "pushover": lambda: notify_pushover(message, title, form["url"], form["userkey"], form["apitoken"]),
+        "discord": lambda: notify_discord(message, form["agent_url"]),
+        "ntfy": lambda: notify_ntfy(message, title, tags, form["agent_url"], form["agent_username"], form["agent_password"]),
+        "pushover": lambda: notify_pushover(message, title, form["agent_url"], form["agent_username"], form["agent_password"]),
     }
 
         # Initialize object for functions to save notification agents
     notify_save = {
-        "discord": lambda: Notifications.create(name=form["name"], url=form["url"], type=form["notification_service"]),
-        "ntfy": lambda: Notifications.create(name=form["name"], url=form["url"], type=form["notification_service"], username=form["username"], password=form["password"]),
-        "pushover": lambda: Notifications.create(name=form["name"], url=form["url"], type=form["notification_service"], userkey=form["userkey"], apitoken=form["apitoken"]),
+        "discord": lambda: Notifications.create(name=form["agent_name"], url=form["agent_url"], type=form["agent_service"]),
+        "ntfy": lambda: Notifications.create(name=form["agent_name"], url=form["agent_url"], type=form["agent_service"], username=form["agent_username"], password=form["agent_password"]),
+        "pushover": lambda: Notifications.create(name=form["agent_name"], url=form["agent_url"], type=form["agent_service"], userkey=form["agent_username"], apitoken=form["agent_password"]),
     }
 
     # Error function to return error modal with error message
@@ -107,16 +110,16 @@ def post_notifications(request):
         return { "error": error_msg }
 
     # Test notification agent and return error if it fails
-    if not notify_test[form["notification_service"]]():
-        return error("Could not connect to " + str(form["notification_service"]).capitalize())
+    if not notify_test[form["agent_service"]]():
+        return error("Could not connect to " + str(form["agent_service"]).capitalize())
 
     # Initialize variables by pulling function from object based on notification service
-    notify_test_func = notify_test[form['notification_service']]
-    notify_save_func = notify_save[form['notification_service']]
+    notify_test_func = notify_test[form['agent_service']]
+    notify_save_func = notify_save[form['agent_service']]
 
     # Run function to test notification agent and return error if it fails
     if not notify_test_func():
-        return error(f"Could not connect to {str(form['notification_service']).capitalize()}")
+        return error(f"Could not connect to {str(form['agent_service']).capitalize()}")
 
     # Run function to save notification agent and log success
     notify_save_func()
@@ -231,11 +234,10 @@ def login(username, password, remember):
     key = ''.join(choices(ascii_uppercase + digits, k=20))
 
     session["admin_key"] = key
-    session["admin_username"] = username
-
+    
     # Store the admin key in the database
-    Admins.update(session=key).where(Admins.username == username).execute()
-
+    Sessions.create(session=key, user=user.id, ip=request.remote_addr, user_agent=request.user_agent.string, expires=datetime.now() + timedelta(days=1))
+    
     # Store the remember me setting in the session
     session.permanent = not remember
 
@@ -244,8 +246,11 @@ def login(username, password, remember):
     return redirect("/")
 
 def logout():
+    # Delete the session from the database
+    Sessions.delete().where(Sessions.session == session["admin_key"]).execute()
+
     # Delete the admin key from the session
     session.pop("admin_key", None)
-
+    
     # Redirect the user to the login page
     return redirect("/login")

@@ -5,23 +5,19 @@ from os import getenv
 from secrets import token_hex
 
 from flask import redirect, session
+from packaging import version
 from requests import RequestException, get
 
-from app import (Admins, APIKeys, Invitations, Libraries, Notifications,
-                 Settings)
+from app import (VERSION, Admins, APIKeys, Invitations, Libraries,
+                 Notifications, Sessions, Settings)
 
 
 def check_logged_in():
     if getenv("DISABLE_BUILTIN_AUTH") == "true":
         return True
 
-    admin_username = session.get("admin_username")
     admin_key = session.get("admin_key")
-
-    if not admin_username or not admin_key:
-        return False
-
-    admin = Admins.get_or_none(Admins.username == admin_username)
+    admin = Sessions.get_or_none(session=admin_key)
 
     return admin is not None and admin_key == admin.session
 
@@ -108,3 +104,12 @@ def scan_jellyfin_libraries(server_api_key: str, server_url: str):
     except RequestException as e:
         error(f"Error scanning Jellyfin libraries: {e}")
         return None
+    
+def need_update():
+    try:
+        r = get(url="https://raw.githubusercontent.com/Wizarrrr/wizarr/master/.github/latest")
+        data = r.content.decode("utf-8")
+        return version.parse(VERSION) < version.parse(data)
+    except Exception as e:
+        info(f"Error checking for updates: {e}")
+        return False

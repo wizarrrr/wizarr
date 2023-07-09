@@ -120,8 +120,8 @@ except Exception as e:
     logging.info(e)
 
 # Migrations 5
-try:
-    if not Settings.select().where(Settings.key == 'server_api_key').exists():    
+if not Settings.select().where(Settings.key == 'server_api_key').exists():    
+    try:
         settings = {
             settings.key: settings.value
             for settings in Settings.select()
@@ -192,5 +192,5 @@ try:
         
         session.clear()
 
-except Exception as e:
-    logging.info(e)
+    except Exception as e:
+        logging.info(e)

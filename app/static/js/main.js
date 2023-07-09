@@ -6,14 +6,38 @@ function toggleEventListeners() {
         const checkbox = toggle.querySelector("input[type=checkbox]");
         const slider = toggle.querySelector(".slider");
 
-        slider.addEventListener("click", function () {
+        slider.addEventListener("click", () => {
             checkbox.checked = !checkbox.checked;
         });
     });
 }
 
 function closeModal(that) {
-    that.closest("#modal").remove()
+    that.closest("#modal").classList.add("animate__fadeOut");
+    that.closest("#modal").addEventListener("animationend", () => {
+        that.closest("#modal").remove();
+    }, { once: true });
+}
+
+function toggleMenu(element) {
+    let icon = element.children[0]
+    let menu = element.parentElement.children[1]
+
+    if (menu.style.maxWidth == "0px") {
+        menu.style.maxWidth = "1000px"
+        icon.classList.add("fa-rotate-90")
+    } else {
+        menu.style.maxWidth = "0px"
+        icon.classList.remove("fa-rotate-90")
+    }
+
+    document.addEventListener("click", function (event) {
+        if (!element.contains(event.target)) {
+            menu.style.maxWidth = "0px"
+            icon.classList.remove("fa-rotate-90")
+            document.removeEventListener("click", this)
+        }
+    });
 }
 
 async function scanLibraries() {
@@ -164,73 +188,39 @@ function handleRequestTypeChange() {
     selectChanged();
 }
 
-function navbarDefault() {
-    try {
-        let navbarContainer = document.getElementById('navbar-default');
+function handleNavar() {
+    let defaultNavbar = document.getElementById('navbar-default');
+    let settingsNavbar = document.getElementById('navbar-settings');
 
-        let pageSwap = () => {
-            let currentPage = "/partials" + window.location.pathname;
-            currentPage = (currentPage.includes('/partials/admin/settings')) ? '/partials/admin/settings' : currentPage;
-            let currentPageButton = navbarContainer.querySelector('[hx-get="' + currentPage + '"]');
+    let currentPage = window.location.pathname;
 
-            navbarContainer.querySelectorAll('button').forEach(function (button) {
-                button.removeAttribute('aria-current');
-            });
+    if (defaultNavbar) {
+        let currentPageTrimmed = (currentPage.includes('/settings/')) ? "/admin/settings" : currentPage;
+        let currentPageButton = defaultNavbar.querySelector('[hx-push-url="' + currentPageTrimmed + '"]');
 
-            if (currentPageButton) {
-                currentPageButton.setAttribute('aria-current', 'page');
-            }
-        }
-
-        navbarContainer.addEventListener('click', function (event) {
-            if (event.target.tagName === 'BUTTON') {
-                let hxGet = event.target.getAttribute('hx-get');
-                hxGet = hxGet.replace('/partials/admin/', '')
-                history.pushState(null, null, '/admin/' + hxGet);
-            }
-
-            pageSwap();
+        defaultNavbar.querySelectorAll('button').forEach(function (button) {
+            button.removeAttribute('aria-current');
         });
 
-        pageSwap();
-    } catch (error) {
-        console.error(error);
+        if (currentPageButton) {
+            currentPageButton.setAttribute('aria-current', 'page');
+        }
+    }
+
+    if (settingsNavbar) {
+        let currentPageTrimmed = (currentPage.endsWith('/settings')) ? "/admin/settings/general" : currentPage;
+        let currentPageButton = settingsNavbar.querySelector('[hx-push-url="' + currentPageTrimmed + '"]');
+
+        settingsNavbar.querySelectorAll('button').forEach(function (button) {
+            button.removeAttribute('aria-current');
+        });
+
+        if (currentPageButton) {
+            currentPageButton.setAttribute('aria-current', 'page');
+        }
     }
 }
 
-function navbarSettings() {
-    try {
-        let navbarContainer = document.querySelector('#navbar-settings');
-
-        let pageSwap = () => {
-            let currentPage = "/partials" + window.location.pathname;
-            currentPage = (currentPage === '/partials/admin/settings') ? '/partials/admin/settings/general' : currentPage;
-            let currentPageButton = navbarContainer.querySelector('[hx-get="' + currentPage + '"]');
-
-            navbarContainer.querySelectorAll('button').forEach(function (button) {
-                button.removeAttribute('aria-current');
-            });
-
-            if (currentPageButton) {
-                currentPageButton.setAttribute('aria-current', 'page');
-            }
-        }
-
-        navbarContainer.addEventListener('click', function (event) {
-            if (event.target.tagName === 'BUTTON') {
-                let hxGet = event.target.getAttribute('hx-get');
-                hxGet = hxGet.replace('/partials/admin/', '')
-                history.pushState(null, null, '/admin/' + hxGet);
-            }
-
-            pageSwap();
-        });
-
-        pageSwap();
-    } catch (error) {
-        console.error(error);
-    }
-}
 class Carousel {
 
     currentSlide = 0;
@@ -370,36 +360,13 @@ class Carousel {
 
 // htmx:afterSwap is fired when HTMX swaps content
 document.addEventListener("htmx:afterSwap", function (data) {
-    let requestPath = data.detail.pathInfo.requestPath;
-
-    // These will be called every time the page is swapped
-    toggleEventListeners();
-
-    // Use requestPath to determine which page is being loaded and run the appropriate code
-    if (requestPath === "/partials/admin/settings/requests") {
-        handleRequestTypeChange();
-    }
-
-    if (requestPath === "/partials/admin/settings") {
-        navbarSettings();
-    }
+    // handleNavar()
 });
 
-// htmx:load is fired when HTMX loads content
-document.addEventListener("htmx:load", function (data) {
-    let requestPath = document.location.pathname;
-
-    // These will be called every time the page is loaded
-    toggleEventListeners();
-
-    // Use requestPath to determine which page is being loaded and run the appropriate code
-    if (requestPath === "/admin/settings/requests") {
-        handleRequestTypeChange();
-    }
-
-    if (requestPath.includes("/admin/settings")) {
-        navbarSettings();
-    }
+document.addEventListener("htmx:pushedIntoHistory", function (data) {
+    handleNavar()
+    window.closeModal = closeModal;
+    window.toggleMenu = toggleMenu;
 });
 
 document.addEventListener("htmx:afterRequest", function (e) {
@@ -419,7 +386,7 @@ document.addEventListener("htmx:afterRequest", function (e) {
             gravity: "bottom",
             position: "right",
             stopOnFocus: true,
-            className: "show-toast", 
+            className: "show-toast",
         }
 
         Toastify(toast).showToast();
@@ -428,5 +395,5 @@ document.addEventListener("htmx:afterRequest", function (e) {
 
 // When the page is loaded, run the appropriate code
 document.addEventListener("DOMContentLoaded", function () {
-    navbarDefault();
+    handleNavar()
 });

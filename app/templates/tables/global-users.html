@@ -14,11 +14,14 @@
                             <img class="w-full h-full object-cover object-center" onerror="this.src='https://ui-avatars.com/api/?uppercase=true&name={{ user.username }}&length=1'" src="{{ user.photo }}" alt="Profile Picture">
                         </div>
                         {% endif %}
-                        {% if user.username %}
-                        <p class="text-base font-medium leading-none mr-2">
-                            {{ user.username }}
-                        </p>
-                        {% endif %}
+                        <div class="flex flex-col align-start">
+                            {% if user.username %}
+                            <span class="text-sm font-medium text-start">{{ user.username }}</span>
+                            {% endif %}
+                            {% if user.email %}
+                            <span class="text-xs text-gray-500 text-start">{{ user.email }}</span>
+                            {% endif %}
+                        </div>
                     </div>
                 </td>
                 {% endif %}
@@ -45,7 +48,7 @@
 
                 <td class="p-5 pr-8 hidden md:block text-right">
                     <div class="flex col justify-end space-x-4">
-                        <button class="focus:ring-2 p-2 rounded-md focus:outline-none" onclick="dropdownFunction(this)" role="button" aria-label="option">
+                        <button class="focus:ring-2 p-2 rounded-md focus:outline-none" onclick="window.toggleMenu(this)" role="button" aria-label="option">
                             <i class="transition-all fa-solid fa-ellipsis"></i>
                         </button>
                         <div id="menu" class="flex row overflow-hidden transition-all items-center space-x-2" style="max-width: 0px;">
@@ -68,18 +71,3 @@
     <p class="text-center dark:text-white">There are currently no users.</p>
     {% endif %}
 </div>
-
-<script>
-    function dropdownFunction(element) {
-        let icon = element.children[0]
-        let menu = element.parentElement.children[1]
-
-        if (menu.style.maxWidth == "0px") {
-            menu.style.maxWidth = "1000px"
-            icon.classList.add("fa-rotate-90")
-        } else {
-            menu.style.maxWidth = "0px"
-            icon.classList.remove("fa-rotate-90")
-        }
-    }
-</script>

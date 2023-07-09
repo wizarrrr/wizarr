@@ -1,0 +1,148 @@
+<!-- tasks Table -->
+<div class="mt-7 overflow-x-auto">
+    {% if tasks %}
+    <table class="w-full whitespace-nowrap">
+        <thead>
+            <tr class="rounded-lg border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white text-xs text-left">
+                <th class="pl-5 py-3">{{ _("Job Name") }}</th>
+                <th class="pl-5 py-3">{{ _("Next Execution") }}</th>
+                <th class="pl-5 py-3"></th>
+            </tr>
+
+            <tr class="h-0 md:h-3"></tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr tabindex="0" class="focus:outline-none h-16 rounded-lg border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
+
+                {% if task.name %}
+                <td class="text-right">
+                    <div class="flex items-center pl-5 space-x-4">
+                        <p class="text-base font-medium leading-none mr-2">
+                            {{ task.name }}
+                        </p>
+                    </div>
+                </td>
+                {% endif %}
+
+                {% if task.next_run_time %}
+                <td class="text-right">
+                    <div class="flex items-center pl-5 space-x-4">
+                        <p class="text-base font-medium leading-none mr-2 countdown">
+                            {{ task.next_run_time|format_datetime() }}
+                        </p>
+                    </div>
+                </td>
+                {% endif %}
+
+                <td class="p-5 block md:hidden text-center">
+                    <button class="text-gray-600 text-sm leading-none py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none">View</button>
+                </td>
+
+                <td class="p-5 pr-8 hidden md:block text-right">
+                    <div class="flex col justify-end space-x-4">
+                        <button class="focus:ring-2 p-2 rounded-md focus:outline-none" onclick="window.toggleMenu(this)" role="button" aria-label="option">
+                            <i class="transition-all fa-solid fa-ellipsis"></i>
+                        </button>
+                        <div id="menu" class="flex row overflow-hidden transition-all items-center space-x-2" style="max-width: 0px;">
+                            <button hx-get="" hx-target="" hx-trigger="click" class="bg-gray-600 focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-gray-600">
+                                {{ _("Edit") }}
+                            </button>
+                            <button hx-get="" hx-target="" hx-trigger="click" class="bg-primary focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-primary">
+                                {{ _("Delete") }}
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="h-0 md:h-3"></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-center dark:text-white">There are currently no tasks.</p>
+    {% endif %}
+</div>
+
+<script>
+    function parseTimeStringAndCountdown(timeString, element) {
+        let timeComponents = timeString.split(' ');
+
+        let duration = 0;
+        let hasHours = false;
+        let hasMinutes = false;
+
+        for (let component of timeComponents) {
+            if (component.endsWith('h')) {
+                let hours = parseInt(component.slice(0, -1), 10);
+                duration += hours * 60 * 60 * 1000; // Convert hours to milliseconds
+                hasHours = true;
+            } else if (component.endsWith('m')) {
+                let minutes = parseInt(component.slice(0, -1), 10);
+                duration += minutes * 60 * 1000; // Convert minutes to milliseconds
+                hasMinutes = true;
+            } else if (component.endsWith('s')) {
+                let seconds = parseInt(component.slice(0, -1), 10);
+                duration += seconds * 1000; // Convert seconds to milliseconds
+            }
+        }
+
+        if (timeString.endsWith('paused')) {
+            return;
+        }
+
+        let countdown = duration;
+
+        return setInterval(() => {
+            let remainingHours = Math.floor(countdown / (1000 * 60 * 60));
+            let remainingMinutes = Math.floor((countdown % (1000 * 60 * 60)) / (1000 * 60));
+            let remainingSeconds = Math.floor((countdown % (1000 * 60)) / 1000);
+
+            let timeString = '';
+
+            if (hasHours) timeString += `${remainingHours}h `;
+            if (hasMinutes) timeString += `${remainingMinutes}m `;
+
+            timeString += `${remainingSeconds}s`;
+
+            element.innerText = timeString;
+
+            countdown -= 1000;
+
+            let cancel = () => { refreshTaskTable(); };
+
+            if (countdown < 0) cancel();
+        }, 1000);
+    }
+
+    window.countdownIntervalList = [];
+
+    for (let element of document.querySelectorAll('.countdown')) {
+        let timeString = element.innerText;
+        window.countdownIntervalList.push(parseTimeStringAndCountdown(timeString, element));
+    }
+
+    document.addEventListener('htmx:beforeSwap', () => {
+        for (let interval of window.countdownIntervalList) {
+            clearInterval(interval);
+        }
+    });
+
+    async function refreshTaskTable() {
+        let task_table = document.querySelector('#task_table_container');
+        let response = await fetch(task_table.getAttribute('hx-get'))
+        
+        let html = await response.text();
+        document.querySelector('#task_table').innerHTML = html;
+
+        for (let interval of window.countdownIntervalList) {
+            clearInterval(interval);
+        }
+
+        for (let element of document.querySelectorAll('.countdown')) {
+            let timeString = element.innerText;
+            window.countdownIntervalList.push(parseTimeStringAndCountdown(timeString, element));
+        }
+    }
+</script>

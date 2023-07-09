@@ -13,12 +13,12 @@
     <input hidden name="library_count" id="library_count" type="number" value="0">
     <div id="libraries"></div>
 
-    <div class="flex flex-row-reverse">
-        <button onclick="updateLibraries(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:ml-3 sm:w-auto">
-            {{ _("Update Libraries") }}
-        </button>
-        <button onclick="closeModal(this)" type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+    <div class="flex justify-end pt-2 space-x-4">
+        <button onclick="window.closeModal(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto">
             {{ _("Cancel") }}
+        </button>
+        <button onclick="updateLibraries(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:w-auto">
+            {{ _("Update Libraries") }}
         </button>
     </div>
 
@@ -53,23 +53,19 @@
             duration: 5000,
             gravity: "bottom",
             position: "right",
-            style: {
-                background: "#ff5858"
-            },
+            className: "error-toast",
+            style: {},
             stopOnFocus: true,
         };
 
         if (data.error) {
             button.disabled = false;
-            button.innerHTML = '{{ _("Update Libraries") }}';
-            document.getElementById('error').innerHTML = data.error;
             spinner.classList.add('hidden');
-            toast.text = data.error;
+            toast.text = data.error || "Unable to update libraries"
         } else {
             closeModal(button);
             spinner.classList.add('hidden');
             toast.text = "Libraries updated";
-            toast.style.background = "#68d391";
         }
 
         Toastify(toast).showToast();

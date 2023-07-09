@@ -6,6 +6,7 @@ from flask import abort, redirect, render_template, request, session
 from app import VERSION, app
 from app.helpers import (get_api_keys, get_notifications, get_settings,
                          login_required)
+from app.scheduler import get_schedule
 
 
 # All admin routes
@@ -44,10 +45,10 @@ def settings_routes(subpath):
 
     # Get all settings
     settings = get_settings()
-    settings["agents"] = get_notifications()
     settings["api_keys"] = get_api_keys()
     settings["template"] = subpath if subpath else "general"
 
+    print(settings)
     # If no subpath is specified, render the admin dashboard
     if not subpath:
         return render_template("admin.html", subpath="admin/settings.html", settings_subpath="admin/settings/general.html", **settings)
@@ -55,6 +56,28 @@ def settings_routes(subpath):
     # All possible admin routes
     return render_template("admin.html", subpath="admin/settings.html", settings_subpath=f"admin/settings/{subpath}.html", **settings)
 
+# All account routes
+@app.get('/admin/account', defaults={'subpath': ''})
+@app.get('/admin/account/<path:subpath>')
+# @login_required
+def account_routes(subpath):
+    # Get valid account partials
+    html_files = [path.splitext(file)[0] for file in listdir('./app/templates/admin/account') if file.endswith('.html')]
+
+    # Check if the subpath is valid
+    if subpath not in html_files and subpath != "":
+        return abort(404)
+
+    # Get all settings
+    settings = get_settings()
+    settings["template"] = subpath if subpath else "general"
+
+    # If no subpath is specified, render the admin dashboard
+    if not subpath:
+        return render_template("admin.html", subpath="admin/account.html", account_subpath="admin/account/general.html", **settings)
+
+    # All possible admin partials
+    return render_template("admin.html", subpath="admin/account.html", account_subpath=f"admin/account/{subpath}.html", **settings)
 
 @app.route('/setup/<path:subpath>', methods=["GET"])
 def setup_server(subpath):
@@ -62,8 +85,8 @@ def setup_server(subpath):
     settings = get_settings()
 
     # If the server is already verified, redirect to the admin dashboard
-    if "server_verified" in settings and settings["server_verified"]:
-        return redirect("/")
+    # if "server_verified" in settings and settings["server_verified"]:
+        # return redirect("/")
 
     html_files = [path.splitext(file)[0] for file in listdir('./app/templates/setup/pages') if file.endswith('.html')]
 

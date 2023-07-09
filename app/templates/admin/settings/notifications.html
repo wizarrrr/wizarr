@@ -1,33 +1,21 @@
 <div id="create-modal"></div>
 <div id="edit-modal"></div>
 <div id="delete-modal"></div>
+<div id="create-modal"></div>
 
-<div class="space-y-4 md:space-y-6">
-    {% if agents | length == 0 %}
-    <div class="flex justify-center">
-        <span class="p-3 px-6 text-md text-gray-800 dark:text-gray-300">
-            {{ _("No agents found.") }}
-        </span>
-    </div>
-    {% endif %}
+<div hx-get="/partials/tables/notification-table" hx-trigger="load" hx-target="#notification_table" hx-swap="innerHTML" class="flex flex-col space-y-4 animate__animated animate__fadeIn">
 
-    {% for agent in agents %}
-    <div class="bg-gray-50 rounded-lg shadow dark:shadow-lg p-6 dark:bg-gray-700 flex col justify-between">
-        <div>
-            <h2 class="text-lg font-medium text-gray-900 dark:text-white">{{ agent.name }}</h2>
-            <div class="mt-2 flex items-center">
-                <span class="flex items-center text-sm text-gray-600 dark:text-gray-400">{{ agent.type }}</span>
-            </div>
-        </div>
-        <div class="flex items-center space-x-4">
-            <button hx-get="/partials/modals/edit-notification-agent?agent={{ agent.id }}" hx-target="#edit-modal" hx-trigger="click" id="edit-agent-button" _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal" class="text-sm font-medium text-secondary dark:text-primary">{{ _("Edit") }}</button>
-            <button hx-get="/partials/modals/delete-notification-agent?agent={{ agent.id }}" hx-target="#delete-modal" hx-trigger="click" id="delete-agent-button" _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal" class="text-sm font-medium text-secondary dark:text-primary">{{ _("Delete") }}</button>
+    <!-- Notifications Table -->
+    <div id="notification_table">
+        <p id="error_message" class="hidden text-center dark:text-white"></p>
+        <div id="loader" class="text-center" role="status">
+            <i class="text-gray-900 dark:text-white fa-solid fa-spinner fa-spin fa-2xl"></i>
         </div>
     </div>
-    {% endfor %}
-</div>
-<div class="flex items-center justify-end mt-4">
-    <button hx-get="/partials/modals/create-notification-agent" hx-target="#create-modal" hx-trigger="click" id="create-agent-button" _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
-        {{ _("Create Agent") }}
-    </button>
+
+    <div class="flex items-center justify-end space-x-2">
+        <button hx-get="/partials/modals/create-notification-agent" hx-target="#create-modal" hx-trigger="click" hx-swap="innerHTML" id="create-agent-button" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
+            {{ _("Create Agent") }}
+        </button>
+    </div>
 </div>

@@ -1,9 +1,10 @@
-import logging
-import requests
-import json
 import base64
+import json
+import logging
 
-from app import app, Settings, Notifications
+import requests
+
+from app import Notifications, Settings, app
 
 
 def notify(title, message, tags):

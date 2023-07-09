@@ -1,0 +1,25 @@
+<div class="flex justify-between items-center pb-3">
+    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        {{ _("Create API Key") }}
+    </h1>
+</div>
+<div class="flex flex-col mb-8">
+    <form class="space-y-4 md:space-y-6">
+        <div>
+            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Name") }}</label>
+            <input type="text" name="name" id="name" placeholder='e.g. "My App"' class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+        </div>
+    </form>
+</div>
+<div class="flex justify-end pt-2 space-x-4">
+    <button onclick="window.closeModal(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto">
+        {{ _("Cancel") }}
+    </button>
+    <button hx-post="/api/apikeys" hx-target="#settings-content" hx-swap="innerHTML" hx-indicator="#spinner" type="submit" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:w-auto" {% if not api %}disabled{% endif %}>
+        {{ _("Create") }}
+    </button>
+</div>
+
+<script>
+
+</script>

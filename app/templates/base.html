@@ -27,9 +27,6 @@
     <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}" />
     <link rel="stylesheet" href="{{url_for('static',filename='node_modules/toastify-js/src/toastify.css')}}" />
 
-    <script src="{{url_for('static', filename='node_modules/alpinejs/dist/cdn.min.js')}}"></script>
-    <script src="{{ url_for('static', filename='node_modules/flowbite/dist/flowbite.min.js') }}" defer></script>
-    <script src="{{url_for('static', filename='node_modules/@alpinejs/collapse/dist/cdn.min.js')}}" defer></script>
     <script src="{{url_for('static', filename='node_modules/toastify-js/src/toastify.js')}}"></script>
 
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
@@ -54,6 +51,10 @@
     <div id="spinner" class="htmx-indicator absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity">
         <i class="fa-solid fa-spinner fa-spin fa-2xl"></i>
     </div>
+
+    <script src="{{url_for('static', filename='node_modules/alpinejs/dist/cdn.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='node_modules/flowbite/dist/flowbite.min.js') }}"></script>
+    <script src="{{url_for('static', filename='node_modules/@alpinejs/collapse/dist/cdn.min.js')}}"></script>
 
 </body>
 

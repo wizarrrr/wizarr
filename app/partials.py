@@ -3,8 +3,9 @@ from os import getenv, listdir, path
 
 from flask import abort, make_response, render_template, request
 
-from app import Invitations, Settings, app, controllers
+from app import Admins, Invitations, Settings, app, controllers
 from app.helpers import get_api_keys, get_notifications, get_settings
+from app.scheduler import get_schedule
 from app.universal import global_get_users
 
 
@@ -43,7 +44,6 @@ def settings_partials(subpath):
 
     # Get all settings
     settings = get_settings()
-    settings["agents"] = get_notifications()
     settings["api_keys"] = get_api_keys()
     settings["template"] = subpath if subpath else "general"
 
@@ -59,12 +59,36 @@ def settings_partials(subpath):
 def post_settings_routes(subpath):
     # Get valid settings partials
     if subpath in ["general", "request", "discord", "html"]:
-        controllers.post_settings(request.form)
+        controllers.post_settings(request.form.to_dict())
         
     response = make_response(settings_partials(subpath))
     response.headers['showToast'] = "Settings saved successfully!"
     
     return response
+
+# All account partials
+@app.get('/partials/admin/account', defaults={'subpath': ''})
+@app.get('/partials/admin/account/<path:subpath>')
+# @login_required
+def account_partials(subpath):
+    # Get valid account partials
+    html_files = [path.splitext(file)[0] for file in listdir('./app/templates/admin/account') if file.endswith('.html')]
+
+    # Check if the subpath is valid
+    if subpath not in html_files and subpath != "":
+        return abort(404)
+
+    # Get all settings
+    settings = get_settings()
+    settings["template"] = subpath if subpath else "general"
+
+    # If no subpath is specified, render the admin dashboard
+    if not subpath:
+        return render_template("admin/account.html", account_subpath="admin/account/general.html", **settings)
+
+    # All possible admin partials
+    return render_template(f"admin/account/{subpath}.html", **settings)
+
 
 # All modal partials
 @app.route('/partials/modals/<path:path>')
@@ -84,19 +108,24 @@ def modal_partials(path, **kwargs):
 # All tables partials
 @app.route('/partials/tables/<path:path>')
 def table_partials(path):
-    data = {}
+    settings = {}
 
     if path == "global-users":
-        data = {
-            "users": global_get_users()
-        }
+        settings["users"] = global_get_users()
 
     if path == "invite-table":
-        data = {
-            "server_type": Settings.get(key="server_type").value,
-            "invitations": Invitations.select().order_by(Invitations.created.desc()),
-            "rightnow": datetime.now(),
-            "app_url": getenv("APP_URL")
-        }
+        settings["server_type"] = Settings.get(key="server_type").value
+        settings["invitations"] = Invitations.select().order_by(Invitations.created.desc())
+        settings["rightnow"] = datetime.now()
+        settings["app_url"] = getenv("APP_URL")
+        
+    if path == "admin-users":
+        settings["admins"] = list(Admins.select().dicts())
+        
+    if path == "task-table":
+        settings["tasks"] = get_schedule()
+        
+    if path == "notification-table":
+        settings["notifications"] = get_notifications()
 
-    return render_template(f"tables/{path}.html", **data)
+    return render_template(f"tables/{path}.html", **settings)

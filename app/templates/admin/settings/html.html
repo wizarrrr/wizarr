@@ -1,12 +1,14 @@
-<form class="space-y-4 md:space-y-6" hx-post="/partials/admin/settings/{{ template }}" hx-target="#settings-content" hx-swap="innerHTML">
-    <div class="mb-6">
-        <label for="custom_html" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Custom HTML") }}</label>
-        <input type="text" name="custom_html" id="custom_html" value="{% if custom_html %}{{ custom_html }}{% endif %}" placeholder="Optional, leave empty to disable" class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-    </div>
+<div class="animate__animated animate__fadeIn">
+    <form class="space-y-4 md:space-y-6" hx-post="/partials/admin/settings/{{ template }}" hx-target="#settings-content" hx-swap="innerHTML">
+        <div class="mb-6">
+            <label for="custom_html" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Custom HTML") }}</label>
+            <input type="text" name="custom_html" id="custom_html" value="{% if custom_html %}{{ custom_html }}{% endif %}" placeholder="Optional, leave empty to disable" class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
 
-    <div class="flex items-center justify-end mt-4">
-        <button type="submit" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
-            {{ _("Save") }}
-        </button>
-    </div>
-</form>
+        <div class="flex items-center justify-end mt-4">
+            <button type="submit" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
+                {{ _("Save") }}
+            </button>
+        </div>
+    </form>
+</div>

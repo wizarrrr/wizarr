@@ -1,19 +1,21 @@
-<form class="space-y-4 md:space-y-6" hx-post="/partials/admin/settings/{{template}}" hx-target="#settings-content" hx-swap="innerHTML">
-    <div>
-        <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username") }}</label>
-        <input type="username" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="marvin" required="">
+<div hx-get="/partials/tables/admin-users" hx-trigger="load" hx-target="#admin_table" hx-swap="outerHTML" class="flex flex-col space-y-4 animate__animated animate__fadeIn">
+
+    <!-- Users Table -->
+    <div id="admin_table">
+        <p id="error_message" class="hidden text-center dark:text-white"></p>
+        <div id="loader" class="text-center" role="status">
+            <i class="text-gray-900 dark:text-white fa-solid fa-spinner fa-spin fa-2xl"></i>
+        </div>
     </div>
-    <div>
-        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Password") }}</label>
-        <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-    </div>
-    <div>
-        <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Confirm password") }}</label>
-        <input type="password" name="confirm-password" id="confirm-password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-    </div>
-    <div class="flex justify-end">
-        <button type="submit" class="text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
-            {{ _("Save account") }}
+
+    <!-- Bottom Bar -->
+    <div class="flex items-center justify-end space-x-2">
+        <button hx-get="/partials/admin/account" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/account" class="bg-gray-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm">
+            {{ _("My Account") }}
+        </button>
+        <button id="adduser" hx-get="" hx-target="" hx-trigger="click" hx-swap="innerHTML" class="bg-gray-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm">
+            {{ _("Add Admin") }}
         </button>
     </div>
-</form>
+
+</div>

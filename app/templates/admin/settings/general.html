@@ -1,41 +1,42 @@
 <div id="create-modal"></div>
 
+<div class="animate__animated animate__fadeIn">
+    <form id="general-form" class="space-y-4 md:space-y-6" hx-post="/partials/admin/settings/{{ template }}" hx-target="#settings-content" hx-swap="innerHTML">
+        <div>
+            <label for="server_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Display Name") }}</label>
+            <input type="server_name" name="server_name" id="server_name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if server_name %}{{ server_name }}{% endif %}" required="">
+        </div>
 
-<form id="general-form" class="space-y-4 md:space-y-6" hx-post="/partials/admin/settings/{{ template }}" hx-target="#settings-content" hx-swap="innerHTML">
-    <div>
-        <label for="server_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Display Name") }}</label>
-        <input type="server_name" name="server_name" id="server_name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if server_name %}{{ server_name }}{% endif %}" required="">
-    </div>
+        <div>
+            <label for="server_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server") }}</label>
+            <select name="server_type" id="server_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option {% if not server_type %} selected {% endif %} disabled>{{ _("Choose a server") }}</option>
+                <option {% if server_type=="jellyfin" %} selected {% endif %} value="jellyfin">Jellyfin (or Emby)</option>
+                <option {% if server_type=='plex' %} selected {% endif %} value="plex">Plex Media Server</option>
+            </select>
+        </div>
 
-    <div>
-        <label for="server_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server") }}</label>
-        <select name="server_type" id="server_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <option {% if not server_type %} selected {% endif %} disabled>{{ _("Choose a server") }}</option>
-            <option {% if server_type=="jellyfin" %} selected {% endif %} value="jellyfin">Jellyfin (or Emby)</option>
-            <option {% if server_type=='plex' %} selected {% endif %} value="plex">Plex Media Server</option>
-        </select>
-    </div>
+        <div>
+            <label for="server_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server URL") }}</label>
+            <input type="server_url" name="server_url" id="server_url" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if server_url %}{{ server_url }}{% endif %}" required="">
+        </div>
 
-    <div>
-        <label for="server_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server URL") }}</label>
-        <input type="server_url" name="server_url" id="server_url" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if server_url %}{{ server_url }}{% endif %}" required="">
-    </div>
+        <div>
+            <label for="server_api_key" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Token / API Key") }}</label>
+            <input type="password" name="server_api_key" id="server_api_key" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if server_api_key %}{{ server_api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX" required="">
+        </div>
 
-    <div>
-        <label for="server_api_key" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Token / API Key") }}</label>
-        <input type="password" name="server_api_key" id="server_api_key" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if server_api_key %}{{ server_api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX" required="">
-    </div>
+        <div>
+            <label for="plex_libraries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Libraries") }}</label>
+            <button hx-get="/partials/modals/update-libraries" hx-target="#create-modal" hx-trigger="click" hx-swap="innerHTML" id="scan-libraries-button" _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
+                {{ _("Scan For Libraries") }}
+            </button>
+        </div>
 
-    <div>
-        <label for="plex_libraries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Libraries") }}</label>
-        <button hx-get="/partials/modals/update-libraries" hx-target="#create-modal" hx-trigger="click" id="scan-libraries-button" _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
-            {{ _("Scan For Libraries") }}
-        </button>
-    </div>
-
-    <div class="flex items-center justify-end mt-4">
-        <button type="submit" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
-            {{ _("Save") }}
-        </button>
-    </div>
-</form>
+        <div class="flex items-center justify-end mt-4">
+            <button type="submit" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
+                {{ _("Save") }}
+            </button>
+        </div>
+    </form>
+</div>
