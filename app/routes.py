@@ -21,13 +21,17 @@ def admin_routes(subpath):
     # Check if the subpath is valid
     if subpath not in html_files and subpath != "":
         return abort(404)
+    
+    # Authentication Activated
+    settings = {}
+    settings["auth"] = True if getenv("DISABLE_BUILTIN_AUTH") != "true" else False
 
     # If no subpath is specified, render the admin dashboard
     if not subpath:
-        return render_template("admin.html", subpath="admin/invite.html")
+        return render_template("admin.html", subpath="admin/invite.html", **settings)
 
     # All possible admin routes
-    return render_template("admin.html", subpath=f"admin/{subpath}.html")
+    return render_template("admin.html", subpath=f"admin/{subpath}.html", **settings)
 
 
 # All settings routes
@@ -47,6 +51,8 @@ def settings_routes(subpath):
     settings = get_settings()
     settings["api_keys"] = get_api_keys()
     settings["template"] = subpath if subpath else "general"
+    settings["auth"] = True if getenv("DISABLE_BUILTIN_AUTH") != "true" else False
+    settings["admin"] = session["admin"]
 
     print(settings)
     # If no subpath is specified, render the admin dashboard
@@ -59,7 +65,7 @@ def settings_routes(subpath):
 # All account routes
 @app.get('/admin/account', defaults={'subpath': ''})
 @app.get('/admin/account/<path:subpath>')
-# @login_required
+@login_required
 def account_routes(subpath):
     # Get valid account partials
     html_files = [path.splitext(file)[0] for file in listdir('./app/templates/admin/account') if file.endswith('.html')]
@@ -71,6 +77,7 @@ def account_routes(subpath):
     # Get all settings
     settings = get_settings()
     settings["template"] = subpath if subpath else "general"
+    settings["admin"] = session["admin"]
 
     # If no subpath is specified, render the admin dashboard
     if not subpath:
@@ -114,14 +121,12 @@ def setup_server(subpath):
 
 
 # Login route
-
-
 @app.route('/login', methods=["GET"])
 def login_get():
     if getenv("DISABLE_BUILTIN_AUTH") and getenv("DISABLE_BUILTIN_AUTH") == "true":
         return redirect("/")
     
-    if session.get("admin_key"):
+    if session.get("admin"):
         return redirect("/")
 
     return render_template("login.html")

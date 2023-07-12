@@ -358,6 +358,23 @@ class Carousel {
     }
 }
 
+document.addEventListener('htmx:beforeSwap', function(evt) {
+    if(evt.detail.xhr.status === 404) {
+        alert("Error: Could Not Find Resource");
+    } else if(evt.detail.xhr.status === 401) {
+        try {
+            history.pushState(null, null, '/login');
+            htmx.ajax('GET', '/login', { target:'body', swap:'outerHTML', historyUpdate:'replace' });
+            setTimeout(function() {
+                let toast = Toastify({ text: 'You must be logged in to view this page.', duration: 5000, gravity: 'bottom', position: 'right', className: 'error-toast', stopOnFocus: true });
+                toast.showToast();
+            }, 500);
+        } catch(e) {
+            window.location.href = '/login';
+        }
+    }
+});
+
 // htmx:afterSwap is fired when HTMX swaps content
 document.addEventListener("htmx:afterSwap", function (data) {
     // handleNavar()

@@ -12,7 +12,34 @@
     <button onclick="window.closeModal(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto">
         {{ _('Cancel') }}
     </button>
-    <button hx-delete="/api/notifications/{{ agent }}" hx-target="#settings-content" hx-swap="innerHTML" hx-indicator="#spinner" type="submit" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:w-auto" {% if not agent %}disabled{% endif %}>
+    <button onclick="deleteNotification(this)" type="submit" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:w-auto" {% if not agent %}disabled{% endif %}>
         {{ _('Delete') }}
     </button>
 </div>
+
+<script>
+    async function deleteNotification(that) {
+        let spinner = that.closest('#modal').querySelector('#modal-spinner');
+        spinner.classList.remove('hidden');
+
+        let response = await fetch("/api/notifications/{{ agent }}", {
+            method: "DELETE",
+        })
+
+        if (response.status == 401) {
+            spinner.classList.add('hidden');
+            toast.errorToast("{{ _('You are not authorized to perform this action.') }}");
+            return;
+        }
+
+        if (response.status == 500 || response.status != 200) {
+            spinner.classList.add('hidden');
+            toast.errorToast('{{ _("An error occurred while deleting the Notification Agent.") }}');
+            return;
+        }
+
+        toast.infoToast('{{ _("Notification Agent deleted successfully!") }}')
+
+        htmx.ajax('GET', '/partials/admin/settings/notifications', { target:'#settings-content', swap:'innerHTML', indicator:'#spinner' });
+    }
+</script>

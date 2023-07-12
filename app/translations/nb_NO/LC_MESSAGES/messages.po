@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-16 17:27+0100\n"
+"POT-Creation-Date: 2023-07-10 17:37+0100\n"
 "PO-Revision-Date: 2023-05-08 06:07+0000\n"
 "Last-Translator: NorGyptian <samy.a.14@hotmail.com>\n"
 "Language: nb_NO\n"
@@ -19,59 +19,68 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: app/admin.py:150
+#: app/admin.py:166
 msgid "Passwords do not match."
 msgstr "Passordene samsvarer ikke."
 
-#: app/admin.py:153
+#: app/admin.py:169
 msgid "Username must be between 3 and 15 characters."
 msgstr "Brukernavn må være mellom 3 og 15 tegn."
 
-#: app/admin.py:156
+#: app/admin.py:172
 msgid "Password must be between 3 and 40 characters."
 msgstr "Passord må være mellom 3 og 40 tegn."
 
-#: app/admin.py:182
+#: app/admin.py:200
 msgid "You must select at least one library."
 msgstr "Du må velge minst ett bibliotek."
 
-#: app/admin.py:251
+#: app/admin.py:277
 msgid "It is likely that your token does not work."
 msgstr "Det er sannsynlig at symbolet ditt ikke virker."
 
-#: app/admin.py:253
+#: app/admin.py:279
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr "Kunne ikke koble til din Plex-tjener. Sjekk loggføringen for mer info."
 
-#: app/admin.py:262
+#: app/admin.py:288
 msgid "Unable to connect to your Jellyfin server."
 msgstr "Kunne ikke koble til din Jellyfin-tjener. Sjekk loggføringen for mer info."
 
-#: app/admin.py:343 app/admin.py:347
+#: app/admin.py:386 app/admin.py:390
 msgid "Invalid Username or Password"
 msgstr "Ugyldig brukernavn eller passord"
 
 #: app/templates/admin.html:5
-msgid "Admin"
-msgstr ""
+#, fuzzy
+msgid "Wizarr"
+msgstr "Sett opp Wizarr"
 
-#: app/templates/admin.html:30
+#: app/templates/admin.html:22
+msgid "Attention!"
+msgstr "Merk."
+
+#: app/templates/admin.html:23
+msgid "Update available. Click here."
+msgstr "Oppdatering tilgjengelig. Klikk her."
+
+#: app/templates/admin.html:53
 msgid "Home"
 msgstr "Hjem"
 
-#: app/templates/admin.html:35
+#: app/templates/admin.html:59
 msgid "Invitations"
 msgstr "Invitasjoner"
 
-#: app/templates/admin.html:40
+#: app/templates/admin.html:65
 msgid "Users"
 msgstr "Brukere"
 
-#: app/templates/admin.html:45
+#: app/templates/admin.html:71 app/templates/setup/pages/settings.html:2
 msgid "Settings"
 msgstr "-innstillinger"
 
-#: app/templates/invalid-invite.html:16
+#: app/templates/invalid-invite.html:15
 #, fuzzy
 msgid "Invalid Invitation"
 msgstr "Invitasjoner"
@@ -80,12 +89,16 @@ msgstr "Invitasjoner"
 msgid "Login"
 msgstr "Logg inn"
 
-#: app/templates/login.html:23 app/templates/register_admin.html:23
+#: app/templates/login.html:23
+#: app/templates/modals/create-notification-agent.html:143
+#: app/templates/register_admin.html:23 app/templates/setup/pages/admin.html:7
 #: app/templates/welcome-jellyfin.html:30
 msgid "Username"
 msgstr "Brukernavn"
 
-#: app/templates/login.html:29 app/templates/register_admin.html:29
+#: app/templates/admin/account.html:29 app/templates/login.html:29
+#: app/templates/modals/create-notification-agent.html:148
+#: app/templates/register_admin.html:29 app/templates/setup/pages/admin.html:11
 #: app/templates/welcome-jellyfin.html:47
 msgid "Password"
 msgstr "Passord"
@@ -98,89 +111,17 @@ msgstr "Husk meg"
 msgid "Sign in"
 msgstr "Logg inn"
 
-#: app/templates/register_admin.html:18
+#: app/templates/register_admin.html:18 app/templates/setup/base.html:13
 msgid "Setup Wizarr"
 msgstr "Sett opp Wizarr"
 
-#: app/templates/register_admin.html:35
+#: app/templates/register_admin.html:35 app/templates/setup/pages/admin.html:15
 msgid "Confirm password"
 msgstr "Bekreft passord"
 
 #: app/templates/register_admin.html:41 app/templates/welcome-jellyfin.html:72
 msgid "Create an account"
 msgstr "Opprett en konto"
-
-#: app/templates/settings.html:9
-#, fuzzy
-msgid "Server Settings"
-msgstr "Endre tjenerinnstillinger"
-
-#: app/templates/settings.html:27
-#, fuzzy
-msgid ""
-"Server Display\n"
-"                Name"
-msgstr ""
-"Plex Bruker\n"
-"              Navn"
-
-#: app/templates/settings.html:35
-#, fuzzy
-msgid "Server"
-msgstr "Aldri"
-
-#: app/templates/settings.html:48
-msgid "Server URL"
-msgstr ""
-
-#: app/templates/settings.html:54
-#, fuzzy
-msgid ""
-"Server\n"
-"                Token / API Key"
-msgstr ""
-"Plex\n"
-"              Token"
-
-#: app/templates/settings.html:66
-#, fuzzy
-msgid ""
-"Server\n"
-"                Libraries"
-msgstr ""
-"Plex\n"
-"              Bibliotek"
-
-#: app/templates/admin/invite.html:125 app/templates/settings.html:69
-msgid "Scan For Libraries"
-msgstr "Se etter bibliotek"
-
-#: app/templates/settings.html:77
-#, fuzzy
-msgid ""
-"Request\n"
-"                instance (Ombi, Overseerr...) URL"
-msgstr "Forespørselsinstans (Ombi, Overseerr …)"
-
-#: app/templates/settings.html:87
-msgid "Ombi API Key (Only used for user import currently.)"
-msgstr ""
-
-#: app/templates/settings.html:94
-msgid ""
-"Discord\n"
-"                Server ID"
-msgstr ""
-
-#: app/templates/settings.html:102
-msgid ""
-"Custom\n"
-"                HTML"
-msgstr ""
-
-#: app/templates/settings.html:110
-msgid "Save"
-msgstr "Lagre"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
 #: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
@@ -192,8 +133,7 @@ msgstr "Du har blitt invitert til %(name)s server!"
 msgid "Join the Plex Server"
 msgstr "Ta del i Plex-tjeneren"
 
-#: app/templates/tables/global-users.html:19
-#: app/templates/tables/invite_table.html:4
+#: app/templates/tables/invite-table.html:7
 #: app/templates/user-plex-login.html:29 app/templates/user-plex-login.html:40
 msgid "Invite Code"
 msgstr "Invitasjonskode"
@@ -231,91 +171,109 @@ msgid ""
 "                                Code"
 msgstr ""
 
-#: app/templates/admin/invite.html:16
-msgid "Attention!"
-msgstr "Merk."
+#: app/templates/admin/account.html:10
+#, fuzzy
+msgid "Your Account"
+msgstr "Opprett en konto"
 
-#: app/templates/admin/invite.html:17
-msgid "Update available. Click here."
-msgstr "Oppdatering tilgjengelig. Klikk her."
+#: app/templates/admin/account.html:24
+#, fuzzy
+msgid "Account"
+msgstr "Opprett en konto"
 
-#: app/templates/admin/invite.html:32
+#: app/templates/admin/account.html:34
+#, fuzzy
+msgid "Sessions"
+msgstr "-innstillinger"
+
+#: app/templates/admin/invite.html:4
 msgid "Quick Invite"
 msgstr "Hurtig Invitasjon"
 
-#: app/templates/admin/invite.html:38
+#: app/templates/admin/invite.html:9
 msgid "Invite user"
 msgstr "Inviter bruker"
 
-#: app/templates/admin/invite.html:44
+#: app/templates/admin/invite.html:15
 msgid "Invite Code String"
 msgstr "Invitasjonskodestreng"
 
-#: app/templates/admin/invite.html:44
+#: app/templates/admin/invite.html:15
 msgid "(optional)"
 msgstr "(valgfritt)"
 
-#: app/templates/admin/invite.html:51
+#: app/templates/admin/invite.html:22
 msgid "Expiration"
 msgstr "Utløp"
 
-#: app/templates/admin/invite.html:54
-msgid "1 day"
+#: app/templates/admin/invite.html:25
+#, fuzzy
+msgid "1 Day"
 msgstr "1 dag"
 
-#: app/templates/admin/invite.html:55
-msgid "1 week"
+#: app/templates/admin/invite.html:26
+#, fuzzy
+msgid "1 Week"
 msgstr "1 uke"
 
-#: app/templates/admin/invite.html:56
-msgid "1 month"
+#: app/templates/admin/invite.html:27
+#, fuzzy
+msgid "1 Month"
 msgstr "1 måned"
 
-#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:48
+#: app/templates/admin/invite.html:28
+#, fuzzy
+msgid "6 Months"
+msgstr "1 måned"
+
+#: app/templates/admin/invite.html:29
+msgid "1 Year"
+msgstr ""
+
+#: app/templates/admin/invite.html:30
 msgid "Never"
 msgstr "Aldri"
 
-#: app/templates/admin/invite.html:62
+#: app/templates/admin/invite.html:35
 msgid "Advanced Options"
 msgstr "Avanserte Innstillinger"
 
-#: app/templates/admin/invite.html:70
+#: app/templates/admin/invite.html:43
 msgid "Unlimited Usages"
 msgstr "Ubegrenset bruk"
 
-#: app/templates/admin/invite.html:78
+#: app/templates/admin/invite.html:51
 #, fuzzy
 msgid "Invite to Plex Home"
 msgstr "Invitasjonskode"
 
-#: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
-#: app/templates/tables/invite_table.html:13
+#: app/templates/admin/invite.html:60 app/templates/admin/invite.html:72
+#: app/templates/tables/invite-table.html:16
 #, fuzzy
 msgid "Duration"
 msgstr "Utløp"
 
-#: app/templates/admin/invite.html:87
+#: app/templates/admin/invite.html:60
 msgid "(in days)"
 msgstr ""
 
-#: app/templates/admin/invite.html:95
+#: app/templates/admin/invite.html:68
 msgid "Show Information"
 msgstr ""
 
-#: app/templates/admin/invite.html:100
+#: app/templates/admin/invite.html:73
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a\n"
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
 
-#: app/templates/admin/invite.html:116
-#: app/templates/tables/invite_table.html:11
+#: app/templates/admin/invite.html:89 app/templates/tables/invite-table.html:14
 #, fuzzy
 msgid "Allow Downloads"
 msgstr "Last ned"
 
-#: app/templates/admin/invite.html:122
+#: app/templates/admin/invite.html:95
 #, fuzzy
 msgid ""
 "Specific\n"
@@ -324,38 +282,84 @@ msgstr ""
 "Plex\n"
 "              Bibliotek"
 
-#: app/templates/admin/invite.html:134
+#: app/templates/admin/invite.html:98
+#: app/templates/admin/settings/general.html:32
+#: app/templates/setup/pages/settings.html:32
+msgid "Scan For Libraries"
+msgstr "Se etter bibliotek"
+
+#: app/templates/admin/invite.html:107
 msgid "Create Invitation"
 msgstr "Opprett invitasjon"
 
-#: app/templates/admin/invite.html:141
+#: app/templates/admin/invite.html:114
 msgid "Successfully generated an Invitation!"
 msgstr "Invitasjon generert."
 
-#: app/templates/admin/invite.html:146
+#: app/templates/admin/invite.html:119
 msgid "Link has been copied to clipboard!"
 msgstr "Lenke kopiert til utklippstavlen."
 
-#: app/templates/admin/invite.html:155
+#: app/templates/admin/invite.html:128
 msgid "Back"
 msgstr "Tilbake"
 
-#: app/templates/admin/invite.html:161
+#: app/templates/admin/invite.html:134
 msgid "Share"
 msgstr "Del"
 
-#: app/templates/admin/notifications.html:11
-msgid "Notification Agents"
-msgstr ""
-
-#: app/templates/admin/notifications.html:27
-msgid "Delete"
-msgstr ""
-
-#: app/templates/admin/notifications.html:37
+#: app/templates/admin/invites.html:9
 #, fuzzy
-msgid "Create Agent"
+msgid "Server Invites"
+msgstr "Endre tjenerinnstillinger"
+
+#: app/templates/admin/invites.html:20
+#, fuzzy
+msgid "Create Invite"
+msgstr "Opprett invitasjon"
+
+#: app/templates/admin/invites.html:23 app/templates/admin/users.html:33
+msgid "Delete All"
+msgstr ""
+
+#: app/templates/admin/settings.html:10
+#, fuzzy
+msgid "Server Settings"
+msgstr "Endre tjenerinnstillinger"
+
+#: app/templates/admin/settings.html:24
+msgid "General"
+msgstr ""
+
+#: app/templates/admin/settings.html:29
+msgid "Requests"
+msgstr ""
+
+#: app/templates/admin/settings.html:34
+msgid "Discord"
+msgstr ""
+
+#: app/templates/admin/settings.html:39
+msgid "HTML"
+msgstr ""
+
+#: app/templates/admin/settings.html:44
+msgid "API"
+msgstr ""
+
+#: app/templates/admin/settings.html:49
+#, fuzzy
+msgid "Accounts"
 msgstr "Opprett en konto"
+
+#: app/templates/admin/settings.html:54
+#, fuzzy
+msgid "Notifications"
+msgstr "Invitasjoner"
+
+#: app/templates/admin/settings.html:59
+msgid "Tasks"
+msgstr ""
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
@@ -363,6 +367,121 @@ msgstr ""
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
+msgstr ""
+
+#: app/templates/admin/users.html:11
+#, fuzzy
+msgid "Server Users"
+msgstr "Endre tjenerinnstillinger"
+
+#: app/templates/admin/users.html:15
+#, fuzzy
+msgid "Scan Users"
+msgstr "Brukere"
+
+#: app/templates/admin/users.html:30
+#, fuzzy
+msgid "Add User"
+msgstr "Brukere"
+
+#: app/templates/admin/account/sessions.html:14
+msgid "Revoke All"
+msgstr ""
+
+#: app/templates/admin/settings/accounts.html:14
+#, fuzzy
+msgid "My Account"
+msgstr "Opprett en konto"
+
+#: app/templates/admin/settings/accounts.html:17
+msgid "Add Admin"
+msgstr ""
+
+#: app/templates/admin/settings/api.html:21
+#: app/templates/modals/create-api-key.html:3
+#, fuzzy
+msgid "Create API Key"
+msgstr "Opprett en konto"
+
+#: app/templates/admin/settings/discord.html:4
+msgid "Discord Server ID"
+msgstr ""
+
+#: app/templates/admin/settings/discord.html:9
+msgid "Discord Widget"
+msgstr ""
+
+#: app/templates/admin/settings/discord.html:18
+#: app/templates/admin/settings/general.html:38
+#: app/templates/admin/settings/html.html:10
+#: app/templates/admin/settings/requests.html:26
+#: app/templates/setup/pages/settings.html:40
+msgid "Save"
+msgstr "Lagre"
+
+#: app/templates/admin/settings/general.html:6
+#: app/templates/setup/pages/settings.html:6
+#, fuzzy
+msgid "Server Display Name"
+msgstr ""
+"Plex Bruker\n"
+"              Navn"
+
+#: app/templates/admin/settings/general.html:11
+#: app/templates/setup/pages/settings.html:11
+#, fuzzy
+msgid "Server"
+msgstr "Aldri"
+
+#: app/templates/admin/settings/general.html:13
+msgid "Choose a server"
+msgstr ""
+
+#: app/templates/admin/settings/general.html:20
+#: app/templates/setup/pages/settings.html:20
+#: app/templates/wizard/jellyfin/download.html:29
+msgid "Server URL"
+msgstr ""
+
+#: app/templates/admin/settings/general.html:25
+#: app/templates/setup/pages/settings.html:25
+#, fuzzy
+msgid "Server Token / API Key"
+msgstr ""
+"Plex\n"
+"              Token"
+
+#: app/templates/admin/settings/general.html:30
+#: app/templates/modals/update-libraries.html:3
+#: app/templates/setup/pages/settings.html:30
+#, fuzzy
+msgid "Server Libraries"
+msgstr "Plex-bibliotek"
+
+#: app/templates/admin/settings/html.html:4
+msgid "Custom HTML"
+msgstr ""
+
+#: app/templates/admin/settings/notifications.html:18
+#, fuzzy
+msgid "Create Agent"
+msgstr "Opprett en konto"
+
+#: app/templates/admin/settings/requests.html:4
+#, fuzzy
+msgid "Request Server"
+msgstr "Aldri"
+
+#: app/templates/admin/settings/requests.html:6
+msgid "Disabled"
+msgstr ""
+
+#: app/templates/admin/settings/requests.html:15
+msgid "Request Server URL"
+msgstr ""
+
+#: app/templates/admin/settings/requests.html:20
+msgid "Request Server API Key"
 msgstr ""
 
 #: app/templates/error/401.html:20
@@ -390,84 +509,227 @@ msgstr "Intern tjenerfeil"
 msgid " Something has gone wrong. Please try again later."
 msgstr " Noe har gått galt. Prøv igjen senere."
 
-#: app/templates/modals/create-notification-agent.html:31
-msgid "New Agent"
-msgstr ""
-
-#: app/templates/modals/create-notification-agent.html:60
-#, fuzzy
-msgid ""
-"Username\n"
-"                                (optional)"
-msgstr ""
-"Plex\n"
-"              Bibliotek"
-
-#: app/templates/modals/create-notification-agent.html:65
-#, fuzzy
-msgid "Password (optional)"
-msgstr "(valgfritt)"
-
-#: app/templates/modals/create-notification-agent.html:70
-#, fuzzy
-msgid ""
-"Agent\n"
-"                                URL"
-msgstr ""
-"Plex\n"
-"              Bibliotek"
-
-#: app/templates/modals/create-notification-agent.html:81
-msgid "Test & Create Agent"
-msgstr ""
-
-#: app/templates/modals/create-notification-agent.html:85
-msgid "Cancel"
-msgstr ""
-
-#: app/templates/tables/global-users.html:13
+#: app/templates/modals/create-api-key.html:9
+#: app/templates/modals/create-notification-agent.html:13
 #, fuzzy
 msgid "Name"
 msgstr "Brukernavn"
 
-#: app/templates/tables/global-users.html:16
-#: app/templates/tables/invite_table.html:7
-msgid "Expires"
-msgstr "Utløper"
+#: app/templates/modals/create-api-key.html:16
+#: app/templates/modals/create-notification-agent.html:46
+#: app/templates/modals/delete-api-key.html:13
+#: app/templates/modals/delete-notification-agent.html:13
+#: app/templates/modals/revoke-session.html:13
+#: app/templates/modals/scan-libraries.html:18
+#: app/templates/modals/update-libraries.html:18
+msgid "Cancel"
+msgstr ""
 
-#: app/templates/tables/global-users.html:22
+#: app/templates/modals/create-api-key.html:19
 #, fuzzy
-msgid "Actions"
-msgstr "Invitasjoner"
+msgid "Create"
+msgstr "Opprettet"
 
-#: app/templates/tables/invite_table.html:5
+#: app/templates/modals/create-notification-agent.html:3
+msgid "New Agent"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:18
+msgid "Notification Service"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:20
+msgid "Choose a service"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:30
+#: app/templates/modals/create-notification-agent.html:88
+#, fuzzy
+msgid "Username (optional)"
+msgstr "(valgfritt)"
+
+#: app/templates/modals/create-notification-agent.html:34
+#: app/templates/modals/create-notification-agent.html:93
+#, fuzzy
+msgid "Password (optional)"
+msgstr "(valgfritt)"
+
+#: app/templates/modals/create-notification-agent.html:39
+#: app/templates/modals/create-notification-agent.html:98
+#: app/templates/modals/create-notification-agent.html:117
+#: app/templates/modals/create-notification-agent.html:136
+#: app/templates/modals/create-notification-agent.html:153
+msgid "Agent URL"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:49
+msgid "Test & Create Agent"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:105
+msgid "Webhook ID"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:111
+msgid "Webhook Token"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:124
+#, fuzzy
+msgid "User Key"
+msgstr "Brukernavn"
+
+#: app/templates/modals/create-notification-agent.html:130
+msgid "API Token"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:246
+#: app/templates/modals/revoke-session.html:45
+#, fuzzy
+msgid "Something went wrong. Please try again."
+msgstr " Noe har gått galt. Prøv igjen senere."
+
+#: app/templates/modals/create-notification-agent.html:252
+msgid "Notification agent successfully created!"
+msgstr ""
+
+#: app/templates/modals/delete-api-key.html:3
+#: app/templates/modals/revoke-session.html:3
+msgid "Warning"
+msgstr ""
+
+#: app/templates/modals/delete-api-key.html:8
+msgid "Are you sure you want to delete this api key?"
+msgstr ""
+
+#: app/templates/modals/delete-api-key.html:16
+#: app/templates/modals/delete-notification-agent.html:16
+#: app/templates/modals/revoke-session.html:16
+#: app/templates/tables/admin-users.html:40
+#: app/templates/tables/global-users.html:59
+#: app/templates/tables/notification-table.html:36
+#: app/templates/tables/task-table.html:52
+msgid "Delete"
+msgstr ""
+
+#: app/templates/modals/revoke-session.html:8
+msgid "Are you sure you want to revoke this session?"
+msgstr ""
+
+#: app/templates/modals/revoke-session.html:51
+msgid "Session deleted successfully!"
+msgstr ""
+
+#: app/templates/modals/scan-libraries.html:3
+#: app/templates/modals/scan-libraries.html:21
+#, fuzzy
+msgid "Select Libraries"
+msgstr "Plex-bibliotek"
+
+#: app/templates/modals/update-libraries.html:21
+#, fuzzy
+msgid "Update Libraries"
+msgstr "Plex-bibliotek"
+
+#: app/templates/setup/pages/admin.html:2
+#, fuzzy
+msgid "Admin Account"
+msgstr "Opprett en konto"
+
+#: app/templates/setup/pages/admin.html:20
+#, fuzzy
+msgid "Create account"
+msgstr "Opprett en konto"
+
+#: app/templates/setup/pages/complete.html:2
+msgid "Your Done"
+msgstr ""
+
+#: app/templates/setup/pages/complete.html:5
+msgid "You have successfully completed the setup process."
+msgstr ""
+
+#: app/templates/setup/pages/complete.html:9
+msgid "Go to Dashboard"
+msgstr ""
+
+#: app/templates/setup/pages/database.html:2
+msgid "Database"
+msgstr ""
+
+#: app/templates/setup/pages/database.html:5
+msgid ""
+"Currently Wizarr only supports internal SQLite database. This is a "
+"temporary and we are working on adding support for other databases."
+msgstr ""
+
+#: app/templates/setup/pages/welcome.html:2
+#, fuzzy
+msgid "Welcome to Wizarr"
+msgstr "Sett opp Wizarr"
+
+#: app/templates/setup/pages/welcome.html:5
+msgid ""
+"Wizarr is an automatic user invitation system for Plex, Jellyfin, and "
+"Emby. With Wizarr, you can easily create unique invitation links to share"
+" with users, automatically inviting them to your Media Server! "
+"Furthermore, Wizarr provides guidance on downloading clients and "
+"instructions for using Jellyseerr, Overseerr or Ombi site."
+msgstr ""
+
+#: app/templates/setup/pages/welcome.html:8
+msgid ""
+"We hope you enjoy using Wizarr and invite you to explore its powerful "
+"features and intuitive interface. Should you need any assistance, please "
+"refer to our documentation or reach out to our community for support."
+msgstr ""
+
+#: app/templates/setup/pages/welcome.html:12
+msgid ""
+"Check out our documentation for detailed instructions on how to install "
+"and run Wizarr!"
+msgstr ""
+
+#: app/templates/tables/admin-users.html:37
+#: app/templates/tables/global-users.html:56
+#: app/templates/tables/notification-table.html:33
+#: app/templates/tables/task-table.html:49
+msgid "Edit"
+msgstr ""
+
+#: app/templates/tables/invite-table.html:8
 msgid "Used"
 msgstr "Brukt"
 
-#: app/templates/tables/invite_table.html:6
+#: app/templates/tables/invite-table.html:9
 msgid "Created"
 msgstr "Opprettet"
 
-#: app/templates/tables/invite_table.html:8
-msgid "Unlimited"
-msgstr "Ubegrenset"
-
-#: app/templates/tables/invite_table.html:9
-#, fuzzy
-msgid "Libraries"
-msgstr "Plex-bibliotek"
-
-#: app/templates/tables/invite_table.html:22
-msgid "Available"
-msgstr ""
-
-#: app/templates/tables/invite_table.html:35
+#: app/templates/tables/invite-table.html:10
 #, fuzzy
 msgid "Expired"
 msgstr "Utløper"
 
-#: app/templates/tables/invite_table.html:73
-msgid "Default"
+#: app/templates/tables/invite-table.html:11
+msgid "Unlimited"
+msgstr "Ubegrenset"
+
+#: app/templates/tables/invite-table.html:12
+#, fuzzy
+msgid "Libraries"
+msgstr "Plex-bibliotek"
+
+#: app/templates/tables/sessions-table.html:27
+msgid "Revoke"
+msgstr ""
+
+#: app/templates/tables/task-table.html:7
+#, fuzzy
+msgid "Job Name"
+msgstr "Brukernavn"
+
+#: app/templates/tables/task-table.html:8
+msgid "Next Execution"
 msgstr ""
 
 #: app/templates/wizard/requests.html:4
@@ -529,17 +791,42 @@ msgstr ""
 "oss at du vet hvordan du bruker \n"
 "den med Plex."
 
-#: app/templates/wizard/jellyfin/download.html:11
+#: app/templates/wizard/jellyfin/download.html:12
 #, fuzzy
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
 msgstr "Planlegger du å se filmer på denne enheten? Last ned Plex."
 
-#: app/templates/wizard/jellyfin/download.html:14
-#: app/templates/wizard/plex/download.html:14
-msgid "Download"
+#: app/templates/wizard/jellyfin/download.html:18
+msgid ""
+"If you don't wish to Download the App feel free to use Jellyfin in your "
+"devices web browser, just click \"Next\"."
+msgstr ""
+
+#: app/templates/wizard/jellyfin/download.html:24
+msgid "Show Server URL"
+msgstr ""
+
+#: app/templates/wizard/jellyfin/download.html:33
+#: app/templates/wizard/jellyfin/download.html:133
+msgid "Copy"
+msgstr ""
+
+#: app/templates/wizard/jellyfin/download.html:47
+#: app/templates/wizard/jellyfin/download.html:64
+#: app/templates/wizard/jellyfin/tips.html:25
+msgid "Open Jellyfin"
+msgstr "Åpne Jellyfin"
+
+#: app/templates/wizard/jellyfin/download.html:81
+#, fuzzy
+msgid "Other Download"
 msgstr "Last ned"
+
+#: app/templates/wizard/jellyfin/download.html:130
+msgid "Copied!"
+msgstr ""
 
 #: app/templates/wizard/jellyfin/tips.html:4
 #, fuzzy
@@ -576,10 +863,6 @@ msgstr ""
 " Plex-programmet på din enhet, og en konto for å logge inn slik at du kan"
 " strømme media."
 
-#: app/templates/wizard/jellyfin/tips.html:25
-msgid "Open Jellyfin"
-msgstr "Åpne Jellyfin"
-
 #: app/templates/wizard/plex/download.html:3
 msgid ""
 "Join & Download Plex\n"
@@ -601,6 +884,10 @@ msgstr ""
 #: app/templates/wizard/plex/download.html:11
 msgid "Planning on watching Movies on this device? Download Plex for this device."
 msgstr "Planlegger du å se filmer på denne enheten? Last ned Plex."
+
+#: app/templates/wizard/plex/download.html:14
+msgid "Download"
+msgstr "Last ned"
 
 #: app/templates/wizard/plex/tips.html:4
 msgid "Eh, So, What is Plex exactly?"
@@ -1094,4 +1381,61 @@ msgstr ""
 
 #~ msgid "Home User"
 #~ msgstr "Inviter bruker"
+
+#~ msgid "Admin"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Server\n"
+#~ "                Libraries"
+#~ msgstr ""
+#~ "Plex\n"
+#~ "              Bibliotek"
+
+#~ msgid ""
+#~ "Request\n"
+#~ "                instance (Ombi, Overseerr...) URL"
+#~ msgstr "Forespørselsinstans (Ombi, Overseerr …)"
+
+#~ msgid "Ombi API Key (Only used for user import currently.)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Discord\n"
+#~ "                Server ID"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Custom\n"
+#~ "                HTML"
+#~ msgstr ""
+
+#~ msgid "Notification Agents"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Username\n"
+#~ "                                (optional)"
+#~ msgstr ""
+#~ "Plex\n"
+#~ "              Bibliotek"
+
+#~ msgid ""
+#~ "Agent\n"
+#~ "                                URL"
+#~ msgstr ""
+#~ "Plex\n"
+#~ "              Bibliotek"
+
+#~ msgid "Expires"
+#~ msgstr "Utløper"
+
+#~ msgid "Actions"
+#~ msgstr "Invitasjoner"
+
+#~ msgid "Available"
+#~ msgstr ""
+
+#~ msgid "Default"
+#~ msgstr ""
 

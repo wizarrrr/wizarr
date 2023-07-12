@@ -232,26 +232,13 @@
             body: formData
         });
 
-        let toast = {
-            text: '',
-            duration: 5000,
-            gravity: 'bottom',
-            position: 'right',
-            className: 'error-toast',
-            stopOnFocus: true
-        }
-
         if (response.status != 200) {
             spinner.classList.add('hidden');
-            toast.text = '{{ _("Something went wrong. Please try again.") }}';
-            Toastify(toast).showToast();
+            toast.errorToast("{{ _('Something went wrong. Please try again.') }}");
             return;
         }
 
-        toast.className = 'show-toast';
-        toast.text = '{{ _("Notification agent successfully created!") }}';
-        Toastify(toast).showToast();
-
+        toast.infoToast("{{ _('Notification agent successfully created!') }}");
         htmx.ajax('GET', '/partials/admin/settings/notifications', { target:'#settings-content', swap:'innerHTML', indicator:'#spinner' });
     }
 

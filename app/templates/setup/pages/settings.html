@@ -28,7 +28,7 @@
 
     <div>
         <label for="libraries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Libraries") }}</label>
-        <button hx-get="/partials/modals/update-libraries" hx-target="#create-modal" hx-trigger="click" hx-swap="innerHTML" id="scan-libraries-button" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
+        <button hx-get="/partials/modals/update-libraries" hx-target="#create-modal" hx-trigger="click" hx-swap="innerHTML" id="scan-libraries-button" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
             {{ _("Scan For Libraries") }}
         </button>
     </div>
@@ -36,7 +36,7 @@
     <input type="hidden" name="server_verified" value="true">
 
     <div class="flex items-center justify-end mt-4">
-        <button type="submit" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
+        <button type="submit" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
             {{ _("Save") }}
         </button>
     </div>

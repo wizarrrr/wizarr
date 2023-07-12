@@ -4,7 +4,7 @@ from logging import error, info, warning
 from os import getenv
 from secrets import token_hex
 
-from flask import redirect, session
+from flask import make_response, redirect, session
 from packaging import version
 from requests import RequestException, get
 
@@ -13,18 +13,17 @@ from app import (VERSION, Admins, APIKeys, Invitations, Libraries,
 
 
 def check_logged_in():
-    if getenv("DISABLE_BUILTIN_AUTH") == "true":
-        return True
-
-    admin_key = session.get("admin_key")
+    admin_key = session.get("admin").get("key") if session.get("admin") else None
     admin = Sessions.get_or_none(session=admin_key)
-
     return admin is not None and admin_key == admin.session
 
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if check_logged_in():
+            return f(*args, **kwargs)
+        elif getenv("DISABLE_BUILTIN_AUTH") == "true":
+            session["admin"] = { "id": 0, "username": "Anonymous", "key": token_hex(32) }
             return f(*args, **kwargs)
         else:
             return redirect("/login")
@@ -66,13 +65,14 @@ def get_settings():
     return settings
 
 def get_api_keys():
-    admin_username = session.get("admin_username")
-    admin_key = session.get("admin_key")
+    admin = session.get("admin")
+    admin_id = admin.get("id")
+    admin_key = admin.get("key")
 
-    if not admin_username or not admin_key:
+    if not admin_id or not admin_key:
         return False
 
-    admin = Admins.get_or_none(username=admin_username)
+    admin = Admins.get_or_none(id=admin_id)
     admin_api_keys = list(APIKeys.select().where(APIKeys.user == admin).execute())
 
     return admin_api_keys

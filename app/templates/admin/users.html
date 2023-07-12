@@ -1,5 +1,5 @@
 <section class="bg-gray-50 dark:bg-gray-900">
-    <div class="flex flex-col items-center justify-center py-8 mx-auto container px-2 sm:px-4 md:px-0">
+    <div class="flex flex-col items-center justify-center py-1 mx-auto container px-2 sm:px-4 md:px-0">
         <div hx-get="/partials/tables/global-users" hx-trigger="load" hx-target="#user_table" hx-swap="innerHTML" class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md min-w-full xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8 animate__animated animate__fadeIn flex flex-col justify-between" style="min-height: 220px; transition: min-height 0.5s ease 0s;">
                 <div class="relative overflow-x-auto">
@@ -11,7 +11,7 @@
                                 {{ _("Server Users") }}
                             </h1>
                         </div>
-                        <button hx-get="" hx-target="" hx-trigger="click" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
+                        <button hx-get="" hx-target="" hx-trigger="click" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
                             {{ _("Scan Users") }}
                         </button>
                     </div>
@@ -26,10 +26,10 @@
 
                     <!-- Bottom Bar -->
                     <div class="flex items-center justify-end space-x-2">
-                        <button id="adduser" hx-get="" hx-target="" hx-trigger="click" class="bg-gray-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm">
+                        <button id="adduser" hx-get="" hx-target="" hx-trigger="click" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
                             {{ _("Add User") }}
                         </button>
-                        <button id="deleteusers" hx-get="" hx-target="" hx-trigger="click" class="bg-red-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm">
+                        <button id="deleteusers" hx-get="" hx-target="" hx-trigger="click" class="bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-red-600 dark:hover:bg-primary_hover">
                             {{ _("Delete All") }}
                         </button>
                     </div>

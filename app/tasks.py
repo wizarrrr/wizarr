@@ -2,10 +2,13 @@
 import datetime
 import logging
 import logging.config
+from os import getenv, system
 
 import requests
+from peewee import BooleanField, CharField, DateTimeField
+from playhouse.migrate import SqliteMigrator, migrate
 
-from app import *
+from app import Admins, Invitations, Libraries, Settings, Users, db, session
 
 # Migrations 1
 try:
@@ -57,7 +60,7 @@ try:
 except Exception as e:
     logging.info(e)
 
-if not os.getenv("APP_URL"):
+if not getenv("APP_URL"):
     logging.info("APP_URL not set or wrong format. See docs for more info.")
     exit(1)
 
@@ -78,7 +81,7 @@ LOGGING_CONFIG = {
     "loggers": {
         "": {
             "handlers": ["console"],
-            "level": os.getenv("LOG_LEVEL", "ERROR"),
+            "level": getenv("LOG_LEVEL", "ERROR"),
             "propagate": True,
         },
     },
@@ -94,7 +97,7 @@ if Settings.select().where(Settings.key == 'admin_username').exists():
     if Settings.select().where(Settings.key == 'plex_verified').exists():
         if not Settings.select().where(Settings.key == 'server_type').exists() :
             try:
-                os.system("cp ./db/db.db ./db/1.6.5-db-backup.db")
+                system("cp ./db/db.db ./db/1.6.5-db-backup.db")
                 logging.info("db backup created due to major version update.")
             except:
                 pass
@@ -128,7 +131,7 @@ if not Settings.select().where(Settings.key == 'server_api_key').exists():
         }
 
         try:
-            os.system("cp ./db/db.db ./db/2.2.0-db-backup.db")
+            system("cp ./db/db.db ./db/2.2.0-db-backup.db")
             logging.info("db backup created due to major version update.")
         except Exception as e:
             logging.info(e)

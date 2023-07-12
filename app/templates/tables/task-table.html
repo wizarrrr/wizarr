@@ -35,24 +35,8 @@
                 </td>
                 {% endif %}
 
-                <td class="p-5 block md:hidden text-center">
-                    <button class="text-gray-600 text-sm leading-none py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none">View</button>
-                </td>
-
-                <td class="p-5 pr-8 hidden md:block text-right">
-                    <div class="flex col justify-end space-x-4">
-                        <button class="focus:ring-2 p-2 rounded-md focus:outline-none" onclick="window.toggleMenu(this)" role="button" aria-label="option">
-                            <i class="transition-all fa-solid fa-ellipsis"></i>
-                        </button>
-                        <div id="menu" class="flex row overflow-hidden transition-all items-center space-x-2" style="max-width: 0px;">
-                            <button hx-get="" hx-target="" hx-trigger="click" class="bg-gray-600 focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-gray-600">
-                                {{ _("Edit") }}
-                            </button>
-                            <button hx-get="" hx-target="" hx-trigger="click" class="bg-primary focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-primary">
-                                {{ _("Delete") }}
-                            </button>
-                        </div>
-                    </div>
+                <td class="p-5 text-right">
+                    <button class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">Run Now</button>
                 </td>
             </tr>
 

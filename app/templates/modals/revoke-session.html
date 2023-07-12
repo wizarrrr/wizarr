@@ -1,0 +1,56 @@
+<div class="flex justify-between items-center pb-3">
+    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        {{ _("Warning") }}
+    </h1>
+</div>
+<div class="flex flex-col mb-8">
+    <p class="text-sm text-gray-800 dark:text-gray-100">
+        {{ _("Are you sure you want to revoke this session?") }}
+    </p>
+</div>
+<div class="flex justify-end pt-2 space-x-4">
+    <button onclick="window.closeModal(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto">
+        {{ _("Cancel") }}
+    </button>
+    <button onclick="revokeSession(this)" type="submit" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:w-auto" {% if not session_id %}disabled{% endif %}>
+        {{ _("Delete") }}
+    </button>
+</div>
+
+<script>
+    async function revokeSession(that) {
+        let spinner = that.closest('#modal').querySelector('#modal-spinner');
+        spinner.classList.remove('hidden');
+
+        let response = await fetch("/api/accounts/{{ admin_id }}/sessions/{{ session_id }}", {
+            method: "DELETE",
+        })
+
+        let toast = {
+            text: '',
+            duration: 5000,
+            gravity: 'bottom',
+            position: 'right',
+            className: 'error-toast',
+            stopOnFocus: true
+        }
+
+        if (response.status == 401) {
+            window.location.href = '/login';
+            return;
+        }
+
+        if (response.status != 200) {
+            spinner.classList.add('hidden');
+            toast.text = '{{ _("Something went wrong. Please try again.") }}';
+            Toastify(toast).showToast();
+            return;
+        }
+
+        toast.className = 'show-toast';
+        toast.text = '{{ _("Session deleted successfully!") }}';
+        Toastify(toast).showToast();
+
+        htmx.ajax('GET', '/partials/admin/account/sessions', { target:'#account-content', swap:'innerHTML', indicator:'#spinner' });
+    }
+</script>

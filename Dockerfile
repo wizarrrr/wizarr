@@ -8,7 +8,7 @@ RUN apk add --update nodejs npm
 WORKDIR /data/app/static
 
 RUN npm ci && npm install
-RUN npx tailwindcss -i src/style.css -o css/main.css --minify
+RUN npm run build
 
 WORKDIR /data
 

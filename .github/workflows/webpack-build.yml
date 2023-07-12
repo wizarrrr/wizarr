@@ -1,4 +1,4 @@
-name: Run Tailwind CSS
+name: Build Webpack
 
 on:
   push:
@@ -13,9 +13,9 @@ jobs:
     - name: Install dependencies
       working-directory: app/static
       run: npm ci
-    - name: Build CSS
+    - name: Build webpack
       working-directory: app/static
-      run: npx tailwindcss -o css/main.css --minify
+      run: npm run build
     - name: Commit and push changes
       run: |
         git config --global user.email "actions@github.com"

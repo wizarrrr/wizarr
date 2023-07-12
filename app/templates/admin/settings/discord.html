@@ -7,19 +7,16 @@
 
         <div>
             <label for="discord_widget" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Discord Widget") }}</label>
-            <div class="switch">
-                <input type="checkbox" name="discord_widget" {% if discord_widget=="on" %} checked {% endif %} id="discord_toggle_checkbox">
-                <span class="slider round" id="discord_toggle"></span>
-            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" name="discord_widget" {% if discord_widget=="on" %} checked {% endif %} id="discord_toggle_checkbox" class="sr-only peer">
+                <div class="w-14 h-7 bg-primary peer-focus:outline-none peer-focus:ring-4 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+            </label>
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <button type="submit" class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
+            <button type="submit" class="bg-primary hover:bg-red-100 focus:ring-4 focus:outline-none focus:ring-red-100 text-white font-medium rounded-lg px-5 py-2.5 text-sm">
                 {{ _("Save") }}
             </button>
         </div>
     </form>
 </div>
-<script>
-    toggleEventListeners()
-</script>

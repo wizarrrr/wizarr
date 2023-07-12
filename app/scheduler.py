@@ -3,7 +3,7 @@ from logging import info
 
 from flask_apscheduler import APScheduler
 
-from app import Users, app
+from app import Sessions, Users, app
 from app.universal import global_delete_user, global_get_users
 
 # Scheduler
@@ -12,8 +12,8 @@ schedule.init_app(app)
 schedule.start()
 
 # Scheduled tasks
-@schedule.task('interval', id='checkExpiring', minutes=15, misfire_grace_time=900)
-def check_expiring():
+@schedule.task('interval', id='checkExpiringUsers', minutes=15, misfire_grace_time=900)
+def check_expiring_users():
     info('Checking for expiring users...')
     # Get all users that have an expiration date set and are expired
     expiring = Users.select().where(Users.expires < datetime.now().strftime("%Y-%m-%d %H:%M"))
@@ -33,6 +33,20 @@ def scan_users():
 def scan_libraries():
     info('Scanning for new libraries...')
     # Get all new libraries
+    
+@schedule.task('interval', id='checkExpiringSessions', minutes=30, misfire_grace_time=900)
+def check_expiring_sessions():
+    info('Clearing old sessions...')
+    
+    # Get all sessions that are expired
+    expired = Sessions.select().where(Sessions.expires < datetime.now().strftime("%Y-%m-%d %H:%M"))
+    
+    # Delete all expired sessions
+    for session in expired:
+        session.delete_instance()
+        info(f"Deleting { session.key } due to expired session.")
+        
+
 
 def get_schedule():
     job_store = schedule.get_jobs()
