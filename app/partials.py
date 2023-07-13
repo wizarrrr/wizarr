@@ -3,12 +3,13 @@ from os import getenv, listdir, path
 
 from flask import abort, make_response, render_template, request
 
-from app import (Admins, Invitations, Sessions, Settings, app, controllers,
-                 session)
-from app.helpers import (get_api_keys, get_notifications, get_settings,
-                         login_required)
-from app.scheduler import get_schedule
-from app.universal import global_get_users
+from app import app, session
+from models import Admins, Invitations, Sessions, Settings
+
+from .helpers import (get_api_keys, get_notifications, get_settings,
+                      login_required)
+from .scheduler import get_schedule
+from .universal import global_get_users
 
 
 # All admin partials
@@ -62,8 +63,8 @@ def settings_partials(subpath):
 @login_required
 def post_settings_routes(subpath):
     # Get valid settings partials
-    if subpath in ["general", "request", "discord", "html"]:
-        controllers.post_settings(request.form.to_dict())
+    # if subpath in ["general", "request", "discord", "html"]:
+    # SettingsController(request).post()
         
     response = make_response(settings_partials(subpath))
     response.headers['showToast'] = "Settings saved successfully!"
@@ -139,5 +140,8 @@ def table_partials(path):
         
     if path == "sessions-table":
         settings["sessions"] = Sessions.select().where(Sessions.user == session["admin"]["id"]).order_by(Sessions.created.desc())
+        
+    if path == "api-table":
+        settings["api_keys"] = get_api_keys()
 
     return render_template(f"tables/{path}.html", **settings)

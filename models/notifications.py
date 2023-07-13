@@ -1,4 +1,5 @@
 from peewee import SQL, CharField, DateTimeField, IntegerField
+from pydantic import BaseModel as PydanticBaseModel
 
 from .base import BaseModel
 
@@ -11,3 +12,12 @@ class Notifications(BaseModel):
     username = CharField(null=True)
     password = CharField(null=True)
     created = DateTimeField(constraints=[SQL("DEFAULT (datetime('now'))")])
+
+class NotificationsModel(PydanticBaseModel):
+    id: int
+    name: str
+    type: str
+    url: str
+    username: str
+    password: str
+    created: str

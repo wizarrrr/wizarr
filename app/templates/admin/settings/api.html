@@ -1,8 +1,8 @@
 <div id="delete-modal"></div>
 <div id="create-modal"></div>
-<div class="animate__animated animate__fadeIn">
+{# <div class="animate__animated animate__fadeIn">
     <div class="flex flex-col space-y-2 mt-5">
-        {% for api_key in api_keys %}
+        {% for api_keys in api_keys %}
         <div class="flex flex-row items-center justify-between h-10">
             <input type="text" name="apikey" id="apikey" value="{{ api_key.key }}" class="block w-full h-full p-2.5 text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
             <button type="submit" class="py-2.5 px-8 h-full text-sm bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
@@ -16,6 +16,23 @@
         <p class="text-center dark:text-white">You do not have any API keys, try creating one.</p>
         {% endfor %}
     </div>
+    <div class="flex items-center justify-end mt-4">
+        <button hx-get="/partials/modals/create-api-key?admin_id={{ admin.id }}" hx-target="#create-modal" hx-trigger="click" hx-swap="innerHTML" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+            {{ _("Create API Key") }}
+        </button>
+    </div>
+</div> #}
+
+<div hx-get="/partials/tables/api-table" hx-trigger="load" hx-target="#api_table" hx-swap="innerHTML" class="flex flex-col space-y-4 animate__animated animate__fadeIn">
+
+    <!-- Notifications Table -->
+    <div id="api_table">
+        <p id="error_message" class="hidden text-center dark:text-white"></p>
+        <div id="loader" class="text-center" role="status">
+            <i class="text-gray-900 dark:text-white fa-solid fa-spinner fa-spin fa-2xl"></i>
+        </div>
+    </div>
+
     <div class="flex items-center justify-end mt-4">
         <button hx-get="/partials/modals/create-api-key?admin_id={{ admin.id }}" hx-target="#create-modal" hx-trigger="click" hx-swap="innerHTML" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
             {{ _("Create API Key") }}

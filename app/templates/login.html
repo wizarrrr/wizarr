@@ -18,7 +18,7 @@ Login
           {{ _("Login") }}
         </h1>
         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ error }}</p>
-        <form class="space-y-4 md:space-y-6" action="/login" method="POST">
+        <form class="space-y-4 md:space-y-6" onsubmit="event.preventDefault(); login(this);">
           <div>
             <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username") }}</label>
             <input type="username" name="username" id="username"
@@ -49,5 +49,24 @@ Login
     </div>
   </div>
 </section>
+
+<script>
+async function login(that) {
+    const form = new FormData(that);
+    
+    const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        body: form
+    });
+
+    if (response.status != 200) {
+        const data = await response.json();
+        document.getElementById('error').innerHTML = data.error;
+        return;
+    }
+
+    window.location.href = '/';
+}   
+</script>
 
 {% endblock %}

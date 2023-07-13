@@ -131,8 +131,8 @@ def login_get():
 
     return render_template("login.html")
 
-@app.route("/api-docs/swagger.json")
-def swaggerjson():
-    swag = loads((open("./swagger.json", "r").read()))
-    swag['info']['version'] = VERSION
-    return swag
+# @app.route("/api-docs/swagger.json")
+# def swaggerjson():
+#     swag = loads((open("./swagger.json", "r").read()))
+#     swag['info']['version'] = VERSION
+#     return swag

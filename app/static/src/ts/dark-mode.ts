@@ -43,6 +43,13 @@ function darkMode() {
     }
 }
 
+function isDarkMode() {
+    return localStorage.getItem('color-theme') === 'dark' || (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+}
+
+window.isDarkMode = isDarkMode;
+
+
 document.addEventListener('DOMContentLoaded', () => {
     darkMode();
 });

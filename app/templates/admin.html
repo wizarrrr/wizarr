@@ -6,7 +6,7 @@
 {% endblock %}
 {% block main %}
 
-{% if needUpdate %}
+{% if APP_UPDATE %}
 <div class="z-50 fixed left-0 bottom-0 p-4 ">
     <a href="https://github.com/wizarrrr/wizarr">
         <div class="w-full max-w-xl p-6 mt-auto ml-auto bg-slate-700 rounded-lg ">
@@ -36,7 +36,7 @@
     <div class="container flex flex-wrap items-center justify-between mx-auto">
 
         <a href="/admin" class="flex items-center px-2">
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Wizarr</span>
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">{{ APP_NAME }}</span>
         </a>
 
         <button id="navbar-button" data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
@@ -49,34 +49,34 @@
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-gray-50 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                 <li class="flex text-center">
-                    <button hx-get="/partials/admin/invite" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/invite" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                    <button hx-get="/partials/admin/invite" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/invite" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                         {{ _("Home") }}
                     </button>
                 </li>
 
                 <li class="flex text-center">
-                    <button hx-get="/partials/admin/invites" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/invites" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                    <button hx-get="/partials/admin/invites" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/invites" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                         {{ _("Invitations") }}
                     </button>
                 </li>
 
                 <li class="flex text-center">
-                    <button hx-get="/partials/admin/users" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/users" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                    <button hx-get="/partials/admin/users" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/users" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                         {{ _("Users") }}
                     </button>
                 </li>
 
                 <li class="flex text-center">
-                    <button hx-get="/partials/admin/settings" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/settings" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                    <button hx-get="/partials/admin/settings" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/settings" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                         {{ _("Settings") }}
                     </button>
                 </li>
 
-                <li class="flex text-center justify-end">
+                <li class="flex text-center justify-end p-2 md:p-0">
                     <div class="flex flex-column space-x-3">
 
                         <div class="flex flex-column space-x-3">
-                            {% if auth %}
+                            {% if not DISABLE_BUILTIN_AUTH %}
                             <button class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm" hx-get="/partials/admin/account" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/account" type="button">
                                 <i class="fa-solid fa-md fa-user"></i>
                             </button>
@@ -92,9 +92,9 @@
                             </button>
                         </div>
 
-                        {% if auth %}
+                        {% if not DISABLE_BUILTIN_AUTH %}
                         <span class="inline-flex w-px h-6 bg-gray-200 dark:bg-gray-700" aria-hidden="true"></span>
-                        <button class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm" onclick="window.location.href='/logout'" type="button">
+                        <button class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm" onclick="logout(this)" type="button">
                             <i class="fa-solid fa-lg fa-right-from-bracket"></i>
                         </button>
                         {% endif %}
@@ -115,5 +115,25 @@
         <a href="{{ APP_GITHUB_URL }}">{{ APP_NAME }}</a>&nbsp;-&nbsp;{{ _('Version') }}&nbsp;<a href="{{ APP_GITHUB_URL }}/releases/tag/{{ APP_VERSION }}">{{ APP_VERSION }}</a>&nbsp;-&nbsp;{{ APP_RELEASED }}
     </div>
 </footer>
+
+<script>
+htmx.on('#navbar-button', 'htmx:afterSwap', function(evt) {
+    var navbarDefault = document.getElementById('navbar-default');
+    navbarDefault.classList.toggle('hidden');
+});
+
+async function logout(that) {
+    var response = await fetch('/api/auth/logout', {
+        method: 'POST'
+    });
+
+    if (response.status !== 200) {
+        toast.errorToast("{{ _('Logout failed') }}");
+        return;
+    }
+
+    window.location.href = '/login';
+}
+</script>
 
 {% endblock %}

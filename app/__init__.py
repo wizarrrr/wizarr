@@ -1,28 +1,47 @@
 import os
 from datetime import datetime, timedelta
+from logging import error, info, warning
+from os import getenv
 
 from dotenv import load_dotenv
-from flask import Flask, request, session
+from flask import Flask, request, send_file, session
 from flask_babel import Babel
 from flask_htmx import HTMX
+from flask_restx import Api
 from flask_session import Session
 from flask_swagger_ui import get_swaggerui_blueprint
+from packaging import version
 from peewee import *
 from playhouse.migrate import *
+from requests import get
 
+from api import *
 from models import *
 
 VERSION = "2.2.0"
 
 app = Flask(__name__)
 base_dir = os.path.abspath(os.path.dirname(__file__))
+api.init_app(app)
 
 os.environ["VERSION"] = VERSION
+
+def need_update():
+    try:
+        r = get(url="https://raw.githubusercontent.com/Wizarrrr/wizarr/master/.github/latest")
+        data = r.content.decode("utf-8")
+        return version.parse(VERSION) < version.parse(data)
+    except Exception as e:
+        info(f"Error checking for updates: {e}")
+        return False
 
 app.jinja_env.globals.update(APP_NAME="Wizarr")
 app.jinja_env.globals.update(APP_VERSION=VERSION)
 app.jinja_env.globals.update(APP_GITHUB_URL="https://github.com/Wizarrrr/wizarr")
 app.jinja_env.globals.update(APP_RELEASED="Released")
+app.jinja_env.globals.update(APP_LANG="en")
+app.jinja_env.globals.update(APP_UPDATE=need_update())
+app.jinja_env.globals.update(DISABLE_BUILTIN_AUTH=getenv("DISABLE_BUILTIN_AUTH", False))
 
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_TYPE"] = "filesystem"
@@ -33,6 +52,9 @@ app.config["BABEL_DEFAULT_LOCALE"] = "en"
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = ('./translations')
 app.config["SCHEDULER_API_ENABLED"] = True
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=5)
+app.config['UPLOAD_FOLDER'] = os.path.join(base_dir, "../", "database", "uploads")
+app.config['SWAGGER_UI_DOC_EXPANSION'] = 'list'
+app.config['SWAGGER_UI_THEME'] = 'flask-restx-dark'
 
 load_dotenv()
 
@@ -46,10 +68,6 @@ def get_locale():
 sess = Session(app)
 htmx = HTMX(app)
 babel = Babel(app, locale_selector=get_locale)
-
-# Swagger
-swaggerui_blueprint = get_swaggerui_blueprint("/api-docs", "/api-docs/swagger.json")
-app.register_blueprint(swaggerui_blueprint)
 
 @app.template_filter()
 def format_datetime(value):
@@ -88,6 +106,6 @@ if __name__ == "__main__":
     sess.init_app(app)
     app.run()
 
-from app import (api, exceptions, helpers, jellyfin, mediarequest,
+from app import (backup, exceptions, helpers, jellyfin, mediarequest,
                  notifications, partials, plex, routes, scheduler, tasks,
                  universal, web)

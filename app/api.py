@@ -1,38 +1,10 @@
 from flask import request
 
-from app import app, controllers, partials
+from app import app, partials
+from api.settings_api import SettingsController
 
 
 # All SETTINGS API routes
-# Get all settings
-@app.get('/api/settings')
-def api_settings_get():
-    return controllers.get_settings()
-
-
-# Post the settings
-@app.post('/api/settings')
-def api_settings_post():
-    return controllers.post_settings(request.form)
-
-
-# Get the setting with the specified ID
-@app.get('/api/settings/<path:path_id>')
-def api_settings_id_get(path_id):
-    return controllers.get_setting(path_id)
-
-
-# Put the setting with the specified ID
-@app.put('/api/settings/<path:path_id>')
-def api_settings_id_put(path_id):
-    return controllers.put_setting(path_id, request.form)
-
-
-# Delete the setting with the specified ID
-@app.delete('/api/settings/<path:path_id>')
-def api_settings_id_delete(path_id):
-    return controllers.delete_setting(path_id)
-
 
 
 # All NOTIFICATIONS API routes
@@ -150,6 +122,9 @@ def api_admin_users_post():
     return controllers.post_admin_users(request)
 
 
+@app.post('/api/scan-libraries')
+def api_scan_libraries_post():
+    return controllers.post_scan_libraries(request)
 
 # Login and logout routes
 @app.post('/login')

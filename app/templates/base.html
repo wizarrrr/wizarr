@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="{{ APP_LANG }}" class="dark:bg-gray-900">
 
 <head>
 
@@ -21,6 +21,7 @@
 
     <link rel="stylesheet" href="{{url_for('static',filename='css/app.css')}}" />
     <script src="{{url_for('static', filename='js/app.js')}}"></script>
+    <script src="{{url_for('static', filename='node_modules/tinymce/tinymce.min.js')}}"></script>
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900 overflow-x-hidden p-4">

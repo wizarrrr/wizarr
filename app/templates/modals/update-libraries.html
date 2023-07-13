@@ -29,7 +29,16 @@
 </form>
 
 <script>
-    scanLibraries();
+    var libraries = new ScanLibraries({
+        container: '#libraries',
+        server: {
+            type: document.getElementById('server_type').value,
+            url: document.getElementById('server_url').value,
+            api_key: document.getElementById('server_api_key').value,
+        }
+    });
+
+    libraries.scan();
 
     async function updateLibraries(button) {
         let spinner = button.parentElement.parentElement.querySelector('#library-spinner')

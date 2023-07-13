@@ -8,8 +8,8 @@ from flask import make_response, redirect, session
 from packaging import version
 from requests import RequestException, get
 
-from app import (VERSION, Admins, APIKeys, Invitations, Libraries,
-                 Notifications, Sessions, Settings)
+from app import (Admins, APIKeys, Invitations, Libraries, Notifications,
+                 Sessions, Settings)
 
 
 def check_logged_in():
@@ -105,7 +105,7 @@ def scan_jellyfin_libraries(server_api_key: str, server_url: str):
         error(f"Error scanning Jellyfin libraries: {e}")
         return None
     
-def need_update():
+def need_update(VERSION: str):
     try:
         r = get(url="https://raw.githubusercontent.com/Wizarrrr/wizarr/master/.github/latest")
         data = r.content.decode("utf-8")

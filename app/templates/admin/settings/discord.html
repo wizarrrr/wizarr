@@ -8,7 +8,8 @@
         <div>
             <label for="discord_widget" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Discord Widget") }}</label>
             <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" name="discord_widget" {% if discord_widget=="on" %} checked {% endif %} id="discord_toggle_checkbox" class="sr-only peer">
+                <input id="discord_widget" type="hidden" name="discord_widget" value="{{ discord_widget }}">
+                <input onchange="toggleSwitch(this)" type="checkbox" {% if discord_widget == 'on' %}checked{% endif %} class="sr-only peer">
                 <div class="w-14 h-7 bg-primary peer-focus:outline-none peer-focus:ring-4 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
             </label>
         </div>
@@ -20,3 +21,9 @@
         </div>
     </form>
 </div>
+
+<script>
+function toggleSwitch(element) {
+    document.getElementById('discord_widget').value = element.checked ? 'on' : 'off';
+}
+</script>
