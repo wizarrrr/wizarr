@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-05-16 17:27+0100\n"
-"PO-Revision-Date: 2023-03-14 12:42+0000\n"
-"Last-Translator: Adrian Konopczynski <adrikonop@anomalie.ga>\n"
+"PO-Revision-Date: 2023-07-14 20:52+0000\n"
+"Last-Translator: Liam Thomas-Chollier <liam.thomaschollier@gmail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/wizarr/app/de/>\n"
 "Language: de\n"
-"Language-Team: German "
-"<https://hosted.weblate.org/projects/wizarr/app/de/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.0-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: app/admin.py:150
@@ -74,9 +74,8 @@ msgid "Settings"
 msgstr "Einstellungen"
 
 #: app/templates/invalid-invite.html:16
-#, fuzzy
 msgid "Invalid Invitation"
-msgstr "Einladungen"
+msgstr "Ungültige Einladung"
 
 #: app/templates/login.html:18
 msgid "Login"
@@ -147,11 +146,12 @@ msgid "Scan For Libraries"
 msgstr "Suche nach Bibliotheken"
 
 #: app/templates/settings.html:77
-#, fuzzy
 msgid ""
 "Request\n"
 "                instance (Ombi, Overseerr...) URL"
-msgstr "Anfrage Instanz (Ombi, Overseerr...)"
+msgstr ""
+"Request\n"
+"                  Instanz (Ombi, Overseerr...) URL"
 
 #: app/templates/settings.html:87
 msgid "Ombi API Key (Only used for user import currently.)"
@@ -274,9 +274,8 @@ msgid "Unlimited Usages"
 msgstr "Unbegrenzte Nutzung"
 
 #: app/templates/admin/invite.html:78
-#, fuzzy
 msgid "Invite to Plex Home"
-msgstr "Code einladen"
+msgstr "Zu Plex Home einladen"
 
 #: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
 #: app/templates/tables/invite_table.html:13
@@ -302,9 +301,8 @@ msgstr ""
 
 #: app/templates/admin/invite.html:116
 #: app/templates/tables/invite_table.html:11
-#, fuzzy
 msgid "Allow Downloads"
-msgstr "Download"
+msgstr "Downloads erlauben"
 
 #: app/templates/admin/invite.html:122
 msgid ""
@@ -334,17 +332,15 @@ msgstr "Teilen"
 
 #: app/templates/admin/notifications.html:11
 msgid "Notification Agents"
-msgstr ""
+msgstr "Benachrichtigungsagent"
 
 #: app/templates/admin/notifications.html:27
-#, fuzzy
 msgid "Delete"
-msgstr "Standard"
+msgstr "Löschen"
 
 #: app/templates/admin/notifications.html:37
-#, fuzzy
 msgid "Create Agent"
-msgstr "Ein Konto erstellen"
+msgstr "Erstelle Agenten"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
@@ -382,34 +378,35 @@ msgstr " Etwas ist schief gelaufen. Bitte versuchen Sie es später erneut."
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "Neuer Agent"
 
 #: app/templates/modals/create-notification-agent.html:60
-#, fuzzy
 msgid ""
 "Username\n"
 "                                (optional)"
-msgstr "Einladung Code"
+msgstr ""
+"Benutzername\n"
+"                                (optional)"
 
 #: app/templates/modals/create-notification-agent.html:65
-#, fuzzy
 msgid "Password (optional)"
-msgstr "(Optional)"
+msgstr "Passwort(Optional)"
 
 #: app/templates/modals/create-notification-agent.html:70
-#, fuzzy
 msgid ""
 "Agent\n"
 "                                URL"
-msgstr "Einladung Code"
+msgstr ""
+"Agent\n"
+"                                URL"
 
 #: app/templates/modals/create-notification-agent.html:81
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Teste & Erstelle Agent"
 
 #: app/templates/modals/create-notification-agent.html:85
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: app/templates/tables/global-users.html:13
 msgid "Name"
@@ -1099,4 +1096,3 @@ msgstr "Öffne Plex"
 
 #~ msgid "Home User"
 #~ msgstr "Home Benutzer"
-
