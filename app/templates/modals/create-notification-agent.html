@@ -10,13 +10,13 @@
 
 <form class="space-y-4 md:space-y-6" onsubmit="testAndSave(this); event.preventDefault();">
     <div>
-        <label for="agent_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Name") }}</label>
-        <input type="text" name="agent_name" id="agent_name" placeholder='e.g. "My Agent"' class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Name") }}</label>
+        <input type="text" name="name" id="name" placeholder='e.g. "My Agent"' class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
     </div>
 
     <div>
-        <label for="agent_service" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Notification Service") }}</label>
-        <select name="agent_service" id="agent_service" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="toggleCredentials()" onfocus="cacheFocus()" required>
+        <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Notification Service") }}</label>
+        <select name="type" id="type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="toggleCredentials()" onfocus="cacheFocus()" required>
             <option selected disabled>{{ _("Choose a service") }}</option>
             <option value="ntfy">Ntfy</option>
             <option value="discord">Discord</option>
@@ -27,17 +27,17 @@
     <div id="credentialsSection" class="hidden space-y-4 md:space-y-6">
         <div class="space-y-4 md:space-y-3">
             <div>
-                <label for="agent_username" id="agent_username_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username (optional)") }}</label>
-                <input type="text" name="agent_username" id="agent_username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" autocomplete="username">
+                <label for="username" id="username_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username (optional)") }}</label>
+                <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" autocomplete="username">
             </div>
             <div>
-                <label for="agent_password" id="agent_password_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Password (optional)") }}</label>
-                <input type="password" name="agent_password" id="agent_password" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" autocomplete="new-password">
+                <label for="password" id="password_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Password (optional)") }}</label>
+                <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" autocomplete="new-password">
             </div>
         </div>
         <div>
-            <label for="agent_url" id="agent_url_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Agent URL") }}</label>
-            <input type="url" name="agent_url" id="agent_url" placeholder="e.g. https://example.com" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+            <label for="url" id="url_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Agent URL") }}</label>
+            <input type="url" name="url" id="url" placeholder="e.g. https://example.com" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
         </div>
     </div>
 
@@ -55,11 +55,11 @@
     window.window.cachedFields = {};
 
     function cacheFocus() {
-        const agentService = document.getElementById('agent_service');
+        const agentService = document.getElementById('type');
 
-        const agentUsername = document.getElementById('agent_username');
-        const agentPassword = document.getElementById('agent_password');
-        const agentURL = document.getElementById('agent_url');
+        const agentUsername = document.getElementById('username');
+        const agentPassword = document.getElementById('password');
+        const agentURL = document.getElementById('url');
         
         if (agentService.selectedIndex != 0) {
             window.cachedFields[agentService.value] = {
@@ -71,16 +71,16 @@
     }
 
     function toggleCredentials() {
-        const agentService = document.getElementById('agent_service');
+        const agentService = document.getElementById('type');
         const credentialsSection = document.getElementById('credentialsSection');
 
-        const agentUsernameLabel = document.getElementById('agent_username_label');
-        const agentPasswordLabel = document.getElementById('agent_password_label');
-        const agentURLLabel = document.getElementById('agent_url_label');
+        const agentUsernameLabel = document.getElementById('username_label');
+        const agentPasswordLabel = document.getElementById('password_label');
+        const agentURLLabel = document.getElementById('url_label');
 
-        const agentUsername = document.getElementById('agent_username');
-        const agentPassword = document.getElementById('agent_password');
-        const agentURL = document.getElementById('agent_url');
+        const agentUsername = document.getElementById('username');
+        const agentPassword = document.getElementById('password');
+        const agentURL = document.getElementById('url');
 
         const agentLabelsMap = {
             "ntfy": {
@@ -232,7 +232,15 @@
             body: formData
         });
 
-        if (response.status != 200) {
+        if (response.status == 422) {
+            spinner.classList.add('hidden');
+            let errors = await response.json();
+            errors = errors.error || "{{ _('Something went wrong. Please try again.') }}";
+            toast.errorToast(errors);
+            return;
+        }
+
+        if (response.status != 201) {
             spinner.classList.add('hidden');
             toast.errorToast("{{ _('Something went wrong. Please try again.') }}");
             return;

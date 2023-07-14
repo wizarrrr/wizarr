@@ -3,78 +3,98 @@ from logging import info, warning
 from random import choices
 from string import ascii_uppercase, digits
 
-from flask import redirect, request, session
-from flask_restx import Namespace, Resource
+from flask import jsonify, make_response, redirect, request, session
+from flask_jwt_extended import create_access_token, get_jti
+from flask_restx import Model, Namespace, Resource, fields
+from playhouse.shortcuts import model_to_dict
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from api.helpers import try_catch
+from app.exceptions import AuthenticationError
 from models import Admins, Sessions
+from models.login import LoginModel, LoginPostModel
 
 api = Namespace('Authentication', description='Authentication related operations', path="/auth")
+
+api.add_model("LoginPostModel", LoginPostModel)
 
 @api.route('/login')
 class Login(Resource):
     
+    @api.expect(LoginPostModel)
+    @api.doc(description="Login to the application")
+    @api.response(200, "Login successful")
+    @api.response(401, "Invalid Username or Password")
+    @api.response(500, "Internal server error")
     @try_catch
     def post(self):
-        username = request.form.get('username')
-        password = request.form.get('password')
-        remember = request.form.get('remember')
-
-        user = Admins.select().where(Admins.username == username).first()
+        # Validate form data and initialize object for login
+        form = LoginModel(
+            username = request.form.get("username", None),
+            password = request.form.get("password", None),
+            remember = request.form.get("remember", False)
+        )
+        
+        # Get the user from the database
+        user = Admins.select().where(Admins.username == form.username).first()
 
         # Check if the username is correct
         if user is None:
-            warning("A user attempted to login with incorrect username: " + username)
-            return {'error': 'Invalid Username or Password'}, 401
+            warning("A user attempted to login with incorrect username: " + form.username)
+            raise AuthenticationError("Invalid Username or Password")
 
         # Check if the password is correct
-        if not check_password_hash(user.password, password):
-            warning("A user attempted to login with incorrect password: " + username)
-            return {'error': 'Invalid Username or Password'}, 401
+        if not check_password_hash(user.password, form.password):
+            warning("A user attempted to login with incorrect password: " + form.username)
+            raise AuthenticationError("Invalid Username or Password")
 
         # Migrate to scrypt from sha 256
         if user.password.startswith("sha256"):
-            new_hash = generate_password_hash(password, method='scrypt')
-            Admins.update(password=new_hash).where(Admins.username == username).execute()
+            new_hash = generate_password_hash(form.password, method='scrypt')
+            Admins.update(password=new_hash).where(Admins.username == form.username).execute()
 
-        # Generate a new admin key and store it in the session
-        key = ''.join(choices(ascii_uppercase + digits, k=20))
+        # User dictionary with password removed
+        claim = model_to_dict(user, only=[Admins.id, Admins.username, Admins.email])
 
-        session["admin"] = {
-            "id": user.id,
-            "username": user.username,
-            "key": key
-        }
-
+        # Expire length of session
+        expire = None if form.remember else timedelta(hours=1)
+        expire_date = datetime.now() + expire if expire else None
+                
+        # Generate a jwt token 
+        token = create_access_token(identity=user, additional_claims=claim, expires_delta=expire)
+        jti = get_jti(token)
+        
         # Get IP address from request and User Agent from request
         ip_addr = request.headers.get("X-Forwarded-For") or request.remote_addr
         user_agent = request.user_agent.string
 
-        # Expire length of session
-        expire = None if remember else datetime.now() + timedelta(days=1)
-
         # Store the admin key in the database
-        Sessions.create(session=key, user=user.id, ip=ip_addr, user_agent=user_agent, expires=expire)
-
-        # Store the remember me setting in the session
-        session.permanent = remember
-
+        Sessions.create(session=jti, user=user.id, ip=ip_addr, user_agent=user_agent, expires=expire_date)
+        
+        # Add jwt token to cookie
+        response = make_response(redirect("/admin"))
+        response.set_cookie("access_token_cookie", token, httponly=True, secure=True, samesite="Strict", expires=expire_date)
+        
         # Log the user in and redirect them to the homepage
-        info(f"User successfully logged in the username {username}")
-        return {'message': 'Login successful'}, 200
+        info(f"User successfully logged in the username {form.username}")
+        return response
 
 @api.route('/logout')
 class Logout(Resource):
     
+    @api.doc(description="Logout the currently logged in user")
+    @api.response(200, "Logout successful")
+    @api.response(500, "Internal server error")
     @try_catch
     def post(self):
-        # Delete the admin key from the session and database if it exists
-        try:
-            Sessions.delete().where(Sessions.session == session["admin"]["key"]).execute()
-            session.pop("admin", None)
-        except KeyError:
-            pass
+        # Get the jwt token from the cookie
+        token = request.cookies.get("access_token_cookie")
+        
+        # Delete the session from the database
+        session = Sessions.get(Sessions.session == get_jti(token))
+        
+        # Delete the session from the database
+        session.delete_instance()
 
         # Redirect the user to the login page
         return {'message': 'Logout successful'}, 200

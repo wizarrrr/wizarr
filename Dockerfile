@@ -12,9 +12,9 @@ RUN npm run build
 
 WORKDIR /data
 
-RUN apk add --no-cache tzdata && \
-    pip3 install --no-cache --upgrade pip && \
-    pip3 install --no-cache -r requirements.txt
+RUN apk add tzdata libffi-dev gcc python3-dev musl-dev
+RUN pip3 install --upgrade pip setuptools
+RUN pip3 install -r requirements.txt
 
 EXPOSE 5690
 CMD [ "gunicorn", "--workers",  "3" , "--bind", "0.0.0.0:5690", "-m", "007", "run:app" ]

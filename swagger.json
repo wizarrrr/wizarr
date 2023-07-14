@@ -1,414 +1,356 @@
 {
-    "openapi": "3.0.2",
-    "info": {
-        "title": "Wizarr API",
-        "description": "Wizarr is a web application that allows you to invite your friends to watch movies and series on Jellyfin or Plex"
-    },
-    "servers": [
-        {
-            "url": "/api",
-            "description": "Local server"
-        }
-    ],
-    "schemes": [
-        "http",
-        "https"
-    ],
-    "tags": [
-        {
-            "name": "Users",
-            "description": "Endpoint related to user management"
-        },
-        {
-            "name": "Settings",
-            "description": "Endpoint related to settings management"
-        }
-    ],
+    "swagger": "2.0",
+    "basePath": "/api",
     "paths": {
-        "/users": {
-            "get": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Get all users",
-                "description": "Get all users",
-                "operationId": "getUsers",
-                "produces": [
-                    "application/json"
-                ],
+        "/accounts/": {
+            "post": {
                 "responses": {
                     "200": {
-                        "description": "successful operation",
+                        "description": "Success"
+                    }
+                },
+                "operationId": "post_accounts_list_api",
+                "tags": [
+                    "Accounts"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "operationId": "get_accounts_list_api",
+                "tags": [
+                    "Accounts"
+                ]
+            }
+        },
+        "/accounts/{username}": {
+            "parameters": [
+                {
+                    "name": "username",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "operationId": "get_accounts_api",
+                "tags": [
+                    "Accounts"
+                ]
+            },
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "operationId": "put_accounts_api",
+                "tags": [
+                    "Accounts"
+                ]
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "operationId": "post_login",
+                "tags": [
+                    "Authentication"
+                ]
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "operationId": "post_logout",
+                "tags": [
+                    "Authentication"
+                ]
+            }
+        },
+        "/notifications/": {
+            "post": {
+                "responses": {
+                    "500": {
+                        "description": "Internal server error"
+                    },
+                    "409": {
+                        "description": "Notification agent already exists"
+                    },
+                    "400": {
+                        "description": "Invalid notification agent"
+                    },
+                    "201": {
+                        "description": "Notification created successfully"
+                    }
+                },
+                "operationId": "post_notifications_list_api",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/NotificationsPostModel"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Notifications"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/components/schemas/User"
+                                "$ref": "#/definitions/NotificationsGetModel"
                             }
                         }
                     }
                 },
-                "security": [
-                    {
-                        "cookieAuth": [],
-                        "apiKey": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Create a user",
-                "description": "Create a user",
-                "operationId": "createUser",
-                "produces": [
-                    "application/json"
-                ],
+                "operationId": "get_notifications_list_api",
                 "parameters": [
                     {
-                        "name": "user",
-                        "in": "body",
-                        "description": "User object",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/User"
-                        }
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
                     }
                 ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "$ref": "#/components/schemas/User"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "cookieAuth": [],
-                        "apiKey": []
-                    }
+                "tags": [
+                    "Notifications"
                 ]
             }
         },
-        "/users/{id}": {
+        "/notifications/{notification_id}": {
+            "parameters": [
+                {
+                    "name": "notification_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
+                }
+            ],
             "get": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Get a user",
-                "description": "Get a user",
-                "operationId": "getUser",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "User id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "$ref": "#/components/schemas/User"
-                        }
+                        "description": "Success"
                     }
                 },
-                "security": [
-                    {
-                        "cookieAuth": [],
-                        "apiKey": []
-                    }
-                ]
-            },
-            "put": {
+                "operationId": "get_notifications_api",
                 "tags": [
-                    "Users"
-                ],
-                "summary": "Update a user",
-                "description": "Update a user",
-                "operationId": "updateUser",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "User id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    {
-                        "name": "user",
-                        "in": "body",
-                        "description": "User object",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/User"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "$ref": "#/components/schemas/User"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "cookieAuth": [],
-                        "apiKey": []
-                    }
+                    "Notifications"
                 ]
             },
             "delete": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Delete a user",
-                "description": "Delete a user",
-                "operationId": "deleteUser",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "User id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "$ref": "#/components/schemas/User"
-                        }
+                        "description": "Success"
                     }
                 },
-                "security": [
-                    {
-                        "cookieAuth": [],
-                        "apiKey": []
-                    }
+                "operationId": "delete_notifications_api",
+                "tags": [
+                    "Notifications"
                 ]
             }
         },
-        "/settings": {
-            "get": {
-                "tags": [
-                    "Settings"
-                ],
-                "summary": "Get all settings",
-                "description": "Get all settings",
-                "operationId": "getSettings",
-                "produces": [
-                    "application/json"
-                ],
+        "/settings/": {
+            "post": {
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Success"
                     }
                 },
-                "security": [
-                    {
-                        "cookieAuth": [],
-                        "apiKey": []
-                    }
+                "operationId": "post_settings_list_api",
+                "tags": [
+                    "Settings"
                 ]
             },
-            "post": {
-                "tags": [
-                    "Settings"
-                ],
-                "summary": "Create settings",
-                "description": "Create settings",
-                "operationId": "createSettings",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "setting",
-                        "in": "body",
-                        "description": "Setting object",
-                        "required": true
-                    }
-                ],
+            "get": {
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Success"
                     }
                 },
-                "security": [
-                    {
-                        "cookieAuth": [],
-                        "apiKey": []
-                    }
+                "operationId": "get_settings_list_api",
+                "tags": [
+                    "Settings"
                 ]
             }
         },
-        "/settings/{id}": {
+        "/settings/{setting_id}": {
+            "parameters": [
+                {
+                    "name": "setting_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
             "get": {
-                "tags": [
-                    "Settings"
-                ],
-                "summary": "Get a setting",
-                "description": "Get a setting",
-                "operationId": "getSetting",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Setting id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Success"
                     }
                 },
-                "security": [
-                    {
-                        "cookieAuth": [],
-                        "apiKey": []
-                    }
+                "operationId": "get_settings_api",
+                "tags": [
+                    "Settings"
                 ]
             },
             "put": {
-                "tags": [
-                    "Settings"
-                ],
-                "summary": "Update a setting",
-                "description": "Update a setting",
-                "operationId": "updateSetting",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Setting id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    {
-                        "name": "setting",
-                        "in": "body",
-                        "description": "Setting object",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Success"
                     }
                 },
-                "security": [
-                    {
-                        "cookieAuth": [],
-                        "apiKey": []
-                    }
+                "operationId": "put_settings_api",
+                "tags": [
+                    "Settings"
                 ]
             },
             "delete": {
-                "tags": [
-                    "Settings"
-                ],
-                "summary": "Delete a setting",
-                "description": "Delete a setting",
-                "operationId": "deleteSetting",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Setting id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Success"
                     }
                 },
-                "security": [
-                    {
-                        "cookieAuth": [],
-                        "apiKey": []
-                    }
+                "operationId": "delete_settings_api",
+                "tags": [
+                    "Settings"
                 ]
             }
         }
     },
-    "components": {
-        "schemas": {
-            "User": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "username": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string"
-                    },
-                    "password": {
-                        "type": "string"
-                    },
-                    "role": {
-                        "type": "string"
-                    },
-                    "createdAt": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                }
-            }
+    "info": {
+        "title": "Wizarr API",
+        "version": "1.0",
+        "description": "Wizarr API"
+    },
+    "produces": [
+        "application/json"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "tags": [
+        {
+            "name": "Accounts",
+            "description": "Accounts related operations"
         },
-        "securitySchemes": {
-            "cookieAuth": {
-                "type": "apiKey",
-                "in": "cookie",
-                "name": "connect.sid"
-            },
-            "apiKey": {
-                "type": "apiKey",
-                "in": "header",
-                "name": "X-API-Key"
-            }
+        {
+            "name": "Authentication",
+            "description": "Authentication related operations"
+        },
+        {
+            "name": "Notifications",
+            "description": "Notifications related operations"
+        },
+        {
+            "name": "Settings",
+            "description": "Settings related operations"
         }
-    }
+    ],
+    "definitions": {
+        "NotificationsPostModel": {
+            "required": [
+                "name",
+                "type",
+                "url"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the notification"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The type of the notification"
+                },
+                "url": {
+                    "type": "string",
+                    "description": "The URL of the notification"
+                },
+                "username": {
+                    "type": "string",
+                    "description": "The username of the notification"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "The password of the notification"
+                }
+            },
+            "type": "object"
+        },
+        "NotificationsGetModel": {
+            "required": [
+                "created",
+                "id",
+                "name",
+                "type",
+                "url"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the notification"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the notification"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The type of the notification"
+                },
+                "url": {
+                    "type": "string",
+                    "description": "The URL of the notification"
+                },
+                "username": {
+                    "type": "string",
+                    "description": "The username of the notification"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "The password of the notification"
+                },
+                "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The date the notification was created"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "responses": {
+        "ParseError": {
+            "description": "When a mask can't be parsed"
+        },
+        "MaskError": {
+            "description": "When any error occurs on mask"
+        }
+    },
+    "host": "localhost:5000"
 }

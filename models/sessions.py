@@ -10,6 +10,7 @@ class Sessions(BaseModel):
     user = ForeignKeyField(Users, backref='sessions', on_delete='CASCADE')
     user_agent = CharField()
     ip = CharField()
+    revoked = DateTimeField(default=False)
     expires = DateTimeField(null=True, default=None)
     created = DateTimeField(constraints=[SQL("DEFAULT (datetime('now'))")])
     

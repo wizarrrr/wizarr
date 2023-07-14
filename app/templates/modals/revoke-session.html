@@ -22,34 +22,24 @@
         let spinner = that.closest('#modal').querySelector('#modal-spinner');
         spinner.classList.remove('hidden');
 
-        let response = await fetch("/api/accounts/{{ admin_id }}/sessions/{{ session_id }}", {
+        let response = await fetch("/api/sessions/{{ session_id }}", {
             method: "DELETE",
         })
 
-        let toast = {
-            text: '',
-            duration: 5000,
-            gravity: 'bottom',
-            position: 'right',
-            className: 'error-toast',
-            stopOnFocus: true
-        }
-
-        if (response.status == 401) {
+        if (response.status == 301) {
             window.location.href = '/login';
+            document.cookie = "access_token_cookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             return;
         }
 
         if (response.status != 200) {
             spinner.classList.add('hidden');
-            toast.text = '{{ _("Something went wrong. Please try again.") }}';
-            Toastify(toast).showToast();
+            toast.showToast("{{ _("Something went wrong. Please try again.") }}");
             return;
         }
 
         toast.className = 'show-toast';
-        toast.text = '{{ _("Session deleted successfully!") }}';
-        Toastify(toast).showToast();
+        toast.showToast("{{ _("Session deleted successfully!") }}");
 
         htmx.ajax('GET', '/partials/admin/account/sessions', { target:'#account-content', swap:'innerHTML', indicator:'#spinner' });
     }

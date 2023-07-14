@@ -1,4 +1,6 @@
 from peewee import SqliteDatabase
+from pydantic import BaseModel as PydanticBaseModel
+from pydantic import Field
 
 from .admins import Admins, AdminsModel
 from .apikeys import APIKeys, APIKeysModel
@@ -12,3 +14,6 @@ from .users import Users, UsersModel
 
 all_models = [Admins, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions]
 db.create_tables([Admins, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions], safe=True)
+
+class IdentityModel(PydanticBaseModel):
+    id: int = Field(description="The ID of the path")

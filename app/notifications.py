@@ -5,6 +5,7 @@ import logging
 import requests
 
 from app import Notifications, Settings, app
+from app.exceptions import InvalidNotificationAgent
 
 
 def notify(title, message, tags):
@@ -25,6 +26,7 @@ def notify_discord(message, webhook_url):
     success = send_request(webhook_url, data, headers)
     if not success:
         logging.error(f"Failed to send Discord message. URL is invalid: {webhook_url}")
+        raise InvalidNotificationAgent("Failed to send Discord message. URL is invalid")
     return success
 
 def notify_telegram(message, bot_token, chat_id):
@@ -32,7 +34,9 @@ def notify_telegram(message, bot_token, chat_id):
     headers = {"Content-Type": "application/json"}
     success = send_request(f"https://api.telegram.org/bot{bot_token}/sendMessage", data, headers)
     if not success:
-        logging.error(f"Failed to send Telegram message. Invalid bot token or chat ID")
+        logging.error("Failed to send Telegram message. Invalid bot token or chat ID")
+        raise InvalidNotificationAgent("Failed to send Telegram message. Invalid bot token or chat ID")
+    
     return success
 
 def notify_ntfy(message, title, tags, url, username, password):
@@ -46,7 +50,9 @@ def notify_ntfy(message, title, tags, url, username, password):
 
     success = send_request(url, message, headers)
     if not success:
-        logging.error(f"Failed to send ntfy message. Invalid URL")
+        logging.error("Failed to send ntfy message. Invalid URL")
+        raise InvalidNotificationAgent("Failed to send ntfy message. Invalid URL")
+    
     return success
 
 def notify_pushover(message, title, url, username, password):
@@ -55,7 +61,9 @@ def notify_pushover(message, title, url, username, password):
     
     success = send_request(url, data, headers)
     if not success:
-        logging.error(f"Failed to send Pushover message. Invalid URL or Token")
+        logging.error("Failed to send Pushover message. Invalid URL or Token")
+        raise InvalidNotificationAgent("Failed to send Pushover message. Invalid URL or Token")
+    
     return success
     
             

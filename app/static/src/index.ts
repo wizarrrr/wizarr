@@ -14,3 +14,11 @@ import './ts/toggle-switches';
 
 htmx.config.defaultSwapStyle = 'innerHTML';
 window.htmx = htmx;
+
+// If htmx swap gets 301/302 redirect, follow it instead of replacing the current page
+htmx.on('htmx:afterSwap', (event: any) => {
+    console.log(event.detail.xhr.status);
+    if (event.detail.xhr.status >= 300 && event.detail.xhr.status < 400) {
+        window.location.href = event.detail.xhr.responseURL;
+    }
+});

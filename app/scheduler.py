@@ -67,3 +67,18 @@ def get_schedule():
         schedule_list.append(schedule_info)
     
     return schedule_list
+
+def get_task(job_id):
+    job_store = schedule.get_job(id=job_id)
+    
+    schedule_info = {
+        'id': job_store.id,
+        'name': job_store.name,
+        'trigger': str(job_store.trigger),
+        'next_run_time': str(job_store.next_run_time)
+    }
+    
+    return schedule_info
+
+def run_task(job_id):
+    return schedule.run_job(id=job_id)

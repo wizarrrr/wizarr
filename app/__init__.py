@@ -7,15 +7,16 @@ from dotenv import load_dotenv
 from flask import Flask, request, send_file, session
 from flask_babel import Babel
 from flask_htmx import HTMX
-from flask_restx import Api
+from flask_jwt_extended import JWTManager
 from flask_session import Session
-from flask_swagger_ui import get_swaggerui_blueprint
 from packaging import version
 from peewee import *
 from playhouse.migrate import *
+from playhouse.shortcuts import model_to_dict
 from requests import get
 
 from api import *
+from app.security import secret_key
 from models import *
 
 VERSION = "2.2.0"
@@ -45,7 +46,6 @@ app.jinja_env.globals.update(DISABLE_BUILTIN_AUTH=getenv("DISABLE_BUILTIN_AUTH",
 
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_TYPE"] = "filesystem"
-app.config["SECRET_KEY"] = os.urandom(24)
 app.config["SESSION_FILE_DIR"] = os.path.join(base_dir, "../", "database", "sessions")
 app.config["LANGUAGES"] = {'en': 'english', 'de': 'german', 'zh': 'chinese', 'fr': 'french', 'sv': 'swedish', 'pt': 'portuguese', 'pt_BR': 'portuguese', 'lt': 'lithuanian', 'es': 'spanish', 'ca': 'catalan', 'pl': 'polish' }
 app.config["BABEL_DEFAULT_LOCALE"] = "en"
@@ -54,7 +54,13 @@ app.config["SCHEDULER_API_ENABLED"] = True
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=5)
 app.config['UPLOAD_FOLDER'] = os.path.join(base_dir, "../", "database", "uploads")
 app.config['SWAGGER_UI_DOC_EXPANSION'] = 'list'
-app.config['SWAGGER_UI_THEME'] = 'flask-restx-dark'
+app.config['SERVER_NAME'] = getenv("APP_URL")
+app.config['APPLICATION_ROOT'] = '/'
+app.config['PREFERRED_URL_SCHEME'] = 'http'
+app.config["JWT_SECRET_KEY"] = secret_key()
+app.config["JWT_BLACKLIST_ENABLED"] = True
+app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
 load_dotenv()
 
@@ -68,6 +74,7 @@ def get_locale():
 sess = Session(app)
 htmx = HTMX(app)
 babel = Babel(app, locale_selector=get_locale)
+jwt = JWTManager(app)
 
 @app.template_filter()
 def format_datetime(value):
@@ -94,18 +101,39 @@ def format_datetime(value):
     else:
         return f"{hms[2]}s"
 
+@jwt.token_in_blocklist_loader
+def check_if_token_revoked(jwt_header, jwt_payload: dict) -> bool:
+    jti = jwt_payload["jti"]
+    token = Sessions.get_or_none(Sessions.session == jti)
+
+    return token is None
+
+@jwt.user_identity_loader
+def _user_identity_lookup(user):
+    return user.id
+
+@jwt.user_lookup_loader
+def _user_lookup_callback(_jwt_header, jwt_data):
+    identity = jwt_data["sub"]
+    user = Admins.get_by_id(identity)
+    return model_to_dict(user, recurse=True, backrefs=True, exclude=[Admins.password])
+
 
 @app.template_filter()
 def date_format(value, format="%Y-%m-%d %H:%M:%S"):
     format_str = '%Y-%m-%d %H:%M:%S'
     parsed_date = datetime.strptime(str(value), format_str)
     return parsed_date.strftime(format)
-    
+
+with app.app_context():
+    swagger_data = api.__schema__
+    with open(os.path.join(base_dir, "swagger.json"), "w") as f:
+        f.write(dumps(swagger_data))
 
 if __name__ == "__main__":
     sess.init_app(app)
     app.run()
 
 from app import (backup, exceptions, helpers, jellyfin, mediarequest,
-                 notifications, partials, plex, routes, scheduler, tasks,
-                 universal, web)
+                 notifications, partials, plex, routes, scheduler, security,
+                 tasks, universal, web)

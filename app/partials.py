@@ -2,20 +2,21 @@ from datetime import datetime
 from os import getenv, listdir, path
 
 from flask import abort, make_response, render_template, request
+from flask_jwt_extended import current_user
 
-from app import app, session
+from app import app
 from models import Admins, Invitations, Sessions, Settings
 
-from .helpers import (get_api_keys, get_notifications, get_settings,
-                      login_required)
+from .helpers import get_api_keys, get_notifications, get_settings
 from .scheduler import get_schedule
+from .security import login_required
 from .universal import global_get_users
 
 
 # All admin partials
 @app.get('/partials/admin', defaults={'subpath': ''})
 @app.get('/partials/admin/<path:subpath>')
-@login_required
+@login_required()
 def admin_partials(subpath):
     # Get valid settings partials
     html_files = [path.splitext(file)[0] for file in listdir('./app/templates/admin') if file.endswith('.html')]
@@ -36,7 +37,7 @@ def admin_partials(subpath):
 # All settings partials
 @app.get('/partials/admin/settings', defaults={'subpath': ''})
 @app.get('/partials/admin/settings/<path:subpath>')
-@login_required
+@login_required()
 def settings_partials(subpath):
     # Get valid settings partials
     html_files = [path.splitext(file)[0] for file in listdir('./app/templates/admin/settings') if file.endswith('.html')]
@@ -49,7 +50,7 @@ def settings_partials(subpath):
     settings = get_settings()
     settings["api_keys"] = get_api_keys()
     settings["template"] = subpath if subpath else "general"
-    settings["admin"] = session["admin"]
+    settings["admin"] = current_user
 
     # If no subpath is specified, render the admin dashboard
     if not subpath:
@@ -60,7 +61,7 @@ def settings_partials(subpath):
 
 @app.post('/partials/admin/settings', defaults={'subpath': ''})
 @app.post('/partials/admin/settings/<path:subpath>')
-@login_required
+@login_required()
 def post_settings_routes(subpath):
     # Get valid settings partials
     # if subpath in ["general", "request", "discord", "html"]:
@@ -74,7 +75,7 @@ def post_settings_routes(subpath):
 # All account partials
 @app.get('/partials/admin/account', defaults={'subpath': ''})
 @app.get('/partials/admin/account/<path:subpath>')
-@login_required
+@login_required()
 def account_partials(subpath):
     # Get valid account partials
     html_files = [path.splitext(file)[0] for file in listdir('./app/templates/admin/account') if file.endswith('.html')]
@@ -86,7 +87,7 @@ def account_partials(subpath):
     # Get all settings
     settings = get_settings()
     settings["template"] = subpath if subpath else "general"
-    settings["admin"] = session["admin"]
+    settings["admin"] = current_user
 
     # If no subpath is specified, render the admin dashboard
     if not subpath:
@@ -98,7 +99,7 @@ def account_partials(subpath):
 
 # All modal partials
 @app.route('/partials/modals/<path:path>')
-@login_required
+@login_required()
 def modal_partials(path, **kwargs):
     # Get all form and post data
     form = request.form if request.form else {}
@@ -114,10 +115,10 @@ def modal_partials(path, **kwargs):
 
 # All tables partials
 @app.route('/partials/tables/<path:path>')
-@login_required
+@login_required()
 def table_partials(path):
     settings = {
-        "admin": session["admin"]
+        "admin": current_user
     }
 
     if path == "global-users":
@@ -139,7 +140,7 @@ def table_partials(path):
         settings["notifications"] = get_notifications()
         
     if path == "sessions-table":
-        settings["sessions"] = Sessions.select().where(Sessions.user == session["admin"]["id"]).order_by(Sessions.created.desc())
+        settings["sessions"] = Sessions.select().where(Sessions.user == current_user["id"]).order_by(Sessions.created.desc())
         
     if path == "api-table":
         settings["api_keys"] = get_api_keys()

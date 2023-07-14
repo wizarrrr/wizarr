@@ -1,18 +1,19 @@
 from json import loads
 from os import getenv, listdir, path
 
-from flask import abort, redirect, render_template, request, session
+from flask import abort, jsonify, redirect, render_template, request, session
+from flask_jwt_extended import current_user, jwt_required
+from playhouse.shortcuts import model_to_dict
 
 from app import VERSION, app
-from app.helpers import (get_api_keys, get_notifications, get_settings,
-                         login_required)
-from app.scheduler import get_schedule
+from app.helpers import get_api_keys, get_notifications, get_settings
+from app.security import logged_out_required, login_required
 
 
 # All admin routes
 @app.get('/admin', defaults={'subpath': ''})
 @app.get('/admin/<path:subpath>')
-@login_required
+@login_required()
 def admin_routes(subpath):
     # Get valid settings partials
     html_files = [path.splitext(file)[0] for file in listdir(
@@ -37,7 +38,7 @@ def admin_routes(subpath):
 # All settings routes
 @app.get('/admin/settings', defaults={'subpath': ''})
 @app.get('/admin/settings/<path:subpath>')
-@login_required
+@login_required()
 def settings_routes(subpath):
     # Get valid settings partials
     html_files = [path.splitext(file)[0] for file in listdir(
@@ -52,7 +53,7 @@ def settings_routes(subpath):
     settings["api_keys"] = get_api_keys()
     settings["template"] = subpath if subpath else "general"
     settings["auth"] = True if getenv("DISABLE_BUILTIN_AUTH") != "true" else False
-    settings["admin"] = session["admin"]
+    settings["admin"] = current_user
 
     print(settings)
     # If no subpath is specified, render the admin dashboard
@@ -65,7 +66,7 @@ def settings_routes(subpath):
 # All account routes
 @app.get('/admin/account', defaults={'subpath': ''})
 @app.get('/admin/account/<path:subpath>')
-@login_required
+@login_required()
 def account_routes(subpath):
     # Get valid account partials
     html_files = [path.splitext(file)[0] for file in listdir('./app/templates/admin/account') if file.endswith('.html')]
@@ -77,7 +78,7 @@ def account_routes(subpath):
     # Get all settings
     settings = get_settings()
     settings["template"] = subpath if subpath else "general"
-    settings["admin"] = session["admin"]
+    settings["admin"] = current_user
 
     # If no subpath is specified, render the admin dashboard
     if not subpath:
@@ -122,17 +123,18 @@ def setup_server(subpath):
 
 # Login route
 @app.route('/login', methods=["GET"])
+@logged_out_required()
 def login_get():
     if getenv("DISABLE_BUILTIN_AUTH") and getenv("DISABLE_BUILTIN_AUTH") == "true":
-        return redirect("/")
-    
-    if session.get("admin"):
         return redirect("/")
 
     return render_template("login.html")
 
-# @app.route("/api-docs/swagger.json")
-# def swaggerjson():
-#     swag = loads((open("./swagger.json", "r").read()))
-#     swag['info']['version'] = VERSION
-#     return swag
+
+@app.route("/who_am_i", methods=["GET"])
+@jwt_required()
+def protected():
+    # We can now access our sqlalchemy User object via `current_user`.
+    return {
+        "user": current_user
+    }
