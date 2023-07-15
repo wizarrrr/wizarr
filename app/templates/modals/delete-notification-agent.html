@@ -24,6 +24,10 @@
 
         let response = await fetch("/api/notifications/{{ agent }}", {
             method: "DELETE",
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+            },
         })
 
         if (response.status == 401) {

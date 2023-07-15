@@ -36,7 +36,9 @@
                 {% endif %}
 
                 <td class="p-5 text-right">
-                    <button class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">Run Now</button>
+                    <button hx-get="/partials/modals/run-task?task={{ task.id }}" hx-target="#run-modal" hx-trigger="click" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
+                        {{ _("Run Now") }}
+                    </button>
                 </td>
             </tr>
 

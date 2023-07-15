@@ -12,7 +12,6 @@ class Admins(BaseModel):
     email = CharField(null=True, unique=True, default=None)
     last_login = DateTimeField(null=True, default=None)
     created = DateTimeField(constraints=[SQL("DEFAULT (datetime('now'))")])
-    session = CharField(null=True, default=None)
 
 class AdminsModel(PydanticBaseModel):
     id: int

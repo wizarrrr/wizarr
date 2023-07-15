@@ -1,5 +1,5 @@
 <!-- Users Table -->
-<div class="mt-7 overflow-x-auto">
+<div class="overflow-x-auto">
     {% if invitations %}
     <table class="w-full whitespace-nowrap">
         <thead>
@@ -14,7 +14,6 @@
                 <th class="py-3 text-center">{{ _("Allow Downloads") }}</th>
                 {% endif %}
                 <th class="py-3 text-center">{{ _("Duration") }}</th>
-                <th></th>
             </tr>
 
             <tr class="h-0 md:h-3"></tr>
@@ -88,27 +87,19 @@
                     {% endif %}
                 </td>
 
-                <td class="p-5 pr-8 text-right flex col justify-end space-x-3">
-                    <button id="delete" class="inline-block" hx-post="/invite/table?delete={{ invite.code }}" hx-trigger="click" hx-target="#invite_table" hx-swap="outerHTML swap:0.5s">
-                        <i class="text-red-600 fa-regular fa-trash-can"></i>
-                    </button>
-                    <div class="block md:hidden">
-                        <button class="text-gray-600 text-sm leading-none py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none">View</button>
-                    </div>
-                    <div class="hidden md:block">
-                        <span class="relative">
-                            <button class="focus:ring-2 rounded-md focus:outline-none" onclick="dropdownFunction(this)" role="button" aria-label="option">
-                                <i class="fa-solid fa-ellipsis"></i>
+                <td class="p-5 pr-8 hidden md:block text-right">
+                    <div class="flex col justify-end">
+                        <button class="focus:ring-2 p-2 rounded-md focus:outline-none" onclick="window.toggleMenu(this)" role="button" aria-label="option">
+                            <i class="transition-all fa-solid fa-ellipsis"></i>
+                        </button>
+                        <div class="menu flex row overflow-hidden transition-all items-center space-x-2 ml-2" style="max-width: 0px;">
+                            <button hx-get="" hx-target="" hx-trigger="click" class="bg-gray-600 focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-gray-600">
+                                {{ _("Edit") }}
                             </button>
-                            <div class="dropdown-content bg-white dark:bg-gray-800 dark:border dark:border-gray-700 shadow w-24 absolute z-30 right-0 mr-6 hidden">
-                                <div tabindex="0" class="focus:outline-none text-xs w-full hover:bg-primary py-4 px-4 cursor-pointer hover:text-white">
-                                    <p>Edit</p>
-                                </div>
-                                <div tabindex="0" class="focus:outline-none text-xs w-full hover:bg-primary py-4 px-4 cursor-pointer hover:text-white">
-                                    <p>Delete</p>
-                                </div>
-                            </div>
-                        </span>
+                            <button hx-get="" hx-target="" hx-trigger="click" class="bg-primary focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-primary">
+                                {{ _("Delete") }}
+                            </button>
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -123,19 +114,6 @@
 
 
 <script>
-    function dropdownFunction(element) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
-        let list = element.parentElement.parentElement.getElementsByClassName("dropdown-content")[0];
-        list.classList.add("target");
-        for (i = 0; i < dropdowns.length; i++) {
-            if (!dropdowns[i].classList.contains("target")) {
-                dropdowns[i].classList.add("hidden");
-            }
-        }
-        list.classList.toggle("hidden");
-    }
-
     document.querySelectorAll('button#delete').forEach(button => {
         button.addEventListener('click', function () {
             let tr = this.closest('tr');

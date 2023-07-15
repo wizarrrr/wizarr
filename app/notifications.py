@@ -56,7 +56,7 @@ def notify_ntfy(message, title, tags, url, username, password):
     return success
 
 def notify_pushover(message, title, url, username, password):
-    data = json.dumps({"token": password, "user": username, "message": message, "title": title})
+    data = json.dumps({"token": password, "user": username, "msg": message, "title": title})
     headers = {"Content-Type": "application/json"}
     
     success = send_request(url, data, headers)

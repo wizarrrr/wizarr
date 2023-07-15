@@ -4,11 +4,41 @@ import logging
 import logging.config
 from os import getenv, system
 
+import coloredlogs
 import requests
 from peewee import BooleanField, CharField, DateTimeField
 from playhouse.migrate import SqliteMigrator, migrate
 
 from app import Admins, Invitations, Libraries, Settings, Users, db, session
+
+# LOGGING_CONFIG = {
+#     "version": 1,
+#     "handlers": {
+#         "console": {
+#             "class": "logging.StreamHandler",
+#             "level": "DEBUG",
+#             "formatter": "simple",
+#         },
+#     },
+#     "formatters": {
+#         "simple": {
+#             "format": "%(asctime)s - %(levelname)s - %(message)s",
+#         },
+#     },
+#     "loggers": {
+#         "": {
+#             "handlers": ["console"],
+#             "level": getenv("LOG_LEVEL", "ERROR"),
+#             "propagate": True,
+#         },
+#     },
+# }
+
+# try:
+    # logging.config.dictConfig(LOGGING_CONFIG)
+coloredlogs.install(level=None, fmt="%(asctime)s %(levelname)s %(message)s")
+# except Exception as e:
+#     logging.critical(f"Error in logging config, ignoring and using defaults. Error: {e}")
 
 # Migrations 1
 try:
@@ -16,7 +46,7 @@ try:
     duration = CharField(null=True)  # Add Duration after update
     migrate(migrator.add_column('Invitations', 'duration', duration))
 except Exception as e:
-    logging.info(e)
+    logging.debug(e)
 
 # Add plex_allow_sync field
 try:
@@ -24,7 +54,7 @@ try:
     plex_allow_sync = BooleanField(null=True)  # Add plex_allow_sync after update
     migrate(migrator.add_column('Invitations', 'plex_allow_sync', plex_allow_sync))
 except Exception as e:
-    logging.info(e)
+    logging.debug(e)
 
 # Migrations 2
 try:
@@ -32,7 +62,7 @@ try:
     specific_libraries = CharField(null=True)  # Add Specific Libraries after update
     migrate(migrator.add_column('Invitations', 'specific_libraries', specific_libraries))
 except Exception as e:
-    logging.info(e)
+    logging.debug(e)
 
 # Migrations 3
 try:
@@ -40,7 +70,7 @@ try:
     expires = DateTimeField(null=True)  # Add Expires after update
     migrate(migrator.add_column('Users', 'expires', expires))
 except Exception as e:
-    logging.info(e)
+    logging.debug(e)
 
 # For all invitations, if the expires is not a string, make it a string
 for invitation in Invitations.select():
@@ -58,39 +88,11 @@ try:
     migrator = SqliteMigrator(db)
     migrate(migrator.drop_not_null('Settings', 'value'))
 except Exception as e:
-    logging.info(e)
+    logging.debug(e)
 
 if not getenv("APP_URL"):
-    logging.info("APP_URL not set or wrong format. See docs for more info.")
+    logging.debug("APP_URL not set or wrong format. See docs for more debug.")
     exit(1)
-
-LOGGING_CONFIG = {
-    "version": 1,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-            "level": "DEBUG",
-            "formatter": "simple",
-        },
-    },
-    "formatters": {
-        "simple": {
-            "format": "%(asctime)s - %(levelname)s - %(message)s",
-        },
-    },
-    "loggers": {
-        "": {
-            "handlers": ["console"],
-            "level": getenv("LOG_LEVEL", "ERROR"),
-            "propagate": True,
-        },
-    },
-}
-
-try:
-    logging.config.dictConfig(LOGGING_CONFIG)
-except Exception as e:
-    logging.critical(f"Error in logging config, ignoring and using defaults. Error: {e}")
 
 # Migrate from Plex to Global Settings:
 if Settings.select().where(Settings.key == 'admin_username').exists():
@@ -98,7 +100,7 @@ if Settings.select().where(Settings.key == 'admin_username').exists():
         if not Settings.select().where(Settings.key == 'server_type').exists() :
             try:
                 system("cp ./db/db.db ./db/1.6.5-db-backup.db")
-                logging.info("db backup created due to major version update.")
+                logging.debug("db backup created due to major version update.")
             except:
                 pass
             Settings.create(key='server_type', value='plex')
@@ -120,7 +122,7 @@ try:
     plex_home = BooleanField(null=True)  # Add Expires after update
     migrate(migrator.add_column('Invitations', 'plex_home', plex_home))
 except Exception as e:
-    logging.info(e)
+    logging.debug(e)
 
 # Migrations 5
 if not Settings.select().where(Settings.key == 'server_api_key').exists():    
@@ -132,15 +134,15 @@ if not Settings.select().where(Settings.key == 'server_api_key').exists():
 
         try:
             system("cp ./db/db.db ./db/2.2.0-db-backup.db")
-            logging.info("db backup created due to major version update.")
+            logging.debug("db backup created due to major version update.")
         except Exception as e:
-            logging.info(e)
+            logging.debug(e)
 
         try:
             # Migrate existing admin to new admin table
             Admins.get_or_create(username=settings.get("admin_username"), password=settings.get("admin_password"))
         except Exception as e:
-            logging.info(e)
+            logging.debug(e)
 
         try:
             # Migrate existing libraries to new libraries table
@@ -156,7 +158,7 @@ if not Settings.select().where(Settings.key == 'server_api_key').exists():
                         Libraries.get_or_create(id=library["Id"], name=library["Name"])
 
         except Exception as e:
-            logging.info(e)
+            logging.debug(e)
             
         try:
             #Migrate requests to new requests values
@@ -167,13 +169,13 @@ if not Settings.select().where(Settings.key == 'server_api_key').exists():
             Settings.create(key="request_api_key", value=ombi_api_key)
             
         except Exception as e:
-            logging.info(e)
+            logging.debug(e)
 
         try:
             # Migrate api_key to server_api_key
             Settings.create(key="server_api_key", value=settings.get("api_key"))
         except Exception as e:
-            logging.info(e)
+            logging.debug(e)
 
         migrator = SqliteMigrator(db)
         
@@ -196,4 +198,4 @@ if not Settings.select().where(Settings.key == 'server_api_key').exists():
         session.clear()
 
     except Exception as e:
-        logging.info(e)
+        logging.debug(e)

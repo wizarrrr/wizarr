@@ -102,7 +102,7 @@ def wizard(action):
         steps.append("wizard/requests.html")
 
     if settings.get("discord_id"):
-        if settings.get("discord_widget") == "on":
+        if settings.get("discord_widget") == "True":
             steps.append("wizard/discord-widget.html")
         else:
             steps.append("wizard/discord.html")

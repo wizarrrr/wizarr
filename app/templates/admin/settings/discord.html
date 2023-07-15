@@ -1,5 +1,5 @@
 <div class="animate__animated animate__fadeIn">
-    <form class="space-y-4 md:space-y-6" hx-post="/partials/admin/settings/{{ template }}" hx-target="#settings-content" hx-swap="innerHTML">
+    <form class="space-y-4 md:space-y-6" onsubmit="event.preventDefault(); saveSettings(this);">
         <div>
             <label for="discord_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Discord Server ID") }}</label>
             <input type="text" name="discord_id" id="discord_id" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if discord_id %}{{ discord_id }}{% endif %}" placeholder="Optional, leave empty to disable">
@@ -9,7 +9,7 @@
             <label for="discord_widget" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Discord Widget") }}</label>
             <label class="relative inline-flex items-center cursor-pointer">
                 <input id="discord_widget" type="hidden" name="discord_widget" value="{{ discord_widget }}">
-                <input onchange="toggleSwitch(this)" type="checkbox" {% if discord_widget == 'on' %}checked{% endif %} class="sr-only peer">
+                <input onchange="toggleSwitch(this)" type="checkbox" {% if discord_widget=='True' %}checked{% endif %} class="sr-only peer">
                 <div class="w-14 h-7 bg-primary peer-focus:outline-none peer-focus:ring-4 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
             </label>
         </div>
@@ -23,7 +23,28 @@
 </div>
 
 <script>
-function toggleSwitch(element) {
-    document.getElementById('discord_widget').value = element.checked ? 'on' : 'off';
-}
+    function toggleSwitch(element) {
+        document.getElementById('discord_widget').value = element.checked ? 'True' : 'False';
+    }
+
+    async function saveSettings(that) {
+        let spinner = document.getElementById('spinner');
+        spinner.classList.remove('htmx-indicator');
+
+        let formData = new FormData(that);
+
+        let response = await fetch('/api/settings', {
+            method: 'PUT',
+            body: formData,
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token')
+            },
+        });
+
+        spinner.classList.add('htmx-indicator');
+
+        toast.infoToast("{{ _('Settings saved successfully!') }}");
+        htmx.ajax('GET', '/partials/admin/settings/discord', { target: '#settings-content', swap: 'innerHTML' });
+    }
 </script>

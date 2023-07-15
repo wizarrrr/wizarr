@@ -9,8 +9,8 @@ from playhouse.shortcuts import model_to_dict
 from pydantic import BaseModel, Field
 
 from api.helpers import try_catch
-from models import Admins, AdminsModel, Sessions
-from models.admins import AdminsGetModel, AdminsPostModel
+from models.admins import Admins, AdminsGetModel, AdminsModel, AdminsPostModel
+from models.sessions import Sessions
 
 api = Namespace("Accounts", description="Accounts related operations", path="/accounts")
 

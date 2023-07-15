@@ -1,7 +1,7 @@
 from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restx import Namespace, Resource
-from peewee import IntegrityError
+from peewee import Case, IntegrityError, fn
 from pydantic import BaseModel, Field
 
 from api.helpers import try_catch
@@ -56,6 +56,33 @@ class SettingsListAPI(Resource):
         
         return response, 200
     
+    @api.expect(SettingsPostModel)
+    @api.marshal_with(SettingsGetModel)
+    @api.doc(description="Update all settings")
+    @api.response(200, "Successfully updated settings")
+    @api.response(400, "Invalid settings")
+    @api.response(500, "Internal server error")
+    def put(self):
+        # Form data is stored in request.form
+        form = request.form.to_dict()
+        
+        # Verify that the form data is valid
+        data = SettingsModel(**form)
+        
+        # Extract the data from the model to a dictionary
+        response = data.model_dump(exclude_defaults=True, exclude_unset=True, exclude_none=True)
+
+        # FIXME: This will send many queries to the database
+        # Insert the settings into the database
+        for key, value in response.items():
+            setting = Settings.get_or_none(Settings.key == key)
+            if not setting:
+                Settings.create(key=key, value=value)
+            else:
+                Settings.update(value=value).where(Settings.key == key).execute()
+
+        return response, 200
+    
     
     
 @api.route('/<string:setting_id>')
@@ -95,9 +122,9 @@ class SettingsAPI(Resource):
             id: str = Field(description="The ID of the setting to update")
             data: dict[str, str] = Field(description="The settings to update")
         
-        Put(id=setting_id, data=self.request.data)
+        form = Put(id=setting_id, data=request.data)
     
-        Settings.update(value=self.request.data).where(Settings.key == setting_id).execute()
+        Settings.update(value=form.data).where(Settings.key == form.id).execute()
         
         response = SettingsAPI.get(self, setting_id)
         
@@ -117,6 +144,6 @@ class SettingsAPI(Resource):
          
         Settings.delete().where(Settings.key == setting_id).execute()
 
-        response = { "message": f"Setting {setting_id} deleted successfully" }
+        response = { "msg": f"Setting {setting_id} deleted successfully" }
         
         return response, 200

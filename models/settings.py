@@ -18,31 +18,37 @@ class SettingsModel(PydanticBaseModel):
     server_url: Optional[str] = Field(default=None, validate_default=False, description="The URL of the server")
     server_name: Optional[str] = Field(default=None, validate_default=False, description="The name of the server")
     discord_id: Optional[str] = Field(default=None, validate_default=False, description="The Discord ID of the server")
+    request_type: Optional[constr(pattern="^(jellyseerr|overseerr|ombi)$")] = Field(default=None, validate_default=False, description="The type of request server")
     request_url: Optional[str] = Field(default=None, validate_default=False, description="The URL of the request server")
     request_api_key: Optional[str] = Field(default=None, validate_default=False, description="The API key of the request server")
     server_api_key: Optional[str] = Field(default=None, validate_default=False, description="The API key of the server")
-    discord_widget: Optional[bool] = Field(default=None, validate_default=False, description="Whether the Discord widget is enabled")
+    discord_widget: Optional[str] = Field(default=None, validate_default=False, description="Whether the Discord widget is enabled")
+    custom_html: Optional[str] = Field(default=None, validate_default=False, description="Custom HTML to be displayed on the homepage")
     
 SettingsPostModel = Model('SettingsPostModel', {
     "server_type": fields.String(required=False, description="The type of server"),
-    "server_verified": fields.Boolean(required=False, description="Whether the server has been verified"),
+    "server_verified": fields.String(required=False, description="Whether the server has been verified"),
     "server_url": fields.String(required=False, description="The URL of the server"),
     "server_name": fields.String(required=False, description="The name of the server"),
     "discord_id": fields.String(required=False, description="The Discord ID of the server"),
+    "request_type": fields.String(required=False, description="The type of request server"),
     "request_url": fields.String(required=False, description="The URL of the request server"),
     "request_api_key": fields.String(required=False, description="The API key of the request server"),
     "server_api_key": fields.String(required=False, description="The API key of the server"),
-    "discord_widget": fields.Boolean(required=False, description="Whether the Discord widget is enabled")   
+    "discord_widget": fields.String(required=False, description="Whether the Discord widget is enabled"),
+    "custom_html": fields.String(required=False, description="Custom HTML to be displayed on the homepage")
 })
 
 SettingsGetModel = Model('SettingsGetModel', {
     "server_type": fields.String(required=False, description="The type of server"),
-    "server_verified": fields.Boolean(required=False, description="Whether the server has been verified"),
+    "server_verified": fields.String(required=False, description="Whether the server has been verified"),
     "server_url": fields.String(required=False, description="The URL of the server"),
     "server_name": fields.String(required=False, description="The name of the server"),
     "discord_id": fields.String(required=False, description="The Discord ID of the server"),
+    "request_type": fields.String(required=False, description="The type of request server"),
     "request_url": fields.String(required=False, description="The URL of the request server"),
     "request_api_key": fields.String(required=False, description="The API key of the request server"),
     "server_api_key": fields.String(required=False, description="The API key of the server"),
-    "discord_widget": fields.Boolean(required=False, description="Whether the Discord widget is enabled")
+    "discord_widget": fields.String(required=False, description="Whether the Discord widget is enabled"),
+    "custom_html": fields.String(required=False, description="Custom HTML to be displayed on the homepage")
 })

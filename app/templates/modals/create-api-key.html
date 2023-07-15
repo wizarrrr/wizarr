@@ -29,17 +29,12 @@
 
         let response = await fetch('/api/accounts/{{ admin_id }}/api', {
             method: 'POST',
-            body: form
+            body: form,
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+            },
         });
-
-        let toast = {
-            text: '',
-            duration: 5000,
-            gravity: 'bottom',
-            position: 'right',
-            className: 'error-toast',
-            stopOnFocus: true
-        }
 
         // 422 - Validation error
         // 400 - API key already exists
@@ -48,8 +43,7 @@
 
         if (response.status == 422) {
             spinner.classList.add('hidden');
-            toast.text = "{{ _('Please fill out all required fields.') }}";
-            Toastify(toast).showToast();
+            toast.errorToast("{{ _('Please fill out all required fields.') }}");
 
             let errors = await response.json();
 
@@ -73,29 +67,23 @@
 
         if (response.status == 400) {
             spinner.classList.add('hidden');
-            toast.text = "{{ _('API key already exists.') }}";
-            Toastify(toast).showToast();
+            toast.errorToast("{{ _('API key already exists.') }}");
             return;
         }
 
         if (response.status == 401) {
             spinner.classList.add('hidden');
-            toast.text = "{{ _('You are not authorized to perform this action.') }}";
-            Toastify(toast).showToast();
+            toast.errorToast("{{ _('You are not authorized to perform this action.') }}");
             return;
         }
 
         if (response.status == 500 || response.status != 200) {
             spinner.classList.add('hidden');
-            toast.text = "{{ _('Something went wrong.') }}";
-            Toastify(toast).showToast();
+            toast.errorToast("{{ _('Something went wrong.') }}");
             return;
         }
 
-        toast.className = 'show-toast';
-        toast.text = "{{ _('API key created.') }}";
-        Toastify(toast).showToast();
-
+        toast.infoToast("{{ _('API key created.') }}");
         htmx.ajax('GET', '/partials/admin/settings/api', { target:'#settings-content', swap:'innerHTML', indicator:'#spinner' });
     }
 </script>

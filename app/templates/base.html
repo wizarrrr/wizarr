@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="{{ APP_LANG }}" class="dark:bg-gray-900">
+<html lang="{{ APP_LANG }}" class="dark:bg-gray-900 dark">
 
 <head>
 
@@ -11,6 +11,13 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="HandheldFriendly" content="true" />
+
+    <style>
+        /* Stop my eyes being blinded for dear life when the page is refreshed in dark mode */
+        html.dark {
+            background-color: #111827; /* ahh yess my eyes feel so much better now :P */
+        }
+    </style>
 
     <meta name="robots" content="noindex">
 

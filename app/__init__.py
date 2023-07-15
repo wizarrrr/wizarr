@@ -1,13 +1,15 @@
 import os
-from datetime import datetime, timedelta
-from logging import error, info, warning
+from datetime import datetime, timedelta, timezone
+from logging import info, warning
 from os import getenv
 
 from dotenv import load_dotenv
 from flask import Flask, request, send_file, session
 from flask_babel import Babel
 from flask_htmx import HTMX
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import (JWTManager, create_access_token, current_user,
+                                get_jti, get_jwt, get_jwt_identity,
+                                jwt_required, set_access_cookies)
 from flask_session import Session
 from packaging import version
 from peewee import *
@@ -33,7 +35,7 @@ def need_update():
         data = r.content.decode("utf-8")
         return version.parse(VERSION) < version.parse(data)
     except Exception as e:
-        info(f"Error checking for updates: {e}")
+        warning(f"Error checking for updates: {e}")
         return False
 
 app.jinja_env.globals.update(APP_NAME="Wizarr")
@@ -61,6 +63,8 @@ app.config["JWT_SECRET_KEY"] = secret_key()
 app.config["JWT_BLACKLIST_ENABLED"] = True
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config["JWT_COOKIE_CSRF_PROTECT"] = True
+app.config["JWT_COOKIE_SECURE"] = True if app.debug is False else False
 
 load_dotenv()
 
@@ -101,6 +105,22 @@ def format_datetime(value):
     else:
         return f"{hms[2]}s"
 
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        jwt = get_jwt()
+        exp_timestamp, jti = jwt["exp"], jwt["jti"]
+        target_timestamp = datetime.timestamp(datetime.now(timezone.utc) + timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            Sessions.update(session=get_jti(access_token)).where(Sessions.session == jti).execute()
+            set_access_cookies(response, access_token)
+            info(f"Refreshed JWT for {get_jwt_identity()}")
+        return response
+    except (RuntimeError, KeyError):
+        # Case where there is not a valid JWT. Just return the original response
+        return response
+    
 @jwt.token_in_blocklist_loader
 def check_if_token_revoked(jwt_header, jwt_payload: dict) -> bool:
     jti = jwt_payload["jti"]
@@ -110,7 +130,7 @@ def check_if_token_revoked(jwt_header, jwt_payload: dict) -> bool:
 
 @jwt.user_identity_loader
 def _user_identity_lookup(user):
-    return user.id
+    return user
 
 @jwt.user_lookup_loader
 def _user_lookup_callback(_jwt_header, jwt_data):

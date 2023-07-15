@@ -52,7 +52,10 @@
         var response = await fetch('/api/libraries', {
             method: 'POST',
             body: formData,
-            timeout: 0
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+            },
         });
 
         var data = await response.json();

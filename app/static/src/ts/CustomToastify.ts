@@ -14,7 +14,9 @@ const showToast = (message: string, options: Toastify.Options) => {
     Toastify({
         ...defaultToast,
         ...options,
-        backgroundColor: '#fe4155',
+        style: {
+            background: '#4B5563)',
+        },
         text: message,
     }).showToast();
 }
@@ -22,7 +24,9 @@ const showToast = (message: string, options: Toastify.Options) => {
 const errorToast = (message: string) => {
     Toastify({
         text: message,
-        backgroundColor: '#dc3545',
+        style: {
+            background: '#dc3545',
+        },
         ...defaultToast,
     }).showToast();
 }
@@ -30,7 +34,9 @@ const errorToast = (message: string) => {
 const successToast = (message: string) => {
     Toastify({
         text: message,
-        backgroundColor: '#28a745',
+        style: {
+            background: '#28a745',
+        },
         ...defaultToast,
     }).showToast();
 }
@@ -38,7 +44,9 @@ const successToast = (message: string) => {
 const infoToast = (message: string) => {
     Toastify({
         text: message,
-        backgroundColor: '#4B5563',
+        style: {
+            background: '#4B5563',
+        },
         ...defaultToast,
     }).showToast();
 }
@@ -46,7 +54,9 @@ const infoToast = (message: string) => {
 const warningToast = (message: string) => {
     Toastify({
         text: message,
-        backgroundColor: '#ffc107',
+        style: {
+            background: '#ffc107',
+        },
         ...defaultToast,
     }).showToast();
 }

@@ -55,7 +55,6 @@ def settings_routes(subpath):
     settings["auth"] = True if getenv("DISABLE_BUILTIN_AUTH") != "true" else False
     settings["admin"] = current_user
 
-    print(settings)
     # If no subpath is specified, render the admin dashboard
     if not subpath:
         return render_template("admin.html", subpath="admin/settings.html", settings_subpath="admin/settings/general.html", **settings)

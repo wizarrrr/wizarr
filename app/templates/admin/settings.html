@@ -1,5 +1,5 @@
 <section class="bg-gray-50 dark:bg-gray-900">
-    <div class="flex flex-col items-center justify-center mx-auto container">
+    <div class="flex flex-col items-center justify-center mx-auth md:container md:mx-auto">
         <div id="settings" class="w-full bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8 animate__animated animate__fadeIn">
 
@@ -17,7 +17,7 @@
                         </button>
                     </div>
 
-                    <div class="hidden w-full sm:hidden md:block md:w-auto " id="navbar-settings">
+                    <div class="max-h-0 md:max-h-max w-full md:w-auto overflow-hidden " id="navbar-settings" style="transition: max-height 0.5s ease-out;">
                         <ul class="flex flex-col p-4 mt-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-gray-50 dark:bg-gray-700 md:dark:bg-gray-700 dark:border-gray-900">
                             <li>
                                 <button hx-get="/partials/admin/settings/general" hx-trigger="click" hx-target="#settings-content" hx-swap="innerHTML" hx-push-url="/admin/settings/general" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
@@ -75,8 +75,19 @@
     </div>
 </section>
 <script>
-htmx.on('#navbar-settings-button', 'htmx:afterSwap', function(evt) {
-    var navbarSettings = document.getElementById('navbar-settings');
-    navbarSettings.classList.toggle('hidden');
-});
+    document.getElementById('navbar-settings-button').addEventListener('click', function () {
+        var navbarDefault = document.getElementById('navbar-settings');
+
+        navbarDefault.classList.toggle('max-h-0');
+        navbarDefault.classList.toggle('max-h-96');
+    });
+
+    document.querySelectorAll('#navbar-settings ul li button').forEach(function (element) {
+        element.addEventListener('click', function () {
+            var navbarDefault = document.getElementById('navbar-settings');
+
+            navbarDefault.classList.add('max-h-0');
+            navbarDefault.classList.remove('max-h-96');
+        });
+    });
 </script>

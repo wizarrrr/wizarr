@@ -24,6 +24,10 @@
 
         let response = await fetch("/api/sessions/{{ session_id }}", {
             method: "DELETE",
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+            },
         })
 
         if (response.status == 301) {
@@ -34,12 +38,12 @@
 
         if (response.status != 200) {
             spinner.classList.add('hidden');
-            toast.showToast("{{ _("Something went wrong. Please try again.") }}");
+            toast.errorToast("{{ _("Something went wrong. Please try again.") }}");
             return;
         }
 
         toast.className = 'show-toast';
-        toast.showToast("{{ _("Session deleted successfully!") }}");
+        toast.infoToast("{{ _("Session deleted successfully!") }}");
 
         htmx.ajax('GET', '/partials/admin/account/sessions', { target:'#account-content', swap:'innerHTML', indicator:'#spinner' });
     }

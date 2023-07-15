@@ -37,11 +37,11 @@ class TasksRunAPI(Resource):
     
     method_decorators = [try_catch, jwt_required()]
 
-    def post(self, task_id: str) -> Response:
+    def get(self, task_id: str) -> Response:
         # Import required modules here to avoid circular imports
         from app.scheduler import run_task
 
         # Run the task
         run_task(task_id)
         
-        return make_response({ "message": f"Task {task_id} has been run" }, 200)
+        return make_response({ "msg": f"Task {task_id} has been run" }, 200)

@@ -11,6 +11,7 @@ from .notifications_api import api as notifications_api
 from .sessions_api import api as sessions_api
 from .settings_api import api as settings_api
 from .tasks_api import api as tasks_api
+from .users_api import api as users_api
 
 authorizations = {
     "jsonWebToken": {
@@ -40,6 +41,7 @@ api.add_namespace(notifications_api)
 api.add_namespace(sessions_api)
 api.add_namespace(settings_api)
 api.add_namespace(tasks_api)
+api.add_namespace(users_api)
 
 # TODO: Tasks API
 # TODO: API API

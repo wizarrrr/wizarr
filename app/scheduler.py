@@ -29,23 +29,10 @@ def scan_users():
     # Get all new users
     global_get_users()
     
-@schedule.task('interval', id='scanLibraries', minutes=1.53, misfire_grace_time=900)
+@schedule.task('interval', id='scanLibraries', minutes=30, misfire_grace_time=900)
 def scan_libraries():
     info('Scanning for new libraries...')
     # Get all new libraries
-    
-@schedule.task('interval', id='checkExpiringSessions', minutes=30, misfire_grace_time=900)
-def check_expiring_sessions():
-    info('Clearing old sessions...')
-    
-    # Get all sessions that are expired
-    expired = Sessions.select().where(Sessions.expires < datetime.now().strftime("%Y-%m-%d %H:%M"))
-    
-    # Delete all expired sessions
-    for session in expired:
-        session.delete_instance()
-        info(f"Deleting { session.key } due to expired session.")
-        
 
 
 def get_schedule():
@@ -81,4 +68,4 @@ def get_task(job_id):
     return schedule_info
 
 def run_task(job_id):
-    return schedule.run_job(id=job_id)
+    return schedule.modify_job(id=job_id, jobstore=None, next_run_time=datetime.now())

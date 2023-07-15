@@ -144,6 +144,6 @@ class NotificationsAPI(Resource):
         notification.delete_instance()
         
         # Respond with success
-        response = { "message": f"Notification agent {form.id} deleted successfully" }
+        response = { "msg": f"Notification agent {form.id} deleted successfully" }
     
         return response, 200

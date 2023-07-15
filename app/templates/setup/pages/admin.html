@@ -38,7 +38,11 @@ async function createAdmin() {
 
     const response = await fetch('/api/admin/users', {
         method: 'POST',
-        body: formData
+        body: formData,
+        credentials: 'same-origin',
+        headers: {
+            'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+        },
     });
 
     if (response.status !== 200) {

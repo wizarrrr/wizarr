@@ -4,7 +4,8 @@ from random import choices
 from string import ascii_uppercase, digits
 
 from flask import jsonify, make_response, redirect, request, session
-from flask_jwt_extended import create_access_token, get_jti
+from flask_jwt_extended import (create_access_token, get_jti, jwt_required,
+                                set_access_cookies, unset_jwt_cookies)
 from flask_restx import Model, Namespace, Resource, fields
 from playhouse.shortcuts import model_to_dict
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -21,12 +22,13 @@ api.add_model("LoginPostModel", LoginPostModel)
 @api.route('/login')
 class Login(Resource):
     
+    method_decorators = [try_catch]
+    
     @api.expect(LoginPostModel)
     @api.doc(description="Login to the application")
     @api.response(200, "Login successful")
     @api.response(401, "Invalid Username or Password")
     @api.response(500, "Internal server error")
-    @try_catch
     def post(self):
         # Validate form data and initialize object for login
         form = LoginModel(
@@ -53,15 +55,11 @@ class Login(Resource):
             new_hash = generate_password_hash(form.password, method='scrypt')
             Admins.update(password=new_hash).where(Admins.username == form.username).execute()
 
-        # User dictionary with password removed
-        claim = model_to_dict(user, only=[Admins.id, Admins.username, Admins.email])
-
         # Expire length of session
-        expire = None if form.remember else timedelta(hours=1)
-        expire_date = datetime.now() + expire if expire else None
+        expire = False if form.remember else None
                 
         # Generate a jwt token 
-        token = create_access_token(identity=user, additional_claims=claim, expires_delta=expire)
+        token = create_access_token(identity=user.id, expires_delta=expire)
         jti = get_jti(token)
         
         # Get IP address from request and User Agent from request
@@ -69,32 +67,38 @@ class Login(Resource):
         user_agent = request.user_agent.string
 
         # Store the admin key in the database
-        Sessions.create(session=jti, user=user.id, ip=ip_addr, user_agent=user_agent, expires=expire_date)
+        Sessions.create(session=jti, user=user.id, ip=ip_addr, user_agent=user_agent)
         
-        # Add jwt token to cookie
-        response = make_response(redirect("/admin"))
-        response.set_cookie("access_token_cookie", token, httponly=True, secure=True, samesite="Strict", expires=expire_date)
+        # Create a response object
+        response = jsonify({"msg": "Login successful", "user": model_to_dict(user, exclude=[Admins.password])})
         
-        # Log the user in and redirect them to the homepage
+        # Set the jwt token in the cookie
+        set_access_cookies(response, token)
+        
+        # Log message and return response
         info(f"User successfully logged in the username {form.username}")
         return response
 
 @api.route('/logout')
 class Logout(Resource):
     
+    method_decorators = [try_catch, jwt_required(optional=True)]
+
     @api.doc(description="Logout the currently logged in user")
     @api.response(200, "Logout successful")
     @api.response(500, "Internal server error")
-    @try_catch
     def post(self):
-        # Get the jwt token from the cookie
+        # Delete the session from the database
         token = request.cookies.get("access_token_cookie")
-        
-        # Delete the session from the database
         session = Sessions.get(Sessions.session == get_jti(token))
-        
-        # Delete the session from the database
         session.delete_instance()
 
         # Redirect the user to the login page
-        return {'message': 'Logout successful'}, 200
+        response = jsonify({"msg": "Logout successful"})
+        
+        # Delete the jwt token from the cookie
+        unset_jwt_cookies(response)
+        
+        # Log message and return response
+        info(f"User successfully logged out")
+        return response

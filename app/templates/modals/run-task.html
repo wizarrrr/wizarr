@@ -1,0 +1,42 @@
+<div class="flex justify-between items-center pb-3">
+    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        {{ _("Run Task") }}
+    </h1>
+</div>
+<div class="flex flex-col mb-8">
+    <p class="text-sm text-gray-800 dark:text-gray-100">
+        {{ _("Are you sure you want to run this task?") }}
+    </p>
+</div>
+<div class="flex justify-end pt-2 space-x-4">
+    <button onclick="window.closeModal(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto">
+        {{ _("Cancel") }}
+    </button>
+    <button onclick="runTask(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:w-auto" {% if not task %}disabled{% endif %}>
+        {{ _("Run Task") }}
+    </button>
+</div>
+
+<script>
+    async function runTask(that) {
+        let spinner = that.closest('#modal').querySelector('#modal-spinner');
+        spinner.classList.remove('hidden');
+
+        let response = await fetch('/api/tasks/{{ task }}/run', {
+            method: 'GET',
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+            },
+        });
+
+        if (response.status == 500 || response.status != 200) {
+            spinner.classList.add('hidden');
+            toast.errorToast("{{ _('Something went wrong.') }}");
+            return;
+        }
+
+        toast.infoToast("{{ _('Task has been run.') }}");
+        htmx.ajax('GET', '/partials/admin/settings/tasks', { target: '#settings-content', swap: 'innerHTML', indicator: '#spinner' });
+    }
+</script>

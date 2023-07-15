@@ -1,7 +1,7 @@
 <div id="create-modal"></div>
 
 <div class="animate__animated animate__fadeIn">
-    <form id="general-form" class="space-y-4 md:space-y-6" hx-post="/partials/admin/settings/{{ template }}" hx-target="#settings-content" hx-swap="innerHTML">
+    <form id="general-form" class="space-y-4 md:space-y-6" onsubmit="event.preventDefault(); saveSettings(this);">
         <div>
             <label for="server_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Display Name") }}</label>
             <input type="server_name" name="server_name" id="server_name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if server_name %}{{ server_name }}{% endif %}" required="">
@@ -40,3 +40,26 @@
         </div>
     </form>
 </div>
+
+<script>
+async function saveSettings(that) {
+    let spinner = document.getElementById('spinner');
+    spinner.classList.remove('htmx-indicator');
+
+    let formData = new FormData(that);
+
+    let response = await fetch('/api/settings', {
+        method: 'PUT',
+        body: formData,
+        credentials: 'same-origin',
+        headers: {
+            'X-CSRF-TOKEN': getCookie('csrf_access_token')
+        },
+    });
+
+    spinner.classList.add('htmx-indicator');
+
+    toast.infoToast("{{ _('Settings saved successfully!') }}");
+    htmx.ajax('GET', '/partials/admin/settings/general', { target:'#settings-content', swap:'innerHTML' });
+}
+</script>

@@ -52,7 +52,7 @@ class SessionsAPI(Resource):
         session.delete_instance()
         
         # Responnse
-        response = { "message": f"Session { sessions_id } has been deleted" }
+        response = { "msg": f"Session { sessions_id } has been deleted" }
         
         return response, status
     
