@@ -126,4 +126,4 @@ if __name__ == "__main__":
 
 from app import (backup, exceptions, helpers, jellyfin, mediarequest,
                  notifications, partials, plex, routes, scheduler, security,
-                 tasks, universal, web)
+                 universal, web)
