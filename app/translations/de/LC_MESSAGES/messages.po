@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-10 17:37+0100\n"
-"PO-Revision-Date: 2023-03-14 12:42+0000\n"
-"Last-Translator: Adrian Konopczynski <adrikonop@anomalie.ga>\n"
+"POT-Creation-Date: 2023-05-16 17:27+0100\n"
+"PO-Revision-Date: 2023-07-14 20:52+0000\n"
+"Last-Translator: Liam Thomas-Chollier <liam.thomaschollier@gmail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/wizarr/app/de/>\n"
 "Language: de\n"
-"Language-Team: German "
-"<https://hosted.weblate.org/projects/wizarr/app/de/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.0-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: app/admin.py:166
@@ -82,10 +82,14 @@ msgstr "Benutzer"
 msgid "Settings"
 msgstr "Einstellungen"
 
+<<<<<<< HEAD
 #: app/templates/invalid-invite.html:15
 #, fuzzy
+=======
+#: app/templates/invalid-invite.html:16
+>>>>>>> b6eb1680a20767ee21d359e435c63e15a9a616bc
 msgid "Invalid Invitation"
-msgstr "Einladungen"
+msgstr "Ungültige Einladung"
 
 #: app/templates/login.html:18
 msgid "Login"
@@ -125,6 +129,71 @@ msgstr "Kennwort bestätigen"
 msgid "Create an account"
 msgstr "Ein Konto erstellen"
 
+<<<<<<< HEAD
+=======
+#: app/templates/settings.html:9
+msgid "Server Settings"
+msgstr "Servereinstellungen ändern"
+
+#: app/templates/settings.html:27
+msgid ""
+"Server Display\n"
+"                Name"
+msgstr "Server Name"
+
+#: app/templates/settings.html:35
+msgid "Server"
+msgstr "Server"
+
+#: app/templates/settings.html:48
+msgid "Server URL"
+msgstr "Server-URL"
+
+#: app/templates/settings.html:54
+msgid ""
+"Server\n"
+"                Token / API Key"
+msgstr "Server Token / API-Schlüssel"
+
+#: app/templates/settings.html:66
+msgid ""
+"Server\n"
+"                Libraries"
+msgstr "Server Bibliotheken"
+
+#: app/templates/admin/invite.html:125 app/templates/settings.html:69
+msgid "Scan For Libraries"
+msgstr "Suche nach Bibliotheken"
+
+#: app/templates/settings.html:77
+msgid ""
+"Request\n"
+"                instance (Ombi, Overseerr...) URL"
+msgstr ""
+"Request\n"
+"                  Instanz (Ombi, Overseerr...) URL"
+
+#: app/templates/settings.html:87
+msgid "Ombi API Key (Only used for user import currently.)"
+msgstr "Ombi API Key (Wird derzeit nur für den Benutzerimport verwendet.)"
+
+#: app/templates/settings.html:94
+msgid ""
+"Discord\n"
+"                Server ID"
+msgstr "Discord Server-ID"
+
+#: app/templates/settings.html:102
+msgid ""
+"Custom\n"
+"                HTML"
+msgstr "Benutzerdefiniertes HTML"
+
+#: app/templates/settings.html:110
+msgid "Save"
+msgstr "Speichern"
+
+>>>>>>> b6eb1680a20767ee21d359e435c63e15a9a616bc
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
 #: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
 #, python-format
@@ -243,10 +312,14 @@ msgstr "Erweiterte Optionen"
 msgid "Unlimited Usages"
 msgstr "Unbegrenzte Nutzung"
 
+<<<<<<< HEAD
 #: app/templates/admin/invite.html:51
 #, fuzzy
+=======
+#: app/templates/admin/invite.html:78
+>>>>>>> b6eb1680a20767ee21d359e435c63e15a9a616bc
 msgid "Invite to Plex Home"
-msgstr "Code einladen"
+msgstr "Zu Plex Home einladen"
 
 #: app/templates/admin/invite.html:60 app/templates/admin/invite.html:72
 #: app/templates/tables/invite-table.html:16
@@ -270,10 +343,15 @@ msgstr ""
 "Wenn eingestellt, werden eingeladene Benutzer nach einer bestimmten "
 "Anzahl von Tagen vom Plex-Server entfernt. (1-999)"
 
+<<<<<<< HEAD
 #: app/templates/admin/invite.html:89 app/templates/tables/invite-table.html:14
 #, fuzzy
+=======
+#: app/templates/admin/invite.html:116
+#: app/templates/tables/invite_table.html:11
+>>>>>>> b6eb1680a20767ee21d359e435c63e15a9a616bc
 msgid "Allow Downloads"
-msgstr "Download"
+msgstr "Downloads erlauben"
 
 #: app/templates/admin/invite.html:95
 msgid ""
@@ -307,6 +385,7 @@ msgstr "Zurück"
 msgid "Share"
 msgstr "Teilen"
 
+<<<<<<< HEAD
 #: app/templates/admin/invites.html:9
 #, fuzzy
 msgid "Server Invites"
@@ -359,6 +438,19 @@ msgstr "Einladungen"
 #: app/templates/admin/settings.html:59
 msgid "Tasks"
 msgstr ""
+=======
+#: app/templates/admin/notifications.html:11
+msgid "Notification Agents"
+msgstr "Benachrichtigungsagent"
+
+#: app/templates/admin/notifications.html:27
+msgid "Delete"
+msgstr "Löschen"
+
+#: app/templates/admin/notifications.html:37
+msgid "Create Agent"
+msgstr "Erstelle Agenten"
+>>>>>>> b6eb1680a20767ee21d359e435c63e15a9a616bc
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
@@ -529,8 +621,9 @@ msgstr "Erstellt"
 
 #: app/templates/modals/create-notification-agent.html:3
 msgid "New Agent"
-msgstr ""
+msgstr "Neuer Agent"
 
+<<<<<<< HEAD
 #: app/templates/modals/create-notification-agent.html:18
 msgid "Notification Service"
 msgstr ""
@@ -548,9 +641,21 @@ msgstr "(Optional)"
 #: app/templates/modals/create-notification-agent.html:34
 #: app/templates/modals/create-notification-agent.html:93
 #, fuzzy
-msgid "Password (optional)"
-msgstr "(Optional)"
+=======
+#: app/templates/modals/create-notification-agent.html:60
+msgid ""
+"Username\n"
+"                                (optional)"
+msgstr ""
+"Benutzername\n"
+"                                (optional)"
 
+#: app/templates/modals/create-notification-agent.html:65
+>>>>>>> b6eb1680a20767ee21d359e435c63e15a9a616bc
+msgid "Password (optional)"
+msgstr "Passwort(Optional)"
+
+<<<<<<< HEAD
 #: app/templates/modals/create-notification-agent.html:39
 #: app/templates/modals/create-notification-agent.html:98
 #: app/templates/modals/create-notification-agent.html:117
@@ -558,14 +663,29 @@ msgstr "(Optional)"
 #: app/templates/modals/create-notification-agent.html:153
 msgid "Agent URL"
 msgstr ""
+=======
+#: app/templates/modals/create-notification-agent.html:70
+msgid ""
+"Agent\n"
+"                                URL"
+msgstr ""
+"Agent\n"
+"                                URL"
+>>>>>>> b6eb1680a20767ee21d359e435c63e15a9a616bc
 
 #: app/templates/modals/create-notification-agent.html:49
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Teste & Erstelle Agent"
 
+<<<<<<< HEAD
 #: app/templates/modals/create-notification-agent.html:105
 msgid "Webhook ID"
 msgstr ""
+=======
+#: app/templates/modals/create-notification-agent.html:85
+msgid "Cancel"
+msgstr "Abbrechen"
+>>>>>>> b6eb1680a20767ee21d359e435c63e15a9a616bc
 
 #: app/templates/modals/create-notification-agent.html:111
 msgid "Webhook Token"
@@ -1401,6 +1521,7 @@ msgstr "Öffne Plex"
 
 #~ msgid "Home User"
 #~ msgstr "Home Benutzer"
+<<<<<<< HEAD
 
 #~ msgid ""
 #~ "Server\n"
@@ -1445,3 +1566,5 @@ msgstr "Öffne Plex"
 #~ msgid "Default"
 #~ msgstr "Standard"
 
+=======
+>>>>>>> b6eb1680a20767ee21d359e435c63e15a9a616bc
