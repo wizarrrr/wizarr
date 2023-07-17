@@ -23,11 +23,7 @@ module.exports = {
                 use: ['ts-loader']
             },
             {
-                test: /\.css$/i,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
-            },
-            {
-                test: /\.(scss|sass)$/i,
+                test: /\.(css|scss|sass)$/i,
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,

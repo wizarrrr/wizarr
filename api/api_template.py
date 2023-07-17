@@ -8,14 +8,12 @@ from flask_jwt_extended import jwt_required
 from flask_restx import Model, Namespace, Resource, fields
 from playhouse.shortcuts import model_to_dict
 
-from api.helpers import try_catch
-
 api = Namespace('', description=' related operations', path="/")
 
 @api.route('/')
 class Login(Resource):
     
-    method_decorators = [try_catch, jwt_required()]
+    method_decorators = [jwt_required()]
     
     @api.doc(description="")
     @api.response(500, "Internal server error")
@@ -25,7 +23,7 @@ class Login(Resource):
 @api.route('/logout')
 class Logout(Resource):
     
-    method_decorators = [try_catch, jwt_required()]
+    method_decorators = [jwt_required()]
 
     @api.doc(description="")
     @api.response(500, "Internal server error")

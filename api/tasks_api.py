@@ -2,15 +2,13 @@ from flask import Response, make_response
 from flask_jwt_extended import jwt_required
 from flask_restx import Namespace, Resource
 
-from api.helpers import try_catch
-
 api = Namespace("Tasks", description="Tasks related operations", path="/tasks")
 
 @api.route('/')
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class TasksListAPI(Resource):
     
-    method_decorators = [try_catch, jwt_required()]
+    method_decorators = [jwt_required()]
 
     def get(self) -> Response:
         # Import required modules here to avoid circular imports
@@ -23,7 +21,7 @@ class TasksListAPI(Resource):
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class TasksAPI(Resource):
     
-    method_decorators = [try_catch, jwt_required()]
+    method_decorators = [jwt_required()]
 
     def get(self, task_id: str) -> Response:
         # Import required modules here to avoid circular imports
@@ -35,7 +33,7 @@ class TasksAPI(Resource):
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class TasksRunAPI(Resource):
     
-    method_decorators = [try_catch, jwt_required()]
+    method_decorators = [jwt_required()]
 
     def get(self, task_id: str) -> Response:
         # Import required modules here to avoid circular imports

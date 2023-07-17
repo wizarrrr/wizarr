@@ -62,3 +62,4 @@ const warningToast = (message: string) => {
 }
 
 export default { name: "toast", errorToast, infoToast, showToast, successToast, warningToast };
+export { errorToast, infoToast, showToast, successToast, warningToast };

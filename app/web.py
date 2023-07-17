@@ -18,23 +18,6 @@ def redirect_to_invite():
     return redirect('/admin')
 
 
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
-
-
-@app.route("/j/<code>", methods=["GET"])
-def plex(code):
-    valid, message = is_invite_valid(code)
-
-    if not valid:
-        return render_template('invalid-invite.html', error=message)
-    if Settings.get(key="server_type").value == "jellyfin":
-        return render_template("welcome-jellyfin.html", code=code)
-    return render_template('user-plex-login.html', code=code)
-
-
 @app.route("/join", methods=["POST"])
 def connect():
     code = request.form.get('code')
@@ -47,7 +30,7 @@ def connect():
 
     if Settings.get(key="server_type").value == "plex":
         threading.Thread(target=plex_handle_oauth_token, args=(token, code)).start()
-        return redirect(os.getenv("APP_URL") + "/setup")
+        return redirect("/setup")
 
     elif Settings.get(key="server_type").value == "jellyfin":
         return render_template("signup-jellyfin.html", code=code)
@@ -143,17 +126,6 @@ def wizard(action):
         resp.headers['max'] = "0"
         resp.set_cookie('current', str(prev_step))
         return resp
-
-
-def error_handler(code):
-    @app.errorhandler(code)
-    def handler(exception):
-        logging.error(exception)
-        return render_template(f'error/{code}.html'), code
-
-error_handler(500)
-error_handler(404)
-error_handler(401)
 
 
 @app.context_processor

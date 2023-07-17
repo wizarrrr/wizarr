@@ -1,4 +1,4 @@
-<div class="flex justify-between items-center pb-3">
+<div class="flex justify-between items-center">
     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
         {{ _("Server Libraries") }}
     </h1>
@@ -10,8 +10,13 @@
 
 <form id="update-libraries" class="space-y-4 md:space-y-6" autocomplete="off">
 
-    <input hidden name="library_count" id="library_count" type="number" value="0">
-    <div id="libraries"></div>
+    <input name="library_count" id="library_count" type="hidden" value="0">
+    <ul class="flex flex-col space-y-2" id="libraries">
+        <p id="error_message" class="hidden text-center dark:text-white"></p>
+        <div id="loader" class="text-center" role="status">
+            <i class="text-gray-900 dark:text-white fa-solid fa-spinner fa-spin fa-2xl"></i>
+        </div>
+    </ul>
 
     <div class="flex justify-end pt-2 space-x-4">
         <button onclick="window.closeModal(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto">
@@ -29,8 +34,9 @@
 </form>
 
 <script>
-    var libraries = new ScanLibraries({
+    libraries = new ScanLibraries({
         container: '#libraries',
+        count: '#library_count',
         server: {
             type: document.getElementById('server_type').value,
             url: document.getElementById('server_url').value,
@@ -46,40 +52,45 @@
         button.disabled = true;
         spinner.classList.remove('hidden');
 
-        var form = document.getElementById('update-libraries');
-        var formData = new FormData(form);
+        let form = document.getElementById('update-libraries');
+        let formData = new FormData(form);
 
-        var response = await fetch('/api/libraries', {
+        // Take form.get('libraries_count') and form.get('libraries_0') and turn it into an array of objects
+        let libraries = [];
+        let libraries_count = parseInt(formData.get('library_count'));
+
+        // Eghh why did I think starting at 1 was a good idea, oh well cba to change it now
+        for (let i = 1; i < (libraries_count + 1); i++) {
+            if (formData.get('library_' + i)) {
+                libraries.push(formData.get('library_' + i));
+            }
+        }
+
+        // Create a new form 
+        let newFormData = new FormData();
+        newFormData.append('libraries', JSON.stringify(libraries));
+
+        let response = await fetch('/api/libraries', {
             method: 'POST',
-            body: formData,
+            body: newFormData,
             credentials: 'same-origin',
             headers: {
                 'X-CSRF-TOKEN': getCookie('csrf_access_token'),
             },
         });
 
-        var data = await response.json();
+        const data = await response.json();
+        const error = response.status !== 200 ? data.message || "{{ _('Unable to update libraries') }}" : null;
 
-        var toast = {
-            text: "Unable to update libraries",
-            duration: 5000,
-            gravity: "bottom",
-            position: "right",
-            className: "error-toast",
-            style: {},
-            stopOnFocus: true,
-        };
-
-        if (data.error) {
+        if (error) {
             button.disabled = false;
-            spinner.classList.add('hidden');
-            toast.text = data.error || "Unable to update libraries"
-        } else {
-            closeModal(button);
-            spinner.classList.add('hidden');
-            toast.text = "Libraries updated";
+            spinner.classList.add("hidden");
+            toast.errorToast(error);
+            return;
         }
 
-        Toastify(toast).showToast();
+        closeModal(button);
+        spinner.classList.add('hidden');
+        toast.text = "Libraries updated";
     }
 </script>

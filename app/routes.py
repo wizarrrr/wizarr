@@ -1,14 +1,24 @@
-from json import loads
+import asyncio
+import queue
+from logging import error, webpush
 from os import getenv, listdir, path
+from threading import Thread
 
-from flask import abort, jsonify, redirect, render_template, request, session
+from flask import (Response, abort, redirect, render_template,
+                   send_from_directory)
 from flask_jwt_extended import current_user, jwt_required
 from playhouse.shortcuts import model_to_dict
 
 from app import VERSION, app
-from app.helpers import get_api_keys, get_notifications, get_settings
+from app.helpers import get_api_keys, get_settings, is_invite_valid
 from app.security import logged_out_required, login_required
+from models.settings import Settings
 
+
+# Static files
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 # All admin routes
 @app.get('/admin', defaults={'subpath': ''})
@@ -24,7 +34,7 @@ def admin_routes(subpath):
         return abort(404)
     
     # Authentication Activated
-    settings = {}
+    settings = get_settings()
     settings["auth"] = True if getenv("DISABLE_BUILTIN_AUTH") != "true" else False
 
     # If no subpath is specified, render the admin dashboard
@@ -86,8 +96,10 @@ def account_routes(subpath):
     # All possible admin partials
     return render_template("admin.html", subpath="admin/account.html", account_subpath=f"admin/account/{subpath}.html", **settings)
 
+
+# All setup routes
 @app.route('/setup/<path:subpath>', methods=["GET"])
-def setup_server(subpath):
+def setup_routes(subpath):
     # Get all settings
     settings = get_settings()
 
@@ -120,6 +132,18 @@ def setup_server(subpath):
     return render_template("setup/base.html", **data)
 
 
+# Invite route
+@app.route("/j/<code>", methods=["GET"])
+def invite_route(code):
+    
+    valid, message = is_invite_valid(code)
+    server_type = Settings.get(key="server_type").value
+
+    if not valid:
+        return render_template('invite/invite-invalid.html', error=message)
+    
+    return render_template("invite/signup.html", partial=f"invite/signup/{server_type}.html", code=code)
+    
 # Login route
 @app.route('/login', methods=["GET"])
 @logged_out_required()
@@ -130,10 +154,13 @@ def login_get():
     return render_template("login.html")
 
 
-@app.route("/who_am_i", methods=["GET"])
-@jwt_required()
-def protected():
-    # We can now access our sqlalchemy User object via `current_user`.
-    return {
-        "user": current_user
-    }
+
+# Handle 404, 401 and 500 errors
+def error_handler(code):
+    @app.errorhandler(code)
+    def handler(exception):
+        error(exception)
+        return render_template(f'error/{code}.html'), code
+
+for code in [500, 404, 401]:
+    error_handler(code)

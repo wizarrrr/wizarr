@@ -4,54 +4,16 @@ from logging import error, info, warning
 from os import getenv
 from secrets import token_hex
 
-from flask import make_response, redirect, session
+from flask import make_response, redirect, request, session
 from flask_jwt_extended import current_user, jwt_required
 from packaging import version
+from playhouse.shortcuts import model_to_dict
+from plexapi.myplex import PlexServer
+from pydantic import HttpUrl
 from requests import RequestException, get
 
 from app import (Admins, APIKeys, Invitations, Libraries, Notifications,
                  Sessions, Settings)
-
-# def check_logged_in():
-#     admin_key = session.get("admin").get("key") if session.get("admin") else None
-#     admin = Sessions.get_or_none(session=admin_key)
-#     return admin is not None and admin_key == admin.session
-
-# def login_required(f):
-#     @wraps(f)
-#     def decorated_function(*args, **kwargs):
-#         if check_logged_in():
-#             return f(*args, **kwargs)
-#         elif getenv("DISABLE_BUILTIN_AUTH") == "true":
-#             session["admin"] = { "id": 0, "username": "Anonymous", "key": token_hex(32) }
-#             return f(*args, **kwargs)
-#         else:
-#             return redirect("/login")
-
-#     return decorated_function
-
-
-# def api_key_required(f):
-#     @wraps(f)
-#     def decorated_function(*args, **kwargs):
-#         if not Settings.get_or_none(Settings.key == "api_key"):
-#             return redirect('/settings')
-#         if not session.get("api_key"):
-#             return redirect("/login")
-#         if session.get("api_key") == Settings.get(Settings.key == "api_key").value:
-#             return f(*args, **kwargs)
-#         else:
-#             return redirect("/login")
-
-#     return decorated_function
-
-
-# def json_or_partial(request):
-#     hx_request = request.headers.get(
-#         "HX-Request") == "true" if "HX-Request" in request.headers else None
-#     rendered = request.headers.get(
-#         "rendered") == "true" if "rendered" in request.headers else None
-#     return False if hx_request is None and rendered is None else True if hx_request is None and rendered is not True else True if hx_request is True and rendered is None else True if hx_request is True and rendered is not True else False if hx_request is False and rendered is None else True if hx_request is False and rendered is not True else None
 
 
 def get_settings():
@@ -65,7 +27,10 @@ def get_settings():
     return settings
 
 def get_api_keys():
+    # Get all API keys from the database
     admin_api_keys = list(APIKeys.select().where(APIKeys.user == current_user["id"]).execute())
+    
+    # Return all API keys
     return admin_api_keys
 
 def get_notifications():
@@ -87,15 +52,37 @@ def is_invite_valid(code):
     return True, "okay"
 
 
-def scan_jellyfin_libraries(server_api_key: str, server_url: str):
-    try:
-        headers = { "X-Emby-Token": server_api_key }
-        response = get(f"{server_url}/Library/MediaFolders", headers=headers, timeout=10)
-        return response.json()["Items"]
-    except RequestException as e:
-        error(f"Error scanning Jellyfin libraries: {e}")
-        return None
+def scan_jellyfin_libraries(server_api_key: str, server_url: HttpUrl):
+    # Add /Library/MediaFolders to Jellyfin URL
+    api_url = str(server_url) + "Library/MediaFolders"
     
+    # Get all libraries from Jellyfin
+    headers = { "X-Emby-Token": server_api_key }
+    response = get(url=api_url, headers=headers, timeout=30)
+    
+    # Raise exception if Jellyfin API returns non-200 status code
+    if response.status_code != 200:
+        raise RequestException(f"Jellyfin API returned {response.status_code} status code.")
+    
+    return response.json()["Items"]
+
+def scan_plex_libraries(server_api_key: str, server_url: HttpUrl):
+    # Get Plex URL as string
+    api_url = str(server_url)
+    
+    # Get the libraries
+    plex = PlexServer(api_url, server_api_key)
+            
+    # Get the raw libraries
+    response: list[dict] = plex.library.sections()
+    
+    # Raise exception if raw_libraries is not a list
+    if not isinstance(response, list):
+        raise TypeError("Plex API returned invalid data.")
+    
+    return response
+
+
 def need_update(VERSION: str):
     try:
         r = get(url="https://raw.githubusercontent.com/Wizarrrr/wizarr/master/.github/latest")

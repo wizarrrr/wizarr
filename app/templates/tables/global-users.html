@@ -52,10 +52,10 @@
                             <i class="transition-all fa-solid fa-ellipsis"></i>
                         </button>
                         <div class="menu flex row overflow-hidden transition-all items-center space-x-2 ml-2" style="max-width: 0px;">
-                            <button hx-get="" hx-target="" hx-trigger="click" class="bg-gray-600 focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-gray-600">
+                            <button onclick="toast.errorToast('Edit Users not available yet')" class="bg-gray-600 focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-gray-600">
                                 {{ _("Edit") }}
                             </button>
-                            <button hx-get="" hx-target="" hx-trigger="click" class="bg-primary focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-primary">
+                            <button onclick="toast.errorToast('Delete Users not available yet')" class="bg-primary focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-primary">
                                 {{ _("Delete") }}
                             </button>
                         </div>

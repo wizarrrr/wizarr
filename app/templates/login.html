@@ -85,6 +85,8 @@ Login
                             return;
                         }
 
+                        window.loadSSE();
+
                         toast.infoToast("{{ _('Logged in successfully') }}");
                     }).catch(function (error) {
                         toast.infoToast("{{ _('Logged in successfully') }}");

@@ -4,7 +4,6 @@ from flask_restx import Namespace, Resource
 from peewee import Case, IntegrityError, fn
 from pydantic import BaseModel, Field
 
-from api.helpers import try_catch
 from models import IdentityModel
 from models.settings import (Settings, SettingsGetModel, SettingsModel,
                              SettingsPostModel)
@@ -18,7 +17,7 @@ api.add_model("SettingsGetModel", SettingsGetModel)
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class SettingsListAPI(Resource):
     
-    method_decorators = [try_catch, jwt_required()]
+    method_decorators = [jwt_required()]
 
     @api.marshal_with(SettingsGetModel)
     @api.doc(description="Get all settings")
@@ -89,7 +88,7 @@ class SettingsListAPI(Resource):
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class SettingsAPI(Resource):
     
-    method_decorators = [try_catch, jwt_required()]
+    method_decorators = [jwt_required()]
 
     @api.marshal_with(SettingsGetModel)
     @api.doc(description="Get a setting by ID")

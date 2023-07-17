@@ -8,7 +8,6 @@ from peewee import IntegrityError, SqliteDatabase
 from playhouse.shortcuts import model_to_dict
 from pydantic import BaseModel, Field
 
-from api.helpers import try_catch
 from models.admins import Admins, AdminsGetModel, AdminsModel, AdminsPostModel
 from models.sessions import Sessions
 
@@ -21,7 +20,7 @@ api.add_model("AdminsPostModel", AdminsPostModel)
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class AccountsListAPI(Resource):
     
-    method_decorators = [try_catch, jwt_required()]
+    method_decorators = [jwt_required()]
 
     @api.marshal_list_with(AdminsGetModel)
     @api.doc(description="Get all accounts")
@@ -69,7 +68,7 @@ class AccountsListAPI(Resource):
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class AccountsAPI(Resource):
     
-    method_decorators = [try_catch, jwt_required()]
+    method_decorators = [jwt_required()]
 
     @api.marshal_with(AdminsGetModel)
     @api.doc(description="Get an account")

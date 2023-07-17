@@ -8,7 +8,6 @@ from flask_jwt_extended import jwt_required
 from flask_restx import Namespace, Resource, fields
 from peewee import IntegrityError
 
-from api.helpers import try_catch
 from app.exceptions import InvalidNotificationAgent
 from models import IdentityModel
 from models.notifications import (Notifications, NotificationsGetModel,
@@ -23,7 +22,7 @@ api.add_model("NotificationsGetModel", NotificationsGetModel)
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class NotificationsListAPI(Resource):
     
-    method_decorators = [try_catch, jwt_required()]
+    method_decorators = [jwt_required()]
 
     @api.marshal_list_with(NotificationsGetModel)
     @api.doc(description="Get all notifications")
@@ -102,7 +101,7 @@ class NotificationsListAPI(Resource):
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class NotificationsAPI(Resource):
 
-    method_decorators = [try_catch, jwt_required()]
+    method_decorators = [jwt_required()]
 
     @api.marshal_with(NotificationsGetModel)
     @api.doc(description="Get a notification agent by ID")

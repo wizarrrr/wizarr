@@ -102,52 +102,52 @@ def jf_invite_user(username, password, code, email):
         return False
 
 
-@app.route('/jf-scan', methods=["POST"])
-def jf_scan():
-    jellyfin_url = request.args.get('jellyfin_url')
-    api_key = request.args.get('jellyfin_api_key')
-    if not jellyfin_url or not api_key:
-        logging.error("Jellyfin URL or API Key not set")
-        abort(400)
-    try:
-        headers = {
-            "X-Emby-Token": api_key,
-        }
-        response = requests.get(
-            f"{jellyfin_url}/Library/MediaFolders", headers=headers)
-    except Exception as e:
-        logging.error("Error getting Jellyfin Libraries: " + str(e))
-        abort(400)
-    libraries = {}
-    for library in response.json()["Items"]:
+# @app.route('/jf-scan', methods=["POST"])
+# def jf_scan():
+#     jellyfin_url = request.args.get('jellyfin_url')
+#     api_key = request.args.get('jellyfin_api_key')
+#     if not jellyfin_url or not api_key:
+#         logging.error("Jellyfin URL or API Key not set")
+#         abort(400)
+#     try:
+#         headers = {
+#             "X-Emby-Token": api_key,
+#         }
+#         response = requests.get(
+#             f"{jellyfin_url}/Library/MediaFolders", headers=headers)
+#     except Exception as e:
+#         logging.error("Error getting Jellyfin Libraries: " + str(e))
+#         abort(400)
+#     libraries = {}
+#     for library in response.json()["Items"]:
 
-        libraries[library["Name"]] = library["Id"]
-    return jsonify(libraries)
-
-
-@app.route('/jf-scan-specific', methods=["POST"])
-def jf_scan_specific():
-    jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
-    server_api_key = Settings.get_or_none(Settings.key == "server_api_key").value
-    if not jellyfin_url or not server_api_key:
-        abort(400)
-    try:
-        response = Get("/Library/MediaFolders")
-        libraries_raw = response.json()
-    except Exception as e:
-        logging.error("Error getting Jellyfin Libraries: " + str(e))
-        abort(400)
-    libraries = {}
-    for library in response.json()["Items"]:
-
-        libraries[library["Name"]] = library["Id"]
-    return jsonify(libraries)
+#         libraries[library["Name"]] = library["Id"]
+#     return jsonify(libraries)
 
 
-@app.route('/setup/open-Jellyfin', methods=["GET"])
-def open_jellyfin():
-    jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
-    return redirect(jellyfin_url)
+# @app.route('/jf-scan-specific', methods=["POST"])
+# def jf_scan_specific():
+#     jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
+#     server_api_key = Settings.get_or_none(Settings.key == "server_api_key").value
+#     if not jellyfin_url or not server_api_key:
+#         abort(400)
+#     try:
+#         response = Get("/Library/MediaFolders")
+#         libraries_raw = response.json()
+#     except Exception as e:
+#         logging.error("Error getting Jellyfin Libraries: " + str(e))
+#         abort(400)
+#     libraries = {}
+#     for library in response.json()["Items"]:
+
+#         libraries[library["Name"]] = library["Id"]
+#     return jsonify(libraries)
+
+
+# @app.route('/setup/open-Jellyfin', methods=["GET"])
+# def open_jellyfin():
+#     jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
+#     return redirect(jellyfin_url)
 
 
 @app.route('/setup/jellyfin', methods=["POST"])

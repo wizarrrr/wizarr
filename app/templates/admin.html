@@ -121,7 +121,7 @@
 <script>
     document.getElementById('navbar-button').addEventListener('click', function () {
         var navbarDefault = document.getElementById('navbar-default');
-        
+
         navbarDefault.classList.toggle('max-h-0');
         navbarDefault.classList.toggle('max-h-96');
     });
@@ -167,6 +167,10 @@
                         localStorage.setItem('user', JSON.stringify(data.user));
                         return;
                     }
+
+                    try {
+                        window.unloadSSE();
+                    } catch (e) { }
 
                     toast.infoToast("{{ _('Logged out successfully') }}");
                     localStorage.removeItem('user');

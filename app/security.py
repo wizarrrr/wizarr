@@ -1,35 +1,69 @@
+from datetime import datetime, timedelta, timezone
 from functools import wraps
+from logging import info
 from os import getenv
 
 from flask import make_response, redirect
-from flask_jwt_extended import verify_jwt_in_request
+from flask_jwt_extended import (create_access_token, get_jti, get_jwt,
+                                get_jwt_identity, set_access_cookies,
+                                verify_jwt_in_request)
+from playhouse.shortcuts import model_to_dict
 
+from models import Admins, Sessions
+
+# Yh this code looks messy but it works so ill tidy it up later
 
 # Generate a secret key, and store it in root/database/secret.key if it doesn't exist, return the secret key
 def secret_key(length: int = 32) -> str:
     from os import mkdir, path
     from secrets import token_hex
 
-    from app import base_dir
+    from app import BASE_DIR
 
     # Check if the database directory exists
     if not path.exists("database"):
         mkdir("database")
         
     # Check if the secret key file exists
-    if not path.exists(path.join(base_dir, "../", "database/secret.key")):
+    if not path.exists(path.join(BASE_DIR, "../", "database/secret.key")):
         # Generate a secret key and write it to the secret key file
-        with open(path.join(base_dir, "../", "database/secret.key"), "w") as f:
+        with open(path.join(BASE_DIR, "../", "database/secret.key"), "w") as f:
             secret_key = token_hex(length)
             f.write(secret_key)
             return secret_key
     
     # Read the secret key from the secret key file
-    with open(path.join(base_dir, "../", "database/secret.key"), "r") as f:
+    with open(path.join(BASE_DIR, "../", "database/secret.key"), "r") as f:
         secret_key = f.read()
         
     return secret_key
 
+def refresh_expiring_jwts(response):
+    try:
+        jwt = get_jwt()
+        if datetime.timestamp(datetime.now(timezone.utc) + timedelta(minutes=30)) > jwt["exp"]:
+            access_token = create_access_token(identity=get_jwt_identity())
+            Sessions.update(session=get_jti(access_token)).where(Sessions.session == jwt["jti"]).execute()
+            set_access_cookies(response, access_token)
+            info(f"Refreshed JWT for {get_jwt_identity()}")
+        return response
+    except (RuntimeError, KeyError):
+        return response
+    
+
+def check_if_token_revoked(jwt_header, jwt_payload: dict) -> bool:
+    jti = jwt_payload["jti"]
+    token = Sessions.get_or_none(Sessions.session == jti)
+
+    return token is None
+
+def user_identity_lookup(user):
+    return user
+
+def user_lookup_callback(_jwt_header, jwt_data):
+    identity = jwt_data["sub"]
+    user = Admins.get_by_id(identity)
+    return model_to_dict(user, recurse=True, backrefs=True, exclude=[Admins.password])
 
 def login_required():
     def wrapper(fn):

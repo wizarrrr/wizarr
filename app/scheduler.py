@@ -1,9 +1,9 @@
 from datetime import datetime
-from logging import info
+from logging import info, webpush
 
 from flask_apscheduler import APScheduler
 
-from app import Sessions, Users, app
+from app import Users, app
 from app.universal import global_delete_user, global_get_users
 
 # Scheduler
@@ -14,7 +14,7 @@ schedule.start()
 # Scheduled tasks
 @schedule.task('interval', id='checkExpiringUsers', minutes=15, misfire_grace_time=900)
 def check_expiring_users():
-    info('Checking for expiring users...')
+    webpush('Checking for expiring users')
     # Get all users that have an expiration date set and are expired
     expiring = Users.select().where(Users.expires < datetime.now().strftime("%Y-%m-%d %H:%M"))
     
@@ -22,19 +22,28 @@ def check_expiring_users():
     for user in expiring:
         global_delete_user(user)
         info(f"Deleting user { user.email if user.email else user.username } due to expired invite.")
-        
+
+
+
 @schedule.task('interval', id='scanUsers', minutes=30, misfire_grace_time=900)
 def scan_users():
-    info('Scanning for new users...')
+    webpush('Scanning for new users')
     # Get all new users
     global_get_users()
-    
+
+
+
 @schedule.task('interval', id='scanLibraries', minutes=30, misfire_grace_time=900)
 def scan_libraries():
-    info('Scanning for new libraries...')
+    webpush('Scanning for new libraries')
     # Get all new libraries
 
 
+
+
+
+
+# Ignore these helper functions they need to be moved to a different file
 def get_schedule():
     job_store = schedule.get_jobs()
     

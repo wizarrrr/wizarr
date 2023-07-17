@@ -9,9 +9,14 @@
                             {{ _("Server Users") }}
                         </h1>
                     </div>
-                    <button hx-get="" hx-target="" hx-trigger="click" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
-                        {{ _("Scan Users") }}
-                    </button>
+                    <div class="flex items-center justify-end space-x-2">
+                        <button onclick="toast.errorToast('Add User not available yet')" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
+                            {{ _("Add User") }}
+                        </button>
+                        <button hx-get="" hx-target="" hx-trigger="click" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                            {{ _("Scan Users") }}
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Users Table -->
@@ -20,16 +25,6 @@
                     <div id="loader" class="text-center" role="status">
                         <i class="text-gray-900 dark:text-white fa-solid fa-spinner fa-spin fa-2xl"></i>
                     </div>
-                </div>
-
-                <!-- Bottom Bar -->
-                <div class="flex items-center justify-end space-x-2">
-                    <button id="adduser" hx-get="" hx-target="" hx-trigger="click" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
-                        {{ _("Add User") }}
-                    </button>
-                    <button id="deleteusers" hx-get="" hx-target="" hx-trigger="click" class="bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-red-600 dark:hover:bg-primary_hover">
-                        {{ _("Delete All") }}
-                    </button>
                 </div>
             </div>
         </div>

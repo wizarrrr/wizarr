@@ -6,3 +6,9 @@ class AuthorizationError(Exception):
 
 class InvalidNotificationAgent(Exception):
     pass
+
+class InvalidUsage(Exception):
+    pass
+
+class MigrationError(Exception):
+    pass

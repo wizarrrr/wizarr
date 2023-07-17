@@ -8,7 +8,6 @@ from peewee import IntegrityError, SqliteDatabase
 from playhouse.shortcuts import model_to_dict
 from pydantic import BaseModel, Field
 
-from api.helpers import try_catch
 from models import Sessions
 
 api = Namespace("Sessions", description="Sessions related operations", path="/sessions")
@@ -17,7 +16,7 @@ api = Namespace("Sessions", description="Sessions related operations", path="/se
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class SessionsListAPI(Resource):
 
-    method_decorators = [try_catch, jwt_required()]
+    method_decorators = [jwt_required()]
 
     def get(self) -> tuple[list[dict[str, str]], int]:
         # Select all sessions from the database
@@ -32,7 +31,7 @@ class SessionsListAPI(Resource):
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class SessionsAPI(Resource):
 
-    method_decorators = [try_catch, jwt_required()]
+    method_decorators = [jwt_required()]
 
     def get(self, sessions_id: str) -> tuple[dict[str, str], int]:
         # Select the session from the database

@@ -10,7 +10,6 @@ from flask_restx import Model, Namespace, Resource, fields
 from playhouse.shortcuts import model_to_dict
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from api.helpers import try_catch
 from app.exceptions import AuthenticationError
 from models import Admins, Sessions
 from models.login import LoginModel, LoginPostModel
@@ -22,7 +21,7 @@ api.add_model("LoginPostModel", LoginPostModel)
 @api.route('/login')
 class Login(Resource):
     
-    method_decorators = [try_catch]
+    method_decorators = []
     
     @api.expect(LoginPostModel)
     @api.doc(description="Login to the application")
@@ -82,7 +81,7 @@ class Login(Resource):
 @api.route('/logout')
 class Logout(Resource):
     
-    method_decorators = [try_catch, jwt_required(optional=True)]
+    method_decorators = [jwt_required(optional=True)]
 
     @api.doc(description="Logout the currently logged in user")
     @api.response(200, "Logout successful")
