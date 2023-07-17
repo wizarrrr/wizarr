@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-10 17:37+0100\n"
-"PO-Revision-Date: 2023-04-27 08:47+0000\n"
-"Last-Translator: eggermn <egger.mn@gmail.com>\n"
+"POT-Creation-Date: 2023-05-16 17:27+0100\n"
+"PO-Revision-Date: 2023-07-14 20:52+0000\n"
+"Last-Translator: Parsec82 <parsec82@gmail.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/wizarr/app/it/>\n"
 "Language: it\n"
-"Language-Team: Italian "
-"<https://hosted.weblate.org/projects/wizarr/app/it/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.0-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: app/admin.py:166
@@ -82,10 +82,14 @@ msgstr "Utenti"
 msgid "Settings"
 msgstr "Impostazioni"
 
+<<<<<<< HEAD
 #: app/templates/invalid-invite.html:15
 #, fuzzy
+=======
+#: app/templates/invalid-invite.html:16
+>>>>>>> 87504d9c6e10c9531712781923b30bdbb310d68e
 msgid "Invalid Invitation"
-msgstr "Inviti"
+msgstr "Invito non valido"
 
 #: app/templates/login.html:18
 msgid "Login"
@@ -125,6 +129,83 @@ msgstr "Conferma la password"
 msgid "Create an account"
 msgstr "Crea un account"
 
+<<<<<<< HEAD
+=======
+#: app/templates/settings.html:9
+msgid "Server Settings"
+msgstr "Impostazioni del server"
+
+#: app/templates/settings.html:27
+msgid ""
+"Server Display\n"
+"                Name"
+msgstr ""
+"Mostra Server\n"
+"                Nome"
+
+#: app/templates/settings.html:35
+msgid "Server"
+msgstr "Server"
+
+#: app/templates/settings.html:48
+msgid "Server URL"
+msgstr "URL del Server"
+
+#: app/templates/settings.html:54
+msgid ""
+"Server\n"
+"                Token / API Key"
+msgstr ""
+"Server\n"
+"                Token / Chiave API"
+
+#: app/templates/settings.html:66
+msgid ""
+"Server\n"
+"                Libraries"
+msgstr ""
+"Server\n"
+"                Librerie"
+
+#: app/templates/admin/invite.html:125 app/templates/settings.html:69
+msgid "Scan For Libraries"
+msgstr "Cerca librerie"
+
+#: app/templates/settings.html:77
+msgid ""
+"Request\n"
+"                instance (Ombi, Overseerr...) URL"
+msgstr ""
+"Richieste\n"
+"                piattaforma(Ombi, Overseerr...)"
+
+#: app/templates/settings.html:87
+msgid "Ombi API Key (Only used for user import currently.)"
+msgstr ""
+"Chiave API Ombi (attualmente utilizzata solo per l'importazione degli "
+"utenti.)"
+
+#: app/templates/settings.html:94
+msgid ""
+"Discord\n"
+"                Server ID"
+msgstr ""
+"Discord\n"
+"                ID del Server"
+
+#: app/templates/settings.html:102
+msgid ""
+"Custom\n"
+"                HTML"
+msgstr ""
+"Personalizza\n"
+"                HTML"
+
+#: app/templates/settings.html:110
+msgid "Save"
+msgstr "Salva"
+
+>>>>>>> 87504d9c6e10c9531712781923b30bdbb310d68e
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
 #: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
 #, python-format
@@ -150,19 +231,17 @@ msgstr "Unisciti"
 
 #: app/templates/users.html:5
 msgid "Invite User"
-msgstr "Invita un utente"
+msgstr "Invita Utente"
 
 #: app/templates/welcome-jellyfin.html:22
-#, fuzzy
 msgid "Set up Account"
-msgstr "Crea un account"
+msgstr "Imposta account"
 
 #: app/templates/welcome-jellyfin.html:38
 msgid "Email"
 msgstr "Email"
 
 #: app/templates/welcome-jellyfin.html:55
-#, fuzzy
 msgid ""
 "Confirm\n"
 "                                password"
@@ -199,7 +278,7 @@ msgstr "Invito rapido"
 
 #: app/templates/admin/invite.html:9
 msgid "Invite user"
-msgstr "Invita un utente"
+msgstr "Invita l'utente"
 
 #: app/templates/admin/invite.html:15
 msgid "Invite Code String"
@@ -249,11 +328,16 @@ msgstr "Impostazioni Avanzate"
 msgid "Unlimited Usages"
 msgstr "Usi illimitati"
 
+<<<<<<< HEAD
 #: app/templates/admin/invite.html:51
 #, fuzzy
+=======
+#: app/templates/admin/invite.html:78
+>>>>>>> 87504d9c6e10c9531712781923b30bdbb310d68e
 msgid "Invite to Plex Home"
-msgstr "Codice d'invito"
+msgstr "Codice d'invito Plex"
 
+<<<<<<< HEAD
 #: app/templates/admin/invite.html:60 app/templates/admin/invite.html:72
 #: app/templates/tables/invite-table.html:16
 #, fuzzy
@@ -262,6 +346,14 @@ msgstr "Durata"
 
 #: app/templates/admin/invite.html:60
 #, fuzzy
+=======
+#: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
+#: app/templates/tables/invite_table.html:13
+msgid "Duration"
+msgstr "Durata"
+
+#: app/templates/admin/invite.html:87
+>>>>>>> 87504d9c6e10c9531712781923b30bdbb310d68e
 msgid "(in days)"
 msgstr "(in giorni)"
 
@@ -280,10 +372,15 @@ msgstr ""
 "                                        numero di\n"
 "                                        giorni. (1-999)"
 
+<<<<<<< HEAD
 #: app/templates/admin/invite.html:89 app/templates/tables/invite-table.html:14
 #, fuzzy
+=======
+#: app/templates/admin/invite.html:116
+#: app/templates/tables/invite_table.html:11
+>>>>>>> 87504d9c6e10c9531712781923b30bdbb310d68e
 msgid "Allow Downloads"
-msgstr "Scarica"
+msgstr "Consenti download"
 
 #: app/templates/admin/invite.html:95
 msgid ""
@@ -319,6 +416,7 @@ msgstr "Indietro"
 msgid "Share"
 msgstr "Condividi"
 
+<<<<<<< HEAD
 #: app/templates/admin/invites.html:9
 #, fuzzy
 msgid "Server Invites"
@@ -363,6 +461,19 @@ msgstr ""
 #, fuzzy
 msgid "Accounts"
 msgstr "Crea un account"
+=======
+#: app/templates/admin/notifications.html:11
+msgid "Notification Agents"
+msgstr "Agenti per notifiche"
+
+#: app/templates/admin/notifications.html:27
+msgid "Delete"
+msgstr "Eliminare"
+
+#: app/templates/admin/notifications.html:37
+msgid "Create Agent"
+msgstr "Crea un Agente"
+>>>>>>> 87504d9c6e10c9531712781923b30bdbb310d68e
 
 #: app/templates/admin/settings.html:54
 #, fuzzy
@@ -375,11 +486,11 @@ msgstr ""
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
-msgstr ""
+msgstr "Configurazione utente"
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
-msgstr ""
+msgstr "Politica utente"
 
 #: app/templates/admin/users.html:11
 #, fuzzy
@@ -525,11 +636,47 @@ msgstr "Errore interno del server."
 msgid " Something has gone wrong. Please try again later."
 msgstr " Qualcosa è andato storto. Riprova più tardi."
 
+<<<<<<< HEAD
 #: app/templates/modals/create-api-key.html:9
 #: app/templates/modals/create-notification-agent.html:13
 #, fuzzy
+=======
+#: app/templates/modals/create-notification-agent.html:31
+msgid "New Agent"
+msgstr "Nuovo Agente"
+
+#: app/templates/modals/create-notification-agent.html:60
+msgid ""
+"Username\n"
+"                                (optional)"
+msgstr ""
+"Nome utente\n"
+"                                (opzionale)"
+
+#: app/templates/modals/create-notification-agent.html:65
+msgid "Password (optional)"
+msgstr "Password (facoltativo)"
+
+#: app/templates/modals/create-notification-agent.html:70
+msgid ""
+"Agent\n"
+"                                URL"
+msgstr ""
+"Agente\n"
+"                                URL"
+
+#: app/templates/modals/create-notification-agent.html:81
+msgid "Test & Create Agent"
+msgstr "Testa e crea agente"
+
+#: app/templates/modals/create-notification-agent.html:85
+msgid "Cancel"
+msgstr "Annulla"
+
+#: app/templates/tables/global-users.html:13
+>>>>>>> 87504d9c6e10c9531712781923b30bdbb310d68e
 msgid "Name"
-msgstr "Nome utente"
+msgstr "Nome"
 
 #: app/templates/modals/create-api-key.html:16
 #: app/templates/modals/create-notification-agent.html:46
@@ -541,10 +688,16 @@ msgstr "Nome utente"
 msgid "Cancel"
 msgstr ""
 
+<<<<<<< HEAD
 #: app/templates/modals/create-api-key.html:19
 #, fuzzy
 msgid "Create"
 msgstr "Creato"
+=======
+#: app/templates/tables/global-users.html:22
+msgid "Actions"
+msgstr "Azioni"
+>>>>>>> 87504d9c6e10c9531712781923b30bdbb310d68e
 
 #: app/templates/modals/create-notification-agent.html:3
 msgid "New Agent"
@@ -759,14 +912,13 @@ msgid ""
 "system that can automatically search for the\n"
 "    media you're looking for. "
 msgstr ""
-"Siamo entusiasti di offrirti un'ampia selezione di media tra cui "
-"scegliere. Se non riesci a trovare qualcosa che ti piace, non "
-"preoccuparti!\n"
-"Abbiamo un sistema di richiesta facile da usare, richiedi qualcosa e "
-"presto verrà aggiunto sul server! "
+"Siamo entusiasti di offrirti un'ampia selezione di supporti tra cui "
+"scegliere. Se hai difficoltà a trovare\n"
+"    qualcosa che ti piace, non ti preoccupare! Abbiamo un sistema di "
+"richiesta intuitivo che può cercare automaticamente il file\n"
+"    supporto che stai cercando. "
 
 #: app/templates/wizard/requests.html:23
-#, fuzzy
 msgid "Request any available Movie or TV Show"
 msgstr "Richiedi qualsiasi film o programma TV disponibile"
 
@@ -783,12 +935,10 @@ msgid "If enabled, receive notifications"
 msgstr "Se attivato, ricevi le notifice"
 
 #: app/templates/wizard/requests.html:50
-#, fuzzy
 msgid "Check it Out"
-msgstr "Dai un'occhiata"
+msgstr "Controlla"
 
 #: app/templates/wizard/jellyfin/download.html:3
-#, fuzzy
 msgid ""
 "Join & Download Jellyfin\n"
 "            for this device"
@@ -922,7 +1072,6 @@ msgid "Eh, So, What is Plex exactly?"
 msgstr "Quindi, cos'è Plex esattamente?"
 
 #: app/templates/wizard/plex/tips.html:7
-#, fuzzy
 msgid ""
 "Great question! Plex is a software that allows individuals to share their"
 " media collections with others. If\n"
@@ -931,12 +1080,12 @@ msgid ""
 "    access to all of the movies, TV shows, music, and photos that are "
 "stored on their server. Enjoy!"
 msgstr ""
-"Ottima domanda! Plex è un software che consente di condividere le proprie"
-" raccolte multimediali con altri utenti. Se\n"
-"    avete ricevuto questo invito, significa che qualcuno vuole "
-"condividere la propria libreria con voi. Con Plex, avrete\n"
-"    accesso a tutti i film, gli spettacoli televisivi, la musica e le "
-"foto memorizzati sul loro server. Buon divertimento!"
+"Ottima domanda! Plex è un software che consente di condividere le proprie "
+"raccolte multimediali con altri utenti. Se\n"
+"    avete ricevuto questo invito, significa che qualcuno vuole condividere "
+"la propria libreria con voi. Con Plex, avrete\n"
+"    accesso a tutti i film, gli spettacoli televisivi, la musica e le foto "
+"memorizzati sul loro server. Buon divertimento!"
 
 #: app/templates/wizard/plex/tips.html:15
 msgid ""
@@ -978,14 +1127,15 @@ msgstr "Non c'è bisogno di preoccuparsi, si riolve facilemente"
 msgid ""
 "We highly\n"
 "      recommend you to go through those steps first!"
-msgstr "Consigliamo vivamente di seguire prima questi passaggi!"
+msgstr ""
+"Noi\n"
+"      consigliamo di eseguire prima questi passaggi!"
 
 #: app/templates/wizard/plex/tips.html:33
 msgid "Configure Plex in your browser"
 msgstr "Configura Plex nel tuo browser"
 
 #: app/templates/wizard/plex/tips.html:58
-#, fuzzy
 msgid "Configure Plex's app on your computer, mobile device or TV"
 msgstr "Configura l'app di Plex sul tuo computer, dispositivo mobile o TV"
 
@@ -1414,6 +1564,7 @@ msgstr "Apri Plex"
 
 #~ msgid "Home User"
 #~ msgstr "Home Utente"
+<<<<<<< HEAD
 
 #~ msgid ""
 #~ "Server\n"
@@ -1468,3 +1619,5 @@ msgstr "Apri Plex"
 #~ msgid "Default"
 #~ msgstr "Predefinito"
 
+=======
+>>>>>>> 87504d9c6e10c9531712781923b30bdbb310d68e
