@@ -11,12 +11,11 @@ msgstr ""
 "PO-Revision-Date: 2023-02-27 18:42+0000\n"
 "Last-Translator: 江海炎 <jiang948502378@gmail.com>\n"
 "Language: zh_Hans\n"
-"Language-Team: Chinese (Simplified) "
-"<https://hosted.weblate.org/projects/wizarr/app/zh_Hans/>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.0-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: app/templates/admin.html:5
@@ -212,7 +211,7 @@ msgstr "无限制使用"
 #: app/templates/admin/invite.html:82
 #, fuzzy
 msgid "Invite to Plex Home"
-msgstr "邀请代码"
+msgstr "邀请加入 Plex 家庭"
 
 #: app/templates/admin/invite.html:93 app/templates/tables/invite-table.html:14
 #, fuzzy
@@ -367,11 +366,11 @@ msgstr ""
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
-msgstr ""
+msgstr "用户配置"
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
-msgstr ""
+msgstr "用户政策"
 
 #: app/templates/admin/users.html:9
 #, fuzzy
@@ -503,7 +502,7 @@ msgstr ""
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
-msgstr "权限不足。"
+msgstr "权限被拒绝。"
 
 #: app/templates/error/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
@@ -561,7 +560,7 @@ msgstr "加入"
 #: app/templates/modals/create-notification-agent.html:13
 #, fuzzy
 msgid "Name"
-msgstr "用户名"
+msgstr "名称"
 
 #: app/templates/modals/create-api-key.html:14
 #: app/templates/modals/create-notification-agent.html:46
