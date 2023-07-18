@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-05-16 17:27+0100\n"
-"PO-Revision-Date: 2023-02-27 18:42+0000\n"
-"Last-Translator: 江海炎 <jiang948502378@gmail.com>\n"
+"PO-Revision-Date: 2023-07-19 01:07+0000\n"
+"Last-Translator: Apex An <anpple@vip.qq.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"wizarr/app/zh_Hans/>\n"
 "Language: zh_Hans\n"
-"Language-Team: Chinese (Simplified) "
-"<https://hosted.weblate.org/projects/wizarr/app/zh_Hans/>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.0-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: app/admin.py:150
@@ -72,9 +73,8 @@ msgid "Settings"
 msgstr "设置"
 
 #: app/templates/invalid-invite.html:16
-#, fuzzy
 msgid "Invalid Invitation"
-msgstr "邀请"
+msgstr "无效的邀请"
 
 #: app/templates/login.html:18
 msgid "Login"
@@ -111,9 +111,8 @@ msgid "Create an account"
 msgstr "创建一个账号"
 
 #: app/templates/settings.html:9
-#, fuzzy
 msgid "Server Settings"
-msgstr "更改服务器设置"
+msgstr "服务器设置"
 
 #: app/templates/settings.html:27
 msgid ""
@@ -124,9 +123,8 @@ msgstr ""
 "              名称"
 
 #: app/templates/settings.html:35
-#, fuzzy
 msgid "Server"
-msgstr "服务器网址"
+msgstr "服务器"
 
 #: app/templates/settings.html:48
 msgid "Server URL"
@@ -153,7 +151,6 @@ msgid "Scan For Libraries"
 msgstr "扫描媒体库"
 
 #: app/templates/settings.html:77
-#, fuzzy
 msgid ""
 "Request\n"
 "                instance (Ombi, Overseerr...) URL"
@@ -163,7 +160,7 @@ msgstr ""
 
 #: app/templates/settings.html:87
 msgid "Ombi API Key (Only used for user import currently.)"
-msgstr ""
+msgstr "Ombi API密钥（目前仅用于用户导入）"
 
 #: app/templates/settings.html:94
 msgid ""
@@ -290,9 +287,8 @@ msgid "Unlimited Usages"
 msgstr "无限制使用"
 
 #: app/templates/admin/invite.html:78
-#, fuzzy
 msgid "Invite to Plex Home"
-msgstr "邀请代码"
+msgstr "邀请加入 Plex 家庭"
 
 #: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
 #: app/templates/tables/invite_table.html:13
@@ -319,9 +315,8 @@ msgstr ""
 
 #: app/templates/admin/invite.html:116
 #: app/templates/tables/invite_table.html:11
-#, fuzzy
 msgid "Allow Downloads"
-msgstr "下载"
+msgstr "允许下载"
 
 #: app/templates/admin/invite.html:122
 msgid ""
@@ -353,29 +348,27 @@ msgstr "分享"
 
 #: app/templates/admin/notifications.html:11
 msgid "Notification Agents"
-msgstr ""
+msgstr "通知代理"
 
 #: app/templates/admin/notifications.html:27
-#, fuzzy
 msgid "Delete"
-msgstr "默认"
+msgstr "删除"
 
 #: app/templates/admin/notifications.html:37
-#, fuzzy
 msgid "Create Agent"
-msgstr "创建一个账号"
+msgstr "创建代理"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
-msgstr ""
+msgstr "用户配置"
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
-msgstr ""
+msgstr "用户政策"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
-msgstr "权限不足。"
+msgstr "权限被拒绝。"
 
 #: app/templates/error/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
@@ -399,43 +392,40 @@ msgstr " 出了点问题。请稍后再试。"
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "新代理"
 
 #: app/templates/modals/create-notification-agent.html:60
-#, fuzzy
 msgid ""
 "Username\n"
 "                                (optional)"
 msgstr ""
-"邀请\n"
-"                                代码"
+"用户名\n"
+"                                                                        "
+"（可选）"
 
 #: app/templates/modals/create-notification-agent.html:65
-#, fuzzy
 msgid "Password (optional)"
-msgstr "（可选）"
+msgstr "密码（可选）"
 
 #: app/templates/modals/create-notification-agent.html:70
-#, fuzzy
 msgid ""
 "Agent\n"
 "                                URL"
 msgstr ""
-"邀请\n"
-"                                代码"
+"代理\n"
+"                                                                        网址"
 
 #: app/templates/modals/create-notification-agent.html:81
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "测试和创建代理"
 
 #: app/templates/modals/create-notification-agent.html:85
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: app/templates/tables/global-users.html:13
-#, fuzzy
 msgid "Name"
-msgstr "用户名"
+msgstr "名称"
 
 #: app/templates/tables/global-users.html:16
 #: app/templates/tables/invite_table.html:7
@@ -443,9 +433,8 @@ msgid "Expires"
 msgstr "到期"
 
 #: app/templates/tables/global-users.html:22
-#, fuzzy
 msgid "Actions"
-msgstr "邀请"
+msgstr "生效"
 
 #: app/templates/tables/invite_table.html:5
 msgid "Used"
@@ -818,4 +807,3 @@ msgstr "打开Plex"
 
 #~ msgid "Home User"
 #~ msgstr "家庭用户"
-
