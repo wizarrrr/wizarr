@@ -64,9 +64,12 @@ class Login(Resource):
         # Get IP address from request and User Agent from request
         ip_addr = request.headers.get("X-Forwarded-For") or request.remote_addr
         user_agent = request.user_agent.string
-
+        
+        # Session expiry
+        expiry = datetime.utcnow() + timedelta(days=30) if form.remember else datetime.utcnow() + timedelta(hours=1)
+        
         # Store the admin key in the database
-        Sessions.create(session=jti, user=user.id, ip=ip_addr, user_agent=user_agent)
+        Sessions.create(session=jti, user=user.id, ip=ip_addr, user_agent=user_agent, expires=expiry)
         
         # Create a response object
         response = jsonify({"msg": "Login successful", "user": model_to_dict(user, exclude=[Admins.password])})

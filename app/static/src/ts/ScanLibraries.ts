@@ -22,7 +22,7 @@ class ScanLibraries {
     private server: ScanLibrariesServer;
     private error: string | Element | null;
 
-    private api_endpoint: string = "/api/scan-libraries";
+    private api_endpoint: string = "/api/scan-libraries/";
 
     constructor(options: ScanLibrariesOptions) {
         this.container = options.container;
@@ -188,13 +188,13 @@ class ScanLibraries {
             // BORDER            
             "dark:peer-checked:border-gray-700",
             "peer-checked:border-gray-50",
-            
+
             "dark:hover:border-gray-600",
             "hover:border-gray-100",
-            
+
             "dark:border-gray-600",
             "border-gray-100",
-            
+
             // OTHER
             "border-2",
             "inline-flex",

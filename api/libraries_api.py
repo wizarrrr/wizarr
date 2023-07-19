@@ -19,7 +19,7 @@ from models.settings import Settings
 
 api = Namespace('Libraries', description='Libraries related operations', path="/libraries")
 
-@api.route('/')
+@api.route('')
 class LibrariesListAPI(Resource):
     
     method_decorators = [jwt_required()]

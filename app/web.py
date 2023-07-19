@@ -13,9 +13,7 @@ from app.plex import plex_handle_oauth_token
 
 @app.route('/')
 def redirect_to_invite():
-    # if not Settings.get_or_none("server_verified"):
-    #     return redirect('/settings')
-    return redirect('/admin')
+    return render_template("homepage.html")
 
 
 @app.route("/join", methods=["POST"])

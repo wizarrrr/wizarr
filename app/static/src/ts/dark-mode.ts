@@ -41,6 +41,8 @@ function darkMode() {
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', toggleColorTheme);
     }
+
+    window.toggleColorTheme = toggleColorTheme;
 }
 
 function isDarkMode() {

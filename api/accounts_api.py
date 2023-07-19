@@ -16,7 +16,7 @@ api = Namespace("Accounts", description="Accounts related operations", path="/ac
 api.add_model("AdminsGetModel", AdminsGetModel)
 api.add_model("AdminsPostModel", AdminsPostModel)
 
-@api.route('/') 
+@api.route('')
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class AccountsListAPI(Resource):
     

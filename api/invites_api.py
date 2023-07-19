@@ -21,7 +21,7 @@ from models.libraries import Libraries
 
 api = Namespace('Invites', description='Invites related operations', path="/invites")
 
-@api.route('/')
+@api.route('')
 class InvitesListAPI(Resource):
     
     # method_decorators = [jwt_required()]

@@ -54,7 +54,7 @@
                 if (document.getElementById('error-' + error.loc[0])) {
                     document.getElementById('error-' + error.loc[0]).remove();
                 }
-                
+
                 let errorField = document.createElement('div');
                 errorField.id = 'error-' + error.loc[0];
                 errorField.className = 'text-xs text-red-500 mt-1';
@@ -84,6 +84,6 @@
         }
 
         toast.infoToast("{{ _('API key created.') }}");
-        htmx.ajax('GET', '/partials/admin/settings/api', { target:'#settings-content', swap:'innerHTML', indicator:'#spinner' });
+        htmx.ajax('GET', '/partials/admin/settings/api', { target: '#settings-content', swap: 'innerHTML', indicator: '#spinner' });
     }
 </script>

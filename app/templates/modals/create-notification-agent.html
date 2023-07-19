@@ -60,7 +60,7 @@
         const agentUsername = document.getElementById('username');
         const agentPassword = document.getElementById('password');
         const agentURL = document.getElementById('url');
-        
+
         if (agentService.selectedIndex != 0) {
             window.cachedFields[agentService.value] = {
                 "username": agentUsername.value,
@@ -251,7 +251,7 @@
         }
 
         toast.infoToast("{{ _('Notification agent successfully created!') }}");
-        htmx.ajax('GET', '/partials/admin/settings/notifications', { target:'#settings-content', swap:'innerHTML', indicator:'#spinner' });
+        htmx.ajax('GET', '/partials/admin/settings/notifications', { target: '#settings-content', swap: 'innerHTML', indicator: '#spinner' });
     }
 
     toggleCredentials();

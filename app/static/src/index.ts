@@ -6,6 +6,7 @@ import 'toastify-js/src/toastify.css';
 import 'tw-elements/dist/js/tw-elements.es.min';
 import './scss/style.scss';
 import './ts/AddToDom';
+import { infoToast } from './ts/CustomToastify';
 import './ts/carousel';
 import './ts/close-modal';
 import './ts/dark-mode';
@@ -16,13 +17,13 @@ import './ts/toggle-switches';
 htmx.config.defaultSwapStyle = 'innerHTML';
 window.htmx = htmx;
 
-// If htmx swap gets 301/302 redirect, follow it instead of replacing the current page
-htmx.on('htmx:afterSwap', (event: any) => {
-    if (event.detail.xhr.status >= 300 && event.detail.xhr.status < 400) {
-        window.location.href = event.detail.xhr.responseURL;
-    }
+htmx.on('htmx:responseRedirect', (event: any) => {
+    console.log(event);
 });
-
 
 window.getCookie = Cookie.get;
 window.setCookie = Cookie.set;
+
+const toast = new URLSearchParams(window.location.search).get('toast');
+if (toast) setTimeout(() => infoToast(toast), 500);
+if (toast) history.replaceState(null, '', window.location.pathname);

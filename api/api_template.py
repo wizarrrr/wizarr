@@ -10,7 +10,7 @@ from playhouse.shortcuts import model_to_dict
 
 api = Namespace('', description=' related operations', path="/")
 
-@api.route('/')
+@api.route('')
 class Login(Resource):
     
     method_decorators = [jwt_required()]

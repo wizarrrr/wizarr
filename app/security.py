@@ -3,7 +3,7 @@ from functools import wraps
 from logging import info
 from os import getenv
 
-from flask import make_response, redirect
+from flask import make_response, redirect, render_template
 from flask_jwt_extended import (create_access_token, get_jti, get_jwt,
                                 get_jwt_identity, set_access_cookies,
                                 verify_jwt_in_request)
@@ -43,7 +43,7 @@ def refresh_expiring_jwts(response):
         jwt = get_jwt()
         if datetime.timestamp(datetime.now(timezone.utc) + timedelta(minutes=30)) > jwt["exp"]:
             access_token = create_access_token(identity=get_jwt_identity())
-            Sessions.update(session=get_jti(access_token)).where(Sessions.session == jwt["jti"]).execute()
+            Sessions.update(session=get_jti(access_token), expires=datetime.utcnow() + timedelta(hours=1)).where(Sessions.session == jwt["jti"]).execute()
             set_access_cookies(response, access_token)
             info(f"Refreshed JWT for {get_jwt_identity()}")
         return response
@@ -73,7 +73,14 @@ def login_required():
                 try:
                     verify_jwt_in_request()
                 except Exception as e:
-                    return make_response(redirect("/login"))
+                    from app import htmx
+                    if htmx:
+                        response = make_response(render_template("login.html"))
+                        response.headers["HX-Redirect"] = "/login" + "?toast=" + "You need to be logged in to access that page"
+                        response.headers["HX-Push"] = "/login"
+                        return response
+                    else:
+                        return redirect("/login")
             
             return fn(*args, **kwargs)
 
@@ -93,7 +100,14 @@ def logged_out_required():
             except Exception as e:
                 return fn(*args, **kwargs)
             
-            return make_response(redirect("/"))
+            from app import htmx
+            if htmx:
+                response = make_response(render_template("admin.html", subpath="admin/invite.html"))
+                response.headers["HX-Redirect"] = "/admin" + "?toast=" + "You are already logged in"
+                response.headers["HX-Push"] = "/admin"
+                return response
+            else:
+                return redirect("/admin" + "?toast=" + "You are already logged in")
 
         return decorator
 

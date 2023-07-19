@@ -4,7 +4,7 @@ from flask_restx import Namespace, Resource
 
 api = Namespace("Tasks", description="Tasks related operations", path="/tasks")
 
-@api.route('/')
+@api.route('')
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class TasksListAPI(Resource):
     

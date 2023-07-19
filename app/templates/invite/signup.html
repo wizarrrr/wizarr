@@ -14,9 +14,9 @@
         <img style="width: 150px;" src="/static/img/wizard.png" alt="logo"></span>
         <h1 class="text-2xl font-semibold text-center text-gray-900 dark:text-white">{{ _("You've been invited to join the %(name)s server!", name=server_name) }}</h1>
     </div>
-    <section class="bg-gray-50 dark:bg-gray-900">
+    <section>
         <div class="flex flex-col items-center justify-center md:container py-8 mx-auto">
-            <div class="w-full md:w-1/2 lg:w-1/3 bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700">
+            <div class="w-full md:w-1/2 lg:w-1/3 bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8 text-gray-900 dark:text-white">
                     {% include partial %}
                 </div>

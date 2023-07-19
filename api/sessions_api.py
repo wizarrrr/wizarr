@@ -12,7 +12,7 @@ from models import Sessions
 
 api = Namespace("Sessions", description="Sessions related operations", path="/sessions")
 
-@api.route('/') 
+@api.route('')
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class SessionsListAPI(Resource):
 

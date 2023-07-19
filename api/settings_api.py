@@ -13,7 +13,7 @@ api = Namespace("Settings", description="Settings related operations", path="/se
 api.add_model("SettingsPostModel", SettingsPostModel)
 api.add_model("SettingsGetModel", SettingsGetModel)
 
-@api.route('/')
+@api.route('')
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class SettingsListAPI(Resource):
     

@@ -15,7 +15,8 @@
     <style>
         /* Stop my eyes being blinded for dear life when the page is refreshed in dark mode */
         html.dark {
-            background-color: #111827; /* ahh yess my eyes feel so much better now :P */
+            background-color: #111827;
+            /* ahh yess my eyes feel so much better now :P */
         }
     </style>
 
@@ -26,12 +27,10 @@
     <meta property="og:title" content="{% block og_title %}{% endblock %}" />
     <meta property="og:description" content="{% block og_description %}{% endblock %}" />
 
-    <link rel="stylesheet" href="{{url_for('static',filename='css/app.css')}}" />
-    <script src="{{url_for('static', filename='js/app.js')}}"></script>
-    <script src="{{url_for('static', filename='node_modules/tinymce/tinymce.min.js')}}"></script>
-</head>
 
-<body class="bg-gray-50 dark:bg-gray-900 overflow-x-hidden p-4">
+<script defer src="/static/dist/runtime.bundle.js"></script><script defer src="/static/dist/vendors.bundle.js"></script><script defer src="/static/dist/main.bundle.js"></script><link href="/static/dist/vendors.bundle.css" rel="stylesheet"><link href="/static/dist/main.bundle.css" rel="stylesheet"></head>
+
+<body class="bg-gray-100 dark:bg-gray-900 overflow-x-hidden p-4">
 
     {% block main %}
 

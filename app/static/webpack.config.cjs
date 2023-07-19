@@ -1,15 +1,14 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: './src/index.ts',
     mode: 'production',
     output: {
-        path: path.resolve(__dirname, './js'),
-        filename: 'app.js',
-        // asyncChunks: true,
-        // chunkFilename: '[name].js',
+        filename: 'dist/[name].bundle.js',
+        path: path.resolve(__dirname),
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
@@ -27,7 +26,7 @@ module.exports = {
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,
-                    }, 
+                    },
                     {
                         loader: 'css-loader',
                         options: {
@@ -36,7 +35,7 @@ module.exports = {
                     },
                     {
                         loader: 'postcss-loader',
-                    }, 
+                    },
                     {
                         loader: 'sass-loader',
                     }
@@ -45,6 +44,17 @@ module.exports = {
         ],
     },
     optimization: {
+        runtimeChunk: 'single',
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all'
+                }
+            },
+            chunks: 'all'
+        },
         minimizer: [
             new TerserPlugin({
                 terserOptions: {
@@ -57,7 +67,13 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: '../css/app.css',
+            filename: 'dist/[name].bundle.css'
         }),
+        new HtmlWebpackPlugin({
+            filename: '../templates/base.html',
+            template: '../templates/base.template.html',
+            publicPath: '/static/',
+            minify: false
+        })
     ],
 };

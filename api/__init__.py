@@ -13,6 +13,7 @@ from .invites_api import api as invites_api
 from .libraries_api import api as libraries_api
 from .live_notifications_api import api as live_notifications_api
 from .notifications_api import api as notifications_api
+from .plex_api import api as plex_api
 from .scan_libraries_api import api as scan_libraries_api
 from .sessions_api import api as sessions_api
 from .settings_api import api as settings_api
@@ -70,6 +71,7 @@ api.add_namespace(sessions_api)
 api.add_namespace(settings_api)
 api.add_namespace(tasks_api)
 api.add_namespace(users_api)
+api.add_namespace(plex_api)
 
 # Potentially remove this if it becomes unstable
 # api.add_namespace(live_notifications_api)

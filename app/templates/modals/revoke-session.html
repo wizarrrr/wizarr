@@ -22,7 +22,7 @@
         let spinner = that.closest('#modal').querySelector('#modal-spinner');
         spinner.classList.remove('hidden');
 
-        let response = await fetch("/api/sessions/{{ session_id }}", {
+        let response = await fetch("/api/sessions/{{ session_id }}/", {
             method: "DELETE",
             credentials: 'same-origin',
             headers: {
@@ -38,13 +38,13 @@
 
         if (response.status != 200) {
             spinner.classList.add('hidden');
-            toast.errorToast("{{ _("Something went wrong. Please try again.") }}");
+            toast.errorToast("{{ _("Something went wrong.Please try again.") }}");
             return;
         }
 
         toast.className = 'show-toast';
         toast.infoToast("{{ _("Session deleted successfully!") }}");
 
-        htmx.ajax('GET', '/partials/admin/account/sessions', { target:'#account-content', swap:'innerHTML', indicator:'#spinner' });
+        htmx.ajax('GET', '/partials/admin/account/sessions', { target: '#account-content', swap: 'innerHTML', indicator: '#spinner' });
     }
 </script>

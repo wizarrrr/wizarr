@@ -31,10 +31,5 @@ function handleNavar() {
     }
 }
 
-document.addEventListener("htmx:pushedIntoHistory", function () {
-    handleNavar();
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    handleNavar();
-});
+document.addEventListener("htmx:pushedIntoHistory", handleNavar);
+document.addEventListener("DOMContentLoaded", handleNavar);

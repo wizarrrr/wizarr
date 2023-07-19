@@ -136,4 +136,4 @@ class Carousel {
     }
 }
 
-window.Carousel = Carousel;
+// window.Carousel = Carousel;

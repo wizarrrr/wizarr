@@ -18,7 +18,7 @@ api = Namespace('Notifications', description='Notifications related operations',
 api.add_model("NotificationsPostModel", NotificationsPostModel)
 api.add_model("NotificationsGetModel", NotificationsGetModel)
 
-@api.route('/')
+@api.route('')
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class NotificationsListAPI(Resource):
     

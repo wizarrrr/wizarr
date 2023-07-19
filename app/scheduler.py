@@ -2,9 +2,11 @@ from datetime import datetime
 from logging import info, webpush
 
 from flask_apscheduler import APScheduler
+from flask_jwt_extended import get_unverified_jwt_headers
 
-from app import Users, app
+from app import app
 from app.universal import global_delete_user, global_get_users
+from models import Sessions, Users
 
 # Scheduler
 schedule = APScheduler()
@@ -24,6 +26,17 @@ def check_expiring_users():
         info(f"Deleting user { user.email if user.email else user.username } due to expired invite.")
 
 
+@schedule.task('interval', id='checkExpiredSessions', minutes=15, misfire_grace_time=900)
+def check_expired_sessions():
+    webpush('Checking for expired sessions')
+    # Get all sessions where expires is less than now in utc and delete them
+    sessions = Sessions.select().where(Sessions.expires < datetime.utcnow().strftime("%Y-%m-%d %H:%M"))
+    
+    # Delete all expired sessions
+    for session in sessions:
+        session.delete_instance()
+        info(f"Deleting session { session.id } due to expired session.")
+            
 
 @schedule.task('interval', id='scanUsers', minutes=30, misfire_grace_time=900)
 def scan_users():

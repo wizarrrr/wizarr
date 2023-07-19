@@ -17,7 +17,7 @@ from models.libraries import ScanLibraries
 api = Namespace('Scan Libraries', description=' related operations', path="/scan-libraries")
 
 
-@api.route('/')
+@api.route('')
 class ScanLibrariesListAPI(Resource):
     
     method_decorators = [jwt_required()]

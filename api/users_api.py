@@ -12,7 +12,7 @@ from models.users import Users
 
 api = Namespace('Users', description='Users related operations', path="/users")
 
-@api.route('/')
+@api.route('')
 class UsersListAPI(Resource):
     
     method_decorators = [jwt_required()]

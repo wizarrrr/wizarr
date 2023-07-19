@@ -87,12 +87,12 @@ Setup Wizarr
             }
         },
         paths: {{ pages| tojson }},
-        disabled: {
-            4: {
-                next: true,
+    disabled: {
+        4: {
+            next: true,
                 prev: true
-            }
         }
+    }
     });
 
     carousel.setSlide({{ current }}, false);

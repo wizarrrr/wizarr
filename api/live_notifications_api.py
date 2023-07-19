@@ -4,7 +4,7 @@ from flask_restx import Model, Namespace, Resource, fields
 
 api = Namespace('Stream', description='Create a live notification stream', path="/stream")
 
-@api.route('/')
+@api.route('')
 class StreamAPI(Resource):
     
     method_decorators = [jwt_required()]

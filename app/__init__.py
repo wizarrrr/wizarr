@@ -36,24 +36,32 @@ api.init_app(app)
 migrate()
 
 # Stop the app if the APP_URL is not set
-if not getenv("APP_URL"):
-    error("APP_URL not set or wrong format. See docs for more debug.")
-    exit(1)
+# if not getenv("APP_URL"):
+#     error("APP_URL not set or wrong format. See docs for more debug.")
+#     exit(1)
 
 # Add version to environment variables
 environ["VERSION"] = VERSION
 
 # Helper functions
+# Check for updates
 def need_update():
     try:
         return version.parse(VERSION) < version.parse(get("https://raw.githubusercontent.com/Wizarrrr/wizarr/master/.github/latest").content.decode("utf-8"))
     except Exception: return False
-    
+
+# Get language from session
 def get_locale():
     force_language = getenv("FORCE_LANGUAGE")
     session['lang'] = request.args.get('lang') or session.get('lang', None)
     return session.get('lang', 'en') if force_language is None else force_language
 
+# Get URL scheme from request or reverse proxy
+def get_scheme():
+    if request.headers.get("X-Forwarded-Proto"):
+        return request.headers.get("X-Forwarded-Proto")
+    else:
+        return request.scheme
 
 # Remove this if SSE becomes unstable
 # if app.debug:
@@ -87,14 +95,13 @@ app.config['UPLOAD_FOLDER'] = path.join(BASE_DIR, "../", "database", "uploads")
 app.config['SWAGGER_UI_DOC_EXPANSION'] = 'list'
 app.config['SERVER_NAME'] = getenv("APP_URL")
 app.config['APPLICATION_ROOT'] = '/'
-app.config['PREFERRED_URL_SCHEME'] = 'http'
+app.config["PREFERRED_URL_SCHEME"] = "https" if getenv("HTTPS", "false") == "true" else "http"
 app.config["JWT_SECRET_KEY"] = secret_key()
 app.config["JWT_BLACKLIST_ENABLED"] = True
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 app.config["JWT_COOKIE_CSRF_PROTECT"] = True
 app.config["JWT_COOKIE_SECURE"] = True if app.debug is False else False
-
 
 # Initialize App Extensions
 sess = Session(app)

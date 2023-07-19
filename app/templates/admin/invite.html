@@ -1,4 +1,4 @@
-<section class="py-5 bg-gray-50 dark:bg-gray-900">
+<section>
     <div class="flex flex-col items-center justify-center px-6 py-1 mx-auto lg:py-0">
 
         <!-- TITLE -->
@@ -378,7 +378,7 @@
             librariesLoader.classList.remove("hidden");
 
             // Get the libraries from the backend
-            const response = await fetch("/api/libraries", {
+            const response = await fetch("/api/libraries/", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
