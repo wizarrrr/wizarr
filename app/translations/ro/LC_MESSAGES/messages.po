@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-05-16 17:27+0100\n"
-"PO-Revision-Date: 2023-05-04 16:49+0000\n"
-"Last-Translator: Serbanescu Bogdan <sherbibv@gmail.com>\n"
+"PO-Revision-Date: 2023-07-22 09:07+0000\n"
+"Last-Translator: DragoPrime <emperordrago@gmail.com>\n"
+"Language-Team: Romanian <https://hosted.weblate.org/projects/wizarr/app/ro/>"
+"\n"
 "Language: ro\n"
-"Language-Team: Romanian "
-"<https://hosted.weblate.org/projects/wizarr/app/ro/>\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 "
-"< 20)) ? 1 : 2;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 5.0-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: app/admin.py:150
@@ -75,9 +76,8 @@ msgid "Settings"
 msgstr "Setări"
 
 #: app/templates/invalid-invite.html:16
-#, fuzzy
 msgid "Invalid Invitation"
-msgstr "Invitații"
+msgstr "Invitație Invalidă"
 
 #: app/templates/login.html:18
 msgid "Login"
@@ -154,13 +154,12 @@ msgid "Scan For Libraries"
 msgstr "Scanează Pentru Biblioteci"
 
 #: app/templates/settings.html:77
-#, fuzzy
 msgid ""
 "Request\n"
 "                instance (Ombi, Overseerr...) URL"
 msgstr ""
-"Cerere\n"
-"                instanță (Ombi, Overseerr...)"
+"Adresă\n"
+"                instanță cereri (Ombi, Overseerr...)"
 
 #: app/templates/settings.html:87
 msgid "Ombi API Key (Only used for user import currently.)"
@@ -204,7 +203,7 @@ msgstr "Cod de invitație"
 
 #: app/templates/user-plex-login.html:45
 msgid "Oops!"
-msgstr "Oops!"
+msgstr "Opa!"
 
 #: app/templates/user-plex-login.html:52
 msgid "Join"
@@ -291,9 +290,8 @@ msgid "Unlimited Usages"
 msgstr "Utilizări nelimitate"
 
 #: app/templates/admin/invite.html:78
-#, fuzzy
 msgid "Invite to Plex Home"
-msgstr "Cod de invitație"
+msgstr "Invită în Plex Home"
 
 #: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
 #: app/templates/tables/invite_table.html:13
@@ -321,9 +319,8 @@ msgstr ""
 
 #: app/templates/admin/invite.html:116
 #: app/templates/tables/invite_table.html:11
-#, fuzzy
 msgid "Allow Downloads"
-msgstr "Descarcă"
+msgstr "Permite Descărcări"
 
 #: app/templates/admin/invite.html:122
 msgid ""
@@ -355,17 +352,15 @@ msgstr "Partajează"
 
 #: app/templates/admin/notifications.html:11
 msgid "Notification Agents"
-msgstr ""
+msgstr "Agenți de Notificare"
 
 #: app/templates/admin/notifications.html:27
-#, fuzzy
 msgid "Delete"
-msgstr "Implicit"
+msgstr "Șterge"
 
 #: app/templates/admin/notifications.html:37
-#, fuzzy
 msgid "Create Agent"
-msgstr "Creează un cont"
+msgstr "Creează Agent"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
@@ -401,38 +396,35 @@ msgstr " Ceva nu a mers bine. Te rog să reîncerci mai târziu."
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "Agent Nou"
 
 #: app/templates/modals/create-notification-agent.html:60
-#, fuzzy
 msgid ""
 "Username\n"
 "                                (optional)"
 msgstr ""
-"Cod de\n"
-"                                invitație"
+"Utilizator\n"
+"                                (opțional)"
 
 #: app/templates/modals/create-notification-agent.html:65
-#, fuzzy
 msgid "Password (optional)"
-msgstr "(opțional)"
+msgstr "Parolă (opțională)"
 
 #: app/templates/modals/create-notification-agent.html:70
-#, fuzzy
 msgid ""
 "Agent\n"
 "                                URL"
 msgstr ""
-"Cod de\n"
-"                                invitație"
+"Adresă\n"
+"                                Agent"
 
 #: app/templates/modals/create-notification-agent.html:81
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Testează & Creează Agent"
 
 #: app/templates/modals/create-notification-agent.html:85
 msgid "Cancel"
-msgstr ""
+msgstr "Anulează"
 
 #: app/templates/tables/global-users.html:13
 msgid "Name"
@@ -558,12 +550,13 @@ msgid ""
 "device - your phone, tablet, laptop, smart TV,\n"
 "        you name it."
 msgstr ""
-"Jellyfin este o platformă care îți permite sa redai filmele, serialele și"
-" muzica ta preferată într-un singur loc.\n"
-"         Este ca și cum ai avea propriul cinema la vârful degetelor! Îl "
-"poți considera o bibliotecă digitală\n"
-"        cu conținutul tău favorit pe care îl poți accesa de oriunde, de "
-"pe orice dispozitiv - telefon, tabletă, laptop, smart TV         ."
+"Jellyfin este o platformă care îți permite sa redai filmele, serialele și "
+"muzica ta preferată într-un singur loc.\n"
+"         Este ca și cum ai avea propriul cinema la vârful degetelor! Îl poți "
+"considera o bibliotecă digitală\n"
+"        cu conținutul tău favorit pe care îl poți accesa de oriunde, de pe "
+"orice dispozitiv - telefon, tabletă, laptop, smart TV,\n"
+"         tu decizi."
 
 #: app/templates/wizard/jellyfin/tips.html:13
 #: app/templates/wizard/plex/tips.html:12
@@ -703,4 +696,3 @@ msgstr "Deschide Plex"
 
 #~ msgid "Home User"
 #~ msgstr "Utilizator al casei"
-
