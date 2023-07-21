@@ -14,12 +14,9 @@ class Admins(BaseModel):
     created = DateTimeField(constraints=[SQL("DEFAULT (datetime('now'))")])
 
 class AdminsModel(PydanticBaseModel):
-    id: int
     username: str
     password: str
     email: str
-    last_login: str
-    created: str
     
 
 AdminsPostModel = Model('AdminsPostModel', {

@@ -9,7 +9,7 @@ from password_strength import PasswordPolicy
 from peewee import PeeweeException
 
 from app import *
-from app.helpers import is_invite_valid
+from helpers import is_invite_valid
 from app.mediarequest import *
 from app.notifications import notify
 

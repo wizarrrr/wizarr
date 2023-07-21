@@ -1,5 +1,3 @@
-import Toastify from 'toastify-js';
-
 
 // CREATE A CUSTOM TOASTIFY OPTIONS
 const defaultToast: Toastify.Options = {
@@ -10,8 +8,9 @@ const defaultToast: Toastify.Options = {
     stopOnFocus: true
 };
 
-const showToast = (message: string, options: Toastify.Options) => {
-    Toastify({
+const showToast = async (message: string, options: Toastify.Options) => {
+    const Toastify = await import("toastify-js");
+    Toastify.default({
         ...defaultToast,
         ...options,
         style: {
@@ -21,8 +20,9 @@ const showToast = (message: string, options: Toastify.Options) => {
     }).showToast();
 }
 
-const errorToast = (message: string) => {
-    Toastify({
+const errorToast = async (message: string) => {
+    const Toastify = await import("toastify-js");
+    Toastify.default({
         text: message,
         style: {
             background: '#dc3545',
@@ -31,8 +31,9 @@ const errorToast = (message: string) => {
     }).showToast();
 }
 
-const successToast = (message: string) => {
-    Toastify({
+const successToast = async (message: string) => {
+    const Toastify = await import("toastify-js");
+    Toastify.default({
         text: message,
         style: {
             background: '#28a745',
@@ -41,8 +42,9 @@ const successToast = (message: string) => {
     }).showToast();
 }
 
-const infoToast = (message: string) => {
-    Toastify({
+const infoToast = async (message: string) => {
+    const Toastify = await import("toastify-js");
+    Toastify.default({
         text: message,
         style: {
             background: '#4B5563',
@@ -51,8 +53,9 @@ const infoToast = (message: string) => {
     }).showToast();
 }
 
-const warningToast = (message: string) => {
-    Toastify({
+const warningToast = async (message: string) => {
+    const Toastify = await import("toastify-js");
+    Toastify.default({
         text: message,
         style: {
             background: '#ffc107',

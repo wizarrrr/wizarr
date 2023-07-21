@@ -5,7 +5,14 @@
     {{ _("You have successfully completed the setup process.") }}
 </p>
 <div class="flex justify-center mt-6">
-    <button onclick="window.location.href='/'" class="text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
+    <button onclick="exitSetup()" class="text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
         {{ _("Go to Dashboard") }}
     </button>
 </div>
+
+<script>
+    function exitSetup() {
+        localStorage.clear();
+        window.location.href = '/';
+    }
+</script>

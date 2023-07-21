@@ -96,13 +96,14 @@ def plex_delete_user(id):
     return
 
 
-def plex_invite_user(email, code):
+def plex_invite_user(email, code, sse: ServerSentEvents = None, sse_id: str = None):
     # Get settings from database and invitation from database
     settings = { setting.key: setting.value for setting in Settings.select() }
     invitation: Invitations = Invitations.select().where(Invitations.code == code).first()
      
     # If invitation does not exist, raise exception
     if not invitation:
+        if sse: sse.send("Invitation does not exist", sse_id, "error")
         raise Exception("Invitation does not exist")
      
     # Clear plex_get_users cache
@@ -127,6 +128,9 @@ def plex_invite_user(email, code):
      
     # Get myPlexAccount object
     my_plex_account = plex_server.myPlexAccount()
+    
+    # SSE step 1
+    if sse: sse.send(1, sse_id, "step")
      
     # Select method to invite user based on plex_home
     invite = my_plex_account.createHomeUser if plex_home else my_plex_account.inviteFriend
@@ -135,7 +139,9 @@ def plex_invite_user(email, code):
     try:
         invite(user=email, server=plex_server, sections=sections, allowSync=allow_sync)
     except Exception as e:
+        if sse: sse.send("Failed to invite user", sse_id, "error")
         info("Failed to invite user: " + str(e))
+        raise Exception("Failed to invite user")
      
     info("Invited " + email + " to Plex Server")
      

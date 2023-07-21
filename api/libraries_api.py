@@ -39,7 +39,7 @@ class LibrariesListAPI(Resource):
     @api.response(500, "Internal server error")
     def post(self):
         # Import from helpers
-        from app.helpers import scan_jellyfin_libraries, scan_plex_libraries
+        from helpers import scan_jellyfin_libraries, scan_plex_libraries
 
         # Validate the data and initialize the object
         form = LibrariesListPostModel(

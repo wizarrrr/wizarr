@@ -1,4 +1,3 @@
-import asyncio
 import queue
 from logging import error, webpush
 from os import getenv, listdir, path
@@ -10,8 +9,9 @@ from flask_jwt_extended import current_user, jwt_required
 from playhouse.shortcuts import model_to_dict
 
 from app import VERSION, app
-from app.helpers import get_api_keys, get_settings, is_invite_valid
-from app.security import logged_out_required, login_required
+from app.security import (logged_out_required, login_required,
+                          server_verified_required, server_not_verified_required)
+from helpers import get_api_keys, get_settings, is_invite_valid
 from models.settings import Settings
 
 
@@ -19,6 +19,13 @@ from models.settings import Settings
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+# All public facing routes
+@app.route('/')
+@server_verified_required()
+def homepage_route():
+    return render_template("homepage.html")
+
 
 # All admin routes
 @app.get('/admin', defaults={'subpath': ''})
@@ -35,7 +42,7 @@ def admin_routes(subpath):
     
     # Authentication Activated
     settings = get_settings()
-    settings["auth"] = True if getenv("DISABLE_BUILTIN_AUTH") != "true" else False
+    settings["auth"] = True if getenv("DISABLE_BUILTIN_AUTH", "false") == "true" else False
 
     # If no subpath is specified, render the admin dashboard
     if not subpath:
@@ -62,7 +69,7 @@ def settings_routes(subpath):
     settings = get_settings()
     settings["api_keys"] = get_api_keys()
     settings["template"] = subpath if subpath else "general"
-    settings["auth"] = True if getenv("DISABLE_BUILTIN_AUTH") != "true" else False
+    settings["auth"] = True if getenv("DISABLE_BUILTIN_AUTH", "false") == "true" else False
     settings["admin"] = current_user
 
     # If no subpath is specified, render the admin dashboard
@@ -98,21 +105,22 @@ def account_routes(subpath):
 
 
 # All setup routes
+@app.route('/setup', defaults={'subpath': 'welcome'})
+@app.route('/setup/', defaults={'subpath': 'welcome'})
 @app.route('/setup/<path:subpath>', methods=["GET"])
+@server_not_verified_required()
 def setup_routes(subpath):
     # Get all settings
     settings = get_settings()
 
-    # If the server is already verified, redirect to the admin dashboard
-    # if "server_verified" in settings and settings["server_verified"]:
-        # return redirect("/")
+    print(settings)
 
     html_files = [path.splitext(file)[0] for file in listdir('./app/templates/setup/pages') if file.endswith('.html')]
 
     if subpath not in html_files:
         return abort(404)
 
-    # I could of used html_files however I wanted to keep the order of the pages
+    # I could of used html_files list however I wanted to keep the order of the pages instead of alphabetical order
     pages = [
         'welcome',
         'database',
@@ -132,8 +140,64 @@ def setup_routes(subpath):
     return render_template("setup/base.html", **data)
 
 
+# All help routes
+@app.route('/help', defaults={'subpath': 'welcome'})
+@app.route('/help/<path:subpath>', methods=["GET"])
+def help_routes(subpath):
+    from app import get_locale
+    # Get all settings
+    settings = get_settings()
+    server_type = settings["server_type"]
+
+    pages = [
+        {
+            "name": "welcome",
+            "template": f"wizard/pages/{server_type}/welcome.html"
+        },
+        {
+            "name": "download",
+            "template": f"wizard/pages/{server_type}/download.html"
+        },
+        {
+            "name": "requests",
+            "template": "wizard/pages/requests.html",
+            "enabled": settings.get("request_url")
+        },
+        {
+            "name": "discord",
+            "template": "wizard/pages/" + ("discord-widget.html" if not settings.get("discord_widget") else "discord.html"),
+            "enabled": settings.get("discord_id")
+        },
+        {
+            "name": "custom",
+            "template": "wizard/pages/custom.html",
+            "enabled": settings.get("custom_html")
+        },
+        {
+            "name": "tips",
+            "template": f"wizard/pages/{server_type}/tips.html"
+        }
+    ]
+    
+    partials = [page["template"] for page in pages if page.get("enabled", True)]
+    current = [page["name"] for page in pages if page.get("enabled", True)].index(subpath)
+
+    
+    data = {
+        "partials": partials,
+        "current": current,
+        "server_type": server_type,
+        "server_url": settings.get("server_url"),
+    }
+    
+    data.update(settings)
+
+    return render_template("wizard/base.html", **data)
+
+
 # Invite route
 @app.route("/j/<code>", methods=["GET"])
+@server_verified_required()
 def invite_route(code):
     
     valid, message = is_invite_valid(code)
@@ -148,7 +212,7 @@ def invite_route(code):
 @app.route('/login', methods=["GET"])
 @logged_out_required()
 def login_get():
-    if getenv("DISABLE_BUILTIN_AUTH") and getenv("DISABLE_BUILTIN_AUTH") == "true":
+    if getenv("DISABLE_BUILTIN_AUTH", "false") == "true":
         return redirect("/")
 
     return render_template("login.html")

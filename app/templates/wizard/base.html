@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ _("Help")}}
+{% endblock %}
+
+{% block main %}
+<div id="create-modal" style="position: fixed; z-index: 100"></div>
+
+<div id="content">
+    <div class="flex justify-center items-center flex-col mt-12 mb-3 space-y-2">
+        <img style="width: 150px;" src="/static/img/wizard.png" alt="logo"></span>
+        <h1 class="text-3xl font-semibold text-center text-gray-900 dark:text-white">{{ _("Getting Started!") }}</h1>
+    </div>
+    <div id="carousel" class="relative overflow-hidden rounded-lg h-screen" style="transition: max-height 0.5s ease-in-out;">
+        <div id="carousel-item-100" class="hidden duration-700 ease-in-out bg-gray-100 dark:bg-gray-900"></div>
+        {% for partial in partials %}
+        <div id="carousel-item-{{ loop.index }}" class="hidden duration-700 ease-in-out bg-gray-100 dark:bg-gray-900" data-current="{{ partial }}">
+            <section class="bg-gray-50 dark:bg-gray-900">
+                <div class="flex flex-col items-center justify-center w-full md:w-2/3 lg:w-4/12 py-6 md:mx-auto md:container px-2 sm:px-4 md:px-0">
+                    <div class="relative w-full bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700">
+                        <div class="p-6 space-y-4 md:space-y-6 sm:p-8 text-gray-900 dark:text-white">
+                            {% include partial %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="navBtns" class="flex justify-center mb-6 space-x-2">
+        <button id="backBtn" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+            <i class="fas fa-arrow-left mr-2"></i>
+            {{ _("Back") }}
+        </button>
+        <button id="nextBtn" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+            {{ _("Next") }}
+            <i class="fas fa-arrow-right ml-2"></i>
+        </button>
+    </div>
+    <div id="openServer" class="hidden flex flex-col justify-center mb-6 mt-2 space-y-2 items-center">
+        <button onclick="openServer()" class="inline-flex items-center py-2 px-6 text-sm font-medium text-center text-white bg-primary rounded-lg hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover space-x-2">
+            <span>{{ _("Open") }} {{ server_type|capitalize }}</span>
+            <i class="fa-solid fa-up-right-from-square"></i>
+        </button>
+        <a class="text-sm text-gray-500 dark:text-gray-400 hover:underline cursor-pointer" onclick="window.carousel.prev();">
+            {{ _("Back") }}
+        </a>
+    </div>
+    <style>
+        body {
+            margin: 0px !important;
+            padding: 0px !important;
+        }
+    </style>
+    <script>
+        var openServer = () => {
+            const url = '{{ server_url }}';
+            window.open(url, '_blank');
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const children = document.querySelector('#carousel').children;
+            const items = [];
+
+            for (let i = 0; i < children.length; i++) {
+                items.push({
+                    position: i,
+                    el: children[i]
+                });
+            }
+
+            const options = {
+                defaultPosition: (parseInt('{{ current }}') + 1),
+                onChange: (step) => {
+                    const carousel = document.getElementById('carousel');
+
+                    const active = step._getActiveItem()
+                    const nextHeight = active.el.children[0]?.offsetHeight;
+
+                    const prev = (active.position - 1) < 0 ? 0 : active.position - 1;
+                    const currentHeight = carousel.children[prev].offsetHeight;
+
+                    if (nextHeight >= currentHeight) {
+                        let oldtransition = carousel.style.transition;
+                        carousel.style.transition = 'none';
+                        carousel.style.maxHeight = `${nextHeight}px`;
+                        setTimeout(() => { carousel.style.transition = oldtransition; }, 100);
+                    } else {
+                        setTimeout(() => { carousel.style.maxHeight = `${nextHeight}px`; }, 200);
+                    }
+
+                    if (active.position == 1) {
+                        window.backBtn.disabled = true;
+                    } else {
+                        window.backBtn.disabled = false;
+                    }
+
+                    if (active.position == (items.length - 1)) {
+                        document.getElementById('navBtns').classList.add('hidden');
+                        document.getElementById('openServer').classList.remove('hidden');
+                    } else {
+                        document.getElementById('navBtns').classList.remove('hidden');
+                        document.getElementById('openServer').classList.add('hidden');
+                    }
+
+                    const current = active.el.dataset.current;
+                    const pattern = /^\wizard\/pages\/(?:plex\/|jellyfin\/)?(.+)\.html$|^\wizard\/pages\/(.+)\.html$/;
+
+                    if (pattern.test(current)) {
+                        const url = current.replace(pattern, '$1');
+                        history.pushState({}, '', `/help/${url}`);
+                    }
+                }
+            }
+
+            // on page resize update carousel height
+            window.addEventListener('resize', () => {
+                const carousel = document.getElementById('carousel');
+                let oldtransition = carousel.style.transition;
+                carousel.style.transition = 'none';
+                const active = window.carousel._getActiveItem();
+                const nextHeight = active.el.children[0].offsetHeight;
+                carousel.style.maxHeight = `${nextHeight}px`;
+                setTimeout(() => { carousel.style.transition = oldtransition; }, 100);
+            });
+
+            window.carousel = new Carousel(items, options);
+            window.backBtn = document.getElementById('backBtn');
+            window.nextBtn = document.getElementById('nextBtn');
+
+            window.backBtn.addEventListener('click', () => carousel.prev());
+            window.nextBtn.addEventListener('click', () => carousel.next());
+        });
+    </script>
+    {% endblock %}

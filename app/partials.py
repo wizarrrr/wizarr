@@ -5,11 +5,11 @@ from flask import abort, make_response, render_template, request
 from flask_jwt_extended import current_user
 
 from app import app
+from helpers import get_api_keys, get_notifications, get_settings
 from models import Admins, Invitations, Sessions, Settings
 
-from .helpers import get_api_keys, get_notifications, get_settings
 from .scheduler import get_schedule
-from .security import login_required
+from .security import login_required, login_required_unless_setup
 from .universal import global_get_users
 
 
@@ -99,7 +99,7 @@ def account_partials(subpath):
 
 # All modal partials
 @app.route('/partials/modals/<path:path>')
-@login_required()
+@login_required_unless_setup()
 def modal_partials(path, **kwargs):
     # Get all form and post data
     form = request.form if request.form else {}

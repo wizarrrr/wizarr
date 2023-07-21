@@ -94,42 +94,36 @@ Login
 
         xhr.open('GET', '/admin');
 
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = async function () {
             document.getElementById('spinner').classList.remove('htmx-indicator');
+
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                // Replace the current page with the admin page
                 document.open();
                 document.write(xhr.responseText);
-                document.addEventListener('DOMContentLoaded', function () {
-                    response.json().then(function (data) {
-                        try { window.loadSSE(); } catch { }
-                        window.history.pushState({}, '', '/admin');
-
-                        if (data.user != undefined) {
-                            toast.infoToast("{{ _('Hello') }}, " + data.user.username + "!");
-                            localStorage.setItem('user', JSON.stringify(data.user));
-                            return;
-                        }
-
-                        toast.infoToast("{{ _('Logged in successfully') }}");
-                    }).catch(function (error) {
-                        toast.infoToast("{{ _('Logged in successfully') }}");
-                    });
-                });
                 document.close();
+
+                // Update the browser history
+                window.history.pushState({}, '', '/admin');
+
+                // Get the user data from the response
+                const data = await response.json();
+
+                if (data.user != undefined) {
+                    toast.infoToast("{{ _('Hello') }}, " + data.user.username + "!");
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    return;
+                }
+
+                toast.infoToast("{{ _('Logged in successfully') }}");
             }
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 401) {
-                document.getElementById('error').innerHTML = "{{ _('Unauthorized attempted access') }}";
-            }
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 500) {
-                document.getElementById('error').innerHTML = "{{ _('Internal server error') }}";
-            }
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 404) {
-                document.getElementById('error').innerHTML = "{{ _('Could not find the requested page') }}";
+
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200) {
+                window.location.href = '/login';
             }
         };
 
         xhr.send();
-
     }   
 </script>
 

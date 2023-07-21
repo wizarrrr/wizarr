@@ -34,14 +34,19 @@
 </form>
 
 <script>
-    libraries = new ScanLibraries({
+
+    // Set to true if we are setting up the server for the first time
+    var setup = {{ "true" if setup else "false" }};
+
+    var libraries = new ScanLibraries({
         container: '#libraries',
         count: '#library_count',
         server: {
             type: document.getElementById('server_type').value,
             url: document.getElementById('server_url').value,
             api_key: document.getElementById('server_api_key').value,
-        }
+        },
+        api_endpoint: setup ? '/api/setup/scan-libraries' : '/api/scan-libraries',
     });
 
     libraries.scan();
@@ -70,7 +75,7 @@
         let newFormData = new FormData();
         newFormData.append('libraries', JSON.stringify(libraries));
 
-        let response = await fetch('/api/libraries', {
+        let response = await fetch(setup ? '/api/setup/libraries' : '/api/libraries', {
             method: 'POST',
             body: newFormData,
             credentials: 'same-origin',

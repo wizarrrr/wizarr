@@ -5,15 +5,19 @@
     <form id="user-form" class="space-y-4 md:space-y-6" onsubmit="createAdmin(); event.preventDefault();">
         <div>
             <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username") }}</label>
-            <input type="username" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="marvin" required="">
+            <input type="username" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="marvin" required autocomplete="username">
+        </div>
+        <div>
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Email") }}</label>
+            <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="marvin@wizarr.dev" required autocomplete="email">
         </div>
         <div>
             <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Password") }}</label>
-            <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+            <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required autocomplete="new-password">
         </div>
         <div>
             <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Confirm password") }}</label>
-            <input type="password" name="confirm-password" id="confirm-password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+            <input type="password" name="confirm-password" id="confirm-password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required autocomplete="new-password">
         </div>
         <div class="flex justify-end">
             <button type="submit" class="text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
@@ -24,33 +28,63 @@
 </div>
 
 <script>
-async function createAdmin() {
-    var form = document.querySelector('#user-form');
-    var formData = new FormData(form);
 
-    const username = form.username.value;
-    const password = form.password.value;
-    const confirmPassword = form['confirm-password'].value;
+    async function createAdmin() {
+        var form = document.querySelector('#user-form');
+        var formData = new FormData(form);
 
-    if (password !== confirmPassword) {
-        return alert("Passwords do not match");
+        const username = form.username.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        const confirmPassword = form['confirm-password'].value;
+
+        if (password !== confirmPassword) {
+            toast.infoToast("Passwords do not match");
+            return;
+        }
+
+        formData.append('username', username);
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('confirm-password', confirmPassword);
+
+        const response = await fetch('/api/setup/admin', {
+            method: 'POST',
+            body: formData,
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+            },
+        });
+
+        if (response.status !== 200) {
+            try {
+                let data = await response.json();
+                if (data.message) toast.errorToast(data.message);
+                else toast.errorToast("Something went wrong");
+                return;
+            } catch (e) {
+                toast.errorToast('Something went wrong');
+                toast.errorToast(e.message);
+                return;
+            }
+        }
+
+        try {
+            const data = await response.json();
+
+            if (data.message) toast.infoToast(data.message);
+            else toast.infoToast("Admin account created");
+
+            let setupPosition = JSON.parse(localStorage.getItem('setupPosition')) ?? { admin: 0, settings: 0 };
+            setupPosition.admin = 1;
+            localStorage.setItem('setupPosition', JSON.stringify(setupPosition));
+
+            carousel.next();
+        } catch (e) {
+            toast.errorToast('Something went wrong');
+            toast.errorToast(e.message);
+        }
+
     }
-
-    const response = await fetch('/api/admin/users', {
-        method: 'POST',
-        body: formData,
-        credentials: 'same-origin',
-        headers: {
-            'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-        },
-    });
-
-    if (response.status !== 200) {
-        return alert("Something went wrong");
-    }
-
-    const data = await response.json();
-
-    carousel.next();
-}
 </script>

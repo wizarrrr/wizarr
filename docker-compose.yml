@@ -11,6 +11,6 @@ services:
     volumes:
       - ./database:/data/database # Change this to your data directory
     environment:
-      - APP_URL=https://wizarr.example.com # Change this to your domain
+      #- APP_URL=https://wizarr.example.com # Change this to your domain
       - DISABLE_BUILTIN_AUTH=false # Set to true to disable built-in authentication
       - TZ=Europe/London # Set your timezone

@@ -22,7 +22,7 @@ from .filters import *
 from .security import *
 
 # Global App Version
-VERSION = "2.2.0"
+VERSION = "3.0.0"
 BASE_DIR = path.abspath(path.dirname(__file__))
 
 # Load environment variables
@@ -48,6 +48,11 @@ environ["VERSION"] = VERSION
 def need_update():
     try:
         return version.parse(VERSION) < version.parse(get("https://raw.githubusercontent.com/Wizarrrr/wizarr/master/.github/latest").content.decode("utf-8"))
+    except Exception: return False
+    
+def is_beta():
+    try:
+        return version.parse(VERSION) > version.parse(get("https://raw.githubusercontent.com/Wizarrrr/wizarr/master/.github/latest").content.decode("utf-8"))
     except Exception: return False
 
 # Get language from session
@@ -77,15 +82,15 @@ def get_scheme():
 app.jinja_env.globals.update(APP_NAME="Wizarr")
 app.jinja_env.globals.update(APP_VERSION=VERSION)
 app.jinja_env.globals.update(APP_GITHUB_URL="https://github.com/Wizarrrr/wizarr")
-app.jinja_env.globals.update(APP_RELEASED="Released")
+app.jinja_env.globals.update(APP_RELEASED="Beta" if is_beta() else "Stable")
 app.jinja_env.globals.update(APP_LANG="en")
 app.jinja_env.globals.update(APP_UPDATE=need_update())
-app.jinja_env.globals.update(DISABLE_BUILTIN_AUTH=getenv("DISABLE_BUILTIN_AUTH", False))
+app.jinja_env.globals.update(DISABLE_BUILTIN_AUTH=True if getenv("DISABLE_BUILTIN_AUTH", "false") == "true" else False)
 
 # Set config variables for Flask
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_TYPE"] = "filesystem"
-app.config["SESSION_FILE_DIR"] = path.join(BASE_DIR, "../", "database", "sessions")
+app.config["SESSION_FILE_DIR"] = path.abspath(path.join(BASE_DIR, "../", "database", "sessions"))
 app.config["LANGUAGES"] = {'en': 'english', 'de': 'german', 'zh': 'chinese', 'fr': 'french', 'sv': 'swedish', 'pt': 'portuguese', 'pt_BR': 'portuguese', 'lt': 'lithuanian', 'es': 'spanish', 'ca': 'catalan', 'pl': 'polish' }
 app.config["BABEL_DEFAULT_LOCALE"] = "en"
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = ('./translations')
@@ -131,6 +136,6 @@ with app.app_context():
 if __name__ == "__main__":
     app.run()
 
-from app import (backup, exceptions, helpers, jellyfin, mediarequest,
+from app import (backup, exceptions, jellyfin, mediarequest,
                  notifications, partials, plex, routes, scheduler, security,
                  universal, web)

@@ -92,42 +92,43 @@
         </div>
     </div>
 </div>
-<script>
-    const items = [
-        { position: 0, el: document.getElementById('carousel-item-0') },
-        { position: 1, el: document.getElementById('carousel-item-1') },
-        { position: 2, el: document.getElementById('carousel-item-2') },
-        { position: 3, el: document.getElementById('carousel-item-3') },
-        { position: 4, el: document.getElementById('carousel-item-4') },
-        { position: 5, el: document.getElementById('carousel-item-5') },
-        { position: 6, el: document.getElementById('carousel-item-6') }
-    ];
+<script defer>
+    document.addEventListener("DOMContentLoaded", function () {
+        const items = [
+            { position: 0, el: document.getElementById('carousel-item-0') },
+            { position: 1, el: document.getElementById('carousel-item-1') },
+            { position: 2, el: document.getElementById('carousel-item-2') },
+            { position: 3, el: document.getElementById('carousel-item-3') },
+            { position: 4, el: document.getElementById('carousel-item-4') },
+            { position: 5, el: document.getElementById('carousel-item-5') },
+            { position: 6, el: document.getElementById('carousel-item-6') }
+        ];
 
-    const options = {
-        defaultPosition: 1,
-        onChange: (step) => {
-            let active = step._getActiveItem();
-            let speed = 600;
-            if (active.position == 1) {
-                setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "150px" }, speed);
-            } else if (active.position == 2) {
-                setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "60px" }, speed);
-            } else if (active.position == 3) {
-                setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "60px" }, speed);
-            } else if (active.position == 4) {
-                setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "100px" }, speed);
-            } else if (active.position == 5) {
-                setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "100px" }, speed);
-            } else if (active.position == 6) {
-                setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "60px" }, speed);
+        const options = {
+            defaultPosition: 1,
+            onChange: (step) => {
+                let active = step._getActiveItem();
+                let speed = 600;
+                if (active.position == 1) {
+                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "150px" }, speed);
+                } else if (active.position == 2) {
+                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "60px" }, speed);
+                } else if (active.position == 3) {
+                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "60px" }, speed);
+                } else if (active.position == 4) {
+                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "100px" }, speed);
+                } else if (active.position == 5) {
+                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "100px" }, speed);
+                } else if (active.position == 6) {
+                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "60px" }, speed);
+                }
             }
-        }
-    };
+        };
 
-    let carousel = new Carousel(items, options);
-    let plexAuth = new PlexAuth();
+        window.carousel = new Carousel(items, options);
+        window.plexAuth = new PlexAuth();
 
-    window.test = carousel;
+    });
 
     async function wait(ms) {
         return new Promise(resolve => {
@@ -189,7 +190,7 @@
         let lastcarousel = document.querySelector('#carousel').childElementCount;
         let lasttitle = document.querySelector('#title').childElementCount;
 
-        carousel.slideTo(lastcarousel - 1);
+        window.carousel.slideTo(lastcarousel - 1);
         changeTitle(lasttitle - 1);
     }
 
@@ -202,11 +203,11 @@
         await wait(500);
 
         // Change slide and title
-        carousel.slideTo(2);
+        window.carousel.slideTo(2);
         changeTitle(1);
 
         // Run Plex Auth and wait for a token
-        let token = await plexAuth.login();
+        let token = await window.plexAuth.login();
 
         // If no token, show error slide
         if (token == null) {
@@ -215,7 +216,7 @@
         }
 
         // If token, change slide and title to stepper screen
-        carousel.slideTo(3);
+        window.carousel.slideTo(3);
         changeTitle(2);
 
         // Create form data
@@ -266,10 +267,10 @@
                 sse.close();
                 await wait(500);
                 changeTitle(2);
-                carousel.slideTo(4);
+                window.carousel.slideTo(4);
                 await wait(1000);
                 changeTitle(6);
-                carousel.slideTo(5);
+                window.carousel.slideTo(5);
             }
         })
     }

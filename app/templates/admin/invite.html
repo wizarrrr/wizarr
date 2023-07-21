@@ -378,7 +378,7 @@
             librariesLoader.classList.remove("hidden");
 
             // Get the libraries from the backend
-            const response = await fetch("/api/libraries/", {
+            const response = await fetch("/api/libraries", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

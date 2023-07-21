@@ -7,13 +7,8 @@ from flask import (make_response, redirect, render_template, request,
                    send_from_directory)
 
 from app import Settings, app, get_locale
-from app.helpers import is_invite_valid
+from helpers import is_invite_valid
 from app.plex import plex_handle_oauth_token
-
-
-@app.route('/')
-def redirect_to_invite():
-    return render_template("homepage.html")
 
 
 @app.route("/join", methods=["POST"])
@@ -28,27 +23,18 @@ def connect():
 
     if Settings.get(key="server_type").value == "plex":
         threading.Thread(target=plex_handle_oauth_token, args=(token, code)).start()
-        return redirect("/setup")
+        return redirect("/help")
 
     elif Settings.get(key="server_type").value == "jellyfin":
         return render_template("signup-jellyfin.html", code=code)
 
 
-@app.route('/setup', methods=["GET"])
-def setup():
-    resp = make_response(render_template(
-        "wizard.html", server_type=Settings.get(Settings.key == "server_type").value, server_url=Settings.get(Settings.key == "server_url").value))
-    resp.set_cookie('current', "0")
-
-    return resp
-
-
-@app.route('/setup/open-plex', methods=["GET"])
+@app.route('/help/open-plex', methods=["GET"])
 def open_plex():
     return redirect('https://app.plex.tv/desktop/#!/')
 
 
-@app.route('/setup/action=<action>', methods=["POST"])
+@app.route('/help/action=<action>', methods=["POST"])
 def wizard(action):
     # Get video language and URL based on language
     video_lang = get_locale()

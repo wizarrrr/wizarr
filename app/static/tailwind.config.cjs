@@ -6,7 +6,7 @@ module.exports = {
         "../templates/**/*.html",
         "../templates/*.html",
         "./node_modules/flowbite/**/*.js",
-        "./node_modules/tw-elements/dist/js/**/*.js"
+        // "./node_modules/tw-elements/dist/js/**/*.js"
     ],
     darkMode: 'class',
     theme: {
@@ -1017,7 +1017,7 @@ module.exports = {
     },
     plugins: [
         require("flowbite/plugin"),
-        require("tw-elements/dist/plugin.cjs"),
+        // require("tw-elements/dist/plugin.cjs"),
         // require("@tailwindcss/border"),
     ],
 };

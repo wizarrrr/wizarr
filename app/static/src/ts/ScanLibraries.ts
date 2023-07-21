@@ -6,6 +6,7 @@ declare type ScanLibrariesOptions = {
     count: string | Element;
     server: ScanLibrariesServer;
     error: string | Element | null;
+    api_endpoint?: string;
 };
 
 declare type ScanLibrariesServer = {
@@ -22,13 +23,14 @@ class ScanLibraries {
     private server: ScanLibrariesServer;
     private error: string | Element | null;
 
-    private api_endpoint: string = "/api/scan-libraries/";
+    private api_endpoint: string = "/api/scan-libraries";
 
     constructor(options: ScanLibrariesOptions) {
         this.container = options.container;
         this.count = options.count;
         this.server = options.server;
-        this.error = options.error || null;
+        this.error = options.error ?? null;
+        this.api_endpoint = options.api_endpoint ?? this.api_endpoint;
 
         try {
             this.init();

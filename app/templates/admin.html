@@ -153,28 +153,30 @@
 
         xhr.open('GET', '/login');
 
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = async function () {
             document.getElementById('spinner').classList.remove('htmx-indicator');
+
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                // Replace the current page with the new page
                 document.open();
                 document.write(xhr.responseText);
-                document.addEventListener('DOMContentLoaded', function () {
-                    const data = JSON.parse(localStorage.getItem('user'));
-
-                    try { window.unloadSSE(); } catch { }
-                    window.history.pushState({}, '', '/login');
-
-                    if (data != undefined) {
-                        toast.infoToast("{{ _('Goodbye') }}, " + data.username + "!");
-                        localStorage.setItem('user', JSON.stringify(data.user));
-                        return;
-                    }
-
-                    toast.infoToast("{{ _('Logged out successfully') }}");
-                    localStorage.removeItem('user');
-                });
                 document.close();
+
+                // Update the URL in the browser
+                window.history.pushState({}, '', '/login');
+
+                const data = JSON.parse(localStorage.getItem('user'));
+
+                if (data != undefined) {
+                    toast.infoToast("{{ _('Goodbye') }}, " + data.username + "!");
+                    localStorage.removeItem('user');
+                    return;
+                }
+
+                toast.infoToast("{{ _('Logged out successfully') }}");
+                localStorage.removeItem('user');
             }
+
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200) {
                 window.location.href = '/login';
             }

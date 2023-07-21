@@ -12,6 +12,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="HandheldFriendly" content="true" />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.min.css" integrity="sha512-k+xZuzf4IaGQK9sSDjaNyrfwgxBfoF++7u6Q0ZVUs2rDczx9doNZkYXyyQbnJQcMR4o+IjvAcIj69hHxiOZEig==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <style>
         /* Stop my eyes being blinded for dear life when the page is refreshed in dark mode */
         html.dark {
@@ -36,7 +40,7 @@
 
     {% endblock %}
 
-    <div id="spinner" class="htmx-indicator absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity">
+    <div id="spinner" class="z-20 htmx-indicator absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity">
         <i class="fa-solid fa-spinner fa-spin fa-2xl"></i>
     </div>
 

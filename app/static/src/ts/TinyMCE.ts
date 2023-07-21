@@ -1,9 +1,10 @@
-import tinymce from 'tinymce';
 
 async function startTinyMCE() {
-    tinymce.remove('textarea#custom_html');
+    const tinymce = await import('tinymce');
 
-    await tinymce.init({
+    tinymce.default.remove('textarea#custom_html');
+
+    await tinymce.default.init({
         branding: false,
         promotion: false,
         statusbar: false,
