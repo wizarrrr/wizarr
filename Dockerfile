@@ -3,12 +3,10 @@ FROM python:3.11.4-alpine
 WORKDIR /data
 COPY . /data
 
-RUN apk add tzdata libffi-dev gcc python3-dev musl-dev g++ make openssl-dev
 
-RUN pip3 install --upgrade pip setuptools wheel
-RUN pip3 install -r requirements.txt
-
-RUN apk add --update nodejs npm
+RUN apk add --no-cache tzdata nodejs npm cargo && \
+    pip3 install --no-cache --upgrade pip && \
+    pip3 install --no-cache -r requirements.txt
 
 WORKDIR /data/app/static
 
