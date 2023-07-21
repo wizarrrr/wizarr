@@ -1,0 +1,50 @@
+<div class="animate__animated animate__fadeIn">
+    <form class="space-y-4 md:space-y-6" onsubmit="saveSettings(this, event);">
+        <div class="mb-6">
+            <textarea name="custom_html" id="custom_html" placeholder="Optional, leave empty to disable" class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{% if custom_html %}{{ custom_html }}{% endif %}</textarea>
+        </div>
+
+        <div class="flex items-center justify-end mt-4">
+            <button type="submit" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                {{ _("Save") }}
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    async function saveSettings(that) {
+
+        if (event) {
+            event.preventDefault();
+        }
+
+        let spinner = document.getElementById('spinner');
+        spinner.classList.remove('htmx-indicator');
+
+        let formData = new FormData(that);
+
+        let response = await fetch('/api/settings', {
+            method: 'PUT',
+            body: formData,
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token')
+            },
+        });
+
+        spinner.classList.add('htmx-indicator');
+
+        toast.infoToast("{{ _('Settings saved successfully!') }}");
+        htmx.ajax('GET', '/partials/admin/settings/html', { target: '#settings-content', swap: 'innerHTML' });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        window.startTinyMCE();
+    });
+
+    if (window.startTinyMCE) {
+        window.startTinyMCE();
+    }
+</script>

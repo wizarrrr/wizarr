@@ -1,293 +1,578 @@
-{% if needUpdate %}
-<div class="z-50 fixed left-0 bottom-0 p-4 ">
-    <a href="https://github.com/wizarrrr/wizarr">
-        <div class="w-full max-w-xl p-6 mt-auto ml-auto bg-slate-700 rounded-lg ">
-            <div class="flex items-start justify-between -mx-2">
-                <div class="flex items-start px-2">
-                    <span class="flex-shrink-0">
-                        <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M12.0005 15C11.8027 15 11.6093 15.0587 11.4449 15.1686C11.2804 15.2784 11.1523 15.4346 11.0766 15.6173C11.0009 15.8001 10.9811 16.0011 11.0197 16.1951C11.0583 16.3891 11.1535 16.5673 11.2933 16.7071C11.4332 16.847 11.6114 16.9422 11.8054 16.9808C11.9993 17.0194 12.2004 16.9996 12.3831 16.9239C12.5659 16.8482 12.722 16.72 12.8319 16.5556C12.9418 16.3911 13.0005 16.1978 13.0005 16C13.0005 15.7348 12.8951 15.4805 12.7076 15.2929C12.52 15.1054 12.2657 15 12.0005 15ZM22.6705 16.47L14.6205 2.47003C14.3603 2.00354 13.9802 1.61498 13.5196 1.3445C13.0591 1.07401 12.5346 0.931396 12.0005 0.931396C11.4663 0.931396 10.9419 1.07401 10.4813 1.3445C10.0207 1.61498 9.64065 2.00354 9.38046 2.47003L1.38046 16.47C1.11125 16.924 0.966598 17.441 0.9611 17.9688C0.955602 18.4966 1.08945 19.0166 1.34914 19.4761C1.60883 19.9356 1.98516 20.3185 2.44014 20.5861C2.89512 20.8536 3.41264 20.9964 3.94046 21H20.0605C20.5925 21.0053 21.1164 20.8689 21.5784 20.6049C22.0403 20.341 22.4238 19.9589 22.6894 19.4978C22.9551 19.0368 23.0933 18.5134 23.09 17.9814C23.0866 17.4493 22.9418 16.9277 22.6705 16.47ZM20.9405 18.47C20.8528 18.626 20.7249 18.7556 20.5701 18.8453C20.4154 18.935 20.2393 18.9815 20.0605 18.98H3.94046C3.76157 18.9815 3.58556 18.935 3.43077 18.8453C3.27599 18.7556 3.14811 18.626 3.06046 18.47C2.97269 18.318 2.92648 18.1456 2.92648 17.97C2.92648 17.7945 2.97269 17.622 3.06046 17.47L11.0605 3.47003C11.1444 3.30623 11.2719 3.16876 11.4289 3.07277C11.5859 2.97678 11.7664 2.92599 11.9505 2.92599C12.1345 2.92599 12.315 2.97678 12.472 3.07277C12.629 3.16876 12.7565 3.30623 12.8405 3.47003L20.8905 17.47C20.9897 17.6199 21.0467 17.7937 21.0555 17.9732C21.0643 18.1527 21.0245 18.3312 20.9405 18.49V18.47ZM12.0005 7.00003C11.7352 7.00003 11.4809 7.10538 11.2933 7.29292C11.1058 7.48046 11.0005 7.73481 11.0005 8.00003V12C11.0005 12.2652 11.1058 12.5196 11.2933 12.7071C11.4809 12.8947 11.7352 13 12.0005 13C12.2657 13 12.52 12.8947 12.7076 12.7071C12.8951 12.5196 13.0005 12.2652 13.0005 12V8.00003C13.0005 7.73481 12.8951 7.48046 12.7076 7.29292C12.52 7.10538 12.2657 7.00003 12.0005 7.00003Z"
-                                fill="#FFC107"></path>
-                        </svg>
-                    </span>
-                    <div class="ml-2">
-                        <h5 class="text-gray-100 font-semibold">{{
-                            _("Attention!") }}</h5>
-                        <span class="text-xs font-medium text-gray-300">{{ _("Update available. Click here.") }}</span>
-                    </div>
-                </div>
-                <div class="px-2">
+<section>
+    <div class="flex flex-col items-center justify-center px-6 py-1 mx-auto lg:py-0">
 
-                </div>
-            </div>
-        </div>
-    </a>
-</div>
-{% endif %}
-
-<section class="py-5 bg-gray-50 dark:bg-gray-900 animate__animated animate__fadeIn">
-    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
-        <a class=" flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+        <!-- TITLE -->
+        <a class=" flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white animate__animated animate__fadeIn">
             {{ _("Quick Invite") }}
         </a>
-        <div
-            class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+
+        <!-- CONTENT -->
+        <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8 animate__animated animate__fadeIn">
+
+                <!-- HEADER -->
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                     {{ _("Invite user") }}
                 </h1>
-                {% if not link %}
-                <form class="space-y-4 md:space-y-6" hx-post="/invite" hx-target="#content" hx-swap="innerHTML">
+
+                <!-- FORM -->
+                <form class="space-y-4 md:space-y-6" onsubmit="event.preventDefault(); createInvite(this);">
+
+                    <!-- INVITE CODE -->
                     <div>
-                        <label for="code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
-                            _("Invite Code String") }} <a class="text-gray-500">{{ _("(optional)") }}</a></label>
-                        <input minlength="6" maxlength="6" type="code" name="code" id="code"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
-                            placeholder="XMFGEJI">
+                        <label for="code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            {{ _("Invite Code String") }} <a class="text-gray-500">{{ _("(optional)") }}</a>
+                        </label>
+                        <input minlength="6" maxlength="6" type="code" name="code" id="code" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary" placeholder="XMFGEJI" ondblclick="doubleClickCode(this)">
                     </div>
+
+                    <!-- EXPIRATION -->
+                    <!-- (Hidden field that contains the expiration time set by Javascript) -->
+                    <!-- (Default is 1 day) -->
+                    <input type="hidden" name="expires" id="expires" value="1440">
+
+                    <!-- SELECT EXPIRATION -->
+                    <!-- (Value is in minutes) -->
                     <div>
-                        <label for="expires" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">{{
-                            _("Expiration") }}</label>
-                        <select id="expires" name="expires"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="day">{{ _("1 Day") }}</option>
-                            <option value="week">{{ _("1 Week") }}</option>
-                            <option value="month">{{ _("1 Month") }}</option>
-							<option value="6months">{{ _("6 Months") }}</option>
-							<option value="year">{{ _("1 Year") }}</option>
-                            <option value="never">{{ _("Never") }}</option>
+                        <label for="select-expiration" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+                            {{ _("Expiration") }}
+                        </label>
+                        <select id="select-expiration" onchange="selectExpiration(this)" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
+                            <option value="1440">{{ _("1 Day") }}</option>
+                            <option value="10080">{{ _("1 Week") }}</option>
+                            <option value="43800">{{ _("1 Month") }}</option>
+                            <option value="262800">{{ _("6 Months") }}</option>
+                            <option value="525600">{{ _("1 Year") }}</option>
+                            <option value="null">{{ _("Never") }}</option>
+                            <option>{{ _("Custom") }}</option>
                         </select>
                     </div>
+
+                    <!-- CUSTOM EXPIRATION -->
+                    <!-- (Hidden by default, only shown when "Custom" is selected) -->
+                    <div class="hidden" id="custom-expiration-container">
+                        <label for="custom-expiration" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+                            {{ _("Custom Expiration") }}
+                        </label>
+                        <input id="custom-expiration" type="datetime-local" onchange="customExpiration(this)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
+                    </div>
+
+                    <!-- ADVANCED OPTIONS -->
                     <div>
-                        <a href="#" class="block mb-2 text-sm font-medium text-secondary dark:text-primary"
-                            onclick="showOptions()">{{ _("Advanced Options") }}</a>
-
-                    </div>
-                    <div class="hidden  " id="advanced">
-                        <div class="flex items-center mb-4">
-                            <input id="unlimited" name="unlimited" type="checkbox" value="  "
-                                class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="unlimited" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{
-                                _("Unlimited Usages") }}</label>
-                        </div>
-
-                        {% if server_type == "plex" %}
-                        <div class="flex items-center mb-4">
-                            <input id="plex_home" name="plex_home" type="checkbox" value="  "
-                                class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="plex_home" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{
-                                _("Invite to Plex Home") }}</label>
-                        </div>
-                        {% endif %}
-
-
-                        <div class="mb-4">
-                            </label>
-
-                            <label for="code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
-                                _("Duration") }} <a class="text-gray-500">{{ _("(in days)") }}</a><button
-                                    data-popover-target="popover-description" data-popover-placement="bottom-end"
-                                    type="button"><svg class="w-4 h-4 ml-2 text-gray-400 hover:text-gray-500"
-                                        aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-                                            clip-rule="evenodd"></path>
-                                    </svg><span class="sr-only">{{ _("Show Information") }}</span></button></label>
-                            <div data-popover id="popover-description" role="tooltip"
-                                class="absolute z-10 invisible inline-block text-sm font-light text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
-                                <div class="p-3 space-y-2">
-                                    <h3 class="font-semibold text-gray-900 dark:text-white">{{ _("Duration") }}</h3>
-                                    <p>{{ _("When set, invited user(s) will be removed from the Plex server after a
-                                        number of
-                                        days. (1-999)") }}</p>
-                                </div>
-                                <div data-popper-arrow></div>
-                            </div>
-
-
-                            <input min="1" max="999" type="number" name="duration"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
-                        </div>
-                        {% if server_type == "plex" %}
-                        <div class="flex items-center mb-4">
-                            <input id="allowsync" name="allowsync" type="checkbox" value="  "
-                                class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="unlimited" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{
-                                _("Allow Downloads") }}</label>
-                        </div>
-                        {% endif %}
-                        <div class="mb=4">
-
-                            <label for="plex_libraries"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Specific
-                                Libraries") }}</label>
-                            <a href="#" class="block mb-2 text-sm font-medium text-secondary dark:text-primary"
-                                onclick="scanLibraries()">{{ _("Scan For Libraries") }}</a>
-                            <input hidden name="library_count" id="library_count" type="number" value="0">
-                            <div class="" id="libraries">
-                            </div>
-
-                        </div>
-                    </div>
-                    <button type="submit"
-                        class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">{{
-                        _("Create Invitation") }}</button>
-
-                </form>
-                {% endif %}
-                {% if link %}
-                <div>
-                    <label for="link" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
-                        _("Successfully generated an Invitation!") }}</label>
-                    <input disabled type="link" name="link" id="link"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value="{{ link }}">
-                    <p hidden id="successfully_copied" class="mt-2 text-sm text-green-600 dark:text-green-500">{{
-                        _("Link has been copied to clipboard!") }}
-                    </p>
-
-                </div>
-                <div class="flex">
-                    <div class="w-1/2 text-center">
-                        <a hx-get="/invite" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">
-                            <button type="back"
-                                class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-secondary hover:bg-secondary_hover rounded-lg border border-gray-200 hover:bg-secondary_hover focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">{{
-                                _("Back") }}</button>
+                        <a href="#" onclick="toggleOptions()" class="block mb-2 text-sm font-medium text-secondary dark:text-primary">
+                            {{ _("Advanced Options") }}
                         </a>
                     </div>
-                    <div class="w-1/2 text-center">
-                        <button onclick="copyLink()" type="share"
-                            class="w-3/4 text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">{{
-                            _("Share") }}</button>
 
+                    <div class="hidden space-y-4" id="advanced">
+
+                        <!-- TOGGLE UNLIMITED INVITE USAGE -->
+                        <div class="flex items-center justify-start space-x-2">
+                            <input id="unlimited" name="unlimited" type="checkbox" class="w-4 h-4 text-primary bg-gray-100 rounded border-gray-300 focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="unlimited" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                {{ _("Unlimited Usages") }}
+                            </label>
+                        </div>
+
+                        {% if server_type == "plex" %}
+                        <!-- TOGGLE PLEX HOME -->
+                        <div class="flex items-center justify-start space-x-2">
+                            <input id="plex_home" name="plex_home" type="checkbox" class="w-4 h-4 text-primary bg-gray-100 rounded border-gray-300 focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="plex_home" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                {{ _("Invite to Plex Home") }}
+                            </label>
+                        </div>
+                        {% endif %}
+
+
+                        {% if server_type == "plex" %}
+                        <!-- TOGGLE PLEX ALLOW DOWNLOADS -->
+                        <div class="flex items-center justify-start space-x-2">
+                            <input id="plex_allow_sync" name="plex_allow_sync" type="checkbox" class="w-4 h-4 text-primary bg-gray-100 rounded border-gray-300 focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="plex_allow_sync" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                {{ _("Allow Downloads") }}
+                            </label>
+                        </div>
+                        {% endif %}
+
+                        <!-- DURATION -->
+                        <!-- (Hidden field that contains the duration time set by Javascript) -->
+                        <!-- (Default is unlimited) -->
+                        <input type="hidden" name="duration" id="duration" value="null">
+
+
+                        <!-- SET DURATION USERS ALIVE -->
+                        <!-- ;-) dw we're not killing anyone, just deleting there accounts -->
+                        <div>
+                            <label for="select-duration" class="flex justify-start items-center mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <p class="mr-2">
+                                    {{ _("Duration") }}
+                                </p>
+                                <span class="relative">
+                                    <button id="popover-button" type="button">
+                                        <svg class="w-4 h-4 text-gray-400 hover:text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span class="sr-only">
+                                            {{ _("Show Information") }}
+                                        </span>
+                                    </button>
+                                    <div id="popover-content" role="tooltip" class="hidden w-1/2 absolute top-15 left-0 p-2 text-sm font-light text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
+                                        <div class="p-3 space-y-2">
+                                            <h3 class="font-semibold text-gray-900 dark:text-white">{{ _("Duration") }}</h3>
+                                            <p>{{ _("When set, invited user(s) will be removed from the server after the set number of days. (1-999)") }}</p>
+                                        </div>
+                                    </div>
+                                </span>
+                            </label>
+
+                            <!-- SELECT DURATION -->
+                            <!-- (Value is in minutes) -->
+                            <select id="select-duration" onchange="selectDuration(this)" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
+                                <option value="null">{{ _("Unlimited") }}</option>
+                                <option value="1440">{{ _("1 Day") }}</option>
+                                <option value="10080">{{ _("1 Week") }}</option>
+                                <option value="43800">{{ _("1 Month") }}</option>
+                                <option value="262800">{{ _("6 Months") }}</option>
+                                <option value="525600">{{ _("1 Year") }}</option>
+                                <option>{{ _("Custom") }}</option>
+                            </select>
+                        </div>
+
+                        <!-- CUSTOM DURATION -->
+                        <!-- (Hidden by default, only shown when "Custom" is selected) -->
+                        <div class="hidden" id="custom-duration-container">
+                            <label for="custom-duration" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+                                {{ _("Custom Duration") }}
+                            </label>
+                            <input id="custom-duration" type="datetime-local" onchange="customDuration(this)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
+                        </div>
+
+                        <!-- SELECT SPECIFIC LIBRARIES -->
+                        <div>
+                            <label for="plex_libraries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                {{ _("Specific Libraries") }}
+                            </label>
+
+                            <button id="dropdownSearchButton" onclick="loadLibraries()" data-dropdown-toggle="dropdownSearch" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-primary rounded-lg hover:bg-primary focus:ring-0 focus:outline-none focus:ring-primary dark:bg-primary dark:hover:bg-primary dark:focus:ring-primary" type="button">
+                                {{ _("Select Libraries") }}
+                                <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                                </svg>
+                            </button>
+
+                            <!-- Dropdown menu -->
+                            <div id="dropdownSearch" class="z-10 hidden bg-white rounded-lg shadow w-60 dark:bg-gray-700">
+                                <div class="p-3">
+                                    <label for="libraries-group-search" class="sr-only">Search</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                            </svg>
+                                        </div>
+                                        <input type="text" id="libraries-group-search" onfocus="searchLibraries(this, true)" onchange="searchLibraries(this, false)" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full pl-10 p-2.5  dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary" placeholder="Search user">
+                                    </div>
+                                </div>
+                                <span id="libraries">
+                                    <input type="hidden" id="libraries-count" value="0">
+                                    <div id="loader" class="text-center" role="status">
+                                        <i class="text-gray-900 dark:text-white fa-solid fa-spinner fa-spin fa-2xl"></i>
+                                    </div>
+                                    <ul id="libraries-list" class="max-h-44 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownSearchButton">
+                                    </ul>
+                                </span>
+                                <!-- Toggle All -->
+                                <label for="toggle-all-libraries" class="flex w-full items-start p-3 text-sm font-medium text-gray-900 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-300">
+                                    {{ _("Select All") }}
+                                </label>
+                                <input id="toggle-all-libraries" type="checkbox" class="hidden" onchange="toggleAllLibraries(this)">
+                            </div>
+
+                        </div>
                     </div>
 
+                    <button type="submit" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
+                        {{ _("Create Invitation") }}
+                    </button>
+
+                </form>
+
+
+                <div id="invite-created" class="hidden">
+                    <div>
+                        <label for="link" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            {{ _("Successfully generated an Invitation!") }}
+                        </label>
+                        <input disabled type="link" name="link" id="link" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
+                        <p hidden id="successfully_copied" class="mt-2 text-sm text-green-600 dark:text-green-500">
+                            {{ _("Link has been copied to clipboard!") }}
+                        </p>
+                    </div>
+                    <div class="flex flex-row md:justify-between mt-4 space-x-2">
+                        <div>
+                            <button hx-get="/partials/admin/invite" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
+                                {{ _("Back") }}
+                            </button>
+                        </div>
+
+                        <div class="flex-grow md:flex-grow-0 md:w-1/3">
+                            <button onclick="copyLink()" type="share" class="w-full bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                                {{ _("Share") }}
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                {% endif %}
             </div>
         </div>
     </div>
+
     <script>
-        function copyLink() {
-            // Get the text field
-            var copyText = document.getElementById("link");
 
-            // Select the text field
-            copyText.select();
-            copyText.setSelectionRange(0, 99999); // For mobile devices
+        libraries = [];
 
-            // Copy the text inside the text field
-            navigator.clipboard.writeText(copyText.value);
+        // Create a random placeholder for the invite code
+        // (This is only used for the placeholder, the actual invite code is generated by the backend)
+        function randomInvitePlaceholder() {
+            let code = Array.from({ length: 6 }, () => {
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                return characters.charAt(Math.floor(Math.random() * characters.length));
+            }).join('');
 
-            //copyText.className =
-            //   "bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400";
-            document.getElementById("successfully_copied").hidden = false;
+            // Show the code in the placeholder
+            document.getElementById("code").placeholder = code;
         }
 
-        function showOptions() {
-            var x = document.getElementById("advanced");
-            if (x.style.display === "none") {
-                x.style.display = "block";
+        // Double click the code input to make the placeholder the value
+        function doubleClickCode(that) {
+            that.value = that.placeholder;
+        }
+
+        function selectExpiration(that) {
+            // If "Custom" is selected, show the custom expiration input
+            if (that.selectedIndex === that.options.length - 1) {
+                // Make sure it's not already shown
+                if (document.getElementById("custom-expiration-container").classList.contains("hidden")) {
+                    document.getElementById("custom-expiration-container").classList.remove("hidden");
+                }
+                return;
+            }
+
+            // Otherwise, hide it
+            document.getElementById("custom-expiration-container").classList.add("hidden");
+
+            // Set the value of the hidden input to the selected option
+            document.getElementById("expires").value = that.value;
+        }
+
+        function customExpiration(that) {
+            // Get the value of the datetime-local input
+            let expiration = that.value;
+
+            // Convert it to minutes from now until expiration
+            let minutes = Math.floor((new Date(expiration) - new Date()) / 60000);
+
+            // Make sure the minutes is a positive integer
+            if (minutes > 0) {
+                // Set the value of the hidden input to the number of minutes
+                document.getElementById("expires").value = minutes;
             } else {
-                x.style.display = "none";
+                // Set the value of the hidden input to 1 day in minutes
+                document.getElementById("expires").value = 1440;
             }
         }
-    </script>
 
-
-    {% if server_type == "plex" %}
-    <script>
-        function scanLibraries() {
-
-            var container = document.getElementById("libraries");
-            while (container.hasChildNodes()) {
-                container.removeChild(container.lastChild);
+        function toggleOptions() {
+            // Toggle the hidden class on the advanced options div
+            let advanced = document.getElementById("advanced");
+            if (advanced) {
+                advanced.classList.toggle("hidden");
             }
-            url = "/scan-specific";
-            const response = fetch(url, {
-                method: "POST"
-            }).then((response) => response.json())
-                .then(function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        var checkbox = document.createElement("input");
-                        checkbox.type = "checkbox";
-                        checkbox.name = "library_" + i;
-                        checkbox.className =
-                            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
-                        checkbox.value = data[i];
-                        var label = document.createElement("label");
-                        label.for = "library_" + i;
-                        label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
-                        label.innerHTML = data[i];
+        }
 
-                        var structure = document.createElement("div");
-                        structure.className = "flex items-center mb-4";
-                        container.appendChild(structure);
-                        container.appendChild(checkbox);
-                        container.appendChild(label);
+        function addPopover() {
+            // Add popover to the button
+            let button = document.querySelector('#popover-button');
+            let tooltip = document.querySelector('#popover-content');
 
-                        var library_count_helper = document.getElementById("library_count");
-                        library_count_helper.value = i;
+            if (!button || !tooltip) {
+                return;
+            }
+
+            function showTooltip() {
+                tooltip.classList.remove('hidden');
+            }
+
+            function hideTooltip() {
+                tooltip.classList.add('hidden');
+            }
+
+            [['mouseenter', showTooltip], ['mouseleave', hideTooltip], ['focus', showTooltip], ['blur', hideTooltip],].forEach(([event, listener]) => {
+                button.addEventListener(event, listener);
+            });
+        }
+
+        function selectDuration(that) {
+            // If "Custom" is selected, show the custom duration input
+            if (that.selectedIndex === that.options.length - 1) {
+                // Make sure that the custom duration input exists
+                if (!document.getElementById("custom-duration-container")) {
+                    return;
+                }
+                document.getElementById("custom-duration-container").classList.remove("hidden");
+                return;
+            }
+
+            // Otherwise, hide it
+            if (document.getElementById("custom-duration-container")) {
+                document.getElementById("custom-duration-container").classList.add("hidden");
+            }
+
+            // Make sure that the hidden input exists
+            if (!document.getElementById("duration")) {
+                return;
+            }
+            // Set the value of the hidden input to the selected option
+            document.getElementById("duration").value = that.value;
+        }
+
+        function customDuration(that) {
+            // Get the value of the datetime-local input
+            let duration = that.value;
+
+            // Convert it to minutes from now until expiration
+            let minutes = Math.floor((new Date(duration) - new Date()) / 60000);
+
+            // If the duration is a positive integer
+            if (minutes > 0) {
+                // Set the value of the hidden input to the number of minutes
+                document.getElementById("duration").value = minutes;
+            } else {
+                // Set the value of the hidden input to 1 day in minutes
+                document.getElementById("duration").value = null;
+            }
+
+        }
+
+
+        // Copy the link to the clipboard
+        function copyLink() {
+            let link = document.getElementById("link").value;
+            navigator.clipboard.writeText(link)
+                .then(() => toast.infoToast("{{ _('Link has been copied to clipboard!') }}"))
+                .catch(() => toast.errorToast("{{ _('An error occurred while copying the link to the clipboard!') }}"));
+        }
+
+        // Load libraries
+        async function loadLibraries() {
+            let librariesSpan = document.getElementById("libraries");
+            let librariesList = librariesSpan.querySelector("#libraries-list");
+            let librariesLoader = librariesSpan.querySelector("#loader");
+            let librariesCount = librariesSpan.querySelector("#libraries-count");
+
+            if (libraries.length > 0) {
+                return;
+            }
+
+            librariesLoader.classList.remove("hidden");
+
+            // Get the libraries from the backend
+            const response = await fetch("/api/libraries", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    credentials: 'same-origin',
+                    headers: {
+                        'X-CSRF-TOKEN': getCookie('csrf_access_token')
+                    },
+                }
+            });
+
+            // If the response is not ok, throw an error
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            // Get the response and store it in a variable
+            libraries = await response.json();
+
+            // Hide the loading spinner
+            librariesLoader.classList.add("hidden");
+
+            // Set the libraries count
+            librariesCount.value = libraries.length;
+
+            // Loop through the libraries and add them to the list
+            for (let i = 0; i < libraries.length; i++) {
+                let library = libraries[i];
+
+                // Create the list item
+                let li = document.createElement("li");
+                li.classList.add("flex", "items-center", "p-2", "rounded", "hover:bg-gray-100", "dark:hover:bg-gray-600");
+
+                // Create the checkbox
+                let checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.id = "library-" + i;
+                checkbox.value = library.id;
+                checkbox.classList.add("w-4", "h-4", "text-primary", "bg-gray-100", "border-gray-300", "rounded", "focus:ring-primary", "dark:focus:ring-primary", "dark:ring-offset-gray-700", "dark:focus:ring-offset-gray-700", "focus:ring-2", "dark:bg-gray-600", "dark:border-gray-500");
+
+                // Create the label
+                let label = document.createElement("label");
+                label.htmlFor = "library-" + i;
+                label.classList.add("w-full", "ml-2", "text-sm", "font-medium", "text-gray-900", "rounded", "dark:text-gray-300");
+                label.innerText = library.name;
+
+                // Append the checkbox and label to the list item
+                li.appendChild(checkbox);
+                li.appendChild(label);
+
+                // Append the list item to the list
+                librariesList.appendChild(li);
+            }
+        }
+
+        // Search libraries
+        function searchLibraries(that, focus) {
+            // On focus out, remove the event listener
+            if (!focus) that.removeEventListener("keyup", searchLibraries);
+            if (!focus) return;
+
+            // Create a debounce function to prevent overloading the client
+            let debounce = (func, delay) => {
+                let timeoutId;
+                return function (...args) {
+                    clearTimeout(timeoutId);
+                    timeoutId = setTimeout(() => {
+                        func.apply(this, args);
+                    }, delay);
+                };
+            }
+
+            // On focus in, add the event listener
+            that.addEventListener("keyup", debounce(() => {
+                // Get the value of the search input
+                let search = that.value.toLowerCase();
+
+                // List of li elements containing checkboxes
+                let libraries = document.getElementById("libraries-list");
+
+                // Loop through the list items
+                libraries.querySelectorAll("li").forEach((li) => {
+                    // Get the label
+                    let label = li.querySelector("label");
+
+                    // If the label contains the search query, show it
+                    if (label.innerText.toLowerCase().includes(search)) {
+                        li.classList.remove("hidden");
+                        return;
                     }
-                })
-                .catch(function (error) {
-                    var error_message = document.createElement("p");
-                    error_message.innerHTML = "Error: Please Check Your Server URL and Token";
-                    error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
-                    container.appendChild(error_message);
-                })
-        }
-    </script>
-    {% endif %}
 
-    {% if server_type == "jellyfin" %}
-    <script>
-        function scanLibraries() {
-            var container = document.getElementById("libraries");
-            while (container.hasChildNodes()) {
-                container.removeChild(container.lastChild);
+                    // Otherwise, hide it
+                    li.classList.add("hidden");
+                });
+            }, 100));
+        }
+
+        // Toggle all libraries based on the that checkbox
+        function toggleAllLibraries(that) {
+            // Get the libraries
+            let libraries = document.getElementById("libraries-list");
+            let selected = that.checked;
+            let id = that.id;
+
+            // Change the label based on the that value
+            if (selected) {
+                document.querySelector("label[for=" + id + "]").innerText = "{{ _('Deselect all') }}";
+            } else {
+                document.querySelector("label[for=" + id + "]").innerText = "{{ _('Select all') }}";
             }
-            var url = "/jf-scan-specific";
 
-            var i = 0;
+            // Loop through the libraries
+            if (libraries) {
+                libraries.querySelectorAll("input[type=checkbox]").forEach((checkbox) => {
+                    // Set the checked value to the that value
+                    checkbox.checked = selected;
+                });
+            }
+        }
 
-            fetch(url, {
-                method: "POST"
-            })
-                .then((response) => response.json())
-                .then(function (data) {
-                    for (var [key, value] of Object.entries(data)) {
-                        i = i + 1;
-                        var checkbox = document.createElement("input");
-                        checkbox.type = "checkbox";
-                        checkbox.name = "library_" + i;
-                        checkbox.className =
-                            "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
-                        checkbox.value = value;
-                        var label = document.createElement("label");
-                        label.for = "library_" + i;
-                        label.className = "ml-2 text-sm text-gray-600 dark:text-gray-400";
-                        label.innerHTML = key;
+        // Only run this function when the page is loaded
+        document.addEventListener("DOMContentLoaded", function () {
+            randomInvitePlaceholder();
+            addPopover();
+        });
 
-                        var structure = document.createElement("div");
-                        structure.className = "flex items-center mb-4";
-                        container.appendChild(structure);
-                        container.appendChild(checkbox);
-                        container.appendChild(label);
+        // Create invite
+        async function createInvite(that) {
+            // Get submit button
+            let submit = that.querySelector("button[type=submit]");
+            submit.disabled = true;
+            submit.classList.add("opacity-50", "cursor-not-allowed");
+            submit.innerText = "{{ _('Creating...') }}";
 
-                        var library_count_helper = document.getElementById("library_count");
-                        library_count_helper.value = i;
-                    }
-                })
-                .catch(function (error) {
-                    var error_message = document.createElement("p");
-                    error_message.innerHTML = "Error: Please Check Your Jellyfin URL and Token";
-                    error_message.className = "mt-2 text-sm text-red-600 dark:text-red-500";
-                    container.appendChild(error_message);
-                })
+            // Get the form data
+            let formData = new FormData(that);
+
+            // Replace any "on" values with true
+            for (const pair of formData.entries()) {
+                if (pair[1] === "on") {
+                    formData.set(pair[0], true);
+                }
+            }
+
+            // Get the libraries
+            let libraries = [];
+            let libraries_count = document.getElementById("libraries-count").value;
+
+            for (let i = 0; i < libraries_count; i++) {
+                if (document.getElementById("library-" + i).checked) {
+                    libraries.push(document.getElementById("library-" + i).value);
+                }
+            }
+
+            // Add the libraries to the form data
+            formData.append("libraries", JSON.stringify(libraries));
+
+            // Log all the form data
+            for (const pair of formData.entries()) {
+                console.log(pair[0] + ', ' + pair[1]);
+            }
+
+            // Convert the form data to JSON
+            json = Object.fromEntries(formData);
+            console.log(json);
+
+
+            try {
+
+                const response = await fetch('/api/invites', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'same-origin',
+                    headers: {
+                        'X-CSRF-TOKEN': getCookie('csrf_access_token')
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+
+                const data = await response.json();
+
+                that.classList.add("hidden");
+                document.getElementById("invite-created").classList.remove("hidden");
+
+                toast.infoToast("{{ _('The invite has been created') }}");
+
+            } catch (error) {
+                toast.errorToast("{{ _('There was an error creating the invite') }}");
+                submit.disabled = false;
+                submit.classList.remove("opacity-50", "cursor-not-allowed");
+                submit.innerText = "{{ _('Create Invitation') }}";
+            }
         }
     </script>
-    {% endif %}

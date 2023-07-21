@@ -1,2 +1,1 @@
-npx tailwindcss -i src/style.css -o css/main.css --watch
-
+npx webpack --watch --config webpack.config.js

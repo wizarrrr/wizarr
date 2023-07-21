@@ -1,0 +1,101 @@
+<div class="flex justify-between items-center">
+    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        {{ _("Server Libraries") }}
+    </h1>
+</div>
+
+<p class="{% if not error %}hidden{% endif %} mt-2 pb-2 text-sm text-red-600 dark:text-red-500">
+    <span class="font-medium">{{ error }}</span>
+</p>
+
+<form id="update-libraries" class="space-y-4 md:space-y-6" autocomplete="off">
+
+    <input name="library_count" id="library_count" type="hidden" value="0">
+    <ul class="flex flex-col space-y-2" id="libraries">
+        <p id="error_message" class="hidden text-center dark:text-white"></p>
+        <div id="loader" class="text-center" role="status">
+            <i class="text-gray-900 dark:text-white fa-solid fa-spinner fa-spin fa-2xl"></i>
+        </div>
+    </ul>
+
+    <div class="flex justify-end pt-2 space-x-4">
+        <button onclick="window.closeModal(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto">
+            {{ _("Cancel") }}
+        </button>
+        <button onclick="updateLibraries(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:w-auto">
+            {{ _("Update Libraries") }}
+        </button>
+    </div>
+
+    <div id="library-spinner" class="hidden absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity" style="margin: 0px;">
+        <i class="fa-solid fa-spinner fa-spin fa-2xl"></i>
+    </div>
+
+</form>
+
+<script>
+
+    // Set to true if we are setting up the server for the first time
+    var setup = {{ "true" if setup else "false" }};
+
+    var libraries = new ScanLibraries({
+        container: '#libraries',
+        count: '#library_count',
+        server: {
+            type: document.getElementById('server_type').value,
+            url: document.getElementById('server_url').value,
+            api_key: document.getElementById('server_api_key').value,
+        },
+        api_endpoint: setup ? '/api/setup/scan-libraries' : '/api/scan-libraries',
+    });
+
+    libraries.scan();
+
+    async function updateLibraries(button) {
+        let spinner = button.parentElement.parentElement.querySelector('#library-spinner')
+
+        button.disabled = true;
+        spinner.classList.remove('hidden');
+
+        let form = document.getElementById('update-libraries');
+        let formData = new FormData(form);
+
+        // Take form.get('libraries_count') and form.get('libraries_0') and turn it into an array of objects
+        let libraries = [];
+        let libraries_count = parseInt(formData.get('library_count'));
+
+        // Eghh why did I think starting at 1 was a good idea, oh well cba to change it now
+        for (let i = 1; i < (libraries_count + 1); i++) {
+            if (formData.get('library_' + i)) {
+                libraries.push(formData.get('library_' + i));
+            }
+        }
+
+        // Create a new form 
+        let newFormData = new FormData();
+        newFormData.append('libraries', JSON.stringify(libraries));
+
+        let response = await fetch(setup ? '/api/setup/libraries' : '/api/libraries', {
+            method: 'POST',
+            body: newFormData,
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+            },
+        });
+
+        const data = await response.json();
+        const error = response.status !== 200 ? data.message || "{{ _('Unable to update libraries') }}" : null;
+
+        if (error) {
+            button.disabled = false;
+            spinner.classList.add("hidden");
+            toast.errorToast(error);
+            return;
+        }
+
+        closeModal(button);
+        spinner.classList.add('hidden');
+        toast.text = "Libraries updated";
+    }
+</script>

@@ -3,25 +3,38 @@
 <html lang="en">
 
 <head>
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover, user-scalable=no">
-
-
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover, user-scalable=no">
 </head>
 
 <body>
-  <section class="bg-white dark:bg-gray-900">
-    <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-      <div class="mx-auto max-w-screen-sm text-center">
-        <h1 class="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 dark:text-primary-500">404
-        </h1>
-        <p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">{{ _("Something's missing.") }}
-        </p>
-        <p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">{{ _("Sorry, we can't find that page. It doesn't seem to exist!") }}</p>
-      </div>
+    <div class="h-screen w-screen">
+        <nav class="bg-white dark:bg-gray-900 absolute w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+                <a href="/" class="flex items-center">
+                    <img src="/static/img/wizard.png" class="h-8 mr-3" alt="Logo">
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Wizarr</span>
+                </a>
+                <div class="flex md:order-2">
+                    <button onclick="window.history.back()" class="bg-gray-700 text-white font-medium rounded-lg px-6 py-2 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                        {{ _('Back') }}
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <section class="h-full bg-gray-50 dark:bg-gray-900 flex justify-center items-center">
+            <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+                <div class="mx-auto max-w-screen-sm text-center">
+                    <h1 class="mb-4 text-white text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 dark:text-primary-500">404
+                    </h1>
+                    <p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">{{ _("Something's missing.") }}
+                    </p>
+                    <p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">{{ _("Sorry, we can't find that page. It doesn't seem to exist!") }}</p>
+                </div>
+            </div>
+        </section>
     </div>
-  </section>
 </body>
 
 </html>

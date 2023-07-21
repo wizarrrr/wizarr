@@ -1,0 +1,99 @@
+<div id="create-modal"></div>
+
+{# <h3 class="mb-5 text-lg font-medium text-gray-900 dark:text-white">Choose technology:</h3> #}
+{# <ul class="grid w-full gap-6 md:grid-cols-3">
+    <li>
+        <input type="checkbox" id="react-option" value="" class="hidden peer" required="">
+        <label for="react-option" class="inline-flex items-center justify-between w-full p-2 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+            <div class="w-full text-lg font-semibold">React Js</div>
+        </label>
+    </li>
+    <li>
+        <input type="checkbox" id="flowbite-option" value="" class="hidden peer">
+        <label for="flowbite-option" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+            <div class="block">
+                <svg class="mb-2 text-green-400 w-7 h-7" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path d="M356.9 64.3H280l-56 88.6-48-88.6H0L224 448 448 64.3h-91.1zm-301.2 32h53.8L224 294.5 338.4 96.3h53.8L224 384.5 55.7 96.3z" />
+                </svg>
+                <div class="w-full text-lg font-semibold">Vue Js</div>
+                <div class="w-full text-sm">Vue.js is an model–view front end JavaScript framework.</div>
+            </div>
+        </label>
+    </li>
+    <li>
+        <input type="checkbox" id="angular-option" value="" class="hidden peer">
+        <label for="angular-option" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+            <div class="block">
+                <svg class="mb-2 text-red-600 w-7 h-7" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path d="M185.7 268.1h76.2l-38.1-91.6-38.1 91.6zM223.8 32L16 106.4l31.8 275.7 176 97.9 176-97.9 31.8-275.7zM354 373.8h-48.6l-26.2-65.4H168.6l-26.2 65.4H93.7L223.8 81.5z" />
+                </svg>
+                <div class="w-full text-lg font-semibold">Angular</div>
+                <div class="w-full text-sm">A TypeScript-based web application framework.</div>
+            </div>
+        </label>
+    </li>
+</ul> #}
+
+<div class="animate__animated animate__fadeIn">
+    <form id="general-form" class="space-y-4 md:space-y-6" onsubmit="event.preventDefault(); saveSettings(this);">
+        <div>
+            <label for="server_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Display Name") }}</label>
+            <input type="server_name" name="server_name" id="server_name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if server_name %}{{ server_name }}{% endif %}" required="">
+        </div>
+
+        <div>
+            <label for="server_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server") }}</label>
+            <select name="server_type" id="server_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option {% if not server_type %} selected {% endif %} disabled>{{ _("Choose a server") }}</option>
+                <option {% if server_type=="jellyfin" %} selected {% endif %} value="jellyfin">Jellyfin (or Emby)</option>
+                <option {% if server_type=='plex' %} selected {% endif %} value="plex">Plex Media Server</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="server_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server URL") }}</label>
+            <input type="server_url" name="server_url" id="server_url" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if server_url %}{{ server_url }}{% endif %}" required="">
+        </div>
+
+        <div>
+            <label for="server_api_key" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Token / API Key") }}</label>
+            <input type="password" name="server_api_key" id="server_api_key" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if server_api_key %}{{ server_api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX" required="">
+        </div>
+
+        <div>
+            <label for="plex_libraries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Libraries") }}</label>
+            <button hx-get="/partials/modals/update-libraries" hx-target="#create-modal" hx-trigger="click" hx-swap="innerHTML" id="scan-libraries-button" _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                {{ _("Scan For Libraries") }}
+            </button>
+        </div>
+
+        <div class="flex items-center justify-end mt-4">
+            <button type="submit" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                {{ _("Save") }}
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    async function saveSettings(that) {
+        let spinner = document.getElementById('spinner');
+        spinner.classList.remove('htmx-indicator');
+
+        let formData = new FormData(that);
+
+        let response = await fetch('/api/settings', {
+            method: 'PUT',
+            body: formData,
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token')
+            },
+        });
+
+        spinner.classList.add('htmx-indicator');
+
+        toast.infoToast("{{ _('Settings saved successfully!') }}");
+        htmx.ajax('GET', '/partials/admin/settings/general', { target: '#settings-content', swap: 'innerHTML' });
+    }
+</script>

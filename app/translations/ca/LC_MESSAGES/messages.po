@@ -7,383 +7,364 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2023-05-16 17:27+0100\n"
-"PO-Revision-Date: 2023-02-26 23:30+0000\n"
-=======
-"POT-Creation-Date: 2023-02-27 18:41+0000\n"
+"POT-Creation-Date: 2023-07-17 23:46+0100\n"
 "PO-Revision-Date: 2023-05-15 18:52+0000\n"
->>>>>>> 2a70cacdc6431b40eb4cf75fd90923b411cee55a
 "Last-Translator: Bernat <btqqryrzo@mozmail.com>\n"
-"Language-Team: Catalan <https://hosted.weblate.org/projects/wizarr/app/ca/>\n"
 "Language: ca\n"
+"Language-Team: Catalan "
+"<https://hosted.weblate.org/projects/wizarr/app/ca/>\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-<<<<<<< HEAD
 "Generated-By: Babel 2.12.1\n"
-=======
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
-"Generated-By: Babel 2.11.0\n"
->>>>>>> 2a70cacdc6431b40eb4cf75fd90923b411cee55a
-
-#: app/admin.py:150
-msgid "Passwords do not match."
-msgstr "Les contrassenyes no coincideixen."
-
-#: app/admin.py:153
-msgid "Username must be between 3 and 15 characters."
-msgstr "El nom d'usuari ha de tenir entre 3 i 15 caràcters."
-
-#: app/admin.py:156
-msgid "Password must be between 3 and 40 characters."
-msgstr "La contrassenya ha de tenir entre 3 i 40 caràcters."
-
-#: app/admin.py:182
-msgid "You must select at least one library."
-msgstr "Has de seleccionar almenys una biblioteca."
-
-#: app/admin.py:251
-msgid "It is likely that your token does not work."
-msgstr "És probable que el teu token no funcioni."
-
-#: app/admin.py:253
-msgid "Unable to connect to your Plex server. See Logs for more information."
-msgstr ""
-"Impossible conectar-se al teu servidor de Plex. Mira els Logs per a més "
-"informació."
-
-#: app/admin.py:262
-msgid "Unable to connect to your Jellyfin server."
-msgstr "Impossible conectar-se al teu servidor de Jellyfin."
-
-#: app/admin.py:343 app/admin.py:347
-msgid "Invalid Username or Password"
-msgstr "Nom d'usuari o contrassenya incorrecte"
 
 #: app/templates/admin.html:5
-msgid "Admin"
-msgstr "Administrador"
+#, fuzzy
+msgid "Wizarr"
+msgstr "Configurar Wizarr"
 
-#: app/templates/admin.html:30
+#: app/templates/admin.html:22
+msgid "Attention!"
+msgstr "Atenció!"
+
+#: app/templates/admin.html:23
+msgid "Update available. Click here."
+msgstr "Actualització disponible. Clica aquí."
+
+#: app/templates/admin.html:55
 msgid "Home"
 msgstr "Inici"
 
-#: app/templates/admin.html:35
+#: app/templates/admin.html:61
 msgid "Invitations"
 msgstr "Invitacions"
 
-#: app/templates/admin.html:40
+#: app/templates/admin.html:67
 msgid "Users"
 msgstr "Usuaris"
 
-#: app/templates/admin.html:45
+#: app/templates/admin.html:73 app/templates/setup/pages/settings.html:2
 msgid "Settings"
 msgstr "Configuració"
 
-#: app/templates/invalid-invite.html:16
+#: app/templates/admin.html:117
 #, fuzzy
-msgid "Invalid Invitation"
-msgstr "Invitacions"
+msgid "Version"
+msgstr "Configuració"
 
-#: app/templates/login.html:18
+#: app/templates/admin.html:149
+msgid "Logout failed"
+msgstr ""
+
+#: app/templates/admin.html:166
+msgid "Goodbye"
+msgstr ""
+
+#: app/templates/admin.html:175
+msgid "Logged out successfully"
+msgstr ""
+
+#: app/templates/login.html:17
 msgid "Login"
 msgstr "Iniciar sessió"
 
-#: app/templates/login.html:23 app/templates/register_admin.html:23
-#: app/templates/welcome-jellyfin.html:30
+#: app/templates/invite/signup/jellyfin.html:13 app/templates/login.html:21
+#: app/templates/modals/create-notification-agent.html:143
+#: app/templates/register_admin.html:23 app/templates/setup/pages/admin.html:7
 msgid "Username"
 msgstr "Nom d'usuari"
 
-#: app/templates/login.html:29 app/templates/register_admin.html:29
-#: app/templates/welcome-jellyfin.html:47
+#: app/templates/admin/account.html:29
+#: app/templates/invite/signup/jellyfin.html:27 app/templates/login.html:25
+#: app/templates/modals/create-notification-agent.html:148
+#: app/templates/register_admin.html:29 app/templates/setup/pages/admin.html:11
 msgid "Password"
 msgstr "Contrassenya"
 
-#: app/templates/login.html:41
+#: app/templates/login.html:34
 msgid "Remember me"
 msgstr "Recorda'm"
 
-#: app/templates/login.html:46
+#: app/templates/login.html:39
 msgid "Sign in"
 msgstr "Registrar-se"
 
-#: app/templates/register_admin.html:18
+#: app/templates/login.html:63 app/templates/login.html:101
+#, fuzzy
+msgid "Internal server error"
+msgstr "Error del servidor intern."
+
+#: app/templates/login.html:83
+msgid "Hello"
+msgstr ""
+
+#: app/templates/login.html:90 app/templates/login.html:92
+msgid "Logged in successfully"
+msgstr ""
+
+#: app/templates/login.html:98
+msgid "Unauthorized attempted access"
+msgstr ""
+
+#: app/templates/login.html:104
+msgid "Could not find the requested page"
+msgstr ""
+
+#: app/templates/register_admin.html:18 app/templates/setup/base.html:13
 msgid "Setup Wizarr"
 msgstr "Configurar Wizarr"
 
-#: app/templates/register_admin.html:35
+#: app/templates/invite/signup/jellyfin.html:33
+#: app/templates/register_admin.html:35 app/templates/setup/pages/admin.html:15
 msgid "Confirm password"
 msgstr "Confirma la contrassenya"
 
-#: app/templates/register_admin.html:41 app/templates/welcome-jellyfin.html:72
+#: app/templates/invite/signup/jellyfin.html:45
+#: app/templates/register_admin.html:41
 msgid "Create an account"
 msgstr "Crea un compte"
-
-<<<<<<< HEAD
-#: app/templates/settings.html:9
-#, fuzzy
-=======
-#: app/templates/settings.html:7
->>>>>>> 2a70cacdc6431b40eb4cf75fd90923b411cee55a
-msgid "Server Settings"
-msgstr "Configuració del servidor"
-
-#: app/templates/settings.html:27
-msgid ""
-"Server Display\n"
-"                Name"
-msgstr ""
-"Nom públic\n"
-"del servidor"
-
-<<<<<<< HEAD
-#: app/templates/settings.html:35
-#, fuzzy
-=======
-#: app/templates/settings.html:19
->>>>>>> 2a70cacdc6431b40eb4cf75fd90923b411cee55a
-msgid "Server"
-msgstr "Servidor"
-
-#: app/templates/settings.html:48
-msgid "Server URL"
-msgstr "URL del servidor"
-
-#: app/templates/settings.html:54
-msgid ""
-"Server\n"
-"                Token / API Key"
-msgstr ""
-"Token\n"
-"del servidor / Clau API"
-
-#: app/templates/settings.html:66
-msgid ""
-"Server\n"
-"                Libraries"
-msgstr ""
-"Biblioteques\n"
-"del servidor"
-
-#: app/templates/admin/invite.html:125 app/templates/settings.html:69
-msgid "Scan For Libraries"
-msgstr "Busca biblioteques"
-
-#: app/templates/settings.html:77
-#, fuzzy
-msgid ""
-"Request\n"
-"                instance (Ombi, Overseerr...) URL"
-msgstr ""
-"Sol·licita\n"
-"instància (Ombi, Overseerr...)"
-
-#: app/templates/settings.html:87
-msgid "Ombi API Key (Only used for user import currently.)"
-msgstr "Clau API Ombi (Només usada per importar usuaris)"
-
-#: app/templates/settings.html:94
-msgid ""
-"Discord\n"
-"                Server ID"
-msgstr ""
-"ID del\n"
-"servidor de Discord"
-
-#: app/templates/settings.html:102
-msgid ""
-"Custom\n"
-"                HTML"
-msgstr ""
-"HTML\n"
-"personalitzat"
-
-#: app/templates/settings.html:110
-msgid "Save"
-msgstr "Guardar"
-
-#: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
-#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
-#, python-format
-msgid "You've been invited to join the %(name)s server!"
-msgstr "T'han convidat a unir-te al servidor %(name)s!"
-
-#: app/templates/user-plex-login.html:23
-msgid "Join the Plex Server"
-msgstr "Uneix-te al servidor de Plex"
-
-#: app/templates/tables/global-users.html:19
-#: app/templates/tables/invite_table.html:4
-#: app/templates/user-plex-login.html:29 app/templates/user-plex-login.html:40
-msgid "Invite Code"
-msgstr "Codi d'invitació"
-
-#: app/templates/user-plex-login.html:45
-msgid "Oops!"
-msgstr "Vaja!"
-
-#: app/templates/user-plex-login.html:52
-msgid "Join"
-msgstr "Uneix-te"
 
 #: app/templates/users.html:5
 msgid "Invite User"
 msgstr "Convidar l'usuari"
 
-#: app/templates/welcome-jellyfin.html:22
-msgid "Set up Account"
+#: app/templates/admin/account.html:10
+#, fuzzy
+msgid "Your Account"
 msgstr "Crea un Compte"
 
-#: app/templates/welcome-jellyfin.html:38
-msgid "Email"
-msgstr "Correu electrònic"
+#: app/templates/admin/account.html:24
+#, fuzzy
+msgid "Account"
+msgstr "Crea un Compte"
 
-#: app/templates/welcome-jellyfin.html:55
-msgid ""
-"Confirm\n"
-"                                password"
-msgstr ""
-"Confirma\n"
-"la contrassenya"
+#: app/templates/admin/account.html:34
+#, fuzzy
+msgid "Sessions"
+msgstr "Configuració"
 
-#: app/templates/welcome-jellyfin.html:63
-msgid ""
-"Invite\n"
-"                                Code"
-msgstr ""
-"Codi\n"
-"d'invitació"
-
-#: app/templates/admin/invite.html:16
-msgid "Attention!"
-msgstr "Atenció!"
-
-#: app/templates/admin/invite.html:17
-msgid "Update available. Click here."
-msgstr "Actualització disponible. Clica aquí."
-
-#: app/templates/admin/invite.html:32
+#: app/templates/admin/invite.html:6
 msgid "Quick Invite"
 msgstr "Invitació ràpida"
 
-#: app/templates/admin/invite.html:38
+#: app/templates/admin/invite.html:15
 msgid "Invite user"
 msgstr "Convidar l'usuari"
 
-#: app/templates/admin/invite.html:44
+#: app/templates/admin/invite.html:24
 msgid "Invite Code String"
 msgstr "Convida cadena de codi"
 
-#: app/templates/admin/invite.html:44
+#: app/templates/admin/invite.html:24
 msgid "(optional)"
 msgstr "(opcional)"
 
-#: app/templates/admin/invite.html:51
+#: app/templates/admin/invite.html:38
 msgid "Expiration"
 msgstr "Expiració"
 
-#: app/templates/admin/invite.html:54
-msgid "1 day"
+#: app/templates/admin/invite.html:41 app/templates/admin/invite.html:133
+#, fuzzy
+msgid "1 Day"
 msgstr "1 dia"
 
-#: app/templates/admin/invite.html:55
-msgid "1 week"
+#: app/templates/admin/invite.html:42 app/templates/admin/invite.html:134
+#, fuzzy
+msgid "1 Week"
 msgstr "1 setmana"
 
-#: app/templates/admin/invite.html:56
-msgid "1 month"
+#: app/templates/admin/invite.html:43 app/templates/admin/invite.html:135
+#, fuzzy
+msgid "1 Month"
 msgstr "1 mes"
 
-#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:48
+#: app/templates/admin/invite.html:44 app/templates/admin/invite.html:136
+#, fuzzy
+msgid "6 Months"
+msgstr "1 mes"
+
+#: app/templates/admin/invite.html:45 app/templates/admin/invite.html:137
+msgid "1 Year"
+msgstr ""
+
+#: app/templates/admin/invite.html:46
 msgid "Never"
 msgstr "Mai"
 
-#: app/templates/admin/invite.html:62
+#: app/templates/admin/invite.html:47 app/templates/admin/invite.html:138
+msgid "Custom"
+msgstr ""
+
+#: app/templates/admin/invite.html:55
+#, fuzzy
+msgid "Custom Expiration"
+msgstr "Expiració"
+
+#: app/templates/admin/invite.html:63
 msgid "Advanced Options"
 msgstr "Opcions avançades"
 
-#: app/templates/admin/invite.html:70
+#: app/templates/admin/invite.html:73
 msgid "Unlimited Usages"
 msgstr "Usos il·limitats"
 
-#: app/templates/admin/invite.html:78
+#: app/templates/admin/invite.html:82
 #, fuzzy
 msgid "Invite to Plex Home"
 msgstr "Codi d'invitació"
 
-#: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
-#: app/templates/tables/invite_table.html:13
+#: app/templates/admin/invite.html:93 app/templates/tables/invite-table.html:14
+#, fuzzy
+msgid "Allow Downloads"
+msgstr "Baixa"
+
+#: app/templates/admin/invite.html:109 app/templates/admin/invite.html:122
+#: app/templates/tables/invite-table.html:16
 msgid "Duration"
 msgstr "Duració"
 
-#: app/templates/admin/invite.html:87
-msgid "(in days)"
-msgstr "(en dies)"
-
-#: app/templates/admin/invite.html:95
+#: app/templates/admin/invite.html:117
 msgid "Show Information"
 msgstr "Mostra informació"
 
-#: app/templates/admin/invite.html:100
+#: app/templates/admin/invite.html:123
+#, fuzzy
 msgid ""
-"When set, invited user(s) will be removed from the Plex server after a\n"
-"                                        number of\n"
-"                                        days. (1-999)"
+"When set, invited user(s) will be removed from the server after the set "
+"number of days. (1-999)"
 msgstr ""
 "Quan configurat, els usuaris convidats seran eliminats del servidor de "
 "Plex després d'un\n"
 "nombre de\n"
 "dies. (1-999)"
 
-#: app/templates/admin/invite.html:116
-#: app/templates/tables/invite_table.html:11
+#: app/templates/admin/invite.html:132
+#: app/templates/tables/invite-table.html:11
+msgid "Unlimited"
+msgstr "Il·limitat"
+
+#: app/templates/admin/invite.html:146
 #, fuzzy
-msgid "Allow Downloads"
-msgstr "Baixa"
+msgid "Custom Duration"
+msgstr "Duració"
 
-#: app/templates/admin/invite.html:122
-msgid ""
-"Specific\n"
-"                                Libraries"
-msgstr ""
-"Biblioteques\n"
-"específiques"
+#: app/templates/admin/invite.html:154
+#, fuzzy
+msgid "Specific Libraries"
+msgstr "Biblioteques"
 
-#: app/templates/admin/invite.html:134
+#: app/templates/admin/invite.html:158
+#: app/templates/modals/scan-libraries.html:3
+#: app/templates/modals/scan-libraries.html:22
+#, fuzzy
+msgid "Select Libraries"
+msgstr "Biblioteques"
+
+#: app/templates/admin/invite.html:187
+#, fuzzy
+msgid "Select All"
+msgstr "Predeterminat"
+
+#: app/templates/admin/invite.html:196 app/templates/admin/invite.html:575
 msgid "Create Invitation"
 msgstr "Crear Invitació"
 
-#: app/templates/admin/invite.html:141
+#: app/templates/admin/invite.html:205
 msgid "Successfully generated an Invitation!"
 msgstr "S'ha generat una invitació correctament!"
 
-#: app/templates/admin/invite.html:146
+#: app/templates/admin/invite.html:209 app/templates/admin/invite.html:363
 msgid "Link has been copied to clipboard!"
 msgstr "L'enllaç s'ha copiat al porta-retalls!"
 
-#: app/templates/admin/invite.html:155
+#: app/templates/admin/invite.html:215
 msgid "Back"
 msgstr "Enrere"
 
-#: app/templates/admin/invite.html:161
+#: app/templates/admin/invite.html:221
 msgid "Share"
 msgstr "Compartir"
 
-#: app/templates/admin/notifications.html:11
-msgid "Notification Agents"
+#: app/templates/admin/invite.html:364
+msgid "An error occurred while copying the link to the clipboard!"
 msgstr ""
 
-#: app/templates/admin/notifications.html:27
+#: app/templates/admin/invite.html:488
 #, fuzzy
-msgid "Delete"
+msgid "Deselect all"
 msgstr "Predeterminat"
 
-#: app/templates/admin/notifications.html:37
+#: app/templates/admin/invite.html:490
 #, fuzzy
-msgid "Create Agent"
-msgstr "Crea un compte"
+msgid "Select all"
+msgstr "Predeterminat"
+
+#: app/templates/admin/invite.html:514
+msgid "Creating..."
+msgstr ""
+
+#: app/templates/admin/invite.html:569
+msgid "The invite has been created"
+msgstr ""
+
+#: app/templates/admin/invite.html:572
+msgid "There was an error creating the invite"
+msgstr ""
+
+#: app/templates/admin/invites.html:9
+#, fuzzy
+msgid "Server Invites"
+msgstr "Configuració del servidor"
+
+#: app/templates/admin/invites.html:25
+#, fuzzy
+msgid "Create Invite"
+msgstr "Crear Invitació"
+
+#: app/templates/admin/invites.html:28
+#, fuzzy
+msgid "Delete All"
+msgstr "Predeterminat"
+
+#: app/templates/admin/settings.html:10
+#, fuzzy
+msgid "Server Settings"
+msgstr "Configuració del servidor"
+
+#: app/templates/admin/settings.html:24
+msgid "General"
+msgstr ""
+
+#: app/templates/admin/settings.html:29
+msgid "Requests"
+msgstr ""
+
+#: app/templates/admin/settings.html:34
+msgid "Discord"
+msgstr ""
+
+#: app/templates/admin/settings.html:39
+msgid "HTML"
+msgstr ""
+
+#: app/templates/admin/settings.html:45
+msgid "API"
+msgstr ""
+
+#: app/templates/admin/settings.html:52
+#, fuzzy
+msgid "Accounts"
+msgstr "Crea un Compte"
+
+#: app/templates/admin/settings.html:58
+#, fuzzy
+msgid "Notifications"
+msgstr "Invitacions"
+
+#: app/templates/admin/settings.html:63
+msgid "Tasks"
+msgstr ""
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
@@ -392,6 +373,134 @@ msgstr "Configuració d'usuari"
 #: app/templates/admin/user.html:90
 msgid "User Policy"
 msgstr "Política d'usuari"
+
+#: app/templates/admin/users.html:9
+#, fuzzy
+msgid "Server Users"
+msgstr "URL del servidor"
+
+#: app/templates/admin/users.html:14
+#, fuzzy
+msgid "Add User"
+msgstr "Usuaris"
+
+#: app/templates/admin/users.html:17
+#, fuzzy
+msgid "Scan Users"
+msgstr "Usuaris"
+
+#: app/templates/admin/account/sessions.html:14
+msgid "Revoke All"
+msgstr ""
+
+#: app/templates/admin/settings/accounts.html:14
+#, fuzzy
+msgid "My Account"
+msgstr "Crea un Compte"
+
+#: app/templates/admin/settings/accounts.html:17
+#, fuzzy
+msgid "Add Admin"
+msgstr "Administrador"
+
+#: app/templates/admin/settings/api.html:38
+#: app/templates/modals/create-api-key.html:3
+#, fuzzy
+msgid "Create API Key"
+msgstr "Crea un compte"
+
+#: app/templates/admin/settings/discord.html:4
+#, fuzzy
+msgid "Discord Server ID"
+msgstr ""
+"ID del\n"
+"servidor de Discord"
+
+#: app/templates/admin/settings/discord.html:9
+msgid "Discord Widget"
+msgstr ""
+
+#: app/templates/admin/settings/discord.html:19
+#: app/templates/admin/settings/general.html:68
+#: app/templates/admin/settings/html.html:9
+#: app/templates/admin/settings/requests.html:26
+#: app/templates/setup/pages/settings.html:40
+msgid "Save"
+msgstr "Guardar"
+
+#: app/templates/admin/settings/discord.html:47
+#: app/templates/admin/settings/general.html:92
+#: app/templates/admin/settings/html.html:66
+#: app/templates/admin/settings/requests.html:61
+msgid "Settings saved successfully!"
+msgstr ""
+
+#: app/templates/admin/settings/general.html:36
+#: app/templates/setup/pages/settings.html:6
+#, fuzzy
+msgid "Server Display Name"
+msgstr ""
+"Nom públic\n"
+"del servidor"
+
+#: app/templates/admin/settings/general.html:41
+#: app/templates/setup/pages/settings.html:11
+#, fuzzy
+msgid "Server"
+msgstr "Servidor"
+
+#: app/templates/admin/settings/general.html:43
+msgid "Choose a server"
+msgstr ""
+
+#: app/templates/admin/settings/general.html:50
+#: app/templates/setup/pages/settings.html:20
+#: app/templates/wizard/jellyfin/download.html:29
+msgid "Server URL"
+msgstr "URL del servidor"
+
+#: app/templates/admin/settings/general.html:55
+#: app/templates/setup/pages/settings.html:25
+#, fuzzy
+msgid "Server Token / API Key"
+msgstr ""
+"Token\n"
+"del servidor / Clau API"
+
+#: app/templates/admin/settings/general.html:60
+#: app/templates/modals/update-libraries.html:3
+#: app/templates/setup/pages/settings.html:30
+#, fuzzy
+msgid "Server Libraries"
+msgstr "Biblioteques"
+
+#: app/templates/admin/settings/general.html:62
+#: app/templates/setup/pages/settings.html:32
+msgid "Scan For Libraries"
+msgstr "Busca biblioteques"
+
+#: app/templates/admin/settings/notifications.html:18
+#, fuzzy
+msgid "Create Agent"
+msgstr "Crea un compte"
+
+#: app/templates/admin/settings/requests.html:4
+#, fuzzy
+msgid "Request Server"
+msgstr "Servidor"
+
+#: app/templates/admin/settings/requests.html:6
+msgid "Disabled"
+msgstr ""
+
+#: app/templates/admin/settings/requests.html:15
+#, fuzzy
+msgid "Request Server URL"
+msgstr "URL del servidor"
+
+#: app/templates/admin/settings/requests.html:20
+msgid "Request Server API Key"
+msgstr ""
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
@@ -417,81 +526,303 @@ msgstr "Error del servidor intern."
 msgid " Something has gone wrong. Please try again later."
 msgstr " Alguna cosa ha anat malament. Si us plau, intenta-ho més tard."
 
-#: app/templates/modals/create-notification-agent.html:31
+#: app/templates/invite/invite-invalid.html:15
+#, fuzzy
+msgid "Invalid Invitation"
+msgstr "Invitacions"
+
+#: app/templates/invite/signup.html:7 app/templates/invite/signup.html:15
+#, python-format
+msgid "You've been invited to join the %(name)s server!"
+msgstr "T'han convidat a unir-te al servidor %(name)s!"
+
+#: app/templates/invite/signup/jellyfin.html:3
+msgid "Set up Account"
+msgstr "Crea un Compte"
+
+#: app/templates/invite/signup/jellyfin.html:19
+msgid "Email"
+msgstr "Correu electrònic"
+
+#: app/templates/invite/signup/jellyfin.html:40
+#: app/templates/invite/signup/plex.html:9
+#: app/templates/tables/invite-table.html:7
+msgid "Invite Code"
+msgstr "Codi d'invitació"
+
+#: app/templates/invite/signup/plex.html:3
+msgid "Join the Plex Server"
+msgstr "Uneix-te al servidor de Plex"
+
+#: app/templates/invite/signup/plex.html:17
+msgid "Join"
+msgstr "Uneix-te"
+
+#: app/templates/modals/create-api-key.html:9
+#: app/templates/modals/create-notification-agent.html:13
+msgid "Name"
+msgstr "Nom"
+
+#: app/templates/modals/create-api-key.html:14
+#: app/templates/modals/create-notification-agent.html:46
+#: app/templates/modals/delete-api-key.html:13
+#: app/templates/modals/delete-notification-agent.html:13
+#: app/templates/modals/revoke-session.html:13
+#: app/templates/modals/run-task.html:13
+#: app/templates/modals/scan-libraries.html:19
+#: app/templates/modals/update-libraries.html:23
+msgid "Cancel"
+msgstr ""
+
+#: app/templates/modals/create-api-key.html:17
+#, fuzzy
+msgid "Create"
+msgstr "Creat"
+
+#: app/templates/modals/create-api-key.html:46
+msgid "Please fill out all required fields."
+msgstr ""
+
+#: app/templates/modals/create-api-key.html:70
+msgid "API key already exists."
+msgstr ""
+
+#: app/templates/modals/create-api-key.html:76
+#: app/templates/modals/delete-notification-agent.html:35
+msgid "You are not authorized to perform this action."
+msgstr ""
+
+#: app/templates/modals/create-api-key.html:82
+#: app/templates/modals/run-task.html:35
+#, fuzzy
+msgid "Something went wrong."
+msgstr " Alguna cosa ha anat malament. Si us plau, intenta-ho més tard."
+
+#: app/templates/modals/create-api-key.html:86
+#, fuzzy
+msgid "API key created."
+msgstr "Creat"
+
+#: app/templates/modals/create-notification-agent.html:3
 msgid "New Agent"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:60
-#, fuzzy
-msgid ""
-"Username\n"
-"                                (optional)"
+#: app/templates/modals/create-notification-agent.html:18
+msgid "Notification Service"
 msgstr ""
-"Codi\n"
-"d'invitació"
 
-#: app/templates/modals/create-notification-agent.html:65
+#: app/templates/modals/create-notification-agent.html:20
+msgid "Choose a service"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:30
+#: app/templates/modals/create-notification-agent.html:88
+#, fuzzy
+msgid "Username (optional)"
+msgstr "(opcional)"
+
+#: app/templates/modals/create-notification-agent.html:34
+#: app/templates/modals/create-notification-agent.html:93
 #, fuzzy
 msgid "Password (optional)"
 msgstr "(opcional)"
 
-#: app/templates/modals/create-notification-agent.html:70
-#, fuzzy
-msgid ""
-"Agent\n"
-"                                URL"
+#: app/templates/modals/create-notification-agent.html:39
+#: app/templates/modals/create-notification-agent.html:98
+#: app/templates/modals/create-notification-agent.html:117
+#: app/templates/modals/create-notification-agent.html:136
+#: app/templates/modals/create-notification-agent.html:153
+msgid "Agent URL"
 msgstr ""
-"Codi\n"
-"d'invitació"
 
-#: app/templates/modals/create-notification-agent.html:81
+#: app/templates/modals/create-notification-agent.html:49
 msgid "Test & Create Agent"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:85
-msgid "Cancel"
+#: app/templates/modals/create-notification-agent.html:105
+msgid "Webhook ID"
 msgstr ""
 
-#: app/templates/tables/global-users.html:13
-msgid "Name"
-msgstr "Nom"
+#: app/templates/modals/create-notification-agent.html:111
+msgid "Webhook Token"
+msgstr ""
 
-#: app/templates/tables/global-users.html:16
-#: app/templates/tables/invite_table.html:7
-msgid "Expires"
-msgstr "Expira"
+#: app/templates/modals/create-notification-agent.html:124
+#, fuzzy
+msgid "User Key"
+msgstr "Política d'usuari"
 
-#: app/templates/tables/global-users.html:22
-msgid "Actions"
-msgstr "Accions"
+#: app/templates/modals/create-notification-agent.html:130
+msgid "API Token"
+msgstr ""
 
-#: app/templates/tables/invite_table.html:5
+#: app/templates/modals/create-notification-agent.html:242
+#: app/templates/modals/create-notification-agent.html:249
+#: app/templates/modals/revoke-session.html:41
+#, fuzzy
+msgid "Something went wrong. Please try again."
+msgstr " Alguna cosa ha anat malament. Si us plau, intenta-ho més tard."
+
+#: app/templates/modals/create-notification-agent.html:253
+msgid "Notification agent successfully created!"
+msgstr ""
+
+#: app/templates/modals/delete-api-key.html:3
+#: app/templates/modals/revoke-session.html:3
+msgid "Warning"
+msgstr ""
+
+#: app/templates/modals/delete-api-key.html:8
+msgid "Are you sure you want to delete this api key?"
+msgstr ""
+
+#: app/templates/modals/delete-api-key.html:16
+#: app/templates/modals/delete-notification-agent.html:16
+#: app/templates/modals/revoke-session.html:16
+#: app/templates/tables/admin-users.html:40
+#: app/templates/tables/global-users.html:59
+#: app/templates/tables/invite-table.html:100
+#: app/templates/tables/notification-table.html:36
+#, fuzzy
+msgid "Delete"
+msgstr "Predeterminat"
+
+#: app/templates/modals/delete-notification-agent.html:41
+msgid "An error occurred while deleting the Notification Agent."
+msgstr ""
+
+#: app/templates/modals/delete-notification-agent.html:45
+msgid "Notification Agent deleted successfully!"
+msgstr ""
+
+#: app/templates/modals/revoke-session.html:8
+msgid "Are you sure you want to revoke this session?"
+msgstr ""
+
+#: app/templates/modals/revoke-session.html:46
+msgid "Session deleted successfully!"
+msgstr ""
+
+#: app/templates/modals/run-task.html:3 app/templates/modals/run-task.html:16
+msgid "Run Task"
+msgstr ""
+
+#: app/templates/modals/run-task.html:8
+msgid "Are you sure you want to run this task?"
+msgstr ""
+
+#: app/templates/modals/run-task.html:39
+msgid "Task has been run."
+msgstr ""
+
+#: app/templates/modals/update-libraries.html:26
+#, fuzzy
+msgid "Update Libraries"
+msgstr "Biblioteques"
+
+#: app/templates/modals/update-libraries.html:83
+#, fuzzy
+msgid "Unable to update libraries"
+msgstr "Biblioteques"
+
+#: app/templates/setup/pages/admin.html:2
+#, fuzzy
+msgid "Admin Account"
+msgstr "Crea un compte"
+
+#: app/templates/setup/pages/admin.html:20
+#, fuzzy
+msgid "Create account"
+msgstr "Crea un compte"
+
+#: app/templates/setup/pages/complete.html:2
+msgid "Your Done"
+msgstr ""
+
+#: app/templates/setup/pages/complete.html:5
+msgid "You have successfully completed the setup process."
+msgstr ""
+
+#: app/templates/setup/pages/complete.html:9
+msgid "Go to Dashboard"
+msgstr ""
+
+#: app/templates/setup/pages/database.html:2
+msgid "Database"
+msgstr ""
+
+#: app/templates/setup/pages/database.html:5
+msgid ""
+"Currently Wizarr only supports internal SQLite database. This is a "
+"temporary and we are working on adding support for other databases."
+msgstr ""
+
+#: app/templates/setup/pages/welcome.html:2
+#, fuzzy
+msgid "Welcome to Wizarr"
+msgstr "Configurar Wizarr"
+
+#: app/templates/setup/pages/welcome.html:5
+msgid ""
+"Wizarr is an automatic user invitation system for Plex, Jellyfin, and "
+"Emby. With Wizarr, you can easily create unique invitation links to share"
+" with users, automatically inviting them to your Media Server! "
+"Furthermore, Wizarr provides guidance on downloading clients and "
+"instructions for using Jellyseerr, Overseerr or Ombi site."
+msgstr ""
+
+#: app/templates/setup/pages/welcome.html:8
+msgid ""
+"We hope you enjoy using Wizarr and invite you to explore its powerful "
+"features and intuitive interface. Should you need any assistance, please "
+"refer to our documentation or reach out to our community for support."
+msgstr ""
+
+#: app/templates/setup/pages/welcome.html:12
+msgid ""
+"Check out our documentation for detailed instructions on how to install "
+"and run Wizarr!"
+msgstr ""
+
+#: app/templates/tables/admin-users.html:37
+#: app/templates/tables/global-users.html:56
+#: app/templates/tables/invite-table.html:97
+#: app/templates/tables/notification-table.html:33
+msgid "Edit"
+msgstr ""
+
+#: app/templates/tables/invite-table.html:8
 msgid "Used"
 msgstr "Utilitzat"
 
-#: app/templates/tables/invite_table.html:6
+#: app/templates/tables/invite-table.html:9
 msgid "Created"
 msgstr "Creat"
 
-#: app/templates/tables/invite_table.html:8
-msgid "Unlimited"
-msgstr "Il·limitat"
-
-#: app/templates/tables/invite_table.html:9
-msgid "Libraries"
-msgstr "Biblioteques"
-
-#: app/templates/tables/invite_table.html:22
-msgid "Available"
-msgstr "Disponible"
-
-#: app/templates/tables/invite_table.html:35
+#: app/templates/tables/invite-table.html:10
 msgid "Expired"
 msgstr "Caducat"
 
-#: app/templates/tables/invite_table.html:73
-msgid "Default"
-msgstr "Predeterminat"
+#: app/templates/tables/invite-table.html:12
+msgid "Libraries"
+msgstr "Biblioteques"
+
+#: app/templates/tables/sessions-table.html:27
+msgid "Revoke"
+msgstr ""
+
+#: app/templates/tables/task-table.html:7
+#, fuzzy
+msgid "Job Name"
+msgstr "Nom"
+
+#: app/templates/tables/task-table.html:8
+msgid "Next Execution"
+msgstr ""
+
+#: app/templates/tables/task-table.html:40
+msgid "Run Now"
+msgstr ""
 
 #: app/templates/wizard/requests.html:4
 msgid "Automatic Media Requests"
@@ -549,7 +880,7 @@ msgstr ""
 "servidor. Assegurem-nos que saps com\n"
 "utilitzar-la amb Jellyfin."
 
-#: app/templates/wizard/jellyfin/download.html:11
+#: app/templates/wizard/jellyfin/download.html:12
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
@@ -557,10 +888,36 @@ msgstr ""
 "Estàs pensant en veure pel·lícules en aquest dispositiu? Baixa Jellyfin "
 "per a aquest dispositiu."
 
-#: app/templates/wizard/jellyfin/download.html:14
-#: app/templates/wizard/plex/download.html:14
-msgid "Download"
+#: app/templates/wizard/jellyfin/download.html:18
+msgid ""
+"If you don't wish to Download the App feel free to use Jellyfin in your "
+"devices web browser, just click \"Next\"."
+msgstr ""
+
+#: app/templates/wizard/jellyfin/download.html:24
+#, fuzzy
+msgid "Show Server URL"
+msgstr "URL del servidor"
+
+#: app/templates/wizard/jellyfin/download.html:33
+#: app/templates/wizard/jellyfin/download.html:133
+msgid "Copy"
+msgstr ""
+
+#: app/templates/wizard/jellyfin/download.html:47
+#: app/templates/wizard/jellyfin/download.html:64
+#: app/templates/wizard/jellyfin/tips.html:25
+msgid "Open Jellyfin"
+msgstr "Obrir Jellyfin"
+
+#: app/templates/wizard/jellyfin/download.html:81
+#, fuzzy
+msgid "Other Download"
 msgstr "Baixa"
+
+#: app/templates/wizard/jellyfin/download.html:130
+msgid "Copied!"
+msgstr ""
 
 #: app/templates/wizard/jellyfin/tips.html:4
 msgid "Eh, So, What is Jellyfin exactly?"
@@ -606,10 +963,6 @@ msgstr ""
 "i\n"
 "ja estaràs preparat per començar a veure els teus mitjans. Així de fàcil!"
 
-#: app/templates/wizard/jellyfin/tips.html:25
-msgid "Open Jellyfin"
-msgstr "Obrir Jellyfin"
-
 #: app/templates/wizard/plex/download.html:3
 msgid ""
 "Join & Download Plex\n"
@@ -633,6 +986,10 @@ msgid "Planning on watching Movies on this device? Download Plex for this device
 msgstr ""
 "Estàs pensant en veure pel·lícules en aquest dispositiu? Baixa Plex per a"
 " aquest dispositiu."
+
+#: app/templates/wizard/plex/download.html:14
+msgid "Download"
+msgstr "Baixa"
 
 #: app/templates/wizard/plex/tips.html:4
 msgid "Eh, So, What is Plex exactly?"
@@ -824,7 +1181,6 @@ msgstr "Obre Plex"
 
 #~ msgid "Great!"
 #~ msgstr "Genial!"
-<<<<<<< HEAD
 
 #~ msgid "Change Server Settings"
 #~ msgstr "Canvia la configuració del servidor"
@@ -838,5 +1194,113 @@ msgstr "Obre Plex"
 #~ msgid "Home User"
 #~ msgstr "Usuari local"
 
-=======
->>>>>>> 2a70cacdc6431b40eb4cf75fd90923b411cee55a
+#~ msgid ""
+#~ "Server\n"
+#~ "                Libraries"
+#~ msgstr ""
+#~ "Biblioteques\n"
+#~ "del servidor"
+
+#~ msgid ""
+#~ "Request\n"
+#~ "                instance (Ombi, Overseerr...) URL"
+#~ msgstr ""
+#~ "Sol·licita\n"
+#~ "instància (Ombi, Overseerr...)"
+
+#~ msgid "Ombi API Key (Only used for user import currently.)"
+#~ msgstr "Clau API Ombi (Només usada per importar usuaris)"
+
+#~ msgid ""
+#~ "Custom\n"
+#~ "                HTML"
+#~ msgstr ""
+#~ "HTML\n"
+#~ "personalitzat"
+
+#~ msgid "Notification Agents"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Username\n"
+#~ "                                (optional)"
+#~ msgstr ""
+#~ "Codi\n"
+#~ "d'invitació"
+
+#~ msgid ""
+#~ "Agent\n"
+#~ "                                URL"
+#~ msgstr ""
+#~ "Codi\n"
+#~ "d'invitació"
+
+#~ msgid "Expires"
+#~ msgstr "Expira"
+
+#~ msgid "Actions"
+#~ msgstr "Accions"
+
+#~ msgid "Available"
+#~ msgstr "Disponible"
+
+#~ msgid "Default"
+#~ msgstr "Predeterminat"
+
+#~ msgid "Passwords do not match."
+#~ msgstr "Les contrassenyes no coincideixen."
+
+#~ msgid "Username must be between 3 and 15 characters."
+#~ msgstr "El nom d'usuari ha de tenir entre 3 i 15 caràcters."
+
+#~ msgid "Password must be between 3 and 40 characters."
+#~ msgstr "La contrassenya ha de tenir entre 3 i 40 caràcters."
+
+#~ msgid "You must select at least one library."
+#~ msgstr "Has de seleccionar almenys una biblioteca."
+
+#~ msgid "It is likely that your token does not work."
+#~ msgstr "És probable que el teu token no funcioni."
+
+#~ msgid "Unable to connect to your Plex server. See Logs for more information."
+#~ msgstr ""
+#~ "Impossible conectar-se al teu servidor"
+#~ " de Plex. Mira els Logs per a"
+#~ " més informació."
+
+#~ msgid "Unable to connect to your Jellyfin server."
+#~ msgstr "Impossible conectar-se al teu servidor de Jellyfin."
+
+#~ msgid "Invalid Username or Password"
+#~ msgstr "Nom d'usuari o contrassenya incorrecte"
+
+#~ msgid "Oops!"
+#~ msgstr "Vaja!"
+
+#~ msgid ""
+#~ "Confirm\n"
+#~ "                                password"
+#~ msgstr ""
+#~ "Confirma\n"
+#~ "la contrassenya"
+
+#~ msgid ""
+#~ "Invite\n"
+#~ "                                Code"
+#~ msgstr ""
+#~ "Codi\n"
+#~ "d'invitació"
+
+#~ msgid "(in days)"
+#~ msgstr "(en dies)"
+
+#~ msgid ""
+#~ "Specific\n"
+#~ "                                Libraries"
+#~ msgstr ""
+#~ "Biblioteques\n"
+#~ "específiques"
+
+#~ msgid "Custom HTML"
+#~ msgstr ""
+

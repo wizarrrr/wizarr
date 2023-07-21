@@ -1,0 +1,8 @@
+{
+    "scripts": {
+        "server:start": "APP_URL=127.0.0.1:5000 flask run",
+        "server:debug": "APP_URL=127.0.0.1:5000 flask --debug run",
+        "tests:run": "cd testing && npm run ci:run",
+        "tests:open": "cd testing && npm run ci:open"
+    }
+}

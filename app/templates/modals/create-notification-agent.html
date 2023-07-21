@@ -1,143 +1,258 @@
-<div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <!--
-      Background backdrop, show/hide based on modal state.
-  
-      Entering: "ease-out duration-300"
-        From: "opacity-0"
-        To: "opacity-100"
-      Leaving: "ease-in duration-200"
-        From: "opacity-100"
-        To: "opacity-0"
-    -->
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+<div class="flex justify-between items-center pb-3">
+    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        {{ _("New Agent") }}
+    </h1>
+</div>
 
-    <div class="fixed inset-0 z-10 overflow-y-auto ">
-        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 ">
-            <!--
-              Modal panel, show/hide based on modal state.
-      
-              Entering: "ease-out duration-300"
-                From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                To: "opacity-100 translate-y-0 sm:scale-100"
-              Leaving: "ease-in duration-200"
-                From: "opacity-100 translate-y-0 sm:scale-100"
-                To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            -->
-            <div
-                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 dark:bg-gray-800">
-                    <div class="flex justify-between items-center pb-3">
-                        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            {{ _("New Agent") }}
-                        </h1>
-                    </div>
-                    <p class="mt-2 pb-2 text-sm text-red-600 dark:text-red-500"><span
-                        class="font-medium">{{ error }}</span></p>
-                    <form class="space-y-4 md:space-y-6" hx-post="{{ url_for(request.endpoint) }}"
-                          hx-target="#content"
-                          hx-swap="innerHTML">
-                        <div>
-                            <label for="name"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input type="text" name="name" id="name" placeholder='e.g. "My Agent"'
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                   required>
-                        </div>
-                        <div>
-                            <label for="notification_service"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notification
-                                Service</label>
-                            <select name="notification_service" id="notification_service"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    onchange="toggleCredentials(this.value)">
-                                <option selected>Choose a service</option>
-                                <option value="ntfy">Ntfy</option>
-                                <option value="discord">Discord</option>
-                                <option value="pushover">Pushover</option>
-                            </select>
-                        </div>
-                        <div id="credentialsSection" style="display: none;">
-                            <label for="username"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username
-                                (optional)") }}</label>
-                            <input type="text" name="username" id="username"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <label for="password"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Password (optional)") }}</label>
-                            <input type="password" name="password" id="password"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                        <div id="credentialsSectionPushover" style="display: none;">
-                            <label for="userkey"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("User Key") }}</label>
-                            <input type="text" name="userkey" id="userkey"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <label for="apitoken"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("API Token") }}</label>
-                            <input type="text" name="apitoken" id="apitoken"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label for="url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Agent
-                                URL") }}</label>
-                            <input type="url" name="url" id="url" placeholder="e.g. https://example.com"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                   required>
-                        </div>
+<p class="mt-2 pb-2 text-sm text-red-600 dark:text-red-500">
+    <span class="font-medium">{{ error }}</span>
+</p>
 
+<form class="space-y-4 md:space-y-6" onsubmit="testAndSave(this); event.preventDefault();">
+    <div>
+        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Name") }}</label>
+        <input type="text" name="name" id="name" placeholder='e.g. "My Agent"' class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+    </div>
 
-                        <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-gray-800">
-                            <button type="submit"
-                                    class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:ml-3 sm:w-auto">
-                                {{ _("Test & Create Agent") }}
-                            </button>
-                            <button onclick="closeModal()" type="button"
-                                    class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
-                                {{ _("Cancel") }}
-                            </button>
-                        </div>
-                    </form>
-                </div>
+    <div>
+        <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Notification Service") }}</label>
+        <select name="type" id="type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="toggleCredentials()" onfocus="cacheFocus()" required>
+            <option selected disabled>{{ _("Choose a service") }}</option>
+            <option value="ntfy">Ntfy</option>
+            <option value="discord">Discord</option>
+            <option value="pushover">Pushover</option>
+        </select>
+    </div>
+
+    <div id="credentialsSection" class="hidden space-y-4 md:space-y-6">
+        <div class="space-y-4 md:space-y-3">
+            <div>
+                <label for="username" id="username_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username (optional)") }}</label>
+                <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" autocomplete="username">
+            </div>
+            <div>
+                <label for="password" id="password_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Password (optional)") }}</label>
+                <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" autocomplete="new-password">
             </div>
         </div>
+        <div>
+            <label for="url" id="url_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Agent URL") }}</label>
+            <input type="url" name="url" id="url" placeholder="e.g. https://example.com" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+        </div>
     </div>
-</div>
+
+    <div class="flex justify-end pt-2 space-x-4">
+        <button onclick="window.closeModal(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+            {{ _("Cancel") }}
+        </button>
+        <button type="submit" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:ml-3 sm:w-auto">
+            {{ _("Test & Create Agent") }}
+        </button>
+    </div>
+</form>
+
 <script>
-    //Function closeModal
-    function closeModal() {
-        //Delete Everything within the div "create-modal"
-        document.getElementById('create-modal').innerHTML = '';
-    }
+    window.window.cachedFields = {};
 
-    function toggleCredentials(value) {
+    function cacheFocus() {
+        const agentService = document.getElementById('type');
 
+        const agentUsername = document.getElementById('username');
+        const agentPassword = document.getElementById('password');
         const agentURL = document.getElementById('url');
 
-        // Better Placeholder Text for Agent URL
-        if (value === 'ntfy') {
-            agentURL.placeholder = 'e.g. https://example.com';
-        } else if (value === 'discord') {
-            agentURL.placeholder = 'e.g. https://discord.com/api/webhooks/123456789/abcde';
-        } else if (value === 'pushover') {
-            agentURL.placeholder = 'e.g. https://api.pushover.net/1/messages.json';
-        }
-
-        // Clear Agent URL value when changing service because Pushover gets automatically populated
-        agentURL.value = '';
-
-        const credentialsSection = document.getElementById('credentialsSection');
-        if (value === 'ntfy') {
-            credentialsSection.style.display = 'block';
-        } else {
-            credentialsSection.style.display = 'none';
-        }
-
-        const credentialsSectionPushover = document.getElementById('credentialsSectionPushover');
-        if (value === 'pushover') {
-            credentialsSectionPushover.style.display = 'block';
-            agentURL.value = 'https://api.pushover.net/1/messages.json';
-        } else {
-            credentialsSectionPushover.style.display = 'none';
+        if (agentService.selectedIndex != 0) {
+            window.cachedFields[agentService.value] = {
+                "username": agentUsername.value,
+                "password": agentPassword.value,
+                "url": agentURL.value,
+            }
         }
     }
+
+    function toggleCredentials() {
+        const agentService = document.getElementById('type');
+        const credentialsSection = document.getElementById('credentialsSection');
+
+        const agentUsernameLabel = document.getElementById('username_label');
+        const agentPasswordLabel = document.getElementById('password_label');
+        const agentURLLabel = document.getElementById('url_label');
+
+        const agentUsername = document.getElementById('username');
+        const agentPassword = document.getElementById('password');
+        const agentURL = document.getElementById('url');
+
+        const agentLabelsMap = {
+            "ntfy": {
+                "username": {
+                    "label": '{{ _("Username (optional)") }}',
+                    "placeholder": "e.g. username",
+                    "value": '',
+                },
+                "password": {
+                    "label": '{{ _("Password (optional)") }}',
+                    "placeholder": "e.g. password",
+                    "value": '',
+                },
+                "url": {
+                    "label": '{{ _("Agent URL") }}',
+                    "placeholder": "e.g. https://example.com",
+                    "value": '',
+                }
+            },
+            "discord": {
+                "username": {
+                    "label": '{{ _("Webhook ID") }}',
+                    "placeholder": "e.g. 123456789",
+                    "value": '',
+                    "hidden": "true"
+                },
+                "password": {
+                    "label": '{{ _("Webhook Token") }}',
+                    "placeholder": "e.g. abcde",
+                    "value": '',
+                    "hidden": "true"
+                },
+                "url": {
+                    "label": '{{ _("Agent URL") }}',
+                    "placeholder": "e.g. https://discord.com/api/webhooks/123456789/abcde",
+                    "value": '',
+                }
+            },
+            "pushover": {
+                "username": {
+                    "label": '{{ _("User Key") }}',
+                    "placeholder": "e.g. abcde",
+                    "value": '',
+                    "required": "true",
+                },
+                "password": {
+                    "label": '{{ _("API Token") }}',
+                    "placeholder": "e.g. 123456789",
+                    "value": '',
+                    "required": "true",
+                },
+                "url": {
+                    "label": '{{ _("Agent URL") }}',
+                    "placeholder": "e.g. https://api.pushover.net/1/messages.json",
+                    "value": 'https://api.pushover.net/1/messages.json',
+                }
+            },
+            "default": {
+                "username": {
+                    "label": '{{ _("Username") }}',
+                    "placeholder": "e.g. username",
+                    "value": '',
+                },
+                "password": {
+                    "label": '{{ _("Password") }}',
+                    "placeholder": "e.g. password",
+                    "value": '',
+                },
+                "url": {
+                    "label": '{{ _("Agent URL") }}',
+                    "placeholder": "e.g. https://example.com",
+                    "value": '',
+                }
+            }
+        }
+
+        if (agentService.selectedIndex != 0) {
+            credentialsSection.classList.remove('hidden');
+
+            agentUsernameLabel.innerHTML = agentLabelsMap[agentService.value].username.label;
+            agentUsername.placeholder = agentLabelsMap[agentService.value].username.placeholder;
+            agentUsername.required = agentLabelsMap[agentService.value].username.required ? true : false;
+
+            if (window.cachedFields[agentService.value] && window.cachedFields[agentService.value].username) {
+                agentUsername.value = window.cachedFields[agentService.value].username;
+            } else {
+                agentUsername.value = agentLabelsMap[agentService.value].username.value;
+            }
+
+            if (agentLabelsMap[agentService.value].username.hidden) {
+                agentUsernameLabel.classList.add('hidden');
+                agentUsername.classList.add('hidden');
+            } else {
+                agentUsernameLabel.classList.remove('hidden');
+                agentUsername.classList.remove('hidden');
+            }
+
+            agentPasswordLabel.innerHTML = agentLabelsMap[agentService.value].password.label;
+            agentPassword.placeholder = agentLabelsMap[agentService.value].password.placeholder;
+            agentPassword.required = agentLabelsMap[agentService.value].password.required ? true : false;
+
+            if (window.cachedFields[agentService.value] && window.cachedFields[agentService.value].password) {
+                agentPassword.value = window.cachedFields[agentService.value].password;
+            } else {
+                agentPassword.value = agentLabelsMap[agentService.value].password.value;
+            }
+
+            if (agentLabelsMap[agentService.value].password.hidden) {
+                agentPasswordLabel.classList.add('hidden');
+                agentPassword.classList.add('hidden');
+            } else {
+                agentPasswordLabel.classList.remove('hidden');
+                agentPassword.classList.remove('hidden');
+            }
+
+            agentURLLabel.innerHTML = agentLabelsMap[agentService.value].url.label;
+            agentURL.placeholder = agentLabelsMap[agentService.value].url.placeholder;
+            agentURL.value = agentLabelsMap[agentService.value].url.value;
+            agentURL.required = agentLabelsMap[agentService.value].url.required ? true : false;
+
+            if (window.cachedFields[agentService.value] && window.cachedFields[agentService.value].url) {
+                agentURL.value = window.cachedFields[agentService.value].url;
+            } else {
+                agentURL.value = agentLabelsMap[agentService.value].url.value;
+            }
+
+            if (agentLabelsMap[agentService.value].url.hidden) {
+                agentURLLabel.classList.add('hidden');
+                agentURL.classList.add('hidden');
+            } else {
+                agentURLLabel.classList.remove('hidden');
+                agentURL.classList.remove('hidden');
+            }
+
+            return;
+        }
+
+        credentialsSection.classList.add('hidden');
+    }
+
+    async function testAndSave(that) {
+        let spinner = that.closest('#modal').querySelector('#modal-spinner');
+        spinner.classList.remove('hidden');
+
+        let formData = new FormData(that);
+
+        let response = await fetch('/api/notifications', {
+            method: 'POST',
+            body: formData,
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+            },
+        });
+
+        if (response.status == 422) {
+            spinner.classList.add('hidden');
+            let errors = await response.json();
+            errors = errors.error || "{{ _('Something went wrong. Please try again.') }}";
+            toast.errorToast(errors);
+            return;
+        }
+
+        if (response.status != 201) {
+            spinner.classList.add('hidden');
+            toast.errorToast("{{ _('Something went wrong. Please try again.') }}");
+            return;
+        }
+
+        toast.infoToast("{{ _('Notification agent successfully created!') }}");
+        htmx.ajax('GET', '/partials/admin/settings/notifications', { target: '#settings-content', swap: 'innerHTML', indicator: '#spinner' });
+    }
+
+    toggleCredentials();
 </script>

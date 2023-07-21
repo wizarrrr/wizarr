@@ -5,49 +5,126 @@ Login
 {% endblock %}
 
 {% block main %}
-
-<section class="bg-gray-50 dark:bg-gray-900">
-  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-    <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-      {{ _(server_name) }}
-    </a>
-    <div
-      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-          {{ _("Login") }}
-        </h1>
-        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ error }}</p>
-        <form class="space-y-4 md:space-y-6" action="/login" method="POST">
-          <div>
-            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username") }}</label>
-            <input type="username" name="username" id="username"
-              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="marvin" required="">
-          </div>
-          <div>
-            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Password") }}</label>
-            <input type="password" name="password" id="password" placeholder="••••••••"
-              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              required="">
-          </div>
-          <div class="flex items-center justify-between">
-            <div class="flex items-start">
-              <div class="flex items-center h-5">
-                <input name="remember" id="remember" aria-describedby="remember" type="checkbox"
-                  class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-amber-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary dark:ring-offset-gray-800">
-              </div>
-              <div class="ml-3 text-sm">
-                <label for="remember" class="text-gray-500 dark:text-gray-300">{{ _("Remember me") }}</label>
-              </div>
+<div class="flex flex-wrap items-start md:items-center justify-center mx-auto mt-20 md:mt-0 md:h-screen">
+    <nav class="bg-white dark:bg-gray-900 absolute w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="/" class="flex items-center">
+                <img src="/static/img/wizard.png" class="h-8 mr-3" alt="Logo">
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Wizarr</span>
+            </a>
+            <div class="flex md:order-2">
+                <a href="/" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-6 py-2 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                    Homepage
+                </a>
             </div>
-          </div>
-          <button type="submit"
-            class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">{{ _("Sign in") }}</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
+        </div>
+    </nav>
+
+    <section class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 w-full">
+        <div class="w-full rounded-lg md:mt-0 sm:max-w-md xl:p-0 md:shadow dark:bg-transparent md:bg-white md:dark:border md:dark:border-gray-700">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    {{ _("Login") }}
+                </h1>
+                <form class="space-y-4 md:space-y-6" onsubmit="event.preventDefault(); login(this);">
+                    <div>
+                        <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username") }}</label>
+                        <input type="username" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="marvin" required="" autocomplete="username" autofocus>
+                    </div>
+                    <div>
+                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Password") }}</label>
+                        <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" autocomplete="pasword">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input name="remember" id="remember" aria-describedby="remember" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-amber-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary dark:ring-offset-gray-800">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="remember" class="text-gray-500 dark:text-gray-300">{{ _("Remember me") }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="error" class="text-red-500 text-center"></div>
+                    <button type="submit" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">{{ _("Sign in") }}</button>
+                </form>
+            </div>
+        </div>
+        <div class="container flex flex-col items-center justify-center mx-auto text-secondary py-2 text-xs">
+            <div>
+                <a href="{{ APP_GITHUB_URL }}">{{ APP_NAME }}</a>&nbsp;-&nbsp;{{ _('Version') }}&nbsp;<a href="{{ APP_GITHUB_URL }}/releases/tag/{{ APP_VERSION }}">{{ APP_VERSION }}</a>&nbsp;-&nbsp;{{ APP_RELEASED }}
+            </div>
+            <div style="font-size: 10px;" class="cursor-pointer select-none">
+                <a onclick="window.toggleColorTheme()">{{ _('Toggle Theme') }}</a>
+            </div>
+        </div>
+    </section>
+</div>
+<style>
+    body {
+        padding: 0px !important;
+    }
+</style>
+<script>
+    async function login(that) {
+        const form = new FormData(that);
+
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            body: form,
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+            },
+        });
+
+        if (response.status != 200) {
+            error = await response.json();
+
+            if (error.msg == undefined) {
+                document.getElementById('error').innerHTML = "{{ _('Internal server error') }}";
+                return;
+            }
+
+            document.getElementById('error').innerHTML = error.msg;
+            return;
+        }
+
+        const xhr = new XMLHttpRequest();
+
+        xhr.open('GET', '/admin');
+
+        xhr.onreadystatechange = async function () {
+            document.getElementById('spinner').classList.remove('htmx-indicator');
+
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                // Replace the current page with the admin page
+                document.open();
+                document.write(xhr.responseText);
+                document.close();
+
+                // Update the browser history
+                window.history.pushState({}, '', '/admin');
+
+                // Get the user data from the response
+                const data = await response.json();
+
+                if (data.user != undefined) {
+                    toast.infoToast("{{ _('Hello') }}, " + data.user.username + "!");
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    return;
+                }
+
+                toast.infoToast("{{ _('Logged in successfully') }}");
+            }
+
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200) {
+                window.location.href = '/login';
+            }
+        };
+
+        xhr.send();
+    }   
+</script>
 
 {% endblock %}

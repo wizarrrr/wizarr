@@ -1,0 +1,13 @@
+{
+    "scripts": {
+        "start:server": "cd ../ && FLASK_RUN_PORT=9999 DISABLE_BUILTIN_AUTH=true APP_URL=127.0.0.1:9999 flask --debug run",
+        "cypress:open": "cypress open",
+        "cypress:run": "cypress run",
+        "ci:run": "start-server-and-test start:server http://127.0.0.1:9999 cypress:run",
+        "ci:open": "start-server-and-test start:server http://127.0.0.1:9999 cypress:open"
+    },
+    "devDependencies": {
+        "cypress": "^12.17.0",
+        "start-server-and-test": "^2.0.0"
+    }
+}

@@ -1,0 +1,64 @@
+<div class="animate__animated animate__fadeIn">
+    <form class="space-y-4 md:space-y-6" onsubmit="event.preventDefault(); saveSettings(this);">
+        <div>
+            <label for="requests_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request Server") }}</label>
+            <select name="request_type" id="request_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option {% if not request_type %} selected {% endif %} value="">{{ _("Disabled") }}</option>
+                <option {% if request_type=="jellyseerr" %} selected {% endif %} value="jellyseerr" {% if server_type=="plex" %} disabled {% endif%}>Jellyseerr</option>
+                <option {% if request_type=="overseerr" %} selected {% endif %} value="overseerr" {% if server_type=="jellyfin" %} disabled {% endif%}>Overseerr</option>
+                <option {% if request_type=="ombi" %} selected {% endif %} value="ombi">Ombi</option>
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label for="request_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request Server URL") }}</label>
+            <input type="url" name="request_url" id="request_url" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if request_url %}{{ request_url }}{% endif %}" placeholder="Optional, leave empty to disable" autocomplete="new-password" {% if not request_type %} disabled {% endif %}>
+        </div>
+
+        <div>
+            <label for="request_api_key" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request Server API Key") }}</label>
+            <input type="password" name="request_api_key" id="request_api_key" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if request_api_key %}{{ request_api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX" autocomplete="new-password" {% if not request_type %} disabled {% endif %}>
+        </div>
+
+        <div class="flex items-center justify-end mt-4">
+            <button type="submit" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                {{ _("Save") }}
+            </button>
+        </div>
+    </form>
+</div>
+<script>
+
+    function selectChanged() {
+        var selectInput = document.getElementById("request_type");
+        var urlInput = document.getElementById("request_url");
+        var apiInput = document.getElementById("request_api_key");
+
+        urlInput.disabled = selectInput.children[0].selected ? true : false;
+        apiInput.disabled = selectInput.children[0].selected ? true : false;
+    }
+
+    document.getElementById("request_type").addEventListener("change", selectChanged);
+
+    async function saveSettings(that) {
+        let spinner = document.getElementById('spinner');
+        spinner.classList.remove('htmx-indicator');
+
+        let formData = new FormData(that);
+
+        let response = await fetch('/api/settings', {
+            method: 'PUT',
+            body: formData,
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token')
+            },
+        });
+
+        spinner.classList.add('htmx-indicator');
+
+        toast.infoToast("{{ _('Settings saved successfully!') }}");
+        htmx.ajax('GET', '/partials/admin/settings/requests', { target: '#settings-content', swap: 'innerHTML' });
+    }
+</script>

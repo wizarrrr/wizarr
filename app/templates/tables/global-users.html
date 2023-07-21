@@ -1,66 +1,73 @@
-
-    <table id="user_table" class="bg-gray-50 dark:bg-gray-800 shadow-lg rounded-lg w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 rounded-lg uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400">
-            <tr class="text-xs text-gray-500 text-left dark:text-white">
-                <th scope="col" class="p-4">
-                    <div class="flex items-center">
-                        <input disabled id="checkbox-all-search" type="checkbox"
-                            class="hidden w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                    </div>
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    {{ _("Name") }}
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    {{ _("Expires") }}
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    {{ _("Invite Code") }}
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    {{ _("Actions") }}
-                </th>
-            </tr>
-        </thead>
+<!-- Users Table -->
+<div class="overflow-x-auto">
+    {% if users %}
+    <table class="w-full whitespace-nowrap">
         <tbody>
-            {% if users %}
+            {% for user in users %}
+            <tr tabindex="0" class="focus:outline-none h-16 rounded-lg border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
 
-            {% for user in users%}
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input disabled id="checkbox-table-search-1" type="checkbox"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                {% if user.photo or user.username %}
+                <td class="text-right">
+                    <div class="flex items-center pl-5 space-x-4">
+                        {% if user.photo or user.username %}
+                        <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-50 overflow-hidden">
+                            <img class="w-full h-full object-cover object-center" onerror="this.src='https://ui-avatars.com/api/?uppercase=true&name={{ user.username }}&length=1'" src="{{ user.photo }}" alt="Profile Picture">
+                        </div>
+                        {% endif %}
+                        <div class="flex flex-col align-start">
+                            {% if user.username %}
+                            <span class="text-sm font-medium text-start">{{ user.username }}</span>
+                            {% endif %}
+                            {% if user.email %}
+                            <span class="text-xs text-gray-500 text-start">{{ user.email }}</span>
+                            {% endif %}
+                        </div>
                     </div>
                 </td>
-                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                    {% if user.photo %}<img class="w-10 h-10 rounded-full" onerror="this.src='https://ui-avatars.com/api/?uppercase=true&name={{ user.username }}&length=1'" src="{{ user.photo }}" alt="Profile Picture">{% endif %}
-                    <div class="pl-3">
-                        <div class="text-base  font-semibold">{{ user.username }}</div>
-                        <div class="font-normal text-gray-500">{% if user.email != "empty" %} {{ user.email }}{% endif
-                            %}</div>
+                {% endif %}
+
+                {% if user.expires %}
+                <td class="pl-5">
+                    <span class="py-3 px-3 text-sm focus:outline-none leading-none text-red-700 bg-red-100 rounded">
+                        {{ (user.expires|string)[0:16] }}
+                    </span>
+                </td>
+                {% endif %}
+
+                {% if user.code != "None" and user.code != "empty" %}
+                <td class="pl-5">
+                    <span class="py-3 px-3 text-sm focus:outline-none leading-none rounded text-gray-600 bg-gray-100">
+                        {{ user.code }}
+                    </span>
+                </td>
+                {% endif %}
+
+                <td class="p-5 block md:hidden text-center">
+                    <button class="text-gray-600 text-sm leading-none py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none">View</button>
+                </td>
+
+                <td class="p-5 pr-8 hidden md:block text-right">
+                    <div class="flex col justify-end">
+                        <button class="focus:ring-2 p-2 rounded-md focus:outline-none" onclick="window.toggleMenu(this)" role="button" aria-label="option">
+                            <i class="transition-all fa-solid fa-ellipsis"></i>
+                        </button>
+                        <div class="menu flex row overflow-hidden transition-all items-center space-x-2 ml-2" style="max-width: 0px;">
+                            <button onclick="toast.errorToast('Edit Users not available yet')" class="bg-gray-600 focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-gray-600">
+                                {{ _("Edit") }}
+                            </button>
+                            <button onclick="toast.errorToast('Delete Users not available yet')" class="bg-primary focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-primary">
+                                {{ _("Delete") }}
+                            </button>
+                        </div>
                     </div>
-                </th>
-                <td class="px-6 py-4">
-                    {% if user.expires %} {{ (user.expires|string)[0:16] }}{% endif %}
-                </td>
-                <td class="px-6 py-4">
-                {% if user.code != "None" %}{% if user.code != "empty" %}{{ user.code }}{% endif %}{% endif %}
-                </td>
-                <td class="px-6 py-4">
-                    <button id="edit" class="hidden inline-block" hx-get="/user/{{ user.id }}" hx-target="#modal-user" hx-swap="innerHTML"
-                       onclick="document.getElementById('modal').classList.remove('hidden');" class="font-medium text-primary hover:underline">View</button>
-                    <button id="delete" class="inline-block" hx-get="/users/table?delete={{ user.id }}"
-                        hx-target="#user_table" hx-swap="outerHTML swap:0.5s"
-                        hx-confirm="Are you sure you wish to remove {{ user.title }} from your server?">
-                        Delete
-                    </button>
                 </td>
             </tr>
+
+            <tr class="h-0 md:h-3"></tr>
             {% endfor %}
-            {% endif %}
         </tbody>
     </table>
+    {% else %}
+    <p class="text-center dark:text-white">There are currently no users.</p>
+    {% endif %}
 </div>

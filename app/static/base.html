@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="{{ APP_LANG }}" class="dark:bg-gray-900 dark">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="true" />
+
+    <style>
+        /* Stop my eyes being blinded for dear life when the page is refreshed in dark mode */
+        html.dark {
+            background-color: #111827;
+            /* ahh yess my eyes feel so much better now :P */
+        }
+    </style>
+
+    <meta name="robots" content="noindex">
+
+    <title>{% block title %}{% endblock %} - {{ _(server_name) }}</title>
+
+    <meta property="og:title" content="{% block og_title %}{% endblock %}" />
+    <meta property="og:description" content="{% block og_description %}{% endblock %}" />
+    <script src="{{url_for('static', filename='node_modules/tinymce/tinymce.min.js')}}"></script>
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-900 overflow-x-hidden p-4">
+
+    {% block main %}
+
+    {% endblock %}
+
+    <div id="spinner" class="htmx-indicator absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity">
+        <i class="fa-solid fa-spinner fa-spin fa-2xl"></i>
+    </div>
+</body>
+
+</html>

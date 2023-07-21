@@ -1,67 +1,49 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="{{ APP_LANG }}" class="dark:bg-gray-900 dark">
 
 <head>
 
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}" />
-  <link rel="stylesheet" href="{{ url_for ('static', filename='node_modules/animate.css/animate.min.css') }}">
-  <script src="{{ url_for('static', filename='node_modules/htmx.org/dist/htmx.min.js') }}"></script>
-  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta charset="utf-8">
 
-  <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover, user-scalable=no">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="true" />
 
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="HandheldFriendly" content="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.min.css" integrity="sha512-k+xZuzf4IaGQK9sSDjaNyrfwgxBfoF++7u6Q0ZVUs2rDczx9doNZkYXyyQbnJQcMR4o+IjvAcIj69hHxiOZEig==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <meta name="robots" content="noindex">
+    <style>
+        /* Stop my eyes being blinded for dear life when the page is refreshed in dark mode */
+        html.dark {
+            background-color: #111827;
+            /* ahh yess my eyes feel so much better now :P */
+        }
+    </style>
 
-  <title>{% block title %}{% endblock %} - {{ _(server_name) }}</title>
+    <meta name="robots" content="noindex">
 
-  <meta property="og:title" content="{% block og_title %}{% endblock %}" />
-  <meta property="og:description" content="{% block og_description %}{% endblock %}" />
+    <title>{% block title %}{% endblock %} - {{ _(server_name) }}</title>
 
-  <script>
-    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  </script>
-</head>
+    <meta property="og:title" content="{% block og_title %}{% endblock %}" />
+    <meta property="og:description" content="{% block og_description %}{% endblock %}" />
 
-<body class="bg-gray-50 dark:bg-gray-900 overflow-x-hidden">
 
-  {% block main %}
+<script defer src="/static/dist/runtime.bundle.js"></script><script defer src="/static/dist/vendors.bundle.js"></script><script defer src="/static/dist/main.bundle.js"></script><link href="/static/dist/main.bundle.css" rel="stylesheet"></head>
 
-  {% endblock %}
-  <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}" />
+<body class="bg-gray-100 dark:bg-gray-900 overflow-x-hidden p-4">
 
-  <script src="{{url_for('static', filename='node_modules/alpinejs/dist/cdn.min.js')}}"></script>
-  <script src="{{ url_for('static', filename='node_modules/flowbite/dist/flowbite.min.js') }}"></script>
-  <script src="{{url_for('static', filename='node_modules/@alpinejs/collapse/dist/cdn.min.js')}}"></script>
+    {% block main %}
 
-  <script src="{{url_for('static', filename='js/dark-mode-switch.js')}}"></script>
+    {% endblock %}
 
-<script>
-var navbarContainer = document.querySelector('#navbar-default');
-navbarContainer.addEventListener('click', function(event) {
-  if (event.target.tagName === 'BUTTON') {
-    var hxGet = event.target.getAttribute('hx-get');
-    hxGet = hxGet.replace(/[^a-zA-Z0-9-]/g, '');
-    history.pushState(null, null, '/admin/' + hxGet);
-  }
-});
-
-var hxGet = window.location.pathname.replace('/admin', '');
-if (hxGet == '/settings') hxGet = '/settings/';
-if (hxGet) htmx.ajax('GET', hxGet, '#content');
-</script>
+    <div id="spinner" class="z-20 htmx-indicator absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity">
+        <i class="fa-solid fa-spinner fa-spin fa-2xl"></i>
+    </div>
 
 </body>
-
 
 </html>

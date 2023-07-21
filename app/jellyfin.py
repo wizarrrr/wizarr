@@ -1,24 +1,25 @@
-import requests
 import datetime
-
-from password_strength import PasswordPolicy
-
-from app import *
-from app.notifications import notify
-from app.helpers import is_invite_valid
-from flask import abort, jsonify, render_template, redirect
 import logging
 import re
 import time
+
+import requests
+from flask import abort, jsonify, redirect, render_template
+from password_strength import PasswordPolicy
 from peewee import PeeweeException
+
+from app import *
+from helpers import is_invite_valid
 from app.mediarequest import *
+from app.notifications import notify
+
 
 def Post(path, data):
     jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
-    api_key = Settings.get_or_none(Settings.key == "api_key").value
+    server_api_key = Settings.get_or_none(Settings.key == "server_api_key").value
 
     headers = {
-        "X-Emby-Token": api_key,
+        "X-Emby-Token": server_api_key,
     }
     response = requests.post(
         f"{jellyfin_url}{path}", json=data, headers=headers)
@@ -28,13 +29,13 @@ def Post(path, data):
 
 def Get(path):
     jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
-    api_key = Settings.get_or_none(Settings.key == "api_key").value
+    server_api_key = Settings.get_or_none(Settings.key == "server_api_key").value
 
     headers = {
-        "X-Emby-Token": api_key,
+        "X-Emby-Token": server_api_key,
     }
-    response = requests.get(
-        f"{jellyfin_url}{path}", headers=headers)
+
+    response = requests.get(f"{jellyfin_url}{path}", headers=headers, timeout=10)
     return response
 
 def jf_invite_user(username, password, code, email):
@@ -72,10 +73,10 @@ def jf_invite_user(username, password, code, email):
         # Create user and set expiration date
         expires = (datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration))) if Invitations.get(code=code).duration else None
         Users.create(username=username, email=email, password=password, token=user_id, code=code, expires=expires)
-        
+
         # Add user to Request Server
         mediarequest_import_users([user_id])
-        
+
         # Notify admin of new user
         notify("New User", f"User {username} has joined your server!", "tada")
 
@@ -101,52 +102,52 @@ def jf_invite_user(username, password, code, email):
         return False
 
 
-@app.route('/jf-scan', methods=["POST"])
-def jf_scan():
-    jellyfin_url = request.args.get('jellyfin_url')
-    api_key = request.args.get('jellyfin_api_key')
-    if not jellyfin_url or not api_key:
-        logging.error("Jellyfin URL or API Key not set")
-        abort(400)
-    try:
-        headers = {
-            "X-Emby-Token": api_key,
-        }
-        response = requests.get(
-            f"{jellyfin_url}/Library/MediaFolders", headers=headers)
-    except Exception as e:
-        logging.error("Error getting Jellyfin Libraries: " + str(e))
-        abort(400)
-    libraries = {}
-    for library in response.json()["Items"]:
+# @app.route('/jf-scan', methods=["POST"])
+# def jf_scan():
+#     jellyfin_url = request.args.get('jellyfin_url')
+#     api_key = request.args.get('jellyfin_api_key')
+#     if not jellyfin_url or not api_key:
+#         logging.error("Jellyfin URL or API Key not set")
+#         abort(400)
+#     try:
+#         headers = {
+#             "X-Emby-Token": api_key,
+#         }
+#         response = requests.get(
+#             f"{jellyfin_url}/Library/MediaFolders", headers=headers)
+#     except Exception as e:
+#         logging.error("Error getting Jellyfin Libraries: " + str(e))
+#         abort(400)
+#     libraries = {}
+#     for library in response.json()["Items"]:
 
-        libraries[library["Name"]] = library["Id"]
-    return jsonify(libraries)
-
-
-@app.route('/jf-scan-specific', methods=["POST"])
-def jf_scan_specific():
-    jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
-    api_key = Settings.get_or_none(Settings.key == "api_key").value
-    if not jellyfin_url or not api_key:
-        abort(400)
-    try:
-        response = Get("/Library/MediaFolders")
-        libraries_raw = response.json()
-    except Exception as e:
-        logging.error("Error getting Jellyfin Libraries: " + str(e))
-        abort(400)
-    libraries = {}
-    for library in response.json()["Items"]:
-
-        libraries[library["Name"]] = library["Id"]
-    return jsonify(libraries)
+#         libraries[library["Name"]] = library["Id"]
+#     return jsonify(libraries)
 
 
-@app.route('/setup/open-Jellyfin', methods=["GET"])
-def open_jellyfin():
-    jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
-    return redirect(jellyfin_url)
+# @app.route('/jf-scan-specific', methods=["POST"])
+# def jf_scan_specific():
+#     jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
+#     server_api_key = Settings.get_or_none(Settings.key == "server_api_key").value
+#     if not jellyfin_url or not server_api_key:
+#         abort(400)
+#     try:
+#         response = Get("/Library/MediaFolders")
+#         libraries_raw = response.json()
+#     except Exception as e:
+#         logging.error("Error getting Jellyfin Libraries: " + str(e))
+#         abort(400)
+#     libraries = {}
+#     for library in response.json()["Items"]:
+
+#         libraries[library["Name"]] = library["Id"]
+#     return jsonify(libraries)
+
+
+# @app.route('/setup/open-Jellyfin', methods=["GET"])
+# def open_jellyfin():
+#     jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
+#     return redirect(jellyfin_url)
 
 
 @app.route('/setup/jellyfin', methods=["POST"])
@@ -184,18 +185,18 @@ def join_jellyfin():
 
     if password != confirm_password:
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Passwords do not match")
-    
+
     valid, message = is_invite_valid(code)
     if not valid:
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error=message)
-    
+
     jf_get_users()
-    
+
     if Users.select().where(Users.username == username).exists():
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="User already exists")
     if Users.select().where(Users.email == email).exists():
         return render_template("welcome-jellyfin.html", username=username, email=email, code=code, error="Email already exists")
-    
+
     if jf_invite_user(username, password, code, email):
         return redirect('/setup')
     else:
@@ -203,20 +204,21 @@ def join_jellyfin():
 
 
 def jf_get_users():
+    print("Jellyfin users updated")
     response = Get("/Users")
+
     # Compare user to database
     for user in response.json():
         if not Users.select().where(Users.token == user["Id"]).exists():
-            Users.create(username=user["Name"], email="empty",
-                         code="empty", password="empty", token=user["Id"])
+            Users.create(username=user["Name"], email="empty", code="empty", password="empty", token=user["Id"])
 
     # Compare database to users
     if Users.select():
         for user in Users.select():
             if not any(d['Id'] == user.token for d in response.json()):
                 user.delete_instance()
-    users = Users.select()    
-    
+    users = Users.select()
+
     if not users:
         abort(400)
 
@@ -224,16 +226,16 @@ def jf_get_users():
     for user in users:
         jellyfin_url = Settings.get_or_none(Settings.key == "server_url").value
         user.photo = f"{jellyfin_url}/Users/{user.token}/Images/Primary?maxHeight=150&maxWidth=150&tag=%7Btag%7D&quality=30"
-    
+
     return users
 
 def jf_delete_user(user):
     try:
         jf_id = Users.get_by_id(user).token
         jellyfin_url = Settings.get(Settings.key == "server_url").value
-        api_key = Settings.get(Settings.key == "api_key").value
+        server_api_key = Settings.get(Settings.key == "server_api_key").value
         headers = {
-            "X-Emby-Token": api_key,
+            "X-Emby-Token": server_api_key,
         }
         response = requests.delete(
             f"{jellyfin_url}/Users/{jf_id}", headers=headers)

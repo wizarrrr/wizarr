@@ -1,0 +1,277 @@
+<div class="flex flex-col space-y-4">
+    <h1 id="title" class="h-8 relative text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        <span class="absolute inset-0 z-10 ">{{ _("Join the Plex Server") }}</span>
+        <span class="absolute inset-0 z-10 hidden">{{ _("Sign in to Plex") }}</span>
+        <span class="absolute inset-0 z-10 hidden">{{ _("Please wait") }}</span>
+        <span class="absolute inset-0 z-10 hidden">{{ _("Setting up your account") }}</span>
+        <span class="absolute inset-0 z-10 hidden">{{ _("Almost there!") }}</span>
+        <span class="absolute inset-0 z-10 hidden">{{ _("All done!") }}</span>
+        <span class="absolute inset-0 z-10 hidden">{{ _("Account created!") }}</span>
+        <span class="absolute inset-0 z-10 hidden">{{ _("Please try again") }}</span>
+    </h1>
+
+    <div class="relative w-full">
+        <!-- Carousel wrapper -->
+        <div id="carousel" class="relative overflow-hidden rounded-lg" style="height: 150px; transition: max-height 0.3s ease-in-out;">
+            <!-- Blank Carousel Item to prevent wrap around -->
+            <div id="carousel-item-0" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800">test</div>
+
+            <!-- Item 1 -->
+            <div id="carousel-item-1" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800">
+                <div class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+                    <form onsubmit="event.preventDefault(); joinServer(this);" class="space-y-4 md:space-y-6">
+                        <div>
+                            <label for="code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                {{ _("Invite Code") }}
+                            </label>
+
+                            <input type="code" name="code" id="code" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="XMFGEJI" value="{{ code }}" required="">
+                            <input type="hidden" name="token" id="token" value="">
+                        </div>
+
+                        <button type="submit" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
+                            {{ _("Join") }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div id="carousel-item-2" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800 flex items-center justify-center">
+                <i class="fas fa-spinner fa-spin fa-3x"></i>
+            </div>
+
+            {# after:border-primary after:dark:border-gray-700 after:border-4 after:inline-block #}
+            {# #}
+            <!-- Item 3 -->
+            <div id="carousel-item-3" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800">
+                <div class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+                    <ol id="stepper" class="flex items-center w-full">
+                        <li class="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:dark:border-gray-700 after:border-4 after:inline-block" style="transition: border-color 0.3s ease;">
+                            <span class="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 dark:bg-gray-700 shrink-0" style="transition: background-color 0.3s ease;">
+                                <i class="fas fa-user-plus"></i>
+                            </span>
+                        </li>
+                        <li class="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:dark:border-gray-700 after:border-4 after:inline-block" style="transition: border-color 0.3s ease;">
+                            <span class="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 dark:bg-gray-700 shrink-0" style="transition: background-color 0.3s ease;">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 dark:bg-gray-700 shrink-0" style="transition: background-color 0.3s ease;">
+                                <i class="fas fa-check"></i>
+                            </span>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div id="carousel-item-4" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800 flex items-center justify-center">
+                <i class="fas fa-spinner fa-spin fa-3x"></i>
+            </div>
+
+            <!-- Item 5 -->
+            <div id="carousel-item-5" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800 flex items-center justify-center">
+                <div class="flex flex-col items-start justify-center w-full space-y-4">
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">
+                        {{ _("You're all set, click continue to get started and walkthrough how to use Plex!") }}
+                    </p>
+                    <button onclick="location = '/help'" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
+                        {{ _("Continue") }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Item 6 -->
+            <div id="carousel-item-6" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800 flex items-center justify-center">
+                <button onclick="location.reload()" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
+                    {{ _("Retry") }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script defer>
+    document.addEventListener("DOMContentLoaded", function () {
+        const items = [
+            { position: 0, el: document.getElementById('carousel-item-0') },
+            { position: 1, el: document.getElementById('carousel-item-1') },
+            { position: 2, el: document.getElementById('carousel-item-2') },
+            { position: 3, el: document.getElementById('carousel-item-3') },
+            { position: 4, el: document.getElementById('carousel-item-4') },
+            { position: 5, el: document.getElementById('carousel-item-5') },
+            { position: 6, el: document.getElementById('carousel-item-6') }
+        ];
+
+        const options = {
+            defaultPosition: 1,
+            onChange: (step) => {
+                let active = step._getActiveItem();
+                let speed = 600;
+                if (active.position == 1) {
+                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "150px" }, speed);
+                } else if (active.position == 2) {
+                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "60px" }, speed);
+                } else if (active.position == 3) {
+                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "60px" }, speed);
+                } else if (active.position == 4) {
+                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "100px" }, speed);
+                } else if (active.position == 5) {
+                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "100px" }, speed);
+                } else if (active.position == 6) {
+                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "60px" }, speed);
+                }
+            }
+        };
+
+        window.carousel = new Carousel(items, options);
+        window.plexAuth = new PlexAuth();
+
+    });
+
+    async function wait(ms) {
+        return new Promise(resolve => {
+            setTimeout(resolve, ms);
+        });
+    }
+
+    async function changeTitle(step) {
+        const title = document.querySelector('#title');
+        const spans = title.querySelectorAll('span');
+
+        for (let i = 0; i < spans.length; i++) {
+            if (i == step) {
+                spans[i].classList.remove('hidden');
+                spans[i].classList.add('animate__animated', 'animate__fadeIn');
+            } else {
+                spans[i].classList.add('hidden');
+                spans[i].classList.remove('animate__animated', 'animate__fadeIn');
+            }
+        }
+    }
+
+    function changeStepper(step) {
+        const stepper = document.querySelector('#stepper');
+        const steps = stepper.querySelectorAll('li');
+
+        for (let i = 0; i < steps.length; i++) {
+
+            if (step == 0) {
+                steps[i].classList.add('after:border-gray-100', 'after:dark:border-gray-700');
+                steps[i].classList.remove('after:border-primary');
+
+                steps[i].querySelector('span').classList.remove('bg-gray-100', 'dark:bg-gray-700');
+                steps[i].querySelector('span').classList.add('bg-primary');
+            }
+
+            if (i <= step - 1) {
+                steps[i].classList.add('after:border-primary');
+                steps[i].classList.remove('after:border-gray-100', 'after:dark:border-gray-700');
+
+                steps[i].querySelector('span').classList.remove('bg-gray-100', 'dark:bg-gray-700');
+                steps[i].querySelector('span').classList.add('bg-primary');
+            } else {
+                steps[i].classList.add('after:border-gray-100', 'after:dark:border-gray-700');
+                steps[i].classList.remove('after:border-primary');
+
+                steps[i].querySelector('span').classList.remove('bg-primary');
+                steps[i].querySelector('span').classList.add('bg-gray-100', 'dark:bg-gray-700');
+            }
+        }
+    }
+
+    function changeStep(step) {
+        changeTitle(step + 2);
+        changeStepper(step);
+    }
+
+    function errorScreen() {
+        let lastcarousel = document.querySelector('#carousel').childElementCount;
+        let lasttitle = document.querySelector('#title').childElementCount;
+
+        window.carousel.slideTo(lastcarousel - 1);
+        changeTitle(lasttitle - 1);
+    }
+
+    async function joinServer(that) {
+        // Disable button and change text
+        that.querySelector('button').disabled = true;
+        that.querySelector('button').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Joining...';
+
+        // Wait half a second for no reason other than to look cool ;)
+        await wait(500);
+
+        // Change slide and title
+        window.carousel.slideTo(2);
+        changeTitle(1);
+
+        // Run Plex Auth and wait for a token
+        let token = await window.plexAuth.login();
+
+        // If no token, show error slide
+        if (token == null) {
+            errorScreen();
+            return;
+        }
+
+        // If token, change slide and title to stepper screen
+        window.carousel.slideTo(3);
+        changeTitle(2);
+
+        // Create form data
+        let formData = new FormData();
+        formData.append('token', token);
+
+        // Make a request to the server for Server Sent Event url
+        let plex = await fetch('/api/plex', {
+            method: 'POST',
+            body: formData,
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token')
+            },
+        });
+
+        // If no response, show error slide
+        if (plex.status != 200) {
+            errorScreen();
+            return;
+        }
+
+        // Get the response as json
+        let plex_stream = await plex.json();
+
+        // Check if sseJson has a url
+        if (plex_stream.stream == null) {
+            errorScreen();
+            return;
+        }
+
+        // Create a new EventSource with the url
+        let sse = new EventSource("/api/plex/" + plex_stream.stream);
+
+        // If event source is error, show error slide
+        sse.onerror = function () {
+            errorScreen();
+        };
+
+        sse.addEventListener('username', function (event) {
+            toast.infoToast('Hello, ' + event.data + '!');
+        })
+
+        sse.addEventListener('step', async function (event) {
+            changeStep(parseInt(event.data));
+
+            if (parseInt(event.data) == 3) {
+                sse.close();
+                await wait(500);
+                changeTitle(2);
+                window.carousel.slideTo(4);
+                await wait(1000);
+                changeTitle(6);
+                window.carousel.slideTo(5);
+            }
+        })
+    }
+</script>
