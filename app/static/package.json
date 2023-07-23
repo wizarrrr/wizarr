@@ -4,8 +4,8 @@
     "description": "Wizarr",
     "type": "module",
     "scripts": {
-        "build": "webpack --config webpack.config.cjs",
-        "watch": "webpack --config webpack.config.cjs --watch"
+        "build": "webpack --config webpack.config.cjs --progress",
+        "watch": "webpack --config webpack.config.cjs --watch --progress"
     },
     "author": "",
     "license": "ISC",

@@ -6,6 +6,7 @@ COPY . /data
 
 RUN apk add tzdata nodejs npm cargo
 RUN pip3 install --upgrade pip
+RUN CFLAGS="-Os -g0 -s" pip3 install --no-binary pydantic --global-option=build_ext --global-option=-j8 pydantic
 RUN pip3 install -r requirements.txt
 
 WORKDIR /data/app/static
