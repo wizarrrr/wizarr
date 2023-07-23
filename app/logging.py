@@ -1,6 +1,6 @@
 import logging
 
-from coloredlogs import DEFAULT_LEVEL_STYLES, install
+from coloredlogs import install
 
 # Create a logger object.
 logger = logging.getLogger()

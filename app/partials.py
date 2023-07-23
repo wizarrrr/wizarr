@@ -100,7 +100,6 @@ def modal_partials(path, **kwargs):
     return render_template("modal.html", subpath=f"modals/{path}.html", **data)
 
 
-
 # All tables partials
 @app.get('/partials/tables/<path:path>')
 @login_required()

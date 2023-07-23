@@ -1,21 +1,14 @@
-# This code creates a Flask RESTX API object, which is used to define the API.
-
-from json import dumps
-from os import path
-
-from flask import jsonify, request
-from flask_restx import Api, Swagger
-from requests import RequestException
-from app.exceptions import AuthenticationError
 from peewee import IntegrityError
-from werkzeug.exceptions import UnsupportedMediaType
 from pydantic import ValidationError
+from werkzeug.exceptions import UnsupportedMediaType
+
+from app.exceptions import AuthenticationError
+from app.extensions import api
 
 from .accounts_api import api as accounts_api
 from .auth_api import api as auth_api
 from .invites_api import api as invites_api
 from .libraries_api import api as libraries_api
-from .live_notifications_api import api as live_notifications_api
 from .notifications_api import api as notifications_api
 from .plex_api import api as plex_api
 from .scan_libraries_api import api as scan_libraries_api
@@ -39,12 +32,12 @@ authorizations = {
     }
 }
 
-api: Api = Api(title="Wizarr API",
-               description="Wizarr API",
-               prefix="/api",
-               doc="/api/docs",
-               authorizations=authorizations,
-               )
+# pylint: disable=protected-access
+api.title = "Wizarr API"
+api.description = "Wizarr API"
+api.prefix = "/api"
+api.authorizations = authorizations
+api._doc = "/api/docs"
 
 def error_handler(exception, code, json=False):
     error_object = {
@@ -53,15 +46,15 @@ def error_handler(exception, code, json=False):
             "type": type(exception).__name__
         },
     }
-    
+
     if json:
         error_object = {**error_object, **exception.json()}
     else:
         error_object = {**error_object, "message": str(exception)}
-    
-    
+
+
     return error_object, code
-        
+
 
 @api.errorhandler(ValidationError)
 def handle_validation_error(error):

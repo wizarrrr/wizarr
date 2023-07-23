@@ -3,11 +3,12 @@ from typing import Optional
 from pydantic import HttpUrl
 from requests import RequestException, get, post, delete
 from logging import info
+from io import BytesIO
 
 from .invitation import get_invitation
 from .libraries import get_libraries_ids
 from .settings import get_settings
-from .users import get_users, create_user
+from .users import get_users, create_user, get_user_by_token
 
 from models.jellyfin.user import JellyfinUser
 from models.jellyfin.user_policy import JellyfinUserPolicy
@@ -27,7 +28,7 @@ from models.jellyfin.library import JellyfinLibraryItem
 
 
 # ANCHOR - Jellyfin Get Request
-def get_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None) -> dict:
+def get_jellyfin(api_path: str, as_json: Optional[bool] = True, server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None):
     """Get data from Jellyfin.
     :param api_path: API path to get data from
     :type api_path: str
@@ -58,10 +59,13 @@ def get_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_url
     # Add api_path to Jellyfin URL
     api_url = str(server_url) + api_path
 
-    print(api_url)
+    # Set headers for Jellyfin API
+    headers = {
+        "X-Emby-Token": server_api_key,
+        "Accept": "application/json, profile=\"PascalCase\""
+    }
 
     # Get data from Jellyfin
-    headers = {"X-Emby-Token": server_api_key}
     response = get(url=api_url, headers=headers, timeout=30)
 
     # Raise exception if Jellyfin API returns non-200 status code
@@ -70,7 +74,11 @@ def get_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_url
             f"Jellyfin API returned {response.status_code} status code."
         )
 
-    return response.json()
+    # Return response
+    if as_json:
+        return response.json()
+    else:
+        return response
 
 
 # ANCHOR - Jellyfin Post Request
@@ -100,8 +108,13 @@ def post_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_ur
     # Add api_path to Jellyfin URL
     api_url = str(server_url) + api_path
 
-    # Get data from Jellyfin
-    headers = {"X-Emby-Token": server_api_key}
+    # Set headers for Jellyfin API
+    headers = {
+        "X-Emby-Token": server_api_key,
+        "Accept": "application/json, profile=\"PascalCase\""
+    }
+
+    # Post data to Jellyfin
     response = post(url=api_url, headers=headers, data=data, timeout=30)
 
     # Raise exception if Jellyfin API returns non-200 status code
@@ -139,8 +152,13 @@ def delete_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_
     # Add api_path to Jellyfin URL
     api_url = str(server_url) + api_path
 
-    # Get data from Jellyfin
-    headers = {"X-Emby-Token": server_api_key}
+    # Set headers for Jellyfin API
+    headers = {
+        "X-Emby-Token": server_api_key,
+        "Accept": "application/json, profile=\"PascalCase\""
+    }
+
+    # Delete data from Jellyfin
     response = delete(url=api_url, headers=headers, timeout=30)
 
     # Raise exception if Jellyfin API returns non-200 status code
@@ -274,7 +292,7 @@ def get_jellyfin_users(server_api_key: Optional[str] = None, server_url: Optiona
     response = get_jellyfin(api_path="/Users", server_api_key=server_api_key, server_url=server_url)
 
     # Return users
-    return response["Items"]
+    return response
 
 
 # ANCHOR - Jellyfin Get User
@@ -320,8 +338,8 @@ def delete_jellyfin_user(user_id: str, server_api_key: Optional[str] = None, ser
 
 
 # ANCHOR - Jellyfin Sync Users
-def sync_jellyfin_users(server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None) -> None:
-    """Import users from Jellyfin to database.
+def sync_jellyfin_users(server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None) -> list[JellyfinUser]:
+    """Sync users from Jellyfin to database.
 
     :param server_api_key: Jellyfin API key
     :type server_api_key: Optional[str] - If not provided, will get from database.
@@ -335,18 +353,75 @@ def sync_jellyfin_users(server_api_key: Optional[str] = None, server_url: Option
     # Get users from Jellyfin
     jellyfin_users = get_jellyfin_users(server_api_key=server_api_key, server_url=server_url)
 
+
     # Get users from database
-    database_users = get_users()
+    database_users = get_users(False)
 
-    # If jellyfin_users.id not in database_users.id, add to database
+    # If jellyfin_users.id not in database_users.token, add to database
     for jellyfin_user in jellyfin_users:
-        if jellyfin_user.id not in [database_user.token for database_user in database_users]:
-            create_user(username=jellyfin_user.name, token=jellyfin_user.id)
-            info(f"User {jellyfin_user.name} successfully imported to database.")
+        if jellyfin_user["Id"] not in [database_user.token for database_user in database_users]:
+            create_user(username=jellyfin_user["Name"], token=jellyfin_user["Id"])
+            info(f"User {jellyfin_user['Name']} successfully imported to database.")
 
-    # If database_users.id not in jellyfin_users.id, delete from database
+    # If database_users.token not in jellyfin_users.id, delete from database
     for database_user in database_users:
-        if database_user.token not in [jellyfin_user.id for jellyfin_user in jellyfin_users]:
+        if database_user.token not in [jellyfin_user["Id"] for jellyfin_user in jellyfin_users]:
             database_user.delete_instance()
             info(f"User {database_user.username} successfully deleted from database.")
 
+    # Return users
+    return get_jellyfin_users(server_api_key=server_api_key, server_url=server_url)
+
+
+# ANCHOR - Jellyfin Get Profile Picture
+def get_jellyfin_profile_picture(user_id: str, max_height: Optional[int] = 150, max_width: Optional[int] = 150, quality: Optional[int] = 30, server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None):
+    """Get profile picture from Jellyfin.
+
+    :param user_id: ID of the user to get profile picture for
+    :type user_id: str
+
+    :param username: Username for backup profile picture using ui-avatars.com
+    :type username: str
+
+    :param max_height: Maximum height of profile picture
+    :type max_height: Optional[int] - Default: 150
+
+    :param max_width: Maximum width of profile picture
+    :type max_width: Optional[int] - Default: 150
+
+    :param quality: Quality of profile picture
+    :type quality: Optional[int] - Default: 30
+
+    :param server_api_key: Jellyfin API key
+    :type server_api_key: Optional[str] - If not provided, will get from database.
+
+    :param server_url: Jellyfin URL
+    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+
+    :return: Jellyfin API response
+    """
+
+    # Response object
+    response = None
+
+    try:
+        # Get profile picture from Jellyfin
+        response = get_jellyfin(api_path=f"/Users/{user_id}/Images/Primary?maxHeight={max_height}&maxWidth={max_width}&quality={quality}", as_json=False, server_api_key=server_api_key, server_url=server_url)
+    except RequestException:
+        # Backup profile picture using ui-avatars.com if Jellyfin fails
+        user = get_user_by_token(user_id, verify=False)
+        username = f"{user.username}&length=1" if user else "ERROR&length=60&font-size=0.28"
+        response = get(url=f"https://ui-avatars.com/api/?uppercase=true&name={username}", timeout=30)
+
+    # Raise exception if either Jellyfin or ui-avatars.com fails
+    if response.status_code != 200:
+        raise RequestException("Failed to get profile picture.")
+
+    # Extract image from response
+    image = response.content
+
+    # Convert image bytes to read image
+    image = BytesIO(image)
+
+    # Return profile picture
+    return image

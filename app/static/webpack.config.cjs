@@ -14,6 +14,12 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
     },
+    watch: true,
+    watchOptions: {
+        ignored: ['**/node_modules', '**/dist', '**/base.html'],
+        aggregateTimeout: 300,
+        poll: 1000
+    },
     devtool: "inline-source-map",
     module: {
         rules: [

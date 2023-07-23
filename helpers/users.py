@@ -3,8 +3,9 @@ from playhouse.shortcuts import model_to_dict
 from datetime import datetime
 
 # ANCHOR - Get Users
-def get_users() -> list[Users]:
+def get_users(as_dict: bool = True) -> list[Users]:
     """Get all users from the database
+    :param dict: Whether or not to return as list of dicts
 
     :return: A list of users
     """
@@ -13,10 +14,12 @@ def get_users() -> list[Users]:
     users: list[Users] = Users.select()
 
     # Convert to a list of dicts
-    users = [model_to_dict(user) for user in users]
+    if as_dict:
+        users = [model_to_dict(user) for user in users]
 
     # Return all users
     return users
+
 
 # ANCHOR - Get User by ID
 def get_user_by_id(user_id: int, verify: bool = True) -> Users or None:
@@ -80,6 +83,29 @@ def get_user_by_email(email: str, verify: bool = True) -> Users or None:
 
     # Get the user by email
     user = Users.get_or_none(Users.email == email)
+
+    # Check if the user exists
+    if user is None and verify:
+        raise ValueError("User does not exist")
+
+    # Return the user
+    return user
+
+# ANCHOR - Get User by Token
+def get_user_by_token(token: str, verify: bool = True) -> Users or None:
+    """Get a user by token
+
+    :param token: The token of the user
+    :type token: str
+
+    :param verify: Whether or not to verify the user exists
+    :type verify: bool
+
+    :return: A user
+    """
+
+    # Get the user by token
+    user = Users.get_or_none(Users.token == token)
 
     # Check if the user exists
     if user is None and verify:

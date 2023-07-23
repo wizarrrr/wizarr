@@ -154,18 +154,18 @@ class JellyfinUser:
     policy: Policy
     primary_image_aspect_ratio: int
 
-    def __init__(self, name: str, server_id: str, server_name: str, id: UUID, primary_image_tag: str, has_password: bool, has_configured_password: bool, has_configured_easy_password: bool, enable_auto_login: bool, last_login_date: datetime, last_activity_date: datetime, configuration: Configuration, policy: Policy, primary_image_aspect_ratio: int) -> None:
-        self.name = name
-        self.server_id = server_id
-        self.server_name = server_name
-        self.id = id
-        self.primary_image_tag = primary_image_tag
-        self.has_password = has_password
-        self.has_configured_password = has_configured_password
-        self.has_configured_easy_password = has_configured_easy_password
-        self.enable_auto_login = enable_auto_login
-        self.last_login_date = last_login_date
-        self.last_activity_date = last_activity_date
-        self.configuration = configuration
-        self.policy = policy
-        self.primary_image_aspect_ratio = primary_image_aspect_ratio
+    def __init__(self, Name: str, ServerId: str, ServerName: str, Id: UUID, PrimaryImageTag: str, HasPassword: bool, HasConfiguredPassword: bool, HasConfiguredEasyPassword: bool, EnableAutoLogin: bool, LastLoginDate: datetime, LastActivityDate: datetime, Configuration: Configuration, Policy: Policy, PrimaryImageAspectRatio: int) -> None:
+        self.name = Name
+        self.server_id = ServerId
+        self.server_name = ServerName
+        self.id = Id
+        self.primary_image_tag = PrimaryImageTag
+        self.has_password = HasPassword
+        self.has_configured_password = HasConfiguredPassword
+        self.has_configured_easy_password = HasConfiguredEasyPassword
+        self.enable_auto_login = EnableAutoLogin
+        self.last_login_date = LastLoginDate
+        self.last_activity_date = LastActivityDate
+        self.configuration = Configuration
+        self.policy = Policy
+        self.primary_image_aspect_ratio = PrimaryImageAspectRatio

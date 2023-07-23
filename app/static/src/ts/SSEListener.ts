@@ -1,4 +1,5 @@
 import Cookie from 'js-cookie';
+
 import { infoToast } from './CustomToastify';
 
 let loadSSE = () => {

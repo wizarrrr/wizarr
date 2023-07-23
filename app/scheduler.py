@@ -2,12 +2,11 @@ from datetime import datetime
 from logging import info, webpush
 
 from flask_apscheduler import APScheduler
-from flask_jwt_extended import get_unverified_jwt_headers
 
 from app import app
-from models import Sessions, Users
-
+from helpers.universal import global_sync_users
 from helpers.users import get_users_by_expiring
+from models import Sessions
 
 # Scheduler
 schedule = APScheduler()
@@ -15,10 +14,10 @@ schedule.init_app(app)
 schedule.start()
 
 # Scheduled tasks
-@schedule.task('interval', id='checkExpiringUsers', minutes=15, misfire_grace_time=900)
+@schedule.task("interval", id="checkExpiringUsers", minutes=15, misfire_grace_time=900)
 def check_expiring_users():
     # Log message to console
-    webpush('Checking for expiring users')
+    webpush("Checking for expiring users")
 
     # Get all users that have an expiration date set and are expired
     expiring = get_users_by_expiring()
@@ -29,9 +28,9 @@ def check_expiring_users():
         info(f"Deleting user { user.email if user.email else user.username } due to expired invite.")
 
 
-@schedule.task('interval', id='checkExpiredSessions', minutes=15, misfire_grace_time=900)
+@schedule.task("interval", id="checkExpiredSessions", minutes=15, misfire_grace_time=900)
 def check_expired_sessions():
-    webpush('Checking for expired sessions')
+    webpush("Checking for expired sessions")
     # Get all sessions where expires is less than now in utc and delete them
     sessions = Sessions.select().where(Sessions.expires < datetime.utcnow().strftime("%Y-%m-%d %H:%M"))
 
@@ -41,21 +40,10 @@ def check_expired_sessions():
         info(f"Deleting session { session.id } due to expired session.")
 
 
-@schedule.task('interval', id='scanUsers', minutes=30, misfire_grace_time=900)
+@schedule.task("interval", id="syncUsers", minutes=30, misfire_grace_time=900)
 def scan_users():
-    webpush('Scanning for new users')
-    # Get all new users
-    # global_get_users()
-
-
-
-@schedule.task('interval', id='scanLibraries', minutes=30, misfire_grace_time=900)
-def scan_libraries():
-    webpush('Scanning for new libraries')
-    # Get all new libraries
-
-
-
+    webpush("Scanning for new users")
+    global_sync_users()
 
 
 
@@ -70,10 +58,10 @@ def get_schedule():
         name = job.name.replace("_", " ").title()
 
         schedule_info = {
-            'id': job.id,
-            'name': name,
-            'trigger': str(job.trigger),
-            'next_run_time': str(job.next_run_time)
+            "id": job.id,
+            "name": name,
+            "trigger": str(job.trigger),
+            "next_run_time": str(job.next_run_time)
         }
 
         schedule_list.append(schedule_info)
@@ -84,10 +72,10 @@ def get_task(job_id):
     job_store = schedule.get_job(id=job_id)
 
     schedule_info = {
-        'id': job_store.id,
-        'name': job_store.name,
-        'trigger': str(job_store.trigger),
-        'next_run_time': str(job_store.next_run_time)
+        "id": job_store.id,
+        "name": job_store.name,
+        "trigger": str(job_store.trigger),
+        "next_run_time": str(job_store.next_run_time)
     }
 
     return schedule_info
