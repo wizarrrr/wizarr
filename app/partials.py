@@ -1,16 +1,15 @@
 from datetime import datetime
 from os import getenv, listdir, path
 
-from flask import abort, make_response, render_template, request
+from flask import abort, render_template, request
 from flask_jwt_extended import current_user
 
 from app import app
-from helpers import get_api_keys, get_notifications, get_settings
+from helpers import get_api_keys, get_notifications, get_settings, get_users
 from models import Admins, Invitations, Sessions, Settings
 
 from .scheduler import get_schedule
 from .security import login_required, login_required_unless_setup
-from .universal import global_get_users
 
 
 # All admin partials
@@ -25,12 +24,16 @@ def admin_partials(subpath):
     if subpath not in html_files and subpath != "":
         return abort(404)
 
+    # Get all settings
+    settings = get_settings()
+    settings["admin"] = current_user
+
     # If no subpath is specified, render the admin dashboard
     if not subpath:
-        return render_template("admin.html", subpath="admin/invite.html")
+        return render_template("admin.html", subpath="admin/invite.html", **settings)
 
     # All possible admin partials
-    return render_template(f"admin/{subpath}.html")
+    return render_template(f"admin/{subpath}.html", **settings)
 
 
 
@@ -48,8 +51,6 @@ def settings_partials(subpath):
 
     # Get all settings
     settings = get_settings()
-    settings["api_keys"] = get_api_keys()
-    settings["template"] = subpath if subpath else "general"
     settings["admin"] = current_user
 
     # If no subpath is specified, render the admin dashboard
@@ -59,18 +60,6 @@ def settings_partials(subpath):
     # All possible admin partials
     return render_template(f"admin/settings/{subpath}.html", **settings)
 
-@app.post('/partials/admin/settings', defaults={'subpath': ''})
-@app.post('/partials/admin/settings/<path:subpath>')
-@login_required()
-def post_settings_routes(subpath):
-    # Get valid settings partials
-    # if subpath in ["general", "request", "discord", "html"]:
-    # SettingsController(request).post()
-        
-    response = make_response(settings_partials(subpath))
-    response.headers['showToast'] = "Settings saved successfully!"
-    
-    return response
 
 # All account partials
 @app.get('/partials/admin/account', defaults={'subpath': ''})
@@ -86,7 +75,6 @@ def account_partials(subpath):
 
     # Get all settings
     settings = get_settings()
-    settings["template"] = subpath if subpath else "general"
     settings["admin"] = current_user
 
     # If no subpath is specified, render the admin dashboard
@@ -98,7 +86,7 @@ def account_partials(subpath):
 
 
 # All modal partials
-@app.route('/partials/modals/<path:path>')
+@app.get('/partials/modals/<path:path>')
 @login_required_unless_setup()
 def modal_partials(path, **kwargs):
     # Get all form and post data
@@ -114,7 +102,7 @@ def modal_partials(path, **kwargs):
 
 
 # All tables partials
-@app.route('/partials/tables/<path:path>')
+@app.get('/partials/tables/<path:path>')
 @login_required()
 def table_partials(path):
     settings = {
@@ -122,26 +110,26 @@ def table_partials(path):
     }
 
     if path == "global-users":
-        settings["users"] = global_get_users()
+        settings["users"] = get_users()
 
     if path == "invite-table":
         settings["server_type"] = Settings.get(key="server_type").value
         settings["invitations"] = Invitations.select().order_by(Invitations.created.desc())
         settings["rightnow"] = datetime.now()
         settings["app_url"] = getenv("APP_URL")
-        
+
     if path == "admin-users":
         settings["admins"] = list(Admins.select().dicts())
-        
+
     if path == "task-table":
         settings["tasks"] = get_schedule()
-        
+
     if path == "notification-table":
         settings["notifications"] = get_notifications()
-        
+
     if path == "sessions-table":
         settings["sessions"] = Sessions.select().where(Sessions.user == current_user["id"]).order_by(Sessions.created.desc())
-        
+
     if path == "api-table":
         settings["api_keys"] = get_api_keys()
 

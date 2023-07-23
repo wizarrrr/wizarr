@@ -19,6 +19,7 @@ api.add_model("NotificationsPostModel", NotificationsPostModel)
 api.add_model("NotificationsGetModel", NotificationsGetModel)
 
 @api.route('')
+@api.route('/', doc=False)
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class NotificationsListAPI(Resource):
     
@@ -98,6 +99,7 @@ class NotificationsListAPI(Resource):
     
 
 @api.route('/<int:notification_id>')
+@api.route('/<int:notification_id>/', doc=False)
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class NotificationsAPI(Resource):
 

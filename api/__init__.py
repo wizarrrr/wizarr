@@ -3,10 +3,13 @@
 from json import dumps
 from os import path
 
-from flask import jsonify
+from flask import jsonify, request
 from flask_restx import Api, Swagger
 from requests import RequestException
 from app.exceptions import AuthenticationError
+from peewee import IntegrityError
+from werkzeug.exceptions import UnsupportedMediaType
+from pydantic import ValidationError
 
 from .accounts_api import api as accounts_api
 from .auth_api import api as auth_api
@@ -43,28 +46,42 @@ api: Api = Api(title="Wizarr API",
                authorizations=authorizations,
                )
 
+def error_handler(exception, code, json=False):
+    error_object = {
+        "error": {
+            "message": str(exception),
+            "type": type(exception).__name__
+        },
+    }
+    
+    if json:
+        error_object = {**error_object, **exception.json()}
+    else:
+        error_object = {**error_object, "message": str(exception)}
+    
+    
+    return error_object, code
+        
+
+@api.errorhandler(ValidationError)
+def handle_validation_error(error):
+    return error_handler(error, 400, True)
+
+@api.errorhandler(IntegrityError)
+def handle_value_error(error):
+    return error_handler(error, 400)
+
+@api.errorhandler(UnsupportedMediaType)
+def handle_unsupported_media_type(error):
+    return error_handler(error, 415)
+
 @api.errorhandler(AuthenticationError)
 def handle_authentication_error(error):
-    return { "message": error.message or "Authentication error" }, 401
+    return error_handler(error, 401)
 
 @api.errorhandler(Exception)
 def handle_request_exception(error):
-    error_message = str(error)
-    status_code = getattr(error, 'status_code', 500)
-    file_name = path.basename(error.__traceback__.tb_frame.f_code.co_filename)
-    line_number = error.__traceback__.tb_lineno
-    error_type = type(error).__name__
-    error_object = {
-        "error": {
-            "message": error_message,
-            "status_code": status_code,
-            "file": file_name,
-            "line": line_number,
-            "type": error_type
-        },
-    }
-    return error_object, status_code
-
+    return error_handler(error, 500)
 
 # Ordered Alphabetically for easier viewing in Swagger UI
 api.add_namespace(accounts_api)

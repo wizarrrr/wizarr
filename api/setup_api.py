@@ -10,8 +10,8 @@ from playhouse.shortcuts import model_to_dict
 
 api = Namespace('Setup API', description=' related operations', path="/setup")
 
-@api.route('')
-@api.route('/<string:setup_type>')
+@api.route('', doc=False)
+@api.route('/<string:setup_type>', doc=False)
 class Setup(Resource):
         
     @api.doc(description="Setup the application")

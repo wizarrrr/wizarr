@@ -36,9 +36,10 @@
 
 <body class="bg-gray-100 dark:bg-gray-900 overflow-x-hidden p-4">
 
-    {% block main %}
-
-    {% endblock %}
+    <div>
+        {% block main %}
+        {% endblock %}
+    </div>
 
     <div id="spinner" class="z-20 htmx-indicator absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity">
         <i class="fa-solid fa-spinner fa-spin fa-2xl"></i>

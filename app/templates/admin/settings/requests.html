@@ -3,7 +3,7 @@
         <div>
             <label for="requests_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request Server") }}</label>
             <select name="request_type" id="request_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option {% if not request_type %} selected {% endif %} value="">{{ _("Disabled") }}</option>
+                <option {% if not request_type %} selected {% endif %} value="None">{{ _("Disabled") }}</option>
                 <option {% if request_type=="jellyseerr" %} selected {% endif %} value="jellyseerr" {% if server_type=="plex" %} disabled {% endif%}>Jellyseerr</option>
                 <option {% if request_type=="overseerr" %} selected {% endif %} value="overseerr" {% if server_type=="jellyfin" %} disabled {% endif%}>Overseerr</option>
                 <option {% if request_type=="ombi" %} selected {% endif %} value="ombi">Ombi</option>
@@ -46,6 +46,11 @@
         spinner.classList.remove('htmx-indicator');
 
         let formData = new FormData(that);
+
+        if (formData.get('request_type') == 'None') {
+            formData.set('request_url', '');
+            formData.set('request_api_key', '');
+        }
 
         let response = await fetch('/api/settings', {
             method: 'PUT',

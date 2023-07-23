@@ -1,30 +1,37 @@
-import queue
-from logging import error, webpush
+from logging import error
 from os import getenv, listdir, path
-from threading import Thread
 
-from flask import (Response, abort, redirect, render_template,
+from flask import (abort, redirect, render_template,
                    send_from_directory)
-from flask_jwt_extended import current_user, jwt_required
-from playhouse.shortcuts import model_to_dict
+from flask_jwt_extended import current_user
 
-from app import VERSION, app
+from app import app
 from app.security import (logged_out_required, login_required,
-                          server_verified_required, server_not_verified_required)
-from helpers import get_api_keys, get_settings, is_invite_valid
+                          server_not_verified_required,
+                          server_verified_required)
+from helpers import get_api_keys, get_setting, get_settings, is_invite_valid
 from models.settings import Settings
 
 
+@app.context_processor
+def inject_user():
+    return { "server_name": get_setting("server_name", "Wizarr") }
+
 # Static files
-@app.route('/favicon.ico')
+@app.get('/favicon.ico')
 def favicon():
     return send_from_directory(path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 # All public facing routes
-@app.route('/')
+@app.get('/')
 @server_verified_required()
 def homepage_route():
     return render_template("homepage.html")
+
+@app.get('/join')
+@server_verified_required()
+def join_route():
+    return render_template("invite/join.html")
 
 
 # All admin routes
@@ -39,7 +46,7 @@ def admin_routes(subpath):
     # Check if the subpath is valid
     if subpath not in html_files and subpath != "":
         return abort(404)
-    
+
     # Authentication Activated
     settings = get_settings()
     settings["auth"] = True if getenv("DISABLE_BUILTIN_AUTH", "false") == "true" else False
@@ -68,7 +75,6 @@ def settings_routes(subpath):
     # Get all settings
     settings = get_settings()
     settings["api_keys"] = get_api_keys()
-    settings["template"] = subpath if subpath else "general"
     settings["auth"] = True if getenv("DISABLE_BUILTIN_AUTH", "false") == "true" else False
     settings["admin"] = current_user
 
@@ -93,7 +99,6 @@ def account_routes(subpath):
 
     # Get all settings
     settings = get_settings()
-    settings["template"] = subpath if subpath else "general"
     settings["admin"] = current_user
 
     # If no subpath is specified, render the admin dashboard
@@ -105,9 +110,9 @@ def account_routes(subpath):
 
 
 # All setup routes
-@app.route('/setup', defaults={'subpath': 'welcome'})
-@app.route('/setup/', defaults={'subpath': 'welcome'})
-@app.route('/setup/<path:subpath>', methods=["GET"])
+@app.get('/setup', defaults={'subpath': 'welcome'})
+@app.get('/setup/', defaults={'subpath': 'welcome'})
+@app.get('/setup/<path:subpath>')
 @server_not_verified_required()
 def setup_routes(subpath):
     # Get all settings
@@ -141,10 +146,11 @@ def setup_routes(subpath):
 
 
 # All help routes
-@app.route('/help', defaults={'subpath': 'welcome'})
-@app.route('/help/<path:subpath>', methods=["GET"])
+@app.get('/help', defaults={'subpath': 'welcome'})
+@app.get('/help/<path:subpath>')
 def help_routes(subpath):
     from app import get_locale
+
     # Get all settings
     settings = get_settings()
     server_type = settings["server_type"]
@@ -161,12 +167,12 @@ def help_routes(subpath):
         {
             "name": "requests",
             "template": "wizard/pages/requests.html",
-            "enabled": settings.get("request_url")
+            "enabled": bool(settings.get("request_type") != 'None')
         },
         {
             "name": "discord",
             "template": "wizard/pages/" + ("discord-widget.html" if not settings.get("discord_widget") else "discord.html"),
-            "enabled": settings.get("discord_id")
+            "enabled": bool(settings.get("discord_id"))
         },
         {
             "name": "custom",
@@ -178,38 +184,39 @@ def help_routes(subpath):
             "template": f"wizard/pages/{server_type}/tips.html"
         }
     ]
-    
+    print(bool(settings.get("discord_id")))
+
     partials = [page["template"] for page in pages if page.get("enabled", True)]
     current = [page["name"] for page in pages if page.get("enabled", True)].index(subpath)
 
-    
+
     data = {
         "partials": partials,
         "current": current,
         "server_type": server_type,
         "server_url": settings.get("server_url"),
     }
-    
+
     data.update(settings)
 
     return render_template("wizard/base.html", **data)
 
 
 # Invite route
-@app.route("/j/<code>", methods=["GET"])
+@app.get("/j/<code>")
 @server_verified_required()
 def invite_route(code):
-    
+
     valid, message = is_invite_valid(code)
     server_type = Settings.get(key="server_type").value
 
     if not valid:
         return render_template('invite/invite-invalid.html', error=message)
-    
+
     return render_template("invite/signup.html", partial=f"invite/signup/{server_type}.html", code=code)
-    
+
 # Login route
-@app.route('/login', methods=["GET"])
+@app.get('/login')
 @logged_out_required()
 def login_get():
     if getenv("DISABLE_BUILTIN_AUTH", "false") == "true":

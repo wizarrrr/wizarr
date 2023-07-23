@@ -33,6 +33,10 @@
 
         let formData = new FormData(that);
 
+        if (formData.get('discord_id') == '') {
+            console.log('discord_id is empty');
+        }
+
         let response = await fetch('/api/settings', {
             method: 'PUT',
             body: formData,

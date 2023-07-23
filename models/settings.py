@@ -18,7 +18,7 @@ class SettingsModel(PydanticBaseModel):
     server_url: Optional[str] = Field(default=None, validate_default=False, description="The URL of the server")
     server_name: Optional[str] = Field(default=None, validate_default=False, description="The name of the server")
     discord_id: Optional[str] = Field(default=None, validate_default=False, description="The Discord ID of the server")
-    request_type: Optional[constr(pattern="^(jellyseerr|overseerr|ombi)$")] = Field(default=None, validate_default=False, description="The type of request server")
+    request_type: Optional[constr(pattern="^(jellyseerr|overseerr|ombi|None)$")] = Field(default=None, validate_default=False, description="The type of request server")
     request_url: Optional[str] = Field(default=None, validate_default=False, description="The URL of the request server")
     request_api_key: Optional[str] = Field(default=None, validate_default=False, description="The API key of the request server")
     server_api_key: Optional[str] = Field(default=None, validate_default=False, description="The API key of the server")

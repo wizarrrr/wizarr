@@ -11,6 +11,8 @@ from .sessions import Sessions
 from .settings import Settings
 from .users import Users
 
+from .jellyfin.user import JellyfinUser
+
 all_models = [Admins, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions]
 db.create_tables([Admins, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions], safe=True)
 

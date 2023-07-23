@@ -3,6 +3,7 @@ from datetime import datetime
 from models import Invitations
 from app.exceptions import InvalidUsage
 
+
 def is_invite_valid(code):
     invitation = Invitations.get_or_none(Invitations.code == code)
     if not invitation:
@@ -13,10 +14,11 @@ def is_invite_valid(code):
         return False, "Invitation has already been used."
     return True, "okay"
 
+
 def get_invitation(code) -> Invitations:
     invite = Invitations.get_or_none(Invitations.code == code)
-    
+
     if not invite:
         raise InvalidUsage("Invalid code")
-    
+
     return invite
