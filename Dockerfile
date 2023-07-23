@@ -4,13 +4,13 @@ WORKDIR /data
 COPY . /data
 
 
-RUN apk add --no-cache tzdata nodejs npm cargo && \
-    pip3 install --no-cache --upgrade pip && \
-    pip3 install --no-cache -r requirements.txt
+RUN apk add tzdata nodejs npm cargo
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt
 
 WORKDIR /data/app/static
 
-RUN npm ci
+RUN npm install
 RUN npm run build
 
 WORKDIR /data
