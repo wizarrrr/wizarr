@@ -1,12 +1,13 @@
 from peewee import IntegrityError
-from pydantic import ValidationError
+from schematics.exceptions import ValidationError, DataError
 from werkzeug.exceptions import UnsupportedMediaType
+from flask import jsonify
 
 from app.exceptions import AuthenticationError
 from app.extensions import api
 
-from .accounts_api import api as accounts_api
-from .auth_api import api as auth_api
+from .accounts_api import api as accounts_api # REVIEW - This is almost completed
+from .authentication_api import api as authentication_api
 from .invites_api import api as invites_api
 from .libraries_api import api as libraries_api
 from .notifications_api import api as notifications_api
@@ -41,7 +42,7 @@ api._doc = "/api/docs"
 
 def error_handler(exception, code, json=False):
     error_object = {
-        "error": {
+        "errors": {
             "message": str(exception),
             "type": type(exception).__name__
         },
@@ -55,13 +56,20 @@ def error_handler(exception, code, json=False):
 
     return error_object, code
 
-
 @api.errorhandler(ValidationError)
-def handle_validation_error(error):
-    return error_handler(error, 400, True)
+def handle_validation_error(error: ValidationError):
+    return { "errors": error.to_primitive() }, 400
+
+@api.errorhandler(DataError)
+def handle_data_error(error: DataError):
+    return { "errors": error.to_primitive() }, 400
+
+@api.errorhandler(ValueError)
+def handle_value_error(error):
+    return error_handler(error, 400)
 
 @api.errorhandler(IntegrityError)
-def handle_value_error(error):
+def handle_integrity_error(error):
     return error_handler(error, 400)
 
 @api.errorhandler(UnsupportedMediaType)
@@ -78,7 +86,7 @@ def handle_request_exception(error):
 
 # Ordered Alphabetically for easier viewing in Swagger UI
 api.add_namespace(accounts_api)
-api.add_namespace(auth_api)
+api.add_namespace(authentication_api)
 api.add_namespace(invites_api)
 api.add_namespace(libraries_api)
 api.add_namespace(notifications_api)

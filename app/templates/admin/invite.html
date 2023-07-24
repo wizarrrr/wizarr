@@ -523,6 +523,13 @@
                 }
             }
 
+            // Remove any empty values
+            for (const pair of formData.entries()) {
+                if (pair[1] === "") {
+                    formData.delete(pair[0]);
+                }
+            }
+
             // Get the libraries
             let libraries = [];
             let libraries_count = document.getElementById("libraries-count").value;
@@ -534,17 +541,12 @@
             }
 
             // Add the libraries to the form data
-            formData.append("libraries", JSON.stringify(libraries));
+            formData.append("specific_libraries", JSON.stringify(libraries));
 
             // Log all the form data
             for (const pair of formData.entries()) {
                 console.log(pair[0] + ', ' + pair[1]);
             }
-
-            // Convert the form data to JSON
-            json = Object.fromEntries(formData);
-            console.log(json);
-
 
             try {
 
@@ -562,6 +564,16 @@
                 }
 
                 const data = await response.json();
+
+                // Check code exists
+                if (data.code === undefined) {
+                    throw new Error("Code is undefined");
+                }
+
+                let url = new URL(window.location.origin);
+                url.pathname = "/j/" + data.code;
+
+                document.getElementById("link").value = url.href;
 
                 that.classList.add("hidden");
                 document.getElementById("invite-created").classList.remove("hidden");

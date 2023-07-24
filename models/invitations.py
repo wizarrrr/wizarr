@@ -9,7 +9,7 @@ from .base import BaseModel
 
 
 class Invitations(BaseModel):
-    code = CharField()
+    code = CharField(unique=True)
     used = BooleanField(default=False)
     used_at = DateTimeField(null=True, default=None)
     used_by = CharField(null=True, default=None)

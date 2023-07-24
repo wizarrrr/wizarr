@@ -1,7 +1,8 @@
-from models.admins import AdminsModel, Admins
-from werkzeug.security import generate_password_hash
-from peewee import IntegrityError
 from playhouse.shortcuts import model_to_dict
+from schematics.exceptions import DataError
+
+from models.admins import Admins
+from models.wizarr.accounts import AccountsModel
 
 # INDEX OF FUNCTIONS
 # - Get Admins
@@ -38,7 +39,7 @@ def get_admins(password: bool = True) -> list[Admins]:
 
 
 # ANCHOR - Get Admin by ID
-def get_admin_by_id(admin_id: int, verify: bool = True) -> Admins or None:
+def get_admin_by_id(admin_id: int, verify: bool = True, password: bool = False) -> Admins or None:
     """Get an admin by id
     :param id: The id of the admin
     :type id: int
@@ -56,12 +57,16 @@ def get_admin_by_id(admin_id: int, verify: bool = True) -> Admins or None:
     if admin is None and verify:
         raise ValueError("Admin does not exist")
 
+    # Remove the password from the admin if password is False
+    if password is False:
+        admin = model_to_dict(admin, exclude=["password"])
+
     # Return the admin
     return admin
 
 
 # ANCHOR - Get Admin by Username
-def get_admin_by_username(username: str, verify: bool = True) -> Admins or None:
+def get_admin_by_username(username: str, verify: bool = True, password: bool = False) -> Admins or None:
     """Get an admin by username
     :param username: The username of the admin
     :type username: str
@@ -78,6 +83,10 @@ def get_admin_by_username(username: str, verify: bool = True) -> Admins or None:
     # Check if the admin exists
     if admin is None and verify:
         raise ValueError("Admin does not exist")
+
+    # Remove the password from the admin if password is False
+    if password is False:
+        admin = model_to_dict(admin, exclude=["password"])
 
     # Return the admin
     return admin
@@ -101,31 +110,28 @@ def create_admin_user(**kwargs) -> Admins:
     :return: An admin
     """
 
-    # Validate user input
-    form = AdminsModel(**kwargs)
+    # Create the admin user
+    admin = AccountsModel(kwargs)
 
-    # Validate passwords match
-    if kwargs.get("confirm_password", None) is not None:
-        if str(form.password) != str(kwargs.get("confirm_password")):
-            raise ValueError("Passwords do not match")
+    # Validate the admin user
+    admin.validate()
 
-    # Validate username is not taken
-    if get_admin_by_username(form.username, False) is not None:
-        raise ValueError("Username is already taken")
+    # Validate username and email do not exist
+    admin.check_username_exists()
+    admin.check_email_exists()
 
     # Hash the password
-    form.password = generate_password_hash(form.password, method="scrypt")
-
-    # Extract the data from the model
-    admin = form.model_dump(
-        exclude_defaults=True, exclude_unset=True, exclude_none=True
-    )
+    admin.hash_password()
 
     # Create the admin in the database
-    admin: Admins = Admins.create(**admin)
+    new_admin: Admins = Admins.create(
+        username=admin.username,
+        password=admin.hashed_password,
+        email=admin.email
+    )
 
     # Return the user
-    return admin
+    return get_admin_by_id(new_admin.id, password=False)
 
 
 # ANCHOR - Update Admin User
@@ -150,34 +156,20 @@ def update_admin_user(admin_id: int, **kwargs) -> Admins:
     """
 
     # Get the admin by id
-    admin = get_admin_by_id(admin_id, False)
+    db_admin = get_admin_by_id(admin_id, verify=False, password=True)
 
     # Check if the admin exists
-    if admin is None:
-        raise ValueError("Admin does not exist")
+    if db_admin is None:
+        raise DataError({"admin_id": ["Admin does not exist"]})
 
-    # Validate user input
-    form = AdminsModel(*kwargs)
+    # Create the admin user
+    admin = AccountsModel(kwargs)
 
-    # Validate passwords match
-    if kwargs.get("confirm_password", None) is not None:
-        if str(form.password) != str(kwargs.get("confirm_password")):
-            raise IntegrityError("Passwords do not match")
-
-    # Hash the password
-    if form.password:
-        form.password = generate_password_hash(form.password, method="scrypt")
-
-    # Extract the data from the model
-    admin_data = form.model_dump(
-        exclude_defaults=True, exclude_unset=True, exclude_none=True
-    )
-
-    # Update the admin
-    admin.update(**admin_data)
+    # Update the admin in the database
+    admin.update_admin(db_admin)
 
     # Return the admin
-    return admin
+    return admin.to_primitive()
 
 
 # ANCHOR - Delete Admin User

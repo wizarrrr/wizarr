@@ -3,9 +3,9 @@ from flask_jwt_extended import jwt_required
 from flask_restx import Namespace, Resource
 
 from models.admins import AdminsGetModel, AdminsPostModel, Admins
-from helpers import (
+from helpers.api import convert_to_form
+from helpers.accounts import (
     create_admin_user,
-    convert_to_form,
     get_admins,
     get_admin_by_id,
     delete_admin_user,
@@ -36,7 +36,7 @@ class AccountsListAPI(Resource):
         """Get all accounts
         returns: tuple[list[Admins], int]
         """
-        
+
         return get_admins(), 200
 
     @api.expect(AdminsPostModel)
@@ -46,13 +46,12 @@ class AccountsListAPI(Resource):
     @api.response(400, "Invalid account")
     @api.response(409, "Account already exists")
     @api.response(500, "Internal server error")
-    def post(self) -> tuple[Admins, int]:
+    def post(self):
         """Create a new account
         returns: tuple[Admins, int]
         """
-        
-        response = create_admin_user(**request.form)
-        return response, 200
+
+        return create_admin_user(**request.form), 200
 
 
 @api.route("/<int:admin_id>")
@@ -61,6 +60,7 @@ class AccountsAPI(Resource):
     """API resource for a single account
     :functions: get, put, delete
     """
+
     method_decorators = [jwt_required(), convert_to_form()]
 
     @api.marshal_with(AdminsGetModel)
@@ -72,7 +72,7 @@ class AccountsAPI(Resource):
         """Get an account
         returns: tuple[Admins, int]
         """
-        
+
         return get_admin_by_id(admin_id), 200
 
     @api.expect(AdminsPostModel)
@@ -89,7 +89,7 @@ class AccountsAPI(Resource):
 
         returns: tuple[Admins, int]
         """
-        
+
         response = update_admin_user(admin_id, **request.form)
         return response, 200
 
@@ -101,9 +101,9 @@ class AccountsAPI(Resource):
         """Delete an account
         :param admin_id: The id of the account to delete
         :type admin_id: str
-        
+
         returns: tuple[Admins, int]
         """
-        
+
         delete_admin_user(admin_id)
         return {"message": "Account deleted"}, 200

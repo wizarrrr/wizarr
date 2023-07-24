@@ -5,6 +5,6 @@ from .main import *
 from .notifications import *
 from .plex import *
 from .settings import *
-from .admin import *
+from .accounts import *
 from .api import *
 from .universal import *

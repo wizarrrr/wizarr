@@ -1,7 +1,5 @@
 from flask_restx import Model, fields
 from peewee import SQL, CharField, DateTimeField, IntegerField
-from pydantic import BaseModel as PydanticBaseModel
-
 from .base import BaseModel
 
 
@@ -13,11 +11,6 @@ class Admins(BaseModel):
     last_login = DateTimeField(null=True, default=None)
     created = DateTimeField(constraints=[SQL("DEFAULT (datetime('now'))")])
 
-class AdminsModel(PydanticBaseModel):
-    username: str
-    password: str
-    email: str
-    
 
 AdminsPostModel = Model('AdminsPostModel', {
     "username": fields.String(required=True, description="Username"),
