@@ -9,7 +9,8 @@ from flask_jwt_extended import (create_access_token, get_jti, get_jwt,
                                 verify_jwt_in_request)
 from playhouse.shortcuts import model_to_dict
 
-from models import Admins, Sessions, Settings
+from models import Sessions, Settings
+from models.database.accounts import Accounts
 
 # Yh this code looks messy but it works so ill tidy it up later
 
@@ -27,7 +28,7 @@ def secret_key(length: int = 32) -> str:
     # Check if the database directory exists
     if not path.exists("database"):
         mkdir("database")
-        
+
     # Check if the secret key file exists
     if not path.exists(path.join(BASE_DIR, "../", "database/secret.key")):
         # Generate a secret key and write it to the secret key file
@@ -35,11 +36,11 @@ def secret_key(length: int = 32) -> str:
             secret_key = token_hex(length)
             f.write(secret_key)
             return secret_key
-    
+
     # Read the secret key from the secret key file
     with open(path.join(BASE_DIR, "../", "database/secret.key"), "r") as f:
         secret_key = f.read()
-        
+
     return secret_key
 
 def refresh_expiring_jwts(response):
@@ -53,7 +54,7 @@ def refresh_expiring_jwts(response):
         return response
     except (RuntimeError, KeyError):
         return response
-    
+
 
 def check_if_token_revoked(jwt_header, jwt_payload: dict) -> bool:
     jti = jwt_payload["jti"]
@@ -66,8 +67,8 @@ def user_identity_lookup(user):
 
 def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
-    user = Admins.get_by_id(identity)
-    return model_to_dict(user, recurse=True, backrefs=True, exclude=[Admins.password])
+    user = Accounts.get_by_id(identity)
+    return model_to_dict(user, recurse=True, backrefs=True, exclude=[Accounts.password])
 
 def login_required_unless_setup():
     def wrapper(fn):
@@ -86,7 +87,7 @@ def login_required_unless_setup():
                         return response
                     else:
                         return redirect("/login")
-            
+
             return fn(*args, **kwargs)
 
         return decorator
@@ -110,7 +111,7 @@ def login_required():
                         return response
                     else:
                         return redirect("/login")
-            
+
             return fn(*args, **kwargs)
 
         return decorator
@@ -124,12 +125,12 @@ def logged_out_required():
             if not server_verified(): return redirect("/setup")
             if getenv("DISABLE_BUILTIN_AUTH", "false") == "true":
                 return fn(*args, **kwargs)
-            
+
             try:
                 verify_jwt_in_request()
             except Exception as e:
                 return fn(*args, **kwargs)
-            
+
             from app import htmx
             if htmx:
                 response = make_response(render_template("admin.html", subpath="admin/invite.html"))

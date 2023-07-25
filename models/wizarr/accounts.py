@@ -7,7 +7,7 @@ from schematics.models import Model
 from schematics.types import DateTimeType, EmailType, StringType
 from werkzeug.security import generate_password_hash
 
-from models.admins import Admins
+from models.database.accounts import Accounts
 
 min_password_length = int(getenv("MIN_PASSWORD_LENGTH", "8"))
 min_password_uppercase = int(getenv("MIN_PASSWORD_UPPERCASE", "1"))
@@ -24,8 +24,8 @@ class AccountsModel(Model):
     password = StringType(required=True)
     confirm_password = StringType(required=False)
     hashed_password = StringType(required=False)
-    last_login = DateTimeType(required=False)
-    created = DateTimeType(required=False)
+    last_login = DateTimeType(required=False, convert_tz=True)
+    created = DateTimeType(required=False, convert_tz=True)
 
 
     # ANCHOR - Validate Password
@@ -46,17 +46,17 @@ class AccountsModel(Model):
 
     # ANCHOR - Validate Username
     def check_username_exists(self, admin_id: int = None):
-        if admin_id and Admins.get_or_none(Admins.username == self.username, Admins.id != admin_id) is not None:
+        if admin_id and Accounts.get_or_none(Accounts.username == self.username, Accounts.id != admin_id) is not None:
             raise DataError({"username": ["User with username already exists"]})
-        elif not admin_id and Admins.get_or_none(Admins.username == self.username) is not None:
+        elif not admin_id and Accounts.get_or_none(Accounts.username == self.username) is not None:
             raise DataError({"username": ["Username is already taken"]})
 
 
     # ANCHOR - Validate Email
     def check_email_exists(self, admin_id: int = None):
-        if admin_id and Admins.get_or_none(Admins.email == self.email, Admins.id != admin_id) is not None:
+        if admin_id and Accounts.get_or_none(Accounts.email == self.email, Accounts.id != admin_id) is not None:
             raise DataError({"email": ["User with email already exists"]})
-        elif not admin_id and Admins.get_or_none(Admins.email == self.email) is not None:
+        elif not admin_id and Accounts.get_or_none(Accounts.email == self.email) is not None:
             raise DataError({"email": ["Email is already taken"]})
 
 
@@ -67,7 +67,7 @@ class AccountsModel(Model):
 
 
     # ANCHOR - Update Admin
-    def update_admin(self, admin: Admins):
+    def update_admin(self, admin: Accounts):
         # Check if the admin exists
         if admin is None:
             raise DataError({"admin_id": ["Admin does not exist"]})

@@ -1,7 +1,7 @@
 from pydantic import BaseModel as PydanticBaseModel
 from pydantic import Field
 
-from .admins import Admins
+from models.database.accounts import Accounts
 from .apikeys import APIKeys
 from .base import db
 from .invitations import Invitations
@@ -13,8 +13,8 @@ from .users import Users
 
 from .jellyfin.user import JellyfinUser
 
-all_models = [Admins, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions]
-db.create_tables([Admins, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions], safe=True)
+all_models = [Accounts, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions]
+db.create_tables([Accounts, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions], safe=True)
 
 class IdentityModel(PydanticBaseModel):
     id: int = Field(description="The ID of the path")

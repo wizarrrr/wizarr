@@ -72,6 +72,15 @@
     async function login(that) {
         const form = new FormData(that);
 
+        // if remember me is not checked add remember me to the form as false
+        form.delete('remember');
+
+        if (!document.getElementById('remember').checked) {
+            form.append('remember', false);
+        } else {
+            form.append('remember', true);
+        }
+
         const response = await fetch('/api/auth/login', {
             method: 'POST',
             body: form,
@@ -127,7 +136,7 @@
         };
 
         xhr.send();
-    }   
+    }
 </script>
 
 {% endblock %}

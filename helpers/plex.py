@@ -1,20 +1,19 @@
 from typing import Optional
 
 from plexapi.myplex import PlexServer, LibrarySection, MyPlexUser
-from pydantic import HttpUrl
 from logging import info
 
 from .settings import get_settings
 from .users import get_users, create_user
 
 # ANCHOR - Get Plex Server
-def get_plex_server(server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None) -> PlexServer:
+def get_plex_server(server_api_key: Optional[str] = None, server_url: Optional[str] = None) -> PlexServer:
     """Get a PlexServer object
     :param server_api_key: The API key of the Plex server
     :type server_api_key: Optional[str] - If not provided, will get from database.
 
     :param server_url: The URL of the Plex server
-    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :return: A PlexServer object
     """
@@ -25,6 +24,10 @@ def get_plex_server(server_api_key: Optional[str] = None, server_url: Optional[s
         server_url = server_url or settings.get("server_url", None)
         server_api_key = server_api_key or settings.get("server_api_key", None)
 
+    # If server_url does not end with a slash, add one
+    if not server_url.endswith("/"):
+        server_url = server_url + "/"
+
     # Create PlexServer object
     plex_server = PlexServer(server_url, server_api_key)
 
@@ -33,13 +36,13 @@ def get_plex_server(server_api_key: Optional[str] = None, server_url: Optional[s
 
 
 # ANCHOR - Plex Scan Libraries
-def scan_plex_libraries(server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None) -> list[LibrarySection]:
+def scan_plex_libraries(server_api_key: Optional[str] = None, server_url: Optional[str] = None) -> list[LibrarySection]:
     """Scan all Plex libraries
     :param server_api_key: The API key of the Plex server
     :type server_api_key: Optional[str] - If not provided, will get from database.
 
     :param server_url: The URL of the Plex server
-    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :return: list[dict] - A list of all libraries
     """
@@ -59,13 +62,13 @@ def scan_plex_libraries(server_api_key: Optional[str] = None, server_url: Option
 
 
 # ANCHOR - Plex Get Users
-def get_plex_users(server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None) -> list[MyPlexUser]:
+def get_plex_users(server_api_key: Optional[str] = None, server_url: Optional[str] = None) -> list[MyPlexUser]:
     """Get all Plex users
     :param server_api_key: The API key of the Plex server
     :type server_api_key: Optional[str] - If not provided, will get from database.
 
     :param server_url: The URL of the Plex server
-    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :return: list[dict] - A list of all users
     """
@@ -85,7 +88,7 @@ def get_plex_users(server_api_key: Optional[str] = None, server_url: Optional[st
 
 
 # ANCHOR - Plex Get User
-def get_plex_user(user_id: str, server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None) -> MyPlexUser:
+def get_plex_user(user_id: str, server_api_key: Optional[str] = None, server_url: Optional[str] = None) -> MyPlexUser:
     """Get a Plex user
     :param user_id: The id of the user
     :type user_id: str - [usernames, email, id]
@@ -94,7 +97,7 @@ def get_plex_user(user_id: str, server_api_key: Optional[str] = None, server_url
     :type server_api_key: Optional[str] - If not provided, will get from database.
 
     :param server_url: The URL of the Plex server
-    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :return: dict - A user
     """
@@ -114,13 +117,13 @@ def get_plex_user(user_id: str, server_api_key: Optional[str] = None, server_url
 
 
 # ANCHOR - Plex Sync Users
-def sync_plex_users(server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None) -> list[MyPlexUser]:
+def sync_plex_users(server_api_key: Optional[str] = None, server_url: Optional[str] = None) -> list[MyPlexUser]:
     """Sync Plex users
     :param server_api_key: The API key of the Plex server
     :type server_api_key: Optional[str] - If not provided, will get from database.
 
     :param server_url: The URL of the Plex server
-    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :return: list[dict] - A list of all users
     """

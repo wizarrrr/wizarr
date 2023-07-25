@@ -7,7 +7,7 @@ class DateTimeEncoder(JSONEncoder):
         if isinstance(obj, datetime):
             return obj.isoformat()
         return JSONEncoder.default(self, obj)
-    
+
 class DateTimeDecoder(JSONDecoder):
     def __init__(self, *args, **kwargs):
         super().__init__(object_hook=self.object_hook, *args, **kwargs)

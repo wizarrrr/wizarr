@@ -7,8 +7,8 @@ from app.exceptions import AuthenticationError
 from app.extensions import api
 
 from .accounts_api import api as accounts_api # REVIEW - This is almost completed
-from .authentication_api import api as authentication_api
-from .invites_api import api as invites_api
+from .authentication_api import api as authentication_api # REVIEW - This is almost completed
+from .invitations_api import api as invitations_api # REVIEW - This is almost completed
 from .libraries_api import api as libraries_api
 from .notifications_api import api as notifications_api
 from .plex_api import api as plex_api
@@ -87,7 +87,7 @@ def handle_request_exception(error):
 # Ordered Alphabetically for easier viewing in Swagger UI
 api.add_namespace(accounts_api)
 api.add_namespace(authentication_api)
-api.add_namespace(invites_api)
+api.add_namespace(invitations_api)
 api.add_namespace(libraries_api)
 api.add_namespace(notifications_api)
 api.add_namespace(plex_api)

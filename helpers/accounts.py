@@ -1,7 +1,7 @@
 from playhouse.shortcuts import model_to_dict
 from schematics.exceptions import DataError
 
-from models.admins import Admins
+from models.database.accounts import Accounts
 from models.wizarr.accounts import AccountsModel
 
 # INDEX OF FUNCTIONS
@@ -14,7 +14,7 @@ from models.wizarr.accounts import AccountsModel
 
 
 # ANCHOR - Get Admins
-def get_admins(password: bool = True) -> list[Admins]:
+def get_admins(password: bool = True) -> list[Accounts]:
     """Get all admins from the database
     :param password: Whether or not to include the password in the response
     :type password: bool
@@ -22,11 +22,11 @@ def get_admins(password: bool = True) -> list[Admins]:
     :return: A list of admins
     """
 
-    # Get all admins as a list of dicts
-    admins: list[Admins] = Admins.select()
+    # Get all admins from the database
+    admins: list[Accounts] = Accounts.select()
 
-    # Convert to a list of dicts
-    admins = [model_to_dict(admin) for admin in admins]
+    # Convert the admins to a list of dictionaries
+    admins = [AccountsModel(model_to_dict(admin)).to_primitive() for admin in admins]
 
     # Remove the password from each admin if password is False
     if password is False:
@@ -39,7 +39,7 @@ def get_admins(password: bool = True) -> list[Admins]:
 
 
 # ANCHOR - Get Admin by ID
-def get_admin_by_id(admin_id: int, verify: bool = True, password: bool = False) -> Admins or None:
+def get_admin_by_id(admin_id: int, verify: bool = True, password: bool = False) -> Accounts or None:
     """Get an admin by id
     :param id: The id of the admin
     :type id: int
@@ -51,7 +51,7 @@ def get_admin_by_id(admin_id: int, verify: bool = True, password: bool = False) 
     """
 
     # Get the admin by id
-    admin = Admins.get_or_none(Admins.id == admin_id)
+    admin = Accounts.get_or_none(Accounts.id == admin_id)
 
     # Check if the admin exists
     if admin is None and verify:
@@ -66,7 +66,7 @@ def get_admin_by_id(admin_id: int, verify: bool = True, password: bool = False) 
 
 
 # ANCHOR - Get Admin by Username
-def get_admin_by_username(username: str, verify: bool = True, password: bool = False) -> Admins or None:
+def get_admin_by_username(username: str, verify: bool = True, password: bool = False) -> Accounts or None:
     """Get an admin by username
     :param username: The username of the admin
     :type username: str
@@ -78,7 +78,7 @@ def get_admin_by_username(username: str, verify: bool = True, password: bool = F
     """
 
     # Get the admin by username
-    admin = Admins.get_or_none(Admins.username == username)
+    admin = Accounts.get_or_none(Accounts.username == username)
 
     # Check if the admin exists
     if admin is None and verify:
@@ -93,7 +93,7 @@ def get_admin_by_username(username: str, verify: bool = True, password: bool = F
 
 
 # ANCHOR - Create Admin User
-def create_admin_user(**kwargs) -> Admins:
+def create_admin_user(**kwargs) -> Accounts:
     """Create an admin user
     :param username: The username of the admin
     :type username: str
@@ -124,7 +124,7 @@ def create_admin_user(**kwargs) -> Admins:
     admin.hash_password()
 
     # Create the admin in the database
-    new_admin: Admins = Admins.create(
+    new_admin: Accounts = Accounts.create(
         username=admin.username,
         password=admin.hashed_password,
         email=admin.email
@@ -135,7 +135,7 @@ def create_admin_user(**kwargs) -> Admins:
 
 
 # ANCHOR - Update Admin User
-def update_admin_user(admin_id: int, **kwargs) -> Admins:
+def update_admin_user(admin_id: int, **kwargs) -> Accounts:
     """Update an admin user
     :param id: The id of the admin
     :type id: int

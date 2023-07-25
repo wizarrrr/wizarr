@@ -6,19 +6,20 @@ from flask_jwt_extended import current_user
 
 from app import app
 from helpers import get_api_keys, get_notifications, get_settings, get_users
-from models import Admins, Invitations, Sessions, Settings
+from models import Invitations, Sessions, Settings
+from models.database.accounts import Accounts
 
 from .scheduler import get_schedule
 from .security import login_required, login_required_unless_setup
 
 
 # All admin partials
-@app.get('/partials/admin', defaults={'subpath': ''})
-@app.get('/partials/admin/<path:subpath>')
+@app.get("/partials/admin", defaults={"subpath": ""})
+@app.get("/partials/admin/<path:subpath>")
 @login_required()
 def admin_partials(subpath):
     # Get valid settings partials
-    html_files = [path.splitext(file)[0] for file in listdir('./app/templates/admin') if file.endswith('.html')]
+    html_files = [path.splitext(file)[0] for file in listdir("./app/templates/admin") if file.endswith(".html")]
 
     # Check if the subpath is valid
     if subpath not in html_files and subpath != "":
@@ -38,12 +39,12 @@ def admin_partials(subpath):
 
 
 # All settings partials
-@app.get('/partials/admin/settings', defaults={'subpath': ''})
-@app.get('/partials/admin/settings/<path:subpath>')
+@app.get("/partials/admin/settings", defaults={"subpath": ""})
+@app.get("/partials/admin/settings/<path:subpath>")
 @login_required()
 def settings_partials(subpath):
     # Get valid settings partials
-    html_files = [path.splitext(file)[0] for file in listdir('./app/templates/admin/settings') if file.endswith('.html')]
+    html_files = [path.splitext(file)[0] for file in listdir("./app/templates/admin/settings") if file.endswith(".html")]
 
     # Check if the subpath is valid
     if subpath not in html_files and subpath != "":
@@ -62,12 +63,12 @@ def settings_partials(subpath):
 
 
 # All account partials
-@app.get('/partials/admin/account', defaults={'subpath': ''})
-@app.get('/partials/admin/account/<path:subpath>')
+@app.get("/partials/admin/account", defaults={"subpath": ""})
+@app.get("/partials/admin/account/<path:subpath>")
 @login_required()
 def account_partials(subpath):
     # Get valid account partials
-    html_files = [path.splitext(file)[0] for file in listdir('./app/templates/admin/account') if file.endswith('.html')]
+    html_files = [path.splitext(file)[0] for file in listdir("./app/templates/admin/account") if file.endswith(".html")]
 
     # Check if the subpath is valid
     if subpath not in html_files and subpath != "":
@@ -86,7 +87,7 @@ def account_partials(subpath):
 
 
 # All modal partials
-@app.get('/partials/modals/<path:path>')
+@app.get("/partials/modals/<path:path>")
 @login_required_unless_setup()
 def modal_partials(path, **kwargs):
     # Get all form and post data
@@ -101,7 +102,7 @@ def modal_partials(path, **kwargs):
 
 
 # All tables partials
-@app.get('/partials/tables/<path:path>')
+@app.get("/partials/tables/<path:path>")
 @login_required()
 def table_partials(path):
     settings = {
@@ -118,7 +119,7 @@ def table_partials(path):
         settings["app_url"] = getenv("APP_URL")
 
     if path == "admin-users":
-        settings["admins"] = list(Admins.select().dicts())
+        settings["admins"] = list(Accounts.select().dicts())
 
     if path == "task-table":
         settings["tasks"] = get_schedule()

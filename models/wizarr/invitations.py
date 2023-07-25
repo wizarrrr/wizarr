@@ -61,8 +61,8 @@ class InvitationsModel(Model):
     specific_libraries = SpecificLibrariesType(required=False, default=[])
     plex_allow_sync = BooleanType(required=False, default=False)
     plex_home = BooleanType(required=False, default=False)
-    used_at = DateTimeType(required=False, default=None)
-    created = DateTimeType(required=False, default=datetime.utcnow())
+    used_at = DateTimeType(required=False, default=None, convert_tz=True)
+    created = DateTimeType(required=False, default=datetime.utcnow(), convert_tz=True)
 
 
     # ANCHOR - Validate Code

@@ -2,7 +2,7 @@ from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restx import Namespace, Resource
 
-from models.admins import AdminsGetModel, AdminsPostModel, Admins
+from models.admins import AdminsGetModel, AdminsPostModel
 from helpers.api import convert_to_form
 from helpers.accounts import (
     create_admin_user,
@@ -11,6 +11,7 @@ from helpers.accounts import (
     delete_admin_user,
     update_admin_user,
 )
+from models.database.accounts import Accounts
 
 api = Namespace("Accounts", description="Accounts related operations", path="/accounts")
 
@@ -32,7 +33,7 @@ class AccountsListAPI(Resource):
     @api.doc(description="Get all accounts")
     @api.response(200, "Successfully retrieved all accounts")
     @api.response(500, "Internal server error")
-    def get(self) -> tuple[list[Admins], int]:
+    def get(self) -> tuple[list[Accounts], int]:
         """Get all accounts
         returns: tuple[list[Admins], int]
         """
@@ -68,7 +69,7 @@ class AccountsAPI(Resource):
     @api.response(200, "Successfully retrieved an account")
     @api.response(404, "Account not found")
     @api.response(500, "Internal server error")
-    def get(self, admin_id: str) -> tuple[Admins, int]:
+    def get(self, admin_id: str) -> tuple[Accounts, int]:
         """Get an account
         returns: tuple[Admins, int]
         """
@@ -82,7 +83,7 @@ class AccountsAPI(Resource):
     @api.response(400, "Invalid account")
     @api.response(404, "Account not found")
     @api.response(500, "Internal server error")
-    def put(self, admin_id: int) -> tuple[Admins, int]:
+    def put(self, admin_id: int) -> tuple[Accounts, int]:
         """Update an account
         :param admin_id: The id of the account to update
         :type admin_id: int

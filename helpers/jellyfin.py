@@ -1,6 +1,5 @@
 from typing import Optional
 
-from pydantic import HttpUrl
 from requests import RequestException, get, post, delete
 from logging import info
 from io import BytesIO
@@ -28,7 +27,7 @@ from models.jellyfin.library import JellyfinLibraryItem
 
 
 # ANCHOR - Jellyfin Get Request
-def get_jellyfin(api_path: str, as_json: Optional[bool] = True, server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None):
+def get_jellyfin(api_path: str, as_json: Optional[bool] = True, server_api_key: Optional[str] = None, server_url: Optional[str] = None):
     """Get data from Jellyfin.
     :param api_path: API path to get data from
     :type api_path: str
@@ -37,7 +36,7 @@ def get_jellyfin(api_path: str, as_json: Optional[bool] = True, server_api_key: 
     :type server_api_key: Optional[str] - If not provided, will get from database.
 
     :param server_url: Jellyfin URL
-    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :return: Jellyfin API response
     """
@@ -49,8 +48,8 @@ def get_jellyfin(api_path: str, as_json: Optional[bool] = True, server_api_key: 
         server_api_key = server_api_key or settings.get("server_api_key", None)
 
     # If server_url does not end with a slash, add one
-    if not server_url.__str__().endswith("/"):
-        server_url = server_url.__str__() + "/"
+    if not server_url.endswith("/"):
+        server_url = server_url + "/"
 
     # If api_path starts with a slash, remove it
     if api_path.startswith("/"):
@@ -82,7 +81,7 @@ def get_jellyfin(api_path: str, as_json: Optional[bool] = True, server_api_key: 
 
 
 # ANCHOR - Jellyfin Post Request
-def post_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None, data: Optional[dict] = None) -> dict:
+def post_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_url: Optional[str] = None, data: Optional[dict] = None) -> dict:
     """Post data to Jellyfin.
     :param api_path: API path to post data to
     :type api_path: str
@@ -91,7 +90,7 @@ def post_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_ur
     :type server_api_key: Optional[str] - If not provided, will get from database.
 
     :param server_url: Jellyfin URL
-    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :param data: Data to post to Jellyfin
     :type data: Optional[dict]
@@ -129,7 +128,7 @@ def post_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_ur
 
 
 # ANCHOR - Jellyfin Delete Request
-def delete_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None) -> None:
+def delete_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_url: Optional[str] = None) -> None:
     """Delete data from Jellyfin.
     :param api_path: API path to delete data from
     :type api_path: str
@@ -138,7 +137,7 @@ def delete_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_
     :type server_api_key: Optional[str] - If not provided, will get from database.
 
     :param server_url: Jellyfin URL
-    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :return: None
     """
@@ -171,13 +170,13 @@ def delete_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_
 
 
 # ANCHOR - Jellyfin Scan Libraries
-def scan_jellyfin_libraries(server_api_key: Optional[str], server_url: Optional[str or HttpUrl]) -> list[JellyfinLibraryItem]:
+def scan_jellyfin_libraries(server_api_key: Optional[str], server_url: Optional[str]) -> list[JellyfinLibraryItem]:
     """Scan Jellyfin libraries and return list of libraries.
     :param server_api_key: Jellyfin API key
     :type server_api_key: Optional[str] - If not provided, will get from database.
 
     :param server_url: Jellyfin URL
-    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :return: List of libraries
     """
@@ -196,7 +195,7 @@ def scan_jellyfin_libraries(server_api_key: Optional[str], server_url: Optional[
 
 
 # ANCHOR - Jellyfin Get Policy
-def get_jellyfin_policy(user_id: str, server_api_key: Optional[str], server_url: Optional[str or HttpUrl]) -> JellyfinUserPolicy:
+def get_jellyfin_policy(user_id: str, server_api_key: Optional[str], server_url: Optional[str]) -> JellyfinUserPolicy:
     """Get policy from Jellyfin.
 
     :param user_id: ID of the user to get policy for
@@ -206,7 +205,7 @@ def get_jellyfin_policy(user_id: str, server_api_key: Optional[str], server_url:
     :type server_api_key: Optional[str] - If not provided, will get from database.
 
     :param server_url: Jellyfin URL
-    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :return: Jellyfin API response
     """
@@ -276,14 +275,14 @@ def invite_jellyfin_user(username: str, password: str, code: str, email: str) ->
 
 
 # ANCHOR - Jellyfin Get Users
-def get_jellyfin_users(server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None) -> list[JellyfinUser]:
+def get_jellyfin_users(server_api_key: Optional[str] = None, server_url: Optional[str] = None) -> list[JellyfinUser]:
     """Get users from Jellyfin.
 
     :param server_api_key: Jellyfin API key
     :type server_api_key: Optional[str] - If not provided, will get from database.
 
     :param server_url: Jellyfin URL
-    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :return: Jellyfin API response
     """
@@ -296,7 +295,7 @@ def get_jellyfin_users(server_api_key: Optional[str] = None, server_url: Optiona
 
 
 # ANCHOR - Jellyfin Get User
-def get_jellyfin_user(user_id: str, server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None) -> JellyfinUser:
+def get_jellyfin_user(user_id: str, server_api_key: Optional[str] = None, server_url: Optional[str] = None) -> JellyfinUser:
     """Get user from Jellyfin.
 
     :param user_id: ID of the user to get
@@ -306,7 +305,7 @@ def get_jellyfin_user(user_id: str, server_api_key: Optional[str] = None, server
     :type server_api_key: Optional[str] - If not provided, will get from database.
 
     :param server_url: Jellyfin URL
-    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :return: Jellyfin API response
     """
@@ -319,7 +318,7 @@ def get_jellyfin_user(user_id: str, server_api_key: Optional[str] = None, server
 
 
 # ANCHOR - Jellyfin Delete User
-def delete_jellyfin_user(user_id: str, server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None) -> None:
+def delete_jellyfin_user(user_id: str, server_api_key: Optional[str] = None, server_url: Optional[str] = None) -> None:
     """Delete user from Jellyfin.
     :param user_id: ID of the user to delete
     :type user_id: str
@@ -328,7 +327,7 @@ def delete_jellyfin_user(user_id: str, server_api_key: Optional[str] = None, ser
     :type server_api_key: Optional[str] - If not provided, will get from database.
 
     :param server_url: Jellyfin URL
-    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :return: None
     """
@@ -338,14 +337,14 @@ def delete_jellyfin_user(user_id: str, server_api_key: Optional[str] = None, ser
 
 
 # ANCHOR - Jellyfin Sync Users
-def sync_jellyfin_users(server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None) -> list[JellyfinUser]:
+def sync_jellyfin_users(server_api_key: Optional[str] = None, server_url: Optional[str] = None) -> list[JellyfinUser]:
     """Sync users from Jellyfin to database.
 
     :param server_api_key: Jellyfin API key
     :type server_api_key: Optional[str] - If not provided, will get from database.
 
     :param server_url: Jellyfin URL
-    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :return: None
     """
@@ -374,7 +373,7 @@ def sync_jellyfin_users(server_api_key: Optional[str] = None, server_url: Option
 
 
 # ANCHOR - Jellyfin Get Profile Picture
-def get_jellyfin_profile_picture(user_id: str, max_height: Optional[int] = 150, max_width: Optional[int] = 150, quality: Optional[int] = 30, server_api_key: Optional[str] = None, server_url: Optional[str or HttpUrl] = None):
+def get_jellyfin_profile_picture(user_id: str, max_height: Optional[int] = 150, max_width: Optional[int] = 150, quality: Optional[int] = 30, server_api_key: Optional[str] = None, server_url: Optional[str] = None):
     """Get profile picture from Jellyfin.
 
     :param user_id: ID of the user to get profile picture for
@@ -396,7 +395,7 @@ def get_jellyfin_profile_picture(user_id: str, max_height: Optional[int] = 150, 
     :type server_api_key: Optional[str] - If not provided, will get from database.
 
     :param server_url: Jellyfin URL
-    :type server_url: Optional[str or HttpUrl] - If not provided, will get from database.
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :return: Jellyfin API response
     """

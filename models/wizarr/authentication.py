@@ -8,7 +8,7 @@ from schematics.models import Model
 from schematics.types import BooleanType, StringType
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from models.admins import Admins
+from models.database.accounts import Accounts
 from models.sessions import Sessions
 
 
@@ -16,7 +16,7 @@ class AuthenticationModel(Model):
     """Authentication Model"""
 
     # Private Variables
-    _user: Admins | None = None
+    _user: Accounts | None = None
 
     # ANCHOR - Authentication Model
     username = StringType(required=True)
@@ -38,14 +38,14 @@ class AuthenticationModel(Model):
 
 
     # ANCHOR - Get User
-    def _get_user(self) -> Admins:
+    def _get_user(self) -> Accounts:
         """Get the user from the database
 
         :return: An admin
         """
 
         # Get the user from the database
-        admin = Admins.get_or_none(Admins.username == self.username)
+        admin = Accounts.get_or_none(Accounts.username == self.username)
 
         # Check if the user exists
         if admin is None:
@@ -76,7 +76,7 @@ class AuthenticationModel(Model):
             new_hash = generate_password_hash(self.password, method='scrypt')
 
             # Update the password in the database
-            Admins.update(password=new_hash).where(Admins.username == self._user.username).execute()
+            Accounts.update(password=new_hash).where(Accounts.username == self._user.username).execute()
 
             # Log the migration
             info("Migrated password for user: " + self._user.username)
@@ -127,7 +127,7 @@ class AuthenticationModel(Model):
 
 
     # ANCHOR - Get User
-    def get_admin(self) -> Admins:
+    def get_admin(self) -> Accounts:
         """Get the user from the database
 
         :return: An admin

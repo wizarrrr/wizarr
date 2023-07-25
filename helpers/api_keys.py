@@ -3,6 +3,7 @@ from flask_jwt_extended import current_user
 from models import APIKeys
 
 
+# TODO: MOVE THIS TO AN API ENDPOINT
 def get_api_keys():
     # Get all API keys from the database
     admin_api_keys = list(

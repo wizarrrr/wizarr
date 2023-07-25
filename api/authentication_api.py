@@ -5,7 +5,7 @@ from flask_jwt_extended import jwt_required, set_access_cookies, unset_jwt_cooki
 from flask_restx import Namespace, Resource
 from playhouse.shortcuts import model_to_dict
 
-from models import Admins
+from models.database.accounts import Accounts
 from models.login import LoginPostModel
 from models.wizarr.authentication import AuthenticationLogoutModel, AuthenticationModel
 
@@ -17,6 +17,8 @@ api.add_model("LoginPostModel", LoginPostModel)
 
 @api.route("/login")
 class Login(Resource):
+    """API resource for logging in"""
+
     method_decorators = []
 
     @api.expect(LoginPostModel)
@@ -38,7 +40,7 @@ class Login(Resource):
         response = jsonify(
             {
                 "msg": "Login successful",
-                "user": model_to_dict(user, exclude=[Admins.password]),
+                "user": model_to_dict(user, exclude=[Accounts.password]),
             }
         )
 
@@ -52,6 +54,8 @@ class Login(Resource):
 
 @api.route("/logout")
 class Logout(Resource):
+    """API resource for logging out"""
+
     method_decorators = [jwt_required(optional=True)]
 
     @api.doc(description="Logout the currently logged in user")

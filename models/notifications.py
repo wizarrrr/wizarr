@@ -4,7 +4,7 @@ from typing import Optional
 from flask_restx import Model, fields
 from peewee import SQL, CharField, DateTimeField, IntegerField
 from pydantic import BaseModel as PydanticBaseModel
-from pydantic import Field, HttpUrl, constr
+from pydantic import Field, constr
 
 from .base import BaseModel
 
@@ -21,7 +21,7 @@ class Notifications(BaseModel):
 class NotificationsModel(PydanticBaseModel):
     name: str = Field(description="The name of the notification", min_length=3, max_length=30)
     type: constr(pattern="discord|pushover|notify") = Field(description="The type of the notification")
-    url: HttpUrl = Field(description="The URL of the notification")
+    url: str = Field(description="The URL of the notification")
     username: Optional[str] = Field(default=None, validate_default=False, description="The username of the notification")
     password: Optional[str] = Field(default=None, validate_default=False, description="The password of the notification")
 
