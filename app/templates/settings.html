@@ -87,7 +87,7 @@
                         </select>
                     </div>
 
-                    <div id="request_url_block" class="hidden">
+                    <div id="request_url_block">
                         <label for="request_url"
                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request
                 Server URL") }}</label>
@@ -97,7 +97,7 @@
                                placeholder="Optional, leave empty to disable">
                     </div>
 
-                    <div id="request_api_block" class="hidden">
+                    <div id="request_api_block">
                         <label for="request_api_key"
                                class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request
                 Server API Key") }}</label>
@@ -412,54 +412,54 @@ input:checked + .slider:before {
 </script>
 <script>
     // Get the request type select and request url input elements
-    var requestTypeSelect = document.getElementById("request_type");
-    var requestUrlInput = document.getElementById("request_url");
-    var requestApiInput = document.getElementById("request_api_key");
-
-    var requestTypeBlock = document.getElementById("request_type_block");
-    var requestUrlBlock = document.getElementById("request_url_block");
-    var requestApiBlock = document.getElementById("request_api_block");
-
-    // Function to handle the change event of the request type select
-    function handleRequestTypeChange() {
-      // Check if the request type select is set to an option
-      if (requestTypeSelect.children[0].selected) {
-        // Hide the request url input and request api input
-        requestUrlBlock.style.display = "none";
-        requestApiBlock.style.display = "none";
-      } else {
-        // Show the request url input
-        requestUrlBlock.style.display = "block";
-
-        // Check if the request url input is not empty
-        if (requestUrlInput.value !== "") {
-          // Show the request api input
-          requestApiBlock.style.display = "block";
-        } else {
-          // Hide the request api input
-          requestApiBlock.style.display = "none";
-        }
-      }
-    }
-
-    // Function to handle the input event of the request url input
-    function handleRequestUrlInput() {
-      // Check if the request url input is not empty
-      if (requestUrlInput.value !== "") {
-        // Show the request api input
-        requestApiBlock.style.display = "block";
-      } else {
-        // Hide the request api input
-        requestApiBlock.style.display = "none";
-      }
-    }
-
-    // Add event listeners
-    requestTypeSelect.addEventListener("change", handleRequestTypeChange);
-    requestUrlInput.addEventListener("input", handleRequestUrlInput);
-
-    // Run the initial check on page load
-    handleRequestTypeChange();
+    //var requestTypeSelect = document.getElementById("request_type");
+    //var requestUrlInput = document.getElementById("request_url");
+    //var requestApiInput = document.getElementById("request_api_key");
+//
+    //var requestTypeBlock = document.getElementById("request_type_block");
+    //var requestUrlBlock = document.getElementById("request_url_block");
+    //var requestApiBlock = document.getElementById("request_api_block");
+//
+    //// Function to handle the change event of the request type select
+    //function handleRequestTypeChange() {
+    //  // Check if the request type select is set to an option
+    //  if (requestTypeSelect.children[0].selected) {
+    //    // Hide the request url input and request api input
+    //    requestUrlBlock.style.display = "none";
+    //    requestApiBlock.style.display = "none";
+    //  } else {
+    //    // Show the request url input
+    //    requestUrlBlock.style.display = "block";
+//
+    //    // Check if the request url input is not empty
+    //    if (requestUrlInput.value !== "") {
+    //      // Show the request api input
+    //      requestApiBlock.style.display = "block";
+    //    } else {
+    //      // Hide the request api input
+    //      requestApiBlock.style.display = "none";
+    //    }
+    //  }
+    //}
+//
+    //// Function to handle the input event of the request url input
+    //function handleRequestUrlInput() {
+    //  // Check if the request url input is not empty
+    //  if (requestUrlInput.value !== "") {
+    //    // Show the request api input
+    //    requestApiBlock.style.display = "block";
+    //  } else {
+    //    // Hide the request api input
+    //    requestApiBlock.style.display = "none";
+    //  }
+    //}
+//
+    //// Add event listeners
+    //requestTypeSelect.addEventListener("change", handleRequestTypeChange);
+    //requestUrlInput.addEventListener("input", handleRequestUrlInput);
+//
+    //// Run the initial check on page load
+    //handleRequestTypeChange();
 
 </script>
 <script>
