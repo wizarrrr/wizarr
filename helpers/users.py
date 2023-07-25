@@ -161,9 +161,7 @@ def create_user(**kwargs) -> Users:
     if get_user_by_username(form.username, verify=False) is not None:
         raise ValueError("User already exists")
 
-    user = form.model_dump(
-            exclude_defaults=True, exclude_unset=True, exclude_none=True
-    )
+    user = form.model_dump()
 
     # Create the user
     user: Users = Users.create(**user)

@@ -1,6 +1,3 @@
-from pydantic import BaseModel as PydanticBaseModel
-from pydantic import Field
-
 from models.database.accounts import Accounts
 from .apikeys import APIKeys
 from .base import db
@@ -15,6 +12,3 @@ from .jellyfin.user import JellyfinUser
 
 all_models = [Accounts, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions]
 db.create_tables([Accounts, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions], safe=True)
-
-class IdentityModel(PydanticBaseModel):
-    id: int = Field(description="The ID of the path")

@@ -1,5 +1,4 @@
 from peewee import SQL, CharField, DateTimeField, ForeignKeyField
-from pydantic import BaseModel as PydanticBaseModel
 
 from .base import BaseModel
 from .users import Users
@@ -12,10 +11,3 @@ class Sessions(BaseModel):
     ip = CharField()
     expires = DateTimeField(null=True, default=None)
     created = DateTimeField(constraints=[SQL("DEFAULT (datetime('now'))")])
-    
-class SessionsModel(PydanticBaseModel):
-    session: str
-    user: int
-    user_agent: str
-    ip: str
-    created: str

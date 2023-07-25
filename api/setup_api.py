@@ -33,7 +33,12 @@ class Setup(Resource):
             password = request.form.get("password", None)
             password_confirm = request.form.get("password_confirm", None)
 
-            user = create_admin_user(username, email, password, password_confirm)
+            user = create_admin_user(
+                username=username,
+                email=email,
+                password=password,
+                password_confirm=password_confirm
+            )
 
             return { "message": "Admin user created", "user": user }, 200
 

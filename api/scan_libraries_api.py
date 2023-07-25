@@ -3,7 +3,7 @@ from flask_jwt_extended import jwt_required
 from flask_restx import Namespace, Resource
 from requests import RequestException
 
-from models.libraries import ScanLibraries
+from models.wizarr.libraries import ScanLibrariesModel
 
 api = Namespace(
     "Scan Libraries", description=" related operations", path="/scan-libraries"
@@ -21,16 +21,16 @@ class ScanLibrariesListAPI(Resource):
         from helpers import scan_jellyfin_libraries, scan_plex_libraries
 
         # Validate the data and initialize the object
-        form = ScanLibraries(
-            server_type=request.form.get("server_type", None),
-            server_url=request.form.get("server_url", None),
-            server_api_key=request.form.get("server_api_key", None),
-        )
+        server_settings = ScanLibrariesModel(request.form)
+        server_settings.validate()
+
+        server_type, server_url, server_api_key = server_settings.values()
+
 
         # Check if the server type is Jellyfin
-        if form.server_type == "jellyfin":
+        if server_type == "jellyfin":
             # Get the libraries
-            libraries = scan_jellyfin_libraries(form.server_api_key, form.server_url)
+            libraries = scan_jellyfin_libraries(server_api_key, server_url)
 
             # Format the libraries as [name]: [id]
             libraries = {library["Name"]: library["Id"] for library in libraries}
@@ -39,9 +39,9 @@ class ScanLibrariesListAPI(Resource):
             return {"libraries": libraries}, 200
 
         # Check if the server type is Plex
-        if form.server_type == "plex":
+        if server_type == "plex":
             # Get the libraries
-            libraries = scan_plex_libraries(form.server_api_key, form.server_url)
+            libraries = scan_plex_libraries(server_api_key, server_url)
 
             # Format the libraries as [name]: [id]
             libraries = {library.title: library.uuid for library in libraries}
