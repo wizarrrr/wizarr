@@ -38,7 +38,7 @@ class LibrariesModel(Model):
     """Libraries Model"""
 
     # ANCHOR - Libraries Model
-    libraries = SpecificLibrariesType(required=False, default=[])
+    libraries: list[str] = SpecificLibrariesType(required=False, default=[])
 
 
     # ANCHOR - Validate libraries
@@ -75,6 +75,7 @@ class LibrariesModel(Model):
 
     # ANCHOR - Compare Libraries
     def compare_libraries(self, server_libraries: list[dict]):
+        # pylint: disable=unsupported-membership-test
         return [library for library in server_libraries if library["id"] in self.libraries]
 
 
