@@ -44,7 +44,7 @@ def connect():
 
     if Settings.get(key="server_type").value == "plex":
         threading.Thread(target=plex_handle_oauth_token, args=(token, code)).start()
-        return redirect(url_for('setup'))
+        return redirect('/setup')
 
     elif Settings.get(key="server_type").value == "jellyfin":
         return render_template("signup-jellyfin.html", code=code)
