@@ -2,6 +2,8 @@
 
 ### Setup
 
+Please use the ```ghcr.io/wizarrrr/wizarr:dev``` docker image to use these features.
+
 **Jellyseerr**
 
 1. Go to your Jellyseerr settings and copy the API key.
