@@ -1,4 +1,4 @@
-from models.notifications import Notifications
+from models.database.notifications import Notifications
 
 
 def get_notifications():

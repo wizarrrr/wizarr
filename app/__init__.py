@@ -14,7 +14,7 @@ from .security import *
 
 from flask_sse import ServerSentEvents
 from migrations import migrate
-from models import *
+from models.database import *
 from api import *
 
 

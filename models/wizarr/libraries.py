@@ -3,8 +3,8 @@ from schematics.types import StringType, DateTimeType, BaseType, URLType
 from schematics.exceptions import DataError, ValidationError
 
 from json import loads, JSONDecodeError
-from models.libraries import Libraries
-from models.settings import Settings
+from models.database.libraries import Libraries
+from models.database.settings import Settings
 from logging import info
 
 # Custom specific_libraries type that converts a string to a list if needed

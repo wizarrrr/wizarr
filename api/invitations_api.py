@@ -3,7 +3,7 @@ from flask_restx import Namespace, Resource
 from flask_jwt_extended import jwt_required
 from playhouse.shortcuts import model_to_dict
 
-from models.invitations import Invitations
+from models.database.invitations import Invitations
 from models.wizarr.invitations import InvitationsModel
 
 api = Namespace("Invitations", description="Invites related operations", path="/invitations")

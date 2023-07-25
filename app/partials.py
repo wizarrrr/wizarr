@@ -6,8 +6,7 @@ from flask_jwt_extended import current_user
 
 from app import app
 from helpers import get_api_keys, get_notifications, get_settings, get_users
-from models import Invitations, Sessions, Settings
-from models.database.accounts import Accounts
+from models.database import Invitations, Sessions, Settings, Accounts
 
 from .scheduler import get_schedule
 from .security import login_required, login_required_unless_setup

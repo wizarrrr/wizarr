@@ -7,7 +7,7 @@ from flask_restx import Namespace, Resource
 from peewee import IntegrityError, SqliteDatabase
 from playhouse.shortcuts import model_to_dict
 
-from models import Sessions
+from models.database import Sessions
 
 api = Namespace("Sessions", description="Sessions related operations", path="/sessions")
 

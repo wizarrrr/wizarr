@@ -4,7 +4,7 @@ from flask_restx import Namespace, Resource
 from playhouse.shortcuts import model_to_dict
 
 from helpers.jellyfin import get_jellyfin_profile_picture
-from models.users import Users
+from models.database.users import Users
 
 from app.extensions import cache
 

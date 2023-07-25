@@ -9,8 +9,7 @@ from flask_jwt_extended import (create_access_token, get_jti, get_jwt,
                                 verify_jwt_in_request)
 from playhouse.shortcuts import model_to_dict
 
-from models import Sessions, Settings
-from models.database.accounts import Accounts
+from models.database import Sessions, Settings, Accounts
 
 # Yh this code looks messy but it works so ill tidy it up later
 

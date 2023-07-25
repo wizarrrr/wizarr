@@ -9,7 +9,7 @@ from schematics.types import BooleanType, StringType
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from models.database.accounts import Accounts
-from models.sessions import Sessions
+from models.database.sessions import Sessions
 
 
 class AuthenticationModel(Model):

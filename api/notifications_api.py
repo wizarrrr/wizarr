@@ -5,7 +5,8 @@ from flask_jwt_extended import jwt_required
 from flask_restx import Namespace, Resource
 
 from app.exceptions import InvalidNotificationAgent
-from models.notifications import (Notifications, NotificationsGetModel, NotificationsPostModel)
+from models.notifications import NotificationsGetModel, NotificationsPostModel
+from models.database.notifications import Notifications
 
 api = Namespace('Notifications', description='Notifications related operations', path="/notifications")
 

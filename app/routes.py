@@ -10,7 +10,7 @@ from app.security import (logged_out_required, login_required,
                           server_not_verified_required,
                           server_verified_required)
 from helpers import get_api_keys, get_setting, get_settings, is_invite_valid
-from models.settings import Settings
+from models.database.settings import Settings
 
 
 @app.context_processor

@@ -8,8 +8,8 @@ from schematics.models import Model
 from schematics.types import (BaseType, BooleanType, DateTimeType, IntType,
                               StringType)
 
-from models.invitations import Invitations
-from models.libraries import Libraries
+from models.database.invitations import Invitations
+from models.database.libraries import Libraries
 
 
 # Custom specific_libraries type that converts a string to a list if needed

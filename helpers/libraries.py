@@ -1,6 +1,6 @@
-from models import Libraries
-from playhouse.shortcuts import model_to_dict
+from models.database import Libraries
 from models.wizarr.libraries import LibraryModel
+from playhouse.shortcuts import model_to_dict
 
 # INDEX OF FUNCTIONS
 # - Get Libraries

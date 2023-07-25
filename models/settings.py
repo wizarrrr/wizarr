@@ -1,14 +1,5 @@
 from typing import Optional
-
 from flask_restx import Model, fields
-from peewee import CharField
-
-from .base import BaseModel
-
-
-class Settings(BaseModel):
-    key = CharField()
-    value = CharField(null=True)
 
 class SettingsModel:
     server_type: Optional[str]

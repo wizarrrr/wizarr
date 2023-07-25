@@ -9,7 +9,7 @@ from plexapi.myplex import MyPlexAccount, MyPlexPinLogin, PlexServer
 from app import app, scheduler
 from app.mediarequest import *
 from app.notifications import notify
-from models import Invitations, Libraries, Settings, Users
+from models.database import Invitations, Libraries, Settings, Users
 
 # INVITE USER TO PLEX SERVER
 # UPDATE OR CREATE USER IN DATABASE
@@ -100,41 +100,41 @@ def plex_invite_user(email, code, sse: ServerSentEvents = None, sse_id: str = No
     # Get settings from database and invitation from database
     settings = { setting.key: setting.value for setting in Settings.select() }
     invitation: Invitations = Invitations.select().where(Invitations.code == code).first()
-     
+
     # If invitation does not exist, raise exception
     if not invitation:
         if sse: sse.send("Invitation does not exist", sse_id, "error")
         raise Exception("Invitation does not exist")
-     
+
     # Clear plex_get_users cache
     plex_get_users.cache_clear()
-     
+
     # Get server_url and server_api_key from settings dictonary
     server_url = settings.get("server_url", None)
     server_api_key = settings.get("server_api_key", None)
-     
+
     # Create plex_server object
     plex_server = PlexServer(server_url, server_api_key)
-     
+
     # Get libraries from database
     libraries = [{"id": library.id, "name": library.name} for library in Libraries.select()]
-     
+
     # Get sections from libraries.name if invitation.specific_libraries is None, else get from invitation.specific_libraries and split by ", "
     sections = [library["name"] for library in libraries if not invitation.specific_libraries or library["id"] in invitation.specific_libraries.split(",")]
 
     # Get allow_sync and plex_home from invitation
     allow_sync = invitation.plex_allow_sync
     plex_home = invitation.plex_home
-     
+
     # Get myPlexAccount object
     my_plex_account = plex_server.myPlexAccount()
-    
+
     # SSE step 1
     if sse: sse.send(1, sse_id, "step")
-     
+
     # Select method to invite user based on plex_home
     invite = my_plex_account.createHomeUser if plex_home else my_plex_account.inviteFriend
-     
+
     # Invite user to plex server
     try:
         invite(user=email, server=plex_server, sections=sections, allowSync=allow_sync)
@@ -142,14 +142,14 @@ def plex_invite_user(email, code, sse: ServerSentEvents = None, sse_id: str = No
         if sse: sse.send("Failed to invite user", sse_id, "error")
         info("Failed to invite user: " + str(e))
         raise Exception("Failed to invite user")
-     
+
     info("Invited " + email + " to Plex Server")
-     
+
     # if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
     #     Invitations.update(used=True, used_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
     # else:
     #     Invitations.update(used_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), used_by=email).where(Invitations.code == code).execute()
-        
+
 
 def plex_setup_user(token):
     try:

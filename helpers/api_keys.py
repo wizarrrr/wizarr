@@ -1,6 +1,6 @@
 from flask_jwt_extended import current_user
 
-from models import APIKeys
+from models.database import APIKeys
 
 
 # TODO: MOVE THIS TO AN API ENDPOINT
