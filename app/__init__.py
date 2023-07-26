@@ -1,6 +1,6 @@
 from datetime import timedelta
 from json import dumps
-from os import environ, getenv, path
+from os import environ, getenv, path, mkdir, access, W_OK, R_OK
 
 from dotenv import load_dotenv
 from flask import Flask
@@ -28,13 +28,25 @@ load_dotenv()
 # Initialize the app and api
 app = Flask(__name__)
 
+
+# Stuff thats gonna prevent Wizarr from working correctly, lets tell the user about it instead of just quitting
+@app.before_request
+def before_request():
+    if getenv("APP_URL") and getenv("APP_URL") != request.host or not getenv("APP_URL"):
+        return render_template("error/custom.html", title="APP_URL", subtitle="APP_URL not configured correctly", description="It appears that APP_URL is not configured correctly in your Docker/System settings, APP_URL must match the URL your attempting to access this site on excluding http:// or https://"), 500
+
+    database_path = path.abspath(path.join(BASE_DIR, "../", "database"))
+
+    if not path.exists(database_path) or not path.isdir(database_path) or not access(database_path, W_OK) or not access(database_path, R_OK):
+        return render_template("error/custom.html", title="DATABASE", subtitle="Database folder not writable", description="It appears that Wizarr does not have permissions over the database folder, please make sure that the folder is writable by the user running Wizarr."), 500
+
+    sessions_path = path.abspath(path.join(BASE_DIR, "../", "database", "sessions"))
+
+    if not path.exists(sessions_path) or not path.isdir(sessions_path) or not access(sessions_path, W_OK) or not access(sessions_path, R_OK):
+        return render_template("error/custom.html", title="SESSIONS", subtitle="Sessions folder not writable", description="It appears that Wizarr does not have permissions over the sessions folder, please make sure that the folder is writable by the user running Wizarr."), 500
+
 # Run database migrations scripts
 migrate()
-
-# Stop the app if the APP_URL is not set
-# if not getenv("APP_URL"):
-#     error("APP_URL not set or wrong format. See docs for more debug.")
-#     exit(1)
 
 # Add version to environment variables
 environ["VERSION"] = VERSION

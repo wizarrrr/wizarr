@@ -16,8 +16,8 @@
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Wizarr</span>
                 </a>
                 <div class="flex md:order-2">
-                    <button onclick="window.history.back()" class="bg-gray-700 text-white font-medium rounded-lg px-6 py-2 text-sm dark:bg-primary dark:hover:bg-primary_hover">
-                        {{ _('Back') }}
+                    <button onclick="window.location.href = 'https://github.com/Wizarrrr/wizarr'" class="bg-gray-700 text-white font-medium rounded-lg px-6 py-2 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                        {{ _('Get Help') }}
                     </button>
                 </div>
             </div>
@@ -26,11 +26,21 @@
         <section class="h-full bg-gray-50 dark:bg-gray-900 flex justify-center items-center">
             <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
                 <div class="mx-auto max-w-screen-sm text-center">
-                    <h1 class="mb-4 text-white text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 dark:text-primary-500">404
+                    {% if title %}
+                    <h1 class="mb-4 text-white text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 dark:text-primary-500">
+                        {{ title }}
                     </h1>
-                    <p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">{{ _("Something's missing.") }}
+                    {% endif %}
+                    {% if subtitle %}
+                    <p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">
+                        {{ subtitle }}
                     </p>
-                    <p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">{{ _("Sorry, we can't find that page. It doesn't seem to exist!") }}</p>
+                    {% endif %}
+                    {% if description %}
+                    <p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
+                        {{ description }}
+                    </p>
+                    {% endif %}
                 </div>
             </div>
         </section>
