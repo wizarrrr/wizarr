@@ -127,40 +127,42 @@
             return;
         }
 
-        const xhr = new XMLHttpRequest();
+        window.location.href = '/login';
 
-        xhr.open('GET', '/login');
+        //const xhr = new XMLHttpRequest();
 
-        xhr.onreadystatechange = async function () {
-            document.getElementById('spinner').classList.remove('htmx-indicator');
+        //xhr.open('GET', '/login');
 
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                // Replace the current page with the new page
-                document.open();
-                document.write(xhr.responseText);
-                document.close();
+        //xhr.onreadystatechange = async function () {
+        //    document.getElementById('spinner').classList.remove('htmx-indicator');
 
-                // Update the URL in the browser
-                window.history.pushState({}, '', '/login');
+        //    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        //        // Replace the current page with the new page
+        //        document.open();
+        //        document.write(xhr.responseText);
+        //        document.close();
 
-                const data = JSON.parse(localStorage.getItem('user'));
+        //        // Update the URL in the browser
+        //        window.history.pushState({}, '', '/login');
 
-                if (data != undefined) {
-                    toast.infoToast("{{ _('Goodbye') }}, " + data.username + "!");
-                    localStorage.removeItem('user');
-                    return;
-                }
+        //        const data = JSON.parse(localStorage.getItem('user'));
 
-                toast.infoToast("{{ _('Logged out successfully') }}");
-                localStorage.removeItem('user');
-            }
+        //        if (data != undefined) {
+        //            toast.infoToast("{{ _('Goodbye') }}, " + data.username + "!");
+        //            localStorage.removeItem('user');
+        //            return;
+        //        }
 
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200) {
-                window.location.href = '/login';
-            }
-        };
+        //        toast.infoToast("{{ _('Logged out successfully') }}");
+        //        localStorage.removeItem('user');
+        //    }
 
-        xhr.send();
+        //    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200) {
+        //        window.location.href = '/login';
+        //    }
+        //};
+
+        //xhr.send();
     }
 </script>
 

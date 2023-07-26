@@ -85,9 +85,14 @@
 
             <!-- Item 6 -->
             <div id="carousel-item-6" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800 flex items-center justify-center">
-                <button onclick="location.reload()" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
-                    {{ _("Retry") }}
-                </button>
+                <div class="flex flex-col items-start justify-center w-full space-y-4">
+                    <p id="failed-flow" class="text-sm font-medium text-gray-900 dark:text-white">
+                        {{ _("Something went wrong, please try again.") }}
+                    </p>
+                    <button onclick="location.reload()" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
+                        {{ _("Retry") }}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -95,13 +100,28 @@
 <script defer>
     document.addEventListener("DOMContentLoaded", function () {
         const items = [
-            { position: 0, el: document.getElementById('carousel-item-0') },
-            { position: 1, el: document.getElementById('carousel-item-1') },
-            { position: 2, el: document.getElementById('carousel-item-2') },
-            { position: 3, el: document.getElementById('carousel-item-3') },
-            { position: 4, el: document.getElementById('carousel-item-4') },
-            { position: 5, el: document.getElementById('carousel-item-5') },
-            { position: 6, el: document.getElementById('carousel-item-6') }
+            {
+                position: 0,
+                el: document.getElementById('carousel-item-0')
+            }, {
+                position: 1,
+                el: document.getElementById('carousel-item-1')
+            }, {
+                position: 2,
+                el: document.getElementById('carousel-item-2')
+            }, {
+                position: 3,
+                el: document.getElementById('carousel-item-3')
+            }, {
+                position: 4,
+                el: document.getElementById('carousel-item-4')
+            }, {
+                position: 5,
+                el: document.getElementById('carousel-item-5')
+            }, {
+                position: 6,
+                el: document.getElementById('carousel-item-6')
+            }
         ];
 
         const options = {
@@ -110,17 +130,21 @@
                 let active = step._getActiveItem();
                 let speed = 600;
                 if (active.position == 1) {
-                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "150px" }, speed);
-                } else if (active.position == 2) {
-                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "60px" }, speed);
-                } else if (active.position == 3) {
-                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "60px" }, speed);
-                } else if (active.position == 4) {
-                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "100px" }, speed);
-                } else if (active.position == 5) {
-                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "100px" }, speed);
+                    setTimeout(() => {
+                        document.querySelector("#carousel").style.maxHeight = "150px";
+                    }, speed);
+                } else if (active.position == 2 || active.position == 3) {
+                    setTimeout(() => {
+                        document.querySelector("#carousel").style.maxHeight = "60px";
+                    }, speed);
+                } else if (active.position == 4 || active.position == 5) {
+                    setTimeout(() => {
+                        document.querySelector("#carousel").style.maxHeight = "100px";
+                    }, speed);
                 } else if (active.position == 6) {
-                    setTimeout(() => { document.querySelector("#carousel").style.maxHeight = "60px" }, speed);
+                    setTimeout(() => {
+                        document.querySelector("#carousel").style.maxHeight = "95px";
+                    }, speed);
                 }
             }
         };
@@ -141,7 +165,7 @@
         const spans = title.querySelectorAll('span');
 
         for (let i = 0; i < spans.length; i++) {
-            if (i == step) {
+            if (i === step) {
                 spans[i].classList.remove('hidden');
                 spans[i].classList.add('animate__animated', 'animate__fadeIn');
             } else {
@@ -157,10 +181,9 @@
 
         for (let i = 0; i < steps.length; i++) {
 
-            if (step == 0) {
+            if (step === 0) {
                 steps[i].classList.add('after:border-gray-100', 'after:dark:border-gray-700');
                 steps[i].classList.remove('after:border-primary');
-
                 steps[i].querySelector('span').classList.remove('bg-gray-100', 'dark:bg-gray-700');
                 steps[i].querySelector('span').classList.add('bg-primary');
             }
@@ -168,13 +191,11 @@
             if (i <= step - 1) {
                 steps[i].classList.add('after:border-primary');
                 steps[i].classList.remove('after:border-gray-100', 'after:dark:border-gray-700');
-
                 steps[i].querySelector('span').classList.remove('bg-gray-100', 'dark:bg-gray-700');
                 steps[i].querySelector('span').classList.add('bg-primary');
             } else {
                 steps[i].classList.add('after:border-gray-100', 'after:dark:border-gray-700');
                 steps[i].classList.remove('after:border-primary');
-
                 steps[i].querySelector('span').classList.remove('bg-primary');
                 steps[i].querySelector('span').classList.add('bg-gray-100', 'dark:bg-gray-700');
             }
@@ -186,12 +207,21 @@
         changeStepper(step);
     }
 
-    function errorScreen() {
+    function errorScreen(message = null) {
         let lastcarousel = document.querySelector('#carousel').childElementCount;
+
         let lasttitle = document.querySelector('#title').childElementCount;
 
         window.carousel.slideTo(lastcarousel - 1);
+
         changeTitle(lasttitle - 1);
+
+        if (message != null) {
+            if (message.length > 60) {
+                message = message.substring(0, 60) + '...';
+            }
+            document.querySelector('#failed-flow').innerHTML = message;
+        }
     }
 
     async function joinServer(that) {
@@ -204,6 +234,7 @@
 
         // Change slide and title
         window.carousel.slideTo(2);
+
         changeTitle(1);
 
         // Run Plex Auth and wait for a token
@@ -217,6 +248,7 @@
 
         // If token, change slide and title to stepper screen
         window.carousel.slideTo(3);
+
         changeTitle(2);
 
         // Create form data
@@ -230,11 +262,16 @@
             credentials: 'same-origin',
             headers: {
                 'X-CSRF-TOKEN': getCookie('csrf_access_token')
-            },
+            }
         });
 
         // If no response, show error slide
         if (plex.status != 200) {
+            let data = await plex.json();
+            if (data.message != null) {
+                errorScreen(data.message);
+                return;
+            }
             errorScreen();
             return;
         }
@@ -244,6 +281,10 @@
 
         // Check if sseJson has a url
         if (plex_stream.stream == null) {
+            if (plex_stream.message != null) {
+                errorScreen(plex_stream.message);
+                return;
+            }
             errorScreen();
             return;
         }

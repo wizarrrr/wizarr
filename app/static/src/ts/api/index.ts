@@ -23,5 +23,6 @@ function error(error: any) {
     return Promise.reject(error);
 }
 
+// @ts-ignore
 axios.defaults.headers.common["X-CSRF-TOKEN"] = cookie.get('csrf_access_token');
 axios.interceptors.response.use(resp, error);

@@ -357,9 +357,8 @@
 
 
         // Copy the link to the clipboard
-        function copyLink() {
-            let link = document.getElementById("link").value;
-            navigator.clipboard.writeText(link)
+        async function copyLink() {
+            navigator.clipboard.writeText(window.invite_url)
                 .then(() => toast.infoToast("{{ _('Link has been copied to clipboard!') }}"))
                 .catch(() => toast.errorToast("{{ _('An error occurred while copying the link to the clipboard!') }}"));
         }
@@ -574,6 +573,7 @@
                 url.pathname = "/j/" + data.code;
 
                 document.getElementById("link").value = url.href;
+                window.invite_url = url.href;
 
                 that.classList.add("hidden");
                 document.getElementById("invite-created").classList.remove("hidden");

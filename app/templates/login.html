@@ -102,40 +102,42 @@
             return;
         }
 
-        const xhr = new XMLHttpRequest();
+        window.location.href = '/admin';
 
-        xhr.open('GET', '/admin');
+        //const xhr = new XMLHttpRequest();
 
-        xhr.onreadystatechange = async function () {
-            document.getElementById('spinner').classList.remove('htmx-indicator');
+        //xhr.open('GET', '/admin');
 
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                // Replace the current page with the admin page
-                document.open();
-                document.write(xhr.responseText);
-                document.close();
+        //xhr.onreadystatechange = async function () {
+        //    document.getElementById('spinner').classList.remove('htmx-indicator');
 
-                // Update the browser history
-                window.history.pushState({}, '', '/admin');
+        //    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        //        // Replace the current page with the admin page
+        //        document.open();
+        //        document.write(xhr.responseText);
+        //        document.close();
 
-                // Get the user data from the response
-                const data = await response.json();
+        //        // Update the browser history
+        //        window.history.pushState({}, '', '/admin');
 
-                if (data.user != undefined) {
-                    toast.infoToast("{{ _('Hello') }}, " + data.user.username + "!");
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    return;
-                }
+        //        // Get the user data from the response
+        //        const data = await response.json();
 
-                toast.infoToast("{{ _('Logged in successfully') }}");
-            }
+        //        if (data.user != undefined) {
+        //            toast.infoToast("{{ _('Hello') }}, " + data.user.username + "!");
+        //            localStorage.setItem('user', JSON.stringify(data.user));
+        //            return;
+        //        }
 
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200) {
-                window.location.href = '/login';
-            }
-        };
+        //        toast.infoToast("{{ _('Logged in successfully') }}");
+        //    }
 
-        xhr.send();
+        //    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200) {
+        //        window.location.href = '/login';
+        //    }
+        //};
+
+        //xhr.send();
     }
 </script>
 

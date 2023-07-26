@@ -14,7 +14,7 @@ schedule.init_app(app)
 schedule.start()
 
 # Scheduled tasks
-@schedule.task("interval", id="checkExpiringUsers", minutes=15, misfire_grace_time=900)
+@schedule.task("interval", id="checkExpiringUsers", minutes=30, misfire_grace_time=900)
 def check_expiring_users():
     # Log message to console
     webpush("Checking for expiring users")
@@ -40,7 +40,7 @@ def check_expired_sessions():
         info(f"Deleting session { session.id } due to expired session.")
 
 
-@schedule.task("interval", id="syncUsers", minutes=30, misfire_grace_time=900)
+@schedule.task("interval", id="syncUsers", hours=3, misfire_grace_time=900)
 def scan_users():
     webpush("Scanning for new users")
     global_sync_users()
