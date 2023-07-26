@@ -28,8 +28,7 @@
     }
 
     async function saveSettings(that) {
-        let spinner = document.getElementById('spinner');
-        spinner.classList.remove('htmx-indicator');
+        utils.submitSpinner(that, true);
 
         let formData = new FormData(that);
 
@@ -37,16 +36,8 @@
             console.log('discord_id is empty');
         }
 
-        let response = await fetch('/api/settings', {
-            method: 'PUT',
-            body: formData,
-            credentials: 'same-origin',
-            headers: {
-                'X-CSRF-TOKEN': getCookie('csrf_access_token')
-            },
-        });
-
-        spinner.classList.add('htmx-indicator');
+        await window.api.settings.updateSettings(formData);
+        utils.submitSpinner(that, false);
 
         toast.infoToast("{{ _('Settings saved successfully!') }}");
         htmx.ajax('GET', '/partials/admin/settings/discord', { target: '#settings-content', swap: 'innerHTML' });

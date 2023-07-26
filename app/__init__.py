@@ -113,5 +113,5 @@ with app.app_context():
 if __name__ == "__main__":
     app.run()
 
-from app import (backup, exceptions, jellyfin, mediarequest, notifications,
-                 partials, plex, routes, scheduler, security, universal, web)
+from app import (backup, exceptions, mediarequest, notifications,
+                 partials, plex, routes, scheduler, security)

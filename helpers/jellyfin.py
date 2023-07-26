@@ -368,8 +368,6 @@ def sync_jellyfin_users(server_api_key: Optional[str] = None, server_url: Option
             database_user.delete_instance()
             info(f"User {database_user.username} successfully deleted from database.")
 
-    # Return users
-    return get_jellyfin_users(server_api_key=server_api_key, server_url=server_url)
 
 
 # ANCHOR - Jellyfin Get Profile Picture

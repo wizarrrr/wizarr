@@ -4,6 +4,7 @@ from flask_restx import Namespace, Resource
 from playhouse.shortcuts import model_to_dict
 
 from helpers.jellyfin import get_jellyfin_profile_picture
+from helpers.universal import global_sync_users, global_delete_user
 from models.database.users import Users
 
 from app.extensions import cache
@@ -31,6 +32,28 @@ class UsersListAPI(Resource):
     @api.response(500, "Internal server error")
     def post(self):
         return
+
+
+@api.route("/<string:user_id>")
+class UsersAPI(Resource):
+
+        method_decorators = [jwt_required()]
+
+        @api.doc(description="Delete a user from the database and media server")
+        @api.response(500, "Internal server error")
+        def delete(self, user_id):
+            return global_delete_user(user_id), 200
+
+
+@api.route("/scan")
+class UsersScanAPI(Resource):
+
+    method_decorators = [jwt_required()]
+
+    @api.doc(description="Scan for new users")
+    @api.response(500, "Internal server error")
+    def get(self):
+        return global_sync_users(), 200
 
 
 @api.route("/<string:user_id>/profile-picture")

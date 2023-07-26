@@ -63,7 +63,7 @@ def settings_partials(subpath):
 
 # All account partials
 @app.get("/partials/admin/account", defaults={"subpath": ""})
-@app.get("/partials/admin/account/<path:subpath>")
+@app.get("/partials/admin/account/<string:subpath>")
 @login_required()
 def account_partials(subpath):
     # Get valid account partials
@@ -86,9 +86,9 @@ def account_partials(subpath):
 
 
 # All modal partials
-@app.get("/partials/modals/<path:path>")
+@app.get("/partials/modals/<string:subpath>")
 @login_required_unless_setup()
-def modal_partials(path, **kwargs):
+def modal_partials(subpath, **kwargs):
     # Get all form and post data
     form = request.form if request.form else {}
     post = request.args if request.args else {}
@@ -97,39 +97,39 @@ def modal_partials(path, **kwargs):
     # Merge form and post data
     data = {**form, **post, **args}
 
-    return render_template("modal.html", subpath=f"modals/{path}.html", **data)
+    return render_template("modal.html", subpath=f"modals/{subpath}.html", **data)
 
 
 # All tables partials
-@app.get("/partials/tables/<path:path>")
+@app.get("/partials/tables/<string:subpath>")
 @login_required()
-def table_partials(path):
+def table_partials(subpath):
     settings = {
         "admin": current_user
     }
 
-    if path == "global-users":
-        settings["users"] = get_users()
+    if subpath == "global-users":
+        settings["users"] = get_users(as_dict=True)
 
-    if path == "invite-table":
+    if subpath == "invite-table":
         settings["server_type"] = Settings.get(key="server_type").value
         settings["invitations"] = Invitations.select().order_by(Invitations.created.desc())
         settings["rightnow"] = datetime.now()
         settings["app_url"] = getenv("APP_URL")
 
-    if path == "admin-users":
+    if subpath == "admin-users":
         settings["admins"] = list(Accounts.select().dicts())
 
-    if path == "task-table":
+    if subpath == "task-table":
         settings["tasks"] = get_schedule()
 
-    if path == "notification-table":
+    if subpath == "notification-table":
         settings["notifications"] = get_notifications()
 
-    if path == "sessions-table":
+    if subpath == "sessions-table":
         settings["sessions"] = Sessions.select().where(Sessions.user == current_user["id"]).order_by(Sessions.created.desc())
 
-    if path == "api-table":
+    if subpath == "api-table":
         settings["api_keys"] = get_api_keys()
 
-    return render_template(f"tables/{path}.html", **settings)
+    return render_template(f"tables/{subpath}.html", **settings)

@@ -13,7 +13,7 @@
                         <button onclick="toast.errorToast('Add User not available yet')" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
                             {{ _("Add User") }}
                         </button>
-                        <button hx-get="" hx-target="" hx-trigger="click" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                        <button onclick="scanUsers()" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
                             {{ _("Scan Users") }}
                         </button>
                     </div>
@@ -36,19 +36,6 @@
     </div>
 
 </div>
-{#
-<script>
-    error = () => {
-        document.getElementById("loader").classList.add("hidden");
-        document.getElementById("error_message").classList.remove("hidden");
-        document.getElementById("error_message").innerHTML = "An error occurred. Please try again later.";
-        document.getElementById("adduser").disabled = true;
-        document.getElementById("deleteusers").disabled = true;
-    }
-
-    document.body.addEventListener("htmx:sendError", error);
-    document.body.addEventListener("htmx:requestError", error);
-</script> #}
 <script>
 
     // when a button is clicked with an id of "delete", add the "animate__fadeOut" to its parent 'tr'
@@ -59,12 +46,26 @@
     });
 
 
-    // a function called closeModal that add the hidden class to 'modal-div' and deletes all child elements from 'user-modal'
-    function closeModal() {
-        document.getElementById('modal').classList.add('hidden');
-        var modal = document.getElementById('modal-user');
-        while (modal.firstChild) {
-            modal.removeChild(modal.firstChild);
+    async function scanUsers() {
+        const users = await fetch('/api/users/scan', {
+            method: 'GET',
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-TOKEN': getCookie('csrf_access_token')
+            },
+        })
+
+        if (users.status === 200) {
+            toast.successToast('Users scanned successfully')
+            htmx.ajax('/partials/tables/global-users', 'get', '#user_table', 'innerHTML')
+        } else {
+            error = await users.json()
+
+            if (error.message) {
+                toast.errorToast(error.message)
+            } else {
+                toast.errorToast('Error scanning users')
+            }
         }
     }
 

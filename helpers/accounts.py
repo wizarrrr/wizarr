@@ -24,15 +24,14 @@ def get_admins(password: bool = True) -> list[Accounts]:
 
     # Get all admins from the database
     admins: list[Accounts] = Accounts.select()
+    exclude = []
+
+    # Remove the password from the admin if password is False
+    if password is False:
+        exclude.append("password")
 
     # Convert the admins to a list of dictionaries
-    admins = [AccountsModel(model_to_dict(admin)).to_primitive() for admin in admins]
-
-    # Remove the password from each admin if password is False
-    if password is False:
-        admins = [
-            {k: v for k, v in admin.items() if k != "password"} for admin in admins
-        ]
+    admins = [AccountsModel(model_to_dict(admin, exclude=exclude)).to_primitive() for admin in admins]
 
     # Return a list of dicts
     return admins
@@ -52,6 +51,7 @@ def get_admin_by_id(admin_id: int, verify: bool = True, password: bool = False) 
 
     # Get the admin by id
     admin = Accounts.get_or_none(Accounts.id == admin_id)
+    exclude = []
 
     # Check if the admin exists
     if admin is None and verify:
@@ -59,10 +59,10 @@ def get_admin_by_id(admin_id: int, verify: bool = True, password: bool = False) 
 
     # Remove the password from the admin if password is False
     if password is False:
-        admin = model_to_dict(admin, exclude=["password"])
+        exclude.append("password")
 
     # Return the admin
-    return admin
+    return AccountsModel(model_to_dict(admin, exclude=exclude)).to_primitive()
 
 
 # ANCHOR - Get Admin by Username
@@ -79,6 +79,7 @@ def get_admin_by_username(username: str, verify: bool = True, password: bool = F
 
     # Get the admin by username
     admin = Accounts.get_or_none(Accounts.username == username)
+    exclude = []
 
     # Check if the admin exists
     if admin is None and verify:
@@ -86,10 +87,10 @@ def get_admin_by_username(username: str, verify: bool = True, password: bool = F
 
     # Remove the password from the admin if password is False
     if password is False:
-        admin = model_to_dict(admin, exclude=["password"])
+        exclude.append("password")
 
     # Return the admin
-    return admin
+    return AccountsModel(model_to_dict(admin, exclude=exclude)).to_primitive()
 
 
 # ANCHOR - Create Admin User
