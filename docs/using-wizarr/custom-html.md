@@ -6,15 +6,15 @@ With the ability to add a custom HTML section to the setup wizard for Plex and J
 
 Adding custom HTML to your setup wizard is a simple process. All you need to do is follow these steps:
 
-1. Go to the Settings menu&#x20;
-2. Scroll down to the Custom HTML section
-3. Paste in your custom HTML code
+1. Go to the Settings page and navigate to the HTML section
+2. Paste in your custom HTML code
 
-That's it! Your custom HTML section will be automatically added to the setup wizard, centered and styled with a background, thanks Tailwindcss.
+That's it! Your custom HTML section will be automatically added to the setup wizard, centered and styled with a background, thanks TailwindCSS.
 
-### Using Tailwindcss
+### Using TailwindCSS
 
-Wizarr, the underlying framework of the Plex Setup Wizard, uses Tailwindcss. As a result, users are free to use Tailwindcss syntax in their HTML code for the custom section. This allows for greater flexibility in designing and customizing the appearance of the section.
+TailwindCSS is the underlying framework of Wizarr. As a result, users are free to use TailwindCSS syntax in their HTML code for the custom section. This allows for greater flexibility in designing and customizing the appearance of the section.
 
-\
-\
+{% hint style="danger" %}
+Javascript will not function inside Custom HTML, for more advanced functionality we advise you fork your own copy of Wizarr. This is to prevent XSS vulnerabilities being introduced.
+{% endhint %}

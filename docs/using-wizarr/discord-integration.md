@@ -1,3 +1,7 @@
+---
+description: BETA ONLY FEATURE
+---
+
 # Discord Integration
 
 #### Find your Discord Server ID
@@ -11,6 +15,10 @@
 #### Toggle the Discord Widget
 
 Wizarr supports using either the standard Discord widget, or a custom widget utilizing the Discord API. The custom widget is enabled by default, and provides a more integrated look and feel, however if this is not desired you can toggle the standard widget on in Wizarr's settings.
+
+{% hint style="warning" %}
+If your Discord information is not showing, this maybe because Discord has flagged your IP for too many requests. Please try again later.
+{% endhint %}
 
 {% tabs %}
 {% tab title="Custom Widget" %}

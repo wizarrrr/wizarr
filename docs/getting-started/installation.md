@@ -90,3 +90,7 @@ docker run -d ...
 3. Click the **Install Button**.
 4. On the following **Add Container** screen, make changes to the **Host Port** and **Host Path 1**(Appdata) as needed, as well as the environment variables.
 5. Click apply and access "Wizarr" at your `<ServerIP:HostPort>` in a web browser.
+
+## Beta
+
+To use the current Wizarr V3 beta, please follow the above Docker Compose or Docker CLI steps replacing your image with `ghcr.io/wizarrrr/wizarr:v3-alpha`.
