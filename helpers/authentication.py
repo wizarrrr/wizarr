@@ -1,5 +1,4 @@
 from playhouse.shortcuts import model_to_dict
-from schematics.exceptions import DataError
 from flask import jsonify, Response
 from logging import info
 
