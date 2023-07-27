@@ -223,6 +223,13 @@ def login_get():
 
     return render_template("login.html")
 
+@app.get("/forgot-password")
+@logged_out_required()
+def forgot_password_get():
+    if getenv("DISABLE_BUILTIN_AUTH", "false") == "true":
+        return redirect("/")
+
+    return render_template("forgot-password.html")
 
 
 # Handle 404, 401 and 500 errors
