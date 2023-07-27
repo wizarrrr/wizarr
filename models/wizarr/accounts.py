@@ -15,9 +15,9 @@ min_password_numbers = int(getenv("MIN_PASSWORD_NUMBERS", "1"))
 min_password_special = int(getenv("MIN_PASSWORD_SPECIAL", "0"))
 
 class AccountsModel(Model):
-    """Admin User Model"""
+    """Account Account Model"""
 
-    # ANCHOR - Admin User Model
+    # ANCHOR - Account Account Model
     id = StringType(required=False)
     username = StringType(required=True)
     email = EmailType(required=False)
@@ -45,18 +45,18 @@ class AccountsModel(Model):
 
 
     # ANCHOR - Validate Username
-    def check_username_exists(self, admin_id: int = None):
-        if admin_id and Accounts.get_or_none(Accounts.username == self.username, Accounts.id != admin_id) is not None:
-            raise DataError({"username": ["User with username already exists"]})
-        elif not admin_id and Accounts.get_or_none(Accounts.username == self.username) is not None:
+    def check_username_exists(self, account_id: int = None):
+        if account_id and Accounts.get_or_none(Accounts.username == self.username, Accounts.id != account_id) is not None:
+            raise DataError({"username": ["Account with that username already exists"]})
+        elif not account_id and Accounts.get_or_none(Accounts.username == self.username) is not None:
             raise DataError({"username": ["Username is already taken"]})
 
 
     # ANCHOR - Validate Email
-    def check_email_exists(self, admin_id: int = None):
-        if admin_id and Accounts.get_or_none(Accounts.email == self.email, Accounts.id != admin_id) is not None:
-            raise DataError({"email": ["User with email already exists"]})
-        elif not admin_id and Accounts.get_or_none(Accounts.email == self.email) is not None:
+    def check_email_exists(self, account_id: int = None):
+        if account_id and Accounts.get_or_none(Accounts.email == self.email, Accounts.id != account_id) is not None:
+            raise DataError({"email": ["Account with that email already exists"]})
+        elif not account_id and Accounts.get_or_none(Accounts.email == self.email) is not None:
             raise DataError({"email": ["Email is already taken"]})
 
 
@@ -66,36 +66,36 @@ class AccountsModel(Model):
         return self.hashed_password
 
 
-    # ANCHOR - Update Admin
-    def update_admin(self, admin: Accounts):
-        # Check if the admin exists
-        if admin is None:
-            raise DataError({"admin_id": ["Admin does not exist"]})
+    # ANCHOR - Update Account
+    def update_account(self, account: Accounts):
+        # Check if the account exists
+        if account is None:
+            raise DataError({"account_id": ["Account does not exist"]})
 
         # If password exists, check if confirm_password exists and if they match
         if self.password:
             if self.confirm_password and self.password != self.confirm_password:
                 raise DataError({"confirm_password": ["Passwords do not match"]})
 
-            # Hash the password and set it to the admin
+            # Hash the password and set it to the account
             self.hash_password()
-            setattr(admin, "password", self.hashed_password)
+            setattr(account, "password", self.hashed_password)
 
         # Check if username and email exist
         if self.username:
-            self.check_username_exists(admin.id)
+            self.check_username_exists(account.id)
 
         if self.email:
-            self.check_email_exists(admin.id)
+            self.check_email_exists(account.id)
 
-        # Set the attributes of the model to the admin
+        # Set the attributes of the model to the account
         for key, value in self.to_primitive().items():
             if value is not None:
-                setattr(admin, key, value)
+                setattr(account, key, value)
 
-        # Save the admin
-        admin.save()
+        # Save the account
+        account.save()
 
-        # Set the attributes of the updated admin to the model
-        for key, value in model_to_dict(admin).items():
+        # Set the attributes of the updated account to the model
+        for key, value in model_to_dict(account).items():
             setattr(self, key, value)

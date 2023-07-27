@@ -72,7 +72,8 @@
     async function login(that) {
         const form = new FormData(that);
 
-        // if remember me is not checked add remember me to the form as false
+        window.utils.submitSpinner(that, true);
+
         form.delete('remember');
 
         if (!document.getElementById('remember').checked) {
@@ -91,6 +92,7 @@
         });
 
         if (response.status != 200) {
+            window.utils.submitSpinner(that, false);
             error = await response.json();
 
             if (error.msg == undefined) {
@@ -102,42 +104,9 @@
             return;
         }
 
+        window.utils.submitSpinner(that, false);
+
         window.location.href = '/admin';
-
-        //const xhr = new XMLHttpRequest();
-
-        //xhr.open('GET', '/admin');
-
-        //xhr.onreadystatechange = async function () {
-        //    document.getElementById('spinner').classList.remove('htmx-indicator');
-
-        //    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        //        // Replace the current page with the admin page
-        //        document.open();
-        //        document.write(xhr.responseText);
-        //        document.close();
-
-        //        // Update the browser history
-        //        window.history.pushState({}, '', '/admin');
-
-        //        // Get the user data from the response
-        //        const data = await response.json();
-
-        //        if (data.user != undefined) {
-        //            toast.infoToast("{{ _('Hello') }}, " + data.user.username + "!");
-        //            localStorage.setItem('user', JSON.stringify(data.user));
-        //            return;
-        //        }
-
-        //        toast.infoToast("{{ _('Logged in successfully') }}");
-        //    }
-
-        //    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200) {
-        //        window.location.href = '/login';
-        //    }
-        //};
-
-        //xhr.send();
     }
 </script>
 

@@ -2,109 +2,84 @@ from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restx import Namespace, Resource
 
-from models.admins import AdminsGetModel, AdminsPostModel
 from helpers.api import convert_to_form
-from helpers.accounts import (
-    create_admin_user,
-    get_admins,
-    get_admin_by_id,
-    delete_admin_user,
-    update_admin_user,
-)
-from models.database.accounts import Accounts
+from helpers.accounts import create_account, get_accounts, get_account_by_id, delete_account, update_account
+
+from models.api.accounts import AccountsGET, AccountsPOST
+
 
 api = Namespace("Accounts", description="Accounts related operations", path="/accounts")
 
-api.add_model("AdminsGetModel", AdminsGetModel)
-api.add_model("AdminsPostModel", AdminsPostModel)
+api.add_model("AccountsGET", AccountsGET)
+api.add_model("AccountsPOST", AccountsPOST)
 
 
 @api.route("")
-@api.route("/")
+@api.route("/", doc=False)
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class AccountsListAPI(Resource):
-    """API resource for all accounts
-    :functions: get, post
-    """
+    """API resource for all accounts"""
 
     method_decorators = [jwt_required(), convert_to_form()]
 
-    @api.marshal_list_with(AdminsGetModel)
+    @api.marshal_list_with(AccountsGET)
     @api.doc(description="Get all accounts")
     @api.response(200, "Successfully retrieved all accounts")
     @api.response(500, "Internal server error")
-    def get(self) -> tuple[list[Accounts], int]:
-        """Get all accounts
-        returns: tuple[list[Admins], int]
-        """
+    def get(self):
+        """Get all accounts from the database"""
+        return get_accounts(), 200
 
-        return get_admins(), 200
 
-    @api.expect(AdminsPostModel)
-    @api.marshal_with(AdminsGetModel)
+    @api.expect(AccountsPOST)
+    @api.marshal_with(AccountsGET)
     @api.doc(description="Create a new account")
     @api.response(200, "Successfully created a new account")
     @api.response(400, "Invalid account")
     @api.response(409, "Account already exists")
     @api.response(500, "Internal server error")
     def post(self):
-        """Create a new account
-        returns: tuple[Admins, int]
-        """
-
-        return create_admin_user(**request.form), 200
+        """Create a new account"""
+        return create_account(**request.form), 200
 
 
-@api.route("/<int:admin_id>")
+
+@api.route("/<int:account_id>")
+@api.route("/<int:account_id>/", doc=False)
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class AccountsAPI(Resource):
-    """API resource for a single account
-    :functions: get, put, delete
-    """
+    """API resource for a single account"""
 
     method_decorators = [jwt_required(), convert_to_form()]
 
-    @api.marshal_with(AdminsGetModel)
+    @api.marshal_with(AccountsGET)
     @api.doc(description="Get an account")
     @api.response(200, "Successfully retrieved an account")
     @api.response(404, "Account not found")
     @api.response(500, "Internal server error")
-    def get(self, admin_id: str) -> tuple[Accounts, int]:
-        """Get an account
-        returns: tuple[Admins, int]
-        """
+    def get(self, account_id: str):
+        """Get an account"""
+        return get_account_by_id(account_id), 200
 
-        return get_admin_by_id(admin_id), 200
 
-    @api.expect(AdminsPostModel)
-    @api.marshal_with(AdminsGetModel)
+    @api.expect(AccountsPOST)
+    @api.marshal_with(AccountsGET)
     @api.doc(description="Update an account")
     @api.response(200, "Successfully updated an account")
     @api.response(400, "Invalid account")
     @api.response(404, "Account not found")
     @api.response(500, "Internal server error")
-    def put(self, admin_id: int) -> tuple[Accounts, int]:
-        """Update an account
-        :param admin_id: The id of the account to update
-        :type admin_id: int
-
-        returns: tuple[Admins, int]
-        """
-
-        response = update_admin_user(admin_id, **request.form)
+    def put(self, account_id: int):
+        """Update an account"""
+        response = update_account(account_id, **request.form)
         return response, 200
+
 
     @api.doc(description="Delete an account")
     @api.response(200, "Successfully deleted an account")
     @api.response(404, "Account not found")
     @api.response(500, "Internal server error")
-    def delete(self, admin_id: str) -> tuple[dict[str, str], int]:
-        """Delete an account
-        :param admin_id: The id of the account to delete
-        :type admin_id: str
-
-        returns: tuple[Admins, int]
-        """
-
-        delete_admin_user(admin_id)
+    def delete(self, account_id: str) -> tuple[dict[str, str], int]:
+        """Delete an account"""
+        delete_account(account_id)
         return {"message": "Account deleted"}, 200

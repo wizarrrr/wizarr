@@ -12,6 +12,8 @@ api = Namespace(
 
 @api.route("")
 class ScanLibrariesListAPI(Resource):
+    """Scan Libraries related operations"""
+
     method_decorators = [jwt_required()]
 
     @api.doc(description="")
@@ -21,6 +23,7 @@ class ScanLibrariesListAPI(Resource):
         from helpers import scan_jellyfin_libraries, scan_plex_libraries
 
         # Validate the data and initialize the object
+        print(request.form)
         server_settings = ScanLibrariesModel(request.form)
         server_settings.validate()
 

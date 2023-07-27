@@ -3,14 +3,11 @@ from logging import info, webpush
 
 from flask_apscheduler import APScheduler
 
-from app import app
+from app.extensions import schedule
 from helpers.universal import global_sync_users
 from helpers.users import get_users_by_expiring
 from models.database import Sessions
 
-# Scheduler
-schedule = APScheduler()
-schedule.init_app(app)
 schedule.start()
 
 # Scheduled tasks

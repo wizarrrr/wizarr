@@ -26,14 +26,14 @@ class Setup(Resource):
 
         if setup_type == "admin":
             # Import from helpers
-            from helpers.accounts import create_admin_user
+            from helpers.accounts import create_account
 
             username = request.form.get("username", None)
             email = request.form.get("email", None)
             password = request.form.get("password", None)
             password_confirm = request.form.get("password_confirm", None)
 
-            user = create_admin_user(
+            user = create_account(
                 username=username,
                 email=email,
                 password=password,
@@ -45,18 +45,32 @@ class Setup(Resource):
 
         if setup_type == "settings":
             # Import from helpers
-            from helpers.settings import create_settings
+            from helpers.settings import get_settings
+            from models.database.settings import Settings
 
-            # Allowed settings keys
-            allowed = [
+            # Settings from request
+            new_settings = request.form.to_dict()
+
+            # If setting already exists update it
+            settings = get_settings()
+
+            # Valid settings
+            valid_settings = [
                 "server_name",
                 "server_type",
                 "server_url",
                 "server_api_key"
             ]
 
-            # Get the settings
-            settings = create_settings(request.form.to_dict(), allowed)
+            for key, value in new_settings.items():
+                if key not in valid_settings:
+                    continue
+
+                if key in settings:
+                    Settings.update({ Settings.value: value }).where(Settings.key == key).execute()
+                else:
+                    Settings.create(key=key, value=value)
+
 
             return { "message": "Settings created", "settings": settings }, 200
 

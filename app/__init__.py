@@ -93,6 +93,9 @@ app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 app.config["JWT_COOKIE_CSRF_PROTECT"] = True
 app.config["JWT_COOKIE_SECURE"] = True if app.debug is False else False
+app.config["DEBUG"] = True if getenv("DEBUG", "false") == "true" else False
+app.config["CACHE_TYPE"] = "SimpleCache"
+app.config["CACHE_DEFAULT_TIMEOUT"] = 300
 
 sse = ServerSentEvents()
 
@@ -103,6 +106,11 @@ babel.init_app(app)
 jwt.init_app(app)
 cache.init_app(app)
 api.init_app(app)
+schedule.init_app(app)
+
+# Clear cache on startup
+with app.app_context():
+    cache.clear()
 
 # Register Jinja2 filters
 app.add_template_filter(format_datetime)

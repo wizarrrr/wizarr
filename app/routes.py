@@ -18,30 +18,30 @@ def inject_user():
     return { "server_name": get_setting("server_name", "Wizarr") }
 
 # Static files
-@app.get('/favicon.ico')
+@app.get("/favicon.ico")
 def favicon():
-    return send_from_directory(path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory(path.join(app.root_path, "static"), "favicon.ico", mimetype="image/vnd.microsoft.icon")
 
 # All public facing routes
-@app.get('/')
+@app.get("/")
 @server_verified_required()
 def homepage_route():
     return render_template("homepage.html")
 
-@app.get('/join')
+@app.get("/join")
 @server_verified_required()
 def join_route():
     return render_template("invite/join.html")
 
 
 # All admin routes
-@app.get('/admin', defaults={'subpath': ''})
-@app.get('/admin/<path:subpath>')
+@app.get("/admin", defaults={"subpath": ""})
+@app.get("/admin/<path:subpath>")
 @login_required()
 def admin_routes(subpath):
     # Get valid settings partials
     html_files = [path.splitext(file)[0] for file in listdir(
-        './app/templates/admin') if file.endswith('.html')]
+        "./app/templates/admin") if file.endswith(".html")]
 
     # Check if the subpath is valid
     if subpath not in html_files and subpath != "":
@@ -60,13 +60,13 @@ def admin_routes(subpath):
 
 
 # All settings routes
-@app.get('/admin/settings', defaults={'subpath': ''})
-@app.get('/admin/settings/<path:subpath>')
+@app.get("/admin/settings", defaults={"subpath": ""})
+@app.get("/admin/settings/<path:subpath>")
 @login_required()
 def settings_routes(subpath):
     # Get valid settings partials
     html_files = [path.splitext(file)[0] for file in listdir(
-        './app/templates/admin/settings') if file.endswith('.html')]
+        "./app/templates/admin/settings") if file.endswith(".html")]
 
     # Check if the subpath is valid
     if subpath not in html_files and subpath != "":
@@ -86,12 +86,12 @@ def settings_routes(subpath):
     return render_template("admin.html", subpath="admin/settings.html", settings_subpath=f"admin/settings/{subpath}.html", **settings)
 
 # All account routes
-@app.get('/admin/account', defaults={'subpath': ''})
-@app.get('/admin/account/<path:subpath>')
+@app.get("/admin/account", defaults={"subpath": ""})
+@app.get("/admin/account/<path:subpath>")
 @login_required()
 def account_routes(subpath):
     # Get valid account partials
-    html_files = [path.splitext(file)[0] for file in listdir('./app/templates/admin/account') if file.endswith('.html')]
+    html_files = [path.splitext(file)[0] for file in listdir("./app/templates/admin/account") if file.endswith(".html")]
 
     # Check if the subpath is valid
     if subpath not in html_files and subpath != "":
@@ -110,9 +110,9 @@ def account_routes(subpath):
 
 
 # All setup routes
-@app.get('/setup', defaults={'subpath': 'welcome'})
-@app.get('/setup/', defaults={'subpath': 'welcome'})
-@app.get('/setup/<path:subpath>')
+@app.get("/setup", defaults={"subpath": "welcome"})
+@app.get("/setup/", defaults={"subpath": "welcome"})
+@app.get("/setup/<path:subpath>")
 @server_not_verified_required()
 def setup_routes(subpath):
     # Get all settings
@@ -120,18 +120,18 @@ def setup_routes(subpath):
 
     print(settings)
 
-    html_files = [path.splitext(file)[0] for file in listdir('./app/templates/setup/pages') if file.endswith('.html')]
+    html_files = [path.splitext(file)[0] for file in listdir("./app/templates/setup/pages") if file.endswith(".html")]
 
     if subpath not in html_files:
         return abort(404)
 
     # I could of used html_files list however I wanted to keep the order of the pages instead of alphabetical order
     pages = [
-        'welcome',
-        'database',
-        'admin',
-        'settings',
-        'complete'
+        "welcome",
+        "database",
+        "admin",
+        "settings",
+        "complete"
     ]
 
     data = {
@@ -146,8 +146,8 @@ def setup_routes(subpath):
 
 
 # All help routes
-@app.get('/help', defaults={'subpath': 'welcome'})
-@app.get('/help/<path:subpath>')
+@app.get("/help", defaults={"subpath": "welcome"})
+@app.get("/help/<path:subpath>")
 def help_routes(subpath):
     from app import get_locale
 
@@ -167,7 +167,7 @@ def help_routes(subpath):
         {
             "name": "requests",
             "template": "wizard/pages/requests.html",
-            "enabled": bool(settings.get("request_type") != 'None')
+            "enabled": bool(settings.get("request_type") != "None")
         },
         {
             "name": "discord",
@@ -184,7 +184,6 @@ def help_routes(subpath):
             "template": f"wizard/pages/{server_type}/tips.html"
         }
     ]
-    print(bool(settings.get("discord_id")))
 
     partials = [page["template"] for page in pages if page.get("enabled", True)]
     current = [page["name"] for page in pages if page.get("enabled", True)].index(subpath)
@@ -211,12 +210,12 @@ def invite_route(code):
     server_type = Settings.get(key="server_type").value
 
     if not valid:
-        return render_template('invite/invite-invalid.html', error=message)
+        return render_template("invite/invite-invalid.html", error=message)
 
     return render_template("invite/signup.html", partial=f"invite/signup/{server_type}.html", code=code)
 
 # Login route
-@app.get('/login')
+@app.get("/login")
 @logged_out_required()
 def login_get():
     if getenv("DISABLE_BUILTIN_AUTH", "false") == "true":
@@ -231,7 +230,7 @@ def error_handler(code):
     @app.errorhandler(code)
     def handler(exception):
         error(exception)
-        return render_template(f'error/{code}.html'), code
+        return render_template(f"error/{code}.html"), code
 
 for code in [500, 404, 401]:
     error_handler(code)

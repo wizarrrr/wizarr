@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from logging import info
 
 from flask import request, current_app
-from flask_jwt_extended import create_access_token, get_jti
+from flask_jwt_extended import create_access_token, get_jti, set_access_cookies as set_access_cookies_jwt, unset_access_cookies as unset_access_cookies_jwt
 from schematics.exceptions import DataError, ValidationError
 from schematics.models import Model
 from schematics.types import BooleanType, StringType
@@ -126,6 +126,18 @@ class AuthenticationModel(Model):
         return token
 
 
+    # ANCHOR - Set access cookies
+    @staticmethod
+    def set_access_cookies(response, token):
+        return set_access_cookies_jwt(response, token)
+
+
+    # ANCHOR - Unset access cookies
+    @staticmethod
+    def unset_access_cookies(response):
+        return unset_access_cookies_jwt(response)
+
+
     # ANCHOR - Get User
     def get_admin(self) -> Accounts:
         """Get the user from the database
@@ -135,36 +147,10 @@ class AuthenticationModel(Model):
 
         return self._user
 
-
-class AuthenticationLogoutModel(Model):
-    """Authentication Logout Model"""
-
-    # ANCHOR - Authentication Logout Model
-    token = StringType(required=False)
-
-
-    # ANCHOR - Validate Token
-    def validate_token(self, _, value):
-        """Validate the token
-
-        :param value: The token
-        :type value: str
-        """
-
-        # Get the session from the database
-        session = Sessions.get_or_none(Sessions.session == value)
-
-        # Check if the session exists
-        if session is None:
-            raise ValidationError("Invalid Token")
-
-        # Set the session
-        self._session = session
-
-
-    # ANCHOR - Get Token
-    def get_token(self) -> str:
-        """Get the token
+    # ANCHOR - Get Token from Cookie
+    @staticmethod
+    def get_token_from_cookie():
+        """Get the token from the cookie
 
         :return: A jwt token
         :rtype: str
@@ -174,27 +160,28 @@ class AuthenticationLogoutModel(Model):
             raise RuntimeError("Must be called from within a flask route")
 
         # Get the token
-        self.token = request.cookies.get("access_token_cookie", None)
+        token = request.cookies.get("access_token_cookie", None)
 
         # Check if the token exists
-        if self.token is None:
+        if token is None:
             raise ValidationError("Invalid Token")
 
-        return self.token
+        return token
 
 
     # ANCHOR - Destroy Session
-    def destroy_session(self):
+    @staticmethod
+    def destroy_session():
         """Destroy the session"""
 
         # Get the token
-        self.get_token()
+        token = AuthenticationModel.get_token_from_cookie()
 
         # Get JTI from token
-        jti = get_jti(self.token)
+        jti = get_jti(token)
 
         # Delete the session from the database
-        session = Sessions.get(Sessions.session == jti)
+        session: Sessions = Sessions.get(Sessions.session == jti)
 
         # Delete the session
         session.delete_instance()

@@ -1,77 +1,45 @@
-from logging import info
-
-from flask import jsonify, request
-from flask_jwt_extended import jwt_required, set_access_cookies, unset_jwt_cookies
+from flask import request
+from flask_jwt_extended import jwt_required
 from flask_restx import Namespace, Resource
-from playhouse.shortcuts import model_to_dict
 
-from models.database.accounts import Accounts
-from models.login import LoginPostModel
-from models.wizarr.authentication import AuthenticationLogoutModel, AuthenticationModel
+from helpers.api import convert_to_form
+from helpers.authentication import login_to_account, logout_of_account
+
+from models.api.authentication import LoginPOST
 
 
 api = Namespace(name="Authentication", description="Authentication related operations", path="/auth")
 
-api.add_model("LoginPostModel", LoginPostModel)
+api.add_model("LoginPOST", LoginPOST)
 
 
 @api.route("/login")
+@api.route("/login/", doc=False)
 class Login(Resource):
     """API resource for logging in"""
 
-    method_decorators = []
+    method_decorators = [convert_to_form()]
 
-    @api.expect(LoginPostModel)
+    @api.expect(LoginPOST)
     @api.doc(description="Login to the application")
     @api.response(200, "Login successful")
     @api.response(401, "Invalid Username or Password")
     @api.response(500, "Internal server error")
     def post(self):
-        # Validate the user
-        auth = AuthenticationModel(request.form)
-
-        # Get token for user
-        token = auth.get_token()
-
-        # Get the admin user
-        user = auth.get_admin()
-
-        # Create a response object
-        response = jsonify(
-            {
-                "msg": "Login successful",
-                "user": model_to_dict(user, exclude=[Accounts.password]),
-            }
-        )
-
-        # Set the jwt token in the cookie
-        set_access_cookies(response, token)
-
-        # Log message and return response
-        info(f"User successfully logged in the username {user.username}")
-        return response
+        """Login to the application"""
+        return login_to_account(**request.form, response=True)
 
 
 @api.route("/logout")
+@api.route("/logout/", doc=False)
 class Logout(Resource):
     """API resource for logging out"""
 
-    method_decorators = [jwt_required(optional=True)]
+    method_decorators = [jwt_required(optional=True), convert_to_form()]
 
     @api.doc(description="Logout the currently logged in user")
     @api.response(200, "Logout successful")
     @api.response(500, "Internal server error")
     def post(self):
-        # Destroy the session
-        auth = AuthenticationLogoutModel()
-        auth.destroy_session()
-
-        # Create a response object
-        response = jsonify({"msg": "Logout successful"})
-
-        # Delete the jwt token from the cookie
-        unset_jwt_cookies(response)
-
-        # Log message and return response
-        info("User successfully logged out")
-        return response
+        """Logout the currently logged in user"""
+        return logout_of_account()

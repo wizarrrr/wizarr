@@ -43,3 +43,23 @@ def create_settings(settings: dict[str, str], allowed_settings: list[str] = None
     response = get_settings([key for key in settings.keys()])
 
     return response
+
+def update_settings(settings: dict[str, str], allowed_settings: list[str] = None):
+    # Validate settings
+    if allowed_settings and not all(key in allowed_settings for key in settings.keys()):
+        raise ValueError("Invalid setting")
+
+    # Update the settings
+    [Settings.update(value=value).where(Settings.key == key).execute() for key, value in settings.items()]
+
+    # Return all settings for the keys that were updated
+    response = get_settings([key for key in settings.keys()])
+
+    return response
+
+def update_setting(setting: str, value: str):
+    # Update the setting
+    Settings.update(value=value).where(Settings.key == setting).execute()
+
+    # Return the setting
+    return get_setting(setting)

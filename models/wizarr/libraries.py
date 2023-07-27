@@ -7,9 +7,11 @@ from models.database.libraries import Libraries
 from models.database.settings import Settings
 from logging import info
 
-# Custom specific_libraries type that converts a string to a list if needed
 class SpecificLibrariesType(BaseType):
-    """Specific Libraries Type"""
+    """Specific Libraries Type
+
+    Converts a string to a list if needed
+    """
 
     def to_native(self, value, _):
         if isinstance(value, str):
@@ -30,9 +32,12 @@ class LibraryModel(Model):
 
 
 class ScanLibrariesModel(Model):
+    """Scan Libraries Model"""
+
     server_type = StringType(required=False, choices=["plex", "jellyfin"])
-    server_url = URLType(required=False)
+    server_url = URLType(fqdn=False, required=False)
     server_api_key = StringType(required=False)
+
 
 class LibrariesModel(Model):
     """Libraries Model"""
