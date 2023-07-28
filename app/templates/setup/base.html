@@ -7,161 +7,164 @@ Setup Wizarr
 {% block main %}
 <div id="create-modal" style="position: fixed; z-index: 100"></div>
 
-<div id="content">
-    <div class="flex justify-center items-center flex-col mt-12 mb-3 space-y-2">
-        <img style="width: 150px;" src="/static/img/wizard.png" alt="logo"></span>
-        <h1 class="text-3xl font-semibold text-center text-gray-900 dark:text-white">{{ _("Setup Wizarr") }}</h1>
-    </div>
-    <div id="carousel" class="relative overflow-hidden rounded-lg h-screen" style="transition: max-height 0.5s ease-in-out;">
-        {% for partial in partials %}
-        <div id="carousel-item-{{ loop.index }}" class="hidden duration-700 ease-in-out bg-gray-100 dark:bg-gray-900" data-current="{{ partial }}">
-            <section class="bg-gray-50 dark:bg-gray-900">
-                <div class="flex flex-col items-center justify-center w-full md:w-2/3 lg:w-4/12 py-8 md:mx-auto md:container px-2 sm:px-4 md:px-0">
-                    <div class="relative w-full bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700">
-                        <!-- Disabled overlay -->
-                        <div id="disabled" class="hidden z-10 rounded-lg bg-white dark:bg-gray-800 absolute opacity-60 w-full h-full top-0 bottom-0 left-0 right-0"></div>
-                        <div id="spinner" class="hidden z-10 rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-800 absolute opacity-80 w-full h-full top-0 bottom-0 left-0 right-0 flex flex-col space-y-2 justify-center items-center">
-                            <i class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
-                            <span>Please wait...</span>
-                        </div>
-                        <div class="p-6 space-y-4 md:space-y-6 sm:p-8 text-gray-900 dark:text-white">
-                            {% include partial %}
-                        </div>
+<div class="flex justify-center items-center flex-col mt-12 mb-3 space-y-2">
+    <img style="width: 150px;" src="/static/img/wizard.png" alt="logo"></span>
+    <h1 class="text-3xl font-semibold text-center text-gray-900 dark:text-white">{{ _("Setup Wizarr") }}</h1>
+</div>
+
+<div id="carousel" class="relative overflow-hidden rounded-lg h-screen" style="transition: max-height 0.5s ease-in-out;">
+    {% for partial in partials %}
+    <div id="carousel-item-{{ loop.index }}" class="hidden duration-700 ease-in-out bg-gray-100 dark:bg-gray-900" data-current="{{ partial }}">
+        <section class="bg-gray-50 dark:bg-gray-900">
+            <div class="flex flex-col items-center justify-center w-full md:w-2/3 lg:w-4/12 py-8 md:mx-auto md:container px-2 sm:px-4 md:px-0">
+                <div class="relative w-full bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700">
+                    <!-- Disabled overlay -->
+                    <div id="disabled" class="hidden z-10 rounded-lg bg-white dark:bg-gray-800 absolute opacity-60 w-full h-full top-0 bottom-0 left-0 right-0"></div>
+                    <div id="spinner" class="hidden z-10 rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-800 absolute opacity-80 w-full h-full top-0 bottom-0 left-0 right-0 flex flex-col space-y-2 justify-center items-center">
+                        <i class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
+                        <span>Please wait...</span>
+                    </div>
+                    <div class="p-6 space-y-4 md:space-y-6 sm:p-8 text-gray-900 dark:text-white">
+                        {% include partial %}
                     </div>
                 </div>
-            </section>
-        </div>
-        {% endfor %}
+            </div>
+        </section>
     </div>
-    <div id="navBtns" class="flex justify-center mb-6 space-x-2">
-        <button id="backBtn" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">Back</button>
-        <button id="nextBtn" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">Next</button>
-    </div>
+    {% endfor %}
+</div>
 
-    <div class="fixed flex right-3 bottom-6 group z-50">
-        <div id="speed-dial-menu-horizontal" class="flex items-center mr-4 space-x-2">
-            <button type="button" onclick="reset()" class="flex items-center justify-center text-white bg-primary rounded-full w-14 h-14 focus:outline-none">
-                <i class="fa-solid fa-rotate"></i>
-            </button>
-        </div>
+<div id="navBtns" class="flex justify-center mb-6 space-x-2">
+    <button id="backBtn" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">Back</button>
+    <button id="nextBtn" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">Next</button>
+</div>
+
+<div class="fixed flex right-3 bottom-6 group z-50">
+    <div id="speed-dial-menu-horizontal" class="flex items-center mr-4 space-x-2">
+        <button type="button" onclick="reset()" class="flex items-center justify-center text-white bg-primary rounded-full w-14 h-14 focus:outline-none">
+            <i class="fa-solid fa-rotate"></i>
+        </button>
     </div>
-    <style>
-        body {
-            margin: 0px !important;
-            padding: 0px !important;
+</div>
+
+<style>
+    body {
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+</style>
+
+<script>
+
+    const reset = () => {
+        const confirm = window.confirm("This will reset progress and restart the setup wizard if your facing issues! Are you sure you want to continue?");
+        if (!confirm) return;
+        localStorage.clear();
+        window.location.href = '/setup';
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const children = document.querySelector('#carousel').children;
+        const items = [];
+
+        for (let i = 0; i < children.length; i++) {
+            items.push({
+                position: i,
+                el: children[i]
+            });
         }
-    </style>
-    <script>
 
-        const reset = () => {
-            const confirm = window.confirm("This will reset progress and restart the setup wizard if your facing issues! Are you sure you want to continue?");
-            if (!confirm) return;
-            localStorage.clear();
-            window.location.href = '/setup';
-        }
+        const onChange = (step) => {
+            const carousel = document.getElementById('carousel');
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const children = document.querySelector('#carousel').children;
-            const items = [];
+            const active = step._getActiveItem()
+            const nextHeight = active.el.children[0].offsetHeight;
 
-            for (let i = 0; i < children.length; i++) {
-                items.push({
-                    position: i,
-                    el: children[i]
-                });
-            }
+            const prev = (active.position - 1) < 0 ? 0 : active.position - 1;
+            const currentHeight = carousel.children[prev].children[0].offsetHeight;
 
-            const onChange = (step) => {
-                const carousel = document.getElementById('carousel');
-
-                const active = step._getActiveItem()
-                const nextHeight = active.el.children[0].offsetHeight;
-
-                const prev = (active.position - 1) < 0 ? 0 : active.position - 1;
-                const currentHeight = carousel.children[prev].children[0].offsetHeight;
-
-                if (nextHeight >= currentHeight) {
-                    let oldtransition = carousel.style.transition;
-                    carousel.style.transition = 'none';
-                    carousel.style.maxHeight = `${nextHeight}px`;
-                    setTimeout(() => { carousel.style.transition = oldtransition; }, 100);
-                } else {
-                    setTimeout(() => { carousel.style.maxHeight = `${nextHeight}px`; }, 200);
-                }
-
-                if (active.position == (children.length - 1) || active.position == 3 || active.position == 2) {
-                    document.getElementById('navBtns').classList.add('hidden');
-                } else {
-                    document.getElementById('navBtns').classList.remove('hidden');
-                }
-
-                if (active.position == 0) {
-                    document.getElementById('backBtn').disabled = true;
-                } else {
-                    document.getElementById('backBtn').disabled = false;
-                }
-
-                const current = active.el.dataset.current;
-                const pattern = /^setup\/pages\/(.+)\.html$/;
-
-                if (pattern.test(current)) {
-                    const url = current.replace(pattern, '$1');
-                    history.pushState({}, '', `/setup/${url}`);
-
-                    // Get setup position from local storage
-                    let setupPosition = JSON.parse(localStorage.getItem('setupPosition')) ?? { admin: 0, settings: 0 };
-
-                    if (setupPosition[url] == 1) step.slideTo(active.position + 1)
-                    if (setupPosition[url] == 1) toast.infoToast(`Skipping ${url} setup, already completed.`);
-
-                    // Loop through all setupPosition keys and redirect if all are completed
-                    let allCompleted = false;
-
-                    for (const key in setupPosition) {
-                        if (setupPosition[key] == 1) allCompleted = true;
-                        else allCompleted = false;
-                    }
-
-                    if (allCompleted) step.slideTo(children.length - 1);
-
-                    localStorage.setItem('setupPosition', JSON.stringify(setupPosition));
-                }
-            }
-
-
-
-            let setupPosition = JSON.parse(localStorage.getItem('setupPosition')) ?? { admin: 0, settings: 0 };
-
-            // Loop through all setupPosition keys and redirect if all are completed
-            let allCompleted = false;
-
-            for (const key in setupPosition) {
-                if (setupPosition[key] == 1) allCompleted = true;
-                else allCompleted = false;
-            }
-
-            const options = {
-                defaultPosition: allCompleted ? children.length - 1 : parseInt('{{ current }}') - 1,
-                onChange: allCompleted ? () => { } : onChange,
-            }
-
-            // on page resize update carousel height
-            window.addEventListener('resize', () => {
-                const carousel = document.getElementById('carousel');
+            if (nextHeight >= currentHeight) {
                 let oldtransition = carousel.style.transition;
                 carousel.style.transition = 'none';
-                const active = window.carousel._getActiveItem();
-                const nextHeight = active.el.children[0].offsetHeight;
                 carousel.style.maxHeight = `${nextHeight}px`;
                 setTimeout(() => { carousel.style.transition = oldtransition; }, 100);
-            });
+            } else {
+                setTimeout(() => { carousel.style.maxHeight = `${nextHeight}px`; }, 200);
+            }
 
-            window.carousel = new Carousel(items, options);
-            window.backBtn = document.getElementById('backBtn');
-            window.nextBtn = document.getElementById('nextBtn');
+            if (active.position == (children.length - 1) || active.position == 3 || active.position == 2) {
+                document.getElementById('navBtns').classList.add('hidden');
+            } else {
+                document.getElementById('navBtns').classList.remove('hidden');
+            }
 
-            window.backBtn.addEventListener('click', () => carousel.prev());
-            window.nextBtn.addEventListener('click', () => carousel.next());
+            if (active.position == 0) {
+                document.getElementById('backBtn').disabled = true;
+            } else {
+                document.getElementById('backBtn').disabled = false;
+            }
+
+            const current = active.el.dataset.current;
+            const pattern = /^setup\/pages\/(.+)\.html$/;
+
+            if (pattern.test(current)) {
+                const url = current.replace(pattern, '$1');
+                history.pushState({}, '', `/setup/${url}`);
+
+                // Get setup position from local storage
+                let setupPosition = JSON.parse(localStorage.getItem('setupPosition')) ?? { admin: 0, settings: 0 };
+
+                if (setupPosition[url] == 1) step.slideTo(active.position + 1)
+                if (setupPosition[url] == 1) toast.infoToast(`Skipping ${url} setup, already completed.`);
+
+                // Loop through all setupPosition keys and redirect if all are completed
+                let allCompleted = false;
+
+                for (const key in setupPosition) {
+                    if (setupPosition[key] == 1) allCompleted = true;
+                    else allCompleted = false;
+                }
+
+                if (allCompleted) step.slideTo(children.length - 1);
+
+                localStorage.setItem('setupPosition', JSON.stringify(setupPosition));
+            }
+        }
+
+
+
+        let setupPosition = JSON.parse(localStorage.getItem('setupPosition')) ?? { admin: 0, settings: 0 };
+
+        // Loop through all setupPosition keys and redirect if all are completed
+        let allCompleted = false;
+
+        for (const key in setupPosition) {
+            if (setupPosition[key] == 1) allCompleted = true;
+            else allCompleted = false;
+        }
+
+        const options = {
+            defaultPosition: allCompleted ? children.length - 1 : parseInt('{{ current }}') - 1,
+            onChange: allCompleted ? () => { } : onChange,
+        }
+
+        // on page resize update carousel height
+        window.addEventListener('resize', () => {
+            const carousel = document.getElementById('carousel');
+            let oldtransition = carousel.style.transition;
+            carousel.style.transition = 'none';
+            const active = window.carousel._getActiveItem();
+            const nextHeight = active.el.children[0].offsetHeight;
+            carousel.style.maxHeight = `${nextHeight}px`;
+            setTimeout(() => { carousel.style.transition = oldtransition; }, 100);
         });
-    </script>
-    {% endblock %}
+
+        window.carousel = new Carousel(items, options);
+        window.backBtn = document.getElementById('backBtn');
+        window.nextBtn = document.getElementById('nextBtn');
+
+        window.backBtn.addEventListener('click', () => carousel.prev());
+        window.nextBtn.addEventListener('click', () => carousel.next());
+    });
+</script>
+{% endblock %}
