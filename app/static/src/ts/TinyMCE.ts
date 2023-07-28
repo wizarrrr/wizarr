@@ -1,6 +1,7 @@
 
 async function startTinyMCE() {
     const tinymce = await import('tinymce');
+    const theme = await import('./utils/themeSelector');
 
     tinymce.default.remove('textarea#custom_html');
 
@@ -25,8 +26,8 @@ async function startTinyMCE() {
         noneditable_class: 'mceNonEditable',
         toolbar_mode: 'sliding',
         contextmenu: false,
-        content_css: isDarkMode() ? 'dark' : 'default',
-        skin_url: '/static/tinymce/' + (isDarkMode() ? 'dark' : 'light'),
+        content_css: theme.getTheme() == 'dark' ? 'dark' : 'default',
+        skin_url: '/static/tinymce/' + theme.getTheme(),
         base_url: '/static/node_modules/tinymce',
     });
 }

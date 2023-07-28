@@ -1,0 +1,72 @@
+<nav class="bg-white dark:bg-gray-900 absolute w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+    <div class="max-w-screen-xl flex flex-col md:flex-row items-start md:items-center justify-between mx-auto p-4">
+        <div class="flex md:order-2 text-center justify-between w-full md:w-min">
+            <a href="/" class="flex items-center">
+                <img src="/static/img/wizard.png" class="h-8 mr-3" alt="Logo">
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Wizarr</span>
+            </a>
+            <button data-collapse-toggle="navbar-default" aria-controls="navbar-default" aria-expanded="false" type="button" class="text-gray-500 dark:text-gray-400 focus:outline-none block md:hidden">
+                <i class="fa-solid fa-md fa-xl fa-bars"></i>
+            </button>
+        </div>
+        <div id="navbar-default" class="flex md:order-2 text-center justify-end w-full md:w-min mt-3 md:mt-0 hidden md:block">
+            <ul class="flex flex-col md:flex-row md:space-x-8 md:text-sm md:font-medium w-full md:w-min">
+                <li class="flex text-center">
+                    <button hx-get="/partials/admin/invite" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/invite" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                        {{ _("Home") }}
+                    </button>
+                </li>
+
+                <li class="flex text-center">
+                    <button hx-get="/partials/admin/invites" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/invites" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                        {{ _("Invitations") }}
+                    </button>
+                </li>
+
+                <li class="flex text-center">
+                    <button hx-get="/partials/admin/users" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/users" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                        {{ _("Users") }}
+                    </button>
+                </li>
+
+                <li class="flex text-center">
+                    <button hx-get="/partials/admin/settings" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/settings" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                        {{ _("Settings") }}
+                    </button>
+                </li>
+
+                <li class="flex text-center justify-end p-2 md:p-0">
+                    <div class="flex flex-column space-x-3">
+                        <div class="flex flex-column space-x-3">
+                            {% if not DISABLE_BUILTIN_AUTH %}
+                            <button class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm" hx-get="/partials/admin/account" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/account" type="button">
+                                <i class="fa-solid fa-md fa-user"></i>
+                            </button>
+                            {% endif %}
+
+                            <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm">
+                                <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 -3 16 20">
+                                    <path d="M 15.229 10.664 C 9.618 13.202 3.364 8.714 3.971 2.585 C 4.057 1.718 4.282 0.793 4.641 0 C -0.971 2.536 -1.576 10.105 3.276 13.581 C 7.215 16.403 13.149 15.267 15.229 10.664 Z"></path>
+                                </svg>
+                                <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="1 -1 18 21">
+                                    <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+                                </svg>
+                                <svg id="theme-toggle-system-icon" class="w-5 h-5" fill="currentColor" viewBox="-1 -3.3 18 21">
+                                    <path d="M 34.41 14.852 C 34.41 19.832 28.985 22.942 24.646 20.453 C 22.634 19.297 21.392 17.161 21.392 14.852 C 21.392 9.872 26.817 6.761 31.155 9.251 C 33.169 10.407 34.41 12.54 34.41 14.852 Z M 19.891 14.852 C 19.891 20.978 26.567 24.807 31.907 21.745 C 34.384 20.325 35.912 17.695 35.912 14.852 C 35.912 8.722 29.237 4.893 23.896 7.958 C 21.418 9.379 19.891 12.006 19.891 14.852 Z" style="opacity: 1;" transform="matrix(1, -0.000778, 0.000778, 1, -19.89633, -6.85143)"></path>
+                                    <path d="M 26.678 11.098 L 26.678 15.329 C 26.678 15.576 26.804 15.809 27.013 15.949 L 30.019 17.94 C 30.361 18.17 30.827 18.076 31.06 17.732 C 31.291 17.387 31.196 16.926 30.851 16.696 L 28.182 14.929 L 28.182 11.098 C 28.182 10.684 27.847 10.353 27.429 10.353 C 27.013 10.353 26.678 10.684 26.678 11.098 Z" style="opacity: 1;" transform="matrix(1, -0.000778, 0.000778, 1, -19.895831, -6.850628)"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        {% if not DISABLE_BUILTIN_AUTH %}
+                        <span class="inline-flex w-px h-6 bg-gray-200 dark:bg-gray-700" aria-hidden="true"></span>
+                        <button class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm" onclick="logout(this)" type="button">
+                            <i class="fa-solid fa-lg fa-right-from-bracket"></i>
+                        </button>
+                        {% endif %}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,92 +1,32 @@
-<section>
-    <div class="flex flex-col items-center justify-center mx-auth md:container md:mx-auto">
-        <div id="settings" class="w-full bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700">
-            <div class="p-6 space-y-4 md:space-y-6 sm:p-8 animate__animated animate__fadeIn">
+{% extends "templates/box.html" %}
 
-                <div class="flex justify-between flex-col lg:flex-row lg:items-start space-y-0 md:space-y-4 lg:space-y-0">
+{% set seperator = true %}
 
-                    <div class="flex flex-row justify-between">
-                        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white flex items-center">
-                            {{ _("Server Settings") }}
-                        </h1>
-                        <button id="navbar-settings-button" type="button" class="inline-flex p-2 items-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-                            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-                            </svg>
-                        </button>
-                    </div>
+{% block box_header %}
+    {{ _("Server Settings") }}
+{% endblock %}
 
-                    <div class="max-h-0 md:max-h-max w-full md:w-auto overflow-hidden " id="navbar-settings" style="transition: max-height 0.5s ease-out;">
-                        <ul class="flex flex-col p-4 mt-2 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-gray-50 dark:bg-gray-700 md:dark:bg-gray-700 dark:border-gray-900">
-                            <li>
-                                <button hx-get="/partials/admin/settings/general" hx-trigger="click" hx-target="#settings-content" hx-swap="innerHTML" hx-push-url="/admin/settings/general" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                                    {{ _("General") }}
-                                </button>
-                            </li>
-                            <li>
-                                <button hx-get="/partials/admin/settings/requests" hx-trigger="click" hx-target="#settings-content" hx-swap="innerHTML" hx-push-url="/admin/settings/requests" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                                    {{ _("Requests") }}
-                                </button>
-                            </li>
-                            <li>
-                                <button hx-get="/partials/admin/settings/discord" hx-trigger="click" hx-target="#settings-content" hx-swap="innerHTML" hx-push-url="/admin/settings/discord" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                                    {{ _("Discord") }}
-                                </button>
-                            </li>
-                            <li>
-                                <button hx-get="/partials/admin/settings/html" hx-trigger="click" hx-target="#settings-content" hx-swap="innerHTML" hx-push-url="/admin/settings/html" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                                    {{ _("HTML") }}
-                                </button>
-                            </li>
-                            {% if not DISABLE_BUILTIN_AUTH %}
-                            <li>
-                                <button hx-get="/partials/admin/settings/api" hx-trigger="click" hx-target="#settings-content" hx-swap="innerHTML" hx-push-url="/admin/settings/api" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                                    {{ _("API") }}
-                                </button>
-                            </li>
-                            {% endif %}
-                            {% if not DISABLE_BUILTIN_AUTH %}
-                            <li>
-                                <button hx-get="/partials/admin/settings/accounts" hx-trigger="click" hx-target="#settings-content" hx-swap="innerHTML" hx-push-url="/admin/settings/accounts" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                                    {{ _("Accounts") }}
-                                </button>
-                            </li>
-                            {% endif %}
-                            <li>
-                                <button hx-get="/partials/admin/settings/notifications" hx-trigger="click" hx-target="#settings-content" hx-swap="innerHTML" hx-push-url="/admin/settings/notifications" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                                    {{ _("Notifications") }}
-                                </button>
-                            </li>
-                            <li>
-                                <button hx-get="/partials/admin/settings/tasks" hx-trigger="click" hx-target="#settings-content" hx-swap="innerHTML" hx-push-url="/admin/settings/tasks" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                                    {{ _("Tasks") }}
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+{% block box_subheader %}
+    {{ _("Configure your server settings.") }}
+{% endblock %}
 
-                <div id="settings-content" class="flex flex-col p-2 md:p-0">
-                    {% include settings_subpath %}
-                </div>
-            </div>
-        </div>
+{% block box_header_actions %}
+<div id="settings-search" class="relative w-full {% if 'main' in settings_subpath %}hidden md:block{% else %}hidden{% endif %}">
+    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <i class="fas fa-search text-gray-400"></i>
     </div>
-</section>
-<script>
-    document.getElementById('navbar-settings-button').addEventListener('click', function () {
-        var navbarDefault = document.getElementById('navbar-settings');
+    <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search settings...">
+</div>
+<div id="settings-back" class="relative w-full {% if 'main' in settings_subpath %}hidden{% endif %}">
+    <button hx-get="/partials/admin/settings/main" hx-trigger="click" hx-target="#settings-content" hx-swap="innerHTML" hx-push-url="/admin/settings" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-primary border border-transparent rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-dark">
+        <i class="fas fa-arrow-left"></i>
+        <span class="ml-2">{{ _("Back") }}</span>
+    </button>
+</div>
+{% endblock %}
 
-        navbarDefault.classList.toggle('max-h-0');
-        navbarDefault.classList.toggle('max-h-96');
-    });
-
-    document.querySelectorAll('#navbar-settings ul li button').forEach(function (element) {
-        element.addEventListener('click', function () {
-            var navbarDefault = document.getElementById('navbar-settings');
-
-            navbarDefault.classList.add('max-h-0');
-            navbarDefault.classList.remove('max-h-96');
-        });
-    });
-</script>
+{% block box_content %}
+    <div id="settings-content">
+        {% include settings_subpath %}
+    </div>
+{% endblock %}

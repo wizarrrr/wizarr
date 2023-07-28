@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "templates/base.html" %}
 
 {% block title %}
 {{ _("Wizarr") }}
@@ -7,85 +7,12 @@
 {% block main %}
 
 {% if APP_UPDATE %}
-{% include 'update.html' %}
+{% include 'templates/update.html' %}
 {% endif %}
 
-<nav class="flex flex-col md:flex-row items-center justify-between py-1 mx-auto lg:py-0 md:container md:mx-auto">
+{% include 'templates/menu.html' %}
 
-    <!-- Left side -->
-    <div class="flex items-center justify-between w-full md:w-auto">
-        <a href="/admin" class="flex items-center px-2">
-            <img src="/static/img/wizard.png" class="h-8 mr-3" alt="Logo">
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">{{ APP_NAME }}</span>
-        </a>
-
-        <button id="navbar-button" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-            </svg>
-        </button>
-    </div>
-
-    <!-- Right side -->
-    <div class="max-h-0 md:max-h-max w-full md:w-auto overflow-hidden" id="navbar-default" style="transition: max-height 0.5s ease-out;">
-        <ul class="flex flex-col p-4 mt-5 border border-gray-100 dark:border-gray-700 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
-            <li class="flex text-center">
-                <button hx-get="/partials/admin/invite" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/invite" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                    {{ _("Home") }}
-                </button>
-            </li>
-
-            <li class="flex text-center">
-                <button hx-get="/partials/admin/invites" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/invites" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                    {{ _("Invitations") }}
-                </button>
-            </li>
-
-            <li class="flex text-center">
-                <button hx-get="/partials/admin/users" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/users" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                    {{ _("Users") }}
-                </button>
-            </li>
-
-            <li class="flex text-center">
-                <button hx-get="/partials/admin/settings" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/settings" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                    {{ _("Settings") }}
-                </button>
-            </li>
-
-            <li class="flex text-center justify-end p-2 md:p-0">
-                <div class="flex flex-column space-x-3">
-
-                    <div class="flex flex-column space-x-3">
-                        {% if not DISABLE_BUILTIN_AUTH %}
-                        <button class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm" hx-get="/partials/admin/account" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/account" type="button">
-                            <i class="fa-solid fa-md fa-user"></i>
-                        </button>
-                        {% endif %}
-
-                        <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm">
-                            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                            </svg>
-                            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 mt-0.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-                            </svg>
-                        </button>
-                    </div>
-
-                    {% if not DISABLE_BUILTIN_AUTH %}
-                    <span class="inline-flex w-px h-6 bg-gray-200 dark:bg-gray-700" aria-hidden="true"></span>
-                    <button class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm" onclick="logout(this)" type="button">
-                        <i class="fa-solid fa-lg fa-right-from-bracket"></i>
-                    </button>
-                    {% endif %}
-                </div>
-            </li>
-        </ul>
-    </div>
-</nav>
-
-<div id="content" class="mt-4">
+<div id="content" class="max-w-screen-xl mx-auto mt-[64px]">
     {% include subpath %}
 </div>
 
@@ -96,7 +23,7 @@
 </footer>
 
 <script>
-    document.getElementById('navbar-button').addEventListener('click', function () {
+    {# document.getElementById('navbar-button').addEventListener('click', function () {
         var navbarDefault = document.getElementById('navbar-default');
 
         navbarDefault.classList.toggle('max-h-0');
@@ -110,7 +37,7 @@
             navbarDefault.classList.add('max-h-0');
             navbarDefault.classList.remove('max-h-96');
         });
-    });
+    }); #}
 
     async function logout(that) {
 

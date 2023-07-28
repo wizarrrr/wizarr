@@ -55,7 +55,7 @@ def settings_partials(subpath):
 
     # If no subpath is specified, render the admin dashboard
     if not subpath:
-        return render_template("admin/settings.html", settings_subpath="admin/settings/general.html", **settings)
+        return render_template("admin/settings.html", settings_subpath="admin/settings/main.html", **settings)
 
     # All possible admin partials
     return render_template(f"admin/settings/{subpath}.html", **settings)

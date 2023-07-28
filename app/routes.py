@@ -12,6 +12,9 @@ from app.security import (logged_out_required, login_required,
 from helpers import get_api_keys, get_setting, get_settings, is_invite_valid
 from models.database.settings import Settings
 
+@app.get('/test')
+def test():
+    return render_template('menu.html')
 
 @app.context_processor
 def inject_user():
@@ -80,10 +83,11 @@ def settings_routes(subpath):
 
     # If no subpath is specified, render the admin dashboard
     if not subpath:
-        return render_template("admin.html", subpath="admin/settings.html", settings_subpath="admin/settings/general.html", **settings)
+        return render_template("admin.html", subpath="admin/settings.html", settings_subpath="admin/settings/main.html", **settings)
 
     # All possible admin routes
     return render_template("admin.html", subpath="admin/settings.html", settings_subpath=f"admin/settings/{subpath}.html", **settings)
+
 
 # All account routes
 @app.get("/admin/account", defaults={"subpath": ""})

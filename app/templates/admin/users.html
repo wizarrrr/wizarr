@@ -1,41 +1,33 @@
-<section>
-    <div class="flex flex-col items-center justify-center mx-auth md:container md:mx-auto">
-        <div hx-get="/partials/tables/global-users" hx-trigger="load" hx-target="#user_table" hx-swap="innerHTML" class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md min-w-full xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-            <div class="p-6 space-y-4 sm:p-8 animate__animated animate__fadeIn flex flex-col justify-between" style="min-height: 220px; transition: min-height 0.5s ease 0s;">
-                <!-- Top Bar -->
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            {{ _("Server Users") }}
-                        </h1>
-                    </div>
-                    <div class="flex items-center justify-end space-x-2">
-                        <button onclick="toast.errorToast('Add User not available yet')" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
-                            {{ _("Add User") }}
-                        </button>
-                        <button onclick="scanUsers()" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
-                            {{ _("Scan Users") }}
-                        </button>
-                    </div>
-                </div>
+{% extends "templates/box.html" %}
 
-                <!-- Users Table -->
-                <div id="user_table">
-                    <p id="error_message" class="hidden text-center dark:text-white"></p>
-                    <div id="loader" class="text-center" role="status">
-                        <i class="text-gray-900 dark:text-white fa-solid fa-spinner fa-spin fa-2xl"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
+{% block box_header %}
+    {{ _("Invited Users") }}
+{% endblock %}
+
+{% block box_subheader %}
+    {{ _("Manage users that joined your server") }}
+{% endblock %}
+
+{% block box_header_actions %}
+    <button onclick="scanUsers()" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+        {{ _("Scan Users") }}
+    </button>
+{% endblock %}
+
+{% block box_footer_actions %}
+    <button onclick="toast.errorToast('Add User not available yet')" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
+        {{ _("Add User") }}
+    </button>
+{% endblock %}
+
+{% block box_content %}
+<div id="user_table" hx-get="/partials/tables/global-users" hx-trigger="load" hx-target="#user_table" hx-swap="innerHTML">
+    <p id="error_message" class="hidden text-center dark:text-white"></p>
+    <div id="loader" class="text-center" role="status">
+        <i class="text-gray-900 dark:text-white fa-solid fa-spinner fa-spin fa-2xl"></i>
     </div>
-</section>
-
-<div id="modal" class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
-    <div id="modal-user" class="opacity-100 relative w-full h-full max-w-md my-auto mx-auto md:h-auto ">
-    </div>
-
 </div>
+
 <script>
 
     // when a button is clicked with an id of "delete", add the "animate__fadeOut" to its parent 'tr'
@@ -70,3 +62,4 @@
     }
 
 </script>
+{% endblock %}

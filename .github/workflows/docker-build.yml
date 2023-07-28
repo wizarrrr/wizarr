@@ -47,5 +47,3 @@ jobs:
                   push: true # set this to false if you don't want to push
                   tags: ${{ steps.meta.outputs.tags }} # use metadata action output
                   labels: ${{ steps.meta.outputs.labels }} # use metadata action output
-                  cache-from: type=gha
-                  cache-to: type=gha,mode=max

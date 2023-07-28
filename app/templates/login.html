@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "templates/base.html" %}
 
 {% block title %}
 {{ _("Login") }}
@@ -14,7 +14,7 @@
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Wizarr</span>
             </a>
             <div class="flex md:order-2">
-                <a href="/" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-6 py-2 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                <a href="/" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-6 py-1.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
                     Homepage
                 </a>
             </div>
@@ -58,10 +58,10 @@
         </div>
         <div class="container flex flex-col items-center justify-center mx-auto text-secondary py-2 text-xs">
             <div>
-                <a href="{{ APP_GITHUB_URL }}">{{ APP_NAME }}</a>&nbsp;-&nbsp;{{ _('Version') }}&nbsp;<a href="{{ APP_GITHUB_URL }}/releases/tag/{{ APP_VERSION }}">{{ APP_VERSION }}</a>&nbsp;-&nbsp;{{ APP_RELEASED }}
+                <a href="{{ APP_GITHUB_URL }}">{{ APP_NAME }}</a>&nbsp;-&nbsp;{{ _("Version") }}&nbsp;<a href="{{ APP_GITHUB_URL }}/releases/tag/{{ APP_VERSION }}">{{ APP_VERSION }}</a>&nbsp;-&nbsp;{{ APP_RELEASED }}
             </div>
             <div style="font-size: 10px;" class="cursor-pointer select-none">
-                <a onclick="window.toggleColorTheme()">{{ _('Toggle Theme') }}</a>
+                <a onclick="window.toggleColorTheme()">{{ _("Toggle Theme") }}</a>
             </div>
         </div>
     </section>
@@ -79,20 +79,20 @@
 
         window.utils.submitSpinner(that, true);
 
-        form.delete('remember');
+        form.delete("remember");
 
-        if (!document.getElementById('remember').checked) {
-            form.append('remember', false);
+        if (!document.getElementById("remember").checked) {
+            form.append("remember", false);
         } else {
-            form.append('remember', true);
+            form.append("remember", true);
         }
 
-        const response = await fetch('/api/auth/login', {
-            method: 'POST',
+        const response = await fetch("/api/auth/login", {
+            method: "POST",
             body: form,
-            credentials: 'same-origin',
+            credentials: "same-origin",
             headers: {
-                'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+                "X-CSRF-TOKEN": getCookie("csrf_access_token"),
             },
         });
 
@@ -101,17 +101,17 @@
             error = await response.json();
 
             if (error.msg == undefined) {
-                document.getElementById('error').innerHTML = "{{ _('Internal server error') }}";
+                document.getElementById("error").innerHTML = "{{ _("Internal server error") }}";
                 return;
             }
 
-            document.getElementById('error').innerHTML = error.msg;
+            document.getElementById("error").innerHTML = error.msg;
             return;
         }
 
         window.utils.submitSpinner(that, false);
 
-        window.location.href = '/admin';
+        window.location.href = "/admin";
     }
 </script>
 

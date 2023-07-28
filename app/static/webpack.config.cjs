@@ -1,6 +1,6 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require("terser-webpack-plugin");
+// const TerserPlugin = require("terser-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -61,15 +61,15 @@ module.exports = {
             },
             chunks: 'all'
         },
-        minimizer: [
-            new TerserPlugin({
-                terserOptions: {
-                    keep_classnames: true,
-                    keep_fnames: true,
-                },
-                extractComments: false,
-            }),
-        ],
+        // minimizer: [
+        //     new TerserPlugin({
+        //         terserOptions: {
+        //             keep_classnames: true,
+        //             keep_fnames: true,
+        //         },
+        //         extractComments: false,
+        //     }),
+        // ],
     },
     performance: {
         hints: false,
@@ -81,7 +81,7 @@ module.exports = {
             filename: 'dist/[name].bundle.css'
         }),
         new HtmlWebpackPlugin({
-            filename: '../templates/base.html',
+            filename: '../templates/templates/base.html',
             template: '../templates/base.template.html',
             publicPath: '/static/',
             minify: false

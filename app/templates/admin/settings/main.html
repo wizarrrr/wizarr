@@ -1,0 +1,89 @@
+<div class="flex flex-col">
+
+    {% set sections = [
+        {
+            "title": _("Main Settings"),
+            "description": _("General settings for the server"),
+            "pages": [
+                {
+                    "title": _("General"),
+                    "description": _("View and update general settings"),
+                    "icon": "fas fa-gear",
+                    "url": "/partials/admin/settings/general",
+                    "push_url": "/admin/settings/general"
+                },
+                {
+                    "title": _("Requests"),
+                    "description": _("Add Jellyseerr, Overseerr or Ombi support"),
+                    "icon": "fas fa-link",
+                    "url": "/partials/admin/settings/requests",
+                    "push_url": "/admin/settings/requests"
+                },
+                {
+                    "title": _("API keys"),
+                    "description": _("Add API keys for external services"),
+                    "icon": "fas fa-key",
+                    "url": "/partials/admin/settings/api",
+                    "push_url": "/admin/settings/api"
+                },
+                {
+                    "title": _("Notifications"),
+                    "description": _("Configure notification settings"),
+                    "icon": "fas fa-bell",
+                    "url": "/partials/admin/settings/notifications",
+                    "push_url": "/admin/settings/notifications"
+                }
+            ]
+        },
+        {
+            "title": _("UI Settings"),
+            "description": _("Modify the look and feel of the server"),
+            "pages": [
+                {
+                    "title": _("Discord"),
+                    "description": _("Enable Discord page and configure settings"),
+                    "icon": "fab fa-discord",
+                    "url": "/partials/admin/settings/discord",
+                    "push_url": "/admin/settings/discord"
+                },
+                {
+                    "title": _("Custom HTML"),
+                    "description": _("Add Custom HTML page to help screen"),
+                    "icon": "fas fa-code",
+                    "url": "/partials/admin/settings/html",
+                    "push_url": "/admin/settings/html"
+                }
+            ]
+        }
+    ] %}
+
+    <div class="space-y-3 md:space-y-4">
+        {% for section in sections %}
+
+        <div class="settings-section">
+            <!-- Subtitle -->
+            <div class="flex flex-col">
+                <div class="text-lg font-bold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
+                    {{ section.title }}
+                </div>
+                <div class="text-xs font-semibold leading-tight tracking-tight text-gray-900 md:text-sm dark:text-gray-400">
+                    {{ section.description }}
+                </div>
+            </div>
+            <!-- End Subtitle -->
+
+            <!-- Settings Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                {% for page in section.pages %}
+                {% with title=page.title, description=page.description, icon=page.icon, url=page.url, push_url=page.push_url %}
+                {% include "templates/settings_item.html" %}
+                {% endwith %}
+                {% endfor %}
+            </div>
+            <!-- End Settings Grid -->
+        </div>
+
+        {% endfor %}
+    </div>
+
+</div>

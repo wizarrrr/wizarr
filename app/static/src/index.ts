@@ -1,11 +1,12 @@
 import './scss/style.scss';
 import './ts/AddToDom';
 import './ts/carousel';
-import './ts/dark-mode';
 import './ts/navbar';
 import './ts/toggle-menu';
 import './ts/api';
 import './ts/utils';
+import './ts/utils/themeSelector';
+import './ts/utils/settingsSearch';
 
 import htmx from 'htmx.org';
 import Cookie from 'js-cookie';
@@ -45,5 +46,17 @@ function konamiCode() {
         }
     });
 }
+
+htmx.on("htmx:afterSwap", function (evt: any) {
+    if (evt.detail.target.id == "settings-content") {
+        if (evt.detail.pathInfo.requestPath.includes("main")) {
+            document.getElementById("settings-back")?.classList.add("hidden");
+            document.getElementById("settings-search")?.classList.add("md:block");
+        } else {
+            document.getElementById("settings-back")?.classList.remove("hidden");
+            document.getElementById("settings-search")?.classList.remove("md:block");
+        }
+    }
+});
 
 konamiCode();
