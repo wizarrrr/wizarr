@@ -1,6 +1,6 @@
 import Cookie from 'js-cookie';
 
-import { infoToast } from './CustomToastify';
+import { infoToast } from './utils/customToastify';
 
 let loadSSE = () => {
     if (Cookie.get('csrf_access_token')) {
