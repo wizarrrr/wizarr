@@ -8,7 +8,7 @@ class MessageAnnouncer:
     def __init__(self, file_path):
         self.listeners = []
         self.file_path = file_path
-        Thread(target=self._listen).start()
+        # Thread(target=self._listen).start()
 
     def listen(self):
         q = Queue(maxsize=5)
