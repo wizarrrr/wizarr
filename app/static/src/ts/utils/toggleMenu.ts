@@ -1,3 +1,5 @@
+import addToWindow from './addToWindow';
+
 const closeAllMenus = () => {
     const menus = document.getElementsByClassName("menu");
 
@@ -42,5 +44,8 @@ const toggleMenu = (menuButton: Element) => {
 
     document.addEventListener("click", clickHandler);
 };
+
+addToWindow(["utils", "closeAllMenus"], closeAllMenus);
+addToWindow(["utils", "toggleMenu"], toggleMenu);
 
 export { closeAllMenus, toggleMenu };

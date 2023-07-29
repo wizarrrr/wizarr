@@ -1,5 +1,7 @@
-import Cookie from "js-cookie";
-import Toastify from "toastify-js";
+import Cookie from 'js-cookie';
+import Toastify from 'toastify-js';
+
+import addToWindow from './addToWindow';
 
 declare type ScanLibrariesOptions = {
     container: string | Element;
@@ -187,7 +189,7 @@ class ScanLibraries {
             "text-gray-600",
 
 
-            // BORDER            
+            // BORDER
             "dark:peer-checked:border-gray-700",
             "peer-checked:border-gray-50",
 
@@ -233,5 +235,7 @@ class ScanLibraries {
         }).showToast();
     }
 }
+
+addToWindow(["utils", "scanLibraries"], ScanLibraries);
 
 export default ScanLibraries;

@@ -1,6 +1,8 @@
 import bowser from 'bowser';
 import { nanoid } from 'nanoid';
-import { IPlexClientDetails, PlexOauth } from "plex-oauth";
+import { IPlexClientDetails, PlexOauth } from 'plex-oauth';
+
+import addToWindow from './addToWindow';
 
 class PlexAuth {
 
@@ -95,5 +97,7 @@ class PlexAuth {
         });
     }
 }
+
+addToWindow(["PlexAuth"], PlexAuth);
 
 export default PlexAuth;

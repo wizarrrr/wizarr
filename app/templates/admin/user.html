@@ -1,5 +1,5 @@
 <div id="modal" class="opacity-100 relative bg-white rounded-lg shadow-2xl dark:bg-gray-700 " x-data="{openedIndexes: []}">
-    <button type="button" onclick="closeModal()"
+    <button type="button" onclick="utils.closeModal()"
         class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
         data-modal-hide="authentication-modal">
         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -36,7 +36,7 @@
                 value="{{ (user['LastActivityDate']|string)[0:10] }} {{ (user['LastActivityDate']|string)[11:16] }}">
         </div>
         {% endif %}
-        
+
         <form id="user-form" hx-post="/user/{{ db_id }}">
             <div>
                 <button type="button" @click="openedIndexes = toggleIndexes(openedIndexes, 0)"

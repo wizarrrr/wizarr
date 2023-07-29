@@ -1,6 +1,6 @@
 from datetime import timedelta
 from json import dumps
-from os import environ, getenv, path, mkdir, access, W_OK, R_OK
+from os import environ, getenv, path, mkdir, access, W_OK, R_OK, remove
 
 from dotenv import load_dotenv
 from flask import Flask
@@ -25,9 +25,8 @@ BASE_DIR = path.abspath(path.dirname(__file__))
 # Load environment variables
 load_dotenv()
 
-# Initialize the app and api
+# Create the app
 app = Flask(__name__)
-
 
 # Stuff thats gonna prevent Wizarr from working correctly, lets tell the user about it instead of just quitting
 @app.before_request
@@ -46,7 +45,9 @@ def before_request():
         return render_template("error/custom.html", title="SESSIONS", subtitle="Sessions folder not writable", description="It appears that Wizarr does not have permissions over the sessions folder, please make sure that the folder is writable by the user running Wizarr."), 500
 
 # Run database migrations scripts
-migrate()
+# skip if in debug mode unless --migrate is passed
+if not app.debug or app.debug and "--migrate" in environ.get("WERKZEUG_COMMAND_ARGS", ""):
+    migrate()
 
 # Add version to environment variables
 environ["VERSION"] = VERSION
@@ -131,11 +132,16 @@ jwt.token_in_blocklist_loader(check_if_token_revoked)
 jwt.user_identity_loader(user_identity_lookup)
 jwt.user_lookup_loader(user_lookup_callback)
 
-# Compile Swagger JSON file
 with app.app_context():
+    # Compile Swagger JSON file
     swagger_data = api.__schema__
     with open(path.join(BASE_DIR, "../", "swagger.json"), "w", encoding="utf-8") as f:
         f.write(dumps(swagger_data))
+
+    # Clear log file contents on startup
+    if path.exists(path.join(BASE_DIR, "../", "database", "logs.log")):
+        with open(path.join(BASE_DIR, "../", "database", "logs.log"), "w", encoding="utf-8") as f:
+            f.write("")
 
 if __name__ == "__main__":
     app.run()

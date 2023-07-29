@@ -2,14 +2,13 @@ import './scss/style.scss';
 import './ts/AddToDom';
 import './ts/carousel';
 import './ts/navbar';
-import './ts/toggle-menu';
 import './ts/api';
 import './ts/utils';
 
 import htmx from 'htmx.org';
 import Cookie from 'js-cookie';
 
-import { infoToast } from './ts/CustomToastify';
+import { infoToast } from './ts/utils/customToastify';
 
 htmx.config.defaultSwapStyle = 'innerHTML';
 window.htmx = htmx;

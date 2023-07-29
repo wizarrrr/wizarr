@@ -63,12 +63,14 @@ const setDark = () => {
     document.documentElement.classList.add('dark');
     localStorage.setItem('color-theme', 'dark');
     setIcon(LIGHT)
+    document.dispatchEvent(new Event('theme-changed'))
 }
 
 const setLight = () => {
     document.documentElement.classList.remove('dark');
     localStorage.setItem('color-theme', 'light');
     setIcon(DARK)
+    document.dispatchEvent(new Event('theme-changed'))
 }
 
 const setSystem = () => {
@@ -81,6 +83,8 @@ const setSystem = () => {
     } else {
         document.documentElement.classList.remove('dark');
     }
+
+    document.dispatchEvent(new Event('theme-changed'))
 }
 
 const toggleColorTheme = () => {
@@ -119,4 +123,4 @@ addToWindow(['utils', 'theme', 'setDark'], setDark)
 addToWindow(['utils', 'theme', 'setLight'], setLight)
 addToWindow(['utils', 'theme', 'setSystem'], setSystem)
 
-export { toggleColorTheme, getMode, setDark, setLight, getTheme, setSystem }
+export { toggleColorTheme, getMode, setDark, setLight, getTheme, setSystem, DARK, LIGHT, SYSTEM, MODE }

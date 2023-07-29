@@ -1,3 +1,5 @@
+import addToWindow from './addToWindow';
+
 function closeModal(that: Element) {
     const modal = that.closest("#modal");
 
@@ -6,5 +8,7 @@ function closeModal(that: Element) {
         modal?.remove();
     }, { once: true });
 }
+
+addToWindow(["utils", "closeModal"], closeModal);
 
 export default closeModal;

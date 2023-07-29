@@ -19,7 +19,7 @@
     </ul>
 
     <div class="flex justify-end pt-2 space-x-4">
-        <button onclick="window.closeModal(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto">
+        <button onclick="utils.closeModal(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto">
             {{ _("Cancel") }}
         </button>
         <button onclick="updateLibraries(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:w-auto">
@@ -38,7 +38,7 @@
     // Set to true if we are setting up the server for the first time
     var setup = {{ "true" if setup else "false" }};
 
-    var libraries = new ScanLibraries({
+    var libraries = new utils.scanLibraries({
         container: '#libraries',
         count: '#library_count',
         server: {
@@ -71,7 +71,7 @@
             }
         }
 
-        // Create a new form 
+        // Create a new form
         let newFormData = new FormData();
         newFormData.append('libraries', JSON.stringify(libraries));
 
@@ -94,7 +94,7 @@
             return;
         }
 
-        closeModal(button);
+        utils.closeModal(button);
         spinner.classList.add('hidden');
         toast.text = "Libraries updated";
     }

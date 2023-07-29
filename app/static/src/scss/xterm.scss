@@ -40,10 +40,18 @@
     resize: none;
 }
 
+.dark .xterm .composition-view {
+    /* TODO: Composition position got messed up somewhere */
+    color: #FFF;
+    display: none;
+    position: absolute;
+    white-space: nowrap;
+    z-index: 1;
+}
+
 .xterm .composition-view {
     /* TODO: Composition position got messed up somewhere */
-    background: #000;
-    color: #FFF;
+    color: #000000;
     display: none;
     position: absolute;
     white-space: nowrap;
@@ -56,7 +64,7 @@
 
 .xterm .xterm-viewport {
     /* On OS X this is required in order for the scroll bar to appear fully opaque */
-    background-color: #000;
+    background-color: none;
     overflow-y: scroll;
     cursor: default;
     position: absolute;
@@ -64,6 +72,11 @@
     left: 0;
     top: 0;
     bottom: 0;
+    padding: 5px;
+}
+
+.xterm .xterm-viewport::-webkit-scrollbar {
+    display: none;
 }
 
 .xterm .xterm-screen {

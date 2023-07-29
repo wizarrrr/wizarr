@@ -1,3 +1,4 @@
+import addToWindow from './addToWindow';
 
 // CREATE A CUSTOM TOASTIFY OPTIONS
 const defaultToast: Toastify.Options = {
@@ -64,5 +65,13 @@ const warningToast = async (message: string) => {
     }).showToast();
 }
 
-export default { name: "toast", errorToast, infoToast, showToast, successToast, warningToast };
+addToWindow(["toast"], {
+    errorToast,
+    infoToast,
+    showToast,
+    successToast,
+    warningToast,
+});
+
+
 export { errorToast, infoToast, showToast, successToast, warningToast };
