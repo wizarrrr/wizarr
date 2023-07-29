@@ -104,10 +104,31 @@ def create_user(username: str, password: str, email: str):
     message(f"Successfully created user `{user.username}`", "green")
 
 
-def delete_user(username: str):
-    # Ask for confirmation
-    if input(colored(f"Are you sure you want to delete user `{username}`? (y/n) ", "yellow")).lower() != "y":
+def check_user(username: str):
+    # Start the spinner
+    start_spinner()
+
+    # Import the Accounts model
+    from models.database.accounts import Accounts
+
+    # Get the user
+    user = Accounts.get_or_none(username=username)
+
+    # Check if the user exists
+    if not user:
+        message(f"User `{username}` does not exist", "red")
         sys_exit(1)
+
+    # Print the user
+    message(f"User `{user.username}` exists", "green")
+    sys_exit(0)
+
+
+def delete_user(username: str, y: bool = False):
+    # Ask for confirmation
+    if not y:
+        if input(colored(f"Are you sure you want to delete user `{username}`? (y/n) ", "yellow")).lower() != "y":
+            sys_exit(1)
 
     # Start the spinner
     start_spinner()
@@ -176,8 +197,22 @@ VALID_COMMANDS = {
                 "description": "The username of the user to delete",
                 "required": True,
             },
+            "y": {
+                "description": "Skips the confirmation prompt",
+                "required": False,
+            },
         },
         "function": delete_user,
+    },
+    "check_user": {
+        "description": "Checks if the specified user exists",
+        "args": {
+            "username": {
+                "description": "The username of the user to check",
+                "required": True,
+            },
+        },
+        "function": check_user,
     },
 }
 

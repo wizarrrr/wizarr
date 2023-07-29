@@ -61,29 +61,6 @@ def settings_partials(subpath):
     return render_template(f"admin/settings/{subpath}.html", **settings)
 
 
-# All account partials
-@app.get("/partials/admin/account", defaults={"subpath": ""})
-@app.get("/partials/admin/account/<string:subpath>")
-@login_required()
-def account_partials(subpath):
-    # Get valid account partials
-    html_files = [path.splitext(file)[0] for file in listdir("./app/templates/admin/account") if file.endswith(".html")]
-
-    # Check if the subpath is valid
-    if subpath not in html_files and subpath != "":
-        return abort(404)
-
-    # Get all settings
-    settings = get_settings()
-    settings["admin"] = current_user
-
-    # If no subpath is specified, render the admin dashboard
-    if not subpath:
-        return render_template("admin/account.html", account_subpath="admin/account/general.html", **settings)
-
-    # All possible admin partials
-    return render_template(f"admin/account/{subpath}.html", **settings)
-
 
 # All modal partials
 @app.get("/partials/modals/<string:subpath>")

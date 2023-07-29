@@ -15,7 +15,7 @@
     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
         <i class="fas fa-search text-gray-400"></i>
     </div>
-    <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search settings...">
+    <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search settings..." onkeyup="utils.settingsSearch(this.value)">
 </div>
 <div id="settings-back" class="relative w-full {% if 'main' in settings_subpath %}hidden{% endif %}">
     <button hx-get="/partials/admin/settings/main" hx-trigger="click" hx-target="#settings-content" hx-swap="innerHTML" hx-push-url="/admin/settings" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-primary border border-transparent rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-dark">

@@ -1,0 +1,98 @@
+<div class="space-y-6 md:space-y-8">
+    <div class="rounded-md border border-red-500 bg-red-400 bg-opacity-20 p-4 backdrop-blur">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5 text-gray-100">
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd">
+                    </path>
+                </svg>
+            </div>
+            <div class="ml-3 flex-1 md:flex md:justify-between">
+                <p class="text-sm leading-5 text-gray-100">This is BETA software. Features may be broken and/or unstable. Please report any issues on GitHub!</p>
+                <p class="mt-3 text-sm leading-5 md:mt-0 md:ml-6">
+                    <a href="http://github.com/{{ GITHUB_SHEBANG }}" class="whitespace-nowrap font-medium text-gray-100 transition duration-150 ease-in-out hover:text-white" target="_blank" rel="noreferrer">GitHub →</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:px-2">
+        <div>
+            <h1 class="text-2xl font-bold text-white">System Information</h1>
+            <dl class="divide-y divide-gray-800 p-1 border-t border-gray-800 mt-4">
+                <div>
+                    <div class="max-w-6xl py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                        <dt class="block text-sm font-bold text-gray-400">Version</dt>
+                        <dd class="flex text-sm text-white sm:col-span-2 sm:mt-0">
+                            <span class="flex-grow flex flex-row items-center truncate">
+                                <code class="truncate">{{ APP_VERSION }}</code>
+                                <a href="https://github.com/{{ GITHUB_SHEBANG }}/releases" target="_blank" rel="noopener noreferrer">
+                                {% if not APP_UPDATE %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full whitespace-nowrap cursor-default bg-green-500 bg-opacity-80 border border-green-500 !text-green-100 ml-2 !cursor-pointer transition hover:bg-green-400">Up to Date</span>
+                                {% else %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full whitespace-nowrap cursor-default bg-red-500 bg-opacity-80 border border-red-500 !text-red-100 ml-2 !cursor-pointer transition hover:bg-red-400">Update Available</span>
+                                {% endif %}
+                                </a>
+                            </span>
+                        </dd>
+                    </div>
+                </div>
+                <div>
+                    <div class="max-w-6xl py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                        <dt class="block text-sm font-bold text-gray-400">Data Directory</dt>
+                        <dd class="flex text-sm text-white sm:col-span-2 sm:mt-0">
+                            <span class="flex-grow undefined">
+                                <code>{{ DATA_DIRECTORY }}</code>
+                            </span>
+                        </dd>
+                    </div>
+                </div>
+                <div>
+                    <div class="max-w-6xl py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                        <dt class="block text-sm font-bold text-gray-400">Time Zone</dt>
+                        <dd class="flex text-sm text-white sm:col-span-2 sm:mt-0">
+                            <span class="flex-grow undefined">
+                                <code>{{ TIMEZONE }}</code>
+                            </span>
+                        </dd>
+                    </div>
+                </div>
+            </dl>
+        </div>
+        <div>
+            <h1 class="text-2xl font-bold text-white">Support</h1>
+            <dl class="divide-y divide-gray-800 p-1 border-t border-gray-800 mt-4">
+                <div>
+                    <div class="max-w-6xl py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                        <dt class="block text-sm font-bold text-gray-400">Documentation</dt>
+                        <dd class="flex text-sm text-white sm:col-span-2 sm:mt-0">
+                            <span class="flex-grow undefined">
+                                <a href="{{ DOCS_URL }}" target="_blank" rel="noreferrer" class="text-indigo-500 transition duration-300 hover:underline">{{ DOCS_URL }}</a>
+                            </span>
+                        </dd>
+                    </div>
+                </div>
+                <div>
+                    <div class="max-w-6xl py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                        <dt class="block text-sm font-bold text-gray-400">GitHub Discussions</dt>
+                        <dd class="flex text-sm text-white sm:col-span-2 sm:mt-0">
+                            <span class="flex-grow undefined">
+                                <a href="https://github.com/{{ GITHUB_SHEBANG }}/discussions" target="_blank" rel="noreferrer" class="text-indigo-500 transition duration-300 hover:underline">https://github.com/{{ GITHUB_SHEBANG }}/discussions</a>
+                            </span>
+                        </dd>
+                    </div>
+                </div>
+                <div>
+                    <div class="max-w-6xl py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                        <dt class="block text-sm font-bold text-gray-400">Discord</dt>
+                        <dd class="flex text-sm text-white sm:col-span-2 sm:mt-0">
+                            <span class="flex-grow undefined">
+                                <a href="https://discord.gg/{{ DISCORD_INVITE }}" target="_blank" rel="noreferrer" class="text-indigo-500 transition duration-300 hover:underline">https://discord.gg/{{ DISCORD_INVITE }}</a>
+                            </span>
+                        </dd>
+                    </div>
+                </div>
+            </dl>
+        </div>
+    </div>
+</div>

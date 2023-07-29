@@ -16,7 +16,7 @@ from flask_sse import ServerSentEvents
 from migrations import migrate
 from models.database import *
 from api import *
-
+from helpers.babel_locale import get_locale
 
 # Global App Version
 VERSION = "3.0.0"
@@ -68,10 +68,16 @@ def is_beta():
 app.jinja_env.globals.update(APP_NAME="Wizarr")
 app.jinja_env.globals.update(APP_VERSION=VERSION)
 app.jinja_env.globals.update(APP_GITHUB_URL="https://github.com/Wizarrrr/wizarr")
+app.jinja_env.globals.update(GITHUB_SHEBANG="wizarrrr/wizarr")
+app.jinja_env.globals.update(DOCS_URL="https://docs.wizarr.dev")
+app.jinja_env.globals.update(DISCORD_INVITE="wsSTsHGsqu")
 app.jinja_env.globals.update(APP_RELEASED="Beta" if is_beta() else "Stable")
 app.jinja_env.globals.update(APP_LANG="en")
+app.jinja_env.globals.update(TIMEZONE=getenv("TZ", "UTC"))
+app.jinja_env.globals.update(DATA_DIRECTORY=path.abspath(path.join(BASE_DIR, "../", "database")))
 app.jinja_env.globals.update(APP_UPDATE=need_update())
 app.jinja_env.globals.update(DISABLE_BUILTIN_AUTH=True if getenv("DISABLE_BUILTIN_AUTH", "false") == "true" else False)
+
 
 # Set config variables for Flask
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -102,11 +108,11 @@ sse = ServerSentEvents()
 # Initialize App Extensions
 sess.init_app(app)
 htmx.init_app(app)
-babel.init_app(app)
 jwt.init_app(app)
 cache.init_app(app)
 api.init_app(app)
 schedule.init_app(app)
+babel.init_app(app, locale_selector=get_locale)
 
 # Clear cache on startup
 with app.app_context():
@@ -115,6 +121,7 @@ with app.app_context():
 # Register Jinja2 filters
 app.add_template_filter(format_datetime)
 app.add_template_filter(date_format)
+app.add_template_filter(env, "getenv")
 
 # Register Flask blueprints
 app.after_request(refresh_expiring_jwts)

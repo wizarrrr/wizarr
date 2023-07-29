@@ -1,5 +1,5 @@
-from datetime import datetime, timedelta, timezone
-
+from datetime import datetime
+from os import getenv
 
 def format_datetime(value):
     format_str = '%Y-%m-%d %H:%M:%S.%f%z'
@@ -16,15 +16,19 @@ def format_datetime(value):
 
     parsed_date = datetime.strptime(value, format_str)
     hms = get_time_duration(parsed_date)
-    
+
     if hms[0] > 0:
         return f"{hms[0]}h {hms[1]}m {hms[2]}s"
     elif hms[1] > 0:
         return f"{hms[1]}m {hms[2]}s"
     else:
         return f"{hms[2]}s"
-    
+
 def date_format(value, format="%Y-%m-%d %H:%M:%S"):
     format_str = '%Y-%m-%d %H:%M:%S'
     parsed_date = datetime.strptime(str(value), format_str)
     return parsed_date.strftime(format)
+
+
+def env(key, default=None):
+    return getenv(key, default)

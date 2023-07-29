@@ -18,6 +18,7 @@ from .settings_api import api as settings_api
 from .setup_api import api as setup_api
 from .tasks_api import api as tasks_api
 from .users_api import api as users_api
+from .logging_api import api as logging_api
 
 authorizations = {
     "jsonWebToken": {
@@ -97,6 +98,7 @@ api.add_namespace(sessions_api)
 api.add_namespace(settings_api)
 api.add_namespace(tasks_api)
 api.add_namespace(users_api)
+api.add_namespace(logging_api)
 
 # Potentially remove this if it becomes unstable
 # api.add_namespace(live_notifications_api)

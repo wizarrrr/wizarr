@@ -1,7 +1,8 @@
+import addToWindow from './addToWindow';
 
 async function startTinyMCE() {
     const tinymce = await import('tinymce');
-    const theme = await import('./utils/themeSelector');
+    const theme = await import('./themeSelector');
 
     tinymce.default.remove('textarea#custom_html');
 
@@ -32,4 +33,4 @@ async function startTinyMCE() {
     });
 }
 
-export default startTinyMCE;
+addToWindow(['startTinyMCE'], startTinyMCE);

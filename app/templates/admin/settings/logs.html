@@ -1,0 +1,19 @@
+<div id="terminal"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async function () {
+        let xterm = await utils.startLogTerminal(document.getElementById('terminal'))
+        let response = await fetch('/api/logging/text')
+
+        response.body.pipeTo(new WritableStream({
+            write(chunk) {
+                xterm.write(chunk)
+            }
+        }))
+
+        const event = new EventSource('/api/logging/stream')
+        event.onmessage = function (e) {
+            xterm.writeln(e.data)
+        }
+    })
+</script>

@@ -67,14 +67,14 @@ class ServerSentEvents:
         if id not in self.announcers:
             self.announcers[id] = MessageAnnouncer()
         return self.announcers[id]
-    
+
     def publish(self, msg):
         """
         Sends the given message to all announcers.
         """
         for id in self.announcers:
             self.send(msg, id)
-    
+
     def create_announcer(self):
         """
         Creates a new announcer with a random ID and adds it to the dictionary of announcers.
@@ -83,7 +83,7 @@ class ServerSentEvents:
         random_id = urandom(16).hex()
         self.announcers[random_id] = MessageAnnouncer()
         return random_id
-    
+
     def delete_announcer(self, id):
         """
         Deletes the announcer with the given ID from the dictionary of announcers.
@@ -92,14 +92,14 @@ class ServerSentEvents:
             del self.announcers[id]
         except KeyError:
             print("Could not delete announcer with id", id)
-            
+
     def response(self, id=None):
         """
         Returns a Flask Response object that streams SSE messages from the announcer with the given ID.
         """
         def stream():
             has_finished = False
-            
+
             if id == None or id not in self.announcers:
                 print("Could not find announcer with id", id)
                 return
@@ -123,12 +123,12 @@ class ServerSentEvents:
                     print(e)
                     has_finished = True
                     self.delete_announcer(id)
-                    
+
                 if search("event: end", msg) or search("event: error", msg):
                     has_finished = True
-                    
+
         return Response(stream(), mimetype="text/event-stream")
-    
+
     def send(self, msg_str, id, event="data"):
         """
         Sends the given message to the announcer with the given ID.
@@ -139,4 +139,3 @@ class ServerSentEvents:
         self.announcer(id).announce(msg)
 
         return self
-    

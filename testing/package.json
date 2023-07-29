@@ -1,13 +1,34 @@
 {
     "scripts": {
-        "start:server": "cd ../ && FLASK_RUN_PORT=9999 DISABLE_BUILTIN_AUTH=true APP_URL=127.0.0.1:9999 flask --debug run",
-        "cypress:open": "cypress open",
-        "cypress:run": "cypress run",
-        "ci:run": "start-server-and-test start:server http://127.0.0.1:9999 cypress:run",
-        "ci:open": "start-server-and-test start:server http://127.0.0.1:9999 cypress:open"
+        "start:server": "cd ../ && FLASK_RUN_PORT=9999 APP_URL=127.0.0.1:9999 flask run",
+
+        "cy:open": "cypress open",
+        "cy:open:chrome": "cypress open --browser chrome",
+
+        "cy:run": "cypress run",
+        "cy:run:chrome": "cypress run --browser chrome",
+
+        "cypress:run": "start-server-and-test start:server http://127.0.0.1:9999 cy:run",
+        "cypress:open": "start-server-and-test start:server http://127.0.0.1:9999 cy:open",
+
+        "xvfb:run": "Xvfb :20 -screen 0 1920x1080x16 -ac",
+        "xv11:run": "x11vnc -display :20 -N -rfbport 5566",
+        "vnc:run": "npm run xvfb:run & npm run xv11:run",
+
+        "vnc:cypress:open": "npm run vnc:run & DISPLAY=:20 start-server-and-test start:server http://127.0.0.1:9999 cy:open & pkill Xvfb & pkill x11vnc",
+        "vnc:cypress:run": "npm run vnc:run & DISPLAY=:20 start-server-and-test start:server http://127.0.0.1:9999 cy:run & pkill Xvfb & pkill x11vnc",
+
+        "vnc:cypress:open:chrome": "npm run vnc:run & DISPLAY=:20 start-server-and-test start:server http://127.0.0.1:9999 cy:open:chrome & pkill Xvfb & pkill x11vnc",
+        "vnc:cypress:run:chrome": "npm run vnc:run & DISPLAY=:20 start-server-and-test start:server http://127.0.0.1:9999 cy:run:chrome & pkill Xvfb & pkill x11vnc",
+
+        "cypress:screenshot": "cypress run --spec cypress/e2e/utilities/screenshots.cy.js",
+        "cypress:screenshot:chrome": "cypress run --browser chrome --spec cypress/utilities/screenshots.cy.js",
+
+        "vnc:cypress:screenshot": "npm run vnc:run & DISPLAY=:20 start-server-and-test start:server http://127.0.0.1:9999 cypress:screenshot & pkill Xvfb & pkill x11vnc",
+        "vnc:cypress:screenshot:chrome": "npm run vnc:run & DISPLAY=:20 start-server-and-test start:server http://127.0.0.1:9999 cypress:screenshot:chrome & pkill Xvfb & pkill x11vnc"
     },
     "devDependencies": {
-        "cypress": "^12.17.0",
+        "cypress": "^12.17.2",
         "start-server-and-test": "^2.0.0"
     }
 }

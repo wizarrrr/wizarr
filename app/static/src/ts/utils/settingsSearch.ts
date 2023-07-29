@@ -1,14 +1,13 @@
+import addToWindow from './addToWindow';
 import debounce from './deboundFunction';
 
-function searchSettings() {
-    // Get the search input value
-    const searchValue = document.getElementById("settings-search")?.querySelector("input")?.value;
-
+function searchSettings(searchValue: string) {
     // If the search value is empty, show all of the categories and buttons
     if (!searchValue) {
         document.getElementById("settings-content")?.querySelectorAll(".settings-section")?.forEach((category) => {
             // Show the category
             category.classList.remove("hidden");
+            category.removeAttribute("hidden");
 
             // Show all of the buttons inside the category
             category.querySelectorAll("button")?.forEach((button) => {
@@ -51,11 +50,21 @@ function searchSettings() {
         const hiddenButtons = category.querySelectorAll("button.hidden");
         if (buttons.length == hiddenButtons.length) {
             category.classList.add("hidden");
+            category.setAttribute("hidden", "")
         } else {
             category.classList.remove("hidden");
+            category.removeAttribute("hidden");
         }
     });
+
+    // If all categories are hidden, show the no results message
+    const categories = document.getElementById("settings-content")?.querySelectorAll(".settings-section");
+    const hiddenCategories = document.getElementById("settings-content")?.querySelectorAll(".settings-section.hidden");
+    if (categories?.length == hiddenCategories?.length) {
+        document.getElementById("settings-no-results")?.classList.remove("hidden");
+    } else {
+        document.getElementById("settings-no-results")?.classList.add("hidden");
+    }
 }
 
-// Bind the searchSettings function to the search input's onkeyup event
-document.getElementById("settings-search")?.querySelector("input")?.addEventListener("keyup", debounce(searchSettings, 250, false));
+addToWindow(['utils', 'settingsSearch'], debounce(searchSettings, 150, false));

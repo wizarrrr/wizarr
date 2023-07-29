@@ -14,7 +14,7 @@ from models.database.settings import Settings
 
 @app.get('/test')
 def test():
-    return render_template('menu.html')
+    return render_template('admin/settings/settings.json.j2')
 
 @app.context_processor
 def inject_user():
@@ -87,30 +87,6 @@ def settings_routes(subpath):
 
     # All possible admin routes
     return render_template("admin.html", subpath="admin/settings.html", settings_subpath=f"admin/settings/{subpath}.html", **settings)
-
-
-# All account routes
-@app.get("/admin/account", defaults={"subpath": ""})
-@app.get("/admin/account/<path:subpath>")
-@login_required()
-def account_routes(subpath):
-    # Get valid account partials
-    html_files = [path.splitext(file)[0] for file in listdir("./app/templates/admin/account") if file.endswith(".html")]
-
-    # Check if the subpath is valid
-    if subpath not in html_files and subpath != "":
-        return abort(404)
-
-    # Get all settings
-    settings = get_settings()
-    settings["admin"] = current_user
-
-    # If no subpath is specified, render the admin dashboard
-    if not subpath:
-        return render_template("admin.html", subpath="admin/account.html", account_subpath="admin/account/general.html", **settings)
-
-    # All possible admin partials
-    return render_template("admin.html", subpath="admin/account.html", account_subpath=f"admin/account/{subpath}.html", **settings)
 
 
 # All setup routes

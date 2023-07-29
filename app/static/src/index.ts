@@ -5,8 +5,6 @@ import './ts/navbar';
 import './ts/toggle-menu';
 import './ts/api';
 import './ts/utils';
-import './ts/utils/themeSelector';
-import './ts/utils/settingsSearch';
 
 import htmx from 'htmx.org';
 import Cookie from 'js-cookie';

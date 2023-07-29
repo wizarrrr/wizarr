@@ -36,6 +36,33 @@
             ]
         },
         {
+            "title": _("Account Settings"),
+            "description": _("Settings for user accounts"),
+            "pages": [
+                {
+                    "title": _("Profile"),
+                    "description": _("Configure your profile settings"),
+                    "icon": "fas fa-user-circle",
+                    "url": "/partials/admin/settings/profile",
+                    "push_url": "/admin/settings/profile"
+                },
+                {
+                    "title": _("Password"),
+                    "description": _("Change your password"),
+                    "icon": "fas fa-lock",
+                    "url": "/partials/admin/settings/password",
+                    "push_url": "/admin/settings/password"
+                },
+                {
+                    "title": _("Sessions"),
+                    "description": _("View and manage your active sessions"),
+                    "icon": "fas fa-desktop",
+                    "url": "/partials/admin/settings/sessions",
+                    "push_url": "/admin/settings/sessions"
+                }
+            ]
+        },
+        {
             "title": _("UI Settings"),
             "description": _("Modify the look and feel of the server"),
             "pages": [
@@ -54,10 +81,44 @@
                     "push_url": "/admin/settings/html"
                 }
             ]
+        },
+        {
+            "title": _("Advanced Settings"),
+            "description": _("Advanced settings for the server"),
+            "pages": [
+                {
+                    "title": _("Logs"),
+                    "description": _("View and download server logs"),
+                    "icon": "fas fa-file-alt",
+                    "url": "/partials/admin/settings/logs",
+                    "push_url": "/admin/settings/logs"
+                },
+                {
+                    "title": _("Updates"),
+                    "description": _("Check for and view updates"),
+                    "icon": "fas fa-sync",
+                    "url": "/partials/admin/settings/updates",
+                    "push_url": "/admin/settings/updates"
+                },
+                {
+                    "title": _("Backup"),
+                    "description": _("Create and restore backups"),
+                    "icon": "fas fa-hdd",
+                    "url": "/partials/admin/settings/backup",
+                    "push_url": "/admin/settings/backup"
+                },
+                {
+                    "title": _("About"),
+                    "description": _("View information about the server"),
+                    "icon": "fas fa-info-circle",
+                    "url": "/partials/admin/settings/about",
+                    "push_url": "/admin/settings/about"
+                }
+            ]
         }
     ] %}
 
-    <div class="space-y-3 md:space-y-4">
+    <div class="space-y-6">
         {% for section in sections %}
 
         <div class="settings-section">
@@ -84,6 +145,10 @@
         </div>
 
         {% endfor %}
+
+        <div id="settings-no-results" class="hidden text-center text-gray-500 dark:text-gray-400 pb-2">
+            {{ _("No settings matched your search.")}}
+        </div>
     </div>
 
 </div>
