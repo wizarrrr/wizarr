@@ -11,13 +11,13 @@ from app.mediarequest import *
 
 
 def plex_handle_oauth_token(token, code):
-    email = MyPlexAccount(token).email
+    email = MyPlexAccount(token=token).email
     plex_invite_user(email, code)
     if Users.select().where(Users.email == email).exists():
         Users.delete().where(Users.email == email).execute()
     expires = datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration)
                                                            ) if Invitations.get(code=code).duration else None
-    user = Users.create(token=MyPlexAccount(token).id, email=email,
+    user = Users.create(token=MyPlexAccount(token=token).id, email=email,
                         username=MyPlexAccount(token).username, code=code, expires=expires, auth=token)
     notify("User Joined", f"User {MyPlexAccount(token).username} has joined your server!", "tada")
     user.save()
@@ -28,7 +28,7 @@ def plex_get_user(user):
     print("user is ", user)
     email = Users.get_by_id(user).email
     plex_token = Settings.get(Settings.key == "api_key").value
-    admin = MyPlexAccount(plex_token)
+    admin = MyPlexAccount(token=plex_token)
 
     my_plex_user = admin.user(email)
     user = {
@@ -50,7 +50,7 @@ def plex_get_user(user):
 @cached(cache=TTLCache(maxsize=1024, ttl=600))
 def plex_get_users():
     token = Settings.get(Settings.key == "api_key").value
-    admin = MyPlexAccount(token)
+    admin = MyPlexAccount(token=token)
     plexusers = admin.users()
     # Compare database to users
 
@@ -84,7 +84,7 @@ def plex_delete_user(id):
     email = Users.get(Users.id == id).email
     if email != "None":
         plex_token = Settings.get(Settings.key == "api_key").value
-        admin = MyPlexAccount(plex_token)
+        admin = MyPlexAccount(token=plex_token)
         try:
             admin.removeHomeUser(email)
         except:
@@ -99,7 +99,7 @@ def plex_invite_user(email, code):
             (Settings.get(Settings.key == "libraries").value).split(", "))
         plex_url = Settings.get(Settings.key == "server_url").value
         plex_token = Settings.get(Settings.key == "api_key").value
-        admin = PlexServer(plex_url, plex_token)
+        admin = PlexServer(plex_url, token=plex_token)
         invitation = Invitations.select().where(Invitations.code == code).first()
         if invitation.specific_libraries != None:
             sections = list(invitation.specific_libraries.split(", "))
@@ -129,8 +129,8 @@ def plex_setup_user(token):
     try:
         plex_get_users.cache_clear()
         plex_token = Settings.get(Settings.key == "api_key").value
-        admin_email = MyPlexAccount(plex_token).email
-        user = MyPlexAccount(token)
+        admin_email = MyPlexAccount(token=plex_token).email
+        user = MyPlexAccount(token=token)
         user.acceptInvite(admin_email)
         user.enableViewStateSync()
         mediarequest_import_users([user.id])
@@ -141,7 +141,7 @@ def plex_setup_user(token):
 
 
 def plex_opt_out_online_sources(token):
-    user = MyPlexAccount(token)
+    user = MyPlexAccount(token=token)
     for source in user.onlineMediaSources():
         source.optOut()
     return
