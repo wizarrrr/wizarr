@@ -22,7 +22,7 @@
                 </td>
                 {% endif %}
 
-                <td class="p-5 pr-8 hidden md:block text-right">
+                <td class="p-5 pr-8 text-right">
                     <button hx-get="/partials/modals/revoke-session?session_id={{ session.id }}&admin_id={{ admin.id }}" hx-target="#delete-modal" hx-trigger="click" id="revoke-session-button" class="bg-primary focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-primary">
                         {{ _("Revoke") }}
                     </button>

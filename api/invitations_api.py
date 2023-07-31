@@ -42,3 +42,39 @@ class InvitationsListAPI(Resource):
         invite.create_invitation()
 
         return invite.to_primitive(), 200
+
+
+@api.route("/<int:invite_id>")
+class InvitationsAPI(Resource):
+    """API resource for a single invite"""
+
+    method_decorators = [jwt_required()]
+
+    @api.doc(description="Get a single invite")
+    @api.response(404, "Invite not found")
+    @api.response(500, "Internal server error")
+    def get(self, invite_id):
+        # Select the invite from the database
+        invite = Invitations.get_or_none(Invitations.id == invite_id)
+
+        # Check if the invite exists
+        if not invite:
+            return {"message": "Invite not found"}, 404
+
+        return model_to_dict(invite, exclude=[Invitations.created, Invitations.expires]), 200
+
+    @api.doc(description="Delete a single invite")
+    @api.response(404, "Invite not found")
+    @api.response(500, "Internal server error")
+    def delete(self, invite_id):
+        # Select the invite from the database
+        invite = Invitations.get_or_none(Invitations.id == invite_id)
+
+        # Check if the invite exists
+        if not invite:
+            return {"message": "Invite not found"}, 404
+
+        # Delete the invite
+        invite.delete_instance()
+
+        return {"message": "Invite deleted successfully"}, 200

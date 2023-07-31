@@ -16,4 +16,4 @@ RUN npm run build
 WORKDIR /data
 
 EXPOSE 5690
-CMD [ "gunicorn", "--workers",  "1" , "--bind", "0.0.0.0:5690", "-m", "007", "--log-level", "debug", "run:app" ]
+CMD [ "gunicorn", "--worker-class", "eventlet", "--bind", "0.0.0.0:5690", "-m", "007", "run:app" ]

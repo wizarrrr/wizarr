@@ -9,4 +9,9 @@ from models.database.settings import Settings
 from models.database.users import Users
 
 all_models = [Accounts, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions]
-db.create_tables([Accounts, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions], safe=True)
+
+try:
+    db.create_tables([Accounts, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions], safe=True)
+except Exception as e:
+    print(e)
+    pass

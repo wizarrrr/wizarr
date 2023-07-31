@@ -1,4 +1,4 @@
-import htmx from 'htmx.org';
+import io from 'socket.io-client';
 import { ITerminalOptions, Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 
@@ -50,21 +50,34 @@ const startLogTerminal = async (terminal: HTMLDivElement) => {
     term.open(terminal);
     fitAddon.fit();
 
-    const event = new EventSource('/api/logging/stream')
-    event.onmessage = function (e) {
-        term.writeln(e.data)
+    const response = await fetch('/api/logging/text');
+
+    if (response.status !== 200) {
+        return;
     }
 
-    window.addEventListener('beforeunload', () => {
-        event.close();
+    const data = await response.text();
+
+    term.write(data);
+
+    const socket = io('/logging');
+
+    socket.on("connect", function () {
+        term.writeln("Connected to server");
+    });
+
+    socket.on("disconnect", function () {
+        term.writeln("Disconnected from server");
     });
 
 
-    htmx.on('htmx:afterSwap', () => {
-        event.close();
+    socket.on("log", function (data) {
+        console.info(data);
+        term.write(data);
     });
 
     return term;
 }
 
+addToWindow(['utils', 'io'], io);
 addToWindow(['utils', 'startLogTerminal'], startLogTerminal);

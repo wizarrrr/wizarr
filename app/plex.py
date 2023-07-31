@@ -28,7 +28,6 @@ def plex_handle_oauth_token(token, code):
     # user.save()
     # threading.Thread(target=plex_setup_user, args=(token,)).start()
 
-
 def plex_get_user(user):
     email = Users.get_by_id(user).email
     plex_token = Settings.get(Settings.key == "server_api_key").value

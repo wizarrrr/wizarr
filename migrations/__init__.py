@@ -17,13 +17,13 @@ def migrate():
     info("STARTING MIGRATIONS")
 
     # Create a backup of the database
-    datebase_dir = os.path.join(os.path.dirname(__file__), '../', 'database')
+    datebase_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../', 'database'))
 
     # Create a backup of the database
     os.system(f'cp {datebase_dir}/database.db {datebase_dir}/database.temp')
 
     # Get migrations folder in base_dir
-    migrations_dir = os.path.join(os.path.dirname(__file__), '../', 'migrations')
+    migrations_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../', 'migrations'))
 
     # Function to rename temp backup to datetime.db if migrations fail
     def rename_temp():
@@ -73,7 +73,10 @@ def migrate():
             rename_temp()
 
     # Remove temp backup
-    os.system(f'rm {datebase_dir}/database.temp')
+    try:
+        os.system(f'rm {datebase_dir}/database.temp')
+    except:
+        pass
 
     # Log that migrations are finished
     info("FINISHED MIGRATIONS")

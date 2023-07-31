@@ -1,0 +1,79 @@
+<div class="flex flex-col items-center md:items-start justify-center w-full h-full space-y-3">
+    <span class="text-sm text-gray-600 dark:text-gray-400">
+        {{ _('Please use the dropdown below to select your language.') }}
+    </span>
+
+    <button id="dropdownLanguageButton" data-dropdown-toggle="languageSelector" data-dropdown-placement="bottom" class="md:w-auto w-full bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover flex flex-row items-center justify-center" type="button">
+        {{ _('Select Language') }}
+        <i class="fas fa-chevron-down ml-2"></i>
+    </button>
+</div>
+
+<!-- Dropdown menu -->
+<div id="languageSelector" class="z-10 hidden bg-white rounded-lg shadow w-60 dark:bg-gray-700">
+
+    <div class="p-3">
+        <label for="input-group-search" class="sr-only">Search</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                </svg>
+            </div>
+            <input type="text" id="language-search" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search languages" />
+        </div>
+    </div>
+
+
+    <ul class="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLanguageButton">
+        {% for language in LANGUAGES %}
+        <li>
+            <button class="flex w-full items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600" type="button" onclick="window.location.href='?lang={{ language }}'">
+                <div class="w-10 h-10 flex items-center justify-center">
+                    <img src="https://raw.githubusercontent.com/MohmmedAshraf/blade-flags/main/resources/svg/language-{{ language }}.svg" alt="{{ LANGUAGES[language] }}" class="w-6 h-6">
+                </div>
+                <div class="ml-2">
+                    <p class="font-medium capitalize">{{ LANGUAGES[language] }}</p>
+                </div>
+            </button>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<script>
+function searchLanguages() {
+    // Search
+    var search = document.getElementById('language-search');
+    var items = document.querySelectorAll('#languageSelector ul li');
+
+    search.addEventListener('keyup', function (event) {
+        var query = event.target.value.toLowerCase();
+
+        items.forEach(function (item) {
+            var text = item.innerText.toLowerCase();
+            var match = text.indexOf(query) > -1;
+            item.classList.toggle('hidden', !match);
+        });
+
+        // escape key
+        if (event.keyCode === 27) {
+            if (search.value.length == 0) {
+                document.getElementById('languageSelector').classList.add('hidden');
+            }
+            search.value = '';
+            items.forEach(function (item) {
+                item.classList.remove('hidden');
+            });
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    searchLanguages();
+});
+
+if (document.readyState === 'complete') {
+    searchLanguages();
+}
+</script>

@@ -16,10 +16,8 @@
     {% include subpath %}
 </div>
 
-<footer>
-    <div class="container flex flex-wrap items-center justify-center mx-auto text-secondary py-2 text-xs">
-        <a href="{{ APP_GITHUB_URL }}">{{ APP_NAME }}</a>&nbsp;-&nbsp;{{ _('Version') }}&nbsp;<a href="{{ APP_GITHUB_URL }}/releases/tag/{{ APP_VERSION }}">{{ APP_VERSION }}</a>&nbsp;-&nbsp;{{ APP_RELEASED }}
-    </div>
+<footer class="flex flex-wrap items-center justify-center mx-auto text-secondary py-4 text-xs bottom-0 w-full md:border-none border-t p-4 border-gray-200 dark:border-gray-600">
+        <a href="{{ APP_GITHUB_URL }}">{{ APP_NAME }}</a>&nbsp;-&nbsp;{{ _('Version') }}&nbsp;<a href="{{ APP_GITHUB_URL }}/releases/tag/{{ APP_VERSION }}">{{ APP_VERSION }}</a>&nbsp;-&nbsp;{% if APP_RELEASED %} {{ _("Stable") }} {% else %} {{ _("Beta") }} {% endif %}
 </footer>
 
 <script>
@@ -55,41 +53,6 @@
         }
 
         window.location.href = '/login';
-
-        //const xhr = new XMLHttpRequest();
-
-        //xhr.open('GET', '/login');
-
-        //xhr.onreadystatechange = async function () {
-        //    document.getElementById('spinner').classList.remove('htmx-indicator');
-
-        //    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        //        // Replace the current page with the new page
-        //        document.open();
-        //        document.write(xhr.responseText);
-        //        document.close();
-
-        //        // Update the URL in the browser
-        //        window.history.pushState({}, '', '/login');
-
-        //        const data = JSON.parse(localStorage.getItem('user'));
-
-        //        if (data != undefined) {
-        //            toast.infoToast("{{ _('Goodbye') }}, " + data.username + "!");
-        //            localStorage.removeItem('user');
-        //            return;
-        //        }
-
-        //        toast.infoToast("{{ _('Logged out successfully') }}");
-        //        localStorage.removeItem('user');
-        //    }
-
-        //    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200) {
-        //        window.location.href = '/login';
-        //    }
-        //};
-
-        //xhr.send();
     }
 </script>
 

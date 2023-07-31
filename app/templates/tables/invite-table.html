@@ -1,20 +1,19 @@
 <!-- Users Table -->
 <div class="overflow-x-auto">
-    {% if invitations %}
     <table class="w-full whitespace-nowrap">
         <thead>
             <tr class="rounded-lg border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white text-xs text-left">
                 <th class="pl-7 py-3">{{ _("Invite Code") }}</th>
                 <th class="py-3 text-center">{{ _("Used") }}</th>
-                <th class="py-3 text-center">{{ _("Created") }}</th>
                 <th class="py-3 text-center">{{ _("Expired") }}</th>
-                <th class="py-3 text-center">{{ _("Unlimited") }}</th>
                 <th class="py-3 text-center">{{ _("Libraries") }}</th>
+                <th class="py-3 text-center">{{ _("Unlimited") }}</th>
                 {% if server_type == "plex" %}
                 <th class="py-3 text-center">{{ _("Allow Downloads") }}</th>
                 {% endif %}
                 <th class="py-3 text-center">{{ _("Duration") }}</th>
-                <th class="pr-8 py-3"></th>
+                <th class="py-3 text-center">{{ _("Created") }}</th>
+                <th class=""></th>
             </tr>
 
             <tr class="h-0 md:h-3"></tr>
@@ -40,12 +39,6 @@
                     {% endif %}
                 </td>
 
-                <td class="text-center text-xs whitespace-nowrap">
-                    {% if invite.created %}
-                    {{ (invite.created|string)[0:16] }}
-                    {% endif %}
-                </td>
-
                 <td class="text-center">
                     {% if invite.expired %}
                     <span class="inline-block w-3 h-3 bg-red-600 rounded-full"></span>
@@ -59,15 +52,15 @@
                 </td>
 
                 <td class="text-center">
+                    <button class="text-gray-600 text-xs leading-none py-2 px-3 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none">View Libraries</button>
+                </td>
+
+                <td class="text-center">
                     {% if invite.unlimited %}
                     <span class="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
                     {% else %}
                     <span class="inline-block w-3 h-3 bg-red-600 rounded-full"></span>
                     {% endif %}
-                </td>
-
-                <td class="text-center">
-                    <button class="text-gray-600 text-xs leading-none py-2 px-3 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none">View Libraries</button>
                 </td>
 
                 {% if server_type == "plex" %}
@@ -80,15 +73,21 @@
                 </td>
                 {% endif %}
 
-                <td class="text-center">
+                <td class="text-center text-xs whitespace-nowrap">
                     {% if invite.duration %}
-                    {{ invite.duration }} days
+                    {{ invite.duration|time_until() }}
                     {% else %}
                     Unlimited
                     {% endif %}
                 </td>
 
-                <td class="p-5 pr-8 hidden md:block text-right">
+                <td class="text-center text-xs whitespace-nowrap">
+                    {% if invite.created %}
+                    {{ (invite.created|string)[0:16]|time_ago() }}
+                    {% endif %}
+                </td>
+
+                <td class="p-5 pr-8 text-right">
                     <div class="flex col justify-end">
                         <button class="focus:ring-2 p-2 rounded-md focus:outline-none" onclick="utils.toggleMenu(this)" role="button" aria-label="option">
                             <i class="transition-all fa-solid fa-ellipsis"></i>
@@ -97,7 +96,7 @@
                             <button hx-get="" hx-target="" hx-trigger="click" class="bg-gray-600 focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-gray-600">
                                 {{ _("Edit") }}
                             </button>
-                            <button hx-get="" hx-target="" hx-trigger="click" class="bg-primary focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-primary">
+                            <button onclick="deleteInvite(this, '{{ invite.id }}')" class="bg-primary focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-primary">
                                 {{ _("Delete") }}
                             </button>
                         </div>
@@ -107,10 +106,23 @@
             <tr id="invite-{{invite}}-spacer" class="h-0 md:h-3"></tr>
             {% endfor %}
         </tbody>
+        <tbody id="empty-invitations" class="{% if invitations|length > 0 %}hidden{% endif %}">
+            <tr>
+                <td colspan="8" class="text-center">
+                    <div class="flex flex-col items-center justify-center">
+                        <div class="mt-4 text-center">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">
+                                {{ _("No Invitations") }}
+                            </h3>
+                            <p class="mt-2 text-sm text-gray-500">
+                                {{ _("You have not created any invitations yet.") }}
+                            </p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
     </table>
-    {% else %}
-    <p class="text-center dark:text-white">There are currently no invitations.</p>
-    {% endif %}
 </div>
 
 
@@ -164,6 +176,25 @@
             }, 1000);
         }, function (err) {
             console.error('Async: Could not copy text: ', err);
+        });
+    }
+
+
+    async function deleteInvite(that, id) {
+        await window.api.invitations.deleteInvitation(id)
+
+        let tr = that.closest('tr');
+        let spacer = document.getElementById(tr.id + "-spacer");
+
+        tr.classList.add('animate__animated', 'animate__fadeOut');
+        spacer.classList.add('animate__animated', 'animate__fadeOut');
+
+        tr.addEventListener('animationend', () => {
+            tr.remove();
+            spacer.remove();
+            if (document.querySelectorAll('tbody#invitations tr').length === 0) {
+                document.getElementById('empty-invitations').classList.remove('hidden');
+            }
         });
     }
 </script>

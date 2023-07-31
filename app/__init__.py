@@ -17,6 +17,8 @@ from migrations import migrate
 from models.database import *
 from api import *
 from helpers.babel_locale import get_locale
+from tabulate import tabulate
+from termcolor import colored
 
 # Global App Version
 VERSION = "3.0.0"
@@ -46,7 +48,7 @@ def before_request():
 
 # Run database migrations scripts
 # skip if in debug mode unless --migrate is passed
-if not app.debug or app.debug and "--migrate" in environ.get("WERKZEUG_COMMAND_ARGS", ""):
+if not app.debug:
     migrate()
 
 # Add version to environment variables
@@ -65,26 +67,11 @@ def is_beta():
     except Exception: return False
 
 
-# Set global variables for Jinja2 templates
-app.jinja_env.globals.update(APP_NAME="Wizarr")
-app.jinja_env.globals.update(APP_VERSION=VERSION)
-app.jinja_env.globals.update(APP_GITHUB_URL="https://github.com/Wizarrrr/wizarr")
-app.jinja_env.globals.update(GITHUB_SHEBANG="wizarrrr/wizarr")
-app.jinja_env.globals.update(DOCS_URL="https://docs.wizarr.dev")
-app.jinja_env.globals.update(DISCORD_INVITE="wsSTsHGsqu")
-app.jinja_env.globals.update(APP_RELEASED="Beta" if is_beta() else "Stable")
-app.jinja_env.globals.update(APP_LANG="en")
-app.jinja_env.globals.update(TIMEZONE=getenv("TZ", "UTC"))
-app.jinja_env.globals.update(DATA_DIRECTORY=path.abspath(path.join(BASE_DIR, "../", "database")))
-app.jinja_env.globals.update(APP_UPDATE=need_update())
-app.jinja_env.globals.update(DISABLE_BUILTIN_AUTH=True if getenv("DISABLE_BUILTIN_AUTH", "false") == "true" else False)
-
-
 # Set config variables for Flask
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = path.abspath(path.join(BASE_DIR, "../", "database", "sessions"))
-app.config["LANGUAGES"] = {"en": "english", "de": "german", "zh": "chinese", "fr": "french", "sv": "swedish", "pt": "portuguese", "pt_BR": "portuguese", "lt": "lithuanian", "es": "spanish", "ca": "catalan", "pl": "polish" }
+app.config["LANGUAGES"] = {"en": "english", "de": "german", "zh": "chinese", "fr": "french", "sv": "swedish", "pt": "portuguese", "lt": "lithuanian", "es": "spanish", "pl": "polish" }
 app.config["BABEL_DEFAULT_LOCALE"] = "en"
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = "./translations"
 app.config["SCHEDULER_API_ENABLED"] = True
@@ -99,10 +86,40 @@ app.config["JWT_BLACKLIST_ENABLED"] = True
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 app.config["JWT_COOKIE_CSRF_PROTECT"] = True
-app.config["JWT_COOKIE_SECURE"] = True if app.debug is False else False
-app.config["DEBUG"] = True if getenv("DEBUG", "false") == "true" else False
+app.config["JWT_COOKIE_SECURE"] = not app.debug
+app.config["DEBUG"] = app.debug
 app.config["CACHE_TYPE"] = "SimpleCache"
 app.config["CACHE_DEFAULT_TIMEOUT"] = 300
+app.config["PROPAGATE_EXCEPTIONS"] = app.debug
+
+# Set global variables for Jinja2 templates
+app.jinja_env.globals.update(APP_NAME="Wizarr")
+app.jinja_env.globals.update(APP_VERSION=VERSION)
+app.jinja_env.globals.update(APP_GITHUB_URL="https://github.com/Wizarrrr/wizarr")
+app.jinja_env.globals.update(GITHUB_SHEBANG="wizarrrr/wizarr")
+app.jinja_env.globals.update(DOCS_URL="https://docs.wizarr.dev")
+app.jinja_env.globals.update(DISCORD_INVITE="wsSTsHGsqu")
+app.jinja_env.globals.update(APP_RELEASED=not bool(is_beta()))
+app.jinja_env.globals.update(APP_LANG="en")
+app.jinja_env.globals.update(TIMEZONE=getenv("TZ", "UTC"))
+app.jinja_env.globals.update(DATA_DIRECTORY=path.abspath(path.join(BASE_DIR, "../", "database")))
+app.jinja_env.globals.update(APP_UPDATE=need_update())
+app.jinja_env.globals.update(DISABLE_BUILTIN_AUTH=bool(str(getenv("DISABLE_BUILTIN_AUTH", "False")).lower() == "true"))
+app.jinja_env.globals.update(LANGUAGES=app.config["LANGUAGES"])
+
+# Headers
+log_headers = ["VARIABLE", "VALUE"]
+log_data    = [
+    ["APP_NAME", "Wizarr"],
+    ["APP_VERSION", VERSION],
+    ["APP_RELEASED", "Beta" if is_beta() else "Stable"],
+    ["APP_DEBUG", "DEBUG" if app.debug else "PRODUCTION"],
+    ["DISABLE_BUILTIN_AUTH", bool(str(getenv("DISABLE_BUILTIN_AUTH", "False")).lower() == "true")],
+]
+
+colored_log_headers = [colored(header, "cyan") for header in log_headers]
+colored_log_data    = [[colored(data[0], "yellow"), colored(data[1], "green")] for data in log_data]
+print(tabulate(colored_log_data, colored_log_headers, tablefmt="heavy_grid"))
 
 sse = ServerSentEvents()
 
@@ -113,6 +130,7 @@ jwt.init_app(app)
 cache.init_app(app)
 api.init_app(app)
 schedule.init_app(app)
+socketio.init_app(app, async_mode="threading" if app.debug else "eventlet")
 babel.init_app(app, locale_selector=get_locale)
 
 # Clear cache on startup
@@ -123,6 +141,8 @@ with app.app_context():
 app.add_template_filter(format_datetime)
 app.add_template_filter(date_format)
 app.add_template_filter(env, "getenv")
+app.add_template_filter(time_ago)
+app.add_template_filter(time_until)
 
 # Register Flask blueprints
 app.after_request(refresh_expiring_jwts)
@@ -144,7 +164,8 @@ with app.app_context():
             f.write("")
 
 if __name__ == "__main__":
-    app.run()
+    socketio.run(app)
+    # app.run()
 
 from app import (backup, exceptions, mediarequest, notifications,
                  partials, plex, routes, scheduler, security)

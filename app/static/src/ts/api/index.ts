@@ -1,5 +1,6 @@
 import './users';
 import './settings';
+import './invitations';
 
 import axios from 'axios';
 import cookie from 'js-cookie';

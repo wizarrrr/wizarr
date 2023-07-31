@@ -229,6 +229,12 @@
         that.querySelector('button').disabled = true;
         that.querySelector('button').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Joining...';
 
+        // Create socket.io connection with /plex namespace
+        let socket = window.utils.io('/plex');
+
+        // Wait for connection
+        await new Promise(resolve => socket.on('connect', resolve));
+
         // Wait half a second for no reason other than to look cool ;)
         await wait(500);
 
@@ -251,9 +257,11 @@
 
         changeTitle(2);
 
-        // Create form data
+        // Create form data and append token and socket id
         let formData = new FormData();
+
         formData.append('token', token);
+        formData.append('socket_id', socket.id);
 
         // Make a request to the server for Server Sent Event url
         let plex = await fetch('/api/plex', {
@@ -280,7 +288,7 @@
         let plex_stream = await plex.json();
 
         // Check if sseJson has a url
-        if (plex_stream.stream == null) {
+        if (plex_stream.room == null) {
             if (plex_stream.message != null) {
                 errorScreen(plex_stream.message);
                 return;
@@ -289,23 +297,19 @@
             return;
         }
 
-        // Create a new EventSource with the url
-        let sse = new EventSource("/api/plex/" + plex_stream.stream);
+        socket.on('message', function (data) {
+            toast.infoToast(data);
+        });
 
-        // If event source is error, show error slide
-        sse.onerror = function () {
-            errorScreen();
-        };
+        socket.on('error', function (data) {
+            errorScreen(data);
+        });
 
-        sse.addEventListener('username', function (event) {
-            toast.infoToast('Hello, ' + event.data + '!');
-        })
+        socket.on('step', async function (data) {
+            changeStep(parseInt(data));
 
-        sse.addEventListener('step', async function (event) {
-            changeStep(parseInt(event.data));
-
-            if (parseInt(event.data) == 3) {
-                sse.close();
+            if (parseInt(data) == 3) {
+                socket.close();
                 await wait(500);
                 changeTitle(2);
                 window.carousel.slideTo(4);
@@ -313,6 +317,6 @@
                 changeTitle(6);
                 window.carousel.slideTo(5);
             }
-        })
+        });
     }
 </script>

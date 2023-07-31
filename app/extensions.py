@@ -5,6 +5,7 @@ from flask_jwt_extended import JWTManager
 from flask_caching import Cache
 from flask_restx import Api
 from flask_apscheduler import APScheduler
+from flask_socketio import SocketIO
 
 sess = Session()
 htmx = HTMX()
@@ -12,4 +13,5 @@ jwt = JWTManager()
 cache = Cache()
 api = Api()
 schedule = APScheduler()
+socketio = SocketIO()
 babel = Babel()

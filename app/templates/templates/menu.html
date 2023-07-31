@@ -39,7 +39,7 @@
                     <div class="flex flex-column space-x-3">
                         <div class="flex flex-column space-x-3">
                             {% if not DISABLE_BUILTIN_AUTH %}
-                            <button class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm" hx-get="/partials/admin/account" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/account" type="button">
+                            <button class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm" type="button" onclick="window.location.href='/admin/settings/profile'">
                                 <i class="fa-solid fa-md fa-user"></i>
                             </button>
                             {% endif %}
