@@ -1,18 +1,17 @@
 from datetime import timedelta
 from json import dumps
-from os import environ, getenv, path, mkdir, access, W_OK, R_OK, remove
+from os import environ, getenv, path, access, W_OK, R_OK
+from sys import argv
 
 from dotenv import load_dotenv
 from flask import Flask
 from packaging import version
 from requests import get
 
-from .logging import *
 from .extensions import *
 from .filters import *
 from .security import *
 
-from flask_sse import ServerSentEvents
 from migrations import migrate
 from models.database import *
 from api import *
@@ -48,7 +47,7 @@ def before_request():
 
 # Run database migrations scripts
 # skip if in debug mode unless --migrate is passed
-if not app.debug:
+if not app.debug or [arg for arg in argv if arg == "--migrate"] or environ.get("DEBUG"):
     migrate()
 
 # Add version to environment variables
@@ -91,6 +90,7 @@ app.config["DEBUG"] = app.debug
 app.config["CACHE_TYPE"] = "SimpleCache"
 app.config["CACHE_DEFAULT_TIMEOUT"] = 300
 app.config["PROPAGATE_EXCEPTIONS"] = app.debug
+app.config["GUNICORN"] = "gunicorn" in environ.get("SERVER_SOFTWARE", "")
 
 # Set global variables for Jinja2 templates
 app.jinja_env.globals.update(APP_NAME="Wizarr")
@@ -115,13 +115,12 @@ log_data    = [
     ["APP_RELEASED", "Beta" if is_beta() else "Stable"],
     ["APP_DEBUG", "DEBUG" if app.debug else "PRODUCTION"],
     ["DISABLE_BUILTIN_AUTH", bool(str(getenv("DISABLE_BUILTIN_AUTH", "False")).lower() == "true")],
+    ["GUNICORN", "gunicorn" in environ.get("SERVER_SOFTWARE", "")],
 ]
 
 colored_log_headers = [colored(header, "cyan") for header in log_headers]
 colored_log_data    = [[colored(data[0], "yellow"), colored(data[1], "green")] for data in log_data]
 print(tabulate(colored_log_data, colored_log_headers, tablefmt="heavy_grid"))
-
-sse = ServerSentEvents()
 
 # Initialize App Extensions
 sess.init_app(app)
@@ -130,7 +129,7 @@ jwt.init_app(app)
 cache.init_app(app)
 api.init_app(app)
 schedule.init_app(app)
-socketio.init_app(app, async_mode="threading" if app.debug else "eventlet")
+socketio.init_app(app, async_mode="gevent" if app.config["GUNICORN"] else "threading", cors_allowed_origins="*")
 babel.init_app(app, locale_selector=get_locale)
 
 # Clear cache on startup
@@ -141,8 +140,8 @@ with app.app_context():
 app.add_template_filter(format_datetime)
 app.add_template_filter(date_format)
 app.add_template_filter(env, "getenv")
-app.add_template_filter(time_ago)
-app.add_template_filter(time_until)
+app.add_template_filter(humanize)
+app.add_template_filter(arrow_humanize)
 
 # Register Flask blueprints
 app.after_request(refresh_expiring_jwts)
@@ -163,9 +162,16 @@ with app.app_context():
         with open(path.join(BASE_DIR, "../", "database", "logs.log"), "w", encoding="utf-8") as f:
             f.write("")
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     socketio.run(app)
-    # app.run()
 
-from app import (backup, exceptions, mediarequest, notifications,
-                 partials, plex, routes, scheduler, security)
+from app import backup
+from app import exceptions
+from app import mediarequest
+from app import notifications
+from app import partials
+from app import plex
+from app import routes
+from app import scheduler
+from app import security
+from app import logging

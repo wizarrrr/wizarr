@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-29 04:27+0100\n"
+"POT-Creation-Date: 2023-08-01 16:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,21 +21,23 @@ msgstr ""
 msgid "Wizarr"
 msgstr ""
 
-#: app/templates/admin.html:21 app/templates/forgot-password.html:44
+#: app/templates/admin.html:20 app/templates/forgot-password.html:44
 #: app/templates/login.html:61
 msgid "Version"
 msgstr ""
 
-#: app/templates/admin.html:53
+#: app/templates/admin.html:20 app/templates/forgot-password.html:44
+#: app/templates/login.html:61
+msgid "Stable"
+msgstr ""
+
+#: app/templates/admin.html:20 app/templates/forgot-password.html:44
+#: app/templates/login.html:61
+msgid "Beta"
+msgstr ""
+
+#: app/templates/admin.html:51
 msgid "Logout failed"
-msgstr ""
-
-#: app/templates/admin.html:78
-msgid "Goodbye"
-msgstr ""
-
-#: app/templates/admin.html:83
-msgid "Logged out successfully"
 msgstr ""
 
 #: app/templates/forgot-password.html:4
@@ -110,7 +112,6 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: app/templates/admin/account.html:28
 #: app/templates/admin/settings/main.html:50
 #: app/templates/admin/settings/password.html:6
 #: app/templates/invite/signup/jellyfin.html:27 app/templates/login.html:36
@@ -133,19 +134,6 @@ msgstr ""
 
 #: app/templates/users.html:5
 msgid "Invite User"
-msgstr ""
-
-#: app/templates/admin/account.html:10
-msgid "Your Account"
-msgstr ""
-
-#: app/templates/admin/account.html:23
-msgid "Account"
-msgstr ""
-
-#: app/templates/admin/account.html:33
-#: app/templates/admin/settings/main.html:57
-msgid "Sessions"
 msgstr ""
 
 #: app/templates/admin/invite.html:4 app/templates/admin/invite.html:193
@@ -213,12 +201,12 @@ msgstr ""
 msgid "Invite to Plex Home"
 msgstr ""
 
-#: app/templates/admin/invite.html:90 app/templates/tables/invite-table.html:14
+#: app/templates/admin/invite.html:90 app/templates/tables/invite-table.html:12
 msgid "Allow Downloads"
 msgstr ""
 
 #: app/templates/admin/invite.html:106 app/templates/admin/invite.html:119
-#: app/templates/tables/invite-table.html:16
+#: app/templates/tables/invite-table.html:14
 msgid "Duration"
 msgstr ""
 
@@ -233,7 +221,8 @@ msgid ""
 msgstr ""
 
 #: app/templates/admin/invite.html:129
-#: app/templates/tables/invite-table.html:11
+#: app/templates/tables/invite-table.html:10
+#: app/templates/tables/invite-table.html:80
 msgid "Unlimited"
 msgstr ""
 
@@ -345,6 +334,11 @@ msgstr ""
 msgid "Add User"
 msgstr ""
 
+#: app/templates/admin/settings/about.html:111
+#: app/templates/admin/settings/about.html:221
+msgid "Load More"
+msgstr ""
+
 #: app/templates/admin/settings/accounts.html:13
 msgid "My Account"
 msgstr ""
@@ -367,53 +361,25 @@ msgid "Discord Widget"
 msgstr ""
 
 #: app/templates/admin/settings/discord.html:19
-#: app/templates/admin/settings/general.html:38
 #: app/templates/admin/settings/html.html:9
+#: app/templates/admin/settings/media.html:38
 #: app/templates/admin/settings/requests.html:26
 msgid "Save"
 msgstr ""
 
 #: app/templates/admin/settings/discord.html:42
-#: app/templates/admin/settings/general.html:54
 #: app/templates/admin/settings/html.html:25
+#: app/templates/admin/settings/media.html:54
 #: app/templates/admin/settings/requests.html:58
 msgid "Settings saved successfully!"
 msgstr ""
 
-#: app/templates/admin/settings/general.html:6
-#: app/templates/setup/pages/settings.html:6
-msgid "Server Display Name"
+#: app/templates/admin/settings/language.html:3
+msgid "Please use the dropdown below to select your language."
 msgstr ""
 
-#: app/templates/admin/settings/general.html:11
-#: app/templates/setup/pages/settings.html:11
-msgid "Server"
-msgstr ""
-
-#: app/templates/admin/settings/general.html:13
-msgid "Choose a server"
-msgstr ""
-
-#: app/templates/admin/settings/general.html:20
-#: app/templates/setup/pages/settings.html:20
-#: app/templates/wizard/pages/jellyfin/download.html:30
-msgid "Server URL"
-msgstr ""
-
-#: app/templates/admin/settings/general.html:25
-#: app/templates/setup/pages/settings.html:25
-msgid "Server Token / API Key"
-msgstr ""
-
-#: app/templates/admin/settings/general.html:30
-#: app/templates/modals/update-libraries.html:3
-#: app/templates/setup/pages/settings.html:37
-msgid "Server Libraries"
-msgstr ""
-
-#: app/templates/admin/settings/general.html:32
-#: app/templates/setup/pages/settings.html:39
-msgid "Scan For Libraries"
+#: app/templates/admin/settings/language.html:7
+msgid "Select Language"
 msgstr ""
 
 #: app/templates/admin/settings/main.html:5
@@ -425,11 +391,11 @@ msgid "General settings for the server"
 msgstr ""
 
 #: app/templates/admin/settings/main.html:9
-msgid "General"
+msgid "Media Server"
 msgstr ""
 
 #: app/templates/admin/settings/main.html:10
-msgid "View and update general settings"
+msgid "Configure your media server settings"
 msgstr ""
 
 #: app/templates/admin/settings/main.html:16
@@ -476,76 +442,132 @@ msgstr ""
 msgid "Change your password"
 msgstr ""
 
+#: app/templates/admin/settings/main.html:57
+msgid "Sessions"
+msgstr ""
+
 #: app/templates/admin/settings/main.html:58
 msgid "View and manage your active sessions"
 msgstr ""
 
-#: app/templates/admin/settings/main.html:66
+#: app/templates/admin/settings/main.html:64
+msgid "Language"
+msgstr ""
+
+#: app/templates/admin/settings/main.html:65
+msgid "Change your language"
+msgstr ""
+
+#: app/templates/admin/settings/main.html:73
 msgid "UI Settings"
 msgstr ""
 
-#: app/templates/admin/settings/main.html:67
+#: app/templates/admin/settings/main.html:74
 msgid "Modify the look and feel of the server"
 msgstr ""
 
-#: app/templates/admin/settings/main.html:70
+#: app/templates/admin/settings/main.html:77
 msgid "Discord"
 msgstr ""
 
-#: app/templates/admin/settings/main.html:71
+#: app/templates/admin/settings/main.html:78
 msgid "Enable Discord page and configure settings"
 msgstr ""
 
-#: app/templates/admin/settings/main.html:77
+#: app/templates/admin/settings/main.html:84
 msgid "Custom HTML"
 msgstr ""
 
-#: app/templates/admin/settings/main.html:78
+#: app/templates/admin/settings/main.html:85
 msgid "Add Custom HTML page to help screen"
 msgstr ""
 
-#: app/templates/admin/settings/main.html:86
+#: app/templates/admin/settings/main.html:93
 msgid "Advanced Settings"
 msgstr ""
 
-#: app/templates/admin/settings/main.html:87
+#: app/templates/admin/settings/main.html:94
 msgid "Advanced settings for the server"
 msgstr ""
 
-#: app/templates/admin/settings/main.html:90
+#: app/templates/admin/settings/main.html:97
 msgid "Logs"
 msgstr ""
 
-#: app/templates/admin/settings/main.html:91
+#: app/templates/admin/settings/main.html:98
 msgid "View and download server logs"
 msgstr ""
 
-#: app/templates/admin/settings/main.html:97
-msgid "Updates"
-msgstr ""
-
-#: app/templates/admin/settings/main.html:98
-msgid "Check for and view updates"
-msgstr ""
-
 #: app/templates/admin/settings/main.html:104
-msgid "Backup"
+msgid "Tasks"
 msgstr ""
 
 #: app/templates/admin/settings/main.html:105
-msgid "Create and restore backups"
+msgid "View and manage scheduled tasks"
 msgstr ""
 
 #: app/templates/admin/settings/main.html:111
-msgid "About"
+msgid "Updates"
 msgstr ""
 
 #: app/templates/admin/settings/main.html:112
+msgid "Check for and view updates"
+msgstr ""
+
+#: app/templates/admin/settings/main.html:118
+msgid "Backup"
+msgstr ""
+
+#: app/templates/admin/settings/main.html:119
+msgid "Create and restore backups"
+msgstr ""
+
+#: app/templates/admin/settings/main.html:125
+msgid "About"
+msgstr ""
+
+#: app/templates/admin/settings/main.html:126
 msgid "View information about the server"
 msgstr ""
 
-#: app/templates/admin/settings/main.html:150
+#: app/templates/admin/settings/main.html:164
 msgid "No settings matched your search."
+msgstr ""
+
+#: app/templates/admin/settings/media.html:6
+#: app/templates/setup/pages/settings.html:6
+msgid "Server Display Name"
+msgstr ""
+
+#: app/templates/admin/settings/media.html:11
+#: app/templates/setup/pages/settings.html:11
+msgid "Server"
+msgstr ""
+
+#: app/templates/admin/settings/media.html:13
+msgid "Choose a server"
+msgstr ""
+
+#: app/templates/admin/settings/media.html:20
+#: app/templates/setup/pages/settings.html:20
+#: app/templates/wizard/pages/jellyfin/download.html:30
+msgid "Server URL"
+msgstr ""
+
+#: app/templates/admin/settings/media.html:25
+#: app/templates/setup/pages/settings.html:25
+msgid "Server Token / API Key"
+msgstr ""
+
+#: app/templates/admin/settings/media.html:30
+#: app/templates/modals/update-libraries.html:3
+#: app/templates/setup/pages/settings.html:37
+msgid "Server Libraries"
+msgstr ""
+
+#: app/templates/admin/settings/media.html:32
+#: app/templates/setup/pages/settings.html:39
+msgid "Scan For Libraries"
 msgstr ""
 
 #: app/templates/admin/settings/notifications.html:18
@@ -632,7 +654,7 @@ msgstr ""
 #: app/templates/invite/join.html:20
 #: app/templates/invite/signup/jellyfin.html:40
 #: app/templates/invite/signup/plex.html:25
-#: app/templates/tables/invite-table.html:7
+#: app/templates/tables/invite-table.html:6
 msgid "Invite Code"
 msgstr ""
 
@@ -828,7 +850,7 @@ msgstr ""
 #: app/templates/modals/revoke-session.html:16
 #: app/templates/tables/admin-users.html:40
 #: app/templates/tables/global-users.html:59
-#: app/templates/tables/invite-table.html:101
+#: app/templates/tables/invite-table.html:100
 #: app/templates/tables/notification-table.html:36
 msgid "Delete"
 msgstr ""
@@ -948,25 +970,33 @@ msgstr ""
 
 #: app/templates/tables/admin-users.html:37
 #: app/templates/tables/global-users.html:56
-#: app/templates/tables/invite-table.html:98
+#: app/templates/tables/invite-table.html:97
 #: app/templates/tables/notification-table.html:33
 msgid "Edit"
 msgstr ""
 
-#: app/templates/tables/invite-table.html:8
+#: app/templates/tables/invite-table.html:7
 msgid "Used"
 msgstr ""
 
-#: app/templates/tables/invite-table.html:9
-msgid "Created"
-msgstr ""
-
-#: app/templates/tables/invite-table.html:10
+#: app/templates/tables/invite-table.html:8
 msgid "Expired"
 msgstr ""
 
-#: app/templates/tables/invite-table.html:12
+#: app/templates/tables/invite-table.html:9
 msgid "Libraries"
+msgstr ""
+
+#: app/templates/tables/invite-table.html:15
+msgid "Created"
+msgstr ""
+
+#: app/templates/tables/invite-table.html:115
+msgid "No Invitations"
+msgstr ""
+
+#: app/templates/tables/invite-table.html:118
+msgid "You have not created any invitations yet."
 msgstr ""
 
 #: app/templates/tables/sessions-table.html:27

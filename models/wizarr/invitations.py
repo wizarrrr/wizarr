@@ -93,7 +93,6 @@ class InvitationsModel(Model):
         if value.replace(microsecond=0) < datetime.utcnow().replace(microsecond=0):
             raise ValidationError("Duration must be in the future")
 
-
     # ANCHOR - Validate specific_libraries
     def validate_specific_libraries(self, _, value):
         # Check that the value is a list
@@ -139,6 +138,10 @@ class InvitationsModel(Model):
         # If specific_libraries is a list, convert it to a string of comma separated values
         if isinstance(invitation["specific_libraries"], list):
             invitation["specific_libraries"] = ",".join(invitation["specific_libraries"])
+
+        # If duration datetime is less than 1 minute in the future set it to none
+        if invitation["duration"] < datetime.utcnow() + timedelta(minutes=1):
+            invitation["duration"] = None
 
         # Create the invitation in the database
         invite: Invitations = Invitations.create(**invitation)

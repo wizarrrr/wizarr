@@ -1,90 +1,85 @@
-# Chinese (Traditional) translations for PROJECT.
+# Translations template for PROJECT.
 # Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-01 16:44+0100\n"
-"PO-Revision-Date: 2023-05-08 06:07+0000\n"
-"Last-Translator: chuanru <roe081499roe@gmail.com>\n"
-"Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/wizarr/app/zh_Hant/>\n"
-"Language: zh_Hant\n"
+"POT-Creation-Date: 2023-07-29 04:27+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: app/templates/admin.html:4
-#, fuzzy
 msgid "Wizarr"
-msgstr "設定 Wizarr"
+msgstr "mago"
 
-#: app/templates/admin.html:20 app/templates/forgot-password.html:44
+#: app/templates/admin.html:21 app/templates/forgot-password.html:44
 #: app/templates/login.html:61
-#, fuzzy
 msgid "Version"
-msgstr "設定"
+msgstr "Versión"
 
-#: app/templates/admin.html:20 app/templates/forgot-password.html:44
-#: app/templates/login.html:61
-#, fuzzy
-msgid "Stable"
-msgstr "儲存"
-
-#: app/templates/admin.html:20 app/templates/forgot-password.html:44
-#: app/templates/login.html:61
-msgid "Beta"
-msgstr "貝塔"
-
-#: app/templates/admin.html:51
+#: app/templates/admin.html:53
 msgid "Logout failed"
-msgstr "註銷失敗"
+msgstr "Cierre de sesión fallido"
+
+#: app/templates/admin.html:78
+msgid "Goodbye"
+msgstr "Adiós"
+
+#: app/templates/admin.html:83
+msgid "Logged out successfully"
+msgstr "Cerrar sesión con éxito"
 
 #: app/templates/forgot-password.html:4
-#, fuzzy
 msgid "Forgot Password"
-msgstr "確認密碼"
+msgstr "Has olvidado tu contraseña"
 
 #: app/templates/forgot-password.html:28 app/templates/login.html:40
 msgid "Forgot your password?"
-msgstr "忘記密碼了嗎？"
+msgstr "¿Olvidaste tu contraseña?"
 
 #: app/templates/forgot-password.html:31
 msgid "No worries, contact the administrator to reset your password."
-msgstr "不用擔心，請聯繫管理員重置您的密碼。"
+msgstr ""
+"No se preocupe, comuníquese con el administrador para restablecer su "
+"contraseña."
 
 #: app/templates/forgot-password.html:34
 msgid ""
 "If you are the administrator, you can reset a password by running the "
 "following script:"
-msgstr "如果您是管理員，可以通過運行以下腳本來重置密碼："
+msgstr ""
+"Si es el administrador, puede restablecer una contraseña ejecutando el "
+"siguiente script:"
 
 #: app/templates/forgot-password.html:39
-#, fuzzy
 msgid "Go Back"
-msgstr "返回"
+msgstr "Regresa"
 
 #: app/templates/forgot-password.html:47 app/templates/login.html:64
 msgid "Toggle Theme"
-msgstr "切換主題"
+msgstr "Alternar tema"
 
 #: app/templates/homepage.html:3 app/templates/templates/menu.html:16
 msgid "Home"
-msgstr "主頁"
+msgstr "Hogar"
 
 #: app/templates/homepage.html:16 app/templates/login.html:4
 #: app/templates/login.html:28
 msgid "Login"
-msgstr "登入"
+msgstr "Acceso"
 
 #: app/templates/homepage.html:25 app/templates/setup/pages/welcome.html:2
-#, fuzzy
 msgid "Welcome to Wizarr"
-msgstr "設定 Wizarr"
+msgstr "Bienvenido a Wizarr"
 
 #: app/templates/homepage.html:28
 msgid ""
@@ -93,735 +88,650 @@ msgid ""
 "With Wizarr, server administrators can easily invite new users and manage "
 "their access permissions."
 msgstr ""
-"Wizarr 是一款軟件工具，可為 Jellyfin、Emby 和 Plex 等媒體服務器提供高級用戶邀請和管理功能。借助 "
-"Wizarr，服務器管理員可以輕鬆邀請新用戶並管理他們的訪問權限。"
+"Wizarr es una herramienta de software que brinda capacidades avanzadas de "
+"invitación y administración de usuarios para servidores de medios como "
+"Jellyfin, Emby y Plex. Con Wizarr, los administradores del servidor pueden "
+"invitar fácilmente a nuevos usuarios y administrar sus permisos de acceso."
 
 #: app/templates/homepage.html:32
 msgid ""
 "If you were sent here by a friend, please request access or if you have an "
 "invite code, please click Get Started."
-msgstr "如果您是由朋友發送到這裡的，請請求訪問權限，或者如果您有邀請碼，請單擊“開始”。"
+msgstr ""
+"Si un amigo lo envió aquí, solicite acceso o si tiene un código de "
+"invitación, haga clic en Comenzar."
 
 #: app/templates/homepage.html:36
 msgid "Get Started"
-msgstr "開始使用"
+msgstr "Empezar"
 
 #: app/templates/homepage.html:41
 msgid "or"
-msgstr "或者"
+msgstr "o"
 
 #: app/templates/homepage.html:45
-#, fuzzy
 msgid "Request Access"
-msgstr "伺服器"
+msgstr "Solicitar acceso"
 
 #: app/templates/admin/settings/profile.html:12
 #: app/templates/invite/signup/jellyfin.html:13 app/templates/login.html:32
 #: app/templates/modals/create-notification-agent.html:143
 #: app/templates/setup/pages/admin.html:7
 msgid "Username"
-msgstr "用戶名稱"
+msgstr "Nombre de usuario"
 
+#: app/templates/admin/account.html:28
 #: app/templates/admin/settings/main.html:50
 #: app/templates/admin/settings/password.html:6
 #: app/templates/invite/signup/jellyfin.html:27 app/templates/login.html:36
 #: app/templates/modals/create-notification-agent.html:148
 #: app/templates/setup/pages/admin.html:15
 msgid "Password"
-msgstr "密碼"
+msgstr "Contraseña"
 
 #: app/templates/login.html:50
 msgid "Remember me"
-msgstr "記住我"
+msgstr "Acuérdate de mí"
 
 #: app/templates/login.html:55
 msgid "Sign in"
-msgstr "登入"
+msgstr "Iniciar sesión"
 
 #: app/templates/login.html:104
-#, fuzzy
 msgid "Internal server error"
-msgstr "内部伺服器錯誤。"
+msgstr "Error Interno del Servidor"
 
 #: app/templates/users.html:5
 msgid "Invite User"
-msgstr "邀請使用者"
+msgstr "Invitar usuario"
+
+#: app/templates/admin/account.html:10
+msgid "Your Account"
+msgstr "Su cuenta"
+
+#: app/templates/admin/account.html:23
+msgid "Account"
+msgstr "Cuenta"
+
+#: app/templates/admin/account.html:33
+#: app/templates/admin/settings/main.html:57
+msgid "Sessions"
+msgstr "Sesiones"
 
 #: app/templates/admin/invite.html:4 app/templates/admin/invite.html:193
 #: app/templates/admin/invite.html:581
 msgid "Create Invitation"
-msgstr "建立邀請"
+msgstr "Crear invitación"
 
 #: app/templates/admin/invite.html:8
-#, fuzzy
 msgid "Create an invitation to your server."
-msgstr "建立邀請"
+msgstr "Cree una invitación a su servidor."
 
 #: app/templates/admin/invite.html:21
 msgid "Invite Code String"
-msgstr "邀請代碼"
+msgstr "Cadena de código de invitación"
 
 #: app/templates/admin/invite.html:21
 msgid "(optional)"
-msgstr "(可選)"
+msgstr "(opcional)"
 
 #: app/templates/admin/invite.html:35
 msgid "Expiration"
-msgstr "到期"
+msgstr "Vencimiento"
 
 #: app/templates/admin/invite.html:38 app/templates/admin/invite.html:130
-#, fuzzy
 msgid "1 Day"
-msgstr "1天"
+msgstr "1 día"
 
 #: app/templates/admin/invite.html:39 app/templates/admin/invite.html:131
-#, fuzzy
 msgid "1 Week"
-msgstr "一週"
+msgstr "1 semana"
 
 #: app/templates/admin/invite.html:40 app/templates/admin/invite.html:132
-#, fuzzy
 msgid "1 Month"
-msgstr "一個月"
+msgstr "1 mes"
 
 #: app/templates/admin/invite.html:41 app/templates/admin/invite.html:133
-#, fuzzy
 msgid "6 Months"
-msgstr "一個月"
+msgstr "6 meses"
 
 #: app/templates/admin/invite.html:42 app/templates/admin/invite.html:134
 msgid "1 Year"
-msgstr "1年"
+msgstr "1 año"
 
 #: app/templates/admin/invite.html:43
 msgid "Never"
-msgstr "從不"
+msgstr "Nunca"
 
 #: app/templates/admin/invite.html:44 app/templates/admin/invite.html:135
 msgid "Custom"
-msgstr "風俗"
+msgstr "Costumbre"
 
 #: app/templates/admin/invite.html:52
-#, fuzzy
 msgid "Custom Expiration"
-msgstr "到期"
+msgstr "Caducidad personalizada"
 
 #: app/templates/admin/invite.html:60
 msgid "Advanced Options"
-msgstr "進階選項"
+msgstr "Opciones avanzadas"
 
 #: app/templates/admin/invite.html:70
 msgid "Unlimited Usages"
-msgstr "無限制使用"
+msgstr "Usos ilimitados"
 
 #: app/templates/admin/invite.html:79
-#, fuzzy
 msgid "Invite to Plex Home"
-msgstr "邀請代碼"
+msgstr "Invitar a Plex Home"
 
 #: app/templates/admin/invite.html:90
-#: app/templates/tables/invite-table.html:12
-#, fuzzy
+#: app/templates/tables/invite-table.html:14
 msgid "Allow Downloads"
-msgstr "下載"
+msgstr "Permitir descargas"
 
 #: app/templates/admin/invite.html:106 app/templates/admin/invite.html:119
-#: app/templates/tables/invite-table.html:14
+#: app/templates/tables/invite-table.html:16
 msgid "Duration"
-msgstr "持續時間"
+msgstr "Duración"
 
 #: app/templates/admin/invite.html:114
 msgid "Show Information"
-msgstr "顯示資訊"
+msgstr "Muestra información"
 
 #: app/templates/admin/invite.html:120
-#, fuzzy
 msgid ""
 "When set, invited user(s) will be removed from the server after the set "
 "number of days. (1-999)"
 msgstr ""
-"當設定時，被邀請的使用者將在以下情况下被從 Plex 伺服器上删除\n"
-"                                        用戶數\n"
-"                                        天候從 Plex 伺服器上删除。(1-999)"
+"Cuando se establece, los usuarios invitados se eliminarán del servidor "
+"después del número de días establecido. (1-999)"
 
 #: app/templates/admin/invite.html:129
-#: app/templates/tables/invite-table.html:10
-#: app/templates/tables/invite-table.html:80
+#: app/templates/tables/invite-table.html:11
 msgid "Unlimited"
-msgstr "無限制"
+msgstr "Ilimitado"
 
 #: app/templates/admin/invite.html:143
-#, fuzzy
 msgid "Custom Duration"
-msgstr "持續時間"
+msgstr "Duración personalizada"
 
 #: app/templates/admin/invite.html:151
-#, fuzzy
 msgid "Specific Libraries"
-msgstr "媒體庫"
+msgstr "Bibliotecas específicas"
 
 #: app/templates/admin/invite.html:155
 #: app/templates/modals/scan-libraries.html:3
 #: app/templates/modals/scan-libraries.html:22
-#, fuzzy
 msgid "Select Libraries"
-msgstr "媒體庫"
+msgstr "Seleccionar bibliotecas"
 
 #: app/templates/admin/invite.html:184
-#, fuzzy
 msgid "Select All"
-msgstr "預設"
+msgstr "Seleccionar todo"
 
 #: app/templates/admin/invite.html:202
 msgid "Successfully generated an Invitation!"
-msgstr "已成功產生邀請！"
+msgstr "¡Se generó una invitación con éxito!"
 
 #: app/templates/admin/invite.html:206 app/templates/admin/invite.html:356
 msgid "Link has been copied to clipboard!"
-msgstr "邀請連結以複製到剪貼簿！"
+msgstr "¡El enlace ha sido copiado al portapapeles!"
 
 #: app/templates/admin/invite.html:212 app/templates/admin/settings.html:23
 #: app/templates/error/404.html:20 app/templates/wizard/base.html:35
 #: app/templates/wizard/base.html:49
 msgid "Back"
-msgstr "返回"
+msgstr "Atrás"
 
 #: app/templates/admin/invite.html:218
 msgid "Share"
-msgstr "分享"
+msgstr "Compartir"
 
 #: app/templates/admin/invite.html:357
 msgid "An error occurred while copying the link to the clipboard!"
-msgstr "將鏈接複製到剪貼板時發生錯誤！"
+msgstr "¡Ocurrió un error al copiar el enlace al portapapeles!"
 
 #: app/templates/admin/invite.html:481
-#, fuzzy
 msgid "Deselect all"
-msgstr "預設"
+msgstr "Deseleccionar todo"
 
 #: app/templates/admin/invite.html:483
-#, fuzzy
 msgid "Select all"
-msgstr "預設"
+msgstr "Seleccionar todo"
 
 #: app/templates/admin/invite.html:507
 msgid "Creating..."
-msgstr "創造..."
+msgstr "Creando..."
 
 #: app/templates/admin/invite.html:575
 msgid "The invite has been created"
-msgstr "邀請已創建"
+msgstr "La invitación ha sido creada."
 
 #: app/templates/admin/invite.html:578
 msgid "There was an error creating the invite"
-msgstr "創建邀請時出錯"
+msgstr "Hubo un error al crear la invitación."
 
 #: app/templates/admin/invites.html:4 app/templates/templates/menu.html:22
 msgid "Invitations"
-msgstr "邀請"
+msgstr "Invitaciones"
 
 #: app/templates/admin/invites.html:8
-#, fuzzy
 msgid "Manage your invitations"
-msgstr "邀請"
+msgstr "Gestiona tus invitaciones"
 
 #: app/templates/admin/invites.html:13
-#, fuzzy
 msgid "Create Invite"
-msgstr "建立邀請"
+msgstr "Crear invitación"
 
 #: app/templates/admin/invites.html:16
-#, fuzzy
 msgid "Delete All"
-msgstr "預設"
+msgstr "Eliminar todos"
 
 #: app/templates/admin/settings.html:6
 msgid "Server Settings"
-msgstr "伺服器設定"
+msgstr "Configuración del servidor"
 
 #: app/templates/admin/settings.html:10
-#, fuzzy
 msgid "Configure your server settings."
-msgstr "伺服器設定"
+msgstr "Configure los ajustes de su servidor."
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
-msgstr "使用者設置"
+msgstr "Configuración de usuario"
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
-msgstr "使用者政策"
+msgstr "Política de usuario"
 
 #: app/templates/admin/users.html:4
-#, fuzzy
 msgid "Invited Users"
-msgstr "邀請使用者"
+msgstr "Usuarios invitados"
 
 #: app/templates/admin/users.html:8
 msgid "Manage users that joined your server"
-msgstr "管理加入您服務器的用戶"
+msgstr "Administrar usuarios que se unieron a su servidor"
 
 #: app/templates/admin/users.html:13
-#, fuzzy
 msgid "Scan Users"
-msgstr "使用者"
+msgstr "Escanear usuarios"
 
 #: app/templates/admin/users.html:19
-#, fuzzy
 msgid "Add User"
-msgstr "使用者"
-
-#: app/templates/admin/settings/about.html:111
-#: app/templates/admin/settings/about.html:221
-msgid "Load More"
-msgstr "裝載更多"
+msgstr "Agregar usuario"
 
 #: app/templates/admin/settings/accounts.html:13
-#, fuzzy
 msgid "My Account"
-msgstr "設定帳戶"
+msgstr "Mi cuenta"
 
 #: app/templates/admin/settings/accounts.html:16
-#, fuzzy
 msgid "Add Admin"
-msgstr "管理員"
+msgstr "Agregar administrador"
 
 #: app/templates/admin/settings/api.html:38
 #: app/templates/modals/create-api-key.html:3
-#, fuzzy
 msgid "Create API Key"
-msgstr "建立一個帳號"
+msgstr "Crear clave API"
 
 #: app/templates/admin/settings/discord.html:4
-#, fuzzy
 msgid "Discord Server ID"
-msgstr ""
-"Discord\n"
-"                伺服器ID"
+msgstr "ID del servidor de discordia"
 
 #: app/templates/admin/settings/discord.html:9
 msgid "Discord Widget"
-msgstr "不和諧小部件"
+msgstr "Widget de discordia"
 
 #: app/templates/admin/settings/discord.html:19
+#: app/templates/admin/settings/general.html:38
 #: app/templates/admin/settings/html.html:9
-#: app/templates/admin/settings/media.html:38
 #: app/templates/admin/settings/requests.html:26
 msgid "Save"
-msgstr "儲存"
+msgstr "Ahorrar"
 
 #: app/templates/admin/settings/discord.html:42
+#: app/templates/admin/settings/general.html:54
 #: app/templates/admin/settings/html.html:25
-#: app/templates/admin/settings/media.html:54
 #: app/templates/admin/settings/requests.html:58
 msgid "Settings saved successfully!"
-msgstr "設置保存成功！"
+msgstr "¡Configuraciones guardadas con éxito!"
 
-#: app/templates/admin/settings/language.html:3
-msgid "Please use the dropdown below to select your language."
-msgstr "請使用下面的下拉菜單選擇您的語言。"
-
-#: app/templates/admin/settings/language.html:7
-#, fuzzy
-msgid "Select Language"
-msgstr "媒體庫"
-
-#: app/templates/admin/settings/main.html:5
-#, fuzzy
-msgid "Main Settings"
-msgstr "設定"
-
-#: app/templates/admin/settings/main.html:6
-msgid "General settings for the server"
-msgstr "服務器的常規設置"
-
-#: app/templates/admin/settings/main.html:9
-#, fuzzy
-msgid "Media Server"
-msgstr "伺服器"
-
-#: app/templates/admin/settings/main.html:10
-#, fuzzy
-msgid "Configure your media server settings"
-msgstr "伺服器設定"
-
-#: app/templates/admin/settings/main.html:16
-msgid "Requests"
-msgstr "要求"
-
-#: app/templates/admin/settings/main.html:17
-msgid "Add Jellyseerr, Overseerr or Ombi support"
-msgstr "添加 Jellyserr、Overseerr 或 Ombi 支持"
-
-#: app/templates/admin/settings/main.html:23
-#, fuzzy
-msgid "API keys"
-msgstr "建立一個帳號"
-
-#: app/templates/admin/settings/main.html:24
-msgid "Add API keys for external services"
-msgstr "添加外部服務的 API 密鑰"
-
-#: app/templates/admin/settings/main.html:30
-#, fuzzy
-msgid "Notifications"
-msgstr "邀請"
-
-#: app/templates/admin/settings/main.html:31
-msgid "Configure notification settings"
-msgstr "配置通知設置"
-
-#: app/templates/admin/settings/main.html:39
-#, fuzzy
-msgid "Account Settings"
-msgstr "設定"
-
-#: app/templates/admin/settings/main.html:40
-#, fuzzy
-msgid "Settings for user accounts"
-msgstr "設定帳戶"
-
-#: app/templates/admin/settings/main.html:43
-msgid "Profile"
-msgstr "輪廓"
-
-#: app/templates/admin/settings/main.html:44
-#, fuzzy
-msgid "Configure your profile settings"
-msgstr "在瀏覽器中設置 Plex"
-
-#: app/templates/admin/settings/main.html:51
-#, fuzzy
-msgid "Change your password"
-msgstr "確認密碼"
-
-#: app/templates/admin/settings/main.html:57
-#, fuzzy
-msgid "Sessions"
-msgstr "設定"
-
-#: app/templates/admin/settings/main.html:58
-msgid "View and manage your active sessions"
-msgstr "查看和管理您的活動會話"
-
-#: app/templates/admin/settings/main.html:64
-msgid "Language"
-msgstr "語言"
-
-#: app/templates/admin/settings/main.html:65
-#, fuzzy
-msgid "Change your language"
-msgstr "確認密碼"
-
-#: app/templates/admin/settings/main.html:73
-#, fuzzy
-msgid "UI Settings"
-msgstr "設定"
-
-#: app/templates/admin/settings/main.html:74
-msgid "Modify the look and feel of the server"
-msgstr "修改服務器的外觀"
-
-#: app/templates/admin/settings/main.html:77
-msgid "Discord"
-msgstr "不和諧"
-
-#: app/templates/admin/settings/main.html:78
-msgid "Enable Discord page and configure settings"
-msgstr "啟用 Discord 頁面並配置設置"
-
-#: app/templates/admin/settings/main.html:84
-#, fuzzy
-msgid "Custom HTML"
-msgstr "持續時間"
-
-#: app/templates/admin/settings/main.html:85
-msgid "Add Custom HTML page to help screen"
-msgstr "添加自定義 HTML 頁面到幫助屏幕"
-
-#: app/templates/admin/settings/main.html:93
-#, fuzzy
-msgid "Advanced Settings"
-msgstr "進階選項"
-
-#: app/templates/admin/settings/main.html:94
-msgid "Advanced settings for the server"
-msgstr "服務器的高級設置"
-
-#: app/templates/admin/settings/main.html:97
-#, fuzzy
-msgid "Logs"
-msgstr "登入"
-
-#: app/templates/admin/settings/main.html:98
-msgid "View and download server logs"
-msgstr "查看和下載服務器日誌"
-
-#: app/templates/admin/settings/main.html:104
-msgid "Tasks"
-msgstr "任務"
-
-#: app/templates/admin/settings/main.html:105
-msgid "View and manage scheduled tasks"
-msgstr "查看和管理計劃任務"
-
-#: app/templates/admin/settings/main.html:111
-#, fuzzy
-msgid "Updates"
-msgstr "媒體庫"
-
-#: app/templates/admin/settings/main.html:112
-msgid "Check for and view updates"
-msgstr "檢查並查看更新"
-
-#: app/templates/admin/settings/main.html:118
-#, fuzzy
-msgid "Backup"
-msgstr "返回"
-
-#: app/templates/admin/settings/main.html:119
-#, fuzzy
-msgid "Create and restore backups"
-msgstr "建立一個帳號"
-
-#: app/templates/admin/settings/main.html:125
-#, fuzzy
-msgid "About"
-msgstr "設定帳戶"
-
-#: app/templates/admin/settings/main.html:126
-msgid "View information about the server"
-msgstr "查看服務器信息"
-
-#: app/templates/admin/settings/main.html:164
-msgid "No settings matched your search."
-msgstr "沒有與您的搜索匹配的設置。"
-
-#: app/templates/admin/settings/media.html:6
+#: app/templates/admin/settings/general.html:6
 #: app/templates/setup/pages/settings.html:6
-#, fuzzy
 msgid "Server Display Name"
-msgstr ""
-"伺服器\n"
-"              名稱"
+msgstr "Nombre para mostrar del servidor"
 
-#: app/templates/admin/settings/media.html:11
+#: app/templates/admin/settings/general.html:11
 #: app/templates/setup/pages/settings.html:11
 msgid "Server"
-msgstr "伺服器"
+msgstr "Servidor"
 
-#: app/templates/admin/settings/media.html:13
+#: app/templates/admin/settings/general.html:13
 msgid "Choose a server"
-msgstr "選擇服務器"
+msgstr "Elige un servidor"
 
-#: app/templates/admin/settings/media.html:20
+#: app/templates/admin/settings/general.html:20
 #: app/templates/setup/pages/settings.html:20
 #: app/templates/wizard/pages/jellyfin/download.html:30
 msgid "Server URL"
-msgstr "伺服器網址"
+msgstr "URL del servidor"
 
-#: app/templates/admin/settings/media.html:25
+#: app/templates/admin/settings/general.html:25
 #: app/templates/setup/pages/settings.html:25
-#, fuzzy
 msgid "Server Token / API Key"
-msgstr ""
-"伺服器\n"
-"              Token / API Key"
+msgstr "Token de servidor/clave API"
 
-#: app/templates/admin/settings/media.html:30
+#: app/templates/admin/settings/general.html:30
 #: app/templates/modals/update-libraries.html:3
 #: app/templates/setup/pages/settings.html:37
-#, fuzzy
 msgid "Server Libraries"
-msgstr "媒體庫"
+msgstr "Bibliotecas del servidor"
 
-#: app/templates/admin/settings/media.html:32
+#: app/templates/admin/settings/general.html:32
 #: app/templates/setup/pages/settings.html:39
 msgid "Scan For Libraries"
-msgstr "掃描媒體庫"
+msgstr "Buscar bibliotecas"
+
+#: app/templates/admin/settings/main.html:5
+msgid "Main Settings"
+msgstr "Ajustes principales"
+
+#: app/templates/admin/settings/main.html:6
+msgid "General settings for the server"
+msgstr "Configuración general del servidor"
+
+#: app/templates/admin/settings/main.html:9
+msgid "General"
+msgstr "General"
+
+#: app/templates/admin/settings/main.html:10
+msgid "View and update general settings"
+msgstr "Ver y actualizar la configuración general"
+
+#: app/templates/admin/settings/main.html:16
+msgid "Requests"
+msgstr "Peticiones"
+
+#: app/templates/admin/settings/main.html:17
+msgid "Add Jellyseerr, Overseerr or Ombi support"
+msgstr "Añadir compatibilidad con Jellyseerr, Overseerr u Ombi"
+
+#: app/templates/admin/settings/main.html:23
+msgid "API keys"
+msgstr "claves API"
+
+#: app/templates/admin/settings/main.html:24
+msgid "Add API keys for external services"
+msgstr "Agregar claves API para servicios externos"
+
+#: app/templates/admin/settings/main.html:30
+msgid "Notifications"
+msgstr "Notificaciones"
+
+#: app/templates/admin/settings/main.html:31
+msgid "Configure notification settings"
+msgstr "Configurar ajustes de notificación"
+
+#: app/templates/admin/settings/main.html:39
+msgid "Account Settings"
+msgstr "Configuraciones de la cuenta"
+
+#: app/templates/admin/settings/main.html:40
+msgid "Settings for user accounts"
+msgstr "Configuraciones para cuentas de usuario"
+
+#: app/templates/admin/settings/main.html:43
+msgid "Profile"
+msgstr "Perfil"
+
+#: app/templates/admin/settings/main.html:44
+msgid "Configure your profile settings"
+msgstr "Configure los ajustes de su perfil"
+
+#: app/templates/admin/settings/main.html:51
+msgid "Change your password"
+msgstr "cambia tu contraseña"
+
+#: app/templates/admin/settings/main.html:58
+msgid "View and manage your active sessions"
+msgstr "Ver y administrar sus sesiones activas"
+
+#: app/templates/admin/settings/main.html:66
+msgid "UI Settings"
+msgstr "Configuración de la interfaz de usuario"
+
+#: app/templates/admin/settings/main.html:67
+msgid "Modify the look and feel of the server"
+msgstr "Modificar la apariencia del servidor"
+
+#: app/templates/admin/settings/main.html:70
+msgid "Discord"
+msgstr "Discordia"
+
+#: app/templates/admin/settings/main.html:71
+msgid "Enable Discord page and configure settings"
+msgstr "Habilitar la página de Discord y configurar los ajustes"
+
+#: app/templates/admin/settings/main.html:77
+msgid "Custom HTML"
+msgstr "HTML personalizado"
+
+#: app/templates/admin/settings/main.html:78
+msgid "Add Custom HTML page to help screen"
+msgstr "Agregar página HTML personalizada a la pantalla de ayuda"
+
+#: app/templates/admin/settings/main.html:86
+msgid "Advanced Settings"
+msgstr "Ajustes avanzados"
+
+#: app/templates/admin/settings/main.html:87
+msgid "Advanced settings for the server"
+msgstr "Configuración avanzada para el servidor"
+
+#: app/templates/admin/settings/main.html:90
+msgid "Logs"
+msgstr "Registros"
+
+#: app/templates/admin/settings/main.html:91
+msgid "View and download server logs"
+msgstr "Ver y descargar registros del servidor"
+
+#: app/templates/admin/settings/main.html:97
+msgid "Updates"
+msgstr "Actualizaciones"
+
+#: app/templates/admin/settings/main.html:98
+msgid "Check for and view updates"
+msgstr "Buscar y ver actualizaciones"
+
+#: app/templates/admin/settings/main.html:104
+msgid "Backup"
+msgstr "Respaldo"
+
+#: app/templates/admin/settings/main.html:105
+msgid "Create and restore backups"
+msgstr "Crear y restaurar copias de seguridad"
+
+#: app/templates/admin/settings/main.html:111
+msgid "About"
+msgstr "Acerca de"
+
+#: app/templates/admin/settings/main.html:112
+msgid "View information about the server"
+msgstr "Ver información sobre el servidor."
+
+#: app/templates/admin/settings/main.html:150
+msgid "No settings matched your search."
+msgstr "Ninguna configuración coincidió con su búsqueda."
 
 #: app/templates/admin/settings/notifications.html:18
-#, fuzzy
 msgid "Create Agent"
-msgstr "建立一個帳號"
+msgstr "Crear agente"
 
 #: app/templates/admin/settings/password.html:12
-#, fuzzy
 msgid "Confirm Password"
-msgstr "確認密碼"
+msgstr "confirmar Contraseña"
 
 #: app/templates/admin/settings/password.html:19
-#, fuzzy
 msgid "Reset Password"
-msgstr "密碼"
+msgstr "Restablecer la contraseña"
 
 #: app/templates/admin/settings/profile.html:6
-#, fuzzy
 msgid "Display Name"
-msgstr ""
-"伺服器\n"
-"              名稱"
+msgstr "Nombre para mostrar"
 
 #: app/templates/admin/settings/profile.html:18
 msgid "Email Address"
-msgstr "電子郵件地址"
+msgstr "Dirección de correo electrónico"
 
 #: app/templates/admin/settings/profile.html:25
 msgid "Update"
-msgstr "更新"
+msgstr "Actualizar"
 
 #: app/templates/admin/settings/requests.html:4
-#, fuzzy
 msgid "Request Server"
-msgstr "伺服器"
+msgstr "Solicitar servidor"
 
 #: app/templates/admin/settings/requests.html:6
 msgid "Disabled"
-msgstr "殘疾人"
+msgstr "Desactivado"
 
 #: app/templates/admin/settings/requests.html:15
-#, fuzzy
 msgid "Request Server URL"
-msgstr "伺服器網址"
+msgstr "Solicitar URL del servidor"
 
 #: app/templates/admin/settings/requests.html:20
 msgid "Request Server API Key"
-msgstr "請求服務器 API 密鑰"
+msgstr "Solicitar clave API del servidor"
 
 #: app/templates/admin/settings/sessions.html:14
 msgid "Revoke All"
-msgstr "全部撤銷"
+msgstr "revocar todo"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
-msgstr "權限不足。"
+msgstr "Permiso denegado."
 
 #: app/templates/error/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr "您嘗試做一些你不該做的事..."
+msgstr "Estás intentando hacer algo que no deberías estar haciendo..."
 
 #: app/templates/error/404.html:31
 msgid "Something's missing."
-msgstr "有些東西不見了。"
+msgstr "Algo falta, algo está faltando."
 
 #: app/templates/error/404.html:33
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "抱歉，我們找不到該頁面。 它似乎不存在！"
+msgstr "Lo sentimos, no podemos encontrar esa página. ¡Parece que no existe!"
 
 #: app/templates/error/500.html:19
 msgid "Internal Server Error."
-msgstr "内部伺服器錯誤。"
+msgstr "Error Interno del Servidor."
 
 #: app/templates/error/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr " 出了點問題。請稍後在試。"
+msgstr "Algo salió mal. Por favor, inténtelo de nuevo más tarde."
 
 #: app/templates/error/custom.html:20
 msgid "Get Help"
-msgstr "得到幫助"
+msgstr "Consigue ayuda"
 
 #: app/templates/invite/invite-invalid.html:15
-#, fuzzy
 msgid "Invalid Invitation"
-msgstr "邀請"
+msgstr "Invitación no válida"
 
 #: app/templates/invite/join.html:10
-#, fuzzy, python-format
+#, python-format
 msgid "Type in your invite code to %(name)s server!"
-msgstr "您已經被邀請加入 %(name)s 伺服器！"
+msgstr "¡Escribe tu código de invitación al servidor de %(name)s!"
 
 #: app/templates/invite/join.html:20
 #: app/templates/invite/signup/jellyfin.html:40
 #: app/templates/invite/signup/plex.html:25
-#: app/templates/tables/invite-table.html:6
+#: app/templates/tables/invite-table.html:7
 msgid "Invite Code"
-msgstr "邀請代碼"
+msgstr "Codigo de invitacion"
 
 #: app/templates/invite/join.html:27 app/templates/invite/signup/plex.html:33
 msgid "Join"
-msgstr "加入"
+msgstr "Unirse"
 
 #: app/templates/invite/signup.html:7 app/templates/invite/signup.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr "您已經被邀請加入 %(name)s 伺服器！"
+msgstr "¡Ha sido invitado a unirse al servidor de %(name)s!"
 
 #: app/templates/invite/signup/jellyfin.html:3
 msgid "Set up Account"
-msgstr "設定帳戶"
+msgstr "Configurar la cuenta"
 
 #: app/templates/invite/signup/jellyfin.html:19
 #: app/templates/setup/pages/admin.html:11
 msgid "Email"
-msgstr "電子郵件"
+msgstr "Correo electrónico"
 
 #: app/templates/invite/signup/jellyfin.html:33
 #: app/templates/setup/pages/admin.html:19
 msgid "Confirm password"
-msgstr "確認密碼"
+msgstr "Confirmar Contraseña"
 
 #: app/templates/invite/signup/jellyfin.html:45
 msgid "Create an account"
-msgstr "建立一個帳號"
+msgstr "Crea una cuenta"
 
 #: app/templates/invite/signup/plex.html:3
 msgid "Join the Plex Server"
-msgstr "加入 Plex 伺服器"
+msgstr "Únete al servidor Plex"
 
 #: app/templates/invite/signup/plex.html:4
-#, fuzzy
 msgid "Sign in to Plex"
-msgstr "登入"
+msgstr "Iniciar sesión en Plex"
 
 #: app/templates/invite/signup/plex.html:5
 msgid "Please wait"
-msgstr "請稍等"
+msgstr "Espere por favor"
 
 #: app/templates/invite/signup/plex.html:6
-#, fuzzy
 msgid "Setting up your account"
-msgstr "設定帳戶"
+msgstr "Configurando tu cuenta"
 
 #: app/templates/invite/signup/plex.html:7
 msgid "Almost there!"
-msgstr "差不多了！"
+msgstr "¡Casi llegamos!"
 
 #: app/templates/invite/signup/plex.html:8
 msgid "All done!"
-msgstr "全做完了！"
+msgstr "¡Todo listo!"
 
 #: app/templates/invite/signup/plex.html:9
-#, fuzzy
 msgid "Account created!"
-msgstr "建立"
+msgstr "¡Cuenta creada!"
 
 #: app/templates/invite/signup/plex.html:10
 msgid "Please try again"
-msgstr "請再試一次"
+msgstr "Inténtalo de nuevo"
 
 #: app/templates/invite/signup/plex.html:78
 msgid ""
 "You're all set, click continue to get started and walkthrough how to use "
 "Plex!"
-msgstr "一切就緒，單擊“繼續”開始並演練如何使用 Plex！"
+msgstr ""
+"Ya está todo listo, haga clic en continuar para comenzar y ver cómo usar "
+"Plex."
 
 #: app/templates/invite/signup/plex.html:81
 msgid "Continue"
-msgstr "繼續"
+msgstr "Continuar"
 
 #: app/templates/invite/signup/plex.html:90
-#, fuzzy
 msgid "Something went wrong, please try again."
-msgstr " 出了點問題。請稍後在試。"
+msgstr "Algo salió mal. Por favor, vuelva a intentarlo."
 
 #: app/templates/invite/signup/plex.html:93
 msgid "Retry"
-msgstr "重試"
+msgstr "Rever"
 
 #: app/templates/modals/create-api-key.html:9
 #: app/templates/modals/create-notification-agent.html:13
 msgid "Name"
-msgstr "名稱"
+msgstr "Nombre"
 
 #: app/templates/modals/create-api-key.html:14
 #: app/templates/modals/create-notification-agent.html:46
@@ -832,60 +742,55 @@ msgstr "名稱"
 #: app/templates/modals/scan-libraries.html:19
 #: app/templates/modals/update-libraries.html:23
 msgid "Cancel"
-msgstr "取消"
+msgstr "Cancelar"
 
 #: app/templates/modals/create-api-key.html:17
-#, fuzzy
 msgid "Create"
-msgstr "建立"
+msgstr "Crear"
 
 #: app/templates/modals/create-api-key.html:46
 msgid "Please fill out all required fields."
-msgstr "請填寫所有必填字段。"
+msgstr "Por favor llene todos los campos requeridos."
 
 #: app/templates/modals/create-api-key.html:70
 msgid "API key already exists."
-msgstr "API 密鑰已存在。"
+msgstr "La clave API ya existe."
 
 #: app/templates/modals/create-api-key.html:76
 #: app/templates/modals/delete-notification-agent.html:35
 msgid "You are not authorized to perform this action."
-msgstr "您無權執行此操作。"
+msgstr "No está autorizado para realizar esta acción."
 
 #: app/templates/modals/create-api-key.html:82
 #: app/templates/modals/run-task.html:35
-#, fuzzy
 msgid "Something went wrong."
-msgstr " 出了點問題。請稍後在試。"
+msgstr "Algo salió mal."
 
 #: app/templates/modals/create-api-key.html:86
-#, fuzzy
 msgid "API key created."
-msgstr "建立"
+msgstr "Clave de API creada."
 
 #: app/templates/modals/create-notification-agent.html:3
 msgid "New Agent"
-msgstr "新代理"
+msgstr "nuevo agente"
 
 #: app/templates/modals/create-notification-agent.html:18
 msgid "Notification Service"
-msgstr "通知服務"
+msgstr "Servicio de notificaciones"
 
 #: app/templates/modals/create-notification-agent.html:20
 msgid "Choose a service"
-msgstr "選擇服務"
+msgstr "Elige un servicio"
 
 #: app/templates/modals/create-notification-agent.html:30
 #: app/templates/modals/create-notification-agent.html:88
-#, fuzzy
 msgid "Username (optional)"
-msgstr "(可選)"
+msgstr "Nombre de usuario (opcional)"
 
 #: app/templates/modals/create-notification-agent.html:34
 #: app/templates/modals/create-notification-agent.html:93
-#, fuzzy
 msgid "Password (optional)"
-msgstr "(可選)"
+msgstr "Contraseña (opcional)"
 
 #: app/templates/modals/create-notification-agent.html:39
 #: app/templates/modals/create-notification-agent.html:98
@@ -893,154 +798,148 @@ msgstr "(可選)"
 #: app/templates/modals/create-notification-agent.html:136
 #: app/templates/modals/create-notification-agent.html:153
 msgid "Agent URL"
-msgstr "代理網址"
+msgstr "URL del agente"
 
 #: app/templates/modals/create-notification-agent.html:49
 msgid "Test & Create Agent"
-msgstr "測試和創建代理"
+msgstr "Probar y crear agente"
 
 #: app/templates/modals/create-notification-agent.html:105
 msgid "Webhook ID"
-msgstr "網絡鉤子 ID"
+msgstr "abhuk ed"
 
 #: app/templates/modals/create-notification-agent.html:111
 msgid "Webhook Token"
-msgstr "網絡鉤子令牌"
+msgstr "ficha estúpida"
 
 #: app/templates/modals/create-notification-agent.html:124
-#, fuzzy
 msgid "User Key"
-msgstr "使用者政策"
+msgstr "Clave de usuario"
 
 #: app/templates/modals/create-notification-agent.html:130
 msgid "API Token"
-msgstr "API令牌"
+msgstr "token de API"
 
 #: app/templates/modals/create-notification-agent.html:242
 #: app/templates/modals/create-notification-agent.html:249
-#, fuzzy
 msgid "Something went wrong. Please try again."
-msgstr " 出了點問題。請稍後在試。"
+msgstr "Algo salió mal. Inténtalo de nuevo."
 
 #: app/templates/modals/create-notification-agent.html:253
 msgid "Notification agent successfully created!"
-msgstr "通知代理已成功創建！"
+msgstr "¡Agente de notificación creado con éxito!"
 
 #: app/templates/modals/delete-api-key.html:3
 #: app/templates/modals/revoke-session.html:3
 msgid "Warning"
-msgstr "警告"
+msgstr "Advertencia"
 
 #: app/templates/modals/delete-api-key.html:8
 msgid "Are you sure you want to delete this api key?"
-msgstr "您確定要刪除此 api 密鑰嗎？"
+msgstr "¿Está seguro de que desea eliminar esta clave API?"
 
 #: app/templates/modals/delete-api-key.html:16
 #: app/templates/modals/delete-notification-agent.html:16
 #: app/templates/modals/revoke-session.html:16
 #: app/templates/tables/admin-users.html:40
 #: app/templates/tables/global-users.html:59
-#: app/templates/tables/invite-table.html:100
+#: app/templates/tables/invite-table.html:101
 #: app/templates/tables/notification-table.html:36
-#, fuzzy
 msgid "Delete"
-msgstr "預設"
+msgstr "Borrar"
 
 #: app/templates/modals/delete-notification-agent.html:41
 msgid "An error occurred while deleting the Notification Agent."
-msgstr "刪除通知代理時出錯。"
+msgstr "Ocurrió un error al eliminar el Agente de notificación."
 
 #: app/templates/modals/delete-notification-agent.html:45
 msgid "Notification Agent deleted successfully!"
-msgstr "通知代理刪除成功！"
+msgstr "¡Agente de notificación eliminado con éxito!"
 
 #: app/templates/modals/revoke-session.html:8
 msgid "Are you sure you want to revoke this session?"
-msgstr "您確定要撤銷此會話嗎？"
+msgstr "¿Está seguro de que desea revocar esta sesión?"
 
 #: app/templates/modals/revoke-session.html:41
-#, fuzzy
 msgid "Something went wrong.Please try again."
-msgstr " 出了點問題。請稍後在試。"
+msgstr "Algo salió mal. Por favor, vuelva a intentarlo."
 
 #: app/templates/modals/revoke-session.html:46
 msgid "Session deleted successfully!"
-msgstr "會話刪除成功！"
+msgstr "¡Sesión eliminada con éxito!"
 
 #: app/templates/modals/run-task.html:3 app/templates/modals/run-task.html:16
 msgid "Run Task"
-msgstr "運行任務"
+msgstr "Ejecutar tarea"
 
 #: app/templates/modals/run-task.html:8
 msgid "Are you sure you want to run this task?"
-msgstr "您確定要運行此任務嗎？"
+msgstr "¿Está seguro de que desea ejecutar esta tarea?"
 
 #: app/templates/modals/run-task.html:39
 msgid "Task has been run."
-msgstr "任務已運行。"
+msgstr "La tarea se ha ejecutado."
 
 #: app/templates/modals/update-libraries.html:26
-#, fuzzy
 msgid "Update Libraries"
-msgstr "媒體庫"
+msgstr "Actualizar bibliotecas"
 
 #: app/templates/modals/update-libraries.html:88
-#, fuzzy
 msgid "Unable to update libraries"
-msgstr "媒體庫"
+msgstr "No se pueden actualizar las bibliotecas"
 
 #: app/templates/setup/base.html:12
 msgid "Setup Wizarr"
-msgstr "設定 Wizarr"
+msgstr "Asistente de configuración"
 
 #: app/templates/setup/pages/admin.html:2
-#, fuzzy
 msgid "Admin Account"
-msgstr "建立一個帳號"
+msgstr "Cuenta de administrador"
 
 #: app/templates/setup/pages/admin.html:24
-#, fuzzy
 msgid "Create account"
-msgstr "建立一個帳號"
+msgstr "Crear una cuenta"
 
 #: app/templates/setup/pages/complete.html:2
 msgid "Your Done"
-msgstr "你完成了"
+msgstr "Terminaste"
 
 #: app/templates/setup/pages/complete.html:5
 msgid "You have successfully completed the setup process."
-msgstr "您已成功完成設置過程。"
+msgstr "Ha completado con éxito el proceso de configuración."
 
 #: app/templates/setup/pages/complete.html:9
 msgid "Go to Dashboard"
-msgstr "轉到儀表板"
+msgstr "Ir al panel de control"
 
 #: app/templates/setup/pages/database.html:2
 msgid "Database"
-msgstr "數據庫"
+msgstr "Base de datos"
 
 #: app/templates/setup/pages/database.html:5
 msgid "Currently Wizarr only supports it's internal SQLite database."
-msgstr "目前Wizarr僅支持其內部SQLite數據庫。"
+msgstr "Actualmente, Wizarr solo admite su base de datos SQLite interna."
 
 #: app/templates/setup/pages/database.html:7
 msgid ""
 "This is a temporary and we are working on adding support for other "
 "databases."
-msgstr "這是臨時的，我們正在努力添加對其他數據庫的支持。"
+msgstr ""
+"Esto es temporal y estamos trabajando para agregar soporte para otras bases "
+"de datos."
 
 #: app/templates/setup/pages/settings.html:2
 #: app/templates/templates/menu.html:34
 msgid "Settings"
-msgstr "設定"
+msgstr "Ajustes"
 
 #: app/templates/setup/pages/settings.html:31
 msgid "Test"
-msgstr "測試"
+msgstr "Prueba"
 
 #: app/templates/setup/pages/settings.html:45
 msgid "Done"
-msgstr "完畢"
+msgstr "Hecho"
 
 #: app/templates/setup/pages/welcome.html:5
 msgid ""
@@ -1050,216 +949,209 @@ msgid ""
 " provides guidance on downloading clients and instructions for using "
 "Jellyseerr, Overseerr or Ombi site."
 msgstr ""
-"Wizarr 是 Plex、Jellyfin 和 Emby "
-"的自動用戶邀請系統。使用Wizarr，您可以輕鬆創建獨特的邀請鏈接與用戶共享，自動邀請他們訪問您的媒體服務器！此外，Wizarr "
-"還提供有關下載客戶端的指南以及使用 Jellyseerr、Overseerr 或 Ombi 網站的說明。"
+"Wizarr es un sistema automático de invitación de usuarios para Plex, "
+"Jellyfin y Emby. Con Wizarr, puede crear fácilmente enlaces de invitación "
+"únicos para compartir con los usuarios, ¡invitándolos automáticamente a su "
+"servidor de medios! Además, Wizarr brinda orientación sobre la descarga de "
+"clientes e instrucciones para usar el sitio Jellyseerr, Overseerr u Ombi."
 
 #: app/templates/setup/pages/welcome.html:8
 msgid ""
 "We hope you enjoy using Wizarr and invite you to explore its powerful "
 "features and intuitive interface. Should you need any assistance, please "
 "refer to our documentation or reach out to our community for support."
-msgstr "我們希望您喜歡使用 Wizarr，並邀請您探索其強大的功能和直觀的界面。如果您需要任何幫助，請參閱我們的文檔或聯繫我們的社區尋求支持。"
+msgstr ""
+"Esperamos que disfrute usando Wizarr y lo invitamos a explorar sus potentes "
+"funciones y su interfaz intuitiva. Si necesita ayuda, consulte nuestra "
+"documentación o comuníquese con nuestra comunidad para obtener ayuda."
 
 #: app/templates/setup/pages/welcome.html:11
 msgid ""
 "Check out our documentation for detailed instructions on how to install and "
 "run Wizarr!"
-msgstr "查看我們的文檔，了解有關如何安裝和運行 Wizarr 的詳細說明！"
+msgstr ""
+"Consulte nuestra documentación para obtener instrucciones detalladas sobre "
+"cómo instalar y ejecutar Wizarr."
 
 #: app/templates/tables/admin-users.html:37
 #: app/templates/tables/global-users.html:56
-#: app/templates/tables/invite-table.html:97
+#: app/templates/tables/invite-table.html:98
 #: app/templates/tables/notification-table.html:33
 msgid "Edit"
-msgstr "編輯"
-
-#: app/templates/tables/invite-table.html:7
-msgid "Used"
-msgstr "已使用"
+msgstr "Editar"
 
 #: app/templates/tables/invite-table.html:8
-msgid "Expired"
-msgstr "已到期"
+msgid "Used"
+msgstr "Usado"
 
 #: app/templates/tables/invite-table.html:9
-msgid "Libraries"
-msgstr "媒體庫"
-
-#: app/templates/tables/invite-table.html:15
 msgid "Created"
-msgstr "建立"
+msgstr "Creado"
 
-#: app/templates/tables/invite-table.html:115
-#, fuzzy
-msgid "No Invitations"
-msgstr "邀請"
+#: app/templates/tables/invite-table.html:10
+msgid "Expired"
+msgstr "Venció"
 
-#: app/templates/tables/invite-table.html:118
-#, fuzzy
-msgid "You have not created any invitations yet."
-msgstr "建立邀請"
+#: app/templates/tables/invite-table.html:12
+msgid "Libraries"
+msgstr "bibliotecas"
 
 #: app/templates/tables/sessions-table.html:27
 msgid "Revoke"
-msgstr "撤銷"
+msgstr "Revocar"
 
 #: app/templates/tables/task-table.html:7
-#, fuzzy
 msgid "Job Name"
-msgstr "名稱"
+msgstr "Nombre del trabajo"
 
 #: app/templates/tables/task-table.html:8
 msgid "Next Execution"
-msgstr "下一次執行"
+msgstr "Próxima ejecución"
 
 #: app/templates/tables/task-table.html:40
 msgid "Run Now"
-msgstr "現在跑步"
+msgstr "Corre ahora"
 
 #: app/templates/templates/menu.html:28
 msgid "Users"
-msgstr "使用者"
+msgstr "Usuarios"
 
 #: app/templates/templates/update.html:13
 msgid "Attention!"
-msgstr "注意！"
+msgstr "¡Atención!"
 
 #: app/templates/templates/update.html:14
 msgid "Update available. Click here."
-msgstr "有可用的更新。請點擊此處。"
+msgstr "Actualización disponible. Haga clic aquí."
 
 #: app/templates/wizard/base.html:4
 msgid "Help"
-msgstr "幫助"
+msgstr "Ayuda"
 
 #: app/templates/wizard/base.html:12
 msgid "Getting Started!"
-msgstr "入門！"
+msgstr "¡Empezando!"
 
 #: app/templates/wizard/base.html:38
 msgid "Next"
-msgstr "下一個"
+msgstr "Próximo"
 
 #: app/templates/wizard/base.html:45
-#, fuzzy
 msgid "Open"
-msgstr "打開 Plex"
+msgstr "Abierto"
 
 #: app/templates/wizard/pages/requests.html:4
 msgid "Automatic Media Requests"
-msgstr "自動媒體請求"
+msgstr "Solicitudes automáticas de medios"
 
 #: app/templates/wizard/pages/requests.html:9
-#, fuzzy
 msgid ""
 "We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
 "        something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
 "        media you're looking for. "
 msgstr ""
-"我們很高興為您提供多種媒體供您選擇。 如果您找不到自己喜歡的東西，請不要擔心！\n"
-"    我們有一個使用者優化的請求系統，\n"
-"    可以自動搜索您正在尋找的媒體。 "
+"Nos complace ofrecerle una amplia selección de medios para elegir. Si tiene problemas para encontrar\n"
+"        algo que te guste, no te preocupes! Tenemos un sistema de solicitud fácil de usar que puede buscar automáticamente el\n"
+"        medios que está buscando."
 
 #: app/templates/wizard/pages/requests.html:20
 msgid "Request any available Movie or TV Show"
-msgstr "請求任何可用的電影或電視節目"
+msgstr "Solicite cualquier película o programa de televisión disponible"
 
 #: app/templates/wizard/pages/requests.html:27
-#, fuzzy
 msgid "Requested media will be automatically downloaded (if available)"
-msgstr "要求的媒體將自動下載并添加到媒體庫中（如果可用的話）"
+msgstr ""
+"Los medios solicitados se descargarán automáticamente (si están disponibles)"
 
 #: app/templates/wizard/pages/requests.html:34
 msgid "If enabled, receive notifications"
-msgstr "如果可用，接收通知"
+msgstr "Si está habilitado, recibir notificaciones"
 
 #: app/templates/wizard/pages/requests.html:40
 msgid "Check it Out"
-msgstr "檢查"
+msgstr "Échale un vistazo"
 
 #: app/templates/wizard/pages/jellyfin/download.html:2
-#, fuzzy
 msgid ""
 "Join & Download Jellyfin\n"
 "        for this device"
 msgstr ""
-"加入並下載 Jellyfin\n"
-"            提供給此裝置"
+"Únete y descarga Jellyfin\n"
+"        para este dispositivo"
 
 #: app/templates/wizard/pages/jellyfin/download.html:7
-#, fuzzy
 msgid ""
 "Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 "    it with Jellyfin."
 msgstr ""
-"好消息！你現在可以訪問我們伺服器的媒體收藏\n"
-"        讓我們確保您知道如何在 Jellyfin 上使用它。"
+"¡Una gran noticia! Ahora tiene acceso a la colección de medios de nuestro servidor. Asegurémonos de que sabes cómo usar\n"
+"    con Jellyfin."
 
 #: app/templates/wizard/pages/jellyfin/download.html:11
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
-msgstr "計畫在此裝置上觀看電影？下载此裝置的 Jellyfin。"
+msgstr ""
+"¿Planea ver películas en este dispositivo? Descarga Jellyfin para este "
+"dispositivo."
 
 #: app/templates/wizard/pages/jellyfin/download.html:19
 msgid ""
 "If you don't wish to Download the App feel free to use Jellyfin in your "
 "devices web browser, just click \"Next\"."
-msgstr "如果您不想下載應用程序，請隨時在設備的網絡瀏覽器中使用 Jellyfin，只需單擊“下一步”。"
+msgstr ""
+"Si no desea descargar la aplicación, puede usar Jellyfin en el navegador web"
+" de su dispositivo, simplemente haga clic en \"Siguiente\"."
 
 #: app/templates/wizard/pages/jellyfin/download.html:25
-#, fuzzy
 msgid "Show Server URL"
-msgstr "伺服器網址"
+msgstr "Mostrar URL del servidor"
 
 #: app/templates/wizard/pages/jellyfin/download.html:34
 #: app/templates/wizard/pages/jellyfin/download.html:191
 msgid "Copy"
-msgstr "複製"
+msgstr "Copiar"
 
 #: app/templates/wizard/pages/jellyfin/download.html:59
 #: app/templates/wizard/pages/jellyfin/download.html:83
 msgid "Open Jellyfin"
-msgstr "打開 Jellyfin"
+msgstr "Jellyfin abierto"
 
 #: app/templates/wizard/pages/jellyfin/download.html:139
-#, fuzzy
 msgid "Other Download"
-msgstr "下載"
+msgstr "Otra descarga"
 
 #: app/templates/wizard/pages/jellyfin/download.html:188
 msgid "Copied!"
-msgstr "複製了！"
+msgstr "¡Copiado!"
 
 #: app/templates/wizard/pages/jellyfin/tips.html:3
 #: app/templates/wizard/pages/plex/tips.html:3
 msgid "Right, so how do I watch stuff?"
-msgstr "對，那我該如何觀看？"
+msgstr "Correcto, entonces, ¿cómo veo cosas?"
 
 #: app/templates/wizard/pages/jellyfin/tips.html:6
-#, fuzzy
 msgid ""
 "It couldn't be simpler! Jellyfin is available on a wide variety of devices "
 "including laptops, tablets, smartphones, and TVs. All you need to do is "
 "download the Jellyfin app on your device, sign in with your account, and "
 "you're ready to start streaming your media."
 msgstr ""
-"再簡單不過了！Jellyfin 適用於多種設備，包括筆記型電腦、平板電腦、智慧手機和電視。\n"
-"        您需要做的就是在您的設備上下載 Jellyfin 應用程序，使用您的帳戶登錄，\n"
-"        然後\n"
-"        您就可以開始串流媒體了。 就這麼簡單！"
+"¡No podría ser más sencillo! Jellyfin está disponible en una amplia variedad"
+" de dispositivos, incluidas computadoras portátiles, tabletas, teléfonos "
+"inteligentes y televisores. Todo lo que necesita hacer es descargar la "
+"aplicación Jellyfin en su dispositivo, iniciar sesión con su cuenta y estará"
+" listo para comenzar a transmitir sus medios."
 
 #: app/templates/wizard/pages/jellyfin/tips.html:9
 msgid "It's that easy!"
-msgstr "就是這麼簡單！"
+msgstr "¡Es fácil!"
 
 #: app/templates/wizard/pages/jellyfin/welcome.html:3
 msgid "Eh, So, What is Jellyfin exactly?"
-msgstr "嗯，那麼，Jellyfin 到底是什麼？"
+msgstr "Eh, entonces, ¿qué es Jellyfin exactamente?"
 
 #: app/templates/wizard/pages/jellyfin/welcome.html:6
-#, fuzzy
 msgid ""
 "Jellyfin is a platform that lets you stream all your favorite movies, TV "
 "shows, and music in one place. It's like having your own personal movie "
@@ -1267,272 +1159,94 @@ msgid ""
 "favorite content that you can access from anywhere, on any device - your "
 "phone, tablet, laptop, smart TV, you name it."
 msgstr ""
-"Jellyfin 是一個平台，可讓您在一個地方流式傳輸所有喜愛的電影、電視節目和音樂。\n"
-"        這就像觸手可及的私人電影院！ 把它想象成一个包含您最喜爱内容的數位媒體庫，\n"
-"        您可以從任何地方在任何設備上瀏覽您最喜愛的內容\n"
-"        （您的手機、平板電腦、筆記型電腦、智慧電視）。"
+"Jellyfin es una plataforma que te permite transmitir todas tus películas, "
+"programas de TV y música favoritos en un solo lugar. ¡Es como tener tu "
+"propia sala de cine personal al alcance de tu mano! Piense en ello como una "
+"biblioteca digital de su contenido favorito al que puede acceder desde "
+"cualquier lugar, en cualquier dispositivo: su teléfono, tableta, computadora"
+" portátil, televisor inteligente, lo que sea."
 
 #: app/templates/wizard/pages/plex/download.html:4
-#, fuzzy
 msgid "Join & Download Plex for this device"
-msgstr ""
-"加入並下載 Plex\n"
-"            提供給此裝置"
+msgstr "Únete y descarga Plex para este dispositivo"
 
 #: app/templates/wizard/pages/plex/download.html:8
-#, fuzzy
 msgid ""
 "So you now have access to our server's media collection. Let's make sure you"
 " know how to use it with Plex."
 msgstr ""
-"好消息！你現在可以訪問我們伺服器的媒體收藏\n"
-"        讓我們確保您知道如何在 Plex 上使用它。"
+"Así que ahora tiene acceso a la colección de medios de nuestro servidor. "
+"Asegurémonos de que sabe cómo usarlo con Plex."
 
 #: app/templates/wizard/pages/plex/download.html:11
 msgid ""
 "Planning on watching Movies on this device? Download Plex for this device."
-msgstr "計畫在此裝置上觀看電影？下载此裝置的 Plex。"
+msgstr ""
+"¿Planea ver películas en este dispositivo? Descarga Plex para este "
+"dispositivo."
 
 #: app/templates/wizard/pages/plex/download.html:14
 msgid "Download"
-msgstr "下載"
+msgstr "Descargar"
 
 #: app/templates/wizard/pages/plex/tips.html:6
-#, fuzzy
 msgid ""
 "It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
 "        smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"再簡單不過了！ Plex 適用於多種設備，包括筆記型電腦、平板電腦、智慧手機和電視。\n"
-"    您需要做的就是在您的設備上下載 Plex 應用程序，使用您的帳戶登錄，\n"
-"    然後您就可以開始串流媒體了。 就這麼簡單！"
+"¡No podría ser más sencillo! Plex está disponible en una amplia variedad de dispositivos, incluidas computadoras portátiles, tabletas,\n"
+"        teléfonos inteligentes y televisores. Todo lo que necesita hacer es descargar la aplicación Plex en su dispositivo, iniciar sesión con su cuenta y\n"
+"        está listo para comenzar a transmitir sus medios. ¡Es fácil!"
 
 #: app/templates/wizard/pages/plex/tips.html:11
 msgid "How can I make sure to have the best experience?"
-msgstr "我怎樣才能確保擁有最好的體驗？"
+msgstr "¿Cómo puedo asegurarme de tener la mejor experiencia?"
 
 #: app/templates/wizard/pages/plex/tips.html:14
-#, fuzzy
 msgid ""
 "Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
 "        sharing with you - they also, by default, play content at a lower quality. "
 msgstr ""
-"因為 Plex 是一項免費服務，所以他們會在您朋友現在的精彩內容之前宣傳自己的內容\n"
-"    與您分享 - 默認情況下，他們還以較低質量播放內容。 "
+"Debido a que Plex es un servicio gratuito, promocionan su propio contenido antes que el increíble contenido que tu amigo tiene ahora.\n"
+"        compartir con usted; también, de manera predeterminada, reproducen contenido en una calidad inferior."
 
 #: app/templates/wizard/pages/plex/tips.html:17
 msgid "No need to worry though, this can be easily resolved"
-msgstr "不過不用擔心，這很容易解決"
+msgstr ""
+"Sin embargo, no hay necesidad de preocuparse, esto se puede resolver "
+"fácilmente."
 
 #: app/templates/wizard/pages/plex/tips.html:17
-#, fuzzy
 msgid ""
 "We highly\n"
 "            recommend you to go through those steps first!"
 msgstr ""
-"我們強烈建議\n"
-"      您先完成這些步驟！"
+"Nosotros altamente\n"
+"            ¡Te recomiendo que sigas esos pasos primero!"
 
 #: app/templates/wizard/pages/plex/welcome.html:3
 msgid "Eh, So, What is Plex exactly?"
-msgstr "嗯，那麼，Plex到底是什麼？"
+msgstr "Eh, entonces, ¿qué es Plex exactamente?"
 
 #: app/templates/wizard/pages/plex/welcome.html:6
-#, fuzzy
 msgid ""
 "Great question! Plex is a software that allows individuals to share their "
 "media collections with others. If you've received this invitation, it means "
 "someone wants to share their library with you."
 msgstr ""
-"好問題！ Plex 是一種允許個人與他人共享媒體收藏的程式。\n"
-"    如果您收到此邀請，則表示有人想與您共享他們的媒體庫。\n"
-"    使用 Plex，您可以瀏覽存儲在其伺服器上的所有電影、電視節目、音樂和照片。 享受愉快！"
+"¡Gran pregunta! Plex es un software que permite a las personas compartir sus"
+" colecciones de medios con otros. Si ha recibido esta invitación, significa "
+"que alguien quiere compartir su biblioteca con usted."
 
 #: app/templates/wizard/pages/plex/welcome.html:9
 msgid ""
 "With Plex, you'll have access to all of the movies, TV shows, music, and "
 "photos that are stored on their server!"
-msgstr "通過 Plex，您將可以訪問存儲在其服務器上的所有電影、電視節目、音樂和照片！"
+msgstr ""
+"¡Con Plex, tendrá acceso a todas las películas, programas de TV, música y "
+"fotos que están almacenadas en su servidor!"
 
 #: app/templates/wizard/pages/plex/welcome.html:12
 msgid "So let's see how to get started!"
-msgstr "那麼讓我們看看如何開始吧！"
-
-#~ msgid "Change Server Settings"
-#~ msgstr "更改伺服器設定"
-
-#~ msgid "Invite Used"
-#~ msgstr "邀請使用者"
-
-#~ msgid "User"
-#~ msgstr "使用者"
-
-#~ msgid "Home User"
-#~ msgstr "家庭使用者"
-
-#~ msgid ""
-#~ "Server\n"
-#~ "                Libraries"
-#~ msgstr ""
-#~ "伺服器\n"
-#~ "                媒體庫"
-
-#~ msgid ""
-#~ "Request\n"
-#~ "                instance (Ombi, Overseerr...) URL"
-#~ msgstr ""
-#~ "要求\n"
-#~ "                實例 (Ombi, Overseerr...)"
-
-#~ msgid "Ombi API Key (Only used for user import currently.)"
-#~ msgstr "Ombi API Key (僅用於使用者導入)"
-
-#~ msgid ""
-#~ "Custom\n"
-#~ "                HTML"
-#~ msgstr ""
-#~ "自定義\n"
-#~ "                HTML"
-
-#~ msgid "Notification Agents"
-#~ msgstr "通知代理"
-
-#~ msgid ""
-#~ "Username\n"
-#~ "                                (optional)"
-#~ msgstr ""
-#~ "邀請\n"
-#~ "                                代碼"
-
-#~ msgid ""
-#~ "Agent\n"
-#~ "                                URL"
-#~ msgstr ""
-#~ "邀請\n"
-#~ "                                代碼"
-
-#~ msgid "Expires"
-#~ msgstr "到期"
-
-#~ msgid "Actions"
-#~ msgstr "動作"
-
-#~ msgid "Available"
-#~ msgstr "允許的"
-
-#~ msgid "Default"
-#~ msgstr "預設"
-
-#~ msgid "Passwords do not match."
-#~ msgstr "密碼不正確。"
-
-#~ msgid "Username must be between 3 and 15 characters."
-#~ msgstr "用户名稱必須在3-15 個字元之間。"
-
-#~ msgid "Password must be between 3 and 40 characters."
-#~ msgstr "密碼必須在3到40個字元之間。"
-
-#~ msgid "You must select at least one library."
-#~ msgstr "您必須至少選擇一個媒體庫。"
-
-#~ msgid "It is likely that your token does not work."
-#~ msgstr "您的 token 很可能不起作用。"
-
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
-#~ msgstr "無法連線至 Plex 伺服器。有關詳細訊息，請參閱 Log 檔。"
-
-#~ msgid "Unable to connect to your Jellyfin server."
-#~ msgstr "無法連線到你的Jellyfin伺服器。"
-
-#~ msgid "Invalid Username or Password"
-#~ msgstr "使用者名稱或密碼錯誤"
-
-#~ msgid "Oops!"
-#~ msgstr "哎呀！"
-
-#~ msgid ""
-#~ "Confirm\n"
-#~ "                                password"
-#~ msgstr ""
-#~ "確認\n"
-#~ "                                密碼"
-
-#~ msgid ""
-#~ "Invite\n"
-#~ "                                Code"
-#~ msgstr ""
-#~ "邀請\n"
-#~ "                                代碼"
-
-#~ msgid "(in days)"
-#~ msgstr "(以天為單位)"
-
-#~ msgid ""
-#~ "Specific\n"
-#~ "                                Libraries"
-#~ msgstr ""
-#~ "特定\n"
-#~ "                                媒體庫"
-
-#~ msgid "Custom HTML"
-#~ msgstr "自定義 HTML"
-
-#~ msgid "Hello"
-#~ msgstr "你好"
-
-#~ msgid "Logged in successfully"
-#~ msgstr "登錄成功"
-
-#~ msgid "Unauthorized attempted access"
-#~ msgstr "未經授權的嘗試訪問"
-
-#~ msgid "Could not find the requested page"
-#~ msgstr "找不到請求的頁面"
-
-#~ msgid "Quick Invite"
-#~ msgstr "快速邀請"
-
-#~ msgid "Server Invites"
-#~ msgstr "伺服器設定"
-
-#~ msgid "HTML"
-#~ msgstr "超文本標記語言"
-
-#~ msgid "API"
-#~ msgstr "應用程序編程接口"
-
-#~ msgid "Accounts"
-#~ msgstr "設定帳戶"
-
-#~ msgid "Tasks"
-#~ msgstr "任務"
-
-#~ msgid "Server Users"
-#~ msgstr "伺服器網址"
-
-#~ msgid ""
-#~ "Currently Wizarr only supports internal SQLite database. This is a temporary"
-#~ " and we are working on adding support for other databases."
-#~ msgstr "目前Wizarr僅支持內部SQLite數據庫。這是臨時的，我們正在努力添加對其他數據庫的支持。"
-
-#~ msgid "Configure Plex's app on your computer, mobile device or TV"
-#~ msgstr "在您的電腦、移動裝置或電視上設置 Plex 的應用程式"
-
-#~ msgid "Goodbye"
-#~ msgstr "再見"
-
-#~ msgid "Logged out successfully"
-#~ msgstr "退出成功"
-
-#~ msgid "Your Account"
-#~ msgstr "設定帳戶"
-
-#~ msgid "Account"
-#~ msgstr "設定帳戶"
-
-#~ msgid "General"
-#~ msgstr "一般的"
-
-#~ msgid "View and update general settings"
-#~ msgstr "查看和更新​​常規設置"
+msgstr "¡Así que veamos cómo empezar!"

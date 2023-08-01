@@ -7,718 +7,753 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-29 04:27+0100\n"
+"POT-Creation-Date: 2023-08-01 16:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
-"Language: ru\n"
 "Language-Team: none\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: app/templates/admin.html:4
 msgid "Wizarr"
-msgstr ""
+msgstr "Волшебник"
 
-#: app/templates/admin.html:21 app/templates/forgot-password.html:44
+#: app/templates/admin.html:20 app/templates/forgot-password.html:44
 #: app/templates/login.html:61
 msgid "Version"
-msgstr ""
+msgstr "Версия"
 
-#: app/templates/admin.html:53
+#: app/templates/admin.html:20 app/templates/forgot-password.html:44
+#: app/templates/login.html:61
+msgid "Stable"
+msgstr "Стабильный"
+
+#: app/templates/admin.html:20 app/templates/forgot-password.html:44
+#: app/templates/login.html:61
+msgid "Beta"
+msgstr "Бета"
+
+#: app/templates/admin.html:51
 msgid "Logout failed"
-msgstr ""
-
-#: app/templates/admin.html:78
-msgid "Goodbye"
-msgstr ""
-
-#: app/templates/admin.html:83
-msgid "Logged out successfully"
-msgstr ""
+msgstr "Ошибка выхода"
 
 #: app/templates/forgot-password.html:4
 msgid "Forgot Password"
-msgstr ""
+msgstr "Забыли пароль"
 
 #: app/templates/forgot-password.html:28 app/templates/login.html:40
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Забыли пароль?"
 
 #: app/templates/forgot-password.html:31
 msgid "No worries, contact the administrator to reset your password."
-msgstr ""
+msgstr "Не беспокойтесь, свяжитесь с администратором, чтобы сбросить пароль."
 
 #: app/templates/forgot-password.html:34
 msgid ""
 "If you are the administrator, you can reset a password by running the "
 "following script:"
 msgstr ""
+"Если вы являетесь администратором, вы можете сбросить пароль, запустив "
+"следующий скрипт:"
 
 #: app/templates/forgot-password.html:39
 msgid "Go Back"
-msgstr ""
+msgstr "Возвращаться"
 
 #: app/templates/forgot-password.html:47 app/templates/login.html:64
 msgid "Toggle Theme"
-msgstr ""
+msgstr "Переключить тему"
 
 #: app/templates/homepage.html:3 app/templates/templates/menu.html:16
 msgid "Home"
-msgstr ""
+msgstr "Дом"
 
 #: app/templates/homepage.html:16 app/templates/login.html:4
 #: app/templates/login.html:28
 msgid "Login"
-msgstr ""
+msgstr "Авторизоваться"
 
 #: app/templates/homepage.html:25 app/templates/setup/pages/welcome.html:2
 msgid "Welcome to Wizarr"
-msgstr ""
+msgstr "Добро пожаловать в Волшебник"
 
 #: app/templates/homepage.html:28
 msgid ""
 "Wizarr is a software tool that provides advanced user invitation and "
-"management capabilities for media servers such as Jellyfin, Emby, and "
-"Plex. With Wizarr, server administrators can easily invite new users and "
-"manage their access permissions."
+"management capabilities for media servers such as Jellyfin, Emby, and Plex. "
+"With Wizarr, server administrators can easily invite new users and manage "
+"their access permissions."
 msgstr ""
+"Wizarr — это программный инструмент, предоставляющий расширенные возможности"
+" приглашения пользователей и управления ими для медиасерверов, таких как "
+"Jellyfin, Emby и Plex. С помощью Wizarr администраторы серверов могут легко "
+"приглашать новых пользователей и управлять их правами доступа."
 
 #: app/templates/homepage.html:32
 msgid ""
-"If you were sent here by a friend, please request access or if you have "
-"an invite code, please click Get Started."
+"If you were sent here by a friend, please request access or if you have an "
+"invite code, please click Get Started."
 msgstr ""
+"Если вас послал сюда друг, запросите доступ или, если у вас есть код "
+"приглашения, нажмите «Начать»."
 
 #: app/templates/homepage.html:36
 msgid "Get Started"
-msgstr ""
+msgstr "Начать"
 
 #: app/templates/homepage.html:41
 msgid "or"
-msgstr ""
+msgstr "или"
 
 #: app/templates/homepage.html:45
 msgid "Request Access"
-msgstr ""
+msgstr "Запрос доступа"
 
 #: app/templates/admin/settings/profile.html:12
 #: app/templates/invite/signup/jellyfin.html:13 app/templates/login.html:32
 #: app/templates/modals/create-notification-agent.html:143
 #: app/templates/setup/pages/admin.html:7
 msgid "Username"
-msgstr ""
+msgstr "Имя пользователя"
 
-#: app/templates/admin/account.html:28
 #: app/templates/admin/settings/main.html:50
 #: app/templates/admin/settings/password.html:6
 #: app/templates/invite/signup/jellyfin.html:27 app/templates/login.html:36
 #: app/templates/modals/create-notification-agent.html:148
 #: app/templates/setup/pages/admin.html:15
 msgid "Password"
-msgstr ""
+msgstr "Пароль"
 
 #: app/templates/login.html:50
 msgid "Remember me"
-msgstr ""
+msgstr "Запомнить меня"
 
 #: app/templates/login.html:55
 msgid "Sign in"
-msgstr ""
+msgstr "Войти"
 
 #: app/templates/login.html:104
 msgid "Internal server error"
-msgstr ""
+msgstr "Внутренняя ошибка сервера"
 
 #: app/templates/users.html:5
 msgid "Invite User"
-msgstr ""
-
-#: app/templates/admin/account.html:10
-msgid "Your Account"
-msgstr ""
-
-#: app/templates/admin/account.html:23
-msgid "Account"
-msgstr ""
-
-#: app/templates/admin/account.html:33
-#: app/templates/admin/settings/main.html:57
-msgid "Sessions"
-msgstr ""
+msgstr "Пригласить пользователя"
 
 #: app/templates/admin/invite.html:4 app/templates/admin/invite.html:193
 #: app/templates/admin/invite.html:581
 msgid "Create Invitation"
-msgstr ""
+msgstr "Создать приглашение"
 
 #: app/templates/admin/invite.html:8
 msgid "Create an invitation to your server."
-msgstr ""
+msgstr "Создайте приглашение на свой сервер."
 
 #: app/templates/admin/invite.html:21
 msgid "Invite Code String"
-msgstr ""
+msgstr "Строка кода приглашения"
 
 #: app/templates/admin/invite.html:21
 msgid "(optional)"
-msgstr ""
+msgstr "(необязательный)"
 
 #: app/templates/admin/invite.html:35
 msgid "Expiration"
-msgstr ""
+msgstr "Срок действия"
 
 #: app/templates/admin/invite.html:38 app/templates/admin/invite.html:130
 msgid "1 Day"
-msgstr ""
+msgstr "1 день"
 
 #: app/templates/admin/invite.html:39 app/templates/admin/invite.html:131
 msgid "1 Week"
-msgstr ""
+msgstr "1 неделя"
 
 #: app/templates/admin/invite.html:40 app/templates/admin/invite.html:132
 msgid "1 Month"
-msgstr ""
+msgstr "1 месяц"
 
 #: app/templates/admin/invite.html:41 app/templates/admin/invite.html:133
 msgid "6 Months"
-msgstr ""
+msgstr "6 месяцев"
 
 #: app/templates/admin/invite.html:42 app/templates/admin/invite.html:134
 msgid "1 Year"
-msgstr ""
+msgstr "1 год"
 
 #: app/templates/admin/invite.html:43
 msgid "Never"
-msgstr ""
+msgstr "Никогда"
 
 #: app/templates/admin/invite.html:44 app/templates/admin/invite.html:135
 msgid "Custom"
-msgstr ""
+msgstr "Обычай"
 
 #: app/templates/admin/invite.html:52
 msgid "Custom Expiration"
-msgstr ""
+msgstr "Пользовательский срок действия"
 
 #: app/templates/admin/invite.html:60
 msgid "Advanced Options"
-msgstr ""
+msgstr "Расширенные настройки"
 
 #: app/templates/admin/invite.html:70
 msgid "Unlimited Usages"
-msgstr ""
+msgstr "Неограниченное использование"
 
 #: app/templates/admin/invite.html:79
 msgid "Invite to Plex Home"
-msgstr ""
+msgstr "Пригласить в Plex Home"
 
-#: app/templates/admin/invite.html:90 app/templates/tables/invite-table.html:14
+#: app/templates/admin/invite.html:90
+#: app/templates/tables/invite-table.html:12
 msgid "Allow Downloads"
-msgstr ""
+msgstr "Разрешить загрузки"
 
 #: app/templates/admin/invite.html:106 app/templates/admin/invite.html:119
-#: app/templates/tables/invite-table.html:16
+#: app/templates/tables/invite-table.html:14
 msgid "Duration"
-msgstr ""
+msgstr "Продолжительность"
 
 #: app/templates/admin/invite.html:114
 msgid "Show Information"
-msgstr ""
+msgstr "Показать информацию"
 
 #: app/templates/admin/invite.html:120
 msgid ""
 "When set, invited user(s) will be removed from the server after the set "
 "number of days. (1-999)"
 msgstr ""
+"Если установлено, приглашенные пользователи будут удалены с сервера по "
+"истечении заданного количества дней. (1-999)"
 
 #: app/templates/admin/invite.html:129
-#: app/templates/tables/invite-table.html:11
+#: app/templates/tables/invite-table.html:10
+#: app/templates/tables/invite-table.html:80
 msgid "Unlimited"
-msgstr ""
+msgstr "Неограниченный"
 
 #: app/templates/admin/invite.html:143
 msgid "Custom Duration"
-msgstr ""
+msgstr "Пользовательская продолжительность"
 
 #: app/templates/admin/invite.html:151
 msgid "Specific Libraries"
-msgstr ""
+msgstr "Специальные библиотеки"
 
 #: app/templates/admin/invite.html:155
 #: app/templates/modals/scan-libraries.html:3
 #: app/templates/modals/scan-libraries.html:22
 msgid "Select Libraries"
-msgstr ""
+msgstr "Выберите библиотеки"
 
 #: app/templates/admin/invite.html:184
 msgid "Select All"
-msgstr ""
+msgstr "Выбрать все"
 
 #: app/templates/admin/invite.html:202
 msgid "Successfully generated an Invitation!"
-msgstr ""
+msgstr "Приглашение успешно сгенерировано!"
 
 #: app/templates/admin/invite.html:206 app/templates/admin/invite.html:356
 msgid "Link has been copied to clipboard!"
-msgstr ""
+msgstr "Ссылка скопирована в буфер обмена!"
 
 #: app/templates/admin/invite.html:212 app/templates/admin/settings.html:23
 #: app/templates/error/404.html:20 app/templates/wizard/base.html:35
 #: app/templates/wizard/base.html:49
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #: app/templates/admin/invite.html:218
 msgid "Share"
-msgstr ""
+msgstr "Делиться"
 
 #: app/templates/admin/invite.html:357
 msgid "An error occurred while copying the link to the clipboard!"
-msgstr ""
+msgstr "Произошла ошибка при копировании ссылки в буфер обмена!"
 
 #: app/templates/admin/invite.html:481
 msgid "Deselect all"
-msgstr ""
+msgstr "Убрать выделение со всего"
 
 #: app/templates/admin/invite.html:483
 msgid "Select all"
-msgstr ""
+msgstr "Выбрать все"
 
 #: app/templates/admin/invite.html:507
 msgid "Creating..."
-msgstr ""
+msgstr "Создание..."
 
 #: app/templates/admin/invite.html:575
 msgid "The invite has been created"
-msgstr ""
+msgstr "Приглашение создано"
 
 #: app/templates/admin/invite.html:578
 msgid "There was an error creating the invite"
-msgstr ""
+msgstr "При создании приглашения произошла ошибка"
 
 #: app/templates/admin/invites.html:4 app/templates/templates/menu.html:22
 msgid "Invitations"
-msgstr ""
+msgstr "Приглашения"
 
 #: app/templates/admin/invites.html:8
 msgid "Manage your invitations"
-msgstr ""
+msgstr "Управляйте своими приглашениями"
 
 #: app/templates/admin/invites.html:13
 msgid "Create Invite"
-msgstr ""
+msgstr "Создать приглашение"
 
 #: app/templates/admin/invites.html:16
 msgid "Delete All"
-msgstr ""
+msgstr "Удалить все"
 
 #: app/templates/admin/settings.html:6
 msgid "Server Settings"
-msgstr ""
+msgstr "Настройки сервера"
 
 #: app/templates/admin/settings.html:10
 msgid "Configure your server settings."
-msgstr ""
+msgstr "Настройте параметры вашего сервера."
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
-msgstr ""
+msgstr "Конфигурация пользователя"
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
-msgstr ""
+msgstr "Пользовательская политика"
 
 #: app/templates/admin/users.html:4
 msgid "Invited Users"
-msgstr ""
+msgstr "Приглашенные пользователи"
 
 #: app/templates/admin/users.html:8
 msgid "Manage users that joined your server"
-msgstr ""
+msgstr "Управление пользователями, присоединившимися к вашему серверу"
 
 #: app/templates/admin/users.html:13
 msgid "Scan Users"
-msgstr ""
+msgstr "Сканировать пользователей"
 
 #: app/templates/admin/users.html:19
 msgid "Add User"
-msgstr ""
+msgstr "Добавить пользователя"
+
+#: app/templates/admin/settings/about.html:111
+#: app/templates/admin/settings/about.html:221
+msgid "Load More"
+msgstr "Загрузи больше"
 
 #: app/templates/admin/settings/accounts.html:13
 msgid "My Account"
-msgstr ""
+msgstr "Мой счет"
 
 #: app/templates/admin/settings/accounts.html:16
 msgid "Add Admin"
-msgstr ""
+msgstr "Добавить администратора"
 
 #: app/templates/admin/settings/api.html:38
 #: app/templates/modals/create-api-key.html:3
 msgid "Create API Key"
-msgstr ""
+msgstr "Создать ключ API"
 
 #: app/templates/admin/settings/discord.html:4
 msgid "Discord Server ID"
-msgstr ""
+msgstr "Идентификатор Discord-сервера"
 
 #: app/templates/admin/settings/discord.html:9
 msgid "Discord Widget"
-msgstr ""
+msgstr "Дискорд виджет"
 
 #: app/templates/admin/settings/discord.html:19
-#: app/templates/admin/settings/general.html:38
 #: app/templates/admin/settings/html.html:9
+#: app/templates/admin/settings/media.html:38
 #: app/templates/admin/settings/requests.html:26
 msgid "Save"
-msgstr ""
+msgstr "Сохранять"
 
 #: app/templates/admin/settings/discord.html:42
-#: app/templates/admin/settings/general.html:54
 #: app/templates/admin/settings/html.html:25
+#: app/templates/admin/settings/media.html:54
 #: app/templates/admin/settings/requests.html:58
 msgid "Settings saved successfully!"
-msgstr ""
+msgstr "Настройки успешно сохранены!"
 
-#: app/templates/admin/settings/general.html:6
-#: app/templates/setup/pages/settings.html:6
-msgid "Server Display Name"
+#: app/templates/admin/settings/language.html:3
+msgid "Please use the dropdown below to select your language."
 msgstr ""
+"Пожалуйста, используйте раскрывающийся список ниже, чтобы выбрать язык."
 
-#: app/templates/admin/settings/general.html:11
-#: app/templates/setup/pages/settings.html:11
-msgid "Server"
-msgstr ""
-
-#: app/templates/admin/settings/general.html:13
-msgid "Choose a server"
-msgstr ""
-
-#: app/templates/admin/settings/general.html:20
-#: app/templates/setup/pages/settings.html:20
-#: app/templates/wizard/pages/jellyfin/download.html:30
-msgid "Server URL"
-msgstr ""
-
-#: app/templates/admin/settings/general.html:25
-#: app/templates/setup/pages/settings.html:25
-msgid "Server Token / API Key"
-msgstr ""
-
-#: app/templates/admin/settings/general.html:30
-#: app/templates/modals/update-libraries.html:3
-#: app/templates/setup/pages/settings.html:37
-msgid "Server Libraries"
-msgstr ""
-
-#: app/templates/admin/settings/general.html:32
-#: app/templates/setup/pages/settings.html:39
-msgid "Scan For Libraries"
-msgstr ""
+#: app/templates/admin/settings/language.html:7
+msgid "Select Language"
+msgstr "Выберите язык"
 
 #: app/templates/admin/settings/main.html:5
 msgid "Main Settings"
-msgstr ""
+msgstr "Основные настройки"
 
 #: app/templates/admin/settings/main.html:6
 msgid "General settings for the server"
-msgstr ""
+msgstr "Общие настройки сервера"
 
 #: app/templates/admin/settings/main.html:9
-msgid "General"
-msgstr ""
+msgid "Media Server"
+msgstr "Медиа-сервер"
 
 #: app/templates/admin/settings/main.html:10
-msgid "View and update general settings"
-msgstr ""
+msgid "Configure your media server settings"
+msgstr "Настройте параметры вашего медиасервера"
 
 #: app/templates/admin/settings/main.html:16
 msgid "Requests"
-msgstr ""
+msgstr "Запросы"
 
 #: app/templates/admin/settings/main.html:17
 msgid "Add Jellyseerr, Overseerr or Ombi support"
-msgstr ""
+msgstr "Добавьте поддержку Jellyseerr, Overserr или Ombi"
 
 #: app/templates/admin/settings/main.html:23
 msgid "API keys"
-msgstr ""
+msgstr "ключи API"
 
 #: app/templates/admin/settings/main.html:24
 msgid "Add API keys for external services"
-msgstr ""
+msgstr "Добавить ключи API для внешних сервисов"
 
 #: app/templates/admin/settings/main.html:30
 msgid "Notifications"
-msgstr ""
+msgstr "Уведомления"
 
 #: app/templates/admin/settings/main.html:31
 msgid "Configure notification settings"
-msgstr ""
+msgstr "Настройте параметры уведомлений"
 
 #: app/templates/admin/settings/main.html:39
 msgid "Account Settings"
-msgstr ""
+msgstr "Настройки учетной записи"
 
 #: app/templates/admin/settings/main.html:40
 msgid "Settings for user accounts"
-msgstr ""
+msgstr "Настройки учетных записей пользователей"
 
 #: app/templates/admin/settings/main.html:43
 msgid "Profile"
-msgstr ""
+msgstr "Профиль"
 
 #: app/templates/admin/settings/main.html:44
 msgid "Configure your profile settings"
-msgstr ""
+msgstr "Настройте параметры своего профиля"
 
 #: app/templates/admin/settings/main.html:51
 msgid "Change your password"
-msgstr ""
+msgstr "Измените свой пароль"
+
+#: app/templates/admin/settings/main.html:57
+msgid "Sessions"
+msgstr "Сессии"
 
 #: app/templates/admin/settings/main.html:58
 msgid "View and manage your active sessions"
-msgstr ""
+msgstr "Просмотр активных сеансов и управление ими"
 
-#: app/templates/admin/settings/main.html:66
+#: app/templates/admin/settings/main.html:64
+msgid "Language"
+msgstr "Язык"
+
+#: app/templates/admin/settings/main.html:65
+msgid "Change your language"
+msgstr "Измените свой язык"
+
+#: app/templates/admin/settings/main.html:73
 msgid "UI Settings"
-msgstr ""
+msgstr "Настройки пользовательского интерфейса"
 
-#: app/templates/admin/settings/main.html:67
+#: app/templates/admin/settings/main.html:74
 msgid "Modify the look and feel of the server"
-msgstr ""
-
-#: app/templates/admin/settings/main.html:70
-msgid "Discord"
-msgstr ""
-
-#: app/templates/admin/settings/main.html:71
-msgid "Enable Discord page and configure settings"
-msgstr ""
+msgstr "Изменить внешний вид сервера"
 
 #: app/templates/admin/settings/main.html:77
-msgid "Custom HTML"
-msgstr ""
+msgid "Discord"
+msgstr "Раздор"
 
 #: app/templates/admin/settings/main.html:78
+msgid "Enable Discord page and configure settings"
+msgstr "Включить страницу Discord и настроить параметры"
+
+#: app/templates/admin/settings/main.html:84
+msgid "Custom HTML"
+msgstr "Пользовательский HTML"
+
+#: app/templates/admin/settings/main.html:85
 msgid "Add Custom HTML page to help screen"
-msgstr ""
+msgstr "Добавить пользовательскую HTML-страницу на экран справки"
 
-#: app/templates/admin/settings/main.html:86
+#: app/templates/admin/settings/main.html:93
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Расширенные настройки"
 
-#: app/templates/admin/settings/main.html:87
+#: app/templates/admin/settings/main.html:94
 msgid "Advanced settings for the server"
-msgstr ""
-
-#: app/templates/admin/settings/main.html:90
-msgid "Logs"
-msgstr ""
-
-#: app/templates/admin/settings/main.html:91
-msgid "View and download server logs"
-msgstr ""
+msgstr "Расширенные настройки для сервера"
 
 #: app/templates/admin/settings/main.html:97
-msgid "Updates"
-msgstr ""
+msgid "Logs"
+msgstr "Журналы"
 
 #: app/templates/admin/settings/main.html:98
-msgid "Check for and view updates"
-msgstr ""
+msgid "View and download server logs"
+msgstr "Просмотр и загрузка журналов сервера"
 
 #: app/templates/admin/settings/main.html:104
-msgid "Backup"
-msgstr ""
+msgid "Tasks"
+msgstr "Задания"
 
 #: app/templates/admin/settings/main.html:105
-msgid "Create and restore backups"
-msgstr ""
+msgid "View and manage scheduled tasks"
+msgstr "Просмотр запланированных задач и управление ими"
 
 #: app/templates/admin/settings/main.html:111
-msgid "About"
-msgstr ""
+msgid "Updates"
+msgstr "Обновления"
 
 #: app/templates/admin/settings/main.html:112
-msgid "View information about the server"
-msgstr ""
+msgid "Check for and view updates"
+msgstr "Проверяйте и просматривайте обновления"
 
-#: app/templates/admin/settings/main.html:150
+#: app/templates/admin/settings/main.html:118
+msgid "Backup"
+msgstr "Резервное копирование"
+
+#: app/templates/admin/settings/main.html:119
+msgid "Create and restore backups"
+msgstr "Создание и восстановление резервных копий"
+
+#: app/templates/admin/settings/main.html:125
+msgid "About"
+msgstr "О"
+
+#: app/templates/admin/settings/main.html:126
+msgid "View information about the server"
+msgstr "Посмотреть информацию о сервере"
+
+#: app/templates/admin/settings/main.html:164
 msgid "No settings matched your search."
-msgstr ""
+msgstr "Ни один из параметров не соответствует вашему запросу."
+
+#: app/templates/admin/settings/media.html:6
+#: app/templates/setup/pages/settings.html:6
+msgid "Server Display Name"
+msgstr "Отображаемое имя сервера"
+
+#: app/templates/admin/settings/media.html:11
+#: app/templates/setup/pages/settings.html:11
+msgid "Server"
+msgstr "Сервер"
+
+#: app/templates/admin/settings/media.html:13
+msgid "Choose a server"
+msgstr "Выберите сервер"
+
+#: app/templates/admin/settings/media.html:20
+#: app/templates/setup/pages/settings.html:20
+#: app/templates/wizard/pages/jellyfin/download.html:30
+msgid "Server URL"
+msgstr "URL-адрес сервера"
+
+#: app/templates/admin/settings/media.html:25
+#: app/templates/setup/pages/settings.html:25
+msgid "Server Token / API Key"
+msgstr "Токен сервера/ключ API"
+
+#: app/templates/admin/settings/media.html:30
+#: app/templates/modals/update-libraries.html:3
+#: app/templates/setup/pages/settings.html:37
+msgid "Server Libraries"
+msgstr "Серверные библиотеки"
+
+#: app/templates/admin/settings/media.html:32
+#: app/templates/setup/pages/settings.html:39
+msgid "Scan For Libraries"
+msgstr "Сканировать библиотеки"
 
 #: app/templates/admin/settings/notifications.html:18
 msgid "Create Agent"
-msgstr ""
+msgstr "Создать агента"
 
 #: app/templates/admin/settings/password.html:12
 msgid "Confirm Password"
-msgstr ""
+msgstr "Подтвердите пароль"
 
 #: app/templates/admin/settings/password.html:19
 msgid "Reset Password"
-msgstr ""
+msgstr "Сброс пароля"
 
 #: app/templates/admin/settings/profile.html:6
 msgid "Display Name"
-msgstr ""
+msgstr "Отображаемое имя"
 
 #: app/templates/admin/settings/profile.html:18
 msgid "Email Address"
-msgstr ""
+msgstr "Адрес электронной почты"
 
 #: app/templates/admin/settings/profile.html:25
 msgid "Update"
-msgstr ""
+msgstr "Обновлять"
 
 #: app/templates/admin/settings/requests.html:4
 msgid "Request Server"
-msgstr ""
+msgstr "Сервер запросов"
 
 #: app/templates/admin/settings/requests.html:6
 msgid "Disabled"
-msgstr ""
+msgstr "Неполноценный"
 
 #: app/templates/admin/settings/requests.html:15
 msgid "Request Server URL"
-msgstr ""
+msgstr "URL-адрес сервера запросов"
 
 #: app/templates/admin/settings/requests.html:20
 msgid "Request Server API Key"
-msgstr ""
+msgstr "Ключ API запроса сервера"
 
 #: app/templates/admin/settings/sessions.html:14
 msgid "Revoke All"
-msgstr ""
+msgstr "Отменить все"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
-msgstr ""
+msgstr "Доступ запрещен."
 
 #: app/templates/error/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr ""
+msgstr "Вы пытаетесь сделать то, что не должны делать..."
 
 #: app/templates/error/404.html:31
 msgid "Something's missing."
-msgstr ""
+msgstr "Чего-то не хватает."
 
 #: app/templates/error/404.html:33
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
+msgstr "Извините, мы не можем найти эту страницу. Кажется, его не существует!"
 
 #: app/templates/error/500.html:19
 msgid "Internal Server Error."
-msgstr ""
+msgstr "Внутренняя ошибка сервера."
 
 #: app/templates/error/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr ""
+msgstr "Что-то пошло не так. Пожалуйста, повторите попытку позже."
 
 #: app/templates/error/custom.html:20
 msgid "Get Help"
-msgstr ""
+msgstr "Получить помощь"
 
 #: app/templates/invite/invite-invalid.html:15
 msgid "Invalid Invitation"
-msgstr ""
+msgstr "Недействительное приглашение"
 
 #: app/templates/invite/join.html:10
 #, python-format
 msgid "Type in your invite code to %(name)s server!"
-msgstr ""
+msgstr "Введите код приглашения на сервер %(name)s!"
 
 #: app/templates/invite/join.html:20
 #: app/templates/invite/signup/jellyfin.html:40
 #: app/templates/invite/signup/plex.html:25
-#: app/templates/tables/invite-table.html:7
+#: app/templates/tables/invite-table.html:6
 msgid "Invite Code"
-msgstr ""
+msgstr "Код приглашения"
 
 #: app/templates/invite/join.html:27 app/templates/invite/signup/plex.html:33
 msgid "Join"
-msgstr ""
+msgstr "Присоединиться"
 
 #: app/templates/invite/signup.html:7 app/templates/invite/signup.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr ""
+msgstr "Вас пригласили присоединиться к серверу %(name)s!"
 
 #: app/templates/invite/signup/jellyfin.html:3
 msgid "Set up Account"
-msgstr ""
+msgstr "Настроить учетную запись"
 
 #: app/templates/invite/signup/jellyfin.html:19
 #: app/templates/setup/pages/admin.html:11
 msgid "Email"
-msgstr ""
+msgstr "Электронная почта"
 
 #: app/templates/invite/signup/jellyfin.html:33
 #: app/templates/setup/pages/admin.html:19
 msgid "Confirm password"
-msgstr ""
+msgstr "Подтвердите пароль"
 
 #: app/templates/invite/signup/jellyfin.html:45
 msgid "Create an account"
-msgstr ""
+msgstr "Завести аккаунт"
 
 #: app/templates/invite/signup/plex.html:3
 msgid "Join the Plex Server"
-msgstr ""
+msgstr "Присоединяйтесь к серверу Plex"
 
 #: app/templates/invite/signup/plex.html:4
 msgid "Sign in to Plex"
-msgstr ""
+msgstr "Войти в плекс"
 
 #: app/templates/invite/signup/plex.html:5
 msgid "Please wait"
-msgstr ""
+msgstr "пожалуйста, подождите"
 
 #: app/templates/invite/signup/plex.html:6
 msgid "Setting up your account"
-msgstr ""
+msgstr "Настройка вашей учетной записи"
 
 #: app/templates/invite/signup/plex.html:7
 msgid "Almost there!"
-msgstr ""
+msgstr "Почти готово!"
 
 #: app/templates/invite/signup/plex.html:8
 msgid "All done!"
-msgstr ""
+msgstr "Все сделано!"
 
 #: app/templates/invite/signup/plex.html:9
 msgid "Account created!"
-msgstr ""
+msgstr "Аккаунт создан!"
 
 #: app/templates/invite/signup/plex.html:10
 msgid "Please try again"
-msgstr ""
+msgstr "Пожалуйста, попробуйте еще раз"
 
 #: app/templates/invite/signup/plex.html:78
 msgid ""
 "You're all set, click continue to get started and walkthrough how to use "
 "Plex!"
 msgstr ""
+"Все готово, нажмите «Продолжить», чтобы начать и пройти пошаговое "
+"руководство по использованию Plex!"
 
 #: app/templates/invite/signup/plex.html:81
 msgid "Continue"
-msgstr ""
+msgstr "Продолжать"
 
 #: app/templates/invite/signup/plex.html:90
 msgid "Something went wrong, please try again."
-msgstr ""
+msgstr "Что-то пошло не так. Пожалуйста, попробуйте еще раз."
 
 #: app/templates/invite/signup/plex.html:93
 msgid "Retry"
-msgstr ""
+msgstr "Повторить попытку"
 
 #: app/templates/modals/create-api-key.html:9
 #: app/templates/modals/create-notification-agent.html:13
 msgid "Name"
-msgstr ""
+msgstr "Имя"
 
 #: app/templates/modals/create-api-key.html:14
 #: app/templates/modals/create-notification-agent.html:46
@@ -729,55 +764,55 @@ msgstr ""
 #: app/templates/modals/scan-libraries.html:19
 #: app/templates/modals/update-libraries.html:23
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
 #: app/templates/modals/create-api-key.html:17
 msgid "Create"
-msgstr ""
+msgstr "Создавать"
 
 #: app/templates/modals/create-api-key.html:46
 msgid "Please fill out all required fields."
-msgstr ""
+msgstr "Пожалуйста, заполните все обязательные поля."
 
 #: app/templates/modals/create-api-key.html:70
 msgid "API key already exists."
-msgstr ""
+msgstr "Ключ API уже существует."
 
 #: app/templates/modals/create-api-key.html:76
 #: app/templates/modals/delete-notification-agent.html:35
 msgid "You are not authorized to perform this action."
-msgstr ""
+msgstr "Вы не авторизованы для выполнения этого действия."
 
 #: app/templates/modals/create-api-key.html:82
 #: app/templates/modals/run-task.html:35
 msgid "Something went wrong."
-msgstr ""
+msgstr "Что-то пошло не так."
 
 #: app/templates/modals/create-api-key.html:86
 msgid "API key created."
-msgstr ""
+msgstr "Ключ API создан."
 
 #: app/templates/modals/create-notification-agent.html:3
 msgid "New Agent"
-msgstr ""
+msgstr "Новый агент"
 
 #: app/templates/modals/create-notification-agent.html:18
 msgid "Notification Service"
-msgstr ""
+msgstr "Служба уведомлений"
 
 #: app/templates/modals/create-notification-agent.html:20
 msgid "Choose a service"
-msgstr ""
+msgstr "Выберите услугу"
 
 #: app/templates/modals/create-notification-agent.html:30
 #: app/templates/modals/create-notification-agent.html:88
 msgid "Username (optional)"
-msgstr ""
+msgstr "Имя пользователя (необязательно)"
 
 #: app/templates/modals/create-notification-agent.html:34
 #: app/templates/modals/create-notification-agent.html:93
 msgid "Password (optional)"
-msgstr ""
+msgstr "Пароль (необязательно)"
 
 #: app/templates/modals/create-notification-agent.html:39
 #: app/templates/modals/create-notification-agent.html:98
@@ -785,155 +820,163 @@ msgstr ""
 #: app/templates/modals/create-notification-agent.html:136
 #: app/templates/modals/create-notification-agent.html:153
 msgid "Agent URL"
-msgstr ""
+msgstr "URL-адрес агента"
 
 #: app/templates/modals/create-notification-agent.html:49
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Протестировать и создать агент"
 
 #: app/templates/modals/create-notification-agent.html:105
 msgid "Webhook ID"
-msgstr ""
+msgstr "Идентификатор вебхука"
 
 #: app/templates/modals/create-notification-agent.html:111
 msgid "Webhook Token"
-msgstr ""
+msgstr "Токен вебхука"
 
 #: app/templates/modals/create-notification-agent.html:124
 msgid "User Key"
-msgstr ""
+msgstr "Пользовательский ключ"
 
 #: app/templates/modals/create-notification-agent.html:130
 msgid "API Token"
-msgstr ""
+msgstr "Токен API"
 
 #: app/templates/modals/create-notification-agent.html:242
 #: app/templates/modals/create-notification-agent.html:249
 msgid "Something went wrong. Please try again."
-msgstr ""
+msgstr "Что-то пошло не так. Пожалуйста, попробуйте еще раз."
 
 #: app/templates/modals/create-notification-agent.html:253
 msgid "Notification agent successfully created!"
-msgstr ""
+msgstr "Агент уведомлений успешно создан!"
 
 #: app/templates/modals/delete-api-key.html:3
 #: app/templates/modals/revoke-session.html:3
 msgid "Warning"
-msgstr ""
+msgstr "Предупреждение"
 
 #: app/templates/modals/delete-api-key.html:8
 msgid "Are you sure you want to delete this api key?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить этот ключ API?"
 
 #: app/templates/modals/delete-api-key.html:16
 #: app/templates/modals/delete-notification-agent.html:16
 #: app/templates/modals/revoke-session.html:16
 #: app/templates/tables/admin-users.html:40
 #: app/templates/tables/global-users.html:59
-#: app/templates/tables/invite-table.html:101
+#: app/templates/tables/invite-table.html:100
 #: app/templates/tables/notification-table.html:36
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: app/templates/modals/delete-notification-agent.html:41
 msgid "An error occurred while deleting the Notification Agent."
-msgstr ""
+msgstr "Произошла ошибка при удалении агента уведомлений."
 
 #: app/templates/modals/delete-notification-agent.html:45
 msgid "Notification Agent deleted successfully!"
-msgstr ""
+msgstr "Агент уведомлений успешно удален!"
 
 #: app/templates/modals/revoke-session.html:8
 msgid "Are you sure you want to revoke this session?"
-msgstr ""
+msgstr "Вы уверены, что хотите отозвать этот сеанс?"
 
 #: app/templates/modals/revoke-session.html:41
 msgid "Something went wrong.Please try again."
-msgstr ""
+msgstr "Что-то пошло не так. Пожалуйста, попробуйте еще раз."
 
 #: app/templates/modals/revoke-session.html:46
 msgid "Session deleted successfully!"
-msgstr ""
+msgstr "Сессия успешно удалена!"
 
 #: app/templates/modals/run-task.html:3 app/templates/modals/run-task.html:16
 msgid "Run Task"
-msgstr ""
+msgstr "Выполнить задачу"
 
 #: app/templates/modals/run-task.html:8
 msgid "Are you sure you want to run this task?"
-msgstr ""
+msgstr "Вы уверены, что хотите запустить эту задачу?"
 
 #: app/templates/modals/run-task.html:39
 msgid "Task has been run."
-msgstr ""
+msgstr "Задача запущена."
 
 #: app/templates/modals/update-libraries.html:26
 msgid "Update Libraries"
-msgstr ""
+msgstr "Обновление библиотек"
 
 #: app/templates/modals/update-libraries.html:88
 msgid "Unable to update libraries"
-msgstr ""
+msgstr "Не удается обновить библиотеки"
 
 #: app/templates/setup/base.html:12
 msgid "Setup Wizarr"
-msgstr ""
+msgstr "Мастер установки"
 
 #: app/templates/setup/pages/admin.html:2
 msgid "Admin Account"
-msgstr ""
+msgstr "Учетная запись администратора"
 
 #: app/templates/setup/pages/admin.html:24
 msgid "Create account"
-msgstr ""
+msgstr "Зарегистрироваться"
 
 #: app/templates/setup/pages/complete.html:2
 msgid "Your Done"
-msgstr ""
+msgstr "Готово"
 
 #: app/templates/setup/pages/complete.html:5
 msgid "You have successfully completed the setup process."
-msgstr ""
+msgstr "Вы успешно завершили процесс установки."
 
 #: app/templates/setup/pages/complete.html:9
 msgid "Go to Dashboard"
-msgstr ""
+msgstr "Перейти к приборной панели"
 
 #: app/templates/setup/pages/database.html:2
 msgid "Database"
-msgstr ""
+msgstr "База данных"
 
 #: app/templates/setup/pages/database.html:5
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr ""
+"В настоящее время Wizarr поддерживает только внутреннюю базу данных SQLite."
 
 #: app/templates/setup/pages/database.html:7
 msgid ""
 "This is a temporary and we are working on adding support for other "
 "databases."
 msgstr ""
+"Это временно, и мы работаем над добавлением поддержки других баз данных."
 
 #: app/templates/setup/pages/settings.html:2
 #: app/templates/templates/menu.html:34
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 #: app/templates/setup/pages/settings.html:31
 msgid "Test"
-msgstr ""
+msgstr "Тест"
 
 #: app/templates/setup/pages/settings.html:45
 msgid "Done"
-msgstr ""
+msgstr "Сделанный"
 
 #: app/templates/setup/pages/welcome.html:5
 msgid ""
-"Wizarr is an automatic user invitation system for Plex, Jellyfin, and "
-"Emby. With Wizarr, you can easily create unique invitation links to share"
-" with users, automatically inviting them to your Media Server! "
-"Furthermore, Wizarr provides guidance on downloading clients and "
-"instructions for using Jellyseerr, Overseerr or Ombi site."
+"Wizarr is an automatic user invitation system for Plex, Jellyfin, and Emby. "
+"With Wizarr, you can easily create unique invitation links to share with "
+"users, automatically inviting them to your Media Server! Furthermore, Wizarr"
+" provides guidance on downloading clients and instructions for using "
+"Jellyseerr, Overseerr or Ombi site."
 msgstr ""
+"Wizarr — это система автоматического приглашения пользователей для Plex, "
+"Jellyfin и Emby. С помощью Wizarr вы можете легко создавать уникальные "
+"ссылки-приглашения и делиться ими с пользователями, автоматически приглашая "
+"их на свой медиа-сервер! Кроме того, Wizarr предоставляет рекомендации по "
+"загрузке клиентов и инструкции по использованию сайтов Jellyseerr, Overserr "
+"или Ombi."
 
 #: app/templates/setup/pages/welcome.html:8
 msgid ""
@@ -941,559 +984,639 @@ msgid ""
 "features and intuitive interface. Should you need any assistance, please "
 "refer to our documentation or reach out to our community for support."
 msgstr ""
+"Мы надеемся, что вам понравится пользоваться Wizarr, и приглашаем вас "
+"изучить его мощные функции и интуитивно понятный интерфейс. Если вам нужна "
+"помощь, обратитесь к нашей документации или обратитесь за поддержкой к "
+"нашему сообществу."
 
 #: app/templates/setup/pages/welcome.html:11
 msgid ""
-"Check out our documentation for detailed instructions on how to install "
-"and run Wizarr!"
+"Check out our documentation for detailed instructions on how to install and "
+"run Wizarr!"
 msgstr ""
+"Ознакомьтесь с нашей документацией для получения подробных инструкций по "
+"установке и запуску Wizarr!"
 
 #: app/templates/tables/admin-users.html:37
 #: app/templates/tables/global-users.html:56
-#: app/templates/tables/invite-table.html:98
+#: app/templates/tables/invite-table.html:97
 #: app/templates/tables/notification-table.html:33
 msgid "Edit"
-msgstr ""
+msgstr "Редактировать"
+
+#: app/templates/tables/invite-table.html:7
+msgid "Used"
+msgstr "Использовал"
 
 #: app/templates/tables/invite-table.html:8
-msgid "Used"
-msgstr ""
+msgid "Expired"
+msgstr "Истекший"
 
 #: app/templates/tables/invite-table.html:9
-msgid "Created"
-msgstr ""
-
-#: app/templates/tables/invite-table.html:10
-msgid "Expired"
-msgstr ""
-
-#: app/templates/tables/invite-table.html:12
 msgid "Libraries"
-msgstr ""
+msgstr "Библиотеки"
+
+#: app/templates/tables/invite-table.html:15
+msgid "Created"
+msgstr "Созданный"
+
+#: app/templates/tables/invite-table.html:115
+msgid "No Invitations"
+msgstr "Нет приглашений"
+
+#: app/templates/tables/invite-table.html:118
+msgid "You have not created any invitations yet."
+msgstr "Вы еще не создали ни одного приглашения."
 
 #: app/templates/tables/sessions-table.html:27
 msgid "Revoke"
-msgstr ""
+msgstr "Отозвать"
 
 #: app/templates/tables/task-table.html:7
 msgid "Job Name"
-msgstr ""
+msgstr "Название работы"
 
 #: app/templates/tables/task-table.html:8
 msgid "Next Execution"
-msgstr ""
+msgstr "Следующее выполнение"
 
 #: app/templates/tables/task-table.html:40
 msgid "Run Now"
-msgstr ""
+msgstr "Беги сейчас"
 
 #: app/templates/templates/menu.html:28
 msgid "Users"
-msgstr ""
+msgstr "Пользователи"
 
 #: app/templates/templates/update.html:13
 msgid "Attention!"
-msgstr ""
+msgstr "Внимание!"
 
 #: app/templates/templates/update.html:14
 msgid "Update available. Click here."
-msgstr ""
+msgstr "Доступно обновление. Кликните сюда."
 
 #: app/templates/wizard/base.html:4
 msgid "Help"
-msgstr ""
+msgstr "Помощь"
 
 #: app/templates/wizard/base.html:12
 msgid "Getting Started!"
-msgstr ""
+msgstr "Начиная!"
 
 #: app/templates/wizard/base.html:38
 msgid "Next"
-msgstr ""
+msgstr "Следующий"
 
 #: app/templates/wizard/base.html:45
 msgid "Open"
-msgstr ""
+msgstr "Открыть"
 
 #: app/templates/wizard/pages/requests.html:4
 msgid "Automatic Media Requests"
-msgstr ""
+msgstr "Автоматические запросы мультимедиа"
 
 #: app/templates/wizard/pages/requests.html:9
 msgid ""
-"We are excited to offer you a wide selection of media to choose from. If "
-"you're having trouble finding\n"
-"        something you like, don't worry! We have a user-friendly request "
-"system that can automatically search for the\n"
+"We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
+"        something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
 "        media you're looking for. "
 msgstr ""
+"Мы рады предложить вам широкий выбор средств массовой информации на выбор. Если у вас возникли проблемы с поиском\n"
+"        то, что вам нравится, не волнуйтесь! У нас есть удобная система запросов, которая может автоматически искать\n"
+"        средства массовой информации, которые вы ищете."
 
 #: app/templates/wizard/pages/requests.html:20
 msgid "Request any available Movie or TV Show"
-msgstr ""
+msgstr "Запросите любой доступный фильм или телешоу"
 
 #: app/templates/wizard/pages/requests.html:27
 msgid "Requested media will be automatically downloaded (if available)"
-msgstr ""
+msgstr "Запрошенный носитель будет автоматически загружен (если доступен)"
 
 #: app/templates/wizard/pages/requests.html:34
 msgid "If enabled, receive notifications"
-msgstr ""
+msgstr "Если включено, получать уведомления"
 
 #: app/templates/wizard/pages/requests.html:40
 msgid "Check it Out"
-msgstr ""
+msgstr "Проверьте это"
 
 #: app/templates/wizard/pages/jellyfin/download.html:2
 msgid ""
 "Join & Download Jellyfin\n"
 "        for this device"
 msgstr ""
+"Присоединяйтесь и скачайте Jellyfin\n"
+"        для этого устройства"
 
 #: app/templates/wizard/pages/jellyfin/download.html:7
 msgid ""
-"Great news! You now have access to our server's media collection. Let's "
-"make sure you know how to use\n"
+"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 "    it with Jellyfin."
 msgstr ""
+"Отличные новости! Теперь у вас есть доступ к медиа-коллекции нашего сервера. Убедитесь, что вы знаете, как использовать\n"
+"    это с Джеллифином."
 
 #: app/templates/wizard/pages/jellyfin/download.html:11
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
 msgstr ""
+"Планируете смотреть фильмы на этом устройстве? Загрузите Jellyfin для этого "
+"устройства."
 
 #: app/templates/wizard/pages/jellyfin/download.html:19
 msgid ""
 "If you don't wish to Download the App feel free to use Jellyfin in your "
 "devices web browser, just click \"Next\"."
 msgstr ""
+"Если вы не хотите загружать приложение, не стесняйтесь использовать Jellyfin"
+" в веб-браузере вашего устройства, просто нажмите «Далее»."
 
 #: app/templates/wizard/pages/jellyfin/download.html:25
 msgid "Show Server URL"
-msgstr ""
+msgstr "Показать URL-адрес сервера"
 
 #: app/templates/wizard/pages/jellyfin/download.html:34
 #: app/templates/wizard/pages/jellyfin/download.html:191
 msgid "Copy"
-msgstr ""
+msgstr "Копировать"
 
 #: app/templates/wizard/pages/jellyfin/download.html:59
 #: app/templates/wizard/pages/jellyfin/download.html:83
 msgid "Open Jellyfin"
-msgstr ""
+msgstr "Открыть Медузу"
 
 #: app/templates/wizard/pages/jellyfin/download.html:139
 msgid "Other Download"
-msgstr ""
+msgstr "Другая загрузка"
 
 #: app/templates/wizard/pages/jellyfin/download.html:188
 msgid "Copied!"
-msgstr ""
+msgstr "Скопировано!"
 
 #: app/templates/wizard/pages/jellyfin/tips.html:3
 #: app/templates/wizard/pages/plex/tips.html:3
 msgid "Right, so how do I watch stuff?"
-msgstr ""
+msgstr "Итак, как я могу смотреть вещи?"
 
 #: app/templates/wizard/pages/jellyfin/tips.html:6
 msgid ""
-"It couldn't be simpler! Jellyfin is available on a wide variety of "
-"devices including laptops, tablets, smartphones, and TVs. All you need to"
-" do is download the Jellyfin app on your device, sign in with your "
-"account, and you're ready to start streaming your media."
+"It couldn't be simpler! Jellyfin is available on a wide variety of devices "
+"including laptops, tablets, smartphones, and TVs. All you need to do is "
+"download the Jellyfin app on your device, sign in with your account, and "
+"you're ready to start streaming your media."
 msgstr ""
+"Это не может быть проще! Jellyfin доступен на самых разных устройствах, "
+"включая ноутбуки, планшеты, смартфоны и телевизоры. Все, что вам нужно "
+"сделать, это загрузить приложение Jellyfin на свое устройство, войти в свою "
+"учетную запись, и вы готовы начать потоковую передачу мультимедиа."
 
 #: app/templates/wizard/pages/jellyfin/tips.html:9
 msgid "It's that easy!"
-msgstr ""
+msgstr "Это так просто!"
 
 #: app/templates/wizard/pages/jellyfin/welcome.html:3
 msgid "Eh, So, What is Jellyfin exactly?"
-msgstr ""
+msgstr "Эх, так что же такое Джеллифин?"
 
 #: app/templates/wizard/pages/jellyfin/welcome.html:6
 msgid ""
 "Jellyfin is a platform that lets you stream all your favorite movies, TV "
 "shows, and music in one place. It's like having your own personal movie "
-"theater right at your fingertips! Think of it as a digital library of "
-"your favorite content that you can access from anywhere, on any device - "
-"your phone, tablet, laptop, smart TV, you name it."
+"theater right at your fingertips! Think of it as a digital library of your "
+"favorite content that you can access from anywhere, on any device - your "
+"phone, tablet, laptop, smart TV, you name it."
 msgstr ""
+"Jellyfin — это платформа, которая позволяет вам транслировать все ваши "
+"любимые фильмы, телепередачи и музыку в одном месте. Это как иметь свой "
+"личный кинотеатр прямо у вас под рукой! Думайте об этом как о цифровой "
+"библиотеке вашего любимого контента, к которой вы можете получить доступ из "
+"любого места и с любого устройства — вашего телефона, планшета, ноутбука, "
+"смарт-телевизора и так далее."
 
 #: app/templates/wizard/pages/plex/download.html:4
 msgid "Join & Download Plex for this device"
-msgstr ""
+msgstr "Присоединяйтесь и скачайте Plex для этого устройства"
 
 #: app/templates/wizard/pages/plex/download.html:8
 msgid ""
-"So you now have access to our server's media collection. Let's make sure "
-"you know how to use it with Plex."
+"So you now have access to our server's media collection. Let's make sure you"
+" know how to use it with Plex."
 msgstr ""
+"Итак, теперь у вас есть доступ к медиа-коллекции нашего сервера. Давайте "
+"удостоверимся, что вы знаете, как использовать его с Plex."
 
 #: app/templates/wizard/pages/plex/download.html:11
-msgid "Planning on watching Movies on this device? Download Plex for this device."
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
+"Планируете смотреть фильмы на этом устройстве? Загрузите Plex для этого "
+"устройства."
 
 #: app/templates/wizard/pages/plex/download.html:14
 msgid "Download"
-msgstr ""
+msgstr "Скачать"
 
 #: app/templates/wizard/pages/plex/tips.html:6
 msgid ""
-"It couldn't be simpler! Plex is available on a wide variety of devices "
-"including laptops, tablets,\n"
-"        smartphones, and TVs. All you need to do is download the Plex app"
-" on your device, sign in with your account, and\n"
+"It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+"        smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
+"Это не может быть проще! Plex доступен на самых разных устройствах, включая ноутбуки, планшеты,\n"
+"        смартфоны и телевизоры. Все, что вам нужно сделать, это загрузить приложение Plex на свое устройство, войти в свою учетную запись и\n"
+"        вы готовы начать потоковую передачу мультимедиа. Это так просто!"
 
 #: app/templates/wizard/pages/plex/tips.html:11
 msgid "How can I make sure to have the best experience?"
-msgstr ""
+msgstr "Как я могу убедиться, что у меня есть лучший опыт?"
 
 #: app/templates/wizard/pages/plex/tips.html:14
 msgid ""
-"Because Plex is a free service, they promote their own content before the"
-" awesome content your friend is now\n"
-"        sharing with you - they also, by default, play content at a lower"
-" quality. "
+"Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+"        sharing with you - they also, by default, play content at a lower quality. "
 msgstr ""
+"Поскольку Plex — это бесплатный сервис, они продвигают свой собственный контент раньше, чем потрясающий контент, которым сейчас занимается ваш друг.\n"
+"        поделиться с вами — они также по умолчанию воспроизводят контент с более низким качеством."
 
 #: app/templates/wizard/pages/plex/tips.html:17
 msgid "No need to worry though, this can be easily resolved"
-msgstr ""
+msgstr "Но не стоит волноваться, это можно легко решить"
 
 #: app/templates/wizard/pages/plex/tips.html:17
 msgid ""
 "We highly\n"
 "            recommend you to go through those steps first!"
 msgstr ""
+"Мы высоко\n"
+"            рекомендуем вам пройти эти шаги в первую очередь!"
 
 #: app/templates/wizard/pages/plex/welcome.html:3
 msgid "Eh, So, What is Plex exactly?"
-msgstr ""
+msgstr "Э, так что же такое Plex?"
 
 #: app/templates/wizard/pages/plex/welcome.html:6
 msgid ""
-"Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If you've received this invitation, it "
-"means someone wants to share their library with you."
+"Great question! Plex is a software that allows individuals to share their "
+"media collections with others. If you've received this invitation, it means "
+"someone wants to share their library with you."
 msgstr ""
+"Отличный вопрос! Plex — это программное обеспечение, которое позволяет людям"
+" делиться своими коллекциями мультимедиа с другими. Если вы получили это "
+"приглашение, значит, кто-то хочет поделиться с вами своей библиотекой."
 
 #: app/templates/wizard/pages/plex/welcome.html:9
 msgid ""
 "With Plex, you'll have access to all of the movies, TV shows, music, and "
 "photos that are stored on their server!"
 msgstr ""
+"С Plex у вас будет доступ ко всем фильмам, телешоу, музыке и фотографиям, "
+"которые хранятся на их сервере!"
 
 #: app/templates/wizard/pages/plex/welcome.html:12
 msgid "So let's see how to get started!"
-msgstr ""
+msgstr "Итак, давайте посмотрим, как начать!"
 
 #~ msgid ""
 #~ "Request\n"
 #~ "                instance (Ombi, Overseerr...)"
 #~ msgstr ""
+#~ "Запрос\n"
+#~ "                экземпляр (Омби, Смотритель...)"
 
 #~ msgid "Change Server Settings"
-#~ msgstr ""
+#~ msgstr "Изменить настройки сервера"
 
 #~ msgid "Invite Used"
-#~ msgstr ""
+#~ msgstr "Пригласить Используется"
 
 #~ msgid "User"
-#~ msgstr ""
+#~ msgstr "Пользователь"
 
 #~ msgid "Home User"
-#~ msgstr ""
+#~ msgstr "Домашний пользователь"
 
 #~ msgid "Admin"
-#~ msgstr ""
+#~ msgstr "Администратор"
 
 #~ msgid ""
 #~ "Server Display\n"
 #~ "                Name"
 #~ msgstr ""
+#~ "Дисплей сервера\n"
+#~ "                Имя"
 
 #~ msgid ""
 #~ "Server\n"
 #~ "                Token / API Key"
 #~ msgstr ""
+#~ "Сервер\n"
+#~ "                Токен/Ключ API"
 
 #~ msgid ""
 #~ "Server\n"
 #~ "                Libraries"
 #~ msgstr ""
+#~ "Сервер\n"
+#~ "                Библиотеки"
 
 #~ msgid ""
 #~ "Request\n"
 #~ "                instance (Ombi, Overseerr...) URL"
 #~ msgstr ""
+#~ "Запрос\n"
+#~ "                экземпляр (Ombi, Overserr...) URL"
 
 #~ msgid "Ombi API Key (Only used for user import currently.)"
 #~ msgstr ""
+#~ "Ombi API Key (в настоящее время используется только для импорта "
+#~ "пользователей)."
 
 #~ msgid ""
 #~ "Discord\n"
 #~ "                Server ID"
 #~ msgstr ""
+#~ "Раздор\n"
+#~ "                Идентификатор сервера"
 
 #~ msgid ""
 #~ "Custom\n"
 #~ "                HTML"
 #~ msgstr ""
+#~ "Обычай\n"
+#~ "                HTML"
 
 #~ msgid "1 day"
-#~ msgstr ""
+#~ msgstr "1 день"
 
 #~ msgid "1 week"
-#~ msgstr ""
+#~ msgstr "1 неделя"
 
 #~ msgid "1 month"
-#~ msgstr ""
+#~ msgstr "1 месяц"
 
 #~ msgid "Notification Agents"
-#~ msgstr ""
+#~ msgstr "Агенты уведомлений"
 
 #~ msgid ""
 #~ "Username\n"
 #~ "                                (optional)"
 #~ msgstr ""
+#~ "Имя пользователя\n"
+#~ "                                (необязательный)"
 
 #~ msgid ""
 #~ "Agent\n"
 #~ "                                URL"
 #~ msgstr ""
+#~ "Агент\n"
+#~ "                                URL-адрес"
 
 #~ msgid "Expires"
-#~ msgstr ""
+#~ msgstr "Истекает"
 
 #~ msgid "Actions"
-#~ msgstr ""
+#~ msgstr "Действия"
 
 #~ msgid "Available"
-#~ msgstr ""
+#~ msgstr "Доступный"
 
 #~ msgid "Default"
-#~ msgstr ""
+#~ msgstr "По умолчанию"
 
 #~ msgid "Passwords do not match."
-#~ msgstr ""
+#~ msgstr "Пароли не совпадают."
 
 #~ msgid "Username must be between 3 and 15 characters."
-#~ msgstr ""
+#~ msgstr "Имя пользователя должно содержать от 3 до 15 символов."
 
 #~ msgid "Password must be between 3 and 40 characters."
-#~ msgstr ""
+#~ msgstr "Пароль должен быть от 3 до 40 символов."
 
 #~ msgid "You must select at least one library."
-#~ msgstr ""
+#~ msgstr "Вы должны выбрать хотя бы одну библиотеку."
 
 #~ msgid "It is likely that your token does not work."
-#~ msgstr ""
+#~ msgstr "Скорее всего ваш токен не работает."
 
 #~ msgid "Unable to connect to your Plex server. See Logs for more information."
 #~ msgstr ""
+#~ "Не удалось подключиться к вашему серверу Plex. Дополнительные сведения см. в"
+#~ " разделе Журналы."
 
 #~ msgid "Unable to connect to your Jellyfin server."
-#~ msgstr ""
+#~ msgstr "Не удалось подключиться к вашему серверу Jellyfin."
 
 #~ msgid "Invalid Username or Password"
-#~ msgstr ""
+#~ msgstr "Неправильное имя пользователя или пароль"
 
 #~ msgid "Oops!"
-#~ msgstr ""
+#~ msgstr "Ой!"
 
 #~ msgid ""
 #~ "Confirm\n"
 #~ "                                password"
 #~ msgstr ""
+#~ "Подтверждать\n"
+#~ "                                пароль"
 
 #~ msgid ""
 #~ "Invite\n"
 #~ "                                Code"
 #~ msgstr ""
+#~ "Приглашать\n"
+#~ "                                Код"
 
 #~ msgid "(in days)"
-#~ msgstr ""
+#~ msgstr "(в днях)"
 
 #~ msgid ""
-#~ "When set, invited user(s) will be "
-#~ "removed from the Plex server after "
-#~ "a\n"
+#~ "When set, invited user(s) will be removed from the Plex server after a\n"
 #~ "                                        number of\n"
 #~ "                                        days. (1-999)"
 #~ msgstr ""
+#~ "Если установлено, приглашенные пользователи будут удалены с сервера Plex после\n"
+#~ "                                        количество\n"
+#~ "                                        дней. (1-999)"
 
 #~ msgid ""
 #~ "Specific\n"
 #~ "                                Libraries"
 #~ msgstr ""
+#~ "Специфический\n"
+#~ "                                Библиотеки"
 
 #~ msgid "Custom HTML"
-#~ msgstr ""
+#~ msgstr "Пользовательский HTML"
 
 #~ msgid "Hello"
-#~ msgstr ""
+#~ msgstr "Привет"
 
 #~ msgid "Logged in successfully"
-#~ msgstr ""
+#~ msgstr "Вы успешно вошли в систему"
 
 #~ msgid "Unauthorized attempted access"
-#~ msgstr ""
+#~ msgstr "Несанкционированная попытка доступа"
 
 #~ msgid "Could not find the requested page"
-#~ msgstr ""
+#~ msgstr "Не удалось найти запрошенную страницу"
 
 #~ msgid "Quick Invite"
-#~ msgstr ""
+#~ msgstr "Быстрое приглашение"
 
 #~ msgid "Invite user"
-#~ msgstr ""
+#~ msgstr "Пригласить пользователя"
 
 #~ msgid "Server Invites"
-#~ msgstr ""
+#~ msgstr "Приглашения на сервер"
 
 #~ msgid "HTML"
-#~ msgstr ""
+#~ msgstr "HTML"
 
 #~ msgid "API"
-#~ msgstr ""
+#~ msgstr "API"
 
 #~ msgid "Accounts"
-#~ msgstr ""
+#~ msgstr "Счета"
 
 #~ msgid "Tasks"
-#~ msgstr ""
+#~ msgstr "Задания"
 
 #~ msgid "Server Users"
-#~ msgstr ""
+#~ msgstr "Пользователи сервера"
 
 #~ msgid ""
-#~ "Currently Wizarr only supports internal "
-#~ "SQLite database. This is a temporary "
-#~ "and we are working on adding "
-#~ "support for other databases."
+#~ "Currently Wizarr only supports internal SQLite database. This is a temporary"
+#~ " and we are working on adding support for other databases."
 #~ msgstr ""
+#~ "В настоящее время Wizarr поддерживает только внутреннюю базу данных SQLite. "
+#~ "Это временно, и мы работаем над добавлением поддержки других баз данных."
 
 #~ msgid ""
-#~ "We are excited to offer you a "
-#~ "wide selection of media to choose "
-#~ "from. If you're having trouble finding"
-#~ "\n"
-#~ "    something you like, don't worry! "
-#~ "We have a user-friendly request "
-#~ "system that can automatically search for"
-#~ " the\n"
+#~ "We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
+#~ "    something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
 #~ "    media you're looking for. "
 #~ msgstr ""
+#~ "Мы рады предложить вам широкий выбор средств массовой информации на выбор. Если у вас возникли проблемы с поиском\n"
+#~ "    то, что вам нравится, не волнуйтесь! У нас есть удобная система запросов, которая может автоматически искать\n"
+#~ "    средства массовой информации, которые вы ищете."
 
 #~ msgid ""
-#~ "Requested media will be automatically "
-#~ "downloaded and added to the library "
+#~ "Requested media will be automatically downloaded and added to the library "
 #~ "(if available)"
 #~ msgstr ""
+#~ "Запрошенные носители будут автоматически загружены и добавлены в библиотеку "
+#~ "(если она доступна)"
 
 #~ msgid ""
 #~ "Join & Download Jellyfin\n"
 #~ "            for this device"
 #~ msgstr ""
+#~ "Присоединяйтесь и скачайте Jellyfin\n"
+#~ "            для этого устройства"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
-#~ "make sure you know how to use\n"
-#~ ""
+#~ "Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 #~ "        it with Jellyfin."
 #~ msgstr ""
+#~ "Отличные новости! Теперь у вас есть доступ к медиа-коллекции нашего сервера. Убедитесь, что вы знаете, как использовать\n"
+#~ "        это с Джеллифином."
 
 #~ msgid ""
-#~ "Jellyfin is a platform that lets "
-#~ "you stream all your favorite movies, "
-#~ "TV shows, and music in one place."
-#~ "\n"
-#~ "        It's like having your own "
-#~ "personal movie theater right at your "
-#~ "fingertips! Think of it as a "
-#~ "digital library of\n"
-#~ "        your favorite content that you"
-#~ " can access from anywhere, on any "
-#~ "device - your phone, tablet, laptop, "
-#~ "smart TV,\n"
+#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV shows, and music in one place.\n"
+#~ "        It's like having your own personal movie theater right at your fingertips! Think of it as a digital library of\n"
+#~ "        your favorite content that you can access from anywhere, on any device - your phone, tablet, laptop, smart TV,\n"
 #~ "        you name it."
 #~ msgstr ""
+#~ "Jellyfin — это платформа, которая позволяет вам транслировать все ваши любимые фильмы, телепередачи и музыку в одном месте.\n"
+#~ "        Это как иметь свой личный кинотеатр прямо у вас под рукой! Думайте об этом как о цифровой библиотеке\n"
+#~ "        ваш любимый контент, к которому вы можете получить доступ из любого места, на любом устройстве — вашем телефоне, планшете, ноутбуке, смарт-ТВ,\n"
+#~ "        вы называете это."
 
 #~ msgid ""
-#~ "It couldn't be simpler! Jellyfin is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "        smartphones, and TVs. All you"
-#~ " need to do is download the "
-#~ "Jellyfin app on your device, sign "
-#~ "in with your account,\n"
+#~ "It couldn't be simpler! Jellyfin is available on a wide variety of devices including laptops, tablets,\n"
+#~ "        smartphones, and TVs. All you need to do is download the Jellyfin app on your device, sign in with your account,\n"
 #~ "        and\n"
 #~ "        you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
+#~ "Это не может быть проще! Jellyfin доступен на самых разных устройствах, включая ноутбуки, планшеты,\n"
+#~ "        смартфоны и телевизоры. Все, что вам нужно сделать, это загрузить приложение Jellyfin на свое устройство, войти в свою учетную запись,\n"
+#~ "        и\n"
+#~ "        вы готовы начать потоковую передачу мультимедиа. Это так просто!"
 
 #~ msgid ""
 #~ "Join & Download Plex\n"
 #~ "            for this device"
 #~ msgstr ""
+#~ "Присоединяйтесь и скачайте Plex\n"
+#~ "            для этого устройства"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
-#~ "make sure you know how to use\n"
-#~ ""
+#~ "Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 #~ "        it with Plex."
 #~ msgstr ""
+#~ "Отличные новости! Теперь у вас есть доступ к медиа-коллекции нашего сервера. Убедитесь, что вы знаете, как использовать\n"
+#~ "        это с плексом."
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "    you've received this invitation, it"
-#~ " means someone wants to share their"
-#~ " library with you. With Plex, you'll"
-#~ " have\n"
-#~ "    access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their media collections with others. If\n"
+#~ "    you've received this invitation, it means someone wants to share their library with you. With Plex, you'll have\n"
+#~ "    access to all of the movies, TV shows, music, and photos that are stored on their server. Enjoy!"
 #~ msgstr ""
+#~ "Отличный вопрос! Plex — это программное обеспечение, которое позволяет людям делиться своими коллекциями мультимедиа с другими. Если\n"
+#~ "    вы получили это приглашение, это означает, что кто-то хочет поделиться с вами своей библиотекой. С Plex у вас будет\n"
+#~ "    доступ ко всем фильмам, сериалам, музыке и фотографиям, которые хранятся на их сервере. Наслаждаться!"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "    smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 #~ "    you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
+#~ "Это не может быть проще! Plex доступен на самых разных устройствах, включая ноутбуки, планшеты,\n"
+#~ "    смартфоны и телевизоры. Все, что вам нужно сделать, это загрузить приложение Plex на свое устройство, войти в свою учетную запись и\n"
+#~ "    вы готовы начать потоковую передачу мультимедиа. Это так просто!"
 
 #~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "    sharing with you - they also,"
-#~ " by default, play content at a "
-#~ "lower quality. "
+#~ "Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+#~ "    sharing with you - they also, by default, play content at a lower quality. "
 #~ msgstr ""
+#~ "Поскольку Plex — это бесплатный сервис, они продвигают свой собственный контент раньше, чем потрясающий контент, которым сейчас занимается ваш друг.\n"
+#~ "    поделиться с вами — они также по умолчанию воспроизводят контент с более низким качеством."
 
 #~ msgid ""
 #~ "We highly\n"
 #~ "      recommend you to go through those steps first!"
 #~ msgstr ""
+#~ "Мы высоко\n"
+#~ "      рекомендуем вам пройти эти шаги в первую очередь!"
 
 #~ msgid "Configure Plex in your browser"
-#~ msgstr ""
+#~ msgstr "Настройте Plex в своем браузере"
 
 #~ msgid "Configure Plex's app on your computer, mobile device or TV"
 #~ msgstr ""
+#~ "Настройте приложение Plex на своем компьютере, мобильном устройстве или "
+#~ "телевизоре."
 
 #~ msgid "Open Plex"
-#~ msgstr ""
+#~ msgstr "Открытый плекс"
 
+#~ msgid "Goodbye"
+#~ msgstr "До свидания"
+
+#~ msgid "Logged out successfully"
+#~ msgstr "Выйти успешно"
+
+#~ msgid "Your Account"
+#~ msgstr "Ваш счет"
+
+#~ msgid "Account"
+#~ msgstr "Счет"
+
+#~ msgid "General"
+#~ msgstr "Общий"
+
+#~ msgid "View and update general settings"
+#~ msgstr "Просмотр и обновление общих настроек"

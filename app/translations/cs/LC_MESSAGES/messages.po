@@ -7,16 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-29 04:27+0100\n"
+"POT-Creation-Date: 2023-08-01 16:44+0100\n"
 "PO-Revision-Date: 2023-05-03 08:52+0000\n"
 "Last-Translator: Tomáš Plášek <tom.plasek05@gmail.com>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/wizarr/app/cs/>\n"
 "Language: cs\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/wizarr/app/cs/>"
-"\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: app/templates/admin.html:4
@@ -24,23 +23,26 @@ msgstr ""
 msgid "Wizarr"
 msgstr "Nastavit Wizarr"
 
-#: app/templates/admin.html:21 app/templates/forgot-password.html:44
+#: app/templates/admin.html:20 app/templates/forgot-password.html:44
 #: app/templates/login.html:61
 #, fuzzy
 msgid "Version"
 msgstr "Nastavení"
 
-#: app/templates/admin.html:53
+#: app/templates/admin.html:20 app/templates/forgot-password.html:44
+#: app/templates/login.html:61
+#, fuzzy
+msgid "Stable"
+msgstr "Uložit"
+
+#: app/templates/admin.html:20 app/templates/forgot-password.html:44
+#: app/templates/login.html:61
+msgid "Beta"
+msgstr "Beta"
+
+#: app/templates/admin.html:51
 msgid "Logout failed"
-msgstr ""
-
-#: app/templates/admin.html:78
-msgid "Goodbye"
-msgstr ""
-
-#: app/templates/admin.html:83
-msgid "Logged out successfully"
-msgstr ""
+msgstr "Odhlášení se nezdařilo"
 
 #: app/templates/forgot-password.html:4
 #, fuzzy
@@ -49,17 +51,18 @@ msgstr "Potvrdit heslo"
 
 #: app/templates/forgot-password.html:28 app/templates/login.html:40
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Zapomněli jste heslo?"
 
 #: app/templates/forgot-password.html:31
 msgid "No worries, contact the administrator to reset your password."
-msgstr ""
+msgstr "Žádný strach, obraťte se na správce, aby vám resetoval heslo."
 
 #: app/templates/forgot-password.html:34
 msgid ""
 "If you are the administrator, you can reset a password by running the "
 "following script:"
 msgstr ""
+"Pokud jste správce, můžete resetovat heslo spuštěním následujícího skriptu:"
 
 #: app/templates/forgot-password.html:39
 #, fuzzy
@@ -68,7 +71,7 @@ msgstr "Zpět"
 
 #: app/templates/forgot-password.html:47 app/templates/login.html:64
 msgid "Toggle Theme"
-msgstr ""
+msgstr "Přepnout motiv"
 
 #: app/templates/homepage.html:3 app/templates/templates/menu.html:16
 #, fuzzy
@@ -88,24 +91,30 @@ msgstr "Nastavit Wizarr"
 #: app/templates/homepage.html:28
 msgid ""
 "Wizarr is a software tool that provides advanced user invitation and "
-"management capabilities for media servers such as Jellyfin, Emby, and "
-"Plex. With Wizarr, server administrators can easily invite new users and "
-"manage their access permissions."
+"management capabilities for media servers such as Jellyfin, Emby, and Plex. "
+"With Wizarr, server administrators can easily invite new users and manage "
+"their access permissions."
 msgstr ""
+"Wizarr je softwarový nástroj, který poskytuje pokročilé funkce pro pozvání a"
+" správu uživatelů pro mediální servery, jako jsou Jellyfin, Emby a Plex. S "
+"Wizarrem mohou správci serveru snadno zvát nové uživatele a spravovat jejich"
+" přístupová oprávnění."
 
 #: app/templates/homepage.html:32
 msgid ""
-"If you were sent here by a friend, please request access or if you have "
-"an invite code, please click Get Started."
+"If you were sent here by a friend, please request access or if you have an "
+"invite code, please click Get Started."
 msgstr ""
+"Pokud vás sem poslal přítel, požádejte o přístup, nebo pokud máte zvací kód,"
+" klikněte na Začít."
 
 #: app/templates/homepage.html:36
 msgid "Get Started"
-msgstr ""
+msgstr "Začít"
 
 #: app/templates/homepage.html:41
 msgid "or"
-msgstr ""
+msgstr "nebo"
 
 #: app/templates/homepage.html:45
 #, fuzzy
@@ -119,7 +128,6 @@ msgstr "Server"
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: app/templates/admin/account.html:28
 #: app/templates/admin/settings/main.html:50
 #: app/templates/admin/settings/password.html:6
 #: app/templates/invite/signup/jellyfin.html:27 app/templates/login.html:36
@@ -145,22 +153,6 @@ msgstr "Interní chyba serveru."
 msgid "Invite User"
 msgstr "Pozvat uživatele"
 
-#: app/templates/admin/account.html:10
-#, fuzzy
-msgid "Your Account"
-msgstr "Založit účet"
-
-#: app/templates/admin/account.html:23
-#, fuzzy
-msgid "Account"
-msgstr "Založit účet"
-
-#: app/templates/admin/account.html:33
-#: app/templates/admin/settings/main.html:57
-#, fuzzy
-msgid "Sessions"
-msgstr "Nastavení"
-
 #: app/templates/admin/invite.html:4 app/templates/admin/invite.html:193
 #: app/templates/admin/invite.html:581
 msgid "Create Invitation"
@@ -173,7 +165,7 @@ msgstr "Vytvořit pozvánku"
 
 #: app/templates/admin/invite.html:21
 msgid "Invite Code String"
-msgstr ""
+msgstr "Řetězec kódu pozvánky"
 
 #: app/templates/admin/invite.html:21
 msgid "(optional)"
@@ -206,7 +198,7 @@ msgstr "1 měsíc"
 
 #: app/templates/admin/invite.html:42 app/templates/admin/invite.html:134
 msgid "1 Year"
-msgstr ""
+msgstr "1 rok"
 
 #: app/templates/admin/invite.html:43
 msgid "Never"
@@ -214,7 +206,7 @@ msgstr "Nikdy"
 
 #: app/templates/admin/invite.html:44 app/templates/admin/invite.html:135
 msgid "Custom"
-msgstr ""
+msgstr "Zvyk"
 
 #: app/templates/admin/invite.html:52
 #, fuzzy
@@ -235,13 +227,14 @@ msgstr "Neomezené použití"
 msgid "Invite to Plex Home"
 msgstr "Zvací kód"
 
-#: app/templates/admin/invite.html:90 app/templates/tables/invite-table.html:14
+#: app/templates/admin/invite.html:90
+#: app/templates/tables/invite-table.html:12
 #, fuzzy
 msgid "Allow Downloads"
 msgstr "Stáhnout"
 
 #: app/templates/admin/invite.html:106 app/templates/admin/invite.html:119
-#: app/templates/tables/invite-table.html:16
+#: app/templates/tables/invite-table.html:14
 #, fuzzy
 msgid "Duration"
 msgstr "Délka trvání"
@@ -255,9 +248,12 @@ msgid ""
 "When set, invited user(s) will be removed from the server after the set "
 "number of days. (1-999)"
 msgstr ""
+"Je-li nastaveno, pozvaní uživatelé budou po uplynutí nastaveného počtu dní "
+"ze serveru odstraněni. (1-999)"
 
 #: app/templates/admin/invite.html:129
-#: app/templates/tables/invite-table.html:11
+#: app/templates/tables/invite-table.html:10
+#: app/templates/tables/invite-table.html:80
 #, fuzzy
 msgid "Unlimited"
 msgstr "Neomezené"
@@ -304,7 +300,7 @@ msgstr "Sdílet"
 
 #: app/templates/admin/invite.html:357
 msgid "An error occurred while copying the link to the clipboard!"
-msgstr ""
+msgstr "Při kopírování odkazu do schránky došlo k chybě!"
 
 #: app/templates/admin/invite.html:481
 #, fuzzy
@@ -318,15 +314,15 @@ msgstr "Základní"
 
 #: app/templates/admin/invite.html:507
 msgid "Creating..."
-msgstr ""
+msgstr "Vytváření..."
 
 #: app/templates/admin/invite.html:575
 msgid "The invite has been created"
-msgstr ""
+msgstr "Pozvánka byla vytvořena"
 
 #: app/templates/admin/invite.html:578
 msgid "There was an error creating the invite"
-msgstr ""
+msgstr "Při vytváření pozvánky došlo k chybě"
 
 #: app/templates/admin/invites.html:4 app/templates/templates/menu.html:22
 msgid "Invitations"
@@ -363,7 +359,7 @@ msgstr "Nastavení uživatele"
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
-msgstr ""
+msgstr "Zásady pro uživatele"
 
 #: app/templates/admin/users.html:4
 #, fuzzy
@@ -372,7 +368,7 @@ msgstr "Pozvat uživatele"
 
 #: app/templates/admin/users.html:8
 msgid "Manage users that joined your server"
-msgstr ""
+msgstr "Spravujte uživatele, kteří se připojili k vašemu serveru"
 
 #: app/templates/admin/users.html:13
 #, fuzzy
@@ -383,6 +379,11 @@ msgstr "Uživatelé"
 #, fuzzy
 msgid "Add User"
 msgstr "Uživatelé"
+
+#: app/templates/admin/settings/about.html:111
+#: app/templates/admin/settings/about.html:221
+msgid "Load More"
+msgstr "Načíst další"
 
 #: app/templates/admin/settings/accounts.html:13
 #, fuzzy
@@ -409,61 +410,30 @@ msgstr ""
 
 #: app/templates/admin/settings/discord.html:9
 msgid "Discord Widget"
-msgstr ""
+msgstr "Discord Widget"
 
 #: app/templates/admin/settings/discord.html:19
-#: app/templates/admin/settings/general.html:38
 #: app/templates/admin/settings/html.html:9
+#: app/templates/admin/settings/media.html:38
 #: app/templates/admin/settings/requests.html:26
 msgid "Save"
 msgstr "Uložit"
 
 #: app/templates/admin/settings/discord.html:42
-#: app/templates/admin/settings/general.html:54
 #: app/templates/admin/settings/html.html:25
+#: app/templates/admin/settings/media.html:54
 #: app/templates/admin/settings/requests.html:58
 msgid "Settings saved successfully!"
-msgstr ""
+msgstr "Nastavení byla úspěšně uložena!"
 
-#: app/templates/admin/settings/general.html:6
-#: app/templates/setup/pages/settings.html:6
-msgid "Server Display Name"
-msgstr ""
+#: app/templates/admin/settings/language.html:3
+msgid "Please use the dropdown below to select your language."
+msgstr "Pomocí níže uvedeného rozevíracího seznamu vyberte svůj jazyk."
 
-#: app/templates/admin/settings/general.html:11
-#: app/templates/setup/pages/settings.html:11
-msgid "Server"
-msgstr "Server"
-
-#: app/templates/admin/settings/general.html:13
-msgid "Choose a server"
-msgstr ""
-
-#: app/templates/admin/settings/general.html:20
-#: app/templates/setup/pages/settings.html:20
-#: app/templates/wizard/pages/jellyfin/download.html:30
-msgid "Server URL"
-msgstr "Adresa URL serveru"
-
-#: app/templates/admin/settings/general.html:25
-#: app/templates/setup/pages/settings.html:25
+#: app/templates/admin/settings/language.html:7
 #, fuzzy
-msgid "Server Token / API Key"
-msgstr ""
-"Server\n"
-"                Token / API klíč"
-
-#: app/templates/admin/settings/general.html:30
-#: app/templates/modals/update-libraries.html:3
-#: app/templates/setup/pages/settings.html:37
-#, fuzzy
-msgid "Server Libraries"
+msgid "Select Language"
 msgstr "Knihovny"
-
-#: app/templates/admin/settings/general.html:32
-#: app/templates/setup/pages/settings.html:39
-msgid "Scan For Libraries"
-msgstr "Skenovat knihovny"
 
 #: app/templates/admin/settings/main.html:5
 #, fuzzy
@@ -472,23 +442,25 @@ msgstr "Nastavení"
 
 #: app/templates/admin/settings/main.html:6
 msgid "General settings for the server"
-msgstr ""
+msgstr "Obecná nastavení serveru"
 
 #: app/templates/admin/settings/main.html:9
-msgid "General"
-msgstr ""
+#, fuzzy
+msgid "Media Server"
+msgstr "Server"
 
 #: app/templates/admin/settings/main.html:10
-msgid "View and update general settings"
-msgstr ""
+#, fuzzy
+msgid "Configure your media server settings"
+msgstr "Nastavení serveru"
 
 #: app/templates/admin/settings/main.html:16
 msgid "Requests"
-msgstr ""
+msgstr "Žádosti"
 
 #: app/templates/admin/settings/main.html:17
 msgid "Add Jellyseerr, Overseerr or Ombi support"
-msgstr ""
+msgstr "Přidejte podporu Jellyseerr, Overseerr nebo Ombi"
 
 #: app/templates/admin/settings/main.html:23
 #, fuzzy
@@ -497,7 +469,7 @@ msgstr "Vytvořit účet"
 
 #: app/templates/admin/settings/main.html:24
 msgid "Add API keys for external services"
-msgstr ""
+msgstr "Přidejte klíče API pro externí služby"
 
 #: app/templates/admin/settings/main.html:30
 #, fuzzy
@@ -506,7 +478,7 @@ msgstr "Pozvánky"
 
 #: app/templates/admin/settings/main.html:31
 msgid "Configure notification settings"
-msgstr ""
+msgstr "Nakonfigurujte nastavení oznámení"
 
 #: app/templates/admin/settings/main.html:39
 #, fuzzy
@@ -520,7 +492,7 @@ msgstr "Založit účet"
 
 #: app/templates/admin/settings/main.html:43
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: app/templates/admin/settings/main.html:44
 #, fuzzy
@@ -532,85 +504,147 @@ msgstr "Nastavit Plex ve Vašem prohlížeči"
 msgid "Change your password"
 msgstr "Potvrdit heslo"
 
+#: app/templates/admin/settings/main.html:57
+#, fuzzy
+msgid "Sessions"
+msgstr "Nastavení"
+
 #: app/templates/admin/settings/main.html:58
 msgid "View and manage your active sessions"
-msgstr ""
+msgstr "Zobrazení a správa aktivních relací"
 
-#: app/templates/admin/settings/main.html:66
+#: app/templates/admin/settings/main.html:64
+msgid "Language"
+msgstr "Jazyk"
+
+#: app/templates/admin/settings/main.html:65
+#, fuzzy
+msgid "Change your language"
+msgstr "Potvrdit heslo"
+
+#: app/templates/admin/settings/main.html:73
 #, fuzzy
 msgid "UI Settings"
 msgstr "Nastavení"
 
-#: app/templates/admin/settings/main.html:67
+#: app/templates/admin/settings/main.html:74
 msgid "Modify the look and feel of the server"
-msgstr ""
-
-#: app/templates/admin/settings/main.html:70
-msgid "Discord"
-msgstr ""
-
-#: app/templates/admin/settings/main.html:71
-msgid "Enable Discord page and configure settings"
-msgstr ""
+msgstr "Upravte vzhled a chování serveru"
 
 #: app/templates/admin/settings/main.html:77
+msgid "Discord"
+msgstr "Svár"
+
+#: app/templates/admin/settings/main.html:78
+msgid "Enable Discord page and configure settings"
+msgstr "Povolte stránku Discord a nakonfigurujte nastavení"
+
+#: app/templates/admin/settings/main.html:84
 #, fuzzy
 msgid "Custom HTML"
 msgstr "Délka trvání"
 
-#: app/templates/admin/settings/main.html:78
+#: app/templates/admin/settings/main.html:85
 msgid "Add Custom HTML page to help screen"
-msgstr ""
+msgstr "Přidat vlastní stránku HTML na obrazovku nápovědy"
 
-#: app/templates/admin/settings/main.html:86
+#: app/templates/admin/settings/main.html:93
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Pokročilé možnosti"
 
-#: app/templates/admin/settings/main.html:87
+#: app/templates/admin/settings/main.html:94
 msgid "Advanced settings for the server"
-msgstr ""
+msgstr "Pokročilá nastavení serveru"
 
-#: app/templates/admin/settings/main.html:90
+#: app/templates/admin/settings/main.html:97
 #, fuzzy
 msgid "Logs"
 msgstr "Přihlášení"
 
-#: app/templates/admin/settings/main.html:91
+#: app/templates/admin/settings/main.html:98
 msgid "View and download server logs"
-msgstr ""
+msgstr "Zobrazení a stahování protokolů serveru"
 
-#: app/templates/admin/settings/main.html:97
+#: app/templates/admin/settings/main.html:104
+msgid "Tasks"
+msgstr "Úkoly"
+
+#: app/templates/admin/settings/main.html:105
+msgid "View and manage scheduled tasks"
+msgstr "Zobrazení a správa naplánovaných úloh"
+
+#: app/templates/admin/settings/main.html:111
 #, fuzzy
 msgid "Updates"
 msgstr "Knihovny"
 
-#: app/templates/admin/settings/main.html:98
+#: app/templates/admin/settings/main.html:112
 msgid "Check for and view updates"
-msgstr ""
+msgstr "Zkontrolujte a zobrazte aktualizace"
 
-#: app/templates/admin/settings/main.html:104
+#: app/templates/admin/settings/main.html:118
 #, fuzzy
 msgid "Backup"
 msgstr "Zpět"
 
-#: app/templates/admin/settings/main.html:105
+#: app/templates/admin/settings/main.html:119
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Vytvořit účet"
 
-#: app/templates/admin/settings/main.html:111
+#: app/templates/admin/settings/main.html:125
 #, fuzzy
 msgid "About"
 msgstr "Založit účet"
 
-#: app/templates/admin/settings/main.html:112
+#: app/templates/admin/settings/main.html:126
 msgid "View information about the server"
-msgstr ""
+msgstr "Zobrazení informací o serveru"
 
-#: app/templates/admin/settings/main.html:150
+#: app/templates/admin/settings/main.html:164
 msgid "No settings matched your search."
+msgstr "Vašemu vyhledávání neodpovídají žádné nastavení."
+
+#: app/templates/admin/settings/media.html:6
+#: app/templates/setup/pages/settings.html:6
+msgid "Server Display Name"
+msgstr "Zobrazovaný název serveru"
+
+#: app/templates/admin/settings/media.html:11
+#: app/templates/setup/pages/settings.html:11
+msgid "Server"
+msgstr "Server"
+
+#: app/templates/admin/settings/media.html:13
+msgid "Choose a server"
+msgstr "Vyberte server"
+
+#: app/templates/admin/settings/media.html:20
+#: app/templates/setup/pages/settings.html:20
+#: app/templates/wizard/pages/jellyfin/download.html:30
+msgid "Server URL"
+msgstr "Adresa URL serveru"
+
+#: app/templates/admin/settings/media.html:25
+#: app/templates/setup/pages/settings.html:25
+#, fuzzy
+msgid "Server Token / API Key"
 msgstr ""
+"Server\n"
+"                Token / API klíč"
+
+#: app/templates/admin/settings/media.html:30
+#: app/templates/modals/update-libraries.html:3
+#: app/templates/setup/pages/settings.html:37
+#, fuzzy
+msgid "Server Libraries"
+msgstr "Knihovny"
+
+#: app/templates/admin/settings/media.html:32
+#: app/templates/setup/pages/settings.html:39
+msgid "Scan For Libraries"
+msgstr "Skenovat knihovny"
 
 #: app/templates/admin/settings/notifications.html:18
 #, fuzzy
@@ -629,15 +663,15 @@ msgstr "Heslo"
 
 #: app/templates/admin/settings/profile.html:6
 msgid "Display Name"
-msgstr ""
+msgstr "Zobrazovaný název"
 
 #: app/templates/admin/settings/profile.html:18
 msgid "Email Address"
-msgstr ""
+msgstr "Emailová adresa"
 
 #: app/templates/admin/settings/profile.html:25
 msgid "Update"
-msgstr ""
+msgstr "Aktualizace"
 
 #: app/templates/admin/settings/requests.html:4
 #, fuzzy
@@ -646,7 +680,7 @@ msgstr "Server"
 
 #: app/templates/admin/settings/requests.html:6
 msgid "Disabled"
-msgstr ""
+msgstr "Zakázáno"
 
 #: app/templates/admin/settings/requests.html:15
 #, fuzzy
@@ -655,15 +689,15 @@ msgstr "Adresa URL serveru"
 
 #: app/templates/admin/settings/requests.html:20
 msgid "Request Server API Key"
-msgstr ""
+msgstr "Vyžádejte si klíč API serveru"
 
 #: app/templates/admin/settings/sessions.html:14
 msgid "Revoke All"
-msgstr ""
+msgstr "Odvolat vše"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
-msgstr ""
+msgstr "Přístup odepřen."
 
 #: app/templates/error/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
@@ -675,7 +709,8 @@ msgstr "Něco chybí."
 
 #: app/templates/error/404.html:33
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "Omlouváme se, ale nemůžeme najít tuto stránku. Vypadá to že neexistuje!"
+msgstr ""
+"Omlouváme se, ale nemůžeme najít tuto stránku. Vypadá to že neexistuje!"
 
 #: app/templates/error/500.html:19
 msgid "Internal Server Error."
@@ -687,7 +722,7 @@ msgstr " Něco se pokazilo. Zkuste to prosím později."
 
 #: app/templates/error/custom.html:20
 msgid "Get Help"
-msgstr ""
+msgstr "Získejte pomoc"
 
 #: app/templates/invite/invite-invalid.html:15
 #, fuzzy
@@ -702,7 +737,7 @@ msgstr "Byl/a jste pozván/a k připojení k %(name)s serveru!"
 #: app/templates/invite/join.html:20
 #: app/templates/invite/signup/jellyfin.html:40
 #: app/templates/invite/signup/plex.html:25
-#: app/templates/tables/invite-table.html:7
+#: app/templates/tables/invite-table.html:6
 #, fuzzy
 msgid "Invite Code"
 msgstr "Zvací kód"
@@ -745,7 +780,7 @@ msgstr "Přihlásit se"
 
 #: app/templates/invite/signup/plex.html:5
 msgid "Please wait"
-msgstr ""
+msgstr "Prosím, čekejte"
 
 #: app/templates/invite/signup/plex.html:6
 #, fuzzy
@@ -754,11 +789,11 @@ msgstr "Založit účet"
 
 #: app/templates/invite/signup/plex.html:7
 msgid "Almost there!"
-msgstr ""
+msgstr "Téměř tam!"
 
 #: app/templates/invite/signup/plex.html:8
 msgid "All done!"
-msgstr ""
+msgstr "Vše hotovo!"
 
 #: app/templates/invite/signup/plex.html:9
 #, fuzzy
@@ -767,17 +802,19 @@ msgstr "Vytvořeno"
 
 #: app/templates/invite/signup/plex.html:10
 msgid "Please try again"
-msgstr ""
+msgstr "Prosím zkuste to znovu"
 
 #: app/templates/invite/signup/plex.html:78
 msgid ""
 "You're all set, click continue to get started and walkthrough how to use "
 "Plex!"
 msgstr ""
+"Vše je připraveno, kliknutím na Pokračovat začněte a projděte si, jak "
+"používat Plex!"
 
 #: app/templates/invite/signup/plex.html:81
 msgid "Continue"
-msgstr ""
+msgstr "Pokračovat"
 
 #: app/templates/invite/signup/plex.html:90
 #, fuzzy
@@ -786,7 +823,7 @@ msgstr " Něco se pokazilo. Zkuste to prosím později."
 
 #: app/templates/invite/signup/plex.html:93
 msgid "Retry"
-msgstr ""
+msgstr "Zkuste to znovu"
 
 #: app/templates/modals/create-api-key.html:9
 #: app/templates/modals/create-notification-agent.html:13
@@ -803,7 +840,7 @@ msgstr "Název"
 #: app/templates/modals/scan-libraries.html:19
 #: app/templates/modals/update-libraries.html:23
 msgid "Cancel"
-msgstr ""
+msgstr "zrušení"
 
 #: app/templates/modals/create-api-key.html:17
 #, fuzzy
@@ -812,16 +849,16 @@ msgstr "Vytvořeno"
 
 #: app/templates/modals/create-api-key.html:46
 msgid "Please fill out all required fields."
-msgstr ""
+msgstr "Vyplňte prosím všechna povinná pole."
 
 #: app/templates/modals/create-api-key.html:70
 msgid "API key already exists."
-msgstr ""
+msgstr "Klíč API již existuje."
 
 #: app/templates/modals/create-api-key.html:76
 #: app/templates/modals/delete-notification-agent.html:35
 msgid "You are not authorized to perform this action."
-msgstr ""
+msgstr "K provedení této akce nemáte oprávnění."
 
 #: app/templates/modals/create-api-key.html:82
 #: app/templates/modals/run-task.html:35
@@ -836,15 +873,15 @@ msgstr "Vytvořeno"
 
 #: app/templates/modals/create-notification-agent.html:3
 msgid "New Agent"
-msgstr ""
+msgstr "Nový agent"
 
 #: app/templates/modals/create-notification-agent.html:18
 msgid "Notification Service"
-msgstr ""
+msgstr "Notifikační služba"
 
 #: app/templates/modals/create-notification-agent.html:20
 msgid "Choose a service"
-msgstr ""
+msgstr "Vyberte službu"
 
 #: app/templates/modals/create-notification-agent.html:30
 #: app/templates/modals/create-notification-agent.html:88
@@ -864,19 +901,19 @@ msgstr "(volitelné)"
 #: app/templates/modals/create-notification-agent.html:136
 #: app/templates/modals/create-notification-agent.html:153
 msgid "Agent URL"
-msgstr ""
+msgstr "Adresa URL agenta"
 
 #: app/templates/modals/create-notification-agent.html:49
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Testujte a vytvořte agenta"
 
 #: app/templates/modals/create-notification-agent.html:105
 msgid "Webhook ID"
-msgstr ""
+msgstr "ID webhooku"
 
 #: app/templates/modals/create-notification-agent.html:111
 msgid "Webhook Token"
-msgstr ""
+msgstr "Token webhooku"
 
 #: app/templates/modals/create-notification-agent.html:124
 #, fuzzy
@@ -885,7 +922,7 @@ msgstr "Uživatelské jméno"
 
 #: app/templates/modals/create-notification-agent.html:130
 msgid "API Token"
-msgstr ""
+msgstr "API Token"
 
 #: app/templates/modals/create-notification-agent.html:242
 #: app/templates/modals/create-notification-agent.html:249
@@ -895,23 +932,23 @@ msgstr " Něco se pokazilo. Zkuste to prosím později."
 
 #: app/templates/modals/create-notification-agent.html:253
 msgid "Notification agent successfully created!"
-msgstr ""
+msgstr "Oznamovací agent byl úspěšně vytvořen!"
 
 #: app/templates/modals/delete-api-key.html:3
 #: app/templates/modals/revoke-session.html:3
 msgid "Warning"
-msgstr ""
+msgstr "Varování"
 
 #: app/templates/modals/delete-api-key.html:8
 msgid "Are you sure you want to delete this api key?"
-msgstr ""
+msgstr "Opravdu chcete smazat tento klíč API?"
 
 #: app/templates/modals/delete-api-key.html:16
 #: app/templates/modals/delete-notification-agent.html:16
 #: app/templates/modals/revoke-session.html:16
 #: app/templates/tables/admin-users.html:40
 #: app/templates/tables/global-users.html:59
-#: app/templates/tables/invite-table.html:101
+#: app/templates/tables/invite-table.html:100
 #: app/templates/tables/notification-table.html:36
 #, fuzzy
 msgid "Delete"
@@ -919,15 +956,15 @@ msgstr "Základní"
 
 #: app/templates/modals/delete-notification-agent.html:41
 msgid "An error occurred while deleting the Notification Agent."
-msgstr ""
+msgstr "Při odstraňování oznamovacího agenta došlo k chybě."
 
 #: app/templates/modals/delete-notification-agent.html:45
 msgid "Notification Agent deleted successfully!"
-msgstr ""
+msgstr "Notifikační agent byl úspěšně smazán!"
 
 #: app/templates/modals/revoke-session.html:8
 msgid "Are you sure you want to revoke this session?"
-msgstr ""
+msgstr "Opravdu chcete tuto relaci zrušit?"
 
 #: app/templates/modals/revoke-session.html:41
 #, fuzzy
@@ -936,19 +973,19 @@ msgstr " Něco se pokazilo. Zkuste to prosím později."
 
 #: app/templates/modals/revoke-session.html:46
 msgid "Session deleted successfully!"
-msgstr ""
+msgstr "Relace byla úspěšně smazána!"
 
 #: app/templates/modals/run-task.html:3 app/templates/modals/run-task.html:16
 msgid "Run Task"
-msgstr ""
+msgstr "Spustit úlohu"
 
 #: app/templates/modals/run-task.html:8
 msgid "Are you sure you want to run this task?"
-msgstr ""
+msgstr "Opravdu chcete spustit tuto úlohu?"
 
 #: app/templates/modals/run-task.html:39
 msgid "Task has been run."
-msgstr ""
+msgstr "Úloha byla spuštěna."
 
 #: app/templates/modals/update-libraries.html:26
 #, fuzzy
@@ -976,29 +1013,29 @@ msgstr "Vytvořit účet"
 
 #: app/templates/setup/pages/complete.html:2
 msgid "Your Done"
-msgstr ""
+msgstr "Vaše hotovo"
 
 #: app/templates/setup/pages/complete.html:5
 msgid "You have successfully completed the setup process."
-msgstr ""
+msgstr "Úspěšně jste dokončili proces nastavení."
 
 #: app/templates/setup/pages/complete.html:9
 msgid "Go to Dashboard"
-msgstr ""
+msgstr "Přejděte na Dashboard"
 
 #: app/templates/setup/pages/database.html:2
 msgid "Database"
-msgstr ""
+msgstr "Databáze"
 
 #: app/templates/setup/pages/database.html:5
 msgid "Currently Wizarr only supports it's internal SQLite database."
-msgstr ""
+msgstr "V současné době Wizarr podporuje pouze svou interní databázi SQLite."
 
 #: app/templates/setup/pages/database.html:7
 msgid ""
 "This is a temporary and we are working on adding support for other "
 "databases."
-msgstr ""
+msgstr "Toto je dočasné a pracujeme na přidání podpory pro další databáze."
 
 #: app/templates/setup/pages/settings.html:2
 #: app/templates/templates/menu.html:34
@@ -1007,20 +1044,25 @@ msgstr "Nastavení"
 
 #: app/templates/setup/pages/settings.html:31
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #: app/templates/setup/pages/settings.html:45
 msgid "Done"
-msgstr ""
+msgstr "Hotovo"
 
 #: app/templates/setup/pages/welcome.html:5
 msgid ""
-"Wizarr is an automatic user invitation system for Plex, Jellyfin, and "
-"Emby. With Wizarr, you can easily create unique invitation links to share"
-" with users, automatically inviting them to your Media Server! "
-"Furthermore, Wizarr provides guidance on downloading clients and "
-"instructions for using Jellyseerr, Overseerr or Ombi site."
+"Wizarr is an automatic user invitation system for Plex, Jellyfin, and Emby. "
+"With Wizarr, you can easily create unique invitation links to share with "
+"users, automatically inviting them to your Media Server! Furthermore, Wizarr"
+" provides guidance on downloading clients and instructions for using "
+"Jellyseerr, Overseerr or Ombi site."
 msgstr ""
+"Wizarr je automatický systém pozvání uživatelů pro Plex, Jellyfin a Emby. S "
+"Wizarrem můžete snadno vytvářet jedinečné pozvánky, které můžete sdílet s "
+"uživateli, a automaticky je zvát na váš mediální server! Kromě toho Wizarr "
+"poskytuje pokyny pro stahování klientů a pokyny pro používání stránek "
+"Jellyseerr, Overseerr nebo Ombi."
 
 #: app/templates/setup/pages/welcome.html:8
 msgid ""
@@ -1028,42 +1070,58 @@ msgid ""
 "features and intuitive interface. Should you need any assistance, please "
 "refer to our documentation or reach out to our community for support."
 msgstr ""
+"Doufáme, že se vám Wizarr bude líbit a zveme vás k prozkoumání jeho "
+"výkonných funkcí a intuitivního rozhraní. Pokud byste potřebovali pomoc, "
+"podívejte se prosím do naší dokumentace nebo se obraťte na naši komunitu se "
+"žádostí o podporu."
 
 #: app/templates/setup/pages/welcome.html:11
 msgid ""
-"Check out our documentation for detailed instructions on how to install "
-"and run Wizarr!"
+"Check out our documentation for detailed instructions on how to install and "
+"run Wizarr!"
 msgstr ""
+"Podívejte se do naší dokumentace pro podrobné pokyny k instalaci a spuštění "
+"Wizarr!"
 
 #: app/templates/tables/admin-users.html:37
 #: app/templates/tables/global-users.html:56
-#: app/templates/tables/invite-table.html:98
+#: app/templates/tables/invite-table.html:97
 #: app/templates/tables/notification-table.html:33
 msgid "Edit"
-msgstr ""
+msgstr "Upravit"
 
-#: app/templates/tables/invite-table.html:8
+#: app/templates/tables/invite-table.html:7
 #, fuzzy
 msgid "Used"
 msgstr "Použito"
 
-#: app/templates/tables/invite-table.html:9
-#, fuzzy
-msgid "Created"
-msgstr "Vytvořeno"
-
-#: app/templates/tables/invite-table.html:10
+#: app/templates/tables/invite-table.html:8
 #, fuzzy
 msgid "Expired"
 msgstr "Vypršelo"
 
-#: app/templates/tables/invite-table.html:12
+#: app/templates/tables/invite-table.html:9
 msgid "Libraries"
 msgstr "Knihovny"
 
+#: app/templates/tables/invite-table.html:15
+#, fuzzy
+msgid "Created"
+msgstr "Vytvořeno"
+
+#: app/templates/tables/invite-table.html:115
+#, fuzzy
+msgid "No Invitations"
+msgstr "Pozvánky"
+
+#: app/templates/tables/invite-table.html:118
+#, fuzzy
+msgid "You have not created any invitations yet."
+msgstr "Vytvořit pozvánku"
+
 #: app/templates/tables/sessions-table.html:27
 msgid "Revoke"
-msgstr ""
+msgstr "Zrušit"
 
 #: app/templates/tables/task-table.html:7
 #, fuzzy
@@ -1072,11 +1130,11 @@ msgstr "Název"
 
 #: app/templates/tables/task-table.html:8
 msgid "Next Execution"
-msgstr ""
+msgstr "Další provedení"
 
 #: app/templates/tables/task-table.html:40
 msgid "Run Now"
-msgstr ""
+msgstr "Spustit hned"
 
 #: app/templates/templates/menu.html:28
 msgid "Users"
@@ -1092,15 +1150,15 @@ msgstr "Aktualizace k dispozici. Klikněte zde."
 
 #: app/templates/wizard/base.html:4
 msgid "Help"
-msgstr ""
+msgstr "Pomoc"
 
 #: app/templates/wizard/base.html:12
 msgid "Getting Started!"
-msgstr ""
+msgstr "Začínáme!"
 
 #: app/templates/wizard/base.html:38
 msgid "Next"
-msgstr ""
+msgstr "další"
 
 #: app/templates/wizard/base.html:45
 #, fuzzy
@@ -1109,32 +1167,33 @@ msgstr "Otevřít Plex"
 
 #: app/templates/wizard/pages/requests.html:4
 msgid "Automatic Media Requests"
-msgstr ""
+msgstr "Automatické požadavky na média"
 
 #: app/templates/wizard/pages/requests.html:9
 msgid ""
-"We are excited to offer you a wide selection of media to choose from. If "
-"you're having trouble finding\n"
-"        something you like, don't worry! We have a user-friendly request "
-"system that can automatically search for the\n"
+"We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
+"        something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
 "        media you're looking for. "
 msgstr ""
+"Jsme rádi, že vám můžeme nabídnout široký výběr médií, ze kterých si můžete vybrat. Pokud máte problém najít\n"
+"        něco, co se vám líbí, nebojte se! Máme uživatelsky přívětivý systém požadavků, který dokáže automaticky vyhledávat\n"
+"        média, která hledáte."
 
 #: app/templates/wizard/pages/requests.html:20
 msgid "Request any available Movie or TV Show"
-msgstr ""
+msgstr "Vyžádejte si jakýkoli dostupný film nebo televizní pořad"
 
 #: app/templates/wizard/pages/requests.html:27
 msgid "Requested media will be automatically downloaded (if available)"
-msgstr ""
+msgstr "Požadované médium bude automaticky staženo (pokud je k dispozici)"
 
 #: app/templates/wizard/pages/requests.html:34
 msgid "If enabled, receive notifications"
-msgstr ""
+msgstr "Pokud je povoleno, přijímat upozornění"
 
 #: app/templates/wizard/pages/requests.html:40
 msgid "Check it Out"
-msgstr ""
+msgstr "Koukni na to"
 
 #: app/templates/wizard/pages/jellyfin/download.html:2
 #, fuzzy
@@ -1148,12 +1207,10 @@ msgstr ""
 #: app/templates/wizard/pages/jellyfin/download.html:7
 #, fuzzy
 msgid ""
-"Great news! You now have access to our server's media collection. Let's "
-"make sure you know how to use\n"
+"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 "    it with Jellyfin."
 msgstr ""
-"Skvělé zprávy! Nyní máte přístup do kolekce médií na našem serveru. "
-"Pojďme se ujistit že víte jak je využít\n"
+"Skvělé zprávy! Nyní máte přístup do kolekce médií na našem serveru. Pojďme se ujistit že víte jak je využít\n"
 "        s Jellyfin."
 
 #: app/templates/wizard/pages/jellyfin/download.html:11
@@ -1169,6 +1226,8 @@ msgid ""
 "If you don't wish to Download the App feel free to use Jellyfin in your "
 "devices web browser, just click \"Next\"."
 msgstr ""
+"Pokud si nepřejete stáhnout aplikaci, můžete použít Jellyfin ve webovém "
+"prohlížeči zařízení, stačí kliknout na „Další“."
 
 #: app/templates/wizard/pages/jellyfin/download.html:25
 #, fuzzy
@@ -1178,7 +1237,7 @@ msgstr "Adresa URL serveru"
 #: app/templates/wizard/pages/jellyfin/download.html:34
 #: app/templates/wizard/pages/jellyfin/download.html:191
 msgid "Copy"
-msgstr ""
+msgstr "kopírovat"
 
 #: app/templates/wizard/pages/jellyfin/download.html:59
 #: app/templates/wizard/pages/jellyfin/download.html:83
@@ -1192,24 +1251,28 @@ msgstr "Stáhnout"
 
 #: app/templates/wizard/pages/jellyfin/download.html:188
 msgid "Copied!"
-msgstr ""
+msgstr "Zkopírováno!"
 
 #: app/templates/wizard/pages/jellyfin/tips.html:3
 #: app/templates/wizard/pages/plex/tips.html:3
 msgid "Right, so how do I watch stuff?"
-msgstr ""
+msgstr "Dobře, tak jak mám sledovat věci?"
 
 #: app/templates/wizard/pages/jellyfin/tips.html:6
 msgid ""
-"It couldn't be simpler! Jellyfin is available on a wide variety of "
-"devices including laptops, tablets, smartphones, and TVs. All you need to"
-" do is download the Jellyfin app on your device, sign in with your "
-"account, and you're ready to start streaming your media."
+"It couldn't be simpler! Jellyfin is available on a wide variety of devices "
+"including laptops, tablets, smartphones, and TVs. All you need to do is "
+"download the Jellyfin app on your device, sign in with your account, and "
+"you're ready to start streaming your media."
 msgstr ""
+"Jednodušší už to být nemůže! Jellyfin je k dispozici na široké škále "
+"zařízení včetně notebooků, tabletů, chytrých telefonů a televizorů. Vše, co "
+"musíte udělat, je stáhnout si do zařízení aplikaci Jellyfin, přihlásit se "
+"pomocí svého účtu a můžete začít streamovat svá média."
 
 #: app/templates/wizard/pages/jellyfin/tips.html:9
 msgid "It's that easy!"
-msgstr ""
+msgstr "Je to tak snadné!"
 
 #: app/templates/wizard/pages/jellyfin/welcome.html:3
 msgid "Eh, So, What is Jellyfin exactly?"
@@ -1219,10 +1282,16 @@ msgstr "Eh, no, co je přesně Jellyfin?"
 msgid ""
 "Jellyfin is a platform that lets you stream all your favorite movies, TV "
 "shows, and music in one place. It's like having your own personal movie "
-"theater right at your fingertips! Think of it as a digital library of "
-"your favorite content that you can access from anywhere, on any device - "
-"your phone, tablet, laptop, smart TV, you name it."
+"theater right at your fingertips! Think of it as a digital library of your "
+"favorite content that you can access from anywhere, on any device - your "
+"phone, tablet, laptop, smart TV, you name it."
 msgstr ""
+"Jellyfin je platforma, která vám umožní streamovat všechny vaše oblíbené "
+"filmy, televizní pořady a hudbu na jednom místě. Je to jako mít své vlastní "
+"osobní kino přímo na dosah ruky! Představte si to jako digitální knihovnu "
+"vašeho oblíbeného obsahu, ke které máte přístup odkudkoli a z jakéhokoli "
+"zařízení – telefonu, tabletu, notebooku, chytré televize, co si jen "
+"vzpomenete."
 
 #: app/templates/wizard/pages/plex/download.html:4
 #, fuzzy
@@ -1234,16 +1303,18 @@ msgstr ""
 #: app/templates/wizard/pages/plex/download.html:8
 #, fuzzy
 msgid ""
-"So you now have access to our server's media collection. Let's make sure "
-"you know how to use it with Plex."
+"So you now have access to our server's media collection. Let's make sure you"
+" know how to use it with Plex."
 msgstr ""
-"Skvělé zprávy! Nyní máte přístup do kolekce médií na našem serveru. "
-"Pojďme se ujistit že víte jak je využít\n"
+"Skvělé zprávy! Nyní máte přístup do kolekce médií na našem serveru. Pojďme se ujistit že víte jak je využít\n"
 "        s Jellyfin."
 
 #: app/templates/wizard/pages/plex/download.html:11
-msgid "Planning on watching Movies on this device? Download Plex for this device."
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
+"Plánujete na tomto zařízení sledovat filmy? Stáhněte si Plex pro toto "
+"zařízení."
 
 #: app/templates/wizard/pages/plex/download.html:14
 msgid "Download"
@@ -1251,60 +1322,70 @@ msgstr "Stáhnout"
 
 #: app/templates/wizard/pages/plex/tips.html:6
 msgid ""
-"It couldn't be simpler! Plex is available on a wide variety of devices "
-"including laptops, tablets,\n"
-"        smartphones, and TVs. All you need to do is download the Plex app"
-" on your device, sign in with your account, and\n"
+"It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+"        smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
+"Jednodušší už to být nemůže! Plex je k dispozici na široké škále zařízení včetně notebooků, tabletů,\n"
+"        smartphony a televizory. Vše, co musíte udělat, je stáhnout si do zařízení aplikaci Plex, přihlásit se pomocí svého účtu a\n"
+"        jste připraveni začít streamovat svá média. Je to tak snadné!"
 
 #: app/templates/wizard/pages/plex/tips.html:11
 msgid "How can I make sure to have the best experience?"
-msgstr ""
+msgstr "Jak se mohu ujistit, že mám ty nejlepší zkušenosti?"
 
 #: app/templates/wizard/pages/plex/tips.html:14
 msgid ""
-"Because Plex is a free service, they promote their own content before the"
-" awesome content your friend is now\n"
-"        sharing with you - they also, by default, play content at a lower"
-" quality. "
+"Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+"        sharing with you - they also, by default, play content at a lower quality. "
 msgstr ""
+"Protože Plex je bezplatná služba, propaguje svůj vlastní obsah před úžasným obsahem, kterým je nyní váš přítel\n"
+"        sdílení s vámi – ve výchozím nastavení také přehrávají obsah v nižší kvalitě."
 
 #: app/templates/wizard/pages/plex/tips.html:17
 msgid "No need to worry though, this can be easily resolved"
-msgstr ""
+msgstr "Nemusíte se však bát, toto lze snadno vyřešit"
 
 #: app/templates/wizard/pages/plex/tips.html:17
 msgid ""
 "We highly\n"
 "            recommend you to go through those steps first!"
 msgstr ""
+"My velmi\n"
+"            doporučujeme nejprve projít těmito kroky!"
 
 #: app/templates/wizard/pages/plex/welcome.html:3
 msgid "Eh, So, What is Plex exactly?"
-msgstr ""
+msgstr "Eh, takže, co přesně je Plex?"
 
 #: app/templates/wizard/pages/plex/welcome.html:6
 msgid ""
-"Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If you've received this invitation, it "
-"means someone wants to share their library with you."
+"Great question! Plex is a software that allows individuals to share their "
+"media collections with others. If you've received this invitation, it means "
+"someone wants to share their library with you."
 msgstr ""
+"Skvělá otázka! Plex je software, který umožňuje jednotlivcům sdílet své "
+"sbírky médií s ostatními. Pokud jste obdrželi tuto pozvánku, znamená to, že "
+"někdo s vámi chce sdílet svou knihovnu."
 
 #: app/templates/wizard/pages/plex/welcome.html:9
 msgid ""
 "With Plex, you'll have access to all of the movies, TV shows, music, and "
 "photos that are stored on their server!"
 msgstr ""
+"S Plex budete mít přístup ke všem filmům, televizním pořadům, hudbě a "
+"fotografiím, které jsou uloženy na jejich serveru!"
 
 #: app/templates/wizard/pages/plex/welcome.html:12
 msgid "So let's see how to get started!"
-msgstr ""
+msgstr "Pojďme se tedy podívat, jak začít!"
 
 #~ msgid ""
 #~ "Request\n"
 #~ "                instance (Ombi, Overseerr...)"
 #~ msgstr ""
+#~ "Žádost\n"
+#~ "                instance (Ombi, Dozorce...)"
 
 #~ msgid "Change Server Settings"
 #~ msgstr "Upravit nastavení serveru"
@@ -1322,27 +1403,35 @@ msgstr ""
 #~ "Server Display\n"
 #~ "                Name"
 #~ msgstr ""
+#~ "Zobrazení serveru\n"
+#~ "                název"
 
 #~ msgid ""
 #~ "Server\n"
 #~ "                Libraries"
 #~ msgstr ""
+#~ "Server\n"
+#~ "                Knihovny"
 
 #~ msgid ""
 #~ "Request\n"
 #~ "                instance (Ombi, Overseerr...) URL"
 #~ msgstr ""
+#~ "Žádost\n"
+#~ "                instance (Ombi, Overseerr...) URL"
 
 #~ msgid "Ombi API Key (Only used for user import currently.)"
-#~ msgstr ""
+#~ msgstr "Klíč Ombi API (v současnosti se používá pouze pro import uživatelů.)"
 
 #~ msgid ""
 #~ "Custom\n"
 #~ "                HTML"
 #~ msgstr ""
+#~ "Zvyk\n"
+#~ "                HTML"
 
 #~ msgid "Notification Agents"
-#~ msgstr ""
+#~ msgstr "Oznamovací agenti"
 
 #~ msgid ""
 #~ "Username\n"
@@ -1362,7 +1451,7 @@ msgstr ""
 #~ msgstr "Vyprší"
 
 #~ msgid "Actions"
-#~ msgstr ""
+#~ msgstr "Akce"
 
 #~ msgid "Available"
 #~ msgstr "Dostupné"
@@ -1387,8 +1476,7 @@ msgstr ""
 
 #~ msgid "Unable to connect to your Plex server. See Logs for more information."
 #~ msgstr ""
-#~ "Nepodařilo se spojit s Vaším Plex "
-#~ "serverem. Zkontrolujte logy pro více "
+#~ "Nepodařilo se spojit s Vaším Plex serverem. Zkontrolujte logy pro více "
 #~ "informací."
 
 #~ msgid "Unable to connect to your Jellyfin server."
@@ -1411,37 +1499,42 @@ msgstr ""
 #~ "Invite\n"
 #~ "                                Code"
 #~ msgstr ""
+#~ "Pozvat\n"
+#~ "                                Kód"
 
 #~ msgid "(in days)"
 #~ msgstr "(ve dnech)"
 
 #~ msgid ""
-#~ "When set, invited user(s) will be "
-#~ "removed from the Plex server after "
-#~ "a\n"
+#~ "When set, invited user(s) will be removed from the Plex server after a\n"
 #~ "                                        number of\n"
 #~ "                                        days. (1-999)"
 #~ msgstr ""
+#~ "Je-li nastaveno, pozvaní uživatelé budou ze serveru Plex odebráni po a\n"
+#~ "                                        počet\n"
+#~ "                                        dní. (1-999)"
 
 #~ msgid ""
 #~ "Specific\n"
 #~ "                                Libraries"
 #~ msgstr ""
+#~ "Charakteristický\n"
+#~ "                                Knihovny"
 
 #~ msgid "Custom HTML"
-#~ msgstr ""
+#~ msgstr "Vlastní HTML"
 
 #~ msgid "Hello"
-#~ msgstr ""
+#~ msgstr "Ahoj"
 
 #~ msgid "Logged in successfully"
-#~ msgstr ""
+#~ msgstr "Úspěšně jste se přihlásili"
 
 #~ msgid "Unauthorized attempted access"
-#~ msgstr ""
+#~ msgstr "Neoprávněný pokus o přístup"
 
 #~ msgid "Could not find the requested page"
-#~ msgstr ""
+#~ msgstr "Požadovanou stránku nelze najít"
 
 #~ msgid "Quick Invite"
 #~ msgstr "Rychlá pozvánka"
@@ -1450,125 +1543,129 @@ msgstr ""
 #~ msgstr "Nastavení serveru"
 
 #~ msgid "HTML"
-#~ msgstr ""
+#~ msgstr "HTML"
 
 #~ msgid "API"
-#~ msgstr ""
+#~ msgstr "API"
 
 #~ msgid "Accounts"
 #~ msgstr "Založit účet"
 
 #~ msgid "Tasks"
-#~ msgstr ""
+#~ msgstr "Úkoly"
 
 #~ msgid "Server Users"
 #~ msgstr "Adresa URL serveru"
 
 #~ msgid ""
-#~ "Currently Wizarr only supports internal "
-#~ "SQLite database. This is a temporary "
-#~ "and we are working on adding "
-#~ "support for other databases."
+#~ "Currently Wizarr only supports internal SQLite database. This is a temporary"
+#~ " and we are working on adding support for other databases."
 #~ msgstr ""
+#~ "V současné době Wizarr podporuje pouze interní databázi SQLite. Toto je "
+#~ "dočasné a pracujeme na přidání podpory pro další databáze."
 
 #~ msgid ""
-#~ "We are excited to offer you a "
-#~ "wide selection of media to choose "
-#~ "from. If you're having trouble finding"
-#~ "\n"
-#~ "    something you like, don't worry! "
-#~ "We have a user-friendly request "
-#~ "system that can automatically search for"
-#~ " the\n"
+#~ "We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
+#~ "    something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
 #~ "    media you're looking for. "
 #~ msgstr ""
+#~ "Jsme rádi, že vám můžeme nabídnout široký výběr médií, ze kterých si můžete vybrat. Pokud máte problém najít\n"
+#~ "    něco, co se vám líbí, nebojte se! Máme uživatelsky přívětivý systém požadavků, který dokáže automaticky vyhledávat\n"
+#~ "    média, která hledáte."
 
 #~ msgid ""
-#~ "Requested media will be automatically "
-#~ "downloaded and added to the library "
+#~ "Requested media will be automatically downloaded and added to the library "
 #~ "(if available)"
 #~ msgstr ""
+#~ "Požadovaná média budou automaticky stažena a přidána do knihovny (pokud je k"
+#~ " dispozici)"
 
 #~ msgid ""
-#~ "Jellyfin is a platform that lets "
-#~ "you stream all your favorite movies, "
-#~ "TV shows, and music in one place."
-#~ "\n"
-#~ "        It's like having your own "
-#~ "personal movie theater right at your "
-#~ "fingertips! Think of it as a "
-#~ "digital library of\n"
-#~ "        your favorite content that you"
-#~ " can access from anywhere, on any "
-#~ "device - your phone, tablet, laptop, "
-#~ "smart TV,\n"
+#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV shows, and music in one place.\n"
+#~ "        It's like having your own personal movie theater right at your fingertips! Think of it as a digital library of\n"
+#~ "        your favorite content that you can access from anywhere, on any device - your phone, tablet, laptop, smart TV,\n"
 #~ "        you name it."
 #~ msgstr ""
+#~ "Jellyfin je platforma, která vám umožní streamovat všechny vaše oblíbené filmy, televizní pořady a hudbu na jednom místě.\n"
+#~ "        Je to jako mít své vlastní osobní kino přímo na dosah ruky! Představte si to jako digitální knihovnu\n"
+#~ "        váš oblíbený obsah, ke kterému máte přístup odkudkoli a na jakémkoli zařízení – telefonu, tabletu, notebooku, chytré televizi,\n"
+#~ "        pojmenujete to."
 
 #~ msgid ""
-#~ "It couldn't be simpler! Jellyfin is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "        smartphones, and TVs. All you"
-#~ " need to do is download the "
-#~ "Jellyfin app on your device, sign "
-#~ "in with your account,\n"
+#~ "It couldn't be simpler! Jellyfin is available on a wide variety of devices including laptops, tablets,\n"
+#~ "        smartphones, and TVs. All you need to do is download the Jellyfin app on your device, sign in with your account,\n"
 #~ "        and\n"
 #~ "        you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
+#~ "Jednodušší už to být nemůže! Jellyfin je k dispozici na široké škále zařízení včetně notebooků, tabletů,\n"
+#~ "        smartphony a televizory. Vše, co musíte udělat, je stáhnout si do zařízení aplikaci Jellyfin, přihlásit se pomocí svého účtu,\n"
+#~ "        a\n"
+#~ "        jste připraveni začít streamovat svá média. Je to tak snadné!"
 
 #~ msgid ""
 #~ "Join & Download Plex\n"
 #~ "            for this device"
 #~ msgstr ""
+#~ "Připojte se a stáhněte si Plex\n"
+#~ "            pro toto zařízení"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
-#~ "make sure you know how to use\n"
-#~ ""
+#~ "Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 #~ "        it with Plex."
 #~ msgstr ""
+#~ "Skvělá zpráva! Nyní máte přístup ke sbírce médií našeho serveru. Přesvědčte se, že víte, jak používat\n"
+#~ "        to s Plexem."
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "    you've received this invitation, it"
-#~ " means someone wants to share their"
-#~ " library with you. With Plex, you'll"
-#~ " have\n"
-#~ "    access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their media collections with others. If\n"
+#~ "    you've received this invitation, it means someone wants to share their library with you. With Plex, you'll have\n"
+#~ "    access to all of the movies, TV shows, music, and photos that are stored on their server. Enjoy!"
 #~ msgstr ""
+#~ "Skvělá otázka! Plex je software, který umožňuje jednotlivcům sdílet své sbírky médií s ostatními. Li\n"
+#~ "    že jste obdrželi tuto pozvánku, znamená to, že někdo s vámi chce sdílet svou knihovnu. S Plexem budete mít\n"
+#~ "    přístup ke všem filmům, televizním pořadům, hudbě a fotografiím, které jsou uloženy na jejich serveru. Užívat si!"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "    smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 #~ "    you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
+#~ "Jednodušší už to být nemůže! Plex je k dispozici na široké škále zařízení včetně notebooků, tabletů,\n"
+#~ "    smartphony a televizory. Vše, co musíte udělat, je stáhnout si do zařízení aplikaci Plex, přihlásit se pomocí svého účtu a\n"
+#~ "    jste připraveni začít streamovat svá média. Je to tak snadné!"
 
 #~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "    sharing with you - they also,"
-#~ " by default, play content at a "
-#~ "lower quality. "
+#~ "Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+#~ "    sharing with you - they also, by default, play content at a lower quality. "
 #~ msgstr ""
+#~ "Protože Plex je bezplatná služba, propaguje svůj vlastní obsah před úžasným obsahem, kterým je nyní váš přítel\n"
+#~ "    sdílení s vámi – ve výchozím nastavení také přehrávají obsah v nižší kvalitě."
 
 #~ msgid ""
 #~ "We highly\n"
 #~ "      recommend you to go through those steps first!"
 #~ msgstr ""
+#~ "My velmi\n"
+#~ "      doporučujeme nejprve projít těmito kroky!"
 
 #~ msgid "Configure Plex's app on your computer, mobile device or TV"
-#~ msgstr "Nastavit aplikaci Plex pro Váš počítač, mobilní zařízení nebo televizi"
+#~ msgstr ""
+#~ "Nastavit aplikaci Plex pro Váš počítač, mobilní zařízení nebo televizi"
 
+#~ msgid "Goodbye"
+#~ msgstr "Ahoj"
+
+#~ msgid "Logged out successfully"
+#~ msgstr "Úspěšně odhlášeno"
+
+#~ msgid "Your Account"
+#~ msgstr "Založit účet"
+
+#~ msgid "Account"
+#~ msgstr "Založit účet"
+
+#~ msgid "General"
+#~ msgstr "Všeobecné"
+
+#~ msgid "View and update general settings"
+#~ msgstr "Zobrazit a aktualizovat obecná nastavení"

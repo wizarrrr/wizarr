@@ -1,16 +1,24 @@
 import os
+import logging
 from datetime import datetime
 from importlib import import_module
-from logging import error, migrations
+from logging import error
 
 from app.exceptions import MigrationError
 
 # Do not attempt to change this file unless you know what you are doing
 # as you could introduce arbitrary code execution on the server
 
+# Add custom logging levels to the root logger
+logging.addLevelName(50, "MIGRATIONS")
+logging.addLevelName(60, "WEBPUSH")
+# pylint: disable=protected-access
+logging.migrations = lambda msg, *args: logging.log(50, msg, args)
+logging.webpush = lambda msg, *args: logging.log(60, msg, args)
+
 def migrate():
     # Log that migrations are starting
-    migrations("STARTING MIGRATIONS")
+    logging.migrations("STARTING MIGRATIONS")
 
     # Create a backup of the database
     datebase_dir = os.path.join(os.path.dirname(__file__), '../', 'database')
@@ -72,4 +80,4 @@ def migrate():
     os.system(f'rm {datebase_dir}/database.temp')
 
     # Log that migrations are finished
-    migrations("FINISHED MIGRATIONS")
+    logging.migrations("FINISHED MIGRATIONS")

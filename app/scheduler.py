@@ -1,5 +1,5 @@
 from datetime import datetime
-from logging import info, webpush
+from logging import info
 
 from flask_apscheduler import APScheduler
 
@@ -14,7 +14,7 @@ schedule.start()
 @schedule.task("interval", id="checkExpiringUsers", minutes=30, misfire_grace_time=900)
 def check_expiring_users():
     # Log message to console
-    webpush("Checking for expiring users")
+    info("Checking for expiring users")
 
     # Get all users that have an expiration date set and are expired
     expiring = get_users_by_expiring()
@@ -27,7 +27,7 @@ def check_expiring_users():
 
 @schedule.task("interval", id="checkExpiredSessions", minutes=15, misfire_grace_time=900)
 def check_expired_sessions():
-    webpush("Checking for expired sessions")
+    info("Checking for expired sessions")
     # Get all sessions where expires is less than now in utc and delete them
     sessions = Sessions.select().where(Sessions.expires < datetime.utcnow().strftime("%Y-%m-%d %H:%M"))
 
@@ -39,7 +39,7 @@ def check_expired_sessions():
 
 @schedule.task("interval", id="syncUsers", hours=3, misfire_grace_time=900)
 def scan_users():
-    webpush("Scanning for new users")
+    info("Scanning for new users")
     global_sync_users()
 
 

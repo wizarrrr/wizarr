@@ -1,8 +1,10 @@
 from datetime import datetime
 from os import getenv
 from dateutil.parser import parse
+from arrow import get
+from helpers.babel_locale import get_locale
 
-def time_ago(value):
+def humanize(value):
     # Check if the value is a string
     if not isinstance(value, str):
         return "Unknown format"
@@ -10,34 +12,46 @@ def time_ago(value):
     # If the value is a string, parse it
     value = parse(value)
 
-    # days ago if more than 1 day, else hours ago if more than 1 hour, else minutes ago if more than 1 minute, else seconds ago
-    if (datetime.utcnow() - value).days > 0:
-        return f"{(datetime.utcnow() - value).days} day{'s' if (datetime.utcnow() - value).days > 1 else ''} ago"
-    elif (datetime.utcnow() - value).seconds / 3600 > 1:
-        return f"{int((datetime.utcnow() - value).seconds / 3600)} hour{'s' if int((datetime.utcnow() - value).seconds / 3600) > 1 else ''} ago"
-    elif (datetime.utcnow() - value).seconds / 60 > 1:
-        return f"{int((datetime.utcnow() - value).seconds / 60)} min{'s' if int((datetime.utcnow() - value).seconds / 60) > 1 else ''} ago"
-    else:
-        return f"{(datetime.utcnow() - value).seconds} sec{'s' if (datetime.utcnow() - value).seconds > 1 else ''} ago"
+    # Remove milliseconds
+    value = value.replace(microsecond=0)
+    timenow = datetime.utcnow().replace(microsecond=0)
 
-def time_until(value):
-    print(value)
+    time_difference = value - timenow
+    is_future = time_difference.total_seconds() > 0
+
+    # Nearest human-readable time
+    if abs(time_difference.days) > 364:
+        years = abs(time_difference.days) // 364
+        return f"{years} year{'s' if years > 1 else ''} {'from now' if is_future else 'ago'}"
+    elif abs(time_difference.days) > 30:
+        months = abs(time_difference.days) // 30
+        return f"{months} month{'s' if months > 1 else ''} {'from now' if is_future else 'ago'}"
+    elif abs(time_difference.days) > 7:
+        weeks = abs(time_difference.days) // 7
+        return f"{weeks} week{'s' if weeks > 1 else ''} {'from now' if is_future else 'ago'}"
+    elif abs(time_difference.days) > 1:
+        days = abs(time_difference.days)
+        return f"{days} day{'s' if days > 1 else ''} {'from now' if is_future else 'ago'}"
+    elif abs(time_difference.total_seconds() / 3600) > 1:
+        hours = abs(int(time_difference.total_seconds() / 3600))
+        return f"{hours} hour{'s' if hours > 1 else ''} {'from now' if is_future else 'ago'}"
+    elif abs(time_difference.total_seconds() / 60) > 1:
+        minutes = abs(int(time_difference.total_seconds() / 60))
+        return f"{minutes} minute{'s' if minutes > 1 else ''} {'from now' if is_future else 'ago'}"
+    elif abs(time_difference.total_seconds()) > 1:
+        seconds = abs(int(time_difference.total_seconds()))
+        return f"{seconds} second{'s' if seconds > 1 else ''} {'from now' if is_future else 'ago'}"
+
+    return "Unknown format"
+
+
+def arrow_humanize(value):
     # Check if the value is a string
     if not isinstance(value, str):
         return "Unknown format"
 
-    # If the value is a string, parse it
-    value = parse(value)
-
-    # days if more than 1 day, else hours if more than 1 hour, else minutes if more than 1 minute, else seconds
-    if (value - datetime.utcnow()).days > 0:
-        return f"{(value - datetime.utcnow()).days} day{'s' if (value - datetime.utcnow()).days > 1 else ''}"
-    elif (value - datetime.utcnow()).seconds / 3600 > 1:
-        return f"{int((value - datetime.utcnow()).seconds / 3600)} hour{'s' if int((value - datetime.utcnow()).seconds / 3600) > 1 else ''}"
-    elif (value - datetime.utcnow()).seconds / 60 > 1:
-        return f"{int((value - datetime.utcnow()).seconds / 60)} min{'s' if int((value - datetime.utcnow()).seconds / 60) > 1 else ''}"
-    else:
-        return f"{(value - datetime.utcnow()).seconds} sec{'s' if (value - datetime.utcnow()).seconds > 1 else ''}"
+    utc = get(value)
+    return utc.humanize(locale=get_locale())
 
 
 def format_datetime(value):

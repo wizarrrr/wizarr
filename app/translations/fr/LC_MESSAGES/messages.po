@@ -7,16 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-29 04:27+0100\n"
+"POT-Creation-Date: 2023-08-01 16:44+0100\n"
 "PO-Revision-Date: 2023-07-14 20:52+0000\n"
 "Last-Translator: Liam Thomas-Chollier <liam.thomaschollier@gmail.com>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/wizarr/app/fr/>\n"
 "Language: fr\n"
-"Language-Team: French "
-"<https://hosted.weblate.org/projects/wizarr/app/fr/>\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: app/templates/admin.html:4
@@ -24,23 +23,26 @@ msgstr ""
 msgid "Wizarr"
 msgstr "Configurer Wizarr"
 
-#: app/templates/admin.html:21 app/templates/forgot-password.html:44
+#: app/templates/admin.html:20 app/templates/forgot-password.html:44
 #: app/templates/login.html:61
 #, fuzzy
 msgid "Version"
 msgstr "Paramètres"
 
-#: app/templates/admin.html:53
+#: app/templates/admin.html:20 app/templates/forgot-password.html:44
+#: app/templates/login.html:61
+#, fuzzy
+msgid "Stable"
+msgstr "Enregistrer"
+
+#: app/templates/admin.html:20 app/templates/forgot-password.html:44
+#: app/templates/login.html:61
+msgid "Beta"
+msgstr "Bêta"
+
+#: app/templates/admin.html:51
 msgid "Logout failed"
-msgstr ""
-
-#: app/templates/admin.html:78
-msgid "Goodbye"
-msgstr ""
-
-#: app/templates/admin.html:83
-msgid "Logged out successfully"
-msgstr ""
+msgstr "Échec de la déconnexion"
 
 #: app/templates/forgot-password.html:4
 #, fuzzy
@@ -49,17 +51,21 @@ msgstr "Confirmer le mot de passe"
 
 #: app/templates/forgot-password.html:28 app/templates/login.html:40
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Mot de passe oublié?"
 
 #: app/templates/forgot-password.html:31
 msgid "No worries, contact the administrator to reset your password."
 msgstr ""
+"Pas de soucis, contactez l'administrateur pour réinitialiser votre mot de "
+"passe."
 
 #: app/templates/forgot-password.html:34
 msgid ""
 "If you are the administrator, you can reset a password by running the "
 "following script:"
 msgstr ""
+"Si vous êtes l'administrateur, vous pouvez réinitialiser un mot de passe en "
+"exécutant le script suivant :"
 
 #: app/templates/forgot-password.html:39
 #, fuzzy
@@ -68,7 +74,7 @@ msgstr "Retour"
 
 #: app/templates/forgot-password.html:47 app/templates/login.html:64
 msgid "Toggle Theme"
-msgstr ""
+msgstr "Basculer le thème"
 
 #: app/templates/homepage.html:3 app/templates/templates/menu.html:16
 msgid "Home"
@@ -87,24 +93,31 @@ msgstr "Configurer Wizarr"
 #: app/templates/homepage.html:28
 msgid ""
 "Wizarr is a software tool that provides advanced user invitation and "
-"management capabilities for media servers such as Jellyfin, Emby, and "
-"Plex. With Wizarr, server administrators can easily invite new users and "
-"manage their access permissions."
+"management capabilities for media servers such as Jellyfin, Emby, and Plex. "
+"With Wizarr, server administrators can easily invite new users and manage "
+"their access permissions."
 msgstr ""
+"Wizarr est un outil logiciel qui fournit des fonctionnalités avancées "
+"d'invitation et de gestion des utilisateurs pour les serveurs multimédias "
+"tels que Jellyfin, Emby et Plex. Avec Wizarr, les administrateurs de serveur"
+" peuvent facilement inviter de nouveaux utilisateurs et gérer leurs "
+"autorisations d'accès."
 
 #: app/templates/homepage.html:32
 msgid ""
-"If you were sent here by a friend, please request access or if you have "
-"an invite code, please click Get Started."
+"If you were sent here by a friend, please request access or if you have an "
+"invite code, please click Get Started."
 msgstr ""
+"Si vous avez été envoyé ici par un ami, veuillez demander l'accès ou si vous"
+" avez un code d'invitation, veuillez cliquer sur Commencer."
 
 #: app/templates/homepage.html:36
 msgid "Get Started"
-msgstr ""
+msgstr "Commencer"
 
 #: app/templates/homepage.html:41
 msgid "or"
-msgstr ""
+msgstr "ou"
 
 #: app/templates/homepage.html:45
 #, fuzzy
@@ -118,7 +131,6 @@ msgstr "Serveur"
 msgid "Username"
 msgstr "Nom d’utilisateur"
 
-#: app/templates/admin/account.html:28
 #: app/templates/admin/settings/main.html:50
 #: app/templates/admin/settings/password.html:6
 #: app/templates/invite/signup/jellyfin.html:27 app/templates/login.html:36
@@ -143,22 +155,6 @@ msgstr "Erreur interne du serveur."
 #: app/templates/users.html:5
 msgid "Invite User"
 msgstr "Inviter un utilisateur"
-
-#: app/templates/admin/account.html:10
-#, fuzzy
-msgid "Your Account"
-msgstr "Configurer un compte"
-
-#: app/templates/admin/account.html:23
-#, fuzzy
-msgid "Account"
-msgstr "Configurer un compte"
-
-#: app/templates/admin/account.html:33
-#: app/templates/admin/settings/main.html:57
-#, fuzzy
-msgid "Sessions"
-msgstr "Paramètres"
 
 #: app/templates/admin/invite.html:4 app/templates/admin/invite.html:193
 #: app/templates/admin/invite.html:581
@@ -204,7 +200,7 @@ msgstr "1 mois"
 
 #: app/templates/admin/invite.html:42 app/templates/admin/invite.html:134
 msgid "1 Year"
-msgstr ""
+msgstr "1 an"
 
 #: app/templates/admin/invite.html:43
 msgid "Never"
@@ -212,7 +208,7 @@ msgstr "Jamais"
 
 #: app/templates/admin/invite.html:44 app/templates/admin/invite.html:135
 msgid "Custom"
-msgstr ""
+msgstr "Coutume"
 
 #: app/templates/admin/invite.html:52
 #, fuzzy
@@ -231,13 +227,14 @@ msgstr "Utilisations illimitées"
 msgid "Invite to Plex Home"
 msgstr "Inviter sur plex"
 
-#: app/templates/admin/invite.html:90 app/templates/tables/invite-table.html:14
+#: app/templates/admin/invite.html:90
+#: app/templates/tables/invite-table.html:12
 #, fuzzy
 msgid "Allow Downloads"
 msgstr "Autoriser les téléchargements"
 
 #: app/templates/admin/invite.html:106 app/templates/admin/invite.html:119
-#: app/templates/tables/invite-table.html:16
+#: app/templates/tables/invite-table.html:14
 msgid "Duration"
 msgstr "Durée"
 
@@ -256,7 +253,8 @@ msgstr ""
 "(1-999)"
 
 #: app/templates/admin/invite.html:129
-#: app/templates/tables/invite-table.html:11
+#: app/templates/tables/invite-table.html:10
+#: app/templates/tables/invite-table.html:80
 msgid "Unlimited"
 msgstr "Illimité"
 
@@ -303,6 +301,7 @@ msgstr "Partager"
 #: app/templates/admin/invite.html:357
 msgid "An error occurred while copying the link to the clipboard!"
 msgstr ""
+"Une erreur s'est produite lors de la copie du lien vers le presse-papier !"
 
 #: app/templates/admin/invite.html:481
 #, fuzzy
@@ -316,15 +315,15 @@ msgstr "Défaut"
 
 #: app/templates/admin/invite.html:507
 msgid "Creating..."
-msgstr ""
+msgstr "Créer..."
 
 #: app/templates/admin/invite.html:575
 msgid "The invite has been created"
-msgstr ""
+msgstr "L'invitation a été créée"
 
 #: app/templates/admin/invite.html:578
 msgid "There was an error creating the invite"
-msgstr ""
+msgstr "Une erreur s'est produite lors de la création de l'invitation"
 
 #: app/templates/admin/invites.html:4 app/templates/templates/menu.html:22
 msgid "Invitations"
@@ -369,7 +368,7 @@ msgstr "Inviter un utilisateur"
 
 #: app/templates/admin/users.html:8
 msgid "Manage users that joined your server"
-msgstr ""
+msgstr "Gérer les utilisateurs qui ont rejoint votre serveur"
 
 #: app/templates/admin/users.html:13
 #, fuzzy
@@ -380,6 +379,11 @@ msgstr "Utilisateurs"
 #, fuzzy
 msgid "Add User"
 msgstr "Utilisateurs"
+
+#: app/templates/admin/settings/about.html:111
+#: app/templates/admin/settings/about.html:221
+msgid "Load More"
+msgstr "Charger plus"
 
 #: app/templates/admin/settings/accounts.html:13
 #, fuzzy
@@ -406,64 +410,32 @@ msgstr ""
 
 #: app/templates/admin/settings/discord.html:9
 msgid "Discord Widget"
-msgstr ""
+msgstr "Widget de discorde"
 
 #: app/templates/admin/settings/discord.html:19
-#: app/templates/admin/settings/general.html:38
 #: app/templates/admin/settings/html.html:9
+#: app/templates/admin/settings/media.html:38
 #: app/templates/admin/settings/requests.html:26
 msgid "Save"
 msgstr "Enregistrer"
 
 #: app/templates/admin/settings/discord.html:42
-#: app/templates/admin/settings/general.html:54
 #: app/templates/admin/settings/html.html:25
+#: app/templates/admin/settings/media.html:54
 #: app/templates/admin/settings/requests.html:58
 msgid "Settings saved successfully!"
-msgstr ""
+msgstr "Paramètres enregistrés avec succès !"
 
-#: app/templates/admin/settings/general.html:6
-#: app/templates/setup/pages/settings.html:6
+#: app/templates/admin/settings/language.html:3
+msgid "Please use the dropdown below to select your language."
+msgstr ""
+"Veuillez utiliser le menu déroulant ci-dessous pour sélectionner votre "
+"langue."
+
+#: app/templates/admin/settings/language.html:7
 #, fuzzy
-msgid "Server Display Name"
-msgstr ""
-"Nom\n"
-"              du serveur"
-
-#: app/templates/admin/settings/general.html:11
-#: app/templates/setup/pages/settings.html:11
-msgid "Server"
-msgstr "Serveur"
-
-#: app/templates/admin/settings/general.html:13
-msgid "Choose a server"
-msgstr ""
-
-#: app/templates/admin/settings/general.html:20
-#: app/templates/setup/pages/settings.html:20
-#: app/templates/wizard/pages/jellyfin/download.html:30
-msgid "Server URL"
-msgstr "URL du serveur"
-
-#: app/templates/admin/settings/general.html:25
-#: app/templates/setup/pages/settings.html:25
-#, fuzzy
-msgid "Server Token / API Key"
-msgstr ""
-"Jeton / clé API\n"
-"              du serveur"
-
-#: app/templates/admin/settings/general.html:30
-#: app/templates/modals/update-libraries.html:3
-#: app/templates/setup/pages/settings.html:37
-#, fuzzy
-msgid "Server Libraries"
+msgid "Select Language"
 msgstr "Bibliothèques"
-
-#: app/templates/admin/settings/general.html:32
-#: app/templates/setup/pages/settings.html:39
-msgid "Scan For Libraries"
-msgstr "Rechercher des bibliothèques"
 
 #: app/templates/admin/settings/main.html:5
 #, fuzzy
@@ -472,23 +444,25 @@ msgstr "Paramètres"
 
 #: app/templates/admin/settings/main.html:6
 msgid "General settings for the server"
-msgstr ""
+msgstr "Paramètres généraux du serveur"
 
 #: app/templates/admin/settings/main.html:9
-msgid "General"
-msgstr ""
+#, fuzzy
+msgid "Media Server"
+msgstr "Serveur"
 
 #: app/templates/admin/settings/main.html:10
-msgid "View and update general settings"
-msgstr ""
+#, fuzzy
+msgid "Configure your media server settings"
+msgstr "Paramètres du serveur"
 
 #: app/templates/admin/settings/main.html:16
 msgid "Requests"
-msgstr ""
+msgstr "Demandes"
 
 #: app/templates/admin/settings/main.html:17
 msgid "Add Jellyseerr, Overseerr or Ombi support"
-msgstr ""
+msgstr "Ajouter le support Jellyseerr, Overseerr ou Ombi"
 
 #: app/templates/admin/settings/main.html:23
 #, fuzzy
@@ -497,7 +471,7 @@ msgstr "Créer un compte"
 
 #: app/templates/admin/settings/main.html:24
 msgid "Add API keys for external services"
-msgstr ""
+msgstr "Ajouter des clés API pour les services externes"
 
 #: app/templates/admin/settings/main.html:30
 #, fuzzy
@@ -506,7 +480,7 @@ msgstr "Invitations"
 
 #: app/templates/admin/settings/main.html:31
 msgid "Configure notification settings"
-msgstr ""
+msgstr "Configurer les paramètres de notification"
 
 #: app/templates/admin/settings/main.html:39
 #, fuzzy
@@ -520,7 +494,7 @@ msgstr "Configurer un compte"
 
 #: app/templates/admin/settings/main.html:43
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: app/templates/admin/settings/main.html:44
 #, fuzzy
@@ -532,85 +506,150 @@ msgstr "Configurer Plex dans votre navigateur"
 msgid "Change your password"
 msgstr "Confirmer le mot de passe"
 
+#: app/templates/admin/settings/main.html:57
+#, fuzzy
+msgid "Sessions"
+msgstr "Paramètres"
+
 #: app/templates/admin/settings/main.html:58
 msgid "View and manage your active sessions"
-msgstr ""
+msgstr "Afficher et gérer vos sessions actives"
 
-#: app/templates/admin/settings/main.html:66
+#: app/templates/admin/settings/main.html:64
+msgid "Language"
+msgstr "Langue"
+
+#: app/templates/admin/settings/main.html:65
+#, fuzzy
+msgid "Change your language"
+msgstr "Confirmer le mot de passe"
+
+#: app/templates/admin/settings/main.html:73
 #, fuzzy
 msgid "UI Settings"
 msgstr "Paramètres"
 
-#: app/templates/admin/settings/main.html:67
+#: app/templates/admin/settings/main.html:74
 msgid "Modify the look and feel of the server"
-msgstr ""
-
-#: app/templates/admin/settings/main.html:70
-msgid "Discord"
-msgstr ""
-
-#: app/templates/admin/settings/main.html:71
-msgid "Enable Discord page and configure settings"
-msgstr ""
+msgstr "Modifier l'apparence du serveur"
 
 #: app/templates/admin/settings/main.html:77
+msgid "Discord"
+msgstr "Discorde"
+
+#: app/templates/admin/settings/main.html:78
+msgid "Enable Discord page and configure settings"
+msgstr "Activer la page Discord et configurer les paramètres"
+
+#: app/templates/admin/settings/main.html:84
 #, fuzzy
 msgid "Custom HTML"
 msgstr "Durée"
 
-#: app/templates/admin/settings/main.html:78
+#: app/templates/admin/settings/main.html:85
 msgid "Add Custom HTML page to help screen"
-msgstr ""
+msgstr "Ajouter une page HTML personnalisée à l'écran d'aide"
 
-#: app/templates/admin/settings/main.html:86
+#: app/templates/admin/settings/main.html:93
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Options avancées"
 
-#: app/templates/admin/settings/main.html:87
+#: app/templates/admin/settings/main.html:94
 msgid "Advanced settings for the server"
-msgstr ""
+msgstr "Paramètres avancés du serveur"
 
-#: app/templates/admin/settings/main.html:90
+#: app/templates/admin/settings/main.html:97
 #, fuzzy
 msgid "Logs"
 msgstr "Connexion"
 
-#: app/templates/admin/settings/main.html:91
+#: app/templates/admin/settings/main.html:98
 msgid "View and download server logs"
-msgstr ""
+msgstr "Afficher et télécharger les journaux du serveur"
 
-#: app/templates/admin/settings/main.html:97
+#: app/templates/admin/settings/main.html:104
+msgid "Tasks"
+msgstr "Tâches"
+
+#: app/templates/admin/settings/main.html:105
+msgid "View and manage scheduled tasks"
+msgstr "Afficher et gérer les tâches planifiées"
+
+#: app/templates/admin/settings/main.html:111
 #, fuzzy
 msgid "Updates"
 msgstr "Bibliothèques"
 
-#: app/templates/admin/settings/main.html:98
+#: app/templates/admin/settings/main.html:112
 msgid "Check for and view updates"
-msgstr ""
+msgstr "Vérifier et afficher les mises à jour"
 
-#: app/templates/admin/settings/main.html:104
+#: app/templates/admin/settings/main.html:118
 #, fuzzy
 msgid "Backup"
 msgstr "Retour"
 
-#: app/templates/admin/settings/main.html:105
+#: app/templates/admin/settings/main.html:119
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Créer un compte"
 
-#: app/templates/admin/settings/main.html:111
+#: app/templates/admin/settings/main.html:125
 #, fuzzy
 msgid "About"
 msgstr "Configurer un compte"
 
-#: app/templates/admin/settings/main.html:112
+#: app/templates/admin/settings/main.html:126
 msgid "View information about the server"
-msgstr ""
+msgstr "Afficher les informations sur le serveur"
 
-#: app/templates/admin/settings/main.html:150
+#: app/templates/admin/settings/main.html:164
 msgid "No settings matched your search."
+msgstr "Aucun paramètre ne correspond à votre recherche."
+
+#: app/templates/admin/settings/media.html:6
+#: app/templates/setup/pages/settings.html:6
+#, fuzzy
+msgid "Server Display Name"
 msgstr ""
+"Nom\n"
+"              du serveur"
+
+#: app/templates/admin/settings/media.html:11
+#: app/templates/setup/pages/settings.html:11
+msgid "Server"
+msgstr "Serveur"
+
+#: app/templates/admin/settings/media.html:13
+msgid "Choose a server"
+msgstr "Choisissez un serveur"
+
+#: app/templates/admin/settings/media.html:20
+#: app/templates/setup/pages/settings.html:20
+#: app/templates/wizard/pages/jellyfin/download.html:30
+msgid "Server URL"
+msgstr "URL du serveur"
+
+#: app/templates/admin/settings/media.html:25
+#: app/templates/setup/pages/settings.html:25
+#, fuzzy
+msgid "Server Token / API Key"
+msgstr ""
+"Jeton / clé API\n"
+"              du serveur"
+
+#: app/templates/admin/settings/media.html:30
+#: app/templates/modals/update-libraries.html:3
+#: app/templates/setup/pages/settings.html:37
+#, fuzzy
+msgid "Server Libraries"
+msgstr "Bibliothèques"
+
+#: app/templates/admin/settings/media.html:32
+#: app/templates/setup/pages/settings.html:39
+msgid "Scan For Libraries"
+msgstr "Rechercher des bibliothèques"
 
 #: app/templates/admin/settings/notifications.html:18
 #, fuzzy
@@ -636,11 +675,11 @@ msgstr ""
 
 #: app/templates/admin/settings/profile.html:18
 msgid "Email Address"
-msgstr ""
+msgstr "Adresse e-mail"
 
 #: app/templates/admin/settings/profile.html:25
 msgid "Update"
-msgstr ""
+msgstr "Mise à jour"
 
 #: app/templates/admin/settings/requests.html:4
 #, fuzzy
@@ -649,7 +688,7 @@ msgstr "Serveur"
 
 #: app/templates/admin/settings/requests.html:6
 msgid "Disabled"
-msgstr ""
+msgstr "Désactivé"
 
 #: app/templates/admin/settings/requests.html:15
 #, fuzzy
@@ -658,11 +697,11 @@ msgstr "URL du serveur"
 
 #: app/templates/admin/settings/requests.html:20
 msgid "Request Server API Key"
-msgstr ""
+msgstr "Demander la clé API du serveur"
 
 #: app/templates/admin/settings/sessions.html:14
 msgid "Revoke All"
-msgstr ""
+msgstr "Révoquer tout"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
@@ -678,7 +717,8 @@ msgstr "Il manque quelque chose."
 
 #: app/templates/error/404.html:33
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "Désolé, nous ne trouvons pas cette page. On dirait qu'elle n'existe pas !"
+msgstr ""
+"Désolé, nous ne trouvons pas cette page. On dirait qu'elle n'existe pas !"
 
 #: app/templates/error/500.html:19
 msgid "Internal Server Error."
@@ -690,7 +730,7 @@ msgstr " Quelque chose s'est mal passé. Veuillez réessayer plus tard."
 
 #: app/templates/error/custom.html:20
 msgid "Get Help"
-msgstr ""
+msgstr "Obtenir de l'aide"
 
 #: app/templates/invite/invite-invalid.html:15
 #, fuzzy
@@ -705,7 +745,7 @@ msgstr "Vous avez été invité à rejoindre %(name)s !"
 #: app/templates/invite/join.html:20
 #: app/templates/invite/signup/jellyfin.html:40
 #: app/templates/invite/signup/plex.html:25
-#: app/templates/tables/invite-table.html:7
+#: app/templates/tables/invite-table.html:6
 msgid "Invite Code"
 msgstr "Code d'invitation"
 
@@ -747,7 +787,7 @@ msgstr "Se connecter"
 
 #: app/templates/invite/signup/plex.html:5
 msgid "Please wait"
-msgstr ""
+msgstr "S'il vous plaît, attendez"
 
 #: app/templates/invite/signup/plex.html:6
 #, fuzzy
@@ -756,11 +796,11 @@ msgstr "Configurer un compte"
 
 #: app/templates/invite/signup/plex.html:7
 msgid "Almost there!"
-msgstr ""
+msgstr "Presque là!"
 
 #: app/templates/invite/signup/plex.html:8
 msgid "All done!"
-msgstr ""
+msgstr "Terminé!"
 
 #: app/templates/invite/signup/plex.html:9
 #, fuzzy
@@ -769,17 +809,19 @@ msgstr "Création"
 
 #: app/templates/invite/signup/plex.html:10
 msgid "Please try again"
-msgstr ""
+msgstr "Veuillez réessayer"
 
 #: app/templates/invite/signup/plex.html:78
 msgid ""
 "You're all set, click continue to get started and walkthrough how to use "
 "Plex!"
 msgstr ""
+"Vous êtes prêt, cliquez sur continuer pour commencer et découvrez comment "
+"utiliser Plex !"
 
 #: app/templates/invite/signup/plex.html:81
 msgid "Continue"
-msgstr ""
+msgstr "Continuer"
 
 #: app/templates/invite/signup/plex.html:90
 #, fuzzy
@@ -788,7 +830,7 @@ msgstr " Quelque chose s'est mal passé. Veuillez réessayer plus tard."
 
 #: app/templates/invite/signup/plex.html:93
 msgid "Retry"
-msgstr ""
+msgstr "Recommencez"
 
 #: app/templates/modals/create-api-key.html:9
 #: app/templates/modals/create-notification-agent.html:13
@@ -804,7 +846,7 @@ msgstr "Nom"
 #: app/templates/modals/scan-libraries.html:19
 #: app/templates/modals/update-libraries.html:23
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: app/templates/modals/create-api-key.html:17
 #, fuzzy
@@ -813,16 +855,16 @@ msgstr "Création"
 
 #: app/templates/modals/create-api-key.html:46
 msgid "Please fill out all required fields."
-msgstr ""
+msgstr "S'il-vous-plaît remplissez tous les champs requis."
 
 #: app/templates/modals/create-api-key.html:70
 msgid "API key already exists."
-msgstr ""
+msgstr "La clé API existe déjà."
 
 #: app/templates/modals/create-api-key.html:76
 #: app/templates/modals/delete-notification-agent.html:35
 msgid "You are not authorized to perform this action."
-msgstr ""
+msgstr "Vous n'êtes pas autorisé à effectuer cette action."
 
 #: app/templates/modals/create-api-key.html:82
 #: app/templates/modals/run-task.html:35
@@ -841,11 +883,11 @@ msgstr "Nouvel agent"
 
 #: app/templates/modals/create-notification-agent.html:18
 msgid "Notification Service"
-msgstr ""
+msgstr "Service de notification"
 
 #: app/templates/modals/create-notification-agent.html:20
 msgid "Choose a service"
-msgstr ""
+msgstr "Choisissez une prestation"
 
 #: app/templates/modals/create-notification-agent.html:30
 #: app/templates/modals/create-notification-agent.html:88
@@ -864,7 +906,7 @@ msgstr "Mot de passe (facultatif)"
 #: app/templates/modals/create-notification-agent.html:136
 #: app/templates/modals/create-notification-agent.html:153
 msgid "Agent URL"
-msgstr ""
+msgstr "URL de l'agent"
 
 #: app/templates/modals/create-notification-agent.html:49
 msgid "Test & Create Agent"
@@ -872,11 +914,11 @@ msgstr "Test et création d'un agent"
 
 #: app/templates/modals/create-notification-agent.html:105
 msgid "Webhook ID"
-msgstr ""
+msgstr "ID Webhook"
 
 #: app/templates/modals/create-notification-agent.html:111
 msgid "Webhook Token"
-msgstr ""
+msgstr "Jeton Webhook"
 
 #: app/templates/modals/create-notification-agent.html:124
 #, fuzzy
@@ -885,7 +927,7 @@ msgstr "Politique de l'utilisateur"
 
 #: app/templates/modals/create-notification-agent.html:130
 msgid "API Token"
-msgstr ""
+msgstr "Jeton d'API"
 
 #: app/templates/modals/create-notification-agent.html:242
 #: app/templates/modals/create-notification-agent.html:249
@@ -895,23 +937,23 @@ msgstr " Quelque chose s'est mal passé. Veuillez réessayer plus tard."
 
 #: app/templates/modals/create-notification-agent.html:253
 msgid "Notification agent successfully created!"
-msgstr ""
+msgstr "Agent de notification créé avec succès !"
 
 #: app/templates/modals/delete-api-key.html:3
 #: app/templates/modals/revoke-session.html:3
 msgid "Warning"
-msgstr ""
+msgstr "Avertissement"
 
 #: app/templates/modals/delete-api-key.html:8
 msgid "Are you sure you want to delete this api key?"
-msgstr ""
+msgstr "Voulez-vous vraiment supprimer cette clé API ?"
 
 #: app/templates/modals/delete-api-key.html:16
 #: app/templates/modals/delete-notification-agent.html:16
 #: app/templates/modals/revoke-session.html:16
 #: app/templates/tables/admin-users.html:40
 #: app/templates/tables/global-users.html:59
-#: app/templates/tables/invite-table.html:101
+#: app/templates/tables/invite-table.html:100
 #: app/templates/tables/notification-table.html:36
 #, fuzzy
 msgid "Delete"
@@ -920,6 +962,7 @@ msgstr "Supprimer"
 #: app/templates/modals/delete-notification-agent.html:41
 msgid "An error occurred while deleting the Notification Agent."
 msgstr ""
+"Une erreur s'est produite lors de la suppression de l'agent de notification."
 
 #: app/templates/modals/delete-notification-agent.html:45
 #, fuzzy
@@ -928,7 +971,7 @@ msgstr "Agent de notification"
 
 #: app/templates/modals/revoke-session.html:8
 msgid "Are you sure you want to revoke this session?"
-msgstr ""
+msgstr "Voulez-vous vraiment révoquer cette session ?"
 
 #: app/templates/modals/revoke-session.html:41
 #, fuzzy
@@ -937,19 +980,19 @@ msgstr " Quelque chose s'est mal passé. Veuillez réessayer plus tard."
 
 #: app/templates/modals/revoke-session.html:46
 msgid "Session deleted successfully!"
-msgstr ""
+msgstr "Session supprimée avec succès !"
 
 #: app/templates/modals/run-task.html:3 app/templates/modals/run-task.html:16
 msgid "Run Task"
-msgstr ""
+msgstr "Exécuter la tâche"
 
 #: app/templates/modals/run-task.html:8
 msgid "Are you sure you want to run this task?"
-msgstr ""
+msgstr "Voulez-vous vraiment exécuter cette tâche ?"
 
 #: app/templates/modals/run-task.html:39
 msgid "Task has been run."
-msgstr ""
+msgstr "La tâche a été exécutée."
 
 #: app/templates/modals/update-libraries.html:26
 #, fuzzy
@@ -977,29 +1020,33 @@ msgstr "Créer un compte"
 
 #: app/templates/setup/pages/complete.html:2
 msgid "Your Done"
-msgstr ""
+msgstr "Tu es fini"
 
 #: app/templates/setup/pages/complete.html:5
 msgid "You have successfully completed the setup process."
-msgstr ""
+msgstr "Vous avez terminé avec succès le processus de configuration."
 
 #: app/templates/setup/pages/complete.html:9
 msgid "Go to Dashboard"
-msgstr ""
+msgstr "Aller au tableau de bord"
 
 #: app/templates/setup/pages/database.html:2
 msgid "Database"
-msgstr ""
+msgstr "Base de données"
 
 #: app/templates/setup/pages/database.html:5
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr ""
+"Actuellement, Wizarr ne prend en charge que sa base de données SQLite "
+"interne."
 
 #: app/templates/setup/pages/database.html:7
 msgid ""
 "This is a temporary and we are working on adding support for other "
 "databases."
 msgstr ""
+"Ceci est temporaire et nous travaillons sur l'ajout de la prise en charge "
+"d'autres bases de données."
 
 #: app/templates/setup/pages/settings.html:2
 #: app/templates/templates/menu.html:34
@@ -1008,20 +1055,26 @@ msgstr "Paramètres"
 
 #: app/templates/setup/pages/settings.html:31
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #: app/templates/setup/pages/settings.html:45
 msgid "Done"
-msgstr ""
+msgstr "Fait"
 
 #: app/templates/setup/pages/welcome.html:5
 msgid ""
-"Wizarr is an automatic user invitation system for Plex, Jellyfin, and "
-"Emby. With Wizarr, you can easily create unique invitation links to share"
-" with users, automatically inviting them to your Media Server! "
-"Furthermore, Wizarr provides guidance on downloading clients and "
-"instructions for using Jellyseerr, Overseerr or Ombi site."
+"Wizarr is an automatic user invitation system for Plex, Jellyfin, and Emby. "
+"With Wizarr, you can easily create unique invitation links to share with "
+"users, automatically inviting them to your Media Server! Furthermore, Wizarr"
+" provides guidance on downloading clients and instructions for using "
+"Jellyseerr, Overseerr or Ombi site."
 msgstr ""
+"Wizarr est un système d'invitation automatique d'utilisateurs pour Plex, "
+"Jellyfin et Emby. Avec Wizarr, vous pouvez facilement créer des liens "
+"d'invitation uniques à partager avec les utilisateurs, les invitant "
+"automatiquement sur votre serveur multimédia ! En outre, Wizarr fournit des "
+"conseils sur le téléchargement des clients et des instructions pour "
+"l'utilisation du site Jellyseerr, Overseerr ou Ombi."
 
 #: app/templates/setup/pages/welcome.html:8
 msgid ""
@@ -1029,39 +1082,55 @@ msgid ""
 "features and intuitive interface. Should you need any assistance, please "
 "refer to our documentation or reach out to our community for support."
 msgstr ""
+"Nous espérons que vous apprécierez l'utilisation de Wizarr et vous invitons "
+"à explorer ses fonctionnalités puissantes et son interface intuitive. Si "
+"vous avez besoin d'aide, veuillez consulter notre documentation ou contacter"
+" notre communauté pour obtenir de l'aide."
 
 #: app/templates/setup/pages/welcome.html:11
 msgid ""
-"Check out our documentation for detailed instructions on how to install "
-"and run Wizarr!"
+"Check out our documentation for detailed instructions on how to install and "
+"run Wizarr!"
 msgstr ""
+"Consultez notre documentation pour obtenir des instructions détaillées sur "
+"l'installation et l'exécution de Wizarr !"
 
 #: app/templates/tables/admin-users.html:37
 #: app/templates/tables/global-users.html:56
-#: app/templates/tables/invite-table.html:98
+#: app/templates/tables/invite-table.html:97
 #: app/templates/tables/notification-table.html:33
 msgid "Edit"
-msgstr ""
+msgstr "Modifier"
 
-#: app/templates/tables/invite-table.html:8
+#: app/templates/tables/invite-table.html:7
 msgid "Used"
 msgstr "Utilisation"
 
-#: app/templates/tables/invite-table.html:9
-msgid "Created"
-msgstr "Création"
-
-#: app/templates/tables/invite-table.html:10
+#: app/templates/tables/invite-table.html:8
 msgid "Expired"
 msgstr "Expiré"
 
-#: app/templates/tables/invite-table.html:12
+#: app/templates/tables/invite-table.html:9
 msgid "Libraries"
 msgstr "Bibliothèques"
 
+#: app/templates/tables/invite-table.html:15
+msgid "Created"
+msgstr "Création"
+
+#: app/templates/tables/invite-table.html:115
+#, fuzzy
+msgid "No Invitations"
+msgstr "Invitations"
+
+#: app/templates/tables/invite-table.html:118
+#, fuzzy
+msgid "You have not created any invitations yet."
+msgstr "Créer une invitation"
+
 #: app/templates/tables/sessions-table.html:27
 msgid "Revoke"
-msgstr ""
+msgstr "Révoquer"
 
 #: app/templates/tables/task-table.html:7
 #, fuzzy
@@ -1070,11 +1139,11 @@ msgstr "Nom"
 
 #: app/templates/tables/task-table.html:8
 msgid "Next Execution"
-msgstr ""
+msgstr "Prochaine exécution"
 
 #: app/templates/tables/task-table.html:40
 msgid "Run Now"
-msgstr ""
+msgstr "Cours maintenant"
 
 #: app/templates/templates/menu.html:28
 msgid "Users"
@@ -1090,15 +1159,15 @@ msgstr "Mise à jour disponible. Cliquez ici."
 
 #: app/templates/wizard/base.html:4
 msgid "Help"
-msgstr ""
+msgstr "Aider"
 
 #: app/templates/wizard/base.html:12
 msgid "Getting Started!"
-msgstr ""
+msgstr "Commencer!"
 
 #: app/templates/wizard/base.html:38
 msgid "Next"
-msgstr ""
+msgstr "Suivant"
 
 #: app/templates/wizard/base.html:45
 #, fuzzy
@@ -1112,18 +1181,13 @@ msgstr "Requêtes de médias automatiques"
 #: app/templates/wizard/pages/requests.html:9
 #, fuzzy
 msgid ""
-"We are excited to offer you a wide selection of media to choose from. If "
-"you're having trouble finding\n"
-"        something you like, don't worry! We have a user-friendly request "
-"system that can automatically search for the\n"
+"We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
+"        something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
 "        media you're looking for. "
 msgstr ""
-"Nous sommes ravis de vous offrir une large sélection de médias parmi "
-"lesquels choisir.\n"
-"Si vous avez des difficultés à trouver quelque chose qui vous plaît, ne "
-"vous inquiétez pas !\n"
-"Nous disposons d'un système de demande convivial qui peut rechercher "
-"automatiquement le média que vous désirez. "
+"Nous sommes ravis de vous offrir une large sélection de médias parmi lesquels choisir.\n"
+"Si vous avez des difficultés à trouver quelque chose qui vous plaît, ne vous inquiétez pas !\n"
+"Nous disposons d'un système de demande convivial qui peut rechercher automatiquement le média que vous désirez. "
 
 #: app/templates/wizard/pages/requests.html:20
 msgid "Request any available Movie or TV Show"
@@ -1156,12 +1220,10 @@ msgstr ""
 #: app/templates/wizard/pages/jellyfin/download.html:7
 #, fuzzy
 msgid ""
-"Great news! You now have access to our server's media collection. Let's "
-"make sure you know how to use\n"
+"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 "    it with Jellyfin."
 msgstr ""
-"Bonne nouvelle ! Vous avez maintenant accès à la collection de médias de "
-"notre serveur.\n"
+"Bonne nouvelle ! Vous avez maintenant accès à la collection de médias de notre serveur.\n"
 "Assurons-nous que vous savez comment l'utiliser avec Jellyfin."
 
 #: app/templates/wizard/pages/jellyfin/download.html:11
@@ -1169,14 +1231,17 @@ msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
 msgstr ""
-"Vous prévoyez de regarder des films sur cet appareil ? Téléchargez "
-"Jellyfin pour celui-ci."
+"Vous prévoyez de regarder des films sur cet appareil ? Téléchargez Jellyfin "
+"pour celui-ci."
 
 #: app/templates/wizard/pages/jellyfin/download.html:19
 msgid ""
 "If you don't wish to Download the App feel free to use Jellyfin in your "
 "devices web browser, just click \"Next\"."
 msgstr ""
+"Si vous ne souhaitez pas télécharger l'application, n'hésitez pas à utiliser"
+" Jellyfin dans le navigateur Web de votre appareil, cliquez simplement sur "
+"\"Suivant\"."
 
 #: app/templates/wizard/pages/jellyfin/download.html:25
 #, fuzzy
@@ -1186,7 +1251,7 @@ msgstr "URL du serveur"
 #: app/templates/wizard/pages/jellyfin/download.html:34
 #: app/templates/wizard/pages/jellyfin/download.html:191
 msgid "Copy"
-msgstr ""
+msgstr "Copie"
 
 #: app/templates/wizard/pages/jellyfin/download.html:59
 #: app/templates/wizard/pages/jellyfin/download.html:83
@@ -1200,7 +1265,7 @@ msgstr "Télécharger"
 
 #: app/templates/wizard/pages/jellyfin/download.html:188
 msgid "Copied!"
-msgstr ""
+msgstr "Copié !"
 
 #: app/templates/wizard/pages/jellyfin/tips.html:3
 #: app/templates/wizard/pages/plex/tips.html:3
@@ -1210,22 +1275,19 @@ msgstr "D’accord, alors comment je regarde quelque chose ?"
 #: app/templates/wizard/pages/jellyfin/tips.html:6
 #, fuzzy
 msgid ""
-"It couldn't be simpler! Jellyfin is available on a wide variety of "
-"devices including laptops, tablets, smartphones, and TVs. All you need to"
-" do is download the Jellyfin app on your device, sign in with your "
-"account, and you're ready to start streaming your media."
+"It couldn't be simpler! Jellyfin is available on a wide variety of devices "
+"including laptops, tablets, smartphones, and TVs. All you need to do is "
+"download the Jellyfin app on your device, sign in with your account, and "
+"you're ready to start streaming your media."
 msgstr ""
-"Rien de plus facile ! Jellyfin est disponible sur une grande variété "
-"d'appareils, comme les PC,\n"
-"les tablettes, les smartphones et les téléviseurs. Tout ce que vous avez "
-"à faire est de télécharger\n"
-"l'application Jellyfin sur votre appareil, de vous connecter avec votre "
-"compte,\n"
+"Rien de plus facile ! Jellyfin est disponible sur une grande variété d'appareils, comme les PC,\n"
+"les tablettes, les smartphones et les téléviseurs. Tout ce que vous avez à faire est de télécharger\n"
+"l'application Jellyfin sur votre appareil, de vous connecter avec votre compte,\n"
 "et vous êtes prêt pour profiter de vos médias. C'est aussi simple que ça !"
 
 #: app/templates/wizard/pages/jellyfin/tips.html:9
 msgid "It's that easy!"
-msgstr ""
+msgstr "C'est si facile!"
 
 #: app/templates/wizard/pages/jellyfin/welcome.html:3
 msgid "Eh, So, What is Jellyfin exactly?"
@@ -1236,16 +1298,13 @@ msgstr "Euh, alors, qu'est-ce que Jellyfin exactement ?"
 msgid ""
 "Jellyfin is a platform that lets you stream all your favorite movies, TV "
 "shows, and music in one place. It's like having your own personal movie "
-"theater right at your fingertips! Think of it as a digital library of "
-"your favorite content that you can access from anywhere, on any device - "
-"your phone, tablet, laptop, smart TV, you name it."
+"theater right at your fingertips! Think of it as a digital library of your "
+"favorite content that you can access from anywhere, on any device - your "
+"phone, tablet, laptop, smart TV, you name it."
 msgstr ""
-"Jellyfin est une plateforme qui permet de diffuser des films, séries et "
-"musiques où vous voulez.\n"
-"C’est comme avoir un cinéma au bout des doigts. Voyez ça comme une "
-"bibliothèque numérique\n"
-"de vos médias préférés que vous pouvez regarder sur n’importe quel "
-"appareil,\n"
+"Jellyfin est une plateforme qui permet de diffuser des films, séries et musiques où vous voulez.\n"
+"C’est comme avoir un cinéma au bout des doigts. Voyez ça comme une bibliothèque numérique\n"
+"de vos médias préférés que vous pouvez regarder sur n’importe quel appareil,\n"
 "téléphone, tablette, PC, smart TV, ce que vous voulez."
 
 #: app/templates/wizard/pages/plex/download.html:4
@@ -1258,18 +1317,18 @@ msgstr ""
 #: app/templates/wizard/pages/plex/download.html:8
 #, fuzzy
 msgid ""
-"So you now have access to our server's media collection. Let's make sure "
-"you know how to use it with Plex."
+"So you now have access to our server's media collection. Let's make sure you"
+" know how to use it with Plex."
 msgstr ""
-"Bonne nouvelle ! Vous avez maintenant accès à la collection de médias de "
-"notre serveur.\n"
+"Bonne nouvelle ! Vous avez maintenant accès à la collection de médias de notre serveur.\n"
 "Assurons-nous que vous savez comment l'utiliser avec Plex."
 
 #: app/templates/wizard/pages/plex/download.html:11
-msgid "Planning on watching Movies on this device? Download Plex for this device."
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
-"Vous prévoyez de regarder des films sur cet appareil ? Téléchargez Plex "
-"pour celui-ci."
+"Vous prévoyez de regarder des films sur cet appareil ? Téléchargez Plex pour"
+" celui-ci."
 
 #: app/templates/wizard/pages/plex/download.html:14
 msgid "Download"
@@ -1278,18 +1337,13 @@ msgstr "Télécharger"
 #: app/templates/wizard/pages/plex/tips.html:6
 #, fuzzy
 msgid ""
-"It couldn't be simpler! Plex is available on a wide variety of devices "
-"including laptops, tablets,\n"
-"        smartphones, and TVs. All you need to do is download the Plex app"
-" on your device, sign in with your account, and\n"
+"It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+"        smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"Rien de plus facile ! Plex est disponible sur une grande variété "
-"d'appareils, comme les PC,\n"
-"les tablettes, les smartphones et les téléviseurs. Tout ce que vous avez "
-"à faire est de télécharger\n"
-"l'application Plex sur votre appareil, de vous connecter avec votre "
-"compte,\n"
+"Rien de plus facile ! Plex est disponible sur une grande variété d'appareils, comme les PC,\n"
+"les tablettes, les smartphones et les téléviseurs. Tout ce que vous avez à faire est de télécharger\n"
+"l'application Plex sur votre appareil, de vous connecter avec votre compte,\n"
 "et vous êtes prêt pour profiter de vos médias. C'est aussi simple que ça !"
 
 #: app/templates/wizard/pages/plex/tips.html:11
@@ -1299,15 +1353,11 @@ msgstr "Comment puis-je m’assurer d’avoir la meilleure expérience ?"
 #: app/templates/wizard/pages/plex/tips.html:14
 #, fuzzy
 msgid ""
-"Because Plex is a free service, they promote their own content before the"
-" awesome content your friend is now\n"
-"        sharing with you - they also, by default, play content at a lower"
-" quality. "
+"Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+"        sharing with you - they also, by default, play content at a lower quality. "
 msgstr ""
-"Étant donné que Plex est un service gratuit, ils promeuvent leur contenu "
-"et le mettent avant celui\n"
-"que votre ami partage désormais avec vous, et lit le contenu avec une "
-"qualité inférieure. "
+"Étant donné que Plex est un service gratuit, ils promeuvent leur contenu et le mettent avant celui\n"
+"que votre ami partage désormais avec vous, et lit le contenu avec une qualité inférieure. "
 
 #: app/templates/wizard/pages/plex/tips.html:17
 msgid "No need to worry though, this can be easily resolved"
@@ -1329,26 +1379,25 @@ msgstr "Euh, alors, qu'est-ce que Plex exactement ?"
 #: app/templates/wizard/pages/plex/welcome.html:6
 #, fuzzy
 msgid ""
-"Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If you've received this invitation, it "
-"means someone wants to share their library with you."
+"Great question! Plex is a software that allows individuals to share their "
+"media collections with others. If you've received this invitation, it means "
+"someone wants to share their library with you."
 msgstr ""
-"Excellente question ! Plex est un logiciel qui permet à des particuliers "
-"de partager leurs collections multimédias avec d’autres.\n"
-"Si vous avez reçu une invitation, cela signifie que quelqu’un veut "
-"partager sa bibliothèque avec vous.\n"
-"Avec Plex, vous aurez accès à tous les films, séries, musiques et photos "
-"stockés sur leur serveur. Bon Visionnage !"
+"Excellente question ! Plex est un logiciel qui permet à des particuliers de partager leurs collections multimédias avec d’autres.\n"
+"Si vous avez reçu une invitation, cela signifie que quelqu’un veut partager sa bibliothèque avec vous.\n"
+"Avec Plex, vous aurez accès à tous les films, séries, musiques et photos stockés sur leur serveur. Bon Visionnage !"
 
 #: app/templates/wizard/pages/plex/welcome.html:9
 msgid ""
 "With Plex, you'll have access to all of the movies, TV shows, music, and "
 "photos that are stored on their server!"
 msgstr ""
+"Avec Plex, vous aurez accès à tous les films, émissions de télévision, "
+"musiques et photos stockés sur leur serveur !"
 
 #: app/templates/wizard/pages/plex/welcome.html:12
 msgid "So let's see how to get started!"
-msgstr ""
+msgstr "Voyons donc comment commencer !"
 
 #~ msgid ""
 #~ "Request\n"
@@ -1402,63 +1451,45 @@ msgstr ""
 
 #~ msgid "Something went wrong. Please try again or contact an administrator."
 #~ msgstr ""
-#~ "Quelque chose s'est mal passé. Veuillez"
-#~ " réessayer ou contacter un administrateur."
+#~ "Quelque chose s'est mal passé. Veuillez réessayer ou contacter un "
+#~ "administrateur."
 
 #~ msgid "I've logged in but I am overwhelmed with content!"
 #~ msgstr "Je me suis connecté mais je suis submergé par le contenu !"
 
 #~ msgid ""
-#~ "While Plex is a free service, they"
-#~ " do have to generate revenue in "
-#~ "order to continue providing the "
-#~ "platform. One way they do this is"
-#~ " by displaying their own content "
-#~ "before the content of the server "
-#~ "you are joining."
+#~ "While Plex is a free service, they do have to generate revenue in order to "
+#~ "continue providing the platform. One way they do this is by displaying their"
+#~ " own content before the content of the server you are joining."
 #~ msgstr ""
-#~ "Bien que Plex soit un service "
-#~ "gratuit, ils doivent générer des revenus"
-#~ " afin de continuer à maintenir la "
-#~ "plate-forme. Une façon de le faire"
-#~ " est d’afficher leur propre contenu "
-#~ "avant le contenu du serveur que "
-#~ "vous rejoignez."
+#~ "Bien que Plex soit un service gratuit, ils doivent générer des revenus afin "
+#~ "de continuer à maintenir la plate-forme. Une façon de le faire est "
+#~ "d’afficher leur propre contenu avant le contenu du serveur que vous "
+#~ "rejoignez."
 
 #~ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
 #~ msgstr ""
-#~ "Sur le côté gauche de votre écran,"
-#~ " vous verrez un menu. Cliquez sur "
-#~ "le bouton "
+#~ "Sur le côté gauche de votre écran, vous verrez un menu. Cliquez sur le "
+#~ "bouton "
 
 #~ msgid "More"
 #~ msgstr "Développer"
 
 #~ msgid "button to reveal all the different types of media you have access to."
 #~ msgstr ""
-#~ "pour révéler tous les différents types"
-#~ " de médias auxquels vous avez accès."
+#~ "pour révéler tous les différents types de médias auxquels vous avez accès."
 
 #~ msgid ""
-#~ "To avoid seeing Plex's content first,"
-#~ " we recommend hiding it. To do "
-#~ "this, select all the content types "
-#~ "you don't want (such as 'Movies "
-#~ "and TV on Plex') and 'Unpin' them"
-#~ " from your home screen. This way "
-#~ "you'll only see the content that "
-#~ "you really want to watch!"
+#~ "To avoid seeing Plex's content first, we recommend hiding it. To do this, "
+#~ "select all the content types you don't want (such as 'Movies and TV on "
+#~ "Plex') and 'Unpin' them from your home screen. This way you'll only see the "
+#~ "content that you really want to watch!"
 #~ msgstr ""
-#~ "Pour éviter de voir le contenu "
-#~ "commercial de Plex en premier, nous "
-#~ "vous recommandons de le masquer. Pour"
-#~ " ce faire, sélectionnez tous les "
-#~ "types de contenu dont vous ne "
-#~ "voulez pas (par exemple, \"Films et "
-#~ "séries sur Plex\") et désépinglez-les"
-#~ " de votre écran d'accueil. Ainsi, "
-#~ "vous ne verrez que le contenu que"
-#~ " vous voulez vraiment regarder !"
+#~ "Pour éviter de voir le contenu commercial de Plex en premier, nous vous "
+#~ "recommandons de le masquer. Pour ce faire, sélectionnez tous les types de "
+#~ "contenu dont vous ne voulez pas (par exemple, \"Films et séries sur Plex\") "
+#~ "et désépinglez-les de votre écran d'accueil. Ainsi, vous ne verrez que le "
+#~ "contenu que vous voulez vraiment regarder !"
 
 #~ msgid "Now that everything we"
 #~ msgstr "Maintenant que tout ce dont nous"
@@ -1477,26 +1508,17 @@ msgstr ""
 
 #~ msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
 #~ msgstr ""
-#~ "Epinglez simplement les sections Films /"
-#~ " Séries du serveur de %(name)s !"
+#~ "Epinglez simplement les sections Films / Séries du serveur de %(name)s !"
 
 #~ msgid ""
-#~ "By default, Plex plays all content "
-#~ "at a lower quality. This can be"
-#~ " a bit of a disappointment. But "
-#~ "don't worry, it's a simple fix! "
-#~ "You can easily change the settings "
-#~ "to increase the quality of the "
-#~ "media that you're streaming."
+#~ "By default, Plex plays all content at a lower quality. This can be a bit of "
+#~ "a disappointment. But don't worry, it's a simple fix! You can easily change "
+#~ "the settings to increase the quality of the media that you're streaming."
 #~ msgstr ""
-#~ "Par défaut, Plex lit tous les "
-#~ "contenus avec une qualité inférieure. "
-#~ "Cela peut être un peu décevant. "
-#~ "Mais ne vous inquiétez pas, il "
-#~ "existe une solution simple ! Vous "
-#~ "pouvez facilement modifier les paramètres "
-#~ "pour augmenter la qualité des médias "
-#~ "que vous lisez."
+#~ "Par défaut, Plex lit tous les contenus avec une qualité inférieure. Cela "
+#~ "peut être un peu décevant. Mais ne vous inquiétez pas, il existe une "
+#~ "solution simple ! Vous pouvez facilement modifier les paramètres pour "
+#~ "augmenter la qualité des médias que vous lisez."
 
 #~ msgid "Go to the Plex "
 #~ msgstr "Sur Plex, allez dans "
@@ -1505,13 +1527,11 @@ msgstr ""
 #~ msgstr "Réglages. "
 
 #~ msgid ""
-#~ "page. This is usually in the top"
-#~ " right hand corner, depending on the"
-#~ " device you are on."
+#~ "page. This is usually in the top right hand corner, depending on the device "
+#~ "you are on."
 #~ msgstr ""
-#~ "Cela se trouve généralement en haut "
-#~ "a droite, selon l’appareil sur lequel"
-#~ " vous vous trouvez."
+#~ "Cela se trouve généralement en haut a droite, selon l’appareil sur lequel "
+#~ "vous vous trouvez."
 
 #~ msgid "Go to the "
 #~ msgstr "Accédez aux paramètres de "
@@ -1544,20 +1564,14 @@ msgstr ""
 #~ msgstr "Diffusion à domicile "
 
 #~ msgid ""
-#~ "And there you have it! In case "
-#~ "you encounter buffering issues, remember "
-#~ "that you can always adjust the "
-#~ "playback quality just like you do "
-#~ "in YouTube. This way you can get"
-#~ " the best streaming experience possible."
+#~ "And there you have it! In case you encounter buffering issues, remember that"
+#~ " you can always adjust the playback quality just like you do in YouTube. "
+#~ "This way you can get the best streaming experience possible."
 #~ msgstr ""
-#~ "Et voilà, c'est fait ! Si vous "
-#~ "rencontrez des problèmes de chargement, "
-#~ "n'oubliez pas que vous pouvez toujours"
-#~ " régler la qualité de lecture comme"
-#~ " vous le faites sur YouTube. Vous "
-#~ "obtiendrez ainsi la meilleure expérience "
-#~ "de streaming possible."
+#~ "Et voilà, c'est fait ! Si vous rencontrez des problèmes de chargement, "
+#~ "n'oubliez pas que vous pouvez toujours régler la qualité de lecture comme "
+#~ "vous le faites sur YouTube. Vous obtiendrez ainsi la meilleure expérience de"
+#~ " streaming possible."
 
 #~ msgid "Join our Discord Server"
 #~ msgstr "Rejoins notre Serveur Discord"
@@ -1572,92 +1586,46 @@ msgstr ""
 #~ msgstr "Nous rejoindre et télécharger Plex pour cet appareil"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
-#~ "make sure you know how to use "
-#~ "it with Plex."
+#~ "Great news! You now have access to our server's media collection. Let's make"
+#~ " sure you know how to use it with Plex."
 #~ msgstr ""
-#~ "Bonne nouvelle ! Vous avez maintenant"
-#~ " accès à la collection de médias "
-#~ "de notre serveur. Assurons-nous que "
-#~ "vous savez comment l'utiliser avec Plex."
+#~ "Bonne nouvelle ! Vous avez maintenant accès à la collection de médias de "
+#~ "notre serveur. Assurons-nous que vous savez comment l'utiliser avec Plex."
 
 #~ msgid "Skip"
 #~ msgstr "Ignorer"
 
 #~ msgid ""
-#~ "Congratulations on joining %(name)s! You're"
-#~ " now one step closer to enjoying "
-#~ "all kinds of amazing\n"
+#~ "Congratulations on joining %(name)s! You're now one step closer to enjoying all kinds of amazing\n"
 #~ "        content."
 #~ msgstr ""
 #~ "Félicitations pour avoir rejoint %(name)s !\n"
-#~ "Vous n'êtes plus très loin de "
-#~ "pouvoir profiter de tout un tas de"
-#~ " contenu incroyable."
+#~ "Vous n'êtes plus très loin de pouvoir profiter de tout un tas de contenu incroyable."
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "      you've received this invitation, "
-#~ "it means someone wants to share "
-#~ "their library with you. With Plex, "
-#~ "you'll have\n"
-#~ "      access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their media collections with others. If\n"
+#~ "      you've received this invitation, it means someone wants to share their library with you. With Plex, you'll have\n"
+#~ "      access to all of the movies, TV shows, music, and photos that are stored on their server. Enjoy!"
 #~ msgstr ""
-#~ "Excellente question ! Plex est un "
-#~ "logiciel qui permet à des particuliers"
-#~ " de partager leurs collections multimédias"
-#~ " avec d’autres.\n"
-#~ "Si vous avez reçu une invitation, "
-#~ "cela signifie que quelqu’un veut "
-#~ "partager sa bibliothèque avec vous.\n"
-#~ "Avec Plex, vous aurez accès à tous"
-#~ " les films, émissions de télévision, "
-#~ "musique et photos stockés sur leur "
-#~ "serveur. Bon Visionnage !"
+#~ "Excellente question ! Plex est un logiciel qui permet à des particuliers de partager leurs collections multimédias avec d’autres.\n"
+#~ "Si vous avez reçu une invitation, cela signifie que quelqu’un veut partager sa bibliothèque avec vous.\n"
+#~ "Avec Plex, vous aurez accès à tous les films, émissions de télévision, musique et photos stockés sur leur serveur. Bon Visionnage !"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "      smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+#~ "      smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 #~ "      you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "Rien de plus facile ! Plex est "
-#~ "disponible sur une grande variété "
-#~ "d'appareils, notamment les ordinateurs "
-#~ "portables, les tablettes, les smartphones "
-#~ "et les téléviseurs.\n"
-#~ "Tout ce que vous avez à faire "
-#~ "est de télécharger l'application Plex "
-#~ "sur votre appareil, de vous connecter"
-#~ " avec votre compte, et vous êtes "
-#~ "prêt pour profiter de vos médias.\n"
-#~ ""
+#~ "Rien de plus facile ! Plex est disponible sur une grande variété d'appareils, notamment les ordinateurs portables, les tablettes, les smartphones et les téléviseurs.\n"
+#~ "Tout ce que vous avez à faire est de télécharger l'application Plex sur votre appareil, de vous connecter avec votre compte, et vous êtes prêt pour profiter de vos médias.\n"
 #~ "C'est aussi simple que ça !"
 
 #~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "      sharing with you - they "
-#~ "also, by default, play content at "
-#~ "a lower quality. "
+#~ "Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+#~ "      sharing with you - they also, by default, play content at a lower quality. "
 #~ msgstr ""
-#~ "Parce que Plex est un service "
-#~ "gratuit, ils promeuvent leur contenu "
-#~ "avant celui que\n"
-#~ "votre ami partage désormais avec vous"
-#~ " et lit le contenu avec une "
-#~ "qualité inférieure. "
+#~ "Parce que Plex est un service gratuit, ils promeuvent leur contenu avant celui que\n"
+#~ "votre ami partage désormais avec vous et lit le contenu avec une qualité inférieure. "
 
 #~ msgid ""
 #~ "We highly\n"
@@ -1668,13 +1636,11 @@ msgstr ""
 #~ msgstr "Vous avez été invité à rejoindre %(name)s !"
 
 #~ msgid ""
-#~ "To join our Plex server, create a"
-#~ " Plex account! Once you're done, come"
-#~ " back here!"
+#~ "To join our Plex server, create a Plex account! Once you're done, come back "
+#~ "here!"
 #~ msgstr ""
-#~ "Pour rejoindre notre serveur Plex, créez"
-#~ " un compte Plex ! Une fois que"
-#~ " vous avez terminé, revenez ici !"
+#~ "Pour rejoindre notre serveur Plex, créez un compte Plex ! Une fois que vous "
+#~ "avez terminé, revenez ici !"
 
 #~ msgid "Create Plex Account"
 #~ msgstr "Créer un compte Plex"
@@ -1699,18 +1665,14 @@ msgstr ""
 
 #~ msgid "We have sent an invitation to your Plex Account! Almost there!"
 #~ msgstr ""
-#~ "Nous avons envoyé une invitation à "
-#~ "votre compte Plex ! On y est "
-#~ "presque !"
+#~ "Nous avons envoyé une invitation à votre compte Plex ! On y est presque !"
 
 #~ msgid ""
-#~ "Click the button below to be taken"
-#~ " to Plex, here you will see an"
-#~ " invitation from us."
+#~ "Click the button below to be taken to Plex, here you will see an invitation "
+#~ "from us."
 #~ msgstr ""
-#~ "Cliquez sur le bouton ci-dessous "
-#~ "pour accéder à Plex, vous y "
-#~ "trouverez une invitation de notre part."
+#~ "Cliquez sur le bouton ci-dessous pour accéder à Plex, vous y trouverez une "
+#~ "invitation de notre part."
 
 #~ msgid "Accept"
 #~ msgstr "Accepter"
@@ -1747,9 +1709,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "Environment Variables are being\n"
-#~ "                    deprecated and replaced by"
-#~ " a secure sign-up. Please visit \n"
-#~ ""
+#~ "                    deprecated and replaced by a secure sign-up. Please visit \n"
 #~ "\n"
 #~ msgstr ""
 #~ "Les variables d'environnement sont dépassées et remplacées\n"
@@ -1823,9 +1783,7 @@ msgstr ""
 
 #~ msgid "Ombi API Key (Only used for user import currently.)"
 #~ msgstr ""
-#~ "Clé API Ombi (Seulement pour "
-#~ "l’importation des utilisateurs pour le "
-#~ "moment.)"
+#~ "Clé API Ombi (Seulement pour l’importation des utilisateurs pour le moment.)"
 
 #~ msgid ""
 #~ "Custom\n"
@@ -1835,7 +1793,7 @@ msgstr ""
 #~ "              personnalisé"
 
 #~ msgid "Notification Agents"
-#~ msgstr ""
+#~ msgstr "Agents de notifications"
 
 #~ msgid ""
 #~ "Username\n"
@@ -1880,9 +1838,8 @@ msgstr ""
 
 #~ msgid "Unable to connect to your Plex server. See Logs for more information."
 #~ msgstr ""
-#~ "Impossible de se connecter à votre "
-#~ "serveur Plex. Consultez les journaux "
-#~ "pour plus d'informations."
+#~ "Impossible de se connecter à votre serveur Plex. Consultez les journaux pour"
+#~ " plus d'informations."
 
 #~ msgid "Unable to connect to your Jellyfin server."
 #~ msgstr "Impossible de se connecter à votre serveur Jellyfin."
@@ -1939,19 +1896,19 @@ msgstr ""
 #~ "              spécifiques"
 
 #~ msgid "Custom HTML"
-#~ msgstr ""
+#~ msgstr "HTML personnalisé"
 
 #~ msgid "Hello"
-#~ msgstr ""
+#~ msgstr "Bonjour"
 
 #~ msgid "Logged in successfully"
-#~ msgstr ""
+#~ msgstr "Connecté avec succès"
 
 #~ msgid "Unauthorized attempted access"
-#~ msgstr ""
+#~ msgstr "Tentative d'accès non autorisée"
 
 #~ msgid "Could not find the requested page"
-#~ msgstr ""
+#~ msgstr "Impossible de trouver la page demandée"
 
 #~ msgid "Quick Invite"
 #~ msgstr "Invitation rapide"
@@ -1960,27 +1917,45 @@ msgstr ""
 #~ msgstr "Paramètres du serveur"
 
 #~ msgid "HTML"
-#~ msgstr ""
+#~ msgstr "HTML"
 
 #~ msgid "API"
-#~ msgstr ""
+#~ msgstr "API"
 
 #~ msgid "Accounts"
 #~ msgstr "Configurer un compte"
 
 #~ msgid "Tasks"
-#~ msgstr ""
+#~ msgstr "Tâches"
 
 #~ msgid "Server Users"
 #~ msgstr "URL du serveur"
 
 #~ msgid ""
-#~ "Currently Wizarr only supports internal "
-#~ "SQLite database. This is a temporary "
-#~ "and we are working on adding "
-#~ "support for other databases."
+#~ "Currently Wizarr only supports internal SQLite database. This is a temporary"
+#~ " and we are working on adding support for other databases."
 #~ msgstr ""
+#~ "Actuellement, Wizarr ne prend en charge que la base de données SQLite "
+#~ "interne. Ceci est temporaire et nous travaillons sur l'ajout de la prise en "
+#~ "charge d'autres bases de données."
 
 #~ msgid "Configure Plex's app on your computer, mobile device or TV"
 #~ msgstr "Configurer l'application Plex sur votre ordinateur, mobile ou TV"
 
+#~ msgid "Goodbye"
+#~ msgstr "Au revoir"
+
+#~ msgid "Logged out successfully"
+#~ msgstr "Déconnecté avec succès"
+
+#~ msgid "Your Account"
+#~ msgstr "Configurer un compte"
+
+#~ msgid "Account"
+#~ msgstr "Configurer un compte"
+
+#~ msgid "General"
+#~ msgstr "Général"
+
+#~ msgid "View and update general settings"
+#~ msgstr "Afficher et mettre à jour les paramètres généraux"

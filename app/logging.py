@@ -1,33 +1,49 @@
 import logging
+import coloredlogs
+from logging.handlers import WatchedFileHandler
+from tabulate import tabulate
 
-from coloredlogs import install
+# Configure the root logger
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S")
 
-# Create a logger object.
+# Add a null handler to the root logger to prevent log messages from being discarded
+logging.getLogger().addHandler(logging.NullHandler())
+
+# Exclude certain messages from the logger with a filter
+class ExcludeFilter(logging.Filter):
+    def __init__(self, exclude_str):
+        super().__init__()
+        self.exclude_str = exclude_str
+
+    def filter(self, record):
+        return self.exclude_str not in record.getMessage()
+
+class ExcludeLoggerFilter(logging.Filter):
+    def __init__(self, exclude_logger):
+        super().__init__()
+        self.exclude_logger = exclude_logger
+
+    def filter(self, record):
+        return record.name != self.exclude_logger
+
+# Get the root logger
 logger = logging.getLogger()
-app_logger = logging.getLogger(__name__)
-werkzeug_logger = logging.getLogger("werkzeug")
+werkzeug = logging.getLogger("werkzeug")
 
-# Install the formatter
-install(level=None, logger=logger, fmt="%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S")
-install(level=None, logger=werkzeug_logger, fmt="%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S")
-# install(level=None, logger=werkzeug_logger, fmt="%(asctime)s %(levelname)s %(message)s")
+# Create a file handler for logging to a file
+file_log_handler = WatchedFileHandler("./database/logs.log")
+file_log_handler.addFilter(ExcludeLoggerFilter("peewee"))
+file_log_handler.addFilter(ExcludeFilter("socket.io"))
+file_log_handler.setFormatter(coloredlogs.ColoredFormatter("%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S"))
 
-# add filter to ignore /socket.io requests
-werkzeug_logger.addFilter(lambda record: record.getMessage().find("/socket.io") <= -1)
+# Add the file handler to the root logger
+logger.addHandler(file_log_handler)
 
-# Add custom logging level to logger object
-logging.addLevelName(50, "MIGRATIONS")
-logging.addLevelName(60, "WEBPUSH")
-# pylint: disable=protected-access
-logging.migrations = lambda msg, *args: logger._log(50, msg, args)
-logging.webpush = lambda msg, *args: logger._log(60, msg, args)
+# Configure colored logging
+coloredlogs.install(level=None, fmt="%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S")
+coloredlogs.install(level=None, logger=werkzeug, fmt="%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S")
 
-
-file_handler = logging.FileHandler("./database/logs.log")
-logger.addHandler(file_handler)
-
-# logger.setLevel(logging.ERROR)
+# Get a dictionary of all the loggers
+loggers = logging.Logger.manager.loggerDict
+print(tabulate([[key, value] for key, value in loggers.items()], headers=["Logger", "Level"]))
 logging.getLogger("socketio").setLevel(logging.ERROR)
-logging.getLogger("engineio").setLevel(logging.ERROR)
-
-logger.info("Logging started")

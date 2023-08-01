@@ -75,15 +75,15 @@
 
                 <td class="text-center text-xs whitespace-nowrap">
                     {% if invite.duration %}
-                    {{ invite.duration|time_until() }}
+                    {{ invite.duration|arrow_humanize() }}
                     {% else %}
-                    Unlimited
+                    {{ _("Unlimited") }}
                     {% endif %}
                 </td>
 
                 <td class="text-center text-xs whitespace-nowrap">
                     {% if invite.created %}
-                    {{ (invite.created|string)[0:16]|time_ago() }}
+                    {{ (invite.created|string)[0:16]|arrow_humanize() }}
                     {% endif %}
                 </td>
 

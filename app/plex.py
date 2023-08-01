@@ -1,6 +1,6 @@
 import datetime
 import threading
-from logging import error, info, warning, webpush
+from logging import error, info, warning
 
 from cachetools import TTLCache, cached
 from flask import abort, jsonify, request
@@ -95,7 +95,7 @@ def plex_delete_user(id):
     return
 
 
-def plex_invite_user(email, code, sse: ServerSentEvents = None, sse_id: str = None):
+def plex_invite_user(email, code, sse = None, sse_id: str = None):
     # Get settings from database and invitation from database
     settings = { setting.key: setting.value for setting in Settings.select() }
     invitation: Invitations = Invitations.select().where(Invitations.code == code).first()
