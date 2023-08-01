@@ -25,9 +25,12 @@ jobs:
     - name: Update Existing Translations with new messages
       run: |
         pybabel update -i messages.pot -d app/translations
+    - name: "Translate messages with Google Translate"
+      run: |
+        python translate.py
     - name : Compile Translations
       run: |
-        pybabel compile -d app/translations 
+        pybabel compile -d app/translations
 
     - name: Commit and push changes
       run: |
