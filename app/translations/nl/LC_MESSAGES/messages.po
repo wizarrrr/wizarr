@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-01 16:43+0000\n"
+"POT-Creation-Date: 2023-08-01 17:09+0000\n"
 "PO-Revision-Date: 2023-04-30 16:48+0000\n"
 "Last-Translator: Laurant Marijnissen <laurant@gigafyde.dev>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/app/nl/>\n"
@@ -34,21 +34,21 @@ msgstr "Het wachtwoord moet tussen de 3 en 40 tekens bevatten."
 msgid "You must select at least one library."
 msgstr "Je moet minstens één bibliotheek selecteren."
 
-#: app/admin.py:277
+#: app/admin.py:279
 msgid "It is likely that your token does not work."
 msgstr "Mogelijk werkt je toegangstoken niet."
 
-#: app/admin.py:279
+#: app/admin.py:281
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
 "De verbinding met je Plex server is onderbroken. Bekijk de Logs voor meer "
 "informatie."
 
-#: app/admin.py:288
+#: app/admin.py:290
 msgid "Unable to connect to your Jellyfin server."
 msgstr "Er is geen verbinding mogelijk met de Jellyfin server."
 
-#: app/admin.py:386 app/admin.py:390
+#: app/admin.py:394 app/admin.py:398
 msgid "Invalid Username or Password"
 msgstr "Ongeldige gebruikersnaam of wachtwoord"
 
@@ -139,18 +139,31 @@ msgid ""
 "                Token / API Key"
 msgstr "Plex Token"
 
-#: app/templates/settings.html:66
+#: app/templates/settings.html:63
+#, fuzzy
+msgid "Redirect URL (optional)"
+msgstr "(optioneel)"
+
+#: app/templates/settings.html:64
+msgid ""
+"This is the URL that will be used to redirect users to your server. If you "
+"leave this blank, the server URL will be used."
+msgstr ""
+"Dit is de URL die wordt gebruikt om gebruikers naar uw server om te leiden. "
+"Als u dit veld leeg laat, wordt de server-URL gebruikt."
+
+#: app/templates/settings.html:74
 #, fuzzy
 msgid ""
 "Server\n"
 "                Libraries"
 msgstr "Plex Bibliotheken"
 
-#: app/templates/admin/invite.html:127 app/templates/settings.html:69
+#: app/templates/admin/invite.html:127 app/templates/settings.html:77
 msgid "Scan For Libraries"
 msgstr "Bibliotheken scannen"
 
-#: app/templates/settings.html:78
+#: app/templates/settings.html:86
 #, fuzzy
 msgid ""
 "Request\n"
@@ -159,7 +172,7 @@ msgstr ""
 "Word lid van de Discord\n"
 "…………………………Server!"
 
-#: app/templates/settings.html:92
+#: app/templates/settings.html:100
 #, fuzzy
 msgid ""
 "Request\n"
@@ -168,7 +181,7 @@ msgstr ""
 "Word lid van de Discord\n"
 "…………………………Server!"
 
-#: app/templates/settings.html:102
+#: app/templates/settings.html:110
 #, fuzzy
 msgid ""
 "Request\n"
@@ -177,7 +190,7 @@ msgstr ""
 "Word lid van de Discord\n"
 "…………………………Server!"
 
-#: app/templates/settings.html:110
+#: app/templates/settings.html:118
 #, fuzzy
 msgid ""
 "Discord\n"
@@ -186,7 +199,7 @@ msgstr ""
 "Word lid van de Discord\n"
 "…………………………Server!"
 
-#: app/templates/settings.html:118
+#: app/templates/settings.html:126
 #, fuzzy
 msgid ""
 "Discord\n"
@@ -195,7 +208,7 @@ msgstr ""
 "Word lid van de Discord\n"
 "…………………………Server!"
 
-#: app/templates/settings.html:126
+#: app/templates/settings.html:134
 #, fuzzy
 msgid ""
 "Custom\n"
@@ -204,7 +217,7 @@ msgstr ""
 "Aangepaste\n"
 "                HTML"
 
-#: app/templates/settings.html:134
+#: app/templates/settings.html:142
 msgid "Save"
 msgstr "Opslaan"
 
@@ -592,23 +605,23 @@ msgstr ""
 msgid "Show Server URL"
 msgstr "Server URL"
 
-#: app/templates/wizard/jellyfin/download.html:33
-#: app/templates/wizard/jellyfin/download.html:133
+#: app/templates/wizard/jellyfin/download.html:37
+#: app/templates/wizard/jellyfin/download.html:137
 msgid "Copy"
 msgstr "Kopiëren"
 
-#: app/templates/wizard/jellyfin/download.html:47
-#: app/templates/wizard/jellyfin/download.html:64
+#: app/templates/wizard/jellyfin/download.html:51
+#: app/templates/wizard/jellyfin/download.html:68
 #: app/templates/wizard/jellyfin/tips.html:25
 msgid "Open Jellyfin"
 msgstr "Jellyfin openen"
 
-#: app/templates/wizard/jellyfin/download.html:81
+#: app/templates/wizard/jellyfin/download.html:85
 #, fuzzy
 msgid "Other Download"
 msgstr "Download"
 
-#: app/templates/wizard/jellyfin/download.html:130
+#: app/templates/wizard/jellyfin/download.html:134
 msgid "Copied!"
 msgstr "Gekopieerd!"
 

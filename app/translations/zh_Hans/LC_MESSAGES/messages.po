@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-01 16:43+0000\n"
+"POT-Creation-Date: 2023-08-01 17:09+0000\n"
 "PO-Revision-Date: 2023-07-19 01:07+0000\n"
 "Last-Translator: Apex An <anpple@vip.qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/wizarr/app/zh_Hans/>\n"
@@ -34,19 +34,19 @@ msgstr "密码必须在3到40个字符之间。"
 msgid "You must select at least one library."
 msgstr "您必须至少选择一个库。"
 
-#: app/admin.py:277
+#: app/admin.py:279
 msgid "It is likely that your token does not work."
 msgstr "您的令牌很可能不起作用。"
 
-#: app/admin.py:279
+#: app/admin.py:281
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr "无法连接到Plex服务器。有关详细信息，请参阅日志。"
 
-#: app/admin.py:288
+#: app/admin.py:290
 msgid "Unable to connect to your Jellyfin server."
 msgstr "无法连接到你的Jellyfin服务器。"
 
-#: app/admin.py:386 app/admin.py:390
+#: app/admin.py:394 app/admin.py:398
 msgid "Invalid Username or Password"
 msgstr "用户名或密码错误"
 
@@ -137,7 +137,18 @@ msgstr ""
 "服务器\n"
 "              Token / API Key"
 
-#: app/templates/settings.html:66
+#: app/templates/settings.html:63
+#, fuzzy
+msgid "Redirect URL (optional)"
+msgstr "密码（可选）"
+
+#: app/templates/settings.html:64
+msgid ""
+"This is the URL that will be used to redirect users to your server. If you "
+"leave this blank, the server URL will be used."
+msgstr "这是将用于将用户重定向到您的服务器的 URL。如果将此字段留空，将使用服务器 URL。"
+
+#: app/templates/settings.html:74
 msgid ""
 "Server\n"
 "                Libraries"
@@ -145,11 +156,11 @@ msgstr ""
 "服务器\n"
 "                媒体库"
 
-#: app/templates/admin/invite.html:127 app/templates/settings.html:69
+#: app/templates/admin/invite.html:127 app/templates/settings.html:77
 msgid "Scan For Libraries"
 msgstr "扫描媒体库"
 
-#: app/templates/settings.html:78
+#: app/templates/settings.html:86
 #, fuzzy
 msgid ""
 "Request\n"
@@ -158,7 +169,7 @@ msgstr ""
 "Discord\n"
 "                服务器ID"
 
-#: app/templates/settings.html:92
+#: app/templates/settings.html:100
 #, fuzzy
 msgid ""
 "Request\n"
@@ -167,7 +178,7 @@ msgstr ""
 "Discord\n"
 "                服务器ID"
 
-#: app/templates/settings.html:102
+#: app/templates/settings.html:110
 #, fuzzy
 msgid ""
 "Request\n"
@@ -176,7 +187,7 @@ msgstr ""
 "Discord\n"
 "                服务器ID"
 
-#: app/templates/settings.html:110
+#: app/templates/settings.html:118
 msgid ""
 "Discord\n"
 "                Server ID"
@@ -184,7 +195,7 @@ msgstr ""
 "Discord\n"
 "                服务器ID"
 
-#: app/templates/settings.html:118
+#: app/templates/settings.html:126
 #, fuzzy
 msgid ""
 "Discord\n"
@@ -193,7 +204,7 @@ msgstr ""
 "Discord\n"
 "                服务器ID"
 
-#: app/templates/settings.html:126
+#: app/templates/settings.html:134
 msgid ""
 "Custom\n"
 "                HTML"
@@ -201,7 +212,7 @@ msgstr ""
 "自定义\n"
 "                HTML"
 
-#: app/templates/settings.html:134
+#: app/templates/settings.html:142
 msgid "Save"
 msgstr "保存"
 
@@ -574,23 +585,23 @@ msgstr "如果您不想下载应用程序，请随时在设备的网络浏览器
 msgid "Show Server URL"
 msgstr "服务器网址"
 
-#: app/templates/wizard/jellyfin/download.html:33
-#: app/templates/wizard/jellyfin/download.html:133
+#: app/templates/wizard/jellyfin/download.html:37
+#: app/templates/wizard/jellyfin/download.html:137
 msgid "Copy"
 msgstr "复制"
 
-#: app/templates/wizard/jellyfin/download.html:47
-#: app/templates/wizard/jellyfin/download.html:64
+#: app/templates/wizard/jellyfin/download.html:51
+#: app/templates/wizard/jellyfin/download.html:68
 #: app/templates/wizard/jellyfin/tips.html:25
 msgid "Open Jellyfin"
 msgstr "打开Jellyfin"
 
-#: app/templates/wizard/jellyfin/download.html:81
+#: app/templates/wizard/jellyfin/download.html:85
 #, fuzzy
 msgid "Other Download"
 msgstr "下载"
 
-#: app/templates/wizard/jellyfin/download.html:130
+#: app/templates/wizard/jellyfin/download.html:134
 msgid "Copied!"
 msgstr "复制了！"
 

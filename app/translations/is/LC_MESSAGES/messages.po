@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-01 16:43+0000\n"
+"POT-Creation-Date: 2023-08-01 17:09+0000\n"
 "PO-Revision-Date: 2023-02-26 17:02+0000\n"
 "Last-Translator: Eaglinn <arnarinn105@gmail.com>\n"
 "Language-Team: Icelandic <https://hosted.weblate.org/projects/wizarr/app/is/>\n"
@@ -34,21 +34,21 @@ msgstr "lykilorð verður að vera á milli 3 og 40 stafir."
 msgid "You must select at least one library."
 msgstr "Þú verður að velja allavega eitt safn."
 
-#: app/admin.py:277
+#: app/admin.py:279
 msgid "It is likely that your token does not work."
 msgstr "Það er líklegt að táknið þitt virkar ekki."
 
-#: app/admin.py:279
+#: app/admin.py:281
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
 "Plex netþjóninn þinn er óaðgengilegur. Skoðaðu \"Logs\" fyrir meiri "
 "upplýsingar."
 
-#: app/admin.py:288
+#: app/admin.py:290
 msgid "Unable to connect to your Jellyfin server."
 msgstr "Jellyfin netþjóninn er óaðgengilegur."
 
-#: app/admin.py:386 app/admin.py:390
+#: app/admin.py:394 app/admin.py:398
 msgid "Invalid Username or Password"
 msgstr "Ógilt notendanafn eða lykilorð"
 
@@ -142,7 +142,20 @@ msgstr ""
 "Server\n"
 "                Tákn / API lykill"
 
-#: app/templates/settings.html:66
+#: app/templates/settings.html:63
+#, fuzzy
+msgid "Redirect URL (optional)"
+msgstr "(valfrjálst)"
+
+#: app/templates/settings.html:64
+msgid ""
+"This is the URL that will be used to redirect users to your server. If you "
+"leave this blank, the server URL will be used."
+msgstr ""
+"Þetta er vefslóðin sem verður notuð til að beina notendum á netþjóninn þinn."
+" Ef þú skilur þetta eftir autt verður vefslóð netþjónsins notuð."
+
+#: app/templates/settings.html:74
 msgid ""
 "Server\n"
 "                Libraries"
@@ -150,11 +163,11 @@ msgstr ""
 "Server\n"
 "                Bókasöfn"
 
-#: app/templates/admin/invite.html:127 app/templates/settings.html:69
+#: app/templates/admin/invite.html:127 app/templates/settings.html:77
 msgid "Scan For Libraries"
 msgstr "Leitaðu að bókasöfnum"
 
-#: app/templates/settings.html:78
+#: app/templates/settings.html:86
 msgid ""
 "Request\n"
 "                Server"
@@ -162,7 +175,7 @@ msgstr ""
 "Beiðni\n"
 "                Server"
 
-#: app/templates/settings.html:92
+#: app/templates/settings.html:100
 msgid ""
 "Request\n"
 "                Server URL"
@@ -170,7 +183,7 @@ msgstr ""
 "Beiðni\n"
 "                Vefslóð netþjóns"
 
-#: app/templates/settings.html:102
+#: app/templates/settings.html:110
 msgid ""
 "Request\n"
 "                Server API Key"
@@ -178,7 +191,7 @@ msgstr ""
 "Beiðni\n"
 "                Server API lykill"
 
-#: app/templates/settings.html:110
+#: app/templates/settings.html:118
 msgid ""
 "Discord\n"
 "                Server ID"
@@ -186,7 +199,7 @@ msgstr ""
 "Ósátt\n"
 "                Auðkenni miðlara"
 
-#: app/templates/settings.html:118
+#: app/templates/settings.html:126
 msgid ""
 "Discord\n"
 "                Widget"
@@ -194,7 +207,7 @@ msgstr ""
 "Ósátt\n"
 "                Græja"
 
-#: app/templates/settings.html:126
+#: app/templates/settings.html:134
 msgid ""
 "Custom\n"
 "                HTML"
@@ -202,7 +215,7 @@ msgstr ""
 "Sérsniðin\n"
 "                HTML"
 
-#: app/templates/settings.html:134
+#: app/templates/settings.html:142
 msgid "Save"
 msgstr "Vista"
 
@@ -588,23 +601,23 @@ msgstr ""
 msgid "Show Server URL"
 msgstr "Sýna vefslóð netþjóns"
 
-#: app/templates/wizard/jellyfin/download.html:33
-#: app/templates/wizard/jellyfin/download.html:133
+#: app/templates/wizard/jellyfin/download.html:37
+#: app/templates/wizard/jellyfin/download.html:137
 msgid "Copy"
 msgstr "Afrita"
 
-#: app/templates/wizard/jellyfin/download.html:47
-#: app/templates/wizard/jellyfin/download.html:64
+#: app/templates/wizard/jellyfin/download.html:51
+#: app/templates/wizard/jellyfin/download.html:68
 #: app/templates/wizard/jellyfin/tips.html:25
 msgid "Open Jellyfin"
 msgstr "Opið Jellyfin"
 
-#: app/templates/wizard/jellyfin/download.html:81
+#: app/templates/wizard/jellyfin/download.html:85
 #, fuzzy
 msgid "Other Download"
 msgstr "Hlaða niður"
 
-#: app/templates/wizard/jellyfin/download.html:130
+#: app/templates/wizard/jellyfin/download.html:134
 msgid "Copied!"
 msgstr "Afritað!"
 

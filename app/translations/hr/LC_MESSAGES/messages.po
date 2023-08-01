@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-01 16:43+0000\n"
+"POT-Creation-Date: 2023-08-01 17:09+0000\n"
 "PO-Revision-Date: 2023-03-07 18:41+0000\n"
 "Last-Translator: Mislav Martic <mislavmartic@gmail.com>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/wizarr/app/hr/>\n"
@@ -34,21 +34,21 @@ msgstr "Lozinka mora biti između 3 i 40 znakova."
 msgid "You must select at least one library."
 msgstr "Morate odabrati bar jednu biblioteku."
 
-#: app/admin.py:277
+#: app/admin.py:279
 msgid "It is likely that your token does not work."
 msgstr "Vjerovatno je da vaš token ne radi."
 
-#: app/admin.py:279
+#: app/admin.py:281
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
 "Povezivanje s Plex serverom nije uspjelo. Pogledajte Logs za više "
 "informacija."
 
-#: app/admin.py:288
+#: app/admin.py:290
 msgid "Unable to connect to your Jellyfin server."
 msgstr "Nije moguće povezati se s vašim poslužiteljem Jellyfin."
 
-#: app/admin.py:386 app/admin.py:390
+#: app/admin.py:394 app/admin.py:398
 msgid "Invalid Username or Password"
 msgstr "Neispravno korisničko ime ili lozinka"
 
@@ -139,7 +139,20 @@ msgstr ""
 "poslužitelj\n"
 "                Token / API ključ"
 
-#: app/templates/settings.html:66
+#: app/templates/settings.html:63
+#, fuzzy
+msgid "Redirect URL (optional)"
+msgstr "Lozinka (nije obavezno)"
+
+#: app/templates/settings.html:64
+msgid ""
+"This is the URL that will be used to redirect users to your server. If you "
+"leave this blank, the server URL will be used."
+msgstr ""
+"Ovo je URL koji će se koristiti za preusmjeravanje korisnika na vaš "
+"poslužitelj. Ako ostavite ovo prazno, koristit će se URL poslužitelja."
+
+#: app/templates/settings.html:74
 msgid ""
 "Server\n"
 "                Libraries"
@@ -147,11 +160,11 @@ msgstr ""
 "poslužitelj\n"
 "                Knjižnice"
 
-#: app/templates/admin/invite.html:127 app/templates/settings.html:69
+#: app/templates/admin/invite.html:127 app/templates/settings.html:77
 msgid "Scan For Libraries"
 msgstr "Skeniraj knjižnice"
 
-#: app/templates/settings.html:78
+#: app/templates/settings.html:86
 msgid ""
 "Request\n"
 "                Server"
@@ -159,7 +172,7 @@ msgstr ""
 "Zahtjev\n"
 "                poslužitelj"
 
-#: app/templates/settings.html:92
+#: app/templates/settings.html:100
 msgid ""
 "Request\n"
 "                Server URL"
@@ -167,7 +180,7 @@ msgstr ""
 "Zahtjev\n"
 "                URL poslužitelja"
 
-#: app/templates/settings.html:102
+#: app/templates/settings.html:110
 msgid ""
 "Request\n"
 "                Server API Key"
@@ -175,7 +188,7 @@ msgstr ""
 "Zahtjev\n"
 "                API ključ poslužitelja"
 
-#: app/templates/settings.html:110
+#: app/templates/settings.html:118
 msgid ""
 "Discord\n"
 "                Server ID"
@@ -183,7 +196,7 @@ msgstr ""
 "Razdor\n"
 "                ID poslužitelja"
 
-#: app/templates/settings.html:118
+#: app/templates/settings.html:126
 msgid ""
 "Discord\n"
 "                Widget"
@@ -191,7 +204,7 @@ msgstr ""
 "Razdor\n"
 "                Widget"
 
-#: app/templates/settings.html:126
+#: app/templates/settings.html:134
 msgid ""
 "Custom\n"
 "                HTML"
@@ -199,7 +212,7 @@ msgstr ""
 "Prilagođen\n"
 "                HTML"
 
-#: app/templates/settings.html:134
+#: app/templates/settings.html:142
 msgid "Save"
 msgstr "Uštedjeti"
 
@@ -572,22 +585,22 @@ msgstr ""
 msgid "Show Server URL"
 msgstr "Prikaži URL poslužitelja"
 
-#: app/templates/wizard/jellyfin/download.html:33
-#: app/templates/wizard/jellyfin/download.html:133
+#: app/templates/wizard/jellyfin/download.html:37
+#: app/templates/wizard/jellyfin/download.html:137
 msgid "Copy"
 msgstr "Kopirati"
 
-#: app/templates/wizard/jellyfin/download.html:47
-#: app/templates/wizard/jellyfin/download.html:64
+#: app/templates/wizard/jellyfin/download.html:51
+#: app/templates/wizard/jellyfin/download.html:68
 #: app/templates/wizard/jellyfin/tips.html:25
 msgid "Open Jellyfin"
 msgstr "Otvori Jellyfin"
 
-#: app/templates/wizard/jellyfin/download.html:81
+#: app/templates/wizard/jellyfin/download.html:85
 msgid "Other Download"
 msgstr "Ostalo preuzimanje"
 
-#: app/templates/wizard/jellyfin/download.html:130
+#: app/templates/wizard/jellyfin/download.html:134
 msgid "Copied!"
 msgstr "Kopirano!"
 
