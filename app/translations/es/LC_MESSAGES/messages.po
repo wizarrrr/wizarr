@@ -7,49 +7,48 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-16 17:27+0100\n"
+"POT-Creation-Date: 2023-08-01 17:37+0100\n"
 "PO-Revision-Date: 2023-03-02 08:38+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/wizarr/app/es/>\n"
 "Language: es\n"
-"Language-Team: Spanish "
-"<https://hosted.weblate.org/projects/wizarr/app/es/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: app/admin.py:150
+#: app/admin.py:166
 msgid "Passwords do not match."
 msgstr "Las contraseñas no coinciden."
 
-#: app/admin.py:153
+#: app/admin.py:169
 msgid "Username must be between 3 and 15 characters."
 msgstr "El nombre de usuario debe tener entre 3 y 15 caracteres."
 
-#: app/admin.py:156
+#: app/admin.py:172
 msgid "Password must be between 3 and 40 characters."
 msgstr "La contraseña debe tener entre 3 y 40 caracteres."
 
-#: app/admin.py:182
+#: app/admin.py:200
 msgid "You must select at least one library."
 msgstr "Debes seleccionar al menos una biblioteca."
 
-#: app/admin.py:251
+#: app/admin.py:277
 msgid "It is likely that your token does not work."
 msgstr "Parece que tu token no funciona."
 
-#: app/admin.py:253
+#: app/admin.py:279
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
 "Imposible conectar con tu servidor de Plex. Mire los Logs para más "
 "información."
 
-#: app/admin.py:262
+#: app/admin.py:288
 msgid "Unable to connect to your Jellyfin server."
 msgstr "Imposible conectarse a tu servidor de Jellyfin."
 
-#: app/admin.py:343 app/admin.py:347
+#: app/admin.py:386 app/admin.py:390
 msgid "Invalid Username or Password"
 msgstr "Usuario o contraseña no válidos"
 
@@ -129,6 +128,7 @@ msgid "Server"
 msgstr "Servidor"
 
 #: app/templates/settings.html:48
+#: app/templates/wizard/jellyfin/download.html:29
 msgid "Server URL"
 msgstr "URL del servidor"
 
@@ -148,26 +148,38 @@ msgstr ""
 "Bibliotecas\n"
 "del servidor"
 
-#: app/templates/admin/invite.html:125 app/templates/settings.html:69
+#: app/templates/admin/invite.html:127 app/templates/settings.html:69
 msgid "Scan For Libraries"
 msgstr "Buscar bibliotecas"
 
-#: app/templates/settings.html:77
+#: app/templates/settings.html:78
 #, fuzzy
 msgid ""
 "Request\n"
-"                instance (Ombi, Overseerr...) URL"
+"                Server"
 msgstr ""
-"Solicita\n"
-"la instancia (Ombi, Overseerr...)"
+"ID del servidor\n"
+"de Discord"
 
-#: app/templates/settings.html:87
-msgid "Ombi API Key (Only used for user import currently.)"
+#: app/templates/settings.html:92
+#, fuzzy
+msgid ""
+"Request\n"
+"                Server URL"
 msgstr ""
-"Ombi API Key (Sólo se utiliza actualmente para la importación de "
-"usuarios.)"
+"ID del servidor\n"
+"de Discord"
 
-#: app/templates/settings.html:94
+#: app/templates/settings.html:102
+#, fuzzy
+msgid ""
+"Request\n"
+"                Server API Key"
+msgstr ""
+"ID del servidor\n"
+"de Discord"
+
+#: app/templates/settings.html:110
 msgid ""
 "Discord\n"
 "                Server ID"
@@ -175,7 +187,16 @@ msgstr ""
 "ID del servidor\n"
 "de Discord"
 
-#: app/templates/settings.html:102
+#: app/templates/settings.html:118
+#, fuzzy
+msgid ""
+"Discord\n"
+"                Widget"
+msgstr ""
+"ID del servidor\n"
+"de Discord"
+
+#: app/templates/settings.html:126
 msgid ""
 "Custom\n"
 "                HTML"
@@ -183,12 +204,13 @@ msgstr ""
 "HTML\n"
 "                personalizado"
 
-#: app/templates/settings.html:110
+#: app/templates/settings.html:134
 msgid "Save"
 msgstr "Guardar"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
-#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
+#: app/templates/welcome-jellyfin.html:7
+#: app/templates/welcome-jellyfin.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "¡Has sido invitado a unirte al servidor %(name)s!"
@@ -268,65 +290,77 @@ msgid "Expiration"
 msgstr "Caducidad"
 
 #: app/templates/admin/invite.html:54
-msgid "1 day"
+#, fuzzy
+msgid "1 Day"
 msgstr "Un día"
 
 #: app/templates/admin/invite.html:55
-msgid "1 week"
+#, fuzzy
+msgid "1 Week"
 msgstr "Una semana"
 
 #: app/templates/admin/invite.html:56
-msgid "1 month"
+#, fuzzy
+msgid "1 Month"
 msgstr "1 mes"
 
-#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:48
+#: app/templates/admin/invite.html:57
+#, fuzzy
+msgid "6 Months"
+msgstr "1 mes"
+
+#: app/templates/admin/invite.html:58
+msgid "1 Year"
+msgstr "1 año"
+
+#: app/templates/admin/invite.html:59
+#: app/templates/tables/invite_table.html:48
 msgid "Never"
 msgstr "Nunca"
 
-#: app/templates/admin/invite.html:62
+#: app/templates/admin/invite.html:64
 msgid "Advanced Options"
 msgstr "Opciones avanzadas"
 
-#: app/templates/admin/invite.html:70
+#: app/templates/admin/invite.html:72
 msgid "Unlimited Usages"
 msgstr "Usos ilimitados"
 
-#: app/templates/admin/invite.html:78
+#: app/templates/admin/invite.html:80
 #, fuzzy
 msgid "Invite to Plex Home"
 msgstr "Código de invitación"
 
-#: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
+#: app/templates/admin/invite.html:89 app/templates/admin/invite.html:101
 #: app/templates/tables/invite_table.html:13
 msgid "Duration"
 msgstr "Duración"
 
-#: app/templates/admin/invite.html:87
+#: app/templates/admin/invite.html:89
 msgid "(in days)"
 msgstr "(en días)"
 
-#: app/templates/admin/invite.html:95
+#: app/templates/admin/invite.html:97
 msgid "Show Information"
 msgstr "Mostrar información"
 
-#: app/templates/admin/invite.html:100
+#: app/templates/admin/invite.html:102
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a\n"
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
-"Cuando se establezca una opción, el/los usuario/s invitados serán "
-"eliminados del servidor después de\n"
+"Cuando se establezca una opción, el/los usuario/s invitados serán eliminados del servidor después de\n"
 "                                        un número específico\n"
 "                                        de días (1-999)"
 
-#: app/templates/admin/invite.html:116
+#: app/templates/admin/invite.html:118
 #: app/templates/tables/invite_table.html:11
 #, fuzzy
 msgid "Allow Downloads"
 msgstr "Descargar"
 
-#: app/templates/admin/invite.html:122
+#: app/templates/admin/invite.html:124
 msgid ""
 "Specific\n"
 "                                Libraries"
@@ -334,29 +368,29 @@ msgstr ""
 "Especificar\n"
 "                                bibliotecas"
 
-#: app/templates/admin/invite.html:134
+#: app/templates/admin/invite.html:136
 msgid "Create Invitation"
 msgstr "Crear invitación"
 
-#: app/templates/admin/invite.html:141
+#: app/templates/admin/invite.html:143
 msgid "Successfully generated an Invitation!"
 msgstr "¡Invitación generada con éxito!"
 
-#: app/templates/admin/invite.html:146
+#: app/templates/admin/invite.html:148
 msgid "Link has been copied to clipboard!"
 msgstr "¡El enlace ha sido copiado al portapapeles!"
 
-#: app/templates/admin/invite.html:155
+#: app/templates/admin/invite.html:157
 msgid "Back"
 msgstr "Atrás"
 
-#: app/templates/admin/invite.html:161
+#: app/templates/admin/invite.html:163
 msgid "Share"
 msgstr "Compartir"
 
 #: app/templates/admin/notifications.html:11
 msgid "Notification Agents"
-msgstr ""
+msgstr "Agentes de notificación"
 
 #: app/templates/admin/notifications.html:27
 #, fuzzy
@@ -390,7 +424,8 @@ msgstr "Falta algo."
 
 #: app/templates/error/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "Lo sentimos, pero no podemos encontrar esa página. ¡Parece que no existe!"
+msgstr ""
+"Lo sentimos, pero no podemos encontrar esa página. ¡Parece que no existe!"
 
 #: app/templates/error/500.html:19
 msgid "Internal Server Error."
@@ -402,9 +437,9 @@ msgstr " Algo ha ido mal. Por favor, prueba de nuevo más tarde."
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "nuevo agente"
 
-#: app/templates/modals/create-notification-agent.html:60
+#: app/templates/modals/create-notification-agent.html:61
 #, fuzzy
 msgid ""
 "Username\n"
@@ -413,12 +448,21 @@ msgstr ""
 "Código\n"
 "                                de invitación"
 
-#: app/templates/modals/create-notification-agent.html:65
+#: app/templates/modals/create-notification-agent.html:66
 #, fuzzy
 msgid "Password (optional)"
 msgstr "(opcional)"
 
-#: app/templates/modals/create-notification-agent.html:70
+#: app/templates/modals/create-notification-agent.html:72
+#, fuzzy
+msgid "User Key"
+msgstr "Política de privacidad"
+
+#: app/templates/modals/create-notification-agent.html:76
+msgid "API Token"
+msgstr "token de API"
+
+#: app/templates/modals/create-notification-agent.html:81
 #, fuzzy
 msgid ""
 "Agent\n"
@@ -427,13 +471,13 @@ msgstr ""
 "Código\n"
 "                                de invitación"
 
-#: app/templates/modals/create-notification-agent.html:81
+#: app/templates/modals/create-notification-agent.html:92
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Probar y crear agente"
 
-#: app/templates/modals/create-notification-agent.html:85
+#: app/templates/modals/create-notification-agent.html:96
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: app/templates/tables/global-users.html:13
 msgid "Name"
@@ -482,16 +526,12 @@ msgstr "Solicitudes automáticas de medios"
 
 #: app/templates/wizard/requests.html:9
 msgid ""
-"We are excited to offer you a wide selection of media to choose from. If "
-"you're having trouble finding\n"
-"    something you like, don't worry! We have a user-friendly request "
-"system that can automatically search for the\n"
+"We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
+"    something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
 "    media you're looking for. "
 msgstr ""
-"Nos complace ofrecerle una amplia selección de contenido multimedia entre"
-" la que elegir.\n"
-"Si tiene problemas para encontrar algo que le guste, ¡no se preocupe! "
-"Tenemos un sistema de solicitud fácil de usar\n"
+"Nos complace ofrecerle una amplia selección de contenido multimedia entre la que elegir.\n"
+"Si tiene problemas para encontrar algo que le guste, ¡no se preocupe! Tenemos un sistema de solicitud fácil de usar\n"
 "que puede buscar automáticamente el contenido que buscas. "
 
 #: app/templates/wizard/requests.html:23
@@ -500,8 +540,8 @@ msgstr "Solicitar cualquier película o programa de televisión disponible"
 
 #: app/templates/wizard/requests.html:33
 msgid ""
-"Requested media will be automatically downloaded and added to the library"
-" (if available)"
+"Requested media will be automatically downloaded and added to the library "
+"(if available)"
 msgstr ""
 "Los medios solicitados se descargarán automáticamente y se añadirán a la "
 "biblioteca (si está disponible)"
@@ -524,26 +564,52 @@ msgstr ""
 
 #: app/templates/wizard/jellyfin/download.html:8
 msgid ""
-"Great news! You now have access to our server's media collection. Let's "
-"make sure you know how to use\n"
+"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 "        it with Jellyfin."
 msgstr ""
-"¡Buenas noticias! Ahora tienes acceso a la colección de medios de nuestro"
-" servidor. Asegurémonos de que sabes\n"
+"¡Buenas noticias! Ahora tienes acceso a la colección de medios de nuestro servidor. Asegurémonos de que sabes\n"
 "cómo usarla con Jellyfin."
 
-#: app/templates/wizard/jellyfin/download.html:11
+#: app/templates/wizard/jellyfin/download.html:12
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
 msgstr ""
-"¿Planeando ver películas en este dispositivo? Descarga Jellyfin para este"
-" dispositivo."
+"¿Planeando ver películas en este dispositivo? Descarga Jellyfin para este "
+"dispositivo."
 
-#: app/templates/wizard/jellyfin/download.html:14
-#: app/templates/wizard/plex/download.html:14
-msgid "Download"
+#: app/templates/wizard/jellyfin/download.html:18
+msgid ""
+"If you don't wish to Download the App feel free to use Jellyfin in your "
+"devices web browser, just click \"Next\"."
+msgstr ""
+"Si no desea descargar la aplicación, puede usar Jellyfin en el navegador web"
+" de su dispositivo, simplemente haga clic en \"Siguiente\"."
+
+#: app/templates/wizard/jellyfin/download.html:24
+#, fuzzy
+msgid "Show Server URL"
+msgstr "URL del servidor"
+
+#: app/templates/wizard/jellyfin/download.html:33
+#: app/templates/wizard/jellyfin/download.html:133
+msgid "Copy"
+msgstr "Copiar"
+
+#: app/templates/wizard/jellyfin/download.html:47
+#: app/templates/wizard/jellyfin/download.html:64
+#: app/templates/wizard/jellyfin/tips.html:25
+msgid "Open Jellyfin"
+msgstr "Abrir Jellyfin"
+
+#: app/templates/wizard/jellyfin/download.html:81
+#, fuzzy
+msgid "Other Download"
 msgstr "Descargar"
+
+#: app/templates/wizard/jellyfin/download.html:130
+msgid "Copied!"
+msgstr "¡Copiado!"
 
 #: app/templates/wizard/jellyfin/tips.html:4
 msgid "Eh, So, What is Jellyfin exactly?"
@@ -551,20 +617,14 @@ msgstr "Eh, entonces, ¿Qué es Jellyfin exactamente?"
 
 #: app/templates/wizard/jellyfin/tips.html:7
 msgid ""
-"Jellyfin is a platform that lets you stream all your favorite movies, TV "
-"shows, and music in one place.\n"
-"        It's like having your own personal movie theater right at your "
-"fingertips! Think of it as a digital library of\n"
-"        your favorite content that you can access from anywhere, on any "
-"device - your phone, tablet, laptop, smart TV,\n"
+"Jellyfin is a platform that lets you stream all your favorite movies, TV shows, and music in one place.\n"
+"        It's like having your own personal movie theater right at your fingertips! Think of it as a digital library of\n"
+"        your favorite content that you can access from anywhere, on any device - your phone, tablet, laptop, smart TV,\n"
 "        you name it."
 msgstr ""
-"Jellyfin es una plataforma que te permite transmitir todas tu películas, "
-"series de TV y música favoritas en un solo lugar.\n"
-"        Es como tener tu propia sala de cine en la punta de tus dedos! "
-"Piénsalo como una librería digital de\n"
-"        tu contenido favorito al cual puedes acceder desde cualquier "
-"lado, en cualquier dispositivo - tu móvil, tablet, portátil, smart TV,\n"
+"Jellyfin es una plataforma que te permite transmitir todas tu películas, series de TV y música favoritas en un solo lugar.\n"
+"        Es como tener tu propia sala de cine en la punta de tus dedos! Piénsalo como una librería digital de\n"
+"        tu contenido favorito al cual puedes acceder desde cualquier lado, en cualquier dispositivo - tu móvil, tablet, portátil, smart TV,\n"
 "        el que te plazca."
 
 #: app/templates/wizard/jellyfin/tips.html:13
@@ -574,25 +634,15 @@ msgstr "Bien, entonces, ¿Cómo veo los medios?"
 
 #: app/templates/wizard/jellyfin/tips.html:16
 msgid ""
-"It couldn't be simpler! Jellyfin is available on a wide variety of "
-"devices including laptops, tablets,\n"
-"        smartphones, and TVs. All you need to do is download the Jellyfin"
-" app on your device, sign in with your account,\n"
+"It couldn't be simpler! Jellyfin is available on a wide variety of devices including laptops, tablets,\n"
+"        smartphones, and TVs. All you need to do is download the Jellyfin app on your device, sign in with your account,\n"
 "        and\n"
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"¡No podría ser más simple! Jellyfin está disponible en una amplia "
-"variedad de dispositivos, incluidos portátiles, tabletas,\n"
-"        teléfonos inteligentes y televisores. Todo lo que necesitas hacer"
-" es descargar la aplicación Jellyfin en tu dispositivo, iniciar sesión "
-"con tu cuenta\n"
+"¡No podría ser más simple! Jellyfin está disponible en una amplia variedad de dispositivos, incluidos portátiles, tabletas,\n"
+"        teléfonos inteligentes y televisores. Todo lo que necesitas hacer es descargar la aplicación Jellyfin en tu dispositivo, iniciar sesión con tu cuenta\n"
 "        y\n"
-"        estarás listo para comenzar a transmitir tus medios. ¡Así de "
-"fácil!"
-
-#: app/templates/wizard/jellyfin/tips.html:25
-msgid "Open Jellyfin"
-msgstr "Abrir Jellyfin"
+"        estarás listo para comenzar a transmitir tus medios. ¡Así de fácil!"
 
 #: app/templates/wizard/plex/download.html:3
 msgid ""
@@ -604,19 +654,22 @@ msgstr ""
 
 #: app/templates/wizard/plex/download.html:8
 msgid ""
-"Great news! You now have access to our server's media collection. Let's "
-"make sure you know how to use\n"
+"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 "        it with Plex."
 msgstr ""
-"¡Buenas noticias! Ahora tienes acceso a la colección de medios de nuestro"
-" servidor.\n"
+"¡Buenas noticias! Ahora tienes acceso a la colección de medios de nuestro servidor.\n"
 "Asegurémonos de que sabes cómo usarla con Plex."
 
 #: app/templates/wizard/plex/download.html:11
-msgid "Planning on watching Movies on this device? Download Plex for this device."
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
 "¿Planeando ver películas en este dispositivo? Descarga Plex para este "
 "dispositivo."
+
+#: app/templates/wizard/plex/download.html:14
+msgid "Download"
+msgstr "Descargar"
 
 #: app/templates/wizard/plex/tips.html:4
 msgid "Eh, So, What is Plex exactly?"
@@ -624,34 +677,23 @@ msgstr "Eh, entonces, ¿Qué es Plex exactamente?"
 
 #: app/templates/wizard/plex/tips.html:7
 msgid ""
-"Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If\n"
-"    you've received this invitation, it means someone wants to share "
-"their library with you. With Plex, you'll have\n"
-"    access to all of the movies, TV shows, music, and photos that are "
-"stored on their server. Enjoy!"
+"Great question! Plex is a software that allows individuals to share their media collections with others. If\n"
+"    you've received this invitation, it means someone wants to share their library with you. With Plex, you'll have\n"
+"    access to all of the movies, TV shows, music, and photos that are stored on their server. Enjoy!"
 msgstr ""
-"¡Buena pregunta! Plex es un software que permite a las personas compartir"
-" sus colecciones de medios con otros.\n"
-"Si recibiste una invitación, significa que alguien quiere compartir su "
-"biblioteca contigo.\n"
-"Plex te brinda acceso a todas las películas, programas de TV, música y "
-"fotos almacenadas en el servidor. ¡Que te diviertas!"
+"¡Buena pregunta! Plex es un software que permite a las personas compartir sus colecciones de medios con otros.\n"
+"Si recibiste una invitación, significa que alguien quiere compartir su biblioteca contigo.\n"
+"Plex te brinda acceso a todas las películas, programas de TV, música y fotos almacenadas en el servidor. ¡Que te diviertas!"
 
 #: app/templates/wizard/plex/tips.html:15
 msgid ""
-"It couldn't be simpler! Plex is available on a wide variety of devices "
-"including laptops, tablets,\n"
-"    smartphones, and TVs. All you need to do is download the Plex app on "
-"your device, sign in with your account, and\n"
+"It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+"    smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 "    you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"¡No podría ser más simple! Plex está disponible en una amplia variedad de"
-" dispositivos, incluidos portátiles, tabletas,\n"
-"teléfonos inteligentes y televisores. Todo lo que necesitas hacer es "
-"descargar la aplicación Plex en tu dispositivo, iniciar sesión\n"
-"con tu cuenta y estarás listo para comenzar a transmitir tus medios. ¡Así"
-" de fácil!"
+"¡No podría ser más simple! Plex está disponible en una amplia variedad de dispositivos, incluidos portátiles, tabletas,\n"
+"teléfonos inteligentes y televisores. Todo lo que necesitas hacer es descargar la aplicación Plex en tu dispositivo, iniciar sesión\n"
+"con tu cuenta y estarás listo para comenzar a transmitir tus medios. ¡Así de fácil!"
 
 #: app/templates/wizard/plex/tips.html:20
 msgid "How can I make sure to have the best experience?"
@@ -659,15 +701,11 @@ msgstr "¿Cómo puedo asegurarme de tener la mejor experiencia?"
 
 #: app/templates/wizard/plex/tips.html:23
 msgid ""
-"Because Plex is a free service, they promote their own content before the"
-" awesome content your friend is now\n"
-"    sharing with you - they also, by default, play content at a lower "
-"quality. "
+"Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+"    sharing with you - they also, by default, play content at a lower quality. "
 msgstr ""
-"Debido a que Plex es un servicio gratuito, promocionan su propio "
-"contenido antes que el increíble contenido\n"
-"que tu amigo ahora comparte contigo - también, de forma predeterminada, "
-"reproducen el contenido a menor calidad. "
+"Debido a que Plex es un servicio gratuito, promocionan su propio contenido antes que el increíble contenido\n"
+"que tu amigo ahora comparte contigo - también, de forma predeterminada, reproducen el contenido a menor calidad. "
 
 #: app/templates/wizard/plex/tips.html:26
 msgid "No need to worry though, this can be easily resolved"
@@ -689,7 +727,8 @@ msgstr "Configura Plex en tu navegador"
 
 #: app/templates/wizard/plex/tips.html:58
 msgid "Configure Plex's app on your computer, mobile device or TV"
-msgstr "Configura la aplicación de Plex en tu ordenador, dispositivo móvil o TV"
+msgstr ""
+"Configura la aplicación de Plex en tu ordenador, dispositivo móvil o TV"
 
 #: app/templates/wizard/plex/tips.html:86
 msgid "Open Plex"
@@ -710,9 +749,7 @@ msgstr "Abre Plex"
 
 #~ msgid "That email does not match any Plex account. Please try again."
 #~ msgstr ""
-#~ "El email no coincide con ninguna "
-#~ "cuenta de Plex. Por favor, pruebe "
-#~ "de nuevo."
+#~ "El email no coincide con ninguna cuenta de Plex. Por favor, pruebe de nuevo."
 
 #~ msgid "This user is already invited to this server."
 #~ msgstr "El usuario ya fue invitado a este servidor."
@@ -722,28 +759,19 @@ msgstr "Abre Plex"
 
 #~ msgid "Something went wrong. Please try again or contact an administrator."
 #~ msgstr ""
-#~ "Algo fue mal. Por favor, prueba de"
-#~ " nuevo o contacta con el "
-#~ "administrador."
+#~ "Algo fue mal. Por favor, prueba de nuevo o contacta con el administrador."
 
 #~ msgid "I've logged in but I am overwhelmed with content!"
 #~ msgstr "¡He iniciado sesión pero estoy abrumado con el contenido!"
 
 #~ msgid ""
-#~ "While Plex is a free service, they"
-#~ " do have to generate revenue in "
-#~ "order to continue providing the "
-#~ "platform. One way they do this is"
-#~ " by displaying their own content "
-#~ "before the content of the server "
-#~ "you are joining."
+#~ "While Plex is a free service, they do have to generate revenue in order to "
+#~ "continue providing the platform. One way they do this is by displaying their"
+#~ " own content before the content of the server you are joining."
 #~ msgstr ""
-#~ "Aunque Plex es un servicio gratuito, "
-#~ "tiene que generar ingresos para seguir"
-#~ " ofreciendo la plataforma. Una forma "
-#~ "de hacerlo es mostrando su propio "
-#~ "contenido antes que el del servidor "
-#~ "al que te unes."
+#~ "Aunque Plex es un servicio gratuito, tiene que generar ingresos para seguir "
+#~ "ofreciendo la plataforma. Una forma de hacerlo es mostrando su propio "
+#~ "contenido antes que el del servidor al que te unes."
 
 #~ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
 #~ msgstr "En el lado izquierdo de la pantalla, verá un menú. Haga clic en el "
@@ -753,28 +781,18 @@ msgstr "Abre Plex"
 
 #~ msgid "button to reveal all the different types of media you have access to."
 #~ msgstr ""
-#~ "para revelar todos los diferentes tipos"
-#~ " de medios a los que tiene "
-#~ "acceso."
+#~ "para revelar todos los diferentes tipos de medios a los que tiene acceso."
 
 #~ msgid ""
-#~ "To avoid seeing Plex's content first,"
-#~ " we recommend hiding it. To do "
-#~ "this, select all the content types "
-#~ "you don't want (such as 'Movies "
-#~ "and TV on Plex') and 'Unpin' them"
-#~ " from your home screen. This way "
-#~ "you'll only see the content that "
-#~ "you really want to watch!"
+#~ "To avoid seeing Plex's content first, we recommend hiding it. To do this, "
+#~ "select all the content types you don't want (such as 'Movies and TV on "
+#~ "Plex') and 'Unpin' them from your home screen. This way you'll only see the "
+#~ "content that you really want to watch!"
 #~ msgstr ""
-#~ "Para evitar ver primero el contenido "
-#~ "de Plex, te recomendamos ocultarlo. Para"
-#~ " ello, selecciona todos los tipos de"
-#~ " contenido que no quieras (como "
-#~ "'Películas y TV en Plex') y "
-#~ "'desanclalos' de tu pantalla de inicio."
-#~ " De esta forma, ¡solo verás el "
-#~ "contenido que realmente quieres ver!"
+#~ "Para evitar ver primero el contenido de Plex, te recomendamos ocultarlo. "
+#~ "Para ello, selecciona todos los tipos de contenido que no quieras (como "
+#~ "'Películas y TV en Plex') y 'desanclalos' de tu pantalla de inicio. De esta "
+#~ "forma, ¡solo verás el contenido que realmente quieres ver!"
 
 #~ msgid "Now that everything we"
 #~ msgstr "Ahora que todo lo que"
@@ -793,23 +811,17 @@ msgstr "Abre Plex"
 
 #~ msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
 #~ msgstr ""
+#~ "¡Simplemente fija las secciones de Películas/Programas de TV de %(name)s!"
 
 #~ msgid ""
-#~ "By default, Plex plays all content "
-#~ "at a lower quality. This can be"
-#~ " a bit of a disappointment. But "
-#~ "don't worry, it's a simple fix! "
-#~ "You can easily change the settings "
-#~ "to increase the quality of the "
-#~ "media that you're streaming."
+#~ "By default, Plex plays all content at a lower quality. This can be a bit of "
+#~ "a disappointment. But don't worry, it's a simple fix! You can easily change "
+#~ "the settings to increase the quality of the media that you're streaming."
 #~ msgstr ""
-#~ "Por defecto, Plex reproduce todos los"
-#~ " contenidos con una calidad inferior. "
-#~ "Esto puede ser un poco decepcionante."
-#~ " Pero no te preocupes, ¡tiene fácil"
-#~ " solución! Puedes cambiar fácilmente la "
-#~ "configuración para aumentar la calidad "
-#~ "del contenido que estás reproduciendo."
+#~ "Por defecto, Plex reproduce todos los contenidos con una calidad inferior. "
+#~ "Esto puede ser un poco decepcionante. Pero no te preocupes, ¡tiene fácil "
+#~ "solución! Puedes cambiar fácilmente la configuración para aumentar la "
+#~ "calidad del contenido que estás reproduciendo."
 
 #~ msgid "Go to the Plex "
 #~ msgstr "Ir a Plex "
@@ -818,13 +830,11 @@ msgstr "Abre Plex"
 #~ msgstr "Ajustes "
 
 #~ msgid ""
-#~ "page. This is usually in the top"
-#~ " right hand corner, depending on the"
-#~ " device you are on."
+#~ "page. This is usually in the top right hand corner, depending on the device "
+#~ "you are on."
 #~ msgstr ""
-#~ "página. Suele estar en la esquina "
-#~ "superior derecha, dependiendo del dispositivo"
-#~ " en el que te encuentres."
+#~ "página. Suele estar en la esquina superior derecha, dependiendo del "
+#~ "dispositivo en el que te encuentres."
 
 #~ msgid "Go to the "
 #~ msgstr "Ir al "
@@ -857,20 +867,14 @@ msgstr "Abre Plex"
 #~ msgstr "Streaming local "
 
 #~ msgid ""
-#~ "And there you have it! In case "
-#~ "you encounter buffering issues, remember "
-#~ "that you can always adjust the "
-#~ "playback quality just like you do "
-#~ "in YouTube. This way you can get"
-#~ " the best streaming experience possible."
+#~ "And there you have it! In case you encounter buffering issues, remember that"
+#~ " you can always adjust the playback quality just like you do in YouTube. "
+#~ "This way you can get the best streaming experience possible."
 #~ msgstr ""
-#~ "¡Y ahí lo tienes! En caso de "
-#~ "que encuentre problemas de almacenamiento "
-#~ "en búfer, recuerde que siempre puede "
-#~ "ajustar la calidad de reproducción como"
-#~ " lo hace en YouTube. De esta "
-#~ "manera, puede obtener la mejor "
-#~ "experiencia de transmisión posible."
+#~ "¡Y ahí lo tienes! En caso de que encuentre problemas de almacenamiento en "
+#~ "búfer, recuerde que siempre puede ajustar la calidad de reproducción como lo"
+#~ " hace en YouTube. De esta manera, puede obtener la mejor experiencia de "
+#~ "transmisión posible."
 
 #~ msgid "Join our Discord Server"
 #~ msgstr "Únete a nuestro servidor de Discord"
@@ -885,89 +889,52 @@ msgstr "Abre Plex"
 #~ msgstr "Únete y descarga Plex para este dispositivo"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
-#~ "make sure you know how to use "
-#~ "it with Plex."
+#~ "Great news! You now have access to our server's media collection. Let's make"
+#~ " sure you know how to use it with Plex."
 #~ msgstr ""
-#~ "¡Buenas noticias! Ahora tiene acceso a"
-#~ " la colección de medios de nuestro"
-#~ " servidor. Asegurémonos de que sepa "
-#~ "cómo usarlo con Plex."
+#~ "¡Buenas noticias! Ahora tiene acceso a la colección de medios de nuestro "
+#~ "servidor. Asegurémonos de que sepa cómo usarlo con Plex."
 
 #~ msgid "Skip"
 #~ msgstr "Saltar"
 
 #~ msgid ""
-#~ "Congratulations on joining %(name)s! You're"
-#~ " now one step closer to enjoying "
-#~ "all kinds of amazing\n"
+#~ "Congratulations on joining %(name)s! You're now one step closer to enjoying all kinds of amazing\n"
 #~ "        content."
 #~ msgstr ""
-#~ "¡Enhorabuena por aceptar la invitación "
-#~ "por correo electrónico de Plex! Ahora"
-#~ " estás un paso más cerca de "
-#~ "disfrutar de todo el increíble contenido"
-#~ " de nuestro servidor. "
+#~ "¡Enhorabuena por aceptar la invitación por correo electrónico de Plex! Ahora"
+#~ " estás un paso más cerca de disfrutar de todo el increíble contenido de "
+#~ "nuestro servidor. "
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "      you've received this invitation, "
-#~ "it means someone wants to share "
-#~ "their library with you. With Plex, "
-#~ "you'll have\n"
-#~ "      access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their media collections with others. If\n"
+#~ "      you've received this invitation, it means someone wants to share their library with you. With Plex, you'll have\n"
+#~ "      access to all of the movies, TV shows, music, and photos that are stored on their server. Enjoy!"
 #~ msgstr ""
-#~ "¡Buena pregunta! Plex es un software "
-#~ "que permite a las personas compartir "
-#~ "sus colecciones de medios con otros. "
-#~ "Si recibiste una invitación, significa "
-#~ "que alguien quiere compartir su "
-#~ "biblioteca contigo. Plex le brinda "
-#~ "acceso a todas las películas, programas"
-#~ " de TV, música y fotos almacenadas"
-#~ " en el servidor. ¡Que te diviertas!"
+#~ "¡Buena pregunta! Plex es un software que permite a las personas compartir "
+#~ "sus colecciones de medios con otros. Si recibiste una invitación, significa "
+#~ "que alguien quiere compartir su biblioteca contigo. Plex le brinda acceso a "
+#~ "todas las películas, programas de TV, música y fotos almacenadas en el "
+#~ "servidor. ¡Que te diviertas!"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "      smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+#~ "      smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 #~ "      you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "¡No podría ser más simple! Plex "
-#~ "está disponible en una amplia variedad"
-#~ " de dispositivos, incluidos portátiles, "
-#~ "tabletas, teléfonos inteligentes y "
-#~ "televisores. Todo lo que necesita hacer"
-#~ " es descargar la aplicación Plex en"
-#~ " su dispositivo, iniciar sesión con "
-#~ "su cuenta y estará listo para "
-#~ "comenzar a transmitir sus medios. ¡Así"
-#~ " de fácil!"
+#~ "¡No podría ser más simple! Plex está disponible en una amplia variedad de "
+#~ "dispositivos, incluidos portátiles, tabletas, teléfonos inteligentes y "
+#~ "televisores. Todo lo que necesita hacer es descargar la aplicación Plex en "
+#~ "su dispositivo, iniciar sesión con su cuenta y estará listo para comenzar a "
+#~ "transmitir sus medios. ¡Así de fácil!"
 
 #~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "      sharing with you - they "
-#~ "also, by default, play content at "
-#~ "a lower quality. "
+#~ "Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+#~ "      sharing with you - they also, by default, play content at a lower quality. "
 #~ msgstr ""
-#~ "Debido a que Plex es un servicio"
-#~ " gratuito, promocionan su propio contenido"
-#~ " antes que el increíble contenido que"
-#~ " tu amigo ahora comparte contigo; "
-#~ "también, de forma predeterminada, reproducen"
-#~ " contenido de menor calidad."
+#~ "Debido a que Plex es un servicio gratuito, promocionan su propio contenido "
+#~ "antes que el increíble contenido que tu amigo ahora comparte contigo; "
+#~ "también, de forma predeterminada, reproducen contenido de menor calidad."
 
 #~ msgid ""
 #~ "We highly\n"
@@ -978,13 +945,11 @@ msgstr "Abre Plex"
 #~ msgstr "¡Has sido invitado a unirte %(name)s!"
 
 #~ msgid ""
-#~ "To join our Plex server, create a"
-#~ " Plex account! Once you're done, come"
-#~ " back here!"
+#~ "To join our Plex server, create a Plex account! Once you're done, come back "
+#~ "here!"
 #~ msgstr ""
-#~ "Para unirte a nuestro servidor Plex, "
-#~ "¡crea una cuenta de Plex! Una vez"
-#~ " que hayas terminado, ¡vuelve aquí!"
+#~ "Para unirte a nuestro servidor Plex, ¡crea una cuenta de Plex! Una vez que "
+#~ "hayas terminado, ¡vuelve aquí!"
 
 #~ msgid "Create Plex Account"
 #~ msgstr "Crear cuenta en Plex"
@@ -1011,13 +976,11 @@ msgstr "Abre Plex"
 #~ msgstr "¡Hemos enviado una invitación a tu cuenta de Plex! ¡Ya casi está!"
 
 #~ msgid ""
-#~ "Click the button below to be taken"
-#~ " to Plex, here you will see an"
-#~ " invitation from us."
+#~ "Click the button below to be taken to Plex, here you will see an invitation "
+#~ "from us."
 #~ msgstr ""
-#~ "Haz clic en el botón de debajo "
-#~ "para ir a Plex, aquí verás nuestra"
-#~ " invitación."
+#~ "Haz clic en el botón de debajo para ir a Plex, aquí verás nuestra "
+#~ "invitación."
 
 #~ msgid "Accept"
 #~ msgstr "Aceptar"
@@ -1054,14 +1017,11 @@ msgstr "Abre Plex"
 
 #~ msgid ""
 #~ "Environment Variables are being\n"
-#~ "                    deprecated and replaced by"
-#~ " a secure sign-up. Please visit \n"
-#~ ""
+#~ "                    deprecated and replaced by a secure sign-up. Please visit \n"
 #~ "\n"
 #~ msgstr ""
-#~ "Las variables de entorno están en "
-#~ "desuso y se reemplazan por un "
-#~ "registro seguro. Por favor, visite "
+#~ "Las variables de entorno están en desuso y se reemplazan por un registro "
+#~ "seguro. Por favor, visite "
 
 #~ msgid ""
 #~ "/settings.\n"
@@ -1120,3 +1080,13 @@ msgstr "Abre Plex"
 #~ msgid "Home User"
 #~ msgstr "Usuario local"
 
+#~ msgid ""
+#~ "Request\n"
+#~ "                instance (Ombi, Overseerr...) URL"
+#~ msgstr ""
+#~ "Solicita\n"
+#~ "la instancia (Ombi, Overseerr...)"
+
+#~ msgid "Ombi API Key (Only used for user import currently.)"
+#~ msgstr ""
+#~ "Ombi API Key (Sólo se utiliza actualmente para la importación de usuarios.)"

@@ -7,49 +7,48 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-16 17:27+0100\n"
+"POT-Creation-Date: 2023-08-01 17:37+0100\n"
 "PO-Revision-Date: 2023-02-26 17:02+0000\n"
 "Last-Translator: Eaglinn <arnarinn105@gmail.com>\n"
+"Language-Team: Icelandic <https://hosted.weblate.org/projects/wizarr/app/is/>\n"
 "Language: is\n"
-"Language-Team: Icelandic "
-"<https://hosted.weblate.org/projects/wizarr/app/is/>\n"
-"Plural-Forms: nplurals=2; plural=n % 10 != 1 || n % 100 == 11;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n % 10 != 1 || n % 100 == 11;\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: app/admin.py:150
+#: app/admin.py:166
 msgid "Passwords do not match."
 msgstr "lykilorð eru ekki eins."
 
-#: app/admin.py:153
+#: app/admin.py:169
 msgid "Username must be between 3 and 15 characters."
 msgstr "Notendanafn verður að vera á milli 3 og 15 stafir."
 
-#: app/admin.py:156
+#: app/admin.py:172
 msgid "Password must be between 3 and 40 characters."
 msgstr "lykilorð verður að vera á milli 3 og 40 stafir."
 
-#: app/admin.py:182
+#: app/admin.py:200
 msgid "You must select at least one library."
 msgstr "Þú verður að velja allavega eitt safn."
 
-#: app/admin.py:251
+#: app/admin.py:277
 msgid "It is likely that your token does not work."
 msgstr "Það er líklegt að táknið þitt virkar ekki."
 
-#: app/admin.py:253
+#: app/admin.py:279
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
 "Plex netþjóninn þinn er óaðgengilegur. Skoðaðu \"Logs\" fyrir meiri "
 "upplýsingar."
 
-#: app/admin.py:262
+#: app/admin.py:288
 msgid "Unable to connect to your Jellyfin server."
 msgstr "Jellyfin netþjóninn er óaðgengilegur."
 
-#: app/admin.py:343 app/admin.py:347
+#: app/admin.py:386 app/admin.py:390
 msgid "Invalid Username or Password"
 msgstr "Ógilt notendanafn eða lykilorð"
 
@@ -122,6 +121,8 @@ msgid ""
 "Server Display\n"
 "                Name"
 msgstr ""
+"Skjár netþjóns\n"
+"                Nafn"
 
 #: app/templates/settings.html:35
 #, fuzzy
@@ -129,53 +130,85 @@ msgid "Server"
 msgstr "Aldrei"
 
 #: app/templates/settings.html:48
+#: app/templates/wizard/jellyfin/download.html:29
 msgid "Server URL"
-msgstr ""
+msgstr "Vefslóð netþjóns"
 
 #: app/templates/settings.html:54
 msgid ""
 "Server\n"
 "                Token / API Key"
 msgstr ""
+"Server\n"
+"                Tákn / API lykill"
 
 #: app/templates/settings.html:66
 msgid ""
 "Server\n"
 "                Libraries"
 msgstr ""
+"Server\n"
+"                Bókasöfn"
 
-#: app/templates/admin/invite.html:125 app/templates/settings.html:69
+#: app/templates/admin/invite.html:127 app/templates/settings.html:69
 msgid "Scan For Libraries"
-msgstr ""
+msgstr "Leitaðu að bókasöfnum"
 
-#: app/templates/settings.html:77
+#: app/templates/settings.html:78
 msgid ""
 "Request\n"
-"                instance (Ombi, Overseerr...) URL"
+"                Server"
 msgstr ""
+"Beiðni\n"
+"                Server"
 
-#: app/templates/settings.html:87
-msgid "Ombi API Key (Only used for user import currently.)"
+#: app/templates/settings.html:92
+msgid ""
+"Request\n"
+"                Server URL"
 msgstr ""
+"Beiðni\n"
+"                Vefslóð netþjóns"
 
-#: app/templates/settings.html:94
+#: app/templates/settings.html:102
+msgid ""
+"Request\n"
+"                Server API Key"
+msgstr ""
+"Beiðni\n"
+"                Server API lykill"
+
+#: app/templates/settings.html:110
 msgid ""
 "Discord\n"
 "                Server ID"
 msgstr ""
+"Ósátt\n"
+"                Auðkenni miðlara"
 
-#: app/templates/settings.html:102
+#: app/templates/settings.html:118
+msgid ""
+"Discord\n"
+"                Widget"
+msgstr ""
+"Ósátt\n"
+"                Græja"
+
+#: app/templates/settings.html:126
 msgid ""
 "Custom\n"
 "                HTML"
 msgstr ""
+"Sérsniðin\n"
+"                HTML"
 
-#: app/templates/settings.html:110
+#: app/templates/settings.html:134
 msgid "Save"
-msgstr ""
+msgstr "Vista"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
-#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
+#: app/templates/welcome-jellyfin.html:7
+#: app/templates/welcome-jellyfin.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "Þér hefur verið boðið í netþjóninn þeirra %(name)s!"
@@ -216,12 +249,16 @@ msgid ""
 "Confirm\n"
 "                                password"
 msgstr ""
+"Staðfesta\n"
+"                                lykilorð"
 
 #: app/templates/welcome-jellyfin.html:63
 msgid ""
 "Invite\n"
 "                                Code"
 msgstr ""
+"Bjóða\n"
+"                                Kóði"
 
 #: app/templates/admin/invite.html:16
 msgid "Attention!"
@@ -233,15 +270,15 @@ msgstr "Uppfærsla í boði. Smelltu hér."
 
 #: app/templates/admin/invite.html:32
 msgid "Quick Invite"
-msgstr ""
+msgstr "Fljótt boð"
 
 #: app/templates/admin/invite.html:38
 msgid "Invite user"
-msgstr ""
+msgstr "Bjóða notanda"
 
 #: app/templates/admin/invite.html:44
 msgid "Invite Code String"
-msgstr ""
+msgstr "Boðskóðastrengur"
 
 #: app/templates/admin/invite.html:44
 msgid "(optional)"
@@ -252,94 +289,112 @@ msgid "Expiration"
 msgstr "Gildistími"
 
 #: app/templates/admin/invite.html:54
-msgid "1 day"
+#, fuzzy
+msgid "1 Day"
 msgstr "1 dagur"
 
 #: app/templates/admin/invite.html:55
-msgid "1 week"
+#, fuzzy
+msgid "1 Week"
 msgstr "1 vika"
 
 #: app/templates/admin/invite.html:56
-msgid "1 month"
+#, fuzzy
+msgid "1 Month"
 msgstr "1 mánuður"
 
-#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:48
+#: app/templates/admin/invite.html:57
+#, fuzzy
+msgid "6 Months"
+msgstr "1 mánuður"
+
+#: app/templates/admin/invite.html:58
+msgid "1 Year"
+msgstr "1 ár"
+
+#: app/templates/admin/invite.html:59
+#: app/templates/tables/invite_table.html:48
 msgid "Never"
 msgstr "Aldrei"
 
-#: app/templates/admin/invite.html:62
+#: app/templates/admin/invite.html:64
 msgid "Advanced Options"
-msgstr ""
+msgstr "Ítarlegir valkostir"
 
-#: app/templates/admin/invite.html:70
+#: app/templates/admin/invite.html:72
 msgid "Unlimited Usages"
 msgstr "Ótakmarkað"
 
-#: app/templates/admin/invite.html:78
+#: app/templates/admin/invite.html:80
 #, fuzzy
 msgid "Invite to Plex Home"
 msgstr "Boðslykill"
 
-#: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
+#: app/templates/admin/invite.html:89 app/templates/admin/invite.html:101
 #: app/templates/tables/invite_table.html:13
 #, fuzzy
 msgid "Duration"
 msgstr "Gildistími"
 
-#: app/templates/admin/invite.html:87
+#: app/templates/admin/invite.html:89
 msgid "(in days)"
-msgstr ""
+msgstr "(á dögum)"
 
-#: app/templates/admin/invite.html:95
+#: app/templates/admin/invite.html:97
 msgid "Show Information"
-msgstr ""
+msgstr "Sýna upplýsingar"
 
-#: app/templates/admin/invite.html:100
+#: app/templates/admin/invite.html:102
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a\n"
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
+"Þegar það er stillt verða boðnir notendur fjarlægðir af Plex þjóninum eftir a\n"
+"                                        Fjöldi\n"
+"                                        daga. (1-999)"
 
-#: app/templates/admin/invite.html:116
+#: app/templates/admin/invite.html:118
 #: app/templates/tables/invite_table.html:11
 #, fuzzy
 msgid "Allow Downloads"
 msgstr "Hlaða niður"
 
-#: app/templates/admin/invite.html:122
+#: app/templates/admin/invite.html:124
 msgid ""
 "Specific\n"
 "                                Libraries"
 msgstr ""
+"Sérstakur\n"
+"                                Bókasöfn"
 
-#: app/templates/admin/invite.html:134
+#: app/templates/admin/invite.html:136
 msgid "Create Invitation"
-msgstr ""
+msgstr "Búðu til boð"
 
-#: app/templates/admin/invite.html:141
+#: app/templates/admin/invite.html:143
 msgid "Successfully generated an Invitation!"
-msgstr ""
+msgstr "Búið til boð!"
 
-#: app/templates/admin/invite.html:146
+#: app/templates/admin/invite.html:148
 msgid "Link has been copied to clipboard!"
-msgstr ""
+msgstr "Tengill hefur verið afritaður á klippiborð!"
 
-#: app/templates/admin/invite.html:155
+#: app/templates/admin/invite.html:157
 msgid "Back"
 msgstr "Til baka"
 
-#: app/templates/admin/invite.html:161
+#: app/templates/admin/invite.html:163
 msgid "Share"
 msgstr "Deila"
 
 #: app/templates/admin/notifications.html:11
 msgid "Notification Agents"
-msgstr ""
+msgstr "Umboðsmenn tilkynninga"
 
 #: app/templates/admin/notifications.html:27
 msgid "Delete"
-msgstr ""
+msgstr "Eyða"
 
 #: app/templates/admin/notifications.html:37
 #, fuzzy
@@ -348,11 +403,11 @@ msgstr "Búa til aðgang"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
-msgstr ""
+msgstr "Notendastillingar"
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
-msgstr ""
+msgstr "Notendastefna"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
@@ -368,7 +423,8 @@ msgstr "Það vantar eitthvað."
 
 #: app/templates/error/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "Afsakið en við getum ekki fundið þessa síðu. Hún sýnist ekki vera til!"
+msgstr ""
+"Afsakið en við getum ekki fundið þessa síðu. Hún sýnist ekki vera til!"
 
 #: app/templates/error/500.html:19
 msgid "Internal Server Error."
@@ -380,32 +436,45 @@ msgstr " Eitthvað fór úrskeiðis. Vinsamlegast prófaðu aftur seinna."
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "Nýr umboðsmaður"
 
-#: app/templates/modals/create-notification-agent.html:60
+#: app/templates/modals/create-notification-agent.html:61
 msgid ""
 "Username\n"
 "                                (optional)"
 msgstr ""
+"Notandanafn\n"
+"                                (valfrjálst)"
 
-#: app/templates/modals/create-notification-agent.html:65
+#: app/templates/modals/create-notification-agent.html:66
 #, fuzzy
 msgid "Password (optional)"
 msgstr "(valfrjálst)"
 
-#: app/templates/modals/create-notification-agent.html:70
+#: app/templates/modals/create-notification-agent.html:72
+#, fuzzy
+msgid "User Key"
+msgstr "Notandanafn"
+
+#: app/templates/modals/create-notification-agent.html:76
+msgid "API Token"
+msgstr "API tákn"
+
+#: app/templates/modals/create-notification-agent.html:81
 msgid ""
 "Agent\n"
 "                                URL"
 msgstr ""
+"Umboðsmaður\n"
+"                                URL"
 
-#: app/templates/modals/create-notification-agent.html:81
+#: app/templates/modals/create-notification-agent.html:92
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Prófaðu og búðu til umboðsmann"
 
-#: app/templates/modals/create-notification-agent.html:85
+#: app/templates/modals/create-notification-agent.html:96
 msgid "Cancel"
-msgstr ""
+msgstr "Hætta við"
 
 #: app/templates/tables/global-users.html:13
 #, fuzzy
@@ -415,7 +484,7 @@ msgstr "Notandanafn"
 #: app/templates/tables/global-users.html:16
 #: app/templates/tables/invite_table.html:7
 msgid "Expires"
-msgstr ""
+msgstr "Rennur út"
 
 #: app/templates/tables/global-users.html:22
 #, fuzzy
@@ -436,74 +505,108 @@ msgstr "Ótakmarkað"
 
 #: app/templates/tables/invite_table.html:9
 msgid "Libraries"
-msgstr ""
+msgstr "Bókasöfn"
 
 #: app/templates/tables/invite_table.html:22
 msgid "Available"
-msgstr ""
+msgstr "Laus"
 
 #: app/templates/tables/invite_table.html:35
 msgid "Expired"
-msgstr ""
+msgstr "Útrunnið"
 
 #: app/templates/tables/invite_table.html:73
 msgid "Default"
-msgstr ""
+msgstr "Sjálfgefið"
 
 #: app/templates/wizard/requests.html:4
 msgid "Automatic Media Requests"
-msgstr ""
+msgstr "Sjálfvirkar fjölmiðlabeiðnir"
 
 #: app/templates/wizard/requests.html:9
 msgid ""
-"We are excited to offer you a wide selection of media to choose from. If "
-"you're having trouble finding\n"
-"    something you like, don't worry! We have a user-friendly request "
-"system that can automatically search for the\n"
+"We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
+"    something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
 "    media you're looking for. "
 msgstr ""
+"Við erum spennt að bjóða þér mikið úrval af miðlum til að velja úr. Ef þú átt í vandræðum með að finna\n"
+"    eitthvað sem þér líkar, ekki hafa áhyggjur! Við erum með notendavænt beiðnikerfi sem getur sjálfkrafa leitað að\n"
+"    fjölmiðla sem þú ert að leita að."
 
 #: app/templates/wizard/requests.html:23
 msgid "Request any available Movie or TV Show"
-msgstr ""
+msgstr "Biðjið um hvaða kvikmynd eða sjónvarpsþátt sem er í boði"
 
 #: app/templates/wizard/requests.html:33
 msgid ""
-"Requested media will be automatically downloaded and added to the library"
-" (if available)"
+"Requested media will be automatically downloaded and added to the library "
+"(if available)"
 msgstr ""
+"Umbeðnum miðlum verður sjálfkrafa hlaðið niður og bætt við bókasafnið (ef "
+"það er tiltækt)"
 
 #: app/templates/wizard/requests.html:43
 msgid "If enabled, receive notifications"
-msgstr ""
+msgstr "Ef það er virkt skaltu fá tilkynningar"
 
 #: app/templates/wizard/requests.html:50
 msgid "Check it Out"
-msgstr ""
+msgstr "Skoðaðu þetta"
 
 #: app/templates/wizard/jellyfin/download.html:3
 msgid ""
 "Join & Download Jellyfin\n"
 "            for this device"
 msgstr ""
+"Vertu með og halaðu niður Jellyfin\n"
+"            fyrir þetta tæki"
 
 #: app/templates/wizard/jellyfin/download.html:8
 msgid ""
-"Great news! You now have access to our server's media collection. Let's "
-"make sure you know how to use\n"
+"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 "        it with Jellyfin."
 msgstr ""
+"Frábærar fréttir! Þú hefur nú aðgang að miðlunarsafni netþjónsins okkar. Við skulum ganga úr skugga um að þú veist hvernig á að nota\n"
+"        það með Jellyfin."
 
-#: app/templates/wizard/jellyfin/download.html:11
+#: app/templates/wizard/jellyfin/download.html:12
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
 msgstr ""
+"Ætlarðu að horfa á kvikmyndir í þessu tæki? Sækja Jellyfin fyrir þetta tæki."
 
-#: app/templates/wizard/jellyfin/download.html:14
-#: app/templates/wizard/plex/download.html:14
-msgid "Download"
+#: app/templates/wizard/jellyfin/download.html:18
+msgid ""
+"If you don't wish to Download the App feel free to use Jellyfin in your "
+"devices web browser, just click \"Next\"."
+msgstr ""
+"Ef þú vilt ekki hlaða niður forritinu skaltu ekki hika við að nota Jellyfin "
+"í vafra tækisins þíns, smelltu bara á „Næsta“."
+
+#: app/templates/wizard/jellyfin/download.html:24
+msgid "Show Server URL"
+msgstr "Sýna vefslóð netþjóns"
+
+#: app/templates/wizard/jellyfin/download.html:33
+#: app/templates/wizard/jellyfin/download.html:133
+msgid "Copy"
+msgstr "Afrita"
+
+#: app/templates/wizard/jellyfin/download.html:47
+#: app/templates/wizard/jellyfin/download.html:64
+#: app/templates/wizard/jellyfin/tips.html:25
+msgid "Open Jellyfin"
+msgstr "Opið Jellyfin"
+
+#: app/templates/wizard/jellyfin/download.html:81
+#, fuzzy
+msgid "Other Download"
 msgstr "Hlaða niður"
+
+#: app/templates/wizard/jellyfin/download.html:130
+msgid "Copied!"
+msgstr "Afritað!"
 
 #: app/templates/wizard/jellyfin/tips.html:4
 #, fuzzy
@@ -512,14 +615,15 @@ msgstr "Hvað er Plex nákvæmlega?"
 
 #: app/templates/wizard/jellyfin/tips.html:7
 msgid ""
-"Jellyfin is a platform that lets you stream all your favorite movies, TV "
-"shows, and music in one place.\n"
-"        It's like having your own personal movie theater right at your "
-"fingertips! Think of it as a digital library of\n"
-"        your favorite content that you can access from anywhere, on any "
-"device - your phone, tablet, laptop, smart TV,\n"
+"Jellyfin is a platform that lets you stream all your favorite movies, TV shows, and music in one place.\n"
+"        It's like having your own personal movie theater right at your fingertips! Think of it as a digital library of\n"
+"        your favorite content that you can access from anywhere, on any device - your phone, tablet, laptop, smart TV,\n"
 "        you name it."
 msgstr ""
+"Jellyfin er vettvangur sem gerir þér kleift að streyma öllum uppáhalds kvikmyndunum þínum, sjónvarpsþáttum og tónlist á einum stað.\n"
+"        Það er eins og að hafa þitt eigið persónulega kvikmyndahús innan seilingar! Hugsaðu um það sem stafrænt bókasafn\n"
+"        uppáhaldsefnið þitt sem þú getur nálgast hvar sem er, í hvaða tæki sem er - símanum þínum, spjaldtölvunni, fartölvunni, snjallsjónvarpinu,\n"
+"        nefndu það."
 
 #: app/templates/wizard/jellyfin/tips.html:13
 #: app/templates/wizard/plex/tips.html:12
@@ -528,34 +632,41 @@ msgstr "Hvernig horfi ég á efni?"
 
 #: app/templates/wizard/jellyfin/tips.html:16
 msgid ""
-"It couldn't be simpler! Jellyfin is available on a wide variety of "
-"devices including laptops, tablets,\n"
-"        smartphones, and TVs. All you need to do is download the Jellyfin"
-" app on your device, sign in with your account,\n"
+"It couldn't be simpler! Jellyfin is available on a wide variety of devices including laptops, tablets,\n"
+"        smartphones, and TVs. All you need to do is download the Jellyfin app on your device, sign in with your account,\n"
 "        and\n"
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
-
-#: app/templates/wizard/jellyfin/tips.html:25
-msgid "Open Jellyfin"
-msgstr ""
+"Það gæti ekki verið einfaldara! Jellyfin er fáanlegt á fjölmörgum tækjum, þar á meðal fartölvum, spjaldtölvum,\n"
+"        snjallsíma og sjónvörp. Allt sem þú þarft að gera er að hlaða niður Jellyfin appinu í tækið þitt, skrá þig inn með reikningnum þínum,\n"
+"        og\n"
+"        þú ert tilbúinn til að byrja að streyma fjölmiðlum þínum. Það er svo auðvelt!"
 
 #: app/templates/wizard/plex/download.html:3
 msgid ""
 "Join & Download Plex\n"
 "            for this device"
 msgstr ""
+"Vertu með og halaðu niður Plex\n"
+"            fyrir þetta tæki"
 
 #: app/templates/wizard/plex/download.html:8
 msgid ""
-"Great news! You now have access to our server's media collection. Let's "
-"make sure you know how to use\n"
+"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 "        it with Plex."
 msgstr ""
+"Frábærar fréttir! Þú hefur nú aðgang að miðlunarsafni netþjónsins okkar. Við skulum ganga úr skugga um að þú veist hvernig á að nota\n"
+"        það með Plex."
 
 #: app/templates/wizard/plex/download.html:11
-msgid "Planning on watching Movies on this device? Download Plex for this device."
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
+"Ætlarðu að horfa á kvikmyndir í þessu tæki? Sæktu Plex fyrir þetta tæki."
+
+#: app/templates/wizard/plex/download.html:14
+msgid "Download"
+msgstr "Hlaða niður"
 
 #: app/templates/wizard/plex/tips.html:4
 msgid "Eh, So, What is Plex exactly?"
@@ -563,34 +674,35 @@ msgstr "Hvað er Plex nákvæmlega?"
 
 #: app/templates/wizard/plex/tips.html:7
 msgid ""
-"Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If\n"
-"    you've received this invitation, it means someone wants to share "
-"their library with you. With Plex, you'll have\n"
-"    access to all of the movies, TV shows, music, and photos that are "
-"stored on their server. Enjoy!"
+"Great question! Plex is a software that allows individuals to share their media collections with others. If\n"
+"    you've received this invitation, it means someone wants to share their library with you. With Plex, you'll have\n"
+"    access to all of the movies, TV shows, music, and photos that are stored on their server. Enjoy!"
 msgstr ""
+"Frábær spurning! Plex er hugbúnaður sem gerir einstaklingum kleift að deila fjölmiðlasöfnum sínum með öðrum. Ef\n"
+"    þú hefur fengið þetta boð þýðir það að einhver vill deila bókasafni sínu með þér. Með Plex muntu hafa\n"
+"    aðgang að öllum kvikmyndum, sjónvarpsþáttum, tónlist og myndum sem eru geymdar á netþjóni þeirra. Njóttu!"
 
 #: app/templates/wizard/plex/tips.html:15
 msgid ""
-"It couldn't be simpler! Plex is available on a wide variety of devices "
-"including laptops, tablets,\n"
-"    smartphones, and TVs. All you need to do is download the Plex app on "
-"your device, sign in with your account, and\n"
+"It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+"    smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 "    you're ready to start streaming your media. It's that easy!"
 msgstr ""
+"Það gæti ekki verið einfaldara! Plex er fáanlegt á fjölmörgum tækjum, þar á meðal fartölvum, spjaldtölvum,\n"
+"    snjallsíma og sjónvörp. Allt sem þú þarft að gera er að hlaða niður Plex appinu í tækið þitt, skrá þig inn með reikningnum þínum og\n"
+"    þú ert tilbúinn til að byrja að streyma fjölmiðlum þínum. Það er svo auðvelt!"
 
 #: app/templates/wizard/plex/tips.html:20
 msgid "How can I make sure to have the best experience?"
-msgstr ""
+msgstr "Hvernig get ég tryggt að upplifunin sé sem best?"
 
 #: app/templates/wizard/plex/tips.html:23
 msgid ""
-"Because Plex is a free service, they promote their own content before the"
-" awesome content your friend is now\n"
-"    sharing with you - they also, by default, play content at a lower "
-"quality. "
+"Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+"    sharing with you - they also, by default, play content at a lower quality. "
 msgstr ""
+"Vegna þess að Plex er ókeypis þjónusta kynna þeir eigið efni á undan hinu frábæra efni sem vinur þinn er núna\n"
+"    deila með þér - þeir spila líka sjálfgefið efni í minni gæðum."
 
 #: app/templates/wizard/plex/tips.html:26
 msgid "No need to worry though, this can be easily resolved"
@@ -601,6 +713,8 @@ msgid ""
 "We highly\n"
 "      recommend you to go through those steps first!"
 msgstr ""
+"Við mjög\n"
+"      mæli með að þú farir í gegnum þessi skref fyrst!"
 
 #: app/templates/wizard/plex/tips.html:33
 msgid "Configure Plex in your browser"
@@ -621,13 +735,13 @@ msgstr "Opna Plex"
 #~ msgstr "Samþykktu boðið okkar"
 
 #~ msgid "We have sent an invitation to your Plex Account! Almost there!"
-#~ msgstr ""
+#~ msgstr "Við höfum sent boð á Plex reikninginn þinn! Næstum þar!"
 
 #~ msgid ""
-#~ "Click the button below to be taken"
-#~ " to Plex, here you will see an"
-#~ " invitation from us."
+#~ "Click the button below to be taken to Plex, here you will see an invitation "
+#~ "from us."
 #~ msgstr ""
+#~ "Smelltu á hnappinn hér að neðan til að fara í Plex, hér sérðu boð frá okkur."
 
 #~ msgid "Accept"
 #~ msgstr "Samþykkja"
@@ -636,13 +750,14 @@ msgstr "Opna Plex"
 #~ msgstr "Næst"
 
 #~ msgid ""
-#~ "Environment Variables are being deprecated "
-#~ "and replaced by a secure sign-up."
+#~ "Environment Variables are being deprecated and replaced by a secure sign-up."
 #~ " Please visit "
 #~ msgstr ""
+#~ "Umhverfisbreytur eru úreltar og öruggar skráningar koma í staðinn. "
+#~ "Vinsamlegast heimsóttu"
 
 #~ msgid "/settings. See Repo for more info"
-#~ msgstr ""
+#~ msgstr "/stillingar. Sjá Repo fyrir frekari upplýsingar"
 
 #~ msgid "Great! Now, let's get you invited!"
 #~ msgstr "Frábært! Nú skulum við bjóða þér!"
@@ -651,28 +766,34 @@ msgstr "Opna Plex"
 #~ msgstr "Plex tölvupósturinn þinn"
 
 #~ msgid "Don't have a Plex account, yet?"
-#~ msgstr ""
+#~ msgstr "Ertu ekki með Plex reikning ennþá?"
 
 #~ msgid "Get one here."
-#~ msgstr ""
+#~ msgstr "Fáðu þér einn hér."
 
 #~ msgid ""
 #~ "Plex Display\n"
 #~ "              Name"
 #~ msgstr ""
+#~ "Plex skjár\n"
+#~ "              Nafn"
 
 #~ msgid "Plex URL"
-#~ msgstr ""
+#~ msgstr "Plex vefslóð"
 
 #~ msgid ""
 #~ "Plex\n"
 #~ "              Token"
 #~ msgstr ""
+#~ "Plex\n"
+#~ "              Tákn"
 
 #~ msgid ""
 #~ "Plex\n"
 #~ "              Libraries"
 #~ msgstr ""
+#~ "Plex\n"
+#~ "              Bókasöfn"
 
 #~ msgid "Plex Display Name"
 #~ msgstr "Plex skjánafn"
@@ -681,67 +802,83 @@ msgstr "Opna Plex"
 #~ msgstr "Plex Token"
 
 #~ msgid "Plex Libraries"
-#~ msgstr ""
+#~ msgstr "Plex bókasöfn"
 
 #~ msgid "Request instance (Ombi, Overseerr...)"
-#~ msgstr ""
+#~ msgstr "Biðja um dæmi (Ombi, Overseerr...)"
 
 #~ msgid "Discord Server ID"
-#~ msgstr ""
+#~ msgstr "Discord miðlara auðkenni"
 
 #~ msgid ""
 #~ "Environment Variables are being\n"
-#~ "                    deprecated and replaced by"
-#~ " a secure sign-up. Please visit \n"
-#~ ""
+#~ "                    deprecated and replaced by a secure sign-up. Please visit \n"
 #~ "\n"
 #~ msgstr ""
+#~ "Umhverfisbreytur eru í gangi\n"
+#~ "                    úrelt og skipt út fyrir örugga skráningu. Vinsamlegast heimsóttu"
 
 #~ msgid ""
 #~ "/settings.\n"
 #~ "                        See Repo for more info"
 #~ msgstr ""
+#~ "/stillingar.\n"
+#~ "                        Sjá Repo fyrir frekari upplýsingar"
 
 #~ msgid ""
 #~ "Server\n"
 #~ "              Libraries"
 #~ msgstr ""
+#~ "Server\n"
+#~ "              Bókasöfn"
 
 #~ msgid ""
 #~ "Custom\n"
 #~ "              HTML"
 #~ msgstr ""
+#~ "Sérsniðin\n"
+#~ "              HTML"
 
 #~ msgid "Plex Requests"
-#~ msgstr ""
+#~ msgstr "Plex beiðnir"
 
 #~ msgid ""
 #~ "Server Display\n"
 #~ "              Name"
 #~ msgstr ""
+#~ "Skjár netþjóns\n"
+#~ "              Nafn"
 
 #~ msgid ""
 #~ "Server\n"
 #~ "              URL"
 #~ msgstr ""
+#~ "Server\n"
+#~ "              URL"
 
 #~ msgid ""
 #~ "Server\n"
 #~ "              Token / API Key"
 #~ msgstr ""
+#~ "Server\n"
+#~ "              Tákn / API lykill"
 
 #~ msgid "Server Libraries"
-#~ msgstr ""
+#~ msgstr "Server bókasöfn"
 
 #~ msgid ""
 #~ "Request\n"
 #~ "              instance (Ombi, Overseerr...)"
 #~ msgstr ""
+#~ "Beiðni\n"
+#~ "              dæmi (Ombi, Umsjónarmaður...)"
 
 #~ msgid ""
 #~ "Discord\n"
 #~ "              Server ID"
 #~ msgstr ""
+#~ "Ósátt\n"
+#~ "              Auðkenni miðlara"
 
 #~ msgid "Verify and Confirm"
 #~ msgstr "Staðfestu"
@@ -753,6 +890,8 @@ msgstr "Opna Plex"
 #~ "Request\n"
 #~ "                instance (Ombi, Overseerr...)"
 #~ msgstr ""
+#~ "Beiðni\n"
+#~ "                dæmi (Ombi, Umsjónarmaður...)"
 
 #~ msgid "Change Server Settings"
 #~ msgstr "Breyta stillingum þjóns"
@@ -766,3 +905,12 @@ msgstr "Opna Plex"
 #~ msgid "Home User"
 #~ msgstr "Heimanotandi"
 
+#~ msgid ""
+#~ "Request\n"
+#~ "                instance (Ombi, Overseerr...) URL"
+#~ msgstr ""
+#~ "Beiðni\n"
+#~ "                dæmi (Ombi, Overseerr...) URL"
+
+#~ msgid "Ombi API Key (Only used for user import currently.)"
+#~ msgstr "Ombi API lykill (Aðeins notaður fyrir notendainnflutning eins og er.)"

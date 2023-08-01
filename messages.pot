@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-16 17:27+0100\n"
+"POT-Creation-Date: 2023-08-01 17:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,35 +17,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: app/admin.py:150
+#: app/admin.py:166
 msgid "Passwords do not match."
 msgstr ""
 
-#: app/admin.py:153
+#: app/admin.py:169
 msgid "Username must be between 3 and 15 characters."
 msgstr ""
 
-#: app/admin.py:156
+#: app/admin.py:172
 msgid "Password must be between 3 and 40 characters."
 msgstr ""
 
-#: app/admin.py:182
+#: app/admin.py:200
 msgid "You must select at least one library."
 msgstr ""
 
-#: app/admin.py:251
+#: app/admin.py:277
 msgid "It is likely that your token does not work."
 msgstr ""
 
-#: app/admin.py:253
+#: app/admin.py:279
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
 
-#: app/admin.py:262
+#: app/admin.py:288
 msgid "Unable to connect to your Jellyfin server."
 msgstr ""
 
-#: app/admin.py:343 app/admin.py:347
+#: app/admin.py:386 app/admin.py:390
 msgid "Invalid Username or Password"
 msgstr ""
 
@@ -122,6 +122,7 @@ msgid "Server"
 msgstr ""
 
 #: app/templates/settings.html:48
+#: app/templates/wizard/jellyfin/download.html:29
 msgid "Server URL"
 msgstr ""
 
@@ -137,33 +138,47 @@ msgid ""
 "                Libraries"
 msgstr ""
 
-#: app/templates/admin/invite.html:125 app/templates/settings.html:69
+#: app/templates/admin/invite.html:127 app/templates/settings.html:69
 msgid "Scan For Libraries"
 msgstr ""
 
-#: app/templates/settings.html:77
+#: app/templates/settings.html:78
 msgid ""
 "Request\n"
-"                instance (Ombi, Overseerr...) URL"
+"                Server"
 msgstr ""
 
-#: app/templates/settings.html:87
-msgid "Ombi API Key (Only used for user import currently.)"
+#: app/templates/settings.html:92
+msgid ""
+"Request\n"
+"                Server URL"
 msgstr ""
 
-#: app/templates/settings.html:94
+#: app/templates/settings.html:102
+msgid ""
+"Request\n"
+"                Server API Key"
+msgstr ""
+
+#: app/templates/settings.html:110
 msgid ""
 "Discord\n"
 "                Server ID"
 msgstr ""
 
-#: app/templates/settings.html:102
+#: app/templates/settings.html:118
+msgid ""
+"Discord\n"
+"                Widget"
+msgstr ""
+
+#: app/templates/settings.html:126
 msgid ""
 "Custom\n"
 "                HTML"
 msgstr ""
 
-#: app/templates/settings.html:110
+#: app/templates/settings.html:134
 msgid "Save"
 msgstr ""
 
@@ -244,81 +259,89 @@ msgid "Expiration"
 msgstr ""
 
 #: app/templates/admin/invite.html:54
-msgid "1 day"
+msgid "1 Day"
 msgstr ""
 
 #: app/templates/admin/invite.html:55
-msgid "1 week"
+msgid "1 Week"
 msgstr ""
 
 #: app/templates/admin/invite.html:56
-msgid "1 month"
+msgid "1 Month"
 msgstr ""
 
-#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:48
+#: app/templates/admin/invite.html:57
+msgid "6 Months"
+msgstr ""
+
+#: app/templates/admin/invite.html:58
+msgid "1 Year"
+msgstr ""
+
+#: app/templates/admin/invite.html:59 app/templates/tables/invite_table.html:48
 msgid "Never"
 msgstr ""
 
-#: app/templates/admin/invite.html:62
+#: app/templates/admin/invite.html:64
 msgid "Advanced Options"
 msgstr ""
 
-#: app/templates/admin/invite.html:70
+#: app/templates/admin/invite.html:72
 msgid "Unlimited Usages"
 msgstr ""
 
-#: app/templates/admin/invite.html:78
+#: app/templates/admin/invite.html:80
 msgid "Invite to Plex Home"
 msgstr ""
 
-#: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
+#: app/templates/admin/invite.html:89 app/templates/admin/invite.html:101
 #: app/templates/tables/invite_table.html:13
 msgid "Duration"
 msgstr ""
 
-#: app/templates/admin/invite.html:87
+#: app/templates/admin/invite.html:89
 msgid "(in days)"
 msgstr ""
 
-#: app/templates/admin/invite.html:95
+#: app/templates/admin/invite.html:97
 msgid "Show Information"
 msgstr ""
 
-#: app/templates/admin/invite.html:100
+#: app/templates/admin/invite.html:102
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a\n"
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
 
-#: app/templates/admin/invite.html:116
+#: app/templates/admin/invite.html:118
 #: app/templates/tables/invite_table.html:11
 msgid "Allow Downloads"
 msgstr ""
 
-#: app/templates/admin/invite.html:122
+#: app/templates/admin/invite.html:124
 msgid ""
 "Specific\n"
 "                                Libraries"
 msgstr ""
 
-#: app/templates/admin/invite.html:134
+#: app/templates/admin/invite.html:136
 msgid "Create Invitation"
 msgstr ""
 
-#: app/templates/admin/invite.html:141
+#: app/templates/admin/invite.html:143
 msgid "Successfully generated an Invitation!"
 msgstr ""
 
-#: app/templates/admin/invite.html:146
+#: app/templates/admin/invite.html:148
 msgid "Link has been copied to clipboard!"
 msgstr ""
 
-#: app/templates/admin/invite.html:155
+#: app/templates/admin/invite.html:157
 msgid "Back"
 msgstr ""
 
-#: app/templates/admin/invite.html:161
+#: app/templates/admin/invite.html:163
 msgid "Share"
 msgstr ""
 
@@ -370,27 +393,35 @@ msgstr ""
 msgid "New Agent"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:60
+#: app/templates/modals/create-notification-agent.html:61
 msgid ""
 "Username\n"
 "                                (optional)"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:65
+#: app/templates/modals/create-notification-agent.html:66
 msgid "Password (optional)"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:70
+#: app/templates/modals/create-notification-agent.html:72
+msgid "User Key"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:76
+msgid "API Token"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:81
 msgid ""
 "Agent\n"
 "                                URL"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:81
+#: app/templates/modals/create-notification-agent.html:92
 msgid "Test & Create Agent"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:85
+#: app/templates/modals/create-notification-agent.html:96
 msgid "Cancel"
 msgstr ""
 
@@ -479,15 +510,39 @@ msgid ""
 "        it with Jellyfin."
 msgstr ""
 
-#: app/templates/wizard/jellyfin/download.html:11
+#: app/templates/wizard/jellyfin/download.html:12
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
 msgstr ""
 
-#: app/templates/wizard/jellyfin/download.html:14
-#: app/templates/wizard/plex/download.html:14
-msgid "Download"
+#: app/templates/wizard/jellyfin/download.html:18
+msgid ""
+"If you don't wish to Download the App feel free to use Jellyfin in your "
+"devices web browser, just click \"Next\"."
+msgstr ""
+
+#: app/templates/wizard/jellyfin/download.html:24
+msgid "Show Server URL"
+msgstr ""
+
+#: app/templates/wizard/jellyfin/download.html:33
+#: app/templates/wizard/jellyfin/download.html:133
+msgid "Copy"
+msgstr ""
+
+#: app/templates/wizard/jellyfin/download.html:47
+#: app/templates/wizard/jellyfin/download.html:64
+#: app/templates/wizard/jellyfin/tips.html:25
+msgid "Open Jellyfin"
+msgstr ""
+
+#: app/templates/wizard/jellyfin/download.html:81
+msgid "Other Download"
+msgstr ""
+
+#: app/templates/wizard/jellyfin/download.html:130
+msgid "Copied!"
 msgstr ""
 
 #: app/templates/wizard/jellyfin/tips.html:4
@@ -520,10 +575,6 @@ msgid ""
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
 
-#: app/templates/wizard/jellyfin/tips.html:25
-msgid "Open Jellyfin"
-msgstr ""
-
 #: app/templates/wizard/plex/download.html:3
 msgid ""
 "Join & Download Plex\n"
@@ -539,6 +590,10 @@ msgstr ""
 
 #: app/templates/wizard/plex/download.html:11
 msgid "Planning on watching Movies on this device? Download Plex for this device."
+msgstr ""
+
+#: app/templates/wizard/plex/download.html:14
+msgid "Download"
 msgstr ""
 
 #: app/templates/wizard/plex/tips.html:4

@@ -7,616 +7,745 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-16 17:27+0100\n"
+"POT-Creation-Date: 2023-08-01 17:37+0100\n"
 "PO-Revision-Date: 2023-03-07 18:41+0000\n"
 "Last-Translator: Mislav Martic <mislavmartic@gmail.com>\n"
+"Language-Team: Croatian <https://hosted.weblate.org/projects/wizarr/app/hr/>\n"
 "Language: hr\n"
-"Language-Team: Croatian "
-"<https://hosted.weblate.org/projects/wizarr/app/hr/>\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: app/admin.py:150
+#: app/admin.py:166
 msgid "Passwords do not match."
 msgstr "Lozinke se ne podudaraju."
 
-#: app/admin.py:153
+#: app/admin.py:169
 msgid "Username must be between 3 and 15 characters."
 msgstr "Korisničko ime mora biti između 3 i 15 znakova."
 
-#: app/admin.py:156
+#: app/admin.py:172
 msgid "Password must be between 3 and 40 characters."
 msgstr "Lozinka mora biti između 3 i 40 znakova."
 
-#: app/admin.py:182
+#: app/admin.py:200
 msgid "You must select at least one library."
 msgstr "Morate odabrati bar jednu biblioteku."
 
-#: app/admin.py:251
+#: app/admin.py:277
 msgid "It is likely that your token does not work."
 msgstr "Vjerovatno je da vaš token ne radi."
 
-#: app/admin.py:253
+#: app/admin.py:279
 msgid "Unable to connect to your Plex server. See Logs for more information."
 msgstr ""
 "Povezivanje s Plex serverom nije uspjelo. Pogledajte Logs za više "
 "informacija."
 
-#: app/admin.py:262
+#: app/admin.py:288
 msgid "Unable to connect to your Jellyfin server."
-msgstr ""
+msgstr "Nije moguće povezati se s vašim poslužiteljem Jellyfin."
 
-#: app/admin.py:343 app/admin.py:347
+#: app/admin.py:386 app/admin.py:390
 msgid "Invalid Username or Password"
-msgstr ""
+msgstr "Neispravno korisničko ime ili lozinka"
 
 #: app/templates/admin.html:5
 msgid "Admin"
-msgstr ""
+msgstr "Administrator"
 
 #: app/templates/admin.html:30
 msgid "Home"
-msgstr ""
+msgstr "Dom"
 
 #: app/templates/admin.html:35
 msgid "Invitations"
-msgstr ""
+msgstr "Pozivnice"
 
 #: app/templates/admin.html:40
 msgid "Users"
-msgstr ""
+msgstr "Korisnici"
 
 #: app/templates/admin.html:45
 msgid "Settings"
-msgstr ""
+msgstr "postavke"
 
 #: app/templates/invalid-invite.html:16
 msgid "Invalid Invitation"
-msgstr ""
+msgstr "Nevažeća pozivnica"
 
 #: app/templates/login.html:18
 msgid "Login"
-msgstr ""
+msgstr "Prijaviti se"
 
 #: app/templates/login.html:23 app/templates/register_admin.html:23
 #: app/templates/welcome-jellyfin.html:30
 msgid "Username"
-msgstr ""
+msgstr "Korisničko ime"
 
 #: app/templates/login.html:29 app/templates/register_admin.html:29
 #: app/templates/welcome-jellyfin.html:47
 msgid "Password"
-msgstr ""
+msgstr "Lozinka"
 
 #: app/templates/login.html:41
 msgid "Remember me"
-msgstr ""
+msgstr "Zapamti me"
 
 #: app/templates/login.html:46
 msgid "Sign in"
-msgstr ""
+msgstr "Prijaviti se"
 
 #: app/templates/register_admin.html:18
 msgid "Setup Wizarr"
-msgstr ""
+msgstr "Čarobnjak za instaliranje"
 
 #: app/templates/register_admin.html:35
 msgid "Confirm password"
-msgstr ""
+msgstr "Potvrdi lozinku"
 
 #: app/templates/register_admin.html:41 app/templates/welcome-jellyfin.html:72
 msgid "Create an account"
-msgstr ""
+msgstr "Stvorite račun"
 
 #: app/templates/settings.html:9
 msgid "Server Settings"
-msgstr ""
+msgstr "Postavke poslužitelja"
 
 #: app/templates/settings.html:27
 msgid ""
 "Server Display\n"
 "                Name"
 msgstr ""
+"Zaslon poslužitelja\n"
+"                Ime"
 
 #: app/templates/settings.html:35
 msgid "Server"
-msgstr ""
+msgstr "poslužitelj"
 
 #: app/templates/settings.html:48
+#: app/templates/wizard/jellyfin/download.html:29
 msgid "Server URL"
-msgstr ""
+msgstr "URL poslužitelja"
 
 #: app/templates/settings.html:54
 msgid ""
 "Server\n"
 "                Token / API Key"
 msgstr ""
+"poslužitelj\n"
+"                Token / API ključ"
 
 #: app/templates/settings.html:66
 msgid ""
 "Server\n"
 "                Libraries"
 msgstr ""
+"poslužitelj\n"
+"                Knjižnice"
 
-#: app/templates/admin/invite.html:125 app/templates/settings.html:69
+#: app/templates/admin/invite.html:127 app/templates/settings.html:69
 msgid "Scan For Libraries"
-msgstr ""
+msgstr "Skeniraj knjižnice"
 
-#: app/templates/settings.html:77
+#: app/templates/settings.html:78
 msgid ""
 "Request\n"
-"                instance (Ombi, Overseerr...) URL"
+"                Server"
 msgstr ""
+"Zahtjev\n"
+"                poslužitelj"
 
-#: app/templates/settings.html:87
-msgid "Ombi API Key (Only used for user import currently.)"
+#: app/templates/settings.html:92
+msgid ""
+"Request\n"
+"                Server URL"
 msgstr ""
+"Zahtjev\n"
+"                URL poslužitelja"
 
-#: app/templates/settings.html:94
+#: app/templates/settings.html:102
+msgid ""
+"Request\n"
+"                Server API Key"
+msgstr ""
+"Zahtjev\n"
+"                API ključ poslužitelja"
+
+#: app/templates/settings.html:110
 msgid ""
 "Discord\n"
 "                Server ID"
 msgstr ""
+"Razdor\n"
+"                ID poslužitelja"
 
-#: app/templates/settings.html:102
+#: app/templates/settings.html:118
+msgid ""
+"Discord\n"
+"                Widget"
+msgstr ""
+"Razdor\n"
+"                Widget"
+
+#: app/templates/settings.html:126
 msgid ""
 "Custom\n"
 "                HTML"
 msgstr ""
+"Prilagođen\n"
+"                HTML"
 
-#: app/templates/settings.html:110
+#: app/templates/settings.html:134
 msgid "Save"
-msgstr ""
+msgstr "Uštedjeti"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
-#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
+#: app/templates/welcome-jellyfin.html:7
+#: app/templates/welcome-jellyfin.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr ""
+msgstr "Pozvani ste da se pridružite poslužitelju %(name)s!"
 
 #: app/templates/user-plex-login.html:23
 msgid "Join the Plex Server"
-msgstr ""
+msgstr "Pridružite se Plex poslužitelju"
 
 #: app/templates/tables/global-users.html:19
 #: app/templates/tables/invite_table.html:4
 #: app/templates/user-plex-login.html:29 app/templates/user-plex-login.html:40
 msgid "Invite Code"
-msgstr ""
+msgstr "Pozivni kod"
 
 #: app/templates/user-plex-login.html:45
 msgid "Oops!"
-msgstr ""
+msgstr "Ups!"
 
 #: app/templates/user-plex-login.html:52
 msgid "Join"
-msgstr ""
+msgstr "Pridružiti"
 
 #: app/templates/users.html:5
 msgid "Invite User"
-msgstr ""
+msgstr "Pozovi korisnika"
 
 #: app/templates/welcome-jellyfin.html:22
 msgid "Set up Account"
-msgstr ""
+msgstr "Postavite račun"
 
 #: app/templates/welcome-jellyfin.html:38
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #: app/templates/welcome-jellyfin.html:55
 msgid ""
 "Confirm\n"
 "                                password"
 msgstr ""
+"Potvrdi\n"
+"                                lozinka"
 
 #: app/templates/welcome-jellyfin.html:63
 msgid ""
 "Invite\n"
 "                                Code"
 msgstr ""
+"Pozvati\n"
+"                                Kodirati"
 
 #: app/templates/admin/invite.html:16
 msgid "Attention!"
-msgstr ""
+msgstr "Pažnja!"
 
 #: app/templates/admin/invite.html:17
 msgid "Update available. Click here."
-msgstr ""
+msgstr "Ažuriranje dostupno. Kliknite ovdje."
 
 #: app/templates/admin/invite.html:32
 msgid "Quick Invite"
-msgstr ""
+msgstr "Brzi poziv"
 
 #: app/templates/admin/invite.html:38
 msgid "Invite user"
-msgstr ""
+msgstr "Pozovi korisnika"
 
 #: app/templates/admin/invite.html:44
 msgid "Invite Code String"
-msgstr ""
+msgstr "Niz pozivnog koda"
 
 #: app/templates/admin/invite.html:44
 msgid "(optional)"
-msgstr ""
+msgstr "(neobavezno)"
 
 #: app/templates/admin/invite.html:51
 msgid "Expiration"
-msgstr ""
+msgstr "Istek"
 
 #: app/templates/admin/invite.html:54
-msgid "1 day"
-msgstr ""
+msgid "1 Day"
+msgstr "1 dan"
 
 #: app/templates/admin/invite.html:55
-msgid "1 week"
-msgstr ""
+msgid "1 Week"
+msgstr "1 Tjedan"
 
 #: app/templates/admin/invite.html:56
-msgid "1 month"
-msgstr ""
+msgid "1 Month"
+msgstr "1 mjesec"
 
-#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:48
+#: app/templates/admin/invite.html:57
+msgid "6 Months"
+msgstr "6 mjeseci"
+
+#: app/templates/admin/invite.html:58
+msgid "1 Year"
+msgstr "1 godina"
+
+#: app/templates/admin/invite.html:59
+#: app/templates/tables/invite_table.html:48
 msgid "Never"
-msgstr ""
+msgstr "Nikada"
 
-#: app/templates/admin/invite.html:62
+#: app/templates/admin/invite.html:64
 msgid "Advanced Options"
-msgstr ""
+msgstr "Napredne opcije"
 
-#: app/templates/admin/invite.html:70
+#: app/templates/admin/invite.html:72
 msgid "Unlimited Usages"
-msgstr ""
+msgstr "Neograničene upotrebe"
 
-#: app/templates/admin/invite.html:78
+#: app/templates/admin/invite.html:80
 msgid "Invite to Plex Home"
-msgstr ""
+msgstr "Pozovite u Plex Home"
 
-#: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
+#: app/templates/admin/invite.html:89 app/templates/admin/invite.html:101
 #: app/templates/tables/invite_table.html:13
 msgid "Duration"
-msgstr ""
+msgstr "Trajanje"
 
-#: app/templates/admin/invite.html:87
+#: app/templates/admin/invite.html:89
 msgid "(in days)"
-msgstr ""
+msgstr "(u danima)"
 
-#: app/templates/admin/invite.html:95
+#: app/templates/admin/invite.html:97
 msgid "Show Information"
-msgstr ""
+msgstr "Prikaži informacije"
 
-#: app/templates/admin/invite.html:100
+#: app/templates/admin/invite.html:102
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a\n"
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
+"Kada je postavljeno, pozvani korisnici bit će uklonjeni s Plex poslužitelja nakon a\n"
+"                                        broj\n"
+"                                        dana. (1-999)"
 
-#: app/templates/admin/invite.html:116
+#: app/templates/admin/invite.html:118
 #: app/templates/tables/invite_table.html:11
 msgid "Allow Downloads"
-msgstr ""
+msgstr "Dopusti preuzimanja"
 
-#: app/templates/admin/invite.html:122
+#: app/templates/admin/invite.html:124
 msgid ""
 "Specific\n"
 "                                Libraries"
 msgstr ""
+"Specifično\n"
+"                                Knjižnice"
 
-#: app/templates/admin/invite.html:134
+#: app/templates/admin/invite.html:136
 msgid "Create Invitation"
-msgstr ""
+msgstr "Izradite pozivnicu"
 
-#: app/templates/admin/invite.html:141
+#: app/templates/admin/invite.html:143
 msgid "Successfully generated an Invitation!"
-msgstr ""
+msgstr "Uspješno generirana pozivnica!"
 
-#: app/templates/admin/invite.html:146
+#: app/templates/admin/invite.html:148
 msgid "Link has been copied to clipboard!"
-msgstr ""
+msgstr "Veza je kopirana u međuspremnik!"
 
-#: app/templates/admin/invite.html:155
+#: app/templates/admin/invite.html:157
 msgid "Back"
-msgstr ""
+msgstr "leđa"
 
-#: app/templates/admin/invite.html:161
+#: app/templates/admin/invite.html:163
 msgid "Share"
-msgstr ""
+msgstr "Udio"
 
 #: app/templates/admin/notifications.html:11
 msgid "Notification Agents"
-msgstr ""
+msgstr "Agenti za obavještavanje"
 
 #: app/templates/admin/notifications.html:27
 msgid "Delete"
-msgstr ""
+msgstr "Izbrisati"
 
 #: app/templates/admin/notifications.html:37
 msgid "Create Agent"
-msgstr ""
+msgstr "Stvori agenta"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
-msgstr ""
+msgstr "Korisnička konfiguracija"
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
-msgstr ""
+msgstr "Korisnička pravila"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
-msgstr ""
+msgstr "Dopuštenje odbijeno."
 
 #: app/templates/error/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr ""
+msgstr "Pokušavate učiniti nešto što ne biste trebali učiniti..."
 
 #: app/templates/error/404.html:19
 msgid "Something's missing."
-msgstr ""
+msgstr "Nešto nedostaje."
 
 #: app/templates/error/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
+msgstr "Nažalost, ne možemo pronaći tu stranicu. Čini se da ne postoji!"
 
 #: app/templates/error/500.html:19
 msgid "Internal Server Error."
-msgstr ""
+msgstr "Interna pogreška poslužitelja."
 
 #: app/templates/error/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr ""
+msgstr "Nešto nije u redu. Molimo pokušajte ponovo kasnije."
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "Novi agent"
 
-#: app/templates/modals/create-notification-agent.html:60
+#: app/templates/modals/create-notification-agent.html:61
 msgid ""
 "Username\n"
 "                                (optional)"
 msgstr ""
+"Korisničko ime\n"
+"                                (neobavezno)"
 
-#: app/templates/modals/create-notification-agent.html:65
+#: app/templates/modals/create-notification-agent.html:66
 msgid "Password (optional)"
-msgstr ""
+msgstr "Lozinka (nije obavezno)"
 
-#: app/templates/modals/create-notification-agent.html:70
+#: app/templates/modals/create-notification-agent.html:72
+msgid "User Key"
+msgstr "Korisnički ključ"
+
+#: app/templates/modals/create-notification-agent.html:76
+msgid "API Token"
+msgstr "API token"
+
+#: app/templates/modals/create-notification-agent.html:81
 msgid ""
 "Agent\n"
 "                                URL"
 msgstr ""
+"Agent\n"
+"                                URL"
 
-#: app/templates/modals/create-notification-agent.html:81
+#: app/templates/modals/create-notification-agent.html:92
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Testiraj i stvori agenta"
 
-#: app/templates/modals/create-notification-agent.html:85
+#: app/templates/modals/create-notification-agent.html:96
 msgid "Cancel"
-msgstr ""
+msgstr "Otkazati"
 
 #: app/templates/tables/global-users.html:13
 msgid "Name"
-msgstr ""
+msgstr "Ime"
 
 #: app/templates/tables/global-users.html:16
 #: app/templates/tables/invite_table.html:7
 msgid "Expires"
-msgstr ""
+msgstr "ističe"
 
 #: app/templates/tables/global-users.html:22
 msgid "Actions"
-msgstr ""
+msgstr "Radnje"
 
 #: app/templates/tables/invite_table.html:5
 msgid "Used"
-msgstr ""
+msgstr "korišteno"
 
 #: app/templates/tables/invite_table.html:6
 msgid "Created"
-msgstr ""
+msgstr "Stvoreno"
 
 #: app/templates/tables/invite_table.html:8
 msgid "Unlimited"
-msgstr ""
+msgstr "Neograničen"
 
 #: app/templates/tables/invite_table.html:9
 msgid "Libraries"
-msgstr ""
+msgstr "Knjižnice"
 
 #: app/templates/tables/invite_table.html:22
 msgid "Available"
-msgstr ""
+msgstr "Dostupno"
 
 #: app/templates/tables/invite_table.html:35
 msgid "Expired"
-msgstr ""
+msgstr "Istekao"
 
 #: app/templates/tables/invite_table.html:73
 msgid "Default"
-msgstr ""
+msgstr "Zadano"
 
 #: app/templates/wizard/requests.html:4
 msgid "Automatic Media Requests"
-msgstr ""
+msgstr "Automatski medijski zahtjevi"
 
 #: app/templates/wizard/requests.html:9
 msgid ""
-"We are excited to offer you a wide selection of media to choose from. If "
-"you're having trouble finding\n"
-"    something you like, don't worry! We have a user-friendly request "
-"system that can automatically search for the\n"
+"We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
+"    something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
 "    media you're looking for. "
 msgstr ""
+"Uzbuđeni smo što vam možemo ponuditi širok izbor medija za odabir. Ako imate problema s pronalaženjem\n"
+"    nešto što ti se sviđa, ne brini! Imamo user-friendly sustav zahtjeva koji može automatski tražiti\n"
+"    medij koji tražite."
 
 #: app/templates/wizard/requests.html:23
 msgid "Request any available Movie or TV Show"
-msgstr ""
+msgstr "Zatražite bilo koji dostupni film ili TV emisiju"
 
 #: app/templates/wizard/requests.html:33
 msgid ""
-"Requested media will be automatically downloaded and added to the library"
-" (if available)"
+"Requested media will be automatically downloaded and added to the library "
+"(if available)"
 msgstr ""
+"Traženi mediji automatski će se preuzeti i dodati u biblioteku (ako je "
+"dostupna)"
 
 #: app/templates/wizard/requests.html:43
 msgid "If enabled, receive notifications"
-msgstr ""
+msgstr "Ako je omogućeno, primajte obavijesti"
 
 #: app/templates/wizard/requests.html:50
 msgid "Check it Out"
-msgstr ""
+msgstr "Provjerite"
 
 #: app/templates/wizard/jellyfin/download.html:3
 msgid ""
 "Join & Download Jellyfin\n"
 "            for this device"
 msgstr ""
+"Pridružite se i preuzmite Jellyfin\n"
+"            za ovaj uređaj"
 
 #: app/templates/wizard/jellyfin/download.html:8
 msgid ""
-"Great news! You now have access to our server's media collection. Let's "
-"make sure you know how to use\n"
+"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 "        it with Jellyfin."
 msgstr ""
+"Super vijest! Sada imate pristup zbirci medija našeg poslužitelja. Pobrinimo se da znate kako se koristiti\n"
+"        to s Jellyfinom."
 
-#: app/templates/wizard/jellyfin/download.html:11
+#: app/templates/wizard/jellyfin/download.html:12
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
 msgstr ""
+"Planirate gledati filmove na ovom uređaju? Preuzmite Jellyfin za ovaj "
+"uređaj."
 
-#: app/templates/wizard/jellyfin/download.html:14
-#: app/templates/wizard/plex/download.html:14
-msgid "Download"
+#: app/templates/wizard/jellyfin/download.html:18
+msgid ""
+"If you don't wish to Download the App feel free to use Jellyfin in your "
+"devices web browser, just click \"Next\"."
 msgstr ""
+"Ako ne želite preuzeti aplikaciju, slobodno upotrijebite Jellyfin u web "
+"pregledniku svog uređaja, samo kliknite \"Dalje\"."
+
+#: app/templates/wizard/jellyfin/download.html:24
+msgid "Show Server URL"
+msgstr "Prikaži URL poslužitelja"
+
+#: app/templates/wizard/jellyfin/download.html:33
+#: app/templates/wizard/jellyfin/download.html:133
+msgid "Copy"
+msgstr "Kopirati"
+
+#: app/templates/wizard/jellyfin/download.html:47
+#: app/templates/wizard/jellyfin/download.html:64
+#: app/templates/wizard/jellyfin/tips.html:25
+msgid "Open Jellyfin"
+msgstr "Otvori Jellyfin"
+
+#: app/templates/wizard/jellyfin/download.html:81
+msgid "Other Download"
+msgstr "Ostalo preuzimanje"
+
+#: app/templates/wizard/jellyfin/download.html:130
+msgid "Copied!"
+msgstr "Kopirano!"
 
 #: app/templates/wizard/jellyfin/tips.html:4
 msgid "Eh, So, What is Jellyfin exactly?"
-msgstr ""
+msgstr "Eh, dakle, što je zapravo Jellyfin?"
 
 #: app/templates/wizard/jellyfin/tips.html:7
 msgid ""
-"Jellyfin is a platform that lets you stream all your favorite movies, TV "
-"shows, and music in one place.\n"
-"        It's like having your own personal movie theater right at your "
-"fingertips! Think of it as a digital library of\n"
-"        your favorite content that you can access from anywhere, on any "
-"device - your phone, tablet, laptop, smart TV,\n"
+"Jellyfin is a platform that lets you stream all your favorite movies, TV shows, and music in one place.\n"
+"        It's like having your own personal movie theater right at your fingertips! Think of it as a digital library of\n"
+"        your favorite content that you can access from anywhere, on any device - your phone, tablet, laptop, smart TV,\n"
 "        you name it."
 msgstr ""
+"Jellyfin je platforma koja vam omogućuje strujanje svih vaših omiljenih filmova, TV emisija i glazbe na jednom mjestu.\n"
+"        To je kao da imate svoje osobno kino nadohvat ruke! Zamislite to kao digitalnu knjižnicu\n"
+"        vaš omiljeni sadržaj kojem možete pristupiti s bilo kojeg mjesta, na bilo kojem uređaju - telefonu, tabletu, prijenosnom računalu, pametnom TV-u,\n"
+"        ti ime."
 
 #: app/templates/wizard/jellyfin/tips.html:13
 #: app/templates/wizard/plex/tips.html:12
 msgid "Right, so how do I watch stuff?"
-msgstr ""
+msgstr "Dobro, kako da gledam stvari?"
 
 #: app/templates/wizard/jellyfin/tips.html:16
 msgid ""
-"It couldn't be simpler! Jellyfin is available on a wide variety of "
-"devices including laptops, tablets,\n"
-"        smartphones, and TVs. All you need to do is download the Jellyfin"
-" app on your device, sign in with your account,\n"
+"It couldn't be simpler! Jellyfin is available on a wide variety of devices including laptops, tablets,\n"
+"        smartphones, and TVs. All you need to do is download the Jellyfin app on your device, sign in with your account,\n"
 "        and\n"
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
-
-#: app/templates/wizard/jellyfin/tips.html:25
-msgid "Open Jellyfin"
-msgstr ""
+"Ne može biti jednostavnije! Jellyfin je dostupan na velikom broju uređaja uključujući prijenosna računala, tablete,\n"
+"        pametne telefone i televizore. Sve što trebate učiniti je preuzeti Jellyfin aplikaciju na svoj uređaj, prijaviti se sa svojim računom,\n"
+"        i\n"
+"        spremni ste za početak strujanja medija. Tako je jednostavno!"
 
 #: app/templates/wizard/plex/download.html:3
 msgid ""
 "Join & Download Plex\n"
 "            for this device"
 msgstr ""
+"Pridružite se i preuzmite Plex\n"
+"            za ovaj uređaj"
 
 #: app/templates/wizard/plex/download.html:8
 msgid ""
-"Great news! You now have access to our server's media collection. Let's "
-"make sure you know how to use\n"
+"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 "        it with Plex."
 msgstr ""
+"Super vijest! Sada imate pristup zbirci medija našeg poslužitelja. Pobrinimo se da znate kako se koristiti\n"
+"        to s Plexom."
 
 #: app/templates/wizard/plex/download.html:11
-msgid "Planning on watching Movies on this device? Download Plex for this device."
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
+"Planirate gledati filmove na ovom uređaju? Preuzmite Plex za ovaj uređaj."
+
+#: app/templates/wizard/plex/download.html:14
+msgid "Download"
+msgstr "preuzimanje datoteka"
 
 #: app/templates/wizard/plex/tips.html:4
 msgid "Eh, So, What is Plex exactly?"
-msgstr ""
+msgstr "Eh, dakle, što je točno Plex?"
 
 #: app/templates/wizard/plex/tips.html:7
 msgid ""
-"Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If\n"
-"    you've received this invitation, it means someone wants to share "
-"their library with you. With Plex, you'll have\n"
-"    access to all of the movies, TV shows, music, and photos that are "
-"stored on their server. Enjoy!"
+"Great question! Plex is a software that allows individuals to share their media collections with others. If\n"
+"    you've received this invitation, it means someone wants to share their library with you. With Plex, you'll have\n"
+"    access to all of the movies, TV shows, music, and photos that are stored on their server. Enjoy!"
 msgstr ""
+"Super pitanje! Plex je softver koji pojedincima omogućuje dijeljenje medijskih kolekcija s drugima. Ako\n"
+"    primili ste ovu pozivnicu, to znači da netko želi podijeliti svoju knjižnicu s vama. S Plexom ćete imati\n"
+"    pristup svim filmovima, TV emisijama, glazbi i fotografijama koje su pohranjene na njihovom poslužitelju. Uživati!"
 
 #: app/templates/wizard/plex/tips.html:15
 msgid ""
-"It couldn't be simpler! Plex is available on a wide variety of devices "
-"including laptops, tablets,\n"
-"    smartphones, and TVs. All you need to do is download the Plex app on "
-"your device, sign in with your account, and\n"
+"It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+"    smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 "    you're ready to start streaming your media. It's that easy!"
 msgstr ""
+"Ne može biti jednostavnije! Plex je dostupan na velikom broju uređaja uključujući prijenosna računala, tablete,\n"
+"    pametne telefone i televizore. Sve što trebate učiniti je preuzeti Plex aplikaciju na svoj uređaj, prijaviti se svojim računom i\n"
+"    spremni ste za početak strujanja medija. Tako je jednostavno!"
 
 #: app/templates/wizard/plex/tips.html:20
 msgid "How can I make sure to have the best experience?"
-msgstr ""
+msgstr "Kako mogu osigurati najbolje iskustvo?"
 
 #: app/templates/wizard/plex/tips.html:23
 msgid ""
-"Because Plex is a free service, they promote their own content before the"
-" awesome content your friend is now\n"
-"    sharing with you - they also, by default, play content at a lower "
-"quality. "
+"Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+"    sharing with you - they also, by default, play content at a lower quality. "
 msgstr ""
+"Budući da je Plex besplatna usluga, oni promoviraju vlastiti sadržaj prije sjajnog sadržaja koji je sada vaš prijatelj\n"
+"    dijeljenje s vama - oni također, prema zadanim postavkama, reproduciraju sadržaj niže kvalitete."
 
 #: app/templates/wizard/plex/tips.html:26
 msgid "No need to worry though, this can be easily resolved"
-msgstr ""
+msgstr "No, nema potrebe za brigom, to se može lako riješiti"
 
 #: app/templates/wizard/plex/tips.html:26
 msgid ""
 "We highly\n"
 "      recommend you to go through those steps first!"
 msgstr ""
+"Mi visoko\n"
+"      preporučujemo da prvo prođete kroz te korake!"
 
 #: app/templates/wizard/plex/tips.html:33
 msgid "Configure Plex in your browser"
-msgstr ""
+msgstr "Konfigurirajte Plex u svom pregledniku"
 
 #: app/templates/wizard/plex/tips.html:58
 msgid "Configure Plex's app on your computer, mobile device or TV"
 msgstr ""
+"Konfigurirajte Plexovu aplikaciju na svom računalu, mobilnom uređaju ili "
+"TV-u"
 
 #: app/templates/wizard/plex/tips.html:86
 msgid "Open Plex"
-msgstr ""
+msgstr "Otvori Plex"
 
 #~ msgid ""
 #~ "Request\n"
 #~ "                instance (Ombi, Overseerr...)"
 #~ msgstr ""
+#~ "Zahtjev\n"
+#~ "                instanca (Ombi, Overseerr...)"
 
 #~ msgid "Change Server Settings"
-#~ msgstr ""
+#~ msgstr "Promjena postavki poslužitelja"
 
 #~ msgid "Invite Used"
-#~ msgstr ""
+#~ msgstr "Iskorištena pozivnica"
 
 #~ msgid "User"
-#~ msgstr ""
+#~ msgstr "Korisnik"
 
 #~ msgid "Home User"
-#~ msgstr ""
+#~ msgstr "Kućni korisnik"
 
+#~ msgid ""
+#~ "Request\n"
+#~ "                instance (Ombi, Overseerr...) URL"
+#~ msgstr ""
+#~ "Zahtjev\n"
+#~ "                instanca (Ombi, Overseerr...) URL"
+
+#~ msgid "Ombi API Key (Only used for user import currently.)"
+#~ msgstr "Ombi API ključ (trenutačno se koristi samo za uvoz korisnika.)"
+
+#~ msgid "1 day"
+#~ msgstr "1 dan"
+
+#~ msgid "1 week"
+#~ msgstr "1 Tjedan"
+
+#~ msgid "1 month"
+#~ msgstr "1 mjesec"

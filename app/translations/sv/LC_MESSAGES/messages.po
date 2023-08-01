@@ -7,49 +7,48 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-16 17:27+0100\n"
+"POT-Creation-Date: 2023-08-01 17:37+0100\n"
 "PO-Revision-Date: 2023-03-15 13:38+0000\n"
 "Last-Translator: thu3n <elias.thuen@gmail.com>\n"
+"Language-Team: Swedish <https://hosted.weblate.org/projects/wizarr/app/sv/>\n"
 "Language: sv\n"
-"Language-Team: Swedish "
-"<https://hosted.weblate.org/projects/wizarr/app/sv/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: app/admin.py:150
+#: app/admin.py:166
 msgid "Passwords do not match."
 msgstr "Lösenorden matchar inte."
 
-#: app/admin.py:153
+#: app/admin.py:169
 msgid "Username must be between 3 and 15 characters."
 msgstr "Användarnamnet måste vara mellan 3 och 15 tecken."
 
-#: app/admin.py:156
+#: app/admin.py:172
 msgid "Password must be between 3 and 40 characters."
 msgstr "Lösenordet måste vara mellan 3 och 40 tecken."
 
-#: app/admin.py:182
+#: app/admin.py:200
 msgid "You must select at least one library."
 msgstr "Du måste välja minst ett bibliotek."
 
-#: app/admin.py:251
+#: app/admin.py:277
 msgid "It is likely that your token does not work."
 msgstr "Det verkar som att ditt Plex-token inte fungerar."
 
-#: app/admin.py:253
+#: app/admin.py:279
 msgid "Unable to connect to your Plex server. See Logs for more information."
-msgstr "Kan inte ansluta till din Plex-server. Se loggarna för mer information."
+msgstr ""
+"Kan inte ansluta till din Plex-server. Se loggarna för mer information."
 
-#: app/admin.py:262
+#: app/admin.py:288
 msgid "Unable to connect to your Jellyfin server."
 msgstr ""
-"Kan inte ansluta till din Jellyfin-server. Se loggarna för mer "
-"information."
+"Kan inte ansluta till din Jellyfin-server. Se loggarna för mer information."
 
-#: app/admin.py:343 app/admin.py:347
+#: app/admin.py:386 app/admin.py:390
 msgid "Invalid Username or Password"
 msgstr "Felaktigt användarnamn eller lösenord"
 
@@ -131,6 +130,7 @@ msgid "Server"
 msgstr "Server adress"
 
 #: app/templates/settings.html:48
+#: app/templates/wizard/jellyfin/download.html:29
 msgid "Server URL"
 msgstr "Server adress"
 
@@ -150,32 +150,55 @@ msgstr ""
 "Server\n"
 "                bibliotek"
 
-#: app/templates/admin/invite.html:125 app/templates/settings.html:69
+#: app/templates/admin/invite.html:127 app/templates/settings.html:69
 msgid "Scan For Libraries"
 msgstr "Skanna för bibliotek"
 
-#: app/templates/settings.html:77
+#: app/templates/settings.html:78
 #, fuzzy
 msgid ""
 "Request\n"
-"                instance (Ombi, Overseerr...) URL"
+"                Server"
 msgstr ""
-"Förfrågningar\n"
-"                exempel (Ombi, Overseerr...)"
-
-#: app/templates/settings.html:87
-msgid "Ombi API Key (Only used for user import currently.)"
-msgstr ""
-
-#: app/templates/settings.html:94
-msgid ""
 "Discord\n"
 "                Server ID"
+
+#: app/templates/settings.html:92
+#, fuzzy
+msgid ""
+"Request\n"
+"                Server URL"
 msgstr ""
 "Discord\n"
 "                Server ID"
 
 #: app/templates/settings.html:102
+#, fuzzy
+msgid ""
+"Request\n"
+"                Server API Key"
+msgstr ""
+"Discord\n"
+"                Server ID"
+
+#: app/templates/settings.html:110
+msgid ""
+"Discord\n"
+"                Server ID"
+msgstr ""
+"Discord\n"
+"                Server ID"
+
+#: app/templates/settings.html:118
+#, fuzzy
+msgid ""
+"Discord\n"
+"                Widget"
+msgstr ""
+"Discord\n"
+"                Server ID"
+
+#: app/templates/settings.html:126
 msgid ""
 "Custom\n"
 "                HTML"
@@ -183,12 +206,13 @@ msgstr ""
 "Anpassad\n"
 "                HTML"
 
-#: app/templates/settings.html:110
+#: app/templates/settings.html:134
 msgid "Save"
 msgstr "Spara"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
-#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
+#: app/templates/welcome-jellyfin.html:7
+#: app/templates/welcome-jellyfin.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "Du har blivit inbjuden till %(name)s!"
@@ -268,65 +292,77 @@ msgid "Expiration"
 msgstr "Löper ut"
 
 #: app/templates/admin/invite.html:54
-msgid "1 day"
+#, fuzzy
+msgid "1 Day"
 msgstr "1 dag"
 
 #: app/templates/admin/invite.html:55
-msgid "1 week"
+#, fuzzy
+msgid "1 Week"
 msgstr "1 vecka"
 
 #: app/templates/admin/invite.html:56
-msgid "1 month"
+#, fuzzy
+msgid "1 Month"
 msgstr "1 månad"
 
-#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:48
+#: app/templates/admin/invite.html:57
+#, fuzzy
+msgid "6 Months"
+msgstr "1 månad"
+
+#: app/templates/admin/invite.html:58
+msgid "1 Year"
+msgstr "1 år"
+
+#: app/templates/admin/invite.html:59
+#: app/templates/tables/invite_table.html:48
 msgid "Never"
 msgstr "Aldrig"
 
-#: app/templates/admin/invite.html:62
+#: app/templates/admin/invite.html:64
 msgid "Advanced Options"
 msgstr "Avancerade inställningar"
 
-#: app/templates/admin/invite.html:70
+#: app/templates/admin/invite.html:72
 msgid "Unlimited Usages"
 msgstr "Obegränsad användning"
 
-#: app/templates/admin/invite.html:78
+#: app/templates/admin/invite.html:80
 #, fuzzy
 msgid "Invite to Plex Home"
 msgstr "Inbjudningskod"
 
-#: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
+#: app/templates/admin/invite.html:89 app/templates/admin/invite.html:101
 #: app/templates/tables/invite_table.html:13
 msgid "Duration"
 msgstr "Löper ut"
 
-#: app/templates/admin/invite.html:87
+#: app/templates/admin/invite.html:89
 msgid "(in days)"
 msgstr "(inom dagar)"
 
-#: app/templates/admin/invite.html:95
+#: app/templates/admin/invite.html:97
 msgid "Show Information"
 msgstr "Visa information"
 
-#: app/templates/admin/invite.html:100
+#: app/templates/admin/invite.html:102
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a\n"
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
-"När satt kommer inbjuden användare bli borttagen från Plex servern efter"
-" \n"
+"När satt kommer inbjuden användare bli borttagen från Plex servern efter \n"
 "                                        antal\n"
 "                                        dagar. (1-999)"
 
-#: app/templates/admin/invite.html:116
+#: app/templates/admin/invite.html:118
 #: app/templates/tables/invite_table.html:11
 #, fuzzy
 msgid "Allow Downloads"
 msgstr "Ladda ner"
 
-#: app/templates/admin/invite.html:122
+#: app/templates/admin/invite.html:124
 msgid ""
 "Specific\n"
 "                                Libraries"
@@ -334,29 +370,29 @@ msgstr ""
 "Specifika\n"
 "                                bibliotek"
 
-#: app/templates/admin/invite.html:134
+#: app/templates/admin/invite.html:136
 msgid "Create Invitation"
 msgstr "Skapa inbjudan"
 
-#: app/templates/admin/invite.html:141
+#: app/templates/admin/invite.html:143
 msgid "Successfully generated an Invitation!"
 msgstr "Skapandet av en inbjudan lyckades!"
 
-#: app/templates/admin/invite.html:146
+#: app/templates/admin/invite.html:148
 msgid "Link has been copied to clipboard!"
 msgstr "Länken har kopierats till urklipp!"
 
-#: app/templates/admin/invite.html:155
+#: app/templates/admin/invite.html:157
 msgid "Back"
 msgstr "Tillbaka"
 
-#: app/templates/admin/invite.html:161
+#: app/templates/admin/invite.html:163
 msgid "Share"
 msgstr "Dela"
 
 #: app/templates/admin/notifications.html:11
 msgid "Notification Agents"
-msgstr ""
+msgstr "Aviseringsombud"
 
 #: app/templates/admin/notifications.html:27
 #, fuzzy
@@ -370,11 +406,11 @@ msgstr "Skapa ett konto"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
-msgstr ""
+msgstr "Användarkonfiguration"
 
 #: app/templates/admin/user.html:90
 msgid "User Policy"
-msgstr ""
+msgstr "Användarpolicy"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
@@ -402,9 +438,9 @@ msgstr " Något har gått fel. Vänligen försök igen senare."
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "Ny agent"
 
-#: app/templates/modals/create-notification-agent.html:60
+#: app/templates/modals/create-notification-agent.html:61
 #, fuzzy
 msgid ""
 "Username\n"
@@ -413,12 +449,21 @@ msgstr ""
 "Inbjudnings\n"
 "                                kod"
 
-#: app/templates/modals/create-notification-agent.html:65
+#: app/templates/modals/create-notification-agent.html:66
 #, fuzzy
 msgid "Password (optional)"
 msgstr "(valfritt)"
 
-#: app/templates/modals/create-notification-agent.html:70
+#: app/templates/modals/create-notification-agent.html:72
+#, fuzzy
+msgid "User Key"
+msgstr "Användarnamn"
+
+#: app/templates/modals/create-notification-agent.html:76
+msgid "API Token"
+msgstr "API-token"
+
+#: app/templates/modals/create-notification-agent.html:81
 #, fuzzy
 msgid ""
 "Agent\n"
@@ -427,13 +472,13 @@ msgstr ""
 "Inbjudnings\n"
 "                                kod"
 
-#: app/templates/modals/create-notification-agent.html:81
+#: app/templates/modals/create-notification-agent.html:92
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Testa och skapa agent"
 
-#: app/templates/modals/create-notification-agent.html:85
+#: app/templates/modals/create-notification-agent.html:96
 msgid "Cancel"
-msgstr ""
+msgstr "Annullera"
 
 #: app/templates/tables/global-users.html:13
 #, fuzzy
@@ -484,16 +529,12 @@ msgstr "Automatiska Media Förfrågningar"
 
 #: app/templates/wizard/requests.html:9
 msgid ""
-"We are excited to offer you a wide selection of media to choose from. If "
-"you're having trouble finding\n"
-"    something you like, don't worry! We have a user-friendly request "
-"system that can automatically search for the\n"
+"We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
+"    something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
 "    media you're looking for. "
 msgstr ""
-"Vi är glada att kunna erbjuda dig ett brett utbud av titlar att välja "
-"mellan. Om du har svårt att hitta\n"
-" något du gillar, oroa dig inte! Vi har ett användarvänligt "
-"förfrågningssystem som automatiskt kan söka efter\n"
+"Vi är glada att kunna erbjuda dig ett brett utbud av titlar att välja mellan. Om du har svårt att hitta\n"
+" något du gillar, oroa dig inte! Vi har ett användarvänligt förfrågningssystem som automatiskt kan söka efter\n"
 " de titlar du söker. "
 
 #: app/templates/wizard/requests.html:23
@@ -502,8 +543,8 @@ msgstr "Förfråga efter en tillgänglig film eller TV-serie"
 
 #: app/templates/wizard/requests.html:33
 msgid ""
-"Requested media will be automatically downloaded and added to the library"
-" (if available)"
+"Requested media will be automatically downloaded and added to the library "
+"(if available)"
 msgstr ""
 "Förfrågad titel kommer att automatiskt laddas ner och läggas till i "
 "biblioteket (om tillgängligt)"
@@ -526,15 +567,13 @@ msgstr ""
 
 #: app/templates/wizard/jellyfin/download.html:8
 msgid ""
-"Great news! You now have access to our server's media collection. Let's "
-"make sure you know how to use\n"
+"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 "        it with Jellyfin."
 msgstr ""
-"Fantastiska nyheter! Du har nu tillgång till vår servers media samling. "
-"Låt oss se till att du vet hur du använder det\n"
+"Fantastiska nyheter! Du har nu tillgång till vår servers media samling. Låt oss se till att du vet hur du använder det\n"
 "        med Jellyfin."
 
-#: app/templates/wizard/jellyfin/download.html:11
+#: app/templates/wizard/jellyfin/download.html:12
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
@@ -542,10 +581,38 @@ msgstr ""
 "Kommer du att titta på filmer och serier på den här enheten? Ladda ner "
 "Jellyfin för denna enhet här."
 
-#: app/templates/wizard/jellyfin/download.html:14
-#: app/templates/wizard/plex/download.html:14
-msgid "Download"
+#: app/templates/wizard/jellyfin/download.html:18
+msgid ""
+"If you don't wish to Download the App feel free to use Jellyfin in your "
+"devices web browser, just click \"Next\"."
+msgstr ""
+"Om du inte vill ladda ner appen, använd gärna Jellyfin i din enhets "
+"webbläsare, klicka bara på \"Nästa\"."
+
+#: app/templates/wizard/jellyfin/download.html:24
+#, fuzzy
+msgid "Show Server URL"
+msgstr "Server adress"
+
+#: app/templates/wizard/jellyfin/download.html:33
+#: app/templates/wizard/jellyfin/download.html:133
+msgid "Copy"
+msgstr "Kopiera"
+
+#: app/templates/wizard/jellyfin/download.html:47
+#: app/templates/wizard/jellyfin/download.html:64
+#: app/templates/wizard/jellyfin/tips.html:25
+msgid "Open Jellyfin"
+msgstr "Öppna Jellyfin"
+
+#: app/templates/wizard/jellyfin/download.html:81
+#, fuzzy
+msgid "Other Download"
 msgstr "Ladda ner"
+
+#: app/templates/wizard/jellyfin/download.html:130
+msgid "Copied!"
+msgstr "Kopierade!"
 
 #: app/templates/wizard/jellyfin/tips.html:4
 msgid "Eh, So, What is Jellyfin exactly?"
@@ -553,21 +620,14 @@ msgstr "Okej, så vad är Jellyfin?"
 
 #: app/templates/wizard/jellyfin/tips.html:7
 msgid ""
-"Jellyfin is a platform that lets you stream all your favorite movies, TV "
-"shows, and music in one place.\n"
-"        It's like having your own personal movie theater right at your "
-"fingertips! Think of it as a digital library of\n"
-"        your favorite content that you can access from anywhere, on any "
-"device - your phone, tablet, laptop, smart TV,\n"
+"Jellyfin is a platform that lets you stream all your favorite movies, TV shows, and music in one place.\n"
+"        It's like having your own personal movie theater right at your fingertips! Think of it as a digital library of\n"
+"        your favorite content that you can access from anywhere, on any device - your phone, tablet, laptop, smart TV,\n"
 "        you name it."
 msgstr ""
-"Jellyfin är en plattform som låter dig strömma alla dina favorit filmer, "
-"tv-serier och musik på en plats.\n"
-"        Det är som att ha sin egen personliga film salong vid sina "
-"fingerspetsar! Tänkt på det som ett digitalt bibliotek av\n"
-"        ditt favoritinnehåll som du kan komma åt var du än är och på "
-"vilken enhet du vill (telefon, surfplatta, bärbar dator eller smart TV),"
-"\n"
+"Jellyfin är en plattform som låter dig strömma alla dina favorit filmer, tv-serier och musik på en plats.\n"
+"        Det är som att ha sin egen personliga film salong vid sina fingerspetsar! Tänkt på det som ett digitalt bibliotek av\n"
+"        ditt favoritinnehåll som du kan komma åt var du än är och på vilken enhet du vill (telefon, surfplatta, bärbar dator eller smart TV),\n"
 "        du bestämmer."
 
 #: app/templates/wizard/jellyfin/tips.html:13
@@ -577,21 +637,14 @@ msgstr "Jag förstår, hur kollar jag på innehållet?"
 
 #: app/templates/wizard/jellyfin/tips.html:16
 msgid ""
-"It couldn't be simpler! Jellyfin is available on a wide variety of "
-"devices including laptops, tablets,\n"
-"        smartphones, and TVs. All you need to do is download the Jellyfin"
-" app on your device, sign in with your account,\n"
+"It couldn't be simpler! Jellyfin is available on a wide variety of devices including laptops, tablets,\n"
+"        smartphones, and TVs. All you need to do is download the Jellyfin app on your device, sign in with your account,\n"
 "        and\n"
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"Det kan inte vara enklare! Jellyfin finns tillgängligt på massor av "
-"enheter, datorer, surfplatta, telefoner och smart-tv. \n"
+"Det kan inte vara enklare! Jellyfin finns tillgängligt på massor av enheter, datorer, surfplatta, telefoner och smart-tv. \n"
 "Allt du behöver göra är att leta reda på var Jellyfin appar finns. \n"
 "Logga sedan in med ditt konto, så är du redo att strömma!"
-
-#: app/templates/wizard/jellyfin/tips.html:25
-msgid "Open Jellyfin"
-msgstr "Öppna Jellyfin"
 
 #: app/templates/wizard/plex/download.html:3
 msgid ""
@@ -603,19 +656,22 @@ msgstr ""
 
 #: app/templates/wizard/plex/download.html:8
 msgid ""
-"Great news! You now have access to our server's media collection. Let's "
-"make sure you know how to use\n"
+"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 "        it with Plex."
 msgstr ""
-"Fantastiska nyheter! Nu har du åtkomst till vår media samling. Gå vidare "
-"för att veta hur du använder \n"
+"Fantastiska nyheter! Nu har du åtkomst till vår media samling. Gå vidare för att veta hur du använder \n"
 "         det med Plex."
 
 #: app/templates/wizard/plex/download.html:11
-msgid "Planning on watching Movies on this device? Download Plex for this device."
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
-"Kommer du att titta på filmer och serier på den här enheten? Ladda ner "
-"Plex här."
+"Kommer du att titta på filmer och serier på den här enheten? Ladda ner Plex "
+"här."
+
+#: app/templates/wizard/plex/download.html:14
+msgid "Download"
+msgstr "Ladda ner"
 
 #: app/templates/wizard/plex/tips.html:4
 msgid "Eh, So, What is Plex exactly?"
@@ -623,30 +679,24 @@ msgstr "Okej, så vad är Plex?"
 
 #: app/templates/wizard/plex/tips.html:7
 msgid ""
-"Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If\n"
-"    you've received this invitation, it means someone wants to share "
-"their library with you. With Plex, you'll have\n"
-"    access to all of the movies, TV shows, music, and photos that are "
-"stored on their server. Enjoy!"
+"Great question! Plex is a software that allows individuals to share their media collections with others. If\n"
+"    you've received this invitation, it means someone wants to share their library with you. With Plex, you'll have\n"
+"    access to all of the movies, TV shows, music, and photos that are stored on their server. Enjoy!"
 msgstr ""
-"Bra fråga! Plex är ett program som tillåter ägaren att dela med sig av "
-"sitt innehåll till andra. Har du fått en inbjudan så betyder det att "
-"någon vill dela sitt innehåll med dig. Med Plex så kommer du att få "
-"tillgång till Filmer, Serier, Musik och bilder som de vill dela med sig "
-"av på sin server till dig!"
+"Bra fråga! Plex är ett program som tillåter ägaren att dela med sig av sitt "
+"innehåll till andra. Har du fått en inbjudan så betyder det att någon vill "
+"dela sitt innehåll med dig. Med Plex så kommer du att få tillgång till "
+"Filmer, Serier, Musik och bilder som de vill dela med sig av på sin server "
+"till dig!"
 
 #: app/templates/wizard/plex/tips.html:15
 msgid ""
-"It couldn't be simpler! Plex is available on a wide variety of devices "
-"including laptops, tablets,\n"
-"    smartphones, and TVs. All you need to do is download the Plex app on "
-"your device, sign in with your account, and\n"
+"It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+"    smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 "    you're ready to start streaming your media. It's that easy!"
 msgstr ""
 "Plex finns tillgängligt på massor av enheter, datorer, surfplatta, \n"
-"    telefoner och smart-tv. Allt du behöver göra är att leta reda på Plex"
-" där appar finns. Logga sedan in med ditt konto, \n"
+"    telefoner och smart-tv. Allt du behöver göra är att leta reda på Plex där appar finns. Logga sedan in med ditt konto, \n"
 "    så är du redo att strömma!"
 
 #: app/templates/wizard/plex/tips.html:20
@@ -655,15 +705,11 @@ msgstr "Hur kan jag säkerställa så att jag får den bästa upplevelsen?"
 
 #: app/templates/wizard/plex/tips.html:23
 msgid ""
-"Because Plex is a free service, they promote their own content before the"
-" awesome content your friend is now\n"
-"    sharing with you - they also, by default, play content at a lower "
-"quality. "
+"Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+"    sharing with you - they also, by default, play content at a lower quality. "
 msgstr ""
-"Eftersom att Plex är en gratis plattform i sig, så behöver dom på "
-"intäkter igenom att visa sitt eget innehåll av filmer och serier. \n"
-"    Det är de första du ser när du loggar in på Plex - de spelar även upp"
-" innehåll i lägre kvalité. "
+"Eftersom att Plex är en gratis plattform i sig, så behöver dom på intäkter igenom att visa sitt eget innehåll av filmer och serier. \n"
+"    Det är de första du ser när du loggar in på Plex - de spelar även upp innehåll i lägre kvalité. "
 
 #: app/templates/wizard/plex/tips.html:26
 msgid "No need to worry though, this can be easily resolved"
@@ -683,7 +729,8 @@ msgstr "Konfigurera Plex in din webbläsare"
 
 #: app/templates/wizard/plex/tips.html:58
 msgid "Configure Plex's app on your computer, mobile device or TV"
-msgstr "Konfigurera Plex applikationen på din dator, mobila enhet eller din TV"
+msgstr ""
+"Konfigurera Plex applikationen på din dator, mobila enhet eller din TV"
 
 #: app/templates/wizard/plex/tips.html:86
 msgid "Open Plex"
@@ -713,28 +760,20 @@ msgstr "Öppna Plex"
 
 #~ msgid "Something went wrong. Please try again or contact an administrator."
 #~ msgstr ""
-#~ "Någonting gick fel. Vänligen försök igen"
-#~ " eller kontakta en administratör."
+#~ "Någonting gick fel. Vänligen försök igen eller kontakta en administratör."
 
 #~ msgid "I've logged in but I am overwhelmed with content!"
 #~ msgstr "Jag har loggat in, men jag är överväldigad av allt innehåll!"
 
 #~ msgid ""
-#~ "While Plex is a free service, they"
-#~ " do have to generate revenue in "
-#~ "order to continue providing the "
-#~ "platform. One way they do this is"
-#~ " by displaying their own content "
-#~ "before the content of the server "
-#~ "you are joining."
+#~ "While Plex is a free service, they do have to generate revenue in order to "
+#~ "continue providing the platform. One way they do this is by displaying their"
+#~ " own content before the content of the server you are joining."
 #~ msgstr ""
-#~ "Då Plex är en gratis tjänst så "
-#~ "måste dom få in intäckter för att"
-#~ " kunna fortsätta tillhandhålla platformen. "
-#~ "Ett sätt att göra det på för "
-#~ "dom är att visa sitt egna innehåll"
-#~ " innan du ser innehållet på den "
-#~ "servern du precis har gått med i."
+#~ "Då Plex är en gratis tjänst så måste dom få in intäckter för att kunna "
+#~ "fortsätta tillhandhålla platformen. Ett sätt att göra det på för dom är att "
+#~ "visa sitt egna innehåll innan du ser innehållet på den servern du precis har"
+#~ " gått med i."
 
 #~ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
 #~ msgstr "Till vänster på skärmen ska du se en meny. klicka på den. "
@@ -746,24 +785,15 @@ msgstr "Öppna Plex"
 #~ msgstr "knapparna för att visa alla typer av media som du har tillgång till."
 
 #~ msgid ""
-#~ "To avoid seeing Plex's content first,"
-#~ " we recommend hiding it. To do "
-#~ "this, select all the content types "
-#~ "you don't want (such as 'Movies "
-#~ "and TV on Plex') and 'Unpin' them"
-#~ " from your home screen. This way "
-#~ "you'll only see the content that "
-#~ "you really want to watch!"
+#~ "To avoid seeing Plex's content first, we recommend hiding it. To do this, "
+#~ "select all the content types you don't want (such as 'Movies and TV on "
+#~ "Plex') and 'Unpin' them from your home screen. This way you'll only see the "
+#~ "content that you really want to watch!"
 #~ msgstr ""
-#~ "För att slippa se Plex egna "
-#~ "innehåll så rekommenderar vi att gömma"
-#~ " det. För att göra det, välj de"
-#~ " innehållet du inte vill se (som "
-#~ "'Filmer och TV på plex') och Ta"
-#~ " bort/lossa från hemmskärmen. På de "
-#~ "sättet ska du nu bara kunna se "
-#~ "innehållet från servern du precis gått"
-#~ " med i!"
+#~ "För att slippa se Plex egna innehåll så rekommenderar vi att gömma det. För "
+#~ "att göra det, välj de innehållet du inte vill se (som 'Filmer och TV på "
+#~ "plex') och Ta bort/lossa från hemmskärmen. På de sättet ska du nu bara kunna"
+#~ " se innehållet från servern du precis gått med i!"
 
 #~ msgid "Now that everything we"
 #~ msgstr "Nu när allt som vi"
@@ -781,21 +811,15 @@ msgstr "Öppna Plex"
 #~ msgstr " ha!"
 
 #~ msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
-#~ msgstr ""
+#~ msgstr "Fäst helt enkelt sektionerna för filmer/TV-program i %(name)s!"
 
 #~ msgid ""
-#~ "By default, Plex plays all content "
-#~ "at a lower quality. This can be"
-#~ " a bit of a disappointment. But "
-#~ "don't worry, it's a simple fix! "
-#~ "You can easily change the settings "
-#~ "to increase the quality of the "
-#~ "media that you're streaming."
+#~ "By default, Plex plays all content at a lower quality. This can be a bit of "
+#~ "a disappointment. But don't worry, it's a simple fix! You can easily change "
+#~ "the settings to increase the quality of the media that you're streaming."
 #~ msgstr ""
-#~ "Standard är att Plex alltid spelar "
-#~ "upp innehållet i en längre kavlié. "
-#~ "Det kan du enkelt ändra i "
-#~ "inställningarna för det du streamar."
+#~ "Standard är att Plex alltid spelar upp innehållet i en längre kavlié. Det "
+#~ "kan du enkelt ändra i inställningarna för det du streamar."
 
 #~ msgid "Go to the Plex "
 #~ msgstr "Gå till Plex "
@@ -804,10 +828,10 @@ msgstr "Öppna Plex"
 #~ msgstr "Inställningar "
 
 #~ msgid ""
-#~ "page. This is usually in the top"
-#~ " right hand corner, depending on the"
-#~ " device you are on."
-#~ msgstr ". Det är oftast uppe till höger, beroende på vilken enhet du sitter på."
+#~ "page. This is usually in the top right hand corner, depending on the device "
+#~ "you are on."
+#~ msgstr ""
+#~ ". Det är oftast uppe till höger, beroende på vilken enhet du sitter på."
 
 #~ msgid "Go to the "
 #~ msgstr "Gå till "
@@ -840,30 +864,24 @@ msgstr "Öppna Plex"
 #~ msgstr "Lokal strömmning "
 
 #~ msgid ""
-#~ "And there you have it! In case "
-#~ "you encounter buffering issues, remember "
-#~ "that you can always adjust the "
-#~ "playback quality just like you do "
-#~ "in YouTube. This way you can get"
-#~ " the best streaming experience possible."
+#~ "And there you have it! In case you encounter buffering issues, remember that"
+#~ " you can always adjust the playback quality just like you do in YouTube. "
+#~ "This way you can get the best streaming experience possible."
 #~ msgstr ""
-#~ "Nu är du klar! Skulle du uppleva"
-#~ " buffer, så går det alltid att "
-#~ "ändra kvalité precis som du gör på"
-#~ " Youtube. På de sättet får du "
-#~ "bästa möjliga upplevelse."
+#~ "Nu är du klar! Skulle du uppleva buffer, så går det alltid att ändra kvalité"
+#~ " precis som du gör på Youtube. På de sättet får du bästa möjliga upplevelse."
 
 #~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now sharing with you - they "
-#~ "also, by default, play content at "
-#~ "a lower quality. "
+#~ "Because Plex is a free service, they promote their own content before the "
+#~ "awesome content your friend is now sharing with you - they also, by default,"
+#~ " play content at a lower quality. "
 #~ msgstr ""
+#~ "Eftersom Plex är en gratistjänst marknadsför de sitt eget innehåll före det "
+#~ "fantastiska innehåll som din vän nu delar med dig - de spelar också som "
+#~ "standard innehåll med lägre kvalitet."
 
 #~ msgid "We highly recommend you to go through those steps first!"
-#~ msgstr ""
+#~ msgstr "Vi rekommenderar starkt att du går igenom dessa steg först!"
 
 #~ msgid "Join our Discord Server"
 #~ msgstr "Gå med i vår Discord Server"
@@ -878,97 +896,65 @@ msgstr "Öppna Plex"
 #~ msgstr "Gå med & ladda ner Plex för denna enhet"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
-#~ "make sure you know how to use "
-#~ "it with Plex."
+#~ "Great news! You now have access to our server's media collection. Let's make"
+#~ " sure you know how to use it with Plex."
 #~ msgstr ""
-#~ "Nu har du åtkomst till vårat "
-#~ "serverinnehåll. Gå vidare för att veta"
-#~ " hur du använder Plex."
+#~ "Nu har du åtkomst till vårat serverinnehåll. Gå vidare för att veta hur du "
+#~ "använder Plex."
 
 #~ msgid "Skip"
 #~ msgstr "Hoppa över"
 
 #~ msgid ""
-#~ "Congratulations on joining %(name)s! You're"
-#~ " now one step closer to enjoying "
-#~ "all kinds of amazing\n"
+#~ "Congratulations on joining %(name)s! You're now one step closer to enjoying all kinds of amazing\n"
 #~ "        content."
 #~ msgstr ""
-#~ "Grattis, du har nu accepterat inbjudan"
-#~ " till Plex! Nu är du ett steg"
-#~ " närmare till att kunna njuta av "
-#~ "innehållet på våran server. "
+#~ "Grattis, du har nu accepterat inbjudan till Plex! Nu är du ett steg närmare "
+#~ "till att kunna njuta av innehållet på våran server. "
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "      you've received this invitation, "
-#~ "it means someone wants to share "
-#~ "their library with you. With Plex, "
-#~ "you'll have\n"
-#~ "      access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their media collections with others. If\n"
+#~ "      you've received this invitation, it means someone wants to share their library with you. With Plex, you'll have\n"
+#~ "      access to all of the movies, TV shows, music, and photos that are stored on their server. Enjoy!"
 #~ msgstr ""
-#~ "Bra fråga! Plex är ett program som"
-#~ " tillåter ägaren att dela med sig "
-#~ "av sitt innehåll till andra. Har "
-#~ "du fått en inbjudan så betyder det"
-#~ " att någon vill dela sitt innehåll"
-#~ " med dig. Med plex så kommer du"
-#~ " att få tillgång till Filmer, Serier,"
-#~ " Musik och bilder som de vill "
-#~ "dela med sig av på sin server "
+#~ "Bra fråga! Plex är ett program som tillåter ägaren att dela med sig av sitt "
+#~ "innehåll till andra. Har du fått en inbjudan så betyder det att någon vill "
+#~ "dela sitt innehåll med dig. Med plex så kommer du att få tillgång till "
+#~ "Filmer, Serier, Musik och bilder som de vill dela med sig av på sin server "
 #~ "till dig!"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "      smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+#~ "      smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 #~ "      you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "Plex finns tillgängligt på massor av "
-#~ "enheter, datorer, surfplatta, telefoner och"
-#~ " smart-tv. Allt du behöver göra "
-#~ "är att leta reda på plex där "
-#~ "appar finns. Logga sedan in me "
-#~ "ditt konto, så är du redo att "
-#~ "streama!"
+#~ "Plex finns tillgängligt på massor av enheter, datorer, surfplatta, telefoner"
+#~ " och smart-tv. Allt du behöver göra är att leta reda på plex där appar "
+#~ "finns. Logga sedan in me ditt konto, så är du redo att streama!"
 
 #~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "      sharing with you - they "
-#~ "also, by default, play content at "
-#~ "a lower quality. "
+#~ "Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+#~ "      sharing with you - they also, by default, play content at a lower quality. "
 #~ msgstr ""
+#~ "Eftersom Plex är en gratistjänst marknadsför de sitt eget innehåll före det fantastiska innehåll som din vän är nu\n"
+#~ "      delar med dig – de spelar också som standard upp innehåll med lägre kvalitet."
 
 #~ msgid ""
 #~ "We highly\n"
 #~ "        recommend you to go through those steps first!"
 #~ msgstr ""
+#~ "Vi högt\n"
+#~ "        rekommenderar dig att gå igenom dessa steg först!"
 
 #~ msgid "You've been invited to join %(name)s!"
 #~ msgstr "Du har blivit inbjuden till %(name)s!"
 
 #~ msgid ""
-#~ "To join our Plex server, create a"
-#~ " Plex account! Once you're done, come"
-#~ " back here!"
+#~ "To join our Plex server, create a Plex account! Once you're done, come back "
+#~ "here!"
 #~ msgstr ""
-#~ "För att bli inbjuden till Plex "
-#~ "server, skapa ett Plex konto! När "
-#~ "du har gjort det, kom tillbaka "
-#~ "hit!"
+#~ "För att bli inbjuden till Plex server, skapa ett Plex konto! När du har "
+#~ "gjort det, kom tillbaka hit!"
 
 #~ msgid "Create Plex Account"
 #~ msgstr "Skapa ett Plex konto"
@@ -995,13 +981,11 @@ msgstr "Öppna Plex"
 #~ msgstr "Vi har skickat en inbjudan till ditt Plex-konto. Nästan där!"
 
 #~ msgid ""
-#~ "Click the button below to be taken"
-#~ " to Plex, here you will see an"
-#~ " invitation from us."
+#~ "Click the button below to be taken to Plex, here you will see an invitation "
+#~ "from us."
 #~ msgstr ""
-#~ "Klicka på knappen nedan för att "
-#~ "tas till Plex. Där kommer du se"
-#~ " en inbjudan från oss."
+#~ "Klicka på knappen nedan för att tas till Plex. Där kommer du se en inbjudan "
+#~ "från oss."
 
 #~ msgid "Accept"
 #~ msgstr "Acceptera"
@@ -1025,6 +1009,8 @@ msgstr "Öppna Plex"
 #~ "Plex Display\n"
 #~ "              Name"
 #~ msgstr ""
+#~ "Plex display\n"
+#~ "              namn"
 
 #~ msgid "Plex URL"
 #~ msgstr "Plex URL"
@@ -1033,11 +1019,15 @@ msgstr "Öppna Plex"
 #~ "Plex\n"
 #~ "              Token"
 #~ msgstr ""
+#~ "Plex\n"
+#~ "              Tecken"
 
 #~ msgid ""
 #~ "Plex\n"
 #~ "              Libraries"
 #~ msgstr ""
+#~ "Plex\n"
+#~ "              Bibliotek"
 
 #~ msgid "Plex Display Name"
 #~ msgstr "Plex visningsnamn"
@@ -1053,11 +1043,10 @@ msgstr "Öppna Plex"
 
 #~ msgid ""
 #~ "Environment Variables are being\n"
-#~ "                    deprecated and replaced by"
-#~ " a secure sign-up. Please visit \n\n"
+#~ "                    deprecated and replaced by a secure sign-up. Please visit \n"
+#~ "\n"
 #~ msgstr ""
-#~ "Miljövariabler fasas ut och ersätts av"
-#~ " en säker registrering. Vänligen besök"
+#~ "Miljövariabler fasas ut och ersätts av en säker registrering. Vänligen besök"
 #~ " \n"
 
 #~ msgid ""
@@ -1069,11 +1058,15 @@ msgstr "Öppna Plex"
 #~ "Server\n"
 #~ "              Libraries"
 #~ msgstr ""
+#~ "Server\n"
+#~ "              Bibliotek"
 
 #~ msgid ""
 #~ "Custom\n"
 #~ "              HTML"
 #~ msgstr ""
+#~ "Beställnings\n"
+#~ "              HTML"
 
 #~ msgid "Plex Requests"
 #~ msgstr "Plex förfrågningar"
@@ -1124,3 +1117,12 @@ msgstr "Öppna Plex"
 #~ msgid "Home User"
 #~ msgstr "Hemma användare"
 
+#~ msgid ""
+#~ "Request\n"
+#~ "                instance (Ombi, Overseerr...) URL"
+#~ msgstr ""
+#~ "Förfrågningar\n"
+#~ "                exempel (Ombi, Overseerr...)"
+
+#~ msgid "Ombi API Key (Only used for user import currently.)"
+#~ msgstr "Ombi API Key (används endast för användarimport för närvarande.)"
