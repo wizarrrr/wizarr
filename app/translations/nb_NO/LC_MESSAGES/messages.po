@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-29 04:27+0100\n"
+"POT-Creation-Date: 2023-08-01 17:01+0100\n"
 "PO-Revision-Date: 2023-05-08 06:07+0000\n"
 "Last-Translator: NorGyptian <samy.a.14@hotmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/wizarr/app/nb_NO/>\n"
@@ -23,23 +23,26 @@ msgstr ""
 msgid "Wizarr"
 msgstr "Sett opp Wizarr"
 
-#: app/templates/admin.html:21 app/templates/forgot-password.html:44
+#: app/templates/admin.html:20 app/templates/forgot-password.html:44
 #: app/templates/login.html:61
 #, fuzzy
 msgid "Version"
 msgstr "-innstillinger"
 
-#: app/templates/admin.html:53
+#: app/templates/admin.html:20 app/templates/forgot-password.html:44
+#: app/templates/login.html:61
+#, fuzzy
+msgid "Stable"
+msgstr "Funksjonshemmet"
+
+#: app/templates/admin.html:20 app/templates/forgot-password.html:44
+#: app/templates/login.html:61
+msgid "Beta"
+msgstr "Beta"
+
+#: app/templates/admin.html:51
 msgid "Logout failed"
 msgstr "Avlogging mislyktes"
-
-#: app/templates/admin.html:78
-msgid "Goodbye"
-msgstr "Ha det"
-
-#: app/templates/admin.html:83
-msgid "Logged out successfully"
-msgstr "Logget ut"
 
 #: app/templates/forgot-password.html:4
 #, fuzzy
@@ -127,7 +130,6 @@ msgstr "Aldri"
 msgid "Username"
 msgstr "Brukernavn"
 
-#: app/templates/admin/account.html:28
 #: app/templates/admin/settings/main.html:50
 #: app/templates/admin/settings/password.html:6
 #: app/templates/invite/signup/jellyfin.html:27 app/templates/login.html:36
@@ -152,22 +154,6 @@ msgstr "Intern tjenerfeil"
 #: app/templates/users.html:5
 msgid "Invite User"
 msgstr "Inviter bruker"
-
-#: app/templates/admin/account.html:10
-#, fuzzy
-msgid "Your Account"
-msgstr "Opprett en konto"
-
-#: app/templates/admin/account.html:23
-#, fuzzy
-msgid "Account"
-msgstr "Opprett en konto"
-
-#: app/templates/admin/account.html:33
-#: app/templates/admin/settings/main.html:57
-#, fuzzy
-msgid "Sessions"
-msgstr "-innstillinger"
 
 #: app/templates/admin/invite.html:4 app/templates/admin/invite.html:193
 #: app/templates/admin/invite.html:581
@@ -242,13 +228,13 @@ msgid "Invite to Plex Home"
 msgstr "Invitasjonskode"
 
 #: app/templates/admin/invite.html:90
-#: app/templates/tables/invite-table.html:14
+#: app/templates/tables/invite-table.html:12
 #, fuzzy
 msgid "Allow Downloads"
 msgstr "Last ned"
 
 #: app/templates/admin/invite.html:106 app/templates/admin/invite.html:119
-#: app/templates/tables/invite-table.html:16
+#: app/templates/tables/invite-table.html:14
 #, fuzzy
 msgid "Duration"
 msgstr "Utløp"
@@ -266,7 +252,8 @@ msgstr ""
 "det angitte antallet dager. (1-999)"
 
 #: app/templates/admin/invite.html:129
-#: app/templates/tables/invite-table.html:11
+#: app/templates/tables/invite-table.html:10
+#: app/templates/tables/invite-table.html:80
 msgid "Unlimited"
 msgstr "Ubegrenset"
 
@@ -390,6 +377,11 @@ msgstr "Brukere"
 msgid "Add User"
 msgstr "Brukere"
 
+#: app/templates/admin/settings/about.html:111
+#: app/templates/admin/settings/about.html:221
+msgid "Load More"
+msgstr "Last mer"
+
 #: app/templates/admin/settings/accounts.html:13
 #, fuzzy
 msgid "My Account"
@@ -414,62 +406,27 @@ msgid "Discord Widget"
 msgstr "Discord-widget"
 
 #: app/templates/admin/settings/discord.html:19
-#: app/templates/admin/settings/general.html:38
 #: app/templates/admin/settings/html.html:9
+#: app/templates/admin/settings/media.html:38
 #: app/templates/admin/settings/requests.html:26
 msgid "Save"
 msgstr "Lagre"
 
 #: app/templates/admin/settings/discord.html:42
-#: app/templates/admin/settings/general.html:54
 #: app/templates/admin/settings/html.html:25
+#: app/templates/admin/settings/media.html:54
 #: app/templates/admin/settings/requests.html:58
 msgid "Settings saved successfully!"
 msgstr "Innstillingene er lagret!"
 
-#: app/templates/admin/settings/general.html:6
-#: app/templates/setup/pages/settings.html:6
+#: app/templates/admin/settings/language.html:3
+msgid "Please use the dropdown below to select your language."
+msgstr "Bruk rullegardinmenyen nedenfor for å velge språk."
+
+#: app/templates/admin/settings/language.html:7
 #, fuzzy
-msgid "Server Display Name"
-msgstr ""
-"Plex Bruker\n"
-"              Navn"
-
-#: app/templates/admin/settings/general.html:11
-#: app/templates/setup/pages/settings.html:11
-#, fuzzy
-msgid "Server"
-msgstr "Aldri"
-
-#: app/templates/admin/settings/general.html:13
-msgid "Choose a server"
-msgstr "Velg en server"
-
-#: app/templates/admin/settings/general.html:20
-#: app/templates/setup/pages/settings.html:20
-#: app/templates/wizard/pages/jellyfin/download.html:30
-msgid "Server URL"
-msgstr "Server URL"
-
-#: app/templates/admin/settings/general.html:25
-#: app/templates/setup/pages/settings.html:25
-#, fuzzy
-msgid "Server Token / API Key"
-msgstr ""
-"Plex\n"
-"              Token"
-
-#: app/templates/admin/settings/general.html:30
-#: app/templates/modals/update-libraries.html:3
-#: app/templates/setup/pages/settings.html:37
-#, fuzzy
-msgid "Server Libraries"
+msgid "Select Language"
 msgstr "Plex-bibliotek"
-
-#: app/templates/admin/settings/general.html:32
-#: app/templates/setup/pages/settings.html:39
-msgid "Scan For Libraries"
-msgstr "Se etter bibliotek"
 
 #: app/templates/admin/settings/main.html:5
 #, fuzzy
@@ -481,12 +438,14 @@ msgid "General settings for the server"
 msgstr "Generelle innstillinger for serveren"
 
 #: app/templates/admin/settings/main.html:9
-msgid "General"
-msgstr "Generell"
+#, fuzzy
+msgid "Media Server"
+msgstr "Aldri"
 
 #: app/templates/admin/settings/main.html:10
-msgid "View and update general settings"
-msgstr "Se og oppdater generelle innstillinger"
+#, fuzzy
+msgid "Configure your media server settings"
+msgstr "Endre tjenerinnstillinger"
 
 #: app/templates/admin/settings/main.html:16
 msgid "Requests"
@@ -537,85 +496,153 @@ msgstr "Konfigurer profilinnstillingene dine"
 msgid "Change your password"
 msgstr "Bekreft passord"
 
+#: app/templates/admin/settings/main.html:57
+#, fuzzy
+msgid "Sessions"
+msgstr "-innstillinger"
+
 #: app/templates/admin/settings/main.html:58
 msgid "View and manage your active sessions"
 msgstr "Se og administrer dine aktive økter"
 
-#: app/templates/admin/settings/main.html:66
+#: app/templates/admin/settings/main.html:64
+msgid "Language"
+msgstr "Språk"
+
+#: app/templates/admin/settings/main.html:65
+#, fuzzy
+msgid "Change your language"
+msgstr "Bekreft passord"
+
+#: app/templates/admin/settings/main.html:73
 #, fuzzy
 msgid "UI Settings"
 msgstr "-innstillinger"
 
-#: app/templates/admin/settings/main.html:67
+#: app/templates/admin/settings/main.html:74
 msgid "Modify the look and feel of the server"
 msgstr "Endre utseendet og følelsen til serveren"
 
-#: app/templates/admin/settings/main.html:70
+#: app/templates/admin/settings/main.html:77
 msgid "Discord"
 msgstr "Uenighet"
 
-#: app/templates/admin/settings/main.html:71
+#: app/templates/admin/settings/main.html:78
 msgid "Enable Discord page and configure settings"
 msgstr "Aktiver Discord-siden og konfigurer innstillingene"
 
-#: app/templates/admin/settings/main.html:77
+#: app/templates/admin/settings/main.html:84
 #, fuzzy
 msgid "Custom HTML"
 msgstr "Utløp"
 
-#: app/templates/admin/settings/main.html:78
+#: app/templates/admin/settings/main.html:85
 msgid "Add Custom HTML page to help screen"
 msgstr "Legg til egendefinert HTML-side på hjelpeskjermen"
 
-#: app/templates/admin/settings/main.html:86
+#: app/templates/admin/settings/main.html:93
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Avanserte Innstillinger"
 
-#: app/templates/admin/settings/main.html:87
+#: app/templates/admin/settings/main.html:94
 msgid "Advanced settings for the server"
 msgstr "Avanserte innstillinger for serveren"
 
-#: app/templates/admin/settings/main.html:90
+#: app/templates/admin/settings/main.html:97
 #, fuzzy
 msgid "Logs"
 msgstr "Logg inn"
 
-#: app/templates/admin/settings/main.html:91
+#: app/templates/admin/settings/main.html:98
 msgid "View and download server logs"
 msgstr "Se og last ned serverlogger"
 
-#: app/templates/admin/settings/main.html:97
+#: app/templates/admin/settings/main.html:104
+#, fuzzy
+msgid "Tasks"
+msgstr "Kjør oppgave"
+
+#: app/templates/admin/settings/main.html:105
+#, fuzzy
+msgid "View and manage scheduled tasks"
+msgstr "Se og administrer dine aktive økter"
+
+#: app/templates/admin/settings/main.html:111
 #, fuzzy
 msgid "Updates"
 msgstr "Plex-bibliotek"
 
-#: app/templates/admin/settings/main.html:98
+#: app/templates/admin/settings/main.html:112
 msgid "Check for and view updates"
 msgstr "Se etter og se oppdateringer"
 
-#: app/templates/admin/settings/main.html:104
+#: app/templates/admin/settings/main.html:118
 #, fuzzy
 msgid "Backup"
 msgstr "Tilbake"
 
-#: app/templates/admin/settings/main.html:105
+#: app/templates/admin/settings/main.html:119
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Opprett en konto"
 
-#: app/templates/admin/settings/main.html:111
+#: app/templates/admin/settings/main.html:125
 #, fuzzy
 msgid "About"
 msgstr "Opprett en konto"
 
-#: app/templates/admin/settings/main.html:112
+#: app/templates/admin/settings/main.html:126
 msgid "View information about the server"
 msgstr "Se informasjon om serveren"
 
-#: app/templates/admin/settings/main.html:150
+#: app/templates/admin/settings/main.html:164
 msgid "No settings matched your search."
 msgstr "Ingen innstillinger samsvarte med søket ditt."
+
+#: app/templates/admin/settings/media.html:6
+#: app/templates/setup/pages/settings.html:6
+#, fuzzy
+msgid "Server Display Name"
+msgstr ""
+"Plex Bruker\n"
+"              Navn"
+
+#: app/templates/admin/settings/media.html:11
+#: app/templates/setup/pages/settings.html:11
+#, fuzzy
+msgid "Server"
+msgstr "Aldri"
+
+#: app/templates/admin/settings/media.html:13
+msgid "Choose a server"
+msgstr "Velg en server"
+
+#: app/templates/admin/settings/media.html:20
+#: app/templates/setup/pages/settings.html:20
+#: app/templates/wizard/pages/jellyfin/download.html:30
+msgid "Server URL"
+msgstr "Server URL"
+
+#: app/templates/admin/settings/media.html:25
+#: app/templates/setup/pages/settings.html:25
+#, fuzzy
+msgid "Server Token / API Key"
+msgstr ""
+"Plex\n"
+"              Token"
+
+#: app/templates/admin/settings/media.html:30
+#: app/templates/modals/update-libraries.html:3
+#: app/templates/setup/pages/settings.html:37
+#, fuzzy
+msgid "Server Libraries"
+msgstr "Plex-bibliotek"
+
+#: app/templates/admin/settings/media.html:32
+#: app/templates/setup/pages/settings.html:39
+msgid "Scan For Libraries"
+msgstr "Se etter bibliotek"
 
 #: app/templates/admin/settings/notifications.html:18
 #, fuzzy
@@ -710,7 +737,7 @@ msgstr "Du har blitt invitert til %(name)s server!"
 #: app/templates/invite/join.html:20
 #: app/templates/invite/signup/jellyfin.html:40
 #: app/templates/invite/signup/plex.html:25
-#: app/templates/tables/invite-table.html:7
+#: app/templates/tables/invite-table.html:6
 msgid "Invite Code"
 msgstr "Invitasjonskode"
 
@@ -921,7 +948,7 @@ msgstr "Er du sikker på at du vil slette denne API-nøkkelen?"
 #: app/templates/modals/revoke-session.html:16
 #: app/templates/tables/admin-users.html:40
 #: app/templates/tables/global-users.html:59
-#: app/templates/tables/invite-table.html:101
+#: app/templates/tables/invite-table.html:100
 #: app/templates/tables/notification-table.html:36
 msgid "Delete"
 msgstr "Slett"
@@ -1059,28 +1086,38 @@ msgstr ""
 
 #: app/templates/tables/admin-users.html:37
 #: app/templates/tables/global-users.html:56
-#: app/templates/tables/invite-table.html:98
+#: app/templates/tables/invite-table.html:97
 #: app/templates/tables/notification-table.html:33
 msgid "Edit"
 msgstr "Redigere"
 
-#: app/templates/tables/invite-table.html:8
+#: app/templates/tables/invite-table.html:7
 msgid "Used"
 msgstr "Brukt"
 
-#: app/templates/tables/invite-table.html:9
-msgid "Created"
-msgstr "Opprettet"
-
-#: app/templates/tables/invite-table.html:10
+#: app/templates/tables/invite-table.html:8
 #, fuzzy
 msgid "Expired"
 msgstr "Utløper"
 
-#: app/templates/tables/invite-table.html:12
+#: app/templates/tables/invite-table.html:9
 #, fuzzy
 msgid "Libraries"
 msgstr "Plex-bibliotek"
+
+#: app/templates/tables/invite-table.html:15
+msgid "Created"
+msgstr "Opprettet"
+
+#: app/templates/tables/invite-table.html:115
+#, fuzzy
+msgid "No Invitations"
+msgstr "Invitasjoner"
+
+#: app/templates/tables/invite-table.html:118
+#, fuzzy
+msgid "You have not created any invitations yet."
+msgstr "Opprett invitasjon"
 
 #: app/templates/tables/sessions-table.html:27
 msgid "Revoke"
@@ -1917,3 +1954,21 @@ msgstr "Så la oss se hvordan du kommer i gang!"
 
 #~ msgid "Open Plex"
 #~ msgstr "Åpne Plex"
+
+#~ msgid "Goodbye"
+#~ msgstr "Ha det"
+
+#~ msgid "Logged out successfully"
+#~ msgstr "Logget ut"
+
+#~ msgid "Your Account"
+#~ msgstr "Opprett en konto"
+
+#~ msgid "Account"
+#~ msgstr "Opprett en konto"
+
+#~ msgid "General"
+#~ msgstr "Generell"
+
+#~ msgid "View and update general settings"
+#~ msgstr "Se og oppdater generelle innstillinger"
