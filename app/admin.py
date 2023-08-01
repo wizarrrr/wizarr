@@ -79,7 +79,7 @@ def invite():
                 "week": (current_date + timedelta(weeks=1)),
                 "month": (current_date + timedelta(days=30)), # Approximation for 1 month
                 "6months": (current_date + timedelta(days=30*6)), # Approximation for 6 months
-                "year": (current_date + timedelta(days=365)),   # Approximation for 1 year     
+                "year": (current_date + timedelta(days=365)),   # Approximation for 1 year
                 "never": None
             }
             expires = expires_options.get(request.form.get("expires"))
@@ -251,6 +251,8 @@ def secure_settings():
             "server_name", Settings.get(Settings.key == "server_name").value)
         server_url = request.form.get(
             "server_url", Settings.get(Settings.key == "server_url").value)
+        redirect_url = request.form.get(
+            "redirect_url", Settings.get_or_none(Settings.key == "redirect_url"))
         api_key = request.form.get(
             "api_key", Settings.get(Settings.key == "api_key").value)
         libraries = []
@@ -299,6 +301,11 @@ def secure_settings():
                 Settings.key == "api_key").execute()
             Settings.update(value=libraries).where(
                 Settings.key == "libraries").execute()
+            if redirect_url:
+                Settings.delete().where(Settings.key == "redirect_url").execute()
+                Settings.create(key="redirect_url", value=redirect_url)
+            else:
+                Settings.delete().where(Settings.key == "redirect_url").execute()
             if request_type:
                 Settings.delete().where(Settings.key == "request_type").execute()
                 Settings.create(key="request_type", value=request_type)
@@ -334,6 +341,7 @@ def secure_settings():
             "server_type": server_type,
             "server_name": server_name,
             "server_url": server_url,
+            "redirect_url": redirect_url,
             "server_type": server_type,
             "api_key": api_key,
             "request_type": request_type,
@@ -364,7 +372,7 @@ def login():
             if check_password_hash(Settings.get(Settings.key == "admin_password").value, password):
 
                 # Migrate to scrypt from sha 256
-                if Settings.get(Settings.key == "admin_password").value.startswith("sha256"): 
+                if Settings.get(Settings.key == "admin_password").value.startswith("sha256"):
                     new_hash = generate_password_hash(password, method='scrypt')
                     Settings.update(value=new_hash).where(Settings.key == "admin_password").execute()
 
@@ -441,7 +449,7 @@ def create_notification():
             "userkey": request.form.get("userkey") if request.form.get("userkey") else None,
             "apitoken": request.form.get("apitoken") if request.form.get("apitoken") else None
         }
-        
+
         if form["notification_service"] == "discord":
             if notify_discord("Wizarr here! Can you hear me?", form["url"]):
                 Notifications.create(name=form["name"], url=form["url"], type=form["notification_service"])
@@ -468,7 +476,7 @@ def create_notification():
                                                                                                     "to Ntfy"))
                 resp.headers['HX-Retarget'] = '#create-modal'
                 return resp
-            
+
         elif form["notification_service"] == "pushover":
             if notify_pushover("Wizarr here! Can you hear me?", "Wizarr", form["url"], username=form["userkey"], password=form["apitoken"]):
                 Notifications.create(name=form["name"], url=form["url"], type=form["notification_service"], username=form["userkey"], password=form["apitoken"])
@@ -478,10 +486,10 @@ def create_notification():
                 resp = make_response(render_template("modals/create-notification-agent.html", error="Could not Connect to Pushover"))
                 resp.headers['HX-Retarget'] = '#create-modal'
                 return resp
-            
+
     else:
         return render_template("modals/create-notification-agent.html")
-    
+
     logging.info("A user created a new notification agent")
 
 

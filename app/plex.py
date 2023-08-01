@@ -6,7 +6,7 @@ import os
 import threading
 from flask import request, abort, jsonify
 import logging
-from cachetools import cached, TTLCache 
+from cachetools import cached, TTLCache
 from app.mediarequest import *
 
 
@@ -111,7 +111,7 @@ def plex_invite_user(email, code):
             admin.myPlexAccount().createExistingUser(user=email, server=admin, sections=sections, allowSync=allowSync)
         else:
             admin.myPlexAccount().inviteFriend(user=email, server=admin, sections=sections, allowSync=allowSync)
-        
+
         logging.info("Invited " + email + " to Plex Server")
         if Invitations.select().where(Invitations.code == code, Invitations.unlimited == 0):
             Invitations.update(used=True, used_at=datetime.datetime.now().strftime(
@@ -136,8 +136,8 @@ def plex_setup_user(token):
         mediarequest_import_users([user.id])
     except Exception as e:
         logging.error("Failed to setup user: " + str(e))
-        
-        
+
+
 
 
 def plex_opt_out_online_sources(token):
@@ -179,3 +179,12 @@ def plex_scan_specific():
     for library in libraries_raw:
         libraries.append(library.title)
     return jsonify(libraries)
+
+@app.route('/setup/open-plex', methods=["GET"])
+def open_plex():
+    redirect_url = Settings.get_or_none(Settings.key == "redirect_url")
+
+    if redirect_url:
+        return redirect(redirect_url.value)
+
+    return redirect('https://app.plex.tv/desktop/#!/')

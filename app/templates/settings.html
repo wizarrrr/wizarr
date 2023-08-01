@@ -44,7 +44,7 @@
                         </select>
                     </div>
                     <div>
-                        <label for=" server_url"
+                        <label for="server_url"
                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server URL") }}</label>
                         <input type="server_url" name="server_url" id="server_url"
                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -57,6 +57,14 @@
                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                value="{% if api_key %}{{ api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX"
                                required="">
+                    </div>
+                    <div>
+                        <label for="redirect_url"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Redirect URL (optional)") }}</label>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">{{ _("This is the URL that will be used to redirect users to your server. If you leave this blank, the server URL will be used.") }}</p>
+                        <input type="redirect_url" name="redirect_url" id="redirect_url"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                               value="{% if redirect_url %}{{ redirect_url }}{% endif %}" required="">
                     </div>
 
 
@@ -105,7 +113,7 @@
                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                value="{% if request_api_key %}{{ request_api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX">
                     </div>
-                    
+
                     <div>
                         <label for="discord_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Discord
                 Server ID") }}</label>
@@ -145,7 +153,7 @@
   height: 34px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -409,58 +417,6 @@ input:checked + .slider:before {
                 })
         }
     }
-</script>
-<script>
-    // Get the request type select and request url input elements
-    //var requestTypeSelect = document.getElementById("request_type");
-    //var requestUrlInput = document.getElementById("request_url");
-    //var requestApiInput = document.getElementById("request_api_key");
-//
-    //var requestTypeBlock = document.getElementById("request_type_block");
-    //var requestUrlBlock = document.getElementById("request_url_block");
-    //var requestApiBlock = document.getElementById("request_api_block");
-//
-    //// Function to handle the change event of the request type select
-    //function handleRequestTypeChange() {
-    //  // Check if the request type select is set to an option
-    //  if (requestTypeSelect.children[0].selected) {
-    //    // Hide the request url input and request api input
-    //    requestUrlBlock.style.display = "none";
-    //    requestApiBlock.style.display = "none";
-    //  } else {
-    //    // Show the request url input
-    //    requestUrlBlock.style.display = "block";
-//
-    //    // Check if the request url input is not empty
-    //    if (requestUrlInput.value !== "") {
-    //      // Show the request api input
-    //      requestApiBlock.style.display = "block";
-    //    } else {
-    //      // Hide the request api input
-    //      requestApiBlock.style.display = "none";
-    //    }
-    //  }
-    //}
-//
-    //// Function to handle the input event of the request url input
-    //function handleRequestUrlInput() {
-    //  // Check if the request url input is not empty
-    //  if (requestUrlInput.value !== "") {
-    //    // Show the request api input
-    //    requestApiBlock.style.display = "block";
-    //  } else {
-    //    // Hide the request api input
-    //    requestApiBlock.style.display = "none";
-    //  }
-    //}
-//
-    //// Add event listeners
-    //requestTypeSelect.addEventListener("change", handleRequestTypeChange);
-    //requestUrlInput.addEventListener("input", handleRequestUrlInput);
-//
-    //// Run the initial check on page load
-    //handleRequestTypeChange();
-
 </script>
 <script>
     // Get the request_type select element and server_type select element

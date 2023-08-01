@@ -51,18 +51,13 @@ def connect():
 
 
 @app.route('/setup', methods=["GET"])
+@app.route('/setup/', methods=["GET"])
 def setup():
     resp = make_response(render_template(
-        "wizard.html", server_type=Settings.get(Settings.key == "server_type").value, server_url=Settings.get(Settings.key == "server_url").value))
+        "wizard.html", server_type=Settings.get(Settings.key == "server_type").value, server_url=Settings.get(Settings.key == "server_url").value, redirect_url=Settings.get_or_none(Settings.key == "redirect_url")))
     resp.set_cookie('current', "0")
 
     return resp
-
-
-@app.route('/setup/open-plex', methods=["GET"])
-def open_plex():
-    return redirect('https://app.plex.tv/desktop/#!/')
-
 
 @app.route('/setup/action=<action>', methods=["POST"])
 def wizard(action):
