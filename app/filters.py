@@ -50,8 +50,36 @@ def arrow_humanize(value):
     if not isinstance(value, str):
         return "Unknown format"
 
+    language_dict = {
+        "en": "en",
+        "zh_Hant": "zh-tw",
+        "ca": "ca",
+        "cs": "cs",
+        "da": "da",
+        "de": "de",
+        "es": "es",
+        "fa": "fa",
+        "fr": "fr",
+        "gsw": "de",
+        "he": "he",
+        "hr": "hr",
+        "hu": "hu",
+        "is": "is",
+        "it": "it",
+        "lt": "lt",
+        "nb_NO": "no",
+        "nl": "nl",
+        "pl": "pl",
+        "pt": "pt",
+        "pt_BR": "pt",
+        "ro": "ro",
+        "ru": "ru",
+        "sv": "sv",
+        "zh_Hans": "zh-cn"
+    }
+
     utc = get(value)
-    return utc.humanize(locale=get_locale())
+    return utc.humanize(locale=language_dict[get_locale()])
 
 
 def format_datetime(value):

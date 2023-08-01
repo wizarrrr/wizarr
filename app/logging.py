@@ -45,5 +45,5 @@ coloredlogs.install(level=None, logger=werkzeug, fmt="%(asctime)s %(levelname)s 
 
 # Get a dictionary of all the loggers
 loggers = logging.Logger.manager.loggerDict
-print(tabulate([[key, value] for key, value in loggers.items()], headers=["Logger", "Level"]))
+# print(tabulate([[key, value] for key, value in loggers.items()], headers=["Logger", "Level"]))
 logging.getLogger("socketio").setLevel(logging.ERROR)

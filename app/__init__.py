@@ -71,6 +71,8 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = path.abspath(path.join(BASE_DIR, "../", "database", "sessions"))
 app.config["LANGUAGES"] = {"en": "english", "de": "german", "zh": "chinese", "fr": "french", "sv": "swedish", "pt": "portuguese", "lt": "lithuanian", "es": "spanish", "pl": "polish" }
+app.config["LANGUAGES_COUNTRY"] = { "en": "English", "zh_Hant": "Chinese Traditional", "ca": "Catalan", "cs": "Czech", "da": "Danish", "de": "German", "es": "Spanish", "fa": "Farsi", "fr": "French", "gsw": "Swiss German", "he": "Hebrew", "hr": "Croatian", "hu": "Hungarian", "is": "Icelandic", "it": "Italian", "lt": "Lithuanian", "nb_NO": "Norwegian", "nl": "Dutch", "pl": "Polish", "pt": "Portuguese", "pt_BR": "Brazilian Portuguese", "ro": "Romanian", "ru": "Russian", "sv": "Swedish", "zh_Hans": "Simplified Chinese" }
+app.config["LANGUAGES_DICT"] = { "en": "en", "zh_Hant": "zh", "ca": "ca", "cs": "cs", "da": "da", "de": "de", "es": "es", "fa": "fa", "fr": "fr", "gsw": "de", "he": "he", "hr": "hr", "hu": "hu", "is": "is", "it": "it", "lt": "lt", "nb_NO": "no", "nl": "nl", "pl": "pl", "pt": "pt", "pt_BR": "pt", "ro": "ro", "ru": "ru", "sv": "sv", "zh_Hans": "zh" }
 app.config["BABEL_DEFAULT_LOCALE"] = "en"
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = "./translations"
 app.config["SCHEDULER_API_ENABLED"] = True
@@ -106,6 +108,8 @@ app.jinja_env.globals.update(DATA_DIRECTORY=path.abspath(path.join(BASE_DIR, "..
 app.jinja_env.globals.update(APP_UPDATE=need_update())
 app.jinja_env.globals.update(DISABLE_BUILTIN_AUTH=bool(str(getenv("DISABLE_BUILTIN_AUTH", "False")).lower() == "true"))
 app.jinja_env.globals.update(LANGUAGES=app.config["LANGUAGES"])
+app.jinja_env.globals.update(LANGUAGES_COUNTRY=app.config["LANGUAGES_COUNTRY"])
+app.jinja_env.globals.update(LANGUAGES_DICT=app.config["LANGUAGES_DICT"])
 
 # Headers
 log_headers = ["VARIABLE", "VALUE"]
