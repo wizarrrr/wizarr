@@ -11,7 +11,6 @@ from schematics.types import (BaseType, BooleanType, DateTimeType, IntType,
 from models.database.invitations import Invitations
 from models.database.libraries import Libraries
 
-
 # Custom specific_libraries type that converts a string to a list if needed
 class SpecificLibrariesType(BaseType):
     """Specific Libraries Type"""

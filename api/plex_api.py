@@ -5,22 +5,19 @@ from plexapi.myplex import MyPlexAccount, Unauthorized
 from flask_socketio import join_room
 from app.extensions import socketio
 from os import urandom
+from helpers.universal import global_invite_user_to_media_server
 
 api = Namespace("Plex", description="Plex related operations", path="/plex")
 
 def send_message(message, sid):
     socketio.emit("message", message, namespace="/plex", to=sid)
 
-def send_step(step, sid):
-    socketio.emit("step", step, namespace="/plex", to=sid)
+def test_connection(token, code, sid):
+    global_invite_user_to_media_server(token=token, code=code, socket_id=sid)
 
-def test_connection(self, token, sid):
-    socketio.sleep(1)
-    send_step(1, sid)
-    socketio.sleep(1)
-    send_step(2, sid)
-    socketio.sleep(1)
-    send_step(3, sid)
+@socketio.on("connect", namespace="/plex")
+def connect():
+    print("Client connected")
 
 @api.route("")
 @api.route("/", doc=False)
@@ -30,6 +27,7 @@ class PlexStream(Resource):
     def post(self):
         # Get the token from the request
         token = request.form.get("token", None)
+        code = request.form.get("code", None)
         socket_id = request.form.get("socket_id", None)
 
         # Check both the token and the socket ID
@@ -48,7 +46,7 @@ class PlexStream(Resource):
 
         # Send a message to the user
         send_message(f"Hello {username}!", socket_id)
-        socketio.start_background_task(target=self.test_connection, token=token, sid=socket_id)
+        socketio.start_background_task(target=test_connection, token=token, code=code, sid=socket_id)
 
         # Return the room ID and the username
         return { "room": random_id, "username": username }, 200

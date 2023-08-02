@@ -223,7 +223,7 @@ def get_jellyfin_policy(user_id: str, server_api_key: Optional[str], server_url:
 
 
 # ANCHOR - Jellyfin Invite User
-def invite_jellyfin_user(username: str, password: str, code: str, email: str) -> JellyfinUser:
+def invite_jellyfin_user(username: str, password: str, code: str, server_api_key: Optional[str] = None, server_url: Optional[str] = None) -> JellyfinUser:
     """Invite user to Jellyfin.
 
     :param username: Username of the user to invite
@@ -235,18 +235,17 @@ def invite_jellyfin_user(username: str, password: str, code: str, email: str) ->
     :param code: Invitation code
     :type code: str
 
-    :param email: Email of the user to invite
-    :type email: str
+    :param server_api_key: Jellyfin API key
+    :type server_api_key: Optional[str] - If not provided, will get from database.
+
+    :param server_url: Jellyfin URL
+    :type server_url: Optional[str] - If not provided, will get from database.
 
     :return: Jellyfin API response
     """
 
-    # Validate user input
-    if not username or not password or not code or not email:
-        raise ValueError("Missing required user input.")
-
     # Get Invitation from Database
-    invitation = get_invitation(code=code)
+    invitation = get_invitation(code)
 
     # Get libraries from invitation
     sections = (
@@ -259,7 +258,7 @@ def invite_jellyfin_user(username: str, password: str, code: str, email: str) ->
     new_user = { "Name": str(username), "Password": str(password) }
 
     # Create user in Jellyfin
-    response = post_jellyfin(api_path="/Users/New", data=new_user)
+    response = post_jellyfin(api_path="/Users/New", data=new_user, server_api_key=server_api_key, server_url=server_url)
 
     # Create policy object
     new_policy = { "EnableAllFolders": False, "EnabledFolders": sections }
@@ -268,7 +267,7 @@ def invite_jellyfin_user(username: str, password: str, code: str, email: str) ->
     new_policy.update(response["Policy"])
 
     # Update user policy
-    response = post_jellyfin(api_path=f"/Users/{response['Id']}/Policy", data=new_policy)
+    response = post_jellyfin(api_path=f"/Users/{response['Id']}/Policy", data=new_policy, server_api_key=server_api_key, server_url=server_url)
 
     # Return response
     return response

@@ -32,7 +32,7 @@
                 </td>
 
                 <td class="text-center">
-                    {% if invite.used %}
+                    {% if not invite.used %}
                     <span class="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
                     {% else %}
                     <span class="inline-block w-3 h-3 bg-yellow-400 rounded-full"></span>
@@ -40,12 +40,12 @@
                 </td>
 
                 <td class="text-center">
-                    {% if invite.expired %}
-                    <span class="inline-block w-3 h-3 bg-red-600 rounded-full"></span>
-                    {% elif not invite.expired and invite.expires %}
-                    <span class="inline-block w-3 h-3 bg-yellow-400 rounded-full"></span>
-                    {% elif not invite.expired and not invite.expires %}
+                    {% if not invite.expired and not invite.expires %}
                     <span class="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
+                    {% elif not invite.expired and invite.expires %}
+                    <span class="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
+                    {% elif invite.expired and invite.expires %}
+                    <span class="inline-block w-3 h-3 bg-red-600 rounded-full"></span>
                     {% else %}
                     <span class="inline-block w-3 h-3 bg-gray-400 rounded-full"></span>
                     {% endif %}

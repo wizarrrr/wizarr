@@ -261,6 +261,7 @@
         let formData = new FormData();
 
         formData.append('token', token);
+        formData.append('code', document.querySelector('#code').value);
         formData.append('socket_id', socket.id);
 
         // Make a request to the server for Server Sent Event url
@@ -302,7 +303,7 @@
         });
 
         socket.on('error', function (data) {
-            errorScreen(data);
+            toast.errorToast(data);
         });
 
         socket.on('step', async function (data) {

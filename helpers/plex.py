@@ -1,10 +1,27 @@
 from typing import Optional
 
-from plexapi.myplex import PlexServer, LibrarySection, MyPlexUser
+from requests import RequestException, get
+from io import BytesIO
+
+from plexapi.myplex import PlexServer, LibrarySection, MyPlexUser, MyPlexAccount, NotFound
 from logging import info
 
+from .invitation import get_invitation
+from .libraries import get_libraries_name
 from .settings import get_settings
 from .users import get_users, create_user
+
+from models.database.libraries import Libraries
+
+# INDEX OF FUNCTIONS
+# - Plex Get Server
+# - Plex San Libraries
+# - Plex Invite User
+# - Plex Get Users
+# - Plex Get User
+# - Plex Delete User
+# - Plex Sync Users
+# - Plex Get Profile Picture
 
 # ANCHOR - Get Plex Server
 def get_plex_server(server_api_key: Optional[str] = None, server_url: Optional[str] = None) -> PlexServer:
@@ -59,6 +76,97 @@ def scan_plex_libraries(server_api_key: Optional[str] = None, server_url: Option
 
     # Return the libraries
     return response
+
+
+# ANCHOR - Plex Invite User
+def invite_plex_user(code: str, token: str, server_api_key: Optional[str] = None, server_url: Optional[str] = None):
+    """Invite a user to the Plex server
+
+    :param code: The code of the invitation
+    :type code: str
+
+    :param email: The email of the user to invite
+    :type email: str
+
+    :param server_api_key: The API key of the Plex server
+    :type server_api_key: Optional[str] - If not provided, will get from database.
+
+    :param server_url: The URL of the Plex server
+    :type server_url: Optional[str] - If not provided, will get from database.
+
+    :return: Plex Invite
+    """
+
+    # Get the PlexServer object
+    plex = get_plex_server(server_api_key=server_api_key, server_url=server_url)
+
+    # Get Invitation from Database
+    invitation = get_invitation(code)
+
+    # Get libraries from invitation
+    sections = (
+        get_libraries_name()
+        if invitation.specific_libraries is None
+        else invitation.specific_libraries.split(",")
+    )
+
+    # If specific_libraries is None, convert sections ids to names
+    if invitation.specific_libraries:
+        sections = [library.name for library in Libraries.filter(Libraries.id.in_(sections))]
+
+    # Get allow_sync and plex_home from invitation
+    allow_sync = invitation.plex_allow_sync
+    plex_home = invitation.plex_home
+
+    # Get my account from Plex
+    my_account = plex.myPlexAccount()
+
+    # Get the user from the token
+    plex_account = MyPlexAccount(token=token)
+
+    # Select invitation method
+    invite_method = my_account.createHomeUser if plex_home else my_account.inviteFriend
+
+    # Invite the user
+    invite = invite_method(
+        user=plex_account.email,
+        server=plex,
+        sections=sections,
+        allowSync=allow_sync
+    )
+
+    # Return the invite
+    return invite
+
+
+# ANCHOR - Plex Accept Invitation
+def accept_plex_invitation(token: str, server_api_key: Optional[str] = None, server_url: Optional[str] = None):
+    """Accept a Plex invitation
+
+    :param token: The token of the invitation
+    :type token: str
+
+    :param server_api_key: The API key of the Plex server
+    :type server_api_key: Optional[str] - If not provided, will get from database.
+
+    :param server_url: The URL of the Plex server
+    :type server_url: Optional[str] - If not provided, will get from database.
+
+    :return: None
+    """
+
+    # Get the PlexServer object
+    plex = get_plex_server(server_api_key=server_api_key, server_url=server_url)
+
+    # Get my account from Plex and email
+    my_account = plex.myPlexAccount()
+
+    # Get plex account for the user
+    plex_account = MyPlexAccount(token=token)
+
+    # Accept the invitation and enable sync
+    plex_account.acceptInvite(my_account.email)
+    plex_account.enableViewStateSync()
 
 
 # ANCHOR - Plex Get Users
@@ -139,8 +247,15 @@ def delete_plex_user(user_id: str, server_api_key: Optional[str] = None, server_
     plex_account = plex.myPlexAccount()
 
     # Delete the user
-    plex_account.removeFriend(user_id)
-    plex_account.removeHomeUser(user_id)
+    try:
+        plex_account.removeFriend(user_id)
+    except NotFound:
+        pass
+
+    try:
+        plex_account.removeHomeUser(user_id)
+    except NotFound:
+        pass
 
 
 # ANCHOR - Plex Sync Users
@@ -164,8 +279,9 @@ def sync_plex_users(server_api_key: Optional[str] = None, server_url: Optional[s
     # If plex_users.id is not in database_users.token, add user to database
     for plex_user in plex_users:
         if str(plex_user.id) not in [str(database_user.token) for database_user in database_users]:
-            create_user(username=plex_user.username, token=plex_user.id, email=plex_user.email)
-            info(f"User {plex_user.username} successfully imported to database")
+            if plex_user.email:
+                create_user(username=plex_user.username, token=plex_user.id, email=plex_user.email)
+                info(f"User {plex_user.username} successfully imported to database")
 
 
     # If database_users.token is not in plex_users.id, remove user from database
@@ -173,3 +289,48 @@ def sync_plex_users(server_api_key: Optional[str] = None, server_url: Optional[s
         if str(database_user.token) not in [str(plex_user.id) for plex_user in plex_users]:
             database_user.delete_instance()
             info(f"User {database_user.username} successfully removed from database")
+
+
+# ANCHOR - Plex Get Profile Picture
+def get_plex_profile_picture(user_id: str, server_api_key: Optional[str] = None, server_url: Optional[str] = None) -> str:
+    """Get a Plex user's profile picture
+
+    :param user_id: The id of the user
+    :type user_id: str - [usernames, email, id]
+
+    :param server_api_key: The API key of the Plex server
+    :type server_api_key: Optional[str] - If not provided, will get from database.
+
+    :param server_url: The URL of the Plex server
+    :type server_url: Optional[str] - If not provided, will get from database.
+
+    :return: str - The url of the profile picture
+    """
+
+    # Response object
+    response = None
+
+    # Get the user
+    user = get_plex_user(user_id=user_id, server_api_key=server_api_key, server_url=server_url)
+
+    try:
+        # Get the profile picture from Plex
+        url = user.thumb
+        response = get(url=url, timeout=30)
+    except RequestException:
+        # Backup profile picture using ui-avatars.com if Jellyfin fails
+        username = f"{user.username}&length=1" if user else "ERROR&length=60&font-size=0.28"
+        response = get(url=f"https://ui-avatars.com/api/?uppercase=true&name={username}", timeout=30)
+
+    # Raise exception if either Jellyfin or ui-avatars.com fails
+    if response.status_code != 200:
+        raise RequestException("Failed to get profile picture.")
+
+    # Extract image from response
+    image = response.content
+
+    # Convert image bytes to read image
+    image = BytesIO(image)
+
+    # Return profile picture
+    return image

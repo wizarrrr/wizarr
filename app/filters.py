@@ -1,7 +1,6 @@
 from datetime import datetime
 from os import getenv
-from dateutil.parser import parse
-from arrow import get
+from pendulum import parse
 from helpers.babel_locale import get_locale
 
 def humanize(value):
@@ -78,8 +77,13 @@ def arrow_humanize(value):
         "zh_Hans": "zh-cn"
     }
 
-    utc = get(value)
-    return utc.humanize(locale=language_dict[get_locale()])
+    # Parse the datetime string
+    parsed_datetime = parse(value)
+
+    # Get the relative time difference from the current time
+    relative_time = parsed_datetime.diff_for_humans(locale=language_dict[get_locale()])
+
+    return relative_time
 
 
 def format_datetime(value):

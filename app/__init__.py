@@ -133,7 +133,7 @@ jwt.init_app(app)
 cache.init_app(app)
 api.init_app(app)
 schedule.init_app(app)
-socketio.init_app(app, async_mode="gevent" if app.config["GUNICORN"] else "threading", cors_allowed_origins="*")
+socketio.init_app(app, async_mode="gevent" if app.config["GUNICORN"] else "threading", cors_allowed_origins="*", async_handlers=True)
 babel.init_app(app, locale_selector=get_locale)
 
 # Clear cache on startup
