@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-01 17:09+0000\n"
-"PO-Revision-Date: 2023-07-14 20:52+0000\n"
-"Last-Translator: Liam Thomas-Chollier <liam.thomaschollier@gmail.com>\n"
+"PO-Revision-Date: 2023-08-03 11:06+0000\n"
+"Last-Translator: Rémi Guerrero <remidu34070@hotmail.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr/app/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.0-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: app/admin.py:166
@@ -140,9 +141,8 @@ msgstr ""
 "              du serveur"
 
 #: app/templates/settings.html:63
-#, fuzzy
 msgid "Redirect URL (optional)"
-msgstr "Mot de passe (facultatif)"
+msgstr "URL de redirection (facultatif)"
 
 #: app/templates/settings.html:64
 msgid ""
@@ -166,31 +166,28 @@ msgid "Scan For Libraries"
 msgstr "Rechercher des bibliothèques"
 
 #: app/templates/settings.html:86
-#, fuzzy
 msgid ""
 "Request\n"
 "                Server"
 msgstr ""
-"ID du serveur\n"
-"                  Discord"
+"Serveur\n"
+"de requêtes"
 
 #: app/templates/settings.html:100
-#, fuzzy
 msgid ""
 "Request\n"
 "                Server URL"
 msgstr ""
-"ID du serveur\n"
-"                  Discord"
+"URL du serveur\n"
+"de requêtes"
 
 #: app/templates/settings.html:110
-#, fuzzy
 msgid ""
 "Request\n"
 "                Server API Key"
 msgstr ""
-"ID du serveur\n"
-"                  Discord"
+"Clé API du serveur\n"
+"de requêtes"
 
 #: app/templates/settings.html:118
 msgid ""
@@ -201,13 +198,12 @@ msgstr ""
 "                  Discord"
 
 #: app/templates/settings.html:126
-#, fuzzy
 msgid ""
 "Discord\n"
 "                Widget"
 msgstr ""
-"ID du serveur\n"
-"                  Discord"
+"Widget\n"
+"Discord"
 
 #: app/templates/settings.html:134
 msgid ""
@@ -303,24 +299,20 @@ msgid "Expiration"
 msgstr "Expiration"
 
 #: app/templates/admin/invite.html:54
-#, fuzzy
 msgid "1 Day"
 msgstr "1 jour"
 
 #: app/templates/admin/invite.html:55
-#, fuzzy
 msgid "1 Week"
 msgstr "1 semaine"
 
 #: app/templates/admin/invite.html:56
-#, fuzzy
 msgid "1 Month"
 msgstr "1 mois"
 
 #: app/templates/admin/invite.html:57
-#, fuzzy
 msgid "6 Months"
-msgstr "1 mois"
+msgstr "6 mois"
 
 #: app/templates/admin/invite.html:58
 msgid "1 Year"
@@ -461,9 +453,8 @@ msgid "Password (optional)"
 msgstr "Mot de passe (facultatif)"
 
 #: app/templates/modals/create-notification-agent.html:72
-#, fuzzy
 msgid "User Key"
-msgstr "Politique de l'utilisateur"
+msgstr "Clé utilisateur"
 
 #: app/templates/modals/create-notification-agent.html:76
 msgid "API Token"
@@ -594,9 +585,8 @@ msgstr ""
 "\"Suivant\"."
 
 #: app/templates/wizard/jellyfin/download.html:24
-#, fuzzy
 msgid "Show Server URL"
-msgstr "URL du serveur"
+msgstr "Montrer l’URL du serveur"
 
 #: app/templates/wizard/jellyfin/download.html:37
 #: app/templates/wizard/jellyfin/download.html:137
@@ -610,9 +600,8 @@ msgid "Open Jellyfin"
 msgstr "Ouvrir Jellyfin"
 
 #: app/templates/wizard/jellyfin/download.html:85
-#, fuzzy
 msgid "Other Download"
-msgstr "Télécharger"
+msgstr "Autre téléchargement"
 
 #: app/templates/wizard/jellyfin/download.html:134
 msgid "Copied!"
@@ -698,9 +687,11 @@ msgid ""
 "    smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 "    you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"Rien de plus facile ! Plex est disponible sur une grande variété d'appareils, comme les PC,\n"
-"les tablettes, les smartphones et les téléviseurs. Tout ce que vous avez à faire est de télécharger\n"
-"l'application Plex sur votre appareil, de vous connecter avec votre compte,\n"
+"Rien de plus facile ! Plex est disponible sur une grande variété "
+"d'appareils, comme les PC, les tablettes, les smartphones et les téléviseurs."
+"\n"
+"Tout ce que vous avez à faire est de télécharger l'application Plex sur "
+"votre appareil, de vous connecter avec votre compte,\n"
 "et vous êtes prêt pour profiter de vos médias. C'est aussi simple que ça !"
 
 #: app/templates/wizard/plex/tips.html:20
