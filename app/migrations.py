@@ -18,7 +18,7 @@ logging.webpush = lambda msg, *args: logging.log(60, msg, args)
 
 def migrate():
     # Log that migrations are starting
-    logging.migrations("STARTING MIGRATIONS")
+    logging.info("STARTING MIGRATIONS")
 
     # Create a backup of the database
     datebase_dir = os.path.join(os.path.dirname(__file__), '../', 'database')
@@ -48,7 +48,7 @@ def migrate():
 
             try:
                 # Log that the migration is starting for this file
-                # migrations(f'Running migration for {filename}')
+                # info(f'Running migration for {filename}')
 
                 # Call the run function
                 module.run()
@@ -80,4 +80,4 @@ def migrate():
     os.system(f'rm {datebase_dir}/database.temp')
 
     # Log that migrations are finished
-    logging.migrations("FINISHED MIGRATIONS")
+    logging.info("FINISHED MIGRATIONS")

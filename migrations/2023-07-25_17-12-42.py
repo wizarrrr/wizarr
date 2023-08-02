@@ -1,6 +1,6 @@
 from peewee import *
 from playhouse.migrate import *
-from logging import migrations
+from logging import info
 
 from app import db
 from datetime import datetime
@@ -9,9 +9,9 @@ from models.database.accounts import Accounts
 # Do not change the name of this file,
 # migrations are run in order of their filenames date and time
 
-# PLEASE USE migrations('MESSAGE HERE') FOR ANY INFO LOGGING
-# Example: migrations('Creating table users')
-# Feel free to use error and warning for any errors or warnings
+# PLEASE USE info('MESSAGE HERE') FOR ANY INFO LOGGING
+# Example: info('Creating table users')
+
 
 
 def run():
@@ -29,7 +29,7 @@ def run():
                 created=datetime.now()
             )
 
-            migrations(f"Migrated {admin[1]} to accounts table")
+            info(f"Migrated {admin[1]} to accounts table")
 
         # Drop the admins table
         db.execute_sql("DROP TABLE admins")

@@ -1,5 +1,5 @@
 from datetime import datetime
-from logging import migrations
+from logging import info
 
 from peewee import *
 from peewee import CharField, DateTimeField
@@ -13,9 +13,9 @@ from models.database.settings import Settings
 # Do not change the name of this file,
 # migrations are run in order of their filenames date and time
 
-# PLEASE USE migrations('MESSAGE HERE') FOR ANY INFO LOGGING
-# Example: migrations('Creating table users')
-# Feel free to use error and warning for any errors or warnings
+# PLEASE USE info('MESSAGE HERE') FOR ANY INFO LOGGING
+# Example: info('Creating table users')
+
 
 def run():
     migrator = SqliteMigrator(db)
@@ -32,22 +32,22 @@ def run():
     if settings.get("admin_username", None) and settings.get("admin_password", None):
         Accounts.get_or_create(username=settings.get("admin_username"), password=settings.get("admin_password"))
         Settings.delete().where((Settings.key == 'admin_username') | (Settings.key == 'admin_password') | (Settings.key == 'admin_key')).execute()
-        migrations("Migrated admin credentials to Admins table")
+        info("Migrated admin credentials to Admins table")
 
     if settings.get("overseerr_url", None):
         Settings.create(key="request_url", value=settings.get("overseerr_url"))
         Settings.delete().where(Settings.key == 'overseerr_url').execute()
-        migrations("Migrated overseerr_url to request_url")
+        info("Migrated overseerr_url to request_url")
 
     if settings.get("ombi_api_key", None):
         Settings.create(key="request_api_key", value=settings.get("ombi_api_key"))
         Settings.delete().where(Settings.key == 'ombi_api_key').execute()
-        migrations("Migrated ombi_api_key to request_api_key")
+        info("Migrated ombi_api_key to request_api_key")
 
     if settings.get("api_key", None):
         Settings.create(key="server_api_key", value=settings.get("api_key"))
         Settings.delete().where(Settings.key == 'api_key').execute()
-        migrations("Migrated api_key to server_api_key")
+        info("Migrated api_key to server_api_key")
 
 
     if 'auth' not in [column.name for column in db.get_columns('users')]:

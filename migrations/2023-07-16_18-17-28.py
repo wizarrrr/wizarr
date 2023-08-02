@@ -1,4 +1,4 @@
-from logging import migrations
+from logging import info
 from typing import Optional
 
 from peewee import *
@@ -46,12 +46,12 @@ def run():
             new_libraries = [{"id": str(library.uuid), "name": library.title} for library in libraries]
 
         else:
-            migrations("Server type not supported.")
+            info("Server type not supported.")
             return
 
         # Check if libraries are valid
         if not new_libraries:
-            migrations("No libraries found.")
+            info("No libraries found.")
             return
 
         # Check if libraries are valid
@@ -60,27 +60,27 @@ def run():
             # Add old libraries to database if they are in the new libraries
             for new_library in new_libraries:
                 if new_library['id'] not in old_libraries:
-                    migrations(f"Library {new_library['name']} not found in old libraries, skipping.")
+                    info(f"Library {new_library['name']} not found in old libraries, skipping.")
                     continue
 
                 # Add library to database
                 Libraries.get_or_create(id=new_library['id'], name=new_library['name'])
-                migrations(f"Library {new_library['name']} added to database.")
+                info(f"Library {new_library['name']} added to database.")
 
         elif server_type == "plex":
 
             # Add old libraries to database if they are in the new libraries
             for new_library in new_libraries:
                 if new_library['name'] not in old_libraries:
-                    migrations(f"Library {new_library['name']} not found in old libraries, skipping.")
+                    info(f"Library {new_library['name']} not found in old libraries, skipping.")
                     continue
 
                 # Add library to database
                 Libraries.get_or_create(id=new_library['id'], name=new_library['name'])
-                migrations(f"Library {new_library['name']} added to database.")
+                info(f"Library {new_library['name']} added to database.")
 
         # Delete old libraries from database
         Settings.delete().where(Settings.key == "libraries").execute()
 
 
-        migrations("Deleted old libraries from database.")
+        info("Deleted old libraries from database.")

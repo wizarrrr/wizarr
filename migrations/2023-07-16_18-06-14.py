@@ -1,4 +1,4 @@
-from logging import error, migrations, warning
+from logging import error, info, warning
 
 from peewee import *
 from playhouse.migrate import *
@@ -15,12 +15,12 @@ def run():
     # If Invitations table does not exist, return
     if not db.table_exists('invitations'):
         raise MigrationError('Invitations table does not exist')
-    
+
     # If column duration already exists, return
     if 'duration' in [column.name for column in db.get_columns('invitations')]:
         return
-    
+
     duration = CharField(null=True)  # Add Duration after update
     migrate(migrator.add_column('invitations', 'duration', duration))
-    
-    migrations("Added duration column to invitations table")
+
+    info("Added duration column to invitations table")

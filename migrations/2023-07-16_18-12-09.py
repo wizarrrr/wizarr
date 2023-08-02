@@ -1,4 +1,4 @@
-from logging import error, migrations, warning
+from logging import error, info, warning
 
 from peewee import *
 from playhouse.migrate import *
@@ -15,12 +15,12 @@ def run():
     # If Invitations table does not exist, return
     if not db.table_exists('invitations'):
         raise MigrationError('Invitations table does not exist')
-    
+
     # If column specific_libraries already exists, return
     if 'specific_libraries' in [column.name for column in db.get_columns('invitations')]:
         return
-    
+
     specific_libraries = CharField(null=True)  # Add Specific Libraries after update
     migrate(migrator.add_column('invitations', 'specific_libraries', specific_libraries))
-    
-    migrations("Added specific_libraries column to invitations table")
+
+    info("Added specific_libraries column to invitations table")

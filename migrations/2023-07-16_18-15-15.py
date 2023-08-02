@@ -1,4 +1,4 @@
-from logging import error, migrations, warning
+from logging import error, info, warning
 
 from peewee import *
 from playhouse.migrate import *
@@ -36,4 +36,4 @@ def run():
             Settings.create(key='server_verified', value=Settings.get(Settings.key == 'plex_verified').value)
             Settings.delete().where(Settings.key == 'plex_verified').execute()
 
-            migrations("Converted plex settings to global settings")
+            info("Converted plex settings to global settings")

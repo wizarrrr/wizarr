@@ -1,4 +1,4 @@
-from logging import migrations
+from logging import info
 
 from peewee import *
 from peewee import CharField
@@ -10,9 +10,9 @@ from app.exceptions import MigrationError
 # Do not change the name of this file,
 # migrations are run in order of their filenames date and time
 
-# PLEASE USE migrations("MESSAGE HERE") FOR ANY INFO LOGGING
-# Example: migrations("Creating table users")
-# Feel free to use error and warning for any errors or warnings
+# PLEASE USE info("MESSAGE HERE") FOR ANY INFO LOGGING
+# Example: info("Creating table users")
+
 
 def run():
     migrator = SqliteMigrator(db)
@@ -29,4 +29,4 @@ def run():
         db.execute_sql("UPDATE users SET email = NULL WHERE email = ''")
         db.execute_sql("UPDATE users SET code = NULL WHERE code = 'empty'")
         db.execute_sql("UPDATE users SET code = NULL WHERE code = ''")
-        migrations("Removed not null from users.email and users.code")
+        info("Removed not null from users.email and users.code")

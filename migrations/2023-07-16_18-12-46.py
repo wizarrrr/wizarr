@@ -1,5 +1,5 @@
 from datetime import datetime
-from logging import error, migrations, warning
+from logging import error, info, warning
 
 from peewee import *
 from playhouse.migrate import *
@@ -30,4 +30,4 @@ def run():
             didRun = True
 
     if didRun:
-        migrations("Converted expires column to datetime or None")
+        info("Converted expires column to datetime or None")

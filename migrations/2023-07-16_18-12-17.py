@@ -1,4 +1,4 @@
-from logging import error, migrations, warning
+from logging import error, info, warning
 
 from peewee import *
 from playhouse.migrate import *
@@ -20,5 +20,5 @@ def run():
 
     expires = DateTimeField(null=True)  # Add Expires after update
     migrate(migrator.add_column('Users', 'expires', expires))
-    
-    migrations("Added expires column to users table")
+
+    info("Added expires column to users table")
