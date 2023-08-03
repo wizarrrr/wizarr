@@ -19,11 +19,14 @@ class AccountsModel(Model):
 
     # ANCHOR - Account Account Model
     id = StringType(required=False)
+    avatar = StringType(required=False)
+    display_name = StringType(required=False)
     username = StringType(required=True)
     email = EmailType(required=False)
     password = StringType(required=True)
     confirm_password = StringType(required=False)
     hashed_password = StringType(required=False)
+    role = StringType(required=False, default="user")
     last_login = DateTimeType(required=False, convert_tz=True)
     created = DateTimeType(required=False, convert_tz=True)
 
@@ -42,6 +45,12 @@ class AccountsModel(Model):
     def validate_confirm_password(self, values, value):
         if value and value != values["password"]:
             raise ValidationError("Passwords do not match")
+
+
+    # ANCHOR - Validate Role
+    def validate_role(self, _, value):
+        if value not in ["admin", "moderator", "user"]:
+            raise ValidationError("Invalid role value")
 
 
     # ANCHOR - Validate Username
@@ -64,7 +73,6 @@ class AccountsModel(Model):
     def hash_password(self):
         self.hashed_password = generate_password_hash(self.password, method="scrypt")
         return self.hashed_password
-
 
     # ANCHOR - Update Account
     def update_account(self, account: Accounts):

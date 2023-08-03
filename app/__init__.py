@@ -1,10 +1,10 @@
 from datetime import timedelta
-from json import dumps
+from json import dumps, load
 from os import environ, getenv, path, access, W_OK, R_OK
 from sys import argv
 
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, Blueprint
 from packaging import version
 from requests import get
 
@@ -18,6 +18,7 @@ from api import *
 from helpers.babel_locale import get_locale
 from tabulate import tabulate
 from termcolor import colored
+from notifications.notifications import *
 
 # Global App Version
 VERSION = "3.0.0"
@@ -47,7 +48,7 @@ def before_request():
 
 # Run database migrations scripts
 # skip if in debug mode unless --migrate is passed
-if not app.debug or [arg for arg in argv if arg == "--migrate"] or environ.get("DEBUG"):
+if not app.debug or getenv("MIGRATE"):
     migrate()
 
 # Add version to environment variables
@@ -124,7 +125,7 @@ log_data    = [
 
 colored_log_headers = [colored(header, "cyan") for header in log_headers]
 colored_log_data    = [[colored(data[0], "yellow"), colored(data[1], "green")] for data in log_data]
-print(tabulate(colored_log_data, colored_log_headers, tablefmt="heavy_grid"))
+if not app.debug: print(tabulate(colored_log_data, colored_log_headers, tablefmt="heavy_grid"))
 
 # Initialize App Extensions
 sess.init_app(app)
@@ -135,6 +136,7 @@ api.init_app(app)
 schedule.init_app(app)
 socketio.init_app(app, async_mode="gevent" if app.config["GUNICORN"] else "threading", cors_allowed_origins="*", async_handlers=True)
 babel.init_app(app, locale_selector=get_locale)
+oauth.init_app(app)
 
 # Clear cache on startup
 with app.app_context():
@@ -178,4 +180,5 @@ from app import plex
 from app import routes
 from app import scheduler
 from app import security
+from app import oauths
 from app import logging

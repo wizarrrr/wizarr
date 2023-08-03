@@ -1,163 +1,32 @@
 <div class="flex flex-col">
-
-    {% set sections = [
-        {
-            "title": _("Main Settings"),
-            "description": _("General settings for the server"),
-            "pages": [
-                {
-                    "title": _("Media Server"),
-                    "description": _("Configure your media server settings"),
-                    "icon": "fas fa-server",
-                    "url": "/partials/admin/settings/media",
-                    "push_url": "/admin/settings/media"
-                },
-                {
-                    "title": _("Requests"),
-                    "description": _("Add Jellyseerr, Overseerr or Ombi support"),
-                    "icon": "fas fa-link",
-                    "url": "/partials/admin/settings/requests",
-                    "push_url": "/admin/settings/requests"
-                },
-                {
-                    "title": _("API keys"),
-                    "description": _("Add API keys for external services"),
-                    "icon": "fas fa-key",
-                    "url": "/partials/admin/settings/api",
-                    "push_url": "/admin/settings/api"
-                },
-                {
-                    "title": _("Notifications"),
-                    "description": _("Configure notification settings"),
-                    "icon": "fas fa-bell",
-                    "url": "/partials/admin/settings/notifications",
-                    "push_url": "/admin/settings/notifications"
-                }
-            ]
-        },
-        {
-            "title": _("Account Settings"),
-            "description": _("Settings for user accounts"),
-            "pages": [
-                {
-                    "title": _("Profile"),
-                    "description": _("Configure your profile settings"),
-                    "icon": "fas fa-user-circle",
-                    "url": "/partials/admin/settings/profile",
-                    "push_url": "/admin/settings/profile"
-                },
-                {
-                    "title": _("Password"),
-                    "description": _("Change your password"),
-                    "icon": "fas fa-lock",
-                    "url": "/partials/admin/settings/password",
-                    "push_url": "/admin/settings/password"
-                },
-                {
-                    "title": _("Sessions"),
-                    "description": _("View and manage your active sessions"),
-                    "icon": "fas fa-desktop",
-                    "url": "/partials/admin/settings/sessions",
-                    "push_url": "/admin/settings/sessions"
-                },
-                {
-                    "title": _("Language"),
-                    "description": _("Change your language"),
-                    "icon": "fas fa-language",
-                    "url": "/partials/admin/settings/language",
-                    "push_url": "/admin/settings/language"
-                }
-            ]
-        },
-        {
-            "title": _("UI Settings"),
-            "description": _("Modify the look and feel of the server"),
-            "pages": [
-                {
-                    "title": _("Discord"),
-                    "description": _("Enable Discord page and configure settings"),
-                    "icon": "fab fa-discord",
-                    "url": "/partials/admin/settings/discord",
-                    "push_url": "/admin/settings/discord"
-                },
-                {
-                    "title": _("Custom HTML"),
-                    "description": _("Add Custom HTML page to help screen"),
-                    "icon": "fas fa-code",
-                    "url": "/partials/admin/settings/html",
-                    "push_url": "/admin/settings/html"
-                }
-            ]
-        },
-        {
-            "title": _("Advanced Settings"),
-            "description": _("Advanced settings for the server"),
-            "pages": [
-                {
-                    "title": _("Logs"),
-                    "description": _("View and download server logs"),
-                    "icon": "fas fa-file-alt",
-                    "url": "/partials/admin/settings/logs",
-                    "push_url": "/admin/settings/logs"
-                },
-                {
-                    "title": _("Tasks"),
-                    "description": _("View and manage scheduled tasks"),
-                    "icon": "fas fa-tasks",
-                    "url": "/partials/admin/settings/tasks",
-                    "push_url": "/admin/settings/tasks"
-                },
-                {
-                    "title": _("Updates"),
-                    "description": _("Check for and view updates"),
-                    "icon": "fas fa-sync",
-                    "url": "/partials/admin/settings/updates",
-                    "push_url": "/admin/settings/updates"
-                },
-                {
-                    "title": _("Backup"),
-                    "description": _("Create and restore backups"),
-                    "icon": "fas fa-hdd",
-                    "url": "/partials/admin/settings/backup",
-                    "push_url": "/admin/settings/backup"
-                },
-                {
-                    "title": _("About"),
-                    "description": _("View information about the server"),
-                    "icon": "fas fa-info-circle",
-                    "url": "/partials/admin/settings/about",
-                    "push_url": "/admin/settings/about"
-                }
-            ]
-        }
-    ] %}
-
     <div class="space-y-6">
         {% for section in sections %}
+            {% if not section.roles or current_user.role in section.roles or current_user.role == "admin" %}
+                <div class="settings-section">
+                    <!-- Subtitle -->
+                    <div class="flex flex-col">
+                        <div class="text-lg font-bold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
+                            {{ section.title }}
+                        </div>
+                        <div class="text-xs font-semibold leading-tight tracking-tight text-gray-900 md:text-sm dark:text-gray-400">
+                            {{ section.description }}
+                        </div>
+                    </div>
+                    <!-- End Subtitle -->
 
-        <div class="settings-section">
-            <!-- Subtitle -->
-            <div class="flex flex-col">
-                <div class="text-lg font-bold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
-                    {{ section.title }}
+                    <!-- Settings Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                        {% for page in section.pages %}
+                            {% if not page.roles or current_user.role in page.roles or current_user.role == "admin" %}
+                                {% with title=page.title, description=page.description, icon=page.icon, url=page.url, push_url=page.push_url %}
+                                    {% include "templates/settings_item.html" %}
+                                {% endwith %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <!-- End Settings Grid -->
                 </div>
-                <div class="text-xs font-semibold leading-tight tracking-tight text-gray-900 md:text-sm dark:text-gray-400">
-                    {{ section.description }}
-                </div>
-            </div>
-            <!-- End Subtitle -->
-
-            <!-- Settings Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                {% for page in section.pages %}
-                {% with title=page.title, description=page.description, icon=page.icon, url=page.url, push_url=page.push_url %}
-                {% include "templates/settings_item.html" %}
-                {% endwith %}
-                {% endfor %}
-            </div>
-            <!-- End Settings Grid -->
-        </div>
-
+            {% endif %}
         {% endfor %}
 
         <div id="settings-no-results" class="hidden text-center text-gray-500 dark:text-gray-400 pb-2">

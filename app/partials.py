@@ -1,4 +1,5 @@
 from datetime import datetime
+from json import loads
 from os import getenv, listdir, path
 
 from flask import abort, render_template, request
@@ -6,7 +7,8 @@ from flask_jwt_extended import current_user
 
 from app import app
 from helpers import get_api_keys, get_notifications, get_settings, get_users
-from models.database import Invitations, Sessions, Settings, Accounts
+from models.database import (Accounts, Invitations, OAuthClients, Sessions,
+                             Settings)
 
 from .scheduler import get_schedule
 from .security import login_required, login_required_unless_setup
@@ -53,12 +55,16 @@ def settings_partials(subpath):
     settings = get_settings()
     settings["admin"] = current_user
 
+    # Import settings.json.j2 from root directory
+    sections = app.jinja_env.get_template("settings.json.j2").render()
+    sections = loads(sections)
+
     # If no subpath is specified, render the admin dashboard
     if not subpath:
-        return render_template("admin/settings.html", settings_subpath="admin/settings/main.html", **settings)
+        return render_template("admin/settings.html", settings_subpath="admin/settings/main.html", **settings, sections=sections)
 
     # All possible admin partials
-    return render_template(f"admin/settings/{subpath}.html", **settings)
+    return render_template(f"admin/settings/{subpath}.html", **settings, sections=sections)
 
 
 
@@ -108,5 +114,8 @@ def table_partials(subpath):
 
     if subpath == "api-table":
         settings["api_keys"] = get_api_keys()
+
+    if subpath == "oauth-table":
+        settings["oauth_clients"] = list(OAuthClients.select().dicts())
 
     return render_template(f"tables/{subpath}.html", **settings)

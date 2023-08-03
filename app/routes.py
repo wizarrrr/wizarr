@@ -1,3 +1,4 @@
+from json import loads
 from logging import error
 from os import getenv, listdir, path
 
@@ -12,13 +13,13 @@ from app.security import (logged_out_required, login_required,
 from helpers import get_api_keys, get_setting, get_settings, is_invite_valid
 from models.database.settings import Settings
 
-@app.get('/test')
-def test():
-    return render_template('admin/settings/settings.json.j2')
 
 @app.context_processor
 def inject_user():
-    return { "server_name": get_setting("server_name", "Wizarr") }
+    return {
+        "current_user": current_user,
+        "server_name": get_setting("server_name", "Wizarr")
+    }
 
 # Static files
 @app.get("/favicon.ico")
@@ -81,12 +82,16 @@ def settings_routes(subpath):
     settings["auth"] = True if getenv("DISABLE_BUILTIN_AUTH", "false") == "true" else False
     settings["admin"] = current_user
 
+    # Import settings.json.j2 from root directory
+    sections = app.jinja_env.get_template("settings.json.j2").render()
+    sections = loads(sections)
+
     # If no subpath is specified, render the admin dashboard
     if not subpath:
-        return render_template("admin.html", subpath="admin/settings.html", settings_subpath="admin/settings/main.html", **settings)
+        return render_template("admin.html", subpath="admin/settings.html", settings_subpath="admin/settings/main.html", **settings, sections=sections)
 
     # All possible admin routes
-    return render_template("admin.html", subpath="admin/settings.html", settings_subpath=f"admin/settings/{subpath}.html", **settings)
+    return render_template("admin.html", subpath="admin/settings.html", settings_subpath=f"admin/settings/{subpath}.html", **settings, sections=sections)
 
 
 # All setup routes

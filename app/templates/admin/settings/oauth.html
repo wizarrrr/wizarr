@@ -1,0 +1,19 @@
+<div id="create-modal"></div>
+<div id="delete-modal"></div>
+
+<div hx-get="/partials/tables/oauth-table" hx-trigger="load" hx-target="#oauth_table" hx-swap="innerHTML" class="flex flex-col space-y-4 animate__animated animate__fadeIn">
+
+    <!-- Notifications Table -->
+    <div id="oauth_table">
+        <p id="error_message" class="hidden text-center dark:text-white"></p>
+        <div id="loader" class="text-center" role="status">
+            <i class="text-gray-900 dark:text-white fa-solid fa-spinner fa-spin fa-2xl"></i>
+        </div>
+    </div>
+
+    <div class="flex items-center justify-end space-x-2">
+        <button hx-get="/partials/modals/add-oauth" hx-target="#create-modal" hx-trigger="click" hx-swap="innerHTML" id="create-agent-button" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+            {{ _("Add OAuth") }}
+        </button>
+    </div>
+</div>

@@ -30,7 +30,7 @@ def run():
     }
 
     if settings.get("admin_username", None) and settings.get("admin_password", None):
-        Accounts.get_or_create(username=settings.get("admin_username"), password=settings.get("admin_password"))
+        Accounts.get_or_create(username=settings.get("admin_username"), password=settings.get("admin_password"), role="admin")
         Settings.delete().where((Settings.key == 'admin_username') | (Settings.key == 'admin_password') | (Settings.key == 'admin_key')).execute()
         info("Migrated admin credentials to Admins table")
 
