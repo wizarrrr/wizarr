@@ -9,10 +9,10 @@
     </p>
 </div>
 <div class="flex justify-end pt-2 space-x-4">
-    <button onclick="utils.closeModal(this)" type="button" class="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto">
+    <button onclick="utils.closeModal(this)" type="button" class="inline-flex w-full justify-center rounded bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto">
         {{ _("Cancel") }}
     </button>
-    <button onclick="revokeSession(this)" type="submit" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:w-auto" {% if not session_id %}disabled{% endif %}>
+    <button onclick="revokeSession(this)" type="submit" class="inline-flex w-full justify-center rounded bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:w-auto" {% if not session_id %}disabled{% endif %}>
         {{ _("Delete") }}
     </button>
 </div>

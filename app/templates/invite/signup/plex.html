@@ -12,7 +12,7 @@
 
     <div class="relative w-full">
         <!-- Carousel wrapper -->
-        <div id="carousel" class="relative overflow-hidden rounded-lg" style="height: 150px; transition: max-height 0.3s ease-in-out;">
+        <div id="carousel" class="relative overflow-hidden rounded" style="height: 150px; transition: max-height 0.3s ease-in-out;">
             <!-- Blank Carousel Item to prevent wrap around -->
             <div id="carousel-item-0" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800">test</div>
 
@@ -25,11 +25,11 @@
                                 {{ _("Invite Code") }}
                             </label>
 
-                            <input type="code" name="code" id="code" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="XMFGEJI" value="{{ code }}" required="">
+                            <input type="code" name="code" id="code" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="XMFGEJI" value="{{ code }}" required="">
                             <input type="hidden" name="token" id="token" value="">
                         </div>
 
-                        <button type="submit" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
+                        <button type="submit" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
                             {{ _("Join") }}
                         </button>
                     </form>
@@ -77,7 +77,7 @@
                     <p class="text-sm font-medium text-gray-900 dark:text-white">
                         {{ _("You're all set, click continue to get started and walkthrough how to use Plex!") }}
                     </p>
-                    <button onclick="location = '/help'" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
+                    <button onclick="location = '/help'" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
                         {{ _("Continue") }}
                     </button>
                 </div>
@@ -89,7 +89,7 @@
                     <p id="failed-flow" class="text-sm font-medium text-gray-900 dark:text-white">
                         {{ _("Something went wrong, please try again.") }}
                     </p>
-                    <button onclick="location.reload()" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
+                    <button onclick="location.reload()" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
                         {{ _("Retry") }}
                     </button>
                 </div>

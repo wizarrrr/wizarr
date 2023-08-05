@@ -1,6 +1,6 @@
-<div id="modal" class="opacity-100 relative bg-white rounded-lg shadow-2xl dark:bg-gray-700 " x-data="{openedIndexes: []}">
+<div id="modal" class="opacity-100 relative bg-white rounded shadow-2xl dark:bg-gray-700 " x-data="{openedIndexes: []}">
     <button type="button" onclick="utils.closeModal()"
-        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
         data-modal-hide="authentication-modal">
         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg">
@@ -17,21 +17,21 @@
         <div class="py-3">
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User ID</label>
             <input disabled type="text" name=""
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 required value="{{ user['Id'] }}">
         </div>
         {% if server_type == "jellyfin" %}
         <div class="py-3">
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Login</label>
             <input disabled type="text" name=""
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 required
                 value="{{ (user['LastLoginDate']|string)[0:10] }} {{ (user['LastActivityDate']|string)[11:16] }}">
         </div>
         <div class="py-3">
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Activity</label>
             <input disabled type="text" name=""
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 required
                 value="{{ (user['LastActivityDate']|string)[0:10] }} {{ (user['LastActivityDate']|string)[11:16] }}">
         </div>
@@ -63,7 +63,7 @@
                         <label for="{{ key }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                             key }}</label>
                         <input type="text" name="{{ key }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                             required value="{{ value }}">
                     </div>
                     {% endif %}
@@ -74,7 +74,7 @@
                         <label for="{{ key }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                             key }}</label>
                         <select name="{{ key }}" id="{{ key }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500">
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500">
                             <option {% if value==True %} selected {% endif %} value="True">True</option>
                             <option {% if value==False %} selected {% endif %} value="False">False</option>
                         </select>
@@ -108,7 +108,7 @@
                         <label for="{{ key }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                             key }}</label>
                         <input type="text" name="{{ key }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                             required value="{{ value }}">
                     </div>
                     {% endif %}
@@ -119,7 +119,7 @@
                         <label for="{{ key }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                             key }}</label>
                         <select name="{{ key }}" id="{{ key }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500">
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500">
                             <option {% if value==True %} selected {% endif %} value="True">True</option>
                             <option {% if value==False %} selected {% endif %} value="False">False</option>
                         </select>
@@ -132,7 +132,7 @@
             </div>
             <div class="pt-2">
                 <button type="submit" hx-post="/user/{{ db_id }}" hx-target="#user_table" hx-swap="outerHTML"
-                onclick="document.getElementById('modal').classList.add('hidden');" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">Save</button>
+                onclick="document.getElementById('modal').classList.add('hidden');" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">Save</button>
             </div>
         </form>
     </div>

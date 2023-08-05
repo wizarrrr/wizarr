@@ -10,4 +10,5 @@ class Sessions(BaseModel):
     user_agent = CharField()
     ip = CharField()
     expires = DateTimeField(null=True, default=None)
+    mfa_id = CharField(null=True, default=None)
     created = DateTimeField(constraints=[SQL("DEFAULT (datetime('now'))")])

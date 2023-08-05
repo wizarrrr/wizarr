@@ -43,25 +43,25 @@ def login_to_account(username: str, password: str, remember: bool = False, respo
     # Get the admin user
     user = auth.get_admin()
 
-    # If we want to return the response instead of the user object
-    if response:
+    # If we want to return a user instead of a response
+    if not response: return user
 
-        # Create a response object
-        resp = jsonify({
-            "message": "Login successful",
+    # Create a response object
+    resp = jsonify({
+        "message": "Login successful",
+        "auth": {
             "user": AccountsModel(model_to_dict(user, exclude=[Accounts.password])).to_primitive(),
-        })
+            "token": token
+        }
+    })
 
-        # Set the jwt token in the cookie
-        auth.set_access_cookies(resp, token)
+    # Set the jwt token in the cookie
+    auth.set_access_cookies(resp, token)
 
-        # Log message and return response
-        info(f"Account {user.username} successfully logged in")
+    # Log message and return response
+    info(f"Account {user.username} successfully logged in")
 
-        return resp
-
-    # Return the user object
-    return user
+    return resp
 
 
 # ANCHOR - Logout of Account

@@ -4,7 +4,7 @@ from os import environ, getenv, path, access, W_OK, R_OK
 from sys import argv
 
 from dotenv import load_dotenv
-from flask import Flask, Blueprint
+from flask import Flask
 from packaging import version
 from requests import get
 

@@ -14,7 +14,7 @@
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Wizarr</span>
             </a>
             <div class="flex md:order-2">
-                <a href="/" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-6 py-1.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                <a href="/" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-6 py-1.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
                     Homepage
                 </a>
             </div>
@@ -22,38 +22,75 @@
     </nav>
 
     <section class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 w-full">
-        <div class="w-full rounded-lg md:mt-0 sm:max-w-md xl:p-0 md:shadow dark:bg-transparent md:bg-white md:dark:border md:dark:border-gray-700">
-            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                    {{ _("Login") }}
-                </h1>
-                <form class="space-y-4 md:space-y-6" onsubmit="event.preventDefault(); login(this);">
+        <div class="w-full rounded md:mt-0 sm:max-w-md xl:p-0 md:shadow dark:bg-transparent md:bg-white md:dark:border md:dark:border-gray-700">
+            <div class="p-6 sm:p-8">
+
+                <form id="username-form" class="space-y-4 md:space-y-6" onsubmit="event.preventDefault(); checkMFA()">
+                    <div class="flex justify-center flex-col space-y-4">
+                        <h1 class="text-gray-900 dark:text-white text-2xl font-semibold">{{ _("Login with your account") }}</h1>
+                    </div>
+
                     <div>
                         <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username") }}</label>
-                        <input type="username" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="marvin" required="" autocomplete="username" autofocus>
+                        <input type="username" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="marvin" required="" autocomplete="username webauthn" autofocus>
                     </div>
+
+                    <div id="continue-btn">
+                        <button type="submit" class="w-full text-white bg-secondary hover:bg-secondary_hover focus:ring-4 focus:outline-none focus:ring-grey-300 font-medium rounded text-sm px-5 py-2.5 text-center disabled:opacity-50" disabled>
+                            {{ _("Continue") }}
+                        </button>
+                    </div>
+                </form>
+
+                <form id="login-form" class="space-y-4 md:space-y-6 hidden" onsubmit="event.preventDefault(); loginPassword()">
+                    <div class="flex justify-center flex-col space-y-4">
+                        <h1 class="text-gray-900 dark:text-white text-2xl font-semibold">{{ _("Login with your account") }}</h1>
+                    </div>
+
                     <div>
+                        <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username") }}</label>
+                        <input type="username" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="marvin" required="" autocomplete="username" autofocus>
+                    </div>
+
+                    <div id="password-field">
                         <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Password") }}</label>
-                        <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" autocomplete="pasword">
-                        <div>
-                            <a href="/forgot-password" class="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
-                                {{ _("Forgot your password?") }}
+                        <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 rounded text-gray-900 sm:text-sm focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" autocomplete="pasword">
+                    </div>
+
+                    <div class="space-y-2">
+                        <button type="submit" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
+                            {{ _("Login") }}
+                        </button>
+
+                        <div id="mfa-btn" class="flex justify-center items-center hidden">
+                            <a onclick="useMFA()" class="text-secondary text-sm font-medium cursor-pointer">
+                                {{ _("Login with MFA") }}
                             </a>
                         </div>
                     </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-start">
-                            <div class="flex items-center h-5">
-                                <input name="remember" id="remember" aria-describedby="remember" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-amber-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary dark:ring-offset-gray-800">
-                            </div>
-                            <div class="ml-3 text-sm">
-                                <label for="remember" class="text-gray-500 dark:text-gray-300">{{ _("Remember me") }}</label>
-                            </div>
+                </form>
+
+                <div id="mfa-form" class="space-y-4 md:space-y-6 hidden">
+                    <div class="flex justify-center items-center py-4 flex-col space-y-8">
+                        <i class="fa-solid fa-fingerprint text-gray-900 dark:text-gray-300 text-7xl"></i>
+                        <h1 class="text-gray-900 dark:text-white font-extralight text-xl text-center font-semibold">{{ _("Use your Fingerprint or Face Recognition to Verify your Identity") }}</h1>
+                        <p class="text-gray-900 dark:text-white font-light text-xs text-center">{{ _("Press the button below and follow your browser's steps to login") }}</p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div id="mfa-continue-btn">
+                            <button onclick="loginMFA()" class="w-full text-white bg-secondary hover:bg-secondary_hover focus:ring-4 focus:outline-none focus:ring-grey-300 font-medium rounded text-sm px-5 py-2.5 text-center">
+                                {{ _("Continue") }}
+                            </button>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <a onclick="usePassword()" class="text-primary text-sm font-medium cursor-pointer">
+                                {{ _("Login with Password") }}
+                            </a>
                         </div>
                     </div>
-                    <div id="error" class="text-red-500 text-center"></div>
-                    <button type="submit" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">{{ _("Sign in") }}</button>
-                </form>
+                </div>
+
             </div>
         </div>
         <div class="container flex flex-col items-center justify-center mx-auto text-secondary py-2 text-xs">
@@ -61,57 +98,140 @@
                 <a href="{{ APP_GITHUB_URL }}">{{ APP_NAME }}</a>&nbsp;-&nbsp;{{ _("Version") }}&nbsp;<a href="{{ APP_GITHUB_URL }}/releases/tag/{{ APP_VERSION }}">{{ APP_VERSION }}</a>&nbsp;-&nbsp;{% if APP_RELEASED %} {{ _("Stable") }} {% else %} {{ _("Beta") }} {% endif %}
             </div>
             <div style="font-size: 10px;" class="cursor-pointer select-none">
-                <a onclick="window.toggleColorTheme()">{{ _("Toggle Theme") }}</a>
+                <a onclick="utils.theme.toggleColorTheme()">{{ _("Toggle Theme") }}</a>
             </div>
         </div>
     </section>
 </div>
 
-<style>
-    body {
-        padding: 0px !important;
-    }
-</style>
-
 <script>
-    async function login(that) {
-        const form = new FormData(that);
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the continue-btn button and enable it
+        const continueBtn = document.getElementById("continue-btn").querySelector("button");
+        continueBtn.disabled = false;
 
-        window.utils.submitSpinner(that, true);
+        // Initialize authentication and start MFA autofill
+        const auth = new utils.Authentication();
+        auth.mfaAuthentication(false, true);
+    });
 
-        form.delete("remember");
+    function buttonLoading(button) {
+        // Check if data-text attribute exists
+        if (button.dataset.text) {
+            // Set button inner text to data-text attribute
+            button.innerHTML = button.dataset.text;
 
-        if (!document.getElementById("remember").checked) {
-            form.append("remember", false);
-        } else {
-            form.append("remember", true);
-        }
+            // Remove data-text attribute
+            button.removeAttribute("data-text");
 
-        const response = await fetch("/api/auth/login", {
-            method: "POST",
-            body: form,
-            credentials: "same-origin",
-            headers: {
-                "X-CSRF-TOKEN": getCookie("csrf_access_token"),
-            },
-        });
+            // Enable button
+            button.disabled = false;
 
-        if (response.status != 200) {
-            window.utils.submitSpinner(that, false);
-            error = await response.json();
-
-            if (error.msg == undefined) {
-                document.getElementById("error").innerHTML = "{{ _("Internal server error") }}";
-                return;
-            }
-
-            document.getElementById("error").innerHTML = error.msg;
+            // Stop function
             return;
         }
 
-        window.utils.submitSpinner(that, false);
+        // Disable button
+        button.disabled = true;
 
-        window.location.href = "/admin";
+        // Add button inner text to variable
+        button.dataset.text = button.innerHTML;
+
+        // Add loading animation
+        button.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-white"></i>';
+    }
+
+    function usePassword() {
+        // Hide MFA form and show login form
+        document.getElementById("mfa-form").classList.add("hidden");
+        document.getElementById("username-form").classList.add("hidden");
+        document.getElementById("login-form").classList.remove("hidden");
+
+        // If mfa_available is true, show Login with MFA button
+        if (document.getElementById("login-form").dataset.mfa_available === "true") {
+            document.getElementById("mfa-btn").classList.remove("hidden");
+        }
+    }
+
+    function useMFA() {
+        // Hide login form and show MFA form
+        document.getElementById("login-form").classList.add("hidden");
+        document.getElementById("mfa-form").classList.remove("hidden");
+    }
+
+    async function checkMFA() {
+        // Get continue button
+        const button = document.getElementById("continue-btn").querySelector("button");
+
+        // Start loading animation
+        buttonLoading(button);
+
+        // Get username from form
+        const username = document.getElementById("username").value;
+
+        // Check if username is empty
+        if (username === "") {
+            // Stop loading animation
+            buttonLoading(button);
+
+            // Show error message
+            toast.errorToast("{{ _('Please enter your username') }}");
+
+            // Stop function
+            return;
+        }
+
+        try {
+            // Initialize authentication class
+            const auth = new utils.Authentication();
+
+            // Check if MFA is enabled
+            if (await auth.isMFAEnabled(username)) {
+                // Hide login form
+                document.getElementById("username-form").classList.add("hidden");
+
+                // Show MFA form
+                document.getElementById("mfa-form").classList.remove("hidden");
+
+                // Set data-action attribute to mfa
+                document.getElementById("login-form").dataset.mfa_available = "true";
+
+                // Stop loading animation
+                buttonLoading(button);
+            } else {
+                // Show password field and login button
+                usePassword();
+
+                // Stop loading animation
+                buttonLoading(button);
+            }
+        } catch (error) {
+            // Stop loading animation
+            buttonLoading(button);
+        }
+    }
+
+    async function loginMFA() {
+        // Get username from form
+        const username = document.getElementById("username").value;
+
+        // Initialize authentication class
+        const auth = new utils.Authentication();
+
+        // Login with MFA
+        auth.mfaAuthentication(username);
+    }
+
+    async function loginPassword() {
+        // Get username and password from form
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        // Initialize authentication class
+        const auth = new utils.Authentication();
+
+        // Login with username and password
+        auth.login(username, password);
     }
 </script>
 

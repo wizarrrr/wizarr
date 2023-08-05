@@ -8,4 +8,4 @@ import './plexAuth';
 import './customToastify';
 import './toggleMenu';
 import './closeModal';
-
+import './authentication';

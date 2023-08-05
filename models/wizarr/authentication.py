@@ -17,6 +17,9 @@ class AuthenticationModel(Model):
 
     # Private Variables
     _user: Accounts | None = None
+    _mfa: bool = False
+    _user_id: int | None = None
+    _mfa_id: str | None = None
 
     # ANCHOR - Authentication Model
     username = StringType(required=True)
@@ -25,15 +28,33 @@ class AuthenticationModel(Model):
 
     # ANCHOR - Initialize
     def __init__(self, *args, **kwargs):
+        # Get the mfa value from the kwargs and remove it
+        MFA = kwargs.get("mfa", False)
+        kwargs.pop("mfa", None)
+
+        # Set the mfa value to the class
+        self._mfa = MFA
+
+        # Get the user_id value from the kwargs and remove it
+        self._user_id = kwargs.get("user_id", None)
+        kwargs.pop("user_id", None)
+
+        # Get the mfa_id value from the kwargs and remove it
+        self._mfa_id = kwargs.get("mfa_id", None)
+        kwargs.pop("mfa_id", None)
+
         super().__init__(*args, **kwargs)
 
         # Get the user from the database
         self._get_user()
 
+        # Skip the rest if mfa is passed
+        if (MFA): return
+
         # Migrate old passwords if needed
         self._migrate_password()
 
-        # Validate
+        # Validate unless partial is set
         self.validate()
 
 
@@ -44,8 +65,14 @@ class AuthenticationModel(Model):
         :return: An admin
         """
 
+        # Create admin variable
+        admin: Accounts | None = None
+
         # Get the user from the database
-        admin = Accounts.get_or_none(Accounts.username == self.username)
+        if not self._mfa and self.username:
+            admin = Accounts.get_or_none(Accounts.username == self.username)
+        elif self._mfa and self._user_id:
+            admin = Accounts.get_or_none(Accounts.id == self._user_id)
 
         # Check if the user exists
         if admin is None:
@@ -120,7 +147,7 @@ class AuthenticationModel(Model):
         expiry = datetime.utcnow() + timedelta(days=30) if self.remember else datetime.utcnow() + timedelta(hours=1)
 
         # Store the admin key in the database
-        Sessions.create(session=jti, user=self._user.id, ip=ip_addr, user_agent=user_agent, expires=expiry)
+        Sessions.create(session=jti, user=self._user.id, ip=ip_addr, user_agent=user_agent, expires=expiry, mfa_id=self._mfa_id)
 
         # Return the token
         return token

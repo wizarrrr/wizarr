@@ -4,7 +4,7 @@
     <table class="w-full whitespace-nowrap">
         <tbody>
             {% for session in sessions %}
-            <tr tabindex="0" class="focus:outline-none h-16 rounded-lg border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
+            <tr tabindex="0" class="focus:outline-none h-16 rounded border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
 
                 {% if session.ip %}
                 <td class="text-right">
@@ -23,7 +23,7 @@
                 {% endif %}
 
                 <td class="p-5 pr-8 text-right">
-                    <button hx-get="/partials/modals/revoke-session?session_id={{ session.id }}&admin_id={{ admin.id }}" hx-target="#delete-modal" hx-trigger="click" id="revoke-session-button" class="bg-primary focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-primary">
+                    <button hx-get="/partials/modals/revoke-session?session_id={{ session.id }}&admin_id={{ admin.id }}" hx-target="#delete-modal" hx-trigger="click" id="revoke-session-button" class="bg-primary focus:outline-none text-white font-medium rounded px-4 py-2.5 text-sm dark:bg-primary">
                         {{ _("Revoke") }}
                     </button>
 

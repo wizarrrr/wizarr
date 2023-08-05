@@ -2,7 +2,7 @@
 <div class="overflow-x-auto">
     <table class="w-full whitespace-nowrap">
         <thead>
-            <tr class="rounded-lg border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white text-xs text-left">
+            <tr class="rounded border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white text-xs text-left">
                 <th class="pl-7 py-3">{{ _("Invite Code") }}</th>
                 <th class="py-3 text-center">{{ _("Used") }}</th>
                 <th class="py-3 text-center">{{ _("Expired") }}</th>
@@ -21,7 +21,7 @@
         <tbody>
 
             {% for invite in invitations %}
-            <tr id="invite-{{invite}}" tabindex="0" class="focus:outline-none h-16 rounded-lg border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
+            <tr id="invite-{{invite}}" tabindex="0" class="focus:outline-none h-16 rounded border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
 
                 <td class="pl-5">
                     {% if invite.code %}
@@ -89,14 +89,14 @@
 
                 <td class="p-5 pr-8 text-right">
                     <div class="flex col justify-end">
-                        <button class="focus:ring-2 p-2 rounded-md focus:outline-none" onclick="utils.toggleMenu(this)" role="button" aria-label="option">
+                        <button class="focus:ring-2 p-2 rounded focus:outline-none" onclick="utils.toggleMenu(this)" role="button" aria-label="option">
                             <i class="transition-all fa-solid fa-ellipsis"></i>
                         </button>
                         <div class="menu flex row overflow-hidden transition-all items-center space-x-2 ml-2" style="max-width: 0px;">
-                            <button hx-get="" hx-target="" hx-trigger="click" class="bg-gray-600 focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-gray-600">
+                            <button hx-get="" hx-target="" hx-trigger="click" class="bg-gray-600 focus:outline-none text-white font-medium rounded px-4 py-2.5 text-sm dark:bg-gray-600">
                                 {{ _("Edit") }}
                             </button>
-                            <button onclick="deleteInvite(this, '{{ invite.id }}')" class="bg-primary focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-primary">
+                            <button onclick="deleteInvite(this, '{{ invite.id }}')" class="bg-primary focus:outline-none text-white font-medium rounded px-4 py-2.5 text-sm dark:bg-primary">
                                 {{ _("Delete") }}
                             </button>
                         </div>

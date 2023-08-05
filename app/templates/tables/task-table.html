@@ -3,7 +3,7 @@
     {% if tasks %}
     <table class="w-full whitespace-nowrap">
         <thead>
-            <tr class="rounded-lg border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white text-xs text-left">
+            <tr class="rounded border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white text-xs text-left">
                 <th class="pl-5 py-3">{{ _("Job Name") }}</th>
                 <th class="pl-5 py-3">{{ _("Next Execution") }}</th>
                 <th class="pl-5 py-3"></th>
@@ -13,7 +13,7 @@
         </thead>
         <tbody>
             {% for task in tasks %}
-            <tr tabindex="0" class="focus:outline-none h-16 rounded-lg border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
+            <tr tabindex="0" class="focus:outline-none h-16 rounded border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
 
                 {% if task.name %}
                 <td class="text-right">
@@ -36,7 +36,7 @@
                 {% endif %}
 
                 <td class="p-5 text-right">
-                    <button hx-get="/partials/modals/run-task?task={{ task.id }}" hx-target="#run-modal" hx-trigger="click" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
+                    <button hx-get="/partials/modals/run-task?task={{ task.id }}" hx-target="#run-modal" hx-trigger="click" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
                         {{ _("Run Now") }}
                     </button>
                 </td>
@@ -118,7 +118,7 @@
     async function refreshTaskTable() {
         let task_table = document.querySelector('#task_table_container');
         let response = await fetch(task_table.getAttribute('hx-get'))
-        
+
         let html = await response.text();
         document.querySelector('#task_table').innerHTML = html;
 

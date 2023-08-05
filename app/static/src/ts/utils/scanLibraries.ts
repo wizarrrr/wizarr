@@ -207,7 +207,7 @@ class ScanLibraries {
             "w-full",
             "py-2",
             "px-4",
-            "rounded-lg",
+            "rounded",
             "cursor-pointer"
         );
 

@@ -7,8 +7,13 @@ from flask_jwt_extended import current_user
 
 from app import app
 from helpers import get_api_keys, get_notifications, get_settings, get_users
-from models.database import (Accounts, Invitations, OAuthClients, Sessions,
-                             Settings)
+
+from models.database.accounts import Accounts
+from models.database.invitations import Invitations
+from models.database.oauth_clients import OAuthClients
+from models.database.sessions import Sessions
+from models.database.settings import Settings
+from models.database.mfa import MFA
 
 from .scheduler import get_schedule
 from .security import login_required, login_required_unless_setup
@@ -117,5 +122,8 @@ def table_partials(subpath):
 
     if subpath == "oauth-table":
         settings["oauth_clients"] = list(OAuthClients.select().dicts())
+
+    if subpath == "mfa-table":
+        settings["mfa_keys"] = list(MFA.select().where(MFA.user_id == current_user["id"]).dicts())
 
     return render_template(f"tables/{subpath}.html", **settings)

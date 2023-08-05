@@ -1,0 +1,42 @@
+<div class="md:border md:dark:border-gray-700 text-gray-900 dark:text-white overflow-hidden">
+    <div class="border-b dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white p-4 hidden md:flex justify-between items-center">
+        <h3 class="font-bold ml-0 md:ml-2">Your Passkeys</h3>
+        <button class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
+            {{ _("Add a passkey") }}
+        </button>
+    </div>
+
+    <div class="grid grid-cols-1">
+        {% for mfa in mfa_keys %}
+        <div class="flex flex-row py-4 md:px-4 {% if not loop.last %}border-b dark:border-gray-700{% endif %}">
+
+            <div class="flex flex-grow items-center justify-start space-x-0 md:space-x-3 w-2/3">
+                <div class="aspect-square h-full bg-gray-100 rounded hidden md:flex items-center justify-center dark:bg-gray-700">
+                    <i class="fa-solid fa-key text-gray-400"></i>
+                </div>
+                <div class="dark:text-white font-bold flex flex-col items-start justify-between w-full">
+                    <p class="text-lg truncate w-full">{{ mfa.name }}</p>
+                    <p class="text-xs truncate text-gray-400 w-full">Added {{ (mfa.created_at|string)[0:16]|arrow_humanize() }}</p>
+                </div>
+            </div>
+
+            <div class="flex flex-row space-x-2 justify-end items-center w-1/2">
+                <button class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
+                    <i class="fa-solid fa-edit"></i>
+                </button>
+                <button onclick="api.mfa.deleteMFA('{{ mfa.id }}')" class="bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-red-600 dark:hover:bg-primary_hover">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <div class="border-t dark:border-gray-700 text-gray-900 dark:text-white pt-4 flex md:hidden justify-end items-center">
+        <button class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
+            {{ _("Add a passkey") }}
+        </button>
+    </div>
+
+</div>

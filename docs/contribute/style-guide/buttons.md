@@ -17,7 +17,7 @@ Use the following classes to style a default button:
 .focus:outline-none
 .text-white
 .font-medium
-.rounded-lg
+.rounded
 .px-5
 .py-2.5
 .text-sm
@@ -27,7 +27,7 @@ Use the following classes to style a default button:
 
 Copy/Paste
 ```
-bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover
+bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover
 ```
 
 ### Secondary Button
@@ -40,7 +40,7 @@ Use the following classes to style a secondary button:
 .focus:outline-none
 .text-white
 .font-medium
-.rounded-lg
+.rounded
 .px-5
 .py-2.5
 .text-sm
@@ -50,7 +50,7 @@ Use the following classes to style a secondary button:
 
 Copy/Paste
 ```
-bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover
+bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover
 ```
 
 ### Delete Button
@@ -63,7 +63,7 @@ Use the following classes to style a delete button:
 .focus:outline-none
 .text-white
 .font-medium
-.rounded-lg
+.rounded
 .px-5
 .py-2.5
 .text-sm
@@ -73,7 +73,7 @@ Use the following classes to style a delete button:
 
 Copy/Paste
 ```
-bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-red-600 dark:hover:bg-primary_hover
+bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-red-600 dark:hover:bg-primary_hover
 ```
 
 ### Default Link

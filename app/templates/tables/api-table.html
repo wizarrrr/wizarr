@@ -4,7 +4,7 @@
     <table class="w-full whitespace-nowrap">
         <tbody>
             {% for api_key in api_keys %}
-            <tr tabindex="0" class="focus:outline-none h-16 rounded-lg border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
+            <tr tabindex="0" class="focus:outline-none h-16 rounded border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
 
                 <td class="text-right">
                     <div class="flex flex-col items-start pl-5">
@@ -17,10 +17,10 @@
                 </td>
 
                 <td class="p-5 hidden md:block text-right">
-                    <button onclick="copyKey('{{ api_key.key }}', this)" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
+                    <button onclick="copyKey('{{ api_key.key }}', this)" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
                         <i class="fas fa-copy"></i>
                     </button>
-                    <button hx-get="/partials/modals/delete-api-key?api={{ api_key.id }}" hx-target="#delete-modal" hx-trigger="click" id="revoke-api-button" class="bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-red-600 dark:hover:bg-primary_hover">
+                    <button hx-get="/partials/modals/delete-api-key?api={{ api_key.id }}" hx-target="#delete-modal" hx-trigger="click" id="revoke-api-button" class="bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-red-600 dark:hover:bg-primary_hover">
                         <i class="fas fa-trash"></i>
                     </button>
                 </td>

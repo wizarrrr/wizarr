@@ -20,6 +20,7 @@ from .tasks_api import api as tasks_api
 from .users_api import api as users_api
 from .logging_api import api as logging_api
 from .oauth_api import api as oauth_api
+from .mfa_api import api as mfa_api
 
 authorizations = {
     "jsonWebToken": {
@@ -101,6 +102,7 @@ api.add_namespace(tasks_api)
 api.add_namespace(users_api)
 api.add_namespace(logging_api)
 api.add_namespace(oauth_api)
+api.add_namespace(mfa_api)
 
 # Potentially remove this if it becomes unstable
 # api.add_namespace(live_notifications_api)

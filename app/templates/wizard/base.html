@@ -12,13 +12,13 @@
     <h1 class="text-3xl font-semibold text-center text-gray-900 dark:text-white">{{ _("Getting Started!") }}</h1>
 </div>
 
-<div id="carousel" class="relative overflow-hidden rounded-lg h-screen" style="transition: max-height 0.5s ease-in-out;">
+<div id="carousel" class="relative overflow-hidden rounded h-screen" style="transition: max-height 0.5s ease-in-out;">
     <div id="carousel-item-100" class="hidden duration-700 ease-in-out bg-gray-100 dark:bg-gray-900"></div>
     {% for partial in partials %}
     <div id="carousel-item-{{ loop.index }}" class="hidden duration-700 ease-in-out bg-gray-100 dark:bg-gray-900" data-current="{{ partial }}">
         <section class="bg-gray-50 dark:bg-gray-900">
             <div class="flex flex-col items-center justify-center w-full md:w-2/3 lg:w-4/12 py-6 md:mx-auto md:container px-2 sm:px-4 md:px-0">
-                <div class="relative w-full bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700">
+                <div class="relative w-full bg-white rounded shadow dark:border dark:bg-gray-800 dark:border-gray-700">
                     <div class="p-6 space-y-4 md:space-y-6 sm:p-8 text-gray-900 dark:text-white">
                         {% include partial %}
                     </div>
@@ -30,18 +30,18 @@
 </div>
 
 <div id="navBtns" class="flex justify-center mb-6 space-x-2">
-    <button id="backBtn" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+    <button id="backBtn" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
         <i class="fas fa-arrow-left mr-2"></i>
         {{ _("Back") }}
     </button>
-    <button id="nextBtn" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+    <button id="nextBtn" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
         {{ _("Next") }}
         <i class="fas fa-arrow-right ml-2"></i>
     </button>
 </div>
 
 <div id="openServer" class="hidden flex flex-col justify-center mb-6 mt-2 space-y-2 items-center">
-    <button onclick="openServer()" class="inline-flex items-center py-2 px-6 text-sm font-medium text-center text-white bg-primary rounded-lg hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover space-x-2">
+    <button onclick="openServer()" class="inline-flex items-center py-2 px-6 text-sm font-medium text-center text-white bg-primary rounded hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover space-x-2">
         <span>{{ _("Open") }} {{ server_type|capitalize }}</span>
         <i class="fa-solid fa-up-right-from-square"></i>
     </button>

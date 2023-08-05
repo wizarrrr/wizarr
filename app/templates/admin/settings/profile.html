@@ -4,24 +4,24 @@
         <!-- Display Name -->
         <div>
             <label for="account_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Display Name") }}</label>
-            <input type="account_name" name="account_name" id="account_name" value="{{ admin.display_name|default('') }}" placeholder="Guido Rossum" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if account_name %}{{ account_name }}{% endif %}" required="">
+            <input type="account_name" name="account_name" id="account_name" value="{{ admin.display_name|default('') }}" placeholder="Guido Rossum" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if account_name %}{{ account_name }}{% endif %}" required="">
         </div>
 
         <!-- Username -->
         <div>
             <label for="account_username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username") }}</label>
-            <input type="account_username" name="account_username" id="account_username" value="{{ admin.username|default('') }}" placeholder="bleak182" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if account_username %}{{ account_username }}{% endif %}" required="">
+            <input type="account_username" name="account_username" id="account_username" value="{{ admin.username|default('') }}" placeholder="bleak182" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if account_username %}{{ account_username }}{% endif %}" required="">
         </div>
 
         <!-- Email Address -->
         <div>
             <label for="account_email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Email Address") }}</label>
-            <input type="account_email" name="account_email" id="account_email" value="{{ admin.email|default('') }}" placeholder="marvin@wizarr.dev" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if account_email %}{{ account_email }}{% endif %}" required="">
+            <input type="account_email" name="account_email" id="account_email" value="{{ admin.email|default('') }}" placeholder="marvin@wizarr.dev" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if account_email %}{{ account_email }}{% endif %}" required="">
         </div>
 
         <!-- Save Button -->
         <div class="flex items-center justify-end mt-4">
-            <button type="submit" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+            <button type="submit" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
                 {{ _("Update") }}
             </button>
         </div>

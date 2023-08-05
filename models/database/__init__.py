@@ -10,8 +10,9 @@ from models.database.sessions import Sessions
 from models.database.settings import Settings
 from models.database.users import Users
 from models.database.oauth_clients import OAuthClients
+from models.database.mfa import MFA
 
-all_models = [Accounts, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions, OAuthClients]
+all_models = [Accounts, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions, OAuthClients, MFA]
 
 try:
     db.create_tables(all_models, safe=True)

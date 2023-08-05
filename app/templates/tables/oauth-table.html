@@ -4,7 +4,7 @@
     <table class="w-full whitespace-nowrap">
         <tbody>
             {% for oauth in oauth_clients %}
-            <tr tabindex="0" class="focus:outline-none h-16 rounded-lg border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
+            <tr tabindex="0" class="focus:outline-none h-16 rounded border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
 
                 {% if oauth.name %}
                 <td class="text-right">
@@ -25,14 +25,14 @@
 
                 <td class="p-5 pr-8 text-right">
                     <div class="flex col justify-end">
-                        <button class="focus:ring-2 p-2 rounded-md focus:outline-none" onclick="utils.toggleMenu(this)" role="button" aria-label="option">
+                        <button class="focus:ring-2 p-2 rounded focus:outline-none" onclick="utils.toggleMenu(this)" role="button" aria-label="option">
                             <i class="transition-all fa-solid fa-ellipsis"></i>
                         </button>
                         <div class="menu flex row overflow-hidden transition-all items-center space-x-2 ml-2" style="max-width: 0px;">
-                            <button hx-get="/partials/modals/edit-oauth-agent?agent={{ oauth.id }}" hx-target="#edit-modal" hx-trigger="click" id="edit-agent-button" class="bg-gray-600 focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-gray-600">
+                            <button hx-get="/partials/modals/edit-oauth-agent?agent={{ oauth.id }}" hx-target="#edit-modal" hx-trigger="click" id="edit-agent-button" class="bg-gray-600 focus:outline-none text-white font-medium rounded px-4 py-2.5 text-sm dark:bg-gray-600">
                                 {{ _("Edit") }}
                             </button>
-                            <button hx-get="/partials/modals/delete-oauth-agent?agent={{ oauth.id }}" hx-target="#delete-modal" hx-trigger="click" id="delete-agent-button" class="bg-primary focus:outline-none text-white font-medium rounded-lg px-4 py-2.5 text-sm dark:bg-primary">
+                            <button hx-get="/partials/modals/delete-oauth-agent?agent={{ oauth.id }}" hx-target="#delete-modal" hx-trigger="click" id="delete-agent-button" class="bg-primary focus:outline-none text-white font-medium rounded px-4 py-2.5 text-sm dark:bg-primary">
                                 {{ _("Delete") }}
                             </button>
                         </div>

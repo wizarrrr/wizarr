@@ -1,10 +1,10 @@
 def OAuth() -> dict:
     # Import the required modules
     from flask_pyoidc.provider_configuration import ProviderMetadata, ClientMetadata, ProviderConfiguration
-    from models.database.oauth import OAuth as OAuthDatabase
+    from models.database.oauth_clients import OAuthClients
 
     # Get all OAuth providers from the database
-    oauth_providers: list[OAuthDatabase] = OAuthDatabase.select()
+    oauth_providers: list[OAuthClients] = OAuthClients.select()
 
     # Create a dictionary of providers
     providers = {}
