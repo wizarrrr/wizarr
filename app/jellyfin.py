@@ -63,11 +63,12 @@ def jf_invite_user(username, password, code, email):
         try:
             response = Get(f"/Users/{user_id}")
             response.raise_for_status()
-            policy.update(response.json()["Policy"])
+            new_policy = response.json()["Policy"]
+            new_policy.update(policy)
         except Exception as e:
             logging.error(f"Error getting Jellyfin User Policy: {str(e)}")
             logging.error("Response was: ", response.json())
-        Post(f"/Users/{user_id}/Policy", policy).raise_for_status()
+        Post(f"/Users/{user_id}/Policy", new_policy).raise_for_status()
 
         # Create user and set expiration date
         expires = (datetime.datetime.now() + datetime.timedelta(days=int(Invitations.get(code=code).duration))) if Invitations.get(code=code).duration else None
