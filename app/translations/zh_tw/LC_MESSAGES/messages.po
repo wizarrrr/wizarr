@@ -1,4 +1,4 @@
-# Persian translations for PROJECT.
+# Chinese (Traditional, Taiwan) translations for PROJECT.
 # Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-06 21:37+0100\n"
-"PO-Revision-Date: 2023-08-06 19:50+0100\n"
+"PO-Revision-Date: 2023-08-06 21:11+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: fa <LL@li.org>\n"
-"Language: fa\n"
+"Language-Team: zh_Hant_TW <LL@li.org>\n"
+"Language: zh_Hant_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,494 +21,490 @@ msgstr ""
 #: app/configs/settings.json.j2:3
 #, fuzzy
 msgid "Main Settings"
-msgstr "تنظیمات"
+msgstr "設置"
 
 #: app/configs/settings.json.j2:4
 msgid "General settings for the server"
-msgstr "تنظیمات کلی برای سرور"
+msgstr "服務器的常規設置"
 
 #: app/configs/settings.json.j2:8
 #, fuzzy
 msgid "Media Server"
-msgstr "سرور"
+msgstr "服務器"
 
 #: app/configs/settings.json.j2:9
 #, fuzzy
 msgid "Configure your media server settings"
-msgstr "تنظیمات سرور خود را پیکربندی کنید."
+msgstr "配置您的服務器設置。"
 
 #: app/configs/settings.json.j2:15
 #, fuzzy
 msgid "Requests"
-msgstr "سرور درخواست"
+msgstr "請求服務器"
 
 #: app/configs/settings.json.j2:16
 msgid "Add Jellyseerr, Overseerr or Ombi support"
-msgstr "پشتیبانی Jellyseerr، Overeerr یا Ombi را اضافه کنید"
+msgstr "添加 Jellyserr、Overseerr 或 Ombi 支持"
 
 #: app/configs/settings.json.j2:23
 #, fuzzy
 msgid "API keys"
-msgstr "توکن API"
+msgstr "API令牌"
 
 #: app/configs/settings.json.j2:24
 msgid "Add API keys for external services"
-msgstr "کلیدهای API را برای سرویس های خارجی اضافه کنید"
+msgstr "添加外部服務的 API 密鑰"
 
 #: app/configs/settings.json.j2:31
 #, fuzzy
 msgid "Notifications"
-msgstr "سرویس اطلاع رسانی"
+msgstr "通知服務"
 
 #: app/configs/settings.json.j2:32
 #, fuzzy
 msgid "Configure notification settings"
-msgstr "تنظیمات سرور خود را پیکربندی کنید."
+msgstr "配置您的服務器設置。"
 
 #: app/configs/settings.json.j2:41
 #, fuzzy
 msgid "Account Settings"
-msgstr "تنظیمات"
+msgstr "設置"
 
 #: app/configs/settings.json.j2:42
 #, fuzzy
 msgid "Settings for user accounts"
-msgstr "راه اندازی حساب کاربری"
+msgstr "設置您的帳戶"
 
 #: app/configs/settings.json.j2:46
 msgid "Profile"
-msgstr "مشخصات"
+msgstr "輪廓"
 
 #: app/configs/settings.json.j2:47
 #, fuzzy
 msgid "Configure your profile settings"
-msgstr "تنظیمات سرور خود را پیکربندی کنید."
+msgstr "配置您的服務器設置。"
 
 #: app/configs/settings.json.j2:53 app/views/authentication/login.html:56
 #: app/views/client/invite/signup/jellyfin.html:27
 #: app/views/modals/create-notification-agent.html:148
 #: app/views/settings/password.html:6 app/views/setup/pages/admin.html:15
 msgid "Password"
-msgstr "کلمه عبور"
+msgstr "密碼"
 
 #: app/configs/settings.json.j2:54
 #, fuzzy
 msgid "Change your password"
-msgstr "رمز عبور خود را فراموش کرده اید؟"
+msgstr "忘記密碼了嗎？"
 
 #: app/configs/settings.json.j2:60
 #, fuzzy
 msgid "Sessions"
-msgstr "نسخه"
+msgstr "版本"
 
 #: app/configs/settings.json.j2:61
 #, fuzzy
 msgid "View and manage your active sessions"
-msgstr "دعوت نامه های خود را مدیریت کنید"
+msgstr "管理您的邀請"
 
 #: app/configs/settings.json.j2:67
 #, fuzzy
 msgid "SSO Login"
-msgstr "وارد شدن"
+msgstr "登錄"
 
 #: app/configs/settings.json.j2:68
 msgid "Configure SSO login"
-msgstr "پیکربندی ورود به سیستم SSO"
+msgstr "配置單點登錄"
 
 #: app/configs/settings.json.j2:74
 msgid "Multi-Factor Authentication"
-msgstr "احراز هویت چند عاملی"
+msgstr "多重身份驗證"
 
 #: app/configs/settings.json.j2:75
 msgid "Configure MFA authentication"
-msgstr "احراز هویت MFA را پیکربندی کنید"
+msgstr "配置 MFA 身份驗證"
 
 #: app/configs/settings.json.j2:81
 #, fuzzy
 msgid "Language"
-msgstr "زبان را انتخاب کنید"
+msgstr "選擇語言"
 
 #: app/configs/settings.json.j2:82
 msgid "Change your language"
-msgstr "زبانت را عوض کن"
+msgstr "更改您的語言"
 
 #: app/configs/settings.json.j2:90
 #, fuzzy
 msgid "UI Settings"
-msgstr "تنظیمات"
+msgstr "設置"
 
 #: app/configs/settings.json.j2:91
 msgid "Modify the look and feel of the server"
-msgstr "ظاهر و احساس سرور را تغییر دهید"
+msgstr "修改服務器的外觀"
 
 #: app/configs/settings.json.j2:95
 #, fuzzy
 msgid "Discord"
-msgstr "ویجت Discord"
+msgstr "不和諧小部件"
 
 #: app/configs/settings.json.j2:96
 msgid "Enable Discord page and configure settings"
-msgstr "صفحه Discord را فعال کنید و تنظیمات را پیکربندی کنید"
+msgstr "啟用 Discord 頁面並配置設置"
 
 #: app/configs/settings.json.j2:102
 #, fuzzy
 msgid "Custom HTML"
-msgstr "سفارشی"
+msgstr "風俗"
 
 #: app/configs/settings.json.j2:103
 msgid "Add Custom HTML page to help screen"
-msgstr "صفحه HTML سفارشی را برای صفحه راهنما اضافه کنید"
+msgstr "添加自定義 HTML 頁面到幫助屏幕"
 
 #: app/configs/settings.json.j2:111
 #, fuzzy
 msgid "Advanced Settings"
-msgstr "گزینه های پیشرفته"
+msgstr "高級選項"
 
 #: app/configs/settings.json.j2:112
 msgid "Advanced settings for the server"
-msgstr "تنظیمات پیشرفته برای سرور"
+msgstr "服務器的高級設置"
 
 #: app/configs/settings.json.j2:115
 #, fuzzy
 msgid "OAuth Integration"
-msgstr "ایجاد دعوت نامه"
+msgstr "創建邀請"
 
 #: app/configs/settings.json.j2:116
 #, fuzzy
 msgid "Configure OAuth integration"
-msgstr "ایجاد دعوت نامه"
+msgstr "創建邀請"
 
 #: app/configs/settings.json.j2:122
 #, fuzzy
 msgid "Logs"
-msgstr "وارد شدن"
+msgstr "登錄"
 
 #: app/configs/settings.json.j2:123
 msgid "View and download server logs"
-msgstr "گزارش های سرور را مشاهده و دانلود کنید"
+msgstr "查看和下載服務器日誌"
 
 #: app/configs/settings.json.j2:129
 #, fuzzy
 msgid "Tasks"
-msgstr "Task را اجرا کنید"
+msgstr "運行任務"
 
 #: app/configs/settings.json.j2:130
 msgid "View and manage scheduled tasks"
-msgstr "کارهای برنامه ریزی شده را مشاهده و مدیریت کنید"
+msgstr "查看和管理計劃任務"
 
 #: app/configs/settings.json.j2:136
 #, fuzzy
 msgid "Updates"
-msgstr "به روز رسانی"
+msgstr "更新"
 
 #: app/configs/settings.json.j2:137
 msgid "Check for and view updates"
-msgstr "به روز رسانی ها را بررسی و مشاهده کنید"
+msgstr "檢查並查看更新"
 
 #: app/configs/settings.json.j2:143
 #, fuzzy
 msgid "Backup"
-msgstr "بازگشت"
+msgstr "後退"
 
 #: app/configs/settings.json.j2:144
 #, fuzzy
 msgid "Create and restore backups"
-msgstr "یک حساب کاربری ایجاد کنید"
+msgstr "創建一個帳戶"
 
 #: app/configs/settings.json.j2:150
 msgid "About"
-msgstr "در باره"
+msgstr "關於"
 
 #: app/configs/settings.json.j2:151
 msgid "View information about the server"
-msgstr "مشاهده اطلاعات مربوط به سرور"
+msgstr "查看服務器信息"
 
 #: app/templates/admin.html:4
 msgid "Wizarr"
-msgstr "جادوگر"
+msgstr "維扎爾"
 
 #: app/templates/admin.html:20
 #: app/views/authentication/forgot-password.html:44
 #: app/views/authentication/login.html:98
 msgid "Version"
-msgstr "نسخه"
+msgstr "版本"
 
 #: app/templates/admin.html:20
 #: app/views/authentication/forgot-password.html:44
 #: app/views/authentication/login.html:98
 msgid "Stable"
-msgstr "پایدار"
+msgstr "穩定的"
 
 #: app/templates/admin.html:20
 #: app/views/authentication/forgot-password.html:44
 #: app/views/authentication/login.html:98
 msgid "Beta"
-msgstr "بتا"
+msgstr "貝塔"
 
 #: app/templates/admin.html:51
 msgid "Logout failed"
-msgstr "خروج ناموفق بود"
+msgstr "註銷失敗"
 
 #: app/templates/users.html:5
 msgid "Invite User"
-msgstr "دعوت از کاربر"
+msgstr "邀請用戶"
 
 #: app/templates/templates/menu.html:16 app/views/home/main.html:3
 msgid "Home"
-msgstr "صفحه اصلی"
+msgstr "家"
 
 #: app/templates/templates/menu.html:22 app/views/admin/invites.html:4
 msgid "Invitations"
-msgstr "دعوت نامه ها"
+msgstr "邀請函"
 
 #: app/templates/templates/menu.html:28
 msgid "Users"
-msgstr "کاربران"
+msgstr "用戶"
 
 #: app/templates/templates/menu.html:34 app/views/setup/pages/settings.html:2
 msgid "Settings"
-msgstr "تنظیمات"
+msgstr "設置"
 
 #: app/templates/templates/update.html:13
 msgid "Attention!"
-msgstr "توجه!"
+msgstr "注意力！"
 
 #: app/templates/templates/update.html:14
 msgid "Update available. Click here."
-msgstr "به روز رسانی موجود است. اینجا کلیک کنید."
+msgstr "可用更新。點擊這裡。"
 
 #: app/views/admin/invite.html:4 app/views/admin/invite.html:193
 #: app/views/admin/invite.html:581
 msgid "Create Invitation"
-msgstr "ایجاد دعوت نامه"
+msgstr "創建邀請"
 
 #: app/views/admin/invite.html:8
 msgid "Create an invitation to your server."
-msgstr "یک دعوت نامه برای سرور خود ایجاد کنید."
+msgstr "創建對您的服務器的邀請。"
 
 #: app/views/admin/invite.html:21
 msgid "Invite Code String"
-msgstr "رشته کد را دعوت کنید"
+msgstr "邀請碼字符串"
 
 #: app/views/admin/invite.html:21
 msgid "(optional)"
-msgstr "(اختیاری)"
+msgstr "（選修的）"
 
 #: app/views/admin/invite.html:35
 msgid "Expiration"
-msgstr "انقضاء"
+msgstr "到期日"
 
 #: app/views/admin/invite.html:38 app/views/admin/invite.html:130
 msgid "1 Day"
-msgstr "1 روز"
+msgstr "1天"
 
 #: app/views/admin/invite.html:39 app/views/admin/invite.html:131
 msgid "1 Week"
-msgstr "1 هفته"
+msgstr "1週"
 
 #: app/views/admin/invite.html:40 app/views/admin/invite.html:132
 msgid "1 Month"
-msgstr "1 ماه"
+msgstr "1個月"
 
 #: app/views/admin/invite.html:41 app/views/admin/invite.html:133
 msgid "6 Months"
-msgstr "6 ماه"
+msgstr "6個月"
 
 #: app/views/admin/invite.html:42 app/views/admin/invite.html:134
 msgid "1 Year"
-msgstr "1 سال"
+msgstr "1年"
 
 #: app/views/admin/invite.html:43
 msgid "Never"
-msgstr "هرگز"
+msgstr "絕不"
 
 #: app/views/admin/invite.html:44 app/views/admin/invite.html:135
 msgid "Custom"
-msgstr "سفارشی"
+msgstr "風俗"
 
 #: app/views/admin/invite.html:52
 msgid "Custom Expiration"
-msgstr "انقضای سفارشی"
+msgstr "自定義到期時間"
 
 #: app/views/admin/invite.html:60
 msgid "Advanced Options"
-msgstr "گزینه های پیشرفته"
+msgstr "高級選項"
 
 #: app/views/admin/invite.html:70
 msgid "Unlimited Usages"
-msgstr "استفاده نامحدود"
+msgstr "無限使用"
 
 #: app/views/admin/invite.html:79
 msgid "Invite to Plex Home"
-msgstr "به Plex Home دعوت کنید"
+msgstr "邀請來到 Plex 主頁"
 
 #: app/views/admin/invite.html:90 app/views/tables/invite-table.html:12
 msgid "Allow Downloads"
-msgstr "اجازه دانلودها"
+msgstr "允許下載"
 
 #: app/views/admin/invite.html:106 app/views/admin/invite.html:119
 #: app/views/tables/invite-table.html:14
 msgid "Duration"
-msgstr "مدت زمان"
+msgstr "期間"
 
 #: app/views/admin/invite.html:114
 msgid "Show Information"
-msgstr "نمایش اطلاعات"
+msgstr "展會信息"
 
 #: app/views/admin/invite.html:120
 msgid ""
 "When set, invited user(s) will be removed from the server after the set "
 "number of days. (1-999)"
-msgstr ""
-"پس از تنظیم، کاربر(های) دعوت شده پس از تعداد روزهای تعیین شده از سرور حذف "
-"خواهند شد. (1-999)"
+msgstr "設置後，受邀請的用戶將在設置的天數後從服務器中刪除。 (1-999)"
 
 #: app/views/admin/invite.html:129 app/views/tables/invite-table.html:10
 #: app/views/tables/invite-table.html:80
 msgid "Unlimited"
-msgstr "نامحدود"
+msgstr "無限"
 
 #: app/views/admin/invite.html:143
 msgid "Custom Duration"
-msgstr "مدت زمان سفارشی"
+msgstr "自定義時長"
 
 #: app/views/admin/invite.html:151
 msgid "Specific Libraries"
-msgstr "کتابخانه های خاص"
+msgstr "特定庫"
 
 #: app/views/admin/invite.html:155 app/views/modals/scan-libraries.html:3
 #: app/views/modals/scan-libraries.html:22
 msgid "Select Libraries"
-msgstr "کتابخانه ها را انتخاب کنید"
+msgstr "選擇圖書館"
 
 #: app/views/admin/invite.html:184
 msgid "Select All"
-msgstr "انتخاب همه"
+msgstr "全選"
 
 #: app/views/admin/invite.html:202
 msgid "Successfully generated an Invitation!"
-msgstr "دعوتنامه با موفقیت ایجاد شد!"
+msgstr "已成功生成邀請！"
 
 #: app/views/admin/invite.html:206 app/views/admin/invite.html:356
 msgid "Link has been copied to clipboard!"
-msgstr "پیوند در کلیپ بورد کپی شده است!"
+msgstr "鏈接已復製到剪貼板！"
 
 #: app/views/admin/invite.html:212 app/views/admin/settings.html:23
 #: app/views/client/wizard/wizard.html:35
 #: app/views/client/wizard/wizard.html:49 app/views/errors/404.html:20
 msgid "Back"
-msgstr "بازگشت"
+msgstr "後退"
 
 #: app/views/admin/invite.html:218
 msgid "Share"
-msgstr "اشتراک گذاری"
+msgstr "分享"
 
 #: app/views/admin/invite.html:357
 msgid "An error occurred while copying the link to the clipboard!"
-msgstr "هنگام کپی کردن پیوند در کلیپ بورد خطایی روی داد!"
+msgstr "將鏈接複製到剪貼板時發生錯誤！"
 
 #: app/views/admin/invite.html:481
 msgid "Deselect all"
-msgstr "همه را لغو انتخاب کنید"
+msgstr "取消全選"
 
 #: app/views/admin/invite.html:483
 msgid "Select all"
-msgstr "انتخاب همه"
+msgstr "全選"
 
 #: app/views/admin/invite.html:507
 msgid "Creating..."
-msgstr "پدید آوردن..."
+msgstr "創造..."
 
 #: app/views/admin/invite.html:575
 msgid "The invite has been created"
-msgstr "دعوت ایجاد شده است"
+msgstr "邀請已創建"
 
 #: app/views/admin/invite.html:578
 msgid "There was an error creating the invite"
-msgstr "خطایی در ایجاد دعوت وجود داشت"
+msgstr "創建邀請時出錯"
 
 #: app/views/admin/invites.html:8
 msgid "Manage your invitations"
-msgstr "دعوت نامه های خود را مدیریت کنید"
+msgstr "管理您的邀請"
 
 #: app/views/admin/invites.html:13
 msgid "Create Invite"
-msgstr "ایجاد دعوت"
+msgstr "創建邀請"
 
 #: app/views/admin/invites.html:16
 msgid "Delete All"
-msgstr "حذف همه"
+msgstr "刪除所有"
 
 #: app/views/admin/settings.html:6
 msgid "Server Settings"
-msgstr "تنظیمات سرور"
+msgstr "服務器設置"
 
 #: app/views/admin/settings.html:10
 msgid "Configure your server settings."
-msgstr "تنظیمات سرور خود را پیکربندی کنید."
+msgstr "配置您的服務器設置。"
 
 #: app/views/admin/user.html:44
 msgid "User Configuration"
-msgstr "پیکربندی کاربر"
+msgstr "用戶配置"
 
 #: app/views/admin/user.html:90
 msgid "User Policy"
-msgstr "خط مشی کاربر"
+msgstr "用戶政策"
 
 #: app/views/admin/users.html:4
 msgid "Invited Users"
-msgstr "کاربران دعوت شده"
+msgstr "受邀用戶"
 
 #: app/views/admin/users.html:8
 msgid "Manage users that joined your server"
-msgstr "کاربرانی که به سرور شما پیوسته اند را مدیریت کنید"
+msgstr "管理加入您服務器的用戶"
 
 #: app/views/admin/users.html:13
 msgid "Scan Users"
-msgstr "اسکن کاربران"
+msgstr "掃描用戶"
 
 #: app/views/admin/users.html:19
 msgid "Add User"
-msgstr "افزودن کاربر"
+msgstr "添加用戶"
 
 #: app/views/authentication/forgot-password.html:4
 msgid "Forgot Password"
-msgstr "رمز عبور را فراموش کرده اید"
+msgstr "忘記密碼"
 
 #: app/views/authentication/forgot-password.html:28
 msgid "Forgot your password?"
-msgstr "رمز عبور خود را فراموش کرده اید؟"
+msgstr "忘記密碼了嗎？"
 
 #: app/views/authentication/forgot-password.html:31
 msgid "No worries, contact the administrator to reset your password."
-msgstr "نگران نباشید، برای بازنشانی رمز عبور خود با مدیر تماس بگیرید."
+msgstr "不用擔心，請聯繫管理員重置您的密碼。"
 
 #: app/views/authentication/forgot-password.html:34
 msgid ""
 "If you are the administrator, you can reset a password by running the "
 "following script:"
-msgstr ""
-"اگر شما مدیر هستید، می توانید با اجرای اسکریپت زیر رمز عبور را بازنشانی "
-"کنید:"
+msgstr "如果您是管理員，可以通過運行以下腳本來重置密碼："
 
 #: app/views/authentication/forgot-password.html:39
 msgid "Go Back"
-msgstr "برگرد"
+msgstr "回去"
 
 #: app/views/authentication/forgot-password.html:47
 #: app/views/authentication/login.html:101
 msgid "Toggle Theme"
-msgstr "تغییر موضوع"
+msgstr "切換主題"
 
 #: app/views/authentication/login.html:4
 #: app/views/authentication/login.html:62 app/views/home/main.html:16
 msgid "Login"
-msgstr "وارد شدن"
+msgstr "登錄"
 
 #: app/views/authentication/login.html:30
 #: app/views/authentication/login.html:47
 msgid "Login with your account"
-msgstr "با حساب کاربری خود وارد شوید"
+msgstr "使用您的帳戶登錄"
 
 #: app/views/authentication/login.html:34
 #: app/views/authentication/login.html:51
@@ -516,145 +512,144 @@ msgstr "با حساب کاربری خود وارد شوید"
 #: app/views/modals/create-notification-agent.html:143
 #: app/views/settings/profile.html:12 app/views/setup/pages/admin.html:7
 msgid "Username"
-msgstr "نام کاربری"
+msgstr "用戶名"
 
 #: app/views/authentication/login.html:40
 #: app/views/authentication/login.html:83
 #: app/views/client/invite/signup/plex.html:81
 msgid "Continue"
-msgstr "ادامه هید"
+msgstr "繼續"
 
 #: app/views/authentication/login.html:67
 msgid "Login with MFA"
-msgstr "با MFA وارد شوید"
+msgstr "使用 MFA 登錄"
 
 #: app/views/authentication/login.html:76
 msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
-msgstr "از اثر انگشت یا تشخیص چهره خود برای تأیید هویت خود استفاده کنید"
+msgstr "使用指紋或人臉識別來驗證您的身份"
 
 #: app/views/authentication/login.html:77
 msgid "Press the button below and follow your browser's steps to login"
-msgstr "دکمه زیر را فشار دهید و مراحل مرورگر خود را برای ورود دنبال کنید"
+msgstr "按下面的按鈕並按照瀏覽器的步驟登錄"
 
 #: app/views/authentication/login.html:88
 msgid "Login with Password"
-msgstr "با رمز عبور وارد شوید"
+msgstr "使用密碼登錄"
 
 #: app/views/authentication/login.html:178
 msgid "Please enter your username"
-msgstr "لطفا نام کاربری خود را وارد کنید"
+msgstr "請輸入您的用戶名"
 
 #: app/views/client/invite/invite-invalid.html:15
 msgid "Invalid Invitation"
-msgstr "دعوت نامعتبر"
+msgstr "邀請無效"
 
 #: app/views/client/invite/join.html:10
 #, python-format
 msgid "Type in your invite code to %(name)s server!"
-msgstr "کد دعوت خود را به سرور %(name)s وارد کنید!"
+msgstr "輸入您的邀請碼到 %(name)s 服務器！"
 
 #: app/views/client/invite/join.html:20
 #: app/views/client/invite/signup/jellyfin.html:40
 #: app/views/client/invite/signup/plex.html:25
 #: app/views/tables/invite-table.html:6
 msgid "Invite Code"
-msgstr "کد دعوت"
+msgstr "邀請代碼"
 
 #: app/views/client/invite/join.html:27
 #: app/views/client/invite/signup/plex.html:33
 msgid "Join"
-msgstr "پیوستن"
+msgstr "加入"
 
 #: app/views/client/invite/signup.html:7
 #: app/views/client/invite/signup.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr "شما برای پیوستن به سرور %(name)s دعوت شده اید!"
+msgstr "您已被邀請加入 %(name)s 服務器！"
 
 #: app/views/client/invite/signup/jellyfin.html:3
 msgid "Set up Account"
-msgstr "تنظیم حساب"
+msgstr "設立賬戶"
 
 #: app/views/client/invite/signup/jellyfin.html:19
 #: app/views/setup/pages/admin.html:11
 msgid "Email"
-msgstr "پست الکترونیک"
+msgstr "電子郵件"
 
 #: app/views/client/invite/signup/jellyfin.html:33
 #: app/views/setup/pages/admin.html:19
 msgid "Confirm password"
-msgstr "رمز عبور را تایید کنید"
+msgstr "確認密碼"
 
 #: app/views/client/invite/signup/jellyfin.html:45
 msgid "Create an account"
-msgstr "یک حساب کاربری ایجاد کنید"
+msgstr "創建一個帳戶"
 
 #: app/views/client/invite/signup/plex.html:3
 msgid "Join the Plex Server"
-msgstr "به سرور Plex بپیوندید"
+msgstr "加入Plex服務器"
 
 #: app/views/client/invite/signup/plex.html:4
 msgid "Sign in to Plex"
-msgstr "وارد Plex شوید"
+msgstr "登錄 Plex"
 
 #: app/views/client/invite/signup/plex.html:5
 msgid "Please wait"
-msgstr "لطفا صبر کنید"
+msgstr "請稍等"
 
 #: app/views/client/invite/signup/plex.html:6
 msgid "Setting up your account"
-msgstr "راه اندازی حساب کاربری"
+msgstr "設置您的帳戶"
 
 #: app/views/client/invite/signup/plex.html:7
 msgid "Almost there!"
-msgstr "تقریباً وجود دارد!"
+msgstr "差不多了！"
 
 #: app/views/client/invite/signup/plex.html:8
 msgid "All done!"
-msgstr "همه چیز تمام شد!"
+msgstr "全做完了！"
 
 #: app/views/client/invite/signup/plex.html:9
 msgid "Account created!"
-msgstr "حساب کاربری ایجاد شد!"
+msgstr "帳戶已創建！"
 
 #: app/views/client/invite/signup/plex.html:10
 msgid "Please try again"
-msgstr "لطفا دوباره تلاش کنید"
+msgstr "請再試一次"
 
 #: app/views/client/invite/signup/plex.html:78
 msgid ""
 "You're all set, click continue to get started and walkthrough how to use "
 "Plex!"
-msgstr ""
-"همه چیز آماده است، برای شروع و نحوه استفاده از Plex روی ادامه کلیک کنید!"
+msgstr "一切就緒，單擊“繼續”開始並演練如何使用 Plex！"
 
 #: app/views/client/invite/signup/plex.html:90
 msgid "Something went wrong, please try again."
-msgstr "اشتباهی رخ داده لطفا دوباره تلاش کنید."
+msgstr "出了點問題，請重試。"
 
 #: app/views/client/invite/signup/plex.html:93
 msgid "Retry"
-msgstr "دوباره امتحان کنید"
+msgstr "重試"
 
 #: app/views/client/wizard/wizard.html:4
 msgid "Help"
-msgstr "کمک"
+msgstr "幫助"
 
 #: app/views/client/wizard/wizard.html:12
 msgid "Getting Started!"
-msgstr "شروع شدن!"
+msgstr "入門！"
 
 #: app/views/client/wizard/wizard.html:38
 msgid "Next"
-msgstr "بعد"
+msgstr "下一個"
 
 #: app/views/client/wizard/wizard.html:45
 msgid "Open"
-msgstr "باز کن"
+msgstr "打開"
 
 #: app/views/client/wizard/pages/requests.html:4
 msgid "Automatic Media Requests"
-msgstr "درخواست رسانه خودکار"
+msgstr "自動媒體請求"
 
 #: app/views/client/wizard/pages/requests.html:9
 msgid ""
@@ -662,89 +657,85 @@ msgid ""
 "        something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
 "        media you're looking for. "
 msgstr ""
-"ما مشتاقیم که انتخاب گسترده ای از رسانه ها را به شما پیشنهاد دهیم. اگر در پیدا کردن مشکل دارید\n"
-"        چیزی که دوست دارید، نگران نباشید! ما یک سیستم درخواست کاربر پسند داریم که می تواند به طور خودکار آن را جستجو کند\n"
-"        رسانه ای که به دنبال آن هستید"
+"我們很高興為您提供廣泛的媒體選擇。如果您找不到\n"
+"        你喜歡的東西，不用擔心！我們有一個用戶友好的請求系統，可以自動搜索\n"
+"        您正在尋找的媒體。"
 
 #: app/views/client/wizard/pages/requests.html:20
 msgid "Request any available Movie or TV Show"
-msgstr "هر فیلم یا نمایش تلویزیونی موجود را درخواست کنید"
+msgstr "請求任何可用的電影或電視節目"
 
 #: app/views/client/wizard/pages/requests.html:27
 msgid "Requested media will be automatically downloaded (if available)"
-msgstr "رسانه درخواستی به صورت خودکار دانلود می شود (در صورت وجود)"
+msgstr "請求的媒體將自動下載（如果可用）"
 
 #: app/views/client/wizard/pages/requests.html:34
 msgid "If enabled, receive notifications"
-msgstr "در صورت فعال بودن، اعلان ها را دریافت کنید"
+msgstr "如果啟用，接收通知"
 
 #: app/views/client/wizard/pages/requests.html:40
 msgid "Check it Out"
-msgstr "آن را بررسی کنید"
+msgstr "一探究竟"
 
 #: app/views/client/wizard/pages/jellyfin/download.html:2
 msgid ""
 "Join & Download Jellyfin\n"
 "        for this device"
 msgstr ""
-"بپیوندید و Jellyfin را دانلود کنید\n"
-"        برای این دستگاه"
+"加入並下載 Jellyfin\n"
+"        對於該設備"
 
 #: app/views/client/wizard/pages/jellyfin/download.html:7
 msgid ""
 "Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 "    it with Jellyfin."
 msgstr ""
-"خبر عالی! اکنون به مجموعه رسانه های سرور ما دسترسی دارید. بیایید مطمئن شویم که نحوه استفاده را می دانید\n"
-"    آن را با Jellyfin."
+"好消息！您現在可以訪問我們服務器的媒體收藏。讓我們確保您知道如何使用\n"
+"    與 Jellyfin 一起。"
 
 #: app/views/client/wizard/pages/jellyfin/download.html:11
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
-msgstr ""
-"آیا قصد تماشای فیلم در این دستگاه را دارید؟ Jellyfin را برای این دستگاه "
-"دانلود کنید."
+msgstr "計劃在此設備上觀看電影？下載適用於此設備的 Jellyfin。"
 
 #: app/views/client/wizard/pages/jellyfin/download.html:19
 msgid ""
 "If you don't wish to Download the App feel free to use Jellyfin in your "
 "devices web browser, just click \"Next\"."
-msgstr ""
-"اگر نمی‌خواهید برنامه را دانلود کنید، از Jellyfin در مرورگر وب دستگاه‌های "
-"خود استفاده کنید، فقط روی «بعدی» کلیک کنید."
+msgstr "如果您不想下載應用程序，請隨時在設備的網絡瀏覽器中使用 Jellyfin，只需單擊“下一步”。"
 
 #: app/views/client/wizard/pages/jellyfin/download.html:25
 msgid "Show Server URL"
-msgstr "نمایش URL سرور"
+msgstr "顯示服務器網址"
 
 #: app/views/client/wizard/pages/jellyfin/download.html:30
 #: app/views/settings/media.html:20 app/views/setup/pages/settings.html:20
 msgid "Server URL"
-msgstr "آدرس سرور"
+msgstr "服務器地址"
 
 #: app/views/client/wizard/pages/jellyfin/download.html:34
 #: app/views/client/wizard/pages/jellyfin/download.html:191
 msgid "Copy"
-msgstr "کپی 🀄"
+msgstr "複製"
 
 #: app/views/client/wizard/pages/jellyfin/download.html:59
 #: app/views/client/wizard/pages/jellyfin/download.html:83
 msgid "Open Jellyfin"
-msgstr "Jellyfin را باز کنید"
+msgstr "打開果凍"
 
 #: app/views/client/wizard/pages/jellyfin/download.html:139
 msgid "Other Download"
-msgstr "دیگر دانلود"
+msgstr "其他下載"
 
 #: app/views/client/wizard/pages/jellyfin/download.html:188
 msgid "Copied!"
-msgstr "کپی شده!"
+msgstr "複製了！"
 
 #: app/views/client/wizard/pages/jellyfin/tips.html:3
 #: app/views/client/wizard/pages/plex/tips.html:3
 msgid "Right, so how do I watch stuff?"
-msgstr "درست است، پس چگونه چیزها را تماشا کنم؟"
+msgstr "對了，那麼我該如何觀看內容呢？"
 
 #: app/views/client/wizard/pages/jellyfin/tips.html:6
 msgid ""
@@ -753,18 +744,16 @@ msgid ""
 "download the Jellyfin app on your device, sign in with your account, and "
 "you're ready to start streaming your media."
 msgstr ""
-"ساده تر از این نمی شد! Jellyfin بر روی طیف گسترده ای از دستگاه ها از جمله لپ"
-" تاپ، تبلت، گوشی های هوشمند و تلویزیون در دسترس است. تنها کاری که باید انجام"
-" دهید این است که برنامه Jellyfin را در دستگاه خود دانلود کنید، با حساب خود "
-"وارد شوید و آماده شروع پخش رسانه خود هستید."
+"簡單得不能再簡單了！ Jellyfin 可用於多種設備，包括筆記本電腦、平板電腦、智能手機和電視。您所需要做的就是在設備上下載 Jellyfin "
+"應用程序，使用您的帳戶登錄，然後就可以開始流式傳輸媒體了。"
 
 #: app/views/client/wizard/pages/jellyfin/tips.html:9
 msgid "It's that easy!"
-msgstr "به همین راحتی!"
+msgstr "就是這麼簡單！"
 
 #: app/views/client/wizard/pages/jellyfin/welcome.html:3
 msgid "Eh, So, What is Jellyfin exactly?"
-msgstr "اوه، بنابراین، Jellyfin دقیقا چیست؟"
+msgstr "呃，那麼 Jellyfin 到底是什麼？"
 
 #: app/views/client/wizard/pages/jellyfin/welcome.html:6
 msgid ""
@@ -774,35 +763,27 @@ msgid ""
 "favorite content that you can access from anywhere, on any device - your "
 "phone, tablet, laptop, smart TV, you name it."
 msgstr ""
-"Jellyfin پلتفرمی است که به شما امکان می دهد تمام فیلم ها، برنامه های "
-"تلویزیونی و موسیقی مورد علاقه خود را در یک مکان پخش کنید. مثل این است که "
-"سینمای شخصی خود را در دستان خود داشته باشید! آن را به عنوان یک کتابخانه "
-"دیجیتالی از محتوای مورد علاقه خود در نظر بگیرید که می توانید از هر کجا و در "
-"هر دستگاهی - تلفن، تبلت، لپ تاپ، تلویزیون هوشمند خود، به آن دسترسی داشته "
-"باشید."
+"Jellyfin "
+"是一個平台，可讓您在一個地方流式傳輸所有喜愛的電影、電視節目和音樂。這就像在您的指尖擁有自己的個人電影院！將其視為您喜愛的內容的數字圖書館，您可以從任何地方、任何設備（您的手機、平板電腦、筆記本電腦、智能電視等）訪問它。"
 
 #: app/views/client/wizard/pages/plex/download.html:4
 msgid "Join & Download Plex for this device"
-msgstr "به Plex بپیوندید و برای این دستگاه دانلود کنید"
+msgstr "加入並下載適用於此設備的 Plex"
 
 #: app/views/client/wizard/pages/plex/download.html:8
 msgid ""
 "So you now have access to our server's media collection. Let's make sure you"
 " know how to use it with Plex."
-msgstr ""
-"بنابراین شما اکنون به مجموعه رسانه های سرور ما دسترسی دارید. بیایید مطمئن "
-"شویم که می دانید چگونه از آن با Plex استفاده کنید."
+msgstr "現在您可以訪問我們服務器的媒體收藏。讓我們確保您知道如何將其與 Plex 一起使用。"
 
 #: app/views/client/wizard/pages/plex/download.html:11
 msgid ""
 "Planning on watching Movies on this device? Download Plex for this device."
-msgstr ""
-"آیا قصد تماشای فیلم در این دستگاه را دارید؟ Plex را برای این دستگاه دانلود "
-"کنید."
+msgstr "計劃在此設備上觀看電影？下載適用於此設備的 Plex。"
 
 #: app/views/client/wizard/pages/plex/download.html:14
 msgid "Download"
-msgstr "دانلود"
+msgstr "下載"
 
 #: app/views/client/wizard/pages/plex/tips.html:6
 msgid ""
@@ -810,92 +791,86 @@ msgid ""
 "        smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 "        you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"ساده تر از این نمی شد! Plex در طیف گسترده ای از دستگاه ها از جمله لپ تاپ، تبلت،\n"
-"        گوشی های هوشمند و تلویزیون ها تنها کاری که باید انجام دهید این است که برنامه Plex را در دستگاه خود دانلود کنید، با حساب خود وارد شوید و\n"
-"        شما آماده شروع پخش رسانه خود هستید. به همین راحتی!"
+"簡單得不能再簡單了！ Plex 可在多種設備上使用，包括筆記本電腦、平板電腦、\n"
+"        智能手機和電視。您所需要做的就是在設備上下載 Plex 應用程序，使用您的帳戶登錄，然後\n"
+"        您已準備好開始流式傳輸媒體。就是這麼簡單！"
 
 #: app/views/client/wizard/pages/plex/tips.html:11
 msgid "How can I make sure to have the best experience?"
-msgstr "چگونه می توانم مطمئن شوم که بهترین تجربه را دارم؟"
+msgstr "我怎樣才能確保獲得最佳體驗？"
 
 #: app/views/client/wizard/pages/plex/tips.html:14
 msgid ""
 "Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
 "        sharing with you - they also, by default, play content at a lower quality. "
 msgstr ""
-"از آنجایی که Plex یک سرویس رایگان است، آنها محتوای خود را قبل از محتوای عالی که اکنون دوست شما دارد تبلیغ می کنند\n"
-"        به اشتراک گذاری با شما - آنها همچنین به طور پیش فرض محتوا را با کیفیت پایین تری پخش می کنند."
+"因為 Plex 是一項免費服務，所以他們會在您朋友現在的精彩內容之前推廣自己的內容\n"
+"        與您共享 - 默認情況下，它們也會以較低質量播放內容。"
 
 #: app/views/client/wizard/pages/plex/tips.html:17
 msgid "No need to worry though, this can be easily resolved"
-msgstr "با این حال نیازی به نگرانی نیست، این مشکل به راحتی قابل حل است"
+msgstr "不過不用擔心，這個問題很容易解決"
 
 #: app/views/client/wizard/pages/plex/tips.html:17
 msgid ""
 "We highly\n"
 "            recommend you to go through those steps first!"
 msgstr ""
-"ما به شدت\n"
-"            توصیه می کنم ابتدا آن مراحل را طی کنید!"
+"我們高度\n"
+"            建議您首先執行這些步驟！"
 
 #: app/views/client/wizard/pages/plex/welcome.html:3
 msgid "Eh, So, What is Plex exactly?"
-msgstr "اوه، خب، Plex دقیقا چیست؟"
+msgstr "呃，那麼，Plex 到底是什麼？"
 
 #: app/views/client/wizard/pages/plex/welcome.html:6
 msgid ""
 "Great question! Plex is a software that allows individuals to share their "
 "media collections with others. If you've received this invitation, it means "
 "someone wants to share their library with you."
-msgstr ""
-"سوال عالی! Plex نرم افزاری است که به افراد امکان می دهد مجموعه های رسانه ای "
-"خود را با دیگران به اشتراک بگذارند. اگر این دعوت را دریافت کرده اید، به این "
-"معنی است که شخصی می خواهد کتابخانه خود را با شما به اشتراک بگذارد."
+msgstr "好問題！ Plex 是一款允許個人與他人共享媒體收藏的軟件。如果您收到此邀請，則意味著有人想與您共享他們的圖書館。"
 
 #: app/views/client/wizard/pages/plex/welcome.html:9
 msgid ""
 "With Plex, you'll have access to all of the movies, TV shows, music, and "
 "photos that are stored on their server!"
-msgstr ""
-"با Plex، به تمام فیلم‌ها، برنامه‌های تلویزیونی، موسیقی و عکس‌هایی که در سرور"
-" آنها ذخیره شده‌اند دسترسی خواهید داشت!"
+msgstr "通過 Plex，您將可以訪問存儲在其服務器上的所有電影、電視節目、音樂和照片！"
 
 #: app/views/client/wizard/pages/plex/welcome.html:12
 msgid "So let's see how to get started!"
-msgstr "پس بیایید ببینیم چگونه شروع کنیم!"
+msgstr "那麼讓我們看看如何開始吧！"
 
 #: app/views/errors/401.html:20
 msgid "Permission denied."
-msgstr "اجازه رد شد."
+msgstr "沒有權限。"
 
 #: app/views/errors/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr "شما در حال تلاش برای انجام کاری هستید که نباید انجام می دهید ..."
+msgstr "你正在試圖做一些你不應該做的事情......"
 
 #: app/views/errors/404.html:31
 msgid "Something's missing."
-msgstr "چیزی کم است"
+msgstr "缺少一些東西。"
 
 #: app/views/errors/404.html:33
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
-"متأسفیم، ما نمی توانیم آن صفحه را پیدا کنیم. به نظر نمی رسد وجود داشته باشد!"
+msgstr "抱歉，我們找不到該頁面。似乎不存在！"
 
 #: app/views/errors/500.html:19
 msgid "Internal Server Error."
-msgstr "خطای سرور داخلی"
+msgstr "內部服務器錯誤。"
 
 #: app/views/errors/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr "مشکلی پیش آمده است. لطفاً بعداً دوباره امتحان کنید."
+msgstr "出了問題。請稍後再試。"
 
 #: app/views/errors/custom.html:20
 msgid "Get Help"
-msgstr "کمک بگیر"
+msgstr "得到幫助"
 
 #: app/views/home/main.html:25 app/views/setup/pages/welcome.html:2
 msgid "Welcome to Wizarr"
-msgstr "به Wizarr خوش آمدید"
+msgstr "歡迎來到威扎爾"
 
 #: app/views/home/main.html:28
 msgid ""
@@ -904,40 +879,36 @@ msgid ""
 "With Wizarr, server administrators can easily invite new users and manage "
 "their access permissions."
 msgstr ""
-"Wizarr یک ابزار نرم افزاری است که قابلیت های پیشرفته دعوت کاربر و مدیریت را "
-"برای سرورهای رسانه ای مانند Jellyfin، Emby و Plex فراهم می کند. با Wizarr، "
-"مدیران سرور به راحتی می توانند کاربران جدید را دعوت کنند و مجوزهای دسترسی "
-"آنها را مدیریت کنند."
+"Wizarr 是一款軟件工具，可為 Jellyfin、Emby 和 Plex 等媒體服務器提供高級用戶邀請和管理功能。借助 "
+"Wizarr，服務器管理員可以輕鬆邀請新用戶並管理他們的訪問權限。"
 
 #: app/views/home/main.html:32
 msgid ""
 "If you were sent here by a friend, please request access or if you have an "
 "invite code, please click Get Started."
-msgstr ""
-"اگر توسط یکی از دوستان شما به اینجا فرستاده شده است، لطفاً درخواست دسترسی "
-"کنید یا اگر کد دعوت دارید، لطفاً روی شروع کلیک کنید."
+msgstr "如果您是由朋友發送到這裡的，請請求訪問權限，或者如果您有邀請碼，請單擊“開始”。"
 
 #: app/views/home/main.html:36
 msgid "Get Started"
-msgstr "شروع کنید"
+msgstr "開始使用"
 
 #: app/views/home/main.html:41
 msgid "or"
-msgstr "یا"
+msgstr "或者"
 
 #: app/views/home/main.html:45
 msgid "Request Access"
-msgstr "درخواست دسترسی"
+msgstr "申請進入"
 
 #: app/views/modals/add-mfa.html:3
 msgid "Add Passkey"
-msgstr "رمز عبور را اضافه کنید"
+msgstr "添加密鑰"
 
 #: app/views/modals/add-mfa.html:9 app/views/modals/add-oauth.html:10
 #: app/views/modals/create-api-key.html:9
 #: app/views/modals/create-notification-agent.html:13
 msgid "Name"
-msgstr "نام"
+msgstr "姓名"
 
 #: app/views/modals/add-mfa.html:14 app/views/modals/add-oauth.html:46
 #: app/views/modals/create-api-key.html:14
@@ -948,90 +919,90 @@ msgstr "نام"
 #: app/views/modals/scan-libraries.html:19
 #: app/views/modals/update-libraries.html:23
 msgid "Cancel"
-msgstr "لغو کنید"
+msgstr "取消"
 
 #: app/views/modals/add-mfa.html:17 app/views/modals/create-api-key.html:17
 msgid "Create"
-msgstr "ايجاد كردن"
+msgstr "創造"
 
 #: app/views/modals/add-oauth.html:3
 msgid "New OAuth"
-msgstr "OAuth جدید"
+msgstr "新的OAuth"
 
 #: app/views/modals/add-oauth.html:15
 msgid "Client ID"
-msgstr "شناسه مشتری"
+msgstr "客戶ID"
 
 #: app/views/modals/add-oauth.html:20
 msgid "Client Secret"
-msgstr "راز مشتری"
+msgstr "客戶秘密"
 
 #: app/views/modals/add-oauth.html:25
 msgid "Request Token URL"
-msgstr "درخواست URL توکن"
+msgstr "請求令牌 URL"
 
 #: app/views/modals/add-oauth.html:30
 msgid "Authorize URL"
-msgstr "مجوز URL"
+msgstr "授權網址"
 
 #: app/views/modals/add-oauth.html:35
 msgid "Access Token URL"
-msgstr "دسترسی به URL Token"
+msgstr "訪問令牌 URL"
 
 #: app/views/modals/add-oauth.html:40
 msgid "User Info URL"
-msgstr "URL اطلاعات کاربر"
+msgstr "用戶信息網址"
 
 #: app/views/modals/add-oauth.html:49
 msgid "Test & Create OAuth"
-msgstr "تست و ایجاد OAuth"
+msgstr "測試和創建 OAuth"
 
 #: app/views/modals/create-api-key.html:3 app/views/settings/api.html:38
 msgid "Create API Key"
-msgstr "کلید API ایجاد کنید"
+msgstr "創建 API 密鑰"
 
 #: app/views/modals/create-api-key.html:46
 msgid "Please fill out all required fields."
-msgstr "لطفا تمام فیلدهای الزامی را پر کنید."
+msgstr "請填寫所有必填字段。"
 
 #: app/views/modals/create-api-key.html:70
 msgid "API key already exists."
-msgstr "کلید API از قبل وجود دارد."
+msgstr "API 密鑰已存在。"
 
 #: app/views/modals/create-api-key.html:76
 #: app/views/modals/delete-notification-agent.html:35
 msgid "You are not authorized to perform this action."
-msgstr "شما مجاز به انجام این عمل نیستید."
+msgstr "您無權執行此操作。"
 
 #: app/views/modals/create-api-key.html:82 app/views/modals/run-task.html:35
 msgid "Something went wrong."
-msgstr "مشکلی پیش آمد."
+msgstr "出了些問題。"
 
 #: app/views/modals/create-api-key.html:86
 msgid "API key created."
-msgstr "کلید API ایجاد شد."
+msgstr "API 密鑰已創建。"
 
 #: app/views/modals/create-notification-agent.html:3
 msgid "New Agent"
-msgstr "نماینده جدید"
+msgstr "新代理"
 
 #: app/views/modals/create-notification-agent.html:18
 msgid "Notification Service"
-msgstr "سرویس اطلاع رسانی"
+msgstr "通知服務"
 
 #: app/views/modals/create-notification-agent.html:20
 msgid "Choose a service"
-msgstr "یک سرویس را انتخاب کنید"
+msgstr "選擇服務"
 
 #: app/views/modals/create-notification-agent.html:30
 #: app/views/modals/create-notification-agent.html:88
 msgid "Username (optional)"
-msgstr "نام کاربری (اختیاری)"
+msgstr "用戶名（可選）"
 
 #: app/views/modals/create-notification-agent.html:34
 #: app/views/modals/create-notification-agent.html:93
 msgid "Password (optional)"
-msgstr "رمز عبور (اختیاری)"
+msgstr "密碼（可選）"
 
 #: app/views/modals/create-notification-agent.html:39
 #: app/views/modals/create-notification-agent.html:98
@@ -1039,45 +1010,45 @@ msgstr "رمز عبور (اختیاری)"
 #: app/views/modals/create-notification-agent.html:136
 #: app/views/modals/create-notification-agent.html:153
 msgid "Agent URL"
-msgstr "URL نماینده"
+msgstr "代理網址"
 
 #: app/views/modals/create-notification-agent.html:49
 msgid "Test & Create Agent"
-msgstr "آزمایش و ایجاد عامل"
+msgstr "測試和創建代理"
 
 #: app/views/modals/create-notification-agent.html:105
 msgid "Webhook ID"
-msgstr "شناسه وب هوک"
+msgstr "網絡鉤子 ID"
 
 #: app/views/modals/create-notification-agent.html:111
 msgid "Webhook Token"
-msgstr "توکن وب هوک"
+msgstr "網絡鉤子令牌"
 
 #: app/views/modals/create-notification-agent.html:124
 msgid "User Key"
-msgstr "کلید کاربر"
+msgstr "用戶密鑰"
 
 #: app/views/modals/create-notification-agent.html:130
 msgid "API Token"
-msgstr "توکن API"
+msgstr "API令牌"
 
 #: app/views/modals/create-notification-agent.html:242
 #: app/views/modals/create-notification-agent.html:249
 msgid "Something went wrong. Please try again."
-msgstr "مشکلی پیش آمد. لطفا دوباره تلاش کنید."
+msgstr "出了些問題。請再試一次。"
 
 #: app/views/modals/create-notification-agent.html:253
 msgid "Notification agent successfully created!"
-msgstr "عامل اعلان با موفقیت ایجاد شد!"
+msgstr "通知代理已成功創建！"
 
 #: app/views/modals/delete-api-key.html:3
 #: app/views/modals/revoke-session.html:3
 msgid "Warning"
-msgstr "هشدار"
+msgstr "警告"
 
 #: app/views/modals/delete-api-key.html:8
 msgid "Are you sure you want to delete this api key?"
-msgstr "آیا مطمئن هستید که می خواهید این کلید api را حذف کنید؟"
+msgstr "您確定要刪除此 api 密鑰嗎？"
 
 #: app/views/modals/delete-api-key.html:16
 #: app/views/modals/delete-notification-agent.html:16
@@ -1087,211 +1058,208 @@ msgstr "آیا مطمئن هستید که می خواهید این کلید api 
 #: app/views/tables/notification-table.html:36
 #: app/views/tables/oauth-table.html:36
 msgid "Delete"
-msgstr "حذف"
+msgstr "刪除"
 
 #: app/views/modals/delete-notification-agent.html:41
 msgid "An error occurred while deleting the Notification Agent."
-msgstr "هنگام حذف عامل اعلان خطایی روی داد."
+msgstr "刪除通知代理時出錯。"
 
 #: app/views/modals/delete-notification-agent.html:45
 msgid "Notification Agent deleted successfully!"
-msgstr "نماینده اعلان با موفقیت حذف شد!"
+msgstr "通知代理刪除成功！"
 
 #: app/views/modals/revoke-session.html:8
 msgid "Are you sure you want to revoke this session?"
-msgstr "آیا مطمئن هستید که می خواهید این جلسه را لغو کنید؟"
+msgstr "您確定要撤銷此會話嗎？"
 
 #: app/views/modals/revoke-session.html:41
 msgid "Something went wrong.Please try again."
-msgstr "اشتباهی رخ داده لطفا دوباره تلاش کنید."
+msgstr "出了點問題。請重試。"
 
 #: app/views/modals/revoke-session.html:46
 msgid "Session deleted successfully!"
-msgstr "جلسه با موفقیت حذف شد!"
+msgstr "會話刪除成功！"
 
 #: app/views/modals/run-task.html:3 app/views/modals/run-task.html:16
 msgid "Run Task"
-msgstr "Task را اجرا کنید"
+msgstr "運行任務"
 
 #: app/views/modals/run-task.html:8
 msgid "Are you sure you want to run this task?"
-msgstr "آیا مطمئن هستید که می خواهید این کار را اجرا کنید؟"
+msgstr "您確定要運行此任務嗎？"
 
 #: app/views/modals/run-task.html:39
 msgid "Task has been run."
-msgstr "Task اجرا شده است."
+msgstr "任務已運行。"
 
 #: app/views/modals/update-libraries.html:3 app/views/settings/media.html:30
 #: app/views/setup/pages/settings.html:37
 msgid "Server Libraries"
-msgstr "کتابخانه های سرور"
+msgstr "服務器庫"
 
 #: app/views/modals/update-libraries.html:26
 msgid "Update Libraries"
-msgstr "کتابخانه ها را به روز کنید"
+msgstr "更新庫"
 
 #: app/views/modals/update-libraries.html:88
 msgid "Unable to update libraries"
-msgstr "امکان به روز رسانی کتابخانه ها وجود ندارد"
+msgstr "無法更新庫"
 
 #: app/views/settings/about.html:111 app/views/settings/about.html:221
 msgid "Load More"
-msgstr "بارگذاری بیشتر"
+msgstr "裝載更多"
 
 #: app/views/settings/accounts.html:13
 msgid "My Account"
-msgstr "حساب من"
+msgstr "我的賬戶"
 
 #: app/views/settings/accounts.html:16
 msgid "Add Admin"
-msgstr "Admin را اضافه کنید"
+msgstr "添加管理員"
 
 #: app/views/settings/discord.html:4
 msgid "Discord Server ID"
-msgstr "شناسه سرور Discord"
+msgstr "不和諧服務器 ID"
 
 #: app/views/settings/discord.html:9
 msgid "Discord Widget"
-msgstr "ویجت Discord"
+msgstr "不和諧小部件"
 
 #: app/views/settings/discord.html:19 app/views/settings/html.html:9
 #: app/views/settings/media.html:38 app/views/settings/requests.html:26
 msgid "Save"
-msgstr "صرفه جویی"
+msgstr "節省"
 
 #: app/views/settings/discord.html:42 app/views/settings/html.html:25
 #: app/views/settings/media.html:54 app/views/settings/requests.html:58
 msgid "Settings saved successfully!"
-msgstr "تنظیمات با موفقیت ذخیره شد!"
+msgstr "設置保存成功！"
 
 #: app/views/settings/language.html:3
 msgid "Please use the dropdown below to select your language."
-msgstr "لطفاً از منوی کشویی زیر برای انتخاب زبان خود استفاده کنید."
+msgstr "請使用下面的下拉菜單選擇您的語言。"
 
 #: app/views/settings/language.html:7
 msgid "Select Language"
-msgstr "زبان را انتخاب کنید"
+msgstr "選擇語言"
 
 #: app/views/settings/main.html:33
 msgid "No settings matched your search."
-msgstr "هیچ تنظیماتی با جستجوی شما مطابقت نداشت."
+msgstr "沒有與您的搜索匹配的設置。"
 
 #: app/views/settings/media.html:6 app/views/setup/pages/settings.html:6
 msgid "Server Display Name"
-msgstr "نام نمایشی سرور"
+msgstr "服務器顯示名稱"
 
 #: app/views/settings/media.html:11 app/views/setup/pages/settings.html:11
 msgid "Server"
-msgstr "سرور"
+msgstr "服務器"
 
 #: app/views/settings/media.html:13
 msgid "Choose a server"
-msgstr "یک سرور انتخاب کنید"
+msgstr "選擇服務器"
 
 #: app/views/settings/media.html:25 app/views/setup/pages/settings.html:25
 msgid "Server Token / API Key"
-msgstr "رمز سرور / کلید API"
+msgstr "服務器令牌/API 密鑰"
 
 #: app/views/settings/media.html:32 app/views/setup/pages/settings.html:39
 msgid "Scan For Libraries"
-msgstr "اسکن برای کتابخانه ها"
+msgstr "掃描圖書館"
 
 #: app/views/settings/notifications.html:18
 msgid "Create Agent"
-msgstr "ایجاد عامل"
+msgstr "創建代理"
 
 #: app/views/settings/oauth.html:16
 msgid "Add OAuth"
-msgstr "OAuth را اضافه کنید"
+msgstr "添加 OAuth"
 
 #: app/views/settings/password.html:12
 msgid "Confirm Password"
-msgstr "رمز عبور را تایید کنید"
+msgstr "確認密碼"
 
 #: app/views/settings/password.html:19
 msgid "Reset Password"
-msgstr "بازنشانی رمز عبور"
+msgstr "重設密碼"
 
 #: app/views/settings/profile.html:6
 msgid "Display Name"
-msgstr "نام نمایشی"
+msgstr "顯示名稱"
 
 #: app/views/settings/profile.html:18
 msgid "Email Address"
-msgstr "آدرس ایمیل"
+msgstr "電子郵件地址"
 
 #: app/views/settings/profile.html:25
 msgid "Update"
-msgstr "به روز رسانی"
+msgstr "更新"
 
 #: app/views/settings/requests.html:4
 msgid "Request Server"
-msgstr "سرور درخواست"
+msgstr "請求服務器"
 
 #: app/views/settings/requests.html:6
 msgid "Disabled"
-msgstr "معلول"
+msgstr "殘疾人"
 
 #: app/views/settings/requests.html:15
 msgid "Request Server URL"
-msgstr "درخواست URL سرور"
+msgstr "請求服務器網址"
 
 #: app/views/settings/requests.html:20
 msgid "Request Server API Key"
-msgstr "درخواست کلید API سرور"
+msgstr "請求服務器 API 密鑰"
 
 #: app/views/settings/sessions.html:14
 msgid "Revoke All"
-msgstr "لغو همه"
+msgstr "全部撤銷"
 
 #: app/views/setup/base.html:12
 msgid "Setup Wizarr"
-msgstr "Setup Wizard"
+msgstr "設置嚮導"
 
 #: app/views/setup/pages/admin.html:2
 msgid "Admin Account"
-msgstr "حساب مدیریت"
+msgstr "管理員帳戶"
 
 #: app/views/setup/pages/admin.html:24
 msgid "Create account"
-msgstr "ایجاد حساب کاربری"
+msgstr "創建賬戶"
 
 #: app/views/setup/pages/complete.html:2
 msgid "Your Done"
-msgstr "انجام شد"
+msgstr "你完成了"
 
 #: app/views/setup/pages/complete.html:5
 msgid "You have successfully completed the setup process."
-msgstr "شما مراحل راه اندازی را با موفقیت به پایان رساندید."
+msgstr "您已成功完成設置過程。"
 
 #: app/views/setup/pages/complete.html:9
 msgid "Go to Dashboard"
-msgstr "به داشبورد بروید"
+msgstr "轉到儀表板"
 
 #: app/views/setup/pages/database.html:2
 msgid "Database"
-msgstr "پایگاه داده"
+msgstr "數據庫"
 
 #: app/views/setup/pages/database.html:5
 msgid "Currently Wizarr only supports it's internal SQLite database."
-msgstr ""
-"در حال حاضر Wizarr فقط از پایگاه داده داخلی SQLite خود پشتیبانی می کند."
+msgstr "目前Wizarr僅支持其內部SQLite數據庫。"
 
 #: app/views/setup/pages/database.html:7
 msgid ""
 "This is a temporary and we are working on adding support for other "
 "databases."
-msgstr ""
-"این یک موقت است و ما در حال کار بر روی افزودن پشتیبانی برای سایر پایگاه های "
-"داده هستیم."
+msgstr "這是臨時的，我們正在努力添加對其他數據庫的支持。"
 
 #: app/views/setup/pages/settings.html:31
 msgid "Test"
-msgstr "تست"
+msgstr "測試"
 
 #: app/views/setup/pages/settings.html:45
 msgid "Done"
-msgstr "انجام شده"
+msgstr "完畢"
 
 #: app/views/setup/pages/welcome.html:5
 msgid ""
@@ -1301,81 +1269,74 @@ msgid ""
 " provides guidance on downloading clients and instructions for using "
 "Jellyseerr, Overseerr or Ombi site."
 msgstr ""
-"Wizarr یک سیستم دعوت کاربر خودکار برای Plex، Jellyfin و Emby است. با Wizarr،"
-" می توانید به راحتی پیوندهای دعوت منحصر به فرد ایجاد کنید تا با کاربران به "
-"اشتراک بگذارید و آنها را به طور خودکار به سرور رسانه خود دعوت کنید! علاوه بر"
-" این، Wizarr راهنمایی در مورد دانلود مشتریان و دستورالعمل‌هایی برای استفاده "
-"از سایت Jellyseerr، Overeerr یا Ombi ارائه می‌دهد."
+"Wizarr 是 Plex、Jellyfin 和 Emby "
+"的自動用戶邀請系統。使用Wizarr，您可以輕鬆創建獨特的邀請鏈接與用戶共享，自動邀請他們訪問您的媒體服務器！此外，Wizarr "
+"還提供有關下載客戶端的指南以及使用 Jellyseerr、Overseerr 或 Ombi 網站的說明。"
 
 #: app/views/setup/pages/welcome.html:8
 msgid ""
 "We hope you enjoy using Wizarr and invite you to explore its powerful "
 "features and intuitive interface. Should you need any assistance, please "
 "refer to our documentation or reach out to our community for support."
-msgstr ""
-"امیدواریم از استفاده از Wizarr لذت ببرید و از شما دعوت می کنیم تا ویژگی های "
-"قدرتمند و رابط بصری آن را کشف کنید. اگر به کمک نیاز دارید، لطفاً به اسناد ما"
-" مراجعه کنید یا برای پشتیبانی با انجمن ما تماس بگیرید."
+msgstr "我們希望您喜歡使用 Wizarr，並邀請您探索其強大的功能和直觀的界面。如果您需要任何幫助，請參閱我們的文檔或聯繫我們的社區尋求支持。"
 
 #: app/views/setup/pages/welcome.html:11
 msgid ""
 "Check out our documentation for detailed instructions on how to install and "
 "run Wizarr!"
-msgstr ""
-"برای دستورالعمل های دقیق در مورد نحوه نصب و اجرای Wizarr، مستندات ما را "
-"بررسی کنید!"
+msgstr "查看我們的文檔，了解有關如何安裝和運行 Wizarr 的詳細說明！"
 
 #: app/views/tables/admin-users.html:37 app/views/tables/global-users.html:56
 #: app/views/tables/invite-table.html:97
 #: app/views/tables/notification-table.html:33
 #: app/views/tables/oauth-table.html:33
 msgid "Edit"
-msgstr "ویرایش کنید"
+msgstr "編輯"
 
 #: app/views/tables/invite-table.html:7
 msgid "Used"
-msgstr "استفاده شده"
+msgstr "用過的"
 
 #: app/views/tables/invite-table.html:8
 msgid "Expired"
-msgstr "منقضی شده"
+msgstr "已到期"
 
 #: app/views/tables/invite-table.html:9
 msgid "Libraries"
-msgstr "کتابخانه ها"
+msgstr "圖書館"
 
 #: app/views/tables/invite-table.html:15
 msgid "Created"
-msgstr "ایجاد شده"
+msgstr "已創建"
 
 #: app/views/tables/invite-table.html:115
 msgid "No Invitations"
-msgstr "بدون دعوت نامه"
+msgstr "沒有邀請"
 
 #: app/views/tables/invite-table.html:118
 msgid "You have not created any invitations yet."
-msgstr "شما هنوز هیچ دعوتنامه ای ایجاد نکرده اید."
+msgstr "您尚未創建任何邀請。"
 
 #: app/views/tables/mfa-table.html:4
 msgid "Your Passkeys"
-msgstr "رمز عبور شما"
+msgstr "你的萬能鑰匙"
 
 #: app/views/tables/mfa-table.html:7 app/views/tables/mfa-table.html:48
 msgid "Add a passkey"
-msgstr "یک رمز عبور اضافه کنید"
+msgstr "添加密鑰"
 
 #: app/views/tables/sessions-table.html:27
 msgid "Revoke"
-msgstr "لغو"
+msgstr "撤銷"
 
 #: app/views/tables/task-table.html:7
 msgid "Job Name"
-msgstr "اسم شغل"
+msgstr "職位名稱"
 
 #: app/views/tables/task-table.html:8
 msgid "Next Execution"
-msgstr "اجرای بعدی"
+msgstr "下一次執行"
 
 #: app/views/tables/task-table.html:40
 msgid "Run Now"
-msgstr "الان اجرا کن"
+msgstr "現在跑步"

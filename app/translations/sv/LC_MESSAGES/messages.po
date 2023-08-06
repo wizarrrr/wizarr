@@ -7,36 +7,241 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-01 18:45+0100\n"
-"PO-Revision-Date: 2023-03-15 13:38+0000\n"
-"Last-Translator: thu3n <elias.thuen@gmail.com>\n"
-"Language-Team: Swedish <https://hosted.weblate.org/projects/wizarr/app/sv/>\n"
+"POT-Creation-Date: 2023-08-06 21:37+0100\n"
+"PO-Revision-Date: 2023-08-06 19:51+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: sv <LL@li.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.12.1\n"
 
+#: app/configs/settings.json.j2:3
+#, fuzzy
+msgid "Main Settings"
+msgstr "inställningar"
+
+#: app/configs/settings.json.j2:4
+msgid "General settings for the server"
+msgstr "Allmänna inställningar för servern"
+
+#: app/configs/settings.json.j2:8
+#, fuzzy
+msgid "Media Server"
+msgstr "Server"
+
+#: app/configs/settings.json.j2:9
+#, fuzzy
+msgid "Configure your media server settings"
+msgstr "Konfigurera dina serverinställningar."
+
+#: app/configs/settings.json.j2:15
+#, fuzzy
+msgid "Requests"
+msgstr "Begär server"
+
+#: app/configs/settings.json.j2:16
+msgid "Add Jellyseerr, Overseerr or Ombi support"
+msgstr "Lägg till Jellyseerr, Overseerr eller Ombi support"
+
+#: app/configs/settings.json.j2:23
+#, fuzzy
+msgid "API keys"
+msgstr "API-token"
+
+#: app/configs/settings.json.j2:24
+msgid "Add API keys for external services"
+msgstr "Lägg till API-nycklar för externa tjänster"
+
+#: app/configs/settings.json.j2:31
+#, fuzzy
+msgid "Notifications"
+msgstr "Aviseringstjänst"
+
+#: app/configs/settings.json.j2:32
+#, fuzzy
+msgid "Configure notification settings"
+msgstr "Konfigurera dina serverinställningar."
+
+#: app/configs/settings.json.j2:41
+#, fuzzy
+msgid "Account Settings"
+msgstr "inställningar"
+
+#: app/configs/settings.json.j2:42
+#, fuzzy
+msgid "Settings for user accounts"
+msgstr "Konfigurera ditt konto"
+
+#: app/configs/settings.json.j2:46
+msgid "Profile"
+msgstr "Profil"
+
+#: app/configs/settings.json.j2:47
+#, fuzzy
+msgid "Configure your profile settings"
+msgstr "Konfigurera dina serverinställningar."
+
+#: app/configs/settings.json.j2:53 app/views/authentication/login.html:56
+#: app/views/client/invite/signup/jellyfin.html:27
+#: app/views/modals/create-notification-agent.html:148
+#: app/views/settings/password.html:6 app/views/setup/pages/admin.html:15
+msgid "Password"
+msgstr "Lösenord"
+
+#: app/configs/settings.json.j2:54
+#, fuzzy
+msgid "Change your password"
+msgstr "Glömt ditt lösenord?"
+
+#: app/configs/settings.json.j2:60
+#, fuzzy
+msgid "Sessions"
+msgstr "Version"
+
+#: app/configs/settings.json.j2:61
+#, fuzzy
+msgid "View and manage your active sessions"
+msgstr "Hantera dina inbjudningar"
+
+#: app/configs/settings.json.j2:67
+#, fuzzy
+msgid "SSO Login"
+msgstr "Logga in"
+
+#: app/configs/settings.json.j2:68
+msgid "Configure SSO login"
+msgstr "Konfigurera SSO-inloggning"
+
+#: app/configs/settings.json.j2:74
+msgid "Multi-Factor Authentication"
+msgstr "Multi-Factor Authentication"
+
+#: app/configs/settings.json.j2:75
+msgid "Configure MFA authentication"
+msgstr "Konfigurera MFA-autentisering"
+
+#: app/configs/settings.json.j2:81
+#, fuzzy
+msgid "Language"
+msgstr "Välj språk"
+
+#: app/configs/settings.json.j2:82
+msgid "Change your language"
+msgstr "Ändra ditt språk"
+
+#: app/configs/settings.json.j2:90
+#, fuzzy
+msgid "UI Settings"
+msgstr "inställningar"
+
+#: app/configs/settings.json.j2:91
+msgid "Modify the look and feel of the server"
+msgstr "Ändra utseendet och känslan på servern"
+
+#: app/configs/settings.json.j2:95
+#, fuzzy
+msgid "Discord"
+msgstr "Discord-widget"
+
+#: app/configs/settings.json.j2:96
+msgid "Enable Discord page and configure settings"
+msgstr "Aktivera Discord-sidan och konfigurera inställningar"
+
+#: app/configs/settings.json.j2:102
+#, fuzzy
+msgid "Custom HTML"
+msgstr "Beställnings"
+
+#: app/configs/settings.json.j2:103
+msgid "Add Custom HTML page to help screen"
+msgstr "Lägg till anpassad HTML-sida på hjälpskärmen"
+
+#: app/configs/settings.json.j2:111
+#, fuzzy
+msgid "Advanced Settings"
+msgstr "Avancerade alternativ"
+
+#: app/configs/settings.json.j2:112
+msgid "Advanced settings for the server"
+msgstr "Avancerade inställningar för servern"
+
+#: app/configs/settings.json.j2:115
+#, fuzzy
+msgid "OAuth Integration"
+msgstr "Skapa inbjudan"
+
+#: app/configs/settings.json.j2:116
+#, fuzzy
+msgid "Configure OAuth integration"
+msgstr "Skapa inbjudan"
+
+#: app/configs/settings.json.j2:122
+#, fuzzy
+msgid "Logs"
+msgstr "Logga in"
+
+#: app/configs/settings.json.j2:123
+msgid "View and download server logs"
+msgstr "Visa och ladda ner serverloggar"
+
+#: app/configs/settings.json.j2:129
+#, fuzzy
+msgid "Tasks"
+msgstr "Kör uppgift"
+
+#: app/configs/settings.json.j2:130
+msgid "View and manage scheduled tasks"
+msgstr "Visa och hantera schemalagda uppgifter"
+
+#: app/configs/settings.json.j2:136
+#, fuzzy
+msgid "Updates"
+msgstr "Uppdatering"
+
+#: app/configs/settings.json.j2:137
+msgid "Check for and view updates"
+msgstr "Sök efter och se uppdateringar"
+
+#: app/configs/settings.json.j2:143
+#, fuzzy
+msgid "Backup"
+msgstr "Tillbaka"
+
+#: app/configs/settings.json.j2:144
+#, fuzzy
+msgid "Create and restore backups"
+msgstr "Skapa ett konto"
+
+#: app/configs/settings.json.j2:150
+msgid "About"
+msgstr "Handla om"
+
+#: app/configs/settings.json.j2:151
+msgid "View information about the server"
+msgstr "Visa information om servern"
+
 #: app/templates/admin.html:4
-#, fuzzy
 msgid "Wizarr"
-msgstr "Konfigurera Wizarr"
+msgstr "Wizarr"
 
-#: app/templates/admin.html:20 app/templates/forgot-password.html:44
-#: app/templates/login.html:61
-#, fuzzy
+#: app/templates/admin.html:20
+#: app/views/authentication/forgot-password.html:44
+#: app/views/authentication/login.html:98
 msgid "Version"
-msgstr "Inställningar"
+msgstr "Version"
 
-#: app/templates/admin.html:20 app/templates/forgot-password.html:44
-#: app/templates/login.html:61
-#, fuzzy
+#: app/templates/admin.html:20
+#: app/views/authentication/forgot-password.html:44
+#: app/views/authentication/login.html:98
 msgid "Stable"
-msgstr "Inaktiverad"
+msgstr "Stabil"
 
-#: app/templates/admin.html:20 app/templates/forgot-password.html:44
-#: app/templates/login.html:61
+#: app/templates/admin.html:20
+#: app/views/authentication/forgot-password.html:44
+#: app/views/authentication/login.html:98
 msgid "Beta"
 msgstr "Beta"
 
@@ -44,21 +249,242 @@ msgstr "Beta"
 msgid "Logout failed"
 msgstr "Det gick inte att logga ut"
 
-#: app/templates/forgot-password.html:4
-#, fuzzy
-msgid "Forgot Password"
-msgstr "Bekräfta lösenord"
+#: app/templates/users.html:5
+msgid "Invite User"
+msgstr "Bjud in användare"
 
-#: app/templates/forgot-password.html:28 app/templates/login.html:40
+#: app/templates/templates/menu.html:16 app/views/home/main.html:3
+msgid "Home"
+msgstr "Hem"
+
+#: app/templates/templates/menu.html:22 app/views/admin/invites.html:4
+msgid "Invitations"
+msgstr "Inbjudningar"
+
+#: app/templates/templates/menu.html:28
+msgid "Users"
+msgstr "Användare"
+
+#: app/templates/templates/menu.html:34 app/views/setup/pages/settings.html:2
+msgid "Settings"
+msgstr "inställningar"
+
+#: app/templates/templates/update.html:13
+msgid "Attention!"
+msgstr "Uppmärksamhet!"
+
+#: app/templates/templates/update.html:14
+msgid "Update available. Click here."
+msgstr "Uppdatering tillgänglig. Klicka här."
+
+#: app/views/admin/invite.html:4 app/views/admin/invite.html:193
+#: app/views/admin/invite.html:581
+msgid "Create Invitation"
+msgstr "Skapa inbjudan"
+
+#: app/views/admin/invite.html:8
+msgid "Create an invitation to your server."
+msgstr "Skapa en inbjudan till din server."
+
+#: app/views/admin/invite.html:21
+msgid "Invite Code String"
+msgstr "Inbjudningskodsträng"
+
+#: app/views/admin/invite.html:21
+msgid "(optional)"
+msgstr "(frivillig)"
+
+#: app/views/admin/invite.html:35
+msgid "Expiration"
+msgstr "Utgång"
+
+#: app/views/admin/invite.html:38 app/views/admin/invite.html:130
+msgid "1 Day"
+msgstr "1 dag"
+
+#: app/views/admin/invite.html:39 app/views/admin/invite.html:131
+msgid "1 Week"
+msgstr "1 vecka"
+
+#: app/views/admin/invite.html:40 app/views/admin/invite.html:132
+msgid "1 Month"
+msgstr "1 månad"
+
+#: app/views/admin/invite.html:41 app/views/admin/invite.html:133
+msgid "6 Months"
+msgstr "6 månader"
+
+#: app/views/admin/invite.html:42 app/views/admin/invite.html:134
+msgid "1 Year"
+msgstr "1 år"
+
+#: app/views/admin/invite.html:43
+msgid "Never"
+msgstr "Aldrig"
+
+#: app/views/admin/invite.html:44 app/views/admin/invite.html:135
+msgid "Custom"
+msgstr "Beställnings"
+
+#: app/views/admin/invite.html:52
+msgid "Custom Expiration"
+msgstr "Anpassat utgångsdatum"
+
+#: app/views/admin/invite.html:60
+msgid "Advanced Options"
+msgstr "Avancerade alternativ"
+
+#: app/views/admin/invite.html:70
+msgid "Unlimited Usages"
+msgstr "Obegränsad användning"
+
+#: app/views/admin/invite.html:79
+msgid "Invite to Plex Home"
+msgstr "Bjud in till Plex Home"
+
+#: app/views/admin/invite.html:90 app/views/tables/invite-table.html:12
+msgid "Allow Downloads"
+msgstr "Tillåt nedladdningar"
+
+#: app/views/admin/invite.html:106 app/views/admin/invite.html:119
+#: app/views/tables/invite-table.html:14
+msgid "Duration"
+msgstr "Varaktighet"
+
+#: app/views/admin/invite.html:114
+msgid "Show Information"
+msgstr "Visa information"
+
+#: app/views/admin/invite.html:120
+msgid ""
+"When set, invited user(s) will be removed from the server after the set "
+"number of days. (1-999)"
+msgstr ""
+"När inställt kommer inbjudna användare att tas bort från servern efter det "
+"angivna antalet dagar. (1-999)"
+
+#: app/views/admin/invite.html:129 app/views/tables/invite-table.html:10
+#: app/views/tables/invite-table.html:80
+msgid "Unlimited"
+msgstr "Obegränsat"
+
+#: app/views/admin/invite.html:143
+msgid "Custom Duration"
+msgstr "Anpassad varaktighet"
+
+#: app/views/admin/invite.html:151
+msgid "Specific Libraries"
+msgstr "Specifika bibliotek"
+
+#: app/views/admin/invite.html:155 app/views/modals/scan-libraries.html:3
+#: app/views/modals/scan-libraries.html:22
+msgid "Select Libraries"
+msgstr "Välj Bibliotek"
+
+#: app/views/admin/invite.html:184
+msgid "Select All"
+msgstr "Välj alla"
+
+#: app/views/admin/invite.html:202
+msgid "Successfully generated an Invitation!"
+msgstr "Har skapat en inbjudan framgångsrikt!"
+
+#: app/views/admin/invite.html:206 app/views/admin/invite.html:356
+msgid "Link has been copied to clipboard!"
+msgstr "Länken har kopierats till urklipp!"
+
+#: app/views/admin/invite.html:212 app/views/admin/settings.html:23
+#: app/views/client/wizard/wizard.html:35
+#: app/views/client/wizard/wizard.html:49 app/views/errors/404.html:20
+msgid "Back"
+msgstr "Tillbaka"
+
+#: app/views/admin/invite.html:218
+msgid "Share"
+msgstr "Dela med sig"
+
+#: app/views/admin/invite.html:357
+msgid "An error occurred while copying the link to the clipboard!"
+msgstr "Ett fel uppstod när länken kopierades till urklipp!"
+
+#: app/views/admin/invite.html:481
+msgid "Deselect all"
+msgstr "Avmarkera alla"
+
+#: app/views/admin/invite.html:483
+msgid "Select all"
+msgstr "Välj alla"
+
+#: app/views/admin/invite.html:507
+msgid "Creating..."
+msgstr "Skapande..."
+
+#: app/views/admin/invite.html:575
+msgid "The invite has been created"
+msgstr "Inbjudan har skapats"
+
+#: app/views/admin/invite.html:578
+msgid "There was an error creating the invite"
+msgstr "Det gick inte att skapa inbjudan"
+
+#: app/views/admin/invites.html:8
+msgid "Manage your invitations"
+msgstr "Hantera dina inbjudningar"
+
+#: app/views/admin/invites.html:13
+msgid "Create Invite"
+msgstr "Skapa inbjudan"
+
+#: app/views/admin/invites.html:16
+msgid "Delete All"
+msgstr "Radera allt"
+
+#: app/views/admin/settings.html:6
+msgid "Server Settings"
+msgstr "Serverinställningar"
+
+#: app/views/admin/settings.html:10
+msgid "Configure your server settings."
+msgstr "Konfigurera dina serverinställningar."
+
+#: app/views/admin/user.html:44
+msgid "User Configuration"
+msgstr "Användarkonfiguration"
+
+#: app/views/admin/user.html:90
+msgid "User Policy"
+msgstr "Användarpolicy"
+
+#: app/views/admin/users.html:4
+msgid "Invited Users"
+msgstr "Inbjudna användare"
+
+#: app/views/admin/users.html:8
+msgid "Manage users that joined your server"
+msgstr "Hantera användare som gick med på din server"
+
+#: app/views/admin/users.html:13
+msgid "Scan Users"
+msgstr "Skanna användare"
+
+#: app/views/admin/users.html:19
+msgid "Add User"
+msgstr "Lägg till användare"
+
+#: app/views/authentication/forgot-password.html:4
+msgid "Forgot Password"
+msgstr "Glömt ditt lösenord"
+
+#: app/views/authentication/forgot-password.html:28
 msgid "Forgot your password?"
 msgstr "Glömt ditt lösenord?"
 
-#: app/templates/forgot-password.html:31
+#: app/views/authentication/forgot-password.html:31
 msgid "No worries, contact the administrator to reset your password."
 msgstr ""
 "Inga bekymmer, kontakta administratören för att återställa ditt lösenord."
 
-#: app/templates/forgot-password.html:34
+#: app/views/authentication/forgot-password.html:34
 msgid ""
 "If you are the administrator, you can reset a password by running the "
 "following script:"
@@ -66,30 +492,414 @@ msgstr ""
 "Om du är administratör kan du återställa ett lösenord genom att köra "
 "följande skript:"
 
-#: app/templates/forgot-password.html:39
-#, fuzzy
+#: app/views/authentication/forgot-password.html:39
 msgid "Go Back"
-msgstr "Tillbaka"
+msgstr "Gå tillbaka"
 
-#: app/templates/forgot-password.html:47 app/templates/login.html:64
+#: app/views/authentication/forgot-password.html:47
+#: app/views/authentication/login.html:101
 msgid "Toggle Theme"
 msgstr "Växla tema"
 
-#: app/templates/homepage.html:3 app/templates/templates/menu.html:16
-msgid "Home"
-msgstr "Hem"
-
-#: app/templates/homepage.html:16 app/templates/login.html:4
-#: app/templates/login.html:28
+#: app/views/authentication/login.html:4
+#: app/views/authentication/login.html:62 app/views/home/main.html:16
 msgid "Login"
 msgstr "Logga in"
 
-#: app/templates/homepage.html:25 app/templates/setup/pages/welcome.html:2
-#, fuzzy
-msgid "Welcome to Wizarr"
-msgstr "Konfigurera Wizarr"
+#: app/views/authentication/login.html:30
+#: app/views/authentication/login.html:47
+msgid "Login with your account"
+msgstr "Logga in med ditt konto"
 
-#: app/templates/homepage.html:28
+#: app/views/authentication/login.html:34
+#: app/views/authentication/login.html:51
+#: app/views/client/invite/signup/jellyfin.html:13
+#: app/views/modals/create-notification-agent.html:143
+#: app/views/settings/profile.html:12 app/views/setup/pages/admin.html:7
+msgid "Username"
+msgstr "Användarnamn"
+
+#: app/views/authentication/login.html:40
+#: app/views/authentication/login.html:83
+#: app/views/client/invite/signup/plex.html:81
+msgid "Continue"
+msgstr "Fortsätta"
+
+#: app/views/authentication/login.html:67
+msgid "Login with MFA"
+msgstr "Logga in med MFA"
+
+#: app/views/authentication/login.html:76
+msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
+msgstr ""
+"Använd ditt fingeravtryck eller ansiktsigenkänning för att verifiera din "
+"identitet"
+
+#: app/views/authentication/login.html:77
+msgid "Press the button below and follow your browser's steps to login"
+msgstr "Tryck på knappen nedan och följ din webbläsares steg för att logga in"
+
+#: app/views/authentication/login.html:88
+msgid "Login with Password"
+msgstr "Logga in med lösenord"
+
+#: app/views/authentication/login.html:178
+msgid "Please enter your username"
+msgstr "Vänligen ange ditt användarnamn"
+
+#: app/views/client/invite/invite-invalid.html:15
+msgid "Invalid Invitation"
+msgstr "Ogiltig inbjudan"
+
+#: app/views/client/invite/join.html:10
+#, python-format
+msgid "Type in your invite code to %(name)s server!"
+msgstr "Skriv in din inbjudningskod till %(name)s server!"
+
+#: app/views/client/invite/join.html:20
+#: app/views/client/invite/signup/jellyfin.html:40
+#: app/views/client/invite/signup/plex.html:25
+#: app/views/tables/invite-table.html:6
+msgid "Invite Code"
+msgstr "Inbjudningskod"
+
+#: app/views/client/invite/join.html:27
+#: app/views/client/invite/signup/plex.html:33
+msgid "Join"
+msgstr "Ansluta sig"
+
+#: app/views/client/invite/signup.html:7
+#: app/views/client/invite/signup.html:14
+#, python-format
+msgid "You've been invited to join the %(name)s server!"
+msgstr "Du har blivit inbjuden att gå med i %(name)s server!"
+
+#: app/views/client/invite/signup/jellyfin.html:3
+msgid "Set up Account"
+msgstr "Konfigurera konto"
+
+#: app/views/client/invite/signup/jellyfin.html:19
+#: app/views/setup/pages/admin.html:11
+msgid "Email"
+msgstr "E-post"
+
+#: app/views/client/invite/signup/jellyfin.html:33
+#: app/views/setup/pages/admin.html:19
+msgid "Confirm password"
+msgstr "Bekräfta lösenord"
+
+#: app/views/client/invite/signup/jellyfin.html:45
+msgid "Create an account"
+msgstr "Skapa ett konto"
+
+#: app/views/client/invite/signup/plex.html:3
+msgid "Join the Plex Server"
+msgstr "Gå med i Plex Server"
+
+#: app/views/client/invite/signup/plex.html:4
+msgid "Sign in to Plex"
+msgstr "Logga in på Plex"
+
+#: app/views/client/invite/signup/plex.html:5
+msgid "Please wait"
+msgstr "Vänta"
+
+#: app/views/client/invite/signup/plex.html:6
+msgid "Setting up your account"
+msgstr "Konfigurera ditt konto"
+
+#: app/views/client/invite/signup/plex.html:7
+msgid "Almost there!"
+msgstr "Nästan där!"
+
+#: app/views/client/invite/signup/plex.html:8
+msgid "All done!"
+msgstr "Helt klar!"
+
+#: app/views/client/invite/signup/plex.html:9
+msgid "Account created!"
+msgstr "Konto skapat!"
+
+#: app/views/client/invite/signup/plex.html:10
+msgid "Please try again"
+msgstr "Var god försök igen"
+
+#: app/views/client/invite/signup/plex.html:78
+msgid ""
+"You're all set, click continue to get started and walkthrough how to use "
+"Plex!"
+msgstr ""
+"Du är klar, klicka på fortsätt för att komma igång och gå igenom hur du "
+"använder Plex!"
+
+#: app/views/client/invite/signup/plex.html:90
+msgid "Something went wrong, please try again."
+msgstr "Något gick fel, försök igen."
+
+#: app/views/client/invite/signup/plex.html:93
+msgid "Retry"
+msgstr "Försök igen"
+
+#: app/views/client/wizard/wizard.html:4
+msgid "Help"
+msgstr "Hjälp"
+
+#: app/views/client/wizard/wizard.html:12
+msgid "Getting Started!"
+msgstr "Komma igång!"
+
+#: app/views/client/wizard/wizard.html:38
+msgid "Next"
+msgstr "Nästa"
+
+#: app/views/client/wizard/wizard.html:45
+msgid "Open"
+msgstr "Öppen"
+
+#: app/views/client/wizard/pages/requests.html:4
+msgid "Automatic Media Requests"
+msgstr "Automatiska medieförfrågningar"
+
+#: app/views/client/wizard/pages/requests.html:9
+msgid ""
+"We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
+"        something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
+"        media you're looking for. "
+msgstr ""
+"Vi är glada över att kunna erbjuda dig ett brett urval av media att välja mellan. Om du har svårt att hitta\n"
+"        något du gillar, oroa dig inte! Vi har ett användarvänligt förfrågningssystem som automatiskt kan söka efter\n"
+"        media du letar efter."
+
+#: app/views/client/wizard/pages/requests.html:20
+msgid "Request any available Movie or TV Show"
+msgstr "Begär en tillgänglig film eller TV-program"
+
+#: app/views/client/wizard/pages/requests.html:27
+msgid "Requested media will be automatically downloaded (if available)"
+msgstr "Begärt media kommer att laddas ned automatiskt (om tillgängligt)"
+
+#: app/views/client/wizard/pages/requests.html:34
+msgid "If enabled, receive notifications"
+msgstr "Ta emot aviseringar om det är aktiverat"
+
+#: app/views/client/wizard/pages/requests.html:40
+msgid "Check it Out"
+msgstr "Kolla in det"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:2
+msgid ""
+"Join & Download Jellyfin\n"
+"        for this device"
+msgstr ""
+"Gå med och ladda ner Jellyfin\n"
+"        för den här enheten"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:7
+msgid ""
+"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
+"    it with Jellyfin."
+msgstr ""
+"Goda nyheter! Du har nu tillgång till vår servers mediasamling. Låt oss se till att du vet hur man använder\n"
+"    det med Jellyfin."
+
+#: app/views/client/wizard/pages/jellyfin/download.html:11
+msgid ""
+"Planning on watching Movies on this device? Download Jellyfin for this "
+"device."
+msgstr ""
+"Planerar du att titta på filmer på den här enheten? Ladda ner Jellyfin för "
+"den här enheten."
+
+#: app/views/client/wizard/pages/jellyfin/download.html:19
+msgid ""
+"If you don't wish to Download the App feel free to use Jellyfin in your "
+"devices web browser, just click \"Next\"."
+msgstr ""
+"Om du inte vill ladda ner appen, använd gärna Jellyfin i din enhets "
+"webbläsare, klicka bara på \"Nästa\"."
+
+#: app/views/client/wizard/pages/jellyfin/download.html:25
+msgid "Show Server URL"
+msgstr "Visa server-URL"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:30
+#: app/views/settings/media.html:20 app/views/setup/pages/settings.html:20
+msgid "Server URL"
+msgstr "Server URL"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:34
+#: app/views/client/wizard/pages/jellyfin/download.html:191
+msgid "Copy"
+msgstr "Kopiera"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:59
+#: app/views/client/wizard/pages/jellyfin/download.html:83
+msgid "Open Jellyfin"
+msgstr "Öppna Jellyfin"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:139
+msgid "Other Download"
+msgstr "Annan nedladdning"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:188
+msgid "Copied!"
+msgstr "Kopierade!"
+
+#: app/views/client/wizard/pages/jellyfin/tips.html:3
+#: app/views/client/wizard/pages/plex/tips.html:3
+msgid "Right, so how do I watch stuff?"
+msgstr "Okej, så hur ser jag på saker?"
+
+#: app/views/client/wizard/pages/jellyfin/tips.html:6
+msgid ""
+"It couldn't be simpler! Jellyfin is available on a wide variety of devices "
+"including laptops, tablets, smartphones, and TVs. All you need to do is "
+"download the Jellyfin app on your device, sign in with your account, and "
+"you're ready to start streaming your media."
+msgstr ""
+"Det kan inte bli enklare! Jellyfin är tillgänglig på en mängd olika enheter "
+"inklusive bärbara datorer, surfplattor, smartphones och TV-apparater. Allt "
+"du behöver göra är att ladda ner Jellyfin-appen på din enhet, logga in med "
+"ditt konto och du är redo att börja streama din media."
+
+#: app/views/client/wizard/pages/jellyfin/tips.html:9
+msgid "It's that easy!"
+msgstr "Så enkelt är det!"
+
+#: app/views/client/wizard/pages/jellyfin/welcome.html:3
+msgid "Eh, So, What is Jellyfin exactly?"
+msgstr "Eh, så, vad är Jellyfin exakt?"
+
+#: app/views/client/wizard/pages/jellyfin/welcome.html:6
+msgid ""
+"Jellyfin is a platform that lets you stream all your favorite movies, TV "
+"shows, and music in one place. It's like having your own personal movie "
+"theater right at your fingertips! Think of it as a digital library of your "
+"favorite content that you can access from anywhere, on any device - your "
+"phone, tablet, laptop, smart TV, you name it."
+msgstr ""
+"Jellyfin är en plattform som låter dig strömma alla dina favoritfilmer, TV-"
+"program och musik på ett ställe. Det är som att ha din egen personliga "
+"biograf nära till hands! Se det som ett digitalt bibliotek med ditt "
+"favoritinnehåll som du kan komma åt var som helst, på vilken enhet som helst"
+" - din telefon, surfplatta, bärbara dator, smart-TV, you name it."
+
+#: app/views/client/wizard/pages/plex/download.html:4
+msgid "Join & Download Plex for this device"
+msgstr "Gå med och ladda ner Plex för den här enheten"
+
+#: app/views/client/wizard/pages/plex/download.html:8
+msgid ""
+"So you now have access to our server's media collection. Let's make sure you"
+" know how to use it with Plex."
+msgstr ""
+"Så du har nu tillgång till vår servers mediasamling. Låt oss se till att du "
+"vet hur du använder den med Plex."
+
+#: app/views/client/wizard/pages/plex/download.html:11
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
+msgstr ""
+"Planerar du att titta på filmer på den här enheten? Ladda ner Plex för den "
+"här enheten."
+
+#: app/views/client/wizard/pages/plex/download.html:14
+msgid "Download"
+msgstr "Ladda ner"
+
+#: app/views/client/wizard/pages/plex/tips.html:6
+msgid ""
+"It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+"        smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
+"        you're ready to start streaming your media. It's that easy!"
+msgstr ""
+"Det kan inte bli enklare! Plex är tillgängligt på en mängd olika enheter inklusive bärbara datorer, surfplattor,\n"
+"        smartphones och TV-apparater. Allt du behöver göra är att ladda ner Plex-appen på din enhet, logga in med ditt konto och\n"
+"        du är redo att börja streama din media. Så enkelt är det!"
+
+#: app/views/client/wizard/pages/plex/tips.html:11
+msgid "How can I make sure to have the best experience?"
+msgstr "Hur kan jag se till att få den bästa upplevelsen?"
+
+#: app/views/client/wizard/pages/plex/tips.html:14
+msgid ""
+"Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+"        sharing with you - they also, by default, play content at a lower quality. "
+msgstr ""
+"Eftersom Plex är en gratistjänst marknadsför de sitt eget innehåll före det fantastiska innehåll som din vän är nu\n"
+"        delar med dig – de spelar också som standard upp innehåll med lägre kvalitet."
+
+#: app/views/client/wizard/pages/plex/tips.html:17
+msgid "No need to worry though, this can be easily resolved"
+msgstr "Du behöver dock inte oroa dig, detta kan enkelt lösas"
+
+#: app/views/client/wizard/pages/plex/tips.html:17
+msgid ""
+"We highly\n"
+"            recommend you to go through those steps first!"
+msgstr ""
+"Vi högt\n"
+"            rekommenderar dig att gå igenom dessa steg först!"
+
+#: app/views/client/wizard/pages/plex/welcome.html:3
+msgid "Eh, So, What is Plex exactly?"
+msgstr "Eh, så, vad är Plex exakt?"
+
+#: app/views/client/wizard/pages/plex/welcome.html:6
+msgid ""
+"Great question! Plex is a software that allows individuals to share their "
+"media collections with others. If you've received this invitation, it means "
+"someone wants to share their library with you."
+msgstr ""
+"Bra fråga! Plex är en programvara som låter individer dela sina "
+"mediesamlingar med andra. Om du har fått den här inbjudan betyder det att "
+"någon vill dela sitt bibliotek med dig."
+
+#: app/views/client/wizard/pages/plex/welcome.html:9
+msgid ""
+"With Plex, you'll have access to all of the movies, TV shows, music, and "
+"photos that are stored on their server!"
+msgstr ""
+"Med Plex har du tillgång till alla filmer, TV-program, musik och foton som "
+"finns lagrade på deras server!"
+
+#: app/views/client/wizard/pages/plex/welcome.html:12
+msgid "So let's see how to get started!"
+msgstr "Så låt oss se hur du kommer igång!"
+
+#: app/views/errors/401.html:20
+msgid "Permission denied."
+msgstr "Åtkomst nekad."
+
+#: app/views/errors/401.html:23
+msgid "You are attempting to do something you shouldn't be doing..."
+msgstr "Du försöker göra något du inte borde göra..."
+
+#: app/views/errors/404.html:31
+msgid "Something's missing."
+msgstr "Någonting saknas."
+
+#: app/views/errors/404.html:33
+msgid "Sorry, we can't find that page. It doesn't seem to exist!"
+msgstr "Tyvärr, vi kan inte hitta den sidan. Det verkar inte finnas!"
+
+#: app/views/errors/500.html:19
+msgid "Internal Server Error."
+msgstr "Internt serverfel."
+
+#: app/views/errors/500.html:21
+msgid " Something has gone wrong. Please try again later."
+msgstr "Något har gått fel. Vänligen försök igen senare."
+
+#: app/views/errors/custom.html:20
+msgid "Get Help"
+msgstr "Få hjälp"
+
+#: app/views/home/main.html:25 app/views/setup/pages/welcome.html:2
+msgid "Welcome to Wizarr"
+msgstr "Välkommen till Wizarr"
+
+#: app/views/home/main.html:28
 msgid ""
 "Wizarr is a software tool that provides advanced user invitation and "
 "management capabilities for media servers such as Jellyfin, Emby, and Plex. "
@@ -101,7 +911,7 @@ msgstr ""
 "Jellyfin, Emby och Plex. Med Wizarr kan serveradministratörer enkelt bjuda "
 "in nya användare och hantera deras åtkomstbehörigheter."
 
-#: app/templates/homepage.html:32
+#: app/views/home/main.html:32
 msgid ""
 "If you were sent here by a friend, please request access or if you have an "
 "invite code, please click Get Started."
@@ -109,935 +919,366 @@ msgstr ""
 "Om du skickades hit av en vän, vänligen begär åtkomst eller om du har en "
 "inbjudningskod, klicka på Kom igång."
 
-#: app/templates/homepage.html:36
+#: app/views/home/main.html:36
 msgid "Get Started"
 msgstr "Komma igång"
 
-#: app/templates/homepage.html:41
+#: app/views/home/main.html:41
 msgid "or"
 msgstr "eller"
 
-#: app/templates/homepage.html:45
-#, fuzzy
+#: app/views/home/main.html:45
 msgid "Request Access"
-msgstr "Server adress"
-
-#: app/templates/admin/settings/profile.html:12
-#: app/templates/invite/signup/jellyfin.html:13 app/templates/login.html:32
-#: app/templates/modals/create-notification-agent.html:143
-#: app/templates/setup/pages/admin.html:7
-msgid "Username"
-msgstr "Användarnamn"
-
-#: app/templates/admin/settings/main.html:50
-#: app/templates/admin/settings/password.html:6
-#: app/templates/invite/signup/jellyfin.html:27 app/templates/login.html:36
-#: app/templates/modals/create-notification-agent.html:148
-#: app/templates/setup/pages/admin.html:15
-msgid "Password"
-msgstr "Lösenord"
-
-#: app/templates/login.html:50
-msgid "Remember me"
-msgstr "Kom ihåg mig"
-
-#: app/templates/login.html:55
-msgid "Sign in"
-msgstr "Logga in"
-
-#: app/templates/login.html:104
-#, fuzzy
-msgid "Internal server error"
-msgstr "Internt serverfel."
-
-#: app/templates/users.html:5
-msgid "Invite User"
-msgstr "Bjud in användare"
-
-#: app/templates/admin/invite.html:4 app/templates/admin/invite.html:193
-#: app/templates/admin/invite.html:581
-msgid "Create Invitation"
-msgstr "Skapa inbjudan"
-
-#: app/templates/admin/invite.html:8
-#, fuzzy
-msgid "Create an invitation to your server."
-msgstr "Skapa inbjudan"
-
-#: app/templates/admin/invite.html:21
-msgid "Invite Code String"
-msgstr "Inbjudningskod"
-
-#: app/templates/admin/invite.html:21
-msgid "(optional)"
-msgstr "(valfritt)"
-
-#: app/templates/admin/invite.html:35
-msgid "Expiration"
-msgstr "Löper ut"
-
-#: app/templates/admin/invite.html:38 app/templates/admin/invite.html:130
-#, fuzzy
-msgid "1 Day"
-msgstr "1 dag"
-
-#: app/templates/admin/invite.html:39 app/templates/admin/invite.html:131
-#, fuzzy
-msgid "1 Week"
-msgstr "1 vecka"
-
-#: app/templates/admin/invite.html:40 app/templates/admin/invite.html:132
-#, fuzzy
-msgid "1 Month"
-msgstr "1 månad"
-
-#: app/templates/admin/invite.html:41 app/templates/admin/invite.html:133
-#, fuzzy
-msgid "6 Months"
-msgstr "1 månad"
-
-#: app/templates/admin/invite.html:42 app/templates/admin/invite.html:134
-msgid "1 Year"
-msgstr "1 år"
-
-#: app/templates/admin/invite.html:43
-msgid "Never"
-msgstr "Aldrig"
-
-#: app/templates/admin/invite.html:44 app/templates/admin/invite.html:135
-msgid "Custom"
-msgstr "Beställnings"
-
-#: app/templates/admin/invite.html:52
-#, fuzzy
-msgid "Custom Expiration"
-msgstr "Löper ut"
-
-#: app/templates/admin/invite.html:60
-msgid "Advanced Options"
-msgstr "Avancerade inställningar"
-
-#: app/templates/admin/invite.html:70
-msgid "Unlimited Usages"
-msgstr "Obegränsad användning"
-
-#: app/templates/admin/invite.html:79
-#, fuzzy
-msgid "Invite to Plex Home"
-msgstr "Inbjudningskod"
-
-#: app/templates/admin/invite.html:90
-#: app/templates/tables/invite-table.html:12
-#, fuzzy
-msgid "Allow Downloads"
-msgstr "Ladda ner"
-
-#: app/templates/admin/invite.html:106 app/templates/admin/invite.html:119
-#: app/templates/tables/invite-table.html:14
-msgid "Duration"
-msgstr "Löper ut"
-
-#: app/templates/admin/invite.html:114
-msgid "Show Information"
-msgstr "Visa information"
-
-#: app/templates/admin/invite.html:120
-#, fuzzy
-msgid ""
-"When set, invited user(s) will be removed from the server after the set "
-"number of days. (1-999)"
-msgstr ""
-"När satt kommer inbjuden användare bli borttagen från Plex servern efter \n"
-"                                        antal\n"
-"                                        dagar. (1-999)"
-
-#: app/templates/admin/invite.html:129
-#: app/templates/tables/invite-table.html:10
-#: app/templates/tables/invite-table.html:80
-msgid "Unlimited"
-msgstr "Obegränsad"
-
-#: app/templates/admin/invite.html:143
-#, fuzzy
-msgid "Custom Duration"
-msgstr "Löper ut"
-
-#: app/templates/admin/invite.html:151
-#, fuzzy
-msgid "Specific Libraries"
-msgstr "Bibliotek"
-
-#: app/templates/admin/invite.html:155
-#: app/templates/modals/scan-libraries.html:3
-#: app/templates/modals/scan-libraries.html:22
-#, fuzzy
-msgid "Select Libraries"
-msgstr "Bibliotek"
-
-#: app/templates/admin/invite.html:184
-#, fuzzy
-msgid "Select All"
-msgstr "Standard"
-
-#: app/templates/admin/invite.html:202
-msgid "Successfully generated an Invitation!"
-msgstr "Skapandet av en inbjudan lyckades!"
-
-#: app/templates/admin/invite.html:206 app/templates/admin/invite.html:356
-msgid "Link has been copied to clipboard!"
-msgstr "Länken har kopierats till urklipp!"
-
-#: app/templates/admin/invite.html:212 app/templates/admin/settings.html:23
-#: app/templates/error/404.html:20 app/templates/wizard/base.html:35
-#: app/templates/wizard/base.html:49
-msgid "Back"
-msgstr "Tillbaka"
-
-#: app/templates/admin/invite.html:218
-msgid "Share"
-msgstr "Dela"
-
-#: app/templates/admin/invite.html:357
-msgid "An error occurred while copying the link to the clipboard!"
-msgstr "Ett fel uppstod när länken kopierades till urklipp!"
-
-#: app/templates/admin/invite.html:481
-#, fuzzy
-msgid "Deselect all"
-msgstr "Standard"
-
-#: app/templates/admin/invite.html:483
-#, fuzzy
-msgid "Select all"
-msgstr "Standard"
-
-#: app/templates/admin/invite.html:507
-msgid "Creating..."
-msgstr "Skapande..."
-
-#: app/templates/admin/invite.html:575
-msgid "The invite has been created"
-msgstr "Inbjudan har skapats"
-
-#: app/templates/admin/invite.html:578
-msgid "There was an error creating the invite"
-msgstr "Det gick inte att skapa inbjudan"
-
-#: app/templates/admin/invites.html:4 app/templates/templates/menu.html:22
-msgid "Invitations"
-msgstr "Inbjudan"
-
-#: app/templates/admin/invites.html:8
-#, fuzzy
-msgid "Manage your invitations"
-msgstr "Inbjudan"
-
-#: app/templates/admin/invites.html:13
-#, fuzzy
-msgid "Create Invite"
-msgstr "Skapa inbjudan"
-
-#: app/templates/admin/invites.html:16
-#, fuzzy
-msgid "Delete All"
-msgstr "Standard"
-
-#: app/templates/admin/settings.html:6
-#, fuzzy
-msgid "Server Settings"
-msgstr "Ändra serverinställningar"
-
-#: app/templates/admin/settings.html:10
-#, fuzzy
-msgid "Configure your server settings."
-msgstr "Ändra serverinställningar"
-
-#: app/templates/admin/user.html:44
-msgid "User Configuration"
-msgstr "Användarkonfiguration"
-
-#: app/templates/admin/user.html:90
-msgid "User Policy"
-msgstr "Användarpolicy"
-
-#: app/templates/admin/users.html:4
-#, fuzzy
-msgid "Invited Users"
-msgstr "Bjud in användare"
-
-#: app/templates/admin/users.html:8
-msgid "Manage users that joined your server"
-msgstr "Hantera användare som gick med på din server"
-
-#: app/templates/admin/users.html:13
-#, fuzzy
-msgid "Scan Users"
-msgstr "Användare"
-
-#: app/templates/admin/users.html:19
-#, fuzzy
-msgid "Add User"
-msgstr "Användare"
-
-#: app/templates/admin/settings/about.html:111
-#: app/templates/admin/settings/about.html:221
-msgid "Load More"
-msgstr "Ladda mer"
-
-#: app/templates/admin/settings/accounts.html:13
-#, fuzzy
-msgid "My Account"
-msgstr "Skapa ett konto"
-
-#: app/templates/admin/settings/accounts.html:16
-#, fuzzy
-msgid "Add Admin"
-msgstr "Administratör"
-
-#: app/templates/admin/settings/api.html:38
-#: app/templates/modals/create-api-key.html:3
-#, fuzzy
-msgid "Create API Key"
-msgstr "Skapa ett konto"
-
-#: app/templates/admin/settings/discord.html:4
-#, fuzzy
-msgid "Discord Server ID"
-msgstr ""
-"Discord\n"
-"                Server ID"
-
-#: app/templates/admin/settings/discord.html:9
-msgid "Discord Widget"
-msgstr "Discord-widget"
-
-#: app/templates/admin/settings/discord.html:19
-#: app/templates/admin/settings/html.html:9
-#: app/templates/admin/settings/media.html:38
-#: app/templates/admin/settings/requests.html:26
-msgid "Save"
-msgstr "Spara"
-
-#: app/templates/admin/settings/discord.html:42
-#: app/templates/admin/settings/html.html:25
-#: app/templates/admin/settings/media.html:54
-#: app/templates/admin/settings/requests.html:58
-msgid "Settings saved successfully!"
-msgstr "Inställningarna har sparats!"
-
-#: app/templates/admin/settings/language.html:3
-msgid "Please use the dropdown below to select your language."
-msgstr "Använd rullgardinsmenyn nedan för att välja ditt språk."
-
-#: app/templates/admin/settings/language.html:7
-#, fuzzy
-msgid "Select Language"
-msgstr "Bibliotek"
-
-#: app/templates/admin/settings/main.html:5
-#, fuzzy
-msgid "Main Settings"
-msgstr "Inställningar"
-
-#: app/templates/admin/settings/main.html:6
-msgid "General settings for the server"
-msgstr "Allmänna inställningar för servern"
-
-#: app/templates/admin/settings/main.html:9
-#, fuzzy
-msgid "Media Server"
-msgstr "Server adress"
-
-#: app/templates/admin/settings/main.html:10
-#, fuzzy
-msgid "Configure your media server settings"
-msgstr "Ändra serverinställningar"
-
-#: app/templates/admin/settings/main.html:16
-msgid "Requests"
-msgstr "Förfrågningar"
-
-#: app/templates/admin/settings/main.html:17
-msgid "Add Jellyseerr, Overseerr or Ombi support"
-msgstr "Lägg till Jellyseerr, Overseerr eller Ombi support"
-
-#: app/templates/admin/settings/main.html:23
-#, fuzzy
-msgid "API keys"
-msgstr "Skapa ett konto"
-
-#: app/templates/admin/settings/main.html:24
-msgid "Add API keys for external services"
-msgstr "Lägg till API-nycklar för externa tjänster"
-
-#: app/templates/admin/settings/main.html:30
-#, fuzzy
-msgid "Notifications"
-msgstr "Inbjudan"
-
-#: app/templates/admin/settings/main.html:31
-msgid "Configure notification settings"
-msgstr "Konfigurera aviseringsinställningar"
-
-#: app/templates/admin/settings/main.html:39
-#, fuzzy
-msgid "Account Settings"
-msgstr "Inställningar"
-
-#: app/templates/admin/settings/main.html:40
-#, fuzzy
-msgid "Settings for user accounts"
-msgstr "Skapa ett konto"
-
-#: app/templates/admin/settings/main.html:43
-msgid "Profile"
-msgstr "Profil"
-
-#: app/templates/admin/settings/main.html:44
-#, fuzzy
-msgid "Configure your profile settings"
-msgstr "Konfigurera Plex in din webbläsare"
-
-#: app/templates/admin/settings/main.html:51
-#, fuzzy
-msgid "Change your password"
-msgstr "Bekräfta lösenord"
-
-#: app/templates/admin/settings/main.html:57
-#, fuzzy
-msgid "Sessions"
-msgstr "Inställningar"
-
-#: app/templates/admin/settings/main.html:58
-msgid "View and manage your active sessions"
-msgstr "Visa och hantera dina aktiva sessioner"
-
-#: app/templates/admin/settings/main.html:64
-msgid "Language"
-msgstr "Språk"
-
-#: app/templates/admin/settings/main.html:65
-#, fuzzy
-msgid "Change your language"
-msgstr "Bekräfta lösenord"
-
-#: app/templates/admin/settings/main.html:73
-#, fuzzy
-msgid "UI Settings"
-msgstr "Inställningar"
-
-#: app/templates/admin/settings/main.html:74
-msgid "Modify the look and feel of the server"
-msgstr "Ändra utseendet och känslan på servern"
-
-#: app/templates/admin/settings/main.html:77
-msgid "Discord"
-msgstr "Disharmoni"
-
-#: app/templates/admin/settings/main.html:78
-msgid "Enable Discord page and configure settings"
-msgstr "Aktivera Discord-sidan och konfigurera inställningar"
-
-#: app/templates/admin/settings/main.html:84
-#, fuzzy
-msgid "Custom HTML"
-msgstr "Löper ut"
-
-#: app/templates/admin/settings/main.html:85
-msgid "Add Custom HTML page to help screen"
-msgstr "Lägg till anpassad HTML-sida på hjälpskärmen"
-
-#: app/templates/admin/settings/main.html:93
-#, fuzzy
-msgid "Advanced Settings"
-msgstr "Avancerade inställningar"
-
-#: app/templates/admin/settings/main.html:94
-msgid "Advanced settings for the server"
-msgstr "Avancerade inställningar för servern"
-
-#: app/templates/admin/settings/main.html:97
-#, fuzzy
-msgid "Logs"
-msgstr "Logga in"
-
-#: app/templates/admin/settings/main.html:98
-msgid "View and download server logs"
-msgstr "Visa och ladda ner serverloggar"
-
-#: app/templates/admin/settings/main.html:104
-#, fuzzy
-msgid "Tasks"
-msgstr "Kör uppgift"
-
-#: app/templates/admin/settings/main.html:105
-#, fuzzy
-msgid "View and manage scheduled tasks"
-msgstr "Visa och hantera dina aktiva sessioner"
-
-#: app/templates/admin/settings/main.html:111
-#, fuzzy
-msgid "Updates"
-msgstr "Bibliotek"
-
-#: app/templates/admin/settings/main.html:112
-msgid "Check for and view updates"
-msgstr "Sök efter och se uppdateringar"
-
-#: app/templates/admin/settings/main.html:118
-#, fuzzy
-msgid "Backup"
-msgstr "Tillbaka"
-
-#: app/templates/admin/settings/main.html:119
-#, fuzzy
-msgid "Create and restore backups"
-msgstr "Skapa ett konto"
-
-#: app/templates/admin/settings/main.html:125
-#, fuzzy
-msgid "About"
-msgstr "Skapa ett konto"
-
-#: app/templates/admin/settings/main.html:126
-msgid "View information about the server"
-msgstr "Visa information om servern"
-
-#: app/templates/admin/settings/main.html:164
-msgid "No settings matched your search."
-msgstr "Inga inställningar matchade din sökning."
-
-#: app/templates/admin/settings/media.html:6
-#: app/templates/setup/pages/settings.html:6
-#, fuzzy
-msgid "Server Display Name"
-msgstr ""
-"Server uppvisning\n"
-"                Namn"
-
-#: app/templates/admin/settings/media.html:11
-#: app/templates/setup/pages/settings.html:11
-#, fuzzy
-msgid "Server"
-msgstr "Server adress"
-
-#: app/templates/admin/settings/media.html:13
-msgid "Choose a server"
-msgstr "Välj en server"
-
-#: app/templates/admin/settings/media.html:20
-#: app/templates/setup/pages/settings.html:20
-#: app/templates/wizard/pages/jellyfin/download.html:30
-msgid "Server URL"
-msgstr "Server adress"
-
-#: app/templates/admin/settings/media.html:25
-#: app/templates/setup/pages/settings.html:25
-#, fuzzy
-msgid "Server Token / API Key"
-msgstr ""
-"Server\n"
-"                Tecken / API nyckel"
-
-#: app/templates/admin/settings/media.html:30
-#: app/templates/modals/update-libraries.html:3
-#: app/templates/setup/pages/settings.html:37
-#, fuzzy
-msgid "Server Libraries"
-msgstr "Bibliotek"
-
-#: app/templates/admin/settings/media.html:32
-#: app/templates/setup/pages/settings.html:39
-msgid "Scan For Libraries"
-msgstr "Skanna för bibliotek"
-
-#: app/templates/admin/settings/notifications.html:18
-#, fuzzy
-msgid "Create Agent"
-msgstr "Skapa ett konto"
-
-#: app/templates/admin/settings/password.html:12
-#, fuzzy
-msgid "Confirm Password"
-msgstr "Bekräfta lösenord"
-
-#: app/templates/admin/settings/password.html:19
-#, fuzzy
-msgid "Reset Password"
-msgstr "Lösenord"
-
-#: app/templates/admin/settings/profile.html:6
-#, fuzzy
-msgid "Display Name"
-msgstr ""
-"Server uppvisning\n"
-"                Namn"
-
-#: app/templates/admin/settings/profile.html:18
-msgid "Email Address"
-msgstr "E-postadress"
-
-#: app/templates/admin/settings/profile.html:25
-msgid "Update"
-msgstr "Uppdatering"
-
-#: app/templates/admin/settings/requests.html:4
-#, fuzzy
-msgid "Request Server"
-msgstr "Server adress"
-
-#: app/templates/admin/settings/requests.html:6
-msgid "Disabled"
-msgstr "Inaktiverad"
-
-#: app/templates/admin/settings/requests.html:15
-#, fuzzy
-msgid "Request Server URL"
-msgstr "Server adress"
-
-#: app/templates/admin/settings/requests.html:20
-msgid "Request Server API Key"
-msgstr "Begär server-API-nyckel"
-
-#: app/templates/admin/settings/sessions.html:14
-msgid "Revoke All"
-msgstr "Återkalla alla"
-
-#: app/templates/error/401.html:20
-msgid "Permission denied."
-msgstr "Åtkomst nekad."
-
-#: app/templates/error/401.html:23
-msgid "You are attempting to do something you shouldn't be doing..."
-msgstr "Du försöker göra något som du inte borde göra..."
-
-#: app/templates/error/404.html:31
-msgid "Something's missing."
-msgstr "Något saknas."
-
-#: app/templates/error/404.html:33
-msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "Ledsen, vi kan inte hitta den sidan. Den verkar inte finnas!"
-
-#: app/templates/error/500.html:19
-msgid "Internal Server Error."
-msgstr "Internt serverfel."
-
-#: app/templates/error/500.html:21
-msgid " Something has gone wrong. Please try again later."
-msgstr " Något har gått fel. Vänligen försök igen senare."
-
-#: app/templates/error/custom.html:20
-msgid "Get Help"
-msgstr "Få hjälp"
-
-#: app/templates/invite/invite-invalid.html:15
-#, fuzzy
-msgid "Invalid Invitation"
-msgstr "Inbjudan"
-
-#: app/templates/invite/join.html:10
-#, fuzzy, python-format
-msgid "Type in your invite code to %(name)s server!"
-msgstr "Du har blivit inbjuden till %(name)s!"
-
-#: app/templates/invite/join.html:20
-#: app/templates/invite/signup/jellyfin.html:40
-#: app/templates/invite/signup/plex.html:25
-#: app/templates/tables/invite-table.html:6
-msgid "Invite Code"
-msgstr "Inbjudningskod"
-
-#: app/templates/invite/join.html:27 app/templates/invite/signup/plex.html:33
-msgid "Join"
-msgstr "Gå med"
-
-#: app/templates/invite/signup.html:7 app/templates/invite/signup.html:14
-#, python-format
-msgid "You've been invited to join the %(name)s server!"
-msgstr "Du har blivit inbjuden till %(name)s!"
-
-#: app/templates/invite/signup/jellyfin.html:3
-msgid "Set up Account"
-msgstr "Skapa ett konto"
-
-#: app/templates/invite/signup/jellyfin.html:19
-#: app/templates/setup/pages/admin.html:11
-msgid "Email"
-msgstr "Epost"
-
-#: app/templates/invite/signup/jellyfin.html:33
-#: app/templates/setup/pages/admin.html:19
-msgid "Confirm password"
-msgstr "Bekräfta lösenord"
-
-#: app/templates/invite/signup/jellyfin.html:45
-msgid "Create an account"
-msgstr "Skapa ett konto"
-
-#: app/templates/invite/signup/plex.html:3
-msgid "Join the Plex Server"
-msgstr "Ta del av Plex-servern"
-
-#: app/templates/invite/signup/plex.html:4
-#, fuzzy
-msgid "Sign in to Plex"
-msgstr "Logga in"
-
-#: app/templates/invite/signup/plex.html:5
-msgid "Please wait"
-msgstr "Vänta"
-
-#: app/templates/invite/signup/plex.html:6
-#, fuzzy
-msgid "Setting up your account"
-msgstr "Skapa ett konto"
-
-#: app/templates/invite/signup/plex.html:7
-msgid "Almost there!"
-msgstr "Nästan där!"
-
-#: app/templates/invite/signup/plex.html:8
-msgid "All done!"
-msgstr "Helt klar!"
-
-#: app/templates/invite/signup/plex.html:9
-#, fuzzy
-msgid "Account created!"
-msgstr "Skapad"
-
-#: app/templates/invite/signup/plex.html:10
-msgid "Please try again"
-msgstr "Var god försök igen"
-
-#: app/templates/invite/signup/plex.html:78
-msgid ""
-"You're all set, click continue to get started and walkthrough how to use "
-"Plex!"
-msgstr ""
-"Du är klar, klicka på fortsätt för att komma igång och gå igenom hur du "
-"använder Plex!"
-
-#: app/templates/invite/signup/plex.html:81
-msgid "Continue"
-msgstr "Fortsätta"
-
-#: app/templates/invite/signup/plex.html:90
-#, fuzzy
-msgid "Something went wrong, please try again."
-msgstr " Något har gått fel. Vänligen försök igen senare."
-
-#: app/templates/invite/signup/plex.html:93
-msgid "Retry"
-msgstr "Försök igen"
-
-#: app/templates/modals/create-api-key.html:9
-#: app/templates/modals/create-notification-agent.html:13
-#, fuzzy
+msgstr "Begära tillgång"
+
+#: app/views/modals/add-mfa.html:3
+msgid "Add Passkey"
+msgstr "Lägg till lösenord"
+
+#: app/views/modals/add-mfa.html:9 app/views/modals/add-oauth.html:10
+#: app/views/modals/create-api-key.html:9
+#: app/views/modals/create-notification-agent.html:13
 msgid "Name"
-msgstr "Användarnamn"
+msgstr "namn"
 
-#: app/templates/modals/create-api-key.html:14
-#: app/templates/modals/create-notification-agent.html:46
-#: app/templates/modals/delete-api-key.html:13
-#: app/templates/modals/delete-notification-agent.html:13
-#: app/templates/modals/revoke-session.html:13
-#: app/templates/modals/run-task.html:13
-#: app/templates/modals/scan-libraries.html:19
-#: app/templates/modals/update-libraries.html:23
+#: app/views/modals/add-mfa.html:14 app/views/modals/add-oauth.html:46
+#: app/views/modals/create-api-key.html:14
+#: app/views/modals/create-notification-agent.html:46
+#: app/views/modals/delete-api-key.html:13
+#: app/views/modals/delete-notification-agent.html:13
+#: app/views/modals/revoke-session.html:13 app/views/modals/run-task.html:13
+#: app/views/modals/scan-libraries.html:19
+#: app/views/modals/update-libraries.html:23
 msgid "Cancel"
 msgstr "Annullera"
 
-#: app/templates/modals/create-api-key.html:17
-#, fuzzy
+#: app/views/modals/add-mfa.html:17 app/views/modals/create-api-key.html:17
 msgid "Create"
-msgstr "Skapad"
+msgstr "Skapa"
 
-#: app/templates/modals/create-api-key.html:46
+#: app/views/modals/add-oauth.html:3
+msgid "New OAuth"
+msgstr "Ny OAuth"
+
+#: app/views/modals/add-oauth.html:15
+msgid "Client ID"
+msgstr "Klient ID"
+
+#: app/views/modals/add-oauth.html:20
+msgid "Client Secret"
+msgstr "Klienthemlighet"
+
+#: app/views/modals/add-oauth.html:25
+msgid "Request Token URL"
+msgstr "Begär token-URL"
+
+#: app/views/modals/add-oauth.html:30
+msgid "Authorize URL"
+msgstr "Auktorisera URL"
+
+#: app/views/modals/add-oauth.html:35
+msgid "Access Token URL"
+msgstr "Access Token URL"
+
+#: app/views/modals/add-oauth.html:40
+msgid "User Info URL"
+msgstr "Användarinformation URL"
+
+#: app/views/modals/add-oauth.html:49
+msgid "Test & Create OAuth"
+msgstr "Testa och skapa OAuth"
+
+#: app/views/modals/create-api-key.html:3 app/views/settings/api.html:38
+msgid "Create API Key"
+msgstr "Skapa API-nyckel"
+
+#: app/views/modals/create-api-key.html:46
 msgid "Please fill out all required fields."
 msgstr "Var god fyll i alla obligatoriska fält."
 
-#: app/templates/modals/create-api-key.html:70
+#: app/views/modals/create-api-key.html:70
 msgid "API key already exists."
 msgstr "API-nyckel finns redan."
 
-#: app/templates/modals/create-api-key.html:76
-#: app/templates/modals/delete-notification-agent.html:35
+#: app/views/modals/create-api-key.html:76
+#: app/views/modals/delete-notification-agent.html:35
 msgid "You are not authorized to perform this action."
 msgstr "Du är inte behörig att utföra den här åtgärden."
 
-#: app/templates/modals/create-api-key.html:82
-#: app/templates/modals/run-task.html:35
-#, fuzzy
+#: app/views/modals/create-api-key.html:82 app/views/modals/run-task.html:35
 msgid "Something went wrong."
-msgstr " Något har gått fel. Vänligen försök igen senare."
+msgstr "Något gick fel."
 
-#: app/templates/modals/create-api-key.html:86
-#, fuzzy
+#: app/views/modals/create-api-key.html:86
 msgid "API key created."
-msgstr "Skapad"
+msgstr "API-nyckel skapad."
 
-#: app/templates/modals/create-notification-agent.html:3
+#: app/views/modals/create-notification-agent.html:3
 msgid "New Agent"
 msgstr "Ny agent"
 
-#: app/templates/modals/create-notification-agent.html:18
+#: app/views/modals/create-notification-agent.html:18
 msgid "Notification Service"
 msgstr "Aviseringstjänst"
 
-#: app/templates/modals/create-notification-agent.html:20
+#: app/views/modals/create-notification-agent.html:20
 msgid "Choose a service"
 msgstr "Välj en tjänst"
 
-#: app/templates/modals/create-notification-agent.html:30
-#: app/templates/modals/create-notification-agent.html:88
-#, fuzzy
+#: app/views/modals/create-notification-agent.html:30
+#: app/views/modals/create-notification-agent.html:88
 msgid "Username (optional)"
-msgstr "(valfritt)"
+msgstr "Användarnamn (valfritt)"
 
-#: app/templates/modals/create-notification-agent.html:34
-#: app/templates/modals/create-notification-agent.html:93
-#, fuzzy
+#: app/views/modals/create-notification-agent.html:34
+#: app/views/modals/create-notification-agent.html:93
 msgid "Password (optional)"
-msgstr "(valfritt)"
+msgstr "Lösenord (valfritt)"
 
-#: app/templates/modals/create-notification-agent.html:39
-#: app/templates/modals/create-notification-agent.html:98
-#: app/templates/modals/create-notification-agent.html:117
-#: app/templates/modals/create-notification-agent.html:136
-#: app/templates/modals/create-notification-agent.html:153
+#: app/views/modals/create-notification-agent.html:39
+#: app/views/modals/create-notification-agent.html:98
+#: app/views/modals/create-notification-agent.html:117
+#: app/views/modals/create-notification-agent.html:136
+#: app/views/modals/create-notification-agent.html:153
 msgid "Agent URL"
 msgstr "Agent URL"
 
-#: app/templates/modals/create-notification-agent.html:49
+#: app/views/modals/create-notification-agent.html:49
 msgid "Test & Create Agent"
 msgstr "Testa och skapa agent"
 
-#: app/templates/modals/create-notification-agent.html:105
+#: app/views/modals/create-notification-agent.html:105
 msgid "Webhook ID"
-msgstr "Abhuk Ed"
+msgstr "Webhook ID"
 
-#: app/templates/modals/create-notification-agent.html:111
+#: app/views/modals/create-notification-agent.html:111
 msgid "Webhook Token"
-msgstr "Dumt token"
+msgstr "Webhook Token"
 
-#: app/templates/modals/create-notification-agent.html:124
-#, fuzzy
+#: app/views/modals/create-notification-agent.html:124
 msgid "User Key"
-msgstr "Användarnamn"
+msgstr "Användarnyckel"
 
-#: app/templates/modals/create-notification-agent.html:130
+#: app/views/modals/create-notification-agent.html:130
 msgid "API Token"
 msgstr "API-token"
 
-#: app/templates/modals/create-notification-agent.html:242
-#: app/templates/modals/create-notification-agent.html:249
-#, fuzzy
+#: app/views/modals/create-notification-agent.html:242
+#: app/views/modals/create-notification-agent.html:249
 msgid "Something went wrong. Please try again."
-msgstr " Något har gått fel. Vänligen försök igen senare."
+msgstr "Något gick fel. Var god försök igen."
 
-#: app/templates/modals/create-notification-agent.html:253
+#: app/views/modals/create-notification-agent.html:253
 msgid "Notification agent successfully created!"
 msgstr "Aviseringsagent har skapats!"
 
-#: app/templates/modals/delete-api-key.html:3
-#: app/templates/modals/revoke-session.html:3
+#: app/views/modals/delete-api-key.html:3
+#: app/views/modals/revoke-session.html:3
 msgid "Warning"
 msgstr "Varning"
 
-#: app/templates/modals/delete-api-key.html:8
+#: app/views/modals/delete-api-key.html:8
 msgid "Are you sure you want to delete this api key?"
 msgstr "Är du säker på att du vill ta bort denna api-nyckel?"
 
-#: app/templates/modals/delete-api-key.html:16
-#: app/templates/modals/delete-notification-agent.html:16
-#: app/templates/modals/revoke-session.html:16
-#: app/templates/tables/admin-users.html:40
-#: app/templates/tables/global-users.html:59
-#: app/templates/tables/invite-table.html:100
-#: app/templates/tables/notification-table.html:36
-#, fuzzy
+#: app/views/modals/delete-api-key.html:16
+#: app/views/modals/delete-notification-agent.html:16
+#: app/views/modals/revoke-session.html:16
+#: app/views/tables/admin-users.html:40 app/views/tables/global-users.html:59
+#: app/views/tables/invite-table.html:100
+#: app/views/tables/notification-table.html:36
+#: app/views/tables/oauth-table.html:36
 msgid "Delete"
-msgstr "Standard"
+msgstr "Radera"
 
-#: app/templates/modals/delete-notification-agent.html:41
+#: app/views/modals/delete-notification-agent.html:41
 msgid "An error occurred while deleting the Notification Agent."
 msgstr "Ett fel uppstod när meddelandeagenten skulle tas bort."
 
-#: app/templates/modals/delete-notification-agent.html:45
+#: app/views/modals/delete-notification-agent.html:45
 msgid "Notification Agent deleted successfully!"
 msgstr "Notification Agent raderades framgångsrikt!"
 
-#: app/templates/modals/revoke-session.html:8
+#: app/views/modals/revoke-session.html:8
 msgid "Are you sure you want to revoke this session?"
 msgstr "Är du säker på att du vill återkalla den här sessionen?"
 
-#: app/templates/modals/revoke-session.html:41
-#, fuzzy
+#: app/views/modals/revoke-session.html:41
 msgid "Something went wrong.Please try again."
-msgstr " Något har gått fel. Vänligen försök igen senare."
+msgstr "Något gick fel. Försök igen."
 
-#: app/templates/modals/revoke-session.html:46
+#: app/views/modals/revoke-session.html:46
 msgid "Session deleted successfully!"
 msgstr "Sessionen har raderats!"
 
-#: app/templates/modals/run-task.html:3 app/templates/modals/run-task.html:16
+#: app/views/modals/run-task.html:3 app/views/modals/run-task.html:16
 msgid "Run Task"
 msgstr "Kör uppgift"
 
-#: app/templates/modals/run-task.html:8
+#: app/views/modals/run-task.html:8
 msgid "Are you sure you want to run this task?"
 msgstr "Är du säker på att du vill köra den här uppgiften?"
 
-#: app/templates/modals/run-task.html:39
+#: app/views/modals/run-task.html:39
 msgid "Task has been run."
 msgstr "Uppgiften har körts."
 
-#: app/templates/modals/update-libraries.html:26
-#, fuzzy
+#: app/views/modals/update-libraries.html:3 app/views/settings/media.html:30
+#: app/views/setup/pages/settings.html:37
+msgid "Server Libraries"
+msgstr "Serverbibliotek"
+
+#: app/views/modals/update-libraries.html:26
 msgid "Update Libraries"
-msgstr "Bibliotek"
+msgstr "Uppdatera bibliotek"
 
-#: app/templates/modals/update-libraries.html:88
-#, fuzzy
+#: app/views/modals/update-libraries.html:88
 msgid "Unable to update libraries"
-msgstr "Bibliotek"
+msgstr "Det går inte att uppdatera bibliotek"
 
-#: app/templates/setup/base.html:12
+#: app/views/settings/about.html:111 app/views/settings/about.html:221
+msgid "Load More"
+msgstr "Ladda mer"
+
+#: app/views/settings/accounts.html:13
+msgid "My Account"
+msgstr "Mitt konto"
+
+#: app/views/settings/accounts.html:16
+msgid "Add Admin"
+msgstr "Lägg till admin"
+
+#: app/views/settings/discord.html:4
+msgid "Discord Server ID"
+msgstr "Discord-server-ID"
+
+#: app/views/settings/discord.html:9
+msgid "Discord Widget"
+msgstr "Discord-widget"
+
+#: app/views/settings/discord.html:19 app/views/settings/html.html:9
+#: app/views/settings/media.html:38 app/views/settings/requests.html:26
+msgid "Save"
+msgstr "Spara"
+
+#: app/views/settings/discord.html:42 app/views/settings/html.html:25
+#: app/views/settings/media.html:54 app/views/settings/requests.html:58
+msgid "Settings saved successfully!"
+msgstr "Inställningarna har sparats!"
+
+#: app/views/settings/language.html:3
+msgid "Please use the dropdown below to select your language."
+msgstr "Använd rullgardinsmenyn nedan för att välja ditt språk."
+
+#: app/views/settings/language.html:7
+msgid "Select Language"
+msgstr "Välj språk"
+
+#: app/views/settings/main.html:33
+msgid "No settings matched your search."
+msgstr "Inga inställningar matchade din sökning."
+
+#: app/views/settings/media.html:6 app/views/setup/pages/settings.html:6
+msgid "Server Display Name"
+msgstr "Serverns visningsnamn"
+
+#: app/views/settings/media.html:11 app/views/setup/pages/settings.html:11
+msgid "Server"
+msgstr "Server"
+
+#: app/views/settings/media.html:13
+msgid "Choose a server"
+msgstr "Välj en server"
+
+#: app/views/settings/media.html:25 app/views/setup/pages/settings.html:25
+msgid "Server Token / API Key"
+msgstr "Servertoken/API-nyckel"
+
+#: app/views/settings/media.html:32 app/views/setup/pages/settings.html:39
+msgid "Scan For Libraries"
+msgstr "Sök efter bibliotek"
+
+#: app/views/settings/notifications.html:18
+msgid "Create Agent"
+msgstr "Skapa agent"
+
+#: app/views/settings/oauth.html:16
+msgid "Add OAuth"
+msgstr "Lägg till OAuth"
+
+#: app/views/settings/password.html:12
+msgid "Confirm Password"
+msgstr "Bekräfta lösenord"
+
+#: app/views/settings/password.html:19
+msgid "Reset Password"
+msgstr "Återställ lösenord"
+
+#: app/views/settings/profile.html:6
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#: app/views/settings/profile.html:18
+msgid "Email Address"
+msgstr "E-postadress"
+
+#: app/views/settings/profile.html:25
+msgid "Update"
+msgstr "Uppdatering"
+
+#: app/views/settings/requests.html:4
+msgid "Request Server"
+msgstr "Begär server"
+
+#: app/views/settings/requests.html:6
+msgid "Disabled"
+msgstr "Inaktiverad"
+
+#: app/views/settings/requests.html:15
+msgid "Request Server URL"
+msgstr "Begär server-URL"
+
+#: app/views/settings/requests.html:20
+msgid "Request Server API Key"
+msgstr "Begär server-API-nyckel"
+
+#: app/views/settings/sessions.html:14
+msgid "Revoke All"
+msgstr "Återkalla alla"
+
+#: app/views/setup/base.html:12
 msgid "Setup Wizarr"
-msgstr "Konfigurera Wizarr"
+msgstr "Installationsguiden"
 
-#: app/templates/setup/pages/admin.html:2
-#, fuzzy
+#: app/views/setup/pages/admin.html:2
 msgid "Admin Account"
-msgstr "Skapa ett konto"
+msgstr "Administratörskonto"
 
-#: app/templates/setup/pages/admin.html:24
-#, fuzzy
+#: app/views/setup/pages/admin.html:24
 msgid "Create account"
-msgstr "Skapa ett konto"
+msgstr "Skapa konto"
 
-#: app/templates/setup/pages/complete.html:2
+#: app/views/setup/pages/complete.html:2
 msgid "Your Done"
 msgstr "Du är färdig"
 
-#: app/templates/setup/pages/complete.html:5
+#: app/views/setup/pages/complete.html:5
 msgid "You have successfully completed the setup process."
 msgstr "Du har slutfört installationsprocessen."
 
-#: app/templates/setup/pages/complete.html:9
+#: app/views/setup/pages/complete.html:9
 msgid "Go to Dashboard"
 msgstr "Gå till instrumentpanelen"
 
-#: app/templates/setup/pages/database.html:2
+#: app/views/setup/pages/database.html:2
 msgid "Database"
 msgstr "Databas"
 
-#: app/templates/setup/pages/database.html:5
+#: app/views/setup/pages/database.html:5
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr "För närvarande stöder Wizarr endast sin interna SQLite-databas."
 
-#: app/templates/setup/pages/database.html:7
+#: app/views/setup/pages/database.html:7
 msgid ""
 "This is a temporary and we are working on adding support for other "
 "databases."
@@ -1045,20 +1286,15 @@ msgstr ""
 "Detta är tillfälligt och vi arbetar med att lägga till stöd för andra "
 "databaser."
 
-#: app/templates/setup/pages/settings.html:2
-#: app/templates/templates/menu.html:34
-msgid "Settings"
-msgstr "Inställningar"
-
-#: app/templates/setup/pages/settings.html:31
+#: app/views/setup/pages/settings.html:31
 msgid "Test"
 msgstr "Testa"
 
-#: app/templates/setup/pages/settings.html:45
+#: app/views/setup/pages/settings.html:45
 msgid "Done"
 msgstr "Gjort"
 
-#: app/templates/setup/pages/welcome.html:5
+#: app/views/setup/pages/welcome.html:5
 msgid ""
 "Wizarr is an automatic user invitation system for Plex, Jellyfin, and Emby. "
 "With Wizarr, you can easily create unique invitation links to share with "
@@ -1072,7 +1308,7 @@ msgstr ""
 "Wizarr vägledning om att ladda ner klienter och instruktioner för att "
 "använda webbplatsen Jellyseerr, Overseerr eller Ombi."
 
-#: app/templates/setup/pages/welcome.html:8
+#: app/views/setup/pages/welcome.html:8
 msgid ""
 "We hope you enjoy using Wizarr and invite you to explore its powerful "
 "features and intuitive interface. Should you need any assistance, please "
@@ -1082,7 +1318,7 @@ msgstr ""
 "dess kraftfulla funktioner och intuitiva gränssnitt. Om du behöver hjälp, se"
 " vår dokumentation eller kontakta vår community för support."
 
-#: app/templates/setup/pages/welcome.html:11
+#: app/views/setup/pages/welcome.html:11
 msgid ""
 "Check out our documentation for detailed instructions on how to install and "
 "run Wizarr!"
@@ -1090,857 +1326,57 @@ msgstr ""
 "Kolla in vår dokumentation för detaljerade instruktioner om hur du "
 "installerar och kör Wizarr!"
 
-#: app/templates/tables/admin-users.html:37
-#: app/templates/tables/global-users.html:56
-#: app/templates/tables/invite-table.html:97
-#: app/templates/tables/notification-table.html:33
+#: app/views/tables/admin-users.html:37 app/views/tables/global-users.html:56
+#: app/views/tables/invite-table.html:97
+#: app/views/tables/notification-table.html:33
+#: app/views/tables/oauth-table.html:33
 msgid "Edit"
 msgstr "Redigera"
 
-#: app/templates/tables/invite-table.html:7
+#: app/views/tables/invite-table.html:7
 msgid "Used"
-msgstr "Använd"
+msgstr "Begagnade"
 
-#: app/templates/tables/invite-table.html:8
+#: app/views/tables/invite-table.html:8
 msgid "Expired"
-msgstr "Löpt ut"
+msgstr "Utgånget"
 
-#: app/templates/tables/invite-table.html:9
+#: app/views/tables/invite-table.html:9
 msgid "Libraries"
 msgstr "Bibliotek"
 
-#: app/templates/tables/invite-table.html:15
+#: app/views/tables/invite-table.html:15
 msgid "Created"
 msgstr "Skapad"
 
-#: app/templates/tables/invite-table.html:115
-#, fuzzy
+#: app/views/tables/invite-table.html:115
 msgid "No Invitations"
-msgstr "Inbjudan"
+msgstr "Inga inbjudningar"
 
-#: app/templates/tables/invite-table.html:118
-#, fuzzy
+#: app/views/tables/invite-table.html:118
 msgid "You have not created any invitations yet."
-msgstr "Skapa inbjudan"
+msgstr "Du har inte skapat några inbjudningar än."
 
-#: app/templates/tables/sessions-table.html:27
+#: app/views/tables/mfa-table.html:4
+msgid "Your Passkeys"
+msgstr "Dina lösenord"
+
+#: app/views/tables/mfa-table.html:7 app/views/tables/mfa-table.html:48
+msgid "Add a passkey"
+msgstr "Lägg till ett lösenord"
+
+#: app/views/tables/sessions-table.html:27
 msgid "Revoke"
 msgstr "Återkalla"
 
-#: app/templates/tables/task-table.html:7
-#, fuzzy
+#: app/views/tables/task-table.html:7
 msgid "Job Name"
-msgstr "Användarnamn"
+msgstr "Jobb namn"
 
-#: app/templates/tables/task-table.html:8
+#: app/views/tables/task-table.html:8
 msgid "Next Execution"
 msgstr "Nästa avrättning"
 
-#: app/templates/tables/task-table.html:40
+#: app/views/tables/task-table.html:40
 msgid "Run Now"
 msgstr "Spring nu"
-
-#: app/templates/templates/menu.html:28
-msgid "Users"
-msgstr "Användare"
-
-#: app/templates/templates/update.html:13
-msgid "Attention!"
-msgstr "Observera!"
-
-#: app/templates/templates/update.html:14
-msgid "Update available. Click here."
-msgstr "Uppdatering tillgänglig. Klicka här."
-
-#: app/templates/wizard/base.html:4
-msgid "Help"
-msgstr "Hjälp"
-
-#: app/templates/wizard/base.html:12
-msgid "Getting Started!"
-msgstr "Komma igång!"
-
-#: app/templates/wizard/base.html:38
-msgid "Next"
-msgstr "Nästa"
-
-#: app/templates/wizard/base.html:45
-#, fuzzy
-msgid "Open"
-msgstr "Öppna Plex"
-
-#: app/templates/wizard/pages/requests.html:4
-msgid "Automatic Media Requests"
-msgstr "Automatiska Media Förfrågningar"
-
-#: app/templates/wizard/pages/requests.html:9
-#, fuzzy
-msgid ""
-"We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
-"        something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
-"        media you're looking for. "
-msgstr ""
-"Vi är glada att kunna erbjuda dig ett brett utbud av titlar att välja mellan. Om du har svårt att hitta\n"
-" något du gillar, oroa dig inte! Vi har ett användarvänligt förfrågningssystem som automatiskt kan söka efter\n"
-" de titlar du söker. "
-
-#: app/templates/wizard/pages/requests.html:20
-msgid "Request any available Movie or TV Show"
-msgstr "Förfråga efter en tillgänglig film eller TV-serie"
-
-#: app/templates/wizard/pages/requests.html:27
-#, fuzzy
-msgid "Requested media will be automatically downloaded (if available)"
-msgstr ""
-"Förfrågad titel kommer att automatiskt laddas ner och läggas till i "
-"biblioteket (om tillgängligt)"
-
-#: app/templates/wizard/pages/requests.html:34
-msgid "If enabled, receive notifications"
-msgstr "Om det är tillgängligt, lägg till notiser"
-
-#: app/templates/wizard/pages/requests.html:40
-msgid "Check it Out"
-msgstr "Kolla in"
-
-#: app/templates/wizard/pages/jellyfin/download.html:2
-#, fuzzy
-msgid ""
-"Join & Download Jellyfin\n"
-"        for this device"
-msgstr ""
-"Gå med och ladda ner Jellyfin\n"
-"            till denna enhet"
-
-#: app/templates/wizard/pages/jellyfin/download.html:7
-#, fuzzy
-msgid ""
-"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
-"    it with Jellyfin."
-msgstr ""
-"Fantastiska nyheter! Du har nu tillgång till vår servers media samling. Låt oss se till att du vet hur du använder det\n"
-"        med Jellyfin."
-
-#: app/templates/wizard/pages/jellyfin/download.html:11
-msgid ""
-"Planning on watching Movies on this device? Download Jellyfin for this "
-"device."
-msgstr ""
-"Kommer du att titta på filmer och serier på den här enheten? Ladda ner "
-"Jellyfin för denna enhet här."
-
-#: app/templates/wizard/pages/jellyfin/download.html:19
-msgid ""
-"If you don't wish to Download the App feel free to use Jellyfin in your "
-"devices web browser, just click \"Next\"."
-msgstr ""
-"Om du inte vill ladda ner appen, använd gärna Jellyfin i din enhets "
-"webbläsare, klicka bara på \"Nästa\"."
-
-#: app/templates/wizard/pages/jellyfin/download.html:25
-#, fuzzy
-msgid "Show Server URL"
-msgstr "Server adress"
-
-#: app/templates/wizard/pages/jellyfin/download.html:34
-#: app/templates/wizard/pages/jellyfin/download.html:191
-msgid "Copy"
-msgstr "Kopiera"
-
-#: app/templates/wizard/pages/jellyfin/download.html:59
-#: app/templates/wizard/pages/jellyfin/download.html:83
-msgid "Open Jellyfin"
-msgstr "Öppna Jellyfin"
-
-#: app/templates/wizard/pages/jellyfin/download.html:139
-#, fuzzy
-msgid "Other Download"
-msgstr "Ladda ner"
-
-#: app/templates/wizard/pages/jellyfin/download.html:188
-msgid "Copied!"
-msgstr "Kopierade!"
-
-#: app/templates/wizard/pages/jellyfin/tips.html:3
-#: app/templates/wizard/pages/plex/tips.html:3
-msgid "Right, so how do I watch stuff?"
-msgstr "Jag förstår, hur kollar jag på innehållet?"
-
-#: app/templates/wizard/pages/jellyfin/tips.html:6
-#, fuzzy
-msgid ""
-"It couldn't be simpler! Jellyfin is available on a wide variety of devices "
-"including laptops, tablets, smartphones, and TVs. All you need to do is "
-"download the Jellyfin app on your device, sign in with your account, and "
-"you're ready to start streaming your media."
-msgstr ""
-"Det kan inte vara enklare! Jellyfin finns tillgängligt på massor av enheter, datorer, surfplatta, telefoner och smart-tv. \n"
-"Allt du behöver göra är att leta reda på var Jellyfin appar finns. \n"
-"Logga sedan in med ditt konto, så är du redo att strömma!"
-
-#: app/templates/wizard/pages/jellyfin/tips.html:9
-msgid "It's that easy!"
-msgstr "Så enkelt är det!"
-
-#: app/templates/wizard/pages/jellyfin/welcome.html:3
-msgid "Eh, So, What is Jellyfin exactly?"
-msgstr "Okej, så vad är Jellyfin?"
-
-#: app/templates/wizard/pages/jellyfin/welcome.html:6
-#, fuzzy
-msgid ""
-"Jellyfin is a platform that lets you stream all your favorite movies, TV "
-"shows, and music in one place. It's like having your own personal movie "
-"theater right at your fingertips! Think of it as a digital library of your "
-"favorite content that you can access from anywhere, on any device - your "
-"phone, tablet, laptop, smart TV, you name it."
-msgstr ""
-"Jellyfin är en plattform som låter dig strömma alla dina favorit filmer, tv-serier och musik på en plats.\n"
-"        Det är som att ha sin egen personliga film salong vid sina fingerspetsar! Tänkt på det som ett digitalt bibliotek av\n"
-"        ditt favoritinnehåll som du kan komma åt var du än är och på vilken enhet du vill (telefon, surfplatta, bärbar dator eller smart TV),\n"
-"        du bestämmer."
-
-#: app/templates/wizard/pages/plex/download.html:4
-#, fuzzy
-msgid "Join & Download Plex for this device"
-msgstr ""
-"Gå med & ladda ner Plex\n"
-"            för denna enhet"
-
-#: app/templates/wizard/pages/plex/download.html:8
-#, fuzzy
-msgid ""
-"So you now have access to our server's media collection. Let's make sure you"
-" know how to use it with Plex."
-msgstr ""
-"Fantastiska nyheter! Nu har du åtkomst till vår media samling. Gå vidare för att veta hur du använder \n"
-"         det med Plex."
-
-#: app/templates/wizard/pages/plex/download.html:11
-msgid ""
-"Planning on watching Movies on this device? Download Plex for this device."
-msgstr ""
-"Kommer du att titta på filmer och serier på den här enheten? Ladda ner Plex "
-"här."
-
-#: app/templates/wizard/pages/plex/download.html:14
-msgid "Download"
-msgstr "Ladda ner"
-
-#: app/templates/wizard/pages/plex/tips.html:6
-#, fuzzy
-msgid ""
-"It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
-"        smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
-"        you're ready to start streaming your media. It's that easy!"
-msgstr ""
-"Plex finns tillgängligt på massor av enheter, datorer, surfplatta, \n"
-"    telefoner och smart-tv. Allt du behöver göra är att leta reda på Plex där appar finns. Logga sedan in med ditt konto, \n"
-"    så är du redo att strömma!"
-
-#: app/templates/wizard/pages/plex/tips.html:11
-msgid "How can I make sure to have the best experience?"
-msgstr "Hur kan jag säkerställa så att jag får den bästa upplevelsen?"
-
-#: app/templates/wizard/pages/plex/tips.html:14
-#, fuzzy
-msgid ""
-"Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
-"        sharing with you - they also, by default, play content at a lower quality. "
-msgstr ""
-"Eftersom att Plex är en gratis plattform i sig, så behöver dom på intäkter igenom att visa sitt eget innehåll av filmer och serier. \n"
-"    Det är de första du ser när du loggar in på Plex - de spelar även upp innehåll i lägre kvalité. "
-
-#: app/templates/wizard/pages/plex/tips.html:17
-msgid "No need to worry though, this can be easily resolved"
-msgstr "Det är dock enkelt att fixa"
-
-#: app/templates/wizard/pages/plex/tips.html:17
-#, fuzzy
-msgid ""
-"We highly\n"
-"            recommend you to go through those steps first!"
-msgstr ""
-"Vi rekommenderar starkt\n"
-"      att du går igenom det steg för steg!"
-
-#: app/templates/wizard/pages/plex/welcome.html:3
-msgid "Eh, So, What is Plex exactly?"
-msgstr "Okej, så vad är Plex?"
-
-#: app/templates/wizard/pages/plex/welcome.html:6
-#, fuzzy
-msgid ""
-"Great question! Plex is a software that allows individuals to share their "
-"media collections with others. If you've received this invitation, it means "
-"someone wants to share their library with you."
-msgstr ""
-"Bra fråga! Plex är ett program som tillåter ägaren att dela med sig av sitt "
-"innehåll till andra. Har du fått en inbjudan så betyder det att någon vill "
-"dela sitt innehåll med dig. Med Plex så kommer du att få tillgång till "
-"Filmer, Serier, Musik och bilder som de vill dela med sig av på sin server "
-"till dig!"
-
-#: app/templates/wizard/pages/plex/welcome.html:9
-msgid ""
-"With Plex, you'll have access to all of the movies, TV shows, music, and "
-"photos that are stored on their server!"
-msgstr ""
-"Med Plex har du tillgång till alla filmer, TV-program, musik och foton som "
-"finns lagrade på deras server!"
-
-#: app/templates/wizard/pages/plex/welcome.html:12
-msgid "So let's see how to get started!"
-msgstr "Så låt oss se hur du kommer igång!"
-
-#~ msgid ""
-#~ "Request\n"
-#~ "              instance (Ombi, Overseerr...)"
-#~ msgstr ""
-#~ "Förfrågningssida \n"
-#~ "              (Ombi, Overseerr...)"
-
-#~ msgid "Server Settings"
-#~ msgstr "Serverinställningar"
-
-#~ msgid "*Depending on availability"
-#~ msgstr "*Beroende på tillgänglighet"
-
-#~ msgid "That email does not match any Plex account. Please try again."
-#~ msgstr "Den mejladressen matchar inget Plex-konto. Vänligen försök igen."
-
-#~ msgid "This user is already invited to this server."
-#~ msgstr "Den här användaren är redan inbjuden till denna server."
-
-#~ msgid "The email entered appears to be invalid."
-#~ msgstr "Den angivna mejladressen verkar vara ogiltig."
-
-#~ msgid "Something went wrong. Please try again or contact an administrator."
-#~ msgstr ""
-#~ "Någonting gick fel. Vänligen försök igen eller kontakta en administratör."
-
-#~ msgid "I've logged in but I am overwhelmed with content!"
-#~ msgstr "Jag har loggat in, men jag är överväldigad av allt innehåll!"
-
-#~ msgid ""
-#~ "While Plex is a free service, they do have to generate revenue in order to "
-#~ "continue providing the platform. One way they do this is by displaying their"
-#~ " own content before the content of the server you are joining."
-#~ msgstr ""
-#~ "Då Plex är en gratis tjänst så måste dom få in intäckter för att kunna "
-#~ "fortsätta tillhandhålla platformen. Ett sätt att göra det på för dom är att "
-#~ "visa sitt egna innehåll innan du ser innehållet på den servern du precis har"
-#~ " gått med i."
-
-#~ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
-#~ msgstr "Till vänster på skärmen ska du se en meny. klicka på den. "
-
-#~ msgid "More"
-#~ msgstr "Expandera"
-
-#~ msgid "button to reveal all the different types of media you have access to."
-#~ msgstr "knapparna för att visa alla typer av media som du har tillgång till."
-
-#~ msgid ""
-#~ "To avoid seeing Plex's content first, we recommend hiding it. To do this, "
-#~ "select all the content types you don't want (such as 'Movies and TV on "
-#~ "Plex') and 'Unpin' them from your home screen. This way you'll only see the "
-#~ "content that you really want to watch!"
-#~ msgstr ""
-#~ "För att slippa se Plex egna innehåll så rekommenderar vi att gömma det. För "
-#~ "att göra det, välj de innehållet du inte vill se (som 'Filmer och TV på "
-#~ "plex') och Ta bort/lossa från hemmskärmen. På de sättet ska du nu bara kunna"
-#~ " se innehållet från servern du precis gått med i!"
-
-#~ msgid "Now that everything we"
-#~ msgstr "Nu när allt som vi"
-
-#~ msgid "don't"
-#~ msgstr "inte"
-
-#~ msgid "want is out of the way, we can focus on the things we "
-#~ msgstr "vill ha är borttaget, så kan vi fokusera på det som vi "
-
-#~ msgid "do"
-#~ msgstr "vill"
-
-#~ msgid " want!"
-#~ msgstr " ha!"
-
-#~ msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
-#~ msgstr "Fäst helt enkelt sektionerna för filmer/TV-program i %(name)s!"
-
-#~ msgid ""
-#~ "By default, Plex plays all content at a lower quality. This can be a bit of "
-#~ "a disappointment. But don't worry, it's a simple fix! You can easily change "
-#~ "the settings to increase the quality of the media that you're streaming."
-#~ msgstr ""
-#~ "Standard är att Plex alltid spelar upp innehållet i en längre kavlié. Det "
-#~ "kan du enkelt ändra i inställningarna för det du streamar."
-
-#~ msgid "Go to the Plex "
-#~ msgstr "Gå till Plex "
-
-#~ msgid "Settings "
-#~ msgstr "Inställningar "
-
-#~ msgid ""
-#~ "page. This is usually in the top right hand corner, depending on the device "
-#~ "you are on."
-#~ msgstr ""
-#~ ". Det är oftast uppe till höger, beroende på vilken enhet du sitter på."
-
-#~ msgid "Go to the "
-#~ msgstr "Gå till "
-
-#~ msgid "Quality"
-#~ msgstr "Kvalité"
-
-#~ msgid "or"
-#~ msgstr "eller"
-
-#~ msgid "Video"
-#~ msgstr "Video"
-
-#~ msgid "settings."
-#~ msgstr "inställningar."
-
-#~ msgid "Set the "
-#~ msgstr "Ändra "
-
-#~ msgid "Remote/Internet Streaming"
-#~ msgstr "Fjärr/internet Strömmning"
-
-#~ msgid "to "
-#~ msgstr "till "
-
-#~ msgid "Maximum/Original"
-#~ msgstr "Maximal/Original"
-
-#~ msgid "Local Streaming "
-#~ msgstr "Lokal strömmning "
-
-#~ msgid ""
-#~ "And there you have it! In case you encounter buffering issues, remember that"
-#~ " you can always adjust the playback quality just like you do in YouTube. "
-#~ "This way you can get the best streaming experience possible."
-#~ msgstr ""
-#~ "Nu är du klar! Skulle du uppleva buffer, så går det alltid att ändra kvalité"
-#~ " precis som du gör på Youtube. På de sättet får du bästa möjliga upplevelse."
-
-#~ msgid ""
-#~ "Because Plex is a free service, they promote their own content before the "
-#~ "awesome content your friend is now sharing with you - they also, by default,"
-#~ " play content at a lower quality. "
-#~ msgstr ""
-#~ "Eftersom Plex är en gratistjänst marknadsför de sitt eget innehåll före det "
-#~ "fantastiska innehåll som din vän nu delar med dig - de spelar också som "
-#~ "standard innehåll med lägre kvalitet."
-
-#~ msgid "We highly recommend you to go through those steps first!"
-#~ msgstr "Vi rekommenderar starkt att du går igenom dessa steg först!"
-
-#~ msgid "Join our Discord Server"
-#~ msgstr "Gå med i vår Discord Server"
-
-#~ msgid "How to Use Plex?"
-#~ msgstr "Hur du använder Plex?"
-
-#~ msgid "Requesting Media"
-#~ msgstr "Efterfråga titlar"
-
-#~ msgid "Join & Download Plex for this device"
-#~ msgstr "Gå med & ladda ner Plex för denna enhet"
-
-#~ msgid ""
-#~ "Great news! You now have access to our server's media collection. Let's make"
-#~ " sure you know how to use it with Plex."
-#~ msgstr ""
-#~ "Nu har du åtkomst till vårat serverinnehåll. Gå vidare för att veta hur du "
-#~ "använder Plex."
-
-#~ msgid "Skip"
-#~ msgstr "Hoppa över"
-
-#~ msgid ""
-#~ "Congratulations on joining %(name)s! You're now one step closer to enjoying all kinds of amazing\n"
-#~ "        content."
-#~ msgstr ""
-#~ "Grattis, du har nu accepterat inbjudan till Plex! Nu är du ett steg närmare "
-#~ "till att kunna njuta av innehållet på våran server. "
-
-#~ msgid ""
-#~ "Great question! Plex is a software that allows individuals to share their media collections with others. If\n"
-#~ "      you've received this invitation, it means someone wants to share their library with you. With Plex, you'll have\n"
-#~ "      access to all of the movies, TV shows, music, and photos that are stored on their server. Enjoy!"
-#~ msgstr ""
-#~ "Bra fråga! Plex är ett program som tillåter ägaren att dela med sig av sitt "
-#~ "innehåll till andra. Har du fått en inbjudan så betyder det att någon vill "
-#~ "dela sitt innehåll med dig. Med plex så kommer du att få tillgång till "
-#~ "Filmer, Serier, Musik och bilder som de vill dela med sig av på sin server "
-#~ "till dig!"
-
-#~ msgid ""
-#~ "It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
-#~ "      smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
-#~ "      you're ready to start streaming your media. It's that easy!"
-#~ msgstr ""
-#~ "Plex finns tillgängligt på massor av enheter, datorer, surfplatta, telefoner"
-#~ " och smart-tv. Allt du behöver göra är att leta reda på plex där appar "
-#~ "finns. Logga sedan in me ditt konto, så är du redo att streama!"
-
-#~ msgid ""
-#~ "Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
-#~ "      sharing with you - they also, by default, play content at a lower quality. "
-#~ msgstr ""
-#~ "Eftersom Plex är en gratistjänst marknadsför de sitt eget innehåll före det fantastiska innehåll som din vän är nu\n"
-#~ "      delar med dig – de spelar också som standard upp innehåll med lägre kvalitet."
-
-#~ msgid ""
-#~ "We highly\n"
-#~ "        recommend you to go through those steps first!"
-#~ msgstr ""
-#~ "Vi högt\n"
-#~ "        rekommenderar dig att gå igenom dessa steg först!"
-
-#~ msgid "You've been invited to join %(name)s!"
-#~ msgstr "Du har blivit inbjuden till %(name)s!"
-
-#~ msgid ""
-#~ "To join our Plex server, create a Plex account! Once you're done, come back "
-#~ "here!"
-#~ msgstr ""
-#~ "För att bli inbjuden till Plex server, skapa ett Plex konto! När du har "
-#~ "gjort det, kom tillbaka hit!"
-
-#~ msgid "Create Plex Account"
-#~ msgstr "Skapa ett Plex konto"
-
-#~ msgid "I have a Plex Account"
-#~ msgstr "Jag har redan ett Plex konto"
-
-#~ msgid "Used At"
-#~ msgstr "Använd vid"
-
-#~ msgid "Copy"
-#~ msgstr "Kopiera"
-
-#~ msgid "Delete"
-#~ msgstr "Ta bort"
-
-#~ msgid "Accept Invitation"
-#~ msgstr "Acceptera inbjudan"
-
-#~ msgid "Accept our invitation"
-#~ msgstr "Acceptera vår inbjudan"
-
-#~ msgid "We have sent an invitation to your Plex Account! Almost there!"
-#~ msgstr "Vi har skickat en inbjudan till ditt Plex-konto. Nästan där!"
-
-#~ msgid ""
-#~ "Click the button below to be taken to Plex, here you will see an invitation "
-#~ "from us."
-#~ msgstr ""
-#~ "Klicka på knappen nedan för att tas till Plex. Där kommer du se en inbjudan "
-#~ "från oss."
-
-#~ msgid "Accept"
-#~ msgstr "Acceptera"
-
-#~ msgid "Next"
-#~ msgstr "Nästa"
-
-#~ msgid "Great! Now, let's get you invited!"
-#~ msgstr "Toppen! Låt oss få dig inbjuden!"
-
-#~ msgid "Your Plex email"
-#~ msgstr "Din Plex e-post"
-
-#~ msgid "Don't have a Plex account, yet?"
-#~ msgstr "Har du inte ett Plex-konto ännu?"
-
-#~ msgid "Get one here."
-#~ msgstr "Skaffa ett här."
-
-#~ msgid ""
-#~ "Plex Display\n"
-#~ "              Name"
-#~ msgstr ""
-#~ "Plex display\n"
-#~ "              namn"
-
-#~ msgid "Plex URL"
-#~ msgstr "Plex URL"
-
-#~ msgid ""
-#~ "Plex\n"
-#~ "              Token"
-#~ msgstr ""
-#~ "Plex\n"
-#~ "              Tecken"
-
-#~ msgid ""
-#~ "Plex\n"
-#~ "              Libraries"
-#~ msgstr ""
-#~ "Plex\n"
-#~ "              Bibliotek"
-
-#~ msgid "Plex Display Name"
-#~ msgstr "Plex visningsnamn"
-
-#~ msgid "Plex Token"
-#~ msgstr "Plex Token"
-
-#~ msgid "Request instance (Ombi, Overseerr...)"
-#~ msgstr "Föfrågningssida (Ombi, Overseerr...)"
-
-#~ msgid "Discord Server ID"
-#~ msgstr "Discord Server ID"
-
-#~ msgid ""
-#~ "Environment Variables are being\n"
-#~ "                    deprecated and replaced by a secure sign-up. Please visit \n"
-#~ "\n"
-#~ msgstr ""
-#~ "Miljövariabler fasas ut och ersätts av en säker registrering. Vänligen besök"
-#~ " \n"
-
-#~ msgid ""
-#~ "/settings.\n"
-#~ "                        See Repo for more info"
-#~ msgstr "/settings. Se källkodsförvaringen för mer information"
-
-#~ msgid ""
-#~ "Server\n"
-#~ "              Libraries"
-#~ msgstr ""
-#~ "Server\n"
-#~ "              Bibliotek"
-
-#~ msgid ""
-#~ "Custom\n"
-#~ "              HTML"
-#~ msgstr ""
-#~ "Beställnings\n"
-#~ "              HTML"
-
-#~ msgid "Plex Requests"
-#~ msgstr "Plex förfrågningar"
-
-#~ msgid ""
-#~ "Server Display\n"
-#~ "              Name"
-#~ msgstr ""
-#~ "Server \n"
-#~ "             visningsnamn"
-
-#~ msgid ""
-#~ "Server\n"
-#~ "              URL"
-#~ msgstr ""
-#~ "Server\n"
-#~ "             URL"
-
-#~ msgid ""
-#~ "Server\n"
-#~ "              Token / API Key"
-#~ msgstr ""
-#~ "Server\n"
-#~ "              Token / API Nyckel"
-
-#~ msgid "Server Libraries"
-#~ msgstr "Server bibliotek"
-
-#~ msgid ""
-#~ "Discord\n"
-#~ "              Server ID"
-#~ msgstr ""
-#~ "Gå med i vår Discord\n"
-#~ "                Server!"
-
-#~ msgid "Verify and Confirm"
-#~ msgstr "Verifiera och bekräfta"
-
-#~ msgid "Great!"
-#~ msgstr "Bra!"
-
-#~ msgid "Invite Used"
-#~ msgstr "Inbjudan används"
-
-#~ msgid "User"
-#~ msgstr "Användare"
-
-#~ msgid "Home User"
-#~ msgstr "Hemma användare"
-
-#~ msgid ""
-#~ "Server\n"
-#~ "                Libraries"
-#~ msgstr ""
-#~ "Server\n"
-#~ "                bibliotek"
-
-#~ msgid ""
-#~ "Request\n"
-#~ "                instance (Ombi, Overseerr...) URL"
-#~ msgstr ""
-#~ "Förfrågningar\n"
-#~ "                exempel (Ombi, Overseerr...)"
-
-#~ msgid "Ombi API Key (Only used for user import currently.)"
-#~ msgstr "Ombi API Key (används endast för användarimport för närvarande.)"
-
-#~ msgid ""
-#~ "Custom\n"
-#~ "                HTML"
-#~ msgstr ""
-#~ "Anpassad\n"
-#~ "                HTML"
-
-#~ msgid "Notification Agents"
-#~ msgstr "Aviseringsombud"
-
-#~ msgid ""
-#~ "Username\n"
-#~ "                                (optional)"
-#~ msgstr ""
-#~ "Inbjudnings\n"
-#~ "                                kod"
-
-#~ msgid ""
-#~ "Agent\n"
-#~ "                                URL"
-#~ msgstr ""
-#~ "Inbjudnings\n"
-#~ "                                kod"
-
-#~ msgid "Expires"
-#~ msgstr "Löper ut"
-
-#~ msgid "Actions"
-#~ msgstr "Inbjudan"
-
-#~ msgid "Available"
-#~ msgstr "Tillgänglig"
-
-#~ msgid "Default"
-#~ msgstr "Standard"
-
-#~ msgid "Passwords do not match."
-#~ msgstr "Lösenorden matchar inte."
-
-#~ msgid "Username must be between 3 and 15 characters."
-#~ msgstr "Användarnamnet måste vara mellan 3 och 15 tecken."
-
-#~ msgid "Password must be between 3 and 40 characters."
-#~ msgstr "Lösenordet måste vara mellan 3 och 40 tecken."
-
-#~ msgid "You must select at least one library."
-#~ msgstr "Du måste välja minst ett bibliotek."
-
-#~ msgid "It is likely that your token does not work."
-#~ msgstr "Det verkar som att ditt Plex-token inte fungerar."
-
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
-#~ msgstr ""
-#~ "Kan inte ansluta till din Plex-server. Se loggarna för mer information."
-
-#~ msgid "Unable to connect to your Jellyfin server."
-#~ msgstr ""
-#~ "Kan inte ansluta till din Jellyfin-server. Se loggarna för mer information."
-
-#~ msgid "Invalid Username or Password"
-#~ msgstr "Felaktigt användarnamn eller lösenord"
-
-#~ msgid "Oops!"
-#~ msgstr "Hoppsan!"
-
-#~ msgid ""
-#~ "Confirm\n"
-#~ "                                password"
-#~ msgstr ""
-#~ "Bekräfta \n"
-#~ "                                lösenord"
-
-#~ msgid ""
-#~ "Invite\n"
-#~ "                                Code"
-#~ msgstr ""
-#~ "Inbjudnings\n"
-#~ "                                kod"
-
-#~ msgid "(in days)"
-#~ msgstr "(inom dagar)"
-
-#~ msgid ""
-#~ "Specific\n"
-#~ "                                Libraries"
-#~ msgstr ""
-#~ "Specifika\n"
-#~ "                                bibliotek"
-
-#~ msgid "Custom HTML"
-#~ msgstr "Anpassad HTML"
-
-#~ msgid "Hello"
-#~ msgstr "Hallå"
-
-#~ msgid "Logged in successfully"
-#~ msgstr "Inloggad framgångsrikt"
-
-#~ msgid "Unauthorized attempted access"
-#~ msgstr "Obehörigt försök till åtkomst"
-
-#~ msgid "Could not find the requested page"
-#~ msgstr "Det gick inte att hitta den begärda sidan"
-
-#~ msgid "Quick Invite"
-#~ msgstr "Snabb inbjudningar"
-
-#~ msgid "Server Invites"
-#~ msgstr "Ändra serverinställningar"
-
-#~ msgid "HTML"
-#~ msgstr "HTML"
-
-#~ msgid "API"
-#~ msgstr "API"
-
-#~ msgid "Accounts"
-#~ msgstr "Skapa ett konto"
-
-#~ msgid "Tasks"
-#~ msgstr "Uppgifter"
-
-#~ msgid "Server Users"
-#~ msgstr "Server adress"
-
-#~ msgid ""
-#~ "Currently Wizarr only supports internal SQLite database. This is a temporary"
-#~ " and we are working on adding support for other databases."
-#~ msgstr ""
-#~ "För närvarande stöder Wizarr endast intern SQLite-databas. Detta är "
-#~ "tillfälligt och vi arbetar med att lägga till stöd för andra databaser."
-
-#~ msgid "Configure Plex's app on your computer, mobile device or TV"
-#~ msgstr ""
-#~ "Konfigurera Plex applikationen på din dator, mobila enhet eller din TV"
-
-#~ msgid "Goodbye"
-#~ msgstr "Adjö"
-
-#~ msgid "Logged out successfully"
-#~ msgstr "Loggade ut framgångsrikt"
-
-#~ msgid "Your Account"
-#~ msgstr "Skapa ett konto"
-
-#~ msgid "Account"
-#~ msgstr "Skapa ett konto"
-
-#~ msgid "General"
-#~ msgstr "Allmän"
-
-#~ msgid "View and update general settings"
-#~ msgstr "Visa och uppdatera allmänna inställningar"

@@ -7,36 +7,241 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-01 18:45+0100\n"
-"PO-Revision-Date: 2023-04-30 16:48+0000\n"
-"Last-Translator: Laurant Marijnissen <laurant@gigafyde.dev>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/app/nl/>\n"
+"POT-Creation-Date: 2023-08-06 21:37+0100\n"
+"PO-Revision-Date: 2023-08-06 19:51+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: nl <LL@li.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: app/templates/admin.html:4
+#: app/configs/settings.json.j2:3
 #, fuzzy
-msgid "Wizarr"
-msgstr "Configureer Wizarr"
-
-#: app/templates/admin.html:20 app/templates/forgot-password.html:44
-#: app/templates/login.html:61
-#, fuzzy
-msgid "Version"
+msgid "Main Settings"
 msgstr "Instellingen"
 
-#: app/templates/admin.html:20 app/templates/forgot-password.html:44
-#: app/templates/login.html:61
-#, fuzzy
-msgid "Stable"
-msgstr "Opslaan"
+#: app/configs/settings.json.j2:4
+msgid "General settings for the server"
+msgstr "Algemene instellingen voor de server"
 
-#: app/templates/admin.html:20 app/templates/forgot-password.html:44
-#: app/templates/login.html:61
+#: app/configs/settings.json.j2:8
+#, fuzzy
+msgid "Media Server"
+msgstr "Server"
+
+#: app/configs/settings.json.j2:9
+#, fuzzy
+msgid "Configure your media server settings"
+msgstr "Configureer uw serverinstellingen."
+
+#: app/configs/settings.json.j2:15
+#, fuzzy
+msgid "Requests"
+msgstr "Server aanvragen"
+
+#: app/configs/settings.json.j2:16
+msgid "Add Jellyseerr, Overseerr or Ombi support"
+msgstr "Voeg ondersteuning voor Jellyseerr, Overseerr of Ombi toe"
+
+#: app/configs/settings.json.j2:23
+#, fuzzy
+msgid "API keys"
+msgstr "API-token"
+
+#: app/configs/settings.json.j2:24
+msgid "Add API keys for external services"
+msgstr "Voeg API-sleutels toe voor externe services"
+
+#: app/configs/settings.json.j2:31
+#, fuzzy
+msgid "Notifications"
+msgstr "Meldingsservice"
+
+#: app/configs/settings.json.j2:32
+#, fuzzy
+msgid "Configure notification settings"
+msgstr "Configureer uw serverinstellingen."
+
+#: app/configs/settings.json.j2:41
+#, fuzzy
+msgid "Account Settings"
+msgstr "Instellingen"
+
+#: app/configs/settings.json.j2:42
+#, fuzzy
+msgid "Settings for user accounts"
+msgstr "Uw account instellen"
+
+#: app/configs/settings.json.j2:46
+msgid "Profile"
+msgstr "Profiel"
+
+#: app/configs/settings.json.j2:47
+#, fuzzy
+msgid "Configure your profile settings"
+msgstr "Configureer uw serverinstellingen."
+
+#: app/configs/settings.json.j2:53 app/views/authentication/login.html:56
+#: app/views/client/invite/signup/jellyfin.html:27
+#: app/views/modals/create-notification-agent.html:148
+#: app/views/settings/password.html:6 app/views/setup/pages/admin.html:15
+msgid "Password"
+msgstr "Wachtwoord"
+
+#: app/configs/settings.json.j2:54
+#, fuzzy
+msgid "Change your password"
+msgstr "Je wachtwoord vergeten?"
+
+#: app/configs/settings.json.j2:60
+#, fuzzy
+msgid "Sessions"
+msgstr "Versie"
+
+#: app/configs/settings.json.j2:61
+#, fuzzy
+msgid "View and manage your active sessions"
+msgstr "Beheer uw uitnodigingen"
+
+#: app/configs/settings.json.j2:67
+#, fuzzy
+msgid "SSO Login"
+msgstr "Log in"
+
+#: app/configs/settings.json.j2:68
+msgid "Configure SSO login"
+msgstr "SSO-login configureren"
+
+#: app/configs/settings.json.j2:74
+msgid "Multi-Factor Authentication"
+msgstr "Multi-factor authenticatie"
+
+#: app/configs/settings.json.j2:75
+msgid "Configure MFA authentication"
+msgstr "Configureer MFA-authenticatie"
+
+#: app/configs/settings.json.j2:81
+#, fuzzy
+msgid "Language"
+msgstr "Selecteer Taal"
+
+#: app/configs/settings.json.j2:82
+msgid "Change your language"
+msgstr "Verander je taal"
+
+#: app/configs/settings.json.j2:90
+#, fuzzy
+msgid "UI Settings"
+msgstr "Instellingen"
+
+#: app/configs/settings.json.j2:91
+msgid "Modify the look and feel of the server"
+msgstr "Pas de look en feel van de server aan"
+
+#: app/configs/settings.json.j2:95
+#, fuzzy
+msgid "Discord"
+msgstr "Discord-widget"
+
+#: app/configs/settings.json.j2:96
+msgid "Enable Discord page and configure settings"
+msgstr "Schakel de Discord-pagina in en configureer de instellingen"
+
+#: app/configs/settings.json.j2:102
+#, fuzzy
+msgid "Custom HTML"
+msgstr "Aangepast"
+
+#: app/configs/settings.json.j2:103
+msgid "Add Custom HTML page to help screen"
+msgstr "Voeg een aangepaste HTML-pagina toe aan het helpscherm"
+
+#: app/configs/settings.json.j2:111
+#, fuzzy
+msgid "Advanced Settings"
+msgstr "Geavanceerde mogelijkheden"
+
+#: app/configs/settings.json.j2:112
+msgid "Advanced settings for the server"
+msgstr "Geavanceerde instellingen voor de server"
+
+#: app/configs/settings.json.j2:115
+#, fuzzy
+msgid "OAuth Integration"
+msgstr "Uitnodiging maken"
+
+#: app/configs/settings.json.j2:116
+#, fuzzy
+msgid "Configure OAuth integration"
+msgstr "Uitnodiging maken"
+
+#: app/configs/settings.json.j2:122
+#, fuzzy
+msgid "Logs"
+msgstr "Log in"
+
+#: app/configs/settings.json.j2:123
+msgid "View and download server logs"
+msgstr "Bekijk en download serverlogboeken"
+
+#: app/configs/settings.json.j2:129
+#, fuzzy
+msgid "Tasks"
+msgstr "Taak uitvoeren"
+
+#: app/configs/settings.json.j2:130
+msgid "View and manage scheduled tasks"
+msgstr "Bekijk en beheer geplande taken"
+
+#: app/configs/settings.json.j2:136
+#, fuzzy
+msgid "Updates"
+msgstr "Update"
+
+#: app/configs/settings.json.j2:137
+msgid "Check for and view updates"
+msgstr "Controleer op en bekijk updates"
+
+#: app/configs/settings.json.j2:143
+#, fuzzy
+msgid "Backup"
+msgstr "Rug"
+
+#: app/configs/settings.json.j2:144
+#, fuzzy
+msgid "Create and restore backups"
+msgstr "Account aanmaken"
+
+#: app/configs/settings.json.j2:150
+msgid "About"
+msgstr "Over"
+
+#: app/configs/settings.json.j2:151
+msgid "View information about the server"
+msgstr "Bekijk informatie over de server"
+
+#: app/templates/admin.html:4
+msgid "Wizarr"
+msgstr "Wizarr"
+
+#: app/templates/admin.html:20
+#: app/views/authentication/forgot-password.html:44
+#: app/views/authentication/login.html:98
+msgid "Version"
+msgstr "Versie"
+
+#: app/templates/admin.html:20
+#: app/views/authentication/forgot-password.html:44
+#: app/views/authentication/login.html:98
+msgid "Stable"
+msgstr "Stal"
+
+#: app/templates/admin.html:20
+#: app/views/authentication/forgot-password.html:44
+#: app/views/authentication/login.html:98
 msgid "Beta"
 msgstr "Bèta"
 
@@ -44,206 +249,113 @@ msgstr "Bèta"
 msgid "Logout failed"
 msgstr "Uitloggen mislukt"
 
-#: app/templates/forgot-password.html:4
-#, fuzzy
-msgid "Forgot Password"
-msgstr "Bevestig wachtwoord"
-
-#: app/templates/forgot-password.html:28 app/templates/login.html:40
-msgid "Forgot your password?"
-msgstr "Je wachtwoord vergeten?"
-
-#: app/templates/forgot-password.html:31
-msgid "No worries, contact the administrator to reset your password."
-msgstr ""
-"Geen zorgen, neem contact op met de beheerder om je wachtwoord opnieuw in te"
-" stellen."
-
-#: app/templates/forgot-password.html:34
-msgid ""
-"If you are the administrator, you can reset a password by running the "
-"following script:"
-msgstr ""
-"Als u de beheerder bent, kunt u een wachtwoord opnieuw instellen door het "
-"volgende script uit te voeren:"
-
-#: app/templates/forgot-password.html:39
-#, fuzzy
-msgid "Go Back"
-msgstr "Terug"
-
-#: app/templates/forgot-password.html:47 app/templates/login.html:64
-msgid "Toggle Theme"
-msgstr "Thema wisselen"
-
-#: app/templates/homepage.html:3 app/templates/templates/menu.html:16
-msgid "Home"
-msgstr "Home"
-
-#: app/templates/homepage.html:16 app/templates/login.html:4
-#: app/templates/login.html:28
-msgid "Login"
-msgstr "Login"
-
-#: app/templates/homepage.html:25 app/templates/setup/pages/welcome.html:2
-#, fuzzy
-msgid "Welcome to Wizarr"
-msgstr "Configureer Wizarr"
-
-#: app/templates/homepage.html:28
-msgid ""
-"Wizarr is a software tool that provides advanced user invitation and "
-"management capabilities for media servers such as Jellyfin, Emby, and Plex. "
-"With Wizarr, server administrators can easily invite new users and manage "
-"their access permissions."
-msgstr ""
-"Wizarr is een softwaretool die geavanceerde uitnodigings- en "
-"beheermogelijkheden biedt voor mediaservers zoals Jellyfin, Emby en Plex. "
-"Met Wizarr kunnen serverbeheerders eenvoudig nieuwe gebruikers uitnodigen en"
-" hun toegangsrechten beheren."
-
-#: app/templates/homepage.html:32
-msgid ""
-"If you were sent here by a friend, please request access or if you have an "
-"invite code, please click Get Started."
-msgstr ""
-"Als je hierheen bent gestuurd door een vriend, vraag dan om toegang of als "
-"je een uitnodigingscode hebt, klik dan op Aan de slag."
-
-#: app/templates/homepage.html:36
-msgid "Get Started"
-msgstr "Begin"
-
-#: app/templates/homepage.html:41
-msgid "or"
-msgstr "of"
-
-#: app/templates/homepage.html:45
-#, fuzzy
-msgid "Request Access"
-msgstr "Server"
-
-#: app/templates/admin/settings/profile.html:12
-#: app/templates/invite/signup/jellyfin.html:13 app/templates/login.html:32
-#: app/templates/modals/create-notification-agent.html:143
-#: app/templates/setup/pages/admin.html:7
-msgid "Username"
-msgstr "Gebruikersnaam"
-
-#: app/templates/admin/settings/main.html:50
-#: app/templates/admin/settings/password.html:6
-#: app/templates/invite/signup/jellyfin.html:27 app/templates/login.html:36
-#: app/templates/modals/create-notification-agent.html:148
-#: app/templates/setup/pages/admin.html:15
-msgid "Password"
-msgstr "Wachtwoord"
-
-#: app/templates/login.html:50
-msgid "Remember me"
-msgstr "Onthouden"
-
-#: app/templates/login.html:55
-msgid "Sign in"
-msgstr "Inloggen"
-
-#: app/templates/login.html:104
-#, fuzzy
-msgid "Internal server error"
-msgstr "Interne serverfout."
-
 #: app/templates/users.html:5
 msgid "Invite User"
 msgstr "Gebruiker uitnodigen"
 
-#: app/templates/admin/invite.html:4 app/templates/admin/invite.html:193
-#: app/templates/admin/invite.html:581
+#: app/templates/templates/menu.html:16 app/views/home/main.html:3
+msgid "Home"
+msgstr "Thuis"
+
+#: app/templates/templates/menu.html:22 app/views/admin/invites.html:4
+msgid "Invitations"
+msgstr "Uitnodigingen"
+
+#: app/templates/templates/menu.html:28
+msgid "Users"
+msgstr "Gebruikers"
+
+#: app/templates/templates/menu.html:34 app/views/setup/pages/settings.html:2
+msgid "Settings"
+msgstr "Instellingen"
+
+#: app/templates/templates/update.html:13
+msgid "Attention!"
+msgstr "Aandacht!"
+
+#: app/templates/templates/update.html:14
+msgid "Update available. Click here."
+msgstr "Update beschikbaar. Klik hier."
+
+#: app/views/admin/invite.html:4 app/views/admin/invite.html:193
+#: app/views/admin/invite.html:581
 msgid "Create Invitation"
-msgstr "Maak een uitnodiging"
+msgstr "Uitnodiging maken"
 
-#: app/templates/admin/invite.html:8
-#, fuzzy
+#: app/views/admin/invite.html:8
 msgid "Create an invitation to your server."
-msgstr "Maak een uitnodiging"
+msgstr "Maak een uitnodiging voor uw server."
 
-#: app/templates/admin/invite.html:21
+#: app/views/admin/invite.html:21
 msgid "Invite Code String"
-msgstr "Uitnodigingscode"
+msgstr "Uitnodigingscodereeks"
 
-#: app/templates/admin/invite.html:21
+#: app/views/admin/invite.html:21
 msgid "(optional)"
 msgstr "(optioneel)"
 
-#: app/templates/admin/invite.html:35
+#: app/views/admin/invite.html:35
 msgid "Expiration"
 msgstr "Vervaldatum"
 
-#: app/templates/admin/invite.html:38 app/templates/admin/invite.html:130
-#, fuzzy
+#: app/views/admin/invite.html:38 app/views/admin/invite.html:130
 msgid "1 Day"
 msgstr "1 dag"
 
-#: app/templates/admin/invite.html:39 app/templates/admin/invite.html:131
-#, fuzzy
+#: app/views/admin/invite.html:39 app/views/admin/invite.html:131
 msgid "1 Week"
 msgstr "1 week"
 
-#: app/templates/admin/invite.html:40 app/templates/admin/invite.html:132
-#, fuzzy
+#: app/views/admin/invite.html:40 app/views/admin/invite.html:132
 msgid "1 Month"
 msgstr "1 maand"
 
-#: app/templates/admin/invite.html:41 app/templates/admin/invite.html:133
-#, fuzzy
+#: app/views/admin/invite.html:41 app/views/admin/invite.html:133
 msgid "6 Months"
-msgstr "1 maand"
+msgstr "6 maanden"
 
-#: app/templates/admin/invite.html:42 app/templates/admin/invite.html:134
+#: app/views/admin/invite.html:42 app/views/admin/invite.html:134
 msgid "1 Year"
 msgstr "1 jaar"
 
-#: app/templates/admin/invite.html:43
+#: app/views/admin/invite.html:43
 msgid "Never"
 msgstr "Nooit"
 
-#: app/templates/admin/invite.html:44 app/templates/admin/invite.html:135
+#: app/views/admin/invite.html:44 app/views/admin/invite.html:135
 msgid "Custom"
 msgstr "Aangepast"
 
-#: app/templates/admin/invite.html:52
-#, fuzzy
+#: app/views/admin/invite.html:52
 msgid "Custom Expiration"
-msgstr "Vervaldatum"
+msgstr "Aangepaste vervaldatum"
 
-#: app/templates/admin/invite.html:60
+#: app/views/admin/invite.html:60
 msgid "Advanced Options"
-msgstr "Geavanceerde Opties"
+msgstr "Geavanceerde mogelijkheden"
 
-#: app/templates/admin/invite.html:70
+#: app/views/admin/invite.html:70
 msgid "Unlimited Usages"
-msgstr "Ongelimiteerd te gebruiken"
+msgstr "Onbeperkt gebruik"
 
-#: app/templates/admin/invite.html:79
-#, fuzzy
+#: app/views/admin/invite.html:79
 msgid "Invite to Plex Home"
-msgstr "Uitnodigingscode"
+msgstr "Nodig uit voor Plex Home"
 
-#: app/templates/admin/invite.html:90
-#: app/templates/tables/invite-table.html:12
-#, fuzzy
+#: app/views/admin/invite.html:90 app/views/tables/invite-table.html:12
 msgid "Allow Downloads"
-msgstr "Download"
+msgstr "Sta downloads toe"
 
-#: app/templates/admin/invite.html:106 app/templates/admin/invite.html:119
-#: app/templates/tables/invite-table.html:14
-#, fuzzy
+#: app/views/admin/invite.html:106 app/views/admin/invite.html:119
+#: app/views/tables/invite-table.html:14
 msgid "Duration"
-msgstr "Vervaldatum"
+msgstr "Duur"
 
-#: app/templates/admin/invite.html:114
+#: app/views/admin/invite.html:114
 msgid "Show Information"
-msgstr "Toon Informatie"
+msgstr "Toon informatie"
 
-#: app/templates/admin/invite.html:120
+#: app/views/admin/invite.html:120
 msgid ""
 "When set, invited user(s) will be removed from the server after the set "
 "number of days. (1-999)"
@@ -251,558 +363,272 @@ msgstr ""
 "Indien ingesteld, worden uitgenodigde gebruiker(s) na het ingestelde aantal "
 "dagen van de server verwijderd. (1-999)"
 
-#: app/templates/admin/invite.html:129
-#: app/templates/tables/invite-table.html:10
-#: app/templates/tables/invite-table.html:80
+#: app/views/admin/invite.html:129 app/views/tables/invite-table.html:10
+#: app/views/tables/invite-table.html:80
 msgid "Unlimited"
-msgstr "Ongelimiteerd"
+msgstr "Onbeperkt"
 
-#: app/templates/admin/invite.html:143
-#, fuzzy
+#: app/views/admin/invite.html:143
 msgid "Custom Duration"
-msgstr "Vervaldatum"
+msgstr "Aangepaste duur"
 
-#: app/templates/admin/invite.html:151
-#, fuzzy
+#: app/views/admin/invite.html:151
 msgid "Specific Libraries"
-msgstr "Plex Bibliotheken"
+msgstr "Specifieke bibliotheken"
 
-#: app/templates/admin/invite.html:155
-#: app/templates/modals/scan-libraries.html:3
-#: app/templates/modals/scan-libraries.html:22
-#, fuzzy
+#: app/views/admin/invite.html:155 app/views/modals/scan-libraries.html:3
+#: app/views/modals/scan-libraries.html:22
 msgid "Select Libraries"
-msgstr "Plex Bibliotheken"
+msgstr "Selecteer Bibliotheken"
 
-#: app/templates/admin/invite.html:184
-#, fuzzy
+#: app/views/admin/invite.html:184
 msgid "Select All"
-msgstr "Standaard"
+msgstr "Selecteer alles"
 
-#: app/templates/admin/invite.html:202
+#: app/views/admin/invite.html:202
 msgid "Successfully generated an Invitation!"
-msgstr "De uitnodiging werd met succes aangemaakt!"
+msgstr "Uitnodiging gegenereerd!"
 
-#: app/templates/admin/invite.html:206 app/templates/admin/invite.html:356
+#: app/views/admin/invite.html:206 app/views/admin/invite.html:356
 msgid "Link has been copied to clipboard!"
-msgstr "De link werd gekopieerd naar je klembord!"
+msgstr "Link is gekopieerd naar klembord!"
 
-#: app/templates/admin/invite.html:212 app/templates/admin/settings.html:23
-#: app/templates/error/404.html:20 app/templates/wizard/base.html:35
-#: app/templates/wizard/base.html:49
+#: app/views/admin/invite.html:212 app/views/admin/settings.html:23
+#: app/views/client/wizard/wizard.html:35
+#: app/views/client/wizard/wizard.html:49 app/views/errors/404.html:20
 msgid "Back"
-msgstr "Terug"
+msgstr "Rug"
 
-#: app/templates/admin/invite.html:218
+#: app/views/admin/invite.html:218
 msgid "Share"
 msgstr "Deel"
 
-#: app/templates/admin/invite.html:357
+#: app/views/admin/invite.html:357
 msgid "An error occurred while copying the link to the clipboard!"
 msgstr ""
 "Er is een fout opgetreden tijdens het kopiëren van de link naar het "
 "klembord!"
 
-#: app/templates/admin/invite.html:481
-#, fuzzy
+#: app/views/admin/invite.html:481
 msgid "Deselect all"
-msgstr "Standaard"
+msgstr "Deselecteer alles"
 
-#: app/templates/admin/invite.html:483
-#, fuzzy
+#: app/views/admin/invite.html:483
 msgid "Select all"
-msgstr "Standaard"
+msgstr "Selecteer alles"
 
-#: app/templates/admin/invite.html:507
+#: app/views/admin/invite.html:507
 msgid "Creating..."
 msgstr "Aanmaken..."
 
-#: app/templates/admin/invite.html:575
+#: app/views/admin/invite.html:575
 msgid "The invite has been created"
 msgstr "De uitnodiging is gemaakt"
 
-#: app/templates/admin/invite.html:578
+#: app/views/admin/invite.html:578
 msgid "There was an error creating the invite"
 msgstr "Er is een fout opgetreden bij het maken van de uitnodiging"
 
-#: app/templates/admin/invites.html:4 app/templates/templates/menu.html:22
-msgid "Invitations"
-msgstr "Uitnodigingen"
-
-#: app/templates/admin/invites.html:8
-#, fuzzy
+#: app/views/admin/invites.html:8
 msgid "Manage your invitations"
-msgstr "Uitnodigingen"
+msgstr "Beheer uw uitnodigingen"
 
-#: app/templates/admin/invites.html:13
-#, fuzzy
+#: app/views/admin/invites.html:13
 msgid "Create Invite"
-msgstr "Maak een uitnodiging"
+msgstr "Uitnodiging maken"
 
-#: app/templates/admin/invites.html:16
-#, fuzzy
+#: app/views/admin/invites.html:16
 msgid "Delete All"
-msgstr "Standaard"
+msgstr "Verwijder alles"
 
-#: app/templates/admin/settings.html:6
+#: app/views/admin/settings.html:6
 msgid "Server Settings"
-msgstr "Server Instellingen"
+msgstr "Serverinstellingen"
 
-#: app/templates/admin/settings.html:10
-#, fuzzy
+#: app/views/admin/settings.html:10
 msgid "Configure your server settings."
-msgstr "Server Instellingen"
+msgstr "Configureer uw serverinstellingen."
 
-#: app/templates/admin/user.html:44
+#: app/views/admin/user.html:44
 msgid "User Configuration"
 msgstr "Gebruikersconfiguratie"
 
-#: app/templates/admin/user.html:90
+#: app/views/admin/user.html:90
 msgid "User Policy"
 msgstr "Gebruikersbeleid"
 
-#: app/templates/admin/users.html:4
-#, fuzzy
+#: app/views/admin/users.html:4
 msgid "Invited Users"
-msgstr "Gebruiker uitnodigen"
+msgstr "Uitgenodigde gebruikers"
 
-#: app/templates/admin/users.html:8
+#: app/views/admin/users.html:8
 msgid "Manage users that joined your server"
 msgstr "Beheer gebruikers die lid zijn geworden van uw server"
 
-#: app/templates/admin/users.html:13
-#, fuzzy
+#: app/views/admin/users.html:13
 msgid "Scan Users"
-msgstr "Gebruikers"
+msgstr "Gebruikers scannen"
 
-#: app/templates/admin/users.html:19
-#, fuzzy
+#: app/views/admin/users.html:19
 msgid "Add User"
-msgstr "Gebruikers"
+msgstr "Voeg gebruiker toe"
 
-#: app/templates/admin/settings/about.html:111
-#: app/templates/admin/settings/about.html:221
-msgid "Load More"
-msgstr "Meer laden"
+#: app/views/authentication/forgot-password.html:4
+msgid "Forgot Password"
+msgstr "Wachtwoord vergeten"
 
-#: app/templates/admin/settings/accounts.html:13
-#, fuzzy
-msgid "My Account"
-msgstr "Maak een account aan"
+#: app/views/authentication/forgot-password.html:28
+msgid "Forgot your password?"
+msgstr "Je wachtwoord vergeten?"
 
-#: app/templates/admin/settings/accounts.html:16
-#, fuzzy
-msgid "Add Admin"
-msgstr "Administrator"
-
-#: app/templates/admin/settings/api.html:38
-#: app/templates/modals/create-api-key.html:3
-#, fuzzy
-msgid "Create API Key"
-msgstr "Maak een account"
-
-#: app/templates/admin/settings/discord.html:4
-#, fuzzy
-msgid "Discord Server ID"
+#: app/views/authentication/forgot-password.html:31
+msgid "No worries, contact the administrator to reset your password."
 msgstr ""
-"Word lid van de Discord\n"
-"…………………………Server!"
-
-#: app/templates/admin/settings/discord.html:9
-msgid "Discord Widget"
-msgstr "Discord-widget"
-
-#: app/templates/admin/settings/discord.html:19
-#: app/templates/admin/settings/html.html:9
-#: app/templates/admin/settings/media.html:38
-#: app/templates/admin/settings/requests.html:26
-msgid "Save"
-msgstr "Opslaan"
-
-#: app/templates/admin/settings/discord.html:42
-#: app/templates/admin/settings/html.html:25
-#: app/templates/admin/settings/media.html:54
-#: app/templates/admin/settings/requests.html:58
-msgid "Settings saved successfully!"
-msgstr "Instellingen succesvol opgeslagen!"
-
-#: app/templates/admin/settings/language.html:3
-msgid "Please use the dropdown below to select your language."
-msgstr "Gebruik de vervolgkeuzelijst hieronder om uw taal te selecteren."
-
-#: app/templates/admin/settings/language.html:7
-#, fuzzy
-msgid "Select Language"
-msgstr "Plex Bibliotheken"
-
-#: app/templates/admin/settings/main.html:5
-#, fuzzy
-msgid "Main Settings"
-msgstr "Instellingen"
-
-#: app/templates/admin/settings/main.html:6
-msgid "General settings for the server"
-msgstr "Algemene instellingen voor de server"
-
-#: app/templates/admin/settings/main.html:9
-#, fuzzy
-msgid "Media Server"
-msgstr "Server"
-
-#: app/templates/admin/settings/main.html:10
-#, fuzzy
-msgid "Configure your media server settings"
-msgstr "Server Instellingen"
-
-#: app/templates/admin/settings/main.html:16
-msgid "Requests"
-msgstr "Verzoeken"
-
-#: app/templates/admin/settings/main.html:17
-msgid "Add Jellyseerr, Overseerr or Ombi support"
-msgstr "Voeg ondersteuning voor Jellyseerr, Overseerr of Ombi toe"
-
-#: app/templates/admin/settings/main.html:23
-#, fuzzy
-msgid "API keys"
-msgstr "Maak een account"
-
-#: app/templates/admin/settings/main.html:24
-msgid "Add API keys for external services"
-msgstr "Voeg API-sleutels toe voor externe services"
-
-#: app/templates/admin/settings/main.html:30
-#, fuzzy
-msgid "Notifications"
-msgstr "Uitnodigingen"
-
-#: app/templates/admin/settings/main.html:31
-msgid "Configure notification settings"
-msgstr "Meldingsinstellingen configureren"
-
-#: app/templates/admin/settings/main.html:39
-#, fuzzy
-msgid "Account Settings"
-msgstr "Instellingen"
-
-#: app/templates/admin/settings/main.html:40
-#, fuzzy
-msgid "Settings for user accounts"
-msgstr "Maak een account aan"
-
-#: app/templates/admin/settings/main.html:43
-msgid "Profile"
-msgstr "Profiel"
-
-#: app/templates/admin/settings/main.html:44
-msgid "Configure your profile settings"
-msgstr "Configureer uw profielinstellingen"
-
-#: app/templates/admin/settings/main.html:51
-#, fuzzy
-msgid "Change your password"
-msgstr "Bevestig wachtwoord"
-
-#: app/templates/admin/settings/main.html:57
-#, fuzzy
-msgid "Sessions"
-msgstr "Instellingen"
-
-#: app/templates/admin/settings/main.html:58
-msgid "View and manage your active sessions"
-msgstr "Bekijk en beheer uw actieve sessies"
-
-#: app/templates/admin/settings/main.html:64
-msgid "Language"
-msgstr "Taal"
-
-#: app/templates/admin/settings/main.html:65
-#, fuzzy
-msgid "Change your language"
-msgstr "Bevestig wachtwoord"
-
-#: app/templates/admin/settings/main.html:73
-#, fuzzy
-msgid "UI Settings"
-msgstr "Instellingen"
-
-#: app/templates/admin/settings/main.html:74
-msgid "Modify the look and feel of the server"
-msgstr "Pas de look en feel van de server aan"
-
-#: app/templates/admin/settings/main.html:77
-msgid "Discord"
-msgstr "Meningsverschil"
-
-#: app/templates/admin/settings/main.html:78
-msgid "Enable Discord page and configure settings"
-msgstr "Schakel de Discord-pagina in en configureer de instellingen"
-
-#: app/templates/admin/settings/main.html:84
-#, fuzzy
-msgid "Custom HTML"
-msgstr "Vervaldatum"
-
-#: app/templates/admin/settings/main.html:85
-msgid "Add Custom HTML page to help screen"
-msgstr "Voeg een aangepaste HTML-pagina toe aan het helpscherm"
-
-#: app/templates/admin/settings/main.html:93
-#, fuzzy
-msgid "Advanced Settings"
-msgstr "Geavanceerde Opties"
-
-#: app/templates/admin/settings/main.html:94
-msgid "Advanced settings for the server"
-msgstr "Geavanceerde instellingen voor de server"
-
-#: app/templates/admin/settings/main.html:97
-#, fuzzy
-msgid "Logs"
-msgstr "Login"
-
-#: app/templates/admin/settings/main.html:98
-msgid "View and download server logs"
-msgstr "Bekijk en download serverlogboeken"
-
-#: app/templates/admin/settings/main.html:104
-msgid "Tasks"
-msgstr "Taken"
-
-#: app/templates/admin/settings/main.html:105
-msgid "View and manage scheduled tasks"
-msgstr "Bekijk en beheer geplande taken"
-
-#: app/templates/admin/settings/main.html:111
-#, fuzzy
-msgid "Updates"
-msgstr "Plex Bibliotheken"
-
-#: app/templates/admin/settings/main.html:112
-msgid "Check for and view updates"
-msgstr "Controleer op en bekijk updates"
-
-#: app/templates/admin/settings/main.html:118
-#, fuzzy
-msgid "Backup"
-msgstr "Terug"
-
-#: app/templates/admin/settings/main.html:119
-#, fuzzy
-msgid "Create and restore backups"
-msgstr "Maak een account"
-
-#: app/templates/admin/settings/main.html:125
-#, fuzzy
-msgid "About"
-msgstr "Maak een account aan"
-
-#: app/templates/admin/settings/main.html:126
-msgid "View information about the server"
-msgstr "Bekijk informatie over de server"
-
-#: app/templates/admin/settings/main.html:164
-msgid "No settings matched your search."
-msgstr "Er kwamen geen instellingen overeen met uw zoekopdracht."
-
-#: app/templates/admin/settings/media.html:6
-#: app/templates/setup/pages/settings.html:6
-#, fuzzy
-msgid "Server Display Name"
-msgstr "Plex weergavenaam"
-
-#: app/templates/admin/settings/media.html:11
-#: app/templates/setup/pages/settings.html:11
-msgid "Server"
-msgstr "Server"
-
-#: app/templates/admin/settings/media.html:13
-msgid "Choose a server"
-msgstr "Kies een server"
-
-#: app/templates/admin/settings/media.html:20
-#: app/templates/setup/pages/settings.html:20
-#: app/templates/wizard/pages/jellyfin/download.html:30
-#, fuzzy
-msgid "Server URL"
-msgstr "Server URL"
-
-#: app/templates/admin/settings/media.html:25
-#: app/templates/setup/pages/settings.html:25
-#, fuzzy
-msgid "Server Token / API Key"
-msgstr "Plex Token"
-
-#: app/templates/admin/settings/media.html:30
-#: app/templates/modals/update-libraries.html:3
-#: app/templates/setup/pages/settings.html:37
-#, fuzzy
-msgid "Server Libraries"
-msgstr "Plex Bibliotheken"
-
-#: app/templates/admin/settings/media.html:32
-#: app/templates/setup/pages/settings.html:39
-msgid "Scan For Libraries"
-msgstr "Bibliotheken scannen"
-
-#: app/templates/admin/settings/notifications.html:18
-#, fuzzy
-msgid "Create Agent"
-msgstr "Maak een account"
-
-#: app/templates/admin/settings/password.html:12
-#, fuzzy
-msgid "Confirm Password"
-msgstr "Bevestig wachtwoord"
-
-#: app/templates/admin/settings/password.html:19
-#, fuzzy
-msgid "Reset Password"
-msgstr "Wachtwoord"
-
-#: app/templates/admin/settings/profile.html:6
-#, fuzzy
-msgid "Display Name"
-msgstr "Plex weergavenaam"
-
-#: app/templates/admin/settings/profile.html:18
-msgid "Email Address"
-msgstr "E-mailadres"
-
-#: app/templates/admin/settings/profile.html:25
-msgid "Update"
-msgstr "Update"
-
-#: app/templates/admin/settings/requests.html:4
-#, fuzzy
-msgid "Request Server"
-msgstr "Server"
-
-#: app/templates/admin/settings/requests.html:6
-msgid "Disabled"
-msgstr "Gehandicapt"
-
-#: app/templates/admin/settings/requests.html:15
-#, fuzzy
-msgid "Request Server URL"
-msgstr "Server URL"
-
-#: app/templates/admin/settings/requests.html:20
-msgid "Request Server API Key"
-msgstr "Server API-sleutel aanvragen"
-
-#: app/templates/admin/settings/sessions.html:14
-msgid "Revoke All"
-msgstr "Alles intrekken"
-
-#: app/templates/error/401.html:20
-msgid "Permission denied."
-msgstr "Toegang geweigerd."
-
-#: app/templates/error/401.html:23
-msgid "You are attempting to do something you shouldn't be doing..."
-msgstr "Je probeert iets te doen waarvoor je geen toestemming hebt..."
-
-#: app/templates/error/404.html:31
-msgid "Something's missing."
-msgstr "Er ontbreekt iets."
-
-#: app/templates/error/404.html:33
-msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "Sorry, we kunnen deze pagina niet vinden. Deze lijkt niet te bestaan!"
-
-#: app/templates/error/500.html:19
-msgid "Internal Server Error."
-msgstr "Interne serverfout."
-
-#: app/templates/error/500.html:21
-msgid " Something has gone wrong. Please try again later."
-msgstr " Er is iets misgelopen. Probeer later opnieuw."
-
-#: app/templates/error/custom.html:20
-msgid "Get Help"
-msgstr "Hulp krijgen"
-
-#: app/templates/invite/invite-invalid.html:15
-#, fuzzy
+"Geen zorgen, neem contact op met de beheerder om je wachtwoord opnieuw in te"
+" stellen."
+
+#: app/views/authentication/forgot-password.html:34
+msgid ""
+"If you are the administrator, you can reset a password by running the "
+"following script:"
+msgstr ""
+"Als u de beheerder bent, kunt u een wachtwoord opnieuw instellen door het "
+"volgende script uit te voeren:"
+
+#: app/views/authentication/forgot-password.html:39
+msgid "Go Back"
+msgstr "Ga terug"
+
+#: app/views/authentication/forgot-password.html:47
+#: app/views/authentication/login.html:101
+msgid "Toggle Theme"
+msgstr "Thema wisselen"
+
+#: app/views/authentication/login.html:4
+#: app/views/authentication/login.html:62 app/views/home/main.html:16
+msgid "Login"
+msgstr "Log in"
+
+#: app/views/authentication/login.html:30
+#: app/views/authentication/login.html:47
+msgid "Login with your account"
+msgstr "Log in met uw account"
+
+#: app/views/authentication/login.html:34
+#: app/views/authentication/login.html:51
+#: app/views/client/invite/signup/jellyfin.html:13
+#: app/views/modals/create-notification-agent.html:143
+#: app/views/settings/profile.html:12 app/views/setup/pages/admin.html:7
+msgid "Username"
+msgstr "Gebruikersnaam"
+
+#: app/views/authentication/login.html:40
+#: app/views/authentication/login.html:83
+#: app/views/client/invite/signup/plex.html:81
+msgid "Continue"
+msgstr "Doorgaan"
+
+#: app/views/authentication/login.html:67
+msgid "Login with MFA"
+msgstr "Log in met MFA"
+
+#: app/views/authentication/login.html:76
+msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
+msgstr ""
+"Gebruik uw vingerafdruk of gezichtsherkenning om uw identiteit te verifiëren"
+
+#: app/views/authentication/login.html:77
+msgid "Press the button below and follow your browser's steps to login"
+msgstr ""
+"Druk op de onderstaande knop en volg de stappen van uw browser om in te "
+"loggen"
+
+#: app/views/authentication/login.html:88
+msgid "Login with Password"
+msgstr "Inloggen met wachtwoord"
+
+#: app/views/authentication/login.html:178
+msgid "Please enter your username"
+msgstr "Voer uw gebruikersnaam in"
+
+#: app/views/client/invite/invite-invalid.html:15
 msgid "Invalid Invitation"
-msgstr "Uitnodigingen"
+msgstr "Ongeldige uitnodiging"
 
-#: app/templates/invite/join.html:10
-#, fuzzy, python-format
+#: app/views/client/invite/join.html:10
+#, python-format
 msgid "Type in your invite code to %(name)s server!"
-msgstr "Je bent uitgenodigd voor %(name)s!"
+msgstr "Voer uw uitnodigingscode in voor %(name)s server!"
 
-#: app/templates/invite/join.html:20
-#: app/templates/invite/signup/jellyfin.html:40
-#: app/templates/invite/signup/plex.html:25
-#: app/templates/tables/invite-table.html:6
+#: app/views/client/invite/join.html:20
+#: app/views/client/invite/signup/jellyfin.html:40
+#: app/views/client/invite/signup/plex.html:25
+#: app/views/tables/invite-table.html:6
 msgid "Invite Code"
 msgstr "Uitnodigingscode"
 
-#: app/templates/invite/join.html:27 app/templates/invite/signup/plex.html:33
+#: app/views/client/invite/join.html:27
+#: app/views/client/invite/signup/plex.html:33
 msgid "Join"
 msgstr "Meedoen"
 
-#: app/templates/invite/signup.html:7 app/templates/invite/signup.html:14
-#, fuzzy, python-format
+#: app/views/client/invite/signup.html:7
+#: app/views/client/invite/signup.html:14
+#, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr "Je bent uitgenodigd voor %(name)s!"
+msgstr "Je bent uitgenodigd om lid te worden van de %(name)s server!"
 
-#: app/templates/invite/signup/jellyfin.html:3
+#: app/views/client/invite/signup/jellyfin.html:3
 msgid "Set up Account"
-msgstr "Maak een account aan"
+msgstr "Account aanmaken"
 
-#: app/templates/invite/signup/jellyfin.html:19
-#: app/templates/setup/pages/admin.html:11
+#: app/views/client/invite/signup/jellyfin.html:19
+#: app/views/setup/pages/admin.html:11
 msgid "Email"
-msgstr "Email"
+msgstr "E-mail"
 
-#: app/templates/invite/signup/jellyfin.html:33
-#: app/templates/setup/pages/admin.html:19
+#: app/views/client/invite/signup/jellyfin.html:33
+#: app/views/setup/pages/admin.html:19
 msgid "Confirm password"
 msgstr "Bevestig wachtwoord"
 
-#: app/templates/invite/signup/jellyfin.html:45
+#: app/views/client/invite/signup/jellyfin.html:45
 msgid "Create an account"
-msgstr "Maak een account"
+msgstr "Account aanmaken"
 
-#: app/templates/invite/signup/plex.html:3
+#: app/views/client/invite/signup/plex.html:3
 msgid "Join the Plex Server"
-msgstr "Neem deel aan de Plex server"
+msgstr "Word lid van de Plex-server"
 
-#: app/templates/invite/signup/plex.html:4
-#, fuzzy
+#: app/views/client/invite/signup/plex.html:4
 msgid "Sign in to Plex"
-msgstr "Inloggen"
+msgstr "Log in op Plex"
 
-#: app/templates/invite/signup/plex.html:5
+#: app/views/client/invite/signup/plex.html:5
 msgid "Please wait"
 msgstr "Even geduld aub"
 
-#: app/templates/invite/signup/plex.html:6
-#, fuzzy
+#: app/views/client/invite/signup/plex.html:6
 msgid "Setting up your account"
-msgstr "Maak een account aan"
+msgstr "Uw account instellen"
 
-#: app/templates/invite/signup/plex.html:7
+#: app/views/client/invite/signup/plex.html:7
 msgid "Almost there!"
 msgstr "Bijna daar!"
 
-#: app/templates/invite/signup/plex.html:8
+#: app/views/client/invite/signup/plex.html:8
 msgid "All done!"
 msgstr "Helemaal klaar!"
 
-#: app/templates/invite/signup/plex.html:9
-#, fuzzy
+#: app/views/client/invite/signup/plex.html:9
 msgid "Account created!"
-msgstr "Aangemaakt"
+msgstr "Account aangemaakt!"
 
-#: app/templates/invite/signup/plex.html:10
+#: app/views/client/invite/signup/plex.html:10
 msgid "Please try again"
 msgstr "Probeer het opnieuw"
 
-#: app/templates/invite/signup/plex.html:78
+#: app/views/client/invite/signup/plex.html:78
 msgid ""
 "You're all set, click continue to get started and walkthrough how to use "
 "Plex!"
@@ -810,226 +636,651 @@ msgstr ""
 "Je bent helemaal klaar, klik op doorgaan om aan de slag te gaan en doorloop "
 "hoe je Plex gebruikt!"
 
-#: app/templates/invite/signup/plex.html:81
-msgid "Continue"
-msgstr "Doorgaan"
-
-#: app/templates/invite/signup/plex.html:90
-#, fuzzy
+#: app/views/client/invite/signup/plex.html:90
 msgid "Something went wrong, please try again."
-msgstr " Er is iets misgelopen. Probeer later opnieuw."
+msgstr "Er is iets mis gegaan, probeer het alstublieft nogmaals."
 
-#: app/templates/invite/signup/plex.html:93
+#: app/views/client/invite/signup/plex.html:93
 msgid "Retry"
 msgstr "Opnieuw proberen"
 
-#: app/templates/modals/create-api-key.html:9
-#: app/templates/modals/create-notification-agent.html:13
-#, fuzzy
-msgid "Name"
-msgstr "Gebruikersnaam"
+#: app/views/client/wizard/wizard.html:4
+msgid "Help"
+msgstr "Hulp"
 
-#: app/templates/modals/create-api-key.html:14
-#: app/templates/modals/create-notification-agent.html:46
-#: app/templates/modals/delete-api-key.html:13
-#: app/templates/modals/delete-notification-agent.html:13
-#: app/templates/modals/revoke-session.html:13
-#: app/templates/modals/run-task.html:13
-#: app/templates/modals/scan-libraries.html:19
-#: app/templates/modals/update-libraries.html:23
+#: app/views/client/wizard/wizard.html:12
+msgid "Getting Started!"
+msgstr "Aan de slag!"
+
+#: app/views/client/wizard/wizard.html:38
+msgid "Next"
+msgstr "Volgende"
+
+#: app/views/client/wizard/wizard.html:45
+msgid "Open"
+msgstr "Open"
+
+#: app/views/client/wizard/pages/requests.html:4
+msgid "Automatic Media Requests"
+msgstr "Automatische mediaverzoeken"
+
+#: app/views/client/wizard/pages/requests.html:9
+msgid ""
+"We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
+"        something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
+"        media you're looking for. "
+msgstr ""
+"We bieden u graag een ruime keuze aan media om uit te kiezen. Als u problemen ondervindt bij het vinden\n"
+"        iets dat je leuk vindt, maak je geen zorgen! We hebben een gebruiksvriendelijk aanvraagsysteem dat automatisch kan zoeken naar de\n"
+"        media die u zoekt."
+
+#: app/views/client/wizard/pages/requests.html:20
+msgid "Request any available Movie or TV Show"
+msgstr "Vraag elke beschikbare film of tv-show aan"
+
+#: app/views/client/wizard/pages/requests.html:27
+msgid "Requested media will be automatically downloaded (if available)"
+msgstr "Aangevraagde media worden automatisch gedownload (indien beschikbaar)"
+
+#: app/views/client/wizard/pages/requests.html:34
+msgid "If enabled, receive notifications"
+msgstr "Ontvang meldingen indien ingeschakeld"
+
+#: app/views/client/wizard/pages/requests.html:40
+msgid "Check it Out"
+msgstr "Bekijken"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:2
+msgid ""
+"Join & Download Jellyfin\n"
+"        for this device"
+msgstr ""
+"Doe mee en download Jellyfin\n"
+"        voor dit apparaat"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:7
+msgid ""
+"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
+"    it with Jellyfin."
+msgstr ""
+"Geweldig nieuws! U heeft nu toegang tot de mediacollectie van onze server. Laten we ervoor zorgen dat u weet hoe u het moet gebruiken\n"
+"    het met Jellyfin."
+
+#: app/views/client/wizard/pages/jellyfin/download.html:11
+msgid ""
+"Planning on watching Movies on this device? Download Jellyfin for this "
+"device."
+msgstr ""
+"Wil je films kijken op dit apparaat? Download Jellyfin voor dit apparaat."
+
+#: app/views/client/wizard/pages/jellyfin/download.html:19
+msgid ""
+"If you don't wish to Download the App feel free to use Jellyfin in your "
+"devices web browser, just click \"Next\"."
+msgstr ""
+"Als u de app niet wilt downloaden, gebruik dan gerust Jellyfin in de "
+"webbrowser van uw apparaat, klik gewoon op \"Volgende\"."
+
+#: app/views/client/wizard/pages/jellyfin/download.html:25
+msgid "Show Server URL"
+msgstr "Toon server-URL"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:30
+#: app/views/settings/media.html:20 app/views/setup/pages/settings.html:20
+msgid "Server URL"
+msgstr "Server-URL"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:34
+#: app/views/client/wizard/pages/jellyfin/download.html:191
+msgid "Copy"
+msgstr "Kopiëren"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:59
+#: app/views/client/wizard/pages/jellyfin/download.html:83
+msgid "Open Jellyfin"
+msgstr "Jellyfin openen"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:139
+msgid "Other Download"
+msgstr "Ander downloaden"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:188
+msgid "Copied!"
+msgstr "Gekopieerd!"
+
+#: app/views/client/wizard/pages/jellyfin/tips.html:3
+#: app/views/client/wizard/pages/plex/tips.html:3
+msgid "Right, so how do I watch stuff?"
+msgstr "Juist, dus hoe kan ik dingen bekijken?"
+
+#: app/views/client/wizard/pages/jellyfin/tips.html:6
+msgid ""
+"It couldn't be simpler! Jellyfin is available on a wide variety of devices "
+"including laptops, tablets, smartphones, and TVs. All you need to do is "
+"download the Jellyfin app on your device, sign in with your account, and "
+"you're ready to start streaming your media."
+msgstr ""
+"Eenvoudiger kan het niet! Jellyfin is beschikbaar op een breed scala aan "
+"apparaten, waaronder laptops, tablets, smartphones en tv's. Het enige dat u "
+"hoeft te doen, is de Jellyfin-app op uw apparaat downloaden, inloggen met uw"
+" account en u bent klaar om uw media te streamen."
+
+#: app/views/client/wizard/pages/jellyfin/tips.html:9
+msgid "It's that easy!"
+msgstr "Het is zo makkelijk!"
+
+#: app/views/client/wizard/pages/jellyfin/welcome.html:3
+msgid "Eh, So, What is Jellyfin exactly?"
+msgstr "Eh, dus, wat is Jellyfin precies?"
+
+#: app/views/client/wizard/pages/jellyfin/welcome.html:6
+msgid ""
+"Jellyfin is a platform that lets you stream all your favorite movies, TV "
+"shows, and music in one place. It's like having your own personal movie "
+"theater right at your fingertips! Think of it as a digital library of your "
+"favorite content that you can access from anywhere, on any device - your "
+"phone, tablet, laptop, smart TV, you name it."
+msgstr ""
+"Jellyfin is een platform waarmee je al je favoriete films, tv-programma's en"
+" muziek op één plek kunt streamen. Het is alsof u uw eigen persoonlijke "
+"bioscoop binnen handbereik heeft! Zie het als een digitale bibliotheek van "
+"uw favoriete inhoud die u overal en op elk apparaat kunt openen: uw "
+"telefoon, tablet, laptop, smart-tv, noem maar op."
+
+#: app/views/client/wizard/pages/plex/download.html:4
+msgid "Join & Download Plex for this device"
+msgstr "Doe mee en download Plex voor dit apparaat"
+
+#: app/views/client/wizard/pages/plex/download.html:8
+msgid ""
+"So you now have access to our server's media collection. Let's make sure you"
+" know how to use it with Plex."
+msgstr ""
+"U hebt nu dus toegang tot de mediacollectie van onze server. Laten we ervoor"
+" zorgen dat u weet hoe u het met Plex moet gebruiken."
+
+#: app/views/client/wizard/pages/plex/download.html:11
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
+msgstr "Wil je films kijken op dit apparaat? Download Plex voor dit apparaat."
+
+#: app/views/client/wizard/pages/plex/download.html:14
+msgid "Download"
+msgstr "Downloaden"
+
+#: app/views/client/wizard/pages/plex/tips.html:6
+msgid ""
+"It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+"        smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
+"        you're ready to start streaming your media. It's that easy!"
+msgstr ""
+"Eenvoudiger kan het niet! Plex is beschikbaar op een breed scala aan apparaten, waaronder laptops, tablets,\n"
+"        smartphones en tv's. Het enige wat u hoeft te doen is de Plex-app op uw apparaat te downloaden, u aan te melden met uw account en\n"
+"        je bent klaar om te beginnen met het streamen van je media. Het is zo makkelijk!"
+
+#: app/views/client/wizard/pages/plex/tips.html:11
+msgid "How can I make sure to have the best experience?"
+msgstr "Hoe kan ik ervoor zorgen dat ik de beste ervaring heb?"
+
+#: app/views/client/wizard/pages/plex/tips.html:14
+msgid ""
+"Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+"        sharing with you - they also, by default, play content at a lower quality. "
+msgstr ""
+"Omdat Plex een gratis service is, promoten ze hun eigen inhoud vóór de geweldige inhoud die je vriend nu is\n"
+"        delen met jou - ze spelen standaard ook inhoud af met een lagere kwaliteit."
+
+#: app/views/client/wizard/pages/plex/tips.html:17
+msgid "No need to worry though, this can be easily resolved"
+msgstr ""
+"U hoeft zich echter geen zorgen te maken, dit kan eenvoudig worden opgelost"
+
+#: app/views/client/wizard/pages/plex/tips.html:17
+msgid ""
+"We highly\n"
+"            recommend you to go through those steps first!"
+msgstr ""
+"Wij zeer\n"
+"            raad je aan om eerst die stappen te doorlopen!"
+
+#: app/views/client/wizard/pages/plex/welcome.html:3
+msgid "Eh, So, What is Plex exactly?"
+msgstr "Eh, dus, wat is Plex precies?"
+
+#: app/views/client/wizard/pages/plex/welcome.html:6
+msgid ""
+"Great question! Plex is a software that allows individuals to share their "
+"media collections with others. If you've received this invitation, it means "
+"someone wants to share their library with you."
+msgstr ""
+"Geweldige vraag! Plex is software waarmee individuen hun mediacollecties met"
+" anderen kunnen delen. Als je deze uitnodiging hebt ontvangen, betekent dit "
+"dat iemand zijn of haar bibliotheek met je wil delen."
+
+#: app/views/client/wizard/pages/plex/welcome.html:9
+msgid ""
+"With Plex, you'll have access to all of the movies, TV shows, music, and "
+"photos that are stored on their server!"
+msgstr ""
+"Met Plex heb je toegang tot alle films, tv-programma's, muziek en foto's die"
+" op hun server zijn opgeslagen!"
+
+#: app/views/client/wizard/pages/plex/welcome.html:12
+msgid "So let's see how to get started!"
+msgstr "Dus laten we eens kijken hoe we aan de slag kunnen!"
+
+#: app/views/errors/401.html:20
+msgid "Permission denied."
+msgstr "Geen toestemming."
+
+#: app/views/errors/401.html:23
+msgid "You are attempting to do something you shouldn't be doing..."
+msgstr "Je probeert iets te doen wat je niet zou moeten doen..."
+
+#: app/views/errors/404.html:31
+msgid "Something's missing."
+msgstr "Er ontbreekt iets."
+
+#: app/views/errors/404.html:33
+msgid "Sorry, we can't find that page. It doesn't seem to exist!"
+msgstr "Sorry, we kunnen die pagina niet vinden. Het lijkt niet te bestaan!"
+
+#: app/views/errors/500.html:19
+msgid "Internal Server Error."
+msgstr "Interne Server Fout."
+
+#: app/views/errors/500.html:21
+msgid " Something has gone wrong. Please try again later."
+msgstr "Er is iets misgegaan. Probeer het later opnieuw."
+
+#: app/views/errors/custom.html:20
+msgid "Get Help"
+msgstr "Hulp krijgen"
+
+#: app/views/home/main.html:25 app/views/setup/pages/welcome.html:2
+msgid "Welcome to Wizarr"
+msgstr "Welkom bij Wizarr"
+
+#: app/views/home/main.html:28
+msgid ""
+"Wizarr is a software tool that provides advanced user invitation and "
+"management capabilities for media servers such as Jellyfin, Emby, and Plex. "
+"With Wizarr, server administrators can easily invite new users and manage "
+"their access permissions."
+msgstr ""
+"Wizarr is een softwaretool die geavanceerde mogelijkheden voor "
+"gebruikersuitnodiging en -beheer biedt voor mediaservers zoals Jellyfin, "
+"Emby en Plex. Met Wizarr kunnen serverbeheerders eenvoudig nieuwe gebruikers"
+" uitnodigen en hun toegangsrechten beheren."
+
+#: app/views/home/main.html:32
+msgid ""
+"If you were sent here by a friend, please request access or if you have an "
+"invite code, please click Get Started."
+msgstr ""
+"Als je hierheen bent gestuurd door een vriend, vraag dan om toegang of als "
+"je een uitnodigingscode hebt, klik dan op Aan de slag."
+
+#: app/views/home/main.html:36
+msgid "Get Started"
+msgstr "Begin"
+
+#: app/views/home/main.html:41
+msgid "or"
+msgstr "of"
+
+#: app/views/home/main.html:45
+msgid "Request Access"
+msgstr "Toegang vragen"
+
+#: app/views/modals/add-mfa.html:3
+msgid "Add Passkey"
+msgstr "Wachtwoord toevoegen"
+
+#: app/views/modals/add-mfa.html:9 app/views/modals/add-oauth.html:10
+#: app/views/modals/create-api-key.html:9
+#: app/views/modals/create-notification-agent.html:13
+msgid "Name"
+msgstr "Naam"
+
+#: app/views/modals/add-mfa.html:14 app/views/modals/add-oauth.html:46
+#: app/views/modals/create-api-key.html:14
+#: app/views/modals/create-notification-agent.html:46
+#: app/views/modals/delete-api-key.html:13
+#: app/views/modals/delete-notification-agent.html:13
+#: app/views/modals/revoke-session.html:13 app/views/modals/run-task.html:13
+#: app/views/modals/scan-libraries.html:19
+#: app/views/modals/update-libraries.html:23
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: app/templates/modals/create-api-key.html:17
-#, fuzzy
+#: app/views/modals/add-mfa.html:17 app/views/modals/create-api-key.html:17
 msgid "Create"
-msgstr "Aangemaakt"
+msgstr "Creëren"
 
-#: app/templates/modals/create-api-key.html:46
+#: app/views/modals/add-oauth.html:3
+msgid "New OAuth"
+msgstr "Nieuwe OAuth"
+
+#: app/views/modals/add-oauth.html:15
+msgid "Client ID"
+msgstr "klant identificatie"
+
+#: app/views/modals/add-oauth.html:20
+msgid "Client Secret"
+msgstr "Cliënt geheim"
+
+#: app/views/modals/add-oauth.html:25
+msgid "Request Token URL"
+msgstr "Token-URL aanvragen"
+
+#: app/views/modals/add-oauth.html:30
+msgid "Authorize URL"
+msgstr "URL autoriseren"
+
+#: app/views/modals/add-oauth.html:35
+msgid "Access Token URL"
+msgstr "Toegangstoken-URL"
+
+#: app/views/modals/add-oauth.html:40
+msgid "User Info URL"
+msgstr "Gebruikersinfo-URL"
+
+#: app/views/modals/add-oauth.html:49
+msgid "Test & Create OAuth"
+msgstr "OAuth testen en maken"
+
+#: app/views/modals/create-api-key.html:3 app/views/settings/api.html:38
+msgid "Create API Key"
+msgstr "API-sleutel maken"
+
+#: app/views/modals/create-api-key.html:46
 msgid "Please fill out all required fields."
 msgstr "Vul alle verplichte velden in."
 
-#: app/templates/modals/create-api-key.html:70
+#: app/views/modals/create-api-key.html:70
 msgid "API key already exists."
 msgstr "API-sleutel bestaat al."
 
-#: app/templates/modals/create-api-key.html:76
-#: app/templates/modals/delete-notification-agent.html:35
+#: app/views/modals/create-api-key.html:76
+#: app/views/modals/delete-notification-agent.html:35
 msgid "You are not authorized to perform this action."
 msgstr "U bent niet bevoegd om deze actie uit te voeren."
 
-#: app/templates/modals/create-api-key.html:82
-#: app/templates/modals/run-task.html:35
-#, fuzzy
+#: app/views/modals/create-api-key.html:82 app/views/modals/run-task.html:35
 msgid "Something went wrong."
-msgstr " Er is iets misgelopen. Probeer later opnieuw."
+msgstr "Er is iets fout gegaan."
 
-#: app/templates/modals/create-api-key.html:86
-#, fuzzy
+#: app/views/modals/create-api-key.html:86
 msgid "API key created."
-msgstr "Aangemaakt"
+msgstr "API-sleutel gemaakt."
 
-#: app/templates/modals/create-notification-agent.html:3
+#: app/views/modals/create-notification-agent.html:3
 msgid "New Agent"
 msgstr "Nieuwe agent"
 
-#: app/templates/modals/create-notification-agent.html:18
+#: app/views/modals/create-notification-agent.html:18
 msgid "Notification Service"
 msgstr "Meldingsservice"
 
-#: app/templates/modals/create-notification-agent.html:20
+#: app/views/modals/create-notification-agent.html:20
 msgid "Choose a service"
 msgstr "Kies een dienst"
 
-#: app/templates/modals/create-notification-agent.html:30
-#: app/templates/modals/create-notification-agent.html:88
-#, fuzzy
+#: app/views/modals/create-notification-agent.html:30
+#: app/views/modals/create-notification-agent.html:88
 msgid "Username (optional)"
-msgstr "(optioneel)"
+msgstr "Gebruikersnaam (optioneel)"
 
-#: app/templates/modals/create-notification-agent.html:34
-#: app/templates/modals/create-notification-agent.html:93
-#, fuzzy
+#: app/views/modals/create-notification-agent.html:34
+#: app/views/modals/create-notification-agent.html:93
 msgid "Password (optional)"
-msgstr "(optioneel)"
+msgstr "Wachtwoord (optioneel)"
 
-#: app/templates/modals/create-notification-agent.html:39
-#: app/templates/modals/create-notification-agent.html:98
-#: app/templates/modals/create-notification-agent.html:117
-#: app/templates/modals/create-notification-agent.html:136
-#: app/templates/modals/create-notification-agent.html:153
+#: app/views/modals/create-notification-agent.html:39
+#: app/views/modals/create-notification-agent.html:98
+#: app/views/modals/create-notification-agent.html:117
+#: app/views/modals/create-notification-agent.html:136
+#: app/views/modals/create-notification-agent.html:153
 msgid "Agent URL"
 msgstr "Agent-URL"
 
-#: app/templates/modals/create-notification-agent.html:49
+#: app/views/modals/create-notification-agent.html:49
 msgid "Test & Create Agent"
 msgstr "Agent testen en maken"
 
-#: app/templates/modals/create-notification-agent.html:105
+#: app/views/modals/create-notification-agent.html:105
 msgid "Webhook ID"
 msgstr "Webhook-ID"
 
-#: app/templates/modals/create-notification-agent.html:111
+#: app/views/modals/create-notification-agent.html:111
 msgid "Webhook Token"
 msgstr "Webhook-token"
 
-#: app/templates/modals/create-notification-agent.html:124
-#, fuzzy
+#: app/views/modals/create-notification-agent.html:124
 msgid "User Key"
-msgstr "Gebruikersnaam"
+msgstr "Gebruiker sleutel"
 
-#: app/templates/modals/create-notification-agent.html:130
+#: app/views/modals/create-notification-agent.html:130
 msgid "API Token"
 msgstr "API-token"
 
-#: app/templates/modals/create-notification-agent.html:242
-#: app/templates/modals/create-notification-agent.html:249
-#, fuzzy
+#: app/views/modals/create-notification-agent.html:242
+#: app/views/modals/create-notification-agent.html:249
 msgid "Something went wrong. Please try again."
-msgstr " Er is iets misgelopen. Probeer later opnieuw."
+msgstr "Er is iets fout gegaan. Probeer het opnieuw."
 
-#: app/templates/modals/create-notification-agent.html:253
+#: app/views/modals/create-notification-agent.html:253
 msgid "Notification agent successfully created!"
 msgstr "Meldingsagent succesvol gemaakt!"
 
-#: app/templates/modals/delete-api-key.html:3
-#: app/templates/modals/revoke-session.html:3
+#: app/views/modals/delete-api-key.html:3
+#: app/views/modals/revoke-session.html:3
 msgid "Warning"
 msgstr "Waarschuwing"
 
-#: app/templates/modals/delete-api-key.html:8
+#: app/views/modals/delete-api-key.html:8
 msgid "Are you sure you want to delete this api key?"
 msgstr "Weet u zeker dat u deze API-sleutel wilt verwijderen?"
 
-#: app/templates/modals/delete-api-key.html:16
-#: app/templates/modals/delete-notification-agent.html:16
-#: app/templates/modals/revoke-session.html:16
-#: app/templates/tables/admin-users.html:40
-#: app/templates/tables/global-users.html:59
-#: app/templates/tables/invite-table.html:100
-#: app/templates/tables/notification-table.html:36
-#, fuzzy
+#: app/views/modals/delete-api-key.html:16
+#: app/views/modals/delete-notification-agent.html:16
+#: app/views/modals/revoke-session.html:16
+#: app/views/tables/admin-users.html:40 app/views/tables/global-users.html:59
+#: app/views/tables/invite-table.html:100
+#: app/views/tables/notification-table.html:36
+#: app/views/tables/oauth-table.html:36
 msgid "Delete"
-msgstr "Standaard"
+msgstr "Verwijderen"
 
-#: app/templates/modals/delete-notification-agent.html:41
+#: app/views/modals/delete-notification-agent.html:41
 msgid "An error occurred while deleting the Notification Agent."
 msgstr "Er is een fout opgetreden bij het verwijderen van de meldingsagent."
 
-#: app/templates/modals/delete-notification-agent.html:45
+#: app/views/modals/delete-notification-agent.html:45
 msgid "Notification Agent deleted successfully!"
 msgstr "Meldingsagent succesvol verwijderd!"
 
-#: app/templates/modals/revoke-session.html:8
+#: app/views/modals/revoke-session.html:8
 msgid "Are you sure you want to revoke this session?"
 msgstr "Weet u zeker dat u deze sessie wilt intrekken?"
 
-#: app/templates/modals/revoke-session.html:41
-#, fuzzy
+#: app/views/modals/revoke-session.html:41
 msgid "Something went wrong.Please try again."
-msgstr " Er is iets misgelopen. Probeer later opnieuw."
+msgstr "Er is iets mis gegaan, probeer het alstublieft nogmaals."
 
-#: app/templates/modals/revoke-session.html:46
+#: app/views/modals/revoke-session.html:46
 msgid "Session deleted successfully!"
 msgstr "Sessie succesvol verwijderd!"
 
-#: app/templates/modals/run-task.html:3 app/templates/modals/run-task.html:16
+#: app/views/modals/run-task.html:3 app/views/modals/run-task.html:16
 msgid "Run Task"
 msgstr "Taak uitvoeren"
 
-#: app/templates/modals/run-task.html:8
+#: app/views/modals/run-task.html:8
 msgid "Are you sure you want to run this task?"
 msgstr "Weet u zeker dat u deze taak wilt uitvoeren?"
 
-#: app/templates/modals/run-task.html:39
+#: app/views/modals/run-task.html:39
 msgid "Task has been run."
 msgstr "Taak is uitgevoerd."
 
-#: app/templates/modals/update-libraries.html:26
-#, fuzzy
+#: app/views/modals/update-libraries.html:3 app/views/settings/media.html:30
+#: app/views/setup/pages/settings.html:37
+msgid "Server Libraries"
+msgstr "Serverbibliotheken"
+
+#: app/views/modals/update-libraries.html:26
 msgid "Update Libraries"
-msgstr "Plex Bibliotheken"
+msgstr "Bibliotheken bijwerken"
 
-#: app/templates/modals/update-libraries.html:88
-#, fuzzy
+#: app/views/modals/update-libraries.html:88
 msgid "Unable to update libraries"
-msgstr "Plex Bibliotheken"
+msgstr "Kan bibliotheken niet bijwerken"
 
-#: app/templates/setup/base.html:12
+#: app/views/settings/about.html:111 app/views/settings/about.html:221
+msgid "Load More"
+msgstr "Meer laden"
+
+#: app/views/settings/accounts.html:13
+msgid "My Account"
+msgstr "Mijn rekening"
+
+#: app/views/settings/accounts.html:16
+msgid "Add Admin"
+msgstr "Beheerder toevoegen"
+
+#: app/views/settings/discord.html:4
+msgid "Discord Server ID"
+msgstr "Discord-server-ID"
+
+#: app/views/settings/discord.html:9
+msgid "Discord Widget"
+msgstr "Discord-widget"
+
+#: app/views/settings/discord.html:19 app/views/settings/html.html:9
+#: app/views/settings/media.html:38 app/views/settings/requests.html:26
+msgid "Save"
+msgstr "Redden"
+
+#: app/views/settings/discord.html:42 app/views/settings/html.html:25
+#: app/views/settings/media.html:54 app/views/settings/requests.html:58
+msgid "Settings saved successfully!"
+msgstr "Instellingen succesvol opgeslagen!"
+
+#: app/views/settings/language.html:3
+msgid "Please use the dropdown below to select your language."
+msgstr "Gebruik de vervolgkeuzelijst hieronder om uw taal te selecteren."
+
+#: app/views/settings/language.html:7
+msgid "Select Language"
+msgstr "Selecteer Taal"
+
+#: app/views/settings/main.html:33
+msgid "No settings matched your search."
+msgstr "Er kwamen geen instellingen overeen met uw zoekopdracht."
+
+#: app/views/settings/media.html:6 app/views/setup/pages/settings.html:6
+msgid "Server Display Name"
+msgstr "Serverweergavenaam"
+
+#: app/views/settings/media.html:11 app/views/setup/pages/settings.html:11
+msgid "Server"
+msgstr "Server"
+
+#: app/views/settings/media.html:13
+msgid "Choose a server"
+msgstr "Kies een server"
+
+#: app/views/settings/media.html:25 app/views/setup/pages/settings.html:25
+msgid "Server Token / API Key"
+msgstr "Servertoken / API-sleutel"
+
+#: app/views/settings/media.html:32 app/views/setup/pages/settings.html:39
+msgid "Scan For Libraries"
+msgstr "Scannen naar bibliotheken"
+
+#: app/views/settings/notifications.html:18
+msgid "Create Agent"
+msgstr "Agent maken"
+
+#: app/views/settings/oauth.html:16
+msgid "Add OAuth"
+msgstr "OAuth toevoegen"
+
+#: app/views/settings/password.html:12
+msgid "Confirm Password"
+msgstr "bevestig wachtwoord"
+
+#: app/views/settings/password.html:19
+msgid "Reset Password"
+msgstr "Wachtwoord opnieuw instellen"
+
+#: app/views/settings/profile.html:6
+msgid "Display Name"
+msgstr "Weergavenaam"
+
+#: app/views/settings/profile.html:18
+msgid "Email Address"
+msgstr "E-mailadres"
+
+#: app/views/settings/profile.html:25
+msgid "Update"
+msgstr "Update"
+
+#: app/views/settings/requests.html:4
+msgid "Request Server"
+msgstr "Server aanvragen"
+
+#: app/views/settings/requests.html:6
+msgid "Disabled"
+msgstr "Gehandicapt"
+
+#: app/views/settings/requests.html:15
+msgid "Request Server URL"
+msgstr "Server-URL aanvragen"
+
+#: app/views/settings/requests.html:20
+msgid "Request Server API Key"
+msgstr "Server API-sleutel aanvragen"
+
+#: app/views/settings/sessions.html:14
+msgid "Revoke All"
+msgstr "Alles intrekken"
+
+#: app/views/setup/base.html:12
 msgid "Setup Wizarr"
-msgstr "Configureer Wizarr"
+msgstr "Installatiewizard"
 
-#: app/templates/setup/pages/admin.html:2
-#, fuzzy
+#: app/views/setup/pages/admin.html:2
 msgid "Admin Account"
-msgstr "Maak een account"
+msgstr "Beheerdersaccount"
 
-#: app/templates/setup/pages/admin.html:24
-#, fuzzy
+#: app/views/setup/pages/admin.html:24
 msgid "Create account"
-msgstr "Maak een account"
+msgstr "Account aanmaken"
 
-#: app/templates/setup/pages/complete.html:2
+#: app/views/setup/pages/complete.html:2
 msgid "Your Done"
 msgstr "Je bent klaar"
 
-#: app/templates/setup/pages/complete.html:5
+#: app/views/setup/pages/complete.html:5
 msgid "You have successfully completed the setup process."
 msgstr "U hebt het installatieproces met succes voltooid."
 
-#: app/templates/setup/pages/complete.html:9
+#: app/views/setup/pages/complete.html:9
 msgid "Go to Dashboard"
 msgstr "Ga naar het dashboard"
 
-#: app/templates/setup/pages/database.html:2
+#: app/views/setup/pages/database.html:2
 msgid "Database"
 msgstr "Databank"
 
-#: app/templates/setup/pages/database.html:5
+#: app/views/setup/pages/database.html:5
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr "Momenteel ondersteunt Wizarr alleen de interne SQLite-database."
 
-#: app/templates/setup/pages/database.html:7
+#: app/views/setup/pages/database.html:7
 msgid ""
 "This is a temporary and we are working on adding support for other "
 "databases."
@@ -1037,20 +1288,15 @@ msgstr ""
 "Dit is tijdelijk en we werken aan het toevoegen van ondersteuning voor "
 "andere databases."
 
-#: app/templates/setup/pages/settings.html:2
-#: app/templates/templates/menu.html:34
-msgid "Settings"
-msgstr "Instellingen"
-
-#: app/templates/setup/pages/settings.html:31
+#: app/views/setup/pages/settings.html:31
 msgid "Test"
 msgstr "Test"
 
-#: app/templates/setup/pages/settings.html:45
+#: app/views/setup/pages/settings.html:45
 msgid "Done"
 msgstr "Klaar"
 
-#: app/templates/setup/pages/welcome.html:5
+#: app/views/setup/pages/welcome.html:5
 msgid ""
 "Wizarr is an automatic user invitation system for Plex, Jellyfin, and Emby. "
 "With Wizarr, you can easily create unique invitation links to share with "
@@ -1065,7 +1311,7 @@ msgstr ""
 "clients en instructies voor het gebruik van de Jellyseerr-, Overseerr- of "
 "Ombi-site."
 
-#: app/templates/setup/pages/welcome.html:8
+#: app/views/setup/pages/welcome.html:8
 msgid ""
 "We hope you enjoy using Wizarr and invite you to explore its powerful "
 "features and intuitive interface. Should you need any assistance, please "
@@ -1076,7 +1322,7 @@ msgstr ""
 "hebt, raadpleeg dan onze documentatie of neem contact op met onze "
 "gemeenschap voor ondersteuning."
 
-#: app/templates/setup/pages/welcome.html:11
+#: app/views/setup/pages/welcome.html:11
 msgid ""
 "Check out our documentation for detailed instructions on how to install and "
 "run Wizarr!"
@@ -1084,854 +1330,57 @@ msgstr ""
 "Bekijk onze documentatie voor gedetailleerde instructies over het "
 "installeren en uitvoeren van Wizarr!"
 
-#: app/templates/tables/admin-users.html:37
-#: app/templates/tables/global-users.html:56
-#: app/templates/tables/invite-table.html:97
-#: app/templates/tables/notification-table.html:33
+#: app/views/tables/admin-users.html:37 app/views/tables/global-users.html:56
+#: app/views/tables/invite-table.html:97
+#: app/views/tables/notification-table.html:33
+#: app/views/tables/oauth-table.html:33
 msgid "Edit"
 msgstr "Bewerking"
 
-#: app/templates/tables/invite-table.html:7
+#: app/views/tables/invite-table.html:7
 msgid "Used"
 msgstr "Gebruikt"
 
-#: app/templates/tables/invite-table.html:8
-#, fuzzy
+#: app/views/tables/invite-table.html:8
 msgid "Expired"
-msgstr "Verloopt"
+msgstr "Verlopen"
 
-#: app/templates/tables/invite-table.html:9
-#, fuzzy
+#: app/views/tables/invite-table.html:9
 msgid "Libraries"
-msgstr "Plex Bibliotheken"
+msgstr "Bibliotheken"
 
-#: app/templates/tables/invite-table.html:15
+#: app/views/tables/invite-table.html:15
 msgid "Created"
-msgstr "Aangemaakt"
+msgstr "Gemaakt"
 
-#: app/templates/tables/invite-table.html:115
-#, fuzzy
+#: app/views/tables/invite-table.html:115
 msgid "No Invitations"
-msgstr "Uitnodigingen"
+msgstr "Geen uitnodigingen"
 
-#: app/templates/tables/invite-table.html:118
-#, fuzzy
+#: app/views/tables/invite-table.html:118
 msgid "You have not created any invitations yet."
-msgstr "Maak een uitnodiging"
+msgstr "Je hebt nog geen uitnodigingen gemaakt."
 
-#: app/templates/tables/sessions-table.html:27
+#: app/views/tables/mfa-table.html:4
+msgid "Your Passkeys"
+msgstr "Uw toegangssleutels"
+
+#: app/views/tables/mfa-table.html:7 app/views/tables/mfa-table.html:48
+msgid "Add a passkey"
+msgstr "Voeg een wachtwoord toe"
+
+#: app/views/tables/sessions-table.html:27
 msgid "Revoke"
 msgstr "Herroepen"
 
-#: app/templates/tables/task-table.html:7
-#, fuzzy
+#: app/views/tables/task-table.html:7
 msgid "Job Name"
-msgstr "Gebruikersnaam"
+msgstr "Taak naam"
 
-#: app/templates/tables/task-table.html:8
+#: app/views/tables/task-table.html:8
 msgid "Next Execution"
 msgstr "Volgende uitvoering"
 
-#: app/templates/tables/task-table.html:40
+#: app/views/tables/task-table.html:40
 msgid "Run Now"
 msgstr "Ren nu"
-
-#: app/templates/templates/menu.html:28
-msgid "Users"
-msgstr "Gebruikers"
-
-#: app/templates/templates/update.html:13
-msgid "Attention!"
-msgstr "Aandacht!"
-
-#: app/templates/templates/update.html:14
-msgid "Update available. Click here."
-msgstr "Update beschikbaar. Klik hier."
-
-#: app/templates/wizard/base.html:4
-msgid "Help"
-msgstr "Hulp"
-
-#: app/templates/wizard/base.html:12
-msgid "Getting Started!"
-msgstr "Aan de slag!"
-
-#: app/templates/wizard/base.html:38
-msgid "Next"
-msgstr "Volgende"
-
-#: app/templates/wizard/base.html:45
-msgid "Open"
-msgstr "Open"
-
-#: app/templates/wizard/pages/requests.html:4
-msgid "Automatic Media Requests"
-msgstr "Automatische mediaverzoeken"
-
-#: app/templates/wizard/pages/requests.html:9
-#, fuzzy
-msgid ""
-"We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
-"        something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
-"        media you're looking for. "
-msgstr ""
-"Je hebt de keuze uit een uitgebreide mediacollectie. Als je niet meteen "
-"vindt wat je zoekt, is er een gebruiksvriendelijk verzoeksysteem dat "
-"automatisch de media die je zoekt kan tonen. "
-
-#: app/templates/wizard/pages/requests.html:20
-msgid "Request any available Movie or TV Show"
-msgstr "Maak een verzoek voor eender welke beschikbare film of tvserie"
-
-#: app/templates/wizard/pages/requests.html:27
-#, fuzzy
-msgid "Requested media will be automatically downloaded (if available)"
-msgstr ""
-"Aangevraagde media zal automatisch worden gedownload en toegevoegd aan de "
-"bibliotheek (indien beschikbaar)"
-
-#: app/templates/wizard/pages/requests.html:34
-msgid "If enabled, receive notifications"
-msgstr "Indien ingeschakeld, ontvang notificaties"
-
-#: app/templates/wizard/pages/requests.html:40
-msgid "Check it Out"
-msgstr "Bekijken"
-
-#: app/templates/wizard/pages/jellyfin/download.html:2
-#, fuzzy
-msgid ""
-"Join & Download Jellyfin\n"
-"        for this device"
-msgstr "Doe mee en download Plex voor dit apparaat"
-
-#: app/templates/wizard/pages/jellyfin/download.html:7
-#, fuzzy
-msgid ""
-"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
-"    it with Jellyfin."
-msgstr ""
-"Goed nieuws! Je hebt nu toegang tot de mediacollectie van deze server. Laten"
-" we even tonen hoe je deze gebruikt met Plex."
-
-#: app/templates/wizard/pages/jellyfin/download.html:11
-#, fuzzy
-msgid ""
-"Planning on watching Movies on this device? Download Jellyfin for this "
-"device."
-msgstr ""
-"Ben je van plan om media te bekijken op dit toestel? Download dan Plex voor "
-"dit toestel."
-
-#: app/templates/wizard/pages/jellyfin/download.html:19
-msgid ""
-"If you don't wish to Download the App feel free to use Jellyfin in your "
-"devices web browser, just click \"Next\"."
-msgstr ""
-"Als u de app niet wilt downloaden, gebruik dan gerust Jellyfin in de "
-"webbrowser van uw apparaat, klik gewoon op \"Volgende\"."
-
-#: app/templates/wizard/pages/jellyfin/download.html:25
-#, fuzzy
-msgid "Show Server URL"
-msgstr "Server URL"
-
-#: app/templates/wizard/pages/jellyfin/download.html:34
-#: app/templates/wizard/pages/jellyfin/download.html:191
-msgid "Copy"
-msgstr "Kopiëren"
-
-#: app/templates/wizard/pages/jellyfin/download.html:59
-#: app/templates/wizard/pages/jellyfin/download.html:83
-msgid "Open Jellyfin"
-msgstr "Jellyfin openen"
-
-#: app/templates/wizard/pages/jellyfin/download.html:139
-#, fuzzy
-msgid "Other Download"
-msgstr "Download"
-
-#: app/templates/wizard/pages/jellyfin/download.html:188
-msgid "Copied!"
-msgstr "Gekopieerd!"
-
-#: app/templates/wizard/pages/jellyfin/tips.html:3
-#: app/templates/wizard/pages/plex/tips.html:3
-msgid "Right, so how do I watch stuff?"
-msgstr "Goed, hoe bekijk je iets?"
-
-#: app/templates/wizard/pages/jellyfin/tips.html:6
-#, fuzzy
-msgid ""
-"It couldn't be simpler! Jellyfin is available on a wide variety of devices "
-"including laptops, tablets, smartphones, and TVs. All you need to do is "
-"download the Jellyfin app on your device, sign in with your account, and "
-"you're ready to start streaming your media."
-msgstr ""
-"Plex is beschikbaar voor laptops, tablets, smartphones en TV's. Het enige "
-"dat je moet doen is de Plex applicatie op je toestel downloaden en inloggen "
-"met je account. Nu ben je klaar om te kijken, zo simpel is het!"
-
-#: app/templates/wizard/pages/jellyfin/tips.html:9
-msgid "It's that easy!"
-msgstr "Het is zo makkelijk!"
-
-#: app/templates/wizard/pages/jellyfin/welcome.html:3
-#, fuzzy
-msgid "Eh, So, What is Jellyfin exactly?"
-msgstr "Ok, maar wat is Plex nu precies?"
-
-#: app/templates/wizard/pages/jellyfin/welcome.html:6
-msgid ""
-"Jellyfin is a platform that lets you stream all your favorite movies, TV "
-"shows, and music in one place. It's like having your own personal movie "
-"theater right at your fingertips! Think of it as a digital library of your "
-"favorite content that you can access from anywhere, on any device - your "
-"phone, tablet, laptop, smart TV, you name it."
-msgstr ""
-"Jellyfin is een platform waarmee je al je favoriete films, tv-programma's en"
-" muziek op één plek kunt streamen. Het is alsof u uw eigen persoonlijke "
-"bioscoop binnen handbereik heeft! Zie het als een digitale bibliotheek met "
-"uw favoriete inhoud die u overal en op elk apparaat kunt openen: uw "
-"telefoon, tablet, laptop, smart-tv, noem maar op."
-
-#: app/templates/wizard/pages/plex/download.html:4
-#, fuzzy
-msgid "Join & Download Plex for this device"
-msgstr "Doe mee en download Plex voor dit apparaat"
-
-#: app/templates/wizard/pages/plex/download.html:8
-#, fuzzy
-msgid ""
-"So you now have access to our server's media collection. Let's make sure you"
-" know how to use it with Plex."
-msgstr ""
-"Goed nieuws! Je hebt nu toegang tot de mediacollectie van deze server. Laten"
-" we even tonen hoe je deze gebruikt met Plex."
-
-#: app/templates/wizard/pages/plex/download.html:11
-msgid ""
-"Planning on watching Movies on this device? Download Plex for this device."
-msgstr ""
-"Ben je van plan om media te bekijken op dit toestel? Download dan Plex voor "
-"dit toestel."
-
-#: app/templates/wizard/pages/plex/download.html:14
-msgid "Download"
-msgstr "Download"
-
-#: app/templates/wizard/pages/plex/tips.html:6
-#, fuzzy
-msgid ""
-"It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
-"        smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
-"        you're ready to start streaming your media. It's that easy!"
-msgstr ""
-"Plex is beschikbaar voor laptops, tablets, smartphones en TV's. Het enige "
-"dat je moet doen is de Plex applicatie op je toestel downloaden en inloggen "
-"met je account. Nu ben je klaar om te kijken, zo simpel is het!"
-
-#: app/templates/wizard/pages/plex/tips.html:11
-msgid "How can I make sure to have the best experience?"
-msgstr "Hoe zorg ik voor de beste kijkervaring?"
-
-#: app/templates/wizard/pages/plex/tips.html:14
-msgid ""
-"Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
-"        sharing with you - they also, by default, play content at a lower quality. "
-msgstr ""
-"Omdat Plex een gratis service is, promoten ze hun eigen inhoud vóór de geweldige inhoud die je vriend nu is\n"
-"        delen met jou - ze spelen standaard ook inhoud af met een lagere kwaliteit."
-
-#: app/templates/wizard/pages/plex/tips.html:17
-#, fuzzy
-msgid "No need to worry though, this can be easily resolved"
-msgstr "Maar geen probleem, dit is gemakkelijk op te lossen!"
-
-#: app/templates/wizard/pages/plex/tips.html:17
-msgid ""
-"We highly\n"
-"            recommend you to go through those steps first!"
-msgstr ""
-"Wij zeer\n"
-"            raad je aan om eerst die stappen te doorlopen!"
-
-#: app/templates/wizard/pages/plex/welcome.html:3
-msgid "Eh, So, What is Plex exactly?"
-msgstr "Ok, maar wat is Plex nu precies?"
-
-#: app/templates/wizard/pages/plex/welcome.html:6
-#, fuzzy
-msgid ""
-"Great question! Plex is a software that allows individuals to share their "
-"media collections with others. If you've received this invitation, it means "
-"someone wants to share their library with you."
-msgstr ""
-"Goede vraag! Plex is software waarmee het mogelijk is om je mediacollectie "
-"met anderen te delen. Wanneer je een uitnodiging ontvangt, betekent dat dat "
-"iemand haar mediabibliotheek met je wil delen. Met Plex heb je toegang tot "
-"alle films, series, muziek of foto's dat op deze server staat. Veel plezier!"
-
-#: app/templates/wizard/pages/plex/welcome.html:9
-msgid ""
-"With Plex, you'll have access to all of the movies, TV shows, music, and "
-"photos that are stored on their server!"
-msgstr ""
-"Met Plex heb je toegang tot alle films, tv-programma's, muziek en foto's die"
-" op hun server zijn opgeslagen!"
-
-#: app/templates/wizard/pages/plex/welcome.html:12
-msgid "So let's see how to get started!"
-msgstr "Dus laten we eens kijken hoe we aan de slag kunnen!"
-
-#~ msgid "That email does not match any Plex account. Please try again."
-#~ msgstr ""
-#~ "Het e-mailadres komt niet overeen met een bestaande Plex account. Probeer "
-#~ "opnieuw."
-
-#~ msgid "This user is already invited to this server."
-#~ msgstr "Deze gebruiker is al uitgenodigd voor deze server."
-
-#~ msgid "The email entered appears to be invalid."
-#~ msgstr "Ongeldig e-mailadres."
-
-#~ msgid "Something went wrong. Please try again or contact an administrator."
-#~ msgstr ""
-#~ "Er is iets misgelopen. Probeer opnieuw of neem contact op met de "
-#~ "administrator."
-
-#~ msgid "I've logged in but I am overwhelmed with content!"
-#~ msgstr "Ik ben ingelogd maar word overstelpt met inhoud!"
-
-#~ msgid ""
-#~ "While Plex is a free service, they do have to generate revenue in order to "
-#~ "continue providing the platform. One way they do this is by displaying their"
-#~ " own content before the content of the server you are joining."
-#~ msgstr ""
-#~ "Plex is gratis te gebruiken, maar moet inkomsten genereren voor het blijven "
-#~ "aanbieden van hun platform. Een manier waarop ze die inkomsten genereren is "
-#~ "door hun eigen content te tonen vóór deze van de server waar je lid van "
-#~ "wordt."
-
-#~ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
-#~ msgstr "Op het linkerdeel van je scherm zie je een menu. Klik op de "
-
-#~ msgid "More"
-#~ msgstr "Meer"
-
-#~ msgid "button to reveal all the different types of media you have access to."
-#~ msgstr "knop om alle mediatypes te tonen waartot je toegang hebt."
-
-#~ msgid ""
-#~ "To avoid seeing Plex's content first, we recommend hiding it. To do this, "
-#~ "select all the content types you don't want (such as 'Movies and TV on "
-#~ "Plex') and 'Unpin' them from your home screen. This way you'll only see the "
-#~ "content that you really want to watch!"
-#~ msgstr ""
-#~ "Om te vermijden dat je de inhoud van Plex eerst ziet, raden we aan deze te "
-#~ "verbergen. Om dit te doen selecteer je alle inhoudstypes die je niet wenst "
-#~ "(zoals 'Movies and TV on Plex') en 'Ontpin' je deze van je startscherm. Op "
-#~ "deze manier zie je enkel de inhoud die je echt wil zien."
-
-#~ msgid "Now that everything we"
-#~ msgstr "Nu dat alles wat we"
-
-#~ msgid "don't"
-#~ msgstr "niet"
-
-#~ msgid "want is out of the way, we can focus on the things we "
-#~ msgstr "willen opgeruimd is, kunnen we ons focussen op wat we "
-
-#~ msgid "do"
-#~ msgstr "wel"
-
-#~ msgid " want!"
-#~ msgstr " willen!"
-
-#~ msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
-#~ msgstr "Pin de secties films/tvseries van %(name)s!"
-
-#~ msgid ""
-#~ "By default, Plex plays all content at a lower quality. This can be a bit of "
-#~ "a disappointment. But don't worry, it's a simple fix! You can easily change "
-#~ "the settings to increase the quality of the media that you're streaming."
-#~ msgstr ""
-#~ "Standaard toont Plex alle inhoud op een lagere kwaliteit. Dit kan een "
-#~ "teleurstelling zijn. Maar maak je geen zorgen, het is gemakkelijk op te "
-#~ "lossen. Je kan eenvoudig de instelling wijzigen om de kwaliteit van de "
-#~ "stream te verhogen."
-
-#~ msgid "Go to the Plex "
-#~ msgstr "Ga naar Plex "
-
-#~ msgid "Settings "
-#~ msgstr "Instellingen "
-
-#~ msgid ""
-#~ "page. This is usually in the top right hand corner, depending on the device "
-#~ "you are on."
-#~ msgstr ""
-#~ "pagina. Dit zou in de rechterbovenhoek zijn, afhankelijk van het toestel "
-#~ "waarop je zit."
-
-#~ msgid "Go to the "
-#~ msgstr "Ga naar "
-
-#~ msgid "Quality"
-#~ msgstr "Kwaliteit"
-
-#~ msgid "or"
-#~ msgstr "of"
-
-#~ msgid "Video"
-#~ msgstr "Video"
-
-#~ msgid "settings."
-#~ msgstr "instellingen."
-
-#~ msgid "Set the "
-#~ msgstr "Zet "
-
-#~ msgid "Remote/Internet Streaming"
-#~ msgstr "Internet streamen"
-
-#~ msgid "to "
-#~ msgstr "op "
-
-#~ msgid "Maximum/Original"
-#~ msgstr "Maximum/Origineel"
-
-#~ msgid "Local Streaming "
-#~ msgstr "Thuis streamen "
-
-#~ msgid ""
-#~ "And there you have it! In case you encounter buffering issues, remember that"
-#~ " you can always adjust the playback quality just like you do in YouTube. "
-#~ "This way you can get the best streaming experience possible."
-#~ msgstr ""
-#~ "Klaar! Als je problemen ondervindt met het bufferen, kan je altijd de "
-#~ "kwaliteit verlagen zoals je bij YouTube doet. Zo heb je steeds de beste "
-#~ "streamingervaring."
-
-#~ msgid ""
-#~ "Because Plex is a free service, they promote their own content before the "
-#~ "awesome content your friend is now sharing with you - they also, by default,"
-#~ " play content at a lower quality. "
-#~ msgstr ""
-#~ "Omdat Plex een gratis service is, promoten ze hun eigen inhoud vóór de "
-#~ "geweldige inhoud die je vriend nu met je deelt - ze spelen standaard ook "
-#~ "inhoud af met een lagere kwaliteit."
-
-#~ msgid "We highly recommend you to go through those steps first!"
-#~ msgstr "We raden je ten zeerste aan om eerst deze stappen te doorlopen!"
-
-#~ msgid "Join our Discord Server"
-#~ msgstr "Word lid van de Discord server"
-
-#~ msgid "How to Use Plex?"
-#~ msgstr "Hoe gebruik je Plex?"
-
-#~ msgid "Requesting Media"
-#~ msgstr "Media aanvragen"
-
-#~ msgid "Join & Download Plex for this device"
-#~ msgstr "Doe mee en download Plex voor dit apparaat"
-
-#~ msgid ""
-#~ "Great news! You now have access to our server's media collection. Let's make"
-#~ " sure you know how to use it with Plex."
-#~ msgstr ""
-#~ "Goed nieuws! Je hebt nu toegang tot de mediacollectie van deze server. Laten"
-#~ " we even tonen hoe je deze gebruikt met Plex."
-
-#~ msgid "Skip"
-#~ msgstr "Overslaan"
-
-#~ msgid ""
-#~ "Congratulations on joining %(name)s! You're now one step closer to enjoying all kinds of amazing\n"
-#~ "        content."
-#~ msgstr ""
-#~ "Bedankt om de uitnodiging van Plex te accepteren! Je bent nu één stap "
-#~ "dichter om de inhoud van deze mediaserver te bekijken. "
-
-#~ msgid ""
-#~ "Great question! Plex is a software that allows individuals to share their media collections with others. If\n"
-#~ "      you've received this invitation, it means someone wants to share their library with you. With Plex, you'll have\n"
-#~ "      access to all of the movies, TV shows, music, and photos that are stored on their server. Enjoy!"
-#~ msgstr ""
-#~ "Goede vraag! Plex is software waarmee het mogelijk is om je mediacollectie "
-#~ "met anderen te delen. Wanneer je een uitnodiging ontvangt, betekent dat dat "
-#~ "iemand haar mediabibliotheek met je wil delen. Met Plex heb je toegang tot "
-#~ "alle films, series, muziek of foto's dat op deze server staat. Veel plezier!"
-
-#~ msgid ""
-#~ "It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
-#~ "      smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
-#~ "      you're ready to start streaming your media. It's that easy!"
-#~ msgstr ""
-#~ "Plex is beschikbaar voor laptops, tablets, smartphones en TV's. Het enige "
-#~ "dat je moet doen is de Plex applicatie op je toestel downloaden en inloggen "
-#~ "met je account. Nu ben je klaar om te kijken, zo simpel is het!"
-
-#~ msgid ""
-#~ "Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
-#~ "      sharing with you - they also, by default, play content at a lower quality. "
-#~ msgstr ""
-#~ "Omdat Plex een gratis service is, promoten ze hun eigen inhoud vóór de geweldige inhoud die je vriend nu is\n"
-#~ "      delen met jou - ze spelen standaard ook inhoud af met een lagere kwaliteit."
-
-#~ msgid ""
-#~ "We highly\n"
-#~ "        recommend you to go through those steps first!"
-#~ msgstr ""
-#~ "Wij zeer\n"
-#~ "        raad je aan om eerst die stappen te doorlopen!"
-
-#~ msgid "You've been invited to join %(name)s!"
-#~ msgstr "Je bent uitgenodigd voor %(name)s!"
-
-#~ msgid ""
-#~ "To join our Plex server, create a Plex account! Once you're done, come back "
-#~ "here!"
-#~ msgstr ""
-#~ "Om toegang tot de Plex server te verkrijgen, heb je een Plex account nodig. "
-#~ "Zodra je dit hebt, kan je terug naar hier komen!"
-
-#~ msgid "Create Plex Account"
-#~ msgstr "Maak een Plex account"
-
-#~ msgid "I have a Plex Account"
-#~ msgstr "Ik heb al een Plex account"
-
-#~ msgid "Used At"
-#~ msgstr "Gebruikt op"
-
-#~ msgid "Copy"
-#~ msgstr "Kopieer"
-
-#~ msgid "Delete"
-#~ msgstr "Verwijder"
-
-#~ msgid "Accept Invitation"
-#~ msgstr "Accepteer uitnodiging"
-
-#~ msgid "Accept our invitation"
-#~ msgstr "Accepteer onze uitnodiging"
-
-#~ msgid "We have sent an invitation to your Plex Account! Almost there!"
-#~ msgstr ""
-#~ "We hebben een uitnodiging verstuurd naar je Plex account! Je bent er bijna!"
-
-#~ msgid ""
-#~ "Click the button below to be taken to Plex, here you will see an invitation "
-#~ "from us."
-#~ msgstr ""
-#~ "Klik op de onderstaande knop om naar Plex te gaan. Hier zal je een "
-#~ "uitnodiging vinden."
-
-#~ msgid "Accept"
-#~ msgstr "Accepteer"
-
-#~ msgid "Next"
-#~ msgstr "Volgende"
-
-#~ msgid "Great! Now, let's get you invited!"
-#~ msgstr "Geweldig! Laten we je nu een uitnodiging sturen!"
-
-#~ msgid "Your Plex email"
-#~ msgstr "Je Plex e-mailadres"
-
-#~ msgid "Don't have a Plex account, yet?"
-#~ msgstr "Heb je nog geen Plex account?"
-
-#~ msgid "Get one here."
-#~ msgstr "Maak hier eentje."
-
-#~ msgid "Plex URL"
-#~ msgstr "Plex URL"
-
-#~ msgid "Plex Display Name"
-#~ msgstr "Plex Gebruikersnaam"
-
-#~ msgid "Plex Token"
-#~ msgstr "Plex Toegangstoken"
-
-#~ msgid "Request instance (Ombi, Overseerr...)"
-#~ msgstr "URL verzoeksysteem (Ombi, Overseerr...)"
-
-#~ msgid "Discord Server ID"
-#~ msgstr "Discord Server ID"
-
-#~ msgid ""
-#~ "Environment Variables are being\n"
-#~ "                    deprecated and replaced by a secure sign-up. Please visit \n"
-#~ "\n"
-#~ msgstr ""
-#~ "Environment Variables worden stopgezet en vervangen door veilig aanmelden. "
-#~ "Bezoek "
-
-#~ msgid ""
-#~ "/settings.\n"
-#~ "                        See Repo for more info"
-#~ msgstr "/instellingen. Bekijk Repo voor meer informatie"
-
-#~ msgid ""
-#~ "Custom\n"
-#~ "              HTML"
-#~ msgstr ""
-#~ "Aangepast\n"
-#~ "              HTML"
-
-#~ msgid "Plex Requests"
-#~ msgstr "Plex verzoeken"
-
-#~ msgid ""
-#~ "Server Display\n"
-#~ "              Name"
-#~ msgstr "Plex weergavenaam"
-
-#~ msgid ""
-#~ "Server\n"
-#~ "              URL"
-#~ msgstr "Plex Token"
-
-#~ msgid ""
-#~ "Server\n"
-#~ "              Token / API Key"
-#~ msgstr "Plex Token"
-
-#~ msgid "Server Libraries"
-#~ msgstr "Plex Bibliotheken"
-
-#~ msgid ""
-#~ "Request\n"
-#~ "              instance (Ombi, Overseerr...)"
-#~ msgstr "URL verzoeksysteem (Ombi, Overseerr...)"
-
-#~ msgid ""
-#~ "Discord\n"
-#~ "              Server ID"
-#~ msgstr ""
-#~ "Word lid van de Discord\n"
-#~ "…………………………Server!"
-
-#~ msgid "Verify and Confirm"
-#~ msgstr "Verifiëren en bevestigen"
-
-#~ msgid "Great!"
-#~ msgstr "Geweldig!"
-
-#~ msgid "Change Server Settings"
-#~ msgstr "Wijzig serverinstellingen"
-
-#~ msgid "Invite Used"
-#~ msgstr "Gebruiker uitnodigen"
-
-#~ msgid "User"
-#~ msgstr "Gebruiker"
-
-#~ msgid "Home User"
-#~ msgstr "Gebruiker uitnodigen"
-
-#~ msgid ""
-#~ "Server\n"
-#~ "                Libraries"
-#~ msgstr "Plex Bibliotheken"
-
-#~ msgid ""
-#~ "Request\n"
-#~ "                instance (Ombi, Overseerr...) URL"
-#~ msgstr "URL verzoeksysteem (Ombi, Overseerr...)"
-
-#~ msgid "Ombi API Key (Only used for user import currently.)"
-#~ msgstr ""
-#~ "Ombi API-sleutel (momenteel alleen gebruikt voor het importeren van "
-#~ "gebruikers.)"
-
-#~ msgid ""
-#~ "Custom\n"
-#~ "                HTML"
-#~ msgstr ""
-#~ "Aangepaste\n"
-#~ "                HTML"
-
-#~ msgid "Notification Agents"
-#~ msgstr "Meldingsagenten"
-
-#~ msgid ""
-#~ "Username\n"
-#~ "                                (optional)"
-#~ msgstr "Plex Bibliotheken"
-
-#~ msgid ""
-#~ "Agent\n"
-#~ "                                URL"
-#~ msgstr "Plex Bibliotheken"
-
-#~ msgid "Expires"
-#~ msgstr "Verloopt"
-
-#~ msgid "Actions"
-#~ msgstr "Uitnodigingen"
-
-#~ msgid "Available"
-#~ msgstr "Beschikbaar"
-
-#~ msgid "Default"
-#~ msgstr "Standaard"
-
-#~ msgid "Passwords do not match."
-#~ msgstr "Wachtwoorden komen niet overeen."
-
-#~ msgid "Username must be between 3 and 15 characters."
-#~ msgstr "De gebruikersnaam moet tussen de 3 en 15 tekens bevatten."
-
-#~ msgid "Password must be between 3 and 40 characters."
-#~ msgstr "Het wachtwoord moet tussen de 3 en 40 tekens bevatten."
-
-#~ msgid "You must select at least one library."
-#~ msgstr "Je moet minstens één bibliotheek selecteren."
-
-#~ msgid "It is likely that your token does not work."
-#~ msgstr "Mogelijk werkt je toegangstoken niet."
-
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
-#~ msgstr ""
-#~ "De verbinding met je Plex server is onderbroken. Bekijk de Logs voor meer "
-#~ "informatie."
-
-#~ msgid "Unable to connect to your Jellyfin server."
-#~ msgstr "Er is geen verbinding mogelijk met de Jellyfin server."
-
-#~ msgid "Invalid Username or Password"
-#~ msgstr "Ongeldige gebruikersnaam of wachtwoord"
-
-#~ msgid "Oops!"
-#~ msgstr "Oeps!"
-
-#~ msgid ""
-#~ "Confirm\n"
-#~ "                                password"
-#~ msgstr ""
-#~ "Bevestigen\n"
-#~ "                                wachtwoord"
-
-#~ msgid ""
-#~ "Invite\n"
-#~ "                                Code"
-#~ msgstr ""
-#~ "Uitnodiging\n"
-#~ "                                Code"
-
-#~ msgid "(in days)"
-#~ msgstr "(in dagen)"
-
-#~ msgid ""
-#~ "When set, invited user(s) will be removed from the Plex server after a\n"
-#~ "                                        number of\n"
-#~ "                                        days. (1-999)"
-#~ msgstr ""
-#~ "Indien ingesteld, worden uitgenodigde gebruiker(s) verwijderd van de Plex-server na een\n"
-#~ "                                        aantal\n"
-#~ "                                        dagen. (1-999)"
-
-#~ msgid ""
-#~ "Specific\n"
-#~ "                                Libraries"
-#~ msgstr "Plex Bibliotheken"
-
-#~ msgid "Custom HTML"
-#~ msgstr "Aangepaste HTML"
-
-#~ msgid "Hello"
-#~ msgstr "Hallo"
-
-#~ msgid "Logged in successfully"
-#~ msgstr "succesvol ingelogd"
-
-#~ msgid "Unauthorized attempted access"
-#~ msgstr "Ongeoorloofde poging tot toegang"
-
-#~ msgid "Could not find the requested page"
-#~ msgstr "Kon de gevraagde pagina niet vinden"
-
-#~ msgid "Quick Invite"
-#~ msgstr "Snelle uitnodiging"
-
-#~ msgid "Server Invites"
-#~ msgstr "Server Instellingen"
-
-#~ msgid "HTML"
-#~ msgstr "HTML"
-
-#~ msgid "API"
-#~ msgstr "API"
-
-#~ msgid "Accounts"
-#~ msgstr "Maak een account aan"
-
-#~ msgid "Tasks"
-#~ msgstr "Taken"
-
-#~ msgid "Server Users"
-#~ msgstr "Server URL"
-
-#~ msgid ""
-#~ "Currently Wizarr only supports internal SQLite database. This is a temporary"
-#~ " and we are working on adding support for other databases."
-#~ msgstr ""
-#~ "Momenteel ondersteunt Wizarr alleen de interne SQLite-database. Dit is "
-#~ "tijdelijk en we werken aan het toevoegen van ondersteuning voor andere "
-#~ "databases."
-
-#~ msgid ""
-#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV shows, and music in one place.\n"
-#~ "        It's like having your own personal movie theater right at your fingertips! Think of it as a digital library of\n"
-#~ "        your favorite content that you can access from anywhere, on any device - your phone, tablet, laptop, smart TV,\n"
-#~ "        you name it."
-#~ msgstr ""
-#~ "Jellyfin is een platform waarmee je al je favoriete films, tv-programma's en muziek op één plek kunt streamen.\n"
-#~ "        Het is alsof u uw eigen persoonlijke bioscoop binnen handbereik heeft! Zie het als een digitale bibliotheek van\n"
-#~ "        uw favoriete inhoud die u overal en op elk apparaat kunt openen - uw telefoon, tablet, laptop, smart TV,\n"
-#~ "        noem maar op."
-
-#~ msgid ""
-#~ "Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
-#~ "    sharing with you - they also, by default, play content at a lower quality. "
-#~ msgstr ""
-#~ "Omdat Plex een gratis service is, promoten ze hun eigen inhoud vóór de geweldige inhoud die je vriend nu is\n"
-#~ "    delen met jou - ze spelen standaard ook inhoud af met een lagere kwaliteit."
-
-#~ msgid ""
-#~ "We highly\n"
-#~ "      recommend you to go through those steps first!"
-#~ msgstr ""
-#~ "Wij zeer\n"
-#~ "      raad je aan om eerst die stappen te doorlopen!"
-
-#~ msgid "Configure Plex in your browser"
-#~ msgstr "Configureer Plex in je browser"
-
-#~ msgid "Configure Plex's app on your computer, mobile device or TV"
-#~ msgstr "Configureer de Plex-app op je computer, mobiele apparaat of tv"
-
-#~ msgid "Open Plex"
-#~ msgstr "Plex openen"
-
-#~ msgid "Goodbye"
-#~ msgstr "Tot ziens"
-
-#~ msgid "Logged out successfully"
-#~ msgstr "Succesvol uitgelogd"
-
-#~ msgid "Your Account"
-#~ msgstr "Maak een account aan"
-
-#~ msgid "Account"
-#~ msgstr "Maak een account aan"
-
-#~ msgid "General"
-#~ msgstr "Algemeen"
-
-#~ msgid "View and update general settings"
-#~ msgstr "Algemene instellingen bekijken en bijwerken"

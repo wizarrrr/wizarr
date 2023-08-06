@@ -7,36 +7,241 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-01 18:45+0100\n"
-"PO-Revision-Date: 2023-02-27 21:14+0000\n"
-"Last-Translator: Luke Keude <kingrun424@gmail.com>\n"
-"Language-Team: Lithuanian <https://hosted.weblate.org/projects/wizarr/app/lt/>\n"
+"POT-Creation-Date: 2023-08-06 21:37+0100\n"
+"PO-Revision-Date: 2023-08-06 19:51+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: lt <LL@li.org>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: app/templates/admin.html:4
+#: app/configs/settings.json.j2:3
 #, fuzzy
-msgid "Wizarr"
-msgstr "Sąrankos vedlys"
-
-#: app/templates/admin.html:20 app/templates/forgot-password.html:44
-#: app/templates/login.html:61
-#, fuzzy
-msgid "Version"
+msgid "Main Settings"
 msgstr "Nustatymai"
 
-#: app/templates/admin.html:20 app/templates/forgot-password.html:44
-#: app/templates/login.html:61
-#, fuzzy
-msgid "Stable"
-msgstr "Išsaugoti"
+#: app/configs/settings.json.j2:4
+msgid "General settings for the server"
+msgstr "Bendrieji serverio nustatymai"
 
-#: app/templates/admin.html:20 app/templates/forgot-password.html:44
-#: app/templates/login.html:61
+#: app/configs/settings.json.j2:8
+#, fuzzy
+msgid "Media Server"
+msgstr "Serveris"
+
+#: app/configs/settings.json.j2:9
+#, fuzzy
+msgid "Configure your media server settings"
+msgstr "Konfigūruokite savo serverio nustatymus."
+
+#: app/configs/settings.json.j2:15
+#, fuzzy
+msgid "Requests"
+msgstr "Užklausos serveris"
+
+#: app/configs/settings.json.j2:16
+msgid "Add Jellyseerr, Overseerr or Ombi support"
+msgstr "Pridėkite Jellyseerr, Overseerr arba Ombi palaikymą"
+
+#: app/configs/settings.json.j2:23
+#, fuzzy
+msgid "API keys"
+msgstr "API prieigos raktas"
+
+#: app/configs/settings.json.j2:24
+msgid "Add API keys for external services"
+msgstr "Pridėkite išorinių paslaugų API raktus"
+
+#: app/configs/settings.json.j2:31
+#, fuzzy
+msgid "Notifications"
+msgstr "Pranešimų tarnyba"
+
+#: app/configs/settings.json.j2:32
+#, fuzzy
+msgid "Configure notification settings"
+msgstr "Konfigūruokite savo serverio nustatymus."
+
+#: app/configs/settings.json.j2:41
+#, fuzzy
+msgid "Account Settings"
+msgstr "Nustatymai"
+
+#: app/configs/settings.json.j2:42
+#, fuzzy
+msgid "Settings for user accounts"
+msgstr "Paskyros nustatymas"
+
+#: app/configs/settings.json.j2:46
+msgid "Profile"
+msgstr "Profilis"
+
+#: app/configs/settings.json.j2:47
+#, fuzzy
+msgid "Configure your profile settings"
+msgstr "Konfigūruokite savo serverio nustatymus."
+
+#: app/configs/settings.json.j2:53 app/views/authentication/login.html:56
+#: app/views/client/invite/signup/jellyfin.html:27
+#: app/views/modals/create-notification-agent.html:148
+#: app/views/settings/password.html:6 app/views/setup/pages/admin.html:15
+msgid "Password"
+msgstr "Slaptažodis"
+
+#: app/configs/settings.json.j2:54
+#, fuzzy
+msgid "Change your password"
+msgstr "Pamiršai slaptažodį?"
+
+#: app/configs/settings.json.j2:60
+#, fuzzy
+msgid "Sessions"
+msgstr "Versija"
+
+#: app/configs/settings.json.j2:61
+#, fuzzy
+msgid "View and manage your active sessions"
+msgstr "Tvarkykite savo kvietimus"
+
+#: app/configs/settings.json.j2:67
+#, fuzzy
+msgid "SSO Login"
+msgstr "Prisijungti"
+
+#: app/configs/settings.json.j2:68
+msgid "Configure SSO login"
+msgstr "Konfigūruokite SSO prisijungimą"
+
+#: app/configs/settings.json.j2:74
+msgid "Multi-Factor Authentication"
+msgstr "Daugiafaktorinis autentifikavimas"
+
+#: app/configs/settings.json.j2:75
+msgid "Configure MFA authentication"
+msgstr "Konfigūruokite MFA autentifikavimą"
+
+#: app/configs/settings.json.j2:81
+#, fuzzy
+msgid "Language"
+msgstr "Pasirinkite kalbą"
+
+#: app/configs/settings.json.j2:82
+msgid "Change your language"
+msgstr "Pakeiskite kalbą"
+
+#: app/configs/settings.json.j2:90
+#, fuzzy
+msgid "UI Settings"
+msgstr "Nustatymai"
+
+#: app/configs/settings.json.j2:91
+msgid "Modify the look and feel of the server"
+msgstr "Pakeiskite serverio išvaizdą"
+
+#: app/configs/settings.json.j2:95
+#, fuzzy
+msgid "Discord"
+msgstr "Discord valdiklis"
+
+#: app/configs/settings.json.j2:96
+msgid "Enable Discord page and configure settings"
+msgstr "Įgalinkite „Discord“ puslapį ir sukonfigūruokite nustatymus"
+
+#: app/configs/settings.json.j2:102
+#, fuzzy
+msgid "Custom HTML"
+msgstr "Pasirinktinis"
+
+#: app/configs/settings.json.j2:103
+msgid "Add Custom HTML page to help screen"
+msgstr "Pridėkite tinkintą HTML puslapį į pagalbos ekraną"
+
+#: app/configs/settings.json.j2:111
+#, fuzzy
+msgid "Advanced Settings"
+msgstr "Išplėstiniai nustatymai"
+
+#: app/configs/settings.json.j2:112
+msgid "Advanced settings for the server"
+msgstr "Išplėstiniai serverio nustatymai"
+
+#: app/configs/settings.json.j2:115
+#, fuzzy
+msgid "OAuth Integration"
+msgstr "Sukurti pakvietimą"
+
+#: app/configs/settings.json.j2:116
+#, fuzzy
+msgid "Configure OAuth integration"
+msgstr "Sukurti pakvietimą"
+
+#: app/configs/settings.json.j2:122
+#, fuzzy
+msgid "Logs"
+msgstr "Prisijungti"
+
+#: app/configs/settings.json.j2:123
+msgid "View and download server logs"
+msgstr "Peržiūrėkite ir atsisiųskite serverio žurnalus"
+
+#: app/configs/settings.json.j2:129
+#, fuzzy
+msgid "Tasks"
+msgstr "Vykdykite užduotį"
+
+#: app/configs/settings.json.j2:130
+msgid "View and manage scheduled tasks"
+msgstr "Peržiūrėkite ir valdykite suplanuotas užduotis"
+
+#: app/configs/settings.json.j2:136
+#, fuzzy
+msgid "Updates"
+msgstr "Atnaujinti"
+
+#: app/configs/settings.json.j2:137
+msgid "Check for and view updates"
+msgstr "Patikrinkite ir peržiūrėkite naujinimus"
+
+#: app/configs/settings.json.j2:143
+#, fuzzy
+msgid "Backup"
+msgstr "Atgal"
+
+#: app/configs/settings.json.j2:144
+#, fuzzy
+msgid "Create and restore backups"
+msgstr "Sukurti paskyrą"
+
+#: app/configs/settings.json.j2:150
+msgid "About"
+msgstr "Apie"
+
+#: app/configs/settings.json.j2:151
+msgid "View information about the server"
+msgstr "Peržiūrėkite informaciją apie serverį"
+
+#: app/templates/admin.html:4
+msgid "Wizarr"
+msgstr "Wizarr"
+
+#: app/templates/admin.html:20
+#: app/views/authentication/forgot-password.html:44
+#: app/views/authentication/login.html:98
+msgid "Version"
+msgstr "Versija"
+
+#: app/templates/admin.html:20
+#: app/views/authentication/forgot-password.html:44
+#: app/views/authentication/login.html:98
+msgid "Stable"
+msgstr "Stabilus"
+
+#: app/templates/admin.html:20
+#: app/views/authentication/forgot-password.html:44
+#: app/views/authentication/login.html:98
 msgid "Beta"
 msgstr "Beta"
 
@@ -44,22 +249,243 @@ msgstr "Beta"
 msgid "Logout failed"
 msgstr "Atsijungti nepavyko"
 
-#: app/templates/forgot-password.html:4
-#, fuzzy
-msgid "Forgot Password"
-msgstr "Patvirtinti slaptažodį"
+#: app/templates/users.html:5
+msgid "Invite User"
+msgstr "Pakviesti vartotoją"
 
-#: app/templates/forgot-password.html:28 app/templates/login.html:40
+#: app/templates/templates/menu.html:16 app/views/home/main.html:3
+msgid "Home"
+msgstr "Namai"
+
+#: app/templates/templates/menu.html:22 app/views/admin/invites.html:4
+msgid "Invitations"
+msgstr "Kvietimai"
+
+#: app/templates/templates/menu.html:28
+msgid "Users"
+msgstr "Vartotojai"
+
+#: app/templates/templates/menu.html:34 app/views/setup/pages/settings.html:2
+msgid "Settings"
+msgstr "Nustatymai"
+
+#: app/templates/templates/update.html:13
+msgid "Attention!"
+msgstr "Dėmesio!"
+
+#: app/templates/templates/update.html:14
+msgid "Update available. Click here."
+msgstr "Galimas atnaujinimas. Paspauskite čia."
+
+#: app/views/admin/invite.html:4 app/views/admin/invite.html:193
+#: app/views/admin/invite.html:581
+msgid "Create Invitation"
+msgstr "Sukurti pakvietimą"
+
+#: app/views/admin/invite.html:8
+msgid "Create an invitation to your server."
+msgstr "Sukurkite kvietimą į savo serverį."
+
+#: app/views/admin/invite.html:21
+msgid "Invite Code String"
+msgstr "Kvietimo kodo eilutė"
+
+#: app/views/admin/invite.html:21
+msgid "(optional)"
+msgstr "(neprivaloma)"
+
+#: app/views/admin/invite.html:35
+msgid "Expiration"
+msgstr "Galiojimo laikas"
+
+#: app/views/admin/invite.html:38 app/views/admin/invite.html:130
+msgid "1 Day"
+msgstr "1 diena"
+
+#: app/views/admin/invite.html:39 app/views/admin/invite.html:131
+msgid "1 Week"
+msgstr "1 savaitė"
+
+#: app/views/admin/invite.html:40 app/views/admin/invite.html:132
+msgid "1 Month"
+msgstr "1 mėnuo"
+
+#: app/views/admin/invite.html:41 app/views/admin/invite.html:133
+msgid "6 Months"
+msgstr "6 mėnesiai"
+
+#: app/views/admin/invite.html:42 app/views/admin/invite.html:134
+msgid "1 Year"
+msgstr "1 metai"
+
+#: app/views/admin/invite.html:43
+msgid "Never"
+msgstr "Niekada"
+
+#: app/views/admin/invite.html:44 app/views/admin/invite.html:135
+msgid "Custom"
+msgstr "Pasirinktinis"
+
+#: app/views/admin/invite.html:52
+msgid "Custom Expiration"
+msgstr "Pasirinktinis galiojimo laikas"
+
+#: app/views/admin/invite.html:60
+msgid "Advanced Options"
+msgstr "Išplėstiniai nustatymai"
+
+#: app/views/admin/invite.html:70
+msgid "Unlimited Usages"
+msgstr "Neribotas naudojimas"
+
+#: app/views/admin/invite.html:79
+msgid "Invite to Plex Home"
+msgstr "Pakvieskite į „Plex Home“."
+
+#: app/views/admin/invite.html:90 app/views/tables/invite-table.html:12
+msgid "Allow Downloads"
+msgstr "Leisti atsisiuntimus"
+
+#: app/views/admin/invite.html:106 app/views/admin/invite.html:119
+#: app/views/tables/invite-table.html:14
+msgid "Duration"
+msgstr "Trukmė"
+
+#: app/views/admin/invite.html:114
+msgid "Show Information"
+msgstr "Rodyti informaciją"
+
+#: app/views/admin/invite.html:120
+msgid ""
+"When set, invited user(s) will be removed from the server after the set "
+"number of days. (1-999)"
+msgstr ""
+"Kai nustatyta, pakviestas (-i) vartotojas (-ai) bus pašalintas (-i) iš "
+"serverio po nustatyto dienų skaičiaus. (1–999)"
+
+#: app/views/admin/invite.html:129 app/views/tables/invite-table.html:10
+#: app/views/tables/invite-table.html:80
+msgid "Unlimited"
+msgstr "Neribota"
+
+#: app/views/admin/invite.html:143
+msgid "Custom Duration"
+msgstr "Tinkinta trukmė"
+
+#: app/views/admin/invite.html:151
+msgid "Specific Libraries"
+msgstr "Konkrečios bibliotekos"
+
+#: app/views/admin/invite.html:155 app/views/modals/scan-libraries.html:3
+#: app/views/modals/scan-libraries.html:22
+msgid "Select Libraries"
+msgstr "Pasirinkite bibliotekos"
+
+#: app/views/admin/invite.html:184
+msgid "Select All"
+msgstr "Pasirinkti viską"
+
+#: app/views/admin/invite.html:202
+msgid "Successfully generated an Invitation!"
+msgstr "Kvietimas sėkmingai sugeneruotas!"
+
+#: app/views/admin/invite.html:206 app/views/admin/invite.html:356
+msgid "Link has been copied to clipboard!"
+msgstr "Nuoroda nukopijuota į mainų sritį!"
+
+#: app/views/admin/invite.html:212 app/views/admin/settings.html:23
+#: app/views/client/wizard/wizard.html:35
+#: app/views/client/wizard/wizard.html:49 app/views/errors/404.html:20
+msgid "Back"
+msgstr "Atgal"
+
+#: app/views/admin/invite.html:218
+msgid "Share"
+msgstr "Dalintis"
+
+#: app/views/admin/invite.html:357
+msgid "An error occurred while copying the link to the clipboard!"
+msgstr "Kopijuojant nuorodą į mainų sritį įvyko klaida!"
+
+#: app/views/admin/invite.html:481
+msgid "Deselect all"
+msgstr "Atzymeti visus pasirinkimus"
+
+#: app/views/admin/invite.html:483
+msgid "Select all"
+msgstr "Pasirinkti viską"
+
+#: app/views/admin/invite.html:507
+msgid "Creating..."
+msgstr "Kuriama..."
+
+#: app/views/admin/invite.html:575
+msgid "The invite has been created"
+msgstr "Kvietimas sukurtas"
+
+#: app/views/admin/invite.html:578
+msgid "There was an error creating the invite"
+msgstr "Kuriant kvietimą įvyko klaida"
+
+#: app/views/admin/invites.html:8
+msgid "Manage your invitations"
+msgstr "Tvarkykite savo kvietimus"
+
+#: app/views/admin/invites.html:13
+msgid "Create Invite"
+msgstr "Sukurti kvietimą"
+
+#: app/views/admin/invites.html:16
+msgid "Delete All"
+msgstr "Ištrinti viską"
+
+#: app/views/admin/settings.html:6
+msgid "Server Settings"
+msgstr "Serverio nustatymai"
+
+#: app/views/admin/settings.html:10
+msgid "Configure your server settings."
+msgstr "Konfigūruokite savo serverio nustatymus."
+
+#: app/views/admin/user.html:44
+msgid "User Configuration"
+msgstr "Vartotojo konfigūracija"
+
+#: app/views/admin/user.html:90
+msgid "User Policy"
+msgstr "Vartotojo politika"
+
+#: app/views/admin/users.html:4
+msgid "Invited Users"
+msgstr "Pakviesti vartotojai"
+
+#: app/views/admin/users.html:8
+msgid "Manage users that joined your server"
+msgstr "Tvarkykite vartotojus, kurie prisijungė prie jūsų serverio"
+
+#: app/views/admin/users.html:13
+msgid "Scan Users"
+msgstr "Nuskaitykite vartotojus"
+
+#: app/views/admin/users.html:19
+msgid "Add User"
+msgstr "Pridėti naudotoją"
+
+#: app/views/authentication/forgot-password.html:4
+msgid "Forgot Password"
+msgstr "Pamiršote slaptažodį"
+
+#: app/views/authentication/forgot-password.html:28
 msgid "Forgot your password?"
 msgstr "Pamiršai slaptažodį?"
 
-#: app/templates/forgot-password.html:31
+#: app/views/authentication/forgot-password.html:31
 msgid "No worries, contact the administrator to reset your password."
 msgstr ""
 "Nesijaudinkite, susisiekite su administratoriumi, kad iš naujo nustatytumėte"
 " slaptažodį."
 
-#: app/templates/forgot-password.html:34
+#: app/views/authentication/forgot-password.html:34
 msgid ""
 "If you are the administrator, you can reset a password by running the "
 "following script:"
@@ -67,30 +493,418 @@ msgstr ""
 "Jei esate administratorius, galite iš naujo nustatyti slaptažodį paleisdami "
 "šį scenarijų:"
 
-#: app/templates/forgot-password.html:39
-#, fuzzy
+#: app/views/authentication/forgot-password.html:39
 msgid "Go Back"
-msgstr "Atgal"
+msgstr "Eik atgal"
 
-#: app/templates/forgot-password.html:47 app/templates/login.html:64
+#: app/views/authentication/forgot-password.html:47
+#: app/views/authentication/login.html:101
 msgid "Toggle Theme"
 msgstr "Perjungti temą"
 
-#: app/templates/homepage.html:3 app/templates/templates/menu.html:16
-msgid "Home"
-msgstr "Pradinis"
-
-#: app/templates/homepage.html:16 app/templates/login.html:4
-#: app/templates/login.html:28
+#: app/views/authentication/login.html:4
+#: app/views/authentication/login.html:62 app/views/home/main.html:16
 msgid "Login"
 msgstr "Prisijungti"
 
-#: app/templates/homepage.html:25 app/templates/setup/pages/welcome.html:2
-#, fuzzy
-msgid "Welcome to Wizarr"
-msgstr "Sąrankos vedlys"
+#: app/views/authentication/login.html:30
+#: app/views/authentication/login.html:47
+msgid "Login with your account"
+msgstr "Prisijunkite naudodami savo paskyrą"
 
-#: app/templates/homepage.html:28
+#: app/views/authentication/login.html:34
+#: app/views/authentication/login.html:51
+#: app/views/client/invite/signup/jellyfin.html:13
+#: app/views/modals/create-notification-agent.html:143
+#: app/views/settings/profile.html:12 app/views/setup/pages/admin.html:7
+msgid "Username"
+msgstr "Vartotojo vardas"
+
+#: app/views/authentication/login.html:40
+#: app/views/authentication/login.html:83
+#: app/views/client/invite/signup/plex.html:81
+msgid "Continue"
+msgstr "Tęsti"
+
+#: app/views/authentication/login.html:67
+msgid "Login with MFA"
+msgstr "Prisijunkite naudodami MFA"
+
+#: app/views/authentication/login.html:76
+msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
+msgstr ""
+"Norėdami patvirtinti savo tapatybę, naudokite pirštų atspaudų arba veido "
+"atpažinimo funkciją"
+
+#: app/views/authentication/login.html:77
+msgid "Press the button below and follow your browser's steps to login"
+msgstr ""
+"Paspauskite žemiau esantį mygtuką ir atlikite naršyklės veiksmus, kad "
+"prisijungtumėte"
+
+#: app/views/authentication/login.html:88
+msgid "Login with Password"
+msgstr "Prisijunkite naudodami slaptažodį"
+
+#: app/views/authentication/login.html:178
+msgid "Please enter your username"
+msgstr "Įveskite savo vartotojo vardą"
+
+#: app/views/client/invite/invite-invalid.html:15
+msgid "Invalid Invitation"
+msgstr "Neteisingas kvietimas"
+
+#: app/views/client/invite/join.html:10
+#, python-format
+msgid "Type in your invite code to %(name)s server!"
+msgstr "Įveskite kvietimo kodą į %(name)s serverį!"
+
+#: app/views/client/invite/join.html:20
+#: app/views/client/invite/signup/jellyfin.html:40
+#: app/views/client/invite/signup/plex.html:25
+#: app/views/tables/invite-table.html:6
+msgid "Invite Code"
+msgstr "Pakvietimo kodas"
+
+#: app/views/client/invite/join.html:27
+#: app/views/client/invite/signup/plex.html:33
+msgid "Join"
+msgstr "Prisijunk"
+
+#: app/views/client/invite/signup.html:7
+#: app/views/client/invite/signup.html:14
+#, python-format
+msgid "You've been invited to join the %(name)s server!"
+msgstr "Jus pakvietė prisijungti prie %(name)s serverio!"
+
+#: app/views/client/invite/signup/jellyfin.html:3
+msgid "Set up Account"
+msgstr "Nustatykite paskyrą"
+
+#: app/views/client/invite/signup/jellyfin.html:19
+#: app/views/setup/pages/admin.html:11
+msgid "Email"
+msgstr "El. paštas"
+
+#: app/views/client/invite/signup/jellyfin.html:33
+#: app/views/setup/pages/admin.html:19
+msgid "Confirm password"
+msgstr "Patvirtinti slaptažodį"
+
+#: app/views/client/invite/signup/jellyfin.html:45
+msgid "Create an account"
+msgstr "Sukurti paskyrą"
+
+#: app/views/client/invite/signup/plex.html:3
+msgid "Join the Plex Server"
+msgstr "Prisijunkite prie Plex serverio"
+
+#: app/views/client/invite/signup/plex.html:4
+msgid "Sign in to Plex"
+msgstr "Prisijunkite prie „Plex“."
+
+#: app/views/client/invite/signup/plex.html:5
+msgid "Please wait"
+msgstr "Prašau palauk"
+
+#: app/views/client/invite/signup/plex.html:6
+msgid "Setting up your account"
+msgstr "Paskyros nustatymas"
+
+#: app/views/client/invite/signup/plex.html:7
+msgid "Almost there!"
+msgstr "Beveik ten!"
+
+#: app/views/client/invite/signup/plex.html:8
+msgid "All done!"
+msgstr "Viskas padaryta!"
+
+#: app/views/client/invite/signup/plex.html:9
+msgid "Account created!"
+msgstr "Paskyra sukurta!"
+
+#: app/views/client/invite/signup/plex.html:10
+msgid "Please try again"
+msgstr "Prašau, pabandykite dar kartą"
+
+#: app/views/client/invite/signup/plex.html:78
+msgid ""
+"You're all set, click continue to get started and walkthrough how to use "
+"Plex!"
+msgstr ""
+"Viskas paruošta, spustelėkite tęsti, kad pradėtumėte ir sužinotumėte, kaip "
+"naudoti „Plex“!"
+
+#: app/views/client/invite/signup/plex.html:90
+msgid "Something went wrong, please try again."
+msgstr "Kažkas ne taip, bandykite dar kartą."
+
+#: app/views/client/invite/signup/plex.html:93
+msgid "Retry"
+msgstr "Bandykite dar kartą"
+
+#: app/views/client/wizard/wizard.html:4
+msgid "Help"
+msgstr "Pagalba"
+
+#: app/views/client/wizard/wizard.html:12
+msgid "Getting Started!"
+msgstr "Darbo pradžia!"
+
+#: app/views/client/wizard/wizard.html:38
+msgid "Next"
+msgstr "Kitas"
+
+#: app/views/client/wizard/wizard.html:45
+msgid "Open"
+msgstr "Atviras"
+
+#: app/views/client/wizard/pages/requests.html:4
+msgid "Automatic Media Requests"
+msgstr "Automatinės žiniasklaidos užklausos"
+
+#: app/views/client/wizard/pages/requests.html:9
+msgid ""
+"We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
+"        something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
+"        media you're looking for. "
+msgstr ""
+"Džiaugiamės galėdami jums pasiūlyti platų žiniasklaidos pasirinkimą. Jei kyla problemų ieškant\n"
+"        kažkas, kas tau patinka, nesijaudink! Turime patogią užklausų sistemą, kuri gali automatiškai ieškoti\n"
+"        žiniasklaida, kurios ieškote."
+
+#: app/views/client/wizard/pages/requests.html:20
+msgid "Request any available Movie or TV Show"
+msgstr "Prašykite bet kurio galimo filmo ar TV laidos"
+
+#: app/views/client/wizard/pages/requests.html:27
+msgid "Requested media will be automatically downloaded (if available)"
+msgstr "Prašoma laikmena bus automatiškai atsisiųsta (jei yra)"
+
+#: app/views/client/wizard/pages/requests.html:34
+msgid "If enabled, receive notifications"
+msgstr "Jei įjungta, gaukite pranešimus"
+
+#: app/views/client/wizard/pages/requests.html:40
+msgid "Check it Out"
+msgstr "Pasižiūrėk"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:2
+msgid ""
+"Join & Download Jellyfin\n"
+"        for this device"
+msgstr ""
+"Prisijunkite ir atsisiųskite Jellyfin\n"
+"        šiam įrenginiui"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:7
+msgid ""
+"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
+"    it with Jellyfin."
+msgstr ""
+"Puiki naujiena! Dabar turite prieigą prie mūsų serverio medijos kolekcijos. Įsitikinkite, kad žinote, kaip naudoti\n"
+"    tai su Jellyfin."
+
+#: app/views/client/wizard/pages/jellyfin/download.html:11
+msgid ""
+"Planning on watching Movies on this device? Download Jellyfin for this "
+"device."
+msgstr ""
+"Planuojate žiūrėti filmus šiuo įrenginiu? Atsisiųskite Jellyfin šiam "
+"įrenginiui."
+
+#: app/views/client/wizard/pages/jellyfin/download.html:19
+msgid ""
+"If you don't wish to Download the App feel free to use Jellyfin in your "
+"devices web browser, just click \"Next\"."
+msgstr ""
+"Jei nenorite atsisiųsti programos, nedvejodami naudokite Jellyfin savo "
+"įrenginio žiniatinklio naršyklėje, tiesiog spustelėkite „Kitas“."
+
+#: app/views/client/wizard/pages/jellyfin/download.html:25
+msgid "Show Server URL"
+msgstr "Rodyti serverio URL"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:30
+#: app/views/settings/media.html:20 app/views/setup/pages/settings.html:20
+msgid "Server URL"
+msgstr "Serverio URL"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:34
+#: app/views/client/wizard/pages/jellyfin/download.html:191
+msgid "Copy"
+msgstr "Kopijuoti"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:59
+#: app/views/client/wizard/pages/jellyfin/download.html:83
+msgid "Open Jellyfin"
+msgstr "Atidarykite Jellyfin"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:139
+msgid "Other Download"
+msgstr "Kitas atsisiuntimas"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:188
+msgid "Copied!"
+msgstr "Nukopijuota!"
+
+#: app/views/client/wizard/pages/jellyfin/tips.html:3
+#: app/views/client/wizard/pages/plex/tips.html:3
+msgid "Right, so how do I watch stuff?"
+msgstr "Tiesa, kaip žiūrėti dalykus?"
+
+#: app/views/client/wizard/pages/jellyfin/tips.html:6
+msgid ""
+"It couldn't be simpler! Jellyfin is available on a wide variety of devices "
+"including laptops, tablets, smartphones, and TVs. All you need to do is "
+"download the Jellyfin app on your device, sign in with your account, and "
+"you're ready to start streaming your media."
+msgstr ""
+"Tai negali būti paprasčiau! Jellyfin galima įsigyti įvairiuose įrenginiuose,"
+" įskaitant nešiojamuosius kompiuterius, planšetinius kompiuterius, "
+"išmaniuosius telefonus ir televizorius. Viskas, ką jums reikia padaryti, tai"
+" atsisiųsti „Jellyfin“ programą į savo įrenginį, prisijungti naudodami savo "
+"paskyrą ir būsite pasiruošę pradėti transliuoti mediją."
+
+#: app/views/client/wizard/pages/jellyfin/tips.html:9
+msgid "It's that easy!"
+msgstr "Tai taip paprasta!"
+
+#: app/views/client/wizard/pages/jellyfin/welcome.html:3
+msgid "Eh, So, What is Jellyfin exactly?"
+msgstr "Taigi, kas tiksliai yra Jellyfin?"
+
+#: app/views/client/wizard/pages/jellyfin/welcome.html:6
+msgid ""
+"Jellyfin is a platform that lets you stream all your favorite movies, TV "
+"shows, and music in one place. It's like having your own personal movie "
+"theater right at your fingertips! Think of it as a digital library of your "
+"favorite content that you can access from anywhere, on any device - your "
+"phone, tablet, laptop, smart TV, you name it."
+msgstr ""
+"Jellyfin yra platforma, leidžianti vienoje vietoje transliuoti visus "
+"mėgstamus filmus, TV laidas ir muziką. Tai tarsi po ranka turėti savo "
+"asmeninį kino teatrą! Pagalvokite apie tai kaip apie skaitmeninę mėgstamo "
+"turinio biblioteką, kurią galite pasiekti iš bet kur ir bet kuriame "
+"įrenginyje – telefone, planšetiniame kompiuteryje, nešiojamajame "
+"kompiuteryje, išmaniajame televizoriuje, vadinasi."
+
+#: app/views/client/wizard/pages/plex/download.html:4
+msgid "Join & Download Plex for this device"
+msgstr "Prisijunkite ir atsisiųskite šio įrenginio „Plex“."
+
+#: app/views/client/wizard/pages/plex/download.html:8
+msgid ""
+"So you now have access to our server's media collection. Let's make sure you"
+" know how to use it with Plex."
+msgstr ""
+"Taigi dabar turite prieigą prie mūsų serverio medijos kolekcijos. "
+"Įsitikinkite, kad žinote, kaip jį naudoti su „Plex“."
+
+#: app/views/client/wizard/pages/plex/download.html:11
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
+msgstr ""
+"Planuojate žiūrėti filmus šiuo įrenginiu? Atsisiųskite „Plex“ šiam "
+"įrenginiui."
+
+#: app/views/client/wizard/pages/plex/download.html:14
+msgid "Download"
+msgstr "parsisiųsti"
+
+#: app/views/client/wizard/pages/plex/tips.html:6
+msgid ""
+"It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+"        smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
+"        you're ready to start streaming your media. It's that easy!"
+msgstr ""
+"Tai negali būti paprasčiau! „Plex“ galima naudoti įvairiuose įrenginiuose, įskaitant nešiojamuosius kompiuterius, planšetinius kompiuterius,\n"
+"        išmanieji telefonai ir televizoriai. Viskas, ką jums reikia padaryti, tai atsisiųsti „Plex“ programą į savo įrenginį, prisijungti naudodami savo paskyrą ir\n"
+"        esate pasirengęs pradėti srautinį medijos perdavimą. Tai taip paprasta!"
+
+#: app/views/client/wizard/pages/plex/tips.html:11
+msgid "How can I make sure to have the best experience?"
+msgstr "Kaip galiu užtikrinti, kad patirtis būtų geriausia?"
+
+#: app/views/client/wizard/pages/plex/tips.html:14
+msgid ""
+"Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+"        sharing with you - they also, by default, play content at a lower quality. "
+msgstr ""
+"Kadangi „Plex“ yra nemokama paslauga, jie reklamuoja savo turinį anksčiau nei nuostabus turinys, kuriuo dabar yra jūsų draugas\n"
+"        bendrinti su jumis – pagal numatytuosius nustatymus jie taip pat leidžia turinį žemesne kokybe."
+
+#: app/views/client/wizard/pages/plex/tips.html:17
+msgid "No need to worry though, this can be easily resolved"
+msgstr "Tačiau nereikia jaudintis, tai gali būti lengvai išspręsta"
+
+#: app/views/client/wizard/pages/plex/tips.html:17
+msgid ""
+"We highly\n"
+"            recommend you to go through those steps first!"
+msgstr ""
+"Mes labai\n"
+"            rekomenduojame pirmiausia atlikti šiuos veiksmus!"
+
+#: app/views/client/wizard/pages/plex/welcome.html:3
+msgid "Eh, So, What is Plex exactly?"
+msgstr "Taigi, kas tiksliai yra „Plex“?"
+
+#: app/views/client/wizard/pages/plex/welcome.html:6
+msgid ""
+"Great question! Plex is a software that allows individuals to share their "
+"media collections with others. If you've received this invitation, it means "
+"someone wants to share their library with you."
+msgstr ""
+"Puikus klausimas! „Plex“ yra programinė įranga, leidžianti asmenims dalytis "
+"savo žiniasklaidos kolekcijomis su kitais. Jei gavote šį kvietimą, kažkas "
+"nori su jumis bendrinti savo biblioteką."
+
+#: app/views/client/wizard/pages/plex/welcome.html:9
+msgid ""
+"With Plex, you'll have access to all of the movies, TV shows, music, and "
+"photos that are stored on their server!"
+msgstr ""
+"Naudodami „Plex“ turėsite prieigą prie visų filmų, TV laidų, muzikos ir "
+"nuotraukų, saugomų jų serveryje!"
+
+#: app/views/client/wizard/pages/plex/welcome.html:12
+msgid "So let's see how to get started!"
+msgstr "Taigi pažiūrėkime, kaip pradėti!"
+
+#: app/views/errors/401.html:20
+msgid "Permission denied."
+msgstr "Leidimas nesuteiktas."
+
+#: app/views/errors/401.html:23
+msgid "You are attempting to do something you shouldn't be doing..."
+msgstr "Jūs bandote padaryti tai, ko neturėtumėte daryti..."
+
+#: app/views/errors/404.html:31
+msgid "Something's missing."
+msgstr "Kažko trūksta."
+
+#: app/views/errors/404.html:33
+msgid "Sorry, we can't find that page. It doesn't seem to exist!"
+msgstr "Atsiprašome, šio puslapio nerandame. Atrodo, kad jo nėra!"
+
+#: app/views/errors/500.html:19
+msgid "Internal Server Error."
+msgstr "Vidinė serverio klaida."
+
+#: app/views/errors/500.html:21
+msgid " Something has gone wrong. Please try again later."
+msgstr "Kažkas ne taip. Pabandykite dar kartą vėliau."
+
+#: app/views/errors/custom.html:20
+msgid "Get Help"
+msgstr "Gaukite pagalbos"
+
+#: app/views/home/main.html:25 app/views/setup/pages/welcome.html:2
+msgid "Welcome to Wizarr"
+msgstr "Sveiki atvykę į „Wizarr“."
+
+#: app/views/home/main.html:28
 msgid ""
 "Wizarr is a software tool that provides advanced user invitation and "
 "management capabilities for media servers such as Jellyfin, Emby, and Plex. "
@@ -102,7 +916,7 @@ msgstr ""
 "Emby ir Plex. Naudodami „Wizarr“, serverio administratoriai gali lengvai "
 "pakviesti naujų vartotojų ir valdyti jų prieigos leidimus."
 
-#: app/templates/homepage.html:32
+#: app/views/home/main.html:32
 msgid ""
 "If you were sent here by a friend, please request access or if you have an "
 "invite code, please click Get Started."
@@ -110,950 +924,381 @@ msgstr ""
 "Jei jus čia atsiuntė draugas, paprašykite prieigos arba, jei turite "
 "pakvietimo kodą, spustelėkite Pradėti."
 
-#: app/templates/homepage.html:36
+#: app/views/home/main.html:36
 msgid "Get Started"
 msgstr "Pradėti"
 
-#: app/templates/homepage.html:41
+#: app/views/home/main.html:41
 msgid "or"
 msgstr "arba"
 
-#: app/templates/homepage.html:45
-#, fuzzy
+#: app/views/home/main.html:45
 msgid "Request Access"
-msgstr "Serveris"
+msgstr "Prašyti prieigos"
 
-#: app/templates/admin/settings/profile.html:12
-#: app/templates/invite/signup/jellyfin.html:13 app/templates/login.html:32
-#: app/templates/modals/create-notification-agent.html:143
-#: app/templates/setup/pages/admin.html:7
-msgid "Username"
-msgstr "Slapyvardis"
+#: app/views/modals/add-mfa.html:3
+msgid "Add Passkey"
+msgstr "Pridėti slaptažodį"
 
-#: app/templates/admin/settings/main.html:50
-#: app/templates/admin/settings/password.html:6
-#: app/templates/invite/signup/jellyfin.html:27 app/templates/login.html:36
-#: app/templates/modals/create-notification-agent.html:148
-#: app/templates/setup/pages/admin.html:15
-msgid "Password"
-msgstr "Slaptažodis"
+#: app/views/modals/add-mfa.html:9 app/views/modals/add-oauth.html:10
+#: app/views/modals/create-api-key.html:9
+#: app/views/modals/create-notification-agent.html:13
+msgid "Name"
+msgstr "vardas"
 
-#: app/templates/login.html:50
-msgid "Remember me"
-msgstr "Prisiminti mane"
+#: app/views/modals/add-mfa.html:14 app/views/modals/add-oauth.html:46
+#: app/views/modals/create-api-key.html:14
+#: app/views/modals/create-notification-agent.html:46
+#: app/views/modals/delete-api-key.html:13
+#: app/views/modals/delete-notification-agent.html:13
+#: app/views/modals/revoke-session.html:13 app/views/modals/run-task.html:13
+#: app/views/modals/scan-libraries.html:19
+#: app/views/modals/update-libraries.html:23
+msgid "Cancel"
+msgstr "Atšaukti"
 
-#: app/templates/login.html:55
-msgid "Sign in"
-msgstr "Prisijungti"
+#: app/views/modals/add-mfa.html:17 app/views/modals/create-api-key.html:17
+msgid "Create"
+msgstr "Sukurti"
 
-#: app/templates/login.html:104
-#, fuzzy
-msgid "Internal server error"
-msgstr "Vidinė serverio klaida."
+#: app/views/modals/add-oauth.html:3
+msgid "New OAuth"
+msgstr "Naujas OAuth"
 
-#: app/templates/users.html:5
-msgid "Invite User"
-msgstr "Pakviesti vartotoją"
+#: app/views/modals/add-oauth.html:15
+msgid "Client ID"
+msgstr "Kliento ID"
 
-#: app/templates/admin/invite.html:4 app/templates/admin/invite.html:193
-#: app/templates/admin/invite.html:581
-msgid "Create Invitation"
-msgstr "Sukurti kvietimą"
+#: app/views/modals/add-oauth.html:20
+msgid "Client Secret"
+msgstr "Kliento paslaptis"
 
-#: app/templates/admin/invite.html:8
-#, fuzzy
-msgid "Create an invitation to your server."
-msgstr "Sukurti kvietimą"
+#: app/views/modals/add-oauth.html:25
+msgid "Request Token URL"
+msgstr "Prašyti prieigos rakto URL"
 
-#: app/templates/admin/invite.html:21
-msgid "Invite Code String"
-msgstr "Kvietimo kodo eilutė"
+#: app/views/modals/add-oauth.html:30
+msgid "Authorize URL"
+msgstr "Įgalioti URL"
 
-#: app/templates/admin/invite.html:21
-msgid "(optional)"
-msgstr "(neprivaloma)"
+#: app/views/modals/add-oauth.html:35
+msgid "Access Token URL"
+msgstr "Prieigos prieigos rakto URL"
 
-#: app/templates/admin/invite.html:35
-msgid "Expiration"
-msgstr "Galiojimo laikas"
+#: app/views/modals/add-oauth.html:40
+msgid "User Info URL"
+msgstr "Naudotojo informacijos URL"
 
-#: app/templates/admin/invite.html:38 app/templates/admin/invite.html:130
-#, fuzzy
-msgid "1 Day"
-msgstr "1 diena"
+#: app/views/modals/add-oauth.html:49
+msgid "Test & Create OAuth"
+msgstr "Išbandykite ir sukurkite „OAuth“."
 
-#: app/templates/admin/invite.html:39 app/templates/admin/invite.html:131
-#, fuzzy
-msgid "1 Week"
-msgstr "1 savaitė"
+#: app/views/modals/create-api-key.html:3 app/views/settings/api.html:38
+msgid "Create API Key"
+msgstr "Sukurkite API raktą"
 
-#: app/templates/admin/invite.html:40 app/templates/admin/invite.html:132
-#, fuzzy
-msgid "1 Month"
-msgstr "1 mėnuo"
+#: app/views/modals/create-api-key.html:46
+msgid "Please fill out all required fields."
+msgstr "Prašome užpildyti visus privalomus laukus."
 
-#: app/templates/admin/invite.html:41 app/templates/admin/invite.html:133
-#, fuzzy
-msgid "6 Months"
-msgstr "1 mėnuo"
+#: app/views/modals/create-api-key.html:70
+msgid "API key already exists."
+msgstr "API raktas jau yra."
 
-#: app/templates/admin/invite.html:42 app/templates/admin/invite.html:134
-msgid "1 Year"
-msgstr "1 metai"
+#: app/views/modals/create-api-key.html:76
+#: app/views/modals/delete-notification-agent.html:35
+msgid "You are not authorized to perform this action."
+msgstr "Jūs neturite teisės atlikti šio veiksmo."
 
-#: app/templates/admin/invite.html:43
-msgid "Never"
-msgstr "Niekada"
+#: app/views/modals/create-api-key.html:82 app/views/modals/run-task.html:35
+msgid "Something went wrong."
+msgstr "Kažkas nutiko."
 
-#: app/templates/admin/invite.html:44 app/templates/admin/invite.html:135
-msgid "Custom"
-msgstr "Pasirinktinis"
+#: app/views/modals/create-api-key.html:86
+msgid "API key created."
+msgstr "API raktas sukurtas."
 
-#: app/templates/admin/invite.html:52
-#, fuzzy
-msgid "Custom Expiration"
-msgstr "Galiojimo laikas"
+#: app/views/modals/create-notification-agent.html:3
+msgid "New Agent"
+msgstr "Naujas agentas"
 
-#: app/templates/admin/invite.html:60
-msgid "Advanced Options"
-msgstr "Išplėstiniai nustatymai"
+#: app/views/modals/create-notification-agent.html:18
+msgid "Notification Service"
+msgstr "Pranešimų tarnyba"
 
-#: app/templates/admin/invite.html:70
-msgid "Unlimited Usages"
-msgstr "Neribotas naudojimas"
+#: app/views/modals/create-notification-agent.html:20
+msgid "Choose a service"
+msgstr "Pasirinkite paslaugą"
 
-#: app/templates/admin/invite.html:79
-#, fuzzy
-msgid "Invite to Plex Home"
-msgstr "Pakvietimo kodas"
+#: app/views/modals/create-notification-agent.html:30
+#: app/views/modals/create-notification-agent.html:88
+msgid "Username (optional)"
+msgstr "Vartotojo vardas (neprivaloma)"
 
-#: app/templates/admin/invite.html:90
-#: app/templates/tables/invite-table.html:12
-#, fuzzy
-msgid "Allow Downloads"
-msgstr "Parsisiųsti"
+#: app/views/modals/create-notification-agent.html:34
+#: app/views/modals/create-notification-agent.html:93
+msgid "Password (optional)"
+msgstr "Slaptažodis (neprivaloma)"
 
-#: app/templates/admin/invite.html:106 app/templates/admin/invite.html:119
-#: app/templates/tables/invite-table.html:14
-msgid "Duration"
-msgstr "Trukmė"
+#: app/views/modals/create-notification-agent.html:39
+#: app/views/modals/create-notification-agent.html:98
+#: app/views/modals/create-notification-agent.html:117
+#: app/views/modals/create-notification-agent.html:136
+#: app/views/modals/create-notification-agent.html:153
+msgid "Agent URL"
+msgstr "Agento URL"
 
-#: app/templates/admin/invite.html:114
-msgid "Show Information"
-msgstr "Rodyti informaciją"
+#: app/views/modals/create-notification-agent.html:49
+msgid "Test & Create Agent"
+msgstr "Išbandykite ir sukurkite agentą"
 
-#: app/templates/admin/invite.html:120
-#, fuzzy
-msgid ""
-"When set, invited user(s) will be removed from the server after the set "
-"number of days. (1-999)"
-msgstr ""
-"Kai bus nustatyta, pavkiesti vartotojai bus pašalinti iš jūsų Plex serverio\n"
-"                                        po\n"
-"                                        dienų. (1-999)"
+#: app/views/modals/create-notification-agent.html:105
+msgid "Webhook ID"
+msgstr "Webhook ID"
 
-#: app/templates/admin/invite.html:129
-#: app/templates/tables/invite-table.html:10
-#: app/templates/tables/invite-table.html:80
-msgid "Unlimited"
-msgstr "Neribota"
+#: app/views/modals/create-notification-agent.html:111
+msgid "Webhook Token"
+msgstr "„Webhook“ prieigos raktas"
 
-#: app/templates/admin/invite.html:143
-#, fuzzy
-msgid "Custom Duration"
-msgstr "Trukmė"
+#: app/views/modals/create-notification-agent.html:124
+msgid "User Key"
+msgstr "Naudotojo raktas"
 
-#: app/templates/admin/invite.html:151
-#, fuzzy
-msgid "Specific Libraries"
-msgstr "Bibliotekos"
+#: app/views/modals/create-notification-agent.html:130
+msgid "API Token"
+msgstr "API prieigos raktas"
 
-#: app/templates/admin/invite.html:155
-#: app/templates/modals/scan-libraries.html:3
-#: app/templates/modals/scan-libraries.html:22
-#, fuzzy
-msgid "Select Libraries"
-msgstr "Bibliotekos"
+#: app/views/modals/create-notification-agent.html:242
+#: app/views/modals/create-notification-agent.html:249
+msgid "Something went wrong. Please try again."
+msgstr "Kažkas nutiko. Prašau, pabandykite dar kartą."
 
-#: app/templates/admin/invite.html:184
-#, fuzzy
-msgid "Select All"
-msgstr "Numatyti"
+#: app/views/modals/create-notification-agent.html:253
+msgid "Notification agent successfully created!"
+msgstr "Pranešimų agentas sėkmingai sukurtas!"
 
-#: app/templates/admin/invite.html:202
-msgid "Successfully generated an Invitation!"
-msgstr "Kvietimas sėkmingai sugeneruotas!"
+#: app/views/modals/delete-api-key.html:3
+#: app/views/modals/revoke-session.html:3
+msgid "Warning"
+msgstr "Įspėjimas"
 
-#: app/templates/admin/invite.html:206 app/templates/admin/invite.html:356
-msgid "Link has been copied to clipboard!"
-msgstr "Nuoroda nukopijuota į iškarpinę!"
+#: app/views/modals/delete-api-key.html:8
+msgid "Are you sure you want to delete this api key?"
+msgstr "Ar tikrai norite ištrinti šį API raktą?"
 
-#: app/templates/admin/invite.html:212 app/templates/admin/settings.html:23
-#: app/templates/error/404.html:20 app/templates/wizard/base.html:35
-#: app/templates/wizard/base.html:49
-msgid "Back"
-msgstr "Atgal"
+#: app/views/modals/delete-api-key.html:16
+#: app/views/modals/delete-notification-agent.html:16
+#: app/views/modals/revoke-session.html:16
+#: app/views/tables/admin-users.html:40 app/views/tables/global-users.html:59
+#: app/views/tables/invite-table.html:100
+#: app/views/tables/notification-table.html:36
+#: app/views/tables/oauth-table.html:36
+msgid "Delete"
+msgstr "Ištrinti"
 
-#: app/templates/admin/invite.html:218
-msgid "Share"
-msgstr "Dalintis"
+#: app/views/modals/delete-notification-agent.html:41
+msgid "An error occurred while deleting the Notification Agent."
+msgstr "Ištrinant pranešimų agentą įvyko klaida."
 
-#: app/templates/admin/invite.html:357
-msgid "An error occurred while copying the link to the clipboard!"
-msgstr "Kopijuojant nuorodą į mainų sritį įvyko klaida!"
+#: app/views/modals/delete-notification-agent.html:45
+msgid "Notification Agent deleted successfully!"
+msgstr "Pranešimų agentas sėkmingai ištrintas!"
 
-#: app/templates/admin/invite.html:481
-#, fuzzy
-msgid "Deselect all"
-msgstr "Numatyti"
+#: app/views/modals/revoke-session.html:8
+msgid "Are you sure you want to revoke this session?"
+msgstr "Ar tikrai norite atšaukti šią sesiją?"
 
-#: app/templates/admin/invite.html:483
-#, fuzzy
-msgid "Select all"
-msgstr "Numatyti"
+#: app/views/modals/revoke-session.html:41
+msgid "Something went wrong.Please try again."
+msgstr "Kažkas ne taip. Bandykite dar kartą."
 
-#: app/templates/admin/invite.html:507
-msgid "Creating..."
-msgstr "Kuriama..."
+#: app/views/modals/revoke-session.html:46
+msgid "Session deleted successfully!"
+msgstr "Sesija sėkmingai ištrinta!"
 
-#: app/templates/admin/invite.html:575
-msgid "The invite has been created"
-msgstr "Kvietimas sukurtas"
+#: app/views/modals/run-task.html:3 app/views/modals/run-task.html:16
+msgid "Run Task"
+msgstr "Vykdykite užduotį"
 
-#: app/templates/admin/invite.html:578
-msgid "There was an error creating the invite"
-msgstr "Kuriant kvietimą įvyko klaida"
+#: app/views/modals/run-task.html:8
+msgid "Are you sure you want to run this task?"
+msgstr "Ar tikrai norite vykdyti šią užduotį?"
 
-#: app/templates/admin/invites.html:4 app/templates/templates/menu.html:22
-msgid "Invitations"
-msgstr "Kvietimai"
+#: app/views/modals/run-task.html:39
+msgid "Task has been run."
+msgstr "Užduotis įvykdyta."
 
-#: app/templates/admin/invites.html:8
-#, fuzzy
-msgid "Manage your invitations"
-msgstr "Kvietimai"
+#: app/views/modals/update-libraries.html:3 app/views/settings/media.html:30
+#: app/views/setup/pages/settings.html:37
+msgid "Server Libraries"
+msgstr "Serverių bibliotekos"
 
-#: app/templates/admin/invites.html:13
-#, fuzzy
-msgid "Create Invite"
-msgstr "Sukurti kvietimą"
+#: app/views/modals/update-libraries.html:26
+msgid "Update Libraries"
+msgstr "Atnaujinti bibliotekas"
 
-#: app/templates/admin/invites.html:16
-#, fuzzy
-msgid "Delete All"
-msgstr "Numatyti"
+#: app/views/modals/update-libraries.html:88
+msgid "Unable to update libraries"
+msgstr "Nepavyko atnaujinti bibliotekų"
 
-#: app/templates/admin/settings.html:6
-msgid "Server Settings"
-msgstr "Serverio nustatymai"
-
-#: app/templates/admin/settings.html:10
-#, fuzzy
-msgid "Configure your server settings."
-msgstr "Serverio nustatymai"
-
-#: app/templates/admin/user.html:44
-msgid "User Configuration"
-msgstr "Vartotojų nustatymai"
-
-#: app/templates/admin/user.html:90
-msgid "User Policy"
-msgstr "Vartotojų politika"
-
-#: app/templates/admin/users.html:4
-#, fuzzy
-msgid "Invited Users"
-msgstr "Pakviesti naudotoją"
-
-#: app/templates/admin/users.html:8
-msgid "Manage users that joined your server"
-msgstr "Tvarkykite vartotojus, kurie prisijungė prie jūsų serverio"
-
-#: app/templates/admin/users.html:13
-#, fuzzy
-msgid "Scan Users"
-msgstr "Vartotojai"
-
-#: app/templates/admin/users.html:19
-#, fuzzy
-msgid "Add User"
-msgstr "Vartotojai"
-
-#: app/templates/admin/settings/about.html:111
-#: app/templates/admin/settings/about.html:221
+#: app/views/settings/about.html:111 app/views/settings/about.html:221
 msgid "Load More"
 msgstr "Įkelti daugiau"
 
-#: app/templates/admin/settings/accounts.html:13
-#, fuzzy
+#: app/views/settings/accounts.html:13
 msgid "My Account"
-msgstr "Sukurti paskyrą"
+msgstr "Mano sąskaita"
 
-#: app/templates/admin/settings/accounts.html:16
-#, fuzzy
+#: app/views/settings/accounts.html:16
 msgid "Add Admin"
-msgstr "Administratorius"
+msgstr "Pridėti administratorių"
 
-#: app/templates/admin/settings/api.html:38
-#: app/templates/modals/create-api-key.html:3
-#, fuzzy
-msgid "Create API Key"
-msgstr "Sukurti paskyrą"
-
-#: app/templates/admin/settings/discord.html:4
-#, fuzzy
+#: app/views/settings/discord.html:4
 msgid "Discord Server ID"
-msgstr ""
-"Discord\n"
-"                Serverio ID"
+msgstr "„Discord“ serverio ID"
 
-#: app/templates/admin/settings/discord.html:9
+#: app/views/settings/discord.html:9
 msgid "Discord Widget"
 msgstr "Discord valdiklis"
 
-#: app/templates/admin/settings/discord.html:19
-#: app/templates/admin/settings/html.html:9
-#: app/templates/admin/settings/media.html:38
-#: app/templates/admin/settings/requests.html:26
+#: app/views/settings/discord.html:19 app/views/settings/html.html:9
+#: app/views/settings/media.html:38 app/views/settings/requests.html:26
 msgid "Save"
-msgstr "Išsaugoti"
+msgstr "Sutaupyti"
 
-#: app/templates/admin/settings/discord.html:42
-#: app/templates/admin/settings/html.html:25
-#: app/templates/admin/settings/media.html:54
-#: app/templates/admin/settings/requests.html:58
+#: app/views/settings/discord.html:42 app/views/settings/html.html:25
+#: app/views/settings/media.html:54 app/views/settings/requests.html:58
 msgid "Settings saved successfully!"
 msgstr "Nustatymai sėkmingai išsaugoti!"
 
-#: app/templates/admin/settings/language.html:3
+#: app/views/settings/language.html:3
 msgid "Please use the dropdown below to select your language."
 msgstr ""
 "Norėdami pasirinkti kalbą, naudokite toliau pateiktą išskleidžiamąjį meniu."
 
-#: app/templates/admin/settings/language.html:7
-#, fuzzy
+#: app/views/settings/language.html:7
 msgid "Select Language"
-msgstr "Bibliotekos"
+msgstr "Pasirinkite kalbą"
 
-#: app/templates/admin/settings/main.html:5
-#, fuzzy
-msgid "Main Settings"
-msgstr "Nustatymai"
-
-#: app/templates/admin/settings/main.html:6
-msgid "General settings for the server"
-msgstr "Bendrieji serverio nustatymai"
-
-#: app/templates/admin/settings/main.html:9
-#, fuzzy
-msgid "Media Server"
-msgstr "Serveris"
-
-#: app/templates/admin/settings/main.html:10
-#, fuzzy
-msgid "Configure your media server settings"
-msgstr "Serverio nustatymai"
-
-#: app/templates/admin/settings/main.html:16
-msgid "Requests"
-msgstr "Prašymai"
-
-#: app/templates/admin/settings/main.html:17
-msgid "Add Jellyseerr, Overseerr or Ombi support"
-msgstr "Pridėkite Jellyseerr, Overseerr arba Ombi palaikymą"
-
-#: app/templates/admin/settings/main.html:23
-#, fuzzy
-msgid "API keys"
-msgstr "Sukurti paskyrą"
-
-#: app/templates/admin/settings/main.html:24
-msgid "Add API keys for external services"
-msgstr "Pridėkite išorinių paslaugų API raktus"
-
-#: app/templates/admin/settings/main.html:30
-#, fuzzy
-msgid "Notifications"
-msgstr "Kvietimai"
-
-#: app/templates/admin/settings/main.html:31
-msgid "Configure notification settings"
-msgstr "Konfigūruokite pranešimų nustatymus"
-
-#: app/templates/admin/settings/main.html:39
-#, fuzzy
-msgid "Account Settings"
-msgstr "Nustatymai"
-
-#: app/templates/admin/settings/main.html:40
-#, fuzzy
-msgid "Settings for user accounts"
-msgstr "Sukurti paskyrą"
-
-#: app/templates/admin/settings/main.html:43
-msgid "Profile"
-msgstr "Profilis"
-
-#: app/templates/admin/settings/main.html:44
-#, fuzzy
-msgid "Configure your profile settings"
-msgstr "Sukonfigūruokite „Plex“ savo naršyklėje"
-
-#: app/templates/admin/settings/main.html:51
-#, fuzzy
-msgid "Change your password"
-msgstr "Patvirtinti slaptažodį"
-
-#: app/templates/admin/settings/main.html:57
-#, fuzzy
-msgid "Sessions"
-msgstr "Nustatymai"
-
-#: app/templates/admin/settings/main.html:58
-msgid "View and manage your active sessions"
-msgstr "Peržiūrėkite ir valdykite savo aktyvias sesijas"
-
-#: app/templates/admin/settings/main.html:64
-msgid "Language"
-msgstr "Kalba"
-
-#: app/templates/admin/settings/main.html:65
-#, fuzzy
-msgid "Change your language"
-msgstr "Patvirtinti slaptažodį"
-
-#: app/templates/admin/settings/main.html:73
-#, fuzzy
-msgid "UI Settings"
-msgstr "Nustatymai"
-
-#: app/templates/admin/settings/main.html:74
-msgid "Modify the look and feel of the server"
-msgstr "Pakeiskite serverio išvaizdą"
-
-#: app/templates/admin/settings/main.html:77
-msgid "Discord"
-msgstr "Nesantaika"
-
-#: app/templates/admin/settings/main.html:78
-msgid "Enable Discord page and configure settings"
-msgstr "Įjunkite „Discord“ puslapį ir sukonfigūruokite nustatymus"
-
-#: app/templates/admin/settings/main.html:84
-#, fuzzy
-msgid "Custom HTML"
-msgstr "Trukmė"
-
-#: app/templates/admin/settings/main.html:85
-msgid "Add Custom HTML page to help screen"
-msgstr "Pridėkite tinkintą HTML puslapį į pagalbos ekraną"
-
-#: app/templates/admin/settings/main.html:93
-#, fuzzy
-msgid "Advanced Settings"
-msgstr "Išplėstiniai nustatymai"
-
-#: app/templates/admin/settings/main.html:94
-msgid "Advanced settings for the server"
-msgstr "Išplėstiniai serverio nustatymai"
-
-#: app/templates/admin/settings/main.html:97
-#, fuzzy
-msgid "Logs"
-msgstr "Prisijungti"
-
-#: app/templates/admin/settings/main.html:98
-msgid "View and download server logs"
-msgstr "Peržiūrėkite ir atsisiųskite serverio žurnalus"
-
-#: app/templates/admin/settings/main.html:104
-msgid "Tasks"
-msgstr "Užduotys"
-
-#: app/templates/admin/settings/main.html:105
-msgid "View and manage scheduled tasks"
-msgstr "Peržiūrėkite ir valdykite suplanuotas užduotis"
-
-#: app/templates/admin/settings/main.html:111
-#, fuzzy
-msgid "Updates"
-msgstr "Bibliotekos"
-
-#: app/templates/admin/settings/main.html:112
-msgid "Check for and view updates"
-msgstr "Patikrinkite ir peržiūrėkite naujinimus"
-
-#: app/templates/admin/settings/main.html:118
-#, fuzzy
-msgid "Backup"
-msgstr "Atgal"
-
-#: app/templates/admin/settings/main.html:119
-#, fuzzy
-msgid "Create and restore backups"
-msgstr "Sukurti paskyrą"
-
-#: app/templates/admin/settings/main.html:125
-#, fuzzy
-msgid "About"
-msgstr "Sukurti paskyrą"
-
-#: app/templates/admin/settings/main.html:126
-msgid "View information about the server"
-msgstr "Peržiūrėkite informaciją apie serverį"
-
-#: app/templates/admin/settings/main.html:164
+#: app/views/settings/main.html:33
 msgid "No settings matched your search."
 msgstr "Jokie nustatymai neatitiko jūsų paieškos."
 
-#: app/templates/admin/settings/media.html:6
-#: app/templates/setup/pages/settings.html:6
-#, fuzzy
+#: app/views/settings/media.html:6 app/views/setup/pages/settings.html:6
 msgid "Server Display Name"
-msgstr ""
-"Serverio Rodomasis\n"
-"              Pavadinimas"
+msgstr "Serverio rodomas pavadinimas"
 
-#: app/templates/admin/settings/media.html:11
-#: app/templates/setup/pages/settings.html:11
+#: app/views/settings/media.html:11 app/views/setup/pages/settings.html:11
 msgid "Server"
 msgstr "Serveris"
 
-#: app/templates/admin/settings/media.html:13
+#: app/views/settings/media.html:13
 msgid "Choose a server"
 msgstr "Pasirinkite serverį"
 
-#: app/templates/admin/settings/media.html:20
-#: app/templates/setup/pages/settings.html:20
-#: app/templates/wizard/pages/jellyfin/download.html:30
-msgid "Server URL"
-msgstr "Serverio nuoroda"
-
-#: app/templates/admin/settings/media.html:25
-#: app/templates/setup/pages/settings.html:25
-#, fuzzy
+#: app/views/settings/media.html:25 app/views/setup/pages/settings.html:25
 msgid "Server Token / API Key"
-msgstr ""
-"Serverio\n"
-"              Raktas"
+msgstr "Serverio prieigos raktas / API raktas"
 
-#: app/templates/admin/settings/media.html:30
-#: app/templates/modals/update-libraries.html:3
-#: app/templates/setup/pages/settings.html:37
-#, fuzzy
-msgid "Server Libraries"
-msgstr "Bibliotekos"
-
-#: app/templates/admin/settings/media.html:32
-#: app/templates/setup/pages/settings.html:39
+#: app/views/settings/media.html:32 app/views/setup/pages/settings.html:39
 msgid "Scan For Libraries"
 msgstr "Ieškoti bibliotekų"
 
-#: app/templates/admin/settings/notifications.html:18
-#, fuzzy
+#: app/views/settings/notifications.html:18
 msgid "Create Agent"
-msgstr "Sukurti paskyrą"
+msgstr "Sukurti agentą"
 
-#: app/templates/admin/settings/password.html:12
-#, fuzzy
+#: app/views/settings/oauth.html:16
+msgid "Add OAuth"
+msgstr "Pridėti OAuth"
+
+#: app/views/settings/password.html:12
 msgid "Confirm Password"
 msgstr "Patvirtinti slaptažodį"
 
-#: app/templates/admin/settings/password.html:19
-#, fuzzy
+#: app/views/settings/password.html:19
 msgid "Reset Password"
-msgstr "Slaptažodis"
+msgstr "Atstatyti slaptažodį"
 
-#: app/templates/admin/settings/profile.html:6
-#, fuzzy
+#: app/views/settings/profile.html:6
 msgid "Display Name"
-msgstr ""
-"Serverio Rodomasis\n"
-"              Pavadinimas"
+msgstr "Rodomas pavadinimas"
 
-#: app/templates/admin/settings/profile.html:18
+#: app/views/settings/profile.html:18
 msgid "Email Address"
 msgstr "Elektroninio pašto adresas"
 
-#: app/templates/admin/settings/profile.html:25
+#: app/views/settings/profile.html:25
 msgid "Update"
 msgstr "Atnaujinti"
 
-#: app/templates/admin/settings/requests.html:4
-#, fuzzy
+#: app/views/settings/requests.html:4
 msgid "Request Server"
-msgstr "Serveris"
+msgstr "Užklausos serveris"
 
-#: app/templates/admin/settings/requests.html:6
+#: app/views/settings/requests.html:6
 msgid "Disabled"
 msgstr "Išjungta"
 
-#: app/templates/admin/settings/requests.html:15
-#, fuzzy
+#: app/views/settings/requests.html:15
 msgid "Request Server URL"
-msgstr "Serverio nuoroda"
+msgstr "Prašyti serverio URL"
 
-#: app/templates/admin/settings/requests.html:20
+#: app/views/settings/requests.html:20
 msgid "Request Server API Key"
 msgstr "Prašyti serverio API rakto"
 
-#: app/templates/admin/settings/sessions.html:14
+#: app/views/settings/sessions.html:14
 msgid "Revoke All"
 msgstr "Atšaukti viską"
 
-#: app/templates/error/401.html:20
-msgid "Permission denied."
-msgstr "Leidimas nesuteiktas."
-
-#: app/templates/error/401.html:23
-msgid "You are attempting to do something you shouldn't be doing..."
-msgstr "Jūs bandote padaryti tai, ko neturėtumėte daryti..."
-
-#: app/templates/error/404.html:31
-msgid "Something's missing."
-msgstr "Kažko trūksta."
-
-#: app/templates/error/404.html:33
-msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "Atsiprašome, šio puslapio neradome. Panašu, jog jis neegzistuoja!"
-
-#: app/templates/error/500.html:19
-msgid "Internal Server Error."
-msgstr "Vidinė serverio klaida."
-
-#: app/templates/error/500.html:21
-msgid " Something has gone wrong. Please try again later."
-msgstr " Kažkas ne taip. Pabandykite dar kartą vėliau."
-
-#: app/templates/error/custom.html:20
-msgid "Get Help"
-msgstr "Gaukite pagalbos"
-
-#: app/templates/invite/invite-invalid.html:15
-#, fuzzy
-msgid "Invalid Invitation"
-msgstr "Kvietimai"
-
-#: app/templates/invite/join.html:10
-#, fuzzy, python-format
-msgid "Type in your invite code to %(name)s server!"
-msgstr "Jus pakvietė prisijungti į %(name)s serverį!"
-
-#: app/templates/invite/join.html:20
-#: app/templates/invite/signup/jellyfin.html:40
-#: app/templates/invite/signup/plex.html:25
-#: app/templates/tables/invite-table.html:6
-msgid "Invite Code"
-msgstr "Pakvietimo kodas"
-
-#: app/templates/invite/join.html:27 app/templates/invite/signup/plex.html:33
-msgid "Join"
-msgstr "Prisijungti"
-
-#: app/templates/invite/signup.html:7 app/templates/invite/signup.html:14
-#, python-format
-msgid "You've been invited to join the %(name)s server!"
-msgstr "Jus pakvietė prisijungti į %(name)s serverį!"
-
-#: app/templates/invite/signup/jellyfin.html:3
-msgid "Set up Account"
-msgstr "Sukurti paskyrą"
-
-#: app/templates/invite/signup/jellyfin.html:19
-#: app/templates/setup/pages/admin.html:11
-msgid "Email"
-msgstr "El. paštas"
-
-#: app/templates/invite/signup/jellyfin.html:33
-#: app/templates/setup/pages/admin.html:19
-msgid "Confirm password"
-msgstr "Patvirtinti slaptažodį"
-
-#: app/templates/invite/signup/jellyfin.html:45
-msgid "Create an account"
-msgstr "Sukurti paskyrą"
-
-#: app/templates/invite/signup/plex.html:3
-msgid "Join the Plex Server"
-msgstr "Prisijunkite prie Plex serverio"
-
-#: app/templates/invite/signup/plex.html:4
-#, fuzzy
-msgid "Sign in to Plex"
-msgstr "Prisijungti"
-
-#: app/templates/invite/signup/plex.html:5
-msgid "Please wait"
-msgstr "Prašau palauk"
-
-#: app/templates/invite/signup/plex.html:6
-#, fuzzy
-msgid "Setting up your account"
-msgstr "Sukurti paskyrą"
-
-#: app/templates/invite/signup/plex.html:7
-msgid "Almost there!"
-msgstr "Beveik ten!"
-
-#: app/templates/invite/signup/plex.html:8
-msgid "All done!"
-msgstr "Viskas padaryta!"
-
-#: app/templates/invite/signup/plex.html:9
-#, fuzzy
-msgid "Account created!"
-msgstr "Sukurta"
-
-#: app/templates/invite/signup/plex.html:10
-msgid "Please try again"
-msgstr "Prašau, pabandykite dar kartą"
-
-#: app/templates/invite/signup/plex.html:78
-msgid ""
-"You're all set, click continue to get started and walkthrough how to use "
-"Plex!"
-msgstr ""
-"Viskas paruošta, spustelėkite tęsti, kad pradėtumėte ir sužinotumėte, kaip "
-"naudoti „Plex“!"
-
-#: app/templates/invite/signup/plex.html:81
-msgid "Continue"
-msgstr "Tęsti"
-
-#: app/templates/invite/signup/plex.html:90
-#, fuzzy
-msgid "Something went wrong, please try again."
-msgstr " Kažkas ne taip. Pabandykite dar kartą vėliau."
-
-#: app/templates/invite/signup/plex.html:93
-msgid "Retry"
-msgstr "Bandykite dar kartą"
-
-#: app/templates/modals/create-api-key.html:9
-#: app/templates/modals/create-notification-agent.html:13
-msgid "Name"
-msgstr "Vardas"
-
-#: app/templates/modals/create-api-key.html:14
-#: app/templates/modals/create-notification-agent.html:46
-#: app/templates/modals/delete-api-key.html:13
-#: app/templates/modals/delete-notification-agent.html:13
-#: app/templates/modals/revoke-session.html:13
-#: app/templates/modals/run-task.html:13
-#: app/templates/modals/scan-libraries.html:19
-#: app/templates/modals/update-libraries.html:23
-msgid "Cancel"
-msgstr "Atšaukti"
-
-#: app/templates/modals/create-api-key.html:17
-#, fuzzy
-msgid "Create"
-msgstr "Sukurta"
-
-#: app/templates/modals/create-api-key.html:46
-msgid "Please fill out all required fields."
-msgstr "Prašome užpildyti visus privalomus laukus."
-
-#: app/templates/modals/create-api-key.html:70
-msgid "API key already exists."
-msgstr "API raktas jau yra."
-
-#: app/templates/modals/create-api-key.html:76
-#: app/templates/modals/delete-notification-agent.html:35
-msgid "You are not authorized to perform this action."
-msgstr "Jūs neturite teisės atlikti šio veiksmo."
-
-#: app/templates/modals/create-api-key.html:82
-#: app/templates/modals/run-task.html:35
-#, fuzzy
-msgid "Something went wrong."
-msgstr " Kažkas ne taip. Pabandykite dar kartą vėliau."
-
-#: app/templates/modals/create-api-key.html:86
-#, fuzzy
-msgid "API key created."
-msgstr "Sukurta"
-
-#: app/templates/modals/create-notification-agent.html:3
-msgid "New Agent"
-msgstr "Naujas agentas"
-
-#: app/templates/modals/create-notification-agent.html:18
-msgid "Notification Service"
-msgstr "Pranešimų tarnyba"
-
-#: app/templates/modals/create-notification-agent.html:20
-msgid "Choose a service"
-msgstr "Pasirinkite paslaugą"
-
-#: app/templates/modals/create-notification-agent.html:30
-#: app/templates/modals/create-notification-agent.html:88
-#, fuzzy
-msgid "Username (optional)"
-msgstr "(neprivaloma)"
-
-#: app/templates/modals/create-notification-agent.html:34
-#: app/templates/modals/create-notification-agent.html:93
-#, fuzzy
-msgid "Password (optional)"
-msgstr "(neprivaloma)"
-
-#: app/templates/modals/create-notification-agent.html:39
-#: app/templates/modals/create-notification-agent.html:98
-#: app/templates/modals/create-notification-agent.html:117
-#: app/templates/modals/create-notification-agent.html:136
-#: app/templates/modals/create-notification-agent.html:153
-msgid "Agent URL"
-msgstr "Agento URL"
-
-#: app/templates/modals/create-notification-agent.html:49
-msgid "Test & Create Agent"
-msgstr "Išbandykite ir sukurkite agentą"
-
-#: app/templates/modals/create-notification-agent.html:105
-msgid "Webhook ID"
-msgstr "Webhook ID"
-
-#: app/templates/modals/create-notification-agent.html:111
-msgid "Webhook Token"
-msgstr "„Webhook“ prieigos raktas"
-
-#: app/templates/modals/create-notification-agent.html:124
-#, fuzzy
-msgid "User Key"
-msgstr "Vartotojų politika"
-
-#: app/templates/modals/create-notification-agent.html:130
-msgid "API Token"
-msgstr "API prieigos raktas"
-
-#: app/templates/modals/create-notification-agent.html:242
-#: app/templates/modals/create-notification-agent.html:249
-#, fuzzy
-msgid "Something went wrong. Please try again."
-msgstr " Kažkas ne taip. Pabandykite dar kartą vėliau."
-
-#: app/templates/modals/create-notification-agent.html:253
-msgid "Notification agent successfully created!"
-msgstr "Pranešimų agentas sėkmingai sukurtas!"
-
-#: app/templates/modals/delete-api-key.html:3
-#: app/templates/modals/revoke-session.html:3
-msgid "Warning"
-msgstr "Įspėjimas"
-
-#: app/templates/modals/delete-api-key.html:8
-msgid "Are you sure you want to delete this api key?"
-msgstr "Ar tikrai norite ištrinti šį API raktą?"
-
-#: app/templates/modals/delete-api-key.html:16
-#: app/templates/modals/delete-notification-agent.html:16
-#: app/templates/modals/revoke-session.html:16
-#: app/templates/tables/admin-users.html:40
-#: app/templates/tables/global-users.html:59
-#: app/templates/tables/invite-table.html:100
-#: app/templates/tables/notification-table.html:36
-#, fuzzy
-msgid "Delete"
-msgstr "Numatyti"
-
-#: app/templates/modals/delete-notification-agent.html:41
-msgid "An error occurred while deleting the Notification Agent."
-msgstr "Ištrinant pranešimų agentą įvyko klaida."
-
-#: app/templates/modals/delete-notification-agent.html:45
-msgid "Notification Agent deleted successfully!"
-msgstr "Pranešimų agentas sėkmingai ištrintas!"
-
-#: app/templates/modals/revoke-session.html:8
-msgid "Are you sure you want to revoke this session?"
-msgstr "Ar tikrai norite atšaukti šią sesiją?"
-
-#: app/templates/modals/revoke-session.html:41
-#, fuzzy
-msgid "Something went wrong.Please try again."
-msgstr " Kažkas ne taip. Pabandykite dar kartą vėliau."
-
-#: app/templates/modals/revoke-session.html:46
-msgid "Session deleted successfully!"
-msgstr "Sesija sėkmingai ištrinta!"
-
-#: app/templates/modals/run-task.html:3 app/templates/modals/run-task.html:16
-msgid "Run Task"
-msgstr "Vykdykite užduotį"
-
-#: app/templates/modals/run-task.html:8
-msgid "Are you sure you want to run this task?"
-msgstr "Ar tikrai norite vykdyti šią užduotį?"
-
-#: app/templates/modals/run-task.html:39
-msgid "Task has been run."
-msgstr "Užduotis įvykdyta."
-
-#: app/templates/modals/update-libraries.html:26
-#, fuzzy
-msgid "Update Libraries"
-msgstr "Bibliotekos"
-
-#: app/templates/modals/update-libraries.html:88
-#, fuzzy
-msgid "Unable to update libraries"
-msgstr "Bibliotekos"
-
-#: app/templates/setup/base.html:12
+#: app/views/setup/base.html:12
 msgid "Setup Wizarr"
 msgstr "Sąrankos vedlys"
 
-#: app/templates/setup/pages/admin.html:2
-#, fuzzy
+#: app/views/setup/pages/admin.html:2
 msgid "Admin Account"
-msgstr "Sukurti paskyrą"
+msgstr "Administratoriaus paskyra"
 
-#: app/templates/setup/pages/admin.html:24
-#, fuzzy
+#: app/views/setup/pages/admin.html:24
 msgid "Create account"
 msgstr "Sukurti paskyrą"
 
-#: app/templates/setup/pages/complete.html:2
+#: app/views/setup/pages/complete.html:2
 msgid "Your Done"
 msgstr "Jūsų atlikta"
 
-#: app/templates/setup/pages/complete.html:5
+#: app/views/setup/pages/complete.html:5
 msgid "You have successfully completed the setup process."
 msgstr "Sėkmingai baigėte sąrankos procesą."
 
-#: app/templates/setup/pages/complete.html:9
+#: app/views/setup/pages/complete.html:9
 msgid "Go to Dashboard"
 msgstr "Pereiti prie prietaisų skydelio"
 
-#: app/templates/setup/pages/database.html:2
+#: app/views/setup/pages/database.html:2
 msgid "Database"
 msgstr "Duomenų bazė"
 
-#: app/templates/setup/pages/database.html:5
+#: app/views/setup/pages/database.html:5
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr "Šiuo metu Wizarr palaiko tik savo vidinę SQLite duomenų bazę."
 
-#: app/templates/setup/pages/database.html:7
+#: app/views/setup/pages/database.html:7
 msgid ""
 "This is a temporary and we are working on adding support for other "
 "databases."
 msgstr "Tai laikina ir mes stengiamės pridėti kitų duomenų bazių palaikymą."
 
-#: app/templates/setup/pages/settings.html:2
-#: app/templates/templates/menu.html:34
-msgid "Settings"
-msgstr "Nustatymai"
-
-#: app/templates/setup/pages/settings.html:31
+#: app/views/setup/pages/settings.html:31
 msgid "Test"
 msgstr "Testas"
 
-#: app/templates/setup/pages/settings.html:45
+#: app/views/setup/pages/settings.html:45
 msgid "Done"
 msgstr "padaryta"
 
-#: app/templates/setup/pages/welcome.html:5
+#: app/views/setup/pages/welcome.html:5
 msgid ""
 "Wizarr is an automatic user invitation system for Plex, Jellyfin, and Emby. "
 "With Wizarr, you can easily create unique invitation links to share with "
@@ -1068,7 +1313,7 @@ msgstr ""
 "gaires ir „Jellyseerr“, „Overseerr“ ar „Ombi“ svetainių naudojimo "
 "instrukcijas."
 
-#: app/templates/setup/pages/welcome.html:8
+#: app/views/setup/pages/welcome.html:8
 msgid ""
 "We hope you enjoy using Wizarr and invite you to explore its powerful "
 "features and intuitive interface. Should you need any assistance, please "
@@ -1078,7 +1323,7 @@ msgstr ""
 "funkcijas bei intuityvią sąsają. Jei jums reikia pagalbos, peržiūrėkite mūsų"
 " dokumentus arba susisiekite su mūsų bendruomene."
 
-#: app/templates/setup/pages/welcome.html:11
+#: app/views/setup/pages/welcome.html:11
 msgid ""
 "Check out our documentation for detailed instructions on how to install and "
 "run Wizarr!"
@@ -1086,829 +1331,57 @@ msgstr ""
 "Išsamias instrukcijas, kaip įdiegti ir paleisti „Wizarr“, rasite mūsų "
 "dokumentuose!"
 
-#: app/templates/tables/admin-users.html:37
-#: app/templates/tables/global-users.html:56
-#: app/templates/tables/invite-table.html:97
-#: app/templates/tables/notification-table.html:33
+#: app/views/tables/admin-users.html:37 app/views/tables/global-users.html:56
+#: app/views/tables/invite-table.html:97
+#: app/views/tables/notification-table.html:33
+#: app/views/tables/oauth-table.html:33
 msgid "Edit"
 msgstr "Redaguoti"
 
-#: app/templates/tables/invite-table.html:7
+#: app/views/tables/invite-table.html:7
 msgid "Used"
-msgstr "Panaudota"
+msgstr "Naudota"
 
-#: app/templates/tables/invite-table.html:8
+#: app/views/tables/invite-table.html:8
 msgid "Expired"
-msgstr "Pasibaigęs galiojimo laikas"
+msgstr "Baigėsi galiojimo laikas"
 
-#: app/templates/tables/invite-table.html:9
+#: app/views/tables/invite-table.html:9
 msgid "Libraries"
-msgstr "Bibliotekos"
+msgstr "bibliotekos"
 
-#: app/templates/tables/invite-table.html:15
+#: app/views/tables/invite-table.html:15
 msgid "Created"
 msgstr "Sukurta"
 
-#: app/templates/tables/invite-table.html:115
-#, fuzzy
+#: app/views/tables/invite-table.html:115
 msgid "No Invitations"
-msgstr "Kvietimai"
+msgstr "Nėra kvietimų"
 
-#: app/templates/tables/invite-table.html:118
-#, fuzzy
+#: app/views/tables/invite-table.html:118
 msgid "You have not created any invitations yet."
-msgstr "Sukurti kvietimą"
+msgstr "Dar nesukūrėte jokių kvietimų."
 
-#: app/templates/tables/sessions-table.html:27
+#: app/views/tables/mfa-table.html:4
+msgid "Your Passkeys"
+msgstr "Jūsų slaptažodžiai"
+
+#: app/views/tables/mfa-table.html:7 app/views/tables/mfa-table.html:48
+msgid "Add a passkey"
+msgstr "Pridėkite prieigos raktą"
+
+#: app/views/tables/sessions-table.html:27
 msgid "Revoke"
 msgstr "Atšaukti"
 
-#: app/templates/tables/task-table.html:7
-#, fuzzy
+#: app/views/tables/task-table.html:7
 msgid "Job Name"
-msgstr "Vardas"
+msgstr "Darbo pavadinimas"
 
-#: app/templates/tables/task-table.html:8
+#: app/views/tables/task-table.html:8
 msgid "Next Execution"
 msgstr "Kitas vykdymas"
 
-#: app/templates/tables/task-table.html:40
+#: app/views/tables/task-table.html:40
 msgid "Run Now"
 msgstr "Paleisti dabar"
-
-#: app/templates/templates/menu.html:28
-msgid "Users"
-msgstr "Vartotojai"
-
-#: app/templates/templates/update.html:13
-msgid "Attention!"
-msgstr "Dėmesio!"
-
-#: app/templates/templates/update.html:14
-msgid "Update available. Click here."
-msgstr "Galimas atnaujinimas. Paspauskite čia."
-
-#: app/templates/wizard/base.html:4
-msgid "Help"
-msgstr "Pagalba"
-
-#: app/templates/wizard/base.html:12
-msgid "Getting Started!"
-msgstr "Darbo pradžia!"
-
-#: app/templates/wizard/base.html:38
-msgid "Next"
-msgstr "Kitas"
-
-#: app/templates/wizard/base.html:45
-#, fuzzy
-msgid "Open"
-msgstr "Atidaryti \"Plex\""
-
-#: app/templates/wizard/pages/requests.html:4
-msgid "Automatic Media Requests"
-msgstr "Automatinės medijos užklausos"
-
-#: app/templates/wizard/pages/requests.html:9
-#, fuzzy
-msgid ""
-"We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
-"        something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
-"        media you're looking for. "
-msgstr ""
-"Džiaugiamės galėdami jums pasiūlyti platų medijos pasirinkimą. Jei jums sunku rasti tai,\n"
-"    kas jums patinka, nesijaudinkite! Turime patogią užklausų sistemą\n"
-"     kuri gali automatiškai ieškoti jūsų ieškomos medijos. "
-
-#: app/templates/wizard/pages/requests.html:20
-msgid "Request any available Movie or TV Show"
-msgstr "Prašykite bet kurio galimo filmo ar TV laidos"
-
-#: app/templates/wizard/pages/requests.html:27
-#, fuzzy
-msgid "Requested media will be automatically downloaded (if available)"
-msgstr ""
-"Prašoma medija bus automatiškai atsisiųsta ir pridėta prie bibliotekos "
-"(jeigu yra)"
-
-#: app/templates/wizard/pages/requests.html:34
-msgid "If enabled, receive notifications"
-msgstr "Jeigu įgalinta, gaukite pranešimus"
-
-#: app/templates/wizard/pages/requests.html:40
-msgid "Check it Out"
-msgstr "Pasižiūrėk"
-
-#: app/templates/wizard/pages/jellyfin/download.html:2
-#, fuzzy
-msgid ""
-"Join & Download Jellyfin\n"
-"        for this device"
-msgstr ""
-"Prisijunkite ir atsisiųskite „Jellyfin“\n"
-"             šiam įrengininiui"
-
-#: app/templates/wizard/pages/jellyfin/download.html:7
-#, fuzzy
-msgid ""
-"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
-"    it with Jellyfin."
-msgstr ""
-"Puiki naujiena! Dabar turite prieigą prie mūsų serverio medijos kolekcijos. Įsitikinkime, kad žinote, kaip jį naudoti\n"
-"        su „Jellyfin“."
-
-#: app/templates/wizard/pages/jellyfin/download.html:11
-msgid ""
-"Planning on watching Movies on this device? Download Jellyfin for this "
-"device."
-msgstr ""
-"Planuojate žiūrėti filmus šiuo įrenginiu? Atsisiųskite „Jellyfin“ šiam "
-"įrenginiui."
-
-#: app/templates/wizard/pages/jellyfin/download.html:19
-msgid ""
-"If you don't wish to Download the App feel free to use Jellyfin in your "
-"devices web browser, just click \"Next\"."
-msgstr ""
-"Jei nenorite atsisiųsti programos, nedvejodami naudokite Jellyfin savo "
-"įrenginio žiniatinklio naršyklėje, tiesiog spustelėkite „Kitas“."
-
-#: app/templates/wizard/pages/jellyfin/download.html:25
-#, fuzzy
-msgid "Show Server URL"
-msgstr "Serverio nuoroda"
-
-#: app/templates/wizard/pages/jellyfin/download.html:34
-#: app/templates/wizard/pages/jellyfin/download.html:191
-msgid "Copy"
-msgstr "Kopijuoti"
-
-#: app/templates/wizard/pages/jellyfin/download.html:59
-#: app/templates/wizard/pages/jellyfin/download.html:83
-msgid "Open Jellyfin"
-msgstr "Atidaryti \"Jellyfin\""
-
-#: app/templates/wizard/pages/jellyfin/download.html:139
-#, fuzzy
-msgid "Other Download"
-msgstr "Parsisiųsti"
-
-#: app/templates/wizard/pages/jellyfin/download.html:188
-msgid "Copied!"
-msgstr "Nukopijuota!"
-
-#: app/templates/wizard/pages/jellyfin/tips.html:3
-#: app/templates/wizard/pages/plex/tips.html:3
-msgid "Right, so how do I watch stuff?"
-msgstr "Supratau, tai kaip man pradėti žiūrėti dalykus?"
-
-#: app/templates/wizard/pages/jellyfin/tips.html:6
-#, fuzzy
-msgid ""
-"It couldn't be simpler! Jellyfin is available on a wide variety of devices "
-"including laptops, tablets, smartphones, and TVs. All you need to do is "
-"download the Jellyfin app on your device, sign in with your account, and "
-"you're ready to start streaming your media."
-msgstr ""
-"Tai negali būti paprasčiau! „Jellyfin“ galima naudoti įvairiuose įrenginiuose, įskaitant nešiojamuosius kompiuterius, planšetinius kompiuterius,\n"
-"    išmaniuosius telefonus ir televizorius. Viskas, ką jums reikia padaryti, tai atsisiųsti „Jellyfin“ programą į savo įrenginį, prisijungti naudodami savo paskyrą \n"
-"        ir\n"
-"    būsite pasiruošę pradėti transliuoti mediją. Tai taip paprasta!"
-
-#: app/templates/wizard/pages/jellyfin/tips.html:9
-msgid "It's that easy!"
-msgstr "Tai taip paprasta!"
-
-#: app/templates/wizard/pages/jellyfin/welcome.html:3
-msgid "Eh, So, What is Jellyfin exactly?"
-msgstr "Taigi, kas tiksliai yra „Jellyfin“??"
-
-#: app/templates/wizard/pages/jellyfin/welcome.html:6
-#, fuzzy
-msgid ""
-"Jellyfin is a platform that lets you stream all your favorite movies, TV "
-"shows, and music in one place. It's like having your own personal movie "
-"theater right at your fingertips! Think of it as a digital library of your "
-"favorite content that you can access from anywhere, on any device - your "
-"phone, tablet, laptop, smart TV, you name it."
-msgstr ""
-"Jellyfin yra platforma, leidžianti vienoje vietoje transliuoti visus mėgstamus filmus, TV laidas ir muziką.\n"
-"        Tai tarsi po ranka turėti savo asmeninį kino teatrą! Pagalvokite apie tai kaip apie skaitmeninę biblioteką\n"
-"        mėgstamam turiniui, kurį galite pasiekti iš bet kur ir bet kuriame įrenginyje – telefone, planšetiniame kompiuteryje, nešiojamajame kompiuteryje, išmaniajame televizoriuje,\n"
-"        ar kitur."
-
-#: app/templates/wizard/pages/plex/download.html:4
-#, fuzzy
-msgid "Join & Download Plex for this device"
-msgstr ""
-"Prisijunkite ir atsisiųskite „Plex“\n"
-"             šiam įrengininiui"
-
-#: app/templates/wizard/pages/plex/download.html:8
-#, fuzzy
-msgid ""
-"So you now have access to our server's media collection. Let's make sure you"
-" know how to use it with Plex."
-msgstr ""
-"Puiki naujiena! Dabar turite prieigą prie mūsų serverio medijos kolekcijos. Įsitikinkime, kad žinote, kaip jį naudoti\n"
-"        su „Plex“."
-
-#: app/templates/wizard/pages/plex/download.html:11
-msgid ""
-"Planning on watching Movies on this device? Download Plex for this device."
-msgstr ""
-"Planuojate žiūrėti filmus šiuo įrenginiu? Atsisiųskite „Plex“ šiam "
-"įrenginiui."
-
-#: app/templates/wizard/pages/plex/download.html:14
-msgid "Download"
-msgstr "Parsisiųsti"
-
-#: app/templates/wizard/pages/plex/tips.html:6
-#, fuzzy
-msgid ""
-"It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
-"        smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
-"        you're ready to start streaming your media. It's that easy!"
-msgstr ""
-"Tai negali būti paprasčiau! „Plex“ galima naudoti įvairiuose įrenginiuose, įskaitant nešiojamuosius kompiuterius, planšetinius kompiuterius,\n"
-"    išmaniuosius telefonus ir televizorius. Viskas, ką jums reikia padaryti, tai atsisiųsti „Plex“ programą į savo įrenginį, prisijungti naudodami savo paskyrą ir\n"
-"    būsite pasiruošę pradėti transliuoti mediją. Tai taip paprasta!"
-
-#: app/templates/wizard/pages/plex/tips.html:11
-msgid "How can I make sure to have the best experience?"
-msgstr "Kaip galiu užtikrinti, kad mano patirtis būtų geriausia?"
-
-#: app/templates/wizard/pages/plex/tips.html:14
-#, fuzzy
-msgid ""
-"Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
-"        sharing with you - they also, by default, play content at a lower quality. "
-msgstr ""
-"Kadangi „Plex“ yra nemokama paslauga, pirmiausia yra rodomas jų siūlomas turinys prieš jųsų draugo \n"
-"    bendrinamą turinį su jumis - taip pat, pagal nutylėjimą turinį leidžiamas žemense kokybe. "
-
-#: app/templates/wizard/pages/plex/tips.html:17
-msgid "No need to worry though, this can be easily resolved"
-msgstr "Tačiau nereikia jaudintis, tai galima lengvai išspręsti"
-
-#: app/templates/wizard/pages/plex/tips.html:17
-#, fuzzy
-msgid ""
-"We highly\n"
-"            recommend you to go through those steps first!"
-msgstr ""
-"Mes labai\n"
-"      rekomenduojame pirmiausia atlikti šiuos veiksmus!"
-
-#: app/templates/wizard/pages/plex/welcome.html:3
-msgid "Eh, So, What is Plex exactly?"
-msgstr "Taigi, kas tiksliai yra „Plex“??"
-
-#: app/templates/wizard/pages/plex/welcome.html:6
-#, fuzzy
-msgid ""
-"Great question! Plex is a software that allows individuals to share their "
-"media collections with others. If you've received this invitation, it means "
-"someone wants to share their library with you."
-msgstr ""
-"Puikus klausimas! „Plex“ yra programinė įranga, leidžianti asmenims dalytis savo medijos kolekcijomis su kitais. Jei\n"
-"    gavote kvietimą, tai reiškia, kad kažkas nori su jumis dalintis savo biblioteka. Naudodami „Plex“ turėsite\n"
-"    prieigą prie visų filmų, TV laidų, muzikos ir nuotraukų, saugomų jų serveryje. Mėgaukitės!"
-
-#: app/templates/wizard/pages/plex/welcome.html:9
-msgid ""
-"With Plex, you'll have access to all of the movies, TV shows, music, and "
-"photos that are stored on their server!"
-msgstr ""
-"Naudodami „Plex“ turėsite prieigą prie visų filmų, TV laidų, muzikos ir "
-"nuotraukų, saugomų jų serveryje!"
-
-#: app/templates/wizard/pages/plex/welcome.html:12
-msgid "So let's see how to get started!"
-msgstr "Taigi pažiūrėkime, kaip pradėti!"
-
-#~ msgid "That email does not match any Plex account. Please try again."
-#~ msgstr ""
-#~ "Šis el. pašto adresas neatitinka jokios „Plex“ paskyros. Pabandykite dar "
-#~ "kartą."
-
-#~ msgid "This user is already invited to this server."
-#~ msgstr "Šis vartotojas jau pakviestas į šį serverį."
-
-#~ msgid "The email entered appears to be invalid."
-#~ msgstr "Įvestas el. pašto adresas neteisingas."
-
-#~ msgid "Something went wrong. Please try again or contact an administrator."
-#~ msgstr ""
-#~ "Kažkas nutiko. Bandykite dar kartą arba susisiekite su administratoriumi."
-
-#~ msgid "I've logged in but I am overwhelmed with content!"
-#~ msgstr "Aš prisijungiau, bet esu priblokštas turinio!"
-
-#~ msgid ""
-#~ "While Plex is a free service, they do have to generate revenue in order to "
-#~ "continue providing the platform. One way they do this is by displaying their"
-#~ " own content before the content of the server you are joining."
-#~ msgstr ""
-#~ "Nors „Plex“ yra nemokama paslauga, jie turi uždirbti pajamų, kad galėtų "
-#~ "toliau teikti platformą. Vienas iš būdų kaip tai daroma – rodyti savo turinį"
-#~ " prieš serverio, prie kurio prisijungiate, turinį."
-
-#~ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
-#~ msgstr "Kairėje ekrano pusėje matysite meniu. Spustelėkite ant "
-
-#~ msgid "More"
-#~ msgstr "Daugiau"
-
-#~ msgid "button to reveal all the different types of media you have access to."
-#~ msgstr ""
-#~ "mygtuko, kad atskleistumėte visus skirtingus medijos tipus, prie kurių "
-#~ "turite prieigą."
-
-#~ msgid ""
-#~ "To avoid seeing Plex's content first, we recommend hiding it. To do this, "
-#~ "select all the content types you don't want (such as 'Movies and TV on "
-#~ "Plex') and 'Unpin' them from your home screen. This way you'll only see the "
-#~ "content that you really want to watch!"
-#~ msgstr ""
-#~ "Norint išvengti \"Plex“ turinio, rekomenduojame jį paslėpti. Norėdami tai "
-#~ "padaryti, pasirinkite visus turinio tipus, kurių nenorite (pvz., „Filmai ir "
-#~ "TV naudojant Plex“) ir „Atsegti“ juos nuo pagrindinio ekrano. Taip matysite "
-#~ "tik tą turinį, kurį tikrai norite žiūrėti!"
-
-#~ msgid "Now that everything we"
-#~ msgstr "Dabar viskas, ko mes"
-
-#~ msgid "don't"
-#~ msgstr "nebe"
-
-#~ msgid "want is out of the way, we can focus on the things we "
-#~ msgstr "norime, galime sutelkti dėmesį į tai "
-
-#~ msgid "do"
-#~ msgstr "ko"
-
-#~ msgid " want!"
-#~ msgstr " norime!"
-
-#~ msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
-#~ msgstr "Tiesiog prisekite Filmai / TV laidų skyrius iš %(name)s!"
-
-#~ msgid ""
-#~ "By default, Plex plays all content at a lower quality. This can be a bit of "
-#~ "a disappointment. But don't worry, it's a simple fix! You can easily change "
-#~ "the settings to increase the quality of the media that you're streaming."
-#~ msgstr ""
-#~ "Pagal numatytuosius nustatymus „Plex“ atkuria visą turinį žemesne kokybe. "
-#~ "Tai gali šiek tiek nuvilti. Bet nesijaudinkite, tai galima nesunkiai "
-#~ "pataisyti! Galite lengvai pakeisti nustatymus, kad pagerintumėte srautu "
-#~ "perduodamos medijos kokybę."
-
-#~ msgid "Go to the Plex "
-#~ msgstr "Pereiti į \"Plex\" "
-
-#~ msgid "Settings "
-#~ msgstr "Nustatymų "
-
-#~ msgid ""
-#~ "page. This is usually in the top right hand corner, depending on the device "
-#~ "you are on."
-#~ msgstr ""
-#~ "langą. Tai įpaprastai randasi viršutiniame dešiniajame kampe, atsižvelgiant "
-#~ "į įrenginį, kurį naudojate."
-
-#~ msgid "Go to the "
-#~ msgstr "Eikite į "
-
-#~ msgid "Quality"
-#~ msgstr "Kokybės"
-
-#~ msgid "or"
-#~ msgstr "arba"
-
-#~ msgid "Video"
-#~ msgstr "Vaizdo"
-
-#~ msgid "settings."
-#~ msgstr "nustatymus."
-
-#~ msgid "Set the "
-#~ msgstr "Nustatykite "
-
-#~ msgid "Remote/Internet Streaming"
-#~ msgstr "\"Išorinis srautas\""
-
-#~ msgid "to "
-#~ msgstr "į "
-
-#~ msgid "Maximum/Original"
-#~ msgstr "Maximum/Originalus"
-
-#~ msgid "Local Streaming "
-#~ msgstr "Vietinis Srautas "
-
-#~ msgid ""
-#~ "And there you have it! In case you encounter buffering issues, remember that"
-#~ " you can always adjust the playback quality just like you do in YouTube. "
-#~ "This way you can get the best streaming experience possible."
-#~ msgstr ""
-#~ "Štai ir viskas! Jei susidursite su vaizdo strigimo problemomis, atminkite, "
-#~ "kad visada galite koreguoti atkūrimo kokybę taip, kaip tai darote pvz. "
-#~ "„YouTube“. Tokiu būdu galite gauti geriausią įmanomą srautinio perdavimo "
-#~ "patirtį."
-
-#~ msgid ""
-#~ "Because Plex is a free service, they promote their own content before the "
-#~ "awesome content your friend is now sharing with you - they also, by default,"
-#~ " play content at a lower quality. "
-#~ msgstr ""
-#~ "Kadangi „Plex“ yra nemokama paslauga, jie reklamuoja savo turinį prieš "
-#~ "nuostabų turinį, kurį dabar su jumis dalijasi jūsų draugas – jie taip pat "
-#~ "pagal numatytuosius nustatymus leidžia prastesnės kokybės turinį."
-
-#~ msgid "We highly recommend you to go through those steps first!"
-#~ msgstr "Labai rekomenduojame pirmiausia atlikti šiuos veiksmus!"
-
-#~ msgid "Join our Discord Server"
-#~ msgstr "Prisijunkite prie mūsų „Discord“ serverio"
-
-#~ msgid "How to Use Plex?"
-#~ msgstr "Kaip naudotis \"Plex\"?"
-
-#~ msgid "Requesting Media"
-#~ msgstr "Medijos failų užklausa"
-
-#~ msgid "Join & Download Plex for this device"
-#~ msgstr "Prisijunkite ir atsisiųskite šiam įrengininiui „Plex“"
-
-#~ msgid ""
-#~ "Great news! You now have access to our server's media collection. Let's make"
-#~ " sure you know how to use it with Plex."
-#~ msgstr ""
-#~ "Puiki naujiena! Dabar turite prieigą prie mūsų serverio medijos kolekcijos. "
-#~ "Įsitikinkime, kad žinote, kaip jį naudoti su „Plex“."
-
-#~ msgid "Skip"
-#~ msgstr "Praleisti"
-
-#~ msgid ""
-#~ "Congratulations on joining %(name)s! You're now one step closer to enjoying all kinds of amazing\n"
-#~ "        content."
-#~ msgstr ""
-#~ "Sveikiname priėmus kvietimą el. paštu iš Plex! Dabar esate vienu žingsniu "
-#~ "arčiau, kad galėtumėte mėgautis visu nuostabiu turiniu mūsų serveryje. "
-
-#~ msgid ""
-#~ "Great question! Plex is a software that allows individuals to share their media collections with others. If\n"
-#~ "      you've received this invitation, it means someone wants to share their library with you. With Plex, you'll have\n"
-#~ "      access to all of the movies, TV shows, music, and photos that are stored on their server. Enjoy!"
-#~ msgstr ""
-#~ "Puikus klausimas! „Plex“ yra programinė įranga, leidžianti asmenims dalytis "
-#~ "savo medijos kolekcijomis su kitais. Jei gavote kvietimą, tai reiškia, kad "
-#~ "kažkas nori su jumis dalintis savo biblioteka. Naudodami „Plex“ turėsite "
-#~ "prieigą prie visų filmų, TV laidų, muzikos ir nuotraukų, saugomų jų "
-#~ "serveryje. Mėgaukitės!"
-
-#~ msgid ""
-#~ "It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
-#~ "      smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
-#~ "      you're ready to start streaming your media. It's that easy!"
-#~ msgstr ""
-#~ "Tai negali būti paprasčiau! „Plex“ galima naudoti įvairiuose įrenginiuose, "
-#~ "įskaitant nešiojamuosius kompiuterius, planšetinius kompiuterius, "
-#~ "išmaniuosius telefonus ir televizorius. Viskas, ką jums reikia padaryti, tai"
-#~ " atsisiųsti „Plex“ programą į savo įrenginį, prisijungti naudodami savo "
-#~ "paskyrą ir būsite pasiruošę pradėti transliuoti mediją. Tai taip paprasta!"
-
-#~ msgid ""
-#~ "Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
-#~ "      sharing with you - they also, by default, play content at a lower quality. "
-#~ msgstr ""
-#~ "Kadangi „Plex“ yra nemokama paslauga, jie reklamuoja savo turinį anksčiau nei nuostabus turinys, kuriuo dabar yra jūsų draugas\n"
-#~ "      bendrinti su jumis – pagal numatytuosius nustatymus jie taip pat leidžia prastesnės kokybės turinį."
-
-#~ msgid ""
-#~ "We highly\n"
-#~ "        recommend you to go through those steps first!"
-#~ msgstr ""
-#~ "Mes labai\n"
-#~ "        rekomenduojame pirmiausia atlikti šiuos veiksmus!"
-
-#~ msgid "You've been invited to join %(name)s!"
-#~ msgstr "Jus pakvietė prisijungti %(name)s!"
-
-#~ msgid ""
-#~ "To join our Plex server, create a Plex account! Once you're done, come back "
-#~ "here!"
-#~ msgstr ""
-#~ "Norėdami prisijungti prie mūsų Plex serverio, susikurkite Plex paskyrą! Kai "
-#~ "baigsite, grįžkite čia!"
-
-#~ msgid "Create Plex Account"
-#~ msgstr "Sukurti„Plex“ paskyrą"
-
-#~ msgid "I have a Plex Account"
-#~ msgstr "Jau turiu \"Plex\" paskyrą"
-
-#~ msgid "Used At"
-#~ msgstr "Naudojami"
-
-#~ msgid "Copy"
-#~ msgstr "Kopijuoti"
-
-#~ msgid "Delete"
-#~ msgstr "Ištrinti"
-
-#~ msgid "Accept Invitation"
-#~ msgstr "Priimti pakvietimą"
-
-#~ msgid "Accept our invitation"
-#~ msgstr "Priimkite mūsų kvietimą"
-
-#~ msgid "We have sent an invitation to your Plex Account! Almost there!"
-#~ msgstr "Išsiuntėme kvietimą į jūsų Plex paskyrą! Pabaiga jau netoli!"
-
-#~ msgid ""
-#~ "Click the button below to be taken to Plex, here you will see an invitation "
-#~ "from us."
-#~ msgstr ""
-#~ "Spustelėkite žemiau esantį mygtuką, kad patektumėte į Plex, čia pamatysite "
-#~ "mūsų kvietimą."
-
-#~ msgid "Accept"
-#~ msgstr "Priimti"
-
-#~ msgid "Next"
-#~ msgstr "Kitas"
-
-#~ msgid "Great! Now, let's get you invited!"
-#~ msgstr "Puiku! Dabar pakvieskime jus!"
-
-#~ msgid "Your Plex email"
-#~ msgstr "Jūsų „Plex“ el. paštas"
-
-#~ msgid "Don't have a Plex account, yet?"
-#~ msgstr "Dar neturite Plex paskyros?"
-
-#~ msgid "Get one here."
-#~ msgstr "Gaukite vieną čia."
-
-#~ msgid "Plex URL"
-#~ msgstr "Plex nuoroda"
-
-#~ msgid "Plex Display Name"
-#~ msgstr "Plex rodomas pavadinimas"
-
-#~ msgid "Plex Token"
-#~ msgstr "Plex prieigos raktas"
-
-#~ msgid "Request instance (Ombi, Overseerr...)"
-#~ msgstr "Prašymų serveris (Ombi, Overseerr...)"
-
-#~ msgid "Discord Server ID"
-#~ msgstr "„Discord“ serverio ID"
-
-#~ msgid ""
-#~ "Environment Variables are being\n"
-#~ "                    deprecated and replaced by a secure sign-up. Please visit \n"
-#~ "\n"
-#~ msgstr ""
-#~ "Aplinks kintamieji nebenaudojami ir yra keičiami saugia registracija. "
-#~ "Prašome apsilankyti "
-
-#~ msgid ""
-#~ "/settings.\n"
-#~ "                        See Repo for more info"
-#~ msgstr "/settings. Daugiau informacijos rasite „Repo“"
-
-#~ msgid "Plex Requests"
-#~ msgstr "„Plex“ užklausos"
-
-#~ msgid ""
-#~ "Server Display\n"
-#~ "              Name"
-#~ msgstr ""
-#~ "Serverio Rodomasis\n"
-#~ "              Pavadinimas"
-
-#~ msgid ""
-#~ "Server\n"
-#~ "              URL"
-#~ msgstr ""
-#~ "Serverio\n"
-#~ "              Nuoroda"
-
-#~ msgid ""
-#~ "Server\n"
-#~ "              Token / API Key"
-#~ msgstr ""
-#~ "Serverio\n"
-#~ "              Raktas"
-
-#~ msgid "Server Libraries"
-#~ msgstr "Serverio bibliotekos"
-
-#~ msgid ""
-#~ "Request\n"
-#~ "              instance (Ombi, Overseerr...)"
-#~ msgstr ""
-#~ "Prašymų \n"
-#~ "              serveris (Ombi, Overseerr...)"
-
-#~ msgid ""
-#~ "Discord\n"
-#~ "              Server ID"
-#~ msgstr ""
-#~ "Discord\n"
-#~ "                Serverio ID"
-
-#~ msgid "Verify and Confirm"
-#~ msgstr "Patikrinti ir patvirtinti"
-
-#~ msgid "Great!"
-#~ msgstr "Puiku!"
-
-#~ msgid "Change Server Settings"
-#~ msgstr "Pakeiskite serverio nustatymus"
-
-#~ msgid "Invite Used"
-#~ msgstr "Pakvietimas panaudotas"
-
-#~ msgid "User"
-#~ msgstr "Vartotojas"
-
-#~ msgid "Home User"
-#~ msgstr "Namų vartotojas"
-
-#~ msgid ""
-#~ "Server\n"
-#~ "                Libraries"
-#~ msgstr ""
-#~ "Serverio\n"
-#~ "              Bibliotekos"
-
-#~ msgid ""
-#~ "Request\n"
-#~ "                instance (Ombi, Overseerr...) URL"
-#~ msgstr ""
-#~ "Prašymų \n"
-#~ "              serveris (Ombi, Overseerr...)"
-
-#~ msgid "Ombi API Key (Only used for user import currently.)"
-#~ msgstr "Ombi Prieigos raktas (kolkas naudojamas tik vartotojų importui.)"
-
-#~ msgid ""
-#~ "Custom\n"
-#~ "                HTML"
-#~ msgstr ""
-#~ "Parinktinis\n"
-#~ "              HTML"
-
-#~ msgid "Notification Agents"
-#~ msgstr "Pranešimų agentai"
-
-#~ msgid ""
-#~ "Username\n"
-#~ "                                (optional)"
-#~ msgstr ""
-#~ "Pakvietimo\n"
-#~ "                                Kodas"
-
-#~ msgid ""
-#~ "Agent\n"
-#~ "                                URL"
-#~ msgstr ""
-#~ "Pakvietimo\n"
-#~ "                                Kodas"
-
-#~ msgid "Expires"
-#~ msgstr "Baigia galioti"
-
-#~ msgid "Actions"
-#~ msgstr "Veiksmai"
-
-#~ msgid "Available"
-#~ msgstr "Prieinami"
-
-#~ msgid "Default"
-#~ msgstr "Numatyti"
-
-#~ msgid "Passwords do not match."
-#~ msgstr "Slaptažodžiai nesutampa."
-
-#~ msgid "Username must be between 3 and 15 characters."
-#~ msgstr "Slapyvardis turi buti tarp 3 ir 15 simbolių."
-
-#~ msgid "Password must be between 3 and 40 characters."
-#~ msgstr "Slaptažodis turi buti tarp 3 ir 40 simbolių."
-
-#~ msgid "You must select at least one library."
-#~ msgstr "Turite pasirinkti bent vieną biblioteką."
-
-#~ msgid "It is likely that your token does not work."
-#~ msgstr "Tikėtina, kad jūsų prieigos raktas neveikiantis."
-
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
-#~ msgstr ""
-#~ "Nepavyko prisijungti prie jūsų „Plex“ serverio. Daugiau informacijos rasite "
-#~ "žurnalo duomenyse."
-
-#~ msgid "Unable to connect to your Jellyfin server."
-#~ msgstr "Nepavyko prisijungti prie jūsų „Jellyfin“ serverio."
-
-#~ msgid "Invalid Username or Password"
-#~ msgstr "Neteisingas Prisijungimo vardas arba Slaptažodis"
-
-#~ msgid "Oops!"
-#~ msgstr "Oi!"
-
-#~ msgid ""
-#~ "Confirm\n"
-#~ "                                password"
-#~ msgstr ""
-#~ "Patvirtinkite\n"
-#~ "                                slaptažodį"
-
-#~ msgid ""
-#~ "Invite\n"
-#~ "                                Code"
-#~ msgstr ""
-#~ "Pakvietimo\n"
-#~ "                                Kodas"
-
-#~ msgid "(in days)"
-#~ msgstr "(dienomis)"
-
-#~ msgid ""
-#~ "Specific\n"
-#~ "                                Libraries"
-#~ msgstr ""
-#~ "Konkrečios\n"
-#~ "              Bibliotekos"
-
-#~ msgid "Custom HTML"
-#~ msgstr "Pasirinktinis HTML"
-
-#~ msgid "Hello"
-#~ msgstr "Sveiki"
-
-#~ msgid "Logged in successfully"
-#~ msgstr "Sėkmingai prisijungė"
-
-#~ msgid "Unauthorized attempted access"
-#~ msgstr "Neteisėtas bandymas prieiti"
-
-#~ msgid "Could not find the requested page"
-#~ msgstr "Nepavyko rasti pageidaujamo puslapio"
-
-#~ msgid "Quick Invite"
-#~ msgstr "Greitas pakvietimas"
-
-#~ msgid "Server Invites"
-#~ msgstr "Serverio nustatymai"
-
-#~ msgid "HTML"
-#~ msgstr "HTML"
-
-#~ msgid "API"
-#~ msgstr "API"
-
-#~ msgid "Accounts"
-#~ msgstr "Sukurti paskyrą"
-
-#~ msgid "Tasks"
-#~ msgstr "Užduotys"
-
-#~ msgid "Server Users"
-#~ msgstr "Serverio nuoroda"
-
-#~ msgid ""
-#~ "Currently Wizarr only supports internal SQLite database. This is a temporary"
-#~ " and we are working on adding support for other databases."
-#~ msgstr ""
-#~ "Šiuo metu Wizarr palaiko tik vidinę SQLite duomenų bazę. Tai laikina ir mes "
-#~ "stengiamės pridėti kitų duomenų bazių palaikymą."
-
-#~ msgid "Configure Plex's app on your computer, mobile device or TV"
-#~ msgstr ""
-#~ "Konfigūruokite „Plex“ programą savo kompiuteryje, mobiliajame įrenginyje ar "
-#~ "televizoriuje"
-
-#~ msgid "Goodbye"
-#~ msgstr "Viso gero"
-
-#~ msgid "Logged out successfully"
-#~ msgstr "Sėkmingai atsijungta"
-
-#~ msgid "Your Account"
-#~ msgstr "Sukurti paskyrą"
-
-#~ msgid "Account"
-#~ msgstr "Sukurti paskyrą"
-
-#~ msgid "General"
-#~ msgstr "Generolas"
-
-#~ msgid "View and update general settings"
-#~ msgstr "Peržiūrėkite ir atnaujinkite bendruosius nustatymus"

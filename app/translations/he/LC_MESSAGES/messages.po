@@ -7,36 +7,241 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-01 18:45+0100\n"
-"PO-Revision-Date: 2023-04-25 19:51+0000\n"
-"Last-Translator: Kobi Caps <capskobi@gmail.com>\n"
-"Language-Team: Hebrew <https://hosted.weblate.org/projects/wizarr/app/he/>\n"
+"POT-Creation-Date: 2023-08-06 21:37+0100\n"
+"PO-Revision-Date: 2023-08-06 19:50+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: he <LL@li.org>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3));\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: app/templates/admin.html:4
+#: app/configs/settings.json.j2:3
 #, fuzzy
-msgid "Wizarr"
-msgstr "הגדר Wizarr"
-
-#: app/templates/admin.html:20 app/templates/forgot-password.html:44
-#: app/templates/login.html:61
-#, fuzzy
-msgid "Version"
+msgid "Main Settings"
 msgstr "הגדרות"
 
-#: app/templates/admin.html:20 app/templates/forgot-password.html:44
-#: app/templates/login.html:61
-#, fuzzy
-msgid "Stable"
-msgstr "נָכֶה"
+#: app/configs/settings.json.j2:4
+msgid "General settings for the server"
+msgstr "הגדרות כלליות לשרת"
 
-#: app/templates/admin.html:20 app/templates/forgot-password.html:44
-#: app/templates/login.html:61
+#: app/configs/settings.json.j2:8
+#, fuzzy
+msgid "Media Server"
+msgstr "שרת"
+
+#: app/configs/settings.json.j2:9
+#, fuzzy
+msgid "Configure your media server settings"
+msgstr "הגדר את הגדרות השרת שלך."
+
+#: app/configs/settings.json.j2:15
+#, fuzzy
+msgid "Requests"
+msgstr "בקש שרת"
+
+#: app/configs/settings.json.j2:16
+msgid "Add Jellyseerr, Overseerr or Ombi support"
+msgstr "הוסף תמיכה ב-Jellyseerr, Overseerr או Ombi"
+
+#: app/configs/settings.json.j2:23
+#, fuzzy
+msgid "API keys"
+msgstr "אסימון API"
+
+#: app/configs/settings.json.j2:24
+msgid "Add API keys for external services"
+msgstr "הוסף מפתחות API עבור שירותים חיצוניים"
+
+#: app/configs/settings.json.j2:31
+#, fuzzy
+msgid "Notifications"
+msgstr "שירות הודעות"
+
+#: app/configs/settings.json.j2:32
+#, fuzzy
+msgid "Configure notification settings"
+msgstr "הגדר את הגדרות השרת שלך."
+
+#: app/configs/settings.json.j2:41
+#, fuzzy
+msgid "Account Settings"
+msgstr "הגדרות"
+
+#: app/configs/settings.json.j2:42
+#, fuzzy
+msgid "Settings for user accounts"
+msgstr "הגדרת החשבון שלך"
+
+#: app/configs/settings.json.j2:46
+msgid "Profile"
+msgstr "פּרוֹפִיל"
+
+#: app/configs/settings.json.j2:47
+#, fuzzy
+msgid "Configure your profile settings"
+msgstr "הגדר את הגדרות השרת שלך."
+
+#: app/configs/settings.json.j2:53 app/views/authentication/login.html:56
+#: app/views/client/invite/signup/jellyfin.html:27
+#: app/views/modals/create-notification-agent.html:148
+#: app/views/settings/password.html:6 app/views/setup/pages/admin.html:15
+msgid "Password"
+msgstr "סיסמה"
+
+#: app/configs/settings.json.j2:54
+#, fuzzy
+msgid "Change your password"
+msgstr "שכחת ססמה?"
+
+#: app/configs/settings.json.j2:60
+#, fuzzy
+msgid "Sessions"
+msgstr "גִרְסָה"
+
+#: app/configs/settings.json.j2:61
+#, fuzzy
+msgid "View and manage your active sessions"
+msgstr "נהל את ההזמנות שלך"
+
+#: app/configs/settings.json.j2:67
+#, fuzzy
+msgid "SSO Login"
+msgstr "התחברות"
+
+#: app/configs/settings.json.j2:68
+msgid "Configure SSO login"
+msgstr "הגדר את התחברות SSO"
+
+#: app/configs/settings.json.j2:74
+msgid "Multi-Factor Authentication"
+msgstr "אימות רב-גורמי"
+
+#: app/configs/settings.json.j2:75
+msgid "Configure MFA authentication"
+msgstr "הגדר אימות MFA"
+
+#: app/configs/settings.json.j2:81
+#, fuzzy
+msgid "Language"
+msgstr "בחר שפה"
+
+#: app/configs/settings.json.j2:82
+msgid "Change your language"
+msgstr "שנה את השפה שלך"
+
+#: app/configs/settings.json.j2:90
+#, fuzzy
+msgid "UI Settings"
+msgstr "הגדרות"
+
+#: app/configs/settings.json.j2:91
+msgid "Modify the look and feel of the server"
+msgstr "שנה את המראה והתחושה של השרת"
+
+#: app/configs/settings.json.j2:95
+#, fuzzy
+msgid "Discord"
+msgstr "יישומון דיסקורד"
+
+#: app/configs/settings.json.j2:96
+msgid "Enable Discord page and configure settings"
+msgstr "הפעל את דף Discord והגדר את ההגדרות"
+
+#: app/configs/settings.json.j2:102
+#, fuzzy
+msgid "Custom HTML"
+msgstr "המותאם אישית"
+
+#: app/configs/settings.json.j2:103
+msgid "Add Custom HTML page to help screen"
+msgstr "הוסף דף HTML מותאם אישית למסך העזרה"
+
+#: app/configs/settings.json.j2:111
+#, fuzzy
+msgid "Advanced Settings"
+msgstr "אפשרויות מתקדמות"
+
+#: app/configs/settings.json.j2:112
+msgid "Advanced settings for the server"
+msgstr "הגדרות מתקדמות עבור השרת"
+
+#: app/configs/settings.json.j2:115
+#, fuzzy
+msgid "OAuth Integration"
+msgstr "צור הזמנה"
+
+#: app/configs/settings.json.j2:116
+#, fuzzy
+msgid "Configure OAuth integration"
+msgstr "צור הזמנה"
+
+#: app/configs/settings.json.j2:122
+#, fuzzy
+msgid "Logs"
+msgstr "התחברות"
+
+#: app/configs/settings.json.j2:123
+msgid "View and download server logs"
+msgstr "הצג והורד יומני שרת"
+
+#: app/configs/settings.json.j2:129
+#, fuzzy
+msgid "Tasks"
+msgstr "הפעל את המשימה"
+
+#: app/configs/settings.json.j2:130
+msgid "View and manage scheduled tasks"
+msgstr "הצג ונהל משימות מתוזמנות"
+
+#: app/configs/settings.json.j2:136
+#, fuzzy
+msgid "Updates"
+msgstr "עדכון"
+
+#: app/configs/settings.json.j2:137
+msgid "Check for and view updates"
+msgstr "בדוק והצג עדכונים"
+
+#: app/configs/settings.json.j2:143
+#, fuzzy
+msgid "Backup"
+msgstr "חזור"
+
+#: app/configs/settings.json.j2:144
+#, fuzzy
+msgid "Create and restore backups"
+msgstr "צור חשבון"
+
+#: app/configs/settings.json.j2:150
+msgid "About"
+msgstr "על אודות"
+
+#: app/configs/settings.json.j2:151
+msgid "View information about the server"
+msgstr "הצג מידע על השרת"
+
+#: app/templates/admin.html:4
+msgid "Wizarr"
+msgstr "קוסם"
+
+#: app/templates/admin.html:20
+#: app/views/authentication/forgot-password.html:44
+#: app/views/authentication/login.html:98
+msgid "Version"
+msgstr "גִרְסָה"
+
+#: app/templates/admin.html:20
+#: app/views/authentication/forgot-password.html:44
+#: app/views/authentication/login.html:98
+msgid "Stable"
+msgstr "יַצִיב"
+
+#: app/templates/admin.html:20
+#: app/views/authentication/forgot-password.html:44
+#: app/views/authentication/login.html:98
 msgid "Beta"
 msgstr "בטא"
 
@@ -44,49 +249,644 @@ msgstr "בטא"
 msgid "Logout failed"
 msgstr "היציאה נכשלה"
 
-#: app/templates/forgot-password.html:4
-#, fuzzy
-msgid "Forgot Password"
-msgstr "אמת ססמא"
+#: app/templates/users.html:5
+msgid "Invite User"
+msgstr "הזמן משתמש"
 
-#: app/templates/forgot-password.html:28 app/templates/login.html:40
+#: app/templates/templates/menu.html:16 app/views/home/main.html:3
+msgid "Home"
+msgstr "בית"
+
+#: app/templates/templates/menu.html:22 app/views/admin/invites.html:4
+msgid "Invitations"
+msgstr "הזמנות"
+
+#: app/templates/templates/menu.html:28
+msgid "Users"
+msgstr "משתמשים"
+
+#: app/templates/templates/menu.html:34 app/views/setup/pages/settings.html:2
+msgid "Settings"
+msgstr "הגדרות"
+
+#: app/templates/templates/update.html:13
+msgid "Attention!"
+msgstr "תשומת הלב!"
+
+#: app/templates/templates/update.html:14
+msgid "Update available. Click here."
+msgstr "עדכון זמין. לחץ כאן."
+
+#: app/views/admin/invite.html:4 app/views/admin/invite.html:193
+#: app/views/admin/invite.html:581
+msgid "Create Invitation"
+msgstr "צור הזמנה"
+
+#: app/views/admin/invite.html:8
+msgid "Create an invitation to your server."
+msgstr "צור הזמנה לשרת שלך."
+
+#: app/views/admin/invite.html:21
+msgid "Invite Code String"
+msgstr "מחרוזת קוד הזמנה"
+
+#: app/views/admin/invite.html:21
+msgid "(optional)"
+msgstr "(אופציונאלי)"
+
+#: app/views/admin/invite.html:35
+msgid "Expiration"
+msgstr "תפוגה"
+
+#: app/views/admin/invite.html:38 app/views/admin/invite.html:130
+msgid "1 Day"
+msgstr "יום 1"
+
+#: app/views/admin/invite.html:39 app/views/admin/invite.html:131
+msgid "1 Week"
+msgstr "שבוע 1"
+
+#: app/views/admin/invite.html:40 app/views/admin/invite.html:132
+msgid "1 Month"
+msgstr "1 חודש"
+
+#: app/views/admin/invite.html:41 app/views/admin/invite.html:133
+msgid "6 Months"
+msgstr "6 חודשים"
+
+#: app/views/admin/invite.html:42 app/views/admin/invite.html:134
+msgid "1 Year"
+msgstr "1 שנה"
+
+#: app/views/admin/invite.html:43
+msgid "Never"
+msgstr "לעולם לא"
+
+#: app/views/admin/invite.html:44 app/views/admin/invite.html:135
+msgid "Custom"
+msgstr "המותאם אישית"
+
+#: app/views/admin/invite.html:52
+msgid "Custom Expiration"
+msgstr "תפוגה מותאמת אישית"
+
+#: app/views/admin/invite.html:60
+msgid "Advanced Options"
+msgstr "אפשרויות מתקדמות"
+
+#: app/views/admin/invite.html:70
+msgid "Unlimited Usages"
+msgstr "שימושים בלתי מוגבלים"
+
+#: app/views/admin/invite.html:79
+msgid "Invite to Plex Home"
+msgstr "הזמנה ל-Plex Home"
+
+#: app/views/admin/invite.html:90 app/views/tables/invite-table.html:12
+msgid "Allow Downloads"
+msgstr "אפשר הורדות"
+
+#: app/views/admin/invite.html:106 app/views/admin/invite.html:119
+#: app/views/tables/invite-table.html:14
+msgid "Duration"
+msgstr "מֶשֶׁך"
+
+#: app/views/admin/invite.html:114
+msgid "Show Information"
+msgstr "תראה מידע"
+
+#: app/views/admin/invite.html:120
+msgid ""
+"When set, invited user(s) will be removed from the server after the set "
+"number of days. (1-999)"
+msgstr ""
+"כאשר מוגדר, המשתמש/ים המוזמנים יוסרו מהשרת לאחר מספר הימים שנקבע. (1-999)"
+
+#: app/views/admin/invite.html:129 app/views/tables/invite-table.html:10
+#: app/views/tables/invite-table.html:80
+msgid "Unlimited"
+msgstr "ללא הגבלה"
+
+#: app/views/admin/invite.html:143
+msgid "Custom Duration"
+msgstr "משך מותאם אישית"
+
+#: app/views/admin/invite.html:151
+msgid "Specific Libraries"
+msgstr "ספריות ספציפיות"
+
+#: app/views/admin/invite.html:155 app/views/modals/scan-libraries.html:3
+#: app/views/modals/scan-libraries.html:22
+msgid "Select Libraries"
+msgstr "בחר ספריות"
+
+#: app/views/admin/invite.html:184
+msgid "Select All"
+msgstr "בחר הכל"
+
+#: app/views/admin/invite.html:202
+msgid "Successfully generated an Invitation!"
+msgstr "הזמנה נוצרה בהצלחה!"
+
+#: app/views/admin/invite.html:206 app/views/admin/invite.html:356
+msgid "Link has been copied to clipboard!"
+msgstr "הקישור הועתק ללוח!"
+
+#: app/views/admin/invite.html:212 app/views/admin/settings.html:23
+#: app/views/client/wizard/wizard.html:35
+#: app/views/client/wizard/wizard.html:49 app/views/errors/404.html:20
+msgid "Back"
+msgstr "חזור"
+
+#: app/views/admin/invite.html:218
+msgid "Share"
+msgstr "לַחֲלוֹק"
+
+#: app/views/admin/invite.html:357
+msgid "An error occurred while copying the link to the clipboard!"
+msgstr "אירעה שגיאה בעת העתקת הקישור ללוח!"
+
+#: app/views/admin/invite.html:481
+msgid "Deselect all"
+msgstr "הסר סימון מהכל"
+
+#: app/views/admin/invite.html:483
+msgid "Select all"
+msgstr "בחר הכל"
+
+#: app/views/admin/invite.html:507
+msgid "Creating..."
+msgstr "יוצר..."
+
+#: app/views/admin/invite.html:575
+msgid "The invite has been created"
+msgstr "ההזמנה נוצרה"
+
+#: app/views/admin/invite.html:578
+msgid "There was an error creating the invite"
+msgstr "אירעה שגיאה ביצירת ההזמנה"
+
+#: app/views/admin/invites.html:8
+msgid "Manage your invitations"
+msgstr "נהל את ההזמנות שלך"
+
+#: app/views/admin/invites.html:13
+msgid "Create Invite"
+msgstr "צור הזמנה"
+
+#: app/views/admin/invites.html:16
+msgid "Delete All"
+msgstr "מחק הכל"
+
+#: app/views/admin/settings.html:6
+msgid "Server Settings"
+msgstr "הגדרות שרת"
+
+#: app/views/admin/settings.html:10
+msgid "Configure your server settings."
+msgstr "הגדר את הגדרות השרת שלך."
+
+#: app/views/admin/user.html:44
+msgid "User Configuration"
+msgstr "תצורת משתמש"
+
+#: app/views/admin/user.html:90
+msgid "User Policy"
+msgstr "מדיניות משתמש"
+
+#: app/views/admin/users.html:4
+msgid "Invited Users"
+msgstr "משתמשים מוזמנים"
+
+#: app/views/admin/users.html:8
+msgid "Manage users that joined your server"
+msgstr "נהל משתמשים שהצטרפו לשרת שלך"
+
+#: app/views/admin/users.html:13
+msgid "Scan Users"
+msgstr "סרוק משתמשים"
+
+#: app/views/admin/users.html:19
+msgid "Add User"
+msgstr "הוסף משתמש"
+
+#: app/views/authentication/forgot-password.html:4
+msgid "Forgot Password"
+msgstr "שכחת את הסיסמא"
+
+#: app/views/authentication/forgot-password.html:28
 msgid "Forgot your password?"
 msgstr "שכחת ססמה?"
 
-#: app/templates/forgot-password.html:31
+#: app/views/authentication/forgot-password.html:31
 msgid "No worries, contact the administrator to reset your password."
 msgstr "אל דאגה, פנה למנהל המערכת כדי לאפס את הסיסמה שלך."
 
-#: app/templates/forgot-password.html:34
+#: app/views/authentication/forgot-password.html:34
 msgid ""
 "If you are the administrator, you can reset a password by running the "
 "following script:"
 msgstr "אם אתה המנהל, תוכל לאפס סיסמה על ידי הפעלת הסקריפט הבא:"
 
-#: app/templates/forgot-password.html:39
-#, fuzzy
+#: app/views/authentication/forgot-password.html:39
 msgid "Go Back"
-msgstr "חזור"
+msgstr "תחזור"
 
-#: app/templates/forgot-password.html:47 app/templates/login.html:64
+#: app/views/authentication/forgot-password.html:47
+#: app/views/authentication/login.html:101
 msgid "Toggle Theme"
-msgstr "החלף ערכת נושא"
+msgstr "החלף נושא"
 
-#: app/templates/homepage.html:3 app/templates/templates/menu.html:16
-msgid "Home"
-msgstr "בית"
-
-#: app/templates/homepage.html:16 app/templates/login.html:4
-#: app/templates/login.html:28
+#: app/views/authentication/login.html:4
+#: app/views/authentication/login.html:62 app/views/home/main.html:16
 msgid "Login"
 msgstr "התחברות"
 
-#: app/templates/homepage.html:25 app/templates/setup/pages/welcome.html:2
-#, fuzzy
-msgid "Welcome to Wizarr"
-msgstr "הגדר Wizarr"
+#: app/views/authentication/login.html:30
+#: app/views/authentication/login.html:47
+msgid "Login with your account"
+msgstr "התחבר עם החשבון שלך"
 
-#: app/templates/homepage.html:28
+#: app/views/authentication/login.html:34
+#: app/views/authentication/login.html:51
+#: app/views/client/invite/signup/jellyfin.html:13
+#: app/views/modals/create-notification-agent.html:143
+#: app/views/settings/profile.html:12 app/views/setup/pages/admin.html:7
+msgid "Username"
+msgstr "שם משתמש"
+
+#: app/views/authentication/login.html:40
+#: app/views/authentication/login.html:83
+#: app/views/client/invite/signup/plex.html:81
+msgid "Continue"
+msgstr "לְהַמשִׁיך"
+
+#: app/views/authentication/login.html:67
+msgid "Login with MFA"
+msgstr "התחבר עם MFA"
+
+#: app/views/authentication/login.html:76
+msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
+msgstr "השתמש בטביעת האצבע או בזיהוי הפנים שלך כדי לאמת את זהותך"
+
+#: app/views/authentication/login.html:77
+msgid "Press the button below and follow your browser's steps to login"
+msgstr "לחץ על הלחצן למטה ובצע את השלבים של הדפדפן שלך כדי להיכנס"
+
+#: app/views/authentication/login.html:88
+msgid "Login with Password"
+msgstr "התחבר עם סיסמה"
+
+#: app/views/authentication/login.html:178
+msgid "Please enter your username"
+msgstr "אנא הזן שם משתמש"
+
+#: app/views/client/invite/invite-invalid.html:15
+msgid "Invalid Invitation"
+msgstr "הזמנה לא חוקית"
+
+#: app/views/client/invite/join.html:10
+#, python-format
+msgid "Type in your invite code to %(name)s server!"
+msgstr "הקלד את קוד ההזמנה שלך לשרת %(name)s!"
+
+#: app/views/client/invite/join.html:20
+#: app/views/client/invite/signup/jellyfin.html:40
+#: app/views/client/invite/signup/plex.html:25
+#: app/views/tables/invite-table.html:6
+msgid "Invite Code"
+msgstr "קוד הזמנה"
+
+#: app/views/client/invite/join.html:27
+#: app/views/client/invite/signup/plex.html:33
+msgid "Join"
+msgstr "לְהִצְטַרֵף"
+
+#: app/views/client/invite/signup.html:7
+#: app/views/client/invite/signup.html:14
+#, python-format
+msgid "You've been invited to join the %(name)s server!"
+msgstr "הוזמנת להצטרף לשרת %(name)s!"
+
+#: app/views/client/invite/signup/jellyfin.html:3
+msgid "Set up Account"
+msgstr "הקם חשבון"
+
+#: app/views/client/invite/signup/jellyfin.html:19
+#: app/views/setup/pages/admin.html:11
+msgid "Email"
+msgstr "אימייל"
+
+#: app/views/client/invite/signup/jellyfin.html:33
+#: app/views/setup/pages/admin.html:19
+msgid "Confirm password"
+msgstr "אשר סיסמה"
+
+#: app/views/client/invite/signup/jellyfin.html:45
+msgid "Create an account"
+msgstr "צור חשבון"
+
+#: app/views/client/invite/signup/plex.html:3
+msgid "Join the Plex Server"
+msgstr "הצטרף לשרת Plex"
+
+#: app/views/client/invite/signup/plex.html:4
+msgid "Sign in to Plex"
+msgstr "היכנס ל-Plex"
+
+#: app/views/client/invite/signup/plex.html:5
+msgid "Please wait"
+msgstr "המתן בבקשה"
+
+#: app/views/client/invite/signup/plex.html:6
+msgid "Setting up your account"
+msgstr "הגדרת החשבון שלך"
+
+#: app/views/client/invite/signup/plex.html:7
+msgid "Almost there!"
+msgstr "כמעט שם!"
+
+#: app/views/client/invite/signup/plex.html:8
+msgid "All done!"
+msgstr "הכל בוצע!"
+
+#: app/views/client/invite/signup/plex.html:9
+msgid "Account created!"
+msgstr "חשבון נוצר!"
+
+#: app/views/client/invite/signup/plex.html:10
+msgid "Please try again"
+msgstr "בבקשה נסה שוב"
+
+#: app/views/client/invite/signup/plex.html:78
+msgid ""
+"You're all set, click continue to get started and walkthrough how to use "
+"Plex!"
+msgstr "אתה מוכן, לחץ על המשך כדי להתחיל ולהדריך כיצד להשתמש ב-Plex!"
+
+#: app/views/client/invite/signup/plex.html:90
+msgid "Something went wrong, please try again."
+msgstr "משהו השתבש. אנא נסה שוב."
+
+#: app/views/client/invite/signup/plex.html:93
+msgid "Retry"
+msgstr "נסה שוב"
+
+#: app/views/client/wizard/wizard.html:4
+msgid "Help"
+msgstr "עֶזרָה"
+
+#: app/views/client/wizard/wizard.html:12
+msgid "Getting Started!"
+msgstr "מתחילים!"
+
+#: app/views/client/wizard/wizard.html:38
+msgid "Next"
+msgstr "הַבָּא"
+
+#: app/views/client/wizard/wizard.html:45
+msgid "Open"
+msgstr "לִפְתוֹחַ"
+
+#: app/views/client/wizard/pages/requests.html:4
+msgid "Automatic Media Requests"
+msgstr "בקשות מדיה אוטומטיות"
+
+#: app/views/client/wizard/pages/requests.html:9
+msgid ""
+"We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
+"        something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
+"        media you're looking for. "
+msgstr ""
+"אנו נרגשים להציע לך מבחר רחב של מדיה לבחירה. אם אתה מתקשה למצוא\n"
+"        משהו שאתה אוהב, אל תדאג! יש לנו מערכת בקשות ידידותית למשתמש שיכולה לחפש באופן אוטומטי את\n"
+"        מדיה שאתה מחפש."
+
+#: app/views/client/wizard/pages/requests.html:20
+msgid "Request any available Movie or TV Show"
+msgstr "בקש כל סרט או תוכנית טלוויזיה זמינה"
+
+#: app/views/client/wizard/pages/requests.html:27
+msgid "Requested media will be automatically downloaded (if available)"
+msgstr "המדיה המבוקשת תוריד אוטומטית (אם זמינה)"
+
+#: app/views/client/wizard/pages/requests.html:34
+msgid "If enabled, receive notifications"
+msgstr "אם מופעל, קבל התראות"
+
+#: app/views/client/wizard/pages/requests.html:40
+msgid "Check it Out"
+msgstr "תבדוק את זה"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:2
+msgid ""
+"Join & Download Jellyfin\n"
+"        for this device"
+msgstr ""
+"הצטרף והורד את Jellyfin\n"
+"        עבור המכשיר הזה"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:7
+msgid ""
+"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
+"    it with Jellyfin."
+msgstr ""
+"חדשות טובות! כעת יש לך גישה לאוסף המדיה של השרת שלנו. בוא נוודא שאתה יודע איך להשתמש\n"
+"    זה עם ג'ליפין."
+
+#: app/views/client/wizard/pages/jellyfin/download.html:11
+msgid ""
+"Planning on watching Movies on this device? Download Jellyfin for this "
+"device."
+msgstr "מתכננים לצפות בסרטים במכשיר זה? הורד את Jellyfin עבור מכשיר זה."
+
+#: app/views/client/wizard/pages/jellyfin/download.html:19
+msgid ""
+"If you don't wish to Download the App feel free to use Jellyfin in your "
+"devices web browser, just click \"Next\"."
+msgstr ""
+"אם אינך רוצה להוריד את האפליקציה אל תהסס להשתמש ב- Jellyfin בדפדפן האינטרנט "
+"של המכשיר שלך, פשוט לחץ על \"הבא\"."
+
+#: app/views/client/wizard/pages/jellyfin/download.html:25
+msgid "Show Server URL"
+msgstr "הצג כתובת אתר של שרת"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:30
+#: app/views/settings/media.html:20 app/views/setup/pages/settings.html:20
+msgid "Server URL"
+msgstr "כתובת האתר של השרת"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:34
+#: app/views/client/wizard/pages/jellyfin/download.html:191
+msgid "Copy"
+msgstr "עותק"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:59
+#: app/views/client/wizard/pages/jellyfin/download.html:83
+msgid "Open Jellyfin"
+msgstr "פתח את ג'ליפין"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:139
+msgid "Other Download"
+msgstr "הורדה אחרת"
+
+#: app/views/client/wizard/pages/jellyfin/download.html:188
+msgid "Copied!"
+msgstr "מוּעֲתָק!"
+
+#: app/views/client/wizard/pages/jellyfin/tips.html:3
+#: app/views/client/wizard/pages/plex/tips.html:3
+msgid "Right, so how do I watch stuff?"
+msgstr "נכון, אז איך אני צופה בדברים?"
+
+#: app/views/client/wizard/pages/jellyfin/tips.html:6
+msgid ""
+"It couldn't be simpler! Jellyfin is available on a wide variety of devices "
+"including laptops, tablets, smartphones, and TVs. All you need to do is "
+"download the Jellyfin app on your device, sign in with your account, and "
+"you're ready to start streaming your media."
+msgstr ""
+"זה לא יכול להיות פשוט יותר! Jellyfin זמין במגוון רחב של מכשירים כולל מחשבים "
+"ניידים, טאבלטים, סמארטפונים וטלוויזיות. כל מה שאתה צריך לעשות הוא להוריד את "
+"אפליקציית Jellyfin במכשיר שלך, להיכנס עם החשבון שלך, ואתה מוכן להתחיל להזרים"
+" את המדיה שלך."
+
+#: app/views/client/wizard/pages/jellyfin/tips.html:9
+msgid "It's that easy!"
+msgstr "זה כזה קל!"
+
+#: app/views/client/wizard/pages/jellyfin/welcome.html:3
+msgid "Eh, So, What is Jellyfin exactly?"
+msgstr "אה, אז מה זה ג'ליפין בדיוק?"
+
+#: app/views/client/wizard/pages/jellyfin/welcome.html:6
+msgid ""
+"Jellyfin is a platform that lets you stream all your favorite movies, TV "
+"shows, and music in one place. It's like having your own personal movie "
+"theater right at your fingertips! Think of it as a digital library of your "
+"favorite content that you can access from anywhere, on any device - your "
+"phone, tablet, laptop, smart TV, you name it."
+msgstr ""
+"Jellyfin היא פלטפורמה המאפשרת לך להזרים את כל הסרטים, תוכניות הטלוויזיה "
+"והמוזיקה האהובים עליך במקום אחד. זה כמו שיש לך בית קולנוע אישי משלך ממש "
+"בהישג ידך! תחשוב על זה כעל ספרייה דיגיטלית של התוכן האהוב עליך שאתה יכול "
+"לגשת אליו מכל מקום, בכל מכשיר - הטלפון, הטאבלט, המחשב הנייד, הטלוויזיה "
+"החכמה, אתה שם את זה."
+
+#: app/views/client/wizard/pages/plex/download.html:4
+msgid "Join & Download Plex for this device"
+msgstr "הצטרף והורד את Plex עבור מכשיר זה"
+
+#: app/views/client/wizard/pages/plex/download.html:8
+msgid ""
+"So you now have access to our server's media collection. Let's make sure you"
+" know how to use it with Plex."
+msgstr ""
+"אז עכשיו יש לך גישה לאוסף המדיה של השרת שלנו. בוא נוודא שאתה יודע איך להשתמש"
+" בו עם Plex."
+
+#: app/views/client/wizard/pages/plex/download.html:11
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
+msgstr "מתכננים לצפות בסרטים במכשיר זה? הורד את Plex עבור מכשיר זה."
+
+#: app/views/client/wizard/pages/plex/download.html:14
+msgid "Download"
+msgstr "הורד"
+
+#: app/views/client/wizard/pages/plex/tips.html:6
+msgid ""
+"It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
+"        smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
+"        you're ready to start streaming your media. It's that easy!"
+msgstr ""
+"זה לא יכול להיות פשוט יותר! Plex זמין במגוון רחב של מכשירים כולל מחשבים ניידים, טאבלטים,\n"
+"        סמארטפונים וטלוויזיות. כל מה שאתה צריך לעשות הוא להוריד את אפליקציית Plex במכשיר שלך, להיכנס עם החשבון שלך ו\n"
+"        אתה מוכן להתחיל להזרים את המדיה שלך. זה כזה קל!"
+
+#: app/views/client/wizard/pages/plex/tips.html:11
+msgid "How can I make sure to have the best experience?"
+msgstr "איך אני יכול להבטיח את החוויה הטובה ביותר?"
+
+#: app/views/client/wizard/pages/plex/tips.html:14
+msgid ""
+"Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
+"        sharing with you - they also, by default, play content at a lower quality. "
+msgstr ""
+"מכיוון ש-Plex הוא שירות חינמי, הם מקדמים את התוכן שלהם לפני התוכן המדהים שהחבר שלך הוא עכשיו\n"
+"        משתפים אתכם - הם גם, כברירת מחדל, מנגנים תוכן באיכות נמוכה יותר."
+
+#: app/views/client/wizard/pages/plex/tips.html:17
+msgid "No need to worry though, this can be easily resolved"
+msgstr "עם זאת, אין צורך לדאוג, זה יכול להיפתר בקלות"
+
+#: app/views/client/wizard/pages/plex/tips.html:17
+msgid ""
+"We highly\n"
+"            recommend you to go through those steps first!"
+msgstr ""
+"אנחנו מאוד\n"
+"            ממליץ לך לעבור את השלבים האלה תחילה!"
+
+#: app/views/client/wizard/pages/plex/welcome.html:3
+msgid "Eh, So, What is Plex exactly?"
+msgstr "אה, אז מה זה Plex בדיוק?"
+
+#: app/views/client/wizard/pages/plex/welcome.html:6
+msgid ""
+"Great question! Plex is a software that allows individuals to share their "
+"media collections with others. If you've received this invitation, it means "
+"someone wants to share their library with you."
+msgstr ""
+"שאלה מצוינת! Plex היא תוכנה המאפשרת לאנשים לחלוק את אוספי המדיה שלהם עם "
+"אחרים. אם קיבלת הזמנה זו, זה אומר שמישהו רוצה לחלוק איתך את הספרייה שלו."
+
+#: app/views/client/wizard/pages/plex/welcome.html:9
+msgid ""
+"With Plex, you'll have access to all of the movies, TV shows, music, and "
+"photos that are stored on their server!"
+msgstr ""
+"עם Plex, תהיה לך גישה לכל הסרטים, תוכניות הטלוויזיה, המוזיקה והתמונות "
+"המאוחסנים בשרת שלהם!"
+
+#: app/views/client/wizard/pages/plex/welcome.html:12
+msgid "So let's see how to get started!"
+msgstr "אז בואו נראה איך להתחיל!"
+
+#: app/views/errors/401.html:20
+msgid "Permission denied."
+msgstr "ההרשאה נדחתה."
+
+#: app/views/errors/401.html:23
+msgid "You are attempting to do something you shouldn't be doing..."
+msgstr "אתה מנסה לעשות משהו שאתה לא צריך לעשות..."
+
+#: app/views/errors/404.html:31
+msgid "Something's missing."
+msgstr "משהו חסר."
+
+#: app/views/errors/404.html:33
+msgid "Sorry, we can't find that page. It doesn't seem to exist!"
+msgstr "מצטערים, אנחנו לא יכולים למצוא את הדף הזה. נראה שזה לא קיים!"
+
+#: app/views/errors/500.html:19
+msgid "Internal Server Error."
+msgstr "שגיאת שרת פנימית."
+
+#: app/views/errors/500.html:21
+msgid " Something has gone wrong. Please try again later."
+msgstr "משהו השתבש. בבקשה נסה שוב מאוחר יותר."
+
+#: app/views/errors/custom.html:20
+msgid "Get Help"
+msgstr "תקבל עזרה"
+
+#: app/views/home/main.html:25 app/views/setup/pages/welcome.html:2
+msgid "Welcome to Wizarr"
+msgstr "ברוכים הבאים ל-Wizarr"
+
+#: app/views/home/main.html:28
 msgid ""
 "Wizarr is a software tool that provides advanced user invitation and "
 "management capabilities for media servers such as Jellyfin, Emby, and Plex. "
@@ -97,7 +897,7 @@ msgstr ""
 "מדיה כגון Jellyfin, Emby ו-Plex. עם Wizarr, מנהלי שרת יכולים להזמין משתמשים "
 "חדשים בקלות ולנהל את הרשאות הגישה שלהם."
 
-#: app/templates/homepage.html:32
+#: app/views/home/main.html:32
 msgid ""
 "If you were sent here by a friend, please request access or if you have an "
 "invite code, please click Get Started."
@@ -105,938 +905,380 @@ msgstr ""
 "אם נשלחת לכאן על ידי חבר, אנא בקש גישה או אם יש לך קוד הזמנה, אנא לחץ על "
 "התחל."
 
-#: app/templates/homepage.html:36
+#: app/views/home/main.html:36
 msgid "Get Started"
 msgstr "להתחיל"
 
-#: app/templates/homepage.html:41
+#: app/views/home/main.html:41
 msgid "or"
 msgstr "אוֹ"
 
-#: app/templates/homepage.html:45
-#, fuzzy
+#: app/views/home/main.html:45
 msgid "Request Access"
-msgstr "שרת"
-
-#: app/templates/admin/settings/profile.html:12
-#: app/templates/invite/signup/jellyfin.html:13 app/templates/login.html:32
-#: app/templates/modals/create-notification-agent.html:143
-#: app/templates/setup/pages/admin.html:7
-msgid "Username"
-msgstr "שם משתמש"
-
-#: app/templates/admin/settings/main.html:50
-#: app/templates/admin/settings/password.html:6
-#: app/templates/invite/signup/jellyfin.html:27 app/templates/login.html:36
-#: app/templates/modals/create-notification-agent.html:148
-#: app/templates/setup/pages/admin.html:15
-msgid "Password"
-msgstr "ססמא"
-
-#: app/templates/login.html:50
-msgid "Remember me"
-msgstr "תזכור אותי"
-
-#: app/templates/login.html:55
-msgid "Sign in"
-msgstr "התחברות"
-
-#: app/templates/login.html:104
-#, fuzzy
-msgid "Internal server error"
-msgstr "שגיאת שרת פנימית."
-
-#: app/templates/users.html:5
-msgid "Invite User"
-msgstr "הזמן משתמש"
-
-#: app/templates/admin/invite.html:4 app/templates/admin/invite.html:193
-#: app/templates/admin/invite.html:581
-msgid "Create Invitation"
-msgstr "צור הזמנה"
-
-#: app/templates/admin/invite.html:8
-#, fuzzy
-msgid "Create an invitation to your server."
-msgstr "צור הזמנה"
-
-#: app/templates/admin/invite.html:21
-msgid "Invite Code String"
-msgstr "סטרינג קוד הזמנה"
-
-#: app/templates/admin/invite.html:21
-msgid "(optional)"
-msgstr "(אופציונלי)"
-
-#: app/templates/admin/invite.html:35
-msgid "Expiration"
-msgstr "תום תוקף"
-
-#: app/templates/admin/invite.html:38 app/templates/admin/invite.html:130
-#, fuzzy
-msgid "1 Day"
-msgstr "יום 1"
-
-#: app/templates/admin/invite.html:39 app/templates/admin/invite.html:131
-#, fuzzy
-msgid "1 Week"
-msgstr "שבוע 1"
-
-#: app/templates/admin/invite.html:40 app/templates/admin/invite.html:132
-#, fuzzy
-msgid "1 Month"
-msgstr "חודש 1"
-
-#: app/templates/admin/invite.html:41 app/templates/admin/invite.html:133
-#, fuzzy
-msgid "6 Months"
-msgstr "חודש 1"
-
-#: app/templates/admin/invite.html:42 app/templates/admin/invite.html:134
-msgid "1 Year"
-msgstr "1 שנה"
-
-#: app/templates/admin/invite.html:43
-msgid "Never"
-msgstr "אף פעם"
-
-#: app/templates/admin/invite.html:44 app/templates/admin/invite.html:135
-msgid "Custom"
-msgstr "המותאם אישית"
-
-#: app/templates/admin/invite.html:52
-#, fuzzy
-msgid "Custom Expiration"
-msgstr "תום תוקף"
-
-#: app/templates/admin/invite.html:60
-msgid "Advanced Options"
-msgstr "אפשרויות מתקדמות"
-
-#: app/templates/admin/invite.html:70
-msgid "Unlimited Usages"
-msgstr "שימושים לא מוגבלים"
-
-#: app/templates/admin/invite.html:79
-#, fuzzy
-msgid "Invite to Plex Home"
-msgstr "קוד הזמנה"
-
-#: app/templates/admin/invite.html:90
-#: app/templates/tables/invite-table.html:12
-#, fuzzy
-msgid "Allow Downloads"
-msgstr "הורד"
-
-#: app/templates/admin/invite.html:106 app/templates/admin/invite.html:119
-#: app/templates/tables/invite-table.html:14
-msgid "Duration"
-msgstr "משך"
-
-#: app/templates/admin/invite.html:114
-msgid "Show Information"
-msgstr "הצג מידע"
-
-#: app/templates/admin/invite.html:120
-#, fuzzy
-msgid ""
-"When set, invited user(s) will be removed from the server after the set "
-"number of days. (1-999)"
-msgstr "כאשר מוגדר, משתמש(ים) יוסרו משרת הPlex לאחר מספר ימים (1-999)"
-
-#: app/templates/admin/invite.html:129
-#: app/templates/tables/invite-table.html:10
-#: app/templates/tables/invite-table.html:80
-msgid "Unlimited"
-msgstr "בלתי מוגבל"
-
-#: app/templates/admin/invite.html:143
-#, fuzzy
-msgid "Custom Duration"
-msgstr "משך"
-
-#: app/templates/admin/invite.html:151
-#, fuzzy
-msgid "Specific Libraries"
-msgstr "ספריות"
-
-#: app/templates/admin/invite.html:155
-#: app/templates/modals/scan-libraries.html:3
-#: app/templates/modals/scan-libraries.html:22
-#, fuzzy
-msgid "Select Libraries"
-msgstr "ספריות"
-
-#: app/templates/admin/invite.html:184
-#, fuzzy
-msgid "Select All"
-msgstr "ברירת מחדל"
-
-#: app/templates/admin/invite.html:202
-msgid "Successfully generated an Invitation!"
-msgstr "ההזמנה נוצרה בהצלחתה!"
-
-#: app/templates/admin/invite.html:206 app/templates/admin/invite.html:356
-msgid "Link has been copied to clipboard!"
-msgstr "הקישור הועתק בהצלחה!"
-
-#: app/templates/admin/invite.html:212 app/templates/admin/settings.html:23
-#: app/templates/error/404.html:20 app/templates/wizard/base.html:35
-#: app/templates/wizard/base.html:49
-msgid "Back"
-msgstr "חזור"
-
-#: app/templates/admin/invite.html:218
-msgid "Share"
-msgstr "שיתוף"
-
-#: app/templates/admin/invite.html:357
-msgid "An error occurred while copying the link to the clipboard!"
-msgstr "אירעה שגיאה בעת העתקת הקישור ללוח!"
-
-#: app/templates/admin/invite.html:481
-#, fuzzy
-msgid "Deselect all"
-msgstr "ברירת מחדל"
-
-#: app/templates/admin/invite.html:483
-#, fuzzy
-msgid "Select all"
-msgstr "ברירת מחדל"
-
-#: app/templates/admin/invite.html:507
-msgid "Creating..."
-msgstr "יוצר..."
-
-#: app/templates/admin/invite.html:575
-msgid "The invite has been created"
-msgstr "ההזמנה נוצרה"
-
-#: app/templates/admin/invite.html:578
-msgid "There was an error creating the invite"
-msgstr "אירעה שגיאה ביצירת ההזמנה"
-
-#: app/templates/admin/invites.html:4 app/templates/templates/menu.html:22
-msgid "Invitations"
-msgstr "הזמנות"
-
-#: app/templates/admin/invites.html:8
-#, fuzzy
-msgid "Manage your invitations"
-msgstr "הזמנות"
-
-#: app/templates/admin/invites.html:13
-#, fuzzy
-msgid "Create Invite"
-msgstr "צור הזמנה"
-
-#: app/templates/admin/invites.html:16
-#, fuzzy
-msgid "Delete All"
-msgstr "ברירת מחדל"
-
-#: app/templates/admin/settings.html:6
-msgid "Server Settings"
-msgstr "הגדרות שרת"
-
-#: app/templates/admin/settings.html:10
-#, fuzzy
-msgid "Configure your server settings."
-msgstr "הגדרות שרת"
-
-#: app/templates/admin/user.html:44
-msgid "User Configuration"
-msgstr "הגדרות משתמש"
-
-#: app/templates/admin/user.html:90
-msgid "User Policy"
-msgstr "פוליסת משתמש"
-
-#: app/templates/admin/users.html:4
-#, fuzzy
-msgid "Invited Users"
-msgstr "הזמן משתמש"
-
-#: app/templates/admin/users.html:8
-msgid "Manage users that joined your server"
-msgstr "נהל משתמשים שהצטרפו לשרת שלך"
-
-#: app/templates/admin/users.html:13
-#, fuzzy
-msgid "Scan Users"
-msgstr "משתמשים"
-
-#: app/templates/admin/users.html:19
-#, fuzzy
-msgid "Add User"
-msgstr "משתמשים"
-
-#: app/templates/admin/settings/about.html:111
-#: app/templates/admin/settings/about.html:221
-msgid "Load More"
-msgstr "טען עוד"
-
-#: app/templates/admin/settings/accounts.html:13
-#, fuzzy
-msgid "My Account"
-msgstr "הגדר חשבון"
-
-#: app/templates/admin/settings/accounts.html:16
-#, fuzzy
-msgid "Add Admin"
-msgstr "מנהל"
-
-#: app/templates/admin/settings/api.html:38
-#: app/templates/modals/create-api-key.html:3
-#, fuzzy
-msgid "Create API Key"
-msgstr "צור חשבון"
-
-#: app/templates/admin/settings/discord.html:4
-#, fuzzy
-msgid "Discord Server ID"
-msgstr "ID שרת דיסקורד"
-
-#: app/templates/admin/settings/discord.html:9
-msgid "Discord Widget"
-msgstr "יישומון דיסקורד"
-
-#: app/templates/admin/settings/discord.html:19
-#: app/templates/admin/settings/html.html:9
-#: app/templates/admin/settings/media.html:38
-#: app/templates/admin/settings/requests.html:26
-msgid "Save"
-msgstr "שמירה"
-
-#: app/templates/admin/settings/discord.html:42
-#: app/templates/admin/settings/html.html:25
-#: app/templates/admin/settings/media.html:54
-#: app/templates/admin/settings/requests.html:58
-msgid "Settings saved successfully!"
-msgstr "ההגדרות נשמרו בהצלחה!"
-
-#: app/templates/admin/settings/language.html:3
-msgid "Please use the dropdown below to select your language."
-msgstr "אנא השתמש בתפריט הנפתח למטה כדי לבחור את השפה שלך."
-
-#: app/templates/admin/settings/language.html:7
-#, fuzzy
-msgid "Select Language"
-msgstr "ספריות"
-
-#: app/templates/admin/settings/main.html:5
-#, fuzzy
-msgid "Main Settings"
-msgstr "הגדרות"
-
-#: app/templates/admin/settings/main.html:6
-msgid "General settings for the server"
-msgstr "הגדרות כלליות לשרת"
-
-#: app/templates/admin/settings/main.html:9
-#, fuzzy
-msgid "Media Server"
-msgstr "שרת"
-
-#: app/templates/admin/settings/main.html:10
-#, fuzzy
-msgid "Configure your media server settings"
-msgstr "הגדרות שרת"
-
-#: app/templates/admin/settings/main.html:16
-msgid "Requests"
-msgstr "בקשות"
-
-#: app/templates/admin/settings/main.html:17
-msgid "Add Jellyseerr, Overseerr or Ombi support"
-msgstr "הוסף תמיכה ב-Jellyseerr, Overseerr או Ombi"
-
-#: app/templates/admin/settings/main.html:23
-#, fuzzy
-msgid "API keys"
-msgstr "צור חשבון"
-
-#: app/templates/admin/settings/main.html:24
-msgid "Add API keys for external services"
-msgstr "הוסף מפתחות API עבור שירותים חיצוניים"
-
-#: app/templates/admin/settings/main.html:30
-#, fuzzy
-msgid "Notifications"
-msgstr "הזמנות"
-
-#: app/templates/admin/settings/main.html:31
-msgid "Configure notification settings"
-msgstr "הגדר את הגדרות ההתראות"
-
-#: app/templates/admin/settings/main.html:39
-#, fuzzy
-msgid "Account Settings"
-msgstr "הגדרות"
-
-#: app/templates/admin/settings/main.html:40
-#, fuzzy
-msgid "Settings for user accounts"
-msgstr "הגדר חשבון"
-
-#: app/templates/admin/settings/main.html:43
-msgid "Profile"
-msgstr "פּרוֹפִיל"
-
-#: app/templates/admin/settings/main.html:44
-#, fuzzy
-msgid "Configure your profile settings"
-msgstr "הגדר Plex בדפדפן"
-
-#: app/templates/admin/settings/main.html:51
-#, fuzzy
-msgid "Change your password"
-msgstr "אמת ססמא"
-
-#: app/templates/admin/settings/main.html:57
-#, fuzzy
-msgid "Sessions"
-msgstr "הגדרות"
-
-#: app/templates/admin/settings/main.html:58
-msgid "View and manage your active sessions"
-msgstr "הצג ונהל את ההפעלות הפעילות שלך"
-
-#: app/templates/admin/settings/main.html:64
-msgid "Language"
-msgstr "שפה"
-
-#: app/templates/admin/settings/main.html:65
-#, fuzzy
-msgid "Change your language"
-msgstr "אמת ססמא"
-
-#: app/templates/admin/settings/main.html:73
-#, fuzzy
-msgid "UI Settings"
-msgstr "הגדרות"
-
-#: app/templates/admin/settings/main.html:74
-msgid "Modify the look and feel of the server"
-msgstr "שנה את המראה והתחושה של השרת"
-
-#: app/templates/admin/settings/main.html:77
-msgid "Discord"
-msgstr "מַחֲלוֹקֶת"
-
-#: app/templates/admin/settings/main.html:78
-msgid "Enable Discord page and configure settings"
-msgstr "הפעל את דף Discord והגדר את ההגדרות"
-
-#: app/templates/admin/settings/main.html:84
-#, fuzzy
-msgid "Custom HTML"
-msgstr "משך"
-
-#: app/templates/admin/settings/main.html:85
-msgid "Add Custom HTML page to help screen"
-msgstr "הוסף דף HTML מותאם אישית למסך העזרה"
-
-#: app/templates/admin/settings/main.html:93
-#, fuzzy
-msgid "Advanced Settings"
-msgstr "אפשרויות מתקדמות"
-
-#: app/templates/admin/settings/main.html:94
-msgid "Advanced settings for the server"
-msgstr "הגדרות מתקדמות עבור השרת"
-
-#: app/templates/admin/settings/main.html:97
-#, fuzzy
-msgid "Logs"
-msgstr "התחברות"
-
-#: app/templates/admin/settings/main.html:98
-msgid "View and download server logs"
-msgstr "הצג והורד יומני שרת"
-
-#: app/templates/admin/settings/main.html:104
-#, fuzzy
-msgid "Tasks"
-msgstr "הפעל את המשימה"
-
-#: app/templates/admin/settings/main.html:105
-#, fuzzy
-msgid "View and manage scheduled tasks"
-msgstr "הצג ונהל את ההפעלות הפעילות שלך"
-
-#: app/templates/admin/settings/main.html:111
-#, fuzzy
-msgid "Updates"
-msgstr "ספריות"
-
-#: app/templates/admin/settings/main.html:112
-msgid "Check for and view updates"
-msgstr "חפש והצג עדכונים"
-
-#: app/templates/admin/settings/main.html:118
-#, fuzzy
-msgid "Backup"
-msgstr "חזור"
-
-#: app/templates/admin/settings/main.html:119
-#, fuzzy
-msgid "Create and restore backups"
-msgstr "צור חשבון"
-
-#: app/templates/admin/settings/main.html:125
-#, fuzzy
-msgid "About"
-msgstr "הגדר חשבון"
-
-#: app/templates/admin/settings/main.html:126
-msgid "View information about the server"
-msgstr "הצג מידע על השרת"
-
-#: app/templates/admin/settings/main.html:164
-msgid "No settings matched your search."
-msgstr "אין הגדרות שתואמות לחיפוש שלך."
-
-#: app/templates/admin/settings/media.html:6
-#: app/templates/setup/pages/settings.html:6
-#, fuzzy
-msgid "Server Display Name"
-msgstr "שם תצוגת שרת"
-
-#: app/templates/admin/settings/media.html:11
-#: app/templates/setup/pages/settings.html:11
-msgid "Server"
-msgstr "שרת"
-
-#: app/templates/admin/settings/media.html:13
-msgid "Choose a server"
-msgstr "בחר שרת"
-
-#: app/templates/admin/settings/media.html:20
-#: app/templates/setup/pages/settings.html:20
-#: app/templates/wizard/pages/jellyfin/download.html:30
-msgid "Server URL"
-msgstr "קישור לשרת"
-
-#: app/templates/admin/settings/media.html:25
-#: app/templates/setup/pages/settings.html:25
-#, fuzzy
-msgid "Server Token / API Key"
-msgstr "טוקן שרת \\ מפתח API"
-
-#: app/templates/admin/settings/media.html:30
-#: app/templates/modals/update-libraries.html:3
-#: app/templates/setup/pages/settings.html:37
-#, fuzzy
-msgid "Server Libraries"
-msgstr "ספריות"
-
-#: app/templates/admin/settings/media.html:32
-#: app/templates/setup/pages/settings.html:39
-msgid "Scan For Libraries"
-msgstr "סרוק ספריות"
-
-#: app/templates/admin/settings/notifications.html:18
-#, fuzzy
-msgid "Create Agent"
-msgstr "צור חשבון"
-
-#: app/templates/admin/settings/password.html:12
-#, fuzzy
-msgid "Confirm Password"
-msgstr "אמת ססמא"
-
-#: app/templates/admin/settings/password.html:19
-#, fuzzy
-msgid "Reset Password"
-msgstr "ססמא"
-
-#: app/templates/admin/settings/profile.html:6
-#, fuzzy
-msgid "Display Name"
-msgstr "שם תצוגת שרת"
-
-#: app/templates/admin/settings/profile.html:18
-msgid "Email Address"
-msgstr "כתובת דוא\"ל"
-
-#: app/templates/admin/settings/profile.html:25
-msgid "Update"
-msgstr "עדכון"
-
-#: app/templates/admin/settings/requests.html:4
-#, fuzzy
-msgid "Request Server"
-msgstr "שרת"
-
-#: app/templates/admin/settings/requests.html:6
-msgid "Disabled"
-msgstr "נָכֶה"
-
-#: app/templates/admin/settings/requests.html:15
-#, fuzzy
-msgid "Request Server URL"
-msgstr "קישור לשרת"
-
-#: app/templates/admin/settings/requests.html:20
-msgid "Request Server API Key"
-msgstr "בקש מפתח API של שרת"
-
-#: app/templates/admin/settings/sessions.html:14
-msgid "Revoke All"
-msgstr "בטל הכל"
-
-#: app/templates/error/401.html:20
-msgid "Permission denied."
-msgstr "הגישה אסורה."
-
-#: app/templates/error/401.html:23
-msgid "You are attempting to do something you shouldn't be doing..."
-msgstr "אתה מנסה לעשות משהו שאתה לא אמור.."
-
-#: app/templates/error/404.html:31
-msgid "Something's missing."
-msgstr "משהו חסר."
-
-#: app/templates/error/404.html:33
-msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "סליחה, לא נראה כאלו העמוד קיים!"
-
-#: app/templates/error/500.html:19
-msgid "Internal Server Error."
-msgstr "שגיאת שרת פנימית."
-
-#: app/templates/error/500.html:21
-msgid " Something has gone wrong. Please try again later."
-msgstr " משהו השתבש, נסה שוב מאוחר יותר."
-
-#: app/templates/error/custom.html:20
-msgid "Get Help"
-msgstr "תקבל עזרה"
-
-#: app/templates/invite/invite-invalid.html:15
-#, fuzzy
-msgid "Invalid Invitation"
-msgstr "הזמנות"
-
-#: app/templates/invite/join.html:10
-#, fuzzy, python-format
-msgid "Type in your invite code to %(name)s server!"
-msgstr "קיבלת הזמנה לשרת %(name)s!"
-
-#: app/templates/invite/join.html:20
-#: app/templates/invite/signup/jellyfin.html:40
-#: app/templates/invite/signup/plex.html:25
-#: app/templates/tables/invite-table.html:6
-msgid "Invite Code"
-msgstr "קוד הזמנה"
-
-#: app/templates/invite/join.html:27 app/templates/invite/signup/plex.html:33
-msgid "Join"
-msgstr "הצטרפות"
-
-#: app/templates/invite/signup.html:7 app/templates/invite/signup.html:14
-#, python-format
-msgid "You've been invited to join the %(name)s server!"
-msgstr "קיבלת הזמנה לשרת %(name)s!"
-
-#: app/templates/invite/signup/jellyfin.html:3
-msgid "Set up Account"
-msgstr "הגדר חשבון"
-
-#: app/templates/invite/signup/jellyfin.html:19
-#: app/templates/setup/pages/admin.html:11
-msgid "Email"
-msgstr "מייל"
-
-#: app/templates/invite/signup/jellyfin.html:33
-#: app/templates/setup/pages/admin.html:19
-msgid "Confirm password"
-msgstr "אמת ססמא"
-
-#: app/templates/invite/signup/jellyfin.html:45
-msgid "Create an account"
-msgstr "צור חשבון"
-
-#: app/templates/invite/signup/plex.html:3
-msgid "Join the Plex Server"
-msgstr "הצטרף לשרת הPlex"
-
-#: app/templates/invite/signup/plex.html:4
-#, fuzzy
-msgid "Sign in to Plex"
-msgstr "התחברות"
-
-#: app/templates/invite/signup/plex.html:5
-msgid "Please wait"
-msgstr "המתן בבקשה"
-
-#: app/templates/invite/signup/plex.html:6
-#, fuzzy
-msgid "Setting up your account"
-msgstr "הגדר חשבון"
-
-#: app/templates/invite/signup/plex.html:7
-msgid "Almost there!"
-msgstr "כמעט שם!"
-
-#: app/templates/invite/signup/plex.html:8
-msgid "All done!"
-msgstr "הכל בוצע!"
-
-#: app/templates/invite/signup/plex.html:9
-#, fuzzy
-msgid "Account created!"
-msgstr "נוצר"
-
-#: app/templates/invite/signup/plex.html:10
-msgid "Please try again"
-msgstr "בבקשה נסה שוב"
-
-#: app/templates/invite/signup/plex.html:78
-msgid ""
-"You're all set, click continue to get started and walkthrough how to use "
-"Plex!"
-msgstr "אתה מוכן, לחץ על המשך כדי להתחיל ולהדריך כיצד להשתמש ב-Plex!"
-
-#: app/templates/invite/signup/plex.html:81
-msgid "Continue"
-msgstr "לְהַמשִׁיך"
-
-#: app/templates/invite/signup/plex.html:90
-#, fuzzy
-msgid "Something went wrong, please try again."
-msgstr " משהו השתבש, נסה שוב מאוחר יותר."
-
-#: app/templates/invite/signup/plex.html:93
-msgid "Retry"
-msgstr "נסה שוב"
-
-#: app/templates/modals/create-api-key.html:9
-#: app/templates/modals/create-notification-agent.html:13
+msgstr "לבקש גישה"
+
+#: app/views/modals/add-mfa.html:3
+msgid "Add Passkey"
+msgstr "הוסף מפתח סיסמה"
+
+#: app/views/modals/add-mfa.html:9 app/views/modals/add-oauth.html:10
+#: app/views/modals/create-api-key.html:9
+#: app/views/modals/create-notification-agent.html:13
 msgid "Name"
-msgstr "שם"
+msgstr "שֵׁם"
 
-#: app/templates/modals/create-api-key.html:14
-#: app/templates/modals/create-notification-agent.html:46
-#: app/templates/modals/delete-api-key.html:13
-#: app/templates/modals/delete-notification-agent.html:13
-#: app/templates/modals/revoke-session.html:13
-#: app/templates/modals/run-task.html:13
-#: app/templates/modals/scan-libraries.html:19
-#: app/templates/modals/update-libraries.html:23
+#: app/views/modals/add-mfa.html:14 app/views/modals/add-oauth.html:46
+#: app/views/modals/create-api-key.html:14
+#: app/views/modals/create-notification-agent.html:46
+#: app/views/modals/delete-api-key.html:13
+#: app/views/modals/delete-notification-agent.html:13
+#: app/views/modals/revoke-session.html:13 app/views/modals/run-task.html:13
+#: app/views/modals/scan-libraries.html:19
+#: app/views/modals/update-libraries.html:23
 msgid "Cancel"
 msgstr "לְבַטֵל"
 
-#: app/templates/modals/create-api-key.html:17
-#, fuzzy
+#: app/views/modals/add-mfa.html:17 app/views/modals/create-api-key.html:17
 msgid "Create"
-msgstr "נוצר"
+msgstr "לִיצוֹר"
 
-#: app/templates/modals/create-api-key.html:46
+#: app/views/modals/add-oauth.html:3
+msgid "New OAuth"
+msgstr "OAuth חדש"
+
+#: app/views/modals/add-oauth.html:15
+msgid "Client ID"
+msgstr "מזהה לקוח"
+
+#: app/views/modals/add-oauth.html:20
+msgid "Client Secret"
+msgstr "סוד הלקוח"
+
+#: app/views/modals/add-oauth.html:25
+msgid "Request Token URL"
+msgstr "בקש כתובת אתר של אסימון"
+
+#: app/views/modals/add-oauth.html:30
+msgid "Authorize URL"
+msgstr "אישור כתובת אתר"
+
+#: app/views/modals/add-oauth.html:35
+msgid "Access Token URL"
+msgstr "גישה ל-Token URL"
+
+#: app/views/modals/add-oauth.html:40
+msgid "User Info URL"
+msgstr "כתובת אתר של פרטי משתמש"
+
+#: app/views/modals/add-oauth.html:49
+msgid "Test & Create OAuth"
+msgstr "בדוק וצור OAuth"
+
+#: app/views/modals/create-api-key.html:3 app/views/settings/api.html:38
+msgid "Create API Key"
+msgstr "צור מפתח API"
+
+#: app/views/modals/create-api-key.html:46
 msgid "Please fill out all required fields."
 msgstr "אנא מלא את כל השדות הדרושים."
 
-#: app/templates/modals/create-api-key.html:70
+#: app/views/modals/create-api-key.html:70
 msgid "API key already exists."
 msgstr "מפתח API כבר קיים."
 
-#: app/templates/modals/create-api-key.html:76
-#: app/templates/modals/delete-notification-agent.html:35
+#: app/views/modals/create-api-key.html:76
+#: app/views/modals/delete-notification-agent.html:35
 msgid "You are not authorized to perform this action."
 msgstr "אינך מורשה לבצע פעולה זו."
 
-#: app/templates/modals/create-api-key.html:82
-#: app/templates/modals/run-task.html:35
-#, fuzzy
+#: app/views/modals/create-api-key.html:82 app/views/modals/run-task.html:35
 msgid "Something went wrong."
-msgstr " משהו השתבש, נסה שוב מאוחר יותר."
+msgstr "משהו השתבש."
 
-#: app/templates/modals/create-api-key.html:86
-#, fuzzy
+#: app/views/modals/create-api-key.html:86
 msgid "API key created."
-msgstr "נוצר"
+msgstr "מפתח API נוצר."
 
-#: app/templates/modals/create-notification-agent.html:3
+#: app/views/modals/create-notification-agent.html:3
 msgid "New Agent"
 msgstr "סוכן חדש"
 
-#: app/templates/modals/create-notification-agent.html:18
+#: app/views/modals/create-notification-agent.html:18
 msgid "Notification Service"
 msgstr "שירות הודעות"
 
-#: app/templates/modals/create-notification-agent.html:20
+#: app/views/modals/create-notification-agent.html:20
 msgid "Choose a service"
 msgstr "בחר שירות"
 
-#: app/templates/modals/create-notification-agent.html:30
-#: app/templates/modals/create-notification-agent.html:88
-#, fuzzy
+#: app/views/modals/create-notification-agent.html:30
+#: app/views/modals/create-notification-agent.html:88
 msgid "Username (optional)"
-msgstr "(אופציונלי)"
+msgstr "שם משתמש (אופציונלי)"
 
-#: app/templates/modals/create-notification-agent.html:34
-#: app/templates/modals/create-notification-agent.html:93
-#, fuzzy
+#: app/views/modals/create-notification-agent.html:34
+#: app/views/modals/create-notification-agent.html:93
 msgid "Password (optional)"
-msgstr "(אופציונלי)"
+msgstr "סיסמא (אופציונלי)"
 
-#: app/templates/modals/create-notification-agent.html:39
-#: app/templates/modals/create-notification-agent.html:98
-#: app/templates/modals/create-notification-agent.html:117
-#: app/templates/modals/create-notification-agent.html:136
-#: app/templates/modals/create-notification-agent.html:153
+#: app/views/modals/create-notification-agent.html:39
+#: app/views/modals/create-notification-agent.html:98
+#: app/views/modals/create-notification-agent.html:117
+#: app/views/modals/create-notification-agent.html:136
+#: app/views/modals/create-notification-agent.html:153
 msgid "Agent URL"
 msgstr "כתובת האתר של הסוכן"
 
-#: app/templates/modals/create-notification-agent.html:49
+#: app/views/modals/create-notification-agent.html:49
 msgid "Test & Create Agent"
 msgstr "בדוק וצור סוכן"
 
-#: app/templates/modals/create-notification-agent.html:105
+#: app/views/modals/create-notification-agent.html:105
 msgid "Webhook ID"
-msgstr "אבהוק אד"
+msgstr "מזהה Webhook"
 
-#: app/templates/modals/create-notification-agent.html:111
+#: app/views/modals/create-notification-agent.html:111
 msgid "Webhook Token"
-msgstr "אסימון מטופש"
+msgstr "Webhook Token"
 
-#: app/templates/modals/create-notification-agent.html:124
-#, fuzzy
+#: app/views/modals/create-notification-agent.html:124
 msgid "User Key"
-msgstr "פוליסת משתמש"
+msgstr "מפתח משתמש"
 
-#: app/templates/modals/create-notification-agent.html:130
+#: app/views/modals/create-notification-agent.html:130
 msgid "API Token"
 msgstr "אסימון API"
 
-#: app/templates/modals/create-notification-agent.html:242
-#: app/templates/modals/create-notification-agent.html:249
-#, fuzzy
+#: app/views/modals/create-notification-agent.html:242
+#: app/views/modals/create-notification-agent.html:249
 msgid "Something went wrong. Please try again."
-msgstr " משהו השתבש, נסה שוב מאוחר יותר."
+msgstr "משהו השתבש. בבקשה נסה שוב."
 
-#: app/templates/modals/create-notification-agent.html:253
+#: app/views/modals/create-notification-agent.html:253
 msgid "Notification agent successfully created!"
 msgstr "סוכן ההתראות נוצר בהצלחה!"
 
-#: app/templates/modals/delete-api-key.html:3
-#: app/templates/modals/revoke-session.html:3
+#: app/views/modals/delete-api-key.html:3
+#: app/views/modals/revoke-session.html:3
 msgid "Warning"
 msgstr "אַזהָרָה"
 
-#: app/templates/modals/delete-api-key.html:8
+#: app/views/modals/delete-api-key.html:8
 msgid "Are you sure you want to delete this api key?"
 msgstr "האם אתה בטוח שברצונך למחוק מפתח API זה?"
 
-#: app/templates/modals/delete-api-key.html:16
-#: app/templates/modals/delete-notification-agent.html:16
-#: app/templates/modals/revoke-session.html:16
-#: app/templates/tables/admin-users.html:40
-#: app/templates/tables/global-users.html:59
-#: app/templates/tables/invite-table.html:100
-#: app/templates/tables/notification-table.html:36
-#, fuzzy
+#: app/views/modals/delete-api-key.html:16
+#: app/views/modals/delete-notification-agent.html:16
+#: app/views/modals/revoke-session.html:16
+#: app/views/tables/admin-users.html:40 app/views/tables/global-users.html:59
+#: app/views/tables/invite-table.html:100
+#: app/views/tables/notification-table.html:36
+#: app/views/tables/oauth-table.html:36
 msgid "Delete"
-msgstr "ברירת מחדל"
+msgstr "לִמְחוֹק"
 
-#: app/templates/modals/delete-notification-agent.html:41
+#: app/views/modals/delete-notification-agent.html:41
 msgid "An error occurred while deleting the Notification Agent."
 msgstr "אירעה שגיאה בעת מחיקת סוכן ההודעות."
 
-#: app/templates/modals/delete-notification-agent.html:45
+#: app/views/modals/delete-notification-agent.html:45
 msgid "Notification Agent deleted successfully!"
 msgstr "סוכן ההתראות נמחק בהצלחה!"
 
-#: app/templates/modals/revoke-session.html:8
+#: app/views/modals/revoke-session.html:8
 msgid "Are you sure you want to revoke this session?"
 msgstr "האם אתה בטוח שברצונך לבטל את הפגישה הזו?"
 
-#: app/templates/modals/revoke-session.html:41
-#, fuzzy
+#: app/views/modals/revoke-session.html:41
 msgid "Something went wrong.Please try again."
-msgstr " משהו השתבש, נסה שוב מאוחר יותר."
+msgstr "משהו השתבש. אנא נסה שוב."
 
-#: app/templates/modals/revoke-session.html:46
+#: app/views/modals/revoke-session.html:46
 msgid "Session deleted successfully!"
 msgstr "ההפעלה נמחקה בהצלחה!"
 
-#: app/templates/modals/run-task.html:3 app/templates/modals/run-task.html:16
+#: app/views/modals/run-task.html:3 app/views/modals/run-task.html:16
 msgid "Run Task"
 msgstr "הפעל את המשימה"
 
-#: app/templates/modals/run-task.html:8
+#: app/views/modals/run-task.html:8
 msgid "Are you sure you want to run this task?"
 msgstr "האם אתה בטוח שברצונך להפעיל את המשימה הזו?"
 
-#: app/templates/modals/run-task.html:39
+#: app/views/modals/run-task.html:39
 msgid "Task has been run."
 msgstr "המשימה הופעלה."
 
-#: app/templates/modals/update-libraries.html:26
-#, fuzzy
+#: app/views/modals/update-libraries.html:3 app/views/settings/media.html:30
+#: app/views/setup/pages/settings.html:37
+msgid "Server Libraries"
+msgstr "ספריות שרתים"
+
+#: app/views/modals/update-libraries.html:26
 msgid "Update Libraries"
-msgstr "ספריות"
+msgstr "עדכן ספריות"
 
-#: app/templates/modals/update-libraries.html:88
-#, fuzzy
+#: app/views/modals/update-libraries.html:88
 msgid "Unable to update libraries"
-msgstr "ספריות"
+msgstr "לא ניתן לעדכן ספריות"
 
-#: app/templates/setup/base.html:12
+#: app/views/settings/about.html:111 app/views/settings/about.html:221
+msgid "Load More"
+msgstr "טען עוד"
+
+#: app/views/settings/accounts.html:13
+msgid "My Account"
+msgstr "החשבון שלי"
+
+#: app/views/settings/accounts.html:16
+msgid "Add Admin"
+msgstr "הוסף מנהל"
+
+#: app/views/settings/discord.html:4
+msgid "Discord Server ID"
+msgstr "מזהה שרת דיסקורד"
+
+#: app/views/settings/discord.html:9
+msgid "Discord Widget"
+msgstr "יישומון דיסקורד"
+
+#: app/views/settings/discord.html:19 app/views/settings/html.html:9
+#: app/views/settings/media.html:38 app/views/settings/requests.html:26
+msgid "Save"
+msgstr "להציל"
+
+#: app/views/settings/discord.html:42 app/views/settings/html.html:25
+#: app/views/settings/media.html:54 app/views/settings/requests.html:58
+msgid "Settings saved successfully!"
+msgstr "ההגדרות נשמרו בהצלחה!"
+
+#: app/views/settings/language.html:3
+msgid "Please use the dropdown below to select your language."
+msgstr "אנא השתמש בתפריט הנפתח למטה כדי לבחור את השפה שלך."
+
+#: app/views/settings/language.html:7
+msgid "Select Language"
+msgstr "בחר שפה"
+
+#: app/views/settings/main.html:33
+msgid "No settings matched your search."
+msgstr "אין הגדרות שתואמות לחיפוש שלך."
+
+#: app/views/settings/media.html:6 app/views/setup/pages/settings.html:6
+msgid "Server Display Name"
+msgstr "שם תצוגה של שרת"
+
+#: app/views/settings/media.html:11 app/views/setup/pages/settings.html:11
+msgid "Server"
+msgstr "שרת"
+
+#: app/views/settings/media.html:13
+msgid "Choose a server"
+msgstr "בחר שרת"
+
+#: app/views/settings/media.html:25 app/views/setup/pages/settings.html:25
+msgid "Server Token / API Key"
+msgstr "אסימון שרת / מפתח API"
+
+#: app/views/settings/media.html:32 app/views/setup/pages/settings.html:39
+msgid "Scan For Libraries"
+msgstr "סרוק ספריות"
+
+#: app/views/settings/notifications.html:18
+msgid "Create Agent"
+msgstr "צור סוכן"
+
+#: app/views/settings/oauth.html:16
+msgid "Add OAuth"
+msgstr "הוסף OAuth"
+
+#: app/views/settings/password.html:12
+msgid "Confirm Password"
+msgstr "אשר סיסמה"
+
+#: app/views/settings/password.html:19
+msgid "Reset Password"
+msgstr "לאפס את הסיסמה"
+
+#: app/views/settings/profile.html:6
+msgid "Display Name"
+msgstr "הצג שם"
+
+#: app/views/settings/profile.html:18
+msgid "Email Address"
+msgstr "כתובת דוא\"ל"
+
+#: app/views/settings/profile.html:25
+msgid "Update"
+msgstr "עדכון"
+
+#: app/views/settings/requests.html:4
+msgid "Request Server"
+msgstr "בקש שרת"
+
+#: app/views/settings/requests.html:6
+msgid "Disabled"
+msgstr "נָכֶה"
+
+#: app/views/settings/requests.html:15
+msgid "Request Server URL"
+msgstr "בקש כתובת אתר של שרת"
+
+#: app/views/settings/requests.html:20
+msgid "Request Server API Key"
+msgstr "בקש מפתח API של שרת"
+
+#: app/views/settings/sessions.html:14
+msgid "Revoke All"
+msgstr "בטל הכל"
+
+#: app/views/setup/base.html:12
 msgid "Setup Wizarr"
-msgstr "הגדר Wizarr"
+msgstr "אשף התקנה"
 
-#: app/templates/setup/pages/admin.html:2
-#, fuzzy
+#: app/views/setup/pages/admin.html:2
 msgid "Admin Account"
-msgstr "צור חשבון"
+msgstr "חשבון ניהול"
 
-#: app/templates/setup/pages/admin.html:24
-#, fuzzy
+#: app/views/setup/pages/admin.html:24
 msgid "Create account"
 msgstr "צור חשבון"
 
-#: app/templates/setup/pages/complete.html:2
+#: app/views/setup/pages/complete.html:2
 msgid "Your Done"
 msgstr "שלך בוצע"
 
-#: app/templates/setup/pages/complete.html:5
+#: app/views/setup/pages/complete.html:5
 msgid "You have successfully completed the setup process."
 msgstr "השלמת בהצלחה את תהליך ההגדרה."
 
-#: app/templates/setup/pages/complete.html:9
+#: app/views/setup/pages/complete.html:9
 msgid "Go to Dashboard"
 msgstr "עבור אל לוח המחוונים"
 
-#: app/templates/setup/pages/database.html:2
+#: app/views/setup/pages/database.html:2
 msgid "Database"
 msgstr "מאגר מידע"
 
-#: app/templates/setup/pages/database.html:5
+#: app/views/setup/pages/database.html:5
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr "נכון לעכשיו Wizarr תומך רק במסד הנתונים הפנימי של SQLite."
 
-#: app/templates/setup/pages/database.html:7
+#: app/views/setup/pages/database.html:7
 msgid ""
 "This is a temporary and we are working on adding support for other "
 "databases."
 msgstr "זה זמני ואנחנו עובדים על הוספת תמיכה עבור מסדי נתונים אחרים."
 
-#: app/templates/setup/pages/settings.html:2
-#: app/templates/templates/menu.html:34
-msgid "Settings"
-msgstr "הגדרות"
-
-#: app/templates/setup/pages/settings.html:31
+#: app/views/setup/pages/settings.html:31
 msgid "Test"
 msgstr "מִבְחָן"
 
-#: app/templates/setup/pages/settings.html:45
+#: app/views/setup/pages/settings.html:45
 msgid "Done"
 msgstr "בוצע"
 
-#: app/templates/setup/pages/welcome.html:5
+#: app/views/setup/pages/welcome.html:5
 msgid ""
 "Wizarr is an automatic user invitation system for Plex, Jellyfin, and Emby. "
 "With Wizarr, you can easily create unique invitation links to share with "
@@ -1049,7 +1291,7 @@ msgstr ""
 "ולהזמין אותם אוטומטית לשרת המדיה שלך! יתרה מזאת, Wizarr מספקת הנחיות לגבי "
 "הורדת לקוחות והוראות לשימוש באתר Jellyseerr, Overseerr או Ombi."
 
-#: app/templates/setup/pages/welcome.html:8
+#: app/views/setup/pages/welcome.html:8
 msgid ""
 "We hope you enjoy using Wizarr and invite you to explore its powerful "
 "features and intuitive interface. Should you need any assistance, please "
@@ -1059,457 +1301,63 @@ msgstr ""
 "והממשק האינטואיטיבי שלה. אם תזדקק לסיוע כלשהו, ​​עיין בתיעוד שלנו או פנה "
 "לקהילה שלנו לקבלת תמיכה."
 
-#: app/templates/setup/pages/welcome.html:11
+#: app/views/setup/pages/welcome.html:11
 msgid ""
 "Check out our documentation for detailed instructions on how to install and "
 "run Wizarr!"
 msgstr "עיין בתיעוד שלנו לקבלת הוראות מפורטות כיצד להתקין ולהפעיל את Wizarr!"
 
-#: app/templates/tables/admin-users.html:37
-#: app/templates/tables/global-users.html:56
-#: app/templates/tables/invite-table.html:97
-#: app/templates/tables/notification-table.html:33
+#: app/views/tables/admin-users.html:37 app/views/tables/global-users.html:56
+#: app/views/tables/invite-table.html:97
+#: app/views/tables/notification-table.html:33
+#: app/views/tables/oauth-table.html:33
 msgid "Edit"
 msgstr "לַעֲרוֹך"
 
-#: app/templates/tables/invite-table.html:7
+#: app/views/tables/invite-table.html:7
 msgid "Used"
-msgstr "נוצל"
+msgstr "בשימוש"
 
-#: app/templates/tables/invite-table.html:8
+#: app/views/tables/invite-table.html:8
 msgid "Expired"
-msgstr "פג תוקף"
+msgstr "לא בתוקף"
 
-#: app/templates/tables/invite-table.html:9
+#: app/views/tables/invite-table.html:9
 msgid "Libraries"
 msgstr "ספריות"
 
-#: app/templates/tables/invite-table.html:15
+#: app/views/tables/invite-table.html:15
 msgid "Created"
 msgstr "נוצר"
 
-#: app/templates/tables/invite-table.html:115
-#, fuzzy
+#: app/views/tables/invite-table.html:115
 msgid "No Invitations"
-msgstr "הזמנות"
+msgstr "אין הזמנות"
 
-#: app/templates/tables/invite-table.html:118
-#, fuzzy
+#: app/views/tables/invite-table.html:118
 msgid "You have not created any invitations yet."
-msgstr "צור הזמנה"
+msgstr "עדיין לא יצרת הזמנות."
 
-#: app/templates/tables/sessions-table.html:27
+#: app/views/tables/mfa-table.html:4
+msgid "Your Passkeys"
+msgstr "המפתחות שלך"
+
+#: app/views/tables/mfa-table.html:7 app/views/tables/mfa-table.html:48
+msgid "Add a passkey"
+msgstr "הוסף מפתח סיסמה"
+
+#: app/views/tables/sessions-table.html:27
 msgid "Revoke"
 msgstr "לְבַטֵל"
 
-#: app/templates/tables/task-table.html:7
-#, fuzzy
+#: app/views/tables/task-table.html:7
 msgid "Job Name"
-msgstr "שם"
+msgstr "שם העבודה"
 
-#: app/templates/tables/task-table.html:8
+#: app/views/tables/task-table.html:8
 msgid "Next Execution"
 msgstr "ההוצאה להורג הבאה"
 
-#: app/templates/tables/task-table.html:40
+#: app/views/tables/task-table.html:40
 msgid "Run Now"
 msgstr "רוץ עכשיו"
-
-#: app/templates/templates/menu.html:28
-msgid "Users"
-msgstr "משתמשים"
-
-#: app/templates/templates/update.html:13
-msgid "Attention!"
-msgstr "שים לב!"
-
-#: app/templates/templates/update.html:14
-msgid "Update available. Click here."
-msgstr "קיים עדכון. לחץ כאן."
-
-#: app/templates/wizard/base.html:4
-msgid "Help"
-msgstr "עֶזרָה"
-
-#: app/templates/wizard/base.html:12
-msgid "Getting Started!"
-msgstr "מתחילים!"
-
-#: app/templates/wizard/base.html:38
-msgid "Next"
-msgstr "הַבָּא"
-
-#: app/templates/wizard/base.html:45
-#, fuzzy
-msgid "Open"
-msgstr "פתח Plex"
-
-#: app/templates/wizard/pages/requests.html:4
-msgid "Automatic Media Requests"
-msgstr "בקשות מדיה אוטומטיות"
-
-#: app/templates/wizard/pages/requests.html:9
-#, fuzzy
-msgid ""
-"We are excited to offer you a wide selection of media to choose from. If you're having trouble finding\n"
-"        something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
-"        media you're looking for. "
-msgstr ""
-"אנחנו גאים להציע לכם מבחר רחב של מדיה. אם קשה לך למצוא משהו שמעניין אותך, אל"
-" דאגה! יש לנו מערכת בקשות נוחה במיוחד אשר מחפשת אוטומתית  את המדיה שאתה "
-"מחפש. "
-
-#: app/templates/wizard/pages/requests.html:20
-msgid "Request any available Movie or TV Show"
-msgstr "בקש כל סרט או סדרה"
-
-#: app/templates/wizard/pages/requests.html:27
-#, fuzzy
-msgid "Requested media will be automatically downloaded (if available)"
-msgstr "מדיה מבוקשת יורד אוטומטית לספריה במידה וזמין."
-
-#: app/templates/wizard/pages/requests.html:34
-msgid "If enabled, receive notifications"
-msgstr "אם פועל, קבל התראות"
-
-#: app/templates/wizard/pages/requests.html:40
-msgid "Check it Out"
-msgstr "בדוק"
-
-#: app/templates/wizard/pages/jellyfin/download.html:2
-#, fuzzy
-msgid ""
-"Join & Download Jellyfin\n"
-"        for this device"
-msgstr "הצטרף ל והורד Jellyfin עבור מכשיר זה"
-
-#: app/templates/wizard/pages/jellyfin/download.html:7
-#, fuzzy
-msgid ""
-"Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
-"    it with Jellyfin."
-msgstr ""
-"חדשות טובות! כבר יש לך גישה לאוסף המידה בשרת שלנו. בוא רק נוודא שאתה יודע "
-"להשתמש בזה עם Jellyfin."
-
-#: app/templates/wizard/pages/jellyfin/download.html:11
-msgid ""
-"Planning on watching Movies on this device? Download Jellyfin for this "
-"device."
-msgstr "מתכנן לראות כאן סרטים? הורד Jellyfin למכשיר זה."
-
-#: app/templates/wizard/pages/jellyfin/download.html:19
-msgid ""
-"If you don't wish to Download the App feel free to use Jellyfin in your "
-"devices web browser, just click \"Next\"."
-msgstr ""
-"אם אינך רוצה להוריד את האפליקציה, אל תהסס להשתמש בג'ליפין בדפדפן האינטרנט של"
-" המכשיר שלך, פשוט לחץ על \"הבא\"."
-
-#: app/templates/wizard/pages/jellyfin/download.html:25
-#, fuzzy
-msgid "Show Server URL"
-msgstr "קישור לשרת"
-
-#: app/templates/wizard/pages/jellyfin/download.html:34
-#: app/templates/wizard/pages/jellyfin/download.html:191
-msgid "Copy"
-msgstr "עותק"
-
-#: app/templates/wizard/pages/jellyfin/download.html:59
-#: app/templates/wizard/pages/jellyfin/download.html:83
-msgid "Open Jellyfin"
-msgstr "פתח את Jellyfin"
-
-#: app/templates/wizard/pages/jellyfin/download.html:139
-#, fuzzy
-msgid "Other Download"
-msgstr "הורד"
-
-#: app/templates/wizard/pages/jellyfin/download.html:188
-msgid "Copied!"
-msgstr "מוּעֲתָק!"
-
-#: app/templates/wizard/pages/jellyfin/tips.html:3
-#: app/templates/wizard/pages/plex/tips.html:3
-msgid "Right, so how do I watch stuff?"
-msgstr "טוב, אז איך אני צופה בדברים?"
-
-#: app/templates/wizard/pages/jellyfin/tips.html:6
-#, fuzzy
-msgid ""
-"It couldn't be simpler! Jellyfin is available on a wide variety of devices "
-"including laptops, tablets, smartphones, and TVs. All you need to do is "
-"download the Jellyfin app on your device, sign in with your account, and "
-"you're ready to start streaming your media."
-msgstr ""
-"שיא הפשוט! רק מתקינים את האפליקציה של Jellyfin במכשיר, מתחברים עם החשבון, "
-"ואתה כבר מוכן לצפות!"
-
-#: app/templates/wizard/pages/jellyfin/tips.html:9
-msgid "It's that easy!"
-msgstr "זה כזה קל!"
-
-#: app/templates/wizard/pages/jellyfin/welcome.html:3
-msgid "Eh, So, What is Jellyfin exactly?"
-msgstr "אז, מה זה בדיוק Jellyfin?"
-
-#: app/templates/wizard/pages/jellyfin/welcome.html:6
-#, fuzzy
-msgid ""
-"Jellyfin is a platform that lets you stream all your favorite movies, TV "
-"shows, and music in one place. It's like having your own personal movie "
-"theater right at your fingertips! Think of it as a digital library of your "
-"favorite content that you can access from anywhere, on any device - your "
-"phone, tablet, laptop, smart TV, you name it."
-msgstr ""
-"Jellyfin היא פלטפורמה המאפשרת לך לנהסטרים את כל הסרטים, סדרות, ומוזיקה האהובות עליכם במקום אחד.\n"
-" זה כמו קולנוע פרטי בכף היד! תחשוב על זה כספריה דיגיטלית של תוכן אהוב שאפשר לגשת אליו מכל מקום, בכל מכשיר - מהטלפון, טאבךט, מחשב, או אפילו הטלוויזיה החכמה."
-
-#: app/templates/wizard/pages/plex/download.html:4
-#, fuzzy
-msgid "Join & Download Plex for this device"
-msgstr "התטרף והורד Plex למכשיר זה"
-
-#: app/templates/wizard/pages/plex/download.html:8
-#, fuzzy
-msgid ""
-"So you now have access to our server's media collection. Let's make sure you"
-" know how to use it with Plex."
-msgstr ""
-"חדשות טובות! כבר יש לך גישה לאוסף המידה בשרת שלנו. בוא רק נוודא שאתה יודע "
-"להשתמש בזה עם Plex."
-
-#: app/templates/wizard/pages/plex/download.html:11
-msgid ""
-"Planning on watching Movies on this device? Download Plex for this device."
-msgstr "מתכנן לראות כאן סרטים? הורד Plex למכשיר זה."
-
-#: app/templates/wizard/pages/plex/download.html:14
-msgid "Download"
-msgstr "הורד"
-
-#: app/templates/wizard/pages/plex/tips.html:6
-#, fuzzy
-msgid ""
-"It couldn't be simpler! Plex is available on a wide variety of devices including laptops, tablets,\n"
-"        smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
-"        you're ready to start streaming your media. It's that easy!"
-msgstr ""
-"שיא הפשוט! רק מתקינים את האפליקציה של Plex במכשיר, מתחברים עם החשבון, ואתה "
-"כבר מוכן לצפות!"
-
-#: app/templates/wizard/pages/plex/tips.html:11
-msgid "How can I make sure to have the best experience?"
-msgstr "איך אני מקבל את החוויה הכי טובה?"
-
-#: app/templates/wizard/pages/plex/tips.html:14
-#, fuzzy
-msgid ""
-"Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
-"        sharing with you - they also, by default, play content at a lower quality. "
-msgstr ""
-"בגלל שPlex הוא בחינם, הם מציגים לך קודם את התוכן שלהם לפני מה שחבר שלך שיתף "
-"איתך. הם גם(כברירת מחדל) מסטרימים באיכות נמוכה יותר. "
-
-#: app/templates/wizard/pages/plex/tips.html:17
-msgid "No need to worry though, this can be easily resolved"
-msgstr "אל דאגה, די קל לפתור את זה"
-
-#: app/templates/wizard/pages/plex/tips.html:17
-#, fuzzy
-msgid ""
-"We highly\n"
-"            recommend you to go through those steps first!"
-msgstr "ממליצים בחום קודם לעבור על שלבים אלו!"
-
-#: app/templates/wizard/pages/plex/welcome.html:3
-msgid "Eh, So, What is Plex exactly?"
-msgstr "אז, מה זה בדיוק Plex?"
-
-#: app/templates/wizard/pages/plex/welcome.html:6
-#, fuzzy
-msgid ""
-"Great question! Plex is a software that allows individuals to share their "
-"media collections with others. If you've received this invitation, it means "
-"someone wants to share their library with you."
-msgstr ""
-"Plex היא תוכנה המאפשרת לאנשים לשתף את המדיה שלהם עם אנשים אחרים. אם קיבלת את"
-" ההזמנה זאת, זה אומר שמישהו רוצה לשתף איתך את הספריה שלו. יהיה לך גישה לכל "
-"המדיה שקיים על השרת שלהם."
-
-#: app/templates/wizard/pages/plex/welcome.html:9
-msgid ""
-"With Plex, you'll have access to all of the movies, TV shows, music, and "
-"photos that are stored on their server!"
-msgstr ""
-"עם Plex, תהיה לך גישה לכל הסרטים, תוכניות הטלוויזיה, המוזיקה והתמונות "
-"המאוחסנים בשרת שלהם!"
-
-#: app/templates/wizard/pages/plex/welcome.html:12
-msgid "So let's see how to get started!"
-msgstr "אז בואו נראה איך להתחיל!"
-
-#~ msgid "Change Server Settings"
-#~ msgstr "שנה הגדרות שרת"
-
-#~ msgid "Invite Used"
-#~ msgstr "ההזמנה נוצלה"
-
-#~ msgid "User"
-#~ msgstr "משתמש"
-
-#~ msgid "Home User"
-#~ msgstr "משתמש בית"
-
-#~ msgid ""
-#~ "Server\n"
-#~ "                Libraries"
-#~ msgstr "ספריות שרת"
-
-#~ msgid ""
-#~ "Request\n"
-#~ "                instance (Ombi, Overseerr...) URL"
-#~ msgstr "שרת בקשות (Ombi או Overseerr)"
-
-#~ msgid "Ombi API Key (Only used for user import currently.)"
-#~ msgstr "מפתח API עבור Ombi (כרגע משמש רק לייבוא משתמשים)"
-
-#~ msgid ""
-#~ "Custom\n"
-#~ "                HTML"
-#~ msgstr "HTML  אישי"
-
-#~ msgid "Notification Agents"
-#~ msgstr "סוכני הודעות"
-
-#~ msgid ""
-#~ "Username\n"
-#~ "                                (optional)"
-#~ msgstr "קוד הזמנה"
-
-#~ msgid ""
-#~ "Agent\n"
-#~ "                                URL"
-#~ msgstr "קוד הזמנה"
-
-#~ msgid "Expires"
-#~ msgstr "פג תוקף ב"
-
-#~ msgid "Actions"
-#~ msgstr "פעולות"
-
-#~ msgid "Available"
-#~ msgstr "זמין"
-
-#~ msgid "Default"
-#~ msgstr "ברירת מחדל"
-
-#~ msgid "Passwords do not match."
-#~ msgstr "הססמאות אינן תואמות."
-
-#~ msgid "Username must be between 3 and 15 characters."
-#~ msgstr "חובה לבחור שם משתמש באורך של בין 3 ל15 תווים."
-
-#~ msgid "Password must be between 3 and 40 characters."
-#~ msgstr "חובה לבחור ססמא באורך של בין 3 ו40 תווים."
-
-#~ msgid "You must select at least one library."
-#~ msgstr "עליך לבחור לפחות ספרייה אחת."
-
-#~ msgid "It is likely that your token does not work."
-#~ msgstr "ככל הנראה תהליך ההזדהות נכשל."
-
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
-#~ msgstr "לא הצלחנו להתחבר לשרת הPlex. ראה בלוגים עבור מידע נוסף."
-
-#~ msgid "Unable to connect to your Jellyfin server."
-#~ msgstr "לא הצלחנו להתחבר לשרת הJellyfin. ראה בלוגים עבור מידע נוסף."
-
-#~ msgid "Invalid Username or Password"
-#~ msgstr "שם משתמש או ססמא שגוי"
-
-#~ msgid "Oops!"
-#~ msgstr "אופס!"
-
-#~ msgid ""
-#~ "Confirm\n"
-#~ "                                password"
-#~ msgstr "אמת ססמא"
-
-#~ msgid ""
-#~ "Invite\n"
-#~ "                                Code"
-#~ msgstr "קוד הזמנה"
-
-#~ msgid "(in days)"
-#~ msgstr "(בימים)"
-
-#~ msgid ""
-#~ "Specific\n"
-#~ "                                Libraries"
-#~ msgstr "ספריות מסוימות"
-
-#~ msgid "Custom HTML"
-#~ msgstr "HTML מותאם אישית"
-
-#~ msgid "Hello"
-#~ msgstr "שלום"
-
-#~ msgid "Logged in successfully"
-#~ msgstr "התחברת בהצלחה"
-
-#~ msgid "Unauthorized attempted access"
-#~ msgstr "ניסיון גישה לא מורשה"
-
-#~ msgid "Could not find the requested page"
-#~ msgstr "לא ניתן למצוא את הדף המבוקש"
-
-#~ msgid "Quick Invite"
-#~ msgstr "הזמנה מהירה"
-
-#~ msgid "Server Invites"
-#~ msgstr "הגדרות שרת"
-
-#~ msgid "HTML"
-#~ msgstr "HTML"
-
-#~ msgid "API"
-#~ msgstr "ממשק API"
-
-#~ msgid "Accounts"
-#~ msgstr "הגדר חשבון"
-
-#~ msgid "Tasks"
-#~ msgstr "משימות"
-
-#~ msgid "Server Users"
-#~ msgstr "קישור לשרת"
-
-#~ msgid ""
-#~ "Currently Wizarr only supports internal SQLite database. This is a temporary"
-#~ " and we are working on adding support for other databases."
-#~ msgstr ""
-#~ "נכון לעכשיו Wizarr תומך רק במסד נתונים פנימי של SQLite. זה זמני ואנחנו "
-#~ "עובדים על הוספת תמיכה עבור מסדי נתונים אחרים."
-
-#~ msgid "Configure Plex's app on your computer, mobile device or TV"
-#~ msgstr "הגדר את האפליקציה של Plex במחשב, נייד, או טלוויזיה חכמה."
-
-#~ msgid "Goodbye"
-#~ msgstr "הֱיה שלום"
-
-#~ msgid "Logged out successfully"
-#~ msgstr "התנתק בהצלחה"
-
-#~ msgid "Your Account"
-#~ msgstr "הגדר חשבון"
-
-#~ msgid "Account"
-#~ msgstr "הגדר חשבון"
-
-#~ msgid "General"
-#~ msgstr "כללי"
-
-#~ msgid "View and update general settings"
-#~ msgstr "הצג ועדכן הגדרות כלליות"
