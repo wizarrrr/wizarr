@@ -22,12 +22,18 @@ jobs:
     - name: Update Translation Messages
       run: |
         pybabel extract -F babel.cfg -k _l -o messages.pot .
+
     - name: Update Existing Translations with new messages
       run: |
         pybabel update -i messages.pot -d app/translations
+
+    - name: Translate new messages
+      run: |
+        python translate.py
+
     - name : Compile Translations
       run: |
-        pybabel compile -d app/translations 
+        pybabel compile -d app/translations
 
     - name: Commit and push changes
       run: |

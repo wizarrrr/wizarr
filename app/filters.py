@@ -117,3 +117,9 @@ def date_format(value, format="%Y-%m-%d %H:%M:%S"):
 
 def env(key, default=None):
     return getenv(key, default)
+
+def split_string(value, delimiter, index=None):
+    if index is None:
+        return value.split(delimiter)
+    else:
+        return value.split(delimiter)[index]

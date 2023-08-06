@@ -1,6 +1,7 @@
 import os
 import polib
 from googletrans import Translator
+from termcolor import colored
 
 def translate_po_files(directory_path: str):
 
@@ -12,35 +13,6 @@ def translate_po_files(directory_path: str):
 
     # Loop through all languages
     for language in languages:
-
-        # Language dictionary
-        language_dict = {
-            "en": "en",
-            "zh_Hant": "zh-tw",
-            "ca": "ca",
-            "cs": "cs",
-            "da": "da",
-            "de": "de",
-            "es": "es",
-            "fa": "fa",
-            "fr": "fr",
-            "gsw": "de",
-            "he": "he",
-            "hr": "hr",
-            "hu": "hu",
-            "is": "is",
-            "it": "it",
-            "lt": "lt",
-            "nb_NO": "no",
-            "nl": "nl",
-            "pl": "pl",
-            "pt": "pt",
-            "pt_BR": "pt",
-            "ro": "ro",
-            "ru": "ru",
-            "sv": "sv",
-            "zh_Hans": "zh-cn"
-        }
 
         # Create directory path for language
         language_path = os.path.join(directory_path, language, "LC_MESSAGES")
@@ -54,10 +26,26 @@ def translate_po_files(directory_path: str):
         # Loop through all entries in the po file
         for entry in po_file:
             if not entry.msgstr:
-                # Translate the message using Google Translate
-                translation = translator.translate(entry.msgid, dest=language_dict[language], src="en")
-                entry.msgstr = translation.text
-                print(f"Translated {entry.msgid} to {entry.msgstr}")
+                try:
+                    # Translate the message using Google Translate
+                    translation = translator.translate(entry.msgid, dest=language.replace("_", "-"), src="en")
+                    entry.msgstr = translation.text
+
+                    # Get the language code colored
+                    language_code = colored(language, "green")
+                    msgid = colored(entry.msgid, "yellow")
+                    msgstr = colored(entry.msgstr, "cyan")
+
+                    # Print the translated message
+                    print(f"{language_code}: {msgid} -> {msgstr}")
+                except Exception:
+                    # Get the language code colored
+                    error = colored("ERROR", "red")
+                    language_code = colored(language, "red")
+                    msgid = colored(entry.msgid, "yellow")
+
+                    # Print the untranslated message
+                    print(f"{error}: {language_code}: {msgid}")
 
         # Save the po file
         po_file.save(f"{language_path}/messages.po")

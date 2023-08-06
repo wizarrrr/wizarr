@@ -26,14 +26,14 @@
 
 
     <ul class="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLanguageButton">
-        {% for language in LANGUAGES_DICT %}
+        {% for language in LANGUAGES %}
         <li>
             <button class="flex w-full items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600" type="button" onclick="window.location.href='?lang={{ language }}'">
                 <div class="w-10 h-10 flex items-center justify-center">
-                    <img src="https://raw.githubusercontent.com/MohmmedAshraf/blade-flags/main/resources/svg/language-{{ LANGUAGES_DICT[language] }}.svg" alt="{{ LANGUAGES[language] }}" class="w-6 h-6">
+                    <img src="https://raw.githubusercontent.com/MohmmedAshraf/blade-flags/main/resources/svg/language-{{ language|split('_', 0) }}.svg" alt="{{ LANGUAGES[language] }}" class="w-6 h-6">
                 </div>
                 <div class="ml-2">
-                    <p class="font-medium capitalize">{{ LANGUAGES_COUNTRY[language] }}</p>
+                    <p class="font-medium capitalize">{{ LANGUAGES[language] }}</p>
                 </div>
             </button>
         </li>

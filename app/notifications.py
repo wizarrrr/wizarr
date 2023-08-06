@@ -25,7 +25,7 @@ def notify_discord(message, webhook_url):
     headers = {"Content-Type": "application/json"}
     success = send_request(webhook_url, data, headers)
     if not success:
-        logging.error(f"Failed to send Discord message. URL is invalid: {webhook_url}")
+        logging.error("Failed to send Discord message. URL is invalid: %s", webhook_url)
         raise InvalidNotificationAgent("Failed to send Discord message. URL is invalid")
     return success
 
@@ -36,7 +36,7 @@ def notify_telegram(message, bot_token, chat_id):
     if not success:
         logging.error("Failed to send Telegram message. Invalid bot token or chat ID")
         raise InvalidNotificationAgent("Failed to send Telegram message. Invalid bot token or chat ID")
-    
+
     return success
 
 def notify_ntfy(message, title, tags, url, username, password):
@@ -52,21 +52,21 @@ def notify_ntfy(message, title, tags, url, username, password):
     if not success:
         logging.error("Failed to send ntfy message. Invalid URL")
         raise InvalidNotificationAgent("Failed to send ntfy message. Invalid URL")
-    
+
     return success
 
 def notify_pushover(message, title, url, username, password):
     data = json.dumps({"token": password, "user": username, "msg": message, "title": title})
     headers = {"Content-Type": "application/json"}
-    
+
     success = send_request(url, data, headers)
     if not success:
         logging.error("Failed to send Pushover message. Invalid URL or Token")
         raise InvalidNotificationAgent("Failed to send Pushover message. Invalid URL or Token")
-    
+
     return success
-    
-            
+
+
 
 def send_request(url, data, headers):
     try:
@@ -74,8 +74,8 @@ def send_request(url, data, headers):
         if response.status_code == 200 or response.status_code == 204:
             return True
         else:
-            logging.error(f"Failed to send message. Error code: {response.status_code}, Error message: {response.text}")
+            logging.error("Failed to send message. Error code: %s, Error message: %s", response.status_code, response.text)
             return False
     except requests.exceptions.RequestException as e:
-        logging.error(f"Request failed due to an error: {e}")
+        logging.error("Request failed due to an error: %s", e)
         return False
