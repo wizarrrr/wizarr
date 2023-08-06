@@ -80,7 +80,7 @@ def login_required_unless_setup():
                 except Exception as e:
                     from app import htmx
                     if htmx:
-                        response = make_response(render_template("login.html"))
+                        response = make_response(render_template("authentication/login.html"))
                         response.headers["HX-Redirect"] = "/login" + "?toast=" + "You need to be logged in to access that page"
                         response.headers["HX-Push"] = "/login"
                         return response
@@ -104,7 +104,7 @@ def login_required():
                 except Exception as e:
                     from app import htmx
                     if htmx:
-                        response = make_response(render_template("login.html"))
+                        response = make_response(render_template("authentication/login.html"))
                         response.headers["HX-Redirect"] = "/login" + "?toast=" + "You need to be logged in to access that page"
                         response.headers["HX-Push"] = "/login"
                         return response

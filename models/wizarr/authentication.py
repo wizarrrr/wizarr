@@ -21,10 +21,12 @@ class AuthenticationModel(Model):
     _user_id: int | None = None
     _mfa_id: str | None = None
 
+
     # ANCHOR - Authentication Model
     username = StringType(required=True)
     password = StringType(required=True)
     remember = BooleanType(required=False, default=False)
+
 
     # ANCHOR - Initialize
     def __init__(self, *args, **kwargs):
@@ -60,11 +62,6 @@ class AuthenticationModel(Model):
 
     # ANCHOR - Get User
     def _get_user(self) -> Accounts:
-        """Get the user from the database
-
-        :return: An admin
-        """
-
         # Create admin variable
         admin: Accounts | None = None
 
@@ -84,12 +81,6 @@ class AuthenticationModel(Model):
 
     # ANCHOR - Validate Password
     def validate_password(self, _, value):
-        """Validate the password
-
-        :param value: The password
-        :type value: str
-        """
-
         # Check if the password is correct
         if not check_password_hash(self._user.password, value):
             raise ValidationError("Invalid Username or Password")
@@ -121,12 +112,7 @@ class AuthenticationModel(Model):
 
     # ANCHOR - Create JWT Token for user
     def get_token(self):
-        """Create a jwt token for the user
-
-        :return: A jwt token
-        :rtype: str
-        """
-
+        # Check if the current_app is set
         if not current_app:
             raise RuntimeError("Must be called from within a flask route")
 
@@ -167,22 +153,14 @@ class AuthenticationModel(Model):
 
     # ANCHOR - Get User
     def get_admin(self) -> Accounts:
-        """Get the user from the database
-
-        :return: An admin
-        """
-
+        # Return the user object
         return self._user
+
 
     # ANCHOR - Get Token from Cookie
     @staticmethod
     def get_token_from_cookie():
-        """Get the token from the cookie
-
-        :return: A jwt token
-        :rtype: str
-        """
-
+        # Check if the current_app is set
         if not current_app:
             raise RuntimeError("Must be called from within a flask route")
 
@@ -199,8 +177,6 @@ class AuthenticationModel(Model):
     # ANCHOR - Destroy Session
     @staticmethod
     def destroy_session():
-        """Destroy the session"""
-
         # Get the token
         token = AuthenticationModel.get_token_from_cookie()
 

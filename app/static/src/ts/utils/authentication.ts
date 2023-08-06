@@ -86,7 +86,7 @@ class Authentication {
      *
      * @returns An Authentication object
      */
-    constructor(kwargs: object[]) {
+    constructor(kwargs: object[] = []) {
         // Loop through the kwargs and set the properties
         for (const key in kwargs) {
             if (kwargs.hasOwnProperty(key)) {
@@ -199,7 +199,10 @@ class Authentication {
      * Handle MFA registration
      * This method is used to handle MFA registration
      */
-    async mfaRegistration() {
+    async mfaRegistration(mfaName?: string) {
+
+        // Check if the mfaName is set
+        if (mfaName) this.mfaName = mfaName;
 
         // Make sure the browser supports webauthn
         if (!browserSupportsWebAuthn()) {
@@ -227,6 +230,7 @@ class Authentication {
         const data = {
             "registration": JSON.stringify(registration),
             "origin": window.location.origin,
+            "name": this.mfaName
         };
 
         // Send the registration to the server
@@ -345,3 +349,5 @@ class Authentication {
 }
 
 addToWindow(["utils", "Authentication"], Authentication);
+
+export default Authentication;

@@ -5,6 +5,8 @@ module.exports = {
         "./src/ts/*.ts",
         "../templates/**/*.html",
         "../templates/*.html",
+        "../views/**/*.html",
+        "../views/*.html",
         "./node_modules/flowbite/**/*.js",
         // "./node_modules/tw-elements/dist/js/**/*.js"
     ],

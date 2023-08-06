@@ -1,0 +1,98 @@
+<div class="flex justify-between items-center pb-3">
+    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        {{ _("Add Passkey") }}
+    </h1>
+</div>
+<div class="flex flex-col">
+    <form class="space-y-4 md:space-y-6" onsubmit="event.preventDefault();">
+        <div>
+            <label for="mfa_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Name") }}</label>
+            <input type="text" name="mfa_name" id="mfa_name" placeholder='e.g. "Chrome Passkey"' class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+        </div>
+        <div class="flex justify-end pt-2 space-x-4">
+            <button onclick="utils.closeModal(this)" type="button" class="inline-flex w-full justify-center rounded bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto">
+                {{ _("Cancel") }}
+            </button>
+            <button onclick="addMFA(this)" type="button" class="inline-flex w-full justify-center rounded bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:w-auto">
+                {{ _("Create") }}
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+
+// Get Devices browser name
+var browser = (function (agent) {
+    switch (true) {
+        case agent.indexOf("edge") > -1: return "Edge";
+        case agent.indexOf("edg") > -1: return "Edge";
+        case agent.indexOf("opr") > -1 && !!window.opr: return "Opera";
+        case agent.indexOf("chrome") > -1 && !!window.chrome: return "Chrome";
+        case agent.indexOf("trident") > -1: return "Internet Explorer";
+        case agent.indexOf("firefox") > -1: return "Firefox";
+        case agent.indexOf("safari") > -1: return "Safari";
+        default: return false;
+    }
+})(window.navigator.userAgent.toLowerCase());
+
+// Get Devices OS name
+var os = (function (agent) {
+    switch (true) {
+        case agent.indexOf("win") > -1: return "Windows";
+        case agent.indexOf("mac") > -1: return "macOS";
+        case agent.indexOf("linux") > -1: return "Linux";
+        case agent.indexOf("android") > -1: return "Android";
+        case agent.indexOf("cros") > -1: return "ChromeOS";
+        case agent.indexOf("iphone") > -1: return "iPhone";
+        case agent.indexOf("ipad") > -1: return "iPad";
+        default: return false;
+    }
+})(window.navigator.userAgent.toLowerCase());
+
+// Create a device name
+function createDeviceName() {
+    // If browser is false and os is false, return nothing
+    if (!browser && !os) return;
+
+    // If browser is false, return os
+    if (!browser) return 'Passkey for ' + os;
+
+    // If os is false, return browser
+    if (!os) return 'Passkey on ' + browser;
+
+    // Return browser on os
+    return browser + ' on ' + os;
+}
+
+// Add MFA
+async function addMFA(that) {
+    // Get device name input value
+    var deviceName = document.getElementById('mfa_name').value;
+
+    // If device name input value is empty, set device name input value to device name
+    deviceName = deviceName ? deviceName : createDeviceName();
+
+    // Add MFA
+    await api.mfa.addMFA(deviceName);
+
+    // Close modal
+    utils.closeModal(that);
+}
+
+// Set device name input value
+function setNameValue() {
+    // Get device name
+    var deviceName = createDeviceName();
+
+    // If device name is false, return
+    if (!deviceName) return;
+
+    // Set device name input value
+    document.getElementById('mfa_name').value = deviceName;
+}
+
+// Set device name input value
+setNameValue();
+
+</script>

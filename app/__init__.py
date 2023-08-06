@@ -20,6 +20,8 @@ from tabulate import tabulate
 from termcolor import colored
 from notifications.notifications import *
 
+from jinja2 import ChoiceLoader, FileSystemLoader
+
 # Global App Version
 VERSION = "3.0.0"
 BASE_DIR = path.abspath(path.dirname(__file__))
@@ -29,6 +31,12 @@ load_dotenv()
 
 # Create the app
 app = Flask(__name__)
+
+# Define a custom template loader for the other_templates folder
+views_loader = FileSystemLoader("app/views")
+config_loader = FileSystemLoader("app/configs")
+app.jinja_loader = ChoiceLoader([app.jinja_loader, views_loader, config_loader])
+
 
 # Stuff thats gonna prevent Wizarr from working correctly, lets tell the user about it instead of just quitting
 @app.before_request
@@ -168,7 +176,7 @@ with app.app_context():
         with open(path.join(BASE_DIR, "../", "database", "logs.log"), "w", encoding="utf-8") as f:
             f.write("")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     socketio.run(app)
 
 from app import backup

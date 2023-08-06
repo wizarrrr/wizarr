@@ -8,10 +8,7 @@ from models.database.settings import Settings
 from logging import info
 
 class SpecificLibrariesType(BaseType):
-    """Specific Libraries Type
-
-    Converts a string to a list if needed
-    """
+    """Converts a string to a list if needed"""
 
     def to_native(self, value, _):
         if isinstance(value, str):

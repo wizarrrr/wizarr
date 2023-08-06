@@ -7,17 +7,20 @@ from flask import jsonify, make_response, request, session
 from flask_jwt_extended import current_user, jwt_required
 from flask_restx import Namespace, Resource
 from playhouse.shortcuts import model_to_dict
-from webauthn import (generate_authentication_options,
-                      generate_registration_options, options_to_json,
-                      verify_authentication_response,
-                      verify_registration_response)
-from webauthn.helpers.structs import (AuthenticationCredential,
-                                      AuthenticatorSelectionCriteria,
-                                      COSEAlgorithmIdentifier,
-                                      PublicKeyCredentialCreationOptions,
-                                      PublicKeyCredentialRequestOptions,
-                                      RegistrationCredential,
-                                      UserVerificationRequirement)
+
+from webauthn import generate_authentication_options
+from webauthn import generate_registration_options
+from webauthn import options_to_json
+from webauthn import verify_authentication_response
+from webauthn import verify_registration_response
+
+from webauthn.helpers.structs import AuthenticationCredential
+from webauthn.helpers.structs import AuthenticatorSelectionCriteria
+from webauthn.helpers.structs import COSEAlgorithmIdentifier
+from webauthn.helpers.structs import PublicKeyCredentialCreationOptions
+from webauthn.helpers.structs import PublicKeyCredentialRequestOptions
+from webauthn.helpers.structs import RegistrationCredential
+from webauthn.helpers.structs import UserVerificationRequirement
 
 from models.database.accounts import Accounts
 from models.database.sessions import Sessions
@@ -32,6 +35,71 @@ class MFAListAPI(Resource):
     """
     Manage a specific MFA device
     """
+
+    @jwt_required()
+    def get(self, mfa_id: int):
+        """
+        Get a specific MFA device
+        """
+
+        # Check if there is a current user
+        if not current_user:
+            return {"message": "No user found"}, 401
+
+        # Get the MFA
+        mfa: MFA = MFA.get_or_none(MFA.id == mfa_id)
+
+        # Check if the MFA exists
+        if not mfa:
+            return {"message": "MFA not found"}, 404
+
+        # Check if the MFA belongs to the current user
+        if int(mfa.user_id) != int(current_user["id"]):
+            return {"message": "MFA not found"}, 404
+
+        # Return the response
+        return jsonify(model_to_dict(mfa)), 200
+
+
+    @jwt_required()
+    def put(self, mfa_id: int):
+        """
+        Update a specific MFA device
+        """
+
+        # Check if there is a current user
+        if not current_user:
+            return {"message": "No user found"}, 401
+
+        # Get the MFA
+        mfa: MFA = MFA.get_or_none(MFA.id == mfa_id)
+
+        # Check if the MFA exists
+        if not mfa:
+            return {"message": "MFA not found"}, 404
+
+        # Check if the MFA belongs to the current user
+        if int(mfa.user_id) != int(current_user["id"]):
+            return {"message": "MFA not found"}, 404
+
+        # Get the request data
+        data = request.get_json()
+
+        # Check if the request data is valid
+        if not data:
+            return {"message": "Invalid request data"}, 400
+
+        # Check if the request data has the required fields
+        if "name" not in data:
+            return {"message": "Invalid request data"}, 400
+
+        # Update the MFA
+        mfa.name = data["name"]
+        mfa.save()
+
+        # Return the response
+        return {"message": "MFA name updated"}, 200
+
 
     @jwt_required()
     def delete(self, mfa_id: int):
@@ -110,7 +178,7 @@ class MFARegisterAPI(Resource):
         ]
 
         exclude_credentials = [
-            { "id": urlsafe_b64decode(cred.credential_id), "transports": cred.transports.split(','), "type": "public-key" }
+            { "id": urlsafe_b64decode(cred.credential_id), "transports": cred.transports.split(","), "type": "public-key" }
             for cred in user_mfas
         ]
 
@@ -236,7 +304,7 @@ class MFAAuthenticateAPI(Resource):
             user_mfas: list[MFA] = MFA.select().where(MFA.user_id == user.id)
 
             allow_credentials = [
-                { "id": urlsafe_b64decode(cred.credential_id), "transports": cred.transports.split(','), "type": "public-key" }
+                { "id": urlsafe_b64decode(cred.credential_id), "transports": cred.transports.split(","), "type": "public-key" }
                 for cred in user_mfas
             ]
 

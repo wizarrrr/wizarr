@@ -6,14 +6,14 @@ from flask import abort, render_template, request
 from flask_jwt_extended import current_user
 
 from app import app
+from app.utils.config_loader import load_config
 from helpers import get_api_keys, get_notifications, get_settings, get_users
-
 from models.database.accounts import Accounts
 from models.database.invitations import Invitations
+from models.database.mfa import MFA
 from models.database.oauth_clients import OAuthClients
 from models.database.sessions import Sessions
 from models.database.settings import Settings
-from models.database.mfa import MFA
 
 from .scheduler import get_schedule
 from .security import login_required, login_required_unless_setup
@@ -25,7 +25,7 @@ from .security import login_required, login_required_unless_setup
 @login_required()
 def admin_partials(subpath):
     # Get valid settings partials
-    html_files = [path.splitext(file)[0] for file in listdir("./app/templates/admin") if file.endswith(".html")]
+    html_files = [path.splitext(file)[0] for file in listdir("./app/views/admin") if file.endswith(".html")]
 
     # Check if the subpath is valid
     if subpath not in html_files and subpath != "":
@@ -50,7 +50,7 @@ def admin_partials(subpath):
 @login_required()
 def settings_partials(subpath):
     # Get valid settings partials
-    html_files = [path.splitext(file)[0] for file in listdir("./app/templates/admin/settings") if file.endswith(".html")]
+    html_files = [path.splitext(file)[0] for file in listdir("./app/views/settings") if file.endswith(".html")]
 
     # Check if the subpath is valid
     if subpath not in html_files and subpath != "":
@@ -60,16 +60,15 @@ def settings_partials(subpath):
     settings = get_settings()
     settings["admin"] = current_user
 
-    # Import settings.json.j2 from root directory
-    sections = app.jinja_env.get_template("settings.json.j2").render()
-    sections = loads(sections)
+    # Load the settings sections
+    sections = load_config("settings.json.j2")
 
     # If no subpath is specified, render the admin dashboard
     if not subpath:
-        return render_template("admin/settings.html", settings_subpath="admin/settings/main.html", **settings, sections=sections)
+        return render_template("admin/settings.html", settings_subpath="settings/main.html", **settings, sections=sections)
 
     # All possible admin partials
-    return render_template(f"admin/settings/{subpath}.html", **settings, sections=sections)
+    return render_template(f"settings/{subpath}.html", **settings, sections=sections)
 
 
 
