@@ -6,7 +6,7 @@ COPY . /data
 
 RUN apk add tzdata nodejs npm cargo libffi-dev openssl-dev
 RUN pip3 install --upgrade pip
-RUN pip3 install --no-deps -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 WORKDIR /data/app/static
 
