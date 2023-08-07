@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from models.database import Invitations
+from app.models.database import Invitations
 from app.exceptions import InvalidUsage
 
 

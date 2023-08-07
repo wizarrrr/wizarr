@@ -3,3 +3,6 @@ class NotificationSendError(Exception):
 
 class NotificationStatusError(Exception):
     pass
+
+class InvalidNotificationAgent(Exception):
+    pass

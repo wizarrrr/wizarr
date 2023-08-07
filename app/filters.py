@@ -1,7 +1,7 @@
 from datetime import datetime
 from os import getenv
 from pendulum import parse
-from helpers.babel_locale import get_locale
+from app.utils.babel_locale import get_locale
 
 def humanize(value):
     # Check if the value is a string
@@ -49,39 +49,14 @@ def arrow_humanize(value):
     if not isinstance(value, str):
         return "Unknown format"
 
-    language_dict = {
-        "en": "en",
-        "zh_Hant": "zh-tw",
-        "ca": "ca",
-        "cs": "cs",
-        "da": "da",
-        "de": "de",
-        "es": "es",
-        "fa": "fa",
-        "fr": "fr",
-        "gsw": "de",
-        "he": "he",
-        "hr": "hr",
-        "hu": "hu",
-        "is": "is",
-        "it": "it",
-        "lt": "lt",
-        "nb_NO": "no",
-        "nl": "nl",
-        "pl": "pl",
-        "pt": "pt",
-        "pt_BR": "pt",
-        "ro": "ro",
-        "ru": "ru",
-        "sv": "sv",
-        "zh_Hans": "zh-cn"
-    }
-
     # Parse the datetime string
     parsed_datetime = parse(value)
 
     # Get the relative time difference from the current time
-    relative_time = parsed_datetime.diff_for_humans(locale=language_dict[get_locale()])
+    try:
+        relative_time = parsed_datetime.diff_for_humans(locale=get_locale())
+    except ValueError:
+        relative_time = parsed_datetime.diff_for_humans()
 
     return relative_time
 

@@ -1,5 +1,5 @@
 from app import app, oauth
-from models.database.oauth_clients import OAuthClients
+from app.models.database.oauth_clients import OAuthClients
 from requests import get
 
 oauth_database: OAuthClients = OAuthClients.select()

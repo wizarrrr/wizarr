@@ -50,7 +50,7 @@ def reset_password(username: str, password: str):
     start_spinner()
 
     # Import the Accounts model
-    from models.database.accounts import Accounts
+    from app.models.database.accounts import Accounts
 
     # Get the user
     user = Accounts.get_or_none(username=username)
@@ -77,7 +77,7 @@ def create_user(username: str, password: str, email: str):
     start_spinner()
 
     # Import the Accounts model
-    from models.database.accounts import Accounts
+    from app.models.database.accounts import Accounts
 
     # Check if the user exists
     if Accounts.get_or_none(username=username):
@@ -109,7 +109,7 @@ def check_user(username: str):
     start_spinner()
 
     # Import the Accounts model
-    from models.database.accounts import Accounts
+    from app.models.database.accounts import Accounts
 
     # Get the user
     user = Accounts.get_or_none(username=username)
@@ -134,7 +134,7 @@ def delete_user(username: str, y: bool = False):
     start_spinner()
 
     # Import the Accounts model
-    from models.database.accounts import Accounts
+    from app.models.database.accounts import Accounts
 
     # Get the user
     user = Accounts.get_or_none(username=username)

@@ -6,7 +6,7 @@ from playhouse.migrate import *
 
 from app import db
 from app.exceptions import MigrationError
-from models.database.invitations import Invitations
+from app.models.database.invitations import Invitations
 
 # Do not change the name of this file,
 # migrations are run in order of their filenames date and time

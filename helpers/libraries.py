@@ -1,5 +1,5 @@
-from models.database import Libraries
-from models.wizarr.libraries import LibraryModel
+from app.models.database import Libraries
+from app.models.wizarr.libraries import LibraryModel
 from playhouse.shortcuts import model_to_dict
 
 # INDEX OF FUNCTIONS

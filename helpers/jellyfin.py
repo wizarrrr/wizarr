@@ -9,9 +9,9 @@ from .libraries import get_libraries_ids
 from .settings import get_settings
 from .users import get_users, create_user, get_user_by_token
 
-from models.jellyfin.user import JellyfinUser
-from models.jellyfin.user_policy import JellyfinUserPolicy
-from models.jellyfin.library import JellyfinLibraryItem
+from app.models.jellyfin.user import JellyfinUser
+from app.models.jellyfin.user_policy import JellyfinUserPolicy
+from app.models.jellyfin.library import JellyfinLibraryItem
 
 # INDEX OF FUNCTIONS
 # - Jellyfin Get Request

@@ -6,7 +6,7 @@ from flask_apscheduler import APScheduler
 from app.extensions import schedule
 from helpers.universal import global_sync_users
 from helpers.users import get_users_by_expiring
-from models.database import Sessions
+from app.models.database import Sessions
 
 schedule.start()
 

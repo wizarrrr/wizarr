@@ -1,15 +1,15 @@
 from datetime import datetime, timedelta, timezone
 from functools import wraps
 from logging import info
-from os import getenv
-
+from os import getenv, mkdir, path
+from secrets import token_hex
 from flask import make_response, redirect, render_template
 from flask_jwt_extended import (create_access_token, get_jti, get_jwt,
                                 get_jwt_identity, set_access_cookies,
                                 verify_jwt_in_request)
 from playhouse.shortcuts import model_to_dict
 
-from models.database import Sessions, Settings, Accounts
+from app.models.database import Sessions, Settings, Accounts
 
 # Yh this code looks messy but it works so ill tidy it up later
 
@@ -19,25 +19,22 @@ def server_verified():
 
 # Generate a secret key, and store it in root/database/secret.key if it doesn't exist, return the secret key
 def secret_key(length: int = 32) -> str:
-    from os import mkdir, path
-    from secrets import token_hex
-
-    from app import BASE_DIR
+    BASE_DIR = path.dirname(path.dirname(path.abspath(__file__)))
 
     # Check if the database directory exists
     if not path.exists("database"):
         mkdir("database")
 
     # Check if the secret key file exists
-    if not path.exists(path.join(BASE_DIR, "../", "database/secret.key")):
+    if not path.exists(path.join(BASE_DIR, "database", "secret.key")):
         # Generate a secret key and write it to the secret key file
-        with open(path.join(BASE_DIR, "../", "database/secret.key"), "w", encoding="utf-8") as f:
+        with open(path.join(BASE_DIR, "database", "secret.key"), "w", encoding="utf-8") as f:
             secret = token_hex(length)
             f.write(secret)
             return secret
 
     # Read the secret key from the secret key file
-    with open(path.join(BASE_DIR, "../", "database/secret.key"), "r", encoding="utf-8") as f:
+    with open(path.join(BASE_DIR, "database", "secret.key"), "r", encoding="utf-8") as f:
         secret = f.read()
 
     return secret

@@ -4,7 +4,7 @@ from importlib import import_module
 from logging import error, log, info
 
 from app.exceptions import MigrationError
-from models.database import *
+from app.models.database import *
 
 # Do not attempt to change this file unless you know what you are doing
 # as you could introduce arbitrary code execution on the server

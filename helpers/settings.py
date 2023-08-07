@@ -1,4 +1,4 @@
-from models.database import Settings
+from app.models.database import Settings
 
 
 def get_settings(settings: list[str] = None, defaults: str = None):

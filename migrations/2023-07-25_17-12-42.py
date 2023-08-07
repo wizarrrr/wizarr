@@ -4,7 +4,7 @@ from logging import info
 
 from app import db
 from datetime import datetime
-from models.database.accounts import Accounts
+from app.models.database.accounts import Accounts
 
 # Do not change the name of this file,
 # migrations are run in order of their filenames date and time

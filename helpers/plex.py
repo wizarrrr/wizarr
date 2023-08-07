@@ -11,7 +11,7 @@ from .libraries import get_libraries_name
 from .settings import get_settings
 from .users import get_users, create_user
 
-from models.database.libraries import Libraries
+from app.models.database.libraries import Libraries
 
 # INDEX OF FUNCTIONS
 # - Plex Get Server

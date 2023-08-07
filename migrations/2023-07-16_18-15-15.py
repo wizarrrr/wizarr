@@ -5,7 +5,7 @@ from playhouse.migrate import *
 
 from app import db
 from app.exceptions import MigrationError
-from models.database.settings import Settings
+from app.models.database.settings import Settings
 
 # Do not change the name of this file,
 # migrations are run in order of their filenames date and time

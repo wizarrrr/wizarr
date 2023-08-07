@@ -1,7 +1,6 @@
 from .api_keys import *
 from .invitation import *
 from .jellyfin import *
-from .main import *
 from .notifications import *
 from .plex import *
 from .settings import *

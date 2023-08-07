@@ -1,5 +1,5 @@
-from models.database.users import Users
-from models.users import UsersModel
+from app.models.database.users import Users
+from app.models.users import UsersModel
 from playhouse.shortcuts import model_to_dict
 from datetime import datetime
 

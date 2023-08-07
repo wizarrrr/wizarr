@@ -8,4 +8,4 @@ home = Blueprint("home", __name__, template_folder="../views/home/")
 @home.route("/")
 @server_verified_required()
 def homepage_route():
-    return render_template("main.html")
+    return render_template("homepage.html")

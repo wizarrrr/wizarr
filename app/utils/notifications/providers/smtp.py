@@ -1,4 +1,4 @@
-from notifications.exceptions import NotificationSendError, NotificationStatusError
+from ..exceptions import NotificationSendError, NotificationStatusError
 from smtplib import SMTP as SMTPClient
 from ssl import create_default_context
 

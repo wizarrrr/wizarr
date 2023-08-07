@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-06 21:37+0100\n"
-"PO-Revision-Date: 2023-08-06 19:51+0100\n"
+"PO-Revision-Date: 2023-08-07 00:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: sv <LL@li.org>\n"
 "Language: sv\n"
@@ -19,70 +19,60 @@ msgstr ""
 "Generated-By: Babel 2.12.1\n"
 
 #: app/configs/settings.json.j2:3
-#, fuzzy
 msgid "Main Settings"
-msgstr "inställningar"
+msgstr "Huvudinställningar"
 
 #: app/configs/settings.json.j2:4
 msgid "General settings for the server"
 msgstr "Allmänna inställningar för servern"
 
 #: app/configs/settings.json.j2:8
-#, fuzzy
 msgid "Media Server"
-msgstr "Server"
+msgstr "Mediaserver"
 
 #: app/configs/settings.json.j2:9
-#, fuzzy
 msgid "Configure your media server settings"
-msgstr "Konfigurera dina serverinställningar."
+msgstr "Konfigurera dina mediaserverinställningar"
 
 #: app/configs/settings.json.j2:15
-#, fuzzy
 msgid "Requests"
-msgstr "Begär server"
+msgstr "Förfrågningar"
 
 #: app/configs/settings.json.j2:16
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "Lägg till Jellyseerr, Overseerr eller Ombi support"
 
 #: app/configs/settings.json.j2:23
-#, fuzzy
 msgid "API keys"
-msgstr "API-token"
+msgstr "API-nycklar"
 
 #: app/configs/settings.json.j2:24
 msgid "Add API keys for external services"
 msgstr "Lägg till API-nycklar för externa tjänster"
 
 #: app/configs/settings.json.j2:31
-#, fuzzy
 msgid "Notifications"
-msgstr "Aviseringstjänst"
+msgstr "Aviseringar"
 
 #: app/configs/settings.json.j2:32
-#, fuzzy
 msgid "Configure notification settings"
-msgstr "Konfigurera dina serverinställningar."
+msgstr "Konfigurera aviseringsinställningar"
 
 #: app/configs/settings.json.j2:41
-#, fuzzy
 msgid "Account Settings"
-msgstr "inställningar"
+msgstr "Kontoinställningar"
 
 #: app/configs/settings.json.j2:42
-#, fuzzy
 msgid "Settings for user accounts"
-msgstr "Konfigurera ditt konto"
+msgstr "Inställningar för användarkonton"
 
 #: app/configs/settings.json.j2:46
 msgid "Profile"
 msgstr "Profil"
 
 #: app/configs/settings.json.j2:47
-#, fuzzy
 msgid "Configure your profile settings"
-msgstr "Konfigurera dina serverinställningar."
+msgstr "Konfigurera dina profilinställningar"
 
 #: app/configs/settings.json.j2:53 app/views/authentication/login.html:56
 #: app/views/client/invite/signup/jellyfin.html:27
@@ -92,24 +82,20 @@ msgid "Password"
 msgstr "Lösenord"
 
 #: app/configs/settings.json.j2:54
-#, fuzzy
 msgid "Change your password"
-msgstr "Glömt ditt lösenord?"
+msgstr "Ändra ditt lösenord"
 
 #: app/configs/settings.json.j2:60
-#, fuzzy
 msgid "Sessions"
-msgstr "Version"
+msgstr "Sessioner"
 
 #: app/configs/settings.json.j2:61
-#, fuzzy
 msgid "View and manage your active sessions"
-msgstr "Hantera dina inbjudningar"
+msgstr "Visa och hantera dina aktiva sessioner"
 
 #: app/configs/settings.json.j2:67
-#, fuzzy
 msgid "SSO Login"
-msgstr "Logga in"
+msgstr "SSO-inloggning"
 
 #: app/configs/settings.json.j2:68
 msgid "Configure SSO login"
@@ -124,96 +110,84 @@ msgid "Configure MFA authentication"
 msgstr "Konfigurera MFA-autentisering"
 
 #: app/configs/settings.json.j2:81
-#, fuzzy
 msgid "Language"
-msgstr "Välj språk"
+msgstr "Språk"
 
 #: app/configs/settings.json.j2:82
 msgid "Change your language"
 msgstr "Ändra ditt språk"
 
 #: app/configs/settings.json.j2:90
-#, fuzzy
 msgid "UI Settings"
-msgstr "inställningar"
+msgstr "UI-inställningar"
 
 #: app/configs/settings.json.j2:91
 msgid "Modify the look and feel of the server"
 msgstr "Ändra utseendet och känslan på servern"
 
 #: app/configs/settings.json.j2:95
-#, fuzzy
 msgid "Discord"
-msgstr "Discord-widget"
+msgstr "Disharmoni"
 
 #: app/configs/settings.json.j2:96
 msgid "Enable Discord page and configure settings"
 msgstr "Aktivera Discord-sidan och konfigurera inställningar"
 
 #: app/configs/settings.json.j2:102
-#, fuzzy
 msgid "Custom HTML"
-msgstr "Beställnings"
+msgstr "Anpassad HTML"
 
 #: app/configs/settings.json.j2:103
 msgid "Add Custom HTML page to help screen"
 msgstr "Lägg till anpassad HTML-sida på hjälpskärmen"
 
 #: app/configs/settings.json.j2:111
-#, fuzzy
 msgid "Advanced Settings"
-msgstr "Avancerade alternativ"
+msgstr "Avancerade inställningar"
 
 #: app/configs/settings.json.j2:112
 msgid "Advanced settings for the server"
 msgstr "Avancerade inställningar för servern"
 
 #: app/configs/settings.json.j2:115
-#, fuzzy
 msgid "OAuth Integration"
-msgstr "Skapa inbjudan"
+msgstr "OAuth-integration"
 
 #: app/configs/settings.json.j2:116
-#, fuzzy
 msgid "Configure OAuth integration"
-msgstr "Skapa inbjudan"
+msgstr "Konfigurera OAuth-integration"
 
 #: app/configs/settings.json.j2:122
-#, fuzzy
 msgid "Logs"
-msgstr "Logga in"
+msgstr "Loggar"
 
 #: app/configs/settings.json.j2:123
 msgid "View and download server logs"
 msgstr "Visa och ladda ner serverloggar"
 
 #: app/configs/settings.json.j2:129
-#, fuzzy
 msgid "Tasks"
-msgstr "Kör uppgift"
+msgstr "Uppgifter"
 
 #: app/configs/settings.json.j2:130
 msgid "View and manage scheduled tasks"
 msgstr "Visa och hantera schemalagda uppgifter"
 
 #: app/configs/settings.json.j2:136
-#, fuzzy
 msgid "Updates"
-msgstr "Uppdatering"
+msgstr "Uppdateringar"
 
 #: app/configs/settings.json.j2:137
 msgid "Check for and view updates"
 msgstr "Sök efter och se uppdateringar"
 
 #: app/configs/settings.json.j2:143
-#, fuzzy
 msgid "Backup"
-msgstr "Tillbaka"
+msgstr "Säkerhetskopiering"
 
 #: app/configs/settings.json.j2:144
-#, fuzzy
 msgid "Create and restore backups"
-msgstr "Skapa ett konto"
+msgstr "Skapa och återställ säkerhetskopior"
 
 #: app/configs/settings.json.j2:150
 msgid "About"

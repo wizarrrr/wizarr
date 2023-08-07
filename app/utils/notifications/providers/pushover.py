@@ -1,4 +1,4 @@
-from notifications.exceptions import NotificationSendError, NotificationStatusError
+from ..exceptions import NotificationSendError, NotificationStatusError
 
 from requests import post
 from typing import Optional

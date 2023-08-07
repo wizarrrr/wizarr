@@ -5,7 +5,7 @@ from jinja2 import TemplateNotFound
 
 from app.security import server_verified_required
 from helpers import is_invite_valid
-from models.database.settings import Settings
+from app.models.database.settings import Settings
 
 invite = Blueprint("invite", __name__, template_folder="../views/client/invite/")
 logger = getLogger(__name__)

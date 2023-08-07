@@ -1,4 +1,4 @@
-from models.database.base import db
+from app.models.database.base import db
 from app import app
 from cryptography.fernet import Fernet, InvalidToken
 from base64 import urlsafe_b64encode

@@ -1,7 +1,6 @@
 import logging
 import coloredlogs
 from logging.handlers import WatchedFileHandler
-from tabulate import tabulate
 
 # Configure the root logger
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S")

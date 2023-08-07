@@ -1,8 +1,8 @@
 from playhouse.shortcuts import model_to_dict
 from schematics.exceptions import DataError
 
-from models.database.accounts import Accounts
-from models.wizarr.accounts import AccountsModel
+from app.models.database.accounts import Accounts
+from app.models.wizarr.accounts import AccountsModel
 
 # INDEX OF FUNCTIONS
 # - Get Accounts

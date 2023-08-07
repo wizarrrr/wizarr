@@ -1,12 +1,12 @@
 from plexapi.myplex import MyPlexUser, NotFound, BadRequest
-from models.jellyfin.user import JellyfinUser
+from app.models.jellyfin.user import JellyfinUser
 from app.extensions import socketio
 
 from .settings import get_setting
 from .plex import get_plex_users, get_plex_user, sync_plex_users, delete_plex_user, get_plex_profile_picture, invite_plex_user, accept_plex_invitation
 from .jellyfin import get_jellyfin_users, get_jellyfin_user, sync_jellyfin_users, delete_jellyfin_user, get_jellyfin_profile_picture, invite_jellyfin_user
 
-from models.database.users import Users
+from app.models.database.users import Users
 
 # ANCHOR - Get Server Type
 def get_server_type() -> str:

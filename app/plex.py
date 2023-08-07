@@ -8,8 +8,8 @@ from plexapi.myplex import MyPlexAccount, MyPlexPinLogin, PlexServer
 
 from app import app, scheduler
 from app.mediarequest import *
-from app.notifications import notify
-from models.database import Invitations, Libraries, Settings, Users
+from app.utils.notifications import notify
+from app.models.database import Invitations, Libraries, Settings, Users
 
 # INVITE USER TO PLEX SERVER
 # UPDATE OR CREATE USER IN DATABASE

@@ -2,9 +2,9 @@ from playhouse.shortcuts import model_to_dict
 from flask import jsonify, Response
 from logging import info
 
-from models.database.accounts import Accounts
-from models.wizarr.authentication import AuthenticationModel
-from models.wizarr.accounts import AccountsModel
+from app.models.database.accounts import Accounts
+from app.models.wizarr.authentication import AuthenticationModel
+from app.models.wizarr.accounts import AccountsModel
 
 
 # INDEX OF FUNCTIONS
