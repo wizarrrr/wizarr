@@ -37,7 +37,8 @@ class Setup(Resource):
                 username=username,
                 email=email,
                 password=password,
-                confirm_password=password_confirm
+                confirm_password=password_confirm,
+                role="admin"
             )
 
             return { "message": "Admin user created", "user": user }, 200

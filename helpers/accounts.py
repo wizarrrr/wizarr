@@ -128,7 +128,8 @@ def create_account(**kwargs) -> Accounts:
     new_account: Accounts = Accounts.create(
         username=account.username,
         password=account.hashed_password,
-        email=account.email
+        email=account.email,
+        role=account.role
     )
 
     # Return the user

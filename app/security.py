@@ -15,26 +15,27 @@ from app.models.database import Sessions, Settings, Accounts
 
 def server_verified():
     verified = Settings.get_or_none(Settings.key == "server_verified")
-    return bool(verified.value)
+    if verified: return bool(verified.value)
+    return bool(verified)
 
 # Generate a secret key, and store it in root/database/secret.key if it doesn't exist, return the secret key
 def secret_key(length: int = 32) -> str:
-    BASE_DIR = path.dirname(path.dirname(path.abspath(__file__)))
+    base_dir = path.dirname(path.dirname(path.abspath(__file__)))
 
     # Check if the database directory exists
     if not path.exists("database"):
         mkdir("database")
 
     # Check if the secret key file exists
-    if not path.exists(path.join(BASE_DIR, "database", "secret.key")):
+    if not path.exists(path.join(base_dir, "database", "secret.key")):
         # Generate a secret key and write it to the secret key file
-        with open(path.join(BASE_DIR, "database", "secret.key"), "w", encoding="utf-8") as f:
+        with open(path.join(base_dir, "database", "secret.key"), "w", encoding="utf-8") as f:
             secret = token_hex(length)
             f.write(secret)
             return secret
 
     # Read the secret key from the secret key file
-    with open(path.join(BASE_DIR, "database", "secret.key"), "r", encoding="utf-8") as f:
+    with open(path.join(base_dir, "database", "secret.key"), "r", encoding="utf-8") as f:
         secret = f.read()
 
     return secret
