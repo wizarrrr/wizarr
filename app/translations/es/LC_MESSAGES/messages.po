@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-01 17:09+0000\n"
-"PO-Revision-Date: 2023-03-02 08:38+0000\n"
+"PO-Revision-Date: 2023-08-10 15:48+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/wizarr/app/es/>\n"
 "Language: es\n"
@@ -16,6 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.0-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: app/admin.py:166
@@ -73,9 +74,8 @@ msgid "Settings"
 msgstr "Ajustes"
 
 #: app/templates/invalid-invite.html:16
-#, fuzzy
 msgid "Invalid Invitation"
-msgstr "Invitaciones"
+msgstr "Invitación no válida"
 
 #: app/templates/login.html:18
 msgid "Login"
@@ -141,9 +141,8 @@ msgstr ""
 "                del servidor"
 
 #: app/templates/settings.html:63
-#, fuzzy
 msgid "Redirect URL (optional)"
-msgstr "(opcional)"
+msgstr "URL de redirección (opcional)"
 
 #: app/templates/settings.html:64
 msgid ""
@@ -166,31 +165,28 @@ msgid "Scan For Libraries"
 msgstr "Buscar bibliotecas"
 
 #: app/templates/settings.html:86
-#, fuzzy
 msgid ""
 "Request\n"
 "                Server"
 msgstr ""
-"ID del servidor\n"
-"de Discord"
+"Solicitar\n"
+"                Servidor"
 
 #: app/templates/settings.html:100
-#, fuzzy
 msgid ""
 "Request\n"
 "                Server URL"
 msgstr ""
-"ID del servidor\n"
-"de Discord"
+"Solicitud\n"
+"                URL del servidor"
 
 #: app/templates/settings.html:110
-#, fuzzy
 msgid ""
 "Request\n"
 "                Server API Key"
 msgstr ""
-"ID del servidor\n"
-"de Discord"
+"Solicitud\n"
+"                Clave API del servidor"
 
 #: app/templates/settings.html:118
 msgid ""
@@ -201,13 +197,12 @@ msgstr ""
 "de Discord"
 
 #: app/templates/settings.html:126
-#, fuzzy
 msgid ""
 "Discord\n"
 "                Widget"
 msgstr ""
-"ID del servidor\n"
-"de Discord"
+"Complemento \n"
+"                Discord"
 
 #: app/templates/settings.html:134
 msgid ""
@@ -303,24 +298,20 @@ msgid "Expiration"
 msgstr "Caducidad"
 
 #: app/templates/admin/invite.html:54
-#, fuzzy
 msgid "1 Day"
-msgstr "Un día"
+msgstr "1 Día"
 
 #: app/templates/admin/invite.html:55
-#, fuzzy
 msgid "1 Week"
-msgstr "Una semana"
+msgstr "1 Semana"
 
 #: app/templates/admin/invite.html:56
-#, fuzzy
 msgid "1 Month"
-msgstr "1 mes"
+msgstr "1 Mes"
 
 #: app/templates/admin/invite.html:57
-#, fuzzy
 msgid "6 Months"
-msgstr "1 mes"
+msgstr "6 Meses"
 
 #: app/templates/admin/invite.html:58
 msgid "1 Year"
@@ -340,9 +331,8 @@ msgid "Unlimited Usages"
 msgstr "Usos ilimitados"
 
 #: app/templates/admin/invite.html:80
-#, fuzzy
 msgid "Invite to Plex Home"
-msgstr "Código de invitación"
+msgstr "Invitar a Plex Home"
 
 #: app/templates/admin/invite.html:89 app/templates/admin/invite.html:101
 #: app/templates/tables/invite_table.html:13
@@ -369,9 +359,8 @@ msgstr ""
 
 #: app/templates/admin/invite.html:118
 #: app/templates/tables/invite_table.html:11
-#, fuzzy
 msgid "Allow Downloads"
-msgstr "Descargar"
+msgstr "Permitir las descargas"
 
 #: app/templates/admin/invite.html:124
 msgid ""
@@ -406,14 +395,12 @@ msgid "Notification Agents"
 msgstr "Agentes de notificación"
 
 #: app/templates/admin/notifications.html:27
-#, fuzzy
 msgid "Delete"
-msgstr "Predeterminado"
+msgstr "Borrar"
 
 #: app/templates/admin/notifications.html:37
-#, fuzzy
 msgid "Create Agent"
-msgstr "Crear una cuenta"
+msgstr "Crear un agente"
 
 #: app/templates/admin/user.html:44
 msgid "User Configuration"
@@ -453,36 +440,32 @@ msgid "New Agent"
 msgstr "nuevo agente"
 
 #: app/templates/modals/create-notification-agent.html:61
-#, fuzzy
 msgid ""
 "Username\n"
 "                                (optional)"
 msgstr ""
-"Código\n"
-"                                de invitación"
+"Nombre de usuario\n"
+"                                (opcional)"
 
 #: app/templates/modals/create-notification-agent.html:66
-#, fuzzy
 msgid "Password (optional)"
-msgstr "(opcional)"
+msgstr "Contraseña (opcional)"
 
 #: app/templates/modals/create-notification-agent.html:72
-#, fuzzy
 msgid "User Key"
-msgstr "Política de privacidad"
+msgstr "Clave del usuario"
 
 #: app/templates/modals/create-notification-agent.html:76
 msgid "API Token"
 msgstr "token de API"
 
 #: app/templates/modals/create-notification-agent.html:81
-#, fuzzy
 msgid ""
 "Agent\n"
 "                                URL"
 msgstr ""
-"Código\n"
-"                                de invitación"
+"Agente\n"
+"                                URL"
 
 #: app/templates/modals/create-notification-agent.html:92
 msgid "Test & Create Agent"
@@ -600,9 +583,8 @@ msgstr ""
 " de su dispositivo, simplemente haga clic en \"Siguiente\"."
 
 #: app/templates/wizard/jellyfin/download.html:24
-#, fuzzy
 msgid "Show Server URL"
-msgstr "URL del servidor"
+msgstr "Mostrar la URL del servidor"
 
 #: app/templates/wizard/jellyfin/download.html:37
 #: app/templates/wizard/jellyfin/download.html:137
@@ -616,9 +598,8 @@ msgid "Open Jellyfin"
 msgstr "Abrir Jellyfin"
 
 #: app/templates/wizard/jellyfin/download.html:85
-#, fuzzy
 msgid "Other Download"
-msgstr "Descargar"
+msgstr "Otras descargas"
 
 #: app/templates/wizard/jellyfin/download.html:134
 msgid "Copied!"
