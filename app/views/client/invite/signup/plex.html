@@ -1,35 +1,38 @@
 <div class="flex flex-col space-y-4">
     <h1 id="title" class="h-8 relative text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-        <span class="absolute inset-0 z-10 ">{{ _("Join the Plex Server") }}</span>
-        <span class="absolute inset-0 z-10 hidden">{{ _("Sign in to Plex") }}</span>
-        <span class="absolute inset-0 z-10 hidden">{{ _("Please wait") }}</span>
-        <span class="absolute inset-0 z-10 hidden">{{ _("Setting up your account") }}</span>
-        <span class="absolute inset-0 z-10 hidden">{{ _("Almost there!") }}</span>
-        <span class="absolute inset-0 z-10 hidden">{{ _("All done!") }}</span>
-        <span class="absolute inset-0 z-10 hidden">{{ _("Account created!") }}</span>
-        <span class="absolute inset-0 z-10 hidden">{{ _("Please try again") }}</span>
+        <span class="px-6 absolute inset-0 z-10 ">{{ _("Join the Plex Server") }}</span>
+        <span class="px-6 absolute inset-0 z-10 hidden">{{ _("Sign in to Plex") }}</span>
+        <span class="px-6 absolute inset-0 z-10 hidden">{{ _("Please wait") }}</span>
+        <span class="px-6 absolute inset-0 z-10 hidden">{{ _("Setting up your account") }}</span>
+        <span class="px-6 absolute inset-0 z-10 hidden">{{ _("Almost there!") }}</span>
+        <span class="px-6 absolute inset-0 z-10 hidden">{{ _("All done!") }}</span>
+        <span class="px-6 absolute inset-0 z-10 hidden">{{ _("Account created!") }}</span>
+        <span class="px-6 absolute inset-0 z-10 hidden">{{ _("Please try again") }}</span>
     </h1>
 
     <div class="relative w-full">
         <!-- Carousel wrapper -->
         <div id="carousel" class="relative overflow-hidden rounded" style="height: 150px; transition: max-height 0.3s ease-in-out;">
             <!-- Blank Carousel Item to prevent wrap around -->
-            <div id="carousel-item-0" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800">test</div>
+            <div id="carousel-item-0" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800">
+                <div class="px-6 absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+                </div>
+            </div>
 
             <!-- Item 1 -->
             <div id="carousel-item-1" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800">
-                <div class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+                <div class="px-6 absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                     <form onsubmit="event.preventDefault(); joinServer(this);" class="space-y-4 md:space-y-6">
                         <div>
                             <label for="code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 {{ _("Invite Code") }}
                             </label>
 
-                            <input type="code" name="code" id="code" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="XMFGEJI" value="{{ code }}" required="">
+                            <input type="code" name="code" id="code" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="XMFGEJI" value="{{ code }}" required="">
                             <input type="hidden" name="token" id="token" value="">
                         </div>
 
-                        <button type="submit" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
+                        <button type="submit" class="w-full text-white bg-primary hover:bg-primary_hover focus:outline-none font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover">
                             {{ _("Join") }}
                         </button>
                     </form>
@@ -38,14 +41,16 @@
 
             <!-- Item 2 -->
             <div id="carousel-item-2" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800 flex items-center justify-center">
-                <i class="fas fa-spinner fa-spin fa-3x"></i>
+                <div class="px-6 absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 flex items-center justify-center">
+                    <i class="fas fa-spinner fa-spin fa-3x"></i>
+                </div>
             </div>
 
             {# after:border-primary after:dark:border-gray-700 after:border-4 after:inline-block #}
             {# #}
             <!-- Item 3 -->
             <div id="carousel-item-3" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800">
-                <div class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+                <div class="px-6 absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                     <ol id="stepper" class="flex items-center w-full">
                         <li class="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:dark:border-gray-700 after:border-4 after:inline-block" style="transition: border-color 0.3s ease;">
                             <span class="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 dark:bg-gray-700 shrink-0" style="transition: background-color 0.3s ease;">
@@ -68,16 +73,18 @@
 
             <!-- Item 4 -->
             <div id="carousel-item-4" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800 flex items-center justify-center">
-                <i class="fas fa-spinner fa-spin fa-3x"></i>
+                <div class="px-6 absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 flex items-center justify-center">
+                    <i class="fas fa-spinner fa-spin fa-3x"></i>
+                </div>
             </div>
 
             <!-- Item 5 -->
             <div id="carousel-item-5" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800 flex items-center justify-center">
-                <div class="flex flex-col items-start justify-center w-full space-y-4">
-                    <p class="text-sm font-medium text-gray-900 dark:text-white">
+                <div class="px-6 absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 flex items-center flex-col space-y-4 md:space-y-6">
+                    <p class="w-full text-sm font-medium text-gray-900 dark:text-white">
                         {{ _("You're all set, click continue to get started and walkthrough how to use Plex!") }}
                     </p>
-                    <button onclick="location = '/help'" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
+                    <button onclick="location = '/help'" class="w-full text-white bg-primary hover:bg-primary_hover focus:outline-none font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover">
                         {{ _("Continue") }}
                     </button>
                 </div>
@@ -85,11 +92,11 @@
 
             <!-- Item 6 -->
             <div id="carousel-item-6" class="hidden duration-700 ease-in-out bg-white dark:bg-gray-800 flex items-center justify-center">
-                <div class="flex flex-col items-start justify-center w-full space-y-4">
-                    <p id="failed-flow" class="text-sm font-medium text-gray-900 dark:text-white">
+                <div class="px-6 absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 flex items-center flex-col space-y-4 md:space-y-6">
+                    <p id="failed-flow" class="w-full text-sm font-medium text-gray-900 dark:text-white text-left">
                         {{ _("Something went wrong, please try again.") }}
                     </p>
-                    <button onclick="location.reload()" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">
+                    <button onclick="location.reload()" class="w-full text-white bg-primary hover:bg-primary_hover focus:outline-none font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover">
                         {{ _("Retry") }}
                     </button>
                 </div>

@@ -169,23 +169,26 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
     server_type = get_server_type()
     invite = None
 
+    # Map user creation to there respective functions
+    universal_invite_user = {
+        "plex": lambda token, code, **kwargs: invite_plex_user(token=token, code=code),
+        "jellyfin": lambda username, password, code, **kwargs: invite_jellyfin_user(username=username, password=password, code=code)
+    }
+
     # If socket_id is not None, emit step 1
     if kwargs.get("socket_id"):
-        socketio.emit("step", 1, namespace="/plex", to=kwargs.get("socket_id"))
+        socketio.emit("step", 1, namespace=f"/{server_type}", to=kwargs.get("socket_id"))
 
     # Invite the user to the media server
-    if server_type == "plex":
-        try:
-            invite = invite_plex_user(token=kwargs.get("token"), code=kwargs.get("code"))
-        except BadRequest:
-            if kwargs.get("socket_id"):
-                socketio.emit("error", "You maybe, already a member of this server.", namespace="/plex", to=kwargs.get("socket_id"))
-    elif server_type == "jellyfin":
-        invite = invite_jellyfin_user(username=kwargs.get("username"), password=kwargs.get("password"), code=kwargs.get("code"))
+    try:
+        invite = universal_invite_user.get(server_type)(**kwargs)
+    except BadRequest as e:
+        if kwargs.get("socket_id"): socketio.emit("error", "You may already be a member, you can continue.", namespace=f"/{server_type}", to=kwargs.get("socket_id"))
+        else: raise BadRequest("There was issue during the account creation") from e
 
     # If socket_id is not None, emit step 1
     if kwargs.get("socket_id"):
-        socketio.emit("step", 2, namespace="/plex", to=kwargs.get("socket_id"))
+        socketio.emit("step", 2, namespace=f"/{server_type}", to=kwargs.get("socket_id"))
 
     if server_type == "plex":
         try:
@@ -199,7 +202,7 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
 
     # If socket_id is not None, emit step 1
     if kwargs.get("socket_id"):
-        socketio.emit("step", 3, namespace="/plex", to=kwargs.get("socket_id"))
+        socketio.emit("step", 3, namespace=f"/{server_type}", to=kwargs.get("socket_id"))
 
     # Raise an error if the invite is None
     if invite is None:

@@ -31,12 +31,21 @@ class IntStringType(IntType):
     def to_native(self, value, _):
         if isinstance(value, str):
             try:
-                return datetime.utcnow() + timedelta(minutes=int(value))
+                if int(value) == 0:
+                    return None
+                else:
+                    return datetime.utcnow() + timedelta(minutes=int(value))
             except ValueError:
-                return 0
+                return None
 
         if isinstance(value, int):
-            return datetime.utcnow() + timedelta(minutes=value)
+            try:
+                if value == 0:
+                    return None
+                else:
+                    return datetime.utcnow() + timedelta(minutes=value)
+            except ValueError:
+                return None
 
         return value
 
@@ -82,14 +91,14 @@ class InvitationsModel(Model):
     # ANCHOR - Validate expires
     def validate_expires(self, _, value: datetime):
         # Check that the expires is in the future, ignore milliseconds
-        if value.replace(microsecond=0) < datetime.utcnow().replace(microsecond=0):
+        if value and value.replace(microsecond=0) < datetime.utcnow().replace(microsecond=0):
             raise ValidationError("Expires must be in the future")
 
 
     # ANCHOR - Validate duration
     def validate_duration(self, _, value: datetime):
         # Check that the duration is in the future, ignore milliseconds
-        if value.replace(microsecond=0) < datetime.utcnow().replace(microsecond=0):
+        if value and value.replace(microsecond=0) < datetime.utcnow().replace(microsecond=0):
             raise ValidationError("Duration must be in the future")
 
     # ANCHOR - Validate specific_libraries
@@ -139,7 +148,7 @@ class InvitationsModel(Model):
             invitation["specific_libraries"] = ",".join(invitation["specific_libraries"])
 
         # If duration datetime is less than 1 minute in the future set it to none
-        if invitation["duration"] < datetime.utcnow() + timedelta(minutes=1):
+        if invitation["duration"] and invitation["duration"] < datetime.utcnow() + timedelta(minutes=1):
             invitation["duration"] = None
 
         # Create the invitation in the database

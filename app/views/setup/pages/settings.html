@@ -4,12 +4,12 @@
 <form id="general-form" class="space-y-4 md:space-y-6" onsubmit="saveSettings(); event.preventDefault();">
     <div>
         <label for="server_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Display Name") }}</label>
-        <input type="server_name" name="server_name" id="server_name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if server_name %}{{ server_name }}{% endif %}" required autocomplete="server-name">
+        <input type="server_name" name="server_name" id="server_name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" value="{% if server_name %}{{ server_name }}{% endif %}" required autocomplete="server-name">
     </div>
 
     <div>
         <label for="server_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server") }}</label>
-        <select name="server_type" id="server_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <select name="server_type" id="server_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
             <option {% if not server_type %} selected {% endif %} disabled>Choose a server</option>
             <option {% if server_type=="jellyfin" %} selected {% endif %} value="jellyfin">Jellyfin (or Emby)</option>
             <option {% if server_type=='plex' %} selected {% endif %} value="plex">Plex Media Server</option>
@@ -18,7 +18,7 @@
 
     <div>
         <label for="server_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server URL") }}</label>
-        <input type="server_url" name="server_url" id="server_url" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if server_url %}{{ server_url }}{% endif %}" required autocomplete="url">
+        <input type="server_url" name="server_url" id="server_url" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" value="{% if server_url %}{{ server_url }}{% endif %}" required autocomplete="url">
     </div>
 
     <div>

@@ -1,12 +1,13 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const TerserPlugin = require("terser-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const ProgressPlugin = require('webpack').ProgressPlugin;
 
 module.exports = {
     entry: './src/index.ts',
-    mode: 'production',
+    infrastructureLogging: { debug: true },
+    mode: 'development',
     output: {
         filename: 'dist/[name].bundle.js',
         path: path.resolve(__dirname),
@@ -15,11 +16,12 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
     },
     watchOptions: {
-        ignored: ['**/node_modules', '**/dist', '**/base.html'],
+        ignored: ['**/*.!(ts|html)', '**/node_modules', '**/dist', '**/templates'],
         aggregateTimeout: 300,
-        poll: 1000
+        poll: 1000,
+        followSymlinks: false
     },
-    devtool: "inline-source-map",
+    devtool: "source-map",
     module: {
         rules: [
             {
@@ -61,15 +63,15 @@ module.exports = {
             },
             chunks: 'all'
         },
-        // minimizer: [
-        //     new TerserPlugin({
-        //         terserOptions: {
-        //             keep_classnames: true,
-        //             keep_fnames: true,
-        //         },
-        //         extractComments: false,
-        //     }),
-        // ],
+        minimizer: [
+            new TerserPlugin({
+                terserOptions: {
+                    keep_classnames: true,
+                    keep_fnames: true,
+                },
+                extractComments: false,
+            }),
+        ],
     },
     performance: {
         hints: false,
@@ -86,6 +88,7 @@ module.exports = {
             publicPath: '/static/',
             minify: false
         }),
-        // new BundleAnalyzerPlugin()
+        // new BundleAnalyzerPlugin(),
+        new ProgressPlugin()
     ],
 };

@@ -2,8 +2,8 @@
     "name": "wizarr",
     "type": "module",
     "scripts": {
-        "build": "webpack --config webpack.config.cjs --progress",
-        "watch": "webpack --config webpack.config.cjs --watch --progress"
+        "build": "webpack --config webpack.config.cjs --progress -mode=production",
+        "watch": "node watch.cjs"
     },
     "author": "",
     "license": "ISC",
@@ -51,6 +51,7 @@
         "htmx.org": "^1.9.2",
         "js-cookie": "^3.0.5",
         "nanoid": "^4.0.2",
+        "node-ts": "^6.0.1",
         "plex-oauth": "^2.1.0",
         "socket-io": "^1.0.0",
         "socket.io-client": "^4.7.1",

@@ -9,12 +9,6 @@ from helpers.universal import global_invite_user_to_media_server
 
 api = Namespace("Plex", description="Plex related operations", path="/plex")
 
-def send_message(message, sid):
-    socketio.emit("message", message, namespace="/plex", to=sid)
-
-def test_connection(token, code, sid):
-    global_invite_user_to_media_server(token=token, code=code, socket_id=sid)
-
 @socketio.on("connect", namespace="/plex")
 def connect():
     print("Client connected")
@@ -44,9 +38,9 @@ class PlexStream(Resource):
         random_id = urandom(16).hex()
         join_room(random_id, sid=socket_id, namespace="/plex")
 
-        # Send a message to the user
-        send_message(f"Hello {username}!", socket_id)
-        socketio.start_background_task(target=test_connection, token=token, code=code, sid=socket_id)
+        # Send a message to the user and start a background task
+        socketio.emit("message", f"Hello {username}!", namespace="/plex", to=socket_id)
+        socketio.start_background_task(target=global_invite_user_to_media_server, token=token, code=code, socket_id=socket_id)
 
         # Return the room ID and the username
         return { "room": random_id, "username": username }, 200

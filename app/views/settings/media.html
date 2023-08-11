@@ -2,46 +2,240 @@
 
 <div class="animate__animated animate__fadeIn">
     <form id="general-form" class="space-y-4 md:space-y-6" onsubmit="event.preventDefault(); saveSettings(this);">
-        <div>
+
+        <div id="server_name_div">
             <label for="server_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Display Name") }}</label>
-            <input type="server_name" name="server_name" id="server_name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if server_name %}{{ server_name }}{% endif %}" required="">
+            <input type="server_name" name="server_name" id="server_name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" value="{% if server_name %}{{ server_name }}{% endif %}" required="">
         </div>
 
-        <div>
-            <label for="server_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server") }}</label>
-            <select name="server_type" id="server_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option {% if not server_type %} selected {% endif %} disabled>{{ _("Choose a server") }}</option>
-                <option {% if server_type=="jellyfin" %} selected {% endif %} value="jellyfin">Jellyfin (or Emby)</option>
-                <option {% if server_type=='plex' %} selected {% endif %} value="plex">Plex Media Server</option>
-            </select>
-        </div>
-
-        <div>
+        <div id="server_url_div" data-default="{{ server_url }}">
             <label for="server_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server URL") }}</label>
-            <input type="server_url" name="server_url" id="server_url" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if server_url %}{{ server_url }}{% endif %}" required="">
+            <div class="relative mb-6">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                    <i class="fas fa-arrow-up-right-from-square text-gray-400"></i>
+                </div>
+                <input type="text" name="server_url" id="server_url" onfocus="serverUrlChanged(this)" onkeyup="serverUrlChanged(this)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="https://plex.wizarr.dev" value="{% if server_url %}{{ server_url }}{% endif %}" required="">
+                <button type="button" onclick="detectServer(this)" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium absolute top-0 right-0 p-2.5 h-full rounded-r text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                    {{ _("Detect Server") }}
+                </button>
+            </div>
         </div>
 
-        <div>
+        <div id="server_type_div" data-default="{{ server_type }}" class="{% if not server_type %} hidden {% endif %}">
+            <label for="server_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server") }}</label>
+            <div class="relative mb-6">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                    <i class="fas fa-server text-gray-400"></i>
+                </div>
+                <select disabled name="server_type" id="server_type" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                    <option {% if not server_type %} selected {% endif %} disabled>{{ _("Choose a server") }}</option>
+                    <option {% if server_type=="jellyfin" %} selected {% endif %} value="jellyfin">Jellyfin (or Emby)</option>
+                    <option {% if server_type=='plex' %} selected {% endif %} value="plex">Plex Media Server</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="server_api_key_div" data-default="{{ server_api_key }}" class="{% if not server_api_key %} hidden {% endif %}">
             <label for="server_api_key" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Token / API Key") }}</label>
-            <input type="password" name="server_api_key" id="server_api_key" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if server_api_key %}{{ server_api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX" required="">
+            <div class="relative mb-6">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                    <i class="fas fa-key text-gray-400"></i>
+                </div>
+                <input type="password" name="server_api_key" id="server_api_key" onkeyup="serverApiKeyChanged(this)" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" value="{% if server_api_key %}{{ server_api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX" required="">
+            </div>
         </div>
 
-        <div>
-            <label for="plex_libraries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Libraries") }}</label>
-            <button hx-get="/partials/modals/update-libraries" hx-target="#create-modal" hx-trigger="click" hx-swap="innerHTML" id="scan-libraries-button" _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
-                {{ _("Scan For Libraries") }}
-            </button>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <button type="submit" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
-                {{ _("Save") }}
-            </button>
+        <div class="flex items-center justify-end mt-4 space-x-2">
+            <div id="libraries_button_div">
+                <button hx-get="/partials/modals/update-libraries" hx-target="#create-modal" hx-trigger="click" hx-swap="innerHTML" id="scan-libraries-button" _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                    {{ _("Configure Libraries") }}
+                </button>
+            </div>
+            <div id="test_button_div" class="hidden">
+                <button type="button" onclick="testConnection(this)" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                    {{ _("Test Connection") }}
+                </button>
+            </div>
+            <div id="save_button_div">
+                <button type="submit" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                    {{ _("Save") }}
+                </button>
+            </div>
         </div>
     </form>
 </div>
 
 <script>
+    // Hide fields when changing the server URL
+    function serverUrlChanged(that) {
+        // Get the server URL
+        const server_url = that.value;
+        const default_server_url = that.closest('#server_url_div').getAttribute('data-default');
+
+        // All the divs
+        const server_type_div = document.getElementById('server_type_div');
+        const server_api_key_div = document.getElementById('server_api_key_div');
+        const save_button_div = document.getElementById('save_button_div');
+        const test_button_div = document.getElementById('test_button_div');
+        const libraries_button_div = document.getElementById('libraries_button_div');
+
+        // Create an array of all the divs
+        const divs = [server_type_div, server_api_key_div, save_button_div, test_button_div, libraries_button_div];
+
+        // If the server URL is not the default loop through the divs and hide them
+        if (server_url !== default_server_url) {
+            divs.forEach(div => {
+                div.classList.remove('animate__animated', 'animate__fadeIn');
+                div.classList.add('hidden');
+            });
+        } else {
+            divs.forEach(div => {
+                div.classList.add('animate__animated', 'animate__fadeIn');
+                div.classList.remove('hidden');
+            });
+        }
+
+        test_button_div.classList.add('hidden');
+    }
+
+    // Hide the libraries button and save button when api key is changed
+    function serverApiKeyChanged(that) {
+        // Get the server API key
+        const server_api_key = that.value;
+        const default_server_api_key = that.closest('#server_api_key_div').getAttribute('data-default');
+
+        // All the divs
+        const save_button_div = document.getElementById('save_button_div');
+        const test_button_div = document.getElementById('test_button_div');
+        const libraries_button_div = document.getElementById('libraries_button_div');
+
+        // Create an array of all the divs
+        const divs = [save_button_div, libraries_button_div];
+
+        // If the server API key is not the default loop through the divs and hide them
+        if (server_api_key !== default_server_api_key) {
+            test_button_div.classList.remove('hidden');
+
+            divs.forEach(div => {
+                div.classList.remove('animate__animated', 'animate__fadeIn');
+                div.classList.add('hidden');
+            });
+        } else {
+            test_button_div.classList.add('hidden');
+
+            divs.forEach(div => {
+                div.classList.add('animate__animated', 'animate__fadeIn');
+                div.classList.remove('hidden');
+            });
+        }
+    }
+
+    // Detect the server
+    async function detectServer(that) {
+        // All the divs
+        const server_type_div = document.getElementById('server_type_div');
+        const server_api_key_div = document.getElementById('server_api_key_div');
+        const test_button_div = document.getElementById('test_button_div');
+        const save_button_div = document.getElementById('save_button_div');
+        const libraries_button_div = document.getElementById('libraries_button_div');
+
+        // Hide save button and libraries button
+        save_button_div.classList.add('hidden');
+        libraries_button_div.classList.add('hidden');
+
+        // Get the submit button element
+        utils.buttonSpinner(that, true);
+
+        // Get the server URL
+        const server_url = document.getElementById('server_url').value;
+
+        // Get the server type
+        const server = await window.api.utilities.detectServer(server_url).catch(error => {
+            utils.buttonSpinner(that, false);
+            toast.errorToast("{{ _('Server not detected!') }}");
+        });
+
+        // Set the server type select box
+        document.getElementById('server_type').value = server.server_type;
+
+        // Create a toast message
+        const server_upper = server.server_type.charAt(0).toUpperCase() + server.server_type.slice(1);
+        toast.infoToast(server_upper + " {{ _('server detected!') }}");
+
+        // Unspin the button
+        utils.buttonSpinner(that, false);
+
+        // Create an array of all the divs
+        const divs = [server_type_div, server_api_key_div, test_button_div];
+
+        // Loop through the divs and show them
+        divs.forEach(div => {
+            div.classList.add('animate__animated', 'animate__fadeIn');
+            div.classList.remove('hidden');
+        });
+
+        // Find input field inside server_api_key_div and remove the value and focus it
+        server_api_key_div.querySelector('input').value = '';
+        server_api_key_div.querySelector('input').focus();
+    }
+
+    // Test the server connection
+    async function testConnection(that) {
+        // Get the submit button element
+        utils.buttonSpinner(that, true);
+
+        // Get the server URL
+        const server_url = document.getElementById('server_url').value;
+
+        // Get the server API key
+        const server_api_key = document.getElementById('server_api_key').value;
+
+        // Test the connection
+        const verfied = await window.api.utilities.verifyServer(server_url, server_api_key).catch(error => {
+            utils.buttonSpinner(that, false);
+            toast.errorToast("{{ _('Connection failed!') }}");
+            return false;
+        });
+
+        // If the connection failed, stop here
+        if (!verfied) {
+            return;
+        }
+
+        // Create a toast message
+        toast.infoToast("{{ _('Connection successful, saving settings!') }}");
+
+        // Get the parent form
+        const form = that.closest('form');
+        const formData = new FormData(form);
+
+        // Save the settings
+        const saved = await api.settings.updateSettings(formData).catch(error => {
+            utils.buttonSpinner(that, false);
+            toast.errorToast("{{ _('Settings failed to save!') }}");
+            return false;
+        });
+
+        // If the settings failed to save, stop here
+        if (!saved) {
+            return;
+        }
+
+        // Unspin the button and give a message that the settings are saved
+        utils.buttonSpinner(that, false);
+        toast.infoToast("{{ _('Settings saved successfully!') }}");
+
+        // All the divs
+        const test_button_div = document.getElementById('test_button_div');
+        const save_button_div = document.getElementById('save_button_div');
+        const libraries_button_div = document.getElementById('libraries_button_div');
+
+        // Hide the test button and show the save button
+        test_button_div.classList.add('hidden');
+        save_button_div.classList.remove('hidden');
+        libraries_button_div.classList.remove('hidden');
+    }
+
     async function saveSettings(that) {
         // Get the submit button element
         utils.submitSpinner(that, true);
@@ -52,6 +246,5 @@
         utils.submitSpinner(that, false);
 
         toast.infoToast("{{ _('Settings saved successfully!') }}");
-        htmx.ajax('GET', '/partials/admin/settings/general', { target: '#settings-content', swap: 'innerHTML' });
     }
 </script>

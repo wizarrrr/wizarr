@@ -2,7 +2,7 @@
     <form class="space-y-4 md:space-y-6" onsubmit="event.preventDefault(); saveSettings(this);">
         <div>
             <label for="requests_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request Server") }}</label>
-            <select name="request_type" id="request_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <select name="request_type" id="request_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                 <option {% if not request_type %} selected {% endif %} value="None">{{ _("Disabled") }}</option>
                 <option {% if request_type=="jellyseerr" %} selected {% endif %} value="jellyseerr" {% if server_type=="plex" %} disabled {% endif%}>Jellyseerr</option>
                 <option {% if request_type=="overseerr" %} selected {% endif %} value="overseerr" {% if server_type=="jellyfin" %} disabled {% endif%}>Overseerr</option>
@@ -13,12 +13,12 @@
 
         <div>
             <label for="request_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request Server URL") }}</label>
-            <input type="url" name="request_url" id="request_url" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if request_url %}{{ request_url }}{% endif %}" placeholder="Optional, leave empty to disable" autocomplete="new-password" {% if not request_type %} disabled {% endif %}>
+            <input type="url" name="request_url" id="request_url" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" value="{% if request_url %}{{ request_url }}{% endif %}" placeholder="Optional, leave empty to disable" autocomplete="new-password" {% if not request_type %} disabled {% endif %}>
         </div>
 
         <div>
             <label for="request_api_key" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request Server API Key") }}</label>
-            <input type="password" name="request_api_key" id="request_api_key" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{% if request_api_key %}{{ request_api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX" autocomplete="new-password" {% if not request_type %} disabled {% endif %}>
+            <input type="password" name="request_api_key" id="request_api_key" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" value="{% if request_api_key %}{{ request_api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX" autocomplete="new-password" {% if not request_type %} disabled {% endif %}>
         </div>
 
         <div class="flex items-center justify-end mt-4">

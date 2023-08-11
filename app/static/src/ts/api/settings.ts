@@ -8,11 +8,13 @@ const getSettings = async (): Promise<any> => {
 }
 
 const updateSettings = async (settings: FormData): Promise<any> => {
-    await axios.put('/api/settings', settings);
+    const resp = await axios.put('/api/settings', settings);
+    return resp.data;
 }
 
 const deleteSettings = async (id: number): Promise<void> => {
-    await axios.delete(`/api/settings/${id}`);
+    const resp = await axios.delete(`/api/settings/${id}`);
+    return resp.data;
 }
 
 addToWindow(['api', 'settings', 'getSettings'], getSettings);

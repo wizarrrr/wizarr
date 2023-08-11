@@ -8,6 +8,9 @@ import {
 
 import addToWindow from './addToWindow';
 
+import type { RegistrationResponseJSON } from '@simplewebauthn/typescript-types';
+import type { WebAuthnError } from '@simplewebauthn/browser/dist/types/helpers/webAuthnError';
+
 class Authentication {
 
     // Local axios instance
@@ -223,8 +226,16 @@ class Authentication {
         const registrationOptions = regResp.data;
         delete registrationOptions.rp.id;
 
+        // Create a new registration object
+        let registration: RegistrationResponseJSON
+
         // Start the registration
-        const registration = await startRegistration(regResp.data);
+        try {
+            registration = await startRegistration(regResp.data);
+        } catch (e: any) {
+            this.errorToast((e as WebAuthnError).message || 'Failed to register, please try again');
+            throw e;
+        }
 
         // Data to send to the server
         const data = {
