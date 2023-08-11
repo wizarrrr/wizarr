@@ -88,7 +88,6 @@ module.exports = {
             publicPath: '/static/',
             minify: false
         }),
-        // new BundleAnalyzerPlugin(),
         new ProgressPlugin()
     ],
 };

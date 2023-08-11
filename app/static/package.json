@@ -2,7 +2,7 @@
     "name": "wizarr",
     "type": "module",
     "scripts": {
-        "build": "webpack --config webpack.config.cjs --progress -mode=production",
+        "build": "webpack --config webpack.prod.cjs --progress",
         "watch": "node watch.cjs"
     },
     "author": "",
