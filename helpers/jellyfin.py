@@ -67,21 +67,21 @@ def get_jellyfin(api_path: str, as_json: Optional[bool] = True, server_api_key: 
     # Get data from Jellyfin
     response = get(url=api_url, headers=headers, timeout=30)
 
-    # Raise exception if Jellyfin API returns non-200 status code
-    if response.status_code != 200:
+    # Raise exception if Jellyfin API returns non-2** status code
+    if not response.ok:
         raise RequestException(
             f"Jellyfin API returned {response.status_code} status code."
         )
 
     # Return response
     if as_json:
-        return response.json()
+        return response.json() if response.content else None
     else:
-        return response
+        return response if response.content else None
 
 
 # ANCHOR - Jellyfin Post Request
-def post_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_url: Optional[str] = None, data: Optional[dict] = None) -> dict:
+def post_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_url: Optional[str] = None, json: Optional[dict] = None, data: Optional[any] = None):
     """Post data to Jellyfin.
     :param api_path: API path to post data to
     :type api_path: str
@@ -110,21 +110,21 @@ def post_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_ur
     # Set headers for Jellyfin API
     headers = {
         "X-Emby-Token": server_api_key,
-        "Accept": "application/json, profile=\"PascalCase\""
+        "Accept": "application/json"
     }
 
     # Post data to Jellyfin
-    response = post(url=api_url, headers=headers, data=data, timeout=30)
+    response = post(url=api_url, headers=headers, data=data, json=json, timeout=30)
 
-    # Raise exception if Jellyfin API returns non-200 status code
-    if response.status_code != 200:
+    # Raise exception if Jellyfin API returns non-2** status code
+    if not response.ok:
         raise RequestException(
             f"Jellyfin API returned {response.status_code} status code."
         )
 
     response.raise_for_status()
 
-    return response.json()
+    return response.json() if response.content else None
 
 
 # ANCHOR - Jellyfin Delete Request
@@ -160,13 +160,13 @@ def delete_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_
     # Delete data from Jellyfin
     response = delete(url=api_url, headers=headers, timeout=30)
 
-    # Raise exception if Jellyfin API returns non-200 status code
-    if response.status_code != 200:
+    # Raise exception if Jellyfin API returns non-2** status code
+    if not response.ok:
         raise RequestException(
             f"Jellyfin API returned {response.status_code} status code."
         )
 
-    return response.json()
+    return response.json() if response.content else None
 
 
 # ANCHOR - Jellyfin Scan Libraries
@@ -258,19 +258,23 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
     new_user = { "Name": str(username), "Password": str(password) }
 
     # Create user in Jellyfin
-    response = post_jellyfin(api_path="/Users/New", data=new_user, server_api_key=server_api_key, server_url=server_url)
+    user_response = post_jellyfin(api_path="/Users/New", json=new_user, server_api_key=server_api_key, server_url=server_url)
 
     # Create policy object
     new_policy = { "EnableAllFolders": False, "EnabledFolders": sections }
+    old_policy = user_response["Policy"]
 
-    # Merge policy with user policy
-    new_policy.update(response["Policy"])
+    # Merge policy with user policy don't overwrite
+    new_policy = {**old_policy, **new_policy}
+
+    # API path fpr user policy
+    api_path = f"/Users/{user_response['Id']}/Policy"
 
     # Update user policy
-    response = post_jellyfin(api_path=f"/Users/{response['Id']}/Policy", data=new_policy, server_api_key=server_api_key, server_url=server_url)
+    post_jellyfin(api_path=api_path, json=new_policy, server_api_key=server_api_key, server_url=server_url)
 
     # Return response
-    return response
+    return user_response
 
 
 # ANCHOR - Jellyfin Get Users

@@ -185,6 +185,9 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
     except BadRequest as e:
         if kwargs.get("socket_id"): socketio.emit("error", "You may already be a member, you can continue.", namespace=f"/{server_type}", to=kwargs.get("socket_id"))
         else: raise BadRequest("There was issue during the account creation") from e
+    except Exception as e:
+        if kwargs.get("socket_id"): socketio.emit("error", "There was issue during the account creation", namespace=f"/{server_type}", to=kwargs.get("socket_id"))
+        else: raise BadRequest("There was issue during the account creation") from e
 
     # If socket_id is not None, emit step 1
     if kwargs.get("socket_id"):
@@ -207,6 +210,10 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
     # Raise an error if the invite is None
     if invite is None:
         raise ValueError("Unable to invite user to media server")
+
+    # If socket_id is not None, emit done
+    if kwargs.get("socket_id"):
+        socketio.emit("done", namespace=f"/{server_type}", to=kwargs.get("socket_id"))
 
     # Return response
     return { "message": "User invited to media server", "invite": invite }

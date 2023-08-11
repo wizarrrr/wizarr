@@ -105,14 +105,18 @@
         const default_server_api_key = that.closest('#server_api_key_div').getAttribute('data-default');
 
         // All the divs
+        const server_url_div = document.getElementById('server_url_div');
         const save_button_div = document.getElementById('save_button_div');
         const test_button_div = document.getElementById('test_button_div');
         const libraries_button_div = document.getElementById('libraries_button_div');
 
+        // Get the server URL
+        const server_url = server_url_div.querySelector('#server_url');
+
         // Create an array of all the divs
         const divs = [save_button_div, libraries_button_div];
 
-        // If the server API key is not the default loop through the divs and hide them
+        // If the server API key is not the default loop through the divs and hide them else show them if server URL is default and server API key default
         if (server_api_key !== default_server_api_key) {
             test_button_div.classList.remove('hidden');
 
@@ -120,7 +124,7 @@
                 div.classList.remove('animate__animated', 'animate__fadeIn');
                 div.classList.add('hidden');
             });
-        } else {
+        } else if (server_url.value === server_url_div.getAttribute('data-default') && server_api_key === default_server_api_key) {
             test_button_div.classList.add('hidden');
 
             divs.forEach(div => {

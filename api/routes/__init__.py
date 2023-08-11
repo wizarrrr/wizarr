@@ -22,6 +22,7 @@ from .logging_api import api as logging_api
 from .oauth_api import api as oauth_api
 from .mfa_api import api as mfa_api
 from .utilities_api import api as utilities_api
+from .jellyfin_api import api as jellyfin_api
 
 authorizations = {
     "jsonWebToken": {
@@ -92,6 +93,7 @@ def handle_request_exception(error):
 api.add_namespace(accounts_api)
 api.add_namespace(authentication_api)
 api.add_namespace(invitations_api)
+api.add_namespace(jellyfin_api)
 api.add_namespace(libraries_api)
 api.add_namespace(logging_api)
 api.add_namespace(mfa_api)

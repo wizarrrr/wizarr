@@ -8,6 +8,8 @@ import axios from 'axios';
 import cookie from 'js-cookie';
 import toast from 'toastify-js';
 
+import addToWindow from '../utils/addToWindow';
+
 // ((value: V) => V | Promise<V>) | null
 function resp<V>(resp: any) {
     if (resp.data.message) {
@@ -29,3 +31,5 @@ function error(error: any) {
 // @ts-ignore
 axios.defaults.headers.common["X-CSRF-TOKEN"] = cookie.get('csrf_access_token');
 axios.interceptors.response.use(resp, error);
+
+addToWindow(['api', 'axios'], axios);
