@@ -19,7 +19,7 @@
 <a href="https://opencollective.com/wizarr">
 <img alt="Donate" src="https://img.shields.io/opencollective/all/wizarr.svg?label=backers"/>
 </a>
-<a href="https://features.jellyfin.org">
+<a href="https://features.wizarr.dev">
 <img alt="Submit Feature Requests" src="https://img.shields.io/badge/vote_now-features?label=features"/>
 </a>
 <a href="https://discord.gg/XXCz7aM3ak">
