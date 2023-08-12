@@ -233,8 +233,8 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
 
     # Build universal user object using variables that change depending on the server type
     db_user = Users.insert({
-        Users.token: user.id if server_type == "plex" else user.Id,
-        Users.username: user.username if server_type == "plex" else user.Name,
+        Users.token: user.id if server_type == "plex" else user["Id"],
+        Users.username: user.username if server_type == "plex" else user["Name"],
         Users.code: invite.code,
         Users.expires: invite.expires,
         Users.auth: kwargs.get("token", None),
