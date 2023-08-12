@@ -135,8 +135,12 @@ def invite_plex_user(code: str, token: str, server_api_key: Optional[str] = None
         allowSync=allow_sync
     )
 
+    # If the invite is none raise an error
+    if invite is None:
+        raise ValueError("Failed to invite user.")
+
     # Return the invite
-    return invite
+    return plex_account
 
 
 # ANCHOR - Plex Accept Invitation

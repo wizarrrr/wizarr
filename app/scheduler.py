@@ -4,7 +4,7 @@ from logging import info
 from flask_apscheduler import APScheduler
 
 from app.extensions import schedule
-from helpers.universal import global_sync_users
+from helpers.universal import global_sync_users, global_delete_user
 from helpers.users import get_users_by_expiring
 from app.models.database import Sessions
 
@@ -21,7 +21,7 @@ def check_expiring_users():
 
     # Delete all expired users
     for user in expiring:
-        # global_delete_user(user)
+        global_delete_user(user.token)
         info(f"Deleting user { user.email if user.email else user.username } due to expired invite.")
 
 

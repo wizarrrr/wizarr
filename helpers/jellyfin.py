@@ -336,7 +336,7 @@ def delete_jellyfin_user(user_id: str, server_api_key: Optional[str] = None, ser
     """
 
     # Delete user from Jellyfin
-    delete_jellyfin(api_path=f"/Users/{user_id}/Delete", server_api_key=server_api_key, server_url=server_url)
+    delete_jellyfin(api_path=f"/Users/{user_id}", server_api_key=server_api_key, server_url=server_url)
 
 
 # ANCHOR - Jellyfin Sync Users

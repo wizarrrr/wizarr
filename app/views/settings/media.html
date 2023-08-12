@@ -21,6 +21,8 @@
             </div>
         </div>
 
+        <input type="hidden" name="server_type" id="server_type_hidden" value="{% if server_type %}{{ server_type }}{% endif %}">
+
         <div id="server_type_div" data-default="{{ server_type }}" class="{% if not server_type %} hidden {% endif %}">
             <label for="server_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server") }}</label>
             <div class="relative mb-6">
@@ -161,6 +163,7 @@
 
         // Set the server type select box
         document.getElementById('server_type').value = server.server_type;
+        document.getElementById('server_type_hidden').value = server.server_type;
 
         // Create a toast message
         const server_upper = server.server_type.charAt(0).toUpperCase() + server.server_type.slice(1);

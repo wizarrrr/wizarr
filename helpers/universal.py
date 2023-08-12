@@ -1,12 +1,14 @@
 from plexapi.myplex import MyPlexUser, NotFound, BadRequest
 from app.models.jellyfin.user import JellyfinUser
 from app.extensions import socketio
+from datetime import datetime
 
 from .settings import get_setting
 from .plex import get_plex_users, get_plex_user, sync_plex_users, delete_plex_user, get_plex_profile_picture, invite_plex_user, accept_plex_invitation
 from .jellyfin import get_jellyfin_users, get_jellyfin_user, sync_jellyfin_users, delete_jellyfin_user, get_jellyfin_profile_picture, invite_jellyfin_user
 
 from app.models.database.users import Users
+from app.models.database.invitations import Invitations
 
 # ANCHOR - Get Server Type
 def get_server_type() -> str:
@@ -156,6 +158,9 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
     :param username: The username of the user if Jellyfin
     :type username: str
 
+    :param email: The email of the user if Jellyfin
+    :type email: str
+
     :param password: The password of the user if Jellyfin
     :type password: str
 
@@ -167,7 +172,22 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
 
     # Get the server type
     server_type = get_server_type()
-    invite = None
+    user = None
+
+    # Get the invite from the database where the code is equal to the code provided
+    invite: Invitations = Invitations.get_or_none(Invitations.code == kwargs.get("code"))
+
+    # Make sure the invite exists
+    if invite is None:
+        raise BadRequest("Invalid invite code")
+
+    # Make sure the invite is not expired
+    if invite.expires and invite.expires < datetime.now():
+        raise BadRequest("Invite code expired")
+
+    # Make sure the invite is not used
+    if invite.used and not invite.unlimited:
+        raise BadRequest("Invite code already used")
 
     # Map user creation to there respective functions
     universal_invite_user = {
@@ -175,46 +195,58 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
         "jellyfin": lambda username, password, code, **kwargs: invite_jellyfin_user(username=username, password=password, code=code)
     }
 
-    # If socket_id is not None, emit step 1
-    if kwargs.get("socket_id"):
-        socketio.emit("step", 1, namespace=f"/{server_type}", to=kwargs.get("socket_id"))
+    # Create a socketio emit function that will emit to the socket_id if it is not None
+    socketio_emit = lambda event, data: socketio.emit(event, data, namespace=f"/{server_type}", to=kwargs.get("socket_id")) if kwargs.get("socket_id") else None
+
+    # Emit step 1
+    socketio_emit("step", 1)
 
     # Invite the user to the media server
     try:
-        invite = universal_invite_user.get(server_type)(**kwargs)
+        user = universal_invite_user.get(server_type)(**kwargs)
     except BadRequest as e:
-        if kwargs.get("socket_id"): socketio.emit("error", "You may already be a member, you can continue.", namespace=f"/{server_type}", to=kwargs.get("socket_id"))
-        else: raise BadRequest("There was issue during the account creation") from e
+        socketio_emit("error", str(e) or "You may already be a member, you can continue.")
+        raise BadRequest("There was issue during the account creation") from e
     except Exception as e:
-        if kwargs.get("socket_id"): socketio.emit("error", "There was issue during the account creation", namespace=f"/{server_type}", to=kwargs.get("socket_id"))
-        else: raise BadRequest("There was issue during the account creation") from e
+        socketio_emit("error", str(e) or "There was issue during the account creation")
+        raise BadRequest("There was issue during the account creation") from e
 
-    # If socket_id is not None, emit step 1
-    if kwargs.get("socket_id"):
-        socketio.emit("step", 2, namespace=f"/{server_type}", to=kwargs.get("socket_id"))
+    # Emit step 2
+    socketio_emit("step", 2)
 
-    if server_type == "plex":
-        try:
-            accept_plex_invitation(token=kwargs.get("token"))
-        except NotFound:
-            if kwargs.get("socket_id"):
-                socketio.emit("error", "Could not accept Plex Invite", namespace="/plex", to=kwargs.get("socket_id"))
-        except Exception as e:
-            if kwargs.get("socket_id"):
-                socketio.emit("error", e.message, namespace="/plex", to=kwargs.get("socket_id"))
+    try:
+        if server_type == "plex": accept_plex_invitation(token=kwargs.get("token"))
+    except NotFound as e:
+        socketio_emit("error", "Could not accept Plex Invite")
+        raise NotFound("Could not accept Plex Invite") from e
+    except Exception as e:
+        socketio_emit("error", str(e) or "There was issue during the account invitation")
+        raise BadRequest("There was issue during the account invitation") from e
 
-    # If socket_id is not None, emit step 1
-    if kwargs.get("socket_id"):
-        socketio.emit("step", 3, namespace=f"/{server_type}", to=kwargs.get("socket_id"))
+    # Emit step 3
+    socketio_emit("step", 3)
 
     # Raise an error if the invite is None
-    if invite is None:
+    if not user:
+        socketio_emit("error", "Unable to invite user to media server")
         raise ValueError("Unable to invite user to media server")
 
-    # If socket_id is not None, emit done
-    if kwargs.get("socket_id"):
-        socketio.emit("done", namespace=f"/{server_type}", to=kwargs.get("socket_id"))
+    # Build universal user object using variables that change depending on the server type
+    db_user = Users.insert({
+        Users.token: user.id if server_type == "plex" else user.Id,
+        Users.username: user.username if server_type == "plex" else user.Name,
+        Users.code: invite.code,
+        Users.expires: invite.expires,
+        Users.auth: kwargs.get("token", None),
+        Users.email: user.email if server_type == "plex" else kwargs.get("email", None),
+    })
+
+    # Add the user to the database
+    # pylint: disable=no-value-for-parameter
+    db_user.execute()
+
+    # Emit done
+    socketio_emit("done", None)
 
     # Return response
-    return { "message": "User invited to media server", "invite": invite }
-
+    return { "message": "User invited to media server", "invite": invite, "user": db_user }

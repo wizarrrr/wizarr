@@ -50,6 +50,12 @@
                                 </label>
                                 <input type="username" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="marvin" required="" autocomplete="username">
                             </div>
+                            <div>
+                                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ _("Email") }}
+                                </label>
+                                <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="marvin@wizarr.dev" required="" autocomplete="email">
+                            </div>
 
                             <button type="submit" class="w-full text-white bg-primary hover:bg-primary_hover focus:outline-none font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover">
                                 {{ _("Create Account") }}
@@ -213,6 +219,7 @@
     async function verifyAccount(form) {
         // Get the username and email from the form
         const username = form.querySelector('input[name="username"]').value;
+        const email = form.querySelector('input[name="email"]').value;
 
         // TODO: Verify the username doesnt already exist
 
@@ -234,6 +241,7 @@
         // Get the code, username, email, and password from the forms
         const code = form1.querySelector('input[name="code"]').value;
         const username = form2.querySelector('input[name="username"]').value;
+        const email = form2.querySelector('input[name="email"]').value;
 
         const password = form.querySelector('input[name="password"]').value;
         const confirmPassword = form.querySelector('input[name="confirm-password"]').value;
@@ -251,6 +259,7 @@
         // Add the invite code, username, email, and password to the form data
         formData.append('code', code);
         formData.append('username', username);
+        formData.append('email', email);
         formData.append('password', password);
 
         // DEBUG: Log the form data

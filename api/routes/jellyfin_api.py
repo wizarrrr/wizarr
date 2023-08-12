@@ -20,6 +20,7 @@ class JellyfinStream(Resource):
     def post(self):
         # Get the username, password, code, and socket ID from the request
         username = request.form.get("username", None)
+        email = request.form.get("email", None)
         password = request.form.get("password", None)
         code = request.form.get("code", None)
         socket_id = request.form.get("socket_id", None)
@@ -34,7 +35,7 @@ class JellyfinStream(Resource):
 
         # Send a message to the user and start a background task
         socketio.emit("message", f"Hello {username}!", namespace="/jellyfin", to=socket_id)
-        socketio.start_background_task(target=global_invite_user_to_media_server, username=username, password=password, code=code, socket_id=socket_id)
+        socketio.start_background_task(target=global_invite_user_to_media_server, username=username, email=email, password=password, code=code, socket_id=socket_id)
 
         # Return the room ID and the username
         return { "room": random_id, "username": username }, 200

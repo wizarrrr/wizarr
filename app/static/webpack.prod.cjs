@@ -1,4 +1,5 @@
 const { merge } = require('webpack-merge');
+const TerserPlugin = require("terser-webpack-plugin");
 
 const common = require('./webpack.config.cjs');
 const config = merge(common, {
@@ -6,6 +7,17 @@ const config = merge(common, {
     watch: false,
     infrastructureLogging: {
         debug: false
+    },
+    optimization: {
+        minimizer: [
+            new TerserPlugin({
+                terserOptions: {
+                    keep_classnames: true,
+                    keep_fnames: true,
+                },
+                extractComments: false,
+            }),
+        ],
     }
 });
 

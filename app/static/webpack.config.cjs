@@ -62,16 +62,7 @@ module.exports = {
                 }
             },
             chunks: 'all'
-        },
-        minimizer: [
-            new TerserPlugin({
-                terserOptions: {
-                    keep_classnames: true,
-                    keep_fnames: true,
-                },
-                extractComments: false,
-            }),
-        ],
+        }
     },
     performance: {
         hints: false,
