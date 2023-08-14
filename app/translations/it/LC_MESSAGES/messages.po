@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-01 17:09+0000\n"
-"PO-Revision-Date: 2023-07-14 20:52+0000\n"
-"Last-Translator: Parsec82 <parsec82@gmail.com>\n"
+"PO-Revision-Date: 2023-08-16 10:52+0000\n"
+"Last-Translator: eggermn <egger.mn@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/wizarr/app/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.0-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: app/admin.py:166
@@ -140,9 +141,8 @@ msgstr ""
 "                Token / Chiave API"
 
 #: app/templates/settings.html:63
-#, fuzzy
 msgid "Redirect URL (optional)"
-msgstr "Password (facoltativo)"
+msgstr "URL di reindirizzamento (facoltativo)"
 
 #: app/templates/settings.html:64
 msgid ""
@@ -165,31 +165,28 @@ msgid "Scan For Libraries"
 msgstr "Cerca librerie"
 
 #: app/templates/settings.html:86
-#, fuzzy
 msgid ""
 "Request\n"
 "                Server"
 msgstr ""
-"Discord\n"
-"                ID del Server"
+"Richiesta\n"
+"                Server"
 
 #: app/templates/settings.html:100
-#, fuzzy
 msgid ""
 "Request\n"
 "                Server URL"
 msgstr ""
-"Discord\n"
-"                ID del Server"
+"Richiesta \n"
+"                Server URL"
 
 #: app/templates/settings.html:110
-#, fuzzy
 msgid ""
 "Request\n"
 "                Server API Key"
 msgstr ""
-"Discord\n"
-"                ID del Server"
+"Richiesta \n"
+"                Chiave API del Server"
 
 #: app/templates/settings.html:118
 msgid ""
@@ -200,13 +197,12 @@ msgstr ""
 "                ID del Server"
 
 #: app/templates/settings.html:126
-#, fuzzy
 msgid ""
 "Discord\n"
 "                Widget"
 msgstr ""
 "Discord\n"
-"                ID del Server"
+"                Widget"
 
 #: app/templates/settings.html:134
 msgid ""
@@ -302,24 +298,20 @@ msgid "Expiration"
 msgstr "Scadenza"
 
 #: app/templates/admin/invite.html:54
-#, fuzzy
 msgid "1 Day"
-msgstr "1 giorno"
+msgstr "1 Giorno"
 
 #: app/templates/admin/invite.html:55
-#, fuzzy
 msgid "1 Week"
-msgstr "1 settimana"
+msgstr "1 Settimana"
 
 #: app/templates/admin/invite.html:56
-#, fuzzy
 msgid "1 Month"
-msgstr "1 mese"
+msgstr "1 Mese"
 
 #: app/templates/admin/invite.html:57
-#, fuzzy
 msgid "6 Months"
-msgstr "1 mese"
+msgstr "6 Mesi"
 
 #: app/templates/admin/invite.html:58
 msgid "1 Year"
@@ -460,9 +452,8 @@ msgid "Password (optional)"
 msgstr "Password (facoltativo)"
 
 #: app/templates/modals/create-notification-agent.html:72
-#, fuzzy
 msgid "User Key"
-msgstr "Politica utente"
+msgstr "Chiave Utente"
 
 #: app/templates/modals/create-notification-agent.html:76
 msgid "API Token"
@@ -541,7 +532,7 @@ msgstr ""
 
 #: app/templates/wizard/requests.html:23
 msgid "Request any available Movie or TV Show"
-msgstr "Richiedi qualsiasi film o programma TV disponibile"
+msgstr "Richiedi qualsiasi film o programma TV"
 
 #: app/templates/wizard/requests.html:33
 msgid ""
@@ -557,7 +548,7 @@ msgstr "Se attivato, ricevi le notifice"
 
 #: app/templates/wizard/requests.html:50
 msgid "Check it Out"
-msgstr "Controlla"
+msgstr "Dai un'Occhiata"
 
 #: app/templates/wizard/jellyfin/download.html:3
 msgid ""
@@ -572,16 +563,17 @@ msgid ""
 "Great news! You now have access to our server's media collection. Let's make sure you know how to use\n"
 "        it with Jellyfin."
 msgstr ""
-"Grandi notizie! Ora hai accesso alla raccolta multimediale del nostro server. Assicuriamoci che tu sappia come usare\n"
-"        con Jellyfin."
+"Grandi notizie! Ora hai accesso alla raccolta multimediale del nostro "
+"server. Assicuriamoci che tu sappia come usare\n"
+"Jellyfin."
 
 #: app/templates/wizard/jellyfin/download.html:12
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device."
 msgstr ""
-"Stai pensando di guardare films e serie tv su questo device? Scarica "
-"Jellyfin sul device."
+"Stai pensando di guardare Film e Serie TV su questo dispositivo? Scarica "
+"Jellyfin per questo dispositivo."
 
 #: app/templates/wizard/jellyfin/download.html:18
 msgid ""
@@ -592,9 +584,8 @@ msgstr ""
 "browser Web del tuo dispositivo, fai clic su \"Avanti\"."
 
 #: app/templates/wizard/jellyfin/download.html:24
-#, fuzzy
 msgid "Show Server URL"
-msgstr "URL del Server"
+msgstr "Mostra URL del Server"
 
 #: app/templates/wizard/jellyfin/download.html:37
 #: app/templates/wizard/jellyfin/download.html:137
@@ -608,9 +599,8 @@ msgid "Open Jellyfin"
 msgstr "Apri Jellyfin"
 
 #: app/templates/wizard/jellyfin/download.html:85
-#, fuzzy
 msgid "Other Download"
-msgstr "Scarica"
+msgstr "Altri Download"
 
 #: app/templates/wizard/jellyfin/download.html:134
 msgid "Copied!"
