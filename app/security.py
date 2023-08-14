@@ -3,7 +3,7 @@ from functools import wraps
 from logging import info
 from os import getenv, mkdir, path
 from secrets import token_hex
-from flask import make_response, redirect, render_template
+from flask import make_response, redirect, render_template, request
 from flask_jwt_extended import (create_access_token, get_jti, get_jwt,
                                 get_jwt_identity, set_access_cookies,
                                 verify_jwt_in_request)
@@ -77,13 +77,16 @@ def login_required_unless_setup():
                     verify_jwt_in_request()
                 except Exception:
                     from app import htmx
+                    redirect_url = "/login"
+                    redirect_url += "?toast=" + "You need to be logged in to access that page"
+                    redirect_url += "&redirect=" + request.path.replace("/partials", "")
                     if htmx:
                         response = make_response(render_template("authentication/login.html"))
-                        response.headers["HX-Redirect"] = "/login" + "?toast=" + "You need to be logged in to access that page"
+                        response.headers["HX-Redirect"] = redirect_url
                         response.headers["HX-Push"] = "/login"
                         return response
                     else:
-                        return redirect("/login")
+                        return redirect(redirect_url)
 
             return fn(*args, **kwargs)
 
@@ -101,13 +104,16 @@ def login_required():
                     verify_jwt_in_request()
                 except Exception:
                     from app import htmx
+                    redirect_url = "/login"
+                    redirect_url += "?toast=" + "You need to be logged in to access that page"
+                    redirect_url += "&redirect=" + request.path.replace("/partials", "")
                     if htmx:
                         response = make_response(render_template("authentication/login.html"))
-                        response.headers["HX-Redirect"] = "/login" + "?toast=" + "You need to be logged in to access that page"
+                        response.headers["HX-Redirect"] = redirect_url
                         response.headers["HX-Push"] = "/login"
                         return response
                     else:
-                        return redirect("/login")
+                        return redirect(redirect_url)
 
             return fn(*args, **kwargs)
 

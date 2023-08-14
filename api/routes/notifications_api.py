@@ -4,7 +4,7 @@ from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restx import Namespace, Resource
 
-from app.utils.notifications.exceptions import InvalidNotificationAgent
+from app.notifications.exceptions import InvalidNotificationAgent
 from app.models.notifications import NotificationsGetModel, NotificationsPostModel
 from app.models.database.notifications import Notifications
 

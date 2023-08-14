@@ -168,6 +168,7 @@
 
         let uri = new URL(url);
         uri.pathname = '/j/' + code;
+        uri.protocol = location.protocol;
 
         navigator.clipboard.writeText(uri.href).then(function () {
             element.innerText = "Copied!";

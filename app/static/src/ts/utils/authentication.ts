@@ -103,6 +103,28 @@ class Authentication {
     }
 
     /**
+     * Redirect user to the authenticated page
+     * This function is used to redirect the user to the authenticated page
+     */
+    redirect(path?: string, toast?: string) {
+        // Get redirect param from the url
+        const urlParams = new URLSearchParams(window.location.search);
+        let redirect = urlParams.get('redirect');
+
+        // If the redirect param is set, make sure its a pathname
+        if (redirect && !redirect.startsWith('/')) redirect = null;
+
+        // Create path to redirect to
+        const newPath = new URL(window.location.origin + (redirect || path || '/admin'));
+
+        // Add a toast notification to welcome the user
+        newPath.searchParams.append('toast', toast || 'Welcome back ' + this.username);
+
+        // Redirect to the home page or the redirect param if it exists
+        window.location.href = newPath.href;
+    }
+
+    /**
      * Login to the application
      * This method is used to login the user
      *
@@ -152,8 +174,8 @@ class Authentication {
             localStorage.setItem('user', JSON.stringify(response.data.auth.user));
         }
 
-        // Redirect to the home page
-        window.location.href = '/admin';
+        // Redirect the user to the authenticated page
+        this.redirect();
     }
 
 
@@ -325,8 +347,8 @@ class Authentication {
             localStorage.setItem('user', JSON.stringify(authResp2.data.auth.user));
         }
 
-        // Redirect to the home page
-        window.location.href = '/admin';
+        // Redirect the user to the authenticated page
+        this.redirect();
     }
 
 

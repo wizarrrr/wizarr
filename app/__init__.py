@@ -79,7 +79,6 @@ from .logging import *
 from .mediarequest import *
 from .oauths import *
 from .partials import *
-from .plex import *
 from .scheduler import *
 from .utils.backup import *
 

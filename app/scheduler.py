@@ -17,7 +17,7 @@ def check_expiring_users():
     info("Checking for expiring users")
 
     # Get all users that have an expiration date set and are expired
-    expiring = get_users_by_expiring()
+    expiring = get_users_by_expiring(as_dict=False)
 
     # Delete all expired users
     for user in expiring:

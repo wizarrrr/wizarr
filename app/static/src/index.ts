@@ -21,9 +21,27 @@ window.getCookie = Cookie.get;
 window.setCookie = Cookie.set;
 
 const toast = new URLSearchParams(window.location.search).get('toast');
-if (toast) setTimeout(() => infoToast(toast), 500);
-if (toast) history.replaceState(null, '', window.location.pathname);
 
+if (toast) {
+    // Wait for the page to load
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // Get the URLSearchParams object
+        const params = new URLSearchParams(window.location.search);
+
+        // Show the toast
+        infoToast(toast);
+
+        // Remove the toast from the URLSearchParams object
+        params.delete('toast');
+
+        // Create new path with the toast removed
+        const path = window.location.pathname + '?' + params.toString();
+
+        // Replace the URL with the new path
+        history.replaceState(null, '', path);
+    });
+}
 
 function konamiCode() {
     const konamiCode = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];;
