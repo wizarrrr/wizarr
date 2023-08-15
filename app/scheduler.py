@@ -4,9 +4,9 @@ from logging import info
 from flask_apscheduler import APScheduler
 
 from app.extensions import schedule
+from app.models.database import Sessions
 from helpers.universal import global_sync_users, global_delete_user
 from helpers.users import get_users_by_expiring
-from app.models.database import Sessions
 
 schedule.start()
 
