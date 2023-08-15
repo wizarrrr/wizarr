@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-06 21:37+0100\n"
+"POT-Creation-Date: 2023-08-15 23:12+0100\n"
 "PO-Revision-Date: 2023-08-06 21:11+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: zh_Hans_CN <LL@li.org>\n"
@@ -85,9 +85,9 @@ msgid "Configure your profile settings"
 msgstr "配置您的服务器设置。"
 
 #: app/configs/settings.json.j2:53 app/views/authentication/login.html:56
-#: app/views/client/invite/signup/jellyfin.html:27
+#: app/views/client/invite/signup/jellyfin.html:75
 #: app/views/modals/create-notification-agent.html:148
-#: app/views/settings/password.html:6 app/views/setup/pages/admin.html:15
+#: app/views/settings/password.html:6 app/views/setup/pages/accounts.html:15
 msgid "Password"
 msgstr "密码"
 
@@ -249,11 +249,7 @@ msgstr "贝塔"
 msgid "Logout failed"
 msgstr "注销失败"
 
-#: app/templates/users.html:5
-msgid "Invite User"
-msgstr "邀请用户"
-
-#: app/templates/templates/menu.html:16 app/views/home/main.html:3
+#: app/templates/templates/menu.html:16 app/views/home/homepage.html:3
 msgid "Home"
 msgstr "家"
 
@@ -265,7 +261,7 @@ msgstr "邀请函"
 msgid "Users"
 msgstr "用户"
 
-#: app/templates/templates/menu.html:34 app/views/setup/pages/settings.html:2
+#: app/templates/templates/menu.html:34
 msgid "Settings"
 msgstr "设置"
 
@@ -497,7 +493,7 @@ msgid "Toggle Theme"
 msgstr "切换主题"
 
 #: app/views/authentication/login.html:4
-#: app/views/authentication/login.html:62 app/views/home/main.html:16
+#: app/views/authentication/login.html:62 app/views/home/homepage.html:16
 msgid "Login"
 msgstr "登录"
 
@@ -508,15 +504,16 @@ msgstr "使用您的帐户登录"
 
 #: app/views/authentication/login.html:34
 #: app/views/authentication/login.html:51
-#: app/views/client/invite/signup/jellyfin.html:13
+#: app/views/client/invite/signup/jellyfin.html:49
 #: app/views/modals/create-notification-agent.html:143
-#: app/views/settings/profile.html:12 app/views/setup/pages/admin.html:7
+#: app/views/settings/profile.html:12 app/views/setup/pages/accounts.html:7
 msgid "Username"
 msgstr "用户名"
 
 #: app/views/authentication/login.html:40
 #: app/views/authentication/login.html:83
-#: app/views/client/invite/signup/plex.html:81
+#: app/views/client/invite/signup/jellyfin.html:132
+#: app/views/client/invite/signup/plex.html:88
 msgid "Continue"
 msgstr "继续"
 
@@ -550,14 +547,15 @@ msgid "Type in your invite code to %(name)s server!"
 msgstr "输入您的邀请码到 %(name)s 服务器！"
 
 #: app/views/client/invite/join.html:20
-#: app/views/client/invite/signup/jellyfin.html:40
-#: app/views/client/invite/signup/plex.html:25
+#: app/views/client/invite/signup/jellyfin.html:28
+#: app/views/client/invite/signup/plex.html:28
 #: app/views/tables/invite-table.html:6
 msgid "Invite Code"
 msgstr "邀请代码"
 
 #: app/views/client/invite/join.html:27
-#: app/views/client/invite/signup/plex.html:33
+#: app/views/client/invite/signup/jellyfin.html:35
+#: app/views/client/invite/signup/plex.html:36
 msgid "Join"
 msgstr "加入"
 
@@ -568,22 +566,86 @@ msgid "You've been invited to join the %(name)s server!"
 msgstr "您已被邀请加入 %(name)s 服务器！"
 
 #: app/views/client/invite/signup/jellyfin.html:3
-msgid "Set up Account"
-msgstr "设立账户"
+#, fuzzy
+msgid "Join the Jellyfin Server"
+msgstr "加入Plex服务器"
 
-#: app/views/client/invite/signup/jellyfin.html:19
-#: app/views/setup/pages/admin.html:11
+#: app/views/client/invite/signup/jellyfin.html:4
+#, fuzzy
+msgid "Create your account"
+msgstr "创建账户"
+
+#: app/views/client/invite/signup/jellyfin.html:5
+#, fuzzy
+msgid "Setup your password"
+msgstr "忘记密码了吗？"
+
+#: app/views/client/invite/signup/jellyfin.html:6
+#: app/views/client/invite/signup/plex.html:5
+msgid "Please wait"
+msgstr "请稍等"
+
+#: app/views/client/invite/signup/jellyfin.html:7
+#, fuzzy
+msgid "Almost done"
+msgstr "全做完了！"
+
+#: app/views/client/invite/signup/jellyfin.html:8
+#, fuzzy
+msgid "Account created"
+msgstr "帐户已创建！"
+
+#: app/views/client/invite/signup/jellyfin.html:9
+#: app/views/client/invite/signup/plex.html:10
+msgid "Please try again"
+msgstr "请再试一次"
+
+#: app/views/client/invite/signup/jellyfin.html:55
+#: app/views/setup/pages/accounts.html:11
 msgid "Email"
 msgstr "电子邮件"
 
-#: app/views/client/invite/signup/jellyfin.html:33
-#: app/views/setup/pages/admin.html:19
+#: app/views/client/invite/signup/jellyfin.html:61
+#, fuzzy
+msgid "Create Account"
+msgstr "创建账户"
+
+#: app/views/client/invite/signup/jellyfin.html:81
+#: app/views/setup/pages/accounts.html:19
 msgid "Confirm password"
 msgstr "确认密码"
 
-#: app/views/client/invite/signup/jellyfin.html:45
-msgid "Create an account"
-msgstr "创建一个帐户"
+#: app/views/client/invite/signup/jellyfin.html:87
+#, fuzzy
+msgid "Save Password"
+msgstr "密码"
+
+#: app/views/client/invite/signup/jellyfin.html:129
+#, fuzzy
+msgid ""
+"You're all set, click continue to get started and walkthrough how to use "
+"Jellyfin!"
+msgstr "一切就绪，单击“继续”开始并演练如何使用 Plex！"
+
+#: app/views/client/invite/signup/jellyfin.html:141
+#: app/views/client/invite/signup/plex.html:97
+msgid "Something went wrong, please try again."
+msgstr "出了点问题，请重试。"
+
+#: app/views/client/invite/signup/jellyfin.html:144
+#: app/views/client/invite/signup/plex.html:100
+msgid "Retry"
+msgstr "重试"
+
+#: app/views/client/invite/signup/jellyfin.html:301
+#, fuzzy
+msgid "Connecting to Server"
+msgstr "加入Plex服务器"
+
+#: app/views/client/invite/signup/jellyfin.html:310
+#, fuzzy
+msgid "Creating Jellyfin Account"
+msgstr "创建账户"
 
 #: app/views/client/invite/signup/plex.html:3
 msgid "Join the Plex Server"
@@ -592,10 +654,6 @@ msgstr "加入Plex服务器"
 #: app/views/client/invite/signup/plex.html:4
 msgid "Sign in to Plex"
 msgstr "登录 Plex"
-
-#: app/views/client/invite/signup/plex.html:5
-msgid "Please wait"
-msgstr "请稍等"
 
 #: app/views/client/invite/signup/plex.html:6
 msgid "Setting up your account"
@@ -613,23 +671,11 @@ msgstr "全做完了！"
 msgid "Account created!"
 msgstr "帐户已创建！"
 
-#: app/views/client/invite/signup/plex.html:10
-msgid "Please try again"
-msgstr "请再试一次"
-
-#: app/views/client/invite/signup/plex.html:78
+#: app/views/client/invite/signup/plex.html:85
 msgid ""
 "You're all set, click continue to get started and walkthrough how to use "
 "Plex!"
 msgstr "一切就绪，单击“继续”开始并演练如何使用 Plex！"
-
-#: app/views/client/invite/signup/plex.html:90
-msgid "Something went wrong, please try again."
-msgstr "出了点问题，请重试。"
-
-#: app/views/client/invite/signup/plex.html:93
-msgid "Retry"
-msgstr "重试"
 
 #: app/views/client/wizard/wizard.html:4
 msgid "Help"
@@ -710,7 +756,7 @@ msgid "Show Server URL"
 msgstr "显示服务器网址"
 
 #: app/views/client/wizard/pages/jellyfin/download.html:30
-#: app/views/settings/media.html:20 app/views/setup/pages/settings.html:20
+#: app/views/settings/media.html:12
 msgid "Server URL"
 msgstr "服务器地址"
 
@@ -868,11 +914,11 @@ msgstr "出了问题。请稍后再试。"
 msgid "Get Help"
 msgstr "得到帮助"
 
-#: app/views/home/main.html:25 app/views/setup/pages/welcome.html:2
+#: app/views/home/homepage.html:25 app/views/setup/pages/welcome.html:2
 msgid "Welcome to Wizarr"
 msgstr "欢迎来到威扎尔"
 
-#: app/views/home/main.html:28
+#: app/views/home/homepage.html:28
 msgid ""
 "Wizarr is a software tool that provides advanced user invitation and "
 "management capabilities for media servers such as Jellyfin, Emby, and Plex. "
@@ -882,21 +928,21 @@ msgstr ""
 "Wizarr 是一款软件工具，可为 Jellyfin、Emby 和 Plex 等媒体服务器提供高级用户邀请和管理功能。借助 "
 "Wizarr，服务器管理员可以轻松邀请新用户并管理他们的访问权限。"
 
-#: app/views/home/main.html:32
+#: app/views/home/homepage.html:32
 msgid ""
 "If you were sent here by a friend, please request access or if you have an "
 "invite code, please click Get Started."
 msgstr "如果您是由朋友发送到这里的，请请求访问权限，或者如果您有邀请码，请单击“开始”。"
 
-#: app/views/home/main.html:36
+#: app/views/home/homepage.html:36
 msgid "Get Started"
 msgstr "开始使用"
 
-#: app/views/home/main.html:41
+#: app/views/home/homepage.html:41
 msgid "or"
 msgstr "或者"
 
-#: app/views/home/main.html:45
+#: app/views/home/homepage.html:45
 msgid "Request Access"
 msgstr "申请进入"
 
@@ -1092,8 +1138,7 @@ msgstr "您确定要运行此任务吗？"
 msgid "Task has been run."
 msgstr "任务已运行。"
 
-#: app/views/modals/update-libraries.html:3 app/views/settings/media.html:30
-#: app/views/setup/pages/settings.html:37
+#: app/views/modals/update-libraries.html:3
 msgid "Server Libraries"
 msgstr "服务器库"
 
@@ -1126,12 +1171,13 @@ msgid "Discord Widget"
 msgstr "不和谐小部件"
 
 #: app/views/settings/discord.html:19 app/views/settings/html.html:9
-#: app/views/settings/media.html:38 app/views/settings/requests.html:26
+#: app/views/settings/media.html:63 app/views/settings/requests.html:26
 msgid "Save"
 msgstr "节省"
 
 #: app/views/settings/discord.html:42 app/views/settings/html.html:25
-#: app/views/settings/media.html:54 app/views/settings/requests.html:58
+#: app/views/settings/media.html:253 app/views/settings/media.html:286
+#: app/views/settings/requests.html:58
 msgid "Settings saved successfully!"
 msgstr "设置保存成功！"
 
@@ -1147,25 +1193,57 @@ msgstr "选择语言"
 msgid "No settings matched your search."
 msgstr "没有与您的搜索匹配的设置。"
 
-#: app/views/settings/media.html:6 app/views/setup/pages/settings.html:6
+#: app/views/settings/media.html:7
 msgid "Server Display Name"
 msgstr "服务器显示名称"
 
-#: app/views/settings/media.html:11 app/views/setup/pages/settings.html:11
+#: app/views/settings/media.html:19
+#, fuzzy
+msgid "Detect Server"
+msgstr "请求服务器"
+
+#: app/views/settings/media.html:27
 msgid "Server"
 msgstr "服务器"
 
-#: app/views/settings/media.html:13
+#: app/views/settings/media.html:33
 msgid "Choose a server"
 msgstr "选择服务器"
 
-#: app/views/settings/media.html:25 app/views/setup/pages/settings.html:25
+#: app/views/settings/media.html:41
 msgid "Server Token / API Key"
 msgstr "服务器令牌/API 密钥"
 
-#: app/views/settings/media.html:32 app/views/setup/pages/settings.html:39
-msgid "Scan For Libraries"
+#: app/views/settings/media.html:53
+#, fuzzy
+msgid "Configure Libraries"
 msgstr "扫描图书馆"
+
+#: app/views/settings/media.html:58
+msgid "Test Connection"
+msgstr "测试连接"
+
+#: app/views/settings/media.html:181
+msgid "Server not detected!"
+msgstr "未检测到服务器！"
+
+#: app/views/settings/media.html:190
+#, fuzzy
+msgid "server detected!"
+msgstr "服务器设置"
+
+#: app/views/settings/media.html:223
+msgid "Connection failed!"
+msgstr "连接失败！"
+
+#: app/views/settings/media.html:233
+msgid "Connection successful, saving settings!"
+msgstr "连接成功，正在保存设置！"
+
+#: app/views/settings/media.html:242
+#, fuzzy
+msgid "Settings failed to save!"
+msgstr "没有与您的搜索匹配的设置。"
 
 #: app/views/settings/notifications.html:18
 msgid "Create Agent"
@@ -1216,14 +1294,14 @@ msgid "Revoke All"
 msgstr "全部撤销"
 
 #: app/views/setup/base.html:12
-msgid "Setup Wizarr"
-msgstr "设置向导"
+msgid "Setup"
+msgstr "设置"
 
-#: app/views/setup/pages/admin.html:2
+#: app/views/setup/pages/accounts.html:2
 msgid "Admin Account"
 msgstr "管理员帐户"
 
-#: app/views/setup/pages/admin.html:24
+#: app/views/setup/pages/accounts.html:24
 msgid "Create account"
 msgstr "创建账户"
 
@@ -1236,8 +1314,9 @@ msgid "You have successfully completed the setup process."
 msgstr "您已成功完成设置过程。"
 
 #: app/views/setup/pages/complete.html:9
-msgid "Go to Dashboard"
-msgstr "转到仪表板"
+#, fuzzy
+msgid "Go to Login"
+msgstr "登录"
 
 #: app/views/setup/pages/database.html:2
 msgid "Database"
@@ -1252,14 +1331,6 @@ msgid ""
 "This is a temporary and we are working on adding support for other "
 "databases."
 msgstr "这是临时的，我们正在努力添加对其他数据库的支持。"
-
-#: app/views/setup/pages/settings.html:31
-msgid "Test"
-msgstr "测试"
-
-#: app/views/setup/pages/settings.html:45
-msgid "Done"
-msgstr "完毕"
 
 #: app/views/setup/pages/welcome.html:5
 msgid ""
@@ -1292,6 +1363,11 @@ msgstr "查看我们的文档，了解有关如何安装和运行 Wizarr 的详�
 #: app/views/tables/oauth-table.html:33
 msgid "Edit"
 msgstr "编辑"
+
+#: app/views/tables/global-users.html:32
+#, fuzzy
+msgid "Expires"
+msgstr "已到期"
 
 #: app/views/tables/invite-table.html:7
 msgid "Used"
@@ -1340,3 +1416,24 @@ msgstr "下一次执行"
 #: app/views/tables/task-table.html:40
 msgid "Run Now"
 msgstr "现在跑步"
+
+#~ msgid "Invite User"
+#~ msgstr "邀请用户"
+
+#~ msgid "Set up Account"
+#~ msgstr "设立账户"
+
+#~ msgid "Create an account"
+#~ msgstr "创建一个帐户"
+
+#~ msgid "Setup Wizarr"
+#~ msgstr "设置向导"
+
+#~ msgid "Go to Dashboard"
+#~ msgstr "转到仪表板"
+
+#~ msgid "Test"
+#~ msgstr "测试"
+
+#~ msgid "Done"
+#~ msgstr "完毕"

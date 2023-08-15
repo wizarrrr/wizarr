@@ -9,6 +9,7 @@ from flask_restx import Namespace, Resource
 
 from helpers.libraries import get_libraries
 from app.models.wizarr.libraries import LibrariesModel
+from app.security import is_setup_required
 
 api = Namespace('Libraries', description='Libraries related operations', path="/libraries")
 
@@ -16,7 +17,7 @@ api = Namespace('Libraries', description='Libraries related operations', path="/
 class LibrariesListAPI(Resource):
     """API resource for all libraries"""
 
-    method_decorators = [jwt_required()]
+    method_decorators = [] if is_setup_required() else [jwt_required()]
 
     @api.doc(description="Get all libraries")
     @api.response(200, "Successfully retrieved all libraries")

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-06 21:37+0100\n"
+"POT-Creation-Date: 2023-08-15 23:12+0100\n"
 "PO-Revision-Date: 2023-08-06 19:50+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: da <LL@li.org>\n"
@@ -85,9 +85,9 @@ msgid "Configure your profile settings"
 msgstr "Konfigurer dine serverindstillinger."
 
 #: app/configs/settings.json.j2:53 app/views/authentication/login.html:56
-#: app/views/client/invite/signup/jellyfin.html:27
+#: app/views/client/invite/signup/jellyfin.html:75
 #: app/views/modals/create-notification-agent.html:148
-#: app/views/settings/password.html:6 app/views/setup/pages/admin.html:15
+#: app/views/settings/password.html:6 app/views/setup/pages/accounts.html:15
 msgid "Password"
 msgstr "Adgangskode"
 
@@ -249,11 +249,7 @@ msgstr "Beta"
 msgid "Logout failed"
 msgstr "Log ud mislykkedes"
 
-#: app/templates/users.html:5
-msgid "Invite User"
-msgstr "Inviter bruger"
-
-#: app/templates/templates/menu.html:16 app/views/home/main.html:3
+#: app/templates/templates/menu.html:16 app/views/home/homepage.html:3
 msgid "Home"
 msgstr "Hjem"
 
@@ -265,7 +261,7 @@ msgstr "Invitationer"
 msgid "Users"
 msgstr "Brugere"
 
-#: app/templates/templates/menu.html:34 app/views/setup/pages/settings.html:2
+#: app/templates/templates/menu.html:34
 msgid "Settings"
 msgstr "Indstillinger"
 
@@ -502,7 +498,7 @@ msgid "Toggle Theme"
 msgstr "Skift tema"
 
 #: app/views/authentication/login.html:4
-#: app/views/authentication/login.html:62 app/views/home/main.html:16
+#: app/views/authentication/login.html:62 app/views/home/homepage.html:16
 msgid "Login"
 msgstr "Log på"
 
@@ -513,15 +509,16 @@ msgstr "Log ind med din konto"
 
 #: app/views/authentication/login.html:34
 #: app/views/authentication/login.html:51
-#: app/views/client/invite/signup/jellyfin.html:13
+#: app/views/client/invite/signup/jellyfin.html:49
 #: app/views/modals/create-notification-agent.html:143
-#: app/views/settings/profile.html:12 app/views/setup/pages/admin.html:7
+#: app/views/settings/profile.html:12 app/views/setup/pages/accounts.html:7
 msgid "Username"
 msgstr "Brugernavn"
 
 #: app/views/authentication/login.html:40
 #: app/views/authentication/login.html:83
-#: app/views/client/invite/signup/plex.html:81
+#: app/views/client/invite/signup/jellyfin.html:132
+#: app/views/client/invite/signup/plex.html:88
 msgid "Continue"
 msgstr "Blive ved"
 
@@ -556,14 +553,15 @@ msgid "Type in your invite code to %(name)s server!"
 msgstr "Indtast din invitationskode til %(name)s server!"
 
 #: app/views/client/invite/join.html:20
-#: app/views/client/invite/signup/jellyfin.html:40
-#: app/views/client/invite/signup/plex.html:25
+#: app/views/client/invite/signup/jellyfin.html:28
+#: app/views/client/invite/signup/plex.html:28
 #: app/views/tables/invite-table.html:6
 msgid "Invite Code"
 msgstr "Invitations kode"
 
 #: app/views/client/invite/join.html:27
-#: app/views/client/invite/signup/plex.html:33
+#: app/views/client/invite/signup/jellyfin.html:35
+#: app/views/client/invite/signup/plex.html:36
 msgid "Join"
 msgstr "Tilslutte"
 
@@ -574,22 +572,88 @@ msgid "You've been invited to join the %(name)s server!"
 msgstr "Du er blevet inviteret til at deltage i %(name)s server!"
 
 #: app/views/client/invite/signup/jellyfin.html:3
-msgid "Set up Account"
+#, fuzzy
+msgid "Join the Jellyfin Server"
+msgstr "Tilmeld dig Plex Server"
+
+#: app/views/client/invite/signup/jellyfin.html:4
+#, fuzzy
+msgid "Create your account"
 msgstr "Opret konto"
 
-#: app/views/client/invite/signup/jellyfin.html:19
-#: app/views/setup/pages/admin.html:11
+#: app/views/client/invite/signup/jellyfin.html:5
+#, fuzzy
+msgid "Setup your password"
+msgstr "Glemt din adgangskode?"
+
+#: app/views/client/invite/signup/jellyfin.html:6
+#: app/views/client/invite/signup/plex.html:5
+msgid "Please wait"
+msgstr "Vent venligst"
+
+#: app/views/client/invite/signup/jellyfin.html:7
+#, fuzzy
+msgid "Almost done"
+msgstr "Helt færdig!"
+
+#: app/views/client/invite/signup/jellyfin.html:8
+#, fuzzy
+msgid "Account created"
+msgstr "Konto oprettet!"
+
+#: app/views/client/invite/signup/jellyfin.html:9
+#: app/views/client/invite/signup/plex.html:10
+msgid "Please try again"
+msgstr "Prøv igen"
+
+#: app/views/client/invite/signup/jellyfin.html:55
+#: app/views/setup/pages/accounts.html:11
 msgid "Email"
 msgstr "E-mail"
 
-#: app/views/client/invite/signup/jellyfin.html:33
-#: app/views/setup/pages/admin.html:19
+#: app/views/client/invite/signup/jellyfin.html:61
+#, fuzzy
+msgid "Create Account"
+msgstr "Opret konto"
+
+#: app/views/client/invite/signup/jellyfin.html:81
+#: app/views/setup/pages/accounts.html:19
 msgid "Confirm password"
 msgstr "Bekræft kodeord"
 
-#: app/views/client/invite/signup/jellyfin.html:45
-msgid "Create an account"
-msgstr "Opret en konto"
+#: app/views/client/invite/signup/jellyfin.html:87
+#, fuzzy
+msgid "Save Password"
+msgstr "Adgangskode"
+
+#: app/views/client/invite/signup/jellyfin.html:129
+#, fuzzy
+msgid ""
+"You're all set, click continue to get started and walkthrough how to use "
+"Jellyfin!"
+msgstr ""
+"Du er klar, klik fortsæt for at komme i gang og få en gennemgang af, hvordan"
+" du bruger Plex!"
+
+#: app/views/client/invite/signup/jellyfin.html:141
+#: app/views/client/invite/signup/plex.html:97
+msgid "Something went wrong, please try again."
+msgstr "Noget gik galt. Prøv venligst igen."
+
+#: app/views/client/invite/signup/jellyfin.html:144
+#: app/views/client/invite/signup/plex.html:100
+msgid "Retry"
+msgstr "Prøve igen"
+
+#: app/views/client/invite/signup/jellyfin.html:301
+#, fuzzy
+msgid "Connecting to Server"
+msgstr "Tilmeld dig Plex Server"
+
+#: app/views/client/invite/signup/jellyfin.html:310
+#, fuzzy
+msgid "Creating Jellyfin Account"
+msgstr "Opret konto"
 
 #: app/views/client/invite/signup/plex.html:3
 msgid "Join the Plex Server"
@@ -598,10 +662,6 @@ msgstr "Tilmeld dig Plex Server"
 #: app/views/client/invite/signup/plex.html:4
 msgid "Sign in to Plex"
 msgstr "Log ind på Plex"
-
-#: app/views/client/invite/signup/plex.html:5
-msgid "Please wait"
-msgstr "Vent venligst"
 
 #: app/views/client/invite/signup/plex.html:6
 msgid "Setting up your account"
@@ -619,25 +679,13 @@ msgstr "Helt færdig!"
 msgid "Account created!"
 msgstr "Konto oprettet!"
 
-#: app/views/client/invite/signup/plex.html:10
-msgid "Please try again"
-msgstr "Prøv igen"
-
-#: app/views/client/invite/signup/plex.html:78
+#: app/views/client/invite/signup/plex.html:85
 msgid ""
 "You're all set, click continue to get started and walkthrough how to use "
 "Plex!"
 msgstr ""
 "Du er klar, klik fortsæt for at komme i gang og få en gennemgang af, hvordan"
 " du bruger Plex!"
-
-#: app/views/client/invite/signup/plex.html:90
-msgid "Something went wrong, please try again."
-msgstr "Noget gik galt. Prøv venligst igen."
-
-#: app/views/client/invite/signup/plex.html:93
-msgid "Retry"
-msgstr "Prøve igen"
 
 #: app/views/client/wizard/wizard.html:4
 msgid "Help"
@@ -722,7 +770,7 @@ msgid "Show Server URL"
 msgstr "Vis server-URL"
 
 #: app/views/client/wizard/pages/jellyfin/download.html:30
-#: app/views/settings/media.html:20 app/views/setup/pages/settings.html:20
+#: app/views/settings/media.html:12
 msgid "Server URL"
 msgstr "Server URL"
 
@@ -894,11 +942,11 @@ msgstr "Noget er gået galt. Prøv igen senere."
 msgid "Get Help"
 msgstr "Få hjælp"
 
-#: app/views/home/main.html:25 app/views/setup/pages/welcome.html:2
+#: app/views/home/homepage.html:25 app/views/setup/pages/welcome.html:2
 msgid "Welcome to Wizarr"
 msgstr "Velkommen til Wizarr"
 
-#: app/views/home/main.html:28
+#: app/views/home/homepage.html:28
 msgid ""
 "Wizarr is a software tool that provides advanced user invitation and "
 "management capabilities for media servers such as Jellyfin, Emby, and Plex. "
@@ -910,7 +958,7 @@ msgstr ""
 "Wizarr kan serveradministratorer nemt invitere nye brugere og administrere "
 "deres adgangstilladelser."
 
-#: app/views/home/main.html:32
+#: app/views/home/homepage.html:32
 msgid ""
 "If you were sent here by a friend, please request access or if you have an "
 "invite code, please click Get Started."
@@ -918,15 +966,15 @@ msgstr ""
 "Hvis du blev sendt hertil af en ven, bedes du anmode om adgang, eller hvis "
 "du har en invitationskode, skal du klikke på Kom i gang."
 
-#: app/views/home/main.html:36
+#: app/views/home/homepage.html:36
 msgid "Get Started"
 msgstr "Kom igang"
 
-#: app/views/home/main.html:41
+#: app/views/home/homepage.html:41
 msgid "or"
 msgstr "eller"
 
-#: app/views/home/main.html:45
+#: app/views/home/homepage.html:45
 msgid "Request Access"
 msgstr "Anmod om adgang"
 
@@ -1122,8 +1170,7 @@ msgstr "Er du sikker på, at du vil køre denne opgave?"
 msgid "Task has been run."
 msgstr "Opgaven er kørt."
 
-#: app/views/modals/update-libraries.html:3 app/views/settings/media.html:30
-#: app/views/setup/pages/settings.html:37
+#: app/views/modals/update-libraries.html:3
 msgid "Server Libraries"
 msgstr "Server biblioteker"
 
@@ -1156,12 +1203,13 @@ msgid "Discord Widget"
 msgstr "Discord-widget"
 
 #: app/views/settings/discord.html:19 app/views/settings/html.html:9
-#: app/views/settings/media.html:38 app/views/settings/requests.html:26
+#: app/views/settings/media.html:63 app/views/settings/requests.html:26
 msgid "Save"
 msgstr "Gemme"
 
 #: app/views/settings/discord.html:42 app/views/settings/html.html:25
-#: app/views/settings/media.html:54 app/views/settings/requests.html:58
+#: app/views/settings/media.html:253 app/views/settings/media.html:286
+#: app/views/settings/requests.html:58
 msgid "Settings saved successfully!"
 msgstr "Indstillinger blev gemt!"
 
@@ -1177,25 +1225,57 @@ msgstr "Vælg sprog"
 msgid "No settings matched your search."
 msgstr "Ingen indstillinger matchede din søgning."
 
-#: app/views/settings/media.html:6 app/views/setup/pages/settings.html:6
+#: app/views/settings/media.html:7
 msgid "Server Display Name"
 msgstr "Server vist navn"
 
-#: app/views/settings/media.html:11 app/views/setup/pages/settings.html:11
+#: app/views/settings/media.html:19
+#, fuzzy
+msgid "Detect Server"
+msgstr "Anmod om server"
+
+#: app/views/settings/media.html:27
 msgid "Server"
 msgstr "Server"
 
-#: app/views/settings/media.html:13
+#: app/views/settings/media.html:33
 msgid "Choose a server"
 msgstr "Vælg en server"
 
-#: app/views/settings/media.html:25 app/views/setup/pages/settings.html:25
+#: app/views/settings/media.html:41
 msgid "Server Token / API Key"
 msgstr "Servertoken / API-nøgle"
 
-#: app/views/settings/media.html:32 app/views/setup/pages/settings.html:39
-msgid "Scan For Libraries"
+#: app/views/settings/media.html:53
+#, fuzzy
+msgid "Configure Libraries"
 msgstr "Scan efter biblioteker"
+
+#: app/views/settings/media.html:58
+msgid "Test Connection"
+msgstr "Test forbindelse"
+
+#: app/views/settings/media.html:181
+msgid "Server not detected!"
+msgstr "Server ikke fundet!"
+
+#: app/views/settings/media.html:190
+#, fuzzy
+msgid "server detected!"
+msgstr "Serverindstillinger"
+
+#: app/views/settings/media.html:223
+msgid "Connection failed!"
+msgstr "Forbindelsen mislykkedes!"
+
+#: app/views/settings/media.html:233
+msgid "Connection successful, saving settings!"
+msgstr "Forbindelsen lykkedes, gemmer indstillinger!"
+
+#: app/views/settings/media.html:242
+#, fuzzy
+msgid "Settings failed to save!"
+msgstr "Ingen indstillinger matchede din søgning."
 
 #: app/views/settings/notifications.html:18
 msgid "Create Agent"
@@ -1246,14 +1326,14 @@ msgid "Revoke All"
 msgstr "Tilbagekald alle"
 
 #: app/views/setup/base.html:12
-msgid "Setup Wizarr"
-msgstr "Opsætningsguide"
+msgid "Setup"
+msgstr "Opsætning"
 
-#: app/views/setup/pages/admin.html:2
+#: app/views/setup/pages/accounts.html:2
 msgid "Admin Account"
 msgstr "Admin konto"
 
-#: app/views/setup/pages/admin.html:24
+#: app/views/setup/pages/accounts.html:24
 msgid "Create account"
 msgstr "Opret konto"
 
@@ -1266,8 +1346,9 @@ msgid "You have successfully completed the setup process."
 msgstr "Du har fuldført opsætningsprocessen."
 
 #: app/views/setup/pages/complete.html:9
-msgid "Go to Dashboard"
-msgstr "Gå til dashboard"
+#, fuzzy
+msgid "Go to Login"
+msgstr "Log på"
 
 #: app/views/setup/pages/database.html:2
 msgid "Database"
@@ -1284,14 +1365,6 @@ msgid ""
 msgstr ""
 "Dette er midlertidigt, og vi arbejder på at tilføje support til andre "
 "databaser."
-
-#: app/views/setup/pages/settings.html:31
-msgid "Test"
-msgstr "Prøve"
-
-#: app/views/setup/pages/settings.html:45
-msgid "Done"
-msgstr "Færdig"
 
 #: app/views/setup/pages/welcome.html:5
 msgid ""
@@ -1332,6 +1405,11 @@ msgstr ""
 #: app/views/tables/oauth-table.html:33
 msgid "Edit"
 msgstr "Redigere"
+
+#: app/views/tables/global-users.html:32
+#, fuzzy
+msgid "Expires"
+msgstr "Udløbet"
 
 #: app/views/tables/invite-table.html:7
 msgid "Used"
@@ -1380,3 +1458,24 @@ msgstr "Næste henrettelse"
 #: app/views/tables/task-table.html:40
 msgid "Run Now"
 msgstr "Kør nu"
+
+#~ msgid "Invite User"
+#~ msgstr "Inviter bruger"
+
+#~ msgid "Set up Account"
+#~ msgstr "Opret konto"
+
+#~ msgid "Create an account"
+#~ msgstr "Opret en konto"
+
+#~ msgid "Setup Wizarr"
+#~ msgstr "Opsætningsguide"
+
+#~ msgid "Go to Dashboard"
+#~ msgstr "Gå til dashboard"
+
+#~ msgid "Test"
+#~ msgstr "Prøve"
+
+#~ msgid "Done"
+#~ msgstr "Færdig"

@@ -5,7 +5,7 @@
 
         <div id="server_name_div">
             <label for="server_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server Display Name") }}</label>
-            <input type="server_name" name="server_name" id="server_name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" value="{% if server_name %}{{ server_name }}{% endif %}" required="">
+            <input type="server_name" name="server_name" id="server_name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" value="{% if server_name %}{{ server_name }}{% endif %}" required="" autocomplete="one-time-code">
         </div>
 
         <div id="server_url_div" data-default="{{ server_url }}">
@@ -14,8 +14,8 @@
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                     <i class="fas fa-arrow-up-right-from-square text-gray-400"></i>
                 </div>
-                <input type="text" name="server_url" id="server_url" onfocus="serverUrlChanged(this)" onkeyup="serverUrlChanged(this)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="https://plex.wizarr.dev" value="{% if server_url %}{{ server_url }}{% endif %}" required="">
-                <button type="button" onclick="detectServer(this)" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium absolute top-0 right-0 p-2.5 h-full rounded-r text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                <input type="text" name="server_url" id="server_url" onfocus="serverUrlChanged(this)" onkeyup="serverUrlChanged(this)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="https://plex.wizarr.dev" value="{% if server_url %}{{ server_url }}{% endif %}" required="" autocomplete="one-time-code">
+                <button type="button" onclick="detectServer(this)" id="detect_server" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium absolute top-0 right-0 p-2.5 h-full rounded-r text-sm dark:bg-primary dark:hover:bg-primary_hover">
                     {{ _("Detect Server") }}
                 </button>
             </div>
@@ -43,23 +43,23 @@
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                     <i class="fas fa-key text-gray-400"></i>
                 </div>
-                <input type="password" name="server_api_key" id="server_api_key" onkeyup="serverApiKeyChanged(this)" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" value="{% if server_api_key %}{{ server_api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX" required="">
+                <input type="password" name="server_api_key" id="server_api_key" onkeyup="serverApiKeyChanged(this)" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" value="{% if server_api_key %}{{ server_api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX" required="" autocomplete="one-time-code">
             </div>
         </div>
 
         <div class="flex items-center justify-end mt-4 space-x-2">
             <div id="libraries_button_div">
-                <button hx-get="/partials/modals/update-libraries" hx-target="#create-modal" hx-trigger="click" hx-swap="innerHTML" id="scan-libraries-button" _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                <button type="button" hx-get="/partials/modals/update-libraries" hx-target="#create-modal" hx-trigger="click" hx-swap="innerHTML" id="scan-libraries-button" _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
                     {{ _("Configure Libraries") }}
                 </button>
             </div>
             <div id="test_button_div" class="hidden">
-                <button type="button" onclick="testConnection(this)" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                <button type="button" onclick="testConnection(this)" id="test_button" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
                     {{ _("Test Connection") }}
                 </button>
             </div>
             <div id="save_button_div">
-                <button type="submit" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+                <button type="submit" id="save-button" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
                     {{ _("Save") }}
                 </button>
             </div>
@@ -68,6 +68,26 @@
 </div>
 
 <script>
+    // Set buttons to show depending on the server url state
+    document.addEventListener('DOMContentLoaded', function() {
+        const server_url = document.getElementById('server_url');
+        serverUrlChanged(server_url);
+    });
+
+    document.getElementById('server_url').addEventListener('keydown', function(event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+            document.getElementById('detect_server').click();
+        }
+    });
+
+    document.getElementById('server_api_key').addEventListener('keydown', function(event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+            document.getElementById('test_button').click();
+        }
+    });
+
     // Hide fields when changing the server URL
     function serverUrlChanged(that) {
         // Get the server URL
@@ -85,7 +105,7 @@
         const divs = [server_type_div, server_api_key_div, save_button_div, test_button_div, libraries_button_div];
 
         // If the server URL is not the default loop through the divs and hide them
-        if (server_url !== default_server_url) {
+        if (server_url !== default_server_url || server_url === '') {
             divs.forEach(div => {
                 div.classList.remove('animate__animated', 'animate__fadeIn');
                 div.classList.add('hidden');
@@ -237,10 +257,21 @@
         const save_button_div = document.getElementById('save_button_div');
         const libraries_button_div = document.getElementById('libraries_button_div');
 
+        // If navBtns div exists, show it and return
+        const navBtns = document.getElementById('navBtns');
+
+        if (navBtns) {
+            test_button_div.classList.add('hidden');
+            libraries_button_div.classList.remove('hidden');
+            navBtns.classList.remove('hidden');
+            return;
+        }
+
         // Hide the test button and show the save button
         test_button_div.classList.add('hidden');
         save_button_div.classList.remove('hidden');
         libraries_button_div.classList.remove('hidden');
+
     }
 
     async function saveSettings(that) {

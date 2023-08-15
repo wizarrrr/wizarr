@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-06 21:37+0100\n"
+"POT-Creation-Date: 2023-08-15 23:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,9 +74,9 @@ msgid "Configure your profile settings"
 msgstr ""
 
 #: app/configs/settings.json.j2:53 app/views/authentication/login.html:56
-#: app/views/client/invite/signup/jellyfin.html:27
+#: app/views/client/invite/signup/jellyfin.html:75
 #: app/views/modals/create-notification-agent.html:148
-#: app/views/settings/password.html:6 app/views/setup/pages/admin.html:15
+#: app/views/settings/password.html:6 app/views/setup/pages/accounts.html:15
 msgid "Password"
 msgstr ""
 
@@ -219,11 +219,7 @@ msgstr ""
 msgid "Logout failed"
 msgstr ""
 
-#: app/templates/users.html:5
-msgid "Invite User"
-msgstr ""
-
-#: app/templates/templates/menu.html:16 app/views/home/main.html:3
+#: app/templates/templates/menu.html:16 app/views/home/homepage.html:3
 msgid "Home"
 msgstr ""
 
@@ -235,7 +231,7 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: app/templates/templates/menu.html:34 app/views/setup/pages/settings.html:2
+#: app/templates/templates/menu.html:34
 msgid "Settings"
 msgstr ""
 
@@ -467,7 +463,7 @@ msgid "Toggle Theme"
 msgstr ""
 
 #: app/views/authentication/login.html:4 app/views/authentication/login.html:62
-#: app/views/home/main.html:16
+#: app/views/home/homepage.html:16
 msgid "Login"
 msgstr ""
 
@@ -478,15 +474,16 @@ msgstr ""
 
 #: app/views/authentication/login.html:34
 #: app/views/authentication/login.html:51
-#: app/views/client/invite/signup/jellyfin.html:13
+#: app/views/client/invite/signup/jellyfin.html:49
 #: app/views/modals/create-notification-agent.html:143
-#: app/views/settings/profile.html:12 app/views/setup/pages/admin.html:7
+#: app/views/settings/profile.html:12 app/views/setup/pages/accounts.html:7
 msgid "Username"
 msgstr ""
 
 #: app/views/authentication/login.html:40
 #: app/views/authentication/login.html:83
-#: app/views/client/invite/signup/plex.html:81
+#: app/views/client/invite/signup/jellyfin.html:132
+#: app/views/client/invite/signup/plex.html:88
 msgid "Continue"
 msgstr ""
 
@@ -520,14 +517,15 @@ msgid "Type in your invite code to %(name)s server!"
 msgstr ""
 
 #: app/views/client/invite/join.html:20
-#: app/views/client/invite/signup/jellyfin.html:40
-#: app/views/client/invite/signup/plex.html:25
+#: app/views/client/invite/signup/jellyfin.html:28
+#: app/views/client/invite/signup/plex.html:28
 #: app/views/tables/invite-table.html:6
 msgid "Invite Code"
 msgstr ""
 
 #: app/views/client/invite/join.html:27
-#: app/views/client/invite/signup/plex.html:33
+#: app/views/client/invite/signup/jellyfin.html:35
+#: app/views/client/invite/signup/plex.html:36
 msgid "Join"
 msgstr ""
 
@@ -537,21 +535,75 @@ msgid "You've been invited to join the %(name)s server!"
 msgstr ""
 
 #: app/views/client/invite/signup/jellyfin.html:3
-msgid "Set up Account"
+msgid "Join the Jellyfin Server"
 msgstr ""
 
-#: app/views/client/invite/signup/jellyfin.html:19
-#: app/views/setup/pages/admin.html:11
+#: app/views/client/invite/signup/jellyfin.html:4
+msgid "Create your account"
+msgstr ""
+
+#: app/views/client/invite/signup/jellyfin.html:5
+msgid "Setup your password"
+msgstr ""
+
+#: app/views/client/invite/signup/jellyfin.html:6
+#: app/views/client/invite/signup/plex.html:5
+msgid "Please wait"
+msgstr ""
+
+#: app/views/client/invite/signup/jellyfin.html:7
+msgid "Almost done"
+msgstr ""
+
+#: app/views/client/invite/signup/jellyfin.html:8
+msgid "Account created"
+msgstr ""
+
+#: app/views/client/invite/signup/jellyfin.html:9
+#: app/views/client/invite/signup/plex.html:10
+msgid "Please try again"
+msgstr ""
+
+#: app/views/client/invite/signup/jellyfin.html:55
+#: app/views/setup/pages/accounts.html:11
 msgid "Email"
 msgstr ""
 
-#: app/views/client/invite/signup/jellyfin.html:33
-#: app/views/setup/pages/admin.html:19
+#: app/views/client/invite/signup/jellyfin.html:61
+msgid "Create Account"
+msgstr ""
+
+#: app/views/client/invite/signup/jellyfin.html:81
+#: app/views/setup/pages/accounts.html:19
 msgid "Confirm password"
 msgstr ""
 
-#: app/views/client/invite/signup/jellyfin.html:45
-msgid "Create an account"
+#: app/views/client/invite/signup/jellyfin.html:87
+msgid "Save Password"
+msgstr ""
+
+#: app/views/client/invite/signup/jellyfin.html:129
+msgid ""
+"You're all set, click continue to get started and walkthrough how to use "
+"Jellyfin!"
+msgstr ""
+
+#: app/views/client/invite/signup/jellyfin.html:141
+#: app/views/client/invite/signup/plex.html:97
+msgid "Something went wrong, please try again."
+msgstr ""
+
+#: app/views/client/invite/signup/jellyfin.html:144
+#: app/views/client/invite/signup/plex.html:100
+msgid "Retry"
+msgstr ""
+
+#: app/views/client/invite/signup/jellyfin.html:301
+msgid "Connecting to Server"
+msgstr ""
+
+#: app/views/client/invite/signup/jellyfin.html:310
+msgid "Creating Jellyfin Account"
 msgstr ""
 
 #: app/views/client/invite/signup/plex.html:3
@@ -560,10 +612,6 @@ msgstr ""
 
 #: app/views/client/invite/signup/plex.html:4
 msgid "Sign in to Plex"
-msgstr ""
-
-#: app/views/client/invite/signup/plex.html:5
-msgid "Please wait"
 msgstr ""
 
 #: app/views/client/invite/signup/plex.html:6
@@ -582,22 +630,10 @@ msgstr ""
 msgid "Account created!"
 msgstr ""
 
-#: app/views/client/invite/signup/plex.html:10
-msgid "Please try again"
-msgstr ""
-
-#: app/views/client/invite/signup/plex.html:78
+#: app/views/client/invite/signup/plex.html:85
 msgid ""
 "You're all set, click continue to get started and walkthrough how to use "
 "Plex!"
-msgstr ""
-
-#: app/views/client/invite/signup/plex.html:90
-msgid "Something went wrong, please try again."
-msgstr ""
-
-#: app/views/client/invite/signup/plex.html:93
-msgid "Retry"
 msgstr ""
 
 #: app/views/client/wizard/wizard.html:4
@@ -675,7 +711,7 @@ msgid "Show Server URL"
 msgstr ""
 
 #: app/views/client/wizard/pages/jellyfin/download.html:30
-#: app/views/settings/media.html:20 app/views/setup/pages/settings.html:20
+#: app/views/settings/media.html:12
 msgid "Server URL"
 msgstr ""
 
@@ -825,11 +861,11 @@ msgstr ""
 msgid "Get Help"
 msgstr ""
 
-#: app/views/home/main.html:25 app/views/setup/pages/welcome.html:2
+#: app/views/home/homepage.html:25 app/views/setup/pages/welcome.html:2
 msgid "Welcome to Wizarr"
 msgstr ""
 
-#: app/views/home/main.html:28
+#: app/views/home/homepage.html:28
 msgid ""
 "Wizarr is a software tool that provides advanced user invitation and "
 "management capabilities for media servers such as Jellyfin, Emby, and "
@@ -837,21 +873,21 @@ msgid ""
 "manage their access permissions."
 msgstr ""
 
-#: app/views/home/main.html:32
+#: app/views/home/homepage.html:32
 msgid ""
 "If you were sent here by a friend, please request access or if you have "
 "an invite code, please click Get Started."
 msgstr ""
 
-#: app/views/home/main.html:36
+#: app/views/home/homepage.html:36
 msgid "Get Started"
 msgstr ""
 
-#: app/views/home/main.html:41
+#: app/views/home/homepage.html:41
 msgid "or"
 msgstr ""
 
-#: app/views/home/main.html:45
+#: app/views/home/homepage.html:45
 msgid "Request Access"
 msgstr ""
 
@@ -1046,8 +1082,7 @@ msgstr ""
 msgid "Task has been run."
 msgstr ""
 
-#: app/views/modals/update-libraries.html:3 app/views/settings/media.html:30
-#: app/views/setup/pages/settings.html:37
+#: app/views/modals/update-libraries.html:3
 msgid "Server Libraries"
 msgstr ""
 
@@ -1080,12 +1115,13 @@ msgid "Discord Widget"
 msgstr ""
 
 #: app/views/settings/discord.html:19 app/views/settings/html.html:9
-#: app/views/settings/media.html:38 app/views/settings/requests.html:26
+#: app/views/settings/media.html:63 app/views/settings/requests.html:26
 msgid "Save"
 msgstr ""
 
 #: app/views/settings/discord.html:42 app/views/settings/html.html:25
-#: app/views/settings/media.html:54 app/views/settings/requests.html:58
+#: app/views/settings/media.html:253 app/views/settings/media.html:286
+#: app/views/settings/requests.html:58
 msgid "Settings saved successfully!"
 msgstr ""
 
@@ -1101,24 +1137,52 @@ msgstr ""
 msgid "No settings matched your search."
 msgstr ""
 
-#: app/views/settings/media.html:6 app/views/setup/pages/settings.html:6
+#: app/views/settings/media.html:7
 msgid "Server Display Name"
 msgstr ""
 
-#: app/views/settings/media.html:11 app/views/setup/pages/settings.html:11
+#: app/views/settings/media.html:19
+msgid "Detect Server"
+msgstr ""
+
+#: app/views/settings/media.html:27
 msgid "Server"
 msgstr ""
 
-#: app/views/settings/media.html:13
+#: app/views/settings/media.html:33
 msgid "Choose a server"
 msgstr ""
 
-#: app/views/settings/media.html:25 app/views/setup/pages/settings.html:25
+#: app/views/settings/media.html:41
 msgid "Server Token / API Key"
 msgstr ""
 
-#: app/views/settings/media.html:32 app/views/setup/pages/settings.html:39
-msgid "Scan For Libraries"
+#: app/views/settings/media.html:53
+msgid "Configure Libraries"
+msgstr ""
+
+#: app/views/settings/media.html:58
+msgid "Test Connection"
+msgstr ""
+
+#: app/views/settings/media.html:181
+msgid "Server not detected!"
+msgstr ""
+
+#: app/views/settings/media.html:190
+msgid "server detected!"
+msgstr ""
+
+#: app/views/settings/media.html:223
+msgid "Connection failed!"
+msgstr ""
+
+#: app/views/settings/media.html:233
+msgid "Connection successful, saving settings!"
+msgstr ""
+
+#: app/views/settings/media.html:242
+msgid "Settings failed to save!"
 msgstr ""
 
 #: app/views/settings/notifications.html:18
@@ -1170,14 +1234,14 @@ msgid "Revoke All"
 msgstr ""
 
 #: app/views/setup/base.html:12
-msgid "Setup Wizarr"
+msgid "Setup"
 msgstr ""
 
-#: app/views/setup/pages/admin.html:2
+#: app/views/setup/pages/accounts.html:2
 msgid "Admin Account"
 msgstr ""
 
-#: app/views/setup/pages/admin.html:24
+#: app/views/setup/pages/accounts.html:24
 msgid "Create account"
 msgstr ""
 
@@ -1190,7 +1254,7 @@ msgid "You have successfully completed the setup process."
 msgstr ""
 
 #: app/views/setup/pages/complete.html:9
-msgid "Go to Dashboard"
+msgid "Go to Login"
 msgstr ""
 
 #: app/views/setup/pages/database.html:2
@@ -1205,14 +1269,6 @@ msgstr ""
 msgid ""
 "This is a temporary and we are working on adding support for other "
 "databases."
-msgstr ""
-
-#: app/views/setup/pages/settings.html:31
-msgid "Test"
-msgstr ""
-
-#: app/views/setup/pages/settings.html:45
-msgid "Done"
 msgstr ""
 
 #: app/views/setup/pages/welcome.html:5
@@ -1242,6 +1298,10 @@ msgstr ""
 #: app/views/tables/notification-table.html:33
 #: app/views/tables/oauth-table.html:33
 msgid "Edit"
+msgstr ""
+
+#: app/views/tables/global-users.html:32
+msgid "Expires"
 msgstr ""
 
 #: app/views/tables/invite-table.html:7

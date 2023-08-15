@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-06 21:37+0100\n"
+"POT-Creation-Date: 2023-08-15 23:12+0100\n"
 "PO-Revision-Date: 2023-08-06 19:50+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fa <LL@li.org>\n"
@@ -85,9 +85,9 @@ msgid "Configure your profile settings"
 msgstr "تنظیمات سرور خود را پیکربندی کنید."
 
 #: app/configs/settings.json.j2:53 app/views/authentication/login.html:56
-#: app/views/client/invite/signup/jellyfin.html:27
+#: app/views/client/invite/signup/jellyfin.html:75
 #: app/views/modals/create-notification-agent.html:148
-#: app/views/settings/password.html:6 app/views/setup/pages/admin.html:15
+#: app/views/settings/password.html:6 app/views/setup/pages/accounts.html:15
 msgid "Password"
 msgstr "کلمه عبور"
 
@@ -249,11 +249,7 @@ msgstr "بتا"
 msgid "Logout failed"
 msgstr "خروج ناموفق بود"
 
-#: app/templates/users.html:5
-msgid "Invite User"
-msgstr "دعوت از کاربر"
-
-#: app/templates/templates/menu.html:16 app/views/home/main.html:3
+#: app/templates/templates/menu.html:16 app/views/home/homepage.html:3
 msgid "Home"
 msgstr "صفحه اصلی"
 
@@ -265,7 +261,7 @@ msgstr "دعوت نامه ها"
 msgid "Users"
 msgstr "کاربران"
 
-#: app/templates/templates/menu.html:34 app/views/setup/pages/settings.html:2
+#: app/templates/templates/menu.html:34
 msgid "Settings"
 msgstr "تنظیمات"
 
@@ -501,7 +497,7 @@ msgid "Toggle Theme"
 msgstr "تغییر موضوع"
 
 #: app/views/authentication/login.html:4
-#: app/views/authentication/login.html:62 app/views/home/main.html:16
+#: app/views/authentication/login.html:62 app/views/home/homepage.html:16
 msgid "Login"
 msgstr "وارد شدن"
 
@@ -512,15 +508,16 @@ msgstr "با حساب کاربری خود وارد شوید"
 
 #: app/views/authentication/login.html:34
 #: app/views/authentication/login.html:51
-#: app/views/client/invite/signup/jellyfin.html:13
+#: app/views/client/invite/signup/jellyfin.html:49
 #: app/views/modals/create-notification-agent.html:143
-#: app/views/settings/profile.html:12 app/views/setup/pages/admin.html:7
+#: app/views/settings/profile.html:12 app/views/setup/pages/accounts.html:7
 msgid "Username"
 msgstr "نام کاربری"
 
 #: app/views/authentication/login.html:40
 #: app/views/authentication/login.html:83
-#: app/views/client/invite/signup/plex.html:81
+#: app/views/client/invite/signup/jellyfin.html:132
+#: app/views/client/invite/signup/plex.html:88
 msgid "Continue"
 msgstr "ادامه هید"
 
@@ -554,14 +551,15 @@ msgid "Type in your invite code to %(name)s server!"
 msgstr "کد دعوت خود را به سرور %(name)s وارد کنید!"
 
 #: app/views/client/invite/join.html:20
-#: app/views/client/invite/signup/jellyfin.html:40
-#: app/views/client/invite/signup/plex.html:25
+#: app/views/client/invite/signup/jellyfin.html:28
+#: app/views/client/invite/signup/plex.html:28
 #: app/views/tables/invite-table.html:6
 msgid "Invite Code"
 msgstr "کد دعوت"
 
 #: app/views/client/invite/join.html:27
-#: app/views/client/invite/signup/plex.html:33
+#: app/views/client/invite/signup/jellyfin.html:35
+#: app/views/client/invite/signup/plex.html:36
 msgid "Join"
 msgstr "پیوستن"
 
@@ -572,22 +570,87 @@ msgid "You've been invited to join the %(name)s server!"
 msgstr "شما برای پیوستن به سرور %(name)s دعوت شده اید!"
 
 #: app/views/client/invite/signup/jellyfin.html:3
-msgid "Set up Account"
-msgstr "تنظیم حساب"
+#, fuzzy
+msgid "Join the Jellyfin Server"
+msgstr "به سرور Plex بپیوندید"
 
-#: app/views/client/invite/signup/jellyfin.html:19
-#: app/views/setup/pages/admin.html:11
+#: app/views/client/invite/signup/jellyfin.html:4
+#, fuzzy
+msgid "Create your account"
+msgstr "ایجاد حساب کاربری"
+
+#: app/views/client/invite/signup/jellyfin.html:5
+#, fuzzy
+msgid "Setup your password"
+msgstr "رمز عبور خود را فراموش کرده اید؟"
+
+#: app/views/client/invite/signup/jellyfin.html:6
+#: app/views/client/invite/signup/plex.html:5
+msgid "Please wait"
+msgstr "لطفا صبر کنید"
+
+#: app/views/client/invite/signup/jellyfin.html:7
+#, fuzzy
+msgid "Almost done"
+msgstr "همه چیز تمام شد!"
+
+#: app/views/client/invite/signup/jellyfin.html:8
+#, fuzzy
+msgid "Account created"
+msgstr "حساب کاربری ایجاد شد!"
+
+#: app/views/client/invite/signup/jellyfin.html:9
+#: app/views/client/invite/signup/plex.html:10
+msgid "Please try again"
+msgstr "لطفا دوباره تلاش کنید"
+
+#: app/views/client/invite/signup/jellyfin.html:55
+#: app/views/setup/pages/accounts.html:11
 msgid "Email"
 msgstr "پست الکترونیک"
 
-#: app/views/client/invite/signup/jellyfin.html:33
-#: app/views/setup/pages/admin.html:19
+#: app/views/client/invite/signup/jellyfin.html:61
+#, fuzzy
+msgid "Create Account"
+msgstr "ایجاد حساب کاربری"
+
+#: app/views/client/invite/signup/jellyfin.html:81
+#: app/views/setup/pages/accounts.html:19
 msgid "Confirm password"
 msgstr "رمز عبور را تایید کنید"
 
-#: app/views/client/invite/signup/jellyfin.html:45
-msgid "Create an account"
-msgstr "یک حساب کاربری ایجاد کنید"
+#: app/views/client/invite/signup/jellyfin.html:87
+#, fuzzy
+msgid "Save Password"
+msgstr "کلمه عبور"
+
+#: app/views/client/invite/signup/jellyfin.html:129
+#, fuzzy
+msgid ""
+"You're all set, click continue to get started and walkthrough how to use "
+"Jellyfin!"
+msgstr ""
+"همه چیز آماده است، برای شروع و نحوه استفاده از Plex روی ادامه کلیک کنید!"
+
+#: app/views/client/invite/signup/jellyfin.html:141
+#: app/views/client/invite/signup/plex.html:97
+msgid "Something went wrong, please try again."
+msgstr "اشتباهی رخ داده لطفا دوباره تلاش کنید."
+
+#: app/views/client/invite/signup/jellyfin.html:144
+#: app/views/client/invite/signup/plex.html:100
+msgid "Retry"
+msgstr "دوباره امتحان کنید"
+
+#: app/views/client/invite/signup/jellyfin.html:301
+#, fuzzy
+msgid "Connecting to Server"
+msgstr "به سرور Plex بپیوندید"
+
+#: app/views/client/invite/signup/jellyfin.html:310
+#, fuzzy
+msgid "Creating Jellyfin Account"
+msgstr "ایجاد حساب کاربری"
 
 #: app/views/client/invite/signup/plex.html:3
 msgid "Join the Plex Server"
@@ -596,10 +659,6 @@ msgstr "به سرور Plex بپیوندید"
 #: app/views/client/invite/signup/plex.html:4
 msgid "Sign in to Plex"
 msgstr "وارد Plex شوید"
-
-#: app/views/client/invite/signup/plex.html:5
-msgid "Please wait"
-msgstr "لطفا صبر کنید"
 
 #: app/views/client/invite/signup/plex.html:6
 msgid "Setting up your account"
@@ -617,24 +676,12 @@ msgstr "همه چیز تمام شد!"
 msgid "Account created!"
 msgstr "حساب کاربری ایجاد شد!"
 
-#: app/views/client/invite/signup/plex.html:10
-msgid "Please try again"
-msgstr "لطفا دوباره تلاش کنید"
-
-#: app/views/client/invite/signup/plex.html:78
+#: app/views/client/invite/signup/plex.html:85
 msgid ""
 "You're all set, click continue to get started and walkthrough how to use "
 "Plex!"
 msgstr ""
 "همه چیز آماده است، برای شروع و نحوه استفاده از Plex روی ادامه کلیک کنید!"
-
-#: app/views/client/invite/signup/plex.html:90
-msgid "Something went wrong, please try again."
-msgstr "اشتباهی رخ داده لطفا دوباره تلاش کنید."
-
-#: app/views/client/invite/signup/plex.html:93
-msgid "Retry"
-msgstr "دوباره امتحان کنید"
 
 #: app/views/client/wizard/wizard.html:4
 msgid "Help"
@@ -719,7 +766,7 @@ msgid "Show Server URL"
 msgstr "نمایش URL سرور"
 
 #: app/views/client/wizard/pages/jellyfin/download.html:30
-#: app/views/settings/media.html:20 app/views/setup/pages/settings.html:20
+#: app/views/settings/media.html:12
 msgid "Server URL"
 msgstr "آدرس سرور"
 
@@ -893,11 +940,11 @@ msgstr "مشکلی پیش آمده است. لطفاً بعداً دوباره ا
 msgid "Get Help"
 msgstr "کمک بگیر"
 
-#: app/views/home/main.html:25 app/views/setup/pages/welcome.html:2
+#: app/views/home/homepage.html:25 app/views/setup/pages/welcome.html:2
 msgid "Welcome to Wizarr"
 msgstr "به Wizarr خوش آمدید"
 
-#: app/views/home/main.html:28
+#: app/views/home/homepage.html:28
 msgid ""
 "Wizarr is a software tool that provides advanced user invitation and "
 "management capabilities for media servers such as Jellyfin, Emby, and Plex. "
@@ -909,7 +956,7 @@ msgstr ""
 "مدیران سرور به راحتی می توانند کاربران جدید را دعوت کنند و مجوزهای دسترسی "
 "آنها را مدیریت کنند."
 
-#: app/views/home/main.html:32
+#: app/views/home/homepage.html:32
 msgid ""
 "If you were sent here by a friend, please request access or if you have an "
 "invite code, please click Get Started."
@@ -917,15 +964,15 @@ msgstr ""
 "اگر توسط یکی از دوستان شما به اینجا فرستاده شده است، لطفاً درخواست دسترسی "
 "کنید یا اگر کد دعوت دارید، لطفاً روی شروع کلیک کنید."
 
-#: app/views/home/main.html:36
+#: app/views/home/homepage.html:36
 msgid "Get Started"
 msgstr "شروع کنید"
 
-#: app/views/home/main.html:41
+#: app/views/home/homepage.html:41
 msgid "or"
 msgstr "یا"
 
-#: app/views/home/main.html:45
+#: app/views/home/homepage.html:45
 msgid "Request Access"
 msgstr "درخواست دسترسی"
 
@@ -1121,8 +1168,7 @@ msgstr "آیا مطمئن هستید که می خواهید این کار را �
 msgid "Task has been run."
 msgstr "Task اجرا شده است."
 
-#: app/views/modals/update-libraries.html:3 app/views/settings/media.html:30
-#: app/views/setup/pages/settings.html:37
+#: app/views/modals/update-libraries.html:3
 msgid "Server Libraries"
 msgstr "کتابخانه های سرور"
 
@@ -1155,12 +1201,13 @@ msgid "Discord Widget"
 msgstr "ویجت Discord"
 
 #: app/views/settings/discord.html:19 app/views/settings/html.html:9
-#: app/views/settings/media.html:38 app/views/settings/requests.html:26
+#: app/views/settings/media.html:63 app/views/settings/requests.html:26
 msgid "Save"
 msgstr "صرفه جویی"
 
 #: app/views/settings/discord.html:42 app/views/settings/html.html:25
-#: app/views/settings/media.html:54 app/views/settings/requests.html:58
+#: app/views/settings/media.html:253 app/views/settings/media.html:286
+#: app/views/settings/requests.html:58
 msgid "Settings saved successfully!"
 msgstr "تنظیمات با موفقیت ذخیره شد!"
 
@@ -1176,25 +1223,57 @@ msgstr "زبان را انتخاب کنید"
 msgid "No settings matched your search."
 msgstr "هیچ تنظیماتی با جستجوی شما مطابقت نداشت."
 
-#: app/views/settings/media.html:6 app/views/setup/pages/settings.html:6
+#: app/views/settings/media.html:7
 msgid "Server Display Name"
 msgstr "نام نمایشی سرور"
 
-#: app/views/settings/media.html:11 app/views/setup/pages/settings.html:11
+#: app/views/settings/media.html:19
+#, fuzzy
+msgid "Detect Server"
+msgstr "سرور درخواست"
+
+#: app/views/settings/media.html:27
 msgid "Server"
 msgstr "سرور"
 
-#: app/views/settings/media.html:13
+#: app/views/settings/media.html:33
 msgid "Choose a server"
 msgstr "یک سرور انتخاب کنید"
 
-#: app/views/settings/media.html:25 app/views/setup/pages/settings.html:25
+#: app/views/settings/media.html:41
 msgid "Server Token / API Key"
 msgstr "رمز سرور / کلید API"
 
-#: app/views/settings/media.html:32 app/views/setup/pages/settings.html:39
-msgid "Scan For Libraries"
+#: app/views/settings/media.html:53
+#, fuzzy
+msgid "Configure Libraries"
 msgstr "اسکن برای کتابخانه ها"
+
+#: app/views/settings/media.html:58
+msgid "Test Connection"
+msgstr "تست اتصال"
+
+#: app/views/settings/media.html:181
+msgid "Server not detected!"
+msgstr "سرور شناسایی نشد!"
+
+#: app/views/settings/media.html:190
+#, fuzzy
+msgid "server detected!"
+msgstr "تنظیمات سرور"
+
+#: app/views/settings/media.html:223
+msgid "Connection failed!"
+msgstr "ارتباط ناموفق بود!"
+
+#: app/views/settings/media.html:233
+msgid "Connection successful, saving settings!"
+msgstr "اتصال با موفقیت انجام شد، تنظیمات ذخیره شد!"
+
+#: app/views/settings/media.html:242
+#, fuzzy
+msgid "Settings failed to save!"
+msgstr "هیچ تنظیماتی با جستجوی شما مطابقت نداشت."
 
 #: app/views/settings/notifications.html:18
 msgid "Create Agent"
@@ -1245,14 +1324,14 @@ msgid "Revoke All"
 msgstr "لغو همه"
 
 #: app/views/setup/base.html:12
-msgid "Setup Wizarr"
-msgstr "Setup Wizard"
+msgid "Setup"
+msgstr "برپایی"
 
-#: app/views/setup/pages/admin.html:2
+#: app/views/setup/pages/accounts.html:2
 msgid "Admin Account"
 msgstr "حساب مدیریت"
 
-#: app/views/setup/pages/admin.html:24
+#: app/views/setup/pages/accounts.html:24
 msgid "Create account"
 msgstr "ایجاد حساب کاربری"
 
@@ -1265,8 +1344,9 @@ msgid "You have successfully completed the setup process."
 msgstr "شما مراحل راه اندازی را با موفقیت به پایان رساندید."
 
 #: app/views/setup/pages/complete.html:9
-msgid "Go to Dashboard"
-msgstr "به داشبورد بروید"
+#, fuzzy
+msgid "Go to Login"
+msgstr "وارد شدن"
 
 #: app/views/setup/pages/database.html:2
 msgid "Database"
@@ -1284,14 +1364,6 @@ msgid ""
 msgstr ""
 "این یک موقت است و ما در حال کار بر روی افزودن پشتیبانی برای سایر پایگاه های "
 "داده هستیم."
-
-#: app/views/setup/pages/settings.html:31
-msgid "Test"
-msgstr "تست"
-
-#: app/views/setup/pages/settings.html:45
-msgid "Done"
-msgstr "انجام شده"
 
 #: app/views/setup/pages/welcome.html:5
 msgid ""
@@ -1331,6 +1403,11 @@ msgstr ""
 #: app/views/tables/oauth-table.html:33
 msgid "Edit"
 msgstr "ویرایش کنید"
+
+#: app/views/tables/global-users.html:32
+#, fuzzy
+msgid "Expires"
+msgstr "منقضی شده"
 
 #: app/views/tables/invite-table.html:7
 msgid "Used"
@@ -1379,3 +1456,24 @@ msgstr "اجرای بعدی"
 #: app/views/tables/task-table.html:40
 msgid "Run Now"
 msgstr "الان اجرا کن"
+
+#~ msgid "Invite User"
+#~ msgstr "دعوت از کاربر"
+
+#~ msgid "Set up Account"
+#~ msgstr "تنظیم حساب"
+
+#~ msgid "Create an account"
+#~ msgstr "یک حساب کاربری ایجاد کنید"
+
+#~ msgid "Setup Wizarr"
+#~ msgstr "Setup Wizarr"
+
+#~ msgid "Go to Dashboard"
+#~ msgstr "به داشبورد بروید"
+
+#~ msgid "Test"
+#~ msgstr "تست"
+
+#~ msgid "Done"
+#~ msgstr "انجام شده"

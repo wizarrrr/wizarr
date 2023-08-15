@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-06 21:37+0100\n"
+"POT-Creation-Date: 2023-08-15 23:12+0100\n"
 "PO-Revision-Date: 2023-08-06 19:51+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: lt <LL@li.org>\n"
@@ -85,9 +85,9 @@ msgid "Configure your profile settings"
 msgstr "Konfigūruokite savo serverio nustatymus."
 
 #: app/configs/settings.json.j2:53 app/views/authentication/login.html:56
-#: app/views/client/invite/signup/jellyfin.html:27
+#: app/views/client/invite/signup/jellyfin.html:75
 #: app/views/modals/create-notification-agent.html:148
-#: app/views/settings/password.html:6 app/views/setup/pages/admin.html:15
+#: app/views/settings/password.html:6 app/views/setup/pages/accounts.html:15
 msgid "Password"
 msgstr "Slaptažodis"
 
@@ -249,11 +249,7 @@ msgstr "Beta"
 msgid "Logout failed"
 msgstr "Atsijungti nepavyko"
 
-#: app/templates/users.html:5
-msgid "Invite User"
-msgstr "Pakviesti vartotoją"
-
-#: app/templates/templates/menu.html:16 app/views/home/main.html:3
+#: app/templates/templates/menu.html:16 app/views/home/homepage.html:3
 msgid "Home"
 msgstr "Namai"
 
@@ -265,7 +261,7 @@ msgstr "Kvietimai"
 msgid "Users"
 msgstr "Vartotojai"
 
-#: app/templates/templates/menu.html:34 app/views/setup/pages/settings.html:2
+#: app/templates/templates/menu.html:34
 msgid "Settings"
 msgstr "Nustatymai"
 
@@ -503,7 +499,7 @@ msgid "Toggle Theme"
 msgstr "Perjungti temą"
 
 #: app/views/authentication/login.html:4
-#: app/views/authentication/login.html:62 app/views/home/main.html:16
+#: app/views/authentication/login.html:62 app/views/home/homepage.html:16
 msgid "Login"
 msgstr "Prisijungti"
 
@@ -514,15 +510,16 @@ msgstr "Prisijunkite naudodami savo paskyrą"
 
 #: app/views/authentication/login.html:34
 #: app/views/authentication/login.html:51
-#: app/views/client/invite/signup/jellyfin.html:13
+#: app/views/client/invite/signup/jellyfin.html:49
 #: app/views/modals/create-notification-agent.html:143
-#: app/views/settings/profile.html:12 app/views/setup/pages/admin.html:7
+#: app/views/settings/profile.html:12 app/views/setup/pages/accounts.html:7
 msgid "Username"
 msgstr "Vartotojo vardas"
 
 #: app/views/authentication/login.html:40
 #: app/views/authentication/login.html:83
-#: app/views/client/invite/signup/plex.html:81
+#: app/views/client/invite/signup/jellyfin.html:132
+#: app/views/client/invite/signup/plex.html:88
 msgid "Continue"
 msgstr "Tęsti"
 
@@ -560,14 +557,15 @@ msgid "Type in your invite code to %(name)s server!"
 msgstr "Įveskite kvietimo kodą į %(name)s serverį!"
 
 #: app/views/client/invite/join.html:20
-#: app/views/client/invite/signup/jellyfin.html:40
-#: app/views/client/invite/signup/plex.html:25
+#: app/views/client/invite/signup/jellyfin.html:28
+#: app/views/client/invite/signup/plex.html:28
 #: app/views/tables/invite-table.html:6
 msgid "Invite Code"
 msgstr "Pakvietimo kodas"
 
 #: app/views/client/invite/join.html:27
-#: app/views/client/invite/signup/plex.html:33
+#: app/views/client/invite/signup/jellyfin.html:35
+#: app/views/client/invite/signup/plex.html:36
 msgid "Join"
 msgstr "Prisijunk"
 
@@ -578,21 +576,87 @@ msgid "You've been invited to join the %(name)s server!"
 msgstr "Jus pakvietė prisijungti prie %(name)s serverio!"
 
 #: app/views/client/invite/signup/jellyfin.html:3
-msgid "Set up Account"
-msgstr "Nustatykite paskyrą"
+#, fuzzy
+msgid "Join the Jellyfin Server"
+msgstr "Prisijunkite prie Plex serverio"
 
-#: app/views/client/invite/signup/jellyfin.html:19
-#: app/views/setup/pages/admin.html:11
+#: app/views/client/invite/signup/jellyfin.html:4
+#, fuzzy
+msgid "Create your account"
+msgstr "Sukurti paskyrą"
+
+#: app/views/client/invite/signup/jellyfin.html:5
+#, fuzzy
+msgid "Setup your password"
+msgstr "Pamiršai slaptažodį?"
+
+#: app/views/client/invite/signup/jellyfin.html:6
+#: app/views/client/invite/signup/plex.html:5
+msgid "Please wait"
+msgstr "Prašau palauk"
+
+#: app/views/client/invite/signup/jellyfin.html:7
+#, fuzzy
+msgid "Almost done"
+msgstr "Viskas padaryta!"
+
+#: app/views/client/invite/signup/jellyfin.html:8
+#, fuzzy
+msgid "Account created"
+msgstr "Paskyra sukurta!"
+
+#: app/views/client/invite/signup/jellyfin.html:9
+#: app/views/client/invite/signup/plex.html:10
+msgid "Please try again"
+msgstr "Prašau, pabandykite dar kartą"
+
+#: app/views/client/invite/signup/jellyfin.html:55
+#: app/views/setup/pages/accounts.html:11
 msgid "Email"
 msgstr "El. paštas"
 
-#: app/views/client/invite/signup/jellyfin.html:33
-#: app/views/setup/pages/admin.html:19
+#: app/views/client/invite/signup/jellyfin.html:61
+#, fuzzy
+msgid "Create Account"
+msgstr "Sukurti paskyrą"
+
+#: app/views/client/invite/signup/jellyfin.html:81
+#: app/views/setup/pages/accounts.html:19
 msgid "Confirm password"
 msgstr "Patvirtinti slaptažodį"
 
-#: app/views/client/invite/signup/jellyfin.html:45
-msgid "Create an account"
+#: app/views/client/invite/signup/jellyfin.html:87
+#, fuzzy
+msgid "Save Password"
+msgstr "Slaptažodis"
+
+#: app/views/client/invite/signup/jellyfin.html:129
+#, fuzzy
+msgid ""
+"You're all set, click continue to get started and walkthrough how to use "
+"Jellyfin!"
+msgstr ""
+"Viskas paruošta, spustelėkite tęsti, kad pradėtumėte ir sužinotumėte, kaip "
+"naudoti „Plex“!"
+
+#: app/views/client/invite/signup/jellyfin.html:141
+#: app/views/client/invite/signup/plex.html:97
+msgid "Something went wrong, please try again."
+msgstr "Kažkas ne taip, bandykite dar kartą."
+
+#: app/views/client/invite/signup/jellyfin.html:144
+#: app/views/client/invite/signup/plex.html:100
+msgid "Retry"
+msgstr "Bandykite dar kartą"
+
+#: app/views/client/invite/signup/jellyfin.html:301
+#, fuzzy
+msgid "Connecting to Server"
+msgstr "Prisijunkite prie Plex serverio"
+
+#: app/views/client/invite/signup/jellyfin.html:310
+#, fuzzy
+msgid "Creating Jellyfin Account"
 msgstr "Sukurti paskyrą"
 
 #: app/views/client/invite/signup/plex.html:3
@@ -602,10 +666,6 @@ msgstr "Prisijunkite prie Plex serverio"
 #: app/views/client/invite/signup/plex.html:4
 msgid "Sign in to Plex"
 msgstr "Prisijunkite prie „Plex“."
-
-#: app/views/client/invite/signup/plex.html:5
-msgid "Please wait"
-msgstr "Prašau palauk"
 
 #: app/views/client/invite/signup/plex.html:6
 msgid "Setting up your account"
@@ -623,25 +683,13 @@ msgstr "Viskas padaryta!"
 msgid "Account created!"
 msgstr "Paskyra sukurta!"
 
-#: app/views/client/invite/signup/plex.html:10
-msgid "Please try again"
-msgstr "Prašau, pabandykite dar kartą"
-
-#: app/views/client/invite/signup/plex.html:78
+#: app/views/client/invite/signup/plex.html:85
 msgid ""
 "You're all set, click continue to get started and walkthrough how to use "
 "Plex!"
 msgstr ""
 "Viskas paruošta, spustelėkite tęsti, kad pradėtumėte ir sužinotumėte, kaip "
 "naudoti „Plex“!"
-
-#: app/views/client/invite/signup/plex.html:90
-msgid "Something went wrong, please try again."
-msgstr "Kažkas ne taip, bandykite dar kartą."
-
-#: app/views/client/invite/signup/plex.html:93
-msgid "Retry"
-msgstr "Bandykite dar kartą"
 
 #: app/views/client/wizard/wizard.html:4
 msgid "Help"
@@ -726,7 +774,7 @@ msgid "Show Server URL"
 msgstr "Rodyti serverio URL"
 
 #: app/views/client/wizard/pages/jellyfin/download.html:30
-#: app/views/settings/media.html:20 app/views/setup/pages/settings.html:20
+#: app/views/settings/media.html:12
 msgid "Server URL"
 msgstr "Serverio URL"
 
@@ -900,11 +948,11 @@ msgstr "Kažkas ne taip. Pabandykite dar kartą vėliau."
 msgid "Get Help"
 msgstr "Gaukite pagalbos"
 
-#: app/views/home/main.html:25 app/views/setup/pages/welcome.html:2
+#: app/views/home/homepage.html:25 app/views/setup/pages/welcome.html:2
 msgid "Welcome to Wizarr"
 msgstr "Sveiki atvykę į „Wizarr“."
 
-#: app/views/home/main.html:28
+#: app/views/home/homepage.html:28
 msgid ""
 "Wizarr is a software tool that provides advanced user invitation and "
 "management capabilities for media servers such as Jellyfin, Emby, and Plex. "
@@ -916,7 +964,7 @@ msgstr ""
 "Emby ir Plex. Naudodami „Wizarr“, serverio administratoriai gali lengvai "
 "pakviesti naujų vartotojų ir valdyti jų prieigos leidimus."
 
-#: app/views/home/main.html:32
+#: app/views/home/homepage.html:32
 msgid ""
 "If you were sent here by a friend, please request access or if you have an "
 "invite code, please click Get Started."
@@ -924,15 +972,15 @@ msgstr ""
 "Jei jus čia atsiuntė draugas, paprašykite prieigos arba, jei turite "
 "pakvietimo kodą, spustelėkite Pradėti."
 
-#: app/views/home/main.html:36
+#: app/views/home/homepage.html:36
 msgid "Get Started"
 msgstr "Pradėti"
 
-#: app/views/home/main.html:41
+#: app/views/home/homepage.html:41
 msgid "or"
 msgstr "arba"
 
-#: app/views/home/main.html:45
+#: app/views/home/homepage.html:45
 msgid "Request Access"
 msgstr "Prašyti prieigos"
 
@@ -1128,8 +1176,7 @@ msgstr "Ar tikrai norite vykdyti šią užduotį?"
 msgid "Task has been run."
 msgstr "Užduotis įvykdyta."
 
-#: app/views/modals/update-libraries.html:3 app/views/settings/media.html:30
-#: app/views/setup/pages/settings.html:37
+#: app/views/modals/update-libraries.html:3
 msgid "Server Libraries"
 msgstr "Serverių bibliotekos"
 
@@ -1162,12 +1209,13 @@ msgid "Discord Widget"
 msgstr "Discord valdiklis"
 
 #: app/views/settings/discord.html:19 app/views/settings/html.html:9
-#: app/views/settings/media.html:38 app/views/settings/requests.html:26
+#: app/views/settings/media.html:63 app/views/settings/requests.html:26
 msgid "Save"
 msgstr "Sutaupyti"
 
 #: app/views/settings/discord.html:42 app/views/settings/html.html:25
-#: app/views/settings/media.html:54 app/views/settings/requests.html:58
+#: app/views/settings/media.html:253 app/views/settings/media.html:286
+#: app/views/settings/requests.html:58
 msgid "Settings saved successfully!"
 msgstr "Nustatymai sėkmingai išsaugoti!"
 
@@ -1184,25 +1232,57 @@ msgstr "Pasirinkite kalbą"
 msgid "No settings matched your search."
 msgstr "Jokie nustatymai neatitiko jūsų paieškos."
 
-#: app/views/settings/media.html:6 app/views/setup/pages/settings.html:6
+#: app/views/settings/media.html:7
 msgid "Server Display Name"
 msgstr "Serverio rodomas pavadinimas"
 
-#: app/views/settings/media.html:11 app/views/setup/pages/settings.html:11
+#: app/views/settings/media.html:19
+#, fuzzy
+msgid "Detect Server"
+msgstr "Užklausos serveris"
+
+#: app/views/settings/media.html:27
 msgid "Server"
 msgstr "Serveris"
 
-#: app/views/settings/media.html:13
+#: app/views/settings/media.html:33
 msgid "Choose a server"
 msgstr "Pasirinkite serverį"
 
-#: app/views/settings/media.html:25 app/views/setup/pages/settings.html:25
+#: app/views/settings/media.html:41
 msgid "Server Token / API Key"
 msgstr "Serverio prieigos raktas / API raktas"
 
-#: app/views/settings/media.html:32 app/views/setup/pages/settings.html:39
-msgid "Scan For Libraries"
+#: app/views/settings/media.html:53
+#, fuzzy
+msgid "Configure Libraries"
 msgstr "Ieškoti bibliotekų"
+
+#: app/views/settings/media.html:58
+msgid "Test Connection"
+msgstr "Bandomasis ryšys"
+
+#: app/views/settings/media.html:181
+msgid "Server not detected!"
+msgstr "Serveris neaptiktas!"
+
+#: app/views/settings/media.html:190
+#, fuzzy
+msgid "server detected!"
+msgstr "Serverio nustatymai"
+
+#: app/views/settings/media.html:223
+msgid "Connection failed!"
+msgstr "Nepavyko prisijungti!"
+
+#: app/views/settings/media.html:233
+msgid "Connection successful, saving settings!"
+msgstr "Prisijungimas sėkmingas, nustatymai išsaugomi!"
+
+#: app/views/settings/media.html:242
+#, fuzzy
+msgid "Settings failed to save!"
+msgstr "Jokie nustatymai neatitiko jūsų paieškos."
 
 #: app/views/settings/notifications.html:18
 msgid "Create Agent"
@@ -1253,14 +1333,14 @@ msgid "Revoke All"
 msgstr "Atšaukti viską"
 
 #: app/views/setup/base.html:12
-msgid "Setup Wizarr"
-msgstr "Sąrankos vedlys"
+msgid "Setup"
+msgstr "Sąranka"
 
-#: app/views/setup/pages/admin.html:2
+#: app/views/setup/pages/accounts.html:2
 msgid "Admin Account"
 msgstr "Administratoriaus paskyra"
 
-#: app/views/setup/pages/admin.html:24
+#: app/views/setup/pages/accounts.html:24
 msgid "Create account"
 msgstr "Sukurti paskyrą"
 
@@ -1273,8 +1353,9 @@ msgid "You have successfully completed the setup process."
 msgstr "Sėkmingai baigėte sąrankos procesą."
 
 #: app/views/setup/pages/complete.html:9
-msgid "Go to Dashboard"
-msgstr "Pereiti prie prietaisų skydelio"
+#, fuzzy
+msgid "Go to Login"
+msgstr "Prisijungti"
 
 #: app/views/setup/pages/database.html:2
 msgid "Database"
@@ -1289,14 +1370,6 @@ msgid ""
 "This is a temporary and we are working on adding support for other "
 "databases."
 msgstr "Tai laikina ir mes stengiamės pridėti kitų duomenų bazių palaikymą."
-
-#: app/views/setup/pages/settings.html:31
-msgid "Test"
-msgstr "Testas"
-
-#: app/views/setup/pages/settings.html:45
-msgid "Done"
-msgstr "padaryta"
 
 #: app/views/setup/pages/welcome.html:5
 msgid ""
@@ -1337,6 +1410,11 @@ msgstr ""
 #: app/views/tables/oauth-table.html:33
 msgid "Edit"
 msgstr "Redaguoti"
+
+#: app/views/tables/global-users.html:32
+#, fuzzy
+msgid "Expires"
+msgstr "Baigėsi galiojimo laikas"
 
 #: app/views/tables/invite-table.html:7
 msgid "Used"
@@ -1385,3 +1463,24 @@ msgstr "Kitas vykdymas"
 #: app/views/tables/task-table.html:40
 msgid "Run Now"
 msgstr "Paleisti dabar"
+
+#~ msgid "Invite User"
+#~ msgstr "Pakviesti vartotoją"
+
+#~ msgid "Set up Account"
+#~ msgstr "Nustatykite paskyrą"
+
+#~ msgid "Create an account"
+#~ msgstr "Sukurti paskyrą"
+
+#~ msgid "Setup Wizarr"
+#~ msgstr "Sąrankos vedlys"
+
+#~ msgid "Go to Dashboard"
+#~ msgstr "Pereiti prie prietaisų skydelio"
+
+#~ msgid "Test"
+#~ msgstr "Testas"
+
+#~ msgid "Done"
+#~ msgstr "padaryta"

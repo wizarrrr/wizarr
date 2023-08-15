@@ -1,95 +1,99 @@
-from datetime import datetime, timedelta
-from logging import info, warning
-from random import choices
-from string import ascii_uppercase, digits
-
-from flask import jsonify, make_response, redirect, request, session
+from flask import request
+from flask_restx import Namespace, Resource
 from flask_jwt_extended import jwt_required
-from flask_restx import Model, Namespace, Resource, fields
-from playhouse.shortcuts import model_to_dict
 
-api = Namespace('Setup API', description=' related operations', path="/setup")
+from app.security import is_setup_required
+from helpers.accounts import create_account
 
-@api.route('', doc=False)
-@api.route('/<string:setup_type>', doc=False)
+from app.models.database.accounts import Accounts
+from app.models.database.settings import Settings
+
+api = Namespace('Setup API', description='Setup related operations', path="/setup")
+
+@api.route('/status', doc=False)
+@api.route('/status/', doc=False)
 class Setup(Resource):
+    """Setup related operations"""
 
-    @api.doc(description="Setup the application")
+    method_decorators = [] if is_setup_required() else [jwt_required()]
+
+    @api.doc(description="Get the setup status")
+    @api.response(200, "Successfully retrieved the setup status")
     @api.response(500, "Internal server error")
-    def post(self, setup_type):
+    def get(self):
+        # Get counts for stages
+        # pylint: disable=no-value-for-parameter
+        account_count = Accounts.select().count()
 
-        valid_setup_types = ["admin", "settings", "scan-libraries", "libraries", "complete"]
+        # Get data from the database for settings
+        server_url = Settings.get_or_none(Settings.key == "server_url")
+        server_type = Settings.get_or_none(Settings.key == "server_type")
+        server_api_key = Settings.get_or_none(Settings.key == "server_api_key")
 
-        if setup_type not in valid_setup_types:
-            return { "message": "Invalid setup type" }, 400
+        # Check if the server settings are set
+        settings_set = server_url is not None and server_type is not None and server_api_key is not None
 
+        # Create the response object
+        response = {
+            "setup_required": is_setup_required(),
+            "setup_stage": {
+                "accounts": account_count > 0,
+                "settings": settings_set
+            }
+        }
 
-        if setup_type == "admin":
-            # Import from helpers
-            from helpers.accounts import create_account
+        # Return the setup status
+        return response, 200
 
-            username = request.form.get("username", None)
-            email = request.form.get("email", None)
-            password = request.form.get("password", None)
-            password_confirm = request.form.get("password_confirm", None)
+@api.route('/accounts', doc=False)
+@api.route('/accounts/', doc=False)
+class SetupAccounts(Resource):
+    """Setup related operations"""
 
-            user = create_account(
-                username=username,
-                email=email,
-                password=password,
-                confirm_password=password_confirm,
-                role="admin"
-            )
+    method_decorators = [] if is_setup_required() else [jwt_required()]
 
-            return { "message": "Admin user created", "user": user }, 200
+    @api.doc(description="Create a new account")
+    @api.response(200, "Successfully created a new account")
+    @api.response(500, "Internal server error")
+    def post(self):
+        # Create the account
+        user = create_account(
+            username=request.form.get("username"),
+            email=request.form.get("email"),
+            password=request.form.get("password"),
+            confirm_password=request.form.get("confirm_password"),
+            role="admin"
+        )
 
+        return { "message": "Account created", "user": user }, 200
 
-        if setup_type == "settings":
-            # Import from helpers
-            from helpers.settings import get_settings
-            from app.models.database.settings import Settings
+@api.route('/exit', doc=False)
+@api.route('/exit/', doc=False)
+class SetupExit(Resource):
+    """Setup related operations"""
 
-            # Settings from request
-            new_settings = request.form.to_dict()
+    method_decorators = [] if is_setup_required() else [jwt_required()]
 
-            # If setting already exists update it
-            settings = get_settings()
+    @api.doc(description="Exit the setup")
+    @api.response(200, "Successfully exited the setup")
+    @api.response(500, "Internal server error")
+    def get(self):
+        # Get count for accounts
+        # pylint: disable=no-value-for-parameter
+        account_set = Accounts.select().count() > 0
 
-            # Valid settings
-            valid_settings = [
-                "server_name",
-                "server_type",
-                "server_url",
-                "server_api_key"
-            ]
+        # Get data from the database for settings
+        server_url = Settings.get_or_none(Settings.key == "server_url")
+        server_type = Settings.get_or_none(Settings.key == "server_type")
+        server_api_key = Settings.get_or_none(Settings.key == "server_api_key")
 
-            for key, value in new_settings.items():
-                if key not in valid_settings:
-                    continue
+        # Check if the server settings are set
+        settings_set = server_url is not None and server_type is not None and server_api_key is not None
 
-                if key in settings:
-                    Settings.update({ Settings.value: value }).where(Settings.key == key).execute()
-                else:
-                    Settings.create(key=key, value=value)
+        # If the accounts and settings are set, exit the setup by setting server_verified to True
+        if account_set and settings_set:
+            server_verified = Settings.get_or_create(key="server_verified")
+            server_verified[0].value = "True"
+            server_verified[0].save()
 
-
-            return { "message": "Settings created", "settings": settings }, 200
-
-        if setup_type == "scan-libraries":
-            from .scan_libraries_api import ScanLibrariesListAPI
-
-            lib = ScanLibrariesListAPI()
-            return lib.post()
-
-        if setup_type == "libraries":
-            from .libraries_api import LibrariesListAPI
-
-            lib = LibrariesListAPI()
-            return lib.post()
-
-        if setup_type == "complete":
-            from helpers.settings import create_settings
-
-            create_settings({
-                "server_verified": True,
-            })
+        return { "message": "Setup exited" }, 200

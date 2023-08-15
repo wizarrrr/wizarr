@@ -4,6 +4,7 @@ from flask_restx import Namespace, Resource
 from requests import RequestException
 
 from app.models.wizarr.libraries import ScanLibrariesModel
+from app.security import is_setup_required
 
 api = Namespace(
     "Scan Libraries", description=" related operations", path="/scan-libraries"
@@ -14,7 +15,7 @@ api = Namespace(
 class ScanLibrariesListAPI(Resource):
     """Scan Libraries related operations"""
 
-    method_decorators = [jwt_required()]
+    method_decorators = [] if is_setup_required() else [jwt_required()]
 
     @api.doc(description="")
     @api.response(500, "Internal server error")

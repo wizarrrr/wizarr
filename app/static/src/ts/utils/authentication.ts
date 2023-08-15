@@ -14,7 +14,7 @@ import type { WebAuthnError } from '@simplewebauthn/browser/dist/types/helpers/w
 class Authentication {
 
     // Local axios instance
-    axios = axios.create();
+    private axios = axios.create();
 
     // Store properties needed for the authentication class
     [key: string]: any;

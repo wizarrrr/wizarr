@@ -1,40 +1,19 @@
-from ..exceptions import NotificationSendError, NotificationStatusError
+from app.notifications.exceptions import NotificationSendError, NotificationStatusError
 
 from requests import post
-from typing import Optional
-
-class PushoverMixin:
-    name = "pushover"
-    base_url = "https://api.pushover.net/1/"
+from schematics.models import Model
+from schematics.types import StringType
 
 
-class PushoverResource:
-    """
-    A pushover resource to store authentication details
-
-    :param token: The pushover API token
-    :param user: The pushover user key
-    :param device: The pushover device name
-    """
-
-    token: str
-    user: str
-    device: str
-
-    def __init__(self, token: str, user: str, device: Optional[str] = None):
-        self.token = token
-        self.user = user
-        self.device = device
-
-    def to_primitive(self):
-        return {
-            "token": self.token,
-            "user": self.user,
-            "device": self.device,
-        }
+class PushoverResource(Model):
+    name = StringType(default="Pushover", metadata={"name": "Pushover", "icon": "bell", "description": 'e.g. "Pushover"'})
+    base_url = StringType(default="https://api.pushover.net/1/", metadata={"name": "Base URL", "description": 'e.g. "https://api.pushover.net/1/"'})
+    token = StringType(required=True, metadata={"name": "API Token", "description": 'e.g. "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5"'})
+    user = StringType(required=True, metadata={"name": "User Key", "description": 'e.g. "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5"'})
+    device = StringType(required=False, default=None, metadata={"name": "Device Name", "description": 'e.g. "iPhone"'})
 
 
-class Pushover(PushoverResource, PushoverMixin):
+class Pushover(PushoverResource):
     """
     A pushover notification
 

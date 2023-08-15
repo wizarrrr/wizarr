@@ -7,6 +7,7 @@ from flask_restx import Namespace, Resource
 from app.notifications.exceptions import InvalidNotificationAgent
 from app.models.notifications import NotificationsGetModel, NotificationsPostModel
 from app.models.database.notifications import Notifications
+from app.notifications.builder import get_web_resources
 
 api = Namespace('Notifications', description='Notifications related operations', path="/notifications")
 
@@ -135,3 +136,17 @@ class NotificationsAPI(Resource):
         response = { "msg": f"Notification agent {notification_id} deleted successfully" }
 
         return response, 200
+
+
+@api.route('/resources')
+@api.route('/resources/', doc=False)
+@api.doc(security=["jsonWebToken", "cookieAuth"])
+class NotificationsResourcesAPI(Resource):
+    """Get all notification resources"""
+
+    def get(self) -> tuple[dict[str, str], int]:
+        # Get all notification resources
+        resources = get_web_resources()
+
+        # Respond with all notification resources
+        return resources, 200

@@ -1,50 +1,23 @@
-from ..exceptions import NotificationSendError, NotificationStatusError
 from smtplib import SMTP as SMTPClient
 from ssl import create_default_context
 
-class SMTPMixin:
-    name = "smtp"
-    base_url = "smtp://"
+from schematics.models import Model
+from schematics.types import StringType, IntType, BooleanType
 
-class SMTPResource:
-    """
-    A smtp resource to store authentication details
-
-    :param smtp_server: The smtp server url
-    :param port: The smtp server port
-    :param username: The smtp server username
-    :param password: The smtp server password
-    :param receiver: The smtp server receiver
-    :param starttls: The smtp server starttls
-    """
-
-    smtp_server: str
-    port: int
-    username: str
-    password: str
-    receiver: str
-    starttls: bool
-
-    def __init__(self, smtp_server: str, port: int, username: str, password: str, receiver: str, starttls: bool = True):
-        self.smtp_server = smtp_server
-        self.port = port
-        self.username = username
-        self.password = password
-        self.receiver = receiver
-        self.starttls = starttls
-
-    def to_primitive(self):
-        return {
-            "smtp_server": self.smtp_server,
-            "port": self.port,
-            "username": self.username,
-            "password": self.password,
-            "receiver": self.receiver,
-            "starttls": self.starttls,
-        }
+from app.notifications.exceptions import NotificationSendError
 
 
-class SMTP(SMTPResource, SMTPMixin):
+class SMTPResource(Model):
+    name = StringType(default="SMTP", metadata={"name": "SMTP", "hidden": True, "icon": "envelope", "description": 'e.g. "SMTP"'})
+    smtp_server = StringType(required=True, metadata={"name": "SMTP Server", "type": "url", "description": 'e.g. "smtp.wizarr.dev"'})
+    port = IntType(required=True, default=25, metadata={"name": "Port", "description": 'e.g. "25"'})
+    username = StringType(required=True, metadata={"name": "Username", "description": 'e.g. "wizarr@wizarr.dev'})
+    password = StringType(required=True, metadata={"name": "Password", "type": "password", "description": 'e.g. "password"'})
+    receiver = StringType(required=True, metadata={"name": "Receiver", "type": "email", "description": 'e.g. "admin@wizarr.dev'})
+    starttls = BooleanType(required=False, default=False, metadata={"name": "StartTLS", "type": "checkbox", "description": 'e.g. "False"'})
+
+
+class SMTP(SMTPResource):
     """
     A smtp notification
 

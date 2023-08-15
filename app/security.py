@@ -67,6 +67,9 @@ def user_lookup_callback(_jwt_header, jwt_data):
     user = Accounts.get_by_id(identity)
     return model_to_dict(user, recurse=True, backrefs=True, exclude=[Accounts.password])
 
+def is_setup_required():
+    return not server_verified()
+
 def login_required_unless_setup():
     def wrapper(fn):
         @wraps(fn)

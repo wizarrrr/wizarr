@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-06 21:37+0100\n"
+"POT-Creation-Date: 2023-08-15 23:12+0100\n"
 "PO-Revision-Date: 2023-08-06 19:50+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: cs <LL@li.org>\n"
@@ -85,9 +85,9 @@ msgid "Configure your profile settings"
 msgstr "Nakonfigurujte nastavení serveru."
 
 #: app/configs/settings.json.j2:53 app/views/authentication/login.html:56
-#: app/views/client/invite/signup/jellyfin.html:27
+#: app/views/client/invite/signup/jellyfin.html:75
 #: app/views/modals/create-notification-agent.html:148
-#: app/views/settings/password.html:6 app/views/setup/pages/admin.html:15
+#: app/views/settings/password.html:6 app/views/setup/pages/accounts.html:15
 msgid "Password"
 msgstr "Heslo"
 
@@ -249,11 +249,7 @@ msgstr "Beta"
 msgid "Logout failed"
 msgstr "Odhlášení se nezdařilo"
 
-#: app/templates/users.html:5
-msgid "Invite User"
-msgstr "Pozvat uživatele"
-
-#: app/templates/templates/menu.html:16 app/views/home/main.html:3
+#: app/templates/templates/menu.html:16 app/views/home/homepage.html:3
 msgid "Home"
 msgstr "Domov"
 
@@ -265,7 +261,7 @@ msgstr "Pozvánky"
 msgid "Users"
 msgstr "Uživatelé"
 
-#: app/templates/templates/menu.html:34 app/views/setup/pages/settings.html:2
+#: app/templates/templates/menu.html:34
 msgid "Settings"
 msgstr "Nastavení"
 
@@ -500,7 +496,7 @@ msgid "Toggle Theme"
 msgstr "Přepnout motiv"
 
 #: app/views/authentication/login.html:4
-#: app/views/authentication/login.html:62 app/views/home/main.html:16
+#: app/views/authentication/login.html:62 app/views/home/homepage.html:16
 msgid "Login"
 msgstr "Přihlásit se"
 
@@ -511,15 +507,16 @@ msgstr "Přihlaste se pomocí svého účtu"
 
 #: app/views/authentication/login.html:34
 #: app/views/authentication/login.html:51
-#: app/views/client/invite/signup/jellyfin.html:13
+#: app/views/client/invite/signup/jellyfin.html:49
 #: app/views/modals/create-notification-agent.html:143
-#: app/views/settings/profile.html:12 app/views/setup/pages/admin.html:7
+#: app/views/settings/profile.html:12 app/views/setup/pages/accounts.html:7
 msgid "Username"
 msgstr "Uživatelské jméno"
 
 #: app/views/authentication/login.html:40
 #: app/views/authentication/login.html:83
-#: app/views/client/invite/signup/plex.html:81
+#: app/views/client/invite/signup/jellyfin.html:132
+#: app/views/client/invite/signup/plex.html:88
 msgid "Continue"
 msgstr "Pokračovat"
 
@@ -554,14 +551,15 @@ msgid "Type in your invite code to %(name)s server!"
 msgstr "Zadejte svůj zvací kód na server %(name)s!"
 
 #: app/views/client/invite/join.html:20
-#: app/views/client/invite/signup/jellyfin.html:40
-#: app/views/client/invite/signup/plex.html:25
+#: app/views/client/invite/signup/jellyfin.html:28
+#: app/views/client/invite/signup/plex.html:28
 #: app/views/tables/invite-table.html:6
 msgid "Invite Code"
 msgstr "Kód pozvánky"
 
 #: app/views/client/invite/join.html:27
-#: app/views/client/invite/signup/plex.html:33
+#: app/views/client/invite/signup/jellyfin.html:35
+#: app/views/client/invite/signup/plex.html:36
 msgid "Join"
 msgstr "Připojit"
 
@@ -572,21 +570,87 @@ msgid "You've been invited to join the %(name)s server!"
 msgstr "Byli jste pozváni, abyste se připojili k serveru %(name)s!"
 
 #: app/views/client/invite/signup/jellyfin.html:3
-msgid "Set up Account"
-msgstr "Nastavit účet"
+#, fuzzy
+msgid "Join the Jellyfin Server"
+msgstr "Připojte se k serveru Plex"
 
-#: app/views/client/invite/signup/jellyfin.html:19
-#: app/views/setup/pages/admin.html:11
+#: app/views/client/invite/signup/jellyfin.html:4
+#, fuzzy
+msgid "Create your account"
+msgstr "Vytvořit účet"
+
+#: app/views/client/invite/signup/jellyfin.html:5
+#, fuzzy
+msgid "Setup your password"
+msgstr "Zapomněli jste heslo?"
+
+#: app/views/client/invite/signup/jellyfin.html:6
+#: app/views/client/invite/signup/plex.html:5
+msgid "Please wait"
+msgstr "Prosím, čekejte"
+
+#: app/views/client/invite/signup/jellyfin.html:7
+#, fuzzy
+msgid "Almost done"
+msgstr "Vše hotovo!"
+
+#: app/views/client/invite/signup/jellyfin.html:8
+#, fuzzy
+msgid "Account created"
+msgstr "Účet založen!"
+
+#: app/views/client/invite/signup/jellyfin.html:9
+#: app/views/client/invite/signup/plex.html:10
+msgid "Please try again"
+msgstr "Prosím zkuste to znovu"
+
+#: app/views/client/invite/signup/jellyfin.html:55
+#: app/views/setup/pages/accounts.html:11
 msgid "Email"
 msgstr "E-mailem"
 
-#: app/views/client/invite/signup/jellyfin.html:33
-#: app/views/setup/pages/admin.html:19
+#: app/views/client/invite/signup/jellyfin.html:61
+#, fuzzy
+msgid "Create Account"
+msgstr "Vytvořit účet"
+
+#: app/views/client/invite/signup/jellyfin.html:81
+#: app/views/setup/pages/accounts.html:19
 msgid "Confirm password"
 msgstr "Potvrďte heslo"
 
-#: app/views/client/invite/signup/jellyfin.html:45
-msgid "Create an account"
+#: app/views/client/invite/signup/jellyfin.html:87
+#, fuzzy
+msgid "Save Password"
+msgstr "Heslo"
+
+#: app/views/client/invite/signup/jellyfin.html:129
+#, fuzzy
+msgid ""
+"You're all set, click continue to get started and walkthrough how to use "
+"Jellyfin!"
+msgstr ""
+"Vše je připraveno, kliknutím na Pokračovat začněte a projděte si, jak "
+"používat Plex!"
+
+#: app/views/client/invite/signup/jellyfin.html:141
+#: app/views/client/invite/signup/plex.html:97
+msgid "Something went wrong, please try again."
+msgstr "Něco se pokazilo. Prosím zkuste to znovu."
+
+#: app/views/client/invite/signup/jellyfin.html:144
+#: app/views/client/invite/signup/plex.html:100
+msgid "Retry"
+msgstr "Zkuste to znovu"
+
+#: app/views/client/invite/signup/jellyfin.html:301
+#, fuzzy
+msgid "Connecting to Server"
+msgstr "Připojte se k serveru Plex"
+
+#: app/views/client/invite/signup/jellyfin.html:310
+#, fuzzy
+msgid "Creating Jellyfin Account"
 msgstr "Vytvořit účet"
 
 #: app/views/client/invite/signup/plex.html:3
@@ -596,10 +660,6 @@ msgstr "Připojte se k serveru Plex"
 #: app/views/client/invite/signup/plex.html:4
 msgid "Sign in to Plex"
 msgstr "Přihlaste se do Plex"
-
-#: app/views/client/invite/signup/plex.html:5
-msgid "Please wait"
-msgstr "Prosím, čekejte"
 
 #: app/views/client/invite/signup/plex.html:6
 msgid "Setting up your account"
@@ -617,25 +677,13 @@ msgstr "Vše hotovo!"
 msgid "Account created!"
 msgstr "Účet založen!"
 
-#: app/views/client/invite/signup/plex.html:10
-msgid "Please try again"
-msgstr "Prosím zkuste to znovu"
-
-#: app/views/client/invite/signup/plex.html:78
+#: app/views/client/invite/signup/plex.html:85
 msgid ""
 "You're all set, click continue to get started and walkthrough how to use "
 "Plex!"
 msgstr ""
 "Vše je připraveno, kliknutím na Pokračovat začněte a projděte si, jak "
 "používat Plex!"
-
-#: app/views/client/invite/signup/plex.html:90
-msgid "Something went wrong, please try again."
-msgstr "Něco se pokazilo. Prosím zkuste to znovu."
-
-#: app/views/client/invite/signup/plex.html:93
-msgid "Retry"
-msgstr "Zkuste to znovu"
 
 #: app/views/client/wizard/wizard.html:4
 msgid "Help"
@@ -720,7 +768,7 @@ msgid "Show Server URL"
 msgstr "Zobrazit adresu URL serveru"
 
 #: app/views/client/wizard/pages/jellyfin/download.html:30
-#: app/views/settings/media.html:20 app/views/setup/pages/settings.html:20
+#: app/views/settings/media.html:12
 msgid "Server URL"
 msgstr "Adresa URL serveru"
 
@@ -893,11 +941,11 @@ msgstr "Něco se pokazilo. Prosím zkuste to znovu později."
 msgid "Get Help"
 msgstr "Získejte pomoc"
 
-#: app/views/home/main.html:25 app/views/setup/pages/welcome.html:2
+#: app/views/home/homepage.html:25 app/views/setup/pages/welcome.html:2
 msgid "Welcome to Wizarr"
 msgstr "Vítejte v Wizarru"
 
-#: app/views/home/main.html:28
+#: app/views/home/homepage.html:28
 msgid ""
 "Wizarr is a software tool that provides advanced user invitation and "
 "management capabilities for media servers such as Jellyfin, Emby, and Plex. "
@@ -909,7 +957,7 @@ msgstr ""
 "Wizarrem mohou správci serveru snadno zvát nové uživatele a spravovat jejich"
 " přístupová oprávnění."
 
-#: app/views/home/main.html:32
+#: app/views/home/homepage.html:32
 msgid ""
 "If you were sent here by a friend, please request access or if you have an "
 "invite code, please click Get Started."
@@ -917,15 +965,15 @@ msgstr ""
 "Pokud vás sem poslal přítel, požádejte o přístup, nebo pokud máte zvací kód,"
 " klikněte na Začít."
 
-#: app/views/home/main.html:36
+#: app/views/home/homepage.html:36
 msgid "Get Started"
 msgstr "Začít"
 
-#: app/views/home/main.html:41
+#: app/views/home/homepage.html:41
 msgid "or"
 msgstr "nebo"
 
-#: app/views/home/main.html:45
+#: app/views/home/homepage.html:45
 msgid "Request Access"
 msgstr "Požádat o přístup"
 
@@ -1121,8 +1169,7 @@ msgstr "Opravdu chcete spustit tuto úlohu?"
 msgid "Task has been run."
 msgstr "Úloha byla spuštěna."
 
-#: app/views/modals/update-libraries.html:3 app/views/settings/media.html:30
-#: app/views/setup/pages/settings.html:37
+#: app/views/modals/update-libraries.html:3
 msgid "Server Libraries"
 msgstr "Serverové knihovny"
 
@@ -1155,12 +1202,13 @@ msgid "Discord Widget"
 msgstr "Discord Widget"
 
 #: app/views/settings/discord.html:19 app/views/settings/html.html:9
-#: app/views/settings/media.html:38 app/views/settings/requests.html:26
+#: app/views/settings/media.html:63 app/views/settings/requests.html:26
 msgid "Save"
 msgstr "Uložit"
 
 #: app/views/settings/discord.html:42 app/views/settings/html.html:25
-#: app/views/settings/media.html:54 app/views/settings/requests.html:58
+#: app/views/settings/media.html:253 app/views/settings/media.html:286
+#: app/views/settings/requests.html:58
 msgid "Settings saved successfully!"
 msgstr "Nastavení byla úspěšně uložena!"
 
@@ -1176,25 +1224,57 @@ msgstr "Zvolte jazyk"
 msgid "No settings matched your search."
 msgstr "Vašemu vyhledávání neodpovídají žádné nastavení."
 
-#: app/views/settings/media.html:6 app/views/setup/pages/settings.html:6
+#: app/views/settings/media.html:7
 msgid "Server Display Name"
 msgstr "Zobrazovaný název serveru"
 
-#: app/views/settings/media.html:11 app/views/setup/pages/settings.html:11
+#: app/views/settings/media.html:19
+#, fuzzy
+msgid "Detect Server"
+msgstr "Server požadavku"
+
+#: app/views/settings/media.html:27
 msgid "Server"
 msgstr "Server"
 
-#: app/views/settings/media.html:13
+#: app/views/settings/media.html:33
 msgid "Choose a server"
 msgstr "Vyberte server"
 
-#: app/views/settings/media.html:25 app/views/setup/pages/settings.html:25
+#: app/views/settings/media.html:41
 msgid "Server Token / API Key"
 msgstr "Token serveru / klíč API"
 
-#: app/views/settings/media.html:32 app/views/setup/pages/settings.html:39
-msgid "Scan For Libraries"
+#: app/views/settings/media.html:53
+#, fuzzy
+msgid "Configure Libraries"
 msgstr "Vyhledávání knihoven"
+
+#: app/views/settings/media.html:58
+msgid "Test Connection"
+msgstr "Test připojení"
+
+#: app/views/settings/media.html:181
+msgid "Server not detected!"
+msgstr "Server nebyl detekován!"
+
+#: app/views/settings/media.html:190
+#, fuzzy
+msgid "server detected!"
+msgstr "Nastavení serveru"
+
+#: app/views/settings/media.html:223
+msgid "Connection failed!"
+msgstr "Připojení se nezdařilo!"
+
+#: app/views/settings/media.html:233
+msgid "Connection successful, saving settings!"
+msgstr "Připojení úspěšné, nastavení se ukládá!"
+
+#: app/views/settings/media.html:242
+#, fuzzy
+msgid "Settings failed to save!"
+msgstr "Vašemu vyhledávání neodpovídají žádné nastavení."
 
 #: app/views/settings/notifications.html:18
 msgid "Create Agent"
@@ -1245,14 +1325,14 @@ msgid "Revoke All"
 msgstr "Odvolat vše"
 
 #: app/views/setup/base.html:12
-msgid "Setup Wizarr"
-msgstr "Průvodce nastavením"
+msgid "Setup"
+msgstr "Založit"
 
-#: app/views/setup/pages/admin.html:2
+#: app/views/setup/pages/accounts.html:2
 msgid "Admin Account"
 msgstr "Účet správce"
 
-#: app/views/setup/pages/admin.html:24
+#: app/views/setup/pages/accounts.html:24
 msgid "Create account"
 msgstr "Vytvořit účet"
 
@@ -1265,8 +1345,9 @@ msgid "You have successfully completed the setup process."
 msgstr "Úspěšně jste dokončili proces nastavení."
 
 #: app/views/setup/pages/complete.html:9
-msgid "Go to Dashboard"
-msgstr "Přejděte na Dashboard"
+#, fuzzy
+msgid "Go to Login"
+msgstr "Přihlásit se"
 
 #: app/views/setup/pages/database.html:2
 msgid "Database"
@@ -1281,14 +1362,6 @@ msgid ""
 "This is a temporary and we are working on adding support for other "
 "databases."
 msgstr "Toto je dočasné a pracujeme na přidání podpory pro další databáze."
-
-#: app/views/setup/pages/settings.html:31
-msgid "Test"
-msgstr "Test"
-
-#: app/views/setup/pages/settings.html:45
-msgid "Done"
-msgstr "Hotovo"
 
 #: app/views/setup/pages/welcome.html:5
 msgid ""
@@ -1329,6 +1402,11 @@ msgstr ""
 #: app/views/tables/oauth-table.html:33
 msgid "Edit"
 msgstr "Upravit"
+
+#: app/views/tables/global-users.html:32
+#, fuzzy
+msgid "Expires"
+msgstr "Platnost vypršela"
 
 #: app/views/tables/invite-table.html:7
 msgid "Used"
@@ -1377,3 +1455,24 @@ msgstr "Další provedení"
 #: app/views/tables/task-table.html:40
 msgid "Run Now"
 msgstr "Spustit hned"
+
+#~ msgid "Invite User"
+#~ msgstr "Pozvat uživatele"
+
+#~ msgid "Set up Account"
+#~ msgstr "Nastavit účet"
+
+#~ msgid "Create an account"
+#~ msgstr "Vytvořit účet"
+
+#~ msgid "Setup Wizarr"
+#~ msgstr "Průvodce nastavením"
+
+#~ msgid "Go to Dashboard"
+#~ msgstr "Přejděte na Dashboard"
+
+#~ msgid "Test"
+#~ msgstr "Test"
+
+#~ msgid "Done"
+#~ msgstr "Hotovo"

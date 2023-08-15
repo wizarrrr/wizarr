@@ -10,4 +10,5 @@ import './toggleMenu';
 import './closeModal';
 import './authentication';
 import './stepper';
+import './notifications';
 

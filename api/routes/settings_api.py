@@ -5,6 +5,7 @@ from peewee import Case, IntegrityError, fn
 
 from app.models.settings import SettingsGetModel, SettingsModel, SettingsPostModel
 from app.models.database.settings import Settings
+from app.security import is_setup_required
 
 api = Namespace("Settings", description="Settings related operations", path="/settings")
 
@@ -15,7 +16,7 @@ api.add_model("SettingsGetModel", SettingsGetModel)
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class SettingsListAPI(Resource):
 
-    method_decorators = [jwt_required()]
+    method_decorators = [] if is_setup_required() else [jwt_required()]
 
     @api.marshal_with(SettingsGetModel)
     @api.doc(description="Get all settings")
