@@ -1,6 +1,8 @@
 <div class="animate__animated animate__fadeIn">
     <form id="general-form" class="space-y-4 md:space-y-6" onsubmit="event.preventDefault(); saveSettings(this);">
 
+        {% include 'development.html' %}
+
         <!-- Display Name -->
         <div>
             <label for="account_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Display Name") }}</label>

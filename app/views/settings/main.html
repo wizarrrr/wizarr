@@ -18,7 +18,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                         {% for page in section.pages %}
                             {% if not page.roles or current_user.role in page.roles or current_user.role == "admin" %}
-                                {% with title=page.title, description=page.description, icon=page.icon, url=page.url, push_url=page.push_url %}
+                                {% with page=page %}
                                     {% include "templates/settings_item.html" %}
                                 {% endwith %}
                             {% endif %}
@@ -33,5 +33,4 @@
             {{ _("No settings matched your search.")}}
         </div>
     </div>
-
 </div>

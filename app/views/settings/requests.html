@@ -1,5 +1,8 @@
 <div class="animate__animated animate__fadeIn">
     <form class="space-y-4 md:space-y-6" onsubmit="event.preventDefault(); saveSettings(this);">
+
+        {% include 'development.html' %}
+
         <div>
             <label for="requests_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Request Server") }}</label>
             <select name="request_type" id="request_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">

@@ -1,5 +1,8 @@
 <div class="animate__animated animate__fadeIn">
     <form class="space-y-4 md:space-y-6" onsubmit="event.preventDefault(); saveSettings(this);">
+
+        {% include 'debricated.html' %}
+
         <div class="mb-6">
             <textarea name="custom_html" id="custom_html" placeholder="Optional, leave empty to disable" class="block w-full p-4 text-gray-900 border border-gray-300 rounded bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">{% if custom_html %}{{ custom_html }}{% endif %}</textarea>
         </div>

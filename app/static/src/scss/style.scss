@@ -92,3 +92,31 @@ button[disabled],
 .toast {
     box-shadow: none !important;
 }
+
+.settings-section .coming-soon::before {
+    content: '';
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.settings-section .coming-soon::after {
+    content: "Coming Soon";
+    position: absolute;
+    color: #fff;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: x-large;
+    text-transform: uppercase;
+}
