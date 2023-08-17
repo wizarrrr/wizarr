@@ -1,20 +1,26 @@
 from smtplib import SMTP as SMTPClient
 from ssl import create_default_context
 
-from schematics.models import Model
-from schematics.types import StringType, IntType, BooleanType
+from schematics.types import BooleanType, IntType, StringType
 
 from app.notifications.exceptions import NotificationSendError
+from app.notifications.model import Model
 
 
 class SMTPResource(Model):
     name = StringType(default="SMTP", metadata={"name": "SMTP", "hidden": True, "icon": "envelope", "description": 'e.g. "SMTP"'})
-    smtp_server = StringType(required=True, metadata={"name": "SMTP Server", "type": "url", "description": 'e.g. "smtp.wizarr.dev"'})
+    smtp_server = StringType(required=True, default="", metadata={"name": "SMTP Server", "type": "url", "description": 'e.g. "smtp.wizarr.dev"'})
     port = IntType(required=True, default=25, metadata={"name": "Port", "description": 'e.g. "25"'})
-    username = StringType(required=True, metadata={"name": "Username", "description": 'e.g. "wizarr@wizarr.dev'})
-    password = StringType(required=True, metadata={"name": "Password", "type": "password", "description": 'e.g. "password"'})
-    receiver = StringType(required=True, metadata={"name": "Receiver", "type": "email", "description": 'e.g. "admin@wizarr.dev'})
-    starttls = BooleanType(required=False, default=False, metadata={"name": "StartTLS", "type": "checkbox", "description": 'e.g. "False"'})
+    username = StringType(required=True, default="", metadata={"name": "Username", "description": 'e.g. "wizarr@wizarr.dev'})
+    password = StringType(required=True, default="", metadata={"name": "Password", "type": "password", "description": 'e.g. "password"'})
+    receiver = StringType(required=True, default="", metadata={"name": "Receiver", "type": "email", "description": 'e.g. "admin@wizarr.dev'})
+    starttls = BooleanType(required=False, default="false", metadata={"name": "StartTLS", "type": "checkbox", "description": 'e.g. "False"'})
+
+    template = {
+        "name": "SMTP",
+        "icon": "fa-envelope",
+        "description": "SMTP is a simple email service to instantly send alerts to email addresses."
+    }
 
 
 class SMTP(SMTPResource):

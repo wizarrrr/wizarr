@@ -18,6 +18,7 @@ export interface Resource {
     default?: number | string;
     type: Type;
     required?: boolean;
+    field_name?: string;
 }
 
 export interface Metadata {
@@ -105,18 +106,35 @@ class Notifications {
      * @param container The container to build the GUI in
      */
     public async build_gui(container: HTMLElement): Promise<void> {
-        // Get the notification resources
-        await this.get_resources();
+        // Get the notification resources if not in resources
+        if (this.resources.length === 0) {
+            await this.get_resources();
+        }
 
         // Create a form for the notification
         const form = document.createElement('form');
         form.classList.add('space-y-4', 'md:space-y-6');
 
+        // Save even for the form
+        form.onsubmit = async (e) => {
+            // Prevent the form from submitting
+            e.preventDefault();
+
+            // Get the form data
+            const data = new FormData(e.target as HTMLFormElement);
+
+            // Create the notification
+            this.save_notification(data);
+
+            // @ts-ignore
+            window.utils.closeModal(e.target);
+        }
+
         // Create a label and input for the name of the notification
         const name = this.build_generic_label_input('name', 'Name', 'e.g. "My Agent"', Type.Str, true);
 
         // Create the select element for the notification resources
-        const select = this.build_generic_label_select('type', 'Notification Service', this.resources);
+        const select = this.build_generic_label_select('resource', 'Notification Service', this.resources);
 
         // Create a container that will hold the inputs for the notification resource
         const resource_container = document.createElement('div');
@@ -174,8 +192,8 @@ class Notifications {
      */
     private build_resource_select(resources: NotificationResources): HTMLSelectElement {
         const select = document.createElement('select');
-        select.name = 'type';
-        select.id = 'type';
+        select.name = 'resource';
+        select.id = 'resource';
         select.className = 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white';
         select.onchange = this.build_resource_inputs.bind(this);
         select.required = true;
@@ -240,7 +258,7 @@ class Notifications {
      * @returns An input element for the notification resources
      */
     private build_resource_input(item: Resource): HTMLInputElement {
-        return this.build_generic_input(item.name || '', item.metadata.description || '', item.metadata.type || item.type, item.required || false, item.default as string || '');
+        return this.build_generic_input(item.field_name || '', item.metadata.description || '', item.metadata.type || item.type, item.required || false, item.default as string || '');
     }
 
     /**
@@ -254,7 +272,7 @@ class Notifications {
         div.className = 'flex flex-' + (item.metadata.type === 'checkbox' || item.type === Type.Bool ? 'row-reverse' : 'col');
 
         if (item.metadata.type === 'checkbox' || item.type === Type.Bool) {
-            div.classList.add('justify-end', 'gap-2');
+            div.classList.add('justify-start', 'gap-2');
         }
 
         const label = this.build_generic_label(item.name || '', item.metadata.name || '');
@@ -376,6 +394,13 @@ class Notifications {
             default:
                 return type;
         }
+    }
+
+    /**
+     * Private method to save the notification to the api
+     */
+    private async save_notification(data: FormData): Promise<void> {
+        this.axios.post('/api/notifications', data)
     }
 
 }

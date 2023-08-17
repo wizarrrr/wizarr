@@ -1,95 +1,93 @@
 from logging import info
 
 from flask import request
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, current_user
 from flask_restx import Namespace, Resource
 
 from app.notifications.exceptions import InvalidNotificationAgent
 from app.models.notifications import NotificationsGetModel, NotificationsPostModel
 from app.models.database.notifications import Notifications
-from app.notifications.builder import get_web_resources
+from app.notifications.builder import get_web_resources, validate_resource
 
 api = Namespace('Notifications', description='Notifications related operations', path="/notifications")
 
-api.add_model("NotificationsPostModel", NotificationsPostModel)
-api.add_model("NotificationsGetModel", NotificationsGetModel)
+# api.add_model("NotificationsPostModel", NotificationsPostModel)
+# api.add_model("NotificationsGetModel", NotificationsGetModel)
 
 @api.route('')
 @api.route('/', doc=False)
 @api.doc(security=["jsonWebToken", "cookieAuth"])
 class NotificationsListAPI(Resource):
+    """Notifications related operations"""
 
     method_decorators = [jwt_required()]
 
-    @api.marshal_list_with(NotificationsGetModel)
-    @api.doc(description="Get all notifications")
-    @api.response(200, "Notifications retrieved successfully")
-    @api.response(500, "Internal server error")
-    def get(self) -> tuple[list[Notifications], int]:
-        # Get all notifications from the database
-        response = list(Notifications.select().dicts())
+    def get(self, query=None) -> tuple[list[Notifications], int]:
+        # Get all notifications from the database for the current user
+        user_id = current_user['id']
 
-        return response, 200
+        # Get all notifications for the current user
+        notifications = Notifications.select().where(Notifications.user_id == user_id)
+        responses = []
 
+        # Loop through each notification
+        for notification in notifications:
+            # Validate the notification resource
+            resource = validate_resource(notification.resource, notification.data)
 
-    @api.expect(NotificationsPostModel)
-    @api.marshal_with(NotificationsGetModel)
-    @api.doc(description="Create a new notification agent")
-    @api.response(201, "Notification created successfully")
-    @api.response(400, "Invalid notification agent")
-    @api.response(409, "Notification agent already exists")
-    @api.response(500, "Internal server error")
-    def post(self) -> tuple[Notifications, int]:
-        # Import required modules
-        from app import notifications
+            # Add the notification to the response
+            response = resource.to_primitive()
+            response['id'] = notification.id
 
-        # Initialize variables for notification agent
-        title = "Wizarr"
-        message = "Wizarr here! Can you hear me?"
-        tags = "tada"
+            # Respond to query parameters
+            query = request.args.get('query') or query
 
-        # Validate form data and initialize object for notification agent
-        name     = request.form.get("name", None)
-        url      = request.form.get("url", None)
-        ntype     = request.form.get("type", None)
-        username = request.form.get("username", None)
-        password = request.form.get("password", None)
+            # If query has , in it, split it into a list
+            if query is not None and ',' in query:
+                query = query.split(',')
 
-        # Initialize object for functions to test notification agents
-        notify_test = {
-            "discord": lambda: notifications.notify_discord(message, url),
-            "ntfy": lambda: notifications.notify_ntfy(message, title, tags, url, username, password),
-            "pushover": lambda: notifications.notify_pushover(message, title, url, username, password),
-        }
+            def get_query(query, resource, response):
+                if not hasattr(resource, query): return
 
-        # Initialize object for functions to save notification agents
-        notify_save = {
-            "discord": lambda: Notifications.create(name=name, url=url, type=ntype),
-            "ntfy": lambda: Notifications.create(name=name, url=url, type=ntype, username=username, password=password),
-            "pushover": lambda: Notifications.create(name=name, url=url, type=ntype, username=username, password=password),
-        }
+                # Get the attribute from the resource and add it to the response
+                response[query] = getattr(resource, query)
 
-        # Initialize variables by pulling function from object based on notification service
-        notify_test_func = notify_test[ntype]
-        notify_save_func = notify_save[ntype]
+                # If the attribute is a function, call it
+                if callable(response[query]):
+                    response[query] = response[query]()
 
-        # Run function to test notification agent and return error if it fails
-        if not notify_test_func():
-            raise InvalidNotificationAgent(f"Notification agent {name} failed test")
+            # If query is a list, loop through each query
+            if query is not None and isinstance(query, list):
+                for q in query:
+                    get_query(q, resource, response)
+            elif query is not None and isinstance(query, str):
+                get_query(query, resource, response)
 
-        # Run function to save notification agent
-        notification = notify_save_func()
+            # Add the response to the responses list
+            responses.append(response)
 
-        if not notification:
-            raise InvalidNotificationAgent(f"Notification agent {name} failed to save")
+        # Respond with all notifications for the current user
+        return responses, 200
 
-        # Log new notification agent creation
-        info("A user created a new notification agent")
+    def post(self) -> tuple[dict[str, str], int]:
+        # Get the request body
+        body = request.form
 
-        # Respond with new notification agent
-        response = Notifications.get_by_id(notification.id)
+        # Make sure we have a resource
+        if 'resource' not in body:
+            return {"message": "Missing resource"}, 400
 
-        return response, 201
+        # Get the notification resource
+        resource = validate_resource(
+            body.get('resource'),
+            body
+        )
+
+        # Save the notification in the database
+        resource.save()
+
+        # Respond with the notification
+        return resource.to_primitive(), 200
 
 
 @api.route('/<int:notification_id>')
@@ -99,43 +97,23 @@ class NotificationsAPI(Resource):
 
     method_decorators = [jwt_required()]
 
-    @api.marshal_with(NotificationsGetModel)
-    @api.doc(description="Get a notification agent by ID")
-    @api.response(200, "Notification retrieved successfully")
-    @api.response(400, "Invalid notification ID")
-    @api.response(404, "Notification agent not found")
-    @api.response(500, "Internal server error")
-    def get(self, notification_id: int) -> tuple[Notifications, int]:
-        # Get notification agent from the database
-        response = Notifications.get_or_none(notification_id)
-
-        # Raise error if notification agent does not exist
-        if not response:
-            raise InvalidNotificationAgent(f"Notification agent {notification_id} not found")
-
-        return response, 200
-
-
-    @api.doc(description="Update a notification agent by ID")
-    @api.response(200, "Notification agent deleted successfully")
-    @api.response(400, "Invalid notification ID")
-    @api.response(404, "Notification agent not found")
-    @api.response(500, "Internal server error")
     def delete(self, notification_id: int) -> tuple[dict[str, str], int]:
-        # Get notification agent from the database
+        # Get the notification from the database
         notification = Notifications.get_or_none(Notifications.id == notification_id)
 
-        # Return error if notification agent does not exist
-        if not notification:
-            raise InvalidNotificationAgent(f"Notification agent {notification_id} not found")
+        # If the notification does not exist, respond with a 404
+        if notification is None:
+            return {"message": "Notification does not exist"}, 404
 
-        # Delete notification agent from the database
+        # If the notification does not belong to the current user, respond with a 403
+        if str(notification.user_id) != str(current_user['id']):
+            return {"message": "Notification does not belong to the current user"}, 403
+
+        # Delete the notification from the database
         notification.delete_instance()
 
-        # Respond with success
-        response = { "msg": f"Notification agent {notification_id} deleted successfully" }
-
-        return response, 200
+        # Respond with a 200
+        return {"message": "Notification deleted successfully"}, 200
 
 
 @api.route('/resources')

@@ -4,255 +4,33 @@
     </h1>
 </div>
 
+<div id="alert-border-4" class="flex items-center p-2 mb-4 text-yellow-800 border-4 border-yellow-300 bg-yellow-50 dark:text-yellow-300 dark:bg-gray-800 dark:border-yellow-800" role="alert">
+    <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+    </svg>
+    <div class="ml-3 text-sm font-medium">
+        {{ _('Please bear in mind that notification agents store sensitive information such as API keys and passwords in plain text.') }}
+    </div>
+</div>
+
 <p class="mt-2 pb-2 text-sm text-red-600 dark:text-red-500">
     <span class="font-medium">{{ error }}</span>
 </p>
 
-<form class="space-y-4 md:space-y-6" onsubmit="testAndSave(this); event.preventDefault();">
-    <div>
-        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Name") }}</label>
-        <input type="text" name="name" id="name" placeholder='e.g. "My Agent"' class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required>
+<div id="notification_gui">
+    <div class="text-center text-gray-600 dark:text-white w-full py-4">
+        <i class="fas fa-2xl fa-spinner fa-spin"></i>
     </div>
-
-    <div>
-        <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Notification Service") }}</label>
-        <select name="type" id="type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" onchange="toggleCredentials()" onfocus="cacheFocus()" required>
-            <option selected disabled>{{ _("Choose a service") }}</option>
-            <option value="ntfy">Ntfy</option>
-            <option value="discord">Discord</option>
-            <option value="pushover">Pushover</option>
-        </select>
-    </div>
-
-    <div id="credentialsSection" class="hidden space-y-4 md:space-y-6">
-        <div class="space-y-4 md:space-y-3">
-            <div>
-                <label for="username" id="username_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username (optional)") }}</label>
-                <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" autocomplete="username">
-            </div>
-            <div>
-                <label for="password" id="password_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Password (optional)") }}</label>
-                <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" autocomplete="new-password">
-            </div>
-        </div>
-        <div>
-            <label for="url" id="url_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Agent URL") }}</label>
-            <input type="url" name="url" id="url" placeholder="e.g. https://example.com" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required>
-        </div>
-    </div>
-
-    <div class="flex justify-end pt-2 space-x-4">
-        <button onclick="utils.closeModal(this)" type="button" class="inline-flex w-full justify-center rounded bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
-            {{ _("Cancel") }}
-        </button>
-        <button type="submit" class="inline-flex w-full justify-center rounded bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary_hover sm:ml-3 sm:w-auto">
-            {{ _("Test & Create Agent") }}
-        </button>
-    </div>
-</form>
+</div>
 
 <script>
-    window.window.cachedFields = {};
 
-    function cacheFocus() {
-        const agentService = document.getElementById('type');
+    var notification_gui = document.querySelector('#notification_gui')
 
-        const agentUsername = document.getElementById('username');
-        const agentPassword = document.getElementById('password');
-        const agentURL = document.getElementById('url');
-
-        if (agentService.selectedIndex != 0) {
-            window.cachedFields[agentService.value] = {
-                "username": agentUsername.value,
-                "password": agentPassword.value,
-                "url": agentURL.value,
-            }
-        }
+    // If notification_utils is not defined, then define it
+    if (typeof window.notification_utils === 'undefined') {
+        window.notification_utils = new utils.Notifications()
     }
 
-    function toggleCredentials() {
-        const agentService = document.getElementById('type');
-        const credentialsSection = document.getElementById('credentialsSection');
-
-        const agentUsernameLabel = document.getElementById('username_label');
-        const agentPasswordLabel = document.getElementById('password_label');
-        const agentURLLabel = document.getElementById('url_label');
-
-        const agentUsername = document.getElementById('username');
-        const agentPassword = document.getElementById('password');
-        const agentURL = document.getElementById('url');
-
-        const agentLabelsMap = {
-            "ntfy": {
-                "username": {
-                    "label": '{{ _("Username (optional)") }}',
-                    "placeholder": "e.g. username",
-                    "value": '',
-                },
-                "password": {
-                    "label": '{{ _("Password (optional)") }}',
-                    "placeholder": "e.g. password",
-                    "value": '',
-                },
-                "url": {
-                    "label": '{{ _("Agent URL") }}',
-                    "placeholder": "e.g. https://example.com",
-                    "value": '',
-                }
-            },
-            "discord": {
-                "username": {
-                    "label": '{{ _("Webhook ID") }}',
-                    "placeholder": "e.g. 123456789",
-                    "value": '',
-                    "hidden": "true"
-                },
-                "password": {
-                    "label": '{{ _("Webhook Token") }}',
-                    "placeholder": "e.g. abcde",
-                    "value": '',
-                    "hidden": "true"
-                },
-                "url": {
-                    "label": '{{ _("Agent URL") }}',
-                    "placeholder": "e.g. https://discord.com/api/webhooks/123456789/abcde",
-                    "value": '',
-                }
-            },
-            "pushover": {
-                "username": {
-                    "label": '{{ _("User Key") }}',
-                    "placeholder": "e.g. abcde",
-                    "value": '',
-                    "required": "true",
-                },
-                "password": {
-                    "label": '{{ _("API Token") }}',
-                    "placeholder": "e.g. 123456789",
-                    "value": '',
-                    "required": "true",
-                },
-                "url": {
-                    "label": '{{ _("Agent URL") }}',
-                    "placeholder": "e.g. https://api.pushover.net/1/messages.json",
-                    "value": 'https://api.pushover.net/1/messages.json',
-                }
-            },
-            "default": {
-                "username": {
-                    "label": '{{ _("Username") }}',
-                    "placeholder": "e.g. username",
-                    "value": '',
-                },
-                "password": {
-                    "label": '{{ _("Password") }}',
-                    "placeholder": "e.g. password",
-                    "value": '',
-                },
-                "url": {
-                    "label": '{{ _("Agent URL") }}',
-                    "placeholder": "e.g. https://example.com",
-                    "value": '',
-                }
-            }
-        }
-
-        if (agentService.selectedIndex != 0) {
-            credentialsSection.classList.remove('hidden');
-
-            agentUsernameLabel.innerHTML = agentLabelsMap[agentService.value].username.label;
-            agentUsername.placeholder = agentLabelsMap[agentService.value].username.placeholder;
-            agentUsername.required = agentLabelsMap[agentService.value].username.required ? true : false;
-
-            if (window.cachedFields[agentService.value] && window.cachedFields[agentService.value].username) {
-                agentUsername.value = window.cachedFields[agentService.value].username;
-            } else {
-                agentUsername.value = agentLabelsMap[agentService.value].username.value;
-            }
-
-            if (agentLabelsMap[agentService.value].username.hidden) {
-                agentUsernameLabel.classList.add('hidden');
-                agentUsername.classList.add('hidden');
-            } else {
-                agentUsernameLabel.classList.remove('hidden');
-                agentUsername.classList.remove('hidden');
-            }
-
-            agentPasswordLabel.innerHTML = agentLabelsMap[agentService.value].password.label;
-            agentPassword.placeholder = agentLabelsMap[agentService.value].password.placeholder;
-            agentPassword.required = agentLabelsMap[agentService.value].password.required ? true : false;
-
-            if (window.cachedFields[agentService.value] && window.cachedFields[agentService.value].password) {
-                agentPassword.value = window.cachedFields[agentService.value].password;
-            } else {
-                agentPassword.value = agentLabelsMap[agentService.value].password.value;
-            }
-
-            if (agentLabelsMap[agentService.value].password.hidden) {
-                agentPasswordLabel.classList.add('hidden');
-                agentPassword.classList.add('hidden');
-            } else {
-                agentPasswordLabel.classList.remove('hidden');
-                agentPassword.classList.remove('hidden');
-            }
-
-            agentURLLabel.innerHTML = agentLabelsMap[agentService.value].url.label;
-            agentURL.placeholder = agentLabelsMap[agentService.value].url.placeholder;
-            agentURL.value = agentLabelsMap[agentService.value].url.value;
-            agentURL.required = agentLabelsMap[agentService.value].url.required ? true : false;
-
-            if (window.cachedFields[agentService.value] && window.cachedFields[agentService.value].url) {
-                agentURL.value = window.cachedFields[agentService.value].url;
-            } else {
-                agentURL.value = agentLabelsMap[agentService.value].url.value;
-            }
-
-            if (agentLabelsMap[agentService.value].url.hidden) {
-                agentURLLabel.classList.add('hidden');
-                agentURL.classList.add('hidden');
-            } else {
-                agentURLLabel.classList.remove('hidden');
-                agentURL.classList.remove('hidden');
-            }
-
-            return;
-        }
-
-        credentialsSection.classList.add('hidden');
-    }
-
-    async function testAndSave(that) {
-        let spinner = that.closest('#modal').querySelector('#modal-spinner');
-        spinner.classList.remove('hidden');
-
-        let formData = new FormData(that);
-
-        let response = await fetch('/api/notifications', {
-            method: 'POST',
-            body: formData,
-            credentials: 'same-origin',
-            headers: {
-                'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-            },
-        });
-
-        if (response.status == 422) {
-            spinner.classList.add('hidden');
-            let errors = await response.json();
-            errors = errors.error || "{{ _('Something went wrong. Please try again.') }}";
-            toast.errorToast(errors);
-            return;
-        }
-
-        if (response.status != 201) {
-            spinner.classList.add('hidden');
-            toast.errorToast("{{ _('Something went wrong. Please try again.') }}");
-            return;
-        }
-
-        toast.infoToast("{{ _('Notification agent successfully created!') }}");
-        htmx.ajax('GET', '/partials/admin/settings/notifications', { target: '#settings-content', swap: 'innerHTML', indicator: '#spinner' });
-    }
-
-    toggleCredentials();
+    window.notification_utils.build_gui(notification_gui)
 </script>

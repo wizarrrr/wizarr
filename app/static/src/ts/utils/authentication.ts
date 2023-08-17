@@ -16,6 +16,10 @@ class Authentication {
     // Local axios instance
     private axios = axios.create();
 
+    // Public properties to gather MFA availability
+    public browserSupportsWebAuthn = browserSupportsWebAuthn();
+    public browserSupportsWebAuthnAutofill = browserSupportsWebAuthnAutofill();
+
     // Store properties needed for the authentication class
     [key: string]: any;
 
@@ -144,7 +148,8 @@ class Authentication {
         // Check that username, password are set
         if (!this.username || !this.password) {
             this.errorToast('Username or password not provided');
-            throw new Error('Username or password not provided');
+            console.error('Username or password not provided');
+            return;
         }
 
         // Check if remember_me is set, if not set it to false
@@ -166,7 +171,8 @@ class Authentication {
         // Check if the response is successful
         if (response.status != 200 || !response.data.auth) {
             this.errorToast(response.data.message || 'Failed to login, please try again');
-            throw new Error('Failed to login, please try again');
+            console.error(response.data.message || 'Failed to login, please try again');
+            return;
         }
 
         // If auth has user object, set the user object to localStorage
@@ -232,7 +238,8 @@ class Authentication {
         // Make sure the browser supports webauthn
         if (!browserSupportsWebAuthn()) {
             this.errorToast('Your browser does not support WebAuthn');
-            throw new Error('Your browser does not support WebAuthn');
+            console.error('Your browser does not support WebAuthn');
+            return;
         }
 
         // Fetch the registration options from the server
@@ -241,7 +248,8 @@ class Authentication {
         // Check if the response is successful
         if (regResp.status != 200) {
             this.errorToast(regResp.data.message || 'Failed to register, please try again');
-            throw new Error('Failed to register, please try again');
+            console.error(regResp.data.message || 'Failed to register, please try again');
+            return;
         }
 
         // Get the registration options and delete the rp.id
@@ -256,7 +264,8 @@ class Authentication {
             registration = await startRegistration(regResp.data);
         } catch (e: any) {
             this.errorToast((e as WebAuthnError).message || 'Failed to register, please try again');
-            throw e;
+            console.error((e as WebAuthnError).message || 'Failed to register, please try again');
+            return;
         }
 
         // Data to send to the server
@@ -272,7 +281,8 @@ class Authentication {
         // Check if the response is successful
         if (regResp2.status != 200) {
             this.errorToast(regResp2.data.message || 'Failed to register, please try again');
-            throw new Error('Failed to register, please try again');
+            console.error(regResp2.data.message || 'Failed to register, please try again');
+            return;
         }
 
         // Return the response
@@ -293,18 +303,21 @@ class Authentication {
 
         // Make sure the browser supports webauthn
         if (autofill && !browserSupportsWebAuthn()) {
-            throw new Error('Your browser does not support WebAuthn');
+            console.error('Your browser does not support WebAuthn');
+            return;
         }
 
         // Make sure the browser supports webauthn autofill
         if (autofill && !browserSupportsWebAuthnAutofill()) {
-            throw new Error('Your browser does not support WebAuthn Autofill');
+            console.error('Your browser does not support WebAuthn Autofill');
+            return;
         }
 
         // Check if the username is set
         if (!autofill && !this.username) {
             this.errorToast('Username not provided');
-            throw new Error('Username not provided');
+            console.error('Username not provided');
+            return;
         }
 
         // Fetch the authentication options from the server
@@ -317,7 +330,8 @@ class Authentication {
         // Check if the response is successful
         if (authResp.status != 200) {
             this.errorToast(authResp.data.message || 'Failed to authenticate, please try again');
-            throw new Error('Failed to authenticate, please try again');
+            console.error(authResp.data.message || 'Failed to authenticate, please try again');
+            return;
         }
 
         // Get the authentication options
@@ -339,7 +353,8 @@ class Authentication {
         // Check if the response is successful
         if (authResp2.status != 200 || !authResp2.data.auth) {
             this.errorToast(authResp2.data.message || 'Failed to authenticate, please try again');
-            throw new Error('Failed to authenticate, please try again');
+            console.error(authResp2.data.message || 'Failed to authenticate, please try again');
+            return;
         }
 
         // If auth has user object, set the user object to localStorage
@@ -361,7 +376,8 @@ class Authentication {
         // Check if the username is set
         if (!this.username) {
             this.errorToast('Username not provided');
-            throw new Error('Username not provided');
+            console.error('Username not provided');
+            return;
         }
 
         // Send the request to the server to remove MFA from the user
@@ -372,7 +388,8 @@ class Authentication {
         // Check if the response is successful
         if (response.status != 200) {
             this.errorToast(response.data.message || 'Failed to deregister, please try again');
-            throw new Error('Failed to deregister, please try again');
+            console.error(response.data.message || 'Failed to deregister, please try again');
+            return;
         }
 
         // Return the response

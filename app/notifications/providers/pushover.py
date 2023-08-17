@@ -1,8 +1,8 @@
-from app.notifications.exceptions import NotificationSendError, NotificationStatusError
-
 from requests import post
-from schematics.models import Model
 from schematics.types import StringType
+
+from app.notifications.exceptions import NotificationSendError, NotificationStatusError
+from app.notifications.model import Model
 
 
 class PushoverResource(Model):
@@ -11,6 +11,12 @@ class PushoverResource(Model):
     token = StringType(required=True, metadata={"name": "API Token", "description": 'e.g. "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5"'})
     user = StringType(required=True, metadata={"name": "User Key", "description": 'e.g. "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5"'})
     device = StringType(required=False, default=None, metadata={"name": "Device Name", "description": 'e.g. "iPhone"'})
+
+    template = {
+        "name": "Pushover",
+        "logo": "https://pushover.net/images/pushover-logo.svg",
+        "description": "Pushover is a simple push notification service to instantly send alerts to Android and iOS devices."
+    }
 
 
 class Pushover(PushoverResource):

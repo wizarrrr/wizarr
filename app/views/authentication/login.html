@@ -105,14 +105,27 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", async function() {
         // Get the continue-btn button and enable it
         const continueBtn = document.getElementById("continue-btn").querySelector("button");
         continueBtn.disabled = false;
 
-        // Initialize authentication and start MFA autofill
+        // Initialize authentication
         const auth = new utils.Authentication();
-        auth.mfaAuthentication(false, true);
+
+        // Check if WebAuthn is supported
+        const browserSupportsWebAuthn = auth.browserSupportsWebAuthn;
+        const browserSupportsWebAuthnAutofill = await auth.browserSupportsWebAuthnAutofill;
+
+        // If WebAuthn autofill is supported, allow user to login with MFA autofill
+        if (browserSupportsWebAuthn && browserSupportsWebAuthnAutofill) {
+            auth.mfaAuthentication(false, true);
+        }
+
+        // If WebAuthn is not supported go to login with password
+        if (!browserSupportsWebAuthn) {
+            usePassword();
+        }
     });
 
     function buttonLoading(button) {

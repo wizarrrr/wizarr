@@ -1,30 +1,41 @@
-<!-- notifications Table -->
-<div class="mt-7 overflow-x-auto">
+<div class="space-y-3">
     {% if notifications %}
-    <table class="w-full whitespace-nowrap">
-        <tbody>
-            {% for notification in notifications %}
-            <tr tabindex="0" class="focus:outline-none h-16 rounded border dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
+        {% for notification in notifications %}
+            <div class="relative bg-white rounded shadow-md dark:bg-gray-800 dark:border dark:border-gray-700 overflow-hidden hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer group transition duration-150 ease-in-out">
+                <div class="flex flex-row justify-start p-3 items-center">
 
-                {% if notification.name %}
-                <td class="text-right">
-                    <div class="flex flex-col items-start pl-5">
-                        <p class="text-lg font-medium text-gray-900 dark:text-white">
-                            {{ notification.name }}
-                        </p>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">
-                            {{ notification.type }}
-                        </p>
+                    <!-- Logo -->
+                    <div class="aspect-square h-full p-3 bg-gray-100 rounded flex items-center justify-center bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition duration-150 ease-in-out">
+                        {% if notification.template and notification.template.logo %}
+                            <div class="flex-shrink-0 w-10 h-10 rounded overflow-hidden">
+                                <img class="w-full h-full object-cover object-center" src="{{ notification.template.logo }}" alt="{{ notification.template.name }} logo">
+                            </div>
+                        {% else %}
+                            <div class="flex-shrink-0 w-10 h-10 rounded overflow-hidden flex items-center justify-center">
+                                {% if notification.template and notification.template.icon %}
+                                    <i class="text-gray-500 fa-2xl fa-solid {{ notification.template.icon }}"></i>
+                                {% else %}
+                                    <i class="text-gray-500 fa-2xl fa-solid fa-bell-slash"></i>
+                                {% endif %}
+                            </div>
+                        {% endif %}
                     </div>
-                </td>
-                {% endif %}
 
-                <td class="p-5 block md:hidden text-center">
-                    <button class="text-gray-600 text-sm leading-none py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none">View</button>
-                </td>
+                    <!-- Name -->
+                    <div class="flex flex-col flex-grow ml-4 h-full">
+                        {% if notification.name %}
+                            <p class="text-lg font-medium text-gray-900 dark:text-white">
+                                {{ notification.name }}
+                            </p>
+                        {% endif %}
+                        {% if notification.template and notification.template.name %}
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                {{ notification.template.name }}
+                            </p>
+                        {% endif %}
+                    </div>
 
-                <td class="p-5 pr-8 text-right">
-                    <div class="flex col justify-end">
+                    <div class="flex col justify-end dark:text-white">
                         <button class="focus:ring-2 p-2 rounded focus:outline-none" onclick="utils.toggleMenu(this)" role="button" aria-label="option">
                             <i class="transition-all fa-solid fa-ellipsis"></i>
                         </button>
@@ -37,14 +48,16 @@
                             </button>
                         </div>
                     </div>
-                </td>
-            </tr>
 
-            <tr class="h-0 md:h-3"></tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                </div>
+            </div>
+        {% endfor %}
     {% else %}
-    <p class="text-center dark:text-white">There are currently no notification agents.</p>
+        <div class="flex flex-col items-center justify-center mt-4">
+            <i class="text-gray-400 fa-3x fa-solid fa-bell-slash"></i>
+            <p class="text-gray-400 mt-2">
+                {{ _("No notification agents found.") }}
+            </p>
+        </div>
     {% endif %}
 </div>

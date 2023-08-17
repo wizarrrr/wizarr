@@ -20,6 +20,8 @@ def table_partials(subpath):
     from app.scheduler import get_schedule
     from helpers import get_api_keys, get_notifications, get_users
 
+    from api.routes.notifications_api import NotificationsListAPI
+
     settings = {
         "admin": current_user
     }
@@ -40,7 +42,8 @@ def table_partials(subpath):
         settings["tasks"] = get_schedule()
 
     if subpath == "notification-table":
-        settings["notifications"] = get_notifications()
+        data, _ = NotificationsListAPI().get(query="template")
+        settings["notifications"] = data
 
     if subpath == "sessions-table":
         settings["sessions"] = Sessions.select().where(Sessions.user == current_user["id"]).order_by(Sessions.created.desc())

@@ -1,31 +1,8 @@
 from inspect import getmembers, isclass
+
 from app.notifications import providers
-from schematics.models import Model
+from app.notifications.model import Model
 
-def validate_web_resource(resource: str, data: dict) -> Model:
-    # Make sure the resource name is valid and ends with Resource
-    if not resource.endswith("Resource"):
-        raise ValueError("Invalid resource name")
-
-    # Get the resource class from the providers module by name
-    resource_class = getattr(providers, resource)
-
-    # Validate the data against the resource class
-    try:
-        resource_model = resource_class(raw_data=data, validate=True, strict=False)
-    except Exception as e:
-        raise ValueError(f"Invalid data passed to {resource}") from e
-
-    # Return the validated data
-    return resource_model
-
-# test = validate_web_resource("SMTPResource", {
-#     "token": "kdfsapj3rnl23n23rnlr23nl",
-#     "user": "kdfsapj3rnl23n23rnlr23nl",
-#     "message": "Hello World",
-# })
-
-# print(test.to_primitive())
 
 def build_web_resource(resource: type(providers)):
     # Store metadata for each field in the resource
@@ -41,6 +18,9 @@ def build_web_resource(resource: type(providers)):
 
         # Get if the field is required in the resource class
         field_required = resource.fields[field[0]].required
+
+        # Get the field name in the resource class
+        field_name = field[0]
 
         # Get the type of the field in the resource class
         field_type = resource.fields[field[0]].primitive_type.__name__
@@ -60,6 +40,10 @@ def build_web_resource(resource: type(providers)):
         # Add the field required value to the data dictionary
         if field_required:
             data["required"] = field_required
+
+        # Add the field name to the data dictionary
+        if field_name:
+            data["field_name"] = field_name
 
         # Add the field type to the data dictionary
         if field_type:
@@ -95,3 +79,36 @@ def get_web_resources():
 
     return resources
 
+
+def validate_resource(resource: str, data: dict or str) -> Model:
+    # Make sure the resource name is valid and ends with Resource
+    if not resource.endswith("Resource"):
+        raise ValueError("Invalid resource name")
+
+    # Get the resource class from the providers module by name
+    resource_class = getattr(providers, resource)
+
+    try:
+        # Validate the data against the resource class
+        resource_model: Model = resource_class(validate=True, strict=False)
+
+        # Load the data into the model
+        if isinstance(data, str):
+            resource_model.from_json(data)
+        elif isinstance(data, dict):
+            resource_model.import_data(data)
+        else:
+            raise ValueError("Invalid data passed to resource")
+
+    except Exception as e:
+        raise ValueError(f"Invalid data passed to {resource}") from e
+
+    # Add the resource name to the model
+    resource_model.resource = resource
+    resource_model.resource_class = resource_class
+
+    # Add metadata to the model, but only run build_web_resource if access is attempted
+    resource_model.metadata = lambda: build_web_resource(resource_model)
+
+    # Return the validated data
+    return resource_model
