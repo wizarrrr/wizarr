@@ -155,6 +155,10 @@
     }
 
     function usePassword() {
+        // Set username input value to username-form input value
+        const username = document.getElementById("username-form").querySelector("input#username").value;
+        document.getElementById("login-form").querySelector("input#username").value = username || "";
+
         // Hide MFA form and show login form
         document.getElementById("mfa-form").classList.add("hidden");
         document.getElementById("username-form").classList.add("hidden");
@@ -163,6 +167,13 @@
         // If mfa_available is true, show Login with MFA button
         if (document.getElementById("login-form").dataset.mfa_available === "true") {
             document.getElementById("mfa-btn").classList.remove("hidden");
+        }
+
+        // If username is empty, focus on username input otherwise focus on password input
+        if (username === "") {
+            document.getElementById("login-form").querySelector("input#username").focus();
+        } else {
+            document.getElementById("login-form").querySelector("input#password").focus();
         }
     }
 
