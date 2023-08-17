@@ -5,21 +5,21 @@
 The refresh icon will wipe everything you have done and restart you back to the beginning.
 *Restart Button is currently not working, still in development*
 
-![[./docs/setup/Screenshot 2023-08-17 at 3.36.31 pm.png]]
+![Screenshot 2023-08-17 at 3 36 31 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/495ee8cb-ece6-4d85-806d-538a87489eb7)
 
 <hr>
 
 ## Database Setup
 Database setup is not currently required but will be a future update to allow for custom database connection.
 
-![[./docs/setup/Screenshot 2023-08-17 at 3.36.37 pm.png]]
+![Screenshot 2023-08-17 at 3 36 37 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/c2eb3765-1546-48fe-8e47-b11b2a344cfd)
 
 <hr>
 
 ## Account Setup
 This is where you will setup your first Wizarr Admin account, your welcome to use the username `admin`, please ensure you use a real email address and also a strong password, something with special characters, numbers and uppercase and lowercase letters.
 
-![[./docs/setup/Screenshot 2023-08-17 at 3.36.44 pm.png]]
+![Screenshot 2023-08-17 at 3 36 44 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/b518e742-6a29-46ed-8ae4-c76af2edd5b7)
 
 <hr>
 
@@ -31,10 +31,10 @@ Here we need to configure the media server, this can either be `Jellyfin` or `Pl
 ### Public Hosted Media Server
 If your media server is hosted at a public facing domain, for example http://plex.wizarr.dev or https://plex.wizarr.dev then you may use this address to point to your media server.
 
-<strong>DO NOT LEAVE A TRAILING SLASH ON YOUR URL</strong>
-*Example: https://plex.wizarr.dev/
+<strong>DO NOT LEAVE A TRAILING SLASH ON YOUR URL</strong><br>
+<em>Example: https://plex.wizarr.dev/</em>
 
-![[./docs/setup/Screenshot 2023-08-17 at 3.40.01 pm.png]]
+![Screenshot 2023-08-17 at 3 40 01 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/5d3304e2-2963-4519-b7a5-656b0fcf31de)
 
 <hr>
 
@@ -43,17 +43,17 @@ If your media server is hosted inside Docker on the same machine that Wizarr is 
 
 Docker will use your media servers container name as a host address, if you look in the below screenshot you will see that I ran a `docker ps` command and in the last column of the result you can see the container names. For my plex container it's named `plex`.
 
-![[./docs/setup/Screenshot 2023-08-17 at 3.39.31 pm 1.png]]
+![Screenshot 2023-08-17 at 3 39 31 pm 1](https://github.com/Wizarrrr/wizarr/assets/16636012/ad1829c2-f2dd-425b-9eb8-1319cb714603)
 
 So we can use this address to point to our media server, you will see in the below screenshot I have set the Server URL to `http://plex:32400`.
 1. `http://` - We want to use an unencrypted connection to Plex, this is secure because we are on a sub network inside of Docker.
 2. `plex` - This is our docker container name for the chosen media server, this could be any name that you chose when creating your docker container.
 3. `:32400` - The port that Plex is running at, Jellyfin would use `8096` for the port number, so if your Jellyfin container name was `jellyfin` you could use the Server URL `http://jellyfin:8096`
 
-<strong>DO NOT LEAVE A TRAILING SLASH ON YOUR URL</strong>
-*Example: http://plex:32400/
+<strong>DO NOT LEAVE A TRAILING SLASH ON YOUR URL</strong><br>
+<em>Example: http://plex:32400/</em>
 
-![[./docs/setup/Screenshot 2023-08-17 at 3.37.35 pm.png]]
+![Screenshot 2023-08-17 at 3 37 35 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/5d85d773-9329-427e-bad4-2a55ea70f7f7)
 
 <hr>
 
@@ -74,19 +74,19 @@ Now save the file and restart Wizarr V3 with the updated changes, you can now se
 
 DO NOT USE THE ABOVE `EXTRA_HOSTS` method if your Plex or Jellyfin server is running in Docker on the same machine as Wizarr, instead please refer to using the `Media Server Hosted in Docker on same machine` method.
 
-<strong>DO NOT LEAVE A TRAILING SLASH ON YOUR URL</strong>
-*Example: http://mediaserver:32400/
+<strong>DO NOT LEAVE A TRAILING SLASH ON YOUR URL</strong><br>
+<em>Example: http://mediaserver:32400/</em>
 
 <hr>
 
 ### Libraries Setup
 If your Media Server is successfully detected then you will see a button show called `Configure Libraries`, click this to select which Libraries by default Wizarr will allow invited users to be apart of.
 
-![[./docs/setup/Screenshot 2023-08-17 at 3.40.29 pm.png]]
+![picture](./docs/setup/Screenshot 2023-08-17 at 3.40.29 pm.png)
 
 For example, if you create an Invite to your Jellyfin server but you do not wish under any circumstance invited users to have access to your `Home Movies` Library then you would select all Libraries <strong>EXCEPT</strong> the `Home Movies` Library.
 
-![[./docs/setup/Screenshot 2023-08-17 at 3.40.35 pm.png]]
+![Screenshot 2023-08-17 at 3 40 35 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/31bed2bf-deb9-42d8-8058-3ebbf9a9bf28)
 
 <hr>
 
@@ -95,4 +95,4 @@ After saving your Libraries (if you chose to configure it now, can be configured
 
 Just click `Go to Login` and you will be ready to Login to Wizarr.
 
-![[./docs/setup/Screenshot 2023-08-17 at 3.40.49 pm.png]]
+![Screenshot 2023-08-17 at 3 40 49 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/3116622d-1dec-499a-a2d3-c5dce9af74c4)
