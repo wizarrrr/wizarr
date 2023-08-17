@@ -102,7 +102,7 @@ services:
 ```
 
 Check out our documentation for instructions on how to install and run Wizarr!
-https://docs.wizarr.dev/getting-started/installation
+https://github.com/Wizarrrr/wizarr/tree/v3-alpha/docs/setup
 
 
 ## Thank you

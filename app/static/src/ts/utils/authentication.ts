@@ -17,8 +17,8 @@ class Authentication {
     private axios = axios.create();
 
     // Public properties to gather MFA availability
-    public browserSupportsWebAuthn = browserSupportsWebAuthn();
-    public browserSupportsWebAuthnAutofill = browserSupportsWebAuthnAutofill();
+    public browserSupportsWebAuthn: boolean = false;
+    public browserSupportsWebAuthnAutofill: Promise<boolean> = Promise.resolve(false);
 
     // Store properties needed for the authentication class
     [key: string]: any;
@@ -99,6 +99,14 @@ class Authentication {
             if (kwargs.hasOwnProperty(key)) {
                 this[key] = kwargs[key];
             }
+        }
+
+        try {
+            // Update browserSupportsWebAuthn and browserSupportsWebAuthnAutofill
+            this.browserSupportsWebAuthn = browserSupportsWebAuthn();
+            this.browserSupportsWebAuthnAutofill = browserSupportsWebAuthnAutofill();
+        } catch (error) {
+            console.error(error);
         }
 
         // @ts-ignore
@@ -308,7 +316,7 @@ class Authentication {
         }
 
         // Make sure the browser supports webauthn autofill
-        if (autofill && !browserSupportsWebAuthnAutofill()) {
+        if (autofill && !(await browserSupportsWebAuthnAutofill())) {
             console.error('Your browser does not support WebAuthn Autofill');
             return;
         }
