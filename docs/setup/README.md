@@ -82,7 +82,7 @@ DO NOT USE THE ABOVE `EXTRA_HOSTS` method if your Plex or Jellyfin server is run
 ### Libraries Setup
 If your Media Server is successfully detected then you will see a button show called `Configure Libraries`, click this to select which Libraries by default Wizarr will allow invited users to be apart of.
 
-![picture](./docs/setup/Screenshot 2023-08-17 at 3.40.29 pm.png)
+![Screenshot 2023-08-17 at 3 40 29 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/0e5fbac5-c11f-4be2-87c6-ec3a086ed385)
 
 For example, if you create an Invite to your Jellyfin server but you do not wish under any circumstance invited users to have access to your `Home Movies` Library then you would select all Libraries <strong>EXCEPT</strong> the `Home Movies` Library.
 
