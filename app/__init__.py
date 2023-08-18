@@ -1,4 +1,4 @@
-from os import getenv
+from os import getenv, environ
 
 from dotenv import load_dotenv
 from flask import Flask
@@ -25,6 +25,13 @@ load_dotenv()
 
 # Create the app
 app = Flask(__name__)
+
+# Override Flask server name if it contains http or https
+if getenv("APP_URL") and getenv("APP_URL").startswith("http://") or getenv("APP_URL").startswith("https://"):
+    host = getenv("APP_URL").replace("http://", "").replace("https://", "")
+    app.config["SERVER_NAME"] = host
+    environ["APP_URL"] = host
+
 
 # Define a custom template loader for the other_templates folder
 views_loader = FileSystemLoader("app/views")
