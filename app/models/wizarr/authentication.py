@@ -130,7 +130,7 @@ class AuthenticationModel(Model):
         user_agent = self._get_user_agent()
 
         # Create a session expiration
-        expiry = datetime.utcnow() + timedelta(days=30) if self.remember else datetime.utcnow() + timedelta(hours=1)
+        expiry = datetime.utcnow() + timedelta(days=30) if self.remember else datetime.utcnow() + timedelta(days=1)
 
         # Store the admin key in the database
         Sessions.create(session=jti, user=self._user.id, ip=ip_addr, user_agent=user_agent, expires=expiry, mfa_id=self._mfa_id)

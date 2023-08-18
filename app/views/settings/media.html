@@ -14,7 +14,7 @@
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                     <i class="fas fa-arrow-up-right-from-square text-gray-400"></i>
                 </div>
-                <input type="text" name="server_url" id="server_url" onfocus="serverUrlChanged(this)" onkeyup="serverUrlChanged(this)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="https://plex.wizarr.dev" value="{% if server_url %}{{ server_url }}{% endif %}" required="" autocomplete="one-time-code">
+                <input type="text" name="server_url" id="server_url" onkeyup="serverUrlChanged(this)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="https://plex.wizarr.dev" value="{% if server_url %}{{ server_url }}{% endif %}" required="" autocomplete="one-time-code">
                 <button type="button" onclick="detectServer(this)" id="detect_server" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium absolute top-0 right-0 p-2.5 h-full rounded-r text-sm dark:bg-primary dark:hover:bg-primary_hover">
                     {{ _("Detect Server") }}
                 </button>
@@ -43,7 +43,7 @@
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                     <i class="fas fa-key text-gray-400"></i>
                 </div>
-                <input type="password" name="server_api_key" id="server_api_key" onkeyup="serverApiKeyChanged(this)" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" value="{% if server_api_key %}{{ server_api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX" required="" autocomplete="one-time-code">
+                <input type="password" name="server_api_key" id="server_api_key" onfocus="serverUrlChanged(this)" onkeyup="serverApiKeyChanged(this)" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" value="{% if server_api_key %}{{ server_api_key }}{% endif %}" placeholder="XXXXXXXXXXXXXXXXX" required="" autocomplete="one-time-code">
             </div>
         </div>
 
@@ -107,13 +107,17 @@
         // If the server URL is not the default loop through the divs and hide them
         if (server_url !== default_server_url || server_url === '') {
             divs.forEach(div => {
-                div.classList.remove('animate__animated', 'animate__fadeIn');
-                div.classList.add('hidden');
+                if (!div.classList.contains('hidden')) {
+                    div.classList.remove('animate__animated', 'animate__fadeIn');
+                    div.classList.add('hidden');
+                }
             });
         } else {
             divs.forEach(div => {
-                div.classList.add('animate__animated', 'animate__fadeIn');
-                div.classList.remove('hidden');
+                if (div.classList.contains('hidden')) {
+                    div.classList.add('animate__animated', 'animate__fadeIn');
+                    div.classList.remove('hidden');
+                }
             });
         }
 
@@ -184,6 +188,9 @@
         // Set the server type select box
         document.getElementById('server_type').value = server.server_type;
         document.getElementById('server_type_hidden').value = server.server_type;
+
+        // Set the server URL input box
+        document.getElementById('server_url').value = server.server_url;
 
         // Create a toast message
         const server_upper = server.server_type.charAt(0).toUpperCase() + server.server_type.slice(1);

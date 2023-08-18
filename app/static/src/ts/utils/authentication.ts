@@ -75,14 +75,15 @@ class Authentication {
 
     // Check if the browser supports webauthn autofill
     async browserSupportsWebAuthnAutofill() {
-        const globalPublicKeyCredential = window?.PublicKeyCredential;
-
-        if (globalPublicKeyCredential === undefined) {
+        if (this.browserSupportsWebAuthn() === false) {
             return false;
         }
 
-        return (globalPublicKeyCredential.isConditionalMediationAvailable !== undefined &&
-            globalPublicKeyCredential.isConditionalMediationAvailable());
+        if (typeof window.PublicKeyCredential.isConditionalMediationAvailable !== 'function') {
+            return false;
+        }
+
+        return (await window.PublicKeyCredential.isConditionalMediationAvailable() === true);
     }
 
     /**

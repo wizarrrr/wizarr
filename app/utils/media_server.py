@@ -1,6 +1,7 @@
 from schematics.types import URLType
 from schematics.exceptions import ValidationError
 from requests import get
+from logging import error
 
 def detect_server(server_url: str):
     """
@@ -26,15 +27,18 @@ def detect_server(server_url: str):
     if url["query"] or url["frag"]:
         raise ValidationError("Invalid url, must be a base url")
 
+    # Get host from url
+    host = url["hostn"] or url["host4"] or url["host6"]
+
     # Construct the url from the server url
-    server_url = f"{url['scheme']}://{url['hostn']}"
+    server_url = f"{url['scheme']}://{host}"
 
     # Add the port if it exists
     if url["port"]:
         server_url += f":{url['port']}"
 
     # Add the path if it exists
-    if url["path"]:
+    if url["path"] and url["path"] != "/":
         server_url += url["path"]
 
     # Map endpoints to server types
@@ -48,7 +52,8 @@ def detect_server(server_url: str):
         # Make the request, don't allow redirects, and set the timeout to 30 seconds
         try:
             response = get(f"{server_url}{endpoint}", allow_redirects=False, timeout=30)
-        except ConnectionError:
+        except Exception as e:
+            error(e)
             continue
 
         # Check if the response is valid
@@ -59,7 +64,7 @@ def detect_server(server_url: str):
             }
 
     # Raise an exception if the server type is not found
-    raise ConnectionError("Unable to find server type")
+    raise ConnectionError("Media Server could not be contacted")
 
 
 def verify_server(server_url: str, server_api_key: str):
