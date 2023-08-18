@@ -2,9 +2,7 @@ import axios from 'axios';
 import cookie from 'js-cookie';
 import toast from 'toastify-js';
 
-import {
-    browserSupportsWebAuthn, browserSupportsWebAuthnAutofill, startAuthentication, startRegistration
-} from '@simplewebauthn/browser';
+import { startAuthentication, startRegistration } from '@simplewebauthn/browser';
 
 import addToWindow from './addToWindow';
 
@@ -15,10 +13,6 @@ class Authentication {
 
     // Local axios instance
     private axios = axios.create();
-
-    // Public properties to gather MFA availability
-    public browserSupportsWebAuthn: boolean = false;
-    public browserSupportsWebAuthnAutofill: Promise<boolean> = Promise.resolve(false);
 
     // Store properties needed for the authentication class
     [key: string]: any;
@@ -74,6 +68,23 @@ class Authentication {
         return Promise.reject(error);
     }
 
+    // Check if the browser supports webauthn
+    browserSupportsWebAuthn() {
+        return (window?.PublicKeyCredential !== undefined && typeof window.PublicKeyCredential === 'function');
+    }
+
+    // Check if the browser supports webauthn autofill
+    async browserSupportsWebAuthnAutofill() {
+        const globalPublicKeyCredential = window?.PublicKeyCredential;
+
+        if (globalPublicKeyCredential === undefined) {
+            return false;
+        }
+
+        return (globalPublicKeyCredential.isConditionalMediationAvailable !== undefined &&
+            globalPublicKeyCredential.isConditionalMediationAvailable());
+    }
+
     /**
      * Create a new Authentication object
      * This class is used to login and logout the user and handle MFAs
@@ -99,14 +110,6 @@ class Authentication {
             if (kwargs.hasOwnProperty(key)) {
                 this[key] = kwargs[key];
             }
-        }
-
-        try {
-            // Update browserSupportsWebAuthn and browserSupportsWebAuthnAutofill
-            this.browserSupportsWebAuthn = browserSupportsWebAuthn();
-            this.browserSupportsWebAuthnAutofill = browserSupportsWebAuthnAutofill();
-        } catch (error) {
-            console.error(error);
         }
 
         // @ts-ignore
@@ -216,7 +219,7 @@ class Authentication {
         if (username) this.username = username;
 
         // Check if current device supports webauthn
-        if (!browserSupportsWebAuthn()) {
+        if (!this.browserSupportsWebAuthn()) {
             return false;
         }
 
@@ -244,7 +247,7 @@ class Authentication {
         if (mfaName) this.mfaName = mfaName;
 
         // Make sure the browser supports webauthn
-        if (!browserSupportsWebAuthn()) {
+        if (!this.browserSupportsWebAuthn()) {
             this.errorToast('Your browser does not support WebAuthn');
             console.error('Your browser does not support WebAuthn');
             return;
@@ -310,13 +313,13 @@ class Authentication {
         if (username) this.username = username;
 
         // Make sure the browser supports webauthn
-        if (autofill && !browserSupportsWebAuthn()) {
+        if (!this.browserSupportsWebAuthn()) {
             console.error('Your browser does not support WebAuthn');
             return;
         }
 
         // Make sure the browser supports webauthn autofill
-        if (autofill && !(await browserSupportsWebAuthnAutofill())) {
+        if (autofill && !(await this.browserSupportsWebAuthnAutofill())) {
             console.error('Your browser does not support WebAuthn Autofill');
             return;
         }

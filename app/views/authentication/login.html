@@ -106,6 +106,12 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", async function() {
+        // If localStorage has a key called "disableMFA" and it's set to true, skip this function
+        if (localStorage.getItem("disableMFA") === "true") {
+            usePassword();
+            return;
+        }
+
         // Get the continue-btn button and enable it
         const continueBtn = document.getElementById("continue-btn").querySelector("button");
         continueBtn.disabled = false;
@@ -114,8 +120,8 @@
         const auth = new utils.Authentication();
 
         // Check if WebAuthn is supported
-        const browserSupportsWebAuthn = auth.browserSupportsWebAuthn;
-        const browserSupportsWebAuthnAutofill = await auth.browserSupportsWebAuthnAutofill;
+        const browserSupportsWebAuthn = auth.browserSupportsWebAuthn();
+        const browserSupportsWebAuthnAutofill = await auth.browserSupportsWebAuthnAutofill();
 
         // If WebAuthn autofill is supported, allow user to login with MFA autofill
         if (browserSupportsWebAuthn && browserSupportsWebAuthnAutofill) {
@@ -248,8 +254,8 @@
 
     async function loginPassword() {
         // Get username and password from form
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
+        const username = document.getElementById("login-form").querySelector("input#username").value;
+        const password = document.getElementById("login-form").querySelector("input#password").value;
 
         // Initialize authentication class
         const auth = new utils.Authentication();
