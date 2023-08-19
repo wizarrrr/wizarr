@@ -50,3 +50,5 @@ const buttonSpinner = (button: HTMLButtonElement, active: boolean) => {
 
 addToWindow(['utils', 'submitSpinner'], submitSpinner);
 addToWindow(['utils', 'buttonSpinner'], buttonSpinner);
+
+export { submitSpinner, buttonSpinner }

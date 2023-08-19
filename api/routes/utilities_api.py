@@ -35,8 +35,11 @@ class ScanServersAPI(Resource):
 
     def get(self):
         """Scan for Media Servers on the network"""
-        from app.utils.media_server import scan_network
+        from app.utils.media_server import scan_network, get_subnet_from_ip
 
-        # get ip address of client making request
-        print(request.headers.get("X-Forwarded-For", request.remote_addr))
-        return scan_network()
+        subnet = request.args.get('subnet', None)
+        ip = request.args.get('ip', None)
+
+        target = str(subnet) if subnet else str(get_subnet_from_ip(str(ip))) if ip else None
+
+        return scan_network(target=target)

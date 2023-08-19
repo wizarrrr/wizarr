@@ -3,29 +3,34 @@ from logging import error
 from socket import gethostbyname
 from typing import Optional
 
-from nmap import PortScanner, PortScannerAsync
+from nmap import PortScanner
 from requests import get
 from schematics.exceptions import ValidationError
 from schematics.types import URLType
-import subprocess
 
 def get_host_ip_from_container():
     """
     Get the IP address of the Docker host from inside the container
-    :return: str
+    :return: str | None
     """
 
     # Retrieve the IP address of the Docker host from inside the container
-    return gethostbyname("host-gateway")
+    try:
+        return gethostbyname("host-gateway")
+    except Exception:
+        return None
 
 def get_internal_ip_from_container():
     """
     Get the internal IP address of the container
-    :return: str
+    :return: str | None
     """
 
     # Retrieve the IP address of the Docker host from inside the container
-    return gethostbyname("host.docker.internal")
+    try:
+        return gethostbyname("host.docker.internal")
+    except Exception:
+        return None
 
 def get_subnet_from_ip(host_ip: str):
     """
@@ -169,12 +174,23 @@ def scan_network(ports: Optional[int | str | list[int | str]] = None, target: Op
         external_address = get_host_ip_from_container()
         internal_address = get_internal_ip_from_container()
 
-        # Set the target to the subnet of the external and internal IP addresses
-        target = f"{get_subnet_from_ip(external_address)} {get_subnet_from_ip(internal_address)}"
+        # Create a list of targets
+        targets = []
+
+        # Add the external ip address to the list of targets if it exists
+        if external_address:
+            targets.append(f"{get_subnet_from_ip(external_address)}")
+
+        # Add the internal ip address to the list of targets if it exists
+        if internal_address:
+            targets.append(f"{get_subnet_from_ip(internal_address)}")
+
+        # Convert the list of targets to a string
+        target = f"{' '.join(targets)}"
 
     # If target is a list, convert it to a string
     if isinstance(target, list):
-        target = ", ".join(target)
+        target = " ".join(target)
 
     # Ensure ports is a list
     if isinstance(ports, (int, str)):

@@ -3,6 +3,7 @@ import cookie from 'js-cookie';
 import toast from 'toastify-js';
 
 import addToWindow from './addToWindow';
+import { buttonSpinner } from './submitSpinner';
 
 declare type Server = {
     host: string;
@@ -19,6 +20,8 @@ class ScanServers {
     private cachedLogos: Record<string, HTMLElement> = {};
     private options = {
         container: document.getElementById('scan-servers') as HTMLElement,
+        tryAgainButton: document.getElementById('scan-servers-try-again') as HTMLButtonElement,
+        subnet: null as string | null,
         api_endpoint: '/api/utilities/scan-servers',
         auto_scan: false,
         callback: (server: Server) => { console.error('No callback set for scan servers', server) },
@@ -59,7 +62,7 @@ class ScanServers {
 
     // Initialise the axios interceptor
     resp<V>(resp: any) {
-        if (resp.data.message) {
+        if (resp?.data?.message) {
             this.infoToast(resp.data.message);
         }
 
@@ -68,7 +71,7 @@ class ScanServers {
 
     // Initialise the axios interceptor
     error(error: any) {
-        if (error.response.data.message) {
+        if (error?.response?.data?.message) {
             this.errorToast(error.response.data.message);
         }
 
@@ -92,7 +95,19 @@ class ScanServers {
         this.axios.defaults.headers.common["X-CSRF-TOKEN"] = cookie.get('csrf_access_token');
         this.axios.interceptors.response.use(this.resp.bind(this), this.error.bind(this));
 
-        console.log(this.options.container)
+        // Add the try again button event
+        this.options.tryAgainButton.onclick = async (event) => {
+            event.preventDefault();
+            buttonSpinner(event.target as HTMLButtonElement, true);
+            if (this.options.subnet) {
+                this.infoToast('This may take a considerable amount of time, please be patient.');
+                await this.scanAll(undefined, this.options.subnet);
+                await this.build_gui();
+            } else {
+                this.errorToast('No subnet selected');
+            }
+            buttonSpinner(event.target as HTMLButtonElement, false);
+        }
 
         // Scan all servers
         if (this.options.auto_scan) {
@@ -104,9 +119,14 @@ class ScanServers {
      * Scan all the servers on the network
      * @returns List of servers
      */
-    public async scanAll(): Promise<Array<any> | void> {
+    public async scanAll(ip?: string, subnet?: string): Promise<Array<any> | void> {
         // Get list of servers from the api
-        const resp = await this.axios.get(this.options.api_endpoint);
+        const resp = await this.axios.get(this.options.api_endpoint, {
+            params: {
+                ip: ip,
+                subnet: subnet
+            }
+        });
 
         // If the response is not ok, return
         if (resp.status !== 200) {
@@ -142,7 +162,7 @@ class ScanServers {
         if (this.servers.length === 0) {
             this.errorToast('No servers found');
 
-            const message = this.build_empty_message('No servers found');
+            const message = this.build_empty_message('No servers could be found.');
             this.options.container.appendChild(message);
 
             return;
@@ -157,6 +177,21 @@ class ScanServers {
             this.options.container.appendChild(server_div);
         }
 
+        // Add tiny text link "Don't see your server?"
+        const tiny_text_div = document.createElement('div');
+        tiny_text_div.classList.add('flex', 'flex-row', 'justify-start', 'items-start', 'text-xs', 'text-gray-900', 'dark:text-gray-400', 'mt-2', 'w-full');
+
+        const tiny_text = document.createElement('a');
+        tiny_text.classList.add('hover:text-primary', 'dark:hover:text-primary', 'transition', 'duration-150', 'ease-in-out');
+        tiny_text.textContent = "Don't see your server?";
+
+        tiny_text.onclick = () => {
+            this.options.container.appendChild(this.build_empty_message('', true))
+            tiny_text_div.remove();
+        }
+
+        tiny_text_div.appendChild(tiny_text);
+        this.options.container.appendChild(tiny_text_div);
     }
 
     /**
@@ -165,6 +200,9 @@ class ScanServers {
      * @returns The server div
      */
     private async build_server_div(server: Server): Promise<HTMLButtonElement> {
+        // Hide the try again button
+        this.options.tryAgainButton.classList.add('hidden');
+
         // Create the server div
         const server_button = document.createElement('button');
         server_button.classList.add(
@@ -264,8 +302,89 @@ class ScanServers {
      * Private method to build a message for empty list
      * @returns The message div
      */
-    private build_empty_message(message: string): HTMLDivElement {
-        return document.createElement('div');
+    private build_empty_message(message: string, hide_message: boolean = false): HTMLDivElement {
+        // Show the try again button
+        this.options.tryAgainButton.classList.remove('hidden');
+        this.options.tryAgainButton.disabled = true;
+
+        // Create the message div
+        const message_div = document.createElement('div');
+        message_div.classList.add('flex', 'flex-col', 'items-center', 'space-y-4', 'text-gray-900', 'dark:text-white', 'mt-2');
+
+        // Create the message content div
+        const message_content_div = document.createElement('div');
+        message_content_div.classList.add('flex', 'flex-col', 'items-center', 'space-y-2', 'text-gray-900', 'dark:text-white');
+
+        // Create the message icon
+        const message_icon = document.createElement('i');
+        message_icon.classList.add('fas', 'fa-exclamation-triangle', 'fa-2x');
+
+        // Create the message text
+        const message_text = document.createElement('span');
+        message_text.classList.add('text-sm', 'text-gray-900', 'dark:text-gray-400');
+        message_text.textContent = message;
+
+        // Create the subnet select div
+        const subnet_select_div = document.createElement('div');
+        subnet_select_div.classList.add('flex', 'flex-col', 'items-center', 'space-y-2', 'text-gray-900', 'dark:text-white', 'w-full');
+
+        // Create the subnet select
+        const subnet_select = document.createElement('select');
+        subnet_select.id = 'subnet-select';
+        subnet_select.classList.add('w-full', 'text-sm', 'rounded', 'border-gray-300', 'shadow-sm', 'focus:border-primary', 'focus:ring', 'focus:ring-primary', 'focus:ring-opacity-50', 'dark:bg-gray-700', 'dark:border-gray-600', 'dark:focus:border-gray-600', 'dark:focus:ring-gray-600', 'dark:focus:ring-opacity-50');
+
+        // Create the subnet select options
+        const subnet_select_options = [
+            { value: '', text: 'Select your Media Servers subnet', disabled: true, selected: true },
+            { value: '192.168.0.0/24', text: '192.168.0.0/24' },
+            { value: '192.168.1.0/24', text: '192.168.1.0/24' },
+            { value: '192.168.2.0/24', text: '192.168.2.0/24' },
+            { value: '192.168.3.0/24', text: '192.168.3.0/24' },
+            { value: '192.168.4.0/24', text: '192.168.4.0/24' },
+            { value: '172.16.0.0/24', text: '172.16.0.0/24' },
+            { value: '172.17.0.0/24', text: '172.17.0.0/24' },
+            { value: '172.18.0.0/24', text: '172.18.0.0/24' },
+            { value: '172.19.0.0/24', text: '172.19.0.0/24' },
+            { value: '172.20.0.0/24', text: '172.20.0.0/24' },
+            { value: '10.0.0.0/24', text: '10.0.0.0/24' },
+            { value: '10.1.0.0/24', text: '10.1.0.0/24' },
+            { value: '10.2.0.0/24', text: '10.2.0.0/24' },
+            { value: '10.3.0.0/24', text: '10.3.0.0/24' },
+            { value: '10.4.0.0/24', text: '10.4.0.0/24' },
+        ];
+
+        // Create the subnet select options
+        for (const subnet_select_option of subnet_select_options) {
+            const option = document.createElement('option');
+            option.value = subnet_select_option.value;
+            option.textContent = subnet_select_option.text;
+            option.disabled = subnet_select_option.disabled ?? false;
+            option.selected = subnet_select_option.selected ?? false;
+            subnet_select.appendChild(option);
+        }
+
+        // Add the onchange event
+        subnet_select.onchange = async () => {
+            const subnet = subnet_select.value;
+            this.options.subnet = subnet;
+            this.options.tryAgainButton.disabled = false;
+        }
+
+        if (hide_message) {
+            message_div.appendChild(subnet_select_div);
+            subnet_select_div.appendChild(subnet_select);
+            return message_div;
+        }
+
+        // Append elements to the message div
+        message_div.appendChild(message_content_div);
+        message_content_div.appendChild(message_icon);
+        message_content_div.appendChild(message_text);
+        message_div.appendChild(subnet_select_div);
+        subnet_select_div.appendChild(subnet_select);
+
+
+        return message_div;
     }
 
     /**
@@ -275,7 +394,7 @@ class ScanServers {
     private async get_logo(logo: string): Promise<HTMLElement> {
         // Check if the logo is cached
         if (this.cachedLogos[logo]) {
-            return this.cachedLogos[logo];
+            return this.cachedLogos[logo].cloneNode(true) as HTMLElement;
         }
 
         // Import SVG from axios request
@@ -293,7 +412,7 @@ class ScanServers {
         const svg = parser.parseFromString(request.data as string, 'image/svg+xml').documentElement;
 
         // Cache the logo HTML as a copy
-        this.cachedLogos[logo] = svg.cloneNode(true) as HTMLElement;
+        this.cachedLogos[logo] = svg;
 
         // Return the logo
         return svg;
