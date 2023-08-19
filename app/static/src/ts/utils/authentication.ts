@@ -192,12 +192,6 @@ class Authentication {
             localStorage.setItem('user', JSON.stringify(response.data.auth.user));
         }
 
-        // If auth has token object, set the token object to localStorage
-        if (response.data.auth.token) {
-            // Set the token to the access_token_cookie
-            cookie.set('access_token_cookie', response.data.auth.token.access_token);
-        }
-
         // Redirect the user to the authenticated page
         this.redirect();
     }
