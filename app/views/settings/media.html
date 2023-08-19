@@ -48,6 +48,11 @@
         </div>
 
         <div class="flex items-center justify-end mt-4 space-x-2">
+            <div id="scan_for_servers">
+                <button type="button" hx-get="/partials/modals/scan-for-servers" hx-target="#create-modal" hx-trigger="click" hx-swap="innerHTML" id="scan-for-servers-button" _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
+                    {{ _("Scan for Servers") }}
+                </button>
+            </div>
             <div id="libraries_button_div">
                 <button type="button" hx-get="/partials/modals/update-libraries" hx-target="#create-modal" hx-trigger="click" hx-swap="innerHTML" id="scan-libraries-button" _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
                     {{ _("Configure Libraries") }}
@@ -135,12 +140,13 @@
         const save_button_div = document.getElementById('save_button_div');
         const test_button_div = document.getElementById('test_button_div');
         const libraries_button_div = document.getElementById('libraries_button_div');
+        const scan_for_servers = document.getElementById('scan_for_servers');
 
         // Get the server URL
         const server_url = server_url_div.querySelector('#server_url');
 
         // Create an array of all the divs
-        const divs = [save_button_div, libraries_button_div];
+        const divs = [save_button_div, libraries_button_div, scan_for_servers];
 
         // If the server API key is not the default loop through the divs and hide them else show them if server URL is default and server API key default
         if (server_api_key !== default_server_api_key) {
@@ -168,16 +174,35 @@
         const test_button_div = document.getElementById('test_button_div');
         const save_button_div = document.getElementById('save_button_div');
         const libraries_button_div = document.getElementById('libraries_button_div');
+        const scan_for_servers = document.getElementById('scan_for_servers');
 
-        // Hide save button and libraries button
+        // Hide save button and libraries button and scan for servers button
         save_button_div.classList.add('hidden');
         libraries_button_div.classList.add('hidden');
+        scan_for_servers.classList.add('hidden');
 
         // Get the submit button element
         utils.buttonSpinner(that, true);
 
         // Get the server URL
         const server_url = document.getElementById('server_url').value;
+
+        // Check if the server URL is equal to the default
+        if (server_url === document.getElementById('server_url_div').getAttribute('data-default')) {
+            // Unspin the button
+            utils.buttonSpinner(that, false);
+
+            // Create a toast message
+            toast.infoToast("{{ _('Server URL is the same, skipping detection!') }}");
+
+            // Show the save button, libraries button and scan for servers button
+            save_button_div.classList.remove('hidden');
+            libraries_button_div.classList.remove('hidden');
+            scan_for_servers.classList.remove('hidden');
+
+            // Return
+            return;
+        }
 
         // Get the server type
         const server = await window.api.utilities.detectServer(server_url).catch(error => {

@@ -13,6 +13,14 @@ from app.models.database import Sessions, Settings, Accounts
 
 # Yh this code looks messy but it works so ill tidy it up later
 
+# Class to handle authentication for the scheduler
+class SchedulerAuth:
+    def get_authorization(self):
+        return verify_jwt_in_request()
+
+    def get_authenticate_header(self):
+        return request.cookies.get("access_token_cookie")
+
 def server_verified():
     verified = Settings.get_or_none(Settings.key == "server_verified")
     if verified: return bool(verified.value)
@@ -45,7 +53,7 @@ def refresh_expiring_jwts(response):
         jwt = get_jwt()
         if datetime.timestamp(datetime.now(timezone.utc) + timedelta(minutes=30)) > jwt["exp"]:
             access_token = create_access_token(identity=get_jwt_identity())
-            Sessions.update(session=get_jti(access_token), expires=datetime.utcnow() + timedelta(hours=1)).where(Sessions.session == jwt["jti"]).execute()
+            Sessions.update(session=get_jti(access_token), expires=datetime.utcnow() + timedelta(days=1)).where(Sessions.session == jwt["jti"]).execute()
             set_access_cookies(response, access_token)
             info(f"Refreshed JWT for {get_jwt_identity()}")
         return response

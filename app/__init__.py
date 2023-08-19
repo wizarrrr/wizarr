@@ -2,6 +2,7 @@ from os import getenv, environ
 
 from dotenv import load_dotenv
 from flask import Flask
+from flask_jwt_extended import verify_jwt_in_request, jwt_required
 from jinja2 import ChoiceLoader, FileSystemLoader
 
 from api import *
@@ -27,11 +28,10 @@ load_dotenv()
 app = Flask(__name__)
 
 # Override Flask server name if it contains http or https
-if getenv("APP_URL") and getenv("APP_URL").startswith("http://") or getenv("APP_URL").startswith("https://"):
+if getenv("APP_URL") and getenv("APP_URL", "").startswith("http://") or getenv("APP_URL", "").startswith("https://"):
     host = getenv("APP_URL").replace("http://", "").replace("https://", "")
     app.config["SERVER_NAME"] = host
     environ["APP_URL"] = host
-
 
 # Define a custom template loader for the other_templates folder
 views_loader = FileSystemLoader("app/views")
@@ -44,6 +44,8 @@ if not app.debug or getenv("MIGRATE"):
 
 app.config.update(**create_config(app))
 app.jinja_env.globals.update(**create_globals(app))
+
+schedule.authenticate(lambda auth: auth is not None)
 
 # Initialize App Extensions
 sess.init_app(app)

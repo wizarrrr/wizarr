@@ -1,0 +1,47 @@
+<div class="flex justify-between items-center pb-3">
+    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        {{ _("Select Server") }}
+    </h1>
+</div>
+
+<input type="hidden" id="locator">
+
+<div class="flex flex-col space-y-2">
+    <div class="flex flex-col space-y-1" id="servers">
+        <div class="flex flex-col items-center space-y-2 text-gray-900 dark:text-white mt-2">
+            <i class="fas fa-spinner fa-spin fa-2x"></i>
+            <span class="text-sm text-gray-900 dark:text-gray-400">
+                {{ _("Scanning for servers...") }}
+            </span>
+        </div>
+    </div>
+
+    <div class="flex justify-end pt-2 space-x-4">
+        <button onclick="utils.closeModal(this)" type="button" class="inline-flex w-full justify-center rounded bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto">
+            {{ _("Cancel") }}
+        </button>
+    </div>
+</div>
+
+<script defer type="module">
+     const servers = new utils.ScanServers({
+            container: document.getElementById('servers'),
+            callback: function (server) {
+                // Set the server type
+                document.getElementById('server_type_hidden').value = server.server_type;
+                document.getElementById('server_type').value = server.server_type;
+
+                // Create a URL from the server data
+                const url = new URL(`http://${server.host}:${server.port}`);
+                document.getElementById('server_url').value = url.toString();
+
+                // Click detect server button
+                document.getElementById('detect_server').click();
+
+                utils.closeModal(document.getElementById('locator'));
+            }
+        });
+
+    await servers.scanAll();
+    servers.build_gui();
+</script>

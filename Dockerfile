@@ -4,7 +4,7 @@ WORKDIR /data
 COPY . /data
 
 
-RUN apk add tzdata nodejs npm cargo libffi-dev openssl-dev
+RUN apk add tzdata nodejs npm cargo libffi-dev openssl-dev nmap
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 

@@ -1,18 +1,17 @@
 from datetime import datetime
 from logging import info
 
-from flask_apscheduler import APScheduler
-
 from app.extensions import schedule
-from app.models.database import Sessions
-from helpers.universal import global_sync_users, global_delete_user
-from helpers.users import get_users_by_expiring
 
 schedule.start()
 
 # Scheduled tasks
 @schedule.task("interval", id="checkExpiringUsers", minutes=30, misfire_grace_time=900)
 def check_expiring_users():
+    # Import the function here to avoid circular imports
+    from helpers.universal import global_delete_user
+    from helpers.users import get_users_by_expiring
+
     # Log message to console
     info("Checking for expiring users")
 
@@ -27,6 +26,9 @@ def check_expiring_users():
 
 @schedule.task("interval", id="checkExpiredSessions", minutes=15, misfire_grace_time=900)
 def check_expired_sessions():
+    # Import the function here to avoid circular imports
+    from app.models.database import Sessions
+
     info("Checking for expired sessions")
     # Get all sessions where expires is less than now in utc and delete them
     sessions = Sessions.select().where(Sessions.expires < datetime.utcnow().strftime("%Y-%m-%d %H:%M"))
@@ -39,6 +41,9 @@ def check_expired_sessions():
 
 @schedule.task("interval", id="syncUsers", hours=3, misfire_grace_time=900)
 def scan_users():
+    # Import the function here to avoid circular imports
+    from helpers.universal import global_sync_users
+
     info("Scanning for new users")
     global_sync_users()
 

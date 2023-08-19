@@ -16,4 +16,7 @@ def modals_partials(subpath, **kwargs):
     # Merge form and post data
     data = {**form, **post, **args}
 
-    return render_template("modal.html", subpath=f"{subpath}.html", **data)
+    try:
+        return render_template("modal.html", subpath=f"{subpath}.html", **data)
+    except TemplateNotFound:
+        return { "message": "Template not found" }, 404

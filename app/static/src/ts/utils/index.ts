@@ -11,4 +11,7 @@ import './closeModal';
 import './authentication';
 import './stepper';
 import './notifications';
+import './htmx';
+import './scanServers';
+import './scheduledTasks';
 

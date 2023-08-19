@@ -1,7 +1,44 @@
-from schematics.types import URLType
-from schematics.exceptions import ValidationError
-from requests import get
+from ipaddress import ip_interface
 from logging import error
+from socket import gethostbyname
+from typing import Optional
+
+from nmap import PortScanner, PortScannerAsync
+from requests import get
+from schematics.exceptions import ValidationError
+from schematics.types import URLType
+import subprocess
+
+def get_host_ip_from_container():
+    """
+    Get the IP address of the Docker host from inside the container
+    :return: str
+    """
+
+    # Retrieve the IP address of the Docker host from inside the container
+    return gethostbyname("host-gateway")
+
+def get_internal_ip_from_container():
+    """
+    Get the internal IP address of the container
+    :return: str
+    """
+
+    # Retrieve the IP address of the Docker host from inside the container
+    return gethostbyname("host.docker.internal")
+
+def get_subnet_from_ip(host_ip: str):
+    """
+    Get the subnet of the given IP address
+    :return: str
+    """
+
+    # Calculate the subnet of the container"s host IP address
+    subnet_ip = ip_interface(f"{host_ip}/24")
+    subnet = subnet_ip.network
+
+    # Return the subnet
+    return subnet
 
 def detect_server(server_url: str):
     """
@@ -66,7 +103,6 @@ def detect_server(server_url: str):
     # Raise an exception if the server type is not found
     raise ConnectionError("Media Server could not be contacted")
 
-
 def verify_server(server_url: str, server_api_key: str):
     """
     Verify that the api credentials are valid for the media server
@@ -109,3 +145,71 @@ def verify_server(server_url: str, server_api_key: str):
 
     # Raise an exception if the server type is not found
     raise ConnectionError("Unable to verify server")
+
+def scan_network(ports: Optional[int | str | list[int | str]] = None, target: Optional[str | list[str]] = None):
+    """
+    Scan the network for media servers
+    :param ports: The ports to scan
+    :param target: The target to scan
+
+    :return: list
+    """
+
+    # Create a PortScanner object
+    nmap = PortScanner()
+    media_servers = []
+
+    # Set default ports if not provided
+    if ports is None:
+        ports = [8096, 32400]
+
+    # Set default target if not provided
+    if target is None:
+        # Get the dockers internal and external IP addresses
+        external_address = get_host_ip_from_container()
+        internal_address = get_internal_ip_from_container()
+
+        # Set the target to the subnet of the external and internal IP addresses
+        target = f"{get_subnet_from_ip(external_address)} {get_subnet_from_ip(internal_address)}"
+
+    # If target is a list, convert it to a string
+    if isinstance(target, list):
+        target = ", ".join(target)
+
+    # Ensure ports is a list
+    if isinstance(ports, (int, str)):
+        ports = [str(ports)]
+
+    # Convert ports to strings
+    ports = [str(port) for port in ports]
+
+    # Convert ports list to a string
+    port_str = ",".join(ports)
+
+    # Scan the network
+    nmap.scan(hosts=target, arguments=f"-p {port_str} --open")
+
+    # Iterate through each host
+    for host in nmap.all_hosts():
+        # Check open ports and determine server type
+        for port in nmap[host]["tcp"].keys():
+            # Check if the port is open
+            if nmap[host]["tcp"][port]["state"] == "open":
+                try:
+                    # Attempt to detect the server type
+                    server_info = detect_server(f"http://{host}:{port}")
+                    server_type = server_info.get("server_type", None)
+
+                    # If the server type is None, skip it
+                    if server_type is None:
+                        continue
+
+                    # Add server information to the list
+                    media_servers.append({"host": host, "port": port, "server_type": server_type })
+
+                except Exception:
+                    # If an exception occurs, pass to the next port
+                    pass
+
+    # Return the list of media servers
+    return media_servers
