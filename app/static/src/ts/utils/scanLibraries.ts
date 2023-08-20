@@ -149,14 +149,11 @@ class ScanLibraries {
         console.info("Counted " + length + " libraries");
     }
 
-    private createElement(
-        title: string,
-        value: string,
-        iteration: number
-    ): HTMLLIElement {
+    private createElement(title: string, value: string, iteration: number): HTMLLIElement {
         const li = document.createElement("li");
-        const input = document.createElement("input");
+        li.classList.add("dark:hover:bg-gray-600", "hover:bg-gray-100", "dark:bg-gray-700", "bg-gray-50", "dark:hover:text-gray-200", "hover:text-gray-500", "dark:text-gray-300", "text-gray-600", "dark:hover:border-gray-600", "hover:border-gray-100", "dark:border-gray-600", "border-gray-100", "border-2", "inline-flex", "items-center", "justify-between", "w-full", "px-4", "rounded", "cursor-pointer");
 
+        const input = document.createElement("input");
         input.type = "checkbox";
         input.id = "library_" + (iteration + 1);
         input.name = "library_" + (iteration + 1);
@@ -166,58 +163,19 @@ class ScanLibraries {
 
         const label = document.createElement("label");
         label.htmlFor = "library_" + (iteration + 1);
-        label.classList.add(
-            // BACKGROUND
-            "dark:peer-checked:bg-gray-600",
-            "peer-checked:bg-gray-100",
-
-            "dark:hover:bg-gray-600",
-            "hover:bg-gray-100",
-
-            "dark:bg-gray-700",
-            "bg-gray-50",
-
-
-            // TEXT
-            "dark:peer-checked:text-gray-200",
-            "peer-checked:text-gray-500",
-
-            "dark:hover:text-gray-200",
-            "hover:text-gray-500",
-
-            "dark:text-gray-300",
-            "text-gray-600",
-
-
-            // BORDER
-            "dark:peer-checked:border-gray-700",
-            "peer-checked:border-gray-50",
-
-            "dark:hover:border-gray-600",
-            "hover:border-gray-100",
-
-            "dark:border-gray-600",
-            "border-gray-100",
-
-            // OTHER
-            "border-2",
-            "inline-flex",
-            "items-center",
-            "justify-between",
-            "w-full",
-            "py-2",
-            "px-4",
-            "rounded",
-            "cursor-pointer"
-        );
+        label.classList.add("w-full", "py-2");
 
         const div = document.createElement("div");
         div.classList.add("w-full", "text-lg", "font-semibold");
         div.textContent = title;
 
+        const i = document.createElement("i");
+        i.classList.add("fas", "fa-check", "text-green-500", "dark:text-green-400", "hidden", "peer-checked:block");
+
         label.appendChild(div);
         li.appendChild(input);
         li.appendChild(label);
+        li.appendChild(i);
 
         return li;
     }
