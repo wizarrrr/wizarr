@@ -98,6 +98,7 @@ def create_user(username: str, password: str, email: str):
         username=username,
         password=generate_password_hash(password, method="scrypt"),
         email=email,
+        role="admin"
     )
 
     # Print the user

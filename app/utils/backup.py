@@ -1,12 +1,9 @@
 from app.models.database.base import db
-from cryptography.fernet import Fernet, InvalidToken
+from cryptography.fernet import Fernet
 from base64 import urlsafe_b64encode
-from flask import request, make_response
-from datetime import datetime
 from json import dumps, loads
 
 def backup_database():
-
     # Backup dictionary
     backup = {}
 
@@ -33,6 +30,29 @@ def backup_database():
     backup.pop("apscheduler_jobs", None)
 
     return backup
+
+
+def restore_database(backup: dict):
+    # Loop through all tables in the backup dictionary and restore them
+    for table in backup:
+        # Delete all rows in the table
+        db.execute_sql(f"DELETE FROM {table}")
+
+        # Loop through all rows in the table
+        for row in backup[table]:
+            # Get all columns in the table
+            columns = list(row.keys())
+
+            # Get all values in the table
+            values = list(row.values())
+
+            # Create the query
+            query = f"INSERT INTO {table} ({', '.join(columns)}) VALUES ({', '.join(['?'] * len(columns))})"
+
+            # Execute the query
+            db.execute_sql(query, values)
+
+    return True
 
 
 def generate_key(text):

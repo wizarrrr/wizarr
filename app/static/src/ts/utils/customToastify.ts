@@ -21,7 +21,7 @@ const showToast = async (message: string, options: Toastify.Options) => {
     }).showToast();
 }
 
-const errorToast = async (message: string) => {
+const errorToast = async (message: string, options?: Toastify.Options) => {
     const Toastify = await import("toastify-js");
     Toastify.default({
         text: message,
@@ -29,10 +29,11 @@ const errorToast = async (message: string) => {
             background: '#dc3545',
         },
         ...defaultToast,
+        ...options ?? {}
     }).showToast();
 }
 
-const successToast = async (message: string) => {
+const successToast = async (message: string, options?: Toastify.Options) => {
     const Toastify = await import("toastify-js");
     Toastify.default({
         text: message,
@@ -40,10 +41,11 @@ const successToast = async (message: string) => {
             background: '#28a745',
         },
         ...defaultToast,
+        ...options ?? {}
     }).showToast();
 }
 
-const infoToast = async (message: string) => {
+const infoToast = async (message: string, options?: Toastify.Options) => {
     const Toastify = await import("toastify-js");
     Toastify.default({
         text: message,
@@ -51,10 +53,11 @@ const infoToast = async (message: string) => {
             background: '#4B5563',
         },
         ...defaultToast,
+        ...options ?? {}
     }).showToast();
 }
 
-const warningToast = async (message: string) => {
+const warningToast = async (message: string, options?: Toastify.Options) => {
     const Toastify = await import("toastify-js");
     Toastify.default({
         text: message,
@@ -62,6 +65,7 @@ const warningToast = async (message: string) => {
             background: '#ffc107',
         },
         ...defaultToast,
+        ...options ?? {}
     }).showToast();
 }
 

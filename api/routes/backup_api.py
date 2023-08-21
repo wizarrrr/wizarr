@@ -6,7 +6,7 @@ from flask_jwt_extended import jwt_required
 from flask_restx import Namespace, Resource
 from json import loads
 
-from app.utils.backup import backup_database, encrypt_backup, generate_key, decrypt_backup
+from app.utils.backup import backup_database, encrypt_backup, generate_key, decrypt_backup, restore_database
 
 api = Namespace("Backup", description="Backup related operations", path="/backup")
 
@@ -82,7 +82,11 @@ class BackupUpload(Resource):
             return { "error": "An unknown error occurred" }
 
         # Restore the backup
-        return data
+        if not restore_database(data):
+            return { "error": "An unknown error occurred" }
+
+        # Return the response
+        return { "message": "Backup restored successfully" }
 
 
 @api.route("/decrypt")

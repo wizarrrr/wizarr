@@ -102,18 +102,31 @@
         download_backup.href = link;
     }
 
-    function restoreBackup(that) {
+    async function restoreBackup(that) {
         event.preventDefault();
+
+        // Spin the submit button
+        utils.submitSpinner(that, true);
 
         // Convert the form data into a FormData object
         const formData = new FormData(that);
 
+        // Show message to the user
+        toast.warningToast("This may take a while, please do not close the page until the process is complete.", { duration: 30000, close: true });
+
         // Send the backup file to the server
-        const response = api.axios.post("/api/backup/restore", formData);
+        const response = await api.axios.post("/api/backup/restore", formData);
 
         // Check if the response is an error
-        if (response.status != 200) return;
+        if (response.status != 200) {
+            // Stop the spinner
+            utils.submitSpinner(that, false);
 
+            return;
+        }
 
+        // Clear all the input fields
+        that.reset();
+        utils.submitSpinner(that, false);
     }
 </script>
