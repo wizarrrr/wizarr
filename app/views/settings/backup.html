@@ -102,6 +102,20 @@
         download_backup.href = link;
     }
 
+    // wait function
+    async function wait(ms) {
+        return new Promise(resolve => {
+            setTimeout(resolve, ms);
+        });
+    }
+
+    async function restoreNotifications() {
+        await wait(1000);
+        toast.infoToast("A backup of your database will be saved into your database folder.", { duration: 5000 });
+        await wait(1000);
+        toast.infoToast("You may be logged out after the restore process is complete.", { duration: 5000 });
+    }
+
     async function restoreBackup(that) {
         event.preventDefault();
 
@@ -112,7 +126,10 @@
         const formData = new FormData(that);
 
         // Show message to the user
-        toast.warningToast("This may take a while, please do not close the page until the process is complete.", { duration: 30000, close: true });
+        const info = await toast.warningToast("This may take a while, please do not close the page until the process is complete.", { duration: 30000, close: true });
+
+        // Show message to the user
+        restoreNotifications();
 
         // Send the backup file to the server
         const response = await api.axios.post("/api/backup/restore", formData);
@@ -128,5 +145,6 @@
         // Clear all the input fields
         that.reset();
         utils.submitSpinner(that, false);
+        info.hideToast();
     }
 </script>

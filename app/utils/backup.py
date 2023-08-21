@@ -1,7 +1,9 @@
-from app.models.database.base import db
+from app.models.database.base import db, db_file, db_dir
 from cryptography.fernet import Fernet
 from base64 import urlsafe_b64encode
 from json import dumps, loads
+from datetime import datetime
+from os import system
 
 def backup_database():
     # Backup dictionary
@@ -33,6 +35,10 @@ def backup_database():
 
 
 def restore_database(backup: dict):
+    # Create a backup of the database file before restoring
+    backup_filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    system(f"cp {db_file} {backup_filename}.backup")
+
     # Loop through all tables in the backup dictionary and restore them
     for table in backup:
         # Delete all rows in the table
