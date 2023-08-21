@@ -4,6 +4,10 @@
 <div id="user-content">
     <form id="user-form" class="space-y-4 md:space-y-6" onsubmit="createAdmin(); event.preventDefault();">
         <div>
+            <label for="display_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Display Name") }}</label>
+            <input type="display_name" name="display_name" id="display_name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Marvin Brown" required autocomplete="name">
+        </div>
+        <div>
             <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username") }}</label>
             <input type="username" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="marvin" required autocomplete="username">
         </div>

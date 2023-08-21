@@ -58,6 +58,7 @@ class SetupAccounts(Resource):
     def post(self):
         # Create the account
         user = create_account(
+            display_name=request.form.get("display_name"),
             username=request.form.get("username"),
             email=request.form.get("email"),
             password=request.form.get("password"),

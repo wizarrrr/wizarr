@@ -36,6 +36,13 @@
                     "icon": "fas fa-bell",
                     "url": "/partials/admin/settings/notifications",
                     "push_url": "/admin/settings/notifications"
+                },
+                {
+                    "title": "{{ _('Discord Bot') }}",
+                    "description": "{{ _('Configure Discord bot settings') }}",
+                    "icon": "fab fa-discord",
+                    "url": "/partials/admin/settings/discord-bot",
+                    "push_url": "/admin/settings/discord-bot"
                 }
             ]
         },
@@ -99,8 +106,8 @@
                     "title": "{{ _('Discord') }}",
                     "description": "{{ _('Enable Discord page and configure settings') }}",
                     "icon": "fab fa-discord",
-                    "url": "/partials/admin/settings/discord",
-                    "push_url": "/admin/settings/discord"
+                    "url": "/partials/admin/settings/discord-ui",
+                    "push_url": "/admin/settings/discord-ui"
                 },
                 {
                     "title": "{{ _('Custom HTML') }}",
@@ -152,9 +159,7 @@
                     "description": "{{ _('Create and restore backups') }}",
                     "icon": "fas fa-hdd",
                     "url": "/partials/admin/settings/backup",
-                    "push_url": "/admin/settings/backup",
-                    "class": "coming-soon",
-                    "disabled": true
+                    "push_url": "/admin/settings/backup"
                 },
                 {
                     "title": "{{ _('About') }}",

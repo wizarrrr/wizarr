@@ -126,6 +126,7 @@ def create_account(**kwargs) -> Accounts:
 
     # Create the account in the database
     new_account: Accounts = Accounts.create(
+        display_name=account.display_name,
         username=account.username,
         password=account.hashed_password,
         email=account.email,

@@ -20,7 +20,7 @@ class AccountsModel(Model):
     # ANCHOR - Account Account Model
     id = StringType(required=False)
     avatar = StringType(required=False)
-    display_name = StringType(required=False)
+    display_name = StringType(required=False, default="")
     username = StringType(required=True)
     email = EmailType(required=False)
     password = StringType(required=True)

@@ -6,7 +6,7 @@ def check_enviroment():
     app_url = getenv("APP_URL")
 
     if app_url and app_url != request.host or not app_url:
-        return render_template("errors/custom.html", title="APP_URL", subtitle="APP_URL not configured correctly", description="It appears that APP_URL is not configured correctly in your Docker/System settings, APP_URL must match the URL your attempting to access this site on excluding http:// or https://"), 500
+        return render_template("errors/app_url.html"), 500
 
     database_path = path.abspath(path.join(base_dir, "database"))
 

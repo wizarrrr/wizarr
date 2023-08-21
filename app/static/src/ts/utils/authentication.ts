@@ -9,6 +9,17 @@ import addToWindow from './addToWindow';
 import type { RegistrationResponseJSON } from '@simplewebauthn/typescript-types';
 import type { WebAuthnError } from '@simplewebauthn/browser/dist/types/helpers/webAuthnError';
 
+declare interface User {
+    avatar?: string;
+    created?: string;
+    display_name?: string;
+    email?: string;
+    id?: string;
+    last_login?: string;
+    role?: string;
+    username?: string;
+}
+
 class Authentication {
 
     // Local axios instance
@@ -122,7 +133,7 @@ class Authentication {
      * Redirect user to the authenticated page
      * This function is used to redirect the user to the authenticated page
      */
-    redirect(path?: string, toast?: string) {
+    redirect(path?: string, toast?: string, user?: User) {
         // Get redirect param from the url
         const urlParams = new URLSearchParams(window.location.search);
         let redirect = urlParams.get('redirect');
@@ -131,10 +142,13 @@ class Authentication {
         if (redirect && !redirect.startsWith('/')) redirect = null;
 
         // Create path to redirect to
-        const newPath = new URL(window.location.origin + (redirect || path || '/admin'));
+        const newPath = new URL(window.location.origin + (redirect ?? path ?? '/admin'));
+
+        // Determine the name to use for the toast notification
+        const name = user?.display_name ?? this.username ?? 'User';
 
         // Add a toast notification to welcome the user
-        newPath.searchParams.append('toast', toast || 'Welcome back ' + this.username);
+        newPath.searchParams.append('toast', toast ?? 'Welcome back ' + name);
 
         // Redirect to the home page or the redirect param if it exists
         window.location.href = newPath.href;
@@ -193,7 +207,7 @@ class Authentication {
         }
 
         // Redirect the user to the authenticated page
-        this.redirect();
+        this.redirect(undefined, undefined, response.data.auth.user);
     }
 
 
@@ -375,7 +389,7 @@ class Authentication {
         }
 
         // Redirect the user to the authenticated page
-        this.redirect();
+        this.redirect(undefined, undefined, authResp2.data.auth.user);
     }
 
 

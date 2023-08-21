@@ -1,15 +1,21 @@
 <div class="animate__animated animate__fadeIn">
-    <div class="grid grid-cols-1 md:grid-cols-2">
-        <form onsubmit="createBackup(this)" class="space-y-4 flex flex-col md:pr-8 border-b border-gray-200 dark:border-gray-700 md:border-0 pb-8 md:pb-0">
-            <div>
-                <h2 class="dark:text-white text-lg font-bold">{{ _("Backup") }}</h2>
 
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-0">
-                    {{ _("Create a backup of your database and configuration. Please set an encryption password to protect your backup file.") }}
-                </p>
+    <div id="alert-border-4" class="mb-6 flex items-center p-4 mb-4 text-yellow-800 border-t-4 border-yellow-300 bg-yellow-50 dark:text-yellow-300 dark:bg-gray-800 dark:border-yellow-800" role="alert">
+        <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+        </svg>
+        <div class="ml-3 text-sm font-medium">
+            {{ _('These are debug tools, decrypting a backup and editing it could cause irreversible damage to Wizarr if you do not know what you are doing.') }}
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2">
+        <form onsubmit="encryptBackup(this)" class="space-y-4 flex flex-col md:pr-8 border-b border-gray-200 dark:border-gray-700 md:border-0 pb-8 md:pb-0">
+            <div>
+                <h2 class="dark:text-white text-lg font-bold">{{ _("Encrypt Backup") }}</h2>
+                <hr class="border-gray-200 dark:border-gray-700 mt-2">
             </div>
 
-            <hr class="border-gray-200 dark:border-gray-700">
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">
@@ -19,26 +25,24 @@
                 <input name="password" type="password" class="block w-full text-sm text-gray-900 border border-gray-300 rounded cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" autocomplete="new-password" placeholder="Password" required>
             </div>
 
+            <input name="backup" class="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" required accept=".json">
+
             <div class="flex justify-end space-x-2">
                 <a id="download_backup" class="hidden bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
-                    {{ _("Download Backup") }}
+                    {{ _("Download File") }}
                 </a>
                 <button type="submit" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
-                    {{ _("Create Backup") }}
+                    {{ _("Encrypt Backup") }}
                 </button>
             </div>
         </form>
 
-        <form onsubmit="restoreBackup(this)" class="space-y-4 flex flex-col md:border-l border-gray-200 dark:border-gray-700 md:pl-8 pt-8 md:pt-0">
+        <form onsubmit="decryptBackup(this)" class="space-y-4 flex flex-col md:border-l border-gray-200 dark:border-gray-700 md:pl-8 pt-8 md:pt-0">
             <div>
-                <h2 class="dark:text-white text-lg font-bold">{{ _("Restore") }}</h2>
-
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-0">
-                    {{ _("Restore a backup of your database and configuration from a backup file. You will need to provide the encryption password that was used to create the backup.") }}
-                </p>
+                <h2 class="dark:text-white text-lg font-bold">{{ _("Decrypt Backup") }}</h2>
+                <hr class="border-gray-200 dark:border-gray-700 mt-2">
             </div>
 
-            <hr class="border-gray-200 dark:border-gray-700">
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">
@@ -50,36 +54,27 @@
 
             <input name="backup" class="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" required accept=".backup" placeholder="Backup File">
 
-            <div class="flex justify-end">
-                <button type="submit" class="bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-red-600 dark:hover:bg-primary_hover">
-                    {{ _("Restore Backup") }}
+            <div class="flex justify-end space-x-2">
+                <a id="download_json" class="hidden bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
+                    {{ _("Download File") }}
+                </a>
+                <button type="submit" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
+                    {{ _("Decrypt Backup") }}
                 </button>
             </div>
         </form>
     </div>
-
-    <div class="my-3 flex items-center p-4 mb-4 text-yellow-800 border-t-4 border-yellow-300 bg-yellow-50 dark:text-yellow-300 dark:bg-gray-800 dark:border-yellow-800" role="alert">
-        <div class="text-sm font-medium space-y-1">
-            <p class="text-sm text-gray-500 dark:text-gray-400">
-                {{ _("To decrypt and encrypt backup files you can use the tools") }}
-                <a href="/admin/settings/backup-debug" class="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-500">{{ _("here") }}</a>.
-            </p>
-            <p class="text-sm text-gray-500 dark:text-gray-400">
-                {{ _("Please bare in mind that these tools are only for debugging purposes and we will not provide you with support from any issues that may arise from using them.") }}
-            </p>
-        </div>
-    </div>
 </div>
 
 <script>
-    async function createBackup(that) {
+    async function encryptBackup(that) {
         event.preventDefault();
 
         // Convert the form data into a FormData object
         const formData = new FormData(that);
 
         // Download the backup file from the server
-        const response = await api.axios.post("/api/backup/download", formData);
+        const response = await api.axios.post("/api/backup/encrypt", formData);
 
         // Check if the response is an error
         if (response.status != 200) return;
@@ -102,18 +97,33 @@
         download_backup.href = link;
     }
 
-    function restoreBackup(that) {
+    async function decryptBackup(that) {
         event.preventDefault();
 
         // Convert the form data into a FormData object
         const formData = new FormData(that);
 
-        // Send the backup file to the server
-        const response = api.axios.post("/api/backup/restore", formData);
+        // Download the backup file from the server
+        const response = await api.axios.post("/api/backup/decrypt", formData);
 
         // Check if the response is an error
         if (response.status != 200) return;
 
+        // Create a blob from the axios response data to download the json as a file
+        const blob = new Blob([JSON.stringify(response.data)], { type: "application/json" });
 
+        // Create a temporary link to download the file
+        const link = window.URL.createObjectURL(blob);
+
+        // Get file name from content-disposition
+        const content_disposition = response.headers["content-disposition"];
+        const filename = content_disposition.split("filename=")[1].split(";")[0] || "backup.backup";
+
+        // Make the download button visible
+        const download_backup = document.getElementById("download_json")
+
+        download_backup.classList.remove("hidden");
+        download_backup.download = filename;
+        download_backup.href = link;
     }
 </script>

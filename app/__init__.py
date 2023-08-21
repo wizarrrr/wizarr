@@ -89,7 +89,6 @@ from .mediarequest import *
 from .oauths import *
 from .partials import *
 from .scheduler import *
-from .utils.backup import *
 
 if __name__ == "__main__":
     socketio.run(app)
