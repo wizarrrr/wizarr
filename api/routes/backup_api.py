@@ -5,6 +5,7 @@ from flask import make_response, request
 from flask_jwt_extended import jwt_required
 from flask_restx import Namespace, Resource
 from json import loads
+from app.security import is_setup_required
 
 from app.utils.backup import backup_database, encrypt_backup, generate_key, decrypt_backup, restore_database
 
@@ -54,7 +55,7 @@ class BackupDownload(Resource):
 class BackupUpload(Resource):
     """Backup related operations"""
 
-    method_decorators = [jwt_required()]
+    method_decorators = [] if is_setup_required() else [jwt_required()]
 
     @api.doc(security="jwt")
     def post(self):

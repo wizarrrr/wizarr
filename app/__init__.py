@@ -4,13 +4,23 @@ from dotenv import load_dotenv
 from flask import Flask
 from flask_jwt_extended import verify_jwt_in_request, jwt_required
 from jinja2 import ChoiceLoader, FileSystemLoader
+from sentry_sdk.integrations.flask import FlaskIntegration
+# from sentry_sdk import init as sentry_init
+import sentry_sdk
+
+sentry_sdk.init(
+    dsn="https://95cc1c69bfea93ce8502e26b519cd318@o4505748808400896.ingest.sentry.io/4505748886716416",
+    integrations=[FlaskIntegration()],
+    profiles_sample_rate=1.0,
+    traces_sample_rate=1.0
+)
 
 from api import *
 from migrations import migrate
 
 from .config import create_config
 from .extensions import *
-from .filters import *
+from .filters import register_filters
 from .globals import create_globals
 from .models.database import *
 from .routes import page_not_found, routes
@@ -64,12 +74,13 @@ with app.app_context():
     compile_swagger(api)
 
 # Register Jinja2 filters
-app.add_template_filter(format_datetime)
-app.add_template_filter(date_format)
-app.add_template_filter(env, "getenv")
-app.add_template_filter(humanize)
-app.add_template_filter(arrow_humanize)
-app.add_template_filter(split_string, "split")
+# app.add_template_filter(format_datetime)
+# app.add_template_filter(date_format)
+# app.add_template_filter(env, "getenv")
+# app.add_template_filter(humanize)
+# app.add_template_filter(arrow_humanize)
+# app.add_template_filter(split_string, "split")
+register_filters(app)
 
 # Register Flask blueprints
 app.after_request(refresh_expiring_jwts)

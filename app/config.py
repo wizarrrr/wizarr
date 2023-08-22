@@ -39,8 +39,8 @@ def create_config(app: Flask):
     config["SCHEDULER_API_ENABLED"] = True
     config["SCHEDULER_API_PREFIX"] = "/api/scheduler"
     config["SCHEDULER_AUTH"] = SchedulerAuth()
-    config["SCHEDULER_JOBSTORES"] = {
-        "default": SQLAlchemyJobStore(url="sqlite:///" + path.join(base_dir, "database", "database.db"))
-    }
+    # config["SCHEDULER_JOBSTORES"] = {
+    #     "default": SQLAlchemyJobStore(url="sqlite:///" + path.join(base_dir, "database", "database.db"))
+    # }
 
     return config

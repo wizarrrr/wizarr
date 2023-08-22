@@ -1,9 +1,7 @@
-from datetime import datetime
-from os import getenv
-from pendulum import parse
-from app.utils.babel_locale import get_locale
-
 def humanize(value):
+    from datetime import datetime
+    from pendulum import parse
+
     # Check if the value is a string
     if not isinstance(value, str):
         return "Unknown format"
@@ -45,6 +43,9 @@ def humanize(value):
 
 
 def arrow_humanize(value):
+    from pendulum import parse
+    from app.utils.babel_locale import get_locale
+
     # Check if the value is a string
     if not isinstance(value, str):
         return "Unknown format"
@@ -62,6 +63,8 @@ def arrow_humanize(value):
 
 
 def format_datetime(value):
+    from datetime import datetime
+
     format_str = '%Y-%m-%d %H:%M:%S.%f%z'
     def get_time_duration(target_date):
         now = datetime.now(target_date.tzinfo)
@@ -85,12 +88,16 @@ def format_datetime(value):
         return f"{hms[2]}s"
 
 def date_format(value, format="%Y-%m-%d %H:%M:%S"):
+    from datetime import datetime
+
     format_str = '%Y-%m-%d %H:%M:%S'
     parsed_date = datetime.strptime(str(value), format_str)
     return parsed_date.strftime(format)
 
 
 def env(key, default=None):
+    from os import getenv
+
     return getenv(key, default)
 
 def split_string(value, delimiter, index=None):

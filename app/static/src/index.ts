@@ -1,3 +1,4 @@
+import './ts/debug';
 import './scss/style.scss';
 import './ts/AddToDom';
 import './ts/carousel';

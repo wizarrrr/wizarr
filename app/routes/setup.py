@@ -25,6 +25,7 @@ def setup_route(subpath):
     pages = [
         "welcome",
         "database",
+        "restore",
         "accounts",
         "settings",
         "complete"

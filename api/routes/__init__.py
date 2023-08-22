@@ -9,6 +9,7 @@ from app.extensions import api
 from .accounts_api import api as accounts_api # REVIEW - This is almost completed
 from .authentication_api import api as authentication_api # REVIEW - This is almost completed
 from .backup_api import api as backup_api
+from .discord_api import api as discord_api
 from .invitations_api import api as invitations_api # REVIEW - This is almost completed
 from .libraries_api import api as libraries_api
 from .notifications_api import api as notifications_api
@@ -94,6 +95,7 @@ def handle_request_exception(error):
 api.add_namespace(accounts_api)
 api.add_namespace(authentication_api)
 api.add_namespace(backup_api)
+api.add_namespace(discord_api)
 api.add_namespace(invitations_api)
 api.add_namespace(jellyfin_api)
 api.add_namespace(libraries_api)

@@ -28,6 +28,16 @@
 
     <title>{% block title %}{% endblock %} - {{ _(server_name) }}</title>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const spinner = document.querySelector('body #fullpage_spinner');
+            spinner.classList.add('animate__animated', 'animate__fadeOut', 'animate__faster');
+            spinner.addEventListener('animationend', function () {
+                spinner.classList.add('hidden');
+            });
+        });
+    </script>
+
     <meta property="og:title" content="{% block og_title %}{% endblock %}" />
     <meta property="og:description" content="{% block og_description %}{% endblock %}" />
 
@@ -39,8 +49,9 @@
     {% block main %}
     {% endblock %}
 
-    <div id="spinner" class="z-20 htmx-indicator absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity">
-        <i class="fa-solid fa-spinner fa-spin fa-2xl"></i>
+    <div id="fullpage_spinner" class="z-20 absolute inset-0 flex items-center justify-center bg-gray-700 transition-opacity text-white flex flex-col space-y-2">
+        <i class="fa-solid fa-spinner fa-spin" style="font-size: 2.5rem;"></i>
+        <span class="ml-2">Please wait...</span>
     </div>
 
 </body>

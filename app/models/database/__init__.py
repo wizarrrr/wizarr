@@ -11,8 +11,9 @@ from app.models.database.settings import Settings
 from app.models.database.users import Users
 from app.models.database.oauth_clients import OAuthClients
 from app.models.database.mfa import MFA
+from app.models.database.discord import Discord
 
-all_models = [Accounts, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions, OAuthClients, MFA]
+all_models = [Accounts, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions, OAuthClients, MFA, Discord]
 
 try:
     db.create_tables(all_models, safe=True)

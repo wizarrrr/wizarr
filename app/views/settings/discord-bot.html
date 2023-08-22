@@ -2,16 +2,54 @@
 
     {% include 'development.html' %}
 
-    <div class="flex flex-col space-y-4">
+    <form class="flex flex-col space-y-4" onsubmit="createDiscordBot(this)">
         <div>
             <label for="discord_token" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Discord Token") }}</label>
-            <input type="text" name="discord_id" id="discord_token" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" value="{% if discord_id %}{{ discord_id }}{% endif %}">
+            <input type="password" name="token" id="discord_token" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" value='{{ discord_bot.discord.token|default("") }}' placeholder="******************************" required autocomplete="new-password">
         </div>
 
+        <input id="discord_enabled" type="hidden" name="enabled" value="{{ not discord_bot.discord.enabled }}" />
+
         <div class="flex items-center justify-end mt-4">
-            <button type="submit" class="bg-primary hover:bg-red-100 focus:ring-4 focus:outline-none focus:ring-red-100 text-white font-medium rounded px-5 py-2.5 text-sm">
-                {{ _("Save") }}
+            <button id="disable" type="submit" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover {% if not discord_bot.discord.enabled %}hidden{% endif %}">
+                {{ _("Disable") }}
+            </button>
+            <button id="enable" type="submit" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover {% if discord_bot.discord.enabled %}hidden{% endif %}">
+                {{ _("Enable") }}
             </button>
         </div>
-    </div>
+    </form>
 </div>
+
+<script>
+async function createDiscordBot(that) {
+    event.preventDefault();
+
+    const formData = new FormData(that);
+    const button = formData.get('enabled') === 'true' ? document.getElementById('enable') : document.getElementById('disable');
+    utils.buttonSpinner(button, true);
+
+    const response = await api.axios.post('/api/discord/bot', formData);
+
+    if (response.status !== 200) {
+        utils.buttonSpinner(button, false);
+        return;
+    }
+
+    const data = response.data.data;
+
+    // Update the UI with response data
+    document.getElementById('discord_token').value = data.token;
+    document.getElementById('discord_enabled').value = !data.enabled;
+
+    if (data.enabled) {
+        document.getElementById('disable').classList.remove('hidden');
+        document.getElementById('enable').classList.add('hidden');
+    } else {
+        document.getElementById('disable').classList.add('hidden');
+        document.getElementById('enable').classList.remove('hidden');
+    }
+
+    utils.buttonSpinner(button, false);
+}
+</script>

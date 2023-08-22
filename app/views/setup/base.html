@@ -41,20 +41,13 @@ Setup Wizarr
 
 <div class="fixed flex right-3 bottom-6 group z-50">
     <div id="speed-dial-menu-horizontal" class="flex items-center mr-4 space-x-2">
-        <button type="button" onclick="reset()" class="flex items-center justify-center text-white bg-primary rounded-full w-14 h-14 focus:outline-none">
+        <button type="button" onclick="window.carousel.slideTo(2)" class="flex items-center justify-center text-white bg-primary rounded-full w-14 h-14 focus:outline-none">
             <i class="fa-solid fa-rotate"></i>
         </button>
     </div>
 </div>
 
 <script type="module">
-
-    const reset = () => {
-        const confirm = window.confirm("This will reset progress and restart the setup wizard if your facing issues! Are you sure you want to continue?");
-        if (!confirm) return;
-        localStorage.clear();
-        window.location.href = '/setup';
-    }
 
     // A function to wait for the carousel to load
     const waitForCarousel = async () => {
@@ -66,6 +59,9 @@ Setup Wizarr
         }
     };
 
+    // Get the current step
+    const current = parseInt('{{ current }}') - 1;
+
     // Get the carousel and all the divs inside it with id's that start with carousel-item
     const carousel = document.getElementById('carousel');
     const carouselItems = carousel.querySelectorAll('div[id^="carousel-item"]');
@@ -74,7 +70,11 @@ Setup Wizarr
     const progressResponse = await api.axios.get('/api/setup/status');
     const progress = progressResponse.data;
 
-    console.log(progress);
+    // Check if setup is complete and if the accounts and settings are complete
+    const setupComplete = progress.setup_required === false;
+    const accountsComplete = progress.setup_stage.accounts;
+    const settingsComplete = progress.setup_stage.settings;
+
 
     // Store the carousel items in an array
     const carouselItemsArray = [];
@@ -130,26 +130,23 @@ Setup Wizarr
         return page;
     };
 
+    const getPageIndex = (pageName) => carouselItemsArray.findIndex(el => el.el.dataset.current.includes(pageName));
+
     // Create a function to get the required index
     const getIndex = async (progress) => {
-        const current = parseInt('{{ current }}') - 1;
-
-        const getPageIndex = (pageName) => carouselItemsArray.findIndex(el => el.el.dataset.current.includes(pageName));
-
         const welcomeIndex = getPageIndex('welcome');
         const databaseIndex = getPageIndex('database');
+        const restoreIndex = getPageIndex('restore');
         const accountsIndex = getPageIndex('accounts');
         const settingsIndex = getPageIndex('settings');
         const completeIndex = getPageIndex('complete');
 
-        const setupComplete = progress.setup_required === false;
-        const accountsComplete = progress.setup_stage.accounts;
-        const settingsComplete = progress.setup_stage.settings;
-
+        if (current === restoreIndex) return restoreIndex;
         if (setupComplete) return completeIndex;
 
         if (!accountsComplete && !settingsComplete && current === welcomeIndex) return welcomeIndex;
         if (!accountsComplete && !settingsComplete && current === databaseIndex) return databaseIndex;
+        if (!accountsComplete && !settingsComplete && current === restoreIndex) return restoreIndex;
         if (!accountsComplete && !settingsComplete && current === accountsIndex) return accountsIndex;
         if (accountsComplete && !settingsComplete && current === settingsIndex) return settingsIndex;
 
@@ -214,7 +211,17 @@ Setup Wizarr
     }
 
     const onNext = async (step) => {
-        // If the a
+        if (step._getActiveItem().el.dataset.current.includes('accounts')) {
+            if (accountsComplete) {
+                window.carousel.slideTo(getPageIndex('settings'));
+            }
+        }
+
+        if (step._getActiveItem().el.dataset.current.includes('settings')) {
+            if (settingsComplete) {
+                window.carousel.slideTo(getPageIndex('complete'));
+            }
+        }
     }
 
     // Create the carousel options
@@ -230,6 +237,5 @@ Setup Wizarr
     // Create the carousel and event listeners
     window.addEventListener('resize', adjustHeight);
     window.carousel = new Carousel(carouselItemsArray, options);
-
 </script>
 {% endblock %}
