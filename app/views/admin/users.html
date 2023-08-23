@@ -49,7 +49,7 @@
 
         if (users.status === 200) {
             toast.successToast('Users scanned successfully')
-            htmx.ajax('/partials/tables/global-users', 'get', '#user_table', 'innerHTML')
+            htmx.ajax('GET', '/partials/tables/global-users', '#user_table', 'innerHTML')
         } else {
             error = await users.json()
 

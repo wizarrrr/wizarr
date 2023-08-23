@@ -97,7 +97,7 @@
     function serverUrlChanged(that) {
         // Get the server URL
         const server_url = that.value;
-        const default_server_url = that.closest('#server_url_div').getAttribute('data-default');
+        const default_server_url = document.getElementById('server_url_div').getAttribute('data-default');
 
         // All the divs
         const server_type_div = document.getElementById('server_type_div');
@@ -133,7 +133,7 @@
     function serverApiKeyChanged(that) {
         // Get the server API key
         const server_api_key = that.value;
-        const default_server_api_key = that.closest('#server_api_key_div').getAttribute('data-default');
+        const default_server_api_key = document.getElementById('server_api_key_div').getAttribute('data-default');
 
         // All the divs
         const server_url_div = document.getElementById('server_url_div');

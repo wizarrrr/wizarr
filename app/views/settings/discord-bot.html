@@ -10,13 +10,20 @@
 
         <input id="discord_enabled" type="hidden" name="enabled" value="{{ not discord_bot.discord.enabled }}" />
 
-        <div class="flex items-center justify-end mt-4">
-            <button id="disable" type="submit" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover {% if not discord_bot.discord.enabled %}hidden{% endif %}">
-                {{ _("Disable") }}
-            </button>
-            <button id="enable" type="submit" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover {% if discord_bot.discord.enabled %}hidden{% endif %}">
-                {{ _("Enable") }}
-            </button>
+        <div class="flex items-center justify-end mt-4 space-x-2">
+            <div>
+                <button type="button" hx-get="/partials/admin/discord" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="/admin/discord" class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
+                    {{ _("Edit Commands") }}
+                </button>
+            </div>
+            <div>
+                <button id="disable" type="submit" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover {% if not discord_bot.discord.enabled %}hidden{% endif %}">
+                    {{ _("Disable") }}
+                </button>
+                <button id="enable" type="submit" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover {% if discord_bot.discord.enabled %}hidden{% endif %}">
+                    {{ _("Enable") }}
+                </button>
+            </div>
         </div>
     </form>
 </div>
