@@ -25,7 +25,7 @@ def admin_routes(subpath):
     context["auth"] = not bool(getenv("DISABLE_BUILTIN_AUTH"))
 
     # All possible admin routes
-    return render_template("admin.html", subpath=f"{subpath}.html", **context)
+    return render_template("admin.html", subpath=f"/admin/{subpath}.html", **context)
 
 
 @admin.get("/partials/admin", defaults={"subpath": ""})
@@ -48,4 +48,4 @@ def admin_partials(subpath):
         return render_template("main.html", **context)
 
     # All possible admin partials
-    return render_template(f"{subpath}.html", **context)
+    return render_template(f"/admin/{subpath}.html", **context)

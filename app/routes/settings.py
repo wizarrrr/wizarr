@@ -32,10 +32,10 @@ def settings_routes(subpath):
     sections = load_config("settings.json.j2")
 
     if not subpath:
-        return render_template("admin.html", subpath="admin/settings.html", settings_subpath="main.html", **context, sections=sections)
+        return render_template("admin.html", subpath="/admin/settings.html", settings_subpath="/settings/main.html", **context, sections=sections)
 
     # All possible admin routes
-    return render_template("admin.html", subpath="admin/settings.html", settings_subpath=f"{subpath}.html", **context, sections=sections)
+    return render_template("admin.html", subpath="/admin/settings.html", settings_subpath=f"/settings/{subpath}.html", **context, sections=sections)
 
 
 @settings.get("/partials/admin/settings", defaults={"subpath": ""})
@@ -60,7 +60,7 @@ def settings_partials(subpath):
     sections = load_config("settings.json.j2")
 
     if not subpath:
-        return render_template("admin/settings.html", settings_subpath="main.html", **context, sections=sections)
+        return render_template("/admin/settings.html", settings_subpath="/settings/main.html", **context, sections=sections)
 
     # All possible admin partials
-    return render_template(f"{subpath}.html", **context, sections=sections)
+    return render_template(f"/settings/{subpath}.html", **context, sections=sections)

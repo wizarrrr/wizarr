@@ -2,12 +2,16 @@ from datetime import datetime
 from logging import info
 
 from app.extensions import schedule
+from app.security import server_verified
 
 schedule.start()
 
 # Scheduled tasks
 @schedule.task("interval", id="checkExpiringUsers", minutes=30, misfire_grace_time=900)
 def check_expiring_users():
+    # Check if the server is verified
+    if not server_verified(): return
+
     # Import the function here to avoid circular imports
     from helpers.universal import global_delete_user
     from helpers.users import get_users_by_expiring
@@ -26,6 +30,9 @@ def check_expiring_users():
 
 @schedule.task("interval", id="checkExpiredSessions", minutes=15, misfire_grace_time=900)
 def check_expired_sessions():
+    # Check if the server is verified
+    if not server_verified(): return
+
     # Import the function here to avoid circular imports
     from app.models.database import Sessions
 
@@ -41,6 +48,9 @@ def check_expired_sessions():
 
 @schedule.task("interval", id="syncUsers", hours=3, misfire_grace_time=900)
 def scan_users():
+    # Check if the server is verified
+    if not server_verified(): return
+
     # Import the function here to avoid circular imports
     from helpers.universal import global_sync_users
 

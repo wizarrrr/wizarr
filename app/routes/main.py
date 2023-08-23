@@ -9,5 +9,5 @@ main = Blueprint("main", __name__)
 def favicon():
     # Get the static directory based on the root path of the app
     root_path = path.dirname(path.dirname(path.dirname(path.abspath(__file__))))
-    static_dir = path.join(root_path, "static")
+    static_dir = path.join(root_path, "app", "static")
     return send_from_directory(static_dir, "favicon.ico", mimetype="image/vnd.microsoft.icon")
