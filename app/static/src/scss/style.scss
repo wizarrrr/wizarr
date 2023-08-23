@@ -120,3 +120,16 @@ button[disabled],
     font-size: x-large;
     text-transform: uppercase;
 }
+
+.react-flow__panel.react-flow__controls button {
+    --tw-bg-opacity: 1;
+    background-color: rgb(254 65 85 / var(--tw-bg-opacity));
+}
+
+.react-flow__panel.react-flow__controls button:last-child {
+    border: none;
+}
+
+.react-flow__panel.react-flow__controls button svg {
+    fill: #fff;
+}

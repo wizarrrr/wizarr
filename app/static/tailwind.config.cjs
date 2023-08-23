@@ -3,6 +3,8 @@ module.exports = {
     content: [
         "./src/ts/**/*.ts",
         "./src/ts/*.ts",
+        "./src/ts/**/*.tsx",
+        "./src/ts/*.tsx",
         "../templates/**/*.html",
         "../templates/*.html",
         "../views/**/*.html",

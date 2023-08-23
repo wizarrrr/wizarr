@@ -5,6 +5,7 @@ import './ts/carousel';
 import './ts/navbar';
 import './ts/api';
 import './ts/utils';
+import './ts/react';
 
 import htmx from 'htmx.org';
 import Cookie from 'js-cookie';

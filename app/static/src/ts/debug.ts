@@ -1,5 +1,7 @@
 import * as Sentry from '@sentry/browser';
 
+import { errorToast } from './utils/customToastify';
+
 /* Track page analytics, using Matomo. NO PERSONAL DATA IS COLLECTED. */
 let _paq = window._paq = window._paq || [];
 let _url = window.location.href.replace('https://', '').replace('http://', '');
@@ -117,10 +119,15 @@ Sentry.init({
         errorSampleRate: 1.0,
         sessionSampleRate: 1.0,
     })],
-    beforeSend(event, hint) {
-        if (event.exception) {
-            feedback();
-        }
-        return event;
-    },
+    // beforeSend(event, hint) {
+    //     if (event.exception) {
+    //         errorToast("We noticed something may have gone wrong. Click here to send us an error report.", {
+    //             onClick: () => {
+    //                 feedback();
+    //             },
+    //             duration: 5000
+    //         });
+    //     }
+    //     return event;
+    // },
 });
