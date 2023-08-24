@@ -1,6 +1,28 @@
+import axios from 'axios';
+
 import * as Sentry from '@sentry/browser';
 
 import { errorToast } from './utils/customToastify';
+
+/* Check if Debug enviroment */
+function isDebug(): boolean {
+    const localDebug = localStorage.getItem('debug');
+
+    const backgroundTask = async () => {
+        const resp = await axios.get('/api/health');
+        localStorage.setItem('debug', resp.data.debug ?? 'false');
+    }
+
+    if (localDebug === null) {
+        backgroundTask().catch(() => {
+            errorToast('Failed to check debug status');
+        });
+
+        return false;
+    }
+
+    return localDebug === 'true';
+}
 
 /* Track page analytics, using Matomo. NO PERSONAL DATA IS COLLECTED. */
 let _paq = window._paq = window._paq || [];
@@ -119,15 +141,16 @@ Sentry.init({
         errorSampleRate: 1.0,
         sessionSampleRate: 1.0,
     })],
-    // beforeSend(event, hint) {
-    //     if (event.exception) {
-    //         errorToast("We noticed something may have gone wrong. Click here to send us an error report.", {
-    //             onClick: () => {
-    //                 feedback();
-    //             },
-    //             duration: 5000
-    //         });
-    //     }
-    //     return event;
-    // },
+    environment: isDebug() ? 'debug' : 'production',
+    beforeSend(event, hint) {
+        if (event.exception) {
+            errorToast("We noticed something may have gone wrong. Click here to send us an error report.", {
+                onClick: () => {
+                    feedback();
+                },
+                duration: 5000
+            });
+        }
+        return event;
+    },
 });
