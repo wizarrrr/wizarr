@@ -23,7 +23,8 @@ class Setup(Resource):
     def get(self):
         # Get counts for stages
         # pylint: disable=no-value-for-parameter
-        account_count = Accounts.select().count()
+        accounts = Accounts.select()
+        account_count = accounts.count() or 0
 
         # Get data from the database for settings
         server_url = Settings.get_or_none(Settings.key == "server_url")

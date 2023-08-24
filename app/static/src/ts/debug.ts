@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import * as Sentry from '@sentry/browser';
 
-import { errorToast } from './utils/customToastify';
+import { errorToast, infoToast } from './utils/customToastify';
 
 /* Check if Debug enviroment */
 function isDebug(): boolean {
@@ -144,7 +144,11 @@ Sentry.init({
     environment: isDebug() ? 'debug' : 'production',
     beforeSend(event, hint) {
         if (event.exception) {
-            errorToast("We noticed something may have gone wrong. Click here to send us an error report.", {
+            const errorMessage = (hint.originalException as Error)?.message ?? "Unknown error";
+            errorToast("Error detected: " + errorMessage, {
+                duration: 5000
+            });
+            infoToast("Click here to send us an error report.", {
                 onClick: () => {
                     feedback();
                 },

@@ -12,7 +12,7 @@
             {{ _("Encryption Password") }}
         </label>
 
-        <input name="password" type="password" class="block w-full text-sm text-gray-900 border border-gray-300 rounded cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" autocomplete="new-password" placeholder="Password" required>
+        <input name="password" type="password" class="block w-full text-sm text-gray-900 border border-gray-300 rounded cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" autocomplete="new-password" placeholder="Password" required maxlength="20">
     </div>
 
     <input name="backup" class="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" required accept=".backup" placeholder="Backup File">
@@ -25,6 +25,12 @@
 </form>
 
 <script>
+    async function wait(ms) {
+        return new Promise(resolve => {
+            setTimeout(resolve, ms);
+        });
+    }
+
     async function restoreNotifications() {
         await wait(1000);
         toast.infoToast("A backup of your database will be saved into your database folder.", { duration: 5000 });
@@ -37,6 +43,9 @@
 
         // Spin the submit button
         utils.submitSpinner(that, true);
+
+        // Hide the navBtns
+        document.getElementById("navBtns")?.classList.add("hidden");
 
         // Convert the form data into a FormData object
         const formData = new FormData(that);
@@ -54,6 +63,9 @@
         if (response.status != 200) {
             // Stop the spinner
             utils.submitSpinner(that, false);
+
+            // Show the navBtns
+            document.getElementById("navBtns")?.classList.remove("hidden");
 
             return;
         }
