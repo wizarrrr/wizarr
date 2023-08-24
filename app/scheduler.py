@@ -57,6 +57,17 @@ def scan_users():
     info("Scanning for new users")
     global_sync_users()
 
+@schedule.task("interval", id="checkForUpdates", minutes=10, misfire_grace_time=900)
+def check_for_updates():
+    # Import the function here to avoid circular imports
+    from app.utils.software_lifecycle import need_update
+    from app import app
+
+    info("Checking for updates")
+
+    # Update jinja global variable
+    app.jinja_env.globals.update(APP_UPDATE=need_update())
+
 
 
 # Ignore these helper functions they need to be moved to a different file

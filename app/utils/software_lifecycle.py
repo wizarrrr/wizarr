@@ -8,6 +8,13 @@ def get_latest_version():
     response = get(url, timeout=10)
     return parse(response.content.decode("utf-8"))
 
+def get_latest_beta_version():
+    url = "https://api.github.com/repos/wizarrrr/wizarr/releases"
+    response = get(url, timeout=10)
+    releases = response.json()
+    latest_beta = [release["tag_name"] for release in releases if release["prerelease"]][0]
+    return parse(latest_beta)
+
 def get_current_version():
     package = path.abspath(path.join(path.dirname(__file__), "../", "../", "package.json"))
     with open(package, "r", encoding="utf-8") as f:
@@ -40,7 +47,7 @@ def is_stable():
 
 def need_update():
     current_version = get_current_version()
-    latest_version = get_latest_version()
+    latest_version = is_beta() and get_latest_beta_version() or get_latest_version()
     update = False
 
     try:

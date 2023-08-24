@@ -72,8 +72,11 @@ def user_identity_lookup(user):
 
 def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
-    user = Accounts.get_by_id(identity)
-    return model_to_dict(user, recurse=True, backrefs=True, exclude=[Accounts.password])
+    try:
+        user = Accounts.get_by_id(identity)
+        return model_to_dict(user, recurse=True, backrefs=True, exclude=[Accounts.password])
+    except Exception:
+        return None
 
 def is_setup_required():
     return not server_verified()
