@@ -2,7 +2,7 @@ name: New Version Push
 
 on:
   release:
-    types: [created]
+    types: [released]
 
 env:
   REGISTRY: ghcr.io
@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Log into registry
-        uses: docker/login-action@v1 
+        uses: docker/login-action@v1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -31,7 +31,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images : ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags : ${{ github.event.release.tag_name }}, latest  # use release name as tag 
+          tags : ${{ github.event.release.tag_name }}, latest  # use release name as tag
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -40,11 +40,11 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Build and push Docker image
-        uses : docker/build-push-action@v2 
+        uses : docker/build-push-action@v2
         with :
-          platforms : linux/amd64,linux/arm64,linux/arm/v7 # specify architectures here 
+          platforms : linux/amd64,linux/arm64,linux/arm/v7 # specify architectures here
           context : .
           file : ./Dockerfile
-          push : true # set this to false if you don't want to push 
-          tags : ${{ steps.meta.outputs.tags }} # use metadata action output 
+          push : true # set this to false if you don't want to push
+          tags : ${{ steps.meta.outputs.tags }} # use metadata action output
           labels : ${{ steps.meta.outputs.labels }} # use metadata action output
