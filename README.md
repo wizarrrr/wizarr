@@ -75,8 +75,6 @@ Wizarr is a automatic user invitation system for Plex and Jellyfin. Create a uni
 
 ## Getting Started
 
- ### `APP_URL` must match your domain perfectly, DO NOT INCLUDE `http://` or `https://`, for example if your running locally then you may wish to set `APP_URL` to `localhost:5690` or `127.0.0.1:5690`, if your running behind a reverse proxy then you may want to set the APP_URL to `wizarr.mywebsite.com`.
-
 ```
 docker run -d \
     --name wizarr \
