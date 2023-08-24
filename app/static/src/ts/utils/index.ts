@@ -14,4 +14,4 @@ import './notifications';
 import './htmx';
 import './scanServers';
 import './scheduledTasks';
-
+import './mediaConfiguration';

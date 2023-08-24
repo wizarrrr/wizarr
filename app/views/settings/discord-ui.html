@@ -43,6 +43,6 @@
         utils.submitSpinner(that, false);
 
         toast.infoToast("{{ _('Settings saved successfully!') }}");
-        htmx.ajax('GET', '/partials/admin/settings/discord', { target: '#settings-content', swap: 'innerHTML' });
+        htmx.ajax('GET', '/partials/admin/settings/discord-ui', { target: '#settings-content', swap: 'innerHTML' });
     }
 </script>
