@@ -2,18 +2,10 @@ from os import getenv, environ
 
 from dotenv import load_dotenv
 from flask import Flask
-from flask_jwt_extended import verify_jwt_in_request, jwt_required
 from jinja2 import ChoiceLoader, FileSystemLoader
 from sentry_sdk.integrations.flask import FlaskIntegration
-# from sentry_sdk import init as sentry_init
-import sentry_sdk
-
-sentry_sdk.init(
-    dsn="https://95cc1c69bfea93ce8502e26b519cd318@o4505748808400896.ingest.sentry.io/4505748886716416",
-    integrations=[FlaskIntegration()],
-    profiles_sample_rate=1.0,
-    traces_sample_rate=1.0
-)
+from sentry_sdk.integrations.asyncio import AsyncioIntegration
+from sentry_sdk import init as sentry_init
 
 from api import *
 from migrations import migrate
@@ -36,6 +28,18 @@ load_dotenv()
 
 # Create the app
 app = Flask(__name__)
+
+# Initialize Sentry
+sentry_init(
+    dsn="https://95cc1c69bfea93ce8502e26b519cd318@o4505748808400896.ingest.sentry.io/4505748886716416",
+    integrations=[
+        FlaskIntegration(),
+        AsyncioIntegration()
+    ],
+    profiles_sample_rate=1.0,
+    traces_sample_rate=1.0,
+    environment="development" if app.debug else "production"
+)
 
 # Override Flask server name if it contains http or https
 if getenv("APP_URL") and getenv("APP_URL", "").startswith("http://") or getenv("APP_URL", "").startswith("https://"):

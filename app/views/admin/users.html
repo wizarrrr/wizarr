@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block box_header_actions %}
-    <button onclick="scanUsers()" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded md:rounded px-2.5 py-2 md:px-5 md:py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
+    <button onclick="scanUsers(this)" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded md:rounded px-2.5 py-2 md:px-5 md:py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">
         {{ _("Scan Users") }}
     </button>
 {% endblock %}
@@ -38,27 +38,19 @@
     });
 
 
-    async function scanUsers() {
-        const users = await fetch('/api/users/scan', {
-            method: 'GET',
-            credentials: 'same-origin',
-            headers: {
-                'X-CSRF-TOKEN': getCookie('csrf_access_token')
-            },
-        })
+    async function scanUsers(that) {
+        utils.buttonSpinner(that, true);
 
-        if (users.status === 200) {
-            toast.successToast('Users scanned successfully')
-            htmx.ajax('GET', '/partials/tables/global-users', '#user_table', 'innerHTML')
+        const scan = await api.axios.get('/api/users/scan')
+
+        if (scan.status !== 200) {
+            const error_message = scan.data.message ? scan.data.message : 'Error scanning users';
+            toast.errorToast(error_message)
         } else {
-            error = await users.json()
-
-            if (error.message) {
-                toast.errorToast(error.message)
-            } else {
-                toast.errorToast('Error scanning users')
-            }
+            toast.infoToast('Users scanned successfully')
         }
+
+        utils.buttonSpinner(that, false);
     }
 
 </script>

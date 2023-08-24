@@ -25,6 +25,7 @@ from .oauth_api import api as oauth_api
 from .mfa_api import api as mfa_api
 from .utilities_api import api as utilities_api
 from .jellyfin_api import api as jellyfin_api
+from .healthcheck_api import api as healthcheck_api
 
 authorizations = {
     "jsonWebToken": {
@@ -96,6 +97,7 @@ api.add_namespace(accounts_api)
 api.add_namespace(authentication_api)
 api.add_namespace(backup_api)
 api.add_namespace(discord_api)
+api.add_namespace(healthcheck_api)
 api.add_namespace(invitations_api)
 api.add_namespace(jellyfin_api)
 api.add_namespace(libraries_api)
