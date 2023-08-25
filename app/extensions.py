@@ -8,12 +8,15 @@ from flask_apscheduler import APScheduler
 from flask_socketio import SocketIO
 from flask_oauthlib.client import OAuth
 
+from apscheduler.schedulers.background import BackgroundScheduler
+from pytz import utc
+
 sess = Session()
 htmx = HTMX()
 jwt = JWTManager()
 cache = Cache()
 api = Api()
-schedule = APScheduler()
+schedule = APScheduler(scheduler=BackgroundScheduler(timezone=utc))
 socketio = SocketIO(log_output=False)
 babel = Babel()
 oauth = OAuth()

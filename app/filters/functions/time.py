@@ -1,49 +1,5 @@
-def humanize(value):
-    from datetime import datetime
-    from pendulum import parse
-
-    # Check if the value is a string
-    if not isinstance(value, str):
-        return "Unknown format"
-
-    # If the value is a string, parse it
-    value = parse(value)
-
-    # Remove milliseconds
-    value = value.replace(microsecond=0)
-    timenow = datetime.utcnow().replace(microsecond=0)
-
-    time_difference = value - timenow
-    is_future = time_difference.total_seconds() > 0
-
-    # Nearest human-readable time
-    if abs(time_difference.days) > 364:
-        years = abs(time_difference.days) // 364
-        return f"{years} year{'s' if years > 1 else ''} {'from now' if is_future else 'ago'}"
-    elif abs(time_difference.days) > 30:
-        months = abs(time_difference.days) // 30
-        return f"{months} month{'s' if months > 1 else ''} {'from now' if is_future else 'ago'}"
-    elif abs(time_difference.days) > 7:
-        weeks = abs(time_difference.days) // 7
-        return f"{weeks} week{'s' if weeks > 1 else ''} {'from now' if is_future else 'ago'}"
-    elif abs(time_difference.days) > 1:
-        days = abs(time_difference.days)
-        return f"{days} day{'s' if days > 1 else ''} {'from now' if is_future else 'ago'}"
-    elif abs(time_difference.total_seconds() / 3600) > 1:
-        hours = abs(int(time_difference.total_seconds() / 3600))
-        return f"{hours} hour{'s' if hours > 1 else ''} {'from now' if is_future else 'ago'}"
-    elif abs(time_difference.total_seconds() / 60) > 1:
-        minutes = abs(int(time_difference.total_seconds() / 60))
-        return f"{minutes} minute{'s' if minutes > 1 else ''} {'from now' if is_future else 'ago'}"
-    elif abs(time_difference.total_seconds()) > 1:
-        seconds = abs(int(time_difference.total_seconds()))
-        return f"{seconds} second{'s' if seconds > 1 else ''} {'from now' if is_future else 'ago'}"
-
-    return "Unknown format"
-
-
 def arrow_humanize(value):
-    from pendulum import parse
+    from pendulum import parse, now
     from app.utils.babel_locale import get_locale
 
     # Check if the value is a string
@@ -52,12 +8,13 @@ def arrow_humanize(value):
 
     # Parse the datetime string
     parsed_datetime = parse(value)
+    utc_now = now("UTC")
 
     # Get the relative time difference from the current time
     try:
         relative_time = parsed_datetime.diff_for_humans(locale=get_locale())
-    except ValueError:
-        relative_time = parsed_datetime.diff_for_humans()
+    except Exception:
+        relative_time = utc_now.diff_for_humans(other=parsed_datetime).replace("after", "ago")
 
     return relative_time
 

@@ -78,12 +78,6 @@ with app.app_context():
     compile_swagger(api)
 
 # Register Jinja2 filters
-# app.add_template_filter(format_datetime)
-# app.add_template_filter(date_format)
-# app.add_template_filter(env, "getenv")
-# app.add_template_filter(humanize)
-# app.add_template_filter(arrow_humanize)
-# app.add_template_filter(split_string, "split")
 register_filters(app)
 
 # Register Flask blueprints
