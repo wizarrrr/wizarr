@@ -33,3 +33,5 @@ axios.defaults.headers.common["X-CSRF-TOKEN"] = cookie.get('csrf_access_token');
 axios.interceptors.response.use(resp, error);
 
 addToWindow(['api', 'axios'], axios);
+
+export default axios;

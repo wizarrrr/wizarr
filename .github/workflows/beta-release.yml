@@ -57,9 +57,9 @@ jobs:
           curl -X POST \
             -H "Authorization: token $GITHUB_TOKEN" \
             -d '{
-              "tag_name": "v'${{ steps.get_current_version.outputs.current_version }}'",
+              "tag_name": "'${{ steps.get_current_version.outputs.current_version }}'",
               "target_commitish": "v3-alpha",
-              "name": "Pre-Release v'${{ steps.get_current_version.outputs.current_version }}'",
+              "name": "Pre-Release V'${{ steps.get_current_version.outputs.current_version }}'",
               "body": "${{ steps.generate_release_notes.outputs.release_notes }}",
               "prerelease": true
             }' \

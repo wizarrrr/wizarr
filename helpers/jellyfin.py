@@ -361,13 +361,13 @@ def sync_jellyfin_users(server_api_key: Optional[str] = None, server_url: Option
 
     # If jellyfin_users.id not in database_users.token, add to database
     for jellyfin_user in jellyfin_users:
-        if jellyfin_user["Id"] not in [database_user.token for database_user in database_users]:
+        if str(jellyfin_user["Id"]) not in [str(database_user.token) for database_user in database_users]:
             create_user(username=jellyfin_user["Name"], token=jellyfin_user["Id"])
             info(f"User {jellyfin_user['Name']} successfully imported to database.")
 
     # If database_users.token not in jellyfin_users.id, delete from database
     for database_user in database_users:
-        if database_user.token not in [jellyfin_user["Id"] for jellyfin_user in jellyfin_users]:
+        if str(database_user.token) not in [str(jellyfin_user["Id"]) for jellyfin_user in jellyfin_users]:
             database_user.delete_instance()
             info(f"User {database_user.username} successfully deleted from database.")
 
