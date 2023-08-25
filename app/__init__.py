@@ -20,6 +20,7 @@ from .security import *
 from .utils.babel_locale import get_locale
 from .utils.check_enviroment import check_enviroment
 from .utils.compile_swagger import compile_swagger
+from .utils.clear_logs import clear_logs
 
 BASE_DIR = path.abspath(path.dirname(__file__))
 
@@ -75,7 +76,8 @@ oauth.init_app(app)
 # Clear cache on startup
 with app.app_context():
     cache.clear()
-    compile_swagger(api)
+    clear_logs()
+    # compile_swagger(api)
 
 # Register Jinja2 filters
 register_filters(app)

@@ -11,7 +11,3 @@ def compile_swagger(api: Api):
     with open(path.join(base_dir, "../", "swagger.json"), "w", encoding="utf-8") as f:
         f.write(dumps(swagger_data))
 
-    # Clear log file contents on startup
-    if path.exists(path.join(base_dir, "../", "database", "logs.log")):
-        with open(path.join(base_dir, "../", "database", "logs.log"), "w", encoding="utf-8") as f:
-            f.write("")

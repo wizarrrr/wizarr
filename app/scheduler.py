@@ -57,7 +57,7 @@ def scan_users():
     info("Scanning for new users")
     global_sync_users()
 
-@schedule.task("interval", id="checkForUpdates", minutes=10, misfire_grace_time=900)
+@schedule.task("interval", id="checkForUpdates", hours=1, misfire_grace_time=900)
 def check_for_updates():
     # Import the function here to avoid circular imports
     from app.utils.software_lifecycle import need_update
