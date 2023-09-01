@@ -1,0 +1,33 @@
+{
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.formatOnSave": true,
+    "[vue]": {
+        "editor.formatOnType": true,
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.codeActionsOnSave": {
+        "source.fixAll": false,
+        "source.fixAll.eslint": true,
+        "source.organizeImports": false
+    },
+    "vetur.validation.template": false,
+    "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
+    "[nunjucks]": {
+        "editor.defaultFormatter": "okitavera.vscode-nunjucks-formatter"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "files.associations": {
+        "*.vue": "vue"
+    },
+    "prettier.configPath": ".prettierrc.js",
+    "vetur.format.defaultFormatter.js": "vscode-typescript",
+    "editor.wordWrap": "off"
+}
