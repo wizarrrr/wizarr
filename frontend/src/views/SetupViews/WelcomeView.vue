@@ -1,0 +1,24 @@
+<template>
+    <h1 class="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        {{ __("Welcome to Wizarr") }}
+    </h1>
+    <p class="text-base text-center text-gray-600 dark:text-gray-400 md:text-md">
+        {{ __("Wizarr is an automatic user invitation system for Plex, Jellyfin, and Emby. With Wizarr, you can easily create unique invitation links to share with users, automatically inviting them to your Media Server! Furthermore, Wizarr provides guidance on downloading clients and instructions for using Jellyseerr, Overseerr or Ombi site.") }}
+    </p>
+    <p class="text-base text-center text-gray-600 dark:text-gray-400 md:text-md">
+        {{ __("We hope you enjoy using Wizarr and invite you to explore its powerful features and intuitive interface. Should you need any assistance, please refer to our documentation or reach out to our community for support.") }}
+    </p>
+    <p class="text-base text-center text-gray-600 dark:text-gray-400 md:text-md">
+        {{ __("Check out our documentation for detailed instructions on how to install and run Wizarr!") }}
+        <br />
+        <a href="https://docs.wizarr.dev/getting-started/installation" target="_blank" rel="noopener noreferrer">https://docs.wizarr.dev/getting-started/installation</a>
+    </p>
+</template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+    name: "WelcomeView",
+});
+</script>
