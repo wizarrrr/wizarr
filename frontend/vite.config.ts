@@ -23,7 +23,7 @@ export default defineConfig({
         VitePWA(VitePWAConfig), // Initialize Vite PWA Plugin
         babel(), // Initialize Babel Plugin
         // legacy(), // Initialize Legacy Plugin
-        browserSync(), // Initialize BrowserSync Plugin
+        // browserSync(), // Initialize BrowserSync Plugin
     ],
     resolve: {
         alias: {
@@ -36,5 +36,5 @@ export default defineConfig({
             "/swaggerui": "http://localhost:5000",
         },
     },
-    assetsInclude: ["**/*.html"],
+    // assetsInclude: ["**/*.html"],
 });

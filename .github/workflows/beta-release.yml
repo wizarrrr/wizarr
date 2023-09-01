@@ -3,7 +3,7 @@ name: Create Pre-Release on Version Change
 on:
   push:
     branches:
-      - v3-alpha
+      - none
 
 jobs:
   check-version-and-create-release:

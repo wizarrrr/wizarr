@@ -3,7 +3,7 @@ name: Build and push Docker image
 on:
   push:
     branches:
-      - v3-alpha
+      - v3-alpha-vue
 
 env:
     REGISTRY: ghcr.io

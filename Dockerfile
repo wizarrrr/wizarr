@@ -8,7 +8,7 @@ RUN apk update
 
 # Setup Nginx Environment
 RUN apk add --no-cache nginx
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/http.d/default.conf
 
 # Setup Python Environment
 WORKDIR /data/backend
@@ -26,11 +26,13 @@ RUN npm install
 RUN npm run build
 
 # Setup Timezone
-ENV TZ UTC
-RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN cp /usr/share/zoneinfo/UTC /etc/localtime && echo UTC > /etc/timezone
 
-# Start B
-WORKDIR /data/backend
-CMD [ "nginx", "-g", "daemon off;", "gunicorn", "--worker-class", "geventwebsocket.gunicorn.workers GeventWebSocketWorker", "--bind", "0.0.0.0:5690", "-m", "007", "run:app" ]
+# Set Environment Variables
+ENV APP_URL 127.0.0.1:5000
+ENV TZ Etc/UTC
 
+# Start Nginx in Background and Gunicon in Foreground
 EXPOSE 5690
+WORKDIR /data/backend
+CMD [ "sh", "-c", "nginx && gunicorn --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker --bind 0.0.0.0:5000 -m 007 run:app" ]

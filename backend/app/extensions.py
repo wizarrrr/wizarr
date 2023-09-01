@@ -7,7 +7,6 @@ from flask_restx import Api
 from flask_apscheduler import APScheduler
 from flask_socketio import SocketIO
 from flask_oauthlib.client import OAuth
-from flask_vite import Vite
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from pytz import utc
@@ -21,4 +20,3 @@ schedule = APScheduler(scheduler=BackgroundScheduler(timezone=utc))
 socketio = SocketIO(log_output=False)
 babel = Babel()
 oauth = OAuth()
-vite = Vite()

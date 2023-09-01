@@ -9,7 +9,4 @@ services:
     ports:
       - 5690:5690
     volumes:
-      - ./database:/data/database # Change this to your data directory
-    environment:
-      - APP_URL=wizarr.example.com # Change this to your domain
-      - TZ=Etc/UTC # Set your timezone
+      - ./database:/data/backend/database # Change this to your data directory
