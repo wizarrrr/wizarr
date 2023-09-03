@@ -1,12 +1,9 @@
-<script setup lang="ts">
-import { RouterView } from "vue-router";
-</script>
-
 <template>
     <vue-progress-bar></vue-progress-bar>
     <FullPageLoading v-if="pageLoading" />
     <RouterView v-else />
     <Offline />
+    <ReloadPrompt />
 </template>
 
 <script lang="ts">
@@ -25,15 +22,17 @@ import type { ToastID } from "vue-toastification/dist/types/types";
 import Offline from "@/components/Offline.vue";
 import FullPageLoading from "@/components/Loading/FullPageLoading.vue";
 import ServerData from "./assets/ts/api/ServerData";
-import BadBackend from "./components/Toasts/BadBackend.vue";
-import UpdateAvailable from "./components/Toasts/UpdateAvailable.vue";
-import DefaultToast from "./components/Toasts/DefaultToast.vue";
+import BadBackend from "@/components/Toasts/BadBackend.vue";
+import UpdateAvailable from "@/components/Toasts/UpdateAvailable.vue";
+import DefaultToast from "@/components/Toasts/DefaultToast.vue";
+import ReloadPrompt from "@/components/ReloadPrompt.vue";
 
 export default defineComponent({
     name: "App",
     components: {
         Offline,
         FullPageLoading,
+        ReloadPrompt,
     },
     data() {
         return {

@@ -3,109 +3,90 @@ import { useProgressStore } from "@/stores/progress";
 import { useUserStore } from "@/stores/user";
 import { pinia } from "@/main";
 
-import axios from "@/assets/ts/utils/Axios";
-
-// Publicly Accessible Views
-import HomeView from "@/views/DefaultViews/HomeView.vue";
-import LoginView from "@/views/LoginViews/LoginView.vue";
-
-// Semi Publicly Accessible Views
-import SetupView from "@/views/SetupViews/SetupView.vue";
-
-// Admin Accessible Views
-import AdminView from "@/views/AdminViews/AdminView.vue";
-import InviteView from "@/views/AdminViews/InviteView.vue";
-import InvitationsView from "@/views/AdminViews/InvitationsView.vue";
-import UsersView from "@/views/AdminViews/UsersView.vue";
-import FlowEdtior from "@/views/AdminViews/FlowEditor.vue";
-
-// Settings Views
-import SettingsView from "@/views/SettingsViews/SettingsView.vue";
-import DefaultView from "@/views/SettingsViews/DefaultView.vue";
-import TasksView from "@/views/SettingsViews/TasksView.vue";
-import AboutView from "@/views/SettingsViews/AboutView.vue";
-import MediaView from "@/views/SettingsViews/MediaView.vue";
-
-// Error Views
-import NotFoundView from "@/views/DefaultViews/NotFoundView.vue";
-
-const history = typeof window !== "undefined" ? createWebHistory() : createMemoryHistory();
-
 const router = createRouter({
-    history: history,
+    history: typeof window !== "undefined" ? createWebHistory() : createMemoryHistory(),
     routes: [
         {
             path: "/",
             name: "home",
-            component: HomeView,
+            component: () => import("@/views/DefaultViews/HomeView.vue"),
         },
         {
             path: "/login",
             name: "login",
-            component: LoginView,
+            component: () => import("@/views/LoginViews/LoginView.vue"),
             meta: { requiresLoggedOut: true },
         },
         {
+            path: "/setup",
+            redirect: { name: "setup" },
+        },
+        {
             path: "/setup/:step",
-            alias: "/setup",
             name: "setup",
-            component: SetupView,
+            component: () => import("@/views/SetupViews/SetupView.vue"),
         },
         {
             path: "/admin",
             name: "admin",
             redirect: { name: "admin-invite" },
-            component: AdminView,
+            component: () => import("@/views/AdminViews/AdminView.vue"),
             meta: { requiresAuth: true },
             children: [
                 {
                     path: "invite",
                     alias: "",
                     name: "admin-invite",
-                    component: InviteView,
+                    component: () => import("@/views/AdminViews/InviteView.vue"),
                 },
                 {
                     path: "invitations",
                     name: "admin-invitations",
-                    component: InvitationsView,
+                    component: () => import("@/views/AdminViews/InvitationsView.vue"),
                 },
                 {
                     path: "users",
                     name: "admin-users",
-                    component: UsersView,
+                    component: () => import("@/views/AdminViews/UsersView.vue"),
                 },
                 {
                     path: "flow-editor",
                     name: "admin-flow-editor",
-                    component: FlowEdtior,
+                    component: () => import("@/views/AdminViews/FlowEditor.vue"),
                 },
                 {
                     path: "settings",
                     name: "admin-settings",
-                    component: SettingsView,
+                    component: () => import("@/views/SettingsViews/SettingsView.vue"),
                     children: [
                         {
                             path: "",
                             name: "admin-settings",
-                            component: DefaultView,
+                            component: () => import("@/views/SettingsViews/DefaultView.vue"),
                             meta: { searchBar: true },
                         },
                         {
                             path: "media",
                             name: "admin-settings-media",
-                            component: MediaView,
+                            component: () => import("@/views/SettingsViews/MediaView.vue"),
                             meta: { header: "Manage Media", subheader: "Configure server media" },
+                        },
+                        {
+                            path: "mfa",
+                            name: "admin-settings-mfa",
+                            component: () => import("@/views/SettingsViews/MFAView.vue"),
+                            meta: { header: "Manage MFA", subheader: "Configure multi-factor authentication" },
                         },
                         {
                             path: "tasks",
                             name: "admin-settings-tasks",
-                            component: TasksView,
+                            component: () => import("@/views/SettingsViews/TasksView.vue"),
                             meta: { header: "Manage Tasks", subheader: "Configure server tasks" },
                         },
                         {
                             path: "about",
                             name: "admin-settings-about",
-                            component: AboutView,
+                            component: () => import("@/views/SettingsViews/AboutView.vue"),
                             meta: { header: "About", subheader: "View server information" },
                         },
                     ],
@@ -115,7 +96,7 @@ const router = createRouter({
         {
             path: "/:pathMatch(.*)*",
             name: "not-found",
-            component: NotFoundView,
+            component: () => import("@/views/DefaultViews/NotFoundView.vue"),
         },
     ],
 });

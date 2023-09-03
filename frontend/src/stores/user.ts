@@ -1,7 +1,9 @@
-import { defineStore } from "pinia";
-import type { APIUser } from "@/types/User";
-import { useJwt } from "@vueuse/integrations/useJwt";
 import axios from "@/assets/ts/utils/Axios";
+
+import type { APIUser } from "@/types/User";
+
+import { defineStore } from "pinia";
+import { useJwt } from "@vueuse/integrations/useJwt";
 
 export const useUserStore = defineStore("user", {
     state: () => ({

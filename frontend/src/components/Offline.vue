@@ -21,6 +21,9 @@ export default defineComponent({
             toast: null as ToastID | null,
         };
     },
+    render() {
+        return null;
+    },
     watch: {
         "useNetwork.isOnline": {
             immediate: false,

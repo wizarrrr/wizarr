@@ -25,6 +25,9 @@ export default defineConfig({
         // legacy(), // Initialize Legacy Plugin
         // browserSync(), // Initialize BrowserSync Plugin
     ],
+    build: {
+        sourcemap: true,
+    },
     resolve: {
         alias: {
             "@": fileURLToPath(new URL("./src", import.meta.url)),
@@ -32,8 +35,8 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            "/api": "http://localhost:5000",
-            "/swaggerui": "http://localhost:5000",
+            "/api": "http://127.0.0.1:5000",
+            "/swaggerui": "http://127.0.0.1:5000",
         },
     },
     // assetsInclude: ["**/*.html"],

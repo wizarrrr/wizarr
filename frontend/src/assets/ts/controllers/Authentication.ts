@@ -1,14 +1,12 @@
-import { infoToast, errorToast } from "../utils/Toasts";
 import axios from "../utils/Axios";
 
 import { startAuthentication, startRegistration } from "@simplewebauthn/browser";
+import { infoToast, errorToast } from "../utils/Toasts";
+import { useRouter } from "vue-router";
 
 import type { RegistrationResponseJSON } from "@simplewebauthn/typescript-types";
 import type { WebAuthnError } from "@simplewebauthn/browser/dist/types/helpers/webAuthnError";
 import type { APIUser } from "@/types/User";
-import { useUserStore } from "@/stores/user";
-import router from "@/router";
-import { pinia } from "@/main";
 
 class Authentication {
     // Local axios instance
@@ -17,6 +15,9 @@ class Authentication {
     // Local toast functions
     private errorToast = errorToast;
     private infoToast = infoToast;
+
+    // Router instance
+    private router = useRouter();
 
     // Store properties needed for the authentication class
     [key: string]: any;
@@ -75,7 +76,7 @@ class Authentication {
      */
     handleAuthData(user: Partial<APIUser>, token: string) {
         // Redirect the user to the home page
-        router.push("/admin");
+        this.router.push("/admin");
 
         // Show a welcome message to the display_name else username
         infoToast(`Welcome ${user.display_name || user.username}`);

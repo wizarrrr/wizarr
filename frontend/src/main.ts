@@ -5,7 +5,6 @@ import { createPinia } from "pinia";
 import { createApp } from "vue";
 
 import App from "./App.vue";
-import router from "./router";
 import Toast from "vue-toastification";
 import Axios from "./plugins/axios";
 import ToastPlugin from "./plugins/toasts";
@@ -15,6 +14,7 @@ import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import sentry from "./sentry";
 import VueProgressBar from "@aacassandra/vue3-progressbar";
 import FloatingVue from "floating-vue";
+import router from "./router";
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -37,5 +37,14 @@ pinia.use(piniaPluginPersistedstate);
 sentry(app, router);
 
 app.mount("#app");
+
+// List for service worker messages
+navigator.serviceWorker.addEventListener("message", (event) => {
+    console.log("Got message from service worker: ", event.data);
+});
+
+navigator.serviceWorker.ready.then((registration) => {
+    registration?.active?.postMessage("Test message sent immediately after creation");
+});
 
 export { app, pinia };

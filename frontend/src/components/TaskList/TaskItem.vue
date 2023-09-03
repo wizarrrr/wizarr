@@ -1,16 +1,11 @@
 <template>
-    <div class="flex flex-row border dark:bg-gray-800 dark:border-gray-700 text-gray-900 p-4 rounded" :class="{ 'inner-border inner-border-red-600 inner-border-[2px]': failedTask }">
-        <div class="flex flex-grow items-center justify-start space-x-0 md:space-x-3 w-2/3">
-            <div class="aspect-square h-full bg-gray-100 rounded hidden md:flex items-center justify-center dark:bg-gray-700">
-                <i class="fa-solid fa-list text-gray-500 dark:text-gray-400"></i>
-            </div>
-            <div class="dark:text-white font-bold flex flex-col items-start justify-between w-full">
-                <span class="text-lg">{{ formattedTitle }}</span>
-                <p class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ formattedCountdown }}</p>
-            </div>
-        </div>
+    <ListItem :class="{ 'inner-border inner-border-red-600 inner-border-[2px]': failedTask }" icon="fa-list">
+        <template #title>
+            <span class="text-lg">{{ formattedTitle }}</span>
+            <p class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ formattedCountdown }}</p>
+        </template>
 
-        <div class="flex flex-row space-x-3 justify-end items-center w-1/2">
+        <template #buttons>
             <div class="flex flex-row space-x-2">
                 <div class="w-[36px] h-[36px]">
                     <button :disabled="buttonsDisabled.resume" @click="resumeLocalJob" v-if="job.next_run_time == null" class="w-full h-full bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
@@ -29,8 +24,8 @@
                     <i class="fa-solid fa-trash"></i>
                 </button>
             </div>
-        </div>
-    </div>
+        </template>
+    </ListItem>
 </template>
 
 <script lang="ts">
@@ -42,11 +37,15 @@ import type { Job } from "@/types/Tasks";
 
 import TitleCase from "@/assets/ts/filters/TitleCase";
 import UnderscroreSpace from "@/assets/ts/filters/UnderscoreSpace";
+import ListItem from "../ListItem.vue";
 
 import moment from "moment";
 
 export default defineComponent({
     name: "TaskItem",
+    components: {
+        ListItem,
+    },
     props: {
         task: {
             type: Object as () => Job,
