@@ -38,13 +38,4 @@ sentry(app, router);
 
 app.mount("#app");
 
-// List for service worker messages
-navigator.serviceWorker.addEventListener("message", (event) => {
-    console.log("Got message from service worker: ", event.data);
-});
-
-navigator.serviceWorker.ready.then((registration) => {
-    registration?.active?.postMessage("Test message sent immediately after creation");
-});
-
 export { app, pinia };
