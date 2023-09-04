@@ -39,24 +39,24 @@ msgstr "1 metai"
 msgid "6 Months"
 msgstr "6 mėnesiai"
 
-#: src/views/AdminViews/SettingsView.vue:238
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "About"
 msgstr "Apie"
 
-#: src/views/AdminViews/SettingsView.vue:139
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Account Settings"
 msgstr "Nustatymai"
 
-#: src/views/AdminViews/SettingsView.vue:115
+#: src/views/SettingsViews/DefaultView.vue:105
 msgid "Add API keys for external services"
 msgstr "Pridėkite išorinių paslaugų API raktus"
 
-#: src/views/AdminViews/SettingsView.vue:195
+#: src/views/SettingsViews/DefaultView.vue:185
 msgid "Add Custom HTML page to help screen"
 msgstr "Pridėkite tinkintą HTML puslapį į pagalbos ekraną"
 
-#: src/views/AdminViews/SettingsView.vue:108
+#: src/views/SettingsViews/DefaultView.vue:98
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "Pridėkite Jellyseerr, Overseerr arba Ombi palaikymą"
 
@@ -68,12 +68,12 @@ msgstr "Administratoriaus paskyra"
 msgid "Advanced Options"
 msgstr "Išplėstiniai nustatymai"
 
-#: src/views/AdminViews/SettingsView.vue:202
+#: src/views/SettingsViews/DefaultView.vue:192
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Išplėstiniai nustatymai"
 
-#: src/views/AdminViews/SettingsView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:193
 msgid "Advanced settings for the server"
 msgstr "Išplėstiniai serverio nustatymai"
 
@@ -81,26 +81,26 @@ msgstr "Išplėstiniai serverio nustatymai"
 msgid "Allow Downloads"
 msgstr "Leisti atsisiuntimus"
 
-#: src/views/AdminViews/SettingsView.vue:114
+#: src/views/SettingsViews/DefaultView.vue:104
 #, fuzzy
 msgid "API keys"
 msgstr "API prieigos raktas"
 
-#: src/templates/SettingsTemplate.vue:10 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "Atgal"
 
-#: src/views/AdminViews/SettingsView.vue:232
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Backup"
 msgstr "Atgal"
 
-#: src/views/AdminViews/SettingsView.vue:151
+#: src/views/SettingsViews/DefaultView.vue:141
 #, fuzzy
 msgid "Change your password"
 msgstr "Pamiršai slaptažodį?"
 
-#: src/views/AdminViews/SettingsView.vue:226
+#: src/views/SettingsViews/DefaultView.vue:216
 msgid "Check for and view updates"
 msgstr "Patikrinkite ir peržiūrėkite naujinimus"
 
@@ -112,35 +112,35 @@ msgstr ""
 "Išsamias instrukcijas, kaip įdiegti ir paleisti „Wizarr“, rasite mūsų "
 "dokumentuose!"
 
-#: src/views/AdminViews/SettingsView.vue:131
+#: src/views/SettingsViews/DefaultView.vue:121
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "Konfigūruokite savo serverio nustatymus."
 
-#: src/views/AdminViews/SettingsView.vue:170
+#: src/views/SettingsViews/DefaultView.vue:160
 msgid "Configure MFA authentication"
 msgstr "Konfigūruokite MFA autentifikavimą"
 
-#: src/views/AdminViews/SettingsView.vue:123
+#: src/views/SettingsViews/DefaultView.vue:113
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "Konfigūruokite savo serverio nustatymus."
 
-#: src/views/AdminViews/SettingsView.vue:207
+#: src/views/SettingsViews/DefaultView.vue:197
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "Sukurti pakvietimą"
 
-#: src/views/AdminViews/SettingsView.vue:163
+#: src/views/SettingsViews/DefaultView.vue:153
 msgid "Configure SSO login"
 msgstr "Konfigūruokite SSO prisijungimą"
 
-#: src/views/AdminViews/SettingsView.vue:102
+#: src/views/SettingsViews/DefaultView.vue:92
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "Konfigūruokite savo serverio nustatymus."
 
-#: src/views/AdminViews/SettingsView.vue:145
+#: src/views/SettingsViews/DefaultView.vue:135
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "Konfigūruokite savo serverio nustatymus."
@@ -158,10 +158,15 @@ msgstr "Sukurti paskyrą"
 msgid "Create an invitation to your server"
 msgstr "Sukurkite kvietimą į savo serverį."
 
-#: src/views/AdminViews/SettingsView.vue:233
+#: src/views/SettingsViews/DefaultView.vue:223
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Sukurti paskyrą"
+
+#: src/views/AdminViews/FlowEditor.vue:4
+#, fuzzy
+msgid "Create Flow"
+msgstr "Sukurti"
 
 #: src/views/AdminViews/InviteView.vue:137
 #: src/views/AdminViews/InviteView.vue:2
@@ -180,7 +185,7 @@ msgstr "Pasirinktinis"
 msgid "Custom Duration"
 msgstr "Tinkinta trukmė"
 
-#: src/views/AdminViews/SettingsView.vue:194
+#: src/views/SettingsViews/DefaultView.vue:184
 #, fuzzy
 msgid "Custom HTML"
 msgstr "Pasirinktinis"
@@ -189,26 +194,34 @@ msgstr "Pasirinktinis"
 msgid "Database"
 msgstr "Duomenų bazė"
 
-#: src/views/AdminViews/SettingsView.vue:188
+#: src/views/SettingsViews/DefaultView.vue:178
 #, fuzzy
 msgid "Discord"
 msgstr "Discord valdiklis"
 
-#: src/views/AdminViews/SettingsView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Discord Bot"
 msgstr "Discord valdiklis"
+
+#: src/components/ScanServers/ScanServers.vue:26
+msgid "Don't see your server?"
+msgstr ""
 
 #: src/views/AdminViews/InviteView.vue:51
 #: src/views/AdminViews/InviteView.vue:64
 msgid "Duration"
 msgstr "Trukmė"
 
-#: src/views/AdminViews/SettingsView.vue:189
+#: src/views/SettingsViews/DefaultView.vue:179
 msgid "Enable Discord page and configure settings"
 msgstr "Įgalinkite „Discord“ puslapį ir sukonfigūruokite nustatymus"
 
-#: src/views/AdminViews/SettingsView.vue:97
+#: src/views/AdminViews/FlowEditor.vue:2
+msgid "Flow Editor"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:87
 msgid "General settings for the server"
 msgstr "Bendrieji serverio nustatymai"
 
@@ -230,7 +243,7 @@ msgstr "Pereiti prie prietaisų skydelio"
 msgid "Go to Login"
 msgstr "Prisijungti"
 
-#: src/components/NavBars/AdminNavBar.vue:67
+#: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
 msgstr "Namai"
@@ -244,7 +257,7 @@ msgstr ""
 "Jei jus čia atsiuntė draugas, paprašykite prieigos arba, jei turite "
 "pakvietimo kodą, spustelėkite Pradėti."
 
-#: src/components/NavBars/AdminNavBar.vue:71
+#: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "Kvietimai"
@@ -256,6 +269,10 @@ msgstr "Pakvieskite į „Plex Home“."
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "Pakviesti vartotojai"
+
+#: src/components/ChangeLogs/ChangeLogs.vue:7
+msgid "Load More"
+msgstr "Įkelti daugiau"
 
 #: src/views/LoginViews/PasswordView.vue:12
 msgid "Login"
@@ -273,15 +290,20 @@ msgstr "Prisijunkite naudodami slaptažodį"
 msgid "Login with your account"
 msgstr "Prisijunkite naudodami savo paskyrą"
 
-#: src/views/AdminViews/SettingsView.vue:213
+#: src/views/SettingsViews/DefaultView.vue:203
 #, fuzzy
 msgid "Logs"
 msgstr "Prisijungti"
 
-#: src/views/AdminViews/SettingsView.vue:96
+#: src/views/SettingsViews/DefaultView.vue:86
 #, fuzzy
 msgid "Main Settings"
 msgstr "Nustatymai"
+
+#: src/views/AdminViews/FlowEditor.vue:3
+#, fuzzy
+msgid "Manage your command flows"
+msgstr "Tvarkykite savo kvietimus"
 
 #: src/views/AdminViews/InvitationsView.vue:3
 msgid "Manage your invitations"
@@ -292,7 +314,7 @@ msgstr "Tvarkykite savo kvietimus"
 msgid "Manage your media server users"
 msgstr "Konfigūruokite savo serverio nustatymus."
 
-#: src/views/AdminViews/SettingsView.vue:101
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Media Server"
 msgstr "Serveris"
@@ -301,11 +323,11 @@ msgstr "Serveris"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:174
 msgid "Modify the look and feel of the server"
 msgstr "Pakeiskite serverio išvaizdą"
 
-#: src/views/AdminViews/SettingsView.vue:169
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Multi-Factor Authentication"
 msgstr "Daugiafaktorinis autentifikavimas"
 
@@ -313,21 +335,25 @@ msgstr "Daugiafaktorinis autentifikavimas"
 msgid "Next"
 msgstr "Kitas"
 
-#: src/views/AdminViews/SettingsView.vue:36
+#: src/components/ScanServers/ScanServers.vue:15
+msgid "No servers could be found."
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:26
 msgid "No settings matched your search."
 msgstr "Jokie nustatymai neatitiko jūsų paieškos."
 
-#: src/views/AdminViews/SettingsView.vue:122
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Notifications"
 msgstr "Pranešimų tarnyba"
 
-#: src/views/AdminViews/SettingsView.vue:206
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "Sukurti pakvietimą"
 
-#: src/views/AdminViews/SettingsView.vue:150
+#: src/views/SettingsViews/DefaultView.vue:140
 msgid "Password"
 msgstr "Slaptažodis"
 
@@ -346,7 +372,7 @@ msgstr ""
 "Paspauskite žemiau esantį mygtuką ir atlikite naršyklės veiksmus, kad "
 "prisijungtumėte"
 
-#: src/views/AdminViews/SettingsView.vue:144
+#: src/views/SettingsViews/DefaultView.vue:134
 msgid "Profile"
 msgstr "Profilis"
 
@@ -354,7 +380,7 @@ msgstr "Profilis"
 msgid "Request Access"
 msgstr "Prašyti prieigos"
 
-#: src/views/AdminViews/SettingsView.vue:107
+#: src/views/SettingsViews/DefaultView.vue:97
 #, fuzzy
 msgid "Requests"
 msgstr "Užklausos serveris"
@@ -376,20 +402,21 @@ msgstr "Sukurti paskyrą"
 msgid "Select All"
 msgstr "Pasirinkti viską"
 
+#: src/components/Modals/ScanLibrariesModal.vue:8
 #: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "Pasirinkite bibliotekos"
 
-#: src/views/AdminViews/SettingsView.vue:156
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "Sessions"
 msgstr "Versija"
 
-#: src/components/NavBars/AdminNavBar.vue:79
+#: src/components/NavBars/AdminNavBar.vue:85
 msgid "Settings"
 msgstr "Nustatymai"
 
-#: src/views/AdminViews/SettingsView.vue:140
+#: src/views/SettingsViews/DefaultView.vue:130
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "Paskyros nustatymas"
@@ -414,7 +441,7 @@ msgstr "Atsiprašome, šio puslapio nerandame. Atrodo, kad jo nėra!"
 msgid "Specific Libraries"
 msgstr "Konkrečios bibliotekos"
 
-#: src/views/AdminViews/SettingsView.vue:162
+#: src/views/SettingsViews/DefaultView.vue:152
 #, fuzzy
 msgid "SSO Login"
 msgstr "Prisijungti"
@@ -423,7 +450,7 @@ msgstr "Prisijungti"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:219
+#: src/views/SettingsViews/DefaultView.vue:209
 #, fuzzy
 msgid "Tasks"
 msgstr "Vykdykite užduotį"
@@ -433,7 +460,11 @@ msgid ""
 "This is a temporary and we are working on adding support for other databases."
 msgstr "Tai laikina ir mes stengiamės pridėti kitų duomenų bazių palaikymą."
 
-#: src/views/AdminViews/SettingsView.vue:183
+#: src/components/Modals/ScanServersModal.vue:8
+msgid "Try Again"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:173
 #, fuzzy
 msgid "UI Settings"
 msgstr "Nustatymai"
@@ -446,7 +477,7 @@ msgstr "Neribota"
 msgid "Unlimited Usages"
 msgstr "Neribotas naudojimas"
 
-#: src/views/AdminViews/SettingsView.vue:225
+#: src/views/SettingsViews/DefaultView.vue:215
 #, fuzzy
 msgid "Updates"
 msgstr "Atnaujinti"
@@ -457,24 +488,28 @@ msgstr ""
 "Norėdami patvirtinti savo tapatybę, naudokite pirštų atspaudų arba veido "
 "atpažinimo funkciją"
 
-#: src/components/NavBars/AdminNavBar.vue:75
+#: src/components/NavBars/AdminNavBar.vue:81
 msgid "Users"
 msgstr "Vartotojai"
 
-#: src/views/AdminViews/SettingsView.vue:214
+#: src/components/ChangeLogs/ChangeLogItem.vue:13
+msgid "View"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:204
 msgid "View and download server logs"
 msgstr "Peržiūrėkite ir atsisiųskite serverio žurnalus"
 
-#: src/views/AdminViews/SettingsView.vue:220
+#: src/views/SettingsViews/DefaultView.vue:210
 msgid "View and manage scheduled tasks"
 msgstr "Peržiūrėkite ir valdykite suplanuotas užduotis"
 
-#: src/views/AdminViews/SettingsView.vue:157
+#: src/views/SettingsViews/DefaultView.vue:147
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "Tvarkykite savo kvietimus"
 
-#: src/views/AdminViews/SettingsView.vue:239
+#: src/views/SettingsViews/DefaultView.vue:229
 msgid "View information about the server"
 msgstr "Peržiūrėkite informaciją apie serverį"
 
@@ -504,7 +539,6 @@ msgstr ""
 "Kai nustatyta, pakviestas (-i) vartotojas (-ai) bus pašalintas (-i) iš "
 "serverio po nustatyto dienų skaičiaus. (1–999)"
 
-#: src/components/Footers/AdminFooter.vue:3
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
 msgstr "Wizarr"
@@ -998,9 +1032,6 @@ msgstr "Jūsų atlikta"
 #~ msgid "Cancel"
 #~ msgstr "Atšaukti"
 
-#~ msgid "Create"
-#~ msgstr "Sukurti"
-
 #~ msgid "New OAuth"
 #~ msgstr "Naujas OAuth"
 
@@ -1123,9 +1154,6 @@ msgstr "Jūsų atlikta"
 
 #~ msgid "Unable to update libraries"
 #~ msgstr "Nepavyko atnaujinti bibliotekų"
-
-#~ msgid "Load More"
-#~ msgstr "Įkelti daugiau"
 
 #~ msgid "My Account"
 #~ msgstr "Mano sąskaita"

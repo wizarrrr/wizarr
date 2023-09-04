@@ -38,24 +38,24 @@ msgstr "1 any"
 msgid "6 Months"
 msgstr "6 mesos"
 
-#: src/views/AdminViews/SettingsView.vue:238
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "About"
 msgstr "Sobre"
 
-#: src/views/AdminViews/SettingsView.vue:139
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Account Settings"
 msgstr "Configuració"
 
-#: src/views/AdminViews/SettingsView.vue:115
+#: src/views/SettingsViews/DefaultView.vue:105
 msgid "Add API keys for external services"
 msgstr "Afegiu claus API per a serveis externs"
 
-#: src/views/AdminViews/SettingsView.vue:195
+#: src/views/SettingsViews/DefaultView.vue:185
 msgid "Add Custom HTML page to help screen"
 msgstr "Afegeix una pàgina HTML personalitzada a la pantalla d'ajuda"
 
-#: src/views/AdminViews/SettingsView.vue:108
+#: src/views/SettingsViews/DefaultView.vue:98
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "Afegiu suport Jellyseerr, Overseerr o Ombi"
 
@@ -67,12 +67,12 @@ msgstr "Compte d'administrador"
 msgid "Advanced Options"
 msgstr "Opcions avançades"
 
-#: src/views/AdminViews/SettingsView.vue:202
+#: src/views/SettingsViews/DefaultView.vue:192
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Opcions avançades"
 
-#: src/views/AdminViews/SettingsView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:193
 msgid "Advanced settings for the server"
 msgstr "Configuració avançada del servidor"
 
@@ -80,26 +80,26 @@ msgstr "Configuració avançada del servidor"
 msgid "Allow Downloads"
 msgstr "Permet baixades"
 
-#: src/views/AdminViews/SettingsView.vue:114
+#: src/views/SettingsViews/DefaultView.vue:104
 #, fuzzy
 msgid "API keys"
 msgstr "Token API"
 
-#: src/templates/SettingsTemplate.vue:10 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "esquena"
 
-#: src/views/AdminViews/SettingsView.vue:232
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Backup"
 msgstr "esquena"
 
-#: src/views/AdminViews/SettingsView.vue:151
+#: src/views/SettingsViews/DefaultView.vue:141
 #, fuzzy
 msgid "Change your password"
 msgstr "Has oblidat la teva contrasenya?"
 
-#: src/views/AdminViews/SettingsView.vue:226
+#: src/views/SettingsViews/DefaultView.vue:216
 msgid "Check for and view updates"
 msgstr "Comproveu i visualitzeu actualitzacions"
 
@@ -111,35 +111,35 @@ msgstr ""
 "Consulteu la nostra documentació per obtenir instruccions detallades sobre "
 "com instal·lar i executar Wizarr!"
 
-#: src/views/AdminViews/SettingsView.vue:131
+#: src/views/SettingsViews/DefaultView.vue:121
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "Configureu la configuració del vostre servidor."
 
-#: src/views/AdminViews/SettingsView.vue:170
+#: src/views/SettingsViews/DefaultView.vue:160
 msgid "Configure MFA authentication"
 msgstr "Configura l'autenticació MFA"
 
-#: src/views/AdminViews/SettingsView.vue:123
+#: src/views/SettingsViews/DefaultView.vue:113
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "Configureu la configuració del vostre servidor."
 
-#: src/views/AdminViews/SettingsView.vue:207
+#: src/views/SettingsViews/DefaultView.vue:197
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "Crea una invitació"
 
-#: src/views/AdminViews/SettingsView.vue:163
+#: src/views/SettingsViews/DefaultView.vue:153
 msgid "Configure SSO login"
 msgstr "Configura l'inici de sessió SSO"
 
-#: src/views/AdminViews/SettingsView.vue:102
+#: src/views/SettingsViews/DefaultView.vue:92
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "Configureu la configuració del vostre servidor."
 
-#: src/views/AdminViews/SettingsView.vue:145
+#: src/views/SettingsViews/DefaultView.vue:135
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "Configureu la configuració del vostre servidor."
@@ -157,10 +157,15 @@ msgstr "Crear compte"
 msgid "Create an invitation to your server"
 msgstr "Creeu una invitació al vostre servidor."
 
-#: src/views/AdminViews/SettingsView.vue:233
+#: src/views/SettingsViews/DefaultView.vue:223
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Crear un compte"
+
+#: src/views/AdminViews/FlowEditor.vue:4
+#, fuzzy
+msgid "Create Flow"
+msgstr "Crear"
 
 #: src/views/AdminViews/InviteView.vue:137
 #: src/views/AdminViews/InviteView.vue:2
@@ -179,7 +184,7 @@ msgstr "Personalitzat"
 msgid "Custom Duration"
 msgstr "Durada personalitzada"
 
-#: src/views/AdminViews/SettingsView.vue:194
+#: src/views/SettingsViews/DefaultView.vue:184
 #, fuzzy
 msgid "Custom HTML"
 msgstr "Personalitzat"
@@ -188,26 +193,34 @@ msgstr "Personalitzat"
 msgid "Database"
 msgstr "Base de dades"
 
-#: src/views/AdminViews/SettingsView.vue:188
+#: src/views/SettingsViews/DefaultView.vue:178
 #, fuzzy
 msgid "Discord"
 msgstr "Giny de Discord"
 
-#: src/views/AdminViews/SettingsView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Discord Bot"
 msgstr "Giny de Discord"
+
+#: src/components/ScanServers/ScanServers.vue:26
+msgid "Don't see your server?"
+msgstr ""
 
 #: src/views/AdminViews/InviteView.vue:51
 #: src/views/AdminViews/InviteView.vue:64
 msgid "Duration"
 msgstr "Durada"
 
-#: src/views/AdminViews/SettingsView.vue:189
+#: src/views/SettingsViews/DefaultView.vue:179
 msgid "Enable Discord page and configure settings"
 msgstr "Activa la pàgina Discord i configura la configuració"
 
-#: src/views/AdminViews/SettingsView.vue:97
+#: src/views/AdminViews/FlowEditor.vue:2
+msgid "Flow Editor"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:87
 msgid "General settings for the server"
 msgstr "Configuració general del servidor"
 
@@ -229,7 +242,7 @@ msgstr "Aneu a Tauler de control"
 msgid "Go to Login"
 msgstr "iniciar Sessió"
 
-#: src/components/NavBars/AdminNavBar.vue:67
+#: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
 msgstr "Casa"
@@ -243,7 +256,7 @@ msgstr ""
 "Si un amic us ha enviat aquí, sol·liciteu accés o si teniu un codi "
 "d'invitació, feu clic a Comença."
 
-#: src/components/NavBars/AdminNavBar.vue:71
+#: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "Invitacions"
@@ -255,6 +268,10 @@ msgstr "Convida a Plex Home"
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "Usuaris convidats"
+
+#: src/components/ChangeLogs/ChangeLogs.vue:7
+msgid "Load More"
+msgstr "Carrega més"
 
 #: src/views/LoginViews/PasswordView.vue:12
 msgid "Login"
@@ -272,15 +289,20 @@ msgstr "Inicieu sessió amb contrasenya"
 msgid "Login with your account"
 msgstr "Inicieu sessió amb el vostre compte"
 
-#: src/views/AdminViews/SettingsView.vue:213
+#: src/views/SettingsViews/DefaultView.vue:203
 #, fuzzy
 msgid "Logs"
 msgstr "iniciar Sessió"
 
-#: src/views/AdminViews/SettingsView.vue:96
+#: src/views/SettingsViews/DefaultView.vue:86
 #, fuzzy
 msgid "Main Settings"
 msgstr "Configuració"
+
+#: src/views/AdminViews/FlowEditor.vue:3
+#, fuzzy
+msgid "Manage your command flows"
+msgstr "Gestiona les teves invitacions"
 
 #: src/views/AdminViews/InvitationsView.vue:3
 msgid "Manage your invitations"
@@ -291,7 +313,7 @@ msgstr "Gestiona les teves invitacions"
 msgid "Manage your media server users"
 msgstr "Configureu la configuració del vostre servidor."
 
-#: src/views/AdminViews/SettingsView.vue:101
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Media Server"
 msgstr "Servidor"
@@ -300,11 +322,11 @@ msgstr "Servidor"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:174
 msgid "Modify the look and feel of the server"
 msgstr "Modifiqueu l'aspecte del servidor"
 
-#: src/views/AdminViews/SettingsView.vue:169
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Multi-Factor Authentication"
 msgstr "Autenticació multifactor"
 
@@ -312,21 +334,25 @@ msgstr "Autenticació multifactor"
 msgid "Next"
 msgstr "Pròxim"
 
-#: src/views/AdminViews/SettingsView.vue:36
+#: src/components/ScanServers/ScanServers.vue:15
+msgid "No servers could be found."
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:26
 msgid "No settings matched your search."
 msgstr "No hi ha cap configuració que coincideixi amb la vostra cerca."
 
-#: src/views/AdminViews/SettingsView.vue:122
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Notifications"
 msgstr "Servei de notificacions"
 
-#: src/views/AdminViews/SettingsView.vue:206
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "Crea una invitació"
 
-#: src/views/AdminViews/SettingsView.vue:150
+#: src/views/SettingsViews/DefaultView.vue:140
 msgid "Password"
 msgstr "Contrasenya"
 
@@ -345,7 +371,7 @@ msgstr ""
 "Premeu el botó següent i seguiu els passos del vostre navegador per iniciar "
 "sessió"
 
-#: src/views/AdminViews/SettingsView.vue:144
+#: src/views/SettingsViews/DefaultView.vue:134
 msgid "Profile"
 msgstr "Perfil"
 
@@ -353,7 +379,7 @@ msgstr "Perfil"
 msgid "Request Access"
 msgstr "Sol·licitar accés"
 
-#: src/views/AdminViews/SettingsView.vue:107
+#: src/views/SettingsViews/DefaultView.vue:97
 #, fuzzy
 msgid "Requests"
 msgstr "Servidor de sol·licituds"
@@ -375,20 +401,21 @@ msgstr "Crear un compte"
 msgid "Select All"
 msgstr "Seleccionar tot"
 
+#: src/components/Modals/ScanLibrariesModal.vue:8
 #: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "Seleccioneu Biblioteques"
 
-#: src/views/AdminViews/SettingsView.vue:156
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "Sessions"
 msgstr "Versió"
 
-#: src/components/NavBars/AdminNavBar.vue:79
+#: src/components/NavBars/AdminNavBar.vue:85
 msgid "Settings"
 msgstr "Configuració"
 
-#: src/views/AdminViews/SettingsView.vue:140
+#: src/views/SettingsViews/DefaultView.vue:130
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "Configurant el teu compte"
@@ -413,7 +440,7 @@ msgstr "Ho sentim, no podem trobar aquesta pàgina. Sembla que no existeix!"
 msgid "Specific Libraries"
 msgstr "Biblioteques específiques"
 
-#: src/views/AdminViews/SettingsView.vue:162
+#: src/views/SettingsViews/DefaultView.vue:152
 #, fuzzy
 msgid "SSO Login"
 msgstr "iniciar Sessió"
@@ -422,7 +449,7 @@ msgstr "iniciar Sessió"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:219
+#: src/views/SettingsViews/DefaultView.vue:209
 #, fuzzy
 msgid "Tasks"
 msgstr "Executar la tasca"
@@ -434,7 +461,11 @@ msgstr ""
 "Això és temporal i estem treballant per afegir suport per a altres bases de "
 "dades."
 
-#: src/views/AdminViews/SettingsView.vue:183
+#: src/components/Modals/ScanServersModal.vue:8
+msgid "Try Again"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:173
 #, fuzzy
 msgid "UI Settings"
 msgstr "Configuració"
@@ -447,7 +478,7 @@ msgstr "Il·limitat"
 msgid "Unlimited Usages"
 msgstr "Usos il·limitats"
 
-#: src/views/AdminViews/SettingsView.vue:225
+#: src/views/SettingsViews/DefaultView.vue:215
 #, fuzzy
 msgid "Updates"
 msgstr "Actualització"
@@ -458,24 +489,28 @@ msgstr ""
 "Utilitzeu la vostra empremta digital o el reconeixement facial per verificar "
 "la vostra identitat"
 
-#: src/components/NavBars/AdminNavBar.vue:75
+#: src/components/NavBars/AdminNavBar.vue:81
 msgid "Users"
 msgstr "Usuaris"
 
-#: src/views/AdminViews/SettingsView.vue:214
+#: src/components/ChangeLogs/ChangeLogItem.vue:13
+msgid "View"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:204
 msgid "View and download server logs"
 msgstr "Veure i descarregar els registres del servidor"
 
-#: src/views/AdminViews/SettingsView.vue:220
+#: src/views/SettingsViews/DefaultView.vue:210
 msgid "View and manage scheduled tasks"
 msgstr "Consulta i gestiona les tasques programades"
 
-#: src/views/AdminViews/SettingsView.vue:157
+#: src/views/SettingsViews/DefaultView.vue:147
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "Gestiona les teves invitacions"
 
-#: src/views/AdminViews/SettingsView.vue:239
+#: src/views/SettingsViews/DefaultView.vue:229
 msgid "View information about the server"
 msgstr "Veure informació sobre el servidor"
 
@@ -506,7 +541,6 @@ msgstr ""
 "Quan s'estableixi, els usuaris convidats s'eliminaran del servidor després "
 "del nombre de dies establert. (1-999)"
 
-#: src/components/Footers/AdminFooter.vue:3
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
 msgstr "Mag"
@@ -1001,9 +1035,6 @@ msgstr "Heu fet"
 #~ msgid "Cancel"
 #~ msgstr "Cancel · lar"
 
-#~ msgid "Create"
-#~ msgstr "Crear"
-
 #~ msgid "New OAuth"
 #~ msgstr "Nou OAuth"
 
@@ -1126,9 +1157,6 @@ msgstr "Heu fet"
 
 #~ msgid "Unable to update libraries"
 #~ msgstr "No es poden actualitzar les biblioteques"
-
-#~ msgid "Load More"
-#~ msgstr "Carrega més"
 
 #~ msgid "My Account"
 #~ msgstr "El meu compte"

@@ -37,11 +37,7 @@ import UsernameView from "./UsernameView.vue";
 import MFAView from "./MFAView.vue";
 import PasswordView from "./PasswordView.vue";
 
-import Authentication from "@/assets/ts/controllers/Authentication";
-
-import { useUserStore } from "@/stores/user";
-import { mapActions, mapStores } from "pinia";
-import type { APIUser } from "@/types/User";
+import Auth from "@/api/authentication";
 
 const STEP = {
     LOADING: 0,
@@ -61,12 +57,11 @@ export default defineComponent({
     },
     data() {
         return {
-            auth: new Authentication(),
+            auth: new Auth(),
             step: STEP.LOADING,
             hideMFA: false,
             username: "",
             password: "",
-            ...mapStores(useUserStore, ["token"]),
         };
     },
     methods: {
@@ -76,38 +71,15 @@ export default defineComponent({
             else (this.step = STEP.PASSWORD) && (this.hideMFA = true);
         },
         async passwordLogin() {
-            // Show loading screen
             this.step = STEP.LOADING;
-
-            // Login with username and password
-            const payload = await this.auth.login(this.username, this.password).catch(() => {
+            await this.auth.login(this.username, this.password).catch(() => {
                 this.step = STEP.PASSWORD;
             });
-
-            // If the payload is null, the user cancelled the login
-            if (!payload) return;
-
-            // Save the user
-            this.saveUser(payload.user, payload.token);
         },
         async mfaLogin() {
-            // Login with MFA
-            const payload = await this.auth.mfaAuthentication(this.username);
-
-            // If the payload is null, the user cancelled the login
-            if (!payload) return;
-
-            // Save the user
-            this.saveUser(payload.user, payload.token);
+            this.step = STEP.LOADING;
+            await this.auth.mfaAuthentication(this.username);
         },
-        async saveUser(user: Partial<APIUser>, token: string) {
-            this.setUser(user);
-            this.setToken(token);
-        },
-        async wait(ms: number): Promise<void> {
-            return new Promise((resolve) => setTimeout(resolve, ms));
-        },
-        ...mapActions(useUserStore, ["setUser", "setToken"]),
     },
     async mounted() {
         // Check if WebAuthn is supported
@@ -125,7 +97,7 @@ export default defineComponent({
         this.step = STEP.USERNAME;
 
         // Wait 500ms
-        await this.wait(500);
+        await new Promise((resolve) => setTimeout(resolve, 500));
 
         // If WebAuthn autofill is supported, allow user to login with MFA autofill
         if (browserSupportsWebAuthn && browserSupportsWebAuthnAutofill) {

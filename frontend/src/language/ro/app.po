@@ -39,24 +39,24 @@ msgstr "1 an"
 msgid "6 Months"
 msgstr "6 luni"
 
-#: src/views/AdminViews/SettingsView.vue:238
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "About"
 msgstr "Despre"
 
-#: src/views/AdminViews/SettingsView.vue:139
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Account Settings"
 msgstr "Setări"
 
-#: src/views/AdminViews/SettingsView.vue:115
+#: src/views/SettingsViews/DefaultView.vue:105
 msgid "Add API keys for external services"
 msgstr "Adăugați chei API pentru servicii externe"
 
-#: src/views/AdminViews/SettingsView.vue:195
+#: src/views/SettingsViews/DefaultView.vue:185
 msgid "Add Custom HTML page to help screen"
 msgstr "Adăugați o pagină HTML personalizată la ecranul de ajutor"
 
-#: src/views/AdminViews/SettingsView.vue:108
+#: src/views/SettingsViews/DefaultView.vue:98
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "Adăugați suport pentru Jellyseerr, Overseerr sau Ombi"
 
@@ -68,12 +68,12 @@ msgstr "Cont de administrator"
 msgid "Advanced Options"
 msgstr "Opțiuni avansate"
 
-#: src/views/AdminViews/SettingsView.vue:202
+#: src/views/SettingsViews/DefaultView.vue:192
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Opțiuni avansate"
 
-#: src/views/AdminViews/SettingsView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:193
 msgid "Advanced settings for the server"
 msgstr "Setări avansate pentru server"
 
@@ -81,26 +81,26 @@ msgstr "Setări avansate pentru server"
 msgid "Allow Downloads"
 msgstr "Permite descărcări"
 
-#: src/views/AdminViews/SettingsView.vue:114
+#: src/views/SettingsViews/DefaultView.vue:104
 #, fuzzy
 msgid "API keys"
 msgstr "Token API"
 
-#: src/templates/SettingsTemplate.vue:10 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "Înapoi"
 
-#: src/views/AdminViews/SettingsView.vue:232
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Backup"
 msgstr "Înapoi"
 
-#: src/views/AdminViews/SettingsView.vue:151
+#: src/views/SettingsViews/DefaultView.vue:141
 #, fuzzy
 msgid "Change your password"
 msgstr "Ați uitat parola?"
 
-#: src/views/AdminViews/SettingsView.vue:226
+#: src/views/SettingsViews/DefaultView.vue:216
 msgid "Check for and view updates"
 msgstr "Verificați și vizualizați actualizări"
 
@@ -112,35 +112,35 @@ msgstr ""
 "Consultați documentația noastră pentru instrucțiuni detaliate despre cum să "
 "instalați și să rulați Wizarr!"
 
-#: src/views/AdminViews/SettingsView.vue:131
+#: src/views/SettingsViews/DefaultView.vue:121
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "Configurați setările serverului dvs."
 
-#: src/views/AdminViews/SettingsView.vue:170
+#: src/views/SettingsViews/DefaultView.vue:160
 msgid "Configure MFA authentication"
 msgstr "Configurați autentificarea MFA"
 
-#: src/views/AdminViews/SettingsView.vue:123
+#: src/views/SettingsViews/DefaultView.vue:113
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "Configurați setările serverului dvs."
 
-#: src/views/AdminViews/SettingsView.vue:207
+#: src/views/SettingsViews/DefaultView.vue:197
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "Creați invitație"
 
-#: src/views/AdminViews/SettingsView.vue:163
+#: src/views/SettingsViews/DefaultView.vue:153
 msgid "Configure SSO login"
 msgstr "Configurați autentificarea SSO"
 
-#: src/views/AdminViews/SettingsView.vue:102
+#: src/views/SettingsViews/DefaultView.vue:92
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "Configurați setările serverului dvs."
 
-#: src/views/AdminViews/SettingsView.vue:145
+#: src/views/SettingsViews/DefaultView.vue:135
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "Configurați setările serverului dvs."
@@ -158,10 +158,15 @@ msgstr "Creează cont"
 msgid "Create an invitation to your server"
 msgstr "Creați o invitație pe serverul dvs."
 
-#: src/views/AdminViews/SettingsView.vue:233
+#: src/views/SettingsViews/DefaultView.vue:223
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Creați un cont"
+
+#: src/views/AdminViews/FlowEditor.vue:4
+#, fuzzy
+msgid "Create Flow"
+msgstr "Crea"
 
 #: src/views/AdminViews/InviteView.vue:137
 #: src/views/AdminViews/InviteView.vue:2
@@ -180,7 +185,7 @@ msgstr "Personalizat"
 msgid "Custom Duration"
 msgstr "Durată personalizată"
 
-#: src/views/AdminViews/SettingsView.vue:194
+#: src/views/SettingsViews/DefaultView.vue:184
 #, fuzzy
 msgid "Custom HTML"
 msgstr "Personalizat"
@@ -189,26 +194,34 @@ msgstr "Personalizat"
 msgid "Database"
 msgstr "Bază de date"
 
-#: src/views/AdminViews/SettingsView.vue:188
+#: src/views/SettingsViews/DefaultView.vue:178
 #, fuzzy
 msgid "Discord"
 msgstr "Discord Widget"
 
-#: src/views/AdminViews/SettingsView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Discord Bot"
 msgstr "Discord Widget"
+
+#: src/components/ScanServers/ScanServers.vue:26
+msgid "Don't see your server?"
+msgstr ""
 
 #: src/views/AdminViews/InviteView.vue:51
 #: src/views/AdminViews/InviteView.vue:64
 msgid "Duration"
 msgstr "Durată"
 
-#: src/views/AdminViews/SettingsView.vue:189
+#: src/views/SettingsViews/DefaultView.vue:179
 msgid "Enable Discord page and configure settings"
 msgstr "Activați pagina Discord și configurați setările"
 
-#: src/views/AdminViews/SettingsView.vue:97
+#: src/views/AdminViews/FlowEditor.vue:2
+msgid "Flow Editor"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:87
 msgid "General settings for the server"
 msgstr "Setări generale pentru server"
 
@@ -230,7 +243,7 @@ msgstr "Accesați tabloul de bord"
 msgid "Go to Login"
 msgstr "Log in"
 
-#: src/components/NavBars/AdminNavBar.vue:67
+#: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
 msgstr "Acasă"
@@ -244,7 +257,7 @@ msgstr ""
 "Dacă ați fost trimis aici de un prieten, vă rugăm să solicitați acces sau "
 "dacă aveți un cod de invitație, vă rugăm să faceți clic pe Începe."
 
-#: src/components/NavBars/AdminNavBar.vue:71
+#: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "Invitații"
@@ -256,6 +269,10 @@ msgstr "Invitați la Plex Home"
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "Utilizatori invitați"
+
+#: src/components/ChangeLogs/ChangeLogs.vue:7
+msgid "Load More"
+msgstr "Incarca mai mult"
 
 #: src/views/LoginViews/PasswordView.vue:12
 msgid "Login"
@@ -273,15 +290,20 @@ msgstr "Conectați-vă cu parolă"
 msgid "Login with your account"
 msgstr "Conectați-vă cu contul dvs"
 
-#: src/views/AdminViews/SettingsView.vue:213
+#: src/views/SettingsViews/DefaultView.vue:203
 #, fuzzy
 msgid "Logs"
 msgstr "Log in"
 
-#: src/views/AdminViews/SettingsView.vue:96
+#: src/views/SettingsViews/DefaultView.vue:86
 #, fuzzy
 msgid "Main Settings"
 msgstr "Setări"
+
+#: src/views/AdminViews/FlowEditor.vue:3
+#, fuzzy
+msgid "Manage your command flows"
+msgstr "Gestionați-vă invitațiile"
 
 #: src/views/AdminViews/InvitationsView.vue:3
 msgid "Manage your invitations"
@@ -292,7 +314,7 @@ msgstr "Gestionați-vă invitațiile"
 msgid "Manage your media server users"
 msgstr "Configurați setările serverului dvs."
 
-#: src/views/AdminViews/SettingsView.vue:101
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Media Server"
 msgstr "Server"
@@ -301,11 +323,11 @@ msgstr "Server"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:174
 msgid "Modify the look and feel of the server"
 msgstr "Modificați aspectul serverului"
 
-#: src/views/AdminViews/SettingsView.vue:169
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Multi-Factor Authentication"
 msgstr "Autentificare cu mai mulți factori"
 
@@ -313,21 +335,25 @@ msgstr "Autentificare cu mai mulți factori"
 msgid "Next"
 msgstr "Următorul"
 
-#: src/views/AdminViews/SettingsView.vue:36
+#: src/components/ScanServers/ScanServers.vue:15
+msgid "No servers could be found."
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:26
 msgid "No settings matched your search."
 msgstr "Nicio setare nu corespunde căutării dvs."
 
-#: src/views/AdminViews/SettingsView.vue:122
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Notifications"
 msgstr "Serviciul de notificare"
 
-#: src/views/AdminViews/SettingsView.vue:206
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "Creați invitație"
 
-#: src/views/AdminViews/SettingsView.vue:150
+#: src/views/SettingsViews/DefaultView.vue:140
 msgid "Password"
 msgstr "Parola"
 
@@ -346,7 +372,7 @@ msgstr ""
 "Apăsați butonul de mai jos și urmați pașii browserului pentru a vă "
 "autentifica"
 
-#: src/views/AdminViews/SettingsView.vue:144
+#: src/views/SettingsViews/DefaultView.vue:134
 msgid "Profile"
 msgstr "Profil"
 
@@ -354,7 +380,7 @@ msgstr "Profil"
 msgid "Request Access"
 msgstr "Cere acces"
 
-#: src/views/AdminViews/SettingsView.vue:107
+#: src/views/SettingsViews/DefaultView.vue:97
 #, fuzzy
 msgid "Requests"
 msgstr "Server de solicitare"
@@ -376,20 +402,21 @@ msgstr "Creați un cont"
 msgid "Select All"
 msgstr "Selectează tot"
 
+#: src/components/Modals/ScanLibrariesModal.vue:8
 #: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "Selectați Biblioteci"
 
-#: src/views/AdminViews/SettingsView.vue:156
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "Sessions"
 msgstr "Versiune"
 
-#: src/components/NavBars/AdminNavBar.vue:79
+#: src/components/NavBars/AdminNavBar.vue:85
 msgid "Settings"
 msgstr "Setări"
 
-#: src/views/AdminViews/SettingsView.vue:140
+#: src/views/SettingsViews/DefaultView.vue:130
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "Configurarea contului dvs"
@@ -414,7 +441,7 @@ msgstr "Ne pare rău, nu putem găsi pagina respectivă. Se pare că nu există!
 msgid "Specific Libraries"
 msgstr "Biblioteci specifice"
 
-#: src/views/AdminViews/SettingsView.vue:162
+#: src/views/SettingsViews/DefaultView.vue:152
 #, fuzzy
 msgid "SSO Login"
 msgstr "Log in"
@@ -423,7 +450,7 @@ msgstr "Log in"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:219
+#: src/views/SettingsViews/DefaultView.vue:209
 #, fuzzy
 msgid "Tasks"
 msgstr "Rulați Sarcina"
@@ -435,7 +462,11 @@ msgstr ""
 "Acesta este un lucru temporar și lucrăm la adăugarea de suport pentru alte "
 "baze de date."
 
-#: src/views/AdminViews/SettingsView.vue:183
+#: src/components/Modals/ScanServersModal.vue:8
+msgid "Try Again"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:173
 #, fuzzy
 msgid "UI Settings"
 msgstr "Setări"
@@ -448,7 +479,7 @@ msgstr "Nelimitat"
 msgid "Unlimited Usages"
 msgstr "Utilizări nelimitate"
 
-#: src/views/AdminViews/SettingsView.vue:225
+#: src/views/SettingsViews/DefaultView.vue:215
 #, fuzzy
 msgid "Updates"
 msgstr "Actualizați"
@@ -458,24 +489,28 @@ msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
 msgstr ""
 "Utilizați amprenta sau recunoașterea feței pentru a vă verifica identitatea"
 
-#: src/components/NavBars/AdminNavBar.vue:75
+#: src/components/NavBars/AdminNavBar.vue:81
 msgid "Users"
 msgstr "Utilizatori"
 
-#: src/views/AdminViews/SettingsView.vue:214
+#: src/components/ChangeLogs/ChangeLogItem.vue:13
+msgid "View"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:204
 msgid "View and download server logs"
 msgstr "Vizualizați și descărcați jurnalele serverului"
 
-#: src/views/AdminViews/SettingsView.vue:220
+#: src/views/SettingsViews/DefaultView.vue:210
 msgid "View and manage scheduled tasks"
 msgstr "Vizualizați și gestionați sarcinile programate"
 
-#: src/views/AdminViews/SettingsView.vue:157
+#: src/views/SettingsViews/DefaultView.vue:147
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "Gestionați-vă invitațiile"
 
-#: src/views/AdminViews/SettingsView.vue:239
+#: src/views/SettingsViews/DefaultView.vue:229
 msgid "View information about the server"
 msgstr "Vizualizați informații despre server"
 
@@ -506,7 +541,6 @@ msgstr ""
 "Când este setat, utilizatorii invitați vor fi eliminați de pe server după "
 "numărul de zile stabilit. (1-999)"
 
-#: src/components/Footers/AdminFooter.vue:3
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
 msgstr "Vrăjitorul"
@@ -1000,9 +1034,6 @@ msgstr "Gata"
 #~ msgid "Cancel"
 #~ msgstr "Anulare"
 
-#~ msgid "Create"
-#~ msgstr "Crea"
-
 #~ msgid "New OAuth"
 #~ msgstr "OAuth nou"
 
@@ -1125,9 +1156,6 @@ msgstr "Gata"
 
 #~ msgid "Unable to update libraries"
 #~ msgstr "Nu se pot actualiza bibliotecile"
-
-#~ msgid "Load More"
-#~ msgstr "Incarca mai mult"
 
 #~ msgid "My Account"
 #~ msgstr "Contul meu"

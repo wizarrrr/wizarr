@@ -1,13 +1,14 @@
-import axios from "@/assets/ts/utils/Axios";
 import toasts from "@/assets/ts/utils/Toasts";
 import CacheStorage from "@/assets/ts/utils/CacheStorage";
 
-import type { ChangeLog, ChangeLogs } from "@/types/ChangeLog";
 import type { AxiosInstance } from "axios";
+import type { ChangeLog, ChangeLogs } from "@/types/ChangeLog";
 
 import { defineStore } from "pinia";
-import { buildWebStorage, setupCache, type AxiosCacheInstance } from "axios-cache-interceptor";
+import { useAxios } from "@/plugins/axios";
+import { buildWebStorage, setupCache } from "axios-cache-interceptor";
 
+const axios = useAxios();
 const cachedAxios = setupCache(axios as AxiosInstance);
 
 export const useChangeLogStore = defineStore("changeLog", {
@@ -32,6 +33,7 @@ export const useChangeLogStore = defineStore("changeLog", {
                         delete headers["pragma"];
                         delete headers["expires"];
                         delete headers["cache-control"];
+                        delete headers["Authorization"];
                         return data;
                     },
                 ],

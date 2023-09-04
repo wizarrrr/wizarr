@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import type { Job, JobList } from "@/types/Tasks";
 
-import axios from "@/assets/ts/utils/Axios";
 import toasts from "@/assets/ts/utils/Toasts";
 
 export const useTasksStore = defineStore("tasks", {
@@ -11,7 +10,7 @@ export const useTasksStore = defineStore("tasks", {
     actions: {
         async getJobs() {
             // Get the jobs from the API
-            const jobs = await axios.get("/api/scheduler/jobs").catch((err) => {
+            const jobs = await this.$axios.get("/api/scheduler/jobs").catch((err) => {
                 toasts.error("Could not get jobs");
                 console.error(err);
                 return null;
@@ -41,7 +40,7 @@ export const useTasksStore = defineStore("tasks", {
         },
         async getJob(id: string) {
             // Get the job from the API
-            const job = await axios.get(`/api/scheduler/jobs/${id}`).catch((err) => {
+            const job = await this.$axios.get(`/api/scheduler/jobs/${id}`).catch((err) => {
                 toasts.error("Could not get job");
                 console.error(err);
                 return null;
@@ -59,7 +58,7 @@ export const useTasksStore = defineStore("tasks", {
         },
         async pauseJob(id: string) {
             // Pause the job
-            const job = await axios.post(`/api/scheduler/jobs/${id}/pause`).catch((err) => {
+            const job = await this.$axios.post(`/api/scheduler/jobs/${id}/pause`).catch((err) => {
                 toasts.error("Could not pause job");
                 console.error(err);
                 return null;
@@ -77,7 +76,7 @@ export const useTasksStore = defineStore("tasks", {
         },
         async resumeJob(id: string) {
             // Resume the job
-            const job = await axios.post(`/api/scheduler/jobs/${id}/resume`).catch((err) => {
+            const job = await this.$axios.post(`/api/scheduler/jobs/${id}/resume`).catch((err) => {
                 toasts.error("Could not resume job");
                 console.error(err);
                 return null;
@@ -95,7 +94,7 @@ export const useTasksStore = defineStore("tasks", {
         },
         async deleteJob(id: string) {
             // Delete the job
-            const job = await axios.delete(`/api/scheduler/jobs/${id}`).catch((err) => {
+            const job = await this.$axios.delete(`/api/scheduler/jobs/${id}`).catch((err) => {
                 toasts.error("Could not delete job");
                 console.error(err);
                 return null;

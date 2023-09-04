@@ -1,15 +1,43 @@
 import mainAxios from "axios";
-import cookie from "js-cookie";
 
 import type { App } from "vue";
 import type { CreateAxiosDefaults } from "axios";
 
-import { AxiosInterceptor } from "../assets/ts/utils/Axios";
+import { AxiosInterceptor, type CustomAxiosInstance } from "../assets/ts/utils/Axios";
+import type { PiniaPluginContext } from "pinia";
 
-export default {
+declare module "pinia" {
+    export interface PiniaCustomProperties {
+        $axios: CustomAxiosInstance;
+    }
+}
+
+const useAxios = (options?: CreateAxiosDefaults) => {
+    // Create a new axios instances
+    const axiosDefault = mainAxios.create(options);
+    const axios = new AxiosInterceptor(axiosDefault);
+
+    // Return the axios instance
+    return axios.axios;
+};
+
+const piniaPluginAxios = (context: PiniaPluginContext) => {
+    // Create a new axios instances
+    const axios = useAxios(context.options as CreateAxiosDefaults);
+
+    // Add the axios instance to pinia
+    context.store.$axios = axios;
+};
+
+const vuePluginAxios = {
     install: (app: App, options?: CreateAxiosDefaults) => {
-        const axiosDefault = mainAxios.create(options);
-        const axios = new AxiosInterceptor(axiosDefault);
-        app.config.globalProperties.$axios = axios.axios;
+        // Create a new axios instances
+        const axios = useAxios(options);
+
+        // Add the axios instance to the app
+        app.config.globalProperties.$axios = axios;
     },
 };
+
+export default vuePluginAxios;
+export { useAxios, piniaPluginAxios, vuePluginAxios };

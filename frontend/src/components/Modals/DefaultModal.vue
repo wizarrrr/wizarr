@@ -22,8 +22,9 @@
                         </div>
 
                         <!-- Modal body -->
-                        <div v-if="bodySlotAvailable" class="bg-white p-6 dark:bg-gray-800 p-6 space-y-6 flex-grow">
+                        <div v-if="bodySlotAvailable || defaultSlotAvailable" class="bg-white p-6 dark:bg-gray-800 p-6 space-y-6 flex-grow">
                             <slot v-if="bodySlotAvailable" name="body"></slot>
+                            <slot v-else-if="defaultSlotAvailable" name="default"></slot>
                         </div>
                         <div v-else-if="body" class="bg-white p-6 dark:bg-gray-800 p-6 space-y-6 flex-grow">
                             <component :is="body"></component>
@@ -110,6 +111,9 @@ const DefaultModal = defineComponent({
         },
         footerSlotAvailable() {
             return !!this.$slots.footer;
+        },
+        defaultSlotAvailable() {
+            return !!this.$slots.default;
         },
     },
     methods: {

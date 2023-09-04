@@ -33,11 +33,10 @@
 import { defineComponent } from "vue";
 import { useUserStore } from "@/stores/user";
 import { mapState } from "pinia";
+import { useSettingsStore } from "@/stores/settings";
 
 import SettingsTemplate from "@/templates/SettingsTemplate.vue";
 import SettingsButton from "@/components/Buttons/SettingsButton.vue";
-import type { ToastID } from "vue-toastification/dist/types/types";
-import { useSettingsStore } from "@/stores/settings";
 
 // These methods look confusing, because they are. I'm sorry ;P
 

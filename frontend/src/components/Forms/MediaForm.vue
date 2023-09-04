@@ -13,19 +13,20 @@
         </SelectInput>
 
         <!-- Server API Key -->
-        <DefaultInput :class="{ hidden: inputHidden.serverAPIKey }" v-model:value="serverAPIKeyValue" label="Server API Key" name="server_api_key" placeholder="XXXXXXXXXXXXXXXXX" size="md" icon="fas fa-key" type="off" required />
+        <DefaultInput :class="{ hidden: inputHidden.serverAPIKey }" v-model:value="serverAPIKeyValue" label="Server API Key" name="server_api_key" placeholder="XXXXXXXXXXXXXXXXX" size="md" icon="fas fa-key" type="password" required />
 
+        <!-- Buttons -->
         <div class="flex flex-col sm:flex-row">
             <!-- Button Group -->
             <div class="flex flex-grow justify-end sm:justify-start space-x-2 mt-2">
-                <!-- Scan Servers -->
-                <DefaultButton type="button" v-if="!buttonHidden.scanServers" icon="fas fa-search" theme="secondary" :options="{ icon: { icon_position: 'left' } }">
-                    <lang>Scan Servers</lang>
+                <!-- Scan Libraries -->
+                <DefaultButton @click="scanLibrariesVisible = !scanLibrariesVisible" type="button" v-if="!buttonHidden.scanLibraries" icon="fas fa-list" :options="{ icon: { icon_position: 'left' } }">
+                    <lang>Scan Libraries</lang>
                 </DefaultButton>
 
-                <!-- Scan Libraries -->
-                <DefaultButton type="button" v-if="!buttonHidden.scanLibraries" icon="fas fa-search" :options="{ icon: { icon_position: 'left' } }">
-                    <lang>Scan Libraries</lang>
+                <!-- Scan Servers -->
+                <DefaultButton type="button" v-if="!buttonHidden.scanServers" icon="fas fa-server" theme="secondary" :options="{ icon: { icon_position: 'left' } }">
+                    <lang>Scan Servers</lang>
                 </DefaultButton>
             </div>
 
@@ -47,6 +48,9 @@
             </div>
         </div>
     </form>
+
+    <!-- Modals -->
+    <ScanLibrariesModal v-model:visible="scanLibrariesVisible" />
 </template>
 
 <script lang="ts">
@@ -55,6 +59,7 @@ import { defineComponent } from "vue";
 import DefaultButton from "@/components/Buttons/DefaultButton.vue";
 import DefaultInput from "@/components/Inputs/DefaultInput.vue";
 import SelectInput from "@/components/Inputs/SelectInput.vue";
+import ScanLibrariesModal from "../Modals/ScanLibrariesModal.vue";
 
 export default defineComponent({
     name: "ServerSettings",
@@ -62,6 +67,7 @@ export default defineComponent({
         DefaultButton,
         DefaultInput,
         SelectInput,
+        ScanLibrariesModal,
     },
     props: {
         serverName: {
@@ -113,6 +119,7 @@ export default defineComponent({
             serverURLValue: this.serverURL,
             serverTypeValue: this.serverType,
             serverAPIKeyValue: this.serverAPIKey,
+            scanLibrariesVisible: false,
         };
     },
     methods: {

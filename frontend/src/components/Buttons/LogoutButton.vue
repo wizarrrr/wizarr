@@ -7,14 +7,20 @@
 </template>
 
 <script lang="ts">
-import { useUserStore } from "@/stores/user";
 import { defineComponent } from "vue";
-import { mapActions } from "pinia";
+import Auth from "@/api/authentication";
 
 export default defineComponent({
     name: "LogoutButton",
+    data() {
+        return {
+            auth: new Auth(),
+        };
+    },
     methods: {
-        ...mapActions(useUserStore, ["logout"]),
+        async logout() {
+            await this.auth.logout();
+        },
     },
 });
 </script>

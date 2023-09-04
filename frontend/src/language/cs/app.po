@@ -38,24 +38,24 @@ msgstr "1 rok"
 msgid "6 Months"
 msgstr "6 měsíců"
 
-#: src/views/AdminViews/SettingsView.vue:238
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "About"
 msgstr "O"
 
-#: src/views/AdminViews/SettingsView.vue:139
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Account Settings"
 msgstr "Nastavení"
 
-#: src/views/AdminViews/SettingsView.vue:115
+#: src/views/SettingsViews/DefaultView.vue:105
 msgid "Add API keys for external services"
 msgstr "Přidejte klíče API pro externí služby"
 
-#: src/views/AdminViews/SettingsView.vue:195
+#: src/views/SettingsViews/DefaultView.vue:185
 msgid "Add Custom HTML page to help screen"
 msgstr "Přidat vlastní stránku HTML na obrazovku nápovědy"
 
-#: src/views/AdminViews/SettingsView.vue:108
+#: src/views/SettingsViews/DefaultView.vue:98
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "Přidejte podporu Jellyseerr, Overseerr nebo Ombi"
 
@@ -67,12 +67,12 @@ msgstr "Účet správce"
 msgid "Advanced Options"
 msgstr "Pokročilé možnosti"
 
-#: src/views/AdminViews/SettingsView.vue:202
+#: src/views/SettingsViews/DefaultView.vue:192
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Pokročilé možnosti"
 
-#: src/views/AdminViews/SettingsView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:193
 msgid "Advanced settings for the server"
 msgstr "Pokročilá nastavení serveru"
 
@@ -80,26 +80,26 @@ msgstr "Pokročilá nastavení serveru"
 msgid "Allow Downloads"
 msgstr "Povolit stahování"
 
-#: src/views/AdminViews/SettingsView.vue:114
+#: src/views/SettingsViews/DefaultView.vue:104
 #, fuzzy
 msgid "API keys"
 msgstr "API Token"
 
-#: src/templates/SettingsTemplate.vue:10 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "Zadní"
 
-#: src/views/AdminViews/SettingsView.vue:232
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Backup"
 msgstr "Zadní"
 
-#: src/views/AdminViews/SettingsView.vue:151
+#: src/views/SettingsViews/DefaultView.vue:141
 #, fuzzy
 msgid "Change your password"
 msgstr "Zapomněli jste heslo?"
 
-#: src/views/AdminViews/SettingsView.vue:226
+#: src/views/SettingsViews/DefaultView.vue:216
 msgid "Check for and view updates"
 msgstr "Zkontrolujte a zobrazte aktualizace"
 
@@ -111,35 +111,35 @@ msgstr ""
 "Podívejte se do naší dokumentace pro podrobné pokyny k instalaci a spuštění "
 "Wizarr!"
 
-#: src/views/AdminViews/SettingsView.vue:131
+#: src/views/SettingsViews/DefaultView.vue:121
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "Nakonfigurujte nastavení serveru."
 
-#: src/views/AdminViews/SettingsView.vue:170
+#: src/views/SettingsViews/DefaultView.vue:160
 msgid "Configure MFA authentication"
 msgstr "Nakonfigurujte ověřování MFA"
 
-#: src/views/AdminViews/SettingsView.vue:123
+#: src/views/SettingsViews/DefaultView.vue:113
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "Nakonfigurujte nastavení serveru."
 
-#: src/views/AdminViews/SettingsView.vue:207
+#: src/views/SettingsViews/DefaultView.vue:197
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "Vytvořit pozvánku"
 
-#: src/views/AdminViews/SettingsView.vue:163
+#: src/views/SettingsViews/DefaultView.vue:153
 msgid "Configure SSO login"
 msgstr "Nakonfigurujte přihlášení SSO"
 
-#: src/views/AdminViews/SettingsView.vue:102
+#: src/views/SettingsViews/DefaultView.vue:92
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "Nakonfigurujte nastavení serveru."
 
-#: src/views/AdminViews/SettingsView.vue:145
+#: src/views/SettingsViews/DefaultView.vue:135
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "Nakonfigurujte nastavení serveru."
@@ -157,10 +157,15 @@ msgstr "Vytvořit účet"
 msgid "Create an invitation to your server"
 msgstr "Vytvořte pozvánku na váš server."
 
-#: src/views/AdminViews/SettingsView.vue:233
+#: src/views/SettingsViews/DefaultView.vue:223
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Vytvořit účet"
+
+#: src/views/AdminViews/FlowEditor.vue:4
+#, fuzzy
+msgid "Create Flow"
+msgstr "Vytvořit"
 
 #: src/views/AdminViews/InviteView.vue:137
 #: src/views/AdminViews/InviteView.vue:2
@@ -179,7 +184,7 @@ msgstr "Zvyk"
 msgid "Custom Duration"
 msgstr "Vlastní trvání"
 
-#: src/views/AdminViews/SettingsView.vue:194
+#: src/views/SettingsViews/DefaultView.vue:184
 #, fuzzy
 msgid "Custom HTML"
 msgstr "Zvyk"
@@ -188,26 +193,34 @@ msgstr "Zvyk"
 msgid "Database"
 msgstr "Databáze"
 
-#: src/views/AdminViews/SettingsView.vue:188
+#: src/views/SettingsViews/DefaultView.vue:178
 #, fuzzy
 msgid "Discord"
 msgstr "Discord Widget"
 
-#: src/views/AdminViews/SettingsView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Discord Bot"
 msgstr "Discord Widget"
+
+#: src/components/ScanServers/ScanServers.vue:26
+msgid "Don't see your server?"
+msgstr ""
 
 #: src/views/AdminViews/InviteView.vue:51
 #: src/views/AdminViews/InviteView.vue:64
 msgid "Duration"
 msgstr "Doba trvání"
 
-#: src/views/AdminViews/SettingsView.vue:189
+#: src/views/SettingsViews/DefaultView.vue:179
 msgid "Enable Discord page and configure settings"
 msgstr "Povolte stránku Discord a nakonfigurujte nastavení"
 
-#: src/views/AdminViews/SettingsView.vue:97
+#: src/views/AdminViews/FlowEditor.vue:2
+msgid "Flow Editor"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:87
 msgid "General settings for the server"
 msgstr "Obecná nastavení serveru"
 
@@ -229,7 +242,7 @@ msgstr "Přejděte na Dashboard"
 msgid "Go to Login"
 msgstr "Přihlásit se"
 
-#: src/components/NavBars/AdminNavBar.vue:67
+#: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
 msgstr "Domov"
@@ -243,7 +256,7 @@ msgstr ""
 "Pokud vás sem poslal přítel, požádejte o přístup, nebo pokud máte zvací kód, "
 "klikněte na Začít."
 
-#: src/components/NavBars/AdminNavBar.vue:71
+#: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "Pozvánky"
@@ -255,6 +268,10 @@ msgstr "Pozvat do Plex Home"
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "Pozvaní uživatelé"
+
+#: src/components/ChangeLogs/ChangeLogs.vue:7
+msgid "Load More"
+msgstr "Načíst další"
 
 #: src/views/LoginViews/PasswordView.vue:12
 msgid "Login"
@@ -272,15 +289,20 @@ msgstr "Přihlaste se pomocí hesla"
 msgid "Login with your account"
 msgstr "Přihlaste se pomocí svého účtu"
 
-#: src/views/AdminViews/SettingsView.vue:213
+#: src/views/SettingsViews/DefaultView.vue:203
 #, fuzzy
 msgid "Logs"
 msgstr "Přihlásit se"
 
-#: src/views/AdminViews/SettingsView.vue:96
+#: src/views/SettingsViews/DefaultView.vue:86
 #, fuzzy
 msgid "Main Settings"
 msgstr "Nastavení"
+
+#: src/views/AdminViews/FlowEditor.vue:3
+#, fuzzy
+msgid "Manage your command flows"
+msgstr "Spravujte své pozvánky"
 
 #: src/views/AdminViews/InvitationsView.vue:3
 msgid "Manage your invitations"
@@ -291,7 +313,7 @@ msgstr "Spravujte své pozvánky"
 msgid "Manage your media server users"
 msgstr "Nakonfigurujte nastavení serveru."
 
-#: src/views/AdminViews/SettingsView.vue:101
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Media Server"
 msgstr "Server"
@@ -300,11 +322,11 @@ msgstr "Server"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:174
 msgid "Modify the look and feel of the server"
 msgstr "Upravte vzhled a chování serveru"
 
-#: src/views/AdminViews/SettingsView.vue:169
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Multi-Factor Authentication"
 msgstr "Multi-Factor Authentication"
 
@@ -312,21 +334,25 @@ msgstr "Multi-Factor Authentication"
 msgid "Next"
 msgstr "další"
 
-#: src/views/AdminViews/SettingsView.vue:36
+#: src/components/ScanServers/ScanServers.vue:15
+msgid "No servers could be found."
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:26
 msgid "No settings matched your search."
 msgstr "Vašemu vyhledávání neodpovídají žádné nastavení."
 
-#: src/views/AdminViews/SettingsView.vue:122
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Notifications"
 msgstr "Notifikační služba"
 
-#: src/views/AdminViews/SettingsView.vue:206
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "Vytvořit pozvánku"
 
-#: src/views/AdminViews/SettingsView.vue:150
+#: src/views/SettingsViews/DefaultView.vue:140
 msgid "Password"
 msgstr "Heslo"
 
@@ -343,7 +369,7 @@ msgstr ""
 msgid "Press the button below and follow your browser's steps to login"
 msgstr "Stiskněte tlačítko níže a přihlaste se podle pokynů svého prohlížeče"
 
-#: src/views/AdminViews/SettingsView.vue:144
+#: src/views/SettingsViews/DefaultView.vue:134
 msgid "Profile"
 msgstr "Profil"
 
@@ -351,7 +377,7 @@ msgstr "Profil"
 msgid "Request Access"
 msgstr "Požádat o přístup"
 
-#: src/views/AdminViews/SettingsView.vue:107
+#: src/views/SettingsViews/DefaultView.vue:97
 #, fuzzy
 msgid "Requests"
 msgstr "Server požadavku"
@@ -373,20 +399,21 @@ msgstr "Vytvořit účet"
 msgid "Select All"
 msgstr "Vybrat vše"
 
+#: src/components/Modals/ScanLibrariesModal.vue:8
 #: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "Vyberte Knihovny"
 
-#: src/views/AdminViews/SettingsView.vue:156
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "Sessions"
 msgstr "Verze"
 
-#: src/components/NavBars/AdminNavBar.vue:79
+#: src/components/NavBars/AdminNavBar.vue:85
 msgid "Settings"
 msgstr "Nastavení"
 
-#: src/views/AdminViews/SettingsView.vue:140
+#: src/views/SettingsViews/DefaultView.vue:130
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "Nastavení účtu"
@@ -411,7 +438,7 @@ msgstr "Omlouváme se, tuto stránku nemůžeme najít. Zdá se, že neexistuje!
 msgid "Specific Libraries"
 msgstr "Specifické knihovny"
 
-#: src/views/AdminViews/SettingsView.vue:162
+#: src/views/SettingsViews/DefaultView.vue:152
 #, fuzzy
 msgid "SSO Login"
 msgstr "Přihlásit se"
@@ -420,7 +447,7 @@ msgstr "Přihlásit se"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:219
+#: src/views/SettingsViews/DefaultView.vue:209
 #, fuzzy
 msgid "Tasks"
 msgstr "Spustit úlohu"
@@ -430,7 +457,11 @@ msgid ""
 "This is a temporary and we are working on adding support for other databases."
 msgstr "Toto je dočasné a pracujeme na přidání podpory pro další databáze."
 
-#: src/views/AdminViews/SettingsView.vue:183
+#: src/components/Modals/ScanServersModal.vue:8
+msgid "Try Again"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:173
 #, fuzzy
 msgid "UI Settings"
 msgstr "Nastavení"
@@ -443,7 +474,7 @@ msgstr "Neomezený"
 msgid "Unlimited Usages"
 msgstr "Neomezené použití"
 
-#: src/views/AdminViews/SettingsView.vue:225
+#: src/views/SettingsViews/DefaultView.vue:215
 #, fuzzy
 msgid "Updates"
 msgstr "Aktualizace"
@@ -453,24 +484,28 @@ msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
 msgstr ""
 "Použijte svůj otisk prstu nebo rozpoznávání tváře k ověření své identity"
 
-#: src/components/NavBars/AdminNavBar.vue:75
+#: src/components/NavBars/AdminNavBar.vue:81
 msgid "Users"
 msgstr "Uživatelé"
 
-#: src/views/AdminViews/SettingsView.vue:214
+#: src/components/ChangeLogs/ChangeLogItem.vue:13
+msgid "View"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:204
 msgid "View and download server logs"
 msgstr "Zobrazení a stahování protokolů serveru"
 
-#: src/views/AdminViews/SettingsView.vue:220
+#: src/views/SettingsViews/DefaultView.vue:210
 msgid "View and manage scheduled tasks"
 msgstr "Zobrazení a správa naplánovaných úloh"
 
-#: src/views/AdminViews/SettingsView.vue:157
+#: src/views/SettingsViews/DefaultView.vue:147
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "Spravujte své pozvánky"
 
-#: src/views/AdminViews/SettingsView.vue:239
+#: src/views/SettingsViews/DefaultView.vue:229
 msgid "View information about the server"
 msgstr "Zobrazení informací o serveru"
 
@@ -501,7 +536,6 @@ msgstr ""
 "Je-li nastaveno, pozvaní uživatelé budou po uplynutí nastaveného počtu dní "
 "ze serveru odstraněni. (1-999)"
 
-#: src/components/Footers/AdminFooter.vue:3
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
 msgstr "Wizarr"
@@ -987,9 +1021,6 @@ msgstr "Vaše hotovo"
 #~ msgid "Cancel"
 #~ msgstr "zrušení"
 
-#~ msgid "Create"
-#~ msgstr "Vytvořit"
-
 #~ msgid "New OAuth"
 #~ msgstr "Nový OAuth"
 
@@ -1112,9 +1143,6 @@ msgstr "Vaše hotovo"
 
 #~ msgid "Unable to update libraries"
 #~ msgstr "Knihovny nelze aktualizovat"
-
-#~ msgid "Load More"
-#~ msgstr "Načíst další"
 
 #~ msgid "My Account"
 #~ msgstr "Můj účet"

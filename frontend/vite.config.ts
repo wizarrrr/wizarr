@@ -13,6 +13,7 @@ import ssr from "vite-plugin-ssr/plugin";
 import babel from "vite-plugin-babel";
 import legacy from "@vitejs/plugin-legacy";
 import browserSync from "vite-plugin-browser-sync";
+import svgLoader from "vite-svg-loader";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -24,6 +25,7 @@ export default defineConfig({
         babel(), // Initialize Babel Plugin
         // legacy(), // Initialize Legacy Plugin
         // browserSync(), // Initialize BrowserSync Plugin
+        svgLoader(), // Initialize SVG Loader Plugin
     ],
     build: {
         sourcemap: true,

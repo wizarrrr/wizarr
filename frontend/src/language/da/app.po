@@ -38,24 +38,24 @@ msgstr "1 år"
 msgid "6 Months"
 msgstr "6 måneder"
 
-#: src/views/AdminViews/SettingsView.vue:238
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "About"
 msgstr "Om"
 
-#: src/views/AdminViews/SettingsView.vue:139
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Account Settings"
 msgstr "Indstillinger"
 
-#: src/views/AdminViews/SettingsView.vue:115
+#: src/views/SettingsViews/DefaultView.vue:105
 msgid "Add API keys for external services"
 msgstr "Tilføj API-nøgler til eksterne tjenester"
 
-#: src/views/AdminViews/SettingsView.vue:195
+#: src/views/SettingsViews/DefaultView.vue:185
 msgid "Add Custom HTML page to help screen"
 msgstr "Tilføj tilpasset HTML-side til hjælpeskærmen"
 
-#: src/views/AdminViews/SettingsView.vue:108
+#: src/views/SettingsViews/DefaultView.vue:98
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "Tilføj Jellyseerr, Overseerr eller Ombi support"
 
@@ -67,12 +67,12 @@ msgstr "Admin konto"
 msgid "Advanced Options"
 msgstr "Avancerede indstillinger"
 
-#: src/views/AdminViews/SettingsView.vue:202
+#: src/views/SettingsViews/DefaultView.vue:192
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Avancerede indstillinger"
 
-#: src/views/AdminViews/SettingsView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:193
 msgid "Advanced settings for the server"
 msgstr "Avancerede indstillinger for serveren"
 
@@ -80,26 +80,26 @@ msgstr "Avancerede indstillinger for serveren"
 msgid "Allow Downloads"
 msgstr "Tillad downloads"
 
-#: src/views/AdminViews/SettingsView.vue:114
+#: src/views/SettingsViews/DefaultView.vue:104
 #, fuzzy
 msgid "API keys"
 msgstr "API-token"
 
-#: src/templates/SettingsTemplate.vue:10 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "Tilbage"
 
-#: src/views/AdminViews/SettingsView.vue:232
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Backup"
 msgstr "Tilbage"
 
-#: src/views/AdminViews/SettingsView.vue:151
+#: src/views/SettingsViews/DefaultView.vue:141
 #, fuzzy
 msgid "Change your password"
 msgstr "Glemt din adgangskode?"
 
-#: src/views/AdminViews/SettingsView.vue:226
+#: src/views/SettingsViews/DefaultView.vue:216
 msgid "Check for and view updates"
 msgstr "Se efter og se opdateringer"
 
@@ -111,35 +111,35 @@ msgstr ""
 "Se vores dokumentation for detaljerede instruktioner om, hvordan du "
 "installerer og kører Wizarr!"
 
-#: src/views/AdminViews/SettingsView.vue:131
+#: src/views/SettingsViews/DefaultView.vue:121
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "Konfigurer dine serverindstillinger."
 
-#: src/views/AdminViews/SettingsView.vue:170
+#: src/views/SettingsViews/DefaultView.vue:160
 msgid "Configure MFA authentication"
 msgstr "Konfigurer MFA-godkendelse"
 
-#: src/views/AdminViews/SettingsView.vue:123
+#: src/views/SettingsViews/DefaultView.vue:113
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "Konfigurer dine serverindstillinger."
 
-#: src/views/AdminViews/SettingsView.vue:207
+#: src/views/SettingsViews/DefaultView.vue:197
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "Opret invitation"
 
-#: src/views/AdminViews/SettingsView.vue:163
+#: src/views/SettingsViews/DefaultView.vue:153
 msgid "Configure SSO login"
 msgstr "Konfigurer SSO-login"
 
-#: src/views/AdminViews/SettingsView.vue:102
+#: src/views/SettingsViews/DefaultView.vue:92
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "Konfigurer dine serverindstillinger."
 
-#: src/views/AdminViews/SettingsView.vue:145
+#: src/views/SettingsViews/DefaultView.vue:135
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "Konfigurer dine serverindstillinger."
@@ -157,10 +157,15 @@ msgstr "Opret konto"
 msgid "Create an invitation to your server"
 msgstr "Opret en invitation til din server."
 
-#: src/views/AdminViews/SettingsView.vue:233
+#: src/views/SettingsViews/DefaultView.vue:223
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Opret en konto"
+
+#: src/views/AdminViews/FlowEditor.vue:4
+#, fuzzy
+msgid "Create Flow"
+msgstr "skab"
 
 #: src/views/AdminViews/InviteView.vue:137
 #: src/views/AdminViews/InviteView.vue:2
@@ -179,7 +184,7 @@ msgstr "Brugerdefinerede"
 msgid "Custom Duration"
 msgstr "Brugerdefineret varighed"
 
-#: src/views/AdminViews/SettingsView.vue:194
+#: src/views/SettingsViews/DefaultView.vue:184
 #, fuzzy
 msgid "Custom HTML"
 msgstr "Brugerdefinerede"
@@ -188,26 +193,34 @@ msgstr "Brugerdefinerede"
 msgid "Database"
 msgstr "Database"
 
-#: src/views/AdminViews/SettingsView.vue:188
+#: src/views/SettingsViews/DefaultView.vue:178
 #, fuzzy
 msgid "Discord"
 msgstr "Discord-widget"
 
-#: src/views/AdminViews/SettingsView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Discord Bot"
 msgstr "Discord-widget"
+
+#: src/components/ScanServers/ScanServers.vue:26
+msgid "Don't see your server?"
+msgstr ""
 
 #: src/views/AdminViews/InviteView.vue:51
 #: src/views/AdminViews/InviteView.vue:64
 msgid "Duration"
 msgstr "Varighed"
 
-#: src/views/AdminViews/SettingsView.vue:189
+#: src/views/SettingsViews/DefaultView.vue:179
 msgid "Enable Discord page and configure settings"
 msgstr "Aktiver Discord-siden og konfigurer indstillinger"
 
-#: src/views/AdminViews/SettingsView.vue:97
+#: src/views/AdminViews/FlowEditor.vue:2
+msgid "Flow Editor"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:87
 msgid "General settings for the server"
 msgstr "Generelle indstillinger for serveren"
 
@@ -229,7 +242,7 @@ msgstr "Gå til dashboard"
 msgid "Go to Login"
 msgstr "Log på"
 
-#: src/components/NavBars/AdminNavBar.vue:67
+#: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
 msgstr "Hjem"
@@ -243,7 +256,7 @@ msgstr ""
 "Hvis du blev sendt hertil af en ven, bedes du anmode om adgang, eller hvis "
 "du har en invitationskode, skal du klikke på Kom i gang."
 
-#: src/components/NavBars/AdminNavBar.vue:71
+#: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "Invitationer"
@@ -255,6 +268,10 @@ msgstr "Inviter til Plex Home"
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "Inviterede brugere"
+
+#: src/components/ChangeLogs/ChangeLogs.vue:7
+msgid "Load More"
+msgstr "Indlæs mere"
 
 #: src/views/LoginViews/PasswordView.vue:12
 msgid "Login"
@@ -272,15 +289,20 @@ msgstr "Log ind med adgangskode"
 msgid "Login with your account"
 msgstr "Log ind med din konto"
 
-#: src/views/AdminViews/SettingsView.vue:213
+#: src/views/SettingsViews/DefaultView.vue:203
 #, fuzzy
 msgid "Logs"
 msgstr "Log på"
 
-#: src/views/AdminViews/SettingsView.vue:96
+#: src/views/SettingsViews/DefaultView.vue:86
 #, fuzzy
 msgid "Main Settings"
 msgstr "Indstillinger"
+
+#: src/views/AdminViews/FlowEditor.vue:3
+#, fuzzy
+msgid "Manage your command flows"
+msgstr "Administrer dine invitationer"
 
 #: src/views/AdminViews/InvitationsView.vue:3
 msgid "Manage your invitations"
@@ -291,7 +313,7 @@ msgstr "Administrer dine invitationer"
 msgid "Manage your media server users"
 msgstr "Konfigurer dine serverindstillinger."
 
-#: src/views/AdminViews/SettingsView.vue:101
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Media Server"
 msgstr "Server"
@@ -300,11 +322,11 @@ msgstr "Server"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:174
 msgid "Modify the look and feel of the server"
 msgstr "Rediger udseendet og følelsen af ​​serveren"
 
-#: src/views/AdminViews/SettingsView.vue:169
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Multi-Factor Authentication"
 msgstr "Multi-Factor Authentication"
 
@@ -312,21 +334,25 @@ msgstr "Multi-Factor Authentication"
 msgid "Next"
 msgstr "Næste"
 
-#: src/views/AdminViews/SettingsView.vue:36
+#: src/components/ScanServers/ScanServers.vue:15
+msgid "No servers could be found."
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:26
 msgid "No settings matched your search."
 msgstr "Ingen indstillinger matchede din søgning."
 
-#: src/views/AdminViews/SettingsView.vue:122
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Notifications"
 msgstr "Underretningstjeneste"
 
-#: src/views/AdminViews/SettingsView.vue:206
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "Opret invitation"
 
-#: src/views/AdminViews/SettingsView.vue:150
+#: src/views/SettingsViews/DefaultView.vue:140
 msgid "Password"
 msgstr "Adgangskode"
 
@@ -343,7 +369,7 @@ msgstr ""
 msgid "Press the button below and follow your browser's steps to login"
 msgstr "Tryk på knappen nedenfor og følg din browsers trin for at logge ind"
 
-#: src/views/AdminViews/SettingsView.vue:144
+#: src/views/SettingsViews/DefaultView.vue:134
 msgid "Profile"
 msgstr "Profil"
 
@@ -351,7 +377,7 @@ msgstr "Profil"
 msgid "Request Access"
 msgstr "Anmod om adgang"
 
-#: src/views/AdminViews/SettingsView.vue:107
+#: src/views/SettingsViews/DefaultView.vue:97
 #, fuzzy
 msgid "Requests"
 msgstr "Anmod om server"
@@ -373,20 +399,21 @@ msgstr "Opret en konto"
 msgid "Select All"
 msgstr "Vælg alle"
 
+#: src/components/Modals/ScanLibrariesModal.vue:8
 #: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "Vælg Biblioteker"
 
-#: src/views/AdminViews/SettingsView.vue:156
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "Sessions"
 msgstr "Version"
 
-#: src/components/NavBars/AdminNavBar.vue:79
+#: src/components/NavBars/AdminNavBar.vue:85
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: src/views/AdminViews/SettingsView.vue:140
+#: src/views/SettingsViews/DefaultView.vue:130
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "Opsætning af din konto"
@@ -412,7 +439,7 @@ msgstr ""
 msgid "Specific Libraries"
 msgstr "Specifikke biblioteker"
 
-#: src/views/AdminViews/SettingsView.vue:162
+#: src/views/SettingsViews/DefaultView.vue:152
 #, fuzzy
 msgid "SSO Login"
 msgstr "Log på"
@@ -421,7 +448,7 @@ msgstr "Log på"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:219
+#: src/views/SettingsViews/DefaultView.vue:209
 #, fuzzy
 msgid "Tasks"
 msgstr "Kør opgave"
@@ -433,7 +460,11 @@ msgstr ""
 "Dette er midlertidigt, og vi arbejder på at tilføje support til andre "
 "databaser."
 
-#: src/views/AdminViews/SettingsView.vue:183
+#: src/components/Modals/ScanServersModal.vue:8
+msgid "Try Again"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:173
 #, fuzzy
 msgid "UI Settings"
 msgstr "Indstillinger"
@@ -446,7 +477,7 @@ msgstr "Ubegrænset"
 msgid "Unlimited Usages"
 msgstr "Ubegrænset anvendelse"
 
-#: src/views/AdminViews/SettingsView.vue:225
+#: src/views/SettingsViews/DefaultView.vue:215
 #, fuzzy
 msgid "Updates"
 msgstr "Opdatering"
@@ -456,24 +487,28 @@ msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
 msgstr ""
 "Brug dit fingeraftryk eller ansigtsgenkendelse til at bekræfte din identitet"
 
-#: src/components/NavBars/AdminNavBar.vue:75
+#: src/components/NavBars/AdminNavBar.vue:81
 msgid "Users"
 msgstr "Brugere"
 
-#: src/views/AdminViews/SettingsView.vue:214
+#: src/components/ChangeLogs/ChangeLogItem.vue:13
+msgid "View"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:204
 msgid "View and download server logs"
 msgstr "Se og download serverlogfiler"
 
-#: src/views/AdminViews/SettingsView.vue:220
+#: src/views/SettingsViews/DefaultView.vue:210
 msgid "View and manage scheduled tasks"
 msgstr "Se og administrer planlagte opgaver"
 
-#: src/views/AdminViews/SettingsView.vue:157
+#: src/views/SettingsViews/DefaultView.vue:147
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "Administrer dine invitationer"
 
-#: src/views/AdminViews/SettingsView.vue:239
+#: src/views/SettingsViews/DefaultView.vue:229
 msgid "View information about the server"
 msgstr "Se oplysninger om serveren"
 
@@ -504,7 +539,6 @@ msgstr ""
 "Når den er indstillet, vil inviterede bruger(e) blive fjernet fra serveren "
 "efter det indstillede antal dage. (1-999)"
 
-#: src/components/Footers/AdminFooter.vue:3
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
 msgstr "Troldmand"
@@ -991,9 +1025,6 @@ msgstr "Din færdig"
 #~ msgid "Cancel"
 #~ msgstr "Afbestille"
 
-#~ msgid "Create"
-#~ msgstr "skab"
-
 #~ msgid "New OAuth"
 #~ msgstr "Ny OAuth"
 
@@ -1116,9 +1147,6 @@ msgstr "Din færdig"
 
 #~ msgid "Unable to update libraries"
 #~ msgstr "Kan ikke opdatere biblioteker"
-
-#~ msgid "Load More"
-#~ msgstr "Indlæs mere"
 
 #~ msgid "My Account"
 #~ msgstr "Min konto"

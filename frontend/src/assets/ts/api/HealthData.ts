@@ -12,7 +12,7 @@ export interface HealthData {
 
 export default async () => {
     // Get health status from backend
-    const response = await axios.get("/api/health");
+    const response = await axios().get("/api/health");
 
     // If response is not 200, raise error
     if (response.status !== 200) {

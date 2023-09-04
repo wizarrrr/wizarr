@@ -38,24 +38,24 @@ msgstr "1 سال"
 msgid "6 Months"
 msgstr "6 ماه"
 
-#: src/views/AdminViews/SettingsView.vue:238
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "About"
 msgstr "در باره"
 
-#: src/views/AdminViews/SettingsView.vue:139
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Account Settings"
 msgstr "تنظیمات"
 
-#: src/views/AdminViews/SettingsView.vue:115
+#: src/views/SettingsViews/DefaultView.vue:105
 msgid "Add API keys for external services"
 msgstr "کلیدهای API را برای سرویس های خارجی اضافه کنید"
 
-#: src/views/AdminViews/SettingsView.vue:195
+#: src/views/SettingsViews/DefaultView.vue:185
 msgid "Add Custom HTML page to help screen"
 msgstr "صفحه HTML سفارشی را برای صفحه راهنما اضافه کنید"
 
-#: src/views/AdminViews/SettingsView.vue:108
+#: src/views/SettingsViews/DefaultView.vue:98
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "پشتیبانی Jellyseerr، Overeerr یا Ombi را اضافه کنید"
 
@@ -67,12 +67,12 @@ msgstr "حساب مدیریت"
 msgid "Advanced Options"
 msgstr "گزینه های پیشرفته"
 
-#: src/views/AdminViews/SettingsView.vue:202
+#: src/views/SettingsViews/DefaultView.vue:192
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "گزینه های پیشرفته"
 
-#: src/views/AdminViews/SettingsView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:193
 msgid "Advanced settings for the server"
 msgstr "تنظیمات پیشرفته برای سرور"
 
@@ -80,26 +80,26 @@ msgstr "تنظیمات پیشرفته برای سرور"
 msgid "Allow Downloads"
 msgstr "اجازه دانلودها"
 
-#: src/views/AdminViews/SettingsView.vue:114
+#: src/views/SettingsViews/DefaultView.vue:104
 #, fuzzy
 msgid "API keys"
 msgstr "توکن API"
 
-#: src/templates/SettingsTemplate.vue:10 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "بازگشت"
 
-#: src/views/AdminViews/SettingsView.vue:232
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Backup"
 msgstr "بازگشت"
 
-#: src/views/AdminViews/SettingsView.vue:151
+#: src/views/SettingsViews/DefaultView.vue:141
 #, fuzzy
 msgid "Change your password"
 msgstr "رمز عبور خود را فراموش کرده اید؟"
 
-#: src/views/AdminViews/SettingsView.vue:226
+#: src/views/SettingsViews/DefaultView.vue:216
 msgid "Check for and view updates"
 msgstr "به روز رسانی ها را بررسی و مشاهده کنید"
 
@@ -111,35 +111,35 @@ msgstr ""
 "برای دستورالعمل های دقیق در مورد نحوه نصب و اجرای Wizarr، مستندات ما را "
 "بررسی کنید!"
 
-#: src/views/AdminViews/SettingsView.vue:131
+#: src/views/SettingsViews/DefaultView.vue:121
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "تنظیمات سرور خود را پیکربندی کنید."
 
-#: src/views/AdminViews/SettingsView.vue:170
+#: src/views/SettingsViews/DefaultView.vue:160
 msgid "Configure MFA authentication"
 msgstr "احراز هویت MFA را پیکربندی کنید"
 
-#: src/views/AdminViews/SettingsView.vue:123
+#: src/views/SettingsViews/DefaultView.vue:113
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "تنظیمات سرور خود را پیکربندی کنید."
 
-#: src/views/AdminViews/SettingsView.vue:207
+#: src/views/SettingsViews/DefaultView.vue:197
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "ایجاد دعوت نامه"
 
-#: src/views/AdminViews/SettingsView.vue:163
+#: src/views/SettingsViews/DefaultView.vue:153
 msgid "Configure SSO login"
 msgstr "پیکربندی ورود به سیستم SSO"
 
-#: src/views/AdminViews/SettingsView.vue:102
+#: src/views/SettingsViews/DefaultView.vue:92
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "تنظیمات سرور خود را پیکربندی کنید."
 
-#: src/views/AdminViews/SettingsView.vue:145
+#: src/views/SettingsViews/DefaultView.vue:135
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "تنظیمات سرور خود را پیکربندی کنید."
@@ -157,10 +157,15 @@ msgstr "ایجاد حساب کاربری"
 msgid "Create an invitation to your server"
 msgstr "یک دعوت نامه برای سرور خود ایجاد کنید."
 
-#: src/views/AdminViews/SettingsView.vue:233
+#: src/views/SettingsViews/DefaultView.vue:223
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "یک حساب کاربری ایجاد کنید"
+
+#: src/views/AdminViews/FlowEditor.vue:4
+#, fuzzy
+msgid "Create Flow"
+msgstr "ايجاد كردن"
 
 #: src/views/AdminViews/InviteView.vue:137
 #: src/views/AdminViews/InviteView.vue:2
@@ -180,7 +185,7 @@ msgstr "سفارشی"
 msgid "Custom Duration"
 msgstr "مدت زمان سفارشی"
 
-#: src/views/AdminViews/SettingsView.vue:194
+#: src/views/SettingsViews/DefaultView.vue:184
 #, fuzzy
 msgid "Custom HTML"
 msgstr "سفارشی"
@@ -189,26 +194,34 @@ msgstr "سفارشی"
 msgid "Database"
 msgstr "پایگاه داده"
 
-#: src/views/AdminViews/SettingsView.vue:188
+#: src/views/SettingsViews/DefaultView.vue:178
 #, fuzzy
 msgid "Discord"
 msgstr "ویجت Discord"
 
-#: src/views/AdminViews/SettingsView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Discord Bot"
 msgstr "ویجت Discord"
+
+#: src/components/ScanServers/ScanServers.vue:26
+msgid "Don't see your server?"
+msgstr ""
 
 #: src/views/AdminViews/InviteView.vue:51
 #: src/views/AdminViews/InviteView.vue:64
 msgid "Duration"
 msgstr "مدت زمان"
 
-#: src/views/AdminViews/SettingsView.vue:189
+#: src/views/SettingsViews/DefaultView.vue:179
 msgid "Enable Discord page and configure settings"
 msgstr "صفحه Discord را فعال کنید و تنظیمات را پیکربندی کنید"
 
-#: src/views/AdminViews/SettingsView.vue:97
+#: src/views/AdminViews/FlowEditor.vue:2
+msgid "Flow Editor"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:87
 msgid "General settings for the server"
 msgstr "تنظیمات کلی برای سرور"
 
@@ -230,7 +243,7 @@ msgstr "به داشبورد بروید"
 msgid "Go to Login"
 msgstr "وارد شدن"
 
-#: src/components/NavBars/AdminNavBar.vue:67
+#: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
 msgstr "صفحه اصلی"
@@ -244,7 +257,7 @@ msgstr ""
 "اگر توسط یکی از دوستان شما به اینجا فرستاده شده است، لطفاً درخواست دسترسی "
 "کنید یا اگر کد دعوت دارید، لطفاً روی شروع کلیک کنید."
 
-#: src/components/NavBars/AdminNavBar.vue:71
+#: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "دعوت نامه ها"
@@ -256,6 +269,10 @@ msgstr "به Plex Home دعوت کنید"
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "کاربران دعوت شده"
+
+#: src/components/ChangeLogs/ChangeLogs.vue:7
+msgid "Load More"
+msgstr "بارگذاری بیشتر"
 
 #: src/views/LoginViews/PasswordView.vue:12
 msgid "Login"
@@ -273,15 +290,20 @@ msgstr "با رمز عبور وارد شوید"
 msgid "Login with your account"
 msgstr "با حساب کاربری خود وارد شوید"
 
-#: src/views/AdminViews/SettingsView.vue:213
+#: src/views/SettingsViews/DefaultView.vue:203
 #, fuzzy
 msgid "Logs"
 msgstr "وارد شدن"
 
-#: src/views/AdminViews/SettingsView.vue:96
+#: src/views/SettingsViews/DefaultView.vue:86
 #, fuzzy
 msgid "Main Settings"
 msgstr "تنظیمات"
+
+#: src/views/AdminViews/FlowEditor.vue:3
+#, fuzzy
+msgid "Manage your command flows"
+msgstr "دعوت نامه های خود را مدیریت کنید"
 
 #: src/views/AdminViews/InvitationsView.vue:3
 msgid "Manage your invitations"
@@ -292,7 +314,7 @@ msgstr "دعوت نامه های خود را مدیریت کنید"
 msgid "Manage your media server users"
 msgstr "تنظیمات سرور خود را پیکربندی کنید."
 
-#: src/views/AdminViews/SettingsView.vue:101
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Media Server"
 msgstr "سرور"
@@ -301,11 +323,11 @@ msgstr "سرور"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:174
 msgid "Modify the look and feel of the server"
 msgstr "ظاهر و احساس سرور را تغییر دهید"
 
-#: src/views/AdminViews/SettingsView.vue:169
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Multi-Factor Authentication"
 msgstr "احراز هویت چند عاملی"
 
@@ -313,21 +335,25 @@ msgstr "احراز هویت چند عاملی"
 msgid "Next"
 msgstr "بعد"
 
-#: src/views/AdminViews/SettingsView.vue:36
+#: src/components/ScanServers/ScanServers.vue:15
+msgid "No servers could be found."
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:26
 msgid "No settings matched your search."
 msgstr "هیچ تنظیماتی با جستجوی شما مطابقت نداشت."
 
-#: src/views/AdminViews/SettingsView.vue:122
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Notifications"
 msgstr "سرویس اطلاع رسانی"
 
-#: src/views/AdminViews/SettingsView.vue:206
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "ایجاد دعوت نامه"
 
-#: src/views/AdminViews/SettingsView.vue:150
+#: src/views/SettingsViews/DefaultView.vue:140
 msgid "Password"
 msgstr "کلمه عبور"
 
@@ -344,7 +370,7 @@ msgstr ""
 msgid "Press the button below and follow your browser's steps to login"
 msgstr "دکمه زیر را فشار دهید و مراحل مرورگر خود را برای ورود دنبال کنید"
 
-#: src/views/AdminViews/SettingsView.vue:144
+#: src/views/SettingsViews/DefaultView.vue:134
 msgid "Profile"
 msgstr "مشخصات"
 
@@ -352,7 +378,7 @@ msgstr "مشخصات"
 msgid "Request Access"
 msgstr "درخواست دسترسی"
 
-#: src/views/AdminViews/SettingsView.vue:107
+#: src/views/SettingsViews/DefaultView.vue:97
 #, fuzzy
 msgid "Requests"
 msgstr "سرور درخواست"
@@ -374,20 +400,21 @@ msgstr "یک حساب کاربری ایجاد کنید"
 msgid "Select All"
 msgstr "انتخاب همه"
 
+#: src/components/Modals/ScanLibrariesModal.vue:8
 #: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "کتابخانه ها را انتخاب کنید"
 
-#: src/views/AdminViews/SettingsView.vue:156
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "Sessions"
 msgstr "نسخه"
 
-#: src/components/NavBars/AdminNavBar.vue:79
+#: src/components/NavBars/AdminNavBar.vue:85
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: src/views/AdminViews/SettingsView.vue:140
+#: src/views/SettingsViews/DefaultView.vue:130
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "راه اندازی حساب کاربری"
@@ -413,7 +440,7 @@ msgstr ""
 msgid "Specific Libraries"
 msgstr "کتابخانه های خاص"
 
-#: src/views/AdminViews/SettingsView.vue:162
+#: src/views/SettingsViews/DefaultView.vue:152
 #, fuzzy
 msgid "SSO Login"
 msgstr "وارد شدن"
@@ -422,7 +449,7 @@ msgstr "وارد شدن"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:219
+#: src/views/SettingsViews/DefaultView.vue:209
 #, fuzzy
 msgid "Tasks"
 msgstr "Task را اجرا کنید"
@@ -434,7 +461,11 @@ msgstr ""
 "این یک موقت است و ما در حال کار بر روی افزودن پشتیبانی برای سایر پایگاه های "
 "داده هستیم."
 
-#: src/views/AdminViews/SettingsView.vue:183
+#: src/components/Modals/ScanServersModal.vue:8
+msgid "Try Again"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:173
 #, fuzzy
 msgid "UI Settings"
 msgstr "تنظیمات"
@@ -447,7 +478,7 @@ msgstr "نامحدود"
 msgid "Unlimited Usages"
 msgstr "استفاده نامحدود"
 
-#: src/views/AdminViews/SettingsView.vue:225
+#: src/views/SettingsViews/DefaultView.vue:215
 #, fuzzy
 msgid "Updates"
 msgstr "به روز رسانی"
@@ -456,24 +487,28 @@ msgstr "به روز رسانی"
 msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
 msgstr "از اثر انگشت یا تشخیص چهره خود برای تأیید هویت خود استفاده کنید"
 
-#: src/components/NavBars/AdminNavBar.vue:75
+#: src/components/NavBars/AdminNavBar.vue:81
 msgid "Users"
 msgstr "کاربران"
 
-#: src/views/AdminViews/SettingsView.vue:214
+#: src/components/ChangeLogs/ChangeLogItem.vue:13
+msgid "View"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:204
 msgid "View and download server logs"
 msgstr "گزارش های سرور را مشاهده و دانلود کنید"
 
-#: src/views/AdminViews/SettingsView.vue:220
+#: src/views/SettingsViews/DefaultView.vue:210
 msgid "View and manage scheduled tasks"
 msgstr "کارهای برنامه ریزی شده را مشاهده و مدیریت کنید"
 
-#: src/views/AdminViews/SettingsView.vue:157
+#: src/views/SettingsViews/DefaultView.vue:147
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "دعوت نامه های خود را مدیریت کنید"
 
-#: src/views/AdminViews/SettingsView.vue:239
+#: src/views/SettingsViews/DefaultView.vue:229
 msgid "View information about the server"
 msgstr "مشاهده اطلاعات مربوط به سرور"
 
@@ -503,7 +538,6 @@ msgstr ""
 "پس از تنظیم، کاربر(های) دعوت شده پس از تعداد روزهای تعیین شده از سرور حذف "
 "خواهند شد. (1-999)"
 
-#: src/components/Footers/AdminFooter.vue:3
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
 msgstr "جادوگر"
@@ -987,9 +1021,6 @@ msgstr "انجام شد"
 #~ msgid "Cancel"
 #~ msgstr "لغو کنید"
 
-#~ msgid "Create"
-#~ msgstr "ايجاد كردن"
-
 #~ msgid "New OAuth"
 #~ msgstr "OAuth جدید"
 
@@ -1112,9 +1143,6 @@ msgstr "انجام شد"
 
 #~ msgid "Unable to update libraries"
 #~ msgstr "امکان به روز رسانی کتابخانه ها وجود ندارد"
-
-#~ msgid "Load More"
-#~ msgstr "بارگذاری بیشتر"
 
 #~ msgid "My Account"
 #~ msgstr "حساب من"

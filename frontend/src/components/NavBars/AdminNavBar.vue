@@ -4,7 +4,7 @@
             <!-- Left Side -->
             <div class="flex md:order-2 text-center justify-between w-full md:w-min">
                 <router-link to="/" class="flex items-center">
-                    <img src="../../assets/img/wizard.png" class="h-8 mr-3" alt="Logo" />
+                    <WizarrLogo class="mr-3" rounded />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Wizarr</span>
                 </router-link>
                 <button data-collapse-toggle="navbar-default" aria-controls="navbar-default" aria-expanded="false" type="button" class="text-gray-500 dark:text-gray-400 focus:outline-none block md:hidden" @click="expanded = !expanded">
@@ -17,7 +17,7 @@
                 <ul class="flex flex-col md:flex-row md:space-x-8 md:text-sm md:font-medium w-full md:w-min">
                     <!-- Page Links -->
                     <li v-for="page in pages" :key="page.name" class="flex text-center items-center">
-                        <router-link :to="page.url" as="button" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                        <router-link :to="page.url" as="button" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" :class="activeLink == page.url ? 'text-white dark:text-white' : ''">
                             {{ __(page.name) }}
                         </router-link>
                     </li>
@@ -45,6 +45,7 @@ import { defineComponent } from "vue";
 import { useUserStore } from "@/stores/user";
 import { mapState } from "pinia";
 
+import WizarrLogo from "../WizarrLogo.vue";
 import AccountButton from "../Buttons/AccountButton.vue";
 import LanguageSelector from "@/components/Buttons/LanguageSelector.vue";
 import ThemeToggle from "@/components/Buttons/ThemeToggle.vue";
@@ -53,12 +54,16 @@ import LogoutButton from "@/components/Buttons/LogoutButton.vue";
 export default defineComponent({
     name: "AdminNavBar",
     components: {
+        WizarrLogo,
         AccountButton,
         LanguageSelector,
         ThemeToggle,
         LogoutButton,
     },
     computed: {
+        activeLink() {
+            return this.$route.path;
+        },
         ...mapState(useUserStore, ["user"]),
     },
     data() {

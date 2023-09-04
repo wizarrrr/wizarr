@@ -10,10 +10,9 @@
 </template>
 
 <script lang="ts">
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
 import { defineComponent } from "vue";
 import { useChangeLogStore } from "@/stores/changeLog";
-import { mapState } from "pinia";
 
 import ChangeLogItem from "./ChangeLogItem.vue";
 import DefaultButton from "@/components/Buttons/DefaultButton.vue";

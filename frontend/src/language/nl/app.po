@@ -38,24 +38,24 @@ msgstr "1 jaar"
 msgid "6 Months"
 msgstr "6 maanden"
 
-#: src/views/AdminViews/SettingsView.vue:238
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "About"
 msgstr "Over"
 
-#: src/views/AdminViews/SettingsView.vue:139
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Account Settings"
 msgstr "Instellingen"
 
-#: src/views/AdminViews/SettingsView.vue:115
+#: src/views/SettingsViews/DefaultView.vue:105
 msgid "Add API keys for external services"
 msgstr "Voeg API-sleutels toe voor externe services"
 
-#: src/views/AdminViews/SettingsView.vue:195
+#: src/views/SettingsViews/DefaultView.vue:185
 msgid "Add Custom HTML page to help screen"
 msgstr "Voeg een aangepaste HTML-pagina toe aan het helpscherm"
 
-#: src/views/AdminViews/SettingsView.vue:108
+#: src/views/SettingsViews/DefaultView.vue:98
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "Voeg ondersteuning voor Jellyseerr, Overseerr of Ombi toe"
 
@@ -67,12 +67,12 @@ msgstr "Beheerdersaccount"
 msgid "Advanced Options"
 msgstr "Geavanceerde mogelijkheden"
 
-#: src/views/AdminViews/SettingsView.vue:202
+#: src/views/SettingsViews/DefaultView.vue:192
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Geavanceerde mogelijkheden"
 
-#: src/views/AdminViews/SettingsView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:193
 msgid "Advanced settings for the server"
 msgstr "Geavanceerde instellingen voor de server"
 
@@ -80,26 +80,26 @@ msgstr "Geavanceerde instellingen voor de server"
 msgid "Allow Downloads"
 msgstr "Sta downloads toe"
 
-#: src/views/AdminViews/SettingsView.vue:114
+#: src/views/SettingsViews/DefaultView.vue:104
 #, fuzzy
 msgid "API keys"
 msgstr "API-token"
 
-#: src/templates/SettingsTemplate.vue:10 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "Rug"
 
-#: src/views/AdminViews/SettingsView.vue:232
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Backup"
 msgstr "Rug"
 
-#: src/views/AdminViews/SettingsView.vue:151
+#: src/views/SettingsViews/DefaultView.vue:141
 #, fuzzy
 msgid "Change your password"
 msgstr "Je wachtwoord vergeten?"
 
-#: src/views/AdminViews/SettingsView.vue:226
+#: src/views/SettingsViews/DefaultView.vue:216
 msgid "Check for and view updates"
 msgstr "Controleer op en bekijk updates"
 
@@ -111,35 +111,35 @@ msgstr ""
 "Bekijk onze documentatie voor gedetailleerde instructies over het "
 "installeren en uitvoeren van Wizarr!"
 
-#: src/views/AdminViews/SettingsView.vue:131
+#: src/views/SettingsViews/DefaultView.vue:121
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "Configureer uw serverinstellingen."
 
-#: src/views/AdminViews/SettingsView.vue:170
+#: src/views/SettingsViews/DefaultView.vue:160
 msgid "Configure MFA authentication"
 msgstr "Configureer MFA-authenticatie"
 
-#: src/views/AdminViews/SettingsView.vue:123
+#: src/views/SettingsViews/DefaultView.vue:113
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "Configureer uw serverinstellingen."
 
-#: src/views/AdminViews/SettingsView.vue:207
+#: src/views/SettingsViews/DefaultView.vue:197
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "Uitnodiging maken"
 
-#: src/views/AdminViews/SettingsView.vue:163
+#: src/views/SettingsViews/DefaultView.vue:153
 msgid "Configure SSO login"
 msgstr "SSO-login configureren"
 
-#: src/views/AdminViews/SettingsView.vue:102
+#: src/views/SettingsViews/DefaultView.vue:92
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "Configureer uw serverinstellingen."
 
-#: src/views/AdminViews/SettingsView.vue:145
+#: src/views/SettingsViews/DefaultView.vue:135
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "Configureer uw serverinstellingen."
@@ -157,10 +157,15 @@ msgstr "Account aanmaken"
 msgid "Create an invitation to your server"
 msgstr "Maak een uitnodiging voor uw server."
 
-#: src/views/AdminViews/SettingsView.vue:233
+#: src/views/SettingsViews/DefaultView.vue:223
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Account aanmaken"
+
+#: src/views/AdminViews/FlowEditor.vue:4
+#, fuzzy
+msgid "Create Flow"
+msgstr "Creëren"
 
 #: src/views/AdminViews/InviteView.vue:137
 #: src/views/AdminViews/InviteView.vue:2
@@ -179,7 +184,7 @@ msgstr "Aangepast"
 msgid "Custom Duration"
 msgstr "Aangepaste duur"
 
-#: src/views/AdminViews/SettingsView.vue:194
+#: src/views/SettingsViews/DefaultView.vue:184
 #, fuzzy
 msgid "Custom HTML"
 msgstr "Aangepast"
@@ -188,26 +193,34 @@ msgstr "Aangepast"
 msgid "Database"
 msgstr "Databank"
 
-#: src/views/AdminViews/SettingsView.vue:188
+#: src/views/SettingsViews/DefaultView.vue:178
 #, fuzzy
 msgid "Discord"
 msgstr "Discord-widget"
 
-#: src/views/AdminViews/SettingsView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Discord Bot"
 msgstr "Discord-widget"
+
+#: src/components/ScanServers/ScanServers.vue:26
+msgid "Don't see your server?"
+msgstr ""
 
 #: src/views/AdminViews/InviteView.vue:51
 #: src/views/AdminViews/InviteView.vue:64
 msgid "Duration"
 msgstr "Duur"
 
-#: src/views/AdminViews/SettingsView.vue:189
+#: src/views/SettingsViews/DefaultView.vue:179
 msgid "Enable Discord page and configure settings"
 msgstr "Schakel de Discord-pagina in en configureer de instellingen"
 
-#: src/views/AdminViews/SettingsView.vue:97
+#: src/views/AdminViews/FlowEditor.vue:2
+msgid "Flow Editor"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:87
 msgid "General settings for the server"
 msgstr "Algemene instellingen voor de server"
 
@@ -229,7 +242,7 @@ msgstr "Ga naar het dashboard"
 msgid "Go to Login"
 msgstr "Log in"
 
-#: src/components/NavBars/AdminNavBar.vue:67
+#: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
 msgstr "Thuis"
@@ -243,7 +256,7 @@ msgstr ""
 "Als je hierheen bent gestuurd door een vriend, vraag dan om toegang of als "
 "je een uitnodigingscode hebt, klik dan op Aan de slag."
 
-#: src/components/NavBars/AdminNavBar.vue:71
+#: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "Uitnodigingen"
@@ -255,6 +268,10 @@ msgstr "Nodig uit voor Plex Home"
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "Uitgenodigde gebruikers"
+
+#: src/components/ChangeLogs/ChangeLogs.vue:7
+msgid "Load More"
+msgstr "Meer laden"
 
 #: src/views/LoginViews/PasswordView.vue:12
 msgid "Login"
@@ -272,15 +289,20 @@ msgstr "Inloggen met wachtwoord"
 msgid "Login with your account"
 msgstr "Log in met uw account"
 
-#: src/views/AdminViews/SettingsView.vue:213
+#: src/views/SettingsViews/DefaultView.vue:203
 #, fuzzy
 msgid "Logs"
 msgstr "Log in"
 
-#: src/views/AdminViews/SettingsView.vue:96
+#: src/views/SettingsViews/DefaultView.vue:86
 #, fuzzy
 msgid "Main Settings"
 msgstr "Instellingen"
+
+#: src/views/AdminViews/FlowEditor.vue:3
+#, fuzzy
+msgid "Manage your command flows"
+msgstr "Beheer uw uitnodigingen"
 
 #: src/views/AdminViews/InvitationsView.vue:3
 msgid "Manage your invitations"
@@ -291,7 +313,7 @@ msgstr "Beheer uw uitnodigingen"
 msgid "Manage your media server users"
 msgstr "Configureer uw serverinstellingen."
 
-#: src/views/AdminViews/SettingsView.vue:101
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Media Server"
 msgstr "Server"
@@ -300,11 +322,11 @@ msgstr "Server"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:174
 msgid "Modify the look and feel of the server"
 msgstr "Pas de look en feel van de server aan"
 
-#: src/views/AdminViews/SettingsView.vue:169
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Multi-Factor Authentication"
 msgstr "Multi-factor authenticatie"
 
@@ -312,21 +334,25 @@ msgstr "Multi-factor authenticatie"
 msgid "Next"
 msgstr "Volgende"
 
-#: src/views/AdminViews/SettingsView.vue:36
+#: src/components/ScanServers/ScanServers.vue:15
+msgid "No servers could be found."
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:26
 msgid "No settings matched your search."
 msgstr "Er kwamen geen instellingen overeen met uw zoekopdracht."
 
-#: src/views/AdminViews/SettingsView.vue:122
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Notifications"
 msgstr "Meldingsservice"
 
-#: src/views/AdminViews/SettingsView.vue:206
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "Uitnodiging maken"
 
-#: src/views/AdminViews/SettingsView.vue:150
+#: src/views/SettingsViews/DefaultView.vue:140
 msgid "Password"
 msgstr "Wachtwoord"
 
@@ -345,7 +371,7 @@ msgstr ""
 "Druk op de onderstaande knop en volg de stappen van uw browser om in te "
 "loggen"
 
-#: src/views/AdminViews/SettingsView.vue:144
+#: src/views/SettingsViews/DefaultView.vue:134
 msgid "Profile"
 msgstr "Profiel"
 
@@ -353,7 +379,7 @@ msgstr "Profiel"
 msgid "Request Access"
 msgstr "Toegang vragen"
 
-#: src/views/AdminViews/SettingsView.vue:107
+#: src/views/SettingsViews/DefaultView.vue:97
 #, fuzzy
 msgid "Requests"
 msgstr "Server aanvragen"
@@ -375,20 +401,21 @@ msgstr "Account aanmaken"
 msgid "Select All"
 msgstr "Selecteer alles"
 
+#: src/components/Modals/ScanLibrariesModal.vue:8
 #: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "Selecteer Bibliotheken"
 
-#: src/views/AdminViews/SettingsView.vue:156
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "Sessions"
 msgstr "Versie"
 
-#: src/components/NavBars/AdminNavBar.vue:79
+#: src/components/NavBars/AdminNavBar.vue:85
 msgid "Settings"
 msgstr "Instellingen"
 
-#: src/views/AdminViews/SettingsView.vue:140
+#: src/views/SettingsViews/DefaultView.vue:130
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "Uw account instellen"
@@ -413,7 +440,7 @@ msgstr "Sorry, we kunnen die pagina niet vinden. Het lijkt niet te bestaan!"
 msgid "Specific Libraries"
 msgstr "Specifieke bibliotheken"
 
-#: src/views/AdminViews/SettingsView.vue:162
+#: src/views/SettingsViews/DefaultView.vue:152
 #, fuzzy
 msgid "SSO Login"
 msgstr "Log in"
@@ -422,7 +449,7 @@ msgstr "Log in"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:219
+#: src/views/SettingsViews/DefaultView.vue:209
 #, fuzzy
 msgid "Tasks"
 msgstr "Taak uitvoeren"
@@ -434,7 +461,11 @@ msgstr ""
 "Dit is tijdelijk en we werken aan het toevoegen van ondersteuning voor "
 "andere databases."
 
-#: src/views/AdminViews/SettingsView.vue:183
+#: src/components/Modals/ScanServersModal.vue:8
+msgid "Try Again"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:173
 #, fuzzy
 msgid "UI Settings"
 msgstr "Instellingen"
@@ -447,7 +478,7 @@ msgstr "Onbeperkt"
 msgid "Unlimited Usages"
 msgstr "Onbeperkt gebruik"
 
-#: src/views/AdminViews/SettingsView.vue:225
+#: src/views/SettingsViews/DefaultView.vue:215
 #, fuzzy
 msgid "Updates"
 msgstr "Update"
@@ -457,24 +488,28 @@ msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
 msgstr ""
 "Gebruik uw vingerafdruk of gezichtsherkenning om uw identiteit te verifiëren"
 
-#: src/components/NavBars/AdminNavBar.vue:75
+#: src/components/NavBars/AdminNavBar.vue:81
 msgid "Users"
 msgstr "Gebruikers"
 
-#: src/views/AdminViews/SettingsView.vue:214
+#: src/components/ChangeLogs/ChangeLogItem.vue:13
+msgid "View"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:204
 msgid "View and download server logs"
 msgstr "Bekijk en download serverlogboeken"
 
-#: src/views/AdminViews/SettingsView.vue:220
+#: src/views/SettingsViews/DefaultView.vue:210
 msgid "View and manage scheduled tasks"
 msgstr "Bekijk en beheer geplande taken"
 
-#: src/views/AdminViews/SettingsView.vue:157
+#: src/views/SettingsViews/DefaultView.vue:147
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "Beheer uw uitnodigingen"
 
-#: src/views/AdminViews/SettingsView.vue:239
+#: src/views/SettingsViews/DefaultView.vue:229
 msgid "View information about the server"
 msgstr "Bekijk informatie over de server"
 
@@ -505,7 +540,6 @@ msgstr ""
 "Indien ingesteld, worden uitgenodigde gebruiker(s) na het ingestelde aantal "
 "dagen van de server verwijderd. (1-999)"
 
-#: src/components/Footers/AdminFooter.vue:3
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
 msgstr "Wizarr"
@@ -997,9 +1031,6 @@ msgstr "Je bent klaar"
 #~ msgid "Cancel"
 #~ msgstr "Annuleren"
 
-#~ msgid "Create"
-#~ msgstr "Creëren"
-
 #~ msgid "New OAuth"
 #~ msgstr "Nieuwe OAuth"
 
@@ -1122,9 +1153,6 @@ msgstr "Je bent klaar"
 
 #~ msgid "Unable to update libraries"
 #~ msgstr "Kan bibliotheken niet bijwerken"
-
-#~ msgid "Load More"
-#~ msgstr "Meer laden"
 
 #~ msgid "My Account"
 #~ msgstr "Mijn rekening"

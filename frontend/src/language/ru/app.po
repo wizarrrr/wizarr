@@ -39,24 +39,24 @@ msgstr "1 год"
 msgid "6 Months"
 msgstr "6 месяцев"
 
-#: src/views/AdminViews/SettingsView.vue:238
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "About"
 msgstr "О"
 
-#: src/views/AdminViews/SettingsView.vue:139
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Account Settings"
 msgstr "Настройки"
 
-#: src/views/AdminViews/SettingsView.vue:115
+#: src/views/SettingsViews/DefaultView.vue:105
 msgid "Add API keys for external services"
 msgstr "Добавить ключи API для внешних сервисов"
 
-#: src/views/AdminViews/SettingsView.vue:195
+#: src/views/SettingsViews/DefaultView.vue:185
 msgid "Add Custom HTML page to help screen"
 msgstr "Добавить пользовательскую HTML-страницу на экран справки"
 
-#: src/views/AdminViews/SettingsView.vue:108
+#: src/views/SettingsViews/DefaultView.vue:98
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "Добавьте поддержку Jellyseerr, Overserr или Ombi"
 
@@ -68,12 +68,12 @@ msgstr "Учетная запись администратора"
 msgid "Advanced Options"
 msgstr "Расширенные настройки"
 
-#: src/views/AdminViews/SettingsView.vue:202
+#: src/views/SettingsViews/DefaultView.vue:192
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Расширенные настройки"
 
-#: src/views/AdminViews/SettingsView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:193
 msgid "Advanced settings for the server"
 msgstr "Расширенные настройки для сервера"
 
@@ -81,26 +81,26 @@ msgstr "Расширенные настройки для сервера"
 msgid "Allow Downloads"
 msgstr "Разрешить загрузки"
 
-#: src/views/AdminViews/SettingsView.vue:114
+#: src/views/SettingsViews/DefaultView.vue:104
 #, fuzzy
 msgid "API keys"
 msgstr "Токен API"
 
-#: src/templates/SettingsTemplate.vue:10 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "Назад"
 
-#: src/views/AdminViews/SettingsView.vue:232
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Backup"
 msgstr "Назад"
 
-#: src/views/AdminViews/SettingsView.vue:151
+#: src/views/SettingsViews/DefaultView.vue:141
 #, fuzzy
 msgid "Change your password"
 msgstr "Забыли пароль?"
 
-#: src/views/AdminViews/SettingsView.vue:226
+#: src/views/SettingsViews/DefaultView.vue:216
 msgid "Check for and view updates"
 msgstr "Проверяйте и просматривайте обновления"
 
@@ -112,35 +112,35 @@ msgstr ""
 "Ознакомьтесь с нашей документацией для получения подробных инструкций по "
 "установке и запуску Wizarr!"
 
-#: src/views/AdminViews/SettingsView.vue:131
+#: src/views/SettingsViews/DefaultView.vue:121
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "Настройте параметры вашего сервера."
 
-#: src/views/AdminViews/SettingsView.vue:170
+#: src/views/SettingsViews/DefaultView.vue:160
 msgid "Configure MFA authentication"
 msgstr "Настройка аутентификации MFA"
 
-#: src/views/AdminViews/SettingsView.vue:123
+#: src/views/SettingsViews/DefaultView.vue:113
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "Настройте параметры вашего сервера."
 
-#: src/views/AdminViews/SettingsView.vue:207
+#: src/views/SettingsViews/DefaultView.vue:197
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "Создать приглашение"
 
-#: src/views/AdminViews/SettingsView.vue:163
+#: src/views/SettingsViews/DefaultView.vue:153
 msgid "Configure SSO login"
 msgstr "Настроить вход через систему единого входа"
 
-#: src/views/AdminViews/SettingsView.vue:102
+#: src/views/SettingsViews/DefaultView.vue:92
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "Настройте параметры вашего сервера."
 
-#: src/views/AdminViews/SettingsView.vue:145
+#: src/views/SettingsViews/DefaultView.vue:135
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "Настройте параметры вашего сервера."
@@ -158,10 +158,15 @@ msgstr "Зарегистрироваться"
 msgid "Create an invitation to your server"
 msgstr "Создайте приглашение на свой сервер."
 
-#: src/views/AdminViews/SettingsView.vue:233
+#: src/views/SettingsViews/DefaultView.vue:223
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Завести аккаунт"
+
+#: src/views/AdminViews/FlowEditor.vue:4
+#, fuzzy
+msgid "Create Flow"
+msgstr "Создавать"
 
 #: src/views/AdminViews/InviteView.vue:137
 #: src/views/AdminViews/InviteView.vue:2
@@ -181,7 +186,7 @@ msgstr "Обычай"
 msgid "Custom Duration"
 msgstr "Пользовательская продолжительность"
 
-#: src/views/AdminViews/SettingsView.vue:194
+#: src/views/SettingsViews/DefaultView.vue:184
 #, fuzzy
 msgid "Custom HTML"
 msgstr "Обычай"
@@ -190,26 +195,34 @@ msgstr "Обычай"
 msgid "Database"
 msgstr "База данных"
 
-#: src/views/AdminViews/SettingsView.vue:188
+#: src/views/SettingsViews/DefaultView.vue:178
 #, fuzzy
 msgid "Discord"
 msgstr "Дискорд виджет"
 
-#: src/views/AdminViews/SettingsView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Discord Bot"
 msgstr "Дискорд виджет"
+
+#: src/components/ScanServers/ScanServers.vue:26
+msgid "Don't see your server?"
+msgstr ""
 
 #: src/views/AdminViews/InviteView.vue:51
 #: src/views/AdminViews/InviteView.vue:64
 msgid "Duration"
 msgstr "Продолжительность"
 
-#: src/views/AdminViews/SettingsView.vue:189
+#: src/views/SettingsViews/DefaultView.vue:179
 msgid "Enable Discord page and configure settings"
 msgstr "Включить страницу Discord и настроить параметры"
 
-#: src/views/AdminViews/SettingsView.vue:97
+#: src/views/AdminViews/FlowEditor.vue:2
+msgid "Flow Editor"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:87
 msgid "General settings for the server"
 msgstr "Общие настройки сервера"
 
@@ -231,7 +244,7 @@ msgstr "Перейти к приборной панели"
 msgid "Go to Login"
 msgstr "Авторизоваться"
 
-#: src/components/NavBars/AdminNavBar.vue:67
+#: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
 msgstr "Дом"
@@ -245,7 +258,7 @@ msgstr ""
 "Если вас послал сюда друг, запросите доступ или, если у вас есть код "
 "приглашения, нажмите «Начать»."
 
-#: src/components/NavBars/AdminNavBar.vue:71
+#: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "Приглашения"
@@ -257,6 +270,10 @@ msgstr "Пригласить в Plex Home"
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "Приглашенные пользователи"
+
+#: src/components/ChangeLogs/ChangeLogs.vue:7
+msgid "Load More"
+msgstr "Загрузи больше"
 
 #: src/views/LoginViews/PasswordView.vue:12
 msgid "Login"
@@ -274,15 +291,20 @@ msgstr "Войти с паролем"
 msgid "Login with your account"
 msgstr "Войти под своей учетной записью"
 
-#: src/views/AdminViews/SettingsView.vue:213
+#: src/views/SettingsViews/DefaultView.vue:203
 #, fuzzy
 msgid "Logs"
 msgstr "Авторизоваться"
 
-#: src/views/AdminViews/SettingsView.vue:96
+#: src/views/SettingsViews/DefaultView.vue:86
 #, fuzzy
 msgid "Main Settings"
 msgstr "Настройки"
+
+#: src/views/AdminViews/FlowEditor.vue:3
+#, fuzzy
+msgid "Manage your command flows"
+msgstr "Управляйте своими приглашениями"
 
 #: src/views/AdminViews/InvitationsView.vue:3
 msgid "Manage your invitations"
@@ -293,7 +315,7 @@ msgstr "Управляйте своими приглашениями"
 msgid "Manage your media server users"
 msgstr "Настройте параметры вашего сервера."
 
-#: src/views/AdminViews/SettingsView.vue:101
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Media Server"
 msgstr "Сервер"
@@ -302,11 +324,11 @@ msgstr "Сервер"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:174
 msgid "Modify the look and feel of the server"
 msgstr "Изменить внешний вид сервера"
 
-#: src/views/AdminViews/SettingsView.vue:169
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Multi-Factor Authentication"
 msgstr "Многофакторная аутентификация"
 
@@ -314,21 +336,25 @@ msgstr "Многофакторная аутентификация"
 msgid "Next"
 msgstr "Следующий"
 
-#: src/views/AdminViews/SettingsView.vue:36
+#: src/components/ScanServers/ScanServers.vue:15
+msgid "No servers could be found."
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:26
 msgid "No settings matched your search."
 msgstr "Ни один из параметров не соответствует вашему запросу."
 
-#: src/views/AdminViews/SettingsView.vue:122
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Notifications"
 msgstr "Служба уведомлений"
 
-#: src/views/AdminViews/SettingsView.vue:206
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "Создать приглашение"
 
-#: src/views/AdminViews/SettingsView.vue:150
+#: src/views/SettingsViews/DefaultView.vue:140
 msgid "Password"
 msgstr "Пароль"
 
@@ -346,7 +372,7 @@ msgid "Press the button below and follow your browser's steps to login"
 msgstr ""
 "Нажмите кнопку ниже и следуйте инструкциям вашего браузера, чтобы войти"
 
-#: src/views/AdminViews/SettingsView.vue:144
+#: src/views/SettingsViews/DefaultView.vue:134
 msgid "Profile"
 msgstr "Профиль"
 
@@ -354,7 +380,7 @@ msgstr "Профиль"
 msgid "Request Access"
 msgstr "Запрос доступа"
 
-#: src/views/AdminViews/SettingsView.vue:107
+#: src/views/SettingsViews/DefaultView.vue:97
 #, fuzzy
 msgid "Requests"
 msgstr "Сервер запросов"
@@ -376,20 +402,21 @@ msgstr "Завести аккаунт"
 msgid "Select All"
 msgstr "Выбрать все"
 
+#: src/components/Modals/ScanLibrariesModal.vue:8
 #: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "Выберите библиотеки"
 
-#: src/views/AdminViews/SettingsView.vue:156
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "Sessions"
 msgstr "Версия"
 
-#: src/components/NavBars/AdminNavBar.vue:79
+#: src/components/NavBars/AdminNavBar.vue:85
 msgid "Settings"
 msgstr "Настройки"
 
-#: src/views/AdminViews/SettingsView.vue:140
+#: src/views/SettingsViews/DefaultView.vue:130
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "Настройка вашей учетной записи"
@@ -414,7 +441,7 @@ msgstr "Извините, мы не можем найти эту страниц�
 msgid "Specific Libraries"
 msgstr "Специальные библиотеки"
 
-#: src/views/AdminViews/SettingsView.vue:162
+#: src/views/SettingsViews/DefaultView.vue:152
 #, fuzzy
 msgid "SSO Login"
 msgstr "Авторизоваться"
@@ -423,7 +450,7 @@ msgstr "Авторизоваться"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:219
+#: src/views/SettingsViews/DefaultView.vue:209
 #, fuzzy
 msgid "Tasks"
 msgstr "Выполнить задачу"
@@ -434,7 +461,11 @@ msgid ""
 msgstr ""
 "Это временно, и мы работаем над добавлением поддержки других баз данных."
 
-#: src/views/AdminViews/SettingsView.vue:183
+#: src/components/Modals/ScanServersModal.vue:8
+msgid "Try Again"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:173
 #, fuzzy
 msgid "UI Settings"
 msgstr "Настройки"
@@ -447,7 +478,7 @@ msgstr "Неограниченный"
 msgid "Unlimited Usages"
 msgstr "Неограниченное использование"
 
-#: src/views/AdminViews/SettingsView.vue:225
+#: src/views/SettingsViews/DefaultView.vue:215
 #, fuzzy
 msgid "Updates"
 msgstr "Обновлять"
@@ -458,24 +489,28 @@ msgstr ""
 "Используйте отпечаток пальца или распознавание лица, чтобы подтвердить свою "
 "личность"
 
-#: src/components/NavBars/AdminNavBar.vue:75
+#: src/components/NavBars/AdminNavBar.vue:81
 msgid "Users"
 msgstr "Пользователи"
 
-#: src/views/AdminViews/SettingsView.vue:214
+#: src/components/ChangeLogs/ChangeLogItem.vue:13
+msgid "View"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:204
 msgid "View and download server logs"
 msgstr "Просмотр и загрузка журналов сервера"
 
-#: src/views/AdminViews/SettingsView.vue:220
+#: src/views/SettingsViews/DefaultView.vue:210
 msgid "View and manage scheduled tasks"
 msgstr "Просмотр запланированных задач и управление ими"
 
-#: src/views/AdminViews/SettingsView.vue:157
+#: src/views/SettingsViews/DefaultView.vue:147
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "Управляйте своими приглашениями"
 
-#: src/views/AdminViews/SettingsView.vue:239
+#: src/views/SettingsViews/DefaultView.vue:229
 msgid "View information about the server"
 msgstr "Посмотреть информацию о сервере"
 
@@ -506,7 +541,6 @@ msgstr ""
 "Если установлено, приглашенные пользователи будут удалены с сервера по "
 "истечении заданного количества дней. (1-999)"
 
-#: src/components/Footers/AdminFooter.vue:3
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
 msgstr "Волшебник"
@@ -995,9 +1029,6 @@ msgstr "Готово"
 #~ msgid "Cancel"
 #~ msgstr "Отмена"
 
-#~ msgid "Create"
-#~ msgstr "Создавать"
-
 #~ msgid "New OAuth"
 #~ msgstr "Новый OAuth"
 
@@ -1120,9 +1151,6 @@ msgstr "Готово"
 
 #~ msgid "Unable to update libraries"
 #~ msgstr "Не удается обновить библиотеки"
-
-#~ msgid "Load More"
-#~ msgstr "Загрузи больше"
 
 #~ msgid "My Account"
 #~ msgstr "Мой счет"

@@ -4,18 +4,18 @@
     <RouterView v-else />
     <Offline />
     <ReloadPrompt />
+    <!-- <ScanServersModal /> -->
 </template>
 
 <script lang="ts">
-import { mapState } from "pinia";
-import { mapActions } from "pinia";
 import { defineComponent } from "vue";
+import { mapState, mapActions } from "pinia";
+import { useUserStore } from "./stores/user";
 import { useThemeStore } from "@/stores/theme";
+import { useServerStore } from "./stores/server";
 import { useLanguageStore } from "@/stores/language";
 import { useProgressStore } from "./stores/progress";
 import { useGettext, type Language } from "vue3-gettext";
-import { useUserStore } from "./stores/user";
-import { useServerStore } from "./stores/server";
 
 import type { ToastID } from "vue-toastification/dist/types/types";
 
@@ -27,12 +27,16 @@ import UpdateAvailable from "@/components/Toasts/UpdateAvailable.vue";
 import DefaultToast from "@/components/Toasts/DefaultToast.vue";
 import ReloadPrompt from "@/components/ReloadPrompt.vue";
 
+import ScanServersModal from "./components/Modals/ScanServersModal.vue";
+
 export default defineComponent({
     name: "App",
     components: {
         Offline,
         FullPageLoading,
         ReloadPrompt,
+
+        ScanServersModal,
     },
     data() {
         return {
@@ -45,13 +49,11 @@ export default defineComponent({
         ...mapState(useThemeStore, ["theme"]),
         ...mapState(useLanguageStore, ["language"]),
         ...mapState(useProgressStore, ["progress"]),
-        ...mapState(useUserStore, ["isAuthenticated"]),
     },
     methods: {
         ...mapActions(useThemeStore, ["updateTheme"]),
         ...mapActions(useLanguageStore, ["updateLanguage", "updateAvailableLanguages"]),
         ...mapActions(useServerStore, ["setServerData"]),
-        ...mapActions(useUserStore, ["logout"]),
         async backendTest() {
             while (true) {
                 const serverData = await ServerData().catch(() => undefined);
@@ -90,15 +92,6 @@ export default defineComponent({
                 }
             },
         },
-        isAuthenticated: {
-            immediate: false,
-            handler(isAuthenticated) {
-                if (!isAuthenticated) {
-                    this.$router.push({ name: "login" });
-                    this.$toast.info("You have been logged out.");
-                }
-            },
-        },
     },
     beforeCreate() {
         // Start the progress bar before the app is created
@@ -114,9 +107,6 @@ export default defineComponent({
 
         // Set the theme
         this.updateTheme(this.theme);
-
-        // Refresh the token
-        this.isAuthenticated ? await this.$axios.get("/api/auth/refresh", { disableInfoToast: true }).catch(() => this.logout()) : null;
 
         // Get the server data
         const serverData = await ServerData().catch(() => undefined);

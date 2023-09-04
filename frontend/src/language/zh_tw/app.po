@@ -38,24 +38,24 @@ msgstr "1年"
 msgid "6 Months"
 msgstr "6個月"
 
-#: src/views/AdminViews/SettingsView.vue:238
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "About"
 msgstr "關於"
 
-#: src/views/AdminViews/SettingsView.vue:139
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Account Settings"
 msgstr "設置"
 
-#: src/views/AdminViews/SettingsView.vue:115
+#: src/views/SettingsViews/DefaultView.vue:105
 msgid "Add API keys for external services"
 msgstr "添加外部服務的 API 密鑰"
 
-#: src/views/AdminViews/SettingsView.vue:195
+#: src/views/SettingsViews/DefaultView.vue:185
 msgid "Add Custom HTML page to help screen"
 msgstr "添加自定義 HTML 頁面到幫助屏幕"
 
-#: src/views/AdminViews/SettingsView.vue:108
+#: src/views/SettingsViews/DefaultView.vue:98
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "添加 Jellyserr、Overseerr 或 Ombi 支持"
 
@@ -67,12 +67,12 @@ msgstr "管理員帳戶"
 msgid "Advanced Options"
 msgstr "高級選項"
 
-#: src/views/AdminViews/SettingsView.vue:202
+#: src/views/SettingsViews/DefaultView.vue:192
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "高級選項"
 
-#: src/views/AdminViews/SettingsView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:193
 msgid "Advanced settings for the server"
 msgstr "服務器的高級設置"
 
@@ -80,26 +80,26 @@ msgstr "服務器的高級設置"
 msgid "Allow Downloads"
 msgstr "允許下載"
 
-#: src/views/AdminViews/SettingsView.vue:114
+#: src/views/SettingsViews/DefaultView.vue:104
 #, fuzzy
 msgid "API keys"
 msgstr "API令牌"
 
-#: src/templates/SettingsTemplate.vue:10 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "後退"
 
-#: src/views/AdminViews/SettingsView.vue:232
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Backup"
 msgstr "後退"
 
-#: src/views/AdminViews/SettingsView.vue:151
+#: src/views/SettingsViews/DefaultView.vue:141
 #, fuzzy
 msgid "Change your password"
 msgstr "忘記密碼了嗎？"
 
-#: src/views/AdminViews/SettingsView.vue:226
+#: src/views/SettingsViews/DefaultView.vue:216
 msgid "Check for and view updates"
 msgstr "檢查並查看更新"
 
@@ -109,35 +109,35 @@ msgid ""
 "run Wizarr!"
 msgstr "查看我們的文檔，了解有關如何安裝和運行 Wizarr 的詳細說明！"
 
-#: src/views/AdminViews/SettingsView.vue:131
+#: src/views/SettingsViews/DefaultView.vue:121
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "配置您的服務器設置。"
 
-#: src/views/AdminViews/SettingsView.vue:170
+#: src/views/SettingsViews/DefaultView.vue:160
 msgid "Configure MFA authentication"
 msgstr "配置 MFA 身份驗證"
 
-#: src/views/AdminViews/SettingsView.vue:123
+#: src/views/SettingsViews/DefaultView.vue:113
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "配置您的服務器設置。"
 
-#: src/views/AdminViews/SettingsView.vue:207
+#: src/views/SettingsViews/DefaultView.vue:197
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "創建邀請"
 
-#: src/views/AdminViews/SettingsView.vue:163
+#: src/views/SettingsViews/DefaultView.vue:153
 msgid "Configure SSO login"
 msgstr "配置單點登錄"
 
-#: src/views/AdminViews/SettingsView.vue:102
+#: src/views/SettingsViews/DefaultView.vue:92
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "配置您的服務器設置。"
 
-#: src/views/AdminViews/SettingsView.vue:145
+#: src/views/SettingsViews/DefaultView.vue:135
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "配置您的服務器設置。"
@@ -155,10 +155,15 @@ msgstr "創建賬戶"
 msgid "Create an invitation to your server"
 msgstr "創建對您的服務器的邀請。"
 
-#: src/views/AdminViews/SettingsView.vue:233
+#: src/views/SettingsViews/DefaultView.vue:223
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "創建一個帳戶"
+
+#: src/views/AdminViews/FlowEditor.vue:4
+#, fuzzy
+msgid "Create Flow"
+msgstr "創造"
 
 #: src/views/AdminViews/InviteView.vue:137
 #: src/views/AdminViews/InviteView.vue:2
@@ -177,7 +182,7 @@ msgstr "風俗"
 msgid "Custom Duration"
 msgstr "自定義時長"
 
-#: src/views/AdminViews/SettingsView.vue:194
+#: src/views/SettingsViews/DefaultView.vue:184
 #, fuzzy
 msgid "Custom HTML"
 msgstr "風俗"
@@ -186,26 +191,34 @@ msgstr "風俗"
 msgid "Database"
 msgstr "數據庫"
 
-#: src/views/AdminViews/SettingsView.vue:188
+#: src/views/SettingsViews/DefaultView.vue:178
 #, fuzzy
 msgid "Discord"
 msgstr "不和諧小部件"
 
-#: src/views/AdminViews/SettingsView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Discord Bot"
 msgstr "不和諧小部件"
+
+#: src/components/ScanServers/ScanServers.vue:26
+msgid "Don't see your server?"
+msgstr ""
 
 #: src/views/AdminViews/InviteView.vue:51
 #: src/views/AdminViews/InviteView.vue:64
 msgid "Duration"
 msgstr "期間"
 
-#: src/views/AdminViews/SettingsView.vue:189
+#: src/views/SettingsViews/DefaultView.vue:179
 msgid "Enable Discord page and configure settings"
 msgstr "啟用 Discord 頁面並配置設置"
 
-#: src/views/AdminViews/SettingsView.vue:97
+#: src/views/AdminViews/FlowEditor.vue:2
+msgid "Flow Editor"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:87
 msgid "General settings for the server"
 msgstr "服務器的常規設置"
 
@@ -227,7 +240,7 @@ msgstr "轉到儀表板"
 msgid "Go to Login"
 msgstr "登錄"
 
-#: src/components/NavBars/AdminNavBar.vue:67
+#: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
 msgstr "家"
@@ -241,7 +254,7 @@ msgstr ""
 "如果您是由朋友發送到這裡的，請請求訪問權限，或者如果您有邀請碼，請單擊“開"
 "始”。"
 
-#: src/components/NavBars/AdminNavBar.vue:71
+#: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "邀請函"
@@ -253,6 +266,10 @@ msgstr "邀請來到 Plex 主頁"
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "受邀用戶"
+
+#: src/components/ChangeLogs/ChangeLogs.vue:7
+msgid "Load More"
+msgstr "裝載更多"
 
 #: src/views/LoginViews/PasswordView.vue:12
 msgid "Login"
@@ -270,15 +287,20 @@ msgstr "使用密碼登錄"
 msgid "Login with your account"
 msgstr "使用您的帳戶登錄"
 
-#: src/views/AdminViews/SettingsView.vue:213
+#: src/views/SettingsViews/DefaultView.vue:203
 #, fuzzy
 msgid "Logs"
 msgstr "登錄"
 
-#: src/views/AdminViews/SettingsView.vue:96
+#: src/views/SettingsViews/DefaultView.vue:86
 #, fuzzy
 msgid "Main Settings"
 msgstr "設置"
+
+#: src/views/AdminViews/FlowEditor.vue:3
+#, fuzzy
+msgid "Manage your command flows"
+msgstr "管理您的邀請"
 
 #: src/views/AdminViews/InvitationsView.vue:3
 msgid "Manage your invitations"
@@ -289,7 +311,7 @@ msgstr "管理您的邀請"
 msgid "Manage your media server users"
 msgstr "配置您的服務器設置。"
 
-#: src/views/AdminViews/SettingsView.vue:101
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Media Server"
 msgstr "服務器"
@@ -298,11 +320,11 @@ msgstr "服務器"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:174
 msgid "Modify the look and feel of the server"
 msgstr "修改服務器的外觀"
 
-#: src/views/AdminViews/SettingsView.vue:169
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Multi-Factor Authentication"
 msgstr "多重身份驗證"
 
@@ -310,21 +332,25 @@ msgstr "多重身份驗證"
 msgid "Next"
 msgstr "下一個"
 
-#: src/views/AdminViews/SettingsView.vue:36
+#: src/components/ScanServers/ScanServers.vue:15
+msgid "No servers could be found."
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:26
 msgid "No settings matched your search."
 msgstr "沒有與您的搜索匹配的設置。"
 
-#: src/views/AdminViews/SettingsView.vue:122
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Notifications"
 msgstr "通知服務"
 
-#: src/views/AdminViews/SettingsView.vue:206
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "創建邀請"
 
-#: src/views/AdminViews/SettingsView.vue:150
+#: src/views/SettingsViews/DefaultView.vue:140
 msgid "Password"
 msgstr "密碼"
 
@@ -341,7 +367,7 @@ msgstr ""
 msgid "Press the button below and follow your browser's steps to login"
 msgstr "按下面的按鈕並按照瀏覽器的步驟登錄"
 
-#: src/views/AdminViews/SettingsView.vue:144
+#: src/views/SettingsViews/DefaultView.vue:134
 msgid "Profile"
 msgstr "輪廓"
 
@@ -349,7 +375,7 @@ msgstr "輪廓"
 msgid "Request Access"
 msgstr "申請進入"
 
-#: src/views/AdminViews/SettingsView.vue:107
+#: src/views/SettingsViews/DefaultView.vue:97
 #, fuzzy
 msgid "Requests"
 msgstr "請求服務器"
@@ -371,20 +397,21 @@ msgstr "創建一個帳戶"
 msgid "Select All"
 msgstr "全選"
 
+#: src/components/Modals/ScanLibrariesModal.vue:8
 #: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "選擇圖書館"
 
-#: src/views/AdminViews/SettingsView.vue:156
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "Sessions"
 msgstr "版本"
 
-#: src/components/NavBars/AdminNavBar.vue:79
+#: src/components/NavBars/AdminNavBar.vue:85
 msgid "Settings"
 msgstr "設置"
 
-#: src/views/AdminViews/SettingsView.vue:140
+#: src/views/SettingsViews/DefaultView.vue:130
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "設置您的帳戶"
@@ -409,7 +436,7 @@ msgstr "抱歉，我們找不到該頁面。似乎不存在！"
 msgid "Specific Libraries"
 msgstr "特定庫"
 
-#: src/views/AdminViews/SettingsView.vue:162
+#: src/views/SettingsViews/DefaultView.vue:152
 #, fuzzy
 msgid "SSO Login"
 msgstr "登錄"
@@ -418,7 +445,7 @@ msgstr "登錄"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:219
+#: src/views/SettingsViews/DefaultView.vue:209
 #, fuzzy
 msgid "Tasks"
 msgstr "運行任務"
@@ -428,7 +455,11 @@ msgid ""
 "This is a temporary and we are working on adding support for other databases."
 msgstr "這是臨時的，我們正在努力添加對其他數據庫的支持。"
 
-#: src/views/AdminViews/SettingsView.vue:183
+#: src/components/Modals/ScanServersModal.vue:8
+msgid "Try Again"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:173
 #, fuzzy
 msgid "UI Settings"
 msgstr "設置"
@@ -441,7 +472,7 @@ msgstr "無限"
 msgid "Unlimited Usages"
 msgstr "無限使用"
 
-#: src/views/AdminViews/SettingsView.vue:225
+#: src/views/SettingsViews/DefaultView.vue:215
 #, fuzzy
 msgid "Updates"
 msgstr "更新"
@@ -450,24 +481,28 @@ msgstr "更新"
 msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
 msgstr "使用指紋或人臉識別來驗證您的身份"
 
-#: src/components/NavBars/AdminNavBar.vue:75
+#: src/components/NavBars/AdminNavBar.vue:81
 msgid "Users"
 msgstr "用戶"
 
-#: src/views/AdminViews/SettingsView.vue:214
+#: src/components/ChangeLogs/ChangeLogItem.vue:13
+msgid "View"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:204
 msgid "View and download server logs"
 msgstr "查看和下載服務器日誌"
 
-#: src/views/AdminViews/SettingsView.vue:220
+#: src/views/SettingsViews/DefaultView.vue:210
 msgid "View and manage scheduled tasks"
 msgstr "查看和管理計劃任務"
 
-#: src/views/AdminViews/SettingsView.vue:157
+#: src/views/SettingsViews/DefaultView.vue:147
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "管理您的邀請"
 
-#: src/views/AdminViews/SettingsView.vue:239
+#: src/views/SettingsViews/DefaultView.vue:229
 msgid "View information about the server"
 msgstr "查看服務器信息"
 
@@ -494,7 +529,6 @@ msgid ""
 "number of days. (1-999)"
 msgstr "設置後，受邀請的用戶將在設置的天數後從服務器中刪除。 (1-999)"
 
-#: src/components/Footers/AdminFooter.vue:3
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
 msgstr "維扎爾"
@@ -958,9 +992,6 @@ msgstr "你完成了"
 #~ msgid "Cancel"
 #~ msgstr "取消"
 
-#~ msgid "Create"
-#~ msgstr "創造"
-
 #~ msgid "New OAuth"
 #~ msgstr "新的OAuth"
 
@@ -1083,9 +1114,6 @@ msgstr "你完成了"
 
 #~ msgid "Unable to update libraries"
 #~ msgstr "無法更新庫"
-
-#~ msgid "Load More"
-#~ msgstr "裝載更多"
 
 #~ msgid "My Account"
 #~ msgstr "我的賬戶"

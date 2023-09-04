@@ -1,7 +1,7 @@
 <template>
     <div>
         <DefaultLabel :name="name" :label="label" :sublabel="sublabel" :tooltip="tooltip" :tooltipTitle="tooltipTitle" />
-        <div class="relative mb-6">
+        <div class="relative">
             <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none" v-if="icon">
                 <i :class="icon" class="text-gray-400"></i>
             </div>

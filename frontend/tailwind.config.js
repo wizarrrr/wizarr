@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}", "./node_modules/flowbite/**/*.js"],
+    content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}", "./node_modules/flowbite/**/*.js", "./src/formkit.theme.ts"],
     darkMode: "class",
     theme: {
         extend: {
@@ -12,5 +12,5 @@ module.exports = {
             },
         },
     },
-    plugins: [require("flowbite/plugin"), require("tailwindcss-inner-border")],
+    plugins: [require("flowbite/plugin"), require("tailwindcss-inner-border"), require("@formkit/themes/tailwindcss")],
 };

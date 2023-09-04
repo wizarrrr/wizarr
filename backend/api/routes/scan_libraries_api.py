@@ -19,12 +19,59 @@ class ScanLibrariesListAPI(Resource):
 
     @api.doc(description="")
     @api.response(500, "Internal server error")
+    def get(self):
+        # Import from helpers
+        from helpers import scan_jellyfin_libraries, scan_plex_libraries
+        from app.models.database import Settings
+
+        # Get the server settings
+        settings = {
+            setting.key: setting.value
+            for setting in Settings.select()
+        }
+
+        # Validate the data and initialize the object
+        server_settings = ScanLibrariesModel({
+            "server_type": settings["server_type"],
+            "server_url": settings["server_url"],
+            "server_api_key": settings["server_api_key"]
+        })
+
+        server_settings.validate()
+        server_type, server_url, server_api_key = server_settings.values()
+
+
+        # Check if the server type is Jellyfin
+        if server_type == "jellyfin":
+            # Get the libraries
+            libraries = scan_jellyfin_libraries(server_api_key, server_url)
+
+            # Format the libraries as [name]: [id]
+            libraries = {library["Name"]: library["Id"] for library in libraries}
+
+            # Return the libraries
+            return {"libraries": libraries}, 200
+
+        # Check if the server type is Plex
+        if server_type == "plex":
+            # Get the libraries
+            libraries = scan_plex_libraries(server_api_key, server_url)
+
+            # Format the libraries as [name]: [id]
+            libraries = {library.title: library.uuid for library in libraries}
+
+            # Return the libraries
+            return {"libraries": libraries}, 200
+
+        raise RequestException("Invalid server type")
+
+    @api.doc(description="")
+    @api.response(500, "Internal server error")
     def post(self):
         # Import from helpers
         from helpers import scan_jellyfin_libraries, scan_plex_libraries
 
         # Validate the data and initialize the object
-        print(request.form)
         server_settings = ScanLibrariesModel(request.form)
         server_settings.validate()
 

@@ -1,5 +1,5 @@
 import type { AxiosInstance } from "axios";
-import type { Toast } from "@/plugins/toasts";
+import type { Toasts } from "@/assets/ts/utils/Toasts";
 import type { CustomAxiosInstance } from "@/assets/ts/utils/Axios";
 
 declare module "*.vue" {
@@ -11,7 +11,7 @@ declare module "*.vue" {
 declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
         $axios: CustomAxiosInstance;
-        $toast: Toast;
+        $toast: Toasts;
         $Progress: any;
     }
 }

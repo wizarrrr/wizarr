@@ -1,23 +1,24 @@
-import axios from "../utils/Axios";
-
 import { startAuthentication, startRegistration } from "@simplewebauthn/browser";
-import { infoToast, errorToast } from "../utils/Toasts";
+import { infoToast, errorToast } from "../assets/ts/utils/Toasts";
+
 import { useRouter } from "vue-router";
+import { useAxios } from "@/plugins/axios";
 
 import type { RegistrationResponseJSON } from "@simplewebauthn/typescript-types";
 import type { WebAuthnError } from "@simplewebauthn/browser/dist/types/helpers/webAuthnError";
-import type { APIUser } from "@/types/User";
+import type { APIUser } from "@/types/api/auth/User";
 
-class Authentication {
-    // Local axios instance
-    private axios = axios;
+import { useAuthStore } from "@/stores/auth";
+import { useUserStore } from "@/stores/user";
 
+class Auth {
     // Local toast functions
     private errorToast = errorToast;
     private infoToast = infoToast;
 
-    // Router instance
+    // Router and axios instance
     private router = useRouter();
+    private axios = useAxios();
 
     // Store properties needed for the authentication class
     [key: string]: any;
@@ -44,29 +45,9 @@ class Authentication {
      * Create a new Authentication object
      * This class is used to login and logout the user and handle MFAs
      *
-     * Login Parameters:
-     * Used to login the user to the application
-     *
-     *  @param username: The username of the user
-     *  @param password: The password of the user
-     *  @param remember_me: Whether to remember the user or not
-     *
-     * Logout Parameters:
-     * Used to logout the user from the application
-     *
-     * MFA Parameters:
-     * Used to handle MFAs
-     *
      * @returns An Authentication object
      */
-    constructor(kwargs: object[] = []) {
-        // Loop through the kwargs and set the properties
-        for (const key in kwargs) {
-            if (kwargs.hasOwnProperty(key)) {
-                this[key] = kwargs[key];
-            }
-        }
-
+    constructor() {
         this.axios.disableInfoToast = true;
     }
 
@@ -74,15 +55,98 @@ class Authentication {
      * Handle Authenticated Data
      * This function is used to handle authenticated data to store
      */
-    handleAuthData(user: Partial<APIUser>, token: string) {
+    handleAuthData(user: Partial<APIUser>, token: string, refresh_token: string) {
+        // Get auth store from pinia
+        const authStore = useAuthStore();
+        const userStore = useUserStore();
+
         // Redirect the user to the home page
         this.router.push("/admin");
 
         // Show a welcome message to the display_name else username
-        infoToast(`Welcome ${user.display_name || user.username}`);
+        this.infoToast(`Welcome ${user.display_name || user.username}`);
+
+        // Set the user data
+        userStore.setUser(user);
+
+        // Set the auth token and refresh token
+        authStore.setAccessToken(token);
+        authStore.setRefreshToken(token);
 
         // Reset the user data
         return { user, token };
+    }
+
+    /**
+     * Get the current user
+     * This method is used to get the current user
+     */
+    async getCurrentUser() {
+        // Send the request to the server to get the current user
+        const response = await this.axios.get("/api/auth/me");
+
+        // Check if the response is successful
+        if (response.status != 200) {
+            this.errorToast(response.data.message || "Failed to get current user, please try again");
+            console.error(response.data.message || "Failed to get current user, please try again");
+            return;
+        }
+
+        // Return the response
+        return response.data.user;
+    }
+
+    /**
+     * Check if the user is authenticated
+     * This method is used to check if the user is authenticated
+     */
+    async isAuthenticated() {
+        // Get auth store from pinia
+        const authStore = useAuthStore();
+
+        // Check if the refresh token is expired
+        if (authStore.isRefreshTokenExpired()) {
+            return false;
+        }
+
+        // Check if the JWT token is expired
+        if (!authStore.isAccessTokenExpired()) {
+            return true;
+        }
+
+        // Refresh the JWT token
+        await this.refreshToken();
+
+        // Return true
+        return true;
+    }
+
+    /**
+     * Refresh the JWT token
+     * This method is used to refresh the JWT token
+     */
+    async refreshToken() {
+        // Get auth store from pinia
+        const authStore = useAuthStore();
+
+        // Check if the refresh token is expired
+        if (authStore.isRefreshTokenExpired()) {
+            return false;
+        }
+
+        // Send the request to the server to refresh the JWT token
+        const response = await this.axios.post("/api/auth/refresh");
+
+        // Check if the response is successful
+        if (response.status != 200) {
+            this.errorToast(response.data.message || "Failed to refresh token, please try again");
+        }
+
+        // Set the new JWT token
+        authStore.setAccessToken(response.data.token);
+
+        // Return the response
+        return response.data.token;
     }
 
     /**
@@ -132,7 +196,7 @@ class Authentication {
         }
 
         // Handle the authenticated data
-        return this.handleAuthData(response.data.auth.user, response.data.auth.token);
+        return this.handleAuthData(response.data.auth.user, response.data.auth.token, response.data.auth.refresh_token);
     }
 
     /**
@@ -141,7 +205,27 @@ class Authentication {
      *
      * @returns The response from the server
      */
-    async logout() {}
+    async logout() {
+        // Get auth store from pinia
+        const authStore = useAuthStore();
+        const userStore = useUserStore();
+
+        // Get the current user username or display_name
+        const username = userStore.user?.display_name || userStore.user?.username;
+
+        // Send the request to the server to logout the user
+        await this.axios.post("/api/auth/logout", { disableErrorToast: true }).catch(() => console.log("Failed to logout backend"));
+
+        // Remove the auth token and refresh token
+        authStore.removeAccessToken();
+        authStore.removeRefreshToken();
+
+        // Redirect the user to the login page
+        this.router.push("/login");
+
+        // Show a goodbye message to the username else username
+        this.infoToast(`Goodbye ${username || "User"}`);
+    }
 
     /**
      * Check MFA availability
@@ -305,7 +389,7 @@ class Authentication {
         if (!authResp2) return;
 
         // Handle the authenticated data
-        return this.handleAuthData(authResp2.data.auth.user, authResp2.data.auth.token);
+        return this.handleAuthData(authResp2.data.auth.user, authResp2.data.auth.token, authResp2.data.auth.refresh_token);
     }
 
     /**
@@ -337,4 +421,4 @@ class Authentication {
     }
 }
 
-export default Authentication;
+export default Auth;

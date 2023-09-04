@@ -38,24 +38,24 @@ msgstr "1 év"
 msgid "6 Months"
 msgstr "6 hónap"
 
-#: src/views/AdminViews/SettingsView.vue:238
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "About"
 msgstr "Ról ről"
 
-#: src/views/AdminViews/SettingsView.vue:139
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Account Settings"
 msgstr "Beállítások"
 
-#: src/views/AdminViews/SettingsView.vue:115
+#: src/views/SettingsViews/DefaultView.vue:105
 msgid "Add API keys for external services"
 msgstr "Adjon hozzá API-kulcsokat külső szolgáltatásokhoz"
 
-#: src/views/AdminViews/SettingsView.vue:195
+#: src/views/SettingsViews/DefaultView.vue:185
 msgid "Add Custom HTML page to help screen"
 msgstr "Egyéni HTML oldal hozzáadása a súgó képernyőhöz"
 
-#: src/views/AdminViews/SettingsView.vue:108
+#: src/views/SettingsViews/DefaultView.vue:98
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "Adjon hozzá Jellyseerr, Overserr vagy Ombi támogatást"
 
@@ -67,12 +67,12 @@ msgstr "Admin fiók"
 msgid "Advanced Options"
 msgstr "Haladó beállítások"
 
-#: src/views/AdminViews/SettingsView.vue:202
+#: src/views/SettingsViews/DefaultView.vue:192
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Haladó beállítások"
 
-#: src/views/AdminViews/SettingsView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:193
 msgid "Advanced settings for the server"
 msgstr "Speciális beállítások a szerverhez"
 
@@ -80,26 +80,26 @@ msgstr "Speciális beállítások a szerverhez"
 msgid "Allow Downloads"
 msgstr "Letöltések engedélyezése"
 
-#: src/views/AdminViews/SettingsView.vue:114
+#: src/views/SettingsViews/DefaultView.vue:104
 #, fuzzy
 msgid "API keys"
 msgstr "API-token"
 
-#: src/templates/SettingsTemplate.vue:10 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "Vissza"
 
-#: src/views/AdminViews/SettingsView.vue:232
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Backup"
 msgstr "Vissza"
 
-#: src/views/AdminViews/SettingsView.vue:151
+#: src/views/SettingsViews/DefaultView.vue:141
 #, fuzzy
 msgid "Change your password"
 msgstr "Elfelejtette a jelszavát?"
 
-#: src/views/AdminViews/SettingsView.vue:226
+#: src/views/SettingsViews/DefaultView.vue:216
 msgid "Check for and view updates"
 msgstr "Frissítések keresése és megtekintése"
 
@@ -111,35 +111,35 @@ msgstr ""
 "Tekintse meg dokumentációnkat a Wizarr telepítésével és futtatásával "
 "kapcsolatos részletes utasításokért!"
 
-#: src/views/AdminViews/SettingsView.vue:131
+#: src/views/SettingsViews/DefaultView.vue:121
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "Konfigurálja a szerver beállításait."
 
-#: src/views/AdminViews/SettingsView.vue:170
+#: src/views/SettingsViews/DefaultView.vue:160
 msgid "Configure MFA authentication"
 msgstr "MFA-hitelesítés konfigurálása"
 
-#: src/views/AdminViews/SettingsView.vue:123
+#: src/views/SettingsViews/DefaultView.vue:113
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "Konfigurálja a szerver beállításait."
 
-#: src/views/AdminViews/SettingsView.vue:207
+#: src/views/SettingsViews/DefaultView.vue:197
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "Meghívó létrehozása"
 
-#: src/views/AdminViews/SettingsView.vue:163
+#: src/views/SettingsViews/DefaultView.vue:153
 msgid "Configure SSO login"
 msgstr "Egyszeri bejelentkezés konfigurálása"
 
-#: src/views/AdminViews/SettingsView.vue:102
+#: src/views/SettingsViews/DefaultView.vue:92
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "Konfigurálja a szerver beállításait."
 
-#: src/views/AdminViews/SettingsView.vue:145
+#: src/views/SettingsViews/DefaultView.vue:135
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "Konfigurálja a szerver beállításait."
@@ -157,10 +157,15 @@ msgstr "Fiók létrehozása"
 msgid "Create an invitation to your server"
 msgstr "Hozzon létre meghívót a szerverére."
 
-#: src/views/AdminViews/SettingsView.vue:233
+#: src/views/SettingsViews/DefaultView.vue:223
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Hozzon létre egy fiókot"
+
+#: src/views/AdminViews/FlowEditor.vue:4
+#, fuzzy
+msgid "Create Flow"
+msgstr "Teremt"
 
 #: src/views/AdminViews/InviteView.vue:137
 #: src/views/AdminViews/InviteView.vue:2
@@ -179,7 +184,7 @@ msgstr "Egyedi"
 msgid "Custom Duration"
 msgstr "Egyéni időtartam"
 
-#: src/views/AdminViews/SettingsView.vue:194
+#: src/views/SettingsViews/DefaultView.vue:184
 #, fuzzy
 msgid "Custom HTML"
 msgstr "Egyedi"
@@ -188,26 +193,34 @@ msgstr "Egyedi"
 msgid "Database"
 msgstr "Adatbázis"
 
-#: src/views/AdminViews/SettingsView.vue:188
+#: src/views/SettingsViews/DefaultView.vue:178
 #, fuzzy
 msgid "Discord"
 msgstr "Discord Widget"
 
-#: src/views/AdminViews/SettingsView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Discord Bot"
 msgstr "Discord Widget"
+
+#: src/components/ScanServers/ScanServers.vue:26
+msgid "Don't see your server?"
+msgstr ""
 
 #: src/views/AdminViews/InviteView.vue:51
 #: src/views/AdminViews/InviteView.vue:64
 msgid "Duration"
 msgstr "Időtartam"
 
-#: src/views/AdminViews/SettingsView.vue:189
+#: src/views/SettingsViews/DefaultView.vue:179
 msgid "Enable Discord page and configure settings"
 msgstr "Engedélyezze a Discord oldalt és konfigurálja a beállításokat"
 
-#: src/views/AdminViews/SettingsView.vue:97
+#: src/views/AdminViews/FlowEditor.vue:2
+msgid "Flow Editor"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:87
 msgid "General settings for the server"
 msgstr "Általános beállítások a szerverhez"
 
@@ -229,7 +242,7 @@ msgstr "Lépjen az Irányítópultra"
 msgid "Go to Login"
 msgstr "Belépés"
 
-#: src/components/NavBars/AdminNavBar.vue:67
+#: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
 msgstr "itthon"
@@ -243,7 +256,7 @@ msgstr ""
 "Ha egy barátja küldte ide, kérjen hozzáférést, vagy ha van meghívókódja, "
 "kattintson az Első lépések gombra."
 
-#: src/components/NavBars/AdminNavBar.vue:71
+#: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "Meghívók"
@@ -255,6 +268,10 @@ msgstr "Meghívás a Plex Home-ba"
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "Meghívott felhasználók"
+
+#: src/components/ChangeLogs/ChangeLogs.vue:7
+msgid "Load More"
+msgstr "Load More"
 
 #: src/views/LoginViews/PasswordView.vue:12
 msgid "Login"
@@ -272,15 +289,20 @@ msgstr "Bejelentkezés Jelszóval"
 msgid "Login with your account"
 msgstr "Jelentkezzen be fiókjával"
 
-#: src/views/AdminViews/SettingsView.vue:213
+#: src/views/SettingsViews/DefaultView.vue:203
 #, fuzzy
 msgid "Logs"
 msgstr "Belépés"
 
-#: src/views/AdminViews/SettingsView.vue:96
+#: src/views/SettingsViews/DefaultView.vue:86
 #, fuzzy
 msgid "Main Settings"
 msgstr "Beállítások"
+
+#: src/views/AdminViews/FlowEditor.vue:3
+#, fuzzy
+msgid "Manage your command flows"
+msgstr "Kezelje a meghívókat"
 
 #: src/views/AdminViews/InvitationsView.vue:3
 msgid "Manage your invitations"
@@ -291,7 +313,7 @@ msgstr "Kezelje a meghívókat"
 msgid "Manage your media server users"
 msgstr "Konfigurálja a szerver beállításait."
 
-#: src/views/AdminViews/SettingsView.vue:101
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Media Server"
 msgstr "szerver"
@@ -300,11 +322,11 @@ msgstr "szerver"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:174
 msgid "Modify the look and feel of the server"
 msgstr "Módosítsa a szerver megjelenését és hangulatát"
 
-#: src/views/AdminViews/SettingsView.vue:169
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Multi-Factor Authentication"
 msgstr "Többtényezős hitelesítés"
 
@@ -312,21 +334,25 @@ msgstr "Többtényezős hitelesítés"
 msgid "Next"
 msgstr "Következő"
 
-#: src/views/AdminViews/SettingsView.vue:36
+#: src/components/ScanServers/ScanServers.vue:15
+msgid "No servers could be found."
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:26
 msgid "No settings matched your search."
 msgstr "Egyetlen beállítás sem felelt meg a keresésnek."
 
-#: src/views/AdminViews/SettingsView.vue:122
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Notifications"
 msgstr "Értesítési szolgáltatás"
 
-#: src/views/AdminViews/SettingsView.vue:206
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "Meghívó létrehozása"
 
-#: src/views/AdminViews/SettingsView.vue:150
+#: src/views/SettingsViews/DefaultView.vue:140
 msgid "Password"
 msgstr "Jelszó"
 
@@ -345,7 +371,7 @@ msgstr ""
 "Nyomja meg az alábbi gombot, és kövesse a böngésző lépéseit a "
 "bejelentkezéshez"
 
-#: src/views/AdminViews/SettingsView.vue:144
+#: src/views/SettingsViews/DefaultView.vue:134
 msgid "Profile"
 msgstr "Profil"
 
@@ -353,7 +379,7 @@ msgstr "Profil"
 msgid "Request Access"
 msgstr "Hozzáférés kérése"
 
-#: src/views/AdminViews/SettingsView.vue:107
+#: src/views/SettingsViews/DefaultView.vue:97
 #, fuzzy
 msgid "Requests"
 msgstr "Szerver kérése"
@@ -375,20 +401,21 @@ msgstr "Hozzon létre egy fiókot"
 msgid "Select All"
 msgstr "Mindet kiválaszt"
 
+#: src/components/Modals/ScanLibrariesModal.vue:8
 #: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "Válassza a Könyvtárak lehetőséget"
 
-#: src/views/AdminViews/SettingsView.vue:156
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "Sessions"
 msgstr "Változat"
 
-#: src/components/NavBars/AdminNavBar.vue:79
+#: src/components/NavBars/AdminNavBar.vue:85
 msgid "Settings"
 msgstr "Beállítások"
 
-#: src/views/AdminViews/SettingsView.vue:140
+#: src/views/SettingsViews/DefaultView.vue:130
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "Fiókod beállítása"
@@ -413,7 +440,7 @@ msgstr "Sajnos nem találjuk az oldalt. Úgy tűnik, nem létezik!"
 msgid "Specific Libraries"
 msgstr "Specifikus könyvtárak"
 
-#: src/views/AdminViews/SettingsView.vue:162
+#: src/views/SettingsViews/DefaultView.vue:152
 #, fuzzy
 msgid "SSO Login"
 msgstr "Belépés"
@@ -422,7 +449,7 @@ msgstr "Belépés"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:219
+#: src/views/SettingsViews/DefaultView.vue:209
 #, fuzzy
 msgid "Tasks"
 msgstr "Futtassa a Feladatot"
@@ -433,7 +460,11 @@ msgid ""
 msgstr ""
 "Ez ideiglenes, és azon dolgozunk, hogy további adatbázisokat is támogassunk."
 
-#: src/views/AdminViews/SettingsView.vue:183
+#: src/components/Modals/ScanServersModal.vue:8
+msgid "Try Again"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:173
 #, fuzzy
 msgid "UI Settings"
 msgstr "Beállítások"
@@ -446,7 +477,7 @@ msgstr "Korlátlan"
 msgid "Unlimited Usages"
 msgstr "Korlátlan felhasználás"
 
-#: src/views/AdminViews/SettingsView.vue:225
+#: src/views/SettingsViews/DefaultView.vue:215
 #, fuzzy
 msgid "Updates"
 msgstr "Frissítés"
@@ -456,24 +487,28 @@ msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
 msgstr ""
 "Használja ujjlenyomatát vagy arcfelismerését személyazonosságának igazolására"
 
-#: src/components/NavBars/AdminNavBar.vue:75
+#: src/components/NavBars/AdminNavBar.vue:81
 msgid "Users"
 msgstr "Felhasználók"
 
-#: src/views/AdminViews/SettingsView.vue:214
+#: src/components/ChangeLogs/ChangeLogItem.vue:13
+msgid "View"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:204
 msgid "View and download server logs"
 msgstr "Szervernaplók megtekintése és letöltése"
 
-#: src/views/AdminViews/SettingsView.vue:220
+#: src/views/SettingsViews/DefaultView.vue:210
 msgid "View and manage scheduled tasks"
 msgstr "Ütemezett feladatok megtekintése és kezelése"
 
-#: src/views/AdminViews/SettingsView.vue:157
+#: src/views/SettingsViews/DefaultView.vue:147
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "Kezelje a meghívókat"
 
-#: src/views/AdminViews/SettingsView.vue:239
+#: src/views/SettingsViews/DefaultView.vue:229
 msgid "View information about the server"
 msgstr "A szerverrel kapcsolatos információk megtekintése"
 
@@ -504,7 +539,6 @@ msgstr ""
 "Ha be van állítva, a meghívott felhasználó(k) a beállított számú nap "
 "elteltével törlődnek a szerverről. (1-999)"
 
-#: src/components/Footers/AdminFooter.vue:3
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
 msgstr "Varázsló"
@@ -994,9 +1028,6 @@ msgstr "Kész"
 #~ msgid "Cancel"
 #~ msgstr "Megszünteti"
 
-#~ msgid "Create"
-#~ msgstr "Teremt"
-
 #~ msgid "New OAuth"
 #~ msgstr "Új OAuth"
 
@@ -1119,9 +1150,6 @@ msgstr "Kész"
 
 #~ msgid "Unable to update libraries"
 #~ msgstr "Nem lehet frissíteni a könyvtárakat"
-
-#~ msgid "Load More"
-#~ msgstr "Load More"
 
 #~ msgid "My Account"
 #~ msgstr "A fiókom"

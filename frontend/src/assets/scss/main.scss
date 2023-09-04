@@ -83,6 +83,11 @@ input:checked + .slider:before {
     transform: translateX(26px);
 }
 
+// change all range thumb color
+input[type="range"]::-webkit-slider-thumb {
+    background-color: theme("colors.primary");
+}
+
 .slider.round {
     border-radius: 34px;
 }

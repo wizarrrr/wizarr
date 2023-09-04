@@ -38,24 +38,24 @@ msgstr "1 שנה"
 msgid "6 Months"
 msgstr "6 חודשים"
 
-#: src/views/AdminViews/SettingsView.vue:238
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "About"
 msgstr "על אודות"
 
-#: src/views/AdminViews/SettingsView.vue:139
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Account Settings"
 msgstr "הגדרות"
 
-#: src/views/AdminViews/SettingsView.vue:115
+#: src/views/SettingsViews/DefaultView.vue:105
 msgid "Add API keys for external services"
 msgstr "הוסף מפתחות API עבור שירותים חיצוניים"
 
-#: src/views/AdminViews/SettingsView.vue:195
+#: src/views/SettingsViews/DefaultView.vue:185
 msgid "Add Custom HTML page to help screen"
 msgstr "הוסף דף HTML מותאם אישית למסך העזרה"
 
-#: src/views/AdminViews/SettingsView.vue:108
+#: src/views/SettingsViews/DefaultView.vue:98
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "הוסף תמיכה ב-Jellyseerr, Overseerr או Ombi"
 
@@ -67,12 +67,12 @@ msgstr "חשבון ניהול"
 msgid "Advanced Options"
 msgstr "אפשרויות מתקדמות"
 
-#: src/views/AdminViews/SettingsView.vue:202
+#: src/views/SettingsViews/DefaultView.vue:192
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "אפשרויות מתקדמות"
 
-#: src/views/AdminViews/SettingsView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:193
 msgid "Advanced settings for the server"
 msgstr "הגדרות מתקדמות עבור השרת"
 
@@ -80,26 +80,26 @@ msgstr "הגדרות מתקדמות עבור השרת"
 msgid "Allow Downloads"
 msgstr "אפשר הורדות"
 
-#: src/views/AdminViews/SettingsView.vue:114
+#: src/views/SettingsViews/DefaultView.vue:104
 #, fuzzy
 msgid "API keys"
 msgstr "אסימון API"
 
-#: src/templates/SettingsTemplate.vue:10 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "חזור"
 
-#: src/views/AdminViews/SettingsView.vue:232
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Backup"
 msgstr "חזור"
 
-#: src/views/AdminViews/SettingsView.vue:151
+#: src/views/SettingsViews/DefaultView.vue:141
 #, fuzzy
 msgid "Change your password"
 msgstr "שכחת ססמה?"
 
-#: src/views/AdminViews/SettingsView.vue:226
+#: src/views/SettingsViews/DefaultView.vue:216
 msgid "Check for and view updates"
 msgstr "בדוק והצג עדכונים"
 
@@ -109,35 +109,35 @@ msgid ""
 "run Wizarr!"
 msgstr "עיין בתיעוד שלנו לקבלת הוראות מפורטות כיצד להתקין ולהפעיל את Wizarr!"
 
-#: src/views/AdminViews/SettingsView.vue:131
+#: src/views/SettingsViews/DefaultView.vue:121
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "הגדר את הגדרות השרת שלך."
 
-#: src/views/AdminViews/SettingsView.vue:170
+#: src/views/SettingsViews/DefaultView.vue:160
 msgid "Configure MFA authentication"
 msgstr "הגדר אימות MFA"
 
-#: src/views/AdminViews/SettingsView.vue:123
+#: src/views/SettingsViews/DefaultView.vue:113
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "הגדר את הגדרות השרת שלך."
 
-#: src/views/AdminViews/SettingsView.vue:207
+#: src/views/SettingsViews/DefaultView.vue:197
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "צור הזמנה"
 
-#: src/views/AdminViews/SettingsView.vue:163
+#: src/views/SettingsViews/DefaultView.vue:153
 msgid "Configure SSO login"
 msgstr "הגדר את התחברות SSO"
 
-#: src/views/AdminViews/SettingsView.vue:102
+#: src/views/SettingsViews/DefaultView.vue:92
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "הגדר את הגדרות השרת שלך."
 
-#: src/views/AdminViews/SettingsView.vue:145
+#: src/views/SettingsViews/DefaultView.vue:135
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "הגדר את הגדרות השרת שלך."
@@ -155,10 +155,15 @@ msgstr "צור חשבון"
 msgid "Create an invitation to your server"
 msgstr "צור הזמנה לשרת שלך."
 
-#: src/views/AdminViews/SettingsView.vue:233
+#: src/views/SettingsViews/DefaultView.vue:223
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "צור חשבון"
+
+#: src/views/AdminViews/FlowEditor.vue:4
+#, fuzzy
+msgid "Create Flow"
+msgstr "לִיצוֹר"
 
 #: src/views/AdminViews/InviteView.vue:137
 #: src/views/AdminViews/InviteView.vue:2
@@ -177,7 +182,7 @@ msgstr "המותאם אישית"
 msgid "Custom Duration"
 msgstr "משך מותאם אישית"
 
-#: src/views/AdminViews/SettingsView.vue:194
+#: src/views/SettingsViews/DefaultView.vue:184
 #, fuzzy
 msgid "Custom HTML"
 msgstr "המותאם אישית"
@@ -186,26 +191,34 @@ msgstr "המותאם אישית"
 msgid "Database"
 msgstr "מאגר מידע"
 
-#: src/views/AdminViews/SettingsView.vue:188
+#: src/views/SettingsViews/DefaultView.vue:178
 #, fuzzy
 msgid "Discord"
 msgstr "יישומון דיסקורד"
 
-#: src/views/AdminViews/SettingsView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Discord Bot"
 msgstr "יישומון דיסקורד"
+
+#: src/components/ScanServers/ScanServers.vue:26
+msgid "Don't see your server?"
+msgstr ""
 
 #: src/views/AdminViews/InviteView.vue:51
 #: src/views/AdminViews/InviteView.vue:64
 msgid "Duration"
 msgstr "מֶשֶׁך"
 
-#: src/views/AdminViews/SettingsView.vue:189
+#: src/views/SettingsViews/DefaultView.vue:179
 msgid "Enable Discord page and configure settings"
 msgstr "הפעל את דף Discord והגדר את ההגדרות"
 
-#: src/views/AdminViews/SettingsView.vue:97
+#: src/views/AdminViews/FlowEditor.vue:2
+msgid "Flow Editor"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:87
 msgid "General settings for the server"
 msgstr "הגדרות כלליות לשרת"
 
@@ -227,7 +240,7 @@ msgstr "עבור אל לוח המחוונים"
 msgid "Go to Login"
 msgstr "התחברות"
 
-#: src/components/NavBars/AdminNavBar.vue:67
+#: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
 msgstr "בית"
@@ -241,7 +254,7 @@ msgstr ""
 "אם נשלחת לכאן על ידי חבר, אנא בקש גישה או אם יש לך קוד הזמנה, אנא לחץ על "
 "התחל."
 
-#: src/components/NavBars/AdminNavBar.vue:71
+#: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "הזמנות"
@@ -253,6 +266,10 @@ msgstr "הזמנה ל-Plex Home"
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "משתמשים מוזמנים"
+
+#: src/components/ChangeLogs/ChangeLogs.vue:7
+msgid "Load More"
+msgstr "טען עוד"
 
 #: src/views/LoginViews/PasswordView.vue:12
 msgid "Login"
@@ -270,15 +287,20 @@ msgstr "התחבר עם סיסמה"
 msgid "Login with your account"
 msgstr "התחבר עם החשבון שלך"
 
-#: src/views/AdminViews/SettingsView.vue:213
+#: src/views/SettingsViews/DefaultView.vue:203
 #, fuzzy
 msgid "Logs"
 msgstr "התחברות"
 
-#: src/views/AdminViews/SettingsView.vue:96
+#: src/views/SettingsViews/DefaultView.vue:86
 #, fuzzy
 msgid "Main Settings"
 msgstr "הגדרות"
+
+#: src/views/AdminViews/FlowEditor.vue:3
+#, fuzzy
+msgid "Manage your command flows"
+msgstr "נהל את ההזמנות שלך"
 
 #: src/views/AdminViews/InvitationsView.vue:3
 msgid "Manage your invitations"
@@ -289,7 +311,7 @@ msgstr "נהל את ההזמנות שלך"
 msgid "Manage your media server users"
 msgstr "הגדר את הגדרות השרת שלך."
 
-#: src/views/AdminViews/SettingsView.vue:101
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Media Server"
 msgstr "שרת"
@@ -298,11 +320,11 @@ msgstr "שרת"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:174
 msgid "Modify the look and feel of the server"
 msgstr "שנה את המראה והתחושה של השרת"
 
-#: src/views/AdminViews/SettingsView.vue:169
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Multi-Factor Authentication"
 msgstr "אימות רב-גורמי"
 
@@ -310,21 +332,25 @@ msgstr "אימות רב-גורמי"
 msgid "Next"
 msgstr "הַבָּא"
 
-#: src/views/AdminViews/SettingsView.vue:36
+#: src/components/ScanServers/ScanServers.vue:15
+msgid "No servers could be found."
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:26
 msgid "No settings matched your search."
 msgstr "אין הגדרות שתואמות לחיפוש שלך."
 
-#: src/views/AdminViews/SettingsView.vue:122
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Notifications"
 msgstr "שירות הודעות"
 
-#: src/views/AdminViews/SettingsView.vue:206
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "צור הזמנה"
 
-#: src/views/AdminViews/SettingsView.vue:150
+#: src/views/SettingsViews/DefaultView.vue:140
 msgid "Password"
 msgstr "סיסמה"
 
@@ -341,7 +367,7 @@ msgstr ""
 msgid "Press the button below and follow your browser's steps to login"
 msgstr "לחץ על הלחצן למטה ובצע את השלבים של הדפדפן שלך כדי להיכנס"
 
-#: src/views/AdminViews/SettingsView.vue:144
+#: src/views/SettingsViews/DefaultView.vue:134
 msgid "Profile"
 msgstr "פּרוֹפִיל"
 
@@ -349,7 +375,7 @@ msgstr "פּרוֹפִיל"
 msgid "Request Access"
 msgstr "לבקש גישה"
 
-#: src/views/AdminViews/SettingsView.vue:107
+#: src/views/SettingsViews/DefaultView.vue:97
 #, fuzzy
 msgid "Requests"
 msgstr "בקש שרת"
@@ -371,20 +397,21 @@ msgstr "צור חשבון"
 msgid "Select All"
 msgstr "בחר הכל"
 
+#: src/components/Modals/ScanLibrariesModal.vue:8
 #: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "בחר ספריות"
 
-#: src/views/AdminViews/SettingsView.vue:156
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "Sessions"
 msgstr "גִרְסָה"
 
-#: src/components/NavBars/AdminNavBar.vue:79
+#: src/components/NavBars/AdminNavBar.vue:85
 msgid "Settings"
 msgstr "הגדרות"
 
-#: src/views/AdminViews/SettingsView.vue:140
+#: src/views/SettingsViews/DefaultView.vue:130
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "הגדרת החשבון שלך"
@@ -409,7 +436,7 @@ msgstr "מצטערים, אנחנו לא יכולים למצוא את הדף הז
 msgid "Specific Libraries"
 msgstr "ספריות ספציפיות"
 
-#: src/views/AdminViews/SettingsView.vue:162
+#: src/views/SettingsViews/DefaultView.vue:152
 #, fuzzy
 msgid "SSO Login"
 msgstr "התחברות"
@@ -418,7 +445,7 @@ msgstr "התחברות"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:219
+#: src/views/SettingsViews/DefaultView.vue:209
 #, fuzzy
 msgid "Tasks"
 msgstr "הפעל את המשימה"
@@ -428,7 +455,11 @@ msgid ""
 "This is a temporary and we are working on adding support for other databases."
 msgstr "זה זמני ואנחנו עובדים על הוספת תמיכה עבור מסדי נתונים אחרים."
 
-#: src/views/AdminViews/SettingsView.vue:183
+#: src/components/Modals/ScanServersModal.vue:8
+msgid "Try Again"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:173
 #, fuzzy
 msgid "UI Settings"
 msgstr "הגדרות"
@@ -441,7 +472,7 @@ msgstr "ללא הגבלה"
 msgid "Unlimited Usages"
 msgstr "שימושים בלתי מוגבלים"
 
-#: src/views/AdminViews/SettingsView.vue:225
+#: src/views/SettingsViews/DefaultView.vue:215
 #, fuzzy
 msgid "Updates"
 msgstr "עדכון"
@@ -450,24 +481,28 @@ msgstr "עדכון"
 msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
 msgstr "השתמש בטביעת האצבע או בזיהוי הפנים שלך כדי לאמת את זהותך"
 
-#: src/components/NavBars/AdminNavBar.vue:75
+#: src/components/NavBars/AdminNavBar.vue:81
 msgid "Users"
 msgstr "משתמשים"
 
-#: src/views/AdminViews/SettingsView.vue:214
+#: src/components/ChangeLogs/ChangeLogItem.vue:13
+msgid "View"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:204
 msgid "View and download server logs"
 msgstr "הצג והורד יומני שרת"
 
-#: src/views/AdminViews/SettingsView.vue:220
+#: src/views/SettingsViews/DefaultView.vue:210
 msgid "View and manage scheduled tasks"
 msgstr "הצג ונהל משימות מתוזמנות"
 
-#: src/views/AdminViews/SettingsView.vue:157
+#: src/views/SettingsViews/DefaultView.vue:147
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "נהל את ההזמנות שלך"
 
-#: src/views/AdminViews/SettingsView.vue:239
+#: src/views/SettingsViews/DefaultView.vue:229
 msgid "View information about the server"
 msgstr "הצג מידע על השרת"
 
@@ -496,7 +531,6 @@ msgid ""
 msgstr ""
 "כאשר מוגדר, המשתמש/ים המוזמנים יוסרו מהשרת לאחר מספר הימים שנקבע. (1-999)"
 
-#: src/components/Footers/AdminFooter.vue:3
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
 msgstr "קוסם"
@@ -966,9 +1000,6 @@ msgstr "שלך בוצע"
 #~ msgid "Cancel"
 #~ msgstr "לְבַטֵל"
 
-#~ msgid "Create"
-#~ msgstr "לִיצוֹר"
-
 #~ msgid "New OAuth"
 #~ msgstr "OAuth חדש"
 
@@ -1091,9 +1122,6 @@ msgstr "שלך בוצע"
 
 #~ msgid "Unable to update libraries"
 #~ msgstr "לא ניתן לעדכן ספריות"
-
-#~ msgid "Load More"
-#~ msgstr "טען עוד"
 
 #~ msgid "My Account"
 #~ msgstr "החשבון שלי"

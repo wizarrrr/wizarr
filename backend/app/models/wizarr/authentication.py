@@ -1,15 +1,20 @@
 from datetime import datetime, timedelta
 from logging import info
 
-from flask import request, current_app
-from flask_jwt_extended import create_access_token, get_jti, set_access_cookies as set_access_cookies_jwt, unset_access_cookies as unset_access_cookies_jwt
+from flask import request, current_app, jsonify
+from flask_jwt_extended import create_access_token, create_refresh_token, get_jti, set_access_cookies as set_access_cookies_jwt, unset_access_cookies as unset_access_cookies_jwt
+
+from playhouse.shortcuts import model_to_dict
+from werkzeug.security import check_password_hash, generate_password_hash
+
 from schematics.exceptions import DataError, ValidationError
 from schematics.models import Model
 from schematics.types import BooleanType, StringType
-from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.models.database.accounts import Accounts
 from app.models.database.sessions import Sessions
+
+from app.models.wizarr.accounts import AccountsModel
 
 
 class AuthenticationModel(Model):
@@ -25,17 +30,17 @@ class AuthenticationModel(Model):
     # ANCHOR - Authentication Model
     username = StringType(required=True)
     password = StringType(required=True)
-    remember = BooleanType(required=False, default=False)
+    remember = BooleanType(required=False, default=True)
 
 
     # ANCHOR - Initialize
     def __init__(self, *args, **kwargs):
         # Get the mfa value from the kwargs and remove it
-        MFA = kwargs.get("mfa", False)
+        mfa = kwargs.get("mfa", False)
         kwargs.pop("mfa", None)
 
         # Set the mfa value to the class
-        self._mfa = MFA
+        self._mfa = mfa
 
         # Get the user_id value from the kwargs and remove it
         self._user_id = kwargs.get("user_id", None)
@@ -51,7 +56,7 @@ class AuthenticationModel(Model):
         self._get_user()
 
         # Skip the rest if mfa is passed
-        if (MFA): return
+        if (mfa): return
 
         # Migrate old passwords if needed
         self._migrate_password()
@@ -138,6 +143,17 @@ class AuthenticationModel(Model):
         # Return the token
         return token
 
+    # ANCHOR - Get JWT Refresh Token for user
+    def get_refresh_token(self):
+        # Check if the current_app is set
+        if not current_app:
+            raise RuntimeError("Must be called from within a flask route")
+
+        # Generate a jwt token
+        token = create_refresh_token(identity=self._user.id)
+
+        # Return the token
+        return token
 
     # ANCHOR - Set access cookies
     @staticmethod
@@ -188,3 +204,52 @@ class AuthenticationModel(Model):
 
         # Delete the session
         session.delete_instance()
+
+    # ANCHOR - Refresh Token
+    @staticmethod
+    def refresh_token(refresh_token):
+        # Check if the current_app is set
+        if not current_app:
+            raise RuntimeError("Must be called from within a flask route")
+
+        # Exchange the refresh token for a new access token
+        access_token = create_access_token(identity=refresh_token, fresh=False)
+
+        # Return the new access token
+        return jsonify({"token": access_token})
+
+
+    # ANCHOR - Login User
+    def login_user(self):
+        # Get Tokens and User
+        token = self.get_token()
+        refresh_token = self.get_refresh_token()
+
+        # Create a response object
+        resp = jsonify({
+            "message": "Login successful",
+            "auth": {
+                "user": AccountsModel(model_to_dict(self._user, exclude=[Accounts.password])).to_primitive(),
+                "token": token,
+                "refresh_token": refresh_token
+            }
+        })
+
+        # Log message and return response
+        info(f"Account {self._user.username} successfully logged in")
+        return resp
+
+    # ANCHOR - Logout User
+    @staticmethod
+    def logout_user():
+        # Create a response object
+        response = jsonify({"message": "Successfully logged out"})
+
+        # Delete the jwt token from the cookie
+        auth = AuthenticationModel
+
+        # Destroy the session
+        auth.destroy_session()
+
+        info("Successfully logged out")
+        return response

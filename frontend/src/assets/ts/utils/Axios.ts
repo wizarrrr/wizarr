@@ -2,6 +2,7 @@ import mainAxios, { Axios, type AxiosRequestConfig, type AxiosResponse, type Int
 import cookie from "js-cookie";
 
 import { errorToast, infoToast } from "./Toasts";
+import { useAuthStore } from "@/stores/auth";
 
 export interface CustomAxiosResponse<D = any> extends AxiosResponse {
     config: CustomAxiosRequestConfig<D> & InternalAxiosRequestConfig;
@@ -9,10 +10,12 @@ export interface CustomAxiosResponse<D = any> extends AxiosResponse {
 
 export interface CustomAxiosRequestConfig<D = any> extends AxiosRequestConfig<D> {
     disableInfoToast?: boolean;
+    disableErrorToast?: boolean;
 }
 
 export interface CustomAxiosInstance extends Axios {
     disableInfoToast?: boolean;
+    disableErrorToast?: boolean;
     getUri(config?: CustomAxiosRequestConfig): string;
     request<T = any, R = CustomAxiosResponse<T>, D = any>(config: CustomAxiosRequestConfig<D>): Promise<R>;
     get<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, config?: CustomAxiosRequestConfig<D>): Promise<R>;
@@ -29,7 +32,7 @@ export interface CustomAxiosInstance extends Axios {
 
 class AxiosInterceptor {
     // Axios instance and progress store
-    public axios: CustomAxiosInstance;
+    public axios: CustomAxiosInstance = mainAxios.create();
 
     /*
      * Constructor to apply interceptors
@@ -37,6 +40,7 @@ class AxiosInterceptor {
     constructor(axios: CustomAxiosInstance) {
         // Apply interceptors
         axios.interceptors.response.use(this.resp.bind(this), this.error.bind(this));
+        axios.interceptors.request.use(this.req.bind(this), this.error.bind(this));
         axios.defaults.headers.common["X-CSRF-TOKEN"] = cookie.get("csrf_access_token");
 
         // If localstorage has a base url, set it
@@ -48,6 +52,26 @@ class AxiosInterceptor {
 
         // Set axios instance
         this.axios = axios;
+    }
+
+    /*
+     * Interceptor for axios request
+     * @param config
+     * @returns {any}
+     */
+    public req(config: InternalAxiosRequestConfig) {
+        // Try to add the authorization header to the request
+        try {
+            const authStore = useAuthStore();
+
+            if ((authStore.token?.length ?? 0) > 0) {
+                config.headers["Authorization"] = `Bearer ${authStore.token}`;
+            }
+        } catch (e) {
+            // Do nothing
+        }
+
+        return config;
     }
 
     /*
@@ -72,6 +96,11 @@ class AxiosInterceptor {
      * @returns {any}
      */
     public error(error: any) {
+        // If disableErrorToast is set, don't show error toasts
+        if (this.axios.disableErrorToast || error.config.disableErrorToast) {
+            return Promise.reject(error);
+        }
+
         // If error response has a errors object, loop through it and show each error
         if (error.response?.data?.errors) {
             for (const [key, value] of Object.entries(error.response.data.errors as { [key: string]: string[] })) {
@@ -97,7 +126,7 @@ class AxiosInterceptor {
 }
 
 // Create a new instance of AxiosInterceptor
-const axios = new AxiosInterceptor(mainAxios).axios;
+const axios = () => new AxiosInterceptor(mainAxios).axios;
 
 export default axios;
 export { AxiosInterceptor };

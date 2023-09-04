@@ -17,7 +17,7 @@ export interface ServerSettings {
 
 export default async () => {
     // Get health status from backend
-    const response = await axios.get("/api/server");
+    const response = await axios().get("/api/server");
 
     // If response is not 200, raise error
     if (response.status !== 200) {

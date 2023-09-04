@@ -2,6 +2,9 @@ import { createMemoryHistory, createRouter, createWebHistory } from "vue-router"
 import { useProgressStore } from "@/stores/progress";
 import { useUserStore } from "@/stores/user";
 import { pinia } from "@/main";
+import { useAuthStore } from "@/stores/auth";
+import middlewarePipeline from "./middlewarePipeline";
+import requireAuth from "./middleware/requireAuth";
 
 const router = createRouter({
     history: typeof window !== "undefined" ? createWebHistory() : createMemoryHistory(),
@@ -31,8 +34,15 @@ const router = createRouter({
             name: "admin",
             redirect: { name: "admin-invite" },
             component: () => import("@/views/AdminViews/AdminView.vue"),
-            meta: { requiresAuth: true },
+            meta: {
+                middleware: [requireAuth],
+            },
             children: [
+                {
+                    path: "test",
+                    name: "test",
+                    component: () => import("@/views/TestView.vue"),
+                },
                 {
                     path: "invite",
                     alias: "",
@@ -101,32 +111,29 @@ const router = createRouter({
     ],
 });
 
-router.beforeEach((to, from, next) => {
-    // Get user store and check if user is authenticated
-    const userStore = useUserStore(pinia);
-    const progressStore = useProgressStore(pinia);
-    const isAuthenticated = userStore.isAuthenticated;
+router.beforeEach(async (to, from, next) => {
+    // Get the auth store and check if the user is authenticated
+    const authStore = useAuthStore();
 
     // Start progress bar
-    progressStore.startProgress();
+    useProgressStore().startProgress();
 
-    // Refresh token
-    // isAuthenticated ? axios.get("/api/auth/refresh", { disableInfoToast: true }).catch(() => userStore.logout()) : null;
+    // Check if there exists a middleware to run
+    if (!to.meta.middleware) {
+        return next();
+    }
 
-    // Check if route requires authentication or not
-    const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-    const requiresLoggedOut = to.matched.some((record) => record.meta.requiresLoggedOut);
+    // Determine the middleware pipeline as an array and create a context object
+    const middleware = to.meta.middleware as any[];
+    const context = { to, from, next, authStore };
 
-    if (requiresAuth && !isAuthenticated) next({ name: "login" });
-    else if (requiresLoggedOut && isAuthenticated) next({ name: "admin" });
-
-    next();
+    // Run the middleware pipeline
+    return middleware[0]({ ...context, next: middlewarePipeline(context, middleware, 1) });
 });
 
 router.afterEach(() => {
     // Stop progress bar
-    const progressStore = useProgressStore(pinia);
-    progressStore.stopProgress();
+    useProgressStore().startProgress();
 });
 
 export default router;

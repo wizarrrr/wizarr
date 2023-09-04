@@ -38,23 +38,23 @@ msgstr "1 år"
 msgid "6 Months"
 msgstr "6 månader"
 
-#: src/views/AdminViews/SettingsView.vue:238
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "About"
 msgstr "Handla om"
 
-#: src/views/AdminViews/SettingsView.vue:139
+#: src/views/SettingsViews/DefaultView.vue:129
 msgid "Account Settings"
 msgstr "Kontoinställningar"
 
-#: src/views/AdminViews/SettingsView.vue:115
+#: src/views/SettingsViews/DefaultView.vue:105
 msgid "Add API keys for external services"
 msgstr "Lägg till API-nycklar för externa tjänster"
 
-#: src/views/AdminViews/SettingsView.vue:195
+#: src/views/SettingsViews/DefaultView.vue:185
 msgid "Add Custom HTML page to help screen"
 msgstr "Lägg till anpassad HTML-sida på hjälpskärmen"
 
-#: src/views/AdminViews/SettingsView.vue:108
+#: src/views/SettingsViews/DefaultView.vue:98
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "Lägg till Jellyseerr, Overseerr eller Ombi support"
 
@@ -66,11 +66,11 @@ msgstr "Administratörskonto"
 msgid "Advanced Options"
 msgstr "Avancerade alternativ"
 
-#: src/views/AdminViews/SettingsView.vue:202
+#: src/views/SettingsViews/DefaultView.vue:192
 msgid "Advanced Settings"
 msgstr "Avancerade inställningar"
 
-#: src/views/AdminViews/SettingsView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:193
 msgid "Advanced settings for the server"
 msgstr "Avancerade inställningar för servern"
 
@@ -78,23 +78,23 @@ msgstr "Avancerade inställningar för servern"
 msgid "Allow Downloads"
 msgstr "Tillåt nedladdningar"
 
-#: src/views/AdminViews/SettingsView.vue:114
+#: src/views/SettingsViews/DefaultView.vue:104
 msgid "API keys"
 msgstr "API-nycklar"
 
-#: src/templates/SettingsTemplate.vue:10 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "Tillbaka"
 
-#: src/views/AdminViews/SettingsView.vue:232
+#: src/views/SettingsViews/DefaultView.vue:222
 msgid "Backup"
 msgstr "Säkerhetskopiering"
 
-#: src/views/AdminViews/SettingsView.vue:151
+#: src/views/SettingsViews/DefaultView.vue:141
 msgid "Change your password"
 msgstr "Ändra ditt lösenord"
 
-#: src/views/AdminViews/SettingsView.vue:226
+#: src/views/SettingsViews/DefaultView.vue:216
 msgid "Check for and view updates"
 msgstr "Sök efter och se uppdateringar"
 
@@ -106,33 +106,33 @@ msgstr ""
 "Kolla in vår dokumentation för detaljerade instruktioner om hur du "
 "installerar och kör Wizarr!"
 
-#: src/views/AdminViews/SettingsView.vue:131
+#: src/views/SettingsViews/DefaultView.vue:121
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "Konfigurera dina profilinställningar"
 
-#: src/views/AdminViews/SettingsView.vue:170
+#: src/views/SettingsViews/DefaultView.vue:160
 msgid "Configure MFA authentication"
 msgstr "Konfigurera MFA-autentisering"
 
-#: src/views/AdminViews/SettingsView.vue:123
+#: src/views/SettingsViews/DefaultView.vue:113
 msgid "Configure notification settings"
 msgstr "Konfigurera aviseringsinställningar"
 
-#: src/views/AdminViews/SettingsView.vue:207
+#: src/views/SettingsViews/DefaultView.vue:197
 msgid "Configure OAuth integration"
 msgstr "Konfigurera OAuth-integration"
 
-#: src/views/AdminViews/SettingsView.vue:163
+#: src/views/SettingsViews/DefaultView.vue:153
 msgid "Configure SSO login"
 msgstr "Konfigurera SSO-inloggning"
 
-#: src/views/AdminViews/SettingsView.vue:102
+#: src/views/SettingsViews/DefaultView.vue:92
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "Konfigurera dina serverinställningar."
 
-#: src/views/AdminViews/SettingsView.vue:145
+#: src/views/SettingsViews/DefaultView.vue:135
 msgid "Configure your profile settings"
 msgstr "Konfigurera dina profilinställningar"
 
@@ -149,10 +149,15 @@ msgstr "Skapa konto"
 msgid "Create an invitation to your server"
 msgstr "Skapa en inbjudan till din server."
 
-#: src/views/AdminViews/SettingsView.vue:233
+#: src/views/SettingsViews/DefaultView.vue:223
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Skapa ett konto"
+
+#: src/views/AdminViews/FlowEditor.vue:4
+#, fuzzy
+msgid "Create Flow"
+msgstr "Skapa"
 
 #: src/views/AdminViews/InviteView.vue:137
 #: src/views/AdminViews/InviteView.vue:2
@@ -171,7 +176,7 @@ msgstr "Beställnings"
 msgid "Custom Duration"
 msgstr "Anpassad varaktighet"
 
-#: src/views/AdminViews/SettingsView.vue:194
+#: src/views/SettingsViews/DefaultView.vue:184
 msgid "Custom HTML"
 msgstr "Anpassad HTML"
 
@@ -179,25 +184,33 @@ msgstr "Anpassad HTML"
 msgid "Database"
 msgstr "Databas"
 
-#: src/views/AdminViews/SettingsView.vue:188
+#: src/views/SettingsViews/DefaultView.vue:178
 msgid "Discord"
 msgstr "Disharmoni"
 
-#: src/views/AdminViews/SettingsView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Discord Bot"
 msgstr "Disharmoni"
+
+#: src/components/ScanServers/ScanServers.vue:26
+msgid "Don't see your server?"
+msgstr ""
 
 #: src/views/AdminViews/InviteView.vue:51
 #: src/views/AdminViews/InviteView.vue:64
 msgid "Duration"
 msgstr "Varaktighet"
 
-#: src/views/AdminViews/SettingsView.vue:189
+#: src/views/SettingsViews/DefaultView.vue:179
 msgid "Enable Discord page and configure settings"
 msgstr "Aktivera Discord-sidan och konfigurera inställningar"
 
-#: src/views/AdminViews/SettingsView.vue:97
+#: src/views/AdminViews/FlowEditor.vue:2
+msgid "Flow Editor"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:87
 msgid "General settings for the server"
 msgstr "Allmänna inställningar för servern"
 
@@ -219,7 +232,7 @@ msgstr "Gå till instrumentpanelen"
 msgid "Go to Login"
 msgstr "SSO-inloggning"
 
-#: src/components/NavBars/AdminNavBar.vue:67
+#: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
 msgstr "Hem"
@@ -233,7 +246,7 @@ msgstr ""
 "Om du skickades hit av en vän, vänligen begär åtkomst eller om du har en "
 "inbjudningskod, klicka på Kom igång."
 
-#: src/components/NavBars/AdminNavBar.vue:71
+#: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "Inbjudningar"
@@ -245,6 +258,10 @@ msgstr "Bjud in till Plex Home"
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "Inbjudna användare"
+
+#: src/components/ChangeLogs/ChangeLogs.vue:7
+msgid "Load More"
+msgstr "Ladda mer"
 
 #: src/views/LoginViews/PasswordView.vue:12
 msgid "Login"
@@ -262,13 +279,18 @@ msgstr "Logga in med lösenord"
 msgid "Login with your account"
 msgstr "Logga in med ditt konto"
 
-#: src/views/AdminViews/SettingsView.vue:213
+#: src/views/SettingsViews/DefaultView.vue:203
 msgid "Logs"
 msgstr "Loggar"
 
-#: src/views/AdminViews/SettingsView.vue:96
+#: src/views/SettingsViews/DefaultView.vue:86
 msgid "Main Settings"
 msgstr "Huvudinställningar"
+
+#: src/views/AdminViews/FlowEditor.vue:3
+#, fuzzy
+msgid "Manage your command flows"
+msgstr "Hantera dina inbjudningar"
 
 #: src/views/AdminViews/InvitationsView.vue:3
 msgid "Manage your invitations"
@@ -279,7 +301,7 @@ msgstr "Hantera dina inbjudningar"
 msgid "Manage your media server users"
 msgstr "Konfigurera dina mediaserverinställningar"
 
-#: src/views/AdminViews/SettingsView.vue:101
+#: src/views/SettingsViews/DefaultView.vue:91
 msgid "Media Server"
 msgstr "Mediaserver"
 
@@ -287,11 +309,11 @@ msgstr "Mediaserver"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:174
 msgid "Modify the look and feel of the server"
 msgstr "Ändra utseendet och känslan på servern"
 
-#: src/views/AdminViews/SettingsView.vue:169
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Multi-Factor Authentication"
 msgstr "Multi-Factor Authentication"
 
@@ -299,19 +321,23 @@ msgstr "Multi-Factor Authentication"
 msgid "Next"
 msgstr "Nästa"
 
-#: src/views/AdminViews/SettingsView.vue:36
+#: src/components/ScanServers/ScanServers.vue:15
+msgid "No servers could be found."
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:26
 msgid "No settings matched your search."
 msgstr "Inga inställningar matchade din sökning."
 
-#: src/views/AdminViews/SettingsView.vue:122
+#: src/views/SettingsViews/DefaultView.vue:112
 msgid "Notifications"
 msgstr "Aviseringar"
 
-#: src/views/AdminViews/SettingsView.vue:206
+#: src/views/SettingsViews/DefaultView.vue:196
 msgid "OAuth Integration"
 msgstr "OAuth-integration"
 
-#: src/views/AdminViews/SettingsView.vue:150
+#: src/views/SettingsViews/DefaultView.vue:140
 msgid "Password"
 msgstr "Lösenord"
 
@@ -328,7 +354,7 @@ msgstr ""
 msgid "Press the button below and follow your browser's steps to login"
 msgstr "Tryck på knappen nedan och följ din webbläsares steg för att logga in"
 
-#: src/views/AdminViews/SettingsView.vue:144
+#: src/views/SettingsViews/DefaultView.vue:134
 msgid "Profile"
 msgstr "Profil"
 
@@ -336,7 +362,7 @@ msgstr "Profil"
 msgid "Request Access"
 msgstr "Begära tillgång"
 
-#: src/views/AdminViews/SettingsView.vue:107
+#: src/views/SettingsViews/DefaultView.vue:97
 msgid "Requests"
 msgstr "Förfrågningar"
 
@@ -357,19 +383,20 @@ msgstr "Skapa och återställ säkerhetskopior"
 msgid "Select All"
 msgstr "Välj alla"
 
+#: src/components/Modals/ScanLibrariesModal.vue:8
 #: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "Välj Bibliotek"
 
-#: src/views/AdminViews/SettingsView.vue:156
+#: src/views/SettingsViews/DefaultView.vue:146
 msgid "Sessions"
 msgstr "Sessioner"
 
-#: src/components/NavBars/AdminNavBar.vue:79
+#: src/components/NavBars/AdminNavBar.vue:85
 msgid "Settings"
 msgstr "inställningar"
 
-#: src/views/AdminViews/SettingsView.vue:140
+#: src/views/SettingsViews/DefaultView.vue:130
 msgid "Settings for user accounts"
 msgstr "Inställningar för användarkonton"
 
@@ -393,7 +420,7 @@ msgstr "Tyvärr, vi kan inte hitta den sidan. Det verkar inte finnas!"
 msgid "Specific Libraries"
 msgstr "Specifika bibliotek"
 
-#: src/views/AdminViews/SettingsView.vue:162
+#: src/views/SettingsViews/DefaultView.vue:152
 msgid "SSO Login"
 msgstr "SSO-inloggning"
 
@@ -401,7 +428,7 @@ msgstr "SSO-inloggning"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/AdminViews/SettingsView.vue:219
+#: src/views/SettingsViews/DefaultView.vue:209
 msgid "Tasks"
 msgstr "Uppgifter"
 
@@ -412,7 +439,11 @@ msgstr ""
 "Detta är tillfälligt och vi arbetar med att lägga till stöd för andra "
 "databaser."
 
-#: src/views/AdminViews/SettingsView.vue:183
+#: src/components/Modals/ScanServersModal.vue:8
+msgid "Try Again"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:173
 msgid "UI Settings"
 msgstr "UI-inställningar"
 
@@ -424,7 +455,7 @@ msgstr "Obegränsat"
 msgid "Unlimited Usages"
 msgstr "Obegränsad användning"
 
-#: src/views/AdminViews/SettingsView.vue:225
+#: src/views/SettingsViews/DefaultView.vue:215
 msgid "Updates"
 msgstr "Uppdateringar"
 
@@ -434,23 +465,27 @@ msgstr ""
 "Använd ditt fingeravtryck eller ansiktsigenkänning för att verifiera din "
 "identitet"
 
-#: src/components/NavBars/AdminNavBar.vue:75
+#: src/components/NavBars/AdminNavBar.vue:81
 msgid "Users"
 msgstr "Användare"
 
-#: src/views/AdminViews/SettingsView.vue:214
+#: src/components/ChangeLogs/ChangeLogItem.vue:13
+msgid "View"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:204
 msgid "View and download server logs"
 msgstr "Visa och ladda ner serverloggar"
 
-#: src/views/AdminViews/SettingsView.vue:220
+#: src/views/SettingsViews/DefaultView.vue:210
 msgid "View and manage scheduled tasks"
 msgstr "Visa och hantera schemalagda uppgifter"
 
-#: src/views/AdminViews/SettingsView.vue:157
+#: src/views/SettingsViews/DefaultView.vue:147
 msgid "View and manage your active sessions"
 msgstr "Visa och hantera dina aktiva sessioner"
 
-#: src/views/AdminViews/SettingsView.vue:239
+#: src/views/SettingsViews/DefaultView.vue:229
 msgid "View information about the server"
 msgstr "Visa information om servern"
 
@@ -480,7 +515,6 @@ msgstr ""
 "När inställt kommer inbjudna användare att tas bort från servern efter det "
 "angivna antalet dagar. (1-999)"
 
-#: src/components/Footers/AdminFooter.vue:3
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
 msgstr "Wizarr"
@@ -965,9 +999,6 @@ msgstr "Du är färdig"
 #~ msgid "Cancel"
 #~ msgstr "Annullera"
 
-#~ msgid "Create"
-#~ msgstr "Skapa"
-
 #~ msgid "New OAuth"
 #~ msgstr "Ny OAuth"
 
@@ -1090,9 +1121,6 @@ msgstr "Du är färdig"
 
 #~ msgid "Unable to update libraries"
 #~ msgstr "Det går inte att uppdatera bibliotek"
-
-#~ msgid "Load More"
-#~ msgstr "Ladda mer"
 
 #~ msgid "My Account"
 #~ msgstr "Mitt konto"
