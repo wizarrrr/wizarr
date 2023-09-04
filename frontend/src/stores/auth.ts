@@ -20,6 +20,9 @@ export const useAuthStore = defineStore("auth", {
         },
     },
     actions: {
+        isAuthenticated() {
+            return !this.isAccessTokenExpired();
+        },
         setAccessToken(token: string) {
             this.token = token;
         },

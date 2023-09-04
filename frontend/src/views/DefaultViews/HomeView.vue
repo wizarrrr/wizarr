@@ -22,8 +22,8 @@
 
 <script lang="ts">
 import { defineComponent, h } from "vue";
-import { useUserStore } from "@/stores/user";
-import { mapState } from "pinia";
+import { useAuthStore } from "@/stores/auth";
+import { mapActions } from "pinia";
 
 import DefaultNavBar from "@/components/NavBars/DefaultNavBar.vue";
 import DefaultButton from "@/components/Buttons/DefaultButton.vue";
@@ -35,7 +35,7 @@ export default defineComponent({
         DefaultButton,
     },
     computed: {
-        ...mapState(useUserStore, ["isAuthenticated"]),
+        ...mapActions(useAuthStore, ["isAuthenticated"]),
     },
 });
 </script>

@@ -24,8 +24,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useUserStore } from "@/stores/user";
-import { mapState } from "pinia";
+import { useAuthStore } from "@/stores/auth";
+import { mapActions } from "pinia";
 
 import AdminNavBar from "@/components/NavBars/AdminNavBar.vue";
 import DefaultNavBar from "@/components/NavBars/DefaultNavBar.vue";
@@ -39,7 +39,7 @@ export default defineComponent({
         AdminNavBar,
     },
     computed: {
-        ...mapState(useUserStore, ["isAuthenticated"]),
+        ...mapActions(useAuthStore, ["isAuthenticated"]),
     },
     mounted() {
         console.log(this.isAuthenticated);
