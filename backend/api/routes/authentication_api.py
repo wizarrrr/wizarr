@@ -1,6 +1,7 @@
 from flask import request
 from flask_restx import Namespace, Resource
 
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.wizarr.authentication import AuthenticationModel
 from api.models.authentication import LoginPOST
 
@@ -28,22 +29,26 @@ class Login(Resource):
 class Refresh(Resource):
     """API resource for refreshing the JWT token"""
 
+    method_decorators = [jwt_required(refresh=True)]
+
     @api.doc(description="Refresh the JWT token")
     @api.response(200, "Token refreshed")
     @api.response(401, "Invalid refresh token")
     @api.response(500, "Internal server error")
     def post(self):
         """Refresh the JWT token"""
-        return AuthenticationModel.refresh_token(request.form.get("refresh_token"))
+        return AuthenticationModel.refresh_token()
 
 @api.route("/logout")
 @api.route("/logout/", doc=False)
 class Logout(Resource):
     """API resource for logging out"""
 
+    method_decorators = [jwt_required()]
+
     @api.doc(description="Logout the currently logged in user")
     @api.response(200, "Logout successful")
     @api.response(500, "Internal server error")
-    def get(self):
+    def post(self):
         """Logout the currently logged in user"""
         return AuthenticationModel.logout_user()

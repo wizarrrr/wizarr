@@ -21,8 +21,9 @@ def create_config(app: Flask):
     config["PREFERRED_URL_SCHEME"] = "https" if getenv("HTTPS", "false") == "true" else "http"
     config["JWT_SECRET_KEY"] = secret_key()
     config["JWT_BLACKLIST_ENABLED"] = True
-    config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
+    config["JWT_TOKEN_LOCATION"] = ["headers", "json", "query_string"]
     config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+    config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=31)
     config["JWT_COOKIE_CSRF_PROTECT"] = True
     config["JWT_COOKIE_SECURE"] = False
     config["DEBUG"] = app.debug

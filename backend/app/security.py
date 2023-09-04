@@ -62,9 +62,10 @@ def refresh_expiring_jwts(response):
 
 
 def check_if_token_revoked(jwt_header, jwt_payload: dict) -> bool:
-    jti = jwt_payload["jti"]
-    token = Sessions.get_or_none(Sessions.session == jti)
-    return token is None
+    # jti = jwt_payload["jti"]
+    # token = Sessions.get_or_none(Sessions.session == jti)
+    # return token is None
+    return False
 
 def user_identity_lookup(user):
     return user

@@ -71,7 +71,7 @@ class Auth {
 
         // Set the auth token and refresh token
         authStore.setAccessToken(token);
-        authStore.setRefreshToken(token);
+        authStore.setRefreshToken(refresh_token);
 
         // Reset the user data
         return { user, token };
@@ -104,21 +104,13 @@ class Auth {
         // Get auth store from pinia
         const authStore = useAuthStore();
 
-        // Check if the refresh token is expired
-        if (authStore.isRefreshTokenExpired()) {
-            return false;
-        }
-
         // Check if the JWT token is expired
         if (!authStore.isAccessTokenExpired()) {
             return true;
         }
 
         // Refresh the JWT token
-        await this.refreshToken();
-
-        // Return true
-        return true;
+        return await this.refreshToken();
     }
 
     /**
@@ -129,24 +121,25 @@ class Auth {
         // Get auth store from pinia
         const authStore = useAuthStore();
 
-        // Check if the refresh token is expired
-        if (authStore.isRefreshTokenExpired()) {
+        // Send the request to the server to refresh the JWT token
+        const response = await this.axios
+            .post("/api/auth/refresh", undefined, {
+                refresh_header: true,
+                disableErrorToast: true,
+            })
+            .catch(() => {});
+
+        // Check if the response is null
+        if (!response || response.status != 200) {
+            this.errorToast("Failed to refresh token, please login again.");
             return false;
         }
 
-        // Send the request to the server to refresh the JWT token
-        const response = await this.axios.post("/api/auth/refresh");
-
-        // Check if the response is successful
-        if (response.status != 200) {
-            this.errorToast(response.data.message || "Failed to refresh token, please try again");
-        }
-
         // Set the new JWT token
-        authStore.setAccessToken(response.data.token);
+        authStore.setAccessToken(response.data.access_token);
 
         // Return the response
-        return response.data.token;
+        return true;
     }
 
     /**
@@ -214,7 +207,7 @@ class Auth {
         const username = userStore.user?.display_name || userStore.user?.username;
 
         // Send the request to the server to logout the user
-        await this.axios.post("/api/auth/logout", { disableErrorToast: true }).catch(() => console.log("Failed to logout backend"));
+        await this.axios.post("/api/auth/logout", {}, { disableErrorToast: true }).catch(() => console.log("Failed to logout backend"));
 
         // Remove the auth token and refresh token
         authStore.removeAccessToken();

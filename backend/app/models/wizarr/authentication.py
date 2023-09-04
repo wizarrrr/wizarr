@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from logging import info
 
 from flask import request, current_app, jsonify
-from flask_jwt_extended import create_access_token, create_refresh_token, get_jti, set_access_cookies as set_access_cookies_jwt, unset_access_cookies as unset_access_cookies_jwt
+from flask_jwt_extended import get_jwt, decode_token, get_jwt_identity, create_access_token, create_refresh_token, get_jti, set_access_cookies as set_access_cookies_jwt, unset_access_cookies as unset_access_cookies_jwt
 
 from playhouse.shortcuts import model_to_dict
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -121,21 +121,18 @@ class AuthenticationModel(Model):
         if not current_app:
             raise RuntimeError("Must be called from within a flask route")
 
-        # Expire length of session
-        expire = False if self.remember else None
-
         # Generate a jwt token
-        token = create_access_token(identity=self._user.id, expires_delta=expire)
+        token = create_access_token(identity=self._user.id, fresh=True)
 
         # Get JTI from token
         jti = get_jti(token)
 
+        # Decode the token to get the expiry
+        expiry = datetime.fromtimestamp(decode_token(token)["exp"])
+
         # Get IP address and User Agent from request
         ip_addr = self._get_ip_address()
         user_agent = self._get_user_agent()
-
-        # Create a session expiration
-        expiry = datetime.utcnow() + timedelta(days=30) if self.remember else datetime.utcnow() + timedelta(days=1)
 
         # Store the admin key in the database
         Sessions.create(session=jti, user=self._user.id, ip=ip_addr, user_agent=user_agent, expires=expiry, mfa_id=self._mfa_id)
@@ -174,27 +171,27 @@ class AuthenticationModel(Model):
 
 
     # ANCHOR - Get Token from Cookie
-    @staticmethod
-    def get_token_from_cookie():
-        # Check if the current_app is set
-        if not current_app:
-            raise RuntimeError("Must be called from within a flask route")
+    # @staticmethod
+    # def get_token_from_cookie():
+    #     # Check if the current_app is set
+    #     if not current_app:
+    #         raise RuntimeError("Must be called from within a flask route")
 
-        # Get the token
-        token = request.cookies.get("access_token_cookie", None)
+    #     # Get the token
+    #     token = request.cookies.get("access_token_cookie", None)
 
-        # Check if the token exists
-        if token is None:
-            raise ValidationError("Invalid Token")
+    #     # Check if the token exists
+    #     if token is None:
+    #         raise ValidationError("Invalid Token")
 
-        return token
+    #     return token
 
 
     # ANCHOR - Destroy Session
     @staticmethod
     def destroy_session():
         # Get the token
-        token = AuthenticationModel.get_token_from_cookie()
+        token = get_jwt()
 
         # Get JTI from token
         jti = get_jti(token)
@@ -207,16 +204,19 @@ class AuthenticationModel(Model):
 
     # ANCHOR - Refresh Token
     @staticmethod
-    def refresh_token(refresh_token):
+    def refresh_token():
         # Check if the current_app is set
         if not current_app:
             raise RuntimeError("Must be called from within a flask route")
 
+        # Get the identity of the user
+        identity = get_jwt_identity()
+
         # Exchange the refresh token for a new access token
-        access_token = create_access_token(identity=refresh_token, fresh=False)
+        access_token = create_access_token(identity=identity)
 
         # Return the new access token
-        return jsonify({"token": access_token})
+        return jsonify(access_token=access_token)
 
 
     # ANCHOR - Login User

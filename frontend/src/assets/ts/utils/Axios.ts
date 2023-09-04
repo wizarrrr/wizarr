@@ -1,4 +1,4 @@
-import mainAxios, { Axios, type AxiosRequestConfig, type AxiosResponse, type InternalAxiosRequestConfig } from "axios";
+import mainAxios, { Axios, type AxiosRequestConfig, type AxiosRequestHeaders, type AxiosResponse, type InternalAxiosRequestConfig } from "axios";
 import cookie from "js-cookie";
 
 import { errorToast, infoToast } from "./Toasts";
@@ -11,11 +11,13 @@ export interface CustomAxiosResponse<D = any> extends AxiosResponse {
 export interface CustomAxiosRequestConfig<D = any> extends AxiosRequestConfig<D> {
     disableInfoToast?: boolean;
     disableErrorToast?: boolean;
+    refresh_header?: boolean;
 }
 
 export interface CustomAxiosInstance extends Axios {
     disableInfoToast?: boolean;
     disableErrorToast?: boolean;
+    refresh_header?: boolean;
     getUri(config?: CustomAxiosRequestConfig): string;
     request<T = any, R = CustomAxiosResponse<T>, D = any>(config: CustomAxiosRequestConfig<D>): Promise<R>;
     get<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, config?: CustomAxiosRequestConfig<D>): Promise<R>;
@@ -59,14 +61,20 @@ class AxiosInterceptor {
      * @param config
      * @returns {any}
      */
-    public req(config: InternalAxiosRequestConfig) {
+    public req(config: InternalAxiosRequestConfig & CustomAxiosRequestConfig) {
         // Try to add the authorization header to the request
         try {
             const authStore = useAuthStore();
 
-            if ((authStore.token?.length ?? 0) > 0) {
+            if (config.refresh_header) {
+                config.headers["Authorization"] = `Bearer ${authStore.refresh_token}`;
+            }
+
+            if ((authStore.token?.length ?? 0) > 0 && !config.refresh_header) {
                 config.headers["Authorization"] = `Bearer ${authStore.token}`;
             }
+
+            console.log(config, "type", config.refresh_header ? "refresh" : "access");
         } catch (e) {
             // Do nothing
         }
