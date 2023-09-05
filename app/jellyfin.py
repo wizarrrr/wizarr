@@ -166,7 +166,7 @@ def join_jellyfin():
     code = request.form.get('code')
     email = request.form.get("email")
     min_password_length = int(os.getenv("MIN_PASSWORD_LENGTH", "8"))
-    max_password_length = int(os.getenv("MAX_PASSWORD_LENGTH", "20"))
+    max_password_length = int(os.getenv("MAX_PASSWORD_LENGTH", "64"))
     min_password_uppercase = int(os.getenv("MIN_PASSWORD_UPPERCASE", "1"))
     min_password_numbers = int(os.getenv("MIN_PASSWORD_NUMBERS", "1"))
     min_password_special = int(os.getenv("MIN_PASSWORD_SPECIAL", "0"))
