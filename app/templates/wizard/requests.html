@@ -1,14 +1,14 @@
 <div id="wizard"
   class="animate__animated {% if prev %} animate__fadeInLeft {% endif %} {% if next %} animate__fadeInRight {% endif %}  p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
   <a href="#">
-    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ _("Automatic Media Requests") }}
+    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ _("Requesting Media") }}
     </h5>
   </a>
 
   <p class="mb-5 font-light text-gray-500 sm:text-lg dark:text-gray-400">
-    {{ _("The media library is curated from all members. If you're having trouble finding
-    something to watch, don't worry! We have a user-friendly request system that can automatically search for the
-    media you're looking for - You think of it we can get it! If a request hasn't been actioned let me know.") }}
+    {{ _("The media library is curated by all members. If you're having trouble finding
+    something to watch, don't worry! We have a user-friendly request system called /"JellySeerr/" that can search and download the
+    Movie or TV Show you're looking for - You think of it we can get it! If a request hasn't been actioned in resonable time let me know.") }}
   </p>
   
   <ul class="space-y-4 text-left text-gray-500 dark:text-gray-400">
@@ -30,7 +30,7 @@
           d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
           clip-rule="evenodd"></path>
       </svg>
-      <span>{{ _("Requested media will be automatically downloaded and added to the library (if available)") }}</span>
+      <span>{{ _("Requested media will be automatically downloaded and added to the library. If it isn't available yet (like a movie that hasn't released yet) it will be downloaded as soon as possible") }}</span>
     </li>
     <li class="flex items-center space-x-3">
       <!-- Icon -->
@@ -40,14 +40,14 @@
           d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
           clip-rule="evenodd"></path>
       </svg>
-      <span>{{ _("If enabled, receive notifications") }}</span>
+      <span>{{ _("Notification system is coming!") }}</span>
     </li>
 
   </ul>
   <br>
   <a href="{{ request_url }}" target="_blank"
     class="bg-primary inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-amber-700 rounded-lg hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300 dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
-    {{ _("Check it Out") }}
+    {{ _("Open JellySeerr") }}
     <svg class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
       <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z">
       </path>
