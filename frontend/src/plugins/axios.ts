@@ -12,6 +12,12 @@ declare module "pinia" {
     }
 }
 
+declare module "@vue/runtime-core" {
+    interface ComponentCustomProperties {
+        $axios: CustomAxiosInstance;
+    }
+}
+
 const useAxios = (options?: CreateAxiosDefaults) => {
     // Create a new axios instances
     const axiosDefault = mainAxios.create(options);

@@ -58,6 +58,10 @@ schedule.init_app(app)
 socketio.init_app(app, async_mode="gevent" if app.config["GUNICORN"] else "threading", cors_allowed_origins="*", async_handlers=True)
 oauth.init_app(app)
 
+@socketio.on("ping")
+def ping():
+    socketio.emit("pong")
+
 # Clear cache on startup
 with app.app_context():
     cache.clear()

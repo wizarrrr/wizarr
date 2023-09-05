@@ -84,6 +84,12 @@ const router = createRouter({
                             meta: { header: "Manage Media", subheader: "Configure server media" },
                         },
                         {
+                            path: "logs",
+                            name: "admin-settings-logs",
+                            component: () => import("@/views/SettingsViews/LogsView.vue"),
+                            meta: { header: "View Logs", subheader: "View server logs" },
+                        },
+                        {
                             path: "mfa",
                             name: "admin-settings-mfa",
                             component: () => import("@/views/SettingsViews/MFAView.vue"),

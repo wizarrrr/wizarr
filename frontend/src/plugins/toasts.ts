@@ -10,6 +10,12 @@ declare module "pinia" {
     }
 }
 
+declare module "@vue/runtime-core" {
+    interface ComponentCustomProperties {
+        $toast: Toasts;
+    }
+}
+
 const useToast = () => {
     // Return the toast instance
     return toasts;
@@ -28,4 +34,4 @@ const vuePluginToast = {
 };
 
 export default vuePluginToast;
-export { piniaPluginToast, vuePluginToast };
+export { useToast, piniaPluginToast, vuePluginToast };

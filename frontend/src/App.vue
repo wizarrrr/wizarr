@@ -4,13 +4,12 @@
     <RouterView v-else />
     <Offline />
     <ReloadPrompt />
-    <!-- <ScanServersModal /> -->
+    <ServerURLModal v-model:visible="serverURLModalVisible" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState, mapActions } from "pinia";
-import { useUserStore } from "./stores/user";
 import { useThemeStore } from "@/stores/theme";
 import { useServerStore } from "./stores/server";
 import { useLanguageStore } from "@/stores/language";
@@ -27,7 +26,7 @@ import UpdateAvailable from "@/components/Toasts/UpdateAvailable.vue";
 import DefaultToast from "@/components/Toasts/DefaultToast.vue";
 import ReloadPrompt from "@/components/ReloadPrompt.vue";
 
-import ScanServersModal from "./components/Modals/ScanServersModal.vue";
+import ServerURLModal from "./components/Modals/ServerURLModal.vue";
 
 export default defineComponent({
     name: "App",
@@ -35,14 +34,14 @@ export default defineComponent({
         Offline,
         FullPageLoading,
         ReloadPrompt,
-
-        ScanServersModal,
+        ServerURLModal,
     },
     data() {
         return {
             gettext: null as Language | null,
             pageLoading: true,
             connectionToast: null as ToastID | null,
+            serverURLModalVisible: false,
         };
     },
     computed: {
@@ -65,6 +64,10 @@ export default defineComponent({
                 }
                 await new Promise((resolve) => setTimeout(resolve, 5000));
             }
+        },
+        showServerURLModal() {
+            console.log("this", this);
+            this.serverURLModalVisible = true;
         },
     },
     watch: {
@@ -113,7 +116,7 @@ export default defineComponent({
 
         // If health data or server data is undefined, show error toast
         if (!serverData) {
-            this.connectionToast = this.$toast.error(BadBackend, { timeout: false, closeButton: false, draggable: false, closeOnClick: false });
+            this.connectionToast = this.$toast.error(BadBackend, { timeout: false, closeButton: false, draggable: false, closeOnClick: false, onClick: this.showServerURLModal });
             this.backendTest();
         }
 

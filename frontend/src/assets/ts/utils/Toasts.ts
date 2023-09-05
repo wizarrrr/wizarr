@@ -1,29 +1,29 @@
 import { useToast } from "vue-toastification";
-import type { CommonOptions, ToastContent, ToastID } from "vue-toastification/dist/types/types";
+import type { CommonOptions, PluginOptions, ToastContent, ToastID, ToastOptions } from "vue-toastification/dist/types/types";
 
-export const infoToast = (message: ToastContent, options?: CommonOptions) => {
+export const infoToast = (message: ToastContent, options?: ToastOptions) => {
     const toast = useToast();
-    return toast.info(message, options);
+    return toast.info(message, options as CommonOptions);
 };
 
-export const successToast = (message: ToastContent, options?: CommonOptions) => {
+export const successToast = (message: ToastContent, options?: ToastOptions) => {
     const toast = useToast();
-    return toast.success(message, options);
+    return toast.success(message, options as CommonOptions);
 };
 
-export const errorToast = (message: ToastContent, options?: CommonOptions) => {
+export const errorToast = (message: ToastContent, options?: ToastOptions) => {
     const toast = useToast();
-    return toast.error(message, options);
+    return toast.error(message, options as CommonOptions);
 };
 
-export const warningToast = (message: ToastContent, options?: CommonOptions) => {
+export const warningToast = (message: ToastContent, options?: ToastOptions) => {
     const toast = useToast();
-    return toast.warning(message, options);
+    return toast.warning(message, options as CommonOptions);
 };
 
-export const defaultToast = (message: ToastContent, options?: CommonOptions) => {
+export const defaultToast = (message: ToastContent, options?: ToastOptions) => {
     const toast = useToast();
-    toast(message, options);
+    toast(message, options as CommonOptions);
 };
 
 export const clearToasts = () => {
@@ -31,7 +31,7 @@ export const clearToasts = () => {
     toast.clear();
 };
 
-export const updateDefaultOptions = (options: CommonOptions) => {
+export const updateDefaultOptions = (options: PluginOptions) => {
     const toast = useToast();
     toast.updateDefaults(options);
 };
@@ -41,7 +41,7 @@ export const dismissToast = (id: ToastID) => {
     toast.dismiss(id);
 };
 
-export const updateToast = (id: ToastID, content: ToastContent, options?: CommonOptions) => {
+export const updateToast = (id: ToastID, content: ToastContent, options?: ToastOptions) => {
     const toast = useToast();
     toast.update(id, { content, options });
 };

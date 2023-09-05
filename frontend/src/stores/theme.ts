@@ -6,6 +6,11 @@ export const useThemeStore = defineStore("theme", {
     state: () => ({
         theme: SYSTEM_VALUE as THEME,
     }),
+    getters: {
+        currentTheme: (state) => {
+            return state.theme;
+        },
+    },
     actions: {
         updateTheme(theme: THEME) {
             updateTheme(theme);
