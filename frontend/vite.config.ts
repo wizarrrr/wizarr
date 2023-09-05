@@ -37,8 +37,22 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            "/api": "http://127.0.0.1:5000",
-            "/swaggerui": "http://127.0.0.1:5000",
+            "/api": {
+                target: "http://127.0.0.1:5000",
+                changeOrigin: true,
+                xfwd: true,
+            },
+            "/swaggerui": {
+                target: "http://127.0.0.1:5000",
+                changeOrigin: true,
+                xfwd: true,
+            },
+            "/socket.io": {
+                target: "ws://127.0.0.1:5000",
+                changeOrigin: true,
+                ws: true,
+                xfwd: true,
+            },
         },
     },
     // assetsInclude: ["**/*.html"],

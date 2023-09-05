@@ -73,8 +73,6 @@ class AxiosInterceptor {
             if ((authStore.token?.length ?? 0) > 0 && !config.refresh_header) {
                 config.headers["Authorization"] = `Bearer ${authStore.token}`;
             }
-
-            console.log(config, "type", config.refresh_header ? "refresh" : "access");
         } catch (e) {
             // Do nothing
         }

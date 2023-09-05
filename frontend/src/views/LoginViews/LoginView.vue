@@ -78,7 +78,10 @@ export default defineComponent({
         },
         async mfaLogin() {
             this.step = STEP.LOADING;
-            await this.auth.mfaAuthentication(this.username);
+            await this.auth.mfaAuthentication(this.username).catch((e) => {
+                this.$toast.error(e.message);
+                this.step = STEP.PASSWORD;
+            });
         },
     },
     async mounted() {

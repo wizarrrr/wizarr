@@ -1,7 +1,7 @@
 from base64 import urlsafe_b64decode, urlsafe_b64encode
 from logging import info
 from secrets import token_hex
-from json import loads
+from json import loads, dumps
 
 from flask import jsonify, make_response, request, session
 from flask_jwt_extended import current_user, jwt_required
@@ -30,8 +30,29 @@ from app.models.wizarr.authentication import AuthenticationModel
 
 api = Namespace("MFA", description="MFA related operations", path="/mfa")
 
-@api.route("/<int:mfa_id>")
+
+@api.route("")
+@api.route("/", doc=False)
 class MFAListAPI(Resource):
+    """
+    Get all MFA devices
+    """
+
+    @jwt_required()
+    def get(self):
+
+        # Check if there is a current user
+        if not current_user:
+            return {"message": "No user found"}, 401
+
+        response = list(MFA.select().where(MFA.user_id == current_user["id"]).dicts())
+
+        # Return the response
+        return loads(dumps(response, indent=4, sort_keys=True, default=str)), 200
+
+
+@api.route("/<int:mfa_id>")
+class MFAAPI(Resource):
     """
     Manage a specific MFA device
     """
@@ -152,8 +173,8 @@ class MFARegisterAPI(Resource):
         if not current_user:
             return {"message": "No user found"}, 401
 
-        # Get host and protocol
-        host = request.host
+        # Get host and protocol forwarded from nginx
+        host = request.headers.get("X-Forwarded-Host", request.host)
 
         # Remove port from host if it exists
         if ":" in host:
@@ -250,7 +271,7 @@ class MFARegisterAPI(Resource):
         attestation = urlsafe_b64encode(verified_credential.attestation_object)
 
         # Add the credential to the users MFA credentials
-        MFA.create(
+        mfa_id = MFA.create(
             name = name if name else "MFA Device: " + token_hex(6),
             user_id = current_user["id"],
             aaguid = verified_credential.aaguid,
@@ -261,7 +282,9 @@ class MFARegisterAPI(Resource):
             transports = ",".join(transports)
         )
 
-        return {"message": "Successfully registered MFA device"}, 200
+        # Get the MFA details
+        mfa = model_to_dict(MFA.get_or_none(MFA.id == mfa_id))
+        return loads(dumps(mfa, indent=4, sort_keys=True, default=str)), 200
 
 
 @api.route("/authentication")
@@ -277,7 +300,7 @@ class MFAAuthenticateAPI(Resource):
         """
 
         # Get host and protocol
-        host = request.host
+        host = request.headers.get("X-Forwarded-Host", request.host)
 
         # Remove port from host if it exists
         if ":" in host:
@@ -331,7 +354,7 @@ class MFAAuthenticateAPI(Resource):
         """
 
         # Get host and protocol
-        host = request.host
+        host = request.headers.get("X-Forwarded-Host", request.host)
 
         # Remove port from host if it exists
         if ":" in host:

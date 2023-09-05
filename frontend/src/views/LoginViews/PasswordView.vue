@@ -54,7 +54,7 @@ export default defineComponent({
     },
     computed: {
         passwordAutofocus(): boolean {
-            return this.hideMFA && this.usernameValue.length > 0;
+            return this.hideMFA || this.usernameValue.length > 0;
         },
     },
     watch: {

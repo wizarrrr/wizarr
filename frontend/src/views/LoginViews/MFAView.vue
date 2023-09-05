@@ -11,7 +11,9 @@
         </div>
 
         <div class="space-y-2">
-            <button class="w-full text-white bg-secondary hover:bg-secondary_hover focus:ring-4 focus:outline-none focus:ring-grey-300 font-medium rounded text-sm px-5 py-2.5 text-center">Continue</button>
+            <button @click="$emit('mfaLogin')" class="w-full text-white bg-secondary hover:bg-secondary_hover focus:ring-4 focus:outline-none focus:ring-grey-300 font-medium rounded text-sm px-5 py-2.5 text-center">
+                {{ __("Continue") }}
+            </button>
             <div class="flex justify-center items-center">
                 <button @click="$emit('passwordLogin')" class="text-primary text-sm font-medium">
                     {{ __("Login with Password") }}

@@ -17,7 +17,7 @@
                 <ul class="flex flex-col md:flex-row md:space-x-8 md:text-sm md:font-medium w-full md:w-min">
                     <!-- Page Links -->
                     <li v-for="page in pages" :key="page.name" class="flex text-center items-center">
-                        <router-link :to="page.url" as="button" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" :class="activeLink == page.url ? 'text-white dark:text-white' : ''">
+                        <router-link :to="page.url" as="button" class="text-left md:text-center w-full md:w-auto block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" :class="activeLink == page.url ? 'text-black dark:text-white' : ''">
                             {{ __(page.name) }}
                         </router-link>
                     </li>

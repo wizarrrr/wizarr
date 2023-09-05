@@ -55,7 +55,7 @@ class Auth {
      * Handle Authenticated Data
      * This function is used to handle authenticated data to store
      */
-    handleAuthData(user: Partial<APIUser>, token: string, refresh_token: string) {
+    async handleAuthData(user: Partial<APIUser>, token: string, refresh_token: string) {
         // Get auth store from pinia
         const authStore = useAuthStore();
         const userStore = useUserStore();
@@ -323,21 +323,17 @@ class Auth {
 
         // Make sure the browser supports webauthn
         if (!this.browserSupportsWebAuthn()) {
-            console.error("Your browser does not support WebAuthn");
-            return;
+            throw new Error("Your browser does not support WebAuthn");
         }
 
         // Make sure the browser supports webauthn autofill
         if (autofill && !(await this.browserSupportsWebAuthnAutofill())) {
-            console.error("Your browser does not support WebAuthn Autofill");
-            return;
+            throw new Error("Your browser does not support WebAuthn Autofill");
         }
 
         // Check if the username is set
         if (!autofill && !this.username) {
-            this.errorToast("Username not provided");
-            console.error("Username not provided");
-            return;
+            throw new Error("Username not provided");
         }
 
         // Fetch the authentication options from the server
@@ -349,9 +345,7 @@ class Auth {
 
         // Check if the response is successful
         if (authResp.status != 200) {
-            this.errorToast(authResp.data.message || "Failed to authenticate, please try again");
-            console.error(authResp.data.message || "Failed to authenticate, please try again");
-            return;
+            throw new Error(authResp.data.message || "Failed to authenticate, please try again");
         }
 
         // Get the authentication options
@@ -359,7 +353,7 @@ class Auth {
 
         // Start the authentication
         const assertion = await startAuthentication(authenticationOptions, autofill).catch((e: any) => {
-            return null;
+            throw new Error(e.message || "Failed to authenticate, please try again");
         });
 
         // Check if the assertion is null
@@ -374,8 +368,7 @@ class Auth {
 
         // Send the authentication to the server
         const authResp2 = await this.axios.post("/api/mfa/authentication", data).catch((e: any) => {
-            this.errorToast(e.data.message || "Failed to authenticate, please try again");
-            return null;
+            throw new Error(e.data.message || "Failed to authenticate, please try again");
         });
 
         // Check if the response is null

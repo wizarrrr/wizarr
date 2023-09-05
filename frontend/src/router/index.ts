@@ -1,10 +1,10 @@
 import { createMemoryHistory, createRouter, createWebHistory } from "vue-router";
 import { useProgressStore } from "@/stores/progress";
-import { useUserStore } from "@/stores/user";
-import { pinia } from "@/main";
 import { useAuthStore } from "@/stores/auth";
+
 import middlewarePipeline from "./middlewarePipeline";
 import requireAuth from "./middleware/requireAuth";
+import requireNoAuth from "./middleware/requireNoAuth";
 
 const router = createRouter({
     history: typeof window !== "undefined" ? createWebHistory() : createMemoryHistory(),
@@ -18,7 +18,9 @@ const router = createRouter({
             path: "/login",
             name: "login",
             component: () => import("@/views/LoginViews/LoginView.vue"),
-            meta: { requiresLoggedOut: true },
+            meta: {
+                middleware: [requireNoAuth],
+            },
         },
         {
             path: "/setup",

@@ -1,5 +1,5 @@
 <template>
-    <AdminTemplate :header="header" :subheader="subheader">
+    <AdminTemplate :header="headerText" :subheader="subheaderText">
         <template #header>
             <div class="relative w-full" v-if="searchBar">
                 <div class="hidden md:block">
@@ -35,8 +35,8 @@ export default defineComponent({
     },
     data() {
         return {
-            header: "Server Settings",
-            subheader: "Manage your server settings",
+            headerText: "Server Settings",
+            subheaderText: "Manage your server settings",
             headerDefault: "Server Settings",
             subheaderDefault: "Manage your server settings",
             searchBar: true,
@@ -45,12 +45,17 @@ export default defineComponent({
     watch: {
         $route(to) {
             this.searchBar = !!to.meta.searchBar;
-            this.header = to.meta.header ?? this.headerDefault;
-            this.subheader = to.meta.subheader ?? this.subheaderDefault;
+            this.headerText = to.meta.header ?? this.headerDefault;
+            this.subheaderText = to.meta.subheader ?? this.subheaderDefault;
         },
     },
     mounted() {
+        // Show search bar if meta.searchBar is true
         this.searchBar = !!this.$route.meta.searchBar;
+
+        // Set header and subheader text from meta or default
+        this.headerText = (this.$route?.meta?.header as string) ?? this.headerDefault;
+        this.subheaderText = (this.$route?.meta?.subheader as string) ?? this.subheaderDefault;
     },
 });
 </script>
