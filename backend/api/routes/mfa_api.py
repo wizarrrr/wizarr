@@ -412,7 +412,8 @@ class MFAAuthenticateAPI(Resource):
         auth = AuthenticationModel({}, mfa=True, user_id=mfa_credentials.user_id, mfa_id=mfa_credentials.id)
 
         # Get token for user
-        token = auth.get_token()
+        access_token = auth.get_access_token()
+        refresh_token = auth.get_refresh_token(access_token)
 
         # Get the admin user
         user = auth.get_admin()
@@ -421,13 +422,11 @@ class MFAAuthenticateAPI(Resource):
         resp = jsonify({
             "message": "Successfully authenticated with MFA device",
             "auth": {
+                "token": access_token,
+                "refresh_token": refresh_token,
                 "user": AccountsModel(model_to_dict(user, exclude=[Accounts.password])).to_primitive(),
-                "token": token
             }
         })
-
-        # Set the jwt token in the cookie
-        auth.set_access_cookies(resp, token)
 
         # Log message and return response
         info(f"Account {user.username} successfully logged in")

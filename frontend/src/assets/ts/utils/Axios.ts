@@ -3,6 +3,8 @@ import cookie from "js-cookie";
 
 import { errorToast, infoToast } from "./Toasts";
 import { useAuthStore } from "@/stores/auth";
+import Auth from "@/api/authentication";
+import { useToast } from "@/plugins/toasts";
 
 export interface CustomAxiosResponse<D = any> extends AxiosResponse {
     config: CustomAxiosRequestConfig<D> & InternalAxiosRequestConfig;
@@ -66,11 +68,11 @@ class AxiosInterceptor {
         try {
             const authStore = useAuthStore();
 
-            if (config.refresh_header) {
+            if (config.refresh_header && (authStore.refresh_token?.length ?? 0) > 0) {
                 config.headers["Authorization"] = `Bearer ${authStore.refresh_token}`;
             }
 
-            if ((authStore.token?.length ?? 0) > 0 && !config.refresh_header) {
+            if ((authStore.token?.length ?? 0) > 0 && !config.refresh_header && (authStore.refresh_token?.length ?? 0) > 0) {
                 config.headers["Authorization"] = `Bearer ${authStore.token}`;
             }
         } catch (e) {
@@ -101,30 +103,38 @@ class AxiosInterceptor {
      * @param error
      * @returns {any}
      */
-    public error(error: any) {
-        // If disableErrorToast is set, don't show error toasts
+    public async error(error: any) {
         if (this.axios.disableErrorToast || error.config.disableErrorToast) {
             return Promise.reject(error);
         }
 
-        // If error response has a errors object, loop through it and show each error
-        if (error.response?.data?.errors) {
-            for (const [key, value] of Object.entries(error.response.data.errors as { [key: string]: string[] })) {
-                if (Array.isArray(value)) {
-                    value.forEach((message) => {
-                        errorToast(message);
-                    });
-                } else if (typeof value === "string") {
-                    if (key == "message") {
-                        errorToast(value);
+        const showErrorToast = (message: string) => errorToast(message);
+
+        const { response } = error;
+        if (response?.data) {
+            const { errors, message } = response.data as { errors?: Record<string, string[] | string>; message?: string };
+            if (errors) {
+                Object.values(errors).forEach((errorMessages: string[] | string) => {
+                    if (Array.isArray(errorMessages)) {
+                        errorMessages.forEach((errorMessage: string) => {
+                            showErrorToast(errorMessage);
+                        });
+                    } else if (typeof errorMessages === "string") {
+                        showErrorToast(errorMessages);
                     }
-                }
+                });
+            } else if (message) {
+                showErrorToast(message);
             }
         }
 
-        // If error response has a message but no errors object, show the message
-        if (error.response?.data?.message && !error.response?.data?.errors) {
-            errorToast(error.response.data.message);
+        if (response?.status === 401) {
+            try {
+                const auth = new Auth();
+                auth.logout();
+            } catch (e) {
+                useToast().error("An unauthenticated request was made, but we failed to log you out. Please refresh the page.");
+            }
         }
 
         return Promise.reject(error);

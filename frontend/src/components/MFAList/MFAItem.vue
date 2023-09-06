@@ -2,7 +2,7 @@
     <ListItem icon="fa-key">
         <template #title>
             <span class="text-lg">{{ mfa.name }}</span>
-            <p class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ timeAgo }}</p>
+            <p class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ $filter("timeAgo", mfa.created) }}</p>
         </template>
         <template #buttons>
             <div class="flex flex-row space-x-2">
@@ -39,14 +39,6 @@ export default defineComponent({
             type: Object as () => MFA,
             required: true,
         },
-    },
-    computed: {
-        timeAgo() {
-            const created = new Date(this.mfa.created);
-            created.setHours(created.getHours() - created.getTimezoneOffset() / 60);
-            return formatTimeAgo(created);
-        },
-        ...mapState(useMfaStore, ["mfas"]),
     },
     methods: {
         async deleteLocalMfa() {

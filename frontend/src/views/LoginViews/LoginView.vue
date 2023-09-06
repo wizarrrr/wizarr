@@ -15,10 +15,10 @@
                             <UsernameView @submit="submitUsername" v-model:username="username" key="username-form" />
                         </div>
                         <div v-else-if="step == 2">
-                            <MFAView @mfaLogin="mfaLogin" key="mfa-form" />
+                            <MFAView @mfaLogin="mfaLogin" @passwordLogin="step = 3" key="mfa-form" />
                         </div>
                         <div v-else-if="step == 3">
-                            <PasswordView @passwordLogin="passwordLogin" :hideMFA="hideMFA" v-model:username="username" v-model:password="password" key="login-form" />
+                            <PasswordView @passwordLogin="passwordLogin" @mfaLogin="step = 2" :hideMFA="hideMFA" v-model:username="username" v-model:password="password" key="login-form" />
                         </div>
                     </transition>
                 </div>

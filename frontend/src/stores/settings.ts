@@ -1,8 +1,13 @@
 import { defineStore } from "pinia";
 
+interface SettingsStoreState {
+    search: string;
+    header: "search" | "back";
+}
+
 export const useSettingsStore = defineStore("settings", {
-    state: () => ({
-        search: "" as string,
-        header: "search" as "search" | "back",
+    state: (): SettingsStoreState => ({
+        search: "",
+        header: "search",
     }),
 });

@@ -78,11 +78,11 @@ export default defineComponent({
 
         // Initialize the socket callbacks
         this.socket.on("connect", () => {
-            this.terminal.write("Connected to the logging server\n");
+            this.terminal.writeln("Connected to the logging server\n");
         });
 
         this.socket.on("disconnect", () => {
-            this.terminal.write("Disconnected from the logging server\n");
+            this.terminal.writeln("Disconnected from the logging server\n");
         });
 
         this.socket.on("log", (data: string) => {

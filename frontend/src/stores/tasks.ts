@@ -1,9 +1,13 @@
 import { defineStore } from "pinia";
 import type { Job, JobList } from "@/types/Tasks";
 
+interface TasksStoreState {
+    jobs: JobList;
+}
+
 export const useTasksStore = defineStore("tasks", {
-    state: () => ({
-        jobs: [] as JobList,
+    state: (): TasksStoreState => ({
+        jobs: [],
     }),
     actions: {
         async getJobs() {

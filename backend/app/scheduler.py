@@ -31,6 +31,24 @@ def check_expiring_users():
         info(f"Deleting user { user.email if user.email else user.username } due to expired invite.")
 
 
+@schedule.task("interval", id="clearRevokedSessions", hours=1, misfire_grace_time=900)
+def clear_revoked_sessions():
+    # Check if the server is verified
+    if not server_verified(): return
+
+    # Import the function here to avoid circular imports
+    from app.models.database import Sessions
+
+    info("Checking for expired sessions")
+    # Get all sessions where expires is less than now in utc and delete them
+    sessions = Sessions.select().where(Sessions.revoked)
+
+    # Delete all expired sessions
+    for session in sessions:
+        session.delete_instance()
+        info(f"Deleting session { session.id } due to being revoked.")
+
+
 @schedule.task("interval", id="syncUsers", hours=3, misfire_grace_time=900)
 def scan_users():
     # Check if the server is verified

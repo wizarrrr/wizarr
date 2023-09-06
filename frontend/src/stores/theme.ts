@@ -2,9 +2,13 @@ import { defineStore } from "pinia";
 import { SYSTEM_VALUE, updateTheme } from "@/assets/ts/utils/DarkMode";
 import type { THEME } from "@/assets/ts/utils/DarkMode";
 
+interface ThemeStoreState {
+    theme: THEME;
+}
+
 export const useThemeStore = defineStore("theme", {
-    state: () => ({
-        theme: SYSTEM_VALUE as THEME,
+    state: (): ThemeStoreState => ({
+        theme: SYSTEM_VALUE,
     }),
     getters: {
         currentTheme: (state) => {

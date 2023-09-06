@@ -11,7 +11,7 @@ export default async function requireAuth({ next, authStore }: { next: Navigatio
         if (!(await auth.isAuthenticated())) return router.push("/login");
     } catch (error) {
         console.error(error);
-        return router.push("/login");
+        return next({ name: "login" });
     }
 
     return next();

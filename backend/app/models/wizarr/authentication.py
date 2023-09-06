@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from logging import info
 
 from flask import request, current_app, jsonify
-from flask_jwt_extended import get_jwt, decode_token, get_jwt_identity, create_access_token, create_refresh_token, get_jti, set_access_cookies as set_access_cookies_jwt, unset_access_cookies as unset_access_cookies_jwt
+from flask_jwt_extended import verify_jwt_in_request, get_jwt, decode_token, get_jwt_identity, create_access_token, create_refresh_token, get_jti, set_access_cookies as set_access_cookies_jwt, unset_access_cookies as unset_access_cookies_jwt
 
 from playhouse.shortcuts import model_to_dict
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -116,7 +116,7 @@ class AuthenticationModel(Model):
 
 
     # ANCHOR - Create JWT Token for user
-    def get_token(self):
+    def get_access_token(self):
         # Check if the current_app is set
         if not current_app:
             raise RuntimeError("Must be called from within a flask route")
@@ -135,19 +135,25 @@ class AuthenticationModel(Model):
         user_agent = self._get_user_agent()
 
         # Store the admin key in the database
-        Sessions.create(session=jti, user=self._user.id, ip=ip_addr, user_agent=user_agent, expires=expiry, mfa_id=self._mfa_id)
+        Sessions.create(access_jti=jti, user=self._user.id, ip=ip_addr, user_agent=user_agent, expires=expiry, mfa_id=self._mfa_id, created=datetime.utcnow())
 
         # Return the token
         return token
 
     # ANCHOR - Get JWT Refresh Token for user
-    def get_refresh_token(self):
+    def get_refresh_token(self, access_token: str = None):
         # Check if the current_app is set
         if not current_app:
             raise RuntimeError("Must be called from within a flask route")
 
         # Generate a jwt token
         token = create_refresh_token(identity=self._user.id)
+
+        # Update the session with the refresh token
+        if access_token is not None:
+            session = Sessions.get(Sessions.access_jti == get_jti(access_token))
+            session.refresh_jti = get_jti(token)
+            session.save()
 
         # Return the token
         return token
@@ -193,11 +199,8 @@ class AuthenticationModel(Model):
         # Get the token
         token = get_jwt()
 
-        # Get JTI from token
-        jti = get_jti(token)
-
         # Delete the session from the database
-        session: Sessions = Sessions.get(Sessions.session == jti)
+        session: Sessions = Sessions.get(Sessions.session == token["jti"])
 
         # Delete the session
         session.delete_instance()
@@ -211,9 +214,17 @@ class AuthenticationModel(Model):
 
         # Get the identity of the user
         identity = get_jwt_identity()
+        jti = get_jwt()["jti"]
+
+        # Find the session in the database where the access_jti or refresh_jti matches the jti
+        session = Sessions.get_or_none((Sessions.access_jti == jti) | (Sessions.refresh_jti == jti))
 
         # Exchange the refresh token for a new access token
         access_token = create_access_token(identity=identity)
+
+        # Update the access token in the database
+        session.access_jti = get_jti(access_token)
+        session.save()
 
         # Return the new access token
         return jsonify(access_token=access_token)
@@ -222,15 +233,15 @@ class AuthenticationModel(Model):
     # ANCHOR - Login User
     def login_user(self):
         # Get Tokens and User
-        token = self.get_token()
-        refresh_token = self.get_refresh_token()
+        access_token = self.get_access_token()
+        refresh_token = self.get_refresh_token(access_token)
 
         # Create a response object
         resp = jsonify({
             "message": "Login successful",
             "auth": {
                 "user": AccountsModel(model_to_dict(self._user, exclude=[Accounts.password])).to_primitive(),
-                "token": token,
+                "token": access_token,
                 "refresh_token": refresh_token
             }
         })
@@ -243,7 +254,7 @@ class AuthenticationModel(Model):
     @staticmethod
     def logout_user():
         # Create a response object
-        response = jsonify({"message": "Successfully logged out"})
+        response = jsonify({ "message": "Successfully logged out" })
 
         # Delete the jwt token from the cookie
         auth = AuthenticationModel

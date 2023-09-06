@@ -121,6 +121,11 @@ class Auth {
         // Get auth store from pinia
         const authStore = useAuthStore();
 
+        // Check if the access token and refresh token are set
+        if (!authStore.token || !authStore.refresh_token) {
+            return false;
+        }
+
         // Send the request to the server to refresh the JWT token
         const response = await this.axios.post("/api/auth/refresh", undefined, {
             refresh_header: true,
@@ -211,8 +216,13 @@ class Auth {
         authStore.removeAccessToken();
         authStore.removeRefreshToken();
 
-        // Redirect the user to the login page
-        this.router.push("/login");
+        try {
+            // Redirect the user to the login page
+            this.router.push("/login");
+        } catch (e) {
+            // If the router push fails, redirect the user to the login page
+            window.location.href = "/login";
+        }
 
         // Show a goodbye message to the username else username
         this.infoToast(`Goodbye ${username || "User"}`);

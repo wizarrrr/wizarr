@@ -17,6 +17,7 @@ import router from "./router";
 import Toast, { piniaPluginToast } from "./plugins/toasts";
 import Axios, { piniaPluginAxios } from "./plugins/axios";
 import Socket, { piniaPluginSocketIO } from "./plugins/socket";
+import Filters, { piniaPluginFilters } from "./plugins/filters";
 
 import formkitConfig from "./formkit.config";
 import { plugin, defaultConfig } from "@formkit/vue";
@@ -39,11 +40,13 @@ app.use(VueProgressBar, {
 app.use(FloatingVue);
 app.use(plugin, defaultConfig(formkitConfig));
 app.use(Socket, { uri: window.location.origin });
+app.use(Filters);
 
 pinia.use(piniaPluginPersistedstate);
 pinia.use(piniaPluginToast);
 pinia.use(piniaPluginAxios);
 pinia.use(piniaPluginSocketIO);
+pinia.use(piniaPluginFilters);
 
 sentry(app, router);
 

@@ -1,7 +1,7 @@
 <template>
     <ListItem :class="{ 'inner-border inner-border-red-600 inner-border-[2px]': failedTask }" icon="fa-list">
         <template #title>
-            <span class="text-lg">{{ formattedTitle }}</span>
+            <span class="text-lg">{{ $filters(["underscroreSpaces", "titleCase"], task.name) }}</span>
             <p class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ formattedCountdown }}</p>
         </template>
 
@@ -66,9 +66,6 @@ export default defineComponent({
         };
     },
     computed: {
-        formattedTitle(): string {
-            return TitleCase(UnderscroreSpace(this.task.name));
-        },
         formattedCountdown(): string {
             return this.countdown.length > 0 ? this.countdown : this.failedTask ? "Failed" : "Pending";
         },

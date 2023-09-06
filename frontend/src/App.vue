@@ -20,7 +20,6 @@ import type { ToastID } from "vue-toastification/dist/types/types";
 
 import Offline from "@/components/Offline.vue";
 import FullPageLoading from "@/components/Loading/FullPageLoading.vue";
-import ServerData from "./assets/ts/api/ServerData";
 import BadBackend from "@/components/Toasts/BadBackend.vue";
 import UpdateAvailable from "@/components/Toasts/UpdateAvailable.vue";
 import DefaultToast from "@/components/Toasts/DefaultToast.vue";
@@ -55,7 +54,10 @@ export default defineComponent({
         ...mapActions(useServerStore, ["setServerData"]),
         async backendTest() {
             while (true) {
-                const serverData = await ServerData().catch(() => undefined);
+                const serverData = await this.$axios
+                    .get("/api/server")
+                    .then((response) => response.data)
+                    .catch(() => undefined);
                 if (serverData) {
                     this.$toast.dismiss(this.connectionToast as ToastID);
                     this.$toast.success(DefaultToast("Connection Online", "Connection to backend established."));
@@ -112,7 +114,10 @@ export default defineComponent({
         this.updateTheme(this.theme);
 
         // Get the server data
-        const serverData = await ServerData().catch(() => undefined);
+        const serverData = await this.$axios
+            .get("/api/server")
+            .then((response) => response.data)
+            .catch(() => undefined);
 
         // If health data or server data is undefined, show error toast
         if (!serverData) {

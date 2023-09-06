@@ -1,10 +1,9 @@
 
-from unittest import TestCase, mock
+from json import dumps, loads
 
-from flask import Response, make_response, request
-from flask_jwt_extended import get_jti, jwt_required, current_user
+from flask import request
+from flask_jwt_extended import current_user, get_jti, jwt_required, get_jwt
 from flask_restx import Namespace, Resource
-from peewee import IntegrityError, SqliteDatabase
 from playhouse.shortcuts import model_to_dict
 
 from app.models.database import Sessions
@@ -19,14 +18,10 @@ class SessionsListAPI(Resource):
 
     def get(self) -> tuple[list[dict[str, str]], int]:
         # Select all sessions from the database
-        sessions = Sessions.select().where(Sessions.user == current_user["id"])
+        sessions = list(Sessions.select().where(Sessions.user == current_user["id"]).dicts())
 
-        print(sessions)
-
-        # Convert to array of dictionaries
-        response = [model_to_dict(session) for session in sessions]
-
-        return response, 200
+        # Return the sessions
+        return loads(dumps(sessions, indent=4, sort_keys=True, default=str)), 200
 
 @api.route('/<string:sessions_id>')
 @api.doc(security=["jsonWebToken", "cookieAuth"])
@@ -45,13 +40,13 @@ class SessionsAPI(Resource):
         session = Sessions.get(Sessions.id == sessions_id)
 
         # If this session is the current session, return a 301 status code
-        token = request.cookies.get("access_token_cookie")
-        status = 301 if session.session == get_jti(token) else 200
+        token = get_jwt()
+        status = 401 if session.access_jti == token["jti"] else 200
 
         # Delete the session
         session.delete_instance()
 
         # Responnse
-        response = { "msg": f"Session { sessions_id } has been deleted" }
+        response = { "message": f"Session { sessions_id } has been deleted" }
 
         return response, status

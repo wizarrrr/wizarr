@@ -1,6 +1,7 @@
 from peewee import IntegrityError
 from schematics.exceptions import ValidationError, DataError
 from werkzeug.exceptions import UnsupportedMediaType
+from flask_jwt_extended.exceptions import RevokedTokenError
 from flask import jsonify
 
 from app.exceptions import AuthenticationError
@@ -86,6 +87,10 @@ def handle_unsupported_media_type(error):
     return error_handler(error, 415)
 
 @api.errorhandler(AuthenticationError)
+def handle_authentication_error(error):
+    return error_handler(error, 401)
+
+@api.errorhandler(RevokedTokenError)
 def handle_authentication_error(error):
     return error_handler(error, 401)
 

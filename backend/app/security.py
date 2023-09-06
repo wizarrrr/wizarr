@@ -62,16 +62,15 @@ def refresh_expiring_jwts(response):
         return response
 
 
-def check_if_token_revoked(jwt_header, jwt_payload: dict) -> bool:
-    # jti = jwt_payload["jti"]
-    # token = Sessions.get_or_none(Sessions.session == jti)
-    # return token is None
-    return False
+def check_if_token_revoked(_, jwt_payload: dict) -> bool:
+    jti = jwt_payload["jti"]
+    session = Sessions.get_or_none((Sessions.access_jti == jti) | (Sessions.refresh_jti == jti))
+    return session.revoked if session else True
 
 def user_identity_lookup(user):
     return user
 
-def user_lookup_callback(_jwt_header, jwt_data):
+def user_lookup_callback(_, jwt_data):
     identity = jwt_data["sub"]
     try:
         user = Accounts.get_by_id(identity)

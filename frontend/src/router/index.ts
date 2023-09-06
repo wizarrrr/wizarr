@@ -84,6 +84,12 @@ const router = createRouter({
                             meta: { header: "Manage Media", subheader: "Configure server media" },
                         },
                         {
+                            path: "sessions",
+                            name: "admin-settings-sessions",
+                            component: () => import("@/views/SettingsViews/SessionsView.vue"),
+                            meta: { header: "Manage Sessions", subheader: "View and revoke your sessions" },
+                        },
+                        {
                             path: "logs",
                             name: "admin-settings-logs",
                             component: () => import("@/views/SettingsViews/LogsView.vue"),
