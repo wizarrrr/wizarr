@@ -110,7 +110,7 @@ class Auth {
         }
 
         // Refresh the JWT token
-        return await this.refreshToken();
+        return await this.refreshToken().catch(() => false);
     }
 
     /**
@@ -122,12 +122,10 @@ class Auth {
         const authStore = useAuthStore();
 
         // Send the request to the server to refresh the JWT token
-        const response = await this.axios
-            .post("/api/auth/refresh", undefined, {
-                refresh_header: true,
-                disableErrorToast: true,
-            })
-            .catch(() => {});
+        const response = await this.axios.post("/api/auth/refresh", undefined, {
+            refresh_header: true,
+            disableErrorToast: true,
+        });
 
         // Check if the response is null
         if (!response || response.status != 200) {

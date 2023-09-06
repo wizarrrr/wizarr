@@ -8,7 +8,7 @@ from termcolor import colored
 from time import sleep
 
 api = Namespace("Logging", description="Logging related operations", path="/logging")
-log_file = path.abspath(path.join(path.dirname(__file__), "../", "../", "database", "logs.log"))
+log_file = path.abspath(path.join(path.dirname(__file__), "../", "../", "../", "database", "logs.log"))
 task = None
 
 def watch_log_file(file_path):

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Container version="2">
-  <Name>Wizarr</Name>
+  <Name>Wizarr V3 Vue Beta</Name>
   <Repository>ghcr.io/wizarrrr/wizarr</Repository>
   <Registry>https://github.com/wizarrrr/wizarr/pkgs/container/wizarr</Registry>
   <TemplateURL>https://github.com/Wizarrrr/wizarr/blob/master/unraid.xml</TemplateURL>
@@ -32,20 +32,7 @@
     </Volume>
   </Data>
   <Environment>
-    <Variable>
-      <Value>http://localhost:5690</Value>
-      <Name>APP_URL</Name>
-      <Mode />
-    </Variable>
-    <Variable>
-      <Value>false</Value>
-      <Name>DISABLE_BUILTIN_AUTH</Name>
-      <Mode />
-    </Variable>
-
   </Environment>
   <Config Name="Data Folder" Target="/data/database" Default="/mnt/user/appdata/wizarr/" Mode="rw" Description="Data Folder" Type="Path" Display="always" Required="true" Mask="false" />
   <Config Name="WebUI" Target="5690" Default="5690" Mode="tcp" Description="Web Port" Type="Port" Display="always" Required="true" Mask="false" />
-  <Config Name="Application URL" Target="APP_URL" Default="http://localhost:5690" Mode="" Description="URL at which you will access your application" Type="Variable" Display="always" Required="true" Mask="false" />
-  <Config Name="Disable In-Built Auth" Target="DISABLE_BUILTIN_AUTH" Default="false" Mode="" Description="Only set to true if you are using another Authentication method, see docs" Type="Variable" Display="always" Required="false" Mask="false" />
 </Container>

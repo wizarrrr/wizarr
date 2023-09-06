@@ -24,7 +24,7 @@ const router = createRouter({
         },
         {
             path: "/setup",
-            redirect: { name: "setup" },
+            redirect: "/setup/welcome",
         },
         {
             path: "/setup/:step",

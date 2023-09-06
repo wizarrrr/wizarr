@@ -12,7 +12,7 @@ def create_config(app: Flask):
     base_dir = path.abspath(path.join(path.dirname(__file__), "../"))
 
     config["SESSION_TYPE"] = "filesystem"
-    config["SESSION_FILE_DIR"] = path.join(base_dir, "database", "sessions")
+    config["SESSION_FILE_DIR"] = path.join(base_dir, "../", "database", "sessions")
     config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=5)
     config["UPLOAD_FOLDER"] = path.join(base_dir, "database", "uploads")
     config["SWAGGER_UI_DOC_EXPANSION"] = "list"
