@@ -1,4 +1,4 @@
-import type { Server, ServerSettings } from "@/assets/ts/api/ServerData";
+import type { Server, ServerSettings } from "@/types/api/server";
 import { defineStore } from "pinia";
 
 export const useServerStore = defineStore("server", {
