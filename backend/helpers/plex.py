@@ -8,7 +8,7 @@ from logging import info
 
 from .invitation import get_invitation
 from .libraries import get_libraries_name
-from .settings import get_settings
+from .settings import get_media_settings
 from .users import get_users, create_user
 
 from app.models.database.libraries import Libraries
@@ -37,7 +37,7 @@ def get_plex_server(server_api_key: Optional[str] = None, server_url: Optional[s
 
     # Get required settings
     if not server_api_key or not server_url:
-        settings = get_settings(["server_api_key", "server_url"])
+        settings = get_media_settings()
         server_url = server_url or settings.get("server_url", None)
         server_api_key = server_api_key or settings.get("server_api_key", None)
 

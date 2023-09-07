@@ -68,7 +68,7 @@ with app.app_context():
     clear_logs()
 
 # Register Flask blueprints
-app.after_request(refresh_expiring_jwts)
+# app.after_request(refresh_expiring_jwts)
 # app.before_request(check_enviroment)
 
 # Register Flask JWT callbacks

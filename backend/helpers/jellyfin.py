@@ -6,7 +6,7 @@ from io import BytesIO
 
 from .invitation import get_invitation
 from .libraries import get_libraries_ids
-from .settings import get_settings
+from .settings import get_media_settings
 from .users import get_users, create_user, get_user_by_token
 
 from app.models.jellyfin.user import JellyfinUser
@@ -43,7 +43,7 @@ def get_jellyfin(api_path: str, as_json: Optional[bool] = True, server_api_key: 
 
     # Get required settings
     if not server_api_key or not server_url:
-        settings = get_settings(["server_api_key", "server_url"])
+        settings = get_media_settings()
         server_url = server_url or settings.get("server_url", None)
         server_api_key = server_api_key or settings.get("server_api_key", None)
 
@@ -100,7 +100,7 @@ def post_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_ur
 
     # Get required settings
     if not server_api_key or not server_url:
-        settings = get_settings(["server_api_key", "server_url"])
+        settings = get_media_settings()
         server_url = server_url or settings.get("server_url", None)
         server_api_key = server_api_key or settings.get("server_api_key", None)
 
@@ -144,7 +144,7 @@ def delete_jellyfin(api_path: str, server_api_key: Optional[str] = None, server_
 
     # Get required settings
     if not server_api_key or not server_url:
-        settings = get_settings(["server_api_key", "server_url"])
+        settings = get_media_settings()
         server_url = server_url or settings.get("server_url", None)
         server_api_key = server_api_key or settings.get("server_api_key", None)
 

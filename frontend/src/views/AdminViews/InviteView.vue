@@ -1,5 +1,10 @@
 <template>
     <AdminTemplate :header="__('Create Invitation')" :subheader="__('Create an invitation to your server')" class="md:max-w-md">
+        <!-- <FormKit type="form">
+            <FormKit type="otp" digits="4" />
+            <FormKit type="text" name="name" label="Invite Code" placeholder="XMFGEJI" validation="required" />
+        </FormKit> -->
+
         <form class="space-y-5" onsubmit="event.preventDefault(); createInvite(this);">
             <!-- Invite Code -->
             <DefaultInput v-model:value="inviteCode" placeholder="XMFGEJI" label="Invite Code" sublabel="(optional)" min="6" max="6" :uppercase="true" />

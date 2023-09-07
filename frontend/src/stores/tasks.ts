@@ -14,7 +14,6 @@ export const useTasksStore = defineStore("tasks", {
             // Get the jobs from the API
             const jobs = await this.$axios.get("/api/scheduler/jobs").catch((err) => {
                 this.$toast.error("Could not get jobs");
-                console.error(err);
                 return null;
             });
 

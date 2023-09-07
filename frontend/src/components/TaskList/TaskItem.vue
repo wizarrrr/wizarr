@@ -35,8 +35,6 @@ import { mapActions } from "pinia";
 
 import type { Job } from "@/types/Tasks";
 
-import TitleCase from "@/assets/ts/filters/TitleCase";
-import UnderscroreSpace from "@/assets/ts/filters/UnderscoreSpace";
 import ListItem from "../ListItem.vue";
 
 import moment from "moment";

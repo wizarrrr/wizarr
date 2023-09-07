@@ -1,5 +1,12 @@
 from app.models.database import Settings
 
+def get_media_settings():
+    # Get the media settings
+    Settings.select().where(Settings.key.in_(["server_url", "server_api_key"]))
+
+    # Return the media settings
+    return {setting.key: setting.value for setting in Settings.select().where(Settings.key.in_(["server_url", "server_api_key"]))}
+
 
 def get_settings(settings: list[str] = None, defaults: str = None, disallowed: list[str] = None):
     # Create the response and query variables

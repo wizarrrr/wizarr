@@ -1,7 +1,7 @@
 {
     "extends": "./tsconfig.app.json",
     "exclude": [],
-    "include": ["src/**/*", "src/**/*.vue", "src/language/translations.json", "formkit.config.ts"],
+    "include": ["src/**/*", "src/**/*.vue", "src/language/translations.json", "formkit.config.ts", "src/components/FormKit/*.vue"],
     "compilerOptions": {
         "composite": true,
         "lib": [],

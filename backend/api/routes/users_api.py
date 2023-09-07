@@ -1,7 +1,7 @@
 from flask import send_file
 from flask_jwt_extended import jwt_required
 from flask_restx import Namespace, Resource
-from playhouse.shortcuts import model_to_dict
+from json import loads, dumps
 
 from helpers.universal import global_sync_users, global_delete_user, global_get_user_profile_picture
 from app.models.database.users import Users
@@ -19,12 +19,8 @@ class UsersListAPI(Resource):
     @api.response(500, "Internal server error")
     def get(self):
         # Select all users from the database
-        users = Users.select()
-
-        # Convert the users to a list of dictionaries
-        response = [model_to_dict(user) for user in users]
-
-        return response, 200
+        response = list(Users.select().dicts())
+        return loads(dumps(response, indent=4, sort_keys=True, default=str)), 200
 
 
     @api.doc(description="")

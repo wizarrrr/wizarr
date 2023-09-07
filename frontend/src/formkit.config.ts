@@ -1,10 +1,14 @@
 import { generateClasses } from "@formkit/themes";
 import { genesisIcons } from "@formkit/icons";
 import { createProPlugin, inputs } from "@formkit/pro";
+import { createInput } from "@formkit/vue";
 
 import type { DefaultConfigOptions } from "@formkit/vue";
 
 import formkitTheme from "./formkit.theme";
+import formkitLabel from "./plugins/formkitLabel";
+
+import OneTimePassword from "./components/FormKit/OneTimePassword.vue";
 
 const pro = createProPlugin("fk-80a76bd3e4", inputs);
 const config: DefaultConfigOptions = {
@@ -20,9 +24,14 @@ const config: DefaultConfigOptions = {
         return parent.innerHTML;
     },
     // @ts-ignore
-    plugins: [pro],
+    plugins: [pro, formkitLabel],
     config: {
         classes: generateClasses(formkitTheme),
+    },
+    inputs: {
+        otp: createInput(OneTimePassword, {
+            props: ["digits"],
+        }),
     },
 };
 

@@ -49,17 +49,17 @@ def secret_key(length: int = 32) -> str:
 
     return secret
 
-def refresh_expiring_jwts(response):
-    try:
-        jwt = get_jwt()
-        if datetime.timestamp(datetime.now(timezone.utc) + timedelta(minutes=30)) > jwt["exp"]:
-            access_token = create_access_token(identity=get_jwt_identity())
-            Sessions.update(session=get_jti(access_token), expires=datetime.utcnow() + timedelta(days=1)).where(Sessions.session == jwt["jti"]).execute()
-            set_access_cookies(response, access_token)
-            info(f"Refreshed JWT for {get_jwt_identity()}")
-        return response
-    except (RuntimeError, KeyError):
-        return response
+# def refresh_expiring_jwts(response):
+#     try:
+#         jwt = get_jwt()
+#         if datetime.timestamp(datetime.now(timezone.utc) + timedelta(minutes=30)) > jwt["exp"]:
+#             access_token = create_access_token(identity=get_jwt_identity())
+#             Sessions.update(session=get_jti(access_token), expires=datetime.utcnow() + timedelta(days=1)).where(Sessions.session == jwt["jti"]).execute()
+#             set_access_cookies(response, access_token)
+#             info(f"Refreshed JWT for {get_jwt_identity()}")
+#         return response
+#     except (RuntimeError, KeyError):
+#         return response
 
 
 def check_if_token_revoked(_, jwt_payload: dict) -> bool:
