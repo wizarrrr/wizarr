@@ -8,14 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-01 17:09+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-09-09 17:54+0000\n"
+"Last-Translator: MeafQ <fakemeafq@icloud.com>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/wizarr/app/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: app/admin.py:166
@@ -24,7 +26,7 @@ msgstr "Пароли не совпадают."
 
 #: app/admin.py:169
 msgid "Username must be between 3 and 15 characters."
-msgstr "Имя пользователя должно содержать от 3 до 15 символов."
+msgstr "Имя пользователя должно быть от 3 до 15 символов."
 
 #: app/admin.py:172
 msgid "Password must be between 3 and 40 characters."
@@ -36,7 +38,7 @@ msgstr "Вы должны выбрать хотя бы одну библиоте
 
 #: app/admin.py:279
 msgid "It is likely that your token does not work."
-msgstr "Скорее всего ваш токен не работает."
+msgstr "Вероятно, ваш токен не работает."
 
 #: app/admin.py:281
 msgid "Unable to connect to your Plex server. See Logs for more information."
@@ -210,19 +212,19 @@ msgid ""
 "Custom\n"
 "                HTML"
 msgstr ""
-"Обычай\n"
+"Пользовательский\n"
 "                HTML"
 
 #: app/templates/settings.html:142
 msgid "Save"
-msgstr "Сохранять"
+msgstr "Сохранить"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
 #: app/templates/welcome-jellyfin.html:7
 #: app/templates/welcome-jellyfin.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr "Вас пригласили присоединиться к серверу %(name)s!"
+msgstr "Вы приглашены присоединиться к серверу %(name)s!"
 
 #: app/templates/user-plex-login.html:23
 msgid "Join the Plex Server"
