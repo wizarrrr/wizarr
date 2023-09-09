@@ -20,8 +20,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useMfaStore } from "@/stores/mfa";
-import { mapActions, mapState } from "pinia";
-import { formatTimeAgo } from "@vueuse/core";
+import { mapActions } from "pinia";
 
 import type { MFA } from "@/types/api/auth/MFA";
 

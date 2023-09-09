@@ -46,8 +46,6 @@ class MFAListAPI(Resource):
             return {"message": "No user found"}, 401
 
         response = list(MFA.select().where(MFA.user_id == current_user["id"]).dicts())
-
-        # Return the response
         return loads(dumps(response, indent=4, sort_keys=True, default=str)), 200
 
 

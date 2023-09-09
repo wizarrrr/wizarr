@@ -1,3 +1,4 @@
+/* Fade Animation */
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.5s ease;
@@ -8,6 +9,7 @@
     opacity: 0;
 }
 
+/* Fade Fast Animation */
 .fade-fast-enter-active,
 .fade-fast-leave-active {
     transition: opacity 0.3s ease;
@@ -18,6 +20,19 @@
     opacity: 0;
 }
 
+/* Fade Between Animation */
+.fade-between-enter-active,
+.fade-between-leave-active {
+    transition: opacity 0.5s ease;
+    position: absolute;
+}
+
+.fade-between-enter-from,
+.fade-between-leave-to {
+    opacity: 0;
+}
+
+/* Collapse Animation */
 .collapse-leave-active {
     transition: max-height 0.5s ease-in-out;
     max-height: 100vh;
@@ -28,6 +43,7 @@
     max-height: 0;
 }
 
+/* Expand Animation */
 .expand-enter-active {
     transition: max-height 0.5s ease-in-out;
     max-height: 0;
@@ -38,6 +54,7 @@
     max-height: 100vh;
 }
 
+/* Slide Fade Animation */
 .slide-fade-enter-active {
     transition: all 0.3s ease-out;
 }

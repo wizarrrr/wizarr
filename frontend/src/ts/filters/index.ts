@@ -3,6 +3,8 @@ import underscroreSpaces from "./underscoreSpaces";
 import firstLetterUppercase from "./firstLetterUppercase";
 import removeVersion from "./removeVersion";
 import timeAgo from "./timeAgo";
+import toMinutes from "./toMinutes";
+import isPast from "./isPast";
 
 const filters = {
     titleCase,
@@ -10,6 +12,8 @@ const filters = {
     firstLetterUppercase,
     removeVersion,
     timeAgo,
+    toMinutes,
+    isPast,
 };
 
 export default filters;

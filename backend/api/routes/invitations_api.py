@@ -2,6 +2,7 @@ from flask import request
 from flask_restx import Namespace, Resource
 from flask_jwt_extended import jwt_required
 from playhouse.shortcuts import model_to_dict
+from json import loads, dumps
 
 from app.models.database.invitations import Invitations
 from app.models.wizarr.invitations import InvitationsModel
@@ -18,16 +19,8 @@ class InvitationsListAPI(Resource):
     @api.doc(description="Get all invites")
     @api.response(500, "Internal server error")
     def get(self):
-        # Select all invites from the database
-        invites = Invitations.select()
-
-        # Convert the invites to a list of dictionaries
-        response = [
-            model_to_dict(invite, exclude=[Invitations.created, Invitations.expires])
-            for invite in invites
-        ]
-
-        return response, 200
+        response = list(Invitations.select().dicts())
+        return loads(dumps(response, indent=4, sort_keys=True, default=str)), 200
 
     @api.doc(description="Create an invite")
     @api.response(500, "Internal server error")

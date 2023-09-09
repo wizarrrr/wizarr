@@ -9,6 +9,7 @@ import formkitTheme from "./formkit.theme";
 import formkitLabel from "./plugins/formkitLabel";
 
 import OneTimePassword from "./components/FormKit/OneTimePassword.vue";
+import OptionalInput from "./components/FormKit/OptionalInput.vue";
 
 const pro = createProPlugin("fk-80a76bd3e4", inputs);
 const config: DefaultConfigOptions = {
@@ -31,6 +32,9 @@ const config: DefaultConfigOptions = {
     inputs: {
         otp: createInput(OneTimePassword, {
             props: ["digits"],
+        }),
+        optionalInput: createInput(OptionalInput, {
+            type: "input",
         }),
     },
 };

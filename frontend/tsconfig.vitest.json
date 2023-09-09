@@ -1,10 +1,20 @@
 {
     "extends": "./tsconfig.app.json",
     "exclude": [],
-    "include": ["src/**/*", "src/**/*.vue", "src/language/translations.json", "formkit.config.ts", "src/components/FormKit/*.vue"],
+    "include": [
+        "src/**/*",
+        "src/**/*.vue",
+        "src/language/translations.json",
+        "formkit.config.ts",
+        "src/components/FormKit/*.vue",
+        "src/inputs/*"
+    ],
     "compilerOptions": {
         "composite": true,
         "lib": [],
-        "types": ["node", "jsdom"]
+        "types": [
+            "node",
+            "jsdom"
+        ]
     }
 }
