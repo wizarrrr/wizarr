@@ -1,4 +1,5 @@
 from plexapi.myplex import MyPlexUser, NotFound, BadRequest
+from requests.exceptions import RequestException
 from app.models.jellyfin.user import JellyfinUser
 from app.extensions import socketio
 from datetime import datetime
@@ -92,14 +93,17 @@ def global_delete_user(user_id: str) -> dict[str]:
     # Get the server type
     server_type = get_server_type()
 
+    # Get the user from the database where the id is equal to the user_id provided
+    user = Users.get_or_none(Users.id == user_id)
+
     # Delete the user from the media server
     if server_type == "plex":
-        delete_plex_user(user_id)
+        delete_plex_user(user.token)
     elif server_type == "jellyfin":
-        delete_jellyfin_user(user_id)
+        delete_jellyfin_user(user.token)
 
     # Delete the user from the database
-    Users.delete().where(Users.token == user_id).execute()
+    user.delete_instance()
 
     # Return response
     return { "message": "User deleted" }
@@ -205,8 +209,11 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
     try:
         user = universal_invite_user.get(server_type)(**kwargs)
     except BadRequest as e:
-        socketio_emit("error", str(e) or "You may already be a member, you can continue.")
-        raise BadRequest("There was issue during the account creation") from e
+        socketio_emit("error", "We were unable to join you to the media server, you may already be a member.")
+        return { "message": "We were unable to join you to the media server, you may already be a member." }
+    except RequestException as e:
+        socketio_emit("error", "We were unable to join you to the media server, please try again later.")
+        return { "message": "We were unable to join you to the media server, please try again later." }
     except Exception as e:
         socketio_emit("error", str(e) or "There was issue during the account creation")
         raise BadRequest("There was issue during the account creation") from e
@@ -217,8 +224,8 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
     try:
         if server_type == "plex": accept_plex_invitation(token=kwargs.get("token"))
     except NotFound as e:
-        socketio_emit("error", "Could not accept Plex Invite")
-        raise NotFound("Could not accept Plex Invite") from e
+        socketio_emit("error", "We were unable to accept the Plex Invite on your behalf, please accept the invite manually through Plex or your email.")
+        return { "message": "We were unable to accept the Plex Invite on your behalf, please accept the invite manually through Plex or your email." }
     except Exception as e:
         socketio_emit("error", str(e) or "There was issue during the account invitation")
         raise BadRequest("There was issue during the account invitation") from e
@@ -228,8 +235,8 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
 
     # Raise an error if the invite is None
     if not user:
-        socketio_emit("error", "Unable to invite user to media server")
-        raise ValueError("Unable to invite user to media server")
+        socketio_emit("error", "We were unable to locate your Plex account, please try again later.")
+        return { "message": "We were unable to locate your Plex account, please try again later." }
 
     # Build universal user object using variables that change depending on the server type
     db_user = Users.insert({

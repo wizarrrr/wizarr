@@ -18,7 +18,7 @@
                 <button class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
                     <i class="fa-solid fa-edit"></i>
                 </button>
-                <button class="bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-red-600 dark:hover:bg-primary_hover">
+                <button @click="localDeleteUser" :disabled="disabled.delete" class="bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-red-600 dark:hover:bg-primary_hover">
                     <i class="fa-solid fa-trash"></i>
                 </button>
             </div>
@@ -28,6 +28,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { mapActions } from "pinia";
+import { useUsersStore } from "@/stores/users";
 
 import type { User } from "@/types/api/users";
 
@@ -47,6 +49,9 @@ export default defineComponent({
     data() {
         return {
             profilePicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username + "&length=1",
+            disabled: {
+                delete: false,
+            },
         };
     },
     methods: {
@@ -57,6 +62,11 @@ export default defineComponent({
 
             this.profilePicture = URL.createObjectURL((await response).data);
         },
+        async localDeleteUser() {
+            this.disabled.delete = true;
+            await this.deleteUser(this.user.id);
+        },
+        ...mapActions(useUsersStore, ["deleteUser"]),
     },
     mounted() {
         this.getProfilePicture();

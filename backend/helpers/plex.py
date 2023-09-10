@@ -253,13 +253,13 @@ def delete_plex_user(user_id: str, server_api_key: Optional[str] = None, server_
     # Delete the user
     try:
         plex_account.removeFriend(user_id)
-    except NotFound:
-        pass
+    except NotFound as e:
+        print(e)
 
     try:
         plex_account.removeHomeUser(user_id)
-    except NotFound:
-        pass
+    except NotFound as e:
+        print(e)
 
 
 # ANCHOR - Plex Sync Users

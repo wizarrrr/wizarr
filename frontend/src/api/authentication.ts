@@ -1,5 +1,5 @@
 import { startAuthentication, startRegistration } from "@simplewebauthn/browser";
-import { infoToast, errorToast } from "../assets/ts/utils/Toasts";
+import { infoToast, errorToast } from "../ts/utils/toasts";
 
 import { useRouter } from "vue-router";
 import { useAxios } from "@/plugins/axios";

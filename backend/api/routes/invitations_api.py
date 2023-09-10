@@ -3,6 +3,7 @@ from flask_restx import Namespace, Resource
 from flask_jwt_extended import jwt_required
 from playhouse.shortcuts import model_to_dict
 from json import loads, dumps
+from datetime import datetime
 
 from app.models.database.invitations import Invitations
 from app.models.wizarr.invitations import InvitationsModel
@@ -71,3 +72,25 @@ class InvitationsAPI(Resource):
         invite.delete_instance()
 
         return {"message": "Invite deleted successfully"}, 200
+
+@api.route("/<string:invite_code>/verify")
+class InvitationsVerifyAPI(Resource):
+    """API resource for verifying an invite"""
+
+    @api.doc(description="Verify an invite")
+    @api.response(404, "Invite not found")
+    @api.response(500, "Internal server error")
+    def get(self, invite_code):
+        # Select the invite from the database
+        invitation = Invitations.get_or_none(Invitations.code == invite_code)
+
+        if not invitation:
+            return {"message": "Invitation not found"}, 404
+
+        if invitation.used is True and invitation.unlimited is not True:
+            return {"message": "Invitation has already been used"}, 400
+
+        if invitation.expires and invitation.expires <= datetime.now():
+            return {"message": "Invitation has expired"}, 400
+
+        return {"message": "Invitation is valid"}, 200

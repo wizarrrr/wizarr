@@ -1,5 +1,6 @@
-import axios from "@/assets/ts/utils/Axios";
-import { errorToast, infoToast } from "@/assets/ts/utils/Toasts";
+import axios from "@/ts/utils/axios";
+
+import { errorToast } from "@/ts/utils/toasts";
 import { defineStore } from "pinia";
 
 export const useLibrariesStore = defineStore("libraries", {

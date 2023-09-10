@@ -4,11 +4,11 @@ import type { App } from "vue";
 import type { SocketOptions } from "dgram";
 import type { PiniaPluginContext } from "pinia";
 
-interface ServerToClientEvents {
+export interface ServerToClientEvents {
     [event: string]: (...args: any[]) => void;
 }
 
-interface ClientToServerEvents {
+export interface ClientToServerEvents {
     [event: string]: (...args: any[]) => void;
 }
 

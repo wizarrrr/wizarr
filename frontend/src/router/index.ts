@@ -23,6 +23,16 @@ const router = createRouter({
             },
         },
         {
+            path: "/join",
+            name: "join",
+            component: () => import("@/views/JoinViews/JoinView.vue"),
+        },
+        {
+            path: "/j/:invite",
+            name: "join-invite",
+            component: () => import("@/views/JoinViews/JoinCarouselView.vue"),
+        },
+        {
             path: "/setup",
             redirect: "/setup/welcome",
         },

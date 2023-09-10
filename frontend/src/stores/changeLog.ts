@@ -1,5 +1,5 @@
-import toasts from "@/assets/ts/utils/Toasts";
-import CacheStorage from "@/assets/ts/utils/CacheStorage";
+import toasts from "@/ts/utils/toasts";
+import CacheStorage from "@/ts/utils/cacheStorage";
 
 import type { AxiosInstance } from "axios";
 import type { ChangeLog, ChangeLogs } from "@/types/ChangeLog";

@@ -2,9 +2,9 @@ import mainAxios from "axios";
 
 import type { App } from "vue";
 import type { CreateAxiosDefaults } from "axios";
-
-import { AxiosInterceptor, type CustomAxiosInstance } from "../assets/ts/utils/Axios";
 import type { PiniaPluginContext } from "pinia";
+
+import { AxiosInterceptor, type CustomAxiosInstance } from "../ts/utils/axios";
 
 declare module "pinia" {
     export interface PiniaCustomProperties {

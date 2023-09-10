@@ -1,6 +1,6 @@
-import toasts from "@/assets/ts/utils/Toasts";
+import toasts from "@/ts/utils/toasts";
 
-import type { Toasts } from "@/assets/ts/utils/Toasts";
+import type { Toasts } from "@/ts/utils/toasts";
 import type { PiniaPluginContext } from "pinia";
 import type { App } from "vue";
 

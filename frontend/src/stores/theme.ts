@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
-import { SYSTEM_VALUE, updateTheme } from "@/assets/ts/utils/DarkMode";
-import type { THEME } from "@/assets/ts/utils/DarkMode";
+import { SYSTEM_VALUE, updateTheme } from "@/ts/utils/darkMode";
+
+import type { THEME } from "@/ts/utils/darkMode";
 
 interface ThemeStoreState {
     theme: THEME;

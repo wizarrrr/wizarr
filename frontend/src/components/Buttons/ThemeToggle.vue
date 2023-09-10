@@ -25,7 +25,7 @@ import { mapState } from "pinia";
 import { mapActions } from "pinia";
 import { defineComponent } from "vue";
 import { useThemeStore } from "@/stores/theme";
-import { LIGHT_VALUE, DARK_VALUE, SYSTEM_VALUE } from "@/assets/ts/utils/DarkMode";
+import { LIGHT_VALUE, DARK_VALUE, SYSTEM_VALUE } from "@/ts/utils/darkMode";
 
 export default defineComponent({
     name: "ThemeToggle",

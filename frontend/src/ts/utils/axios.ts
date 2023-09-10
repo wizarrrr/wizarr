@@ -1,9 +1,9 @@
-import mainAxios, { Axios, type AxiosRequestConfig, type AxiosRequestHeaders, type AxiosResponse, type InternalAxiosRequestConfig } from "axios";
+import mainAxios, { Axios, type AxiosRequestConfig, type AxiosResponse, type InternalAxiosRequestConfig } from "axios";
 import cookie from "js-cookie";
-
-import { errorToast, infoToast } from "./Toasts";
-import { useAuthStore } from "@/stores/auth";
 import Auth from "@/api/authentication";
+
+import { errorToast, infoToast } from "./toasts";
+import { useAuthStore } from "@/stores/auth";
 import { useToast } from "@/plugins/toasts";
 
 export interface CustomAxiosResponse<D = any> extends AxiosResponse {

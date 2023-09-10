@@ -52,6 +52,20 @@ export const useUsersStore = defineStore("users", {
             // Return the users
             return users.data;
         },
+        async deleteUser(id: number) {
+            // Delete the user from the API
+            const response = await this.$axios.delete(`/api/users/${id}`).catch(() => {
+                this.$toast.error("Could not delete user");
+                return null;
+            });
+
+            // If the response is null, return
+            if (response === null) return;
+
+            // Remove the user from the store
+            const index = this.users.findIndex((user: User) => user.id === id);
+            if (index !== -1) this.users.splice(index, 1);
+        },
     },
     getters: {},
     persist: true,
