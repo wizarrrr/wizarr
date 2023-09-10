@@ -9,15 +9,9 @@ import moment from "moment";
  * @returns The boolean result of the calculation
  */
 function dateLess(value: string | Date, other: string | Date, utc: boolean = true): boolean {
-    if (utc) {
-        value = moment.utc(value).local();
-        other = moment.utc(other).local();
-    } else {
-        value = moment(value).local();
-        other = moment(other).local();
-    }
-
-    return value.isBefore(other);
+    const date = utc ? moment.utc(value).local() : moment(value).local();
+    const date2 = utc ? moment.utc(other).local() : moment(other).local();
+    return date.isBefore(date2);
 }
 
 export default dateLess;

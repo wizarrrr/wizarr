@@ -9,9 +9,9 @@ import moment from "moment";
  * @returns The time ago string
  */
 function timeAgo(value: string | Date, utc: boolean = true): string {
-    if (utc) value = moment.utc(value).local().toDate();
-    else value = moment(value).local().toDate();
-    return formatTimeAgo(value);
+    const date = utc ? moment.utc(value).local().toDate() : moment(value).local().toDate();
+    const now = utc ? moment.utc().local().toDate() : moment().local().toDate();
+    return formatTimeAgo(date, { showSecond: true }, now);
 }
 
 export default timeAgo;

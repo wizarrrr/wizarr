@@ -8,10 +8,9 @@ import moment from "moment";
  * @returns The boolean result of the calculation
  */
 function isPast(value: string | Date, utc: boolean = true): boolean {
-    if (utc) value = moment.utc(value).local();
-    else value = moment(value).local();
-
-    return value.isBefore(moment());
+    const date = utc ? moment.utc(value).local() : moment(value).local();
+    const now = utc ? moment.utc().local() : moment();
+    return date.isBefore(now);
 }
 
 export default isPast;
