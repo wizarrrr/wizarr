@@ -1,7 +1,7 @@
 <template>
     <div ref="jellyForm">
         <FormKit type="form" id="jellyfinForm" v-model="form" @submit="submit()" submit-label="Create Account" :submit-attrs="{ wrapperClass: 'flex justify-end' }">
-            <FormKit type="text" label="Username" name="username" placeholder="marvin" validation="required:trim|alphanumeric" required autocomplete="off" />
+            <FormKit type="text" label="Username" name="username" placeholder="marvin" validation="required:trim|alphanumeric|lowercase" required autocomplete="off" />
             <FormKit type="email" label="Email" name="email" placeholder="marvin@wizarr.dev" validation="required:trim|email" required autocomplete="email" />
             <FormKit type="password" label="Password" name="password" placeholder="••••••••" validation="required:trim" required autocomplete="new-password" :classes="{ outer: form.password ? '!mb-0' : '' }" />
             <PasswordMeter :password="form.password" class="mb-[23px] mt-1 px-[2px]" v-if="form.password" />

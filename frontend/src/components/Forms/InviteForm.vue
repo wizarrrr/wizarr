@@ -75,6 +75,7 @@ import DefaultInput from "@/components/Inputs/DefaultInput.vue";
 import SelectInput from "@/components/Inputs/SelectInput.vue";
 import DateInput from "@/components/Inputs/DateInput.vue";
 import DefaultButton from "../Buttons/DefaultButton.vue";
+
 import type { ToastID } from "vue-toastification/dist/types/types";
 
 export default defineComponent({
@@ -91,8 +92,9 @@ export default defineComponent({
             clipboard: useClipboard(),
             created: false,
             failed: false,
+            inviteCode: "",
             inviteData: {
-                inviteCode: customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")(6),
+                inviteCode: "",
                 expiration: 1440 as number | null | "custom",
                 customExpiration: "" as string,
                 options: [] as string[],
@@ -220,6 +222,7 @@ export default defineComponent({
 
             // Show the invite
             this.created = true;
+            this.inviteCode = this.inviteData.inviteCode;
             this.$formkit.reset("inviteForm");
             this.inviteData.inviteCode = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")(6);
         },
@@ -247,7 +250,7 @@ export default defineComponent({
             });
         },
         inviteLink() {
-            return `${window.location.origin}/j/${this.inviteData.inviteCode}`;
+            return `${window.location.origin}/j/${this.inviteCode}`;
         },
     },
     watch: {
@@ -276,6 +279,7 @@ export default defineComponent({
     },
     async mounted() {
         this.getLibraries();
+        this.inviteData.inviteCode = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")(6);
         this.inviteData.libraries = this.libraries.map((library) => library.id);
     },
 });

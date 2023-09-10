@@ -1,8 +1,8 @@
 <template>
     <ListItem icon="fa-envelope">
         <template #title>
-            <span class="text-lg">{{ invite.code }}</span>
-            <p class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ expired }}</p>
+            <button @click="copyLink()" class="text-lg">{{ invite.code }}</button>
+            <p class="text-xs truncate w-full" :class="color">{{ expired }}</p>
         </template>
         <template #buttons>
             <div class="flex flex-row space-x-2">
@@ -21,6 +21,7 @@
 import { defineComponent } from "vue";
 import { useInvitationStore } from "@/stores/invitations";
 import { mapActions } from "pinia";
+import { useClipboard } from "@vueuse/core";
 
 import type { Invitation } from "@/types/api/invitations";
 
@@ -37,7 +38,16 @@ export default defineComponent({
             required: true,
         },
     },
+    data() {
+        return {
+            clipboard: useClipboard(),
+        };
+    },
     methods: {
+        async copyLink() {
+            await this.clipboard.copy(`${location.origin}/j/${this.invite.code}`);
+            this.$toast.info(this.__("Copied to clipboard"));
+        },
         async deleteLocalInvitation() {
             await this.deleteInvitation(this.invite.id);
         },
@@ -45,7 +55,25 @@ export default defineComponent({
     },
     computed: {
         expired(): string {
-            return (this.$filter("isPast", this.invite.expires) ? this.__("Expires") : this.__("Expired")) + " " + this.$filter("timeAgo", this.invite.expires);
+            if (this.$filter("isPast", this.invite.expires)) {
+                return this.__("Expired %{s}", { s: this.$filter("timeAgo", this.invite.expires) });
+            } else {
+                return this.__("Expires %{s}", { s: this.$filter("timeAgo", this.invite.expires) });
+            }
+        },
+        color() {
+            const inHalfDay = new Date();
+            inHalfDay.setHours(inHalfDay.getHours() + 12);
+
+            if (this.$filter("isPast", this.invite.expires)) {
+                return "text-red-600 dark:text-red-500";
+            }
+
+            if (this.$filter("dateLess", this.invite.expires, inHalfDay)) {
+                return "text-yellow-500 dark:text-yellow-400";
+            }
+
+            return "text-gray-500 dark:text-gray-400";
         },
     },
 });

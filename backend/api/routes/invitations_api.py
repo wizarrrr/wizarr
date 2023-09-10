@@ -82,7 +82,7 @@ class InvitationsVerifyAPI(Resource):
     @api.response(500, "Internal server error")
     def get(self, invite_code):
         # Select the invite from the database
-        invitation = Invitations.get_or_none(Invitations.code == invite_code)
+        invitation: Invitations = Invitations.get_or_none(Invitations.code == invite_code)
 
         if not invitation:
             return {"message": "Invitation not found"}, 404
@@ -90,7 +90,8 @@ class InvitationsVerifyAPI(Resource):
         if invitation.used is True and invitation.unlimited is not True:
             return {"message": "Invitation has already been used"}, 400
 
-        if invitation.expires and invitation.expires <= datetime.now():
+        print(invitation.expires, datetime.utcnow())
+        if invitation.expires and invitation.expires <= datetime.utcnow():
             return {"message": "Invitation has expired"}, 400
 
         return {"message": "Invitation is valid"}, 200
