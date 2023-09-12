@@ -1,4 +1,4 @@
-<h1 align="center">Wizarr</h1>
+<h1 align="center">Wizarr Beta</h1>
 <h3 align="center">The Free Media Invitation System</h3>
 
 ---
@@ -72,7 +72,6 @@ Wizarr is a automatic user invitation system for Plex and Jellyfin. Create a uni
 - Invite Request System for users to request invite
 - and much more!
 
-
 ## Getting Started
 
 ```
@@ -80,8 +79,7 @@ docker run -d \
     --name wizarr \
     -p 5690:5690 \
     -v ./wizarr/database:/data/database \
-    -e APP_URL=example.com \
-    ghcr.io/wizarrrr/wizarr:v3-alpha
+    ghcr.io/wizarrrr/wizarr:v3-beta
 ```
 
 ```
@@ -90,18 +88,15 @@ version: "3.5"
 services:
   wizarr:
     container_name: wizarr
-    image: ghcr.io/wizarrrr/wizarr:v3-alpha
+    image: ghcr.io/wizarrrr/wizarr:v3-beta
     ports:
       - 5690:5690
     volumes:
       - ./wizarr/database:/data/database
-    environment:
-      - APP_URL=example.com
 ```
 
 Check out our documentation for instructions on how to install and run Wizarr!
-https://github.com/Wizarrrr/wizarr/tree/v3-alpha/docs/setup
-
+https://github.com/Wizarrrr/wizarr/tree/v3-beta/docs/setup
 
 ## Thank you
 
