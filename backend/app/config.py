@@ -14,11 +14,10 @@ def create_config(app: Flask):
     config["SESSION_TYPE"] = "filesystem"
     config["SESSION_FILE_DIR"] = path.join(base_dir, "../", "database", "sessions")
     config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=5)
-    config["UPLOAD_FOLDER"] = path.join(base_dir, "database", "uploads")
+    config["UPLOAD_FOLDER"] = path.join(base_dir, "../", "database", "uploads")
     config["SWAGGER_UI_DOC_EXPANSION"] = "list"
-    config["SERVER_NAME"] = getenv("APP_URL")
+    config["SERVER_NAME"] = "127.0.0.1:5000"
     config["APPLICATION_ROOT"] = "/"
-    config["PREFERRED_URL_SCHEME"] = "https" if getenv("HTTPS", "false") == "true" else "http"
     config["JWT_SECRET_KEY"] = secret_key()
     config["JWT_BLACKLIST_ENABLED"] = True
     config["JWT_TOKEN_LOCATION"] = ["headers", "json", "query_string"]

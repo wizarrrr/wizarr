@@ -36,12 +36,6 @@ app = Flask(__name__)
 #     environment="development" if app.debug else "production"
 # )
 
-# Override Flask server name if it contains http or https
-if getenv("APP_URL") and getenv("APP_URL", "").startswith("http://") or getenv("APP_URL", "").startswith("https://"):
-    host = getenv("APP_URL").replace("http://", "").replace("https://", "")
-    app.config["SERVER_NAME"] = host
-    environ["APP_URL"] = host
-
 # Run database migrations scripts
 if not app.debug or getenv("MIGRATE"):
     migrate()

@@ -29,7 +29,6 @@ RUN npm run build
 RUN cp /usr/share/zoneinfo/UTC /etc/localtime && echo UTC > /etc/timezone
 
 # Set Environment Variables
-ENV APP_URL 127.0.0.1:5000
 ENV TZ Etc/UTC
 
 # Start Nginx in Background and Gunicon in Foreground
