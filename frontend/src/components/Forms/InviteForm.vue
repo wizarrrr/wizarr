@@ -267,7 +267,7 @@ export default defineComponent({
             handler(server_type) {
                 if (!server_type) {
                     this.disabled = true;
-                    this.$toast.error("Could not determine your server type", {
+                    this.$toast.error("Could not determine your server type, try refreshing the page.", {
                         closeOnClick: false,
                         draggable: false,
                         timeout: false,
