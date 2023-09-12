@@ -258,7 +258,7 @@ export default defineComponent({
             immediate: true,
             handler(inviteCode) {
                 if (inviteCode.length >= 7) this.inviteData.inviteCode = inviteCode.slice(0, 6);
-                this.inviteData.inviteCode = this.inviteData.inviteCode.replace(/[^a-zA-Z]/g, "");
+                this.inviteData.inviteCode = this.inviteData.inviteCode.replace(/[^a-zA-Z0-9]/g, "");
                 this.inviteData.inviteCode = this.inviteData.inviteCode.toUpperCase();
             },
         },
