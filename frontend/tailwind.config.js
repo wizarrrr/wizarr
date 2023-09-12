@@ -1,6 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}", "./node_modules/flowbite/**/*.js", "./src/formkit.theme.ts"],
+    content: [
+        "./index.html", // main index.html
+        "./src/**/*.{vue,js,ts,jsx,tsx}", // vue components
+        "./node_modules/flowbite/**/*.js", // flowbite components
+        "./src/formkit.theme.ts", // formkit theme
+        "./node_modules/@flavorly/vanilla-components/dist/presets/tailwind/all.json", // vanilla components
+    ],
     darkMode: "class",
     theme: {
         extend: {
@@ -12,5 +18,10 @@ module.exports = {
             },
         },
     },
-    plugins: [require("flowbite/plugin"), require("tailwindcss-inner-border"), require("@formkit/themes/tailwindcss")],
+    plugins: [
+        require("flowbite/plugin"), // flowbite
+        require("tailwindcss-inner-border"), // inner border
+        require("@formkit/themes/tailwindcss"), // formkit
+        require("@tailwindcss/forms"), // tailwind forms
+    ],
 };

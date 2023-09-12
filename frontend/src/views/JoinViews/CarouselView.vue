@@ -53,9 +53,9 @@ import WizarrLogo from "@/components/WizarrLogo.vue";
 
 import JoinForm from "@/components/Forms/JoinForm.vue";
 import CreateAccountView from "./CreateAccountView.vue";
-import JoinStepperView from "./JoinStepperView.vue";
-import JoinCompleteView from "./JoinCompleteView.vue";
-import JoinErrorView from "./JoinErrorView.vue";
+import JoinStepperView from "./StepperView.vue";
+import JoinCompleteView from "./CompleteView.vue";
+import JoinErrorView from "./ErrorView.vue";
 
 import mitt from "mitt";
 
@@ -246,6 +246,11 @@ export default defineComponent({
         this.eventBus.on("jellyfinCreateAccount", this.jellyfinCreateAccount);
         this.eventBus.on("pleaseWait", (pleaseWait) => (this.pleaseWait = pleaseWait));
         this.eventBus.on("activeStepTitle", (title) => (this.activeStepTitle = title));
+
+        // join=true automatically triggers the join event
+        if (this.$route.query.join == "true") {
+            this.join(this.$route.params.invite as string);
+        }
     },
     async beforeUnmount() {
         // Disconnect the socket

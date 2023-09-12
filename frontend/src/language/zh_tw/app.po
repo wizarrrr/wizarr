@@ -18,88 +18,69 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: src/views/AdminViews/InviteView.vue:75
-msgid "1 Day"
-msgstr "1天"
-
-#: src/views/AdminViews/InviteView.vue:77
-msgid "1 Month"
-msgstr "1個月"
-
-#: src/views/AdminViews/InviteView.vue:76
-msgid "1 Week"
-msgstr "1週"
-
-#: src/views/AdminViews/InviteView.vue:79
-msgid "1 Year"
-msgstr "1年"
-
-#: src/views/AdminViews/InviteView.vue:78
-msgid "6 Months"
-msgstr "6個月"
-
-#: src/views/SettingsViews/DefaultView.vue:228
+#: src/views/SettingsViews/DefaultView.vue:227
 msgid "About"
 msgstr "關於"
 
-#: src/views/SettingsViews/DefaultView.vue:129
+#: src/views/SettingsViews/DefaultView.vue:128
 #, fuzzy
 msgid "Account Settings"
 msgstr "設置"
 
-#: src/views/SettingsViews/DefaultView.vue:105
+#: src/views/SettingsViews/DefaultView.vue:104
 msgid "Add API keys for external services"
 msgstr "添加外部服務的 API 密鑰"
 
-#: src/views/SettingsViews/DefaultView.vue:185
+#: src/views/SettingsViews/DefaultView.vue:184
 msgid "Add Custom HTML page to help screen"
 msgstr "添加自定義 HTML 頁面到幫助屏幕"
 
-#: src/views/SettingsViews/DefaultView.vue:98
+#: src/views/SettingsViews/DefaultView.vue:97
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "添加 Jellyserr、Overseerr 或 Ombi 支持"
+
+#: src/views/SettingsViews/MFAView.vue:9
+msgid "Add Passkey"
+msgstr "添加密鑰"
 
 #: src/views/SetupViews/AccountView.vue:3
 msgid "Admin Account"
 msgstr "管理員帳戶"
 
-#: src/views/AdminViews/InviteView.vue:15
+#: src/components/Forms/InviteForm.vue:18
 msgid "Advanced Options"
 msgstr "高級選項"
 
-#: src/views/SettingsViews/DefaultView.vue:192
+#: src/views/SettingsViews/DefaultView.vue:191
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "高級選項"
 
-#: src/views/SettingsViews/DefaultView.vue:193
+#: src/views/SettingsViews/DefaultView.vue:192
 msgid "Advanced settings for the server"
 msgstr "服務器的高級設置"
 
-#: src/views/AdminViews/InviteView.vue:41
-msgid "Allow Downloads"
-msgstr "允許下載"
-
-#: src/views/SettingsViews/DefaultView.vue:104
+#: src/views/SettingsViews/DefaultView.vue:103
 #, fuzzy
 msgid "API keys"
 msgstr "API令牌"
 
-#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/HelpViews/HelpView.vue:12
+#: src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "後退"
 
-#: src/views/SettingsViews/DefaultView.vue:222
+#: src/views/SettingsViews/DefaultView.vue:221
 #, fuzzy
 msgid "Backup"
 msgstr "後退"
 
-#: src/views/SettingsViews/DefaultView.vue:141
+#: src/views/SettingsViews/DefaultView.vue:140
 #, fuzzy
 msgid "Change your password"
 msgstr "忘記密碼了嗎？"
 
-#: src/views/SettingsViews/DefaultView.vue:216
+#: src/views/SettingsViews/DefaultView.vue:215
 msgid "Check for and view updates"
 msgstr "檢查並查看更新"
 
@@ -109,42 +90,70 @@ msgid ""
 "run Wizarr!"
 msgstr "查看我們的文檔，了解有關如何安裝和運行 Wizarr 的詳細說明！"
 
-#: src/views/SettingsViews/DefaultView.vue:121
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "配置您的服務器設置。"
 
-#: src/views/SettingsViews/DefaultView.vue:160
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Configure MFA authentication"
 msgstr "配置 MFA 身份驗證"
 
-#: src/views/SettingsViews/DefaultView.vue:113
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "配置您的服務器設置。"
 
-#: src/views/SettingsViews/DefaultView.vue:197
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "創建邀請"
 
-#: src/views/SettingsViews/DefaultView.vue:153
+#: src/views/SettingsViews/DefaultView.vue:152
 msgid "Configure SSO login"
 msgstr "配置單點登錄"
 
-#: src/views/SettingsViews/DefaultView.vue:92
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "配置您的服務器設置。"
 
-#: src/views/SettingsViews/DefaultView.vue:135
+#: src/views/SettingsViews/DefaultView.vue:134
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "配置您的服務器設置。"
 
+#: src/views/JoinViews/CompleteView.vue:7 src/views/LoginViews/MFAView.vue:15
 #: src/views/LoginViews/UsernameView.vue:11
 msgid "Continue"
 msgstr "繼續"
+
+#: src/components/InvitationList/InvitationItem.vue:49
+#, fuzzy
+msgid "Copied to clipboard"
+msgstr "鏈接已復製到剪貼板！"
+
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:28
+msgid "Copy"
+msgstr "複製"
+
+#: src/views/JoinViews/CarouselView.vue:158
+#: src/views/JoinViews/CarouselView.vue:238
+#, fuzzy
+msgid "Could not connect to the server."
+msgstr "修改服務器的外觀"
+
+#: src/views/JoinViews/CarouselView.vue:191
+#: src/views/JoinViews/CarouselView.vue:196
+#: src/views/JoinViews/CarouselView.vue:219
+#: src/views/JoinViews/CarouselView.vue:224
+#, fuzzy
+msgid "Could not create the account."
+msgstr "創建賬戶"
+
+#: src/views/JoinViews/CarouselView.vue:171
+msgid "Could not verify the invite code."
+msgstr ""
 
 #: src/views/SetupViews/AccountView.vue:24
 msgid "Create account"
@@ -155,34 +164,34 @@ msgstr "創建賬戶"
 msgid "Create an invitation to your server"
 msgstr "創建對您的服務器的邀請。"
 
-#: src/views/SettingsViews/DefaultView.vue:223
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "創建一個帳戶"
+
+#: src/components/Forms/InviteForm.vue:43
+#, fuzzy
+msgid "Create Another"
+msgstr "創建代理"
 
 #: src/views/AdminViews/FlowEditor.vue:4
 #, fuzzy
 msgid "Create Flow"
 msgstr "創造"
 
-#: src/views/AdminViews/InviteView.vue:137
-#: src/views/AdminViews/InviteView.vue:2
+#: src/components/Forms/InviteForm.vue:22 src/views/AdminViews/InviteView.vue:2
 msgid "Create Invitation"
+msgstr "創建邀請"
+
+#: src/views/AdminViews/InvitationsView.vue:7
+msgid "Create Invite"
 msgstr "創建邀請"
 
 #: src/views/SetupViews/DatabaseView.vue:6
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr "目前Wizarr僅支持其內部SQLite數據庫。"
 
-#: src/views/AdminViews/InviteView.vue:80
-msgid "Custom"
-msgstr "風俗"
-
-#: src/views/AdminViews/InviteView.vue:88
-msgid "Custom Duration"
-msgstr "自定義時長"
-
-#: src/views/SettingsViews/DefaultView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:183
 #, fuzzy
 msgid "Custom HTML"
 msgstr "風俗"
@@ -191,12 +200,12 @@ msgstr "風俗"
 msgid "Database"
 msgstr "數據庫"
 
-#: src/views/SettingsViews/DefaultView.vue:178
+#: src/views/SettingsViews/DefaultView.vue:177
 #, fuzzy
 msgid "Discord"
 msgstr "不和諧小部件"
 
-#: src/views/SettingsViews/DefaultView.vue:120
+#: src/views/SettingsViews/DefaultView.vue:119
 #, fuzzy
 msgid "Discord Bot"
 msgstr "不和諧小部件"
@@ -205,26 +214,48 @@ msgstr "不和諧小部件"
 msgid "Don't see your server?"
 msgstr ""
 
-#: src/views/AdminViews/InviteView.vue:51
-#: src/views/AdminViews/InviteView.vue:64
-msgid "Duration"
-msgstr "期間"
+#: src/views/HelpViews/JellyfinViews/WelcomeView.vue:3
+msgid "Eh, So, What is Jellyfin exactly?"
+msgstr "呃，那麼 Jellyfin 到底是什麼？"
 
-#: src/views/SettingsViews/DefaultView.vue:179
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:3
+msgid "Eh, So, What is Plex exactly?"
+msgstr "呃，那麼，Plex 到底是什麼？"
+
+#: src/views/SettingsViews/DefaultView.vue:178
 msgid "Enable Discord page and configure settings"
 msgstr "啟用 Discord 頁面並配置設置"
+
+#: src/components/InvitationList/InvitationItem.vue:59
+#, fuzzy
+msgid "Expired %{s}"
+msgstr "已到期"
+
+#: src/components/InvitationList/InvitationItem.vue:61
+#, fuzzy
+msgid "Expires %{s}"
+msgstr "已到期"
+
+#: src/components/Forms/InviteForm.vue:54
+#, fuzzy
+msgid "Failed to create invitation"
+msgstr "創建邀請"
 
 #: src/views/AdminViews/FlowEditor.vue:2
 msgid "Flow Editor"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:87
+#: src/views/SettingsViews/DefaultView.vue:86
 msgid "General settings for the server"
 msgstr "服務器的常規設置"
 
 #: src/views/DefaultViews/HomeView.vue:14
 msgid "Get Started"
 msgstr "開始使用"
+
+#: src/views/HelpViews/HelpView.vue:5
+msgid "Getting Started!"
+msgstr "入門！"
 
 #: src/views/DefaultViews/NotFoundView.vue:18
 #, fuzzy
@@ -240,6 +271,24 @@ msgstr "轉到儀表板"
 msgid "Go to Login"
 msgstr "登錄"
 
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:8
+#, fuzzy
+msgid ""
+"Great news! You now have access to our server's media collection. Let's make "
+"sure you know how to use it with Jellyfin."
+msgstr ""
+"好消息！您現在可以訪問我們服務器的媒體收藏。讓我們確保您知道如何使用\n"
+"    與 Jellyfin 一起。"
+
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:5
+msgid ""
+"Great question! Plex is a software that allows individuals to share their "
+"media collections with others. If you've received this invitation, it means "
+"someone wants to share their library with you."
+msgstr ""
+"好問題！ Plex 是一款允許個人與他人共享媒體收藏的軟件。如果您收到此邀請，則意"
+"味著有人想與您共享他們的圖書館。"
+
 #: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
@@ -254,18 +303,53 @@ msgstr ""
 "如果您是由朋友發送到這裡的，請請求訪問權限，或者如果您有邀請碼，請單擊“開"
 "始”。"
 
+#: src/views/JoinViews/CarouselView.vue:170
+#, fuzzy
+msgid "Invalid Invite!"
+msgstr "邀請無效"
+
 #: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "邀請函"
 
-#: src/views/AdminViews/InviteView.vue:33
-msgid "Invite to Plex Home"
-msgstr "邀請來到 Plex 主頁"
+#: src/components/Forms/JoinForm.vue:10
+msgid "Invite Code"
+msgstr "邀請代碼"
 
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "受邀用戶"
+
+#: src/views/HelpViews/JellyfinViews/WelcomeView.vue:5
+msgid ""
+"Jellyfin is a platform that lets you stream all your favorite movies, TV "
+"shows, and music in one place. It's like having your own personal movie "
+"theater right at your fingertips! Think of it as a digital library of your "
+"favorite content that you can access from anywhere, on any device - your "
+"phone, tablet, laptop, smart TV, you name it."
+msgstr ""
+"Jellyfin 是一個平台，可讓您在一個地方流式傳輸所有喜愛的電影、電視節目和音樂。"
+"這就像在您的指尖擁有自己的個人電影院！將其視為您喜愛的內容的數字圖書館，您可"
+"以從任何地方、任何設備（您的手機、平板電腦、筆記本電腦、智能電視等）訪問它。"
+
+#: src/components/Forms/JoinForm.vue:7
+msgid "Join"
+msgstr "加入"
+
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:4
+#, fuzzy
+msgid "Join & Download"
+msgstr "下載"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:4
+msgid "Join & Download Plex for this device"
+msgstr "加入並下載適用於此設備的 Plex"
+
+#: src/views/JoinViews/CarouselView.vue:15 src/views/JoinViews/JoinView.vue:12
+#, fuzzy
+msgid "Join the %{server_type} Server"
+msgstr "加入Plex服務器"
 
 #: src/components/ChangeLogs/ChangeLogs.vue:7
 msgid "Load More"
@@ -275,11 +359,16 @@ msgstr "裝載更多"
 msgid "Login"
 msgstr "登錄"
 
+#: src/views/JoinViews/PlexViews/PlexSetupView.vue:5
+#, fuzzy
+msgid "Login to Plex"
+msgstr "登錄 Plex"
+
 #: src/views/LoginViews/PasswordView.vue:16
 msgid "Login with MFA"
 msgstr "使用 MFA 登錄"
 
-#: src/views/LoginViews/MFAView.vue:17
+#: src/views/LoginViews/MFAView.vue:19
 msgid "Login with Password"
 msgstr "使用密碼登錄"
 
@@ -287,12 +376,12 @@ msgstr "使用密碼登錄"
 msgid "Login with your account"
 msgstr "使用您的帳戶登錄"
 
-#: src/views/SettingsViews/DefaultView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:202
 #, fuzzy
 msgid "Logs"
 msgstr "登錄"
 
-#: src/views/SettingsViews/DefaultView.vue:86
+#: src/views/SettingsViews/DefaultView.vue:85
 #, fuzzy
 msgid "Main Settings"
 msgstr "設置"
@@ -311,7 +400,7 @@ msgstr "管理您的邀請"
 msgid "Manage your media server users"
 msgstr "配置您的服務器設置。"
 
-#: src/views/SettingsViews/DefaultView.vue:91
+#: src/views/SettingsViews/DefaultView.vue:90
 #, fuzzy
 msgid "Media Server"
 msgstr "服務器"
@@ -320,17 +409,27 @@ msgstr "服務器"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:174
+#: src/views/SettingsViews/DefaultView.vue:173
 msgid "Modify the look and feel of the server"
 msgstr "修改服務器的外觀"
 
-#: src/views/SettingsViews/DefaultView.vue:159
+#: src/views/SettingsViews/DefaultView.vue:158
 msgid "Multi-Factor Authentication"
 msgstr "多重身份驗證"
 
-#: src/views/SetupViews/SetupView.vue:33
+#: src/views/HelpViews/HelpView.vue:15 src/views/SetupViews/SetupView.vue:33
 msgid "Next"
 msgstr "下一個"
+
+#: src/components/InvitationList/InvitationList.vue:11
+#, fuzzy
+msgid "No Invitations found"
+msgstr "沒有邀請"
+
+#: src/components/MFAList/MFAList.vue:11
+#, fuzzy
+msgid "No Passkeys found"
+msgstr "你的萬能鑰匙"
 
 #: src/components/ScanServers/ScanServers.vue:15
 msgid "No servers could be found."
@@ -340,21 +439,47 @@ msgstr ""
 msgid "No settings matched your search."
 msgstr "沒有與您的搜索匹配的設置。"
 
-#: src/views/SettingsViews/DefaultView.vue:112
+#: src/views/SettingsViews/DefaultView.vue:111
 #, fuzzy
 msgid "Notifications"
 msgstr "通知服務"
 
-#: src/views/SettingsViews/DefaultView.vue:196
+#: src/views/SettingsViews/DefaultView.vue:195
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "創建邀請"
 
-#: src/views/SettingsViews/DefaultView.vue:140
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:47
+msgid "Open Jellyfin"
+msgstr "打開果凍"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:17
+#, fuzzy
+msgid "Open Plex"
+msgstr "打開"
+
+#: src/views/SettingsViews/DefaultView.vue:139
 msgid "Password"
 msgstr "密碼"
 
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:16
+#, fuzzy
+msgid ""
+"Planning on watching Movies on this device? Download Jellyfin for this "
+"device or click 'Next' to for other options."
+msgstr "計劃在此設備上觀看電影？下載適用於此設備的 Jellyfin。"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:10
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
+msgstr "計劃在此設備上觀看電影？下載適用於此設備的 Plex。"
+
+#: src/views/JoinViews/PlexViews/PlexSetupView.vue:3
+msgid "Please login to your Plex account to help us connect you to our server."
+msgstr ""
+
 #: src/components/Loading/FullPageLoading.vue:109
+#: src/views/JoinViews/CarouselView.vue:35
 #, fuzzy
 msgid "Please wait..."
 msgstr "請稍等"
@@ -367,7 +492,7 @@ msgstr ""
 msgid "Press the button below and follow your browser's steps to login"
 msgstr "按下面的按鈕並按照瀏覽器的步驟登錄"
 
-#: src/views/SettingsViews/DefaultView.vue:134
+#: src/views/SettingsViews/DefaultView.vue:133
 msgid "Profile"
 msgstr "輪廓"
 
@@ -375,7 +500,7 @@ msgstr "輪廓"
 msgid "Request Access"
 msgstr "申請進入"
 
-#: src/views/SettingsViews/DefaultView.vue:97
+#: src/views/SettingsViews/DefaultView.vue:96
 #, fuzzy
 msgid "Requests"
 msgstr "請求服務器"
@@ -393,16 +518,25 @@ msgstr ""
 msgid "Restore Backup"
 msgstr "創建一個帳戶"
 
-#: src/views/AdminViews/InviteView.vue:128
-msgid "Select All"
-msgstr "全選"
+#: src/components/Modals/ServerURLModal.vue:8
+#, fuzzy
+msgid "Save URL"
+msgstr "服務器地址"
+
+#: src/views/AdminViews/UsersView.vue:10
+msgid "Scan Users"
+msgstr "掃描用戶"
 
 #: src/components/Modals/ScanLibrariesModal.vue:8
-#: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "選擇圖書館"
 
-#: src/views/SettingsViews/DefaultView.vue:146
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:24
+#, fuzzy
+msgid "Server URL"
+msgstr "顯示服務器網址"
+
+#: src/views/SettingsViews/DefaultView.vue:145
 #, fuzzy
 msgid "Sessions"
 msgstr "版本"
@@ -411,7 +545,7 @@ msgstr "版本"
 msgid "Settings"
 msgstr "設置"
 
-#: src/views/SettingsViews/DefaultView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "設置您的帳戶"
@@ -420,9 +554,32 @@ msgstr "設置您的帳戶"
 msgid "Setup Wizarr"
 msgstr "設置嚮導"
 
-#: src/views/AdminViews/InviteView.vue:59
-msgid "Show Information"
-msgstr "展會信息"
+#: src/views/JoinViews/CarouselView.vue:18
+#, fuzzy
+msgid "Setup your account"
+msgstr "設置您的帳戶"
+
+#: src/components/Forms/InviteForm.vue:46
+msgid "Share"
+msgstr "分享"
+
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:11
+msgid "So let's see how to get started!"
+msgstr "那麼讓我們看看如何開始吧！"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:7
+msgid ""
+"So you now have access to our server's media collection. Let's make sure you "
+"know how to use it with Plex."
+msgstr ""
+"現在您可以訪問我們服務器的媒體收藏。讓我們確保您知道如何將其與 Plex 一起使"
+"用。"
+
+#: src/views/JoinViews/CarouselView.vue:125
+#, fuzzy
+msgid ""
+"Something went wrong while trying to join the server. Please try again later."
+msgstr "出了問題。請稍後再試。"
 
 #: src/views/DefaultViews/NotFoundView.vue:13
 msgid "Something's missing."
@@ -432,11 +589,7 @@ msgstr "缺少一些東西。"
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
 msgstr "抱歉，我們找不到該頁面。似乎不存在！"
 
-#: src/views/AdminViews/InviteView.vue:96
-msgid "Specific Libraries"
-msgstr "特定庫"
-
-#: src/views/SettingsViews/DefaultView.vue:152
+#: src/views/SettingsViews/DefaultView.vue:151
 #, fuzzy
 msgid "SSO Login"
 msgstr "登錄"
@@ -445,7 +598,7 @@ msgstr "登錄"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:209
+#: src/views/SettingsViews/DefaultView.vue:208
 #, fuzzy
 msgid "Tasks"
 msgstr "運行任務"
@@ -455,24 +608,33 @@ msgid ""
 "This is a temporary and we are working on adding support for other databases."
 msgstr "這是臨時的，我們正在努力添加對其他數據庫的支持。"
 
+#: src/components/Forms/InviteForm.vue:58
 #: src/components/Modals/ScanServersModal.vue:8
 msgid "Try Again"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:173
+#: src/views/JoinViews/CarouselView.vue:5 src/views/JoinViews/JoinView.vue:5
+#, fuzzy
+msgid "Type in your invite code to %{server_name} server!"
+msgstr "輸入您的邀請碼到 %(name)s 服務器！"
+
+#: src/views/JoinViews/CarouselView.vue:124
+#: src/views/JoinViews/CarouselView.vue:158
+#: src/views/JoinViews/CarouselView.vue:191
+#: src/views/JoinViews/CarouselView.vue:196
+#: src/views/JoinViews/CarouselView.vue:219
+#: src/views/JoinViews/CarouselView.vue:224
+#: src/views/JoinViews/CarouselView.vue:238
+#: src/views/JoinViews/CarouselView.vue:239
+msgid "Uh oh!"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:172
 #, fuzzy
 msgid "UI Settings"
 msgstr "設置"
 
-#: src/views/AdminViews/InviteView.vue:74
-msgid "Unlimited"
-msgstr "無限"
-
-#: src/views/AdminViews/InviteView.vue:25
-msgid "Unlimited Usages"
-msgstr "無限使用"
-
-#: src/views/SettingsViews/DefaultView.vue:215
+#: src/views/SettingsViews/DefaultView.vue:214
 #, fuzzy
 msgid "Updates"
 msgstr "更新"
@@ -489,20 +651,20 @@ msgstr "用戶"
 msgid "View"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:204
+#: src/views/SettingsViews/DefaultView.vue:203
 msgid "View and download server logs"
 msgstr "查看和下載服務器日誌"
 
-#: src/views/SettingsViews/DefaultView.vue:210
+#: src/views/SettingsViews/DefaultView.vue:209
 msgid "View and manage scheduled tasks"
 msgstr "查看和管理計劃任務"
 
-#: src/views/SettingsViews/DefaultView.vue:147
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "管理您的邀請"
 
-#: src/views/SettingsViews/DefaultView.vue:229
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "View information about the server"
 msgstr "查看服務器信息"
 
@@ -523,11 +685,12 @@ msgstr ""
 msgid "Welcome to Wizarr"
 msgstr "歡迎來到威扎爾"
 
-#: src/views/AdminViews/InviteView.vue:65
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:8
 msgid ""
-"When set, invited user(s) will be removed from the server after the set "
-"number of days. (1-999)"
-msgstr "設置後，受邀請的用戶將在設置的天數後從服務器中刪除。 (1-999)"
+"With Plex, you'll have access to all of the movies, TV shows, music, and "
+"photos that are stored on their server!"
+msgstr ""
+"通過 Plex，您將可以訪問存儲在其服務器上的所有電影、電視節目、音樂和照片！"
 
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
@@ -561,9 +724,71 @@ msgstr ""
 msgid "You have successfully completed the setup process."
 msgstr "您已成功完成設置過程。"
 
+#: src/views/JoinViews/CompleteView.vue:4
+#, fuzzy
+msgid ""
+"You're all set, click continue to get started and walkthrough how to use "
+"%{serverName}!"
+msgstr "一切就緒，單擊“繼續”開始並演練如何使用 Plex！"
+
+#: src/views/JoinViews/CarouselView.vue:24
+#, fuzzy
+msgid "Your account has been created!"
+msgstr "邀請已創建"
+
 #: src/views/SetupViews/CompleteView.vue:3
 msgid "Your Done"
 msgstr "你完成了"
+
+#~ msgid "1 Day"
+#~ msgstr "1天"
+
+#~ msgid "1 Month"
+#~ msgstr "1個月"
+
+#~ msgid "1 Week"
+#~ msgstr "1週"
+
+#~ msgid "1 Year"
+#~ msgstr "1年"
+
+#~ msgid "6 Months"
+#~ msgstr "6個月"
+
+#~ msgid "Allow Downloads"
+#~ msgstr "允許下載"
+
+#~ msgid "Custom"
+#~ msgstr "風俗"
+
+#~ msgid "Custom Duration"
+#~ msgstr "自定義時長"
+
+#~ msgid "Duration"
+#~ msgstr "期間"
+
+#~ msgid "Invite to Plex Home"
+#~ msgstr "邀請來到 Plex 主頁"
+
+#~ msgid "Select All"
+#~ msgstr "全選"
+
+#~ msgid "Show Information"
+#~ msgstr "展會信息"
+
+#~ msgid "Specific Libraries"
+#~ msgstr "特定庫"
+
+#~ msgid "Unlimited"
+#~ msgstr "無限"
+
+#~ msgid "Unlimited Usages"
+#~ msgstr "無限使用"
+
+#~ msgid ""
+#~ "When set, invited user(s) will be removed from the server after the set "
+#~ "number of days. (1-999)"
+#~ msgstr "設置後，受邀請的用戶將在設置的天數後從服務器中刪除。 (1-999)"
 
 #~ msgid "Custom Expiration"
 #~ msgstr "自定義到期時間"
@@ -620,12 +845,6 @@ msgstr "你完成了"
 #~ msgid "Successfully generated an Invitation!"
 #~ msgstr "已成功生成邀請！"
 
-#~ msgid "Link has been copied to clipboard!"
-#~ msgstr "鏈接已復製到剪貼板！"
-
-#~ msgid "Share"
-#~ msgstr "分享"
-
 #~ msgid "An error occurred while copying the link to the clipboard!"
 #~ msgstr "將鏈接複製到剪貼板時發生錯誤！"
 
@@ -638,14 +857,8 @@ msgstr "你完成了"
 #~ msgid "Creating..."
 #~ msgstr "創造..."
 
-#~ msgid "The invite has been created"
-#~ msgstr "邀請已創建"
-
 #~ msgid "There was an error creating the invite"
 #~ msgstr "創建邀請時出錯"
-
-#~ msgid "Create Invite"
-#~ msgstr "創建邀請"
 
 #~ msgid "Delete All"
 #~ msgstr "刪除所有"
@@ -661,9 +874,6 @@ msgstr "你完成了"
 
 #~ msgid "Manage users that joined your server"
 #~ msgstr "管理加入您服務器的用戶"
-
-#~ msgid "Scan Users"
-#~ msgstr "掃描用戶"
 
 #~ msgid "Add User"
 #~ msgstr "添加用戶"
@@ -687,19 +897,6 @@ msgstr "你完成了"
 
 #~ msgid "Please enter your username"
 #~ msgstr "請輸入您的用戶名"
-
-#~ msgid "Invalid Invitation"
-#~ msgstr "邀請無效"
-
-#, python-format
-#~ msgid "Type in your invite code to %(name)s server!"
-#~ msgstr "輸入您的邀請碼到 %(name)s 服務器！"
-
-#~ msgid "Invite Code"
-#~ msgstr "邀請代碼"
-
-#~ msgid "Join"
-#~ msgstr "加入"
 
 #, python-format
 #~ msgid "You've been invited to join the %(name)s server!"
@@ -758,15 +955,6 @@ msgstr "你完成了"
 #~ msgid "Creating Jellyfin Account"
 #~ msgstr "創建賬戶"
 
-#~ msgid "Join the Plex Server"
-#~ msgstr "加入Plex服務器"
-
-#~ msgid "Sign in to Plex"
-#~ msgstr "登錄 Plex"
-
-#~ msgid "Setting up your account"
-#~ msgstr "設置您的帳戶"
-
 #~ msgid "Almost there!"
 #~ msgstr "差不多了！"
 
@@ -776,19 +964,8 @@ msgstr "你完成了"
 #~ msgid "Account created!"
 #~ msgstr "帳戶已創建！"
 
-#~ msgid ""
-#~ "You're all set, click continue to get started and walkthrough how to use "
-#~ "Plex!"
-#~ msgstr "一切就緒，單擊“繼續”開始並演練如何使用 Plex！"
-
 #~ msgid "Help"
 #~ msgstr "幫助"
-
-#~ msgid "Getting Started!"
-#~ msgstr "入門！"
-
-#~ msgid "Open"
-#~ msgstr "打開"
 
 #~ msgid "Automatic Media Requests"
 #~ msgstr "自動媒體請求"
@@ -825,36 +1002,11 @@ msgstr "你完成了"
 #~ "        對於該設備"
 
 #~ msgid ""
-#~ "Great news! You now have access to our server's media collection. Let's "
-#~ "make sure you know how to use\n"
-#~ "    it with Jellyfin."
-#~ msgstr ""
-#~ "好消息！您現在可以訪問我們服務器的媒體收藏。讓我們確保您知道如何使用\n"
-#~ "    與 Jellyfin 一起。"
-
-#~ msgid ""
-#~ "Planning on watching Movies on this device? Download Jellyfin for this "
-#~ "device."
-#~ msgstr "計劃在此設備上觀看電影？下載適用於此設備的 Jellyfin。"
-
-#~ msgid ""
 #~ "If you don't wish to Download the App feel free to use Jellyfin in your "
 #~ "devices web browser, just click \"Next\"."
 #~ msgstr ""
 #~ "如果您不想下載應用程序，請隨時在設備的網絡瀏覽器中使用 Jellyfin，只需單"
 #~ "擊“下一步”。"
-
-#~ msgid "Show Server URL"
-#~ msgstr "顯示服務器網址"
-
-#~ msgid "Server URL"
-#~ msgstr "服務器地址"
-
-#~ msgid "Copy"
-#~ msgstr "複製"
-
-#~ msgid "Open Jellyfin"
-#~ msgstr "打開果凍"
 
 #~ msgid "Other Download"
 #~ msgstr "其他下載"
@@ -877,38 +1029,6 @@ msgstr "你完成了"
 
 #~ msgid "It's that easy!"
 #~ msgstr "就是這麼簡單！"
-
-#~ msgid "Eh, So, What is Jellyfin exactly?"
-#~ msgstr "呃，那麼 Jellyfin 到底是什麼？"
-
-#~ msgid ""
-#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV "
-#~ "shows, and music in one place. It's like having your own personal movie "
-#~ "theater right at your fingertips! Think of it as a digital library of "
-#~ "your favorite content that you can access from anywhere, on any device - "
-#~ "your phone, tablet, laptop, smart TV, you name it."
-#~ msgstr ""
-#~ "Jellyfin 是一個平台，可讓您在一個地方流式傳輸所有喜愛的電影、電視節目和音"
-#~ "樂。這就像在您的指尖擁有自己的個人電影院！將其視為您喜愛的內容的數字圖書"
-#~ "館，您可以從任何地方、任何設備（您的手機、平板電腦、筆記本電腦、智能電視"
-#~ "等）訪問它。"
-
-#~ msgid "Join & Download Plex for this device"
-#~ msgstr "加入並下載適用於此設備的 Plex"
-
-#~ msgid ""
-#~ "So you now have access to our server's media collection. Let's make sure "
-#~ "you know how to use it with Plex."
-#~ msgstr ""
-#~ "現在您可以訪問我們服務器的媒體收藏。讓我們確保您知道如何將其與 Plex 一起使"
-#~ "用。"
-
-#~ msgid ""
-#~ "Planning on watching Movies on this device? Download Plex for this device."
-#~ msgstr "計劃在此設備上觀看電影？下載適用於此設備的 Plex。"
-
-#~ msgid "Download"
-#~ msgstr "下載"
 
 #~ msgid ""
 #~ "It couldn't be simpler! Plex is available on a wide variety of devices "
@@ -945,26 +1065,6 @@ msgstr "你完成了"
 #~ "我們高度\n"
 #~ "            建議您首先執行這些步驟！"
 
-#~ msgid "Eh, So, What is Plex exactly?"
-#~ msgstr "呃，那麼，Plex 到底是什麼？"
-
-#~ msgid ""
-#~ "Great question! Plex is a software that allows individuals to share their "
-#~ "media collections with others. If you've received this invitation, it "
-#~ "means someone wants to share their library with you."
-#~ msgstr ""
-#~ "好問題！ Plex 是一款允許個人與他人共享媒體收藏的軟件。如果您收到此邀請，則"
-#~ "意味著有人想與您共享他們的圖書館。"
-
-#~ msgid ""
-#~ "With Plex, you'll have access to all of the movies, TV shows, music, and "
-#~ "photos that are stored on their server!"
-#~ msgstr ""
-#~ "通過 Plex，您將可以訪問存儲在其服務器上的所有電影、電視節目、音樂和照片！"
-
-#~ msgid "So let's see how to get started!"
-#~ msgstr "那麼讓我們看看如何開始吧！"
-
 #~ msgid "Permission denied."
 #~ msgstr "沒有權限。"
 
@@ -974,17 +1074,11 @@ msgstr "你完成了"
 #~ msgid "Internal Server Error."
 #~ msgstr "內部服務器錯誤。"
 
-#~ msgid " Something has gone wrong. Please try again later."
-#~ msgstr "出了問題。請稍後再試。"
-
 #~ msgid "Get Help"
 #~ msgstr "得到幫助"
 
 #~ msgid "or"
 #~ msgstr "或者"
-
-#~ msgid "Add Passkey"
-#~ msgstr "添加密鑰"
 
 #~ msgid "Name"
 #~ msgstr "姓名"
@@ -1179,9 +1273,6 @@ msgstr "你完成了"
 #~ msgid "Settings failed to save!"
 #~ msgstr "沒有與您的搜索匹配的設置。"
 
-#~ msgid "Create Agent"
-#~ msgstr "創建代理"
-
 #~ msgid "Add OAuth"
 #~ msgstr "添加 OAuth"
 
@@ -1221,15 +1312,8 @@ msgstr "你完成了"
 #~ msgid "Edit"
 #~ msgstr "編輯"
 
-#, fuzzy
-#~ msgid "Expires"
-#~ msgstr "已到期"
-
 #~ msgid "Used"
 #~ msgstr "用過的"
-
-#~ msgid "Expired"
-#~ msgstr "已到期"
 
 #~ msgid "Libraries"
 #~ msgstr "圖書館"
@@ -1237,14 +1321,8 @@ msgstr "你完成了"
 #~ msgid "Created"
 #~ msgstr "已創建"
 
-#~ msgid "No Invitations"
-#~ msgstr "沒有邀請"
-
 #~ msgid "You have not created any invitations yet."
 #~ msgstr "您尚未創建任何邀請。"
-
-#~ msgid "Your Passkeys"
-#~ msgstr "你的萬能鑰匙"
 
 #~ msgid "Add a passkey"
 #~ msgstr "添加密鑰"

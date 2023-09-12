@@ -18,88 +18,69 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: src/views/AdminViews/InviteView.vue:75
-msgid "1 Day"
-msgstr "יום 1"
-
-#: src/views/AdminViews/InviteView.vue:77
-msgid "1 Month"
-msgstr "1 חודש"
-
-#: src/views/AdminViews/InviteView.vue:76
-msgid "1 Week"
-msgstr "שבוע 1"
-
-#: src/views/AdminViews/InviteView.vue:79
-msgid "1 Year"
-msgstr "1 שנה"
-
-#: src/views/AdminViews/InviteView.vue:78
-msgid "6 Months"
-msgstr "6 חודשים"
-
-#: src/views/SettingsViews/DefaultView.vue:228
+#: src/views/SettingsViews/DefaultView.vue:227
 msgid "About"
 msgstr "על אודות"
 
-#: src/views/SettingsViews/DefaultView.vue:129
+#: src/views/SettingsViews/DefaultView.vue:128
 #, fuzzy
 msgid "Account Settings"
 msgstr "הגדרות"
 
-#: src/views/SettingsViews/DefaultView.vue:105
+#: src/views/SettingsViews/DefaultView.vue:104
 msgid "Add API keys for external services"
 msgstr "הוסף מפתחות API עבור שירותים חיצוניים"
 
-#: src/views/SettingsViews/DefaultView.vue:185
+#: src/views/SettingsViews/DefaultView.vue:184
 msgid "Add Custom HTML page to help screen"
 msgstr "הוסף דף HTML מותאם אישית למסך העזרה"
 
-#: src/views/SettingsViews/DefaultView.vue:98
+#: src/views/SettingsViews/DefaultView.vue:97
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "הוסף תמיכה ב-Jellyseerr, Overseerr או Ombi"
+
+#: src/views/SettingsViews/MFAView.vue:9
+msgid "Add Passkey"
+msgstr "הוסף מפתח סיסמה"
 
 #: src/views/SetupViews/AccountView.vue:3
 msgid "Admin Account"
 msgstr "חשבון ניהול"
 
-#: src/views/AdminViews/InviteView.vue:15
+#: src/components/Forms/InviteForm.vue:18
 msgid "Advanced Options"
 msgstr "אפשרויות מתקדמות"
 
-#: src/views/SettingsViews/DefaultView.vue:192
+#: src/views/SettingsViews/DefaultView.vue:191
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "אפשרויות מתקדמות"
 
-#: src/views/SettingsViews/DefaultView.vue:193
+#: src/views/SettingsViews/DefaultView.vue:192
 msgid "Advanced settings for the server"
 msgstr "הגדרות מתקדמות עבור השרת"
 
-#: src/views/AdminViews/InviteView.vue:41
-msgid "Allow Downloads"
-msgstr "אפשר הורדות"
-
-#: src/views/SettingsViews/DefaultView.vue:104
+#: src/views/SettingsViews/DefaultView.vue:103
 #, fuzzy
 msgid "API keys"
 msgstr "אסימון API"
 
-#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/HelpViews/HelpView.vue:12
+#: src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "חזור"
 
-#: src/views/SettingsViews/DefaultView.vue:222
+#: src/views/SettingsViews/DefaultView.vue:221
 #, fuzzy
 msgid "Backup"
 msgstr "חזור"
 
-#: src/views/SettingsViews/DefaultView.vue:141
+#: src/views/SettingsViews/DefaultView.vue:140
 #, fuzzy
 msgid "Change your password"
 msgstr "שכחת ססמה?"
 
-#: src/views/SettingsViews/DefaultView.vue:216
+#: src/views/SettingsViews/DefaultView.vue:215
 msgid "Check for and view updates"
 msgstr "בדוק והצג עדכונים"
 
@@ -109,42 +90,70 @@ msgid ""
 "run Wizarr!"
 msgstr "עיין בתיעוד שלנו לקבלת הוראות מפורטות כיצד להתקין ולהפעיל את Wizarr!"
 
-#: src/views/SettingsViews/DefaultView.vue:121
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "הגדר את הגדרות השרת שלך."
 
-#: src/views/SettingsViews/DefaultView.vue:160
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Configure MFA authentication"
 msgstr "הגדר אימות MFA"
 
-#: src/views/SettingsViews/DefaultView.vue:113
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "הגדר את הגדרות השרת שלך."
 
-#: src/views/SettingsViews/DefaultView.vue:197
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "צור הזמנה"
 
-#: src/views/SettingsViews/DefaultView.vue:153
+#: src/views/SettingsViews/DefaultView.vue:152
 msgid "Configure SSO login"
 msgstr "הגדר את התחברות SSO"
 
-#: src/views/SettingsViews/DefaultView.vue:92
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "הגדר את הגדרות השרת שלך."
 
-#: src/views/SettingsViews/DefaultView.vue:135
+#: src/views/SettingsViews/DefaultView.vue:134
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "הגדר את הגדרות השרת שלך."
 
+#: src/views/JoinViews/CompleteView.vue:7 src/views/LoginViews/MFAView.vue:15
 #: src/views/LoginViews/UsernameView.vue:11
 msgid "Continue"
 msgstr "לְהַמשִׁיך"
+
+#: src/components/InvitationList/InvitationItem.vue:49
+#, fuzzy
+msgid "Copied to clipboard"
+msgstr "הקישור הועתק ללוח!"
+
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:28
+msgid "Copy"
+msgstr "עותק"
+
+#: src/views/JoinViews/CarouselView.vue:158
+#: src/views/JoinViews/CarouselView.vue:238
+#, fuzzy
+msgid "Could not connect to the server."
+msgstr "שנה את המראה והתחושה של השרת"
+
+#: src/views/JoinViews/CarouselView.vue:191
+#: src/views/JoinViews/CarouselView.vue:196
+#: src/views/JoinViews/CarouselView.vue:219
+#: src/views/JoinViews/CarouselView.vue:224
+#, fuzzy
+msgid "Could not create the account."
+msgstr "צור חשבון"
+
+#: src/views/JoinViews/CarouselView.vue:171
+msgid "Could not verify the invite code."
+msgstr ""
 
 #: src/views/SetupViews/AccountView.vue:24
 msgid "Create account"
@@ -155,34 +164,34 @@ msgstr "צור חשבון"
 msgid "Create an invitation to your server"
 msgstr "צור הזמנה לשרת שלך."
 
-#: src/views/SettingsViews/DefaultView.vue:223
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "צור חשבון"
+
+#: src/components/Forms/InviteForm.vue:43
+#, fuzzy
+msgid "Create Another"
+msgstr "צור סוכן"
 
 #: src/views/AdminViews/FlowEditor.vue:4
 #, fuzzy
 msgid "Create Flow"
 msgstr "לִיצוֹר"
 
-#: src/views/AdminViews/InviteView.vue:137
-#: src/views/AdminViews/InviteView.vue:2
+#: src/components/Forms/InviteForm.vue:22 src/views/AdminViews/InviteView.vue:2
 msgid "Create Invitation"
+msgstr "צור הזמנה"
+
+#: src/views/AdminViews/InvitationsView.vue:7
+msgid "Create Invite"
 msgstr "צור הזמנה"
 
 #: src/views/SetupViews/DatabaseView.vue:6
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr "נכון לעכשיו Wizarr תומך רק במסד הנתונים הפנימי של SQLite."
 
-#: src/views/AdminViews/InviteView.vue:80
-msgid "Custom"
-msgstr "המותאם אישית"
-
-#: src/views/AdminViews/InviteView.vue:88
-msgid "Custom Duration"
-msgstr "משך מותאם אישית"
-
-#: src/views/SettingsViews/DefaultView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:183
 #, fuzzy
 msgid "Custom HTML"
 msgstr "המותאם אישית"
@@ -191,12 +200,12 @@ msgstr "המותאם אישית"
 msgid "Database"
 msgstr "מאגר מידע"
 
-#: src/views/SettingsViews/DefaultView.vue:178
+#: src/views/SettingsViews/DefaultView.vue:177
 #, fuzzy
 msgid "Discord"
 msgstr "יישומון דיסקורד"
 
-#: src/views/SettingsViews/DefaultView.vue:120
+#: src/views/SettingsViews/DefaultView.vue:119
 #, fuzzy
 msgid "Discord Bot"
 msgstr "יישומון דיסקורד"
@@ -205,26 +214,48 @@ msgstr "יישומון דיסקורד"
 msgid "Don't see your server?"
 msgstr ""
 
-#: src/views/AdminViews/InviteView.vue:51
-#: src/views/AdminViews/InviteView.vue:64
-msgid "Duration"
-msgstr "מֶשֶׁך"
+#: src/views/HelpViews/JellyfinViews/WelcomeView.vue:3
+msgid "Eh, So, What is Jellyfin exactly?"
+msgstr "אה, אז מה זה ג'ליפין בדיוק?"
 
-#: src/views/SettingsViews/DefaultView.vue:179
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:3
+msgid "Eh, So, What is Plex exactly?"
+msgstr "אה, אז מה זה Plex בדיוק?"
+
+#: src/views/SettingsViews/DefaultView.vue:178
 msgid "Enable Discord page and configure settings"
 msgstr "הפעל את דף Discord והגדר את ההגדרות"
+
+#: src/components/InvitationList/InvitationItem.vue:59
+#, fuzzy
+msgid "Expired %{s}"
+msgstr "לא בתוקף"
+
+#: src/components/InvitationList/InvitationItem.vue:61
+#, fuzzy
+msgid "Expires %{s}"
+msgstr "לא בתוקף"
+
+#: src/components/Forms/InviteForm.vue:54
+#, fuzzy
+msgid "Failed to create invitation"
+msgstr "צור הזמנה"
 
 #: src/views/AdminViews/FlowEditor.vue:2
 msgid "Flow Editor"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:87
+#: src/views/SettingsViews/DefaultView.vue:86
 msgid "General settings for the server"
 msgstr "הגדרות כלליות לשרת"
 
 #: src/views/DefaultViews/HomeView.vue:14
 msgid "Get Started"
 msgstr "להתחיל"
+
+#: src/views/HelpViews/HelpView.vue:5
+msgid "Getting Started!"
+msgstr "מתחילים!"
 
 #: src/views/DefaultViews/NotFoundView.vue:18
 #, fuzzy
@@ -240,6 +271,25 @@ msgstr "עבור אל לוח המחוונים"
 msgid "Go to Login"
 msgstr "התחברות"
 
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:8
+#, fuzzy
+msgid ""
+"Great news! You now have access to our server's media collection. Let's make "
+"sure you know how to use it with Jellyfin."
+msgstr ""
+"חדשות טובות! כעת יש לך גישה לאוסף המדיה של השרת שלנו. בוא נוודא שאתה יודע "
+"איך להשתמש\n"
+"    זה עם ג'ליפין."
+
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:5
+msgid ""
+"Great question! Plex is a software that allows individuals to share their "
+"media collections with others. If you've received this invitation, it means "
+"someone wants to share their library with you."
+msgstr ""
+"שאלה מצוינת! Plex היא תוכנה המאפשרת לאנשים לחלוק את אוספי המדיה שלהם עם "
+"אחרים. אם קיבלת הזמנה זו, זה אומר שמישהו רוצה לחלוק איתך את הספרייה שלו."
+
 #: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
@@ -254,18 +304,55 @@ msgstr ""
 "אם נשלחת לכאן על ידי חבר, אנא בקש גישה או אם יש לך קוד הזמנה, אנא לחץ על "
 "התחל."
 
+#: src/views/JoinViews/CarouselView.vue:170
+#, fuzzy
+msgid "Invalid Invite!"
+msgstr "הזמנה לא חוקית"
+
 #: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "הזמנות"
 
-#: src/views/AdminViews/InviteView.vue:33
-msgid "Invite to Plex Home"
-msgstr "הזמנה ל-Plex Home"
+#: src/components/Forms/JoinForm.vue:10
+msgid "Invite Code"
+msgstr "קוד הזמנה"
 
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "משתמשים מוזמנים"
+
+#: src/views/HelpViews/JellyfinViews/WelcomeView.vue:5
+msgid ""
+"Jellyfin is a platform that lets you stream all your favorite movies, TV "
+"shows, and music in one place. It's like having your own personal movie "
+"theater right at your fingertips! Think of it as a digital library of your "
+"favorite content that you can access from anywhere, on any device - your "
+"phone, tablet, laptop, smart TV, you name it."
+msgstr ""
+"Jellyfin היא פלטפורמה המאפשרת לך להזרים את כל הסרטים, תוכניות הטלוויזיה "
+"והמוזיקה האהובים עליך במקום אחד. זה כמו שיש לך בית קולנוע אישי משלך ממש "
+"בהישג ידך! תחשוב על זה כעל ספרייה דיגיטלית של התוכן האהוב עליך שאתה יכול "
+"לגשת אליו מכל מקום, בכל מכשיר - הטלפון, הטאבלט, המחשב הנייד, הטלוויזיה "
+"החכמה, אתה שם את זה."
+
+#: src/components/Forms/JoinForm.vue:7
+msgid "Join"
+msgstr "לְהִצְטַרֵף"
+
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:4
+#, fuzzy
+msgid "Join & Download"
+msgstr "הורד"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:4
+msgid "Join & Download Plex for this device"
+msgstr "הצטרף והורד את Plex עבור מכשיר זה"
+
+#: src/views/JoinViews/CarouselView.vue:15 src/views/JoinViews/JoinView.vue:12
+#, fuzzy
+msgid "Join the %{server_type} Server"
+msgstr "הצטרף לשרת Plex"
 
 #: src/components/ChangeLogs/ChangeLogs.vue:7
 msgid "Load More"
@@ -275,11 +362,16 @@ msgstr "טען עוד"
 msgid "Login"
 msgstr "התחברות"
 
+#: src/views/JoinViews/PlexViews/PlexSetupView.vue:5
+#, fuzzy
+msgid "Login to Plex"
+msgstr "היכנס ל-Plex"
+
 #: src/views/LoginViews/PasswordView.vue:16
 msgid "Login with MFA"
 msgstr "התחבר עם MFA"
 
-#: src/views/LoginViews/MFAView.vue:17
+#: src/views/LoginViews/MFAView.vue:19
 msgid "Login with Password"
 msgstr "התחבר עם סיסמה"
 
@@ -287,12 +379,12 @@ msgstr "התחבר עם סיסמה"
 msgid "Login with your account"
 msgstr "התחבר עם החשבון שלך"
 
-#: src/views/SettingsViews/DefaultView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:202
 #, fuzzy
 msgid "Logs"
 msgstr "התחברות"
 
-#: src/views/SettingsViews/DefaultView.vue:86
+#: src/views/SettingsViews/DefaultView.vue:85
 #, fuzzy
 msgid "Main Settings"
 msgstr "הגדרות"
@@ -311,7 +403,7 @@ msgstr "נהל את ההזמנות שלך"
 msgid "Manage your media server users"
 msgstr "הגדר את הגדרות השרת שלך."
 
-#: src/views/SettingsViews/DefaultView.vue:91
+#: src/views/SettingsViews/DefaultView.vue:90
 #, fuzzy
 msgid "Media Server"
 msgstr "שרת"
@@ -320,17 +412,27 @@ msgstr "שרת"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:174
+#: src/views/SettingsViews/DefaultView.vue:173
 msgid "Modify the look and feel of the server"
 msgstr "שנה את המראה והתחושה של השרת"
 
-#: src/views/SettingsViews/DefaultView.vue:159
+#: src/views/SettingsViews/DefaultView.vue:158
 msgid "Multi-Factor Authentication"
 msgstr "אימות רב-גורמי"
 
-#: src/views/SetupViews/SetupView.vue:33
+#: src/views/HelpViews/HelpView.vue:15 src/views/SetupViews/SetupView.vue:33
 msgid "Next"
 msgstr "הַבָּא"
+
+#: src/components/InvitationList/InvitationList.vue:11
+#, fuzzy
+msgid "No Invitations found"
+msgstr "אין הזמנות"
+
+#: src/components/MFAList/MFAList.vue:11
+#, fuzzy
+msgid "No Passkeys found"
+msgstr "המפתחות שלך"
 
 #: src/components/ScanServers/ScanServers.vue:15
 msgid "No servers could be found."
@@ -340,21 +442,47 @@ msgstr ""
 msgid "No settings matched your search."
 msgstr "אין הגדרות שתואמות לחיפוש שלך."
 
-#: src/views/SettingsViews/DefaultView.vue:112
+#: src/views/SettingsViews/DefaultView.vue:111
 #, fuzzy
 msgid "Notifications"
 msgstr "שירות הודעות"
 
-#: src/views/SettingsViews/DefaultView.vue:196
+#: src/views/SettingsViews/DefaultView.vue:195
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "צור הזמנה"
 
-#: src/views/SettingsViews/DefaultView.vue:140
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:47
+msgid "Open Jellyfin"
+msgstr "פתח את ג'ליפין"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:17
+#, fuzzy
+msgid "Open Plex"
+msgstr "לִפְתוֹחַ"
+
+#: src/views/SettingsViews/DefaultView.vue:139
 msgid "Password"
 msgstr "סיסמה"
 
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:16
+#, fuzzy
+msgid ""
+"Planning on watching Movies on this device? Download Jellyfin for this "
+"device or click 'Next' to for other options."
+msgstr "מתכננים לצפות בסרטים במכשיר זה? הורד את Jellyfin עבור מכשיר זה."
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:10
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
+msgstr "מתכננים לצפות בסרטים במכשיר זה? הורד את Plex עבור מכשיר זה."
+
+#: src/views/JoinViews/PlexViews/PlexSetupView.vue:3
+msgid "Please login to your Plex account to help us connect you to our server."
+msgstr ""
+
 #: src/components/Loading/FullPageLoading.vue:109
+#: src/views/JoinViews/CarouselView.vue:35
 #, fuzzy
 msgid "Please wait..."
 msgstr "המתן בבקשה"
@@ -367,7 +495,7 @@ msgstr ""
 msgid "Press the button below and follow your browser's steps to login"
 msgstr "לחץ על הלחצן למטה ובצע את השלבים של הדפדפן שלך כדי להיכנס"
 
-#: src/views/SettingsViews/DefaultView.vue:134
+#: src/views/SettingsViews/DefaultView.vue:133
 msgid "Profile"
 msgstr "פּרוֹפִיל"
 
@@ -375,7 +503,7 @@ msgstr "פּרוֹפִיל"
 msgid "Request Access"
 msgstr "לבקש גישה"
 
-#: src/views/SettingsViews/DefaultView.vue:97
+#: src/views/SettingsViews/DefaultView.vue:96
 #, fuzzy
 msgid "Requests"
 msgstr "בקש שרת"
@@ -393,16 +521,25 @@ msgstr ""
 msgid "Restore Backup"
 msgstr "צור חשבון"
 
-#: src/views/AdminViews/InviteView.vue:128
-msgid "Select All"
-msgstr "בחר הכל"
+#: src/components/Modals/ServerURLModal.vue:8
+#, fuzzy
+msgid "Save URL"
+msgstr "כתובת האתר של השרת"
+
+#: src/views/AdminViews/UsersView.vue:10
+msgid "Scan Users"
+msgstr "סרוק משתמשים"
 
 #: src/components/Modals/ScanLibrariesModal.vue:8
-#: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "בחר ספריות"
 
-#: src/views/SettingsViews/DefaultView.vue:146
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:24
+#, fuzzy
+msgid "Server URL"
+msgstr "הצג כתובת אתר של שרת"
+
+#: src/views/SettingsViews/DefaultView.vue:145
 #, fuzzy
 msgid "Sessions"
 msgstr "גִרְסָה"
@@ -411,7 +548,7 @@ msgstr "גִרְסָה"
 msgid "Settings"
 msgstr "הגדרות"
 
-#: src/views/SettingsViews/DefaultView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "הגדרת החשבון שלך"
@@ -420,9 +557,32 @@ msgstr "הגדרת החשבון שלך"
 msgid "Setup Wizarr"
 msgstr "אשף התקנה"
 
-#: src/views/AdminViews/InviteView.vue:59
-msgid "Show Information"
-msgstr "תראה מידע"
+#: src/views/JoinViews/CarouselView.vue:18
+#, fuzzy
+msgid "Setup your account"
+msgstr "הגדרת החשבון שלך"
+
+#: src/components/Forms/InviteForm.vue:46
+msgid "Share"
+msgstr "לַחֲלוֹק"
+
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:11
+msgid "So let's see how to get started!"
+msgstr "אז בואו נראה איך להתחיל!"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:7
+msgid ""
+"So you now have access to our server's media collection. Let's make sure you "
+"know how to use it with Plex."
+msgstr ""
+"אז עכשיו יש לך גישה לאוסף המדיה של השרת שלנו. בוא נוודא שאתה יודע איך להשתמש "
+"בו עם Plex."
+
+#: src/views/JoinViews/CarouselView.vue:125
+#, fuzzy
+msgid ""
+"Something went wrong while trying to join the server. Please try again later."
+msgstr "משהו השתבש. בבקשה נסה שוב מאוחר יותר."
 
 #: src/views/DefaultViews/NotFoundView.vue:13
 msgid "Something's missing."
@@ -432,11 +592,7 @@ msgstr "משהו חסר."
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
 msgstr "מצטערים, אנחנו לא יכולים למצוא את הדף הזה. נראה שזה לא קיים!"
 
-#: src/views/AdminViews/InviteView.vue:96
-msgid "Specific Libraries"
-msgstr "ספריות ספציפיות"
-
-#: src/views/SettingsViews/DefaultView.vue:152
+#: src/views/SettingsViews/DefaultView.vue:151
 #, fuzzy
 msgid "SSO Login"
 msgstr "התחברות"
@@ -445,7 +601,7 @@ msgstr "התחברות"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:209
+#: src/views/SettingsViews/DefaultView.vue:208
 #, fuzzy
 msgid "Tasks"
 msgstr "הפעל את המשימה"
@@ -455,24 +611,33 @@ msgid ""
 "This is a temporary and we are working on adding support for other databases."
 msgstr "זה זמני ואנחנו עובדים על הוספת תמיכה עבור מסדי נתונים אחרים."
 
+#: src/components/Forms/InviteForm.vue:58
 #: src/components/Modals/ScanServersModal.vue:8
 msgid "Try Again"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:173
+#: src/views/JoinViews/CarouselView.vue:5 src/views/JoinViews/JoinView.vue:5
+#, fuzzy
+msgid "Type in your invite code to %{server_name} server!"
+msgstr "הקלד את קוד ההזמנה שלך לשרת %(name)s!"
+
+#: src/views/JoinViews/CarouselView.vue:124
+#: src/views/JoinViews/CarouselView.vue:158
+#: src/views/JoinViews/CarouselView.vue:191
+#: src/views/JoinViews/CarouselView.vue:196
+#: src/views/JoinViews/CarouselView.vue:219
+#: src/views/JoinViews/CarouselView.vue:224
+#: src/views/JoinViews/CarouselView.vue:238
+#: src/views/JoinViews/CarouselView.vue:239
+msgid "Uh oh!"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:172
 #, fuzzy
 msgid "UI Settings"
 msgstr "הגדרות"
 
-#: src/views/AdminViews/InviteView.vue:74
-msgid "Unlimited"
-msgstr "ללא הגבלה"
-
-#: src/views/AdminViews/InviteView.vue:25
-msgid "Unlimited Usages"
-msgstr "שימושים בלתי מוגבלים"
-
-#: src/views/SettingsViews/DefaultView.vue:215
+#: src/views/SettingsViews/DefaultView.vue:214
 #, fuzzy
 msgid "Updates"
 msgstr "עדכון"
@@ -489,20 +654,20 @@ msgstr "משתמשים"
 msgid "View"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:204
+#: src/views/SettingsViews/DefaultView.vue:203
 msgid "View and download server logs"
 msgstr "הצג והורד יומני שרת"
 
-#: src/views/SettingsViews/DefaultView.vue:210
+#: src/views/SettingsViews/DefaultView.vue:209
 msgid "View and manage scheduled tasks"
 msgstr "הצג ונהל משימות מתוזמנות"
 
-#: src/views/SettingsViews/DefaultView.vue:147
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "נהל את ההזמנות שלך"
 
-#: src/views/SettingsViews/DefaultView.vue:229
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "View information about the server"
 msgstr "הצג מידע על השרת"
 
@@ -524,12 +689,13 @@ msgstr ""
 msgid "Welcome to Wizarr"
 msgstr "ברוכים הבאים ל-Wizarr"
 
-#: src/views/AdminViews/InviteView.vue:65
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:8
 msgid ""
-"When set, invited user(s) will be removed from the server after the set "
-"number of days. (1-999)"
+"With Plex, you'll have access to all of the movies, TV shows, music, and "
+"photos that are stored on their server!"
 msgstr ""
-"כאשר מוגדר, המשתמש/ים המוזמנים יוסרו מהשרת לאחר מספר הימים שנקבע. (1-999)"
+"עם Plex, תהיה לך גישה לכל הסרטים, תוכניות הטלוויזיה, המוזיקה והתמונות "
+"המאוחסנים בשרת שלהם!"
 
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
@@ -564,9 +730,72 @@ msgstr ""
 msgid "You have successfully completed the setup process."
 msgstr "השלמת בהצלחה את תהליך ההגדרה."
 
+#: src/views/JoinViews/CompleteView.vue:4
+#, fuzzy
+msgid ""
+"You're all set, click continue to get started and walkthrough how to use "
+"%{serverName}!"
+msgstr "אתה מוכן, לחץ על המשך כדי להתחיל ולהדריך כיצד להשתמש ב-Plex!"
+
+#: src/views/JoinViews/CarouselView.vue:24
+#, fuzzy
+msgid "Your account has been created!"
+msgstr "ההזמנה נוצרה"
+
 #: src/views/SetupViews/CompleteView.vue:3
 msgid "Your Done"
 msgstr "שלך בוצע"
+
+#~ msgid "1 Day"
+#~ msgstr "יום 1"
+
+#~ msgid "1 Month"
+#~ msgstr "1 חודש"
+
+#~ msgid "1 Week"
+#~ msgstr "שבוע 1"
+
+#~ msgid "1 Year"
+#~ msgstr "1 שנה"
+
+#~ msgid "6 Months"
+#~ msgstr "6 חודשים"
+
+#~ msgid "Allow Downloads"
+#~ msgstr "אפשר הורדות"
+
+#~ msgid "Custom"
+#~ msgstr "המותאם אישית"
+
+#~ msgid "Custom Duration"
+#~ msgstr "משך מותאם אישית"
+
+#~ msgid "Duration"
+#~ msgstr "מֶשֶׁך"
+
+#~ msgid "Invite to Plex Home"
+#~ msgstr "הזמנה ל-Plex Home"
+
+#~ msgid "Select All"
+#~ msgstr "בחר הכל"
+
+#~ msgid "Show Information"
+#~ msgstr "תראה מידע"
+
+#~ msgid "Specific Libraries"
+#~ msgstr "ספריות ספציפיות"
+
+#~ msgid "Unlimited"
+#~ msgstr "ללא הגבלה"
+
+#~ msgid "Unlimited Usages"
+#~ msgstr "שימושים בלתי מוגבלים"
+
+#~ msgid ""
+#~ "When set, invited user(s) will be removed from the server after the set "
+#~ "number of days. (1-999)"
+#~ msgstr ""
+#~ "כאשר מוגדר, המשתמש/ים המוזמנים יוסרו מהשרת לאחר מספר הימים שנקבע. (1-999)"
 
 #~ msgid "Custom Expiration"
 #~ msgstr "תפוגה מותאמת אישית"
@@ -623,12 +852,6 @@ msgstr "שלך בוצע"
 #~ msgid "Successfully generated an Invitation!"
 #~ msgstr "הזמנה נוצרה בהצלחה!"
 
-#~ msgid "Link has been copied to clipboard!"
-#~ msgstr "הקישור הועתק ללוח!"
-
-#~ msgid "Share"
-#~ msgstr "לַחֲלוֹק"
-
 #~ msgid "An error occurred while copying the link to the clipboard!"
 #~ msgstr "אירעה שגיאה בעת העתקת הקישור ללוח!"
 
@@ -641,14 +864,8 @@ msgstr "שלך בוצע"
 #~ msgid "Creating..."
 #~ msgstr "יוצר..."
 
-#~ msgid "The invite has been created"
-#~ msgstr "ההזמנה נוצרה"
-
 #~ msgid "There was an error creating the invite"
 #~ msgstr "אירעה שגיאה ביצירת ההזמנה"
-
-#~ msgid "Create Invite"
-#~ msgstr "צור הזמנה"
 
 #~ msgid "Delete All"
 #~ msgstr "מחק הכל"
@@ -664,9 +881,6 @@ msgstr "שלך בוצע"
 
 #~ msgid "Manage users that joined your server"
 #~ msgstr "נהל משתמשים שהצטרפו לשרת שלך"
-
-#~ msgid "Scan Users"
-#~ msgstr "סרוק משתמשים"
 
 #~ msgid "Add User"
 #~ msgstr "הוסף משתמש"
@@ -690,19 +904,6 @@ msgstr "שלך בוצע"
 
 #~ msgid "Please enter your username"
 #~ msgstr "אנא הזן שם משתמש"
-
-#~ msgid "Invalid Invitation"
-#~ msgstr "הזמנה לא חוקית"
-
-#, python-format
-#~ msgid "Type in your invite code to %(name)s server!"
-#~ msgstr "הקלד את קוד ההזמנה שלך לשרת %(name)s!"
-
-#~ msgid "Invite Code"
-#~ msgstr "קוד הזמנה"
-
-#~ msgid "Join"
-#~ msgstr "לְהִצְטַרֵף"
 
 #, python-format
 #~ msgid "You've been invited to join the %(name)s server!"
@@ -761,15 +962,6 @@ msgstr "שלך בוצע"
 #~ msgid "Creating Jellyfin Account"
 #~ msgstr "צור חשבון"
 
-#~ msgid "Join the Plex Server"
-#~ msgstr "הצטרף לשרת Plex"
-
-#~ msgid "Sign in to Plex"
-#~ msgstr "היכנס ל-Plex"
-
-#~ msgid "Setting up your account"
-#~ msgstr "הגדרת החשבון שלך"
-
 #~ msgid "Almost there!"
 #~ msgstr "כמעט שם!"
 
@@ -779,19 +971,8 @@ msgstr "שלך בוצע"
 #~ msgid "Account created!"
 #~ msgstr "חשבון נוצר!"
 
-#~ msgid ""
-#~ "You're all set, click continue to get started and walkthrough how to use "
-#~ "Plex!"
-#~ msgstr "אתה מוכן, לחץ על המשך כדי להתחיל ולהדריך כיצד להשתמש ב-Plex!"
-
 #~ msgid "Help"
 #~ msgstr "עֶזרָה"
-
-#~ msgid "Getting Started!"
-#~ msgstr "מתחילים!"
-
-#~ msgid "Open"
-#~ msgstr "לִפְתוֹחַ"
 
 #~ msgid "Automatic Media Requests"
 #~ msgstr "בקשות מדיה אוטומטיות"
@@ -828,37 +1009,11 @@ msgstr "שלך בוצע"
 #~ "        עבור המכשיר הזה"
 
 #~ msgid ""
-#~ "Great news! You now have access to our server's media collection. Let's "
-#~ "make sure you know how to use\n"
-#~ "    it with Jellyfin."
-#~ msgstr ""
-#~ "חדשות טובות! כעת יש לך גישה לאוסף המדיה של השרת שלנו. בוא נוודא שאתה יודע "
-#~ "איך להשתמש\n"
-#~ "    זה עם ג'ליפין."
-
-#~ msgid ""
-#~ "Planning on watching Movies on this device? Download Jellyfin for this "
-#~ "device."
-#~ msgstr "מתכננים לצפות בסרטים במכשיר זה? הורד את Jellyfin עבור מכשיר זה."
-
-#~ msgid ""
 #~ "If you don't wish to Download the App feel free to use Jellyfin in your "
 #~ "devices web browser, just click \"Next\"."
 #~ msgstr ""
 #~ "אם אינך רוצה להוריד את האפליקציה אל תהסס להשתמש ב- Jellyfin בדפדפן "
 #~ "האינטרנט של המכשיר שלך, פשוט לחץ על \"הבא\"."
-
-#~ msgid "Show Server URL"
-#~ msgstr "הצג כתובת אתר של שרת"
-
-#~ msgid "Server URL"
-#~ msgstr "כתובת האתר של השרת"
-
-#~ msgid "Copy"
-#~ msgstr "עותק"
-
-#~ msgid "Open Jellyfin"
-#~ msgstr "פתח את ג'ליפין"
 
 #~ msgid "Other Download"
 #~ msgstr "הורדה אחרת"
@@ -882,39 +1037,6 @@ msgstr "שלך בוצע"
 
 #~ msgid "It's that easy!"
 #~ msgstr "זה כזה קל!"
-
-#~ msgid "Eh, So, What is Jellyfin exactly?"
-#~ msgstr "אה, אז מה זה ג'ליפין בדיוק?"
-
-#~ msgid ""
-#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV "
-#~ "shows, and music in one place. It's like having your own personal movie "
-#~ "theater right at your fingertips! Think of it as a digital library of "
-#~ "your favorite content that you can access from anywhere, on any device - "
-#~ "your phone, tablet, laptop, smart TV, you name it."
-#~ msgstr ""
-#~ "Jellyfin היא פלטפורמה המאפשרת לך להזרים את כל הסרטים, תוכניות הטלוויזיה "
-#~ "והמוזיקה האהובים עליך במקום אחד. זה כמו שיש לך בית קולנוע אישי משלך ממש "
-#~ "בהישג ידך! תחשוב על זה כעל ספרייה דיגיטלית של התוכן האהוב עליך שאתה יכול "
-#~ "לגשת אליו מכל מקום, בכל מכשיר - הטלפון, הטאבלט, המחשב הנייד, הטלוויזיה "
-#~ "החכמה, אתה שם את זה."
-
-#~ msgid "Join & Download Plex for this device"
-#~ msgstr "הצטרף והורד את Plex עבור מכשיר זה"
-
-#~ msgid ""
-#~ "So you now have access to our server's media collection. Let's make sure "
-#~ "you know how to use it with Plex."
-#~ msgstr ""
-#~ "אז עכשיו יש לך גישה לאוסף המדיה של השרת שלנו. בוא נוודא שאתה יודע איך "
-#~ "להשתמש בו עם Plex."
-
-#~ msgid ""
-#~ "Planning on watching Movies on this device? Download Plex for this device."
-#~ msgstr "מתכננים לצפות בסרטים במכשיר זה? הורד את Plex עבור מכשיר זה."
-
-#~ msgid "Download"
-#~ msgstr "הורד"
 
 #~ msgid ""
 #~ "It couldn't be simpler! Plex is available on a wide variety of devices "
@@ -952,27 +1074,6 @@ msgstr "שלך בוצע"
 #~ "אנחנו מאוד\n"
 #~ "            ממליץ לך לעבור את השלבים האלה תחילה!"
 
-#~ msgid "Eh, So, What is Plex exactly?"
-#~ msgstr "אה, אז מה זה Plex בדיוק?"
-
-#~ msgid ""
-#~ "Great question! Plex is a software that allows individuals to share their "
-#~ "media collections with others. If you've received this invitation, it "
-#~ "means someone wants to share their library with you."
-#~ msgstr ""
-#~ "שאלה מצוינת! Plex היא תוכנה המאפשרת לאנשים לחלוק את אוספי המדיה שלהם עם "
-#~ "אחרים. אם קיבלת הזמנה זו, זה אומר שמישהו רוצה לחלוק איתך את הספרייה שלו."
-
-#~ msgid ""
-#~ "With Plex, you'll have access to all of the movies, TV shows, music, and "
-#~ "photos that are stored on their server!"
-#~ msgstr ""
-#~ "עם Plex, תהיה לך גישה לכל הסרטים, תוכניות הטלוויזיה, המוזיקה והתמונות "
-#~ "המאוחסנים בשרת שלהם!"
-
-#~ msgid "So let's see how to get started!"
-#~ msgstr "אז בואו נראה איך להתחיל!"
-
 #~ msgid "Permission denied."
 #~ msgstr "ההרשאה נדחתה."
 
@@ -982,17 +1083,11 @@ msgstr "שלך בוצע"
 #~ msgid "Internal Server Error."
 #~ msgstr "שגיאת שרת פנימית."
 
-#~ msgid " Something has gone wrong. Please try again later."
-#~ msgstr "משהו השתבש. בבקשה נסה שוב מאוחר יותר."
-
 #~ msgid "Get Help"
 #~ msgstr "תקבל עזרה"
 
 #~ msgid "or"
 #~ msgstr "אוֹ"
-
-#~ msgid "Add Passkey"
-#~ msgstr "הוסף מפתח סיסמה"
 
 #~ msgid "Name"
 #~ msgstr "שֵׁם"
@@ -1187,9 +1282,6 @@ msgstr "שלך בוצע"
 #~ msgid "Settings failed to save!"
 #~ msgstr "אין הגדרות שתואמות לחיפוש שלך."
 
-#~ msgid "Create Agent"
-#~ msgstr "צור סוכן"
-
 #~ msgid "Add OAuth"
 #~ msgstr "הוסף OAuth"
 
@@ -1229,15 +1321,8 @@ msgstr "שלך בוצע"
 #~ msgid "Edit"
 #~ msgstr "לַעֲרוֹך"
 
-#, fuzzy
-#~ msgid "Expires"
-#~ msgstr "לא בתוקף"
-
 #~ msgid "Used"
 #~ msgstr "בשימוש"
-
-#~ msgid "Expired"
-#~ msgstr "לא בתוקף"
 
 #~ msgid "Libraries"
 #~ msgstr "ספריות"
@@ -1245,14 +1330,8 @@ msgstr "שלך בוצע"
 #~ msgid "Created"
 #~ msgstr "נוצר"
 
-#~ msgid "No Invitations"
-#~ msgstr "אין הזמנות"
-
 #~ msgid "You have not created any invitations yet."
 #~ msgstr "עדיין לא יצרת הזמנות."
-
-#~ msgid "Your Passkeys"
-#~ msgstr "המפתחות שלך"
 
 #~ msgid "Add a passkey"
 #~ msgstr "הוסף מפתח סיסמה"

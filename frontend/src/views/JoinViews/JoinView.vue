@@ -11,7 +11,7 @@
                         <h1 class="relative text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                             {{ __("Join the %{server_type} Server", { server_type: serverType }) }}
                         </h1>
-                        <JoinForm />
+                        <JoinForm @join="joinRedirect" />
                     </div>
                 </div>
             </div>
@@ -45,6 +45,11 @@ export default defineComponent({
             }
         },
         ...mapState(useServerStore, ["settings"]),
+    },
+    methods: {
+        joinRedirect(code: string) {
+            this.$router.push(`/j/${code}?join=true`);
+        },
     },
 });
 </script>

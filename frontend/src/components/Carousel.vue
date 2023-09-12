@@ -6,8 +6,23 @@
                 <section>
                     <div class="flex flex-col items-center justify-center">
                         <div class="relative w-full">
-                            <div class="px-6 pb-6 sm:px-8 sm:pb-8 text-gray-900 dark:text-white">
-                                <component v-bind="_props[view.name] || view.props" @next="_carousel?.next()" @prev="_carousel?.prev()" @height="updateHeight()" :is="view.view" />
+                            <div class="text-gray-900 dark:text-white" :class="classes.wrapper">
+                                <template v-if="boxed">
+                                    <div class="flex flex-col items-center justify-center md:container p-8 mx-auto">
+                                        <div class="w-full md:w-1/2 lg:w-1/3 bg-white rounded shadow dark:border dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
+                                            <div class="relative">
+                                                <div class="text-gray-900 dark:text-white">
+                                                    <div class="block w-full" :class="classes.inner">
+                                                        <component v-bind="_props[view.name] || view.props" @next="_carousel?.next()" @prev="_carousel?.prev()" @height="updateHeight()" :is="view.view" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <component v-bind="_props[view.name] || view.props" @next="_carousel?.next()" @prev="_carousel?.prev()" @height="updateHeight()" :is="view.view" />
+                                </template>
                             </div>
                         </div>
                     </div>
@@ -32,6 +47,9 @@ interface CarouselViewProps {
     views: Array<{ name: string; url?: string; view: Component; props?: Record<string, any> }>;
     currentView: number;
     callbacks: { onChange?: (carousel: CarouselInterface) => void; onNext?: (carousel: CarouselInterface) => void };
+    props: Record<string, any>;
+    classes: Partial<{ wrapper: string; inner: string }>;
+    boxed: boolean;
 }
 
 export default defineComponent({
@@ -41,6 +59,19 @@ export default defineComponent({
         DefaultLoading,
     },
     props: {
+        boxed: {
+            type: Boolean as () => CarouselViewProps["boxed"],
+            default: false,
+            required: false,
+        },
+        classes: {
+            type: Object as () => CarouselViewProps["classes"],
+            default: () => ({
+                wrapper: "px-6 pb-6 sm:px-8 sm:pb-8",
+                inner: "",
+            }),
+            required: false,
+        },
         views: {
             type: Array as () => CarouselViewProps["views"],
             required: true,
@@ -56,7 +87,7 @@ export default defineComponent({
             required: false,
         },
         props: {
-            type: Object as () => Record<string, any>,
+            type: Object as () => CarouselViewProps["props"],
             default: () => ({}),
             required: false,
         },

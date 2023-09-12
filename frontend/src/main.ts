@@ -20,6 +20,7 @@ import Filters, { piniaPluginFilters } from "./plugins/filters";
 
 import formkitConfig from "./formkit.config";
 import { plugin, defaultConfig } from "@formkit/vue";
+// import { Plugin as VanillaPlugin } from "@flavorly/vanilla-components";
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -35,7 +36,7 @@ app.use(VueProgressBar, {
     failedColor: "#f44336",
     thickness: "2px",
 });
-
+// app.use(VanillaPlugin);
 app.use(FloatingVue);
 app.use(plugin, defaultConfig(formkitConfig));
 app.use(Socket, { uri: window.location.origin });

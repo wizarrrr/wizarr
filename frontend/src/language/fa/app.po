@@ -18,88 +18,69 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: src/views/AdminViews/InviteView.vue:75
-msgid "1 Day"
-msgstr "1 روز"
-
-#: src/views/AdminViews/InviteView.vue:77
-msgid "1 Month"
-msgstr "1 ماه"
-
-#: src/views/AdminViews/InviteView.vue:76
-msgid "1 Week"
-msgstr "1 هفته"
-
-#: src/views/AdminViews/InviteView.vue:79
-msgid "1 Year"
-msgstr "1 سال"
-
-#: src/views/AdminViews/InviteView.vue:78
-msgid "6 Months"
-msgstr "6 ماه"
-
-#: src/views/SettingsViews/DefaultView.vue:228
+#: src/views/SettingsViews/DefaultView.vue:227
 msgid "About"
 msgstr "در باره"
 
-#: src/views/SettingsViews/DefaultView.vue:129
+#: src/views/SettingsViews/DefaultView.vue:128
 #, fuzzy
 msgid "Account Settings"
 msgstr "تنظیمات"
 
-#: src/views/SettingsViews/DefaultView.vue:105
+#: src/views/SettingsViews/DefaultView.vue:104
 msgid "Add API keys for external services"
 msgstr "کلیدهای API را برای سرویس های خارجی اضافه کنید"
 
-#: src/views/SettingsViews/DefaultView.vue:185
+#: src/views/SettingsViews/DefaultView.vue:184
 msgid "Add Custom HTML page to help screen"
 msgstr "صفحه HTML سفارشی را برای صفحه راهنما اضافه کنید"
 
-#: src/views/SettingsViews/DefaultView.vue:98
+#: src/views/SettingsViews/DefaultView.vue:97
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "پشتیبانی Jellyseerr، Overeerr یا Ombi را اضافه کنید"
+
+#: src/views/SettingsViews/MFAView.vue:9
+msgid "Add Passkey"
+msgstr "رمز عبور را اضافه کنید"
 
 #: src/views/SetupViews/AccountView.vue:3
 msgid "Admin Account"
 msgstr "حساب مدیریت"
 
-#: src/views/AdminViews/InviteView.vue:15
+#: src/components/Forms/InviteForm.vue:18
 msgid "Advanced Options"
 msgstr "گزینه های پیشرفته"
 
-#: src/views/SettingsViews/DefaultView.vue:192
+#: src/views/SettingsViews/DefaultView.vue:191
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "گزینه های پیشرفته"
 
-#: src/views/SettingsViews/DefaultView.vue:193
+#: src/views/SettingsViews/DefaultView.vue:192
 msgid "Advanced settings for the server"
 msgstr "تنظیمات پیشرفته برای سرور"
 
-#: src/views/AdminViews/InviteView.vue:41
-msgid "Allow Downloads"
-msgstr "اجازه دانلودها"
-
-#: src/views/SettingsViews/DefaultView.vue:104
+#: src/views/SettingsViews/DefaultView.vue:103
 #, fuzzy
 msgid "API keys"
 msgstr "توکن API"
 
-#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/HelpViews/HelpView.vue:12
+#: src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "بازگشت"
 
-#: src/views/SettingsViews/DefaultView.vue:222
+#: src/views/SettingsViews/DefaultView.vue:221
 #, fuzzy
 msgid "Backup"
 msgstr "بازگشت"
 
-#: src/views/SettingsViews/DefaultView.vue:141
+#: src/views/SettingsViews/DefaultView.vue:140
 #, fuzzy
 msgid "Change your password"
 msgstr "رمز عبور خود را فراموش کرده اید؟"
 
-#: src/views/SettingsViews/DefaultView.vue:216
+#: src/views/SettingsViews/DefaultView.vue:215
 msgid "Check for and view updates"
 msgstr "به روز رسانی ها را بررسی و مشاهده کنید"
 
@@ -111,42 +92,70 @@ msgstr ""
 "برای دستورالعمل های دقیق در مورد نحوه نصب و اجرای Wizarr، مستندات ما را "
 "بررسی کنید!"
 
-#: src/views/SettingsViews/DefaultView.vue:121
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "تنظیمات سرور خود را پیکربندی کنید."
 
-#: src/views/SettingsViews/DefaultView.vue:160
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Configure MFA authentication"
 msgstr "احراز هویت MFA را پیکربندی کنید"
 
-#: src/views/SettingsViews/DefaultView.vue:113
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "تنظیمات سرور خود را پیکربندی کنید."
 
-#: src/views/SettingsViews/DefaultView.vue:197
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "ایجاد دعوت نامه"
 
-#: src/views/SettingsViews/DefaultView.vue:153
+#: src/views/SettingsViews/DefaultView.vue:152
 msgid "Configure SSO login"
 msgstr "پیکربندی ورود به سیستم SSO"
 
-#: src/views/SettingsViews/DefaultView.vue:92
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "تنظیمات سرور خود را پیکربندی کنید."
 
-#: src/views/SettingsViews/DefaultView.vue:135
+#: src/views/SettingsViews/DefaultView.vue:134
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "تنظیمات سرور خود را پیکربندی کنید."
 
+#: src/views/JoinViews/CompleteView.vue:7 src/views/LoginViews/MFAView.vue:15
 #: src/views/LoginViews/UsernameView.vue:11
 msgid "Continue"
 msgstr "ادامه هید"
+
+#: src/components/InvitationList/InvitationItem.vue:49
+#, fuzzy
+msgid "Copied to clipboard"
+msgstr "پیوند در کلیپ بورد کپی شده است!"
+
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:28
+msgid "Copy"
+msgstr "کپی 🀄"
+
+#: src/views/JoinViews/CarouselView.vue:158
+#: src/views/JoinViews/CarouselView.vue:238
+#, fuzzy
+msgid "Could not connect to the server."
+msgstr "ظاهر و احساس سرور را تغییر دهید"
+
+#: src/views/JoinViews/CarouselView.vue:191
+#: src/views/JoinViews/CarouselView.vue:196
+#: src/views/JoinViews/CarouselView.vue:219
+#: src/views/JoinViews/CarouselView.vue:224
+#, fuzzy
+msgid "Could not create the account."
+msgstr "ایجاد حساب کاربری"
+
+#: src/views/JoinViews/CarouselView.vue:171
+msgid "Could not verify the invite code."
+msgstr ""
 
 #: src/views/SetupViews/AccountView.vue:24
 msgid "Create account"
@@ -157,35 +166,35 @@ msgstr "ایجاد حساب کاربری"
 msgid "Create an invitation to your server"
 msgstr "یک دعوت نامه برای سرور خود ایجاد کنید."
 
-#: src/views/SettingsViews/DefaultView.vue:223
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "یک حساب کاربری ایجاد کنید"
+
+#: src/components/Forms/InviteForm.vue:43
+#, fuzzy
+msgid "Create Another"
+msgstr "ایجاد عامل"
 
 #: src/views/AdminViews/FlowEditor.vue:4
 #, fuzzy
 msgid "Create Flow"
 msgstr "ايجاد كردن"
 
-#: src/views/AdminViews/InviteView.vue:137
-#: src/views/AdminViews/InviteView.vue:2
+#: src/components/Forms/InviteForm.vue:22 src/views/AdminViews/InviteView.vue:2
 msgid "Create Invitation"
 msgstr "ایجاد دعوت نامه"
+
+#: src/views/AdminViews/InvitationsView.vue:7
+msgid "Create Invite"
+msgstr "ایجاد دعوت"
 
 #: src/views/SetupViews/DatabaseView.vue:6
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr ""
 "در حال حاضر Wizarr فقط از پایگاه داده داخلی SQLite خود پشتیبانی می کند."
 
-#: src/views/AdminViews/InviteView.vue:80
-msgid "Custom"
-msgstr "سفارشی"
-
-#: src/views/AdminViews/InviteView.vue:88
-msgid "Custom Duration"
-msgstr "مدت زمان سفارشی"
-
-#: src/views/SettingsViews/DefaultView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:183
 #, fuzzy
 msgid "Custom HTML"
 msgstr "سفارشی"
@@ -194,12 +203,12 @@ msgstr "سفارشی"
 msgid "Database"
 msgstr "پایگاه داده"
 
-#: src/views/SettingsViews/DefaultView.vue:178
+#: src/views/SettingsViews/DefaultView.vue:177
 #, fuzzy
 msgid "Discord"
 msgstr "ویجت Discord"
 
-#: src/views/SettingsViews/DefaultView.vue:120
+#: src/views/SettingsViews/DefaultView.vue:119
 #, fuzzy
 msgid "Discord Bot"
 msgstr "ویجت Discord"
@@ -208,26 +217,48 @@ msgstr "ویجت Discord"
 msgid "Don't see your server?"
 msgstr ""
 
-#: src/views/AdminViews/InviteView.vue:51
-#: src/views/AdminViews/InviteView.vue:64
-msgid "Duration"
-msgstr "مدت زمان"
+#: src/views/HelpViews/JellyfinViews/WelcomeView.vue:3
+msgid "Eh, So, What is Jellyfin exactly?"
+msgstr "اوه، بنابراین، Jellyfin دقیقا چیست؟"
 
-#: src/views/SettingsViews/DefaultView.vue:179
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:3
+msgid "Eh, So, What is Plex exactly?"
+msgstr "اوه، خب، Plex دقیقا چیست؟"
+
+#: src/views/SettingsViews/DefaultView.vue:178
 msgid "Enable Discord page and configure settings"
 msgstr "صفحه Discord را فعال کنید و تنظیمات را پیکربندی کنید"
+
+#: src/components/InvitationList/InvitationItem.vue:59
+#, fuzzy
+msgid "Expired %{s}"
+msgstr "منقضی شده"
+
+#: src/components/InvitationList/InvitationItem.vue:61
+#, fuzzy
+msgid "Expires %{s}"
+msgstr "منقضی شده"
+
+#: src/components/Forms/InviteForm.vue:54
+#, fuzzy
+msgid "Failed to create invitation"
+msgstr "ایجاد دعوت نامه"
 
 #: src/views/AdminViews/FlowEditor.vue:2
 msgid "Flow Editor"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:87
+#: src/views/SettingsViews/DefaultView.vue:86
 msgid "General settings for the server"
 msgstr "تنظیمات کلی برای سرور"
 
 #: src/views/DefaultViews/HomeView.vue:14
 msgid "Get Started"
 msgstr "شروع کنید"
+
+#: src/views/HelpViews/HelpView.vue:5
+msgid "Getting Started!"
+msgstr "شروع شدن!"
 
 #: src/views/DefaultViews/NotFoundView.vue:18
 #, fuzzy
@@ -243,6 +274,26 @@ msgstr "به داشبورد بروید"
 msgid "Go to Login"
 msgstr "وارد شدن"
 
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:8
+#, fuzzy
+msgid ""
+"Great news! You now have access to our server's media collection. Let's make "
+"sure you know how to use it with Jellyfin."
+msgstr ""
+"خبر عالی! اکنون به مجموعه رسانه های سرور ما دسترسی دارید. بیایید مطمئن شویم "
+"که نحوه استفاده را می دانید\n"
+"    آن را با Jellyfin."
+
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:5
+msgid ""
+"Great question! Plex is a software that allows individuals to share their "
+"media collections with others. If you've received this invitation, it means "
+"someone wants to share their library with you."
+msgstr ""
+"سوال عالی! Plex نرم افزاری است که به افراد امکان می دهد مجموعه های رسانه ای "
+"خود را با دیگران به اشتراک بگذارند. اگر این دعوت را دریافت کرده اید، به این "
+"معنی است که شخصی می خواهد کتابخانه خود را با شما به اشتراک بگذارد."
+
 #: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
@@ -257,18 +308,56 @@ msgstr ""
 "اگر توسط یکی از دوستان شما به اینجا فرستاده شده است، لطفاً درخواست دسترسی "
 "کنید یا اگر کد دعوت دارید، لطفاً روی شروع کلیک کنید."
 
+#: src/views/JoinViews/CarouselView.vue:170
+#, fuzzy
+msgid "Invalid Invite!"
+msgstr "دعوت نامعتبر"
+
 #: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "دعوت نامه ها"
 
-#: src/views/AdminViews/InviteView.vue:33
-msgid "Invite to Plex Home"
-msgstr "به Plex Home دعوت کنید"
+#: src/components/Forms/JoinForm.vue:10
+msgid "Invite Code"
+msgstr "کد دعوت"
 
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "کاربران دعوت شده"
+
+#: src/views/HelpViews/JellyfinViews/WelcomeView.vue:5
+msgid ""
+"Jellyfin is a platform that lets you stream all your favorite movies, TV "
+"shows, and music in one place. It's like having your own personal movie "
+"theater right at your fingertips! Think of it as a digital library of your "
+"favorite content that you can access from anywhere, on any device - your "
+"phone, tablet, laptop, smart TV, you name it."
+msgstr ""
+"Jellyfin پلتفرمی است که به شما امکان می دهد تمام فیلم ها، برنامه های "
+"تلویزیونی و موسیقی مورد علاقه خود را در یک مکان پخش کنید. مثل این است که "
+"سینمای شخصی خود را در دستان خود داشته باشید! آن را به عنوان یک کتابخانه "
+"دیجیتالی از محتوای مورد علاقه خود در نظر بگیرید که می توانید از هر کجا و در "
+"هر دستگاهی - تلفن، تبلت، لپ تاپ، تلویزیون هوشمند خود، به آن دسترسی داشته "
+"باشید."
+
+#: src/components/Forms/JoinForm.vue:7
+msgid "Join"
+msgstr "پیوستن"
+
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:4
+#, fuzzy
+msgid "Join & Download"
+msgstr "دانلود"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:4
+msgid "Join & Download Plex for this device"
+msgstr "به Plex بپیوندید و برای این دستگاه دانلود کنید"
+
+#: src/views/JoinViews/CarouselView.vue:15 src/views/JoinViews/JoinView.vue:12
+#, fuzzy
+msgid "Join the %{server_type} Server"
+msgstr "به سرور Plex بپیوندید"
 
 #: src/components/ChangeLogs/ChangeLogs.vue:7
 msgid "Load More"
@@ -278,11 +367,16 @@ msgstr "بارگذاری بیشتر"
 msgid "Login"
 msgstr "وارد شدن"
 
+#: src/views/JoinViews/PlexViews/PlexSetupView.vue:5
+#, fuzzy
+msgid "Login to Plex"
+msgstr "وارد Plex شوید"
+
 #: src/views/LoginViews/PasswordView.vue:16
 msgid "Login with MFA"
 msgstr "با MFA وارد شوید"
 
-#: src/views/LoginViews/MFAView.vue:17
+#: src/views/LoginViews/MFAView.vue:19
 msgid "Login with Password"
 msgstr "با رمز عبور وارد شوید"
 
@@ -290,12 +384,12 @@ msgstr "با رمز عبور وارد شوید"
 msgid "Login with your account"
 msgstr "با حساب کاربری خود وارد شوید"
 
-#: src/views/SettingsViews/DefaultView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:202
 #, fuzzy
 msgid "Logs"
 msgstr "وارد شدن"
 
-#: src/views/SettingsViews/DefaultView.vue:86
+#: src/views/SettingsViews/DefaultView.vue:85
 #, fuzzy
 msgid "Main Settings"
 msgstr "تنظیمات"
@@ -314,7 +408,7 @@ msgstr "دعوت نامه های خود را مدیریت کنید"
 msgid "Manage your media server users"
 msgstr "تنظیمات سرور خود را پیکربندی کنید."
 
-#: src/views/SettingsViews/DefaultView.vue:91
+#: src/views/SettingsViews/DefaultView.vue:90
 #, fuzzy
 msgid "Media Server"
 msgstr "سرور"
@@ -323,17 +417,27 @@ msgstr "سرور"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:174
+#: src/views/SettingsViews/DefaultView.vue:173
 msgid "Modify the look and feel of the server"
 msgstr "ظاهر و احساس سرور را تغییر دهید"
 
-#: src/views/SettingsViews/DefaultView.vue:159
+#: src/views/SettingsViews/DefaultView.vue:158
 msgid "Multi-Factor Authentication"
 msgstr "احراز هویت چند عاملی"
 
-#: src/views/SetupViews/SetupView.vue:33
+#: src/views/HelpViews/HelpView.vue:15 src/views/SetupViews/SetupView.vue:33
 msgid "Next"
 msgstr "بعد"
+
+#: src/components/InvitationList/InvitationList.vue:11
+#, fuzzy
+msgid "No Invitations found"
+msgstr "بدون دعوت نامه"
+
+#: src/components/MFAList/MFAList.vue:11
+#, fuzzy
+msgid "No Passkeys found"
+msgstr "رمز عبور شما"
 
 #: src/components/ScanServers/ScanServers.vue:15
 msgid "No servers could be found."
@@ -343,21 +447,51 @@ msgstr ""
 msgid "No settings matched your search."
 msgstr "هیچ تنظیماتی با جستجوی شما مطابقت نداشت."
 
-#: src/views/SettingsViews/DefaultView.vue:112
+#: src/views/SettingsViews/DefaultView.vue:111
 #, fuzzy
 msgid "Notifications"
 msgstr "سرویس اطلاع رسانی"
 
-#: src/views/SettingsViews/DefaultView.vue:196
+#: src/views/SettingsViews/DefaultView.vue:195
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "ایجاد دعوت نامه"
 
-#: src/views/SettingsViews/DefaultView.vue:140
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:47
+msgid "Open Jellyfin"
+msgstr "Jellyfin را باز کنید"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:17
+#, fuzzy
+msgid "Open Plex"
+msgstr "باز کن"
+
+#: src/views/SettingsViews/DefaultView.vue:139
 msgid "Password"
 msgstr "کلمه عبور"
 
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:16
+#, fuzzy
+msgid ""
+"Planning on watching Movies on this device? Download Jellyfin for this "
+"device or click 'Next' to for other options."
+msgstr ""
+"آیا قصد تماشای فیلم در این دستگاه را دارید؟ Jellyfin را برای این دستگاه "
+"دانلود کنید."
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:10
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
+msgstr ""
+"آیا قصد تماشای فیلم در این دستگاه را دارید؟ Plex را برای این دستگاه دانلود "
+"کنید."
+
+#: src/views/JoinViews/PlexViews/PlexSetupView.vue:3
+msgid "Please login to your Plex account to help us connect you to our server."
+msgstr ""
+
 #: src/components/Loading/FullPageLoading.vue:109
+#: src/views/JoinViews/CarouselView.vue:35
 #, fuzzy
 msgid "Please wait..."
 msgstr "لطفا صبر کنید"
@@ -370,7 +504,7 @@ msgstr ""
 msgid "Press the button below and follow your browser's steps to login"
 msgstr "دکمه زیر را فشار دهید و مراحل مرورگر خود را برای ورود دنبال کنید"
 
-#: src/views/SettingsViews/DefaultView.vue:134
+#: src/views/SettingsViews/DefaultView.vue:133
 msgid "Profile"
 msgstr "مشخصات"
 
@@ -378,7 +512,7 @@ msgstr "مشخصات"
 msgid "Request Access"
 msgstr "درخواست دسترسی"
 
-#: src/views/SettingsViews/DefaultView.vue:97
+#: src/views/SettingsViews/DefaultView.vue:96
 #, fuzzy
 msgid "Requests"
 msgstr "سرور درخواست"
@@ -396,16 +530,25 @@ msgstr ""
 msgid "Restore Backup"
 msgstr "یک حساب کاربری ایجاد کنید"
 
-#: src/views/AdminViews/InviteView.vue:128
-msgid "Select All"
-msgstr "انتخاب همه"
+#: src/components/Modals/ServerURLModal.vue:8
+#, fuzzy
+msgid "Save URL"
+msgstr "آدرس سرور"
+
+#: src/views/AdminViews/UsersView.vue:10
+msgid "Scan Users"
+msgstr "اسکن کاربران"
 
 #: src/components/Modals/ScanLibrariesModal.vue:8
-#: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "کتابخانه ها را انتخاب کنید"
 
-#: src/views/SettingsViews/DefaultView.vue:146
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:24
+#, fuzzy
+msgid "Server URL"
+msgstr "نمایش URL سرور"
+
+#: src/views/SettingsViews/DefaultView.vue:145
 #, fuzzy
 msgid "Sessions"
 msgstr "نسخه"
@@ -414,7 +557,7 @@ msgstr "نسخه"
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: src/views/SettingsViews/DefaultView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "راه اندازی حساب کاربری"
@@ -423,9 +566,32 @@ msgstr "راه اندازی حساب کاربری"
 msgid "Setup Wizarr"
 msgstr "Setup Wizarr"
 
-#: src/views/AdminViews/InviteView.vue:59
-msgid "Show Information"
-msgstr "نمایش اطلاعات"
+#: src/views/JoinViews/CarouselView.vue:18
+#, fuzzy
+msgid "Setup your account"
+msgstr "راه اندازی حساب کاربری"
+
+#: src/components/Forms/InviteForm.vue:46
+msgid "Share"
+msgstr "اشتراک گذاری"
+
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:11
+msgid "So let's see how to get started!"
+msgstr "پس بیایید ببینیم چگونه شروع کنیم!"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:7
+msgid ""
+"So you now have access to our server's media collection. Let's make sure you "
+"know how to use it with Plex."
+msgstr ""
+"بنابراین شما اکنون به مجموعه رسانه های سرور ما دسترسی دارید. بیایید مطمئن "
+"شویم که می دانید چگونه از آن با Plex استفاده کنید."
+
+#: src/views/JoinViews/CarouselView.vue:125
+#, fuzzy
+msgid ""
+"Something went wrong while trying to join the server. Please try again later."
+msgstr "مشکلی پیش آمده است. لطفاً بعداً دوباره امتحان کنید."
 
 #: src/views/DefaultViews/NotFoundView.vue:13
 msgid "Something's missing."
@@ -436,11 +602,7 @@ msgid "Sorry, we can't find that page. It doesn't seem to exist!"
 msgstr ""
 "متأسفیم، ما نمی توانیم آن صفحه را پیدا کنیم. به نظر نمی رسد وجود داشته باشد!"
 
-#: src/views/AdminViews/InviteView.vue:96
-msgid "Specific Libraries"
-msgstr "کتابخانه های خاص"
-
-#: src/views/SettingsViews/DefaultView.vue:152
+#: src/views/SettingsViews/DefaultView.vue:151
 #, fuzzy
 msgid "SSO Login"
 msgstr "وارد شدن"
@@ -449,7 +611,7 @@ msgstr "وارد شدن"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:209
+#: src/views/SettingsViews/DefaultView.vue:208
 #, fuzzy
 msgid "Tasks"
 msgstr "Task را اجرا کنید"
@@ -461,24 +623,33 @@ msgstr ""
 "این یک موقت است و ما در حال کار بر روی افزودن پشتیبانی برای سایر پایگاه های "
 "داده هستیم."
 
+#: src/components/Forms/InviteForm.vue:58
 #: src/components/Modals/ScanServersModal.vue:8
 msgid "Try Again"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:173
+#: src/views/JoinViews/CarouselView.vue:5 src/views/JoinViews/JoinView.vue:5
+#, fuzzy
+msgid "Type in your invite code to %{server_name} server!"
+msgstr "کد دعوت خود را به سرور %(name)s وارد کنید!"
+
+#: src/views/JoinViews/CarouselView.vue:124
+#: src/views/JoinViews/CarouselView.vue:158
+#: src/views/JoinViews/CarouselView.vue:191
+#: src/views/JoinViews/CarouselView.vue:196
+#: src/views/JoinViews/CarouselView.vue:219
+#: src/views/JoinViews/CarouselView.vue:224
+#: src/views/JoinViews/CarouselView.vue:238
+#: src/views/JoinViews/CarouselView.vue:239
+msgid "Uh oh!"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:172
 #, fuzzy
 msgid "UI Settings"
 msgstr "تنظیمات"
 
-#: src/views/AdminViews/InviteView.vue:74
-msgid "Unlimited"
-msgstr "نامحدود"
-
-#: src/views/AdminViews/InviteView.vue:25
-msgid "Unlimited Usages"
-msgstr "استفاده نامحدود"
-
-#: src/views/SettingsViews/DefaultView.vue:215
+#: src/views/SettingsViews/DefaultView.vue:214
 #, fuzzy
 msgid "Updates"
 msgstr "به روز رسانی"
@@ -495,20 +666,20 @@ msgstr "کاربران"
 msgid "View"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:204
+#: src/views/SettingsViews/DefaultView.vue:203
 msgid "View and download server logs"
 msgstr "گزارش های سرور را مشاهده و دانلود کنید"
 
-#: src/views/SettingsViews/DefaultView.vue:210
+#: src/views/SettingsViews/DefaultView.vue:209
 msgid "View and manage scheduled tasks"
 msgstr "کارهای برنامه ریزی شده را مشاهده و مدیریت کنید"
 
-#: src/views/SettingsViews/DefaultView.vue:147
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "دعوت نامه های خود را مدیریت کنید"
 
-#: src/views/SettingsViews/DefaultView.vue:229
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "View information about the server"
 msgstr "مشاهده اطلاعات مربوط به سرور"
 
@@ -530,13 +701,13 @@ msgstr ""
 msgid "Welcome to Wizarr"
 msgstr "به Wizarr خوش آمدید"
 
-#: src/views/AdminViews/InviteView.vue:65
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:8
 msgid ""
-"When set, invited user(s) will be removed from the server after the set "
-"number of days. (1-999)"
+"With Plex, you'll have access to all of the movies, TV shows, music, and "
+"photos that are stored on their server!"
 msgstr ""
-"پس از تنظیم، کاربر(های) دعوت شده پس از تعداد روزهای تعیین شده از سرور حذف "
-"خواهند شد. (1-999)"
+"با Plex، به تمام فیلم‌ها، برنامه‌های تلویزیونی، موسیقی و عکس‌هایی که در سرور "
+"آنها ذخیره شده‌اند دسترسی خواهید داشت!"
 
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
@@ -573,9 +744,74 @@ msgstr ""
 msgid "You have successfully completed the setup process."
 msgstr "شما مراحل راه اندازی را با موفقیت به پایان رساندید."
 
+#: src/views/JoinViews/CompleteView.vue:4
+#, fuzzy
+msgid ""
+"You're all set, click continue to get started and walkthrough how to use "
+"%{serverName}!"
+msgstr ""
+"همه چیز آماده است، برای شروع و نحوه استفاده از Plex روی ادامه کلیک کنید!"
+
+#: src/views/JoinViews/CarouselView.vue:24
+#, fuzzy
+msgid "Your account has been created!"
+msgstr "دعوت ایجاد شده است"
+
 #: src/views/SetupViews/CompleteView.vue:3
 msgid "Your Done"
 msgstr "انجام شد"
+
+#~ msgid "1 Day"
+#~ msgstr "1 روز"
+
+#~ msgid "1 Month"
+#~ msgstr "1 ماه"
+
+#~ msgid "1 Week"
+#~ msgstr "1 هفته"
+
+#~ msgid "1 Year"
+#~ msgstr "1 سال"
+
+#~ msgid "6 Months"
+#~ msgstr "6 ماه"
+
+#~ msgid "Allow Downloads"
+#~ msgstr "اجازه دانلودها"
+
+#~ msgid "Custom"
+#~ msgstr "سفارشی"
+
+#~ msgid "Custom Duration"
+#~ msgstr "مدت زمان سفارشی"
+
+#~ msgid "Duration"
+#~ msgstr "مدت زمان"
+
+#~ msgid "Invite to Plex Home"
+#~ msgstr "به Plex Home دعوت کنید"
+
+#~ msgid "Select All"
+#~ msgstr "انتخاب همه"
+
+#~ msgid "Show Information"
+#~ msgstr "نمایش اطلاعات"
+
+#~ msgid "Specific Libraries"
+#~ msgstr "کتابخانه های خاص"
+
+#~ msgid "Unlimited"
+#~ msgstr "نامحدود"
+
+#~ msgid "Unlimited Usages"
+#~ msgstr "استفاده نامحدود"
+
+#~ msgid ""
+#~ "When set, invited user(s) will be removed from the server after the set "
+#~ "number of days. (1-999)"
+#~ msgstr ""
+#~ "پس از تنظیم، کاربر(های) دعوت شده پس از تعداد روزهای تعیین شده از سرور حذف "
+#~ "خواهند شد. (1-999)"
 
 #~ msgid "Custom Expiration"
 #~ msgstr "انقضای سفارشی"
@@ -632,12 +868,6 @@ msgstr "انجام شد"
 #~ msgid "Successfully generated an Invitation!"
 #~ msgstr "دعوتنامه با موفقیت ایجاد شد!"
 
-#~ msgid "Link has been copied to clipboard!"
-#~ msgstr "پیوند در کلیپ بورد کپی شده است!"
-
-#~ msgid "Share"
-#~ msgstr "اشتراک گذاری"
-
 #~ msgid "An error occurred while copying the link to the clipboard!"
 #~ msgstr "هنگام کپی کردن پیوند در کلیپ بورد خطایی روی داد!"
 
@@ -650,14 +880,8 @@ msgstr "انجام شد"
 #~ msgid "Creating..."
 #~ msgstr "پدید آوردن..."
 
-#~ msgid "The invite has been created"
-#~ msgstr "دعوت ایجاد شده است"
-
 #~ msgid "There was an error creating the invite"
 #~ msgstr "خطایی در ایجاد دعوت وجود داشت"
-
-#~ msgid "Create Invite"
-#~ msgstr "ایجاد دعوت"
 
 #~ msgid "Delete All"
 #~ msgstr "حذف همه"
@@ -673,9 +897,6 @@ msgstr "انجام شد"
 
 #~ msgid "Manage users that joined your server"
 #~ msgstr "کاربرانی که به سرور شما پیوسته اند را مدیریت کنید"
-
-#~ msgid "Scan Users"
-#~ msgstr "اسکن کاربران"
 
 #~ msgid "Add User"
 #~ msgstr "افزودن کاربر"
@@ -701,19 +922,6 @@ msgstr "انجام شد"
 
 #~ msgid "Please enter your username"
 #~ msgstr "لطفا نام کاربری خود را وارد کنید"
-
-#~ msgid "Invalid Invitation"
-#~ msgstr "دعوت نامعتبر"
-
-#, python-format
-#~ msgid "Type in your invite code to %(name)s server!"
-#~ msgstr "کد دعوت خود را به سرور %(name)s وارد کنید!"
-
-#~ msgid "Invite Code"
-#~ msgstr "کد دعوت"
-
-#~ msgid "Join"
-#~ msgstr "پیوستن"
 
 #, python-format
 #~ msgid "You've been invited to join the %(name)s server!"
@@ -773,15 +981,6 @@ msgstr "انجام شد"
 #~ msgid "Creating Jellyfin Account"
 #~ msgstr "ایجاد حساب کاربری"
 
-#~ msgid "Join the Plex Server"
-#~ msgstr "به سرور Plex بپیوندید"
-
-#~ msgid "Sign in to Plex"
-#~ msgstr "وارد Plex شوید"
-
-#~ msgid "Setting up your account"
-#~ msgstr "راه اندازی حساب کاربری"
-
 #~ msgid "Almost there!"
 #~ msgstr "تقریباً وجود دارد!"
 
@@ -791,20 +990,8 @@ msgstr "انجام شد"
 #~ msgid "Account created!"
 #~ msgstr "حساب کاربری ایجاد شد!"
 
-#~ msgid ""
-#~ "You're all set, click continue to get started and walkthrough how to use "
-#~ "Plex!"
-#~ msgstr ""
-#~ "همه چیز آماده است، برای شروع و نحوه استفاده از Plex روی ادامه کلیک کنید!"
-
 #~ msgid "Help"
 #~ msgstr "کمک"
-
-#~ msgid "Getting Started!"
-#~ msgstr "شروع شدن!"
-
-#~ msgid "Open"
-#~ msgstr "باز کن"
 
 #~ msgid "Automatic Media Requests"
 #~ msgstr "درخواست رسانه خودکار"
@@ -842,39 +1029,11 @@ msgstr "انجام شد"
 #~ "        برای این دستگاه"
 
 #~ msgid ""
-#~ "Great news! You now have access to our server's media collection. Let's "
-#~ "make sure you know how to use\n"
-#~ "    it with Jellyfin."
-#~ msgstr ""
-#~ "خبر عالی! اکنون به مجموعه رسانه های سرور ما دسترسی دارید. بیایید مطمئن "
-#~ "شویم که نحوه استفاده را می دانید\n"
-#~ "    آن را با Jellyfin."
-
-#~ msgid ""
-#~ "Planning on watching Movies on this device? Download Jellyfin for this "
-#~ "device."
-#~ msgstr ""
-#~ "آیا قصد تماشای فیلم در این دستگاه را دارید؟ Jellyfin را برای این دستگاه "
-#~ "دانلود کنید."
-
-#~ msgid ""
 #~ "If you don't wish to Download the App feel free to use Jellyfin in your "
 #~ "devices web browser, just click \"Next\"."
 #~ msgstr ""
 #~ "اگر نمی‌خواهید برنامه را دانلود کنید، از Jellyfin در مرورگر وب دستگاه‌های "
 #~ "خود استفاده کنید، فقط روی «بعدی» کلیک کنید."
-
-#~ msgid "Show Server URL"
-#~ msgstr "نمایش URL سرور"
-
-#~ msgid "Server URL"
-#~ msgstr "آدرس سرور"
-
-#~ msgid "Copy"
-#~ msgstr "کپی 🀄"
-
-#~ msgid "Open Jellyfin"
-#~ msgstr "Jellyfin را باز کنید"
 
 #~ msgid "Other Download"
 #~ msgstr "دیگر دانلود"
@@ -898,42 +1057,6 @@ msgstr "انجام شد"
 
 #~ msgid "It's that easy!"
 #~ msgstr "به همین راحتی!"
-
-#~ msgid "Eh, So, What is Jellyfin exactly?"
-#~ msgstr "اوه، بنابراین، Jellyfin دقیقا چیست؟"
-
-#~ msgid ""
-#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV "
-#~ "shows, and music in one place. It's like having your own personal movie "
-#~ "theater right at your fingertips! Think of it as a digital library of "
-#~ "your favorite content that you can access from anywhere, on any device - "
-#~ "your phone, tablet, laptop, smart TV, you name it."
-#~ msgstr ""
-#~ "Jellyfin پلتفرمی است که به شما امکان می دهد تمام فیلم ها، برنامه های "
-#~ "تلویزیونی و موسیقی مورد علاقه خود را در یک مکان پخش کنید. مثل این است که "
-#~ "سینمای شخصی خود را در دستان خود داشته باشید! آن را به عنوان یک کتابخانه "
-#~ "دیجیتالی از محتوای مورد علاقه خود در نظر بگیرید که می توانید از هر کجا و "
-#~ "در هر دستگاهی - تلفن، تبلت، لپ تاپ، تلویزیون هوشمند خود، به آن دسترسی "
-#~ "داشته باشید."
-
-#~ msgid "Join & Download Plex for this device"
-#~ msgstr "به Plex بپیوندید و برای این دستگاه دانلود کنید"
-
-#~ msgid ""
-#~ "So you now have access to our server's media collection. Let's make sure "
-#~ "you know how to use it with Plex."
-#~ msgstr ""
-#~ "بنابراین شما اکنون به مجموعه رسانه های سرور ما دسترسی دارید. بیایید مطمئن "
-#~ "شویم که می دانید چگونه از آن با Plex استفاده کنید."
-
-#~ msgid ""
-#~ "Planning on watching Movies on this device? Download Plex for this device."
-#~ msgstr ""
-#~ "آیا قصد تماشای فیلم در این دستگاه را دارید؟ Plex را برای این دستگاه "
-#~ "دانلود کنید."
-
-#~ msgid "Download"
-#~ msgstr "دانلود"
 
 #~ msgid ""
 #~ "It couldn't be simpler! Plex is available on a wide variety of devices "
@@ -972,28 +1095,6 @@ msgstr "انجام شد"
 #~ "ما به شدت\n"
 #~ "            توصیه می کنم ابتدا آن مراحل را طی کنید!"
 
-#~ msgid "Eh, So, What is Plex exactly?"
-#~ msgstr "اوه، خب، Plex دقیقا چیست؟"
-
-#~ msgid ""
-#~ "Great question! Plex is a software that allows individuals to share their "
-#~ "media collections with others. If you've received this invitation, it "
-#~ "means someone wants to share their library with you."
-#~ msgstr ""
-#~ "سوال عالی! Plex نرم افزاری است که به افراد امکان می دهد مجموعه های رسانه "
-#~ "ای خود را با دیگران به اشتراک بگذارند. اگر این دعوت را دریافت کرده اید، "
-#~ "به این معنی است که شخصی می خواهد کتابخانه خود را با شما به اشتراک بگذارد."
-
-#~ msgid ""
-#~ "With Plex, you'll have access to all of the movies, TV shows, music, and "
-#~ "photos that are stored on their server!"
-#~ msgstr ""
-#~ "با Plex، به تمام فیلم‌ها، برنامه‌های تلویزیونی، موسیقی و عکس‌هایی که در سرور "
-#~ "آنها ذخیره شده‌اند دسترسی خواهید داشت!"
-
-#~ msgid "So let's see how to get started!"
-#~ msgstr "پس بیایید ببینیم چگونه شروع کنیم!"
-
 #~ msgid "Permission denied."
 #~ msgstr "اجازه رد شد."
 
@@ -1003,17 +1104,11 @@ msgstr "انجام شد"
 #~ msgid "Internal Server Error."
 #~ msgstr "خطای سرور داخلی"
 
-#~ msgid " Something has gone wrong. Please try again later."
-#~ msgstr "مشکلی پیش آمده است. لطفاً بعداً دوباره امتحان کنید."
-
 #~ msgid "Get Help"
 #~ msgstr "کمک بگیر"
 
 #~ msgid "or"
 #~ msgstr "یا"
-
-#~ msgid "Add Passkey"
-#~ msgstr "رمز عبور را اضافه کنید"
 
 #~ msgid "Name"
 #~ msgstr "نام"
@@ -1208,9 +1303,6 @@ msgstr "انجام شد"
 #~ msgid "Settings failed to save!"
 #~ msgstr "هیچ تنظیماتی با جستجوی شما مطابقت نداشت."
 
-#~ msgid "Create Agent"
-#~ msgstr "ایجاد عامل"
-
 #~ msgid "Add OAuth"
 #~ msgstr "OAuth را اضافه کنید"
 
@@ -1250,15 +1342,8 @@ msgstr "انجام شد"
 #~ msgid "Edit"
 #~ msgstr "ویرایش کنید"
 
-#, fuzzy
-#~ msgid "Expires"
-#~ msgstr "منقضی شده"
-
 #~ msgid "Used"
 #~ msgstr "استفاده شده"
-
-#~ msgid "Expired"
-#~ msgstr "منقضی شده"
 
 #~ msgid "Libraries"
 #~ msgstr "کتابخانه ها"
@@ -1266,14 +1351,8 @@ msgstr "انجام شد"
 #~ msgid "Created"
 #~ msgstr "ایجاد شده"
 
-#~ msgid "No Invitations"
-#~ msgstr "بدون دعوت نامه"
-
 #~ msgid "You have not created any invitations yet."
 #~ msgstr "شما هنوز هیچ دعوتنامه ای ایجاد نکرده اید."
-
-#~ msgid "Your Passkeys"
-#~ msgstr "رمز عبور شما"
 
 #~ msgid "Add a passkey"
 #~ msgstr "یک رمز عبور اضافه کنید"

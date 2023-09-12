@@ -18,88 +18,69 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: src/views/AdminViews/InviteView.vue:75
-msgid "1 Day"
-msgstr "1 día"
-
-#: src/views/AdminViews/InviteView.vue:77
-msgid "1 Month"
-msgstr "1 mes"
-
-#: src/views/AdminViews/InviteView.vue:76
-msgid "1 Week"
-msgstr "1 semana"
-
-#: src/views/AdminViews/InviteView.vue:79
-msgid "1 Year"
-msgstr "1 año"
-
-#: src/views/AdminViews/InviteView.vue:78
-msgid "6 Months"
-msgstr "6 meses"
-
-#: src/views/SettingsViews/DefaultView.vue:228
+#: src/views/SettingsViews/DefaultView.vue:227
 msgid "About"
 msgstr "Acerca de"
 
-#: src/views/SettingsViews/DefaultView.vue:129
+#: src/views/SettingsViews/DefaultView.vue:128
 #, fuzzy
 msgid "Account Settings"
 msgstr "Ajustes"
 
-#: src/views/SettingsViews/DefaultView.vue:105
+#: src/views/SettingsViews/DefaultView.vue:104
 msgid "Add API keys for external services"
 msgstr "Agregar claves API para servicios externos"
 
-#: src/views/SettingsViews/DefaultView.vue:185
+#: src/views/SettingsViews/DefaultView.vue:184
 msgid "Add Custom HTML page to help screen"
 msgstr "Agregar página HTML personalizada a la pantalla de ayuda"
 
-#: src/views/SettingsViews/DefaultView.vue:98
+#: src/views/SettingsViews/DefaultView.vue:97
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "Añadir compatibilidad con Jellyseerr, Overseerr u Ombi"
+
+#: src/views/SettingsViews/MFAView.vue:9
+msgid "Add Passkey"
+msgstr "Agregar clave de acceso"
 
 #: src/views/SetupViews/AccountView.vue:3
 msgid "Admin Account"
 msgstr "Cuenta de administrador"
 
-#: src/views/AdminViews/InviteView.vue:15
+#: src/components/Forms/InviteForm.vue:18
 msgid "Advanced Options"
 msgstr "Opciones avanzadas"
 
-#: src/views/SettingsViews/DefaultView.vue:192
+#: src/views/SettingsViews/DefaultView.vue:191
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Opciones avanzadas"
 
-#: src/views/SettingsViews/DefaultView.vue:193
+#: src/views/SettingsViews/DefaultView.vue:192
 msgid "Advanced settings for the server"
 msgstr "Configuración avanzada para el servidor"
 
-#: src/views/AdminViews/InviteView.vue:41
-msgid "Allow Downloads"
-msgstr "Permitir descargas"
-
-#: src/views/SettingsViews/DefaultView.vue:104
+#: src/views/SettingsViews/DefaultView.vue:103
 #, fuzzy
 msgid "API keys"
 msgstr "token de API"
 
-#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/HelpViews/HelpView.vue:12
+#: src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "Atrás"
 
-#: src/views/SettingsViews/DefaultView.vue:222
+#: src/views/SettingsViews/DefaultView.vue:221
 #, fuzzy
 msgid "Backup"
 msgstr "Atrás"
 
-#: src/views/SettingsViews/DefaultView.vue:141
+#: src/views/SettingsViews/DefaultView.vue:140
 #, fuzzy
 msgid "Change your password"
 msgstr "¿Olvidaste tu contraseña?"
 
-#: src/views/SettingsViews/DefaultView.vue:216
+#: src/views/SettingsViews/DefaultView.vue:215
 msgid "Check for and view updates"
 msgstr "Buscar y ver actualizaciones"
 
@@ -111,42 +92,70 @@ msgstr ""
 "Consulte nuestra documentación para obtener instrucciones detalladas sobre "
 "cómo instalar y ejecutar Wizarr."
 
-#: src/views/SettingsViews/DefaultView.vue:121
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "Configure los ajustes de su servidor."
 
-#: src/views/SettingsViews/DefaultView.vue:160
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Configure MFA authentication"
 msgstr "Configurar la autenticación MFA"
 
-#: src/views/SettingsViews/DefaultView.vue:113
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "Configure los ajustes de su servidor."
 
-#: src/views/SettingsViews/DefaultView.vue:197
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "Crear invitación"
 
-#: src/views/SettingsViews/DefaultView.vue:153
+#: src/views/SettingsViews/DefaultView.vue:152
 msgid "Configure SSO login"
 msgstr "Configurar inicio de sesión SSO"
 
-#: src/views/SettingsViews/DefaultView.vue:92
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "Configure los ajustes de su servidor."
 
-#: src/views/SettingsViews/DefaultView.vue:135
+#: src/views/SettingsViews/DefaultView.vue:134
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "Configure los ajustes de su servidor."
 
+#: src/views/JoinViews/CompleteView.vue:7 src/views/LoginViews/MFAView.vue:15
 #: src/views/LoginViews/UsernameView.vue:11
 msgid "Continue"
 msgstr "Continuar"
+
+#: src/components/InvitationList/InvitationItem.vue:49
+#, fuzzy
+msgid "Copied to clipboard"
+msgstr "¡El enlace ha sido copiado al portapapeles!"
+
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:28
+msgid "Copy"
+msgstr "Copiar"
+
+#: src/views/JoinViews/CarouselView.vue:158
+#: src/views/JoinViews/CarouselView.vue:238
+#, fuzzy
+msgid "Could not connect to the server."
+msgstr "Modificar la apariencia del servidor"
+
+#: src/views/JoinViews/CarouselView.vue:191
+#: src/views/JoinViews/CarouselView.vue:196
+#: src/views/JoinViews/CarouselView.vue:219
+#: src/views/JoinViews/CarouselView.vue:224
+#, fuzzy
+msgid "Could not create the account."
+msgstr "Crear una cuenta"
+
+#: src/views/JoinViews/CarouselView.vue:171
+msgid "Could not verify the invite code."
+msgstr ""
 
 #: src/views/SetupViews/AccountView.vue:24
 msgid "Create account"
@@ -157,34 +166,34 @@ msgstr "Crear una cuenta"
 msgid "Create an invitation to your server"
 msgstr "Cree una invitación a su servidor."
 
-#: src/views/SettingsViews/DefaultView.vue:223
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Crea una cuenta"
+
+#: src/components/Forms/InviteForm.vue:43
+#, fuzzy
+msgid "Create Another"
+msgstr "Crear agente"
 
 #: src/views/AdminViews/FlowEditor.vue:4
 #, fuzzy
 msgid "Create Flow"
 msgstr "Crear"
 
-#: src/views/AdminViews/InviteView.vue:137
-#: src/views/AdminViews/InviteView.vue:2
+#: src/components/Forms/InviteForm.vue:22 src/views/AdminViews/InviteView.vue:2
 msgid "Create Invitation"
+msgstr "Crear invitación"
+
+#: src/views/AdminViews/InvitationsView.vue:7
+msgid "Create Invite"
 msgstr "Crear invitación"
 
 #: src/views/SetupViews/DatabaseView.vue:6
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr "Actualmente, Wizarr solo admite su base de datos SQLite interna."
 
-#: src/views/AdminViews/InviteView.vue:80
-msgid "Custom"
-msgstr "Costumbre"
-
-#: src/views/AdminViews/InviteView.vue:88
-msgid "Custom Duration"
-msgstr "Duración personalizada"
-
-#: src/views/SettingsViews/DefaultView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:183
 #, fuzzy
 msgid "Custom HTML"
 msgstr "Costumbre"
@@ -193,12 +202,12 @@ msgstr "Costumbre"
 msgid "Database"
 msgstr "Base de datos"
 
-#: src/views/SettingsViews/DefaultView.vue:178
+#: src/views/SettingsViews/DefaultView.vue:177
 #, fuzzy
 msgid "Discord"
 msgstr "Widget de discordia"
 
-#: src/views/SettingsViews/DefaultView.vue:120
+#: src/views/SettingsViews/DefaultView.vue:119
 #, fuzzy
 msgid "Discord Bot"
 msgstr "Widget de discordia"
@@ -207,26 +216,48 @@ msgstr "Widget de discordia"
 msgid "Don't see your server?"
 msgstr ""
 
-#: src/views/AdminViews/InviteView.vue:51
-#: src/views/AdminViews/InviteView.vue:64
-msgid "Duration"
-msgstr "Duración"
+#: src/views/HelpViews/JellyfinViews/WelcomeView.vue:3
+msgid "Eh, So, What is Jellyfin exactly?"
+msgstr "Eh, entonces, ¿qué es Jellyfin exactamente?"
 
-#: src/views/SettingsViews/DefaultView.vue:179
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:3
+msgid "Eh, So, What is Plex exactly?"
+msgstr "Eh, entonces, ¿qué es Plex exactamente?"
+
+#: src/views/SettingsViews/DefaultView.vue:178
 msgid "Enable Discord page and configure settings"
 msgstr "Habilitar la página de Discord y configurar los ajustes"
+
+#: src/components/InvitationList/InvitationItem.vue:59
+#, fuzzy
+msgid "Expired %{s}"
+msgstr "Venció"
+
+#: src/components/InvitationList/InvitationItem.vue:61
+#, fuzzy
+msgid "Expires %{s}"
+msgstr "Venció"
+
+#: src/components/Forms/InviteForm.vue:54
+#, fuzzy
+msgid "Failed to create invitation"
+msgstr "Crear invitación"
 
 #: src/views/AdminViews/FlowEditor.vue:2
 msgid "Flow Editor"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:87
+#: src/views/SettingsViews/DefaultView.vue:86
 msgid "General settings for the server"
 msgstr "Configuración general del servidor"
 
 #: src/views/DefaultViews/HomeView.vue:14
 msgid "Get Started"
 msgstr "Empezar"
+
+#: src/views/HelpViews/HelpView.vue:5
+msgid "Getting Started!"
+msgstr "¡Empezando!"
 
 #: src/views/DefaultViews/NotFoundView.vue:18
 #, fuzzy
@@ -242,6 +273,26 @@ msgstr "Ir al panel de control"
 msgid "Go to Login"
 msgstr "Acceso"
 
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:8
+#, fuzzy
+msgid ""
+"Great news! You now have access to our server's media collection. Let's make "
+"sure you know how to use it with Jellyfin."
+msgstr ""
+"¡Una gran noticia! Ahora tiene acceso a la colección de medios de nuestro "
+"servidor. Asegurémonos de que sabes cómo usar\n"
+"    con Jellyfin."
+
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:5
+msgid ""
+"Great question! Plex is a software that allows individuals to share their "
+"media collections with others. If you've received this invitation, it means "
+"someone wants to share their library with you."
+msgstr ""
+"¡Gran pregunta! Plex es un software que permite a las personas compartir sus "
+"colecciones de medios con otros. Si ha recibido esta invitación, significa "
+"que alguien quiere compartir su biblioteca con usted."
+
 #: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
@@ -256,18 +307,56 @@ msgstr ""
 "Si un amigo lo envió aquí, solicite acceso o si tiene un código de "
 "invitación, haga clic en Comenzar."
 
+#: src/views/JoinViews/CarouselView.vue:170
+#, fuzzy
+msgid "Invalid Invite!"
+msgstr "Invitación no válida"
+
 #: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "Invitaciones"
 
-#: src/views/AdminViews/InviteView.vue:33
-msgid "Invite to Plex Home"
-msgstr "Invitar a Plex Home"
+#: src/components/Forms/JoinForm.vue:10
+msgid "Invite Code"
+msgstr "Codigo de invitacion"
 
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "Usuarios invitados"
+
+#: src/views/HelpViews/JellyfinViews/WelcomeView.vue:5
+msgid ""
+"Jellyfin is a platform that lets you stream all your favorite movies, TV "
+"shows, and music in one place. It's like having your own personal movie "
+"theater right at your fingertips! Think of it as a digital library of your "
+"favorite content that you can access from anywhere, on any device - your "
+"phone, tablet, laptop, smart TV, you name it."
+msgstr ""
+"Jellyfin es una plataforma que te permite transmitir todas tus películas, "
+"programas de TV y música favoritos en un solo lugar. ¡Es como tener tu "
+"propia sala de cine personal al alcance de tu mano! Piense en ello como una "
+"biblioteca digital de su contenido favorito al que puede acceder desde "
+"cualquier lugar, en cualquier dispositivo: su teléfono, tableta, computadora "
+"portátil, televisor inteligente, lo que sea."
+
+#: src/components/Forms/JoinForm.vue:7
+msgid "Join"
+msgstr "Unirse"
+
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:4
+#, fuzzy
+msgid "Join & Download"
+msgstr "Descargar"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:4
+msgid "Join & Download Plex for this device"
+msgstr "Únete y descarga Plex para este dispositivo"
+
+#: src/views/JoinViews/CarouselView.vue:15 src/views/JoinViews/JoinView.vue:12
+#, fuzzy
+msgid "Join the %{server_type} Server"
+msgstr "Únete al servidor Plex"
 
 #: src/components/ChangeLogs/ChangeLogs.vue:7
 msgid "Load More"
@@ -277,11 +366,16 @@ msgstr "Carga más"
 msgid "Login"
 msgstr "Acceso"
 
+#: src/views/JoinViews/PlexViews/PlexSetupView.vue:5
+#, fuzzy
+msgid "Login to Plex"
+msgstr "Iniciar sesión en Plex"
+
 #: src/views/LoginViews/PasswordView.vue:16
 msgid "Login with MFA"
 msgstr "Iniciar sesión con MFA"
 
-#: src/views/LoginViews/MFAView.vue:17
+#: src/views/LoginViews/MFAView.vue:19
 msgid "Login with Password"
 msgstr "Iniciar sesión con contraseña"
 
@@ -289,12 +383,12 @@ msgstr "Iniciar sesión con contraseña"
 msgid "Login with your account"
 msgstr "Inicia sesión con tu cuenta"
 
-#: src/views/SettingsViews/DefaultView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:202
 #, fuzzy
 msgid "Logs"
 msgstr "Acceso"
 
-#: src/views/SettingsViews/DefaultView.vue:86
+#: src/views/SettingsViews/DefaultView.vue:85
 #, fuzzy
 msgid "Main Settings"
 msgstr "Ajustes"
@@ -313,7 +407,7 @@ msgstr "Gestiona tus invitaciones"
 msgid "Manage your media server users"
 msgstr "Configure los ajustes de su servidor."
 
-#: src/views/SettingsViews/DefaultView.vue:91
+#: src/views/SettingsViews/DefaultView.vue:90
 #, fuzzy
 msgid "Media Server"
 msgstr "Servidor"
@@ -322,17 +416,27 @@ msgstr "Servidor"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:174
+#: src/views/SettingsViews/DefaultView.vue:173
 msgid "Modify the look and feel of the server"
 msgstr "Modificar la apariencia del servidor"
 
-#: src/views/SettingsViews/DefaultView.vue:159
+#: src/views/SettingsViews/DefaultView.vue:158
 msgid "Multi-Factor Authentication"
 msgstr "Autenticación de múltiples factores"
 
-#: src/views/SetupViews/SetupView.vue:33
+#: src/views/HelpViews/HelpView.vue:15 src/views/SetupViews/SetupView.vue:33
 msgid "Next"
 msgstr "Próximo"
+
+#: src/components/InvitationList/InvitationList.vue:11
+#, fuzzy
+msgid "No Invitations found"
+msgstr "Sin invitaciones"
+
+#: src/components/MFAList/MFAList.vue:11
+#, fuzzy
+msgid "No Passkeys found"
+msgstr "Tus claves de paso"
 
 #: src/components/ScanServers/ScanServers.vue:15
 msgid "No servers could be found."
@@ -342,21 +446,51 @@ msgstr ""
 msgid "No settings matched your search."
 msgstr "Ninguna configuración coincidió con su búsqueda."
 
-#: src/views/SettingsViews/DefaultView.vue:112
+#: src/views/SettingsViews/DefaultView.vue:111
 #, fuzzy
 msgid "Notifications"
 msgstr "Servicio de notificaciones"
 
-#: src/views/SettingsViews/DefaultView.vue:196
+#: src/views/SettingsViews/DefaultView.vue:195
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "Crear invitación"
 
-#: src/views/SettingsViews/DefaultView.vue:140
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:47
+msgid "Open Jellyfin"
+msgstr "Jellyfin abierto"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:17
+#, fuzzy
+msgid "Open Plex"
+msgstr "Abierto"
+
+#: src/views/SettingsViews/DefaultView.vue:139
 msgid "Password"
 msgstr "Contraseña"
 
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:16
+#, fuzzy
+msgid ""
+"Planning on watching Movies on this device? Download Jellyfin for this "
+"device or click 'Next' to for other options."
+msgstr ""
+"¿Planea ver películas en este dispositivo? Descarga Jellyfin para este "
+"dispositivo."
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:10
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
+msgstr ""
+"¿Planea ver películas en este dispositivo? Descarga Plex para este "
+"dispositivo."
+
+#: src/views/JoinViews/PlexViews/PlexSetupView.vue:3
+msgid "Please login to your Plex account to help us connect you to our server."
+msgstr ""
+
 #: src/components/Loading/FullPageLoading.vue:109
+#: src/views/JoinViews/CarouselView.vue:35
 #, fuzzy
 msgid "Please wait..."
 msgstr "Espere por favor"
@@ -371,7 +505,7 @@ msgstr ""
 "Presione el botón de abajo y siga los pasos de su navegador para iniciar "
 "sesión"
 
-#: src/views/SettingsViews/DefaultView.vue:134
+#: src/views/SettingsViews/DefaultView.vue:133
 msgid "Profile"
 msgstr "Perfil"
 
@@ -379,7 +513,7 @@ msgstr "Perfil"
 msgid "Request Access"
 msgstr "Solicitar acceso"
 
-#: src/views/SettingsViews/DefaultView.vue:97
+#: src/views/SettingsViews/DefaultView.vue:96
 #, fuzzy
 msgid "Requests"
 msgstr "Solicitar servidor"
@@ -397,16 +531,25 @@ msgstr ""
 msgid "Restore Backup"
 msgstr "Crea una cuenta"
 
-#: src/views/AdminViews/InviteView.vue:128
-msgid "Select All"
-msgstr "Seleccionar todo"
+#: src/components/Modals/ServerURLModal.vue:8
+#, fuzzy
+msgid "Save URL"
+msgstr "URL del servidor"
+
+#: src/views/AdminViews/UsersView.vue:10
+msgid "Scan Users"
+msgstr "Escanear usuarios"
 
 #: src/components/Modals/ScanLibrariesModal.vue:8
-#: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "Seleccionar bibliotecas"
 
-#: src/views/SettingsViews/DefaultView.vue:146
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:24
+#, fuzzy
+msgid "Server URL"
+msgstr "Mostrar URL del servidor"
+
+#: src/views/SettingsViews/DefaultView.vue:145
 #, fuzzy
 msgid "Sessions"
 msgstr "Versión"
@@ -415,7 +558,7 @@ msgstr "Versión"
 msgid "Settings"
 msgstr "Ajustes"
 
-#: src/views/SettingsViews/DefaultView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "Configurando tu cuenta"
@@ -424,9 +567,32 @@ msgstr "Configurando tu cuenta"
 msgid "Setup Wizarr"
 msgstr "Asistente de configuración"
 
-#: src/views/AdminViews/InviteView.vue:59
-msgid "Show Information"
-msgstr "Muestra información"
+#: src/views/JoinViews/CarouselView.vue:18
+#, fuzzy
+msgid "Setup your account"
+msgstr "Configurando tu cuenta"
+
+#: src/components/Forms/InviteForm.vue:46
+msgid "Share"
+msgstr "Compartir"
+
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:11
+msgid "So let's see how to get started!"
+msgstr "¡Así que veamos cómo empezar!"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:7
+msgid ""
+"So you now have access to our server's media collection. Let's make sure you "
+"know how to use it with Plex."
+msgstr ""
+"Así que ahora tiene acceso a la colección de medios de nuestro servidor. "
+"Asegurémonos de que sabe cómo usarlo con Plex."
+
+#: src/views/JoinViews/CarouselView.vue:125
+#, fuzzy
+msgid ""
+"Something went wrong while trying to join the server. Please try again later."
+msgstr "Algo salió mal. Por favor, inténtelo de nuevo más tarde."
 
 #: src/views/DefaultViews/NotFoundView.vue:13
 msgid "Something's missing."
@@ -436,11 +602,7 @@ msgstr "Algo falta, algo está faltando."
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
 msgstr "Lo sentimos, no podemos encontrar esa página. ¡Parece que no existe!"
 
-#: src/views/AdminViews/InviteView.vue:96
-msgid "Specific Libraries"
-msgstr "Bibliotecas específicas"
-
-#: src/views/SettingsViews/DefaultView.vue:152
+#: src/views/SettingsViews/DefaultView.vue:151
 #, fuzzy
 msgid "SSO Login"
 msgstr "Acceso"
@@ -449,7 +611,7 @@ msgstr "Acceso"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:209
+#: src/views/SettingsViews/DefaultView.vue:208
 #, fuzzy
 msgid "Tasks"
 msgstr "Ejecutar tarea"
@@ -461,24 +623,33 @@ msgstr ""
 "Esto es temporal y estamos trabajando para agregar soporte para otras bases "
 "de datos."
 
+#: src/components/Forms/InviteForm.vue:58
 #: src/components/Modals/ScanServersModal.vue:8
 msgid "Try Again"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:173
+#: src/views/JoinViews/CarouselView.vue:5 src/views/JoinViews/JoinView.vue:5
+#, fuzzy
+msgid "Type in your invite code to %{server_name} server!"
+msgstr "¡Escribe tu código de invitación al servidor de %(name)s!"
+
+#: src/views/JoinViews/CarouselView.vue:124
+#: src/views/JoinViews/CarouselView.vue:158
+#: src/views/JoinViews/CarouselView.vue:191
+#: src/views/JoinViews/CarouselView.vue:196
+#: src/views/JoinViews/CarouselView.vue:219
+#: src/views/JoinViews/CarouselView.vue:224
+#: src/views/JoinViews/CarouselView.vue:238
+#: src/views/JoinViews/CarouselView.vue:239
+msgid "Uh oh!"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:172
 #, fuzzy
 msgid "UI Settings"
 msgstr "Ajustes"
 
-#: src/views/AdminViews/InviteView.vue:74
-msgid "Unlimited"
-msgstr "Ilimitado"
-
-#: src/views/AdminViews/InviteView.vue:25
-msgid "Unlimited Usages"
-msgstr "Usos ilimitados"
-
-#: src/views/SettingsViews/DefaultView.vue:215
+#: src/views/SettingsViews/DefaultView.vue:214
 #, fuzzy
 msgid "Updates"
 msgstr "Actualizar"
@@ -496,20 +667,20 @@ msgstr "Usuarios"
 msgid "View"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:204
+#: src/views/SettingsViews/DefaultView.vue:203
 msgid "View and download server logs"
 msgstr "Ver y descargar registros del servidor"
 
-#: src/views/SettingsViews/DefaultView.vue:210
+#: src/views/SettingsViews/DefaultView.vue:209
 msgid "View and manage scheduled tasks"
 msgstr "Ver y administrar tareas programadas"
 
-#: src/views/SettingsViews/DefaultView.vue:147
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "Gestiona tus invitaciones"
 
-#: src/views/SettingsViews/DefaultView.vue:229
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "View information about the server"
 msgstr "Ver información sobre el servidor."
 
@@ -531,13 +702,13 @@ msgstr ""
 msgid "Welcome to Wizarr"
 msgstr "Bienvenido a Wizarr"
 
-#: src/views/AdminViews/InviteView.vue:65
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:8
 msgid ""
-"When set, invited user(s) will be removed from the server after the set "
-"number of days. (1-999)"
+"With Plex, you'll have access to all of the movies, TV shows, music, and "
+"photos that are stored on their server!"
 msgstr ""
-"Cuando se establece, los usuarios invitados se eliminarán del servidor "
-"después del número de días establecido. (1-999)"
+"¡Con Plex, tendrá acceso a todas las películas, programas de TV, música y "
+"fotos que están almacenadas en su servidor!"
 
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
@@ -574,9 +745,75 @@ msgstr ""
 msgid "You have successfully completed the setup process."
 msgstr "Ha completado con éxito el proceso de configuración."
 
+#: src/views/JoinViews/CompleteView.vue:4
+#, fuzzy
+msgid ""
+"You're all set, click continue to get started and walkthrough how to use "
+"%{serverName}!"
+msgstr ""
+"Ya está todo listo, haga clic en continuar para comenzar y ver cómo usar "
+"Plex."
+
+#: src/views/JoinViews/CarouselView.vue:24
+#, fuzzy
+msgid "Your account has been created!"
+msgstr "La invitación ha sido creada."
+
 #: src/views/SetupViews/CompleteView.vue:3
 msgid "Your Done"
 msgstr "Terminaste"
+
+#~ msgid "1 Day"
+#~ msgstr "1 día"
+
+#~ msgid "1 Month"
+#~ msgstr "1 mes"
+
+#~ msgid "1 Week"
+#~ msgstr "1 semana"
+
+#~ msgid "1 Year"
+#~ msgstr "1 año"
+
+#~ msgid "6 Months"
+#~ msgstr "6 meses"
+
+#~ msgid "Allow Downloads"
+#~ msgstr "Permitir descargas"
+
+#~ msgid "Custom"
+#~ msgstr "Costumbre"
+
+#~ msgid "Custom Duration"
+#~ msgstr "Duración personalizada"
+
+#~ msgid "Duration"
+#~ msgstr "Duración"
+
+#~ msgid "Invite to Plex Home"
+#~ msgstr "Invitar a Plex Home"
+
+#~ msgid "Select All"
+#~ msgstr "Seleccionar todo"
+
+#~ msgid "Show Information"
+#~ msgstr "Muestra información"
+
+#~ msgid "Specific Libraries"
+#~ msgstr "Bibliotecas específicas"
+
+#~ msgid "Unlimited"
+#~ msgstr "Ilimitado"
+
+#~ msgid "Unlimited Usages"
+#~ msgstr "Usos ilimitados"
+
+#~ msgid ""
+#~ "When set, invited user(s) will be removed from the server after the set "
+#~ "number of days. (1-999)"
+#~ msgstr ""
+#~ "Cuando se establece, los usuarios invitados se eliminarán del servidor "
+#~ "después del número de días establecido. (1-999)"
 
 #~ msgid "Custom Expiration"
 #~ msgstr "Caducidad personalizada"
@@ -633,12 +870,6 @@ msgstr "Terminaste"
 #~ msgid "Successfully generated an Invitation!"
 #~ msgstr "¡Se generó una invitación con éxito!"
 
-#~ msgid "Link has been copied to clipboard!"
-#~ msgstr "¡El enlace ha sido copiado al portapapeles!"
-
-#~ msgid "Share"
-#~ msgstr "Compartir"
-
 #~ msgid "An error occurred while copying the link to the clipboard!"
 #~ msgstr "¡Ocurrió un error al copiar el enlace al portapapeles!"
 
@@ -651,14 +882,8 @@ msgstr "Terminaste"
 #~ msgid "Creating..."
 #~ msgstr "Creando..."
 
-#~ msgid "The invite has been created"
-#~ msgstr "La invitación ha sido creada."
-
 #~ msgid "There was an error creating the invite"
 #~ msgstr "Hubo un error al crear la invitación."
-
-#~ msgid "Create Invite"
-#~ msgstr "Crear invitación"
 
 #~ msgid "Delete All"
 #~ msgstr "Eliminar todos"
@@ -674,9 +899,6 @@ msgstr "Terminaste"
 
 #~ msgid "Manage users that joined your server"
 #~ msgstr "Administrar usuarios que se unieron a su servidor"
-
-#~ msgid "Scan Users"
-#~ msgstr "Escanear usuarios"
 
 #~ msgid "Add User"
 #~ msgstr "Agregar usuario"
@@ -704,19 +926,6 @@ msgstr "Terminaste"
 
 #~ msgid "Please enter your username"
 #~ msgstr "Por favor, ingrese su nombre de usuario"
-
-#~ msgid "Invalid Invitation"
-#~ msgstr "Invitación no válida"
-
-#, python-format
-#~ msgid "Type in your invite code to %(name)s server!"
-#~ msgstr "¡Escribe tu código de invitación al servidor de %(name)s!"
-
-#~ msgid "Invite Code"
-#~ msgstr "Codigo de invitacion"
-
-#~ msgid "Join"
-#~ msgstr "Unirse"
 
 #, python-format
 #~ msgid "You've been invited to join the %(name)s server!"
@@ -777,15 +986,6 @@ msgstr "Terminaste"
 #~ msgid "Creating Jellyfin Account"
 #~ msgstr "Crear una cuenta"
 
-#~ msgid "Join the Plex Server"
-#~ msgstr "Únete al servidor Plex"
-
-#~ msgid "Sign in to Plex"
-#~ msgstr "Iniciar sesión en Plex"
-
-#~ msgid "Setting up your account"
-#~ msgstr "Configurando tu cuenta"
-
 #~ msgid "Almost there!"
 #~ msgstr "¡Casi llegamos!"
 
@@ -795,21 +995,8 @@ msgstr "Terminaste"
 #~ msgid "Account created!"
 #~ msgstr "¡Cuenta creada!"
 
-#~ msgid ""
-#~ "You're all set, click continue to get started and walkthrough how to use "
-#~ "Plex!"
-#~ msgstr ""
-#~ "Ya está todo listo, haga clic en continuar para comenzar y ver cómo usar "
-#~ "Plex."
-
 #~ msgid "Help"
 #~ msgstr "Ayuda"
-
-#~ msgid "Getting Started!"
-#~ msgstr "¡Empezando!"
-
-#~ msgid "Open"
-#~ msgstr "Abierto"
 
 #~ msgid "Automatic Media Requests"
 #~ msgstr "Solicitudes automáticas de medios"
@@ -849,39 +1036,11 @@ msgstr "Terminaste"
 #~ "        para este dispositivo"
 
 #~ msgid ""
-#~ "Great news! You now have access to our server's media collection. Let's "
-#~ "make sure you know how to use\n"
-#~ "    it with Jellyfin."
-#~ msgstr ""
-#~ "¡Una gran noticia! Ahora tiene acceso a la colección de medios de nuestro "
-#~ "servidor. Asegurémonos de que sabes cómo usar\n"
-#~ "    con Jellyfin."
-
-#~ msgid ""
-#~ "Planning on watching Movies on this device? Download Jellyfin for this "
-#~ "device."
-#~ msgstr ""
-#~ "¿Planea ver películas en este dispositivo? Descarga Jellyfin para este "
-#~ "dispositivo."
-
-#~ msgid ""
 #~ "If you don't wish to Download the App feel free to use Jellyfin in your "
 #~ "devices web browser, just click \"Next\"."
 #~ msgstr ""
 #~ "Si no desea descargar la aplicación, puede usar Jellyfin en el navegador "
 #~ "web de su dispositivo, simplemente haga clic en \"Siguiente\"."
-
-#~ msgid "Show Server URL"
-#~ msgstr "Mostrar URL del servidor"
-
-#~ msgid "Server URL"
-#~ msgstr "URL del servidor"
-
-#~ msgid "Copy"
-#~ msgstr "Copiar"
-
-#~ msgid "Open Jellyfin"
-#~ msgstr "Jellyfin abierto"
 
 #~ msgid "Other Download"
 #~ msgstr "Otra descarga"
@@ -906,42 +1065,6 @@ msgstr "Terminaste"
 
 #~ msgid "It's that easy!"
 #~ msgstr "¡Es fácil!"
-
-#~ msgid "Eh, So, What is Jellyfin exactly?"
-#~ msgstr "Eh, entonces, ¿qué es Jellyfin exactamente?"
-
-#~ msgid ""
-#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV "
-#~ "shows, and music in one place. It's like having your own personal movie "
-#~ "theater right at your fingertips! Think of it as a digital library of "
-#~ "your favorite content that you can access from anywhere, on any device - "
-#~ "your phone, tablet, laptop, smart TV, you name it."
-#~ msgstr ""
-#~ "Jellyfin es una plataforma que te permite transmitir todas tus películas, "
-#~ "programas de TV y música favoritos en un solo lugar. ¡Es como tener tu "
-#~ "propia sala de cine personal al alcance de tu mano! Piense en ello como "
-#~ "una biblioteca digital de su contenido favorito al que puede acceder "
-#~ "desde cualquier lugar, en cualquier dispositivo: su teléfono, tableta, "
-#~ "computadora portátil, televisor inteligente, lo que sea."
-
-#~ msgid "Join & Download Plex for this device"
-#~ msgstr "Únete y descarga Plex para este dispositivo"
-
-#~ msgid ""
-#~ "So you now have access to our server's media collection. Let's make sure "
-#~ "you know how to use it with Plex."
-#~ msgstr ""
-#~ "Así que ahora tiene acceso a la colección de medios de nuestro servidor. "
-#~ "Asegurémonos de que sabe cómo usarlo con Plex."
-
-#~ msgid ""
-#~ "Planning on watching Movies on this device? Download Plex for this device."
-#~ msgstr ""
-#~ "¿Planea ver películas en este dispositivo? Descarga Plex para este "
-#~ "dispositivo."
-
-#~ msgid "Download"
-#~ msgstr "Descargar"
 
 #~ msgid ""
 #~ "It couldn't be simpler! Plex is available on a wide variety of devices "
@@ -983,28 +1106,6 @@ msgstr "Terminaste"
 #~ "Nosotros altamente\n"
 #~ "            ¡Te recomiendo que sigas esos pasos primero!"
 
-#~ msgid "Eh, So, What is Plex exactly?"
-#~ msgstr "Eh, entonces, ¿qué es Plex exactamente?"
-
-#~ msgid ""
-#~ "Great question! Plex is a software that allows individuals to share their "
-#~ "media collections with others. If you've received this invitation, it "
-#~ "means someone wants to share their library with you."
-#~ msgstr ""
-#~ "¡Gran pregunta! Plex es un software que permite a las personas compartir "
-#~ "sus colecciones de medios con otros. Si ha recibido esta invitación, "
-#~ "significa que alguien quiere compartir su biblioteca con usted."
-
-#~ msgid ""
-#~ "With Plex, you'll have access to all of the movies, TV shows, music, and "
-#~ "photos that are stored on their server!"
-#~ msgstr ""
-#~ "¡Con Plex, tendrá acceso a todas las películas, programas de TV, música y "
-#~ "fotos que están almacenadas en su servidor!"
-
-#~ msgid "So let's see how to get started!"
-#~ msgstr "¡Así que veamos cómo empezar!"
-
 #~ msgid "Permission denied."
 #~ msgstr "Permiso denegado."
 
@@ -1014,17 +1115,11 @@ msgstr "Terminaste"
 #~ msgid "Internal Server Error."
 #~ msgstr "Error Interno del Servidor."
 
-#~ msgid " Something has gone wrong. Please try again later."
-#~ msgstr "Algo salió mal. Por favor, inténtelo de nuevo más tarde."
-
 #~ msgid "Get Help"
 #~ msgstr "Consigue ayuda"
 
 #~ msgid "or"
 #~ msgstr "o"
-
-#~ msgid "Add Passkey"
-#~ msgstr "Agregar clave de acceso"
 
 #~ msgid "Name"
 #~ msgstr "Nombre"
@@ -1220,9 +1315,6 @@ msgstr "Terminaste"
 #~ msgid "Settings failed to save!"
 #~ msgstr "Ninguna configuración coincidió con su búsqueda."
 
-#~ msgid "Create Agent"
-#~ msgstr "Crear agente"
-
 #~ msgid "Add OAuth"
 #~ msgstr "Añadir OAuth"
 
@@ -1262,15 +1354,8 @@ msgstr "Terminaste"
 #~ msgid "Edit"
 #~ msgstr "Editar"
 
-#, fuzzy
-#~ msgid "Expires"
-#~ msgstr "Venció"
-
 #~ msgid "Used"
 #~ msgstr "Usado"
-
-#~ msgid "Expired"
-#~ msgstr "Venció"
 
 #~ msgid "Libraries"
 #~ msgstr "bibliotecas"
@@ -1278,14 +1363,8 @@ msgstr "Terminaste"
 #~ msgid "Created"
 #~ msgstr "Creado"
 
-#~ msgid "No Invitations"
-#~ msgstr "Sin invitaciones"
-
 #~ msgid "You have not created any invitations yet."
 #~ msgstr "Aún no has creado ninguna invitación."
-
-#~ msgid "Your Passkeys"
-#~ msgstr "Tus claves de paso"
 
 #~ msgid "Add a passkey"
 #~ msgstr "Agregar una clave de paso"

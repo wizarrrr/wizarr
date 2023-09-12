@@ -5,6 +5,7 @@ import { useAuthStore } from "@/stores/auth";
 import middlewarePipeline from "./middlewarePipeline";
 import requireAuth from "./middleware/requireAuth";
 import requireNoAuth from "./middleware/requireNoAuth";
+import openServer from "./middleware/openServer";
 
 const router = createRouter({
     history: typeof window !== "undefined" ? createWebHistory() : createMemoryHistory(),
@@ -30,7 +31,20 @@ const router = createRouter({
         {
             path: "/j/:invite",
             name: "join-invite",
-            component: () => import("@/views/JoinViews/JoinCarouselView.vue"),
+            component: () => import("@/views/JoinViews/CarouselView.vue"),
+        },
+        {
+            path: "/help",
+            name: "help",
+            component: () => import("@/views/HelpViews/HelpView.vue"),
+        },
+        {
+            path: "/open",
+            name: "open",
+            component: () => "",
+            meta: {
+                middleware: [openServer],
+            },
         },
         {
             path: "/setup",

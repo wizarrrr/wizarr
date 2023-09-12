@@ -18,88 +18,69 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: src/views/AdminViews/InviteView.vue:75
-msgid "1 Day"
-msgstr "1 Day"
-
-#: src/views/AdminViews/InviteView.vue:77
-msgid "1 Month"
-msgstr "1 Month"
-
-#: src/views/AdminViews/InviteView.vue:76
-msgid "1 Week"
-msgstr "1 Week"
-
-#: src/views/AdminViews/InviteView.vue:79
-msgid "1 Year"
-msgstr "1 Year"
-
-#: src/views/AdminViews/InviteView.vue:78
-msgid "6 Months"
-msgstr "6 Months"
-
-#: src/views/SettingsViews/DefaultView.vue:228
+#: src/views/SettingsViews/DefaultView.vue:227
 msgid "About"
 msgstr "About"
 
-#: src/views/SettingsViews/DefaultView.vue:129
+#: src/views/SettingsViews/DefaultView.vue:128
 #, fuzzy
 msgid "Account Settings"
 msgstr "Settings"
 
-#: src/views/SettingsViews/DefaultView.vue:105
+#: src/views/SettingsViews/DefaultView.vue:104
 msgid "Add API keys for external services"
 msgstr "Add API keys for external services"
 
-#: src/views/SettingsViews/DefaultView.vue:185
+#: src/views/SettingsViews/DefaultView.vue:184
 msgid "Add Custom HTML page to help screen"
 msgstr "Add Custom HTML page to help screen"
 
-#: src/views/SettingsViews/DefaultView.vue:98
+#: src/views/SettingsViews/DefaultView.vue:97
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "Add Jellyseerr, Overseerr or Ombi support"
+
+#: src/views/SettingsViews/MFAView.vue:9
+msgid "Add Passkey"
+msgstr "Add Passkey"
 
 #: src/views/SetupViews/AccountView.vue:3
 msgid "Admin Account"
 msgstr "Admin Account"
 
-#: src/views/AdminViews/InviteView.vue:15
+#: src/components/Forms/InviteForm.vue:18
 msgid "Advanced Options"
 msgstr "Advanced Options"
 
-#: src/views/SettingsViews/DefaultView.vue:192
+#: src/views/SettingsViews/DefaultView.vue:191
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Advanced Options"
 
-#: src/views/SettingsViews/DefaultView.vue:193
+#: src/views/SettingsViews/DefaultView.vue:192
 msgid "Advanced settings for the server"
 msgstr "Advanced settings for the server"
 
-#: src/views/AdminViews/InviteView.vue:41
-msgid "Allow Downloads"
-msgstr "Allow Downloads"
-
-#: src/views/SettingsViews/DefaultView.vue:104
+#: src/views/SettingsViews/DefaultView.vue:103
 #, fuzzy
 msgid "API keys"
 msgstr "API Token"
 
-#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15 src/views/HelpViews/HelpView.vue:12
+#: src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "Back"
 
-#: src/views/SettingsViews/DefaultView.vue:222
+#: src/views/SettingsViews/DefaultView.vue:221
 #, fuzzy
 msgid "Backup"
 msgstr "Back"
 
-#: src/views/SettingsViews/DefaultView.vue:141
+#: src/views/SettingsViews/DefaultView.vue:140
 #, fuzzy
 msgid "Change your password"
 msgstr "Forgot your password?"
 
-#: src/views/SettingsViews/DefaultView.vue:216
+#: src/views/SettingsViews/DefaultView.vue:215
 msgid "Check for and view updates"
 msgstr "Check for and view updates"
 
@@ -111,42 +92,70 @@ msgstr ""
 "Check out our documentation for detailed instructions on how to install and "
 "run Wizarr!"
 
-#: src/views/SettingsViews/DefaultView.vue:121
+#: src/views/SettingsViews/DefaultView.vue:120
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "Configure your server settings."
 
-#: src/views/SettingsViews/DefaultView.vue:160
+#: src/views/SettingsViews/DefaultView.vue:159
 msgid "Configure MFA authentication"
 msgstr "Configure MFA authentication"
 
-#: src/views/SettingsViews/DefaultView.vue:113
+#: src/views/SettingsViews/DefaultView.vue:112
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "Configure your server settings."
 
-#: src/views/SettingsViews/DefaultView.vue:197
+#: src/views/SettingsViews/DefaultView.vue:196
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "Create Invitation"
 
-#: src/views/SettingsViews/DefaultView.vue:153
+#: src/views/SettingsViews/DefaultView.vue:152
 msgid "Configure SSO login"
 msgstr "Configure SSO login"
 
-#: src/views/SettingsViews/DefaultView.vue:92
+#: src/views/SettingsViews/DefaultView.vue:91
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "Configure your server settings."
 
-#: src/views/SettingsViews/DefaultView.vue:135
+#: src/views/SettingsViews/DefaultView.vue:134
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "Configure your server settings."
 
+#: src/views/JoinViews/CompleteView.vue:7 src/views/LoginViews/MFAView.vue:15
 #: src/views/LoginViews/UsernameView.vue:11
 msgid "Continue"
 msgstr "Continue"
+
+#: src/components/InvitationList/InvitationItem.vue:49
+#, fuzzy
+msgid "Copied to clipboard"
+msgstr "Link has been copied to clipboard!"
+
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:28
+msgid "Copy"
+msgstr "Copy"
+
+#: src/views/JoinViews/CarouselView.vue:158
+#: src/views/JoinViews/CarouselView.vue:238
+#, fuzzy
+msgid "Could not connect to the server."
+msgstr "Modify the look and feel of the server"
+
+#: src/views/JoinViews/CarouselView.vue:191
+#: src/views/JoinViews/CarouselView.vue:196
+#: src/views/JoinViews/CarouselView.vue:219
+#: src/views/JoinViews/CarouselView.vue:224
+#, fuzzy
+msgid "Could not create the account."
+msgstr "Create account"
+
+#: src/views/JoinViews/CarouselView.vue:171
+msgid "Could not verify the invite code."
+msgstr ""
 
 #: src/views/SetupViews/AccountView.vue:24
 msgid "Create account"
@@ -157,34 +166,34 @@ msgstr "Create account"
 msgid "Create an invitation to your server"
 msgstr "Create an invitation to your server."
 
-#: src/views/SettingsViews/DefaultView.vue:223
+#: src/views/SettingsViews/DefaultView.vue:222
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Create an account"
+
+#: src/components/Forms/InviteForm.vue:43
+#, fuzzy
+msgid "Create Another"
+msgstr "Create Agent"
 
 #: src/views/AdminViews/FlowEditor.vue:4
 #, fuzzy
 msgid "Create Flow"
 msgstr "Create"
 
-#: src/views/AdminViews/InviteView.vue:137
-#: src/views/AdminViews/InviteView.vue:2
+#: src/components/Forms/InviteForm.vue:22 src/views/AdminViews/InviteView.vue:2
 msgid "Create Invitation"
 msgstr "Create Invitation"
+
+#: src/views/AdminViews/InvitationsView.vue:7
+msgid "Create Invite"
+msgstr "Create Invite"
 
 #: src/views/SetupViews/DatabaseView.vue:6
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr "Currently Wizarr only supports it's internal SQLite database."
 
-#: src/views/AdminViews/InviteView.vue:80
-msgid "Custom"
-msgstr "Custom"
-
-#: src/views/AdminViews/InviteView.vue:88
-msgid "Custom Duration"
-msgstr "Custom Duration"
-
-#: src/views/SettingsViews/DefaultView.vue:184
+#: src/views/SettingsViews/DefaultView.vue:183
 #, fuzzy
 msgid "Custom HTML"
 msgstr "Custom"
@@ -193,12 +202,12 @@ msgstr "Custom"
 msgid "Database"
 msgstr "Database"
 
-#: src/views/SettingsViews/DefaultView.vue:178
+#: src/views/SettingsViews/DefaultView.vue:177
 #, fuzzy
 msgid "Discord"
 msgstr "Discord Widget"
 
-#: src/views/SettingsViews/DefaultView.vue:120
+#: src/views/SettingsViews/DefaultView.vue:119
 #, fuzzy
 msgid "Discord Bot"
 msgstr "Discord Widget"
@@ -207,26 +216,48 @@ msgstr "Discord Widget"
 msgid "Don't see your server?"
 msgstr ""
 
-#: src/views/AdminViews/InviteView.vue:51
-#: src/views/AdminViews/InviteView.vue:64
-msgid "Duration"
-msgstr "Duration"
+#: src/views/HelpViews/JellyfinViews/WelcomeView.vue:3
+msgid "Eh, So, What is Jellyfin exactly?"
+msgstr "Eh, So, What is Jellyfin exactly?"
 
-#: src/views/SettingsViews/DefaultView.vue:179
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:3
+msgid "Eh, So, What is Plex exactly?"
+msgstr "Eh, So, What is Plex exactly?"
+
+#: src/views/SettingsViews/DefaultView.vue:178
 msgid "Enable Discord page and configure settings"
 msgstr "Enable Discord page and configure settings"
+
+#: src/components/InvitationList/InvitationItem.vue:59
+#, fuzzy
+msgid "Expired %{s}"
+msgstr "Expired"
+
+#: src/components/InvitationList/InvitationItem.vue:61
+#, fuzzy
+msgid "Expires %{s}"
+msgstr "Expired"
+
+#: src/components/Forms/InviteForm.vue:54
+#, fuzzy
+msgid "Failed to create invitation"
+msgstr "Create Invitation"
 
 #: src/views/AdminViews/FlowEditor.vue:2
 msgid "Flow Editor"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:87
+#: src/views/SettingsViews/DefaultView.vue:86
 msgid "General settings for the server"
 msgstr "General settings for the server"
 
 #: src/views/DefaultViews/HomeView.vue:14
 msgid "Get Started"
 msgstr "Get Started"
+
+#: src/views/HelpViews/HelpView.vue:5
+msgid "Getting Started!"
+msgstr "Getting Started!"
 
 #: src/views/DefaultViews/NotFoundView.vue:18
 #, fuzzy
@@ -242,6 +273,26 @@ msgstr "Go to Dashboard"
 msgid "Go to Login"
 msgstr "Login"
 
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:8
+#, fuzzy
+msgid ""
+"Great news! You now have access to our server's media collection. Let's make "
+"sure you know how to use it with Jellyfin."
+msgstr ""
+"Great news! You now have access to our server's media collection. Let's make "
+"sure you know how to use\n"
+"    it with Jellyfin."
+
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:5
+msgid ""
+"Great question! Plex is a software that allows individuals to share their "
+"media collections with others. If you've received this invitation, it means "
+"someone wants to share their library with you."
+msgstr ""
+"Great question! Plex is a software that allows individuals to share their "
+"media collections with others. If you've received this invitation, it means "
+"someone wants to share their library with you."
+
 #: src/components/NavBars/AdminNavBar.vue:73
 #, fuzzy
 msgid "Home"
@@ -256,18 +307,55 @@ msgstr ""
 "If you were sent here by a friend, please request access or if you have an "
 "invite code, please click Get Started."
 
+#: src/views/JoinViews/CarouselView.vue:170
+#, fuzzy
+msgid "Invalid Invite!"
+msgstr "Invalid Invitation"
+
 #: src/components/NavBars/AdminNavBar.vue:77
 #: src/views/AdminViews/InvitationsView.vue:2
 msgid "Invitations"
 msgstr "Invitations"
 
-#: src/views/AdminViews/InviteView.vue:33
-msgid "Invite to Plex Home"
-msgstr "Invite to Plex Home"
+#: src/components/Forms/JoinForm.vue:10
+msgid "Invite Code"
+msgstr "Invite Code"
 
 #: src/views/AdminViews/UsersView.vue:2
 msgid "Invited Users"
 msgstr "Invited Users"
+
+#: src/views/HelpViews/JellyfinViews/WelcomeView.vue:5
+msgid ""
+"Jellyfin is a platform that lets you stream all your favorite movies, TV "
+"shows, and music in one place. It's like having your own personal movie "
+"theater right at your fingertips! Think of it as a digital library of your "
+"favorite content that you can access from anywhere, on any device - your "
+"phone, tablet, laptop, smart TV, you name it."
+msgstr ""
+"Jellyfin is a platform that lets you stream all your favorite movies, TV "
+"shows, and music in one place. It's like having your own personal movie "
+"theater right at your fingertips! Think of it as a digital library of your "
+"favorite content that you can access from anywhere, on any device - your "
+"phone, tablet, laptop, smart TV, you name it."
+
+#: src/components/Forms/JoinForm.vue:7
+msgid "Join"
+msgstr "Join"
+
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:4
+#, fuzzy
+msgid "Join & Download"
+msgstr "Download"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:4
+msgid "Join & Download Plex for this device"
+msgstr "Join & Download Plex for this device"
+
+#: src/views/JoinViews/CarouselView.vue:15 src/views/JoinViews/JoinView.vue:12
+#, fuzzy
+msgid "Join the %{server_type} Server"
+msgstr "Join the Plex Server"
 
 #: src/components/ChangeLogs/ChangeLogs.vue:7
 msgid "Load More"
@@ -277,11 +365,16 @@ msgstr "Load More"
 msgid "Login"
 msgstr "Login"
 
+#: src/views/JoinViews/PlexViews/PlexSetupView.vue:5
+#, fuzzy
+msgid "Login to Plex"
+msgstr "Sign in to Plex"
+
 #: src/views/LoginViews/PasswordView.vue:16
 msgid "Login with MFA"
 msgstr "Login with MFA"
 
-#: src/views/LoginViews/MFAView.vue:17
+#: src/views/LoginViews/MFAView.vue:19
 msgid "Login with Password"
 msgstr "Login with Password"
 
@@ -289,12 +382,12 @@ msgstr "Login with Password"
 msgid "Login with your account"
 msgstr "Login with your account"
 
-#: src/views/SettingsViews/DefaultView.vue:203
+#: src/views/SettingsViews/DefaultView.vue:202
 #, fuzzy
 msgid "Logs"
 msgstr "Login"
 
-#: src/views/SettingsViews/DefaultView.vue:86
+#: src/views/SettingsViews/DefaultView.vue:85
 #, fuzzy
 msgid "Main Settings"
 msgstr "Settings"
@@ -313,7 +406,7 @@ msgstr "Manage your invitations"
 msgid "Manage your media server users"
 msgstr "Configure your server settings."
 
-#: src/views/SettingsViews/DefaultView.vue:91
+#: src/views/SettingsViews/DefaultView.vue:90
 #, fuzzy
 msgid "Media Server"
 msgstr "Server"
@@ -322,17 +415,27 @@ msgstr "Server"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:174
+#: src/views/SettingsViews/DefaultView.vue:173
 msgid "Modify the look and feel of the server"
 msgstr "Modify the look and feel of the server"
 
-#: src/views/SettingsViews/DefaultView.vue:159
+#: src/views/SettingsViews/DefaultView.vue:158
 msgid "Multi-Factor Authentication"
 msgstr "Multi-Factor Authentication"
 
-#: src/views/SetupViews/SetupView.vue:33
+#: src/views/HelpViews/HelpView.vue:15 src/views/SetupViews/SetupView.vue:33
 msgid "Next"
 msgstr "Next"
+
+#: src/components/InvitationList/InvitationList.vue:11
+#, fuzzy
+msgid "No Invitations found"
+msgstr "No Invitations"
+
+#: src/components/MFAList/MFAList.vue:11
+#, fuzzy
+msgid "No Passkeys found"
+msgstr "Your Passkeys"
 
 #: src/components/ScanServers/ScanServers.vue:15
 msgid "No servers could be found."
@@ -342,21 +445,50 @@ msgstr ""
 msgid "No settings matched your search."
 msgstr "No settings matched your search."
 
-#: src/views/SettingsViews/DefaultView.vue:112
+#: src/views/SettingsViews/DefaultView.vue:111
 #, fuzzy
 msgid "Notifications"
 msgstr "Notification Service"
 
-#: src/views/SettingsViews/DefaultView.vue:196
+#: src/views/SettingsViews/DefaultView.vue:195
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "Create Invitation"
 
-#: src/views/SettingsViews/DefaultView.vue:140
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:47
+msgid "Open Jellyfin"
+msgstr "Open Jellyfin"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:17
+#, fuzzy
+msgid "Open Plex"
+msgstr "Open"
+
+#: src/views/SettingsViews/DefaultView.vue:139
 msgid "Password"
 msgstr "Password"
 
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:16
+#, fuzzy
+msgid ""
+"Planning on watching Movies on this device? Download Jellyfin for this "
+"device or click 'Next' to for other options."
+msgstr ""
+"Planning on watching Movies on this device? Download Jellyfin for this "
+"device."
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:10
+msgid ""
+"Planning on watching Movies on this device? Download Plex for this device."
+msgstr ""
+"Planning on watching Movies on this device? Download Plex for this device."
+
+#: src/views/JoinViews/PlexViews/PlexSetupView.vue:3
+msgid "Please login to your Plex account to help us connect you to our server."
+msgstr ""
+
 #: src/components/Loading/FullPageLoading.vue:109
+#: src/views/JoinViews/CarouselView.vue:35
 #, fuzzy
 msgid "Please wait..."
 msgstr "Please wait"
@@ -369,7 +501,7 @@ msgstr ""
 msgid "Press the button below and follow your browser's steps to login"
 msgstr "Press the button below and follow your browser's steps to login"
 
-#: src/views/SettingsViews/DefaultView.vue:134
+#: src/views/SettingsViews/DefaultView.vue:133
 msgid "Profile"
 msgstr "Profile"
 
@@ -377,7 +509,7 @@ msgstr "Profile"
 msgid "Request Access"
 msgstr "Request Access"
 
-#: src/views/SettingsViews/DefaultView.vue:97
+#: src/views/SettingsViews/DefaultView.vue:96
 #, fuzzy
 msgid "Requests"
 msgstr "Request Server"
@@ -395,16 +527,25 @@ msgstr ""
 msgid "Restore Backup"
 msgstr "Create an account"
 
-#: src/views/AdminViews/InviteView.vue:128
-msgid "Select All"
-msgstr "Select All"
+#: src/components/Modals/ServerURLModal.vue:8
+#, fuzzy
+msgid "Save URL"
+msgstr "Server URL"
+
+#: src/views/AdminViews/UsersView.vue:10
+msgid "Scan Users"
+msgstr "Scan Users"
 
 #: src/components/Modals/ScanLibrariesModal.vue:8
-#: src/views/AdminViews/InviteView.vue:100
 msgid "Select Libraries"
 msgstr "Select Libraries"
 
-#: src/views/SettingsViews/DefaultView.vue:146
+#: src/views/HelpViews/JellyfinViews/DownloadView.vue:24
+#, fuzzy
+msgid "Server URL"
+msgstr "Show Server URL"
+
+#: src/views/SettingsViews/DefaultView.vue:145
 #, fuzzy
 msgid "Sessions"
 msgstr "Version"
@@ -413,7 +554,7 @@ msgstr "Version"
 msgid "Settings"
 msgstr "Settings"
 
-#: src/views/SettingsViews/DefaultView.vue:130
+#: src/views/SettingsViews/DefaultView.vue:129
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "Setting up your account"
@@ -422,9 +563,32 @@ msgstr "Setting up your account"
 msgid "Setup Wizarr"
 msgstr "Setup Wizarr"
 
-#: src/views/AdminViews/InviteView.vue:59
-msgid "Show Information"
-msgstr "Show Information"
+#: src/views/JoinViews/CarouselView.vue:18
+#, fuzzy
+msgid "Setup your account"
+msgstr "Setting up your account"
+
+#: src/components/Forms/InviteForm.vue:46
+msgid "Share"
+msgstr "Share"
+
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:11
+msgid "So let's see how to get started!"
+msgstr "So let's see how to get started!"
+
+#: src/views/HelpViews/PlexViews/DownloadView.vue:7
+msgid ""
+"So you now have access to our server's media collection. Let's make sure you "
+"know how to use it with Plex."
+msgstr ""
+"So you now have access to our server's media collection. Let's make sure you "
+"know how to use it with Plex."
+
+#: src/views/JoinViews/CarouselView.vue:125
+#, fuzzy
+msgid ""
+"Something went wrong while trying to join the server. Please try again later."
+msgstr "Something has gone wrong. Please try again later."
 
 #: src/views/DefaultViews/NotFoundView.vue:13
 msgid "Something's missing."
@@ -434,11 +598,7 @@ msgstr "Something's missing."
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
 msgstr "Sorry, we can't find that page. It doesn't seem to exist!"
 
-#: src/views/AdminViews/InviteView.vue:96
-msgid "Specific Libraries"
-msgstr "Specific Libraries"
-
-#: src/views/SettingsViews/DefaultView.vue:152
+#: src/views/SettingsViews/DefaultView.vue:151
 #, fuzzy
 msgid "SSO Login"
 msgstr "Login"
@@ -447,7 +607,7 @@ msgstr "Login"
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:209
+#: src/views/SettingsViews/DefaultView.vue:208
 #, fuzzy
 msgid "Tasks"
 msgstr "Run Task"
@@ -458,24 +618,33 @@ msgid ""
 msgstr ""
 "This is a temporary and we are working on adding support for other databases."
 
+#: src/components/Forms/InviteForm.vue:58
 #: src/components/Modals/ScanServersModal.vue:8
 msgid "Try Again"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:173
+#: src/views/JoinViews/CarouselView.vue:5 src/views/JoinViews/JoinView.vue:5
+#, fuzzy
+msgid "Type in your invite code to %{server_name} server!"
+msgstr "Type in your invite code to %(name)s server!"
+
+#: src/views/JoinViews/CarouselView.vue:124
+#: src/views/JoinViews/CarouselView.vue:158
+#: src/views/JoinViews/CarouselView.vue:191
+#: src/views/JoinViews/CarouselView.vue:196
+#: src/views/JoinViews/CarouselView.vue:219
+#: src/views/JoinViews/CarouselView.vue:224
+#: src/views/JoinViews/CarouselView.vue:238
+#: src/views/JoinViews/CarouselView.vue:239
+msgid "Uh oh!"
+msgstr ""
+
+#: src/views/SettingsViews/DefaultView.vue:172
 #, fuzzy
 msgid "UI Settings"
 msgstr "Settings"
 
-#: src/views/AdminViews/InviteView.vue:74
-msgid "Unlimited"
-msgstr "Unlimited"
-
-#: src/views/AdminViews/InviteView.vue:25
-msgid "Unlimited Usages"
-msgstr "Unlimited Usages"
-
-#: src/views/SettingsViews/DefaultView.vue:215
+#: src/views/SettingsViews/DefaultView.vue:214
 #, fuzzy
 msgid "Updates"
 msgstr "Update"
@@ -492,20 +661,20 @@ msgstr "Users"
 msgid "View"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:204
+#: src/views/SettingsViews/DefaultView.vue:203
 msgid "View and download server logs"
 msgstr "View and download server logs"
 
-#: src/views/SettingsViews/DefaultView.vue:210
+#: src/views/SettingsViews/DefaultView.vue:209
 msgid "View and manage scheduled tasks"
 msgstr "View and manage scheduled tasks"
 
-#: src/views/SettingsViews/DefaultView.vue:147
+#: src/views/SettingsViews/DefaultView.vue:146
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "Manage your invitations"
 
-#: src/views/SettingsViews/DefaultView.vue:229
+#: src/views/SettingsViews/DefaultView.vue:228
 msgid "View information about the server"
 msgstr "View information about the server"
 
@@ -527,13 +696,13 @@ msgstr ""
 msgid "Welcome to Wizarr"
 msgstr "Welcome to Wizarr"
 
-#: src/views/AdminViews/InviteView.vue:65
+#: src/views/HelpViews/PlexViews/WelcomeView.vue:8
 msgid ""
-"When set, invited user(s) will be removed from the server after the set "
-"number of days. (1-999)"
+"With Plex, you'll have access to all of the movies, TV shows, music, and "
+"photos that are stored on their server!"
 msgstr ""
-"When set, invited user(s) will be removed from the server after the set "
-"number of days. (1-999)"
+"With Plex, you'll have access to all of the movies, TV shows, music, and "
+"photos that are stored on their server!"
 
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
@@ -570,9 +739,75 @@ msgstr ""
 msgid "You have successfully completed the setup process."
 msgstr "You have successfully completed the setup process."
 
+#: src/views/JoinViews/CompleteView.vue:4
+#, fuzzy
+msgid ""
+"You're all set, click continue to get started and walkthrough how to use "
+"%{serverName}!"
+msgstr ""
+"You're all set, click continue to get started and walkthrough how to use "
+"Plex!"
+
+#: src/views/JoinViews/CarouselView.vue:24
+#, fuzzy
+msgid "Your account has been created!"
+msgstr "The invite has been created"
+
 #: src/views/SetupViews/CompleteView.vue:3
 msgid "Your Done"
 msgstr "Your Done"
+
+#~ msgid "1 Day"
+#~ msgstr "1 Day"
+
+#~ msgid "1 Month"
+#~ msgstr "1 Month"
+
+#~ msgid "1 Week"
+#~ msgstr "1 Week"
+
+#~ msgid "1 Year"
+#~ msgstr "1 Year"
+
+#~ msgid "6 Months"
+#~ msgstr "6 Months"
+
+#~ msgid "Allow Downloads"
+#~ msgstr "Allow Downloads"
+
+#~ msgid "Custom"
+#~ msgstr "Custom"
+
+#~ msgid "Custom Duration"
+#~ msgstr "Custom Duration"
+
+#~ msgid "Duration"
+#~ msgstr "Duration"
+
+#~ msgid "Invite to Plex Home"
+#~ msgstr "Invite to Plex Home"
+
+#~ msgid "Select All"
+#~ msgstr "Select All"
+
+#~ msgid "Show Information"
+#~ msgstr "Show Information"
+
+#~ msgid "Specific Libraries"
+#~ msgstr "Specific Libraries"
+
+#~ msgid "Unlimited"
+#~ msgstr "Unlimited"
+
+#~ msgid "Unlimited Usages"
+#~ msgstr "Unlimited Usages"
+
+#~ msgid ""
+#~ "When set, invited user(s) will be removed from the server after the set "
+#~ "number of days. (1-999)"
+#~ msgstr ""
+#~ "When set, invited user(s) will be removed from the server after the set "
+#~ "number of days. (1-999)"
 
 #~ msgid "Custom Expiration"
 #~ msgstr "Custom Expiration"
@@ -629,12 +864,6 @@ msgstr "Your Done"
 #~ msgid "Successfully generated an Invitation!"
 #~ msgstr "Successfully generated an Invitation!"
 
-#~ msgid "Link has been copied to clipboard!"
-#~ msgstr "Link has been copied to clipboard!"
-
-#~ msgid "Share"
-#~ msgstr "Share"
-
 #~ msgid "An error occurred while copying the link to the clipboard!"
 #~ msgstr "An error occurred while copying the link to the clipboard!"
 
@@ -647,14 +876,8 @@ msgstr "Your Done"
 #~ msgid "Creating..."
 #~ msgstr "Creating..."
 
-#~ msgid "The invite has been created"
-#~ msgstr "The invite has been created"
-
 #~ msgid "There was an error creating the invite"
 #~ msgstr "There was an error creating the invite"
-
-#~ msgid "Create Invite"
-#~ msgstr "Create Invite"
 
 #~ msgid "Delete All"
 #~ msgstr "Delete All"
@@ -670,9 +893,6 @@ msgstr "Your Done"
 
 #~ msgid "Manage users that joined your server"
 #~ msgstr "Manage users that joined your server"
-
-#~ msgid "Scan Users"
-#~ msgstr "Scan Users"
 
 #~ msgid "Add User"
 #~ msgstr "Add User"
@@ -698,19 +918,6 @@ msgstr "Your Done"
 
 #~ msgid "Please enter your username"
 #~ msgstr "Please enter your username"
-
-#~ msgid "Invalid Invitation"
-#~ msgstr "Invalid Invitation"
-
-#, python-format
-#~ msgid "Type in your invite code to %(name)s server!"
-#~ msgstr "Type in your invite code to %(name)s server!"
-
-#~ msgid "Invite Code"
-#~ msgstr "Invite Code"
-
-#~ msgid "Join"
-#~ msgstr "Join"
 
 #, python-format
 #~ msgid "You've been invited to join the %(name)s server!"
@@ -771,15 +978,6 @@ msgstr "Your Done"
 #~ msgid "Creating Jellyfin Account"
 #~ msgstr "Create account"
 
-#~ msgid "Join the Plex Server"
-#~ msgstr "Join the Plex Server"
-
-#~ msgid "Sign in to Plex"
-#~ msgstr "Sign in to Plex"
-
-#~ msgid "Setting up your account"
-#~ msgstr "Setting up your account"
-
 #~ msgid "Almost there!"
 #~ msgstr "Almost there!"
 
@@ -789,21 +987,8 @@ msgstr "Your Done"
 #~ msgid "Account created!"
 #~ msgstr "Account created!"
 
-#~ msgid ""
-#~ "You're all set, click continue to get started and walkthrough how to use "
-#~ "Plex!"
-#~ msgstr ""
-#~ "You're all set, click continue to get started and walkthrough how to use "
-#~ "Plex!"
-
 #~ msgid "Help"
 #~ msgstr "Help"
-
-#~ msgid "Getting Started!"
-#~ msgstr "Getting Started!"
-
-#~ msgid "Open"
-#~ msgstr "Open"
 
 #~ msgid "Automatic Media Requests"
 #~ msgstr "Automatic Media Requests"
@@ -841,39 +1026,11 @@ msgstr "Your Done"
 #~ "        for this device"
 
 #~ msgid ""
-#~ "Great news! You now have access to our server's media collection. Let's "
-#~ "make sure you know how to use\n"
-#~ "    it with Jellyfin."
-#~ msgstr ""
-#~ "Great news! You now have access to our server's media collection. Let's "
-#~ "make sure you know how to use\n"
-#~ "    it with Jellyfin."
-
-#~ msgid ""
-#~ "Planning on watching Movies on this device? Download Jellyfin for this "
-#~ "device."
-#~ msgstr ""
-#~ "Planning on watching Movies on this device? Download Jellyfin for this "
-#~ "device."
-
-#~ msgid ""
 #~ "If you don't wish to Download the App feel free to use Jellyfin in your "
 #~ "devices web browser, just click \"Next\"."
 #~ msgstr ""
 #~ "If you don't wish to Download the App feel free to use Jellyfin in your "
 #~ "devices web browser, just click \"Next\"."
-
-#~ msgid "Show Server URL"
-#~ msgstr "Show Server URL"
-
-#~ msgid "Server URL"
-#~ msgstr "Server URL"
-
-#~ msgid "Copy"
-#~ msgstr "Copy"
-
-#~ msgid "Open Jellyfin"
-#~ msgstr "Open Jellyfin"
 
 #~ msgid "Other Download"
 #~ msgstr "Other Download"
@@ -897,40 +1054,6 @@ msgstr "Your Done"
 
 #~ msgid "It's that easy!"
 #~ msgstr "It's that easy!"
-
-#~ msgid "Eh, So, What is Jellyfin exactly?"
-#~ msgstr "Eh, So, What is Jellyfin exactly?"
-
-#~ msgid ""
-#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV "
-#~ "shows, and music in one place. It's like having your own personal movie "
-#~ "theater right at your fingertips! Think of it as a digital library of "
-#~ "your favorite content that you can access from anywhere, on any device - "
-#~ "your phone, tablet, laptop, smart TV, you name it."
-#~ msgstr ""
-#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV "
-#~ "shows, and music in one place. It's like having your own personal movie "
-#~ "theater right at your fingertips! Think of it as a digital library of "
-#~ "your favorite content that you can access from anywhere, on any device - "
-#~ "your phone, tablet, laptop, smart TV, you name it."
-
-#~ msgid "Join & Download Plex for this device"
-#~ msgstr "Join & Download Plex for this device"
-
-#~ msgid ""
-#~ "So you now have access to our server's media collection. Let's make sure "
-#~ "you know how to use it with Plex."
-#~ msgstr ""
-#~ "So you now have access to our server's media collection. Let's make sure "
-#~ "you know how to use it with Plex."
-
-#~ msgid ""
-#~ "Planning on watching Movies on this device? Download Plex for this device."
-#~ msgstr ""
-#~ "Planning on watching Movies on this device? Download Plex for this device."
-
-#~ msgid "Download"
-#~ msgstr "Download"
 
 #~ msgid ""
 #~ "It couldn't be simpler! Plex is available on a wide variety of devices "
@@ -969,28 +1092,6 @@ msgstr "Your Done"
 #~ "We highly\n"
 #~ "            recommend you to go through those steps first!"
 
-#~ msgid "Eh, So, What is Plex exactly?"
-#~ msgstr "Eh, So, What is Plex exactly?"
-
-#~ msgid ""
-#~ "Great question! Plex is a software that allows individuals to share their "
-#~ "media collections with others. If you've received this invitation, it "
-#~ "means someone wants to share their library with you."
-#~ msgstr ""
-#~ "Great question! Plex is a software that allows individuals to share their "
-#~ "media collections with others. If you've received this invitation, it "
-#~ "means someone wants to share their library with you."
-
-#~ msgid ""
-#~ "With Plex, you'll have access to all of the movies, TV shows, music, and "
-#~ "photos that are stored on their server!"
-#~ msgstr ""
-#~ "With Plex, you'll have access to all of the movies, TV shows, music, and "
-#~ "photos that are stored on their server!"
-
-#~ msgid "So let's see how to get started!"
-#~ msgstr "So let's see how to get started!"
-
 #~ msgid "Permission denied."
 #~ msgstr "Permission denied."
 
@@ -1000,17 +1101,11 @@ msgstr "Your Done"
 #~ msgid "Internal Server Error."
 #~ msgstr "Internal Server Error."
 
-#~ msgid " Something has gone wrong. Please try again later."
-#~ msgstr "Something has gone wrong. Please try again later."
-
 #~ msgid "Get Help"
 #~ msgstr "Get Help"
 
 #~ msgid "or"
 #~ msgstr "or"
-
-#~ msgid "Add Passkey"
-#~ msgstr "Add Passkey"
 
 #~ msgid "Name"
 #~ msgstr "Name"
@@ -1205,9 +1300,6 @@ msgstr "Your Done"
 #~ msgid "Settings failed to save!"
 #~ msgstr "No settings matched your search."
 
-#~ msgid "Create Agent"
-#~ msgstr "Create Agent"
-
 #~ msgid "Add OAuth"
 #~ msgstr "Add OAuth"
 
@@ -1247,15 +1339,8 @@ msgstr "Your Done"
 #~ msgid "Edit"
 #~ msgstr "Edit"
 
-#, fuzzy
-#~ msgid "Expires"
-#~ msgstr "Expired"
-
 #~ msgid "Used"
 #~ msgstr "Used"
-
-#~ msgid "Expired"
-#~ msgstr "Expired"
 
 #~ msgid "Libraries"
 #~ msgstr "Libraries"
@@ -1263,14 +1348,8 @@ msgstr "Your Done"
 #~ msgid "Created"
 #~ msgstr "Created"
 
-#~ msgid "No Invitations"
-#~ msgstr "No Invitations"
-
 #~ msgid "You have not created any invitations yet."
 #~ msgstr "You have not created any invitations yet."
-
-#~ msgid "Your Passkeys"
-#~ msgstr "Your Passkeys"
 
 #~ msgid "Add a passkey"
 #~ msgstr "Add a passkey"
