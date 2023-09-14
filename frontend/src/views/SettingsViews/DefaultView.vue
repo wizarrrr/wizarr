@@ -98,6 +98,7 @@ export default defineComponent({
                             roles: ["moderator"],
                             icon: "fas fa-link",
                             url: "/admin/settings/requests",
+                            disabled: true,
                         },
                         {
                             title: this.__("API keys"),
@@ -134,12 +135,14 @@ export default defineComponent({
                             description: this.__("Configure your profile settings"),
                             icon: "fas fa-user-circle",
                             url: "/admin/settings/profile",
+                            disabled: true,
                         },
                         {
                             title: this.__("Password"),
                             description: this.__("Change your password"),
                             icon: "fas fa-lock",
                             url: "/admin/settings/password",
+                            disabled: true,
                         },
                         {
                             title: this.__("Sessions"),
@@ -178,12 +181,14 @@ export default defineComponent({
                             description: this.__("Enable Discord page and configure settings"),
                             icon: "fab fa-discord",
                             url: "/admin/settings/discord-ui",
+                            disabled: true,
                         },
                         {
                             title: this.__("Custom HTML"),
                             description: this.__("Add Custom HTML page to help screen"),
                             icon: "fas fa-code",
                             url: "/admin/settings/html",
+                            disabled: true,
                         },
                     ],
                 },
@@ -222,6 +227,7 @@ export default defineComponent({
                             description: this.__("Create and restore backups"),
                             icon: "fas fa-hdd",
                             url: "/admin/settings/backup",
+                            disabled: true,
                         },
                         {
                             title: this.__("About"),

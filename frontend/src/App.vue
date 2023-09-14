@@ -4,7 +4,7 @@
     <RouterView v-else />
     <Offline />
     <ReloadPrompt />
-    <ServerURLModal v-model:visible="serverURLModalVisible" />
+    <!-- <ServerURLModal v-model:visible="serverURLModalVisible" /> -->
 </template>
 
 <script lang="ts">
@@ -24,8 +24,7 @@ import BadBackend from "@/components/Toasts/BadBackend.vue";
 import UpdateAvailable from "@/components/Toasts/UpdateAvailable.vue";
 import DefaultToast from "@/components/Toasts/DefaultToast.vue";
 import ReloadPrompt from "@/components/ReloadPrompt.vue";
-
-import ServerURLModal from "./components/Modals/ServerURLModal.vue";
+// import ServerURLModal from "@/components/Modals/ServerURLModal.vue";
 
 export default defineComponent({
     name: "App",
@@ -33,14 +32,14 @@ export default defineComponent({
         Offline,
         FullPageLoading,
         ReloadPrompt,
-        ServerURLModal,
+        // ServerURLModal,
     },
     data() {
         return {
             gettext: null as Language | null,
             pageLoading: true,
             connectionToast: null as ToastID | null,
-            serverURLModalVisible: false,
+            // serverURLModalVisible: false,
         };
     },
     computed: {
@@ -69,7 +68,7 @@ export default defineComponent({
         },
         showServerURLModal() {
             console.log("this", this);
-            this.serverURLModalVisible = true;
+            // this.serverURLModalVisible = true;
         },
     },
     watch: {

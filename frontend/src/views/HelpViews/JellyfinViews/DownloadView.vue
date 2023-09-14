@@ -22,9 +22,9 @@
         <!-- Server URL -->
         <div class="flex flex-col justify-center items-center space-y-1 pt-3">
             <span class="font-semibold text-sm">{{ __("Server URL") }}</span>
-            <div class="flex flex-row justify-center">
-                <input type="text" value="https://jellyfin.wizarr.app" class="p-2 bg-transparent border border-gray-200 rounded-l-lg rounded-r-none dark:border-gray-700 text-gray-700 dark:text-gray-400 px-5" readonly />
-                <button class="p-2 border border-gray-200 rounded-r-lg rounded-l-none dark:border-gray-700 dark:bg-gray-700 bg-primary text-gray-700 dark:text-gray-400 text-white px-5 cursor-pointer">
+            <div class="flex flex-row justify-center w-full">
+                <input type="text" :value="settings.server_url" class="text-center w-full p-2 bg-transparent border border-gray-200 rounded-l-lg rounded-r-none dark:border-gray-700 text-gray-700 dark:text-gray-400 px-5" readonly />
+                <button @click="copy()" class="p-2 border border-gray-200 rounded-r-lg rounded-l-none dark:border-gray-700 dark:bg-gray-700 bg-primary text-gray-700 dark:text-gray-400 text-white px-5 cursor-pointer">
                     {{ __("Copy") }}
                 </button>
             </div>
@@ -61,6 +61,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useServerStore } from "@/stores/server";
+import { mapState } from "pinia";
+import { useClipboard } from "@vueuse/core";
 
 import browserDetect from "browser-detect";
 
@@ -78,7 +81,14 @@ export default defineComponent({
     data() {
         return {
             browser: browserDetect(),
+            clipboard: useClipboard(),
         };
+    },
+    methods: {
+        copy() {
+            this.$toast.info("Copied to clipboard!");
+            this.clipboard.copy(this.settings.server_url);
+        },
     },
     computed: {
         isIOS(): boolean {
@@ -96,6 +106,7 @@ export default defineComponent({
         isWindows(): boolean {
             return this.browser.os?.toLowerCase().includes("windows") ?? false;
         },
+        ...mapState(useServerStore, ["settings"]),
     },
 });
 </script>
