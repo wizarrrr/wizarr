@@ -3,10 +3,8 @@
     <AdminNavBar />
 
     <!-- Page Content -->
-    <div id="content" class="max-w-screen-xl mx-auto mt-[64px]">
-        <Transition name="fade" mode="out-in">
-            <RouterView />
-        </Transition>
+    <div id="content" class="max-w-screen-xl mx-auto mt-[64px] md:px-10">
+        <RouterView />
     </div>
 
     <!-- Footer -->

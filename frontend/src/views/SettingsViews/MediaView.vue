@@ -143,6 +143,7 @@ export default defineComponent({
 
             // Hide the scan servers button and show the test connection button
             this.buttonHidden.testConnection = false;
+            this.buttonHidden.saveServer = true;
 
             // Set the button to not loading
             this.buttonLoading.detectServer = false;

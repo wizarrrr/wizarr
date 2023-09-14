@@ -8,10 +8,10 @@ import ToastPlugin from "vue-toastification";
 import ToastOptions from "./assets/configs/DefaultToasts";
 import i18n from "./i18n";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
-import sentry from "./sentry";
 import VueProgressBar from "@aacassandra/vue3-progressbar";
 import FloatingVue from "floating-vue";
 import router from "./router";
+import Sentry from "./plugins/sentry";
 
 import Toast, { piniaPluginToast } from "./plugins/toasts";
 import Axios, { piniaPluginAxios } from "./plugins/axios";
@@ -41,14 +41,13 @@ app.use(FloatingVue);
 app.use(plugin, defaultConfig(formkitConfig));
 app.use(Socket, { uri: window.location.origin });
 app.use(Filters);
+app.use(Sentry);
 
 pinia.use(piniaPluginPersistedstate);
 pinia.use(piniaPluginToast);
 pinia.use(piniaPluginAxios);
 pinia.use(piniaPluginSocketIO);
 pinia.use(piniaPluginFilters);
-
-sentry(app, router);
 
 app.mount("#app");
 

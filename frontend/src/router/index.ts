@@ -105,7 +105,13 @@ const router = createRouter({
                             path: "media",
                             name: "admin-settings-media",
                             component: () => import("@/views/SettingsViews/MediaView.vue"),
-                            meta: { header: "Manage Media", subheader: "Configure server media" },
+                            meta: { header: "Manage Media", subheader: "Configure media server" },
+                        },
+                        {
+                            path: "account",
+                            name: "admin-settings-account",
+                            component: () => import("@/views/SettingsViews/AccountView.vue"),
+                            meta: { header: "Manage Account", subheader: "Configure your account" },
                         },
                         {
                             path: "sessions",

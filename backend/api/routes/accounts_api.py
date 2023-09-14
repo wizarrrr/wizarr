@@ -1,5 +1,5 @@
 from flask import request
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, current_user
 from flask_restx import Namespace, Resource
 
 from helpers.api import convert_to_form
@@ -42,6 +42,13 @@ class AccountsListAPI(Resource):
         """Create a new account"""
         return create_account(**request.form), 200
 
+
+    @api.doc(description="Update account")
+    @api.response(200, "Successfully updated account")
+    @api.response(500, "Internal server error")
+    def put(self):
+        """Update account"""
+        return update_account(current_user['id'], **request.form), 200
 
 
 @api.route("/<int:account_id>")

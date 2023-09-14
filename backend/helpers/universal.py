@@ -252,6 +252,12 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
     # pylint: disable=no-value-for-parameter
     db_user.execute()
 
+    # Set the invite to used
+    invite.used = True
+    invite.used_at = datetime.now()
+    invite.used_by = user.id if server_type == "plex" else user["Id"]
+    invite.save()
+
     # Emit done
     socketio_emit("done", None)
 

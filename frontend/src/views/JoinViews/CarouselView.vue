@@ -195,12 +195,6 @@ export default defineComponent({
             if (response?.data?.room == undefined) {
                 this.showError(this.__("Uh oh!"), this.__("Could not create the account."));
             }
-
-            // Socket step operation
-            this.socket?.on("step", (step: number) => {
-                this.eventBus.emit("step", step);
-                if (step == 3) setTimeout(() => this.currentView++, 1000);
-            });
         },
         async jellyfinCreateAccount(value: EmitterRecords["jellyfinCreateAccount"]) {
             // Show the next screen
@@ -223,12 +217,6 @@ export default defineComponent({
             if (response?.data?.room == undefined) {
                 this.showError(this.__("Uh oh!"), this.__("Could not create the account."));
             }
-
-            // Socket step operation
-            this.socket?.on("step", (step: number) => {
-                this.eventBus.emit("step", step);
-                if (step == 3) setTimeout(() => this.currentView++, 1000);
-            });
         },
     },
     async mounted() {
@@ -239,6 +227,8 @@ export default defineComponent({
         this.socket.on("error", (message) => this.showError(this.__("Uh oh!"), message));
         this.socket.on("error", this.$toast.error);
         this.socket.on("message", this.$toast.info);
+        this.socket.on("step", (step: number) => this.eventBus.emit("step", step));
+        this.socket.on("done", () => setTimeout(() => this.currentView++, 1000));
 
         // Initialize the event bus
         this.eventBus.on("join", this.join);
