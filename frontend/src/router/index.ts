@@ -58,16 +58,16 @@ const router = createRouter({
         {
             path: "/admin",
             name: "admin",
-            redirect: { name: "admin-invite" },
+            redirect: { name: "admin-home" },
             component: () => import("@/views/AdminViews/AdminView.vue"),
             meta: {
                 middleware: [requireAuth],
             },
             children: [
                 {
-                    path: "test",
-                    name: "test",
-                    component: () => import("@/views/TestView.vue"),
+                    path: "",
+                    name: "home",
+                    component: () => import("@/views/AdminViews/HomeView.vue"),
                 },
                 {
                     path: "invite",
@@ -93,7 +93,7 @@ const router = createRouter({
                 {
                     path: "settings",
                     name: "admin-settings",
-                    component: () => import("@/views/SettingsViews/SettingsView.vue"),
+                    component: () => import("@/views/AdminViews/SettingsView.vue"),
                     children: [
                         {
                             path: "",
