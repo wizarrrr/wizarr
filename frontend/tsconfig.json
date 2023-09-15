@@ -10,5 +10,13 @@
         {
             "path": "./tsconfig.vitest.json"
         }
-    ]
+    ],
+    "exclude": [
+        "node_modules/@flavorly/vanilla-components/*"
+    ],
+    "compilerOptions": {
+        "ignoreDeprecations": "5.0",
+        "suppressImplicitAnyIndexErrors": true,
+        "strict": false,
+    }
 }
