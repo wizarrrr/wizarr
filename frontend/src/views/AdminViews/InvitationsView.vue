@@ -1,5 +1,5 @@
 <template>
-    <AdminTemplate :header="__('Invitations')" :subheader="__('Manage your invitations')">
+    <AdminTemplate :header="__('Invitations')" :subheader="__('Manage your invitations')" :box-view="boxView">
         <template #header>
             <DefaultButton @click="inviteModal = true" :label="__('Create Invite')" theme="secondary" />
         </template>
@@ -16,6 +16,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { mapState } from "pinia";
+import { useThemeStore } from "@/stores/theme";
 
 import AdminTemplate from "@/templates/AdminTemplate.vue";
 import DefaultModal from "@/components/Modals/DefaultModal.vue";
@@ -36,6 +38,9 @@ export default defineComponent({
         return {
             inviteModal: false,
         };
+    },
+    computed: {
+        ...mapState(useThemeStore, ["boxView"]),
     },
 });
 </script>

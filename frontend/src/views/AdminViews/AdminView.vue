@@ -3,7 +3,7 @@
     <AdminNavBar />
 
     <!-- Page Content -->
-    <div id="content" class="max-w-screen-xl mx-auto mt-[64px] md:px-10">
+    <div id="content" class="mt-[64px]">
         <RouterView />
     </div>
 

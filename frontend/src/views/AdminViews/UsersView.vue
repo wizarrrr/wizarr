@@ -1,5 +1,5 @@
 <template>
-    <AdminTemplate :header="__('Invited Users')" :subheader="__('Manage your media server users')">
+    <AdminTemplate :header="__('Invited Users')" :subheader="__('Manage your media server users')" :box-view="boxView">
         <template #header>
             <DefaultButton @click="localScanUsers" :loading="buttonWait" :label="__('Scan Users')" icon="fas fa-binoculars" :options="{ icon: { icon_position: 'left' } }" theme="secondary" />
         </template>
@@ -12,7 +12,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useUsersStore } from "@/stores/users";
-import { mapActions } from "pinia";
+import { useThemeStore } from "@/stores/theme";
+import { mapActions, mapState } from "pinia";
 
 import AdminTemplate from "@/templates/AdminTemplate.vue";
 import DefaultButton from "@/components/Buttons/DefaultButton.vue";
@@ -37,6 +38,9 @@ export default defineComponent({
             this.buttonWait = false;
         },
         ...mapActions(useUsersStore, ["scanUsers"]),
+    },
+    computed: {
+        ...mapState(useThemeStore, ["boxView"]),
     },
 });
 </script>
