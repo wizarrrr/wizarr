@@ -4,19 +4,22 @@
         <!-- Border Box -->
         <div class="w-full rounded bg-none dark:border-gray-700 light:border-gray-200" :class="class">
             <!-- Header -->
-            <div v-if="header || subheader || headerSlotAvailable" class="flex items-center justify-between bg-white dark:bg-gray-900 border-b p-4 border-gray-200 dark:border-gray-600 h-[75px]">
-                <div class="flex items-center">
-                    <div class="flex flex-col justify-start">
-                        <div class="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white">
-                            {{ header ?? "" }}
-                        </div>
-                        <div class="text-sm font-semibold leading-tight tracking-tight text-gray-900 dark:text-gray-400">
-                            {{ subheader ?? "" }}
+            <!-- max-w-screen-xl flex flex-col md:flex-row items-start md:items-center justify-between mx-auto p-4 -->
+            <div v-if="header || subheader || headerSlotAvailable" class="flex items-center justify-center bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-600 h-[75px]">
+                <div class="w-full max-w-screen-xl flex flex-row justify-between p-4">
+                    <div class="flex items-center">
+                        <div class="flex flex-col justify-start">
+                            <div class="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white">
+                                {{ header ?? "" }}
+                            </div>
+                            <div class="text-sm font-semibold leading-tight tracking-tight text-gray-900 dark:text-gray-400">
+                                {{ subheader ?? "" }}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="flex items-center justify-end space-x-2">
-                    <slot name="header" />
+                    <div class="flex items-center justify-end space-x-2">
+                        <slot name="header" />
+                    </div>
                 </div>
             </div>
 
