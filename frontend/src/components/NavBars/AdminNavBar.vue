@@ -29,6 +29,7 @@
                                 <AccountButton />
                                 <LanguageSelector />
                                 <ThemeToggle />
+                                <ViewToggle />
                             </div>
                             <span class="inline-flex hidden md:block w-px h-6 bg-gray-200 dark:bg-gray-700"></span>
                             <LogoutButton />
@@ -46,9 +47,11 @@ import { useUserStore } from "@/stores/user";
 import { mapState } from "pinia";
 
 import WizarrLogo from "../WizarrLogo.vue";
-import AccountButton from "../Buttons/AccountButton.vue";
+
+import AccountButton from "@/components/Buttons/AccountButton.vue";
 import LanguageSelector from "@/components/Buttons/LanguageSelector.vue";
 import ThemeToggle from "@/components/Buttons/ThemeToggle.vue";
+import ViewToggle from "@/components/Buttons/ViewToggle.vue";
 import LogoutButton from "@/components/Buttons/LogoutButton.vue";
 
 export default defineComponent({
@@ -58,6 +61,7 @@ export default defineComponent({
         AccountButton,
         LanguageSelector,
         ThemeToggle,
+        ViewToggle,
         LogoutButton,
     },
     computed: {
@@ -71,7 +75,7 @@ export default defineComponent({
             pages: [
                 {
                     name: this.__("Home"),
-                    url: "/admin/invite",
+                    url: "/admin",
                 },
                 {
                     name: this.__("Invitations"),
