@@ -66,7 +66,7 @@ const router = createRouter({
             children: [
                 {
                     path: "",
-                    name: "home",
+                    name: "admin-home",
                     component: () => import("@/views/AdminViews/HomeView.vue"),
                 },
                 {
@@ -179,6 +179,8 @@ router.afterEach(() => {
     // Stop progress bar
     useProgressStore().startProgress();
 });
+
+console.table(router.currentRoute.value);
 
 export default router;
 export { router };
