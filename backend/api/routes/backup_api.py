@@ -27,12 +27,10 @@ class BackupDownload(Resource):
         if password is None:
             raise ValueError("Password is required")
 
-        # Generate the key
-        key = generate_key(password)
-
         try:
+            # Backup the database
             backup_unencrypted = backup_database()
-            backup_encrypted = encrypt_backup(backup_unencrypted, key)
+            backup_encrypted = encrypt_backup(backup_unencrypted, generate_key(password))
         except InvalidToken:
             return { "message": "Invalid password" }, 400
 
@@ -63,6 +61,8 @@ class BackupUpload(Resource):
         backup_file = request.files["backup"]
         password = request.form.get("password", None)
 
+        print(password)
+
         # Check if the file exists
         if not backup_file:
             raise FileNotFoundError("File not found")
@@ -71,20 +71,15 @@ class BackupUpload(Resource):
         if password is None:
             raise ValueError("Password is required")
 
-        # Decrypt the backup
-        data = None
-
         try:
+            # Decrypt the backup
             data = decrypt_backup(backup_file.read(), generate_key(password))
         except InvalidToken:
-            return { "error": "Invalid password" }, 400
-
-        if data is None:
-            return { "error": "An unknown error occurred" }
+            return { "message": "Invalid password" }, 400
 
         # Restore the backup
-        if not restore_database(data):
-            return { "error": "An unknown error occurred" }
+        if data is None or not restore_database(data):
+            return { "message": "An unknown error occurred" }, 400
 
         # Return the response
         return { "message": "Backup restored successfully" }

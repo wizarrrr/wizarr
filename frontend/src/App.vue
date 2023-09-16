@@ -1,6 +1,6 @@
 <template>
     <vue-progress-bar></vue-progress-bar>
-    <FullPageLoading v-if="pageLoading" />
+    <FullPageLoading v-if="fullPageLoading" />
     <RouterView v-else />
     <Offline />
     <ReloadPrompt />
@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapState, mapActions } from "pinia";
+import { mapWritableState, mapState, mapActions } from "pinia";
 import { useThemeStore } from "@/stores/theme";
 import { useServerStore } from "./stores/server";
 import { useLanguageStore } from "@/stores/language";
@@ -37,7 +37,6 @@ export default defineComponent({
     data() {
         return {
             gettext: null as Language | null,
-            pageLoading: true,
             connectionToast: null as ToastID | null,
             // serverURLModalVisible: false,
         };
@@ -45,7 +44,7 @@ export default defineComponent({
     computed: {
         ...mapState(useThemeStore, ["theme"]),
         ...mapState(useLanguageStore, ["language"]),
-        ...mapState(useProgressStore, ["progress"]),
+        ...mapWritableState(useProgressStore, ["progress", "fullPageLoading"]),
     },
     methods: {
         ...mapActions(useThemeStore, ["updateTheme"]),
@@ -89,11 +88,8 @@ export default defineComponent({
         progress: {
             immediate: true,
             handler(progress) {
-                if (progress) {
-                    this.$Progress.start();
-                } else {
-                    this.$Progress.finish();
-                }
+                if (progress) this.$Progress.start();
+                else this.$Progress.finish();
             },
         },
     },
@@ -138,7 +134,7 @@ export default defineComponent({
 
         // Finish the progress bar
         this.$Progress.finish();
-        this.pageLoading = false;
+        this.fullPageLoading = false;
     },
 });
 </script>

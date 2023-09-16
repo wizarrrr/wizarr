@@ -7,8 +7,8 @@
             <InvitationList />
         </template>
     </AdminTemplate>
-    <DefaultModal title-string="Create Invite" :visible="inviteModal" @close="inviteModal = false">
-        <div class="md:min-w-[400px]">
+    <DefaultModal title-string="Create Invite" :visible="inviteModal" @close="inviteModal = false" modal-class="md:w-[500px] lg:w-[600px]">
+        <div>
             <InviteForm />
         </div>
     </DefaultModal>

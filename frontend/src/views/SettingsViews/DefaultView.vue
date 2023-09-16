@@ -227,7 +227,6 @@ export default defineComponent({
                             description: this.__("Create and restore backups"),
                             icon: "fas fa-hdd",
                             url: "/admin/settings/backup",
-                            disabled: true,
                         },
                         {
                             title: this.__("About"),

@@ -4,7 +4,7 @@
             <div class="fixed inset-0 bg-gray-700 bg-opacity-75 transition-opacity"></div>
             <div class="fixed inset-0 z-10 md:overflow-y-auto">
                 <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
-                    <div class="flex flex-col fixed top-0 bottom-0 left-0 right-0 h-full w-full md:h-auto md:w-auto transform text-left shadow-xl transition-all md:relative md:min-w-[30%] md:max-w-2xl md:shadow-none md:transform-none sm:align-middle text-gray-900 dark:text-white">
+                    <div class="flex flex-col fixed top-0 bottom-0 left-0 right-0 h-full w-full md:h-auto md:w-auto transform text-left shadow-xl transition-all md:relative md:min-w-[30%] md:max-w-2xl md:shadow-none md:transform-none sm:align-middle text-gray-900 dark:text-white" :class="modalClass">
                         <!-- Modal header -->
                         <div v-if="titleSlotAvailable" class="flex items-center bg-white pl-6 p-3 dark:bg-gray-800 justify-between p-4 border-b dark:border-gray-600">
                             <slot name="title"></slot>
@@ -100,6 +100,10 @@ const DefaultModal = defineComponent({
         closeButtonText: {
             type: String,
             default: "Cancel",
+        },
+        modalClass: {
+            type: String,
+            default: "",
         },
     },
     computed: {

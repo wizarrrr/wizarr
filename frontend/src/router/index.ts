@@ -138,6 +138,12 @@ const router = createRouter({
                             meta: { header: "Manage Tasks", subheader: "Configure server tasks" },
                         },
                         {
+                            path: "backup",
+                            name: "admin-settings-backup",
+                            component: () => import("@/views/SettingsViews/BackupView.vue"),
+                            meta: { header: "Backup Server", subheader: "Backup server data" },
+                        },
+                        {
                             path: "about",
                             name: "admin-settings-about",
                             component: () => import("@/views/SettingsViews/AboutView.vue"),
@@ -179,8 +185,6 @@ router.afterEach(() => {
     // Stop progress bar
     useProgressStore().startProgress();
 });
-
-console.table(router.currentRoute.value);
 
 export default router;
 export { router };

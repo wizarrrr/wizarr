@@ -1,6 +1,6 @@
 <template>
     <div :ref="localData.id" :id="localData.id" :gs-id="localData.id" :gs-x="localData.grid.x" :gs-y="localData.grid.y" :gs-w="localData.grid.w" :gs-h="localData.grid.h">
-        <div class="grid-stack-item-content group relative p-4 text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-800 highlight-white/5 rounded shadow-md flex items-center justify-center" :class="{ 'cursor-move': isEditing }">
+        <div class="grid-stack-item-content group border dark:border-gray-700 relative p-4 text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-800 highlight-white/5 rounded shadow-md flex items-center justify-center" :class="{ 'cursor-move': isEditing }">
             <component :is="component" :data="data" :is-editing="isEditing" />
             <DeleteButton v-if="isEditing" class="hidden group-hover:block absolute top-2 right-2" @click="deleteWidget(localData.id)" />
         </div>
