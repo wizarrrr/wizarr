@@ -117,7 +117,7 @@ def get_user_by_token(token: str, verify: bool = True) -> Users or None:
 
 
 # ANCHOR - Get Users by Expiring
-def get_users_by_expiring(as_dict: bool = True) -> list[Users]:
+def get_users_by_expiring() -> list[Users]:
     """Get all users by expiring
 
     :return: A list of users
@@ -126,11 +126,6 @@ def get_users_by_expiring(as_dict: bool = True) -> list[Users]:
     # Get all users by expiring
     users: list[Users] = Users.select().where(Users.expires <= datetime.utcnow())
 
-    # Convert to a list of dicts
-    if as_dict:
-        users = [model_to_dict(user) for user in users]
-
-    # Return all users
     return users
 
 

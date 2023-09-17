@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from json import JSONDecodeError, loads
+from json import JSONDecodeError, loads, dumps
 from secrets import token_hex
 
 from playhouse.shortcuts import model_to_dict
@@ -24,37 +24,6 @@ class SpecificLibrariesType(BaseType):
 
         return value
 
-# Custom model to convert string datetime based on the value of minutes as an int
-class IntStringType(IntType):
-    """Int String Type"""
-
-    def to_native(self, value, _):
-        if isinstance(value, str):
-            try:
-                if int(value) == 0:
-                    return None
-                else:
-                    return datetime.utcnow() + timedelta(minutes=int(value))
-            except ValueError:
-                return None
-
-        if isinstance(value, int):
-            try:
-                if value == 0:
-                    return None
-                else:
-                    return datetime.utcnow() + timedelta(minutes=value)
-            except ValueError:
-                return None
-
-        return value
-
-    def to_primitive(self, value, _):
-        if isinstance(value, datetime):
-            return int((value - datetime.utcnow()).total_seconds() / 60)
-
-        return value
-
 
 class InvitationsModel(Model):
     """Invitations Model"""
@@ -62,10 +31,10 @@ class InvitationsModel(Model):
     # ANCHOR - Invitations Model
     code = StringType(required=False, default=None)
     used = BooleanType(required=False, default=False)
-    expires = IntStringType(required=False, default=0)
+    expires = IntType(required=False, default=None)
     used_by = StringType(required=False, default=None)
     unlimited = BooleanType(required=False, default=False)
-    duration = IntStringType(required=False, default=0)
+    duration = IntType(required=False, default=None)
     specific_libraries = SpecificLibrariesType(required=False, default=[])
     plex_allow_sync = BooleanType(required=False, default=False)
     plex_home = BooleanType(required=False, default=False)
@@ -91,14 +60,13 @@ class InvitationsModel(Model):
     # ANCHOR - Validate expires
     def validate_expires(self, _, value: datetime):
         # Check that the expires is in the future, ignore milliseconds
-        if value and value.replace(microsecond=0) < datetime.utcnow().replace(microsecond=0):
+        if value and (datetime.utcnow() + timedelta(minutes=int(str(value)))) < datetime.utcnow():
             raise ValidationError("Expires must be in the future")
-
 
     # ANCHOR - Validate duration
     def validate_duration(self, _, value: datetime):
         # Check that the duration is in the future, ignore milliseconds
-        if value and value.replace(microsecond=0) < datetime.utcnow().replace(microsecond=0):
+        if value and (datetime.utcnow() + timedelta(minutes=int(str(value)))) < datetime.utcnow():
             raise ValidationError("Duration must be in the future")
 
     # ANCHOR - Validate specific_libraries
@@ -147,8 +115,20 @@ class InvitationsModel(Model):
         if isinstance(invitation["specific_libraries"], list):
             invitation["specific_libraries"] = ",".join(invitation["specific_libraries"])
 
-        # If duration datetime is less than 1 minute in the future set it to none
-        if invitation["duration"] and invitation["duration"] < datetime.utcnow() + timedelta(minutes=1):
+
+        # If expires is a string or int, convert it to a utc datetime plus the total minutes
+        if isinstance(invitation["expires"], (str, int)):
+            invitation["expires"] = datetime.utcnow() + timedelta(minutes=int(str(invitation["expires"])))
+        else:
+            invitation["expires"] = None
+
+
+        # If duration is a string or int, convert it to a utc datetime plus the total minutes
+        if invitation["duration"] == "unlimited":
+            invitation["duration"] = None
+        elif isinstance(invitation["duration"], (str, int)):
+            invitation["duration"] = datetime.utcnow() + timedelta(minutes=int(str(invitation["duration"])))
+        else:
             invitation["duration"] = None
 
         # Create the invitation in the database
@@ -160,3 +140,5 @@ class InvitationsModel(Model):
         # Set the attributes of the invite to model
         for key, value in model_to_dict(invite).items():
             setattr(self, key, value)
+
+        return loads(dumps(model_to_dict(invite), indent=4, sort_keys=True, default=str))

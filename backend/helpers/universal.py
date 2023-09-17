@@ -186,7 +186,7 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
         raise BadRequest("Invalid invite code")
 
     # Make sure the invite is not expired
-    if invite.expires and invite.expires < datetime.now():
+    if invite.expires and invite.expires < datetime.utcnow():
         raise BadRequest("Invite code expired")
 
     # Make sure the invite is not used

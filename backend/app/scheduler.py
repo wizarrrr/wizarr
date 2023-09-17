@@ -23,11 +23,13 @@ def check_expiring_users():
     info("Checking for expiring users")
 
     # Get all users that have an expiration date set and are expired
-    expiring = get_users_by_expiring(as_dict=False)
+    expiring = get_users_by_expiring()
+
+    print(expiring)
 
     # Delete all expired users
     for user in expiring:
-        global_delete_user(user.token)
+        global_delete_user(user.id)
         info(f"Deleting user { user.email if user.email else user.username } due to expired invite.")
 
 

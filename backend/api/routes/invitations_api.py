@@ -33,9 +33,7 @@ class InvitationsListAPI(Resource):
         invite.validate()
 
         # Create the invite
-        invite.create_invitation()
-
-        return invite.to_primitive(), 200
+        return invite.create_invitation(), 200
 
 
 @api.route("/<int:invite_id>")
