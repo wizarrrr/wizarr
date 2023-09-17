@@ -57,6 +57,24 @@ export const useTasksStore = defineStore("tasks", {
             // Return the job
             return job.data as Job;
         },
+        async runJob(id: string) {
+            // Run the job
+            const job = await this.$axios.post(`/api/scheduler/jobs/${id}/run`).catch((err) => {
+                this.$toast.error("Could not run job");
+                console.error(err);
+                return null;
+            });
+
+            // If the job is null, return
+            if (job === null) return;
+
+            // Update the job in the store
+            const index = this.jobs.findIndex((job: Job) => job.id === id);
+            if (index !== -1) this.jobs[index] = job.data;
+
+            // Return the job
+            return job.data as Job;
+        },
         async pauseJob(id: string) {
             // Pause the job
             const job = await this.$axios.post(`/api/scheduler/jobs/${id}/pause`).catch((err) => {
