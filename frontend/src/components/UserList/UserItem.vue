@@ -10,7 +10,7 @@
             <div class="flex flex-col">
                 <p v-if="user.email" class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ user.email }}</p>
                 <p v-else class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">No email</p>
-                <p v-if="user.expires" class="text-xs truncate text-gray-500 dark:text-gray-400 w-full" :class="color">{{ expired }}</p>
+                <p v-if="user.expires" class="text-xs truncate w-full" :class="color">{{ expired }}</p>
                 <p v-else class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ created }}</p>
             </div>
         </template>
