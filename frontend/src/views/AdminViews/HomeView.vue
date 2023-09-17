@@ -6,7 +6,7 @@
             </FormKit>
         </template>
         <template #default>
-            <Dashboard :is-editing="isEditing" />
+            <Dashboard :is-editing="isEditing" @update:isEditing="isEditing = !isEditing" />
         </template>
     </AdminTemplate>
 </template>

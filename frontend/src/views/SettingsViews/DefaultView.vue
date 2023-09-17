@@ -51,7 +51,7 @@ export default defineComponent({
             return {
                 ...section,
                 pages: section.pages.filter((page) => {
-                    return page?.title?.toLowerCase().includes(this.search.toLowerCase()) || page?.description?.toLowerCase().includes(this.search.toLowerCase());
+                    return page?.title?.toLowerCase().includes(this.search.toLowerCase()) ?? page?.description?.toLowerCase().includes(this.search.toLowerCase());
                 }),
             };
         },
@@ -241,4 +241,3 @@ export default defineComponent({
     },
 });
 </script>
-@/stores/settings

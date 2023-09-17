@@ -199,17 +199,17 @@ export default defineComponent({
             const unlimited = inviteData.options.includes("unlimited");
             const plex_home = inviteData.options.includes("plex_home");
             const plex_allow_sync = inviteData.options.includes("plex_allow_sync");
-            const duration = inviteData.duration == "custom" ? this.$filter("toMinutes", inviteData.customDuration) : inviteData.duration;
+            const duration = inviteData.duration == "custom" ? this.$filter("toMinutes", inviteData.customDuration) : inviteData.duration == "unlimited" ? null : inviteData.duration;
             const libraries = inviteData.libraries;
 
             // Create the invite
             const formData = new FormData();
             formData.append("code", code);
-            formData.append("expires", expires?.toString() as string);
+            if (expires) formData.append("expires", expires.toString());
             formData.append("unlimited", unlimited.toString());
             formData.append("plex_home", plex_home.toString());
             formData.append("plex_allow_sync", plex_allow_sync.toString());
-            formData.append("duration", duration.toString());
+            if (duration) formData.append("duration", duration.toString());
             formData.append("specific_libraries", JSON.stringify(libraries));
 
             // Create the invite
@@ -234,8 +234,12 @@ export default defineComponent({
         },
     },
     computed: {
-        ...mapState(useLibrariesStore, ["libraries"]),
-        ...mapState(useServerStore, ["settings"]),
+        customExpiration() {
+            return this.$filter("toMinutes", this.inviteData.customExpiration, true);
+        },
+        customDuration() {
+            return this.$filter("toMinutes", this.inviteData.customDuration, true);
+        },
         checkboxOptions() {
             return Object.keys(this.options[this.settings.server_type]).map((key) => {
                 return this.options[this.settings.server_type][key];
@@ -252,6 +256,8 @@ export default defineComponent({
         inviteLink() {
             return `${window.location.origin}/j/${this.inviteCode}`;
         },
+        ...mapState(useLibrariesStore, ["libraries"]),
+        ...mapState(useServerStore, ["settings"]),
     },
     watch: {
         "inviteData.inviteCode": {
