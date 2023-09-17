@@ -12,6 +12,7 @@ import VueProgressBar from "@aacassandra/vue3-progressbar";
 import FloatingVue from "floating-vue";
 import router from "./router";
 import Sentry from "./plugins/sentry";
+import Analytics from "./plugins/analytics";
 
 import Toast, { piniaPluginToast } from "./plugins/toasts";
 import Axios, { piniaPluginAxios } from "./plugins/axios";
@@ -42,6 +43,7 @@ app.use(plugin, defaultConfig(formkitConfig));
 app.use(Socket, { uri: window.location.origin });
 app.use(Filters);
 app.use(Sentry);
+app.use(Analytics);
 
 pinia.use(piniaPluginPersistedstate);
 pinia.use(piniaPluginToast);

@@ -11,7 +11,7 @@
                 <p v-if="user.email" class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ user.email }}</p>
                 <p v-else class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">No email</p>
                 <p v-if="user.expires" class="text-xs truncate w-full" :class="color">{{ expired }}</p>
-                <p v-else class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ created }}</p>
+                <p v-else class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ $filter("timeAgo", user.created) }}</p>
             </div>
         </template>
         <template #buttons>
@@ -62,9 +62,6 @@ export default defineComponent({
             } else {
                 return this.__("Expires %{s}", { s: this.$filter("timeAgo", this.user.expires!) });
             }
-        },
-        created(): string {
-            return this.__("Created %{s}", { s: this.$filter("timeAgo", this.user.created) });
         },
         color() {
             const inHalfDay = new Date();

@@ -119,8 +119,8 @@ const theme: Record<string, Record<string, string>> = {
 
     "family:button": {
         input: "$reset inline-flex items-center bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded dark:bg-primary dark:hover:bg-primary_hover px-5 py-2.5 text-sm formkit-disabled:bg-gray-400 formkit-loading:before:w-4 formkit-loading:before:h-4 formkit-loading:before:mr-2 formkit-loading:before:border formkit-loading:before:border-2 formkit-loading:before:border-r-transparent formkit-loading:before:rounded-3xl formkit-loading:before:border-white formkit-loading:before:animate-spin",
-        wrapper: "mb-1",
-        prefixIcon: "$reset block w-4 -ml-2 mr-2 stretch",
+        // wrapper: "mb-1",
+        prefixIcon: "$reset block w-4 mr-2 stretch",
         suffixIcon: "$reset block w-4 ml-2 stretch",
     },
 

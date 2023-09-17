@@ -12,7 +12,8 @@ const iconLoader = (icon: string) => {
     const parent = document.createElement("div");
     parent.classList.add("absolute", "inset-y-0", "left-0", "flex", "items-center", "pl-3.5", "pointer-events-none");
     const i = document.createElement("i");
-    i.classList.add("fas", icon, "text-gray-400");
+    i.classList.add("fas");
+    icon.split(" ").forEach((c) => i.classList.add(c));
     parent.appendChild(i);
     return parent.innerHTML;
 };
