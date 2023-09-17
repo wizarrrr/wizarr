@@ -1,28 +1,25 @@
 <template>
-    <div class="w-full h-full">
-        <LineChart :chart-data="lineChartData" :options="options" class="h-full" />
-        <WidgetTemplate icon="fa-solid fa-envelope" title="Invitations Created" :value="String(invitations.length)" class="p-2 absolute top-0 left-0 pointer-events-none" />
-    </div>
+    <GraphWidgetTemplate icon="fa-solid fa-envelope" title="Invitations Created" :value="String(invitations.length)" :chart-data="lineChartData" :options="options" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState } from "pinia";
 import { useInvitationStore } from "@/stores/invitations";
-import { LineChart } from "vue-chart-3";
 import { Chart, registerables } from "chart.js";
+
 import type { ChartOptions } from "chart.js";
 
 import moment from "moment";
-import WidgetTemplate from "@/templates/WidgetTemplate.vue";
+
+import GraphWidgetTemplate from "@/templates/GraphWidgetTemplate.vue";
 
 Chart.register(...registerables);
 
 export default defineComponent({
     name: "InvitesGraph",
     components: {
-        WidgetTemplate,
-        LineChart,
+        GraphWidgetTemplate,
     },
     data() {
         return {
