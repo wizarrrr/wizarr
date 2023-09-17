@@ -16,6 +16,7 @@ import { useResizeObserver } from "@vueuse/core";
 
 import type { Emitter, EventType } from "mitt";
 import type { JellyfinForm } from "../../types/JellyfinForm";
+
 import PasswordMeter from "vue-simple-password-meter";
 
 export default defineComponent({
