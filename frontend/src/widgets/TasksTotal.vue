@@ -1,24 +1,24 @@
 <template>
-    <WidgetTemplate :title="__('Total Invitations')" :value="count" icon="fa-envelope" />
+    <WidgetTemplate :title="__('Total Tasks')" :value="count" icon="fa-server" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useInvitationStore } from "@/stores/invitations";
+import { useTasksStore } from "@/stores/tasks";
 import { mapState } from "pinia";
 
 import WidgetTemplate from "@/templates/WidgetTemplate.vue";
 
 export default defineComponent({
-    name: "InvitesTotal",
+    name: "TasksTotal",
     components: {
         WidgetTemplate,
     },
     computed: {
         count() {
-            return String(this.invitations.length);
+            return String(this.jobs.length);
         },
-        ...mapState(useInvitationStore, ["invitations"]),
+        ...mapState(useTasksStore, ["jobs"]),
     },
 });
 </script>
