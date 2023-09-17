@@ -10,7 +10,8 @@
             <div class="flex flex-col">
                 <p v-if="user.email" class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ user.email }}</p>
                 <p v-else class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">No email</p>
-                <p class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ $filter("timeAgo", user.created) }}</p>
+                <p v-if="user.expires" class="text-xs truncate text-gray-500 dark:text-gray-400 w-full" :class="color">{{ expired }}</p>
+                <p v-else class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ created }}</p>
             </div>
         </template>
         <template #buttons>
@@ -53,6 +54,32 @@ export default defineComponent({
                 delete: false,
             },
         };
+    },
+    computed: {
+        expired(): string {
+            if (this.$filter("isPast", this.user.expires!)) {
+                return this.__("Expired %{s}", { s: this.$filter("timeAgo", this.user.expires!) });
+            } else {
+                return this.__("Expires %{s}", { s: this.$filter("timeAgo", this.user.expires!) });
+            }
+        },
+        created(): string {
+            return this.__("Created %{s}", { s: this.$filter("timeAgo", this.user.created) });
+        },
+        color() {
+            const inHalfDay = new Date();
+            inHalfDay.setHours(inHalfDay.getHours() + 12);
+
+            if (this.$filter("isPast", this.user.expires!)) {
+                return "text-red-600 dark:text-red-500";
+            }
+
+            if (this.$filter("dateLess", this.user.expires!, inHalfDay)) {
+                return "text-yellow-500 dark:text-yellow-400";
+            }
+
+            return "text-gray-500 dark:text-gray-400";
+        },
     },
     methods: {
         async getProfilePicture() {

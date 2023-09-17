@@ -8,6 +8,11 @@
         <template #buttons>
             <div class="flex flex-row space-x-2">
                 <div class="w-[36px] h-[36px]">
+                    <button :disabled="buttonsDisabled.run" @click="runLocalJob" v-if="job.next_run_time != null" class="w-full h-full bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
+                        <i class="fa-solid fa-refresh ml-[-2px]"></i>
+                    </button>
+                </div>
+                <div class="w-[36px] h-[36px]">
                     <button :disabled="buttonsDisabled.resume" @click="resumeLocalJob" v-if="job.next_run_time == null" class="w-full h-full bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
                         <i class="fa-solid fa-play"></i>
                     </button>
@@ -57,6 +62,7 @@ export default defineComponent({
             failedTask: false,
             intervals: [] as number[],
             buttonsDisabled: {
+                run: false,
                 pause: false,
                 resume: false,
                 delete: false,
@@ -69,6 +75,19 @@ export default defineComponent({
         },
     },
     methods: {
+        async runLocalJob() {
+            // Disable the run button
+            this.buttonsDisabled.run = true;
+
+            // Run the job
+            const job = await this.runJob(this.task.id);
+
+            // Update the job
+            await this.restartCountdown(job);
+
+            // Enable the run button
+            this.buttonsDisabled.run = false;
+        },
         async pauseLocalJob() {
             // Disable the pause button
             this.buttonsDisabled.pause = true;
@@ -175,7 +194,7 @@ export default defineComponent({
             // Return the time left as a string
             this.countdown = timeLeft.join(" ");
         },
-        ...mapActions(useTasksStore, ["getJob", "pauseJob", "resumeJob", "deleteJob"]),
+        ...mapActions(useTasksStore, ["getJob", "runJob", "pauseJob", "resumeJob", "deleteJob"]),
     },
     mounted() {
         // Get the next run time and the current time
