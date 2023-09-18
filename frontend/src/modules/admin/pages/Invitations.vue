@@ -1,7 +1,7 @@
 <template>
     <AdminTemplate :header="__('Invitations')" :subheader="__('Manage your invitations')" :box-view="boxView">
         <template #header>
-            <FormKit type="button" @click="inviteModal = true" :classes="{ input: '!bg-secondary' }">
+            <FormKit type="button" @click="openInviteModal" :classes="{ input: '!bg-secondary' }">
                 {{ __("Create Invitation") }}
             </FormKit>
         </template>
@@ -9,11 +9,6 @@
             <InvitationList />
         </template>
     </AdminTemplate>
-    <DefaultModal title-string="Create Invite" :visible="inviteModal" @close="inviteModal = false" modal-class="md:w-[500px] lg:w-[600px]">
-        <div>
-            <InviteForm />
-        </div>
-    </DefaultModal>
 </template>
 
 <script lang="ts">
@@ -40,6 +35,14 @@ export default defineComponent({
         return {
             inviteModal: false,
         };
+    },
+    methods: {
+        openInviteModal() {
+            this.$modal.create({
+                modal: { title: this.__("Create Invite"), body: InviteForm },
+                options: { showFooter: false },
+            });
+        },
     },
     computed: {
         ...mapState(useThemeStore, ["boxView"]),

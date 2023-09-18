@@ -1,26 +1,26 @@
 import "./assets/scss/main.scss";
 
-import { createPinia } from "pinia";
-import { createApp } from "vue";
+import Axios, { piniaPluginAxios } from "./plugins/axios";
+import Filters, { piniaPluginFilters } from "./plugins/filters";
+import Socket, { piniaPluginSocketIO } from "./plugins/socket";
+import Toast, { piniaPluginToast } from "./plugins/toasts";
+import { defaultConfig, plugin } from "@formkit/vue";
 
+import Analytics from "./plugins/analytics";
 import App from "./App.vue";
-import ToastPlugin from "vue-toastification";
+import FloatingVue from "floating-vue";
+import Modal from "./plugins/modal";
+import Sentry from "./plugins/sentry";
 import ToastOptions from "./assets/configs/DefaultToasts";
+import ToastPlugin from "vue-toastification";
+import VueProgressBar from "@aacassandra/vue3-progressbar";
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import formkitConfig from "./formkit.config";
 import i18n from "./i18n";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
-import VueProgressBar from "@aacassandra/vue3-progressbar";
-import FloatingVue from "floating-vue";
 import router from "./router";
-import Sentry from "./plugins/sentry";
-import Analytics from "./plugins/analytics";
 
-import Toast, { piniaPluginToast } from "./plugins/toasts";
-import Axios, { piniaPluginAxios } from "./plugins/axios";
-import Socket, { piniaPluginSocketIO } from "./plugins/socket";
-import Filters, { piniaPluginFilters } from "./plugins/filters";
-
-import formkitConfig from "./formkit.config";
-import { plugin, defaultConfig } from "@formkit/vue";
 // import Plugin from "@flavorly/vanilla-components";
 
 const app = createApp(App);
@@ -44,6 +44,7 @@ app.use(Socket, { uri: window.location.origin });
 app.use(Filters);
 app.use(Sentry);
 app.use(Analytics);
+app.use(Modal);
 
 pinia.use(piniaPluginPersistedstate);
 pinia.use(piniaPluginToast);

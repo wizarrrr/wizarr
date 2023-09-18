@@ -88,7 +88,9 @@ export default defineComponent({
         },
         async localDeleteUser() {
             this.disabled.delete = true;
-            await this.deleteUser(this.user.id);
+            if (await this.$modal.confirm(this.__("Are you sure?"), this.__("Do you really want to delete this user from your media server?"))) {
+                await this.deleteUser(this.user.id);
+            }
         },
         ...mapActions(useUsersStore, ["deleteUser"]),
     },

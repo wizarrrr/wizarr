@@ -4,7 +4,7 @@
     <RouterView v-else />
     <Offline />
     <ReloadPrompt />
-    <!-- <ServerURLModal v-model:visible="serverURLModalVisible" /> -->
+    <ModalContainer />
 </template>
 
 <script lang="ts">
@@ -128,6 +128,22 @@ export default defineComponent({
         if (serverData?.update_available) {
             this.$toast.info(UpdateAvailable, { timeout: false, closeButton: false, draggable: false, closeOnClick: false });
         }
+
+        // this.$modal.create({
+        //     modal: {
+        //         title: "Server URL",
+        //         body: "Please enter the URL of your server.",
+        //         buttons: [
+        //             {
+        //                 disabled: false,
+        //                 text: "Cancel",
+        //                 onClick: () => {
+        //                     this.$modal.destroy();
+        //                 },
+        //             },
+        //         ],
+        //     },
+        // });
 
         // Set the server data
         this.setServerData(serverData);

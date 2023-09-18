@@ -50,7 +50,9 @@ export default defineComponent({
             this.$toast.info(this.__("Copied to clipboard"));
         },
         async deleteLocalInvitation() {
-            await this.deleteInvitation(this.invite.id);
+            if (await this.$modal.confirm(this.__("Are you sure?"), this.__("Do you really want to delete this invitation?"))) {
+                await this.deleteInvitation(this.invite.id);
+            }
         },
         ...mapActions(useInvitationStore, ["deleteInvitation"]),
     },

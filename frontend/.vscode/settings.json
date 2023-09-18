@@ -16,21 +16,28 @@
         "source.fixAll.eslint": true,
         "source.organizeImports": false
     },
-    "vetur.validation.template": false,
-    "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "vue"
+    ],
     "[nunjucks]": {
         "editor.defaultFormatter": "okitavera.vscode-nunjucks-formatter"
     },
     "[html]": {
         "editor.defaultFormatter": "vscode.html-language-features"
     },
-    "files.associations": {
-        "*.vue": "vue"
-    },
     "prettier.configPath": ".prettierrc.js",
-    "vetur.format.defaultFormatter.js": "vscode-typescript",
     "editor.wordWrap": "off",
     "[xml]": {
         "editor.defaultFormatter": "fabianlauer.vs-code-xml-format"
+    },
+    // hide node_modules folder
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/node_modules": true,
     }
 }
