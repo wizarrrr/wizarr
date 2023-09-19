@@ -31,6 +31,7 @@ export type ModalOptions = {
         hideOnEscapeKey?: boolean;
         closeButtonText?: string;
         disableAnimation?: boolean;
+        callback?: () => void;
     };
     isVisible?: boolean;
 };
@@ -42,9 +43,10 @@ const defaultModalOptions: ModalOptions["options"] = {
     showFooter: true,
     showOverlay: true,
     hideOnOverlayClick: false,
-    hideOnEscapeKey: false,
+    hideOnEscapeKey: true,
     closeButtonText: "Cancel",
     disableAnimation: false,
+    callback: () => {},
 };
 
 const DefaultModal = defineComponent({
@@ -67,11 +69,15 @@ const DefaultModal = defineComponent({
             this.options = { ...this.options, ...modal.options };
             this.isVisible = true;
         },
+        onCancel() {
+            this.onDestroy();
+            this.options.callback?.();
+        },
     },
     mounted() {
         addEventListener("keydown", (e: KeyboardEvent) => {
             if (this.options.hideOnEscapeKey && e.key === "Escape") {
-                this.isVisible = false;
+                this.onCancel();
             }
         });
 
@@ -88,13 +94,13 @@ const DefaultModal = defineComponent({
             <Transition name={this.options.disableAnimation ? "" : "fade"} onAfterLeave={() => this.onDestroy()} mode="out-in">
                 {this.isVisible ? (
                     <div class="fixed top-0 bottom-0 left-0 right-0 flex z-30 items-center justify-center">
-                        {this.options.showOverlay ? <div onClick={() => (this.isVisible = !this.options.hideOnOverlayClick)} class="fixed inset-0 bg-gray-700 bg-opacity-75 transition-opacity"></div> : null}
+                        {this.options.showOverlay ? <div onClick={() => (this.options.hideOnOverlayClick ? this.onCancel() : null)} class="fixed inset-0 bg-gray-700 bg-opacity-75 transition-opacity"></div> : null}
                         <div class="min-w-[800px] flex flex-col fixed top-0 bottom-0 left-0 right-0 h-full w-full md:h-auto md:w-auto transform text-left shadow-xl transition-all md:relative md:min-w-[30%] md:max-w-2xl md:shadow-none md:transform-none sm:align-middle text-gray-900 dark:text-white">
                             {/* Modal Title */}
                             <div class="flex items-center bg-white pl-6 p-3 dark:bg-gray-800 justify-between p-4 border-b dark:border-gray-600 rounded-t">
                                 {this.modal?.title && typeof this.modal.title === "object" ? createVNode(this.modal.title) : null}
                                 <h3 class="text-xl align-center font-semibold text-gray-900 dark:text-white">{this.modal?.title && typeof this.modal.title === "string" ? this.modal.title : null}</h3>
-                                <button onClick={() => (this.isVisible = false)} type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                                <button onClick={() => this.onCancel()} type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
                                     <i class="fa-solid fa-times text-xl"></i>
                                 </button>
                             </div>
@@ -117,7 +123,7 @@ const DefaultModal = defineComponent({
                                     {this.modal?.footer && typeof this.modal.footer === "object" ? createVNode(this.modal.footer) : null}
                                     {this.modal?.footer && typeof this.modal.footer === "string" ? <p>{this.modal.footer}</p> : null}
                                     {this.options.showCloseButton ? (
-                                        <button onClick={() => (this.isVisible = false)} type="button" class="px-5 py-2.5 text-sm whitespace-nowrap overflow-hidden overflow-ellipsis flex items-center justify-center relative bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded dark:bg-secondary dark:hover:bg-secondary_hover">
+                                        <button onClick={() => this.onCancel()} type="button" class="px-5 py-2.5 text-sm whitespace-nowrap overflow-hidden overflow-ellipsis flex items-center justify-center relative bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded dark:bg-secondary dark:hover:bg-secondary_hover">
                                             <span>{this.options.closeButtonText}</span>
                                         </button>
                                     ) : null}
@@ -138,6 +144,7 @@ const confirm = async (eventBus: Emitter<Record<EventType, any>>, title?: string
         eventBus.emit("create-modal", {
             options: {
                 showCloseButton: false,
+                callback: () => resolve(false),
             },
             modal: {
                 title: title ?? "Are you sure?",

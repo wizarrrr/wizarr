@@ -2,7 +2,7 @@
     <ListItem>
         <template #icon>
             <div class="flex-shrink-0 h-[60px] w-[60px] rounded bg-gray-50 overflow-hidden">
-                <img :src="profilePicture" class="w-full h-full object-cover object-center" alt="Profile Picture" />
+                <img :src="profilePicture" :onerror="`this.src='${backupPicture}'`" class="w-full h-full object-cover object-center" alt="Profile Picture" />
             </div>
         </template>
         <template #title>
@@ -50,6 +50,7 @@ export default defineComponent({
     data() {
         return {
             profilePicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username + "&length=1",
+            backupPicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username + "&length=1",
             disabled: {
                 delete: false,
             },
@@ -87,9 +88,11 @@ export default defineComponent({
             this.profilePicture = URL.createObjectURL((await response).data);
         },
         async localDeleteUser() {
-            this.disabled.delete = true;
             if (await this.$modal.confirm(this.__("Are you sure?"), this.__("Do you really want to delete this user from your media server?"))) {
+                this.disabled.delete = true;
                 await this.deleteUser(this.user.id);
+            } else {
+                this.disabled.delete = false;
             }
         },
         ...mapActions(useUsersStore, ["deleteUser"]),
