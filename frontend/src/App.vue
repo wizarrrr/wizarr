@@ -1,10 +1,10 @@
 <template>
-    <vue-progress-bar></vue-progress-bar>
+    <vue-progress-bar />
     <FullPageLoading v-if="fullPageLoading" />
     <RouterView v-else />
     <Offline />
     <ReloadPrompt />
-    <ModalContainer />
+    <WidgetModalContainer />
 </template>
 
 <script lang="ts">
@@ -15,6 +15,7 @@ import { useServerStore } from "./stores/server";
 import { useLanguageStore } from "@/stores/language";
 import { useProgressStore } from "./stores/progress";
 import { useGettext, type Language } from "vue3-gettext";
+import { container as WidgetModalContainer } from "jenesius-vue-modal";
 
 import type { ToastID } from "vue-toastification/dist/types/types";
 
@@ -24,7 +25,6 @@ import BadBackend from "@/components/Toasts/BadBackend.vue";
 import UpdateAvailable from "@/components/Toasts/UpdateAvailable.vue";
 import DefaultToast from "@/components/Toasts/DefaultToast.vue";
 import ReloadPrompt from "@/components/ReloadPrompt.vue";
-// import ServerURLModal from "@/components/Modals/ServerURLModal.vue";
 
 export default defineComponent({
     name: "App",
@@ -32,13 +32,12 @@ export default defineComponent({
         Offline,
         FullPageLoading,
         ReloadPrompt,
-        // ServerURLModal,
+        WidgetModalContainer,
     },
     data() {
         return {
             gettext: null as Language | null,
             connectionToast: null as ToastID | null,
-            // serverURLModalVisible: false,
         };
     },
     computed: {
@@ -64,10 +63,6 @@ export default defineComponent({
                 }
                 await new Promise((resolve) => setTimeout(resolve, 5000));
             }
-        },
-        showServerURLModal() {
-            console.log("this", this);
-            // this.serverURLModalVisible = true;
         },
     },
     watch: {
@@ -116,7 +111,7 @@ export default defineComponent({
 
         // If health data or server data is undefined, show error toast
         if (!serverData) {
-            this.connectionToast = this.$toast.error(BadBackend, { timeout: false, closeButton: false, draggable: false, closeOnClick: false, onClick: this.showServerURLModal });
+            this.connectionToast = this.$toast.error(BadBackend, { timeout: false, closeButton: false, draggable: false, closeOnClick: false /* onClick: this.showServerURLModal */ });
             this.backendTest();
         }
 
@@ -128,22 +123,6 @@ export default defineComponent({
         if (serverData?.update_available) {
             this.$toast.info(UpdateAvailable, { timeout: false, closeButton: false, draggable: false, closeOnClick: false });
         }
-
-        // this.$modal.create({
-        //     modal: {
-        //         title: "Server URL",
-        //         body: "Please enter the URL of your server.",
-        //         buttons: [
-        //             {
-        //                 disabled: false,
-        //                 text: "Cancel",
-        //                 onClick: () => {
-        //                     this.$modal.destroy();
-        //                 },
-        //             },
-        //         ],
-        //     },
-        // });
 
         // Set the server data
         this.setServerData(serverData);
