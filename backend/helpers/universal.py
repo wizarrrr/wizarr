@@ -243,7 +243,7 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
         Users.token: user.id if server_type == "plex" else user["Id"],
         Users.username: user.username if server_type == "plex" else user["Name"],
         Users.code: invite.code,
-        Users.expires: invite.expires,
+        Users.expires: invite.duration,
         Users.auth: kwargs.get("token", None),
         Users.email: user.email if server_type == "plex" else kwargs.get("email", None),
     })

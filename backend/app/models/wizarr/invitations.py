@@ -116,21 +116,18 @@ class InvitationsModel(Model):
             invitation["specific_libraries"] = ",".join(invitation["specific_libraries"])
 
 
-        # If expires is a string or int, convert it to a utc datetime plus the total minutes
-        if isinstance(invitation["expires"], (str, int)):
-            invitation["expires"] = datetime.utcnow() + timedelta(minutes=int(str(invitation["expires"])))
-        else:
-            invitation["expires"] = None
+        # invitation["expires"] = None
+        # invitation["duration"] = None
 
+        # If expires is a string or int, convert it to a utc datetime plus the total minutes
+        if invitation["expires"] and isinstance(invitation["expires"], (str, int)):
+            invitation["expires"] = datetime.utcnow() + timedelta(minutes=int(str(invitation["expires"])))
 
         # If duration is a string or int, convert it to a utc datetime plus the total minutes
-        if invitation["duration"] == "unlimited":
-            invitation["duration"] = None
-        elif isinstance(invitation["duration"], (str, int)):
+        if invitation["duration"] and isinstance(invitation["duration"], (str, int)):
             invitation["duration"] = datetime.utcnow() + timedelta(minutes=int(str(invitation["duration"])))
-        else:
-            invitation["duration"] = None
 
+        print(invitation)
         # Create the invitation in the database
         invite: Invitations = Invitations.create(**invitation)
 
