@@ -42,6 +42,7 @@ export const useWebhookStore = defineStore("webhooks", {
             const formData = new FormData();
 
             Object.keys(webhook).forEach((key) => {
+                // @ts-ignore
                 formData.append(key, webhook[key]);
             });
 
