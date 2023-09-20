@@ -1,4 +1,5 @@
 import type { User, Users } from "@/types/api/users";
+
 import { defineStore } from "pinia";
 
 interface UserStoreState {
@@ -54,7 +55,7 @@ export const useUsersStore = defineStore("users", {
         },
         async deleteUser(id: number) {
             // Delete the user from the API
-            const response = await this.$axios.delete(`/api/users/${id}`).catch(() => {
+            const response = await this.$axios.delete(`/api/users/${id}`, { disableInfoToast: true }).catch(() => {
                 this.$toast.error("Could not delete user");
                 return null;
             });

@@ -1,4 +1,5 @@
 import type { Invitation, Invitations } from "@/types/api/invitations";
+
 import { defineStore } from "pinia";
 
 interface InvitationStoreState {
@@ -58,7 +59,7 @@ export const useInvitationStore = defineStore("invitations", {
         },
         async deleteInvitation(id: number) {
             // Delete the invite from the API
-            const response = await this.$axios.delete(`/api/invitations/${id}`).catch((err) => {
+            const response = await this.$axios.delete(`/api/invitations/${id}`, { disableInfoToast: true }).catch((err) => {
                 this.$toast.error("Could not delete invitation");
                 console.error(err);
                 return null;

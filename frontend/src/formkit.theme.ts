@@ -77,7 +77,8 @@ const theme: Record<string, Record<string, string>> = {
         calendarIcon: "flex w-8 grow-0 shrink-0 self-stretch select-none [&>svg]:w-full [&>svg]:m-auto [&>svg]:max-h-[1em] [&>svg]:max-w-[1em]",
         inner: "relative",
 
-        panelWrapper: "absolute top-[calc(100%_+_0.5em)] rounded p-5 bg-white dark:bg-gray-800 z-10 w-full",
+        // bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
+        panelWrapper: "!absolute top-[calc(100%_+_0.5em)] rounded p-5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 z-10 w-full",
         panelHeader: "hidden grid grid-cols-[2.5em_1fr_2.5em] justify-center items-center border-b-2 border-white dark:border-gray-400 mb-4 pb-4 dark:text-gray-400 text-black",
 
         yearButton: "appearance-none cursor-pointer px-3 py-1 border-2 rounded mx-1 border-white dark:border-gray-400",
@@ -89,9 +90,10 @@ const theme: Record<string, Record<string, string>> = {
         daysHeader: "flex items-center justify-center text-black dark:text-gray-400",
         timeHeader: "flex items-center justify-center col-start-2 col-end-2",
 
-        year: "flex items-center justify-center w-[calc(20%_-_1em)] m-2 p-2 rounded bg-gray-200 aria-selected:bg-primary aria-selected:text-white focus:bg-white dark:focus:bg-gray-600 focus:text-black dark:focus:text-white data-[is-extra=true]:opacity-25 formkit-disabled:opacity-50 formkit-disabled:cursor-default formkit-disabled:pointer-events-none",
-        month: "flex items-center justify-center w-[calc(33%_-_1em)] m-2 p-2 rounded bg-gray-200 aria-selected:bg-primary aria-selected:text-white focus:bg-white dark:focus:bg-gray-600 focus:text-black dark:focus:text-white data-[is-extra=true]:opacity-25 formkit-disabled:opacity-50 formkit-disabled:cursor-default formkit-disabled:pointer-events-none",
-        dayCell: "flex items-center justify-center w-[2.25em] h-[2.25em] m-1 p-2 rounded bg-gray-200 aria-selected:bg-primary aria-selected:text-white focus:bg-white dark:focus:bg-gray-600 focus:text-black dark:focus:text-white data-[is-extra=true]:opacity-25 formkit-disabled:opacity-50 formkit-disabled:cursor-default formkit-disabled:pointer-events-none",
+        // bg-gray-200 dark:bg-gray-800 focus:bg-gray-100 dark:focus:bg-gray-600 text-black dark:text-white
+        year: "cursor-pointer flex items-center justify-center w-[calc(20%_-_1em)] m-2 p-2 rounded bg-gray-200 dark:bg-gray-800 focus:bg-gray-100 dark:focus:bg-gray-600 text-black dark:text-white data-[is-extra=true]:opacity-25 formkit-disabled:opacity-50 formkit-disabled:cursor-default formkit-disabled:pointer-events-none",
+        month: "cursor-pointer flex items-center justify-center w-[calc(33%_-_1em)] m-2 p-2 rounded bg-gray-200 dark:bg-gray-800 focus:bg-gray-100 dark:focus:bg-gray-600 text-black dark:text-white data-[is-extra=true]:opacity-25 formkit-disabled:opacity-50 formkit-disabled:cursor-default formkit-disabled:pointer-events-none",
+        dayCell: "cursor-pointer flex items-center justify-center w-[2.25em] h-[2.25em] m-1 p-2 rounded bg-gray-200 dark:bg-gray-800 focus:bg-gray-100 dark:focus:bg-gray-600 text-black dark:text-white data-[is-extra=true]:opacity-25 formkit-disabled:opacity-50 formkit-disabled:cursor-default formkit-disabled:pointer-events-none",
 
         years: "flex flex-wrap",
         months: "flex flex-wrap",

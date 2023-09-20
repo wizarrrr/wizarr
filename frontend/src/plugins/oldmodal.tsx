@@ -95,7 +95,7 @@ const DefaultModal = defineComponent({
                 {this.isVisible ? (
                     <div class="fixed top-0 bottom-0 left-0 right-0 flex z-30 items-center justify-center">
                         {this.options.showOverlay ? <div onClick={() => (this.options.hideOnOverlayClick ? this.onCancel() : null)} class="fixed inset-0 bg-gray-700 bg-opacity-75 transition-opacity"></div> : null}
-                        <div class="min-w-[800px] flex flex-col fixed top-0 bottom-0 left-0 right-0 h-full w-full md:h-auto md:w-auto transform text-left shadow-xl transition-all md:relative md:min-w-[30%] md:max-w-2xl md:shadow-none md:transform-none sm:align-middle text-gray-900 dark:text-white">
+                        <div class="flex flex-col fixed top-0 bottom-0 left-0 right-0 h-full w-full md:h-auto md:w-auto transform text-left shadow-xl transition-all md:relative md:min-w-[30%] md:max-w-2xl md:shadow-none md:transform-none sm:align-middle text-gray-900 dark:text-white">
                             {/* Modal Title */}
                             <div class="flex items-center bg-white pl-6 p-3 dark:bg-gray-800 justify-between p-4 border-b dark:border-gray-600 rounded-t">
                                 {this.modal?.title && typeof this.modal.title === "object" ? createVNode(this.modal.title) : null}
