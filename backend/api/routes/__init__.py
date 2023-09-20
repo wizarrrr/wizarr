@@ -21,6 +21,7 @@ from .settings_api import api as settings_api
 from .setup_api import api as setup_api
 from .tasks_api import api as tasks_api
 from .users_api import api as users_api
+from .webhooks_api import api as webhooks_api
 from .logging_api import api as logging_api
 from .oauth_api import api as oauth_api
 from .mfa_api import api as mfa_api
@@ -120,6 +121,7 @@ api.add_namespace(settings_api)
 api.add_namespace(tasks_api)
 api.add_namespace(users_api)
 api.add_namespace(utilities_api)
+api.add_namespace(webhooks_api)
 
 # Potentially remove this if it becomes unstable
 # api.add_namespace(live_notifications_api)

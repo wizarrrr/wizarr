@@ -11,6 +11,9 @@ from .jellyfin import get_jellyfin_users, get_jellyfin_user, sync_jellyfin_users
 from app.models.database.users import Users
 from app.models.database.invitations import Invitations
 
+from helpers.webhooks import run_webhook
+from playhouse.shortcuts import model_to_dict
+
 # ANCHOR - Get Server Type
 def get_server_type() -> str:
     """Get the server type from the settings
@@ -104,6 +107,9 @@ def global_delete_user(user_id: str) -> dict[str]:
 
     # Delete the user from the database
     user.delete_instance()
+
+    # Send webhook event
+    run_webhook("user_deleted", model_to_dict(user))
 
     # Return response
     return { "message": "User deleted" }
@@ -250,7 +256,12 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
 
     # Add the user to the database
     # pylint: disable=no-value-for-parameter
-    db_user.execute()
+    user_id = db_user.execute()
+
+    # Send webhook event
+    run_webhook("user_invited", model_to_dict(
+        Users.get_or_none(Users.id == user_id)
+    ))
 
     # Set the invite to used
     invite.used = True
