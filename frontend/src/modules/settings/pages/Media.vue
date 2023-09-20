@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <MediaForm v-model:serverName="serverNameValue" v-model:serverURL="serverURLValue" v-model:serverType="serverTypeValue" v-model:serverAPIKey="serverAPIKeyValue" :inputHidden="inputHidden" :buttonHidden="buttonHidden" :buttonLoading="buttonLoading" @detectServer="detectServer" @testConnection="testConnection" @saveServer="saveServerSettings" />
-    </div>
+    <MediaForm v-model:serverName="serverNameValue" v-model:serverURL="serverURLValue" v-model:serverType="serverTypeValue" v-model:serverAPIKey="serverAPIKeyValue" :inputHidden="inputHidden" :buttonHidden="buttonHidden" :buttonLoading="buttonLoading" @detectServer="detectServer" @testConnection="testConnection" @saveServer="saveServerSettings" />
 </template>
 
 <script lang="ts">

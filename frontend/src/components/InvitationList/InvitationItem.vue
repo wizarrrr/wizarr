@@ -2,7 +2,8 @@
     <ListItem icon="fa-envelope">
         <template #title>
             <button @click="copyLink()" class="text-lg">{{ invite.code }}</button>
-            <p v-if="invite.expires" class="text-xs truncate w-full" :class="color">{{ expired }}</p>
+            <p v-if="invite.used" class="text-xs truncate w-full text-red-600 dark:text-red-500">{{ __("Invitation used") }}</p>
+            <p v-else-if="invite.expires" class="text-xs truncate w-full" :class="color">{{ expired }}</p>
             <p class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ $filter("timeAgo", invite.created) }}</p>
         </template>
         <template #buttons>
@@ -10,7 +11,7 @@
                 <button class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
                     <i class="fa-solid fa-edit"></i>
                 </button>
-                <button @click="deleteLocalInvitation" class="bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-red-600 dark:hover:bg-primary_hover">
+                <button :disabled="disabled.delete" @click="deleteLocalInvitation" class="bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-red-600 dark:hover:bg-primary_hover">
                     <i class="fa-solid fa-trash"></i>
                 </button>
             </div>
@@ -42,6 +43,9 @@ export default defineComponent({
     data() {
         return {
             clipboard: useClipboard(),
+            disabled: {
+                delete: false,
+            },
         };
     },
     methods: {
@@ -50,8 +54,12 @@ export default defineComponent({
             this.$toast.info(this.__("Copied to clipboard"));
         },
         async deleteLocalInvitation() {
-            if (await this.$modal.confirm(this.__("Are you sure?"), this.__("Do you really want to delete this invitation?"))) {
-                await this.deleteInvitation(this.invite.id);
+            if (await this.$modal.confirmModal(this.__("Are you sure?"), this.__("Are you sure you want to delete this invitation?"))) {
+                this.disabled.delete = true;
+                await this.deleteInvitation(this.invite.id).finally(() => (this.disabled.delete = false));
+                this.$toast.info(this.__("Invitation deleted successfully"));
+            } else {
+                this.$toast.info(this.__("Invitation deletion cancelled"));
             }
         },
         ...mapActions(useInvitationStore, ["deleteInvitation"]),

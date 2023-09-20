@@ -52,7 +52,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-// import { mount } from "mount-vue-component";
 
 const mount = (component: any, options: any) => {
     const el = document.createElement("div");

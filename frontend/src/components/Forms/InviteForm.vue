@@ -202,15 +202,24 @@ export default defineComponent({
             const duration = inviteData.duration == "custom" ? this.$filter("toMinutes", inviteData.customDuration) : inviteData.duration == "unlimited" ? null : inviteData.duration;
             const libraries = inviteData.libraries;
 
-            // Create the invite
+            const new_invitation = {
+                code: code,
+                expires: expires,
+                unlimited: unlimited,
+                plex_home: plex_home,
+                plex_allow_sync: plex_allow_sync,
+                duration: duration,
+                specific_libraries: JSON.stringify(libraries),
+            };
+
             const formData = new FormData();
-            formData.append("code", code);
-            if (expires) formData.append("expires", expires.toString());
-            formData.append("unlimited", unlimited.toString());
-            formData.append("plex_home", plex_home.toString());
-            formData.append("plex_allow_sync", plex_allow_sync.toString());
-            if (duration) formData.append("duration", duration.toString());
-            formData.append("specific_libraries", JSON.stringify(libraries));
+
+            for (const key in new_invitation) {
+                // @ts-ignore
+                if (new_invitation[key] == null) continue;
+                // @ts-ignore
+                formData.append(key, new_invitation[key]);
+            }
 
             // Create the invite
             const response = this.createInvitation(formData);

@@ -88,11 +88,12 @@ export default defineComponent({
             this.profilePicture = URL.createObjectURL((await response).data);
         },
         async localDeleteUser() {
-            if (await this.$modal.confirm(this.__("Are you sure?"), this.__("Do you really want to delete this user from your media server?"))) {
+            if (await this.$modal.confirmModal(this.__("Are you sure?"), this.__("Do you really want to delete this user from your media server?"))) {
                 this.disabled.delete = true;
-                await this.deleteUser(this.user.id);
+                await this.deleteUser(this.user.id).finally(() => (this.disabled.delete = false));
+                this.$toast.info(this.__(`User %{user} deleted`, { user: this.user.username }));
             } else {
-                this.disabled.delete = false;
+                this.$toast.info(this.__("User deletion cancelled"));
             }
         },
         ...mapActions(useUsersStore, ["deleteUser"]),

@@ -17,7 +17,7 @@
                 <!-- Settings Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                     <template v-for="page in section.pages">
-                        <SettingsButton :title="page.title" :description="page.description" :icon="page.icon" :url="page.url" :disabled="page.disabled" />
+                        <SettingsButton :title="page.title" :description="page.description" :icon="page.icon" :url="page.url" :disabled="page.disabled" :modal="page.modal" />
                     </template>
                 </div>
             </template>
@@ -233,6 +233,7 @@ export default defineComponent({
                             description: this.__("View information about the server"),
                             icon: "fas fa-info-circle",
                             url: "/admin/settings/about",
+                            modal: true,
                         },
                     ],
                 },
