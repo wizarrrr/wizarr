@@ -14,6 +14,12 @@ const children: RouteRecordRaw[] = [
         meta: { header: "Manage Media", subheader: "Configure media server" },
     },
     {
+        path: "webhooks",
+        name: "admin-settings-webhooks",
+        component: () => import("../pages/Webhooks.vue"),
+        meta: { header: "Manage Webhooks", subheader: "Configure webhooks" },
+    },
+    {
         path: "account",
         name: "admin-settings-account",
         component: () => import("../pages/Account.vue"),
