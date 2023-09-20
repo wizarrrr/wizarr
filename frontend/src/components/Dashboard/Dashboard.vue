@@ -76,12 +76,17 @@ export default defineComponent({
         deleteLocalWidget(id: string) {
             this.grid?.removeWidget(`#${id}`);
         },
-        resetLocalDashboard() {
-            this.resetDashboard();
-            this.grid?.removeAll();
-            this.isEditing = false;
-            this.$emit("update:isEditing", this.isEditing);
-            setTimeout(async () => await new Promise(() => this.makeWidgets(this.dashboard)).catch(() => window.location.reload()));
+        async resetLocalDashboard() {
+            if (await this.$modal.confirmModal(this.__("Are you sure?"), this.__("Are you sure you want to reset your dashboard?"))) {
+                this.resetDashboard();
+                this.grid?.removeAll();
+                this.isEditing = false;
+                this.$emit("update:isEditing", this.isEditing);
+                setTimeout(async () => await new Promise(() => this.makeWidgets(this.dashboard)).catch(() => window.location.reload()));
+                this.$toast.info(this.__("Dashboard reset successfully"));
+            } else {
+                this.$toast.info(this.__("Dashboard reset cancelled"));
+            }
         },
         ...mapActions(useDashboardStore, ["resetDashboard"]),
     },

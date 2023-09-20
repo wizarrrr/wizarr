@@ -109,6 +109,12 @@ export default defineComponent({
                             disabled: true,
                         },
                         {
+                            title: this.__("Webhooks"),
+                            description: this.__("Add webhooks for external services"),
+                            icon: "fas fa-link",
+                            url: "/admin/settings/webhooks",
+                        },
+                        {
                             title: this.__("Notifications"),
                             description: this.__("Configure notification settings"),
                             roles: ["moderator", "user"],

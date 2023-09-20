@@ -1,8 +1,8 @@
 <template>
     <div class="space-y-6 md:space-y-8">
-        <div class="rounded border border-red-500 bg-red-400 bg-opacity-20 p-4 backdrop-blur">
+        <div class="rounded border border-red-500 bg-red-400 bg-opacity-20 py-3 px-4 backdrop-blur">
             <div class="flex">
-                <div class="flex-shrink-0">
+                <div class="flex-shrink-0 justify-center items-center flex">
                     <i class="fa-solid fa-lg fa-circle-info text-gray-800 dark:text-gray-100"></i>
                 </div>
                 <div class="ml-3 flex-1 md:flex md:justify-between items-center">
@@ -14,7 +14,9 @@
             </div>
         </div>
 
-        <ChangeLogs />
+        <div class="max-h-[80vh] md:max-h-[50vh] overflow-y-scroll scrollbar-hide m-[-10px] p-[12px]">
+            <ChangeLogs />
+        </div>
     </div>
 </template>
 

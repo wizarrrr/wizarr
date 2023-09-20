@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-row border bg-white dark:bg-gray-800 dark:border-gray-700 text-gray-900 p-4 rounded">
+    <div class="flex flex-row border bg-white dark:bg-gray-800 dark:border-gray-700 text-gray-900 p-4 rounded overflow-hidden">
         <div class="flex flex-grow items-center justify-start space-x-0 md:space-x-3 w-2/3">
             <div v-if="icon" class="aspect-square h-full bg-gray-100 rounded hidden md:flex items-center justify-center dark:bg-gray-700">
                 <i :class="`fa-solid ${icon} text-xl text-gray-500 dark:text-gray-400`"></i>
@@ -7,7 +7,7 @@
             <div v-else-if="iconSlotAvailable" class="aspect-square h-full hidden md:flex items-center justify-center">
                 <slot name="icon"></slot>
             </div>
-            <div class="dark:text-white font-bold flex flex-col items-start justify-between w-full">
+            <div class="dark:text-white font-bold flex flex-col items-start justify-between w-full overflow-hidden truncate">
                 <slot name="title"></slot>
             </div>
         </div>
