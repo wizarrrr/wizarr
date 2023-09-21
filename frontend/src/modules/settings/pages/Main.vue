@@ -105,8 +105,7 @@ export default defineComponent({
                             description: this.__("Add API keys for external services"),
                             roles: ["moderator"],
                             icon: "fas fa-key",
-                            url: "/admin/settings/api",
-                            disabled: true,
+                            url: "/admin/settings/apikeys",
                         },
                         {
                             title: this.__("Webhooks"),

@@ -8,7 +8,7 @@ from flask_jwt_extended import (create_access_token, get_jti, get_jwt,
                                 verify_jwt_in_request)
 from playhouse.shortcuts import model_to_dict
 
-from app.models.database import Sessions, Settings, Accounts
+from app.models.database import Sessions, Settings, Accounts, APIKeys
 
 # Yh this code looks messy but it works so ill tidy it up later
 database_dir = path.abspath(path.join(__file__, "../", "../", "../", "database"))
@@ -65,7 +65,8 @@ def secret_key(length: int = 32) -> str:
 def check_if_token_revoked(_, jwt_payload: dict) -> bool:
     jti = jwt_payload["jti"]
     session = Sessions.get_or_none((Sessions.access_jti == jti) | (Sessions.refresh_jti == jti))
-    return session.revoked if session else True
+    api = not APIKeys.select().where(APIKeys.jti == jti).exists()
+    return session.revoked if session else api
 
 def user_identity_lookup(user):
     return user

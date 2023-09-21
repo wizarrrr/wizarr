@@ -8,6 +8,7 @@ from app.exceptions import AuthenticationError
 from app.extensions import api
 
 from .accounts_api import api as accounts_api # REVIEW - This is almost completed
+from .apikeys_api import api as apikeys_api
 from .authentication_api import api as authentication_api # REVIEW - This is almost completed
 from .backup_api import api as backup_api
 from .discord_api import api as discord_api
@@ -101,6 +102,7 @@ def handle_request_exception(error):
 
 # Ordered Alphabetically for easier viewing in Swagger UI
 api.add_namespace(accounts_api)
+api.add_namespace(apikeys_api)
 api.add_namespace(authentication_api)
 api.add_namespace(backup_api)
 api.add_namespace(discord_api)
