@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-01 17:09+0000\n"
-"PO-Revision-Date: 2023-09-20 18:59+0000\n"
+"PO-Revision-Date: 2023-09-23 21:00+0000\n"
 "Last-Translator: Mattias <mattias.m.svensson@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/wizarr/app/sv/>\n"
 "Language: sv\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: app/admin.py:166
 msgid "Passwords do not match."
-msgstr "Lösenorden matchar inte."
+msgstr "Lösenorden stämmer inte överens."
 
 #: app/admin.py:169
 msgid "Username must be between 3 and 15 characters."
@@ -79,7 +79,7 @@ msgstr "Ogiltlig inbjudan"
 
 #: app/templates/login.html:18
 msgid "Login"
-msgstr "Logga in"
+msgstr "Login"
 
 #: app/templates/login.html:23 app/templates/register_admin.html:23
 #: app/templates/welcome-jellyfin.html:30
@@ -108,6 +108,7 @@ msgid "Confirm password"
 msgstr "Bekräfta lösenord"
 
 #: app/templates/register_admin.html:41 app/templates/welcome-jellyfin.html:72
+#, fuzzy
 msgid "Create an account"
 msgstr "Skapa ett konto"
 
@@ -298,7 +299,6 @@ msgid "Expiration"
 msgstr "Löper ut"
 
 #: app/templates/admin/invite.html:54
-#, fuzzy
 msgid "1 Day"
 msgstr "1 dag"
 
@@ -338,7 +338,7 @@ msgstr "Bjud in till Plex Hem"
 #: app/templates/admin/invite.html:89 app/templates/admin/invite.html:101
 #: app/templates/tables/invite_table.html:13
 msgid "Duration"
-msgstr "Löper ut"
+msgstr "Längd"
 
 #: app/templates/admin/invite.html:89
 msgid "(in days)"
@@ -526,13 +526,16 @@ msgid ""
 "    something you like, don't worry! We have a user-friendly request system that can automatically search for the\n"
 "    media you're looking for. "
 msgstr ""
-"Vi är glada att kunna erbjuda dig ett brett utbud av titlar att välja mellan. Om du har svårt att hitta\n"
-" något du gillar, oroa dig inte! Vi har ett användarvänligt förfrågningssystem som automatiskt kan söka efter\n"
-" de titlar du söker. "
+"Vi är glada att kunna erbjuda dig ett brett utbud av filmer och serier att "
+"välja bland. \n"
+"Men om du inte hittar något du gillar eller vill se så är det enkelt att "
+"fixa. \n"
+"Vi har ett användarvänligt system som kan söka upp det mesta och sedan "
+"automatiskt lägga till de titlar du saknar. "
 
 #: app/templates/wizard/requests.html:23
 msgid "Request any available Movie or TV Show"
-msgstr "Förfråga efter en tillgänglig film eller TV-serie"
+msgstr "Skicka en förfrågan om en tillgänglig film eller TV-serie"
 
 #: app/templates/wizard/requests.html:33
 msgid ""
@@ -544,11 +547,11 @@ msgstr ""
 
 #: app/templates/wizard/requests.html:43
 msgid "If enabled, receive notifications"
-msgstr "Om det är tillgängligt, lägg till notiser"
+msgstr "Om påslagen, ta emot notiser"
 
 #: app/templates/wizard/requests.html:50
 msgid "Check it Out"
-msgstr "Kolla in"
+msgstr "Spana in"
 
 #: app/templates/wizard/jellyfin/download.html:3
 msgid ""
@@ -556,7 +559,7 @@ msgid ""
 "            for this device"
 msgstr ""
 "Gå med och ladda ner Jellyfin\n"
-"            till denna enhet"
+"            till denna enheten"
 
 #: app/templates/wizard/jellyfin/download.html:8
 msgid ""
@@ -624,7 +627,7 @@ msgstr ""
 #: app/templates/wizard/jellyfin/tips.html:13
 #: app/templates/wizard/plex/tips.html:12
 msgid "Right, so how do I watch stuff?"
-msgstr "Jag förstår, hur kollar jag på innehållet?"
+msgstr "Jag förstår, så hur kollar jag på innehållet?"
 
 #: app/templates/wizard/jellyfin/tips.html:16
 msgid ""
@@ -686,32 +689,36 @@ msgid ""
 "    smartphones, and TVs. All you need to do is download the Plex app on your device, sign in with your account, and\n"
 "    you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"Plex finns tillgängligt på massor av enheter, datorer, surfplatta, \n"
-"    telefoner och smart-tv. Allt du behöver göra är att leta reda på Plex där appar finns. Logga sedan in med ditt konto, \n"
-"    så är du redo att strömma!"
+"Plex finns tillgängligt på massor av enheter som till exempel datorer, "
+"surfplattor, \n"
+"    telefoner och smart-tv. Allt du behöver göra är att ladda ned Plex där "
+"appar finns och logga in med ditt konto och \n"
+"    nu är du redo att börja strömma!"
 
 #: app/templates/wizard/plex/tips.html:20
 msgid "How can I make sure to have the best experience?"
-msgstr "Hur kan jag säkerställa så att jag får den bästa upplevelsen?"
+msgstr "Hur kan jag säkerställa att jag får den bästa upplevelsen?"
 
 #: app/templates/wizard/plex/tips.html:23
 msgid ""
 "Because Plex is a free service, they promote their own content before the awesome content your friend is now\n"
 "    sharing with you - they also, by default, play content at a lower quality. "
 msgstr ""
-"Eftersom att Plex är en gratis plattform i sig, så behöver dom på intäkter igenom att visa sitt eget innehåll av filmer och serier. \n"
-"    Det är de första du ser när du loggar in på Plex - de spelar även upp innehåll i lägre kvalité. "
+"Eftersom att Plex är en gratis plattform i sig, så vill dem marknadsföra "
+"sina egna filmer och serier före det innehåll som din vän nu \n"
+"    delar med dig. de spelar även upp innehållet i en lägre kvalité som "
+"standard. "
 
 #: app/templates/wizard/plex/tips.html:26
 msgid "No need to worry though, this can be easily resolved"
-msgstr "Det är dock enkelt att fixa"
+msgstr "Ingen fara, det är enkelt att lösa"
 
 #: app/templates/wizard/plex/tips.html:26
 msgid ""
 "We highly\n"
 "      recommend you to go through those steps first!"
 msgstr ""
-"Vi rekommenderar starkt\n"
+"Vi rekommenderar\n"
 "      att du går igenom det steg för steg!"
 
 #: app/templates/wizard/plex/tips.html:33
