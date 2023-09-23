@@ -6,7 +6,6 @@
 import { defineComponent } from "vue";
 
 import Stepper from "@/components/Stepper.vue";
-import type { Emitter, EventType } from "mitt";
 
 export default defineComponent({
     name: "JoinStepper",
@@ -14,8 +13,8 @@ export default defineComponent({
         Stepper,
     },
     props: {
-        eventBus: {
-            type: Object as () => Emitter<Record<EventType, unknown>>,
+        stepper: {
+            type: Number,
             required: false,
         },
     },
@@ -41,16 +40,17 @@ export default defineComponent({
     watch: {
         activeStep: {
             handler() {
-                this.eventBus?.emit("activeStepTitle", this.steps[this.activeStep - 1] ? this.steps[this.activeStep - 1].title : "Please wait...");
+                const step = this.steps[this.activeStep - 1] as Record<string, string> | undefined;
+                if (step?.title) this.$emit("updateTitle", step.title);
             },
             immediate: true,
         },
-    },
-    mounted() {
-        this.eventBus?.on("step", (step) => (this.activeStep = step as number));
-    },
-    unmounted() {
-        this.eventBus?.off("step");
+        stepper: {
+            handler(step) {
+                this.activeStep = step;
+            },
+            immediate: true,
+        },
     },
 });
 </script>

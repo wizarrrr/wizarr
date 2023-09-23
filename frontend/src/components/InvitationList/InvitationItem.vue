@@ -2,8 +2,8 @@
     <ListItem icon="fa-envelope">
         <template #title>
             <button @click="copyLink()" class="text-lg">{{ invite.code }}</button>
-            <p v-if="invite.used" class="text-xs truncate w-full text-red-600 dark:text-red-500">{{ __("Invitation used") }}</p>
-            <p v-else-if="invite.expires" class="text-xs truncate w-full" :class="color">{{ expired }}</p>
+            <p v-if="invite.used" class="text-xs truncate w-full" :class="usedColor">{{ __("Invitation used") }}</p>
+            <p v-else-if="invite.expires" class="text-xs truncate w-full" :class="expireColor">{{ expired }}</p>
             <p class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ $filter("timeAgo", invite.created) }}</p>
         </template>
         <template #buttons>
@@ -72,7 +72,16 @@ export default defineComponent({
                 return this.__("Expires %{s}", { s: this.$filter("timeAgo", this.invite.expires) });
             }
         },
-        color() {
+        usedColor() {
+            if (this.invite.used && this.invite.unlimited) {
+                return "text-yellow-500 dark:text-yellow-400";
+            }
+
+            if (this.invite.used) {
+                return "text-red-600 dark:text-red-500";
+            }
+        },
+        expireColor() {
             const inHalfDay = new Date();
             inHalfDay.setHours(inHalfDay.getHours() + 12);
 

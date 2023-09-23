@@ -32,13 +32,13 @@ export default defineComponent({
     },
     data() {
         return {
+            observer: null as { stop: () => void } | null,
             form: {
                 username: "",
                 email: "",
                 password: "",
                 password_confirm: "",
             } as JellyfinForm,
-            observer: null as { stop: () => void } | null,
         };
     },
     methods: {
@@ -47,9 +47,11 @@ export default defineComponent({
         },
     },
     mounted() {
-        this.observer = useResizeObserver(this.$refs.jellyForm as HTMLElement, () => {
-            this.$emit("height");
-        });
+        setTimeout(() => {
+            this.observer = useResizeObserver(this.$refs.jellyForm as HTMLElement, () => {
+                this.$emit("height");
+            });
+        }, 500);
     },
     beforeUnmount() {
         this.observer?.stop();

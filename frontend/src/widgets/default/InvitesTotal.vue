@@ -1,5 +1,5 @@
 <template>
-    <WidgetTemplate :title="__('Total Invitations')" :value="count" icon="fa-envelope" />
+    <DefaultWidget :title="__('Total Invitations')" :value="count" icon="fa-envelope" />
 </template>
 
 <script lang="ts">
@@ -7,12 +7,12 @@ import { defineComponent } from "vue";
 import { useInvitationStore } from "@/stores/invitations";
 import { mapState } from "pinia";
 
-import WidgetTemplate from "@/templates/WidgetTemplate.vue";
+import DefaultWidget from "@/widgets/templates/DefaultWidget.vue";
 
 export default defineComponent({
     name: "InvitesTotal",
     components: {
-        WidgetTemplate,
+        DefaultWidget,
     },
     computed: {
         count() {

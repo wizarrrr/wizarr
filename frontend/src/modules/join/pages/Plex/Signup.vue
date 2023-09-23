@@ -29,10 +29,12 @@ export default defineComponent({
     },
     methods: {
         async login() {
-            this.eventBus?.emit("pleaseWait", true);
+            this.$emit("pleaseWait", true);
             const token = await this.auth.login();
-            this.eventBus?.emit("pleaseWait", false);
-            this.eventBus?.emit("plexCreateAccount", token);
+            this.$emit("pleaseWait", false);
+
+            if (token) this.eventBus?.emit("plexCreateAccount", token);
+            else this.$toast.error("Failed to login to Plex");
         },
     },
 });

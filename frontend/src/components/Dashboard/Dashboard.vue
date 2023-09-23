@@ -97,13 +97,6 @@ export default defineComponent({
                 this.grid?.enableMove(isEditing);
             },
         },
-        dashboard: {
-            immediate: true,
-            handler(dashboard: WidgetOptions[]) {
-                console.log(dashboard);
-            },
-            deep: true,
-        },
     },
     mounted() {
         this.grid = GridStack.init(this.gridOptions);

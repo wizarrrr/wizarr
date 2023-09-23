@@ -1,6 +1,6 @@
 <template>
-    <PlexSignup v-bind="$props" v-if="settings.server_type == 'plex'" @height="$emit('height')" />
-    <JellyfinSignup v-bind="$props" v-else-if="settings.server_type == 'jellyfin'" @height="$emit('height')" />
+    <PlexSignup v-bind="$attrs" v-if="settings.server_type == 'plex'" />
+    <JellyfinSignup v-bind="$attrs" v-else-if="settings.server_type == 'jellyfin'" />
 </template>
 
 <script lang="ts">

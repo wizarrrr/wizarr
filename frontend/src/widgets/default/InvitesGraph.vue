@@ -1,25 +1,25 @@
 <template>
-    <GraphWidgetTemplate icon="fa-solid fa-users" title="Users Created" :value="String(users.length)" :chart-data="lineChartData" :options="options" />
+    <GraphWidget icon="fa-solid fa-envelope" title="Invitations Created" :value="String(invitations.length)" :chart-data="lineChartData" :options="options" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState } from "pinia";
-import { useUsersStore } from "@/stores/users";
+import { useInvitationStore } from "@/stores/invitations";
 import { Chart, registerables } from "chart.js";
 
 import type { ChartOptions } from "chart.js";
 
 import moment from "moment";
 
-import GraphWidgetTemplate from "@/templates/GraphWidgetTemplate.vue";
+import GraphWidget from "@/widgets/templates/GraphWidget.vue";
 
 Chart.register(...registerables);
 
 export default defineComponent({
-    name: "UsersGraph",
+    name: "InvitesGraph",
     components: {
-        GraphWidgetTemplate,
+        GraphWidget,
     },
     data() {
         return {
@@ -48,9 +48,11 @@ export default defineComponent({
         // Create an array of the user counts for each day of the week
         countsArray() {
             const counts = [0, 0, 0, 0, 0, 0, 0];
-            this.users.forEach((user) => {
-                const day = moment(user.created).day();
-                counts[day] += 1;
+            this.invitations.forEach((invitation) => {
+                // Get the day of the week the invitation was created starting at 0 for Monday
+                const day = moment(invitation.created_at).day();
+                // Increment the count for that day
+                counts[day]++;
             });
             return counts.reverse();
         },
@@ -59,7 +61,7 @@ export default defineComponent({
                 labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
                 datasets: [
                     {
-                        label: "Users Created",
+                        label: "Invitation Created",
                         data: this.countsArray,
                         fill: false,
                         borderColor: "rgb(254 65 85)",
@@ -68,7 +70,7 @@ export default defineComponent({
                 ],
             };
         },
-        ...mapState(useUsersStore, ["users"]),
+        ...mapState(useInvitationStore, ["invitations"]),
     },
 });
 </script>

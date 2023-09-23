@@ -1,6 +1,6 @@
 <template>
     <div class="w-full h-full">
-        <LineChart :chart-data="chartData" :options="options" class="h-full" />
+        <LineChart :chart-data="chartData" :options="options" class="h-full pt-[50px]" />
         <WidgetTemplate :icon="String(icon)" :title="String(title)" :value="String(value)" class="p-2 absolute top-0 left-0 pointer-events-none" :class="class" />
     </div>
 </template>
@@ -12,7 +12,7 @@ import { Chart, registerables } from "chart.js";
 
 import type { ChartData, ChartOptions } from "chart.js";
 
-import WidgetTemplate from "@/templates/WidgetTemplate.vue";
+import WidgetTemplate from "@/widgets/templates/DefaultWidget.vue";
 
 Chart.register(...registerables);
 
