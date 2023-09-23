@@ -8,8 +8,8 @@ const DARK_VALUE: DARK = "dark";
 const LIGHT_VALUE: LIGHT = "light";
 const SYSTEM_VALUE: SYSTEM = "system";
 
-const getTheme = (): THEME => {
-    const colorTheme = localStorage.getItem("theme") ?? (SYSTEM_VALUE as THEME);
+const getTheme = (theme?: THEME): THEME => {
+    const colorTheme = theme ?? (SYSTEM_VALUE as THEME);
     const systemPrefence = window.matchMedia("(prefers-color-scheme: dark)").matches ? DARK_VALUE : LIGHT_VALUE;
 
     if (colorTheme === DARK_VALUE) {

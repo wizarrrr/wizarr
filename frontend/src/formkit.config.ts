@@ -1,12 +1,11 @@
-import { generateClasses } from "@formkit/themes";
-import { genesisIcons } from "@formkit/icons";
 import { createProPlugin, inputs } from "@formkit/pro";
-import { createInput } from "@formkit/vue";
 
 import type { DefaultConfigOptions } from "@formkit/vue";
-
-import formkitTheme from "./formkit.theme";
 import OneTimePassword from "./components/FormKit/OneTimePassword.vue";
+import { createInput } from "@formkit/vue";
+import formkitTheme from "./formkit.theme";
+import { generateClasses } from "@formkit/themes";
+import { genesisIcons } from "@formkit/icons";
 
 const iconLoader = (icon: string) => {
     const parent = document.createElement("div");
@@ -18,7 +17,9 @@ const iconLoader = (icon: string) => {
     return parent.innerHTML;
 };
 
-const pro = createProPlugin("fk-80a76bd3e4", inputs);
+const proPlugin = createProPlugin("fk-80a76bd3e4", {
+    ...inputs,
+});
 
 const config: DefaultConfigOptions = {
     icons: {
@@ -26,7 +27,7 @@ const config: DefaultConfigOptions = {
     },
     iconLoader,
     // @ts-ignore
-    plugins: [pro],
+    plugins: [proPlugin],
     config: {
         classes: generateClasses(formkitTheme),
     },

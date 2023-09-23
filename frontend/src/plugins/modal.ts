@@ -83,6 +83,11 @@ const vuePluginModal = {
                 escClose: true,
             },
         );
+        app.config.globalProperties.$router.beforeEach(async (to, from, next) => {
+            const modal = getCurrentModal();
+            if (modal) await modal.close();
+            next();
+        });
     },
 };
 

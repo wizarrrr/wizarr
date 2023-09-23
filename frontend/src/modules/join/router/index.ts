@@ -9,7 +9,7 @@ const routes: Readonly<RouteRecordRaw[]> = [
     {
         path: "/join",
         name: "join",
-        component: () => import("../views/JoinRedirect.vue"),
+        component: () => import("../views/Join.vue"),
     },
 ];
 

@@ -10,6 +10,7 @@ import Analytics from "./plugins/analytics";
 import App from "./App.vue";
 import FloatingVue from "floating-vue";
 import Modal from "./plugins/modal";
+import OpenLayersMap from "vue3-openlayers";
 import Sentry from "./plugins/sentry";
 import ToastOptions from "./assets/configs/DefaultToasts";
 import ToastPlugin from "vue-toastification";
@@ -38,6 +39,7 @@ app.use(VueProgressBar, {
     thickness: "2px",
 });
 // app.use(Plugin as any);
+app.use(OpenLayersMap, { debug: true });
 app.use(FloatingVue);
 app.use(plugin, defaultConfig(formkitConfig));
 app.use(Socket, { uri: window.location.origin });

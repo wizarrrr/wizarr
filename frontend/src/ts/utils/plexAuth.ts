@@ -1,14 +1,11 @@
-import bowser from "bowser";
-
 import type { IPlexClientDetails } from "plex-oauth";
-
-import { nanoid } from "nanoid";
 import { PlexOauth } from "plex-oauth";
+import bowser from "bowser";
+import { nanoid } from "nanoid";
 
 class PlexAuth {
     private plexOauth: PlexOauth;
     private browser = bowser.getParser(window.navigator.userAgent);
-    private popup: Window | null = null;
 
     // Default client details
     clientDetails: IPlexClientDetails = {
@@ -28,43 +25,21 @@ class PlexAuth {
     // Login to Plex
     async login(): Promise<string | null> {
         // Get the URL and pinId from Plex
-        const [url, pinId] = await this.requestHostedLoginURL();
+        const [url, pinId] = await this.plexOauth.requestHostedLoginURL();
 
-        // If mobile, open the URL in a new tab
-        if (this.browser.getPlatformType(true) == "mobile") {
-            // Open the URL in a new tab
-            this.createNewTab(url);
-        } else {
-            // Create a popup window using the URL
-            this.createPopUp(url);
-        }
+        // Create a popup window for the URL
+        this.createPopUp(url);
 
         // Create a polling interval to check for the auth token
-        const token = await this.plexOauth.checkForAuthToken(pinId, 1000, 60);
-
-        // Close the popup window after 2 seconds when the token is received
-        setTimeout(() => Promise.resolve(this.popup?.close()).catch((err) => console.log(err)));
+        const token = await this.plexOauth.checkForAuthToken(pinId, 1000, 120);
 
         // Return the auth token
         return token;
     }
 
-    // Request a hosted login URL from Plex
-    private async requestHostedLoginURL(): Promise<[string, number]> {
-        return await this.plexOauth.requestHostedLoginURL();
-    }
-
     // Create a popup window for a URL
     private createPopUp(url: string) {
-        this.popup = window.open(url, "Plex", "width=600, height=700, toolbar=no, menubar=no");
-    }
-
-    // Open URL in a new tab
-    private createNewTab(url: string) {
-        // F*ck you, Safari
-        setTimeout(() => {
-            this.createPopUp(url);
-        });
+        setTimeout(() => window.open(url, "Plex", "width=600, height=700, toolbar=no, menubar=no"));
     }
 }
 

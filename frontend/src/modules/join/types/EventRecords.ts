@@ -7,7 +7,7 @@ import type { JellyfinForm } from "./JellyfinForm";
  * @property {string} plexCreateAccount - The Plex create account event
  * @property {JellyfinForm} jellyfinCreateAccount - The Jellyfin create account event
  * @property {boolean} pleaseWait - The please wait event
- * @property {string} activeStepTitle - The active step title event
+ * @property {string} pageTitle - The title event to set the page title
  * @property {number} step - The step event
  */
 export type EventRecords = {
@@ -16,6 +16,6 @@ export type EventRecords = {
     plexCreateAccount: string;
     jellyfinCreateAccount: JellyfinForm;
     pleaseWait: boolean;
-    activeStepTitle: string;
+    pageTitle: string;
     step: number;
 };

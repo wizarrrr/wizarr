@@ -1,7 +1,7 @@
-import { defineStore } from "pinia";
-import { SYSTEM_VALUE, updateTheme } from "@/ts/utils/darkMode";
+import { SYSTEM_VALUE, getTheme, updateTheme } from "@/ts/utils/darkMode";
 
 import type { THEME } from "@/ts/utils/darkMode";
+import { defineStore } from "pinia";
 
 interface ThemeStoreState {
     theme: THEME;
@@ -39,6 +39,9 @@ export const useThemeStore = defineStore("theme", {
             }
 
             updateTheme(this.theme);
+        },
+        getTheme() {
+            return getTheme();
         },
     },
     persist: true,

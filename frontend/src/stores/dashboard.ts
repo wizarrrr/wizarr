@@ -1,7 +1,6 @@
+import type { WidgetOptions } from "@/types/local/WidgetOptions";
 import { defineStore } from "pinia";
 import { nanoid } from "nanoid";
-
-import type { WidgetOptions } from "@/types/local/WidgetOptions";
 
 interface DashboardStoreState {
     dashboard: WidgetOptions[];
@@ -32,6 +31,11 @@ const defaultDashboard: WidgetOptions[] = [
         id: nanoid(),
         type: "InvitesGraph",
         grid: { w: 3, h: 4 },
+    },
+    {
+        id: nanoid(),
+        type: "MapWidget",
+        grid: { w: 6, h: 5 },
     },
 ];
 
