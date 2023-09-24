@@ -17,7 +17,7 @@ import { mapState } from "pinia";
 import { useThemeStore } from "@/stores/theme";
 
 import AdminTemplate from "@/templates/AdminTemplate.vue";
-import InvitationList from "@/components/InvitationList/InvitationList.vue";
+import InvitationList from "../components/Lists//InvitationList.vue";
 import InviteForm from "@/components/Forms/InviteForm.vue";
 
 export default defineComponent({
