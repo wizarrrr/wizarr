@@ -127,7 +127,6 @@ class InvitationsModel(Model):
         if invitation["duration"] and isinstance(invitation["duration"], (str, int)):
             invitation["duration"] = datetime.utcnow() + timedelta(minutes=int(str(invitation["duration"])))
 
-        print(invitation)
         # Create the invitation in the database
         invite: Invitations = Invitations.create(**invitation)
 

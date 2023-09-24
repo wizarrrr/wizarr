@@ -266,7 +266,12 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
     # Set the invite to used
     invite.used = True
     invite.used_at = datetime.now()
-    invite.used_by = user.id if server_type == "plex" else user["Id"]
+
+    # Append the user id to the invite used_by field
+    used_by = invite.used_by.split(",") if invite.used_by else []
+    invite.used_by = ",".join(used_by + [str(user_id)])
+
+    # Save the invite
     invite.save()
 
     # Emit done

@@ -23,6 +23,15 @@ class InvitationsListAPI(Resource):
     @api.response(500, "Internal server error")
     def get(self):
         response = list(Invitations.select().dicts())
+
+        # Convert the specific_libraries and used_by fields to lists
+        for invite in response:
+            if invite["specific_libraries"] is not None:
+                invite["specific_libraries"] = invite["specific_libraries"].split(",")
+
+            if invite["used_by"] is not None:
+                invite["used_by"] = invite["used_by"].split(",")
+
         return loads(dumps(response, indent=4, sort_keys=True, default=str)), 200
 
     @api.doc(description="Create an invite")
