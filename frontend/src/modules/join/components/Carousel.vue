@@ -51,23 +51,14 @@ export interface CarouselView {
     title?: string;
 }
 
-export interface CarouselViews {
-    views: CarouselView[];
-    options: {
-        defaultView: number;
-        defaultHeight: string;
-        pleaseWait?: boolean;
-    };
-}
-
 export default defineComponent({
     name: "Carousel",
     data() {
         return {
             carousel: null as CarouselInterface | null,
-            carouselHeight: this.options.defaultHeight,
-            currentComponent: this.options.defaultView,
-            carouselViews: [] as CarouselViews["views"],
+            carouselHeight: "50px",
+            currentComponent: this.currentView,
+            carouselViews: [] as CarouselView[],
             carouselWait: true,
             carouselTitle: this.pageTitle,
             stopObserver: null as UseResizeObserverReturn["stop"] | null,
@@ -75,24 +66,16 @@ export default defineComponent({
     },
     props: {
         views: {
-            type: Array as () => CarouselViews["views"],
+            type: Array as () => CarouselView[],
             required: true,
         },
-        options: {
-            type: Object as () => CarouselViews["options"],
-            default: () =>
-                ({
-                    defaultView: 1,
-                    defaultHeight: "50px",
-                }) as CarouselViews["options"],
-        },
         currentView: {
-            type: Number as () => CarouselViews["options"]["defaultView"],
+            type: Number,
             default: 1,
             required: false,
         },
         pleaseWait: {
-            type: Boolean as () => CarouselViews["options"]["pleaseWait"],
+            type: Boolean,
             default: false,
             required: false,
         },
@@ -217,14 +200,14 @@ export default defineComponent({
 
         // Initialize carousel component with elements and options
         this.carousel = new Carousel(carouselElements, {
-            defaultPosition: this.options.defaultView,
+            defaultPosition: this.currentView,
             onChange: this.handleCarouselChange,
         });
 
-        const view = this.carouselViews[this.options.defaultView - 1];
+        const view = this.carouselViews[this.currentView - 1];
         this.carouselTitle = view?.title ? view.title : undefined;
 
-        this.carouselWait = this.pleaseWait ?? this.options.pleaseWait ?? false;
+        this.carouselWait = this.pleaseWait ?? false;
     },
 });
 </script>

@@ -55,7 +55,7 @@ export default defineComponent({
                 // {
                 //     name: "payment",
                 //     title: this.__("Make Payment"),
-                //     view: Payment,
+                //     component: () => import("../pages/Payment.vue"),
                 //     props: {
                 //         eventBus: eventBus,
                 //         code: this.$route.params.invite as string,

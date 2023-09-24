@@ -114,6 +114,12 @@ export default defineComponent({
                             url: "/admin/settings/webhooks",
                         },
                         {
+                            title: this.__("Payments"),
+                            description: this.__("Configure payment settings"),
+                            icon: "fas fa-dollar-sign",
+                            url: "/admin/settings/payments",
+                        },
+                        {
                             title: this.__("Notifications"),
                             description: this.__("Configure notification settings"),
                             roles: ["moderator", "user"],

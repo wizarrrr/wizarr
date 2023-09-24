@@ -1,12 +1,12 @@
 <template>
-    <StripeElements v-if="stripeLoaded" v-slot="{ elements, instance }" ref="elms" :stripe-key="stripeKey">
+    <StripeElements v-if="stripe" v-slot="{ elements, instance }" ref="elms" :stripe-key="stripeKey">
         <StripeElement ref="card" :elements="elements" />
     </StripeElements>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe, type Stripe } from "@stripe/stripe-js";
 import { StripeElements, StripeElement } from "vue-stripe-js";
 
 import type { Emitter } from "mitt";
@@ -30,12 +30,13 @@ export default defineComponent({
     },
     data() {
         return {
-            stripeLoaded: false,
+            stripe: null as Stripe | null,
         };
     },
-    mounted() {
-        console.log("mounted payment");
-        loadStripe(this.stripeKey).then(() => (this.stripeLoaded = true));
+    async mounted() {
+        this.$emit("pleaseWait", true);
+        this.stripe = await loadStripe(this.stripeKey);
+        this.$emit("pleaseWait", false);
     },
 });
 </script>

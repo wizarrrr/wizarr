@@ -1,7 +1,7 @@
 <template>
     <button @click="buttonClick()" class="relative bg-white rounded shadow-md dark:bg-gray-800 dark:border dark:border-gray-700 overflow-hidden hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer group transition duration-150 ease-in-out" :class="{ 'opacity-50 cursor-not-allowed': disabled, classes: classes }" :disabled="disabled">
         <div class="flex flex-row justify-start p-3 items-center">
-            <div class="aspect-square h-full p-3 bg-gray-100 rounded flex items-center justify-center bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition duration-150 ease-in-out">
+            <div class="aspect-square h-[40px] w-[40px] p-3 bg-gray-100 rounded flex items-center justify-center bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition duration-150 ease-in-out">
                 <i class="text-gray-400" :class="icon"></i>
             </div>
             <div class="flex flex-col ml-4">
@@ -17,7 +17,6 @@
 </template>
 
 <script lang="ts">
-import type { Component } from "vue";
 import { defineComponent, defineAsyncComponent } from "vue";
 
 export default defineComponent({

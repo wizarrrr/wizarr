@@ -18,14 +18,12 @@ import { useThemeStore } from "@/stores/theme";
 import { mapActions, mapState } from "pinia";
 
 import AdminTemplate from "@/templates/AdminTemplate.vue";
-import DefaultButton from "@/components/Buttons/DefaultButton.vue";
-import UserList from "@/components/UserList/UserList.vue";
+import UserList from "../components/Lists//UserList.vue";
 
 export default defineComponent({
     name: "UsersView",
     components: {
         AdminTemplate,
-        DefaultButton,
         UserList,
     },
     data() {
