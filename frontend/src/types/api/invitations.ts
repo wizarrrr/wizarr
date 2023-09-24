@@ -12,5 +12,5 @@ export interface Invitation {
     unlimited: boolean;
     used: boolean;
     used_at: any;
-    used_by: any;
+    used_by: Array<number>;
 }
