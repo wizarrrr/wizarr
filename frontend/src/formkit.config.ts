@@ -1,5 +1,6 @@
 import { createProPlugin, inputs } from "@formkit/pro";
 
+import ButtonInput from "./components/FormKit/ButtonInput.vue";
 import type { DefaultConfigOptions } from "@formkit/vue";
 import OneTimePassword from "./components/FormKit/OneTimePassword.vue";
 import { createInput } from "@formkit/vue";
@@ -34,6 +35,9 @@ const config: DefaultConfigOptions = {
     inputs: {
         otp: createInput(OneTimePassword, {
             props: ["digits"],
+        }),
+        inputButton: createInput(ButtonInput, {
+            type: "input",
         }),
     },
 };

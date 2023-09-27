@@ -15,6 +15,15 @@ const theme: Record<string, Record<string, string>> = {
         suffixIcon: "peer absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none bg-gray-50 dark:bg-gray-700 rounded-r border-r border-t border-b border-gray-300 dark:border-gray-600",
     },
 
+    inputButton: {
+        input: "peer-[.formkit-prefix-icon]:pl-9 peer-[.formkit-suffix-icon]:pr-9 mb-1 w-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white sm:text-sm border border-gray-300 dark:border-gray-600 rounded block w-full dark:placeholder-gray-400 focus:ring-primary focus:border-primary",
+        label: "block mb-2 text-sm font-medium text-gray-900 dark:text-white",
+        inner: "w-full relative",
+        outer: "mb-4 formkit-disabled:opacity-50",
+        prefixIcon: "peer absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none bg-gray-50 dark:bg-gray-700 rounded-l border-l border-t border-b border-gray-300 dark:border-gray-600",
+        suffixIcon: "peer absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none bg-gray-50 dark:bg-gray-700 rounded-r border-r border-t border-b border-gray-300 dark:border-gray-600",
+    },
+
     email: {
         input: "peer-[.formkit-prefix-icon]:pl-9 peer-[.formkit-suffix-icon]:pr-9 mb-1 w-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white sm:text-sm border border-gray-300 dark:border-gray-600 rounded block w-full dark:placeholder-gray-400 focus:ring-primary focus:border-primary",
         label: "block mb-2 text-sm font-medium text-gray-900 dark:text-white",
@@ -120,8 +129,16 @@ const theme: Record<string, Record<string, string>> = {
     },
 
     "family:button": {
-        input: "$reset inline-flex items-center bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded dark:bg-primary dark:hover:bg-primary_hover px-5 py-2.5 text-sm formkit-disabled:bg-gray-400 formkit-loading:before:w-4 formkit-loading:before:h-4 formkit-loading:before:mr-2 formkit-loading:before:border formkit-loading:before:border-2 formkit-loading:before:border-r-transparent formkit-loading:before:rounded-3xl formkit-loading:before:border-white formkit-loading:before:animate-spin",
-        // wrapper: "mb-1",
+        input: `
+        bg-primary hover:bg-primary_hover 
+        data-[theme=primary]:bg-primary data-[theme=primary]:hover:bg-primary_hover
+        data-[theme=secondary]:bg-secondary data-[theme=secondary]:hover:bg-secondary_hover
+        data-[theme=danger]:bg-red-600 data-[theme=danger]:hover:bg-red-500
+        data-[theme=success]:bg-green-500 data-[theme=success]:hover:bg-green-600
+        data-[theme=warning]:bg-yellow-500 data-[theme=warning]:hover:bg-yellow-600
+
+        inline-flex items-center focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm
+        `,
         prefixIcon: "$reset block w-4 mr-2 stretch",
         suffixIcon: "$reset block w-4 ml-2 stretch",
     },

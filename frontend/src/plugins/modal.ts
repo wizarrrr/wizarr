@@ -1,3 +1,4 @@
+import type { EventType, Handler } from "mitt";
 import { Modal, closeById, closeModal, config, getComponentFromStore, getCurrentModal, modalQueue, onBeforeModalClose, openModal, popModal, promptModal, pushModal, useModalRouter } from "jenesius-vue-modal";
 
 import type { App } from "vue";
@@ -6,6 +7,18 @@ import type { FormKitClasses } from "@formkit/core";
 import type { ModalOptions } from "jenesius-vue-modal/dist/types/utils/Modal";
 import ModalWrapper from "./ModalWrapper";
 import type { WrapComponent } from "jenesius-vue-modal/dist/types/types/types";
+
+export declare interface CustomModalOptionsButtons {
+    text: string;
+    classes?: Record<string, string | Record<string, boolean> | FormKitClasses>;
+    onClick?: () => void;
+    emit?: string;
+}
+
+export declare interface CustomModalOptionsActions {
+    event: string;
+    callback: (options: Partial<CustomModalOptions>) => void;
+}
 
 export declare interface CustomModalOptions extends Partial<ModalOptions> {
     title?: string;
@@ -16,7 +29,8 @@ export declare interface CustomModalOptions extends Partial<ModalOptions> {
     confirmButtonText?: string;
     disableCancelButton?: boolean;
     cancelButtonText?: string;
-    buttons?: Array<Partial<{ text: string; classes: Record<string, string | Record<string, boolean> | FormKitClasses>; onClick: () => void }>>;
+    buttons?: CustomModalOptionsButtons[];
+    actions?: CustomModalOptionsActions[];
 }
 
 const localOpenModal = async <P extends WrapComponent>(component: P | string, options?: Partial<CustomModalOptions>, props?: any): Promise<Modal> => {
