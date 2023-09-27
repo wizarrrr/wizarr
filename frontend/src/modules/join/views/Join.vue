@@ -22,7 +22,7 @@ import { defineComponent } from "vue";
 import { useServerStore } from "@/stores/server";
 import { Collapse } from "vue-collapsed";
 
-import Carousel from "../components/Carousel.vue";
+import Carousel from "../../core/components/Carousel.vue";
 import WizarrLogo from "@/components/WizarrLogo.vue";
 
 import eventBus from "../events";

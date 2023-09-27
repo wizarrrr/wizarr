@@ -33,7 +33,7 @@
 import { defineComponent } from "vue";
 
 import ScanServerItem from "./ScanServersItem.vue";
-import SelectInput from "../Inputs/SelectInput.vue";
+import SelectInput from "@/components/Inputs/SelectInput.vue";
 
 import type { OptionHTMLAttributes } from "vue";
 

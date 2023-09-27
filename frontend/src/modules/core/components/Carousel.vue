@@ -56,7 +56,7 @@ export default defineComponent({
     data() {
         return {
             carousel: null as CarouselInterface | null,
-            carouselHeight: "50px",
+            carouselHeight: "100px",
             currentComponent: this.currentView,
             carouselViews: [] as CarouselView[],
             carouselWait: true,
@@ -144,6 +144,7 @@ export default defineComponent({
             if (carousel?._activeItem?.el?.firstChild) {
                 this.stopObserver = useResizeObserver(carousel._activeItem.el.firstChild as HTMLElement, (entry) => {
                     if (entry[0].target) {
+                        if (this.carouselWait) return;
                         this.carouselHeight = `${(entry[0].target as HTMLElement).offsetHeight}px`;
                     }
                 }).stop;

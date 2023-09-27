@@ -71,8 +71,6 @@ import { Collapse } from "vue-collapsed";
 import { customAlphabet } from "nanoid";
 import { useClipboard } from "@vueuse/core";
 
-import DefaultInput from "@/components/Inputs/DefaultInput.vue";
-import SelectInput from "@/components/Inputs/SelectInput.vue";
 import DateInput from "@/components/Inputs/DateInput.vue";
 import DefaultButton from "../Buttons/DefaultButton.vue";
 
@@ -81,8 +79,6 @@ import type { ToastID } from "vue-toastification/dist/types/types";
 export default defineComponent({
     name: "InviteView",
     components: {
-        DefaultInput,
-        SelectInput,
         DateInput,
         Collapse,
         DefaultButton,

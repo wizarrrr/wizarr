@@ -94,7 +94,7 @@ export default defineComponent({
         };
     },
     watch: {
-        $route() {
+        "$route.path"() {
             this.expanded = false;
         },
     },

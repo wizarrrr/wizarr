@@ -1,173 +1,151 @@
 <template>
-    <form class="space-y-4 md:space-y-6">
-        <!-- Server Name -->
-        <DefaultInput :class="{ hidden: inputHidden.serverName }" v-model:value="serverNameValue" label="Server Display Name" name="server_name" placeholder="Wizarr" required />
+    <div>
+        <!-- Form -->
+        <FormKit type="form" id="serverForm" v-model="serverForm" class="space-y-4 md:space-y-6" :actions="false" @submit="saveConnection">
+            <!-- Server Name -->
+            <FormKit type="text" :label="__('Server Display Name')" name="server_name" placeholder="Wizarr" validation="required:trim|alpha_spaces:latin" required autocomplete="text" />
 
-        <!-- Server URL -->
-        <DefaultInput :class="{ hidden: inputHidden.serverURL }" v-model:value="serverURLValue" @btnClick="detectServer" :buttonLoading="buttonLoading.detectServer" label="Server URL" name="server_url" placeholder="https://plex.wizarr.dev" size="md" icon="fas fa-arrow-up-right-from-square" button="Detect Server" autocomplete="off" required />
+            <!-- Server URL -->
+            <FormKit type="inputButton" :label="__('Server URL')" name="server_url" validation="required" prefix-icon="fas text-gray-400 fa-arrow-up-right-from-square" placeholder="https://plex.wizarr.dev" @button="detectServer" autocomplete="url">
+                {{ __("Detect Server") }}
+            </FormKit>
 
-        <!-- Server Type -->
-        <SelectInput :class="{ hidden: inputHidden.serverType }" v-model:value="serverTypeValue" disabled label="Server Type" name="server_type" placeholder="Choose a server" size="md" icon="fas fa-server" required>
-            <option value="jellyfin">Jellyfin (or Emby)</option>
-            <option value="plex">Plex Media Server</option>
-        </SelectInput>
+            <!-- Server Type -->
+            <FormKit type="select" disabled :label="__('Server Type')" name="server_type" placeholder="Choose a server" prefix-icon="fas fa-server" :options="serverOptions" validation="required" />
 
-        <!-- Server API Key -->
-        <DefaultInput :class="{ hidden: inputHidden.serverAPIKey }" v-model:value="serverAPIKeyValue" label="Server API Key" name="server_api_key" placeholder="XXXXXXXXXXXXXXXXX" size="md" icon="fas fa-key" type="password" required />
+            <!-- Server API Key -->
+            <FormKit type="text" :label="__('Server API Key')" name="server_api_key" prefix-icon="fas text-gray-400 fa-key" placeholder="XXXXXXXXXXXXXXXXX" validation="required:trim" required autocomplete="off" />
+        </FormKit>
 
         <!-- Buttons -->
         <div class="flex flex-col sm:flex-row">
-            <!-- Button Group -->
             <div class="flex flex-grow justify-end sm:justify-start space-x-2 mt-2">
                 <!-- Scan Libraries -->
-                <DefaultButton @click="scanLibrariesVisible = !scanLibrariesVisible" type="button" v-if="!buttonHidden.scanLibraries" icon="fas fa-list" :options="{ icon: { icon_position: 'left' } }">
-                    <lang>Scan Libraries</lang>
-                </DefaultButton>
+                <FormKit type="button" v-if="saved" prefix-icon="fas fa-list" data-theme="secondary" @click="scanLibraries">
+                    {{ __("Scan Libraries") }}
+                </FormKit>
 
                 <!-- Scan Servers -->
-                <DefaultButton type="button" v-if="!buttonHidden.scanServers" icon="fas fa-server" theme="secondary" :options="{ icon: { icon_position: 'left' } }">
-                    <lang>Scan Servers</lang>
-                </DefaultButton>
+                <FormKit type="button" v-if="!serverForm.server_type" prefix-icon="fas fa-server" data-theme="secondary" @click="scanServers">
+                    {{ __("Scan Servers") }}
+                </FormKit>
             </div>
+            <div class="flex flex-grow justify-end sm:justify-end space-x-2 mt-2">
+                <!-- Verify Server -->
+                <FormKit type="button" v-if="!verified" :disabled="!serverForm.server_type || !serverForm.server_api_key" @click="verifyConnection">
+                    {{ __("Verify Connection") }}
+                </FormKit>
 
-            <div class="flex flex-grow justify-end mt-2 space-x-2">
-                <!-- Test Connection -->
-                <DefaultButton @click="testConnection" :loading="buttonLoading.testConnection" type="button" v-if="!buttonHidden.testConnection" icon="fas fa-check" :options="{ icon: { icon_position: 'left' } }">
-                    <lang>Test Connection</lang>
-                </DefaultButton>
+                <!-- Save Connection -->
+                <FormKit type="button" v-if="verified && !saved" :disabled="!serverForm.server_type || !serverForm.server_api_key" @click="$formkit.submit('serverForm')">
+                    {{ __("Save Connection") }}
+                </FormKit>
 
-                <!-- Save Server -->
-                <DefaultButton @click="saveServerSettings" type="button" v-if="!buttonHidden.saveServer" icon="fas fa-save" :options="{ icon: { icon_position: 'left' } }">
-                    <lang>Save</lang>
-                </DefaultButton>
-
-                <!-- Next Slide -->
-                <DefaultButton @click="$emit('nextSlide')" type="button" v-if="!buttonHidden.nextSlide" icon="fas fa-arrow-right">
-                    <lang>Next</lang>
-                </DefaultButton>
+                <!-- Next Button -->
+                <FormKit type="button" v-if="saved" suffix-icon="fas fa-arrow-right" @click="$parent!.$emit('nextStep')">
+                    {{ __("Next") }}
+                </FormKit>
             </div>
         </div>
-    </form>
-
-    <!-- Modals -->
-    <ScanLibrariesModal v-model:visible="scanLibrariesVisible" />
+    </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { Collapse } from "vue-collapsed";
 
-import DefaultButton from "@/components/Buttons/DefaultButton.vue";
-import DefaultInput from "@/components/Inputs/DefaultInput.vue";
-import SelectInput from "@/components/Inputs/SelectInput.vue";
-import ScanLibrariesModal from "../Modals/ScanLibrariesModal.vue";
+import ScanLibraries from "@/modules/settings/components/ScanLibraries/ScanLibraries.vue";
+import ScanServers from "@/modules/settings/components/ScanServers/ScanServers.vue";
 
 export default defineComponent({
     name: "ServerSettings",
     components: {
-        DefaultButton,
-        DefaultInput,
-        SelectInput,
-        ScanLibrariesModal,
-    },
-    props: {
-        serverName: {
-            type: String,
-            default: "",
-        },
-        serverURL: {
-            type: String,
-            default: "",
-        },
-        serverType: {
-            type: String,
-            default: "",
-        },
-        serverAPIKey: {
-            type: String,
-            default: "",
-        },
-        inputHidden: {
-            type: Object,
-            default: () => ({
-                serverName: false,
-                serverURL: false,
-                serverType: false,
-                serverAPIKey: false,
-            }),
-        },
-        buttonHidden: {
-            type: Object,
-            default: () => ({
-                scanServers: false,
-                scanLibraries: false,
-                testConnection: false,
-                saveServer: false,
-                nextSlide: false,
-            }),
-        },
-        buttonLoading: {
-            type: Object,
-            default: () => ({
-                detectServer: false,
-                testConnection: false,
-            }),
-        },
+        Collapse,
     },
     data() {
         return {
-            serverNameValue: this.serverName,
-            serverURLValue: this.serverURL,
-            serverTypeValue: this.serverType,
-            serverAPIKeyValue: this.serverAPIKey,
-            scanLibrariesVisible: false,
+            verified: false,
+            saved: false,
+            serverForm: {
+                server_name: "",
+                server_url: "",
+                server_type: "",
+                server_api_key: "",
+            },
+            serverOptions: [
+                { label: "Jellyfin (or Emby)", value: "jellyfin" },
+                { label: "Plex Media Server", value: "plex" },
+            ],
         };
     },
     methods: {
-        detectServer() {
-            this.$emit("detectServer", this.serverURLValue);
-        },
-        testConnection() {
-            this.$emit("testConnection", {
-                server_name: this.serverNameValue,
-                server_url: this.serverURLValue,
-                server_type: this.serverTypeValue,
-                server_api_key: this.serverAPIKeyValue,
+        scanLibraries() {
+            this.$modal.openModal(ScanLibraries, {
+                title: this.__("Scan Libraries"),
+                buttons: [
+                    {
+                        text: this.__("Select Libraries"),
+                        emit: "selectLibraries",
+                    },
+                ],
             });
         },
-        saveServerSettings() {
-            this.$emit("saveServerSettings", {
-                server_name: this.serverNameValue,
-                server_url: this.serverURLValue,
-                server_type: this.serverTypeValue,
-                server_api_key: this.serverAPIKeyValue,
+        scanServers() {
+            this.$modal.openModal(ScanServers);
+        },
+        syncSettings() {
+            this.$axios.get("/api/settings", { disableErrorToast: true }).then((response) => {
+                if (response.data) this.serverForm = { ...this.serverForm, ...response.data };
             });
+        },
+        async detectServer() {
+            if (!this.serverForm.server_url) return this.$toast.error(this.__("Please enter a server URL."));
+
+            const response = await this.$axios.get("/api/utilities/detect-server", { params: { server_url: this.serverForm.server_url } }).catch(() => {
+                this.$toast.error(this.__("Unable to detect server."));
+            });
+
+            if (!response?.data) return;
+
+            this.serverForm.server_type = response.data.server_type;
+            this.$toast.info(
+                this.__("Detected %{server_type} server!", {
+                    server_type: response.data.server_type.slice(0, 1).toUpperCase() + response.data.server_type.slice(1),
+                }),
+            );
+        },
+        async verifyConnection() {
+            if (!this.serverForm.server_url || !this.serverForm.server_api_key) return this.$toast.error(this.__("Please enter a server URL and API key."));
+
+            const response = await this.$axios.get("/api/utilities/verify-server", { params: { server_url: this.serverForm.server_url, api_key: this.serverForm.server_api_key } }).catch(() => {
+                this.$toast.error(this.__("Unable to verify server."));
+            });
+
+            if (!response?.data) return;
+
+            this.verified = true;
+            this.$toast.info(this.__("Server connection verified!"));
+        },
+        async saveConnection() {
+            const formData = new FormData();
+
+            formData.append("server_name", this.serverForm.server_name);
+            formData.append("server_url", this.serverForm.server_url);
+            formData.append("server_type", this.serverForm.server_type);
+            formData.append("server_api_key", this.serverForm.server_api_key);
+
+            const response = await this.$axios.put("/api/settings", formData).catch(() => {
+                this.$toast.error(this.__("Unable to save connection."));
+            });
+
+            if (!response?.data) return;
+
+            this.saved = true;
+            this.$toast.info("Connection saved successfully!");
         },
     },
-    watch: {
-        serverName: {
-            immediate: false,
-            handler(serverName) {
-                this.serverNameValue = serverName;
-            },
-        },
-        serverURL: {
-            immediate: false,
-            handler(serverURL) {
-                this.serverURLValue = serverURL;
-            },
-        },
-        serverType: {
-            immediate: false,
-            handler(serverType) {
-                this.serverTypeValue = serverType;
-            },
-        },
-        serverAPIKey: {
-            immediate: false,
-            handler(serverAPIKey) {
-                this.serverAPIKeyValue = serverAPIKey;
-            },
-        },
+    mounted() {
+        this.syncSettings();
     },
 });
 </script>

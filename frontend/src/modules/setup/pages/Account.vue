@@ -86,7 +86,7 @@ export default defineComponent({
             this.$toast.info("The admin account has been created");
 
             // Go to next step
-            this.$emit("nextSlide", { accounts: true });
+            this.$emit("nextStep");
         },
     },
 });

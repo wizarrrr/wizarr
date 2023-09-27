@@ -45,7 +45,7 @@ export default defineComponent({
                 scanServers: false,
                 scanLibraries: false,
                 testConnection: true,
-                saveServer: false,
+                saveServer: true,
                 nextSlide: true,
             },
             serverDetails: null as null | { server_type: string; server_url: string },
@@ -241,9 +241,6 @@ export default defineComponent({
 
             // Save the server settings
             await this.saveServerSettings(server);
-
-            // Hide the test connection button and show the scan libraries button
-            this.buttonHidden.saveServer = false;
 
             // Set the button to not loading and hide it
             this.buttonHidden.testConnection = true;
