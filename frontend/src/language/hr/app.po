@@ -19,32 +19,37 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: src/views/SettingsViews/DefaultView.vue:227
+#: src/modules/settings/pages/Main.vue:243
 msgid "About"
 msgstr "Oko"
 
-#: src/views/SettingsViews/DefaultView.vue:128
+#: src/modules/settings/pages/Main.vue:140
 #, fuzzy
 msgid "Account Settings"
 msgstr "postavke"
 
-#: src/views/SettingsViews/DefaultView.vue:104
+#: src/modules/settings/pages/Main.vue:105
 msgid "Add API keys for external services"
 msgstr "Dodajte API ključeve za vanjske usluge"
 
-#: src/views/SettingsViews/DefaultView.vue:184
+#: src/modules/settings/pages/Main.vue:199
 msgid "Add Custom HTML page to help screen"
 msgstr "Dodajte prilagođenu HTML stranicu na zaslon pomoći"
 
-#: src/views/SettingsViews/DefaultView.vue:97
+#: src/modules/settings/pages/Main.vue:97
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "Dodajte Jellyseerr, Overseerr ili Ombi podršku"
 
-#: src/views/SettingsViews/MFAView.vue:9
+#: src/modules/settings/pages/Passkeys.vue:9
 msgid "Add Passkey"
 msgstr "Dodaj pristupni ključ"
 
-#: src/views/SetupViews/AccountView.vue:3
+#: src/modules/settings/pages/Main.vue:112
+#, fuzzy
+msgid "Add webhooks for external services"
+msgstr "Dodajte API ključeve za vanjske usluge"
+
+#: src/modules/setup/pages/Account.vue:4 src/views/SetupViews/AccountView.vue:4
 msgid "Admin Account"
 msgstr "Administratorski račun"
 
@@ -52,36 +57,88 @@ msgstr "Administratorski račun"
 msgid "Advanced Options"
 msgstr "Napredne opcije"
 
-#: src/views/SettingsViews/DefaultView.vue:191
+#: src/modules/settings/pages/Main.vue:207
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Napredne opcije"
 
-#: src/views/SettingsViews/DefaultView.vue:192
+#: src/modules/settings/pages/Main.vue:208
 msgid "Advanced settings for the server"
 msgstr "Napredne postavke za poslužitelj"
 
-#: src/views/SettingsViews/DefaultView.vue:103
+#: src/modules/join/views/Join.vue:82
+msgid "All done!"
+msgstr "Gotovo!"
+
+#: src/components/Forms/APIKeyForm.vue:37
+#, fuzzy
+msgid "API Key"
+msgstr "API token"
+
+#: src/components/APIKeyList/APIKeyItem.vue:52
+#, fuzzy
+msgid "API key deleted successfully"
+msgstr "Sesija je uspješno izbrisana!"
+
+#: src/components/APIKeyList/APIKeyItem.vue:54
+msgid "API key deletion cancelled"
+msgstr ""
+
+#: src/modules/settings/pages/Main.vue:104
 #, fuzzy
 msgid "API keys"
 msgstr "API token"
 
-#: src/templates/SettingsTemplate.vue:15 src/views/HelpViews/HelpView.vue:12
-#: src/views/SetupViews/SetupView.vue:32
+#: src/components/APIKeyList/APIKeyItem.vue:49
+#, fuzzy
+msgid "Are you sure you want to delete this API key?"
+msgstr "Jeste li sigurni da želite izbrisati ovaj API ključ?"
+
+#: src/modules/admin/components/ListItems/InvitationItem.vue:80
+#, fuzzy
+msgid "Are you sure you want to delete this invitation?"
+msgstr "Jeste li sigurni da želite izbrisati ovaj API ključ?"
+
+#: src/components/WebhookList/WebhookItem.vue:50
+#, fuzzy
+msgid "Are you sure you want to delete this webhook?"
+msgstr "Jeste li sigurni da želite izbrisati ovaj API ključ?"
+
+#: src/components/Dashboard/Dashboard.vue:80
+#, fuzzy
+msgid "Are you sure you want to reset your dashboard?"
+msgstr "Jeste li sigurni da želite pokrenuti ovaj zadatak?"
+
+#: src/components/APIKeyList/APIKeyItem.vue:49
+#: src/components/Dashboard/Dashboard.vue:80
+#: src/components/WebhookList/WebhookItem.vue:50
+#: src/modules/admin/components/ListItems/InvitationItem.vue:80
+#: src/modules/admin/components/ListItems/UserItem.vue:96
+msgid "Are you sure?"
+msgstr ""
+
+#: src/modules/help/views/Help.vue:12 src/modules/setup/views/Setup.vue:19
+#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
 msgid "Back"
 msgstr "leđa"
 
-#: src/views/SettingsViews/DefaultView.vue:221
+#: src/modules/settings/pages/Backup.vue:7
+#: src/modules/settings/pages/Main.vue:237
 #, fuzzy
 msgid "Backup"
 msgstr "leđa"
 
-#: src/views/SettingsViews/DefaultView.vue:140
+#: src/modules/settings/pages/Backup.vue:97
+#, fuzzy
+msgid "Backup File"
+msgstr "leđa"
+
+#: src/modules/settings/pages/Main.vue:153
 #, fuzzy
 msgid "Change your password"
 msgstr "Zaboravili ste zaporku?"
 
-#: src/views/SettingsViews/DefaultView.vue:215
+#: src/modules/settings/pages/Main.vue:231
 msgid "Check for and view updates"
 msgstr "Provjerite i pregledajte ažuriranja"
 
@@ -93,81 +150,78 @@ msgstr ""
 "Pogledajte našu dokumentaciju za detaljne upute o tome kako instalirati i "
 "pokrenuti Wizarr!"
 
-#: src/views/SettingsViews/DefaultView.vue:120
+#: src/modules/settings/pages/Main.vue:132
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "Konfigurirajte postavke poslužitelja."
 
-#: src/views/SettingsViews/DefaultView.vue:159
+#: src/modules/settings/pages/Main.vue:173
 msgid "Configure MFA authentication"
 msgstr "Konfigurirajte MFA autentifikaciju"
 
-#: src/views/SettingsViews/DefaultView.vue:112
+#: src/modules/settings/pages/Main.vue:124
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "Konfigurirajte postavke poslužitelja."
 
-#: src/views/SettingsViews/DefaultView.vue:196
+#: src/modules/settings/pages/Main.vue:212
 #, fuzzy
 msgid "Configure OAuth integration"
 msgstr "Izradite pozivnicu"
 
-#: src/views/SettingsViews/DefaultView.vue:152
+#: src/modules/settings/pages/Main.vue:118
+#, fuzzy
+msgid "Configure payment settings"
+msgstr "Konfigurirajte postavke poslužitelja."
+
+#: src/modules/settings/pages/Main.vue:166
 msgid "Configure SSO login"
 msgstr "Konfigurirajte SSO prijavu"
 
-#: src/views/SettingsViews/DefaultView.vue:91
+#: src/modules/settings/pages/Main.vue:91
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "Konfigurirajte postavke poslužitelja."
 
-#: src/views/SettingsViews/DefaultView.vue:134
+#: src/modules/settings/pages/Main.vue:146
 #, fuzzy
 msgid "Configure your profile settings"
 msgstr "Konfigurirajte postavke poslužitelja."
 
-#: src/views/JoinViews/CompleteView.vue:7 src/views/LoginViews/MFAView.vue:15
-#: src/views/LoginViews/UsernameView.vue:11
+#: src/modules/authentication/components/PasskeyForm.vue:15
+#: src/modules/authentication/components/UsernameForm.vue:11
 msgid "Continue"
 msgstr "Nastaviti"
 
-#: src/components/InvitationList/InvitationItem.vue:49
+#: src/components/Forms/APIKeyForm.vue:40
+#: src/modules/admin/components/ListItems/InvitationItem.vue:61
 #, fuzzy
 msgid "Copied to clipboard"
 msgstr "Veza je kopirana u međuspremnik!"
 
-#: src/views/HelpViews/JellyfinViews/DownloadView.vue:28
+#: src/components/Forms/APIKeyForm.vue:15
+#: src/modules/help/components/Jellyfin/Download.vue:28
 msgid "Copy"
 msgstr "Kopirati"
 
-#: src/views/JoinViews/CarouselView.vue:158
-#: src/views/JoinViews/CarouselView.vue:238
+#: src/modules/join/views/Join.vue:120 src/modules/join/views/Join.vue:172
 #, fuzzy
 msgid "Could not connect to the server."
 msgstr "Promijenite izgled i dojam poslužitelja"
 
-#: src/views/JoinViews/CarouselView.vue:191
-#: src/views/JoinViews/CarouselView.vue:196
-#: src/views/JoinViews/CarouselView.vue:219
-#: src/views/JoinViews/CarouselView.vue:224
+#: src/modules/join/views/Join.vue:134 src/modules/join/views/Join.vue:139
+#: src/modules/join/views/Join.vue:156 src/modules/join/views/Join.vue:161
 #, fuzzy
 msgid "Could not create the account."
 msgstr "Napravi račun"
 
-#: src/views/JoinViews/CarouselView.vue:171
-msgid "Could not verify the invite code."
+#: src/modules/settings/pages/Backup.vue:10
+msgid ""
+"Create a backup of your database and configuration. Please set an encryption "
+"password to protect your backup file."
 msgstr ""
 
-#: src/views/SetupViews/AccountView.vue:24
-msgid "Create account"
-msgstr "Napravi račun"
-
-#: src/views/AdminViews/InviteView.vue:3
-#, fuzzy
-msgid "Create an invitation to your server"
-msgstr "Napravite pozivnicu za svoj poslužitelj."
-
-#: src/views/SettingsViews/DefaultView.vue:222
+#: src/modules/settings/pages/Main.vue:238
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Stvorite račun"
@@ -177,64 +231,125 @@ msgstr "Stvorite račun"
 msgid "Create Another"
 msgstr "Stvori agenta"
 
-#: src/views/AdminViews/FlowEditor.vue:4
+#: src/components/Forms/APIKeyForm.vue:16
+#: src/modules/settings/pages/APIKeys.vue:24
+msgid "Create API Key"
+msgstr "Stvorite API ključ"
+
+#: src/modules/admin/pages/FlowEditor.vue:4
 #, fuzzy
 msgid "Create Flow"
 msgstr "Stvoriti"
 
-#: src/components/Forms/InviteForm.vue:22 src/views/AdminViews/InviteView.vue:2
+#: src/components/Forms/InviteForm.vue:22
+#: src/modules/admin/pages/Invitations.vue:5
 msgid "Create Invitation"
 msgstr "Izradite pozivnicu"
 
-#: src/views/AdminViews/InvitationsView.vue:7
+#: src/modules/admin/pages/Invitations.vue:38
 msgid "Create Invite"
 msgstr "Izradi pozivnicu"
 
+#: src/components/Forms/WebhookForm.vue:6
+#: src/modules/settings/pages/Webhooks.vue:24
+#, fuzzy
+msgid "Create Webhook"
+msgstr "Stvoriti"
+
+#: src/modules/setup/pages/Database.vue:7
 #: src/views/SetupViews/DatabaseView.vue:6
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr "Trenutno Wizarr podržava samo svoju internu SQLite bazu podataka."
 
-#: src/views/SettingsViews/DefaultView.vue:183
+#: src/modules/settings/pages/Main.vue:198
 #, fuzzy
 msgid "Custom HTML"
 msgstr "Prilagođen"
 
+#: src/components/Dashboard/Dashboard.vue:88
+msgid "Dashboard reset cancelled"
+msgstr ""
+
+#: src/components/Dashboard/Dashboard.vue:86
+#, fuzzy
+msgid "Dashboard reset successfully"
+msgstr "Sesija je uspješno izbrisana!"
+
+#: src/modules/setup/pages/Database.vue:4
 #: src/views/SetupViews/DatabaseView.vue:3
 msgid "Database"
 msgstr "Baza podataka"
 
-#: src/views/SettingsViews/DefaultView.vue:177
+#: src/modules/admin/components/Lists/SimpleUserList.vue:9
+msgid "Deleted users will not be visible"
+msgstr ""
+
+#: src/components/Forms/MediaForm.vue:10
+#, fuzzy
+msgid "Detect Server"
+msgstr "Poslužitelj zahtjeva"
+
+#: src/components/Forms/MediaForm.vue:112
+#, fuzzy
+msgid "Detected %{server_type} server!"
+msgstr "Pridružite se Plex poslužitelju"
+
+#: src/modules/settings/pages/Main.vue:191
 #, fuzzy
 msgid "Discord"
 msgstr "Discord widget"
 
-#: src/views/SettingsViews/DefaultView.vue:119
+#: src/modules/settings/pages/Main.vue:131
 #, fuzzy
 msgid "Discord Bot"
 msgstr "Discord widget"
 
-#: src/components/ScanServers/ScanServers.vue:26
+#: src/modules/admin/components/ListItems/UserItem.vue:96
+#, fuzzy
+msgid "Do you really want to delete this user from your media server?"
+msgstr "Jeste li sigurni da želite izbrisati ovaj API ključ?"
+
+#: src/modules/settings/components/ScanServers/ScanServers.vue:26
 msgid "Don't see your server?"
 msgstr ""
 
-#: src/views/HelpViews/JellyfinViews/WelcomeView.vue:3
+#: src/modules/admin/pages/Home.vue:5
+#, fuzzy
+msgid "Edit Dashboard"
+msgstr "Idite na nadzornu ploču"
+
+#: src/modules/help/components/Jellyfin/Welcome.vue:3
 msgid "Eh, So, What is Jellyfin exactly?"
 msgstr "Eh, dakle, što je zapravo Jellyfin?"
 
-#: src/views/HelpViews/PlexViews/WelcomeView.vue:3
+#: src/modules/help/components/Plex/Welcome.vue:3
 msgid "Eh, So, What is Plex exactly?"
 msgstr "Eh, dakle, što je točno Plex?"
 
-#: src/views/SettingsViews/DefaultView.vue:178
+#: src/modules/settings/pages/Account.vue:53
+msgid "Email"
+msgstr "E-mail"
+
+#: src/modules/settings/pages/Main.vue:192
 msgid "Enable Discord page and configure settings"
 msgstr "Omogućite Discord stranicu i konfigurirajte postavke"
 
-#: src/components/InvitationList/InvitationItem.vue:59
+#: src/modules/settings/pages/Backup.vue:43
+#: src/modules/settings/pages/Backup.vue:94
+#, fuzzy
+msgid "Encryption Password"
+msgstr "Zaboravili ste lozinku"
+
+#: src/modules/admin/components/ListItems/InvitationItem.vue:93
+#: src/modules/admin/components/ListItems/SimpleUserItem.vue:49
+#: src/modules/admin/components/ListItems/UserItem.vue:67
 #, fuzzy
 msgid "Expired %{s}"
 msgstr "Istekao"
 
-#: src/components/InvitationList/InvitationItem.vue:61
+#: src/modules/admin/components/ListItems/InvitationItem.vue:95
+#: src/modules/admin/components/ListItems/SimpleUserItem.vue:51
+#: src/modules/admin/components/ListItems/UserItem.vue:69
 #, fuzzy
 msgid "Expires %{s}"
 msgstr "Istekao"
@@ -244,37 +359,42 @@ msgstr "Istekao"
 msgid "Failed to create invitation"
 msgstr "Izradite pozivnicu"
 
-#: src/views/AdminViews/FlowEditor.vue:2
+#: src/modules/settings/pages/Account.vue:21
+msgid "First name"
+msgstr ""
+
+#: src/modules/admin/pages/FlowEditor.vue:2
 msgid "Flow Editor"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:86
+#: src/modules/settings/pages/Main.vue:86
 msgid "General settings for the server"
 msgstr "Opće postavke za poslužitelj"
 
-#: src/views/DefaultViews/HomeView.vue:14
+#: src/modules/home/views/Home.vue:14
 msgid "Get Started"
 msgstr "Započnite"
 
-#: src/views/HelpViews/HelpView.vue:5
+#: src/modules/help/views/Help.vue:5
 msgid "Getting Started!"
 msgstr "Početak rada!"
 
-#: src/views/DefaultViews/NotFoundView.vue:18
+#: src/modules/core/views/NotFound.vue:18
 #, fuzzy
 msgid "Go Home"
 msgstr "Dom"
 
-#: src/views/DefaultViews/NotFoundView.vue:17
+#: src/modules/core/views/NotFound.vue:17
 msgid "Go to Dashboard"
 msgstr "Idite na nadzornu ploču"
 
+#: src/modules/setup/pages/Complete.vue:11
 #: src/views/SetupViews/CompleteView.vue:10
 #, fuzzy
 msgid "Go to Login"
 msgstr "Prijaviti se"
 
-#: src/views/HelpViews/JellyfinViews/DownloadView.vue:8
+#: src/modules/help/components/Jellyfin/Download.vue:8
 #, fuzzy
 msgid ""
 "Great news! You now have access to our server's media collection. Let's make "
@@ -284,7 +404,7 @@ msgstr ""
 "se da znate kako se koristiti\n"
 "    to s Jellyfinom."
 
-#: src/views/HelpViews/PlexViews/WelcomeView.vue:5
+#: src/modules/help/components/Plex/Welcome.vue:5
 msgid ""
 "Great question! Plex is a software that allows individuals to share their "
 "media collections with others. If you've received this invitation, it means "
@@ -294,12 +414,20 @@ msgstr ""
 "medijskih kolekcija s drugima. Ako ste primili ovu pozivnicu, to znači da "
 "netko želi podijeliti svoju knjižnicu s vama."
 
-#: src/components/NavBars/AdminNavBar.vue:73
+#: src/modules/settings/pages/Backup.vue:42
+msgid "here"
+msgstr ""
+
+#: src/components/NavBars/AdminNavBar.vue:77 src/modules/admin/pages/Home.vue:2
 #, fuzzy
 msgid "Home"
 msgstr "Dom"
 
-#: src/views/DefaultViews/HomeView.vue:12
+#: src/components/Forms/WebhookForm.vue:16
+msgid "https://example.com"
+msgstr ""
+
+#: src/modules/home/views/Home.vue:12
 #, fuzzy
 msgid ""
 "If you were sent here by a friend, please request access or if you have an "
@@ -308,25 +436,44 @@ msgstr ""
 "Ako vas je ovamo poslao prijatelj, zatražite pristup ili ako imate pozivni "
 "kod, kliknite Započnite."
 
-#: src/views/JoinViews/CarouselView.vue:170
+#: src/modules/join/pages/JoinForm.vue:33
 #, fuzzy
-msgid "Invalid Invite!"
-msgstr "Nevažeća pozivnica"
+msgid "Invalid invitation code, please try again"
+msgstr "Nešto nije u redu, pokušajte ponovo."
 
-#: src/components/NavBars/AdminNavBar.vue:77
-#: src/views/AdminViews/InvitationsView.vue:2
+#: src/modules/admin/components/ListItems/InvitationItem.vue:83
+#, fuzzy
+msgid "Invitation deleted successfully"
+msgstr "Sesija je uspješno izbrisana!"
+
+#: src/modules/admin/components/ListItems/InvitationItem.vue:85
+msgid "Invitation deletion cancelled"
+msgstr ""
+
+#: src/modules/admin/components/ListItems/InvitationItem.vue:5
+#, fuzzy
+msgid "Invitation used"
+msgstr "Pozivnice"
+
+#: src/modules/admin/components/ListItems/InvitationItem.vue:65
+#, fuzzy
+msgid "Invitation Users"
+msgstr "Pozivnice"
+
+#: src/components/NavBars/AdminNavBar.vue:81
+#: src/modules/admin/pages/Invitations.vue:2
 msgid "Invitations"
 msgstr "Pozivnice"
 
-#: src/components/Forms/JoinForm.vue:10
+#: src/components/Forms/JoinForm.vue:10 src/modules/join/pages/JoinForm.vue:10
 msgid "Invite Code"
 msgstr "Pozivni kod"
 
-#: src/views/AdminViews/UsersView.vue:2
+#: src/modules/admin/pages/Users.vue:2
 msgid "Invited Users"
 msgstr "Pozvani korisnici"
 
-#: src/views/HelpViews/JellyfinViews/WelcomeView.vue:5
+#: src/modules/help/components/Jellyfin/Welcome.vue:5
 msgid ""
 "Jellyfin is a platform that lets you stream all your favorite movies, TV "
 "shows, and music in one place. It's like having your own personal movie "
@@ -341,74 +488,94 @@ msgstr ""
 "kojem uređaju - svom telefonu, tabletu, prijenosnom računalu, pametnom TV-u, "
 "kako hoćete."
 
-#: src/components/Forms/JoinForm.vue:7
+#: src/components/Forms/JoinForm.vue:7 src/modules/join/pages/JoinForm.vue:7
 msgid "Join"
 msgstr "Pridružiti"
 
-#: src/views/HelpViews/JellyfinViews/DownloadView.vue:4
+#: src/modules/help/components/Jellyfin/Download.vue:4
 #, fuzzy
 msgid "Join & Download"
 msgstr "preuzimanje datoteka"
 
-#: src/views/HelpViews/PlexViews/DownloadView.vue:4
+#: src/modules/help/components/Plex/Download.vue:4
 msgid "Join & Download Plex for this device"
 msgstr "Pridružite se i preuzmite Plex za ovaj uređaj"
 
-#: src/views/JoinViews/CarouselView.vue:15 src/views/JoinViews/JoinView.vue:12
-#, fuzzy
-msgid "Join the %{server_type} Server"
-msgstr "Pridružite se Plex poslužitelju"
+#: src/modules/settings/pages/Account.vue:25
+msgid "Last name"
+msgstr ""
 
 #: src/components/ChangeLogs/ChangeLogs.vue:7
 msgid "Load More"
 msgstr "Učitaj više"
 
-#: src/views/LoginViews/PasswordView.vue:12
+#: src/modules/authentication/components/PasswordForm.vue:12
 msgid "Login"
 msgstr "Prijaviti se"
 
-#: src/views/JoinViews/PlexViews/PlexSetupView.vue:5
+#: src/modules/join/pages/Plex/Signup.vue:5
 #, fuzzy
 msgid "Login to Plex"
 msgstr "Prijavite se na Plex"
 
-#: src/views/LoginViews/PasswordView.vue:16
+#: src/modules/authentication/components/PasswordForm.vue:16
 msgid "Login with MFA"
 msgstr "Prijavite se s MFA"
 
-#: src/views/LoginViews/MFAView.vue:19
+#: src/modules/authentication/components/PasskeyForm.vue:19
 msgid "Login with Password"
 msgstr "Prijavite se lozinkom"
 
-#: src/views/LoginViews/UsernameView.vue:5
+#: src/modules/authentication/components/UsernameForm.vue:5
 msgid "Login with your account"
 msgstr "Prijavite se svojim računom"
 
-#: src/views/SettingsViews/DefaultView.vue:202
+#: src/modules/settings/pages/Main.vue:218
 #, fuzzy
 msgid "Logs"
 msgstr "Prijaviti se"
 
-#: src/views/SettingsViews/DefaultView.vue:85
+#: src/modules/settings/pages/Main.vue:85
 #, fuzzy
 msgid "Main Settings"
 msgstr "postavke"
 
-#: src/views/AdminViews/FlowEditor.vue:3
+#: src/modules/admin/pages/Home.vue:3
+#, fuzzy
+msgid "Manage you Wizarr server"
+msgstr "Konfigurirajte postavke poslužitelja."
+
+#: src/modules/admin/pages/FlowEditor.vue:3
 #, fuzzy
 msgid "Manage your command flows"
 msgstr "Upravljajte svojim pozivnicama"
 
-#: src/views/AdminViews/InvitationsView.vue:3
+#: src/modules/admin/pages/Invitations.vue:3
 msgid "Manage your invitations"
 msgstr "Upravljajte svojim pozivnicama"
 
-#: src/views/AdminViews/UsersView.vue:3
+#: src/modules/admin/pages/Users.vue:3
 #, fuzzy
 msgid "Manage your media server users"
 msgstr "Konfigurirajte postavke poslužitelja."
 
-#: src/views/SettingsViews/DefaultView.vue:90
+#: src/modules/settings/pages/Account.vue:31
+msgid "Martian"
+msgstr ""
+
+#: src/modules/settings/pages/Account.vue:51
+msgid "marvin"
+msgstr ""
+
+#: src/modules/settings/pages/Account.vue:26
+msgid "Marvin"
+msgstr ""
+
+#: src/modules/settings/pages/Account.vue:66
+msgid "marvin@wizarr.dev"
+msgstr ""
+
+#: src/modules/settings/pages/Main.vue:90
 #, fuzzy
 msgid "Media Server"
 msgstr "poslužitelj"
@@ -417,19 +584,40 @@ msgstr "poslužitelj"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:173
+#: src/modules/settings/pages/Main.vue:187
 msgid "Modify the look and feel of the server"
 msgstr "Promijenite izgled i dojam poslužitelja"
 
-#: src/views/SettingsViews/DefaultView.vue:158
+#: src/modules/settings/pages/Main.vue:172
 msgid "Multi-Factor Authentication"
 msgstr "Autentikacija s više faktora"
 
-#: src/views/HelpViews/HelpView.vue:15 src/views/SetupViews/SetupView.vue:33
+#: src/components/Forms/APIKeyForm.vue:21
+#, fuzzy
+msgid "My API Key"
+msgstr "Stvorite API ključ"
+
+#: src/components/Forms/WebhookForm.vue:11
+#, fuzzy
+msgid "My Webhook"
+msgstr "Webhook ID"
+
+#: src/components/Forms/APIKeyForm.vue:17
+#: src/components/Forms/WebhookForm.vue:9
+msgid "Name"
+msgstr "Ime"
+
+#: src/components/Forms/MediaForm.vue:46 src/modules/help/views/Help.vue:15
+#: src/modules/setup/views/Setup.vue:22 src/views/SetupViews/SetupView.vue:33
 msgid "Next"
 msgstr "Sljedeći"
 
-#: src/components/InvitationList/InvitationList.vue:11
+#: src/components/APIKeyList/APIKeyList.vue:11
+#, fuzzy
+msgid "No API Keys found"
+msgstr "Vaše šifre"
+
+#: src/modules/admin/components/Lists/InvitationList.vue:11
 #, fuzzy
 msgid "No Invitations found"
 msgstr "Nema pozivnica"
@@ -439,38 +627,55 @@ msgstr "Nema pozivnica"
 msgid "No Passkeys found"
 msgstr "Vaše šifre"
 
-#: src/components/ScanServers/ScanServers.vue:15
+#: src/modules/settings/components/ScanServers/ScanServers.vue:15
 msgid "No servers could be found."
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:26
+#: src/modules/settings/pages/Main.vue:26
 msgid "No settings matched your search."
 msgstr "Nijedna postavka ne odgovara vašem pretraživanju."
 
-#: src/views/SettingsViews/DefaultView.vue:111
+#: src/modules/admin/components/Lists/SimpleUserList.vue:8
+#: src/modules/admin/components/Lists/UserList.vue:11
+#, fuzzy
+msgid "No Users found"
+msgstr "Vaše šifre"
+
+#: src/components/WebhookList/WebhookList.vue:11
+#, fuzzy
+msgid "No Webhooks found"
+msgstr "Webhook token"
+
+#: src/modules/settings/pages/Main.vue:123
 #, fuzzy
 msgid "Notifications"
 msgstr "Usluga obavijesti"
 
-#: src/views/SettingsViews/DefaultView.vue:195
+#: src/modules/settings/pages/Main.vue:211
 #, fuzzy
 msgid "OAuth Integration"
 msgstr "Izradite pozivnicu"
 
-#: src/views/HelpViews/JellyfinViews/DownloadView.vue:47
+#: src/modules/help/components/Jellyfin/Download.vue:47
 msgid "Open Jellyfin"
 msgstr "Otvori Jellyfin"
 
-#: src/views/HelpViews/PlexViews/DownloadView.vue:17
+#: src/modules/help/components/Plex/Download.vue:17
 #, fuzzy
 msgid "Open Plex"
 msgstr "Otvoren"
 
-#: src/views/SettingsViews/DefaultView.vue:139
+#: src/modules/settings/pages/Backup.vue:125
+#: src/modules/settings/pages/Backup.vue:57
+#: src/modules/settings/pages/Main.vue:152
 msgid "Password"
 msgstr "Lozinka"
 
-#: src/views/HelpViews/JellyfinViews/DownloadView.vue:16
+#: src/modules/settings/pages/Main.vue:117
+msgid "Payments"
+msgstr ""
+
+#: src/modules/help/components/Jellyfin/Download.vue:16
 #, fuzzy
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
@@ -478,18 +683,53 @@ msgid ""
 msgstr ""
 "Planirate gledati filmove na ovom uređaju? Preuzmite Jellyfin za ovaj uređaj."
 
-#: src/views/HelpViews/PlexViews/DownloadView.vue:10
+#: src/modules/help/components/Plex/Download.vue:10
 msgid ""
 "Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
 "Planirate gledati filmove na ovom uređaju? Preuzmite Plex za ovaj uređaj."
 
-#: src/views/JoinViews/PlexViews/PlexSetupView.vue:3
+#: src/modules/settings/pages/Backup.vue:45
+#: src/modules/settings/pages/Backup.vue:46
+msgid ""
+"Please bare in mind that these tools are only for debugging purposes and we "
+"will not provide you with support from any issues that may arise from using "
+"them."
+msgstr ""
+
+#: src/components/Forms/MediaForm.vue:118
+#, fuzzy
+msgid "Please enter a server URL and API key."
+msgstr "Molim te pokušaj ponovno"
+
+#: src/components/Forms/MediaForm.vue:102
+#, fuzzy
+msgid "Please enter a server URL."
+msgstr "Molim te pokušaj ponovno"
+
+#: src/modules/join/pages/JoinForm.vue:23
+#, fuzzy
+msgid "Please enter an invite code"
+msgstr "Molim te pokušaj ponovno"
+
+#: src/modules/join/views/Join.vue:52
+#, fuzzy
+msgid "Please enter your invite code"
+msgstr "Molimo unesite svoje korisničko ime"
+
+#: src/modules/join/pages/Plex/Signup.vue:3
 msgid "Please login to your Plex account to help us connect you to our server."
 msgstr ""
 
+#: src/components/Forms/APIKeyForm.vue:11
+msgid ""
+"Please take a copy your API key. You will not be able to see it again, "
+"please make sure to store it somewhere safe."
+msgstr ""
+
 #: src/components/Loading/FullPageLoading.vue:109
-#: src/views/JoinViews/CarouselView.vue:35
+#: src/modules/core/components/Carousel.vue:33
+#: src/modules/join/views/Join.vue:74
 #, fuzzy
 msgid "Please wait..."
 msgstr "Molimo pričekajte"
@@ -498,73 +738,136 @@ msgstr "Molimo pričekajte"
 msgid "Preparing the spells..."
 msgstr ""
 
-#: src/views/LoginViews/MFAView.vue:9
+#: src/modules/authentication/components/PasskeyForm.vue:9
 msgid "Press the button below and follow your browser's steps to login"
 msgstr "Pritisnite donji gumb i slijedite korake preglednika za prijavu"
 
-#: src/views/SettingsViews/DefaultView.vue:133
+#: src/modules/settings/pages/Main.vue:145
 msgid "Profile"
 msgstr "Profil"
 
-#: src/views/DefaultViews/HomeView.vue:16
+#: src/modules/home/views/Home.vue:16
 msgid "Request Access"
 msgstr "Zatraži pristup"
 
-#: src/views/SettingsViews/DefaultView.vue:96
+#: src/modules/settings/pages/Main.vue:96
 #, fuzzy
 msgid "Requests"
 msgstr "Poslužitelj zahtjeva"
 
-#: src/views/SetupViews/RestoreView.vue:7
+#: src/components/Dashboard/Dashboard.vue:12
+#, fuzzy
+msgid "Reset Layout"
+msgstr "Resetiranje lozinke"
+
+#: src/modules/settings/pages/Backup.vue:24
+#, fuzzy
+msgid "Restore"
+msgstr "Stvorite račun"
+
+#: src/modules/setup/pages/Restore.vue:7 src/views/SetupViews/RestoreView.vue:7
 msgid ""
 "Restore a backup of your database and configuration from a backup file. You "
 "will need to provide the encryption password that was used to create the "
 "backup"
 msgstr ""
 
+#: src/modules/settings/pages/Backup.vue:27
+msgid ""
+"Restore a backup of your database and configuration from a backup file. You "
+"will need to provide the encryption password that was used to create the "
+"backup."
+msgstr ""
+
+#: src/modules/setup/pages/Restore.vue:4
 #: src/views/SetupViews/RestoreView.vue:20
 #: src/views/SetupViews/RestoreView.vue:4
 #, fuzzy
 msgid "Restore Backup"
 msgstr "Stvorite račun"
 
+#: src/modules/settings/pages/Account.vue:7
+#, fuzzy
+msgid "Save Account"
+msgstr "Napravi račun"
+
+#: src/components/Forms/MediaForm.vue:41
+#, fuzzy
+msgid "Save Connection"
+msgstr "Testirajte vezu"
+
+#: src/modules/admin/pages/Home.vue:5
+#, fuzzy
+msgid "Save Dashboard"
+msgstr "Lozinka"
+
 #: src/components/Modals/ServerURLModal.vue:8
 #, fuzzy
 msgid "Save URL"
 msgstr "URL poslužitelja"
 
-#: src/views/AdminViews/UsersView.vue:10
+#: src/components/Forms/MediaForm.vue:25 src/components/Forms/MediaForm.vue:84
+#, fuzzy
+msgid "Scan Libraries"
+msgstr "Odaberite Knjižnice"
+
+#: src/components/Forms/MediaForm.vue:30
+#, fuzzy
+msgid "Scan Servers"
+msgstr "Skeniraj korisnike"
+
+#: src/modules/admin/pages/Users.vue:5
 msgid "Scan Users"
 msgstr "Skeniraj korisnike"
 
-#: src/components/Modals/ScanLibrariesModal.vue:8
+#: src/components/Forms/MediaForm.vue:87
 msgid "Select Libraries"
 msgstr "Odaberite Knjižnice"
 
-#: src/views/HelpViews/JellyfinViews/DownloadView.vue:24
+#: src/components/Forms/MediaForm.vue:33
+#, fuzzy
+msgid "Server API Key"
+msgstr "API ključ poslužitelja zahtjeva"
+
+#: src/components/Forms/MediaForm.vue:127
+#, fuzzy
+msgid "Server connection verified!"
+msgstr "Veza nije uspjela!"
+
+#: src/components/Forms/MediaForm.vue:11
+msgid "Server Display Name"
+msgstr "Ime poslužitelja za prikaz"
+
+#: src/components/Forms/MediaForm.vue:40
+#, fuzzy
+msgid "Server Type"
+msgstr "poslužitelj"
+
+#: src/components/Forms/MediaForm.vue:17
+#: src/modules/help/components/Jellyfin/Download.vue:24
 #, fuzzy
 msgid "Server URL"
 msgstr "Prikaži URL poslužitelja"
 
-#: src/views/SettingsViews/DefaultView.vue:145
+#: src/modules/settings/pages/Main.vue:159
 #, fuzzy
 msgid "Sessions"
 msgstr "Verzija"
 
-#: src/components/NavBars/AdminNavBar.vue:85
+#: src/components/NavBars/AdminNavBar.vue:89
 msgid "Settings"
 msgstr "postavke"
 
-#: src/views/SettingsViews/DefaultView.vue:129
+#: src/modules/settings/pages/Main.vue:141
 #, fuzzy
 msgid "Settings for user accounts"
 msgstr "Postavljanje vašeg računa"
 
-#: src/views/SetupViews/SetupView.vue:4
+#: src/modules/setup/views/Setup.vue:5 src/views/SetupViews/SetupView.vue:4
 msgid "Setup Wizarr"
 msgstr "Čarobnjak za instaliranje"
 
-#: src/views/JoinViews/CarouselView.vue:18
+#: src/modules/join/views/Join.vue:66
 #, fuzzy
 msgid "Setup your account"
 msgstr "Postavljanje vašeg računa"
@@ -573,11 +876,11 @@ msgstr "Postavljanje vašeg računa"
 msgid "Share"
 msgstr "Udio"
 
-#: src/views/HelpViews/PlexViews/WelcomeView.vue:11
+#: src/modules/help/components/Plex/Welcome.vue:11
 msgid "So let's see how to get started!"
 msgstr "Pa da vidimo kako započeti!"
 
-#: src/views/HelpViews/PlexViews/DownloadView.vue:7
+#: src/modules/help/components/Plex/Download.vue:7
 msgid ""
 "So you now have access to our server's media collection. Let's make sure you "
 "know how to use it with Plex."
@@ -585,99 +888,153 @@ msgstr ""
 "Dakle, sada imate pristup zbirci medija našeg poslužitelja. Hajdemo "
 "provjeriti znate li ga koristiti s Plexom."
 
-#: src/views/JoinViews/CarouselView.vue:125
+#: src/modules/join/views/Join.vue:90
 #, fuzzy
 msgid ""
 "Something went wrong while trying to join the server. Please try again later."
 msgstr "Nešto nije u redu. Molimo pokušajte ponovo kasnije."
 
-#: src/views/DefaultViews/NotFoundView.vue:13
+#: src/modules/core/views/NotFound.vue:13
 msgid "Something's missing."
 msgstr "Nešto nedostaje."
 
-#: src/views/DefaultViews/NotFoundView.vue:14
+#: src/modules/core/views/NotFound.vue:14
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
 msgstr "Nažalost, ne možemo pronaći tu stranicu. Čini se da ne postoji!"
 
-#: src/views/SettingsViews/DefaultView.vue:151
+#: src/modules/settings/pages/Main.vue:165
 #, fuzzy
 msgid "SSO Login"
 msgstr "Prijaviti se"
+
+#: src/modules/join/pages/Complete.vue:7
+msgid "Start Walkthrough"
+msgstr ""
 
 #: src/components/Loading/FullPageLoading.vue:109
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:208
+#: src/modules/settings/pages/Main.vue:224
 #, fuzzy
 msgid "Tasks"
 msgstr "Pokreni zadatak"
 
+#: src/modules/setup/pages/Database.vue:9
 #: src/views/SetupViews/DatabaseView.vue:8
 msgid ""
 "This is a temporary and we are working on adding support for other databases."
 msgstr ""
 "Ovo je privremeno i radimo na dodavanju podrške za druge baze podataka."
 
+#: src/modules/settings/pages/Backup.vue:41
+msgid "To decrypt and encrypt backup files you can use the tools"
+msgstr ""
+
+#: src/widgets/default/InvitesTotal.vue:2
+#, fuzzy
+msgid "Total Invitations"
+msgstr "Pozivnice"
+
+#: src/widgets/default/TasksTotal.vue:2
+#, fuzzy
+msgid "Total Tasks"
+msgstr "Pokreni zadatak"
+
+#: src/widgets/default/UsersTotal.vue:2
+#, fuzzy
+msgid "Total Users"
+msgstr "Skeniraj korisnike"
+
 #: src/components/Forms/InviteForm.vue:58
 #: src/components/Modals/ScanServersModal.vue:8
 msgid "Try Again"
 msgstr ""
 
-#: src/views/JoinViews/CarouselView.vue:5 src/views/JoinViews/JoinView.vue:5
+#: src/modules/join/views/Join.vue:5
 #, fuzzy
 msgid "Type in your invite code to %{server_name} server!"
 msgstr "Upišite svoj pozivni kod na %(name)s poslužitelj!"
 
-#: src/views/JoinViews/CarouselView.vue:124
-#: src/views/JoinViews/CarouselView.vue:158
-#: src/views/JoinViews/CarouselView.vue:191
-#: src/views/JoinViews/CarouselView.vue:196
-#: src/views/JoinViews/CarouselView.vue:219
-#: src/views/JoinViews/CarouselView.vue:224
-#: src/views/JoinViews/CarouselView.vue:238
-#: src/views/JoinViews/CarouselView.vue:239
+#: src/modules/join/views/Join.vue:120 src/modules/join/views/Join.vue:134
+#: src/modules/join/views/Join.vue:139 src/modules/join/views/Join.vue:156
+#: src/modules/join/views/Join.vue:161 src/modules/join/views/Join.vue:172
+#: src/modules/join/views/Join.vue:173 src/modules/join/views/Join.vue:89
 msgid "Uh oh!"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:172
+#: src/modules/settings/pages/Main.vue:186
 #, fuzzy
 msgid "UI Settings"
 msgstr "postavke"
 
-#: src/views/SettingsViews/DefaultView.vue:214
+#: src/components/Forms/MediaForm.vue:105
+#, fuzzy
+msgid "Unable to detect server."
+msgstr "Nije moguće ažurirati biblioteke"
+
+#: src/components/Forms/MediaForm.vue:138
+msgid "Unable to save connection."
+msgstr ""
+
+#: src/components/Forms/MediaForm.vue:121
+msgid "Unable to verify server."
+msgstr ""
+
+#: src/modules/settings/pages/Main.vue:230
 #, fuzzy
 msgid "Updates"
 msgstr "Ažuriraj"
 
-#: src/views/LoginViews/MFAView.vue:6
+#: src/components/Forms/WebhookForm.vue:13
+msgid "URL"
+msgstr ""
+
+#: src/modules/authentication/components/PasskeyForm.vue:6
 msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
 msgstr ""
 "Koristite svoj otisak prsta ili prepoznavanje lica da potvrdite svoj "
 "identitet"
 
-#: src/components/NavBars/AdminNavBar.vue:81
+#: src/modules/admin/components/ListItems/UserItem.vue:99
+msgid "User %{user} deleted"
+msgstr ""
+
+#: src/modules/admin/components/ListItems/UserItem.vue:101
+msgid "User deletion cancelled"
+msgstr ""
+
+#: src/modules/settings/pages/Account.vue:41
+msgid "Username"
+msgstr "Korisničko ime"
+
+#: src/components/NavBars/AdminNavBar.vue:85
 msgid "Users"
 msgstr "Korisnici"
+
+#: src/components/Forms/MediaForm.vue:36
+#, fuzzy
+msgid "Verify Connection"
+msgstr "Testirajte vezu"
 
 #: src/components/ChangeLogs/ChangeLogItem.vue:13
 msgid "View"
 msgstr ""
 
-#: src/views/SettingsViews/DefaultView.vue:203
+#: src/modules/settings/pages/Main.vue:219
 msgid "View and download server logs"
 msgstr "Pregledajte i preuzmite zapisnike poslužitelja"
 
-#: src/views/SettingsViews/DefaultView.vue:209
+#: src/modules/settings/pages/Main.vue:225
 msgid "View and manage scheduled tasks"
 msgstr "Pregledajte zakazane zadatke i upravljajte njima"
 
-#: src/views/SettingsViews/DefaultView.vue:146
+#: src/modules/settings/pages/Main.vue:160
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "Upravljajte svojim pozivnicama"
 
-#: src/views/SettingsViews/DefaultView.vue:228
+#: src/modules/settings/pages/Main.vue:244
 msgid "View information about the server"
 msgstr "Pogledajte informacije o poslužitelju"
 
@@ -695,11 +1052,25 @@ msgstr ""
 "njegove moćne značajke i intuitivno sučelje. Ako trebate bilo kakvu pomoć, "
 "pogledajte našu dokumentaciju ili se obratite našoj zajednici za podršku."
 
-#: src/views/SetupViews/WelcomeView.vue:3
+#: src/components/WebhookList/WebhookItem.vue:53
+#, fuzzy
+msgid "Webhook deleted successfully"
+msgstr "Sesija je uspješno izbrisana!"
+
+#: src/components/WebhookList/WebhookItem.vue:55
+msgid "Webhook deletion cancelled"
+msgstr ""
+
+#: src/modules/settings/pages/Main.vue:111
+#, fuzzy
+msgid "Webhooks"
+msgstr "Webhook ID"
+
+#: src/modules/setup/pages/Welcome.vue:5 src/views/SetupViews/WelcomeView.vue:3
 msgid "Welcome to Wizarr"
 msgstr "Dobrodošli u Wizarr"
 
-#: src/views/HelpViews/PlexViews/WelcomeView.vue:8
+#: src/modules/help/components/Plex/Welcome.vue:8
 msgid ""
 "With Plex, you'll have access to all of the movies, TV shows, music, and "
 "photos that are stored on their server!"
@@ -711,7 +1082,7 @@ msgstr ""
 msgid "Wizarr"
 msgstr "Wizarr"
 
-#: src/views/DefaultViews/HomeView.vue:10
+#: src/modules/home/views/Home.vue:10
 #, fuzzy
 msgid ""
 "Wizarr is a software tool that provides advanced user invitation and "
@@ -738,11 +1109,12 @@ msgstr ""
 "pruža smjernice za preuzimanje klijenata i upute za korištenje Jellyseerr, "
 "Overseerr ili Ombi stranice."
 
+#: src/modules/setup/pages/Complete.vue:7
 #: src/views/SetupViews/CompleteView.vue:6
 msgid "You have successfully completed the setup process."
 msgstr "Uspješno ste završili proces postavljanja."
 
-#: src/views/JoinViews/CompleteView.vue:4
+#: src/modules/join/pages/Complete.vue:4
 #, fuzzy
 msgid ""
 "You're all set, click continue to get started and walkthrough how to use "
@@ -750,14 +1122,25 @@ msgid ""
 msgstr ""
 "Sve je spremno, kliknite Nastavi za početak i upute za korištenje Plexa!"
 
-#: src/views/JoinViews/CarouselView.vue:24
-#, fuzzy
-msgid "Your account has been created!"
-msgstr "Pozivnica je stvorena"
-
+#: src/modules/setup/pages/Complete.vue:4
 #: src/views/SetupViews/CompleteView.vue:3
 msgid "Your Done"
 msgstr "Gotovo"
+
+#~ msgid "Create account"
+#~ msgstr "Napravi račun"
+
+#, fuzzy
+#~ msgid "Create an invitation to your server"
+#~ msgstr "Napravite pozivnicu za svoj poslužitelj."
+
+#, fuzzy
+#~ msgid "Invalid Invite!"
+#~ msgstr "Nevažeća pozivnica"
+
+#, fuzzy
+#~ msgid "Your account has been created!"
+#~ msgstr "Pozivnica je stvorena"
 
 #~ msgid "1 Day"
 #~ msgstr "1 dan"
@@ -829,10 +1212,6 @@ msgstr "Gotovo"
 #, fuzzy
 #~ msgid "Connection Error"
 #~ msgstr "Pridružite se Plex poslužitelju"
-
-#, fuzzy
-#~ msgid "Encryption Password"
-#~ msgstr "Zaboravili ste lozinku"
 
 #~ msgid "Stable"
 #~ msgstr "Stabilan"
@@ -915,12 +1294,6 @@ msgstr "Gotovo"
 #~ msgid "Go Back"
 #~ msgstr "Idi natrag"
 
-#~ msgid "Username"
-#~ msgstr "Korisničko ime"
-
-#~ msgid "Please enter your username"
-#~ msgstr "Molimo unesite svoje korisničko ime"
-
 #, python-format
 #~ msgid "You've been invited to join the %(name)s server!"
 #~ msgstr "Pozvani ste da se pridružite poslužitelju %(name)s!"
@@ -945,22 +1318,8 @@ msgstr "Gotovo"
 #~ msgid "Account created"
 #~ msgstr "Račun kreiran!"
 
-#~ msgid "Please try again"
-#~ msgstr "Molim te pokušaj ponovno"
-
-#~ msgid "Email"
-#~ msgstr "E-mail"
-
-#, fuzzy
-#~ msgid "Create Account"
-#~ msgstr "Napravi račun"
-
 #~ msgid "Confirm password"
 #~ msgstr "Potvrdi lozinku"
-
-#, fuzzy
-#~ msgid "Save Password"
-#~ msgstr "Lozinka"
 
 #, fuzzy
 #~ msgid ""
@@ -968,9 +1327,6 @@ msgstr "Gotovo"
 #~ "Jellyfin!"
 #~ msgstr ""
 #~ "Sve je spremno, kliknite Nastavi za početak i upute za korištenje Plexa!"
-
-#~ msgid "Something went wrong, please try again."
-#~ msgstr "Nešto nije u redu, pokušajte ponovo."
 
 #~ msgid "Retry"
 #~ msgstr "Pokušaj ponovo"
@@ -981,9 +1337,6 @@ msgstr "Gotovo"
 
 #~ msgid "Almost there!"
 #~ msgstr "Skoro tamo!"
-
-#~ msgid "All done!"
-#~ msgstr "Gotovo!"
 
 #~ msgid "Account created!"
 #~ msgstr "Račun kreiran!"
@@ -1108,9 +1461,6 @@ msgstr "Gotovo"
 #~ msgid "or"
 #~ msgstr "ili"
 
-#~ msgid "Name"
-#~ msgstr "Ime"
-
 #~ msgid "Cancel"
 #~ msgstr "Otkazati"
 
@@ -1137,9 +1487,6 @@ msgstr "Gotovo"
 
 #~ msgid "Test & Create OAuth"
 #~ msgstr "Testirajte i stvorite OAuth"
-
-#~ msgid "Create API Key"
-#~ msgstr "Stvorite API ključ"
 
 #~ msgid "Please fill out all required fields."
 #~ msgstr "Molimo ispunite sva potrebna polja."
@@ -1177,12 +1524,6 @@ msgstr "Gotovo"
 #~ msgid "Test & Create Agent"
 #~ msgstr "Testiraj i stvori agenta"
 
-#~ msgid "Webhook ID"
-#~ msgstr "Webhook ID"
-
-#~ msgid "Webhook Token"
-#~ msgstr "Webhook token"
-
 #~ msgid "User Key"
 #~ msgstr "Korisnički ključ"
 
@@ -1197,9 +1538,6 @@ msgstr "Gotovo"
 
 #~ msgid "Warning"
 #~ msgstr "Upozorenje"
-
-#~ msgid "Are you sure you want to delete this api key?"
-#~ msgstr "Jeste li sigurni da želite izbrisati ovaj API ključ?"
 
 #~ msgid "Delete"
 #~ msgstr "Izbrisati"
@@ -1216,14 +1554,8 @@ msgstr "Gotovo"
 #~ msgid "Something went wrong.Please try again."
 #~ msgstr "Nešto nije u redu. Pokušajte ponovo."
 
-#~ msgid "Session deleted successfully!"
-#~ msgstr "Sesija je uspješno izbrisana!"
-
 #~ msgid "Run Task"
 #~ msgstr "Pokreni zadatak"
-
-#~ msgid "Are you sure you want to run this task?"
-#~ msgstr "Jeste li sigurni da želite pokrenuti ovaj zadatak?"
 
 #~ msgid "Task has been run."
 #~ msgstr "Zadatak je pokrenut."
@@ -1233,9 +1565,6 @@ msgstr "Gotovo"
 
 #~ msgid "Update Libraries"
 #~ msgstr "Ažurirajte knjižnice"
-
-#~ msgid "Unable to update libraries"
-#~ msgstr "Nije moguće ažurirati biblioteke"
 
 #~ msgid "My Account"
 #~ msgstr "Moj račun"
@@ -1261,16 +1590,6 @@ msgstr "Gotovo"
 #~ msgid "Select Language"
 #~ msgstr "Izaberi jezik"
 
-#~ msgid "Server Display Name"
-#~ msgstr "Ime poslužitelja za prikaz"
-
-#, fuzzy
-#~ msgid "Detect Server"
-#~ msgstr "Poslužitelj zahtjeva"
-
-#~ msgid "Server"
-#~ msgstr "poslužitelj"
-
 #~ msgid "Choose a server"
 #~ msgstr "Odaberite poslužitelj"
 
@@ -1281,18 +1600,12 @@ msgstr "Gotovo"
 #~ msgid "Configure Libraries"
 #~ msgstr "Skeniraj knjižnice"
 
-#~ msgid "Test Connection"
-#~ msgstr "Testirajte vezu"
-
 #~ msgid "Server not detected!"
 #~ msgstr "Poslužitelj nije otkriven!"
 
 #, fuzzy
 #~ msgid "server detected!"
 #~ msgstr "Postavke poslužitelja"
-
-#~ msgid "Connection failed!"
-#~ msgstr "Veza nije uspjela!"
 
 #~ msgid "Connection successful, saving settings!"
 #~ msgstr "Povezivanje uspješno, spremanje postavki!"
@@ -1306,9 +1619,6 @@ msgstr "Gotovo"
 
 #~ msgid "Confirm Password"
 #~ msgstr "Potvrdi lozinku"
-
-#~ msgid "Reset Password"
-#~ msgstr "Resetiranje lozinke"
 
 #~ msgid "Display Name"
 #~ msgstr "Ime za prikaz"
@@ -1327,9 +1637,6 @@ msgstr "Gotovo"
 
 #~ msgid "Request Server URL"
 #~ msgstr "URL poslužitelja zahtjeva"
-
-#~ msgid "Request Server API Key"
-#~ msgstr "API ključ poslužitelja zahtjeva"
 
 #~ msgid "Revoke All"
 #~ msgstr "Opozovi sve"
