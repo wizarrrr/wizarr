@@ -1,9 +1,0 @@
-<div class="flex justify-center bg-gray-100 dark:bg-gray-800 p-5 rounded" style="margin-top: 100px;">
-    <button onclick="DEADFUNC()" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-primary_hover">TEST REPLAY</button>
-</div>
-<script>
-DEADFUNC = function() {
-    window.__SENTRY__.logger.debug('TEST REPLAY');
-    throw new Error('TEST REPLAY');
-}
-</script>
