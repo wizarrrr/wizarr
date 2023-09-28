@@ -69,10 +69,5 @@ export default defineComponent({
             this.buttonDisabled = false;
         },
     },
-    mounted() {
-        console.log("this.context", this.context);
-        console.log("this.context", this.context.classes.input.split(" "));
-        console.log("this.context", this.inputClasses);
-    },
 });
 </script>

@@ -37,8 +37,6 @@ export default defineComponent({
 
         this.offlineReady = offlineReady.value;
         this.needRefresh = needRefresh.value;
-
-        console.log(this.pwaInfo);
     },
     watch: {
         offlineReady: {
