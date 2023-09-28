@@ -5,9 +5,6 @@ from app.extensions import schedule
 from app.security import server_verified
 
 schedule.start()
-@schedule.task("interval", id="test", minutes=1, misfire_grace_time=900)
-def test():
-    print("test")
 
 # Scheduled tasks
 @schedule.task("interval", id="checkExpiringUsers", minutes=30, misfire_grace_time=900)

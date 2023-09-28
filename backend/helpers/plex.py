@@ -6,7 +6,8 @@ from io import BytesIO
 from plexapi.myplex import PlexServer, LibrarySection, MyPlexUser, MyPlexAccount, NotFound
 from logging import info
 
-from .invitation import get_invitation
+from app.models.database import Invitations
+
 from .libraries import get_libraries_name
 from .settings import get_media_settings
 from .users import get_users, create_user
@@ -101,7 +102,7 @@ def invite_plex_user(code: str, token: str, server_api_key: Optional[str] = None
     plex = get_plex_server(server_api_key=server_api_key, server_url=server_url)
 
     # Get Invitation from Database
-    invitation = get_invitation(code)
+    invitation = Invitations.get_or_none(Invitations.code == code)
 
     # Get libraries from invitation
     sections = (

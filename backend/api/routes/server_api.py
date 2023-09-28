@@ -21,7 +21,6 @@ class Server(Resource):
         """Get the details of the server"""
         from app import app
         from app.security import is_setup_required
-        from app.globals import create_globals
         from helpers.settings import get_settings
 
         resp = {

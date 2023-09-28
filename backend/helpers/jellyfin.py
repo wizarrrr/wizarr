@@ -4,7 +4,8 @@ from requests import RequestException, get, post, delete
 from logging import info
 from io import BytesIO
 
-from .invitation import get_invitation
+from app.models.database import Invitations
+
 from .libraries import get_libraries_ids
 from .settings import get_media_settings
 from .users import get_users, create_user, get_user_by_token
@@ -245,7 +246,7 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
     """
 
     # Get Invitation from Database
-    invitation = get_invitation(code)
+    invitation = Invitations.get_or_none(Invitations.code == code)
 
     # Get libraries from invitation
     sections = (

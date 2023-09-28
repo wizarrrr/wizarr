@@ -2,7 +2,6 @@ from flask import request
 from flask_jwt_extended import jwt_required, current_user
 from flask_restx import Namespace, Resource
 
-from helpers.api import convert_to_form
 from helpers.accounts import create_account, get_accounts, get_account_by_id, delete_account, update_account
 
 from api.models.accounts import AccountsGET, AccountsPOST
@@ -20,7 +19,7 @@ api.add_model("AccountsPOST", AccountsPOST)
 class AccountsListAPI(Resource):
     """API resource for all accounts"""
 
-    method_decorators = [jwt_required(), convert_to_form()]
+    method_decorators = [jwt_required()]
 
     @api.marshal_list_with(AccountsGET)
     @api.doc(description="Get all accounts")
@@ -57,7 +56,7 @@ class AccountsListAPI(Resource):
 class AccountsAPI(Resource):
     """API resource for a single account"""
 
-    method_decorators = [jwt_required(), convert_to_form()]
+    method_decorators = [jwt_required()]
 
     @api.marshal_with(AccountsGET)
     @api.doc(description="Get an account")

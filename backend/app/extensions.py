@@ -1,6 +1,4 @@
 from flask_session import Session
-from flask_htmx import HTMX
-from flask_babel import Babel
 from flask_jwt_extended import JWTManager
 from flask_caching import Cache
 from flask_restx import Api
@@ -12,11 +10,9 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from pytz import utc
 
 sess = Session()
-htmx = HTMX()
 jwt = JWTManager()
 cache = Cache()
 api = Api()
 schedule = APScheduler(scheduler=BackgroundScheduler(timezone=utc))
 socketio = SocketIO(log_output=False)
-babel = Babel()
 oauth = OAuth()

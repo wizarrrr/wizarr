@@ -1,19 +1,12 @@
-from os import getenv, environ
-
 from dotenv import load_dotenv
 from flask import Flask
-# from sentry_sdk.integrations.flask import FlaskIntegration
-# from sentry_sdk.integrations.asyncio import AsyncioIntegration
-# from sentry_sdk import init as sentry_init
 
 from api import *
-from migrations import migrate
 
 from .config import create_config
 from .extensions import *
 from .models.database import *
 from .security import *
-from .utils.babel_locale import get_locale
 from .utils.clear_logs import clear_logs
 
 BASE_DIR = path.abspath(path.dirname(__file__))
@@ -23,22 +16,6 @@ load_dotenv()
 
 # Create the app
 app = Flask(__name__)
-
-# Initialize Sentry
-# sentry_init(
-#     dsn="https://95cc1c69bfea93ce8502e26b519cd318@o4505748808400896.ingest.sentry.io/4505748886716416",
-#     integrations=[
-#         FlaskIntegration(),
-#         AsyncioIntegration()
-#     ],
-#     profiles_sample_rate=1.0,
-#     traces_sample_rate=1.0,
-#     environment="development" if app.debug else "production"
-# )
-
-# Run database migrations scripts
-if not app.debug or getenv("MIGRATE"):
-    migrate()
 
 app.config.update(**create_config(app))
 schedule.authenticate(lambda auth: auth is not None)
@@ -52,18 +29,10 @@ schedule.init_app(app)
 socketio.init_app(app, async_mode="gevent" if app.config["GUNICORN"] else "threading", cors_allowed_origins="*", async_handlers=True)
 oauth.init_app(app)
 
-@socketio.on("ping")
-def ping():
-    socketio.emit("pong")
-
 # Clear cache on startup
 with app.app_context():
     cache.clear()
     clear_logs()
-
-# Register Flask blueprints
-# app.after_request(refresh_expiring_jwts)
-# app.before_request(check_enviroment)
 
 # Register Flask JWT callbacks
 jwt.token_in_blocklist_loader(check_if_token_revoked)

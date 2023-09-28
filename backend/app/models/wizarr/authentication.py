@@ -1,19 +1,21 @@
 from datetime import datetime, timedelta
 from logging import info
 
-from flask import request, current_app, jsonify
-from flask_jwt_extended import verify_jwt_in_request, get_jwt, decode_token, get_jwt_identity, create_access_token, create_refresh_token, get_jti, set_access_cookies as set_access_cookies_jwt, unset_access_cookies as unset_access_cookies_jwt
-
+from flask import current_app, jsonify, request
+from flask_jwt_extended import (create_access_token, create_refresh_token,
+                                decode_token, get_jti, get_jwt,
+                                get_jwt_identity)
+from flask_jwt_extended import set_access_cookies as set_access_cookies_jwt
+from flask_jwt_extended import unset_access_cookies as unset_access_cookies_jwt
+from flask_jwt_extended import verify_jwt_in_request
 from playhouse.shortcuts import model_to_dict
-from werkzeug.security import check_password_hash, generate_password_hash
-
 from schematics.exceptions import DataError, ValidationError
 from schematics.models import Model
 from schematics.types import BooleanType, StringType
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.models.database.accounts import Accounts
 from app.models.database.sessions import Sessions
-
 from app.models.wizarr.accounts import AccountsModel
 
 
@@ -176,31 +178,15 @@ class AuthenticationModel(Model):
         return self._user
 
 
-    # ANCHOR - Get Token from Cookie
-    # @staticmethod
-    # def get_token_from_cookie():
-    #     # Check if the current_app is set
-    #     if not current_app:
-    #         raise RuntimeError("Must be called from within a flask route")
-
-    #     # Get the token
-    #     token = request.cookies.get("access_token_cookie", None)
-
-    #     # Check if the token exists
-    #     if token is None:
-    #         raise ValidationError("Invalid Token")
-
-    #     return token
-
-
     # ANCHOR - Destroy Session
     @staticmethod
     def destroy_session():
         # Get the token
         token = get_jwt()
+        jti = token["jti"]
 
         # Delete the session from the database
-        session: Sessions = Sessions.get(Sessions.session == token["jti"])
+        session = Sessions.get_or_none((Sessions.access_jti == jti) | (Sessions.refresh_jti == jti))
 
         # Delete the session
         session.delete_instance()

@@ -1,11 +1,7 @@
-from datetime import datetime, timedelta, timezone
-from logging import info
 from os import mkdir, path
 from secrets import token_hex
 from flask import request
-from flask_jwt_extended import (create_access_token, get_jti, get_jwt,
-                                get_jwt_identity, set_access_cookies,
-                                verify_jwt_in_request)
+from flask_jwt_extended import verify_jwt_in_request
 from playhouse.shortcuts import model_to_dict
 
 from app.models.database import Sessions, Settings, Accounts, APIKeys

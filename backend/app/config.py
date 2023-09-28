@@ -3,9 +3,7 @@ from os import environ, getenv, path
 
 from flask import Flask
 
-from app.utils.get_languages import get_languages
 from app.security import secret_key, SchedulerAuth
-from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 
 def create_config(app: Flask):
     config = {}
