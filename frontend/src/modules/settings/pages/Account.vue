@@ -1,6 +1,8 @@
 <template>
     <div class="flex flex-col">
-        <FormKit type="form" @submit="saveAccount" :submit-label="__('Save Account')" :submit-attrs="{ wrapperClass: 'flex justify-end' }">
+        <span class="border border-yellow-500 rounded p-2 text-yellow-500 text-xs text-center">{{ __("This page is currently read only!") }}</span>
+        <br />
+        <FormKit type="form" :disabled="true" @submit="saveAccount" :submit-label="__('Save Account')" :submit-attrs="{ wrapperClass: 'flex justify-end' }">
             <!-- Name -->
             <div class="flex flex-row flex-wrap gap-2">
                 <FormKit type="text" name="firstName" :value="firstName" :label="__('First name')" :placeholder="__('Marvin')" :classes="{ outer: 'flex-grow' }" />

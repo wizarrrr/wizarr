@@ -98,7 +98,6 @@ export default defineComponent({
                             roles: ["moderator"],
                             icon: "fas fa-link",
                             url: "/admin/settings/requests",
-                            disabled: true,
                         },
                         {
                             title: this.__("API keys"),
@@ -118,6 +117,7 @@ export default defineComponent({
                             description: this.__("Configure payment settings"),
                             icon: "fas fa-dollar-sign",
                             url: "/admin/settings/payments",
+                            disabled: true,
                         },
                         {
                             title: this.__("Notifications"),
@@ -142,11 +142,10 @@ export default defineComponent({
                     roles: ["moderator", "user"],
                     pages: [
                         {
-                            title: this.__("Profile"),
-                            description: this.__("Configure your profile settings"),
+                            title: this.__("Account"),
+                            description: this.__("Configure your account settings"),
                             icon: "fas fa-user-circle",
-                            url: "/admin/settings/profile",
-                            disabled: true,
+                            url: "/admin/settings/account",
                         },
                         {
                             title: this.__("Password"),
@@ -160,13 +159,6 @@ export default defineComponent({
                             description: this.__("View and manage your active sessions"),
                             icon: "fas fa-desktop",
                             url: "/admin/settings/sessions",
-                        },
-                        {
-                            title: this.__("SSO Login"),
-                            description: this.__("Configure SSO login"),
-                            icon: "fas fa-user-shield",
-                            url: "/admin/settings/sso",
-                            disabled: true,
                         },
                         {
                             title: this.__("Multi-Factor Authentication"),
@@ -207,13 +199,6 @@ export default defineComponent({
                     title: this.__("Advanced Settings"),
                     description: this.__("Advanced settings for the server"),
                     pages: [
-                        {
-                            title: this.__("OAuth Integration"),
-                            description: this.__("Configure OAuth integration"),
-                            icon: "fas fa-user-lock",
-                            url: "/admin/settings/oauth",
-                            disabled: true,
-                        },
                         {
                             title: this.__("Logs"),
                             description: this.__("View and download server logs"),
