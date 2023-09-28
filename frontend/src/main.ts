@@ -4,6 +4,7 @@ import Axios, { piniaPluginAxios } from "./plugins/axios";
 import Filters, { piniaPluginFilters } from "./plugins/filters";
 import Socket, { piniaPluginSocketIO } from "./plugins/socket";
 import Toast, { piniaPluginToast } from "./plugins/toasts";
+import WebShare, { piniaPluginWebShare } from "./plugins/webshare";
 import { defaultConfig, plugin } from "@formkit/vue";
 
 import Analytics from "./plugins/analytics";
@@ -47,12 +48,14 @@ app.use(Filters);
 app.use(Sentry);
 app.use(Analytics);
 app.use(Modal);
+app.use(WebShare);
 
 pinia.use(piniaPluginPersistedstate);
 pinia.use(piniaPluginToast);
 pinia.use(piniaPluginAxios);
 pinia.use(piniaPluginSocketIO);
 pinia.use(piniaPluginFilters);
+pinia.use(piniaPluginWebShare);
 
 app.mount("#app");
 

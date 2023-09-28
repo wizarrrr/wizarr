@@ -14,6 +14,12 @@ const children: RouteRecordRaw[] = [
         meta: { header: "Manage Media", subheader: "Configure media server" },
     },
     {
+        path: "requests",
+        name: "admin-settings-requests",
+        component: () => import("../pages/Requests.vue"),
+        meta: { header: "Manage Requests", subheader: "Configure request server" },
+    },
+    {
         path: "apikeys",
         name: "admin-settings-apikeys",
         component: () => import("../pages/APIKeys.vue"),
