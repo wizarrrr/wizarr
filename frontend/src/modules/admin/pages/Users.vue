@@ -18,7 +18,7 @@ import { useThemeStore } from "@/stores/theme";
 import { mapActions, mapState } from "pinia";
 
 import AdminTemplate from "@/templates/AdminTemplate.vue";
-import UserList from "../components/Lists//UserList.vue";
+import UserList from "../components/Users/UserList/UserList.vue";
 
 export default defineComponent({
     name: "UsersView",

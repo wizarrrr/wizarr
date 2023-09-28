@@ -13,7 +13,7 @@
             </DefaultButton>
             <div v-if="!hideMFA" class="flex justify-center items-center">
                 <button type="button" @click="$emit('mfaLogin')" class="text-secondary text-sm font-medium">
-                    {{ __("Login with MFA") }}
+                    {{ __("Login with Passkey") }}
                 </button>
             </div>
         </div>
