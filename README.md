@@ -63,6 +63,10 @@ Check out our documentation for instructions on how to install and run Wizarr!<b
 https://docs.wizarr.dev/getting-started/installation
 
 
+## Default Login
+
+There is no default login, if your browser has not automatically redirected you to `/settings` then please do so manually by visiting `http://your-wizarr.local/settings` and proceed with account creation.
+
 
 
 ## Translations
