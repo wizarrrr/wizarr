@@ -16,6 +16,7 @@ from .invitations_api import api as invitations_api # REVIEW - This is almost co
 from .libraries_api import api as libraries_api
 from .notifications_api import api as notifications_api
 from .plex_api import api as plex_api
+from .requests_api import api as requests_api
 from .scan_libraries_api import api as scan_libraries_api
 from .sessions_api import api as sessions_api
 from .settings_api import api as settings_api
@@ -115,6 +116,7 @@ api.add_namespace(mfa_api)
 api.add_namespace(notifications_api)
 api.add_namespace(oauth_api)
 api.add_namespace(plex_api)
+api.add_namespace(requests_api)
 api.add_namespace(scan_libraries_api)
 api.add_namespace(server_api)
 api.add_namespace(setup_api)
