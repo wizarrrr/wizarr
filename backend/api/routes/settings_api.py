@@ -7,6 +7,12 @@ from app.models.settings import SettingsGetModel, SettingsModel, SettingsPostMod
 from app.models.database.settings import Settings
 from app.security import is_setup_required
 
+from app.models.database.libraries import Libraries
+from app.models.database.users import Users
+from app.models.database.invitations import Invitations
+from app.models.database.requests import Requests
+
+
 api = Namespace("Settings", description="Settings related operations", path="/settings")
 
 api.add_model("SettingsPostModel", SettingsPostModel)
@@ -77,6 +83,17 @@ class SettingsListAPI(Resource):
                 Settings.create(key=key, value=value)
             else:
                 Settings.update(value=value).where(Settings.key == key).execute()
+
+            if key == "server_type":
+                Libraries.delete().execute()
+                Users.delete().execute()
+                Invitations.delete().execute()
+
+                if value == "plex":
+                    Requests.delete().where(Requests.service == "jellyseerr").execute()
+                elif value == "jellyfin":
+                    Requests.delete().where(Requests.service == "overseerr").execute()
+
 
         return response, 200
 

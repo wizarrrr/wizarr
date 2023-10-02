@@ -3,7 +3,7 @@ from flask_jwt_extended import jwt_required
 from flask_restx import Namespace, Resource
 from json import loads, dumps
 
-from helpers.universal import global_sync_users, global_delete_user, global_get_user_profile_picture
+from helpers.universal import global_sync_users_to_media_server, global_delete_user_from_media_server, global_get_user_profile_picture
 from app.models.database.users import Users
 
 from app.extensions import cache
@@ -37,7 +37,7 @@ class UsersAPI(Resource):
     @api.doc(description="Delete a user from the database and media server")
     @api.response(500, "Internal server error")
     def delete(self, user_id):
-        return global_delete_user(user_id), 200
+        return global_delete_user_from_media_server(user_id), 200
 
 
 @api.route("/<string:user_id>/profile-picture")
@@ -61,5 +61,5 @@ class UsersScanAPI(Resource):
     @api.doc(description="Scan for new users")
     @api.response(500, "Internal server error")
     def get(self):
-        return global_sync_users(), 200
+        return global_sync_users_to_media_server(), 200
 

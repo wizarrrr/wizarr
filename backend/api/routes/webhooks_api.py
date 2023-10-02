@@ -24,8 +24,12 @@ class WebhooksListAPI(Resource):
     @api.response(200, "Successfully created a webhook")
     def post(self):
         """Create a webhook"""
-        webhook = Webhooks.create(name=str(request.form.get("name")), url=str(request.form.get("url")))
+
+        # Create the webhook
+        webhook = Webhooks.create(**request.form)
         webhook.created = datetime.utcnow()
+
+        # Return the webhook
         return loads(dumps(model_to_dict(webhook), indent=4, sort_keys=True, default=str)), 200
 
 @api.route("/<int:webhook_id>")

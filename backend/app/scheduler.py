@@ -13,7 +13,7 @@ def check_expiring_users():
     if not server_verified(): return
 
     # Import the function here to avoid circular imports
-    from helpers.universal import global_delete_user
+    from helpers.universal import global_delete_user_from_media_server
     from helpers.users import get_users_by_expiring
 
     # Log message to console
@@ -26,7 +26,7 @@ def check_expiring_users():
 
     # Delete all expired users
     for user in expiring:
-        global_delete_user(user.id)
+        global_delete_user_from_media_server(user.id)
         info(f"Deleting user { user.email if user.email else user.username } due to expired invite.")
 
 
@@ -54,10 +54,10 @@ def scan_users():
     if not server_verified(): return
 
     # Import the function here to avoid circular imports
-    from helpers.universal import global_sync_users
+    from helpers.universal import global_sync_users_to_media_server
 
     info("Scanning for new users")
-    global_sync_users()
+    global_sync_users_to_media_server()
 
 @schedule.task("interval", id="checkForUpdates", hours=1, misfire_grace_time=900)
 def check_for_updates():

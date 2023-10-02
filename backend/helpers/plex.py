@@ -255,12 +255,14 @@ def delete_plex_user(user_id: str, server_api_key: Optional[str] = None, server_
     try:
         plex_account.removeFriend(user_id)
     except NotFound as e:
-        print(e)
+        print("NOT IMPORTANT: ", e)
+        print("The above error is not important, it just means that the user is not a Plex Friend.")
 
     try:
         plex_account.removeHomeUser(user_id)
     except NotFound as e:
-        print(e)
+        print("NOT IMPORTANT: ", e)
+        print("The above error is not important, it just means that the user is not a Plex Home User.")
 
 
 # ANCHOR - Plex Sync Users
