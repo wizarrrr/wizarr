@@ -40,8 +40,6 @@ jwt.user_identity_loader(user_identity_lookup)
 jwt.user_lookup_loader(user_lookup_callback)
 
 from .logging import *
-from .mediarequest import *
-from .oauths import *
 from .scheduler import *
 
 if __name__ == "__main__":

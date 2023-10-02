@@ -14,7 +14,7 @@ COPY ./nginx.conf /etc/nginx/http.d/default.conf
 WORKDIR /data/backend
 RUN apk add tzdata cargo libffi-dev openssl-dev nmap tzdata
 RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt --no-compile
 
 # Setup Node Environment
 RUN apk add nodejs npm
@@ -22,7 +22,7 @@ RUN npm install -g npm@latest
 
 # Build Frontend Environment
 WORKDIR /data/frontend
-RUN npm install
+RUN npm ci --prefer-offline --no-audit
 RUN npm run build
 
 # Setup Timezone
