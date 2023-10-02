@@ -27,7 +27,7 @@ cache.init_app(app)
 api.init_app(app)
 schedule.init_app(app)
 socketio.init_app(app, async_mode="gevent" if app.config["GUNICORN"] else "threading", cors_allowed_origins="*", async_handlers=True)
-oauth.init_app(app)
+# oauth.init_app(app)
 
 # Clear cache on startup
 with app.app_context():

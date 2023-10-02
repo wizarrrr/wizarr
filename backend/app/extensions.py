@@ -4,7 +4,7 @@ from flask_caching import Cache
 from flask_restx import Api
 from flask_apscheduler import APScheduler
 from flask_socketio import SocketIO
-from flask_oauthlib.client import OAuth
+# from flask_oauthlib.client import OAuth
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from pytz import utc
@@ -15,4 +15,4 @@ cache = Cache()
 api = Api()
 schedule = APScheduler(scheduler=BackgroundScheduler(timezone=utc))
 socketio = SocketIO(log_output=False)
-oauth = OAuth()
+# oauth = OAuth()
