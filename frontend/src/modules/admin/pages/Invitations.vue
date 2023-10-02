@@ -18,14 +18,14 @@ import { useThemeStore } from "@/stores/theme";
 
 import AdminTemplate from "@/templates/AdminTemplate.vue";
 import InvitationList from "../components/Invitations/InvitationList/InvitationList.vue";
-import InviteForm from "@/components/Forms/InviteForm.vue";
+import InvitationForm from "../components/Forms/InvitationForm.vue";
 
 export default defineComponent({
     name: "InvitationView",
     components: {
         AdminTemplate,
         InvitationList,
-        InviteForm,
+        InvitationForm,
     },
     data() {
         return {
@@ -34,9 +34,14 @@ export default defineComponent({
     },
     methods: {
         openInviteModal() {
-            this.$modal.openModal(InviteForm, {
+            this.$modal.openModal(InvitationForm, {
                 title: this.__("Create Invite"),
-                disableFooter: true,
+                buttons: [
+                    {
+                        text: this.__("Create Invitation"),
+                        emit: "createInvitation",
+                    },
+                ],
             });
         },
     },

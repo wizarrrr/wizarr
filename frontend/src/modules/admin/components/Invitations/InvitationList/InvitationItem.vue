@@ -33,12 +33,11 @@ import { useInvitationStore } from "@/stores/invitations";
 import { useUsersStore } from "@/stores/users";
 import { mapActions, mapState } from "pinia";
 import { useClipboard } from "@vueuse/core";
-import { useWebShare } from "@/plugins/webshare";
 
 import type { Invitation } from "@/types/api/invitations";
 
 import ListItem from "@/components/ListItem.vue";
-import InvitationUserList from "../InvitationUserList.vue";
+import SimpleUserList from "../SimpleUserList/SimpleUserList.vue";
 import ShareSheet from "../ShareSheet.vue";
 
 export default defineComponent({
@@ -105,7 +104,7 @@ export default defineComponent({
                     .filter((user) => user !== undefined),
             };
 
-            this.$modal.openModal(InvitationUserList, modal_options, modal_props);
+            this.$modal.openModal(SimpleUserList, modal_options, modal_props);
         },
         async deleteLocalInvitation() {
             if (await this.$modal.confirmModal(this.__("Are you sure?"), this.__("Are you sure you want to delete this invitation?"))) {

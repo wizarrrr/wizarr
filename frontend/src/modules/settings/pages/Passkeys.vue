@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col space-y-4">
         <!-- MFA List -->
-        <MFAList />
+        <PasskeysList />
 
         <!-- Add MFA -->
         <div class="flex flex-row justify-end items-center">
@@ -15,22 +15,19 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapActions } from "pinia";
-import { useMfaStore } from "@/stores/mfa";
+import { usePasskeysStore } from "@/stores/passkeys";
 
-import ListItem from "@/components/ListItem.vue";
 import DefaultButton from "@/components/Buttons/DefaultButton.vue";
-
-import MFAList from "@/components/MFAList/MFAList.vue";
+import PasskeysList from "../components/Passkeys/Passkeys.vue";
 
 export default defineComponent({
-    name: "MFAView",
+    name: "Passkeys",
     components: {
-        ListItem,
         DefaultButton,
-        MFAList,
+        PasskeysList,
     },
     methods: {
-        ...mapActions(useMfaStore, ["createMfa"]),
+        ...mapActions(usePasskeysStore, ["createMfa"]),
     },
 });
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <FormKit v-model="webhook" @submit="localCreateWebhook" type="form" :classes="{ input: '!bg-secondary' }" :submit-label="__('Create Webhook')" :submit-attrs="{ wrapperClass: 'flex justify-end' }">
+    <FormKit v-model="webhookForm" @submit="localCreateWebhook" type="form" :classes="{ input: '!bg-secondary' }" :submit-label="__('Create Webhook')" :submit-attrs="{ wrapperClass: 'flex justify-end' }">
         <FormKit typ="text" name="name" validation="required|alpha_spaces:latin" :label="__('Name')" :placeholder="__('My Webhook')" />
         <FormKit typ="text" name="url" validation="required|url" :label="__('URL')" :placeholder="__('https://example.com')" />
     </FormKit>
@@ -14,7 +14,7 @@ export default defineComponent({
     name: "WebhookForm",
     data() {
         return {
-            webhook: {
+            webhookForm: {
                 name: "",
                 url: "",
             },
@@ -22,8 +22,8 @@ export default defineComponent({
     },
     methods: {
         localCreateWebhook() {
-            this.createWebhook(this.webhook);
-            this.$parent!.$emit("close");
+            this.createWebhook(this.webhookForm);
+            this.$emit("close");
         },
         ...mapActions(useWebhookStore, ["createWebhook"]),
     },

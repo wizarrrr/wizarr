@@ -19,14 +19,17 @@
                 <div v-if="user.code" class="border border-gray-200 dark:border-gray-700 rounded p-2 text-xs text-gray-500 dark:text-gray-400">
                     <span>{{ user.code }}</span>
                 </div>
+                <FormKit type="button" data-theme="secondary" @click="viewUser" :classes="{ input: '!bg-secondary !px-3.5 h-[36px]' }">
+                    <i class="fa-solid fa-eye"></i>
+                </FormKit>
             </div>
             <div class="flex flex-row space-x-2">
-                <button class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-secondary dark:hover:bg-secondary_hover" v-if="false">
-                    <i class="fa-solid fa-edit"></i>
-                </button>
-                <button @click="localDeleteUser" :disabled="disabled.delete" class="bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-red-600 dark:hover:bg-primary_hover">
+                <FormKit type="button" data-theme="secondary" @click="manageUser" :classes="{ input: '!bg-secondary !px-3.5 h-[36px]' }">
+                    <i class="fa-solid fa-user"></i>
+                </FormKit>
+                <FormKit type="button" data-theme="danger" :disabled="disabled.delete" @click="localDeleteUser" :classes="{ input: '!bg-red-600 !px-3.5 h-[36px]' }">
                     <i class="fa-solid fa-trash"></i>
-                </button>
+                </FormKit>
             </div>
         </template>
     </ListItem>
@@ -34,12 +37,15 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
 import { useUsersStore } from "@/stores/users";
+import { useServerStore } from "@/stores/server";
 
 import type { User } from "@/types/api/users";
+import type { CustomModalOptions } from "@/plugins/modal";
 
 import ListItem from "@/components/ListItem.vue";
+import UserManager from "../UserManager/UserManager.vue";
 
 export default defineComponent({
     name: "UserItem",
@@ -83,6 +89,7 @@ export default defineComponent({
 
             return "text-gray-500 dark:text-gray-400";
         },
+        ...mapState(useServerStore, ["settings"]),
     },
     methods: {
         async getProfilePicture() {
@@ -92,7 +99,40 @@ export default defineComponent({
 
             this.profilePicture = URL.createObjectURL((await response).data);
         },
+        async manageUser() {
+            const modal_options: CustomModalOptions = {
+                title: this.__(`Managing %{user}`, { user: this.user.username }),
+                buttons: [
+                    {
+                        text: this.__("Save"),
+                        attrs: {
+                            "data-theme": "primary",
+                            disabled: true,
+                        },
+                        emit: "saveUser",
+                    },
+                ],
+            };
+
+            const modal_props = {
+                user: this.user,
+            };
+
+            this.$modal.openModal(UserManager, modal_options, modal_props);
+        },
+        async viewUser() {
+            // Switch statement to determine which server type is being used and its respective URL
+            switch (this.settings.server_type) {
+                case "jellyfin":
+                    window.open(`${this.settings.server_url}/web/index.html#!/useredit.html?userId=${this.user.token}`, "_blank");
+                    break;
+                case "plex":
+                    window.open(`${this.settings.server_url}/web/index.html#!/settings/manage-library-access/sharing/${this.user.token}`, "_blank");
+                    break;
+            }
+        },
         async localDeleteUser() {
+            // Confirm the user wants to delete the user
             if (await this.$modal.confirmModal(this.__("Are you sure?"), this.__("Do you really want to delete this user from your media server?"))) {
                 this.disabled.delete = true;
                 await this.deleteUser(this.user.id).finally(() => (this.disabled.delete = false));

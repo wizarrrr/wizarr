@@ -9,7 +9,7 @@ import DefaultButton from "@/components/Buttons/DefaultButton.vue";
 import DefaultInput from "@/components/Inputs/DefaultInput.vue";
 import SelectInput from "@/components/Inputs/SelectInput.vue";
 
-import MediaForm from "@/components/Forms/MediaForm.vue";
+import MediaForm from "../components/Forms/MediaForm.vue";
 
 export default defineComponent({
     name: "MediaServerView",

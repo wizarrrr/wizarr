@@ -11,7 +11,7 @@
 import { defineComponent } from "vue";
 
 import WebhookList from "@/components/WebhookList/WebhookList.vue";
-import WebhookForm from "@/components/Forms/WebhookForm.vue";
+import WebhookForm from "../components/Forms/WebhookForm.vue";
 
 export default defineComponent({
     name: "WebhooksView",

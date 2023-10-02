@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useMfaStore } from "@/stores/mfa";
+import { usePasskeysStore } from "@/stores/passkeys";
 import { mapActions } from "pinia";
 
 import type { MFA } from "@/types/api/auth/MFA";
@@ -28,7 +28,7 @@ import ListItem from "@/components/ListItem.vue";
 import DefaultButton from "@/components/Buttons/DefaultButton.vue";
 
 export default defineComponent({
-    name: "MFAListItem",
+    name: "PasskeysItem",
     components: {
         ListItem,
         DefaultButton,
@@ -43,7 +43,7 @@ export default defineComponent({
         async deleteLocalMfa() {
             await this.deleteMfa(this.mfa.id);
         },
-        ...mapActions(useMfaStore, ["deleteMfa"]),
+        ...mapActions(usePasskeysStore, ["deleteMfa"]),
     },
 });
 </script>

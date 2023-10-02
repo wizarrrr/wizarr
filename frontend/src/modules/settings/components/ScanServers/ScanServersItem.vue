@@ -15,9 +15,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import DefaultIcon from "@/assets/img/logo/default.svg?component";
-import JellyfinIcon from "@/assets/img/logo/jellyfin.svg?component";
-import PlexIcon from "@/assets/img/logo/plex.svg?component";
+import DefaultIcon from "@/assets/img/logo/black/default.svg?component";
+import JellyfinIcon from "@/assets/img/logo/black/jellyfin.svg?component";
+import PlexIcon from "@/assets/img/logo/black/plex.svg?component";
 
 export default defineComponent({
     name: "ScanServersItem",

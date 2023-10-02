@@ -10,8 +10,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import APIKeyList from "@/components/APIKeyList/APIKeyList.vue";
-import APIKeyForm from "@/components/Forms/APIKeyForm.vue";
+import APIKeyList from "../components/APIKeys/APIKeys.vue";
+import APIKeyForm from "../components/APIKeys/APIKeysForm.vue";
 
 export default defineComponent({
     name: "APIKeysView",

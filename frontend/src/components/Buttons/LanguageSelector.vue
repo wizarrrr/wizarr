@@ -18,6 +18,7 @@ export default defineComponent({
     methods: {
         createModal() {
             this.$modal.openModal(LanguageModal, {
+                title: this.__("Select Language"),
                 disableFooter: true,
             });
         },

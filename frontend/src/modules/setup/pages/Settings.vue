@@ -7,7 +7,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import MediaForm from "@/components/Forms/MediaForm.vue";
+import MediaForm from "@/modules/settings/components/Forms/MediaForm.vue";
 
 export default defineComponent({
     name: "MediaServerView",

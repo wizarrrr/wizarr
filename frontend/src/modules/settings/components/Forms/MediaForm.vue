@@ -54,8 +54,8 @@
 import { defineComponent } from "vue";
 import { Collapse } from "vue-collapsed";
 
-import ScanLibraries from "@/modules/settings/components/ScanLibraries/ScanLibraries.vue";
-import ScanServers from "@/modules/settings/components/ScanServers/ScanServers.vue";
+import ScanLibraries from "../ScanLibraries/ScanLibraries.vue";
+import ScanServers from "../ScanServers/ScanServers.vue";
 
 export default defineComponent({
     name: "ServerSettings",
@@ -133,6 +133,10 @@ export default defineComponent({
             formData.append("server_url", this.serverForm.server_url);
             formData.append("server_type", this.serverForm.server_type);
             formData.append("server_api_key", this.serverForm.server_api_key);
+
+            const confirm = await this.$modal.confirmModal(this.__("Are you sure?"), this.__("Are you sure you want to save this connection, this will remove the following from your local configuration: <br>- Libraries<br>- Users<br>- Invitations<br>- Request Service<br><br>Disregard this if this is your first setup."));
+
+            if (!confirm) return;
 
             const response = await this.$axios.put("/api/settings", formData).catch(() => {
                 this.$toast.error(this.__("Unable to save connection."));

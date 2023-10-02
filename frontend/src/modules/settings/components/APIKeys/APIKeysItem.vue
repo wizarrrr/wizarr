@@ -1,17 +1,21 @@
 <template>
     <ListItem icon="fa-key">
         <template #title>
-            <span class="text-lg">{{ apikey.name }}</span>
-            <div class="flex flex-col">
-                <!-- <p v-else class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">No email</p> -->
-                <p class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ $filter("timeAgo", apikey.created) }}</p>
+            <div class="flex flex-row space-x-4 w-full">
+                <div class="flex flex-col">
+                    <span class="text-lg">{{ apikey.name }}</span>
+                    <p class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">{{ $filter("timeAgo", apikey.created) }}</p>
+                </div>
             </div>
         </template>
         <template #buttons>
             <div class="flex flex-row space-x-2">
-                <button @click="localDeleteAPIKey" :disabled="disabled.delete" class="bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-red-600 dark:hover:bg-primary_hover">
+                <FormKit type="button" data-them="secondary" @click="viewKey" :classes="{ input: '!bg-secondary !px-3.5 h-[36px]' }">
+                    <i class="fa-solid fa-eye"></i>
+                </FormKit>
+                <FormKit type="button" data-theme="danger" :disabled="disabled.delete" @click="localDeleteAPIKey" :classes="{ input: '!bg-red-600 !px-3.5 h-[36px]' }">
                     <i class="fa-solid fa-trash"></i>
-                </button>
+                </FormKit>
             </div>
         </template>
     </ListItem>
@@ -24,7 +28,8 @@ import { useAPIKeyStore } from "@/stores/apikeys";
 
 import type { APIKey } from "@/types/api/apikeys";
 
-import ListItem from "../ListItem.vue";
+import ListItem from "@/components/ListItem.vue";
+import ViewApiKey from "../Modals/ViewApiKey.vue";
 
 export default defineComponent({
     name: "UserItem",
@@ -45,6 +50,17 @@ export default defineComponent({
         };
     },
     methods: {
+        viewKey() {
+            const modal_options = {
+                title: this.__("View API key"),
+            };
+
+            const modal_props = {
+                apiKey: this.apikey.key,
+            };
+
+            this.$modal.openModal(ViewApiKey, modal_options, modal_props);
+        },
         async localDeleteAPIKey() {
             if (await this.$modal.confirmModal(this.__("Are you sure?"), this.__("Are you sure you want to delete this API key?"))) {
                 this.disabled.delete = true;

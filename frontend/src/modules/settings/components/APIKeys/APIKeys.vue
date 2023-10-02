@@ -1,39 +1,39 @@
 <template>
-    <Draggable v-if="mfas && mfas.length > 0" v-model="mfas" tag="ul" group="mfa" ghost-class="moving-card" :animation="200" item-key="id">
+    <Draggable v-if="apikeys && apikeys.length > 0" v-model="apikeys" tag="ul" group="apikeys" ghost-class="moving-card" :animation="200" item-key="id">
         <template #item="{ element }">
             <li class="mb-2">
-                <MFAItem :mfa="element" />
+                <APIKeyItem :apikey="element" />
             </li>
         </template>
     </Draggable>
     <div v-else class="flex flex-col justify-center items-center space-y-1">
         <i class="fa-solid fa-info-circle text-3xl text-gray-400"></i>
-        <span class="text-gray-400">{{ __("No Passkeys found") }}</span>
+        <span class="text-gray-400">{{ __("No API Keys found") }}</span>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useMfaStore } from "@/stores/mfa";
+import { useAPIKeyStore } from "@/stores/apikeys";
 import { mapActions, mapWritableState } from "pinia";
 
 import Draggable from "vuedraggable";
-import MFAItem from "./MFAItem.vue";
+import APIKeyItem from "./APIKeysItem.vue";
 
 export default defineComponent({
-    name: "TasksView",
+    name: "APIKeyList",
     components: {
         Draggable,
-        MFAItem,
+        APIKeyItem,
     },
     computed: {
-        ...mapWritableState(useMfaStore, ["mfas"]),
+        ...mapWritableState(useAPIKeyStore, ["apikeys"]),
     },
     methods: {
-        ...mapActions(useMfaStore, ["getMfas"]),
+        ...mapActions(useAPIKeyStore, ["getAPIKeys"]),
     },
     async created() {
-        await this.getMfas();
+        await this.getAPIKeys();
     },
 });
 </script>

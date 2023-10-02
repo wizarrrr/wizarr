@@ -161,8 +161,8 @@ export default defineComponent({
                             url: "/admin/settings/sessions",
                         },
                         {
-                            title: this.__("Multi-Factor Authentication"),
-                            description: this.__("Configure MFA authentication"),
+                            title: this.__("Passkey Authentication"),
+                            description: this.__("Configure your passkeys"),
                             icon: "fas fa-shield-alt",
                             url: "/admin/settings/mfa",
                         },
