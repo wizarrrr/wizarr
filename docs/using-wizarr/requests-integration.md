@@ -1,8 +1,8 @@
----
-description: BETA ONLY FEATURE
----
-
 # Requests Integration
+
+{% hint style="warning" %}
+OLD DOCUMENTATION
+{% endhint %}
 
 ### Setup
 
@@ -26,7 +26,7 @@ description: BETA ONLY FEATURE
 
 1. Go to your Ombi settings, then click "Configuration" and select "General" from the dropdown.
 2. Copy the API key from the "API Key" field.
-3. Go to your Wizarr settings then Requests.&#x20;
+3. Go to your Wizarr settings then Requests.
 4. Select Ombi from the dropdown.
 5. Input your Ombi base URL.
 6. Input your Ombi API key.

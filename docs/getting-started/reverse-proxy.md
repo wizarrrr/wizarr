@@ -25,7 +25,6 @@ server {
         set $upstream_proto http;
         proxy_pass $upstream_proto://$upstream_app:$upstream_port;
     }
-
 }
 ```
 {% endtab %}
@@ -33,16 +32,17 @@ server {
 {% tab title="Nginx Proxy Manager" %}
 Add a new proxy host with the following settings:
 
-#### Details
+**Details**
 
 * **Domain Names:** Your desired external wizarr hostname; e.g., `wizarr.example.com`
 * **Scheme:** `http`
 * **Forward Hostname / IP:** Internal wizarr hostname or IP
 * **Forward Port:** `5690`
 * **Cache Assets:** yes
-* **Block Common Exploits:** no 
+* **Block Common Exploits:** yes
+* **Websocket Support:** yes
 
-#### SSL
+**SSL**
 
 * **SSL Certificate:** Select one of the options; if you are not sure, pick “Request a new SSL Certificate”
 * **Force SSL:** yes
@@ -151,7 +151,5 @@ plex.example.com {
     reverse_proxy http://127.0.0.1:5055
 }
 ```
-
-
 {% endtab %}
 {% endtabs %}
