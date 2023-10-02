@@ -4,12 +4,17 @@ from app.models.jellyfin.user import JellyfinUser
 from app.extensions import socketio
 from datetime import datetime
 
-from .settings import get_setting
 from .plex import get_plex_users, get_plex_user, sync_plex_users, delete_plex_user, get_plex_profile_picture, invite_plex_user, accept_plex_invitation
 from .jellyfin import get_jellyfin_users, get_jellyfin_user, sync_jellyfin_users, delete_jellyfin_user, get_jellyfin_profile_picture, invite_jellyfin_user
 
+from .jellyseerr import jellyseerr_import_user, jellyseerr_delete_user
+from .overseerr import overseerr_import_user, overseerr_delete_user
+from .ombi import ombi_import_user, ombi_delete_user
+
 from app.models.database.users import Users
 from app.models.database.invitations import Invitations
+from app.models.database.requests import Requests
+from app.models.database.settings import Settings
 
 from helpers.webhooks import run_webhook
 from playhouse.shortcuts import model_to_dict
@@ -22,7 +27,7 @@ def get_server_type() -> str:
     """
 
     # Get the server type from the settings
-    server_type = get_setting("server_type")
+    server_type = Settings.get_or_none(Settings.key == "server_type").value
 
     # Raise an error if the server type is not set
     if server_type is None:
@@ -31,9 +36,64 @@ def get_server_type() -> str:
     # Return the server type
     return server_type
 
+# ANCHOR - Global Delete User From Request Server
+def global_delete_user_from_request_server(user_token: str) -> dict[str]:
+    """Delete a user from the request server
+    :param user_id: The id of the user
+    """
+
+    # Get the requests from the database
+    requests = Requests.select()
+
+    # Request Server Map
+    universal_delete_user = {
+        "jellyseerr": lambda **kwargs: jellyseerr_delete_user(**kwargs),
+        "overseerr": lambda **kwargs: overseerr_delete_user(**kwargs),
+        "ombi": lambda **kwargs: ombi_delete_user(**kwargs)
+    }
+
+    # Loop through the requests server and delete the user
+    for request in requests:
+        try:
+            universal_delete_user.get(request.service)(api_url=request.url, api_key=request.api_key, user_token=user_token)
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            print(e)
+
+    # Return response
+    return { "message": "User deleted from request server" }
+
+
+# ANCHOR - Global Invite User To Request Server
+def global_invite_user_to_request_server(user_token: str) -> dict[str]:
+    """Invite a user to the request server
+    :param user_id: The id of the user
+    """
+
+    # Get the requests from the database
+    requests = Requests.select()
+
+    # Request Server Map
+    universal_add_user = {
+        "jellyseerr": lambda **kwargs: jellyseerr_import_user(**kwargs),
+        "overseerr": lambda **kwargs: overseerr_import_user(**kwargs),
+        "ombi": lambda **kwargs: ombi_import_user(**kwargs)
+    }
+
+    # Loop through the requests server and invite the user
+    for request in requests:
+        try:
+            universal_add_user.get(request.service)(api_url=request.url, api_key=request.api_key, user_token=user_token)
+        except Exception as e:
+            print(e)
+
+    # Return response
+    return { "message": "User invited to request server" }
+
 
 # ANCHOR - Global Get Users
-def global_get_users() -> dict[MyPlexUser or JellyfinUser]:
+def global_get_users_from_media_server() -> dict[MyPlexUser or JellyfinUser]:
     """Get all users from the media server
 
     :return: A list of users
@@ -58,7 +118,7 @@ def global_get_users() -> dict[MyPlexUser or JellyfinUser]:
 
 
 # ANCHOR - Global Get User
-def global_get_user(user_id: str) -> MyPlexUser or JellyfinUser:
+def global_get_user_from_media_server(user_id: str) -> MyPlexUser or JellyfinUser:
     """Get a user from the media server
     :param user_id: The id of the user
     :type user_id: str
@@ -85,7 +145,7 @@ def global_get_user(user_id: str) -> MyPlexUser or JellyfinUser:
 
 
 # ANCHOR - Global Delete User
-def global_delete_user(user_id: str) -> dict[str]:
+def global_delete_user_from_media_server(user_id: str) -> dict[str]:
     """Delete a user from the media server
     :param user_id: The id of the user
     :type user_id: str
@@ -105,18 +165,22 @@ def global_delete_user(user_id: str) -> dict[str]:
     elif server_type == "jellyfin":
         delete_jellyfin_user(user.token)
 
-    # Delete the user from the database
-    user.delete_instance()
+
+    # Delete the user from the request server
+    global_delete_user_from_request_server(user.token)
 
     # Send webhook event
     run_webhook("user_deleted", model_to_dict(user))
+
+    # Delete the user from the database
+    user.delete_instance()
 
     # Return response
     return { "message": "User deleted" }
 
 
 # ANCHOR - Global Sync Users
-def global_sync_users() -> dict[str]:
+def global_sync_users_to_media_server() -> dict[str]:
     """Sync users from the media server to the database
 
     :return: None
@@ -215,11 +279,11 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
     try:
         user = universal_invite_user.get(server_type)(**kwargs)
     except BadRequest as e:
-        socketio_emit("error", "We were unable to join you to the media server, you may already be a member.")
-        return { "message": "We were unable to join you to the media server, you may already be a member." }
-    except RequestException as e:
         socketio_emit("error", "We were unable to join you to the media server, please try again later.")
         return { "message": "We were unable to join you to the media server, please try again later." }
+    except RequestException as e:
+        socketio_emit("error", "We were unable to join you to the media server, you may already be a member.")
+        return { "message": "We were unable to join you to the media server, you may already be a member." }
     except Exception as e:
         socketio_emit("error", str(e) or "There was issue during the account creation")
         raise BadRequest("There was issue during the account creation") from e
@@ -244,35 +308,51 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
         socketio_emit("error", "We were unable to locate your Plex account, please try again later.")
         return { "message": "We were unable to locate your Plex account, please try again later." }
 
-    # Build universal user object using variables that change depending on the server type
-    db_user = Users.insert({
-        Users.token: user.id if server_type == "plex" else user["Id"],
-        Users.username: user.username if server_type == "plex" else user["Name"],
-        Users.code: invite.code,
-        Users.expires: invite.duration,
-        Users.auth: kwargs.get("token", None),
-        Users.email: user.email if server_type == "plex" else kwargs.get("email", None),
-    })
+    try:
+        # Create the user in the database
+        db_user = Users.insert({
+            Users.token: user.id if server_type == "plex" else user["Id"],
+            Users.username: user.username if server_type == "plex" else user["Name"],
+            Users.code: invite.code,
+            Users.expires: invite.duration,
+            Users.auth: kwargs.get("token", None),
+            Users.email: user.email if server_type == "plex" else kwargs.get("email", None),
+        })
 
-    # Add the user to the database
-    # pylint: disable=no-value-for-parameter
-    user_id = db_user.execute()
+        # Add the user to the database
+        # pylint: disable=no-value-for-parameter
+        user_id = db_user.execute()
+    except Exception as e:
+        socketio_emit("error", str(e) or "There was issue during local account creation")
+        raise BadRequest("There was issue during local account creation") from e
 
-    # Send webhook event
-    run_webhook("user_invited", model_to_dict(
-        Users.get_or_none(Users.id == user_id)
-    ))
 
-    # Set the invite to used
-    invite.used = True
-    invite.used_at = datetime.now()
+    try:
+        # Send webhook event
+        run_webhook("user_invited", model_to_dict(
+            Users.get_or_none(Users.id == user_id)
+        ))
+    except Exception as e:
+        print(e)
 
-    # Append the user id to the invite used_by field
-    used_by = invite.used_by.split(",") if invite.used_by else []
-    invite.used_by = ",".join(used_by + [str(user_id)])
+    try:
+        global_invite_user_to_request_server(user_token=user.id if server_type == "plex" else user["Id"])
+    except Exception as e:
+        print(e)
 
-    # Save the invite
-    invite.save()
+    try:
+        # Set the invite to used
+        invite.used = True
+        invite.used_at = datetime.now()
+
+        # Append the user id to the invite used_by field
+        used_by = invite.used_by.split(",") if invite.used_by else []
+        invite.used_by = ",".join(used_by + [str(user_id)])
+
+        # Save the invite
+        invite.save()
+    except Exception as e:
+        print(e)
 
     # Emit done
     socketio_emit("done", None)
