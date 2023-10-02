@@ -9,6 +9,11 @@ interface DashboardStoreState {
 const defaultDashboard: WidgetOptions[] = [
     {
         id: nanoid(),
+        type: "LatestInfo",
+        grid: { w: 6, h: 2 },
+    },
+    {
+        id: nanoid(),
         type: "InvitesTotal",
         grid: { w: 2, h: 2 },
     },
@@ -35,7 +40,12 @@ const defaultDashboard: WidgetOptions[] = [
     {
         id: nanoid(),
         type: "MapWidget",
-        grid: { w: 6, h: 5 },
+        grid: { w: 4, h: 5 },
+    },
+    {
+        id: nanoid(),
+        type: "ContributorsList",
+        grid: { w: 2, h: 5 },
     },
 ];
 

@@ -1,15 +1,15 @@
-import { defineStore } from "pinia";
-
-import browser from "browser-detect";
-import Auth from "@/api/authentication";
 import type { MFA, MFAList } from "@/types/api/auth/MFA";
 
-interface MfaStoreState {
+import Auth from "@/api/authentication";
+import browser from "browser-detect";
+import { defineStore } from "pinia";
+
+interface PasskeysStoreState {
     mfas: MFAList;
 }
 
-export const useMfaStore = defineStore("mfa", {
-    state: (): MfaStoreState => ({
+export const usePasskeysStore = defineStore("passkeys", {
+    state: (): PasskeysStoreState => ({
         mfas: [],
     }),
     actions: {

@@ -2,6 +2,7 @@ import "./assets/scss/main.scss";
 
 import Axios, { piniaPluginAxios } from "./plugins/axios";
 import Filters, { piniaPluginFilters } from "./plugins/filters";
+import Firebase, { piniaPluginFirebase } from "./plugins/firebase";
 import Socket, { piniaPluginSocketIO } from "./plugins/socket";
 import Toast, { piniaPluginToast } from "./plugins/toasts";
 import WebShare, { piniaPluginWebShare } from "./plugins/webshare";
@@ -49,6 +50,7 @@ app.use(Sentry);
 app.use(Analytics);
 app.use(Modal);
 app.use(WebShare);
+app.use(Firebase);
 
 pinia.use(piniaPluginPersistedstate);
 pinia.use(piniaPluginToast);
@@ -56,6 +58,7 @@ pinia.use(piniaPluginAxios);
 pinia.use(piniaPluginSocketIO);
 pinia.use(piniaPluginFilters);
 pinia.use(piniaPluginWebShare);
+pinia.use(piniaPluginFirebase);
 
 app.mount("#app");
 

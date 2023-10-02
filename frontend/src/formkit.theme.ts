@@ -136,6 +136,7 @@ const theme: Record<string, Record<string, string>> = {
         data-[theme=danger]:bg-red-600 data-[theme=danger]:hover:bg-red-500
         data-[theme=success]:bg-green-500 data-[theme=success]:hover:bg-green-600
         data-[theme=warning]:bg-yellow-500 data-[theme=warning]:hover:bg-yellow-600
+        data-[theme=none]:bg-transparent data-[theme=none]:text-gray-900 dark:text-white data-[theme=none]:hover:bg-gray-100 dark:hover:bg-gray-700
 
         inline-flex items-center focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm
         `,

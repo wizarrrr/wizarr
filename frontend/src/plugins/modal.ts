@@ -11,6 +11,7 @@ import type { WrapComponent } from "jenesius-vue-modal/dist/types/types/types";
 export declare interface CustomModalOptionsButtons {
     text: string;
     classes?: Record<string, string | Record<string, boolean> | FormKitClasses>;
+    attrs?: Record<string, any>;
     onClick?: () => void;
     emit?: string;
 }
