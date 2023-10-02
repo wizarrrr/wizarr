@@ -1,6 +1,6 @@
 <template>
     <div class="w-full h-full">
-        <LineChart :chart-data="chartData" :options="options" class="h-full pt-[50px]" />
+        <LineChart :chart-data="chartData" :options="options" class="h-full pt-[70px]" />
         <WidgetTemplate :icon="String(icon)" :title="String(title)" :value="String(value)" class="p-2 absolute top-0 left-0 pointer-events-none" :class="class" />
     </div>
 </template>
