@@ -22,7 +22,7 @@ RUN npm install -g npm@latest
 
 # Build Frontend Environment
 WORKDIR /data/frontend
-RUN npm ci --prefer-offline --no-audit
+RUN npm ci
 RUN npm run build
 
 # Setup Timezone
