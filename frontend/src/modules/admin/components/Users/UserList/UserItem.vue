@@ -25,7 +25,7 @@
             </div>
             <div class="flex flex-row space-x-2">
                 <FormKit type="button" data-theme="secondary" @click="manageUser" :classes="{ input: '!bg-secondary !px-3.5 h-[36px]' }">
-                    <i class="fa-solid fa-user"></i>
+                    <i class="fa-solid fa-edit"></i>
                 </FormKit>
                 <FormKit type="button" data-theme="danger" :disabled="disabled.delete" @click="localDeleteUser" :classes="{ input: '!bg-red-600 !px-3.5 h-[36px]' }">
                     <i class="fa-solid fa-trash"></i>
