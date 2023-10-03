@@ -2,6 +2,7 @@ from peewee import IntegrityError
 from schematics.exceptions import ValidationError, DataError
 from werkzeug.exceptions import UnsupportedMediaType
 from flask_jwt_extended.exceptions import RevokedTokenError
+from jwt.exceptions import InvalidSignatureError
 from flask import jsonify
 
 from app.exceptions import AuthenticationError
@@ -68,6 +69,10 @@ def error_handler(exception, code, json=False):
 
 
     return error_object, code
+
+@api.errorhandler(InvalidSignatureError)
+def handle_invalid_signature_error(error: InvalidSignatureError):
+    return error_handler(error, 401)
 
 @api.errorhandler(ValidationError)
 def handle_validation_error(error: ValidationError):
