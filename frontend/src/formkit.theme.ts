@@ -136,6 +136,7 @@ const theme: Record<string, Record<string, string>> = {
         data-[theme=danger]:bg-red-600 data-[theme=danger]:hover:bg-red-500
         data-[theme=success]:bg-green-500 data-[theme=success]:hover:bg-green-600
         data-[theme=warning]:bg-yellow-500 data-[theme=warning]:hover:bg-yellow-600
+        data-[theme=transparent]:bg-transparent data-[theme=transparent]:hover:bg-gray-100 data-[theme=transparent]:text-gray-900 data-[theme=transparent]:dark:text-white data-[theme=transparent]:border data-[theme=transparent]:border-gray-300 data-[theme=transparent]:hover:bg-gray-100 data-[theme=transparent]:dark:border-gray-700
         data-[theme=none]:bg-transparent data-[theme=none]:text-gray-900 dark:text-white data-[theme=none]:hover:bg-gray-100 dark:hover:bg-gray-700
 
         inline-flex items-center focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm
@@ -148,12 +149,21 @@ const theme: Record<string, Record<string, string>> = {
         input: "peer-[.formkit-prefix-icon]:pl-9 peer-[.formkit-suffix-icon]:pr-9 mb-1 w-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white sm:text-sm border border-gray-300 dark:border-gray-600 rounded block w-full dark:placeholder-gray-400 focus:ring-primary focus:border-primary",
     },
 
+    // select: {
+    //     outer: "mb-4 formkit-disabled:opacity-50",
+    //     input: "peer-[.formkit-prefix-icon]:pl-9 peer-[.formkit-suffix-icon]:pr-9 mb-1 w-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white sm:text-sm border border-gray-300 dark:border-gray-600 rounded block w-full dark:placeholder-gray-400 focus:ring-primary focus:border-primary",
+    //     label: "block mb-2 text-sm font-medium text-gray-900 dark:text-white",
+    //     selectIcon: "flex p-[3px] shrink-0 w-5 mr-2 -ml-[1.5em] h-full pointer-events-none [&>svg]:w-[1em]",
+    //     option: "formkit-multiple:p-3 formkit-multiple:text-sm text-gray-700",
+    //     icon: "hidden",
+    // },
+
     select: {
         outer: "mb-4 formkit-disabled:opacity-50",
         input: "peer-[.formkit-prefix-icon]:pl-9 peer-[.formkit-suffix-icon]:pr-9 mb-1 w-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white sm:text-sm border border-gray-300 dark:border-gray-600 rounded block w-full dark:placeholder-gray-400 focus:ring-primary focus:border-primary",
         label: "block mb-2 text-sm font-medium text-gray-900 dark:text-white",
         selectIcon: "flex p-[3px] shrink-0 w-5 mr-2 -ml-[1.5em] h-full pointer-events-none [&>svg]:w-[1em]",
-        option: "formkit-multiple:p-3 formkit-multiple:text-sm text-gray-700",
+        option: "formkit-multiple:p-3 formkit-multiple:text-sm text-gray-500 dark:text-white",
         icon: "hidden",
     },
 
