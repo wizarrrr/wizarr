@@ -6,9 +6,9 @@
                     <Transition name="fade" mode="out-in">
                         <div v-if="contributors" class="flex flex-col space-y-2">
                             <template v-for="contributor in contributors" :key="contributor.name">
-                                <button @click="buttonLink(contributor.profile)" class="flex flex-row items-center justify-between p-2.5 rounded bg-gray-700 hover:bg-gray-600 transition duration-300">
-                                    <h1 class="font-bold text-gray-400 dark:text-gray-300">{{ contributor.name }}</h1>
-                                    <h1 class="font-bold text-gray-300 dark:text-gray-200">{{ formatCurrency(contributor.totalAmountDonated, contributor.currency) }}</h1>
+                                <button @click="buttonLink(contributor.profile)" class="flex flex-row items-center justify-between py-1.5 px-2.5 rounded bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 transition duration-300">
+                                    <span class="text-xs text-gray-500 dark:text-gray-300">{{ contributor.name }}</span>
+                                    <span class="text-xs font-bold text-gray-500 dark:text-gray-200">{{ formatCurrency(contributor.totalAmountDonated, contributor.currency) }}</span>
                                 </button>
                             </template>
                         </div>
@@ -75,10 +75,13 @@ export default defineComponent({
         }
 
         const sorted = response.data
+            .filter((contributor) => contributor.totalAmountDonated! > 0)
             .filter((contributor) => contributor.role === "BACKER")
             .sort((a, b) => new Date(b.lastTransactionAt!).getTime() - new Date(a.lastTransactionAt!).getTime())
-            .slice(0, 4)
-            .sort((a, b) => b.totalAmountDonated! - a.totalAmountDonated!);
+            .slice(0, 6)
+            .sort((a, b) => b.totalAmountDonated! - a.totalAmountDonated!)
+            .map((contributor) => (contributor.name === "Guest" ? { ...contributor, name: "Anonymous" } : contributor))
+            .reduce((acc, contributor) => ((existing) => (existing ? acc.map((item) => (item.profile === contributor.profile ? { ...item } : item)) : [...acc, contributor]))(acc.find((item) => item.profile === contributor.profile)), [] as OpenCollectiveResponse);
 
         this.contributors = sorted;
     },
