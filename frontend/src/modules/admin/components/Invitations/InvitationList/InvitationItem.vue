@@ -11,12 +11,12 @@
                 <FormKit type="button" @click="openShareSheet" :classes="{ input: '!bg-secondary !px-3.5 h-[36px]' }">
                     <i class="fa-solid fa-share"></i>
                 </FormKit>
-                <FormKit v-if="invite.used" type="button" @click="openInvitationUserList" :classes="{ input: '!bg-secondary !px-3.5 h-[36px]' }">
+                <FormKit v-if="invite.used && invite.used_by && invite.used_by.length > 0" type="button" @click="openInvitationUserList" :classes="{ input: '!bg-secondary !px-3.5 h-[36px]' }">
                     <i class="fa-solid fa-user-group"></i>
                 </FormKit>
             </div>
             <div class="flex flex-row space-x-2">
-                <FormKit type="button" :classes="{ input: '!bg-secondary !px-3.5 h-[36px]' }" v-if="false">
+                <FormKit type="button" data-theme="secondary" @click="manageInvitation" :classes="{ input: '!bg-secondary !px-3.5 h-[36px]' }">
                     <i class="fa-solid fa-edit"></i>
                 </FormKit>
                 <FormKit type="button" :disabled="disabled.delete" @click="deleteLocalInvitation" :classes="{ input: '!bg-red-600 !px-3.5 h-[36px]' }">
@@ -35,10 +35,12 @@ import { mapActions, mapState } from "pinia";
 import { useClipboard } from "@vueuse/core";
 
 import type { Invitation } from "@/types/api/invitations";
+import type { CustomModalOptions } from "@/plugins/modal";
 
 import ListItem from "@/components/ListItem.vue";
 import SimpleUserList from "../SimpleUserList/SimpleUserList.vue";
 import ShareSheet from "../ShareSheet.vue";
+import InvitationManager from "../../InvitationManager/InvitationManager.vue";
 
 export default defineComponent({
     name: "InvitationItem",
@@ -67,6 +69,27 @@ export default defineComponent({
         };
     },
     methods: {
+        async manageInvitation() {
+            const modal_options: CustomModalOptions = {
+                title: this.__("Invitation Details"),
+                buttons: [
+                    {
+                        text: this.__("Save"),
+                        attrs: {
+                            "data-theme": "primary",
+                            disabled: true,
+                        },
+                        emit: "saveInvitation",
+                    },
+                ],
+            };
+
+            const modal_props = {
+                invitation: this.invite,
+            };
+
+            this.$modal.openModal(InvitationManager, modal_options, modal_props);
+        },
         async copyToClipboard() {
             if (this.clipboard.isSupported) {
                 this.clipboard.copy(`${window.location.origin}/j/${this.invite.code}`);
