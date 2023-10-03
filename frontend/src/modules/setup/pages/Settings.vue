@@ -1,6 +1,6 @@
 <template>
     <div>
-        <MediaForm v-bind="$attrs" />
+        <MediaForm v-bind="$attrs" :setup="true" />
     </div>
 </template>
 
