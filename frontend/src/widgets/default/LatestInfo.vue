@@ -1,10 +1,10 @@
 <template>
     <DefaultWidget icon="fa-info-circle">
         <template #title>
-            <div class="text-[20px] mt-[-5px] text-gray-400 dark:text-gray-300 mb-0 font-medium truncate text-ellipsis overflow-hidden">{{ __("Latest Info") }}</div>
+            <div class="text-[20px] mt-[-5px] text-gray-500 dark:text-gray-300 mb-0 font-medium truncate text-ellipsis overflow-hidden">{{ __("Latest Info") }}</div>
         </template>
         <template #value>
-            <TextClamp :autoResize="true" :max-lines="2" :text="latestInfo" class="text-sm text-gray-400 dark:text-gray-300 mb-0">
+            <TextClamp :autoResize="true" :max-lines="2" :text="latestInfo" class="text-sm text-gray-600 dark:text-gray-200 mb-0">
                 <template #after>
                     <button @click="readMore" class="ml-2 text-gray-500 hover:underline">{{ __("Read More") }}</button>
                 </template>
@@ -27,7 +27,7 @@ export default defineComponent({
     },
     data() {
         return {
-            latestInfo: this.$config("latest_info"),
+            latestInfo: "Could not load latest info.",
         };
     },
     methods: {
@@ -42,6 +42,9 @@ export default defineComponent({
                 cancelButtonText: this.__("Close"),
             });
         },
+    },
+    beforeMount() {
+        this.latestInfo = this.$config("latest_info") ?? "Could not load latest info.";
     },
 });
 </script>
