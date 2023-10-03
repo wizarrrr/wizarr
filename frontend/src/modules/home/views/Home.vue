@@ -11,9 +11,9 @@
 
                 <p class="mb-8 text-sm font-bold text-gray-500 sm:px-16 lg:px-48 dark:text-gray-400">{{ __("If you were sent here by a friend, please request access or if you have an invite code, please click Get Started!") }}</p>
                 <div class="flex flex-col space-y-2 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-3">
-                    <DefaultButton to="/join" icon="fas fa-arrow-right">{{ __("Get Started") }}</DefaultButton>
+                    <FormKit type="button" @click="$router.push('/join')" theme="primary" suffix-icon="fas fa-arrow-right">{{ __("Get Started") }}</FormKit>
                     <span class="inline-flex items-center text-gray-500 dark:text-gray-400 justify-center"> or </span>
-                    <DefaultButton to="/request" theme="transparent">{{ __("Request Access") }}</DefaultButton>
+                    <FormKit type="button" :disabled="true" data-theme="transparent">{{ __("Request Access") }}</FormKit>
                 </div>
             </div>
         </section>
