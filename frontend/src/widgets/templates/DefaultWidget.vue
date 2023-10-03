@@ -9,8 +9,8 @@
                 </div>
             </div>
             <div class="text-left flex-grow text-xl leading-tight tracking-tight md:text-2xl max-w-[calc(100%-70px)]">
-                <div v-if="title" class="text-gray-400 dark:text-gray-300 mb-0 font-medium truncate text-ellipsis overflow-hidden">{{ title }}</div>
-                <div v-if="value" class="text-gray-300 dark:text-gray-200 text-xl font-bold truncate text-ellipsis overflow-hidden">{{ value }}</div>
+                <div v-if="title" class="text-gray-500 dark:text-gray-300 mb-0 font-medium truncate text-ellipsis overflow-hidden">{{ title }}</div>
+                <div v-if="value" class="text-gray-400 dark:text-gray-200 text-xl font-bold truncate text-ellipsis overflow-hidden">{{ value }}</div>
                 <slot name="title"></slot>
                 <slot name="value"></slot>
             </div>
