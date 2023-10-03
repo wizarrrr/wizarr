@@ -74,7 +74,7 @@ class AuthenticationModel(Model):
 
         # Get the user from the database
         if not self._mfa and self.username:
-            admin = Accounts.get_or_none(Accounts.username == self.username)
+            admin = Accounts.get_or_none(Accounts.username == self.username.lower())
         elif self._mfa and self._user_id:
             admin = Accounts.get_or_none(Accounts.id == self._user_id)
 
@@ -101,7 +101,7 @@ class AuthenticationModel(Model):
             new_hash = generate_password_hash(self.password, method='scrypt')
 
             # Update the password in the database
-            Accounts.update(password=new_hash).where(Accounts.username == self._user.username).execute()
+            Accounts.update(password=new_hash).where(Accounts.username == self._user.username.lower()).execute()
 
             # Log the migration
             info("Migrated password for user: " + self._user.username)
