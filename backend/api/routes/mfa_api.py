@@ -451,7 +451,7 @@ class MFAAuthenticateAPI(Resource):
                 return {"message": "No username found"}, 400
 
             # Get the user from the database
-            user = Accounts.get_or_none(Accounts.username == username)
+            user = Accounts.get_or_none(Accounts.username == username.lower())
 
             # Check if the user exists
             if not user:
