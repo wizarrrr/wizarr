@@ -124,7 +124,7 @@ export default defineComponent({
                 primary: "bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded dark:bg-primary dark:hover:bg-primary_hover",
                 secondary: "bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded dark:bg-secondary dark:hover:bg-secondary_hover",
                 danger: "bg-red-600 hover:bg-red-500 focus:outline-none text-white font-medium rounded dark:bg-red-600 dark:hover:bg-primary_hover",
-                transparent: "bg-none font-medium text-gray-900 rounded border border-gray-300 hover:bg-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700",
+                transparent: "bg-none font-medium rounded text-gray-900 dark:text-white border border-gray-300 hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-700",
             },
             sizes: {
                 xs: "px-3 py-2 text-xs",
