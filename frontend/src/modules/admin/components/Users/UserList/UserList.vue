@@ -16,10 +16,10 @@
 import { defineComponent } from "vue";
 import { useUsersStore } from "@/stores/users";
 import { mapActions, mapWritableState } from "pinia";
+import { usePointer } from "@vueuse/core";
 
 import Draggable from "vuedraggable";
 import UserItem from "./UserItem.vue";
-import { usePointer } from "@vueuse/core";
 
 export default defineComponent({
     name: "UserList",
