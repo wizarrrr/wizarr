@@ -21,12 +21,12 @@
         <div class="flex flex-col sm:flex-row">
             <div class="flex flex-grow justify-end sm:justify-start space-x-2 mt-2">
                 <!-- Scan Libraries -->
-                <FormKit type="button" v-if="saved" prefix-icon="fas fa-list" data-theme="secondary" @click="scanLibraries">
+                <FormKit type="button" v-if="saved || !setup" prefix-icon="fas fa-list" data-theme="secondary" @click="scanLibraries">
                     {{ __("Scan Libraries") }}
                 </FormKit>
 
                 <!-- Scan Servers -->
-                <FormKit type="button" v-if="!serverForm.server_type" prefix-icon="fas fa-server" data-theme="secondary" @click="scanServers">
+                <FormKit type="button" v-if="!serverForm.server_type || !setup" prefix-icon="fas fa-server" data-theme="secondary" @click="scanServers">
                     {{ __("Scan Servers") }}
                 </FormKit>
             </div>
@@ -42,7 +42,7 @@
                 </FormKit>
 
                 <!-- Next Button -->
-                <FormKit type="button" v-if="saved" suffix-icon="fas fa-arrow-right" @click="$parent!.$emit('nextStep')">
+                <FormKit type="button" v-if="saved && setup" suffix-icon="fas fa-arrow-right" @click="$parent!.$emit('nextStep')">
                     {{ __("Next") }}
                 </FormKit>
             </div>
@@ -61,6 +61,12 @@ export default defineComponent({
     name: "ServerSettings",
     components: {
         Collapse,
+    },
+    props: {
+        setup: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
@@ -134,9 +140,10 @@ export default defineComponent({
             formData.append("server_type", this.serverForm.server_type);
             formData.append("server_api_key", this.serverForm.server_api_key);
 
-            const confirm = await this.$modal.confirmModal(this.__("Are you sure?"), this.__("Are you sure you want to save this connection, this will remove the following from your local configuration: <br>- Libraries<br>- Users<br>- Invitations<br>- Request Service<br><br>Disregard this if this is your first setup."));
-
-            if (!confirm) return;
+            if (!this.setup) {
+                const confirm = await this.$modal.confirmModal(this.__("Are you sure?"), this.__("Are you sure you want to save this connection, this will reset your Wizarr instance, which may lead to data loss."));
+                if (!confirm) return;
+            }
 
             const response = await this.$axios.put("/api/settings", formData).catch(() => {
                 this.$toast.error(this.__("Unable to save connection."));
