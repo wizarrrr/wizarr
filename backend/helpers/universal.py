@@ -165,9 +165,29 @@ def global_delete_user_from_media_server(user_id: str) -> dict[str]:
     elif server_type == "jellyfin":
         delete_jellyfin_user(user.token)
 
+    try:
+        # Get the invite from the database where the code is equal to the code provided
+        invite: Invitations = Invitations.get_or_none(Invitations.code == user.code)
+
+        # Append the user id to the invite used_by field
+        used_by = invite.used_by.split(",") if invite.used_by else []
+
+        # Remove the user id from the used_by field
+        used_by.remove(str(user.id))
+
+        # Set the used_by field to the used_by list
+        invite.used_by = ",".join(used_by) if len(used_by) > 0 else None
+
+        # Save the invite
+        invite.save()
+    except Exception as e:
+        print(e)
 
     # Delete the user from the request server
-    global_delete_user_from_request_server(user.token)
+    try:
+        global_delete_user_from_request_server(user.token)
+    except Exception as e:
+        print(e)
 
     # Send webhook event
     run_webhook("user_deleted", model_to_dict(user))
@@ -347,7 +367,13 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
 
         # Append the user id to the invite used_by field
         used_by = invite.used_by.split(",") if invite.used_by else []
-        invite.used_by = ",".join(used_by + [str(user_id)])
+
+        # Append the user id to the used_by field if it is not already in there
+        if str(user_id) not in used_by:
+            used_by.append(str(user_id))
+
+        # Set the used_by field to the used_by list
+        invite.used_by = ",".join(used_by) if len(used_by) > 0 else None
 
         # Save the invite
         invite.save()
