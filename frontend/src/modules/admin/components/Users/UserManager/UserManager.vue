@@ -8,9 +8,9 @@
 import { defineComponent } from "vue";
 
 import type { User } from "@/types/api/users";
+import type { Emitter, EventType } from "mitt";
 
 import Tabbed from "@/modules/core/components/Tabbed.vue";
-import type { Emitter, EventType } from "mitt";
 
 export default defineComponent({
     name: "UserManager",
@@ -31,13 +31,13 @@ export default defineComponent({
         return {
             tabs: [
                 {
-                    name: "Profile",
+                    name: "User",
                     icon: "fa-user",
                     props: {
                         user: this.user,
                         eventBus: this.eventBus,
                     },
-                    component: () => import("./Profile.vue"),
+                    component: () => import("./User.vue"),
                 },
                 {
                     name: "Invitation",
