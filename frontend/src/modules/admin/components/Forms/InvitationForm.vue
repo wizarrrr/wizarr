@@ -1,5 +1,5 @@
 <template>
-    <div ref="invitationContainer">
+    <div ref="invitationContainer" id="invitationContainer">
         <Transition name="fade" mode="out-in" :duration="{ enter: 200, leave: 200 }">
             <div v-if="!created && !failed">
                 <FormKit type="form" name="inviteForm" id="inviteForm" @submit="createInvite" :actions="!eventBus" v-model="invitationData" :disabled="disabled" :submit-label="__('Create Invitation')" :submit-attrs="{ inputClass: 'w-full justify-center mt-2' }">
