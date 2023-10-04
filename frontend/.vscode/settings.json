@@ -29,6 +29,10 @@
     "[html]": {
         "editor.defaultFormatter": "vscode.html-language-features"
     },
+    "css.customData": [
+        ".vscode/tailwind.json"
+    ],
+    "scss.lint.unknownAtRules": "ignore",
     "prettier.configPath": ".prettierrc.js",
     "editor.wordWrap": "off",
     "[xml]": {
