@@ -18,20 +18,25 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n%10==1 && n%100!=11 ? 0 : 1);\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: src/modules/settings/pages/Main.vue:243
+#: src/modules/settings/pages/Main.vue:228
 msgid "About"
 msgstr "Um"
+
+#: src/modules/settings/pages/Main.vue:145
+#, fuzzy
+msgid "Account"
+msgstr "Minn reikningur"
 
 #: src/modules/settings/pages/Main.vue:140
 #, fuzzy
 msgid "Account Settings"
 msgstr "Stillingar"
 
-#: src/modules/settings/pages/Main.vue:105
+#: src/modules/settings/pages/Main.vue:104
 msgid "Add API keys for external services"
 msgstr "Bættu við API lyklum fyrir ytri þjónustu"
 
-#: src/modules/settings/pages/Main.vue:199
+#: src/modules/settings/pages/Main.vue:191
 msgid "Add Custom HTML page to help screen"
 msgstr "Bættu við sérsniðinni HTML síðu til að hjálpa skjánum"
 
@@ -43,25 +48,35 @@ msgstr "Bættu við Jellyseerr, Overseerr eða Ombi stuðningi"
 msgid "Add Passkey"
 msgstr "Bæta við lykillykli"
 
-#: src/modules/settings/pages/Main.vue:112
+#: src/modules/settings/pages/Requests.vue:27
+#, fuzzy
+msgid "Add Request Service"
+msgstr "Biðja um Server"
+
+#: src/modules/settings/components/Forms/RequestForm.vue:5
+#, fuzzy
+msgid "Add Service"
+msgstr "Bæta við notanda"
+
+#: src/modules/settings/pages/Main.vue:111
 #, fuzzy
 msgid "Add webhooks for external services"
 msgstr "Bættu við API lyklum fyrir ytri þjónustu"
 
-#: src/modules/setup/pages/Account.vue:4 src/views/SetupViews/AccountView.vue:4
+#: src/modules/setup/pages/Account.vue:4
 msgid "Admin Account"
 msgstr "Stjórnandareikningur"
 
-#: src/components/Forms/InviteForm.vue:18
+#: src/modules/admin/components/Forms/InvitationForm.vue:19
 msgid "Advanced Options"
 msgstr "Ítarlegir valkostir"
 
-#: src/modules/settings/pages/Main.vue:207
+#: src/modules/settings/pages/Main.vue:199
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Ítarlegir valkostir"
 
-#: src/modules/settings/pages/Main.vue:208
+#: src/modules/settings/pages/Main.vue:200
 msgid "Advanced settings for the server"
 msgstr "Ítarlegar stillingar fyrir netþjóninn"
 
@@ -69,33 +84,38 @@ msgstr "Ítarlegar stillingar fyrir netþjóninn"
 msgid "All done!"
 msgstr "Allt búið!"
 
-#: src/components/Forms/APIKeyForm.vue:37
+#: src/modules/settings/components/APIKeys/APIKeysForm.vue:37
 #, fuzzy
 msgid "API Key"
 msgstr "API tákn"
 
-#: src/components/APIKeyList/APIKeyItem.vue:52
+#: src/modules/settings/components/APIKeys/APIKeysItem.vue:68
 #, fuzzy
 msgid "API key deleted successfully"
 msgstr "Fundi eytt!"
 
-#: src/components/APIKeyList/APIKeyItem.vue:54
+#: src/modules/settings/components/APIKeys/APIKeysItem.vue:70
 msgid "API key deletion cancelled"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:104
+#: src/modules/settings/pages/Main.vue:103
 #, fuzzy
 msgid "API keys"
 msgstr "API tákn"
 
-#: src/components/APIKeyList/APIKeyItem.vue:49
+#: src/modules/settings/components/APIKeys/APIKeysItem.vue:65
 #, fuzzy
 msgid "Are you sure you want to delete this API key?"
 msgstr "Ertu viss um að þú viljir eyða þessum API lykli?"
 
-#: src/modules/admin/components/ListItems/InvitationItem.vue:80
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:133
 #, fuzzy
 msgid "Are you sure you want to delete this invitation?"
+msgstr "Ertu viss um að þú viljir eyða þessum API lykli?"
+
+#: src/modules/settings/components/Requests/RequestsItem.vue:53
+#, fuzzy
+msgid "Are you sure you want to delete this request?"
 msgstr "Ertu viss um að þú viljir eyða þessum API lykli?"
 
 #: src/components/WebhookList/WebhookItem.vue:50
@@ -108,21 +128,29 @@ msgstr "Ertu viss um að þú viljir eyða þessum API lykli?"
 msgid "Are you sure you want to reset your dashboard?"
 msgstr "Ertu viss um að þú viljir keyra þetta verkefni?"
 
-#: src/components/APIKeyList/APIKeyItem.vue:49
+#: src/modules/settings/components/Forms/MediaForm.vue:144
+msgid ""
+"Are you sure you want to save this connection, this will reset your Wizarr "
+"instance, which may lead to data loss."
+msgstr ""
+
 #: src/components/Dashboard/Dashboard.vue:80
 #: src/components/WebhookList/WebhookItem.vue:50
-#: src/modules/admin/components/ListItems/InvitationItem.vue:80
-#: src/modules/admin/components/ListItems/UserItem.vue:96
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:133
+#: src/modules/admin/components/Users/UserList/UserItem.vue:136
+#: src/modules/settings/components/APIKeys/APIKeysItem.vue:65
+#: src/modules/settings/components/Forms/MediaForm.vue:144
+#: src/modules/settings/components/Requests/RequestsItem.vue:53
 msgid "Are you sure?"
 msgstr ""
 
 #: src/modules/help/views/Help.vue:12 src/modules/setup/views/Setup.vue:19
-#: src/templates/SettingsTemplate.vue:15 src/views/SetupViews/SetupView.vue:32
+#: src/templates/SettingsTemplate.vue:15
 msgid "Back"
 msgstr "Til baka"
 
 #: src/modules/settings/pages/Backup.vue:7
-#: src/modules/settings/pages/Main.vue:237
+#: src/modules/settings/pages/Main.vue:222
 #, fuzzy
 msgid "Backup"
 msgstr "Til baka"
@@ -132,59 +160,51 @@ msgstr "Til baka"
 msgid "Backup File"
 msgstr "Til baka"
 
-#: src/modules/settings/pages/Main.vue:153
+#: src/modules/settings/pages/Main.vue:152
 #, fuzzy
 msgid "Change your password"
 msgstr "Gleymt lykilorðinu þínu?"
 
-#: src/modules/settings/pages/Main.vue:231
+#: src/modules/settings/pages/Main.vue:216
 msgid "Check for and view updates"
 msgstr "Athugaðu og skoðaðu uppfærslur"
 
-#: src/views/SetupViews/WelcomeView.vue:12
-msgid ""
-"Check out our documentation for detailed instructions on how to install and "
-"run Wizarr!"
+#: src/modules/settings/components/Modals/ViewApiKey.vue:5
+msgid "Click the key to copy to clipboard!"
 msgstr ""
-"Skoðaðu skjölin okkar fyrir nákvæmar leiðbeiningar um hvernig á að setja upp "
-"og keyra Wizarr!"
+
+#: src/widgets/default/LatestInfo.vue:42
+msgid "Close"
+msgstr ""
 
 #: src/modules/settings/pages/Main.vue:132
 #, fuzzy
 msgid "Configure Discord bot settings"
 msgstr "Stilltu netþjónastillingarnar þínar."
 
-#: src/modules/settings/pages/Main.vue:173
-msgid "Configure MFA authentication"
-msgstr "Stilla MFA auðkenningu"
-
 #: src/modules/settings/pages/Main.vue:124
 #, fuzzy
 msgid "Configure notification settings"
 msgstr "Stilltu netþjónastillingarnar þínar."
 
-#: src/modules/settings/pages/Main.vue:212
-#, fuzzy
-msgid "Configure OAuth integration"
-msgstr "Búðu til boð"
-
-#: src/modules/settings/pages/Main.vue:118
+#: src/modules/settings/pages/Main.vue:117
 #, fuzzy
 msgid "Configure payment settings"
 msgstr "Stilltu netþjónastillingarnar þínar."
 
-#: src/modules/settings/pages/Main.vue:166
-msgid "Configure SSO login"
-msgstr "Stilla SSO innskráningu"
+#: src/modules/settings/pages/Main.vue:146
+#, fuzzy
+msgid "Configure your account settings"
+msgstr "Stilltu netþjónastillingarnar þínar."
 
 #: src/modules/settings/pages/Main.vue:91
 #, fuzzy
 msgid "Configure your media server settings"
 msgstr "Stilltu netþjónastillingarnar þínar."
 
-#: src/modules/settings/pages/Main.vue:146
+#: src/modules/settings/pages/Main.vue:165
 #, fuzzy
-msgid "Configure your profile settings"
+msgid "Configure your passkeys"
 msgstr "Stilltu netþjónastillingarnar þínar."
 
 #: src/modules/authentication/components/PasskeyForm.vue:15
@@ -192,14 +212,23 @@ msgstr "Stilltu netþjónastillingarnar þínar."
 msgid "Continue"
 msgstr "Halda áfram"
 
-#: src/components/Forms/APIKeyForm.vue:40
-#: src/modules/admin/components/ListItems/InvitationItem.vue:61
+#: src/widgets/default/ContributorsList.vue:3
+#, fuzzy
+msgid "Contributors"
+msgstr "Halda áfram"
+
+#: src/modules/admin/components/InvitationManager/Invitation.vue:120
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:96
+#: src/modules/admin/components/Invitations/ShareSheet.vue:70
+#: src/modules/admin/components/Users/UserManager/User.vue:121
+#: src/modules/settings/components/APIKeys/APIKeysForm.vue:40
+#: src/modules/settings/components/Modals/ViewApiKey.vue:28
 #, fuzzy
 msgid "Copied to clipboard"
 msgstr "Tengill hefur verið afritaður á klippiborð!"
 
-#: src/components/Forms/APIKeyForm.vue:15
 #: src/modules/help/components/Jellyfin/Download.vue:28
+#: src/modules/settings/components/APIKeys/APIKeysForm.vue:15
 msgid "Copy"
 msgstr "Afrita"
 
@@ -220,17 +249,18 @@ msgid ""
 "password to protect your backup file."
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:238
+#: src/modules/settings/pages/Main.vue:223
 #, fuzzy
 msgid "Create and restore backups"
 msgstr "Búðu til reikning"
 
-#: src/components/Forms/InviteForm.vue:43
+#: src/modules/admin/components/Forms/InvitationForm.vue:252
+#: src/modules/admin/components/Forms/InvitationForm.vue:44
 #, fuzzy
 msgid "Create Another"
 msgstr "Búa til umboðsmann"
 
-#: src/components/Forms/APIKeyForm.vue:16
+#: src/modules/settings/components/APIKeys/APIKeysForm.vue:16
 #: src/modules/settings/pages/APIKeys.vue:24
 msgid "Create API Key"
 msgstr "Búðu til API lykil"
@@ -240,7 +270,10 @@ msgstr "Búðu til API lykil"
 msgid "Create Flow"
 msgstr "Búa til"
 
-#: src/components/Forms/InviteForm.vue:22
+#: src/modules/admin/components/Forms/InvitationForm.vue:265
+#: src/modules/admin/components/Forms/InvitationForm.vue:268
+#: src/modules/admin/components/Forms/InvitationForm.vue:33
+#: src/modules/admin/pages/Invitations.vue:41
 #: src/modules/admin/pages/Invitations.vue:5
 msgid "Create Invitation"
 msgstr "Búðu til boð"
@@ -249,18 +282,17 @@ msgstr "Búðu til boð"
 msgid "Create Invite"
 msgstr "Búa til boð"
 
-#: src/components/Forms/WebhookForm.vue:6
+#: src/modules/settings/components/Forms/WebhookForm.vue:6
 #: src/modules/settings/pages/Webhooks.vue:24
 #, fuzzy
 msgid "Create Webhook"
 msgstr "Búa til"
 
 #: src/modules/setup/pages/Database.vue:7
-#: src/views/SetupViews/DatabaseView.vue:6
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr "Eins og er styður Wizarr aðeins innri SQLite gagnagrunninn."
 
-#: src/modules/settings/pages/Main.vue:198
+#: src/modules/settings/pages/Main.vue:190
 #, fuzzy
 msgid "Custom HTML"
 msgstr "Sérsniðin"
@@ -274,26 +306,30 @@ msgstr ""
 msgid "Dashboard reset successfully"
 msgstr "Fundi eytt!"
 
+#: src/tours/admin-home.ts:9
+#, fuzzy
+msgid "Dashboard Widgets"
+msgstr "Discord búnaður"
+
 #: src/modules/setup/pages/Database.vue:4
-#: src/views/SetupViews/DatabaseView.vue:3
 msgid "Database"
 msgstr "Gagnagrunnur"
 
-#: src/modules/admin/components/Lists/SimpleUserList.vue:9
+#: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserList.vue:9
 msgid "Deleted users will not be visible"
 msgstr ""
 
-#: src/components/Forms/MediaForm.vue:10
+#: src/modules/settings/components/Forms/MediaForm.vue:10
 #, fuzzy
 msgid "Detect Server"
 msgstr "Biðja um Server"
 
-#: src/components/Forms/MediaForm.vue:112
+#: src/modules/settings/components/Forms/MediaForm.vue:118
 #, fuzzy
 msgid "Detected %{server_type} server!"
 msgstr "Skráðu þig í Plex Server"
 
-#: src/modules/settings/pages/Main.vue:191
+#: src/modules/settings/pages/Main.vue:183
 #, fuzzy
 msgid "Discord"
 msgstr "Discord búnaður"
@@ -303,7 +339,7 @@ msgstr "Discord búnaður"
 msgid "Discord Bot"
 msgstr "Discord búnaður"
 
-#: src/modules/admin/components/ListItems/UserItem.vue:96
+#: src/modules/admin/components/Users/UserList/UserItem.vue:136
 #, fuzzy
 msgid "Do you really want to delete this user from your media server?"
 msgstr "Ertu viss um að þú viljir eyða þessum API lykli?"
@@ -312,7 +348,7 @@ msgstr "Ertu viss um að þú viljir eyða þessum API lykli?"
 msgid "Don't see your server?"
 msgstr ""
 
-#: src/modules/admin/pages/Home.vue:5
+#: src/modules/admin/pages/Home.vue:5 src/tours/admin-home.ts:19
 #, fuzzy
 msgid "Edit Dashboard"
 msgstr "Farðu í mælaborð"
@@ -325,11 +361,11 @@ msgstr "Eh, svo, hvað er Jellyfin nákvæmlega?"
 msgid "Eh, So, What is Plex exactly?"
 msgstr "Æ, svo, hvað er Plex nákvæmlega?"
 
-#: src/modules/settings/pages/Account.vue:53
+#: src/modules/settings/pages/Account.vue:61
 msgid "Email"
 msgstr "Tölvupóstur"
 
-#: src/modules/settings/pages/Main.vue:192
+#: src/modules/settings/pages/Main.vue:184
 msgid "Enable Discord page and configure settings"
 msgstr "Virkjaðu Discord síðu og stilltu stillingar"
 
@@ -339,26 +375,26 @@ msgstr "Virkjaðu Discord síðu og stilltu stillingar"
 msgid "Encryption Password"
 msgstr "Gleymt lykilorð"
 
-#: src/modules/admin/components/ListItems/InvitationItem.vue:93
-#: src/modules/admin/components/ListItems/SimpleUserItem.vue:49
-#: src/modules/admin/components/ListItems/UserItem.vue:67
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:146
+#: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserItem.vue:49
+#: src/modules/admin/components/Users/UserList/UserItem.vue:73
 #, fuzzy
 msgid "Expired %{s}"
 msgstr "Útrunnið"
 
-#: src/modules/admin/components/ListItems/InvitationItem.vue:95
-#: src/modules/admin/components/ListItems/SimpleUserItem.vue:51
-#: src/modules/admin/components/ListItems/UserItem.vue:69
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:148
+#: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserItem.vue:51
+#: src/modules/admin/components/Users/UserList/UserItem.vue:75
 #, fuzzy
 msgid "Expires %{s}"
 msgstr "Útrunnið"
 
-#: src/components/Forms/InviteForm.vue:54
+#: src/modules/admin/components/Forms/InvitationForm.vue:55
 #, fuzzy
 msgid "Failed to create invitation"
 msgstr "Búðu til boð"
 
-#: src/modules/settings/pages/Account.vue:21
+#: src/modules/settings/pages/Account.vue:29
 msgid "First name"
 msgstr ""
 
@@ -388,7 +424,6 @@ msgid "Go to Dashboard"
 msgstr "Farðu í mælaborð"
 
 #: src/modules/setup/pages/Complete.vue:11
-#: src/views/SetupViews/CompleteView.vue:10
 #, fuzzy
 msgid "Go to Login"
 msgstr "Skrá inn"
@@ -422,8 +457,12 @@ msgstr ""
 msgid "Home"
 msgstr "Heim"
 
-#: src/components/Forms/WebhookForm.vue:16
+#: src/modules/settings/components/Forms/WebhookForm.vue:16
 msgid "https://example.com"
+msgstr ""
+
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:66
+msgid "I wanted to invite you to join my media server."
 msgstr ""
 
 #: src/modules/home/views/Home.vue:12
@@ -440,21 +479,48 @@ msgstr ""
 msgid "Invalid invitation code, please try again"
 msgstr "Eitthvað fór úrskeiðis, vinsamlegast reyndu aftur."
 
-#: src/modules/admin/components/ListItems/InvitationItem.vue:83
+#: src/modules/admin/components/InvitationManager/Invitation.vue:5
+#: src/modules/admin/components/Users/UserManager/User.vue:23
+#, fuzzy
+msgid "Invitation Code"
+msgstr "Boð"
+
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:136
 #, fuzzy
 msgid "Invitation deleted successfully"
 msgstr "Fundi eytt!"
 
-#: src/modules/admin/components/ListItems/InvitationItem.vue:85
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:138
 msgid "Invitation deletion cancelled"
 msgstr ""
 
-#: src/modules/admin/components/ListItems/InvitationItem.vue:5
+#: src/modules/admin/components/InvitationManager/Invitation.vue:18
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:74
+#, fuzzy
+msgid "Invitation Details"
+msgstr "Boð"
+
+#: src/modules/admin/components/InvitationManager/Invitation.vue:99
+#, fuzzy
+msgid "Invitation expired %{s}"
+msgstr "Boð"
+
+#: src/modules/admin/components/InvitationManager/Invitation.vue:101
+#, fuzzy
+msgid "Invitation expires %{s}"
+msgstr "Boð"
+
+#: src/modules/admin/components/InvitationManager/Invitation.vue:30
+#, fuzzy
+msgid "Invitation Settings"
+msgstr "Stillingar"
+
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:5
 #, fuzzy
 msgid "Invitation used"
 msgstr "Boð"
 
-#: src/modules/admin/components/ListItems/InvitationItem.vue:65
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:118
 #, fuzzy
 msgid "Invitation Users"
 msgstr "Boð"
@@ -464,7 +530,7 @@ msgstr "Boð"
 msgid "Invitations"
 msgstr "Boð"
 
-#: src/components/Forms/JoinForm.vue:10 src/modules/join/pages/JoinForm.vue:10
+#: src/modules/join/pages/JoinForm.vue:10
 msgid "Invite Code"
 msgstr "Boðkóði"
 
@@ -487,7 +553,7 @@ msgstr ""
 "sem er, á hvaða tæki sem er - símanum þínum, spjaldtölvu, fartölvu, "
 "snjallsjónvarpi, þú nefnir það."
 
-#: src/components/Forms/JoinForm.vue:7 src/modules/join/pages/JoinForm.vue:7
+#: src/modules/join/pages/JoinForm.vue:7
 msgid "Join"
 msgstr "Vertu með"
 
@@ -500,8 +566,28 @@ msgstr "Sækja"
 msgid "Join & Download Plex for this device"
 msgstr "Vertu með og halaðu niður Plex fyrir þetta tæki"
 
-#: src/modules/settings/pages/Account.vue:25
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:65
+#, fuzzy
+msgid "Join my media server"
+msgstr "Stilltu netþjónastillingarnar þínar."
+
+#: src/modules/settings/pages/Account.vue:33
 msgid "Last name"
+msgstr ""
+
+#: src/widgets/default/LatestInfo.vue:4 src/widgets/default/LatestInfo.vue:41
+msgid "Latest Info"
+msgstr ""
+
+#: src/tours/admin-home.ts:14
+#, fuzzy
+msgid "Latest Information"
+msgstr "Sýna upplýsingar"
+
+#: src/tours/admin-home.ts:15
+msgid ""
+"Like this Widget, it shows you the latest information about Wizarr and will "
+"be updated regularly by our amazing team."
 msgstr ""
 
 #: src/components/ChangeLogs/ChangeLogs.vue:7
@@ -518,8 +604,9 @@ msgid "Login to Plex"
 msgstr "Skráðu þig inn á Plex"
 
 #: src/modules/authentication/components/PasswordForm.vue:16
-msgid "Login with MFA"
-msgstr "Skráðu þig inn með MFA"
+#, fuzzy
+msgid "Login with Passkey"
+msgstr "Skráðu þig inn með lykilorði"
 
 #: src/modules/authentication/components/PasskeyForm.vue:19
 msgid "Login with Password"
@@ -529,7 +616,7 @@ msgstr "Skráðu þig inn með lykilorði"
 msgid "Login with your account"
 msgstr "Skráðu þig inn með reikningnum þínum"
 
-#: src/modules/settings/pages/Main.vue:218
+#: src/modules/settings/pages/Main.vue:203
 #, fuzzy
 msgid "Logs"
 msgstr "Skrá inn"
@@ -558,19 +645,23 @@ msgstr "Stjórnaðu boðunum þínum"
 msgid "Manage your media server users"
 msgstr "Stilltu netþjónastillingarnar þínar."
 
-#: src/modules/settings/pages/Account.vue:31
+#: src/modules/admin/components/Users/UserList/UserItem.vue:104
+msgid "Managing %{user}"
+msgstr ""
+
+#: src/modules/settings/pages/Account.vue:41
 msgid "Martian"
 msgstr ""
 
-#: src/modules/settings/pages/Account.vue:51
+#: src/modules/settings/pages/Account.vue:61
 msgid "marvin"
 msgstr ""
 
-#: src/modules/settings/pages/Account.vue:26
+#: src/modules/settings/pages/Account.vue:36
 msgid "Marvin"
 msgstr ""
 
-#: src/modules/settings/pages/Account.vue:66
+#: src/modules/settings/pages/Account.vue:76
 msgid "marvin@wizarr.dev"
 msgstr ""
 
@@ -583,47 +674,60 @@ msgstr "Server"
 msgid "Mixing the potions..."
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:187
+#: src/modules/settings/pages/Main.vue:179
 msgid "Modify the look and feel of the server"
 msgstr "Breyttu útliti og tilfinningu þjónsins"
 
-#: src/modules/settings/pages/Main.vue:172
-msgid "Multi-Factor Authentication"
-msgstr "Fjölþátta auðkenning"
-
-#: src/components/Forms/APIKeyForm.vue:21
+#: src/modules/settings/components/APIKeys/APIKeysForm.vue:21
 #, fuzzy
 msgid "My API Key"
 msgstr "Búðu til API lykil"
 
-#: src/components/Forms/WebhookForm.vue:11
+#: src/modules/settings/components/Forms/WebhookForm.vue:11
 #, fuzzy
 msgid "My Webhook"
 msgstr "Webhook auðkenni"
 
-#: src/components/Forms/APIKeyForm.vue:17
-#: src/components/Forms/WebhookForm.vue:9
+#: src/modules/settings/components/APIKeys/APIKeysForm.vue:17
+#: src/modules/settings/components/Forms/WebhookForm.vue:9
 msgid "Name"
 msgstr "Nafn"
 
-#: src/components/Forms/MediaForm.vue:46 src/modules/help/views/Help.vue:15
-#: src/modules/setup/views/Setup.vue:22 src/views/SetupViews/SetupView.vue:33
+#: src/modules/help/views/Help.vue:15
+#: src/modules/settings/components/Forms/MediaForm.vue:46
+#: src/modules/setup/views/Setup.vue:22
 msgid "Next"
 msgstr "Næst"
 
-#: src/components/APIKeyList/APIKeyList.vue:11
+#: src/modules/settings/components/APIKeys/APIKeys.vue:11
 #, fuzzy
 msgid "No API Keys found"
 msgstr "Lykilarnir þínir"
 
-#: src/modules/admin/components/Lists/InvitationList.vue:11
+#: src/widgets/default/ContributorsList.vue:17
+#, fuzzy
+msgid "No contributors found"
+msgstr "Engin boð"
+
+#: src/modules/admin/components/InvitationManager/Invitation.vue:21
+#: src/modules/admin/components/Users/UserManager/User.vue:39
+#, fuzzy
+msgid "No expiration"
+msgstr "Gildistími"
+
+#: src/modules/admin/components/Invitations/InvitationList/InvitationList.vue:11
 #, fuzzy
 msgid "No Invitations found"
 msgstr "Engin boð"
 
-#: src/components/MFAList/MFAList.vue:11
+#: src/modules/settings/components/Passkeys/Passkeys.vue:11
 #, fuzzy
 msgid "No Passkeys found"
+msgstr "Lykilarnir þínir"
+
+#: src/modules/settings/components/Requests/Requests.vue:11
+#, fuzzy
+msgid "No Requests found"
 msgstr "Lykilarnir þínir"
 
 #: src/modules/settings/components/ScanServers/ScanServers.vue:15
@@ -634,8 +738,8 @@ msgstr ""
 msgid "No settings matched your search."
 msgstr "Engar stillingar passa við leitina þína."
 
-#: src/modules/admin/components/Lists/SimpleUserList.vue:8
-#: src/modules/admin/components/Lists/UserList.vue:11
+#: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserList.vue:8
+#: src/modules/admin/components/Users/UserList/UserList.vue:11
 #, fuzzy
 msgid "No Users found"
 msgstr "Lykilarnir þínir"
@@ -650,11 +754,6 @@ msgstr "Webhook Token"
 msgid "Notifications"
 msgstr "Tilkynningaþjónusta"
 
-#: src/modules/settings/pages/Main.vue:211
-#, fuzzy
-msgid "OAuth Integration"
-msgstr "Búðu til boð"
-
 #: src/modules/help/components/Jellyfin/Download.vue:47
 msgid "Open Jellyfin"
 msgstr "Opið Jellyfin"
@@ -664,13 +763,18 @@ msgstr "Opið Jellyfin"
 msgid "Open Plex"
 msgstr "Opið"
 
+#: src/modules/settings/pages/Main.vue:164
+#, fuzzy
+msgid "Passkey Authentication"
+msgstr "Fjölþátta auðkenning"
+
 #: src/modules/settings/pages/Backup.vue:125
 #: src/modules/settings/pages/Backup.vue:57
-#: src/modules/settings/pages/Main.vue:152
+#: src/modules/settings/pages/Main.vue:151
 msgid "Password"
 msgstr "Lykilorð"
 
-#: src/modules/settings/pages/Main.vue:117
+#: src/modules/settings/pages/Main.vue:116
 msgid "Payments"
 msgstr ""
 
@@ -696,12 +800,12 @@ msgid ""
 "them."
 msgstr ""
 
-#: src/components/Forms/MediaForm.vue:118
+#: src/modules/settings/components/Forms/MediaForm.vue:124
 #, fuzzy
 msgid "Please enter a server URL and API key."
 msgstr "Vinsamlegast reyndu aftur"
 
-#: src/components/Forms/MediaForm.vue:102
+#: src/modules/settings/components/Forms/MediaForm.vue:108
 #, fuzzy
 msgid "Please enter a server URL."
 msgstr "Vinsamlegast reyndu aftur"
@@ -720,7 +824,7 @@ msgstr "Vinsamlegast sláðu inn notandanafnið þitt"
 msgid "Please login to your Plex account to help us connect you to our server."
 msgstr ""
 
-#: src/components/Forms/APIKeyForm.vue:11
+#: src/modules/settings/components/APIKeys/APIKeysForm.vue:11
 msgid ""
 "Please take a copy your API key. You will not be able to see it again, "
 "please make sure to store it somewhere safe."
@@ -743,9 +847,10 @@ msgstr ""
 "Ýttu á hnappinn hér að neðan og fylgdu skrefum vafrans þíns til að skrá þig "
 "inn"
 
-#: src/modules/settings/pages/Main.vue:145
-msgid "Profile"
-msgstr "Prófíll"
+#: src/widgets/default/LatestInfo.vue:9
+#, fuzzy
+msgid "Read More"
+msgstr "Hlaða meira"
 
 #: src/modules/home/views/Home.vue:16
 msgid "Request Access"
@@ -766,7 +871,7 @@ msgstr "Endur stilla lykilorð"
 msgid "Restore"
 msgstr "Búðu til reikning"
 
-#: src/modules/setup/pages/Restore.vue:7 src/views/SetupViews/RestoreView.vue:7
+#: src/modules/setup/pages/Restore.vue:7
 msgid ""
 "Restore a backup of your database and configuration from a backup file. You "
 "will need to provide the encryption password that was used to create the "
@@ -781,18 +886,21 @@ msgid ""
 msgstr ""
 
 #: src/modules/setup/pages/Restore.vue:4
-#: src/views/SetupViews/RestoreView.vue:20
-#: src/views/SetupViews/RestoreView.vue:4
 #, fuzzy
 msgid "Restore Backup"
 msgstr "Búðu til reikning"
 
-#: src/modules/settings/pages/Account.vue:7
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:77
+#: src/modules/admin/components/Users/UserList/UserItem.vue:107
+msgid "Save"
+msgstr "Vista"
+
+#: src/modules/settings/pages/Account.vue:17
 #, fuzzy
 msgid "Save Account"
 msgstr "Búðu til reikning"
 
-#: src/components/Forms/MediaForm.vue:41
+#: src/modules/settings/components/Forms/MediaForm.vue:41
 #, fuzzy
 msgid "Save Connection"
 msgstr "Prófaðu tengingu"
@@ -807,12 +915,13 @@ msgstr "Lykilorð"
 msgid "Save URL"
 msgstr "Vefslóð netþjóns"
 
-#: src/components/Forms/MediaForm.vue:25 src/components/Forms/MediaForm.vue:84
+#: src/modules/settings/components/Forms/MediaForm.vue:25
+#: src/modules/settings/components/Forms/MediaForm.vue:90
 #, fuzzy
 msgid "Scan Libraries"
 msgstr "Veldu Bókasöfn"
 
-#: src/components/Forms/MediaForm.vue:30
+#: src/modules/settings/components/Forms/MediaForm.vue:30
 #, fuzzy
 msgid "Scan Servers"
 msgstr "Skannaðu notendur"
@@ -821,36 +930,40 @@ msgstr "Skannaðu notendur"
 msgid "Scan Users"
 msgstr "Skannaðu notendur"
 
-#: src/components/Forms/MediaForm.vue:87
+#: src/components/Buttons/LanguageSelector.vue:21
+msgid "Select Language"
+msgstr "Veldu tungumál"
+
+#: src/modules/settings/components/Forms/MediaForm.vue:93
 msgid "Select Libraries"
 msgstr "Veldu Bókasöfn"
 
-#: src/components/Forms/MediaForm.vue:33
+#: src/modules/settings/components/Forms/MediaForm.vue:33
 #, fuzzy
 msgid "Server API Key"
 msgstr "Biðja um netþjón API lykil"
 
-#: src/components/Forms/MediaForm.vue:127
+#: src/modules/settings/components/Forms/MediaForm.vue:133
 #, fuzzy
 msgid "Server connection verified!"
 msgstr "Tenging mistókst!"
 
-#: src/components/Forms/MediaForm.vue:11
+#: src/modules/settings/components/Forms/MediaForm.vue:11
 msgid "Server Display Name"
 msgstr "Sýningarnafn netþjóns"
 
-#: src/components/Forms/MediaForm.vue:40
+#: src/modules/settings/components/Forms/MediaForm.vue:40
 #, fuzzy
 msgid "Server Type"
 msgstr "Server"
 
-#: src/components/Forms/MediaForm.vue:17
 #: src/modules/help/components/Jellyfin/Download.vue:24
+#: src/modules/settings/components/Forms/MediaForm.vue:17
 #, fuzzy
 msgid "Server URL"
 msgstr "Sýna vefslóð netþjóns"
 
-#: src/modules/settings/pages/Main.vue:159
+#: src/modules/settings/pages/Main.vue:158
 #, fuzzy
 msgid "Sessions"
 msgstr "Útgáfa"
@@ -864,7 +977,7 @@ msgstr "Stillingar"
 msgid "Settings for user accounts"
 msgstr "Að setja upp reikninginn þinn"
 
-#: src/modules/setup/views/Setup.vue:5 src/views/SetupViews/SetupView.vue:4
+#: src/modules/setup/views/Setup.vue:5
 msgid "Setup Wizarr"
 msgstr "Uppsetningarhjálp"
 
@@ -873,9 +986,22 @@ msgstr "Uppsetningarhjálp"
 msgid "Setup your account"
 msgstr "Að setja upp reikninginn þinn"
 
-#: src/components/Forms/InviteForm.vue:46
+#: src/modules/admin/components/Forms/InvitationForm.vue:248
+#: src/modules/admin/components/Forms/InvitationForm.vue:47
 msgid "Share"
 msgstr "Deila"
+
+#: src/modules/admin/components/Forms/InvitationForm.vue:245
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:106
+#, fuzzy
+msgid "Share Invitation"
+msgstr "Búðu til boð"
+
+#: src/modules/admin/components/Invitations/ShareSheet.vue:17
+msgid ""
+"Share this link with your friends and family to invite them to join your "
+"media server."
+msgstr ""
 
 #: src/modules/help/components/Plex/Welcome.vue:11
 msgid "So let's see how to get started!"
@@ -903,31 +1029,43 @@ msgstr "Eitthvað vantar."
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
 msgstr "Því miður, við finnum ekki þá síðu. Það virðist ekki vera til!"
 
-#: src/modules/settings/pages/Main.vue:165
-#, fuzzy
-msgid "SSO Login"
-msgstr "Skrá inn"
-
 #: src/modules/join/pages/Complete.vue:7
 msgid "Start Walkthrough"
+msgstr ""
+
+#: src/modules/admin/components/Users/UserManager/Settings.vue:4
+msgid "Still under development"
 msgstr ""
 
 #: src/components/Loading/FullPageLoading.vue:109
 msgid "Summoning the spirits..."
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:224
+#: src/widgets/default/ContributorsList.vue:23
+msgid "Support us"
+msgstr ""
+
+#: src/modules/settings/pages/Main.vue:209
 #, fuzzy
 msgid "Tasks"
 msgstr "Keyra verkefni"
 
+#: src/tours/admin-home.ts:10
+msgid ""
+"These are your widgets, you can use them to get a quick overview of your "
+"Wizarr instance."
+msgstr ""
+
 #: src/modules/setup/pages/Database.vue:9
-#: src/views/SetupViews/DatabaseView.vue:8
 msgid ""
 "This is a temporary and we are working on adding support for other databases."
 msgstr ""
 "Þetta er tímabundið og við erum að vinna að því að bæta við stuðningi við "
 "aðra gagnagrunna."
+
+#: src/modules/settings/pages/Account.vue:3
+msgid "This page is currently read only!"
+msgstr ""
 
 #: src/modules/settings/pages/Backup.vue:41
 msgid "To decrypt and encrypt backup files you can use the tools"
@@ -948,8 +1086,7 @@ msgstr "Keyra verkefni"
 msgid "Total Users"
 msgstr "Skannaðu notendur"
 
-#: src/components/Forms/InviteForm.vue:58
-#: src/components/Modals/ScanServersModal.vue:8
+#: src/modules/admin/components/Forms/InvitationForm.vue:59
 msgid "Try Again"
 msgstr ""
 
@@ -965,30 +1102,30 @@ msgstr "Sláðu inn boðskóðann þinn á %(name)s netþjón!"
 msgid "Uh oh!"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:186
+#: src/modules/settings/pages/Main.vue:178
 #, fuzzy
 msgid "UI Settings"
 msgstr "Stillingar"
 
-#: src/components/Forms/MediaForm.vue:105
+#: src/modules/settings/components/Forms/MediaForm.vue:111
 #, fuzzy
 msgid "Unable to detect server."
 msgstr "Ekki er hægt að uppfæra bókasöfn"
 
-#: src/components/Forms/MediaForm.vue:138
+#: src/modules/settings/components/Forms/MediaForm.vue:149
 msgid "Unable to save connection."
 msgstr ""
 
-#: src/components/Forms/MediaForm.vue:121
+#: src/modules/settings/components/Forms/MediaForm.vue:127
 msgid "Unable to verify server."
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:230
+#: src/modules/settings/pages/Main.vue:215
 #, fuzzy
 msgid "Updates"
 msgstr "Uppfærsla"
 
-#: src/components/Forms/WebhookForm.vue:13
+#: src/modules/settings/components/Forms/WebhookForm.vue:13
 msgid "URL"
 msgstr ""
 
@@ -996,15 +1133,30 @@ msgstr ""
 msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
 msgstr "Notaðu fingrafar eða andlitsgreiningu til að staðfesta auðkenni þitt"
 
-#: src/modules/admin/components/ListItems/UserItem.vue:99
+#: src/modules/admin/components/Users/UserList/UserItem.vue:139
 msgid "User %{user} deleted"
 msgstr ""
 
-#: src/modules/admin/components/ListItems/UserItem.vue:101
+#: src/modules/admin/components/Users/UserList/UserItem.vue:141
 msgid "User deletion cancelled"
 msgstr ""
 
-#: src/modules/settings/pages/Account.vue:41
+#: src/modules/admin/components/Users/UserManager/User.vue:36
+#, fuzzy
+msgid "User Expiration"
+msgstr "Gildistími"
+
+#: src/modules/admin/components/Users/UserManager/User.vue:93
+#, fuzzy
+msgid "User expired %{s}"
+msgstr "Útrunnið"
+
+#: src/modules/admin/components/Users/UserManager/User.vue:95
+#, fuzzy
+msgid "User expires %{s}"
+msgstr "Útrunnið"
+
+#: src/modules/settings/pages/Account.vue:49
 msgid "Username"
 msgstr "Notendanafn"
 
@@ -1012,7 +1164,7 @@ msgstr "Notendanafn"
 msgid "Users"
 msgstr "Notendur"
 
-#: src/components/Forms/MediaForm.vue:36
+#: src/modules/settings/components/Forms/MediaForm.vue:36
 #, fuzzy
 msgid "Verify Connection"
 msgstr "Prófaðu tengingu"
@@ -1021,20 +1173,25 @@ msgstr "Prófaðu tengingu"
 msgid "View"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:219
+#: src/modules/settings/pages/Main.vue:204
 msgid "View and download server logs"
 msgstr "Skoða og hlaða niður netþjónaskrám"
 
-#: src/modules/settings/pages/Main.vue:225
+#: src/modules/settings/pages/Main.vue:210
 msgid "View and manage scheduled tasks"
 msgstr "Skoða og stjórna áætluðum verkefnum"
 
-#: src/modules/settings/pages/Main.vue:160
+#: src/modules/settings/pages/Main.vue:159
 #, fuzzy
 msgid "View and manage your active sessions"
 msgstr "Stjórnaðu boðunum þínum"
 
-#: src/modules/settings/pages/Main.vue:244
+#: src/modules/settings/components/APIKeys/APIKeysItem.vue:55
+#, fuzzy
+msgid "View API key"
+msgstr "API tákn"
+
+#: src/modules/settings/pages/Main.vue:229
 msgid "View information about the server"
 msgstr "Skoðaðu upplýsingar um netþjóninn"
 
@@ -1042,16 +1199,11 @@ msgstr "Skoðaðu upplýsingar um netþjóninn"
 msgid "Waving our wands..."
 msgstr ""
 
-#: src/views/SetupViews/WelcomeView.vue:9
+#: src/tours/admin-home.ts:6
 msgid ""
-"We hope you enjoy using Wizarr and invite you to explore its powerful "
-"features and intuitive interface. Should you need any assistance, please "
-"refer to our documentation or reach out to our community for support."
+"We want to help you get started with Wizarr as quickly as possible, consider "
+"following this tour to get a quick overview."
 msgstr ""
-"Við vonum að þú njótir þess að nota Wizarr og bjóðum þér að kanna öfluga "
-"eiginleika þess og leiðandi viðmót. Ef þú þarft einhverja aðstoð, "
-"vinsamlegast skoðaðu skjölin okkar eða leitaðu til samfélagsins okkar til að "
-"fá stuðning."
 
 #: src/components/WebhookList/WebhookItem.vue:53
 #, fuzzy
@@ -1062,12 +1214,12 @@ msgstr "Fundi eytt!"
 msgid "Webhook deletion cancelled"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:111
+#: src/modules/settings/pages/Main.vue:110
 #, fuzzy
 msgid "Webhooks"
 msgstr "Webhook auðkenni"
 
-#: src/modules/setup/pages/Welcome.vue:5 src/views/SetupViews/WelcomeView.vue:3
+#: src/modules/setup/pages/Welcome.vue:5 src/tours/admin-home.ts:5
 msgid "Welcome to Wizarr"
 msgstr "Velkomin í Wizarr"
 
@@ -1096,22 +1248,13 @@ msgstr ""
 "netþjónastjórar auðveldlega boðið nýjum notendum og stjórnað "
 "aðgangsheimildum þeirra."
 
-#: src/views/SetupViews/WelcomeView.vue:6
+#: src/tours/admin-home.ts:20
 msgid ""
-"Wizarr is an automatic user invitation system for Plex, Jellyfin, and Emby. "
-"With Wizarr, you can easily create unique invitation links to share with "
-"users, automatically inviting them to your Media Server! Furthermore, Wizarr "
-"provides guidance on downloading clients and instructions for using "
-"Jellyseerr, Overseerr or Ombi site."
+"You can also edit your dashboard, delete widgets, add new widgets, and move "
+"them around."
 msgstr ""
-"Wizarr er sjálfvirkt notendaboðskerfi fyrir Plex, Jellyfin og Emby. Með "
-"Wizarr geturðu auðveldlega búið til einstaka boðstengla til að deila með "
-"notendum og bjóða þeim sjálfkrafa á fjölmiðlaþjóninn þinn! Ennfremur veitir "
-"Wizarr leiðbeiningar um niðurhal viðskiptavina og leiðbeiningar um notkun "
-"Jellyseerr, Overseerr eða Ombi síðuna."
 
 #: src/modules/setup/pages/Complete.vue:7
-#: src/views/SetupViews/CompleteView.vue:6
 msgid "You have successfully completed the setup process."
 msgstr "Þú hefur lokið uppsetningarferlinu."
 
@@ -1124,10 +1267,72 @@ msgstr ""
 "Þú ert tilbúinn, smelltu á halda áfram til að byrja og fara yfir hvernig á "
 "að nota Plex!"
 
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:98
+#: src/modules/admin/components/Invitations/ShareSheet.vue:72
+msgid "Your browser does not support copying to clipboard"
+msgstr ""
+
 #: src/modules/setup/pages/Complete.vue:4
-#: src/views/SetupViews/CompleteView.vue:3
 msgid "Your Done"
 msgstr "Þitt Búið"
+
+#, fuzzy
+#~ msgid "Welcome to Wizarr!"
+#~ msgstr "Velkomin í Wizarr"
+
+#~ msgid ""
+#~ "Check out our documentation for detailed instructions on how to install "
+#~ "and run Wizarr!"
+#~ msgstr ""
+#~ "Skoðaðu skjölin okkar fyrir nákvæmar leiðbeiningar um hvernig á að setja "
+#~ "upp og keyra Wizarr!"
+
+#~ msgid "Configure MFA authentication"
+#~ msgstr "Stilla MFA auðkenningu"
+
+#, fuzzy
+#~ msgid "Configure OAuth integration"
+#~ msgstr "Búðu til boð"
+
+#~ msgid "Configure SSO login"
+#~ msgstr "Stilla SSO innskráningu"
+
+#~ msgid "Login with MFA"
+#~ msgstr "Skráðu þig inn með MFA"
+
+#, fuzzy
+#~ msgid "OAuth Integration"
+#~ msgstr "Búðu til boð"
+
+#~ msgid "Profile"
+#~ msgstr "Prófíll"
+
+#, fuzzy
+#~ msgid "SSO Login"
+#~ msgstr "Skrá inn"
+
+#~ msgid ""
+#~ "We hope you enjoy using Wizarr and invite you to explore its powerful "
+#~ "features and intuitive interface. Should you need any assistance, please "
+#~ "refer to our documentation or reach out to our community for support."
+#~ msgstr ""
+#~ "Við vonum að þú njótir þess að nota Wizarr og bjóðum þér að kanna öfluga "
+#~ "eiginleika þess og leiðandi viðmót. Ef þú þarft einhverja aðstoð, "
+#~ "vinsamlegast skoðaðu skjölin okkar eða leitaðu til samfélagsins okkar til "
+#~ "að fá stuðning."
+
+#~ msgid ""
+#~ "Wizarr is an automatic user invitation system for Plex, Jellyfin, and "
+#~ "Emby. With Wizarr, you can easily create unique invitation links to share "
+#~ "with users, automatically inviting them to your Media Server! "
+#~ "Furthermore, Wizarr provides guidance on downloading clients and "
+#~ "instructions for using Jellyseerr, Overseerr or Ombi site."
+#~ msgstr ""
+#~ "Wizarr er sjálfvirkt notendaboðskerfi fyrir Plex, Jellyfin og Emby. Með "
+#~ "Wizarr geturðu auðveldlega búið til einstaka boðstengla til að deila með "
+#~ "notendum og bjóða þeim sjálfkrafa á fjölmiðlaþjóninn þinn! Ennfremur "
+#~ "veitir Wizarr leiðbeiningar um niðurhal viðskiptavina og leiðbeiningar um "
+#~ "notkun Jellyseerr, Overseerr eða Ombi síðuna."
 
 #~ msgid "Create account"
 #~ msgstr "Búðu til reikning"
@@ -1177,9 +1382,6 @@ msgstr "Þitt Búið"
 #~ msgid "Select All"
 #~ msgstr "Velja allt"
 
-#~ msgid "Show Information"
-#~ msgstr "Sýna upplýsingar"
-
 #~ msgid "Specific Libraries"
 #~ msgstr "Sérstök bókasöfn"
 
@@ -1198,9 +1400,6 @@ msgstr "Þitt Búið"
 
 #~ msgid "Custom Expiration"
 #~ msgstr "Sérsniðin gildistími"
-
-#~ msgid "Expiration"
-#~ msgstr "Gildistími"
 
 #~ msgid "Never"
 #~ msgstr "Aldrei"
@@ -1276,9 +1475,6 @@ msgstr "Þitt Búið"
 
 #~ msgid "Manage users that joined your server"
 #~ msgstr "Stjórnaðu notendum sem gengu til liðs við netþjóninn þinn"
-
-#~ msgid "Add User"
-#~ msgstr "Bæta við notanda"
 
 #~ msgid "Forgot your password?"
 #~ msgstr "Gleymt lykilorðinu þínu?"
@@ -1572,20 +1768,11 @@ msgstr "Þitt Búið"
 #~ msgid "Update Libraries"
 #~ msgstr "Uppfærðu bókasöfn"
 
-#~ msgid "My Account"
-#~ msgstr "Minn reikningur"
-
 #~ msgid "Add Admin"
 #~ msgstr "Bæta við stjórnanda"
 
 #~ msgid "Discord Server ID"
 #~ msgstr "Discord miðlara auðkenni"
-
-#~ msgid "Discord Widget"
-#~ msgstr "Discord búnaður"
-
-#~ msgid "Save"
-#~ msgstr "Vista"
 
 #~ msgid "Settings saved successfully!"
 #~ msgstr "Stillingar vistaðar!"
@@ -1594,9 +1781,6 @@ msgstr "Þitt Búið"
 #~ msgstr ""
 #~ "Vinsamlegast notaðu fellilistann hér að neðan til að velja tungumálið "
 #~ "þitt."
-
-#~ msgid "Select Language"
-#~ msgstr "Veldu tungumál"
 
 #~ msgid "Choose a server"
 #~ msgstr "Veldu netþjón"
@@ -1636,9 +1820,6 @@ msgstr "Þitt Búið"
 
 #~ msgid "Update"
 #~ msgstr "Uppfærsla"
-
-#~ msgid "Request Server"
-#~ msgstr "Biðja um Server"
 
 #~ msgid "Disabled"
 #~ msgstr "Öryrkjar"
