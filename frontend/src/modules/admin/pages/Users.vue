@@ -1,12 +1,12 @@
 <template>
     <AdminTemplate :header="__('Invited Users')" :subheader="__('Manage your media server users')" :box-view="boxView">
         <template #header>
-            <FormKit type="button" :prefix-icon="buttonWait ? 'fa-spinner fa-spin' : 'fa-binoculars'" :disabled="buttonWait" @click="localScanUsers" :classes="{ input: '!bg-secondary' }">
+            <FormKit id="scanUsers" type="button" :prefix-icon="buttonWait ? 'fa-spinner fa-spin' : 'fa-binoculars'" :disabled="buttonWait" @click="localScanUsers" :classes="{ input: '!bg-secondary' }">
                 {{ __("Scan Users") }}
             </FormKit>
         </template>
         <template #default>
-            <UserList />
+            <UserList id="userList" />
         </template>
     </AdminTemplate>
 </template>
