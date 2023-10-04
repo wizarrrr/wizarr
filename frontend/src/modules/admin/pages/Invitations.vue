@@ -1,12 +1,12 @@
 <template>
     <AdminTemplate :header="__('Invitations')" :subheader="__('Manage your invitations')" :box-view="boxView">
         <template #header>
-            <FormKit type="button" @click="openInviteModal" :classes="{ input: '!bg-secondary' }">
+            <FormKit id="createInvitation" type="button" @click="openInviteModal" :classes="{ input: '!bg-secondary' }">
                 {{ __("Create Invitation") }}
             </FormKit>
         </template>
         <template #default>
-            <InvitationList />
+            <InvitationList id="invitationList" />
         </template>
     </AdminTemplate>
 </template>
