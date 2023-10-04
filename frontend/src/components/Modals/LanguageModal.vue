@@ -6,6 +6,10 @@
                 <span>{{ availableLanguages[index] }}</span>
             </button>
         </template>
+        <button class="py-2 px-3 space-x-3 flex items-center justify-start rounded border border-gray-200 dark:border-gray-700 hover:bg-gray-200 hover:dark:bg-gray-700" @click="languageSelected('auto')" :class="language === 'auto' ? 'bg-gray-200 dark:bg-gray-700' : ''">
+            <i class="fa-solid fa-md fa-globe"></i>
+            <span>{{ __("System Default") }}</span>
+        </button>
     </div>
 </template>
 
