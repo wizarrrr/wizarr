@@ -22,7 +22,7 @@ RUN npm install -g npm@latest
 
 # Build Frontend Environment
 WORKDIR /data/frontend
-RUN npm install
+RUN npm install --maxsockets 1
 RUN npm run build
 
 # Setup Timezone
