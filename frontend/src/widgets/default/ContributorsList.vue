@@ -66,11 +66,13 @@ export default defineComponent({
         },
     },
     async mounted() {
-        const response = await this.$axios.get<any, { data: OpenCollectiveResponse }>("https://opencollective.com/wizarr/members/all.json?limit=30", {
-            method: "GET",
-        });
+        const response = await this.$axios
+            .get<any, { data: OpenCollectiveResponse }>("https://opencollective.com/wizarr/members/all.json?limit=30", {
+                method: "GET",
+            })
+            .catch(() => null);
 
-        if (!response.data) {
+        if (!response?.data) {
             return;
         }
 
