@@ -42,8 +42,8 @@ const localOpenModal = async <P extends WrapComponent>(component: P | string, op
     return newModal;
 };
 
-const confirmModal = async (title: string, message: string, options?: Partial<ModalOptions>): Promise<boolean> => {
-    const componentWrapper = ModalWrapper(message, undefined, { title, enableConfirmButton: true });
+const confirmModal = async (title: string, message: string, options?: Partial<CustomModalOptions>): Promise<boolean> => {
+    const componentWrapper = ModalWrapper(message, undefined, { ...options, title, enableConfirmButton: true });
     return (await promptModal(componentWrapper, { title, message }, options)) as boolean;
 };
 
