@@ -11,13 +11,16 @@ def get_latest_version():
     return parse(response.content.decode("utf-8")) if response.content else None
 
 def get_latest_beta_version():
-    url = "https://api.github.com/repos/wizarrrr/wizarr/releases"
-    response = get(url, timeout=10)
-    if response.status_code != 200:
+    try:
+        url = "https://api.github.com/repos/wizarrrr/wizarr/releases"
+        response = get(url, timeout=5)
+        if response.status_code != 200:
+            return None
+        releases = response.json()
+        latest_beta = [release["tag_name"] for release in releases if release["prerelease"]][0]
+        return parse(latest_beta)
+    except Exception:
         return None
-    releases = response.json()
-    latest_beta = [release["tag_name"] for release in releases if release["prerelease"]][0]
-    return parse(latest_beta)
 
 def get_current_version():
     package = path.abspath(path.join(path.dirname(__file__), "../", "../", "../", "package.json"))
