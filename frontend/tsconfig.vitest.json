@@ -1,6 +1,8 @@
 {
     "extends": "./tsconfig.app.json",
-    "exclude": [],
+    "exclude": [
+        "node_modules/@sjmc11/tourguidejs/**/*",
+    ],
     "include": [
         "src/**/*",
         "src/**/*.vue",
@@ -16,6 +18,9 @@
         "types": [
             "node",
             "jsdom"
-        ]
+        ],
+        "verbatimModuleSyntax": false,
+        "ignoreDeprecations": "5.0",
+        "importsNotUsedAsValues": "preserve"
     }
 }
