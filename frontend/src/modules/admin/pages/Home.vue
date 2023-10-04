@@ -1,12 +1,12 @@
 <template>
     <AdminTemplate :header="__('Home')" :subheader="__('Manage you Wizarr server')" :box-view="boxView">
         <template #header>
-            <FormKit type="button" @click="isEditing = !isEditing" :classes="{ input: buttonClasses }">
+            <FormKit id="editDashboard" type="button" @click="isEditing = !isEditing" :classes="{ input: buttonClasses }">
                 {{ isEditing ? __("Save Dashboard") : __("Edit Dashboard") }}
             </FormKit>
         </template>
         <template #default>
-            <Dashboard :is-editing="isEditing" @update:isEditing="isEditing = !isEditing" />
+            <Dashboard id="welcome" :is-editing="isEditing" @update:isEditing="isEditing = !isEditing" />
         </template>
     </AdminTemplate>
 </template>
