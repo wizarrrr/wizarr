@@ -3,7 +3,7 @@
         <template #header>
             <div class="relative w-full" v-if="searchBar">
                 <div class="hidden md:block">
-                    <FormKit @input="(value) => (search = value ?? '')" :classes="{ input: { 'focus:ring-0': true }, outer: { '!mb-0': true } }" type="search" placeholder="Search..." prefix-icon="fa-search !text-gray-500" />
+                    <FormKit id="searchSettings" @input="(value) => (search = value ?? '')" :classes="{ input: { 'focus:ring-0': true }, outer: { '!mb-0': true } }" type="search" placeholder="Search..." prefix-icon="fa-search !text-gray-500" />
                 </div>
             </div>
             <div class="relative w-full" v-else>
