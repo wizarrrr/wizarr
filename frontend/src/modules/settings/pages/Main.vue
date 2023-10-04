@@ -1,24 +1,26 @@
 <template>
     <div class="flex flex-col">
         <div class="space-y-6">
-            <template v-for="section in settingsSections">
-                <!-- Sections Title -->
-                <div class="settings-section">
-                    <div class="flex flex-col">
-                        <div class="text-lg font-bold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
-                            {{ __(section.title) }}
-                        </div>
-                        <div class="text-xs font-semibold leading-tight tracking-tight text-gray-900 md:text-sm dark:text-gray-400">
-                            {{ __(section.description) }}
+            <template v-for="(section, index) in settingsSections">
+                <div :id="`settingsContainer${index}`">
+                    <!-- Sections Title -->
+                    <div class="settings-section">
+                        <div class="flex flex-col">
+                            <div class="text-lg font-bold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
+                                {{ __(section.title) }}
+                            </div>
+                            <div class="text-xs font-semibold leading-tight tracking-tight text-gray-900 md:text-sm dark:text-gray-400">
+                                {{ __(section.description) }}
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Settings Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                    <template v-for="page in section.pages">
-                        <SettingsButton :title="page.title" :description="page.description" :icon="page.icon" :url="page.url" :disabled="page.disabled" :modal="page.modal" />
-                    </template>
+                    <!-- Settings Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                        <template v-for="page in section.pages">
+                            <SettingsButton :title="page.title" :description="page.description" :icon="page.icon" :url="page.url" :disabled="page.disabled" :modal="page.modal" />
+                        </template>
+                    </div>
                 </div>
             </template>
 
