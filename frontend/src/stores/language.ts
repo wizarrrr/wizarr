@@ -1,9 +1,10 @@
-import { defineStore } from "pinia";
 import type { Language } from "vue3-gettext";
+import { language as autoLanguage } from "@/i18n";
+import { defineStore } from "pinia";
 
 export const useLanguageStore = defineStore("language", {
     state: () => ({
-        language: "en" as string,
+        language: "auto" as string,
         availableLanguages: {} as { [key: string]: string },
     }),
     actions: {
@@ -11,7 +12,7 @@ export const useLanguageStore = defineStore("language", {
             this.language = language;
         },
         updateLanguage(gettext: Language, language: string) {
-            gettext.current = language;
+            gettext.current = language === "auto" ? autoLanguage : language;
         },
         updateAvailableLanguages(gettext: Language) {
             this.availableLanguages = gettext.available;
