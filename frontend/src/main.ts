@@ -5,6 +5,7 @@ import Filters, { piniaPluginFilters } from "./plugins/filters";
 import Firebase, { piniaPluginFirebase } from "./plugins/firebase";
 import Socket, { piniaPluginSocketIO } from "./plugins/socket";
 import Toast, { piniaPluginToast } from "./plugins/toasts";
+import Tours, { piniaPluginTours } from "./plugins/tours";
 import WebShare, { piniaPluginWebShare } from "./plugins/webshare";
 import { defaultConfig, plugin } from "@formkit/vue";
 
@@ -13,6 +14,7 @@ import App from "./App.vue";
 import FloatingVue from "floating-vue";
 import Modal from "./plugins/modal";
 import OpenLayersMap from "vue3-openlayers";
+import ProgressOptions from "./assets/configs/DefaultProgress";
 import Sentry from "./plugins/sentry";
 import ToastOptions from "./assets/configs/DefaultToasts";
 import ToastPlugin from "vue-toastification";
@@ -24,8 +26,6 @@ import i18n from "./i18n";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import router from "./router";
 
-// import Plugin from "@flavorly/vanilla-components";
-
 const app = createApp(App);
 const pinia = createPinia();
 
@@ -35,12 +35,7 @@ app.use(ToastPlugin, ToastOptions);
 app.use(Axios);
 app.use(Toast);
 app.use(i18n);
-app.use(VueProgressBar, {
-    color: "rgb(254 65 85 / var(--tw-bg-opacity))",
-    failedColor: "#f44336",
-    thickness: "2px",
-});
-// app.use(Plugin as any);
+app.use(VueProgressBar, ProgressOptions);
 app.use(OpenLayersMap, { debug: true });
 app.use(FloatingVue);
 app.use(plugin, defaultConfig(formkitConfig));
@@ -51,6 +46,7 @@ app.use(Analytics);
 app.use(Modal);
 app.use(WebShare);
 app.use(Firebase);
+app.use(Tours, { i18n: i18n });
 
 pinia.use(piniaPluginPersistedstate);
 pinia.use(piniaPluginToast);
@@ -59,6 +55,7 @@ pinia.use(piniaPluginSocketIO);
 pinia.use(piniaPluginFilters);
 pinia.use(piniaPluginWebShare);
 pinia.use(piniaPluginFirebase);
+pinia.use(piniaPluginTours);
 
 app.mount("#app");
 
