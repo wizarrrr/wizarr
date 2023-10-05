@@ -43,9 +43,13 @@ jobs:
           context: .
           file: ./Dockerfile
           push: false # Do not push at this stage
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ matrix.platform }}
           platforms: ${{ matrix.platform }}
 
+  push_images:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Pull and Push Images
         run: |
           docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-linux/amd64
