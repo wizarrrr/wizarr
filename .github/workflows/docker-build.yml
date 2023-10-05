@@ -1,4 +1,4 @@
-name: Docker Build [ARM64]
+name: Docker Build and Push
 
 on:
   push:
@@ -15,6 +15,12 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/arm64
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -34,6 +40,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          platforms: linux/arm64
+          platforms: ${{ matrix.platform }}
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
