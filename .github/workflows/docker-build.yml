@@ -11,6 +11,7 @@ permissions:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: wizarrrr/wizarr
+  IMAGE_TAG: v3-beta
 
 jobs:
   build:
@@ -39,6 +40,15 @@ jobs:
       - name: Build and push for ${{ matrix.platform }}
         run: |
           docker buildx create --use
-          docker buildx build --platform ${{ matrix.platform }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }} .
+          docker buildx build --platform ${{ matrix.platform }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
+        env:
+          DOCKER_CLI_PLUGIN_BUILD: enable
+
+      - name: Create and push a multi-platform manifest
+        if: matrix.platform == 'linux/arm64'
+        run: |
+          docker buildx create --use
+          docker buildx create manifest ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+            --platform linux/amd64,linux/arm64 --push
         env:
           DOCKER_CLI_PLUGIN_BUILD: enable
