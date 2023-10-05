@@ -1,37 +1,55 @@
-FROM python:3.11.4-alpine
+# Build Stage
+FROM python:3.12.0-alpine
 
-# Copy everything to /data
-COPY . /data
+#######################
+# Backend Build Stage #
+#######################
 
-# Update the system
-RUN apk update
-
-# Setup Nginx Environment
-RUN apk add --no-cache nginx
-COPY ./nginx.conf /etc/nginx/http.d/default.conf
-
-# Setup Python Environment
+# Copy only the necessary files for building
 WORKDIR /data/backend
-RUN apk add tzdata cargo libffi-dev openssl-dev nmap tzdata
-RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements.txt --no-compile
+COPY ./backend ./
 
-# Setup Node Environment
-RUN apk add nodejs npm
-RUN npm install -g npm@latest
+# Install build dependencies
+RUN apk add --no-cache libffi-dev g++ nmap tzdata nginx
 
-# Build Frontend Environment
+# Upgrade pip and install Python dependencies
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+
+
+########################
+# Frontend Build Stage #
+########################
+
+# Copy only the necessary files for building
 WORKDIR /data/frontend
-RUN npm install --maxsockets 1
-RUN npm run build
+COPY ./frontend/ ./
 
-# Setup Timezone
-RUN cp /usr/share/zoneinfo/UTC /etc/localtime && echo UTC > /etc/timezone
+# Install build dependencies
+RUN apk add --no-cache nodejs npm
 
-# Set Environment Variables
-ENV TZ Etc/UTC
+# Node.js and Frontend build
+RUN npm install && npm run build
 
-# Start Nginx in Background and Gunicon in Foreground
+
+#################
+# Runtime Stage #
+#################
+
+WORKDIR /data
+
+# Copy Nginx configuration
+COPY nginx.conf /etc/nginx/http.d/default.conf
+
+# Setup timezone
+RUN cp /usr/share/zoneinfo/UTC /etc/localtime \
+    && echo UTC > /etc/timezone
+
+# Set environment variables
+ENV TZ=Etc/UTC
+
+# Expose ports
 EXPOSE 5690
 WORKDIR /data/backend
+
+# Start Nginx in the background and Gunicorn in the foreground
 CMD [ "sh", "-c", "nginx && gunicorn --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker --bind 0.0.0.0:5000 -m 007 run:app" ]

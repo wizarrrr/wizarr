@@ -9,8 +9,8 @@ docker buildx create --name wizarrbuilder
 docker buildx use wizarrbuilder
 
 # Build the image using buildx
-docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 --cache-to type=local,dest=database/cache --push -t $IMAGE_NAME:$IMAGE_TAG --progress tty .
+docker buildx build --platform linux/amd64,linux/arm64 --cache-to type=local,dest=database/cache --push -t $IMAGE_NAME:$IMAGE_TAG --progress tty .
 
 # Remove the buildx environment
- docker buildx rm wizarrbuilder
+docker buildx rm wizarrbuilder
 
