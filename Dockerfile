@@ -28,7 +28,8 @@ COPY ./frontend/ ./
 RUN apk add --no-cache nodejs npm
 
 # Node.js and Frontend build
-RUN npm install && npm run build
+RUN npm install --verbose
+RUN npm run build
 
 
 #################
