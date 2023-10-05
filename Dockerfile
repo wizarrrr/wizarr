@@ -1,5 +1,5 @@
 # Build Stage
-FROM python:3.12.0-alpine
+FROM --platform=$BUILDPLATFORM python:3.12.0-alpine
 
 #######################
 # Backend Build Stage #
