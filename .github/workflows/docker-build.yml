@@ -23,18 +23,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # This step caches Docker layers to speed up the build process in subsequent workflow runs.
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /var/lib/docker
-          key: docker-${{ runner.os }}-${{ github.sha }}
-        
       # This step sets up QEMU for cross-architecture builds and enables Docker BuildKit.
       - name: Set up QEMU and enable BuildKit
+        id: qemu
         uses: docker/setup-qemu-action@v1
         with:
           platforms: all
+
+      - name: Available QEMU platforms
+        run: echo ${{ steps.qemu.outputs.platforms }}
 
       # This step logs into the Docker registry using your GitHub credentials to push the Docker image.
       - name: Log into registry
