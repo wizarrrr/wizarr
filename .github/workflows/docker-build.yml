@@ -19,8 +19,8 @@ jobs:
     strategy:
       matrix:
         platform:
-          - linux/amd64
-          - linux/arm64
+          - amd64
+          - arm64
 
     steps:
       - name: Checkout
@@ -44,7 +44,7 @@ jobs:
           file: ./Dockerfile
           push: false # Do not push at this stage
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ matrix.platform }}
-          platforms: ${{ matrix.platform }}
+          platforms: linux/${{ matrix.platform }}
 
   push_images:
     needs: build
@@ -52,12 +52,12 @@ jobs:
     steps:
       - name: Pull and Push Images
         run: |
-          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-linux/amd64
-          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-linux/arm64
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-amd64
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-arm64
 
           # Tag and push both images with the same tag
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-linux/amd64 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-linux/arm64 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-amd64 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-arm64 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
         env:
