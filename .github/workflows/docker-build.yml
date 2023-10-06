@@ -27,9 +27,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: TEST
-        run: echo ${{ secrets.GITHUB_TOKEN }} | base64
-
       # Set up Docker Buildx
       - name: Set up Docker Buildx
         id: buildx
@@ -41,27 +38,20 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: false # Do not push at this stage
-          tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ matrix.platform }}
+          # push: false # Do not push at this stage
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ matrix.platform }}
           platforms: linux/${{ matrix.platform }}
-          outputs: type=docker,dest=/tmp/docker-image-${{ matrix.platform }}.tar
+          # outputs: type=docker,dest=/tmp/docker-image-${{ matrix.platform }}.tar
           # cache-from: type=gha
           # cache-to: type=gha,mode=max
 
       # Upload the Artifact for docker image
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: docker-image-${{ matrix.platform }}
-          path: /tmp/docker-image-${{ matrix.platform }}.tar
-
-      # Cache Docker images
-      # use github cache to save /tmp/docker-image-${{ matrix.platform }}.tar for next job
-      # - name: Cache Docker images
-      #   uses: actions/cache/save@v3
+      # - name: Upload artifact
+      #   uses: actions/upload-artifact@v3
       #   with:
+      #     name: docker-image-${{ matrix.platform }}
       #     path: /tmp/docker-image-${{ matrix.platform }}.tar
-      #     key: docker-images-${{ matrix.platform }}
 
   push_images:
     needs: build
@@ -76,58 +66,42 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # Download Artifacts for AMD64 and ARM64
-      - name: Download Artifacts for AMD64
-        uses: actions/download-artifact@v3
-        with:
-          name: docker-image-amd64
-          path: /tmp
-
-      - name: Download Artifacts for ARM64
-        uses: actions/download-artifact@v3
-        with:
-          name: docker-image-arm64
-          path: /tmp
-
-      # TEST
-      # Restore Docker image cache for AMD64 and ARM64 using keys docker-images-amd64 and docker-images-arm64
-      # - name: Restore Docker image cache for AMD64
-      #   uses: actions/cache/restore@v3
+      # - name: Download Artifacts for AMD64
+      #   uses: actions/download-artifact@v3
       #   with:
-      #     path: /tmp/MrDynamoIsAwesome
-      #     key: docker-images-amd64
+      #     name: docker-image-amd64
+      #     path: /tmp
 
-      # - name: Restore Docker image cache for ARM64
-      #   uses: actions/cache/restore@v3
+      # - name: Download Artifacts for ARM64
+      #   uses: actions/download-artifact@v3
       #   with:
-      #     path: /tmp/MrDynamoIsAwesome
-      #     key: docker-images-arm64
+      #     name: docker-image-arm64
+      #     path: /tmp
 
-      # Load Images
-      - name: Load Images
-        run: |
-          docker load -i /tmp/docker-image-amd64.tar
-          docker load -i /tmp/docker-image-arm64.tar
+      # # Load Images
+      # - name: Load Images
+      #   run: |
+      #     docker load -i /tmp/docker-image-amd64.tar
+      #     docker load -i /tmp/docker-image-arm64.tar
+
+      # # Tag Images
+      # - name: Tag Images
+      #   run: |
+      #     docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-amd64 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-amd64
+      #     docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-arm64 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-arm64
+
+      # Push Images
+      # - name: Push Images
+      #   run: |
+      #     docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-amd64
+      #     docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-arm64
 
       # Create a multi-arch manifest for arm64 and amd64
       - name: Create a multi-arch manifest and push
         run: |
           docker manifest create ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          docker manifest annotate ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-amd64 --os linux --arch arm64
-          docker manifest annotate ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-arm64 --os linux --arch amd64
-        env:
-          DOCKER_CLI_PLUGIN_BUILD: enable
-
-      # Re-tag Images
-      - name: Re-tag Images
-        run: |
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-amd64 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-arm64 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-        env:
-          DOCKER_CLI_PLUGIN_BUILD: enable
-
-      # Push Images
-      - name: Push Images
-        run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          --amend ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-amd64
+          --amend ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-arm64
         env:
           DOCKER_CLI_PLUGIN_BUILD: enable
 
