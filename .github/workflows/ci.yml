@@ -29,20 +29,6 @@ jobs:
         if: github.event.release.prerelease == true
         run: exit 1
 
-      # Update .github/latest with the Release Version
-      - name: Update .github/latest with the Release Version
-        run: echo "${{ github.event.release.tag_name }}" > .github/latest
-
-      # Commit the changes to .github/latest using token
-      - name: Commit the changes to .github/latest
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add .github/latest
-          git commit -m "Update .github/latest to ${{ github.event.release.tag_name }}"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          git push
-
       # Set up Docker Buildx
       - name: Set up Docker Buildx
         id: buildx
