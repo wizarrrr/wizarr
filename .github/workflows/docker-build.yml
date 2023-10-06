@@ -39,7 +39,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: false # Do not push at this stage
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ matrix.platform }}
+          tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ matrix.platform }}
           platforms: linux/${{ matrix.platform }}
           outputs: type=docker,dest=/tmp/docker-image-${{ matrix.platform }}.tar
 
