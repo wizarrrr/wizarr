@@ -1,4 +1,4 @@
-<h1 align="center">Wizarr Beta</h1>
+<h1 align="center">Wizarr</h1>
 <h3 align="center">The Free Media Invitation System</h3>
 
 ---
@@ -31,7 +31,10 @@
 <a href="https://github.com/Wizarrrr/wizarr/issues">
 <img alt="Github Issue" src="https://img.shields.io/github/issues/wizarrrr/wizarr"/>
 </a>
-<a href="https://github.com/Wizarrrr/wizarr/actions/workflows/docker-build.yml">
+<a href="https://features.wizarr.dev">
+<img alt="Submit Feature Requests" src="https://img.shields.io/badge/fider-vote%20on%20features-success.svg"/>
+</a>
+<a href="https://github.com/Wizarrrr/wizarr/actions/workflows/ci.yml">
 <img alt="Github Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrr/wizarr/ci.yml"/>
 </a>
 </p>
