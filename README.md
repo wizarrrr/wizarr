@@ -113,7 +113,7 @@ Our documentation is lacking since we upgraded from V2 to V3, we appologise for 
 If you want to help contribute to Wizarr by building V3's documentation we would really appreciate it, again join the [Discord](https://discord.gg/XXCz7aM3ak) and we can get you started.
 
 Check out our documentation for instructions on how to install and run Wizarr!
-https://github.com/Wizarrrr/wizarr/docs/setup
+[View Documentation](https://github.com/Wizarrrr/wizarr/blob/master/docs/setup/README.md)
 
 <a href="https://discord.gg/XXCz7aM3ak">
 <img alt="Chat on Discord" src="https://img.shields.io/discord/1020742926856372224"/>
