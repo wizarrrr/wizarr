@@ -16,12 +16,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platform:
-          - amd64
-          - arm64
-
     steps:
       # Checkout the repo
       - name: Checkout
@@ -41,12 +35,12 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # Build and push the image
-      - name: Build and push for ${{ matrix.platform }}
+      - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          platforms: linux/${{ matrix.platform }}
+          platforms: linux/amd64,linux/arm64
           provenance: false
