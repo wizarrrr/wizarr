@@ -1,0 +1,12 @@
+---
+version: "3.5"
+services:
+  wizarr:
+    container_name: wizarr
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5690:5690
+    volumes:
+      - ./database:/data/backend/database # Change this to your data directory

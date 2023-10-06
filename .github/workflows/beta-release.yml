@@ -1,0 +1,66 @@
+name: Create Pre-Release on Version Change
+
+on:
+  push:
+    branches:
+      - v3-beta
+
+jobs:
+  check-version-and-create-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Get previous package version
+        id: get_prev_version
+        run: echo "::set-output name=prev_version::$(git show HEAD^:package.json | jq -r '.version')"
+
+      - name: Get current package version
+        id: get_current_version
+        run: echo "::set-output name=current_version::$(jq -r '.version' package.json)"
+
+      - name: Compare versions
+        id: compare_versions
+        run: |
+          if [[ "${{ steps.get_prev_version.outputs.prev_version }}" != "${{ steps.get_current_version.outputs.current_version }}" ]]; then
+            echo "Version changed. Creating Pre-Release."
+            echo "New version: ${{ steps.get_current_version.outputs.current_version }}, Previous version: ${{ steps.get_prev_version.outputs.prev_version }}"
+            echo "::set-output name=version_changed::true"
+          else
+            echo "Version unchanged. No Pre-Release needed."
+            echo "::set-output name=version_changed::false"
+          fi
+
+      - name: Generate Release Notes
+        id: generate_release_notes
+        run: |
+          echo "::set-output name=release_notes::$(git log --pretty=format:"- %s%n" $(git rev-list ${{ github.event.before }}..${{ github.sha }}))"
+
+      - name: Create Pre-Release
+        if: steps.compare_versions.outputs.version_changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Create a new Pre-Release using GitHub API
+          # Replace ":owner", ":repo", and other placeholders with actual values
+          # You can use curl or other tools to interact with the API
+          curl -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -d '{
+              "tag_name": "'${{ steps.get_current_version.outputs.current_version }}'",
+              "target_commitish": "v3-beta",
+              "name": "Pre-Release V'${{ steps.get_current_version.outputs.current_version }}'",
+              "body": "${{ steps.generate_release_notes.outputs.release_notes }}",
+              "prerelease": true
+            }' \
+            "https://api.github.com/repos/wizarrrr/wizarr/releases"

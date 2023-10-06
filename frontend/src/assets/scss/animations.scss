@@ -1,0 +1,70 @@
+/* Fade Animation */
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+/* Fade Fast Animation */
+.fade-fast-enter-active,
+.fade-fast-leave-active {
+    transition: opacity 0.3s ease;
+}
+
+.fade-fast-enter-from,
+.fade-fast-leave-to {
+    opacity: 0;
+}
+
+/* Fade Between Animation */
+.fade-between-enter-active,
+.fade-between-leave-active {
+    transition: opacity 0.5s ease;
+    position: absolute;
+}
+
+.fade-between-enter-from,
+.fade-between-leave-to {
+    opacity: 0;
+}
+
+/* Collapse Animation */
+.collapse-leave-active {
+    transition: max-height 0.5s ease-in-out;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+.collapse-leave-to {
+    max-height: 0;
+}
+
+/* Expand Animation */
+.expand-enter-active {
+    transition: max-height 0.5s ease-in-out;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.expand-enter-to {
+    max-height: 100vh;
+}
+
+/* Slide Fade Animation */
+.slide-fade-enter-active {
+    transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
+}
