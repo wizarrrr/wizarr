@@ -4,7 +4,7 @@
 ---
 
 <p align="center">
-<img src="./frontend/src/assets/img/wizar.png" height="200">
+<img src="https://raw.githubusercontent.com/Wizarrrr/wizarr/master/frontend/src/assets/img/wizard.png" height="200">
 <br/>
 <br/>
 <a href="https://github.com/wizarrrr/wizarr">
@@ -39,6 +39,14 @@
 ---
 
 Wizarr is a automatic user invitation system for Plex and Jellyfin. Create a unique link and share it to a user and they will be invited to your Media Server after they complete there signup proccess! They can even be guided to download the clients and read instructions on how to use your media software!
+
+## Where is V2?
+
+Wizarr V2 has moved to the v2 branch [here](https://github.com/Wizarrrr/wizarr/tree/v2), your still more than welcome to use v2 however it will no longer be supported, we recommend using our new version, trust us it's 🔥.
+
+## V3 upgradable from V2?
+
+**NO**, we tried our best to make it work but V3 has too much awesomeness, please create a new container and use a **NEW DATABASE**, V3 does not require any env variables like V2 did, so please make sure to follow the below Compose or Docker configs exactly.
 
 ## Major Features Include
 
@@ -79,7 +87,7 @@ docker run -d \
     --name wizarr \
     -p 5690:5690 \
     -v ./wizarr/database:/data/database \
-    ghcr.io/wizarrrr/wizarr:v3-beta
+    ghcr.io/wizarrrr/wizarr:latest
 ```
 
 ```
@@ -88,15 +96,25 @@ version: "3.5"
 services:
   wizarr:
     container_name: wizarr
-    image: ghcr.io/wizarrrr/wizarr:v3-beta
+    image: ghcr.io/wizarrrr/wizarr:latest
     ports:
       - 5690:5690
     volumes:
       - ./wizarr/database:/data/database
 ```
 
+## Documentation
+
+Our documentation is lacking since we upgraded from V2 to V3, we appologise for this and we welcome you to come onto our [Discord](https://discord.gg/XXCz7aM3ak) and ask for a member of staff, we would be happy to help.
+
+If you want to help contribute to Wizarr by building V3's documentation we would really appreciate it, again join the [Discord](https://discord.gg/XXCz7aM3ak) and we can get you started.
+
 Check out our documentation for instructions on how to install and run Wizarr!
-https://github.com/Wizarrrr/wizarr/tree/v3-beta/docs/setup
+https://github.com/Wizarrrr/wizarr/docs/setup
+
+<a href="https://discord.gg/XXCz7aM3ak">
+<img alt="Chat on Discord" src="https://img.shields.io/discord/1020742926856372224"/>
+</a>
 
 ## Thank you
 
