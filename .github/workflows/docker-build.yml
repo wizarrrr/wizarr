@@ -81,12 +81,19 @@ jobs:
           docker load -i /tmp/docker-image-amd64.tar
           docker load -i /tmp/docker-image-arm64.tar
 
-      # Push Images
-      - name: Push Images
+      # Re-tag Images
+      - name: Re-tag Images
         run: |
           docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-amd64 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-arm64 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        env:
+          DOCKER_CLI_PLUGIN_BUILD: enable
 
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+      # Create a multi-arch manifest for arm64 and amd64
+      - name: Create a multi-arch manifest and push
+        run: |
+          docker manifest create ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-amd64 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-arm64
+          docker manifest annotate ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-arm64 --os linux --arch arm64
+          docker manifest push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
         env:
           DOCKER_CLI_PLUGIN_BUILD: enable
