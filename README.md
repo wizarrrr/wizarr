@@ -32,7 +32,7 @@
 <img alt="Github Issue" src="https://img.shields.io/github/issues/wizarrrr/wizarr"/>
 </a>
 <a href="https://github.com/Wizarrrr/wizarr/actions/workflows/docker-build.yml">
-<img alt="Github Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrr/wizarr/docker-build.yml"/>
+<img alt="Github Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrr/wizarr/ci.yml"/>
 </a>
 </p>
 
