@@ -3,6 +3,11 @@ name: Release Docker Image CI
 on:
   release:
     types: [created]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release"
+        required: true
 
 permissions:
   packages: write
@@ -19,10 +24,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # Get the Release Version
+      # Get the Release Version or the input version
       - name: Get the Release Version
         id: get_version
-        run: echo "::set-output name=version::${{ github.event.release.tag_name }}"
+        run: |
+          if [[ -z "${{ github.event.release.tag_name }}" ]]; then
+            echo "::set-output name=version::${{ github.event.inputs.version }}"
+          else
+            echo "::set-output name=version::${{ github.event.release.tag_name }}"
+          fi
 
       # Do not build if the release is a pre-release
       - name: Only if the release is not a pre-release
@@ -49,7 +59,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          platforms: linux/amd64,linux/arm64,linux/arm64/v7,linux/arm64/v8
+          platforms: linux/amd64,linux/arm64,linux/arm32v7,linux/arm,linux/386,linux/ppc64le,linux/s390x,windows/amd64,mac/amd64,mac/arm64
           provenance: false
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest

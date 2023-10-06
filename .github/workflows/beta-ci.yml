@@ -49,5 +49,5 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ steps.get_version.outputs.version }}
-          platforms: linux/amd64,linux/arm64,linux/arm64/v7,linux/arm64/v8
+          platforms: linux/amd64,linux/arm64,linux/arm32v7,linux/arm,linux/386,linux/ppc64le,linux/s390x,windows/amd64,mac/amd64,mac/arm64
           provenance: false
