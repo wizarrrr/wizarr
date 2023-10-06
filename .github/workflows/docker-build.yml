@@ -61,7 +61,7 @@ jobs:
       #     name: docker-image-${{ matrix.platform }}
       #     path: /tmp/docker-image-${{ matrix.platform }}.tar
 
-  push_images:
+  create-manifest:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -107,9 +107,9 @@ jobs:
       # Create a multi-arch manifest for arm64 and amd64
       - name: Create a multi-arch manifest and push
         run: |
-          docker manifest create ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          --amend ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-amd64
-          --amend ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-arm64
+          docker manifest create ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-amd64 \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-arm64
         env:
           DOCKER_CLI_PLUGIN_BUILD: enable
 

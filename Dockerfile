@@ -48,6 +48,14 @@ RUN cp /usr/share/zoneinfo/UTC /etc/localtime \
 # Set environment variables
 ENV TZ=Etc/UTC
 
+# Get the version from package.json in the ./ directory
+COPY ./package.json ./version.json
+RUN cat ./version.json | jq -r '.version' > ./version.txt
+
+LABEL maintainer="Ashley Bailey <admin@ashleybailey.me>"
+LABEL description="Wizarr is an advanced user invitation and management system for Jellyfin, Plex, Emby etc."
+
+
 # Expose ports
 EXPOSE 5690
 WORKDIR /data/backend
