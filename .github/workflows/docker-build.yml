@@ -42,6 +42,8 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ matrix.platform }}
           platforms: linux/${{ matrix.platform }}
           outputs: type=docker,dest=/tmp/docker-image-${{ matrix.platform }}.tar
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       # Upload the Artifact for docker image
       # - name: Upload artifact
@@ -85,7 +87,7 @@ jobs:
 
       # Restore Docker image cache for AMD64 and ARM64 using keys docker-images-amd64 and docker-images-arm64
       - name: Restore Docker image cache for AMD64
-        uses: actions/cache@v2
+        uses: actions/cache/restore@v3
         with:
           path: /tmp
           key: docker-images-amd64
