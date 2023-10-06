@@ -37,11 +37,11 @@ const defaultDashboard: WidgetOptions[] = [
         type: "InvitesGraph",
         grid: { w: 3, h: 4 },
     },
-    {
-        id: nanoid(),
-        type: "MapWidget",
-        grid: { w: 4, h: 5 },
-    },
+    // {
+    //     id: nanoid(),
+    //     type: "MapWidget",
+    //     grid: { w: 4, h: 5 },
+    // },
     {
         id: nanoid(),
         type: "ContributorsList",
