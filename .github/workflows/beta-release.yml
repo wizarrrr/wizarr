@@ -13,15 +13,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Get the previous package version from .github/latest
-      - name: Get previous package version from .github/latest
+      # Get the previous package version from latest
+      - name: Get previous package version from latest
         id: get_prev_version
-        run: echo "::set-output name=prev_version::$(cat .github/latest)"
+        run: echo "::set-output name=prev_version::$(cat latest)"
 
-      # Get the current package version from .github/latest
+      # Get the current package version from latest
       - name: Get current package version
         id: get_current_version
-        run: echo "::set-output name=current_version::$(cat .github/latest)"
+        run: echo "::set-output name=current_version::$(cat latest)"
 
       # Compare the previous and current versions
       - name: Compare versions

@@ -23,9 +23,9 @@ def get_latest_beta_version():
         return None
 
 def get_current_version():
-    package = path.abspath(path.join(path.dirname(__file__), "../", "../", "../", "package.json"))
+    package = path.abspath(path.join(path.dirname(__file__), "../", "../", "../", "latest"))
     with open(package, "r", encoding="utf-8") as f:
-        return parse(load(f)["version"])
+        return parse(f.read())
 
 
 def is_beta():
