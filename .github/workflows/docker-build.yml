@@ -44,19 +44,21 @@ jobs:
           outputs: type=docker,dest=/tmp/docker-image-${{ matrix.platform }}.tar
 
       # Upload the Artifact for docker image
-      # - name: Upload artifact
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: docker-image-${{ matrix.platform }}
-      #     path: /tmp/docker-image-${{ matrix.platform }}.tar
-      - name: Cache Docker images
-        uses: actions/cache@v2
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
         with:
-          path: /tmp
-          key: docker-images-${{ matrix.platform }}
-          restore-keys: |
-            docker-images-amd64-
-            docker-images-arm64-
+          name: docker-image-${{ matrix.platform }}
+          path: /tmp/docker-image-${{ matrix.platform }}.tar
+
+      # Cache Docker images
+      # - name: Cache Docker images
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: /tmp
+      #     key: docker-images-${{ matrix.platform }}
+      #     restore-keys: |
+      #       docker-images-amd64-
+      #       docker-images-arm64-
 
   push_images:
     needs: build
@@ -71,27 +73,27 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # Download Artifacts for AMD64 and ARM64
-      # - name: Download Artifacts for AMD64
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: docker-image-amd64
-      #     path: /tmp
+      - name: Download Artifacts for AMD64
+        uses: actions/download-artifact@v3
+        with:
+          name: docker-image-amd64
+          path: /tmp
 
-      # - name: Download Artifacts for ARM64
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: docker-image-arm64
-      #     path: /tmp
+      - name: Download Artifacts for ARM64
+        uses: actions/download-artifact@v3
+        with:
+          name: docker-image-arm64
+          path: /tmp
 
       # Restore Docker images from cache
-      - name: Restore Docker images from cache
-        uses: actions/cache@v2
-        with:
-          path: /tmp
-          key: docker-images-${{ runner.os }}
-          restore-keys: |
-            docker-images-amd64-
-            docker-images-arm64-
+      # - name: Restore Docker images from cache
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: /tmp
+      #     key: docker-images-${{ runner.os }}
+      #     restore-keys: |
+      #       docker-images-amd64-
+      #       docker-images-arm64-
 
       # Load Images
       - name: Load Images
