@@ -1,14 +1,12 @@
+import { errorToast, infoToast } from "../ts/utils/toasts";
 import { startAuthentication, startRegistration } from "@simplewebauthn/browser";
-import { infoToast, errorToast } from "../ts/utils/toasts";
 
-import { useRouter } from "vue-router";
-import { useAxios } from "@/plugins/axios";
-
+import type { APIUser } from "@/types/api/auth/User";
 import type { RegistrationResponseJSON } from "@simplewebauthn/typescript-types";
 import type { WebAuthnError } from "@simplewebauthn/browser/dist/types/helpers/webAuthnError";
-import type { APIUser } from "@/types/api/auth/User";
-
 import { useAuthStore } from "@/stores/auth";
+import { useAxios } from "@/plugins/axios";
+import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
 
 class Auth {
@@ -360,8 +358,9 @@ class Auth {
         const authenticationOptions = authResp.data;
 
         // Start the authentication
-        const assertion = await startAuthentication(authenticationOptions, autofill).catch((e: any) => {
-            throw new Error(e.message || "Failed to authenticate, please try again");
+        const assertion = await startAuthentication(authenticationOptions, autofill).catch(() => {
+            // PATCH: Fix error when user cancels MFA authentication
+            console.log("Authentication has been cancelled");
         });
 
         // Check if the assertion is null
