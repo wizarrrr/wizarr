@@ -1,19 +1,29 @@
 from requests import get
+from requests_cache import CachedSession
 from packaging.version import parse
 from os import path
 from json import load
+from app.models.database.base import db_dir
+
+session = CachedSession(cache_name=path.join(db_dir, "wizarr_cache"), backend="sqlite", expire_after=3600, cache_control=True, stale_if_error=True, allowable_codes=[200])
 
 def get_latest_version():
-    url = "https://raw.githubusercontent.com/Wizarrrr/wizarr/master/.github/latest"
-    response = get(url, timeout=10)
-    if response.status_code != 200:
+    try:
+        url = "https://api.github.com/repos/wizarrrr/wizarr/releases/latest"
+        response = session.get(url, timeout=5)
+        if response.status_code != 200:
+            return None
+        release = response.json()
+        latest = release["tag_name"]
+        return parse(latest)
+    except Exception:
         return None
-    return parse(response.content.decode("utf-8")) if response.content else None
+
 
 def get_latest_beta_version():
     try:
         url = "https://api.github.com/repos/wizarrrr/wizarr/releases"
-        response = get(url, timeout=5)
+        response = session.get(url, timeout=5)
         if response.status_code != 200:
             return None
         releases = response.json()
@@ -55,7 +65,7 @@ def is_stable():
 # cache
 def need_update():
     current_version = get_current_version()
-    latest_version = is_beta() and get_latest_beta_version() or get_latest_version()
+    latest_version = get_latest_version()
     update = False
 
     try:
