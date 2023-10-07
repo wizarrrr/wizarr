@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - v3-beta
+  workflow_dispatch: {}
 
 jobs:
   check-version-and-create-release:
