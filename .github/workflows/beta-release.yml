@@ -9,14 +9,24 @@ jobs:
   check-version-and-create-release:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the repo
-      - name: Checkout code
+      # Checkout the previous commit of the repo
+      - name: Checkout previous commit
+        id: checkout_prev_commit
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.before }}
 
       # Get the previous package version from latest
-      - name: Get previous package version from latest
+      - name: Get previous package version
         id: get_prev_version
         run: echo "::set-output name=prev_version::$(cat latest)"
+
+      # Checkout the current commit of the repo
+      - name: Checkout current commit
+        id: checkout_current_commit
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.sha }}
 
       # Get the current package version from latest
       - name: Get current package version
