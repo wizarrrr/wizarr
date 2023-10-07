@@ -43,6 +43,7 @@ export default defineComponent({
                     name: "Invitation",
                     icon: "fa-envelope",
                     disabled: true,
+                    hidden: this.env.NODE_ENV === "production",
                     props: {
                         user: this.user,
                         eventBus: this.eventBus,
@@ -53,6 +54,7 @@ export default defineComponent({
                     name: "Schedule",
                     icon: "fa-calendar",
                     disabled: true,
+                    hidden: this.env.NODE_ENV === "production",
                     props: {
                         user: this.user,
                         eventBus: this.eventBus,
@@ -63,6 +65,7 @@ export default defineComponent({
                     name: "Permissions",
                     icon: "fa-shield",
                     disabled: true,
+                    hidden: this.env.NODE_ENV === "production",
                     props: {
                         user: this.user,
                         eventBus: this.eventBus,
@@ -73,6 +76,7 @@ export default defineComponent({
                     name: "Settings",
                     icon: "fa-cog",
                     disabled: true,
+                    hidden: this.env.NODE_ENV === "production",
                     props: {
                         user: this.user,
                         eventBus: this.eventBus,

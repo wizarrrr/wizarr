@@ -13,7 +13,7 @@ import Analytics from "./plugins/analytics";
 import App from "./App.vue";
 import FloatingVue from "floating-vue";
 import Modal from "./plugins/modal";
-// import OpenLayersMap from "vue3-openlayers";
+import OpenLayersMap from "vue3-openlayers";
 import ProgressOptions from "./assets/configs/DefaultProgress";
 import Sentry from "./plugins/sentry";
 import ToastOptions from "./assets/configs/DefaultToasts";
@@ -29,6 +29,18 @@ import router from "./router";
 const app = createApp(App);
 const pinia = createPinia();
 
+declare module "@vue/runtime-core" {
+    interface ComponentCustomProperties {
+        env: {
+            NODE_ENV: "development" | "production";
+        };
+    }
+}
+
+app.config.globalProperties.env = {
+    NODE_ENV: process.env.NODE_ENV as "development" | "production",
+};
+
 app.use(pinia);
 app.use(router);
 app.use(ToastPlugin, ToastOptions);
@@ -36,7 +48,7 @@ app.use(Axios);
 app.use(Toast);
 app.use(i18n);
 app.use(VueProgressBar, ProgressOptions);
-// app.use(OpenLayersMap, { debug: true });
+app.use(OpenLayersMap, { debug: true });
 app.use(FloatingVue);
 app.use(plugin, defaultConfig(formkitConfig));
 app.use(Socket, { uri: window.location.origin });

@@ -4,7 +4,7 @@
             <template v-for="(section, index) in settingsSections">
                 <div :id="`settingsContainer${index}`">
                     <!-- Sections Title -->
-                    <div class="settings-section">
+                    <div class="settings-section" v-if="!(sectionDisabled(section) && env.NODE_ENV === 'production')">
                         <div class="flex flex-col">
                             <div class="text-lg font-bold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                                 {{ __(section.title) }}
@@ -18,7 +18,9 @@
                     <!-- Settings Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                         <template v-for="page in section.pages">
-                            <SettingsButton :title="page.title" :description="page.description" :icon="page.icon" :url="page.url" :disabled="page.disabled" :modal="page.modal" />
+                            <template v-if="!(page.disabled && env.NODE_ENV === 'production')">
+                                <SettingsButton :title="page.title" :description="page.description" :icon="page.icon" :url="page.url" :disabled="page.disabled" :modal="page.modal" />
+                            </template>
                         </template>
                     </div>
                 </div>
@@ -69,6 +71,9 @@ export default defineComponent({
                     return page?.roles?.includes(this.user?.role ?? "user");
                 }),
             };
+        },
+        sectionDisabled<K>(section: K & { pages: Partial<{ disabled?: boolean }>[] }) {
+            return section.pages.filter((page) => page?.disabled).length === section.pages.length;
         },
     },
     computed: {
