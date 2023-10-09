@@ -3,7 +3,7 @@ import translations from "./language/translations.json";
 
 // Available languages
 const availableLanguages: GetTextOptions["availableLanguages"] = {
-    ca: "Català",
+    vi: "Tiếng Việt",
     cs: "Čeština",
     da: "Dansk",
     de: "Deutsch",

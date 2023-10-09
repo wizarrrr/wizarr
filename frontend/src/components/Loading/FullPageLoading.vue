@@ -14,9 +14,7 @@
             <div class="relative w-full flex justify-center">
                 <TransitionGroup name="fade">
                     <template v-for="(message, index) in messages" :key="index">
-                        <span class="absolute text-center mt-4 font-semibold text-gray-900 dark:text-white ml-1" v-if="index === showingMessage">
-                            {{ message }}
-                        </span>
+                        <span class="absolute text-center mt-4 font-semibold text-gray-900 dark:text-white ml-1" v-if="index === showingMessage">{{ message }}...</span>
                     </template>
                 </TransitionGroup>
             </div>
@@ -106,7 +104,7 @@ export default defineComponent({
     name: "FullPageLoading",
     data() {
         return {
-            messages: [this.__("Please wait..."), this.__("Preparing the spells..."), this.__("Mixing the potions..."), this.__("Summoning the spirits..."), this.__("Waving our wands...")],
+            messages: [this.__("Please wait"), this.__("Preparing the spells"), this.__("Mixing the potions"), this.__("Summoning the spirits"), this.__("Waving our wands")],
             showingMessage: 0,
         };
     },
