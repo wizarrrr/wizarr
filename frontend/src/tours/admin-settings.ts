@@ -18,11 +18,6 @@ const steps = (__: (key: string) => string): CustomTourGuideStep[] => [
         target: "#settingsContainer1",
     },
     {
-        title: __("Disabled Settings"),
-        content: __("Some settings may be disabled, this is because they have not been implemented yet, but be sure they are being actively worked on and we can't wait to share!"),
-        target: document.querySelector("button[disabled]") ?? undefined,
-    },
-    {
         title: __("End of Tour"),
         content: __("This is the end of the tour, we hope you enjoyed you found it informative! Please feel free to contact us on Discord and let us know what you think of Wizarr."),
     },

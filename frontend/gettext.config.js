@@ -36,7 +36,7 @@ module.exports = {
         path: "./src/language", // output path of all created files
         potPath: "./messages.pot", // relative to output.path, so by default "./src/language/messages.pot"
         jsonPath: "./translations.json", // relative to output.path, so by default "./src/language/translations.json"
-        locales: ["ca", "cs", "da", "de", "en", "es", "fa", "fr", "he", "hr", "hu", "is", "it", "lt", "nl", "no", "pl", "pt", "ro", "ru", "sv", "zh_cn", "zh_tw"],
+        locales: ["vi", "cs", "da", "de", "en", "es", "fa", "fr", "he", "hr", "hu", "is", "it", "lt", "nl", "no", "pl", "pt", "ro", "ru", "sv", "zh_cn", "zh_tw"],
         flat: false, // don't create subdirectories for locales
         linguas: true, // create a LINGUAS file
         splitJson: false, // create separate json files for each locale. If used, jsonPath must end with a directory, not a file

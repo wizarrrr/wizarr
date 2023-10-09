@@ -26,7 +26,7 @@
                 </FormKit>
 
                 <!-- Scan Servers -->
-                <FormKit type="button" v-if="!serverForm.server_type || !setup" prefix-icon="fas fa-server" data-theme="secondary" @click="scanServers">
+                <FormKit type="button" :disabled="true" v-if="!serverForm.server_type || !setup" prefix-icon="fas fa-server" data-theme="secondary" @click="scanServers">
                     {{ __("Scan Servers") }}
                 </FormKit>
             </div>

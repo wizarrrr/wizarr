@@ -29,6 +29,18 @@ import router from "./router";
 const app = createApp(App);
 const pinia = createPinia();
 
+declare module "@vue/runtime-core" {
+    interface ComponentCustomProperties {
+        env: {
+            NODE_ENV: "development" | "production";
+        };
+    }
+}
+
+app.config.globalProperties.env = {
+    NODE_ENV: process.env.NODE_ENV as "development" | "production",
+};
+
 app.use(pinia);
 app.use(router);
 app.use(ToastPlugin, ToastOptions);
