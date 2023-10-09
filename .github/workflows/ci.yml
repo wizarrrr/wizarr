@@ -59,7 +59,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          platforms: linux/amd64,linux/arm64,linux/arm32v7,linux/arm,linux/386,linux/ppc64le,linux/s390x,windows/amd64,mac/amd64,mac/arm64
+          platforms: linux/amd64,linux/arm64
           provenance: false
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
