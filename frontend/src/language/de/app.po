@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-15 23:12+0100\n"
-"PO-Revision-Date: 2023-10-09 12:51+0000\n"
+"PO-Revision-Date: 2023-10-09 13:40+0000\n"
 "Last-Translator: Krallenkiller <krallenkiller@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/wizarr-v3/wizarr/"
 "de/>\n"
@@ -204,16 +204,16 @@ msgstr "Medienserver-Einstellungen konfigurieren"
 
 #: src/modules/settings/pages/Main.vue:172
 msgid "Configure your passkeys"
-msgstr ""
+msgstr "Passkeys konfigurieren"
 
 #: src/modules/authentication/components/PasskeyForm.vue:15
 #: src/modules/authentication/components/UsernameForm.vue:11
 msgid "Continue"
-msgstr ""
+msgstr "Weiter"
 
 #: src/widgets/default/ContributorsList.vue:3
 msgid "Contributors"
-msgstr ""
+msgstr "Unterstützer"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:120
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:96
@@ -222,45 +222,47 @@ msgstr ""
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:40
 #: src/modules/settings/components/Modals/ViewApiKey.vue:28
 msgid "Copied to clipboard"
-msgstr ""
+msgstr "In die Zwischenablage kopiert"
 
 #: src/modules/help/components/Jellyfin/Download.vue:28
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:15
 msgid "Copy"
-msgstr ""
+msgstr "Kopieren"
 
 #: src/modules/join/views/Join.vue:120 src/modules/join/views/Join.vue:172
 msgid "Could not connect to the server."
-msgstr ""
+msgstr "Konnte keine Verbindung zum Server herstellen."
 
 #: src/modules/join/views/Join.vue:134 src/modules/join/views/Join.vue:139
 #: src/modules/join/views/Join.vue:156 src/modules/join/views/Join.vue:161
 msgid "Could not create the account."
-msgstr ""
+msgstr "Konto konnte nicht erstellt werden."
 
 #: src/modules/settings/pages/Backup.vue:10
 msgid ""
 "Create a backup of your database and configuration. Please set an encryption "
 "password to protect your backup file."
 msgstr ""
+"Erstelle eine Sicherung deiner Datenbank und Konfiguration. Bitte lege ein "
+"Verschlüsselungspasswort fest, um deine Sicherungsdatei zu schützen."
 
 #: src/modules/settings/pages/Main.vue:230
 msgid "Create and restore backups"
-msgstr ""
+msgstr "Sicherungen erstellen und wiederherstellen"
 
 #: src/modules/admin/components/Forms/InvitationForm.vue:252
 #: src/modules/admin/components/Forms/InvitationForm.vue:44
 msgid "Create Another"
-msgstr ""
+msgstr "Weitere erstellen"
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:16
 #: src/modules/settings/pages/APIKeys.vue:24
 msgid "Create API Key"
-msgstr ""
+msgstr "API-Schlüssel erstellen"
 
 #: src/modules/admin/pages/FlowEditor.vue:4
 msgid "Create Flow"
-msgstr ""
+msgstr "Flow erstellen"
 
 #: src/modules/admin/components/Forms/InvitationForm.vue:265
 #: src/modules/admin/components/Forms/InvitationForm.vue:268
@@ -268,151 +270,154 @@ msgstr ""
 #: src/modules/admin/pages/Invitations.vue:41
 #: src/modules/admin/pages/Invitations.vue:5 src/tours/admin-invitations.ts:13
 msgid "Create Invitation"
-msgstr ""
+msgstr "Einladung erstellen"
 
 #: src/modules/admin/pages/Invitations.vue:38
 msgid "Create Invite"
-msgstr ""
+msgstr "Einladung erstellen"
 
 #: src/modules/settings/components/Forms/WebhookForm.vue:6
 #: src/modules/settings/pages/Webhooks.vue:24
 msgid "Create Webhook"
-msgstr ""
+msgstr "Webhook erstellen"
 
 #: src/modules/setup/pages/Database.vue:7
 msgid "Currently Wizarr only supports it's internal SQLite database."
-msgstr ""
+msgstr "Derzeit unterstützt Wizarr nur seine interne SQLite-Datenbank."
 
 #: src/modules/settings/pages/Main.vue:197
 msgid "Custom HTML"
-msgstr ""
+msgstr "Eigenes HTML"
 
 #: src/components/Dashboard/Dashboard.vue:88
 msgid "Dashboard reset cancelled"
-msgstr ""
+msgstr "Dashboard-Zurücksetzung abgebrochen"
 
 #: src/components/Dashboard/Dashboard.vue:86
 msgid "Dashboard reset successfully"
-msgstr ""
+msgstr "Dashboard erfolgreich zurückgesetzt"
 
 #: src/tours/admin-home.ts:12
 msgid "Dashboard Widgets"
-msgstr ""
+msgstr "Dashboard Widgets"
 
 #: src/modules/setup/pages/Database.vue:4
 msgid "Database"
-msgstr ""
+msgstr "Datenbank"
 
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserList.vue:9
 msgid "Deleted users will not be visible"
-msgstr ""
+msgstr "Gelöschte Benutzer werden nicht angezeigt"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:10
 msgid "Detect Server"
-msgstr ""
+msgstr "Server erkennen"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:118
 msgid "Detected %{server_type} server!"
-msgstr ""
+msgstr "Server vom Typ %{server_type} erkannt!"
 
 #: src/modules/settings/pages/Main.vue:190
 msgid "Discord"
-msgstr ""
+msgstr "Discord"
 
 #: src/modules/settings/pages/Main.vue:138
 msgid "Discord Bot"
-msgstr ""
+msgstr "Discord Bot"
 
 #: src/modules/admin/components/Users/UserList/UserItem.vue:136
 msgid "Do you really want to delete this user from your media server?"
-msgstr ""
+msgstr "Möchtest du diesen Benutzer wirklich von deinem Medienserver löschen?"
 
 #: src/modules/settings/components/ScanServers/ScanServers.vue:26
 msgid "Don't see your server?"
-msgstr ""
+msgstr "Deinen Server nicht gefunden?"
 
 #: src/modules/admin/pages/Home.vue:5 src/tours/admin-home.ts:22
 msgid "Edit Dashboard"
-msgstr ""
+msgstr "Dashboard bearbeiten"
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:3
 msgid "Eh, So, What is Jellyfin exactly?"
-msgstr ""
+msgstr "Ähm, also, was ist Jellyfin genau?"
 
 #: src/modules/help/components/Plex/Welcome.vue:3
 msgid "Eh, So, What is Plex exactly?"
-msgstr ""
+msgstr "Ähm, also, was ist Plex genau?"
 
 #: src/modules/settings/pages/Account.vue:61
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: src/modules/settings/pages/Main.vue:191
 msgid "Enable Discord page and configure settings"
-msgstr ""
+msgstr "Discord-Seite aktivieren und Einstellungen konfigurieren"
 
 #: src/modules/settings/pages/Backup.vue:43
 #: src/modules/settings/pages/Backup.vue:94
 msgid "Encryption Password"
-msgstr ""
+msgstr "Verschlüsselungspasswort"
 
 #: src/tours/admin-settings.ts:21
 msgid "End of Tour"
-msgstr ""
+msgstr "Ende der Tour"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:146
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserItem.vue:49
 #: src/modules/admin/components/Users/UserList/UserItem.vue:73
 msgid "Expired %{s}"
-msgstr ""
+msgstr "Abgelaufen am %{s}"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:148
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserItem.vue:51
 #: src/modules/admin/components/Users/UserList/UserItem.vue:75
 msgid "Expires %{s}"
-msgstr ""
+msgstr "Läuft ab am %{s}"
 
 #: src/modules/admin/components/Forms/InvitationForm.vue:55
 msgid "Failed to create invitation"
-msgstr ""
+msgstr "Einladung konnte nicht erstellt werden"
 
 #: src/modules/settings/pages/Account.vue:29
 msgid "First name"
-msgstr ""
+msgstr "Vorname"
 
 #: src/modules/admin/pages/FlowEditor.vue:2
 msgid "Flow Editor"
-msgstr ""
+msgstr "Flow Editor"
 
 #: src/modules/settings/pages/Main.vue:93
 msgid "General settings for the server"
-msgstr ""
+msgstr "Allgemeine Einstellungen für den Server"
 
 #: src/modules/home/views/Home.vue:14
 msgid "Get Started"
-msgstr ""
+msgstr "Los geht's"
 
 #: src/modules/help/views/Help.vue:5
 msgid "Getting Started!"
-msgstr ""
+msgstr "Los geht's!"
 
 #: src/modules/core/views/NotFound.vue:18
 msgid "Go Home"
-msgstr ""
+msgstr "Zur Startseite"
 
 #: src/modules/core/views/NotFound.vue:17
 msgid "Go to Dashboard"
-msgstr ""
+msgstr "Zum Dashboard"
 
 #: src/modules/setup/pages/Complete.vue:11
 msgid "Go to Login"
-msgstr ""
+msgstr "Zum Login"
 
 #: src/modules/help/components/Jellyfin/Download.vue:8
 msgid ""
 "Great news! You now have access to our server's media collection. Let's make "
 "sure you know how to use it with Jellyfin."
 msgstr ""
+"Tolle Neuigkeiten! Sie haben nun Zugang zur Mediensammlung unseres Servers. "
+"Lassen Sie uns sicherstellen, dass Sie wissen, wie Sie diese mit Jellyfin "
+"nutzen können."
 
 #: src/modules/help/components/Plex/Welcome.vue:5
 msgid ""
@@ -420,22 +425,26 @@ msgid ""
 "media collections with others. If you've received this invitation, it means "
 "someone wants to share their library with you."
 msgstr ""
+"Gute Frage! Plex ist eine Software, mit der Einzelpersonen ihre "
+"Mediensammlungen mit anderen teilen können. Wenn Sie diese Einladung "
+"erhalten haben, bedeutet das, dass jemand seine Bibliothek mit Ihnen teilen "
+"möchte."
 
 #: src/modules/settings/pages/Backup.vue:42
 msgid "here"
-msgstr ""
+msgstr "hier"
 
 #: src/components/NavBars/AdminNavBar.vue:77 src/modules/admin/pages/Home.vue:2
 msgid "Home"
-msgstr ""
+msgstr "Start"
 
 #: src/modules/settings/components/Forms/WebhookForm.vue:16
 msgid "https://example.com"
-msgstr ""
+msgstr "https://beispiel.de"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:66
 msgid "I wanted to invite you to join my media server."
-msgstr ""
+msgstr "Ich möchte dich dazu einladen, meinem Medienserver beizutreten."
 
 #: src/modules/home/views/Home.vue:12
 msgid ""
@@ -445,58 +454,58 @@ msgstr ""
 
 #: src/modules/join/pages/JoinForm.vue:33
 msgid "Invalid invitation code, please try again"
-msgstr ""
+msgstr "Ungültiger Einladungscode, bitte versuche es erneut"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:5
 #: src/modules/admin/components/Users/UserManager/User.vue:23
 msgid "Invitation Code"
-msgstr ""
+msgstr "Einladungscode"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:136
 msgid "Invitation deleted successfully"
-msgstr ""
+msgstr "Einladung erfolgreich gelöscht"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:138
 msgid "Invitation deletion cancelled"
-msgstr ""
+msgstr "Löschung der Einladung abgebrochen"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:18
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:74
 msgid "Invitation Details"
-msgstr ""
+msgstr "Einladungsdetails"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:99
 msgid "Invitation expired %{s}"
-msgstr ""
+msgstr "Einladung abgelaufen am %{s}"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:101
 msgid "Invitation expires %{s}"
-msgstr ""
+msgstr "Einladung läuft ab am %{s}"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:30
 msgid "Invitation Settings"
-msgstr ""
+msgstr "Einladungseinstellungen"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:5
 msgid "Invitation used"
-msgstr ""
+msgstr "Einladung wurde verwendet"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:118
 msgid "Invitation Users"
-msgstr ""
+msgstr "Eingeladene Benutzer"
 
 #: src/components/NavBars/AdminNavBar.vue:81
 #: src/modules/admin/pages/Invitations.vue:2
 msgid "Invitations"
-msgstr ""
+msgstr "Einladungen"
 
 #: src/modules/join/pages/JoinForm.vue:10
 msgid "Invite Code"
-msgstr ""
+msgstr "Einladungscode"
 
 #: src/modules/admin/pages/Users.vue:2
 msgid "Invited Users"
-msgstr ""
+msgstr "Eingeladene Benutzer"
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:5
 msgid ""
@@ -509,97 +518,99 @@ msgstr ""
 
 #: src/modules/join/pages/JoinForm.vue:7
 msgid "Join"
-msgstr ""
+msgstr "Beitreten"
 
 #: src/modules/help/components/Jellyfin/Download.vue:4
 msgid "Join & Download"
-msgstr ""
+msgstr "Beitreten & Herunterladen"
 
 #: src/modules/help/components/Plex/Download.vue:4
 msgid "Join & Download Plex for this device"
-msgstr ""
+msgstr "Beitreten und Plex für dieses Gerät herunterladen"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:65
 msgid "Join my media server"
-msgstr ""
+msgstr "Trete meinem Medienserver bei"
 
 #: src/modules/settings/pages/Account.vue:33
 msgid "Last name"
-msgstr ""
+msgstr "Nachname"
 
 #: src/widgets/default/LatestInfo.vue:4 src/widgets/default/LatestInfo.vue:41
 msgid "Latest Info"
-msgstr ""
+msgstr "Neueste Informationen"
 
 #: src/tours/admin-home.ts:17
 msgid "Latest Information"
-msgstr ""
+msgstr "Neueste Informationen"
 
 #: src/tours/admin-home.ts:18
 msgid ""
 "Like this Widget, it shows you the latest information about Wizarr and will "
 "be updated regularly by our amazing team."
 msgstr ""
+"Ähnlich wie dieses Widget zeigt es Ihnen die neuesten Informationen über "
+"Wizarr und wird regelmäßig von unserem großartigen Team aktualisiert."
 
 #: src/components/ChangeLogs/ChangeLogs.vue:7
 msgid "Load More"
-msgstr ""
+msgstr "Mehr laden"
 
 #: src/modules/authentication/components/PasswordForm.vue:12
 msgid "Login"
-msgstr ""
+msgstr "Anmelden"
 
 #: src/modules/join/pages/Plex/Signup.vue:5
 msgid "Login to Plex"
-msgstr ""
+msgstr "Bei Plex anmelden"
 
 #: src/modules/authentication/components/PasswordForm.vue:16
 msgid "Login with Passkey"
-msgstr ""
+msgstr "Mit Passkey anmelden"
 
 #: src/modules/authentication/components/PasskeyForm.vue:19
 msgid "Login with Password"
-msgstr ""
+msgstr "Anmelden mit Passwort"
 
 #: src/modules/authentication/components/UsernameForm.vue:5
 msgid "Login with your account"
-msgstr ""
+msgstr "Mit deinem Konto anmelden"
 
 #: src/modules/settings/pages/Main.vue:210
 msgid "Logs"
-msgstr ""
+msgstr "Logs"
 
 #: src/modules/settings/pages/Main.vue:92
 msgid "Main Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 #: src/modules/admin/pages/Home.vue:3
 msgid "Manage you Wizarr server"
-msgstr ""
+msgstr "Verwalten Sie Ihren Wizarr-Server"
 
 #: src/modules/admin/pages/FlowEditor.vue:3
 msgid "Manage your command flows"
-msgstr ""
+msgstr "Befehlsabläufe verwalten"
 
 #: src/modules/admin/pages/Invitations.vue:3
 msgid "Manage your invitations"
-msgstr ""
+msgstr "Ihre Einladungen verwalten"
 
 #: src/modules/admin/pages/Users.vue:3
 msgid "Manage your media server users"
-msgstr ""
+msgstr "Benutzer des Mediaservers verwalten"
 
 #: src/modules/admin/components/Users/UserList/UserItem.vue:104
 msgid "Managing %{user}"
-msgstr ""
+msgstr "Verwaltung von %{user}"
 
 #: src/modules/settings/pages/Account.vue:41
 msgid "Martian"
-msgstr ""
+msgstr "Marsmensch"
 
 #: src/modules/settings/pages/Account.vue:61
 msgid "marvin"
-msgstr ""
+msgstr "marvin"
 
 #: src/modules/settings/pages/Account.vue:36
 msgid "Marvin"
