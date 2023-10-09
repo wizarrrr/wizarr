@@ -28,6 +28,7 @@ import WizarrLogo from "@/components/WizarrLogo.vue";
 
 import Welcome from "../components/Welcome.vue";
 import Download from "../components/Download.vue";
+// import Discord from "../components/Discord.vue";
 
 export default defineComponent({
     name: "HelpView",
@@ -47,6 +48,10 @@ export default defineComponent({
                     name: "download",
                     view: Download,
                 },
+                // {
+                //     name: "discord",
+                //     view: Discord,
+                // },
             ],
         };
     },
