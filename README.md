@@ -41,6 +41,11 @@
 
 ---
 
+# WIZARR NOTICE
+We have recently moved Wizarr V2 to its new home at `ghcr.io/wizarrrr/wizarr:v2` if your container was automatically upgraded recently and you received breaking changes, please change your image to `ghcr.io/wizarrrr/wizarr:v2` to resolve this
+
+---
+
 Wizarr is a automatic user invitation system for Plex and Jellyfin. Create a unique link and share it to a user and they will be invited to your Media Server after they complete there signup proccess! They can even be guided to download the clients and read instructions on how to use your media software!
 
 ## Where is V2?
@@ -113,7 +118,7 @@ Our documentation is lacking since we upgraded from V2 to V3, we appologise for 
 If you want to help contribute to Wizarr by building V3's documentation we would really appreciate it, again join the [Discord](https://discord.gg/XXCz7aM3ak) and we can get you started.
 
 Check out our documentation for instructions on how to install and run Wizarr!
-https://github.com/Wizarrrr/wizarr/docs/setup
+[View Documentation](https://github.com/Wizarrrr/wizarr/blob/master/docs/setup/README.md)
 
 <a href="https://discord.gg/XXCz7aM3ak">
 <img alt="Chat on Discord" src="https://img.shields.io/discord/1020742926856372224"/>
