@@ -1,0 +1,47 @@
+name: Compile Translations
+
+on:
+  push:
+    branches:
+      - translations
+  workflow_dispatch: {}
+
+permissions:
+  packages: write
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repo and the translations branch
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: translations
+
+      # Install dependencies node and npm
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y nodejs npm
+
+      # Install dependencies for frontend
+      - name: Install dependencies for frontend
+        run: |
+          cd frontend
+          npm install
+
+      # Compile translations
+      - name: Compile translations
+        run: |
+          cd frontend
+          npm run gettext:compile
+
+      # Commit and push changes
+      - name: Commit and push changes
+        run: |
+          git config --local user.name "GitHub Action"
+          git config --local user.email "<>"
+          git add ./src/language/translations.json
+          git commit -m "Compile translations"
+          git push origin translations
