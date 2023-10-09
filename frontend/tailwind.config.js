@@ -40,5 +40,6 @@ module.exports = {
         require("tailwindcss-inner-border"), // inner border
         require("@formkit/themes/tailwindcss"), // formkit
         require("@tailwindcss/forms"), // tailwind forms
+        require('tailwind-scrollbar'), // scrollbar
     ],
 };
