@@ -1,22 +1,6 @@
-# Dutch translations for PROJECT.
-# Copyright (C) 2023 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-15 23:12+0100\n"
-"PO-Revision-Date: 2023-08-06 19:51+0100\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: nl <LL@li.org>\n"
-"Language: nl\n"
-"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Generated-By: Babel 2.12.1\n"
 
 #: src/modules/settings/pages/Main.vue:235
 msgid "About"
@@ -79,16 +63,11 @@ msgid "All done!"
 msgstr ""
 
 #: src/tours/admin-settings.ts:8
-msgid ""
-"All of your media server settings will appear here, we know your going to "
-"spend a lot of time here 😝"
+msgid "All of your media server settings will appear here, we know your going to spend a lot of time here 😝"
 msgstr ""
 
 #: src/tours/admin-users.ts:9
-msgid ""
-"All of your media server users will appear here in a list. You can manage "
-"them, edit them, and delete them. Other information like their expiration or "
-"creation date will also be displayed here."
+msgid "All of your media server users will appear here in a list. You can manage them, edit them, and delete them. Other information like their expiration or creation date will also be displayed here."
 msgstr ""
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:37
@@ -128,9 +107,7 @@ msgid "Are you sure you want to reset your dashboard?"
 msgstr ""
 
 #: src/modules/settings/components/Forms/MediaForm.vue:144
-msgid ""
-"Are you sure you want to save this connection, this will reset your Wizarr "
-"instance, which may lead to data loss."
+msgid "Are you sure you want to save this connection, this will reset your Wizarr instance, which may lead to data loss."
 msgstr ""
 
 #: src/components/Dashboard/Dashboard.vue:80
@@ -143,7 +120,8 @@ msgstr ""
 msgid "Are you sure?"
 msgstr ""
 
-#: src/modules/help/views/Help.vue:12 src/modules/setup/views/Setup.vue:19
+#: src/modules/help/views/Help.vue:12
+#: src/modules/setup/views/Setup.vue:19
 #: src/templates/SettingsTemplate.vue:15
 msgid "Back"
 msgstr ""
@@ -220,19 +198,20 @@ msgstr ""
 msgid "Copy"
 msgstr ""
 
-#: src/modules/join/views/Join.vue:120 src/modules/join/views/Join.vue:172
+#: src/modules/join/views/Join.vue:120
+#: src/modules/join/views/Join.vue:172
 msgid "Could not connect to the server."
 msgstr ""
 
-#: src/modules/join/views/Join.vue:134 src/modules/join/views/Join.vue:139
-#: src/modules/join/views/Join.vue:156 src/modules/join/views/Join.vue:161
+#: src/modules/join/views/Join.vue:134
+#: src/modules/join/views/Join.vue:139
+#: src/modules/join/views/Join.vue:156
+#: src/modules/join/views/Join.vue:161
 msgid "Could not create the account."
 msgstr ""
 
 #: src/modules/settings/pages/Backup.vue:10
-msgid ""
-"Create a backup of your database and configuration. Please set an encryption "
-"password to protect your backup file."
+msgid "Create a backup of your database and configuration. Please set an encryption password to protect your backup file."
 msgstr ""
 
 #: src/modules/settings/pages/Main.vue:230
@@ -257,7 +236,8 @@ msgstr ""
 #: src/modules/admin/components/Forms/InvitationForm.vue:268
 #: src/modules/admin/components/Forms/InvitationForm.vue:33
 #: src/modules/admin/pages/Invitations.vue:41
-#: src/modules/admin/pages/Invitations.vue:5 src/tours/admin-invitations.ts:13
+#: src/modules/admin/pages/Invitations.vue:5
+#: src/tours/admin-invitations.ts:13
 msgid "Create Invitation"
 msgstr ""
 
@@ -322,7 +302,8 @@ msgstr ""
 msgid "Don't see your server?"
 msgstr ""
 
-#: src/modules/admin/pages/Home.vue:5 src/tours/admin-home.ts:22
+#: src/modules/admin/pages/Home.vue:5
+#: src/tours/admin-home.ts:22
 msgid "Edit Dashboard"
 msgstr ""
 
@@ -400,23 +381,19 @@ msgid "Go to Login"
 msgstr ""
 
 #: src/modules/help/components/Jellyfin/Download.vue:8
-msgid ""
-"Great news! You now have access to our server's media collection. Let's make "
-"sure you know how to use it with Jellyfin."
+msgid "Great news! You now have access to our server's media collection. Let's make sure you know how to use it with Jellyfin."
 msgstr ""
 
 #: src/modules/help/components/Plex/Welcome.vue:5
-msgid ""
-"Great question! Plex is a software that allows individuals to share their "
-"media collections with others. If you've received this invitation, it means "
-"someone wants to share their library with you."
+msgid "Great question! Plex is a software that allows individuals to share their media collections with others. If you've received this invitation, it means someone wants to share their library with you."
 msgstr ""
 
 #: src/modules/settings/pages/Backup.vue:42
 msgid "here"
 msgstr ""
 
-#: src/components/NavBars/AdminNavBar.vue:77 src/modules/admin/pages/Home.vue:2
+#: src/components/NavBars/AdminNavBar.vue:77
+#: src/modules/admin/pages/Home.vue:2
 msgid "Home"
 msgstr ""
 
@@ -429,9 +406,7 @@ msgid "I wanted to invite you to join my media server."
 msgstr ""
 
 #: src/modules/home/views/Home.vue:12
-msgid ""
-"If you were sent here by a friend, please request access or if you have an "
-"invite code, please click Get Started!"
+msgid "If you were sent here by a friend, please request access or if you have an invite code, please click Get Started!"
 msgstr ""
 
 #: src/modules/join/pages/JoinForm.vue:33
@@ -490,12 +465,7 @@ msgid "Invited Users"
 msgstr ""
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:5
-msgid ""
-"Jellyfin is a platform that lets you stream all your favorite movies, TV "
-"shows, and music in one place. It's like having your own personal movie "
-"theater right at your fingertips! Think of it as a digital library of your "
-"favorite content that you can access from anywhere, on any device - your "
-"phone, tablet, laptop, smart TV, you name it."
+msgid "Jellyfin is a platform that lets you stream all your favorite movies, TV shows, and music in one place. It's like having your own personal movie theater right at your fingertips! Think of it as a digital library of your favorite content that you can access from anywhere, on any device - your phone, tablet, laptop, smart TV, you name it."
 msgstr ""
 
 #: src/modules/join/pages/JoinForm.vue:7
@@ -518,7 +488,8 @@ msgstr ""
 msgid "Last name"
 msgstr ""
 
-#: src/widgets/default/LatestInfo.vue:4 src/widgets/default/LatestInfo.vue:41
+#: src/widgets/default/LatestInfo.vue:4
+#: src/widgets/default/LatestInfo.vue:41
 msgid "Latest Info"
 msgstr ""
 
@@ -527,9 +498,7 @@ msgid "Latest Information"
 msgstr ""
 
 #: src/tours/admin-home.ts:18
-msgid ""
-"Like this Widget, it shows you the latest information about Wizarr and will "
-"be updated regularly by our amazing team."
+msgid "Like this Widget, it shows you the latest information about Wizarr and will be updated regularly by our amazing team."
 msgstr ""
 
 #: src/components/ChangeLogs/ChangeLogs.vue:7
@@ -631,7 +600,8 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: src/tours/admin-home.ts:30 src/tours/admin-invitations.ts:21
+#: src/tours/admin-home.ts:30
+#: src/tours/admin-invitations.ts:21
 #: src/tours/admin-users.ts:21
 msgid "Next Page"
 msgstr ""
@@ -705,22 +675,16 @@ msgid "Payments"
 msgstr ""
 
 #: src/modules/help/components/Jellyfin/Download.vue:16
-msgid ""
-"Planning on watching Movies on this device? Download Jellyfin for this "
-"device or click 'Next' to for other options."
+msgid "Planning on watching Movies on this device? Download Jellyfin for this device or click 'Next' to for other options."
 msgstr ""
 
 #: src/modules/help/components/Plex/Download.vue:10
-msgid ""
-"Planning on watching Movies on this device? Download Plex for this device."
+msgid "Planning on watching Movies on this device? Download Plex for this device."
 msgstr ""
 
 #: src/modules/settings/pages/Backup.vue:45
 #: src/modules/settings/pages/Backup.vue:46
-msgid ""
-"Please bare in mind that these tools are only for debugging purposes and we "
-"will not provide you with support from any issues that may arise from using "
-"them."
+msgid "Please bare in mind that these tools are only for debugging purposes and we will not provide you with support from any issues that may arise from using them."
 msgstr ""
 
 #: src/modules/settings/components/Forms/MediaForm.vue:124
@@ -744,9 +708,7 @@ msgid "Please login to your Plex account to help us connect you to our server."
 msgstr ""
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:11
-msgid ""
-"Please take a copy your API key. You will not be able to see it again, "
-"please make sure to store it somewhere safe."
+msgid "Please take a copy your API key. You will not be able to see it again, please make sure to store it somewhere safe."
 msgstr ""
 
 #: src/components/Loading/FullPageLoading.vue:109
@@ -784,17 +746,11 @@ msgid "Restore"
 msgstr ""
 
 #: src/modules/setup/pages/Restore.vue:7
-msgid ""
-"Restore a backup of your database and configuration from a backup file. You "
-"will need to provide the encryption password that was used to create the "
-"backup"
+msgid "Restore a backup of your database and configuration from a backup file. You will need to provide the encryption password that was used to create the backup"
 msgstr ""
 
 #: src/modules/settings/pages/Backup.vue:27
-msgid ""
-"Restore a backup of your database and configuration from a backup file. You "
-"will need to provide the encryption password that was used to create the "
-"backup."
+msgid "Restore a backup of your database and configuration from a backup file. You will need to provide the encryption password that was used to create the backup."
 msgstr ""
 
 #: src/modules/setup/pages/Restore.vue:4
@@ -907,9 +863,7 @@ msgid "Share Invitation"
 msgstr ""
 
 #: src/modules/admin/components/Invitations/ShareSheet.vue:17
-msgid ""
-"Share this link with your friends and family to invite them to join your "
-"media server."
+msgid "Share this link with your friends and family to invite them to join your media server."
 msgstr ""
 
 #: src/modules/help/components/Plex/Welcome.vue:11
@@ -917,14 +871,11 @@ msgid "So let's see how to get started!"
 msgstr ""
 
 #: src/modules/help/components/Plex/Download.vue:7
-msgid ""
-"So you now have access to our server's media collection. Let's make sure you "
-"know how to use it with Plex."
+msgid "So you now have access to our server's media collection. Let's make sure you know how to use it with Plex."
 msgstr ""
 
 #: src/modules/join/views/Join.vue:90
-msgid ""
-"Something went wrong while trying to join the server. Please try again later."
+msgid "Something went wrong while trying to join the server. Please try again later."
 msgstr ""
 
 #: src/modules/core/views/NotFound.vue:13
@@ -960,33 +911,23 @@ msgid "Tasks"
 msgstr ""
 
 #: src/tours/admin-settings.ts:12
-msgid ""
-"There are a lot of settings, so you can search for them by using the search "
-"bar."
+msgid "There are a lot of settings, so you can search for them by using the search bar."
 msgstr ""
 
 #: src/tours/admin-home.ts:13
-msgid ""
-"These are your widgets, you can use them to get a quick overview of your "
-"Wizarr instance."
+msgid "These are your widgets, you can use them to get a quick overview of your Wizarr instance."
 msgstr ""
 
 #: src/modules/setup/pages/Database.vue:9
-msgid ""
-"This is a temporary and we are working on adding support for other databases."
+msgid "This is a temporary and we are working on adding support for other databases."
 msgstr ""
 
 #: src/tours/admin-settings.ts:22
-msgid ""
-"This is the end of the tour, we hope you enjoyed you found it informative! "
-"Please feel free to contact us on Discord and let us know what you think of "
-"Wizarr."
+msgid "This is the end of the tour, we hope you enjoyed you found it informative! Please feel free to contact us on Discord and let us know what you think of Wizarr."
 msgstr ""
 
 #: src/tours/admin-invitations.ts:9
-msgid ""
-"This is where you can manage your invitations, they will appear here in a "
-"list. Invitations are used to invite new users to your media server."
+msgid "This is where you can manage your invitations, they will appear here in a list. Invitations are used to invite new users to your media server."
 msgstr ""
 
 #: src/modules/settings/pages/Account.vue:3
@@ -1017,10 +958,14 @@ msgstr ""
 msgid "Type in your invite code to %{server_name} server!"
 msgstr ""
 
-#: src/modules/join/views/Join.vue:120 src/modules/join/views/Join.vue:134
-#: src/modules/join/views/Join.vue:139 src/modules/join/views/Join.vue:156
-#: src/modules/join/views/Join.vue:161 src/modules/join/views/Join.vue:172
-#: src/modules/join/views/Join.vue:173 src/modules/join/views/Join.vue:89
+#: src/modules/join/views/Join.vue:120
+#: src/modules/join/views/Join.vue:134
+#: src/modules/join/views/Join.vue:139
+#: src/modules/join/views/Join.vue:156
+#: src/modules/join/views/Join.vue:161
+#: src/modules/join/views/Join.vue:172
+#: src/modules/join/views/Join.vue:173
+#: src/modules/join/views/Join.vue:89
 msgid "Uh oh!"
 msgstr ""
 
@@ -1113,14 +1058,11 @@ msgid "Waving our wands..."
 msgstr ""
 
 #: src/tours/admin-settings.ts:17
-msgid ""
-"We have categorized all of your settings to make it easier to find them."
+msgid "We have categorized all of your settings to make it easier to find them."
 msgstr ""
 
 #: src/tours/admin-home.ts:9
-msgid ""
-"We want to help you get started with Wizarr as quickly as possible, consider "
-"following this tour to get a quick overview."
+msgid "We want to help you get started with Wizarr as quickly as possible, consider following this tour to get a quick overview."
 msgstr ""
 
 #: src/components/WebhookList/WebhookItem.vue:53
@@ -1135,14 +1077,13 @@ msgstr ""
 msgid "Webhooks"
 msgstr ""
 
-#: src/modules/setup/pages/Welcome.vue:5 src/tours/admin-home.ts:8
+#: src/modules/setup/pages/Welcome.vue:5
+#: src/tours/admin-home.ts:8
 msgid "Welcome to Wizarr"
 msgstr ""
 
 #: src/modules/help/components/Plex/Welcome.vue:8
-msgid ""
-"With Plex, you'll have access to all of the movies, TV shows, music, and "
-"photos that are stored on their server!"
+msgid "With Plex, you'll have access to all of the movies, TV shows, music, and photos that are stored on their server!"
 msgstr ""
 
 #: src/components/Footers/DefaultFooter.vue:3
@@ -1150,30 +1091,19 @@ msgid "Wizarr"
 msgstr ""
 
 #: src/modules/home/views/Home.vue:10
-msgid ""
-"Wizarr is a software tool that provides advanced user invitation and "
-"management capabilities for media servers such as Jellyfin, Emby, and Plex. "
-"With Wizarr, server administrators can easily invite new users and manage "
-"their access"
+msgid "Wizarr is a software tool that provides advanced user invitation and management capabilities for media servers such as Jellyfin, Emby, and Plex. With Wizarr, server administrators can easily invite new users and manage their access"
 msgstr ""
 
 #: src/tours/admin-users.ts:14
-msgid ""
-"Wizarr will automatically scan your media server for new users, but you can "
-"also manually scan for new users by clicking on the 'Scan for Users' button, "
-"this is useful if Wizarr has not gotten around to doing it yet."
+msgid "Wizarr will automatically scan your media server for new users, but you can also manually scan for new users by clicking on the 'Scan for Users' button, this is useful if Wizarr has not gotten around to doing it yet."
 msgstr ""
 
 #: src/tours/admin-home.ts:23
-msgid ""
-"You can also edit your dashboard, delete widgets, add new widgets, and move "
-"them around."
+msgid "You can also edit your dashboard, delete widgets, add new widgets, and move them around."
 msgstr ""
 
 #: src/tours/admin-invitations.ts:14
-msgid ""
-"You can create a new invitation by clicking on the 'Create Invitation' "
-"button."
+msgid "You can create a new invitation by clicking on the 'Create Invitation' button."
 msgstr ""
 
 #: src/modules/setup/pages/Complete.vue:7
@@ -1181,9 +1111,7 @@ msgid "You have successfully completed the setup process."
 msgstr ""
 
 #: src/modules/join/pages/Complete.vue:4
-msgid ""
-"You're all set, click continue to get started and walkthrough how to use "
-"%{serverName}!"
+msgid "You're all set, click continue to get started and walkthrough how to use %{serverName}!"
 msgstr ""
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:98
