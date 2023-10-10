@@ -39,9 +39,12 @@ jobs:
 
       # Commit and push changes
       - name: Commit and push changes
+        env:
+          GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --local user.name "GitHub Action"
           git config --local user.email "<>"
+          git remote set-url origin "https://$GIT_TOKEN@github.com/Wizarrrr/wizarr.git"
           git add .
           git commit -m "Compile translations"
           git push origin translations
