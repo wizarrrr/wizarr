@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-15 23:12+0100\n"
-"PO-Revision-Date: 2023-10-09 11:00+0000\n"
-"Last-Translator: Tu Vinh <tuvinh0106s@gmail.com>\n"
+"PO-Revision-Date: 2023-10-10 04:02+0000\n"
+"Last-Translator: Thinh Nguyen <thinhplust@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/wizarr-v3/"
 "wizarr/vi/>\n"
 "Language: vi\n"
@@ -100,7 +100,7 @@ msgstr ""
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:37
 msgid "API Key"
-msgstr ""
+msgstr "API Key"
 
 #: src/modules/settings/components/APIKeys/APIKeysItem.vue:68
 msgid "API key deleted successfully"
@@ -112,7 +112,7 @@ msgstr "Xóa API key đã bị hủy"
 
 #: src/modules/settings/pages/Main.vue:110
 msgid "API keys"
-msgstr ""
+msgstr "Khóa API"
 
 #: src/modules/settings/components/APIKeys/APIKeysItem.vue:65
 msgid "Are you sure you want to delete this API key?"
@@ -299,11 +299,11 @@ msgstr "Đặt lại bảng điều khiển thành công"
 
 #: src/tours/admin-home.ts:12
 msgid "Dashboard Widgets"
-msgstr ""
+msgstr "Tiện ích bảng điều khiển"
 
 #: src/modules/setup/pages/Database.vue:4
 msgid "Database"
-msgstr ""
+msgstr "Cơ sở dữ liệu"
 
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserList.vue:9
 msgid "Deleted users will not be visible"
@@ -332,19 +332,19 @@ msgstr ""
 
 #: src/modules/settings/components/ScanServers/ScanServers.vue:26
 msgid "Don't see your server?"
-msgstr ""
+msgstr "Bạn không thấy máy chủ của mình?"
 
 #: src/modules/admin/pages/Home.vue:5 src/tours/admin-home.ts:22
 msgid "Edit Dashboard"
-msgstr ""
+msgstr "Chỉnh sửa trang tổng quan"
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:3
 msgid "Eh, So, What is Jellyfin exactly?"
-msgstr ""
+msgstr "Vậy chính xác thì Jellyfin là gì?"
 
 #: src/modules/help/components/Plex/Welcome.vue:3
 msgid "Eh, So, What is Plex exactly?"
-msgstr ""
+msgstr "Plex chính xác là gì?"
 
 #: src/modules/settings/pages/Account.vue:61
 msgid "Email"
@@ -352,22 +352,22 @@ msgstr ""
 
 #: src/modules/settings/pages/Main.vue:191
 msgid "Enable Discord page and configure settings"
-msgstr ""
+msgstr "Kích hoạt trang Discord và định cấu hình cài đặt"
 
 #: src/modules/settings/pages/Backup.vue:43
 #: src/modules/settings/pages/Backup.vue:94
 msgid "Encryption Password"
-msgstr ""
+msgstr "Mã hóa mật khẩu"
 
 #: src/tours/admin-settings.ts:21
 msgid "End of Tour"
-msgstr ""
+msgstr "Kết thúc hướng dẫn"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:146
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserItem.vue:49
 #: src/modules/admin/components/Users/UserList/UserItem.vue:73
 msgid "Expired %{s}"
-msgstr ""
+msgstr "Hết hạn  %{s}"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:148
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserItem.vue:51
@@ -377,45 +377,47 @@ msgstr ""
 
 #: src/modules/admin/components/Forms/InvitationForm.vue:55
 msgid "Failed to create invitation"
-msgstr ""
+msgstr "Không tạo được lời mời"
 
 #: src/modules/settings/pages/Account.vue:29
 msgid "First name"
-msgstr ""
+msgstr "Tên"
 
 #: src/modules/admin/pages/FlowEditor.vue:2
 msgid "Flow Editor"
-msgstr ""
+msgstr "Trình chỉnh sửa luồng"
 
 #: src/modules/settings/pages/Main.vue:93
 msgid "General settings for the server"
-msgstr ""
+msgstr "Cài đặt chung cho máy chủ"
 
 #: src/modules/home/views/Home.vue:14
 msgid "Get Started"
-msgstr ""
+msgstr "Bắt đầu"
 
 #: src/modules/help/views/Help.vue:5
 msgid "Getting Started!"
-msgstr ""
+msgstr "Bắt đầu!"
 
 #: src/modules/core/views/NotFound.vue:18
 msgid "Go Home"
-msgstr ""
+msgstr "Về Trang Chủ"
 
 #: src/modules/core/views/NotFound.vue:17
 msgid "Go to Dashboard"
-msgstr ""
+msgstr "Đi đến Bảng điều khiển"
 
 #: src/modules/setup/pages/Complete.vue:11
 msgid "Go to Login"
-msgstr ""
+msgstr "Đến trang Đăng nhập"
 
 #: src/modules/help/components/Jellyfin/Download.vue:8
 msgid ""
 "Great news! You now have access to our server's media collection. Let's make "
 "sure you know how to use it with Jellyfin."
 msgstr ""
+"Tin tốt! Bây giờ bạn có quyền truy cập vào bộ sưu tập phương tiện trên máy "
+"chủ của chúng tôi. Hãy đảm bảo rằng bạn biết cách sử dụng nó với Jellyfin."
 
 #: src/modules/help/components/Plex/Welcome.vue:5
 msgid ""
@@ -423,14 +425,17 @@ msgid ""
 "media collections with others. If you've received this invitation, it means "
 "someone wants to share their library with you."
 msgstr ""
+"Câu hỏi tuyệt vời! Plex là phần mềm cho phép các cá nhân chia sẻ bộ sưu tập "
+"phương tiện của họ với người khác. Nếu bạn nhận được lời mời này, điều đó có "
+"nghĩa là ai đó muốn chia sẻ thư viện của họ với bạn."
 
 #: src/modules/settings/pages/Backup.vue:42
 msgid "here"
-msgstr ""
+msgstr "đây"
 
 #: src/components/NavBars/AdminNavBar.vue:77 src/modules/admin/pages/Home.vue:2
 msgid "Home"
-msgstr ""
+msgstr "Trang chủ"
 
 #: src/modules/settings/components/Forms/WebhookForm.vue:16
 msgid "https://example.com"
@@ -438,68 +443,70 @@ msgstr ""
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:66
 msgid "I wanted to invite you to join my media server."
-msgstr ""
+msgstr "Tôi muốn mời bạn tham gia máy chủ media của tôi."
 
 #: src/modules/home/views/Home.vue:12
 msgid ""
 "If you were sent here by a friend, please request access or if you have an "
 "invite code, please click Get Started!"
 msgstr ""
+"Nếu bạn được mời đến đây, vui lòng yêu cầu quyền truy cập hoặc nếu bạn có mã "
+"mời, vui lòng nhấp vào Bắt đầu!"
 
 #: src/modules/join/pages/JoinForm.vue:33
 msgid "Invalid invitation code, please try again"
-msgstr ""
+msgstr "Mã mời không hợp lệ, vui lòng thử lại"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:5
 #: src/modules/admin/components/Users/UserManager/User.vue:23
 msgid "Invitation Code"
-msgstr ""
+msgstr "mã mời"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:136
 msgid "Invitation deleted successfully"
-msgstr ""
+msgstr "Đã xóa lời mời thành công"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:138
 msgid "Invitation deletion cancelled"
-msgstr ""
+msgstr "Đã hủy xóa lời mời"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:18
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:74
 msgid "Invitation Details"
-msgstr ""
+msgstr "Chi tiết lời mời"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:99
 msgid "Invitation expired %{s}"
-msgstr ""
+msgstr "Lời mời đã hết hạn %{s}"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:101
 msgid "Invitation expires %{s}"
-msgstr ""
+msgstr "Lời mời hết hạn %{s}"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:30
 msgid "Invitation Settings"
-msgstr ""
+msgstr "Cài đặt lời mời"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:5
 msgid "Invitation used"
-msgstr ""
+msgstr "Lời mời đã được sử dụng"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:118
 msgid "Invitation Users"
-msgstr ""
+msgstr "Lời mời người dùng"
 
 #: src/components/NavBars/AdminNavBar.vue:81
 #: src/modules/admin/pages/Invitations.vue:2
 msgid "Invitations"
-msgstr ""
+msgstr "Lời mời"
 
 #: src/modules/join/pages/JoinForm.vue:10
 msgid "Invite Code"
-msgstr ""
+msgstr "Mã mời"
 
 #: src/modules/admin/pages/Users.vue:2
 msgid "Invited Users"
-msgstr ""
+msgstr "Người dùng được mời"
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:5
 msgid ""
@@ -509,30 +516,36 @@ msgid ""
 "favorite content that you can access from anywhere, on any device - your "
 "phone, tablet, laptop, smart TV, you name it."
 msgstr ""
+"Jellyfin là nền tảng cho phép bạn phát trực tuyến tất cả các bộ phim, chương "
+"trình truyền hình và âm nhạc yêu thích của mình ở một nơi. Nó giống như có "
+"rạp chiếu phim cá nhân của riêng bạn ngay trong tầm tay bạn! Hãy coi nó như "
+"một thư viện kỹ thuật số chứa nội dung yêu thích của bạn mà bạn có thể truy "
+"cập từ mọi nơi, trên mọi thiết bị - điện thoại, máy tính bảng, máy tính xách "
+"tay, TV thông minh, bạn đặt tên cho nó."
 
 #: src/modules/join/pages/JoinForm.vue:7
 msgid "Join"
-msgstr ""
+msgstr "Tham gia"
 
 #: src/modules/help/components/Jellyfin/Download.vue:4
 msgid "Join & Download"
-msgstr ""
+msgstr "Tham gia & Tải xuống"
 
 #: src/modules/help/components/Plex/Download.vue:4
 msgid "Join & Download Plex for this device"
-msgstr ""
+msgstr "Tham gia và tải xuống Plex cho thiết bị này"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:65
 msgid "Join my media server"
-msgstr ""
+msgstr "Tham gia máy chủ phương tiện của tôi"
 
 #: src/modules/settings/pages/Account.vue:33
 msgid "Last name"
-msgstr ""
+msgstr "họ"
 
 #: src/widgets/default/LatestInfo.vue:4 src/widgets/default/LatestInfo.vue:41
 msgid "Latest Info"
-msgstr ""
+msgstr "Thông tin mới nhất"
 
 #: src/tours/admin-home.ts:17
 msgid "Latest Information"
@@ -543,62 +556,64 @@ msgid ""
 "Like this Widget, it shows you the latest information about Wizarr and will "
 "be updated regularly by our amazing team."
 msgstr ""
+"Giống như Widget này, nó hiển thị cho bạn thông tin mới nhất về Wizard và sẽ "
+"được đội ngũ tuyệt vời của chúng tôi cập nhật thường xuyên."
 
 #: src/components/ChangeLogs/ChangeLogs.vue:7
 msgid "Load More"
-msgstr ""
+msgstr "Tải thêm"
 
 #: src/modules/authentication/components/PasswordForm.vue:12
 msgid "Login"
-msgstr ""
+msgstr "Đăng nhập"
 
 #: src/modules/join/pages/Plex/Signup.vue:5
 msgid "Login to Plex"
-msgstr ""
+msgstr "Đăng nhập Plex"
 
 #: src/modules/authentication/components/PasswordForm.vue:16
 msgid "Login with Passkey"
-msgstr ""
+msgstr "Đăng nhập qua Paskey"
 
 #: src/modules/authentication/components/PasskeyForm.vue:19
 msgid "Login with Password"
-msgstr ""
+msgstr "Đăng nhập qua mật khẩu"
 
 #: src/modules/authentication/components/UsernameForm.vue:5
 msgid "Login with your account"
-msgstr ""
+msgstr "Đăng nhập bằng tài khoản của bạn"
 
 #: src/modules/settings/pages/Main.vue:210
 msgid "Logs"
-msgstr ""
+msgstr "Logs"
 
 #: src/modules/settings/pages/Main.vue:92
 msgid "Main Settings"
-msgstr ""
+msgstr "Cài đặt Chính"
 
 #: src/modules/admin/pages/Home.vue:3
 msgid "Manage you Wizarr server"
-msgstr ""
+msgstr "Quản lý máy chủ Wizard."
 
 #: src/modules/admin/pages/FlowEditor.vue:3
 msgid "Manage your command flows"
-msgstr ""
+msgstr "Quản lý luồng lệnh của bạn"
 
 #: src/modules/admin/pages/Invitations.vue:3
 msgid "Manage your invitations"
-msgstr ""
+msgstr "Quản lý lời mời"
 
 #: src/modules/admin/pages/Users.vue:3
 msgid "Manage your media server users"
-msgstr ""
+msgstr "Quản lý người dùng máy chủ phương tiện"
 
 #: src/modules/admin/components/Users/UserList/UserItem.vue:104
 msgid "Managing %{user}"
-msgstr ""
+msgstr "Quản lý %{user}"
 
 #: src/modules/settings/pages/Account.vue:41
 msgid "Martian"
-msgstr ""
+msgstr "tên đăng nhập"
 
 #: src/modules/settings/pages/Account.vue:61
 msgid "marvin"
@@ -610,11 +625,11 @@ msgstr ""
 
 #: src/modules/settings/pages/Account.vue:76
 msgid "marvin@wizarr.dev"
-msgstr ""
+msgstr "email"
 
 #: src/modules/settings/pages/Main.vue:97
 msgid "Media Server"
-msgstr ""
+msgstr "Máy chủ phương tiện"
 
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Mixing the potions"
@@ -1220,4 +1235,4 @@ msgstr ""
 
 #: src/tours/admin-users.ts:8
 msgid "Your Users"
-msgstr ""
+msgstr "Thông tin tài khoản"
