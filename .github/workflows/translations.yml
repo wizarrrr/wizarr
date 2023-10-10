@@ -42,6 +42,6 @@ jobs:
         run: |
           git config --local user.name "GitHub Action"
           git config --local user.email "<>"
-          git add ./src/language/translations.json
+          git add .
           git commit -m "Compile translations"
           git push origin translations
