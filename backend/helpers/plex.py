@@ -8,7 +8,6 @@ from logging import info
 
 from app.models.database import Invitations
 
-from .libraries import get_libraries_name
 from .settings import get_media_settings
 from .users import get_users, create_user
 
@@ -106,7 +105,7 @@ def invite_plex_user(code: str, token: str, server_api_key: Optional[str] = None
 
     # Get libraries from invitation
     sections = (
-        get_libraries_name()
+        []
         if invitation.specific_libraries is None
         else invitation.specific_libraries.split(",")
     )

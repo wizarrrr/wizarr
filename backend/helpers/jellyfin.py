@@ -6,7 +6,6 @@ from io import BytesIO
 
 from app.models.database import Invitations
 
-from .libraries import get_libraries_ids
 from .settings import get_media_settings
 from .users import get_users, create_user, get_user_by_token
 
@@ -250,7 +249,7 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
 
     # Get libraries from invitation
     sections = (
-        get_libraries_ids()
+        []
         if invitation.specific_libraries is None
         else invitation.specific_libraries.split(",")
     )
