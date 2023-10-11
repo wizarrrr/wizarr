@@ -8,11 +8,16 @@ from .extensions import *
 from .models.database import *
 from .security import *
 from .utils.clear_logs import clear_logs
+from .migrator import run_migrations
 
+# Get the base directory
 BASE_DIR = path.abspath(path.dirname(__file__))
 
 # Load environment variables
 load_dotenv()
+
+# Run migrations
+run_migrations()
 
 # Create the app
 app = Flask(__name__)
