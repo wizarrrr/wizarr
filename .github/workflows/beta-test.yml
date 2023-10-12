@@ -87,14 +87,14 @@ jobs:
       # Retag the images with the digest so we can push by digest
       - name: Retag with digest
         run: |
-          docker tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:${{ steps.build.outputs.digest }}}
-          docker tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:${{ steps.build.outputs.digest }}}
+          docker tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
+          docker tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
 
       # Push the image by digest (for manifest list)
       - name: Push to by digest
         run: |
-          docker push ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:${{ steps.build.outputs.digest }}
-          docker push ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:${{ steps.build.outputs.digest }}
+          docker push ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
+          docker push ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
 
       # Export the digest for later use
       - name: Export digest
