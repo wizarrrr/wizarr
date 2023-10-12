@@ -77,24 +77,8 @@ jobs:
         with:
           context: .
           platforms: ${{ matrix.platform }}
-          push: false
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image
-          tags: |
-            ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-            ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-
-      # Retag the images with the digest so we can push by digest
-      - name: Retag with digest
-        run: |
-          docker tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
-          docker tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
-
-      # Push the image by digest (for manifest list)
-      - name: Push to by digest
-        run: |
-          docker push ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
-          docker push ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
+          outputs: type=image,name=${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true,push=true
 
       # Export the digest for later use
       - name: Export digest
@@ -151,19 +135,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Create manifest list and push to GHCR
-      - name: Create manifest list and push to GHCR
+      # Create manifest list and push
+      - name: Create manifest list and push
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+          docker buildx imagetools create --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
             $(printf '${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
-
-      # Create manifest list and push to DockerHub
-      - name: Create manifest list and push to DockerHub
-        working-directory: /tmp/digests
-        run: |
-          docker buildx imagetools create --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-            $(printf '${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
 
       # Inspect image
       - name: Inspect image
