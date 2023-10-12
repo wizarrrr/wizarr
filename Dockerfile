@@ -55,6 +55,9 @@ ENV TZ=Etc/UTC
 LABEL maintainer="Ashley Bailey <admin@ashleybailey.me>"
 LABEL description="Wizarr is an advanced user invitation and management system for Jellyfin, Plex, Emby etc."
 
+LABEL org.opencontainers.image.authors "Ashley Bailey <admin@ashleybailey.me>"
+LABEL org.opencontainers.image.description "Wizarr is an advanced user invitation and management system for Jellyfin, Plex, Emby etc."
+
 # Expose ports
 EXPOSE 5690
 WORKDIR /data/backend
