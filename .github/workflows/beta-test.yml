@@ -13,7 +13,7 @@ env:
   GHCR_REGISTRY: ghcr.io
   DH_REGISTRY: docker.io
   IMAGE_NAME: wizarrrr/wizarr
-  IMAGE_TAG: v3-beta-test
+  IMAGE_TAG: v3-beta
 
 jobs:
   clear:
@@ -62,14 +62,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Login to Docker Hub
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.DH_REGISTRY }}
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
       # Build and push the image
       - name: Build to local registry
         id: build
@@ -101,6 +93,15 @@ jobs:
     needs:
       - build
     steps:
+      # Checkout the repo
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Get the Release Version from latest
+      - name: Get the Release Version from latest
+        id: get_version
+        run: echo "::set-output name=version::$(cat latest)"
+
       # Download the digests from the artifacts
       - name: Download digests
         uses: actions/download-artifact@v3
@@ -139,7 +140,11 @@ jobs:
       - name: Create manifest list and push
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+          docker buildx imagetools create \
+            --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+            --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ steps.get_version.outputs.version }} \
+            --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+            --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ steps.get_version.outputs.version }} \
             $(printf '${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
 
       # Inspect image
