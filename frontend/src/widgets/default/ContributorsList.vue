@@ -80,7 +80,7 @@ export default defineComponent({
             .filter((contributor) => contributor.totalAmountDonated! > 0)
             .filter((contributor) => contributor.role === "BACKER")
             .sort((a, b) => new Date(b.lastTransactionAt!).getTime() - new Date(a.lastTransactionAt!).getTime())
-            .slice(0, 7)
+            .slice(0, 6)
             .sort((a, b) => b.totalAmountDonated! - a.totalAmountDonated!)
             .map((contributor) => (contributor.name === "Guest" ? { ...contributor, name: "Anonymous" } : contributor))
             .reduce((acc, contributor) => ((existing) => (existing ? acc.map((item) => (item.profile === contributor.profile ? { ...item } : item)) : [...acc, contributor]))(acc.find((item) => item.profile === contributor.profile)), [] as OpenCollectiveResponse);
