@@ -80,12 +80,19 @@ export default defineComponent({
             .filter((contributor) => contributor.totalAmountDonated! > 0)
             .filter((contributor) => contributor.role === "BACKER")
             .sort((a, b) => new Date(b.lastTransactionAt!).getTime() - new Date(a.lastTransactionAt!).getTime())
-            .slice(0, 6)
-            .sort((a, b) => b.totalAmountDonated! - a.totalAmountDonated!)
             .map((contributor) => (contributor.name === "Guest" ? { ...contributor, name: "Anonymous" } : contributor))
             .reduce((acc, contributor) => ((existing) => (existing ? acc.map((item) => (item.profile === contributor.profile ? { ...item } : item)) : [...acc, contributor]))(acc.find((item) => item.profile === contributor.profile)), [] as OpenCollectiveResponse);
 
-        this.contributors = sorted;
+        const topContributor = response.data
+            .filter((contributor) => contributor.totalAmountDonated! > 0)
+            .filter((contributor) => contributor.role === "BACKER")
+            .sort((a, b) => b.totalAmountDonated! - a.totalAmountDonated!)
+            .slice(0, 1)
+            .map((contributor) => (contributor.name === "Guest" ? { ...contributor, name: "Anonymous" } : contributor))
+            .reduce((acc, contributor) => ((existing) => (existing ? acc.map((item) => (item.profile === contributor.profile ? { ...item } : item)) : [...acc, contributor]))(acc.find((item) => item.profile === contributor.profile)), [] as OpenCollectiveResponse);
+
+        const contributors = [topContributor[0], ...sorted.filter((contributor) => contributor.profile !== topContributor[0].profile)];
+        this.contributors = contributors.slice(0, 6);
     },
 });
 </script>
