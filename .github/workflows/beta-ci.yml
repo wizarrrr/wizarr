@@ -50,10 +50,10 @@ jobs:
           images: ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
       # Set up QEMU
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: ${{ matrix.platform }}
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
+      #   with:
+      #     platforms: ${{ matrix.platform }}
 
       # Set up Docker Buildx
       - name: Set up Docker Buildx
@@ -78,6 +78,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           provenance: false
           outputs: type=image,name=${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true
+          cache-from: type=gha,scope=${{ matrix.platform }}-${{ env.GHCR_REGISTRY }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.platform }}-${{ env.GHCR_REGISTRY }}
 
       # Export the digest for later use
       - name: Export digest
@@ -172,10 +174,10 @@ jobs:
           images: ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
       # Set up QEMU
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: ${{ matrix.platform }}
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
+      #   with:
+      #     platforms: ${{ matrix.platform }}
 
       # Set up Docker Buildx
       - name: Set up Docker Buildx
@@ -200,6 +202,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           provenance: false
           outputs: type=image,name=${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true
+          cache-from: type=gha,scope=${{ matrix.platform }}-${{ env.GHCR_REGISTRY }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.platform }}-${{ env.GHCR_REGISTRY }}
 
       # Export the digest for later use
       - name: Export digest
