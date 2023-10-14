@@ -1,9 +1,12 @@
 # Build Stage
-FROM --platform=$BUILDPLATFORM python:3.12.0 AS build
+FROM --platform=$TARGETPLATFORM python:3.12.0 AS build
 
 # Set environment variables
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
+
+# Show buld platform and target platform in Docker log
+RUN echo "Build platform is $BUILDPLATFORM" && echo "Target platform is $TARGETPLATFORM"
 
 # Update system and install build dependencies
 RUN apt-get update && apt-get install -y libffi-dev g++ nmap nginx figlet curl nodejs npm && apt-get clean
