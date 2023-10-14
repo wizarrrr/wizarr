@@ -34,15 +34,8 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          - linux/386
-          - windows/amd64
-          - windows/amd64
           - linux/amd64
-          - linux/arm/v5
-          - linux/arm/v7
-          - linux/arm64/v8
-          - linux/ppc64le
-          - linux/s390x
+          - linux/arm64
 
     steps:
       # Checkout the repo
@@ -163,15 +156,8 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          - linux/386
-          - windows/amd64
-          - windows/amd64
           - linux/amd64
-          - linux/arm/v5
-          - linux/arm/v7
-          - linux/arm64/v8
-          - linux/ppc64le
-          - linux/s390x
+          - linux/arm64
 
     steps:
       # Checkout the repo
