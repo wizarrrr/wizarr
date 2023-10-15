@@ -3,9 +3,11 @@ import type { Language } from "vue3-gettext";
 import type { PiniaPluginContext } from "pinia";
 import type TourGuideOptions from "@sjmc11/tourguidejs/src/core/options";
 import loadRouterTour from "@/tours";
+import { useUserStore } from "@/stores/user";
 
 export interface CustomTourGuideOptions extends TourGuideOptions {
     i18n?: Language;
+    userStore?: ReturnType<typeof useUserStore>;
     app: App;
 }
 
