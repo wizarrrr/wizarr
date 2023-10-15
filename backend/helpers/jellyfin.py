@@ -247,12 +247,11 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
     # Get Invitation from Database
     invitation = Invitations.get_or_none(Invitations.code == code)
 
+    sections = None
+
     # Get libraries from invitation
-    sections = (
-        []
-        if invitation.specific_libraries is None
-        else invitation.specific_libraries.split(",")
-    )
+    if invitation.specific_libraries is not None and len(invitation.specific_libraries) > 0:
+        sections = invitation.specific_libraries.split(",")
 
     # Create user object
     new_user = { "Name": str(username), "Password": str(password) }
@@ -261,7 +260,12 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
     user_response = post_jellyfin(api_path="/Users/New", json=new_user, server_api_key=server_api_key, server_url=server_url)
 
     # Create policy object
-    new_policy = { "EnableAllFolders": False, "EnabledFolders": sections }
+    new_policy = { "EnableAllFolders": True, "MaxActiveSessions": 2 }
+
+    if sections:
+        new_policy["EnableAllFolders"] = False
+        new_policy["EnabledFolders"] = sections
+
     old_policy = user_response["Policy"]
 
     # Merge policy with user policy don't overwrite
