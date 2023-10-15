@@ -7,6 +7,7 @@ import { TourGuideClient } from "@sjmc11/tourguidejs/src/Tour";
 import type TourGuideOptions from "@sjmc11/tourguidejs/src/core/options";
 import type { TourGuideStep } from "@sjmc11/tourguidejs/src/types/TourGuideStep";
 import defaultOptions from "@sjmc11/tourguidejs/src/util/util_default_options";
+import { useUserStore } from "@/stores/user";
 
 export interface CustomTourGuideStep extends TourGuideStep {
     onBackdropClick?: () => void | Promise<void>;
@@ -57,17 +58,17 @@ export const checkTourAvailability = (tour: string): boolean => {
  * @param options
  * @returns
  */
-const loadRouterTour = (router: Router, options?: CustomTourGuideOptions) => {
-    // PATCH: Add the tour guide to localStorage
-    if (localStorage.getItem("tg_tours_complete") === null) {
-        localStorage.setItem("tg_tours_complete", "");
-    }
-
+const loadRouterTour = (router: Router, options: CustomTourGuideOptions) => {
     // Initialize the tour guide
     const tourGuide = new TourGuideClient({ ...options, debug: process.env.NODE_ENV === "development" });
 
-    // Load tour when route is loaded
-    router.afterEach(async (to) => checkTourAvailability(to.name as string) && (await loadTour(to.name as RouteRecordName, tourGuide, options)));
+    // Load the tour when the route is loaded
+    router.afterEach(async (to) => {
+        const userStore = useUserStore(options.app.config.globalProperties.$pinia);
+        if (!userStore.user?.tutorial && checkTourAvailability(to.name as string)) {
+            await loadTour(to.name as RouteRecordName, tourGuide, { ...options, userStore: userStore });
+        }
+    });
 };
 
 /**
@@ -111,10 +112,14 @@ const defaultOnBeforeStepChange = async (tourGuide: TourGuideClient, callback?: 
  * @param callback
  * @returns
  */
-const defaultOnAfterExit = async (tourGuide: TourGuideClient, callback?: () => void | Promise<void>) => {
-    // Don't show the tour guide again
-    let tours = localStorage.getItem("tg_tours_complete")?.split(",") ?? [];
-    localStorage.setItem("tg_tours_complete", tours.concat(tourGuide.group).join(","));
+const defaultOnAfterExit = async (tourGuide: TourGuideClient, options?: CustomTourGuideOptions, callback?: () => void | Promise<void>) => {
+    // Don't show the tour guide again if the tour has been completed
+    const axios = options?.app.config.globalProperties.$axios;
+
+    // Update the user in the database
+    await axios!.patch("/api/accounts/me", { tutorial: true }).then((response) => {
+        options?.userStore?.$patch({ user: { ...response.data } });
+    });
 
     // Call the callback if it exists
     await callback?.();
@@ -155,7 +160,7 @@ const loadTour = async (name: RouteRecordName, tourGuide: TourGuideClient, optio
 
     const onFinishCallback = async () => await defaultOnFinish(tourGuide, options, tour.callbacks?.onFinish);
     const onBeforeStepChangeCallback = async () => await defaultOnBeforeStepChange(tourGuide, tour.callbacks?.onBeforeStepChange);
-    const onAfterExitCallback = async () => await defaultOnAfterExit(tourGuide, tour.callbacks?.onAfterExit);
+    const onAfterExitCallback = async () => await defaultOnAfterExit(tourGuide, options, tour.callbacks?.onAfterExit);
 
     // Add the callbacks to the tour guide if they exist
     tourGuide.onFinish(onFinishCallback);
@@ -163,12 +168,6 @@ const loadTour = async (name: RouteRecordName, tourGuide: TourGuideClient, optio
     tour.callbacks?.onAfterStepChange && tourGuide.onAfterStepChange(tour.callbacks.onAfterStepChange);
     tour.callbacks?.onBeforeExit && tourGuide.onBeforeExit(tour.callbacks.onBeforeExit);
     tourGuide.onBeforeStepChange(onBeforeStepChangeCallback);
-
-    // Check if the tour is finished
-    if (tourGuide.isFinished(tourName)) return;
-
-    console.log(`Starting tour ${tourName}`);
-    console.log(tourGuide.tourSteps);
 
     // Start the tour
     tourGuide.start(tourName);
