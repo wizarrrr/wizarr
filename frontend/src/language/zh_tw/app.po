@@ -28,6 +28,11 @@ msgstr "關於"
 msgid "Account"
 msgstr "帳號"
 
+#: src/modules/join/pages/Error.vue:31
+#, fuzzy
+msgid "Account Error"
+msgstr "帳號"
+
 #: src/modules/settings/pages/Main.vue:147
 msgid "Account Settings"
 msgstr "帳號設定"
@@ -77,7 +82,7 @@ msgstr "進階設定"
 msgid "Advanced settings for the server"
 msgstr "進階伺服器設定"
 
-#: src/modules/join/views/Join.vue:82
+#: src/modules/join/views/Join.vue:88
 #, fuzzy
 msgid "All done!"
 msgstr "全部完成！"
@@ -94,8 +99,15 @@ msgid ""
 "All of your media server users will appear here in a list. You can manage "
 "them, edit them, and delete them. Other information like their expiration or "
 "creation date will also be displayed here."
-msgstr "您所有的媒體伺服器用戶都將顯示在此處。您可以管理、編輯和刪除它們。其他資訊（"
-"例如到期日期或建立日期）也將顯示於此。"
+msgstr ""
+"您所有的媒體伺服器用戶都將顯示在此處。您可以管理、編輯和刪除它們。其他資訊"
+"（例如到期日期或建立日期）也將顯示於此。"
+
+#: src/modules/join/pages/Error.vue:31
+msgid ""
+"An error occured while creating your account, your account may of not of "
+"been created, if you face issue attempting to login, please contact an admin."
+msgstr ""
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:37
 msgid "API Key"
@@ -209,9 +221,10 @@ msgstr "設定 Passkeys"
 msgid "Continue"
 msgstr "下一步"
 
-#: src/widgets/default/ContributorsList.vue:3
-msgid "Contributors"
-msgstr "貢獻者"
+#: src/modules/join/pages/Error.vue:8
+#, fuzzy
+msgid "Continue to Login"
+msgstr "回到登入頁面"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:120
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:96
@@ -227,12 +240,12 @@ msgstr "已複製到剪貼簿"
 msgid "Copy"
 msgstr "複製"
 
-#: src/modules/join/views/Join.vue:120 src/modules/join/views/Join.vue:172
+#: src/modules/join/views/Join.vue:128 src/modules/join/views/Join.vue:180
 msgid "Could not connect to the server."
 msgstr "無法連接到伺服器。"
 
-#: src/modules/join/views/Join.vue:134 src/modules/join/views/Join.vue:139
-#: src/modules/join/views/Join.vue:156 src/modules/join/views/Join.vue:161
+#: src/modules/join/views/Join.vue:142 src/modules/join/views/Join.vue:147
+#: src/modules/join/views/Join.vue:164 src/modules/join/views/Join.vue:169
 msgid "Could not create the account."
 msgstr "無法創立帳號。"
 
@@ -416,7 +429,8 @@ msgstr "回到登入頁面"
 msgid ""
 "Great news! You now have access to our server's media collection. Let's make "
 "sure you know how to use it with Jellyfin."
-msgstr "好消息！您現在可以訪問我們伺服器的媒體收藏。讓我們確保您知道如何使用 "
+msgstr ""
+"好消息！您現在可以訪問我們伺服器的媒體收藏。讓我們確保您知道如何使用 "
 "Jellyfin 來訪問它。"
 
 #: src/modules/help/components/Plex/Welcome.vue:5
@@ -424,7 +438,8 @@ msgid ""
 "Great question! Plex is a software that allows individuals to share their "
 "media collections with others. If you've received this invitation, it means "
 "someone wants to share their library with you."
-msgstr "好問題！Plex是一款允許個人與他人分享媒體收藏的軟件。如果您收到了這個邀請，那"
+msgstr ""
+"好問題！Plex是一款允許個人與他人分享媒體收藏的軟件。如果您收到了這個邀請，那"
 "就表示有人想與您分享他們的媒體庫。"
 
 #: src/modules/settings/pages/Backup.vue:42
@@ -448,8 +463,9 @@ msgstr "誠意邀請你加入我的媒體伺服器。"
 msgid ""
 "If you were sent here by a friend, please request access or if you have an "
 "invite code, please click Get Started!"
-msgstr "如果你是經朋友推薦來的，請先申請訪問。若你已有邀請碼，請直接點擊「開始使用」"
-"！"
+msgstr ""
+"如果你是經朋友推薦來的，請先申請訪問。若你已有邀請碼，請直接點擊「開始使"
+"用」！"
 
 #: src/modules/join/pages/JoinForm.vue:33
 msgid "Invalid invitation code, please try again"
@@ -515,11 +531,12 @@ msgid ""
 "favorite content that you can access from anywhere, on any device - your "
 "phone, tablet, laptop, smart TV, you name it."
 msgstr ""
-"Jellyfin是一個平台，讓您可以在一個地方串流所有您最喜愛的電影、電視節目和音樂"
-"。就像擁有您自己的個人電影院，輕鬆隨手可及！把它想像成您最喜愛內容的數字圖書"
-"館，您可以在任何地方、使用任何設備 - "
-"手機、平板電腦、筆記本電腦、智能電視等等。無論您身在何處，都可以輕鬆享受。"
+"Jellyfin是一個平台，讓您可以在一個地方串流所有您最喜愛的電影、電視節目和音"
+"樂。就像擁有您自己的個人電影院，輕鬆隨手可及！把它想像成您最喜愛內容的數字圖"
+"書館，您可以在任何地方、使用任何設備 - 手機、平板電腦、筆記本電腦、智能電視等"
+"等。無論您身在何處，都可以輕鬆享受。"
 
+#: src/modules/help/components/Discord.vue:31
 #: src/modules/join/pages/JoinForm.vue:7
 msgid "Join"
 msgstr "加入"
@@ -535,6 +552,11 @@ msgstr "加入並在此設備上下載 Plex"
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:65
 msgid "Join my media server"
 msgstr "加入我的媒體伺服器"
+
+#: src/modules/help/components/Discord.vue:28
+#, fuzzy
+msgid "Join our Discord"
+msgstr "Discord"
 
 #: src/modules/settings/pages/Account.vue:33
 msgid "Last name"
@@ -552,8 +574,9 @@ msgstr "最新消息"
 msgid ""
 "Like this Widget, it shows you the latest information about Wizarr and will "
 "be updated regularly by our amazing team."
-msgstr "就像這個小工具一樣，它會定期由我們出色的團隊更新，為您提供有關 Wizarr "
-"的最新信息。"
+msgstr ""
+"就像這個小工具一樣，它會定期由我們出色的團隊更新，為您提供有關 Wizarr 的最新"
+"信息。"
 
 #: src/components/ChangeLogs/ChangeLogs.vue:7
 msgid "Load More"
@@ -582,6 +605,10 @@ msgstr "使用帳號登入"
 #: src/modules/settings/pages/Main.vue:210
 msgid "Logs"
 msgstr "日誌"
+
+#: src/modules/join/views/Join.vue:18
+msgid "Made by "
+msgstr ""
 
 #: src/modules/settings/pages/Main.vue:92
 msgid "Main Settings"
@@ -627,6 +654,10 @@ msgstr ""
 msgid "Media Server"
 msgstr "媒體伺服器"
 
+#: src/modules/help/components/Discord.vue:8
+msgid "Members Online"
+msgstr ""
+
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Mixing the potions"
 msgstr ""
@@ -664,7 +695,7 @@ msgstr "下一頁"
 msgid "No API Keys found"
 msgstr "找不到 API 鑰匙"
 
-#: src/widgets/default/ContributorsList.vue:17
+#: src/widgets/default/ContributorsList.vue:26
 msgid "No contributors found"
 msgstr "找不到貢獻者"
 
@@ -706,6 +737,11 @@ msgstr "找不到 Webhooks"
 msgid "Notifications"
 msgstr "通知"
 
+#: src/modules/join/pages/Error.vue:31
+#: src/modules/join/pages/Plex/Signup.vue:33
+msgid "Okay"
+msgstr ""
+
 #: src/modules/help/components/Jellyfin/Download.vue:47
 msgid "Open Jellyfin"
 msgstr "啟動 Jellyfin"
@@ -732,7 +768,8 @@ msgstr "付款"
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device or click 'Next' to for other options."
-msgstr "計劃在這台裝置上觀看電影嗎？請下載Jellyfin在此裝置上，或點擊'下一步'查看其他"
+msgstr ""
+"計劃在這台裝置上觀看電影嗎？請下載Jellyfin在此裝置上，或點擊'下一步'查看其他"
 "選擇。"
 
 #: src/modules/help/components/Plex/Download.vue:10
@@ -746,7 +783,8 @@ msgid ""
 "Please bare in mind that these tools are only for debugging purposes and we "
 "will not provide you with support from any issues that may arise from using "
 "them."
-msgstr "請注意，這些工具僅供調試使用，我們將不會為因使用這些工具而引起的任何問題提供"
+msgstr ""
+"請注意，這些工具僅供調試使用，我們將不會為因使用這些工具而引起的任何問題提供"
 "支援。"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:124
@@ -761,7 +799,7 @@ msgstr "請輸入伺服器網址。"
 msgid "Please enter an invite code"
 msgstr "請輸入邀請碼"
 
-#: src/modules/join/views/Join.vue:52
+#: src/modules/join/views/Join.vue:58
 msgid "Please enter your invite code"
 msgstr "請輸入您的邀請碼"
 
@@ -780,9 +818,13 @@ msgid "Please wait"
 msgstr "請稍候"
 
 #: src/modules/core/components/Carousel.vue:33
-#: src/modules/join/views/Join.vue:74
+#: src/modules/join/views/Join.vue:80
 msgid "Please wait..."
 msgstr "請稍候..."
+
+#: src/modules/join/pages/Plex/Signup.vue:33
+msgid "Plex Warning"
+msgstr ""
 
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Preparing the spells"
@@ -795,6 +837,11 @@ msgstr "請按下方的按鈕，然後跟隨您瀏覽器的步驟登入"
 #: src/widgets/default/LatestInfo.vue:9
 msgid "Read More"
 msgstr "閱讀更多"
+
+#: src/widgets/default/ContributorsList.vue:9
+#, fuzzy
+msgid "Recent Contributors"
+msgstr "貢獻者"
 
 #: src/modules/home/views/Home.vue:16
 msgid "Request Access"
@@ -868,6 +915,10 @@ msgstr "掃瞄伺服器"
 msgid "Scan Users"
 msgstr "掃瞄用戶"
 
+#: src/modules/admin/pages/Settings.vue:26
+msgid "Search"
+msgstr ""
+
 #: src/tours/admin-settings.ts:11
 msgid "Search Settings"
 msgstr "搜尋設定"
@@ -922,7 +973,7 @@ msgstr "用戶帳號設定"
 msgid "Setup Wizarr"
 msgstr "設置 Wizarr"
 
-#: src/modules/join/views/Join.vue:66
+#: src/modules/join/views/Join.vue:72
 msgid "Setup your account"
 msgstr "設置您的帳號"
 
@@ -950,9 +1001,10 @@ msgstr "那麼，讓我們來看看如何開始吧！"
 msgid ""
 "So you now have access to our server's media collection. Let's make sure you "
 "know how to use it with Plex."
-msgstr "您現在可以訪問我們伺服器的媒體收藏了。讓我們確保您知道如何在 Plex 中訪問它。"
+msgstr ""
+"您現在可以訪問我們伺服器的媒體收藏了。讓我們確保您知道如何在 Plex 中訪問它。"
 
-#: src/modules/join/views/Join.vue:90
+#: src/modules/join/views/Join.vue:96
 msgid ""
 "Something went wrong while trying to join the server. Please try again later."
 msgstr "很抱歉，我們在嘗試加入伺服器時遇到了一些問題。請稍後再試一次。"
@@ -977,8 +1029,9 @@ msgstr "開發中"
 msgid "Summoning the spirits"
 msgstr "召喚靈魂中"
 
-#: src/widgets/default/ContributorsList.vue:23
-msgid "Support us"
+#: src/widgets/default/ContributorsList.vue:11
+#, fuzzy
+msgid "Support Us"
 msgstr "支持我們"
 
 #: src/components/Modals/LanguageModal.vue:11
@@ -1011,14 +1064,16 @@ msgid ""
 "This is the end of the tour, we hope you enjoyed you found it informative! "
 "Please feel free to contact us on Discord and let us know what you think of "
 "Wizarr."
-msgstr "導覽正式結束，我們希望您喜歡，也希望對您有幫助！請隨時通過Discord與我們聯繫，"
+msgstr ""
+"導覽正式結束，我們希望您喜歡，也希望對您有幫助！請隨時通過Discord與我們聯繫，"
 "讓我們知道您對Wizarr的看法。"
 
 #: src/tours/admin-invitations.ts:9
 msgid ""
 "This is where you can manage your invitations, they will appear here in a "
 "list. Invitations are used to invite new users to your media server."
-msgstr "在這裡，您可以管理您的邀請，它們會以列表形式顯示。邀請用於邀請新的用戶加入您"
+msgstr ""
+"在這裡，您可以管理您的邀請，它們會以列表形式顯示。邀請用於邀請新的用戶加入您"
 "的媒體伺服器。"
 
 #: src/modules/settings/pages/Account.vue:3
@@ -1049,10 +1104,10 @@ msgstr "再試一次"
 msgid "Type in your invite code to %{server_name} server!"
 msgstr "輸入您的邀請碼以加入到 %{server_name} 伺服器！"
 
-#: src/modules/join/views/Join.vue:120 src/modules/join/views/Join.vue:134
-#: src/modules/join/views/Join.vue:139 src/modules/join/views/Join.vue:156
-#: src/modules/join/views/Join.vue:161 src/modules/join/views/Join.vue:172
-#: src/modules/join/views/Join.vue:173 src/modules/join/views/Join.vue:89
+#: src/modules/join/views/Join.vue:128 src/modules/join/views/Join.vue:142
+#: src/modules/join/views/Join.vue:147 src/modules/join/views/Join.vue:164
+#: src/modules/join/views/Join.vue:169 src/modules/join/views/Join.vue:180
+#: src/modules/join/views/Join.vue:181 src/modules/join/views/Join.vue:95
 msgid "Uh oh!"
 msgstr "哎呀！"
 
@@ -1167,6 +1222,11 @@ msgstr "Webhook 刪除取消"
 msgid "Webhooks"
 msgstr ""
 
+#: src/modules/home/views/Home.vue:9
+#, fuzzy
+msgid "Welcome to"
+msgstr "歡迎來到 Wizarr"
+
 #: src/modules/setup/pages/Welcome.vue:5 src/tours/admin-home.ts:8
 msgid "Welcome to Wizarr"
 msgstr "歡迎來到 Wizarr"
@@ -1175,7 +1235,8 @@ msgstr "歡迎來到 Wizarr"
 msgid ""
 "With Plex, you'll have access to all of the movies, TV shows, music, and "
 "photos that are stored on their server!"
-msgstr "使用Plex，您可以輕鬆訪問儲存在他們伺服器上的所有電影、電視節目、音樂和照片！"
+msgstr ""
+"使用Plex，您可以輕鬆訪問儲存在他們伺服器上的所有電影、電視節目、音樂和照片！"
 
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
@@ -1192,12 +1253,19 @@ msgstr ""
 "能的軟件工具。使用Wizarr，伺服器管理員可以輕鬆地邀請新用戶並管理他們的訪問權"
 "限"
 
+#: src/modules/join/pages/Plex/Signup.vue:33
+msgid ""
+"Wizarr is an unverified app. This means that Plex may warn you about using "
+"it. Do you wish to continue?"
+msgstr ""
+
 #: src/tours/admin-users.ts:14
 msgid ""
 "Wizarr will automatically scan your media server for new users, but you can "
 "also manually scan for new users by clicking on the 'Scan for Users' button, "
 "this is useful if Wizarr has not gotten around to doing it yet."
-msgstr "Wizarr 會自動檢查您的媒體伺服器是否有新的用戶，但如果 Wizarr 還沒有執行檢查，"
+msgstr ""
+"Wizarr 會自動檢查您的媒體伺服器是否有新的用戶，但如果 Wizarr 還沒有執行檢查，"
 "您也可以點擊\"掃描用戶\"按鈕手動執行。"
 
 #: src/tours/admin-home.ts:23
