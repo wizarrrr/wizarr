@@ -62,7 +62,7 @@ class Auth {
         this.router.push("/admin");
 
         // Show a welcome message to the display_name else username
-        this.infoToast(`Welcome ${user.display_name || user.username}`);
+        this.infoToast(`Welcome ${user.display_name ?? user.username}`);
 
         // Set the user data
         userStore.setUser(user);
