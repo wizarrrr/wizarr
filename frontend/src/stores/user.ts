@@ -1,8 +1,8 @@
+import type { APIUser as User } from "@/types/api/auth/User";
 import { defineStore } from "pinia";
-import type { APIUser } from "@/types/api/auth/User";
 
 interface UserStoreState {
-    user: Partial<APIUser> | null;
+    user: Partial<User> | null;
 }
 
 export const useUserStore = defineStore("user", {
@@ -15,22 +15,10 @@ export const useUserStore = defineStore("user", {
         },
     },
     actions: {
-        setUser(user: Partial<APIUser>) {
+        setUser(user: Partial<User>) {
             this.user = user;
         },
-        updateUser(user: Partial<APIUser>) {
-            // Create a new form data object
-            const formData = new FormData();
-            if (user.display_name) formData.append("display_name", user.display_name);
-            if (user.username) formData.append("username", user.username);
-            if (user.email) formData.append("email", user.email);
-
-            // Update the user in the database
-            this.$axios.put("/api/accounts", formData).then((response) => {
-                this.user = response.data;
-            });
-
-            // Update the user in the store
+        updateUser(user: Partial<User>) {
             this.user = { ...this.user, ...user };
         },
     },

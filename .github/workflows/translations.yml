@@ -12,6 +12,8 @@ permissions:
 jobs:
   compile:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       # Checkout the repo and the translations branch
       - name: Checkout
@@ -23,13 +25,12 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y nodejs npm
+          sudo apt-get install -y nodejs npm gettext
 
       # Install dependencies for frontend
       - name: Install dependencies for frontend
         run: |
-          cd frontend
-          npm install
+          cd frontend && npm install vue3-gettext
 
       # Compile translations
       - name: Compile translations
@@ -38,13 +39,8 @@ jobs:
           npm run gettext:compile
 
       # Commit and push changes
-      - name: Commit and push changes
-        env:
-          GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --local user.name "GitHub Action"
-          git config --local user.email "<>"
-          git remote set-url origin "https://$GIT_TOKEN@github.com/Wizarrrr/wizarr.git"
-          git add .
-          git commit -m "Compile translations"
-          git push origin translations
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Compile translations"
+          file_pattern: "**/translations.json"
+          branch: translations

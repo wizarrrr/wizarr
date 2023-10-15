@@ -13,6 +13,12 @@
                 </div>
             </div>
         </section>
+        <div class="flex justify-center items-center flex-col mb-3 space-y-6">
+            <p class="text-sm text-center text-gray-900 dark:text-white">
+                {{ __("Made by ") }}
+                <a class="text-primary font-bold hover:underline" target="_blank" href="https://github.com/wizarrrr/wizarr">Wizarr</a>
+            </p>
+        </div>
     </div>
 </template>
 
@@ -107,12 +113,14 @@ export default defineComponent({
             // Hide the please wait screen
             this.pleaseWait = false;
 
-            // Go to the error screen
-            this.currentView = this.views.findIndex((view) => view.name == "error") + 1;
+            // Change the error screen props
             this.views[this.currentView - 1].props = {
                 title: title,
                 message: message,
             };
+
+            // Show the error screen
+            this.currentView = this.views.findIndex((view) => view.name == "error") + 1;
         },
         async connected() {
             // Check for a socket id
@@ -172,6 +180,7 @@ export default defineComponent({
         this.socket.on("connect_error", () => this.showError(this.__("Uh oh!"), this.__("Could not connect to the server.")));
         this.socket.on("error", (message) => this.showError(this.__("Uh oh!"), message));
         this.socket.on("error", this.$toast.error);
+        this.socket.on("log", (message) => console.error(message));
         this.socket.on("message", this.$toast.info);
         this.socket.on("step", (step: number) => (this.activeStep = step));
         this.socket.on("done", () => setTimeout(() => (this.currentView = this.views.findIndex((view) => view.name == "success") + 1), 1000));

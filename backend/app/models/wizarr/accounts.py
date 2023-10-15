@@ -4,7 +4,7 @@ from password_strength import PasswordPolicy
 from playhouse.shortcuts import model_to_dict
 from schematics.exceptions import DataError, ValidationError
 from schematics.models import Model
-from schematics.types import DateTimeType, EmailType, StringType
+from schematics.types import DateTimeType, EmailType, StringType, BooleanType
 from werkzeug.security import generate_password_hash
 
 from app.models.database.accounts import Accounts
@@ -27,6 +27,7 @@ class AccountsModel(Model):
     confirm_password = StringType(required=False)
     hashed_password = StringType(required=False)
     role = StringType(required=False, default="user")
+    tutorial = BooleanType(default=False)
     last_login = DateTimeType(required=False, convert_tz=True)
     created = DateTimeType(required=False, convert_tz=True)
 

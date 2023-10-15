@@ -14,9 +14,10 @@ from app.models.database.mfa import MFA
 from app.models.database.discord import Discord
 from app.models.database.webhooks import Webhooks
 from app.models.database.requests import Requests
+from app.models.database.migrations import Migrations
 
 
-all_models = [Accounts, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions, OAuthClients, MFA, Discord, Webhooks, Requests]
+all_models = [Accounts, APIKeys, Invitations, Libraries, Notifications, Settings, Users, Sessions, OAuthClients, MFA, Discord, Webhooks, Requests, Migrations]
 
 try:
     db.create_tables(all_models, safe=True)

@@ -3,7 +3,7 @@
     <AdminNavBar />
 
     <!-- Page Content -->
-    <div id="content" class="mt-[64px]">
+    <div id="content" class="mt-[64px] mb-6">
         <RouterView />
     </div>
 

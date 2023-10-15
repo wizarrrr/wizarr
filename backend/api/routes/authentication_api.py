@@ -5,6 +5,10 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.wizarr.authentication import AuthenticationModel
 from api.models.authentication import LoginPOST
 
+from app.models.database.sessions import Sessions
+from flask import current_app, jsonify
+from flask_jwt_extended import create_access_token, get_jti, get_jwt
+
 api = Namespace(name="Authentication", description="Authentication related operations", path="/auth")
 
 api.add_model("LoginPOST", LoginPOST)
@@ -37,7 +41,26 @@ class Refresh(Resource):
     @api.response(500, "Internal server error")
     def post(self):
         """Refresh the JWT token"""
-        return AuthenticationModel.refresh_token()
+        # Check if the current_app is set
+        if not current_app:
+            raise RuntimeError("Must be called from within a flask route")
+
+        # Get the identity of the user
+        identity = get_jwt_identity()
+        jti = get_jwt()["jti"]
+
+        # Find the session in the database where the access_jti or refresh_jti matches the jti
+        session = Sessions.get_or_none((Sessions.access_jti == jti) | (Sessions.refresh_jti == jti))
+
+        # Exchange the refresh token for a new access token
+        access_token = create_access_token(identity=identity)
+
+        # Update the access token in the database
+        session.access_jti = get_jti(access_token)
+        session.save()
+
+        # Return the new access token
+        return jsonify(access_token=access_token)
 
 @api.route("/logout")
 @api.route("/logout/", doc=False)

@@ -28,6 +28,11 @@ msgstr "Thông tin"
 msgid "Account"
 msgstr "Tài khoản"
 
+#: src/modules/join/pages/Error.vue:31
+#, fuzzy
+msgid "Account Error"
+msgstr "Tài khoản"
+
 #: src/modules/settings/pages/Main.vue:147
 msgid "Account Settings"
 msgstr "Cài đặt tài khoản"
@@ -76,7 +81,7 @@ msgstr "Cài đặt mở rộng"
 msgid "Advanced settings for the server"
 msgstr "Cài đặt nâng cao cho server"
 
-#: src/modules/join/views/Join.vue:82
+#: src/modules/join/views/Join.vue:88
 msgid "All done!"
 msgstr "Tất cả đã được làm xong!"
 
@@ -97,6 +102,12 @@ msgstr ""
 "Tất cả người dùng media server của bạn sẽ xuất hiện ở đây trong danh sách. "
 "Bạn có thể quản lý chúng, chỉnh sửa và xóa chúng. Các thông tin khác như "
 "ngày hết hạn hoặc ngày tạo cũng sẽ được hiển thị ở đây."
+
+#: src/modules/join/pages/Error.vue:31
+msgid ""
+"An error occured while creating your account, your account may of not of "
+"been created, if you face issue attempting to login, please contact an admin."
+msgstr ""
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:37
 msgid "API Key"
@@ -211,9 +222,10 @@ msgstr "Cấu hình passkeys của bạn"
 msgid "Continue"
 msgstr "Tiếp tục"
 
-#: src/widgets/default/ContributorsList.vue:3
-msgid "Contributors"
-msgstr "Người đóng góp"
+#: src/modules/join/pages/Error.vue:8
+#, fuzzy
+msgid "Continue to Login"
+msgstr "Đến trang Đăng nhập"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:120
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:96
@@ -229,12 +241,12 @@ msgstr "Sao chép vào bộ nhớ tạm"
 msgid "Copy"
 msgstr "Sao chép"
 
-#: src/modules/join/views/Join.vue:120 src/modules/join/views/Join.vue:172
+#: src/modules/join/views/Join.vue:128 src/modules/join/views/Join.vue:180
 msgid "Could not connect to the server."
 msgstr "Không thể kết nối đến server."
 
-#: src/modules/join/views/Join.vue:134 src/modules/join/views/Join.vue:139
-#: src/modules/join/views/Join.vue:156 src/modules/join/views/Join.vue:161
+#: src/modules/join/views/Join.vue:142 src/modules/join/views/Join.vue:147
+#: src/modules/join/views/Join.vue:164 src/modules/join/views/Join.vue:169
 msgid "Could not create the account."
 msgstr "Không thể tạo tài khoản."
 
@@ -523,6 +535,7 @@ msgstr ""
 "cập từ mọi nơi, trên mọi thiết bị - điện thoại, máy tính bảng, máy tính xách "
 "tay, TV thông minh, bạn đặt tên cho nó."
 
+#: src/modules/help/components/Discord.vue:31
 #: src/modules/join/pages/JoinForm.vue:7
 msgid "Join"
 msgstr "Tham gia"
@@ -538,6 +551,10 @@ msgstr "Tham gia và tải xuống Plex cho thiết bị này"
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:65
 msgid "Join my media server"
 msgstr "Tham gia media server của tôi"
+
+#: src/modules/help/components/Discord.vue:28
+msgid "Join our Discord"
+msgstr ""
 
 #: src/modules/settings/pages/Account.vue:33
 msgid "Last name"
@@ -587,6 +604,10 @@ msgstr "Đăng nhập bằng tài khoản của bạn"
 msgid "Logs"
 msgstr "Nhật ký (Logs)"
 
+#: src/modules/join/views/Join.vue:18
+msgid "Made by "
+msgstr ""
+
 #: src/modules/settings/pages/Main.vue:92
 msgid "Main Settings"
 msgstr "Cài đặt Chính"
@@ -631,6 +652,10 @@ msgstr ""
 msgid "Media Server"
 msgstr ""
 
+#: src/modules/help/components/Discord.vue:8
+msgid "Members Online"
+msgstr ""
+
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Mixing the potions"
 msgstr "Kết hợp và tích hợp các thành phần (module)"
@@ -667,7 +692,7 @@ msgstr "Trang kế tiếp"
 msgid "No API Keys found"
 msgstr "Không tìm thấy API Keys"
 
-#: src/widgets/default/ContributorsList.vue:17
+#: src/widgets/default/ContributorsList.vue:26
 msgid "No contributors found"
 msgstr "Không tìm thấy người đóng góp"
 
@@ -708,6 +733,11 @@ msgstr "Không tìm thấy Webhooks"
 #: src/modules/settings/pages/Main.vue:130
 msgid "Notifications"
 msgstr "Thông báo"
+
+#: src/modules/join/pages/Error.vue:31
+#: src/modules/join/pages/Plex/Signup.vue:33
+msgid "Okay"
+msgstr ""
 
 #: src/modules/help/components/Jellyfin/Download.vue:47
 msgid "Open Jellyfin"
@@ -768,7 +798,7 @@ msgstr "Vui lòng nhập server URL."
 msgid "Please enter an invite code"
 msgstr "Vui lòng nhập mã mời"
 
-#: src/modules/join/views/Join.vue:52
+#: src/modules/join/views/Join.vue:58
 msgid "Please enter your invite code"
 msgstr "Vui lòng nhập mã mời của bạn"
 
@@ -791,9 +821,13 @@ msgid "Please wait"
 msgstr "Xin vui lòng chờ"
 
 #: src/modules/core/components/Carousel.vue:33
-#: src/modules/join/views/Join.vue:74
+#: src/modules/join/views/Join.vue:80
 msgid "Please wait..."
 msgstr "Xin vui lòng chờ..."
+
+#: src/modules/join/pages/Plex/Signup.vue:33
+msgid "Plex Warning"
+msgstr ""
 
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Preparing the spells"
@@ -807,6 +841,11 @@ msgstr ""
 #: src/widgets/default/LatestInfo.vue:9
 msgid "Read More"
 msgstr "Đọc thêm"
+
+#: src/widgets/default/ContributorsList.vue:9
+#, fuzzy
+msgid "Recent Contributors"
+msgstr "Người đóng góp"
 
 #: src/modules/home/views/Home.vue:16
 msgid "Request Access"
@@ -884,6 +923,10 @@ msgstr "Quét Servers"
 msgid "Scan Users"
 msgstr "Quét người dùng"
 
+#: src/modules/admin/pages/Settings.vue:26
+msgid "Search"
+msgstr ""
+
 #: src/tours/admin-settings.ts:11
 msgid "Search Settings"
 msgstr "Thiết lập tìm kiếm"
@@ -937,7 +980,7 @@ msgstr "Cài đặt cho tài khoản người dùng"
 msgid "Setup Wizarr"
 msgstr "Cài đặt Wizarr"
 
-#: src/modules/join/views/Join.vue:66
+#: src/modules/join/views/Join.vue:72
 msgid "Setup your account"
 msgstr "Cài đặt tài khoản của bạn"
 
@@ -971,7 +1014,7 @@ msgstr ""
 "Vì vậy, bây giờ bạn có quyền truy cập vào bộ sưu tập server's media của "
 "chúng tôi. Hãy đảm bảo rằng bạn biết cách sử dụng nó với Plex."
 
-#: src/modules/join/views/Join.vue:90
+#: src/modules/join/views/Join.vue:96
 msgid ""
 "Something went wrong while trying to join the server. Please try again later."
 msgstr "Đã xảy ra lỗi khi cố gắng tham gia vào server. Vui lòng thử lại sau."
@@ -997,8 +1040,9 @@ msgstr "Vẫn đang được phát triển"
 msgid "Summoning the spirits"
 msgstr ""
 
-#: src/widgets/default/ContributorsList.vue:23
-msgid "Support us"
+#: src/widgets/default/ContributorsList.vue:11
+#, fuzzy
+msgid "Support Us"
 msgstr "Hỗ trợ chúng tôi"
 
 #: src/components/Modals/LanguageModal.vue:11
@@ -1079,10 +1123,10 @@ msgstr "Thử lại"
 msgid "Type in your invite code to %{server_name} server!"
 msgstr "Nhập mã mời của bạn để %{server_name} server!"
 
-#: src/modules/join/views/Join.vue:120 src/modules/join/views/Join.vue:134
-#: src/modules/join/views/Join.vue:139 src/modules/join/views/Join.vue:156
-#: src/modules/join/views/Join.vue:161 src/modules/join/views/Join.vue:172
-#: src/modules/join/views/Join.vue:173 src/modules/join/views/Join.vue:89
+#: src/modules/join/views/Join.vue:128 src/modules/join/views/Join.vue:142
+#: src/modules/join/views/Join.vue:147 src/modules/join/views/Join.vue:164
+#: src/modules/join/views/Join.vue:169 src/modules/join/views/Join.vue:180
+#: src/modules/join/views/Join.vue:181 src/modules/join/views/Join.vue:95
 msgid "Uh oh!"
 msgstr ""
 
@@ -1202,6 +1246,11 @@ msgstr "Xoá Webhook đã được huỷ"
 msgid "Webhooks"
 msgstr ""
 
+#: src/modules/home/views/Home.vue:9
+#, fuzzy
+msgid "Welcome to"
+msgstr "Chào mừng đến với Wizarr"
+
 #: src/modules/setup/pages/Welcome.vue:5 src/tours/admin-home.ts:8
 msgid "Welcome to Wizarr"
 msgstr "Chào mừng đến với Wizarr"
@@ -1229,6 +1278,12 @@ msgstr ""
 "nâng cao cho các media servers như Jellyfin, Emby và Plex. Với Wizarr, quản "
 "trị viên server có thể dễ dàng mời người dùng mới và quản lý quyền truy cập "
 "của họ"
+
+#: src/modules/join/pages/Plex/Signup.vue:33
+msgid ""
+"Wizarr is an unverified app. This means that Plex may warn you about using "
+"it. Do you wish to continue?"
+msgstr ""
 
 #: src/tours/admin-users.ts:14
 msgid ""

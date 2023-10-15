@@ -1,0 +1,22 @@
+name: Cleanup Untagged Images
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag of the image"
+        required: true
+
+jobs:
+  delete-untagged-images:
+    name: Delete Untagged Images
+    runs-on: ubuntu-latest
+    steps:
+      - uses: bots-house/ghcr-delete-image-action@v1.1.0
+        with:
+          # NOTE: at now only orgs is supported
+          owner: bots-house
+          name: some-web-service
+          # NOTE: using Personal Access Token
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.event.inputs.tag }}

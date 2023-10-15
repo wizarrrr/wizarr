@@ -1,4 +1,4 @@
-from peewee import SQL, CharField, DateTimeField, IntegerField
+from peewee import SQL, CharField, DateTimeField, IntegerField, BooleanField
 from app.models.database.base import BaseModel
 
 class Accounts(BaseModel):
@@ -9,6 +9,7 @@ class Accounts(BaseModel):
     password = CharField()
     email = CharField(null=True, unique=True, default=None)
     role = CharField(default="user")
+    tutorial = BooleanField(default=False)
     last_login = DateTimeField(null=True, default=None)
     created = DateTimeField(constraints=[SQL("DEFAULT (datetime('now'))")])
 
