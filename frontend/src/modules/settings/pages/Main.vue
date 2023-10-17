@@ -16,7 +16,7 @@
                     </div>
 
                     <!-- Settings Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                         <template v-for="page in section.pages">
                             <template v-if="!(page.disabled && env.NODE_ENV === 'production')">
                                 <SettingsButton :title="page.title" :description="page.description" :icon="page.icon" :url="page.url" :disabled="page.disabled" :modal="page.modal" />
@@ -240,6 +240,18 @@ export default defineComponent({
                         },
                     ],
                 },
+                // {
+                //     title: this.__("Members Only"),
+                //     description: this.__("These features are only available to paying members"),
+                //     pages: [
+                //         {
+                //             title: this.__("Live Support"),
+                //             description: this.__("Get live support from the server admins"),
+                //             icon: "fas fa-hands-helping",
+                //             url: "/admin/settings/support",
+                //         },
+                //     ],
+                // },
             ],
         };
     },
