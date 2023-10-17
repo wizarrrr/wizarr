@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-15 23:12+0100\n"
-"PO-Revision-Date: 2023-10-09 11:00+0000\n"
+"PO-Revision-Date: 2023-10-17 16:07+0000\n"
 "Last-Translator: Rémi Guerrero <remidu34070@hotmail.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr-v3/wizarr/"
 "fr/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.1\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: src/modules/settings/pages/Main.vue:235
@@ -29,9 +29,8 @@ msgid "Account"
 msgstr "Compte"
 
 #: src/modules/join/pages/Error.vue:31
-#, fuzzy
 msgid "Account Error"
-msgstr "Compte"
+msgstr "Erreur avec le compte"
 
 #: src/modules/settings/pages/Main.vue:147
 msgid "Account Settings"
@@ -108,6 +107,9 @@ msgid ""
 "An error occured while creating your account, your account may of not of "
 "been created, if you face issue attempting to login, please contact an admin."
 msgstr ""
+"Une erreur est survenue pendant la création de votre compte, celui-ci peut "
+"ne pas avoir été créé, si vous rencontrez des problèmes pour vous connecter, "
+"veuillez contacter un administrateur."
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:37
 msgid "API Key"
@@ -223,9 +225,8 @@ msgid "Continue"
 msgstr "Continuer"
 
 #: src/modules/join/pages/Error.vue:8
-#, fuzzy
 msgid "Continue to Login"
-msgstr "Se rendre à la page de connexion"
+msgstr "Continuer vers la connexion"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:120
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:96
@@ -554,9 +555,8 @@ msgid "Join my media server"
 msgstr "Rejoindre mon serveur multimédia"
 
 #: src/modules/help/components/Discord.vue:28
-#, fuzzy
 msgid "Join our Discord"
-msgstr "Discord"
+msgstr "Rejoignez notre Discord"
 
 #: src/modules/settings/pages/Account.vue:33
 msgid "Last name"
@@ -608,7 +608,7 @@ msgstr "Journaux"
 
 #: src/modules/join/views/Join.vue:18
 msgid "Made by "
-msgstr ""
+msgstr "Créé par "
 
 #: src/modules/settings/pages/Main.vue:92
 msgid "Main Settings"
@@ -656,7 +656,7 @@ msgstr "Serveur multimédia"
 
 #: src/modules/help/components/Discord.vue:8
 msgid "Members Online"
-msgstr ""
+msgstr "Membres connectés"
 
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Mixing the potions"
@@ -739,7 +739,7 @@ msgstr "Notifications"
 #: src/modules/join/pages/Error.vue:31
 #: src/modules/join/pages/Plex/Signup.vue:33
 msgid "Okay"
-msgstr ""
+msgstr "OK"
 
 #: src/modules/help/components/Jellyfin/Download.vue:47
 msgid "Open Jellyfin"
@@ -830,7 +830,7 @@ msgstr "Veuillez patienter..."
 
 #: src/modules/join/pages/Plex/Signup.vue:33
 msgid "Plex Warning"
-msgstr ""
+msgstr "Avertissement de Plex"
 
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Preparing the spells"
@@ -847,9 +847,8 @@ msgid "Read More"
 msgstr "En savoir plus"
 
 #: src/widgets/default/ContributorsList.vue:9
-#, fuzzy
 msgid "Recent Contributors"
-msgstr "Contributeurs"
+msgstr "Derniers contributeurs"
 
 #: src/modules/home/views/Home.vue:16
 msgid "Request Access"
@@ -931,7 +930,7 @@ msgstr "Rechercher des utilisateurs"
 
 #: src/modules/admin/pages/Settings.vue:26
 msgid "Search"
-msgstr ""
+msgstr "Rechercher"
 
 #: src/tours/admin-settings.ts:11
 msgid "Search Settings"
@@ -1048,7 +1047,6 @@ msgid "Summoning the spirits"
 msgstr "Invocation des esprits"
 
 #: src/widgets/default/ContributorsList.vue:11
-#, fuzzy
 msgid "Support Us"
 msgstr "Nous supporter"
 
@@ -1258,9 +1256,8 @@ msgid "Webhooks"
 msgstr "Webhooks"
 
 #: src/modules/home/views/Home.vue:9
-#, fuzzy
 msgid "Welcome to"
-msgstr "Bienvenue dans Wizarr"
+msgstr "Bienvenue dans"
 
 #: src/modules/setup/pages/Welcome.vue:5 src/tours/admin-home.ts:8
 msgid "Welcome to Wizarr"
@@ -1295,6 +1292,8 @@ msgid ""
 "Wizarr is an unverified app. This means that Plex may warn you about using "
 "it. Do you wish to continue?"
 msgstr ""
+"Wizarr est une application non vérifiée. Cela signifie que Plex peut vous "
+"alerter sur son utilisation. Voulez-vous continuer ?"
 
 #: src/tours/admin-users.ts:14
 msgid ""
