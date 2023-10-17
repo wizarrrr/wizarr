@@ -73,6 +73,12 @@ const children: RouteRecordRaw[] = [
         component: () => import("../pages/About.vue"),
         meta: { header: "About", subheader: "View server information" },
     },
+    {
+        path: "support",
+        name: "admin-settings-support",
+        component: () => import("../pages/Support.vue"),
+        meta: { header: "Live Support", subheader: "Get live support" },
+    },
 ];
 
 export default children;
