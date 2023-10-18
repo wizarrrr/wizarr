@@ -240,18 +240,24 @@ export default defineComponent({
                         },
                     ],
                 },
-                // {
-                //     title: this.__("Members Only"),
-                //     description: this.__("These features are only available to paying members"),
-                //     pages: [
-                //         {
-                //             title: this.__("Live Support"),
-                //             description: this.__("Get live support from the server admins"),
-                //             icon: "fas fa-hands-helping",
-                //             url: "/admin/settings/support",
-                //         },
-                //     ],
-                // },
+                {
+                    title: this.__("Members Only"),
+                    description: this.__("These features are only available to paying members"),
+                    pages: [
+                        {
+                            title: this.__("Membership"),
+                            description: this.__("View and manage your membership"),
+                            icon: "fas fa-cloud",
+                            url: "/admin/settings/membership",
+                        },
+                        {
+                            title: this.__("Live Support"),
+                            description: this.__("Get live support from the server admins"),
+                            icon: "fas fa-hands-helping",
+                            url: "/admin/settings/support",
+                        },
+                    ],
+                },
             ],
         };
     },
