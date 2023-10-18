@@ -17,8 +17,8 @@ def run():
     migrator = SqliteMigrator(db)
 
     # Add new Column to users table called tutorial, its a boolean field with a default value of False
-    tutorial = BooleanField(default=False)
+    with db.transaction():
+        if db.execute_sql("SELECT tutorial FROM accounts").fetchone() is None:
+            db.execute_sql("ALTER TABLE accounts ADD COLUMN tutorial BOOLEAN DEFAULT 0")
 
-    migrate(
-        migrator.add_column('accounts', 'tutorial', tutorial),
-    )
+    print("Migration 2023-10-14_21-46-16 complete")
