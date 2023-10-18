@@ -32,7 +32,7 @@ class RocketChat {
 
     // Declare the config
     private config = {
-        url: "https://livechat.wizarr.dev",
+        url: "https://chat.wizarr.dev/livechat",
         theme: {
             title: "Wizarr Support",
             color: "#fc425d",
