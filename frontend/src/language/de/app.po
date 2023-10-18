@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-15 23:12+0100\n"
-"PO-Revision-Date: 2023-10-09 22:02+0000\n"
+"PO-Revision-Date: 2023-10-18 04:05+0000\n"
 "Last-Translator: Krallenkiller <krallenkiller@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/wizarr-v3/wizarr/"
 "de/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.1\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: src/modules/settings/pages/Main.vue:235
@@ -29,9 +29,8 @@ msgid "Account"
 msgstr "Konto"
 
 #: src/modules/join/pages/Error.vue:31
-#, fuzzy
 msgid "Account Error"
-msgstr "Konto"
+msgstr "Kontofehler"
 
 #: src/modules/settings/pages/Main.vue:147
 msgid "Account Settings"
@@ -108,6 +107,9 @@ msgid ""
 "An error occured while creating your account, your account may of not of "
 "been created, if you face issue attempting to login, please contact an admin."
 msgstr ""
+"Bei der Erstellung Ihres Kontos ist ein Fehler aufgetreten. Möglicherweise "
+"wurde Ihr Konto nicht erstellt. Wenn Sie Probleme beim Anmelden haben, "
+"kontaktieren Sie bitte einen Administrator."
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:37
 msgid "API Key"
@@ -223,9 +225,8 @@ msgid "Continue"
 msgstr "Weiter"
 
 #: src/modules/join/pages/Error.vue:8
-#, fuzzy
 msgid "Continue to Login"
-msgstr "Zum Login"
+msgstr "Weiter zum Login"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:120
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:96
@@ -554,9 +555,8 @@ msgid "Join my media server"
 msgstr "Trete meinem Medienserver bei"
 
 #: src/modules/help/components/Discord.vue:28
-#, fuzzy
 msgid "Join our Discord"
-msgstr "Discord"
+msgstr "Treten Sie unserem Discord bei"
 
 #: src/modules/settings/pages/Account.vue:33
 msgid "Last name"
@@ -608,7 +608,7 @@ msgstr "Logs"
 
 #: src/modules/join/views/Join.vue:18
 msgid "Made by "
-msgstr ""
+msgstr "Hergestellt von "
 
 #: src/modules/settings/pages/Main.vue:92
 msgid "Main Settings"
@@ -656,7 +656,7 @@ msgstr "Medien Server"
 
 #: src/modules/help/components/Discord.vue:8
 msgid "Members Online"
-msgstr ""
+msgstr "Mitglieder online"
 
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Mixing the potions"
@@ -739,7 +739,7 @@ msgstr "Benachrichtigungen"
 #: src/modules/join/pages/Error.vue:31
 #: src/modules/join/pages/Plex/Signup.vue:33
 msgid "Okay"
-msgstr ""
+msgstr "Okay"
 
 #: src/modules/help/components/Jellyfin/Download.vue:47
 msgid "Open Jellyfin"
@@ -830,7 +830,7 @@ msgstr "Bitte warten..."
 
 #: src/modules/join/pages/Plex/Signup.vue:33
 msgid "Plex Warning"
-msgstr ""
+msgstr "Plex Warnung"
 
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Preparing the spells"
@@ -847,9 +847,8 @@ msgid "Read More"
 msgstr "Mehr laden"
 
 #: src/widgets/default/ContributorsList.vue:9
-#, fuzzy
 msgid "Recent Contributors"
-msgstr "Unterstützer"
+msgstr "Neueste Unterstützer"
 
 #: src/modules/home/views/Home.vue:16
 msgid "Request Access"
@@ -931,7 +930,7 @@ msgstr "Benutzer scannen"
 
 #: src/modules/admin/pages/Settings.vue:26
 msgid "Search"
-msgstr ""
+msgstr "Suchen"
 
 #: src/tours/admin-settings.ts:11
 msgid "Search Settings"
@@ -1050,7 +1049,6 @@ msgid "Summoning the spirits"
 msgstr "Die Geister herbeirufen"
 
 #: src/widgets/default/ContributorsList.vue:11
-#, fuzzy
 msgid "Support Us"
 msgstr "Unterstütze uns"
 
@@ -1259,9 +1257,8 @@ msgid "Webhooks"
 msgstr "Webhooks"
 
 #: src/modules/home/views/Home.vue:9
-#, fuzzy
 msgid "Welcome to"
-msgstr "Willkommen bei Wizarr"
+msgstr "Willkommen bei"
 
 #: src/modules/setup/pages/Welcome.vue:5 src/tours/admin-home.ts:8
 msgid "Welcome to Wizarr"
@@ -1296,6 +1293,9 @@ msgid ""
 "Wizarr is an unverified app. This means that Plex may warn you about using "
 "it. Do you wish to continue?"
 msgstr ""
+"Wizarr ist eine nicht verifizierte App. Das bedeutet, dass Plex Sie "
+"möglicherweise vor der Verwendung warnen kann. Möchten Sie trotzdem "
+"fortfahren?"
 
 #: src/tours/admin-users.ts:14
 msgid ""
