@@ -32,7 +32,7 @@ const vuePluginSentry = {
             replaysOnErrorSampleRate: 1.0,
             beforeSend(event, hint) {
                 if (event.exception) {
-                    const errorMessage = event.message ?? "Unknown error";
+                    const errorMessage = event.exception.values ?? "Unknown error";
                     app.config.globalProperties.$toast.error(DefaultToast("Detected Error", `${errorMessage}, this can generally be ignored.`));
                 }
                 return event;
