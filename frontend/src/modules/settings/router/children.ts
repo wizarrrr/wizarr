@@ -74,6 +74,12 @@ const children: RouteRecordRaw[] = [
         meta: { header: "About", subheader: "View server information" },
     },
     {
+        path: "membership",
+        name: "admin-settings-membership",
+        component: () => import("../pages/Membership.vue"),
+        meta: { header: "Membership", subheader: "View Wizarr Cloud membership" },
+    },
+    {
         path: "support",
         name: "admin-settings-support",
         component: () => import("../pages/Support.vue"),
