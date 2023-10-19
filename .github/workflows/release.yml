@@ -27,7 +27,7 @@ jobs:
             digests_ghcr
 
       # Only run the workflow if the release is on the master branch
-      - name: Check if release is on master branch
+      - name: Check if release is pre-release
         run: |
           if [ "${{ github.event.release.prerelease }}" != true ]; then
             echo "Release is not a pre-release. Continuing."
