@@ -18,24 +18,24 @@
                         label="Your Name"
                         type="text"
                         placeholder="First Name"
-                        validation="length:5|*required"
+                        validation="length:2|*required"
                         autocomplete="given-name"
                         :classes="{ outer: '!mb-0', input: 'w-full justify-center' }"
                         :validation-messages="{
                             required: 'First Name is required',
-                            length: 'First Name must be at least 5 characters',
+                            length: 'First Name must be at least 2 characters',
                         }"
                     />
                     <FormKit
                         name="last_name"
                         type="text"
                         placeholder="Last Name"
-                        validation="length:5|*required"
+                        validation="length:2|*required"
                         autocomplete="family-name"
                         :classes="{ input: 'w-full justify-center' }"
                         :validation-messages="{
                             required: 'Last Name is required',
-                            length: 'Last Name must be at least 5 characters',
+                            length: 'Last Name must be at least 2 characters',
                         }"
                     />
                 </div>
@@ -59,10 +59,10 @@
                         type="password"
                         placeholder="Password"
                         :classes="{ input: 'w-full justify-center' }"
-                        validation="length:5|*required"
+                        validation="length:20|*required"
                         :validation-messages="{
                             required: 'Password is required',
-                            length: 'Password must be at least 5 characters',
+                            length: 'Password must be at least 20 characters',
                         }"
                     />
                 </div>
