@@ -42,8 +42,8 @@ jobs:
             echo "Release is not a pre-release. Continuing."
           fi
 
-  main_branch:
-    name: Check if release is on main branch
+  master_branch:
+    name: Check if release is on master branch
     runs-on: ubuntu-latest
     needs:
       - prerelease
@@ -61,7 +61,7 @@ jobs:
   update_latest:
     runs-on: ubuntu-latest
     needs:
-      - main_branch
+      - master_branch
     permissions:
       contents: write
     steps:
