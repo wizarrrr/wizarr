@@ -34,7 +34,7 @@
 <a href="https://features.wizarr.dev">
 <img alt="Submit Feature Requests" src="https://img.shields.io/badge/fider-vote%20on%20features-success.svg"/>
 </a>
-<a href="https://github.com/Wizarrrr/wizarr/actions/workflows/ci.yml">
+<a href="https://github.com/Wizarrrr/wizarr/actions/workflows/release.yml">
 <img alt="Github Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrr/wizarr/release.yml"/>
 </a>
 </p>
