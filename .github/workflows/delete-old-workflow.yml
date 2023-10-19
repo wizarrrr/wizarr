@@ -1,5 +1,6 @@
+name: Delete old workflow runs
+
 on:
-  push:
   workflow_dispatch:
     inputs:
       repository:
