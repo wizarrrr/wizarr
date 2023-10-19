@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - "v3-beta"
+    paths-ignore:
+      - "**.md"
+      - "**/.github/**"
+      - "**/.vscode/**"
   workflow_dispatch: {}
 
 permissions:
@@ -15,8 +19,12 @@ env:
   IMAGE_NAME: wizarrrr/wizarr
   IMAGE_TAG: v3-beta
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  clear:
+  before_build:
     runs-on: ubuntu-latest
     steps:
       # Clear the digests from the artifacts
@@ -30,6 +38,8 @@ jobs:
   build_ghcr:
     name: Build Digest for GHCR
     runs-on: ubuntu-latest
+    needs:
+      - before_build
     strategy:
       fail-fast: false
       matrix:
@@ -48,12 +58,6 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-
-      # Set up QEMU
-      # - name: Set up QEMU
-      #   uses: docker/setup-qemu-action@v3
-      #   with:
-      #     platforms: ${{ matrix.platform }}
 
       # Set up Docker Buildx
       - name: Set up Docker Buildx
@@ -154,6 +158,8 @@ jobs:
   build_dh:
     name: Build Digest for Docker Hub
     runs-on: ubuntu-latest
+    needs:
+      - before_build
     strategy:
       fail-fast: false
       matrix:
@@ -172,12 +178,6 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-
-      # Set up QEMU
-      # - name: Set up QEMU
-      #   uses: docker/setup-qemu-action@v3
-      #   with:
-      #     platforms: ${{ matrix.platform }}
 
       # Set up Docker Buildx
       - name: Set up Docker Buildx
