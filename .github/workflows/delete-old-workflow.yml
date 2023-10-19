@@ -1,42 +1,19 @@
 name: Delete old workflow runs
 
 on:
-  workflow_dispatch:
-    {
-      "inputs":
-        {
-          "repository":
-            {
-              "description": "The repository to delete workflow runs from",
-              "required": true,
-              "type": "string",
-            },
-          "workflow":
-            {
-              "description": "The workflow to delete workflow runs from",
-              "required": true,
-              "type": "string",
-            },
-          "what-if":
-            {
-              "description": "Whether to perform a dry run or not",
-              "required": true,
-              "type": "boolean",
-            },
-        },
-    }
+  push:
 
 jobs:
   delete-workflow-runs:
     runs-on: ubuntu-latest
-    name: A demo job to delete workflow runs
+    name: Delete old workflow runs
     steps:
       - name: Delete workflow runs
         uses: MajorScruffy/delete-old-workflow-runs@v0.2.0
         id: delete-old-workflow-runs
         with:
-          repository: ${{ github.event.inputs.repository }}
-          workflow: ".github/workflows/${{ github.event.inputs.workflow }}"
-          what-if: ${{ github.event.inputs.what-if }}
+          repository: wizarrrr/wizarr
+          workflow: ".github/workflows/tailwindcss.yml"
+          what-if: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
