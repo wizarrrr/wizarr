@@ -48,14 +48,11 @@ jobs:
     needs:
       - prerelease
     steps:
-      # If the release is not on the main branch, succeed the job
-      - name: Check if release is on main branch
+      # If the release is not on the master branch, succeed the job
+      - name: Check if release is on master branch
         run: |
           if [[ "${{ github.event.release.target_commitish }}" != "master" ]]; then
             echo "Release is not on master branch. Skipping."
-            exit 1
-          elif [[ "${{ github.event.release.target_commitish }}" != "main" ]]; then
-            echo "Release is not on main branch. Skipping."
             exit 1
           else
             echo "Release is on master branch. Continuing."
