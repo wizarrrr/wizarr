@@ -53,10 +53,6 @@ def get_account_by_id(account_id: int, verify: bool = True, password: bool = Fal
     account = Accounts.get_or_none(Accounts.id == account_id)
     exclude = []
 
-    # Check if the account exists
-    if account is None and verify:
-        raise ValueError("Account does not exist")
-
     # Remove the password from the account if password is False
     if password is False:
         exclude.append("password")
@@ -143,33 +139,17 @@ def update_account(account_id: int, **kwargs) -> Accounts:
     :param id: The id of the account
     :type id: int
 
-    :param username: The username of the account
-    :type username: str
-
-    :param email: The email of the account
-    :type email: str
-
-    :param password: The password of the account
-    :type password: str
-
-    :param confirm_password: The password of the account
-    :type confirm_password: Optional[str]
+    :param kwargs: The attributes of the account
+    :type kwargs: dict
 
     :return: An account
     """
 
     # Get the account by id
-    db_account = get_account_by_id(account_id, verify=False, password=True)
+    account = Accounts.get_or_none(Accounts.id == account_id)
 
-    # Check if the account exists
-    if db_account is None:
-        raise DataError({"account_id": ["Account does not exist"]})
-
-    # Create the account user
-    account = AccountsModel(kwargs)
-
-    # Update the account in the database
-    account.update_account(db_account)
+    # Update the account
+    account = AccountsModel(kwargs).update_account(account)
 
     # Return the account
     return account.to_primitive()
@@ -185,11 +165,7 @@ def delete_account(account_id: int) -> None:
     """
 
     # Get the account by id
-    account = get_account_by_id(account_id, False)
-
-    # Check if the account exists
-    if account is None:
-        raise ValueError("Account does not exist")
+    account = Accounts.get_or_none(Accounts.id == account_id)
 
     # Delete the account
     account.delete_instance()

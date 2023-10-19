@@ -1,30 +1,47 @@
 <template>
     <div class="w-full h-full relative">
-        <DefaultWidget :title="__('Contributors')" class="flex flex-col">
-            <div class="flex flex-col space-between grow h-full">
-                <div class="flex flex-col space-y-2">
-                    <Transition name="fade" mode="out-in">
-                        <div v-if="contributors" class="flex flex-col space-y-2">
-                            <template v-for="contributor in contributors" :key="contributor.name">
-                                <button @click="buttonLink(contributor.profile)" class="flex flex-row items-center justify-between py-1.5 px-2.5 rounded bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 transition duration-300">
-                                    <span class="text-xs text-gray-500 dark:text-gray-300">{{ contributor.name }}</span>
-                                    <span class="text-xs font-bold text-gray-500 dark:text-gray-200">{{ formatCurrency(contributor.totalAmountDonated, contributor.currency) }}</span>
-                                </button>
+        <div class="flex flex-col space-between grow h-full">
+            <div class="flex flex-col space-y-2">
+                <Transition name="fade" mode="out-in">
+                    <div v-if="contributors" class="flex flex-col space-y-2">
+                        <div class="space-y-2 divide-y divide-gray-200 rounded dark:divide-gray-700">
+                            <div class="flex items-center justify-between pb-1">
+                                <span class="text-lg font-bold truncate text-ellipsis">{{ __("Recent Contributors") }}</span>
+                                <FormKit type="button" @click="openLink" data-theme="transparent" :classes="{ input: '!py-1 truncate text-ellipsis' }">
+                                    {{ __("Support Us") }}
+                                </FormKit>
+                            </div>
+                            <template v-if="contributors.length > 0">
+                                <div v-for="contributor in contributors" class="flex items-center justify-between pt-2">
+                                    <div>
+                                        <div class="text-sm font-bold text-gray-500 dark:text-gray-300 truncate text-ellipsis">{{ contributor.name }}</div>
+                                        <div class="text-xs text-gray-600 dark:text-gray-400 truncate text-ellipsis">{{ $filter("timeAgo", new Date(contributor.lastTransactionAt ?? Date.now())) }}</div>
+                                    </div>
+                                    <div class="text-xs font-bold text-gray-500 dark:text-gray-200">{{ formatCurrency(contributor.totalAmountDonated, contributor.currency) }}</div>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <div class="flex flex-col justify-center items-center space-y-1 py-4">
+                                    <i class="fa-solid fa-info-circle text-3xl text-gray-400"></i>
+                                    <span class="text-gray-400">{{ __("No contributors found") }}</span>
+                                </div>
                             </template>
                         </div>
-                        <div v-else class="flex flex-col justify-center items-center space-y-1 py-4">
-                            <i class="fa-solid fa-info-circle text-3xl text-gray-400"></i>
-                            <span class="text-gray-400">{{ __("No contributors found") }}</span>
+                    </div>
+                    <div v-else class="flex flex-col space-y-2">
+                        <div class="space-y-4 divide-y divide-gray-200 rounded animate-pulse dark:divide-gray-700">
+                            <div v-for="i in 5" class="flex items-center justify-between pt-4">
+                                <div>
+                                    <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                                    <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                                </div>
+                                <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                            </div>
                         </div>
-                    </Transition>
-                </div>
-                <div class="flex flex-row grow items-end">
-                    <FormKit @click="openLink" type="button" data-theme="secondary" :classes="{ outer: 'w-full', input: '!justify-center h-[35px] w-full' }">
-                        {{ __("Support us") }}
-                    </FormKit>
-                </div>
+                    </div>
+                </Transition>
             </div>
-        </DefaultWidget>
+        </div>
     </div>
 </template>
 
@@ -32,13 +49,11 @@
 import { defineComponent } from "vue";
 import getSymbolFromCurrency from "currency-symbol-map";
 
-import DefaultWidget from "@/widgets/templates/DefaultWidget.vue";
-
 export type OpenCollectiveResponse = Array<{
     name: string;
     tier?: string;
     currency?: string;
-    lastTransactionAt?: string;
+    lastTransactionAt: string;
     profile: string;
     totalAmountDonated?: number;
     role: "BACKER" | "ADMIN";
@@ -46,9 +61,6 @@ export type OpenCollectiveResponse = Array<{
 
 export default defineComponent({
     name: "ContributorsList",
-    components: {
-        DefaultWidget,
-    },
     data() {
         return {
             contributors: null as OpenCollectiveResponse | null,
@@ -77,13 +89,13 @@ export default defineComponent({
         }
 
         const sorted = response.data
-            .filter((contributor) => contributor.totalAmountDonated! > 0)
-            .filter((contributor) => contributor.role === "BACKER")
-            .sort((a, b) => new Date(b.lastTransactionAt!).getTime() - new Date(a.lastTransactionAt!).getTime())
-            .slice(0, 7)
-            .sort((a, b) => b.totalAmountDonated! - a.totalAmountDonated!)
-            .map((contributor) => (contributor.name === "Guest" ? { ...contributor, name: "Anonymous" } : contributor))
-            .reduce((acc, contributor) => ((existing) => (existing ? acc.map((item) => (item.profile === contributor.profile ? { ...item } : item)) : [...acc, contributor]))(acc.find((item) => item.profile === contributor.profile)), [] as OpenCollectiveResponse);
+            .filter((contributor) => (contributor.totalAmountDonated ?? 0) > 0)
+            .filter((contributor) => contributor.name !== "Guest")
+            .reduce((acc, contributor) => ((existing) => (existing ? acc.map((item) => (item.profile === contributor.profile ? { ...item } : item)) : [...acc, contributor]))(acc.find((item) => item.profile === contributor.profile)), [] as OpenCollectiveResponse)
+            .sort((a, b) => new Date(b.lastTransactionAt).getTime() - new Date(a.lastTransactionAt).getTime())
+            .slice(0, 5);
+
+        console.log(sorted);
 
         this.contributors = sorted;
     },

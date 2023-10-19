@@ -1,19 +1,18 @@
-import { fileURLToPath, URL } from "node:url";
-import { defineConfig } from "vite";
-import { VitePWA } from "vite-plugin-pwa";
+import { URL, fileURLToPath } from "node:url";
 
+import { VitePWA } from "vite-plugin-pwa";
 // Configs
 import VitePWAConfig from "./config/VitePWA.config";
 import ViteSSRConfig from "./config/ViteSSR.config";
-
+import babel from "vite-plugin-babel";
+import browserSync from "vite-plugin-browser-sync";
+import { defineConfig } from "vite";
+import legacy from "@vitejs/plugin-legacy";
+import ssr from "vite-plugin-ssr/plugin";
+import svgLoader from "vite-svg-loader";
 // Plugins
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
-import ssr from "vite-plugin-ssr/plugin";
-import babel from "vite-plugin-babel";
-import legacy from "@vitejs/plugin-legacy";
-import browserSync from "vite-plugin-browser-sync";
-import svgLoader from "vite-svg-loader";
 
 // https://vitejs.dev/config/
 export default defineConfig({

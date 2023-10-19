@@ -6,6 +6,9 @@ from helpers.accounts import create_account, get_accounts, get_account_by_id, de
 
 from api.models.accounts import AccountsGET, AccountsPOST
 
+from playhouse.shortcuts import model_to_dict, dict_to_model
+from json import loads, dumps
+from app.models.database.accounts import Accounts
 
 api = Namespace("Accounts", description="Accounts related operations", path="/accounts")
 
@@ -49,6 +52,34 @@ class AccountsListAPI(Resource):
         """Update account"""
         return update_account(current_user['id'], **request.form), 200
 
+
+@api.route("/me")
+@api.route("/me/", doc=False)
+@api.doc(security=["jsonWebToken", "cookieAuth"])
+class AccountsMeAPI(Resource):
+
+    method_decorators = [jwt_required()]
+
+    @api.doc(description="Get the current user's account")
+    @api.response(200, "Successfully retrieved the current user's account")
+    @api.response(500, "Internal server error")
+    def get(self):
+        """Get the current user's account"""
+        return loads(dumps(model_to_dict(Accounts.get_by_id(current_user['id']), exclude=[Accounts.password]), indent=4, sort_keys=True, default=str)), 200
+
+    @api.doc(description="Update the current user's account")
+    @api.response(200, "Successfully updated the current user's account")
+    @api.response(500, "Internal server error")
+    def patch(self):
+        """Update the current user's account"""
+        account = Accounts.get_by_id(current_user['id'])
+
+        for key, value in request.json.items():
+            setattr(account, key, value)
+
+        account.save()
+
+        return loads(dumps(model_to_dict(Accounts.get_by_id(current_user['id']), exclude=[Accounts.password]), indent=4, sort_keys=True, default=str)), 200
 
 @api.route("/<int:account_id>")
 @api.route("/<int:account_id>/", doc=False)

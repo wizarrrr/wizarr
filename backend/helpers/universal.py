@@ -299,12 +299,15 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
     try:
         user = universal_invite_user.get(server_type)(**kwargs)
     except BadRequest as e:
+        socketio_emit("log", str(e))
         socketio_emit("error", "We were unable to join you to the media server, please try again later.")
         return { "message": "We were unable to join you to the media server, please try again later." }
     except RequestException as e:
+        socketio_emit("log", str(e))
         socketio_emit("error", "We were unable to join you to the media server, you may already be a member.")
         return { "message": "We were unable to join you to the media server, you may already be a member." }
     except Exception as e:
+        socketio_emit("log", str(e))
         socketio_emit("error", str(e) or "There was issue during the account creation")
         raise BadRequest("There was issue during the account creation") from e
 
@@ -314,9 +317,11 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
     try:
         if server_type == "plex": accept_plex_invitation(token=kwargs.get("token"))
     except NotFound as e:
+        socketio_emit("log", str(e))
         socketio_emit("error", "We were unable to accept the Plex Invite on your behalf, please accept the invite manually through Plex or your email.")
         return { "message": "We were unable to accept the Plex Invite on your behalf, please accept the invite manually through Plex or your email." }
     except Exception as e:
+        socketio_emit("log", str(e))
         socketio_emit("error", str(e) or "There was issue during the account invitation")
         raise BadRequest("There was issue during the account invitation") from e
 
@@ -343,6 +348,7 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
         # pylint: disable=no-value-for-parameter
         user_id = db_user.execute()
     except Exception as e:
+        socketio_emit("log", str(e))
         socketio_emit("error", str(e) or "There was issue during local account creation")
         raise BadRequest("There was issue during local account creation") from e
 
@@ -353,11 +359,13 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
             Users.get_or_none(Users.id == user_id)
         ))
     except Exception as e:
+        socketio_emit("log", str(e))
         print(e)
 
     try:
         global_invite_user_to_request_server(user_token=user.id if server_type == "plex" else user["Id"])
     except Exception as e:
+        socketio_emit("log", str(e))
         print(e)
 
     try:
@@ -378,6 +386,7 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
         # Save the invite
         invite.save()
     except Exception as e:
+        socketio_emit("log", str(e))
         print(e)
 
     # Emit done

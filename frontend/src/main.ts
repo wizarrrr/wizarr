@@ -15,9 +15,11 @@ import FloatingVue from "floating-vue";
 import Modal from "./plugins/modal";
 import OpenLayersMap from "vue3-openlayers";
 import ProgressOptions from "./assets/configs/DefaultProgress";
+import RocketChat from "./plugins/rocketChat";
 import Sentry from "./plugins/sentry";
 import ToastOptions from "./assets/configs/DefaultToasts";
 import ToastPlugin from "vue-toastification";
+import VueFeather from "vue-feather";
 import VueProgressBar from "@aacassandra/vue3-progressbar";
 import { createApp } from "vue";
 import { createPinia } from "pinia";
@@ -59,6 +61,15 @@ app.use(Modal);
 app.use(WebShare);
 app.use(Firebase);
 app.use(Tours, { i18n: i18n });
+app.use(RocketChat);
+
+app.component("VueFeather", VueFeather);
+
+declare module "@vue/runtime-core" {
+    interface GlobalComponents {
+        VueFeather: typeof VueFeather;
+    }
+}
 
 pinia.use(piniaPluginPersistedstate);
 pinia.use(piniaPluginToast);

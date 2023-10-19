@@ -13,6 +13,7 @@ from schematics.exceptions import DataError, ValidationError
 from schematics.models import Model
 from schematics.types import BooleanType, StringType
 from werkzeug.security import check_password_hash, generate_password_hash
+from json import loads, dumps
 
 from app.models.database.accounts import Accounts
 from app.models.database.sessions import Sessions
@@ -192,28 +193,28 @@ class AuthenticationModel(Model):
         session.delete_instance()
 
     # ANCHOR - Refresh Token
-    @staticmethod
-    def refresh_token():
-        # Check if the current_app is set
-        if not current_app:
-            raise RuntimeError("Must be called from within a flask route")
+    # @staticmethod
+    # def refresh_token():
+    #     # Check if the current_app is set
+    #     if not current_app:
+    #         raise RuntimeError("Must be called from within a flask route")
 
-        # Get the identity of the user
-        identity = get_jwt_identity()
-        jti = get_jwt()["jti"]
+    #     # Get the identity of the user
+    #     identity = get_jwt_identity()
+    #     jti = get_jwt()["jti"]
 
-        # Find the session in the database where the access_jti or refresh_jti matches the jti
-        session = Sessions.get_or_none((Sessions.access_jti == jti) | (Sessions.refresh_jti == jti))
+    #     # Find the session in the database where the access_jti or refresh_jti matches the jti
+    #     session = Sessions.get_or_none((Sessions.access_jti == jti) | (Sessions.refresh_jti == jti))
 
-        # Exchange the refresh token for a new access token
-        access_token = create_access_token(identity=identity)
+    #     # Exchange the refresh token for a new access token
+    #     access_token = create_access_token(identity=identity)
 
-        # Update the access token in the database
-        session.access_jti = get_jti(access_token)
-        session.save()
+    #     # Update the access token in the database
+    #     session.access_jti = get_jti(access_token)
+    #     session.save()
 
-        # Return the new access token
-        return jsonify(access_token=access_token)
+    #     # Return the new access token
+    #     return jsonify(access_token=access_token)
 
 
     # ANCHOR - Login User
@@ -226,7 +227,7 @@ class AuthenticationModel(Model):
         resp = jsonify({
             "message": "Login successful",
             "auth": {
-                "user": AccountsModel(model_to_dict(self._user, exclude=[Accounts.password])).to_primitive(),
+                "user": loads(dumps(model_to_dict(self._user, exclude=[Accounts.password]), indent=4, sort_keys=True, default=str)),
                 "token": access_token,
                 "refresh_token": refresh_token
             }

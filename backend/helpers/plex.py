@@ -8,7 +8,6 @@ from logging import info
 
 from app.models.database import Invitations
 
-from .libraries import get_libraries_name
 from .settings import get_media_settings
 from .users import get_users, create_user
 
@@ -104,16 +103,11 @@ def invite_plex_user(code: str, token: str, server_api_key: Optional[str] = None
     # Get Invitation from Database
     invitation = Invitations.get_or_none(Invitations.code == code)
 
-    # Get libraries from invitation
-    sections = (
-        get_libraries_name()
-        if invitation.specific_libraries is None
-        else invitation.specific_libraries.split(",")
-    )
+    sections = None
 
-    # If specific_libraries is None, convert sections ids to names
-    if invitation.specific_libraries:
-        sections = [library.name for library in Libraries.filter(Libraries.id.in_(sections))]
+    # Get sections from invitation
+    if invitation.specific_libraries is not None and len(invitation.specific_libraries) > 0:
+        sections = [library.name for library in Libraries.filter(Libraries.id.in_(invitation.specific_libraries.split(",")))]
 
     # Get allow_sync and plex_home from invitation
     allow_sync = invitation.plex_allow_sync
@@ -128,13 +122,17 @@ def invite_plex_user(code: str, token: str, server_api_key: Optional[str] = None
     # Select invitation method
     invite_method = my_account.createHomeUser if plex_home else my_account.inviteFriend
 
+    invite_data = {
+        "user": plex_account.email,
+        "server": plex,
+        "allowSync": allow_sync
+    }
+
+    if sections:
+        invite_data["sections"] = sections
+
     # Invite the user
-    invite = invite_method(
-        user=plex_account.email,
-        server=plex,
-        sections=sections,
-        allowSync=allow_sync
-    )
+    invite = invite_method(**invite_data)
 
     # If the invite is none raise an error
     if invite is None:

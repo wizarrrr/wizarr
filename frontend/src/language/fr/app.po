@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-15 23:12+0100\n"
-"PO-Revision-Date: 2023-10-09 11:00+0000\n"
-"Last-Translator: Rémi Guerrero <remidu34070@hotmail.fr>\n"
+"PO-Revision-Date: 2023-10-18 04:06+0000\n"
+"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr-v3/wizarr/"
 "fr/>\n"
 "Language: fr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.1\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: src/modules/settings/pages/Main.vue:235
@@ -27,6 +27,10 @@ msgstr "À propos"
 #: src/modules/settings/pages/Main.vue:152
 msgid "Account"
 msgstr "Compte"
+
+#: src/modules/join/pages/Error.vue:31
+msgid "Account Error"
+msgstr "Erreur avec le compte"
 
 #: src/modules/settings/pages/Main.vue:147
 msgid "Account Settings"
@@ -76,7 +80,7 @@ msgstr "Paramètres avancés"
 msgid "Advanced settings for the server"
 msgstr "Paramètres du serveur avancés"
 
-#: src/modules/join/views/Join.vue:82
+#: src/modules/join/views/Join.vue:88
 msgid "All done!"
 msgstr "Tout est bon !"
 
@@ -97,6 +101,15 @@ msgstr ""
 "Tous vos utilisateurs de votre serveur multimédia apparaitront ici. Vous "
 "pouvez les gérer, les éditer et les supprimer. D'autres informations comme "
 "leur expiration ou leur date de création y seront également affichées."
+
+#: src/modules/join/pages/Error.vue:31
+msgid ""
+"An error occured while creating your account, your account may of not of "
+"been created, if you face issue attempting to login, please contact an admin."
+msgstr ""
+"Une erreur est survenue pendant la création de votre compte, celui-ci peut "
+"ne pas avoir été créé, si vous rencontrez des problèmes pour vous connecter, "
+"veuillez contacter un administrateur."
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:37
 msgid "API Key"
@@ -211,9 +224,9 @@ msgstr "Configurer vos phrases de passe"
 msgid "Continue"
 msgstr "Continuer"
 
-#: src/widgets/default/ContributorsList.vue:3
-msgid "Contributors"
-msgstr "Contributeurs"
+#: src/modules/join/pages/Error.vue:8
+msgid "Continue to Login"
+msgstr "Continuer vers la connexion"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:120
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:96
@@ -229,12 +242,12 @@ msgstr "Copié dans le presse-papiers"
 msgid "Copy"
 msgstr "Copier"
 
-#: src/modules/join/views/Join.vue:120 src/modules/join/views/Join.vue:172
+#: src/modules/join/views/Join.vue:128 src/modules/join/views/Join.vue:180
 msgid "Could not connect to the server."
 msgstr "Connexion au serveur échouée."
 
-#: src/modules/join/views/Join.vue:134 src/modules/join/views/Join.vue:139
-#: src/modules/join/views/Join.vue:156 src/modules/join/views/Join.vue:161
+#: src/modules/join/views/Join.vue:142 src/modules/join/views/Join.vue:147
+#: src/modules/join/views/Join.vue:164 src/modules/join/views/Join.vue:169
 msgid "Could not create the account."
 msgstr "Création du compte échouée."
 
@@ -329,8 +342,8 @@ msgstr "Bot Discord"
 #: src/modules/admin/components/Users/UserList/UserItem.vue:136
 msgid "Do you really want to delete this user from your media server?"
 msgstr ""
-"Confirmez-vous la suppression de cet utilisateur de votre serveur multimédia "
-"?"
+"Confirmez-vous la suppression de cet utilisateur de votre serveur "
+"multimédia ?"
 
 #: src/modules/settings/components/ScanServers/ScanServers.vue:26
 msgid "Don't see your server?"
@@ -524,6 +537,7 @@ msgstr ""
 "accessible n'importe où, sur n'importe quel appareil, smartphone, tablette, "
 "ordinateur ou smart TV."
 
+#: src/modules/help/components/Discord.vue:31
 #: src/modules/join/pages/JoinForm.vue:7
 msgid "Join"
 msgstr "Rejoindre"
@@ -539,6 +553,10 @@ msgstr "Rejoindre et télécharger Plex pour cet appareil"
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:65
 msgid "Join my media server"
 msgstr "Rejoindre mon serveur multimédia"
+
+#: src/modules/help/components/Discord.vue:28
+msgid "Join our Discord"
+msgstr "Rejoignez notre Discord"
 
 #: src/modules/settings/pages/Account.vue:33
 msgid "Last name"
@@ -588,6 +606,10 @@ msgstr "Se connecter avec son compte"
 msgid "Logs"
 msgstr "Journaux"
 
+#: src/modules/join/views/Join.vue:18
+msgid "Made by "
+msgstr "Créé par "
+
 #: src/modules/settings/pages/Main.vue:92
 msgid "Main Settings"
 msgstr "Paramètres généraux"
@@ -632,6 +654,10 @@ msgstr "jean@exemple.com"
 msgid "Media Server"
 msgstr "Serveur multimédia"
 
+#: src/modules/help/components/Discord.vue:8
+msgid "Members Online"
+msgstr "Membres connectés"
+
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Mixing the potions"
 msgstr "Mélange des potions"
@@ -668,7 +694,7 @@ msgstr "Page suivante"
 msgid "No API Keys found"
 msgstr "Aucune clé API trouvée"
 
-#: src/widgets/default/ContributorsList.vue:17
+#: src/widgets/default/ContributorsList.vue:26
 msgid "No contributors found"
 msgstr "Aucun contributeur trouvé"
 
@@ -709,6 +735,11 @@ msgstr "Aucun webhook trouvé"
 #: src/modules/settings/pages/Main.vue:130
 msgid "Notifications"
 msgstr "Notifications"
+
+#: src/modules/join/pages/Error.vue:31
+#: src/modules/join/pages/Plex/Signup.vue:33
+msgid "Okay"
+msgstr "D'accord"
 
 #: src/modules/help/components/Jellyfin/Download.vue:47
 msgid "Open Jellyfin"
@@ -770,7 +801,7 @@ msgstr "Veuillez renseigner une URL de serveur."
 msgid "Please enter an invite code"
 msgstr "Veuillez renseigner un code d'invitation"
 
-#: src/modules/join/views/Join.vue:52
+#: src/modules/join/views/Join.vue:58
 msgid "Please enter your invite code"
 msgstr "Veuillez renseigner votre code d'invitation"
 
@@ -793,9 +824,13 @@ msgid "Please wait"
 msgstr "Veuillez patienter"
 
 #: src/modules/core/components/Carousel.vue:33
-#: src/modules/join/views/Join.vue:74
+#: src/modules/join/views/Join.vue:80
 msgid "Please wait..."
 msgstr "Veuillez patienter..."
+
+#: src/modules/join/pages/Plex/Signup.vue:33
+msgid "Plex Warning"
+msgstr "Avertissement de Plex"
 
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Preparing the spells"
@@ -810,6 +845,10 @@ msgstr ""
 #: src/widgets/default/LatestInfo.vue:9
 msgid "Read More"
 msgstr "En savoir plus"
+
+#: src/widgets/default/ContributorsList.vue:9
+msgid "Recent Contributors"
+msgstr "Derniers contributeurs"
 
 #: src/modules/home/views/Home.vue:16
 msgid "Request Access"
@@ -889,6 +928,10 @@ msgstr "Rechercher un serveur"
 msgid "Scan Users"
 msgstr "Rechercher des utilisateurs"
 
+#: src/modules/admin/pages/Settings.vue:26
+msgid "Search"
+msgstr "Rechercher"
+
 #: src/tours/admin-settings.ts:11
 msgid "Search Settings"
 msgstr "Paramètres de recherche"
@@ -942,7 +985,7 @@ msgstr "Paramètres des comptes utilisateurs"
 msgid "Setup Wizarr"
 msgstr "Configurer Wizarr"
 
-#: src/modules/join/views/Join.vue:66
+#: src/modules/join/views/Join.vue:72
 msgid "Setup your account"
 msgstr "Configurer votre compte"
 
@@ -976,7 +1019,7 @@ msgstr ""
 "Vous avez à présent accès à notre serveur multimédia. Assurons-nous que vous "
 "sachez l'utiliser avec Plex."
 
-#: src/modules/join/views/Join.vue:90
+#: src/modules/join/views/Join.vue:96
 msgid ""
 "Something went wrong while trying to join the server. Please try again later."
 msgstr ""
@@ -1003,8 +1046,8 @@ msgstr "En cours de développement"
 msgid "Summoning the spirits"
 msgstr "Invocation des esprits"
 
-#: src/widgets/default/ContributorsList.vue:23
-msgid "Support us"
+#: src/widgets/default/ContributorsList.vue:11
+msgid "Support Us"
 msgstr "Nous supporter"
 
 #: src/components/Modals/LanguageModal.vue:11
@@ -1085,12 +1128,13 @@ msgstr "Veuillez réessayer"
 
 #: src/modules/join/views/Join.vue:5
 msgid "Type in your invite code to %{server_name} server!"
-msgstr "Veuillez renseigner votre code d'invitation au serveur %{server_name} !"
+msgstr ""
+"Veuillez renseigner votre code d'invitation au serveur %{server_name} !"
 
-#: src/modules/join/views/Join.vue:120 src/modules/join/views/Join.vue:134
-#: src/modules/join/views/Join.vue:139 src/modules/join/views/Join.vue:156
-#: src/modules/join/views/Join.vue:161 src/modules/join/views/Join.vue:172
-#: src/modules/join/views/Join.vue:173 src/modules/join/views/Join.vue:89
+#: src/modules/join/views/Join.vue:128 src/modules/join/views/Join.vue:142
+#: src/modules/join/views/Join.vue:147 src/modules/join/views/Join.vue:164
+#: src/modules/join/views/Join.vue:169 src/modules/join/views/Join.vue:180
+#: src/modules/join/views/Join.vue:181 src/modules/join/views/Join.vue:95
 msgid "Uh oh!"
 msgstr "Oh oh !"
 
@@ -1211,6 +1255,10 @@ msgstr "Suppression du webhook annulée"
 msgid "Webhooks"
 msgstr "Webhooks"
 
+#: src/modules/home/views/Home.vue:9
+msgid "Welcome to"
+msgstr "Bienvenue dans"
+
 #: src/modules/setup/pages/Welcome.vue:5 src/tours/admin-home.ts:8
 msgid "Welcome to Wizarr"
 msgstr "Bienvenue dans Wizarr"
@@ -1238,6 +1286,14 @@ msgstr ""
 "d'utilisateurs avancées pour des serveurs multimédias comme Jellyfin, Emby "
 "et Plex. Avec Wizarr, les administrateurs de serveurs peuvent facilement "
 "inviter de nouveaux utilisateurs et gérer leurs accès"
+
+#: src/modules/join/pages/Plex/Signup.vue:33
+msgid ""
+"Wizarr is an unverified app. This means that Plex may warn you about using "
+"it. Do you wish to continue?"
+msgstr ""
+"Wizarr est une application non vérifiée. Cela signifie que Plex peut vous "
+"alerter sur son utilisation. Voulez-vous continuer ?"
 
 #: src/tours/admin-users.ts:14
 msgid ""
@@ -1281,7 +1337,8 @@ msgstr ""
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:98
 #: src/modules/admin/components/Invitations/ShareSheet.vue:72
 msgid "Your browser does not support copying to clipboard"
-msgstr "Votre navigateur ne prend pas en charge la copie dans le presse-papiers"
+msgstr ""
+"Votre navigateur ne prend pas en charge la copie dans le presse-papiers"
 
 #: src/modules/setup/pages/Complete.vue:4
 msgid "Your Done"

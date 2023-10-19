@@ -422,7 +422,7 @@ class MFAAuthenticateAPI(Resource):
             "auth": {
                 "token": access_token,
                 "refresh_token": refresh_token,
-                "user": AccountsModel(model_to_dict(user, exclude=[Accounts.password])).to_primitive(),
+                "user": loads(dumps(model_to_dict(user, exclude=[Accounts.password]), indent=4, sort_keys=True, default=str)),
             }
         })
 

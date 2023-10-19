@@ -7,11 +7,11 @@
         <section>
             <Carousel :classes="{ wrapper: 'pt-6 sm:pt-8', inner: 'p-8' }" boxed :views="views" :currentView="currentView" @current="(current) => (currentView = current)" />
             <div id="navBtns" class="flex justify-center mb-6 space-x-2">
-                <FormKit type="button" @click="currentView--" :disabled="currentView === 1">
+                <FormKit type="button" @click="currentView--" v-if="currentView !== 1">
                     <i class="fas fa-arrow-left mr-2"></i>
                     <span>{{ __("Back") }}</span>
                 </FormKit>
-                <FormKit type="button" @click="currentView++" :disabled="currentView === views.length">
+                <FormKit type="button" @click="currentView++" v-if="currentView !== views.length">
                     <span>{{ __("Next") }}</span>
                     <i class="fas fa-arrow-right ml-2"></i>
                 </FormKit>

@@ -1,6 +1,6 @@
 <template>
     <div class="w-full h-full" :class="$slots.default ? '' : 'group-hover:opacity-50 transition-opacity duration-300'">
-        <div class="flex flex-row-reverse justify-between" :class="$slots.default ? 'pb-3' : 'p-3'">
+        <div v-if="icon !== undefined || title !== undefined || value !== undefined" class="flex flex-row-reverse justify-between" :class="$slots.default ? 'pb-3' : 'p-3'">
             <div class="flex items-center justify-end flex-grow">
                 <div v-if="icon" class="flex items-center justify-center">
                     <div class="bg-gray-100 rounded flex items-center justify-center dark:bg-gray-700 w-[60px] h-[60px]">

@@ -1,5 +1,15 @@
 # Build Stage
-FROM --platform=$BUILDPLATFORM python:3.12.0-alpine
+FROM --platform=$TARGETPLATFORM python:3.12.0 AS build
+
+# Set environment variables
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+
+# Show buld platform and target platform in Docker log
+RUN echo "Build platform is $BUILDPLATFORM" && echo "Target platform is $TARGETPLATFORM"
+
+# Update system and install build dependencies
+RUN apt-get update && apt-get install -y libffi-dev g++ nmap nginx figlet curl nodejs npm && apt-get clean
 
 # Copy over version
 WORKDIR /data
@@ -14,7 +24,10 @@ WORKDIR /data/backend
 COPY ./backend ./
 
 # Install build dependencies
-RUN apk add --no-cache libffi-dev g++ nmap tzdata nginx
+# RUN apk add --no-cache libffi-dev g++ nmap tzdata nginx bash figlet
+
+# Copy .bashrc from ./files to ~/.bashrc
+COPY ./files/.bashrc /root/.bashrc
 
 # Upgrade pip and install Python dependencies
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
@@ -28,9 +41,6 @@ RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 WORKDIR /data/frontend
 COPY ./frontend/ ./
 
-# Install build dependencies
-RUN apk add --no-cache nodejs npm
-
 # Node.js and Frontend build
 RUN npm install --verbose
 RUN npm run build
@@ -43,21 +53,33 @@ RUN npm run build
 WORKDIR /data
 
 # Copy Nginx configuration
-COPY nginx.conf /etc/nginx/http.d/default.conf
+COPY nginx.conf /etc/nginx/sites-available/wizarr.conf
+RUN ln -s /etc/nginx/sites-available/wizarr.conf /etc/nginx/sites-enabled/wizarr.conf
 
 # Setup timezone
-RUN cp /usr/share/zoneinfo/UTC /etc/localtime \
-    && echo UTC > /etc/timezone
+# RUN cp /usr/share/zoneinfo/UTC /etc/localtime \
+#     && echo UTC > /etc/timezone
 
 # Set environment variables
 ENV TZ=Etc/UTC
 
-LABEL maintainer="Ashley Bailey <admin@ashleybailey.me>"
-LABEL description="Wizarr is an advanced user invitation and management system for Jellyfin, Plex, Emby etc."
-
 # Expose ports
 EXPOSE 5690
-WORKDIR /data/backend
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
 # Start Nginx in the background and Gunicorn in the foreground
-CMD [ "sh", "-c", "nginx && gunicorn --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker --bind 0.0.0.0:5000 -m 007 run:app" ]
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+LABEL org.opencontainers.image.authors "Ashley Bailey <admin@ashleybailey.me>"
+LABEL org.opencontainers.image.description "Wizarr is an advanced user invitation and management system for Jellyfin, Plex, Emby etc."
+
+LABEL org.label-schema.schema-version="1.0" \
+    org.label-schema.license="MIT" \
+    org.label-schema.name="wizarr" \
+    org.label-schema.description="Wizarr is an advanced user invitation and management system for Jellyfin, Plex, Emby etc." \
+    org.label-schema.url="https://github.com/wizarrrr/wizarr" \
+    org.label-schema.vcs-url="https://github.com/wizarrrr/wizarr.git" \
+    maintainer="Ashley Bailey <admin@ashleybailey.me>" \
+    description="Wizarr is an advanced user invitation and management system for Jellyfin, Plex, Emby etc."
