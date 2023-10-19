@@ -32,6 +32,10 @@ jobs:
     needs:
       - clear
     steps:
+      # Checkout the repo
+      - name: Checkout
+        uses: actions/checkout@v4
+
       # Do not run if the changes only apply to README.md, .github, .vscode
       - name: Check if changes only apply to README.md, .github, .vscode
         id: check_changes
