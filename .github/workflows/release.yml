@@ -68,8 +68,6 @@ jobs:
       # Checkout the repo and the translations branch
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          ref: master
 
       # Update latest file with the new version number
       - name: Update latest file
@@ -81,7 +79,6 @@ jobs:
         with:
           commit_message: "Update latest file"
           file_pattern: "latest"
-          branch: master
 
   build_ghcr:
     name: Build Digest for GHCR
