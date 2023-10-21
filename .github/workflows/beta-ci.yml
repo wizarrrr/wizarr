@@ -52,6 +52,16 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
 
+            # Use NPM and Node.js to install dependencies
+            - name: Use Node.js 18.18.2
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 18.18.2
+
+            # Install dependencies
+            - name: Install dependencies
+              run: npm install
+
             # Get the Metadata from the Docker Image
             - name: Docker meta
               id: meta
@@ -111,6 +121,16 @@ jobs:
             # Checkout the repo
             - name: Checkout
               uses: actions/checkout@v2
+
+            # Use NPM and Node.js to install dependencies
+            - name: Use Node.js 18.18.2
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 18.18.2
+
+            # Install dependencies
+            - name: Install dependencies
+              run: npm install
 
             # Get the Release Version from latest
             - name: Get the Release Version from latest
