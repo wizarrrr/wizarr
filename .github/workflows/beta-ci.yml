@@ -3,7 +3,7 @@ name: Docker Build and Push Beta
 on:
     push:
         branches:
-            - 'v3-beta'
+            - 'v3-mono'
         paths-ignore:
             - '**.md'
             - '**/.github/**'
@@ -17,7 +17,7 @@ env:
     GHCR_REGISTRY: ghcr.io
     DH_REGISTRY: docker.io
     IMAGE_NAME: wizarrrr/wizarr
-    IMAGE_TAG: v3-beta
+    IMAGE_TAG: v3-mono
 
 concurrency:
     group: ${{ github.ref }}
@@ -77,7 +77,7 @@ jobs:
               uses: docker/build-push-action@v5
               with:
                   context: .
-                  dockerfile: ./dockerfiles/wizarr/Dockerfile
+                  file: ./dockerfiles/wizarr/Dockerfile
                   push: true
                   platforms: ${{ matrix.platform }}
                   labels: ${{ steps.meta.outputs.labels }}
@@ -198,7 +198,7 @@ jobs:
               uses: docker/build-push-action@v5
               with:
                   context: .
-                  dockerfile: ./dockerfiles/wizarr/Dockerfile
+                  file: ./dockerfiles/wizarr/Dockerfile
                   push: true
                   platforms: ${{ matrix.platform }}
                   labels: ${{ steps.meta.outputs.labels }}
