@@ -5,8 +5,7 @@ FROM --platform=$TARGETPLATFORM nikolaik/python-nodejs:python3.12-nodejs18 AS ba
 WORKDIR /wizarr-build
 
 # Copy Package Files
-COPY ../../package.json ./
-COPY ../../package-lock.json ./
+COPY ../../ ./
 
 # Set environment variables for NPM Version
 ENV NPM_CONFIG_LOGLEVEL=warn \
@@ -18,7 +17,7 @@ ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_NO_CACHE_DIR=1 \
     POETRY_VERSION=1.6.1
 
-RUN npm config set registry https://registry.npmjs.org/
+RUN npm config set registry http://registry.npmjs.org/ --global
 
 # Install dependencies
 RUN pip install "poetry==$POETRY_VERSION"
@@ -26,9 +25,6 @@ RUN pip install "poetry==$POETRY_VERSION"
 # Install dependencies
 RUN npm install -g npm@latest && \
     npm install --ignore-scripts --unsafe-perm
-
-# Copy Everything
-COPY ../../ ./
 
 # Build Wizarr Backend
 RUN npx nx build wizarr-backend
