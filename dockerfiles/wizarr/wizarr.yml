@@ -1,0 +1,13 @@
+# DO NOT USE THIS FILE AS A TEMPLATE.
+---
+version: '3.5'
+services:
+    wizarr:
+        container_name: wizarr
+        build:
+            context: ../../
+            dockerfile: ./dockerfiles/wizarr/Dockerfile
+        ports:
+            - 5000:5690
+        volumes:
+            - ../../apps/wizarr-backend/database:/data/database # Change this to your data directory

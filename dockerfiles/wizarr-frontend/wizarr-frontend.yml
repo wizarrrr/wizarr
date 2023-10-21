@@ -1,0 +1,11 @@
+# DO NOT USE THIS FILE AS A TEMPLATE.
+---
+version: '3.5'
+services:
+    wizarr-frontend:
+        container_name: wizarr-frontend
+        build:
+            context: ../../
+            dockerfile: ./dockerfiles/wizarr-frontend/Dockerfile
+        ports:
+            - 5690:5690

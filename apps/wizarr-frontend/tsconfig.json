@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "esModuleInterop": false,
+        "allowSyntheticDefaultImports": true,
+        "jsx": "preserve",
+        "jsxImportSource": "vue",
+        "moduleResolution": "bundler",
+        "resolveJsonModule": true,
+        "verbatimModuleSyntax": true
+    },
+    "files": [],
+    "include": [],
+    "references": [
+        {
+            "path": "./tsconfig.app.json"
+        },
+        {
+            "path": "./tsconfig.spec.json"
+        },
+        {
+            "path": "./tsconfig.node.json"
+        },
+        {
+            "path": "./tsconfig.vitest.json"
+        }
+    ],
+    "extends": "../../tsconfig.base.json"
+}

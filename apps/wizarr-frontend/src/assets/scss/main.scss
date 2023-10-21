@@ -1,0 +1,183 @@
+// Internal libraries
+@import './tailwind.scss';
+@import './extend.scss';
+@import './animations.scss';
+@import './xterm.scss';
+@import './flags.scss';
+@import './popper.scss';
+@import './modal.scss';
+@import './map.scss';
+@import './tour.scss';
+
+// External libraries
+@import 'floating-vue/dist/style.css';
+@import '@vue-flow/core/dist/style.css';
+@import '@vue-flow/core/dist/theme-default.css';
+@import '@fortawesome/fontawesome-free/css/all.css';
+@import 'vue-toastification/dist/index.css';
+@import 'gridstack/dist/gridstack.min.css';
+@import 'gridstack/dist/gridstack-extra.min.css';
+
+// * {
+//     transition:
+//         background-color 1s ease,
+//         color 1s ease,
+//         border-color 1s ease;
+// }
+
+.dark {
+    input {
+        color-scheme: dark;
+    }
+}
+
+.light {
+    input {
+        color-scheme: light;
+    }
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: '';
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: rgb(254 65 85 / var(--tw-bg-opacity));
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px rgb(254 65 85 / var(--tw-bg-opacity));
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+// change all range thumb color
+input[type='range']::-webkit-slider-thumb {
+    background-color: theme('colors.primary');
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+
+button[aria-current='page'] {
+    color: #000 !important;
+    font-weight: bold !important;
+}
+
+html.dark button[aria-current='page'] {
+    color: #fff !important;
+    font-weight: bold !important;
+}
+
+.htmx-indicator {
+    display: none;
+}
+.htmx-request .htmx-indicator {
+    display: flex;
+}
+.htmx-request.htmx-indicator {
+    display: flex;
+}
+
+button:disabled,
+button[disabled],
+.disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed;
+}
+
+.toast {
+    box-shadow: none !important;
+}
+
+.settings-section .coming-soon::before {
+    content: '';
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.settings-section .coming-soon::after {
+    content: 'Coming Soon';
+    position: absolute;
+    color: #fff;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: x-large;
+    text-transform: uppercase;
+}
+
+.react-flow__panel.react-flow__controls button {
+    --tw-bg-opacity: 1;
+    background-color: rgb(254 65 85 / var(--tw-bg-opacity));
+}
+
+.react-flow__panel.react-flow__controls button:last-child {
+    border: none;
+}
+
+.react-flow__panel.react-flow__controls button svg {
+    fill: #fff;
+}
+
+.Vue-Toastification__container {
+    bottom: 0px !important;
+}
+
+@media only screen and (max-width: 600px) {
+    .Vue-Toastification__toast {
+        margin-bottom: 0px !important;
+    }
+}
