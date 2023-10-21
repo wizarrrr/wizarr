@@ -6,9 +6,10 @@ from io import BytesIO
 from app.extensions import socketio
 from termcolor import colored
 from time import sleep
+from definitions import DATABASE_DIR
 
 api = Namespace("Logging", description="Logging related operations", path="/logging")
-log_file = path.abspath(path.join(path.dirname(__file__), "../", "../", "../", "database", "logs.log"))
+log_file = path.abspath(path.join(DATABASE_DIR, "logs.log"))
 task = None
 
 def watch_log_file(file_path):
