@@ -5,7 +5,7 @@ from os import path
 from json import load
 from app.models.database.base import db_dir
 
-from definitions import ROOT_DIR
+from definitions import LATEST_FILE
 
 session = CachedSession(cache_name=path.join(db_dir, "wizarr_cache"), backend="sqlite", expire_after=3600, cache_control=True, stale_if_error=True, allowable_codes=[200])
 
@@ -35,8 +35,7 @@ def get_latest_beta_version():
         return None
 
 def get_current_version():
-    package = path.abspath(path.join(ROOT_DIR, "../", "../", "latest"))
-    with open(package, "r", encoding="utf-8") as f:
+    with open(LATEST_FILE, "r", encoding="utf-8") as f:
         return parse(f.read())
 
 

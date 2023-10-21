@@ -5,14 +5,11 @@ from app.models.database.migrations import Migrations
 from packaging.version import parse
 from datetime import datetime, timedelta
 
-from definitions import ROOT_DIR
+from definitions import LATEST_FILE
 
 def get_current_version():
-    # File path to the version file
-    version_file = path.abspath(path.join(ROOT_DIR, "../", "../", "latest"))
-
     # Read the current version
-    with open(version_file, "r") as f:
+    with open(LATEST_FILE, "r") as f:
         current_version = parse(f.read())
 
     return current_version

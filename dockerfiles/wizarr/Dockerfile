@@ -74,7 +74,8 @@ RUN chmod +x /root/.bashrc
 COPY ../../latest /
 
 # Environment Variables
-ENV DB_DIR=/data/database
+ENV DATABASE_DIR=/data/database
+ENV LATEST_FILE=/latest
 
 # Set Entrypoint
 ENTRYPOINT ["/docker-entrypoint.sh"]
