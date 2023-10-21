@@ -3,13 +3,11 @@ from secrets import token_hex
 from flask import request
 from flask_jwt_extended import verify_jwt_in_request
 from playhouse.shortcuts import model_to_dict
-
 from app.models.database import Sessions, Settings, Accounts, APIKeys
+from definitions import DATABASE_DIR
 
 # Yh this code looks messy but it works so ill tidy it up later
-database_dir = path.abspath(path.join(__file__, "../", "../", "../", "database"))
-database_file = path.join(database_dir, "database.db")
-secret_key_file = path.join(database_dir, "secret.key")
+secret_key_file = path.join(DATABASE_DIR, "secret.key")
 
 # Class to handle authentication for the scheduler
 class SchedulerAuth:
@@ -28,8 +26,8 @@ def server_verified():
 def secret_key(length: int = 32) -> str:
 
     # Check if the database directory exists
-    if not path.exists(database_dir):
-        mkdir(database_dir)
+    if not path.exists(DATABASE_DIR):
+        mkdir(DATABASE_DIR)
 
     # Check if the secret key file exists
     if not path.exists(secret_key_file):
