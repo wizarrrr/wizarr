@@ -37,7 +37,7 @@ jobs:
 
     build_ghcr:
         name: Build Digest for GHCR
-        runs-on: self-hosted
+        runs-on: ubuntu-latest
         needs:
             - before_build
         strategy:
@@ -158,7 +158,7 @@ jobs:
 
     build_dh:
         name: Build Digest for Docker Hub
-        runs-on: self-hosted
+        runs-on: ubuntu-latest
         needs:
             - before_build
         strategy:

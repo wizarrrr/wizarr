@@ -1,18 +1,15 @@
 from datetime import timedelta
-from os import environ, getenv, path
-
+from os import environ, path
 from flask import Flask
-
 from app.security import secret_key, SchedulerAuth
+from definitions import DATABASE_DIR
 
 def create_config(app: Flask):
     config = {}
-    base_dir = path.abspath(path.join(path.dirname(__file__), "../"))
-
     config["SESSION_TYPE"] = "filesystem"
-    config["SESSION_FILE_DIR"] = path.join(base_dir, "../", "database", "sessions")
+    config["SESSION_FILE_DIR"] = path.join(DATABASE_DIR, "sessions")
     config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=5)
-    config["UPLOAD_FOLDER"] = path.join(base_dir, "../", "database", "uploads")
+    config["UPLOAD_FOLDER"] = path.join(DATABASE_DIR, "uploads")
     config["SWAGGER_UI_DOC_EXPANSION"] = "list"
     config["SERVER_NAME"] = "127.0.0.1:5000"
     config["APPLICATION_ROOT"] = "/"

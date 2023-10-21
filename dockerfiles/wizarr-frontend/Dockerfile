@@ -46,5 +46,8 @@ RUN chmod +x /root/.bashrc
 # Copy latest file
 COPY ../../latest /
 
+# Environment Variables
+ENV LATEST_FILE=/latest
+
 # Set Entrypoint
 ENTRYPOINT ["/docker-entrypoint.sh"]
