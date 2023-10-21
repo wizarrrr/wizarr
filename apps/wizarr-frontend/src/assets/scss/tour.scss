@@ -1,0 +1,197 @@
+$popperPadding: 25px;
+
+[data-tg-tour] {
+    scroll-margin: 30px 0; // Over-written by JS -  use the autoScrollOffset option
+}
+
+.tg-backdrop {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    z-index: 99;
+    border-radius: 7px;
+    box-shadow:
+        rgba(33, 33, 33, 0.8) 0 0 1px 2px,
+        rgba(33, 33, 33, 0.8) 0 0 0 1000vh; // Over-written by JS -  use the backdropColor option
+    border: 1px solid rgba(193, 192, 232, 0.5); // helps for dark mode contrast
+    top: 50vh;
+    left: 50vw;
+    width: 0;
+    height: 0;
+    &.tg-backdrop-animate {
+        transition: all 300ms;
+    }
+}
+
+.tg-dialog {
+    animation-delay: 100ms;
+    //min-width: 280px;
+    min-height: 120px;
+    // background: #fff;
+    @apply bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded;
+    max-width: 340px; // // Over-written by JS -  use the dialogWidth option
+    width: max-content;
+    z-index: 9999;
+    display: none;
+    position: absolute;
+    margin-top: 5px;
+    top: 0;
+    left: 0;
+    padding: 0;
+    font-size: 0.9rem;
+    .tg-dialog-header {
+        display: flex;
+        align-items: center;
+        padding: $popperPadding $popperPadding 0 $popperPadding;
+        .tg-dialog-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-right: auto;
+            & + .tg-dialog-body {
+                padding: ($popperPadding * 0.75) $popperPadding
+                    ($popperPadding * 0.75) $popperPadding;
+            }
+        }
+        .tg-dialog-close-btn {
+            width: 12px;
+            height: 12px;
+            margin-left: 10px;
+            opacity: 0.4;
+            @apply fill-gray-800 dark:fill-gray-200;
+            cursor: pointer;
+            margin-top: -1px;
+            white-space: nowrap;
+            &:hover {
+                opacity: 8;
+            }
+            &:focus {
+                opacity: 1;
+            }
+        }
+    }
+    .tg-dialog-progress-bar {
+        background: #f1f1f1;
+        height: 5px;
+        display: block;
+        margin-top: ($popperPadding * 0.75);
+        position: relative;
+        > .tg-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            min-width: 4px;
+            background: #414144;
+            height: 100%;
+            display: block;
+            transition: all 300ms;
+        }
+    }
+    .tg-dialog-body {
+        padding: $popperPadding;
+        font-weight: 400;
+    }
+    .tg-dialog-dots {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px 0;
+        margin-bottom: 10px;
+        border-top: 1px solid #dedee7;
+        border-bottom: 1px solid #dedee7;
+        > span.tg-dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            background: #c2c7ce;
+            border-radius: 12px;
+            margin: 0 4px;
+            &.tg-dot-active {
+                @apply bg-primary;
+            }
+        }
+    }
+    .tg-dialog-footer {
+        padding: $popperPadding * 0.5 $popperPadding $popperPadding
+            $popperPadding;
+        display: flex;
+        align-items: center;
+        button.tg-dialog-btn {
+            padding: 5px 10px;
+            @apply border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 0.82rem;
+            white-space: nowrap;
+            & + button {
+                margin-left: auto;
+            }
+
+            &.disabled {
+                pointer-events: none;
+                opacity: 0.6;
+            }
+
+            &:hover {
+                @apply border-gray-400 dark:border-gray-500 text-gray-900 dark:text-gray-400;
+                outline: none;
+                box-shadow: none;
+            }
+
+            &:focus {
+                outline: none;
+                box-shadow: none;
+            }
+
+            &:active {
+                @apply border-gray-500 dark:border-gray-500 text-gray-900 dark:text-gray-400 bg-gray-100 dark:bg-gray-700;
+                outline: none;
+                box-shadow: none;
+            }
+        }
+        .tg-dialog-footer-sup {
+            margin: 0 auto;
+            padding: 0 10px;
+            text-align: center;
+            line-height: 1;
+            .tg-step-progress {
+                @apply text-gray-700 dark:text-gray-400;
+                font-size: 0.78rem;
+                font-weight: 700;
+                margin: 0 auto;
+                opacity: 0.7;
+                letter-spacing: 1px;
+                display: inline-block;
+            }
+            .tg-dialog-dots {
+                padding: 0;
+                margin: 0;
+                border: none;
+                > span.tg-dot {
+                    width: 8px;
+                    height: 8px;
+                    margin: 0 3px;
+                }
+                & + .tg-step-progress {
+                    margin-top: 10px;
+                    font-size: 0.68rem;
+                }
+            }
+        }
+    }
+    .tg-arrow {
+        position: absolute;
+        @apply bg-white dark:bg-gray-800;
+        width: 20px;
+        height: 20px;
+        border-radius: 2px;
+        transform: rotate(45deg);
+    }
+    &.tg-dialog-fixed {
+        transition: none;
+        animation-delay: 0ms;
+    }
+    &.animate-position {
+        transition: all 300ms;
+    }
+}

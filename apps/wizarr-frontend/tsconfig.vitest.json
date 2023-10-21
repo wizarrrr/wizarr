@@ -1,0 +1,21 @@
+{
+    "extends": "./tsconfig.app.json",
+    "exclude": ["node_modules/@sjmc11/tourguidejs/**/*"],
+    "include": [
+        "src/**/*",
+        "src/**/*.vue",
+        "src/language/translations.json",
+        "formkit.config.ts",
+        "src/components/FormKit/*.vue",
+        "src/inputs/*"
+    ],
+    "compilerOptions": {
+        "skipLibCheck": true,
+        "composite": true,
+        "lib": [],
+        "types": ["node", "jsdom"],
+        "verbatimModuleSyntax": false,
+        "ignoreDeprecations": "5.0",
+        "importsNotUsedAsValues": "preserve"
+    }
+}
