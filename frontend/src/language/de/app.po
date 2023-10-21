@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-15 23:12+0100\n"
-"PO-Revision-Date: 2023-10-18 04:05+0000\n"
+"PO-Revision-Date: 2023-10-20 04:03+0000\n"
 "Last-Translator: Krallenkiller <krallenkiller@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/wizarr-v3/wizarr/"
 "de/>\n"
@@ -38,7 +38,7 @@ msgstr "Kontoeinstellungen"
 
 #: src/modules/settings/pages/Main.vue:111
 msgid "Add API keys for external services"
-msgstr "API-Schlüssel für externe Dienste hinzufügen"
+msgstr "API-Schlüssel für externe Dienste erstellen"
 
 #: src/modules/settings/pages/Main.vue:198
 msgid "Add Custom HTML page to help screen"
@@ -89,8 +89,8 @@ msgid ""
 "All of your media server settings will appear here, we know your going to "
 "spend a lot of time here 😝"
 msgstr ""
-"All deine Medienserver-Einstellungen werden hier angezeigt. Wir wissen, dass "
-"du hier viel Zeit verbringen wirst! 😝"
+"Alle deine Medienserver-Einstellungen werden hier angezeigt. Wir wissen, "
+"dass du hier viel Zeit verbringen wirst! 😝"
 
 #: src/tours/admin-users.ts:9
 msgid ""
@@ -98,7 +98,7 @@ msgid ""
 "them, edit them, and delete them. Other information like their expiration or "
 "creation date will also be displayed here."
 msgstr ""
-"All deine Medienserver-Benutzer werden hier in einer Liste angezeigt. Du "
+"Alle deine Medienserver-Benutzer werden hier in einer Liste angezeigt. Du "
 "kannst sie verwalten, bearbeiten und löschen. Weitere Informationen wie ihr "
 "Ablaufdatum oder das Erstellungsdatum werden ebenfalls hier angezeigt."
 
@@ -107,9 +107,9 @@ msgid ""
 "An error occured while creating your account, your account may of not of "
 "been created, if you face issue attempting to login, please contact an admin."
 msgstr ""
-"Bei der Erstellung Ihres Kontos ist ein Fehler aufgetreten. Möglicherweise "
-"wurde Ihr Konto nicht erstellt. Wenn Sie Probleme beim Anmelden haben, "
-"kontaktieren Sie bitte einen Administrator."
+"Bei der Erstellung deines Kontos ist ein Fehler aufgetreten. Möglicherweise "
+"wurde dein Konto nicht erstellt. Wenn Du Probleme beim Anmelden haben, "
+"kontaktiere bitte einen Administrator."
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:37
 msgid "API Key"
@@ -428,9 +428,9 @@ msgid ""
 "Great news! You now have access to our server's media collection. Let's make "
 "sure you know how to use it with Jellyfin."
 msgstr ""
-"Tolle Neuigkeiten! Sie haben nun Zugang zur Mediensammlung unseres Servers. "
-"Lassen Sie uns sicherstellen, dass Sie wissen, wie Sie diese mit Jellyfin "
-"nutzen können."
+"Tolle Neuigkeiten! Du hast nun Zugang zur Mediensammlung unseres Servers. "
+"Lass uns sicherstellen, dass Du weisst, wie Du diese mit Jellyfin nutzen "
+"kannst."
 
 #: src/modules/help/components/Plex/Welcome.vue:5
 msgid ""
@@ -438,10 +438,9 @@ msgid ""
 "media collections with others. If you've received this invitation, it means "
 "someone wants to share their library with you."
 msgstr ""
-"Gute Frage! Plex ist eine Software, mit der Einzelpersonen ihre "
-"Mediensammlungen mit anderen teilen können. Wenn Sie diese Einladung "
-"erhalten haben, bedeutet das, dass jemand seine Bibliothek mit Ihnen teilen "
-"möchte."
+"Gute Frage! Plex ist eine Software, mit der Personen ihre Mediensammlungen "
+"mit anderen teilen können. Wenn Du diese Einladung erhalten haben, bedeutet "
+"das, dass jemand seine Bibliothek mit Dir teilen möchte."
 
 #: src/modules/settings/pages/Backup.vue:42
 msgid "here"
@@ -575,8 +574,8 @@ msgid ""
 "Like this Widget, it shows you the latest information about Wizarr and will "
 "be updated regularly by our amazing team."
 msgstr ""
-"Ähnlich wie dieses Widget zeigt es Ihnen die neuesten Informationen über "
-"Wizarr und wird regelmäßig von unserem großartigen Team aktualisiert."
+"Dieses Widget zeigt es die neuesten Informationen über Wizarr und wird "
+"regelmäßig von unserem großartigen Team aktualisiert."
 
 #: src/components/ChangeLogs/ChangeLogs.vue:7
 msgid "Load More"
@@ -616,7 +615,7 @@ msgstr "Einstellungen"
 
 #: src/modules/admin/pages/Home.vue:3
 msgid "Manage you Wizarr server"
-msgstr "Verwalten Sie Ihren Wizarr-Server"
+msgstr "Verwalte Deinen Wizarr-Server"
 
 #: src/modules/admin/pages/FlowEditor.vue:3
 msgid "Manage your command flows"
@@ -624,7 +623,7 @@ msgstr "Befehlsabläufe verwalten"
 
 #: src/modules/admin/pages/Invitations.vue:3
 msgid "Manage your invitations"
-msgstr "Ihre Einladungen verwalten"
+msgstr "Deine Einladungen verwalten"
 
 #: src/modules/admin/pages/Users.vue:3
 msgid "Manage your media server users"
@@ -721,7 +720,7 @@ msgstr "Keine Server gefunden"
 
 #: src/modules/settings/pages/Main.vue:30
 msgid "No settings matched your search."
-msgstr "Es wurden keine Einstellungen gefunden, die Ihrer Suche entsprechen."
+msgstr "Es wurden keine Einstellungen gefunden, die Deiner Suche entsprechen."
 
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserList.vue:8
 #: src/modules/admin/components/Users/UserList/UserList.vue:11
@@ -743,7 +742,7 @@ msgstr "Okay"
 
 #: src/modules/help/components/Jellyfin/Download.vue:47
 msgid "Open Jellyfin"
-msgstr "Öffnen Sie Jellyfin"
+msgstr "Öffnen Jellyfin"
 
 #: src/modules/help/components/Plex/Download.vue:17
 msgid "Open Plex"
@@ -769,7 +768,7 @@ msgid ""
 "device or click 'Next' to for other options."
 msgstr ""
 "Planen Sie, Filme auf diesem Gerät anzusehen? Laden Sie Jellyfin für dieses "
-"Gerät herunter oder klick auf weiter für mehr Auswahl"
+"Gerät herunter oder klick auf weiter für mehr Auswahl."
 
 #: src/modules/help/components/Plex/Download.vue:10
 msgid ""
@@ -785,13 +784,13 @@ msgid ""
 "will not provide you with support from any issues that may arise from using "
 "them."
 msgstr ""
-"Bitte beachten Sie, dass diese Tools nur für Debugging-Zwecke gedacht sind "
-"und wir Ihnen keinen Support für etwaige Probleme bieten werden, die bei "
-"ihrer Verwendung auftreten könnten."
+"Bitte beachte, dass diese Tools nur für Debugging-Zwecke gedacht sind und "
+"wir keinen Support für etwaige Probleme bieten werden, die bei ihrer "
+"Verwendung auftreten könnten."
 
 #: src/modules/settings/components/Forms/MediaForm.vue:124
 msgid "Please enter a server URL and API key."
-msgstr "Bitte geben Sie eine Server-URL und API-Schlüssel ein."
+msgstr "Bitte gib eine Server-URL und API-Schlüssel ein."
 
 #: src/modules/settings/components/Forms/MediaForm.vue:108
 msgid "Please enter a server URL."
@@ -799,25 +798,25 @@ msgstr "Bitte gib die URL vom Media Server ein."
 
 #: src/modules/join/pages/JoinForm.vue:23
 msgid "Please enter an invite code"
-msgstr "Bitte geben Sie einen Einladungscode ein"
+msgstr "Bitte gib einen Einladungscode ein"
 
 #: src/modules/join/views/Join.vue:58
 msgid "Please enter your invite code"
-msgstr "Bitte geben Sie Ihren Einladungscode ein"
+msgstr "Bitte gib deinen Einladungscode ein"
 
 #: src/modules/join/pages/Plex/Signup.vue:3
 msgid "Please login to your Plex account to help us connect you to our server."
 msgstr ""
-"Bitte melden Sie sich in Ihrem Plex-Konto an, um Zugriff auf unseren Server "
-"zu erhalten."
+"Bitte melde dich in deinem Plex-Konto an, um Zugriff auf unseren Server zu "
+"erhalten."
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:11
 msgid ""
 "Please take a copy your API key. You will not be able to see it again, "
 "please make sure to store it somewhere safe."
 msgstr ""
-"Bitte kopieren Sie Ihren API-Schlüssel. Sie werden ihn nicht erneut sehen "
-"können. Stellen Sie sicher, ihn an einem sicheren Ort zu speichern."
+"Bitte kopiere den API-Schlüssel. Du wirst ihn nicht erneut sehen können. "
+"Stelle sicher, ihn an einem sicheren Ort zu speichern."
 
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Please wait"
@@ -872,9 +871,9 @@ msgid ""
 "will need to provide the encryption password that was used to create the "
 "backup"
 msgstr ""
-"Stellen Sie eine Sicherung Ihrer Datenbank und Konfiguration aus einer "
-"Backup-Datei wieder her. Sie müssen das Verschlüsselungspasswort angeben, "
-"das für das Erstellen der Sicherung verwendet wurde"
+"Stelle eine Sicherung deiner Datenbank und Konfiguration aus einer Backup-"
+"Datei wieder her. Du musst das Verschlüsselungspasswort angeben, das für das "
+"Erstellen der Sicherung verwendet wurde"
 
 #: src/modules/settings/pages/Backup.vue:27
 msgid ""
@@ -882,13 +881,13 @@ msgid ""
 "will need to provide the encryption password that was used to create the "
 "backup."
 msgstr ""
-"Stellen Sie eine Sicherung Ihrer Datenbank und Konfiguration aus einer "
-"Backup-Datei wieder her. Sie müssen das Verschlüsselungspasswort angeben, "
-"das für das Erstellen der Sicherung verwendet wurde."
+"Stelle eine Sicherung deiner Datenbank und Konfiguration aus einer Backup-"
+"Datei wieder her. Du musst das Verschlüsselungspasswort angeben, das für das "
+"Erstellen der Sicherung verwendet wurde."
 
 #: src/modules/setup/pages/Restore.vue:4
 msgid "Restore Backup"
-msgstr "Sicherung wiederherstellen"
+msgstr "Wiederherstellen"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:77
 #: src/modules/admin/components/Users/UserList/UserItem.vue:107
@@ -987,7 +986,7 @@ msgstr "Wizarr Einrichten"
 
 #: src/modules/join/views/Join.vue:72
 msgid "Setup your account"
-msgstr "Einrichten Ihres Kontos"
+msgstr "Einrichten deines Kontos"
 
 #: src/modules/admin/components/Forms/InvitationForm.vue:248
 #: src/modules/admin/components/Forms/InvitationForm.vue:47
@@ -1004,20 +1003,20 @@ msgid ""
 "Share this link with your friends and family to invite them to join your "
 "media server."
 msgstr ""
-"Teilen Sie diesen Link mit Ihren Freunden und Familie, um sie zur Teilnahme "
-"bei Ihrem Medienserver einzuladen."
+"Teile diesen Link mit Freunden und Familie, um sie zur Teilnahme bei deinem "
+"Medienserver einzuladen."
 
 #: src/modules/help/components/Plex/Welcome.vue:11
 msgid "So let's see how to get started!"
-msgstr "Lassen Sie uns also sehen, wie Sie beginnen können!"
+msgstr "Lass uns also sehen, wie Du beginnen kannst!"
 
 #: src/modules/help/components/Plex/Download.vue:7
 msgid ""
 "So you now have access to our server's media collection. Let's make sure you "
 "know how to use it with Plex."
 msgstr ""
-"Sie haben nun Zugriff auf die Mediensammlung unseres Servers. Stellen wir "
-"sicher, dass Sie wissen, wie Sie diese mit Plex nutzen können."
+"Du hast nun Zugriff auf die Mediensammlung unseres Servers. Stellen wir "
+"sicher, dass Du weisst, wie Du diese mit Plex nutzen kannst."
 
 #: src/modules/join/views/Join.vue:96
 msgid ""
@@ -1065,8 +1064,8 @@ msgid ""
 "There are a lot of settings, so you can search for them by using the search "
 "bar."
 msgstr ""
-"Es gibt eine Vielzahl von Einstellungen, die Sie mit der Suchleiste finden "
-"können."
+"Es gibt eine Vielzahl von Einstellungen, die Du mit der Suchleiste finden "
+"kannst."
 
 #: src/tours/admin-home.ts:13
 msgid ""
@@ -1098,8 +1097,8 @@ msgid ""
 "This is where you can manage your invitations, they will appear here in a "
 "list. Invitations are used to invite new users to your media server."
 msgstr ""
-"Hier können Sie Ihre Einladungen verwalten, sie werden hier in einer Liste "
-"angezeigt. Einladungen werden verwendet, um neue Benutzer zu Ihrem "
+"Hier kannst du deine Einladungen verwalten, sie werden hier in einer Liste "
+"angezeigt. Einladungen werden verwendet, um neue Benutzer zu Deinem "
 "Medienserver einzuladen."
 
 #: src/modules/settings/pages/Account.vue:3
@@ -1109,20 +1108,20 @@ msgstr "Diese Seite ist zur Zeit nur lesbar!"
 #: src/modules/settings/pages/Backup.vue:41
 msgid "To decrypt and encrypt backup files you can use the tools"
 msgstr ""
-"Um Backup-Dateien zu entschlüsseln und zu verschlüsseln, können Sie die "
+"Um Backup-Dateien zu entschlüsseln und zu verschlüsseln, kannst du diese "
 "Tools verwenden"
 
 #: src/widgets/default/InvitesTotal.vue:2
 msgid "Total Invitations"
-msgstr "Totale Einladungen"
+msgstr "Alle Einladungen"
 
 #: src/widgets/default/TasksTotal.vue:2
 msgid "Total Tasks"
-msgstr "Totale Aufgaben"
+msgstr "Alle Aufgaben"
 
 #: src/widgets/default/UsersTotal.vue:2
 msgid "Total Users"
-msgstr "Totale Nutzer"
+msgstr "Alle Nutzer"
 
 #: src/modules/admin/components/Forms/InvitationForm.vue:59
 msgid "Try Again"
@@ -1130,7 +1129,7 @@ msgstr "Nochmal versuchen"
 
 #: src/modules/join/views/Join.vue:5
 msgid "Type in your invite code to %{server_name} server!"
-msgstr "Geben Sie Ihren Einladungscode für %{name}s Server ein!"
+msgstr "Gib deinen Einladungscode für %{server_name}s Server ein!"
 
 #: src/modules/join/views/Join.vue:128 src/modules/join/views/Join.vue:142
 #: src/modules/join/views/Join.vue:147 src/modules/join/views/Join.vue:164
@@ -1166,8 +1165,8 @@ msgstr "URL"
 #: src/modules/authentication/components/PasskeyForm.vue:6
 msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
 msgstr ""
-"Verwenden Sie Ihren Fingerabdruck oder Gesichtserkennung, um Ihre Identität "
-"zu bestätigen"
+"Verwende Deinen Fingerabdruck oder Gesichtserkennung, um Deine Identität zu "
+"bestätigen"
 
 #: src/modules/admin/components/Users/UserList/UserItem.vue:139
 msgid "User %{user} deleted"
@@ -1233,16 +1232,16 @@ msgstr "Mit unseren Zauberstäben schwingen"
 msgid ""
 "We have categorized all of your settings to make it easier to find them."
 msgstr ""
-"Wir haben alle Ihre Einstellungen in Kategorien eingeteilt, damit Sie sie "
-"leichter finden können."
+"Wir haben alle Einstellungen in Kategorien eingeteilt, damit Du sie leichter "
+"finden kannst."
 
 #: src/tours/admin-home.ts:9
 msgid ""
 "We want to help you get started with Wizarr as quickly as possible, consider "
 "following this tour to get a quick overview."
 msgstr ""
-"Wir möchten Ihnen helfen, so schnell wie möglich mit Wizarr zu arbeiten. "
-"Folgen Sie dieser Tour, um einen schnellen Überblick zu erhalten."
+"Wir möchten Dir helfen, so schnell wie möglich mit Wizarr zu arbeiten. Folge "
+"dieser Tour, um einen schnellen Überblick zu erhalten."
 
 #: src/components/WebhookList/WebhookItem.vue:53
 msgid "Webhook deleted successfully"
@@ -1269,8 +1268,8 @@ msgid ""
 "With Plex, you'll have access to all of the movies, TV shows, music, and "
 "photos that are stored on their server!"
 msgstr ""
-"Mit Plex haben Sie Zugriff auf alle Filme, Fernsehsendungen, Musik und "
-"Fotos, die auf dem Server gespeichert sind!"
+"Mit Plex habst Du Zugriff auf alle Filme, Fernsehsendungen, Musik und Fotos, "
+"die auf dem Server gespeichert sind!"
 
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
@@ -1293,8 +1292,8 @@ msgid ""
 "Wizarr is an unverified app. This means that Plex may warn you about using "
 "it. Do you wish to continue?"
 msgstr ""
-"Wizarr ist eine nicht verifizierte App. Das bedeutet, dass Plex Sie "
-"möglicherweise vor der Verwendung warnen kann. Möchten Sie trotzdem "
+"Wizarr ist eine nicht verifizierte App. Das bedeutet, dass Plex "
+"möglicherweise vor der Verwendung warnen kann. Möchtest Du trotzdem "
 "fortfahren?"
 
 #: src/tours/admin-users.ts:14
@@ -1303,9 +1302,9 @@ msgid ""
 "also manually scan for new users by clicking on the 'Scan for Users' button, "
 "this is useful if Wizarr has not gotten around to doing it yet."
 msgstr ""
-"Wizarr scannt Ihren Medienserver automatisch nach neuen Benutzern, aber Sie "
-"können auch manuell nach neuen Benutzern suchen, indem Sie auf die "
-"Schaltfläche \"Benutzern scannen\" klicken; dies ist nützlich, wenn Wizarr "
+"Wizarr scannt Deinen Medienserver automatisch nach neuen Benutzern, aber Du "
+"kannst auch manuell nach neuen Benutzern suchen, indem Du auf die "
+"Schaltfläche \"Benutzern scannen\" klickst, dies ist nützlich, wenn Wizarr "
 "noch nicht dazu gekommen ist, dies zu tun."
 
 #: src/tours/admin-home.ts:23
@@ -1313,7 +1312,7 @@ msgid ""
 "You can also edit your dashboard, delete widgets, add new widgets, and move "
 "them around."
 msgstr ""
-"Sie können Ihr Dashboard auch bearbeiten, Widgets löschen, neue Widgets "
+"Du kannst Dein Dashboard auch bearbeiten, Widgets löschen, neue Widgets "
 "hinzufügen und sie verschieben."
 
 #: src/tours/admin-invitations.ts:14
@@ -1321,12 +1320,12 @@ msgid ""
 "You can create a new invitation by clicking on the 'Create Invitation' "
 "button."
 msgstr ""
-"Sie können eine neue Einladung erstellen, indem Sie auf die Schaltfläche "
-"\"Einladung erstellen\" klicken."
+"Du kannst eine neue Einladung erstellen, indem Du auf die Schaltfläche "
+"\"Einladung erstellen\" klickst."
 
 #: src/modules/setup/pages/Complete.vue:7
 msgid "You have successfully completed the setup process."
-msgstr "Sie haben den Einrichtungsvorgang erfolgreich abgeschlossen."
+msgstr "Du hast den Einrichtungsvorgang erfolgreich abgeschlossen."
 
 #: src/modules/join/pages/Complete.vue:4
 msgid ""
@@ -1339,7 +1338,7 @@ msgstr ""
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:98
 #: src/modules/admin/components/Invitations/ShareSheet.vue:72
 msgid "Your browser does not support copying to clipboard"
-msgstr "Ihr Browser unterstützt das Kopieren in die Zwischenablage nicht"
+msgstr "Dein Browser unterstützt das Kopieren in die Zwischenablage nicht"
 
 #: src/modules/setup/pages/Complete.vue:4
 msgid "Your Done"
