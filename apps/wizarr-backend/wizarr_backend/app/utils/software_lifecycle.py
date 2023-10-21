@@ -3,11 +3,9 @@ from requests_cache import CachedSession
 from packaging.version import parse
 from os import path
 from json import load
-from app.models.database.base import db_dir
+from definitions import LATEST_FILE, DATABASE_DIR
 
-from definitions import LATEST_FILE
-
-session = CachedSession(cache_name=path.join(db_dir, "wizarr_cache"), backend="sqlite", expire_after=3600, cache_control=True, stale_if_error=True, allowable_codes=[200])
+session = CachedSession(cache_name=path.join(DATABASE_DIR, "wizarr_cache"), backend="sqlite", expire_after=3600, cache_control=True, stale_if_error=True, allowable_codes=[200])
 
 def get_latest_version():
     try:
