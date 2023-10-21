@@ -1,8 +1,8 @@
 import logging
 from logging.handlers import WatchedFileHandler
 from os import path
-
 import coloredlogs
+from definitions import DATABASE_DIR
 
 # Configure the root logger
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S")
@@ -32,7 +32,7 @@ logger = logging.getLogger()
 werkzeug = logging.getLogger("werkzeug")
 
 # Create a file handler for logging to a file
-file_log_handler = WatchedFileHandler(path.join(path.dirname(path.abspath(__file__)), "../", "../", "database", "logs.log"), mode="a", encoding="utf-8")
+file_log_handler = WatchedFileHandler(path.join(DATABASE_DIR, "logs.log"), mode="a", encoding="utf-8")
 file_log_handler.addFilter(ExcludeLoggerFilter("peewee"))
 file_log_handler.addFilter(ExcludeFilter("socket.io"))
 file_log_handler.setFormatter(coloredlogs.ColoredFormatter("%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S"))
