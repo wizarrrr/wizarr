@@ -1,46 +1,50 @@
 name: Compile Translations
 
 on:
-  push:
-    branches:
-      - translations
-  workflow_dispatch: {}
+    push:
+        branches:
+            - translations
+    workflow_dispatch: {}
 
 permissions:
-  packages: write
+    packages: write
 
 jobs:
-  compile:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      # Checkout the repo and the translations branch
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: translations
+    compile:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            # Checkout the repo and the translations branch
+            - name: Checkout
+              uses: actions/checkout@v2
+              with:
+                  ref: translations
 
-      # Install dependencies node and npm
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y nodejs npm gettext
+            # Install dependencies node and npm
+            - name: Install dependencies
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y nodejs npm gettext
 
-      # Install dependencies for frontend
-      - name: Install dependencies for frontend
-        run: |
-          cd frontend && npm install vue3-gettext
+            # Install dependencies for frontend
+            - name: Install dependencies for frontend
+              run: |
+                  npm install vue3-gettext
 
-      # Compile translations
-      - name: Compile translations
-        run: |
-          cd frontend
-          npm run gettext:compile
+            # Switch to the Wizarr Frontend directory
+            - name: Switch to frontend directory
+              run: |
+                  cd apps/wizarr-frontend/
 
-      # Commit and push changes
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Compile translations"
-          file_pattern: "**/translations.json"
-          branch: translations
+            # Compile translations
+            - name: Compile translations
+              run: |
+                  npx vue-gettext-compile
+
+            # Commit and push changes
+            - uses: stefanzweifel/git-auto-commit-action@v5
+              with:
+                  commit_message: 'Compile translations'
+                  file_pattern: '**/translations.json'
+                  branch: translations
