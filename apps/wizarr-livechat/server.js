@@ -14,3 +14,4 @@ const server = http.createServer((request, response) => {
 server.listen(9000, () => {
 	console.log(`Running at http://localhost:9000${customPath}, serving ${root}`);
 });
+
