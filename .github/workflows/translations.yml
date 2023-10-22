@@ -32,14 +32,10 @@ jobs:
               run: |
                   npm install vue3-gettext
 
-            # Switch to the Wizarr Frontend directory
-            - name: Switch to frontend directory
-              run: |
-                  cd apps/wizarr-frontend/
-
             # Compile translations
             - name: Compile translations
               run: |
+                  cd apps/wizarr-frontend/
                   npx vue-gettext-compile
 
             # Commit and push changes
