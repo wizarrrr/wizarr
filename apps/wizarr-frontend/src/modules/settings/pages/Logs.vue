@@ -3,20 +3,20 @@
 </template>
 
 <script lang="ts">
-import { Terminal } from 'xterm';
-import { mapState } from 'pinia';
-import { defineComponent } from 'vue';
-import { FitAddon } from 'xterm-addon-fit';
-import { useThemeStore } from '@/stores/theme';
-import { useDebounceFn } from '@vueuse/core';
+import { Terminal } from "xterm";
+import { mapState } from "pinia";
+import { defineComponent } from "vue";
+import { FitAddon } from "xterm-addon-fit";
+import { useThemeStore } from "@/stores/theme";
+import { useDebounceFn } from "@vueuse/core";
 
-import type { ITheme, ITerminalOptions } from 'xterm';
-import type { Socket } from 'socket.io-client';
+import type { ITheme, ITerminalOptions } from "xterm";
+import type { Socket } from "socket.io-client";
 
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from "@/stores/auth";
 
 export default defineComponent({
-    name: 'LogsView',
+    name: "LogsView",
     data() {
         return {
             socket: null as Socket | null,
@@ -29,19 +29,19 @@ export default defineComponent({
             } as ITerminalOptions,
             theme: {
                 dark: {
-                    foreground: '#ffffff',
-                    background: 'transparent',
+                    foreground: "#ffffff",
+                    background: "transparent",
                 },
                 light: {
-                    foreground: '#000000',
-                    background: 'transparent',
+                    foreground: "#000000",
+                    background: "transparent",
                 },
             } as Record<string, ITheme>,
         };
     },
     computed: {
-        ...mapState(useThemeStore, ['currentTheme']),
-        ...mapState(useAuthStore, ['token']),
+        ...mapState(useThemeStore, ["currentTheme"]),
+        ...mapState(useAuthStore, ["token"]),
     },
     methods: {
         async onData() {
@@ -60,41 +60,39 @@ export default defineComponent({
 
         // Initialize the callbacks
         this.terminal.onData(useDebounceFn(this.onData.bind(this), 1000));
-        window.addEventListener('resize', this.onResize);
+        window.addEventListener("resize", this.onResize);
 
         // Initialize previous logs
-        const response = await this.$axios
-            .get('/api/logging/text')
-            .catch(() => {
-                return;
-            });
+        const response = await this.$axios.get("/api/logging/text").catch(() => {
+            return;
+        });
 
-        this.terminal.write(response?.data ?? '');
+        this.terminal.write(response?.data ?? "");
 
         // Initialize the socket
-        this.socket = this.$io('/logging', {
+        this.socket = this.$io("/logging", {
             extraHeaders: {
                 Authorization: `Bearer ${this.token}`,
             },
         });
 
         // Initialize the socket callbacks
-        this.socket.on('connect', () => {
-            this.terminal.writeln('Connected to the logging server\n');
+        this.socket.on("connect", () => {
+            this.terminal.writeln("Connected to the logging server\n");
         });
 
-        this.socket.on('disconnect', () => {
-            this.terminal.writeln('Disconnected from the logging server\n');
+        this.socket.on("disconnect", () => {
+            this.terminal.writeln("Disconnected from the logging server\n");
         });
 
-        this.socket.on('log', (data: string) => {
+        this.socket.on("log", (data: string) => {
             this.terminal.write(data);
         });
     },
     beforeUnmount() {
         // Remove the callbacks
         this.socket?.disconnect();
-        window.removeEventListener('resize', this.onResize);
+        window.removeEventListener("resize", this.onResize);
     },
     watch: {
         currentTheme: {

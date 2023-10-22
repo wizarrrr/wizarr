@@ -1,0 +1,10 @@
+{
+    "name": "@wizarrrr/wizarr-frontend",
+    "license": "MIT",
+    "scripts": {
+        "dev": "nx exec -- vite",
+        "build": "nx exec -- run-p type-check build-only",
+        "gettext:extract": "nx exec -- vue-gettext-extract",
+        "gettext:compile": "nx exec -- vue-gettext-compile"
+    }
+}
