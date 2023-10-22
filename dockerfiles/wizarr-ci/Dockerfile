@@ -1,5 +1,5 @@
 # Build image for Docker Image
-FROM --platform=$TARGETPLATFORM nikolaik/python-nodejs:python3.12-nodejs18 AS base
+FROM --platform=$TARGETPLATFORM python:3.12.0
 
 # Install system dependencies
 RUN apt-get update && \

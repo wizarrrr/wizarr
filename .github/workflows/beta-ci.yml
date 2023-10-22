@@ -3,7 +3,7 @@ name: Docker Build and Push Beta
 on:
     push:
         branches:
-            - 'v3-mono'
+            - 'v3-beta'
         paths-ignore:
             - '**.md'
             - '**/.github/**'
@@ -17,7 +17,7 @@ env:
     GHCR_REGISTRY: ghcr.io
     DH_REGISTRY: docker.io
     IMAGE_NAME: wizarrrr/wizarr
-    IMAGE_TAG: v3-mono
+    IMAGE_TAG: v3-beta
 
 concurrency:
     group: ${{ github.ref }}
