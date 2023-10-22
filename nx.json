@@ -1,0 +1,67 @@
+{
+    "$schema": "./node_modules/nx/schemas/nx-schema.json",
+    "targetDefaults": {
+        "build": {
+            "cache": true,
+            "dependsOn": [
+                "^build"
+            ],
+            "inputs": [
+                "production",
+                "^production"
+            ]
+        },
+        "docker": {
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "command": "docker build -t $npm_package_name .",
+                "cwd": "$npm_package_name",
+                "color": "yellow"
+            },
+            "outputs": [
+                "$npm_package_name"
+            ]
+        },
+        "lint": {
+            "cache": true,
+            "inputs": [
+                "default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.js"
+            ]
+        },
+        "test": {
+            "cache": true,
+            "inputs": [
+                "default",
+                "^production"
+            ]
+        },
+        "e2e": {
+            "cache": true,
+            "inputs": [
+                "default",
+                "^production"
+            ]
+        }
+    },
+    "namedInputs": {
+        "default": [
+            "{projectRoot}/**/*",
+            "sharedGlobals"
+        ],
+        "production": [
+            "default",
+            "!{projectRoot}/.eslintrc.json",
+            "!{projectRoot}/eslint.config.js",
+            "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+            "!{projectRoot}/tsconfig.spec.json"
+        ],
+        "sharedGlobals": []
+    },
+    "plugins": [
+        "@nxlv/python"
+    ],
+    "nxCloudAccessToken": "ZGVkMzdiZGQtZTk3Ny00MDFmLTljNWQtYzQ2Zjk4ZWNkY2VmfHJlYWQtd3JpdGU="
+}

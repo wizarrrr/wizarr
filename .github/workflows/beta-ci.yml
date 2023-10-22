@@ -1,276 +1,332 @@
 name: Docker Build and Push Beta
 
 on:
-  push:
-    branches:
-      - "v3-beta"
-    paths-ignore:
-      - "**.md"
-      - "**/.github/**"
-      - "**/.vscode/**"
-  workflow_dispatch: {}
+    push:
+        branches:
+            - 'v3-beta'
+        paths-ignore:
+            - '**.md'
+            - '**/.github/**'
+            - '**/.vscode/**'
+    workflow_dispatch: {}
 
 permissions:
-  packages: write
+    packages: write
 
 env:
-  GHCR_REGISTRY: ghcr.io
-  DH_REGISTRY: docker.io
-  IMAGE_NAME: wizarrrr/wizarr
-  IMAGE_TAG: v3-beta
+    GHCR_REGISTRY: ghcr.io
+    DH_REGISTRY: docker.io
+    IMAGE_NAME: wizarrrr/wizarr
+    IMAGE_TAG: v3-beta
 
 concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
+    group: ${{ github.ref }}
+    cancel-in-progress: true
 
 jobs:
-  before_build:
-    runs-on: ubuntu-latest
-    steps:
-      # Clear the digests from the artifacts
-      - name: Clear digests
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: |
-            digests_dh
-            digests_ghcr
+    before_build:
+        runs-on: ubuntu-latest
+        steps:
+            # Clear the digests from the artifacts
+            - name: Clear digests
+              uses: geekyeggo/delete-artifact@v2
+              with:
+                  name: |
+                      digests_dh
+                      digests_ghcr
 
-  build_ghcr:
-    name: Build Digest for GHCR
-    runs-on: ubuntu-latest
-    needs:
-      - before_build
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - linux/amd64
-          - linux/arm64
+    build_ghcr:
+        name: Build Digest for GHCR
+        runs-on: ubuntu-latest
+        needs:
+            - before_build
+        strategy:
+            fail-fast: false
+            matrix:
+                platform:
+                    - linux/amd64
+                    - linux/arm64
 
-    steps:
-      # Checkout the repo
-      - name: Checkout
-        uses: actions/checkout@v4
+        steps:
+            # Checkout the repo
+            - name: Checkout
+              uses: actions/checkout@v4
 
-      # Get the Metadata from the Docker Image
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            # Use NPM and Node.js to install dependencies
+            - name: Use Node.js 18.18.2
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 18.18.2
 
-      # Set up Docker Buildx
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+            # Install dependencies
+            - name: Install dependencies
+              run: npm install
 
-      # Login to GHCR
-      - name: Login to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.GHCR_REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+            # Set up Python and install Poetry
+            - uses: actions/setup-python@v4
+              with:
+                  python-version: '3.10'
 
-      # Build and push the image
-      - name: Build and push by digest
-        id: build
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          platforms: ${{ matrix.platform }}
-          labels: ${{ steps.meta.outputs.labels }}
-          provenance: false
-          outputs: type=image,name=${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true
-          cache-from: type=gha,scope=${{ matrix.platform }}-${{ env.GHCR_REGISTRY }}
-          cache-to: type=gha,mode=max,scope=${{ matrix.platform }}-${{ env.GHCR_REGISTRY }}
+            # Install Poetry
+            - name: Install Poetry
+              run: |
+                  pip install poetry==1.6.1
+                  poetry config virtualenvs.create false
 
-      # Export the digest for later use
-      - name: Export digest
-        run: |
-          mkdir -p /tmp/digests
-          digest="${{ steps.build.outputs.digest }}"
-          touch "/tmp/digests/${digest#sha256:}"
+            # Build the Repository
+            - name: Build the Repository
+              run: |
+                  npx nx build wizarr-backend
+                  npx nx build wizarr-frontend
 
-      # Upload the digest as an artifact
-      - name: Upload digest
-        uses: actions/upload-artifact@v3
-        with:
-          name: digests_ghcr
-          path: /tmp/digests/*
-          if-no-files-found: error
-          retention-days: 1
+            # Get the Metadata from the Docker Image
+            - name: Docker meta
+              id: meta
+              uses: docker/metadata-action@v5
+              with:
+                  images: ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
-  merge_ghcr:
-    name: Merge Digest for GHCR
-    runs-on: ubuntu-latest
-    needs:
-      - build_ghcr
-    steps:
-      # Checkout the repo
-      - name: Checkout
-        uses: actions/checkout@v2
+            # Set up Docker Buildx
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
 
-      # Get the Release Version from latest
-      - name: Get the Release Version from latest
-        id: get_version
-        run: echo "::set-output name=version::$(cat latest)"
+            # Login to GHCR
+            - name: Login to GHCR
+              uses: docker/login-action@v3
+              with:
+                  registry: ${{ env.GHCR_REGISTRY }}
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Download the digests from the artifacts
-      - name: Download digests
-        uses: actions/download-artifact@v3
-        with:
-          name: digests_ghcr
-          path: /tmp/digests
+            # Build and push the image
+            - name: Build and push by digest
+              id: build
+              uses: docker/build-push-action@v5
+              with:
+                  context: .
+                  file: ./dockerfiles/wizarr-ci/Dockerfile
+                  push: true
+                  platforms: ${{ matrix.platform }}
+                  labels: ${{ steps.meta.outputs.labels }}
+                  provenance: false
+                  outputs: type=image,name=${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true
+                  cache-from: type=gha,scope=${{ matrix.platform }}-${{ env.GHCR_REGISTRY }}
+                  cache-to: type=gha,mode=max,scope=${{ matrix.platform }}-${{ env.GHCR_REGISTRY }}
 
-      # Set up Docker Buildx
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+            # Export the digest for later use
+            - name: Export digest
+              run: |
+                  mkdir -p /tmp/digests
+                  digest="${{ steps.build.outputs.digest }}"
+                  touch "/tmp/digests/${digest#sha256:}"
 
-      # Get the Metadata from the Docker Image
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            # Upload the digest as an artifact
+            - name: Upload digest
+              uses: actions/upload-artifact@v3
+              with:
+                  name: digests_ghcr
+                  path: /tmp/digests/*
+                  if-no-files-found: error
+                  retention-days: 1
 
-      # Login to GHCR
-      - name: Login to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+    merge_ghcr:
+        name: Merge Digest for GHCR
+        runs-on: ubuntu-latest
+        needs:
+            - build_ghcr
+        steps:
+            # Checkout the repo
+            - name: Checkout
+              uses: actions/checkout@v2
 
-      # Create manifest list and push
-      - name: Create manifest list and push to Registry
-        working-directory: /tmp/digests
-        run: |
-          docker buildx imagetools create \
-            --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-            --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ steps.get_version.outputs.version }} \
-            $(printf '${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
+            # Get the Release Version from latest
+            - name: Get the Release Version from latest
+              id: get_version
+              run: echo "::set-output name=version::$(cat latest)"
 
-      # Inspect image
-      - name: Inspect image
-        run: docker buildx imagetools inspect ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            # Download the digests from the artifacts
+            - name: Download digests
+              uses: actions/download-artifact@v3
+              with:
+                  name: digests_ghcr
+                  path: /tmp/digests
 
-  build_dh:
-    name: Build Digest for Docker Hub
-    runs-on: ubuntu-latest
-    needs:
-      - before_build
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - linux/amd64
-          - linux/arm64
+            # Set up Docker Buildx
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
 
-    steps:
-      # Checkout the repo
-      - name: Checkout
-        uses: actions/checkout@v4
+            # Get the Metadata from the Docker Image
+            - name: Docker meta
+              id: meta
+              uses: docker/metadata-action@v5
+              with:
+                  images: ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
-      # Get the Metadata from the Docker Image
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            # Login to GHCR
+            - name: Login to GHCR
+              uses: docker/login-action@v3
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Set up Docker Buildx
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+            # Create manifest list and push
+            - name: Create manifest list and push to Registry
+              working-directory: /tmp/digests
+              run: |
+                  docker buildx imagetools create \
+                    --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+                    --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ steps.get_version.outputs.version }} \
+                    $(printf '${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
 
-      # Login to Docker Hub
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.DH_REGISTRY }}
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+            # Inspect image
+            - name: Inspect image
+              run: docker buildx imagetools inspect ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
-      # Build and push the image
-      - name: Build and push by digest
-        id: build
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          platforms: ${{ matrix.platform }}
-          labels: ${{ steps.meta.outputs.labels }}
-          provenance: false
-          outputs: type=image,name=${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true
-          cache-from: type=gha,scope=${{ matrix.platform }}-${{ env.GHCR_REGISTRY }}
-          cache-to: type=gha,mode=max,scope=${{ matrix.platform }}-${{ env.GHCR_REGISTRY }}
+    build_dh:
+        name: Build Digest for Docker Hub
+        runs-on: ubuntu-latest
+        needs:
+            - before_build
+        strategy:
+            fail-fast: false
+            matrix:
+                platform:
+                    - linux/amd64
+                    - linux/arm64
 
-      # Export the digest for later use
-      - name: Export digest
-        run: |
-          mkdir -p /tmp/digests
-          digest="${{ steps.build.outputs.digest }}"
-          touch "/tmp/digests/${digest#sha256:}"
+        steps:
+            # Checkout the repo
+            - name: Checkout
+              uses: actions/checkout@v4
 
-      # Upload the digest as an artifact
-      - name: Upload digest
-        uses: actions/upload-artifact@v3
-        with:
-          name: digests_dh
-          path: /tmp/digests/*
-          if-no-files-found: error
-          retention-days: 1
+            # Use NPM and Node.js to install dependencies
+            - name: Use Node.js 18.18.2
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 18.18.2
 
-  merge_dh:
-    name: Merge Digest for Docker Hub
-    runs-on: ubuntu-latest
-    needs:
-      - build_dh
-    steps:
-      # Checkout the repo
-      - name: Checkout
-        uses: actions/checkout@v2
+            # Install dependencies
+            - name: Install dependencies
+              run: npm install
 
-      # Get the Release Version from latest
-      - name: Get the Release Version from latest
-        id: get_version
-        run: echo "::set-output name=version::$(cat latest)"
+            # Set up Python and install Poetry
+            - uses: actions/setup-python@v4
+              with:
+                  python-version: '3.10'
 
-      # Download the digests from the artifacts
-      - name: Download digests
-        uses: actions/download-artifact@v3
-        with:
-          name: digests_dh
-          path: /tmp/digests
+            # Install Poetry
+            - name: Install Poetry
+              run: |
+                  pip install poetry==1.6.1
+                  poetry config virtualenvs.create false
 
-      # Set up Docker Buildx
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+            # Build the Repository
+            - name: Build the Repository
+              run: |
+                  npx nx build wizarr-backend
+                  npx nx build wizarr-frontend
 
-      # Get the Metadata from the Docker Image
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            # Get the Metadata from the Docker Image
+            - name: Docker meta
+              id: meta
+              uses: docker/metadata-action@v5
+              with:
+                  images: ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
-      # Login to Docker Hub
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          registry: docker.io
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+            # Set up Docker Buildx
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
 
-      # Create manifest list and push
-      - name: Create manifest list and push to Registry
-        working-directory: /tmp/digests
-        run: |
-          docker buildx imagetools create \
-            --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-            --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ steps.get_version.outputs.version }} \
-            $(printf '${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
+            # Login to Docker Hub
+            - name: Login to Docker Hub
+              uses: docker/login-action@v3
+              with:
+                  registry: ${{ env.DH_REGISTRY }}
+                  username: ${{ secrets.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Inspect image
-      - name: Inspect image
-        run: docker buildx imagetools inspect ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            # Build and push the image
+            - name: Build and push by digest
+              id: build
+              uses: docker/build-push-action@v5
+              with:
+                  context: .
+                  file: ./dockerfiles/wizarr-ci/Dockerfile
+                  push: true
+                  platforms: ${{ matrix.platform }}
+                  labels: ${{ steps.meta.outputs.labels }}
+                  provenance: false
+                  outputs: type=image,name=${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true
+                  cache-from: type=gha,scope=${{ matrix.platform }}-${{ env.GHCR_REGISTRY }}
+                  cache-to: type=gha,mode=max,scope=${{ matrix.platform }}-${{ env.GHCR_REGISTRY }}
+
+            # Export the digest for later use
+            - name: Export digest
+              run: |
+                  mkdir -p /tmp/digests
+                  digest="${{ steps.build.outputs.digest }}"
+                  touch "/tmp/digests/${digest#sha256:}"
+
+            # Upload the digest as an artifact
+            - name: Upload digest
+              uses: actions/upload-artifact@v3
+              with:
+                  name: digests_dh
+                  path: /tmp/digests/*
+                  if-no-files-found: error
+                  retention-days: 1
+
+    merge_dh:
+        name: Merge Digest for Docker Hub
+        runs-on: ubuntu-latest
+        needs:
+            - build_dh
+        steps:
+            # Checkout the repo
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            # Get the Release Version from latest
+            - name: Get the Release Version from latest
+              id: get_version
+              run: echo "::set-output name=version::$(cat latest)"
+
+            # Download the digests from the artifacts
+            - name: Download digests
+              uses: actions/download-artifact@v3
+              with:
+                  name: digests_dh
+                  path: /tmp/digests
+
+            # Set up Docker Buildx
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+
+            # Get the Metadata from the Docker Image
+            - name: Docker meta
+              id: meta
+              uses: docker/metadata-action@v5
+              with:
+                  images: ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
+            # Login to Docker Hub
+            - name: Login to Docker Hub
+              uses: docker/login-action@v3
+              with:
+                  registry: docker.io
+                  username: ${{ secrets.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            # Create manifest list and push
+            - name: Create manifest list and push to Registry
+              working-directory: /tmp/digests
+              run: |
+                  docker buildx imagetools create \
+                    --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+                    --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ steps.get_version.outputs.version }} \
+                    $(printf '${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
+
+            # Inspect image
+            - name: Inspect image
+              run: docker buildx imagetools inspect ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
