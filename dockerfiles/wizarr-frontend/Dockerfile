@@ -33,7 +33,7 @@ COPY --from=base /wizarr-build/dist/apps/wizarr-frontend/ ./
 
 # Copy Nginx configuration
 COPY ../../files/nginx-frontend.conf /etc/nginx/conf.d/wizarr.conf
-RUN rm /etc/nginx/conf.d/default.conf
+RUN rm -f /etc/nginx/conf.d/default.conf /etc/nginx/sites-enabled/default
 
 # Copy Docker Entrypoint
 COPY ../../dockerfiles/wizarr-frontend/docker-entrypoint.sh /docker-entrypoint.sh
