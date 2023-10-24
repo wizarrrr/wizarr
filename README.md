@@ -54,7 +54,7 @@ Wizarr V2 has moved to the v2 branch [here](https://github.com/Wizarrrr/wizarr/t
 
 ## V3 upgradable from V2?
 
-**NO**, we tried our best to make it work but V3 has too much awesomeness, please create a new container and use a **NEW DATABASE**, V3 does not require any env variables like V2 did, so please make sure to follow the below Compose or Docker configs exactly.
+V3 can now support upgrading from V2, please make a backup of your database.db for the safest upgrade path.
 
 ## Major Features Include
 
