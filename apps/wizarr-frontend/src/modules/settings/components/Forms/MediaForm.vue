@@ -3,18 +3,21 @@
         <!-- Form -->
         <FormKit type="form" id="serverForm" v-model="serverForm" class="space-y-4 md:space-y-6" :actions="false" @submit="saveConnection">
             <!-- Server Name -->
-            <FormKit type="text" :label="__('Server Display Name')" name="server_name" placeholder="Wizarr" validation="required:trim|alpha_spaces:latin" required autocomplete="text" />
+            <FormKit type="text" :label="__('Display Name')" :help="__('Display Name for your media servers')" name="server_name" placeholder="Wizarr" validation="required:trim|alpha_spaces:latin" required autocomplete="text" />
 
             <!-- Server URL -->
-            <FormKit type="inputButton" :label="__('Server URL')" name="server_url" validation="required" prefix-icon="fas text-gray-400 fa-arrow-up-right-from-square" placeholder="https://plex.wizarr.dev" @button="detectServer" autocomplete="url" :classes="{ prefixIcon: 'hidden' }">
+            <FormKit type="inputButton" :label="__('Media Server Address')" :help="__('Server IP or Address of your media server')" name="server_url" validation="required" prefix-icon="fas text-gray-400 fa-arrow-up-right-from-square" placeholder="https://plex.wizarr.dev" @button="detectServer" autocomplete="url" :classes="{ prefixIcon: 'hidden' }">
                 {{ __("Detect Server") }}
             </FormKit>
 
+            <!-- Server URL Override -->
+            <FormKit type="text" :label="__('Media Server Override')" :help="__('Optional if your server address does not match your external address')" name="server_url_override" placeholder="https://plex.wizarr.dev" validation="trim|url" autocomplete="url" />
+
             <!-- Server Type -->
-            <FormKit type="select" disabled :label="__('Server Type')" name="server_type" placeholder="Choose a server" prefix-icon="fas fa-server" :options="serverOptions" validation="required" />
+            <FormKit type="select" disabled :label="__('Server Type')" :help="__('Detected Media Server')" name="server_type" placeholder="Choose a server" prefix-icon="fas fa-server" :options="serverOptions" validation="required" />
 
             <!-- Server API Key -->
-            <FormKit type="text" :label="__('Server API Key')" name="server_api_key" prefix-icon="fas text-gray-400 fa-key" placeholder="XXXXXXXXXXXXXXXXX" validation="required:trim" required autocomplete="off" />
+            <FormKit type="text" :label="__('Server API Key')" :help="__('API key for your media server')" name="server_api_key" prefix-icon="fas text-gray-400 fa-key" placeholder="XXXXXXXXXXXXXXXXX" validation="required:trim" required autocomplete="off" />
         </FormKit>
 
         <!-- Buttons -->
@@ -75,6 +78,7 @@ export default defineComponent({
             serverForm: {
                 server_name: "",
                 server_url: "",
+                server_url_override: null,
                 server_type: "",
                 server_api_key: "",
             },
@@ -152,6 +156,7 @@ export default defineComponent({
 
             formData.append("server_name", this.serverForm.server_name);
             formData.append("server_url", this.serverForm.server_url);
+            if (this.serverForm.server_url_override) formData.append("server_url_override", this.serverForm.server_url_override);
             formData.append("server_type", this.serverForm.server_type);
             formData.append("server_api_key", this.serverForm.server_api_key);
 
