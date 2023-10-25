@@ -4,12 +4,9 @@ const { join } = require('path');
 export const content = [
     join(__dirname, './index.html'), // main index.html
     join(__dirname, './src/**/*.{vue,js,ts,jsx,tsx}'), // vue components
-    join(__dirname, './node_modules/flowbite/**/*.js'), // flowbite components
+    join(__dirname, '../../node_modules/flowbite/**/*.js'), // flowbite components
     join(__dirname, './src/formkit.theme.ts'), // formkit theme
-    join(
-        __dirname,
-        './node_modules/@flavorly/vanilla-components/dist/presets/tailwind/all.json',
-    ), // vanilla components
+    join(__dirname, '../../node_modules/@flavorly/vanilla-components/dist/presets/tailwind/all.json'), // vanilla components
 ];
 
 export const darkMode = 'class';

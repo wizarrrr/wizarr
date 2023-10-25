@@ -3,12 +3,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
-import TaskList from '@/components/TaskList/TaskList.vue';
+import TaskList from "@/components/TaskList/TaskList.vue";
 
 export default defineComponent({
-    name: 'TasksView',
+    name: "TasksView",
     components: {
         TaskList,
     },

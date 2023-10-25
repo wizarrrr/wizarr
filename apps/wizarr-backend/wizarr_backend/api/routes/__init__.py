@@ -99,10 +99,6 @@ def handle_unsupported_media_type(error):
 def handle_authentication_error(error):
     return error_handler(error, 401)
 
-@api.errorhandler(RevokedTokenError)
-def handle_authentication_error(error):
-    return error_handler(error, 401)
-
 @api.errorhandler(Exception)
 def handle_request_exception(error):
     return error_handler(error, 500)

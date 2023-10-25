@@ -6,6 +6,21 @@ from datetime import datetime
 from os import system, path
 from definitions import DATABASE_DIR
 
+
+def test_backup():
+
+    db_tables = db.get_tables()
+    backup = {}
+
+    for table in db_tables:
+        backup[table] = []
+        db_rows = db.execute_sql(f"SELECT * FROM {table}")
+        db_columns = [column[0] for column in db_rows.description]
+        for row in db_rows:
+            backup[table].append(dict(zip(db_columns, row)))
+
+    return backup
+
 def backup_database():
     # Backup dictionary
     backup = {}

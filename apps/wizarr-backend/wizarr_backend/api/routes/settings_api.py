@@ -24,15 +24,13 @@ class SettingsListAPI(Resource):
 
     method_decorators = [] if is_setup_required() else [jwt_required()]
 
-    @api.marshal_with(SettingsGetModel)
+    # @api.marshal_with(SettingsGetModel)
     @api.doc(description="Get all settings")
     @api.response(200, "Successfully retrieved all settings")
     @api.response(500, "Internal server error")
     def get(self):
         result = Settings.select()
-
         response = { setting.key: setting.value for setting in result }
-
         return response, 200
 
 

@@ -7,9 +7,16 @@ from flask_restx import Namespace, Resource
 from json import loads
 from app.security import is_setup_required
 
-from app.utils.backup import backup_database, encrypt_backup, generate_key, decrypt_backup, restore_database
+from app.utils.backup import backup_database, encrypt_backup, generate_key, decrypt_backup, restore_database, test_backup
 
 api = Namespace("Backup", description="Backup related operations", path="/backup")
+
+# @api.route("/test")
+# @api.route("/test/", doc=False)
+# class BackupTest(Resource):
+
+#     def get(self):
+#         return test_backup()
 
 @api.route("/download")
 @api.route("/download/", doc=False)

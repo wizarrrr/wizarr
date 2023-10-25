@@ -68,7 +68,7 @@ RUN chmod +x /docker-entrypoint.sh
 
 # Copy Nginx configuration
 COPY ../../files/nginx-main.conf /etc/nginx/conf.d/wizarr.conf
-# RUN rm /etc/nginx/conf.d/default.conf
+RUN rm -f /etc/nginx/conf.d/default.conf /etc/nginx/sites-enabled/default
 
 # Copy Bashrc File
 COPY ../../files/.bashrc /root/.bashrc

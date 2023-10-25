@@ -1,4 +1,6 @@
 {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "off",
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
@@ -12,4 +14,9 @@
         ".vscode/tailwind.json"
     ],
     "python.defaultInterpreterPath": "${workspaceFolder}/apps/wizarr-backend/.venv",
+    "[vue]": {
+        "editor.formatOnType": true,
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
 }
