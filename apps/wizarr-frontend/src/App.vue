@@ -8,26 +8,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { mapWritableState, mapState, mapActions } from 'pinia';
-import { useThemeStore } from '@/stores/theme';
-import { useServerStore } from './stores/server';
-import { useLanguageStore } from '@/stores/language';
-import { useProgressStore } from './stores/progress';
-import { useGettext, type Language } from 'vue3-gettext';
-import { container as WidgetModalContainer } from 'jenesius-vue-modal';
+import { defineComponent } from "vue";
+import { mapWritableState, mapState, mapActions } from "pinia";
+import { useThemeStore } from "@/stores/theme";
+import { useServerStore } from "./stores/server";
+import { useLanguageStore } from "@/stores/language";
+import { useProgressStore } from "./stores/progress";
+import { useGettext, type Language } from "vue3-gettext";
+import { container as WidgetModalContainer } from "jenesius-vue-modal";
 
-import type { ToastID } from 'vue-toastification/dist/types/types';
+import type { ToastID } from "vue-toastification/dist/types/types";
 
-import Offline from '@/components/Offline.vue';
-import FullPageLoading from '@/components/Loading/FullPageLoading.vue';
-import BadBackend from '@/components/Toasts/BadBackend.vue';
-import UpdateAvailable from '@/components/Toasts/UpdateAvailable.vue';
-import DefaultToast from '@/components/Toasts/DefaultToast.vue';
-import ReloadPrompt from '@/components/ReloadPrompt.vue';
+import Offline from "@/components/Offline.vue";
+import FullPageLoading from "@/components/Loading/FullPageLoading.vue";
+import BadBackend from "@/components/Toasts/BadBackend.vue";
+import UpdateAvailable from "@/components/Toasts/UpdateAvailable.vue";
+import DefaultToast from "@/components/Toasts/DefaultToast.vue";
+import ReloadPrompt from "@/components/ReloadPrompt.vue";
 
 export default defineComponent({
-    name: 'App',
+    name: "App",
     components: {
         Offline,
         FullPageLoading,
@@ -41,31 +41,23 @@ export default defineComponent({
         };
     },
     computed: {
-        ...mapState(useThemeStore, ['theme']),
-        ...mapState(useLanguageStore, ['language']),
-        ...mapWritableState(useProgressStore, ['progress', 'fullPageLoading']),
+        ...mapState(useThemeStore, ["theme"]),
+        ...mapState(useLanguageStore, ["language"]),
+        ...mapWritableState(useProgressStore, ["progress", "fullPageLoading"]),
     },
     methods: {
-        ...mapActions(useThemeStore, ['updateTheme']),
-        ...mapActions(useLanguageStore, [
-            'updateLanguage',
-            'updateAvailableLanguages',
-        ]),
-        ...mapActions(useServerStore, ['setServerData']),
+        ...mapActions(useThemeStore, ["updateTheme"]),
+        ...mapActions(useLanguageStore, ["updateLanguage", "updateAvailableLanguages"]),
+        ...mapActions(useServerStore, ["setServerData"]),
         async backendTest() {
             while (true) {
                 const serverData = await this.$axios
-                    .get('/api/server')
+                    .get("/api/server")
                     .then((response) => response.data)
                     .catch(() => undefined);
                 if (serverData) {
                     this.$toast.dismiss(this.connectionToast as ToastID);
-                    this.$toast.success(
-                        DefaultToast(
-                            'Connection Online',
-                            'Connection to backend established.',
-                        ),
-                    );
+                    this.$toast.success(DefaultToast("Connection Online", "Connection to backend established."));
                     this.setServerData(serverData);
                     break;
                 }
@@ -113,7 +105,7 @@ export default defineComponent({
 
         // Get the server data
         const serverData = await this.$axios
-            .get('/api/server')
+            .get("/api/server")
             .then((response) => response.data)
             .catch(() => undefined);
 
@@ -129,16 +121,8 @@ export default defineComponent({
         }
 
         // If setup is required, redirect to setup page if current route is not setup page
-        if (
-            serverData?.setup_required &&
-            this.$router.currentRoute.value.name !== 'setup'
-        )
-            this.$router.push('/setup');
-        if (
-            !serverData?.setup_required &&
-            this.$router.currentRoute.value.name === 'setup'
-        )
-            this.$router.push('/');
+        if (serverData?.setup_required && this.$router.currentRoute.value.name !== "setup") this.$router.push("/setup");
+        if (!serverData?.setup_required && this.$router.currentRoute.value.name === "setup") this.$router.push("/");
 
         // If update is available, open update message
         if (serverData?.update_available) {
