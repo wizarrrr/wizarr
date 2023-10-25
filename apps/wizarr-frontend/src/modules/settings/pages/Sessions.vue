@@ -3,12 +3,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
-import SessionList from '@/components/SessionList/SessionList.vue';
+import SessionList from "@/components/SessionList/SessionList.vue";
 
 export default defineComponent({
-    name: 'SessionsView',
+    name: "SessionsView",
     components: {
         SessionList,
     },

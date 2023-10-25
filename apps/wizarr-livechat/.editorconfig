@@ -1,0 +1,15 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+root = true
+
+[*]
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{js,coffee,html,less,css,scss,json}]
+indent_style = tab
+
+[*.md]
+trim_trailing_whitespace = false

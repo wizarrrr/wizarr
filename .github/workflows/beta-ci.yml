@@ -3,11 +3,11 @@ name: Docker Build and Push Beta
 on:
     push:
         branches:
-            - 'v3-beta'
+            - "v3-beta"
         paths-ignore:
-            - '**.md'
-            - '**/.github/**'
-            - '**/.vscode/**'
+            - "**.md"
+            - "**/.github/**"
+            - "**/.vscode/**"
     workflow_dispatch: {}
 
 permissions:
@@ -65,7 +65,7 @@ jobs:
             # Set up Python and install Poetry
             - uses: actions/setup-python@v4
               with:
-                  python-version: '3.10'
+                  python-version: "3.10"
 
             # Install Poetry
             - name: Install Poetry
@@ -213,7 +213,7 @@ jobs:
             # Set up Python and install Poetry
             - uses: actions/setup-python@v4
               with:
-                  python-version: '3.10'
+                  python-version: "3.10"
 
             # Install Poetry
             - name: Install Poetry
