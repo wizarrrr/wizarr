@@ -22,7 +22,12 @@ const ModalWrapper = <P extends WrapComponent>(component: P | string, props?: an
                     ...props,
                     ...this.$attrs,
                     eventBus: this.eventBus,
+                    ...options?.props,
                 };
+
+                if (process.env.NODE_ENV === "development") {
+                    console.log("DEBUG: ModalWrapper attrs", localAttrs);
+                }
 
                 // Iterate over the button actions and add a new property to the test object for each action
                 this.options?.actions?.forEach((action) => {
