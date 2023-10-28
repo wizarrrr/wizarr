@@ -196,7 +196,6 @@ export default defineComponent({
                             description: this.__("Enable Discord page and configure settings"),
                             icon: "fab fa-discord",
                             url: "/admin/settings/discord",
-                            disabled: true,
                         },
                         {
                             title: this.__("Custom HTML"),
