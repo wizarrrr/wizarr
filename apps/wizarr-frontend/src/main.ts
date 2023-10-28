@@ -11,7 +11,6 @@ import { defaultConfig, plugin } from "@formkit/vue";
 
 import Analytics from "./plugins/analytics";
 import App from "./App.vue";
-import EasterEggs from "./plugins/easterEggs";
 import FloatingVue from "floating-vue";
 import Modal from "./plugins/modal";
 import OpenLayersMap from "vue3-openlayers";
@@ -63,7 +62,6 @@ app.use(WebShare);
 app.use(Firebase);
 app.use(Tours, { i18n: i18n });
 app.use(RocketChat);
-app.use(EasterEggs);
 
 app.component("VueFeather", VueFeather);
 
