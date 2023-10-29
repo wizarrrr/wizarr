@@ -34,8 +34,8 @@
 <a href="https://features.wizarr.dev">
 <img alt="Submit Feature Requests" src="https://img.shields.io/badge/fider-vote%20on%20features-success.svg"/>
 </a>
-<a href="https://github.com/Wizarrrr/wizarr/actions/workflows/ci.yml">
-<img alt="Github Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrr/wizarr/ci.yml"/>
+<a href="https://github.com/Wizarrrr/wizarr/actions/workflows/release.yml">
+<img alt="Github Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrr/wizarr/release.yml"/>
 </a>
 </p>
 
@@ -52,6 +52,10 @@ Wizarr is a automatic user invitation system for Plex and Jellyfin. Create a uni
 ## Where is V2?
 
 Wizarr V2 has moved to the v2 branch [here](https://github.com/Wizarrrr/wizarr/tree/v2), your still more than welcome to use v2 however it will no longer be supported, we recommend using our new version, trust us it's 🔥.
+
+## V3 upgradable from V2?
+
+V3 can now support upgrading from V2, please make a backup of your database.db for the safest upgrade path.
 
 ## Major Features Include
 
