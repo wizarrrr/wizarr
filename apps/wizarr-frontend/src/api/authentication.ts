@@ -1,17 +1,14 @@
-import { errorToast, infoToast } from '../ts/utils/toasts';
-import {
-    startAuthentication,
-    startRegistration,
-} from '@simplewebauthn/browser';
+import { errorToast, infoToast } from "../ts/utils/toasts";
+import { startAuthentication, startRegistration } from "@simplewebauthn/browser";
 
-import type { APIUser } from '@/types/api/auth/User';
-import type { Membership } from '@/types/api/membership';
-import type { RegistrationResponseJSON } from '@simplewebauthn/typescript-types';
-import type { WebAuthnError } from '@simplewebauthn/browser/dist/types/helpers/webAuthnError';
-import { useAuthStore } from '@/stores/auth';
-import { useAxios } from '@/plugins/axios';
-import { useRouter } from 'vue-router';
-import { useUserStore } from '@/stores/user';
+import type { APIUser } from "@/types/api/auth/User";
+import type { Membership } from "@/types/api/membership";
+import type { RegistrationResponseJSON } from "@simplewebauthn/typescript-types";
+import type { WebAuthnError } from "@simplewebauthn/browser/dist/types/helpers/webAuthnError";
+import { useAuthStore } from "@/stores/auth";
+import { useAxios } from "@/plugins/axios";
+import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/user";
 
 class Auth {
     // Local toast functions
@@ -27,10 +24,7 @@ class Auth {
 
     // Check if the browser supports webauthn
     browserSupportsWebAuthn() {
-        return (
-            window?.PublicKeyCredential !== undefined &&
-            typeof window.PublicKeyCredential === 'function'
-        );
+        return window?.PublicKeyCredential !== undefined && typeof window.PublicKeyCredential === "function";
     }
 
     // Check if the browser supports webauthn autofill
@@ -39,17 +33,11 @@ class Auth {
             return false;
         }
 
-        if (
-            typeof window.PublicKeyCredential
-                .isConditionalMediationAvailable !== 'function'
-        ) {
+        if (typeof window.PublicKeyCredential.isConditionalMediationAvailable !== "function") {
             return false;
         }
 
-        return (
-            (await window.PublicKeyCredential.isConditionalMediationAvailable()) ===
-            true
-        );
+        return (await window.PublicKeyCredential.isConditionalMediationAvailable()) === true;
     }
 
     /**
@@ -66,17 +54,13 @@ class Auth {
      * Handle Authenticated Data
      * This function is used to handle authenticated data to store
      */
-    async handleAuthData(
-        user: Partial<APIUser>,
-        token: string,
-        refresh_token: string,
-    ) {
+    async handleAuthData(user: Partial<APIUser>, token: string, refresh_token: string) {
         // Get auth store from pinia
         const authStore = useAuthStore();
         const userStore = useUserStore();
 
         // Redirect the user to the home page
-        this.router.push('/admin');
+        this.router.push("/admin");
 
         // Show a welcome message to the display_name else username
         this.infoToast(`Welcome ${user.display_name ?? user.username}`);
@@ -103,7 +87,7 @@ class Auth {
     async handleMembershipUpdate(): Promise<Membership | null> {
         // Get the membership from the database
         const response = await this.axios
-            .get('/api/membership', {
+            .get("/api/membership", {
                 disableErrorToast: true,
                 disableInfoToast: true,
             })
@@ -124,18 +108,12 @@ class Auth {
      */
     async getCurrentUser() {
         // Send the request to the server to get the current user
-        const response = await this.axios.get('/api/auth/me');
+        const response = await this.axios.get("/api/auth/me");
 
         // Check if the response is successful
         if (response.status != 200) {
-            this.errorToast(
-                response.data.message ||
-                    'Failed to get current user, please try again',
-            );
-            console.error(
-                response.data.message ||
-                    'Failed to get current user, please try again',
-            );
+            this.errorToast(response.data.message || "Failed to get current user, please try again");
+            console.error(response.data.message || "Failed to get current user, please try again");
             return;
         }
 
@@ -174,14 +152,14 @@ class Auth {
         }
 
         // Send the request to the server to refresh the JWT token
-        const response = await this.axios.post('/api/auth/refresh', undefined, {
+        const response = await this.axios.post("/api/auth/refresh", undefined, {
             refresh_header: true,
             disableErrorToast: true,
         });
 
         // Check if the response is null
         if (!response || response.status != 200) {
-            this.errorToast('Failed to refresh token, please login again.');
+            this.errorToast("Failed to refresh token, please login again.");
             return false;
         }
 
@@ -210,8 +188,8 @@ class Auth {
 
         // Check that username, password are set
         if (!this.username || !this.password) {
-            this.errorToast('Username or password not provided');
-            console.error('Username or password not provided');
+            this.errorToast("Username or password not provided");
+            console.error("Username or password not provided");
             return;
         }
 
@@ -224,30 +202,22 @@ class Auth {
         const formData = new FormData();
 
         // Add the username, password and remember_me to the form data
-        formData.append('username', this.username);
-        formData.append('password', this.password);
-        formData.append('remember', this.remember_me);
+        formData.append("username", this.username);
+        formData.append("password", this.password);
+        formData.append("remember", this.remember_me);
 
         // Send the request to the server
-        const response = await this.axios.post('/api/auth/login', formData);
+        const response = await this.axios.post("/api/auth/login", formData);
 
         // Check if the response is successful
         if (response.status != 200 || !response.data.auth) {
-            this.errorToast(
-                response.data.message || 'Failed to login, please try again',
-            );
-            console.error(
-                response.data.message || 'Failed to login, please try again',
-            );
+            this.errorToast(response.data.message || "Failed to login, please try again");
+            console.error(response.data.message || "Failed to login, please try again");
             return;
         }
 
         // Handle the authenticated data
-        return this.handleAuthData(
-            response.data.auth.user,
-            response.data.auth.token,
-            response.data.auth.refresh_token,
-        );
+        return this.handleAuthData(response.data.auth.user, response.data.auth.token, response.data.auth.refresh_token);
     }
 
     /**
@@ -262,13 +232,10 @@ class Auth {
         const userStore = useUserStore();
 
         // Get the current user username or display_name
-        const username =
-            userStore.user?.display_name || userStore.user?.username;
+        const username = userStore.user?.display_name || userStore.user?.username;
 
         // Send the request to the server to logout the user
-        await this.axios
-            .post('/api/auth/logout', {}, { disableErrorToast: true })
-            .catch(() => console.log('Failed to logout backend'));
+        await this.axios.post("/api/auth/logout", {}, { disableErrorToast: true }).catch(() => console.log("Failed to logout backend"));
 
         // Remove the auth token and refresh token
         authStore.removeAccessToken();
@@ -276,14 +243,14 @@ class Auth {
 
         try {
             // Redirect the user to the login page
-            await this.router.push('/login');
+            await this.router.push("/login");
         } catch (e) {
             // If the router push fails, redirect the user to the login page
-            window.location.href = '/login';
+            window.location.href = "/login";
         }
 
         // Show a goodbye message to the username else username
-        this.infoToast(`Goodbye ${username || 'User'}`);
+        this.infoToast(`Goodbye ${username || "User"}`);
     }
 
     /**
@@ -302,7 +269,7 @@ class Auth {
         }
 
         // Send the request to the server to check if the user has MFA enabled
-        const response = await this.axios.post('/api/mfa/available', {
+        const response = await this.axios.post("/api/mfa/available", {
             username: this.username,
         });
 
@@ -325,22 +292,18 @@ class Auth {
 
         // Make sure the browser supports webauthn
         if (!this.browserSupportsWebAuthn()) {
-            this.errorToast('Your browser does not support WebAuthn');
-            console.error('Your browser does not support WebAuthn');
+            this.errorToast("Your browser does not support WebAuthn");
+            console.error("Your browser does not support WebAuthn");
             return;
         }
 
         // Fetch the registration options from the server
-        const regResp = await this.axios.get('/api/mfa/registration');
+        const regResp = await this.axios.get("/api/mfa/registration");
 
         // Check if the response is successful
         if (regResp.status != 200) {
-            this.errorToast(
-                regResp.data.message || 'Failed to register, please try again',
-            );
-            console.error(
-                regResp.data.message || 'Failed to register, please try again',
-            );
+            this.errorToast(regResp.data.message || "Failed to register, please try again");
+            console.error(regResp.data.message || "Failed to register, please try again");
             return;
         }
 
@@ -355,14 +318,8 @@ class Auth {
         try {
             registration = await startRegistration(regResp.data);
         } catch (e: any) {
-            this.errorToast(
-                (e as WebAuthnError).message ||
-                    'Failed to register, please try again',
-            );
-            console.error(
-                (e as WebAuthnError).message ||
-                    'Failed to register, please try again',
-            );
+            this.errorToast((e as WebAuthnError).message || "Failed to register, please try again");
+            console.error((e as WebAuthnError).message || "Failed to register, please try again");
             return;
         }
 
@@ -374,16 +331,12 @@ class Auth {
         };
 
         // Send the registration to the server
-        const regResp2 = await this.axios.post('/api/mfa/registration', data);
+        const regResp2 = await this.axios.post("/api/mfa/registration", data);
 
         // Check if the response is successful
         if (regResp2.status != 200) {
-            this.errorToast(
-                regResp2.data.message || 'Failed to register, please try again',
-            );
-            console.error(
-                regResp2.data.message || 'Failed to register, please try again',
-            );
+            this.errorToast(regResp2.data.message || "Failed to register, please try again");
+            console.error(regResp2.data.message || "Failed to register, please try again");
             return;
         }
 
@@ -403,21 +356,21 @@ class Auth {
 
         // Make sure the browser supports webauthn
         if (!this.browserSupportsWebAuthn()) {
-            throw new Error('Your browser does not support WebAuthn');
+            throw new Error("Your browser does not support WebAuthn");
         }
 
         // Make sure the browser supports webauthn autofill
         if (autofill && !(await this.browserSupportsWebAuthnAutofill())) {
-            throw new Error('Your browser does not support WebAuthn Autofill');
+            throw new Error("Your browser does not support WebAuthn Autofill");
         }
 
         // Check if the username is set
         if (!autofill && !this.username) {
-            throw new Error('Username not provided');
+            throw new Error("Username not provided");
         }
 
         // Fetch the authentication options from the server
-        const authResp = await this.axios.get('/api/mfa/authentication', {
+        const authResp = await this.axios.get("/api/mfa/authentication", {
             params: {
                 username: this.username,
             },
@@ -425,22 +378,16 @@ class Auth {
 
         // Check if the response is successful
         if (authResp.status != 200) {
-            throw new Error(
-                authResp.data.message ||
-                    'Failed to authenticate, please try again',
-            );
+            throw new Error(authResp.data.message || "Failed to authenticate, please try again");
         }
 
         // Get the authentication options
         const authenticationOptions = authResp.data;
 
         // Start the authentication
-        const assertion = await startAuthentication(
-            authenticationOptions,
-            autofill,
-        ).catch(() => {
+        const assertion = await startAuthentication(authenticationOptions, autofill).catch(() => {
             // PATCH: Fix error when user cancels MFA authentication
-            console.log('Authentication has been cancelled');
+            console.log("Authentication has been cancelled");
         });
 
         // Check if the assertion is null
@@ -454,24 +401,15 @@ class Auth {
         };
 
         // Send the authentication to the server
-        const authResp2 = await this.axios
-            .post('/api/mfa/authentication', data)
-            .catch((e: any) => {
-                throw new Error(
-                    e.data.message ||
-                        'Failed to authenticate, please try again',
-                );
-            });
+        const authResp2 = await this.axios.post("/api/mfa/authentication", data).catch((e: any) => {
+            throw new Error(e.data.message || "Failed to authenticate, please try again");
+        });
 
         // Check if the response is null
         if (!authResp2) return;
 
         // Handle the authenticated data
-        return this.handleAuthData(
-            authResp2.data.auth.user,
-            authResp2.data.auth.token,
-            authResp2.data.auth.refresh_token,
-        );
+        return this.handleAuthData(authResp2.data.auth.user, authResp2.data.auth.token, authResp2.data.auth.refresh_token);
     }
 
     /**
@@ -481,26 +419,20 @@ class Auth {
     async mfaDeregistration() {
         // Check if the username is set
         if (!this.username) {
-            this.errorToast('Username not provided');
-            console.error('Username not provided');
+            this.errorToast("Username not provided");
+            console.error("Username not provided");
             return;
         }
 
         // Send the request to the server to remove MFA from the user
-        const response = await this.axios.post('/api/mfa/deregistration', {
+        const response = await this.axios.post("/api/mfa/deregistration", {
             username: this.username,
         });
 
         // Check if the response is successful
         if (response.status != 200) {
-            this.errorToast(
-                response.data.message ||
-                    'Failed to deregister, please try again',
-            );
-            console.error(
-                response.data.message ||
-                    'Failed to deregister, please try again',
-            );
+            this.errorToast(response.data.message || "Failed to deregister, please try again");
+            console.error(response.data.message || "Failed to deregister, please try again");
             return;
         }
 

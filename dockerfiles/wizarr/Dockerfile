@@ -39,6 +39,7 @@ RUN apt-get update && \
     nginx \
     nmap \
     toilet \
+    figlet \
     curl \
     && apt-get clean
 

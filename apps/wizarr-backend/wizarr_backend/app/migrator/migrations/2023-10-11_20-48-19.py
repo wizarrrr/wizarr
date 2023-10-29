@@ -29,7 +29,7 @@ def run():
             db.execute_sql("DELETE FROM settings WHERE key = 'admin_password'")
 
             # Create the new account using the old credentials
-            db.execute_sql(f"INSERT INTO accounts (username, password, role) VALUES ('{admin_username}', '{admin_password}', 'admin')")
+            db.execute_sql(f"INSERT INTO accounts (username, password, role, tutorial) VALUES ('{admin_username}', '{admin_password}', 'admin', 0)")
 
     # Remove admin_key from the settings table
     with db.transaction():

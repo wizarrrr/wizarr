@@ -12,4 +12,5 @@ export interface ServerSettings {
     server_url_override?: string;
     server_type: "jellyfin" | "plex";
     server_verified: string;
+    server_discord_id?: string;
 }

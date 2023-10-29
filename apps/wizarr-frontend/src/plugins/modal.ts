@@ -1,26 +1,12 @@
-import type { EventType, Handler } from 'mitt';
-import {
-    Modal,
-    closeById,
-    closeModal,
-    config,
-    getComponentFromStore,
-    getCurrentModal,
-    modalQueue,
-    onBeforeModalClose,
-    openModal,
-    popModal,
-    promptModal,
-    pushModal,
-    useModalRouter,
-} from 'jenesius-vue-modal';
+import type { EventType, Handler } from "mitt";
+import { Modal, closeById, closeModal, config, getComponentFromStore, getCurrentModal, modalQueue, onBeforeModalClose, openModal, popModal, promptModal, pushModal, useModalRouter } from "jenesius-vue-modal";
 
-import type { App } from 'vue';
-import type { ConfigInterface } from 'jenesius-vue-modal/dist/types/utils/config';
-import type { FormKitClasses } from '@formkit/core';
-import type { ModalOptions } from 'jenesius-vue-modal/dist/types/utils/Modal';
-import ModalWrapper from './ModalWrapper';
-import type { WrapComponent } from 'jenesius-vue-modal/dist/types/types/types';
+import type { App } from "vue";
+import type { ConfigInterface } from "jenesius-vue-modal/dist/types/utils/config";
+import type { FormKitClasses } from "@formkit/core";
+import type { ModalOptions } from "jenesius-vue-modal/dist/types/utils/Modal";
+import ModalWrapper from "./ModalWrapper";
+import type { WrapComponent } from "jenesius-vue-modal/dist/types/types/types";
 
 export declare interface CustomModalOptionsButtons {
     text: string;
@@ -46,35 +32,24 @@ export declare interface CustomModalOptions extends Partial<ModalOptions> {
     cancelButtonText?: string;
     buttons?: CustomModalOptionsButtons[];
     actions?: CustomModalOptionsActions[];
+    props?: any;
 }
 
-const localOpenModal = async <P extends WrapComponent>(
-    component: P | string,
-    options?: Partial<CustomModalOptions>,
-    props?: any,
-): Promise<Modal> => {
+const localOpenModal = async <P extends WrapComponent>(component: P | string, options?: Partial<CustomModalOptions>, props?: any): Promise<Modal> => {
     const componentWrapper = ModalWrapper(component, props, options);
     const newModal = await openModal(componentWrapper, props, options);
     newModal.on(Modal.EVENT_PROMPT, () => newModal.close());
-    newModal.on('close', () => newModal.close());
+    newModal.on("close", () => newModal.close());
     return newModal;
 };
 
-const confirmModal = async (
-    title: string,
-    message: string,
-    options?: Partial<CustomModalOptions>,
-): Promise<boolean> => {
+const confirmModal = async (title: string, message: string, options?: Partial<CustomModalOptions>): Promise<boolean> => {
     const componentWrapper = ModalWrapper(message, undefined, {
         ...options,
         title,
         enableConfirmButton: true,
     });
-    return (await promptModal(
-        componentWrapper,
-        { title, message },
-        options,
-    )) as boolean;
+    return (await promptModal(componentWrapper, { title, message }, options)) as boolean;
 };
 
 declare type CustomModal = {
@@ -93,7 +68,7 @@ declare type CustomModal = {
     getComponentFromStore: typeof getComponentFromStore;
 };
 
-declare module '@vue/runtime-core' {
+declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
         $modal: CustomModal;
     }
@@ -123,18 +98,16 @@ const vuePluginModal = {
         config(
             options ?? {
                 scrollLock: true,
-                animation: 'fade',
+                animation: "fade",
                 backgroundClose: false,
                 escClose: true,
             },
         );
-        app.config.globalProperties.$router.beforeEach(
-            async (to, from, next) => {
-                const modal = getCurrentModal();
-                if (modal) await modal.close();
-                next();
-            },
-        );
+        app.config.globalProperties.$router.beforeEach(async (to, from, next) => {
+            const modal = getCurrentModal();
+            if (modal) await modal.close();
+            next();
+        });
     },
 };
 

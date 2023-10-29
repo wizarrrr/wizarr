@@ -5,7 +5,7 @@ from packaging.version import parse
 
 def get_current_version():
     # File path to the version file
-    version_file = path.join(path.dirname(path.realpath(__file__)), "../", "../", "../", "latest")
+    version_file = path.abspath(path.join(path.dirname(path.realpath(__file__)), "../", "../", "../", "../", "../", "latest"))
 
     # Read the current version
     with open(version_file, "r") as f:

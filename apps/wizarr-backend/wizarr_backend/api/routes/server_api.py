@@ -18,9 +18,11 @@ class Server(Resource):
         from app import app
         from app.security import is_setup_required
         from helpers.settings import get_settings
+        from helpers.requests import get_requests
 
         resp = {
             "settings": get_settings(disallowed=["server_api_key"]),
+            "requests": get_requests(disallowed=["api_key"]),
             "version": str(get_current_version()),
             "update_available": need_update(),
             "debug": True if app.debug else False,

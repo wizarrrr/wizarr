@@ -1,46 +1,46 @@
-import './assets/scss/main.scss';
+import "./assets/scss/main.scss";
 
-import Axios, { piniaPluginAxios } from './plugins/axios';
-import Filters, { piniaPluginFilters } from './plugins/filters';
-import Firebase, { piniaPluginFirebase } from './plugins/firebase';
-import Socket, { piniaPluginSocketIO } from './plugins/socket';
-import Toast, { piniaPluginToast } from './plugins/toasts';
-import Tours, { piniaPluginTours } from './plugins/tours';
-import WebShare, { piniaPluginWebShare } from './plugins/webshare';
-import { defaultConfig, plugin } from '@formkit/vue';
+import Axios, { piniaPluginAxios } from "./plugins/axios";
+import Filters, { piniaPluginFilters } from "./plugins/filters";
+import Firebase, { piniaPluginFirebase } from "./plugins/firebase";
+import Socket, { piniaPluginSocketIO } from "./plugins/socket";
+import Toast, { piniaPluginToast } from "./plugins/toasts";
+import Tours, { piniaPluginTours } from "./plugins/tours";
+import WebShare, { piniaPluginWebShare } from "./plugins/webshare";
+import { defaultConfig, plugin } from "@formkit/vue";
 
-import Analytics from './plugins/analytics';
-import App from './App.vue';
-import FloatingVue from 'floating-vue';
-import Modal from './plugins/modal';
-import OpenLayersMap from 'vue3-openlayers';
-import ProgressOptions from './assets/configs/DefaultProgress';
-import RocketChat from './plugins/rocketChat';
-import Sentry from './plugins/sentry';
-import ToastOptions from './assets/configs/DefaultToasts';
-import ToastPlugin from 'vue-toastification';
-import VueFeather from 'vue-feather';
-import VueProgressBar from '@aacassandra/vue3-progressbar';
-import { createApp } from 'vue';
-import { createPinia } from 'pinia';
-import formkitConfig from './formkit.config';
-import i18n from './i18n';
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
-import router from './router';
+import Analytics from "./plugins/analytics";
+import App from "./App.vue";
+import FloatingVue from "floating-vue";
+import Modal from "./plugins/modal";
+import OpenLayersMap from "vue3-openlayers";
+import ProgressOptions from "./assets/configs/DefaultProgress";
+import RocketChat from "./plugins/rocketChat";
+import Sentry from "./plugins/sentry";
+import ToastOptions from "./assets/configs/DefaultToasts";
+import ToastPlugin from "vue-toastification";
+import VueFeather from "vue-feather";
+import VueProgressBar from "@aacassandra/vue3-progressbar";
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import formkitConfig from "./formkit.config";
+import i18n from "./i18n";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+import router from "./router";
 
 const app = createApp(App);
 const pinia = createPinia();
 
-declare module '@vue/runtime-core' {
+declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
         env: {
-            NODE_ENV: 'development' | 'production';
+            NODE_ENV: "development" | "production";
         };
     }
 }
 
 app.config.globalProperties.env = {
-    NODE_ENV: process.env.NODE_ENV as 'development' | 'production',
+    NODE_ENV: process.env.NODE_ENV as "development" | "production",
 };
 
 app.use(pinia);
@@ -63,9 +63,9 @@ app.use(Firebase);
 app.use(Tours, { i18n: i18n });
 app.use(RocketChat);
 
-app.component('VueFeather', VueFeather);
+app.component("VueFeather", VueFeather);
 
-declare module '@vue/runtime-core' {
+declare module "@vue/runtime-core" {
     interface GlobalComponents {
         VueFeather: typeof VueFeather;
     }
@@ -80,6 +80,6 @@ pinia.use(piniaPluginWebShare);
 pinia.use(piniaPluginFirebase);
 pinia.use(piniaPluginTours);
 
-app.mount('#app');
+app.mount("#app");
 
 export { app, pinia };

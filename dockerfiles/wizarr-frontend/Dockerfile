@@ -23,6 +23,7 @@ FROM --platform=$TARGETPLATFORM nginx:stable AS final
 RUN apt-get update && \
     apt-get install -y \
     toilet \
+    figlet \
     && apt-get clean
 
 # Set directory for Wizarr Frontend

@@ -212,7 +212,8 @@ def global_sync_users_to_media_server() -> dict[str]:
     # Sync users from the media server to the database
     if server_type == "plex":
         sync_plex_users()
-    elif server_type == "jellyfin":
+
+    if server_type == "jellyfin":
         sync_jellyfin_users()
 
     # Return response
@@ -235,7 +236,8 @@ def global_get_user_profile_picture(user_id: str) -> str:
     # Get the user"s profile picture from the media server
     if server_type == "plex":
         return get_plex_profile_picture(user_id)
-    elif server_type == "jellyfin":
+
+    if server_type == "jellyfin":
         return get_jellyfin_profile_picture(user_id)
 
     # Raise an error if the user"s profile picture is None
@@ -342,6 +344,7 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
             Users.expires: invite.duration,
             Users.auth: kwargs.get("token", None),
             Users.email: user.email if server_type == "plex" else kwargs.get("email", None),
+            Users.created: datetime.utcnow()
         })
 
         # Add the user to the database
