@@ -42,12 +42,13 @@ def run_migrations():
 
     # Get the base directory
     BASE_DIR = path.abspath(path.join(path.dirname(path.realpath(__file__)), "../", "../"))
+    MIGRATIONS_DIR = path.abspath(path.join(path.realpath(__file__), "../", "migrations"))
 
     # Get the current migrations in the database
     current_migrations = [migration.name for migration in Migrations.select()]
 
     # Run the migrations in the migrations folder based on their filenames date and time from oldest to newest
-    for migration in sorted(listdir(path.join(BASE_DIR, "app", "migrator", "migrations"))):
+    for migration in sorted(listdir(MIGRATIONS_DIR)):
         # Skip if it does not end with .py
         if not migration.endswith(".py"):
             continue
