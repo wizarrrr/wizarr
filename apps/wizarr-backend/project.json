@@ -41,7 +41,7 @@
             "options": {
                 "commands": [
                     "mkdir -p ../database",
-                    "DB_DIR=../database poetry run flask run --debug"
+                    "poetry run flask run --debug"
                 ],
                 "cwd": "apps/wizarr-backend/wizarr_backend"
             }
