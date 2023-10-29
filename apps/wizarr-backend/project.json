@@ -40,6 +40,7 @@
             "executor": "@nxlv/python:run-commands",
             "options": {
                 "commands": [
+                    "make-dir ../database",
                     "poetry run flask run --debug"
                 ],
                 "cwd": "apps/wizarr-backend/wizarr_backend"
