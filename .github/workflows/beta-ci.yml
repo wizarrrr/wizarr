@@ -38,6 +38,8 @@ jobs:
               uses: "phips28/gh-action-bump-version@master"
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag-suffix: "-beta"
 
             # Update the latest file to match the package.json version using jq
             - name: Update latest file to match package.json version
