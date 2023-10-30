@@ -65,14 +65,18 @@ jobs:
                   commit_message: "chore: Automated Version Bump [skip ci]"
                   file_pattern: "latest"
 
+            # Create a current_version file with the version in tmp
+            - name: Create current_version file
+              run: |
+                  mkdir -p /tmp/version
+                  jq -r '.version' package.json > /tmp/version/current_version
+
             # Save the version to an artifact
             - name: Save version to artifact
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v2
               with:
                   name: version
-                  path: latest
-                  if-no-files-found: error
-                  retention-days: 1
+                  path: /tmp/version/*
 
     build:
         name: Build Digest for Registry
@@ -93,21 +97,26 @@ jobs:
               uses: actions/checkout@v4
 
             # Delete the latest file
-            - name: Delete latest file
-              run: rm latest
+            - name: Delete the latest file
+              run: |
+                  rm -f latest
 
             # Get the Release Version from the artifact
             - name: Get the Release Version from the artifact
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v2
               with:
                   name: version
-                  path: latest
+                  path: /tmp/version
 
-            # Update package.json to match the latest file using jq
-            - name: Update package.json to match latest file
+            # Copy the version to the latest file
+            - name: Copy the version to the latest file
               run: |
-                  jq --arg version "$(cat latest)" '.version = $version' package.json > package.json.tmp
-                  mv package.json.tmp package.json
+                  cp /tmp/version/current_version latest
+
+            # Copy the latest version to the package.json using jq
+            - name: Copy the latest version to the package.json
+              run: |
+                  jq --arg version "$(cat latest)" '.version = $version' package.json > package.json.tmp && mv package.json.tmp package.json
 
             # Use NPM and Node.js to install dependencies
             - name: Use Node.js 18.18.2
@@ -192,10 +201,15 @@ jobs:
         steps:
             # Get the Release Version from the artifact
             - name: Get the Release Version from the artifact
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v2
               with:
                   name: version
-                  path: latest
+                  path: /tmp/version
+
+            # Copy the version to the latest file
+            - name: Copy the version to the latest file
+              run: |
+                  cp /tmp/version/current_version latest
 
             # Get the Release Version from latest
             - name: Get the Release Version from latest
