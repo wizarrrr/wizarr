@@ -38,8 +38,6 @@ jobs:
               uses: "phips28/gh-action-bump-version@master"
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  version-type: "pre-beta"
 
             # Update the latest file to match the package.json version using jq
             - name: Update latest file to match package.json version
@@ -68,6 +66,7 @@ jobs:
         name: Build Digest for Registry
         runs-on: ubuntu-latest
         needs:
+            - bump_version
             - before_build
         strategy:
             fail-fast: false
