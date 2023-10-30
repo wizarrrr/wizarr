@@ -60,15 +60,18 @@ export default defineComponent({
             const formData = new FormData();
             formData.append("server_discord_id", this.serverId);
 
-            const validate = await this.$axios.get(`https://discord.com/api/guilds/${this.serverId}/widget.json`).catch((validation) => {
+            const validate = await this.$rawAxios.get(`https://discord.com/api/guilds/${this.serverId}/widget.json`).catch((validation) => {
+                // Discord Docs: https://discord.com/developers/docs/topics/opcodes-and-status-codes
                 if (validation.response.data.code === 50004) this.$toast.error(this.__("Unable to save due to widgets being disabled on this server."));
             });
+
+            if (!validate) return;
 
             const response = await this.$axios.put("/api/settings", formData).catch(() => {
                 this.$toast.error(this.__("Unable to save connection."));
             });
 
-            if (!response?.data || !validate?.data) return;
+            if (!response?.data) return;
 
             this.$toast.info("Discord Server ID saved successfully.");
         },

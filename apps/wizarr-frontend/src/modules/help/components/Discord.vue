@@ -73,7 +73,7 @@ export default defineComponent({
     methods: {
         async loadWidgetAPI(guild: string) {
             // Load the Discord Widget API
-            const response = await this.$axios.get(`https://discord.com/api/guilds/${guild}/widget.json`).catch(() => {
+            const response = await this.$rawAxios.get(`https://discord.com/api/guilds/${guild}/widget.json`).catch(() => {
                 this.$toast.info("Unable to load Discord Widget, this is most likely due to too many requests.");
             });
 
