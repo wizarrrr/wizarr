@@ -12,6 +12,7 @@ on:
 
 permissions:
     packages: write
+    contents: write
 
 env:
     GHCR_REGISTRY: ghcr.io
@@ -34,6 +35,29 @@ jobs:
                   name: |
                       digests_dh
                       digests_ghcr
+
+            # Checkout the repo
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            # Bump the version
+            - name: "Automated Version Bump"
+              uses: "phips28/gh-action-bump-version@master"
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  version-type: "pre-beta"
+
+            # Update the latest file to match the package.json version using jq
+            - name: Update latest file to match package.json version
+              run: |
+                  jq -r '.version' package.json > latest
+
+            # Commit the changes
+            - uses: stefanzweifel/git-auto-commit-action@v5
+              with:
+                  commit_message: "chore: Automated Version Bump [skip ci]"
+                  file_pattern: "latest"
 
     build_ghcr:
         name: Build Digest for GHCR
