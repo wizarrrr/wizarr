@@ -86,10 +86,6 @@ jobs:
               with:
                   node-version: 18.18.2
 
-            # Install dependencies
-            - name: Install dependencies
-              run: npm install
-
             # Set up Python and install Poetry
             - uses: actions/setup-python@v4
               with:
@@ -100,6 +96,10 @@ jobs:
               run: |
                   pip install poetry==1.6.1
                   poetry config virtualenvs.create false
+
+            # Install dependencies
+            - name: Install dependencies
+              run: npm install
 
             # Build the Repository
             - name: Build the Repository
