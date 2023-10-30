@@ -25,6 +25,18 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
+    before_build:
+        name: Prepare for Build
+        runs-on: ubuntu-latest
+        steps:
+            # Clear the digests from the artifacts
+            - name: Clear digests
+              uses: geekyeggo/delete-artifact@v2
+              with:
+                  name: |
+                      digests_dh
+                      digests_ghcr
+
     bump_version:
         name: Auto Bump Version
         runs-on: ubuntu-latest
@@ -53,17 +65,14 @@ jobs:
                   commit_message: "chore: Automated Version Bump [skip ci]"
                   file_pattern: "latest"
 
-    before_build:
-        name: Prepare for Build
-        runs-on: ubuntu-latest
-        steps:
-            # Clear the digests from the artifacts
-            - name: Clear digests
-              uses: geekyeggo/delete-artifact@v2
+            # Save the version to an artifact
+            - name: Save version to artifact
+              uses: actions/upload-artifact@v3
               with:
-                  name: |
-                      digests_dh
-                      digests_ghcr
+                  name: version
+                  path: latest
+                  if-no-files-found: error
+                  retention-days: 1
 
     build:
         name: Build Digest for Registry
@@ -79,13 +88,26 @@ jobs:
                     - linux/arm64
 
         steps:
-            #Exit
-            - name: Exit
-              run: exit 78
-
             # Checkout the repo
             - name: Checkout
               uses: actions/checkout@v4
+
+            # Delete the latest file
+            - name: Delete latest file
+              run: rm latest
+
+            # Get the Release Version from the artifact
+            - name: Get the Release Version from the artifact
+              uses: actions/download-artifact@v3
+              with:
+                  name: version
+                  path: latest
+
+            # Update package.json to match the latest file using jq
+            - name: Update package.json to match latest file
+              run: |
+                  jq --arg version "$(cat latest)" '.version = $version' package.json > package.json.tmp
+                  mv package.json.tmp package.json
 
             # Use NPM and Node.js to install dependencies
             - name: Use Node.js 18.18.2
@@ -168,9 +190,12 @@ jobs:
         needs:
             - build
         steps:
-            # Checkout the repo
-            - name: Checkout
-              uses: actions/checkout@v2
+            # Get the Release Version from the artifact
+            - name: Get the Release Version from the artifact
+              uses: actions/download-artifact@v3
+              with:
+                  name: version
+                  path: latest
 
             # Get the Release Version from latest
             - name: Get the Release Version from latest
