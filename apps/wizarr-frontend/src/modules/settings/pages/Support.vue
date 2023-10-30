@@ -20,6 +20,7 @@ import { useUserStore } from "@/stores/user";
 import { mapState } from "pinia";
 
 import jwtDecode from "jwt-decode";
+import type { ToastID } from "vue-toastification/dist/types/types";
 
 export default defineComponent({
     name: "Support",
@@ -27,6 +28,7 @@ export default defineComponent({
         return {
             livechat_api: this.$config("livechat_api"),
             valid_membership: false,
+            session_toast: null as ToastID | null,
         };
     },
     computed: {
@@ -49,7 +51,8 @@ export default defineComponent({
         sessionFinished(support: any) {
             support.closeWidget();
             document.querySelector(".rocketchat-widget")?.remove();
-            this.$toast.info(this.__("Support session ended"));
+            if (this.session_toast) this.$toast.dismiss(this.session_toast);
+            this.session_toast = this.$toast.info(this.__("Support session ended"));
         },
         async startSupportSession() {
             // Check if membership is valid
@@ -76,10 +79,18 @@ export default defineComponent({
             // Redirect to support page
             const support = new this.$RocketChat(this.livechat_api);
 
+            if (this.env.NODE_ENV === "development") {
+                console.table({
+                    name: this.user?.display_name,
+                    email: this.user?.email,
+                    token: this.membership?.token,
+                });
+            }
+
             // Set guest details
-            support.setGuestName(this.user?.display_name ?? "Unknown");
-            support.setGuestEmail(this.user?.email ?? "Unknown");
-            support.setGuestToken(this.membership?.token ?? "Unknown");
+            if (this.user?.display_name) support.setGuestName(this.user.display_name);
+            if (this.user?.email) support.setGuestEmail(this.user.email);
+            if (this.membership?.token) support.setGuestToken(this.membership.token);
 
             // Open support session
             support.maximizeWidget();
