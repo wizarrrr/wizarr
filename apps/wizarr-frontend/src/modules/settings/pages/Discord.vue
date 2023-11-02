@@ -2,32 +2,36 @@
     <div :class="bordered">
         <div class="flex flex-col space-y-6">
             <div class="flex flex-col space-y-2">
-                <p class="text-sm leading-tight tracking-tight text-gray-900 md:text-sm dark:text-gray-400">
-                    {{ __("Configure Wizarr to display a dynamic Discord Widget to users onboarding the wizard after signup.") }}
-                </p>
-                <div class="flex flex-col space-y-1">
+                <div class="flex flex-col space-y-3">
+                    <p class="text-sm leading-tight tracking-tight text-gray-900 md:text-sm dark:text-gray-400">
+                        {{ __("Configure Wizarr to display a dynamic Discord Widget to users onboarding after signup.") }}
+                    </p>
                     <p class="text-xs font-semibold leading-tight tracking-tight text-gray-900 md:text-sm dark:text-gray-400">
                         {{ __("Please enter your Discord Server ID below and ensure Server Widgets are enabled. If you don't know how to get your Discord Server ID or Enable Widgets, please follow the instructions below.") }}
                     </p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">
-                        <p class="text-xs font-semibold leading-tight tracking-tight text-gray-900 md:text-sm dark:text-gray-400">
-                            {{ __("Discord Server ID:") }}
-                        </p>
-                        <ul class="list-decimal">
-                            <li>{{ __("First make sure you have Developer Mode enabled on your Discord by visiting your Discord settings and going to Appearance.") }}</li>
-                            <li>{{ __("To get your Server ID right click on the server icon on the left hand sidebar.") }}</li>
-                            <li>{{ __('Click on "Copy ID" then paste it it in the box below.') }}</li>
-                        </ul>
+                    <div class="text-sm text-gray-500 dark:text-gray-400 space-y-2">
+                        <div class="space-y-1">
+                            <p class="text-xs font-semibold leading-tight tracking-tight text-gray-900 md:text-sm dark:text-gray-400">
+                                {{ __("Discord Server ID:") }}
+                            </p>
+                            <ul class="list-decimal pl-8">
+                                <li>{{ __("First make sure you have Developer Mode enabled on your Discord by visiting your Discord settings and going to Appearance.") }}</li>
+                                <li>{{ __("To get your Server ID right click on the server icon on the left hand sidebar.") }}</li>
+                                <li>{{ __('Click on "Copy ID" then paste it it in the box below.') }}</li>
+                            </ul>
+                        </div>
 
-                        <p class="text-xs font-semibold leading-tight tracking-tight text-gray-900 md:text-sm dark:text-gray-400">
-                            {{ __("Enable Server Widget:") }}
-                        </p>
-                        <ul class="list-decimal">
-                            <li>{{ __('To enable Server Widgets, navigate to your Server Settings.') }}</li>
-                            <li>{{ __('Click "Widget" on the left hand sidebar.') }}</li>
-                            <li>{{ __('Ensure the toggle for "Enable Server Widget" is checked.') }}</li>
-                        </ul>
-                    </p>
+                        <div class="space-y-1">
+                            <p class="text-xs font-semibold leading-tight tracking-tight text-gray-900 md:text-sm dark:text-gray-400">
+                                {{ __("Enable Server Widget:") }}
+                            </p>
+                            <ul class="list-decimal pl-8">
+                                <li>{{ __("To enable Server Widgets, navigate to your Server Settings.") }}</li>
+                                <li>{{ __('Click "Widget" on the left hand sidebar.') }}</li>
+                                <li>{{ __('Ensure the toggle for "Enable Server Widget" is checked.') }}</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="flex flex-row space-x-2 w-1/3">

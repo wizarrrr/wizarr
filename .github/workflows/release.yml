@@ -60,26 +60,22 @@ jobs:
                     exit 78 # Exit with a neutral exit code (78) to indicate a skipped workflow.
                   fi
 
-            # Bump the version
-            - name: "Automated Version Bump"
-              uses: "phips28/gh-action-bump-version@master"
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  skip-tag: "true"
-                  push: "true"
-                  version-type: "minor"
+            # Get the Release Version from the release tag without any letters
+            - name: Get the Release Version from the release tag
+              id: get_version
+              run: echo "::set-output name=version::$(echo ${{ github.event.release.tag_name }} | sed 's/[^0-9.]*//g')"
 
-            # Update the latest file to match the package.json version using jq
-            - name: Update latest file to match package.json version
+            # Update package.json & latest file version to match release tag
+            - name: Update package.json & latest file version to match release tag
               run: |
-                  jq -r '.version' package.json > latest
+                  jq --arg version "${{ steps.get_version.outputs.version }}" '.version = $version' package.json > package.json.tmp && mv package.json.tmp package.json
+                  echo ${{ steps.get_version.outputs.version }} > latest
 
-            # Commit the changes
+            # Commit the changes to package.json & latest file
             - uses: stefanzweifel/git-auto-commit-action@v5
               with:
                   commit_message: "chore: Automated Version Bump [skip ci]"
-                  file_pattern: "latest"
+                  file_pattern: "package.json,latest"
 
             # Create a current_version file with the version in tmp
             - name: Create current_version file
@@ -272,9 +268,9 @@ jobs:
               run: |
                   docker buildx imagetools create \
                     --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-                    --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ steps.get_version.outputs.version }} \
+                    --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.get_version.outputs.version }} \
                     --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-                    --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ steps.get_version.outputs.version }} \
+                    --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.get_version.outputs.version }} \
                     $(printf '${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
 
             # Inspect image

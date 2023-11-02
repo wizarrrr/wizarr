@@ -1,5 +1,5 @@
 export {};
-declare module 'vue' {
+declare module "vue" {
     interface ComponentCustomProperties {
         __: (
             msgid: string,
