@@ -1,7 +1,22 @@
 {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "off",
     "files.exclude": {
-        "backend/": true,
-        "frontend/": true,
-        "venv/": true,
-    }
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/__pycache__": true,
+    },
+    "css.customData": [
+        ".vscode/tailwind.json"
+    ],
+    "python.defaultInterpreterPath": "${workspaceFolder}/apps/wizarr-backend/.venv",
+    "[vue]": {
+        "editor.formatOnType": true,
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
 }

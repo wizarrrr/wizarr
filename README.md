@@ -42,6 +42,7 @@
 ---
 
 # WIZARR NOTICE
+
 We have recently moved Wizarr V2 to its new home at `ghcr.io/wizarrrr/wizarr:v2` if your container was automatically upgraded recently and you received breaking changes, please change your image to `ghcr.io/wizarrrr/wizarr:v2` to resolve this
 
 ---
@@ -58,35 +59,35 @@ V3 can now support upgrading from V2, please make a backup of your database.db f
 
 ## Major Features Include
 
-- Automatic Invitation to your Media Server (Plex, Jellyfin)
-- Support for Passkey authentication for Admin Users
-- Create multiple invitations with different configurations
-- Make invitations and users expire after a certain amount of time
-- Automatically add users to your Request System (Ombi, Jellyseerr, Overseerr)
-- Add users to your Discord Server
-- Create a custom HTML page
-- Multi-Language Support
-- Scheduled Tasks to keep Wizarr updated with your Media Server
-- Live logs directly from the Wizarr Web UI
-- Multiple Admin Users with different permissions
-- Notification System
-- API for Developers with Swagger UI
-- Light and Dark Mode Support
-- Session Management for Admin Users
+-   Automatic Invitation to your Media Server (Plex, Jellyfin)
+-   Support for Passkey authentication for Admin Users
+-   Create multiple invitations with different configurations
+-   Make invitations and users expire after a certain amount of time
+-   Automatically add users to your Request System (Ombi, Jellyseerr, Overseerr)
+-   Add users to your Discord Server
+-   Create a custom HTML page
+-   Multi-Language Support
+-   Scheduled Tasks to keep Wizarr updated with your Media Server
+-   Live logs directly from the Wizarr Web UI
+-   Multiple Admin Users with different permissions
+-   Notification System
+-   API for Developers with Swagger UI
+-   Light and Dark Mode Support
+-   Session Management for Admin Users
 
 ## Whats to come
 
-- Added API Endpoints
-- Multi-Server Support
-- Mass Emailing to Client Users
-- OAuth Support with custom providers
-- Use your own Database
-- 2FA Support for Admin Users
-- Built in Update System
-- Full Wizard Customization with Drag and Drop Template Editor
-- Jellyfin and Plex user permissions management tool
-- Invite Request System for users to request invite
-- and much more!
+-   Added API Endpoints
+-   Multi-Server Support
+-   Mass Emailing to Client Users
+-   OAuth Support with custom providers
+-   Use your own Database
+-   2FA Support for Admin Users
+-   Built in Update System
+-   Full Wizard Customization with Drag and Drop Template Editor
+-   Jellyfin and Plex user permissions management tool
+-   Invite Request System for users to request invite
+-   and much more!
 
 ## Getting Started
 

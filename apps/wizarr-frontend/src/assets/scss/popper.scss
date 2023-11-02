@@ -1,0 +1,23 @@
+:root {
+    --popper-theme-background-color: theme('colors.gray.100');
+    --popper-theme-background-color-hover: theme('colors.gray.200');
+    --popper-theme-text-color: theme('colors.gray.800');
+    --popper-theme-border-width: 1px;
+    --popper-theme-border-color: theme('colors.gray.300');
+    --popper-theme-border-style: solid;
+    --popper-theme-border-radius: 6px;
+    --popper-theme-padding: 10px;
+    --popper-theme-box-shadow: 0 5px 50px -6px rgba(0, 0, 0, 0.25);
+}
+
+.dark {
+    --popper-theme-background-color: theme('colors.gray.800');
+    --popper-theme-background-color-hover: theme('colors.gray.700');
+    --popper-theme-text-color: theme('colors.gray.100');
+    --popper-theme-border-width: 1px;
+    --popper-theme-border-color: theme('colors.gray.700');
+    --popper-theme-border-style: solid;
+    --popper-theme-border-radius: 6px;
+    --popper-theme-padding: 10px;
+    --popper-theme-box-shadow: 0 5px 50px -6px rgba(0, 0, 0, 0.25);
+}

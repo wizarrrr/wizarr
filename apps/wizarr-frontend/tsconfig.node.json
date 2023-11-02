@@ -1,0 +1,17 @@
+{
+    "include": [
+        "vite.config.*",
+        "vitest.config.*",
+        "cypress.config.*",
+        "nightwatch.conf.*",
+        "playwright.config.*",
+        "config/*"
+    ],
+    "compilerOptions": {
+        "skipLibCheck": true,
+        "composite": true,
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "types": ["node", "vite/client"]
+    }
+}

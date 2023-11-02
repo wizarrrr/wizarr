@@ -1,3 +1,10 @@
+**/tmp
+/dockerfiles/wizarr-backend/database
+/apps/wizarr-backend/database
+**/.venv
+**/__pycache__
+.DS_Store
+
 venv/
 .env
 .DS_Store
@@ -5,7 +12,6 @@ venv/
 .git
 .idea
 .buildHelper.txt
-node_modules
 __pycache__
 
 Dockerfile
