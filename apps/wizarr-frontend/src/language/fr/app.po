@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-15 23:12+0100\n"
-"PO-Revision-Date: 2023-10-30 05:04+0000\n"
-"Last-Translator: Petitgnoll6 <gnolle6@hotmail.com>\n"
+"PO-Revision-Date: 2023-11-04 17:32+0000\n"
+"Last-Translator: Rémi Guerrero <remidu34070@hotmail.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr-v3/wizarr/"
 "fr/>\n"
 "Language: fr\n"
@@ -412,6 +412,8 @@ msgstr "Fin de la visite guidée"
 #: src/modules/settings/pages/Membership.vue:7
 msgid "Enter your email and password to login into your membership."
 msgstr ""
+"Renseignez votre courriel et mot de passe pour vous connecter à votre compte "
+"adhérent."
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:207
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserItem.vue:91
@@ -445,7 +447,7 @@ msgstr "Paramètres généraux du serveur"
 
 #: src/modules/settings/pages/Main.vue:350
 msgid "Get live support from the server admins"
-msgstr "Obtenir l'aide en direct des administrateurs du serveur"
+msgstr "Obtenir une assistance en direct des administrateurs du serveur"
 
 #: src/modules/home/views/Home.vue:28 src/modules/home/views/Home.vue:30
 #: src/modules/home/views/Home.vue:33 src/modules/home/views/Home.vue:35
@@ -664,7 +666,7 @@ msgstr "Se connecter"
 #: src/modules/settings/pages/Membership.vue:5
 #: src/modules/settings/pages/Membership.vue:9
 msgid "Login into Membership"
-msgstr ""
+msgstr "Connexion avec un compte adhérent"
 
 #: src/modules/join/pages/Plex/Signup.vue:11
 msgid "Login to Plex"
@@ -758,18 +760,16 @@ msgstr "Membres Uniquement"
 #: src/modules/settings/pages/Main.vue:341
 #: src/modules/settings/pages/Membership.vue:36
 #: src/modules/settings/pages/Membership.vue:71
-#, fuzzy
 msgid "Membership"
-msgstr "Membres connectés"
+msgstr "Compte adhérent"
 
 #: src/modules/settings/pages/Membership.vue:165
 msgid "Membership Registration"
-msgstr ""
+msgstr "Inscription adhérent"
 
 #: src/modules/settings/pages/Support.vue:74
-#, fuzzy
 msgid "Membership Required"
-msgstr "Membres connectés"
+msgstr "Adhésion requise"
 
 #: src/components/Loading/FullPageLoading.vue:125
 msgid "Mixing the potions"
@@ -939,8 +939,8 @@ msgstr ""
 #: src/modules/settings/pages/Membership.vue:94
 msgid "Please bare with us while we work on development of this portal."
 msgstr ""
-"S'il vous plaît restez avec nous pendant que nous travaillons sur la "
-"création de ce portail."
+"Veuillez patienter pendant que nous travaillons sur la création de ce "
+"portail."
 
 #: src/modules/settings/components/Forms/MediaForm.vue:217
 msgid "Please enter a server URL and API key."
@@ -1243,9 +1243,8 @@ msgstr "Désolé, nous ne trouvons pas cette page. Elle semble de pas exister !"
 
 #: src/modules/settings/pages/Support.vue:17
 #: src/modules/settings/pages/Support.vue:91
-#, fuzzy
 msgid "Start Support Session"
-msgstr "Démarrer Demande d'Assitance"
+msgstr "Démarrer une session d'assistance"
 
 #: src/modules/join/pages/Complete.vue:17
 msgid "Start Walkthrough"
@@ -1260,9 +1259,8 @@ msgid "Summoning the spirits"
 msgstr "Invocation des esprits"
 
 #: src/modules/settings/pages/Support.vue:67
-#, fuzzy
 msgid "Support session ended"
-msgstr "Fin de la demande d'assistance"
+msgstr "Fin de la session d'assistance"
 
 #: src/widgets/default/ContributorsList.vue:13
 #: src/widgets/default/ContributorsList.vue:15
@@ -1456,9 +1454,8 @@ msgid "View and manage your active sessions"
 msgstr "Afficher et gérer les sessions actives"
 
 #: src/modules/settings/pages/Main.vue:342
-#, fuzzy
 msgid "View and manage your membership"
-msgstr "Afficher et gérer les sessions actives"
+msgstr "Afficher et gérer votre adhésion"
 
 #: src/modules/settings/components/APIKeys/APIKeysItem.vue:70
 msgid "View API key"
@@ -1494,6 +1491,11 @@ msgid ""
 "support session with a Wizarr assistant and we will attempt to guide you "
 "through any issues you may be having and resolve them."
 msgstr ""
+"Nous sommes disponible pour vous aider dans le cas où vous rencontreriez des "
+"problèmes ou que vous auriez des questions. Si vous avez besoin d'aide, les "
+"membres payant une adhésion peuvent utiliser le bouton ci-dessous pour "
+"démarrer une session d'assistance en direct avec un staff Wizarr afin de "
+"vous guider et de résoudre les problèmes rencontrés."
 
 #: src/components/WebhookList/WebhookItem.vue:70
 msgid "Webhook deleted successfully"
@@ -1569,7 +1571,7 @@ msgstr "Oui"
 #: src/modules/settings/pages/Membership.vue:73
 #: src/modules/settings/pages/Membership.vue:76
 msgid "You are currently logged into membership."
-msgstr ""
+msgstr "Vous êtes actuellement connecté avec un compte adhérent."
 
 #: src/tours/admin-home.ts:29
 msgid ""
