@@ -271,6 +271,10 @@ jobs:
         needs:
             - merge
         steps:
+            # Checkout the repo
+            - name: Checkout
+              uses: actions/checkout@v4
+
             # Get the Release Version from the artifact
             - name: Get the Release Version from the artifact
               uses: actions/download-artifact@v2
