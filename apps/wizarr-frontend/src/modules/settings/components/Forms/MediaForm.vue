@@ -17,7 +17,7 @@
             <FormKit type="select" disabled :label="__('Server Type')" :help="__('Detected Media Server')" name="server_type" placeholder="Choose a server" prefix-icon="fas fa-server" :options="serverOptions" validation="required" />
 
             <!-- Server API Key -->
-            <FormKit type="text" :label="__('Server API Key')" :help="__('API key for your media server')" name="server_api_key" prefix-icon="fas text-gray-400 fa-key" placeholder="XXXXXXXXXXXXXXXXX" validation="required:trim" required autocomplete="off" />
+            <FormKit type="password" :label="__('Server API Key')" :help="__('API key for your media server')" name="server_api_key" prefix-icon="fas text-gray-400 fa-key" placeholder="••••••••" validation="required:trim" required autocomplete="off" />
         </FormKit>
 
         <!-- Buttons -->
