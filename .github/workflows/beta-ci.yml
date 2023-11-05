@@ -78,6 +78,17 @@ jobs:
                   name: version
                   path: /tmp/version/*
 
+            - name: Create Sentry release
+              uses: getsentry/action-release@v1
+              env:
+                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+                  SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+                  SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+                  SENTRY_URL: https://sentry.wizarr.dev
+              with:
+                  environment: development
+                  version: ${{ steps.get_version.outputs.version }}
+
     build:
         name: Build Digest for Registry
         runs-on: ubuntu-latest
