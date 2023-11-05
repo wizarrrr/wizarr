@@ -8,7 +8,12 @@ on:
             - "**.md"
             - "**/.github/**"
             - "**/.vscode/**"
-    workflow_dispatch: {}
+    workflow_dispatch:
+        inputs:
+            version:
+                description: "Version to release"
+                required: false
+                default: "v0.0.0"
 
 permissions:
     packages: write
