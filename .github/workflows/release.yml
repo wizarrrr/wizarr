@@ -276,3 +276,34 @@ jobs:
             # Inspect image
             - name: Inspect image
               run: docker buildx imagetools inspect ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
+    notifications:
+        name: Send Notifications
+        runs-on: ubuntu-latest
+        needs:
+            - merge
+        steps:
+            # Get the Release Version from the artifact
+            - name: Get the Release Version from the artifact
+              uses: actions/download-artifact@v2
+              with:
+                  name: version
+                  path: /tmp/version
+
+            # Copy the version to the latest file
+            - name: Copy the version to the latest file
+              run: |
+                  cp /tmp/version/current_version latest
+
+            # Get the Release Version from latest
+            - name: Get the Release Version from latest
+              id: get_version
+              run: echo "::set-output name=version::$(cat latest)"
+
+            # Send a Discord notification
+            - name: Discord notification
+              uses: Ilshidur/action-discord@master
+              env:
+                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+              with:
+                  args: "New Production Release: ${{ steps.get_version.outputs.version }}"
