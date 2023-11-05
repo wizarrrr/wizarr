@@ -49,3 +49,4 @@ jobs:
                   environment: development
                   version: ${{ steps.get_version.outputs.version }}
                   version_prefix: "v"
+                  projects: "wizarr-frontend wizarr-backend"
