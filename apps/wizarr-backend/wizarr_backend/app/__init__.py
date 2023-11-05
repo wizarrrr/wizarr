@@ -10,17 +10,26 @@ from .security import *
 from .utils.clear_logs import clear_logs
 from .migrator import run_migrations
 
+from sentry_sdk import init as sentry_init
+
 # Get the base directory
 BASE_DIR = path.abspath(path.dirname(__file__))
 
 # Load environment variables
 load_dotenv()
 
-# Run migrations
-run_migrations()
-
 # Create the app
 app = Flask(__name__)
+
+sentry_init(
+    dsn="https://468da33a790d883eb6bc61096bcf56d5@sentry.wizarr.dev/4",
+    enable_tracing=True,
+    traces_sample_rate=1.0,
+    environment=app.debug and "development" or "production",
+)
+
+# Run migrations
+run_migrations()
 
 app.config.update(**create_config(app))
 schedule.authenticate(lambda auth: auth is not None)
