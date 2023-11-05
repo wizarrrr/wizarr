@@ -4,7 +4,7 @@
 ---
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/Wizarrrr/wizarr/master/frontend/src/assets/img/wizard.png" height="200">
+<img src="https://raw.githubusercontent.com/Wizarrrr/wizarr/v3-beta/apps/wizarr-frontend/src/assets/img/wizard.png" height="200">
 <br/>
 <br/>
 <a href="https://github.com/wizarrrr/wizarr">
