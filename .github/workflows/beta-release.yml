@@ -21,6 +21,14 @@ jobs:
     release:
         runs-on: ubuntu-latest
         steps:
+            # Get the GH_TOKEN from the app
+            - name: Get GitHub App Token
+              id: gh_app
+              uses: getsentry/action-github-app-token@v2
+              with:
+                  app_id: ${{ secrets.APP_ID }}
+                  private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
             # Checkout the repo
             - name: Checkout Repository
               uses: actions/checkout@v4
@@ -39,7 +47,7 @@ jobs:
             - name: Semantic Release for Beta
               run: npx semantic-release
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ steps.gh_app.outputs.token }}
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
                   SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
                   SENTRY_URL: https://sentry.wizarr.dev
