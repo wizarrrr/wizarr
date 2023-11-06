@@ -10,8 +10,26 @@ type SentryOptions = Partial<
     }
 >;
 
+const isBugReporting = () => {
+    const localStorage = window.localStorage.getItem("server");
+
+    if (localStorage !== null) {
+        const server = JSON.parse(localStorage);
+        return server.settings.bug_reporting === "false";
+    }
+
+    return true;
+};
+
 const vuePluginSentry = {
     install: (app: App, options?: SentryOptions) => {
+        const bugReporting = isBugReporting();
+
+        console.log("\x1b[32m%s\x1b[0m", "Sentry: Initializing");
+        console.log(bugReporting ? "\x1b[31m%s\x1b[0m" : "\x1b[32m%s\x1b[0m", "Sentry: Bug Reporting is " + (bugReporting ? "OFF" : "ON"));
+
+        if (bugReporting) return;
+
         init({
             app: app,
             dsn: "https://4034e578d899247f5121cbae3466e637@sentry.wizarr.dev/2",
