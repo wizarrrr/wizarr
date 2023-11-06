@@ -16,7 +16,7 @@ const config = {
         }],
         // copy the version number to the latest file
         ["@semantic-release/exec", {
-            prepareCmd: "${nextRelease.version} > latest",
+            prepareCmd: "echo '${nextRelease.version}' > latest",
         }],
         ["@semantic-release/git", {
             assets: [
