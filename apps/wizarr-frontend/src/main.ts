@@ -31,6 +31,7 @@ import router from "./router";
 const app = createApp(App);
 const pinia = createPinia();
 
+
 declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
         env: {
