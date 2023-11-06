@@ -14,9 +14,8 @@ const config = {
         ["@semantic-release/changelog", {
             changelogFile: "CHANGELOG.md",
         }],
-        // copy the version number to the latest file
         ["@semantic-release/exec", {
-            prepareCmd: "echo '${nextRelease.version}' > latest",
+            prepareCmd: "echo \"${nextRelease.version}\" | sed 's/-.*//' > latest",
         }],
         ["@semantic-release/git", {
             assets: [
