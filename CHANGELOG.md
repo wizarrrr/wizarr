@@ -1,3 +1,17 @@
+# [3.5.0-v3-beta.5](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.4...v3.5.0-v3-beta.5) (2023-11-06)
+
+
+### Bug Fixes
+
+* Remove redundant step and update npmrc with GitHub App Token. ([5951ecf](https://github.com/Wizarrrr/wizarr/commit/5951ecfd41251eea0f928e978e4ea1db181ae8b9))
+* test ([13ffd56](https://github.com/Wizarrrr/wizarr/commit/13ffd56afdd0e4abb4b381fc58d56009713347a3))
+* Update semantic-release-sentry-releases package to [@wizarrrr](https://github.com/wizarrrr) ([2f68e56](https://github.com/Wizarrrr/wizarr/commit/2f68e56b3fc8a862b74eda22f34ac76a6f1f155a))
+
+
+### Features
+
+* Upgrade @wizarrrr/semantic-release-sentry-releases dependency ([45af565](https://github.com/Wizarrrr/wizarr/commit/45af5654ea6355c7096fc5136390173565203c8a))
+
 # [3.5.0-v3-beta.4](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.3...v3.5.0-v3-beta.4) (2023-11-06)
 
 
