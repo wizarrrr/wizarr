@@ -21,10 +21,6 @@ jobs:
     release:
         runs-on: ubuntu-latest
         steps:
-            # Add npmrc to allow for private packages
-            - name: Add npmrc
-              run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ~/.npmrc
-
             # Get the GH_TOKEN from the app
             - name: Get GitHub App Token
               id: gh_app
@@ -32,6 +28,10 @@ jobs:
               with:
                   app_id: ${{ secrets.APP_ID }}
                   private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+            # Add npmrc to allow for private packages
+            - name: Add npmrc
+              run: echo "//npm.pkg.github.com/:_authToken=${{ steps.gh_app.outputs.token }}" >> ~/.npmrc
 
             # Checkout the repo
             - name: Checkout Repository
