@@ -1,3 +1,10 @@
+# [3.5.0-v3-beta.6](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.5...v3.5.0-v3-beta.6) (2023-11-06)
+
+
+### Features
+
+* Build frontend sourcemaps for beta release ([37dec57](https://github.com/Wizarrrr/wizarr/commit/37dec571c8224d6d3b1790d6cb0ca004d0200f4f))
+
 # [3.5.0-v3-beta.5](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.4...v3.5.0-v3-beta.5) (2023-11-06)
 
 
