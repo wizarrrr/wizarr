@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-row space-x-2 w-1/3">
+            <div class="flex flex-row space-x-2 w-full md:w-1/3 lg:w-1/4">
                 <div class="flex-grow">
                     <FormKit type="text" v-model="serverId" v-text="settings.server_discord_id" placeholder="Server ID" :classes="{ input: '!h-[36px] w-full' }" />
                 </div>
