@@ -2,8 +2,8 @@
     <div class="my-[-2rem] mx-[-2rem]">
         <!-- Header -->
         <div class="flex justify-between items-center flex-row dark:bg-gray-700 py-4 px-6">
-            <DiscordLogo />
-            <div class="text-white text-sm">
+            <DiscordLogo class="fill-gray-900 dark:fill-white" />
+            <div class="text-gray-700 dark:text-white text-sm">
                 <span class="font-bold">{{ totalMembersOnline }}</span>
                 {{ __("Members Online") }}
             </div>
@@ -24,10 +24,10 @@
 
         <!-- Footer -->
         <div class="flex justify-between items-center flex-row dark:bg-gray-700 py-4 px-6">
-            <div class="text-white text-sm">
+            <div class="text-gray-900 dark:text-white text-sm">
                 {{ __("Join our Discord") }}
             </div>
-            <a :href="invite" target="_blank" rel="noopener noreferrer" class="text-white text-sm">
+            <a :href="invite" target="_blank" rel="noopener noreferrer" class="text-gray-900 dark:text-white text-sm">
                 {{ __("Join") }}
             </a>
         </div>
