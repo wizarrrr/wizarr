@@ -1,3 +1,10 @@
+# [3.5.0-v3-beta.2](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.1...v3.5.0-v3-beta.2) (2023-11-06)
+
+
+### Features
+
+* Update SENTRY_PROJECT variable with correct values ([18437ff](https://github.com/Wizarrrr/wizarr/commit/18437ff9c6eed2e562b367abf577039bb219d2fe))
+
 # 1.0.0-v3-beta.1 (2023-11-06)
 
 
