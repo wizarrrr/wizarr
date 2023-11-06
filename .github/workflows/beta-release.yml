@@ -6,7 +6,7 @@ on:
             - "v3-beta"
         paths-ignore:
             - "**.md"
-            - "**/.github/**"
+            # - "**/.github/**"
             - "./latest"
             - "**/.vscode/**"
     workflow_dispatch: {}
@@ -21,6 +21,10 @@ jobs:
     release:
         runs-on: ubuntu-latest
         steps:
+            # Add npmrc to allow for private packages
+            - name: Add npmrc
+              run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ~/.npmrc
+
             # Get the GH_TOKEN from the app
             - name: Get GitHub App Token
               id: gh_app
