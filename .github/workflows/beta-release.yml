@@ -29,10 +29,6 @@ jobs:
                   app_id: ${{ secrets.APP_ID }}
                   private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-            # Add npmrc to allow for private packages
-            - name: Add npmrc
-              run: echo "//npm.pkg.github.com/:_authToken=${{ steps.gh_app.outputs.token }}" >> ~/.npmrc
-
             # Checkout the repo
             - name: Checkout Repository
               uses: actions/checkout@v4
