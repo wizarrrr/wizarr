@@ -1,3 +1,10 @@
+# [3.5.0-v3-beta.4](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.3...v3.5.0-v3-beta.4) (2023-11-06)
+
+
+### Bug Fixes
+
+* test ([b36384b](https://github.com/Wizarrrr/wizarr/commit/b36384b3890fd3209fbb3ab70f1672247f55956d))
+
 # [3.5.0-v3-beta.3](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.2...v3.5.0-v3-beta.3) (2023-11-06)
 
 
