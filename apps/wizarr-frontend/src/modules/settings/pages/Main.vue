@@ -215,6 +215,7 @@ export default defineComponent({
                             description: this.__("View and download server logs"),
                             icon: "fas fa-file-alt",
                             url: "/admin/settings/logs",
+                            modal: true,
                         },
                         {
                             title: this.__("Tasks"),
@@ -228,6 +229,12 @@ export default defineComponent({
                             icon: "fas fa-sync",
                             url: "/admin/settings/updates",
                             disabled: true,
+                        },
+                        {
+                            title: this.__("Bug Reporting"),
+                            description: this.__("Manage bug reporting settings"),
+                            icon: "fas fa-bug",
+                            url: "/admin/settings/sentry",
                         },
                         {
                             title: this.__("Backup"),
