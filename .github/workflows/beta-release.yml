@@ -6,7 +6,8 @@ on:
             - "v3-beta"
         paths-ignore:
             - "**.md"
-            # - "**/.github/**"
+            - "**/.github/**"
+            - "./latest"
             - "**/.vscode/**"
     workflow_dispatch: {}
 
