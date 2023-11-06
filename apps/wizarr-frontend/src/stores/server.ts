@@ -14,6 +14,12 @@ export const useServerStore = defineStore("server", {
         latest_version: "" as string,
         latest_beta_version: "" as string,
     }),
+    getters: {
+        isBugReporting(state) {
+            if (state.settings.bug_reporting === undefined) return true;
+            return state.settings.bug_reporting === "true";
+        },
+    },
     actions: {
         setServerData(server_data: Partial<Server> | undefined) {
             if (server_data !== undefined) {
