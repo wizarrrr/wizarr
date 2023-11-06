@@ -66,8 +66,8 @@ export default defineComponent({
     },
     data() {
         return {
-            profilePicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username + "&length=1",
-            backupPicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username + "&length=1",
+            profilePicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username[0] + "&length=1",
+            backupPicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username[0] + "&length=1",
             disabled: {
                 delete: false,
             },
