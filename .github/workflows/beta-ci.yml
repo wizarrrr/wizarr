@@ -1,14 +1,19 @@
-name: Docker Build and Push Beta
+name: Docker Build and Push Beta on Release
+
+# on:
+#     push:
+#         branches:
+#             - "v3-beta"
+#         paths-ignore:
+#             - "**.md"
+#             - "**/.github/**"
+#             - "**/.vscode/**"
+#     workflow_dispatch: {}
 
 on:
-    push:
-        branches:
-            - "v3-beta"
-        paths-ignore:
-            - "**.md"
-            - "**/.github/**"
-            - "**/.vscode/**"
-    workflow_dispatch: {}
+    release:
+        types:
+            - created
 
 permissions:
     packages: write
@@ -37,52 +42,10 @@ jobs:
                       digests_dh
                       digests_ghcr
 
-    bump_version:
-        name: Auto Bump Version
-        runs-on: ubuntu-latest
-        steps:
-            # Checkout the repo
-            - name: Checkout
-              uses: actions/checkout@v4
-
-            # Bump the version
-            - name: "Automated Version Bump"
-              uses: "phips28/gh-action-bump-version@master"
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  skip-tag: "true"
-                  push: "true"
-
-            # Update the latest file to match the package.json version using jq
-            - name: Update latest file to match package.json version
-              run: |
-                  jq -r '.version' package.json > latest
-
-            # Commit the changes
-            - uses: stefanzweifel/git-auto-commit-action@v5
-              with:
-                  commit_message: "chore: Automated Version Bump [skip ci]"
-                  file_pattern: "latest"
-
-            # Create a current_version file with the version in tmp
-            - name: Create current_version file
-              run: |
-                  mkdir -p /tmp/version
-                  jq -r '.version' package.json > /tmp/version/current_version
-
-            # Save the version to an artifact
-            - name: Save version to artifact
-              uses: actions/upload-artifact@v2
-              with:
-                  name: version
-                  path: /tmp/version/*
-
     build:
         name: Build Digest for Registry
         runs-on: ubuntu-latest
         needs:
-            - bump_version
             - before_build
         strategy:
             fail-fast: false
@@ -95,28 +58,6 @@ jobs:
             # Checkout the repo
             - name: Checkout
               uses: actions/checkout@v4
-
-            # Delete the latest file
-            - name: Delete the latest file
-              run: |
-                  rm -f latest
-
-            # Get the Release Version from the artifact
-            - name: Get the Release Version from the artifact
-              uses: actions/download-artifact@v2
-              with:
-                  name: version
-                  path: /tmp/version
-
-            # Copy the version to the latest file
-            - name: Copy the version to the latest file
-              run: |
-                  cp /tmp/version/current_version latest
-
-            # Copy the latest version to the package.json using jq
-            - name: Copy the latest version to the package.json
-              run: |
-                  jq --arg version "$(cat latest)" '.version = $version' package.json > package.json.tmp && mv package.json.tmp package.json
 
             # Use NPM and Node.js to install dependencies
             - name: Use Node.js 18.18.2
@@ -199,17 +140,9 @@ jobs:
         needs:
             - build
         steps:
-            # Get the Release Version from the artifact
-            - name: Get the Release Version from the artifact
-              uses: actions/download-artifact@v2
-              with:
-                  name: version
-                  path: /tmp/version
-
-            # Copy the version to the latest file
-            - name: Copy the version to the latest file
-              run: |
-                  cp /tmp/version/current_version latest
+            # Checkout the repo
+            - name: Checkout
+              uses: actions/checkout@v4
 
             # Get the Release Version from latest
             - name: Get the Release Version from latest
@@ -265,44 +198,44 @@ jobs:
             - name: Inspect image
               run: docker buildx imagetools inspect ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
-    sentry_release:
-        name: Create Sentry Release
-        runs-on: ubuntu-latest
-        needs:
-            - merge
-        steps:
-            # Checkout the repo
-            - name: Checkout
-              uses: actions/checkout@v4
+    # sentry_release:
+    #     name: Create Sentry Release
+    #     runs-on: ubuntu-latest
+    #     needs:
+    #         - merge
+    #     steps:
+    #         # Checkout the repo
+    #         - name: Checkout
+    #           uses: actions/checkout@v4
 
-            # Get the Release Version from the artifact
-            - name: Get the Release Version from the artifact
-              uses: actions/download-artifact@v2
-              with:
-                  name: version
-                  path: /tmp/version
+    #         # Get the Release Version from the artifact
+    #         - name: Get the Release Version from the artifact
+    #           uses: actions/download-artifact@v2
+    #           with:
+    #               name: version
+    #               path: /tmp/version
 
-            # Copy the version to the latest file
-            - name: Copy the version to the latest file
-              run: |
-                  cp /tmp/version/current_version latest
+    #         # Copy the version to the latest file
+    #         - name: Copy the version to the latest file
+    #           run: |
+    #               cp /tmp/version/current_version latest
 
-            # Get the Release Version from latest
-            - name: Get the Release Version from latest
-              id: get_version
-              run: echo "::set-output name=version::$(cat latest)"
+    #         # Get the Release Version from latest
+    #         - name: Get the Release Version from latest
+    #           id: get_version
+    #           run: echo "::set-output name=version::$(cat latest)"
 
-            # Create the Sentry release
-            - name: Create Sentry release
-              uses: getsentry/action-release@v1
-              env:
-                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-                  SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-                  SENTRY_URL: https://sentry.wizarr.dev
-              with:
-                  environment: development
-                  version: ${{ steps.get_version.outputs.version }}
-                  projects: "wizarr-frontend wizarr-backend"
+    #         # Create the Sentry release
+    #         - name: Create Sentry release
+    #           uses: getsentry/action-release@v1
+    #           env:
+    #               SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+    #               SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+    #               SENTRY_URL: https://sentry.wizarr.dev
+    #           with:
+    #               environment: development
+    #               version: ${{ steps.get_version.outputs.version }}
+    #               projects: "wizarr-frontend wizarr-backend"
 
     notifications:
         name: Send Notifications
@@ -310,17 +243,9 @@ jobs:
         needs:
             - merge
         steps:
-            # Get the Release Version from the artifact
-            - name: Get the Release Version from the artifact
-              uses: actions/download-artifact@v2
-              with:
-                  name: version
-                  path: /tmp/version
-
-            # Copy the version to the latest file
-            - name: Copy the version to the latest file
-              run: |
-                  cp /tmp/version/current_version latest
+            # Checkout the repo
+            - name: Checkout
+              uses: actions/checkout@v4
 
             # Get the Release Version from latest
             - name: Get the Release Version from latest
