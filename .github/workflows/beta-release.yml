@@ -54,4 +54,4 @@ jobs:
                   SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
                   SENTRY_URL: https://sentry.wizarr.dev
                   SENTRY_ENVIRONMENT: development
-                  SENTRY_PROJECT: "wizarr-frontend wizarr-backend"
+                  SENTRY_PROJECT: wizarr-frontend wizarr-backend
