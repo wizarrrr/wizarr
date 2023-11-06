@@ -21,10 +21,6 @@ env:
     IMAGE_NAME: wizarrrr/wizarr
     IMAGE_TAG: v3-beta
 
-concurrency:
-    group: ${{ github.ref }}
-    cancel-in-progress: true
-
 jobs:
     before_build:
         name: Prepare for Build
