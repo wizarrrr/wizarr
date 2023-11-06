@@ -43,6 +43,10 @@ jobs:
             - name: Install Dependencies
               run: npm ci --ignore-scripts
 
+            # Build the Frontend
+            - name: Build Frontend Sourcemaps
+              run: npx nx build wizarr-frontend
+
             # Create Release for the Beta
             - name: Semantic Release for Beta
               run: npx semantic-release

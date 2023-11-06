@@ -28,7 +28,9 @@ const config = {
             message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
         }],
         "@semantic-release/github",
-        "@wizarrrr/semantic-release-sentry-releases"
+        ["@wizarrrr/semantic-release-sentry-releases", {
+            sourcemaps: "dist/apps/wizarr-frontend"
+        }]
     ]
 }
 
