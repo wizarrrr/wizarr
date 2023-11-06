@@ -1,0 +1,46 @@
+name: Release and Bump on Push
+
+on:
+    push:
+        branches:
+            - "v3-beta"
+        paths-ignore:
+            - "**.md"
+            - "**/.github/**"
+            - "**/.vscode/**"
+    workflow_dispatch: {}
+
+permissions:
+    packages: write
+    contents: write
+    issues: write
+    pull-requests: write
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            # Checkout the repo
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            # Setup Node.js
+            - name: Setup Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: "16"
+
+            # Install Dependencies
+            - name: Install Dependencies
+              run: npm ci
+
+            # Create Release for the Beta
+            - name: Release
+              run: npx semantic-release
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+                  SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+                  SENTRY_URL: https://sentry.wizarr.dev
+                  SENTRY_ENVIRONMENT: development
+                  SENTRY_PROJECT: "wizarr-frontend wizarr-backend"

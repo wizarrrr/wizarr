@@ -14,11 +14,22 @@ const config = {
         ["@semantic-release/changelog", {
             changelogFile: "CHANGELOG.md",
         }],
+        // copy the version number to the latest file
+        ["@semantic-release/exec", {
+            prepareCmd: "${nextRelease.version} > latest",
+        }],
         ["@semantic-release/git", {
-            assets: ["./dist/**/*.{js,css}"],
+            assets: [
+                "CHANGELOG.md",
+                "package.json",
+                "package-lock.json",
+                "npm-shrinkwrap.json",
+                "latest"
+            ],
             message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
         }],
-        "@semantic-release/github"
+        "@semantic-release/github",
+        "@eclass/semantic-release-sentry-releases"
     ]
 }
 
