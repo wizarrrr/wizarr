@@ -1,3 +1,15 @@
+# [3.5.0-v3-beta.3](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.2...v3.5.0-v3-beta.3) (2023-11-06)
+
+
+### Bug Fixes
+
+* :lipstick: Fixed Discord Widget not being readable on light mode. ([e73f004](https://github.com/Wizarrrr/wizarr/commit/e73f0041433f1bc82c9cbe1cb729ff4c0e9be5f7))
+
+
+### Features
+
+* Add GitHub App token retrieval for beta releases ([d1c3f16](https://github.com/Wizarrrr/wizarr/commit/d1c3f160c88280c6e5d4929b9732ba845cdbd116))
+
 # [3.5.0-v3-beta.2](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.1...v3.5.0-v3-beta.2) (2023-11-06)
 
 
