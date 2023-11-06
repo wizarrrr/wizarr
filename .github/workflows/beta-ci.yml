@@ -1,19 +1,15 @@
 name: Docker Build and Push Beta on Release
 
-# on:
-#     push:
-#         branches:
-#             - "v3-beta"
-#         paths-ignore:
-#             - "**.md"
-#             - "**/.github/**"
-#             - "**/.vscode/**"
-#     workflow_dispatch: {}
-
 on:
     release:
         types:
-            - created
+            - published
+    workflow_dispatch:
+        inputs:
+            version:
+                description: "Version to build and push"
+                required: false
+                default: "1"
 
 permissions:
     packages: write

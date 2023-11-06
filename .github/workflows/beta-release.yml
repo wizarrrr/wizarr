@@ -31,23 +31,12 @@ jobs:
               with:
                   node-version: 18.18.2
 
-            # Set up Python and install Poetry
-            - uses: actions/setup-python@v4
-              with:
-                  python-version: "3.10"
-
-            # Install Poetry
-            - name: Install Poetry
-              run: |
-                  pip install poetry==1.6.1
-                  poetry config virtualenvs.create false
-
             # Install Dependencies
             - name: Install Dependencies
-              run: npm ci
+              run: npm ci --ignore-scripts
 
             # Create Release for the Beta
-            - name: Release
+            - name: Semantic Release for Beta
               run: npx semantic-release
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
