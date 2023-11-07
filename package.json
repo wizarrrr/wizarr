@@ -13,7 +13,8 @@
     },
     "private": true,
     "workspaces": [
-        "/apps/wizarr-frontend"
+        "/apps/wizarr-frontend",
+        "/modules/*"
     ],
     "dependencies": {
         "@aacassandra/vue3-progressbar": "^1.0.3",
@@ -48,6 +49,7 @@
         "@vueform/multiselect": "^2.6.2",
         "@vueuse/core": "^10.4.0",
         "@vueuse/integrations": "^10.4.0",
+        "@wizarrrr/semantic-release-discord": "file:modules/semantic-release-discord",
         "async-validator": "^4.2.5",
         "axios": "^1.5.0",
         "axios-cache-interceptor": "^1.2.0",
@@ -134,7 +136,7 @@
         "@vue/eslint-config-typescript": "^11.0.3",
         "@vue/test-utils": "^2.4.1",
         "@vue/tsconfig": "^0.4.0",
-        "@wizarrrr/semantic-release-sentry-releases": "^3.2.0",
+        "@wizarrrr/semantic-release-sentry-releases": "file:modules/semantic-release-sentry-releases",
         "autoprefixer": "^10.4.15",
         "cypress": "^13.0.0",
         "eslint": "^8.48.0",

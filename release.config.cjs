@@ -17,9 +17,6 @@ const config = {
         ["@semantic-release/exec", {
             prepareCmd: "echo \"${nextRelease.version}\" | sed 's/-.*//' > latest",
         }],
-        ["@semantic-release/exec", {
-            prepareCmd: "node scripts/discord.js --version=${nextRelease.version}",
-        }],
         ["@semantic-release/git", {
             assets: [
                 "CHANGELOG.md",
@@ -30,10 +27,11 @@ const config = {
             ],
             message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
         }],
+        "@wizarrrr/semantic-release-discord",
         "@semantic-release/github",
-        ["@wizarrrr/semantic-release-sentry-releases", {
-            sourcemaps: "dist/apps/wizarr-frontend"
-        }]
+        // ["@wizarrrr/semantic-release-sentry-releases", {
+        //     sourcemaps: "dist/apps/wizarr-frontend"
+        // }]
     ]
 }
 
