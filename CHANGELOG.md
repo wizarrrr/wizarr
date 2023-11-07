@@ -1,3 +1,15 @@
+# [3.5.0-v3-beta.8](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.7...v3.5.0-v3-beta.8) (2023-11-07)
+
+
+### Bug Fixes
+
+* edit package.json script ([7661825](https://github.com/Wizarrrr/wizarr/commit/7661825e6bf6316e14523e9641683c2bc3eb3fc9))
+
+
+### Features
+
+* **husky:** add commitlint and husky ([ed10edc](https://github.com/Wizarrrr/wizarr/commit/ed10edc47124d1ef4c116de0b759855bcf61b521))
+
 # [3.5.0-v3-beta.7](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.6...v3.5.0-v3-beta.7) (2023-11-07)
 
 
