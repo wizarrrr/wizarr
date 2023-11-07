@@ -1,3 +1,15 @@
+# [3.5.0-v3-beta.17](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.16...v3.5.0-v3-beta.17) (2023-11-07)
+
+
+### Bug Fixes
+
+* **discord:** fix Discord message note parser ([5f4222d](https://github.com/Wizarrrr/wizarr/commit/5f4222d021eaf37119bd17b9533b21c1637d037a))
+
+
+### Features
+
+* **package.json:** add commitlint cli package ([acc72d7](https://github.com/Wizarrrr/wizarr/commit/acc72d7f4391fc490eec8724f9440d2ae0774f5c))
+
 # [3.5.0-v3-beta.16](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.15...v3.5.0-v3-beta.16) (2023-11-07)
 
 
