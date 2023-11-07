@@ -1,3 +1,11 @@
+# [3.5.0-v3-beta.9](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.8...v3.5.0-v3-beta.9) (2023-11-07)
+
+
+### Bug Fixes
+
+* fix tests ([f875761](https://github.com/Wizarrrr/wizarr/commit/f875761cb1d66510954c697a0c7e72d46a263097))
+* testing script ([a5c3c19](https://github.com/Wizarrrr/wizarr/commit/a5c3c19ccbd2c0f526187c7e99c3d6a10b55a4a0))
+
 # [3.5.0-v3-beta.8](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.7...v3.5.0-v3-beta.8) (2023-11-07)
 
 
