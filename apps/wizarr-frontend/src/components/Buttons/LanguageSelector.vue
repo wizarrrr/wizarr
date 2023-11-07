@@ -5,7 +5,8 @@
         @click="createModal"
     >
         <div
-            class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-200 hover:dark:bg-gray-700"
+            :class="iconClasses"
+            class="flex items-center justify-center rounded hover:bg-gray-200 hover:dark:bg-gray-700"
         >
             <i class="fa-solid fa-md fa-globe"></i>
         </div>
@@ -20,6 +21,17 @@ export default defineComponent({
     name: 'LanguageSelector',
     components: {
         LanguageModal,
+    },
+    props: {
+        iconClasses: {
+            type: String,
+            default: 'w-6 h-6',
+        },
+    },
+    computed: {
+        iconClasses(): string {
+            return this.iconClasses;
+        },
     },
     methods: {
         createModal() {
