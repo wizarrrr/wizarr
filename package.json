@@ -5,7 +5,8 @@
     "scripts": {
         "postinstall": "nx run-many --target=install --projects=wizarr-backend",
         "start": "nx run-many --parallel --target=serve --projects=wizarr-frontend,wizarr-backend",
-        "test": "nx e2e wizarr-e2e",
+        "test": "echo \"Error: no test specified\"",
+        "test:e2e": "nx e2e wizarr-e2e",
         "prepare": "husky install"
     },
     "private": true,
