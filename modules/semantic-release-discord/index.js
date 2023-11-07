@@ -24,6 +24,7 @@ const success = (pluginConfig, context) => {
 
     const parseNotes = (markdownText) => {
         const headerIndex = markdownText.search(/#+\s/);
+        markdownText = markdownText.replace(/.*?##/s, '##');
         markdownText = markdownText.substring(headerIndex);
         markdownText = markdownText.replace(/^\s*\n/gm, '');
         markdownText = markdownText.replace(/^(#+)\s*(.*?)\s*$/gm, '*$2*');
