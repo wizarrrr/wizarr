@@ -18,6 +18,8 @@ on:
             - "**/.nvmrc"
             - "**/.npmrc"
             - "./latest"
+            - "./scripts/**"
+            - "./release.config.cjs"
     workflow_dispatch: {}
 
 permissions:
