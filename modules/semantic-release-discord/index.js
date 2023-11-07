@@ -23,6 +23,14 @@ const success = (pluginConfig, context) => {
     const notes = nextRelease.notes.replace(/.*?##/s, '##');
     const url = `https://github.com/Wizarrrr/wizarr/releases/tag/${version}`;
 
+    const parseNotes = (markdownText) => {
+        const headerIndex = markdownText.search(/#+\s/);
+        markdownText = markdownText.substring(headerIndex);
+        markdownText = markdownText.replace(/\n\s+$/, '');
+        markdownText = markdownText.replace(/###/g, '##');
+        return markdownText;
+    }
+
     // Check if version is a beta release
     const isBeta = version.includes("beta");
 
@@ -34,7 +42,7 @@ const success = (pluginConfig, context) => {
                 We are excited to announce the release of **${version}** of our software! This ${isBeta ? 'beta' : ''} release comes with the following changes. 🎉
                 
                 What's New in this ${isBeta ? 'Beta' : ''} Release
-                ${notes}
+                ${parseNotes(notes)}
                 
                 How to Get the ${isBeta ? 'Beta' : ''} Release
                 To access the ${isBeta ? 'beta' : ''} release, simply pull the latest copy of our ${isBeta ? 'Beta' : ''} Docker Image. Your feedback ${isBeta ? 'on the beta' : ''} is crucial to helping us make this release even better, so please don't hesitate to reach out with any comments, questions, or bug reports.
