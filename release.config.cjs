@@ -29,9 +29,9 @@ const config = {
         }],
         "@wizarrrr/semantic-release-discord",
         "@semantic-release/github",
-        // ["@wizarrrr/semantic-release-sentry-releases", {
-        //     sourcemaps: "dist/apps/wizarr-frontend"
-        // }]
+        ["@wizarrrr/semantic-release-sentry-releases", {
+            sourcemaps: "dist/apps/wizarr-frontend"
+        }]
     ]
 }
 
