@@ -5,7 +5,9 @@
     "scripts": {
         "postinstall": "nx run-many --target=install --projects=wizarr-backend",
         "start": "nx run-many --parallel --target=serve --projects=wizarr-frontend,wizarr-backend",
-        "test": "echo \"Error: no test specified\"",
+        "start:frontend": "nx run wizarr-frontend:serve",
+        "start:backend": "nx run wizarr-backend:serve",
+        "test": "npm run start:backend & wait-on http://127.0.0.1:5000/api/health && npm run test:e2e",
         "test:e2e": "nx e2e wizarr-e2e",
         "prepare": "husky install"
     },
@@ -161,6 +163,7 @@
         "vite-svg-loader": "^4.0.0",
         "vitest": "^0.34.2",
         "vue-stripe-js": "^1.0.1",
-        "vue-tsc": "^1.8.8"
+        "vue-tsc": "^1.8.8",
+        "wait-on": "^7.1.0"
     }
 }
