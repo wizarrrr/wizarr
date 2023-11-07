@@ -1,8 +1,8 @@
 <template>
     <button
-    class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm"
-    type="button"
-    @click="createModal"
+        class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm"
+        type="button"
+        @click="createModal"
     >
         <div
             :class="iconClasses"
