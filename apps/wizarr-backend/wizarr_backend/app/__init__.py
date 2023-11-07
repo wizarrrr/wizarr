@@ -28,6 +28,13 @@ sentry_init(
     environment=app.debug and "development" or "production",
 )
 
+# Base route for testing
+@app.route("/")
+def server_online():
+    return {
+        "status": "online"
+    }, 200
+
 # Run migrations
 run_migrations()
 

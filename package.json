@@ -7,7 +7,7 @@
         "start": "nx run-many --parallel --target=serve --projects=wizarr-frontend,wizarr-backend",
         "start:frontend": "nx run wizarr-frontend:serve",
         "start:backend": "nx run wizarr-backend:serve",
-        "test": "npm run start:backend & wait-on http://127.0.0.1:5000/api/health && npm run test:e2e",
+        "test": "start-server-and-test start:backend 5000 test:e2e",
         "test:e2e": "nx e2e wizarr-e2e",
         "prepare": "husky install"
     },
@@ -149,7 +149,7 @@
         "prettier": "3.0.2",
         "sass": "^1.66.1",
         "semantic-release": "^22.0.7",
-        "start-server-and-test": "^2.0.0",
+        "start-server-and-test": "^2.0.2",
         "tailwind-scrollbar": "^3.0.5",
         "tailwindcss": "^3.3.3",
         "tailwindcss-inner-border": "^0.2.0",
