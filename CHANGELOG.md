@@ -1,3 +1,17 @@
+# [3.5.0-v3-beta.10](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.9...v3.5.0-v3-beta.10) (2023-11-07)
+
+
+### Bug Fixes
+
+* refactor beta-release workflow path ignore list ([28f1fff](https://github.com/Wizarrrr/wizarr/commit/28f1fffa354f84f494d4d11b31c351f79d6d5aa4))
+* update ([3526c13](https://github.com/Wizarrrr/wizarr/commit/3526c13584039c71fb423242e763e513e0545913))
+
+
+### Features
+
+* discord messages ([90b01d4](https://github.com/Wizarrrr/wizarr/commit/90b01d4837aa1680c26c786c681b5035b8e10c30))
+* **discord:** add Discord notification for new releases ([0b1050a](https://github.com/Wizarrrr/wizarr/commit/0b1050a959a0f26996c0bdd53d6bad655a1dd080))
+
 # [3.5.0-v3-beta.9](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.8...v3.5.0-v3-beta.9) (2023-11-07)
 
 
