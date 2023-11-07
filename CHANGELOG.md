@@ -1,3 +1,10 @@
+# [3.5.0-v3-beta.15](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.14...v3.5.0-v3-beta.15) (2023-11-07)
+
+
+### Bug Fixes
+
+* discord message ([ddbaae4](https://github.com/Wizarrrr/wizarr/commit/ddbaae4834dd0bb46665bc62d44c465b524df0b2))
+
 # [3.5.0-v3-beta.14](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.13...v3.5.0-v3-beta.14) (2023-11-07)
 
 
