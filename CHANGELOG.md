@@ -1,3 +1,10 @@
+# [3.5.0-v3-beta.11](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.10...v3.5.0-v3-beta.11) (2023-11-07)
+
+
+### Bug Fixes
+
+* add Discord webhook secret to beta release workflow ([8614e79](https://github.com/Wizarrrr/wizarr/commit/8614e792d56c2fce1e123a3d256f8600eaad41fb))
+
 # [3.5.0-v3-beta.10](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.9...v3.5.0-v3-beta.10) (2023-11-07)
 
 
