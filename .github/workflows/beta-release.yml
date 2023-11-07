@@ -6,9 +6,18 @@ on:
             - "v3-beta"
         paths-ignore:
             - "**.md"
-            # - "**/.github/**"
-            - "./latest"
+            - "**/.github/**"
             - "**/.vscode/**"
+            - "**/.husky/**"
+            - "**/.idea/**"
+            - "**/.gitignore"
+            - "**/.gitattributes"
+            - "**/.prettierrc"
+            - "**/.eslintrc"
+            - "**/.eslintignore"
+            - "**/.nvmrc"
+            - "**/.npmrc"
+            - "./latest"
     workflow_dispatch: {}
 
 permissions:
