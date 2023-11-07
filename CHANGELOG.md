@@ -1,3 +1,17 @@
+# [3.5.0-v3-beta.7](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.6...v3.5.0-v3-beta.7) (2023-11-07)
+
+
+### Bug Fixes
+
+* :memo: Fixed indentation. ([0170b1b](https://github.com/Wizarrrr/wizarr/commit/0170b1b46361a314847e9802308559efd75b7c5d))
+
+
+### Features
+
+* :art: Added ability to specify classes to Language Selector & Theme Toggle. ([6f239dd](https://github.com/Wizarrrr/wizarr/commit/6f239dd3190f42f268e9ee5ea0bded0c6b0836e8))
+* :sparkles: Added ability to toggle theme and language on invite page. ([af2396c](https://github.com/Wizarrrr/wizarr/commit/af2396c3726b16b52661b59716bc05e12d702e79))
+* :sparkles: Added language & theme selectors to Help and Setup pages. ([85cfaf4](https://github.com/Wizarrrr/wizarr/commit/85cfaf480c795c228aa50c8964acd01bc7f10870))
+
 # [3.5.0-v3-beta.6](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.5...v3.5.0-v3-beta.6) (2023-11-06)
 
 
