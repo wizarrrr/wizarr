@@ -27,7 +27,7 @@ const success = (pluginConfig, context) => {
         const headerIndex = markdownText.search(/#+\s/);
         markdownText = markdownText.substring(headerIndex);
         markdownText = markdownText.replace(/\n\s+$/, '');
-        markdownText = markdownText.replace(/###/g, '##');
+        markdownText = markdownText.replace(/#+\s/g, '');
         return markdownText;
     }
 
@@ -38,19 +38,23 @@ const success = (pluginConfig, context) => {
         embeds: [
             {
                 title: `🚀 New ${isBeta ? 'Beta' : ''} Release [${version}] 🚀`,
-                description: `
-                We are excited to announce the release of **${version}** of our software! This ${isBeta ? 'beta' : ''} release comes with the following changes. 🎉
-                
-                What's New in this ${isBeta ? 'Beta' : ''} Release
-                ${parseNotes(notes)}
-                
-                How to Get the ${isBeta ? 'Beta' : ''} Release
-                To access the ${isBeta ? 'beta' : ''} release, simply pull the latest copy of our ${isBeta ? 'Beta' : ''} Docker Image. Your feedback ${isBeta ? 'on the beta' : ''} is crucial to helping us make this release even better, so please don't hesitate to reach out with any comments, questions, or bug reports.
-                
-                ${isBeta ? 'Thank you for being a part of our beta testing community, and we look forward to your feedback to make this release a success! 🙌' : ''}
-                
-                ${isBeta ? 'Happy testing! 🧪' : 'Happy updating! 🎉'}
-                `,
+                description: `We are excited to announce the release of **${version}** of our software! This ${isBeta ? 'beta' : ''} release comes with the following changes. 🎉`,
+                fields: [
+                    {
+                        name: `What's New in this ${isBeta ? 'Beta' : ''} Release`,
+                        value: parseNotes(notes)
+                    },
+                    {
+                        name: `How to Get the ${isBeta ? 'Beta' : ''} Release`,
+                        value: `To access the ${isBeta ? 'beta' : ''} release, simply pull the latest copy of our ${isBeta ? 'Beta' : ''} Docker Image. Your feedback ${isBeta ? 'on the beta' : ''} is crucial to helping us make this release even better, so please don't hesitate to reach out with any comments, questions, or bug reports.`
+                    },
+                    {
+                        value: `${isBeta ? 'Thank you for being a part of our beta testing community, and we look forward to your feedback to make this release a success! 🙌' : 'Thank you for being a part of our community, and we look forward to your feedback! 🙌'}`
+                    },
+                    {
+                        value: `${isBeta ? 'Happy testing! 🧪' : 'Happy updating! 🎉'}`
+                    }
+                ],
                 url: url,
                 color: 16728405,
                 author: {
