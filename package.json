@@ -9,7 +9,8 @@
         "start:backend": "nx run wizarr-backend:serve",
         "test": "start-server-and-test start:backend 5000 test:e2e",
         "test:e2e": "nx e2e wizarr-e2e",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "commit": "commit"
     },
     "private": true,
     "workspaces": [
@@ -102,6 +103,7 @@
     "devDependencies": {
         "@commitlint/cli": "^18.2.0",
         "@commitlint/config-conventional": "^18.1.0",
+        "@commitlint/prompt-cli": "^18.2.0",
         "@nx/cypress": "17.0.0",
         "@nx/eslint": "17.0.0",
         "@nx/eslint-plugin": "17.0.0",
