@@ -17,6 +17,9 @@ const config = {
         ["@semantic-release/exec", {
             prepareCmd: "echo \"${nextRelease.version}\" | sed 's/-.*//' > latest",
         }],
+        ["@semantic-release/exec", {
+            prepareCmd: "node scripts/discord.js --version=${nextRelease.version}",
+        }],
         ["@semantic-release/git", {
             assets: [
                 "CHANGELOG.md",
