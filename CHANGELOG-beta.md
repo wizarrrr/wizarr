@@ -1,3 +1,10 @@
+## [3.5.1-beta.9](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.8...v3.5.1-beta.9) (2023-11-08)
+
+
+### Bug Fixes
+
+* 🚑 Refactor AdminTemplate and HeaderTemplate components ([e0b3f4d](https://github.com/Wizarrrr/wizarr/commit/e0b3f4d2d4fdba51ea36fcd0e32f27a74a2b2c17))
+
 ## [3.5.1-beta.8](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.7...v3.5.1-beta.8) (2023-11-08)
 
 
