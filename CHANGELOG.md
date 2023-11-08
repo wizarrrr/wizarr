@@ -1,48 +1,21 @@
-# [3.5.0-v3-beta.17](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.16...v3.5.0-v3-beta.17) (2023-11-07)
+# [3.5.0-v3-beta.18](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.11...v3.5.0-v3-beta.18) (2023-11-08)
 
 ### Bug Fixes
 
+-   **commitlint:** 🐛 fix emoji commit ([7ce0d26](https://github.com/Wizarrrr/wizarr/commit/7ce0d26431c5862a726588054e2d42344e767d83))
+-   **commitlint:** 🐛 fix emoji commit ([4155faf](https://github.com/Wizarrrr/wizarr/commit/4155faf9f41fd50dcaf2048689217f3625b1c898))
+-   **commitlint:** 🐝 fix emoji commit ([f26bf67](https://github.com/Wizarrrr/wizarr/commit/f26bf674f5b1ef97df3a7ec9bc09fadb65c4a02d))
 -   **discord:** fix Discord message note parser ([5f4222d](https://github.com/Wizarrrr/wizarr/commit/5f4222d021eaf37119bd17b9533b21c1637d037a))
+-   discord message ([ddbaae4](https://github.com/Wizarrrr/wizarr/commit/ddbaae4834dd0bb46665bc62d44c465b524df0b2))
+-   discord message ([355b966](https://github.com/Wizarrrr/wizarr/commit/355b966831d875e3dcbf0b115330f7c63c1849ca))
+-   discord message ([7e65499](https://github.com/Wizarrrr/wizarr/commit/7e65499fd22c0c37d2c64e12ebddadff2e523208))
+-   discord text ([4ccc675](https://github.com/Wizarrrr/wizarr/commit/4ccc675b22f641ed917ffa1e4aea0c1165787dbf))
+-   fix discord message ([2225a12](https://github.com/Wizarrrr/wizarr/commit/2225a1226db222ddccafb3112364e482ef28354e))
+-   add Discord webhook secret to beta release workflow ([8614e79](https://github.com/Wizarrrr/wizarr/commit/8614e792d56c2fce1e123a3d256f8600eaad41fb))
 
 ### Features
 
 -   **package.json:** add commitlint cli package ([acc72d7](https://github.com/Wizarrrr/wizarr/commit/acc72d7f4391fc490eec8724f9440d2ae0774f5c))
-
-# [3.5.0-v3-beta.16](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.15...v3.5.0-v3-beta.16) (2023-11-07)
-
-### Bug Fixes
-
--   discord message ([7e65499](https://github.com/Wizarrrr/wizarr/commit/7e65499fd22c0c37d2c64e12ebddadff2e523208))
-
-# [3.5.0-v3-beta.15](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.14...v3.5.0-v3-beta.15) (2023-11-07)
-
-### Bug Fixes
-
--   discord message ([ddbaae4](https://github.com/Wizarrrr/wizarr/commit/ddbaae4834dd0bb46665bc62d44c465b524df0b2))
-
-# [3.5.0-v3-beta.14](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.13...v3.5.0-v3-beta.14) (2023-11-07)
-
-### Bug Fixes
-
--   discord message ([355b966](https://github.com/Wizarrrr/wizarr/commit/355b966831d875e3dcbf0b115330f7c63c1849ca))
-
-# [3.5.0-v3-beta.13](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.12...v3.5.0-v3-beta.13) (2023-11-07)
-
-### Bug Fixes
-
--   discord text ([4ccc675](https://github.com/Wizarrrr/wizarr/commit/4ccc675b22f641ed917ffa1e4aea0c1165787dbf))
-
-# [3.5.0-v3-beta.12](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.11...v3.5.0-v3-beta.12) (2023-11-07)
-
-### Bug Fixes
-
--   fix discord message ([2225a12](https://github.com/Wizarrrr/wizarr/commit/2225a1226db222ddccafb3112364e482ef28354e))
-
-# [3.5.0-v3-beta.11](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.10...v3.5.0-v3-beta.11) (2023-11-07)
-
-### Bug Fixes
-
--   add Discord webhook secret to beta release workflow ([8614e79](https://github.com/Wizarrrr/wizarr/commit/8614e792d56c2fce1e123a3d256f8600eaad41fb))
 
 # [3.5.0-v3-beta.10](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.9...v3.5.0-v3-beta.10) (2023-11-07)
 
