@@ -44,6 +44,8 @@ jobs:
             # Checkout the repo
             - name: Checkout Repository
               uses: actions/checkout@v4
+              with:
+                  persist-credentials: false
 
             # Setup Node.js
             - name: Setup Node.js 18.18.2

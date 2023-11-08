@@ -52,8 +52,6 @@ jobs:
             # Checkout the repo
             - name: Checkout
               uses: actions/checkout@v4
-              with:
-                  persist-credentials: false
 
             # Use NPM and Node.js to install dependencies
             - name: Use Node.js 18.18.2
