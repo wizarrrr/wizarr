@@ -1,15 +1,14 @@
 name: Docker Build and Push Beta on Release
 
 on:
-    release:
-        types:
-            - published
+    push:
+        tags:
+            - 'v[0-9]+.[0-9]+.[0-9]+\-beta\.[0-9]+'
     workflow_dispatch:
         inputs:
-            version:
-                description: "Version to build and push"
-                required: false
-                default: "1"
+            tag:
+                description: "Tag"
+                required: true
 
 permissions:
     packages: write
@@ -175,15 +174,22 @@ jobs:
                   username: ${{ secrets.DOCKERHUB_USERNAME }}
                   password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+            # Get the tag name
+            - name: Get tag name
+              id: tag
+              uses: dawidd6/action-get-tag@v1
+              with:
+                  strip_v: true
+
             # Create manifest list and push
             - name: Create manifest list and push to Registry
               working-directory: /tmp/digests
               run: |
                   docker buildx imagetools create \
                     --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-                    --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.event.release.tag_name }} \
+                    --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }} \
                     --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-                    --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.event.release.tag_name }} \
+                    --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }} \
                     $(printf '${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
 
             # Inspect image
