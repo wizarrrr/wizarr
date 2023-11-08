@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, h } from 'vue';
+import { defineComponent, h } from "vue";
 
 const generateComponent = (title: string, message: string, icon?: string) => {
     return defineComponent({
@@ -13,41 +13,27 @@ const generateComponent = (title: string, message: string, icon?: string) => {
         },
         render() {
             const title = h(
-                'span',
+                "span",
                 {
-                    class: 'text-md font-semibold text-gray-900 dark:text-white',
+                    class: "text-md font-semibold text-gray-900 dark:text-white",
                 },
                 this.title,
             );
-            const message = h(
-                'span',
-                { class: 'text-sm text-gray-900 dark:text-white' },
-                this.message,
-            );
-            const icon = h('i', {
-                class:
-                    this.icon ??
-                    'fas fa-exclamation-triangle text-yellow-500 dark:text-yellow-400',
+            const message = h("span", { class: "text-sm text-gray-900 dark:text-white" }, this.message);
+            const icon = h("i", {
+                class: this.icon ?? "fas fa-exclamation-triangle text-yellow-500 dark:text-yellow-400",
             });
 
             const iconSpan = h(
-                'span',
+                "span",
                 {
-                    class: 'flex justify-center align-center text-md w-[40px] text-4xl font-semibold text-gray-900 dark:text-white',
+                    class: "flex justify-center align-center text-md w-[40px] text-4xl font-semibold text-gray-900 dark:text-white",
                 },
                 icon,
             );
 
-            const childDiv = h(
-                'div',
-                { class: 'ml-2 flex flex-col justify-start items-start' },
-                [title, message],
-            );
-            const parentDiv = h(
-                'div',
-                { class: 'flex flex-row justify-start items-center' },
-                [iconSpan, childDiv],
-            );
+            const childDiv = h("div", { class: "ml-2 flex flex-col justify-start items-start" }, [title, message]);
+            const parentDiv = h("div", { class: "flex flex-row justify-start items-center" }, [iconSpan, childDiv]);
 
             return parentDiv;
         },

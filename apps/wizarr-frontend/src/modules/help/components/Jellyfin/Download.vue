@@ -36,10 +36,10 @@
         <div class="flex flex-row justify-between pt-4">
             <span class="flex justify-end items-end">
                 <template v-if="isIOS">
-                    <DownloadAppStore to="https://apps.apple.com/ca/app/swiftfin/id1604098728" />
+                    <DownloadAppStore to="itms-apps://apps.apple.com/ca/app/swiftfin/id1604098728" />
                 </template>
                 <template v-else-if="isAndroid">
-                    <DownloadAndroid to="https://play.google.com/store/apps/details?id=dev.jdtech.jellyfin" />
+                    <DownloadAndroid to="market://details?id=dev.jdtech.jellyfin" />
                 </template>
                 <template v-else-if="isLinux">
                     <DownloadLinux to="https://flathub.org/apps/com.github.iwalton3.jellyfin-media-player" />

@@ -1,11 +1,11 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useRegisterSW } from 'virtual:pwa-register/vue';
+import { defineComponent } from "vue";
+import { useRegisterSW } from "virtual:pwa-register/vue";
 // @ts-ignore
-import { pwaInfo } from 'virtual:pwa-info';
+import { pwaInfo } from "virtual:pwa-info";
 
 export default defineComponent({
-    name: 'ReloadPrompt',
+    name: "ReloadPrompt",
     data() {
         return {
             pwaInfo: pwaInfo,
@@ -14,30 +14,26 @@ export default defineComponent({
         };
     },
     methods: {
-        onRegisteredSW(
-            swScriptUrl: string,
-            registration: ServiceWorkerRegistration | undefined,
-        ) {
-            console.log('Registered SW');
+        onRegisteredSW(swScriptUrl: string, registration: ServiceWorkerRegistration | undefined) {
+            console.log("\x1b[34m[SW]\x1b[32m Service Worker Registered\x1b[33m (%s)\x1b[0m", swScriptUrl);
         },
         onNeedRefresh() {
-            console.log('Need refresh');
+            console.log("\x1b[34m[SW]\x1b[32m Service Worker Update Available\x1b[0m");
         },
         onOfflineReady() {
-            console.log('Offline ready');
+            console.log("\x1b[34m[SW]\x1b[32m Service Worker Offline Ready\x1b[0m");
         },
     },
     render() {
         return null;
     },
     mounted() {
-        const { offlineReady, needRefresh, updateServiceWorker } =
-            useRegisterSW({
-                immediate: true,
-                onRegisteredSW: this.onRegisteredSW,
-                onNeedRefresh: this.onNeedRefresh,
-                onOfflineReady: this.onOfflineReady,
-            });
+        const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
+            immediate: true,
+            onRegisteredSW: this.onRegisteredSW,
+            onNeedRefresh: this.onNeedRefresh,
+            onOfflineReady: this.onOfflineReady,
+        });
 
         this.offlineReady = offlineReady.value;
         this.needRefresh = needRefresh.value;
@@ -46,13 +42,13 @@ export default defineComponent({
         offlineReady: {
             immediate: false,
             handler(offlineReady) {
-                console.log('Offline ready changed', offlineReady);
+                console.log("\x1b[34m[SW]\x1b[32m Service Worker Offline Ready\x1b[0m", offlineReady);
             },
         },
         needRefresh: {
             immediate: false,
             handler(needRefresh) {
-                console.log('Need refresh changed', needRefresh);
+                console.log("\x1b[34m[SW]\x1b[32m Service Worker Update Available\x1b[0m", needRefresh);
             },
         },
     },

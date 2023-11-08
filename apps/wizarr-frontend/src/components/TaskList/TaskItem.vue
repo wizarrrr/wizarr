@@ -1,14 +1,7 @@
 <template>
-    <ListItem
-        :class="{
-            'inner-border inner-border-red-600 inner-border-[2px]': failedTask,
-        }"
-        icon="fa-list"
-    >
+    <ListItem :class="{ 'inner-border inner-border-red-600 inner-border-[2px]': failedTask }" icon="fa-list">
         <template #title>
-            <span class="text-lg">{{
-                $filters(['underscroreSpaces', 'titleCase'], task.name)
-            }}</span>
+            <span class="text-lg">{{ $filters(["underscroreSpaces", "titleCase"], task.name) }}</span>
             <p class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">
                 {{ formattedCountdown }}
             </p>
@@ -17,45 +10,24 @@
         <template #buttons>
             <div class="flex flex-row space-x-2">
                 <div class="w-[36px] h-[36px]">
-                    <button
-                        :disabled="buttonsDisabled.run"
-                        @click="runLocalJob"
-                        v-if="job.next_run_time != null"
-                        class="w-full h-full bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-secondary dark:hover:bg-secondary_hover"
-                    >
+                    <button :disabled="buttonsDisabled.run" @click="runLocalJob" v-if="job.next_run_time != null" class="w-full h-full bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
                         <i class="fa-solid fa-refresh ml-[-2px]"></i>
                     </button>
                 </div>
                 <div class="w-[36px] h-[36px]">
-                    <button
-                        :disabled="buttonsDisabled.resume"
-                        @click="resumeLocalJob"
-                        v-if="job.next_run_time == null"
-                        class="w-full h-full bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-secondary dark:hover:bg-secondary_hover"
-                    >
+                    <button :disabled="buttonsDisabled.resume" @click="resumeLocalJob" v-if="job.next_run_time == null" class="w-full h-full bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
                         <i class="fa-solid fa-play"></i>
                     </button>
-                    <button
-                        :disabled="buttonsDisabled.pause"
-                        @click="pauseLocalJob"
-                        v-else
-                        class="w-full h-full bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-secondary dark:hover:bg-secondary_hover"
-                    >
+                    <button :disabled="buttonsDisabled.pause" @click="pauseLocalJob" v-else class="w-full h-full bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
                         <i class="fa-solid fa-pause"></i>
                     </button>
                 </div>
             </div>
             <div class="flex flex-row space-x-2">
-                <button
-                    class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-secondary dark:hover:bg-secondary_hover"
-                >
+                <!-- <button class="bg-secondary hover:bg-secondary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-secondary dark:hover:bg-secondary_hover">
                     <i class="fa-solid fa-edit"></i>
-                </button>
-                <button
-                    :disabled="buttonsDisabled.delete"
-                    @click="deleteLocalJob"
-                    class="bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-red-600 dark:hover:bg-primary_hover"
-                >
+                </button> -->
+                <button :disabled="buttonsDisabled.delete" @click="deleteLocalJob" class="bg-red-600 hover:bg-primary_hover focus:outline-none text-white font-medium rounded px-3.5 py-2 text-sm dark:bg-red-600 dark:hover:bg-primary_hover">
                     <i class="fa-solid fa-trash"></i>
                 </button>
             </div>
@@ -64,18 +36,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useTasksStore } from '@/stores/tasks';
-import { mapActions } from 'pinia';
+import { defineComponent } from "vue";
+import { useTasksStore } from "@/stores/tasks";
+import { mapActions } from "pinia";
 
-import type { Job } from '@/types/Tasks';
+import type { Job } from "@/types/Tasks";
 
-import ListItem from '../ListItem.vue';
+import ListItem from "../ListItem.vue";
 
-import moment from 'moment';
+import moment from "moment";
 
 export default defineComponent({
-    name: 'TaskItem',
+    name: "TaskItem",
     components: {
         ListItem,
     },
@@ -88,7 +60,7 @@ export default defineComponent({
     data() {
         return {
             job: this.task,
-            countdown: 'Pending',
+            countdown: "Pending",
             failedTask: false,
             intervals: [] as number[],
             buttonsDisabled: {
@@ -101,11 +73,7 @@ export default defineComponent({
     },
     computed: {
         formattedCountdown(): string {
-            return this.countdown.length > 0
-                ? this.countdown
-                : this.failedTask
-                ? 'Failed'
-                : 'Pending';
+            return this.countdown.length > 0 ? this.countdown : this.failedTask ? "Failed" : "Pending";
         },
     },
     methods: {
@@ -118,6 +86,9 @@ export default defineComponent({
 
             // Update the job
             await this.restartCountdown(job);
+
+            // Show toast
+            this.$toast.info("Task has been run.");
 
             // Enable the run button
             this.buttonsDisabled.run = false;
@@ -132,6 +103,9 @@ export default defineComponent({
             // Update the job
             await this.restartCountdown(job);
 
+            // Show toast
+            this.$toast.info("Task has been paused.");
+
             // Enable the pause button
             this.buttonsDisabled.pause = false;
         },
@@ -145,6 +119,9 @@ export default defineComponent({
             // Update the job
             await this.restartCountdown(job);
 
+            // Show toast
+            this.$toast.info("Task has been resumed.");
+
             // Enable the resume button
             this.buttonsDisabled.resume = false;
         },
@@ -156,6 +133,9 @@ export default defineComponent({
 
             // Delete the job
             await this.deleteJob(this.task.id);
+
+            // Show toast
+            this.$toast.info("Task has been deleted.");
         },
         async createCountdown() {
             // Get the next run time and the current time
@@ -177,7 +157,7 @@ export default defineComponent({
         async startCountdown() {
             // Check if the task is paused by checking if next_run_time is null
             if (this.job.next_run_time === null) {
-                this.countdown = 'Paused';
+                this.countdown = "Paused";
                 this.stopCountdown();
                 return;
             }
@@ -226,15 +206,9 @@ export default defineComponent({
             if (seconds > 0) timeLeft.push(`${seconds}s`);
 
             // Return the time left as a string
-            this.countdown = timeLeft.join(' ');
+            this.countdown = timeLeft.join(" ");
         },
-        ...mapActions(useTasksStore, [
-            'getJob',
-            'runJob',
-            'pauseJob',
-            'resumeJob',
-            'deleteJob',
-        ]),
+        ...mapActions(useTasksStore, ["getJob", "runJob", "pauseJob", "resumeJob", "deleteJob"]),
     },
     mounted() {
         // Get the next run time and the current time

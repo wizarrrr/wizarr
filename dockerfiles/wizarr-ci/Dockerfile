@@ -50,5 +50,8 @@ COPY ../../latest /
 ENV DATABASE_DIR=/data/database
 ENV LATEST_FILE=/latest
 
+# Expose Ports
+EXPOSE 5690
+
 # Set Entrypoint
 ENTRYPOINT ["/docker-entrypoint.sh"]

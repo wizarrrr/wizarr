@@ -1,4 +1,9 @@
 <template>
+    <div class="flex flex-row-reverse flex-column m-3">
+        <LanguageSelector iconClasses="text-base h-8 w-8" />
+        <ThemeToggle iconClasses="text-base h-6 w-6" />
+    </div>
+
     <div>
         <div
             class="flex justify-center items-center flex-col mt-12 mb-3 space-y-6"
@@ -59,11 +64,16 @@ import { defineComponent } from 'vue';
 import Carousel from '../../core/components/Carousel.vue';
 import WizarrLogo from '@/components/WizarrLogo.vue';
 
+import LanguageSelector from '@/components/Buttons/LanguageSelector.vue';
+import ThemeToggle from '@/components/Buttons/ThemeToggle.vue';
+
 export default defineComponent({
     name: 'Setup',
     components: {
         WizarrLogo,
         Carousel,
+        LanguageSelector,
+        ThemeToggle,
     },
     data() {
         return {

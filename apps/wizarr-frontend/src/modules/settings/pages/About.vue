@@ -1,5 +1,5 @@
 <template>
-    <div class="space-y-6 md:space-y-8">
+    <div class="space-y-6 md:space-y-3">
         <div class="rounded border border-red-500 bg-red-400 bg-opacity-20 py-3 px-4 backdrop-blur">
             <div class="flex">
                 <div class="flex-shrink-0 justify-center items-center flex">
@@ -14,6 +14,14 @@
             </div>
         </div>
 
+        <!-- Version Message Box -->
+        <div class="rounded border border-gray-600 bg-gray-700 bg-opacity-20 py-3 px-4 backdrop-blur">
+            <div class="flex flex-col md:flex-row md:justify-between items-center">
+                <span class="">{{ __("Current Version") }}:</span>
+                <span class="font-semibold">{{ version }}</span>
+            </div>
+        </div>
+
         <div class="max-h-[80vh] md:max-h-[50vh] overflow-y-scroll scrollbar-hide m-[-10px] p-[12px]">
             <ChangeLogs />
         </div>
@@ -22,6 +30,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { mapState } from "pinia";
+import { useServerStore } from "@/stores/server";
 
 import ChangeLogs from "@/components/ChangeLogs/ChangeLogs.vue";
 import DefaultButton from "@/components/Buttons/DefaultButton.vue";
@@ -40,9 +50,12 @@ export default defineComponent({
             DATA_DIRECTORY: "test",
             TIMEZONE: "test",
             DOCS_URL: "test",
-            GITHUB_SHEBANG: "test",
+            GITHUB_SHEBANG: "wizarrrr/wizarr",
             DISCORD_INVITE: "test",
         };
+    },
+    computed: {
+        ...mapState(useServerStore, ["version"]),
     },
 });
 </script>
