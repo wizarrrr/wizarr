@@ -1,5 +1,5 @@
 // Store the current branch in a variable
-const branch = process.env.CURRENT_BRANCH;
+const branch = process.env.CURRENT_BRANCH || "master";
 
 if (!branch) {
     throw new Error("CURRENT_BRANCH not set");
@@ -45,11 +45,22 @@ const config = {
         ["@wizarrrr/semantic-release-sentry-releases", {
             sourcemaps: "dist/apps/wizarr-frontend"
         }],
+        ["@wizarrrr/semantic-release-github-dispatch", {
+            owner: "wizarrrr",
+            repo: "wizarr",
+            githubToken: process.env.GITHUB_TOKEN,
+            eventName: "run_ci_build",
+            payload: {
+                version: "${nextRelease.version}",
+                image: "beta",
+                branch: process.env.CURRENT_BRANCH,
+            }
+        }],
     ]
 }
 
 if (isMaster) {
-    config.plugins.splice(-1, 0, "@semantic-release/github");
+    config.plugins.splice(-2, 0, "@semantic-release/github");
 }
 
 module.exports = config;
