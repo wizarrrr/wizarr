@@ -1,8 +1,10 @@
-name: CI/CD Build [Docker]
+name: CI/CD Build Docker [Beta]
 
 on:
-    repository_dispatch:
-        types: [run_ci_build]
+    workflow_run:
+        workflows: ["CI/CD Release [Beta]"]
+        types:
+            - completed
     workflow_dispatch:
         inputs:
             tag:
@@ -17,8 +19,7 @@ env:
     GHCR_REGISTRY: ghcr.io
     DH_REGISTRY: docker.io
     IMAGE_NAME: wizarrrr/wizarr
-    IMAGE_TAG: ${{ github.event.client_payload.image || 'beta' }}
-    IMAGE_BRANCH: ${{ github.event.client_payload.branch || 'beta' }}
+    IMAGE_TAG: beta
 
 jobs:
     before_build:
@@ -49,8 +50,6 @@ jobs:
             # Checkout the repo
             - name: Checkout
               uses: actions/checkout@v4
-              with:
-                  ref: ${{ env.IMAGE_BRANCH }}
 
             # Use NPM and Node.js to install dependencies
             - name: Use Node.js 18.18.2
@@ -128,8 +127,6 @@ jobs:
             # Checkout the repo
             - name: Checkout
               uses: actions/checkout@v4
-              with:
-                  ref: ${{ env.IMAGE_BRANCH }}
 
             # Get the Release Version from latest
             - name: Get the Release Version from latest

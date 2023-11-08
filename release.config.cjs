@@ -44,18 +44,7 @@ const config = {
         "@wizarrrr/semantic-release-discord",
         ["@wizarrrr/semantic-release-sentry-releases", {
             sourcemaps: "dist/apps/wizarr-frontend"
-        }],
-        ["@wizarrrr/semantic-release-github-dispatch", {
-            owner: "wizarrrr",
-            repo: "wizarr",
-            githubToken: process.env.GITHUB_TOKEN,
-            eventName: "run_ci_build",
-            payload: {
-                version: "${nextRelease.version}",
-                image: "beta",
-                branch: process.env.CURRENT_BRANCH,
-            }
-        }],
+        }]
     ]
 }
 
