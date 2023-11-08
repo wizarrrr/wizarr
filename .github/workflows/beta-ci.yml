@@ -3,10 +3,7 @@ name: Docker Build and Push Beta on Release
 on:
     push:
         tags:
-            - "v*.*.*-beta.*"
-            - "*.*.*-beta.*"
-            - "v*.*.*-beta"
-            - "*.*.*-beta"
+            - "*"
     workflow_dispatch:
         inputs:
             tag:
