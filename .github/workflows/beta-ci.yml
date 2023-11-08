@@ -160,6 +160,30 @@ jobs:
                   username: ${{ secrets.DOCKERHUB_USERNAME }}
                   password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+            # Get the tag name
+            - name: Get tag name
+              id: tag_event
+              if: github.event.inputs.tag == '' || github.event.inputs.tag == null
+              uses: dawidd6/action-get-tag@v1
+              with:
+                  strip_v: true
+
+            # Fallback to github.event.inputs.tag if tag is empty
+            - name: Fallback to github.event.inputs.tag if tag is empty
+              id: tag_input
+              if: github.event.inputs.tag != '' && github.event.inputs.tag != null
+              run: echo "::set-output name=tag::${{ github.event.inputs.tag }}"
+
+              # Select the tag to use
+            - name: Select the tag to use
+              id: tag
+              run: |
+                  if [ -z "${{ steps.tag_event.outputs.tag }}" ]; then
+                      echo "::set-output name=tag::${{ steps.tag_input.outputs.tag }}"
+                  else
+                      echo "::set-output name=tag::${{ steps.tag_event.outputs.tag }}"
+                  fi
+
             # Create manifest list and push
             - name: Create manifest list and push to Registry
               working-directory: /tmp/digests
