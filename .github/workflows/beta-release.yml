@@ -1,0 +1,81 @@
+name: Release and Bump on Push
+
+on:
+    push:
+        branches:
+            - "v3-beta"
+            - "beta"
+        paths-ignore:
+            - "**.md"
+            - "**/.github/**"
+            - "**/.vscode/**"
+            - "**/.husky/**"
+            - "**/.idea/**"
+            - "**/.gitignore"
+            - "**/.gitattributes"
+            - "**/.prettierrc"
+            - "**/.eslintrc"
+            - "**/.eslintignore"
+            - "**/.nvmrc"
+            - "**/.npmrc"
+            - "./latest"
+            - "./scripts/**"
+            - "./release.config.cjs"
+    workflow_dispatch: {}
+
+permissions:
+    packages: write
+    contents: write
+    issues: write
+    pull-requests: write
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            # Get the GH_TOKEN from the app
+            - name: Get GitHub App Token
+              id: gh_app
+              uses: getsentry/action-github-app-token@v2
+              with:
+                  app_id: ${{ secrets.APP_ID }}
+                  private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+            # Checkout the repo
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            # Setup Node.js
+            - name: Setup Node.js 18.18.2
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 18.18.2
+
+            # Install Dependencies
+            - name: Install Dependencies
+              run: npm ci --ignore-scripts
+
+            # Build the Frontend
+            - name: Build Frontend Sourcemaps
+              run: npx nx build wizarr-frontend
+
+            # Get the current branch from git
+            - name: Get branch name
+              id: branch-name
+              uses: tj-actions/branch-names@v7
+
+            # Create Release for the Beta
+            - name: Semantic Release for Beta
+              run: npx semantic-release
+              env:
+                  GITHUB_TOKEN: ${{ steps.gh_app.outputs.token }}
+                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+                  SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+                  SENTRY_URL: https://sentry.wizarr.dev
+                  SENTRY_ENVIRONMENT: development
+                  SENTRY_PROJECT: wizarr-frontend wizarr-backend
+                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+                  CURRENT_BRANCH: ${{ steps.branch-name.outputs.current_branch }}
