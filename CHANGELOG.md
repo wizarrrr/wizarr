@@ -1,3 +1,10 @@
+## [3.5.1-beta.2](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.1...v3.5.1-beta.2) (2023-11-08)
+
+
+### Bug Fixes
+
+* 🚑 linting ([053a2f9](https://github.com/Wizarrrr/wizarr/commit/053a2f914b865b53ef9aaf6e5afb39343b2e7460))
+
 # [3.5.0-beta.1](https://github.com/Wizarrrr/wizarr/compare/v1.0.0-beta.1...v3.5.0-beta.1) (2023-11-08)
 
 
