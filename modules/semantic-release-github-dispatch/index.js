@@ -22,11 +22,11 @@ const publish = (pluginConfig, context) => {
         owner: pluginConfig.owner,
         repo: pluginConfig.repo,
         event_type: pluginConfig.eventName,
-        client_payload: JSON.parse({
+        client_payload: {
             version: pluginConfig.payload.version || nextRelease.gitTag,
             image: pluginConfig.payload.image,
             branch: pluginConfig.payload.branch
-        })
+        }
     });
 
     // Log the success
