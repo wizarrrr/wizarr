@@ -1,3 +1,12 @@
+## [3.5.1-beta.1](https://github.com/Wizarrrr/wizarr/compare/v1.0.0-beta.1...v3.5.1-beta.1) (2023-11-08)
+
+
+### Bug Fixes
+
+* 🐛 empty commit test ([b9600a8](https://github.com/Wizarrrr/wizarr/commit/b9600a8fa148abeca3922f568631d8c85da9665f))
+* 🩹 empty commit test ([6a0b14c](https://github.com/Wizarrrr/wizarr/commit/6a0b14c6d775fdbeb43607cc944c5abbed2aa6c9))
+* 🚑 fix linting issue from mono repo switch ([a6bdc12](https://github.com/Wizarrrr/wizarr/commit/a6bdc12ba6886d68e094cbfef3d3bd458b85d160))
+
 # 1.0.0-beta.1 (2023-11-08)
 
 
