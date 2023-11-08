@@ -50,5 +50,8 @@ COPY ../../latest /
 # Environment Variables
 ENV LATEST_FILE=/latest
 
+# Expose Ports
+EXPOSE 5690
+
 # Set Entrypoint
 ENTRYPOINT ["/docker-entrypoint.sh"]
