@@ -1,3 +1,10 @@
+## [3.5.1-beta.3](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.2...v3.5.1-beta.3) (2023-11-08)
+
+
+### Bug Fixes
+
+* 🐛 update module.exports in release.config.cjs ([c2309ee](https://github.com/Wizarrrr/wizarr/commit/c2309ee6fca62ad817ff75b6066788bf77f66e42))
+
 ## [3.5.1-beta.2](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.1...v3.5.1-beta.2) (2023-11-08)
 
 ### Bug Fixes
