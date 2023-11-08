@@ -52,4 +52,4 @@ if (isMaster) {
     config.plugins.splice(-1, 0, "@semantic-release/github");
 }
 
-module.exports = createConfig();
+module.exports = config;
