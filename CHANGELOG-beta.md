@@ -1,3 +1,12 @@
+# [3.6.0-beta.1](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.9...v3.6.0-beta.1) (2023-11-08)
+
+
+### Features
+
+* 🎊 Add semantic-release-github-dispatch module ([7cdbfc6](https://github.com/Wizarrrr/wizarr/commit/7cdbfc65cec646b07a8509a4144abc80013fd0f5))
+* 🚀 update release.config.cjs and add semantic-release-github-dispatch plugin ([0d24664](https://github.com/Wizarrrr/wizarr/commit/0d246643223f8b35ba7955e32a32421a8072f754))
+* 🚀 update semantic release packages and dependencies ([d46691a](https://github.com/Wizarrrr/wizarr/commit/d46691acb13f2ba3101583895bcba7347ae48d81))
+
 ## [3.5.1-beta.9](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.8...v3.5.1-beta.9) (2023-11-08)
 
 
