@@ -1,3 +1,11 @@
+## [3.5.1-beta.7](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.6...v3.5.1-beta.7) (2023-11-08)
+
+
+### Bug Fixes
+
+* 🐛 Updated tag selection logic in beta-ci workflow ([1add277](https://github.com/Wizarrrr/wizarr/commit/1add2772059a774f7a2e1f9f809d50b5f9d38e3e))
+* 🩹 beta CI action not running and move modifications from CI to release action in 3.5.1-beta.6 ([e40e3ac](https://github.com/Wizarrrr/wizarr/commit/e40e3acd186198d73c7b78e916da8d78af5747a5))
+
 ## [3.5.1-beta.6](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.5...v3.5.1-beta.6) (2023-11-08)
 
 
