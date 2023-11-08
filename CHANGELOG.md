@@ -1,3 +1,15 @@
+# [3.5.0-v3-beta.19](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.18...v3.5.0-v3-beta.19) (2023-11-08)
+
+
+### Bug Fixes
+
+* 🐛 allow beta to work with versioning ([5c49cbd](https://github.com/Wizarrrr/wizarr/commit/5c49cbdd1dc83aa213f51ca904731b2fb4b15d5b))
+
+
+### Features
+
+* 🎊 Don't add Emoji's to commit message if one already exists ([da844e1](https://github.com/Wizarrrr/wizarr/commit/da844e13eeeb5a9e80453988410bb3456ea66a83))
+
 # [3.5.0-v3-beta.18](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.11...v3.5.0-v3-beta.18) (2023-11-08)
 
 ### Bug Fixes
