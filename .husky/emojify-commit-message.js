@@ -1,59 +1,64 @@
+const pickRandomEmoji = (...emojis) => {
+    const randomIndex = Math.floor(Math.random() * emojis.length)
+    return emojis[randomIndex]
+}
+
 const regex = [
     {
         regex: /(?<=^feat(\(.*\))?(:)?)\s/,
-        emoji: ' ✨ '
+        emoji: ` ${pickRandomEmoji('✨', '🎉', '🎊', '🚀')} `
     },
     {
         regex: /(?<=^fix(\(.*\))?(:)?)\s/,
-        emoji: ' 🐛 '
+        emoji: ` ${pickRandomEmoji('🐛', '🚑', '🩹', '🐝')} `
     },
     {
         regex: /(?<=^docs(\(.*\))?(:)?)\s/,
-        emoji: ' 📚 '
+        emoji: ` ${pickRandomEmoji('📚', '📖', '📝')} `
     },
     {
         regex: /(?<=^style(\(.*\))?(:)?)\s/,
-        emoji: ' 💎 '
+        emoji: ` ${pickRandomEmoji('💎', '🎨')} `
     },
     {
         regex: /(?<=^refactor(\(.*\))?(:)?)\s/,
-        emoji: ' 📦 '
+        emoji: ` ${pickRandomEmoji('📦', '🔨', '🔧')} `
     },
     {
         regex: /(?<=^perf(\(.*\))?(:)?)\s/,
-        emoji: ' 🚀 '
+        emoji: ` ${pickRandomEmoji('🚀', '🏎️', '🏍️', '🚄')} `
     },
     {
         regex: /(?<=^test(\(.*\))?(:)?)\s/,
-        emoji: ' 🚨 '
+        emoji: ` ${pickRandomEmoji('🚨', '🚧', '🚥', '🔍')} `
     },
     {
         regex: /(?<=^build(\(.*\))?(:)?)\s/,
-        emoji: ' 👷 '
+        emoji: ` ${pickRandomEmoji('🏗️', '🧱', '🔨', '👷')} `
     },
     {
         regex: /(?<=^ci(\(.*\))?(:)?)\s/,
-        emoji: ' 💚 '
+        emoji: ` ${pickRandomEmoji('🤖', '🔧', '🧪', '')} `
     },
     {
         regex: /(?<=^chore(\(.*\))?(:)?)\s/,
-        emoji: ' 🔧 '
+        emoji: ` ${pickRandomEmoji('🧹', '🧽', '🧼', '🧺')} `
     },
     {
         regex: /(?<=^revert(\(.*\))?(:)?)\s/,
-        emoji: ' ⏪ '
+        emoji: ` ${pickRandomEmoji('🔙', '⏪', '🔁')} `
     },
     {
         regex: /(?<=^release(\(.*\))?(:)?)\s/,
-        emoji: ' 🏹 '
+        emoji: ` ${pickRandomEmoji('🚀', '🎉', '🎊', '📦')} `
     },
     {
         regex: /(?<=^dependabot(\(.*\))?(:)?)\s/,
-        emoji: ' 📦 '
+        emoji: ` ${pickRandomEmoji('🤖', '🔧', '🧪', '')} `
     },
     {
         regex: /(?<=^first(\(.*\))?(:)?)\s/,
-        emoji: ' 🎉 '
+        emoji: ` ${pickRandomEmoji('🎉', '🎊', '🎈', '🎂')} `
     }
 ]
 
@@ -70,3 +75,6 @@ if (require.main === module) {
     const commitMessage = args[0]
     console.log(emojifyCommitMessage(commitMessage))
 }
+
+// Command line usage:
+// node emojify-commit-message.js "feat: add emojify-commit-message script"
