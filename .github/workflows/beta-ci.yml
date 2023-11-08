@@ -50,6 +50,8 @@ jobs:
             # Checkout the repo
             - name: Checkout
               uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.workflow_run.head_branch }}
 
             # Use NPM and Node.js to install dependencies
             - name: Use Node.js 18.18.2
@@ -127,6 +129,8 @@ jobs:
             # Checkout the repo
             - name: Checkout
               uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.workflow_run.head_branch }}
 
             # Get the Release Version from latest
             - name: Get the Release Version from latest
