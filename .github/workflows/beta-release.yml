@@ -59,6 +59,11 @@ jobs:
             - name: Build Frontend Sourcemaps
               run: npx nx build wizarr-frontend
 
+            # Get the current branch from git
+            - name: Get branch name
+              id: branch-name
+              uses: tj-actions/branch-names@v7
+
             # Create Release for the Beta
             - name: Semantic Release for Beta
               run: npx semantic-release
@@ -70,3 +75,4 @@ jobs:
                   SENTRY_ENVIRONMENT: development
                   SENTRY_PROJECT: wizarr-frontend wizarr-backend
                   DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+                  CURRENT_BRANCH: ${{ steps.branch-name.outputs.current_branch }}
