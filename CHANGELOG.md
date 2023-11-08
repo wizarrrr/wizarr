@@ -1,3 +1,11 @@
+# [3.5.0-beta.1](https://github.com/Wizarrrr/wizarr/compare/v1.0.0-beta.1...v3.5.0-beta.1) (2023-11-08)
+
+
+### Bug Fixes
+
+* 🩹 Fix session list item layout and add drag and drop functionality ([1b1eb76](https://github.com/Wizarrrr/wizarr/commit/1b1eb766ce814393ab6f2723662abe8ab5aeb858))
+* 🚑 fix lint ([47cd990](https://github.com/Wizarrrr/wizarr/commit/47cd990a83980662dcaa3855f049bc3b1e1aea9f))
+
 ## [3.5.1-beta.1](https://github.com/Wizarrrr/wizarr/compare/v1.0.0-beta.1...v3.5.1-beta.1) (2023-11-08)
 
 
