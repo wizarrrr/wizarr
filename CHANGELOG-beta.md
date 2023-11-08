@@ -1,3 +1,10 @@
+## [3.5.1-beta.4](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.3...v3.5.1-beta.4) (2023-11-08)
+
+
+### Bug Fixes
+
+* 🚑 make build ([a356996](https://github.com/Wizarrrr/wizarr/commit/a356996f1a4fd8860e4c325e5f112200b5cc101c))
+
 ## [3.5.1-beta.3](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.2...v3.5.1-beta.3) (2023-11-08)
 
 
