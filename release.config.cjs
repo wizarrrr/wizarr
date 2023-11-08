@@ -3,10 +3,8 @@
  */
 const config = {
     branches: [
-        "(\\d+)(\\.\\d+)?\\.x",
         "main",
         "master",
-        { name: "v3-beta", prerelease: true },
         { name: "beta", prerelease: true },
     ],
     plugins: [
