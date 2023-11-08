@@ -1,3 +1,15 @@
+# [3.6.0-beta.2](https://github.com/Wizarrrr/wizarr/compare/v3.6.0-beta.1...v3.6.0-beta.2) (2023-11-08)
+
+
+### Bug Fixes
+
+* 🐛 not detecting plugin configs ([4487426](https://github.com/Wizarrrr/wizarr/commit/44874265b0c59f323f080f4eb3b624cf79a1d5a0))
+
+
+### Features
+
+* 🎉 Add resolve-config.js for semantic-release-discord ([d61f203](https://github.com/Wizarrrr/wizarr/commit/d61f203c1b11c856e7fe5e88694b78553f087a53))
+
 # [3.6.0-beta.1](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.9...v3.6.0-beta.1) (2023-11-08)
 
 
