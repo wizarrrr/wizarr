@@ -1,3 +1,11 @@
+## [3.5.1-beta.6](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.5...v3.5.1-beta.6) (2023-11-08)
+
+
+### Bug Fixes
+
+* 🩹 beta ci action not running ([dc225f8](https://github.com/Wizarrrr/wizarr/commit/dc225f8e8f558b73c0db99fefcfcd344478d3208))
+* 🩹 move modifications from ci to release action ([37cf77f](https://github.com/Wizarrrr/wizarr/commit/37cf77f0d810af7c6b7004d76d117a87923aa49c))
+
 ## [3.5.1-beta.5](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.4...v3.5.1-beta.5) (2023-11-08)
 
 
