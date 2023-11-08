@@ -4,6 +4,7 @@ on:
     push:
         branches:
             - "v3-beta"
+            - "beta"
         paths-ignore:
             - "**.md"
             - "**/.github/**"
@@ -17,7 +18,7 @@ on:
             - "**/.eslintignore"
             - "**/.nvmrc"
             - "**/.npmrc"
-            - "./latest"
+            # - "./latest"
             - "./scripts/**"
             - "./release.config.cjs"
     workflow_dispatch: {}
