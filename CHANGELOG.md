@@ -1,3 +1,12 @@
+# [3.5.0-v3-beta.18](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.17...v3.5.0-v3-beta.18) (2023-11-08)
+
+
+### Bug Fixes
+
+* **commitlint:** 🐛 fix emoji commit ([7ce0d26](https://github.com/Wizarrrr/wizarr/commit/7ce0d26431c5862a726588054e2d42344e767d83))
+* **commitlint:** 🐛 fix emoji commit ([4155faf](https://github.com/Wizarrrr/wizarr/commit/4155faf9f41fd50dcaf2048689217f3625b1c898))
+* **commitlint:** 🐝 fix emoji commit ([f26bf67](https://github.com/Wizarrrr/wizarr/commit/f26bf674f5b1ef97df3a7ec9bc09fadb65c4a02d))
+
 # [3.5.0-v3-beta.17](https://github.com/Wizarrrr/wizarr/compare/v3.5.0-v3-beta.16...v3.5.0-v3-beta.17) (2023-11-07)
 
 ### Bug Fixes
