@@ -15,10 +15,9 @@ def get_latest_version():
             return None
         release = response.json()
         latest = release["tag_name"]
-        return parse(latest)
+        return str(latest)
     except Exception:
         return None
-
 
 def get_latest_beta_version():
     try:
@@ -27,49 +26,35 @@ def get_latest_beta_version():
         if response.status_code != 200:
             return None
         releases = response.json()
-        latest_beta = [release["tag_name"] for release in releases if release["prerelease"]][0]
+        latest_beta = str([release["tag_name"] for release in releases if release["prerelease"] and "beta" in release["tag_name"]][0])
+
+        # TEMPORARY FIX: Remove -v3 from the version
+        latest_beta = latest_beta.replace("-v3", "")
+
         return parse(latest_beta)
     except Exception:
         return None
 
 def get_current_version():
     with open(LATEST_FILE, "r", encoding="utf-8") as f:
-        return parse(f.read())
+        current_version = str(f.read())
 
+        # TEMPORARY FIX: Remove -v3 from the version
+        current_version = current_version.replace("-v3", "")
+
+        return parse(current_version)
+
+def compare_versions(version1, version2):
+    return parse(str(version1)) > parse(str(version2))
 
 def is_beta():
-    current_version = get_current_version()
-    latest_version = get_latest_version()
-    beta = False
+    return "beta" in str(get_current_version())
 
-    try:
-        beta = bool(current_version > latest_version)
-    except Exception:
-        pass
-
-    return beta
+def is_latest():
+    return compare_versions(get_current_version(), is_beta() and get_latest_beta_version() or get_latest_version())
 
 def is_stable():
-    current_version = get_current_version()
-    latest_version = get_latest_version()
-    stable = False
+    return not is_beta()
 
-    try:
-        stable = bool(current_version < latest_version)
-    except Exception:
-        pass
-
-    return stable
-
-# cache
 def need_update():
-    current_version = get_current_version()
-    latest_version = get_latest_version()
-    update = False
-
-    try:
-        update = bool(current_version < latest_version)
-    except Exception:
-        update = False
-
-    return update
+    return not is_latest()

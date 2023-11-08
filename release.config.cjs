@@ -7,6 +7,7 @@ const config = {
         "main",
         "master",
         { name: "v3-beta", prerelease: true },
+        { name: "beta", prerelease: true },
     ],
     plugins: [
         "@semantic-release/commit-analyzer",
@@ -15,7 +16,7 @@ const config = {
             changelogFile: "CHANGELOG.md",
         }],
         ["@semantic-release/exec", {
-            prepareCmd: "echo \"${nextRelease.version}\" | sed 's/-.*//' > latest",
+            prepareCmd: "echo \"${nextRelease.version}\" > latest",
         }],
         ["@semantic-release/git", {
             assets: [

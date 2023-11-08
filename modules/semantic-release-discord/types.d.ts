@@ -1,5 +1,7 @@
+// @ts-ignore
 import { Config as SemanticReleaseConfig, Context as SemanticReleaseContext, Result as SemanticReleaseResult, Commit } from "semantic-release";
 
+// @ts-ignore
 export interface Context extends SemanticReleaseContext, SemanticReleaseConfig, SemanticReleaseResult {
     commits?: Commit[];
     message?: string;
