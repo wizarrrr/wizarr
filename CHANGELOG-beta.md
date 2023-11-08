@@ -1,3 +1,10 @@
+# [3.6.0-beta.3](https://github.com/Wizarrrr/wizarr/compare/v3.6.0-beta.2...v3.6.0-beta.3) (2023-11-08)
+
+
+### Bug Fixes
+
+* 🐝 Fix JSON parsing issue for client payload ([eb335e3](https://github.com/Wizarrrr/wizarr/commit/eb335e39410c20c87b0763e3a3b7fe0f02b5ae8f))
+
 # [3.6.0-beta.2](https://github.com/Wizarrrr/wizarr/compare/v3.6.0-beta.1...v3.6.0-beta.2) (2023-11-08)
 
 
