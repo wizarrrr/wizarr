@@ -104,50 +104,43 @@ export default defineComponent({
     },
     methods: {
         async createAccount() {
-            // Start button loading animation and get target
+            // Start button loading animation
             this.buttonLoading = true;
 
             // If the passwords do not match, display an error
-            if (
-                this.accountForm.password != this.accountForm.confirm_password
-            ) {
+            if (this.accountForm.password !== this.accountForm.confirm_password) {
                 this.$toast.error('Passwords do not match');
                 this.buttonLoading = false;
                 return;
             }
 
-            // Convert json to form data
+            // Convert JSON to FormData
             const formData = new FormData();
 
             Object.entries(this.accountForm).forEach(([key, value]) => {
                 formData.append(key, value);
             });
 
-            // Send request to API to create admin account
-            await this.$axios
-                .post('/api/setup/accounts', formData)
-                .catch(() => {
-                    // Stop button loading animation
-                    this.buttonLoading = false;
+            try {
+                // Send a request to the API to create an admin account
+                await this.$axios.post('/api/setup/accounts', formData);
 
-                    // Display an error message
-                    this.$toast.error(
-                        DefaultToast(
-                            'Account Error',
-                            'Failed to create admin account',
-                        ),
-                    );
+                // Show a success message
+                this.$toast.info('The admin account has been created');
 
-                    // Throw the error
-                    throw new Error('Failed to create admin account');
-                });
-
-            // Show a success message
-            this.$toast.info('The admin account has been created');
-
-            // Go to next step
-            this.$emit('nextStep');
-        },
+                // Go to the next step
+                this.$emit('nextStep');
+            } catch (error: any) {
+                // Specify error as any to avoid type errors
+                if (!(error.response && error.response.status === 400)) {
+                    // Generic error
+                    this.$toast.error('Failed to create admin account');
+                }
+            } finally {
+                // Stop button loading animation
+                this.buttonLoading = false;
+            }
+        }
     },
 });
 </script>

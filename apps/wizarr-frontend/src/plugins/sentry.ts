@@ -10,11 +10,29 @@ type SentryOptions = Partial<
     }
 >;
 
+const isBugReporting = () => {
+    const localStorage = window.localStorage.getItem("server");
+
+    if (localStorage !== null) {
+        const server = JSON.parse(localStorage);
+        return server.settings.bug_reporting === "false";
+    }
+
+    return true;
+};
+
 const vuePluginSentry = {
     install: (app: App, options?: SentryOptions) => {
+        const bugReporting = isBugReporting();
+
+        console.log("\x1b[32m%s\x1b[0m", "Sentry: Initializing");
+        console.log(bugReporting ? "\x1b[31m%s\x1b[0m" : "\x1b[32m%s\x1b[0m", "Sentry: Bug Reporting is " + (bugReporting ? "OFF" : "ON"));
+
+        if (bugReporting) return;
+
         init({
             app: app,
-            dsn: "https://d1994be8f88578e14f1a4ac06ae65e89@o4505748808400896.ingest.sentry.io/4505780347666432",
+            dsn: "https://4034e578d899247f5121cbae3466e637@sentry.wizarr.dev/2",
             integrations: [
                 new BrowserTracing({
                     tracePropagationTargets: [location.origin],
@@ -28,7 +46,7 @@ const vuePluginSentry = {
             ],
             environment: process.env.NODE_ENV,
             tracesSampleRate: 1.0,
-            replaysSessionSampleRate: 0,
+            replaysSessionSampleRate: 0.1,
             replaysOnErrorSampleRate: 1.0,
             beforeSend(event, hint) {
                 if (event.exception) {

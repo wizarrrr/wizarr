@@ -1,13 +1,5 @@
 <template>
-    <input
-        v-for="index in Number(context.digits)"
-        maxlength="1"
-        :class="context.classes.digit"
-        :value="tmp[index - 1] || ''"
-        @input="handleInput(index - 1, $event)"
-        @focus="handleFocus"
-        @paste="handlePaste"
-    />
+    <input v-for="index in Number(context.digits)" maxlength="1" :class="context.classes.digit" :value="tmp[index - 1] || ''" @input="handleInput(index - 1, $event)" @focus="handleFocus" @paste="handlePaste" />
 </template>
 
 <style scoped>
@@ -24,7 +16,7 @@
 </style>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 // Define the props type
 interface MyProps {
@@ -44,13 +36,13 @@ interface MyProps {
 export default defineComponent({
     props: {
         context: {
-            type: Object as () => MyProps['context'],
+            type: Object as () => MyProps["context"],
             required: true,
         },
     },
     data() {
         return {
-            tmp: '',
+            tmp: "",
         };
     },
     methods: {
@@ -66,20 +58,13 @@ export default defineComponent({
             } else {
                 // If this digit is in the middle somewhere, cut the string into two
                 // pieces at the index, and insert our new digit in.
-                this.tmp = `${this.tmp.substring(0, index)}${
-                    (e.target as HTMLInputElement).value
-                }${this.tmp.substring(index + 1)}`;
+                this.tmp = `${this.tmp.substring(0, index)}${(e.target as HTMLInputElement).value}${this.tmp.substring(index + 1)}`;
             }
 
             // Get all the digit inputs
-            const inputs = (
-                e.target as HTMLElement
-            ).parentElement?.querySelectorAll('input');
+            const inputs = (e.target as HTMLElement).parentElement?.querySelectorAll("input");
 
-            if (
-                index < this.context.digits - 1 &&
-                this.tmp.length >= prev.length
-            ) {
+            if (index < this.context.digits - 1 && this.tmp.length >= prev.length) {
                 // If this is a new input and not at the end, focus the next input
                 inputs?.[index + 1]?.focus();
             } else if (index > 0 && this.tmp.length < prev.length) {
@@ -90,12 +75,9 @@ export default defineComponent({
             if (this.tmp.length === this.context.digits) {
                 // If our input is complete, commit the value.
                 this.context.node.input(this.tmp);
-            } else if (
-                this.tmp.length < this.context.digits &&
-                this.context.value !== ''
-            ) {
+            } else if (this.tmp.length < this.context.digits && this.context.value !== "") {
                 // If our input is incomplete, it should have no value.
-                this.context.node.input('');
+                this.context.node.input("");
             }
         },
 
@@ -110,13 +92,11 @@ export default defineComponent({
          * Handle the paste event.
          */
         handlePaste(e: ClipboardEvent) {
-            const paste = e.clipboardData!.getData('text');
-            if (typeof paste === 'string') {
+            const paste = e.clipboardData!.getData("text");
+            if (typeof paste === "string") {
                 // If it is the right length, paste it.
                 this.tmp = paste.substring(0, this.context.digits);
-                const inputs = (
-                    e.target as HTMLElement
-                ).parentElement?.querySelectorAll('input');
+                const inputs = (e.target as HTMLElement).parentElement?.querySelectorAll("input");
                 // Focus on the last character
                 inputs?.[this.tmp.length - 1]?.focus();
             }
@@ -125,7 +105,7 @@ export default defineComponent({
     mounted() {
         // Set the initial value
         // this.tmp = this.context.value;
-        console.log('this.context', this.context);
+        console.log("this.context", this.context);
     },
 });
 </script>

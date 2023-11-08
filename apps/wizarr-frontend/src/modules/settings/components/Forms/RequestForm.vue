@@ -30,10 +30,10 @@
             validation="required|url"
         />
         <FormKit
-            type="text"
+            type="password"
             label="API Key"
             name="api_key"
-            placeholder="1234567890"
+            placeholder="••••••••"
             validation="required"
         />
     </FormKit>

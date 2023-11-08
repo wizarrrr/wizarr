@@ -1,4 +1,9 @@
 <template>
+    <div class="flex flex-row-reverse flex-column m-3">
+        <LanguageSelector iconClasses="text-base h-8 w-8" />
+        <ThemeToggle iconClasses="text-base h-6 w-6" />
+    </div>
+
     <div>
         <div
             class="flex justify-center items-center flex-col mt-12 mb-3 space-y-6"
@@ -8,8 +13,8 @@
                 class="text-2xl font-semibold text-center text-gray-900 dark:text-white"
             >
                 {{
-                    __('Type in your invite code to %{server_name} server!', {
-                        server_name: settings.server_name,
+                    __('Type in your invite code for %{server_name}!', {
+                        server_name: settings.server_name
                     })
                 }}
             </h1>
@@ -56,6 +61,9 @@ import { Collapse } from 'vue-collapsed';
 import Carousel from '../../core/components/Carousel.vue';
 import WizarrLogo from '@/components/WizarrLogo.vue';
 
+import LanguageSelector from '@/components/Buttons/LanguageSelector.vue';
+import ThemeToggle from '@/components/Buttons/ThemeToggle.vue';
+
 import eventBus from '../events';
 
 import type { Socket } from 'socket.io-client';
@@ -71,6 +79,8 @@ export default defineComponent({
         WizarrLogo,
         Carousel,
         Collapse,
+        LanguageSelector,
+        ThemeToggle,
     },
     data() {
         return {

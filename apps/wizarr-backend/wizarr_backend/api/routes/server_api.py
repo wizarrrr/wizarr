@@ -5,6 +5,8 @@ from playhouse.shortcuts import model_to_dict
 from app.utils.software_lifecycle import get_current_version, need_update, get_latest_version, get_latest_beta_version
 from app.extensions import cache
 
+from json import loads, dumps
+
 
 api = Namespace("Server", description="Server related operations", path="/server")
 
@@ -21,8 +23,8 @@ class Server(Resource):
         from helpers.requests import get_requests
 
         resp = {
-            "settings": get_settings(disallowed=["server_api_key"]),
-            "requests": get_requests(disallowed=["api_key"]),
+            "settings": loads(dumps(get_settings(disallowed=["server_api_key"]),  indent=4, sort_keys=True, default=str)),
+            "requests": loads(dumps(get_requests(disallowed=["api_key"]),  indent=4, sort_keys=True, default=str)),
             "version": str(get_current_version()),
             "update_available": need_update(),
             "debug": True if app.debug else False,

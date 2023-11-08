@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, h } from 'vue';
+import { defineComponent, h } from "vue";
 
 // A function that generates the component and returns it
 const generateComponent = (title: string, message: string) => {
@@ -12,24 +12,16 @@ const generateComponent = (title: string, message: string) => {
             };
         },
         render() {
-            return h(
-                'div',
-                { class: 'flex flex-col justify-start items-start' },
-                [
-                    h(
-                        'span',
-                        {
-                            class: 'text-md font-semibold text-gray-900 dark:text-white',
-                        },
-                        this.title,
-                    ),
-                    h(
-                        'span',
-                        { class: 'text-sm text-gray-900 dark:text-white' },
-                        this.message,
-                    ),
-                ],
-            );
+            return h("div", { class: "flex flex-col justify-start items-start" }, [
+                h(
+                    "span",
+                    {
+                        class: "text-md font-semibold text-gray-900 dark:text-white",
+                    },
+                    this.title,
+                ),
+                h("span", { class: "text-sm text-gray-900 dark:text-white" }, this.message),
+            ]);
         },
     });
 };

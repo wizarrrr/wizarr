@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+[ -n "$CI" ] && exit 0
+
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx --no-install commitlint --edit "$1"
+
+filepath="$1"
+tmp_file=$(mktemp /tmp/emoji-commitzen.XXXX)
+
+while IFS= read -r line; do
+  node "$(dirname -- "$0")/emojify-commit-message.js" "$line" >> "$tmp_file"
+done < "$filepath"
+
+mv "$tmp_file" "$filepath"

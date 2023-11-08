@@ -1,39 +1,11 @@
 <template>
     <div>
-        <DefaultLabel
-            :name="name"
-            :label="label"
-            :sublabel="sublabel"
-            :tooltip="tooltip"
-            :tooltipTitle="tooltipTitle"
-        />
-        <div
-            class="relative"
-            :style="passwordMeter ? 'margin-bottom: -5px;' : ''"
-        >
-            <div
-                class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"
-                v-if="icon"
-            >
+        <DefaultLabel :name="name" :label="label" :sublabel="sublabel" :tooltip="tooltip" :tooltipTitle="tooltipTitle" />
+        <div class="relative" :style="passwordMeter ? 'margin-bottom: -5px;' : ''">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none" v-if="icon">
                 <i :class="icon" class="text-gray-400"></i>
             </div>
-            <input
-                ref="inputRef"
-                @input="restrictValue"
-                v-model="inputValue"
-                :type="type"
-                :name="name"
-                :placeholder="__(placeholder)"
-                :required="required"
-                :autocomplete="autocomplete"
-                :autofocus="autofocus"
-                :class="inputClass"
-                @keydown="restrictValue"
-                :minlength="min"
-                :maxlength="max"
-                :pattern="pattern"
-                :disabled="buttonLoading"
-            />
+            <input ref="inputRef" @input="restrictValue" v-model="inputValue" :type="type" :name="name" :placeholder="__(placeholder)" :required="required" :autocomplete="autocomplete" :autofocus="autofocus" :class="inputClass" @keydown="restrictValue" :minlength="min" :maxlength="max" :pattern="pattern" :disabled="buttonLoading" />
             <PasswordMeter :password="inputValue" v-if="passwordMeter" />
             <DefaultButton
                 @click="$emit('btnClick')"
@@ -43,12 +15,9 @@
                 :theme="buttonTheme"
                 :options="{
                     button: {
-                        button_class:
-                            'rounded-l-none !absolute !top-0 !right-0 !h-full ' +
-                            buttonClass,
+                        button_class: 'rounded-l-none !absolute !top-0 !right-0 !h-full ' + buttonClass,
                     },
-                }"
-            >
+                }">
                 {{ __(button) }}
             </DefaultButton>
         </div>
@@ -56,14 +25,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
-import DefaultButton from '../Buttons/DefaultButton.vue';
-import DefaultLabel from './DefaultLabel.vue';
-import PasswordMeter from 'vue-simple-password-meter';
+import DefaultButton from "../Buttons/DefaultButton.vue";
+import DefaultLabel from "./DefaultLabel.vue";
+import PasswordMeter from "vue-simple-password-meter";
 
 export default defineComponent({
-    name: 'DefaultInput',
+    name: "DefaultInput",
     components: {
         DefaultButton,
         DefaultLabel,
@@ -78,19 +47,19 @@ export default defineComponent({
         },
         value: {
             type: String,
-            default: '',
+            default: "",
         },
         type: {
             type: String,
-            default: 'text',
+            default: "text",
         },
         name: {
             type: String,
-            default: '',
+            default: "",
         },
         placeholder: {
             type: String,
-            default: '',
+            default: "",
         },
         required: {
             type: Boolean,
@@ -98,15 +67,15 @@ export default defineComponent({
         },
         autocomplete: {
             type: String,
-            default: '',
+            default: "",
         },
         autofocus: {
             type: Boolean,
             default: false,
         },
         size: {
-            type: String as () => 'xs' | 'sm' | 'md' | 'lg' | 'xl',
-            default: 'md',
+            type: String as () => "xs" | "sm" | "md" | "lg" | "xl",
+            default: "md",
         },
         min: {
             type: String as () => string | number,
@@ -137,16 +106,12 @@ export default defineComponent({
             default: null as string | null,
         },
         buttonTheme: {
-            type: String as () =>
-                | 'primary'
-                | 'secondary'
-                | 'danger'
-                | 'transparent',
-            default: 'primary',
+            type: String as () => "primary" | "secondary" | "danger" | "transparent",
+            default: "primary",
         },
         buttonClass: {
             type: String,
-            default: '',
+            default: "",
         },
         buttonLoading: {
             type: Boolean,
@@ -169,18 +134,18 @@ export default defineComponent({
     data() {
         return {
             classes: {
-                background: 'bg-gray-50 dark:bg-gray-700',
-                font: 'text-gray-900 dark:text-white sm:text-sm',
-                border: 'border border-gray-300 dark:border-gray-600',
-                other: 'rounded block w-full dark:placeholder-gray-400',
-                focus: 'focus:ring-primary focus:border-primary',
+                background: "bg-gray-50 dark:bg-gray-700",
+                font: "text-gray-900 dark:text-white sm:text-sm",
+                border: "border border-gray-300 dark:border-gray-600",
+                other: "rounded block w-full dark:placeholder-gray-400",
+                focus: "focus:ring-primary focus:border-primary",
             },
             sizes: {
-                xs: 'p-1.5 text-xs',
-                sm: 'p-2 text-sm',
-                md: 'p-2.5 text-base',
-                lg: 'p-3 text-lg',
-                xl: 'p-4 text-xl',
+                xs: "p-1.5 text-xs",
+                sm: "p-2 text-sm",
+                md: "p-2.5 text-base",
+                lg: "p-3 text-lg",
+                xl: "p-4 text-xl",
             },
             btnLoading: false,
             inputValue: this.value,
@@ -194,22 +159,22 @@ export default defineComponent({
             });
 
             // If icon add pl-10 to the classes
-            if (this.icon) classes.push('pl-10');
+            if (this.icon) classes.push("pl-10");
 
             // Add the size class
             classes.push(this.sizes[this.size]);
 
-            return classes.join(' ');
+            return classes.join(" ");
         },
     },
     methods: {
         restrictValue(event: Event) {
             const target = event.target as HTMLInputElement;
 
-            if ((event as KeyboardEvent).key === 'Enter') {
-                this.$emit('enter', target.value);
+            if ((event as KeyboardEvent).key === "Enter") {
+                this.$emit("enter", target.value);
                 if (this.button) {
-                    this.$emit('btnClick', target.value);
+                    this.$emit("btnClick", target.value);
                 }
             }
 
@@ -226,19 +191,19 @@ export default defineComponent({
             }
 
             if (this.restrictions.disable_spaces) {
-                target.value = target.value.replace(/\s/g, '');
+                target.value = target.value.replace(/\s/g, "");
             }
 
             if (this.restrictions.alpha) {
-                target.value = target.value.replace(/[^a-zA-Z]/g, '');
+                target.value = target.value.replace(/[^a-zA-Z]/g, "");
             }
 
             if (this.restrictions.numeric) {
-                target.value = target.value.replace(/[^0-9]/g, '');
+                target.value = target.value.replace(/[^0-9]/g, "");
             }
 
             if (this.restrictions.alpha_numeric) {
-                target.value = target.value.replace(/[^a-zA-Z0-9]/g, '');
+                target.value = target.value.replace(/[^a-zA-Z0-9]/g, "");
             }
 
             if (this.restrictions.lowercase_only) {
@@ -274,7 +239,7 @@ export default defineComponent({
             immediate: false,
             handler(newVal) {
                 this.inputValue = this.valueParse(newVal);
-                this.$emit('update:value', this.inputValue);
+                this.$emit("update:value", this.inputValue);
             },
         },
     },

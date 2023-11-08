@@ -1,9 +1,10 @@
-name: Docker Build and Push Beta on Release
+name: CI/CD Build Docker [Beta]
 
 on:
-    push:
-        tags:
-            - "*"
+    workflow_run:
+        workflows: ["CI/CD Release [Beta]"]
+        types:
+            - completed
     workflow_dispatch:
         inputs:
             tag:
@@ -79,13 +80,6 @@ jobs:
                   npx nx build wizarr-backend
                   npx nx build wizarr-frontend
 
-            # Get the Metadata from the Docker Image
-            - name: Docker meta
-              id: meta
-              uses: docker/metadata-action@v5
-              with:
-                  images: ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-
             # Set up Docker Buildx
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v3
@@ -107,7 +101,6 @@ jobs:
                   file: ./dockerfiles/wizarr-ci/Dockerfile
                   push: true
                   platforms: ${{ matrix.platform }}
-                  labels: ${{ steps.meta.outputs.labels }}
                   provenance: false
                   outputs: type=image,name=${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true
 
@@ -155,13 +148,6 @@ jobs:
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v3
 
-            # Get the Metadata from the Docker Image
-            - name: Docker meta
-              id: meta
-              uses: docker/metadata-action@v5
-              with:
-                  images: ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-
             # Login to GHCR
             - name: Login to GHCR
               uses: docker/login-action@v3
@@ -208,9 +194,9 @@ jobs:
               run: |
                   docker buildx imagetools create \
                     --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-                    --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }} \
+                    --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.get_version.outputs.version }} \
                     --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-                    --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }} \
+                    --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.get_version.outputs.version }} \
                     $(printf '${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
 
             # Inspect image

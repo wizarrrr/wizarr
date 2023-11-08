@@ -1,5 +1,14 @@
 <template>
-    <div class="xterm" />
+    <div :class="bordered">
+        <div class="flex flex-col space-y-6">
+            <div class="xterm"></div>
+            <div class="flex flex-row justify-end" v-if="isModal">
+                <FormKit type="button" @click="openLarge">
+                    {{ __("Open Window") }}
+                </FormKit>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -9,6 +18,7 @@ import { defineComponent } from "vue";
 import { FitAddon } from "xterm-addon-fit";
 import { useThemeStore } from "@/stores/theme";
 import { useDebounceFn } from "@vueuse/core";
+import { useServerStore } from "@/stores/server";
 
 import type { ITheme, ITerminalOptions } from "xterm";
 import type { Socket } from "socket.io-client";
@@ -17,6 +27,12 @@ import { useAuthStore } from "@/stores/auth";
 
 export default defineComponent({
     name: "LogsView",
+    props: {
+        eventBus: {
+            type: Object,
+            required: false,
+        },
+    },
     data() {
         return {
             socket: null as Socket | null,
@@ -37,9 +53,15 @@ export default defineComponent({
                     background: "transparent",
                 },
             } as Record<string, ITheme>,
+            isModal: false,
         };
     },
     computed: {
+        bordered() {
+            return !this.boxView && !this.isModal ? "border border-gray-200 dark:border-gray-700 rounded-md p-6" : "";
+        },
+        ...mapState(useServerStore, ["settings"]),
+        ...mapState(useThemeStore, ["boxView"]),
         ...mapState(useThemeStore, ["currentTheme"]),
         ...mapState(useAuthStore, ["token"]),
     },
@@ -50,12 +72,15 @@ export default defineComponent({
         async onResize() {
             this.fitAddon.fit();
         },
+        openLarge() {
+            this.$router.push("/admin/settings/logs");
+        },
     },
     async mounted() {
         // Initialize the terminal
         this.terminal.options = this.options;
         this.terminal.loadAddon(this.fitAddon);
-        this.terminal.open(this.$el);
+        this.terminal.open(this.$el.querySelector(".xterm") as HTMLElement);
         this.fitAddon.fit();
 
         // Initialize the callbacks
@@ -88,9 +113,12 @@ export default defineComponent({
         this.socket.on("log", (data: string) => {
             this.terminal.write(data);
         });
+
+        if (this.eventBus) {
+            this.isModal = true;
+        }
     },
-    beforeUnmount() {
-        // Remove the callbacks
+    unmounted() {
         this.socket?.disconnect();
         window.removeEventListener("resize", this.onResize);
     },
