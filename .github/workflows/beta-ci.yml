@@ -4,6 +4,9 @@ on:
     push:
         tags:
             - "v*.*.*-beta.*"
+            - "*.*.*-beta.*"
+            - "v*.*.*-beta"
+            - "*.*.*-beta"
     workflow_dispatch:
         inputs:
             tag:
@@ -49,6 +52,8 @@ jobs:
             # Checkout the repo
             - name: Checkout
               uses: actions/checkout@v4
+              with:
+                  persist-credentials: false
 
             # Use NPM and Node.js to install dependencies
             - name: Use Node.js 18.18.2
@@ -180,6 +185,11 @@ jobs:
               uses: dawidd6/action-get-tag@v1
               with:
                   strip_v: true
+
+            # Fallback to github.event.inputs.tag if tag is empty
+            - name: Fallback to github.event.inputs.tag if tag is empty
+              if: steps.tag.outputs.tag == ''
+              run: echo "::set-output name=tag::${{ github.event.inputs.tag }}"
 
             # Create manifest list and push
             - name: Create manifest list and push to Registry
