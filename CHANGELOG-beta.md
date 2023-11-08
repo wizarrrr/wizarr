@@ -1,3 +1,10 @@
+## [3.5.1-beta.5](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.4...v3.5.1-beta.5) (2023-11-08)
+
+
+### Bug Fixes
+
+* 🩹 refactor regex pattern in beta-ci.yml for beta tags ([13616c0](https://github.com/Wizarrrr/wizarr/commit/13616c07971b7598186c38e7d08195e9b3c4a15d))
+
 ## [3.5.1-beta.4](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.3...v3.5.1-beta.4) (2023-11-08)
 
 
