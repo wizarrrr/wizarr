@@ -1,6 +1,5 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const resolveConfig = require('./resolve-config');
 
 /**
  * @typedef {import('./types').Context} Context
@@ -14,27 +13,25 @@ const resolveConfig = require('./resolve-config');
  * success(pluginConfig, context)
  */
 const publish = (pluginConfig, context) => {
-    // Resolve the plugin configuration
-    const config = resolveConfig(pluginConfig, context)
     const { nextRelease, logger } = context;
 
     // Get the Octokit client using the provided GitHub token
-    const octokit = github.getOctokit(config.githubToken)
+    const octokit = github.getOctokit(pluginConfig.githubToken)
 
     // Create a dispatch event
     octokit.rest.repos.createDispatchEvent({
-        owner: config.owner,
-        repo: config.repo,
-        event_type: config.eventName,
-        client_payload: {
-            version: config.payload.version || nextRelease.gitTag,
-            image: config.payload.image,
-            branch: config.payload.branch
-        }
+        owner: pluginConfig.owner,
+        repo: pluginConfig.repo,
+        event_type: pluginConfig.eventName,
+        client_payload: JSON.parse({
+            version: pluginConfig.payload.version || nextRelease.gitTag,
+            image: pluginConfig.payload.image,
+            branch: pluginConfig.payload.branch
+        })
     });
 
     // Log the success
-    logger.log("Dispatched GitHub event with event type: " + config.eventName);
+    logger.log("Dispatched GitHub event with event type: " + pluginConfig.eventName);
 }
 
 module.exports = { publish }
