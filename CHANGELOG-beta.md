@@ -1,3 +1,11 @@
+## [3.5.1-beta.8](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.7...v3.5.1-beta.8) (2023-11-08)
+
+
+### Bug Fixes
+
+* 🐛 refactor beta-ci.yml for improved flexibility and simplicity ([6102fc2](https://github.com/Wizarrrr/wizarr/commit/6102fc20e9b792d15466ae96e41f18bd9874b4e3))
+* 🚑 updated tag selection logic in beta-ci workflow and fixed beta CI action ([1ffd4b6](https://github.com/Wizarrrr/wizarr/commit/1ffd4b67f11f9862fc01ce32daa436f3d4b627bf))
+
 ## [3.5.1-beta.7](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.6...v3.5.1-beta.7) (2023-11-08)
 
 
