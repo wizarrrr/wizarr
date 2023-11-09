@@ -13,4 +13,5 @@ export interface ServerSettings {
     server_type: "jellyfin" | "plex";
     server_verified: string;
     server_discord_id?: string;
+    bug_reporting?: boolean | string;
 }

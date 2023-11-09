@@ -1,7 +1,7 @@
 <template>
     <ListItem>
         <template #icon>
-            <div class="flex-shrink-0 h-[60px] w-[60px] rounded bg-gray-50 overflow-hidden">
+            <div class="flex-shrink-0 h-[60px] w-[60px] rounded overflow-hidden">
                 <img :src="profilePicture" :onerror="`this.src='${backupPicture}'`" class="w-full h-full object-cover object-center" alt="Profile Picture" />
             </div>
         </template>
@@ -66,8 +66,8 @@ export default defineComponent({
     },
     data() {
         return {
-            profilePicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username + "&length=1",
-            backupPicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username + "&length=1",
+            profilePicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username[0],
+            backupPicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username[0],
             disabled: {
                 delete: false,
             },

@@ -1,12 +1,6 @@
 <template>
-    <button
-        class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm"
-        type="button"
-        @click="toggleBoxView"
-    >
-        <div
-            class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-200 hover:dark:bg-gray-700"
-        >
+    <button class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm" type="button" @click="toggleBoxView">
+        <div class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-200 hover:dark:bg-gray-700">
             <!-- Box Icon -->
             <i v-if="boxView" class="fas fa-box"></i>
 
@@ -17,14 +11,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { mapWritableState } from 'pinia';
-import { useThemeStore } from '@/stores/theme';
+import { defineComponent } from "vue";
+import { mapWritableState } from "pinia";
+import { useThemeStore } from "@/stores/theme";
 
 export default defineComponent({
-    name: 'ViewToggle',
+    name: "ViewToggle",
     computed: {
-        ...mapWritableState(useThemeStore, ['boxView']),
+        ...mapWritableState(useThemeStore, ["boxView"]),
     },
     methods: {
         toggleBoxView() {

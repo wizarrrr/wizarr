@@ -1,40 +1,17 @@
 <template>
     <div>
-        <DefaultLabel
-            :name="name"
-            :label="label"
-            :sublabel="sublabel"
-            :tooltip="tooltip"
-            :tooltipTitle="tooltipTitle"
-        />
+        <DefaultLabel :name="name" :label="label" :sublabel="sublabel" :tooltip="tooltip" :tooltipTitle="tooltipTitle" />
         <div class="relative">
-            <div
-                class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"
-                v-if="icon"
-            >
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none" v-if="icon">
                 <i :class="icon" class="text-gray-400"></i>
             </div>
-            <select
-                ref="inputRef"
-                v-model="selected"
-                :disabled="disabled"
-                :name="name"
-                :placeholder="placeholder"
-                :required="required"
-                :autocomplete="autocomplete"
-                :autofocus="autofocus"
-                :class="inputClass"
-            >
+            <select ref="inputRef" v-model="selected" :disabled="disabled" :name="name" :placeholder="placeholder" :required="required" :autocomplete="autocomplete" :autofocus="autofocus" :class="inputClass">
                 <option v-if="placeholder" value="disabled" disabled>
                     {{ placeholder }}
                 </option>
                 <slot></slot>
                 <template v-for="option in options" :key="option.value">
-                    <option
-                        :value="option.value"
-                        :selected="option.selected"
-                        :disabled="option.disabled"
-                    >
+                    <option :value="option.value" :selected="option.selected" :disabled="option.disabled">
                         {{ option.label }}
                     </option>
                 </template>
@@ -44,13 +21,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
-import DefaultLabel from './DefaultLabel.vue';
-import type { OptionHTMLAttributes } from 'vue';
+import DefaultLabel from "./DefaultLabel.vue";
+import type { OptionHTMLAttributes } from "vue";
 
 export default defineComponent({
-    name: 'SelectInput',
+    name: "SelectInput",
     components: {
         DefaultLabel,
     },
@@ -69,11 +46,11 @@ export default defineComponent({
         },
         name: {
             type: String,
-            default: '',
+            default: "",
         },
         value: {
             type: String as () => string | number,
-            default: '',
+            default: "",
         },
         placeholder: {
             type: String,
@@ -85,7 +62,7 @@ export default defineComponent({
         },
         autocomplete: {
             type: String,
-            default: '',
+            default: "",
         },
         autofocus: {
             type: Boolean,
@@ -96,8 +73,8 @@ export default defineComponent({
             default: null as string | null,
         },
         size: {
-            type: String as () => 'xs' | 'sm' | 'md' | 'lg' | 'xl',
-            default: 'md',
+            type: String as () => "xs" | "sm" | "md" | "lg" | "xl",
+            default: "md",
         },
         disabled: {
             type: Boolean,
@@ -110,18 +87,18 @@ export default defineComponent({
     data() {
         return {
             classes: {
-                background: 'bg-gray-50 dark:bg-gray-700',
-                font: 'text-gray-900 dark:text-white sm:text-sm',
-                border: 'border border-gray-300 dark:border-gray-600',
-                other: 'rounded block w-full dark:placeholder-gray-400',
-                focus: 'focus:ring-primary focus:border-primary',
+                background: "bg-gray-50 dark:bg-gray-700",
+                font: "text-gray-900 dark:text-white sm:text-sm",
+                border: "border border-gray-300 dark:border-gray-600",
+                other: "rounded block w-full dark:placeholder-gray-400",
+                focus: "focus:ring-primary focus:border-primary",
             },
             sizes: {
-                xs: 'p-1.5 text-xs',
-                sm: 'p-2 text-sm',
-                md: 'p-2.5 text-base',
-                lg: 'p-3 text-lg',
-                xl: 'p-4 text-xl',
+                xs: "p-1.5 text-xs",
+                sm: "p-2 text-sm",
+                md: "p-2.5 text-base",
+                lg: "p-3 text-lg",
+                xl: "p-4 text-xl",
             },
             selected: this.value,
         };
@@ -134,18 +111,18 @@ export default defineComponent({
             });
 
             // If icon add pl-10 to the classes
-            if (this.icon) classes.push('pl-10');
+            if (this.icon) classes.push("pl-10");
 
             // Add the size class
             classes.push(this.sizes[this.size]);
 
-            return classes.join(' ');
+            return classes.join(" ");
         },
     },
     watch: {
         selected: {
             handler(value: string) {
-                this.$emit('update:value', value);
+                this.$emit("update:value", value);
             },
             deep: true,
         },
@@ -157,7 +134,7 @@ export default defineComponent({
         },
     },
     beforeMount() {
-        if (this.placeholder) this.selected = 'disabled';
+        if (this.placeholder) this.selected = "disabled";
     },
 });
 </script>

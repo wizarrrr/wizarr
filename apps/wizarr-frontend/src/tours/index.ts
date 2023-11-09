@@ -1,13 +1,13 @@
-import type { RouteRecordName, Router } from 'vue-router';
+import type { RouteRecordName, Router } from "vue-router";
 
-import type { App } from 'vue';
-import type { CustomTourGuideOptions } from '@/plugins/tours';
-import type { Language } from 'vue3-gettext';
-import { TourGuideClient } from '@sjmc11/tourguidejs/src/Tour';
-import type TourGuideOptions from '@sjmc11/tourguidejs/src/core/options';
-import type { TourGuideStep } from '@sjmc11/tourguidejs/src/types/TourGuideStep';
-import defaultOptions from '@sjmc11/tourguidejs/src/util/util_default_options';
-import { useUserStore } from '@/stores/user';
+import type { App } from "vue";
+import type { CustomTourGuideOptions } from "@/plugins/tours";
+import type { Language } from "vue3-gettext";
+import { TourGuideClient } from "@sjmc11/tourguidejs/src/Tour";
+import type TourGuideOptions from "@sjmc11/tourguidejs/src/core/options";
+import type { TourGuideStep } from "@sjmc11/tourguidejs/src/types/TourGuideStep";
+import defaultOptions from "@sjmc11/tourguidejs/src/util/util_default_options";
+import { useUserStore } from "@/stores/user";
 
 export interface CustomTourGuideStep extends TourGuideStep {
     onBackdropClick?: () => void | Promise<void>;
@@ -30,10 +30,7 @@ export type TourGuideStepsReturn = {
 
 export type TourGuideImport = {
     steps: (__: (key: string) => string) => TourGuideStep[];
-    options?: (
-        __: (key: string) => string,
-        app?: App,
-    ) => Partial<TourGuideOptions>;
+    options?: (__: (key: string) => string, app?: App) => Partial<TourGuideOptions>;
     callbacks?: (__: (key: string) => string, app?: App) => TourGuideCallbacks;
 };
 
@@ -45,12 +42,10 @@ export type TourGuideImport = {
  */
 export const checkTourAvailability = (tour: string): boolean => {
     // Get an array of tour files from the tours folder
-    const tours = import.meta.glob('../tours/*.ts');
+    const tours = import.meta.glob("../tours/*.ts");
 
     // Extract the tour name from the file paths in tours (./*.ts)
-    const tourNames = Object.keys(tours).map(
-        (tour) => RegExp(/\.\/(.*).ts/).exec(tour.replace('../tours/', ''))![1],
-    );
+    const tourNames = Object.keys(tours).map((tour) => RegExp(/\.\/(.*).ts/).exec(tour.replace("../tours/", ""))![1]);
 
     // Check if the tour exists
     return tourNames.includes(tour);
@@ -67,18 +62,13 @@ const loadRouterTour = (router: Router, options: CustomTourGuideOptions) => {
     // Initialize the tour guide
     const tourGuide = new TourGuideClient({
         ...options,
-        debug: process.env.NODE_ENV === 'development',
+        debug: process.env.NODE_ENV === "development",
     });
 
     // Load the tour when the route is loaded
     router.afterEach(async (to) => {
-        const userStore = useUserStore(
-            options.app.config.globalProperties.$pinia,
-        );
-        if (
-            !userStore.user?.tutorial &&
-            checkTourAvailability(to.name as string)
-        ) {
+        const userStore = useUserStore(options.app.config.globalProperties.$pinia);
+        if (!userStore.user?.tutorial && checkTourAvailability(to.name as string)) {
             await loadTour(to.name as RouteRecordName, tourGuide, {
                 ...options,
                 userStore: userStore,
@@ -95,11 +85,7 @@ const loadRouterTour = (router: Router, options: CustomTourGuideOptions) => {
  * @param callback
  * @returns
  */
-const defaultOnFinish = async (
-    tourGuide: TourGuideClient,
-    options?: CustomTourGuideOptions,
-    callback?: () => void | Promise<void>,
-) => {
+const defaultOnFinish = async (tourGuide: TourGuideClient, options?: CustomTourGuideOptions, callback?: () => void | Promise<void>) => {
     // Reset the tour guide options
     tourGuide.options = { ...defaultOptions, ...options };
 
@@ -114,14 +100,9 @@ const defaultOnFinish = async (
  * @param callback
  * @returns
  */
-const defaultOnBeforeStepChange = async (
-    tourGuide: TourGuideClient,
-    callback?: () => void | Promise<void>,
-) => {
+const defaultOnBeforeStepChange = async (tourGuide: TourGuideClient, callback?: () => void | Promise<void>) => {
     // Get the current step
-    const currentStep = tourGuide.tourSteps[
-        tourGuide.activeStep + 1
-    ] as CustomTourGuideStep;
+    const currentStep = tourGuide.tourSteps[tourGuide.activeStep + 1] as CustomTourGuideStep;
 
     // Call the current step's onBeforeEnter callback if it exists
     await currentStep?.onBeforeEnter?.();
@@ -137,20 +118,14 @@ const defaultOnBeforeStepChange = async (
  * @param callback
  * @returns
  */
-const defaultOnAfterExit = async (
-    tourGuide: TourGuideClient,
-    options?: CustomTourGuideOptions,
-    callback?: () => void | Promise<void>,
-) => {
+const defaultOnAfterExit = async (tourGuide: TourGuideClient, options?: CustomTourGuideOptions, callback?: () => void | Promise<void>) => {
     // Don't show the tour guide again if the tour has been completed
     const axios = options?.app.config.globalProperties.$axios;
 
     // Update the user in the database
-    await axios!
-        .patch('/api/accounts/me', { tutorial: true })
-        .then((response) => {
-            options?.userStore?.$patch({ user: { ...response.data } });
-        });
+    await axios!.patch("/api/accounts/me", { tutorial: true }).then((response) => {
+        options?.userStore?.$patch({ user: { ...response.data } });
+    });
 
     // Call the callback if it exists
     await callback?.();
@@ -163,11 +138,7 @@ const defaultOnAfterExit = async (
  * @param options
  * @returns
  */
-const loadTour = async (
-    name: RouteRecordName,
-    tourGuide: TourGuideClient,
-    options?: CustomTourGuideOptions,
-) => {
+const loadTour = async (name: RouteRecordName, tourGuide: TourGuideClient, options?: CustomTourGuideOptions) => {
     // Make sure the tour name is a string
     const tourName = name.toString();
 
@@ -180,11 +151,7 @@ const loadTour = async (
     }
 
     // Get the tour
-    const tour = await getTourSteps(
-        tourName,
-        options?.i18n,
-        options?.app,
-    ).catch((error) => {
+    const tour = await getTourSteps(tourName, options?.i18n, options?.app).catch((error) => {
         console.log(`Tour ${tourName} does not exist`);
     });
 
@@ -192,41 +159,20 @@ const loadTour = async (
     if (!tour) return;
 
     // Add the steps to the tour guide if they don't exist
-    tourGuide.addSteps(
-        tour.steps
-            .map((step) => ({ ...step, group: tourName }))
-            .filter(
-                (step) =>
-                    !tourGuide.tourSteps
-                        .map((step) => step.content)
-                        .includes(step.content),
-            ),
-    );
+    tourGuide.addSteps(tour.steps.map((step) => ({ ...step, group: tourName })).filter((step) => !tourGuide.tourSteps.map((step) => step.content).includes(step.content)));
 
     // Add the options to the tour guide if they exist
     tourGuide.options = { ...tourGuide.options, ...tour.options };
 
-    const onFinishCallback = async () =>
-        await defaultOnFinish(tourGuide, options, tour.callbacks?.onFinish);
-    const onBeforeStepChangeCallback = async () =>
-        await defaultOnBeforeStepChange(
-            tourGuide,
-            tour.callbacks?.onBeforeStepChange,
-        );
-    const onAfterExitCallback = async () =>
-        await defaultOnAfterExit(
-            tourGuide,
-            options,
-            tour.callbacks?.onAfterExit,
-        );
+    const onFinishCallback = async () => await defaultOnFinish(tourGuide, options, tour.callbacks?.onFinish);
+    const onBeforeStepChangeCallback = async () => await defaultOnBeforeStepChange(tourGuide, tour.callbacks?.onBeforeStepChange);
+    const onAfterExitCallback = async () => await defaultOnAfterExit(tourGuide, options, tour.callbacks?.onAfterExit);
 
     // Add the callbacks to the tour guide if they exist
     tourGuide.onFinish(onFinishCallback);
     tourGuide.onAfterExit(onAfterExitCallback);
-    tour.callbacks?.onAfterStepChange &&
-        tourGuide.onAfterStepChange(tour.callbacks.onAfterStepChange);
-    tour.callbacks?.onBeforeExit &&
-        tourGuide.onBeforeExit(tour.callbacks.onBeforeExit);
+    tour.callbacks?.onAfterStepChange && tourGuide.onAfterStepChange(tour.callbacks.onAfterStepChange);
+    tour.callbacks?.onBeforeExit && tourGuide.onBeforeExit(tour.callbacks.onBeforeExit);
     tourGuide.onBeforeStepChange(onBeforeStepChangeCallback);
 
     // Start the tour
@@ -239,15 +185,9 @@ const loadTour = async (
  * @param tour
  * @returns
  */
-const getTourSteps = async (
-    tour: string,
-    i18n?: Language,
-    app?: App,
-): Promise<TourGuideStepsReturn> => {
+const getTourSteps = async (tour: string, i18n?: Language, app?: App): Promise<TourGuideStepsReturn> => {
     // Import the tour steps from the tours folder
-    const { steps, options, callbacks } = (await import(
-        `../tours/${tour}.ts`
-    )) as TourGuideImport;
+    const { steps, options, callbacks } = (await import(`../tours/${tour}.ts`)) as TourGuideImport;
 
     // Verify the tour steps are valid
     if (!steps) throw new Error(`Tour steps for ${tour} do not exist`);
@@ -255,12 +195,8 @@ const getTourSteps = async (
     // Translate the tour steps
     return {
         steps: steps(i18n?.$gettext ?? ((key) => key)),
-        options: options
-            ? options(i18n?.$gettext ?? ((key) => key), app)
-            : undefined,
-        callbacks: callbacks
-            ? callbacks(i18n?.$gettext ?? ((key) => key), app)
-            : undefined,
+        options: options ? options(i18n?.$gettext ?? ((key) => key), app) : undefined,
+        callbacks: callbacks ? callbacks(i18n?.$gettext ?? ((key) => key), app) : undefined,
     };
 };
 

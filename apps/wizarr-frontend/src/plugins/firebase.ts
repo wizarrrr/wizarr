@@ -40,7 +40,7 @@ const vuePluginFirebase = {
 
         // Fetch the firebase remote config
         fetchAndActivate(app.config.globalProperties.$remoteConfig).then((activated) => {
-            console.log("Remote config " + (activated ? "fetched and activated" : "already fetched and activated"));
+            console.log("\x1b[34m%s\x1b[0m", "[Firebase] " + (activated ? "\x1b[32m%s\x1b[0m" : "\x1b[33m%s\x1b[0m"), "Remote config " + (activated ? "fetched and activated" : "already fetched and activated"));
         });
 
         // Global function to retrieve a remote config value as a string

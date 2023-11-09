@@ -14,6 +14,12 @@
         ".vscode/tailwind.json"
     ],
     "python.defaultInterpreterPath": "${workspaceFolder}/apps/wizarr-backend/.venv",
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/apps/wizarr-backend/wizarr_backend"
+    ],
+    "python.linting.pylintArgs": [
+        "--rcfile=${workspaceFolder}/apps/wizarr-backend/.pylintrc"
+    ],
     "[vue]": {
         "editor.formatOnType": true,
         "editor.formatOnSave": true,

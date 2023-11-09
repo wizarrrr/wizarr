@@ -4,7 +4,7 @@
     "sourceRoot": "apps/wizarr-e2e/src",
     "projectType": "application",
     "targets": {
-        "e2e:start": {
+        "e2e": {
             "executor": "@nx/cypress:cypress",
             "options": {
                 "cypressConfig": "apps/wizarr-e2e/cypress.config.ts",
@@ -20,24 +20,20 @@
                 }
             }
         },
-        "e2e": {
-            "executor": "nx:run-commands",
-            "options": {
-                "commands": [
-                    "nx run wizarr-backend:serve",
-                    "nx run wizarr-e2e:e2e:start"
-                ],
-                "parallel": true
-            }
-        },
         "lint": {
             "executor": "@nx/eslint:lint",
-            "outputs": ["{options.outputFile}"],
+            "outputs": [
+                "{options.outputFile}"
+            ],
             "options": {
-                "lintFilePatterns": ["apps/wizarr-e2e/**/*.{js,ts}"]
+                "lintFilePatterns": [
+                    "apps/wizarr-e2e/**/*.{js,ts}"
+                ]
             }
         }
     },
     "tags": [],
-    "implicitDependencies": ["wizarr-frontend"]
+    "implicitDependencies": [
+        "wizarr-frontend"
+    ]
 }

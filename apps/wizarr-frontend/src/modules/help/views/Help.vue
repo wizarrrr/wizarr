@@ -1,4 +1,9 @@
 <template>
+    <div class="flex flex-row-reverse flex-column m-3">
+        <LanguageSelector iconClasses="text-base h-8 w-8" />
+        <ThemeToggle iconClasses="text-base h-6 w-6" />
+    </div>
+
     <div>
         <div class="flex justify-center items-center flex-col mt-12 mb-3 space-y-6">
             <WizarrLogo rounded class="w-[150px] h-[150px]" />
@@ -30,6 +35,9 @@ import { mapState } from "pinia";
 import Carousel from "@/components/Carousel.vue";
 import WizarrLogo from "@/components/WizarrLogo.vue";
 
+import LanguageSelector from '@/components/Buttons/LanguageSelector.vue';
+import ThemeToggle from '@/components/Buttons/ThemeToggle.vue';
+
 import Welcome from "../components/Welcome.vue";
 import Download from "../components/Download.vue";
 import Discord from "../components/Discord.vue";
@@ -42,6 +50,8 @@ export default defineComponent({
     components: {
         Carousel,
         WizarrLogo,
+        LanguageSelector,
+        ThemeToggle,
     },
     data() {
         return {

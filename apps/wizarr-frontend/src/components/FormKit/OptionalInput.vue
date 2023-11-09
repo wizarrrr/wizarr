@@ -3,22 +3,17 @@
         <span class="mr-1">{{ context.label }}</span>
         <span class="mr-1 text-gray-500">(optional)</span>
     </label>
-    <input
-        type="text"
-        v-bind="attrs"
-        :class="context.classes.input"
-        :id="context.id"
-    />
+    <input type="text" v-bind="attrs" :class="context.classes.input" :id="context.id" />
 </template>
 
 <style lang="scss">
-.formkit-outer[data-type='optionalInput'] > .formkit-wrapper > label {
+.formkit-outer[data-type="optionalInput"] > .formkit-wrapper > label {
     display: none;
 }
 </style>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 // Define the props type
 interface MyProps {
@@ -44,7 +39,7 @@ interface MyProps {
 export default defineComponent({
     props: {
         context: {
-            type: Object as () => MyProps['context'],
+            type: Object as () => MyProps["context"],
             required: true,
         },
     },
@@ -62,7 +57,7 @@ export default defineComponent({
     mounted() {
         // Set the initial value
         // this.tmp = this.context.value;
-        console.log('this.context', this.context);
+        console.log("this.context", this.context);
     },
 });
 </script>

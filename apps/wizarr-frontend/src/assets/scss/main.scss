@@ -1,22 +1,24 @@
+@import "./fonts.scss";
+
 // Internal libraries
-@import './tailwind.scss';
-@import './extend.scss';
-@import './animations.scss';
-@import './xterm.scss';
-@import './flags.scss';
-@import './popper.scss';
-@import './modal.scss';
-@import './map.scss';
-@import './tour.scss';
+@import "./tailwind.scss";
+@import "./extend.scss";
+@import "./animations.scss";
+@import "./xterm.scss";
+@import "./flags.scss";
+@import "./popper.scss";
+@import "./modal.scss";
+@import "./map.scss";
+@import "./tour.scss";
 
 // External libraries
-@import 'floating-vue/dist/style.css';
-@import '@vue-flow/core/dist/style.css';
-@import '@vue-flow/core/dist/theme-default.css';
-@import '@fortawesome/fontawesome-free/css/all.css';
-@import 'vue-toastification/dist/index.css';
-@import 'gridstack/dist/gridstack.min.css';
-@import 'gridstack/dist/gridstack-extra.min.css';
+@import "floating-vue/dist/style.css";
+@import "@vue-flow/core/dist/style.css";
+@import "@vue-flow/core/dist/theme-default.css";
+@import "@fortawesome/fontawesome-free/css/all.css";
+@import "vue-toastification/dist/index.css";
+@import "gridstack/dist/gridstack.min.css";
+@import "gridstack/dist/gridstack-extra.min.css";
 
 // * {
 //     transition:
@@ -64,7 +66,7 @@
 
 .slider:before {
     position: absolute;
-    content: '';
+    content: "";
     height: 26px;
     width: 26px;
     left: 4px;
@@ -89,8 +91,8 @@ input:checked + .slider:before {
 }
 
 // change all range thumb color
-input[type='range']::-webkit-slider-thumb {
-    background-color: theme('colors.primary');
+input[type="range"]::-webkit-slider-thumb {
+    background-color: theme("colors.primary");
 }
 
 .slider.round {
@@ -100,12 +102,12 @@ input[type='range']::-webkit-slider-thumb {
     border-radius: 50%;
 }
 
-button[aria-current='page'] {
+button[aria-current="page"] {
     color: #000 !important;
     font-weight: bold !important;
 }
 
-html.dark button[aria-current='page'] {
+html.dark button[aria-current="page"] {
     color: #fff !important;
     font-weight: bold !important;
 }
@@ -132,7 +134,7 @@ button[disabled],
 }
 
 .settings-section .coming-soon::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0px;
     bottom: 0px;
@@ -145,7 +147,7 @@ button[disabled],
 }
 
 .settings-section .coming-soon::after {
-    content: 'Coming Soon';
+    content: "Coming Soon";
     position: absolute;
     color: #fff;
     top: 0px;

@@ -1,39 +1,23 @@
 <template>
     <div>
-        <DefaultLabel
-            :name="name"
-            :label="label"
-            :sublabel="sublabel"
-            :tooltip="tooltip"
-            :tooltipTitle="tooltipTitle"
-        />
+        <DefaultLabel :name="name" :label="label" :sublabel="sublabel" :tooltip="tooltip" :tooltipTitle="tooltipTitle" />
         <div class="relative mb-6">
-            <div
-                class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"
-                v-if="icon"
-            >
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none" v-if="icon">
                 <i :class="icon" class="text-gray-400"></i>
             </div>
-            <input
-                type="datetime-local"
-                v-model="date"
-                :disabled="disabled"
-                :name="name"
-                :required="required"
-                :class="dateInputClass"
-            />
+            <input type="datetime-local" v-model="date" :disabled="disabled" :name="name" :required="required" :class="dateInputClass" />
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
-import DefaultLabel from './DefaultLabel.vue';
-import type { ToastID } from 'vue-toastification/dist/types/types';
+import DefaultLabel from "./DefaultLabel.vue";
+import type { ToastID } from "vue-toastification/dist/types/types";
 
 export default defineComponent({
-    name: 'DateTimeInput',
+    name: "DateTimeInput",
     components: {
         DefaultLabel,
     },
@@ -52,11 +36,11 @@ export default defineComponent({
         },
         name: {
             type: String,
-            default: '',
+            default: "",
         },
         value: {
             type: String,
-            default: '',
+            default: "",
         },
         required: {
             type: Boolean,
@@ -72,20 +56,15 @@ export default defineComponent({
         },
         inputClass: {
             type: String,
-            default: '',
+            default: "",
         },
         size: {
-            type: String as () => 'xs' | 'sm' | 'md' | 'lg' | 'xl',
-            default: 'md',
+            type: String as () => "xs" | "sm" | "md" | "lg" | "xl",
+            default: "md",
         },
         parsedOutput: {
-            type: String as () =>
-                | 'default'
-                | 'days'
-                | 'hours'
-                | 'minutes'
-                | 'seconds',
-            default: 'default',
+            type: String as () => "default" | "days" | "hours" | "minutes" | "seconds",
+            default: "default",
         },
         future: {
             type: Boolean,
@@ -95,20 +74,20 @@ export default defineComponent({
     data() {
         return {
             classes: {
-                background: 'bg-gray-50 dark:bg-gray-700',
-                font: 'text-gray-900 dark:text-white sm:text-sm',
-                border: 'border border-gray-300 dark:border-gray-600',
-                other: 'rounded block w-full dark:placeholder-gray-400',
-                focus: 'focus:ring-primary focus:border-primary',
+                background: "bg-gray-50 dark:bg-gray-700",
+                font: "text-gray-900 dark:text-white sm:text-sm",
+                border: "border border-gray-300 dark:border-gray-600",
+                other: "rounded block w-full dark:placeholder-gray-400",
+                focus: "focus:ring-primary focus:border-primary",
             },
             sizes: {
-                xs: 'p-1.5 text-xs',
-                sm: 'p-2 text-sm',
-                md: 'p-2.5 text-base',
-                lg: 'p-3 text-lg',
-                xl: 'p-4 text-xl',
+                xs: "p-1.5 text-xs",
+                sm: "p-2 text-sm",
+                md: "p-2.5 text-base",
+                lg: "p-3 text-lg",
+                xl: "p-4 text-xl",
             },
-            date: '',
+            date: "",
             errorToast: null as ToastID | null,
         };
     },
@@ -120,12 +99,12 @@ export default defineComponent({
             });
 
             // If icon add pl-10 to the classes
-            if (this.icon) classes.push('pl-10');
+            if (this.icon) classes.push("pl-10");
 
             // Add the size class
             classes.push(this.sizes[this.size]);
 
-            return classes.join(' ');
+            return classes.join(" ");
         },
     },
     methods: {
@@ -134,7 +113,7 @@ export default defineComponent({
         },
         parseDate(date: string): string | number {
             // If the output is default, return the date
-            if (this.parsedOutput === 'default') return date;
+            if (this.parsedOutput === "default") return date;
 
             // If the date is invalid, return the date
             if (isNaN(Date.parse(date))) return date;
@@ -143,37 +122,16 @@ export default defineComponent({
             const dateObject = new Date(date);
 
             // If the output is days, return the total days from now until the date
-            if (this.parsedOutput === 'days')
-                return Number(
-                    Math.floor(
-                        (dateObject.getTime() - Date.now()) /
-                            (1000 * 60 * 60 * 24),
-                    ).toString(),
-                );
+            if (this.parsedOutput === "days") return Number(Math.floor((dateObject.getTime() - Date.now()) / (1000 * 60 * 60 * 24)).toString());
 
             // If the output is hours, return the total hours from now until the date
-            if (this.parsedOutput === 'hours')
-                return Number(
-                    Math.floor(
-                        (dateObject.getTime() - Date.now()) / (1000 * 60 * 60),
-                    ).toString(),
-                );
+            if (this.parsedOutput === "hours") return Number(Math.floor((dateObject.getTime() - Date.now()) / (1000 * 60 * 60)).toString());
 
             // If the output is minutes, return the total minutes from now until the date
-            if (this.parsedOutput === 'minutes')
-                return Number(
-                    Math.floor(
-                        (dateObject.getTime() - Date.now()) / (1000 * 60),
-                    ).toString(),
-                );
+            if (this.parsedOutput === "minutes") return Number(Math.floor((dateObject.getTime() - Date.now()) / (1000 * 60)).toString());
 
             // If the output is seconds, return the total seconds from now until the date
-            if (this.parsedOutput === 'seconds')
-                return Number(
-                    Math.floor(
-                        (dateObject.getTime() - Date.now()) / 1000,
-                    ).toString(),
-                );
+            if (this.parsedOutput === "seconds") return Number(Math.floor((dateObject.getTime() - Date.now()) / 1000).toString());
 
             return date;
         },
@@ -184,14 +142,12 @@ export default defineComponent({
                 // If future is true, check if the date is in the future if not clear the date
                 if (this.future && !this.isFuture(newValue)) {
                     this.$toast.dismiss(this.errorToast as ToastID);
-                    this.errorToast = this.$toast.error(
-                        'The date must be in the future',
-                    );
-                    this.date = '';
+                    this.errorToast = this.$toast.error("The date must be in the future");
+                    this.date = "";
                     return;
                 }
 
-                this.$emit('update:value', this.parseDate(newValue));
+                this.$emit("update:value", this.parseDate(newValue));
             },
         },
     },

@@ -1,17 +1,13 @@
 <template>
-    <DefaultWidget
-        icon="fa-solid fa-exclamation-triangle"
-        title="Error"
-        value="Something went wrong."
-    />
+    <DefaultWidget icon="fa-solid fa-exclamation-triangle" title="Error" value="Something went wrong." />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import DefaultWidget from '@/widgets/templates/DefaultWidget.vue';
+import { defineComponent } from "vue";
+import DefaultWidget from "@/widgets/templates/DefaultWidget.vue";
 
 export default defineComponent({
-    name: 'ErrorWidget',
+    name: "ErrorWidget",
     components: {
         DefaultWidget,
     },

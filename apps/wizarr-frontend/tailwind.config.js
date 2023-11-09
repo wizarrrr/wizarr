@@ -37,6 +37,10 @@ export const theme = {
             },
         },
     },
+    // fontFamily: {
+    //     'display': ['motiva sans', 'sans-serif'],
+    //     'body': ['motiva sans', 'sans-serif'],
+    // },
 };
 
 export const plugins = [

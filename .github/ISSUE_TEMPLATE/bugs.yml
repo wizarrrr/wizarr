@@ -1,0 +1,101 @@
+name: Bug Report
+description: Help us by filing a bug report!
+title: "[Bug] | "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out a bug report, this helps us better Wizarr.
+  - type: checkboxes
+    id: version
+    attributes:
+      label: Are you using the latest release?
+      description: Please make sure you are using the latest version to ensure the bug persists.
+      options:
+        - label: Yes, I am using the latest release.
+          required: true
+  - type: checkboxes
+    id: exists
+    attributes:
+      label: Have you checked a bug report doesn't already exist?
+      description: We do not want duplicate bug reports so please exercise some due diligence and check before submitting.
+      options:
+        - label: Yes, I have checked the existing bug reports.
+          required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Can you tell us with as much detail possible what the intended functionality was and what actually happened?
+      placeholder: Tell us what you see!
+    validations:
+      required: true
+  - type: dropdown
+    id: virtualisation
+    attributes:
+      label: Virtualisation
+      description: What software are you using to run our software?
+      options:
+        - Docker
+        - Unraid
+        - Other
+      default: 0
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: What operating system are you seeing the problem on?
+      description: This would be the operating system of the device you are viewing on, not the server.
+      options:
+        - Windows
+        - Linux
+        - macOS
+        - iOS
+        - Android
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      description: This would be the browser of the device you are viewing on, not the server.
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+    validations:
+      required: true
+  - type: dropdown
+    id: location
+    attributes:
+      label: Project Location
+      description: Where is the project located?
+      options:
+        - Local
+        - Remote
+        - Somewhere else (please specify in the description!)
+    validations:
+      required: true
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Bug Description
+      description: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Which steps do we need to take to reproduce this error?
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Log Output
+      description: If applicable, provide relevant log output. No need for backticks here.
+      render: shell

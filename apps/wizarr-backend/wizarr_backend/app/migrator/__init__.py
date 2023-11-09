@@ -8,11 +8,13 @@ from datetime import datetime, timedelta
 from definitions import LATEST_FILE
 
 def get_current_version():
-    # Read the current version
-    with open(LATEST_FILE, "r") as f:
-        current_version = parse(f.read())
+    with open(LATEST_FILE, "r", encoding="utf-8") as f:
+        current_version = str(f.read())
 
-    return current_version
+        # TEMPORARY FIX: Remove -v3 from the version
+        current_version = current_version.replace("-v3", "")
+
+        return parse(current_version)
 
 def get_current_database_version():
     # Get the current version from the database
@@ -37,6 +39,8 @@ def run_migrations():
     # If the database version is greater than the current version then exit the application
     if db_version > current_version:
         print("Database version is greater than the current version")
+        print(f"Database version: {db_version}")
+        print(f"Current version: {current_version}")
         print("Please update the application")
         exit(1)
 

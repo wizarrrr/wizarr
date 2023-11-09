@@ -1,26 +1,15 @@
 <template>
-    <label
-        v-if="label"
-        :for="name"
-        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-    >
+    <label v-if="label" :for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
         <span class="mr-1">{{ __(label) }}</span>
-        <span v-if="sublabel" class="mr-1 text-gray-500">{{
-            __(sublabel)
-        }}</span>
+        <span v-if="sublabel" class="mr-1 text-gray-500">{{ __(sublabel) }}</span>
         <span class="relative w-full" v-else-if="tooltip">
             <Popper arrow hover offsetDistance="23" placement="top" zIndex="20">
                 <button type="button">
-                    <i
-                        class="fa-solid fa-sm fa-info-circle text-gray-400 hover:text-gray-500"
-                    ></i>
+                    <i class="fa-solid fa-sm fa-info-circle text-gray-400 hover:text-gray-500"></i>
                 </button>
                 <template #content>
                     <div class="px-2 w-40">
-                        <h3
-                            v-if="tooltipTitle"
-                            class="font-semibold text-gray-900 dark:text-white"
-                        >
+                        <h3 v-if="tooltipTitle" class="font-semibold text-gray-900 dark:text-white">
                             {{ __(tooltipTitle) }}
                         </h3>
                         <p class="text-xs">{{ __(tooltip) }}</p>
@@ -44,12 +33,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
-import Popper from 'vue3-popper';
+import Popper from "vue3-popper";
 
 export default defineComponent({
-    name: 'DefaultLabel',
+    name: "DefaultLabel",
     components: {
         Popper,
     },
