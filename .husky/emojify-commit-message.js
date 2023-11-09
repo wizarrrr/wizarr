@@ -38,7 +38,7 @@ const regex = [
     },
     {
         regex: /(?<=^ci(\(.*\))?(:)?)\s/,
-        emoji: pickRandomEmoji('🤖', '🔧', '🧪', '')
+        emoji: pickRandomEmoji('🤖', '🔧', '🧪')
     },
     {
         regex: /(?<=^chore(\(.*\))?(:)?)\s/,
@@ -54,7 +54,7 @@ const regex = [
     },
     {
         regex: /(?<=^dependabot(\(.*\))?(:)?)\s/,
-        emoji: pickRandomEmoji('🤖', '🔧', '🧪', '')
+        emoji: pickRandomEmoji('🤖', '🔧', '🧪')
     },
     {
         regex: /(?<=^first(\(.*\))?(:)?)\s/,
