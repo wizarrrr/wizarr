@@ -6,7 +6,9 @@
     "targets": {
         "lint": {
             "executor": "@nx/eslint:lint",
-            "outputs": ["{options.outputFile}"],
+            "outputs": [
+                "{options.outputFile}"
+            ],
             "options": {
                 "lintFilePatterns": [
                     "apps/wizarr-frontend/**/*.{ts,tsx,js,jsx,vue}"
@@ -15,7 +17,9 @@
         },
         "build": {
             "executor": "@nx/vite:build",
-            "outputs": ["{options.outputPath}"],
+            "outputs": [
+                "{options.outputPath}"
+            ],
             "defaultConfiguration": "production",
             "options": {
                 "outputPath": "dist/apps/wizarr-frontend",
@@ -64,7 +68,9 @@
         },
         "test": {
             "executor": "@nx/vite:test",
-            "outputs": ["{options.reportsDirectory}"],
+            "outputs": [
+                "{options.reportsDirectory}"
+            ],
             "options": {
                 "passWithNoTests": true,
                 "reportsDirectory": "../../coverage/apps/wizarr-frontend"
@@ -74,6 +80,34 @@
             "executor": "@nx/web:file-server",
             "options": {
                 "buildTarget": "wizarr-frontend:build"
+            }
+        },
+        "gettext": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "nx run wizarr-frontend:gettext:extract",
+                    "nx run wizarr-frontend:gettext:compile"
+                ],
+                "parallel": false
+            }
+        },
+        "gettext:extract": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "cd apps/wizarr-frontend && npx vue-gettext-extract"
+                ],
+                "parallel": false
+            }
+        },
+        "gettext:compile": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "cd apps/wizarr-frontend && npx vue-gettext-compile"
+                ],
+                "parallel": false
             }
         }
     }
