@@ -11,7 +11,7 @@
  * MIT License (c) 2023 Ashley Bailey
  */
 const run = async () => {
-    const { Octokit, App } = require("octokit");
+    const { Octokit } = require("octokit");
     const prompts = require('prompts');
 
     // Read Github Token from github_token.txt
