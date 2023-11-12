@@ -261,13 +261,6 @@ msgstr "Configurer votre serveur multimédia"
 msgid "Configure your passkeys"
 msgstr "Configurer vos phrases de passe"
 
-#: src/modules/authentication/components/PasskeyForm.vue:23
-#: src/modules/authentication/components/PasskeyForm.vue:29
-#: src/modules/authentication/components/UsernameForm.vue:14
-#: src/modules/authentication/components/UsernameForm.vue:19
-msgid "Continue"
-msgstr "Continuer"
-
 #: src/modules/join/pages/Error.vue:12
 msgid "Continue to Login"
 msgstr "Continuer vers la connexion"
@@ -716,10 +709,6 @@ msgstr "Assistance en direct"
 msgid "Load More"
 msgstr "Charger plus"
 
-#: src/modules/authentication/components/PasswordForm.vue:14
-#: src/modules/authentication/components/PasswordForm.vue:17
-#: src/modules/authentication/components/PasswordForm.vue:26
-#: src/modules/authentication/components/PasswordForm.vue:35
 #: src/modules/settings/pages/Membership.vue:18
 #: src/modules/settings/pages/Membership.vue:20
 msgid "Login"
@@ -733,23 +722,13 @@ msgstr "Connexion avec un compte adhérent"
 msgid "Login to Plex"
 msgstr "Se connecter à Plex"
 
-#: src/modules/authentication/components/PasswordForm.vue:18
-#: src/modules/authentication/components/PasswordForm.vue:21
-#: src/modules/authentication/components/PasswordForm.vue:30
-#: src/modules/authentication/components/PasswordForm.vue:39
-#: src/modules/authentication/components/PasswordForm.vue:43
+#: src/modules/authentication/components/LoginForm.vue:16
 msgid "Login with Passkey"
 msgstr "Se connecter avec une phrase de passe"
 
-#: src/modules/authentication/components/PasskeyForm.vue:27
-#: src/modules/authentication/components/PasskeyForm.vue:33
-#: src/modules/authentication/components/PasskeyForm.vue:36
+#: src/modules/authentication/components/LoginForm.vue:13
 msgid "Login with Password"
 msgstr "Se connecter avec un mot de passe"
-
-#: src/modules/authentication/components/UsernameForm.vue:5
-msgid "Login with your account"
-msgstr "Se connecter avec son compte"
 
 #: src/modules/settings/pages/Membership.vue:44
 #: src/modules/settings/pages/Membership.vue:49
@@ -1073,13 +1052,6 @@ msgstr "Avertissement de Plex"
 msgid "Preparing the spells"
 msgstr "Préparation des sorts"
 
-#: src/modules/authentication/components/PasskeyForm.vue:14
-#: src/modules/authentication/components/PasskeyForm.vue:18
-msgid "Press the button below and follow your browser's steps to login"
-msgstr ""
-"Appuyez sur le bouton ci-dessous et suivre les étapes dans le navigateur "
-"pour vous connecter"
-
 #: src/modules/settings/pages/Sentry.vue:15
 msgid "Proactive Issue Resolution"
 msgstr ""
@@ -1280,6 +1252,11 @@ msgstr ""
 "Vous avez à présent accès à notre serveur multimédia. Assurons-nous que vous "
 "sachez l'utiliser avec Plex."
 
+#: src/modules/authentication/views/LoginView.vue:20
+#, fuzzy
+msgid "Something went wrong"
+msgstr "Il manque quelque chose."
+
 #: src/modules/join/views/Join.vue:137
 msgid ""
 "Something went wrong while trying to join the server. Please try again later."
@@ -1466,13 +1443,6 @@ msgstr "Mises à jour"
 #: src/modules/settings/components/Forms/WebhookForm.vue:75
 msgid "URL"
 msgstr "URL"
-
-#: src/modules/authentication/components/PasskeyForm.vue:7
-#: src/modules/authentication/components/PasskeyForm.vue:9
-msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
-msgstr ""
-"Utiliser votre empreinte digitale ou la reconnaissance faciale pour vérifier "
-"votre identité"
 
 #: src/modules/admin/components/Users/UserList/UserItem.vue:155
 msgid "User %{user} deleted"
@@ -1730,6 +1700,22 @@ msgstr "Vos paramètres"
 #: src/tours/admin-users.ts:8
 msgid "Your Users"
 msgstr "Vos utilisateurs"
+
+#~ msgid "Continue"
+#~ msgstr "Continuer"
+
+#~ msgid "Login with your account"
+#~ msgstr "Se connecter avec son compte"
+
+#~ msgid "Press the button below and follow your browser's steps to login"
+#~ msgstr ""
+#~ "Appuyez sur le bouton ci-dessous et suivre les étapes dans le navigateur "
+#~ "pour vous connecter"
+
+#~ msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
+#~ msgstr ""
+#~ "Utiliser votre empreinte digitale ou la reconnaissance faciale pour "
+#~ "vérifier votre identité"
 
 #~ msgid "Create Invite"
 #~ msgstr "Créer une invitation"

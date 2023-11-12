@@ -260,13 +260,6 @@ msgstr "Cài đặt cấu hình media server của bạn"
 msgid "Configure your passkeys"
 msgstr "Cấu hình passkeys của bạn"
 
-#: src/modules/authentication/components/PasskeyForm.vue:23
-#: src/modules/authentication/components/PasskeyForm.vue:29
-#: src/modules/authentication/components/UsernameForm.vue:14
-#: src/modules/authentication/components/UsernameForm.vue:19
-msgid "Continue"
-msgstr "Tiếp tục"
-
 #: src/modules/join/pages/Error.vue:12
 #, fuzzy
 msgid "Continue to Login"
@@ -714,10 +707,6 @@ msgstr "Hỗ trợ chúng tôi"
 msgid "Load More"
 msgstr "Tải thêm"
 
-#: src/modules/authentication/components/PasswordForm.vue:14
-#: src/modules/authentication/components/PasswordForm.vue:17
-#: src/modules/authentication/components/PasswordForm.vue:26
-#: src/modules/authentication/components/PasswordForm.vue:35
 #: src/modules/settings/pages/Membership.vue:18
 #: src/modules/settings/pages/Membership.vue:20
 msgid "Login"
@@ -731,23 +720,13 @@ msgstr ""
 msgid "Login to Plex"
 msgstr "Đăng nhập Plex"
 
-#: src/modules/authentication/components/PasswordForm.vue:18
-#: src/modules/authentication/components/PasswordForm.vue:21
-#: src/modules/authentication/components/PasswordForm.vue:30
-#: src/modules/authentication/components/PasswordForm.vue:39
-#: src/modules/authentication/components/PasswordForm.vue:43
+#: src/modules/authentication/components/LoginForm.vue:16
 msgid "Login with Passkey"
 msgstr "Đăng nhập qua Passkey"
 
-#: src/modules/authentication/components/PasskeyForm.vue:27
-#: src/modules/authentication/components/PasskeyForm.vue:33
-#: src/modules/authentication/components/PasskeyForm.vue:36
+#: src/modules/authentication/components/LoginForm.vue:13
 msgid "Login with Password"
 msgstr "Đăng nhập qua mật khẩu"
-
-#: src/modules/authentication/components/UsernameForm.vue:5
-msgid "Login with your account"
-msgstr "Đăng nhập bằng tài khoản của bạn"
 
 #: src/modules/settings/pages/Membership.vue:44
 #: src/modules/settings/pages/Membership.vue:49
@@ -1066,12 +1045,6 @@ msgstr ""
 msgid "Preparing the spells"
 msgstr ""
 
-#: src/modules/authentication/components/PasskeyForm.vue:14
-#: src/modules/authentication/components/PasskeyForm.vue:18
-msgid "Press the button below and follow your browser's steps to login"
-msgstr ""
-"Nhấn nút bên dưới và làm theo các bước trên trình duyệt của bạn để đăng nhập"
-
 #: src/modules/settings/pages/Sentry.vue:15
 msgid "Proactive Issue Resolution"
 msgstr ""
@@ -1271,6 +1244,11 @@ msgstr ""
 "Vì vậy, bây giờ bạn có quyền truy cập vào bộ sưu tập server's media của "
 "chúng tôi. Hãy đảm bảo rằng bạn biết cách sử dụng nó với Plex."
 
+#: src/modules/authentication/views/LoginView.vue:20
+#, fuzzy
+msgid "Something went wrong"
+msgstr "Có gì đó đang thiếu."
+
 #: src/modules/join/views/Join.vue:137
 msgid ""
 "Something went wrong while trying to join the server. Please try again later."
@@ -1453,12 +1431,6 @@ msgstr "Cập nhật"
 #: src/modules/settings/components/Forms/WebhookForm.vue:75
 msgid "URL"
 msgstr ""
-
-#: src/modules/authentication/components/PasskeyForm.vue:7
-#: src/modules/authentication/components/PasskeyForm.vue:9
-msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
-msgstr ""
-"Sử dụng Dấu vân tay hoặc Nhận dạng khuôn mặt để xác minh danh tính của bạn"
 
 #: src/modules/admin/components/Users/UserList/UserItem.vue:155
 msgid "User %{user} deleted"
@@ -1707,6 +1679,21 @@ msgstr "Cài đặt của bạn"
 #: src/tours/admin-users.ts:8
 msgid "Your Users"
 msgstr "Người dùng của bạn"
+
+#~ msgid "Continue"
+#~ msgstr "Tiếp tục"
+
+#~ msgid "Login with your account"
+#~ msgstr "Đăng nhập bằng tài khoản của bạn"
+
+#~ msgid "Press the button below and follow your browser's steps to login"
+#~ msgstr ""
+#~ "Nhấn nút bên dưới và làm theo các bước trên trình duyệt của bạn để đăng "
+#~ "nhập"
+
+#~ msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
+#~ msgstr ""
+#~ "Sử dụng Dấu vân tay hoặc Nhận dạng khuôn mặt để xác minh danh tính của bạn"
 
 #~ msgid "Create Invite"
 #~ msgstr "Tạo lời mời"

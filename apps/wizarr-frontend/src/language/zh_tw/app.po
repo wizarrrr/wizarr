@@ -259,13 +259,6 @@ msgstr "設定媒體伺服器選項"
 msgid "Configure your passkeys"
 msgstr "設定 Passkeys"
 
-#: src/modules/authentication/components/PasskeyForm.vue:23
-#: src/modules/authentication/components/PasskeyForm.vue:29
-#: src/modules/authentication/components/UsernameForm.vue:14
-#: src/modules/authentication/components/UsernameForm.vue:19
-msgid "Continue"
-msgstr "下一步"
-
 #: src/modules/join/pages/Error.vue:12
 #, fuzzy
 msgid "Continue to Login"
@@ -715,10 +708,6 @@ msgstr "支持我們"
 msgid "Load More"
 msgstr "加載更多"
 
-#: src/modules/authentication/components/PasswordForm.vue:14
-#: src/modules/authentication/components/PasswordForm.vue:17
-#: src/modules/authentication/components/PasswordForm.vue:26
-#: src/modules/authentication/components/PasswordForm.vue:35
 #: src/modules/settings/pages/Membership.vue:18
 #: src/modules/settings/pages/Membership.vue:20
 msgid "Login"
@@ -732,23 +721,13 @@ msgstr ""
 msgid "Login to Plex"
 msgstr "登入 Plex"
 
-#: src/modules/authentication/components/PasswordForm.vue:18
-#: src/modules/authentication/components/PasswordForm.vue:21
-#: src/modules/authentication/components/PasswordForm.vue:30
-#: src/modules/authentication/components/PasswordForm.vue:39
-#: src/modules/authentication/components/PasswordForm.vue:43
+#: src/modules/authentication/components/LoginForm.vue:16
 msgid "Login with Passkey"
 msgstr "使用 Passkey 登入"
 
-#: src/modules/authentication/components/PasskeyForm.vue:27
-#: src/modules/authentication/components/PasskeyForm.vue:33
-#: src/modules/authentication/components/PasskeyForm.vue:36
+#: src/modules/authentication/components/LoginForm.vue:13
 msgid "Login with Password"
 msgstr "使用密碼登入"
-
-#: src/modules/authentication/components/UsernameForm.vue:5
-msgid "Login with your account"
-msgstr "使用帳號登入"
 
 #: src/modules/settings/pages/Membership.vue:44
 #: src/modules/settings/pages/Membership.vue:49
@@ -1064,11 +1043,6 @@ msgstr ""
 msgid "Preparing the spells"
 msgstr "魔法準備中"
 
-#: src/modules/authentication/components/PasskeyForm.vue:14
-#: src/modules/authentication/components/PasskeyForm.vue:18
-msgid "Press the button below and follow your browser's steps to login"
-msgstr "請按下方的按鈕，然後跟隨您瀏覽器的步驟登入"
-
 #: src/modules/settings/pages/Sentry.vue:15
 msgid "Proactive Issue Resolution"
 msgstr ""
@@ -1262,6 +1236,11 @@ msgid ""
 msgstr ""
 "您現在可以訪問我們伺服器的媒體收藏了。讓我們確保您知道如何在 Plex 中訪問它。"
 
+#: src/modules/authentication/views/LoginView.vue:20
+#, fuzzy
+msgid "Something went wrong"
+msgstr "有些東西遺漏了。"
+
 #: src/modules/join/views/Join.vue:137
 msgid ""
 "Something went wrong while trying to join the server. Please try again later."
@@ -1435,11 +1414,6 @@ msgstr "更新"
 #: src/modules/settings/components/Forms/WebhookForm.vue:75
 msgid "URL"
 msgstr "網址"
-
-#: src/modules/authentication/components/PasskeyForm.vue:7
-#: src/modules/authentication/components/PasskeyForm.vue:9
-msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
-msgstr "使用指紋或面部識別驗證您的身份"
 
 #: src/modules/admin/components/Users/UserList/UserItem.vue:155
 msgid "User %{user} deleted"
@@ -1677,6 +1651,18 @@ msgstr "您的設定"
 #: src/tours/admin-users.ts:8
 msgid "Your Users"
 msgstr "您的用戶"
+
+#~ msgid "Continue"
+#~ msgstr "下一步"
+
+#~ msgid "Login with your account"
+#~ msgstr "使用帳號登入"
+
+#~ msgid "Press the button below and follow your browser's steps to login"
+#~ msgstr "請按下方的按鈕，然後跟隨您瀏覽器的步驟登入"
+
+#~ msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
+#~ msgstr "使用指紋或面部識別驗證您的身份"
 
 #, fuzzy
 #~ msgid "Create Invite"
