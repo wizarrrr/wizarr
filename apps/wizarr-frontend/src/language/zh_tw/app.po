@@ -20,11 +20,11 @@ msgstr ""
 "X-Generator: Weblate 5.1-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: src/modules/settings/pages/Main.vue:324
+#: src/modules/settings/pages/Main.vue:246
 msgid "About"
 msgstr "關於"
 
-#: src/modules/settings/pages/Main.vue:227
+#: src/modules/settings/pages/Main.vue:157
 msgid "Account"
 msgstr "帳號"
 
@@ -33,20 +33,20 @@ msgstr "帳號"
 msgid "Account Error"
 msgstr "帳號"
 
-#: src/modules/settings/pages/Main.vue:222
+#: src/modules/settings/pages/Main.vue:152
 msgid "Account Settings"
 msgstr "帳號設定"
 
-#: src/modules/settings/pages/Main.vue:178
+#: src/modules/settings/pages/Main.vue:116
 #, fuzzy
 msgid "Add API keys for external services"
 msgstr "新增外部服務的 API 鑰匙"
 
-#: src/modules/settings/pages/Main.vue:281
+#: src/modules/settings/pages/Main.vue:202
 msgid "Add Custom HTML page to help screen"
 msgstr "新增自定義 HTML 頁面至幫助畫面"
 
-#: src/modules/settings/pages/Main.vue:169
+#: src/modules/settings/pages/Main.vue:109
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "新增 Jellyseerr, Overseerr 或 Ombi 支援"
 
@@ -54,7 +54,7 @@ msgstr "新增 Jellyseerr, Overseerr 或 Ombi 支援"
 msgid "Add Passkey"
 msgstr "新增 Passkey"
 
-#: src/modules/settings/pages/Requests.vue:33
+#: src/modules/settings/pages/Requests.vue:27
 msgid "Add Request Service"
 msgstr "新增 請求 服務"
 
@@ -62,7 +62,7 @@ msgstr "新增 請求 服務"
 msgid "Add Service"
 msgstr "新增 服務"
 
-#: src/modules/settings/pages/Main.vue:187
+#: src/modules/settings/pages/Main.vue:123
 msgid "Add webhooks for external services"
 msgstr "新增外部服務的 Webhooks"
 
@@ -71,20 +71,18 @@ msgid "Admin Account"
 msgstr "管理員帳號"
 
 #: src/modules/admin/components/Forms/InvitationForm.vue:19
-#: src/modules/admin/components/Forms/InvitationForm.vue:23
-#: src/modules/admin/components/Forms/InvitationForm.vue:52
 msgid "Advanced Options"
 msgstr "進階選項"
 
-#: src/modules/settings/pages/Main.vue:291
+#: src/modules/settings/pages/Main.vue:210
 msgid "Advanced Settings"
 msgstr "進階設定"
 
-#: src/modules/settings/pages/Main.vue:292
+#: src/modules/settings/pages/Main.vue:211
 msgid "Advanced settings for the server"
 msgstr "進階伺服器設定"
 
-#: src/modules/join/views/Join.vue:119
+#: src/modules/join/views/Join.vue:129
 #, fuzzy
 msgid "All done!"
 msgstr "全部完成！"
@@ -123,7 +121,12 @@ msgstr "API 鑰匙 成功刪除"
 msgid "API key deletion cancelled"
 msgstr "API 鑰匙 刪除 已經取消"
 
-#: src/modules/settings/pages/Main.vue:177
+#: src/modules/settings/components/Forms/MediaForm.vue:58
+#, fuzzy
+msgid "API key for your media server"
+msgstr "加入我的媒體伺服器"
+
+#: src/modules/settings/pages/Main.vue:115
 msgid "API keys"
 msgstr "API 鑰匙"
 
@@ -135,104 +138,126 @@ msgstr "您確定要刪除這個 API 鑰匙嗎？"
 msgid "Are you sure you want to delete this invitation?"
 msgstr "您確定要刪除這個邀請碼嗎？"
 
-#: src/modules/settings/components/Requests/RequestsItem.vue:69
+#: src/modules/settings/components/Requests/RequestsItem.vue:55
 msgid "Are you sure you want to delete this request?"
 msgstr "您確定要刪除這個請求嗎？"
 
-#: src/components/WebhookList/WebhookItem.vue:63
+#: src/components/WebhookList/WebhookItem.vue:54
 msgid "Are you sure you want to delete this webhook?"
 msgstr "您確定要刪除這個 Webhook 嗎？"
 
-#: src/components/Dashboard/Dashboard.vue:109
+#: src/components/Dashboard/Dashboard.vue:80
 msgid "Are you sure you want to reset your dashboard?"
 msgstr "您確定要重置你的儀表板嗎？"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:247
+#: src/modules/settings/components/Forms/MediaForm.vue:164
 msgid ""
 "Are you sure you want to save this connection, this will reset your Wizarr "
 "instance, which may lead to data loss."
 msgstr "您確定要保存此連線嗎？這將重置您的 Wizarr，可能會導致失去相關數據。"
 
-#: src/modules/settings/pages/Support.vue:92
+#: src/modules/settings/pages/Support.vue:74
 #, fuzzy
 msgid "Are you sure you want to start a support session?"
 msgstr "您確定要重置你的儀表板嗎？"
 
-#: src/components/Dashboard/Dashboard.vue:108
-#: src/components/WebhookList/WebhookItem.vue:62
+#: src/components/Dashboard/Dashboard.vue:80
+#: src/components/WebhookList/WebhookItem.vue:54
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:189
-#: src/modules/admin/components/Users/UserList/UserItem.vue:206
+#: src/modules/admin/components/Users/UserList/UserItem.vue:151
 #: src/modules/settings/components/APIKeys/APIKeysItem.vue:82
-#: src/modules/settings/components/Forms/MediaForm.vue:246
-#: src/modules/settings/components/Requests/RequestsItem.vue:68
+#: src/modules/settings/components/Forms/MediaForm.vue:164
+#: src/modules/settings/components/Requests/RequestsItem.vue:55
 msgid "Are you sure?"
 msgstr "你確定嗎？"
 
-#: src/modules/help/views/Help.vue:14 src/modules/help/views/Help.vue:18
-#: src/modules/help/views/Help.vue:24 src/modules/help/views/Help.vue:28
-#: src/modules/setup/views/Setup.vue:21 src/modules/setup/views/Setup.vue:33
-#: src/modules/setup/views/Setup.vue:36 src/templates/SettingsTemplate.vue:15
-#: src/templates/SettingsTemplate.vue:22 src/templates/SettingsTemplate.vue:29
+#: src/modules/help/components/Request.vue:4
+msgid "Automatic Media Requests"
+msgstr ""
+
+#: src/modules/help/views/Help.vue:19 src/modules/setup/views/Setup.vue:26
+#: src/modules/setup/views/Setup.vue:38 src/modules/setup/views/Setup.vue:41
+#: src/templates/SettingsTemplate.vue:15
 msgid "Back"
 msgstr "返回"
 
 #: src/modules/settings/pages/Backup.vue:7
-#: src/modules/settings/pages/Backup.vue:9
-#: src/modules/settings/pages/Main.vue:318
+#: src/modules/settings/pages/Main.vue:240
 msgid "Backup"
 msgstr "備份"
 
-#: src/modules/settings/pages/Backup.vue:265
+#: src/modules/settings/pages/Backup.vue:145
 msgid "Backup File"
 msgstr "備份檔案"
 
-#: src/modules/settings/pages/Main.vue:236
+#: src/modules/settings/pages/Main.vue:234
+msgid "Bug Reporting"
+msgstr ""
+
+#: src/modules/settings/pages/Sentry.vue:14
+msgid ""
+"Bug reports helps us track and fix issues in real-time, ensuring a smoother "
+"user experience."
+msgstr ""
+
+#: src/modules/settings/pages/Main.vue:164
 msgid "Change your password"
 msgstr "更改您的密碼"
 
-#: src/modules/settings/pages/Main.vue:312
+#: src/modules/settings/pages/Main.vue:228
 msgid "Check for and view updates"
 msgstr "檢查及查看更新"
+
+#: src/modules/help/components/Request.vue:27
+msgid "Check it Out"
+msgstr ""
+
+#: src/modules/settings/pages/Discord.vue:30
+msgid "Click \"Widget\" on the left hand sidebar."
+msgstr ""
+
+#: src/modules/settings/pages/Discord.vue:20
+msgid "Click on \"Copy ID\" then paste it it in the box below."
+msgstr ""
 
 #: src/modules/settings/components/Modals/ViewApiKey.vue:15
 #, fuzzy
 msgid "Click the key to copy to clipboard!"
 msgstr "點擊圖示即可複製"
 
-#: src/widgets/default/LatestInfo.vue:56
+#: src/widgets/default/LatestInfo.vue:54
 msgid "Close"
 msgstr "關閉"
 
-#: src/modules/settings/pages/Main.vue:212
+#: src/modules/settings/pages/Main.vue:144
 msgid "Configure Discord bot settings"
 msgstr "設定 Discord 機械人選項"
 
-#: src/modules/settings/pages/Main.vue:202
+#: src/modules/settings/pages/Main.vue:136
 msgid "Configure notification settings"
 msgstr "設定通知選項"
 
-#: src/modules/settings/pages/Main.vue:195
+#: src/modules/settings/pages/Main.vue:129
 msgid "Configure payment settings"
 msgstr "設定付款選項"
 
-#: src/modules/settings/pages/Main.vue:228
+#: src/modules/settings/pages/Discord.vue:7
+msgid ""
+"Configure Wizarr to display a dynamic Discord Widget to users onboarding "
+"after signup."
+msgstr ""
+
+#: src/modules/settings/pages/Main.vue:158
 msgid "Configure your account settings"
 msgstr "設定帳號選項"
 
-#: src/modules/settings/pages/Main.vue:161
+#: src/modules/settings/pages/Main.vue:103
 msgid "Configure your media server settings"
 msgstr "設定媒體伺服器選項"
 
-#: src/modules/settings/pages/Main.vue:251
+#: src/modules/settings/pages/Main.vue:177
 msgid "Configure your passkeys"
 msgstr "設定 Passkeys"
-
-#: src/modules/authentication/components/PasskeyForm.vue:23
-#: src/modules/authentication/components/PasskeyForm.vue:29
-#: src/modules/authentication/components/UsernameForm.vue:14
-#: src/modules/authentication/components/UsernameForm.vue:19
-msgid "Continue"
-msgstr "下一步"
 
 #: src/modules/join/pages/Error.vue:12
 #, fuzzy
@@ -248,44 +273,40 @@ msgstr "回到登入頁面"
 msgid "Copied to clipboard"
 msgstr "已複製到剪貼簿"
 
-#: src/modules/help/components/Jellyfin/Download.vue:38
-#: src/modules/help/components/Jellyfin/Download.vue:43
+#: src/modules/help/components/Jellyfin/Download.vue:30
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:22
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:39
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:42
 msgid "Copy"
 msgstr "複製"
 
-#: src/modules/join/views/Join.vue:166 src/modules/join/views/Join.vue:244
+#: src/modules/join/views/Join.vue:176 src/modules/join/views/Join.vue:254
 msgid "Could not connect to the server."
 msgstr "無法連接到伺服器。"
 
-#: src/modules/join/views/Join.vue:186 src/modules/join/views/Join.vue:194
-#: src/modules/join/views/Join.vue:220 src/modules/join/views/Join.vue:228
+#: src/modules/join/views/Join.vue:196 src/modules/join/views/Join.vue:204
+#: src/modules/join/views/Join.vue:230 src/modules/join/views/Join.vue:238
 msgid "Could not create the account."
 msgstr "無法創立帳號。"
 
-#: src/modules/settings/pages/Backup.vue:11
-#: src/modules/settings/pages/Backup.vue:13
+#: src/modules/settings/pages/Backup.vue:10
 msgid ""
 "Create a backup of your database and configuration. Please set an encryption "
 "password to protect your backup file."
 msgstr "建立您的數據庫和配置的備份。請設置加密密碼以保護您的備份檔案。"
 
-#: src/modules/settings/pages/Main.vue:319
+#: src/modules/settings/pages/Main.vue:241
 msgid "Create and restore backups"
 msgstr "建立和恢復備份"
 
-#: src/modules/admin/components/Forms/InvitationForm.vue:107
-#: src/modules/admin/components/Forms/InvitationForm.vue:110
-#: src/modules/admin/components/Forms/InvitationForm.vue:344
+#: src/modules/admin/components/Forms/InvitationForm.vue:252
 #: src/modules/admin/components/Forms/InvitationForm.vue:44
 #, fuzzy
 msgid "Create Another"
 msgstr "建立另一個"
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:51
-#: src/modules/settings/pages/APIKeys.vue:30
+#: src/modules/settings/pages/APIKeys.vue:24
 msgid "Create API Key"
 msgstr "建立 API 鑰匙"
 
@@ -294,44 +315,43 @@ msgstr "建立 API 鑰匙"
 msgid "Create Flow"
 msgstr "建立流程"
 
-#: src/modules/admin/components/Forms/InvitationForm.vue:101
-#: src/modules/admin/components/Forms/InvitationForm.vue:357
-#: src/modules/admin/components/Forms/InvitationForm.vue:360
-#: src/modules/admin/pages/Invitations.vue:5
-#: src/modules/admin/pages/Invitations.vue:50
-#: src/modules/admin/pages/Invitations.vue:9 src/tours/admin-invitations.ts:17
+#: src/modules/admin/components/Forms/InvitationForm.vue:265
+#: src/modules/admin/components/Forms/InvitationForm.vue:268
+#: src/modules/admin/components/Forms/InvitationForm.vue:33
+#: src/modules/admin/pages/Invitations.vue:38
+#: src/modules/admin/pages/Invitations.vue:41
+#: src/modules/admin/pages/Invitations.vue:5 src/tours/admin-invitations.ts:13
 #, fuzzy
 msgid "Create Invitation"
 msgstr "建立邀請碼"
 
-#: src/modules/admin/pages/Invitations.vue:47
-#, fuzzy
-msgid "Create Invite"
-msgstr "建立邀請"
-
 #: src/modules/settings/components/Forms/WebhookForm.vue:21
-#: src/modules/settings/pages/Webhooks.vue:30
+#: src/modules/settings/pages/Webhooks.vue:24
 msgid "Create Webhook"
 msgstr "建立 Webhook"
+
+#: src/modules/settings/pages/About.vue:20
+msgid "Current Version"
+msgstr ""
 
 #: src/modules/setup/pages/Database.vue:10
 #: src/modules/setup/pages/Database.vue:8
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr "目前 Wizarr 只支持其內置的SQLite數據庫。"
 
-#: src/modules/settings/pages/Main.vue:280
+#: src/modules/settings/pages/Main.vue:201
 msgid "Custom HTML"
 msgstr "自定義 HTML"
 
-#: src/components/Dashboard/Dashboard.vue:124
+#: src/components/Dashboard/Dashboard.vue:88
 msgid "Dashboard reset cancelled"
 msgstr "儀表板重置已取消"
 
-#: src/components/Dashboard/Dashboard.vue:122
+#: src/components/Dashboard/Dashboard.vue:86
 msgid "Dashboard reset successfully"
 msgstr "儀表板重置成功"
 
-#: src/tours/admin-home.ts:14
+#: src/tours/admin-home.ts:12
 msgid "Dashboard Widgets"
 msgstr "儀表板小工具"
 
@@ -346,24 +366,41 @@ msgid "Deleted users will not be visible"
 msgstr "已刪除的用戶將不會顯示"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:10
-#: src/modules/settings/components/Forms/MediaForm.vue:17
-#: src/modules/settings/components/Forms/MediaForm.vue:25
 msgid "Detect Server"
 msgstr "檢測伺服器"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:207
+#: src/modules/settings/components/Forms/MediaForm.vue:130
 msgid "Detected %{server_type} server!"
 msgstr "檢測到 %{server_type} 伺服器！"
 
-#: src/modules/settings/pages/Main.vue:271
+#: src/modules/settings/components/Forms/MediaForm.vue:65
+#, fuzzy
+msgid "Detected Media Server"
+msgstr "檢測伺服器"
+
+#: src/modules/settings/pages/Main.vue:195
 msgid "Discord"
 msgstr "Discord"
 
-#: src/modules/settings/pages/Main.vue:211
+#: src/modules/settings/pages/Main.vue:143
 msgid "Discord Bot"
 msgstr "Discord 機械人"
 
-#: src/modules/admin/components/Users/UserList/UserItem.vue:207
+#: src/modules/settings/pages/Discord.vue:15
+msgid "Discord Server ID:"
+msgstr ""
+
+#: src/modules/settings/components/Forms/MediaForm.vue:11
+#, fuzzy
+msgid "Display Name"
+msgstr "伺服器顯示名稱"
+
+#: src/modules/settings/components/Forms/MediaForm.vue:16
+#, fuzzy
+msgid "Display Name for your media servers"
+msgstr "管理您的媒體伺服器用戶"
+
+#: src/modules/admin/components/Users/UserList/UserItem.vue:151
 msgid "Do you really want to delete this user from your media server?"
 msgstr "你確定要從你的媒體伺服器中刪除這個用戶嗎？"
 
@@ -375,7 +412,7 @@ msgid "Don't see your server?"
 msgstr "看不到你的伺服器嗎？"
 
 #: src/modules/admin/pages/Home.vue:5 src/modules/admin/pages/Home.vue:9
-#: src/tours/admin-home.ts:28
+#: src/tours/admin-home.ts:22
 msgid "Edit Dashboard"
 msgstr "編輯儀表板"
 
@@ -383,52 +420,66 @@ msgstr "編輯儀表板"
 msgid "Eh, So, What is Jellyfin exactly?"
 msgstr "哎，所以 Jellyfin 是什麼？"
 
-#: src/modules/help/components/Plex/Welcome.vue:4
+#: src/modules/help/components/Plex/Welcome.vue:3
 msgid "Eh, So, What is Plex exactly?"
 msgstr "哎，所以 Plex 是什麼？"
 
-#: src/modules/settings/pages/Account.vue:187
+#: src/modules/settings/pages/Account.vue:61
 msgid "Email"
 msgstr "電郵"
 
-#: src/modules/settings/pages/Main.vue:272
+#: src/modules/settings/pages/Main.vue:196
 msgid "Enable Discord page and configure settings"
 msgstr "啟用 Discord 頁面並配置設置"
 
-#: src/modules/settings/pages/Backup.vue:235
-#: src/modules/settings/pages/Backup.vue:94
+#: src/modules/settings/pages/Discord.vue:26
+msgid "Enable Server Widget:"
+msgstr ""
+
+#: src/modules/settings/pages/Backup.vue:142
+#: src/modules/settings/pages/Backup.vue:67
 msgid "Encryption Password"
 msgstr "加密密碼"
 
-#: src/tours/admin-settings.ts:27
+#: src/tours/admin-settings.ts:21
 msgid "End of Tour"
 msgstr "導覽結束"
 
-#: src/modules/settings/pages/Membership.vue:11
-#: src/modules/settings/pages/Membership.vue:14
+#: src/modules/settings/pages/Discord.vue:31
+msgid "Ensure the toggle for \"Enable Server Widget\" is checked."
+msgstr ""
+
 #: src/modules/settings/pages/Membership.vue:7
 msgid "Enter your email and password to login into your membership."
 msgstr ""
 
+#: src/modules/settings/pages/Sentry.vue:14
+msgid "Error Monitoring"
+msgstr ""
+
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:207
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserItem.vue:91
-#: src/modules/admin/components/Users/UserList/UserItem.vue:126
+#: src/modules/admin/components/Users/UserList/UserItem.vue:79
 msgid "Expired %{s}"
 msgstr "已過期 %{s}"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:211
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserItem.vue:95
-#: src/modules/admin/components/Users/UserList/UserItem.vue:130
+#: src/modules/admin/components/Users/UserList/UserItem.vue:83
 msgid "Expires %{s}"
 msgstr "到期日 %{s}"
 
-#: src/modules/admin/components/Forms/InvitationForm.vue:125
-#: src/modules/admin/components/Forms/InvitationForm.vue:129
 #: src/modules/admin/components/Forms/InvitationForm.vue:55
 msgid "Failed to create invitation"
 msgstr "建立邀請碼失敗"
 
-#: src/modules/settings/pages/Account.vue:75
+#: src/modules/settings/pages/Discord.vue:18
+msgid ""
+"First make sure you have Developer Mode enabled on your Discord by visiting "
+"your Discord settings and going to Appearance."
+msgstr ""
+
+#: src/modules/settings/pages/Account.vue:29
 msgid "First name"
 msgstr "名字"
 
@@ -436,23 +487,21 @@ msgstr "名字"
 msgid "Flow Editor"
 msgstr "流程編輯器"
 
-#: src/modules/settings/pages/Main.vue:156
+#: src/modules/settings/pages/Main.vue:98
 #, fuzzy
 msgid "General settings for the server"
 msgstr "一般設定"
 
-#: src/modules/settings/pages/Main.vue:350
+#: src/modules/settings/pages/Main.vue:266
 msgid "Get live support from the server admins"
 msgstr ""
 
-#: src/modules/home/views/Home.vue:28 src/modules/home/views/Home.vue:30
-#: src/modules/home/views/Home.vue:33 src/modules/home/views/Home.vue:35
-#: src/modules/home/views/Home.vue:41 src/modules/home/views/Home.vue:43
+#: src/modules/home/views/Home.vue:18
 #, fuzzy
 msgid "Get Started"
 msgstr "點擊開始"
 
-#: src/modules/help/views/Help.vue:6 src/modules/help/views/Help.vue:8
+#: src/modules/help/views/Help.vue:11
 #, fuzzy
 msgid "Getting Started!"
 msgstr "準備開始中！"
@@ -476,7 +525,7 @@ msgstr "回到儀表板"
 msgid "Go to Login"
 msgstr "回到登入頁面"
 
-#: src/modules/help/components/Jellyfin/Download.vue:11
+#: src/modules/help/components/Jellyfin/Download.vue:10
 msgid ""
 "Great news! You now have access to our server's media collection. Let's make "
 "sure you know how to use it with Jellyfin."
@@ -484,7 +533,7 @@ msgstr ""
 "好消息！您現在可以訪問我們伺服器的媒體收藏。讓我們確保您知道如何使用 "
 "Jellyfin 來訪問它。"
 
-#: src/modules/help/components/Plex/Welcome.vue:8
+#: src/modules/help/components/Plex/Welcome.vue:5
 msgid ""
 "Great question! Plex is a software that allows individuals to share their "
 "media collections with others. If you've received this invitation, it means "
@@ -493,15 +542,17 @@ msgstr ""
 "好問題！Plex是一款允許個人與他人分享媒體收藏的軟件。如果您收到了這個邀請，那"
 "就表示有人想與您分享他們的媒體庫。"
 
-#: src/modules/settings/pages/Backup.vue:107
-#: src/modules/settings/pages/Backup.vue:110
-#: src/modules/settings/pages/Backup.vue:60
+#: src/modules/settings/pages/Backup.vue:48
+#: src/modules/settings/pages/Backup.vue:58
 #, fuzzy
 msgid "here"
 msgstr "這裡"
 
-#: src/components/NavBars/AdminNavBar.vue:119
-#: src/modules/admin/pages/Home.vue:3
+#: src/modules/settings/pages/Sentry.vue:10
+msgid "Here's why"
+msgstr ""
+
+#: src/components/NavBars/AdminNavBar.vue:77 src/modules/admin/pages/Home.vue:3
 msgid "Home"
 msgstr "首頁"
 
@@ -513,9 +564,7 @@ msgstr ""
 msgid "I wanted to invite you to join my media server."
 msgstr "誠意邀請你加入我的媒體伺服器。"
 
-#: src/modules/home/views/Home.vue:22 src/modules/home/views/Home.vue:24
-#: src/modules/home/views/Home.vue:27 src/modules/home/views/Home.vue:29
-#: src/modules/home/views/Home.vue:33
+#: src/modules/home/views/Home.vue:15
 msgid ""
 "If you were sent here by a friend, please request access or if you have an "
 "invite code, please click Get Started!"
@@ -568,8 +617,8 @@ msgstr "邀請已被使用"
 msgid "Invitation Users"
 msgstr "邀請用戶"
 
-#: src/components/NavBars/AdminNavBar.vue:123
-#: src/modules/admin/pages/Invitations.vue:3
+#: src/components/NavBars/AdminNavBar.vue:81
+#: src/modules/admin/pages/Invitations.vue:2
 #, fuzzy
 msgid "Invitations"
 msgstr "邀請"
@@ -578,11 +627,23 @@ msgstr "邀請"
 msgid "Invite Code"
 msgstr "邀請碼"
 
-#: src/modules/admin/pages/Users.vue:3
+#: src/modules/admin/pages/Users.vue:2
 msgid "Invited Users"
 msgstr "已邀請用戶"
 
-#: src/modules/help/components/Jellyfin/Welcome.vue:8
+#: src/modules/settings/pages/Sentry.vue:15
+msgid "It allows us to identify and resolve problems before they impact you."
+msgstr ""
+
+#: src/modules/help/components/Jellyfin/Welcome.vue:12
+msgid ""
+"It couldn't be simpler! Jellyfin is available on a wide variety of devices "
+"including laptops, tablets, smartphones, and TVs. All you need to do is "
+"download the Jellyfin app on your device, sign in with your account, and "
+"you're ready to start streaming your media. It's that easy!"
+msgstr ""
+
+#: src/modules/help/components/Jellyfin/Welcome.vue:6
 msgid ""
 "Jellyfin is a platform that lets you stream all your favorite movies, TV "
 "shows, and music in one place. It's like having your own personal movie "
@@ -596,8 +657,6 @@ msgstr ""
 "等。無論您身在何處，都可以輕鬆享受。"
 
 #: src/modules/help/components/Discord.vue:31
-#: src/modules/help/components/Discord.vue:42
-#: src/modules/help/components/Discord.vue:44
 #: src/modules/join/pages/JoinForm.vue:13
 msgid "Join"
 msgstr "加入"
@@ -615,25 +674,23 @@ msgid "Join my media server"
 msgstr "加入我的媒體伺服器"
 
 #: src/modules/help/components/Discord.vue:28
-#: src/modules/help/components/Discord.vue:39
-#: src/modules/help/components/Discord.vue:41
 #, fuzzy
 msgid "Join our Discord"
 msgstr "Discord"
 
-#: src/modules/settings/pages/Account.vue:107
+#: src/modules/settings/pages/Account.vue:33
 msgid "Last name"
 msgstr "姓氏"
 
-#: src/widgets/default/LatestInfo.vue:5 src/widgets/default/LatestInfo.vue:55
+#: src/widgets/default/LatestInfo.vue:5 src/widgets/default/LatestInfo.vue:53
 msgid "Latest Info"
 msgstr "最新資訊"
 
-#: src/tours/admin-home.ts:21
+#: src/tours/admin-home.ts:17
 msgid "Latest Information"
 msgstr "最新消息"
 
-#: src/tours/admin-home.ts:22
+#: src/tours/admin-home.ts:18
 msgid ""
 "Like this Widget, it shows you the latest information about Wizarr and will "
 "be updated regularly by our amazing team."
@@ -641,8 +698,8 @@ msgstr ""
 "就像這個小工具一樣，它會定期由我們出色的團隊更新，為您提供有關 Wizarr 的最新"
 "信息。"
 
-#: src/modules/settings/pages/Main.vue:349
-#: src/modules/settings/pages/Support.vue:5
+#: src/modules/settings/pages/Main.vue:265
+#: src/modules/settings/pages/Support.vue:4
 #, fuzzy
 msgid "Live Support"
 msgstr "支持我們"
@@ -651,20 +708,12 @@ msgstr "支持我們"
 msgid "Load More"
 msgstr "加載更多"
 
-#: src/modules/authentication/components/PasswordForm.vue:14
-#: src/modules/authentication/components/PasswordForm.vue:17
-#: src/modules/authentication/components/PasswordForm.vue:26
-#: src/modules/authentication/components/PasswordForm.vue:35
-#: src/modules/settings/pages/Membership.vue:22
-#: src/modules/settings/pages/Membership.vue:29
-#: src/modules/settings/pages/Membership.vue:36
-#: src/modules/settings/pages/Membership.vue:45
-#: src/modules/settings/pages/Membership.vue:47
+#: src/modules/settings/pages/Membership.vue:18
+#: src/modules/settings/pages/Membership.vue:20
 msgid "Login"
 msgstr "登入"
 
 #: src/modules/settings/pages/Membership.vue:5
-#: src/modules/settings/pages/Membership.vue:9
 msgid "Login into Membership"
 msgstr ""
 
@@ -672,41 +721,36 @@ msgstr ""
 msgid "Login to Plex"
 msgstr "登入 Plex"
 
-#: src/modules/authentication/components/PasswordForm.vue:18
-#: src/modules/authentication/components/PasswordForm.vue:21
-#: src/modules/authentication/components/PasswordForm.vue:30
-#: src/modules/authentication/components/PasswordForm.vue:39
-#: src/modules/authentication/components/PasswordForm.vue:43
+#: src/modules/authentication/components/LoginForm.vue:16
 msgid "Login with Passkey"
 msgstr "使用 Passkey 登入"
 
-#: src/modules/authentication/components/PasskeyForm.vue:27
-#: src/modules/authentication/components/PasskeyForm.vue:33
-#: src/modules/authentication/components/PasskeyForm.vue:36
+#: src/modules/authentication/components/LoginForm.vue:13
 msgid "Login with Password"
 msgstr "使用密碼登入"
 
-#: src/modules/authentication/components/UsernameForm.vue:5
-msgid "Login with your account"
-msgstr "使用帳號登入"
-
-#: src/modules/settings/pages/Membership.vue:50
-#: src/modules/settings/pages/Membership.vue:85
-#: src/modules/settings/pages/Membership.vue:88
+#: src/modules/settings/pages/Membership.vue:44
+#: src/modules/settings/pages/Membership.vue:49
+#: src/modules/settings/pages/Membership.vue:52
 msgid "Logout"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:295
+#: src/modules/settings/pages/Main.vue:214
 msgid "Logs"
 msgstr "日誌"
 
-#: src/modules/join/views/Join.vue:24 src/modules/join/views/Join.vue:38
+#: src/modules/join/views/Join.vue:29 src/modules/join/views/Join.vue:43
 msgid "Made by "
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:155
+#: src/modules/settings/pages/Main.vue:97
 msgid "Main Settings"
 msgstr "主要設定"
+
+#: src/modules/settings/pages/Main.vue:235
+#, fuzzy
+msgid "Manage bug reporting settings"
+msgstr "管理您的邀請"
 
 #: src/modules/admin/pages/Home.vue:6
 msgid "Manage you Wizarr server"
@@ -716,66 +760,79 @@ msgstr "管理您的 Wizarr 伺服器"
 msgid "Manage your command flows"
 msgstr "管理您的命令流程"
 
-#: src/modules/admin/pages/Invitations.vue:6
+#: src/modules/admin/pages/Invitations.vue:3
 msgid "Manage your invitations"
 msgstr "管理您的邀請"
 
-#: src/modules/admin/pages/Users.vue:6
+#: src/modules/admin/pages/Users.vue:3
 msgid "Manage your media server users"
 msgstr "管理您的媒體伺服器用戶"
 
-#: src/modules/admin/components/Users/UserList/UserItem.vue:164
+#: src/modules/admin/components/Users/UserList/UserItem.vue:114
 msgid "Managing %{user}"
 msgstr "管理 %{user}"
 
-#: src/modules/settings/pages/Account.vue:136
+#: src/modules/settings/pages/Account.vue:41
 msgid "Martian"
 msgstr ""
 
-#: src/modules/settings/pages/Account.vue:191
+#: src/modules/settings/pages/Account.vue:61
 msgid "marvin"
 msgstr ""
 
-#: src/modules/settings/pages/Account.vue:96
+#: src/modules/settings/pages/Account.vue:36
 msgid "Marvin"
 msgstr ""
 
-#: src/modules/settings/pages/Account.vue:236
+#: src/modules/settings/pages/Account.vue:76
 msgid "marvin@wizarr.dev"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:160
+#: src/modules/settings/pages/Main.vue:102
 msgid "Media Server"
 msgstr "媒體伺服器"
 
-#: src/modules/help/components/Discord.vue:10
+#: src/modules/settings/components/Forms/MediaForm.vue:17
+#, fuzzy
+msgid "Media Server Address"
+msgstr "媒體伺服器"
+
+#: src/modules/settings/components/Forms/MediaForm.vue:27
+#, fuzzy
+msgid "Media Server Override"
+msgstr "媒體伺服器"
+
+#: src/modules/help/components/Request.vue:17
+msgid "Media will be automatically downloaded to your library"
+msgstr ""
+
 #: src/modules/help/components/Discord.vue:8
 msgid "Members Online"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:335
+#: src/modules/settings/pages/Main.vue:255
 msgid "Members Only"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:341
-#: src/modules/settings/pages/Membership.vue:36
-#: src/modules/settings/pages/Membership.vue:71
+#: src/modules/settings/pages/Main.vue:259
+#: src/modules/settings/pages/Membership.vue:34
+#: src/modules/settings/pages/Membership.vue:42
 msgid "Membership"
 msgstr ""
 
-#: src/modules/settings/pages/Membership.vue:165
+#: src/modules/settings/pages/Membership.vue:120
 msgid "Membership Registration"
 msgstr ""
 
-#: src/modules/settings/pages/Support.vue:74
+#: src/modules/settings/pages/Support.vue:61
 msgid "Membership Required"
 msgstr ""
 
-#: src/components/Loading/FullPageLoading.vue:125
+#: src/components/Loading/FullPageLoading.vue:107
 msgid "Mixing the potions"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:265
+#: src/modules/settings/pages/Main.vue:191
 msgid "Modify the look and feel of the server"
 msgstr "修改伺服器的外觀和風格"
 
@@ -792,23 +849,16 @@ msgstr "我的 Webhook"
 msgid "Name"
 msgstr "名字"
 
-#: src/modules/help/views/Help.vue:17 src/modules/help/views/Help.vue:21
-#: src/modules/help/views/Help.vue:27 src/modules/help/views/Help.vue:31
-#: src/modules/help/views/Help.vue:35
-#: src/modules/settings/components/Forms/MediaForm.vue:107
-#: src/modules/settings/components/Forms/MediaForm.vue:119
-#: src/modules/settings/components/Forms/MediaForm.vue:50
-#: src/modules/settings/components/Forms/MediaForm.vue:57
-#: src/modules/settings/components/Forms/MediaForm.vue:74
-#: src/modules/settings/components/Forms/MediaForm.vue:92
-#: src/modules/setup/views/Setup.vue:24 src/modules/setup/views/Setup.vue:36
-#: src/modules/setup/views/Setup.vue:44
+#: src/modules/help/views/Help.vue:22
+#: src/modules/settings/components/Forms/MediaForm.vue:49
+#: src/modules/setup/views/Setup.vue:29 src/modules/setup/views/Setup.vue:41
+#: src/modules/setup/views/Setup.vue:49
 #, fuzzy
 msgid "Next"
 msgstr "下一步"
 
-#: src/tours/admin-home.ts:41 src/tours/admin-invitations.ts:30
-#: src/tours/admin-users.ts:30
+#: src/tours/admin-home.ts:30 src/tours/admin-invitations.ts:21
+#: src/tours/admin-users.ts:21
 msgid "Next Page"
 msgstr "下一頁"
 
@@ -817,9 +867,8 @@ msgstr "下一頁"
 msgid "No API Keys found"
 msgstr "找不到 API 鑰匙"
 
-#: src/widgets/default/ContributorsList.vue:48
-#: src/widgets/default/ContributorsList.vue:67
-#: src/widgets/default/ContributorsList.vue:71
+#: src/widgets/default/ContributorsList.vue:34
+#: src/widgets/default/ContributorsList.vue:38
 msgid "No contributors found"
 msgstr "找不到貢獻者"
 
@@ -838,12 +887,10 @@ msgid "No Invitations found"
 msgstr "找不到邀請"
 
 #: src/modules/settings/components/Passkeys/Passkeys.vue:11
-#: src/modules/settings/components/Passkeys/Passkeys.vue:19
 msgid "No Passkeys found"
 msgstr "找不到 Passkeys"
 
 #: src/modules/settings/components/Requests/Requests.vue:11
-#: src/modules/settings/components/Requests/Requests.vue:19
 msgid "No Requests found"
 msgstr "找不到請求"
 
@@ -853,8 +900,7 @@ msgstr "找不到請求"
 msgid "No servers could be found."
 msgstr "找不到伺服器。"
 
-#: src/modules/settings/pages/Main.vue:40
-#: src/modules/settings/pages/Main.vue:58
+#: src/modules/settings/pages/Main.vue:30
 msgid "No settings matched your search."
 msgstr "沒有找到符合您搜尋的設置。"
 
@@ -862,51 +908,58 @@ msgstr "沒有找到符合您搜尋的設置。"
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserList.vue:13
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserList.vue:8
 #: src/modules/admin/components/Users/UserList/UserList.vue:11
-#: src/modules/admin/components/Users/UserList/UserList.vue:20
 msgid "No Users found"
 msgstr "找不到用戶"
 
 #: src/components/WebhookList/WebhookList.vue:11
-#: src/components/WebhookList/WebhookList.vue:19
 msgid "No Webhooks found"
 msgstr "找不到 Webhooks"
 
-#: src/modules/settings/pages/Main.vue:201
+#: src/modules/settings/pages/Main.vue:135
 msgid "Notifications"
 msgstr "通知"
 
 #: src/modules/join/pages/Error.vue:45
 #: src/modules/join/pages/Plex/Signup.vue:48
-#: src/modules/settings/pages/Support.vue:77
+#: src/modules/settings/pages/Support.vue:62
 msgid "Okay"
 msgstr ""
 
-#: src/modules/help/components/Jellyfin/Download.vue:57
-#: src/modules/help/components/Jellyfin/Download.vue:65
-#: src/modules/help/components/Jellyfin/Download.vue:71
+#: src/modules/help/components/Jellyfin/Download.vue:49
 msgid "Open Jellyfin"
 msgstr "啟動 Jellyfin"
 
-#: src/modules/help/components/Plex/Download.vue:25
-#: src/modules/help/components/Plex/Download.vue:27
+#: src/modules/help/components/Plex/Download.vue:17
 msgid "Open Plex"
 msgstr "啟動 Plex"
 
-#: src/modules/settings/pages/Main.vue:250
+#: src/modules/settings/pages/Logs.vue:7
+msgid "Open Window"
+msgstr ""
+
+#: src/modules/settings/components/Forms/MediaForm.vue:40
+msgid "Optional if your server address does not match your external address"
+msgstr ""
+
+#: src/modules/settings/pages/Main.vue:176
 msgid "Passkey Authentication"
 msgstr "Passkeys 授權"
 
-#: src/modules/settings/pages/Backup.vue:127
-#: src/modules/settings/pages/Backup.vue:315
-#: src/modules/settings/pages/Main.vue:235
+#: src/modules/settings/pages/Backup.vue:189
+#: src/modules/settings/pages/Backup.vue:89
+#: src/modules/settings/pages/Main.vue:163
 msgid "Password"
 msgstr "密碼"
 
-#: src/modules/settings/pages/Main.vue:194
+#: src/modules/settings/pages/Main.vue:128
 msgid "Payments"
 msgstr "付款"
 
-#: src/modules/help/components/Jellyfin/Download.vue:23
+#: src/modules/settings/pages/Sentry.vue:16
+msgid "Performance Optimization"
+msgstr ""
+
+#: src/modules/help/components/Jellyfin/Download.vue:18
 msgid ""
 "Planning on watching Movies on this device? Download Jellyfin for this "
 "device or click 'Next' to for other options."
@@ -914,16 +967,14 @@ msgstr ""
 "計劃在這台裝置上觀看電影嗎？請下載Jellyfin在此裝置上，或點擊'下一步'查看其他"
 "選擇。"
 
-#: src/modules/help/components/Plex/Download.vue:15
-#: src/modules/help/components/Plex/Download.vue:17
+#: src/modules/help/components/Plex/Download.vue:10
 msgid ""
 "Planning on watching Movies on this device? Download Plex for this device."
 msgstr "您計劃在這台裝置上觀看電影嗎？請下載Plex在此裝置上使用。"
 
-#: src/modules/settings/pages/Backup.vue:111
-#: src/modules/settings/pages/Backup.vue:114
-#: src/modules/settings/pages/Backup.vue:118
-#: src/modules/settings/pages/Backup.vue:64
+#: src/modules/settings/pages/Backup.vue:51
+#: src/modules/settings/pages/Backup.vue:61
+#: src/modules/settings/pages/Backup.vue:62
 msgid ""
 "Please bare in mind that these tools are only for debugging purposes and we "
 "will not provide you with support from any issues that may arise from using "
@@ -932,17 +983,17 @@ msgstr ""
 "請注意，這些工具僅供調試使用，我們將不會為因使用這些工具而引起的任何問題提供"
 "支援。"
 
-#: src/modules/settings/pages/Membership.vue:101
-#: src/modules/settings/pages/Membership.vue:59
-#: src/modules/settings/pages/Membership.vue:94
+#: src/modules/settings/pages/Membership.vue:52
+#: src/modules/settings/pages/Membership.vue:60
+#: src/modules/settings/pages/Membership.vue:63
 msgid "Please bare with us while we work on development of this portal."
 msgstr ""
 
-#: src/modules/settings/components/Forms/MediaForm.vue:217
+#: src/modules/settings/components/Forms/MediaForm.vue:136
 msgid "Please enter a server URL and API key."
 msgstr "請輸入伺服器網址和 API 鑰匙。"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:193
+#: src/modules/settings/components/Forms/MediaForm.vue:116
 msgid "Please enter a server URL."
 msgstr "請輸入伺服器網址。"
 
@@ -950,7 +1001,14 @@ msgstr "請輸入伺服器網址。"
 msgid "Please enter an invite code"
 msgstr "請輸入邀請碼"
 
-#: src/modules/join/views/Join.vue:89
+#: src/modules/settings/pages/Discord.vue:10
+msgid ""
+"Please enter your Discord Server ID below and ensure Server Widgets are "
+"enabled. If you don't know how to get your Discord Server ID or Enable "
+"Widgets, please follow the instructions below."
+msgstr ""
+
+#: src/modules/join/views/Join.vue:99
 msgid "Please enter your invite code"
 msgstr "請輸入您的邀請碼"
 
@@ -965,7 +1023,7 @@ msgid ""
 "please make sure to store it somewhere safe."
 msgstr "請複製您的 API 鑰匙。您將無法再次查看它，請務必儲存在安全的地方。"
 
-#: src/components/Loading/FullPageLoading.vue:123
+#: src/components/Loading/FullPageLoading.vue:107
 msgid "Please wait"
 msgstr "請稍候"
 
@@ -973,7 +1031,7 @@ msgstr "請稍候"
 #: src/modules/core/components/Carousel.vue:66
 #: src/modules/core/components/Carousel.vue:70
 #: src/modules/core/components/Carousel.vue:75
-#: src/modules/join/views/Join.vue:111
+#: src/modules/join/views/Join.vue:121
 msgid "Please wait..."
 msgstr "請稍候..."
 
@@ -981,57 +1039,47 @@ msgstr "請稍候..."
 msgid "Plex Warning"
 msgstr ""
 
-#: src/components/Loading/FullPageLoading.vue:124
+#: src/components/Loading/FullPageLoading.vue:107
 msgid "Preparing the spells"
 msgstr "魔法準備中"
 
-#: src/modules/authentication/components/PasskeyForm.vue:14
-#: src/modules/authentication/components/PasskeyForm.vue:18
-msgid "Press the button below and follow your browser's steps to login"
-msgstr "請按下方的按鈕，然後跟隨您瀏覽器的步驟登入"
+#: src/modules/settings/pages/Sentry.vue:15
+msgid "Proactive Issue Resolution"
+msgstr ""
 
-#: src/widgets/default/LatestInfo.vue:12 src/widgets/default/LatestInfo.vue:14
-#: src/widgets/default/LatestInfo.vue:19
+#: src/widgets/default/LatestInfo.vue:13
 msgid "Read More"
 msgstr "閱讀更多"
 
-#: src/widgets/default/ContributorsList.vue:11
 #: src/widgets/default/ContributorsList.vue:9
 #, fuzzy
 msgid "Recent Contributors"
 msgstr "貢獻者"
 
-#: src/modules/settings/pages/Membership.vue:168
-#: src/modules/settings/pages/Membership.vue:27
-#: src/modules/settings/pages/Membership.vue:34
-#: src/modules/settings/pages/Membership.vue:41
-#: src/modules/settings/pages/Membership.vue:52
-#: src/modules/settings/pages/Membership.vue:54
+#: src/modules/settings/pages/Membership.vue:123
+#: src/modules/settings/pages/Membership.vue:25
+#: src/modules/settings/pages/Membership.vue:26
 msgid "Register"
 msgstr ""
 
-#: src/modules/home/views/Home.vue:32 src/modules/home/views/Home.vue:34
-#: src/modules/home/views/Home.vue:37 src/modules/home/views/Home.vue:39
-#: src/modules/home/views/Home.vue:45 src/modules/home/views/Home.vue:55
+#: src/modules/home/views/Home.vue:20
 msgid "Request Access"
 msgstr "請求訪問權限"
 
-#: src/modules/settings/pages/Main.vue:168
+#: src/modules/help/components/Request.vue:13
+msgid "Request any available Movie or TV Show"
+msgstr ""
+
+#: src/modules/settings/pages/Main.vue:108
 msgid "Requests"
 msgstr "請求"
 
 #: src/components/Dashboard/Dashboard.vue:12
-#: src/components/Dashboard/Dashboard.vue:18
-#: src/components/Dashboard/Dashboard.vue:22
-#: src/components/Dashboard/Dashboard.vue:27
-#: src/components/Dashboard/Dashboard.vue:30
-#: src/components/Dashboard/Dashboard.vue:34
 msgid "Reset Layout"
 msgstr "重置版面"
 
-#: src/modules/settings/pages/Backup.vue:31
-#: src/modules/settings/pages/Backup.vue:54
-#: src/modules/settings/pages/Backup.vue:56
+#: src/modules/settings/pages/Backup.vue:27
+#: src/modules/settings/pages/Backup.vue:32
 msgid "Restore"
 msgstr "恢復"
 
@@ -1042,9 +1090,8 @@ msgid ""
 "backup"
 msgstr "從備份檔案恢復您的數據庫和配置。您需要提供用於建立備份的加密密碼"
 
+#: src/modules/settings/pages/Backup.vue:30
 #: src/modules/settings/pages/Backup.vue:35
-#: src/modules/settings/pages/Backup.vue:58
-#: src/modules/settings/pages/Backup.vue:60
 msgid ""
 "Restore a backup of your database and configuration from a backup file. You "
 "will need to provide the encryption password that was used to create the "
@@ -1055,21 +1102,21 @@ msgstr "從備份檔案恢復您的數據庫和配置。您需要提供用於建
 msgid "Restore Backup"
 msgstr "恢復備份"
 
+#: src/modules/help/components/Jellyfin/Welcome.vue:10
+msgid "Right, so how do I watch stuff?"
+msgstr ""
+
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:118
-#: src/modules/admin/components/Users/UserList/UserItem.vue:169
+#: src/modules/admin/components/Users/UserList/UserItem.vue:119
+#: src/modules/settings/pages/Discord.vue:42
 msgid "Save"
 msgstr "儲存"
 
-#: src/modules/settings/pages/Account.vue:39
+#: src/modules/settings/pages/Account.vue:17
 msgid "Save Account"
 msgstr "儲存帳號"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:102
-#: src/modules/settings/components/Forms/MediaForm.vue:107
-#: src/modules/settings/components/Forms/MediaForm.vue:45
-#: src/modules/settings/components/Forms/MediaForm.vue:52
-#: src/modules/settings/components/Forms/MediaForm.vue:69
-#: src/modules/settings/components/Forms/MediaForm.vue:87
+#: src/modules/settings/components/Forms/MediaForm.vue:44
 msgid "Save Connection"
 msgstr "儲存連線"
 
@@ -1077,34 +1124,24 @@ msgstr "儲存連線"
 msgid "Save Dashboard"
 msgstr "儲存儀表板"
 
-#: src/components/Modals/ServerURLModal.vue:12
 #: src/components/Modals/ServerURLModal.vue:8
 msgid "Save URL"
 msgstr "儲存網址"
 
-#: src/tours/admin-users.ts:17
+#: src/tours/admin-users.ts:13
 msgid "Scan for Users"
 msgstr "掃瞄用戶"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:168
-#: src/modules/settings/components/Forms/MediaForm.vue:25
-#: src/modules/settings/components/Forms/MediaForm.vue:32
-#: src/modules/settings/components/Forms/MediaForm.vue:49
-#: src/modules/settings/components/Forms/MediaForm.vue:67
-#: src/modules/settings/components/Forms/MediaForm.vue:69
+#: src/modules/settings/components/Forms/MediaForm.vue:28
+#: src/modules/settings/components/Forms/MediaForm.vue:94
 msgid "Scan Libraries"
 msgstr "掃瞄媒體庫"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:30
-#: src/modules/settings/components/Forms/MediaForm.vue:37
-#: src/modules/settings/components/Forms/MediaForm.vue:54
-#: src/modules/settings/components/Forms/MediaForm.vue:72
-#: src/modules/settings/components/Forms/MediaForm.vue:80
+#: src/modules/settings/components/Forms/MediaForm.vue:33
 msgid "Scan Servers"
 msgstr "掃瞄伺服器"
 
-#: src/modules/admin/pages/Users.vue:11 src/modules/admin/pages/Users.vue:7
-#: src/modules/admin/pages/Users.vue:9
+#: src/modules/admin/pages/Users.vue:5
 msgid "Scan Users"
 msgstr "掃瞄用戶"
 
@@ -1114,72 +1151,69 @@ msgstr "掃瞄用戶"
 msgid "Search"
 msgstr ""
 
-#: src/tours/admin-settings.ts:13
+#: src/tours/admin-settings.ts:11
 msgid "Search Settings"
 msgstr "搜尋設定"
 
-#: src/components/Buttons/LanguageSelector.vue:27
+#: src/components/Buttons/LanguageSelector.vue:32
 msgid "Select Language"
 msgstr "選擇語言"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:171
+#: src/modules/settings/components/Forms/MediaForm.vue:97
 msgid "Select Libraries"
 msgstr "選擇媒體庫"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:102
+#: src/modules/settings/components/Forms/MediaForm.vue:39
 msgid "Server API Key"
 msgstr "伺服器 API 鑰匙"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:234
+#: src/modules/settings/components/Forms/MediaForm.vue:152
 msgid "Server connection verified!"
 msgstr "伺服器連線已驗證！"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:28
-msgid "Server Display Name"
-msgstr "伺服器顯示名稱"
+#: src/modules/settings/components/Forms/MediaForm.vue:25
+msgid "Server IP or Address of your media server"
+msgstr ""
 
-#: src/modules/settings/components/Forms/MediaForm.vue:118
+#: src/modules/settings/components/Forms/MediaForm.vue:49
 msgid "Server Type"
 msgstr "伺服器類型"
 
-#: src/modules/help/components/Jellyfin/Download.vue:34
-#: src/modules/settings/components/Forms/MediaForm.vue:50
+#: src/modules/help/components/Jellyfin/Download.vue:26
 msgid "Server URL"
 msgstr "伺服器網址"
 
-#: src/modules/settings/pages/Main.vue:242
+#: src/modules/settings/pages/Main.vue:170
 #, fuzzy
 msgid "Sessions"
 msgstr "連線階段"
 
-#: src/components/NavBars/AdminNavBar.vue:131
+#: src/components/NavBars/AdminNavBar.vue:89
 msgid "Settings"
 msgstr "設定"
 
-#: src/tours/admin-settings.ts:20
+#: src/tours/admin-settings.ts:16
 msgid "Settings Categories"
 msgstr "設定分類"
 
-#: src/modules/settings/pages/Main.vue:223
+#: src/modules/settings/pages/Main.vue:153
 msgid "Settings for user accounts"
 msgstr "用戶帳號設定"
 
-#: src/modules/setup/views/Setup.vue:6 src/modules/setup/views/Setup.vue:8
+#: src/modules/setup/views/Setup.vue:11 src/modules/setup/views/Setup.vue:13
 msgid "Setup Wizarr"
 msgstr "設置 Wizarr"
 
-#: src/modules/join/views/Join.vue:103
+#: src/modules/join/views/Join.vue:113
 msgid "Setup your account"
 msgstr "設置您的帳號"
 
-#: src/modules/admin/components/Forms/InvitationForm.vue:110
-#: src/modules/admin/components/Forms/InvitationForm.vue:113
-#: src/modules/admin/components/Forms/InvitationForm.vue:340
+#: src/modules/admin/components/Forms/InvitationForm.vue:248
 #: src/modules/admin/components/Forms/InvitationForm.vue:47
 msgid "Share"
 msgstr "分享"
 
-#: src/modules/admin/components/Forms/InvitationForm.vue:337
+#: src/modules/admin/components/Forms/InvitationForm.vue:245
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:157
 msgid "Share Invitation"
 msgstr "分享邀請"
@@ -1191,19 +1225,23 @@ msgid ""
 "media server."
 msgstr "與您的朋友和家人分享此連結，邀請他們加入您的媒體伺服器。"
 
-#: src/modules/help/components/Plex/Welcome.vue:21
+#: src/modules/help/components/Plex/Welcome.vue:11
 msgid "So let's see how to get started!"
 msgstr "那麼，讓我們來看看如何開始吧！"
 
-#: src/modules/help/components/Plex/Download.vue:10
-#: src/modules/help/components/Plex/Download.vue:8
+#: src/modules/help/components/Plex/Download.vue:7
 msgid ""
 "So you now have access to our server's media collection. Let's make sure you "
 "know how to use it with Plex."
 msgstr ""
 "您現在可以訪問我們伺服器的媒體收藏了。讓我們確保您知道如何在 Plex 中訪問它。"
 
-#: src/modules/join/views/Join.vue:127
+#: src/modules/authentication/views/LoginView.vue:20
+#, fuzzy
+msgid "Something went wrong"
+msgstr "有些東西遺漏了。"
+
+#: src/modules/join/views/Join.vue:137
 msgid ""
 "Something went wrong while trying to join the server. Please try again later."
 msgstr "很抱歉，我們在嘗試加入伺服器時遇到了一些問題。請稍後再試一次。"
@@ -1222,8 +1260,8 @@ msgstr "有些東西遺漏了。"
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
 msgstr "抱歉，我們找不到該頁面。它似乎不存在！"
 
-#: src/modules/settings/pages/Support.vue:17
-#: src/modules/settings/pages/Support.vue:91
+#: src/modules/settings/pages/Support.vue:11
+#: src/modules/settings/pages/Support.vue:74
 msgid "Start Support Session"
 msgstr ""
 
@@ -1235,44 +1273,41 @@ msgstr "開始新手導覽"
 msgid "Still under development"
 msgstr "開發中"
 
-#: src/components/Loading/FullPageLoading.vue:126
+#: src/components/Loading/FullPageLoading.vue:107
 msgid "Summoning the spirits"
 msgstr "召喚靈魂中"
 
-#: src/modules/settings/pages/Support.vue:67
+#: src/modules/settings/pages/Support.vue:55
 msgid "Support session ended"
 msgstr ""
 
+#: src/widgets/default/ContributorsList.vue:11
 #: src/widgets/default/ContributorsList.vue:13
-#: src/widgets/default/ContributorsList.vue:15
-#: src/widgets/default/ContributorsList.vue:16
 #, fuzzy
 msgid "Support Us"
 msgstr "支持我們"
 
-#: src/components/Modals/LanguageModal.vue:13
-#: src/components/Modals/LanguageModal.vue:17
-#: src/components/Modals/LanguageModal.vue:21
+#: src/components/Modals/LanguageModal.vue:11
 msgid "System Default"
 msgstr "系統默認"
 
-#: src/modules/settings/pages/Main.vue:303
+#: src/modules/settings/pages/Main.vue:221
 msgid "Tasks"
 msgstr "任務"
 
-#: src/tours/admin-settings.ts:14
+#: src/tours/admin-settings.ts:12
 msgid ""
 "There are a lot of settings, so you can search for them by using the search "
 "bar."
 msgstr "這裡有許多設置，您可以使用搜索欄來輕鬆查找它們。"
 
-#: src/tours/admin-home.ts:15
+#: src/tours/admin-home.ts:13
 msgid ""
 "These are your widgets, you can use them to get a quick overview of your "
 "Wizarr instance."
 msgstr "這些小工具可供您使用，以便快速瀏覽您的 Wizarr 。"
 
-#: src/modules/settings/pages/Main.vue:336
+#: src/modules/settings/pages/Main.vue:256
 msgid "These features are only available to paying members"
 msgstr ""
 
@@ -1282,7 +1317,7 @@ msgid ""
 "This is a temporary and we are working on adding support for other databases."
 msgstr "這只是暫時的，我們正在努力增加對其他數據庫的支持。"
 
-#: src/tours/admin-settings.ts:28
+#: src/tours/admin-settings.ts:22
 msgid ""
 "This is the end of the tour, we hope you enjoyed you found it informative! "
 "Please feel free to contact us on Discord and let us know what you think of "
@@ -1303,11 +1338,20 @@ msgstr ""
 msgid "This page is currently read only!"
 msgstr "此頁面目前僅供參考。"
 
-#: src/modules/settings/pages/Backup.vue:103
-#: src/modules/settings/pages/Backup.vue:106
-#: src/modules/settings/pages/Backup.vue:56
+#: src/modules/settings/pages/Backup.vue:47
+#: src/modules/settings/pages/Backup.vue:57
 msgid "To decrypt and encrypt backup files you can use the tools"
 msgstr "您可以使用以下工具解密和加密備份檔案"
+
+#: src/modules/settings/pages/Discord.vue:29
+msgid "To enable Server Widgets, navigate to your Server Settings."
+msgstr ""
+
+#: src/modules/settings/pages/Discord.vue:19
+msgid ""
+"To get your Server ID right click on the server icon on the left hand "
+"sidebar."
+msgstr ""
 
 #: src/widgets/default/InvitesTotal.vue:3
 msgid "Total Invitations"
@@ -1321,40 +1365,49 @@ msgstr "任務總數"
 msgid "Total Users"
 msgstr "用戶總數"
 
-#: src/modules/admin/components/Forms/InvitationForm.vue:129
-#: src/modules/admin/components/Forms/InvitationForm.vue:133
 #: src/modules/admin/components/Forms/InvitationForm.vue:59
 msgid "Try Again"
 msgstr "再試一次"
 
-#: src/modules/join/views/Join.vue:7 src/modules/join/views/Join.vue:9
-msgid "Type in your invite code to %{server_name} server!"
+#: src/modules/join/views/Join.vue:12 src/modules/join/views/Join.vue:14
+#, fuzzy
+msgid "Type in your invite code for %{server_name}!"
 msgstr "輸入您的邀請碼以加入到 %{server_name} 伺服器！"
 
-#: src/modules/join/views/Join.vue:126 src/modules/join/views/Join.vue:165
-#: src/modules/join/views/Join.vue:184 src/modules/join/views/Join.vue:193
-#: src/modules/join/views/Join.vue:218 src/modules/join/views/Join.vue:227
-#: src/modules/join/views/Join.vue:243 src/modules/join/views/Join.vue:248
+#: src/modules/join/views/Join.vue:136 src/modules/join/views/Join.vue:175
+#: src/modules/join/views/Join.vue:194 src/modules/join/views/Join.vue:203
+#: src/modules/join/views/Join.vue:228 src/modules/join/views/Join.vue:237
+#: src/modules/join/views/Join.vue:253 src/modules/join/views/Join.vue:258
 msgid "Uh oh!"
 msgstr "哎呀！"
 
-#: src/modules/settings/pages/Main.vue:264
+#: src/modules/settings/pages/Main.vue:190
 msgid "UI Settings"
 msgstr "界面設定"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:200
+#: src/modules/settings/components/Forms/MediaForm.vue:123
 msgid "Unable to detect server."
 msgstr "無法偵測到伺服器。"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:257
+#: src/modules/settings/pages/Sentry.vue:55
+#, fuzzy
+msgid "Unable to save bug reporting settings."
+msgstr "無法儲存連線。"
+
+#: src/modules/settings/components/Forms/MediaForm.vue:169
+#: src/modules/settings/pages/Discord.vue:75
 msgid "Unable to save connection."
 msgstr "無法儲存連線。"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:228
+#: src/modules/settings/pages/Discord.vue:69
+msgid "Unable to save due to widgets being disabled on this server."
+msgstr ""
+
+#: src/modules/settings/components/Forms/MediaForm.vue:146
 msgid "Unable to verify server."
 msgstr "無法驗證伺服器。"
 
-#: src/modules/settings/pages/Main.vue:311
+#: src/modules/settings/pages/Main.vue:227
 msgid "Updates"
 msgstr "更新"
 
@@ -1362,16 +1415,11 @@ msgstr "更新"
 msgid "URL"
 msgstr "網址"
 
-#: src/modules/authentication/components/PasskeyForm.vue:7
-#: src/modules/authentication/components/PasskeyForm.vue:9
-msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
-msgstr "使用指紋或面部識別驗證您的身份"
-
-#: src/modules/admin/components/Users/UserList/UserItem.vue:217
+#: src/modules/admin/components/Users/UserList/UserItem.vue:155
 msgid "User %{user} deleted"
 msgstr "已刪除用戶 %{user}"
 
-#: src/modules/admin/components/Users/UserList/UserItem.vue:222
+#: src/modules/admin/components/Users/UserList/UserItem.vue:160
 msgid "User deletion cancelled"
 msgstr "用戶刪除取消"
 
@@ -1388,40 +1436,35 @@ msgstr "用戶已過期 %{s}"
 msgid "User expires %{s}"
 msgstr "用戶過期日 %{s}"
 
-#: src/modules/settings/pages/Account.vue:151
+#: src/modules/settings/pages/Account.vue:49
 msgid "Username"
 msgstr "用戶名稱"
 
-#: src/components/NavBars/AdminNavBar.vue:127
+#: src/components/NavBars/AdminNavBar.vue:85
 msgid "Users"
 msgstr "用戶"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:38
-#: src/modules/settings/components/Forms/MediaForm.vue:45
-#: src/modules/settings/components/Forms/MediaForm.vue:62
-#: src/modules/settings/components/Forms/MediaForm.vue:80
-#: src/modules/settings/components/Forms/MediaForm.vue:95
+#: src/modules/settings/components/Forms/MediaForm.vue:39
 msgid "Verify Connection"
 msgstr "驗證連線"
 
 #: src/components/ChangeLogs/ChangeLogItem.vue:17
-#: src/components/ChangeLogs/ChangeLogItem.vue:23
 msgid "View"
 msgstr "檢視"
 
-#: src/modules/settings/pages/Main.vue:296
+#: src/modules/settings/pages/Main.vue:215
 msgid "View and download server logs"
 msgstr "查看並下載伺服器日誌"
 
-#: src/modules/settings/pages/Main.vue:304
+#: src/modules/settings/pages/Main.vue:222
 msgid "View and manage scheduled tasks"
 msgstr "查看並管理排程任務"
 
-#: src/modules/settings/pages/Main.vue:243
+#: src/modules/settings/pages/Main.vue:171
 msgid "View and manage your active sessions"
 msgstr "查看和管理您啟用中的連線階段"
 
-#: src/modules/settings/pages/Main.vue:342
+#: src/modules/settings/pages/Main.vue:260
 #, fuzzy
 msgid "View and manage your membership"
 msgstr "查看和管理您啟用中的連線階段"
@@ -1430,18 +1473,47 @@ msgstr "查看和管理您啟用中的連線階段"
 msgid "View API key"
 msgstr "查看 API 鑰匙"
 
-#: src/modules/settings/pages/Main.vue:325
+#: src/modules/settings/pages/Main.vue:247
 msgid "View information about the server"
 msgstr "查看伺服器資訊"
 
-#: src/components/Loading/FullPageLoading.vue:127
+#: src/components/Loading/FullPageLoading.vue:107
 msgid "Waving our wands"
 msgstr "揮動我們的魔杖吧"
 
-#: src/tours/admin-settings.ts:21
+#: src/modules/help/components/Request.vue:6
+msgid ""
+"We are excited to offer you a wide selection of media to choose from. If "
+"you're having trouble finding something you like, don't worry! We have a "
+"user-friendly request system that can automatically search for the media "
+"you're looking for."
+msgstr ""
+
+#: src/modules/settings/pages/Sentry.vue:16
+msgid ""
+"We can pinpoint bottlenecks and optimize our applications for better "
+"performance."
+msgstr ""
+
+#: src/tours/admin-settings.ts:17
 msgid ""
 "We have categorized all of your settings to make it easier to find them."
 msgstr "我們已經將所有的設置進行了分類，以幫助您更輕鬆地找到它們。"
+
+#: src/modules/settings/pages/Sentry.vue:9
+msgid ""
+"We value the security and stability of our services. Bug reporting plays a "
+"crucial role in maintaining and improving our software."
+msgstr ""
+
+#: src/modules/settings/pages/Sentry.vue:20
+msgid ""
+"We want to clarify that our bug reporting system does not collect sensitive "
+"personal data. It primarily captures technical information related to errors "
+"and performance, such as error messages, stack traces, and browser "
+"information. Rest assured, your personal information is not at risk through "
+"this service being enabled."
+msgstr ""
 
 #: src/tours/admin-home.ts:9
 msgid ""
@@ -1449,7 +1521,7 @@ msgid ""
 "following this tour to get a quick overview."
 msgstr "我們希望能盡快幫助您熟悉Wizarr，請考慮跟隨這個導覽，以獲得快速的概覽。"
 
-#: src/modules/settings/pages/Support.vue:9
+#: src/modules/settings/pages/Support.vue:6
 msgid ""
 "We're here to help you with any issues or questions you may have. If you "
 "require assistance, paying members can use the button below to begin a live "
@@ -1457,20 +1529,19 @@ msgid ""
 "through any issues you may be having and resolve them."
 msgstr ""
 
-#: src/components/WebhookList/WebhookItem.vue:70
+#: src/components/WebhookList/WebhookItem.vue:57
 msgid "Webhook deleted successfully"
 msgstr "Webhook 成功刪除"
 
-#: src/components/WebhookList/WebhookItem.vue:72
+#: src/components/WebhookList/WebhookItem.vue:59
 msgid "Webhook deletion cancelled"
 msgstr "Webhook 刪除取消"
 
-#: src/modules/settings/pages/Main.vue:186
+#: src/modules/settings/pages/Main.vue:122
 msgid "Webhooks"
 msgstr ""
 
-#: src/modules/home/views/Home.vue:10 src/modules/home/views/Home.vue:12
-#: src/modules/home/views/Home.vue:15 src/modules/home/views/Home.vue:17
+#: src/modules/home/views/Home.vue:9
 #, fuzzy
 msgid "Welcome to"
 msgstr "歡迎來到 Wizarr"
@@ -1479,7 +1550,11 @@ msgstr "歡迎來到 Wizarr"
 msgid "Welcome to Wizarr"
 msgstr "歡迎來到 Wizarr"
 
-#: src/modules/help/components/Plex/Welcome.vue:15
+#: src/modules/settings/pages/Sentry.vue:5
+msgid "Why We Use Bug Reporting"
+msgstr ""
+
+#: src/modules/help/components/Plex/Welcome.vue:8
 msgid ""
 "With Plex, you'll have access to all of the movies, TV shows, music, and "
 "photos that are stored on their server!"
@@ -1490,9 +1565,7 @@ msgstr ""
 msgid "Wizarr"
 msgstr ""
 
-#: src/modules/home/views/Home.vue:14 src/modules/home/views/Home.vue:16
-#: src/modules/home/views/Home.vue:19 src/modules/home/views/Home.vue:21
-#: src/modules/home/views/Home.vue:23
+#: src/modules/home/views/Home.vue:11
 msgid ""
 "Wizarr is a software tool that provides advanced user invitation and "
 "management capabilities for media servers such as Jellyfin, Emby, and Plex. "
@@ -1509,7 +1582,7 @@ msgid ""
 "it. Do you wish to continue?"
 msgstr ""
 
-#: src/tours/admin-users.ts:18
+#: src/tours/admin-users.ts:14
 msgid ""
 "Wizarr will automatically scan your media server for new users, but you can "
 "also manually scan for new users by clicking on the 'Scan for Users' button, "
@@ -1518,34 +1591,37 @@ msgstr ""
 "Wizarr 會自動檢查您的媒體伺服器是否有新的用戶，但如果 Wizarr 還沒有執行檢查，"
 "您也可以點擊\"掃描用戶\"按鈕手動執行。"
 
-#: src/modules/settings/pages/Support.vue:93
+#: src/modules/settings/pages/Support.vue:74
 msgid "Yes"
 msgstr ""
 
-#: src/modules/settings/pages/Membership.vue:38
-#: src/modules/settings/pages/Membership.vue:73
-#: src/modules/settings/pages/Membership.vue:76
+#: src/modules/settings/pages/Membership.vue:35
+#: src/modules/settings/pages/Membership.vue:43
 msgid "You are currently logged into membership."
 msgstr ""
 
-#: src/tours/admin-home.ts:29
+#: src/tours/admin-home.ts:23
 msgid ""
 "You can also edit your dashboard, delete widgets, add new widgets, and move "
 "them around."
 msgstr "您也可以自訂您的儀表板，刪除小工具、新增小工具，以及調整它們的位置。"
 
-#: src/tours/admin-invitations.ts:18
+#: src/tours/admin-invitations.ts:14
 msgid ""
 "You can create a new invitation by clicking on the 'Create Invitation' "
 "button."
 msgstr "您可以透過點選「建立邀請」按鈕來建立新的邀請。"
+
+#: src/modules/help/components/Request.vue:21
+msgid "You can recieve notifications when your media is ready"
+msgstr ""
 
 #: src/modules/setup/pages/Complete.vue:7
 #: src/modules/setup/pages/Complete.vue:9
 msgid "You have successfully completed the setup process."
 msgstr "恭喜您成功完成了設定過程。"
 
-#: src/modules/settings/pages/Support.vue:75
+#: src/modules/settings/pages/Support.vue:61
 msgid "You must be a paying member to use this feature."
 msgstr ""
 
@@ -1575,3 +1651,19 @@ msgstr "您的設定"
 #: src/tours/admin-users.ts:8
 msgid "Your Users"
 msgstr "您的用戶"
+
+#~ msgid "Continue"
+#~ msgstr "下一步"
+
+#~ msgid "Login with your account"
+#~ msgstr "使用帳號登入"
+
+#~ msgid "Press the button below and follow your browser's steps to login"
+#~ msgstr "請按下方的按鈕，然後跟隨您瀏覽器的步驟登入"
+
+#~ msgid "Use your Fingerprint or Face Recognition to Verify your Identity"
+#~ msgstr "使用指紋或面部識別驗證您的身份"
+
+#, fuzzy
+#~ msgid "Create Invite"
+#~ msgstr "建立邀請"

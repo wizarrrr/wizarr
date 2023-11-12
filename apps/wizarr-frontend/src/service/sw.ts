@@ -1,12 +1,9 @@
 /// <reference lib="webworker" />
 
-import {
-    cleanupOutdatedCaches,
-    createHandlerBoundToURL,
-    precacheAndRoute,
-} from 'workbox-precaching';
-import { clientsClaim } from 'workbox-core';
-import { NavigationRoute, registerRoute } from 'workbox-routing';
+import { NavigationRoute, registerRoute } from "workbox-routing";
+import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from "workbox-precaching";
+
+import { clientsClaim } from "workbox-core";
 
 declare let self: ServiceWorkerGlobalScope;
 
@@ -23,7 +20,7 @@ if (import.meta.env.PROD) {
 
     // to allow work offline
     registerRoute(
-        new NavigationRoute(createHandlerBoundToURL('index.html'), {
+        new NavigationRoute(createHandlerBoundToURL("index.html"), {
             allowlist,
         }),
     );
