@@ -1,3 +1,10 @@
+## [3.5.1-beta.3](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.2...v3.5.1-beta.3) (2023-11-14)
+
+
+### Bug Fixes
+
+* 🐝 Jellyfin users now can have uppercase usernames ([1539c56](https://github.com/Wizarrrr/wizarr/commit/1539c56b617c3fce0d17877c960a73fd8e6a1aac))
+
 ## [3.5.1-beta.2](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.1...v3.5.1-beta.2) (2023-11-09)
 
 
