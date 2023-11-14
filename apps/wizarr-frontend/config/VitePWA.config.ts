@@ -1,23 +1,23 @@
-import type { VitePWAOptions } from 'vite-plugin-pwa';
+import type { VitePWAOptions } from "vite-plugin-pwa";
 
 const VitePWAConfig: Partial<VitePWAOptions> = {
-    mode: 'production',
-    base: '/',
-    includeAssets: ['favicon.ico'],
+    mode: "production",
+    base: "/",
+    includeAssets: ["favicon.ico"],
     selfDestroying: false,
-    srcDir: 'src/service',
-    filename: 'sw.ts',
-    registerType: 'autoUpdate',
-    strategies: 'injectManifest',
+    srcDir: "src/service",
+    filename: "sw.ts",
+    registerType: "autoUpdate",
+    strategies: "injectManifest",
     workbox: {
         runtimeCaching: [
             {
-                handler: 'NetworkOnly',
+                handler: "NetworkOnly",
                 urlPattern: /\/api\/.*\/*.json/,
-                method: 'POST',
+                method: "POST",
                 options: {
                     backgroundSync: {
-                        name: 'apiQueue',
+                        name: "apiQueue",
                         options: {
                             maxRetentionTime: 24 * 60,
                         },
@@ -27,33 +27,38 @@ const VitePWAConfig: Partial<VitePWAOptions> = {
         ],
     },
     manifest: {
-        name: 'Wizarr',
-        short_name: 'Wizarr',
-        start_url: '/admin',
-        theme_color: '#fe4155',
+        name: "Wizarr",
+        short_name: "Wizarr",
+        theme_color: "#ff4155",
+        background_color: "#111827",
+        orientation: "portrait",
+        display: "standalone",
+        start_url: "/admin",
+        scope: "/",
+        description: "Wizarr is an advanced user invitation and management system for Jellyfin, Plex, Emby etc.",
         icons: [
             {
-                src: 'pwa-192x192.png',
-                sizes: '192x192',
-                type: 'image/png',
+                src: "pwa-192x192.png",
+                sizes: "192x192",
+                type: "image/png",
             },
             {
-                src: '/pwa-512x512.png',
-                sizes: '512x512',
-                type: 'image/png',
+                src: "/pwa-512x512.png",
+                sizes: "512x512",
+                type: "image/png",
             },
             {
-                src: 'pwa-512x512.png',
-                sizes: '512x512',
-                type: 'image/png',
-                purpose: 'any maskable',
+                src: "pwa-512x512.png",
+                sizes: "512x512",
+                type: "image/png",
+                purpose: "any maskable",
             },
         ],
     },
     devOptions: {
         enabled: true,
-        type: 'module',
-        navigateFallback: 'index.html',
+        type: "module",
+        navigateFallback: "index.html",
         suppressWarnings: false,
     },
 };
