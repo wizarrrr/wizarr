@@ -14,6 +14,13 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+            - name: GitHub App Token
+              id: gh_app
+              uses: getsentry/action-github-app-token@v2
+              with:
+                  app_id: ${{ secrets.APP_ID }}
+                  private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
             - name: Checkout Repository
               uses: actions/checkout@v2
 
@@ -32,6 +39,6 @@ jobs:
               uses: peaceiris/actions-gh-pages@v3
               with:
                   external_repository: wizarrrr/storybook.wizarr.dev
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  github_token: ${{ steps.gh_app.outputs.token }}
                   publish_dir: ./dist/storybook/wizarr-frontend
                   cname: storybook.wizarr.dev
