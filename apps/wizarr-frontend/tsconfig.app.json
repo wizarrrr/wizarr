@@ -17,16 +17,20 @@
         "src/**/*.spec.vue",
         "src/**/*.test.vue",
         "src/**/__tests__/*",
-        "node_modules/@flavorly/vanilla-components/*"
+        "node_modules/@flavorly/vanilla-components/*",
     ],
     "compilerOptions": {
         "outDir": "../../dist/out-tsc",
-        "types": ["vite/client"],
+        "types": [
+            "vite/client"
+        ],
         "skipLibCheck": true,
         "composite": true,
         "baseUrl": ".",
         "paths": {
-            "@/*": ["./src/*"]
+            "@/*": [
+                "./src/*"
+            ]
         }
     }
 }

@@ -6,20 +6,14 @@
     "targets": {
         "lint": {
             "executor": "@nx/eslint:lint",
-            "outputs": [
-                "{options.outputFile}"
-            ],
+            "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": [
-                    "apps/wizarr-frontend/**/*.{ts,tsx,js,jsx,vue}"
-                ]
+                "lintFilePatterns": ["apps/wizarr-frontend/**/*.{ts,tsx,js,jsx,vue}"]
             }
         },
         "build": {
             "executor": "@nx/vite:build",
-            "outputs": [
-                "{options.outputPath}"
-            ],
+            "outputs": ["{options.outputPath}"],
             "defaultConfiguration": "production",
             "options": {
                 "outputPath": "dist/apps/wizarr-frontend",
@@ -68,9 +62,7 @@
         },
         "test": {
             "executor": "@nx/vite:test",
-            "outputs": [
-                "{options.reportsDirectory}"
-            ],
+            "outputs": ["{options.reportsDirectory}"],
             "options": {
                 "passWithNoTests": true,
                 "reportsDirectory": "../../coverage/apps/wizarr-frontend"
@@ -85,29 +77,53 @@
         "gettext": {
             "executor": "nx:run-commands",
             "options": {
-                "commands": [
-                    "nx run wizarr-frontend:gettext:extract",
-                    "nx run wizarr-frontend:gettext:compile"
-                ],
+                "commands": ["nx run wizarr-frontend:gettext:extract", "nx run wizarr-frontend:gettext:compile"],
                 "parallel": false
             }
         },
         "gettext:extract": {
             "executor": "nx:run-commands",
             "options": {
-                "commands": [
-                    "cd apps/wizarr-frontend && npx vue-gettext-extract"
-                ],
+                "commands": ["cd apps/wizarr-frontend && npx vue-gettext-extract"],
                 "parallel": false
             }
         },
         "gettext:compile": {
             "executor": "nx:run-commands",
             "options": {
-                "commands": [
-                    "cd apps/wizarr-frontend && npx vue-gettext-compile"
-                ],
+                "commands": ["cd apps/wizarr-frontend && npx vue-gettext-compile"],
                 "parallel": false
+            }
+        },
+        "storybook": {
+            "executor": "@nx/storybook:storybook",
+            "options": {
+                "port": 4400,
+                "configDir": "apps/wizarr-frontend/.storybook"
+            },
+            "configurations": {
+                "ci": {
+                    "quiet": true
+                }
+            }
+        },
+        "build-storybook": {
+            "executor": "@nx/storybook:build",
+            "outputs": ["{options.outputDir}"],
+            "options": {
+                "outputDir": "dist/storybook/wizarr-frontend",
+                "configDir": "apps/wizarr-frontend/.storybook"
+            },
+            "configurations": {
+                "ci": {
+                    "quiet": true
+                }
+            }
+        },
+        "test-storybook": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "test-storybook -c apps/wizarr-frontend/.storybook --url=http://localhost:4400"
             }
         }
     }
