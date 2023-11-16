@@ -18,6 +18,11 @@ const config: StorybookConfig = {
         autodocs: "tag",
         defaultName: "Documentation",
     },
+    core: {
+        disableTelemetry: true,
+        disableWhatsNewNotifications: true,
+        enableCrashReports: false,
+    },
 };
 
 export default config;

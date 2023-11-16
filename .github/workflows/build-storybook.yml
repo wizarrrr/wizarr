@@ -42,3 +42,8 @@ jobs:
                   personal_token: ${{ steps.gh_app.outputs.token }}
                   publish_dir: ./dist/storybook/wizarr-frontend
                   cname: storybook.wizarr.dev
+
+            - name: Deploy Storybook to Chromatic
+              run: npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --exit-zero-on-changes --storybook-build-dir ./dist/storybook/wizarr-frontend
+              env:
+                  CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
