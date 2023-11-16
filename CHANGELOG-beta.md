@@ -4,6 +4,14 @@
 ### Bug Fixes
 
 * 🐝 Jellyfin users now can have uppercase usernames ([1539c56](https://github.com/Wizarrrr/wizarr/commit/1539c56b617c3fce0d17877c960a73fd8e6a1aac))
+* 🩹 fix workflow issue ([268aeeb](https://github.com/Wizarrrr/wizarr/commit/268aeeb33e6e8fb79c81dfe74b0868fbb7128e1b))
+
+## [3.5.1-beta.3](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.2...v3.5.1-beta.3) (2023-11-14)
+
+
+### Bug Fixes
+
+* 🐝 Jellyfin users now can have uppercase usernames ([1539c56](https://github.com/Wizarrrr/wizarr/commit/1539c56b617c3fce0d17877c960a73fd8e6a1aac))
 
 ## [3.5.1-beta.2](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.1...v3.5.1-beta.2) (2023-11-09)
 
