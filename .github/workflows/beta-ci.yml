@@ -129,17 +129,17 @@ jobs:
                   fetch-depth: 0
                   persist-credentials: false
 
-            # master/main to latest & beta to beta
+            # Check if the tag is a beta tag
             - name: Get Release Branch
               id: release-branch
               run: |
-                  if [[ ${{ github.ref }} == 'refs/heads/main' || ${{ github.ref }} == 'refs/heads/master' ]]; then
-                    echo "::set-output name=release_branch::latest"
-                  elif [[ ${{ github.ref }} == 'refs/heads/beta' ]]; then
-                    echo "::set-output name=release_branch::beta"
+                  if [[ ${{ github.ref }} == 'refs/tags/v'*.*.*-beta.* ]]; then
+                      echo "::set-output name=release_branch::beta"
+                  elif [[ ${{ github.ref }} == 'refs/tags/v'*.*.* ]]; then
+                      echo "::set-output name=release_branch::latest"
                   else
-                    echo "Unknown branch, not setting environment variable."
-                    exit 1
+                      echo "Unknown tag, not setting environment variable."
+                      exit 1
                   fi
 
             # Download the digests from the artifacts
