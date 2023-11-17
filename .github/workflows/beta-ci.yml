@@ -50,7 +50,7 @@ jobs:
 
             # Use NPM and Node.js to install dependencies
             - name: Use Node.js 18.18.2
-              uses: actions/setup-node@v2
+              uses: actions/setup-node@v4
               with:
                   node-version: 18.18.2
 

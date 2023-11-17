@@ -8,6 +8,11 @@ on:
             - "!.github/workflows/build-storybook.yml"
             - "!apps/wizarr-frontend/src/**/*"
             - "!apps/wizarr-frontend/.storybook/**/*"
+            - "**/latest"
+            - "**/CHANGELOG.md"
+            - "**/CHANGELOG-beta.md"
+            - "./scripts/**"
+            - "./release.config.cjs"
 
 jobs:
     build:
