@@ -1,3 +1,10 @@
+## [3.5.1-beta.4](https://github.com/wizarrrr/wizarr/compare/v3.5.1-beta.3...v3.5.1-beta.4) (2023-11-17)
+
+
+### Bug Fixes
+
+* 🩹 add formkit stories ([e5cd97b](https://github.com/wizarrrr/wizarr/commit/e5cd97ba0c7c9dcf79ab8c59d888e8e8a326671f))
+
 ## [3.5.1-beta.3](https://github.com/Wizarrrr/wizarr/compare/v3.5.1-beta.2...v3.5.1-beta.3) (2023-11-14)
 
 
