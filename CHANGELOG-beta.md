@@ -1,3 +1,10 @@
+## [3.5.1-beta.5](https://github.com/wizarrrr/wizarr/compare/v3.5.1-beta.4...v3.5.1-beta.5) (2023-11-17)
+
+
+### Bug Fixes
+
+* 🔧 release branch identification logic and improve error handling ([e963e0b](https://github.com/wizarrrr/wizarr/commit/e963e0beec90c5d476231e1e149451480342c5d7))
+
 ## [3.5.1-beta.4](https://github.com/wizarrrr/wizarr/compare/v3.5.1-beta.3...v3.5.1-beta.4) (2023-11-17)
 
 
