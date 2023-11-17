@@ -3,6 +3,7 @@ name: CI/CD Build Docker [Beta]
 on:
     push:
         tags:
+            - "v*.*.*"
             - "v*.*.*-beta.*"
 
 permissions:
@@ -13,7 +14,7 @@ env:
     GHCR_REGISTRY: ghcr.io
     DH_REGISTRY: docker.io
     IMAGE_NAME: wizarrrr/wizarr
-    IMAGE_TAG: beta
+    # IMAGE_TAG: beta
 
 jobs:
     before_build:
@@ -128,6 +129,19 @@ jobs:
                   fetch-depth: 0
                   persist-credentials: false
 
+            # master/main to latest & beta to beta
+            - name: Get Release Branch
+              id: release-branch
+              run: |
+                  if [[ ${{ github.ref }} == 'refs/heads/main' || ${{ github.ref }} == 'refs/heads/master' ]]; then
+                    echo "::set-output name=release_branch::latest"
+                  elif [[ ${{ github.ref }} == 'refs/heads/beta' ]]; then
+                    echo "::set-output name=release_branch::beta"
+                  else
+                    echo "Unknown branch, not setting environment variable."
+                    exit 1
+                  fi
+
             # Download the digests from the artifacts
             - name: Download digests
               uses: actions/download-artifact@v3
@@ -167,12 +181,12 @@ jobs:
               working-directory: /tmp/digests
               run: |
                   docker buildx imagetools create \
-                    --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+                    --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.release-branch.outputs.release_branch }} \
                     --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }} \
-                    --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+                    --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.release-branch.outputs.release_branch }} \
                     --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }} \
                     $(printf '${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
 
             # Inspect image
             - name: Inspect image
-              run: docker buildx imagetools inspect ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+              run: docker buildx imagetools inspect ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.release-branch.outputs.release_branch }}
