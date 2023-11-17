@@ -1,3 +1,12 @@
+## [3.5.1-beta.6](https://github.com/wizarrrr/wizarr/compare/v3.5.1-beta.5...v3.5.1-beta.6) (2023-11-17)
+
+
+### Bug Fixes
+
+* 🩹 software lifecycle issue ([15b1edf](https://github.com/wizarrrr/wizarr/commit/15b1edf21ca43086346555f8afa2ac375f303e86))
+* 🚑 software lifecycle issue ([ac55841](https://github.com/wizarrrr/wizarr/commit/ac55841b892653d62eda2b3951bf04527b1b4349))
+* 🆘 EMERGENCY FIX FOR VERSION 🆘 ([7570ec1](https://github.com/wizarrrr/wizarr/commit/7570ec14d327bfad4000184732f4e329df6e0448))
+
 ## [3.5.1-beta.5](https://github.com/wizarrrr/wizarr/compare/v3.5.1-beta.4...v3.5.1-beta.5) (2023-11-17)
 
 
