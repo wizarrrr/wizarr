@@ -11,6 +11,7 @@ export const useServerStore = defineStore("server", {
         update_available: false as boolean,
         debug: false as boolean,
         setup_required: false as boolean,
+        is_beta: false as boolean,
         latest_version: "" as string,
         latest_beta_version: "" as string,
     }),
