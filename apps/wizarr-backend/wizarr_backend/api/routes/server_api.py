@@ -2,7 +2,7 @@ from flask_jwt_extended import current_user
 from flask_restx import Namespace, Resource
 from playhouse.shortcuts import model_to_dict
 
-from app.utils.software_lifecycle import get_current_version, need_update, get_latest_version, get_latest_beta_version
+from app.utils.software_lifecycle import is_beta, get_current_version, need_update, get_latest_version, get_latest_beta_version
 from app.extensions import cache
 
 from json import loads, dumps
@@ -29,6 +29,7 @@ class Server(Resource):
             "update_available": need_update(),
             "debug": True if app.debug else False,
             "setup_required": is_setup_required(),
+            "is_beta": is_beta(),
             "latest_version": str(get_latest_version()),
             "latest_beta_version": str(get_latest_beta_version()),
         }
