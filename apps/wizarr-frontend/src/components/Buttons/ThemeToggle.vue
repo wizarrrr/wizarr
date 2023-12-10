@@ -5,8 +5,10 @@
             <i v-if="theme == LIGHT_VALUE" class="fa-solid fa-md fa-sun"></i>
             <i v-if="theme == SYSTEM_VALUE" class="fa-solid fa-md fa-desktop"></i>
         </div>
+        <span class="ext-label">Change Theme</span>
     </button>
 </template>
+
 
 <script lang="ts">
 import { defineComponent } from "vue";

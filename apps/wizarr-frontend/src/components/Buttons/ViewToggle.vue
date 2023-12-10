@@ -7,6 +7,8 @@
             <!-- List Icon -->
             <i v-else class="fas fa-list"></i>
         </div>
+
+        <span class="ext-label">Toggle Box View</span>
     </button>
 </template>
 
