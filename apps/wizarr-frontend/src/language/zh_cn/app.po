@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-15 23:12+0100\n"
-"PO-Revision-Date: 2023-12-14 15:10+0000\n"
-"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
+"PO-Revision-Date: 2023-12-14 15:51+0000\n"
+"Last-Translator: Alano <522081732@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "wizarr-v3/wizarr/zh_Hans/>\n"
 "Language: zh_cn\n"
@@ -42,7 +42,7 @@ msgstr "为外部服务添加API密钥"
 
 #: src/modules/settings/pages/Main.vue:202
 msgid "Add Custom HTML page to help screen"
-msgstr "将自定义HTML页面添加到帮助屏幕"
+msgstr "将自定义HTML页面添加到帮助页"
 
 #: src/modules/settings/pages/Main.vue:109
 msgid "Add Jellyseerr, Overseerr or Ombi support"
@@ -1407,27 +1407,27 @@ msgstr ""
 
 #: src/modules/settings/pages/Main.vue:222
 msgid "View and manage scheduled tasks"
-msgstr ""
+msgstr "查看并管理预定任务"
 
 #: src/modules/settings/pages/Main.vue:171
 msgid "View and manage your active sessions"
-msgstr ""
+msgstr "看并管理你的活动会话"
 
 #: src/modules/settings/pages/Main.vue:260
 msgid "View and manage your membership"
-msgstr ""
+msgstr "查看并管理您的会员资格"
 
 #: src/modules/settings/components/APIKeys/APIKeysItem.vue:70
 msgid "View API key"
-msgstr ""
+msgstr "查看 API 密钥"
 
 #: src/modules/settings/pages/Main.vue:247
 msgid "View information about the server"
-msgstr ""
+msgstr "查看服务器信息"
 
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Waving our wands"
-msgstr ""
+msgstr "挥动我们的魔杖"
 
 #: src/modules/help/components/Request.vue:6
 msgid ""
@@ -1435,24 +1435,26 @@ msgid ""
 "you're having trouble finding something you like, don't worry! We have a "
 "user-friendly request system that can automatically search for the media "
 "you're looking for."
-msgstr ""
+msgstr "我们很高兴为您提供丰富的媒体选择。如果您在寻找喜欢的内容时遇到困难，不用担心"
+"！我们有一个友好的请求系统，可以自动搜索你想要的媒体。"
 
 #: src/modules/settings/pages/Sentry.vue:16
 msgid ""
 "We can pinpoint bottlenecks and optimize our applications for better "
 "performance."
-msgstr ""
+msgstr "我们可以找出瓶颈并优化应用程序，以提升性能。"
 
 #: src/tours/admin-settings.ts:17
 msgid ""
 "We have categorized all of your settings to make it easier to find them."
-msgstr ""
+msgstr "我们已将您的所有设置分类，以便更轻松地找到它们。"
 
 #: src/modules/settings/pages/Sentry.vue:9
 msgid ""
 "We value the security and stability of our services. Bug reporting plays a "
 "crucial role in maintaining and improving our software."
-msgstr ""
+msgstr "我们重视服务的安全性和稳定性。Bug报告在维护和改进我们的软件方面发挥着至关重要"
+"的作用。"
 
 #: src/modules/settings/pages/Sentry.vue:20
 msgid ""
@@ -1462,12 +1464,15 @@ msgid ""
 "information. Rest assured, your personal information is not at risk through "
 "this service being enabled."
 msgstr ""
+"我们想澄清，我们的 Bug 报告系统不会收集敏感个人数据。它主要捕获与错误和性能相"
+"关的技术信息，例如：错误消息、堆栈跟踪和浏览器信息。请放心，启用此服务不会使"
+"您的个人信息处于风险之中。"
 
 #: src/tours/admin-home.ts:9
 msgid ""
 "We want to help you get started with Wizarr as quickly as possible, consider "
 "following this tour to get a quick overview."
-msgstr ""
+msgstr "我们希望能够帮助您尽快学会如何使用 Wizarr，请完成新手引导，以快速上手。"
 
 #: src/modules/settings/pages/Support.vue:6
 msgid ""
@@ -1476,40 +1481,43 @@ msgid ""
 "support session with a Wizarr assistant and we will attempt to guide you "
 "through any issues you may be having and resolve them."
 msgstr ""
+"我们在这里帮助您解决遇到的任何问题或疑问。如果您需要帮助，"
+"付费会员可以使用下面的按钮开始与 Wizarr "
+"助手进行实时沟通，我们将尝试指导您解决任何出现的问题。"
 
 #: src/components/WebhookList/WebhookItem.vue:57
 msgid "Webhook deleted successfully"
-msgstr ""
+msgstr "Webhook 删除成功"
 
 #: src/components/WebhookList/WebhookItem.vue:59
 msgid "Webhook deletion cancelled"
-msgstr ""
+msgstr "取消删除 Webhook"
 
 #: src/modules/settings/pages/Main.vue:122
 msgid "Webhooks"
-msgstr ""
+msgstr "Webhooks"
 
 #: src/modules/home/views/Home.vue:9
 msgid "Welcome to"
-msgstr ""
+msgstr "欢迎"
 
 #: src/modules/setup/pages/Welcome.vue:6 src/tours/admin-home.ts:8
 msgid "Welcome to Wizarr"
-msgstr ""
+msgstr "欢迎使用 Wizarr"
 
 #: src/modules/settings/pages/Sentry.vue:5
 msgid "Why We Use Bug Reporting"
-msgstr ""
+msgstr "我们为什么使用 Bug 报告"
 
 #: src/modules/help/components/Plex/Welcome.vue:8
 msgid ""
 "With Plex, you'll have access to all of the movies, TV shows, music, and "
 "photos that are stored on their server!"
-msgstr ""
+msgstr "通过 Plex，您将可以访问存储在其服务器上的所有电影、电视节目、音乐和照片！"
 
 #: src/components/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
-msgstr ""
+msgstr "Wizarr"
 
 #: src/modules/home/views/Home.vue:11
 msgid ""
@@ -1518,12 +1526,16 @@ msgid ""
 "With Wizarr, server administrators can easily invite new users and manage "
 "their access"
 msgstr ""
+"Wizarr 是一款工具软件，为 Plex、 Jellyfin 和 Emby "
+"等媒体服务器提供高级用户邀请和管理功能。通过 "
+"Wizarr，服务器管理员可以轻松邀请新用户并管理其访问权限。"
 
 #: src/modules/join/pages/Plex/Signup.vue:45
 msgid ""
 "Wizarr is an unverified app. This means that Plex may warn you about using "
 "it. Do you wish to continue?"
-msgstr ""
+msgstr "Wizarr 是一款未经验证的应用程序。这意味着 Plex "
+"可能会发出警告信息。您是否希望继续？"
 
 #: src/tours/admin-users.ts:14
 msgid ""
@@ -1531,64 +1543,66 @@ msgid ""
 "also manually scan for new users by clicking on the 'Scan for Users' button, "
 "this is useful if Wizarr has not gotten around to doing it yet."
 msgstr ""
+"Wizarr 将自动扫描您的媒体服务器以查找新用户，但您也可以通过点击 “扫描用户” "
+"按钮手动进行新用户扫描，如果 Wizarr 尚未完成扫描这将很有用。"
 
 #: src/modules/settings/pages/Support.vue:74
 msgid "Yes"
-msgstr ""
+msgstr "确定"
 
 #: src/modules/settings/pages/Membership.vue:35
 #: src/modules/settings/pages/Membership.vue:43
 msgid "You are currently logged into membership."
-msgstr ""
+msgstr "您当前已登录会员账户。"
 
 #: src/tours/admin-home.ts:23
 msgid ""
 "You can also edit your dashboard, delete widgets, add new widgets, and move "
 "them around."
-msgstr ""
+msgstr "您还可以编辑您的仪表板，删除小部件，添加新小部件并对它们进行移动。"
 
 #: src/tours/admin-invitations.ts:14
 msgid ""
 "You can create a new invitation by clicking on the 'Create Invitation' "
 "button."
-msgstr ""
+msgstr "您可以通过点击“创建邀请”按钮来创建新的邀请。"
 
 #: src/modules/help/components/Request.vue:21
 msgid "You can recieve notifications when your media is ready"
-msgstr ""
+msgstr "当您的媒体服务器准备就绪时，您将接收通知。"
 
 #: src/modules/setup/pages/Complete.vue:7
 #: src/modules/setup/pages/Complete.vue:9
 msgid "You have successfully completed the setup process."
-msgstr ""
+msgstr "您已完成设置。"
 
 #: src/modules/settings/pages/Support.vue:61
 msgid "You must be a paying member to use this feature."
-msgstr ""
+msgstr "你必须是付费会员才能使用此功能。"
 
 #: src/modules/join/pages/Complete.vue:5
 msgid ""
 "You're all set, click continue to get started and walkthrough how to use "
 "%{serverName}!"
-msgstr ""
+msgstr "你已准备就绪，请点击“继续”开始并了解如何使用 %{serverName}！"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:146
 #: src/modules/admin/components/Invitations/ShareSheet.vue:92
 msgid "Your browser does not support copying to clipboard"
-msgstr ""
+msgstr "你的浏览器不支持复制到剪贴板"
 
 #: src/modules/setup/pages/Complete.vue:4
 msgid "Your Done"
-msgstr ""
+msgstr "完成"
 
 #: src/tours/admin-invitations.ts:8
 msgid "Your Invitations"
-msgstr ""
+msgstr "你的邀请"
 
 #: src/tours/admin-settings.ts:7
 msgid "Your Settings"
-msgstr ""
+msgstr "你的设置"
 
 #: src/tours/admin-users.ts:8
 msgid "Your Users"
-msgstr ""
+msgstr "你的所有用户"
