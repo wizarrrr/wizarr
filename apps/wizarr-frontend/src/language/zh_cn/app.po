@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-15 23:12+0100\n"
-"PO-Revision-Date: 2023-12-14 18:08+0000\n"
-"Last-Translator: anpplex <anpplex@gmail.com>\n"
+"PO-Revision-Date: 2023-12-15 04:07+0000\n"
+"Last-Translator: Alano <522081732@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "wizarr-v3/wizarr/zh_Hans/>\n"
 "Language: zh_cn\n"
@@ -66,7 +66,7 @@ msgstr "为外部服务添加Webhooks"
 
 #: src/modules/setup/pages/Account.vue:4
 msgid "Admin Account"
-msgstr "管理账户"
+msgstr "管理员账户"
 
 #: src/modules/admin/components/Forms/InvitationForm.vue:19
 msgid "Advanced Options"
@@ -95,39 +95,40 @@ msgid ""
 "All of your media server users will appear here in a list. You can manage "
 "them, edit them, and delete them. Other information like their expiration or "
 "creation date will also be displayed here."
-msgstr "您的媒体服务器用户将以列表形式显示在此处。您可以管理、编辑和删除它们。其他信"
-"息，如其到期或创建日期也会在此处显示。"
+msgstr ""
+"您媒体服务器的用户的将以列表的形式展示。您可以方便地管理、编辑和删除用户。此"
+"外，其他信息，如到期日期或创建日期，也将一览无余地显示在这个页面上。"
 
 #: src/modules/join/pages/Error.vue:41
 msgid ""
 "An error occured while creating your account, your account may of not of "
 "been created, if you face issue attempting to login, please contact an admin."
-msgstr "创建您的账户时发生了错误，可能未成功创建您的账户。如果您在尝试登录时遇到问题"
-"，请联系管理员。"
+msgstr "抱歉，创建您的账户时出现了问题，可能并未成功完成账户创建流程。如果您在登录时"
+"遇到任何问题，请务必联系管理员寻求帮助。"
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:106
 msgid "API Key"
-msgstr "API密钥"
+msgstr "API 密钥"
 
 #: src/modules/settings/components/APIKeys/APIKeysItem.vue:90
 msgid "API key deleted successfully"
-msgstr "API密钥删除成功"
+msgstr "API 密钥删除成功"
 
 #: src/modules/settings/components/APIKeys/APIKeysItem.vue:92
 msgid "API key deletion cancelled"
-msgstr "API密钥删除已取消"
+msgstr "已取消 API 密钥删除操作"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:58
 msgid "API key for your media server"
-msgstr "您的媒体服务器的API密钥"
+msgstr "您媒体服务器的 API 密钥"
 
 #: src/modules/settings/pages/Main.vue:115
 msgid "API keys"
-msgstr "API密钥"
+msgstr "API 密钥"
 
 #: src/modules/settings/components/APIKeys/APIKeysItem.vue:83
 msgid "Are you sure you want to delete this API key?"
-msgstr "您确定要删除此API密钥吗？"
+msgstr "您确定要删除此 API 密钥吗？"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:190
 msgid "Are you sure you want to delete this invitation?"
@@ -135,7 +136,7 @@ msgstr "您确定要删除此邀请吗？"
 
 #: src/modules/settings/components/Requests/RequestsItem.vue:55
 msgid "Are you sure you want to delete this request?"
-msgstr "您确定要删除此请求吗？"
+msgstr "您确定要删除此申请吗？"
 
 #: src/components/WebhookList/WebhookItem.vue:54
 msgid "Are you sure you want to delete this webhook?"
@@ -143,13 +144,13 @@ msgstr "您确定要删除此 Webhook 吗？"
 
 #: src/components/Dashboard/Dashboard.vue:80
 msgid "Are you sure you want to reset your dashboard?"
-msgstr "您确定要重置仪表板吗？"
+msgstr "您确定要重置仪表盘吗？"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:164
 msgid ""
 "Are you sure you want to save this connection, this will reset your Wizarr "
 "instance, which may lead to data loss."
-msgstr "您确定要保存此连接吗？这将重置您的Wizarr实例，可能会导致数据丢失。"
+msgstr "您确定要保存此连接吗？这将重置您的 Wizarr，可能会导致数据丢失。"
 
 #: src/modules/settings/pages/Support.vue:74
 msgid "Are you sure you want to start a support session?"
@@ -173,7 +174,7 @@ msgstr "自动媒体请求"
 #: src/modules/setup/views/Setup.vue:38 src/modules/setup/views/Setup.vue:41
 #: src/templates/SettingsTemplate.vue:15
 msgid "Back"
-msgstr "后退"
+msgstr "返回"
 
 #: src/modules/settings/pages/Backup.vue:7
 #: src/modules/settings/pages/Main.vue:240
@@ -196,7 +197,7 @@ msgstr "错误报告帮助我们实时跟踪和修复问题，确保用户体验
 
 #: src/modules/settings/pages/Main.vue:164
 msgid "Change your password"
-msgstr "变更您的密码"
+msgstr "更改密码"
 
 #: src/modules/settings/pages/Main.vue:228
 msgid "Check for and view updates"
@@ -212,7 +213,7 @@ msgstr "在左侧边栏上点击“小部件”。"
 
 #: src/modules/settings/pages/Discord.vue:20
 msgid "Click on \"Copy ID\" then paste it it in the box below."
-msgstr "点击“复制ID”，然后将其粘贴到下方的框中。"
+msgstr "点击“复制 ID”，然后将其粘贴到下方的输入框中。"
 
 #: src/modules/settings/components/Modals/ViewApiKey.vue:15
 msgid "Click the key to copy to clipboard!"
@@ -238,7 +239,7 @@ msgstr "配置付款设置"
 msgid ""
 "Configure Wizarr to display a dynamic Discord Widget to users onboarding "
 "after signup."
-msgstr "配置Wizarr，在注册后向用户展示一个动态的Discord小部件。"
+msgstr "配置 Wizarr，在注册后向用户展示一个动态的 Discord 小部件。"
 
 #: src/modules/settings/pages/Main.vue:158
 msgid "Configure your account settings"
@@ -299,7 +300,7 @@ msgstr "创建另一个"
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:51
 #: src/modules/settings/pages/APIKeys.vue:24
 msgid "Create API Key"
-msgstr "创建API密钥"
+msgstr "创建 API 密钥"
 
 #: src/modules/admin/pages/FlowEditor.vue:5
 #: src/modules/admin/pages/FlowEditor.vue:8
@@ -318,7 +319,7 @@ msgstr "创建邀请"
 #: src/modules/settings/components/Forms/WebhookForm.vue:21
 #: src/modules/settings/pages/Webhooks.vue:24
 msgid "Create Webhook"
-msgstr "创建Webhook"
+msgstr "创建 Webhook"
 
 #: src/modules/settings/pages/About.vue:20
 msgid "Current Version"
@@ -327,19 +328,19 @@ msgstr "当前版本"
 #: src/modules/setup/pages/Database.vue:10
 #: src/modules/setup/pages/Database.vue:8
 msgid "Currently Wizarr only supports it's internal SQLite database."
-msgstr "目前Wizarr仅支持其内部的SQLite数据库。"
+msgstr "目前 Wizarr 仅支持 SQLite 数据库。"
 
 #: src/modules/settings/pages/Main.vue:201
 msgid "Custom HTML"
-msgstr "自定义HTML"
+msgstr "自定义 HTML"
 
 #: src/components/Dashboard/Dashboard.vue:88
 msgid "Dashboard reset cancelled"
-msgstr "仪表盘重置已取消"
+msgstr "已取消仪表盘重置"
 
 #: src/components/Dashboard/Dashboard.vue:86
 msgid "Dashboard reset successfully"
-msgstr "仪表盘重置成功"
+msgstr "已重置仪表盘"
 
 #: src/tours/admin-home.ts:12
 msgid "Dashboard Widgets"
@@ -373,7 +374,7 @@ msgstr "Discord"
 
 #: src/modules/settings/pages/Main.vue:143
 msgid "Discord Bot"
-msgstr "Discord机器人"
+msgstr "Discord 机器人"
 
 #: src/modules/settings/pages/Discord.vue:15
 msgid "Discord Server ID:"
@@ -396,7 +397,7 @@ msgstr "您真的想从媒体服务器中删除此用户吗？"
 #: src/modules/settings/components/ScanServers/ScanServers.vue:39
 #: src/modules/settings/components/ScanServers/ScanServers.vue:42
 msgid "Don't see your server?"
-msgstr "看不到您的服务器？"
+msgstr "没有找到您的服务器？"
 
 #: src/modules/admin/pages/Home.vue:5 src/modules/admin/pages/Home.vue:9
 #: src/tours/admin-home.ts:22
@@ -405,11 +406,11 @@ msgstr "编辑仪表盘"
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:4
 msgid "Eh, So, What is Jellyfin exactly?"
-msgstr "嗯，那么，Jellyfin到底是什么？"
+msgstr "嗯，那么，Jellyfin 到底是什么？"
 
 #: src/modules/help/components/Plex/Welcome.vue:3
 msgid "Eh, So, What is Plex exactly?"
-msgstr "嗯，那么，Plex到底是什么？"
+msgstr "嗯，那么，Plex 到底是什么？"
 
 #: src/modules/settings/pages/Account.vue:61
 msgid "Email"
@@ -417,7 +418,7 @@ msgstr "邮件"
 
 #: src/modules/settings/pages/Main.vue:196
 msgid "Enable Discord page and configure settings"
-msgstr "启用Discord页面并配置设置"
+msgstr "启用 Discord 页面并配置设置"
 
 #: src/modules/settings/pages/Discord.vue:26
 msgid "Enable Server Widget:"
@@ -434,7 +435,7 @@ msgstr "导览结束"
 
 #: src/modules/settings/pages/Discord.vue:31
 msgid "Ensure the toggle for \"Enable Server Widget\" is checked."
-msgstr "确保“启用服务器小部件”的切换开关已选中。"
+msgstr "请确保已勾选 “启用服务器小部件” 开关。"
 
 #: src/modules/settings/pages/Membership.vue:7
 msgid "Enter your email and password to login into your membership."
@@ -464,8 +465,8 @@ msgstr "创建邀请失败"
 msgid ""
 "First make sure you have Developer Mode enabled on your Discord by visiting "
 "your Discord settings and going to Appearance."
-msgstr "首先，请确保您的Discord上已启用开发者模式，方法是访问您的Discord设置并转到外"
-"观选项。"
+msgstr "首先，请确保您的 Discord 上已启用开发者模式，方法是访问您的 Discord "
+"设置并转到外观选项。"
 
 #: src/modules/settings/pages/Account.vue:29
 msgid "First name"
@@ -485,7 +486,7 @@ msgstr "从服务器管理员获取实时支持"
 
 #: src/modules/home/views/Home.vue:18
 msgid "Get Started"
-msgstr "开始"
+msgstr "立即畅享"
 
 #: src/modules/help/views/Help.vue:11
 msgid "Getting Started!"
@@ -522,8 +523,9 @@ msgid ""
 "Great question! Plex is a software that allows individuals to share their "
 "media collections with others. If you've received this invitation, it means "
 "someone wants to share their library with you."
-msgstr "很棒的问题！Plex是一款允许个人与他人共享媒体收藏的软件。如果你收到了这个邀请"
-"，意味着有人想要与你分享他们的媒体库。"
+msgstr ""
+"很棒的问题！Plex 是一款允许个人与他人分享媒体收藏的影视解决方案。如果你收到了"
+"这个邀请，意味着他们想要与你分享他们的媒体库，一起畅享高质量影音视界。"
 
 #: src/modules/settings/pages/Backup.vue:48
 #: src/modules/settings/pages/Backup.vue:58
@@ -544,13 +546,14 @@ msgstr "https://example.com"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:105
 msgid "I wanted to invite you to join my media server."
-msgstr "我想邀请您加入我的媒体服务器。"
+msgstr "我想邀请您加入我的媒体服务器，一起畅享高质量影音视界。"
 
 #: src/modules/home/views/Home.vue:15
 msgid ""
 "If you were sent here by a friend, please request access or if you have an "
 "invite code, please click Get Started!"
-msgstr "如果您是由朋友邀请而来，请请求访问权限或者如果您有邀请码，请点击“开始使用”！"
+msgstr "如果您是通过朋友的邀请而来，我们诚挚地欢迎您！请您申请访问权限，或者若您已经"
+"获得邀请码，请点击“立即畅享”！"
 
 #: src/modules/join/pages/JoinForm.vue:50
 msgid "Invalid invitation code, please try again"
@@ -564,11 +567,11 @@ msgstr "邀请码"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:197
 msgid "Invitation deleted successfully"
-msgstr "邀请已成功删除"
+msgstr "已删除邀请"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:199
 msgid "Invitation deletion cancelled"
-msgstr "邀请删除已取消"
+msgstr "已取消删除邀请"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:21
 #: src/modules/admin/components/InvitationManager/Invitation.vue:29
@@ -612,7 +615,7 @@ msgstr "已邀请的用户"
 
 #: src/modules/settings/pages/Sentry.vue:15
 msgid "It allows us to identify and resolve problems before they impact you."
-msgstr "它使我们能够在问题影响您之前识别和解决问题。"
+msgstr "它使我们能够在问题影响您之前识别并解决掉问题。"
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:12
 msgid ""
@@ -621,9 +624,10 @@ msgid ""
 "download the Jellyfin app on your device, sign in with your account, and "
 "you're ready to start streaming your media. It's that easy!"
 msgstr ""
-"它再简单不过了！Jellyfin可在各种设备上使用，包括笔记本电脑、平板电脑、智能手"
-"机和电视。您只需在设备上下载Jellyfin应用程序，使用您的帐户登录，就可以开始流"
-"媒体播放了。就是这么简单！"
+"它再简单不过了！Jellyfin "
+"可在各种设备上使用，包括笔记本电脑、平板电脑、智能手机和电视。"
+"您只需在设备上下载 Jellyfin "
+"应用程序，使用您的帐户登录，就可以开始流媒体播放了。就是这么简单！"
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:6
 msgid ""
@@ -633,7 +637,7 @@ msgid ""
 "favorite content that you can access from anywhere, on any device - your "
 "phone, tablet, laptop, smart TV, you name it."
 msgstr ""
-"Jellyfin是一个平台，让您可以在一个地方流式播放所有喜爱的电影、电视节目和音乐"
+"Jellyfin 是一个平台，让您可以在一个地方流式播放所有喜爱的电影、电视节目和音乐"
 "。就像拥有自己的个人电影院一样，尽在指尖之间！将其视为您最喜欢内容的数字图书"
 "馆，可随时随地从任何设备上访问 - 手机、平板电脑、笔记本电脑、智能电视等等。"
 
@@ -656,7 +660,7 @@ msgstr "加入我的媒体服务器"
 
 #: src/modules/help/components/Discord.vue:28
 msgid "Join our Discord"
-msgstr "加入我们的Discord"
+msgstr "加入我们的 Discord"
 
 #: src/modules/settings/pages/Account.vue:33
 msgid "Last name"
@@ -674,8 +678,8 @@ msgstr "最新信息"
 msgid ""
 "Like this Widget, it shows you the latest information about Wizarr and will "
 "be updated regularly by our amazing team."
-msgstr "就像这个小部件一样，它会向您展示关于Wizarr的最新信息，并由我们出色的团队定期"
-"更新。"
+msgstr "就像这个小部件一样，它会定期向您展示关于 Wizarr "
+"的最新信息，由我们优秀的团队定期更新。"
 
 #: src/modules/settings/pages/Main.vue:265
 #: src/modules/settings/pages/Support.vue:4
@@ -751,7 +755,7 @@ msgstr "管理 %{user}"
 
 #: src/modules/settings/pages/Account.vue:41
 msgid "Martian"
-msgstr "火星"
+msgstr "Martian"
 
 #: src/modules/settings/pages/Account.vue:61
 msgid "marvin"
@@ -779,7 +783,7 @@ msgstr "媒体服务器覆盖"
 
 #: src/modules/help/components/Request.vue:17
 msgid "Media will be automatically downloaded to your library"
-msgstr "媒体将自动下载到您的库中"
+msgstr "媒体将自动下载到您的媒体库中"
 
 #: src/modules/help/components/Discord.vue:8
 msgid "Members Online"
@@ -801,23 +805,23 @@ msgstr "会员注册"
 
 #: src/modules/settings/pages/Support.vue:61
 msgid "Membership Required"
-msgstr "会员资格要求"
+msgstr "需要会员资格"
 
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Mixing the potions"
-msgstr "混合药剂"
+msgstr "混合药水"
 
 #: src/modules/settings/pages/Main.vue:191
 msgid "Modify the look and feel of the server"
-msgstr "修改服务器的外观和感觉"
+msgstr "定制服务器外观与体验"
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:91
 msgid "My API Key"
-msgstr "我的API密钥"
+msgstr "我的 API 密钥"
 
 #: src/modules/settings/components/Forms/WebhookForm.vue:61
 msgid "My Webhook"
-msgstr "我的Webhook"
+msgstr "我的 Webhook"
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:71
 #: src/modules/settings/components/Forms/WebhookForm.vue:47
@@ -839,7 +843,7 @@ msgstr "下一页"
 #: src/modules/settings/components/APIKeys/APIKeys.vue:11
 #: src/modules/settings/components/APIKeys/APIKeys.vue:19
 msgid "No API Keys found"
-msgstr "未找到API密钥"
+msgstr "未找到 API 密钥"
 
 #: src/widgets/default/ContributorsList.vue:34
 #: src/widgets/default/ContributorsList.vue:38
@@ -876,7 +880,7 @@ msgstr "未找到服务器。"
 
 #: src/modules/settings/pages/Main.vue:30
 msgid "No settings matched your search."
-msgstr "没有与您的搜索匹配的设置。"
+msgstr "未找到与您搜索匹配的设置。"
 
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserList.vue:10
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserList.vue:13
@@ -887,7 +891,7 @@ msgstr "未找到用户"
 
 #: src/components/WebhookList/WebhookList.vue:11
 msgid "No Webhooks found"
-msgstr "未找到Webhooks"
+msgstr "未找到 Webhooks"
 
 #: src/modules/settings/pages/Main.vue:135
 msgid "Notifications"
@@ -905,7 +909,7 @@ msgstr "打开Jellyfin"
 
 #: src/modules/help/components/Plex/Download.vue:17
 msgid "Open Plex"
-msgstr "打开Plex"
+msgstr "打开 Plex"
 
 #: src/modules/settings/pages/Logs.vue:7
 msgid "Open Window"
@@ -913,7 +917,7 @@ msgstr "打开窗口"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:40
 msgid "Optional if your server address does not match your external address"
-msgstr "如果您的服务器地址与您的外部地址不匹配，则可选择此选项"
+msgstr "如果您的服务器地址与您的外部地址不同，则可选择此选项"
 
 #: src/modules/settings/pages/Main.vue:176
 msgid "Passkey Authentication"
@@ -988,7 +992,7 @@ msgstr "请输入您的邀请码"
 
 #: src/modules/join/pages/Plex/Signup.vue:5
 msgid "Please login to your Plex account to help us connect you to our server."
-msgstr "请登录您的 Plex 账户，以帮助我们将您连接到我们的服务器。"
+msgstr "请登录您的 Plex 账户，这样我们就能为您开启媒体库访问权限。"
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:12
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:29
@@ -1037,11 +1041,11 @@ msgstr "注册"
 
 #: src/modules/home/views/Home.vue:20
 msgid "Request Access"
-msgstr "请求访问"
+msgstr "申请访问权限"
 
 #: src/modules/help/components/Request.vue:13
 msgid "Request any available Movie or TV Show"
-msgstr "申请任何可用的电影或电视节目"
+msgstr "申请访问可用的电影或电视节目"
 
 #: src/modules/settings/pages/Main.vue:108
 msgid "Requests"
@@ -1077,7 +1081,7 @@ msgstr "恢复备份"
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:10
 msgid "Right, so how do I watch stuff?"
-msgstr "好吧，那我怎么看东西呢？"
+msgstr "好的，那我该如何观看内容呢？"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:118
 #: src/modules/admin/components/Users/UserList/UserItem.vue:119
@@ -1099,7 +1103,7 @@ msgstr "保存仪表盘"
 
 #: src/components/Modals/ServerURLModal.vue:8
 msgid "Save URL"
-msgstr "保存URL"
+msgstr "保存 URL"
 
 #: src/tours/admin-users.ts:13
 msgid "Scan for Users"
@@ -1108,7 +1112,7 @@ msgstr "扫描用户"
 #: src/modules/settings/components/Forms/MediaForm.vue:28
 #: src/modules/settings/components/Forms/MediaForm.vue:94
 msgid "Scan Libraries"
-msgstr "扫描库"
+msgstr "扫描媒体库"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:33
 msgid "Scan Servers"
@@ -1134,7 +1138,7 @@ msgstr "选择语言"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:97
 msgid "Select Libraries"
-msgstr "选择库"
+msgstr "选择媒体库"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:39
 msgid "Server API Key"
@@ -1142,11 +1146,11 @@ msgstr "服务器 API 密钥"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:152
 msgid "Server connection verified!"
-msgstr "服务器连接已验证！"
+msgstr "服务器连接正常！"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:25
 msgid "Server IP or Address of your media server"
-msgstr "服务器 IP 或媒体服务器地址"
+msgstr "媒体服务器的 IP 或域名地址"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:49
 msgid "Server Type"
@@ -1241,7 +1245,7 @@ msgstr "开始步骤演示"
 
 #: src/modules/admin/components/Users/UserManager/Settings.vue:4
 msgid "Still under development"
-msgstr "仍在开发中"
+msgstr "开发中"
 
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Summoning the spirits"
@@ -1291,8 +1295,8 @@ msgid ""
 "This is the end of the tour, we hope you enjoyed you found it informative! "
 "Please feel free to contact us on Discord and let us know what you think of "
 "Wizarr."
-msgstr "本次导览到此结束，希望您喜欢并从中获得信息！欢迎在 Discord 上与我们联系，"
-"让我们了解您对 Wizarr 的看法。"
+msgstr "本次导览到此结束，希望您喜欢并从中获得帮助！欢迎在 Discord 上与我们联系，"
+"让我们了解您对 Wizarr 的想法。"
 
 #: src/tours/admin-invitations.ts:9
 msgid ""
@@ -1303,7 +1307,7 @@ msgstr "在这里您可以管理您的邀请，它们会以列表的形式出现
 
 #: src/modules/settings/pages/Account.vue:3
 msgid "This page is currently read only!"
-msgstr "本页面目前只读！"
+msgstr "本页面只读！"
 
 #: src/modules/settings/pages/Backup.vue:47
 #: src/modules/settings/pages/Backup.vue:57
@@ -1427,7 +1431,7 @@ msgstr "查看并管理预定任务"
 
 #: src/modules/settings/pages/Main.vue:171
 msgid "View and manage your active sessions"
-msgstr "看并管理你的活动会话"
+msgstr "查看并管理你的活动会话"
 
 #: src/modules/settings/pages/Main.vue:260
 msgid "View and manage your membership"
@@ -1519,7 +1523,7 @@ msgstr "欢迎"
 
 #: src/modules/setup/pages/Welcome.vue:6 src/tours/admin-home.ts:8
 msgid "Welcome to Wizarr"
-msgstr "欢迎使用 Wizarr"
+msgstr "Wizarr 畅享视界"
 
 #: src/modules/settings/pages/Sentry.vue:5
 msgid "Why We Use Bug Reporting"
@@ -1542,9 +1546,9 @@ msgid ""
 "With Wizarr, server administrators can easily invite new users and manage "
 "their access"
 msgstr ""
-"Wizarr 是一款工具软件，为 Plex、Jellyfin 和 Emby "
-"等媒体服务器提供高级用户邀请和管理功能。通过 "
-"Wizarr，服务器管理员可以轻松邀请新用户并管理其访问权限"
+"Wizarr 是专为 Plex、Jellyfin 和 Emby "
+"等媒体服务器量身打造的高级用户邀请和管理解决方案。服务器管理员可轻松通过 "
+"Wizarr 邀请新用户加入媒体服务器，轻松畅享丰富且高质量的影音视界"
 
 #: src/modules/join/pages/Plex/Signup.vue:45
 msgid ""
