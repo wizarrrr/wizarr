@@ -183,3 +183,23 @@ button[disabled],
         margin-bottom: 0px !important;
     }
 }
+
+
+button {
+    position: relative;
+}
+button .ext-label {
+    position: absolute;
+    background: #1f2937;
+    color: white;
+    border-radius: 5px;
+    left: -100%;
+    top: 100%;
+    padding: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms;
+}
+button:hover .ext-label {
+    opacity: 1;
+}

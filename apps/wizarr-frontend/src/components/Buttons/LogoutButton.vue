@@ -4,6 +4,8 @@
             <i class="fa-solid fa-lg fa-right-from-bracket"></i>
         </div>
     </button>
+
+    <span class="ext-label">Logout</span>
 </template>
 
 <script lang="ts">

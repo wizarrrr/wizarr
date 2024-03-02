@@ -3,5 +3,7 @@
         <div class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-200 hover:dark:bg-gray-700">
             <i class="fa-solid fa-md fa-user"></i>
         </div>
+        
+        <span class="ext-label">Account</span>
     </RouterLink>
 </template>

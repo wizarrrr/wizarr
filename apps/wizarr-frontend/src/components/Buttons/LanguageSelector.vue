@@ -3,6 +3,7 @@
         <div :class="iconClasses" class="flex items-center justify-center rounded hover:bg-gray-200 hover:dark:bg-gray-700">
             <i class="fa-solid fa-md fa-globe"></i>
         </div>
+        <span class="ext-label">Change Language</span>
     </button>
 </template>
 
