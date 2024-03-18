@@ -253,11 +253,24 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
     if invitation.specific_libraries is not None and len(invitation.specific_libraries) > 0:
         sections = invitation.specific_libraries.split(",")
 
-    # Create user object
-    new_user = { "Name": str(username), "Password": str(password) }
-
-    # Create user in Jellyfin
-    user_response = post_jellyfin(api_path="/Users/New", json=new_user, server_api_key=server_api_key, server_url=server_url)
+    # Check if server is Jellyfin or Emby -> see https://github.com/wizarrrr/wizarr/issues/336
+    srv_response = get_jellyfin(api_path="/System/Info/Public", server_api_key=server_api_key, server_url=server_url)
+    if "ProductName" in srv_response:
+        # Code for Jellyfin server
+        # Create user object
+        new_user = { "Name": str(username), "Password": str(password) }
+        # Create user in Jellyfin
+        user_response = post_jellyfin(api_path="/Users/New", json=new_user, server_api_key=server_api_key, server_url=server_url)
+        pass
+    else:
+        # Code for Emby sever
+        # Create user object
+        new_user = { "Name": str(username)}
+        # Create user in Jellyfin
+        user_response = post_jellyfin(api_path="/Users/New", json=new_user, server_api_key=server_api_key, server_url=server_url)
+        # Set user password
+        post_jellyfin(api_path=f"/Users/{user_response['Id']}/Password", json={"NewPw": str(password)}, server_api_key=server_api_key, server_url=server_url)
+        pass
 
     # Create policy object
     new_policy = { "EnableAllFolders": True, "MaxActiveSessions": 2 }
