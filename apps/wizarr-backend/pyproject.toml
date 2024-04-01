@@ -1,6 +1,6 @@
 [tool.coverage.run]
 branch = true
-source = ["src"]
+source = ["wizarr_backend"]
 
 [tool.coverage.report]
 exclude_lines = ['if TYPE_CHECKING:']
@@ -18,7 +18,7 @@ license = 'MIT'
 readme = 'README.md'
 
 [[tool.poetry.packages]]
-include = "src"
+include = "wizarr_backend"
 
 [tool.poetry.dependencies]
 python = "^3.10.6"
