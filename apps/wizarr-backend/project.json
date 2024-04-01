@@ -2,7 +2,7 @@
     "name": "wizarr-backend",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "projectType": "application",
-    "sourceRoot": "apps/wizarr-backend/src",
+    "sourceRoot": "apps/wizarr-backend/wizarr_backend",
     "targets": {
         "lock": {
             "executor": "@nxlv/python:run-commands",
@@ -43,7 +43,7 @@
                     "make-dir ../database",
                     "poetry run flask run --debug"
                 ],
-                "cwd": "apps/wizarr-backend/src"
+                "cwd": "apps/wizarr-backend/wizarr_backend"
             }
         },
         "install": {
