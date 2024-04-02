@@ -9,8 +9,17 @@
             "path": "./apps/wizarr-backend"
         },
         {
-            "name": "Wizarr [Monorepo]",
-            "path": "./"
+            "name": "Wizarr [E2E]",
+            "path": "./apps/wizarr-e2e"
+        },
+        {
+            "name": "Wizarr [Project]",
+            "path": "."
         }
-    ]
+    ],
+    "settings": {
+        "files.exclude": {
+            "**/apps/": true
+        }
+    }
 }
