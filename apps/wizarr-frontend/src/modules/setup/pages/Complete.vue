@@ -1,13 +1,10 @@
 <template>
     <div>
         <h1
-            class="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
-        >
-            {{ __('Your Done') }}
+            class="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            {{ __("You're Done") }}
         </h1>
-        <p
-            class="text-base text-center text-gray-500 dark:text-gray-400 md:text-lg"
-        >
+        <p class="text-base text-center text-gray-500 dark:text-gray-400 md:text-lg">
             {{ __('You have successfully completed the setup process.') }}
         </p>
         <div class="flex justify-center mt-6">

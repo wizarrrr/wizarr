@@ -6,16 +6,16 @@ import { TourGuideStep } from "@sjmc11/tourguidejs/src/types/TourGuideStep";
 const steps = (__: (key: string) => string): TourGuideStep[] => [
     {
         title: __("Welcome to Wizarr"),
-        content: __("We want to help you get started with Wizarr as quickly as possible, consider following this tour to get a quick overview."),
+        content: __("We want to help you get started with Wizarr as quickly as possible. Consider following this tour to get a quick overview."),
     },
     {
         title: __("Dashboard Widgets"),
-        content: __("These are your widgets, you can use them to get a quick overview of your Wizarr instance."),
+        content: __("These are your widgets. You can use them to get a quick overview of your Wizarr instance."),
         target: ".grid-stack-item:nth-child(2)",
     },
     {
         title: __("Latest Information"),
-        content: __("Like this Widget, it shows you the latest information about Wizarr and will be updated regularly by our amazing team."),
+        content: __("Like this widget, it shows you the latest information about Wizarr and will be updated regularly by our amazing team."),
         target: ".latest-info",
     },
     {
