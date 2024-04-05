@@ -1,4 +1,4 @@
-import { errorToast, infoToast } from "../ts/utils/toasts";
+import { errorToast, infoToast, successToast } from "../ts/utils/toasts";
 import { startAuthentication, startRegistration } from "@simplewebauthn/browser";
 
 import type { APIUser } from "@/types/api/auth/User";
@@ -14,6 +14,7 @@ class Auth {
     // Local toast functions
     private errorToast = errorToast;
     private infoToast = infoToast;
+    private successToast = successToast;
 
     // Router and axios instance
     private router = useRouter();
@@ -218,6 +219,44 @@ class Auth {
 
         // Handle the authenticated data
         return this.handleAuthData(response.data.auth.user, response.data.auth.token, response.data.auth.refresh_token);
+    }
+
+    /**
+     * Change Password
+     * This method is change the password of the user
+     *
+     * @param old_password The old password of the user
+     * @param new_password The new password of the user
+     *
+     * @returns The response from the server
+     */
+    async changePassword(old_password?: string, new_password?: string) {
+        const AuthStore = useAuthStore();
+        const userStore = useUserStore();
+
+        // verify if the user is authenticated
+        if (!this.isAuthenticated()) {
+            this.errorToast("User is not authenticated");
+            return;
+        }
+
+        // check if old assword is correct
+        const username = userStore.user?.display_name || userStore.user?.username;
+
+        // send request to server to change password
+        await this.axios
+            .post("/api/auth/change_password", {
+                old_password: old_password,
+                new_password: new_password,
+                username: username,
+            })
+            .then((response) => {
+                return response;
+            })
+            .catch(() => {
+                this.errorToast("Failed to change password, please try again");
+                return;
+            });
     }
 
     /**

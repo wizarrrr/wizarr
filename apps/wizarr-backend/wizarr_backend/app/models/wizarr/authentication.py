@@ -93,7 +93,6 @@ class AuthenticationModel(Model):
         if not check_password_hash(self._user.password, value):
             raise ValidationError("Invalid Username or Password")
 
-
     # ANCHOR - Perform migration of old passwords
     def _migrate_password(self):
         # Migrate to scrypt from sha 256
@@ -236,6 +235,17 @@ class AuthenticationModel(Model):
         # Log message and return response
         info(f"Account {self._user.username} successfully logged in")
         return resp
+
+    # ANCHOR - Perform migration of old passwords
+    def change_password(self):
+        # verify the old password id the same as the current password
+        
+        # if it is, then update the password
+        
+        # else, return an error message
+        
+        pass
+
 
     # ANCHOR - Logout User
     @staticmethod

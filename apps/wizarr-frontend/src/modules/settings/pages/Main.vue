@@ -166,7 +166,7 @@ export default defineComponent({
                             description: this.__("Change your password"),
                             icon: "fas fa-lock",
                             url: "/admin/settings/password",
-                            disabled: true,
+                            disabled: false,
                         },
                         {
                             title: this.__("Sessions"),
