@@ -15,7 +15,7 @@ const isBugReporting = () => {
 
     if (localStorage !== null) {
         const server = JSON.parse(localStorage);
-        return server.settings.bug_reporting === "false";
+        return server.settings?.bug_reporting === "false";
     }
 
     return true;
