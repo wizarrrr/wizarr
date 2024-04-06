@@ -89,7 +89,7 @@ export default defineComponent({
     methods: {
         copy() {
             this.$toast.info("Copied to clipboard!");
-            this.clipboard.copy(this.settings.server_url);
+            this.clipboard.copy(this.settings.server_url_override ?? this.settings.server_url);
         },
         openURL() {
             const resolve = this.$router.resolve({ name: "open" });
