@@ -75,18 +75,3 @@ class Logout(Resource):
     def post(self):
         """Logout the currently logged in user"""
         return AuthenticationModel.logout_user()
-
-@api.route("/change_password")
-@api.route("/change_password/", doc=False)
-class ChangePassword(Resource):
-    """API resource for changing the user's password"""
-
-    method_decorators = [jwt_required()]
-
-    @api.doc(description="Change the user's password")
-    @api.response(200, "Password changed")
-    @api.response(401, "Invalid password")
-    @api.response(500, "Internal server error")
-    def post(self):
-        """Change the user's password"""
-        return AuthenticationModel.change_password(request.form)

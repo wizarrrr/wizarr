@@ -5,7 +5,7 @@ from playhouse.shortcuts import model_to_dict
 from schematics.exceptions import DataError, ValidationError
 from schematics.models import Model
 from schematics.types import DateTimeType, EmailType, StringType, BooleanType
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.models.database.accounts import Accounts
 
@@ -108,3 +108,22 @@ class AccountsModel(Model):
         # Set the attributes of the updated account to the model
         for key, value in model_to_dict(account).items():
             setattr(self, key, value)
+
+
+    # ANCHOR - Perform migration of old passwords
+    def change_password(self):
+        old_password  = self.form.get("old_password")
+        new_password = self.form.get("new_password")
+        username = self.form.get("username")
+        # get account by username
+        account = Accounts.get_or_none(Accounts.username == username)
+
+        # First, check if the old_password matches the account's current password
+        if not check_password_hash(account.password, old_password):
+            raise ValidationError("Old password does not match.")
+
+        # Next update the password on account
+        account.password = generate_password_hash(new_password, method="scrypt")
+        account.save()
+        return True
+

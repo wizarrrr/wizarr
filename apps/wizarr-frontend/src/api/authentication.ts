@@ -241,17 +241,26 @@ class Auth {
         }
 
         // check if old assword is correct
-        const username = userStore.user?.display_name || userStore.user?.username;
+        const username = userStore.user?.username;
+
+        if (old_password) this.old_password = old_password;
+        if (new_password) this.new_password = new_password;
+        if (username) this.username = username;
+
+        // Create a form data object
+        const formData = new FormData();
+
+        // Add the username, password and remember_me to the form data
+        formData.append("old_password", this.old_password);
+        formData.append("new_password", this.new_password);
+        formData.append("username", this.username);
 
         // send request to server to change password
         await this.axios
-            .post("/api/auth/change_password", {
-                old_password: old_password,
-                new_password: new_password,
-                username: username,
-            })
-            .then((response) => {
-                return response;
+            .post("/api/accounts/change_password", formData)
+            .then((res) => {
+                this.successToast("Password changed successfully");
+                return res;
             })
             .catch(() => {
                 this.errorToast("Failed to change password, please try again");

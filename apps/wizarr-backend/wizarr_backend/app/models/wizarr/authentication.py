@@ -236,17 +236,6 @@ class AuthenticationModel(Model):
         info(f"Account {self._user.username} successfully logged in")
         return resp
 
-    # ANCHOR - Perform migration of old passwords
-    def change_password(self):
-        # verify the old password id the same as the current password
-        
-        # if it is, then update the password
-        
-        # else, return an error message
-        
-        pass
-
-
     # ANCHOR - Logout User
     @staticmethod
     def logout_user():

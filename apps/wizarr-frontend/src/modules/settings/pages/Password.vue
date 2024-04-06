@@ -49,11 +49,8 @@ export default defineComponent({
                 return;
             }
             await this.auth.changePassword(old_password, new_password).then((res) => {
-                if (res !== undefined) {
-                    this.$toast.success("Password changed successfully");
-                }
+                this.resetForm();
             });
-            this.resetForm();
         },
     },
 });
