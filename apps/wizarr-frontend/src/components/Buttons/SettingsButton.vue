@@ -13,8 +13,6 @@
                 </div>
             </div>
         </div>
-
-        <span class="ext-label">Settings</span>
     </button>
 </template>
 

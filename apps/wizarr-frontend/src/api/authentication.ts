@@ -2,7 +2,6 @@ import { errorToast, infoToast, successToast } from "../ts/utils/toasts";
 import { startAuthentication, startRegistration } from "@simplewebauthn/browser";
 
 import type { APIUser } from "@/types/api/auth/User";
-import type { Membership } from "@/types/api/membership";
 import type { RegistrationResponseJSON } from "@simplewebauthn/typescript-types";
 import type { WebAuthnError } from "@simplewebauthn/browser/dist/types/helpers/webAuthnError";
 import { useAuthStore } from "@/stores/auth";
@@ -73,34 +72,8 @@ class Auth {
         authStore.setAccessToken(token);
         authStore.setRefreshToken(refresh_token);
 
-        // Handle membership update
-        const membership = await this.handleMembershipUpdate();
-        userStore.setMembership(membership);
-
         // Reset the user data
         return { user, token };
-    }
-
-    /**
-     * Handle Membership Update
-     * This function is used to handle membership updates
-     */
-    async handleMembershipUpdate(): Promise<Membership | null> {
-        // Get the membership from the database
-        const response = await this.axios
-            .get("/api/membership", {
-                disableErrorToast: true,
-                disableInfoToast: true,
-            })
-            .catch(() => null);
-
-        // Check if the response is successful
-        if (response?.status != 200) {
-            return null;
-        }
-
-        // Get the membership from the response
-        return response.data;
     }
 
     /**
