@@ -27,7 +27,7 @@ class Server(Resource):
             "requests": loads(dumps(get_requests(disallowed=["api_key"]),  indent=4, sort_keys=True, default=str)),
             "version": str(get_current_version()),
             "update_available": need_update(),
-            "debug": True if app.debug else False,
+            "debug": bool(app.debug),
             "setup_required": is_setup_required(),
             "is_beta": is_beta(),
             "latest_version": str(get_latest_version()),

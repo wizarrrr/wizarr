@@ -4,7 +4,7 @@
             <template v-for="(section, index) in settingsSections">
                 <div :id="`settingsContainer${index}`">
                     <!-- Sections Title -->
-                    <div class="settings-section" v-if="!(sectionDisabled(section) && env.NODE_ENV === 'production')">
+                    <div class="settings-section" v-if="!(sectionDisabled(section) && !is_beta)">
                         <div class="flex flex-col">
                             <div class="text-lg font-bold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                                 {{ __(section.title) }}
@@ -18,7 +18,7 @@
                     <!-- Settings Grid -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                         <template v-for="page in section.pages">
-                            <template v-if="!(page.disabled && env.NODE_ENV === 'production')">
+                            <template v-if="!(page.disabled && !is_beta)">
                                 <SettingsButton :title="page.title" :description="page.description" :icon="page.icon" :url="page.url" :disabled="page.disabled" :modal="page.modal" />
                             </template>
                         </template>
@@ -38,6 +38,7 @@ import { defineComponent } from "vue";
 import { useUserStore } from "@/stores/user";
 import { mapState } from "pinia";
 import { useSettingsStore } from "@/stores/settings";
+import { useServerStore } from "@/stores/server";
 
 import SettingsTemplate from "@/templates/SettingsTemplate.vue";
 import SettingsButton from "@/components/Buttons/SettingsButton.vue";
@@ -84,6 +85,7 @@ export default defineComponent({
     computed: {
         ...mapState(useUserStore, ["user"]),
         ...mapState(useSettingsStore, ["search"]),
+        ...mapState(useServerStore, ["is_beta"]),
         settingsSections() {
             const filteredSettingsSearch = this.search ? this.settings.map(this.mapSections).filter(this.filterSections) : this.settings;
             const filteredSettingsRole = filteredSettingsSearch.map(this.mapRoles as any).filter(this.filterSections as any);
