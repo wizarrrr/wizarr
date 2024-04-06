@@ -110,7 +110,7 @@ class AccountsModel(Model):
             setattr(self, key, value)
 
 
-    # ANCHOR - Perform migration of old passwords
+    # ANCHOR - Chnage password for user
     def change_password(self):
         old_password  = self.form.get("old_password")
         new_password = self.form.get("new_password")

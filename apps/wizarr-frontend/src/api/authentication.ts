@@ -231,7 +231,6 @@ class Auth {
      * @returns The response from the server
      */
     async changePassword(old_password?: string, new_password?: string) {
-        const AuthStore = useAuthStore();
         const userStore = useUserStore();
 
         // verify if the user is authenticated
