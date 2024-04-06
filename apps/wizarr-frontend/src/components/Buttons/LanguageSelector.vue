@@ -1,10 +1,15 @@
 <template>
-    <button class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm" type="button" @click="createModal">
-        <div :class="iconClasses" class="flex items-center justify-center rounded hover:bg-gray-200 hover:dark:bg-gray-700">
-            <i class="fa-solid fa-md fa-globe"></i>
-        </div>
-        <span class="ext-label">Change Language</span>
-    </button>
+    <VTooltip>
+        <button class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm" type="button" @click="createModal">
+            <div :class="iconClasses" class="flex items-center justify-center rounded hover:bg-gray-200 hover:dark:bg-gray-700">
+                <i class="fa-solid fa-md fa-globe"></i>
+            </div>
+        </button>
+
+        <template #popper>
+            <span>{{ __("Language") }}</span>
+        </template>
+    </VTooltip>
 </template>
 
 <script lang="ts">
