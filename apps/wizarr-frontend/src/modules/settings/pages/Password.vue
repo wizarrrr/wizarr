@@ -1,9 +1,18 @@
 <template>
-    <FormKit type="form" @submit="changePassword" :actions="false">
+    <FormKit
+        type="form"
+        @submit="changePassword"
+        submit-label="Change Password"
+        :actions="false"
+    >
         <div class="space-y-4">
             <FormKit type="password" v-model="old_password" label="Old Password" name="old_password" placeholder="Old Password" required autocomplete="current-password" />
-            <!-- <FormKit type="password" v-model="new_password" label="New Password" name="new_password" placeholder="New Password" required autocomplete="new-password" validation="length:20|*required" /> -->
             <FormKit type="password" v-model="new_password" label="New Password" name="new_password" placeholder="New Password" required autocomplete="new-password" />
+            <PasswordMeter
+                :password="new_password"
+                class="mb-[23px] mt-1 px-[2px]"
+                v-if="new_password"
+            />
             <FormKit type="password" v-model="confirm_password" label="Confirm New Password" name="confirm_password" placeholder="Confirm New Password" required autocomplete="new-password" />
 
             <div class="">
@@ -22,12 +31,14 @@ import DefaultNavBar from "@/components/NavBars/DefaultNavBar.vue";
 import DefaultLoading from "@/components/Loading/DefaultLoading.vue";
 
 import Auth from "@/api/authentication";
+import PasswordMeter from 'vue-simple-password-meter';
 
 export default defineComponent({
     name: "LoginView",
     components: {
         DefaultNavBar,
         DefaultLoading,
+        PasswordMeter,
     },
     data() {
         return {
