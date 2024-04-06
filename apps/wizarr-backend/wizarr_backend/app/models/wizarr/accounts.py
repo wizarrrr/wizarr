@@ -118,6 +118,13 @@ class AccountsModel(Model):
         # get account by username
         account = Accounts.get_or_none(Accounts.username == username)
 
+        # Create password policy based on environment variables or defaults
+        policy = PasswordPolicy.from_names(length=min_password_length, uppercase=min_password_uppercase, numbers=min_password_numbers, special=min_password_special)
+
+        # Check if the password is strong enough
+        if len(policy.test(new_password)) > 0:
+            raise ValidationError("Password is not strong enough")
+
         # First, check if the old_password matches the account's current password
         if not check_password_hash(account.password, old_password):
             raise ValidationError("Old password does not match.")
