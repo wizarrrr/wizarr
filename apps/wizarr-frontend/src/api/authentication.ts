@@ -8,6 +8,7 @@ import { useAuthStore } from "@/stores/auth";
 import { useAxios } from "@/plugins/axios";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
+import { set } from "@vueuse/core";
 
 class Auth {
     // Local toast functions
@@ -232,6 +233,10 @@ class Auth {
             .post("/api/accounts/change_password", formData)
             .then((res) => {
                 this.successToast("Password changed successfully");
+                this.infoToast("Logging out in 5 seconds...");
+                setTimeout(() => {
+                    this.logout();
+                }, 5000);
                 return res;
             })
             .catch(() => {
