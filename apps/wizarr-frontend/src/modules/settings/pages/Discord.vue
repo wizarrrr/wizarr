@@ -75,8 +75,6 @@ export default defineComponent({
                 }
             });
 
-            console.log(validate);
-
             if (!validate) return;
 
             const response = await this.$axios.put("/api/settings", formData).catch(() => {
