@@ -232,6 +232,10 @@ class Auth {
             .post("/api/accounts/change_password", formData)
             .then((res) => {
                 this.successToast("Password changed successfully");
+                this.infoToast("Logging out in 5 seconds...");
+                setTimeout(() => {
+                    this.logout();
+                }, 5000);
                 return res;
             })
             .catch(() => {
