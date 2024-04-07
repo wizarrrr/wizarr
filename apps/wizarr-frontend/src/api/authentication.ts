@@ -8,7 +8,6 @@ import { useAuthStore } from "@/stores/auth";
 import { useAxios } from "@/plugins/axios";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
-import { set } from "@vueuse/core";
 
 class Auth {
     // Local toast functions
