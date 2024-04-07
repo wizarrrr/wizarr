@@ -1,14 +1,13 @@
 <template>
     <div>
         <h1
-            class="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
-        >
+            class="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             {{ __('Restore Backup') }}
         </h1>
         <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">
             {{
                 __(
-                    'Restore a backup of your database and configuration from a backup file. You will need to provide the encryption password that was used to create the backup',
+                    'Restore a backup of your database and configuration from a backup file. You will need to provide the encryption password that was used to create the backup.',
                 )
             }}
         </p>
@@ -48,7 +47,7 @@ export default defineComponent({
 
             // Show message to the user
             const info = this.$toast.warning(
-                'This may take a while, please do not close the page until the process is complete.',
+                'This may take a while. Please do not close the page until the process is complete.',
                 {
                     timeout: false,
                     closeButton: false,
@@ -72,12 +71,12 @@ export default defineComponent({
 
                     // Display an error message
                     this.$toast.error(
-                        'An error occurred while restoring the backup',
+                        'An error occurred while restoring the backup.',
                     );
                     this.$toast.dismiss(info);
 
                     throw new Error(
-                        'An error occurred while restoring the backup',
+                        'An error occurred while restoring the backup.',
                     );
                 });
 

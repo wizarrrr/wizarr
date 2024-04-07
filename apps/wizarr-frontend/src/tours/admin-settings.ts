@@ -5,11 +5,11 @@ import type { App } from "vue";
 const steps = (__: (key: string) => string): CustomTourGuideStep[] => [
     {
         title: __("Your Settings"),
-        content: __("All of your media server settings will appear here, we know your going to spend a lot of time here 😝"),
+        content: __("All of your media server settings will appear here. We know you're going to spend a lot of time here 😝"),
     },
     {
         title: __("Search Settings"),
-        content: __("There are a lot of settings, so you can search for them by using the search bar."),
+        content: __("Since there are a lot of settings, you can search for them by using the search bar."),
         target: "#searchSettings",
     },
     {
@@ -19,7 +19,7 @@ const steps = (__: (key: string) => string): CustomTourGuideStep[] => [
     },
     {
         title: __("End of Tour"),
-        content: __("This is the end of the tour, we hope you enjoyed you found it informative! Please feel free to contact us on Discord and let us know what you think of Wizarr."),
+        content: __("This is the end of the tour. We hope you enjoyed and found it informative! Please feel free to contact us on Discord and let us know what you think of Wizarr."),
     },
 ];
 
