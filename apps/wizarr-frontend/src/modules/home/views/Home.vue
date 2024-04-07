@@ -8,11 +8,11 @@
             <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
                 <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">{{ __("Welcome to") }} Wizarr</h1>
                 <p class="mb-8 text-lg font-normal text-gray-500 sm:px-16 lg:px-48 dark:text-gray-400">
-                    {{ __("Wizarr is a software tool that provides advanced user invitation and management capabilities for media servers such as Jellyfin, Emby, and Plex. With Wizarr, server administrators can easily invite new users and manage their access") }}
+                    {{ __("Wizarr is a software tool that provides advanced user invitation and management capabilities for media servers such as Jellyfin, Emby, and Plex. With Wizarr, server administrators can easily invite new users and manage their access.") }}
                 </p>
 
                 <p class="mb-8 text-sm font-bold text-gray-500 sm:px-16 lg:px-48 dark:text-gray-400">
-                    {{ __("If you were sent here by a friend, please request access or if you have an invite code, please click Get Started!") }}
+                    {{ __("If you were sent here by a friend, please request access. If you have an invite code, please click Get Started!") }}
                 </p>
                 <div class="flex flex-col space-y-2 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-3">
                     <FormKit type="button" @click="$router.push('/join')" theme="primary" suffix-icon="fas fa-arrow-right">{{ __("Get Started") }}</FormKit>
