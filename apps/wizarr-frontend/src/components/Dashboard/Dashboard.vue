@@ -1,6 +1,7 @@
 <template>
     <div>
         <div class="grid-stack mx-[-10px]">
+            <!-- Revert .filter() once we have working firebase access to re-enable LatestInfo widget -->
             <Widget v-for="widget in dashboard.filter((widget) => widget.type !== 'LatestInfo')" :key="widget.id" :data="widget" :isEditing="isEditing" @delete="deleteLocalWidget" />
         </div>
         <Transition name="fade" mode="out-in" :duration="{ enter: 100, leave: 100 }">
