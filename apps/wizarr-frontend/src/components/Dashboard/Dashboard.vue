@@ -69,6 +69,7 @@ export default defineComponent({
                 // TODO: Remove LatestInfo widget until we figure out firebase access
                 // if (widget.type == 'LatestInfo') {
                 //     this.grid?.removeWidget(widget.id);
+                //     return;
                 // }
 
                 this.makeWidget(widget);
