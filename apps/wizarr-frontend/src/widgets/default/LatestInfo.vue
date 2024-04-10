@@ -1,15 +1,13 @@
-<template v-show="false">
-    <DefaultWidget icon="fa-info-circle" v-show="false">
+<template>
+    <DefaultWidget icon="fa-info-circle">
         <template #title>
-            <div class="text-[20px] mt-[-5px] text-gray-500 dark:text-gray-300 mb-0 font-medium truncate text-ellipsis
-                overflow-hidden">
+            <div class="text-[20px] mt-[-5px] text-gray-500 dark:text-gray-300 mb-0 font-medium truncate text-ellipsis overflow-hidden">
                 {{ __("Latest Info") }}
             </div>
         </template>
         <template #value>
             <template v-if="latestInfo">
-                <TextClamp :autoResize="true" :max-lines="2" :text="latestInfo"
-                    class="text-sm text-gray-600 dark:text-gray-200 mb-0">
+                <TextClamp :autoResize="true" :max-lines="2" :text="latestInfo" class="text-sm text-gray-600 dark:text-gray-200 mb-0">
                     <template #after>
                         <button @click="readMore" class="ml-2 text-gray-500 hover:underline">
                             {{ __("Read More") }}
@@ -42,7 +40,6 @@ export default defineComponent({
     data() {
         return {
             latestInfo: null as string | null,
-            enabled: false
         };
     },
     computed: {
