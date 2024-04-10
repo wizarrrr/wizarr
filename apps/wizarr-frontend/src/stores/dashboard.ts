@@ -7,11 +7,12 @@ interface DashboardStoreState {
 }
 
 const defaultDashboard: WidgetOptions[] = [
-    {
-        id: nanoid(),
-        type: 'LatestInfo',
-        grid: { w: 6, h: 2 },
-    },
+    // TODO: Re-enable after we figure out firebase access
+    // {
+    //     id: nanoid(),
+    //     type: 'LatestInfo',
+    //     grid: { w: 6, h: 2 },
+    // },
     {
         id: nanoid(),
         type: 'InvitesTotal',
