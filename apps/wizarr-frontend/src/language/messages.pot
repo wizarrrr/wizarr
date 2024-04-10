@@ -2,11 +2,12 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 
-#: src/modules/settings/pages/Main.vue:246
+#: src/modules/settings/pages/Main.vue:248
 msgid "About"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:157
+#: src/components/Buttons/AccountButton.vue:10
+#: src/modules/settings/pages/Main.vue:159
 msgid "Account"
 msgstr ""
 
@@ -14,19 +15,19 @@ msgstr ""
 msgid "Account Error"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:152
+#: src/modules/settings/pages/Main.vue:154
 msgid "Account Settings"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:116
+#: src/modules/settings/pages/Main.vue:118
 msgid "Add API keys for external services"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:202
+#: src/modules/settings/pages/Main.vue:204
 msgid "Add Custom HTML page to help screen"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:109
+#: src/modules/settings/pages/Main.vue:111
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr ""
 
@@ -42,7 +43,7 @@ msgstr ""
 msgid "Add Service"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:123
+#: src/modules/settings/pages/Main.vue:125
 msgid "Add webhooks for external services"
 msgstr ""
 
@@ -54,11 +55,11 @@ msgstr ""
 msgid "Advanced Options"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:210
+#: src/modules/settings/pages/Main.vue:212
 msgid "Advanced Settings"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:211
+#: src/modules/settings/pages/Main.vue:213
 msgid "Advanced settings for the server"
 msgstr ""
 
@@ -67,11 +68,11 @@ msgid "All done!"
 msgstr ""
 
 #: src/tours/admin-settings.ts:8
-msgid "All of your media server settings will appear here, we know your going to spend a lot of time here 😝"
+msgid "All of your media server settings will appear here. We know you're going to spend a lot of time here 😝"
 msgstr ""
 
 #: src/tours/admin-users.ts:9
-msgid "All of your media server users will appear here in a list. You can manage them, edit them, and delete them. Other information like their expiration or creation date will also be displayed here."
+msgid "All of your media server users will appear here in a list. You can manage, edit, and delete them. Other information, like their expiration or creation date, will also be displayed here."
 msgstr ""
 
 #: src/modules/join/pages/Error.vue:41
@@ -94,7 +95,7 @@ msgstr ""
 msgid "API key for your media server"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:115
+#: src/modules/settings/pages/Main.vue:117
 msgid "API keys"
 msgstr ""
 
@@ -114,24 +115,20 @@ msgstr ""
 msgid "Are you sure you want to delete this webhook?"
 msgstr ""
 
-#: src/components/Dashboard/Dashboard.vue:80
+#: src/components/Dashboard/Dashboard.vue:82
 msgid "Are you sure you want to reset your dashboard?"
 msgstr ""
 
-#: src/modules/settings/components/Forms/MediaForm.vue:164
+#: src/modules/settings/components/Forms/MediaForm.vue:168
 msgid "Are you sure you want to save this connection, this will reset your Wizarr instance, which may lead to data loss."
 msgstr ""
 
-#: src/modules/settings/pages/Support.vue:74
-msgid "Are you sure you want to start a support session?"
-msgstr ""
-
-#: src/components/Dashboard/Dashboard.vue:80
+#: src/components/Dashboard/Dashboard.vue:82
 #: src/components/WebhookList/WebhookItem.vue:54
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:189
-#: src/modules/admin/components/Users/UserList/UserItem.vue:151
+#: src/modules/admin/components/Users/UserList/UserItem.vue:154
 #: src/modules/settings/components/APIKeys/APIKeysItem.vue:82
-#: src/modules/settings/components/Forms/MediaForm.vue:164
+#: src/modules/settings/components/Forms/MediaForm.vue:168
 #: src/modules/settings/components/Requests/RequestsItem.vue:55
 msgid "Are you sure?"
 msgstr ""
@@ -149,7 +146,7 @@ msgid "Back"
 msgstr ""
 
 #: src/modules/settings/pages/Backup.vue:7
-#: src/modules/settings/pages/Main.vue:240
+#: src/modules/settings/pages/Main.vue:242
 msgid "Backup"
 msgstr ""
 
@@ -157,7 +154,7 @@ msgstr ""
 msgid "Backup File"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:234
+#: src/modules/settings/pages/Main.vue:236
 msgid "Bug Reporting"
 msgstr ""
 
@@ -165,11 +162,15 @@ msgstr ""
 msgid "Bug reports helps us track and fix issues in real-time, ensuring a smoother user experience."
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:164
+#: src/components/Buttons/ThemeToggle.vue:12
+msgid "Change Theme"
+msgstr ""
+
+#: src/modules/settings/pages/Main.vue:166
 msgid "Change your password"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:228
+#: src/modules/settings/pages/Main.vue:230
 msgid "Check for and view updates"
 msgstr ""
 
@@ -193,15 +194,15 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:144
+#: src/modules/settings/pages/Main.vue:146
 msgid "Configure Discord bot settings"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:136
+#: src/modules/settings/pages/Main.vue:138
 msgid "Configure notification settings"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:129
+#: src/modules/settings/pages/Main.vue:131
 msgid "Configure payment settings"
 msgstr ""
 
@@ -209,16 +210,20 @@ msgstr ""
 msgid "Configure Wizarr to display a dynamic Discord Widget to users onboarding after signup."
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:158
+#: src/modules/settings/pages/Main.vue:160
 msgid "Configure your account settings"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:103
+#: src/modules/settings/pages/Main.vue:105
 msgid "Configure your media server settings"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:177
+#: src/modules/settings/pages/Main.vue:179
 msgid "Configure your passkeys"
+msgstr ""
+
+#: src/modules/settings/pages/Password.vue:11
+msgid "Confirm"
 msgstr ""
 
 #: src/modules/join/pages/Error.vue:12
@@ -257,7 +262,7 @@ msgstr ""
 msgid "Create a backup of your database and configuration. Please set an encryption password to protect your backup file."
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:241
+#: src/modules/settings/pages/Main.vue:243
 msgid "Create and restore backups"
 msgstr ""
 
@@ -295,20 +300,20 @@ msgstr ""
 msgid "Current Version"
 msgstr ""
 
-#: src/modules/setup/pages/Database.vue:10
 #: src/modules/setup/pages/Database.vue:8
+#: src/modules/setup/pages/Database.vue:9
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:201
+#: src/modules/settings/pages/Main.vue:203
 msgid "Custom HTML"
 msgstr ""
 
-#: src/components/Dashboard/Dashboard.vue:88
+#: src/components/Dashboard/Dashboard.vue:90
 msgid "Dashboard reset cancelled"
 msgstr ""
 
-#: src/components/Dashboard/Dashboard.vue:86
+#: src/components/Dashboard/Dashboard.vue:88
 msgid "Dashboard reset successfully"
 msgstr ""
 
@@ -338,11 +343,11 @@ msgstr ""
 msgid "Detected Media Server"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:195
+#: src/modules/settings/pages/Main.vue:197
 msgid "Discord"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:143
+#: src/modules/settings/pages/Main.vue:145
 msgid "Discord Bot"
 msgstr ""
 
@@ -358,7 +363,7 @@ msgstr ""
 msgid "Display Name for your media servers"
 msgstr ""
 
-#: src/modules/admin/components/Users/UserList/UserItem.vue:151
+#: src/modules/admin/components/Users/UserList/UserItem.vue:154
 msgid "Do you really want to delete this user from your media server?"
 msgstr ""
 
@@ -387,7 +392,7 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:196
+#: src/modules/settings/pages/Main.vue:198
 msgid "Enable Discord page and configure settings"
 msgstr ""
 
@@ -406,10 +411,6 @@ msgstr ""
 
 #: src/modules/settings/pages/Discord.vue:31
 msgid "Ensure the toggle for \"Enable Server Widget\" is checked."
-msgstr ""
-
-#: src/modules/settings/pages/Membership.vue:7
-msgid "Enter your email and password to login into your membership."
 msgstr ""
 
 #: src/modules/settings/pages/Sentry.vue:14
@@ -444,12 +445,8 @@ msgstr ""
 msgid "Flow Editor"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:98
+#: src/modules/settings/pages/Main.vue:100
 msgid "General settings for the server"
-msgstr ""
-
-#: src/modules/settings/pages/Main.vue:266
-msgid "Get live support from the server admins"
 msgstr ""
 
 #: src/modules/home/views/Home.vue:18
@@ -475,7 +472,6 @@ msgid "Go to Dashboard"
 msgstr ""
 
 #: src/modules/setup/pages/Complete.vue:11
-#: src/modules/setup/pages/Complete.vue:15
 msgid "Go to Login"
 msgstr ""
 
@@ -510,7 +506,7 @@ msgid "I wanted to invite you to join my media server."
 msgstr ""
 
 #: src/modules/home/views/Home.vue:15
-msgid "If you were sent here by a friend, please request access or if you have an invite code, please click Get Started!"
+msgid "If you were sent here by a friend, please request access. If you have an invite code, please click Get Started!"
 msgstr ""
 
 #: src/modules/join/pages/JoinForm.vue:50
@@ -604,6 +600,10 @@ msgstr ""
 msgid "Join our Discord"
 msgstr ""
 
+#: src/components/Buttons/LanguageSelector.vue:10
+msgid "Language"
+msgstr ""
+
 #: src/modules/settings/pages/Account.vue:33
 msgid "Last name"
 msgstr ""
@@ -618,25 +618,11 @@ msgid "Latest Information"
 msgstr ""
 
 #: src/tours/admin-home.ts:18
-msgid "Like this Widget, it shows you the latest information about Wizarr and will be updated regularly by our amazing team."
-msgstr ""
-
-#: src/modules/settings/pages/Main.vue:265
-#: src/modules/settings/pages/Support.vue:4
-msgid "Live Support"
+msgid "Like this widget, it shows you the latest information about Wizarr and will be updated regularly by our amazing team."
 msgstr ""
 
 #: src/components/ChangeLogs/ChangeLogs.vue:7
 msgid "Load More"
-msgstr ""
-
-#: src/modules/settings/pages/Membership.vue:18
-#: src/modules/settings/pages/Membership.vue:20
-msgid "Login"
-msgstr ""
-
-#: src/modules/settings/pages/Membership.vue:5
-msgid "Login into Membership"
 msgstr ""
 
 #: src/modules/join/pages/Plex/Signup.vue:11
@@ -651,13 +637,11 @@ msgstr ""
 msgid "Login with Password"
 msgstr ""
 
-#: src/modules/settings/pages/Membership.vue:44
-#: src/modules/settings/pages/Membership.vue:49
-#: src/modules/settings/pages/Membership.vue:52
+#: src/components/Buttons/LogoutButton.vue:10
 msgid "Logout"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:214
+#: src/modules/settings/pages/Main.vue:216
 msgid "Logs"
 msgstr ""
 
@@ -666,11 +650,11 @@ msgstr ""
 msgid "Made by "
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:97
+#: src/modules/settings/pages/Main.vue:99
 msgid "Main Settings"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:235
+#: src/modules/settings/pages/Main.vue:237
 msgid "Manage bug reporting settings"
 msgstr ""
 
@@ -690,7 +674,7 @@ msgstr ""
 msgid "Manage your media server users"
 msgstr ""
 
-#: src/modules/admin/components/Users/UserList/UserItem.vue:114
+#: src/modules/admin/components/Users/UserList/UserItem.vue:117
 msgid "Managing %{user}"
 msgstr ""
 
@@ -710,7 +694,7 @@ msgstr ""
 msgid "marvin@wizarr.dev"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:102
+#: src/modules/settings/pages/Main.vue:104
 msgid "Media Server"
 msgstr ""
 
@@ -730,29 +714,11 @@ msgstr ""
 msgid "Members Online"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:255
-msgid "Members Only"
-msgstr ""
-
-#: src/modules/settings/pages/Main.vue:259
-#: src/modules/settings/pages/Membership.vue:34
-#: src/modules/settings/pages/Membership.vue:42
-msgid "Membership"
-msgstr ""
-
-#: src/modules/settings/pages/Membership.vue:120
-msgid "Membership Registration"
-msgstr ""
-
-#: src/modules/settings/pages/Support.vue:61
-msgid "Membership Required"
-msgstr ""
-
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Mixing the potions"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:191
+#: src/modules/settings/pages/Main.vue:193
 msgid "Modify the look and feel of the server"
 msgstr ""
 
@@ -788,7 +754,6 @@ msgstr ""
 msgid "No API Keys found"
 msgstr ""
 
-#: src/widgets/default/ContributorsList.vue:34
 #: src/widgets/default/ContributorsList.vue:38
 msgid "No contributors found"
 msgstr ""
@@ -836,13 +801,12 @@ msgstr ""
 msgid "No Webhooks found"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:135
+#: src/modules/settings/pages/Main.vue:137
 msgid "Notifications"
 msgstr ""
 
 #: src/modules/join/pages/Error.vue:45
 #: src/modules/join/pages/Plex/Signup.vue:48
-#: src/modules/settings/pages/Support.vue:62
 msgid "Okay"
 msgstr ""
 
@@ -862,17 +826,17 @@ msgstr ""
 msgid "Optional if your server address does not match your external address"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:176
+#: src/modules/settings/pages/Main.vue:178
 msgid "Passkey Authentication"
 msgstr ""
 
 #: src/modules/settings/pages/Backup.vue:189
 #: src/modules/settings/pages/Backup.vue:89
-#: src/modules/settings/pages/Main.vue:163
+#: src/modules/settings/pages/Main.vue:165
 msgid "Password"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:128
+#: src/modules/settings/pages/Main.vue:130
 msgid "Payments"
 msgstr ""
 
@@ -892,12 +856,6 @@ msgstr ""
 #: src/modules/settings/pages/Backup.vue:61
 #: src/modules/settings/pages/Backup.vue:62
 msgid "Please bare in mind that these tools are only for debugging purposes and we will not provide you with support from any issues that may arise from using them."
-msgstr ""
-
-#: src/modules/settings/pages/Membership.vue:52
-#: src/modules/settings/pages/Membership.vue:60
-#: src/modules/settings/pages/Membership.vue:63
-msgid "Please bare with us while we work on development of this portal."
 msgstr ""
 
 #: src/modules/settings/components/Forms/MediaForm.vue:136
@@ -961,12 +919,6 @@ msgstr ""
 msgid "Recent Contributors"
 msgstr ""
 
-#: src/modules/settings/pages/Membership.vue:123
-#: src/modules/settings/pages/Membership.vue:25
-#: src/modules/settings/pages/Membership.vue:26
-msgid "Register"
-msgstr ""
-
 #: src/modules/home/views/Home.vue:20
 msgid "Request Access"
 msgstr ""
@@ -975,11 +927,11 @@ msgstr ""
 msgid "Request any available Movie or TV Show"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:108
+#: src/modules/settings/pages/Main.vue:110
 msgid "Requests"
 msgstr ""
 
-#: src/components/Dashboard/Dashboard.vue:12
+#: src/components/Dashboard/Dashboard.vue:13
 msgid "Reset Layout"
 msgstr ""
 
@@ -988,13 +940,10 @@ msgstr ""
 msgid "Restore"
 msgstr ""
 
-#: src/modules/setup/pages/Restore.vue:10
-#: src/modules/setup/pages/Restore.vue:8
-msgid "Restore a backup of your database and configuration from a backup file. You will need to provide the encryption password that was used to create the backup"
-msgstr ""
-
 #: src/modules/settings/pages/Backup.vue:30
 #: src/modules/settings/pages/Backup.vue:35
+#: src/modules/setup/pages/Restore.vue:8
+#: src/modules/setup/pages/Restore.vue:9
 msgid "Restore a backup of your database and configuration from a backup file. You will need to provide the encryption password that was used to create the backup."
 msgstr ""
 
@@ -1007,7 +956,7 @@ msgid "Right, so how do I watch stuff?"
 msgstr ""
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:118
-#: src/modules/admin/components/Users/UserList/UserItem.vue:119
+#: src/modules/admin/components/Users/UserList/UserItem.vue:122
 #: src/modules/settings/pages/Discord.vue:42
 msgid "Save"
 msgstr ""
@@ -1056,7 +1005,7 @@ msgstr ""
 msgid "Search Settings"
 msgstr ""
 
-#: src/components/Buttons/LanguageSelector.vue:32
+#: src/components/Buttons/LanguageSelector.vue:38
 msgid "Select Language"
 msgstr ""
 
@@ -1084,7 +1033,7 @@ msgstr ""
 msgid "Server URL"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:170
+#: src/modules/settings/pages/Main.vue:172
 msgid "Sessions"
 msgstr ""
 
@@ -1096,7 +1045,7 @@ msgstr ""
 msgid "Settings Categories"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:153
+#: src/modules/settings/pages/Main.vue:155
 msgid "Settings for user accounts"
 msgstr ""
 
@@ -1122,6 +1071,10 @@ msgstr ""
 #: src/modules/admin/components/Invitations/ShareSheet.vue:19
 #: src/modules/admin/components/Invitations/ShareSheet.vue:29
 msgid "Share this link with your friends and family to invite them to join your media server."
+msgstr ""
+
+#: src/tours/admin-settings.ts:12
+msgid "Since there are a lot of settings, you can search for them by using the search bar."
 msgstr ""
 
 #: src/modules/help/components/Plex/Welcome.vue:11
@@ -1154,11 +1107,6 @@ msgstr ""
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
 msgstr ""
 
-#: src/modules/settings/pages/Support.vue:11
-#: src/modules/settings/pages/Support.vue:74
-msgid "Start Support Session"
-msgstr ""
-
 #: src/modules/join/pages/Complete.vue:17
 msgid "Start Walkthrough"
 msgstr ""
@@ -1171,12 +1119,7 @@ msgstr ""
 msgid "Summoning the spirits"
 msgstr ""
 
-#: src/modules/settings/pages/Support.vue:55
-msgid "Support session ended"
-msgstr ""
-
-#: src/widgets/default/ContributorsList.vue:11
-#: src/widgets/default/ContributorsList.vue:13
+#: src/widgets/default/ContributorsList.vue:17
 msgid "Support Us"
 msgstr ""
 
@@ -1184,33 +1127,25 @@ msgstr ""
 msgid "System Default"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:221
+#: src/modules/settings/pages/Main.vue:223
 msgid "Tasks"
 msgstr ""
 
-#: src/tours/admin-settings.ts:12
-msgid "There are a lot of settings, so you can search for them by using the search bar."
-msgstr ""
-
 #: src/tours/admin-home.ts:13
-msgid "These are your widgets, you can use them to get a quick overview of your Wizarr instance."
-msgstr ""
-
-#: src/modules/settings/pages/Main.vue:256
-msgid "These features are only available to paying members"
+msgid "These are your widgets. You can use them to get a quick overview of your Wizarr instance."
 msgstr ""
 
 #: src/modules/setup/pages/Database.vue:14
-#: src/modules/setup/pages/Database.vue:16
-msgid "This is a temporary and we are working on adding support for other databases."
+#: src/modules/setup/pages/Database.vue:15
+msgid "This is a temporary, and we are working on adding support for other databases."
 msgstr ""
 
 #: src/tours/admin-settings.ts:22
-msgid "This is the end of the tour, we hope you enjoyed you found it informative! Please feel free to contact us on Discord and let us know what you think of Wizarr."
+msgid "This is the end of the tour. We hope you enjoyed and found it informative! Please feel free to contact us on Discord and let us know what you think of Wizarr."
 msgstr ""
 
 #: src/tours/admin-invitations.ts:9
-msgid "This is where you can manage your invitations, they will appear here in a list. Invitations are used to invite new users to your media server."
+msgid "This is where you can manage your invitations. They will appear here in a list. Invitations are used to invite new users to your media server."
 msgstr ""
 
 #: src/modules/settings/pages/Account.vue:3
@@ -1228,6 +1163,10 @@ msgstr ""
 
 #: src/modules/settings/pages/Discord.vue:19
 msgid "To get your Server ID right click on the server icon on the left hand sidebar."
+msgstr ""
+
+#: src/components/Buttons/ViewToggle.vue:14
+msgid "Toggle View"
 msgstr ""
 
 #: src/widgets/default/InvitesTotal.vue:3
@@ -1262,7 +1201,7 @@ msgstr ""
 msgid "Uh oh!"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:190
+#: src/modules/settings/pages/Main.vue:192
 msgid "UI Settings"
 msgstr ""
 
@@ -1274,12 +1213,16 @@ msgstr ""
 msgid "Unable to save bug reporting settings."
 msgstr ""
 
-#: src/modules/settings/components/Forms/MediaForm.vue:169
-#: src/modules/settings/pages/Discord.vue:75
+#: src/modules/settings/components/Forms/MediaForm.vue:173
+#: src/modules/settings/pages/Discord.vue:81
 msgid "Unable to save connection."
 msgstr ""
 
-#: src/modules/settings/pages/Discord.vue:69
+#: src/modules/settings/pages/Discord.vue:74
+msgid "Unable to save due to an invalid server ID."
+msgstr ""
+
+#: src/modules/settings/pages/Discord.vue:70
 msgid "Unable to save due to widgets being disabled on this server."
 msgstr ""
 
@@ -1287,7 +1230,7 @@ msgstr ""
 msgid "Unable to verify server."
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:227
+#: src/modules/settings/pages/Main.vue:229
 msgid "Updates"
 msgstr ""
 
@@ -1295,11 +1238,11 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: src/modules/admin/components/Users/UserList/UserItem.vue:155
+#: src/modules/admin/components/Users/UserList/UserItem.vue:158
 msgid "User %{user} deleted"
 msgstr ""
 
-#: src/modules/admin/components/Users/UserList/UserItem.vue:160
+#: src/modules/admin/components/Users/UserList/UserItem.vue:163
 msgid "User deletion cancelled"
 msgstr ""
 
@@ -1332,27 +1275,23 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:215
+#: src/modules/settings/pages/Main.vue:217
 msgid "View and download server logs"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:222
+#: src/modules/settings/pages/Main.vue:224
 msgid "View and manage scheduled tasks"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:171
+#: src/modules/settings/pages/Main.vue:173
 msgid "View and manage your active sessions"
-msgstr ""
-
-#: src/modules/settings/pages/Main.vue:260
-msgid "View and manage your membership"
 msgstr ""
 
 #: src/modules/settings/components/APIKeys/APIKeysItem.vue:70
 msgid "View API key"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:247
+#: src/modules/settings/pages/Main.vue:249
 msgid "View information about the server"
 msgstr ""
 
@@ -1368,6 +1307,10 @@ msgstr ""
 msgid "We can pinpoint bottlenecks and optimize our applications for better performance."
 msgstr ""
 
+#: src/widgets/default/ContributorsList.vue:44
+msgid "We currently do not have access to Open Collective. If you are making payments, please cancel them."
+msgstr ""
+
 #: src/tours/admin-settings.ts:17
 msgid "We have categorized all of your settings to make it easier to find them."
 msgstr ""
@@ -1381,11 +1324,7 @@ msgid "We want to clarify that our bug reporting system does not collect sensiti
 msgstr ""
 
 #: src/tours/admin-home.ts:9
-msgid "We want to help you get started with Wizarr as quickly as possible, consider following this tour to get a quick overview."
-msgstr ""
-
-#: src/modules/settings/pages/Support.vue:6
-msgid "We're here to help you with any issues or questions you may have. If you require assistance, paying members can use the button below to begin a live support session with a Wizarr assistant and we will attempt to guide you through any issues you may be having and resolve them."
+msgid "We want to help you get started with Wizarr as quickly as possible. Consider following this tour to get a quick overview."
 msgstr ""
 
 #: src/components/WebhookList/WebhookItem.vue:57
@@ -1396,7 +1335,7 @@ msgstr ""
 msgid "Webhook deletion cancelled"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:122
+#: src/modules/settings/pages/Main.vue:124
 msgid "Webhooks"
 msgstr ""
 
@@ -1422,7 +1361,7 @@ msgid "Wizarr"
 msgstr ""
 
 #: src/modules/home/views/Home.vue:11
-msgid "Wizarr is a software tool that provides advanced user invitation and management capabilities for media servers such as Jellyfin, Emby, and Plex. With Wizarr, server administrators can easily invite new users and manage their access"
+msgid "Wizarr is a software tool that provides advanced user invitation and management capabilities for media servers such as Jellyfin, Emby, and Plex. With Wizarr, server administrators can easily invite new users and manage their access."
 msgstr ""
 
 #: src/modules/join/pages/Plex/Signup.vue:45
@@ -1430,16 +1369,7 @@ msgid "Wizarr is an unverified app. This means that Plex may warn you about usin
 msgstr ""
 
 #: src/tours/admin-users.ts:14
-msgid "Wizarr will automatically scan your media server for new users, but you can also manually scan for new users by clicking on the 'Scan for Users' button, this is useful if Wizarr has not gotten around to doing it yet."
-msgstr ""
-
-#: src/modules/settings/pages/Support.vue:74
-msgid "Yes"
-msgstr ""
-
-#: src/modules/settings/pages/Membership.vue:35
-#: src/modules/settings/pages/Membership.vue:43
-msgid "You are currently logged into membership."
+msgid "Wizarr will automatically scan your media server for new users, but you can also manually scan for new users by clicking on the 'Scan for Users' button. This is useful if Wizarr has not gotten around to doing it yet."
 msgstr ""
 
 #: src/tours/admin-home.ts:23
@@ -1455,25 +1385,20 @@ msgid "You can recieve notifications when your media is ready"
 msgstr ""
 
 #: src/modules/setup/pages/Complete.vue:7
-#: src/modules/setup/pages/Complete.vue:9
 msgid "You have successfully completed the setup process."
-msgstr ""
-
-#: src/modules/settings/pages/Support.vue:61
-msgid "You must be a paying member to use this feature."
 msgstr ""
 
 #: src/modules/join/pages/Complete.vue:5
 msgid "You're all set, click continue to get started and walkthrough how to use %{serverName}!"
 msgstr ""
 
+#: src/modules/setup/pages/Complete.vue:4
+msgid "You're Done"
+msgstr ""
+
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:146
 #: src/modules/admin/components/Invitations/ShareSheet.vue:92
 msgid "Your browser does not support copying to clipboard"
-msgstr ""
-
-#: src/modules/setup/pages/Complete.vue:4
-msgid "Your Done"
 msgstr ""
 
 #: src/tours/admin-invitations.ts:8

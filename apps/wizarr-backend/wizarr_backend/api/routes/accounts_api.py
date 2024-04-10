@@ -1,3 +1,4 @@
+from app.models.wizarr.accounts import AccountsModel
 from flask import request
 from flask_jwt_extended import jwt_required, current_user
 from flask_restx import Namespace, Resource
@@ -120,3 +121,19 @@ class AccountsAPI(Resource):
         """Delete an account"""
         delete_account(account_id)
         return {"message": "Account deleted"}, 200
+
+@api.route("/change_password")
+@api.route("/change_password/", doc=False)
+class ChangePassword(Resource):
+    """API resource for changing the user's password"""
+
+    method_decorators = [jwt_required()]
+
+    @api.doc(description="Change the user's password")
+    @api.response(200, "Password changed")
+    @api.response(401, "Invalid password")
+    @api.response(500, "Internal server error")
+    def post(self):
+        """Change the user's password"""
+        #get the current user's id
+        return AccountsModel.change_password(request), 200

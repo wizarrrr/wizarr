@@ -16,6 +16,7 @@ import joinRoutes from '@/modules/join/router';
 import adminRoutes from '@/modules/admin/router';
 import settingsRoutes from '@/modules/settings/router';
 import helpRoutes from '@/modules/help/router';
+import requestRoutes from '@/modules/requests/router';
 import setupRoutes from '@/modules/setup/router';
 import coreRoutes from '@/modules/core/router';
 
@@ -31,6 +32,7 @@ const router = createRouter({
         ...adminRoutes, // Admin routes ["/admin", "/admin/:page"]
         ...settingsRoutes, // Settings routes ["/admin/settings", "/admin/settings/:page"]
         ...helpRoutes, // Help routes ["/help", "/open"]
+        ...requestRoutes, // Request routes ["/request"]
         ...setupRoutes, // Setup routes ["/setup", "/setup/:step"]
         ...coreRoutes, // Core routes ["/:pathMatch(.*)*"]
     ],
