@@ -1,0 +1,56 @@
+name: Build Storybook
+
+on:
+    push:
+        branches:
+            - "beta"
+        paths-ignore:
+            - "!.github/workflows/build-storybook.yml"
+            - "!apps/wizarr-frontend/src/**/*"
+            - "!apps/wizarr-frontend/.storybook/**/*"
+            - "**/latest"
+            - "**/CHANGELOG.md"
+            - "**/CHANGELOG-beta.md"
+            - "./scripts/**"
+            - "./release.config.cjs"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: GitHub App Token
+              id: gh_app
+              uses: getsentry/action-github-app-token@v2
+              with:
+                  app_id: ${{ secrets.APP_ID }}
+                  private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 18.18.2
+
+            - name: Install Dependencies
+              run: npm ci --ignore-scripts
+
+            - name: Build Storybook
+              run: npx nx run wizarr-frontend:build-storybook
+
+            - name: Deploy Storybook
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  external_repository: wizarrrr/storybook.wizarr.dev
+                  personal_token: ${{ steps.gh_app.outputs.token }}
+                  publish_dir: ./dist/storybook/wizarr-frontend
+                  cname: storybook.wizarr.dev
+
+            - name: Deploy Storybook to Chromatic
+              run: npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --exit-zero-on-changes --storybook-build-dir ./dist/storybook/wizarr-frontend
+              env:
+                  CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}

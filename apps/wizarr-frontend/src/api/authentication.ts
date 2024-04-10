@@ -1,8 +1,7 @@
-import { errorToast, infoToast } from "../ts/utils/toasts";
+import { errorToast, infoToast, successToast } from "../ts/utils/toasts";
 import { startAuthentication, startRegistration } from "@simplewebauthn/browser";
 
 import type { APIUser } from "@/types/api/auth/User";
-import type { Membership } from "@/types/api/membership";
 import type { RegistrationResponseJSON } from "@simplewebauthn/typescript-types";
 import type { WebAuthnError } from "@simplewebauthn/browser/dist/types/helpers/webAuthnError";
 import { useAuthStore } from "@/stores/auth";
@@ -14,6 +13,7 @@ class Auth {
     // Local toast functions
     private errorToast = errorToast;
     private infoToast = infoToast;
+    private successToast = successToast;
 
     // Router and axios instance
     private router = useRouter();
@@ -72,34 +72,8 @@ class Auth {
         authStore.setAccessToken(token);
         authStore.setRefreshToken(refresh_token);
 
-        // Handle membership update
-        const membership = await this.handleMembershipUpdate();
-        userStore.setMembership(membership);
-
         // Reset the user data
         return { user, token };
-    }
-
-    /**
-     * Handle Membership Update
-     * This function is used to handle membership updates
-     */
-    async handleMembershipUpdate(): Promise<Membership | null> {
-        // Get the membership from the database
-        const response = await this.axios
-            .get("/api/membership", {
-                disableErrorToast: true,
-                disableInfoToast: true,
-            })
-            .catch(() => null);
-
-        // Check if the response is successful
-        if (response?.status != 200) {
-            return null;
-        }
-
-        // Get the membership from the response
-        return response.data;
     }
 
     /**
@@ -218,6 +192,56 @@ class Auth {
 
         // Handle the authenticated data
         return this.handleAuthData(response.data.auth.user, response.data.auth.token, response.data.auth.refresh_token);
+    }
+
+    /**
+     * Change Password
+     * This method is change the password of the user
+     *
+     * @param old_password The old password of the user
+     * @param new_password The new password of the user
+     *
+     * @returns The response from the server
+     */
+    async changePassword(old_password?: string, new_password?: string) {
+        const userStore = useUserStore();
+
+        // verify if the user is authenticated
+        if (!this.isAuthenticated()) {
+            this.errorToast("User is not authenticated");
+            return;
+        }
+
+        // check if old assword is correct
+        const username = userStore.user?.username;
+
+        if (old_password) this.old_password = old_password;
+        if (new_password) this.new_password = new_password;
+        if (username) this.username = username;
+
+        // Create a form data object
+        const formData = new FormData();
+
+        // Add the username, password and remember_me to the form data
+        formData.append("old_password", this.old_password);
+        formData.append("new_password", this.new_password);
+        formData.append("username", this.username);
+
+        // send request to server to change password
+        await this.axios
+            .post("/api/accounts/change_password", formData)
+            .then((res) => {
+                this.successToast("Password changed successfully");
+                this.infoToast("Logging out in 5 seconds...");
+                setTimeout(() => {
+                    this.logout();
+                }, 5000);
+                return res;
+            })
+            .catch(() => {
+                this.errorToast("Failed to change password, please try again");
+                return;
+            });
     }
 
     /**

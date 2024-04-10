@@ -66,8 +66,8 @@ export default defineComponent({
     },
     data() {
         return {
-            profilePicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username[0],
-            backupPicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username[0],
+            profilePicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username,
+            backupPicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username,
             disabled: {
                 delete: false,
             },
@@ -103,6 +103,9 @@ export default defineComponent({
     },
     methods: {
         async getProfilePicture() {
+            if (!this.user.username) {
+                return;
+            }
             const response = this.$axios.get(`/api/users/${this.user.token}/profile-picture`, {
                 responseType: "blob",
             });

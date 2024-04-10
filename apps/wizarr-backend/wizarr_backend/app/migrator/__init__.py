@@ -4,16 +4,13 @@ from app.models.database.base import db
 from app.models.database.migrations import Migrations
 from packaging.version import parse
 from datetime import datetime, timedelta
-
+from os import environ
 from definitions import LATEST_FILE
+from sys import exit
 
 def get_current_version():
     with open(LATEST_FILE, "r", encoding="utf-8") as f:
         current_version = str(f.read())
-
-        # TEMPORARY FIX: Remove -v3 from the version
-        current_version = current_version.replace("-v3", "")
-
         return parse(current_version)
 
 def get_current_database_version():
@@ -37,11 +34,11 @@ def run_migrations():
     current_version = get_current_version()
 
     # If the database version is greater than the current version then exit the application
-    if db_version > current_version:
+    if db_version > current_version and not environ.get("WIZARR_FORCE_MIGRATION"):
         print("Database version is greater than the current version")
         print(f"Database version: {db_version}")
         print(f"Current version: {current_version}")
-        print("Please update the application")
+        print("Please update the application or set environment variable WIZARR_FORCE_MIGRATION to true to force the migration")
         exit(1)
 
     # Get the base directory

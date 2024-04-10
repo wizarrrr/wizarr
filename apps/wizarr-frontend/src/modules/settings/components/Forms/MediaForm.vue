@@ -154,9 +154,13 @@ export default defineComponent({
         async saveConnection() {
             const formData = new FormData();
 
+            // Sanitize server_url and server_url_override to remove trailing slashes
+            let server_url = this.serverForm.server_url.trim().replace(/\/$/, "");
+            let server_url_override = this.serverForm.server_url_override ? this.serverForm.server_url_override.trim().replace(/\/$/, "") : null;
+
             formData.append("server_name", this.serverForm.server_name);
-            formData.append("server_url", this.serverForm.server_url);
-            if (this.serverForm.server_url_override) formData.append("server_url_override", this.serverForm.server_url_override);
+            formData.append("server_url", server_url);
+            if (this.serverForm.server_url_override) formData.append("server_url_override", server_url_override);
             formData.append("server_type", this.serverForm.server_type);
             formData.append("server_api_key", this.serverForm.server_api_key);
 

@@ -71,6 +71,15 @@ const children: RouteRecordRaw[] = [
         },
     },
     {
+        path: "password",
+        name: "admin-settings-password",
+        component: () => import("../pages/Password.vue"),
+        meta: {
+            header: "Manage Password",
+            subheader: "Change your account password",
+        },
+    },
+    {
         path: "tasks",
         name: "admin-settings-tasks",
         component: () => import("../pages/Tasks.vue"),
@@ -93,21 +102,6 @@ const children: RouteRecordRaw[] = [
         name: "admin-settings-sentry",
         component: () => import("../pages/Sentry.vue"),
         meta: { header: "Bug Reporting", subheader: "Configure bug reporting" },
-    },
-    {
-        path: "membership",
-        name: "admin-settings-membership",
-        component: () => import("../pages/Membership.vue"),
-        meta: {
-            header: "Membership",
-            subheader: "View Wizarr Cloud membership",
-        },
-    },
-    {
-        path: "support",
-        name: "admin-settings-support",
-        component: () => import("../pages/Support.vue"),
-        meta: { header: "Live Support", subheader: "Get live support" },
     },
 ];
 

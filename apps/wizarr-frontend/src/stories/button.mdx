@@ -1,0 +1,33 @@
+import { Meta, Primary, Controls, Story } from "@storybook/blocks";
+import * as ButtonStories from "./button.stories";
+
+<Meta of={ButtonStories} />
+
+# Button
+
+We use [FormKit](https://formkit.com/) to build our Button components, this makes creating buttons pretty easy. We have a few different types of buttons, but they can all be accessed through the `FormKit` component.
+
+## Usage
+
+```tsx
+<FormKit type="button" label="Primary" data-theme="primary" />
+```
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+### Primary
+
+A button can be of primary importance.
+
+<Story of={ButtonStories.Primary} />
+
+A button can be of secondary importance.
+
+<Story of={ButtonStories.Secondary} />
+```

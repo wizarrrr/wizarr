@@ -43,19 +43,17 @@
 
 # WIZARR NOTICE
 
-We have recently moved Wizarr V2 to its new home at `ghcr.io/wizarrrr/wizarr:v2` if your container was automatically upgraded recently and you received breaking changes, please change your image to `ghcr.io/wizarrrr/wizarr:v2` to resolve this
+Wizzar is back in development after the main developer Ash went MIA. Stay tuned for `4.0.0-beta.1` which will be the first release of the new development team. We are working hard to make Wizarr even better than before.
 
 ---
 
+## What is Wizarr?
+
 Wizarr is a automatic user invitation system for Plex and Jellyfin. Create a unique link and share it to a user and they will be invited to your Media Server after they complete there signup proccess! They can even be guided to download the clients and read instructions on how to use your media software!
 
-## Where is V2?
+## What's the difference between V3 and V4?
 
-Wizarr V2 has moved to the v2 branch [here](https://github.com/Wizarrrr/wizarr/tree/v2), your still more than welcome to use v2 however it will no longer be supported, we recommend using our new version, trust us it's 🔥.
-
-## V3 upgradable from V2?
-
-V3 can now support upgrading from V2, please make a backup of your database.db for the safest upgrade path.
+V3 is the current stable version of Wizarr, it is a fully functional system that allows you to invite users to your media server. V4 is the next version of Wizarr that is currently in development (curently the exact same as `3.5.1-beta.7`). There's not much diffrence between the two versions, V4 will involve a refactoring of the codebase and a few new features. V4 will be the first version of Wizarr that is developed by the new development team.
 
 ## Major Features Include
 
@@ -91,6 +89,8 @@ V3 can now support upgrading from V2, please make a backup of your database.db f
 
 ## Getting Started
 
+This version is the exact same as `3.5.1-beta.7` for now but we will be updating the codebase soon. You can install Wizarr by following the instructions below.
+
 ```
 docker run -d \
     --name wizarr \
@@ -116,7 +116,7 @@ services:
 
 Any issues we welcome you to come onto our [Discord](https://discord.gg/XXCz7aM3ak) and ask for a member of staff, we would be happy to help.
 
-If you want to help contribute to Wizarr by building V3's documentation we would really appreciate it, again join the [Discord](https://discord.gg/XXCz7aM3ak) and we can get you started.
+If you want to help contribute to Wizarr by building V4's documentation we would really appreciate it, again join the [Discord](https://discord.gg/XXCz7aM3ak) and we can get you started.
 
 ~~Check out our documentation for instructions on how to install and run Wizarr!
 [View Documentation](https://github.com/Wizarrrr/wizarr/blob/master/docs/setup/README.md)~~

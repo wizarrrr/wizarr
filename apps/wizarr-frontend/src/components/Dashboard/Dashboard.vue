@@ -1,7 +1,8 @@
 <template>
     <div>
         <div class="grid-stack mx-[-10px]">
-            <Widget v-for="widget in dashboard" :key="widget.id" :data="widget" :isEditing="isEditing" @delete="deleteLocalWidget" />
+            <!-- Revert .filter() once we have working firebase access to re-enable LatestInfo widget -->
+            <Widget v-for="widget in dashboard.filter((widget) => widget.type !== 'LatestInfo')" :key="widget.id" :data="widget" :isEditing="isEditing" @delete="deleteLocalWidget" />
         </div>
         <Transition name="fade" mode="out-in" :duration="{ enter: 100, leave: 100 }">
             <div v-if="isEditing" class="fixed right-6 bottom-6 group" @mouseover="isShowing = true" @mouseleave="isShowing = false">
@@ -66,6 +67,7 @@ export default defineComponent({
     methods: {
         makeWidgets(widgets: WidgetOptions[]) {
             widgets.forEach((widget) => {
+                if (widget.type === "LatestInfo") return;
                 this.makeWidget(widget);
             });
         },
