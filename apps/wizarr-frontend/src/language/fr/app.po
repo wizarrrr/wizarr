@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-15 23:12+0100\n"
-"PO-Revision-Date: 2023-11-04 17:32+0000\n"
+"PO-Revision-Date: 2023-11-14 16:05+0000\n"
 "Last-Translator: Rémi Guerrero <remidu34070@hotmail.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr-v3/wizarr/"
 "fr/>\n"
@@ -124,9 +124,8 @@ msgid "API key deletion cancelled"
 msgstr "Suppression de la clé API annulée"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:58
-#, fuzzy
 msgid "API key for your media server"
-msgstr "Rejoindre mon serveur multimédia"
+msgstr "Clé API de votre serveur multimédia"
 
 #: src/modules/settings/pages/Main.vue:115
 msgid "API keys"
@@ -176,7 +175,7 @@ msgstr "Êtes-vous sûr(e) ?"
 
 #: src/modules/help/components/Request.vue:4
 msgid "Automatic Media Requests"
-msgstr ""
+msgstr "Demandes de médias automatiques"
 
 #: src/modules/help/views/Help.vue:19 src/modules/setup/views/Setup.vue:26
 #: src/modules/setup/views/Setup.vue:38 src/modules/setup/views/Setup.vue:41
@@ -195,13 +194,15 @@ msgstr "Fichier de sauvegarde"
 
 #: src/modules/settings/pages/Main.vue:234
 msgid "Bug Reporting"
-msgstr ""
+msgstr "Signalement de bug"
 
 #: src/modules/settings/pages/Sentry.vue:14
 msgid ""
 "Bug reports helps us track and fix issues in real-time, ensuring a smoother "
 "user experience."
 msgstr ""
+"Les signalements de bug nous aide à suivre et résoudre les problèmes en "
+"temps réel, offrant la meilleure expérience utilisateur possible."
 
 #: src/modules/settings/pages/Main.vue:164
 msgid "Change your password"
@@ -213,15 +214,17 @@ msgstr "Vérifier la présence de mise à jour"
 
 #: src/modules/help/components/Request.vue:27
 msgid "Check it Out"
-msgstr ""
+msgstr "Jeter un œil"
 
 #: src/modules/settings/pages/Discord.vue:30
 msgid "Click \"Widget\" on the left hand sidebar."
-msgstr ""
+msgstr "Cliquez sur \"Widget\" dans la barre latérale gauche."
 
 #: src/modules/settings/pages/Discord.vue:20
 msgid "Click on \"Copy ID\" then paste it it in the box below."
 msgstr ""
+"Cliquez sur \"Copier l'identifiant du serveur\" et coller le dans le champ "
+"ci-dessous."
 
 #: src/modules/settings/components/Modals/ViewApiKey.vue:15
 msgid "Click the key to copy to clipboard!"
@@ -248,6 +251,8 @@ msgid ""
 "Configure Wizarr to display a dynamic Discord Widget to users onboarding "
 "after signup."
 msgstr ""
+"Configurez Wizarre pour qu'il affiche un widget Discord dynamique pour les "
+"utilisateurs créant un compte."
 
 #: src/modules/settings/pages/Main.vue:158
 msgid "Configure your account settings"
@@ -333,7 +338,7 @@ msgstr "Créer un webhook"
 
 #: src/modules/settings/pages/About.vue:20
 msgid "Current Version"
-msgstr ""
+msgstr "Version actuelle"
 
 #: src/modules/setup/pages/Database.vue:10
 #: src/modules/setup/pages/Database.vue:8
@@ -376,9 +381,8 @@ msgid "Detected %{server_type} server!"
 msgstr "Serveur %{server_type} détecté !"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:65
-#, fuzzy
 msgid "Detected Media Server"
-msgstr "Détecter le serveur"
+msgstr "Serveur multimédia détecté"
 
 #: src/modules/settings/pages/Main.vue:195
 msgid "Discord"
@@ -390,17 +394,15 @@ msgstr "Bot Discord"
 
 #: src/modules/settings/pages/Discord.vue:15
 msgid "Discord Server ID:"
-msgstr ""
+msgstr "ID du serveur Discord :"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:11
-#, fuzzy
 msgid "Display Name"
-msgstr "Nom d'affichage du serveur"
+msgstr "Nom d'affichage"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:16
-#, fuzzy
 msgid "Display Name for your media servers"
-msgstr "Gérer vos utilisateurs du serveur multimédia"
+msgstr "Nom d'affichage pour vos serveurs multimédia"
 
 #: src/modules/admin/components/Users/UserList/UserItem.vue:151
 msgid "Do you really want to delete this user from your media server?"
@@ -438,7 +440,7 @@ msgstr "Activer la page Discord et configurer les paramètres"
 
 #: src/modules/settings/pages/Discord.vue:26
 msgid "Enable Server Widget:"
-msgstr ""
+msgstr "Activer les widgets serveur :"
 
 #: src/modules/settings/pages/Backup.vue:142
 #: src/modules/settings/pages/Backup.vue:67
@@ -451,7 +453,7 @@ msgstr "Fin de la visite guidée"
 
 #: src/modules/settings/pages/Discord.vue:31
 msgid "Ensure the toggle for \"Enable Server Widget\" is checked."
-msgstr ""
+msgstr "Assurez-vous que l'option \"Activer le widget serveur\" est activée."
 
 #: src/modules/settings/pages/Membership.vue:7
 msgid "Enter your email and password to login into your membership."
@@ -461,7 +463,7 @@ msgstr ""
 
 #: src/modules/settings/pages/Sentry.vue:14
 msgid "Error Monitoring"
-msgstr ""
+msgstr "Erreur lors de la surveillance"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:207
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserItem.vue:91
@@ -484,6 +486,8 @@ msgid ""
 "First make sure you have Developer Mode enabled on your Discord by visiting "
 "your Discord settings and going to Appearance."
 msgstr ""
+"Assurez-vous d'avoir activé le mode développeur sur Discord en vous rendant "
+"dans les options d'apparence."
 
 #: src/modules/settings/pages/Account.vue:29
 msgid "First name"
@@ -553,7 +557,7 @@ msgstr "ici"
 
 #: src/modules/settings/pages/Sentry.vue:10
 msgid "Here's why"
-msgstr ""
+msgstr "Voilà pourquoi"
 
 #: src/components/NavBars/AdminNavBar.vue:77 src/modules/admin/pages/Home.vue:3
 msgid "Home"
@@ -636,6 +640,8 @@ msgstr "Utilisateurs du code"
 #: src/modules/settings/pages/Sentry.vue:15
 msgid "It allows us to identify and resolve problems before they impact you."
 msgstr ""
+"Cela nous permet d'identifier et résoudre les problèmes avant même qu'ils ne "
+"vous impactent."
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:12
 msgid ""
@@ -644,6 +650,11 @@ msgid ""
 "download the Jellyfin app on your device, sign in with your account, and "
 "you're ready to start streaming your media. It's that easy!"
 msgstr ""
+"Rien de plus simple ! Jellyfin est disponible sur un large choix "
+"d'appareils, comme les ordinateurs, tablettes, smartphones et TV. Tout ce "
+"que vous avez à faire est de télécharger l'application Jellyfin sur votre "
+"appareil, vous connecter avec votre compte et vous êtes prêts pour diffuser "
+"vos médias. Un jeu d'enfant !"
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:6
 msgid ""
@@ -749,9 +760,8 @@ msgid "Main Settings"
 msgstr "Paramètres généraux"
 
 #: src/modules/settings/pages/Main.vue:235
-#, fuzzy
 msgid "Manage bug reporting settings"
-msgstr "Gérer vos invitations"
+msgstr "Gérer les paramètres de rapports de bug"
 
 #: src/modules/admin/pages/Home.vue:6
 msgid "Manage you Wizarr server"
@@ -794,18 +804,16 @@ msgid "Media Server"
 msgstr "Serveur multimédia"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:17
-#, fuzzy
 msgid "Media Server Address"
-msgstr "Serveur multimédia"
+msgstr "Adresse du serveur multimédia"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:27
-#, fuzzy
 msgid "Media Server Override"
-msgstr "Serveur multimédia"
+msgstr "Remplacement de l'adresse du serveur multimédia"
 
 #: src/modules/help/components/Request.vue:17
 msgid "Media will be automatically downloaded to your library"
-msgstr ""
+msgstr "Les médias seront téléchargés dans votre bibliothèque automatiquement"
 
 #: src/modules/help/components/Discord.vue:8
 msgid "Members Online"
@@ -935,11 +943,13 @@ msgstr "Ouvrir Plex"
 
 #: src/modules/settings/pages/Logs.vue:7
 msgid "Open Window"
-msgstr ""
+msgstr "Ouvrir la fenêtre"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:40
 msgid "Optional if your server address does not match your external address"
 msgstr ""
+"Optionnel, si l'adresse pour joindre votre serveur diffère sur votre réseau "
+"local et depuis l'extérieur"
 
 #: src/modules/settings/pages/Main.vue:176
 msgid "Passkey Authentication"
@@ -957,7 +967,7 @@ msgstr "Paiements"
 
 #: src/modules/settings/pages/Sentry.vue:16
 msgid "Performance Optimization"
-msgstr ""
+msgstr "Optimisation des performances"
 
 #: src/modules/help/components/Jellyfin/Download.vue:18
 msgid ""
@@ -1012,6 +1022,9 @@ msgid ""
 "enabled. If you don't know how to get your Discord Server ID or Enable "
 "Widgets, please follow the instructions below."
 msgstr ""
+"Veuillez renseigner l'identifiant du serveur Discord et vous assurer que les "
+"widgets serveur sont activés. Si vous ne savez pas comment l'obtenir ou "
+"activer les widgets, suivez les instructions ci-dessous."
 
 #: src/modules/join/views/Join.vue:99
 msgid "Please enter your invite code"
@@ -1054,7 +1067,7 @@ msgstr "Préparation des sorts"
 
 #: src/modules/settings/pages/Sentry.vue:15
 msgid "Proactive Issue Resolution"
-msgstr ""
+msgstr "Résolution des problèmes proactive"
 
 #: src/widgets/default/LatestInfo.vue:13
 msgid "Read More"
@@ -1076,7 +1089,7 @@ msgstr "Demander un accès"
 
 #: src/modules/help/components/Request.vue:13
 msgid "Request any available Movie or TV Show"
-msgstr ""
+msgstr "Demandez n'importe quel film ou série disponible"
 
 #: src/modules/settings/pages/Main.vue:108
 msgid "Requests"
@@ -1118,7 +1131,7 @@ msgstr "Restaurer une sauvegarde"
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:10
 msgid "Right, so how do I watch stuff?"
-msgstr ""
+msgstr "Très bien, du coup comment je regarde tout ça ?"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:118
 #: src/modules/admin/components/Users/UserList/UserItem.vue:119
@@ -1187,7 +1200,7 @@ msgstr "Connexion au serveur vérifiée !"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:25
 msgid "Server IP or Address of your media server"
-msgstr ""
+msgstr "Adresse IP ou URL de votre serveur multimédia"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:49
 msgid "Server Type"
@@ -1253,9 +1266,8 @@ msgstr ""
 "sachez l'utiliser avec Plex."
 
 #: src/modules/authentication/views/LoginView.vue:20
-#, fuzzy
 msgid "Something went wrong"
-msgstr "Il manque quelque chose."
+msgstr "Quelque chose s'est mal passé"
 
 #: src/modules/join/views/Join.vue:137
 msgid ""
@@ -1374,12 +1386,16 @@ msgstr ""
 #: src/modules/settings/pages/Discord.vue:29
 msgid "To enable Server Widgets, navigate to your Server Settings."
 msgstr ""
+"Pour activer les widgets serveur, rendez-vous dans les paramètres de celui-"
+"ci."
 
 #: src/modules/settings/pages/Discord.vue:19
 msgid ""
 "To get your Server ID right click on the server icon on the left hand "
 "sidebar."
 msgstr ""
+"Pour obtenir votre identifiant de serveur, faites un clic droit sur l'icône "
+"de celui-ci dans la barre latérale gauche."
 
 #: src/widgets/default/InvitesTotal.vue:3
 msgid "Total Invitations"
@@ -1398,10 +1414,8 @@ msgid "Try Again"
 msgstr "Veuillez réessayer"
 
 #: src/modules/join/views/Join.vue:12 src/modules/join/views/Join.vue:14
-#, fuzzy
 msgid "Type in your invite code for %{server_name}!"
-msgstr ""
-"Veuillez renseigner votre code d'invitation au serveur %{server_name} !"
+msgstr "Veuillez renseigner votre code d'invitation au serveur %{server_name} !"
 
 #: src/modules/join/views/Join.vue:136 src/modules/join/views/Join.vue:175
 #: src/modules/join/views/Join.vue:194 src/modules/join/views/Join.vue:203
@@ -1419,9 +1433,8 @@ msgid "Unable to detect server."
 msgstr "Détection du serveur impossible."
 
 #: src/modules/settings/pages/Sentry.vue:55
-#, fuzzy
 msgid "Unable to save bug reporting settings."
-msgstr "Enregistrement de la connexion impossible."
+msgstr "Impossible de sauvegarder les paramètres de rapports de bug."
 
 #: src/modules/settings/components/Forms/MediaForm.vue:169
 #: src/modules/settings/pages/Discord.vue:75
@@ -1431,6 +1444,8 @@ msgstr "Enregistrement de la connexion impossible."
 #: src/modules/settings/pages/Discord.vue:69
 msgid "Unable to save due to widgets being disabled on this server."
 msgstr ""
+"Impossible de sauvegarder les paramètres car les widgets sont désactivés sur "
+"ce serveur."
 
 #: src/modules/settings/components/Forms/MediaForm.vue:146
 msgid "Unable to verify server."
@@ -1516,12 +1531,18 @@ msgid ""
 "user-friendly request system that can automatically search for the media "
 "you're looking for."
 msgstr ""
+"Nous sommes ravis de vous offrir une large sélection de médias. Si vous "
+"rencontrez des problèmes pour trouver ce qui vous plaît, pas d'inquiétude ! "
+"Nous disposons d'un système de demande convivial qui peut rechercher le "
+"média que vous désirez."
 
 #: src/modules/settings/pages/Sentry.vue:16
 msgid ""
 "We can pinpoint bottlenecks and optimize our applications for better "
 "performance."
 msgstr ""
+"Nous pouvons cibler les problèmes de capacité et optimiser nos applications "
+"pour de meilleures performances."
 
 #: src/tours/admin-settings.ts:17
 msgid ""
@@ -1535,6 +1556,9 @@ msgid ""
 "We value the security and stability of our services. Bug reporting plays a "
 "crucial role in maintaining and improving our software."
 msgstr ""
+"Nous estimons que la sécurité et la stabilité de nos services sont "
+"capitales. Les rapports de bugs jouent un rôle crucial dans la maintenance "
+"et l'amélioration de notre logiciel."
 
 #: src/modules/settings/pages/Sentry.vue:20
 msgid ""
@@ -1544,6 +1568,11 @@ msgid ""
 "information. Rest assured, your personal information is not at risk through "
 "this service being enabled."
 msgstr ""
+"Nous vous assurons que notre système de rapports de bug ne collecte aucune "
+"donnée personnelle sensible. Il capture les informations techniques liées "
+"aux erreurs et aux performances, tels que les messages d'erreurs, les "
+"informations de paquets ou de navigateur. Soyez rassuré(e), vos données "
+"personnelles restent en sécurité si vous activez cette option."
 
 #: src/tours/admin-home.ts:9
 msgid ""
@@ -1588,7 +1617,7 @@ msgstr "Bienvenue dans Wizarr"
 
 #: src/modules/settings/pages/Sentry.vue:5
 msgid "Why We Use Bug Reporting"
-msgstr ""
+msgstr "Pourquoi nous utilisons les rapports de bug"
 
 #: src/modules/help/components/Plex/Welcome.vue:8
 msgid ""
@@ -1660,7 +1689,7 @@ msgstr ""
 
 #: src/modules/help/components/Request.vue:21
 msgid "You can recieve notifications when your media is ready"
-msgstr ""
+msgstr "Vous pouvez recevoir des notifications lorsque vos médias sont prêts"
 
 #: src/modules/setup/pages/Complete.vue:7
 #: src/modules/setup/pages/Complete.vue:9
