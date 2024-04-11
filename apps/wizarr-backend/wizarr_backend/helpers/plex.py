@@ -298,7 +298,6 @@ def sync_plex_users(server_api_key: Optional[str] = None, server_url: Optional[s
 
     # If database_users.token is not in plex_users.id, remove user from database
     for database_user in database_users:
-        info(f"{database_user.username}")
         if str(database_user.token) not in [str(plex_user.id) for plex_user in plex_users]:
             database_user.delete_instance()
             info(f"User {database_user.username} successfully removed from database")
