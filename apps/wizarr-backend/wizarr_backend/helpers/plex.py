@@ -316,14 +316,15 @@ def get_plex_profile_picture(user_id: str, server_api_key: Optional[str] = None,
     # Get the user
     user = get_plex_user(user_id=user_id, server_api_key=server_api_key, server_url=server_url)
 
-    try:
-        # Get the profile picture from Plex
-        url = user.thumb
-        response = get(url=url, timeout=30)
-    except RequestException:
-        # Backup profile picture using ui-avatars.com if Jellyfin fails
-        username = f"{user.username}&length=1" if user else "ERROR&length=60&font-size=0.28"
-        response = get(url=f"https://ui-avatars.com/api/?uppercase=true&name={username}", timeout=30)
+    if user.email is not None:
+        try:
+            # Get the profile picture from Plex
+            url = user.thumb
+            response = get(url=url, timeout=30)
+        except RequestException:
+            # Backup profile picture using ui-avatars.com if Jellyfin fails
+            username = f"{user.username}&length=1" if user else "ERROR&length=60&font-size=0.28"
+            response = get(url=f"https://ui-avatars.com/api/?uppercase=true&name={username}", timeout=30)
 
     # Raise exception if either Jellyfin or ui-avatars.com fails
     if response.status_code != 200:
