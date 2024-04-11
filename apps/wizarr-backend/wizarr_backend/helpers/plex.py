@@ -287,8 +287,18 @@ def sync_plex_users(server_api_key: Optional[str] = None, server_url: Optional[s
             create_user(username=plex_user.title, token=plex_user.id, email=plex_user.email)
             info(f"User {plex_user.title} successfully imported to database")
 
+        # Handle Plex Managed/Guest users.
+        # Update DB username to Plex user title.
+        # This value is the same as username for normal accounts.
+        # For managed accounts without a public username,
+        # this value is set to 'Guest' or local username
+        elif str(plex_user.username) == "" and plex_user.email is None:
+            create_user(username=plex_user.title, token=plex_user.id, email=plex_user.email)
+            info(f"Managed User {plex_user.title} successfully updated to database")
+
     # If database_users.token is not in plex_users.id, remove user from database
     for database_user in database_users:
+        info(f"{database_user.username}")
         if str(database_user.token) not in [str(plex_user.id) for plex_user in plex_users]:
             database_user.delete_instance()
             info(f"User {database_user.username} successfully removed from database")
