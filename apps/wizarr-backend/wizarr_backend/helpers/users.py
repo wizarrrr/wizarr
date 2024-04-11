@@ -162,7 +162,7 @@ def create_user(**kwargs) -> Users:
     #
     # If user already exists raise error (maybe change this to update user)
     if get_user_by_token(form.token, verify=False) is not None:
-        user: Users = Users.update(**user_model).where(Users.token == form.token)
+        user: Users = Users.update(**user_model).where(Users.token == form.token).execute()
     else:
         user: Users = Users.create(**user_model)
 
