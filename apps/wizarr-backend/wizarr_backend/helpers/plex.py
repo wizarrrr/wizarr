@@ -325,7 +325,7 @@ def get_plex_profile_picture(user_id: str, server_api_key: Optional[str] = None,
     # Get the user
     user = get_plex_user(user_id=user_id, server_api_key=server_api_key, server_url=server_url)
 
-    if user.email is not None:
+    if str(user.email) != "":
         try:
             # Get the profile picture from Plex
             url = user.thumb
