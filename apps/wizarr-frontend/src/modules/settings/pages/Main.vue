@@ -126,28 +126,29 @@ export default defineComponent({
                             icon: "fas fa-link",
                             url: "/admin/settings/webhooks",
                         },
-                        {
-                            title: this.__("Payments"),
-                            description: this.__("Configure payment settings"),
-                            icon: "fas fa-dollar-sign",
-                            url: "/admin/settings/payments",
-                            disabled: true,
-                        },
-                        {
-                            title: this.__("Notifications"),
-                            description: this.__("Configure notification settings"),
-                            roles: ["moderator", "user"],
-                            icon: "fas fa-bell",
-                            url: "/admin/settings/notifications",
-                            disabled: true,
-                        },
-                        {
-                            title: this.__("Discord Bot"),
-                            description: this.__("Configure Discord bot settings"),
-                            icon: "fab fa-discord",
-                            url: "/admin/settings/discord-bot",
-                            disabled: true,
-                        },
+                        //TODO: hiding unimplemented features
+                        // {
+                        //     title: this.__("Payments"),
+                        //     description: this.__("Configure payment settings"),
+                        //     icon: "fas fa-dollar-sign",
+                        //     url: "/admin/settings/payments",
+                        //     disabled: true,
+                        // },
+                        // {
+                        //     title: this.__("Notifications"),
+                        //     description: this.__("Configure notification settings"),
+                        //     roles: ["moderator", "user"],
+                        //     icon: "fas fa-bell",
+                        //     url: "/admin/settings/notifications",
+                        //     disabled: true,
+                        // },
+                        // {
+                        //     title: this.__("Discord Bot"),
+                        //     description: this.__("Configure Discord bot settings"),
+                        //     icon: "fab fa-discord",
+                        //     url: "/admin/settings/discord-bot",
+                        //     disabled: true,
+                        // },
                     ],
                 },
                 {
@@ -199,13 +200,14 @@ export default defineComponent({
                             icon: "fab fa-discord",
                             url: "/admin/settings/discord",
                         },
-                        {
-                            title: this.__("Custom HTML"),
-                            description: this.__("Add Custom HTML page to help screen"),
-                            icon: "fas fa-code",
-                            url: "/admin/settings/html",
-                            disabled: true,
-                        },
+                        //TODO: hiding unimplemented features
+                        // {
+                        //     title: this.__("Custom HTML"),
+                        //     description: this.__("Add Custom HTML page to help screen"),
+                        //     icon: "fas fa-code",
+                        //     url: "/admin/settings/html",
+                        //     disabled: true,
+                        // },
                     ],
                 },
                 {
@@ -225,13 +227,14 @@ export default defineComponent({
                             icon: "fas fa-tasks",
                             url: "/admin/settings/tasks",
                         },
-                        {
-                            title: this.__("Updates"),
-                            description: this.__("Check for and view updates"),
-                            icon: "fas fa-sync",
-                            url: "/admin/settings/updates",
-                            disabled: true,
-                        },
+                        //TODO: hiding unimplemented features
+                        // {
+                        //     title: this.__("Updates"),
+                        //     description: this.__("Check for and view updates"),
+                        //     icon: "fas fa-sync",
+                        //     url: "/admin/settings/updates",
+                        //     disabled: true,
+                        // },
                         {
                             title: this.__("Bug Reporting"),
                             description: this.__("Manage bug reporting settings"),
