@@ -1,3 +1,40 @@
+# [4.0.0-beta.1](https://github.com/wizarrrr/wizarr/compare/v3.5.1...v4.0.0-beta.1) (2024-04-11)
+
+
+### Bug Fixes
+
+* 🐛 refactor server_api.py and software_lifecycle.py for better exception handling ([8cf2b32](https://github.com/wizarrrr/wizarr/commit/8cf2b329a8aeb4a27b783a454a2a58e02230e294))
+* 🐝 :bug: Remove trailing slashes on server URL's ([c4cfd77](https://github.com/wizarrrr/wizarr/commit/c4cfd77f5741fb4a25006948e5facc016c76ddc2))
+* 🩹 :bug: Fixed copy server URL when override set ([ab5e680](https://github.com/wizarrrr/wizarr/commit/ab5e6804a3f054a48595dc187158ad7a309cb5b3))
+* 🩹 :fire: Removed remaining label ([268fda9](https://github.com/wizarrrr/wizarr/commit/268fda9612584591b50926409c0e8b9be57449bc))
+* **backend:** user sync error on plex managed/guest users ([#357](https://github.com/wizarrrr/wizarr/issues/357)) ([1467046](https://github.com/wizarrrr/wizarr/commit/146704609d64ba13d1c8a7d80a80fd09e55bfd50))
+* **frontend:** 🐛 users without token no longer cause error on scan ([#344](https://github.com/wizarrrr/wizarr/issues/344)) ([05ce4f5](https://github.com/wizarrrr/wizarr/commit/05ce4f5de529993f2cbfc35439f27ddb7933fa73))
+* **frontend:** cant remove discord widget id ([#347](https://github.com/wizarrrr/wizarr/issues/347)) ([fefcb06](https://github.com/wizarrrr/wizarr/commit/fefcb065486c9ec7809167744867c66034df208a))
+* remove latest info widget ([#353](https://github.com/wizarrrr/wizarr/issues/353)) ([37e21fe](https://github.com/wizarrrr/wizarr/commit/37e21fe98562ec1a9bfec971b251a8a68f429d70))
+* **wizarr-backend:** 🚑 added password strength test ([ff83c30](https://github.com/wizarrrr/wizarr/commit/ff83c30302ee44c9113d1419b15358b85b1d8cc9))
+
+
+### chore
+
+* 🧽 fix versioning file ([66cef97](https://github.com/wizarrrr/wizarr/commit/66cef9765dae0a67f26fa64ef1a73687e3cb5b77))
+
+
+### Features
+
+* finshed backend password change ([5b1ce2e](https://github.com/wizarrrr/wizarr/commit/5b1ce2e9818cbc8b393623f6642a7b3f4b832e65))
+* password reset frontend done, backend started ([d15e0a1](https://github.com/wizarrrr/wizarr/commit/d15e0a1660ef67e5ac294fc375ae989a7d362db8))
+* **wizarr-frontend:** 🚀 Add extended labels to buttons ([72c7dc4](https://github.com/wizarrrr/wizarr/commit/72c7dc4f11ad0ff8d2dba3b47071163bc269f4e0))
+
+
+### Performance Improvements
+
+* 🚀 :sparkles: Changed to use floating vue ([ce0b92f](https://github.com/wizarrrr/wizarr/commit/ce0b92f6359fda7d470033551b4ee68ab3915e40))
+
+
+### BREAKING CHANGES
+
+* begin 4.x.x versioning
+
 ## [3.5.1-beta.7](https://github.com/wizarrrr/wizarr/compare/v3.5.1-beta.6...v3.5.1-beta.7) (2023-11-21)
 
 
