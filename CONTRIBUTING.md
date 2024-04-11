@@ -15,7 +15,7 @@ We highly recommend joining our Discord before beginning your work. There, you c
 
 ## Guidelines
 
-We recommend following conventional commit guidelines in relation to commit messages and branch naming.
+We require following conventional commit guidelines in relation to commit messages and branch naming.
 
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
@@ -32,4 +32,4 @@ We highly recommend using VSCode as your IDE. There is a code workspace already 
 5. Use VSCode and open the `develop.code-workspace` file under File -> Open Workspace from File, or type `code develop.code-workspace` in your terminal.
 6. Inside the Nx Console panel of VSCode, you have access to the project targets. Run the build target for both wizarr-backend and wizarr-frontend. Then run the serve target to begin your work.
 7. Visit http://127.0.0.1:5173 (Frontend) and http://127.0.0.1:5000 (Backend) to see your changes in realtime.
-8. Create a new branch following conventions, commit your work, and open a PR against the 'develop' branch when you are ready for the team to review your contribution.
+8. Create a new branch from 'develop' following conventions, commit your work, and open a PR against the 'develop' branch when you are ready for the team to review your contribution.
