@@ -286,7 +286,7 @@ def sync_plex_users(server_api_key: Optional[str] = None, server_url: Optional[s
         if str(plex_user.id) not in [str(database_user.token) for database_user in database_users]:
             create_user(username=plex_user.username, token=plex_user.id, email=plex_user.email)
             info(f"User {plex_user.username} successfully imported to database")
-
+            info(f"DEBUG: {plex_user.id} added")
 
     # If database_users.token is not in plex_users.id, remove user from database
     for database_user in database_users:
