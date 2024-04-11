@@ -277,6 +277,7 @@ def sync_plex_users(server_api_key: Optional[str] = None, server_url: Optional[s
 
     # Get users from plex
     plex_users = get_plex_users(server_api_key=server_api_key, server_url=server_url)
+    info(f"{plex_users}")
 
     # Get users from database
     database_users = get_users(as_dict=False)
