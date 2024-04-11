@@ -16,8 +16,9 @@
                 </p>
                 <div class="flex flex-col space-y-2 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-3">
                     <FormKit type="button" @click="$router.push('/join')" theme="primary" suffix-icon="fas fa-arrow-right">{{ __("Get Started") }}</FormKit>
-                    <span class="inline-flex items-center text-gray-500 dark:text-gray-400 justify-center"> or </span>
-                    <FormKit type="button" :disabled="true" data-theme="transparent">{{ __("Request Access") }}</FormKit>
+                    <!-- TODO: hiding unimplemented features -->
+                    <!-- <span class="inline-flex items-center text-gray-500 dark:text-gray-400 justify-center"> or </span> -->
+                    <!-- <FormKit type="button" :disabled="true" data-theme="transparent">{{ __("Request Access") }}</FormKit> -->
                 </div>
             </div>
         </section>
