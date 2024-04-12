@@ -3,47 +3,27 @@
 
 ---
 
+
 <p align="center">
 <img src="https://raw.githubusercontent.com/Wizarrrr/wizarr/master/apps/wizarr-frontend/src/assets/img/wizard.png" height="200">
 <br/>
 <br/>
-<a href="https://github.com/wizarrrr/wizarr">
-<img alt="GPL 2.0 License" src="https://img.shields.io/github/license/wizarrrr/wizarr.svg"/>
-</a>
-<a href="https://github.com/jellyfin/jellyfin/releases">
-<img alt="Current Release" src="https://img.shields.io/github/release/wizarrrr/wizarr.svg"/>
-</a>
-<a href="https://hosted.weblate.org/engage/wizarr/">
-<img src="https://hosted.weblate.org/widgets/wizarr/-/app/svg-badge.svg" />
-</a>
-<a href="https://opencollective.com/wizarr">
-<img alt="Donate" src="https://img.shields.io/opencollective/all/wizarr.svg?label=backers"/>
-</a>
-<a href="https://features.wizarr.dev">
-<img alt="Submit Feature Requests" src="https://img.shields.io/badge/vote_now-features?label=features"/>
-</a>
-<a href="https://discord.gg/XXCz7aM3ak">
-<img alt="Chat on Discord" src="https://img.shields.io/discord/1020742926856372224"/>
-</a>
-<a href="https://www.reddit.com/r/wizarr">
-<img alt="Join our Subreddit" src="https://img.shields.io/badge/reddit-r%2Fwizarr-%23FF5700.svg"/>
-</a>
-<a href="https://github.com/Wizarrrr/wizarr/issues">
-<img alt="Github Issue" src="https://img.shields.io/github/issues/wizarrrr/wizarr"/>
-</a>
-<a href="https://features.wizarr.dev">
-<img alt="Submit Feature Requests" src="https://img.shields.io/badge/fider-vote%20on%20features-success.svg"/>
-</a>
-<a href="https://github.com/Wizarrrr/wizarr/actions/workflows/release.yml">
-<img alt="Github Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrr/wizarr/release.yml"/>
-</a>
+<a href="https://github.com/wizarrrr/wizarr/blob/master/LICENSE.md"><img alt="GPL 2.0 License" src="https://img.shields.io/github/license/wizarrrr/wizarr.svg"/></a>
+<a href="https://github.com/wizarrrr/wizarr/releases"><img alt="Current Release" src="https://img.shields.io/github/release/wizarrrr/wizarr.svg"/></a>
+<a href="https://hosted.weblate.org/engage/wizarr/"><img src="https://hosted.weblate.org/widgets/wizarr/-/app/svg-badge.svg" /></a>
+<a href="https://opencollective.com/wizarr"><img alt="Donate" src="https://img.shields.io/opencollective/all/wizarr.svg?label=backers"/></a>
+<a href="https://features.wizarr.dev" style="text-decoration: none"><img alt="Submit Feature Requests" src="https://img.shields.io/badge/vote_now-features?label=features"/></a>
+<a href="https://discord.gg/XXCz7aM3ak"><img alt="Chat on Discord" src="https://img.shields.io/discord/1020742926856372224"/></a>
+<a href="https://www.reddit.com/r/wizarr"><img alt="Join our Subreddit" src="https://img.shields.io/badge/reddit-r%2Fwizarr-%23FF5700.svg"/></a>
+<a href="https://github.com/Wizarrrr/wizarr/issues"><img alt="Github Issue" src="https://img.shields.io/github/issues/wizarrrr/wizarr"/></a>
+<a href="https://github.com/Wizarrrr/wizarr/actions/workflows/release.yml"><img alt="Github Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrr/wizarr/release.yml"/></a>
 </p>
 
 ---
 
 # WIZARR NOTICE
 
-Wizzar is back in development after the main developer Ash went MIA. Stay tuned for `4.0.0-beta.1` which will be the first release of the new development team. We are working hard to make Wizarr even better than before.
+Wizzar is back in development after the main developer Ash went MIA. Stay tuned for `4.0.0-beta.1` which will be the first release of the new development team. We are working hard to make Wizarr even better than before. To preview this new build, be sure to use `ghcr.io/wizarrrr/wizarr:beta` for your image selection. If you want updates/announcments for this upcoming version, join the discord [here](https://discord.gg/XXCz7aM3ak), and take a peek at the `#beta-updates` channel.
 
 ---
 
@@ -89,7 +69,7 @@ V3 is the current stable version of Wizarr, it is a fully functional system that
 
 ## Getting Started
 
-This version is the exact same as `3.5.1-beta.7` for now but we will be updating the codebase soon. You can install Wizarr by following the instructions below.
+You can install the stable version of Wizarr by following the instructions below.
 
 ```
 docker run -d \
