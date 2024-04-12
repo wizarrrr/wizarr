@@ -40,20 +40,35 @@ def get_latest_beta_version():
         return None
 
 def get_current_version():
-    with open(LATEST_FILE, "r", encoding="utf-8") as f:
-        current_version = str(f.read())
-        return parse(current_version)
+    try:
+        with open(LATEST_FILE, "r", encoding="utf-8") as f:
+            current_version = str(f.read())
+            return parse(current_version)
+    except Exception:
+        return None
 
 def is_beta():
-    return search(r"\d\.\d\.\d\w\d", str(get_current_version())) is not None
+    try:
+        return search(r"\d\.\d\.\d\w\d", str(get_current_version())) is not None
+    except Exception:
+        return False
 
 def is_latest():
-    if str(get_current_version()) == str(is_beta() and get_latest_beta_version() or get_latest_version()):
+    try:
+        if str(get_current_version()) == str(is_beta() and get_latest_beta_version() or get_latest_version()):
+            return True
+        return compare_versions(get_current_version(), is_beta() and get_latest_beta_version() or get_latest_version())
+    except Exception:
         return True
-    return compare_versions(get_current_version(), is_beta() and get_latest_beta_version() or get_latest_version())
 
 def is_stable():
-    return not is_beta()
+    try:
+        return not is_beta()
+    except Exception:
+        return True
 
 def need_update():
-    return not is_latest()
+    try:
+        return not is_latest()
+    except Exception:
+        return False

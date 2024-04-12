@@ -1,11 +1,11 @@
 <template>
     <div class="w-full h-full relative">
-        <div class="flex flex-col space-between grow h-full">
+        <div class="flex flex-col justify-center grow h-full">
             <div class="flex flex-col space-y-2">
                 <Transition name="fade" mode="out-in">
                     <div v-if="contributors" class="flex flex-col space-y-2">
                         <div class="space-y-2 divide-y divide-gray-200 rounded dark:divide-gray-700">
-                            <div class="flex items-center justify-between pb-1">
+                            <!-- <div class="flex items-center justify-between pb-1">
                                 <span class="text-lg font-bold truncate text-ellipsis">{{ __("Recent Contributors") }}</span>
                                 <FormKit
                                     type="button"
@@ -37,7 +37,12 @@
                                     <i class="fa-solid fa-info-circle text-3xl text-gray-400"></i>
                                     <span class="text-gray-400">{{ __("No contributors found") }}</span>
                                 </div>
-                            </template>
+                            </template> -->
+
+                            <div class="flex flex-col justify-center items-center space-y-1 py-4">
+                                <i class="fa-solid fa-info-circle text-3xl text-gray-400"></i>
+                                <span class="text-gray-400 text-center">{{ __("We currently do not have access to Open Collective. If you are making payments, please cancel them.") }}</span>
+                            </div>
                         </div>
                     </div>
                     <div v-else class="flex flex-col space-y-2">

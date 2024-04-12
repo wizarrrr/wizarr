@@ -1,3 +1,10 @@
+## [3.5.1-beta.7](https://github.com/wizarrrr/wizarr/compare/v3.5.1-beta.6...v3.5.1-beta.7) (2023-11-21)
+
+
+### Bug Fixes
+
+* 🐛 refactor server_api.py and software_lifecycle.py for better exception handling ([8cf2b32](https://github.com/wizarrrr/wizarr/commit/8cf2b329a8aeb4a27b783a454a2a58e02230e294))
+
 ## [3.5.1-beta.6](https://github.com/wizarrrr/wizarr/compare/v3.5.1-beta.5...v3.5.1-beta.6) (2023-11-17)
 
 
