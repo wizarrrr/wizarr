@@ -3,47 +3,27 @@
 
 ---
 
+
 <p align="center">
 <img src="https://raw.githubusercontent.com/Wizarrrr/wizarr/master/apps/wizarr-frontend/src/assets/img/wizard.png" height="200">
 <br/>
 <br/>
-<a href="https://github.com/wizarrrr/wizarr">
-<img alt="GPL 2.0 License" src="https://img.shields.io/github/license/wizarrrr/wizarr.svg"/>
-</a>
-<a href="https://github.com/jellyfin/jellyfin/releases">
-<img alt="Current Release" src="https://img.shields.io/github/release/wizarrrr/wizarr.svg"/>
-</a>
-<a href="https://hosted.weblate.org/engage/wizarr/">
-<img src="https://hosted.weblate.org/widgets/wizarr/-/app/svg-badge.svg" />
-</a>
-<a href="https://opencollective.com/wizarr">
-<img alt="Donate" src="https://img.shields.io/opencollective/all/wizarr.svg?label=backers"/>
-</a>
-<a href="https://features.wizarr.dev">
-<img alt="Submit Feature Requests" src="https://img.shields.io/badge/vote_now-features?label=features"/>
-</a>
-<a href="https://discord.gg/XXCz7aM3ak">
-<img alt="Chat on Discord" src="https://img.shields.io/discord/1020742926856372224"/>
-</a>
-<a href="https://www.reddit.com/r/wizarr">
-<img alt="Join our Subreddit" src="https://img.shields.io/badge/reddit-r%2Fwizarr-%23FF5700.svg"/>
-</a>
-<a href="https://github.com/Wizarrrr/wizarr/issues">
-<img alt="Github Issue" src="https://img.shields.io/github/issues/wizarrrr/wizarr"/>
-</a>
-<a href="https://features.wizarr.dev">
-<img alt="Submit Feature Requests" src="https://img.shields.io/badge/fider-vote%20on%20features-success.svg"/>
-</a>
-<a href="https://github.com/Wizarrrr/wizarr/actions/workflows/release.yml">
-<img alt="Github Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrr/wizarr/release.yml"/>
-</a>
+<a href="https://github.com/wizarrrr/wizarr/blob/master/LICENSE.md"><img alt="GPL 2.0 License" src="https://img.shields.io/github/license/wizarrrr/wizarr.svg"/></a>
+<a href="https://github.com/wizarrrr/wizarr/releases"><img alt="Current Release" src="https://img.shields.io/github/release/wizarrrr/wizarr.svg"/></a>
+<a href="https://hosted.weblate.org/engage/wizarr/"><img src="https://hosted.weblate.org/widgets/wizarr/-/app/svg-badge.svg" /></a>
+<a href="https://opencollective.com/wizarr"><img alt="Donate" src="https://img.shields.io/opencollective/all/wizarr.svg?label=backers"/></a>
+<a href="https://features.wizarr.dev" style="text-decoration: none"><img alt="Submit Feature Requests" src="https://img.shields.io/badge/vote_now-features?label=features"/></a>
+<a href="https://discord.gg/XXCz7aM3ak"><img alt="Chat on Discord" src="https://img.shields.io/discord/1020742926856372224"/></a>
+<a href="https://www.reddit.com/r/wizarr"><img alt="Join our Subreddit" src="https://img.shields.io/badge/reddit-r%2Fwizarr-%23FF5700.svg"/></a>
+<a href="https://github.com/Wizarrrr/wizarr/issues"><img alt="Github Issue" src="https://img.shields.io/github/issues/wizarrrr/wizarr"/></a>
+<a href="https://github.com/Wizarrrr/wizarr/actions/workflows/release.yml"><img alt="Github Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrr/wizarr/release.yml"/></a>
 </p>
 
 ---
 
 # WIZARR NOTICE
 
-We have recently moved Wizarr V2 to its new home at `ghcr.io/wizarrrr/wizarr:v2` if your container was automatically upgraded recently and you received breaking changes, please change your image to `ghcr.io/wizarrrr/wizarr:v2` to resolve this
+Wizarr V4 is now in beta and V3 will no longer be worked on unless there is something critical. To preview this new build, be sure to use `ghcr.io/wizarrrr/wizarr:beta` for your image selection. If you want updates/announcments for this upcoming version, join the discord [here](https://discord.gg/XXCz7aM3ak), and take a peek at the `#beta-updates` channel.
 
 ---
 
@@ -51,7 +31,7 @@ Wizarr is a automatic user invitation system for Plex and Jellyfin. Create a uni
 
 ## Where is V2?
 
-Wizarr V2 has moved to the v2 branch [here](https://github.com/Wizarrrr/wizarr/tree/v2), your still more than welcome to use v2 however it will no longer be supported, we recommend using our new version, trust us it's 🔥.
+Wizarr V2 was moved to the v2 branch [here](https://github.com/Wizarrrr/wizarr/tree/v2), your still more than welcome to use v2 however it will no longer be supported, we recommend using our new version, trust us it's 🔥.
 
 ## V3 upgradable from V2?
 
