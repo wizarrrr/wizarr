@@ -71,15 +71,6 @@ const children: RouteRecordRaw[] = [
         },
     },
     {
-        path: "password",
-        name: "admin-settings-password",
-        component: () => import("../pages/Password.vue"),
-        meta: {
-            header: "Manage Password",
-            subheader: "Change your account password",
-        },
-    },
-    {
         path: "tasks",
         name: "admin-settings-tasks",
         component: () => import("../pages/Tasks.vue"),
