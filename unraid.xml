@@ -3,21 +3,26 @@
   <Name>wizarr</Name>
   <Repository>ghcr.io/wizarrrr/wizarr</Repository>
   <Registry>https://github.com/wizarrrr/wizarr/pkgs/container/wizarr</Registry>
-  <TemplateURL>https://github.com/wizarrrr/wizarr/blob/master/unraid.xml</TemplateURL>
-  <Network>bridge</Network>
-  <Privileged>false</Privileged>
+  <Network>proxy</Network>
+  <MyIP/>
   <Shell>bash</Shell>
+  <Privileged>false</Privileged>
   <Support>https://github.com/Wizarrrr/wizarr/discussions</Support>
   <Project>https://github.com/wizarrrr/wizarr</Project>
-  <Overview>The official Wizarr Container. Wizarr is a automatic user invitation system for Plex. Create a unique link and share it to a user and they will automatically be invited to your Plex Server!</Overview>
+  <Overview>Wizarr is a automatic user invitation system for Plex and Jellyfin. Create a unique link and share it to a user and they will be invited to your Media Server after they complete there signup proccess! They can even be guided to download the clients and read instructions on how to use your media software!&#xD;
+&#xD;
+NOTE: If you wish to use the beta branch, simple append :beta on the end of the Repository URL. You cannot downgrade once you have switched to the beta branch without formatting.</Overview>
   <Category>MediaServer:Other</Category>
   <WebUI>http://[IP]:[PORT:5690]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/wizarrrr/wizarr/master/unraid.xml</TemplateURL>
   <Icon>https://raw.githubusercontent.com/Wizarrrr/wizarr/master/apps/wizarr-frontend/src/assets/img/wizard.png</Icon>
-  <ExtraParams>--restart unless-stopped</ExtraParams>
-  <DonateText>If you like our work please consider Donating.</DonateText>
-  <DonateLink>https://opencollective.com/wizarr</DonateLink>
-  <Config Name="Data Folder" Target="/data/database" Default="/mnt/user/appdata/wizarr/" Mode="rw" Description="Folder for handling Wizarr related data including database files and cache." Type="Path" Display="always" Required="false" Mask="false" />
-  <Config Name="WebUI Port" Target="5690" Default="5690" Mode="tcp" Description="TCP Port where Wizarr will reside on your IP address" Type="Port" Display="always" Required="false" Mask="false" />
-  <Config Name="Database Directory" Target="DATABASE_DIR" Default="/data/database" Mode="{3}" Description="DO NOT EDIT" Type="Variable" Display="false" Required="false" Mask="false">/data/database</Config>
-  <Config Name="Latest File Path" Target="LATEST_FILE" Default="/latest" Mode="{3}" Description="DO NOT EDIT" Type="Variable" Display="false" Required="false" Mask="false">/latest</Config>
+  <ExtraParams/>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled>1713137996</DateInstalled>
+  <DonateText/>
+  <DonateLink/>
+  <Requires/>
+  <Config Name="Data Folder" Target="/data/database" Default="/mnt/user/appdata/wizarr/" Mode="rw" Description="Folder for handling Wizarr related data including database files and cache." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/wizarr/</Config>
+  <Config Name="WebUI Port" Target="5690" Default="5690" Mode="tcp" Description="Port for where you would like Wizarr to reside." Type="Port" Display="always" Required="false" Mask="false" />
 </Container>
