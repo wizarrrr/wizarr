@@ -23,7 +23,7 @@
 
 # WIZARR NOTICE
 
-Wizzar is back in development! You can test the new `4.0.0-beta.1` using use `ghcr.io/wizarrrr/wizarr:beta` as your image selection. We are working very hard to make Wizarr even better than before! :blush:
+Wizzar is back in development! You can test the new beta using `ghcr.io/wizarrrr/wizarr:beta` as your image selection. We are working very hard to make Wizarr even better than before! :blush:
 
 If you wish to stay up-to-date with our progress, make sure to join our [Discord](https://discord.gg/XXCz7aM3ak) server and check the `#beta-updates` channel.
 
@@ -31,7 +31,7 @@ If you wish to stay up-to-date with our progress, make sure to join our [Discord
 
 ## What is Wizarr?
 
-Wizarr is an automaded user invitation system for Plex/Jellyfin/Emby. You can create a unique link, share it with a user, and they will be invited to your Media Server after they complete the simple signup process!
+Wizarr is an automated user invitation system for Plex/Jellyfin/Emby. You can create a unique link, share it with a user, and they will be invited to your Media Server after they complete the simple signup process!
 
 ## Major Features Include
 
@@ -51,7 +51,7 @@ Wizarr is an automaded user invitation system for Plex/Jellyfin/Emby. You can cr
 
 ## What is the difference between V3 and V4?
 
-V3 is the current stable version of Wizarr; It is a fully functional system that allows you to invite users to your Plex/Jellyfin/Emby media server. V4 is the next iteration which will expand on features considerably. For now however, a few changes have already been added:
+V3 is the current stable version of Wizarr; It is a fully functional system that allows you to invite users to your Plex/Jellyfin/Emby media server. V4 is the next iteration which will expand on features considerably. For now, however, a few changes have already been added:
 
 - Administrator password change
 - Linking and unlinking your Discord server to/from the onboarding process
