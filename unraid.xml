@@ -3,7 +3,7 @@
   <Name>wizarr</Name>
   <Repository>ghcr.io/wizarrrr/wizarr</Repository>
   <Registry>https://github.com/wizarrrr/wizarr/pkgs/container/wizarr</Registry>
-  <Network>proxy</Network>
+  <Network>bridge</Network>
   <MyIP/>
   <Shell>bash</Shell>
   <Privileged>false</Privileged>
@@ -19,10 +19,10 @@ NOTE: If you wish to use the beta branch, simple append :beta on the end of the 
   <ExtraParams/>
   <PostArgs/>
   <CPUset/>
-  <DateInstalled>1713137996</DateInstalled>
+  <DateInstalled>1713138518</DateInstalled>
   <DonateText/>
   <DonateLink/>
   <Requires/>
   <Config Name="Data Folder" Target="/data/database" Default="/mnt/user/appdata/wizarr/" Mode="rw" Description="Folder for handling Wizarr related data including database files and cache." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/wizarr/</Config>
-  <Config Name="WebUI Port" Target="5690" Default="5690" Mode="tcp" Description="Port for where you would like Wizarr to reside." Type="Port" Display="always" Required="false" Mask="false" />
+  <Config Name="WebUI Port" Target="5690" Default="" Mode="tcp" Description="Port for where you would like Wizarr to reside." Type="Port" Display="always" Required="false" Mask="false">5690</Config>
 </Container>
