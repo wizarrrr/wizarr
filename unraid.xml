@@ -19,8 +19,8 @@ NOTE: If you wish to use the beta branch, simple append :beta on the end of the 
   <PostArgs/>
   <CPUset/>
   <DateInstalled>1713138518</DateInstalled>
-  <DonateText/>
-  <DonateLink/>
+  <DonateText>If you like our work please consider Donating.</DonateText>
+  <DonateLink>https://opencollective.com/wizarr</DonateLink>
   <Requires/>
   <Config Name="Data Folder" Target="/data/database" Default="/mnt/user/appdata/wizarr/" Mode="rw" Description="Folder for handling Wizarr related data including database files and cache." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/wizarr/</Config>
   <Config Name="WebUI Port" Target="5690" Default="" Mode="tcp" Description="Port for where you would like Wizarr to reside." Type="Port" Display="always" Required="false" Mask="false">5690</Config>
