@@ -96,10 +96,10 @@ services:
 
 ## Documentation
 
-~~Check out our documentation for instructions on how to install and run Wizarr!
-[View Documentation](https://github.com/Wizarrrr/wizarr/blob/master/docs/setup/README.md)~~
+Check out our documentation for instructions on how to install and run Wizarr!
+[View Documentation](https://github.com/Wizarrrr/wizarr/blob/master/docs/setup/README.md).
 
-If you encounter any issues please don't hesitate to visit our [Discord](https://discord.gg/XXCz7aM3ak) and ask for help, we would be happy to help.
+If you encounter any issues please don't hesitate to visit our [Discord](https://discord.gg/XXCz7aM3ak) server and ask for help, we would be happy to help.
 
 <a href="https://discord.gg/XXCz7aM3ak">
 <img alt="Chat on Discord" src="https://img.shields.io/discord/1020742926856372224"/>
