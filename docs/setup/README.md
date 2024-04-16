@@ -42,7 +42,7 @@ If your media server is hosted inside Docker on the same machine that Wizarr is 
 
 Docker will use your media servers container name as a host address, if you look in the below screenshot you will see that I ran a `docker ps` command and in the last column of the result you can see the container names. For my plex container it's named `plex`.
 
-![Screenshot 2023-08-17 at 3 39 31 pm 1](https://github.com/Wizarrrr/wizarr/assets/16636012/ad1829c2-f2dd-425b-9eb8-1319cb714603)
+![network ss](https://raw.githubusercontent.com/bleak183/wizarr/develop/docs/setup/docker_network_setup.png)
 
 So we can use this address to point to our media server, you will see in the below screenshot I have set the Server URL to `http://plex:32400`.
 1. `http://` - We want to use an unencrypted connection to Plex, this is secure because we are on a sub network inside of Docker.
@@ -55,7 +55,7 @@ So we can use this address to point to our media server, you will see in the bel
 ### Libraries Setup
 If your Media Server was successfully detected you will be prompted to `Scan Libraries`, which will allow you to select which Libraries you wish to be included by default in your invitations. If you don't select anything, your users will have access to `all libraries` upon joining your server.
 
-![libraries ss](https://github.com/Wizarrrr/wizarr/assets/16636012/31bed2bf-deb9-42d8-8058-3ebbf9a9bf28)
+![libraries ss](https://raw.githubusercontent.com/bleak183/wizarr/develop/docs/setup/libraries_setup.png)
 
 <hr>
 
