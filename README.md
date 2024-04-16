@@ -10,7 +10,6 @@
 <br/>
 <a href="https://github.com/wizarrrr/wizarr/blob/master/LICENSE.md"><img alt="GPL 2.0 License" src="https://img.shields.io/github/license/wizarrrr/wizarr.svg"/></a>
 <a href="https://github.com/wizarrrr/wizarr/releases"><img alt="Current Release" src="https://img.shields.io/github/release/wizarrrr/wizarr.svg"/></a>
-<a href="https://hosted.weblate.org/engage/wizarr/"><img src="https://hosted.weblate.org/widgets/wizarr/-/app/svg-badge.svg" /></a>
 <a href="https://features.wizarr.dev" style="text-decoration: none"><img alt="Submit Feature Requests" src="https://img.shields.io/badge/vote_now-features?label=features"/></a>
 <a href="https://discord.gg/XXCz7aM3ak"><img alt="Chat on Discord" src="https://img.shields.io/discord/1020742926856372224"/></a>
 <a href="https://www.reddit.com/r/wizarr"><img alt="Join our Subreddit" src="https://img.shields.io/badge/reddit-r%2Fwizarr-%23FF5700.svg"/></a>
