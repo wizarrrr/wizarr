@@ -163,13 +163,6 @@ export default defineComponent({
                             url: "/admin/settings/account",
                         },
                         {
-                            title: this.__("Password"),
-                            description: this.__("Change your password"),
-                            icon: "fas fa-lock",
-                            url: "/admin/settings/password",
-                            disabled: false,
-                        },
-                        {
                             title: this.__("Sessions"),
                             description: this.__("View and manage your active sessions"),
                             icon: "fas fa-desktop",
