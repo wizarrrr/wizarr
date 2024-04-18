@@ -62,7 +62,24 @@ const config = {
                 ],
             },
         ],
-        "@semantic-release/release-notes-generator",
+        [
+            "@semantic-release/release-notes-generator",
+            {
+                //presetConfig:
+                types: [
+                    { type: "feat", section: "New Features" },
+                    { type: "fix", section: "Bug Fixes" },
+                    { type: "perf", section: "Performance Updates", hidden: false },
+                    { type: "build", section: "Build System", hidden: false },
+                    { type: "ci", section: "Continuous Integration", hidden: false },
+                    { type: "chore", section: "Chores", hidden: false },
+                    { type: "docs", section: "Documentation", hidden: false },
+                    { type: "style", section: "Style Changes", hidden: false },
+                    { type: "refactor", section: "Code Refactoring", hidden: false },
+                    { type: "test", section: "Test Cases", hidden: true },
+                ],
+            },
+        ],
         [
             "@semantic-release/changelog",
             {
