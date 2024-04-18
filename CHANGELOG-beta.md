@@ -1,3 +1,5 @@
+# [4.0.0-beta.3](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.2...v4.0.0-beta.3) (2024-04-18)
+
 # [4.0.0-beta.2](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2024-04-18)
 
 
