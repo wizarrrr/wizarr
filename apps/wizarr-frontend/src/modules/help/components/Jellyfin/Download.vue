@@ -15,7 +15,7 @@
 
         <!-- Description -->
         <p class="text-sm">
-            {{ __("Planning on watching Movies on this device? Download Jellyfin for this device or click 'Next' to for other options.") }}
+            {{ __("Planning on watching Movies on this device? Download Emby for this device or click 'Other Downloads' for other options.") }}
         </p>
 
         <!-- Split Line -->
@@ -53,7 +53,7 @@
             </span>
             <span class="flex justify-end items-center">
                 <a href="https://jellyfin.org/downloads" target="_blank" class="text-sm font-medium text-primary flex flex-row">
-                    Other Download
+                    Other Downloads
                     <i class="fas fa-download ml-2 mt-[2px]"></i>
                 </a>
             </span>
