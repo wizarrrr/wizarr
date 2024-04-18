@@ -1,3 +1,29 @@
+## [4.0.0-beta.5](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.4...v4.0.0-beta.5) (2024-04-18)
+
+
+### Build System
+
+* **npm:** add conventionalcommit changelog package ([633868a](https://github.com/wizarrrr/wizarr/commit/633868acbce4f8e5e92c2a9871bbef52dd8a990b))
+* **semantic-release:** use conventioncommits preset ([582982f](https://github.com/wizarrrr/wizarr/commit/582982fe714211d095993b2d6310530b7ec1256b))
+
+
+### Documentation
+
+* **test:** changelog ([a09f31c](https://github.com/wizarrrr/wizarr/commit/a09f31ccdd97ca2738eb9ec0874c6ead420c4c6c))
+
+
+### Style Changes
+
+* add specifc image tag targeting beta/latest ([71da180](https://github.com/wizarrrr/wizarr/commit/71da180731eec9f79d5ead5b1e8def3cc17a3135))
+* fix apostrophe usage ([3be097c](https://github.com/wizarrrr/wizarr/commit/3be097c8de1f50fc9efbe448d47d665618dd2b23))
+* removed an extra space ([c96e72e](https://github.com/wizarrrr/wizarr/commit/c96e72e4bedbaaec782e9cedc839d078f470082b))
+* update discord webhook message ([d8310a7](https://github.com/wizarrrr/wizarr/commit/d8310a74b06644b59c4907d5ae1b19637cfa196c))
+
+
+### Code Refactoring
+
+* **test:** changelog ([7e2aacd](https://github.com/wizarrrr/wizarr/commit/7e2aacd315060d88c62cce7e0b479219f7979600))
+
 # [4.0.0-beta.4](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.3...v4.0.0-beta.4) (2024-04-18)
 
 
