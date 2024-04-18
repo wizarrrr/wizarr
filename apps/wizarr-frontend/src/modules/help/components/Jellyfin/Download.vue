@@ -15,7 +15,7 @@
 
         <!-- Description -->
         <p class="text-sm">
-            {{ __("Planning on watching Movies on this device? Download Emby for this device or click 'Other Downloads' for other options.") }}
+            {{ __("Planning on watching Movies on this device? Download Jellyfin for this device or click 'Other Downloads' for other options.") }}
         </p>
 
         <!-- Split Line -->
