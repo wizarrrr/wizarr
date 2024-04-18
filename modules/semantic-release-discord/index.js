@@ -38,7 +38,7 @@ const success = (pluginConfig, context) => {
         embeds: [
             {
                 title: `🚀 New ${isBeta ? "Beta" : ""} Release [${version}] 🚀`,
-                description: `We are excited to announce the release of **${version}**! This ${isBeta ? "beta" : ""} release comes with the following changes: \n\n**What has Changed in this ${isBeta ? "Beta" : ""} Release?**\n${parseNotes(notes)}\n**How to get the ${isBeta ? "Beta" : ""} Release**\nTo access the ${isBeta ? "beta" : ""} release, simply use \`${isBeta ? "`ghcr.io/wizarrrr/wizarr:beta`" : "`ghcr.io/wizarrrr/wizarr:latest`"}\` as your image tag. Your feedback is crucial to helping us make each release even better, so please do not hesitate to reach out with any comments, questions, or bug reports.\n\n${isBeta ? "Happy testing! 🧪" : "Happy updating! 🎉"}${isBeta ? "\n\n<@&1150177174167494826>" : ""}`,
+                description: `We are excited to announce the release of **${version}**! This ${isBeta ? "beta" : ""} release comes with the following changes: \n\n**What has Changed in this ${isBeta ? "Beta" : ""} Release?**\n${parseNotes(notes)}\n**How to get the ${isBeta ? "Beta" : ""} Release**\nTo access the ${isBeta ? "beta" : ""} release, simply use \`${isBeta ? "ghcr.io/wizarrrr/wizarr:beta" : "ghcr.io/wizarrrr/wizarr:latest"}\` as your image tag. Your feedback is crucial to helping us make each release even better, so please do not hesitate to reach out with any comments, questions, or bug reports.\n\n${isBeta ? "Happy testing! 🧪" : "Happy updating! 🎉"}${isBeta ? "\n\n<@&1150177174167494826>" : ""}`,
                 url: url,
                 color: 16728405,
                 author: {
