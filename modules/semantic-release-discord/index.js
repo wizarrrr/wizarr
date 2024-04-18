@@ -37,22 +37,22 @@ const success = (pluginConfig, context) => {
     const discordPayload = {
         embeds: [
             {
-                title: `🚀 New ${isBeta ? 'Beta' : ''} Release [${version}] 🚀`,
-                description: `We are excited to announce the release of **${version}** of our software! This ${isBeta ? 'beta' : ''} release comes with the following changes. 🎉\n\n**What's New in this ${isBeta ? 'Beta' : ''} Release**\n${parseNotes(notes)}\n**How to Get the ${isBeta ? 'Beta' : ''} Release**\nTo access the ${isBeta ? 'beta' : ''} release, simply pull the latest copy of our ${isBeta ? 'Beta' : ''} Docker Image. Your feedback ${isBeta ? 'on the beta' : ''} is crucial to helping us make this release even better, so please don't hesitate to reach out with any comments, questions, or bug reports.\n\n${isBeta ? 'Thank you for being a part of our beta testing community, and we look forward to your feedback to make this release a success! 🙌' : 'Thank you for being a part of our community, and we look forward to your feedback! 🙌'}\n\n${isBeta ? 'Happy testing! 🧪' : 'Happy updating! 🎉'}`,
+                title: `🚀 New ${isBeta ? "Beta" : ""} Release [${version}] 🚀`,
+                description: `We are excited to announce the release of **${version}** of our software! This ${isBeta ? "beta" : ""} release comes with the following changes. 🎉\n\n**What's New in this ${isBeta ? "Beta" : ""} Release**\n${parseNotes(notes)}\n**How to Get the ${isBeta ? "Beta" : ""} Release**\nTo access the ${isBeta ? "beta" : ""} release, simply pull the latest copy of our ${isBeta ? "Beta" : ""} Docker Image. Your feedback ${isBeta ? "on the beta" : ""} is crucial to helping us make this release even better, so please don't hesitate to reach out with any comments, questions, or bug reports.\n\n${isBeta ? "Thank you for being a part of our beta testing community, and we look forward to your feedback to make this release a success! 🙌" : "Thank you for being a part of our community, and we look forward to your feedback! 🙌"}\n\n${isBeta ? "Happy testing! 🧪" : "Happy updating! 🎉"}${isBeta ? "\n\n<@&1150177174167494826>" : ""}`,
                 url: url,
                 color: 16728405,
                 author: {
                     name: "Wizarr Github",
                     url: "https://github.com/Wizarrrr/wizarr",
-                    icon_url: "https://avatars.githubusercontent.com/u/113373916"
+                    icon_url: "https://avatars.githubusercontent.com/u/113373916",
                 },
                 footer: {
-                    text: "Wizarr Team"
+                    text: "Wizarr Team",
                 },
                 timestamp: new Date().toISOString(),
-            }
+            },
         ],
-        attachments: []
+        attachments: [],
     };
 
     try {
