@@ -1,3 +1,10 @@
+# [4.0.0-beta.4](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.3...v4.0.0-beta.4) (2024-04-18)
+
+
+### Performance Improvements
+
+* **test:** changelog ([7eacd08](https://github.com/wizarrrr/wizarr/commit/7eacd0820d5c7044378f7247b8b8228911738786))
+
 # [4.0.0-beta.3](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.2...v4.0.0-beta.3) (2024-04-18)
 
 # [4.0.0-beta.2](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2024-04-18)
