@@ -1,11 +1,13 @@
 from plexapi.myplex import MyPlexUser, NotFound, BadRequest
 from requests.exceptions import RequestException
 from app.models.jellyfin.user import JellyfinUser
+from app.models.emby.user import EmbyUser
 from app.extensions import socketio
 from datetime import datetime
 
 from .plex import get_plex_users, get_plex_user, sync_plex_users, delete_plex_user, get_plex_profile_picture, invite_plex_user, accept_plex_invitation
 from .jellyfin import get_jellyfin_users, get_jellyfin_user, sync_jellyfin_users, delete_jellyfin_user, get_jellyfin_profile_picture, invite_jellyfin_user
+from .emby import get_emby_users, get_emby_user, sync_emby_users, delete_emby_user, get_emby_profile_picture, invite_emby_user
 
 from .jellyseerr import jellyseerr_import_user, jellyseerr_delete_user
 from .overseerr import overseerr_import_user, overseerr_delete_user
@@ -93,7 +95,7 @@ def global_invite_user_to_request_server(user_token: str) -> dict[str]:
 
 
 # ANCHOR - Global Get Users
-def global_get_users_from_media_server() -> dict[MyPlexUser or JellyfinUser]:
+def global_get_users_from_media_server() -> dict[MyPlexUser or JellyfinUser or EmbyUser]:
     """Get all users from the media server
 
     :return: A list of users
@@ -108,6 +110,8 @@ def global_get_users_from_media_server() -> dict[MyPlexUser or JellyfinUser]:
         users = get_plex_users()
     elif server_type == "jellyfin":
         users = get_jellyfin_users()
+    elif server_type == "emby":
+        users = get_emby_users()
 
     # Raise an error if the users are None
     if users is None:
@@ -118,7 +122,7 @@ def global_get_users_from_media_server() -> dict[MyPlexUser or JellyfinUser]:
 
 
 # ANCHOR - Global Get User
-def global_get_user_from_media_server(user_id: str) -> MyPlexUser or JellyfinUser:
+def global_get_user_from_media_server(user_id: str) -> MyPlexUser or JellyfinUser or EmbyUser:
     """Get a user from the media server
     :param user_id: The id of the user
     :type user_id: str
@@ -135,6 +139,8 @@ def global_get_user_from_media_server(user_id: str) -> MyPlexUser or JellyfinUse
         user = get_plex_user(user_id)
     elif server_type == "jellyfin":
         user = get_jellyfin_user(user_id)
+    elif server_type == "emby":
+        user = get_emby_user(user_id)
 
     # Raise an error if the user is None
     if user is None:
@@ -163,6 +169,8 @@ def global_delete_user_from_media_server(user_id: str) -> dict[str]:
     if server_type == "plex":
         delete_plex_user(user.token)
     elif server_type == "jellyfin":
+        delete_jellyfin_user(user.token)
+    elif server_type == "emby":
         delete_jellyfin_user(user.token)
 
     try:
@@ -216,6 +224,9 @@ def global_sync_users_to_media_server() -> dict[str]:
     if server_type == "jellyfin":
         sync_jellyfin_users()
 
+    if server_type == "emby":
+        sync_emby_users()
+
     # Return response
     return { "message": "Users synced" }
 
@@ -239,6 +250,9 @@ def global_get_user_profile_picture(user_id: str) -> str:
 
     if server_type == "jellyfin":
         return get_jellyfin_profile_picture(user_id)
+
+    if server_type == "emby":
+        return get_emby_profile_picture(user_id)
 
     # Raise an error if the user"s profile picture is None
     raise ValueError("Unable to get user's profile picture")
@@ -288,7 +302,8 @@ def global_invite_user_to_media_server(**kwargs) -> dict[str]:
     # Map user creation to there respective functions
     universal_invite_user = {
         "plex": lambda token, code, **kwargs: invite_plex_user(token=token, code=code),
-        "jellyfin": lambda username, password, code, **kwargs: invite_jellyfin_user(username=username, password=password, code=code)
+        "jellyfin": lambda username, password, code, **kwargs: invite_jellyfin_user(username=username, password=password, code=code),
+        "emby": lambda username, password, code, **kwargs: invite_emby_user(username=username, password=password, code=code)
     }
 
     # Create a socketio emit function that will emit to the socket_id if it is not None

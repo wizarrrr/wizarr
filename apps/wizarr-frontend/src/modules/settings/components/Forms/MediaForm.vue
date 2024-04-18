@@ -83,7 +83,8 @@ export default defineComponent({
                 server_api_key: "",
             },
             serverOptions: [
-                { label: "Jellyfin (or Emby)", value: "jellyfin" },
+                { label: "Jellyfin", value: "jellyfin" },
+                { label: "Emby", value: "emby" },
                 { label: "Plex Media Server", value: "plex" },
             ],
         };
