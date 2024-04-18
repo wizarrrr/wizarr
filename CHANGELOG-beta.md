@@ -1,3 +1,10 @@
+# [4.0.0-beta.2](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2024-04-18)
+
+
+### Bug Fixes
+
+* 🐝 update toast can now be dismissed ([f2585ca](https://github.com/wizarrrr/wizarr/commit/f2585ca30c5e200e7cffb03abe7bf853db2f56a9))
+
 # [4.0.0-beta.1](https://github.com/wizarrrr/wizarr/compare/v3.5.1...v4.0.0-beta.1) (2024-04-11)
 
 
