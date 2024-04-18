@@ -1,3 +1,14 @@
+## [4.0.0-beta.6](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.5...v4.0.0-beta.6) (2024-04-18)
+
+
+### Style Changes
+
+* 💎 simplify image tag condition ([8930479](https://github.com/wizarrrr/wizarr/commit/893047977c744d6d3b0d1f7a2103df3e31051c02))
+* another correction for the backticks ([428fec7](https://github.com/wizarrrr/wizarr/commit/428fec715190991e321469dd4d2c4be15ee8f622))
+* backticks corrected ([eb4259a](https://github.com/wizarrrr/wizarr/commit/eb4259a235d7a319dd340c86223385c53cf81ca4))
+* fix backticks reaking payload formatting ([0ebf1c7](https://github.com/wizarrrr/wizarr/commit/0ebf1c7bacf81fef88fba9d9fc63de2d12c7a99f))
+* simplify image tag statement check ([96a18ae](https://github.com/wizarrrr/wizarr/commit/96a18ae5754f725380cfee27a4cc85ba119b3369))
+
 ## [4.0.0-beta.5](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.4...v4.0.0-beta.5) (2024-04-18)
 
 
