@@ -32,6 +32,10 @@
                         <!-- SELECT SPECIFIC LIBRARIES -->
                         <!-- @vue-ignore -->
                         <FormKit type="dropdown" label="Select Libraries" placeholder="Select Libraries" name="libraries" :options="librariesOptions" multiple selection-appearance="tags" wrapper-class="mb-2" />
+
+                        <!-- Maximum Simulatneous User Sessions -->
+                        <FormKit type="dropdown" label="Number of Maximum User Sessions" name="session_limit" :options="sessionOptions" wrapper-class="mb-2"/>
+                        <!-- <FormKit type="number" label="Number of Maximum User Sessions" placeholder="Session Limit" name="session_limit" :options="sessionOptions" multiple selection-appearance="tags" wrapper-class="mb-2" />-->
                     </Collapse>
                 </FormKit>
             </div>
@@ -106,6 +110,7 @@ export default defineComponent({
                 duration: "unlimited" as number | "unlimited" | "custom",
                 customDuration: "" as string,
                 libraries: [] as string[],
+                user_session_limit: 0 as number | null
             },
             disabled: false,
             expirationOptions: [
@@ -168,17 +173,45 @@ export default defineComponent({
                     value: "custom",
                 },
             ],
+            sessionOptions: [
+                {
+                    label: "No Limit",
+                    value: "0",
+                },
+                {
+                    label: "1 Session",
+                    value: "1",
+                },
+                {
+                    label: "2 Sessions",
+                    value: "2",
+                },
+                {
+                    label: "3 Sessions",
+                    value: "3",
+                },
+            ],
             options: {
                 jellyfin: {
                     unlimited: {
                         label: "Unlimited Invitation Usages",
                         value: "unlimited",
                     },
+                    sessions: {
+                        label: "Maximum Simultaneous User Sessions",
+                        //type: "select",
+                        value: "0",
+                    },
                 },
                 emby: {
                     unlimited: {
                         label: "Unlimited Invitation Usages",
                         value: "unlimited",
+                    },
+                    sessions: {
+                        label: "Maximum Simultaneous User Sessions",
+                        //type: "select",
+                        value: "0",
                     },
                 },
                 plex: {
@@ -214,6 +247,7 @@ export default defineComponent({
             const plex_allow_sync = invitationData.options.includes("plex_allow_sync");
             const duration = invitationData.duration == "custom" ? this.$filter("toMinutes", invitationData.customDuration) : invitationData.duration == "unlimited" ? null : invitationData.duration;
             const libraries = invitationData.libraries;
+            const user_session_limit = invitationData.user_session_limit;
 
             const new_invitation = {
                 code: code,
