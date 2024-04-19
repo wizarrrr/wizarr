@@ -262,10 +262,12 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
     # Create policy object
     new_policy = {"EnableAllFolders": True}
 
+    # Set library options
     if sections:
         new_policy["EnableAllFolders"] = False
         new_policy["EnabledFolders"] = sections
 
+    # Set session limit options
     if invitation.sessions is not None and int(invitation.sessions) > 0:
         new_policy["MaxActiveSessions"] = int(invitation.sessions)
     else:
