@@ -23,7 +23,7 @@
 
 Wizzar is back in development! You can test the new beta using `ghcr.io/wizarrrr/wizarr:beta` as your image selection. We are working very hard to make Wizarr even better than before! :blush:
 
-If you wish to stay up-to-date with our progress, make sure to join our [Discord](https://discord.gg/XXCz7aM3ak) server and check the `#beta-updates` channel.
+If you wish to stay up-to-date with our progress, make sure to join our [Discord](https://discord.gg/XXCz7aM3ak) server and check the `#releases` channel.
 
 ---
 

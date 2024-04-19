@@ -144,6 +144,9 @@ export default defineComponent({
                 case "jellyfin":
                     window.open(`${server_url}/web/index.html#!/useredit.html?userId=${this.user.token}`, "_blank");
                     break;
+                case "emby":
+                    window.open(`${server_url}/web/index.html#!/users/user?userId=${this.user.token}`, "_blank");
+                    break;
                 case "plex":
                     window.open(`${server_url}/web/index.html#!/settings/manage-library-access/sharing/${this.user.token}`, "_blank");
                     break;

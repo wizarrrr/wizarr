@@ -7,7 +7,7 @@
 
         <!-- Subtitle -->
         <p class="font-semibold">
-            {{ __("Great news! You now have access to our server's media collection. Let's make sure you know how to use it with Jellyfin.") }}
+            {{ __("Great news! You now have access to our server's media collection. Let's make sure you know how to use it with Emby.") }}
         </p>
 
         <!-- Split Line -->
@@ -15,7 +15,7 @@
 
         <!-- Description -->
         <p class="text-sm">
-            {{ __("Planning on watching Movies on this device? Download Jellyfin for this device or click 'Other Downloads' for other options.") }}
+            {{ __("Planning on watching Movies on this device? Download Emby for this device or click 'Other Downloads' for other options.") }}
         </p>
 
         <!-- Split Line -->
@@ -36,23 +36,23 @@
         <div class="flex flex-row justify-between pt-4">
             <span class="flex justify-end items-end">
                 <template v-if="isIOS">
-                    <DownloadAppStore to="itms-apps://apps.apple.com/ca/app/swiftfin/id1604098728" />
+                    <DownloadAppStore to="itms-apps://apps.apple.com/us/app/emby/id919112898" />
                 </template>
                 <template v-else-if="isAndroid">
-                    <DownloadAndroid to="market://details?id=dev.jdtech.jellyfin" />
+                    <DownloadAndroid to="market://details?id=com.mb.android" />
                 </template>
                 <template v-else-if="isLinux">
-                    <DownloadLinux to="https://flathub.org/apps/com.github.iwalton3.jellyfin-media-player" />
+                    <DownloadLinux to="https://emby.media/emby-theater-linux.html" />
                 </template>
                 <template v-else-if="isMac || isWindows">
                     <FormKit type="button" :classes="{ input: 'px-3 !py-2' }" @click="openURL">
-                        {{ __("Open Jellyfin") }}
+                        {{ __("Open Emby") }}
                         <i class="fas fa-external-link-alt ml-2"></i>
                     </FormKit>
                 </template>
             </span>
             <span class="flex justify-end items-center">
-                <a href="https://jellyfin.org/downloads" target="_blank" class="text-sm font-medium text-primary flex flex-row">
+                <a href="https://emby.media/download.html" target="_blank" class="text-sm font-medium text-primary flex flex-row">
                     Other Downloads
                     <i class="fas fa-download ml-2 mt-[2px]"></i>
                 </a>

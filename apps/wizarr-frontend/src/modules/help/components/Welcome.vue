@@ -9,6 +9,11 @@
         v-else-if="settings.server_type == 'jellyfin'"
         @height="$emit('height')"
     />
+    <EmbyWelcome
+        v-bind="$props"
+        v-else-if="settings.server_type == 'emby'"
+        @height="$emit('height')"
+    />
 </template>
 
 <script lang="ts">
@@ -22,6 +27,9 @@ export default defineComponent({
         PlexWelcome: defineAsyncComponent(() => import('./Plex/Welcome.vue')),
         JellyfinWelcome: defineAsyncComponent(
             () => import('./Jellyfin/Welcome.vue'),
+        ),
+        EmbyWelcome: defineAsyncComponent(
+            () => import('./Emby/Welcome.vue'),
         ),
     },
     computed: {

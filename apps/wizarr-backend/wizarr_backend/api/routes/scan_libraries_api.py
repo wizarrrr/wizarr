@@ -21,7 +21,7 @@ class ScanLibrariesListAPI(Resource):
     @api.response(500, "Internal server error")
     def get(self):
         # Import from helpers
-        from helpers import scan_jellyfin_libraries, scan_plex_libraries
+        from helpers import scan_jellyfin_libraries, scan_plex_libraries, scan_emby_libraries
         from app.models.database import Settings
 
         # Get the server settings
@@ -48,6 +48,17 @@ class ScanLibrariesListAPI(Resource):
 
             # Format the libraries as [name]: [id]
             libraries = {library["Name"]: library["Id"] for library in libraries}
+
+            # Return the libraries
+            return {"libraries": libraries}, 200
+
+        # Check if the server type is Emby
+        if server_type == "emby":
+            # Get the libraries
+            libraries = scan_emby_libraries(server_api_key, server_url)
+
+            # Format the libraries as [name]: [id]
+            libraries = {library["Name"]: library["Guid"] for library in libraries}
 
             # Return the libraries
             return {"libraries": libraries}, 200
