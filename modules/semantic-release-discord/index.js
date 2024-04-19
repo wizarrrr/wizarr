@@ -35,10 +35,11 @@ const success = (pluginConfig, context) => {
     const isBeta = version.includes("beta");
 
     const discordPayload = {
+        content: `${isBeta ? "<@&1141148163558887495>" : "<@&1150177174167494826>"}`,
         embeds: [
             {
                 title: `🚀 New ${isBeta ? "Beta" : ""} Release [${version}] 🚀`,
-                description: `We are excited to announce the release of **${version}**! This ${isBeta ? "beta" : ""} release comes with the following changes: \n\n**What\'s changed in this ${isBeta ? "beta" : ""} release?**\n${parseNotes(notes)}\n**How can you get the ${isBeta ? "beta" : ""} release?**\nTo access the ${isBeta ? "beta" : ""} release, simply use \`ghcr.io/wizarrrr/wizarr:${isBeta ? "beta" : "latest"}\` as your image tag and re-create your container, pulling the updated image. Your feedback is crucial to helping us make each release even better, so please don\'t hesitate to reach out with any comments, questions, or bug reports.\n\n${isBeta ? "Happy testing! 🧪" : "Happy updating! 🎉"}\n\n${isBeta ? "<@&1141148163558887495>" : "<@&1150177174167494826>"}`,
+                description: `We are excited to announce the release of **${version}**! This ${isBeta ? "beta" : ""} release comes with the following changes: \n\n**What\'s changed in this ${isBeta ? "beta" : ""} release?**\n${parseNotes(notes)}\n**How can you get the ${isBeta ? "beta" : ""} release?**\nTo access the ${isBeta ? "beta" : ""} release, simply use \`ghcr.io/wizarrrr/wizarr:${isBeta ? "beta" : "latest"}\` as your image tag and re-create your container, pulling the updated image. Your feedback is crucial to helping us make each release even better, so please don\'t hesitate to reach out with any comments, questions, or bug reports.\n\n${isBeta ? "Happy testing! 🧪" : "Happy updating! 🎉"}`,
                 url: url,
                 color: 16728405,
                 author: {
