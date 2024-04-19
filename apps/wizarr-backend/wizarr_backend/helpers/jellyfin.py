@@ -260,7 +260,7 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
     user_response = post_jellyfin(api_path="/Users/New", json=new_user, server_api_key=server_api_key, server_url=server_url)
 
     # Create policy object
-    new_policy = { "EnableAllFolders": True, "MaxActiveSessions": 2 }
+    new_policy = {"EnableAllFolders": True}
 
     if sections:
         new_policy["EnableAllFolders"] = False
@@ -374,7 +374,6 @@ def sync_jellyfin_users(server_api_key: Optional[str] = None, server_url: Option
         if str(database_user.token) not in [str(jellyfin_user["Id"]) for jellyfin_user in jellyfin_users]:
             database_user.delete_instance()
             info(f"User {database_user.username} successfully deleted from database.")
-
 
 
 # ANCHOR - Jellyfin Get Profile Picture
