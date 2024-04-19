@@ -188,10 +188,6 @@ export default defineComponent({
                         label: "Unlimited Invitation Usages",
                         value: "unlimited",
                     },
-                    sessions: {
-                        label: "Maximum Simultaneous User Sessions",
-                        value: "0",
-                    },
                 },
                 plex: {
                     unlimited: {
