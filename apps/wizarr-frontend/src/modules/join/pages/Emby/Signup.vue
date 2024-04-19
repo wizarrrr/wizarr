@@ -1,5 +1,5 @@
 <template>
-    <div ref="jellyForm">
+    <div ref="embyForm">
         <FormKit type="form" id="embyForm" v-model="form" @submit="submit()" submit-label="Create Account" :submit-attrs="{ wrapperClass: 'flex justify-end' }">
             <FormKit type="text" label="Username" name="username" placeholder="marvin" validation="required:trim|alphanumeric" required autocomplete="off" />
             <FormKit type="email" label="Email" name="email" placeholder="marvin@wizarr.dev" validation="required:trim|email" required autocomplete="email" />
@@ -48,7 +48,7 @@ export default defineComponent({
     },
     mounted() {
         setTimeout(() => {
-            this.observer = useResizeObserver(this.$refs.jellyForm as HTMLElement, () => {
+            this.observer = useResizeObserver(this.$refs.embyForm as HTMLElement, () => {
                 this.$emit("height");
             });
         }, 500);
