@@ -171,7 +171,7 @@ def global_delete_user_from_media_server(user_id: str) -> dict[str]:
     elif server_type == "jellyfin":
         delete_jellyfin_user(user.token)
     elif server_type == "emby":
-        delete_jellyfin_user(user.token)
+        delete_emby_user(user.token)
 
     try:
         # Get the invite from the database where the code is equal to the code provided
