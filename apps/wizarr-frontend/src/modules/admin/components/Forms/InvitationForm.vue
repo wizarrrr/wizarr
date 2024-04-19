@@ -36,11 +36,8 @@
                         <!-- Maximum User Sessions (Emby/Jellyfin) -->
                         <FormKit type="select" label="Maximum User Sessions" name="session_limit" :options="sessionOptions" wrapper-class="mb-2" />
 
-                        
-                        <!-- <FormKit type="number" label="Number of Maximum User Sessions" placeholder="Session Limit" name="session_limit" :options="sessionOptions" multiple selection-appearance="tags" wrapper-class="mb-2" />-->
-
                         <!-- Custom Max User Sessions (Emby/Jellyfin) -->
-                        <FormKit type="number" v-if="invitationData.user_session_limit == 'custom'" label="Custom Session Limit" name="customSessionLimit" />
+                        <FormKit type="number" v-if="invitationData.session_limit == 'custom'" label="Custom Session Limit" name="customSessionLimit" max="50" />
                     </Collapse>
                 </FormKit>
             </div>
@@ -115,7 +112,8 @@ export default defineComponent({
                 duration: "unlimited" as number | "unlimited" | "custom",
                 customDuration: "" as string,
                 libraries: [] as string[],
-                user_session_limit: "unlimited" as number | "unlimited" | "custom"
+                session_limit: "unlimited" as number | "unlimited" | "custom",
+                customSessionLimit: "" as string,
             },
             disabled: false,
             expirationOptions: [
@@ -259,7 +257,7 @@ export default defineComponent({
             const plex_allow_sync = invitationData.options.includes("plex_allow_sync");
             const duration = invitationData.duration == "custom" ? this.$filter("toMinutes", invitationData.customDuration) : invitationData.duration == "unlimited" ? null : invitationData.duration;
             const libraries = invitationData.libraries;
-            const user_session_limit = invitationData.user_session_limit;
+            const session_limit = invitationData.session_limit == "custom" ? invitationData.customSessionLimit : invitationData.session_limit;
 
             const new_invitation = {
                 code: code,
@@ -269,7 +267,7 @@ export default defineComponent({
                 plex_allow_sync: plex_allow_sync,
                 duration: duration,
                 specific_libraries: JSON.stringify(libraries),
-                user_session_limit: user_session_limit || null
+                session_limit: session_limit || null
             };
 
             const formData = new FormData();
