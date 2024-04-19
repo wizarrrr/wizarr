@@ -1,3 +1,35 @@
+## [4.0.0-beta.7](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.6...v4.0.0-beta.7) (2024-04-19)
+
+
+### New Features
+
+* 🎉 :sparkles: Added Emby Support ([c882992](https://github.com/wizarrrr/wizarr/commit/c882992bda7799b97f98c6c4f6fd0e4d7d4e7db7))
+
+
+### Bug Fixes
+
+* 🐛 :memo: Fix the form being the wrong namr ([602d5d1](https://github.com/wizarrrr/wizarr/commit/602d5d1b2d41152316efd3d13e0c92f2310959f1))
+* 🩹 :art: Resolved scaling of theme selector on help wizard ([ccf75fc](https://github.com/wizarrrr/wizarr/commit/ccf75fc91069a7ffc05d078a75fd3cfcb40c3940))
+* 🩹 change delete user call to emby function ([139cf86](https://github.com/wizarrrr/wizarr/commit/139cf86053198efa1c9f800cb414998a416a2852))
+
+
+### Chores
+
+* 🧽 remove changelog test file ([3191b0a](https://github.com/wizarrrr/wizarr/commit/3191b0a0c59bd4ba89c4684d5e9bf1641c970ebf))
+
+
+### Documentation
+
+* 📖 :memo: Corrected grammatical issues with Download page on Jellyfin ([0ba2a78](https://github.com/wizarrrr/wizarr/commit/0ba2a78aa93c9f0616f81fb620a1a7ef581f66b8))
+* 📚 :memo: Fixed Emby showing in the Jellyfin download page ([4302699](https://github.com/wizarrrr/wizarr/commit/43026990eb3a1254ad08104c75a96d291382c2a6))
+* **readme:** 📚 update discord release channel ([7d8afc9](https://github.com/wizarrrr/wizarr/commit/7d8afc9cb6d0d21baaeaa7db5da3cc85b655d286))
+
+
+### Style Changes
+
+* 💎 minor corrections to discord alert payload ([c03c2cf](https://github.com/wizarrrr/wizarr/commit/c03c2cf2750e1e6c7e70bca46d56ac1fbe9094f2))
+* **discord-webhook:** 🎨 role mentions for new channel structure ([2c30e4c](https://github.com/wizarrrr/wizarr/commit/2c30e4c8fa0c32df439f5ca21140381e566aa8ef))
+
 ## [4.0.0-beta.6](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.5...v4.0.0-beta.6) (2024-04-18)
 
 
