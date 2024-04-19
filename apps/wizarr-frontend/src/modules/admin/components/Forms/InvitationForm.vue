@@ -33,9 +33,14 @@
                         <!-- @vue-ignore -->
                         <FormKit type="dropdown" label="Select Libraries" placeholder="Select Libraries" name="libraries" :options="librariesOptions" multiple selection-appearance="tags" wrapper-class="mb-2" />
 
-                        <!-- Maximum Simulatneous User Sessions -->
-                        <FormKit type="dropdown" label="Number of Maximum User Sessions" name="session_limit" :options="sessionOptions" wrapper-class="mb-2"/>
+                        <!-- Maximum User Sessions (Emby/Jellyfin) -->
+                        <FormKit type="select" label="Maximum User Sessions" name="session_limit" :options="sessionOptions" wrapper-class="mb-2" />
+
+                        
                         <!-- <FormKit type="number" label="Number of Maximum User Sessions" placeholder="Session Limit" name="session_limit" :options="sessionOptions" multiple selection-appearance="tags" wrapper-class="mb-2" />-->
+
+                        <!-- Custom Max User Sessions (Emby/Jellyfin) -->
+                        <FormKit type="number" v-if="invitationData.user_session_limit == 'custom'" label="Custom Session Limit" name="customSessionLimit" />
                     </Collapse>
                 </FormKit>
             </div>
@@ -110,7 +115,7 @@ export default defineComponent({
                 duration: "unlimited" as number | "unlimited" | "custom",
                 customDuration: "" as string,
                 libraries: [] as string[],
-                user_session_limit: 0 as number | null
+                user_session_limit: "unlimited" as number | "unlimited" | "custom"
             },
             disabled: false,
             expirationOptions: [
@@ -190,17 +195,24 @@ export default defineComponent({
                     label: "3 Sessions",
                     value: "3",
                 },
+                {
+                    label: "4 Sessions",
+                    value: "4",
+                },
+                {
+                    label: "5 Sessions",
+                    value: "5",
+                },
+                {
+                    label: "Custom Session Limit",
+                    value: "custom",
+                },
             ],
             options: {
                 jellyfin: {
                     unlimited: {
                         label: "Unlimited Invitation Usages",
                         value: "unlimited",
-                    },
-                    sessions: {
-                        label: "Maximum Simultaneous User Sessions",
-                        //type: "select",
-                        value: "0",
                     },
                 },
                 emby: {
@@ -257,6 +269,7 @@ export default defineComponent({
                 plex_allow_sync: plex_allow_sync,
                 duration: duration,
                 specific_libraries: JSON.stringify(libraries),
+                user_session_limit: user_session_limit || null
             };
 
             const formData = new FormData();
