@@ -175,6 +175,12 @@ export default defineComponent({
                         value: "unlimited",
                     },
                 },
+                emby: {
+                    unlimited: {
+                        label: "Unlimited Invitation Usages",
+                        value: "unlimited",
+                    },
+                },
                 plex: {
                     unlimited: {
                         label: "Unlimited Invitation Usages",

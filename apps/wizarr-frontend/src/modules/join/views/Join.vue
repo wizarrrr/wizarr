@@ -243,6 +243,40 @@ export default defineComponent({
             this.currentView =
                 this.views.findIndex((view) => view.name == 'stepper') + 1;
         },
+        async embyCreateAccount(
+            value: EventRecords['embyCreateAccount'],
+        ) {
+            // Create the form data
+            const formData = new FormData();
+            formData.append('username', value.username);
+            formData.append('email', value.email);
+            formData.append('password', value.password);
+            formData.append('code', this.$route.params.invite as string);
+            formData.append('socket_id', this.socket?.id as string);
+
+            // Make API request to create the account
+            const response = await this.$axios
+                .post('/api/emby', formData)
+                .catch((err) => {
+                    this.showError(
+                        this.__('Uh oh!'),
+                        err.response?.data?.message ??
+                            this.__('Could not create the account.'),
+                    );
+                });
+
+            // Check that response contains a room
+            if (response?.data?.room == undefined) {
+                this.showError(
+                    this.__('Uh oh!'),
+                    this.__('Could not create the account.'),
+                );
+            }
+
+            // Show the next screen
+            this.currentView =
+                this.views.findIndex((view) => view.name == 'stepper') + 1;
+        },
     },
     async mounted() {
         // Initialize the socket connection
@@ -274,6 +308,7 @@ export default defineComponent({
         // Initialize the event bus
         this.eventBus.on('plexCreateAccount', this.plexCreateAccount);
         this.eventBus.on('jellyfinCreateAccount', this.jellyfinCreateAccount);
+        this.eventBus.on('embyCreateAccount', this.embyCreateAccount);
 
         this.eventBus.on(
             'pleaseWait',

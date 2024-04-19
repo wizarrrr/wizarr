@@ -86,7 +86,8 @@ def detect_server(server_url: str):
     # Map endpoints to server types
     endpoints = {
         "plex": "/identity",
-        "jellyfin": "/System/Info/Public"
+        "jellyfin": "/System/Info/Public",
+        "emby": "/System/Info/Public"
     }
 
     # Loop through the endpoints to find the server type
@@ -98,8 +99,13 @@ def detect_server(server_url: str):
             error(e)
             continue
 
-        # Check if the response is valid
         if response.status_code == 200:
+            # This is to handle Emby and Jellyfin servers having the same endpoint
+            if server_type == "jellyfin":
+                # ProductName is only available in Jellyfin
+                if "ProductName" not in response.json():
+                    continue
+
             return {
                 "server_type": server_type,
                 "server_url": server_url
@@ -129,7 +135,8 @@ def verify_server(server_url: str, server_api_key: str):
     # Map endpoints for verifying the server
     endpoints = {
         "plex": f"/connections?X-Plex-Token={server_api_key}",
-        "jellyfin": f"/System/Info?api_key={server_api_key}"
+        "jellyfin": f"/System/Info?api_key={server_api_key}",
+        "emby": f"/System/Info?api_key={server_api_key}"
     }
 
     # Build the url for the server

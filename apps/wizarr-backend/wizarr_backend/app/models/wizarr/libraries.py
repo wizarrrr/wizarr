@@ -31,7 +31,7 @@ class LibraryModel(Model):
 class ScanLibrariesModel(Model):
     """Scan Libraries Model"""
 
-    server_type = StringType(required=False, choices=["plex", "jellyfin"])
+    server_type = StringType(required=False, choices=["plex", "jellyfin", "emby"])
     server_url = URLType(fqdn=False, required=False)
     server_api_key = StringType(required=False)
 
@@ -75,6 +75,13 @@ class LibrariesModel(Model):
         return [{"id": library["Id"], "name": library["Name"]} for library in jellyfin_libraries]
 
 
+    # ANCHOR - Get Emby Libraries
+    def get_emby_libraries(self, server_url: str, server_api_key: str):
+        from helpers.emby import scan_emby_libraries
+        emby_libraries = scan_emby_libraries(server_api_key, server_url)
+        return [{"id": library["Guid"], "name": library["Name"]} for library in emby_libraries]
+
+
     # ANCHOR - Compare Libraries
     def compare_libraries(self, server_libraries: list[dict]):
         # pylint: disable=unsupported-membership-test
@@ -107,7 +114,8 @@ class LibrariesModel(Model):
         # Functions to get libraries from the server
         server_libraries_func = {
             "plex": self.get_plex_libraries,
-            "jellyfin": self.get_jellyfin_libraries
+            "jellyfin": self.get_jellyfin_libraries,
+            "emby": self.get_emby_libraries
         }
 
         # Get the libraries from the server
