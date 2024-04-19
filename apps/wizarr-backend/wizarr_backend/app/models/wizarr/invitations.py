@@ -37,6 +37,7 @@ class InvitationsModel(Model):
     duration = IntType(required=False, default=None)
     specific_libraries = SpecificLibrariesType(required=False, default=[])
     plex_allow_sync = BooleanType(required=False, default=False)
+    sessions = IntType(required=False, default=None)
     plex_home = BooleanType(required=False, default=False)
     used_at = DateTimeType(required=False, default=None, convert_tz=True)
     created = DateTimeType(required=False, default=datetime.utcnow(), convert_tz=True)

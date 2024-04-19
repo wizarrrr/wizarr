@@ -266,6 +266,11 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
         new_policy["EnableAllFolders"] = False
         new_policy["EnabledFolders"] = sections
 
+    if invitation.sessions is not None and int(invitation.sessions) > 0:
+        new_policy["MaxActiveSessions"] = int(invitation.sessions)
+    else:
+        new_policy["MaxActiveSessions"] = 0
+
     old_policy = user_response["Policy"]
 
     # Merge policy with user policy don't overwrite

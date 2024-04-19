@@ -21,7 +21,12 @@
 
                     <Collapse :when="advancedOptions" class="space-y-4">
                         <!-- Select Options -->
-                        <FormKit type="checkbox" name="options" :options="checkboxOptions" />
+                        <FormKit type="checkbox" name="checkboxes" :options="checkboxOptions" />
+
+                        <!-- Loop through selects and make a FormKit select for each -->
+                        <template v-for="(select, index) in selectsOptions" :key="index">
+                            <FormKit type="select" :label="select.label" :name="Object.keys(select.values)[0]" :options="Object.keys(select.values).map((key) => ({ label: select.values[key], value: key }))" />
+                        </template>
 
                         <!-- Select Duration -->
                         <FormKit type="select" label="User Account Duration" name="duration" :options="durationOptions" />
@@ -32,12 +37,6 @@
                         <!-- SELECT SPECIFIC LIBRARIES -->
                         <!-- @vue-ignore -->
                         <FormKit type="dropdown" label="Select Libraries" placeholder="Select Libraries" name="libraries" :options="librariesOptions" multiple selection-appearance="tags" wrapper-class="mb-2" />
-
-                        <!-- Maximum User Sessions (Emby/Jellyfin) -->
-                        <FormKit type="select" label="Maximum User Sessions" name="session_limit" :options="sessionOptions" wrapper-class="mb-2" />
-
-                        <!-- Custom Max User Sessions (Emby/Jellyfin) -->
-                        <FormKit type="number" v-if="invitationData.session_limit == 'custom'" label="Custom Session Limit" name="customSessionLimit" max="50" />
                     </Collapse>
                 </FormKit>
             </div>
@@ -108,7 +107,8 @@ export default defineComponent({
                 inviteCode: "",
                 expiration: 1440 as number | null | "custom",
                 customExpiration: "" as string,
-                options: [] as string[],
+                checkboxes: [] as string[],
+                selects: [] as string[],
                 duration: "unlimited" as number | "unlimited" | "custom",
                 customDuration: "" as string,
                 libraries: [] as string[],
@@ -176,37 +176,7 @@ export default defineComponent({
                     value: "custom",
                 },
             ],
-            sessionOptions: [
-                {
-                    label: "No Limit",
-                    value: "0",
-                },
-                {
-                    label: "1 Session",
-                    value: "1",
-                },
-                {
-                    label: "2 Sessions",
-                    value: "2",
-                },
-                {
-                    label: "3 Sessions",
-                    value: "3",
-                },
-                {
-                    label: "4 Sessions",
-                    value: "4",
-                },
-                {
-                    label: "5 Sessions",
-                    value: "5",
-                },
-                {
-                    label: "Custom Session Limit",
-                    value: "custom",
-                },
-            ],
-            options: {
+            checkboxes: {
                 jellyfin: {
                     unlimited: {
                         label: "Unlimited Invitation Usages",
@@ -220,7 +190,6 @@ export default defineComponent({
                     },
                     sessions: {
                         label: "Maximum Simultaneous User Sessions",
-                        //type: "select",
                         value: "0",
                     },
                 },
@@ -239,6 +208,21 @@ export default defineComponent({
                     },
                 },
             } as Record<string, Record<string, { label: string; value: string }>>,
+            selects: {
+                jellyfin: {
+                    sessions: {
+                        label: "Number of Simultaneous User Logins",
+                        values: {
+                            0: "No Limit",
+                            1: "1 Session",
+                            2: "2 Sessions",
+                            3: "3 Sessions",
+                            4: "4 Sessions",
+                            5: "5 Sessions",
+                        },
+                    },
+                },
+            } as Record<string, Record<string, { label: string; values: Record<string, string> }>>,
             advancedOptions: false,
             clipboardToast: null as ToastID | null,
         };
@@ -252,9 +236,10 @@ export default defineComponent({
             // Parse the data ready for the API
             const code = invitationData.inviteCode;
             const expires = invitationData.expiration == "custom" ? this.$filter("toMinutes", invitationData.customExpiration) : invitationData.expiration;
-            const unlimited = invitationData.options.includes("unlimited");
-            const plex_home = invitationData.options.includes("plex_home");
-            const plex_allow_sync = invitationData.options.includes("plex_allow_sync");
+            const unlimited = invitationData.checkboxes.includes("unlimited");
+            const plex_home = invitationData.checkboxes.includes("plex_home");
+            const plex_allow_sync = invitationData.checkboxes.includes("plex_allow_sync");
+            const sessions = invitationData.selects.includes("sessions");
             const duration = invitationData.duration == "custom" ? this.$filter("toMinutes", invitationData.customDuration) : invitationData.duration == "unlimited" ? null : invitationData.duration;
             const libraries = invitationData.libraries;
             const session_limit = invitationData.session_limit == "custom" ? invitationData.customSessionLimit : invitationData.session_limit;
@@ -265,9 +250,10 @@ export default defineComponent({
                 unlimited: unlimited,
                 plex_home: plex_home,
                 plex_allow_sync: plex_allow_sync,
+                sessions: sessions,
                 duration: duration,
                 specific_libraries: JSON.stringify(libraries),
-                session_limit: session_limit || null
+                session_limit: session_limit,
             };
 
             const formData = new FormData();
@@ -344,8 +330,13 @@ export default defineComponent({
             return this.$filter("toMinutes", this.invitationData.customDuration, true);
         },
         checkboxOptions() {
-            return Object.keys(this.options[this.settings.server_type]).map((key) => {
-                return this.options[this.settings.server_type][key];
+            return Object.keys(this.checkboxes[this.settings.server_type]).map((key) => {
+                return this.checkboxes[this.settings.server_type][key];
+            });
+        },
+        selectsOptions() {
+            return Object.keys(this.selects[this.settings.server_type]).map((key) => {
+                return this.selects[this.settings.server_type][key];
             });
         },
         librariesOptions(): { label: string; value: string }[] {
