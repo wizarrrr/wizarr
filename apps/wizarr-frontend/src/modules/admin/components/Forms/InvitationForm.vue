@@ -112,7 +112,6 @@ export default defineComponent({
                 duration: "unlimited" as number | "unlimited" | "custom",
                 customDuration: "" as string,
                 libraries: [] as string[],
-                session_limit: "unlimited" as number | "unlimited" | "custom",
                 customSessionLimit: "" as string,
             },
             disabled: false,
@@ -238,7 +237,6 @@ export default defineComponent({
             const sessions = invitationData.selects.includes("sessions");
             const duration = invitationData.duration == "custom" ? this.$filter("toMinutes", invitationData.customDuration) : invitationData.duration == "unlimited" ? null : invitationData.duration;
             const libraries = invitationData.libraries;
-            const session_limit = invitationData.session_limit == "custom" ? invitationData.customSessionLimit : invitationData.session_limit;
 
             const new_invitation = {
                 code: code,
@@ -249,7 +247,6 @@ export default defineComponent({
                 sessions: sessions,
                 duration: duration,
                 specific_libraries: JSON.stringify(libraries),
-                session_limit: session_limit,
             };
 
             const formData = new FormData();
