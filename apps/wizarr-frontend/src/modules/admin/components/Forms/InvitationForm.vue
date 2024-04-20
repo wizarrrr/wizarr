@@ -24,8 +24,8 @@
                         <FormKit type="checkbox" name="checkboxes" :options="checkboxOptions" />
 
                         <!-- Loop through selects and make a FormKit select for each -->
-                        <template v-for="(select, index) in selectsOptions" :key="index">
-                            <FormKit type="select" :label="select.label" :name="Object.keys(select.values)[0]" :options="Object.keys(select.values).map((key) => ({ label: select.values[key], value: key }))" />
+                        <template v-for="(data, label) in selectsOptions[0]" :key="label">
+                            <FormKit type="select" :label="data.label" :name="label" :options="data.values" />
                         </template>
 
                         <!-- Select Duration -->
@@ -329,7 +329,7 @@ export default defineComponent({
         },
         selectsOptions() {
             return Object.keys(this.selects[this.settings.server_type]).map((key) => {
-                return this.selects[this.settings.server_type][key];
+                return this.selects[this.settings.server_type];
             });
         },
         librariesOptions(): { label: string; value: string }[] {
