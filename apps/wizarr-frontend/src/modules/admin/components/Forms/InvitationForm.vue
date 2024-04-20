@@ -108,11 +108,10 @@ export default defineComponent({
                 expiration: 1440 as number | null | "custom",
                 customExpiration: "" as string,
                 checkboxes: [] as string[],
-                selects: [] as string[],
                 duration: "unlimited" as number | "unlimited" | "custom",
                 customDuration: "" as string,
                 libraries: [] as string[],
-                customSessionLimit: "" as string,
+                sessions: 0 as number,
             },
             disabled: false,
             expirationOptions: [
@@ -217,7 +216,7 @@ export default defineComponent({
                         },
                     },
                 },
-            } as Record<string, Record<string, { label: string; values: Record<string, string> }>>,
+            } as Record<string, Record<string, { label: string; values: Record<number, string> }>>,
             advancedOptions: false,
             clipboardToast: null as ToastID | null,
         };
@@ -234,7 +233,7 @@ export default defineComponent({
             const unlimited = invitationData.checkboxes.includes("unlimited");
             const plex_home = invitationData.checkboxes.includes("plex_home");
             const plex_allow_sync = invitationData.checkboxes.includes("plex_allow_sync");
-            const sessions = invitationData.selects.includes("sessions");
+            const sessions = invitationData.sessions;
             const duration = invitationData.duration == "custom" ? this.$filter("toMinutes", invitationData.customDuration) : invitationData.duration == "unlimited" ? null : invitationData.duration;
             const libraries = invitationData.libraries;
 
