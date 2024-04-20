@@ -50,11 +50,12 @@
                 {{ __('Invitation Settings') }}
             </h2>
             <div class="flex flex-col space-y-2">
-                <template v-for="(data, label) in booleanOptions[0]" :key="label">
+                <template v-for="(data, label) in checkboxOptions[0]" :key="label">
                     <FormKit type="checkbox" :label="data.label" :value="data.value" disabled />
                 </template>
-                <template v-for="(data, label) in numbersOptions[0]" :key="label">
-                    <FormKit type="number" :label="data.label" :value="data.value" disabled />
+
+                <template v-for="(data, label) in selectsOptions[0]" :key="label">
+                    <FormKit type="select" :label="data.label" :name="label" :options="data.options" :value="data.value" disabled />
                 </template>
             </div>
         </div>
@@ -95,7 +96,7 @@ export default defineComponent({
                 },
             ],
             invitationExpired: true,
-            booleans: {
+            checkboxes: {
                 jellyfin: {
                     unlimited: {
                         label: "Unlimited Invitation Usages",
@@ -111,7 +112,7 @@ export default defineComponent({
                 plex: {
                     unlimited: {
                         label: "Unlimited Invitation Usages",
-                        value: this.invitation.unlimited,
+                        value: this.invitation.plex_home,
                     },
                     plex_home: {
                         label: "Allow Plex Home Access",
@@ -123,14 +124,27 @@ export default defineComponent({
                     },
                 },
             } as Record<string, Record<string, { label: string; value: boolean }>>,
-            numbers: {
+            selects: {
                 jellyfin: {
                     sessions: {
-                        label: "Max Concurrent Sessions",
+                        label: "Maximum Number of Simultaneous User Logins",
                         value: this.invitation.sessions,
+                        options: {
+                            0: "No Limit",
+                            1: "1 Session",
+                            2: "2 Sessions",
+                            3: "3 Sessions",
+                            4: "4 Sessions",
+                            5: "5 Sessions",
+                            6: "6 Sessions",
+                            7: "7 Sessions",
+                            8: "8 Sessions",
+                            9: "9 Sessions",
+                            10: "10 Sessions",
+                        },
                     },
                 },
-            } as Record<string, Record<string, { label: string; value: number }>>,
+            } as Record<string, Record<string, { label: string; value: number, options: Record<number, string> }>>,
             clipboard: useClipboard({
                 legacy: true,
             }),
@@ -154,14 +168,14 @@ export default defineComponent({
         invitationExpiredDateReadable(): string {
             return new Date(this.invitation.expires).toLocaleString();
         },
-        booleanOptions() {
-            return Object.keys(this.booleans[this.settings.server_type]).map((key) => {
-                return this.booleans[this.settings.server_type];
+        checkboxOptions() {
+            return Object.keys(this.checkboxes[this.settings.server_type]).map((key) => {
+                return this.checkboxes[this.settings.server_type];
             });
         },
-        numbersOptions() {
-            return Object.keys(this.numbers[this.settings.server_type]).map((key) => {
-                return this.numbers[this.settings.server_type];
+        selectsOptions() {
+            return Object.keys(this.selects[this.settings.server_type]).map((key) => {
+                return this.selects[this.settings.server_type];
             });
         },
         ...mapState(useServerStore, ["settings"]),

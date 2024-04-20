@@ -25,7 +25,7 @@
 
                         <!-- Loop through selects and make a FormKit select for each -->
                         <template v-for="(data, label) in selectsOptions[0]" :key="label">
-                            <FormKit type="select" :label="data.label" :name="label" :options="data.values" />
+                            <FormKit type="select" :label="data.label" :name="label" :options="data.options" />
                         </template>
 
                         <!-- Select Duration -->
@@ -205,8 +205,8 @@ export default defineComponent({
             selects: {
                 jellyfin: {
                     sessions: {
-                        label: "Number of Simultaneous User Logins",
-                        values: {
+                        label: "Maximum Number of Simultaneous User Logins",
+                        options: {
                             0: "No Limit",
                             1: "1 Session",
                             2: "2 Sessions",
@@ -221,7 +221,7 @@ export default defineComponent({
                         },
                     },
                 },
-            } as Record<string, Record<string, { label: string; values: Record<number, string> }>>,
+            } as Record<string, Record<string, { label: string; options: Record<number, string> }>>,
             advancedOptions: false,
             clipboardToast: null as ToastID | null,
         };
