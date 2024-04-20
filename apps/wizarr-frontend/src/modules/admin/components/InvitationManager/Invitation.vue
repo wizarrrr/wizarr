@@ -50,17 +50,11 @@
                 {{ __('Invitation Settings') }}
             </h2>
             <div class="flex flex-col space-y-2">
-                <template v-for="item in quickList">
-                    <span
-                        :class="
-                            item.value
-                                ? 'bg-green-100 text-green-800 dark:bg-gray-700 dark:text-green-400 border-green-400'
-                                : 'bg-red-100 text-red-800 dark:bg-gray-700 dark:text-red-400 border-red-400'
-                        "
-                        class="text-xs font-medium px-2.5 py-1 rounded border"
-                    >
-                        {{ item.text }}
-                    </span>
+                <template v-for="(data, label) in booleanOptions[0]" :key="label">
+                    <FormKit type="checkbox" :label="data.label" :value="data.value" disabled />
+                </template>
+                <template v-for="(data, label) in numbersOptions[0]" :key="label">
+                    <FormKit type="number" :label="data.label" :value="data.value" disabled />
                 </template>
             </div>
         </div>
@@ -69,6 +63,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapState, mapActions } from "pinia";
+import { useServerStore } from "@/stores/server";
 import { useClipboard } from '@vueuse/core';
 
 import type { Invitation } from '@/types/api/invitations';
@@ -99,20 +95,42 @@ export default defineComponent({
                 },
             ],
             invitationExpired: true,
-            quickList: [
-                {
-                    text: 'Unlimited',
-                    value: this.invitation.unlimited,
+            booleans: {
+                jellyfin: {
+                    unlimited: {
+                        label: "Unlimited Invitation Usages",
+                        value: this.invitation.unlimited,
+                    },
                 },
-                {
-                    text: 'Allow Downloads',
-                    value: this.invitation.plex_allow_sync,
+                emby: {
+                    unlimited: {
+                        label: "Unlimited Invitation Usages",
+                        value: this.invitation.unlimited,
+                    },
                 },
-                {
-                    text: 'Plex Home',
-                    value: this.invitation.plex_home,
+                plex: {
+                    unlimited: {
+                        label: "Unlimited Invitation Usages",
+                        value: this.invitation.unlimited,
+                    },
+                    plex_home: {
+                        label: "Allow Plex Home Access",
+                        value: this.invitation.plex_home,
+                    },
+                    plex_allow_sync: {
+                        label: "Allow Plex Downloads",
+                        value: this.invitation.plex_allow_sync,
+                    },
                 },
-            ],
+            } as Record<string, Record<string, { label: string; value: boolean }>>,
+            numbers: {
+                jellyfin: {
+                    sessions: {
+                        label: "Max Concurrent Sessions",
+                        value: this.invitation.sessions,
+                    },
+                },
+            } as Record<string, Record<string, { label: string; value: number }>>,
             clipboard: useClipboard({
                 legacy: true,
             }),
@@ -136,6 +154,17 @@ export default defineComponent({
         invitationExpiredDateReadable(): string {
             return new Date(this.invitation.expires).toLocaleString();
         },
+        booleanOptions() {
+            return Object.keys(this.booleans[this.settings.server_type]).map((key) => {
+                return this.booleans[this.settings.server_type];
+            });
+        },
+        numbersOptions() {
+            return Object.keys(this.numbers[this.settings.server_type]).map((key) => {
+                return this.numbers[this.settings.server_type];
+            });
+        },
+        ...mapState(useServerStore, ["settings"]),
     },
     methods: {
         invitationCodeToggle() {
