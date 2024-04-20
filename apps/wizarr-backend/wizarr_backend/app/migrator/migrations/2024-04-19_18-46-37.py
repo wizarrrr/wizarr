@@ -1,5 +1,5 @@
 #
-# CREATED ON VERSION: V3.5.1b7
+# CREATED ON VERSION: V4.0.0b7
 # MIGRATION: 2024-04-19_18-46-37
 # CREATED: Fri Apr 19 2024
 #
@@ -30,6 +30,6 @@ def run():
                 "ALTER TABLE invitations ADD COLUMN sessions INTEGER DEFAULT 0"
             )
         else:
-            print("Column tutorial already exists")
+            print("Column sessions already exists")
 
     print("Migration 2024-04-19_18-46-37 complete")
