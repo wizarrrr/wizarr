@@ -64,7 +64,7 @@ export default defineComponent({
                     label: 'Jellyseerr',
                     value: 'jellyseerr',
                     attrs: {
-                        disabled: this.settings.server_type !== 'jellyfin',
+                        disabled: this.settings.server_type !== 'jellyfin' && this.settings.server_type !== 'emby',
                     },
                 },
                 {
