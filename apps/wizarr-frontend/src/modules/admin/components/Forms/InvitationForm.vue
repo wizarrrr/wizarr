@@ -21,7 +21,12 @@
 
                     <Collapse :when="advancedOptions" class="space-y-4">
                         <!-- Select Options -->
-                        <FormKit type="checkbox" name="options" :options="checkboxOptions" />
+                        <FormKit type="checkbox" name="checkboxes" :options="checkboxOptions" />
+
+                        <!-- Loop through selects and make a FormKit select for each -->
+                        <template v-for="(data, label) in selectsOptions[0]" :key="label">
+                            <FormKit type="select" :label="data.label" :name="label" :options="data.options" />
+                        </template>
 
                         <!-- Select Duration -->
                         <FormKit type="select" label="User Account Duration" name="duration" :options="durationOptions" />
@@ -102,10 +107,11 @@ export default defineComponent({
                 inviteCode: "",
                 expiration: 1440 as number | null | "custom",
                 customExpiration: "" as string,
-                options: [] as string[],
+                checkboxes: [] as string[],
                 duration: "unlimited" as number | "unlimited" | "custom",
                 customDuration: "" as string,
                 libraries: [] as string[],
+                sessions: 0 as number,
             },
             disabled: false,
             expirationOptions: [
@@ -168,7 +174,7 @@ export default defineComponent({
                     value: "custom",
                 },
             ],
-            options: {
+            checkboxes: {
                 jellyfin: {
                     unlimited: {
                         label: "Unlimited Invitation Usages",
@@ -196,6 +202,26 @@ export default defineComponent({
                     },
                 },
             } as Record<string, Record<string, { label: string; value: string }>>,
+            selects: {
+                jellyfin: {
+                    sessions: {
+                        label: "Maximum Number of Simultaneous User Logins",
+                        options: {
+                            0: "No Limit",
+                            1: "1 Session",
+                            2: "2 Sessions",
+                            3: "3 Sessions",
+                            4: "4 Sessions",
+                            5: "5 Sessions",
+                            6: "6 Sessions",
+                            7: "7 Sessions",
+                            8: "8 Sessions",
+                            9: "9 Sessions",
+                            10: "10 Sessions",
+                        },
+                    },
+                },
+            } as Record<string, Record<string, { label: string; options: Record<number, string> }>>,
             advancedOptions: false,
             clipboardToast: null as ToastID | null,
         };
@@ -209,9 +235,10 @@ export default defineComponent({
             // Parse the data ready for the API
             const code = invitationData.inviteCode;
             const expires = invitationData.expiration == "custom" ? this.$filter("toMinutes", invitationData.customExpiration) : invitationData.expiration;
-            const unlimited = invitationData.options.includes("unlimited");
-            const plex_home = invitationData.options.includes("plex_home");
-            const plex_allow_sync = invitationData.options.includes("plex_allow_sync");
+            const unlimited = invitationData.checkboxes.includes("unlimited");
+            const plex_home = invitationData.checkboxes.includes("plex_home");
+            const plex_allow_sync = invitationData.checkboxes.includes("plex_allow_sync");
+            const sessions = invitationData.sessions;
             const duration = invitationData.duration == "custom" ? this.$filter("toMinutes", invitationData.customDuration) : invitationData.duration == "unlimited" ? null : invitationData.duration;
             const libraries = invitationData.libraries;
 
@@ -221,6 +248,7 @@ export default defineComponent({
                 unlimited: unlimited,
                 plex_home: plex_home,
                 plex_allow_sync: plex_allow_sync,
+                sessions: sessions,
                 duration: duration,
                 specific_libraries: JSON.stringify(libraries),
             };
@@ -299,8 +327,13 @@ export default defineComponent({
             return this.$filter("toMinutes", this.invitationData.customDuration, true);
         },
         checkboxOptions() {
-            return Object.keys(this.options[this.settings.server_type]).map((key) => {
-                return this.options[this.settings.server_type][key];
+            return Object.keys(this.checkboxes[this.settings.server_type]).map((key) => {
+                return this.checkboxes[this.settings.server_type][key];
+            });
+        },
+        selectsOptions() {
+            return Object.keys(this.selects[this.settings.server_type]).map((key) => {
+                return this.selects[this.settings.server_type];
             });
         },
         librariesOptions(): { label: string; value: string }[] {
