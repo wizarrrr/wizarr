@@ -89,12 +89,10 @@ class SettingsListAPI(Resource):
 
                 if value == "plex":
                     Requests.delete().where(Requests.service == "jellyseerr").execute()
-                elif value == "jellyfin":
+                elif value == "jellyfin" or value == "emby":
                     Requests.delete().where(Requests.service == "overseerr").execute()
 
-
         return response, 200
-
 
 
 @api.route('/<string:setting_id>')
