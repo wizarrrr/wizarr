@@ -1,3 +1,16 @@
+## [4.0.0-beta.8](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.7...v4.0.0-beta.8) (2024-04-21)
+
+
+### New Features
+
+* 🚑 added ability to specify concurrent sessions on jellyfin ([#378](https://github.com/wizarrrr/wizarr/issues/378)) ([062bc6b](https://github.com/wizarrrr/wizarr/commit/062bc6b5e0fa791d28973933c7752f54348cb0f8)), closes [#377](https://github.com/wizarrrr/wizarr/issues/377)
+
+
+### Bug Fixes
+
+* 🩹 :bug: Fixed issue where Jellyseerr could not be selected for Emby servers ([83c381a](https://github.com/wizarrrr/wizarr/commit/83c381a0707fdcbf31f2ee101c5fa405edd9bec6))
+* **discord-release-alert:** 🐛 mentions failing in embeded payload ([8e87c41](https://github.com/wizarrrr/wizarr/commit/8e87c414a9d333e0c9dcf0722d794b83658e5d08))
+
 ## [4.0.0-beta.7](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.6...v4.0.0-beta.7) (2024-04-19)
 
 
