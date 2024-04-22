@@ -275,9 +275,9 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
 
     # Set live tv access
     if invitation.live_tv is not None and invitation.live_tv == True:
-        new_policy["EnableLiveTvAccess"] = False
-    else:
         new_policy["EnableLiveTvAccess"] = True
+    else:
+        new_policy["EnableLiveTvAccess"] = False
 
     # Get users default policy
     old_policy = user_response["Policy"]
