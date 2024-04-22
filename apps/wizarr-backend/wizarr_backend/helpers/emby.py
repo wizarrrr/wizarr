@@ -376,6 +376,14 @@ def sync_emby_users(server_api_key: Optional[str] = None, server_url: Optional[s
             create_user(username=emby_user["Name"], token=emby_user["Id"], email=email)
             info(f"User {emby_user['Name']} successfully imported to database.")
 
+        # If the user does exist then update their username and email
+        else:
+            user = get_user_by_token(emby_user["Id"], verify=False)
+            user.username = emby_user["Name"]
+            user.email = emby_user["ConnectUserName"] if "ConnectUserName" in emby_user else None
+            user.save()
+            info(f"User {emby_user['Name']} successfully updated in database.")
+
     # If database_users.token not in emby_users.id, delete from database
     for database_user in database_users:
         if str(database_user.token) not in [str(emby_user["Id"]) for emby_user in emby_users]:
