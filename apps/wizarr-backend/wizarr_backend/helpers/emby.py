@@ -267,9 +267,16 @@ def invite_emby_user(username: str, password: str, code: str, server_api_key: Op
     # Create policy object
     new_policy = { "EnableAllFolders": True }
 
+    # Set library options
     if sections:
         new_policy["EnableAllFolders"] = False
         new_policy["EnabledFolders"] = sections
+
+    # Set stream limit options
+    if invitation.sessions is not None and int(invitation.sessions) > 0:
+        new_policy["SimultaneousStreamLimit"] = int(invitation.sessions)
+    else:
+        new_policy["SimultaneousStreamLimit"] = 0
 
     old_policy = user_response["Policy"]
 
