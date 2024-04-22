@@ -107,7 +107,7 @@ export default defineComponent({
                 inviteCode: "",
                 expiration: 1440 as number | null | "custom",
                 customExpiration: "" as string,
-                checkboxes: [] as string[],
+                checkboxes: ["live_tv"] as string[], // Add the checkboxes you want to be checked by default
                 duration: "unlimited" as number | "unlimited" | "custom",
                 customDuration: "" as string,
                 libraries: [] as string[],
@@ -180,11 +180,19 @@ export default defineComponent({
                         label: "Unlimited Invitation Usages",
                         value: "unlimited",
                     },
+                    live_tv: {
+                        label: "Access to Live TV",
+                        value: "live_tv",
+                    },
                 },
                 emby: {
                     unlimited: {
                         label: "Unlimited Invitation Usages",
                         value: "unlimited",
+                    },
+                    live_tv: {
+                        label: "Access to Live TV",
+                        value: "live_tv",
                     },
                 },
                 plex: {
@@ -256,6 +264,7 @@ export default defineComponent({
             const unlimited = invitationData.checkboxes.includes("unlimited");
             const plex_home = invitationData.checkboxes.includes("plex_home");
             const plex_allow_sync = invitationData.checkboxes.includes("plex_allow_sync");
+            const live_tv = invitationData.checkboxes.includes("live_tv");
             const sessions = invitationData.sessions;
             const duration = invitationData.duration == "custom" ? this.$filter("toMinutes", invitationData.customDuration) : invitationData.duration == "unlimited" ? null : invitationData.duration;
             const libraries = invitationData.libraries;
@@ -266,6 +275,7 @@ export default defineComponent({
                 unlimited: unlimited,
                 plex_home: plex_home,
                 plex_allow_sync: plex_allow_sync,
+                live_tv: live_tv,
                 sessions: sessions,
                 duration: duration,
                 specific_libraries: JSON.stringify(libraries),

@@ -102,11 +102,19 @@ export default defineComponent({
                         label: "Unlimited Invitation Usages",
                         value: this.invitation.unlimited,
                     },
+                    live_tv: {
+                        label: "Access to Live TV",
+                        value: this.invitation.live_tv,
+                    },
                 },
                 emby: {
                     unlimited: {
                         label: "Unlimited Invitation Usages",
                         value: this.invitation.unlimited,
+                    },
+                    live_tv: {
+                        label: "Access to Live TV",
+                        value: this.invitation.live_tv,
                     },
                 },
                 plex: {
