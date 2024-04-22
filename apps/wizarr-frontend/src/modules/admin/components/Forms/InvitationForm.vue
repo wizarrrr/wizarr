@@ -107,7 +107,7 @@ export default defineComponent({
                 inviteCode: "",
                 expiration: 1440 as number | null | "custom",
                 customExpiration: "" as string,
-                checkboxes: [] as string[],
+                checkboxes: ["live_tv"] as string[], // Add the checkboxes you want to be checked by default
                 duration: "unlimited" as number | "unlimited" | "custom",
                 customDuration: "" as string,
                 libraries: [] as string[],
