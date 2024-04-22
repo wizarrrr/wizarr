@@ -327,11 +327,15 @@ export default defineComponent({
             return this.$filter("toMinutes", this.invitationData.customDuration, true);
         },
         checkboxOptions() {
+            if (!this.checkboxes[this.settings.server_type]) return [];
+
             return Object.keys(this.checkboxes[this.settings.server_type]).map((key) => {
                 return this.checkboxes[this.settings.server_type][key];
             });
         },
         selectsOptions() {
+            if (!this.selects[this.settings.server_type]) return [];
+
             return Object.keys(this.selects[this.settings.server_type]).map((key) => {
                 return this.selects[this.settings.server_type];
             });

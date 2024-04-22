@@ -169,11 +169,15 @@ export default defineComponent({
             return new Date(this.invitation.expires).toLocaleString();
         },
         checkboxOptions() {
+            if (!this.checkboxes[this.settings.server_type]) return [];
+
             return Object.keys(this.checkboxes[this.settings.server_type]).map((key) => {
                 return this.checkboxes[this.settings.server_type];
             });
         },
         selectsOptions() {
+            if (!this.selects[this.settings.server_type]) return [];
+
             return Object.keys(this.selects[this.settings.server_type]).map((key) => {
                 return this.selects[this.settings.server_type];
             });
