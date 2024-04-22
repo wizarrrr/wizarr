@@ -39,11 +39,6 @@ const defaultDashboard: WidgetOptions[] = [
     },
     {
         id: nanoid(),
-        type: 'MapWidget',
-        grid: { w: 4, h: 5 },
-    },
-    {
-        id: nanoid(),
         type: 'ContributorsList',
         grid: { w: 2, h: 5 },
     },
