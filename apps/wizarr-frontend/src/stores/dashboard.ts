@@ -37,11 +37,6 @@ const defaultDashboard: WidgetOptions[] = [
         type: 'InvitesGraph',
         grid: { w: 3, h: 4 },
     },
-    {
-        id: nanoid(),
-        type: 'ContributorsList',
-        grid: { w: 2, h: 5 },
-    },
 ];
 
 export const useDashboardStore = defineStore('dashboard', {

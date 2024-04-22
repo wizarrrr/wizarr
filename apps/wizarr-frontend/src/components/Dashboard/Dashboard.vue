@@ -69,6 +69,7 @@ export default defineComponent({
             widgets.forEach((widget) => {
                 if (widget.type === "LatestInfo") return;
                 if (widget.type === "MapWidget") return;
+                if (widget.type === "ContributorsList") return;
                 this.makeWidget(widget);
             });
         },
