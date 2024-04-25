@@ -102,11 +102,19 @@ export default defineComponent({
                         label: "Unlimited Invitation Usages",
                         value: this.invitation.unlimited,
                     },
+                    live_tv: {
+                        label: "Access to Live TV",
+                        value: this.invitation.live_tv,
+                    },
                 },
                 emby: {
                     unlimited: {
                         label: "Unlimited Invitation Usages",
                         value: this.invitation.unlimited,
+                    },
+                    live_tv: {
+                        label: "Access to Live TV",
+                        value: this.invitation.live_tv,
                     },
                 },
                 plex: {
@@ -127,7 +135,7 @@ export default defineComponent({
             selects: {
                 jellyfin: {
                     sessions: {
-                        label: "Maximum Number of Simultaneous User Logins",
+                        label: "Maximum Number of Simultaneous Logins",
                         value: this.invitation.sessions,
                         options: {
                             0: "No Limit",
@@ -141,6 +149,25 @@ export default defineComponent({
                             8: "8 Sessions",
                             9: "9 Sessions",
                             10: "10 Sessions",
+                        },
+                    },
+                },
+                emby: {
+                    sessions: {
+                        label: "Maximum Number of Simultaneous Streams",
+                        value: this.invitation.sessions,
+                        options: {
+                            0: "No Limit",
+                            1: "1 Stream",
+                            2: "2 Streams",
+                            3: "3 Streams",
+                            4: "4 Streams",
+                            5: "5 Streams",
+                            6: "6 Streams",
+                            7: "7 Streams",
+                            8: "8 Streams",
+                            9: "9 Streams",
+                            10: "10 Streams",
                         },
                     },
                 },
@@ -169,11 +196,15 @@ export default defineComponent({
             return new Date(this.invitation.expires).toLocaleString();
         },
         checkboxOptions() {
+            if (!this.checkboxes[this.settings.server_type]) return [];
+
             return Object.keys(this.checkboxes[this.settings.server_type]).map((key) => {
                 return this.checkboxes[this.settings.server_type];
             });
         },
         selectsOptions() {
+            if (!this.selects[this.settings.server_type]) return [];
+
             return Object.keys(this.selects[this.settings.server_type]).map((key) => {
                 return this.selects[this.settings.server_type];
             });

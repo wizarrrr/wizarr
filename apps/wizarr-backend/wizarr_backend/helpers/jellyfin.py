@@ -273,6 +273,13 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
     else:
         new_policy["MaxActiveSessions"] = 0
 
+    # Set live tv access
+    if invitation.live_tv is not None and invitation.live_tv == True:
+        new_policy["EnableLiveTvAccess"] = True
+    else:
+        new_policy["EnableLiveTvAccess"] = False
+
+    # Get users default policy
     old_policy = user_response["Policy"]
 
     # Merge policy with user policy don't overwrite
@@ -375,6 +382,13 @@ def sync_jellyfin_users(server_api_key: Optional[str] = None, server_url: Option
         if str(jellyfin_user["Id"]) not in [str(database_user.token) for database_user in database_users]:
             create_user(username=jellyfin_user["Name"], token=jellyfin_user["Id"])
             info(f"User {jellyfin_user['Name']} successfully imported to database.")
+
+        # If the user does exist then update their username
+        else:
+            user = get_user_by_token(jellyfin_user["Id"], verify=False)
+            user.username = jellyfin_user["Name"]
+            user.save()
+            info(f"User {jellyfin_user['Name']} successfully updated in database.")
 
     # If database_users.token not in jellyfin_users.id, delete from database
     for database_user in database_users:
