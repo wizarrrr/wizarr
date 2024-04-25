@@ -1,3 +1,25 @@
+## [4.0.0-beta.9](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.8...v4.0.0-beta.9) (2024-04-25)
+
+
+### New Features
+
+* ✨ :sparkles: Emby users can now set max streams ([3b0d4e0](https://github.com/wizarrrr/wizarr/commit/3b0d4e003d2e40a59cbd8c52f3cb4d0b868cecb7))
+* 🎉 :sparkles: Scanning in Emby users now attaches connect email as user email ([46d6f22](https://github.com/wizarrrr/wizarr/commit/46d6f226b0cc09713fec0d4e107ed6f4e67e59a9))
+* 🎉 Live TV can now be enabled/disabled for Jellyfin/Emby invites ([8723d1c](https://github.com/wizarrrr/wizarr/commit/8723d1ce34cc7159ddef014837d54cd9afb307ff))
+* 🎊 :sparkles: Emby and Jellyfin now update username/email on an updated scan ([7c158ca](https://github.com/wizarrrr/wizarr/commit/7c158caaec967e0863ba3f5ced73dca21ef1047e))
+
+
+### Bug Fixes
+
+* 🐛 :bug: Fixed issue where Emby/Plex would error on creating an invite ([eb54d32](https://github.com/wizarrrr/wizarr/commit/eb54d326e5d6add26fb705cb19448f32e12574c1))
+* 🐝 Corrected Live TV for Jellyfin ([1b94a6e](https://github.com/wizarrrr/wizarr/commit/1b94a6eaee7205350a22b53ebf61af2d0e620c61))
+* 🩹 Default Live TV checkbox to enabled to reflect Jellyfin/Emby default ([1cba8c3](https://github.com/wizarrrr/wizarr/commit/1cba8c3fea60c8962aea6570e8984b79069ab518))
+
+
+### Chores
+
+* 🧹 bump db migration script version/date ([a71ada5](https://github.com/wizarrrr/wizarr/commit/a71ada5126c78a6cdb772d46aa355c9a4c2c5546))
+
 ## [4.0.0-beta.8](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.7...v4.0.0-beta.8) (2024-04-21)
 
 
