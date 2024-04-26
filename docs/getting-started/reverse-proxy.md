@@ -56,7 +56,8 @@ Add the following configuration to a new file `/etc/nginx/sites-available/wizarr
 server {
     listen 80;
     server_name wizarr.example.com;
-    return 301 https://wizarr.example.com$request_uri;
+    # Do not modify the line below as it is built from the directive above
+    return 301 https://$server_name$request_uri;
 }
 
 server {
