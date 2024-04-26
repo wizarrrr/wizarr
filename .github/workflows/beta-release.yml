@@ -1,87 +1,117 @@
 name: CI/CD Release [Beta]
 
 on:
-    push:
-        branches:
-            - "beta"
-            - "master"
-        paths-ignore:
-            - "**.md"
-            # - "**/.*/**"
-            # - "**/.*"
-            - "**/latest"
-            - "**/CHANGELOG.md"
-            - "**/CHANGELOG-beta.md"
-            - "./scripts/**"
-            - "./release.config.cjs"
-    workflow_dispatch: {}
+  push:
+    branches:
+      - "beta"
+      - "master"
+      - "develop"
+    paths-ignore:
+      - "**.md"
+      - "**/latest"
+      - "**/CHANGELOG.md"
+      - "**/CHANGELOG-beta.md"
+      - "./scripts/**"
+      - "./release.config.cjs"
+  workflow_dispatch: {}
 
 permissions:
-    packages: write
-    contents: write
-    issues: write
-    pull-requests: write
+  packages: write
+  contents: write
+  issues: write
+  pull-requests: write
 
 jobs:
-    release:
-        runs-on: ubuntu-latest
-        steps:
-            # Get the GH_TOKEN from the app
-            - name: Get GitHub App Token
-              id: gh_app
-              uses: getsentry/action-github-app-token@v2
-              with:
-                  app_id: ${{ secrets.APP_ID }}
-                  private_key: ${{ secrets.APP_PRIVATE_KEY }}
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      # Get the GitHub App token
+      - name: Get GitHub App Token
+        id: gh_app
+        uses: getsentry/action-github-app-token@v2
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-            # master/main to production & beta to development
-            - name: Get Release Branch
-              id: release-branch
-              run: |
-                  if [[ ${{ github.ref }} == 'refs/heads/main' || ${{ github.ref }} == 'refs/heads/master' ]]; then
-                    echo "::set-output name=release_branch::production"
-                  elif [[ ${{ github.ref }} == 'refs/heads/beta' ]]; then
-                    echo "::set-output name=release_branch::development"
-                  else
-                    echo "Unknown branch, not setting environment variable."
-                    exit 1
-                  fi
+      # Get the release branch name based on the branch
+      - name: Get Release Branch
+        id: release-branch
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/main' || ${{ github.ref }} == 'refs/heads/master' ]]; then
+            echo "::set-output name=release_branch::production"
+          elif [[ ${{ github.ref }} == 'refs/heads/beta' || ${{ github.ref }} == 'refs/heads/develop' ]]; then
+            echo "::set-output name=release_branch::development"
+          else
+            echo "Unknown branch, not setting environment variable."
+            exit 1
+          fi
 
-            # Checkout the repo
-            - name: Checkout Repository
-              uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0
-                  persist-credentials: false
+      # Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
-            # Setup Node.js
-            - name: Setup Node.js 18.18.2
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 18.18.2
+      # Setup Node.js
+      - name: Setup Node.js 18.18.2
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.18.2
 
-            # Install Dependencies
-            - name: Install Dependencies
-              run: npm ci --ignore-scripts
+      # Install Dependencies
+      - name: Install Dependencies
+        run: npm ci --ignore-scripts
 
-            # Build the Frontend
-            - name: Build Frontend Sourcemaps
-              run: npx nx build wizarr-frontend
+      # Build Frontend Sourcemaps
+      - name: Build Frontend Sourcemaps
+        run: npx nx build wizarr-frontend
 
-            # Get the current branch from git
-            - name: Get branch name
-              id: branch-name
-              uses: tj-actions/branch-names@v7
+      # Get the current branch name
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v7
 
-            # Create Release for the Beta
-            - name: Semantic Release for Beta
-              run: npx semantic-release
-              env:
-                  GITHUB_TOKEN: ${{ steps.gh_app.outputs.token }}
-                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-                  SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-                  SENTRY_URL: https://sentry.wizarr.dev
-                  SENTRY_ENVIRONMENT: ${{ steps.release-branch.outputs.release_branch }}
-                  SENTRY_PROJECT: wizarr-frontend wizarr-backend
-                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-                  CURRENT_BRANCH: ${{ steps.branch-name.outputs.current_branch }}
+      # Semantic Release for Beta
+      - name: Semantic Release for Beta
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ steps.gh_app.outputs.token }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_URL: https://sentry.wizarr.dev
+          SENTRY_ENVIRONMENT: ${{ steps.release-branch.outputs.release_branch }}
+          SENTRY_PROJECT: wizarr-frontend wizarr-backend
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          CURRENT_BRANCH: ${{ steps.branch-name.outputs.current_branch }}
+
+  nightly_build:
+    name: Nightly Build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+
+    steps:
+      # Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # Setup Node.js
+      - name: Setup Node.js 18.18.2
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.18.2
+
+      # Install Dependencies
+      - name: Install Dependencies
+        run: npm ci --ignore-scripts
+
+      # Build Nightly Frontend Sourcemaps
+      - name: Build Nightly Frontend Sourcemaps
+        run: npx nx build wizarr-frontend
+
+      # Build Nightly Backend
+      - name: Build Nightly Backend
+        run: npx nx build wizarr-backend
