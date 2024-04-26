@@ -132,7 +132,7 @@ jobs:
       - name: Get Release Branch
         id: release-branch
         run: |
-          if [[ ${{ github.ref }} == 'refs/heads/develop ]]; then
+          if [[ ${{ github.ref }} == 'refs/heads/develop' ]]; then
               echo "::set-output name=release_branch::nightly"
           else
               echo "Unknown tag, not setting environment variable."
