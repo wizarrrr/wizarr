@@ -377,7 +377,7 @@ export default defineComponent({
             });
         },
         inviteLink() {
-            return `${window.location.origin}/j/${this.inviteCode}`;
+            return `${window.location.origin}/i/${this.inviteCode}`;
         },
         ...mapState(useLibrariesStore, ["libraries"]),
         ...mapState(useServerStore, ["settings"]),
