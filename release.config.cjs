@@ -59,6 +59,10 @@ const config = {
                     //     type: "test",
                     //     release: "patch",
                     // },
+                    {
+                        breaking: true,
+                        release: "major",
+                    },
                 ],
             },
         ],
