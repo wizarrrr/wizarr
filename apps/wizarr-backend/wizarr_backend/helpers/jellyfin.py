@@ -260,7 +260,10 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
     user_response = post_jellyfin(api_path="/Users/New", json=new_user, server_api_key=server_api_key, server_url=server_url)
 
     # Create policy object
-    new_policy = {"EnableAllFolders": True}
+    new_policy = {
+        "EnableAllFolders": True,
+        "AuthenticationProviderId": "Jellyfin.Server.Implementations.Users.DefaultAuthenticationProvider",
+    }
 
     # Set library options
     if sections:

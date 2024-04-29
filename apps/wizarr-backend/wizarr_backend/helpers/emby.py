@@ -265,7 +265,10 @@ def invite_emby_user(username: str, password: str, code: str, server_api_key: Op
     post_emby(api_path=f"/Users/{user_response['Id']}/Password", json={"NewPw": str(password)}, server_api_key=server_api_key, server_url=server_url)
 
     # Create policy object
-    new_policy = { "EnableAllFolders": True }
+    new_policy = {
+        "EnableAllFolders": True,
+        "AuthenticationProviderId": "Emby.Server.Implementations.Library.DefaultAuthenticationProvider",
+    }
 
     # Set library options
     if sections:
