@@ -6,7 +6,7 @@ import type TourGuideOptions from "@sjmc11/tourguidejs/src/core/options";
 const steps = (__: (key: string) => string): CustomTourGuideStep[] => [
     {
         title: __("Your Invitations"),
-        content: __("This is where you can manage your invitations, they will appear here in a list. Invitations are used to invite new users to your media server."),
+        content: __("This is where you can manage your invitations. They will appear here in a list. Invitations are used to invite new users to your media server."),
         target: document.querySelector("#invitationList > li:nth-child(1)") ?? "#invitationList",
     },
     {

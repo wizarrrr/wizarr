@@ -284,9 +284,17 @@ def sync_plex_users(server_api_key: Optional[str] = None, server_url: Optional[s
     # If plex_users.id is not in database_users.token, add user to database
     for plex_user in plex_users:
         if str(plex_user.id) not in [str(database_user.token) for database_user in database_users]:
-            create_user(username=plex_user.username, token=plex_user.id, email=plex_user.email)
-            info(f"User {plex_user.username} successfully imported to database")
+            create_user(username=plex_user.title, token=plex_user.id, email=plex_user.email)
+            info(f"User {plex_user.title} successfully imported to database")
 
+        # Handle Plex Managed/Guest users.
+        # Update DB username to Plex user title.
+        # This value is the same as username for normal accounts.
+        # For managed accounts without a public username,
+        # this value is set to 'Guest' or local username
+        elif str(plex_user.username) == "" and plex_user.email is None:
+            create_user(username=plex_user.title, token=plex_user.id, email=plex_user.email)
+            info(f"Managed User {plex_user.title} successfully updated to database")
 
     # If database_users.token is not in plex_users.id, remove user from database
     for database_user in database_users:
@@ -317,14 +325,15 @@ def get_plex_profile_picture(user_id: str, server_api_key: Optional[str] = None,
     # Get the user
     user = get_plex_user(user_id=user_id, server_api_key=server_api_key, server_url=server_url)
 
-    try:
-        # Get the profile picture from Plex
-        url = user.thumb
-        response = get(url=url, timeout=30)
-    except RequestException:
-        # Backup profile picture using ui-avatars.com if Jellyfin fails
-        username = f"{user.username}&length=1" if user else "ERROR&length=60&font-size=0.28"
-        response = get(url=f"https://ui-avatars.com/api/?uppercase=true&name={username}", timeout=30)
+    if str(user.email) != "":
+        try:
+            # Get the profile picture from Plex
+            url = user.thumb
+            response = get(url=url, timeout=30)
+        except RequestException:
+            # Backup profile picture using ui-avatars.com if Jellyfin fails
+            username = f"{user.username}&length=1" if user else "ERROR&length=60&font-size=0.28"
+            response = get(url=f"https://ui-avatars.com/api/?uppercase=true&name={username}", timeout=30)
 
     # Raise exception if either Jellyfin or ui-avatars.com fails
     if response.status_code != 200:

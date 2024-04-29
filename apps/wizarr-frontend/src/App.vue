@@ -128,7 +128,6 @@ export default defineComponent({
         if (serverData?.update_available) {
             this.$toast.info(UpdateAvailable, {
                 timeout: false,
-                closeButton: false,
                 draggable: false,
                 closeOnClick: false,
             });

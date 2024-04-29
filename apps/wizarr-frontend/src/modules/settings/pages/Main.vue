@@ -4,7 +4,7 @@
             <template v-for="(section, index) in settingsSections">
                 <div :id="`settingsContainer${index}`">
                     <!-- Sections Title -->
-                    <div class="settings-section" v-if="!(sectionDisabled(section) && env.NODE_ENV === 'production')">
+                    <div class="settings-section" v-if="!(sectionDisabled(section) && !is_beta)">
                         <div class="flex flex-col">
                             <div class="text-lg font-bold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                                 {{ __(section.title) }}
@@ -18,7 +18,7 @@
                     <!-- Settings Grid -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                         <template v-for="page in section.pages">
-                            <template v-if="!(page.disabled && env.NODE_ENV === 'production')">
+                            <template v-if="!(page.disabled && !is_beta)">
                                 <SettingsButton :title="page.title" :description="page.description" :icon="page.icon" :url="page.url" :disabled="page.disabled" :modal="page.modal" />
                             </template>
                         </template>
@@ -38,6 +38,7 @@ import { defineComponent } from "vue";
 import { useUserStore } from "@/stores/user";
 import { mapState } from "pinia";
 import { useSettingsStore } from "@/stores/settings";
+import { useServerStore } from "@/stores/server";
 
 import SettingsTemplate from "@/templates/SettingsTemplate.vue";
 import SettingsButton from "@/components/Buttons/SettingsButton.vue";
@@ -84,6 +85,7 @@ export default defineComponent({
     computed: {
         ...mapState(useUserStore, ["user"]),
         ...mapState(useSettingsStore, ["search"]),
+        ...mapState(useServerStore, ["is_beta"]),
         settingsSections() {
             const filteredSettingsSearch = this.search ? this.settings.map(this.mapSections).filter(this.filterSections) : this.settings;
             const filteredSettingsRole = filteredSettingsSearch.map(this.mapRoles as any).filter(this.filterSections as any);
@@ -124,28 +126,29 @@ export default defineComponent({
                             icon: "fas fa-link",
                             url: "/admin/settings/webhooks",
                         },
-                        {
-                            title: this.__("Payments"),
-                            description: this.__("Configure payment settings"),
-                            icon: "fas fa-dollar-sign",
-                            url: "/admin/settings/payments",
-                            disabled: true,
-                        },
-                        {
-                            title: this.__("Notifications"),
-                            description: this.__("Configure notification settings"),
-                            roles: ["moderator", "user"],
-                            icon: "fas fa-bell",
-                            url: "/admin/settings/notifications",
-                            disabled: true,
-                        },
-                        {
-                            title: this.__("Discord Bot"),
-                            description: this.__("Configure Discord bot settings"),
-                            icon: "fab fa-discord",
-                            url: "/admin/settings/discord-bot",
-                            disabled: true,
-                        },
+                        //TODO: hiding unimplemented features
+                        // {
+                        //     title: this.__("Payments"),
+                        //     description: this.__("Configure payment settings"),
+                        //     icon: "fas fa-dollar-sign",
+                        //     url: "/admin/settings/payments",
+                        //     disabled: true,
+                        // },
+                        // {
+                        //     title: this.__("Notifications"),
+                        //     description: this.__("Configure notification settings"),
+                        //     roles: ["moderator", "user"],
+                        //     icon: "fas fa-bell",
+                        //     url: "/admin/settings/notifications",
+                        //     disabled: true,
+                        // },
+                        // {
+                        //     title: this.__("Discord Bot"),
+                        //     description: this.__("Configure Discord bot settings"),
+                        //     icon: "fab fa-discord",
+                        //     url: "/admin/settings/discord-bot",
+                        //     disabled: true,
+                        // },
                     ],
                 },
                 {
@@ -158,13 +161,6 @@ export default defineComponent({
                             description: this.__("Configure your account settings"),
                             icon: "fas fa-user-circle",
                             url: "/admin/settings/account",
-                        },
-                        {
-                            title: this.__("Password"),
-                            description: this.__("Change your password"),
-                            icon: "fas fa-lock",
-                            url: "/admin/settings/password",
-                            disabled: true,
                         },
                         {
                             title: this.__("Sessions"),
@@ -197,13 +193,14 @@ export default defineComponent({
                             icon: "fab fa-discord",
                             url: "/admin/settings/discord",
                         },
-                        {
-                            title: this.__("Custom HTML"),
-                            description: this.__("Add Custom HTML page to help screen"),
-                            icon: "fas fa-code",
-                            url: "/admin/settings/html",
-                            disabled: true,
-                        },
+                        //TODO: hiding unimplemented features
+                        // {
+                        //     title: this.__("Custom HTML"),
+                        //     description: this.__("Add Custom HTML page to help screen"),
+                        //     icon: "fas fa-code",
+                        //     url: "/admin/settings/html",
+                        //     disabled: true,
+                        // },
                     ],
                 },
                 {
@@ -223,13 +220,14 @@ export default defineComponent({
                             icon: "fas fa-tasks",
                             url: "/admin/settings/tasks",
                         },
-                        {
-                            title: this.__("Updates"),
-                            description: this.__("Check for and view updates"),
-                            icon: "fas fa-sync",
-                            url: "/admin/settings/updates",
-                            disabled: true,
-                        },
+                        //TODO: hiding unimplemented features
+                        // {
+                        //     title: this.__("Updates"),
+                        //     description: this.__("Check for and view updates"),
+                        //     icon: "fas fa-sync",
+                        //     url: "/admin/settings/updates",
+                        //     disabled: true,
+                        // },
                         {
                             title: this.__("Bug Reporting"),
                             description: this.__("Manage bug reporting settings"),
@@ -248,24 +246,6 @@ export default defineComponent({
                             icon: "fas fa-info-circle",
                             url: "/admin/settings/about",
                             modal: true,
-                        },
-                    ],
-                },
-                {
-                    title: this.__("Members Only"),
-                    description: this.__("These features are only available to paying members"),
-                    pages: [
-                        {
-                            title: this.__("Membership"),
-                            description: this.__("View and manage your membership"),
-                            icon: "fas fa-cloud",
-                            url: "/admin/settings/membership",
-                        },
-                        {
-                            title: this.__("Live Support"),
-                            description: this.__("Get live support from the server admins"),
-                            icon: "fas fa-hands-helping",
-                            url: "/admin/settings/support",
                         },
                     ],
                 },

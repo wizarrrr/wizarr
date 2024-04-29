@@ -1,40 +1,39 @@
-# Setup Wizarr V3
-#### This document will help you with setting up Wizarr V3, please read thoroughly
+# Wizarr Notice
+If you are running Wizarr locally, you will need to make use of a Dynamic DNS service and forward your ports on your router to make it available to the wider internet. If you are behind a NAT, you will have to use a tunnel. Since this can be somewhat complex depending on your level of expertise, you might want to consider running Wizarr on an externally hosted VPS as it will simplify the process.
 
-## Welcome Page
-The refresh icon will wipe everything you have done and restart you back to the beginning.
-*Restart Button is currently not working, still in development*
+## Running Wizarr
 
-![Screenshot 2023-08-17 at 3 36 31 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/495ee8cb-ece6-4d85-806d-538a87489eb7)
+First, make sure you have installed [Docker](https://docs.docker.com/engine/install/) and it's already running. You will now proceed to run the following command inside the directory you wish the database to be stored:
 
-<hr>
+```
+docker run -d \
+    --name wizarr \
+    -p 5690:5690 \
+    -v ./wizarr/database:/data/database \
+    ghcr.io/wizarrrr/wizarr:latest
+```
 
-## Database Setup
-Database setup is not currently required but will be a future update to allow for custom database connection.
+After running this command, the `latest` image will be pulled and `wizarr/database` will be created in the directory you've cd'd into. If Wizarr installed with no errors it should show up when you run the `docker ps` command. You should also be able to access it on `http://localhost:5690`.
 
-![Screenshot 2023-08-17 at 3 36 37 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/c2eb3765-1546-48fe-8e47-b11b2a344cfd)
+## Initial Setup
+Upon first visiting `http://localhost:5690` you'll be greeted with a welcome screen. Click next until you reach the Admin account creation page and enter your details. 
 
-<hr>
+![welcome ss](https://raw.githubusercontent.com/wizarrrr/wizarr/master/docs/setup/welcome_setup.png)
 
-## Account Setup
-This is where you will setup your first Wizarr Admin account, your welcome to use the username `admin`, please ensure you use a real email address and also a strong password, something with special characters, numbers and uppercase and lowercase letters.
-
-![Screenshot 2023-08-17 at 3 36 44 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/b518e742-6a29-46ed-8ae4-c76af2edd5b7)
+![admin ss](https://raw.githubusercontent.com/wizarrrr/wizarr/master/docs/setup/admin_account_setup.png)
 
 <hr>
 
 ## Media Server Setup
-Here we need to configure the media server, this can either be `Jellyfin` or `Plex`, what you would use for Server URL will depend on your setup.
+Here we need to configure the media server, this can be either `Jellyfin` or `Plex`, depending on your setup.
 
-<hr>
+![server setup ss](https://raw.githubusercontent.com/wizarrrr/wizarr/master/docs/setup/media_server_setup.png)
 
-### Public Hosted Media Server
-If your media server is hosted at a public facing domain, for example http://plex.wizarr.dev or https://plex.wizarr.dev then you may use this address to point to your media server.
+Make sure you include `http://` when typing in your server address. You can use either `http://mylocalip:32400` or `https://myserverdomain.com` if you're using a domain. You can also use an override address if you need to.
 
-<strong>DO NOT LEAVE A TRAILING SLASH ON YOUR URL</strong><br>
-<em>Example: https://plex.wizarr.dev/</em>
-
-![Screenshot 2023-08-17 at 3 40 01 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/5d3304e2-2963-4519-b7a5-656b0fcf31de)
+For your API:
+- Jellyfin you would go to `Dashboard > API Keys`.
+- Plex you will need to figure out your Plex `token`. You can see how to do it [here](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/).
 
 <hr>
 
@@ -43,56 +42,24 @@ If your media server is hosted inside Docker on the same machine that Wizarr is 
 
 Docker will use your media servers container name as a host address, if you look in the below screenshot you will see that I ran a `docker ps` command and in the last column of the result you can see the container names. For my plex container it's named `plex`.
 
-![Screenshot 2023-08-17 at 3 39 31 pm 1](https://github.com/Wizarrrr/wizarr/assets/16636012/ad1829c2-f2dd-425b-9eb8-1319cb714603)
+![network ss](https://raw.githubusercontent.com/wizarrrr/wizarr/master/docs/setup/docker_network_setup.png)
 
 So we can use this address to point to our media server, you will see in the below screenshot I have set the Server URL to `http://plex:32400`.
 1. `http://` - We want to use an unencrypted connection to Plex, this is secure because we are on a sub network inside of Docker.
 2. `plex` - This is our docker container name for the chosen media server, this could be any name that you chose when creating your docker container.
 3. `:32400` - The port that Plex is running at, Jellyfin would use `8096` for the port number, so if your Jellyfin container name was `jellyfin` you could use the Server URL `http://jellyfin:8096`
 
-<strong>DO NOT LEAVE A TRAILING SLASH ON YOUR URL</strong><br>
-<em>Example: http://plex:32400/</em>
-
-![Screenshot 2023-08-17 at 3 37 35 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/5d85d773-9329-427e-bad4-2a55ea70f7f7)
-
 <hr>
 
-### IP Addresses
-*THERE IS CURRENTLY AN UNRESOLVED BUG IN WIZARR V3 BETA THAT DOES NOT ALLOW YOU TO USE IP ADDRESSES. THIS SHOULD BE FIXED SOON.
-
-CURRENT WORKAROUND
-If you need to use an IP Address then please use the below workaround, you will need to add the below setting to your Wizarr V3's Docker Compose file.
-
-````
-extra_hosts:
-  - "mediaserver:your-ip-address"
-````
-
-KEEP `mediaserver` the same, but replace `your-ip-address` with the IP address of your Media Server you are attempting to point to.
-
-Now save the file and restart Wizarr V3 with the updated changes, you can now set Server URL to `http://mediaserver:32400`, remember `32400` is the port for Plex, if you are using Jellyfin then you would use the port number `8096`
-
-DO NOT USE THE ABOVE `EXTRA_HOSTS` method if your Plex or Jellyfin server is running in Docker on the same machine as Wizarr, instead please refer to using the `Media Server Hosted in Docker on same machine` method.
-
-<strong>DO NOT LEAVE A TRAILING SLASH ON YOUR URL</strong><br>
-<em>Example: http://mediaserver:32400/</em>
-
-<hr>
 
 ### Libraries Setup
-If your Media Server is successfully detected then you will see a button show called `Configure Libraries`, click this to select which Libraries by default Wizarr will allow invited users to be apart of.
+If your Media Server was successfully detected you will be prompted to `Scan Libraries`, which will allow you to select which Libraries you wish to be included by default in your invitations. If you don't select anything, your users will have access to `all libraries` upon joining your server.
 
-![Screenshot 2023-08-17 at 3 40 29 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/0e5fbac5-c11f-4be2-87c6-ec3a086ed385)
-
-For example, if you create an Invite to your Jellyfin server but you do not wish under any circumstance invited users to have access to your `Home Movies` Library then you would select all Libraries <strong>EXCEPT</strong> the `Home Movies` Library.
-
-![Screenshot 2023-08-17 at 3 40 35 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/31bed2bf-deb9-42d8-8058-3ebbf9a9bf28)
+![libraries ss](https://raw.githubusercontent.com/wizarrrr/wizarr/master/docs/setup/libraries_setup.png)
 
 <hr>
 
-### All Done
-After saving your Libraries (if you chose to configure it now, can be configured later on if you wish), you can click `Save` to be brought to the last step.
+### All Done!
+After saving your Libraries you will be prompted to login to your Wizarr dashboard. You will then be able to proceed to create and adjust your invitation settings accordingly.
 
-Just click `Go to Login` and you will be ready to Login to Wizarr.
-
-![Screenshot 2023-08-17 at 3 40 49 pm](https://github.com/Wizarrrr/wizarr/assets/16636012/3116622d-1dec-499a-a2d3-c5dce9af74c4)
+![invitations ss](https://raw.githubusercontent.com/wizarrrr/wizarr/master/docs/setup/invitations_setup.png)

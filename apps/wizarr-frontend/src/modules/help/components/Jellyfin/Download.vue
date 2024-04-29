@@ -15,7 +15,7 @@
 
         <!-- Description -->
         <p class="text-sm">
-            {{ __("Planning on watching Movies on this device? Download Jellyfin for this device or click 'Next' to for other options.") }}
+            {{ __("Planning on watching Movies on this device? Download Jellyfin for this device or click 'Other Downloads' for other options.") }}
         </p>
 
         <!-- Split Line -->
@@ -53,7 +53,7 @@
             </span>
             <span class="flex justify-end items-center">
                 <a href="https://jellyfin.org/downloads" target="_blank" class="text-sm font-medium text-primary flex flex-row">
-                    Other Download
+                    Other Downloads
                     <i class="fas fa-download ml-2 mt-[2px]"></i>
                 </a>
             </span>
@@ -89,7 +89,7 @@ export default defineComponent({
     methods: {
         copy() {
             this.$toast.info("Copied to clipboard!");
-            this.clipboard.copy(this.settings.server_url);
+            this.clipboard.copy(this.settings.server_url_override ?? this.settings.server_url);
         },
         openURL() {
             const resolve = this.$router.resolve({ name: "open" });

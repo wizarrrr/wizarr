@@ -1,7 +1,7 @@
 import { createGettext, type GetTextOptions } from "vue3-gettext";
 import translations from "./language/translations.json";
 
-console.log(`%cWizarr Server\n%cWizarr - MIT License - https://wizarr.dev - https://github.com/wizarrrr/wizarr`, "color: #FE4155; -webkit-text-stroke: 2px #FE4155; font-size: 72px; font-weight: bold;", "color: #00A2E8; font-size: 10px; font-weight: bold;");
+console.log(`%cWizarr Server\n%cWizarr - MIT License - https://wizarr.dev - https://github.com/wizarrrr/wizarr`, "color: #e05362; -webkit-text-stroke: 2px #e05362; font-size: 72px; font-weight: bold;", "color: #00A2E8; font-size: 10px; font-weight: bold;");
 
 // Available languages
 const availableLanguages: GetTextOptions["availableLanguages"] = {

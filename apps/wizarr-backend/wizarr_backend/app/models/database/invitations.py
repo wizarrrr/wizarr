@@ -14,3 +14,5 @@ class Invitations(BaseModel):
     specific_libraries = CharField(default=None, null=True)
     plex_allow_sync = BooleanField(null=True, default=None)
     plex_home = BooleanField(null=True, default=None)
+    sessions = CharField(null=True, default=None)
+    live_tv = BooleanField(null=True, default=None)

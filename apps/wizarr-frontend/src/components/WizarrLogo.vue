@@ -28,10 +28,10 @@ export default defineComponent({
     },
     computed: {
         svgZoom() {
-            const minX = 30;
-            const minY = 44;
-            const width = 550;
-            const height = 550;
+            const minX = 55;
+            const minY = 50;
+            const width = 500;
+            const height = 500;
 
             return `${minX} ${minY} ${width} ${height}`;
         },

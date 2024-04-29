@@ -1,6 +1,6 @@
 {
     "name": "@wizarrrr/source",
-    "version": "3.5.0",
+    "version": "4.0.0",
     "license": "MIT",
     "scripts": {
         "postinstall": "nx run-many --target=install --projects=wizarr-backend",
@@ -59,7 +59,7 @@
         "currency-symbol-map": "^5.1.0",
         "feather-icons": "^4.29.1",
         "firebase": "^10.3.1",
-        "floating-vue": "^2.0.0-beta.24",
+        "floating-vue": "^2.0.0",
         "flowbite": "^1.8.1",
         "gridstack": "^9.2.0",
         "jenesius-vue-modal": "^1.9.2",
@@ -156,6 +156,7 @@
         "@wizarrrr/semantic-release-sentry-releases": "^1.0.0",
         "autoprefixer": "^10.4.15",
         "chromatic": "^9.0.0",
+        "conventional-changelog-conventionalcommits": "^7.0.2",
         "cypress": "^13.0.0",
         "eslint": "^8.48.0",
         "eslint-config-prettier": "^9.0.0",

@@ -94,21 +94,6 @@ const children: RouteRecordRaw[] = [
         component: () => import("../pages/Sentry.vue"),
         meta: { header: "Bug Reporting", subheader: "Configure bug reporting" },
     },
-    {
-        path: "membership",
-        name: "admin-settings-membership",
-        component: () => import("../pages/Membership.vue"),
-        meta: {
-            header: "Membership",
-            subheader: "View Wizarr Cloud membership",
-        },
-    },
-    {
-        path: "support",
-        name: "admin-settings-support",
-        component: () => import("../pages/Support.vue"),
-        meta: { header: "Live Support", subheader: "Get live support" },
-    },
 ];
 
 export default children;

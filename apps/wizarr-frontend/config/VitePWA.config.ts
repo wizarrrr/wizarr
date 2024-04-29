@@ -29,7 +29,7 @@ const VitePWAConfig: Partial<VitePWAOptions> = {
     manifest: {
         name: "Wizarr",
         short_name: "Wizarr",
-        theme_color: "#ff4155",
+        theme_color: "#D03143",
         background_color: "#111827",
         orientation: "portrait",
         display: "standalone",

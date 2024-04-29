@@ -30,9 +30,9 @@ from .oauth_api import api as oauth_api
 from .mfa_api import api as mfa_api
 from .utilities_api import api as utilities_api
 from .jellyfin_api import api as jellyfin_api
+from .emby_api import api as emby_api
 from .healthcheck_api import api as healthcheck_api
 from .server_api import api as server_api
-from .membership_api import api as membership_api
 
 authorizations = {
     "jsonWebToken": {
@@ -109,6 +109,7 @@ api.add_namespace(apikeys_api)
 api.add_namespace(authentication_api)
 api.add_namespace(backup_api)
 api.add_namespace(discord_api)
+api.add_namespace(emby_api)
 api.add_namespace(healthcheck_api)
 api.add_namespace(invitations_api)
 api.add_namespace(jellyfin_api)
@@ -128,7 +129,6 @@ api.add_namespace(tasks_api)
 api.add_namespace(users_api)
 api.add_namespace(utilities_api)
 api.add_namespace(webhooks_api)
-api.add_namespace(membership_api)
 
 # Potentially remove this if it becomes unstable
 # api.add_namespace(live_notifications_api)

@@ -7,8 +7,7 @@ addons.setConfig({
     theme: create({
         base: systemTheme,
         brandTitle: "Wizarr",
-
-        colorPrimary: "#fe4155",
+        colorPrimary: "#e05362",
         colorSecondary: "#4B5563",
     }),
 });

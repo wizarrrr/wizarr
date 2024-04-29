@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-row-reverse flex-column m-3">
-        <LanguageSelector iconClasses="text-base h-8 w-8" />
+        <LanguageSelector iconClasses="text-base h-6 w-6" />
         <ThemeToggle iconClasses="text-base h-6 w-6" />
     </div>
 
