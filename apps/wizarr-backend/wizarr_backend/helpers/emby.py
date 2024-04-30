@@ -261,9 +261,6 @@ def invite_emby_user(username: str, password: str, code: str, server_api_key: Op
     # Create user in Emby
     user_response = post_emby(api_path="/Users/New", json=new_user, server_api_key=server_api_key, server_url=server_url)
 
-    # Set user password
-    post_emby(api_path=f"/Users/{user_response['Id']}/Password", json={"NewPw": str(password)}, server_api_key=server_api_key, server_url=server_url)
-
     # Create policy object
     new_policy = {
         "EnableAllFolders": True,
@@ -298,6 +295,9 @@ def invite_emby_user(username: str, password: str, code: str, server_api_key: Op
 
     # Update user policy
     post_emby(api_path=api_path, json=new_policy, server_api_key=server_api_key, server_url=server_url)
+
+    # Set user password, this is done after the policy is set due to LDAP policies
+    post_emby(api_path=f"/Users/{user_response['Id']}/Password", json={"NewPw": str(password)}, server_api_key=server_api_key, server_url=server_url)
 
     # Return response
     return user_response
