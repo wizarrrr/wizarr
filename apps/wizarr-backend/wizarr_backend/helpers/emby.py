@@ -287,6 +287,10 @@ def invite_emby_user(username: str, password: str, code: str, server_api_key: Op
     else:
         new_policy["EnableLiveTvAccess"] = False
 
+    # Set the hidden user status
+    if invitation.hide_user is not None and invitation.hide_user == False:
+        new_policy["IsHiddenRemotely"] = False
+
     # Get users default policy
     old_policy = user_response["Policy"]
 

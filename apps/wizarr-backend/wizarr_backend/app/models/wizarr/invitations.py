@@ -42,6 +42,7 @@ class InvitationsModel(Model):
     plex_home = BooleanType(required=False, default=False)
     used_at = DateTimeType(required=False, default=None, convert_tz=True)
     created = DateTimeType(required=False, default=datetime.utcnow(), convert_tz=True)
+    hide_user = BooleanType(required=False, default=True)
 
 
     # ANCHOR - Validate Code
