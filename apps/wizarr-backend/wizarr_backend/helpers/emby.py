@@ -253,8 +253,6 @@ def invite_emby_user(username: str, password: str, code: str, server_api_key: Op
     if invitation.specific_libraries is not None and len(invitation.specific_libraries) > 0:
         sections = invitation.specific_libraries.split(",")
 
-    print(sections)
-
     # Create user object
     new_user = { "Name": str(username) }
 
@@ -264,6 +262,9 @@ def invite_emby_user(username: str, password: str, code: str, server_api_key: Op
     # Create policy object
     new_policy = {
         "EnableAllFolders": True,
+        "SimultaneousStreamLimit": 0,
+        "EnableLiveTvAccess": False,
+        "EnableLiveTvManagement": False,
         "AuthenticationProviderId": "Emby.Server.Implementations.Library.DefaultAuthenticationProvider",
     }
 
@@ -275,14 +276,10 @@ def invite_emby_user(username: str, password: str, code: str, server_api_key: Op
     # Set stream limit options
     if invitation.sessions is not None and int(invitation.sessions) > 0:
         new_policy["SimultaneousStreamLimit"] = int(invitation.sessions)
-    else:
-        new_policy["SimultaneousStreamLimit"] = 0
 
     # Set live tv access
     if invitation.live_tv is not None and invitation.live_tv == True:
         new_policy["EnableLiveTvAccess"] = True
-    else:
-        new_policy["EnableLiveTvAccess"] = False
 
     # Get users default policy
     old_policy = user_response["Policy"]
