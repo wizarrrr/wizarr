@@ -92,7 +92,7 @@ export default defineComponent({
             activeStep: 0,
             views: [
                 {
-                    name: 'join',
+                    name: 'home',
                     title: this.__('Please enter your invite code:'),
                     component: () => import('../pages/JoinForm.vue'),
                 },

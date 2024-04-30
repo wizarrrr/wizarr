@@ -14,12 +14,12 @@ const routes: Readonly<RouteRecordRaw[]> = [
     // TODO: Remove this route after a few versions to allow users to get used to the new route
     {
         path: '/j/:invite',
-        name: 'invite',
+        name: 'deprecated-invite',
         component: () => import('../views/Home.vue'),
     },
     {
         path: '/join',
-        name: 'home',
+        name: 'deprecated-join',
         component: () => import('../views/Home.vue'),
     },
 ];
