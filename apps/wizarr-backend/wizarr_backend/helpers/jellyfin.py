@@ -283,9 +283,7 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
         new_policy["EnableLiveTvAccess"] = False
 
     # Set the hidden user status
-    if invitation.hide_user is not None and invitation.hide_user == True:
-        new_policy["IsHidden"] = True
-    else:
+    if invitation.hide_user is not None and invitation.hide_user == False:
         new_policy["IsHidden"] = False
 
     # Get users default policy
