@@ -185,7 +185,7 @@ export default defineComponent({
                         value: "live_tv",
                     },
                     hide_user: {
-                        label: "Hide User from Dashboard",
+                        label: "Hide User from the Login Page",
                         value: "hide_user",
                     },
                 },
@@ -199,7 +199,7 @@ export default defineComponent({
                         value: "live_tv",
                     },
                     hide_user: {
-                        label: "Hide User from Dashboard",
+                        label: "Hide User from the Login Page",
                         value: "hide_user",
                     },
                 },

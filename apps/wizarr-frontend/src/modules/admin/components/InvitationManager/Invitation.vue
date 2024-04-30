@@ -107,7 +107,7 @@ export default defineComponent({
                         value: this.invitation.live_tv,
                     },
                     hide_user: {
-                        label: "Hide User from Dashboard",
+                        label: "Hide User from the Login Page",
                         value: this.invitation.hide_user,
                     },
                 },
@@ -121,7 +121,7 @@ export default defineComponent({
                         value: this.invitation.live_tv,
                     },
                     hide_user: {
-                        label: "Hide User from Dashboard",
+                        label: "Hide User from the Login Page",
                         value: this.invitation.hide_user,
                     },
                 },
