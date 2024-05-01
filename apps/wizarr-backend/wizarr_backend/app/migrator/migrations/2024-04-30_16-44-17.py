@@ -26,6 +26,8 @@ def run():
 
         if "hide_user" not in column_names:
             db.execute_sql("ALTER TABLE invitations ADD COLUMN hide_user BOOLEAN DEFAULT 1")
+        elif "live_tv" in column_names:
+            db.execute_sql("ALTER TABLE invitations ALTER COLUMN live_tv BOOLEAN;")
         else:
             print("Column hide_user already exists")
 
