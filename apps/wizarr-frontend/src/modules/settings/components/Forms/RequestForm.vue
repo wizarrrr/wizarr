@@ -24,7 +24,7 @@
         />
         <FormKit
             type="text"
-            label="API URL"
+            label="Service URL"
             name="url"
             placeholder="https://jellyseerr.example.com"
             validation="required|url"
@@ -64,7 +64,7 @@ export default defineComponent({
                     label: 'Jellyseerr',
                     value: 'jellyseerr',
                     attrs: {
-                        disabled: this.settings.server_type !== 'jellyfin',
+                        disabled: this.settings.server_type !== 'jellyfin' && this.settings.server_type !== 'emby',
                     },
                 },
                 {

@@ -260,12 +260,32 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
     user_response = post_jellyfin(api_path="/Users/New", json=new_user, server_api_key=server_api_key, server_url=server_url)
 
     # Create policy object
-    new_policy = { "EnableAllFolders": True, "MaxActiveSessions": 2 }
+    new_policy = {
+        "EnableAllFolders": True,
+        "MaxActiveSessions": 0,
+        "EnableLiveTvAccess": False,
+        "EnableLiveTvManagement": False,
+        "AuthenticationProviderId": "Jellyfin.Server.Implementations.Users.DefaultAuthenticationProvider",
+    }
 
+    # Set library options
     if sections:
         new_policy["EnableAllFolders"] = False
         new_policy["EnabledFolders"] = sections
 
+    # Set session limit options
+    if invitation.sessions is not None and int(invitation.sessions) > 0:
+        new_policy["MaxActiveSessions"] = int(invitation.sessions)
+
+    # Set live tv access
+    if invitation.live_tv is not None and invitation.live_tv == True:
+        new_policy["EnableLiveTvAccess"] = True
+
+    # Set the hidden user status
+    if invitation.hide_user is not None and invitation.hide_user == False:
+        new_policy["IsHidden"] = False
+
+    # Get users default policy
     old_policy = user_response["Policy"]
 
     # Merge policy with user policy don't overwrite
@@ -369,12 +389,18 @@ def sync_jellyfin_users(server_api_key: Optional[str] = None, server_url: Option
             create_user(username=jellyfin_user["Name"], token=jellyfin_user["Id"])
             info(f"User {jellyfin_user['Name']} successfully imported to database.")
 
+        # If the user does exist then update their username
+        else:
+            user = get_user_by_token(jellyfin_user["Id"], verify=False)
+            user.username = jellyfin_user["Name"]
+            user.save()
+            info(f"User {jellyfin_user['Name']} successfully updated in database.")
+
     # If database_users.token not in jellyfin_users.id, delete from database
     for database_user in database_users:
         if str(database_user.token) not in [str(jellyfin_user["Id"]) for jellyfin_user in jellyfin_users]:
             database_user.delete_instance()
             info(f"User {database_user.username} successfully deleted from database.")
-
 
 
 # ANCHOR - Jellyfin Get Profile Picture

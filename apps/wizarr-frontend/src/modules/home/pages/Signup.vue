@@ -4,6 +4,10 @@
         v-bind="$attrs"
         v-else-if="settings.server_type == 'jellyfin'"
     />
+    <EmbySignup
+        v-bind="$attrs"
+        v-else-if="settings.server_type == 'emby'"
+    />
 </template>
 
 <script lang="ts">
@@ -17,6 +21,9 @@ export default defineComponent({
         PlexSignup: defineAsyncComponent(() => import('./Plex/Signup.vue')),
         JellyfinSignup: defineAsyncComponent(
             () => import('./Jellyfin/Signup.vue'),
+        ),
+        EmbySignup: defineAsyncComponent(
+            () => import('./Emby/Signup.vue'),
         ),
     },
     computed: {

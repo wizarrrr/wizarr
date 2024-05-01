@@ -8,6 +8,9 @@ export interface Invitation {
     id: number;
     plex_allow_sync: boolean;
     plex_home: boolean;
+    live_tv: boolean;
+    hide_user: boolean;
+    sessions: number;
     specific_libraries: string;
     unlimited: boolean;
     used: boolean;

@@ -27,11 +27,16 @@
                 <FormKit type="button" v-if="saved || !setup" prefix-icon="fas fa-list" data-theme="secondary" @click="scanLibraries">
                     {{ __("Scan Libraries") }}
                 </FormKit>
+                <VTooltip>
+                    <!-- Scan Servers -->
+                    <FormKit type="button" :disabled="true" v-if="!serverForm.server_type || !setup" prefix-icon="fas fa-server" data-theme="secondary" @click="scanServers">
+                        {{ __("Scan Servers") }}
+                    </FormKit>
 
-                <!-- Scan Servers -->
-                <FormKit type="button" :disabled="true" v-if="!serverForm.server_type || !setup" prefix-icon="fas fa-server" data-theme="secondary" @click="scanServers">
-                    {{ __("Scan Servers") }}
-                </FormKit>
+                    <template #popper>
+                        <span>{{ __("Coming Soon") }}</span>
+                    </template>
+                </VTooltip>
             </div>
             <div class="flex flex-grow justify-end sm:justify-end space-x-2 mt-2">
                 <!-- Verify Server -->
@@ -83,7 +88,8 @@ export default defineComponent({
                 server_api_key: "",
             },
             serverOptions: [
-                { label: "Jellyfin (or Emby)", value: "jellyfin" },
+                { label: "Jellyfin", value: "jellyfin" },
+                { label: "Emby", value: "emby" },
                 { label: "Plex Media Server", value: "plex" },
             ],
         };
