@@ -12,7 +12,6 @@ import middlewarePipeline from './middlewarePipeline';
 // Import all Routes from the modules
 import homeRoutes from '@/modules/home/router';
 import authenticationRoutes from '@/modules/authentication/router';
-import joinRoutes from '@/modules/join/router';
 import adminRoutes from '@/modules/admin/router';
 import settingsRoutes from '@/modules/settings/router';
 import helpRoutes from '@/modules/help/router';
@@ -26,9 +25,8 @@ const router = createRouter({
             ? createWebHistory()
             : createMemoryHistory(),
     routes: [
-        ...homeRoutes, // Homepage routes ["/"]
+        ...homeRoutes, // Homepage routes ["/", "/i/:invite"]
         ...authenticationRoutes, // Authentication routes ["/login", "/register", "/forgot-password", "/reset-password"]
-        ...joinRoutes, // Join routes ["/join", "/j/:id"]
         ...adminRoutes, // Admin routes ["/admin", "/admin/:page"]
         ...settingsRoutes, // Settings routes ["/admin/settings", "/admin/settings/:page"]
         ...helpRoutes, // Help routes ["/help", "/open"]

@@ -29,12 +29,12 @@ import { defineComponent } from 'vue';
 import { useServerStore } from '@/stores/server';
 
 export default defineComponent({
-    name: 'JoinCompleteView',
+    name: 'CompleteView',
     computed: {
         ...mapState(useServerStore, ['settings']),
     },
     mounted() {
-        console.log('mounted join complete view');
+        console.log('mounted complete view');
     },
 });
 </script>

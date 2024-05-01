@@ -253,20 +253,18 @@ def invite_emby_user(username: str, password: str, code: str, server_api_key: Op
     if invitation.specific_libraries is not None and len(invitation.specific_libraries) > 0:
         sections = invitation.specific_libraries.split(",")
 
-    print(sections)
-
     # Create user object
     new_user = { "Name": str(username) }
 
     # Create user in Emby
     user_response = post_emby(api_path="/Users/New", json=new_user, server_api_key=server_api_key, server_url=server_url)
 
-    # Set user password
-    post_emby(api_path=f"/Users/{user_response['Id']}/Password", json={"NewPw": str(password)}, server_api_key=server_api_key, server_url=server_url)
-
     # Create policy object
     new_policy = {
         "EnableAllFolders": True,
+        "SimultaneousStreamLimit": 0,
+        "EnableLiveTvAccess": False,
+        "EnableLiveTvManagement": False,
         "AuthenticationProviderId": "Emby.Server.Implementations.Library.DefaultAuthenticationProvider",
     }
 
@@ -278,14 +276,10 @@ def invite_emby_user(username: str, password: str, code: str, server_api_key: Op
     # Set stream limit options
     if invitation.sessions is not None and int(invitation.sessions) > 0:
         new_policy["SimultaneousStreamLimit"] = int(invitation.sessions)
-    else:
-        new_policy["SimultaneousStreamLimit"] = 0
 
     # Set live tv access
     if invitation.live_tv is not None and invitation.live_tv == True:
         new_policy["EnableLiveTvAccess"] = True
-    else:
-        new_policy["EnableLiveTvAccess"] = False
 
     # Set the hidden user status
     if invitation.hide_user is not None and invitation.hide_user == False:
@@ -302,6 +296,9 @@ def invite_emby_user(username: str, password: str, code: str, server_api_key: Op
 
     # Update user policy
     post_emby(api_path=api_path, json=new_policy, server_api_key=server_api_key, server_url=server_url)
+
+    # Set user password, this is done after the policy is set due to LDAP policies
+    post_emby(api_path=f"/Users/{user_response['Id']}/Password", json={"NewPw": str(password)}, server_api_key=server_api_key, server_url=server_url)
 
     # Return response
     return user_response

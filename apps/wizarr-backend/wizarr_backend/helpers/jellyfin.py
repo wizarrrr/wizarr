@@ -262,6 +262,9 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
     # Create policy object
     new_policy = {
         "EnableAllFolders": True,
+        "MaxActiveSessions": 0,
+        "EnableLiveTvAccess": False,
+        "EnableLiveTvManagement": False,
         "AuthenticationProviderId": "Jellyfin.Server.Implementations.Users.DefaultAuthenticationProvider",
     }
 
@@ -273,14 +276,10 @@ def invite_jellyfin_user(username: str, password: str, code: str, server_api_key
     # Set session limit options
     if invitation.sessions is not None and int(invitation.sessions) > 0:
         new_policy["MaxActiveSessions"] = int(invitation.sessions)
-    else:
-        new_policy["MaxActiveSessions"] = 0
 
     # Set live tv access
     if invitation.live_tv is not None and invitation.live_tv == True:
         new_policy["EnableLiveTvAccess"] = True
-    else:
-        new_policy["EnableLiveTvAccess"] = False
 
     # Set the hidden user status
     if invitation.hide_user is not None and invitation.hide_user == False:

@@ -91,7 +91,7 @@ export default defineComponent({
                     active: true,
                 },
                 {
-                    value: `${window.location.origin}/j/${this.invitation.code}`,
+                    value: `${window.location.origin}/i/${this.invitation.code}`,
                     active: false,
                 },
             ],
