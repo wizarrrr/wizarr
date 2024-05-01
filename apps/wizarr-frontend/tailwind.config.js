@@ -14,14 +14,13 @@ export const darkMode = 'class';
 export const theme = {
     extend: {
         colors: {
-            primary: '#fe4155',
-            primary_hover: '#e05362',
+            primary: '#D03143',
+            primary_hover: '#cf4858',
             secondary: '#4B5563',
-            secondary_hover: '#39414b',
+            secondary_hover: '#3d4247',
         },
         animation: {
             wiggle: 'wiggle 0.5s ease-in-out infinite',
-            // animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
             shake: 'shake 0.82s cubic-bezier(.36,.07,.19,.97) both',
         },
         keyframes: {
@@ -37,10 +36,6 @@ export const theme = {
             },
         },
     },
-    // fontFamily: {
-    //     'display': ['motiva sans', 'sans-serif'],
-    //     'body': ['motiva sans', 'sans-serif'],
-    // },
 };
 
 export const plugins = [

@@ -171,7 +171,7 @@ export default defineComponent({
             }
 
             // Verify the server type is valid
-            if (server_type !== "plex" && server_type !== "jellyfin") {
+            if (server_type !== "plex" && server_type !== "jellyfin" && server_type !== "emby") {
                 this.$toast.error("Please enter a valid server type");
                 return;
             }

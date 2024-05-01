@@ -105,7 +105,7 @@ export default defineComponent({
                 text: this.__(
                     'I wanted to invite you to join my media server.',
                 ),
-                url: `${window.location.origin}/j/${this.invite.code}`,
+                url: `${window.location.origin}/i/${this.invite.code}`,
             },
         };
     },
@@ -138,7 +138,7 @@ export default defineComponent({
         async copyToClipboard() {
             if (this.clipboard.isSupported) {
                 this.clipboard.copy(
-                    `${window.location.origin}/j/${this.invite.code}`,
+                    `${window.location.origin}/i/${this.invite.code}`,
                 );
                 this.$toast.info(this.__('Copied to clipboard'));
             } else {

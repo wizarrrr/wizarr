@@ -50,17 +50,12 @@
                 {{ __('Invitation Settings') }}
             </h2>
             <div class="flex flex-col space-y-2">
-                <template v-for="item in quickList">
-                    <span
-                        :class="
-                            item.value
-                                ? 'bg-green-100 text-green-800 dark:bg-gray-700 dark:text-green-400 border-green-400'
-                                : 'bg-red-100 text-red-800 dark:bg-gray-700 dark:text-red-400 border-red-400'
-                        "
-                        class="text-xs font-medium px-2.5 py-1 rounded border"
-                    >
-                        {{ item.text }}
-                    </span>
+                <template v-for="(data, label) in checkboxOptions[0]" :key="label">
+                    <FormKit type="checkbox" :label="data.label" :value="data.value" disabled />
+                </template>
+
+                <template v-for="(data, label) in selectsOptions[0]" :key="label">
+                    <FormKit type="select" :label="data.label" :name="label" :options="data.options" :value="data.value" disabled />
                 </template>
             </div>
         </div>
@@ -69,6 +64,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapState, mapActions } from "pinia";
+import { useServerStore } from "@/stores/server";
 import { useClipboard } from '@vueuse/core';
 
 import type { Invitation } from '@/types/api/invitations';
@@ -94,25 +91,95 @@ export default defineComponent({
                     active: true,
                 },
                 {
-                    value: `${window.location.origin}/j/${this.invitation.code}`,
+                    value: `${window.location.origin}/i/${this.invitation.code}`,
                     active: false,
                 },
             ],
             invitationExpired: true,
-            quickList: [
-                {
-                    text: 'Unlimited',
-                    value: this.invitation.unlimited,
+            checkboxes: {
+                jellyfin: {
+                    unlimited: {
+                        label: "Unlimited Invitation Usages",
+                        value: this.invitation.unlimited,
+                    },
+                    live_tv: {
+                        label: "Access to Live TV",
+                        value: this.invitation.live_tv,
+                    },
+                    hide_user: {
+                        label: "Hide User from the Login Page",
+                        value: this.invitation.hide_user,
+                    },
                 },
-                {
-                    text: 'Allow Downloads',
-                    value: this.invitation.plex_allow_sync,
+                emby: {
+                    unlimited: {
+                        label: "Unlimited Invitation Usages",
+                        value: this.invitation.unlimited,
+                    },
+                    live_tv: {
+                        label: "Access to Live TV",
+                        value: this.invitation.live_tv,
+                    },
+                    hide_user: {
+                        label: "Hide User from the Login Page",
+                        value: this.invitation.hide_user,
+                    },
                 },
-                {
-                    text: 'Plex Home',
-                    value: this.invitation.plex_home,
+                plex: {
+                    unlimited: {
+                        label: "Unlimited Invitation Usages",
+                        value: this.invitation.plex_home,
+                    },
+                    plex_home: {
+                        label: "Allow Plex Home Access",
+                        value: this.invitation.plex_home,
+                    },
+                    plex_allow_sync: {
+                        label: "Allow Plex Downloads",
+                        value: this.invitation.plex_allow_sync,
+                    },
                 },
-            ],
+            } as Record<string, Record<string, { label: string; value: boolean }>>,
+            selects: {
+                jellyfin: {
+                    sessions: {
+                        label: "Maximum Number of Simultaneous Logins",
+                        value: this.invitation.sessions,
+                        options: {
+                            0: "No Limit",
+                            1: "1 Session",
+                            2: "2 Sessions",
+                            3: "3 Sessions",
+                            4: "4 Sessions",
+                            5: "5 Sessions",
+                            6: "6 Sessions",
+                            7: "7 Sessions",
+                            8: "8 Sessions",
+                            9: "9 Sessions",
+                            10: "10 Sessions",
+                        },
+                    },
+                },
+                emby: {
+                    sessions: {
+                        label: "Maximum Number of Simultaneous Streams",
+                        value: this.invitation.sessions,
+                        options: {
+                            0: "No Limit",
+                            1: "1 Stream",
+                            2: "2 Streams",
+                            3: "3 Streams",
+                            4: "4 Streams",
+                            5: "5 Streams",
+                            6: "6 Streams",
+                            7: "7 Streams",
+                            8: "8 Streams",
+                            9: "9 Streams",
+                            10: "10 Streams",
+                        },
+                    },
+                },
+            } as Record<string, Record<string, { label: string; value: number, options: Record<number, string> }>>,
             clipboard: useClipboard({
                 legacy: true,
             }),
@@ -136,6 +203,21 @@ export default defineComponent({
         invitationExpiredDateReadable(): string {
             return new Date(this.invitation.expires).toLocaleString();
         },
+        checkboxOptions() {
+            if (!this.checkboxes[this.settings.server_type]) return [];
+
+            return Object.keys(this.checkboxes[this.settings.server_type]).map((key) => {
+                return this.checkboxes[this.settings.server_type];
+            });
+        },
+        selectsOptions() {
+            if (!this.selects[this.settings.server_type]) return [];
+
+            return Object.keys(this.selects[this.settings.server_type]).map((key) => {
+                return this.selects[this.settings.server_type];
+            });
+        },
+        ...mapState(useServerStore, ["settings"]),
     },
     methods: {
         invitationCodeToggle() {

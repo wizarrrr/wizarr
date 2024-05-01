@@ -1,0 +1,180 @@
+name: CI/CD Build Image [Nightly]
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch: {}
+
+permissions:
+  packages: write
+  contents: write
+
+env:
+  GHCR_REGISTRY: ghcr.io
+  DH_REGISTRY: docker.io
+  IMAGE_NAME: wizarrrr/wizarr
+
+jobs:
+  before_build:
+    name: Prepare for Build
+    runs-on: ubuntu-latest
+    steps:
+      # Clear the digests from the artifacts
+      - name: Clear digests
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: |
+            digests_dh
+            digests_ghcr
+
+  build:
+    name: Build Digest for Registry
+    runs-on: ubuntu-latest
+    needs:
+      - before_build
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/arm64
+
+    steps:
+      # Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # Use NPM and Node.js to install dependencies
+      - name: Use Node.js 18.18.2
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.18.2
+
+      # Use Python and Poetry to install dependencies
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      # Install Poetry and configure it to not create a virtual environment
+      - name: Install Poetry
+        run: |
+          pip install poetry==1.6.1
+          poetry config virtualenvs.create false
+
+      # Install the dependencies for the repository
+      - name: Install dependencies
+        run: npm install
+
+      # Build the repository
+      - name: Build the Repository
+        run: |
+          npx nx build wizarr-backend
+          npx nx build wizarr-frontend
+
+      # Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Login to GHCR
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.GHCR_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Build and push by digest
+      - name: Build and push by digest
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./dockerfiles/wizarr-ci/Dockerfile
+          push: true
+          platforms: ${{ matrix.platform }}
+          provenance: false
+          outputs: type=image,name=${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true
+
+      # Export the digest to a file
+      - name: Export digest
+        run: |
+          mkdir -p /tmp/digests
+          digest="${{ steps.build.outputs.digest }}"
+          touch "/tmp/digests/${digest#sha256:}"
+
+      # Upload the digest to the artifacts
+      - name: Upload digest
+        uses: actions/upload-artifact@v3
+        with:
+          name: digests_ghcr
+          path: /tmp/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+  merge:
+    name: Merge Digest to Registry
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      # Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # Check if the tag is a beta or latest release
+      - name: Get Release Branch
+        id: release-branch
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/develop' ]]; then
+              echo "::set-output name=release_branch::nightly"
+          else
+              echo "Unknown tag, not setting environment variable."
+              exit 1
+          fi
+
+      # Download the digests from the artifacts
+      - name: Download digests
+        uses: actions/download-artifact@v3
+        with:
+          name: digests_ghcr
+          path: /tmp/digests
+
+      # Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Login to GHCR
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Create manifest list and push to Registry
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.DH_REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Create manifest list and push to Registry
+      - name: Create manifest list and push to Registry
+        working-directory: /tmp/digests
+        run: |
+          docker buildx imagetools create \
+            --tag ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.release-branch.outputs.release_branch }} \
+            --tag ${{ env.DH_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.release-branch.outputs.release_branch }} \
+            $(printf '${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
+
+      # Inspect the image
+      - name: Inspect image
+        run: docker buildx imagetools inspect ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.release-branch.outputs.release_branch }}

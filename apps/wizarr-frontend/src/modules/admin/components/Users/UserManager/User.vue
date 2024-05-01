@@ -100,7 +100,7 @@ export default defineComponent({
                     active: true,
                 },
                 {
-                    value: `${window.location.origin}/j/${this.user.code}`,
+                    value: `${window.location.origin}/i/${this.user.code}`,
                     active: false,
                 },
             ],
