@@ -155,14 +155,9 @@ def create_user(**kwargs) -> Users:
     form = UsersModel(**kwargs)
     user_model = form.model_dump()
 
-    #
-    # Lookup by token to fix Issue #322 and #352
-    # https://github.com/wizarrrr/wizarr/issues/322
-    # https://github.com/wizarrrr/wizarr/issues/352
-    #
     # If user already exists raise error (maybe change this to update user)
-    if get_user_by_token(form.token, verify=False) is not None:
-        user: Users = Users.update(**user_model).where(Users.token == form.token).execute()
+    if get_user_by_username(form.username, verify=False) is not None:
+        user: Users = Users.update(**user_model).where(Users.username == form.username)
     else:
         user: Users = Users.create(**user_model)
 
