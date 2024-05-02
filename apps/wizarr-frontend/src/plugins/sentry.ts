@@ -29,7 +29,6 @@ const getVersion = () => {
         return server.version;
     }
 
-    return true;
 };
 
 const vuePluginSentry = {
