@@ -57,6 +57,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapState } from "pinia";
+import { useServerStore } from "@/stores/server";
 
 import type { User } from '@/types/api/users';
 
@@ -111,11 +113,19 @@ export default defineComponent({
 
             return 'text-gray-500 dark:text-gray-400';
         },
+        ...mapState(useServerStore, ["settings"]),
     },
     methods: {
         async getProfilePicture() {
+            if (!this.user.username) {
+                return;
+            }
+
+            // if the server type is plex then use the username as the token to cater for Plex Home Users
+            const token = this.settings.server_type === "plex" ? this.user.username : this.user.token;
+
             const response = this.$axios.get(
-                `/api/users/${this.user.token}/profile-picture`,
+                `/api/users/${token}/profile-picture`,
                 {
                     responseType: 'blob',
                 },

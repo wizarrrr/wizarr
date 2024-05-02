@@ -441,7 +441,7 @@ def get_jellyfin_profile_picture(user_id: str, max_height: Optional[int] = 150, 
         # Backup profile picture using ui-avatars.com if Jellyfin fails
         user = get_user_by_token(user_id, verify=False)
         username = f"{user.username}&length=1" if user else "ERROR&length=60&font-size=0.28"
-        response = get(url=f"https://ui-avatars.com/api/?uppercase=true&name={username}", timeout=30)
+        response = get(url=f"https://ui-avatars.com/api/?uppercase=true&background=AA5CC3&color=fff&name={username}", timeout=30)
 
     # Raise exception if either Jellyfin or ui-avatars.com fails
     if response.status_code != 200:

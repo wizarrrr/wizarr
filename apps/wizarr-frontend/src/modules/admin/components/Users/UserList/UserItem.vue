@@ -66,8 +66,14 @@ export default defineComponent({
     },
     data() {
         return {
-            profilePicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username,
-            backupPicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username,
+            profilePicture:
+                'https://ui-avatars.com/api/?uppercase=true&name=' +
+                this.user.username +
+                '&length=1',
+            backupPicture:
+                'https://ui-avatars.com/api/?uppercase=true&name=' +
+                this.user.username +
+                '&length=1',
             disabled: {
                 delete: false,
             },
@@ -106,7 +112,10 @@ export default defineComponent({
             if (!this.user.username) {
                 return;
             }
-            const response = this.$axios.get(`/api/users/${this.user.token}/profile-picture`, {
+            // if the server type is plex then use the username as the token to cater for Plex Home Users
+            const token = this.settings.server_type === "plex" ? this.user.username : this.user.token;
+
+            const response = this.$axios.get(`/api/users/${token}/profile-picture`, {
                 responseType: "blob",
             });
 

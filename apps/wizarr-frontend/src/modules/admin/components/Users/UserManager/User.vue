@@ -75,6 +75,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapState } from "pinia";
+import { useServerStore } from "@/stores/server";
 
 import type { User } from '@/types/api/users';
 import type { Emitter, EventType } from 'mitt';
@@ -136,6 +138,7 @@ export default defineComponent({
         userExpiredDateReadable() {
             return new Date(this.user.expires!).toLocaleString();
         },
+        ...mapState(useServerStore, ["settings"]),
     },
     methods: {
         invitationCodeToggle() {
@@ -145,6 +148,13 @@ export default defineComponent({
             });
         },
         async getProfilePicture() {
+            if (!this.user.username) {
+                return;
+            }
+
+            // if the server type is plex then use the username as the token to cater for Plex Home Users
+            const token = this.settings.server_type === "plex" ? this.user.username : this.user.token;
+
             const response = this.$axios.get(
                 `/api/users/${this.user.token}/profile-picture`,
                 {
