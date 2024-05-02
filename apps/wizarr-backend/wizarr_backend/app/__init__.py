@@ -9,8 +9,8 @@ from .models.database import *
 from .security import *
 from .utils.clear_logs import clear_logs
 from .migrator import run_migrations
+from .utils.software_lifecycle import get_current_version
 
-from utils.software_lifecycle import get_current_version
 from sentry_sdk import init as sentry_init
 
 # Get the base directory
