@@ -5,9 +5,9 @@ from app.models.emby.user import EmbyUser
 from app.extensions import socketio
 from datetime import datetime
 
-from .plex import get_plex_users, get_plex_user, sync_plex_users, delete_plex_user, get_plex_profile_picture, invite_plex_user, accept_plex_invitation
-from .jellyfin import get_jellyfin_users, get_jellyfin_user, sync_jellyfin_users, delete_jellyfin_user, get_jellyfin_profile_picture, invite_jellyfin_user
-from .emby import get_emby_users, get_emby_user, sync_emby_users, delete_emby_user, get_emby_profile_picture, invite_emby_user
+from .plex import get_plex_users, get_plex_user, sync_plex_users, delete_plex_user, invite_plex_user, accept_plex_invitation
+from .jellyfin import get_jellyfin_users, get_jellyfin_user, sync_jellyfin_users, delete_jellyfin_user, invite_jellyfin_user
+from .emby import get_emby_users, get_emby_user, sync_emby_users, delete_emby_user, invite_emby_user
 
 from .jellyseerr import jellyseerr_import_user, jellyseerr_delete_user
 from .overseerr import overseerr_import_user, overseerr_delete_user
@@ -229,33 +229,6 @@ def global_sync_users_to_media_server() -> dict[str]:
 
     # Return response
     return { "message": "Users synced" }
-
-
-# ANCHOR - Global Get User Profile Picture
-def global_get_user_profile_picture(user_id: str) -> str:
-    """Get a user"s profile picture from the media server
-
-    :param user_id: The id of the user
-    :type user_id: str
-
-    :return: The url of the user"s profile picture
-    """
-
-    # Get the server type
-    server_type = get_server_type()
-
-    # Get the user"s profile picture from the media server
-    if server_type == "plex":
-        return get_plex_profile_picture(user_id)
-
-    if server_type == "jellyfin":
-        return get_jellyfin_profile_picture(user_id)
-
-    if server_type == "emby":
-        return get_emby_profile_picture(user_id)
-
-    # Raise an error if the user"s profile picture is None
-    raise ValueError("Unable to get user's profile picture")
 
 
 # ANCHOR - Global Invite User To Media Server

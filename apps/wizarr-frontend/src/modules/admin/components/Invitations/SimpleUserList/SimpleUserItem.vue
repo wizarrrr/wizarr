@@ -12,8 +12,7 @@
                     class="flex-shrink-0 h-[60px] w-[60px] rounded bg-gray-50 overflow-hidden"
                 >
                     <img
-                        :src="profilePicture"
-                        :onerror="`this.src='${backupPicture}'`"
+                        :src="'https://ui-avatars.com/api/?uppercase=true&background=' + server_color + '&color=fff&name=' + user.username + '&length=1'"
                         class="w-full h-full object-cover object-center"
                         alt="Profile Picture"
                     />
@@ -75,18 +74,6 @@ export default defineComponent({
             required: true,
         },
     },
-    data() {
-        return {
-            profilePicture:
-                'https://ui-avatars.com/api/?uppercase=true&name=' +
-                this.user.username +
-                '&length=1',
-            backupPicture:
-                'https://ui-avatars.com/api/?uppercase=true&name=' +
-                this.user.username +
-                '&length=1',
-        };
-    },
     computed: {
         expired(): string {
             if (this.$filter('isPast', this.user.expires!)) {
@@ -113,29 +100,20 @@ export default defineComponent({
 
             return 'text-gray-500 dark:text-gray-400';
         },
-        ...mapState(useServerStore, ["settings"]),
-    },
-    methods: {
-        async getProfilePicture() {
-            if (!this.user.username) {
-                return;
+        server_color() {
+            // change the color of the profile picture border based on the server type
+            switch (this.settings.server_type) {
+                case "jellyfin":
+                    return "b06ac8";
+                case "emby":
+                    return "74c46e";
+                case "plex":
+                    return "ffc933";
+                default:
+                    return "999999";
             }
-
-            // if the server type is plex then use the username as the token to cater for Plex Home Users
-            const token = this.settings.server_type === "plex" ? this.user.username : this.user.token;
-
-            const response = this.$axios.get(
-                `/api/users/${token}/profile-picture`,
-                {
-                    responseType: 'blob',
-                },
-            );
-
-            this.profilePicture = URL.createObjectURL((await response).data);
         },
-    },
-    mounted() {
-        this.getProfilePicture();
+        ...mapState(useServerStore, ["settings"]),
     },
 });
 </script>
