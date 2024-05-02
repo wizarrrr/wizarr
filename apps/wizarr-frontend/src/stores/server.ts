@@ -19,9 +19,6 @@ export const useServerStore = defineStore("server", {
         isBugReporting(state) {
             if (state.settings.bug_reporting === undefined) return true;
             return state.settings.bug_reporting === "true";
-        },
-        version(state) {
-            return state.version;
         }
     },
     actions: {
