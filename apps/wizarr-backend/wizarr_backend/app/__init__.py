@@ -27,7 +27,7 @@ sentry_init(
     enable_tracing=True,
     traces_sample_rate=1.0,
     environment=app.debug and "development" or "production",
-    release=get_current_version(),
+    release=str(get_current_version()),
 )
 
 # Base route for testing
