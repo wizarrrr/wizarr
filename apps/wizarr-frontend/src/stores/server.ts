@@ -20,6 +20,9 @@ export const useServerStore = defineStore("server", {
             if (state.settings.bug_reporting === undefined) return true;
             return state.settings.bug_reporting === "true";
         },
+        version(state) {
+            return state.version;
+        }
     },
     actions: {
         setServerData(server_data: Partial<Server> | undefined) {

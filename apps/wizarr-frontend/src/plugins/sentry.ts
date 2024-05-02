@@ -21,9 +21,21 @@ const isBugReporting = () => {
     return true;
 };
 
+const getVersion = () => {
+    const localStorage = window.localStorage.getItem("server");
+
+    if (localStorage !== null) {
+        const server = JSON.parse(localStorage);
+        return server.version;
+    }
+
+    return true;
+};
+
 const vuePluginSentry = {
     install: (app: App, options?: SentryOptions) => {
         const bugReporting = isBugReporting();
+        const version = getVersion();
 
         console.log("\x1b[32m%s\x1b[0m", "Sentry: Initializing");
         console.log(bugReporting ? "\x1b[31m%s\x1b[0m" : "\x1b[32m%s\x1b[0m", "Sentry: Bug Reporting is " + (bugReporting ? "OFF" : "ON"));
@@ -45,6 +57,7 @@ const vuePluginSentry = {
                 }),
             ],
             environment: process.env.NODE_ENV,
+            release: version,
             tracesSampleRate: 1.0,
             replaysSessionSampleRate: 0.1,
             replaysOnErrorSampleRate: 1.0,
