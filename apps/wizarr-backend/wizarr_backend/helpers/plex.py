@@ -21,7 +21,6 @@ from app.models.database.libraries import Libraries
 # - Plex Get User
 # - Plex Delete User
 # - Plex Sync Users
-# - Plex Get Profile Picture
 
 # ANCHOR - Get Plex Server
 def get_plex_server(server_api_key: Optional[str] = None, server_url: Optional[str] = None) -> PlexServer:

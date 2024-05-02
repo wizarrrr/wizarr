@@ -25,7 +25,6 @@ from app.models.jellyfin.library import JellyfinLibraryItem
 # - Jellyfin Delete User
 # - Jellyfin Sync Users
 
-
 # ANCHOR - Jellyfin Get Request
 def get_jellyfin(api_path: str, as_json: Optional[bool] = True, server_api_key: Optional[str] = None, server_url: Optional[str] = None):
     """Get data from Jellyfin.

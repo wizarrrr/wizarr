@@ -25,7 +25,6 @@ from app.models.emby.library import EmbyLibraryItem
 # - Emby Delete User
 # - Emby Sync Users
 
-
 # ANCHOR - Emby Get Request
 def get_emby(api_path: str, as_json: Optional[bool] = True, server_api_key: Optional[str] = None, server_url: Optional[str] = None):
     """Get data from Emby.
