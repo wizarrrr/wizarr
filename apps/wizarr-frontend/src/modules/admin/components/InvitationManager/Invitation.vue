@@ -128,7 +128,7 @@ export default defineComponent({
                 plex: {
                     unlimited: {
                         label: "Unlimited Invitation Usages",
-                        value: this.invitation.plex_home,
+                        value: this.invitation.unlimited,
                     },
                     plex_home: {
                         label: "Allow Plex Home Access",
