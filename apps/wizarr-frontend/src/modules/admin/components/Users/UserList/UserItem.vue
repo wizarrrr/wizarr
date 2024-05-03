@@ -159,7 +159,10 @@ export default defineComponent({
                     window.open(`${server_url}/web/index.html#!/users/user?userId=${this.user.token}`, "_blank");
                     break;
                 case "plex":
-                    window.open(`${server_url}/web/index.html#!/settings/manage-library-access/sharing/${this.user.token}`, "_blank");
+                    // If the user has no email, use the server_url_override if it is not the default Plex URL
+                    const plex_url = !this.user.email ? (this.settings.server_url_override ?? this.settings.server_url).includes("app.plex.tv") ? this.settings.server_url : server_url : server_url;
+
+                    window.open(`${plex_url}/web/index.html#!/settings/manage-library-access/sharing/${this.user.token}`, "_blank");
                     break;
             }
         },
