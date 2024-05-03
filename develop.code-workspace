@@ -21,6 +21,13 @@
         "files.exclude": {
             "**/apps/": true
         },
+        "search.exclude": {
+            "**/node_modules": true,
+            "**/bower_components": true,
+            "**/*.code-search": true,
+            "**/language": true,
+            "**/apps/wizarr-frontend/src/language": true
+        },
         "commit-message-editor.staticTemplate": ["feat: Short description", "", "Message body", "", "Message footer"],
         "commit-message-editor.dynamicTemplate": ["{type}{scope}: {description}", "", "{body}", "", "{skip_ci}", "", "{breaking_change}{footer}"],
         "commit-message-editor.tokens": [

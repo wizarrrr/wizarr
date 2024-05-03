@@ -9,9 +9,9 @@
   <Privileged>false</Privileged>
   <Support>https://github.com/Wizarrrr/wizarr/discussions</Support>
   <Project>https://github.com/wizarrrr/wizarr</Project>
-  <Overview>Wizarr is a automatic user invitation system for Plex and Jellyfin. Create a unique link and share it to a user and they will be invited to your Media Server after they complete there signup proccess! They can even be guided to download the clients and read instructions on how to use your media software!&#xD;
+  <Overview>Wizarr is an automatic user invitation system for Plex, Jellyfin and Emby. Create a unique link and share it to a user and they will be invited to your Media Server after they complete their signup process! They can even be guided to download the clients and read instructions on how to use your media software!&#xD;
 &#xD;
-NOTE: If you wish to use the beta branch, simple append :beta on the end of the Repository URL. You cannot downgrade once you have switched to the beta branch without formatting.</Overview>
+Choose between the stable, beta, or nightly branch as per your requirements. Note: Once you upgrade to the beta version, you cannot downgrade to the stable version without formatting. The nightly build is strictly for development or testers and should not be used in production environments.</Overview>
   <Category>MediaServer:Other</Category>
   <WebUI>http://[IP]:[PORT:5690]/</WebUI>
   <Icon>https://raw.githubusercontent.com/Wizarrrr/wizarr/master/apps/wizarr-frontend/src/assets/img/wizard.png</Icon>
@@ -20,6 +20,14 @@ NOTE: If you wish to use the beta branch, simple append :beta on the end of the 
   <CPUset/>
   <DateInstalled>1713138518</DateInstalled>
   <Requires/>
-  <Config Name="Data Folder" Target="/data/database" Default="/mnt/user/appdata/wizarr/" Mode="rw" Description="Folder for handling Wizarr related data including database files and cache." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/wizarr/</Config>
-  <Config Name="WebUI Port" Target="5690" Default="" Mode="tcp" Description="Port for where you would like Wizarr to reside." Type="Port" Display="always" Required="false" Mask="false">5690</Config>
+  <Config Name="Repository" Target="Repo" Default="ghcr.io/wizarrrr/wizarr:latest" Mode="rw" Description="Select the Docker image version for Wizarr. 'Stable' for regular use with fewer updates but more tested features; 'Beta' for the latest features but with potential bugs and less stability; 'Nightly' for the most recent changes, for development or testing only, highly unstable." Type="Variable" Display="always" Required="true" Mask="false">
+    <Option Name="Stable" Value="ghcr.io/wizarrrr/wizarr:latest" Description="The stable version is recommended for most users and offers tested stability and fewer updates to ensure a smooth experience.">
+    </Option>
+    <Option Name="Beta" Value="ghcr.io/wizarrrr/wizarr:beta" Description="The beta version includes the latest features and updates but may contain bugs and can be less stable than the stable version. Not recommended for critical environments. Once upgraded, you cannot downgrade without formatting.">
+    </Option>
+    <Option Name="Nightly" Value="ghcr.io/wizarrrr/wizarr:nightly" Description="Intended strictly for development or testing. This build pushes the most recent changes, is highly unstable, and should never be used in production environments.">
+    </Option>
+  </Config>
+  <Config Name="Data Folder" Target="/data/database" Default="/mnt/user/appdata/wizarr/" Mode="rw" Description="Folder for handling Wizarr related data including database files and cache." Type="Path" Display="always" Required="true" Mask="false"/>
+  <Config Name="WebUI Port" Target="5690" Default="" Mode="tcp" Description="Port for where you would like Wizarr to reside." Type="Port" Display="always" Required="false" Mask="false"/>
 </Container>
