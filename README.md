@@ -29,7 +29,7 @@ If you wish to stay up-to-date with our progress, make sure to join our [Discord
 
 ## What is Wizarr?
 
-Wizarr is an automated user invitation system for Plex/Jellyfin/Emby. You can create a unique link, share it with a user, and they will be invited to your Media Server after they complete the simple signup process!
+Wizarr is an automated user invitation system compatible with Plex, Jellyfin and Emby. You can create a unique link, share it with a user, and they will be invited to your Media Server after they complete the simple signup process!
 
 ## Major Features Include
 
@@ -46,20 +46,12 @@ Wizarr is an automated user invitation system for Plex/Jellyfin/Emby. You can cr
 -   Session Management for Admin Users
 -   Scheduled Tasks to keep Wizarr updated with your Media Server
 -   Live logs directly from the Wizarr Web UI
-
-## What is the difference between V3 and V4?
-
-V3 is the current stable version of Wizarr; It is a fully functional system that allows you to invite users to your Plex/Jellyfin/Emby media server. V4 is the next iteration which will expand on features considerably. For now, however, a few changes have already been added:
-
-- Administrator password change
-- Linking and unlinking your Discord server to/from the onboarding process
-- Updated logo and branding
   
 ## Major features to come in V4 will include
 
--   Custom onboarding builder
+-   Customizable onboarding and branding
 -   Added API Endpoints (already partially available)
--   Plex/Jellyfin/Emby granular user permissions
+-   Plex/Jellyfin/Emby granular user permissions/profiles
 -   Discord invite request integration
 -   Multi-Server Support
 -   SMTP Support for notifications and user invites

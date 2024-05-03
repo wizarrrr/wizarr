@@ -91,7 +91,7 @@ export default defineComponent({
                     active: true,
                 },
                 {
-                    value: `${window.location.origin}/j/${this.invitation.code}`,
+                    value: `${window.location.origin}/i/${this.invitation.code}`,
                     active: false,
                 },
             ],
@@ -106,6 +106,10 @@ export default defineComponent({
                         label: "Access to Live TV",
                         value: this.invitation.live_tv,
                     },
+                    hide_user: {
+                        label: "Hide User from the Login Page",
+                        value: this.invitation.hide_user,
+                    },
                 },
                 emby: {
                     unlimited: {
@@ -115,6 +119,10 @@ export default defineComponent({
                     live_tv: {
                         label: "Access to Live TV",
                         value: this.invitation.live_tv,
+                    },
+                    hide_user: {
+                        label: "Hide User from the Login Page",
+                        value: this.invitation.hide_user,
                     },
                 },
                 plex: {

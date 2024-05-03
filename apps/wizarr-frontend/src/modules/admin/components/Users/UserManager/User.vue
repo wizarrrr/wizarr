@@ -6,8 +6,7 @@
                 class="flex-shrink-0 h-[45px] w-[45px] rounded bg-gray-50 overflow-hidden"
             >
                 <img
-                    :src="profilePicture"
-                    :onerror="`this.src='${backupPicture}'`"
+                    :src="'https://ui-avatars.com/api/?uppercase=true&background=' + server_color + '&color=fff&name=' + user.username + '&length=1'"
                     class="w-full h-full object-cover object-center"
                     alt="Profile Picture"
                 />
@@ -75,6 +74,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapState } from "pinia";
+import { useServerStore } from "@/stores/server";
 
 import type { User } from '@/types/api/users';
 import type { Emitter, EventType } from 'mitt';
@@ -100,18 +101,10 @@ export default defineComponent({
                     active: true,
                 },
                 {
-                    value: `${window.location.origin}/j/${this.user.code}`,
+                    value: `${window.location.origin}/i/${this.user.code}`,
                     active: false,
                 },
             ],
-            profilePicture:
-                'https://ui-avatars.com/api/?uppercase=true&name=' +
-                this.user.username +
-                '&length=1',
-            backupPicture:
-                'https://ui-avatars.com/api/?uppercase=true&name=' +
-                this.user.username +
-                '&length=1',
             userExpired: true,
             clipboard: useClipboard({
                 legacy: true,
@@ -136,6 +129,20 @@ export default defineComponent({
         userExpiredDateReadable() {
             return new Date(this.user.expires!).toLocaleString();
         },
+        server_color() {
+            // change the color of the profile picture border based on the server type
+            switch (this.settings.server_type) {
+                case "jellyfin":
+                    return "b06ac8";
+                case "emby":
+                    return "74c46e";
+                case "plex":
+                    return "ffc933";
+                default:
+                    return "999999";
+            }
+        },
+        ...mapState(useServerStore, ["settings"]),
     },
     methods: {
         invitationCodeToggle() {
@@ -144,16 +151,6 @@ export default defineComponent({
                 return item;
             });
         },
-        async getProfilePicture() {
-            const response = this.$axios.get(
-                `/api/users/${this.user.token}/profile-picture`,
-                {
-                    responseType: 'blob',
-                },
-            );
-
-            this.profilePicture = URL.createObjectURL((await response).data);
-        },
         userExpiredToggle() {
             this.userExpired = !this.userExpired;
         },
@@ -161,9 +158,6 @@ export default defineComponent({
             this.clipboard.copy(this.invitationCodeValue);
             this.$toast.info(this.__('Copied to clipboard'));
         },
-    },
-    mounted() {
-        this.getProfilePicture();
     },
 });
 </script>

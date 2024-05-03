@@ -21,7 +21,6 @@ export const theme = {
         },
         animation: {
             wiggle: 'wiggle 0.5s ease-in-out infinite',
-            // animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
             shake: 'shake 0.82s cubic-bezier(.36,.07,.19,.97) both',
         },
         keyframes: {
@@ -37,10 +36,6 @@ export const theme = {
             },
         },
     },
-    // fontFamily: {
-    //     'display': ['motiva sans', 'sans-serif'],
-    //     'body': ['motiva sans', 'sans-serif'],
-    // },
 };
 
 export const plugins = [

@@ -16,3 +16,4 @@ class Invitations(BaseModel):
     plex_home = BooleanField(null=True, default=None)
     sessions = CharField(null=True, default=None)
     live_tv = BooleanField(null=True, default=None)
+    hide_user = BooleanField(null=True, default=True)

@@ -12,8 +12,7 @@
                     class="flex-shrink-0 h-[60px] w-[60px] rounded bg-gray-50 overflow-hidden"
                 >
                     <img
-                        :src="profilePicture"
-                        :onerror="`this.src='${backupPicture}'`"
+                        :src="'https://ui-avatars.com/api/?uppercase=true&background=' + server_color + '&color=fff&name=' + user.username + '&length=1'"
                         class="w-full h-full object-cover object-center"
                         alt="Profile Picture"
                     />
@@ -57,6 +56,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapState } from "pinia";
+import { useServerStore } from "@/stores/server";
 
 import type { User } from '@/types/api/users';
 
@@ -72,18 +73,6 @@ export default defineComponent({
             type: Object as () => User,
             required: true,
         },
-    },
-    data() {
-        return {
-            profilePicture:
-                'https://ui-avatars.com/api/?uppercase=true&name=' +
-                this.user.username +
-                '&length=1',
-            backupPicture:
-                'https://ui-avatars.com/api/?uppercase=true&name=' +
-                this.user.username +
-                '&length=1',
-        };
     },
     computed: {
         expired(): string {
@@ -111,21 +100,20 @@ export default defineComponent({
 
             return 'text-gray-500 dark:text-gray-400';
         },
-    },
-    methods: {
-        async getProfilePicture() {
-            const response = this.$axios.get(
-                `/api/users/${this.user.token}/profile-picture`,
-                {
-                    responseType: 'blob',
-                },
-            );
-
-            this.profilePicture = URL.createObjectURL((await response).data);
+        server_color() {
+            // change the color of the profile picture border based on the server type
+            switch (this.settings.server_type) {
+                case "jellyfin":
+                    return "b06ac8";
+                case "emby":
+                    return "74c46e";
+                case "plex":
+                    return "ffc933";
+                default:
+                    return "999999";
+            }
         },
-    },
-    mounted() {
-        this.getProfilePicture();
+        ...mapState(useServerStore, ["settings"]),
     },
 });
 </script>

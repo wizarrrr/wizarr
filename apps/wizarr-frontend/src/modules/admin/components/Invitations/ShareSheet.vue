@@ -66,9 +66,9 @@ export default defineComponent({
     },
     data() {
         return {
-            invitationLink: `${window.location.origin}/j/${this.code}`,
+            invitationLink: `${window.location.origin}/i/${this.code}`,
             QRcode: useQRCode(
-                `${window.location.origin}/j/${this.code}`,
+                `${window.location.origin}/i/${this.code}`,
                 this.qrCodeOptions,
             ),
             clipboard: useClipboard({

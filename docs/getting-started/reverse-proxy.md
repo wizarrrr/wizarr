@@ -142,9 +142,9 @@ plex.example.com {
             "scan=\"/"      "href=\"/wizarr/"
             "/scan"         "/wizarr/scan"
             # include in join code path copy
-            "navigator.clipboard.writeText(url + \"/j/\" + invite_code);" "navigator.clipboard.writeText(url + \"/wizarr/j/\" + invite_code);"
+            "navigator.clipboard.writeText(url + \"/i/\" + invite_code);" "navigator.clipboard.writeText(url + \"/wizarr/i/\" + invite_code);"
         }
-        
+
         # Your wizarr backend
         reverse_proxy http://127.0.0.1:5690
     }
