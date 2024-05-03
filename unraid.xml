@@ -20,8 +20,8 @@ Choose between the stable, beta, or nightly branch as per your requirements. Not
   <CPUset/>
   <DateInstalled>1713138518</DateInstalled>
   <Requires/>
-  <Config Name="Repository" Target="Repo" Default="ghcr.io/wizarrrr/wizarr:stable" Mode="rw" Description="Select the Docker image version for Wizarr. 'Stable' for regular use with fewer updates but more tested features; 'Beta' for the latest features but with potential bugs and less stability; 'Nightly' for the most recent changes, for development or testing only, highly unstable." Type="Variable" Display="always" Required="true" Mask="false">
-    <Option Name="Stable" Value="ghcr.io/wizarrrr/wizarr:stable" Description="The stable version is recommended for most users and offers tested stability and fewer updates to ensure a smooth experience.">
+  <Config Name="Repository" Target="Repo" Default="ghcr.io/wizarrrr/wizarr:latest" Mode="rw" Description="Select the Docker image version for Wizarr. 'Stable' for regular use with fewer updates but more tested features; 'Beta' for the latest features but with potential bugs and less stability; 'Nightly' for the most recent changes, for development or testing only, highly unstable." Type="Variable" Display="always" Required="true" Mask="false">
+    <Option Name="Stable" Value="ghcr.io/wizarrrr/wizarr:latest" Description="The stable version is recommended for most users and offers tested stability and fewer updates to ensure a smooth experience.">
     </Option>
     <Option Name="Beta" Value="ghcr.io/wizarrrr/wizarr:beta" Description="The beta version includes the latest features and updates but may contain bugs and can be less stable than the stable version. Not recommended for critical environments. Once upgraded, you cannot downgrade without formatting.">
     </Option>
