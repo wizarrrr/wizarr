@@ -130,10 +130,6 @@ export default defineComponent({
                         label: "Unlimited Invitation Usages",
                         value: this.invitation.unlimited,
                     },
-                    plex_home: {
-                        label: "Allow Plex Home Access",
-                        value: this.invitation.plex_home,
-                    },
                     plex_allow_sync: {
                         label: "Allow Plex Downloads",
                         value: this.invitation.plex_allow_sync,

@@ -7,7 +7,6 @@ export interface Invitation {
     expires: string;
     id: number;
     plex_allow_sync: boolean;
-    plex_home: boolean;
     live_tv: boolean;
     hide_user: boolean;
     sessions: number;
