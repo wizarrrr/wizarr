@@ -1,5 +1,4 @@
 import type { Webhook, Webhooks } from '@/types/api/webhooks';
-
 import { defineStore } from 'pinia';
 
 interface WebhookStoreState {
@@ -12,88 +11,53 @@ export const useWebhookStore = defineStore('webhooks', {
     }),
     actions: {
         async getWebhooks() {
-            // Get webhooks from API
-            const webhooks = await this.$axios
-                .get<Webhook[], { data: Webhook[] }>('/api/webhooks')
-                .catch(() => {
-                    this.$toast.error('Could not get webhooks');
-                    return null;
+            try {
+                const response = await this.$axios.get<Webhook[]>('/api/webhooks');
+                if (!response.data) throw new Error('No data received');
+
+                // Create a map of new webhooks for quick lookup
+                const newWebhooks = new Map(response.data.map(webhook => [webhook.id, webhook]));
+
+                // Update existing webhooks and filter out any that no longer exist
+                this.webhooks = this.webhooks.map(webhook => newWebhooks.get(webhook.id) || webhook).filter(webhook => newWebhooks.has(webhook.id));
+
+                // Add new webhooks that are not already in the store
+                const existingIds = new Set(this.webhooks.map(webhook => webhook.id));
+                response.data.forEach(webhook => {
+                    if (!existingIds.has(webhook.id)) {
+                        this.webhooks.push(webhook);
+                    }
                 });
-
-            // If the webhooks are null, return
-            if (webhooks === null) return;
-
-            // Update the webhooks that are already in the store
-            this.webhooks.forEach((webhook, index) => {
-                const new_webhook = webhooks.data.find(
-                    (new_webhook: Webhook) => new_webhook.id === webhook.id,
-                );
-                if (new_webhook) this.webhooks[index] = new_webhook;
-            });
-
-            // Add the new webhooks to the store if they don't exist
-            webhooks.data.forEach((webhook: Webhook) => {
-                if (
-                    !this.webhooks.find(
-                        (old_webhook) => old_webhook.id === webhook.id,
-                    )
-                )
-                    this.webhooks.push(webhook);
-            });
-
-            // Remove the webhooks that were not in the response
-            this.webhooks.forEach((webhook, index) => {
-                if (
-                    !webhooks.data.find(
-                        (new_webhook: Webhook) => new_webhook.id === webhook.id,
-                    )
-                )
-                    this.webhooks.splice(index, 1);
-            });
+            } catch (error) {
+                this.$toast.error('Could not get webhooks');
+                console.error(error);
+            }
         },
         async createWebhook(webhook: Partial<Webhook>) {
-            // Convert the webhook to a FormData object
-            const formData = new FormData();
-
-            Object.keys(webhook).forEach((key) => {
-                // @ts-ignore
-                formData.append(key, webhook[key]);
-            });
-
-            // Create the webhook
-            const response = await this.$axios
-                .post('/api/webhooks', formData, { disableErrorToast: true })
-                .catch((err) => {
-                    this.$toast.error('Could not create webhook');
-                    console.error(err);
-                    return null;
+            try {
+                const formData = new FormData();
+                Object.entries(webhook).forEach(([key, value]) => {
+                    formData.append(key, value);
                 });
 
-            // If the response is null, return
-            if (response === null) return;
+                const response = await this.$axios.post<Webhook>('/api/webhooks', formData);
+                if (!response.data) throw new Error('Webhook creation failed');
 
-            // Add the webhook to the store
-            this.webhooks.push(response.data as Webhook);
-
-            // Return the webhook
-            return response.data as Webhook;
+                this.webhooks.push(response.data);
+                return response.data;
+            } catch (error) {
+                this.$toast.error('Could not create webhook');
+                console.error(error);
+            }
         },
         async deleteWebhook(id: number) {
-            // Delete the webhook from the API
-            const response = await this.$axios
-                .delete(`/api/webhooks/${id}`, { disableInfoToast: true })
-                .catch(() => {
-                    this.$toast.error('Could not delete webhook');
-                    return null;
-                });
-
-            // If the response is null, return
-            if (response === null) return;
-
-            // Remove the webhook from the store
-            this.webhooks.forEach((webhook, index) => {
-                if (webhook.id === id) this.webhooks.splice(index, 1);
-            });
+            try {
+                await this.$axios.delete(`/api/webhooks/${id}`);
+                this.webhooks = this.webhooks.filter(webhook => webhook.id !== id);
+            } catch (error) {
+                this.$toast.error('Could not delete webhook');
+                console.error(error);
+            }
         },
     },
     persist: true,
