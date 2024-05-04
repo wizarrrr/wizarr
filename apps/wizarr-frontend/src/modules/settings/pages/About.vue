@@ -1,6 +1,6 @@
 <template>
     <div class="space-y-6 md:space-y-3">
-        <div class="rounded border border-red-500 bg-red-400 bg-opacity-20 py-3 px-4 backdrop-blur">
+        <div class="rounded border border-red-500 bg-red-400 bg-opacity-20 py-3 px-4 backdrop-blur" v-if="is_beta">
             <div class="flex">
                 <div class="flex-shrink-0 justify-center items-center flex">
                     <i class="fa-solid fa-lg fa-circle-info text-gray-800 dark:text-gray-100"></i>
@@ -56,6 +56,7 @@ export default defineComponent({
     },
     computed: {
         ...mapState(useServerStore, ["version"]),
+        ...mapState(useServerStore, ["is_beta"]),
     },
 });
 </script>
