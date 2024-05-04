@@ -95,3 +95,4 @@ jobs:
                   github_token: ${{ steps.gh_app.outputs.token }}
                   from_branch: ${{ github.ref_name }}
                   target_branch: develop
+                  message: Auto-sync ${{ github.ref_name }} into develop
