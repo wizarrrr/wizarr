@@ -10,140 +10,68 @@ export const useTasksStore = defineStore('tasks', {
         jobs: [],
     }),
     actions: {
-        async getJobs() {
-            // Get the jobs from the API
-            const jobs = await this.$axios
-                .get('/api/scheduler/jobs')
-                .catch((err) => {
-                    this.$toast.error('Could not get jobs');
-                    return null;
+        async fetchAndUpdateJobs(url: string, method: 'GET' | 'POST' | 'DELETE' = 'GET', payload?: any) {
+            try {
+                const response = await this.$axios({
+                    url,
+                    method,
+                    data: payload ? JSON.stringify(payload) : undefined,
                 });
+                const jobData: Job | Job[] = response.data;
+                if (!jobData) {
+                    throw new Error('No job data received');
+                }
 
-            // If the jobs are null, return
-            if (jobs === null) return;
-
-            // Update the jobs that are already in the store
-            this.jobs.forEach((job, index) => {
-                const new_job = jobs.data.find(
-                    (new_job: Job) => new_job.id === job.id,
-                );
-                if (new_job) this.jobs[index] = new_job;
-            });
-
-            // Add the new jobs to the store if they don't exist
-            jobs.data.forEach((job: Job) => {
-                if (!this.jobs.find((old_job: Job) => old_job.id === job.id))
-                    this.jobs.push(job);
-            });
-
-            // Remove the jobs that were not in the response
-            this.jobs.forEach((job, index) => {
-                if (!jobs.data.find((new_job: Job) => new_job.id === job.id))
-                    this.jobs.splice(index, 1);
-            });
-
-            // Return the jobs
-            return jobs.data as JobList;
+                if (Array.isArray(jobData)) {
+                    // If it's an array, replace all jobs
+                    this.jobs = jobData;
+                } else {
+                    // If it's a single job, update or add it to the list
+                    const index = this.jobs.findIndex(job => job.id === jobData.id);
+                    if (index !== -1) {
+                        this.jobs[index] = jobData;
+                    } else {
+                        this.jobs.push(jobData);
+                    }
+                }
+                return jobData;
+            } catch (error) {
+                const errorMessage = (error as Error).message;
+                this.$toast.error(`Could not perform action on job: ${errorMessage}`);
+                console.error(error);
+                return null;
+            }
         },
-        async getJob(id: string) {
-            // Get the job from the API
-            const job = await this.$axios
-                .get(`/api/scheduler/jobs/${id}`)
-                .catch((err) => {
-                    this.$toast.error('Could not get job');
-                    console.error(err);
-                    return null;
-                });
 
-            // If the job is null, return
-            if (job === null) return;
-
-            // Update the job in the store
-            const index = this.jobs.findIndex((job: Job) => job.id === id);
-            if (index !== -1) this.jobs[index] = job.data;
-
-            // Return the job
-            return job.data as Job;
+        getJobs() {
+            return this.fetchAndUpdateJobs('/api/scheduler/jobs');
         },
-        async runJob(id: string) {
-            // Run the job
-            const job = await this.$axios
-                .post(`/api/scheduler/jobs/${id}/run`)
-                .catch((err) => {
-                    this.$toast.error('Could not run job');
-                    console.error(err);
-                    return null;
-                });
 
-            // If the job is null, return
-            if (job === null) return;
-
-            // Update the job in the store
-            const index = this.jobs.findIndex((job: Job) => job.id === id);
-            if (index !== -1) this.jobs[index] = job.data;
-
-            // Return the job
-            return job.data as Job;
+        getJob(id: string) {
+            return this.fetchAndUpdateJobs(`/api/scheduler/jobs/${id}`);
         },
-        async pauseJob(id: string) {
-            // Pause the job
-            const job = await this.$axios
-                .post(`/api/scheduler/jobs/${id}/pause`)
-                .catch((err) => {
-                    this.$toast.error('Could not pause job');
-                    console.error(err);
-                    return null;
-                });
 
-            // If the job is null, return
-            if (job === null) return;
-
-            // Update the job in the store
-            const index = this.jobs.findIndex((job: Job) => job.id === id);
-            if (index !== -1) this.jobs[index] = job.data;
-
-            // Return the job
-            return job.data as Job;
+        runJob(id: string) {
+            return this.fetchAndUpdateJobs(`/api/scheduler/jobs/${id}/run`, 'POST');
         },
-        async resumeJob(id: string) {
-            // Resume the job
-            const job = await this.$axios
-                .post(`/api/scheduler/jobs/${id}/resume`)
-                .catch((err) => {
-                    this.$toast.error('Could not resume job');
-                    console.error(err);
-                    return null;
-                });
 
-            // If the job is null, return
-            if (job === null) return;
-
-            // Update the job in the store
-            const index = this.jobs.findIndex((job: Job) => job.id === id);
-            if (index !== -1) this.jobs[index] = job.data;
-
-            // Return the job
-            return job.data as Job;
+        pauseJob(id: string) {
+            return this.fetchAndUpdateJobs(`/api/scheduler/jobs/${id}/pause`, 'POST');
         },
+
+        resumeJob(id: string) {
+            return this.fetchAndUpdateJobs(`/api/scheduler/jobs/${id}/resume`, 'POST');
+        },
+
         async deleteJob(id: string) {
-            // Delete the job
-            const job = await this.$axios
-                .delete(`/api/scheduler/jobs/${id}`)
-                .catch((err) => {
-                    this.$toast.error('Could not delete job');
-                    console.error(err);
-                    return null;
-                });
-
-            // If the job is null, return
-            if (job === null) return;
-
-            // Update the job in the store
-            const index = this.jobs.findIndex((job: Job) => job.id === id);
-            if (index !== -1) this.jobs.splice(index, 1);
-
-            // Return the job
-            return job.data as Job;
+            const jobData = await this.fetchAndUpdateJobs(`/api/scheduler/jobs/${id}`, 'DELETE');
+            if (jobData !== null) {
+                const index = this.jobs.findIndex(job => job.id === id);
+                if (index !== -1) {
+                    this.jobs.splice(index, 1);
+                }
+            }
+            return jobData;
         },
     },
     persist: true,
