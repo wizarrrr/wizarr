@@ -1,5 +1,4 @@
 import type { Request, Requests } from "@/types/api/request";
-
 import { defineStore } from "pinia";
 
 interface RequestsStoreState {
@@ -12,67 +11,54 @@ export const useRequestsStore = defineStore("requests", {
     }),
     actions: {
         async getRequests() {
-            // Get the requests from the API
-            const requests = await this.$axios.get<any, { data: Request[] }>("/api/requests").catch((err) => {
+            try {
+                const response = await this.$axios.get<Request[]>("/api/requests");
+                const receivedRequests = response.data || [];
+
+                // Sync the store with the received data
+                this.requests = receivedRequests.reduce((acc: Request[], request: Request) => {
+                    const index = acc.findIndex(r => r.id === request.id);
+                    if (index !== -1) {
+                        acc[index] = request; // Update existing request
+                    } else {
+                        acc.push(request); // Add new request
+                    }
+                    return acc;
+                }, this.requests.slice());
+
+                // Remove obsolete requests
+                this.requests = this.requests.filter(r => receivedRequests.some(req => req.id === r.id));
+            } catch (error) {
                 this.$toast.error("Could not get requests");
-                return null;
-            });
-
-            // If the requests are null, return
-            if (requests === null) return;
-
-            // Update the requests that are already in the store
-            this.requests.forEach((request, index) => {
-                const new_request = requests.data.find((new_request: Request) => new_request.id === request.id);
-                if (new_request) this.requests[index] = new_request;
-            });
-
-            // Add the new requests to the store if they don't exist
-            requests.data.forEach((request: Request) => {
-                if (!this.requests.find((old_request) => old_request.id === request.id)) this.requests.push(request);
-            });
-
-            // Remove the requests that were not in the response
-            this.requests.forEach((request, index) => {
-                if (!requests.data.find((new_request: Request) => new_request.id === request.id)) this.requests.splice(index, 1);
-            });
+                console.error(error);
+            }
         },
-        async createRequest(request: Request) {
-            // Convert the request to a FormData object
-            const formData = new FormData();
+        async createRequest(requestData: Request) {
+            try {
+                const formData = new FormData();
+                Object.entries(requestData).forEach(([key, value]) => formData.append(key, value));
 
-            Object.keys(request).forEach((key) => {
-                // @ts-ignore
-                formData.append(key, request[key]);
-            });
-
-            // Create the request
-            const response = await this.$axios.post("/api/requests", formData, { disableErrorToast: true }).catch((err) => {
+                const response = await this.$axios.post<Request>("/api/requests", formData);
+                if (response.data) {
+                    this.requests.push(response.data);
+                    return response.data;
+                }
+            } catch (error) {
                 this.$toast.error("Could not create request");
-                console.error(err);
-                return null;
-            });
-
-            // If the response is null, return
-            if (response === null) return;
-
-            // Add the request to the store
-            this.requests.push(response.data as Request);
-
-            // Return the request
-            return response.data as Request;
+                console.error(error);
+            }
         },
         async deleteRequest(id: number) {
-            // Delete the request from the API
-            await this.$axios.delete(`/api/requests/${id}`).catch((err) => {
+            try {
+                await this.$axios.delete(`/api/requests/${id}`);
+                const index = this.requests.findIndex(request => request.id === id);
+                if (index !== -1) {
+                    this.requests.splice(index, 1);
+                }
+            } catch (error) {
                 this.$toast.error("Could not delete request");
-                console.error(err);
-                return null;
-            });
-
-            // Remove the request from the store
-            const index = this.requests.findIndex((request: Request) => request.id === id);
-            if (index !== -1) this.requests.splice(index, 1);
+                console.error(error);
+            }
         },
     },
     persist: true,
