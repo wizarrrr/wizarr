@@ -54,7 +54,6 @@ export default defineComponent({
             if (await this.$modal.confirmModal(this.__("Are you sure?"), this.__("Are you sure you want to delete this webhook?"))) {
                 this.disabled.delete = true;
                 await this.deleteWebhook(this.webhook.id).finally(() => (this.disabled.delete = false));
-                this.$toast.info(this.__("Webhook deleted successfully"));
             } else {
                 this.$toast.info(this.__("Webhook deletion cancelled"));
             }

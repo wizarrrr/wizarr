@@ -1,15 +1,21 @@
+// Import the types for API keys and the Pinia library function for creating a store
 import type { APIKey, APIKeys } from '@/types/api/apikeys';
 import { defineStore } from 'pinia';
 
+// Define the shape of the state in this store
 interface APIKeyStoreState {
     apikeys: APIKeys;
 }
 
+// Define and export a store named 'apikeys' using the Pinia library
 export const useAPIKeyStore = defineStore('apikeys', {
+    // Define the initial state of the store
     state: (): APIKeyStoreState => ({
         apikeys: [],
     }),
+    // Define actions that can mutate the state
     actions: {
+        // Asynchronously fetches API keys from the server and updates the state
         async getAPIKeys() {
             const response = await this.$axios
                 .get<APIKeys, { data: APIKeys }>('/api/apikeys')
@@ -22,6 +28,7 @@ export const useAPIKeyStore = defineStore('apikeys', {
                 this.updateAPIKeys(response.data);
             }
         },
+        // Updates the current apikeys state with new data
         updateAPIKeys(newAPIKeys: APIKeys) {
             const newAPIKeyMap = new Map(newAPIKeys.map(key => [key.id, key]));
             const updatedAPIKeys = this.apikeys.map(apikey => newAPIKeyMap.get(apikey.id) || apikey);
@@ -32,6 +39,7 @@ export const useAPIKeyStore = defineStore('apikeys', {
             });
             this.apikeys = updatedAPIKeys.filter(apikey => newAPIKeyMap.has(apikey.id));
         },
+        // Creates a new API key on the server and updates the local state if successful
         async createAPIKey(apikey: Partial<APIKey>) {
             const formData = new FormData();
             Object.keys(apikey).forEach((key) => {
@@ -51,6 +59,7 @@ export const useAPIKeyStore = defineStore('apikeys', {
                 return response.data as APIKey;
             }
         },
+        // Deletes an API key from the server and removes it from the local state if successful
         async deleteAPIKey(id: number) {
             const response = await this.$axios
                 .delete(`/api/apikeys/${id}`, { disableInfoToast: true })
@@ -64,5 +73,6 @@ export const useAPIKeyStore = defineStore('apikeys', {
             }
         },
     },
+    // Persist the state of the store to local storage or another persistence layer
     persist: true,
 });
