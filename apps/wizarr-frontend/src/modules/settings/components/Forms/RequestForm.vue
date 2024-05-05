@@ -24,7 +24,7 @@
         />
         <FormKit
             type="text"
-            label="API URL"
+            label="Service URL"
             name="url"
             placeholder="https://jellyseerr.example.com"
             validation="required|url"

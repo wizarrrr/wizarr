@@ -1,8 +1,8 @@
 <template>
     <Draggable :disabled="isDisabled" v-if="users && users.length > 0" v-model="users" tag="ul" group="users" ghost-class="moving-card" :animation="200" item-key="id">
-        <template #item="{ element }">
+        <template #item="{ element, index }">
             <li class="mb-2">
-                <UserItem :user="element" />
+                <UserItem :user="element" :count="index" />
             </li>
         </template>
     </Draggable>

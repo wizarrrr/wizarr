@@ -1,36 +1,67 @@
 <template>
-    <div class="flex flex-wrap items-start md:items-center justify-center mx-auto mt-20 md:mt-0 md:h-screen">
-        <!-- Nav Bar for Public Routes -->
-        <DefaultNavBar />
+    <DefaultNavBar />
 
-        <!-- Hero Section -->
-        <section class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 w-full">
-            <div class="w-full rounded md:mt-0 sm:max-w-md xl:p-0 md:shadow dark:bg-transparent md:bg-white md:dark:border md:dark:border-gray-700">
-                <div class="p-6 sm:p-8">
-                    <transition name="fade-fast" mode="out-in">
-                        <div v-if="step == 0" class="flex flex-col items-center justify-center space-y-4">
-                            <i class="fa-solid fa-spinner fa-spin dark:text-white fa-2xl m-4"></i>
-                        </div>
-                        <div v-else-if="step == 1">
-                            <LoginForm :passkeySupported="passkeySupported" @passwordLogin="passwordLogin" @passkeyLogin="passkeyLogin" key="login-form" />
-                        </div>
-                        <div v-else>
-                            <div class="flex flex-col items-center justify-center space-y-4">
-                                <span class="text-gray-900 dark:text-white">
-                                    {{ __("Something went wrong") }}
-                                </span>
+    <div>
+        <div
+            class="flex justify-center items-center flex-col mt-12 mb-3 space-y-6"
+        >
+            <WizarrLogo rounded class="w-[150px] h-[150px]" />
+            <h1
+                class="text-2xl font-semibold text-center text-gray-900 dark:text-white"
+            >
+                {{
+                    __('Login to the Admin Dashboard')
+                }}
+            </h1>
+        </div>
+        <section>
+            <div
+                class="flex flex-col items-center justify-center md:container py-8 mx-auto"
+            >
+                <div
+                    class="w-full md:w-1/2 lg:w-1/3 bg-white rounded shadow dark:border dark:bg-gray-800 dark:border-gray-700 overflow-hidden"
+                >
+                    <div class="p-6 sm:p-8">
+                        <transition name="fade-fast" mode="out-in">
+                            <div v-if="step == 0" class="flex flex-col items-center justify-center space-y-4">
+                                <i class="fa-solid fa-spinner fa-spin dark:text-white fa-2xl m-4"></i>
                             </div>
-                        </div>
-                    </transition>
+                            <div v-else-if="step == 1">
+                                <LoginForm :passkeySupported="passkeySupported" @passwordLogin="passwordLogin" @passkeyLogin="passkeyLogin" key="login-form" />
+                            </div>
+                            <div v-else>
+                                <div class="flex flex-col items-center justify-center space-y-4">
+                                    <span class="text-gray-900 dark:text-white">
+                                        {{ __("Something went wrong") }}
+                                    </span>
+                                </div>
+                            </div>
+                        </transition>
+                    </div>
                 </div>
             </div>
         </section>
+        <div class="flex justify-center items-center flex-col mb-3 space-y-6">
+            <p class="text-sm text-center text-gray-900 dark:text-white">
+                {{ __('Made with ❤️ by') }}
+                <a
+                    class="text-primary font-bold hover:underline"
+                    target="_blank"
+                    href="https://github.com/wizarrrr/wizarr"
+                >
+                    Wizarr
+                </a>
+            </p>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
+import { mapState } from 'pinia';
 import { defineComponent } from "vue";
+import { useServerStore } from '@/stores/server';
 
+import WizarrLogo from '@/components/WizarrLogo.vue';
 import DefaultNavBar from "@/components/NavBars/DefaultNavBar.vue";
 import DefaultLoading from "@/components/Loading/DefaultLoading.vue";
 
@@ -49,6 +80,7 @@ export default defineComponent({
         DefaultNavBar,
         DefaultLoading,
         LoginForm,
+        WizarrLogo,
     },
     data() {
         return {
@@ -56,6 +88,9 @@ export default defineComponent({
             step: STEP.LOADING,
             passkeySupported: true,
         };
+    },
+    computed: {
+        ...mapState(useServerStore, ['settings']),
     },
     methods: {
         async passwordLogin({ username, password }: { username: string; password: string }) {

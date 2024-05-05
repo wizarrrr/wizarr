@@ -1,10 +1,6 @@
 <template>
     <FormKit type="form" @submit="passwordLogin" :actions="false">
         <div class="space-y-4">
-            <div class="flex justify-center flex-col space-y-4">
-                <h1 class="text-gray-900 dark:text-white text-2xl font-semibold">Login with your account</h1>
-            </div>
-
             <FormKit type="text" v-model="username" label="Username" name="username" placeholder="Username" required autocomplete="username webauthn" autofocus />
             <FormKit type="password" v-model="password" label="Password" name="password" placeholder="Password" required autocomplete="current-password" />
 

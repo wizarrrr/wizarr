@@ -54,9 +54,9 @@ export default defineComponent({
             // Check if the code is valid
             if (!response) return;
 
-            // If the route is /join then change to /j/:code
-            if (this.$route.path === '/join') {
-                this.$router.replace(`/j/${this.code}`);
+            // If the route is /, /join, or /j, change to /i/:code
+            if (this.$route.path === '/' || this.$route.path === '/join' || this.$route.path === '/j') {
+                this.$router.replace(`/i/${this.code}`);
             }
 
             // Go to the next step

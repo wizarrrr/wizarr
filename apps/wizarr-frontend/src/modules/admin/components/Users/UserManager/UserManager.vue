@@ -84,14 +84,6 @@ export default defineComponent({
                     component: () => import('./Settings.vue'),
                 },
             ],
-            profilePicture:
-                'https://ui-avatars.com/api/?uppercase=true&name=' +
-                this.user.username +
-                '&length=1',
-            backupPicture:
-                'https://ui-avatars.com/api/?uppercase=true&name=' +
-                this.user.username +
-                '&length=1',
             disabled: {
                 delete: false,
             },

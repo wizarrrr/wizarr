@@ -107,7 +107,7 @@ export default defineComponent({
                 inviteCode: "",
                 expiration: 1440 as number | null | "custom",
                 customExpiration: "" as string,
-                checkboxes: ["live_tv"] as string[], // Add the checkboxes you want to be checked by default
+                checkboxes: ["live_tv", "hide_user"] as string[],// Add the checkboxes you want to be checked by default
                 duration: "unlimited" as number | "unlimited" | "custom",
                 customDuration: "" as string,
                 libraries: [] as string[],
@@ -184,6 +184,10 @@ export default defineComponent({
                         label: "Access to Live TV",
                         value: "live_tv",
                     },
+                    hide_user: {
+                        label: "Hide User from the Login Page",
+                        value: "hide_user",
+                    },
                 },
                 emby: {
                     unlimited: {
@@ -193,6 +197,10 @@ export default defineComponent({
                     live_tv: {
                         label: "Access to Live TV",
                         value: "live_tv",
+                    },
+                    hide_user: {
+                        label: "Hide User from the Login Page",
+                        value: "hide_user",
                     },
                 },
                 plex: {
@@ -265,6 +273,7 @@ export default defineComponent({
             const plex_home = invitationData.checkboxes.includes("plex_home");
             const plex_allow_sync = invitationData.checkboxes.includes("plex_allow_sync");
             const live_tv = invitationData.checkboxes.includes("live_tv");
+            const hide_user = invitationData.checkboxes.includes("hide_user");
             const sessions = invitationData.sessions;
             const duration = invitationData.duration == "custom" ? this.$filter("toMinutes", invitationData.customDuration) : invitationData.duration == "unlimited" ? null : invitationData.duration;
             const libraries = invitationData.libraries;
@@ -276,6 +285,7 @@ export default defineComponent({
                 plex_home: plex_home,
                 plex_allow_sync: plex_allow_sync,
                 live_tv: live_tv,
+                hide_user: hide_user,
                 sessions: sessions,
                 duration: duration,
                 specific_libraries: JSON.stringify(libraries),
@@ -377,7 +387,7 @@ export default defineComponent({
             });
         },
         inviteLink() {
-            return `${window.location.origin}/j/${this.inviteCode}`;
+            return `${window.location.origin}/i/${this.inviteCode}`;
         },
         ...mapState(useLibrariesStore, ["libraries"]),
         ...mapState(useServerStore, ["settings"]),

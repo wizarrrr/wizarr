@@ -9,6 +9,7 @@ from .models.database import *
 from .security import *
 from .utils.clear_logs import clear_logs
 from .migrator import run_migrations
+from .utils.software_lifecycle import get_current_version
 
 from sentry_sdk import init as sentry_init
 
@@ -26,6 +27,7 @@ sentry_init(
     enable_tracing=True,
     traces_sample_rate=1.0,
     environment=app.debug and "development" or "production",
+    release=str(get_current_version()),
 )
 
 # Base route for testing

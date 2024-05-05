@@ -1,3 +1,46 @@
+## [4.1.0-beta.1](https://github.com/wizarrrr/wizarr/compare/v4.0.0...v4.1.0-beta.1) (2024-05-03)
+
+
+### New Features
+
+* ✨ Replaced the default homepage with the invite interface ([9c6ea38](https://github.com/wizarrrr/wizarr/commit/9c6ea387984dcfa750842c7ad578b3835f43c1f9))
+* ✨Ability to specify whether a user displays on login page ([#397](https://github.com/wizarrrr/wizarr/issues/397)) ([a1380e0](https://github.com/wizarrrr/wizarr/commit/a1380e0d5d7e6e429f591392e8e21fda220c3d83))
+
+
+### Bug Fixes
+
+* 🐛 Change live_tv to a boolean through the migration script ([00372cc](https://github.com/wizarrrr/wizarr/commit/00372cccb9365aa6cdd89bc22c4236eb800cc2ea))
+* 🐛 Live TV boolean changes to True by default ([e41b935](https://github.com/wizarrrr/wizarr/commit/e41b935c612ea70ed29ab7b97ee3b59a1878f145))
+* 🐛 Potential fix for white pages and pages caching ([65feec9](https://github.com/wizarrrr/wizarr/commit/65feec92c9cfe43d67ea8a47fd77d20b26aa7098))
+* 🐝 remove extra return statement ([331be20](https://github.com/wizarrrr/wizarr/commit/331be20b6cbdd9c42eac3a785b562dc068c1a8a9))
+* 🩹 cast current version as string ([4490590](https://github.com/wizarrrr/wizarr/commit/4490590657f4374d05914f5105863ea1aa46275b))
+* 🩹 Disabled access to Live TV Management for Jellyfin/Emby ([a603d56](https://github.com/wizarrrr/wizarr/commit/a603d56a9ae29c486643e3d4d4abf0038b1fff6e))
+* 🩹 Fixed plex profile pictures erroring out when Plex Home users are present ([a1c3571](https://github.com/wizarrrr/wizarr/commit/a1c3571b621d0e14d4e75562983622d51620e309))
+* 🩹 Import error for software_lifecycle ([f6f9ef9](https://github.com/wizarrrr/wizarr/commit/f6f9ef9fecb70c3a16f2cf967bbbbaa5a6887b14))
+* 🚑 Change migration script to a boolean for hide_user ([dec8103](https://github.com/wizarrrr/wizarr/commit/dec810338492a9231fc87041099d2439d21d1160))
+* 🚑 Changed order of Emby user password creation ([fd52649](https://github.com/wizarrrr/wizarr/commit/fd52649108911d52f0560c08e8e4f5ad9c70acb4))
+* 🚑 Solved issue with the routes clashing ([c3af54e](https://github.com/wizarrrr/wizarr/commit/c3af54ef5e53418691d656d6a81752bd82833a0a))
+* **sentry:** 🐛 set release version for proper tracking ([0f4d08c](https://github.com/wizarrrr/wizarr/commit/0f4d08c3afa0c991543904ec3a248032c8fadef1))
+
+
+### Chores
+
+* 🧺 Changed request service URL field to correctly reflect the service ([553c78f](https://github.com/wizarrrr/wizarr/commit/553c78fa59ba238c2e87d0b569c196a8c6f8bc31))
+* 🧺 Remove version getter as not needed ([50957bc](https://github.com/wizarrrr/wizarr/commit/50957bcd0ff950a85e5a8d781fe14e8da42f5c7b))
+
+
+### Documentation
+
+* 📚 removed v3 mentions from root readme ([d7a4495](https://github.com/wizarrrr/wizarr/commit/d7a44950563139106e18e81ea433f654852b62af))
+
+
+### Code Refactoring
+
+* 🔧 Change the admin login to reflect the new homepage ([549b3de](https://github.com/wizarrrr/wizarr/commit/549b3def461fdb07075a36a88f44ed1f198dc74e))
+* 🔧 Cleanup old deprecated code ([fa56308](https://github.com/wizarrrr/wizarr/commit/fa56308bbb428f0c117a738660c94a81510fd1b8))
+* 🔧 Removed ability to fetch profile picture from media servers ([e3ab547](https://github.com/wizarrrr/wizarr/commit/e3ab5475e43388fca753128e00d3722b2f735181))
+* 🔨 Changed profile picture logic for media servers ([f1f94e1](https://github.com/wizarrrr/wizarr/commit/f1f94e1e64c0b49c73a037072387b9dbbf6eefa6))
+
 ## [4.0.0-beta.9](https://github.com/wizarrrr/wizarr/compare/v4.0.0-beta.8...v4.0.0-beta.9) (2024-04-25)
 
 
