@@ -95,4 +95,4 @@ jobs:
                   github_token: ${{ steps.gh_app.outputs.token }}
                   from_branch: ${{ github.ref_name }}
                   target_branch: develop
-                  message: chore: sync develop with ${{ github.ref_name }}
+                  message: "chore: 🧽 sync develop with ${{ github.ref_name }}"
