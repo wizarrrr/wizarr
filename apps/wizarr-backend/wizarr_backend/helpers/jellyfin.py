@@ -378,7 +378,6 @@ def sync_jellyfin_users(server_api_key: Optional[str] = None, server_url: Option
     # Get users from Jellyfin
     jellyfin_users = get_jellyfin_users(server_api_key=server_api_key, server_url=server_url)
 
-
     # Get users from database
     database_users = get_users(False)
 
@@ -388,12 +387,14 @@ def sync_jellyfin_users(server_api_key: Optional[str] = None, server_url: Option
             create_user(username=jellyfin_user["Name"], token=jellyfin_user["Id"])
             info(f"User {jellyfin_user['Name']} successfully imported to database.")
 
-        # If the user does exist then update their username
+        # If database_users.token in jellyfin_users.id, update the users name in database
         else:
             user = get_user_by_token(jellyfin_user["Id"], verify=False)
-            user.username = jellyfin_user["Name"]
-            user.save()
-            info(f"User {jellyfin_user['Name']} successfully updated in database.")
+
+            if (jellyfin_user["Name"] != user.username):
+                user.username = jellyfin_user["Name"]
+                user.save()
+                info(f"User {jellyfin_user['Name']} successfully updated in database.")
 
     # If database_users.token not in jellyfin_users.id, delete from database
     for database_user in database_users:
