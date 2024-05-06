@@ -14,6 +14,7 @@ updates:
       - JamsRepos
       - PhantomMantis
       - MrDynamo
+    target-branch: "develop"
 
   # Enable version updates for poetry backend
   - package-ecosystem: "pip"
@@ -26,6 +27,7 @@ updates:
       - JamsRepos
       - PhantomMantis
       - MrDynamo
+    target-branch: "develop"
 
   # Enable version updates for github actions
   - package-ecosystem: "github-actions"
@@ -38,3 +40,4 @@ updates:
       - JamsRepos
       - PhantomMantis
       - MrDynamo
+    target-branch: "develop"
