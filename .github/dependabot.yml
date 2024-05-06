@@ -11,9 +11,9 @@ updates:
     schedule:
       interval: "daily"
     reviewers:
-     - JamsRepos
-     - PhantomMantis
-     - MrDynamo
+      - JamsRepos
+      - PhantomMantis
+      - MrDynamo
 
   # Enable version updates for poetry backend
   - package-ecosystem: "pip"
@@ -23,9 +23,9 @@ updates:
     schedule:
       interval: "daily"
     reviewers:
-     - JamsRepos
-     - PhantomMantis
-     - MrDynamo
+      - JamsRepos
+      - PhantomMantis
+      - MrDynamo
 
   # Enable version updates for github actions
   - package-ecosystem: "github-actions"
@@ -35,6 +35,6 @@ updates:
     schedule:
       interval: "daily"
     reviewers:
-     - JamsRepos
-     - PhantomMantis
-     - MrDynamo
+      - JamsRepos
+      - PhantomMantis
+      - MrDynamo
