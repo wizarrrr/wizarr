@@ -12,6 +12,7 @@ on:
             - "**/latest"
             - "**/CHANGELOG.md"
             - "**/CHANGELOG-beta.md"
+            - "**/unraid.xml"
             - "./scripts/**"
             - "./release.config.cjs"
     workflow_dispatch: {}
@@ -94,3 +95,4 @@ jobs:
                   github_token: ${{ steps.gh_app.outputs.token }}
                   from_branch: ${{ github.ref_name }}
                   target_branch: develop
+                  message: "chore: 🧽 sync develop with ${{ github.ref_name }}"

@@ -12,6 +12,7 @@ import { defineComponent } from "vue";
 import { mapWritableState, mapState, mapActions } from "pinia";
 import { useThemeStore } from "@/stores/theme";
 import { useServerStore } from "./stores/server";
+import { useAuthStore } from "@/stores/auth";
 import { useLanguageStore } from "@/stores/language";
 import { useProgressStore } from "./stores/progress";
 import { useGettext, type Language } from "vue3-gettext";
@@ -44,6 +45,7 @@ export default defineComponent({
         ...mapState(useThemeStore, ["theme"]),
         ...mapState(useLanguageStore, ["language"]),
         ...mapWritableState(useProgressStore, ["progress", "fullPageLoading"]),
+        ...mapActions(useAuthStore, ["isAuthenticated"]),
     },
     methods: {
         ...mapActions(useThemeStore, ["updateTheme"]),
@@ -124,8 +126,8 @@ export default defineComponent({
         if (serverData?.setup_required && this.$router.currentRoute.value.name !== "setup") this.$router.push("/setup");
         if (!serverData?.setup_required && this.$router.currentRoute.value.name === "setup") this.$router.push("/");
 
-        // If update is available, open update message
-        if (serverData?.update_available) {
+        // If update is available, show update available toast to authenticated users
+        if (serverData?.update_available && this.isAuthenticated) {
             this.$toast.info(UpdateAvailable, {
                 timeout: false,
                 draggable: false,

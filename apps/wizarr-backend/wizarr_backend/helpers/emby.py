@@ -381,7 +381,6 @@ def sync_emby_users(server_api_key: Optional[str] = None, server_url: Optional[s
     # Get users from Emby
     emby_users = get_emby_users(server_api_key=server_api_key, server_url=server_url)
 
-
     # Get users from database
     database_users = get_users(False)
 
@@ -393,13 +392,15 @@ def sync_emby_users(server_api_key: Optional[str] = None, server_url: Optional[s
             create_user(username=emby_user["Name"], token=emby_user["Id"], email=email)
             info(f"User {emby_user['Name']} successfully imported to database.")
 
-        # If the user does exist then update their username and email
+        # If the user does exist then update their username and email if it has changed
         else:
             user = get_user_by_token(emby_user["Id"], verify=False)
-            user.username = emby_user["Name"]
-            user.email = emby_user["ConnectUserName"] if "ConnectUserName" in emby_user else None
-            user.save()
-            info(f"User {emby_user['Name']} successfully updated in database.")
+            email = emby_user["ConnectUserName"] if "ConnectUserName" in emby_user else None
+            if (emby_user["Name"] != user.username or (email is not None and email != user.email)):
+                user.username = emby_user["Name"]
+                user.email = email
+                user.save()
+                info(f"User {emby_user['Name']} successfully updated in database.")
 
     # If database_users.token not in emby_users.id, delete from database
     for database_user in database_users:

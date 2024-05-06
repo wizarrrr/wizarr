@@ -108,18 +108,14 @@ def invite_plex_user(code: str, token: str, server_api_key: Optional[str] = None
     if invitation.specific_libraries is not None and len(invitation.specific_libraries) > 0:
         sections = [library.name for library in Libraries.filter(Libraries.id.in_(invitation.specific_libraries.split(",")))]
 
-    # Get allow_sync and plex_home from invitation
+    # Get allow_sync from invitation
     allow_sync = invitation.plex_allow_sync
-    plex_home = invitation.plex_home
 
     # Get my account from Plex
     my_account = plex.myPlexAccount()
 
     # Get the user from the token
     plex_account = MyPlexAccount(token=token)
-
-    # Select invitation method
-    invite_method = my_account.createHomeUser if plex_home else my_account.inviteFriend
 
     invite_data = {
         "user": plex_account.email,
@@ -131,7 +127,7 @@ def invite_plex_user(code: str, token: str, server_api_key: Optional[str] = None
         invite_data["sections"] = sections
 
     # Invite the user
-    invite = invite_method(**invite_data)
+    invite = my_account.inviteFriend(**invite_data)
 
     # If the invite is none raise an error
     if invite is None:

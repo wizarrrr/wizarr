@@ -1,74 +1,60 @@
 import type { Session, Sessions } from '@/types/api/sessions';
 import { defineStore } from 'pinia';
 
+// Interface defining the state structure for the sessions store
 interface SessionsStoreState {
     sessions: Sessions;
 }
 
+// Define and export a store for handling session data
 export const useSessionsStore = defineStore('sessions', {
+    // Initial state setup for the store
     state: (): SessionsStoreState => ({
         sessions: [],
     }),
+    // Actions that can be called to manipulate the state
     actions: {
+        // Asynchronously fetches session data from the server and updates the store
         async getSessions() {
-            // Get the sessions from the API
-            const sessions = await this.$axios
-                .get<Sessions, { data: Sessions }>('/api/sessions')
-                .catch((err) => {
-                    this.$toast.error('Could not get sessions');
-                    return null;
-                });
+            try {
+                const response = await this.$axios.get<Sessions>('/api/sessions');
+                if (!response.data) throw new Error('No data received');
 
-            // If the sessions are null, return
-            if (sessions === null) return;
+                // Create a map of new sessions for quick lookup
+                const newSessionsMap = new Map<number, Session>(response.data.map((session: Session) => [session.id, session]));
 
-            // Update the sessions that are already in the store
-            this.sessions.forEach((session, index) => {
-                const new_session = sessions.data.find(
-                    (new_session: Session) => new_session.id === session.id,
-                );
-                if (new_session) this.sessions[index] = new_session;
-            });
-
-            // Add the new sessions to the store if they don't exist
-            sessions.data.forEach((session: Session) => {
-                if (
-                    !this.sessions.find(
-                        (old_session) => old_session.id === session.id,
-                    )
-                )
-                    this.sessions.push(session);
-            });
-
-            // Remove the sessions that were not in the response
-            this.sessions.forEach((session, index) => {
-                if (
-                    !sessions.data.find(
-                        (new_session: Session) => new_session.id === session.id,
-                    )
-                )
-                    this.sessions.splice(index, 1);
-            });
+                // Update existing sessions and add new ones
+                this.sessions = this.sessions.reduce((updatedSessions: Session[], session) => {
+                    if (newSessionsMap.has(session.id)) {
+                        const newSession = newSessionsMap.get(session.id);
+                        if (newSession) {
+                            updatedSessions.push(newSession);
+                            newSessionsMap.delete(session.id); // Remove updated session from the map to avoid duplication
+                        }
+                    } else {
+                        updatedSessions.push(session); // Keep sessions that weren't updated
+                    }
+                    return updatedSessions;
+                }, []);
+            } catch (error) {
+                this.$toast.error('Could not get sessions'); // Notify the user of failure to fetch sessions
+                console.error(error);
+            }
         },
+
+        // Asynchronously deletes a session from the server and removes it from the store
         async deleteSession(id: number) {
-            // Delete the session from the API
-            const response = await this.$axios
-                .delete(`/api/sessions/${id}`)
-                .catch((err) => {
-                    this.$toast.error('Could not delete session');
-                    console.error(err);
-                    return null;
-                });
-
-            // If the response is null, return
-            if (response === null) return;
-
-            // Remove the session from the store
-            const index = this.sessions.findIndex(
-                (session: Session) => session.id === id,
-            );
-            if (index !== -1) this.sessions.splice(index, 1);
+            try {
+                await this.$axios.delete(`/api/sessions/${id}`);
+                const index = this.sessions.findIndex(session => session.id === id);
+                if (index !== -1) {
+                    this.sessions.splice(index, 1); // Remove the session from the store if found
+                }
+            } catch (error) {
+                this.$toast.error('Could not delete session'); // Notify the user of failure to delete session
+                console.error(error);
+            }
         },
     },
-    persist: true,
+    persist: true, // Enable persistence for the store to maintain state across sessions
 });
