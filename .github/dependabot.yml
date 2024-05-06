@@ -10,6 +10,10 @@ updates:
     # Check the npm registry for updates every day (weekdays)
     schedule:
       interval: "daily"
+    reviewers:
+     - JamsRepos
+     - PhantomMantis
+     - MrDynamo
 
   # Enable version updates for poetry backend
   - package-ecosystem: "pip"
@@ -18,3 +22,19 @@ updates:
     # Check the pip registry for updates every day (weekdays)
     schedule:
       interval: "daily"
+    reviewers:
+     - JamsRepos
+     - PhantomMantis
+     - MrDynamo
+
+  # Enable version updates for github actions
+  - package-ecosystem: "github-actions"
+    # Defaults to .github/workflows directory
+    directory: "/"
+    # Check the actions registry for updates every day (weekdays)
+    schedule:
+      interval: "daily"
+    reviewers:
+     - JamsRepos
+     - PhantomMantis
+     - MrDynamo
