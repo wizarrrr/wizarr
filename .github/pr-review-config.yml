@@ -1,0 +1,32 @@
+reviewers:
+  
+  # Default reviewers
+  defaults:
+    - JamsRepos
+    - PhantomMantis
+    - MrDynamo
+
+  # Group definitions
+  groups:
+    maintainers:
+      - JamsRepos
+      - PhantomMantis
+      - MrDynamo
+  #   contributors:
+  #      #Additional users to review can go here
+
+  # per_author:
+  #   contributors:
+  #     - maintainers
+
+options:
+  ignore_draft: true
+  ignored_keywords:
+    - NO REVIEW
+
+
+######
+#
+#       https://github.com/marketplace/actions/auto-request-review
+#
+######
