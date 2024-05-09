@@ -10,10 +10,11 @@ updates:
     # Check the npm registry for updates every day (weekdays)
     schedule:
       interval: "daily"
-    reviewers:
-      - JamsRepos
-      - PhantomMantis
-      - MrDynamo
+    # NOTE: Removed reviewers as the pr-review-request workflow will accomplish the same thing on all PR types.
+    # reviewers:
+    #   - JamsRepos
+    #   - PhantomMantis
+    #   - MrDynamo
     target-branch: "develop"
 
   # Enable version updates for poetry backend
@@ -23,10 +24,11 @@ updates:
     # Check the pip registry for updates every day (weekdays)
     schedule:
       interval: "daily"
-    reviewers:
-      - JamsRepos
-      - PhantomMantis
-      - MrDynamo
+    # NOTE: Removed reviewers as the pr-review-request workflow will accomplish the same thing on all PR types.
+    # reviewers:
+    #   - JamsRepos
+    #   - PhantomMantis
+    #   - MrDynamo
     target-branch: "develop"
 
   # Enable version updates for github actions
@@ -36,8 +38,9 @@ updates:
     # Check the actions registry for updates every day (weekdays)
     schedule:
       interval: "daily"
-    reviewers:
-      - JamsRepos
-      - PhantomMantis
-      - MrDynamo
+    # NOTE: Removed reviewers as the pr-review-request workflow will accomplish the same thing on all PR types.
+    # reviewers:
+    #   - JamsRepos
+    #   - PhantomMantis
+    #   - MrDynamo
     target-branch: "develop"
