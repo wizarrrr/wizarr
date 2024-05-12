@@ -39,7 +39,7 @@ class Account:
         if "email" in to_set and await Account(self._state, to_set["email"]).exists():
             raise EmailTaken()
 
-        await self._state.mongo.update_one(self._where, to_set)
+        await self._state.mongo.update_one(self._where, {"$set": to_set})
 
     async def create(self, password: str) -> AccountModel:
         if await self.exists():

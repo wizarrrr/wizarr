@@ -10,6 +10,7 @@ class AccountModel(BaseModel):
     created: datetime
     last_login: datetime | None = None
     role: Literal["user"] | Literal["admin"] = "user"
+    services: list[str] = []
 
 
 class AccountUpdateModel(BaseModel):

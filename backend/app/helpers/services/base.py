@@ -1,7 +1,8 @@
 from typing import Literal
 
 from aiohttp.client import ClientResponse
-from models.services.base import ServiceApiModel
+from exceptions import ServiceIdTaken
+from models.services.base import ServiceApiModel, ServiceApiUpdateModel
 
 from app.state import State
 
@@ -23,13 +24,36 @@ class Service:
         self._state = state
         self._service = service
 
+    @property
+    def _where(self) -> dict[str, str]:
+        return {"id_": self._service.id}
+
+    async def exists(self) -> bool:
+        return await self._state.mongo.services.count_documents(self._where) > 0
+
+    async def delete(self) -> None:
+        await self._state.mongo.services.delete_one(self._where)
+
+    async def update(self, update: ServiceApiUpdateModel) -> None:
+        to_set = update.model_dump(exclude_unset=True)
+
+        await self._state.mongo.services.update_one(self._where, {"$set": to_set})
+
+    async def create(self) -> None:
+        if await self.exists():
+            raise ServiceIdTaken()
+
+        await self._state.mongo.services.insert_one(
+            self._service.model_dump(by_alias=True)
+        )
+
     async def request(
         self,
         path: str,
         method: Literal["POST"] | Literal["GET"] | Literal["DELETE"] | Literal["PATCH"],
         **kwargs,
     ) -> ClientResponse:
-        url = self._service.url
+        url = str(self._service.url)
         if url.endswith("/"):
             url = url.removesuffix("/")
 

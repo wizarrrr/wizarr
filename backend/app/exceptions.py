@@ -13,6 +13,15 @@ class EmailTaken(ClientException):
         super().__init__(*args, detail=detail)
 
 
+class ServiceIdTaken(ClientException):
+    def __init__(
+        self,
+        *args: Any,
+        detail: str = "Service Id taken",
+    ) -> None:
+        super().__init__(*args, detail=detail)
+
+
 class AccountNotFound(NotFoundException):
     def __init__(
         self,
