@@ -1,6 +1,7 @@
 import importlib.metadata
 from typing import Any, Optional
 
+from aiohttp import ClientSession
 from litestar import Litestar, Request
 from litestar.config.cors import CORSConfig
 from litestar.connection import ASGIConnection
@@ -29,9 +30,21 @@ class ScalarRenderPluginRouteFix(ScalarRenderPlugin):
         return f"{SETTINGS.backend_url}/schema/openapi.json"
 
 
+async def start_aiohttp(app: Litestar) -> None:
+    if not hasattr(app.state, "aiohttp"):
+        app.state.aiohttp = ClientSession()
+
+
+async def close_aiohttp(app: Litestar) -> None:
+    if hasattr(app.state, "aiohttp"):
+        await app.state.aiohttp.close()
+
+
 app = Litestar(
     debug=SETTINGS.debug,
     route_handlers=[routes],
+    on_startup=[start_aiohttp],
+    on_shutdown=[close_aiohttp],
     state=State(
         {
             "mongo": motor_asyncio.AsyncIOMotorClient(
