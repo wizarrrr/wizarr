@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Literal
 
 from pydantic import BaseModel
 
@@ -9,7 +8,6 @@ class AccountModel(BaseModel):
     email: str
     created: datetime
     last_login: datetime | None = None
-    role: Literal["user"] | Literal["admin"] = "user"
     services: list[str] = []
 
 
