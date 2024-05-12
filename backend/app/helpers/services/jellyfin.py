@@ -1,5 +1,5 @@
-from helpers.services.base import Service
+from helpers.services.base import ServiceBase
 
 
-class Jellyfin(Service):
+class Jellyfin(ServiceBase):
     pass

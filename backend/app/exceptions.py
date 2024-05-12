@@ -13,11 +13,11 @@ class EmailTaken(ClientException):
         super().__init__(*args, detail=detail)
 
 
-class ServiceIdTaken(ClientException):
+class ServiceNotFound(NotFoundException):
     def __init__(
         self,
         *args: Any,
-        detail: str = "Service Id taken",
+        detail: str = "Service not found",
     ) -> None:
         super().__init__(*args, detail=detail)
 
