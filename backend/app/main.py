@@ -70,7 +70,7 @@ app = Litestar(
         ),
     ),
     cors_config=CORSConfig(
-        allow_origins=[SETTINGS.backend_url],
+        allow_origins=[SETTINGS.backend_url, SETTINGS.frontend_url],
         allow_methods=["OPTIONS", "GET", "DELETE", "POST", "PATCH"],
         allow_credentials=True,
         allow_headers=["Authorization", "Content-type"],

@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     mongo: MongoDB = MongoDB()
 
     backend_url: str
+    frontend_url: str
 
     debug: bool = False
 
