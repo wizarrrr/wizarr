@@ -15,7 +15,7 @@ from app.state import State
 
 
 def __work_out_service(state: State, service: ServiceApiModel) -> ServiceBase:
-    match service.name:
+    match service.type:
         case "jellyfin":
             return Jellyfin(state, service)
         case "emby":

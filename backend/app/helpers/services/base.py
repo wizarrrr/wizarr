@@ -41,7 +41,7 @@ class ServiceBase:
             kwargs["headers"] = {}
 
         kwargs["headers"][
-            "X-Emby-Token" if self._service.name != "plex" else "X-Plex-Token"
+            "X-Emby-Token" if self._service.type != "plex" else "X-Plex-Token"
         ] = self._service.key
 
         return await self._state.aiohttp.request(
