@@ -14,7 +14,7 @@ server = "run:main"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-litestar = "^2.8.3"
+litestar = {extras = ["jwt"], version = "^2.8.3"}
 pydantic-settings = "^2.2.1"
 pydantic = "^2.7.1"
 motor = "^3.4.0"

@@ -1,4 +1,6 @@
-from pydantic import BaseModel
+import secrets
+
+from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings
 
 
@@ -14,6 +16,8 @@ class Settings(BaseSettings):
     backend_url: str
 
     debug: bool = False
+
+    jwt_token: str = Field(secrets.token_urlsafe(), min_length=32)
 
     model_config = {"env_prefix": "wizarr_"}
 
