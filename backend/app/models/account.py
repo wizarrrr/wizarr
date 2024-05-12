@@ -5,9 +5,12 @@ from pydantic import BaseModel
 
 
 class AccountModel(BaseModel):
-    username: str
-    password: str
+    password_hash: str
     email: str
     created: datetime
-    last_login: datetime
+    last_login: datetime | None = None
     role: Literal["user"] | Literal["admin"] = "user"
+
+
+class AccountUpdateModel(BaseModel):
+    email: str | None = None

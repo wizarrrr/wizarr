@@ -467,6 +467,24 @@ test = ["aiohttp (!=3.8.6)", "mockupdb", "motor[encryption]", "pytest (>=7)", "t
 zstd = ["pymongo[zstd] (>=4.5,<5)"]
 
 [[package]]
+name = "motor-types"
+version = "1.0.0b4"
+description = "Python stubs for Motor, a Non-Blocking MongoDB driver for Python's Tornado and AsyncIO based applications."
+optional = false
+python-versions = ">=3.8.0,<4.0"
+files = [
+    {file = "motor_types-1.0.0b4-py3-none-any.whl", hash = "sha256:6dc37c87a78acdbd658abbc4426ba3d239c4a26485a12325c65439cb7a2e27bf"},
+    {file = "motor_types-1.0.0b4.tar.gz", hash = "sha256:ece2ec5283dfef1a4d3d693db15a010b6c56fea0d46697184e36880935a9f940"},
+]
+
+[package.dependencies]
+pymongo = ">=4.3.0"
+typing-extensions = ">=4.0.0"
+
+[package.extras]
+motor = ["dnspython (>=2.3.0)", "motor (>=3.0.0)"]
+
+[[package]]
 name = "msgspec"
 version = "0.18.6"
 description = "A fast serialization and validation library, with builtin support for JSON, MessagePack, YAML, and TOML."
@@ -1099,7 +1117,17 @@ h11 = ">=0.8"
 [package.extras]
 standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)", "pyyaml (>=5.1)", "uvloop (>=0.14.0,!=0.15.0,!=0.15.1)", "watchfiles (>=0.13)", "websockets (>=10.4)"]
 
+[[package]]
+name = "zxcvbn"
+version = "4.4.28"
+description = ""
+optional = false
+python-versions = "*"
+files = [
+    {file = "zxcvbn-4.4.28.tar.gz", hash = "sha256:151bd816817e645e9064c354b13544f85137ea3320ca3be1fb6873ea75ef7dc1"},
+]
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "63a7ccffca5af7c3671675a26fd63af080579a6405b636bdd8b8d97c83afdb2b"
+content-hash = "56f87a0ba4a185557a18a2374416564903cb8e2fcdd4cc28a2848c12eff08107"
