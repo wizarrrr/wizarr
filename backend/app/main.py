@@ -71,7 +71,9 @@ app = Litestar(
     ),
     cors_config=CORSConfig(
         allow_origins=[SETTINGS.backend_url],
+        allow_methods=["OPTIONS", "GET", "DELETE", "POST", "PATCH"],
         allow_credentials=True,
+        allow_headers=["Authorization", "Content-type"],
     ),
     on_app_init=[
         JWTCookieAuth[AccountModel](
