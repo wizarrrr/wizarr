@@ -13,7 +13,7 @@ class JellyfinInvite(ServiceInviteBase):
         """
 
         # Run shared invite logic.
-        invite = await super().add(password)
+        invite = await super().add(name, password)
 
         created_user = await (
             await self._upper.request(

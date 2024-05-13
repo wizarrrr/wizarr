@@ -7,7 +7,7 @@ from argon2.exceptions import VerificationError
 from app.const import ARGON
 from app.exceptions import InvalidInviteCode, WeakPassword
 from app.helpers.misc import check_password
-from app.models.invite import CreateInviteModel, InviteModel
+from app.models.invite import InviteModel
 from app.models.services.base import ServiceApiModel
 from app.state import State
 
@@ -27,7 +27,7 @@ class ServiceInviteBase:
 
         return _id, password
 
-    async def add(self, password: str) -> InviteModel:
+    async def add(self, name: str | None, password: str) -> InviteModel:
         try:
             invite = await self.validate()
         except InvalidInviteCode:
@@ -79,20 +79,6 @@ class ServiceBase:
 
     def invite(self, code: str) -> ServiceInviteBase: ...
 
-    async def create_invite(self, invite: CreateInviteModel) -> InviteModel:
-        _id = secrets.token_urlsafe(6)
-
-        while await self._state.mongo.invite.count_documents({"_id": _id}) > 0:
-            _id = secrets.token_urlsafe(6)
-
-        password = secrets.token_urlsafe(6)
-
-        invite = InviteModel(_id=_id, password=password, **invite.model_dump())
-
-        await self._state.mongo.invite.insert_one(invite.model_dump())
-
-        return invite
-
     async def request(
         self,
         path: str,
@@ -122,8 +108,4 @@ class ServiceBase:
 
     async def scan(self) -> None: ...
 
-    async def sync(self) -> None: ...
-
     async def users(self) -> None: ...
-
-    def user(self, id_: str) -> None: ...

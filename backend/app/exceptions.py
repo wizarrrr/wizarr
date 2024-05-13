@@ -1,7 +1,11 @@
 from typing import Any
 
 import zxcvbn
-from litestar.exceptions import ClientException, NotFoundException
+from litestar.exceptions import (
+    ClientException,
+    NotAuthorizedException,
+    NotFoundException,
+)
 
 
 class EmailTaken(ClientException):
@@ -42,10 +46,28 @@ class WeakPassword(ClientException):
         super().__init__(*args, detail=detail, extra={"feedback": feedback})
 
 
-class InvalidInviteCode(ClientException):
+class InvalidInviteCode(NotAuthorizedException):
     def __init__(
         self,
         *args: Any,
         detail: str = "Invite code is invalid",
+    ) -> None:
+        super().__init__(*args, detail=detail)
+
+
+class InvalidInviteId(NotFoundException):
+    def __init__(
+        self,
+        *args: Any,
+        detail: str = "Invite code wasn't found",
+    ) -> None:
+        super().__init__(*args, detail=detail)
+
+
+class NoPermissionsToService(NotAuthorizedException):
+    def __init__(
+        self,
+        *args: Any,
+        detail: str = "Service not allowed",
     ) -> None:
         super().__init__(*args, detail=detail)
