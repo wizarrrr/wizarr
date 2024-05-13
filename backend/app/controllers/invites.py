@@ -1,7 +1,12 @@
 from litestar import Controller, Router, get, post
 
-from app.helpers.invites import Invite, create_invite
-from app.models.invite import CreateInviteModel, InviteAddModel, InviteModel
+from app.helpers.invites import Invite, create_invite, invites
+from app.models.invite import (
+    CreateInviteModel,
+    InviteAddModel,
+    InviteFilterModel,
+    InviteModel,
+)
 from app.state import State
 
 
@@ -23,6 +28,13 @@ class InviteController(Controller):
 async def post_create_invite(state: State, create: CreateInviteModel) -> InviteModel:
     invite, _ = await create_invite(state, create)
     return invite
+
+
+@get("/")
+async def list_invites(
+    state: State, data: InviteFilterModel | None = None
+) -> list[InviteModel]:
+    return await invites(state, data)
 
 
 routes = Router(

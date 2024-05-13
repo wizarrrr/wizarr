@@ -21,3 +21,8 @@ class ServiceApiUpdateModel(BaseModel):
     alias: str | None = None
     key: str | None = None
     url: str | None = None
+
+
+class ServiceApiFilter(BaseModel):
+    types: list[SERVICE_TYPES] | None = None
+    aliases: list[str] | None = None

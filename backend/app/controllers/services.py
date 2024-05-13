@@ -1,11 +1,12 @@
 from litestar import Controller, Router, delete, get, patch, post
 from models.services.base import (
     CreateServiceApiModel,
+    ServiceApiFilter,
     ServiceApiModel,
     ServiceApiUpdateModel,
 )
 
-from app.helpers.services import Service, create_service
+from app.helpers.services import Service, create_service, services
 from app.state import State
 
 
@@ -34,10 +35,17 @@ async def post_create_service(
     return (await create_service(state, data)).details
 
 
+@get("/")
+async def list_services(
+    state: State, data: ServiceApiFilter | None = None
+) -> list[ServiceApiModel]:
+    return await services(state, data)
+
+
 routes = Router(
     "/services",
     tags=["services"],
-    route_handlers=[ServiceController],
+    route_handlers=[ServiceController, list_services],
 )
 
 __all__ = ["routes"]

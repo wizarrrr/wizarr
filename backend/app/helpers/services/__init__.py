@@ -7,6 +7,7 @@ from app.helpers.services.jellyfin import Jellyfin
 from app.helpers.services.plex import Plex
 from app.models.services.base import (
     CreateServiceApiModel,
+    ServiceApiFilter,
     ServiceApiModel,
     ServiceApiUpdateModel,
 )
@@ -49,6 +50,26 @@ class Service:
         to_set = update.model_dump(exclude_unset=True)
 
         await self._state.mongo.services.update_one(self._where, {"$set": to_set})
+
+
+async def services(
+    state: State, filter: ServiceApiFilter | None = None
+) -> list[ServiceApiModel]:
+    searches = {}
+
+    if filter:
+        if filter.types:
+            searches["type"] = {"$in": filter.types}
+
+        if filter.aliases:
+            searches["alias"] = {"$in": filter.aliases}
+
+    results = []
+
+    async for result in state.mongo.services.find(searches):
+        results.append(ServiceApiModel(**result))
+
+    return results
 
 
 async def create_service(state: State, service: CreateServiceApiModel) -> ServiceBase:
