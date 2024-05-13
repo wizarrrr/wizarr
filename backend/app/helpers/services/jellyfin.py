@@ -1,30 +1,23 @@
 from app.exceptions import InvalidInviteCode, WeakPassword
 from app.helpers.misc import check_password
-from app.helpers.services.base import ServiceBase, UserServiceBase
+from app.helpers.services.base import ServiceBase, ServiceInviteBase
 
 
-class JellyfinUser(UserServiceBase):
-    async def add(self, password: str, code: str) -> None:
+class JellyfinInvite(ServiceInviteBase):
+    async def add(self, name: str, password: str) -> None:
         """Invite user to Jellyfin.
 
         Args:
+            name (str): Name of jellyfin user to create.
             password (str): Password to create account with.
-            code (str): Invite code.
         """
 
-        try:
-            invite = await self._upper.validate_invite(code)
-        except InvalidInviteCode:
-            raise
-
-        try:
-            check_password(password)
-        except WeakPassword:
-            raise
+        # Run shared invite logic.
+        invite = await super().add(password)
 
         created_user = await (
             await self._upper.request(
-                "/Users/New", "POST", json={"Name": self._id, "Password": password}
+                "/Users/New", "POST", json={"Name": name, "Password": password}
             )
         ).json()
 
@@ -56,7 +49,22 @@ class JellyfinUser(UserServiceBase):
             json={**created_user["Policy"], **user_policy},
         )
 
+        await self._upper._state.mongo.invite.update_one(
+            {"_id": invite.id},
+            {"$set": {"external_service_user_id": created_user["Id"]}},
+        )
+
+    async def delete(self) -> None:
+        invite = await self.get()
+
+        if invite.external_service_user_id:
+            await self._upper.request(
+                f"/Users/{invite.external_service_user_id}", "DELETE"
+            )
+
+        await super().delete()
+
 
 class Jellyfin(ServiceBase):
-    def user(self, id_: str) -> UserServiceBase:
-        return JellyfinUser(self._state, self, id_)
+    def invite(self, code: str) -> ServiceInviteBase:
+        return JellyfinInvite(self._state, self, code)

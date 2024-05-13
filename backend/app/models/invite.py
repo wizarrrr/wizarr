@@ -16,3 +16,6 @@ class CreateInviteModel(BaseModel):
 class InviteModel(CreateInviteModel):
     id: str = Field(alias="_id")
     password: str
+
+    # Will be none if user hasn't linked their account yet.
+    external_service_user_id: str | None = None

@@ -1,27 +1,71 @@
 import secrets
-from typing import Literal
+from typing import Literal, Tuple
 
 from aiohttp.client import ClientResponse
 from argon2.exceptions import VerificationError
-from exceptions import InvalidInviteCode
 
 from app.const import ARGON
+from app.exceptions import InvalidInviteCode, WeakPassword
+from app.helpers.misc import check_password
 from app.models.invite import CreateInviteModel, InviteModel
 from app.models.services.base import ServiceApiModel
 from app.state import State
 
 
-class UserServiceBase:
-    def __init__(self, state: State, upper: "ServiceBase", id_: str) -> None:
+class ServiceInviteBase:
+    def __init__(self, state: State, upper: "ServiceBase", code: str) -> None:
         self._state = state
-        self._id = id_
         self._upper = upper
+        self._code = code
 
-    async def add(self, password: str, code: str) -> None: ...
+    @property
+    def code_decoded(self) -> Tuple[str, str]:
+        try:
+            _id, password = self._code.split(":")
+        except ValueError:
+            raise InvalidInviteCode()
 
-    async def delete(self) -> None: ...
+        return _id, password
 
-    async def get(self) -> None: ...
+    async def add(self, password: str) -> InviteModel:
+        try:
+            invite = await self.validate()
+        except InvalidInviteCode:
+            raise
+
+        try:
+            check_password(password)
+        except WeakPassword:
+            raise
+
+        return invite
+
+    async def delete(self) -> None:
+        id_, _ = self.code_decoded
+
+        await self._state.mongo.delete_one({"_id": id_})
+
+    async def get(self) -> InviteModel:
+        id_, _ = self.code_decoded
+
+        result = await self._state.mongo.invite.find_one({"_id", id_})
+        if not result:
+            raise InvalidInviteCode()
+
+        return InviteModel(**result)
+
+    async def validate(self) -> InviteModel:
+        _, password = self.code_decoded
+
+        invite = await self.get()
+
+        try:
+            # Timing attacks
+            ARGON.verify(ARGON.hash(password), password)
+        except VerificationError:
+            raise InvalidInviteCode()
+
+        return invite
 
 
 class ServiceBase:
@@ -33,23 +77,7 @@ class ServiceBase:
     def details(self) -> ServiceApiModel:
         return self._service
 
-    async def validate_invite(self, code: str) -> InviteModel:
-        try:
-            _id, password = code.split(":")
-        except ValueError:
-            raise InvalidInviteCode()
-
-        result = await self._state.mongo.invite.find_one({"_id", _id})
-        if not result:
-            raise InvalidInviteCode()
-
-        try:
-            # Timing attacks
-            ARGON.verify(ARGON.hash(password), password)
-        except VerificationError:
-            raise InvalidInviteCode()
-
-        return InviteModel(**result)
+    def invite(self, code: str) -> ServiceInviteBase: ...
 
     async def create_invite(self, invite: CreateInviteModel) -> InviteModel:
         _id = secrets.token_urlsafe(6)
@@ -98,4 +126,4 @@ class ServiceBase:
 
     async def users(self) -> None: ...
 
-    def user(self, id_: str) -> UserServiceBase: ...
+    def user(self, id_: str) -> None: ...
