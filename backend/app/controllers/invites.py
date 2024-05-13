@@ -1,4 +1,4 @@
-from litestar import Controller, Router, get, post
+from litestar import Controller, Router, delete, get, post
 
 from app.helpers.invites import Invite, create_invite, invites
 from app.models.invite import (
@@ -11,17 +11,21 @@ from app.state import State
 
 
 class InviteController(Controller):
-    path = "/{invite_id:str}"
+    path = "/{code:str}"
+
+    @delete("/{service_ids:str}")
+    async def delete_invite(self, state: State, code: str, service_ids: str) -> None:
+        await Invite(state, code).delete(service_ids.split(","))
 
     @get("/")
-    async def invite_get(self, state: State, invite_id: str) -> InviteModel:
-        return await Invite(state, invite_id).get()
+    async def invite_get(self, state: State, code: str) -> InviteModel:
+        return await Invite(state, code).get()
 
-    @post("/{code:str}")
+    @post("/")
     async def invite_add(
-        self, state: State, data: list[InviteAddModel], invite_id: str, code: str
+        self, state: State, data: list[InviteAddModel], code: str
     ) -> None:
-        await Invite(state, invite_id).add(data, code)
+        await Invite(state, code).add(data)
 
 
 @post("/")

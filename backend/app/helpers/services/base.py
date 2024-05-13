@@ -1,12 +1,11 @@
-import secrets
-from typing import Literal, Tuple
+from typing import Literal
 
 from aiohttp.client import ClientResponse
 from argon2.exceptions import VerificationError
 
 from app.const import ARGON
 from app.exceptions import InvalidInviteCode, WeakPassword
-from app.helpers.misc import check_password
+from app.helpers.misc import check_password, invite_code_decoded
 from app.models.invite import InviteModel
 from app.models.services.base import ServiceApiModel
 from app.state import State
@@ -17,15 +16,6 @@ class ServiceInviteBase:
         self._state = state
         self._upper = upper
         self._code = code
-
-    @property
-    def code_decoded(self) -> Tuple[str, str]:
-        try:
-            _id, password = self._code.split(":")
-        except ValueError:
-            raise InvalidInviteCode()
-
-        return _id, password
 
     async def add(self, name: str | None, password: str) -> InviteModel:
         try:
@@ -41,12 +31,12 @@ class ServiceInviteBase:
         return invite
 
     async def delete(self) -> None:
-        id_, _ = self.code_decoded
+        id_, _ = invite_code_decoded(self._code)
 
         await self._state.mongo.delete_one({"_id": id_})
 
     async def get(self) -> InviteModel:
-        id_, _ = self.code_decoded
+        id_, _ = invite_code_decoded(self._code)
 
         result = await self._state.mongo.invite.find_one({"_id", id_})
         if not result:
@@ -55,7 +45,7 @@ class ServiceInviteBase:
         return InviteModel(**result)
 
     async def validate(self) -> InviteModel:
-        _, password = self.code_decoded
+        _, password = invite_code_decoded(self._code)
 
         invite = await self.get()
 
