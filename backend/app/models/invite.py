@@ -6,15 +6,25 @@ from pydantic import BaseModel, Field
 
 class PlexInviteModel(BaseModel):
     allow_sync: bool = False
+    libraries: list[str] = []
+
+
+class JellyfinInviteModel(BaseModel):
+    libraries: list[str] = []
+
+
+class EmbyInviteModel(BaseModel):
+    libraries: list[str] = []
 
 
 class CreateInviteModel(BaseModel):
     service_ids: list[str]
-    folders: list[str] = []
     hidden: bool | None = None
     live_tv: bool | None = None
     sessions: int | None = None
     plex: PlexInviteModel | None = None
+    jellyfin: JellyfinInviteModel | None = None
+    emby: EmbyInviteModel | None = None
     expires: datetime | None = None
 
 

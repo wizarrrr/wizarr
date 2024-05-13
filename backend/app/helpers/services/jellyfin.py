@@ -26,9 +26,9 @@ class JellyfinInvite(ServiceInviteBase):
             "AuthenticationProviderId": "Jellyfin.Server.Implementations.Users.DefaultAuthenticationProvider",
         }
 
-        if invite.folders:
+        if invite.jellyfin and invite.jellyfin.libraries:
             user_policy["EnableAllFolders"] = False
-            user_policy["EnabledFolders"] = invite.folders
+            user_policy["EnabledFolders"] = invite.jellyfin.libraries
         else:
             user_policy["EnableAllFolders"] = True
 
