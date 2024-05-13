@@ -40,3 +40,12 @@ class WeakPassword(ClientException):
         feedback: zxcvbn.feedback._Feedback,
     ) -> None:
         super().__init__(*args, detail=detail, extra={"feedback": feedback})
+
+
+class InvalidInviteCode(ClientException):
+    def __init__(
+        self,
+        *args: Any,
+        detail: str = "Invite code is invalid",
+    ) -> None:
+        super().__init__(*args, detail=detail)

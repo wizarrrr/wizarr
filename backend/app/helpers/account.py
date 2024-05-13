@@ -1,14 +1,10 @@
 from datetime import datetime, timezone
 
-from argon2 import PasswordHasher
-from bson import utc
-from exceptions import AccountNotFound, EmailTaken, WeakPassword
-from zxcvbn import zxcvbn
-
+from app.const import ARGON
+from app.exceptions import AccountNotFound, EmailTaken, WeakPassword
+from app.helpers.misc import check_password
 from app.models.account import AccountModel, AccountUpdateModel
 from app.state import State
-
-ARGON = PasswordHasher()
 
 
 class Account:
@@ -45,9 +41,10 @@ class Account:
         if await self.exists():
             raise EmailTaken()
 
-        zxcvbn_results = zxcvbn(password)
-        if zxcvbn_results["score"] < 3:
-            raise WeakPassword(feedback=zxcvbn_results["feedback"])
+        try:
+            check_password(password)
+        except WeakPassword:
+            raise
 
         password_hash = ARGON.hash(password)
 
