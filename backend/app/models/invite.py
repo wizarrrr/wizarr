@@ -4,16 +4,16 @@ from const import SERVICE_TYPES
 from pydantic import BaseModel, Field
 
 
-class PlexInviteModel(BaseModel):
+class CreatePlexInviteModel(BaseModel):
     allow_sync: bool = False
     libraries: list[str] = []
 
 
-class JellyfinInviteModel(BaseModel):
+class CreateJellyfinInviteModel(BaseModel):
     libraries: list[str] = []
 
 
-class EmbyInviteModel(BaseModel):
+class CreateEmbyInviteModel(BaseModel):
     libraries: list[str] = []
 
 
@@ -22,18 +22,30 @@ class CreateInviteModel(BaseModel):
     hidden: bool | None = None
     live_tv: bool | None = None
     sessions: int | None = None
-    plex: PlexInviteModel | None = None
-    jellyfin: JellyfinInviteModel | None = None
-    emby: EmbyInviteModel | None = None
+    plex: CreatePlexInviteModel | None = None
+    jellyfin: CreateJellyfinInviteModel | None = None
+    emby: CreateEmbyInviteModel | None = None
     expires: datetime | None = None
+
+
+class PlexInviteModel(CreatePlexInviteModel):
+    user_id: str | None = None
+
+
+class JellyfinInviteModel(CreateJellyfinInviteModel):
+    user_id: str | None = None
+
+
+class EmbyInviteModel(CreateEmbyInviteModel):
+    user_id: str | None = None
 
 
 class InviteModel(CreateInviteModel):
     id: str = Field(alias="_id")
     password: str
-
-    # Will be none if user hasn't linked their account yet.
-    external_service_user_id: str | None = None
+    plex: PlexInviteModel | None = None
+    jellyfin: JellyfinInviteModel | None = None
+    emby: EmbyInviteModel | None = None
 
 
 class InviteFilterModel(BaseModel):

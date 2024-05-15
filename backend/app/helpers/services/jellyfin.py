@@ -51,16 +51,14 @@ class JellyfinInvite(ServiceInviteBase):
 
         await self._upper._state.mongo.invite.update_one(
             {"_id": invite.id},
-            {"$set": {"external_service_user_id": created_user["Id"]}},
+            {"$set": {"jellyfin.user_id": created_user["Id"]}},
         )
 
     async def delete(self) -> None:
         invite = await self.get()
 
-        if invite.external_service_user_id:
-            await self._upper.request(
-                f"/Users/{invite.external_service_user_id}", "DELETE"
-            )
+        if invite.jellyfin and invite.jellyfin.user_id:
+            await self._upper.request(f"/Users/{invite.jellyfin.user_id}", "DELETE")
 
         await super().delete()
 
