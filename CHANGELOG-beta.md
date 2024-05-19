@@ -1,3 +1,15 @@
+## [4.1.1-beta.3](https://github.com/wizarrrr/wizarr/compare/v4.1.1-beta.2...v4.1.1-beta.3) (2024-05-19)
+
+
+### Bug Fixes
+
+* 🚑 Plex API endpoint for deleting users ([462deae](https://github.com/wizarrrr/wizarr/commit/462deae0f8d3e3c77a8d33f43382abeba8dfa218))
+
+
+### Chores
+
+* 🧽 sync develop with beta ([7107159](https://github.com/wizarrrr/wizarr/commit/7107159ce9bfa8e54952696a53abc37a3f2ba13a))
+
 ## [4.1.1-beta.2](https://github.com/wizarrrr/wizarr/compare/v4.1.1-beta.1...v4.1.1-beta.2) (2024-05-19)
 
 
