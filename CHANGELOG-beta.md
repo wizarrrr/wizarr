@@ -1,3 +1,18 @@
+## [4.1.1-beta.2](https://github.com/wizarrrr/wizarr/compare/v4.1.1-beta.1...v4.1.1-beta.2) (2024-05-19)
+
+
+### Continuous Integration
+
+* **codeql:** setup code vulnerability scanning ([#417](https://github.com/wizarrrr/wizarr/issues/417)) ([37612b5](https://github.com/wizarrrr/wizarr/commit/37612b527084a2e7c1074cc5699bb0e8434b6a30))
+* **deps:** setup dependabot updates ([#413](https://github.com/wizarrrr/wizarr/issues/413)) ([97a5fd4](https://github.com/wizarrrr/wizarr/commit/97a5fd42727bb879c1fc391e9ff46723c3a9ce34))
+* **pr-review:** 🔧 scope to pr target only ([e6008a6](https://github.com/wizarrrr/wizarr/commit/e6008a65d840872c0066443190043307fe2f5d92))
+* setup auto pr reviews ([#415](https://github.com/wizarrrr/wizarr/issues/415)) ([ec0c1ee](https://github.com/wizarrrr/wizarr/commit/ec0c1ee91687a942a7ac54a731b84fc43cb9c9d1))
+
+
+### Chores
+
+* 🧽 sync develop with beta ([3e213b1](https://github.com/wizarrrr/wizarr/commit/3e213b1920ee56e7915acc69ce1192f2fc0ae278))
+
 ## [4.1.1-beta.1](https://github.com/wizarrrr/wizarr/compare/v4.1.0...v4.1.1-beta.1) (2024-05-06)
 
 
