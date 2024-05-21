@@ -109,7 +109,7 @@ jobs:
 
             # Upload the digest as an artifact
             - name: Upload digest
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                   name: digests_ghcr
                   path: /tmp/digests/*
