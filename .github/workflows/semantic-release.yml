@@ -30,7 +30,7 @@ jobs:
             # Get the GH_TOKEN from the app
             - name: Get GitHub App Token
               id: gh_app
-              uses: getsentry/action-github-app-token@v2
+              uses: getsentry/action-github-app-token@v3
               with:
                   app_id: ${{ secrets.APP_ID }}
                   private_key: ${{ secrets.APP_PRIVATE_KEY }}
