@@ -22,12 +22,10 @@ def check_expiring_users():
     # Get all users that have an expiration date set and are expired
     expiring = get_users_by_expiring()
 
-    print(expiring)
-
     # Delete all expired users
     for user in expiring:
         global_delete_user_from_media_server(user.id)
-        info(f"Deleting user { user.email if user.email else user.username } due to expired invite.")
+        info(f"Deleting user { user.email if user.email is not None else user.username } due to expired invite.")
 
 
 @schedule.task("interval", id="clearRevokedSessions", hours=1, misfire_grace_time=900)

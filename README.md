@@ -75,7 +75,6 @@ docker run -d \
 
 ```
 ---
-version: "3.5"
 services:
   wizarr:
     container_name: wizarr

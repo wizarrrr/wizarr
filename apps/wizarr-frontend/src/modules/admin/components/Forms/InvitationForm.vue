@@ -208,10 +208,6 @@ export default defineComponent({
                         label: "Unlimited Invitation Usages",
                         value: "unlimited",
                     },
-                    plex_home: {
-                        label: "Allow Plex Home Access",
-                        value: "plex_home",
-                    },
                     plex_allow_sync: {
                         label: "Allow Plex Downloads",
                         value: "plex_allow_sync",
@@ -270,7 +266,6 @@ export default defineComponent({
             const code = invitationData.inviteCode;
             const expires = invitationData.expiration == "custom" ? this.$filter("toMinutes", invitationData.customExpiration) : invitationData.expiration;
             const unlimited = invitationData.checkboxes.includes("unlimited");
-            const plex_home = invitationData.checkboxes.includes("plex_home");
             const plex_allow_sync = invitationData.checkboxes.includes("plex_allow_sync");
             const live_tv = invitationData.checkboxes.includes("live_tv");
             const hide_user = invitationData.checkboxes.includes("hide_user");
@@ -282,7 +277,6 @@ export default defineComponent({
                 code: code,
                 expires: expires,
                 unlimited: unlimited,
-                plex_home: plex_home,
                 plex_allow_sync: plex_allow_sync,
                 live_tv: live_tv,
                 hide_user: hide_user,

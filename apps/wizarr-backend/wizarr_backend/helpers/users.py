@@ -1,7 +1,7 @@
 from app.models.database.users import Users
 from app.models.users import UsersModel
 from playhouse.shortcuts import model_to_dict
-from datetime import datetime
+from datetime import datetime, timezone
 
 # ANCHOR - Get Users
 def get_users(as_dict: bool = True) -> list[Users]:
@@ -124,7 +124,7 @@ def get_users_by_expiring() -> list[Users]:
     """
 
     # Get all users by expiring
-    users: list[Users] = Users.select().where(Users.expires <= datetime.utcnow())
+    users: list[Users] = Users.select().where(Users.expires <= datetime.now(timezone.utc))
 
     return users
 

@@ -1,0 +1,29 @@
+name: Auto Request PR Review
+
+on:
+  pull_request_target:
+    types: [opened, ready_for_review, reopened]
+
+jobs:
+  auto-request-review:
+    name: Request Reviews on Pull Request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get GitHub App Token
+        id: gh_app
+        uses: getsentry/action-github-app-token@v2
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Request reviewe
+        uses: necojackarc/auto-request-review@v0.13.0
+        with:
+          token: ${{ steps.gh_app.outputs.token }}
+          config: .github/pr-review-config.yml # Config file location override
+          # Look for config locally during run instead of in repo.
+          # For instance, if you'd like to use a config file stored in external storage,
+          # you can fetch it before you run this action, then let this action pick it up with `use_local: true`.
+          # This defaults to false if not specified.
+          # See https://github.com/necojackarc/auto-request-review/issues/76 for more details.
+          #use_local: true

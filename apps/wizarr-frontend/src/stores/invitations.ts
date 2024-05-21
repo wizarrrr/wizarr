@@ -1,63 +1,46 @@
+// Import the types for invitations and the Pinia library function for creating a store
 import type { Invitation, Invitations } from '@/types/api/invitations';
-
 import { defineStore } from 'pinia';
 
+// Define the shape of the state in this store
 interface InvitationStoreState {
-    invitations: any[];
+    invitations: Invitations;
 }
 
+// Define and export a store named 'invitations' using the Pinia library
 export const useInvitationStore = defineStore('invitations', {
+    // Define the initial state of the store
     state: (): InvitationStoreState => ({
-        invitations: [] as Invitations,
+        invitations: [],
     }),
+    // Define actions that can mutate the state
     actions: {
+        // Asynchronously fetches invitations from the server and updates the state
         async getInvitations() {
-            // Get invites from API
-            const invitations = await this.$axios
+            const response = await this.$axios
                 .get<Invitations, { data: Invitations }>('/api/invitations')
                 .catch(() => {
                     this.$toast.error('Could not get invitations');
                     return null;
                 });
 
-            // If the invites are null, return
-            if (invitations === null) return;
-
-            // Update the invites that are already in the store
-            this.invitations.forEach((invite, index) => {
-                const new_invitation = invitations.data.find(
-                    (new_invitation: Invitation) =>
-                        new_invitation.id === invite.id,
-                );
-                if (new_invitation) this.invitations[index] = new_invitation;
-            });
-
-            // Add the new invites to the store if they don't exist
-            invitations.data.forEach((invitation: Invitation) => {
-                if (
-                    !this.invitations.find(
-                        (old_invitation) => old_invitation.id === invitation.id,
-                    )
-                )
-                    this.invitations.push(invitation);
-            });
-
-            // Remove the invites that were not in the response
-            this.invitations.forEach((invitation, index) => {
-                if (
-                    !invitations.data.find(
-                        (new_invitation: Invitation) =>
-                            new_invitation.id === invitation.id,
-                    )
-                )
-                    this.invitations.splice(index, 1);
-            });
-
-            // Return the invites
-            return invitations.data;
+            if (response !== null) {
+                this.updateInvitations(response.data);
+            }
         },
+        // Updates the current invitations state with new data
+        updateInvitations(newInvitations: Invitations) {
+            const newInvitationMap = new Map(newInvitations.map(invite => [invite.id, invite]));
+            const updatedInvitations = this.invitations.map(invite => newInvitationMap.get(invite.id) || invite);
+            newInvitationMap.forEach((invite, id) => {
+                if (!this.invitations.some(i => i.id === id)) {
+                    updatedInvitations.push(invite);
+                }
+            });
+            this.invitations = updatedInvitations.filter(invite => newInvitationMap.has(invite.id));
+        },
+        // Creates a new invitation on the server and updates the local state if successful
         async createInvitation(invitation: FormData | Partial<Invitation>) {
-            // Create the invite
             const response = await this.$axios
                 .post('/api/invitations', invitation, {
                     disableErrorToast: true,
@@ -68,17 +51,13 @@ export const useInvitationStore = defineStore('invitations', {
                     return null;
                 });
 
-            // If the response is null, return
-            if (response === null) return;
-
-            // Add the invite to the store
-            this.invitations.push(response.data as Invitation);
-
-            // Return the invite
-            return response.data as Invitation;
+            if (response !== null) {
+                this.invitations.push(response.data as Invitation);
+                return response.data as Invitation;
+            }
         },
+        // Deletes an invitation from the server and removes it from the local state if successful
         async deleteInvitation(id: number) {
-            // Delete the invite from the API
             const response = await this.$axios
                 .delete(`/api/invitations/${id}`, { disableInfoToast: true })
                 .catch((err) => {
@@ -87,15 +66,11 @@ export const useInvitationStore = defineStore('invitations', {
                     return null;
                 });
 
-            // If the response is null, return
-            if (response === null) return;
-
-            // Remove the invite from the store
-            const index = this.invitations.findIndex(
-                (invitation: Invitation) => invitation.id === id,
-            );
-            if (index !== -1) this.invitations.splice(index, 1);
+            if (response !== null) {
+                this.invitations = this.invitations.filter(invitation => invitation.id !== id);
+            }
         },
     },
+    // Persist the state of the store to local storage or another persistence layer
     persist: true,
 });
