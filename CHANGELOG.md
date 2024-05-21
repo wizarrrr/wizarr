@@ -1,3 +1,50 @@
+## [4.1.1](https://github.com/wizarrrr/wizarr/compare/v4.1.0...v4.1.1) (2024-05-21)
+
+
+### Bug Fixes
+
+* 🐛 Beta message no longer shows on main releases ([819223e](https://github.com/wizarrrr/wizarr/commit/819223e0b7dd419926946667c5e83837ef586052))
+* 🐛 Fix migration syntax error ([affa9ff](https://github.com/wizarrrr/wizarr/commit/affa9ffe130f4100df61d2cf93a061a3f523be70))
+* 🩹 Re-write plex.tv URL's to app.plex.tv on media server override ([7eaf403](https://github.com/wizarrrr/wizarr/commit/7eaf403044b0563ccfe5423b9ca262ba526750e9))
+* 🩹 Removed plex home configuration due to not existing in the Plex API ([a075079](https://github.com/wizarrrr/wizarr/commit/a07507929a8c747787577015693eefeffc8ce658))
+* 🚑 Corrected the variable for unlimited invite uses on plex ([b605010](https://github.com/wizarrrr/wizarr/commit/b605010b371bfd754f7b5406fe7aec74c0337adb))
+* 🚑 Plex API endpoint for deleting users ([462deae](https://github.com/wizarrrr/wizarr/commit/462deae0f8d3e3c77a8d33f43382abeba8dfa218))
+
+
+### Performance Improvements
+
+* 🚀 Only update Emby/Jellyfin users when data is different ([44fe2f1](https://github.com/wizarrrr/wizarr/commit/44fe2f1c2a3dd583fb4daa8c2563167f6b34a459))
+* 🚀API Endpoint Optimisation ([#409](https://github.com/wizarrrr/wizarr/issues/409)) ([82d4cf5](https://github.com/wizarrrr/wizarr/commit/82d4cf5b4ffbb08669bfe955cb833a3d4c65756b))
+
+
+### Continuous Integration
+
+* **codeql:** setup code vulnerability scanning ([#417](https://github.com/wizarrrr/wizarr/issues/417)) ([37612b5](https://github.com/wizarrrr/wizarr/commit/37612b527084a2e7c1074cc5699bb0e8434b6a30))
+* **deps:** setup dependabot updates ([#413](https://github.com/wizarrrr/wizarr/issues/413)) ([97a5fd4](https://github.com/wizarrrr/wizarr/commit/97a5fd42727bb879c1fc391e9ff46723c3a9ce34))
+* **pr-review:** 🔧 scope to pr target only ([e6008a6](https://github.com/wizarrrr/wizarr/commit/e6008a65d840872c0066443190043307fe2f5d92))
+* **semantic-release:** auto-sync commit message ([05b3931](https://github.com/wizarrrr/wizarr/commit/05b3931de119ae27c625bbdb7871cab63d5abe0d))
+* **semantic-release:** update sync commit msg ([9235de4](https://github.com/wizarrrr/wizarr/commit/9235de4095dfde158f8f52376ea0fc4fc7abd06f))
+* setup auto pr reviews ([#415](https://github.com/wizarrrr/wizarr/issues/415)) ([ec0c1ee](https://github.com/wizarrrr/wizarr/commit/ec0c1ee91687a942a7ac54a731b84fc43cb9c9d1))
+
+
+### Chores
+
+* 🧺 Exclude unraid template from triggering semantic releases ([08840b9](https://github.com/wizarrrr/wizarr/commit/08840b9056e32649ab943ec473b3b71e6c8ed7d8))
+* 🧼 Corrected branch of the latest image ([3e52988](https://github.com/wizarrrr/wizarr/commit/3e5298879b794df30d91a13bf53fa78a2fee6fd1))
+* 🧼 Exclude language filles from the workspace search ([e956c28](https://github.com/wizarrrr/wizarr/commit/e956c2838c4b76f601cc4b21cbe03802a3da32a8))
+* 🧽 Fixed formatting with sematic release commit names ([c913942](https://github.com/wizarrrr/wizarr/commit/c913942d5685fb77134e92a2c6f4a580431d053b))
+* 🧽 sync develop with beta ([7107159](https://github.com/wizarrrr/wizarr/commit/7107159ce9bfa8e54952696a53abc37a3f2ba13a))
+* 🧽 sync develop with beta ([3e213b1](https://github.com/wizarrrr/wizarr/commit/3e213b1920ee56e7915acc69ce1192f2fc0ae278))
+* 🧽 Updated the unraid template to include different branches ([8a82a78](https://github.com/wizarrrr/wizarr/commit/8a82a78944e7efac2284142df9a03446c51d909e))
+* **release:** 4.1.1-beta.1 ([0058a5b](https://github.com/wizarrrr/wizarr/commit/0058a5be3de20acf1f2faddafa4c4d7c47affde9)), closes [#409](https://github.com/wizarrrr/wizarr/issues/409)
+* **release:** 4.1.1-beta.2 ([e90d092](https://github.com/wizarrrr/wizarr/commit/e90d092b514cda38ae36d6b7b2d19cd147eb8d04)), closes [#417](https://github.com/wizarrrr/wizarr/issues/417) [#413](https://github.com/wizarrrr/wizarr/issues/413) [#415](https://github.com/wizarrrr/wizarr/issues/415)
+* **release:** 4.1.1-beta.3 ([a37aa0e](https://github.com/wizarrrr/wizarr/commit/a37aa0e57618fa8607762a3b3022fade27c885fc))
+
+
+### Code Refactoring
+
+* 📦 Update Available toasts no longer appear for non-admins ([8f18d98](https://github.com/wizarrrr/wizarr/commit/8f18d98a718d6a541919f3f81c77d314bab0e88f))
+
 ## [4.1.0](https://github.com/wizarrrr/wizarr/compare/v4.0.0...v4.1.0) (2024-05-05)
 
 
