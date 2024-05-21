@@ -28,7 +28,7 @@ jobs:
                   private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
             - name: Checkout Repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 0
 
