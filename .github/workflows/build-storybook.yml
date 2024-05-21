@@ -44,7 +44,7 @@ jobs:
               run: npx nx run wizarr-frontend:build-storybook
 
             - name: Deploy Storybook
-              uses: peaceiris/actions-gh-pages@v3
+              uses: peaceiris/actions-gh-pages@v4
               with:
                   external_repository: wizarrrr/storybook.wizarr.dev
                   personal_token: ${{ steps.gh_app.outputs.token }}
