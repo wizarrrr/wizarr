@@ -22,7 +22,7 @@ jobs:
     steps:
       # Clear the digests from the artifacts
       - name: Clear digests
-        uses: geekyeggo/delete-artifact@v2
+        uses: geekyeggo/delete-artifact@v5
         with:
           name: |
             digests_dh
