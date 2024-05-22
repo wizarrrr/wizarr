@@ -141,7 +141,7 @@ jobs:
 
       # Download the digests from the artifacts
       - name: Download digests
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: digests_ghcr
           path: /tmp/digests
