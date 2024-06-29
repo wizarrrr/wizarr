@@ -110,6 +110,10 @@ export default defineComponent({
                         label: "Hide User from the Login Page",
                         value: this.invitation.hide_user,
                     },
+                    allow_download: {
+                        label: "Allow User to Download Content",
+                        value: this.invitation.allow_download,
+                    },
                 },
                 emby: {
                     unlimited: {
@@ -123,6 +127,10 @@ export default defineComponent({
                     hide_user: {
                         label: "Hide User from the Login Page",
                         value: this.invitation.hide_user,
+                    },
+                    allow_download: {
+                        label: "Allow User to Download Content",
+                        value: this.invitation.allow_download,
                     },
                 },
                 plex: {
