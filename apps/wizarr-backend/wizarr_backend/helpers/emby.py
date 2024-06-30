@@ -284,6 +284,10 @@ def invite_emby_user(username: str, password: str, code: str, server_api_key: Op
     if invitation.hide_user is not None and invitation.hide_user == False:
         new_policy["IsHiddenRemotely"] = False
 
+    # Set the Allow Download status
+    if invitation.allow_download is not None and invitation.allow_download == False:
+        new_policy["EnableContentDownloading"] = False
+
     # Get users default policy
     old_policy = user_response["Policy"]
 

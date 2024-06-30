@@ -16,3 +16,4 @@ class Invitations(BaseModel):
     sessions = CharField(null=True, default=None)
     live_tv = BooleanField(null=True, default=None)
     hide_user = BooleanField(null=True, default=True)
+    allow_download = BooleanField(null=True, default=None)
