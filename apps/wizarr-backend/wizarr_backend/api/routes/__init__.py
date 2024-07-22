@@ -27,6 +27,7 @@ from .users_api import api as users_api
 from .webhooks_api import api as webhooks_api
 from .logging_api import api as logging_api
 from .oauth_api import api as oauth_api
+from .onboarding_api import api as onboarding_api
 from .mfa_api import api as mfa_api
 from .utilities_api import api as utilities_api
 from .jellyfin_api import api as jellyfin_api
@@ -118,6 +119,7 @@ api.add_namespace(logging_api)
 api.add_namespace(mfa_api)
 api.add_namespace(notifications_api)
 api.add_namespace(oauth_api)
+api.add_namespace(onboarding_api)
 api.add_namespace(plex_api)
 api.add_namespace(requests_api)
 api.add_namespace(scan_libraries_api)
