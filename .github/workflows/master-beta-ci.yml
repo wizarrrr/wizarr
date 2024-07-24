@@ -91,7 +91,7 @@ jobs:
             # Build and push the image
             - name: Build and push by digest
               id: build
-              uses: docker/build-push-action@v5
+              uses: docker/build-push-action@v6
               with:
                   context: .
                   file: ./dockerfiles/wizarr-ci/Dockerfile
