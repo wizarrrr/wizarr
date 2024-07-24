@@ -1,70 +1,60 @@
-type DARK = "dark";
-type LIGHT = "light";
-type SYSTEM = "system";
+const DARKMODE = "dark" as const;
+const LIGHTMODE = "light" as const;
+const SYSTEMMODE = "system" as const;
 
-declare type THEME = DARK | LIGHT | SYSTEM;
+type THEME = typeof DARKMODE | typeof LIGHTMODE | typeof SYSTEMMODE;
 
-const DARK_VALUE: DARK = "dark";
-const LIGHT_VALUE: LIGHT = "light";
-const SYSTEM_VALUE: SYSTEM = "system";
+const getTheme = (theme: THEME = SYSTEMMODE): Omit<THEME, "system"> => {
+    const systemPrefence = window.matchMedia("(prefers-color-scheme: dark)").matches ? DARKMODE : LIGHTMODE;
 
-const getTheme = (theme?: THEME): THEME => {
-    const colorTheme = theme ?? (SYSTEM_VALUE as THEME);
-    const systemPrefence = window.matchMedia("(prefers-color-scheme: dark)").matches ? DARK_VALUE : LIGHT_VALUE;
-
-    if (colorTheme === DARK_VALUE) {
-        return DARK_VALUE;
-    } else if (colorTheme === LIGHT_VALUE) {
-        return LIGHT_VALUE;
-    } else if (colorTheme === SYSTEM_VALUE) {
+    if (theme === SYSTEMMODE) {
         return systemPrefence;
     }
-
-    return DARK_VALUE;
+    return theme;
 };
 
 const watchTheme = (e: MediaQueryListEvent) => {
     // Add event listener for system preference change
     if (e.matches) {
         // Set the theme to dark
-        document.documentElement.classList.add(DARK_VALUE);
-        document.documentElement.classList.remove(LIGHT_VALUE);
+        document.documentElement.classList.add(DARKMODE);
+        document.documentElement.classList.remove(LIGHTMODE);
     } else {
         // Set the theme to light
-        document.documentElement.classList.add(LIGHT_VALUE);
-        document.documentElement.classList.remove(DARK_VALUE);
+        document.documentElement.classList.add(LIGHTMODE);
+        document.documentElement.classList.remove(DARKMODE);
     }
 };
 
 const updateTheme = (THEME: THEME): void => {
     switch (THEME) {
-        case DARK_VALUE:
+        case DARKMODE:
             // Set the theme to dark
-            document.documentElement.classList.add(DARK_VALUE);
+            document.documentElement.classList.add(DARKMODE);
             // Remove event listener for system preference change
             window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change", watchTheme);
             break;
-        case LIGHT_VALUE:
+        case LIGHTMODE:
             // Set the theme to light
-            document.documentElement.classList.remove(DARK_VALUE);
+            document.documentElement.classList.remove(DARKMODE);
             // Remove event listener for system preference change
             window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change", watchTheme);
             break;
-        case SYSTEM_VALUE:
+        case SYSTEMMODE:
             // Get the system preference and set the theme to it
-            const systemPrefence = window.matchMedia("(prefers-color-scheme: dark)").matches ? DARK_VALUE : LIGHT_VALUE;
+            const systemPrefence = window.matchMedia("(prefers-color-scheme: dark)").matches ? DARKMODE : LIGHTMODE;
             document.documentElement.classList.add(systemPrefence);
-            document.documentElement.classList.remove(systemPrefence === DARK_VALUE ? LIGHT_VALUE : DARK_VALUE);
+            document.documentElement.classList.remove(systemPrefence === DARKMODE ? LIGHTMODE : DARKMODE);
 
             // Add event listener for system preference change
             window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", watchTheme);
             break;
         default:
             // Set the theme to dark
-            document.documentElement.classList.add(DARK_VALUE);
+            document.documentElement.classList.add(DARKMODE);
             break;
     }
 };
 
-export { getTheme, updateTheme, DARK_VALUE, LIGHT_VALUE, SYSTEM_VALUE };
-export type { THEME, DARK, LIGHT, SYSTEM };
+export { getTheme, updateTheme, DARKMODE, LIGHTMODE, SYSTEMMODE };
+export type { THEME };

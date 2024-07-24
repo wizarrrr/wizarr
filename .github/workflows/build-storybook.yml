@@ -22,13 +22,13 @@ jobs:
         steps:
             - name: GitHub App Token
               id: gh_app
-              uses: getsentry/action-github-app-token@v2
+              uses: getsentry/action-github-app-token@v3
               with:
                   app_id: ${{ secrets.APP_ID }}
                   private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
             - name: Checkout Repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 0
 
@@ -44,7 +44,7 @@ jobs:
               run: npx nx run wizarr-frontend:build-storybook
 
             - name: Deploy Storybook
-              uses: peaceiris/actions-gh-pages@v3
+              uses: peaceiris/actions-gh-pages@v4
               with:
                   external_repository: wizarrrr/storybook.wizarr.dev
                   personal_token: ${{ steps.gh_app.outputs.token }}

@@ -1,4 +1,4 @@
-import { SYSTEM_VALUE, getTheme, updateTheme } from '@/ts/utils/darkMode';
+import { SYSTEMMODE, getTheme, updateTheme } from '@/ts/utils/darkMode';
 
 import type { THEME } from '@/ts/utils/darkMode';
 import { defineStore } from 'pinia';
@@ -10,12 +10,12 @@ interface ThemeStoreState {
 
 export const useThemeStore = defineStore('theme', {
     state: (): ThemeStoreState => ({
-        theme: SYSTEM_VALUE,
+        theme: SYSTEMMODE,
         boxView: false,
     }),
     getters: {
         currentTheme: (state) => {
-            return state.theme;
+            return getTheme(state.theme);
         },
     },
     actions: {
@@ -23,21 +23,13 @@ export const useThemeStore = defineStore('theme', {
             updateTheme(theme);
         },
         toggleTheme() {
-            switch (this.theme) {
-                case 'dark':
-                    this.theme = 'light';
-                    break;
-                case 'light':
-                    this.theme = 'system';
-                    break;
-                case 'system':
-                    this.theme = 'dark';
-                    break;
-                default:
-                    this.theme = 'dark';
-                    break;
-            }
-
+            const themeTransitions: Record<THEME, THEME> = {
+                dark: 'light',
+                light: 'system',
+                system: 'dark',
+              };
+              
+            this.theme = themeTransitions[this.theme];
             updateTheme(this.theme);
         },
         getTheme() {

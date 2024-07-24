@@ -20,7 +20,7 @@ updates:
   # Enable version updates for poetry backend
   - package-ecosystem: "pip"
     # Look for `pyproject.toml` and `lock` files in the `backend` directory
-    directory: "/apps/wizarr_backend/"
+    directory: "/apps/wizarr-backend/"
     # Check the pip registry for updates every day (weekdays)
     schedule:
       interval: "daily"
