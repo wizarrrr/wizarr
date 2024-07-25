@@ -11,7 +11,7 @@
                 {{ __("Getting Started!") }}
             </h1>
         </div>
-        <section>
+        <section v-if="views.length">
             <Carousel :classes="{ wrapper: 'pt-6 sm:pt-8', inner: 'p-8' }" boxed :views="views" :currentView="currentView" @current="(current) => (currentView = current)" />
             <div id="navBtns" class="flex justify-center mb-6 space-x-2">
                 <FormKit type="button" @click="currentView--" v-if="currentView !== 1">
@@ -30,18 +30,20 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useServerStore } from "@/stores/server";
+import { useOnboardingStore } from "@/stores/onboarding";
 import { mapState } from "pinia";
 
 import Carousel from "@/components/Carousel.vue";
 import WizarrLogo from "@/components/WizarrLogo.vue";
 
-import LanguageSelector from '@/components/Buttons/LanguageSelector.vue';
-import ThemeToggle from '@/components/Buttons/ThemeToggle.vue';
+import LanguageSelector from "@/components/Buttons/LanguageSelector.vue";
+import ThemeToggle from "@/components/Buttons/ThemeToggle.vue";
 
 import Welcome from "../components/Welcome.vue";
 import Download from "../components/Download.vue";
 import Discord from "../components/Discord.vue";
 import Request from "../components/Request.vue";
+import Custom from "../components/Custom.vue";
 
 import type { CarouselViewProps } from "@/components/Carousel.vue";
 
@@ -56,10 +58,20 @@ export default defineComponent({
     data() {
         return {
             currentView: 1,
+            views: [] as CarouselViewProps["views"],
         };
     },
     computed: {
-        views() {
+        ...mapState(useServerStore, ["settings", "requests"]),
+    },
+    methods: {
+        async getOnboardingPages() {
+            const onboardingStore = useOnboardingStore();
+            await onboardingStore.getOnboardingPages();
+            return onboardingStore.enabledOnboardingPages;
+        },
+        async getViews() {
+            const onboardingPages = await this.getOnboardingPages();
             const views: CarouselViewProps["views"] = [
                 {
                     name: "welcome",
@@ -87,10 +99,26 @@ export default defineComponent({
                     },
                 });
             }
+            views.push(
+                ...onboardingPages.map((onboardingPage) => {
+                    return {
+                        name: "custom",
+                        view: Custom,
+                        props: {
+                            onboardingPage: onboardingPage,
+                        },
+                    };
+                }),
+            );
 
             return views;
         },
-        ...mapState(useServerStore, ["settings", "requests"]),
+    },
+    mounted() {
+        this.getViews().then((views) => {
+            console.log(views);
+            this.views = views;
+        });
     },
 });
 </script>
