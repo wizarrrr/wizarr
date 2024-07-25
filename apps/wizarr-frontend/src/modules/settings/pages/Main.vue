@@ -193,14 +193,12 @@ export default defineComponent({
                             icon: "fab fa-discord",
                             url: "/admin/settings/discord",
                         },
-                        //TODO: hiding unimplemented features
-                        // {
-                        //     title: this.__("Custom HTML"),
-                        //     description: this.__("Add Custom HTML page to help screen"),
-                        //     icon: "fas fa-code",
-                        //     url: "/admin/settings/html",
-                        //     disabled: true,
-                        // },
+                        {
+                            title: this.__("Onboarding"),
+                            description: this.__("Manage onboarding pages"),
+                            icon: "fas fa-book",
+                            url: "/admin/settings/onboarding",
+                        },
                     ],
                 },
                 {

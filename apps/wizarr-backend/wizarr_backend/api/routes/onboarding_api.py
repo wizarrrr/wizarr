@@ -25,12 +25,12 @@ class OnboardingListApi(Resource):
     def post(self):
         """Create onboarding page"""
         value = request.form.get("value")
-        enabled = request.form.get("enabled")
+        enabled = request.form.get("enabled") in ["true", "True", "1"]
         max_order = OnboardingDB.select(fn.MAX(OnboardingDB.order)).scalar() or 0
         new_order = max_order + 1
         onboarding_page = OnboardingDB.create(order=new_order, value=value, enabled=enabled)
         onboarding_page.save()
-        return { "message": "Onboarding page created", "data": model_to_dict(onboarding_page) }, 200
+        return { "message": "Onboarding page created", "page": model_to_dict(onboarding_page) }, 200
 
 
 @api.route("/<int:onboarding_id>")

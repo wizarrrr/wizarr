@@ -1,0 +1,19 @@
+.md-editor-preview {
+    word-break: normal !important;
+    
+    h1, h2, h3, h4, h5, h6 {
+        word-break: normal !important;
+    }
+}
+
+.md-editor.md-editor-dark, .md-editor-modal-container[data-theme='dark'] {
+    --md-color: #fff;
+}
+
+.md-editor.md-editor-previewOnly {
+    background-color: inherit !important;
+}
+
+.md-editor.md-editor-previewOnly .md-editor-preview-wrapper {
+    padding: inherit !important;
+}
