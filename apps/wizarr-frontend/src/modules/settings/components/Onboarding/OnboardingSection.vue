@@ -4,10 +4,15 @@
             <slot></slot>
             <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
             <div class="flex flex-row">
-                <button v-for="button in buttons" .key="button.action" class="mx-1 px-4 py-2 text-white bg-secondary border border-transparent rounded hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondsary-dark" .disabled="button.disabled" @click="$emit(button.action)">
-                    <i class="fas" :class="button.icon"></i>
-                    <span class="sr-only">{{ button.label }}</span>
-                </button>
+                <VTooltip v-for="button in buttons" .key="button.action">
+                    <button class="mx-1 px-4 py-2 text-white bg-secondary border border-transparent rounded hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondsary-dark" .disabled="button.disabled" @click="$emit(button.action)">
+                        <i class="fas" :class="button.icon"></i>
+                    </button>
+
+                    <template #popper>
+                        <span>{{ button.label }}</span>
+                    </template>
+                </VTooltip>
             </div>
         </div>
     </div>
