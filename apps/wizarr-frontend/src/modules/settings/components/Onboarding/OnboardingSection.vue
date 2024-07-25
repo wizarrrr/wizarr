@@ -4,17 +4,9 @@
             <slot></slot>
             <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
             <div class="flex flex-row">
-                <button class="mr-1 inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-secondary border border-transparent rounded hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondsary-dark" .disabled="disabled || isFirst" @click="$emit('clickMoveUp')">
-                    <i class="fas fa-arrow-up"></i>
-                </button>
-                <button class="mx-1 inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-secondary border border-transparent rounded hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondsary-dark" .disabled="disabled || isLast" @click="$emit('clickMoveDown')">
-                    <i class="fas fa-arrow-down"></i>
-                </button>
-                <button class="mx-1 inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-secondary border border-transparent rounded hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondsary-dark" .disabled="disabled" @click="$emit('clickEdit')">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="ml-1 inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-primary border border-transparent rounded hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-dark" .disabled="disabled" @click="$emit('clickDelete')">
-                    <i class="fas fa-trash"></i>
+                <button v-for="button in buttons" .key="button.action" class="mx-1 px-4 py-2 text-white bg-secondary border border-transparent rounded hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondsary-dark" .disabled="button.disabled" @click="$emit(button.action)">
+                    <i class="fas" :class="button.icon"></i>
+                    <span class="sr-only">{{ button.label }}</span>
                 </button>
             </div>
         </div>
@@ -24,9 +16,17 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+type events = "clickMoveUp" | "clickMoveDown" | "clickEdit" | "clickDelete";
+interface button {
+    icon: string;
+    action: events;
+    disabled: boolean;
+    label: string;
+}
+
 export default defineComponent({
     name: "OnboardingSection",
-    emits: ["clickMoveUp", "clickMoveDown", "clickEdit", "clickDelete"],
+    emits: ["clickMoveUp", "clickMoveDown", "clickEdit", "clickDelete"] as events[],
     props: {
         disabled: {
             type: Boolean,
@@ -41,12 +41,35 @@ export default defineComponent({
             default: false,
         },
     },
-    setup(props) {
-        return {
-            disabled: props.disabled,
-            isFirst: props.isFirst,
-            isLast: props.isLast,
-        };
+    computed: {
+        buttons() {
+            return [
+                {
+                    icon: "fa-arrow-up",
+                    action: "clickMoveUp",
+                    disabled: this.disabled || this.isFirst,
+                    label: this.__("Move up"),
+                },
+                {
+                    icon: "fa-arrow-down",
+                    action: "clickMoveDown",
+                    disabled: this.disabled || this.isLast,
+                    label: this.__("Move down"),
+                },
+                {
+                    icon: "fa-edit",
+                    action: "clickEdit",
+                    disabled: this.disabled,
+                    label: this.__("Edit"),
+                },
+                {
+                    icon: "fa-trash",
+                    action: "clickDelete",
+                    disabled: this.disabled,
+                    label: this.__("Delete"),
+                },
+            ] as button[];
+        },
     },
 });
 </script>
