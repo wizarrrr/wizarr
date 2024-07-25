@@ -38,7 +38,7 @@ import Request from "@/modules/help/components/Request.vue";
 import OnboardingSection from "../components/Onboarding/OnboardingSection.vue";
 import EditOnboarding from "../components/Modals/EditOnboarding.vue";
 
-import type { Themes } from "md-editor-v3/lib/types";
+import type { Themes } from "md-editor-v3";
 import type { OnboardingPage } from "@/types/OnboardingPage";
 
 export default defineComponent({

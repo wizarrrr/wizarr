@@ -8,7 +8,7 @@ import { MdEditor } from "md-editor-v3";
 import { useThemeStore } from "@/stores/theme";
 import Button from "@/components/Dashboard/Button.vue";
 
-import type { Themes, ToolbarNames } from "md-editor-v3/lib/types";
+import type { Themes, ToolbarNames } from "md-editor-v3";
 import type { OnboardingPage } from "@/types/OnboardingPage";
 
 export default defineComponent({
