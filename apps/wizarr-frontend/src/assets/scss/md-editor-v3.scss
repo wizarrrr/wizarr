@@ -1,8 +1,19 @@
 .md-editor-preview {
+    --md-theme-quote-border: 5px solid rgb(208, 49, 67) !important;
+    --md-theme-link-color: rgb(208, 49, 67) !important;
+    --md-theme-link-hover-color: rgb(208, 49, 67) !important;
+}
+
+.md-editor-preview {
     word-break: normal !important;
     
     h1, h2, h3, h4, h5, h6 {
         word-break: normal !important;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        &:first-child {
+            margin-top: 0;
+          }
     }
 }
 
