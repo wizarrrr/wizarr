@@ -40,7 +40,7 @@ class OnboardingAPI(Resource):
     method_decorators = [jwt_required()]
 
     @api.doc(description="Updates a single onboarding page")
-    @api.response(404, "Invite not found")
+    @api.response(404, "Onboarding page not found")
     @api.response(500, "Internal server error")
     def put(self, onboarding_id: int):
         value = request.form.get("value")
@@ -50,7 +50,7 @@ class OnboardingAPI(Resource):
         with db.atomic() as transaction:
             page = OnboardingDB.get_or_none(OnboardingDB.id == onboarding_id)
             if not page:
-                return {"error": "Page not found"}, 404
+                return {"error": "Onboarding page not found"}, 404
 
             if(value is not None):
                 page.value = value
