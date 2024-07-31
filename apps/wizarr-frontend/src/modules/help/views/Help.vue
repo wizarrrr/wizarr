@@ -22,6 +22,10 @@
                     <span>{{ __("Next") }}</span>
                     <i class="fas fa-arrow-right ml-2"></i>
                 </FormKit>
+                <FormKit type="button" @click="$router.push('/')" v-else>
+                    <span>{{ __("Finish") }}</span>
+                    <i class="fas fa-check ml-2"></i>
+                </FormKit>
             </div>
         </section>
     </div>
