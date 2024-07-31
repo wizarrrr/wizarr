@@ -99,7 +99,6 @@ export default defineComponent({
                     {
                         text: gettext.$gettext("Save"),
                         onClick: () => {
-                            console.log(onboardingPage);
                             onboardingStore.updateOnboardingPage({
                                 id: onboardingPage.id,
                                 value: onboardingPage.value,

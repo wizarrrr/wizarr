@@ -116,7 +116,6 @@ export default defineComponent({
     },
     mounted() {
         this.getViews().then((views) => {
-            console.log(views);
             this.views = views;
         });
     },
