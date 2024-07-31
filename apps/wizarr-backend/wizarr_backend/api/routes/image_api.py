@@ -60,6 +60,9 @@ class ImageAPI(Resource):
     @api.response(500, "Internal server error")
     def get(self, filename):
         """Get image"""
+        # Sanitize the filename to avoid directory traversal
+        filename = secure_filename(filename)
+
         # Assuming images are stored in a directory specified by UPLOAD_FOLDER config
         upload_folder = current_app.config['UPLOAD_FOLDER']
         image_path = os.path.join(upload_folder, filename)
@@ -74,6 +77,9 @@ class ImageAPI(Resource):
     @api.response(500, "Internal server error")
     def delete(self, filename):
         """Delete image"""
+        # Sanitize the filename to avoid directory traversal
+        filename = secure_filename(filename)
+
         upload_folder = current_app.config['UPLOAD_FOLDER']
         image_path = os.path.join(upload_folder, filename)
 
