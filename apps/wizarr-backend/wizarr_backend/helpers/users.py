@@ -163,3 +163,12 @@ def create_user(**kwargs) -> Users:
 
     # Return the user
     return user
+
+def edit_user_expiration(user_id: int, expiry: datetime) -> Users:
+    """Add a user expiration date to an existing user or edit existing expiration date"""
+    user = Users.get_by_id(user_id)
+    user.expires = expiry
+    user.save()
+    return user
+
+    

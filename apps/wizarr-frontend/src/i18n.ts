@@ -25,7 +25,7 @@ const availableLanguages: GetTextOptions["availableLanguages"] = {
     pt: "Português",
     ro: "Română",
     ru: "Русский",
-    sv: "Svenska",
+    se: "Svenska",
     zh_cn: "简体中文",
     zh_tw: "繁體中文",
 };

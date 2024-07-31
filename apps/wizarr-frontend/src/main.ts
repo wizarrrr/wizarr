@@ -27,6 +27,8 @@ import i18n from "./i18n";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import router from "./router";
 
+import './md-editor'; // Initialize the markdown editor
+
 const app = createApp(App);
 const pinia = createPinia();
 

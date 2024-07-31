@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-08-15 23:12+0100\n"
-"PO-Revision-Date: 2023-10-09 22:02+0000\n"
-"Last-Translator: xiNeRoar <tobywong0803@gmail.com>\n"
+"PO-Revision-Date: 2024-05-24 03:09+0000\n"
+"Last-Translator: 朱鎮宇 <chudo123@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "wizarr-v3/wizarr/zh_Hant/>\n"
 "Language: zh_tw\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.6-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: src/modules/settings/pages/Main.vue:246
@@ -31,7 +31,7 @@ msgstr "帳號"
 #: src/modules/join/pages/Error.vue:40
 #, fuzzy
 msgid "Account Error"
-msgstr "帳號"
+msgstr "帳號錯誤"
 
 #: src/modules/settings/pages/Main.vue:152
 msgid "Account Settings"
@@ -104,10 +104,12 @@ msgstr ""
 "（例如到期日期或建立日期）也將顯示於此。"
 
 #: src/modules/join/pages/Error.vue:41
+#, fuzzy
 msgid ""
 "An error occured while creating your account, your account may of not of "
 "been created, if you face issue attempting to login, please contact an admin."
-msgstr ""
+msgstr "創建帳戶時發生錯誤，您的帳戶可能未創建。如果您在嘗試登錄時遇到問題，請聯繫管"
+"理員。"
 
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:106
 msgid "API Key"
@@ -124,7 +126,7 @@ msgstr "API 鑰匙 刪除 已經取消"
 #: src/modules/settings/components/Forms/MediaForm.vue:58
 #, fuzzy
 msgid "API key for your media server"
-msgstr "加入我的媒體伺服器"
+msgstr "加入我的媒體伺服器的API KEY"
 
 #: src/modules/settings/pages/Main.vue:115
 msgid "API keys"
@@ -191,14 +193,16 @@ msgid "Backup File"
 msgstr "備份檔案"
 
 #: src/modules/settings/pages/Main.vue:234
+#, fuzzy
 msgid "Bug Reporting"
-msgstr ""
+msgstr "錯誤回報"
 
 #: src/modules/settings/pages/Sentry.vue:14
+#, fuzzy
 msgid ""
 "Bug reports helps us track and fix issues in real-time, ensuring a smoother "
 "user experience."
-msgstr ""
+msgstr "錯誤報告幫助我們實時追踪和修復問題，確保更流暢的用戶體驗。"
 
 #: src/modules/settings/pages/Main.vue:164
 msgid "Change your password"
@@ -209,16 +213,19 @@ msgid "Check for and view updates"
 msgstr "檢查及查看更新"
 
 #: src/modules/help/components/Request.vue:27
+#, fuzzy
 msgid "Check it Out"
-msgstr ""
+msgstr "請查看"
 
 #: src/modules/settings/pages/Discord.vue:30
+#, fuzzy
 msgid "Click \"Widget\" on the left hand sidebar."
-msgstr ""
+msgstr "點擊左側邊欄的「小工具」。"
 
 #: src/modules/settings/pages/Discord.vue:20
+#, fuzzy
 msgid "Click on \"Copy ID\" then paste it it in the box below."
-msgstr ""
+msgstr "點擊「複製 ID」，然後將其粘貼到下面的框中。"
 
 #: src/modules/settings/components/Modals/ViewApiKey.vue:15
 #, fuzzy
@@ -331,8 +338,9 @@ msgid "Create Webhook"
 msgstr "建立 Webhook"
 
 #: src/modules/settings/pages/About.vue:20
+#, fuzzy
 msgid "Current Version"
-msgstr ""
+msgstr "目前版本"
 
 #: src/modules/setup/pages/Database.vue:10
 #: src/modules/setup/pages/Database.vue:8
@@ -636,12 +644,17 @@ msgid "It allows us to identify and resolve problems before they impact you."
 msgstr ""
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:12
+#, fuzzy
 msgid ""
 "It couldn't be simpler! Jellyfin is available on a wide variety of devices "
 "including laptops, tablets, smartphones, and TVs. All you need to do is "
 "download the Jellyfin app on your device, sign in with your account, and "
 "you're ready to start streaming your media. It's that easy!"
 msgstr ""
+"這再簡單不過了！Jellyfin "
+"可在各種設備上使用，包括筆記本電腦、平板電腦、智能手機和電視。"
+"您只需在設備上下載 Jellyfin "
+"應用程序，使用您的帳戶登錄，即可開始串流播放您的媒體。就是這麼簡單！"
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:6
 msgid ""
@@ -733,7 +746,7 @@ msgstr "使用密碼登入"
 #: src/modules/settings/pages/Membership.vue:49
 #: src/modules/settings/pages/Membership.vue:52
 msgid "Logout"
-msgstr ""
+msgstr "登出帳號"
 
 #: src/modules/settings/pages/Main.vue:214
 msgid "Logs"
@@ -803,8 +816,9 @@ msgid "Media Server Override"
 msgstr "媒體伺服器"
 
 #: src/modules/help/components/Request.vue:17
+#, fuzzy
 msgid "Media will be automatically downloaded to your library"
-msgstr ""
+msgstr "媒體將自動下載到您的資料庫中。"
 
 #: src/modules/help/components/Discord.vue:8
 msgid "Members Online"
@@ -957,7 +971,7 @@ msgstr "付款"
 
 #: src/modules/settings/pages/Sentry.vue:16
 msgid "Performance Optimization"
-msgstr ""
+msgstr "性能優化"
 
 #: src/modules/help/components/Jellyfin/Download.vue:18
 msgid ""
@@ -986,8 +1000,9 @@ msgstr ""
 #: src/modules/settings/pages/Membership.vue:52
 #: src/modules/settings/pages/Membership.vue:60
 #: src/modules/settings/pages/Membership.vue:63
+#, fuzzy
 msgid "Please bare with us while we work on development of this portal."
-msgstr ""
+msgstr "請您耐心等待，我們正在努力開發中。"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:136
 msgid "Please enter a server URL and API key."
@@ -1007,6 +1022,9 @@ msgid ""
 "enabled. If you don't know how to get your Discord Server ID or Enable "
 "Widgets, please follow the instructions below."
 msgstr ""
+"請在下方輸入您的 Discord 伺服器 ID，並確保已啟用伺服器小工具。"
+"如果您不知道如何獲取您的 Discord 伺服器 ID "
+"或啟用小工具，請按照以下說明進行操作。"
 
 #: src/modules/join/views/Join.vue:99
 msgid "Please enter your invite code"
@@ -1036,8 +1054,9 @@ msgid "Please wait..."
 msgstr "請稍候..."
 
 #: src/modules/join/pages/Plex/Signup.vue:44
+#, fuzzy
 msgid "Plex Warning"
-msgstr ""
+msgstr "Plex 警告"
 
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Preparing the spells"
@@ -1067,8 +1086,9 @@ msgid "Request Access"
 msgstr "請求訪問權限"
 
 #: src/modules/help/components/Request.vue:13
+#, fuzzy
 msgid "Request any available Movie or TV Show"
-msgstr ""
+msgstr "請求任何可見的電影或電視節目"
 
 #: src/modules/settings/pages/Main.vue:108
 msgid "Requests"
@@ -1104,7 +1124,7 @@ msgstr "恢復備份"
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:10
 msgid "Right, so how do I watch stuff?"
-msgstr ""
+msgstr "好，那我該如何觀看影視內容呢？"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:118
 #: src/modules/admin/components/Users/UserList/UserItem.vue:119
@@ -1149,7 +1169,7 @@ msgstr "掃瞄用戶"
 #: src/modules/admin/pages/Settings.vue:67
 #: src/modules/admin/pages/Settings.vue:9
 msgid "Search"
-msgstr ""
+msgstr "搜尋"
 
 #: src/tours/admin-settings.ts:11
 msgid "Search Settings"
@@ -1173,7 +1193,7 @@ msgstr "伺服器連線已驗證！"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:25
 msgid "Server IP or Address of your media server"
-msgstr ""
+msgstr "您的媒體伺服器的伺服器 IP 或地址"
 
 #: src/modules/settings/components/Forms/MediaForm.vue:49
 msgid "Server Type"
@@ -1482,18 +1502,21 @@ msgid "Waving our wands"
 msgstr "揮動我們的魔杖吧"
 
 #: src/modules/help/components/Request.vue:6
+#, fuzzy
 msgid ""
 "We are excited to offer you a wide selection of media to choose from. If "
 "you're having trouble finding something you like, don't worry! We have a "
 "user-friendly request system that can automatically search for the media "
 "you're looking for."
-msgstr ""
+msgstr "我們很高興為您提供多樣化的媒體選擇。如果您在尋找喜歡的內容時遇到困難，不要擔"
+"心！我們有一個用戶友好的請求系統，可以自動搜索您要找的媒體。"
 
 #: src/modules/settings/pages/Sentry.vue:16
+#, fuzzy
 msgid ""
 "We can pinpoint bottlenecks and optimize our applications for better "
 "performance."
-msgstr ""
+msgstr "我們可以找出瓶頸並優化我們的應用程序以獲得更好的性能。"
 
 #: src/tours/admin-settings.ts:17
 msgid ""

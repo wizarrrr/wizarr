@@ -1,5 +1,5 @@
 <template>
-    <div ref="carousel" class="relative overflow-hidden rounded h-screen" style="transition: max-height 0.5s ease-in-out" :style="{ maxHeight: carouselHeight }">
+    <div ref="carousel" class="relative rounded overflow-hidden" style="transition: height 0.5s ease-in-out" :style="{ height: carouselHeight }">
         <template v-for="(view, index) in views" :key="index + 1">
             <div v-if="index == 0" :id="`carousel-item-${index}`"></div>
             <div :id="`carousel-item-${index + 1}`" class="hidden duration-700 ease-in-out">
@@ -132,12 +132,15 @@ export default defineComponent({
 
             const carouselTransition = carouselRef.style.transition;
             carouselRef.style.transition = "none";
-            carouselRef.style.maxHeight = this.getCarouselHeight();
+            carouselRef.style.height = this.getCarouselHeight();
             setTimeout(() => (carouselRef.style.transition = carouselTransition), 500);
         },
         onChange(carousel: CarouselInterface) {
             // Update current view index
             this._currentView = carousel._activeItem.position ?? 1;
+
+            // Scroll to top of the page
+            window.scrollTo({ top: 0, behavior: "smooth" });
 
             // Update URL to match current view
             const currentView = this._views[this._currentView - 1];

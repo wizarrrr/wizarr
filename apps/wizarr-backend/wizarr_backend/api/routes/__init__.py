@@ -13,6 +13,7 @@ from .apikeys_api import api as apikeys_api
 from .authentication_api import api as authentication_api # REVIEW - This is almost completed
 from .backup_api import api as backup_api
 from .discord_api import api as discord_api
+from .image_api import api as image_api
 from .invitations_api import api as invitations_api # REVIEW - This is almost completed
 from .libraries_api import api as libraries_api
 from .notifications_api import api as notifications_api
@@ -27,6 +28,7 @@ from .users_api import api as users_api
 from .webhooks_api import api as webhooks_api
 from .logging_api import api as logging_api
 from .oauth_api import api as oauth_api
+from .onboarding_api import api as onboarding_api
 from .mfa_api import api as mfa_api
 from .utilities_api import api as utilities_api
 from .jellyfin_api import api as jellyfin_api
@@ -111,6 +113,7 @@ api.add_namespace(backup_api)
 api.add_namespace(discord_api)
 api.add_namespace(emby_api)
 api.add_namespace(healthcheck_api)
+api.add_namespace(image_api)
 api.add_namespace(invitations_api)
 api.add_namespace(jellyfin_api)
 api.add_namespace(libraries_api)
@@ -118,6 +121,7 @@ api.add_namespace(logging_api)
 api.add_namespace(mfa_api)
 api.add_namespace(notifications_api)
 api.add_namespace(oauth_api)
+api.add_namespace(onboarding_api)
 api.add_namespace(plex_api)
 api.add_namespace(requests_api)
 api.add_namespace(scan_libraries_api)
@@ -135,4 +139,3 @@ api.add_namespace(webhooks_api)
 
 # TODO: Tasks API
 # TODO: API API
-# TODO: HTML API
