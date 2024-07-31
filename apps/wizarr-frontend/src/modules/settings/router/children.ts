@@ -56,6 +56,12 @@ const children: RouteRecordRaw[] = [
         meta: { header: "Manage Discord", subheader: "Configure Discord" },
     },
     {
+        path: "onboarding",
+        name: "admin-settings-onboarding",
+        component: () => import("../pages/Onboarding.vue"),
+        meta: { header: "Manage onboarding pages", subheader: "Configure onboarding pages" },
+    },
+    {
         path: "logs",
         name: "admin-settings-logs",
         component: () => import("../pages/Logs.vue"),
