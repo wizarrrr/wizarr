@@ -11,7 +11,7 @@ import { useLanguageStore } from "@/stores/language";
 import { useAxios } from "@/plugins/axios";
 
 import type { Themes, ToolbarNames } from "md-editor-v3";
-import type { OnboardingPage } from "@/types/OnboardingPage";
+import type { OnboardingPage } from "@/types/api/onboarding/OnboardingPage";
 
 export default defineComponent({
     name: "MarkdownEditor",

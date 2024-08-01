@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { OnboardingPage } from '@/types/OnboardingPage';
+import type { OnboardingPage } from '@/types/api/onboarding/OnboardingPage';
 
 // Define the shape of the state in this store
 interface OnboardingStoreState {
