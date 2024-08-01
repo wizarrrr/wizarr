@@ -51,8 +51,8 @@ class InvitationsModel(Model):
         if value is None:
             return
 
-        # Check that the code is a 6 character string of only letters and numbers
-        if not isinstance(value, str) or len(value) != 6 or not value.isalnum():
+        # Check that the code only contains letters and numbers
+        if not isinstance(value, str) or not value.isalnum():
             raise ValidationError("Invalid code")
 
         # Check that the code has not been used
@@ -104,7 +104,7 @@ class InvitationsModel(Model):
             raise ValidationError("Unable to generate a unique code")
 
         # If code is None, generate a new code
-        if not invitation["code"] or len(invitation["code"]) != 6 or not str(invitation["code"]).isalnum():
+        if not invitation["code"] or not str(invitation["code"]).isalnum():
             invitation["code"] = create_code()
 
         # Upper case the code

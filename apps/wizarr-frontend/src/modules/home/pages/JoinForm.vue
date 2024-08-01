@@ -30,8 +30,8 @@ export default defineComponent({
     methods: {
         async join() {
             // Check if the code is inputted
-            if (!this.code || this.code.length !== 6) {
-                this.$toast.info(this.__('Please enter an invite code'));
+            if (!this.code) {
+                this.$toast.info(this.__("Please enter an invite code"));
                 return;
             }
 
