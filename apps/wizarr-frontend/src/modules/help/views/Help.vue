@@ -109,7 +109,7 @@ export default defineComponent({
                         name: "custom",
                         view: Custom,
                         props: {
-                            onboardingPage: onboardingPage,
+                            value: onboardingPage.value,
                         },
                     };
                 }),
