@@ -52,35 +52,34 @@ class OnboardingAPI(Resource):
             if not page:
                 return {"error": "Onboarding page not found"}, 404
 
-            if(value is not None):
+            if value is not None:
                 page.value = value
-            if(enabled is not None):
+            if enabled is not None:
                 page.enabled = enabled in ["true", "True", "1"]
 
             if order is not None and page.order != order:
                 step = 1 if page.order > order else -1
                 start, end = sorted([page.order, order])
 
-                # Update orders of affected pages
+                # Temporarily set the order of the target page to a value that won't conflict
+                max_order = OnboardingDB.select(fn.MAX(OnboardingDB.order)).scalar() or 0
+                page.order = max_order + 1
+                page.save()
+
+                # Shift orders of affected pages
                 affected_pages = OnboardingDB.select().where(
                     OnboardingDB.id != onboarding_id,
                     OnboardingDB.order >= start,
                     OnboardingDB.order <= end,
-                )
+                ).order_by(OnboardingDB.order.asc() if step > 0 else OnboardingDB.order.desc())
 
                 for p in affected_pages:
                     p.order += step
-                    p.save()  # Save each affected page
+                    p.save()
 
-                # Update the target page
+                # Finally, set the target page to its new order
                 page.order = order
             page.save()  # Save the target page
-
-            try:
-                transaction.commit()  # Commit the transaction
-            except Exception as e:
-                transaction.rollback()  # Rollback in case of error
-                return {"error": str(e)}, 500
         return loads(dumps(model_to_dict(page), indent=4, sort_keys=True, default=str)), 200
 
     @api.doc(description="Delete a single onboarding page")
