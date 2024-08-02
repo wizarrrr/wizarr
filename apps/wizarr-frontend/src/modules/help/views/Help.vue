@@ -66,6 +66,15 @@ export default defineComponent({
         ...mapState(useServerStore, ["settings", "requests"]),
     },
     methods: {
+        sanitize(html: string) {
+            const onboardingStore = useOnboardingStore();
+            Object.keys(onboardingStore.onboardingVariables).forEach((variable) => {
+                const value = onboardingStore.onboardingVariables as Record<string, string>;
+                html = html.replace(new RegExp(`{{${variable}}}`, "g"), value[variable]);
+                html = html.replace(new RegExp(`%7B%7B${variable}%7D%7D`, "g"), value[variable]);
+            });
+            return html;
+        },
         async getViews() {
             const onboardingStore = useOnboardingStore();
             await onboardingStore.getOnboardingPages();
@@ -78,6 +87,7 @@ export default defineComponent({
                         view: Custom,
                         props: {
                             value: onboardingPage.value,
+                            sanitize: this.sanitize,
                         },
                     };
                 }),
@@ -95,6 +105,7 @@ export default defineComponent({
                         view: Custom,
                         props: {
                             value: onboardingPage.value,
+                            sanitize: this.sanitize,
                         },
                     };
                 }),

@@ -4,13 +4,13 @@ import type { FixedOnboardingPage } from '@/types/api/onboarding/FixedOnboarding
 import type { OnboardingPage } from '@/types/api/onboarding/OnboardingPage';
 
 export enum FixedOnboardingPageType {
-    WelcomePlex = 0,
-    DownloadPlex = 1,
-    WelcomeJellyfin = 2,
-    DownloadJellyfin = 3,
-    WelcomeEmby = 4,
-    DownloadEmby = 5,
-    Request = 6,
+    WelcomePlex = 1,
+    DownloadPlex = 2,
+    WelcomeJellyfin = 3,
+    DownloadJellyfin = 4,
+    WelcomeEmby = 5,
+    DownloadEmby = 6,
+    Request = 7,
 }
 
 // Define the shape of the state in this store

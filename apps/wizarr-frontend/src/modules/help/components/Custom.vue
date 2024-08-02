@@ -1,9 +1,9 @@
 <template>
-    <MdPreview v-model="value" :theme="currentTheme" :language="currentLanguage" />
+    <MdPreview v-model="value" :theme="currentTheme" :language="currentLanguage" :sanitize="sanitize" />
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, toRefs } from "vue";
+import { defineComponent, computed, toRefs, type PropType } from "vue";
 import { MdPreview } from "md-editor-v3";
 import { useThemeStore } from "@/stores/theme";
 import { useLanguageStore } from "@/stores/language";
@@ -20,9 +20,13 @@ export default defineComponent({
             type: String,
             required: true,
         },
+        sanitize: {
+            type: Function as PropType<(html: string) => string>,
+            default: (html: string) => html,
+        },
     },
     setup(props) {
-        const { value } = toRefs(props);
+        const { value, sanitize } = toRefs(props);
         const themeStore = useThemeStore();
         const currentTheme = computed(() => themeStore.currentTheme);
 
@@ -31,6 +35,7 @@ export default defineComponent({
 
         return {
             value,
+            sanitize,
             currentTheme: currentTheme as unknown as Themes,
             currentLanguage,
         };
