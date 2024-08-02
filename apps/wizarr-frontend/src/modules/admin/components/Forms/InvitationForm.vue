@@ -5,7 +5,7 @@
                 <FormKit type="form" name="inviteForm" id="inviteForm" @submit="createInvite" :actions="!eventBus" v-model="invitationData" :disabled="disabled" :submit-label="__('Create Invitation')" :submit-attrs="{ inputClass: 'w-full justify-center mt-2' }">
                     <div class="space-y-4">
                         <!-- Invite Code -->
-                        <FormKit type="text" placeholder="XMFGEJI" label="Invitation Code" name="inviteCode" validation="length:6,6|uppercase" />
+                        <FormKit type="text" placeholder="XMFGEJI" label="Invitation Code" name="inviteCode" validation="uppercase" />
 
                         <!-- Select Expiration -->
                         <FormKit type="select" label="Invitation Expiration" name="expiration" :options="expirationOptions" />
@@ -399,8 +399,7 @@ export default defineComponent({
     watch: {
         "invitationData.inviteCode": {
             immediate: true,
-            handler(inviteCode) {
-                if (inviteCode.length >= 7) this.invitationData.inviteCode = inviteCode.slice(0, 6);
+            handler() {
                 this.invitationData.inviteCode = this.invitationData.inviteCode.replace(/[^a-zA-Z0-9]/g, "");
                 this.invitationData.inviteCode = this.invitationData.inviteCode.toUpperCase();
             },
