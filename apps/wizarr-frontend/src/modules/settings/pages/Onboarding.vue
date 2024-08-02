@@ -13,7 +13,7 @@
             <Request .requestURL="requests" />
         </OnboardingSection>
         <OnboardingSection v-for="page in onboardingPages" .key="page.id" @clickMoveUp="movePageUp(page)" @clickMoveDown="movePageDown(page)" @clickEdit="editPage(page)" @clickDelete="deletePage(page)">
-            <MdPreview :modelValue="page.value" :theme="currentTheme" language="en-US" />
+            <MdPreview :modelValue="page.value" :theme="currentTheme" :sanitize="sanitize" language="en-US" />
         </OnboardingSection>
     </section>
     <div class="fixed right-6 bottom-6 group">
@@ -69,6 +69,17 @@ export default defineComponent({
         onboardingStore.getOnboardingPages();
         const onboardingPages = computed(() => onboardingStore.enabledOnboardingPages);
 
+        const onboardingVariables = computed(() => onboardingStore.onboardingVariables);
+
+        const sanitize = (html: string) => {
+            Object.keys(onboardingVariables.value).forEach((variable) => {
+                const value = onboardingVariables.value as Record<string, string>;
+                html = html.replace(new RegExp(`{{${variable}}}`, "g"), value[variable]);
+                html = html.replace(new RegExp(`%7B%7B${variable}%7D%7D`, "g"), value[variable]);
+            });
+            return html;
+        };
+
         const createPage = async () => {
             await onboardingStore.createOnboardingPage({
                 value: gettext.$gettext("## **Onboarding page** using *markdown*\n\nEdit your newly created page by clicking the edit button."),
@@ -111,6 +122,8 @@ export default defineComponent({
 
             const modal_props = {
                 onboardingPage: onboardingPage,
+                variables: onboardingVariables.value,
+                sanitize,
             };
             modal.openModal(EditOnboarding, modal_options, modal_props);
         };
@@ -128,6 +141,7 @@ export default defineComponent({
             settings,
             requests,
             onboardingPages,
+            sanitize,
             createPage,
             movePageUp,
             movePageDown,

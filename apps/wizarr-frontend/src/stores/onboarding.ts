@@ -15,7 +15,15 @@ export const useOnboardingStore = defineStore('onboarding', {
     getters: {
         enabledOnboardingPages(state) {
             return state.onboardingPages.filter(page => page.enabled);
-        }
+        onboardingVariables: () => {
+            const serverStore = useServerStore();
+            return {
+                "server_name": serverStore.settings.server_name,
+                "server_url": serverStore.settings.server_url,
+                "server_type": serverStore.settings.server_type,
+                "discord_id": serverStore.settings.server_discord_id,
+            }
+        },
     },
     // Define actions that can mutate the state
     actions: {
