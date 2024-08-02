@@ -1,3 +1,16 @@
+## [4.2.0-beta.2](https://github.com/wizarrrr/wizarr/compare/v4.2.0-beta.1...v4.2.0-beta.2) (2024-08-02)
+
+
+### New Features
+
+* 🎊 Any length of invitation code ([#469](https://github.com/wizarrrr/wizarr/issues/469)) ([c850c8e](https://github.com/wizarrrr/wizarr/commit/c850c8e64a34cf7fcee584e6a20a2b801830a74b))
+
+
+### Bug Fixes
+
+* 🐛 Solve issue reordering onboarding pages ([2f6ca87](https://github.com/wizarrrr/wizarr/commit/2f6ca87e106eb83e0c81fb90666546bb43c2280a))
+* 🐛 Solve some issues with markdown preview ([#470](https://github.com/wizarrrr/wizarr/issues/470)) ([2051990](https://github.com/wizarrrr/wizarr/commit/2051990271cd0dfee3efad8b641065513ee4e479))
+
 ## [4.2.0-beta.1](https://github.com/wizarrrr/wizarr/compare/v4.1.1...v4.2.0-beta.1) (2024-07-31)
 
 
