@@ -33,7 +33,15 @@ export default defineComponent({
     name: "OnboardingSection",
     emits: ["clickMoveUp", "clickMoveDown", "clickEdit", "clickDelete"] as events[],
     props: {
-        disabled: {
+        disabledReorder: {
+            type: Boolean,
+            default: false,
+        },
+        disableDelete: {
+            type: Boolean,
+            default: false,
+        },
+        disableEdit: {
             type: Boolean,
             default: false,
         },
@@ -52,25 +60,25 @@ export default defineComponent({
                 {
                     icon: "fa-arrow-up",
                     action: "clickMoveUp",
-                    disabled: this.disabled || this.isFirst,
+                    disabled: this.disabledReorder || this.isFirst,
                     label: this.__("Move up"),
                 },
                 {
                     icon: "fa-arrow-down",
                     action: "clickMoveDown",
-                    disabled: this.disabled || this.isLast,
+                    disabled: this.disabledReorder || this.isLast,
                     label: this.__("Move down"),
                 },
                 {
                     icon: "fa-edit",
                     action: "clickEdit",
-                    disabled: this.disabled,
+                    disabled: this.disableEdit,
                     label: this.__("Edit"),
                 },
                 {
                     icon: "fa-trash",
                     action: "clickDelete",
-                    disabled: this.disabled,
+                    disabled: this.disableDelete,
                     label: this.__("Delete"),
                 },
             ] as button[];

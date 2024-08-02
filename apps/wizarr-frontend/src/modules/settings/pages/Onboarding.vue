@@ -1,16 +1,10 @@
 <template>
     <section class="flex flex-col items-center justify-center">
-        <OnboardingSection disabled>
-            <Welcome />
+        <OnboardingSection v-for="page in fixedOnboardingPages" .key="page.id" @clickEdit="editPage(page, true)" disabledReorder disableDelete>
+            <MdPreview :modelValue="page.value" :theme="currentTheme" :sanitize="sanitize" language="en-US" />
         </OnboardingSection>
-        <OnboardingSection disabled>
-            <Download />
-        </OnboardingSection>
-        <OnboardingSection v-if="settings.server_discord_id && settings.server_discord_id !== ''" disabled>
+        <OnboardingSection v-if="!!settings.server_discord_id" disabledReorder disableDelete disableEdit>
             <Discord />
-        </OnboardingSection>
-        <OnboardingSection v-if="requests && requests.length > 0" disabled>
-            <Request .requestURL="requests" />
         </OnboardingSection>
         <OnboardingSection v-for="page in onboardingPages" .key="page.id" @clickMoveUp="movePageUp(page)" @clickMoveDown="movePageDown(page)" @clickEdit="editPage(page)" @clickDelete="deletePage(page)">
             <MdPreview :modelValue="page.value" :theme="currentTheme" :sanitize="sanitize" language="en-US" />
@@ -31,24 +25,19 @@ import { useGettext } from "vue3-gettext";
 import { useServerStore } from "@/stores/server";
 import { useThemeStore } from "@/stores/theme";
 import { useOnboardingStore } from "@/stores/onboarding";
-import Welcome from "@/modules/help/components/Welcome.vue";
-import Download from "@/modules/help/components/Download.vue";
 import Discord from "@/modules/help/components/Discord.vue";
-import Request from "@/modules/help/components/Request.vue";
 import OnboardingSection from "../components/Onboarding/OnboardingSection.vue";
 import EditOnboarding from "../components/Modals/EditOnboarding.vue";
 
 import type { Themes } from "md-editor-v3";
 import type { OnboardingPage } from "@/types/api/onboarding/OnboardingPage";
+import type { FixedOnboardingPage } from "@/types/api/onboarding/FixedOnboardingPage";
 
 export default defineComponent({
     name: "Onboarding",
     components: {
         OnboardingSection,
-        Welcome,
-        Download,
         Discord,
-        Request,
         MdPreview,
     },
     setup() {
@@ -68,6 +57,7 @@ export default defineComponent({
         const onboardingStore = useOnboardingStore();
         onboardingStore.getOnboardingPages();
         const onboardingPages = computed(() => onboardingStore.enabledOnboardingPages);
+        const fixedOnboardingPages = computed(() => onboardingStore.enabledFixedOnboardingPages);
 
         const onboardingVariables = computed(() => onboardingStore.onboardingVariables);
 
@@ -102,7 +92,7 @@ export default defineComponent({
             });
         };
 
-        const editPage = (onboardingPage: OnboardingPage) => {
+        const editPage = (onboardingPage: OnboardingPage | FixedOnboardingPage, fixed = false) => {
             const modal_options = {
                 title: gettext.$gettext("Edit onboarding page"),
                 disableCloseButton: true,
@@ -110,10 +100,13 @@ export default defineComponent({
                     {
                         text: gettext.$gettext("Save"),
                         onClick: () => {
-                            onboardingStore.updateOnboardingPage({
-                                id: onboardingPage.id,
-                                value: onboardingPage.value,
-                            });
+                            onboardingStore.updateOnboardingPage(
+                                {
+                                    id: onboardingPage.id,
+                                    value: onboardingPage.value,
+                                },
+                                fixed,
+                            );
                             modal.closeModal();
                         },
                     },
@@ -140,6 +133,7 @@ export default defineComponent({
             currentTheme: currentTheme as unknown as Themes,
             settings,
             requests,
+            fixedOnboardingPages,
             onboardingPages,
             sanitize,
             createPage,

@@ -43,10 +43,7 @@ import WizarrLogo from "@/components/WizarrLogo.vue";
 import LanguageSelector from "@/components/Buttons/LanguageSelector.vue";
 import ThemeToggle from "@/components/Buttons/ThemeToggle.vue";
 
-import Welcome from "../components/Welcome.vue";
-import Download from "../components/Download.vue";
 import Discord from "../components/Discord.vue";
-import Request from "../components/Request.vue";
 import Custom from "../components/Custom.vue";
 
 import type { CarouselViewProps } from "@/components/Carousel.vue";
@@ -69,42 +66,30 @@ export default defineComponent({
         ...mapState(useServerStore, ["settings", "requests"]),
     },
     methods: {
-        async getOnboardingPages() {
+        async getViews() {
             const onboardingStore = useOnboardingStore();
             await onboardingStore.getOnboardingPages();
-            return onboardingStore.enabledOnboardingPages;
-        },
-        async getViews() {
-            const onboardingPages = await this.getOnboardingPages();
-            const views: CarouselViewProps["views"] = [
-                {
-                    name: "welcome",
-                    view: Welcome,
-                },
-                {
-                    name: "download",
-                    view: Download,
-                },
-            ];
+            const views: CarouselViewProps["views"] = [];
 
-            if (this.settings.server_discord_id && this.settings.server_discord_id !== "") {
+            views.push(
+                ...onboardingStore.enabledFixedOnboardingPages.map((onboardingPage) => {
+                    return {
+                        name: "custom",
+                        view: Custom,
+                        props: {
+                            value: onboardingPage.value,
+                        },
+                    };
+                }),
+            );
+            if (!!this.settings.server_discord_id) {
                 views.push({
                     name: "discord",
                     view: Discord,
                 });
             }
-
-            if (this.requests && this.requests.length > 0) {
-                views.push({
-                    name: "request",
-                    view: Request,
-                    props: {
-                        requestURL: this.requests,
-                    },
-                });
-            }
             views.push(
-                ...onboardingPages.map((onboardingPage) => {
+                ...onboardingStore.enabledOnboardingPages.map((onboardingPage) => {
                     return {
                         name: "custom",
                         view: Custom,
