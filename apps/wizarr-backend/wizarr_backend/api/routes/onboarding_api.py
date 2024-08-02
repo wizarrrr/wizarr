@@ -113,7 +113,7 @@ class FixedOnboardingListApi(Resource):
     @api.doc(security="jwt")
     def get(self):
         """Get fixed onboarding pages"""
-        response = list(FixedOnboardingDB.select())
+        response = list(FixedOnboardingDB.select().dicts())
         return loads(dumps(response, indent=4, sort_keys=True, default=str)), 200
 
 
