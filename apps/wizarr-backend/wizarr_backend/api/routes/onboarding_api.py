@@ -7,6 +7,7 @@ from peewee import fn
 from app.models.database import db
 
 from app.models.database.onboarding import Onboarding as OnboardingDB
+from app.models.database.fixed_onboarding import FixedOnboarding as FixedOnboardingDB
 
 api = Namespace("Onboarding", description="Onboarding related operations", path="/onboarding")
 
@@ -104,3 +105,34 @@ class OnboardingAPI(Resource):
             page.save()
 
         return { "message": "Onboarding page deleted successfully" }, 200
+
+@api.route("/fixed")
+class FixedOnboardingListApi(Resource):
+    """API resource for all fixed onboarding pages"""
+
+    @api.doc(security="jwt")
+    def get(self):
+        """Get fixed onboarding pages"""
+        response = list(FixedOnboardingDB.select())
+        return loads(dumps(response, indent=4, sort_keys=True, default=str)), 200
+
+
+@api.route("/fixed/<int:onboarding_id>")
+class FixedOnboardingAPI(Resource):
+    """API resource for a single fixed onboarding page"""
+
+    method_decorators = [jwt_required()]
+
+    @api.doc(description="Updates a single fixed onboarding page")
+    @api.response(404, "Fixed onboarding page not found")
+    @api.response(500, "Internal server error")
+    def put(self, onboarding_id: int):
+        value = request.form.get("value")
+        page = FixedOnboardingDB.get_or_none(FixedOnboardingDB.id == onboarding_id)
+        if not page:
+            return {"error": "Fixed onboarding page not found"}, 404
+
+        if(value is not None):
+            page.value = value
+            page.save()  # Save the target page
+        return loads(dumps(model_to_dict(page), indent=4, sort_keys=True, default=str)), 200
