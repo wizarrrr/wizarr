@@ -43,6 +43,7 @@ import WizarrLogo from "@/components/WizarrLogo.vue";
 import LanguageSelector from "@/components/Buttons/LanguageSelector.vue";
 import ThemeToggle from "@/components/Buttons/ThemeToggle.vue";
 
+import Request from "../components/Request.vue";
 import Discord from "../components/Discord.vue";
 import Custom from "../components/Custom.vue";
 
@@ -92,6 +93,15 @@ export default defineComponent({
                     };
                 }),
             );
+            if (!!this.requests.length) {
+                views.push({
+                    name: "request",
+                    view: Request,
+                    props: {
+                        requestURL: this.requests,
+                    },
+                });
+            }
             if (!!this.settings.server_discord_id) {
                 views.push({
                     name: "discord",

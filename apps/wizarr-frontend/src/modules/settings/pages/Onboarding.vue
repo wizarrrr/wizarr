@@ -3,6 +3,9 @@
         <OnboardingSection v-for="page in fixedOnboardingPages" .key="page.id" @clickEdit="editPage(page, true)" disabledReorder disableDelete>
             <MdPreview :modelValue="page.value" :theme="currentTheme" :sanitize="sanitize" language="en-US" />
         </OnboardingSection>
+        <OnboardingSection v-if="!!requests.length" disabledReorder disableDelete disableEdit>
+            <Request :requestURL="requests" />
+        </OnboardingSection>
         <OnboardingSection v-if="!!settings.server_discord_id" disabledReorder disableDelete disableEdit>
             <Discord />
         </OnboardingSection>
@@ -25,6 +28,7 @@ import { useGettext } from "vue3-gettext";
 import { useServerStore } from "@/stores/server";
 import { useThemeStore } from "@/stores/theme";
 import { useOnboardingStore } from "@/stores/onboarding";
+import Request from "@/modules/help/components/Request.vue";
 import Discord from "@/modules/help/components/Discord.vue";
 import OnboardingSection from "../components/Onboarding/OnboardingSection.vue";
 import EditOnboarding from "../components/Modals/EditOnboarding.vue";
@@ -37,6 +41,7 @@ export default defineComponent({
     name: "Onboarding",
     components: {
         OnboardingSection,
+        Request,
         Discord,
         MdPreview,
     },

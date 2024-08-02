@@ -10,7 +10,6 @@ export enum FixedOnboardingPageType {
     DownloadJellyfin = 4,
     WelcomeEmby = 5,
     DownloadEmby = 6,
-    Request = 7,
 }
 
 // Define the shape of the state in this store
@@ -54,11 +53,6 @@ export const useOnboardingStore = defineStore('onboarding', {
                 if(welcomePage) filteredPages.push(welcomePage);
                 const downloadPage = pages.find((page) => page.id === FixedOnboardingPageType.DownloadEmby);
                 if(downloadPage) filteredPages.push(downloadPage);
-            }
-
-            if (!!serverStore.requests.length) {
-                const requestPage = pages.find((page) => page.id === FixedOnboardingPageType.Request);
-                if(requestPage) filteredPages.push(requestPage);
             }
 
             return filteredPages.sort((a, b) => a.id - b.id);
