@@ -6,4 +6,4 @@ class Onboarding(BaseModel):
     value = CharField()
     order = IntegerField(null=False, unique=True)
     enabled = BooleanField(default=True)
-    template = CharField()
+    template = IntegerField()
