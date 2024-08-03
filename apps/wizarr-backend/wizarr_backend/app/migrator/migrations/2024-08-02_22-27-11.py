@@ -45,7 +45,10 @@ def run():
 
     # populate onboarding with default values
     with db.transaction():
-        if db.execute_sql("SELECT EXISTS(SELECT 1 FROM onboarding)").fetchone()[0]:
+
+        # Check if the onboarding table is empty
+        if not db.execute_sql("SELECT EXISTS(SELECT 1 FROM onboarding)").fetchone()[0]:
+            # Check if server_type is set in the settings table
             if db.execute_sql("SELECT key FROM settings WHERE key = 'server_type'").fetchone():
                 # Get the server_type
                 server_type = db.execute_sql("SELECT value FROM settings WHERE key = 'server_type'").fetchone()[0]
@@ -104,7 +107,7 @@ Planning on watching movies on this device? [Download Emby](https://emby.media/d
 [Open Emby in browser ↗]({{server_url}})')
                     """)
 
-            add_requests = db.execute("SELECT COUNT(*) FROM requests").fetchone()[0] > 0
+            add_requests = db.execute_sql("SELECT EXISTS(SELECT 1 FROM requests)").fetchone()[0]
 
             if db.execute_sql("""SELECT key FROM settings WHERE key = 'server_discord_id' AND value IS NOT NULL""").fetchone():
                 db.execute_sql("""INSERT INTO onboarding ("id", "order", "template") VALUES (7, 2, 1)""")
