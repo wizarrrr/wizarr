@@ -1,20 +1,14 @@
 import { defineStore } from 'pinia';
 import { useServerStore } from "@/stores/server";
-import type { FixedOnboardingPage } from '@/types/api/onboarding/FixedOnboardingPage';
 import type { OnboardingPage } from '@/types/api/onboarding/OnboardingPage';
 
-export enum FixedOnboardingPageType {
-    WelcomePlex = 1,
-    DownloadPlex = 2,
-    WelcomeJellyfin = 3,
-    DownloadJellyfin = 4,
-    WelcomeEmby = 5,
-    DownloadEmby = 6,
+export enum TemplateType {
+    Discord = 1,
+    Request = 2,
 }
 
 // Define the shape of the state in this store
 interface OnboardingStoreState {
-    fixedOnboardingPages: FixedOnboardingPage[];
     onboardingPages: OnboardingPage[];
 }
 
@@ -22,40 +16,11 @@ interface OnboardingStoreState {
 export const useOnboardingStore = defineStore('onboarding', {
     // Define the initial state of the store
     state: (): OnboardingStoreState => ({
-        fixedOnboardingPages: [],
         onboardingPages: [],
     }),
     getters: {
         enabledOnboardingPages(state) {
             return state.onboardingPages.filter(page => page.enabled);
-        },
-        enabledFixedOnboardingPages(state) {
-            const serverStore = useServerStore();
-            const pages = state.fixedOnboardingPages;
-
-            const filteredPages = [];
-            if (serverStore.settings.server_type == "plex") {
-                const welcomePage = pages.find((page) => page.id === FixedOnboardingPageType.WelcomePlex);
-                if(welcomePage) filteredPages.push(welcomePage);
-                const downloadPage = pages.find((page) => page.id === FixedOnboardingPageType.DownloadPlex);
-                if(downloadPage) filteredPages.push(downloadPage);
-            }
-
-            else if (serverStore.settings.server_type == "jellyfin") {
-                const welcomePage = pages.find((page) => page.id === FixedOnboardingPageType.WelcomeJellyfin);
-                if(welcomePage) filteredPages.push(welcomePage);
-                const downloadPage = pages.find((page) => page.id === FixedOnboardingPageType.DownloadJellyfin);
-                if(downloadPage) filteredPages.push(downloadPage);
-            }
-
-            else if (serverStore.settings.server_type == "emby") {
-                const welcomePage = pages.find((page) => page.id === FixedOnboardingPageType.WelcomeEmby);
-                if(welcomePage) filteredPages.push(welcomePage);
-                const downloadPage = pages.find((page) => page.id === FixedOnboardingPageType.DownloadEmby);
-                if(downloadPage) filteredPages.push(downloadPage);
-            }
-
-            return filteredPages.sort((a, b) => a.id - b.id);
         },
         onboardingVariables: () => {
             const serverStore = useServerStore();
@@ -71,16 +36,12 @@ export const useOnboardingStore = defineStore('onboarding', {
     actions: {
         // Asynchronously fetches onboarding pages from the server and updates the state
         async getOnboardingPages() {
-            const [fixedOnboardingResponse, onboardingResponse] = await Promise.all([
-                this.$axios.get<FixedOnboardingPage, { data: FixedOnboardingPage[] }>('/api/onboarding/fixed'),
-                this.$axios.get<OnboardingPage, { data: OnboardingPage[] }>('/api/onboarding')
-            ])
+            const onboardingResponse = await this.$axios.get<OnboardingPage, { data: OnboardingPage[] }>('/api/onboarding')
                 .catch((err) => {
                     this.$toast.error('Could not get onboarding pages');
                     console.error(err);
-                    return [{ data: [] }, { data: [] }];
+                    return { data: [] };
                 });
-            this.updateFixedOnboardingPages(fixedOnboardingResponse.data);
             this.updateOnboardingPages(onboardingResponse.data);
         },
         // Updates the current onboardingPages state with new data
@@ -93,17 +54,6 @@ export const useOnboardingStore = defineStore('onboarding', {
                 }
             });
             this.onboardingPages = updatedPages.filter(page => newPageMap.has(page.id)).sort((a, b) => a.order - b.order);
-        },
-        // Updates the current fixedOnboardingPages state with new data
-        updateFixedOnboardingPages(onboardingPages: FixedOnboardingPage[]) {
-            const newPageMap = new Map(onboardingPages.map(key => [key.id, key]));
-            const updatedPages = this.onboardingPages.map(page => newPageMap.get(page.id) || page);
-            newPageMap.forEach((page, id) => {
-                if (!this.onboardingPages.some(k => k.id === id)) {
-                    updatedPages.push(page);
-                }
-            });
-            this.fixedOnboardingPages = updatedPages.filter(page => newPageMap.has(page.id)).sort((a, b) => a.id - b.id);
         },
         async updateOnboardingPage(onboardingPage: Pick<OnboardingPage, 'id'> & Partial<OnboardingPage>, fixed = false) {
             const formData = new FormData();

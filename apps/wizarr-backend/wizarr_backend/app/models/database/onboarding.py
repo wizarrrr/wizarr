@@ -3,6 +3,7 @@ from app.models.database.base import BaseModel
 
 class Onboarding(BaseModel):
     id = IntegerField(primary_key=True, unique=True)
-    value = CharField(null=False)
+    value = CharField()
     order = IntegerField(null=False, unique=True)
-    enabled = BooleanField(default=False)
+    enabled = BooleanField(default=True)
+    template = CharField()

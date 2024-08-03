@@ -178,7 +178,7 @@ export default defineComponent({
                 if (!confirm) return;
             }
 
-            const response = await this.$axios.put("/api/settings", formData).catch(() => {
+            const response = await this.$axios.put(`/api/settings?setup=${this.setup}`, formData).catch(() => {
                 this.$toast.error(this.__("Unable to save connection."));
             });
 

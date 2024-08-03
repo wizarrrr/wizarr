@@ -34,7 +34,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useServerStore } from "@/stores/server";
-import { useOnboardingStore } from "@/stores/onboarding";
+import { useOnboardingStore, TemplateType } from "@/stores/onboarding";
 import { mapState } from "pinia";
 
 import Carousel from "@/components/Carousel.vue";
@@ -82,34 +82,22 @@ export default defineComponent({
             const views: CarouselViewProps["views"] = [];
 
             views.push(
-                ...onboardingStore.enabledFixedOnboardingPages.map((onboardingPage) => {
-                    return {
-                        name: "custom",
-                        view: Custom,
-                        props: {
-                            value: onboardingPage.value,
-                            sanitize: this.sanitize,
-                        },
-                    };
-                }),
-            );
-            if (!!this.requests.length) {
-                views.push({
-                    name: "request",
-                    view: Request,
-                    props: {
-                        requestURL: this.requests,
-                    },
-                });
-            }
-            if (!!this.settings.server_discord_id) {
-                views.push({
-                    name: "discord",
-                    view: Discord,
-                });
-            }
-            views.push(
                 ...onboardingStore.enabledOnboardingPages.map((onboardingPage) => {
+                    if (onboardingPage.template === TemplateType.Discord) {
+                        return {
+                            name: "discord",
+                            view: Discord,
+                        };
+                    }
+                    if (onboardingPage.template === TemplateType.Request) {
+                        return {
+                            name: "request",
+                            view: Request,
+                            props: {
+                                requestURL: this.requests,
+                            },
+                        };
+                    }
                     return {
                         name: "custom",
                         view: Custom,
@@ -120,7 +108,6 @@ export default defineComponent({
                     };
                 }),
             );
-
             return views;
         },
     },

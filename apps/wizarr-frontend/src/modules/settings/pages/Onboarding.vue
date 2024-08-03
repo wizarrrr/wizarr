@@ -1,16 +1,9 @@
 <template>
     <section class="flex flex-col items-center justify-center">
-        <OnboardingSection v-for="page in fixedOnboardingPages" .key="page.id" @clickEdit="editPage(page, true)" disabledReorder disableDelete>
-            <MdPreview :modelValue="page.value" :theme="currentTheme" :sanitize="sanitize" language="en-US" />
-        </OnboardingSection>
-        <OnboardingSection v-if="!!requests.length" disabledReorder disableDelete disableEdit>
-            <Request :requestURL="requests" />
-        </OnboardingSection>
-        <OnboardingSection v-if="!!settings.server_discord_id" disabledReorder disableDelete disableEdit>
-            <Discord />
-        </OnboardingSection>
-        <OnboardingSection v-for="page in onboardingPages" .key="page.id" @clickMoveUp="movePageUp(page)" @clickMoveDown="movePageDown(page)" @clickEdit="editPage(page)" @clickDelete="deletePage(page)">
-            <MdPreview :modelValue="page.value" :theme="currentTheme" :sanitize="sanitize" language="en-US" />
+        <OnboardingSection v-for="page in onboardingPages" .key="page.id" :disableDelete="!!page.template" :disableEdit="!!page.template" @clickMoveUp="movePageUp(page)" @clickMoveDown="movePageDown(page)" @clickEdit="editPage(page)" @clickDelete="deletePage(page)">
+            <Discord v-if="page.template == TemplateType.Discord" />
+            <Discord v-else-if="page.template == TemplateType.Request" />
+            <MdPreview v-else :modelValue="page.value" :theme="currentTheme" :sanitize="sanitize" language="en-US" />
         </OnboardingSection>
     </section>
     <div class="fixed right-6 bottom-6 group">
@@ -27,7 +20,7 @@ import { MdPreview } from "md-editor-v3";
 import { useGettext } from "vue3-gettext";
 import { useServerStore } from "@/stores/server";
 import { useThemeStore } from "@/stores/theme";
-import { useOnboardingStore } from "@/stores/onboarding";
+import { useOnboardingStore, TemplateType } from "@/stores/onboarding";
 import Request from "@/modules/help/components/Request.vue";
 import Discord from "@/modules/help/components/Discord.vue";
 import OnboardingSection from "../components/Onboarding/OnboardingSection.vue";
@@ -35,7 +28,6 @@ import EditOnboarding from "../components/Modals/EditOnboarding.vue";
 
 import type { Themes } from "md-editor-v3";
 import type { OnboardingPage } from "@/types/api/onboarding/OnboardingPage";
-import type { FixedOnboardingPage } from "@/types/api/onboarding/FixedOnboardingPage";
 
 export default defineComponent({
     name: "Onboarding",
@@ -62,7 +54,6 @@ export default defineComponent({
         const onboardingStore = useOnboardingStore();
         onboardingStore.getOnboardingPages();
         const onboardingPages = computed(() => onboardingStore.enabledOnboardingPages);
-        const fixedOnboardingPages = computed(() => onboardingStore.enabledFixedOnboardingPages);
 
         const onboardingVariables = computed(() => onboardingStore.onboardingVariables);
 
@@ -97,7 +88,7 @@ export default defineComponent({
             });
         };
 
-        const editPage = (onboardingPage: OnboardingPage | FixedOnboardingPage, fixed = false) => {
+        const editPage = (onboardingPage: OnboardingPage, fixed = false) => {
             const modal_options = {
                 title: gettext.$gettext("Edit onboarding page"),
                 disableCloseButton: true,
@@ -138,7 +129,6 @@ export default defineComponent({
             currentTheme: currentTheme as unknown as Themes,
             settings,
             requests,
-            fixedOnboardingPages,
             onboardingPages,
             sanitize,
             createPage,
@@ -146,6 +136,7 @@ export default defineComponent({
             movePageDown,
             editPage,
             deletePage,
+            TemplateType,
         };
     },
 });
