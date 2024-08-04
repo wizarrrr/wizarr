@@ -23,11 +23,11 @@ def populateForServerType(server_type: str):
         Onboarding.create(id=5, order=next_order, value="## ℹ️ Eh, So, What is Emby exactly?\n\nEmby is a platform that lets you stream all your favorite movies, TV shows, and music in one place. It's like having your own personal movie theater right at your fingertips! Think of it as a digital library of your favorite content that you can access from anywhere, on any device - your phone, tablet, laptop, smart TV, you name it.\n\n## 🍿 Right, so how do I watch stuff?\n\nIt couldn't be simpler! Emby is available on a wide variety of devices including laptops, tablets, smartphones, and TVs. All you need to do is download the Emby app on your device, sign in with your account, and you're ready to start streaming your media. It's that easy!")
         Onboarding.create(id=6, order=next_order + 1, template=TemplateType.Download.value, value="## Join & Download Emby\n\nGreat news! You now have access to our server's media collection. Let's make sure you know how to use it with Emby.\n\nPlanning on watching movies on this device?")
 
-def showStatic(show: bool, template: int, id: int):
+def showStatic(template: int, show: bool):
     static_row = Onboarding.get_or_none(template=template)
     if show:
         if not static_row:
-            Onboarding.create(id=id, order=getNextOrder(), template=template, editable=False)
+            Onboarding.create(order=getNextOrder(), template=template, editable=False)
         elif static_row.enabled == False:
             static_row.enabled = True
             static_row.save()
@@ -38,8 +38,8 @@ def showStatic(show: bool, template: int, id: int):
 
 
 def showRequest(show: bool):
-    showStatic(show, TemplateType.Request.value, 4)
+    showStatic(TemplateType.Request.value, show)
 
 def showDiscord(show: bool):
-    showStatic(show, TemplateType.Discord.value, 5)
+    showStatic(TemplateType.Discord.value, show)
 
