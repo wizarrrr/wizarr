@@ -11,6 +11,7 @@ from app.models.database.libraries import Libraries
 from app.models.database.users import Users
 from app.models.database.invitations import Invitations
 from app.models.database.requests import Requests
+from helpers.onboarding import populateForServerType, showDiscord
 
 
 api = Namespace("Settings", description="Settings related operations", path="/settings")
@@ -53,6 +54,14 @@ class SettingsListAPI(Resource):
         for key, value in settings.items():
             Settings.update(key=key, value=value)
 
+        # Get the value of the 'setup' query parameter
+        initial_setup = request.args.get('setup') == "true"
+        if initial_setup and "server_type" in settings:
+            populateForServerType(settings["server_type"])
+
+        if "server_discord_id" in settings:
+            showDiscord(bool(settings["server_discord_id"]))
+
         response = { key: value for key, value in settings.items() }
 
         return response, 200
@@ -71,11 +80,19 @@ class SettingsListAPI(Resource):
         data = SettingsModel(**form)
 
         # Extract the data from the model to a dictionary
-        response = data.model_dump()
+        settings = data.model_dump()
+
+        # Get the value of the 'setup' query parameter
+        initial_setup = request.args.get('setup') == "true"
+        if initial_setup and "server_type" in settings:
+            populateForServerType(settings["server_type"])
+
+        if "server_discord_id" in settings:
+            showDiscord(settings["server_discord_id"] != "")
 
         # FIXME: This will send many queries to the database
         # Insert the settings into the database
-        for key, value in response.items():
+        for key, value in settings.items():
             setting = Settings.get_or_none(Settings.key == key)
             if not setting:
                 Settings.create(key=key, value=value)
@@ -92,7 +109,7 @@ class SettingsListAPI(Resource):
                 elif value == "jellyfin" or value == "emby":
                     Requests.delete().where(Requests.service == "overseerr").execute()
 
-        return response, 200
+        return settings, 200
 
 
 @api.route('/<string:setting_id>')

@@ -1,28 +1,43 @@
 <template>
-    <MdEditor v-model="onboardingPage.value" :theme="currentTheme" :preview="false" :language="currentLanguage" :toolbars="toolbars" :footers="['=', 'scrollSwitch']" @onUploadImg="onUploadImg" />
+    <MdEditor v-model="onboardingPage.value" :theme="currentTheme" :preview="false" :language="currentLanguage" :toolbars="toolbars" :footers="['=', 'scrollSwitch']" @onUploadImg="onUploadImg" :sanitize="sanitize">
+        <template #defToolbars>
+            <VariablesToolbar :variables="Object.keys(variables)" />
+        </template>
+    </MdEditor>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from "vue";
-import { MdEditor } from "md-editor-v3";
+import { defineComponent, computed, ref, type PropType } from "vue";
+import { MdEditor, DropdownToolbar } from "md-editor-v3";
 import Button from "@/components/Dashboard/Button.vue";
 import { useThemeStore } from "@/stores/theme";
 import { useLanguageStore } from "@/stores/language";
 import { useAxios } from "@/plugins/axios";
+import VariablesToolbar from "../MDToolbars/Variables.vue";
 
 import type { Themes, ToolbarNames } from "md-editor-v3";
-import type { OnboardingPage } from "@/types/OnboardingPage";
+import type { OnboardingPage } from "@/types/api/onboarding/OnboardingPage";
 
 export default defineComponent({
     name: "MarkdownEditor",
     components: {
         Button,
         MdEditor,
+        DropdownToolbar,
+        VariablesToolbar,
     },
     props: {
         onboardingPage: {
             type: Object as () => OnboardingPage,
             required: true,
+        },
+        variables: {
+            type: Object as () => Record<string, string>,
+            default: [],
+        },
+        sanitize: {
+            type: Function as PropType<(html: string) => string>,
+            default: (html: string) => html,
         },
     },
     setup(props) {
@@ -32,7 +47,7 @@ export default defineComponent({
         const languageStore = useLanguageStore();
         const currentLanguage = computed(() => languageStore.language);
 
-        const toolbars = ref<ToolbarNames[]>(["bold", "underline", "italic", "-", "title", "strikeThrough", "sub", "sup", "quote", "-", "codeRow", "code", "link", "image", "table", "=", "preview", "pageFullscreen"]);
+        const toolbars = ref<ToolbarNames[]>(["bold", "underline", "italic", "-", "title", "strikeThrough", "sub", "sup", "quote", "-", "codeRow", "code", "link", "image", "table", 0, "=", "preview", "pageFullscreen"]);
 
         const axios = useAxios();
         const onUploadImg = async (files: File[], callback: (files: string[]) => unknown) => {

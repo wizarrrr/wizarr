@@ -34,7 +34,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useServerStore } from "@/stores/server";
-import { useOnboardingStore } from "@/stores/onboarding";
+import { useOnboardingStore, TemplateType } from "@/stores/onboarding";
 import { mapState } from "pinia";
 
 import Carousel from "@/components/Carousel.vue";
@@ -43,10 +43,9 @@ import WizarrLogo from "@/components/WizarrLogo.vue";
 import LanguageSelector from "@/components/Buttons/LanguageSelector.vue";
 import ThemeToggle from "@/components/Buttons/ThemeToggle.vue";
 
-import Welcome from "../components/Welcome.vue";
-import Download from "../components/Download.vue";
-import Discord from "../components/Discord.vue";
 import Request from "../components/Request.vue";
+import Discord from "../components/Discord.vue";
+import Download from "../components/Download.vue";
 import Custom from "../components/Custom.vue";
 
 import type { CarouselViewProps } from "@/components/Carousel.vue";
@@ -69,52 +68,57 @@ export default defineComponent({
         ...mapState(useServerStore, ["settings", "requests"]),
     },
     methods: {
-        async getOnboardingPages() {
+        sanitize(html: string) {
             const onboardingStore = useOnboardingStore();
-            await onboardingStore.getOnboardingPages();
-            return onboardingStore.enabledOnboardingPages;
+            Object.keys(onboardingStore.onboardingVariables).forEach((variable) => {
+                const value = onboardingStore.onboardingVariables as Record<string, string>;
+                html = html.replace(new RegExp(`{{${variable}}}`, "g"), value[variable]);
+                html = html.replace(new RegExp(`%7B%7B${variable}%7D%7D`, "g"), value[variable]);
+            });
+            return html;
         },
         async getViews() {
-            const onboardingPages = await this.getOnboardingPages();
-            const views: CarouselViewProps["views"] = [
-                {
-                    name: "welcome",
-                    view: Welcome,
-                },
-                {
-                    name: "download",
-                    view: Download,
-                },
-            ];
+            const onboardingStore = useOnboardingStore();
+            await onboardingStore.getOnboardingPages();
+            const views: CarouselViewProps["views"] = [];
 
-            if (this.settings.server_discord_id && this.settings.server_discord_id !== "") {
-                views.push({
-                    name: "discord",
-                    view: Discord,
-                });
-            }
-
-            if (this.requests && this.requests.length > 0) {
-                views.push({
-                    name: "request",
-                    view: Request,
-                    props: {
-                        requestURL: this.requests,
-                    },
-                });
-            }
             views.push(
-                ...onboardingPages.map((onboardingPage) => {
+                ...onboardingStore.enabledOnboardingPages.map((onboardingPage) => {
+                    if (onboardingPage.template === TemplateType.Discord) {
+                        return {
+                            name: "discord",
+                            view: Discord,
+                        };
+                    }
+                    if (onboardingPage.template === TemplateType.Request) {
+                        return {
+                            name: "request",
+                            view: Request,
+                            props: {
+                                requestURL: this.requests,
+                            },
+                        };
+                    }
+                    if (onboardingPage.template === TemplateType.Download) {
+                        return {
+                            name: "download",
+                            view: Download,
+                            props: {
+                                value: onboardingPage.value,
+                                sanitize: this.sanitize,
+                            },
+                        };
+                    }
                     return {
                         name: "custom",
                         view: Custom,
                         props: {
-                            onboardingPage: onboardingPage,
+                            value: onboardingPage.value,
+                            sanitize: this.sanitize,
                         },
                     };
                 }),
             );
-
             return views;
         },
     },

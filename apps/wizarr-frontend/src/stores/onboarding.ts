@@ -1,5 +1,12 @@
 import { defineStore } from 'pinia';
-import type { OnboardingPage } from '@/types/OnboardingPage';
+import { useServerStore } from "@/stores/server";
+import type { OnboardingPage } from '@/types/api/onboarding/OnboardingPage';
+
+export enum TemplateType {
+    Discord = 1,
+    Request = 2,
+    Download = 3,
+}
 
 // Define the shape of the state in this store
 interface OnboardingStoreState {
@@ -15,25 +22,30 @@ export const useOnboardingStore = defineStore('onboarding', {
     getters: {
         enabledOnboardingPages(state) {
             return state.onboardingPages.filter(page => page.enabled);
-        }
+        },
+        onboardingVariables: () => {
+            const serverStore = useServerStore();
+            return {
+                "server_name": serverStore.settings.server_name,
+                "server_url": serverStore.settings.server_url,
+                "server_type": serverStore.settings.server_type,
+                "discord_id": serverStore.settings.server_discord_id,
+            }
+        },
     },
     // Define actions that can mutate the state
     actions: {
         // Asynchronously fetches onboarding pages from the server and updates the state
         async getOnboardingPages() {
-            const response = await this.$axios
-                .get<OnboardingPage, { data: OnboardingPage[] }>('/api/onboarding')
+            const onboardingResponse = await this.$axios.get<OnboardingPage, { data: OnboardingPage[] }>('/api/onboarding')
                 .catch((err) => {
                     this.$toast.error('Could not get onboarding pages');
                     console.error(err);
-                    return null;
+                    return { data: [] };
                 });
-
-            if (response !== null) {
-                this.updateOnboardingPages(response.data);
-            }
+            this.updateOnboardingPages(onboardingResponse.data);
         },
-        // Updates the current pages state with new data
+        // Updates the current onboardingPages state with new data
         updateOnboardingPages(onboardingPages: OnboardingPage[]) {
             const newPageMap = new Map(onboardingPages.map(key => [key.id, key]));
             const updatedPages = this.onboardingPages.map(page => newPageMap.get(page.id) || page);
@@ -44,14 +56,14 @@ export const useOnboardingStore = defineStore('onboarding', {
             });
             this.onboardingPages = updatedPages.filter(page => newPageMap.has(page.id)).sort((a, b) => a.order - b.order);
         },
-        async updateOnboardingPage(onboardingPage: Pick<OnboardingPage, 'id'> & Partial<OnboardingPage>) {
+        async updateOnboardingPage(onboardingPage: Pick<OnboardingPage, 'id'> & Partial<OnboardingPage>, fixed = false) {
             const formData = new FormData();
             Object.keys(onboardingPage).forEach((key) => {
                 // @ts-ignore
                 formData.append(key, onboardingPage[key]);
             });
             await this.$axios
-                .put<OnboardingPage>(`/api/onboarding/${onboardingPage.id}`, formData, { disableErrorToast: true })
+                .put<OnboardingPage>(`/api/onboarding/${fixed ? 'fixed/' : ''}${onboardingPage.id}`, formData, { disableErrorToast: true })
                 .catch((err) => {
                     this.$toast.error('Could not update onboarding page');
                     console.error(err);

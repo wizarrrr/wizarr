@@ -1,19 +1,12 @@
 <template>
     <section class="flex flex-col items-center justify-center">
-        <OnboardingSection disabled>
-            <Welcome />
-        </OnboardingSection>
-        <OnboardingSection disabled>
-            <Download />
-        </OnboardingSection>
-        <OnboardingSection v-if="settings.server_discord_id && settings.server_discord_id !== ''" disabled>
-            <Discord />
-        </OnboardingSection>
-        <OnboardingSection v-if="requests && requests.length > 0" disabled>
-            <Request .requestURL="requests" />
-        </OnboardingSection>
-        <OnboardingSection v-for="page in onboardingPages" .key="page.id" @clickMoveUp="movePageUp(page)" @clickMoveDown="movePageDown(page)" @clickEdit="editPage(page)" @clickDelete="deletePage(page)">
-            <MdPreview :modelValue="page.value" :theme="currentTheme" language="en-US" />
+        <OnboardingSection v-for="page in onboardingPages" .key="page.id" :isEnabled="page.enabled" :disableDelete="!!page.template" :disableEdit="!page.editable" @clickMoveUp="movePageUp(page)" @clickMoveDown="movePageDown(page)" @clickEdit="editPage(page)" @clickDelete="deletePage(page)" @clickEnable="enablePage(page)">
+            <div :class="{ 'opacity-50': !page.enabled }">
+                <Discord v-if="page.template == TemplateType.Discord" />
+                <Request v-else-if="page.template == TemplateType.Request" :requestURL="requests" />
+                <Download v-else-if="page.template == TemplateType.Download" :value="page.value ?? ''" :sanitize="sanitize" />
+                <MdPreview v-else :modelValue="page.value" :theme="currentTheme" :sanitize="sanitize" language="en-US" />
+            </div>
         </OnboardingSection>
     </section>
     <div class="fixed right-6 bottom-6 group">
@@ -30,25 +23,23 @@ import { MdPreview } from "md-editor-v3";
 import { useGettext } from "vue3-gettext";
 import { useServerStore } from "@/stores/server";
 import { useThemeStore } from "@/stores/theme";
-import { useOnboardingStore } from "@/stores/onboarding";
-import Welcome from "@/modules/help/components/Welcome.vue";
-import Download from "@/modules/help/components/Download.vue";
-import Discord from "@/modules/help/components/Discord.vue";
+import { useOnboardingStore, TemplateType } from "@/stores/onboarding";
 import Request from "@/modules/help/components/Request.vue";
+import Discord from "@/modules/help/components/Discord.vue";
+import Download from "@/modules/help/components/Download.vue";
 import OnboardingSection from "../components/Onboarding/OnboardingSection.vue";
 import EditOnboarding from "../components/Modals/EditOnboarding.vue";
 
 import type { Themes } from "md-editor-v3";
-import type { OnboardingPage } from "@/types/OnboardingPage";
+import type { OnboardingPage } from "@/types/api/onboarding/OnboardingPage";
 
 export default defineComponent({
     name: "Onboarding",
     components: {
         OnboardingSection,
-        Welcome,
-        Download,
-        Discord,
         Request,
+        Discord,
+        Download,
         MdPreview,
     },
     setup() {
@@ -67,7 +58,18 @@ export default defineComponent({
 
         const onboardingStore = useOnboardingStore();
         onboardingStore.getOnboardingPages();
-        const onboardingPages = computed(() => onboardingStore.enabledOnboardingPages);
+        const onboardingPages = computed(() => onboardingStore.onboardingPages);
+
+        const onboardingVariables = computed(() => onboardingStore.onboardingVariables);
+
+        const sanitize = (html: string) => {
+            Object.keys(onboardingVariables.value).forEach((variable) => {
+                const value = onboardingVariables.value as Record<string, string>;
+                html = html.replace(new RegExp(`{{${variable}}}`, "g"), value[variable]);
+                html = html.replace(new RegExp(`%7B%7B${variable}%7D%7D`, "g"), value[variable]);
+            });
+            return html;
+        };
 
         const createPage = async () => {
             await onboardingStore.createOnboardingPage({
@@ -91,7 +93,7 @@ export default defineComponent({
             });
         };
 
-        const editPage = (onboardingPage: OnboardingPage) => {
+        const editPage = (onboardingPage: OnboardingPage, fixed = false) => {
             const modal_options = {
                 title: gettext.$gettext("Edit onboarding page"),
                 disableCloseButton: true,
@@ -99,10 +101,13 @@ export default defineComponent({
                     {
                         text: gettext.$gettext("Save"),
                         onClick: () => {
-                            onboardingStore.updateOnboardingPage({
-                                id: onboardingPage.id,
-                                value: onboardingPage.value,
-                            });
+                            onboardingStore.updateOnboardingPage(
+                                {
+                                    id: onboardingPage.id,
+                                    value: onboardingPage.value,
+                                },
+                                fixed,
+                            );
                             modal.closeModal();
                         },
                     },
@@ -111,6 +116,8 @@ export default defineComponent({
 
             const modal_props = {
                 onboardingPage: onboardingPage,
+                variables: onboardingVariables.value,
+                sanitize,
             };
             modal.openModal(EditOnboarding, modal_options, modal_props);
         };
@@ -123,16 +130,26 @@ export default defineComponent({
             }
         };
 
+        const enablePage = async (onboardingPage: OnboardingPage) => {
+            await onboardingStore.updateOnboardingPage({
+                id: onboardingPage.id,
+                enabled: !onboardingPage.enabled,
+            });
+        };
+
         return {
             currentTheme: currentTheme as unknown as Themes,
             settings,
             requests,
             onboardingPages,
+            sanitize,
             createPage,
             movePageUp,
             movePageDown,
             editPage,
             deletePage,
+            enablePage,
+            TemplateType,
         };
     },
 });
