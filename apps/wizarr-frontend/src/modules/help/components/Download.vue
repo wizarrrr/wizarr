@@ -2,14 +2,13 @@
     <MdPreview v-model="value" :theme="currentTheme" :language="language" :sanitize="sanitize" />
     <!-- Bottom Bar -->
     <div class="flex flex-row justify-between pt-4">
-        <span class="flex justify-end items-end">
-            <FormKit type="button" :classes="{ input: 'px-3 !py-2' }" @click="openURL">
+        <span class="flex justify-end items-center">
+            <a .href="settings.server_url_override ?? settings.server_url" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded dark:bg-primary dark:hover:bg-primary_hover px-5 py-2.5 text-sm whitespace-nowrap flex items-center justify-center relative">
                 <span v-if="settings.server_type == 'plex'">{{ __("Open Plex") }}</span>
                 <span v-else-if="settings.server_type == 'jellyfin'">{{ __("Open Jellyfin") }}</span>
                 <span v-else-if="settings.server_type == 'emby'">{{ __("Open Emby") }}</span>
-                <i class="fas fa-external-link-alt ml-2"></i>
-            </FormKit>
-        </span>
+                <i class="fas fa-external-link-alt ml-2"></i> </a
+        ></span>
         <span class="flex justify-end items-center">
             <a .href="downloadURL" target="_blank" class="text-sm font-medium text-primary flex flex-row">
                 {{ __("Other Download") }}
@@ -58,12 +57,6 @@ export default defineComponent({
         ...mapState(useServerStore, ["settings"]),
         ...mapState(useThemeStore, ["currentTheme"]),
         ...mapState(useLanguageStore, ["language"]),
-    },
-    methods: {
-        openURL() {
-            const resolve = this.$router.resolve({ name: "open" });
-            window.open(resolve.href, "_blank");
-        },
     },
 });
 </script>
