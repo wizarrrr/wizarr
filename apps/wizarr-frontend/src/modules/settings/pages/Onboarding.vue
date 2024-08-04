@@ -2,9 +2,10 @@
     <section class="flex flex-col items-center justify-center">
         <OnboardingSection v-for="page in onboardingPages" .key="page.id" :isEnabled="page.enabled" :disableDelete="!!page.template" :disableEdit="!page.editable" @clickMoveUp="movePageUp(page)" @clickMoveDown="movePageDown(page)" @clickEdit="editPage(page)" @clickDelete="deletePage(page)" @clickEnable="enablePage(page)">
             <div :class="{ 'opacity-50': !page.enabled }">
-            <Discord v-if="page.template == TemplateType.Discord" />
+                <Discord v-if="page.template == TemplateType.Discord" />
                 <Request v-else-if="page.template == TemplateType.Request" :requestURL="requests" />
-            <MdPreview v-else :modelValue="page.value" :theme="currentTheme" :sanitize="sanitize" language="en-US" />
+                <Download v-else-if="page.template == TemplateType.Download" :value="page.value ?? ''" :sanitize="sanitize" />
+                <MdPreview v-else :modelValue="page.value" :theme="currentTheme" :sanitize="sanitize" language="en-US" />
             </div>
         </OnboardingSection>
     </section>
@@ -25,6 +26,7 @@ import { useThemeStore } from "@/stores/theme";
 import { useOnboardingStore, TemplateType } from "@/stores/onboarding";
 import Request from "@/modules/help/components/Request.vue";
 import Discord from "@/modules/help/components/Discord.vue";
+import Download from "@/modules/help/components/Download.vue";
 import OnboardingSection from "../components/Onboarding/OnboardingSection.vue";
 import EditOnboarding from "../components/Modals/EditOnboarding.vue";
 
@@ -37,6 +39,7 @@ export default defineComponent({
         OnboardingSection,
         Request,
         Discord,
+        Download,
         MdPreview,
     },
     setup() {

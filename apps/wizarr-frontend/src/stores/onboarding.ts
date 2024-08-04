@@ -5,6 +5,7 @@ import type { OnboardingPage } from '@/types/api/onboarding/OnboardingPage';
 export enum TemplateType {
     Discord = 1,
     Request = 2,
+    Download = 3,
 }
 
 // Define the shape of the state in this store

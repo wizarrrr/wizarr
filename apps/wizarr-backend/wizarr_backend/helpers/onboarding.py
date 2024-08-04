@@ -6,6 +6,7 @@ from app.models.database.onboarding import Onboarding
 class TemplateType(Enum):
     Discord = 1
     Request = 2
+    Download = 3
 
 def getNextOrder():
     return (Onboarding.select(fn.MAX(Onboarding.order)).scalar() or -1) + 1
@@ -14,13 +15,13 @@ def populateForServerType(server_type: str):
     next_order = getNextOrder()
     if(server_type == "plex"):
         Onboarding.create(id=1, order=next_order, value="## ℹ️ Eh, So, What is Plex exactly?\n\nGreat question! Plex is a software that allows individuals to share their media collections with others. If you've received this invitation, it means someone wants to share their library with you.\n\nWith Plex, you'll have access to all of the movies, TV shows, music, and photos that are stored on their server!\n\nSo let's see how to get started!")
-        Onboarding.create(id=2, order=next_order + 1, value="## Join & Download Plex\n\nSo you now have access to our server's media collection. Let's make sure you know how to use it with Plex.\n\nPlanning on watching movies on this device? [Download Plex](https://www.plex.tv/en-gb/media-server-downloads/#plex-app) for this device.\n\n[Open Plex in browser ↗]({{server_url}})")
+        Onboarding.create(id=2, order=next_order + 1, template=TemplateType.Download.value, value="## Join & Download Plex\n\nSo you now have access to our server's media collection. Let's make sure you know how to use it with Plex.\n\nPlanning on watching movies on this device?")
     elif(server_type == "jellyfin"):
         Onboarding.create(id=3, order=next_order, value="## ℹ️ Eh, So, What is Jellyfin exactly?\n\nJellyfin is a platform that lets you stream all your favorite movies, TV shows, and music in one place. It's like having your own personal movie theater right at your fingertips! Think of it as a digital library of your favorite content that you can access from anywhere, on any device - your phone, tablet, laptop, smart TV, you name it.?\n\n## 🍿 Right, so how do I watch stuff??\n\nIt couldn't be simpler! Jellyfin is available on a wide variety of devices including laptops, tablets, smartphones, and TVs. All you need to do is download the Jellyfin app on your device, sign in with your account, and you're ready to start streaming your media. It's that easy!")
-        Onboarding.create(id=4, order=next_order + 1, value="## Join & Download Jellyfin\n\nSo you now have access to our server's media collection. Let's make sure you know how to use it with Jellyfin.\n\nPlanning on watching movies on this device? [Download Jellyfin](https://jellyfin.org/downloads) for this device.\n\n[Open Jellyfin in browser ↗]({{server_url}})")
+        Onboarding.create(id=4, order=next_order + 1, template=TemplateType.Download.value, value="## Join & Download Jellyfin\n\nSo you now have access to our server's media collection. Let's make sure you know how to use it with Jellyfin.\n\nPlanning on watching movies on this device?")
     elif(server_type == "emby"):
         Onboarding.create(id=5, order=next_order, value="## ℹ️ Eh, So, What is Emby exactly?\n\nEmby is a platform that lets you stream all your favorite movies, TV shows, and music in one place. It's like having your own personal movie theater right at your fingertips! Think of it as a digital library of your favorite content that you can access from anywhere, on any device - your phone, tablet, laptop, smart TV, you name it.\n\n## 🍿 Right, so how do I watch stuff?\n\nIt couldn't be simpler! Emby is available on a wide variety of devices including laptops, tablets, smartphones, and TVs. All you need to do is download the Emby app on your device, sign in with your account, and you're ready to start streaming your media. It's that easy!")
-        Onboarding.create(id=6, order=next_order + 1, value="## Join & Download Emby\n\nGreat news! You now have access to our server's media collection. Let's make sure you know how to use it with Emby.\n\nPlanning on watching movies on this device? [Download Emby](https://emby.media/download.html) for this device.\n\n[Open Emby in browser ↗]({{server_url}})")
+        Onboarding.create(id=6, order=next_order + 1, template=TemplateType.Download.value, value="## Join & Download Emby\n\nGreat news! You now have access to our server's media collection. Let's make sure you know how to use it with Emby.\n\nPlanning on watching movies on this device?")
 
 def showStatic(show: bool, template: int, id: int):
     static_row = Onboarding.get_or_none(template=template)
@@ -37,8 +38,8 @@ def showStatic(show: bool, template: int, id: int):
 
 
 def showRequest(show: bool):
-    showStatic(show, TemplateType.Request.value, 7)
+    showStatic(show, TemplateType.Request.value, 4)
 
 def showDiscord(show: bool):
-    showStatic(show, TemplateType.Discord.value, 8)
+    showStatic(show, TemplateType.Discord.value, 5)
 

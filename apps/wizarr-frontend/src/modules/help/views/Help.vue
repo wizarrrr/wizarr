@@ -45,6 +45,7 @@ import ThemeToggle from "@/components/Buttons/ThemeToggle.vue";
 
 import Request from "../components/Request.vue";
 import Discord from "../components/Discord.vue";
+import Download from "../components/Download.vue";
 import Custom from "../components/Custom.vue";
 
 import type { CarouselViewProps } from "@/components/Carousel.vue";
@@ -95,6 +96,16 @@ export default defineComponent({
                             view: Request,
                             props: {
                                 requestURL: this.requests,
+                            },
+                        };
+                    }
+                    if (onboardingPage.template === TemplateType.Download) {
+                        return {
+                            name: "download",
+                            view: Download,
+                            props: {
+                                value: onboardingPage.value,
+                                sanitize: this.sanitize,
                             },
                         };
                     }
