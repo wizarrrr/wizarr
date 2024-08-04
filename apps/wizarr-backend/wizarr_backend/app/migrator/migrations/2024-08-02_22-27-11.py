@@ -26,6 +26,7 @@ def run():
             "order" INTEGER NOT NULL,
             "enabled" INTEGER NOT NULL DEFAULT 1,
             "template" INTEGER,
+            "editable" INTEGER NOT NULL DEFAULT 1,
             PRIMARY KEY("id")
         )
         """)
@@ -110,9 +111,9 @@ Planning on watching movies on this device? [Download Emby](https://emby.media/d
             add_requests = db.execute_sql("SELECT EXISTS(SELECT 1 FROM requests)").fetchone()[0]
 
             if db.execute_sql("""SELECT key FROM settings WHERE key = 'server_discord_id' AND value IS NOT NULL""").fetchone():
-                db.execute_sql("""INSERT INTO onboarding ("id", "order", "template") VALUES (7, 2, 1)""")
+                db.execute_sql("""INSERT INTO onboarding ("id", "order", "template", "editable") VALUES (7, 2, 1, 0)""")
                 if add_requests:
-                    db.execute_sql("""INSERT INTO onboarding ("id", "order", "template") VALUES (8, 3, 2)""")
+                    db.execute_sql("""INSERT INTO onboarding ("id", "order", "template", "editable") VALUES (8, 3, 2, 0)""")
 
             elif add_requests:
-                db.execute_sql("""INSERT INTO onboarding ("id", "order", "template") VALUES (8, 2, 2)""")
+                db.execute_sql("""INSERT INTO onboarding ("id", "order", "template", "editable") VALUES (8, 2, 2, 0)""")

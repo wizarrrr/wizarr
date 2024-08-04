@@ -7,3 +7,4 @@ class Onboarding(BaseModel):
     order = IntegerField(null=False, unique=True)
     enabled = BooleanField(default=True)
     template = IntegerField()
+    editable = BooleanField(default=True)

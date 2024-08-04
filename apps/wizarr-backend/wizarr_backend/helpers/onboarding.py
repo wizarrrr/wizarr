@@ -26,7 +26,7 @@ def showStatic(show: bool, template: int, id: int):
     static_row = Onboarding.get_or_none(template=template)
     if show:
         if not static_row:
-            Onboarding.create(id=id, order=getNextOrder(), template=template)
+            Onboarding.create(id=id, order=getNextOrder(), template=template, editable=False)
         elif static_row.enabled == False:
             static_row.enabled = True
             static_row.save()

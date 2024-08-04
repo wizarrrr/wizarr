@@ -1,9 +1,11 @@
 <template>
     <section class="flex flex-col items-center justify-center">
-        <OnboardingSection v-for="page in onboardingPages" .key="page.id" :disableDelete="!!page.template" :disableEdit="!!page.template" @clickMoveUp="movePageUp(page)" @clickMoveDown="movePageDown(page)" @clickEdit="editPage(page)" @clickDelete="deletePage(page)">
+        <OnboardingSection v-for="page in onboardingPages" .key="page.id" :isEnabled="page.enabled" :disableDelete="!!page.template" :disableEdit="!page.editable" @clickMoveUp="movePageUp(page)" @clickMoveDown="movePageDown(page)" @clickEdit="editPage(page)" @clickDelete="deletePage(page)" @clickEnable="enablePage(page)">
+            <div :class="{ 'opacity-50': !page.enabled }">
             <Discord v-if="page.template == TemplateType.Discord" />
-            <Discord v-else-if="page.template == TemplateType.Request" />
+                <Request v-else-if="page.template == TemplateType.Request" :requestURL="requests" />
             <MdPreview v-else :modelValue="page.value" :theme="currentTheme" :sanitize="sanitize" language="en-US" />
+            </div>
         </OnboardingSection>
     </section>
     <div class="fixed right-6 bottom-6 group">
@@ -53,7 +55,7 @@ export default defineComponent({
 
         const onboardingStore = useOnboardingStore();
         onboardingStore.getOnboardingPages();
-        const onboardingPages = computed(() => onboardingStore.enabledOnboardingPages);
+        const onboardingPages = computed(() => onboardingStore.onboardingPages);
 
         const onboardingVariables = computed(() => onboardingStore.onboardingVariables);
 
@@ -125,6 +127,13 @@ export default defineComponent({
             }
         };
 
+        const enablePage = async (onboardingPage: OnboardingPage) => {
+            await onboardingStore.updateOnboardingPage({
+                id: onboardingPage.id,
+                enabled: !onboardingPage.enabled,
+            });
+        };
+
         return {
             currentTheme: currentTheme as unknown as Themes,
             settings,
@@ -136,6 +145,7 @@ export default defineComponent({
             movePageDown,
             editPage,
             deletePage,
+            enablePage,
             TemplateType,
         };
     },
