@@ -1,3 +1,22 @@
+## [4.2.0-beta.3](https://github.com/wizarrrr/wizarr/compare/v4.2.0-beta.2...v4.2.0-beta.3) (2024-08-05)
+
+
+### New Features
+
+* ✨ Allow editing of all onboarding pages ([#471](https://github.com/wizarrrr/wizarr/issues/471)) ([3d4c06a](https://github.com/wizarrrr/wizarr/commit/3d4c06a4450c7f28547a4478f10c5c0907aff013))
+* 🎉 Add MAX_CONTENT_LENGTH configuration for file uploads ([#473](https://github.com/wizarrrr/wizarr/issues/473)) ([2edf951](https://github.com/wizarrrr/wizarr/commit/2edf951afbbc2af4d4c4f7222df2207d013edb63))
+* 🎉 Add swedish translations ([#475](https://github.com/wizarrrr/wizarr/issues/475)) ([e3b0240](https://github.com/wizarrrr/wizarr/commit/e3b0240bf834535275b65ef5063ec2ec2c3b200d))
+
+
+### Chores
+
+* 🧽 sync develop with beta ([3de4467](https://github.com/wizarrrr/wizarr/commit/3de4467c9c5204b41f4dead31695efb152fa449a))
+
+
+### Code Refactoring
+
+* 🛠️ Remove auto PR [skip-ci] ([d57e726](https://github.com/wizarrrr/wizarr/commit/d57e726f91f7cbd5c311845cf7071e2cf946fdb4))
+
 ## [4.2.0-beta.2](https://github.com/wizarrrr/wizarr/compare/v4.2.0-beta.1...v4.2.0-beta.2) (2024-08-02)
 
 
