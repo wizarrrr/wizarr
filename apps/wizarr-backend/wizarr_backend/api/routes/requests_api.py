@@ -7,6 +7,7 @@ from playhouse.shortcuts import model_to_dict
 from datetime import datetime
 
 from app.models.database.requests import Requests
+from helpers.onboarding import showRequest
 
 api = Namespace("Requests", description="Requests related operations", path="/requests")
 
@@ -27,6 +28,7 @@ class RequestsListAPI(Resource):
         # Create the request
         request_db = Requests.create(**request.form)
         request_db.created = datetime.utcnow()
+        showRequest(True)
 
         # Return the request
         return loads(dumps(model_to_dict(request_db), indent=4, sort_keys=True, default=str)), 200
@@ -50,6 +52,10 @@ class RequestsAPI(Resource):
 
         # Delete the request
         request.delete_instance()
+
+        # Check if there are no more requests in the database
+        if Requests.select().count() == 0:
+            showRequest(False)
 
         # Responnse
         response = { "message": f"Request { requests_id } has been deleted" }

@@ -2,7 +2,7 @@ from datetime import timedelta
 from os import environ, path
 from flask import Flask
 from app.security import secret_key, SchedulerAuth
-from definitions import DATABASE_DIR
+from definitions import DATABASE_DIR, MAX_CONTENT_LENGTH
 
 def create_config(app: Flask):
     config = {}
@@ -30,5 +30,6 @@ def create_config(app: Flask):
     config["SCHEDULER_API_ENABLED"] = True
     config["SCHEDULER_API_PREFIX"] = "/api/scheduler"
     config["SCHEDULER_AUTH"] = SchedulerAuth()
+    config["MAX_CONTENT_LENGTH"] = MAX_CONTENT_LENGTH
 
     return config

@@ -11,4 +11,6 @@ export interface OnboardingPage {
     value: string;
     order: number;
     enabled: boolean;
+    template?: number;
+    editable?: boolean;
 }
