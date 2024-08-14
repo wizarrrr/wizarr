@@ -7,13 +7,13 @@
         <p class="text-base text-center text-gray-700 dark:text-gray-400 md:text-md">
             {{
             __(
-            "Currently Wizarr only supports it's internal SQLite database.",
+            "Currently Wizarr only supports its internal SQLite database.",
             )
             }}
             <br />
             {{
             __(
-                'This is a temporary, and we are working on adding support for other databases.',
+                'This is temporary. We are working on adding support for other databases.',
             )
 }}
         </p>
