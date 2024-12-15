@@ -1,3 +1,62 @@
+## [4.2.0](https://github.com/wizarrrr/wizarr/compare/v4.1.1...v4.2.0) (2024-12-15)
+
+
+### New Features
+
+* ✨ Added Onboarding Customisation ([e6e9d68](https://github.com/wizarrrr/wizarr/commit/e6e9d6890b431ce6ec60e33306d28f3a3a571a98))
+* ✨ Allow editing of all onboarding pages ([#471](https://github.com/wizarrrr/wizarr/issues/471)) ([3d4c06a](https://github.com/wizarrrr/wizarr/commit/3d4c06a4450c7f28547a4478f10c5c0907aff013))
+* 🎉 Add MAX_CONTENT_LENGTH configuration for file uploads ([#473](https://github.com/wizarrrr/wizarr/issues/473)) ([2edf951](https://github.com/wizarrrr/wizarr/commit/2edf951afbbc2af4d4c4f7222df2207d013edb63))
+* 🎉 Add swedish translations ([#475](https://github.com/wizarrrr/wizarr/issues/475)) ([e3b0240](https://github.com/wizarrrr/wizarr/commit/e3b0240bf834535275b65ef5063ec2ec2c3b200d))
+* 🎊 Any length of invitation code ([#469](https://github.com/wizarrrr/wizarr/issues/469)) ([c850c8e](https://github.com/wizarrrr/wizarr/commit/c850c8e64a34cf7fcee584e6a20a2b801830a74b))
+* 🎊 Make DefaultButton center icon ([#462](https://github.com/wizarrrr/wizarr/issues/462)) ([c8b8d36](https://github.com/wizarrrr/wizarr/commit/c8b8d3653b140472172737ec275d6444054b2ada))
+* Ability to specify whether a user can download content ([#449](https://github.com/wizarrrr/wizarr/issues/449)) ([10e104b](https://github.com/wizarrrr/wizarr/commit/10e104b80fd3d2ae53678c0d83a4044d5b2deee0))
+
+
+### Bug Fixes
+
+* 🐛 Solve issue reordering onboarding pages ([2f6ca87](https://github.com/wizarrrr/wizarr/commit/2f6ca87e106eb83e0c81fb90666546bb43c2280a))
+* 🐛 Solve security alerts ([#465](https://github.com/wizarrrr/wizarr/issues/465)) ([7a958fe](https://github.com/wizarrrr/wizarr/commit/7a958fe83e7fbc4feac0a1ae88353c92642d3336))
+* 🐛 Solve some issues with markdown preview ([#470](https://github.com/wizarrrr/wizarr/issues/470)) ([2051990](https://github.com/wizarrrr/wizarr/commit/2051990271cd0dfee3efad8b641065513ee4e479))
+* 🛠️ Country Code for Sweden being incorrect ([#457](https://github.com/wizarrrr/wizarr/issues/457)) ([2408a59](https://github.com/wizarrrr/wizarr/commit/2408a599a49a9a86a8ed4eda1284c4fa48ef6d35))
+
+
+### Commit Reverts
+
+* ⏪ Change unraid configuration back to working variant ([37c5f90](https://github.com/wizarrrr/wizarr/commit/37c5f905969f8c8a1474c28fcb07519507e767ad))
+
+
+### Continuous Integration
+
+* **build-image:** 🧪 bump upload-artifact version ([c6b8573](https://github.com/wizarrrr/wizarr/commit/c6b85739c3f69a1d1e986fd7a5a06e1d0dfc52cb))
+* **build-image:** 🧪 drop download/upload artifact version ([0b711e1](https://github.com/wizarrrr/wizarr/commit/0b711e1cd1031ab614253373e40e1819dcd74cad))
+* **code-ql:** 🧪 add beta and master branch ([357e067](https://github.com/wizarrrr/wizarr/commit/357e067369a58c01eb4be63390c6b6d911d2681a))
+* **dependabot:** 🔧 fix pip path ([1147e44](https://github.com/wizarrrr/wizarr/commit/1147e4496f1300a063c1826b844545c4cfee934d))
+
+
+### Chores
+
+* 🧽 sync develop with beta ([3de4467](https://github.com/wizarrrr/wizarr/commit/3de4467c9c5204b41f4dead31695efb152fa449a))
+* 🧽 sync develop with beta ([1a263de](https://github.com/wizarrrr/wizarr/commit/1a263de76e4bf3cc10025e6d5f421424fb869584))
+* 🧽 sync develop with master ([e2b8fd4](https://github.com/wizarrrr/wizarr/commit/e2b8fd4549424b103f4d87f6ca057d7e7349ad5d))
+* **deps:** bump actions/checkout from 2 to 4 ([#431](https://github.com/wizarrrr/wizarr/issues/431)) ([4b77632](https://github.com/wizarrrr/wizarr/commit/4b776320e7bd9e7d5c6ae40dbe2515c66a978c48))
+* **deps:** bump actions/download-artifact from 3 to 4 ([#428](https://github.com/wizarrrr/wizarr/issues/428)) ([92c7154](https://github.com/wizarrrr/wizarr/commit/92c7154e8c6ba9614efe0d2b4652fc08faeea8f1))
+* **deps:** bump actions/setup-python from 4 to 5 ([#430](https://github.com/wizarrrr/wizarr/issues/430)) ([0d66052](https://github.com/wizarrrr/wizarr/commit/0d660528f88a390160b43db95be7182376ec743c))
+* **deps:** bump docker/build-push-action from 5 to 6 ([#446](https://github.com/wizarrrr/wizarr/issues/446)) ([9780190](https://github.com/wizarrrr/wizarr/commit/9780190169d7f9f34aabc603ac5eb0e665c96178))
+* **deps:** bump getsentry/action-github-app-token from 2 to 3 ([#432](https://github.com/wizarrrr/wizarr/issues/432)) ([8c026d2](https://github.com/wizarrrr/wizarr/commit/8c026d269dbee9b654db28681d0220187a0ac52d))
+* **deps:** bump peaceiris/actions-gh-pages from 3 to 4 ([#429](https://github.com/wizarrrr/wizarr/issues/429)) ([fdf96e5](https://github.com/wizarrrr/wizarr/commit/fdf96e563d2017bfcb2d2ba178f9152e57016a55))
+* **deps:** bump the pip group across 1 directory with 7 updates ([#433](https://github.com/wizarrrr/wizarr/issues/433)) ([8ec9ddc](https://github.com/wizarrrr/wizarr/commit/8ec9ddc594752fb788da28e42ae2759cc7eab3e6))
+* **deps:** bump the pip group across 1 directory with 7 updates ([#445](https://github.com/wizarrrr/wizarr/issues/445)) ([0adf394](https://github.com/wizarrrr/wizarr/commit/0adf3943fd8093bc1b8b258e8d48a3d8f6f022e0))
+* **deps:** bump tj-actions/branch-names from 7 to 8 ([#435](https://github.com/wizarrrr/wizarr/issues/435)) ([c0e7c2a](https://github.com/wizarrrr/wizarr/commit/c0e7c2a0878da7b9423c2dec9c36771bca9ee657))
+* **release:** 4.2.0-beta.1 ([a6ea8db](https://github.com/wizarrrr/wizarr/commit/a6ea8dbdc97fb1d684d2ee2f3bf2fc3f1a28b659)), closes [#462](https://github.com/wizarrrr/wizarr/issues/462) [#449](https://github.com/wizarrrr/wizarr/issues/449) [#465](https://github.com/wizarrrr/wizarr/issues/465) [#457](https://github.com/wizarrrr/wizarr/issues/457) [#431](https://github.com/wizarrrr/wizarr/issues/431) [#428](https://github.com/wizarrrr/wizarr/issues/428) [#430](https://github.com/wizarrrr/wizarr/issues/430) [#446](https://github.com/wizarrrr/wizarr/issues/446) [#432](https://github.com/wizarrrr/wizarr/issues/432) [#429](https://github.com/wizarrrr/wizarr/issues/429) [#433](https://github.com/wizarrrr/wizarr/issues/433) [#435](https://github.com/wizarrrr/wizarr/issues/435) [#458](https://github.com/wizarrrr/wizarr/issues/458)
+* **release:** 4.2.0-beta.2 ([3a3bc03](https://github.com/wizarrrr/wizarr/commit/3a3bc034d7498360edfa73c84dd14262aa2641fb)), closes [#469](https://github.com/wizarrrr/wizarr/issues/469) [#470](https://github.com/wizarrrr/wizarr/issues/470)
+* **release:** 4.2.0-beta.3 ([f6be902](https://github.com/wizarrrr/wizarr/commit/f6be9022422d753151cb345ce9c4d9f2d931cdb2)), closes [#471](https://github.com/wizarrrr/wizarr/issues/471) [#473](https://github.com/wizarrrr/wizarr/issues/473) [#475](https://github.com/wizarrrr/wizarr/issues/475)
+
+
+### Code Refactoring
+
+* 📦 Cleanup code for darkmode ([#458](https://github.com/wizarrrr/wizarr/issues/458)) ([856fa34](https://github.com/wizarrrr/wizarr/commit/856fa349acd4b1e4b5e784e0b7b1014d766cdcf3))
+* 🛠️ Remove auto PR [skip-ci] ([d57e726](https://github.com/wizarrrr/wizarr/commit/d57e726f91f7cbd5c311845cf7071e2cf946fdb4))
+
 ## [4.1.1](https://github.com/wizarrrr/wizarr/compare/v4.1.0...v4.1.1) (2024-05-21)
 
 
