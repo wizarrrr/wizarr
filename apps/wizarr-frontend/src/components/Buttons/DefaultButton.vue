@@ -17,10 +17,10 @@
             <DefaultLoading icon_size="md"></DefaultLoading>
         </span>
         <span :class="{ 'opacity-0': loading }">
-            <i v-if="icon && options.icon.icon_position === 'left'" :class="icon + ' ' + (options.icon?.icon_class ?? '') + ' mr-2'"></i>
+            <i v-if="icon && options.icon.icon_position === 'left'" :class="icon_classes"></i>
             <slot v-if="slotAvailable"></slot>
             <span v-else>{{ buttonText }}{{ label }}</span>
-            <i v-if="icon && options.icon.icon_position === 'right'" :class="icon + ' ' + (options.icon?.icon_class ?? '') + ' ml-2'"></i>
+            <i v-if="icon && options.icon.icon_position === 'right'" :class="icon_classes"></i>
         </span>
     </button>
     <!-- </template> -->
@@ -105,6 +105,17 @@ export default defineComponent({
             classes.push("whitespace-nowrap overflow-hidden overflow-ellipsis");
 
             // Return classes as string
+            return classes.join(" ");
+        },
+        icon_classes() {
+            const classes = [this.icon, this.options.icon?.icon_class ?? ""];
+            if (this.slotAvailable || this.buttonText || this.label) {
+                if (this.options.icon.icon_position === "left") {
+                    classes.push("mr-2");
+                } else {
+                    classes.push("ml-2");
+                }
+            }
             return classes.join(" ");
         },
         slotAvailable() {

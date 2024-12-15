@@ -1,0 +1,46 @@
+.md-editor-preview {
+    --md-theme-quote-border: 5px solid rgb(208, 49, 67) !important;
+    --md-theme-link-color: rgb(208, 49, 67) !important;
+    --md-theme-link-hover-color: rgb(208, 49, 67) !important;
+    --md-theme-code-inline-color: rgb(208, 49, 67) !important;
+    --md-theme-code-inline-bg-color: rgba(208, 49, 67, 0.1) !important;
+    --md-theme-code-block-bg-color: rgb(17, 24, 39) !important;
+}
+
+.md-editor.md-editor-dark, .md-editor-modal-container[data-theme='dark'] {
+    --md-color: #fff;
+    --md-bk-color: rgb(55, 65, 81);
+    --md-scrollbar-bg-color: rgb(55, 65, 81);
+}
+
+.md-editor.md-editor-previewOnly {
+    background-color: inherit !important;
+}
+
+.md-editor-preview {
+    word-break: normal !important;
+    
+    h1, h2, h3, h4, h5, h6 {
+        word-break: normal !important;
+    }
+    > h1, > h2, > h3, > h4, > h5, > h6 {
+        &:first-child {
+            margin-top: 0;
+          }
+    }
+}
+
+.md-editor-preview {
+    ol {
+        list-style-type: decimal;
+    }
+
+    ul {
+        list-style-type: disc;
+    }
+}
+
+
+.md-editor.md-editor-previewOnly .md-editor-preview-wrapper {
+    padding: inherit !important;
+}
