@@ -8,13 +8,17 @@ from peewee import *
 from playhouse.migrate import *
 
 from app import db
+from os import environ
 
 # Do not change the name of this file,
 # migrations are run in order of their filenames date and time
 
 def run():
     # Use migrator to perform actions on the database
-    migrator = SqliteMigrator(db)
+    if environ.get('POSTGRES_ENABLED', 'false').lower() == 'true':
+       migrator = PostgresqlMigrator(db)
+    else:
+        migrator = SqliteMigrator(db)
 
     # Migrate old V2 settings to new V3 settings
     # Only run this migration if admin_username and admin_password exist in the settings table
