@@ -3,7 +3,7 @@
     <!-- Bottom Bar -->
     <div class="flex flex-row justify-between pt-4">
         <span class="flex justify-end items-center">
-            <a .href="settings.server_url_override ?? settings.server_url" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded dark:bg-primary dark:hover:bg-primary_hover px-5 py-2.5 text-sm whitespace-nowrap flex items-center justify-center relative">
+            <a .href="settings.server_url_override || settings.server_url" class="bg-primary hover:bg-primary_hover focus:outline-none text-white font-medium rounded dark:bg-primary dark:hover:bg-primary_hover px-5 py-2.5 text-sm whitespace-nowrap flex items-center justify-center relative">
                 <span v-if="settings.server_type == 'plex'">{{ __("Open Plex") }}</span>
                 <span v-else-if="settings.server_type == 'jellyfin'">{{ __("Open Jellyfin") }}</span>
                 <span v-else-if="settings.server_type == 'emby'">{{ __("Open Emby") }}</span>
