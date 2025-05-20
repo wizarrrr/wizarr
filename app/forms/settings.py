@@ -1,0 +1,26 @@
+# app/forms/settings.py
+from flask_wtf import FlaskForm
+from wtforms import StringField, SelectField, TextAreaField
+from wtforms.validators import DataRequired, URL, Optional
+
+class SettingsForm(FlaskForm):
+    server_type   = SelectField("Server Type",
+                    choices=[("plex", "Plex"), ("jellyfin", "Jellyfin")],
+                    validators=[DataRequired()])
+    server_name   = StringField("Server Name",   validators=[DataRequired()])
+    server_url    = StringField("Server URL",    validators=[URL(), DataRequired()])
+    api_key       = StringField("API Key",       validators=[Optional()])
+    libraries     = StringField("Libraries",     validators=[Optional()])
+    overseerr_url = StringField("Overseerr URL", validators=[Optional(), URL()])
+    ombi_api_key  = StringField("Ombi API Key",  validators=[Optional()])
+    discord_id    = StringField("Discord ID",    validators=[Optional()])
+    custom_html   = TextAreaField("Custom HTML", validators=[Optional()])
+
+    def __init__(self, install_mode: bool = False, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if install_mode:
+            # During install wizard, libraries must be supplied
+            self.libraries.validators = [DataRequired()]
+            # api_key is mandatory for Plex/Jellyfin
+            self.api_key.validators = [DataRequired()]

@@ -1,0 +1,29 @@
+[project]
+name = "wizarr"
+version = "2.2.1"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "boto3>=1.38.18",
+    "cachetools>=5.5.2",
+    "flask>=3.1.1",
+    "flask-apscheduler>=1.13.1",
+    "flask-babel>=4.0.0",
+    "flask-htmx>=0.4.0",
+    "flask-login>=0.6.3",
+    "flask-migrate>=4.1.0",
+    "flask-session>=0.8.0",
+    "flask-sqlalchemy>=3.1.1",
+    "flask-wtf>=1.2.2",
+    "gunicorn>=23.0.0",
+    "packaging>=25.0",
+    "peewee>=3.18.1",
+    "peewee-migrate>=1.13.0",
+    "plexapi>=4.17.0",
+    "python-dotenv>=1.1.0",
+    "requests>=2.32.3",
+    "setuptools>=65.5.1",
+    "sqlalchemy>=2.0.41",
+    "wtforms>=3.2.1",
+]

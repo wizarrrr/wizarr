@@ -1,0 +1,14 @@
+{# templates/partials/library_checkboxes.html #}
+{% for lib in libs %}
+<div class="flex items-center">
+  <input
+    type="checkbox"
+    name="libraries"          {# ← same name for each #}
+    value="{{ lib }}"
+    checked
+    class="w-4 h-4 …"
+  />
+  <label class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ lib }}</label>
+</div>
+{% endfor %}
+<input type="checkbox" name="libraries" value="{{ lib }}">
