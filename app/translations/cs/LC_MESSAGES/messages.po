@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-16 17:27+0100\n"
+"POT-Creation-Date: 2025-05-21 12:05+0100\n"
 "PO-Revision-Date: 2023-05-03 08:52+0000\n"
 "Last-Translator: Tomáš Plášek <tom.plasek05@gmail.com>\n"
 "Language: cs\n"
@@ -17,60 +17,31 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.12.1\n"
+"Generated-By: Babel 2.17.0\n"
 
-#: app/admin.py:150
-msgid "Passwords do not match."
-msgstr "Zadaná hesla nesouhlasí."
-
-#: app/admin.py:153
-msgid "Username must be between 3 and 15 characters."
-msgstr "Uživatelské jméno musí obsahovat 3 až 15 znaků."
-
-#: app/admin.py:156
-msgid "Password must be between 3 and 40 characters."
-msgstr "Heslo musí obsahovat 3 až 40 znaků."
-
-#: app/admin.py:182
-msgid "You must select at least one library."
-msgstr "Musíte vybrat alespoň jednu knihovnu."
-
-#: app/admin.py:251
-msgid "It is likely that your token does not work."
-msgstr "Je pravděpodobné, že Váš token nefunguje."
-
-#: app/admin.py:253
-msgid "Unable to connect to your Plex server. See Logs for more information."
-msgstr ""
-"Nepodařilo se spojit s Vaším Plex serverem. Zkontrolujte logy pro více "
-"informací."
-
-#: app/admin.py:262
-msgid "Unable to connect to your Jellyfin server."
-msgstr "Nepodařilo se spojit s Vaším Jellyfin serverem."
-
-#: app/admin.py:343 app/admin.py:347
-msgid "Invalid Username or Password"
+#: app/blueprints/auth/routes.py:42
+#, fuzzy
+msgid "Invalid username or password"
 msgstr "Neplatné Uživatelské jméno nebo Heslo"
 
 #: app/templates/admin.html:5
 msgid "Admin"
 msgstr "Admin"
 
-#: app/templates/admin.html:30
+#: app/templates/admin.html:31
 #, fuzzy
 msgid "Home"
 msgstr "Domů"
 
-#: app/templates/admin.html:35
+#: app/templates/admin.html:36
 msgid "Invitations"
 msgstr "Pozvánky"
 
-#: app/templates/admin.html:40
+#: app/templates/admin.html:41
 msgid "Users"
 msgstr "Uživatelé"
 
-#: app/templates/admin.html:45
+#: app/templates/admin.html:46
 msgid "Settings"
 msgstr "Nastavení"
 
@@ -83,13 +54,11 @@ msgstr "Pozvánky"
 msgid "Login"
 msgstr "Přihlášení"
 
-#: app/templates/login.html:23 app/templates/register_admin.html:23
-#: app/templates/welcome-jellyfin.html:30
+#: app/templates/login.html:23 app/templates/welcome-jellyfin.html:30
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: app/templates/login.html:29 app/templates/register_admin.html:29
-#: app/templates/welcome-jellyfin.html:47
+#: app/templates/login.html:29 app/templates/welcome-jellyfin.html:47
 msgid "Password"
 msgstr "Heslo"
 
@@ -101,79 +70,20 @@ msgstr "Zapamatovat"
 msgid "Sign in"
 msgstr "Přihlásit se"
 
-#: app/templates/register_admin.html:18
-msgid "Setup Wizarr"
-msgstr "Nastavit Wizarr"
-
-#: app/templates/register_admin.html:35
-msgid "Confirm password"
-msgstr "Potvrdit heslo"
-
-#: app/templates/register_admin.html:41 app/templates/welcome-jellyfin.html:72
-msgid "Create an account"
-msgstr "Vytvořit účet"
-
-#: app/templates/settings.html:9
+#: app/templates/settings.html:13
 msgid "Server Settings"
 msgstr "Nastavení serveru"
 
-#: app/templates/settings.html:27
-msgid ""
-"Server Display\n"
-"                Name"
-msgstr ""
-
-#: app/templates/settings.html:35
-msgid "Server"
-msgstr "Server"
-
-#: app/templates/settings.html:48
-msgid "Server URL"
-msgstr "Adresa URL serveru"
-
-#: app/templates/settings.html:54
-msgid ""
-"Server\n"
-"                Token / API Key"
-msgstr ""
-"Server\n"
-"                Token / API klíč"
-
-#: app/templates/settings.html:66
-msgid ""
-"Server\n"
-"                Libraries"
-msgstr ""
-
-#: app/templates/admin/invite.html:125 app/templates/settings.html:69
+#: app/templates/admin/invite.html:111 app/templates/settings.html:110
 msgid "Scan For Libraries"
 msgstr "Skenovat knihovny"
 
-#: app/templates/settings.html:77
-msgid ""
-"Request\n"
-"                instance (Ombi, Overseerr...) URL"
+#: app/templates/settings.html:126 app/templates/settings.html:134
+#: app/templates/settings.html:143 app/templates/settings.html:152
+msgid "Optional, leave empty to disable"
 msgstr ""
 
-#: app/templates/settings.html:87
-msgid "Ombi API Key (Only used for user import currently.)"
-msgstr ""
-
-#: app/templates/settings.html:94
-msgid ""
-"Discord\n"
-"                Server ID"
-msgstr ""
-"Discord\n"
-"                ID serveru"
-
-#: app/templates/settings.html:102
-msgid ""
-"Custom\n"
-"                HTML"
-msgstr ""
-
-#: app/templates/settings.html:110
+#: app/templates/settings.html:164
 msgid "Save"
 msgstr "Uložit"
 
@@ -189,7 +99,8 @@ msgstr "Připojit se k Plex serveru"
 
 #: app/templates/tables/global-users.html:19
 #: app/templates/tables/invite_table.html:4
-#: app/templates/user-plex-login.html:29 app/templates/user-plex-login.html:40
+#: app/templates/tables/user_card.html:55 app/templates/user-plex-login.html:29
+#: app/templates/user-plex-login.html:40
 #, fuzzy
 msgid "Invite Code"
 msgstr "Zvací kód"
@@ -228,115 +139,116 @@ msgid ""
 "                                Code"
 msgstr ""
 
-#: app/templates/admin/invite.html:16
-msgid "Attention!"
-msgstr "Upozornění!"
+#: app/templates/setup/admin_account.html:58
+#: app/templates/welcome-jellyfin.html:72
+msgid "Create an account"
+msgstr "Vytvořit účet"
 
-#: app/templates/admin/invite.html:17
-msgid "Update available. Click here."
-msgstr "Aktualizace k dispozici. Klikněte zde."
-
-#: app/templates/admin/invite.html:32
+#: app/templates/admin/invite.html:6
 msgid "Quick Invite"
 msgstr "Rychlá pozvánka"
 
-#: app/templates/admin/invite.html:38
+#: app/templates/admin/invite.html:12
 msgid "Invite user"
 msgstr "Pozvat uživatele"
 
-#: app/templates/admin/invite.html:44
+#: app/templates/admin/invite.html:18
 msgid "Invite Code String"
 msgstr ""
 
-#: app/templates/admin/invite.html:44
+#: app/templates/admin/invite.html:19
 msgid "(optional)"
 msgstr "(volitelné)"
 
-#: app/templates/admin/invite.html:51
+#: app/templates/admin/invite.html:26
 #, fuzzy
 msgid "Expiration"
 msgstr "Doba platnosti"
 
-#: app/templates/admin/invite.html:54
+#: app/templates/admin/invite.html:29
 msgid "1 day"
 msgstr "1 den"
 
-#: app/templates/admin/invite.html:55
+#: app/templates/admin/invite.html:30
 msgid "1 week"
 msgstr "1 týden"
 
-#: app/templates/admin/invite.html:56
+#: app/templates/admin/invite.html:31
 msgid "1 month"
 msgstr "1 měsíc"
 
-#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:48
+#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:56
+#: app/templates/tables/invite_table.html:48
+#: app/templates/tables/user_card.html:44
 msgid "Never"
 msgstr "Nikdy"
 
-#: app/templates/admin/invite.html:62
+#: app/templates/admin/invite.html:37
 msgid "Advanced Options"
 msgstr "Pokročilé možnosti"
 
-#: app/templates/admin/invite.html:70
+#: app/templates/admin/invite.html:45
 #, fuzzy
 msgid "Unlimited Usages"
 msgstr "Neomezené použití"
 
-#: app/templates/admin/invite.html:78
+#: app/templates/admin/invite.html:53
 #, fuzzy
 msgid "Invite to Plex Home"
 msgstr "Zvací kód"
 
-#: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
+#: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
+#: app/templates/tables/invite_card.html:82
 #: app/templates/tables/invite_table.html:13
 #, fuzzy
 msgid "Duration"
 msgstr "Délka trvání"
 
-#: app/templates/admin/invite.html:87
+#: app/templates/admin/invite.html:63
 msgid "(in days)"
 msgstr "(ve dnech)"
 
-#: app/templates/admin/invite.html:95
+#: app/templates/admin/invite.html:74
 msgid "Show Information"
 msgstr "Zobrazit informace"
 
-#: app/templates/admin/invite.html:100
+#: app/templates/admin/invite.html:80
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a\n"
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
 
-#: app/templates/admin/invite.html:116
+#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:92
 #: app/templates/tables/invite_table.html:11
+#: app/templates/tables/user_card.html:65
 #, fuzzy
 msgid "Allow Downloads"
 msgstr "Stáhnout"
 
-#: app/templates/admin/invite.html:122
+#: app/templates/admin/invite.html:102
 msgid ""
 "Specific\n"
 "                                Libraries"
 msgstr ""
 
-#: app/templates/admin/invite.html:134
+#: app/templates/admin/invite.html:119
 msgid "Create Invitation"
 msgstr "Vytvořit pozvánku"
 
-#: app/templates/admin/invite.html:141
+#: app/templates/admin/invite.html:126
 msgid "Successfully generated an Invitation!"
 msgstr "Pozvánka úspěšně vytvořena!"
 
-#: app/templates/admin/invite.html:146
+#: app/templates/admin/invite.html:131
 msgid "Link has been copied to clipboard!"
 msgstr "Odkaz byl zkopírován do schránky!"
 
-#: app/templates/admin/invite.html:155
+#: app/templates/admin/invite.html:139
 msgid "Back"
 msgstr "Zpět"
 
-#: app/templates/admin/invite.html:161
+#: app/templates/admin/invite.html:144
 msgid "Share"
 msgstr "Sdílet"
 
@@ -422,13 +334,19 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+#: app/templates/setup/admin_account.html:14
+msgid "Setup Wizarr"
+msgstr "Nastavit Wizarr"
+
 #: app/templates/tables/global-users.html:13
 #, fuzzy
 msgid "Name"
 msgstr "Název"
 
 #: app/templates/tables/global-users.html:16
+#: app/templates/tables/invite_card.html:40
 #: app/templates/tables/invite_table.html:7
+#: app/templates/tables/user_card.html:37
 #, fuzzy
 msgid "Expires"
 msgstr "Vyprší"
@@ -437,38 +355,58 @@ msgstr "Vyprší"
 msgid "Actions"
 msgstr ""
 
-#: app/templates/tables/invite_table.html:5
-#, fuzzy
-msgid "Used"
-msgstr "Použito"
+#: app/templates/tables/invite_card.html:3
+msgid "There are currently no invitations."
+msgstr ""
 
-#: app/templates/tables/invite_table.html:6
-#, fuzzy
-msgid "Created"
-msgstr "Vytvořeno"
-
-#: app/templates/tables/invite_table.html:8
-#, fuzzy
-msgid "Unlimited"
-msgstr "Neomezené"
-
-#: app/templates/tables/invite_table.html:9
-msgid "Libraries"
-msgstr "Knihovny"
-
+#: app/templates/tables/invite_card.html:16
 #: app/templates/tables/invite_table.html:22
 #, fuzzy
 msgid "Available"
 msgstr "Dostupné"
 
+#: app/templates/tables/invite_card.html:32
+#: app/templates/tables/invite_table.html:6
+#, fuzzy
+msgid "Created"
+msgstr "Vytvořeno"
+
+#: app/templates/tables/invite_card.html:43
 #: app/templates/tables/invite_table.html:35
 #, fuzzy
 msgid "Expired"
 msgstr "Vypršelo"
 
+#: app/templates/tables/invite_card.html:47
+#: app/templates/tables/invite_table.html:5
+#, fuzzy
+msgid "Used"
+msgstr "Použito"
+
+#: app/templates/tables/invite_card.html:66
+#: app/templates/tables/invite_table.html:9
+msgid "Libraries"
+msgstr "Knihovny"
+
+#: app/templates/tables/invite_card.html:71
 #: app/templates/tables/invite_table.html:73
 msgid "Default"
 msgstr "Základní"
+
+#: app/templates/tables/invite_card.html:82
+#, fuzzy
+msgid "days"
+msgstr "1 den"
+
+#: app/templates/tables/invite_card.html:102
+#: app/templates/tables/invite_table.html:8
+#, fuzzy
+msgid "Unlimited"
+msgstr "Neomezené"
+
+#: app/templates/tables/user_card.html:3
+msgid "There are currently no users."
+msgstr ""
 
 #: app/templates/wizard/requests.html:4
 msgid "Automatic Media Requests"
@@ -657,4 +595,80 @@ msgstr "Otevřít Plex"
 
 #~ msgid "Home User"
 #~ msgstr "Domácí uživatel"
+
+#~ msgid "Passwords do not match."
+#~ msgstr "Zadaná hesla nesouhlasí."
+
+#~ msgid "Username must be between 3 and 15 characters."
+#~ msgstr "Uživatelské jméno musí obsahovat 3 až 15 znaků."
+
+#~ msgid "Password must be between 3 and 40 characters."
+#~ msgstr "Heslo musí obsahovat 3 až 40 znaků."
+
+#~ msgid "You must select at least one library."
+#~ msgstr "Musíte vybrat alespoň jednu knihovnu."
+
+#~ msgid "It is likely that your token does not work."
+#~ msgstr "Je pravděpodobné, že Váš token nefunguje."
+
+#~ msgid "Unable to connect to your Plex server. See Logs for more information."
+#~ msgstr ""
+#~ "Nepodařilo se spojit s Vaším Plex "
+#~ "serverem. Zkontrolujte logy pro více "
+#~ "informací."
+
+#~ msgid "Unable to connect to your Jellyfin server."
+#~ msgstr "Nepodařilo se spojit s Vaším Jellyfin serverem."
+
+#~ msgid "Confirm password"
+#~ msgstr "Potvrdit heslo"
+
+#~ msgid ""
+#~ "Server Display\n"
+#~ "                Name"
+#~ msgstr ""
+
+#~ msgid "Server"
+#~ msgstr "Server"
+
+#~ msgid "Server URL"
+#~ msgstr "Adresa URL serveru"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "                Token / API Key"
+#~ msgstr ""
+#~ "Server\n"
+#~ "                Token / API klíč"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "                Libraries"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Request\n"
+#~ "                instance (Ombi, Overseerr...) URL"
+#~ msgstr ""
+
+#~ msgid "Ombi API Key (Only used for user import currently.)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Discord\n"
+#~ "                Server ID"
+#~ msgstr ""
+#~ "Discord\n"
+#~ "                ID serveru"
+
+#~ msgid ""
+#~ "Custom\n"
+#~ "                HTML"
+#~ msgstr ""
+
+#~ msgid "Attention!"
+#~ msgstr "Upozornění!"
+
+#~ msgid "Update available. Click here."
+#~ msgstr "Aktualizace k dispozici. Klikněte zde."
 
