@@ -15,25 +15,6 @@ env:
     NODE_VERSION: '20'
 
 jobs:
-    # ───────────────────── Tailwind assets ────────────────────────
-    tailwindcss:
-        if: github.event_name != 'schedule'
-        runs-on: ubuntu-latest
-        steps:
-            -   name: Checkout
-                uses: actions/checkout@v4
-
-            -   name: update tailwindcss
-                uses: ZoeyVid/tailwindcss-update@main
-                with:
-                    input: app/static/src/style.css
-                    output: app/static/css/main.css
-                    params: "--minify"
-            -   uses: actions/upload-artifact@v4                 # NEW
-                with:
-                    name: tailwind-css
-                    path: app/static/css/main.css
-                    retention-days: 7
     # ──────────────────────── Babel / i18n ────────────────────────
     i18n:
         runs-on: ubuntu-latest
