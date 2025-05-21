@@ -1,11 +1,8 @@
 #!/bin/sh
 set -e
 
-# Tell Flask where the factory lives
-export FLASK_APP=run.py           # your run.py already instantiates `app`
-
-# Always bring the DB up to the latest revision
+# The migrations folder is already inside the image.
+# Just apply whatever's new:
 uv run flask db upgrade
 
-# Hand over to whatever CMD the image was given
-exec "$@"
+exec "$@"        # hand off to gunicorn
