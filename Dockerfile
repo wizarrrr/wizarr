@@ -18,8 +18,8 @@ COPY . /data
 RUN uv sync --locked
 
 #Healthcheck 
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-  CMD curl -fs http://localhost:5690/health || exit 1
+#HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+#  CMD curl -fs http://localhost:5690/health || exit 1
 
 
 EXPOSE 5690

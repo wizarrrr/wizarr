@@ -1,0 +1,10 @@
+services:
+    wizarr:
+        build: .
+        ports:
+            - 5690:5690
+        volumes:
+            - ./test-data:/data/database
+        environment:
+            - APP_URL=http://127.0.0.1:5610
+            - TZ=Europe/London
