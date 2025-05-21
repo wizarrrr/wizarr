@@ -64,11 +64,16 @@ def join():
     server_type_setting = Settings.query.filter_by(key="server_type").first()
     server_type = server_type_setting.value if server_type_setting else None
 
+    
+    
+    from flask import current_app
+    app = current_app._get_current_object()
+    
     if server_type == "plex":
         # run Plex OAuth in background
         threading.Thread(
             target=handle_oauth_token,
-            args=(token, code),
+            args=(app, token, code),
             daemon=True
         ).start()
         return redirect(os.getenv("APP_URL") + "/wizard/")

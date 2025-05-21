@@ -48,12 +48,7 @@ def join(username: str, password: str, confirm: str, email: str, code: str) -> t
                       .scalar()
         ) or ""
         sections = (inv.specific_libraries or libs_setting).split(", ")
-        policy = {"EnableAllFolders": False, "EnabledFolders": sections}
-
-        # merge and set policy
-        current = client.get(f"/Users/{user_id}").json()["Policy"]
-        current.update(policy)
-        client.set_policy(user_id, current)
+        set_specific_folders(client, user_id, sections)
 
         # compute expiry
         expires = None
@@ -89,6 +84,27 @@ def _mark_invite_used(inv: Invitation, email: str) -> None:
     inv.used_at = datetime.datetime.now()
     inv.used_by = email
     db.session.commit()
+
+def _folder_name_to_id(name: str, cache: dict[str, str]) -> str | None:
+    """Convert 'Movies' → '6c8ee2dc…'.  Build cache once per request."""
+    return cache.get(name)
+
+def set_specific_folders(client: JellyfinClient, user_id: str, names: list[str]):
+    # build a {Name: Id} cache
+    mapping = {item["Name"]: item["Id"]
+               for item in client.get("/Library/MediaFolders").json()["Items"]}
+
+    folder_ids = [_folder_name_to_id(n, mapping) for n in names]
+    folder_ids = [fid for fid in folder_ids if fid]        # drop unknown names
+
+    policy_patch = {
+        "EnableAllFolders": not folder_ids,   # tick if list empty
+        "EnabledFolders":    folder_ids,
+    }
+
+    current = client.get(f"/Users/{user_id}").json()["Policy"]
+    current.update(policy_patch)
+    client.set_policy(user_id, current)
 
 # ─── Admin-side helpers – mirror the Plex API we already exposed ──────────
 def list_users() -> list[User]:

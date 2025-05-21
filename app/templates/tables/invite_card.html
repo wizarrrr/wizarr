@@ -42,6 +42,11 @@
                     <span class="ml-1 inline-flex rounded-full px-2 py-0.5 text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-700 dark:text-orange-100">
                         {{ _("Expired") }}
                     </span>
+                     {% elif invite.used %}
+                    <span class="ml-1 inline-flex rounded-full px-2 py-0.5 text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-700 dark:text-orange-100">
+                        {{ _("Used") }}
+                    </span>
+                        
                     {% elif invite.expires %}
                     <span class="ml-1 inline-flex rounded-full px-2 py-0.5 text-xs font-medium bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100">
                         {{ (invite.expires|string)[0:16] }}

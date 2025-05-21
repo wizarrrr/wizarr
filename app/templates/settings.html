@@ -91,7 +91,7 @@
                     {# API Key #}
                     <div>
                         {{ form.api_key.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                        {{ form.api_key(class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", autocomplete="off", placeholder="XXXXXXXXXXXXXXXXX") }}
+                        {{ form.api_key(class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", type="password", autocomplete="off", placeholder="XXXXXXXXXXXXXXXXX") }}
                         {% for err in form.api_key.errors %}
                             <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ err }}</p>
                         {% endfor %}

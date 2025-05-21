@@ -23,7 +23,7 @@
                     </h1>
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ error }}</p>
 
-                    <form class="space-y-4 md:space-y-6" action="/setup/jellyfin" method="POST">
+                    <form class="space-y-4 md:space-y-6" action="{{ url_for("jellyfin.public_join") }}" method="POST">
                         <div>
                             <label for="username"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{

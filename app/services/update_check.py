@@ -4,6 +4,7 @@ from packaging import version
 LATEST_URL = "https://raw.githubusercontent.com/Wizarrrr/wizarr/master/.github/latest"
 
 def needs_update() -> bool:
+    return False #skip for now
     from app import VERSION
     try:
         latest = requests.get(LATEST_URL, timeout=5).text.strip()

@@ -18,16 +18,18 @@ def _load_settings() -> dict:
     return {s.key: s.value for s in Settings.query.all()}
 
 def _save_settings(data: dict) -> None:
-    """Upsert each key/value in one transaction."""
-    with db.session.begin():
+    """Upsert each key/value in one go."""
+    try:
         for key, value in data.items():
             setting = Settings.query.filter_by(key=key).first()
             if setting:
                 setting.value = value
             else:
-                # new setting
                 db.session.add(Settings(key=key, value=value))
-    # db.session.begin() will commit on success
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        raise
 
 def _check_server_connection(data: dict) -> bool:
     stype = data["server_type"]
@@ -74,18 +76,31 @@ def secure_settings():
 @settings_bp.route("/scan-libraries", methods=["POST"])
 @login_required
 def scan_libraries():
-    stype = request.form.get("server_type")
-    url   = request.form.get("server_url")
-    key   = request.form.get("api_key")
+    # 1. credentials: prefer POSTed form data, fall back to DB
+    s = _load_settings()                      # {'server_type': 'plex', …}
+
+    stype = request.form.get("server_type") or s["server_type"]
+    url   = request.form.get("server_url")    or s["server_url"]
+    key   = request.form.get("api_key")       or s["api_key"]
 
     if not url or not key:
         return jsonify({"error": "missing"}), 400
 
+    # 2. fetch list from Plex / Jellyfin
     try:
-        libs = scan_plex(url, key) if stype == "plex" else scan_jf(url, key)
+        names = scan_plex(url, key) if stype == "plex" else scan_jf(url, key)
+        if not isinstance(names, list):                       # jellyfin dict→list
+            names = list(names.keys())
     except Exception as exc:
         logging.warning("Library scan failed: %s", exc)
         return jsonify({"error": "connect"}), 400
 
-    names = libs if isinstance(libs, list) else libs.keys()
-    return render_template("partials/library_checkboxes.html", libs=names)
+    # 3. libraries already stored in Settings → pre-checked
+    saved = s.get("libraries", "") 
+    selected = [lib.strip() for lib in saved.split(",") if lib.strip()] if saved else []
+
+    return render_template(
+        "partials/library_checkboxes.html",
+        libs=names,
+        selected=selected,          # boxes ticked on *every* screen
+    )

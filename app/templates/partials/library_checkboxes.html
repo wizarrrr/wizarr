@@ -1,14 +1,13 @@
 {# templates/partials/library_checkboxes.html #}
 {% for lib in libs %}
-<div class="flex items-center">
-  <input
-    type="checkbox"
-    name="libraries"          {# ← same name for each #}
-    value="{{ lib }}"
-    checked
-    class="w-4 h-4 …"
-  />
-  <label class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ lib }}</label>
-</div>
+  <div class="flex items-center">
+    <input
+      type="checkbox"
+      name="libraries"
+      value="{{ lib }}"
+      {% if lib in selected %}checked{% endif %}
+      class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500"
+    />
+    <label class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ lib }}</label>
+  </div>
 {% endfor %}
-<input type="checkbox" name="libraries" value="{{ lib }}">
