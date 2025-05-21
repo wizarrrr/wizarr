@@ -63,11 +63,7 @@ jobs:
         steps:
             -   uses: actions/checkout@v4
             
-            # Bring artefacts into the repo tree
-            -   uses: actions/download-artifact@v4
-                with:
-                    name: tailwind-css
-                    path: app/static/css/
+
 
             -   uses: actions/download-artifact@v4
                 with:
