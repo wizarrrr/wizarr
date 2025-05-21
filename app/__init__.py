@@ -29,9 +29,9 @@ def create_app(config_object=DevelopmentConfig):
     for bp in all_blueprints:
         app.register_blueprint(bp)
 
-    # 3. database tables (safe=True avoids clobbering prod data)
-    with app.app_context():
-        db.create_all()
+   # # 3. database tables (safe=True avoids clobbering prod data)
+  #  with app.app_context():
+     #   db.create_all()
 
     from .context_processors import inject_server_name
     app.context_processor(inject_server_name)
