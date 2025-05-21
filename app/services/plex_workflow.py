@@ -5,7 +5,7 @@ from typing import List
 
 from plexapi.myplex import MyPlexAccount
 from cachetools import cached, TTLCache
-
+from flask import copy_current_request_context
 from app.extensions import db
 from app.models import Invitation, User, Settings
 from .plex_client import PlexClient
@@ -14,48 +14,49 @@ from .notifications import notify  # your existing helper
 
 
 # ─── Invite & onboarding ──────────────────────────────────────────────────
-def handle_oauth_token(token: str, code: str) -> None:
+def handle_oauth_token(app, token: str, code: str) -> None:
     """Called from /join when Plex gives us a token."""
-    account = MyPlexAccount(token=token)
-    email   = account.email
-    _invite_user(email, code)
-
-    # remove any existing DB user with that email
-    db.session.query(User).filter(User.email == email).delete(synchronize_session=False)
-    db.session.commit()
-
-    # compute expiry if invitation has a duration
-    inv = Invitation.query.filter_by(code=code).first()
-    duration = inv.duration
-    expires = (
-        datetime.datetime.now() +
-        datetime.timedelta(days=int(duration))
-        if duration else None
-    )
-
-    # create new User row
-    new_user = User(
-        token=token,
-        email=email,
-        username=account.username,
-        code=code,
-        expires=expires,
-    )
-    db.session.add(new_user)
-    db.session.commit()
-
-    notify(
-        "User Joined",
-        f"User {account.username} has joined your server!",
-        "tada"
-    )
-
-    # background post‐join setup
-    threading.Thread(
-        target=_post_join_setup,
-        args=(token,),
-        daemon=True
-    ).start()
+    with app.app_context():
+        account = MyPlexAccount(token=token)
+        email   = account.email
+        _invite_user(email, code)
+    
+        # remove any existing DB user with that email
+        db.session.query(User).filter(User.email == email).delete(synchronize_session=False)
+        db.session.commit()
+    
+        # compute expiry if invitation has a duration
+        inv = Invitation.query.filter_by(code=code).first()
+        duration = inv.duration
+        expires = (
+            datetime.datetime.now() +
+            datetime.timedelta(days=int(duration))
+            if duration else None
+        )
+    
+        # create new User row
+        new_user = User(
+            token=token,
+            email=email,
+            username=account.username,
+            code=code,
+            expires=expires,
+        )
+        db.session.add(new_user)
+        db.session.commit()
+    
+        notify(
+            "User Joined",
+            f"User {account.username} has joined your server!",
+            "tada"
+        )
+    
+        # background post‐join setup
+        threading.Thread(
+            target=_post_join_setup,
+            args=(app,token),
+            daemon=True
+        ).start()
 
 
 def _invite_user(email: str, code: str) -> None:
@@ -84,20 +85,21 @@ def _invite_user(email: str, code: str) -> None:
     inv.used_at = datetime.datetime.now()
     if not inv.unlimited:
         inv.used = True
-
+    list_users.cache_clear()
     db.session.commit()
 
 
-def _post_join_setup(token: str):
-    client = PlexClient()
-    """Run after the invite is accepted (view-state sync, opt-out etc.)."""
-    try:
-        user = MyPlexAccount(token=token)
-        user.acceptInvite(client.admin.email)
-        user.enableViewStateSync()
-        _opt_out_online_sources(user)
-    except Exception as exc:
-        logging.error("Post-join setup failed: %s", exc)
+def _post_join_setup(app, token: str):
+    with app.app_context():
+        client = PlexClient()
+        """Run after the invite is accepted (view-state sync, opt-out etc.)."""
+        try:
+            user = MyPlexAccount(token=token)
+            user.acceptInvite(client.admin.email)
+            user.enableViewStateSync()
+            _opt_out_online_sources(user)
+        except Exception as exc:
+            logging.error("Post-join setup failed: %s", exc)
 
 
 def _opt_out_online_sources(user: MyPlexAccount):
@@ -113,8 +115,11 @@ def list_users() -> List[User]:
     Return Users rows with extra photo/expires fields merged in.
     Also keep DB in sync with Plex’s current user list.
     """
-    # fetch from Plex
-    plex_users = {u.email: u for u in client.admin.users()}
+
+    server_id = client.server.machineIdentifier
+
+    # fetch from Plex, but only users who are currently invited to this server
+    plex_users = {u.email: u for u in client.admin.users() if any(s.machineIdentifier == server_id for s in u.servers)}    
     # fetch from our DB
     db_users = db.session.query(User).all()
 
@@ -153,7 +158,7 @@ def delete_user(db_id: int) -> None:
     """Remove from cache, Plex, then our DB."""
     client = PlexClient()
     list_users.cache_clear()
-
+    print("Deleting User on Plex with ID", db_id)
     email = (
         db.session
           .query(User.email)
@@ -161,8 +166,10 @@ def delete_user(db_id: int) -> None:
           .scalar()
     )
     if email and email != "None":
+        print("Deleting User on Plex")
         client.remove_user(email)
 
+    list_users.cache_clear()
     # finally delete the record locally
     db.session.query(User).filter_by(id=db_id).delete(synchronize_session=False)
     db.session.commit()

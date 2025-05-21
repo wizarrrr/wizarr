@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, abort, render_template, redirect
 from flask_login import login_required
 from app.services.jellyfin_client   import JellyfinClient
 from app.services.jellyfin_workflow import join
-client = JellyfinClient()
+
 
 jellyfin_bp = Blueprint("jellyfin", __name__, url_prefix="/jf")
 
@@ -10,6 +10,7 @@ jellyfin_bp = Blueprint("jellyfin", __name__, url_prefix="/jf")
 @jellyfin_bp.route("/scan", methods=["POST"])
 @login_required
 def scan():
+    client = JellyfinClient()
     url  = request.args.get("jellyfin_url")
     key  = request.args.get("jellyfin_api_key")
     if not url or not key:
@@ -25,11 +26,13 @@ def scan():
 @jellyfin_bp.route("/scan-specific", methods=["POST"])
 @login_required
 def scan_specific():
+    client = JellyfinClient()
     return jsonify(client.libraries())
 
 # Public join endpoint called from the wizard form
 @jellyfin_bp.route("/join", methods=["POST"])
 def public_join():
+    client = JellyfinClient()
     ok, msg = join(
         username = request.form["username"],
         password = request.form["password"],

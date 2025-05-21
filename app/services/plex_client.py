@@ -79,10 +79,14 @@ class PlexClient:
         )
 
     def remove_user(self, email: str):
+        print("remove user using API")
         try:
             self.admin.removeHomeUser(email)
-        except Exception:
-            self.admin.removeFriend(email)
+        except Exception as e:
+            try:
+                self.admin.removeFriend(email)
+            except Exception as e:
+                print(f"Error removing friend: {e}")
 
 
 def scan_libraries(url: str, token: str) -> list[str]:

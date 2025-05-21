@@ -87,6 +87,8 @@ class JellyfinClient:
         return self.post(f"/Users/{jf_id}", current).json()
 
 
+
+
 def scan_libraries(url: str, token: str) -> dict[str, str]:
     """
     Return a mapping of {name: id} for every media folder on the server.

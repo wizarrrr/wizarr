@@ -4,7 +4,6 @@ from app.services.invites import create_invite
 from app.services.jellyfin_client import JellyfinClient
 from app.services.media_service import list_users, delete_user
 from app.services.plex_client import PlexClient
-from app.utils.auth import builtin_login_required
 from app.services import invites as invite_service
 from app.services.update_check import needs_update
 from app.extensions import db

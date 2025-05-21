@@ -21,7 +21,7 @@ Download Plex
         <div id="button-divider" class="flex">
             <button id="prevBtn"
                 class="hidden inline-flex items-center px-4 py-2 mr-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                hx-post="/setup/action=prev" hx-trigger="click" hx-target="#wizard" hx-swap="outerHTML">
+                hx-post="{{ url_for('wizard.step', action="prev") }}" hx-trigger="click" hx-target="#wizard" hx-swap="outerHTML">
                 <svg aria-hidden="true" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
@@ -29,10 +29,10 @@ Download Plex
                         clip-rule="evenodd"></path>
                 </svg>
                 Previous
-                </button=>
+                </button>
                 <button id="nextBtn"
                     class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    hx-post="/setup/action=next" hx-trigger="click" hx-target="#wizard" hx-swap="outerHTML">
+                    hx-post="{{ url_for('wizard.step', action="next") }}" hx-trigger="click" hx-target="#wizard" hx-swap="outerHTML">
                     Next
                     <svg aria-hidden="true" class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
