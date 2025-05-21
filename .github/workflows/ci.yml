@@ -1,92 +1,109 @@
-# .github/workflows/ci.yml
 name: wizarr-ci
 
 on:
-  push:        { branches: ["main"] }
-  pull_request:
-  schedule:    # nightly i18n refresh
-    - cron:  "13 3 * * *"
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request: {}
+  schedule:
+    # nightly i18n refresh
+    - cron: '13 3 * * *'
+  workflow_dispatch: {}
 
 env:
-  PYTHON_VERSION: "3.12"
-  NODE_VERSION:   "20"
+  PYTHON_VERSION: '3.12'
+  NODE_VERSION: '20'
 
 jobs:
-# ───────────────────── Tailwind assets ────────────────────────
+  # ───────────────────── Tailwind assets ────────────────────────
   assets:
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: ${{ env.NODE_VERSION }} }
 
-      - run: |
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Build Tailwind CSS
+        run: |
           npm ci --ignore-scripts
           npx tailwindcss -o static/css/main.css --minify
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload CSS artefact
+        uses: actions/upload-artifact@v4
         with:
           name: tailwind-css
           path: static/css/main.css
           retention-days: 7
 
-# ──────────────────────── Babel / i18n ────────────────────────
+  # ──────────────────────── Babel / i18n ────────────────────────
   i18n:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-          cache: "uv"
+          cache: uv
 
       - name: Install uv
-        run: |
-          pipx install uv
+        run: pipx install uv
 
-      - name: Create & activate venv, install deps
+      - name: Create venv and install deps
         run: |
           uv venv .venv
-          source .venv/bin/activate
+          . .venv/bin/activate
           uv pip install -r requirements.txt Babel
 
       - name: Extract / update / compile messages
         run: |
-          source .venv/bin/activate
-          pybabel extract  -F babel.cfg -k _l -o messages.pot .
-          pybabel update   -i messages.pot -d app/translations
-          pybabel compile  -d app/translations
+          . .venv/bin/activate
+          pybabel extract -F babel.cfg -k _l -o messages.pot .
+          pybabel update  -i messages.pot -d app/translations
+          pybabel compile -d app/translations
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload compiled translations
+        uses: actions/upload-artifact@v4
         with:
           name: translations
           path: app/translations/**/*.mo
           retention-days: 7
 
-      # Optional: open PR with updated .po files
-      - if: github.ref == 'refs/heads/main'
+      - name: Create i18n update PR
+        if: github.ref == 'refs/heads/main'
         uses: peter-evans/create-pull-request@v6
         with:
-          commit-message: "i18n: update PO files"
+          commit-message: 'i18n: update PO files'
           branch: i18n-updates
-          title: "Automatic i18n sync"
-          body:  "This PR updates translation templates and PO files."
+          title: 'Automatic i18n sync'
+          body: 'This PR updates translation templates and PO files.'
 
-# ────────────────────── Dev Docker image ──────────────────────
+  # ────────────────────── Dev Docker image ──────────────────────
   docker-dev:
     if: github.ref == 'refs/heads/main' && github.event_name != 'schedule'
-    needs: [assets, i18n]
+    needs:
+      - assets
+      - i18n
     runs-on: ubuntu-latest
-    permissions: { contents: read, packages: write }
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/download-artifact@v4
-        with: { name: tailwind-css,  path: static/css/ }
+        with:
+          name: tailwind-css
+          path: static/css/
+
       - uses: actions/download-artifact@v4
-        with: { name: translations, path: app/translations/ }
+        with:
+          name: translations
+          path: app/translations/
 
       - uses: docker/login-action@v3
         with:
@@ -94,9 +111,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: docker/build-push-action@v5
+      - name: Build and push :dev image
+        uses: docker/build-push-action@v5
         with:
           context: .
-          tags: ghcr.io/${{ github.repository_owner }}/wizarr:dev
           push: true
-          build-args: BUILD_ENV=development
+          tags: ghcr.io/${{ github.repository_owner }}/wizarr:dev
+          build-args: |
+            BUILD_ENV=development
