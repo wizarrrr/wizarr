@@ -1,8 +1,9 @@
 # Wizarr 
 
-<img src="./screenshots/wizard.png" height="200">
+> **Announcement:** 🚀 Wizarr is back in development! Stay tuned for exciting updates and improvements.
 
-<img src="https://github.com/Wizarrrr/wizarr/actions/workflows/docker-build.yml/badge.svg">
+
+<img src="./app/static/wizarr-logo.png" height="200">
 
 <a href="https://hosted.weblate.org/engage/wizarr/">
 <img src="https://hosted.weblate.org/widgets/wizarr/-/app/svg-badge.svg" alt="Übersetzungsstatus" />
@@ -11,7 +12,7 @@
 
 Wizarr is a automatic user invitation system for Plex, Jellyfin and Emby. Create a unique link and share it to a user and they will automatically be invited to your Media Server! They will even be guided to download the clients and instructions on how to use your requests software!
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N4FKA28)
+
 
 
 ## Major Features Include
@@ -53,7 +54,4 @@ A big thank you ❤️ to these amazing people for contributing to this project!
 
 ## Screenshots
 
-
-![alt](./screenshots/invite.png)
-![alt](./screenshots/tips.png)
-![alt](./screenshots/join.png)
+New screenshots coming soon
