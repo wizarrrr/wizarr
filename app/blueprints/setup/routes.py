@@ -41,7 +41,7 @@ def onboarding():
             s["admin_username"].value = form.username.data
             s["admin_password"].value = generate_password_hash(form.password.data, "scrypt")
             db.session.commit()
-
+            login_user(AdminUser())
             flash("Admin account created – let’s hook up your media server.", "success")
             return redirect(url_for(".onboarding"))
 
@@ -70,7 +70,7 @@ def onboarding():
     setup_mode=True)
 
             flash("Server verified – setup finished!", "success")
-            login_user(AdminUser())  # ← you’re now authenticated
+              # ← you’re now authenticated
             return redirect(url_for("admin.dashboard"))
 
         return render_template("setup/server_details.html", form=form,
