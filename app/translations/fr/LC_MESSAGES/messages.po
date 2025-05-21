@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-16 17:27+0100\n"
+"POT-Creation-Date: 2025-05-21 12:05+0100\n"
 "PO-Revision-Date: 2023-03-02 08:38+0000\n"
 "Last-Translator: Rémi Guerrero <remidu34070@hotmail.fr>\n"
 "Language: fr\n"
@@ -17,59 +17,30 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.12.1\n"
+"Generated-By: Babel 2.17.0\n"
 
-#: app/admin.py:150
-msgid "Passwords do not match."
-msgstr "Les mots de passe ne correspondent pas."
-
-#: app/admin.py:153
-msgid "Username must be between 3 and 15 characters."
-msgstr "Le nom d'utilisateur doit comporter entre 3 et 15 caractères."
-
-#: app/admin.py:156
-msgid "Password must be between 3 and 40 characters."
-msgstr "Le mot de passe doit comporter entre 3 et 40 caractères."
-
-#: app/admin.py:182
-msgid "You must select at least one library."
-msgstr "Vous devez sélectionner au moins une bibliothèque."
-
-#: app/admin.py:251
-msgid "It is likely that your token does not work."
-msgstr "Il semblerait que votre jeton ne fonctionne pas."
-
-#: app/admin.py:253
-msgid "Unable to connect to your Plex server. See Logs for more information."
-msgstr ""
-"Impossible de se connecter à votre serveur Plex. Consultez les journaux "
-"pour plus d'informations."
-
-#: app/admin.py:262
-msgid "Unable to connect to your Jellyfin server."
-msgstr "Impossible de se connecter à votre serveur Jellyfin."
-
-#: app/admin.py:343 app/admin.py:347
-msgid "Invalid Username or Password"
+#: app/blueprints/auth/routes.py:42
+#, fuzzy
+msgid "Invalid username or password"
 msgstr "Nom d'utilisateur ou mot de passe invalide"
 
 #: app/templates/admin.html:5
 msgid "Admin"
 msgstr "Administrateur"
 
-#: app/templates/admin.html:30
+#: app/templates/admin.html:31
 msgid "Home"
 msgstr "Accueil"
 
-#: app/templates/admin.html:35
+#: app/templates/admin.html:36
 msgid "Invitations"
 msgstr "Invitations"
 
-#: app/templates/admin.html:40
+#: app/templates/admin.html:41
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: app/templates/admin.html:45
+#: app/templates/admin.html:46
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -82,13 +53,11 @@ msgstr "Invitations"
 msgid "Login"
 msgstr "Connexion"
 
-#: app/templates/login.html:23 app/templates/register_admin.html:23
-#: app/templates/welcome-jellyfin.html:30
+#: app/templates/login.html:23 app/templates/welcome-jellyfin.html:30
 msgid "Username"
 msgstr "Nom d’utilisateur"
 
-#: app/templates/login.html:29 app/templates/register_admin.html:29
-#: app/templates/welcome-jellyfin.html:47
+#: app/templates/login.html:29 app/templates/welcome-jellyfin.html:47
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -100,90 +69,20 @@ msgstr "Se souvenir de moi"
 msgid "Sign in"
 msgstr "Se connecter"
 
-#: app/templates/register_admin.html:18
-msgid "Setup Wizarr"
-msgstr "Configurer Wizarr"
-
-#: app/templates/register_admin.html:35
-msgid "Confirm password"
-msgstr "Confirmer le mot de passe"
-
-#: app/templates/register_admin.html:41 app/templates/welcome-jellyfin.html:72
-msgid "Create an account"
-msgstr "Créer un compte"
-
-#: app/templates/settings.html:9
+#: app/templates/settings.html:13
 msgid "Server Settings"
 msgstr "Paramètres du serveur"
 
-#: app/templates/settings.html:27
-msgid ""
-"Server Display\n"
-"                Name"
-msgstr ""
-"Nom\n"
-"              du serveur"
-
-#: app/templates/settings.html:35
-msgid "Server"
-msgstr "Serveur"
-
-#: app/templates/settings.html:48
-msgid "Server URL"
-msgstr "URL du serveur"
-
-#: app/templates/settings.html:54
-msgid ""
-"Server\n"
-"                Token / API Key"
-msgstr ""
-"Jeton / clé API\n"
-"              du serveur"
-
-#: app/templates/settings.html:66
-msgid ""
-"Server\n"
-"                Libraries"
-msgstr ""
-"Bibliothèques\n"
-"              du serveur"
-
-#: app/templates/admin/invite.html:125 app/templates/settings.html:69
+#: app/templates/admin/invite.html:111 app/templates/settings.html:110
 msgid "Scan For Libraries"
 msgstr "Rechercher des bibliothèques"
 
-#: app/templates/settings.html:77
-#, fuzzy
-msgid ""
-"Request\n"
-"                instance (Ombi, Overseerr...) URL"
+#: app/templates/settings.html:126 app/templates/settings.html:134
+#: app/templates/settings.html:143 app/templates/settings.html:152
+msgid "Optional, leave empty to disable"
 msgstr ""
-"Outil de\n"
-"requête (Ombi, Overseerr...)"
 
-#: app/templates/settings.html:87
-msgid "Ombi API Key (Only used for user import currently.)"
-msgstr ""
-"Clé API Ombi (Seulement pour l’importation des utilisateurs pour le "
-"moment.)"
-
-#: app/templates/settings.html:94
-msgid ""
-"Discord\n"
-"                Server ID"
-msgstr ""
-"ID du serveur\n"
-"                  Discord"
-
-#: app/templates/settings.html:102
-msgid ""
-"Custom\n"
-"                HTML"
-msgstr ""
-"Code HTML\n"
-"              personnalisé"
-
-#: app/templates/settings.html:110
+#: app/templates/settings.html:164
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -199,7 +98,8 @@ msgstr "Rejoindre le serveur Plex"
 
 #: app/templates/tables/global-users.html:19
 #: app/templates/tables/invite_table.html:4
-#: app/templates/user-plex-login.html:29 app/templates/user-plex-login.html:40
+#: app/templates/tables/user_card.html:55 app/templates/user-plex-login.html:29
+#: app/templates/user-plex-login.html:40
 msgid "Invite Code"
 msgstr "Code d'invitation"
 
@@ -239,77 +139,77 @@ msgstr ""
 "Code\n"
 "d’invitation"
 
-#: app/templates/admin/invite.html:16
-msgid "Attention!"
-msgstr "Attention !"
+#: app/templates/setup/admin_account.html:58
+#: app/templates/welcome-jellyfin.html:72
+msgid "Create an account"
+msgstr "Créer un compte"
 
-#: app/templates/admin/invite.html:17
-msgid "Update available. Click here."
-msgstr "Mise à jour disponible. Cliquez ici."
-
-#: app/templates/admin/invite.html:32
+#: app/templates/admin/invite.html:6
 msgid "Quick Invite"
 msgstr "Invitation rapide"
 
-#: app/templates/admin/invite.html:38
+#: app/templates/admin/invite.html:12
 msgid "Invite user"
 msgstr "Inviter un utilisateur"
 
-#: app/templates/admin/invite.html:44
+#: app/templates/admin/invite.html:18
 msgid "Invite Code String"
 msgstr "Code d'invitation"
 
-#: app/templates/admin/invite.html:44
+#: app/templates/admin/invite.html:19
 msgid "(optional)"
 msgstr "(facultatif)"
 
-#: app/templates/admin/invite.html:51
+#: app/templates/admin/invite.html:26
 msgid "Expiration"
 msgstr "Expiration"
 
-#: app/templates/admin/invite.html:54
+#: app/templates/admin/invite.html:29
 msgid "1 day"
 msgstr "1 jour"
 
-#: app/templates/admin/invite.html:55
+#: app/templates/admin/invite.html:30
 msgid "1 week"
 msgstr "1 semaine"
 
-#: app/templates/admin/invite.html:56
+#: app/templates/admin/invite.html:31
 msgid "1 month"
 msgstr "1 mois"
 
-#: app/templates/admin/invite.html:57 app/templates/tables/invite_table.html:48
+#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:56
+#: app/templates/tables/invite_table.html:48
+#: app/templates/tables/user_card.html:44
 msgid "Never"
 msgstr "Type de serveur"
 
-#: app/templates/admin/invite.html:62
+#: app/templates/admin/invite.html:37
 msgid "Advanced Options"
 msgstr "Options avancées"
 
-#: app/templates/admin/invite.html:70
+#: app/templates/admin/invite.html:45
 msgid "Unlimited Usages"
 msgstr "Utilisations illimitées"
 
-#: app/templates/admin/invite.html:78
+#: app/templates/admin/invite.html:53
 #, fuzzy
 msgid "Invite to Plex Home"
 msgstr "Code d'invitation"
 
-#: app/templates/admin/invite.html:87 app/templates/admin/invite.html:99
+#: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
+#: app/templates/tables/invite_card.html:82
 #: app/templates/tables/invite_table.html:13
 msgid "Duration"
 msgstr "Durée"
 
-#: app/templates/admin/invite.html:87
+#: app/templates/admin/invite.html:63
 msgid "(in days)"
 msgstr "(en jours)"
 
-#: app/templates/admin/invite.html:95
+#: app/templates/admin/invite.html:74
 msgid "Show Information"
 msgstr "Montrer les informations"
 
-#: app/templates/admin/invite.html:100
+#: app/templates/admin/invite.html:80
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a\n"
 "                                        number of\n"
@@ -319,13 +219,14 @@ msgstr ""
 "du serveur Plex après un nombre de jours.\n"
 "(1-999)"
 
-#: app/templates/admin/invite.html:116
+#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:92
 #: app/templates/tables/invite_table.html:11
+#: app/templates/tables/user_card.html:65
 #, fuzzy
 msgid "Allow Downloads"
 msgstr "Télécharger"
 
-#: app/templates/admin/invite.html:122
+#: app/templates/admin/invite.html:102
 msgid ""
 "Specific\n"
 "                                Libraries"
@@ -333,23 +234,23 @@ msgstr ""
 "Bibliothèques\n"
 "              spécifiques"
 
-#: app/templates/admin/invite.html:134
+#: app/templates/admin/invite.html:119
 msgid "Create Invitation"
 msgstr "Créer une invitation"
 
-#: app/templates/admin/invite.html:141
+#: app/templates/admin/invite.html:126
 msgid "Successfully generated an Invitation!"
 msgstr "Invitation générée avec succès !"
 
-#: app/templates/admin/invite.html:146
+#: app/templates/admin/invite.html:131
 msgid "Link has been copied to clipboard!"
 msgstr "Le lien a été copié dans le presse-papiers !"
 
-#: app/templates/admin/invite.html:155
+#: app/templates/admin/invite.html:139
 msgid "Back"
 msgstr "Retour"
 
-#: app/templates/admin/invite.html:161
+#: app/templates/admin/invite.html:144
 msgid "Share"
 msgstr "Partager"
 
@@ -434,12 +335,18 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+#: app/templates/setup/admin_account.html:14
+msgid "Setup Wizarr"
+msgstr "Configurer Wizarr"
+
 #: app/templates/tables/global-users.html:13
 msgid "Name"
 msgstr "Nom"
 
 #: app/templates/tables/global-users.html:16
+#: app/templates/tables/invite_card.html:40
 #: app/templates/tables/invite_table.html:7
+#: app/templates/tables/user_card.html:37
 msgid "Expires"
 msgstr "Expiration"
 
@@ -447,33 +354,53 @@ msgstr "Expiration"
 msgid "Actions"
 msgstr "Actions"
 
-#: app/templates/tables/invite_table.html:5
-msgid "Used"
-msgstr "Utilisation"
+#: app/templates/tables/invite_card.html:3
+msgid "There are currently no invitations."
+msgstr ""
 
-#: app/templates/tables/invite_table.html:6
-msgid "Created"
-msgstr "Création"
-
-#: app/templates/tables/invite_table.html:8
-msgid "Unlimited"
-msgstr "Illimité"
-
-#: app/templates/tables/invite_table.html:9
-msgid "Libraries"
-msgstr "Bibliothèques"
-
+#: app/templates/tables/invite_card.html:16
 #: app/templates/tables/invite_table.html:22
 msgid "Available"
 msgstr "Disponible"
 
+#: app/templates/tables/invite_card.html:32
+#: app/templates/tables/invite_table.html:6
+msgid "Created"
+msgstr "Création"
+
+#: app/templates/tables/invite_card.html:43
 #: app/templates/tables/invite_table.html:35
 msgid "Expired"
 msgstr "Expiré"
 
+#: app/templates/tables/invite_card.html:47
+#: app/templates/tables/invite_table.html:5
+msgid "Used"
+msgstr "Utilisation"
+
+#: app/templates/tables/invite_card.html:66
+#: app/templates/tables/invite_table.html:9
+msgid "Libraries"
+msgstr "Bibliothèques"
+
+#: app/templates/tables/invite_card.html:71
 #: app/templates/tables/invite_table.html:73
 msgid "Default"
 msgstr "Défaut"
+
+#: app/templates/tables/invite_card.html:82
+#, fuzzy
+msgid "days"
+msgstr "1 jour"
+
+#: app/templates/tables/invite_card.html:102
+#: app/templates/tables/invite_table.html:8
+msgid "Unlimited"
+msgstr "Illimité"
+
+#: app/templates/tables/user_card.html:3
+msgid "There are currently no users."
+msgstr ""
 
 #: app/templates/wizard/requests.html:4
 msgid "Automatic Media Requests"
@@ -1095,9 +1022,8 @@ msgstr "Ouvrir Plex"
 #~ ""
 #~ "\n"
 #~ msgstr ""
-#~ "Les variables d'environnement sont dépassées"
-#~ " et remplacées par une inscription "
-#~ "sécurisée. Veuillez visiter "
+#~ "Les variables d'environnement sont dépassées et remplacées\n"
+#~ "par une inscription sécurisée. Veuillez visiter "
 
 #~ msgid ""
 #~ "/settings.\n"
@@ -1136,14 +1062,6 @@ msgstr "Ouvrir Plex"
 #~ msgid "Verify and Confirm"
 #~ msgstr "Vérifier et confirmer"
 
-#~ msgid ""
-#~ "Environment Variables are being\n"
-#~ "                    deprecated and replaced by"
-#~ " a secure sign-up. Please visit \n\n"
-#~ msgstr ""
-#~ "Les variables d'environnement sont dépassées et remplacées\n"
-#~ "par une inscription sécurisée. Veuillez visiter "
-
 #~ msgid "Great!"
 #~ msgstr "Super !"
 
@@ -1158,4 +1076,91 @@ msgstr "Ouvrir Plex"
 
 #~ msgid "Home User"
 #~ msgstr "Utilisateur maison"
+
+#~ msgid "Passwords do not match."
+#~ msgstr "Les mots de passe ne correspondent pas."
+
+#~ msgid "Username must be between 3 and 15 characters."
+#~ msgstr "Le nom d'utilisateur doit comporter entre 3 et 15 caractères."
+
+#~ msgid "Password must be between 3 and 40 characters."
+#~ msgstr "Le mot de passe doit comporter entre 3 et 40 caractères."
+
+#~ msgid "You must select at least one library."
+#~ msgstr "Vous devez sélectionner au moins une bibliothèque."
+
+#~ msgid "It is likely that your token does not work."
+#~ msgstr "Il semblerait que votre jeton ne fonctionne pas."
+
+#~ msgid "Unable to connect to your Plex server. See Logs for more information."
+#~ msgstr ""
+#~ "Impossible de se connecter à votre "
+#~ "serveur Plex. Consultez les journaux "
+#~ "pour plus d'informations."
+
+#~ msgid "Unable to connect to your Jellyfin server."
+#~ msgstr "Impossible de se connecter à votre serveur Jellyfin."
+
+#~ msgid "Confirm password"
+#~ msgstr "Confirmer le mot de passe"
+
+#~ msgid ""
+#~ "Server Display\n"
+#~ "                Name"
+#~ msgstr ""
+#~ "Nom\n"
+#~ "              du serveur"
+
+#~ msgid "Server"
+#~ msgstr "Serveur"
+
+#~ msgid "Server URL"
+#~ msgstr "URL du serveur"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "                Token / API Key"
+#~ msgstr ""
+#~ "Jeton / clé API\n"
+#~ "              du serveur"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "                Libraries"
+#~ msgstr ""
+#~ "Bibliothèques\n"
+#~ "              du serveur"
+
+#~ msgid ""
+#~ "Request\n"
+#~ "                instance (Ombi, Overseerr...) URL"
+#~ msgstr ""
+#~ "Outil de\n"
+#~ "requête (Ombi, Overseerr...)"
+
+#~ msgid "Ombi API Key (Only used for user import currently.)"
+#~ msgstr ""
+#~ "Clé API Ombi (Seulement pour "
+#~ "l’importation des utilisateurs pour le "
+#~ "moment.)"
+
+#~ msgid ""
+#~ "Discord\n"
+#~ "                Server ID"
+#~ msgstr ""
+#~ "ID du serveur\n"
+#~ "                  Discord"
+
+#~ msgid ""
+#~ "Custom\n"
+#~ "                HTML"
+#~ msgstr ""
+#~ "Code HTML\n"
+#~ "              personnalisé"
+
+#~ msgid "Attention!"
+#~ msgstr "Attention !"
+
+#~ msgid "Update available. Click here."
+#~ msgstr "Mise à jour disponible. Cliquez ici."
 
