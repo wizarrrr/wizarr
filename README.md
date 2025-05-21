@@ -1,57 +1,69 @@
-# Wizarr 
+# Wizarr
 
-> **Announcement:** 🚀 Wizarr is back in development! Stay tuned for exciting updates and improvements.
-
+> 🚀 **Development Relaunched:** We're excited to announce that **Wizarr is back in active development**!  
+> We're in the process of **rewriting the entire app** to make it more powerful, secure, and easier to use.  
+> In the meantime, please use the `:dev` Docker image to follow the latest changes and updates.
+> 
+> The current version of Wizar (v4.2.0) is considered **legacy**.
 
 <img src="./app/static/wizarr-logo.png" height="200">
 
 <a href="https://hosted.weblate.org/engage/wizarr/">
-<img src="https://hosted.weblate.org/widgets/wizarr/-/app/svg-badge.svg" alt="Übersetzungsstatus" />
+  <img src="https://hosted.weblate.org/widgets/wizarr/-/app/svg-badge.svg" alt="Translation Status" />
 </a>
 
+---
 
-Wizarr is a automatic user invitation system for Plex, Jellyfin and Emby. Create a unique link and share it to a user and they will automatically be invited to your Media Server! They will even be guided to download the clients and instructions on how to use your requests software!
+Wizarr is an automatic user invitation system for Plex, Jellyfin, and Emby.  
+Create a unique invite link and share it with users — they’ll be automatically added to your media server and guided through downloading apps, accessing request systems, and more!
 
+---
 
+## ✨ Major Features
 
+- Automatic invitations for Plex, Jellyfin, and Emby
+- Secure, user-friendly invitation process
+- Plug-and-play SSO support*
+- Multi-tiered invitation access
+- Time-limited membership options
+- Setup guide for media apps (like Plex)
+- Request system integration (Overseerr, Ombi, etc.)
+- Discord invite support
+- Fully customisable with your own HTML snippets
 
-## Major Features Include
+---
 
-- Automatic Invitation to your Media Server (Plex, Jellyfin, Emby...)
-- Secured invitation environment
-- Plug and Play SSO Support*
-- Multi-tiered Invitations
-- Duration for membership
-- Guide user on how to download Plex client
-- Requests Integration: Guide users on how to request Movies (Overseerr, Ombi...)
-- Discord Server Integration: Invite users to your Discord Server
-- Customizable: Add any Custom HTML 
+## 🚀 Getting Started
 
+Check out our documentation for how to install and run Wizarr:
 
+📚 https://docs.wizarr.dev/getting-started/installation
 
-## Getting Started
+> ⚠️ Note: The app is currently undergoing a full rewrite. For the latest version under active development, please use the `:dev` Docker image.
 
-Check out our documentation for instructions on how to install and run Wizarr!
+---
 
-https://docs.wizarr.dev/getting-started/installation
+## 🌍 Translations
 
-
-
-
-## Translations
-
-We use Weblate to translate Wizarr, help us out by clicking [here](https://hosted.weblate.org/engage/wizarr/)
+We use Weblate to make Wizarr accessible in many languages.  
+Want to help translate? Click below!
 
 <a href="https://hosted.weblate.org/engage/wizarr/">
-<img src="https://hosted.weblate.org/widgets/wizarr/-/app/multi-auto.svg" alt="Übersetzungsstatus" />
+  <img src="https://hosted.weblate.org/widgets/wizarr/-/app/multi-auto.svg" alt="Translation Status" />
+</a>
 
-## Thank you
+---
 
-A big thank you ❤️ to these amazing people for contributing to this project!
+## ❤️ Thank You
+
+A big thank you to these amazing contributors who’ve helped build and maintain this project:
+
 <a href="https://github.com/wizarrrr/wizarr/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=wizarrrr/wizarr" />
 </a>
 
-## Screenshots
+---
 
-New screenshots coming soon
+## 📸 Screenshots
+
+Screenshots of the new version coming soon. Stay tuned!
