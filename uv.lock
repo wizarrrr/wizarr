@@ -446,25 +446,6 @@ wheels = [
 ]
 
 [[package]]
-name = "peewee"
-version = "3.18.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/1e/ce/c2bb58d00cb12d19dea28d5a98d05a14350197a3d03eba60be9bae708bac/peewee-3.18.1.tar.gz", hash = "sha256:a76a694b3b3012ce22f00d51fd83e55bf80b595275a90ed62cd36eb45496cf1d", size = 3026130 }
-
-[[package]]
-name = "peewee-migrate"
-version = "1.13.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "click" },
-    { name = "peewee" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/c7/66/8d5ad45ea396623533a9cb2bbf78fdcc52efb65f7db058d7dc2523e1dd41/peewee_migrate-1.13.0.tar.gz", hash = "sha256:1ab67f72a0936006155e1b310c18a32f79e4dff3917cfeb10112ca92518721e5", size = 17119 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/e8/f9/bf657b918756b0b15d85845b351c0074b1d953798b8c72c05b4a456baf06/peewee_migrate-1.13.0-py3-none-any.whl", hash = "sha256:66597f5b8549a8ff456915db60e8382daf7839eef79352027e7cf54feec56860", size = 19425 },
-]
-
-[[package]]
 name = "plexapi"
 version = "4.17.0"
 source = { registry = "https://pypi.org/simple" }
@@ -649,8 +630,6 @@ dependencies = [
     { name = "flask-wtf" },
     { name = "gunicorn" },
     { name = "packaging" },
-    { name = "peewee" },
-    { name = "peewee-migrate" },
     { name = "plexapi" },
     { name = "python-dotenv" },
     { name = "requests" },
@@ -674,8 +653,6 @@ requires-dist = [
     { name = "flask-wtf", specifier = ">=1.2.2" },
     { name = "gunicorn", specifier = ">=23.0.0" },
     { name = "packaging", specifier = ">=25.0" },
-    { name = "peewee", specifier = ">=3.18.1" },
-    { name = "peewee-migrate", specifier = ">=1.13.0" },
     { name = "plexapi", specifier = ">=4.17.0" },
     { name = "python-dotenv", specifier = ">=1.1.0" },
     { name = "requests", specifier = ">=2.32.3" },
