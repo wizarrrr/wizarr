@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, send_from_directory, request
+from flask import Blueprint, redirect, render_template, send_from_directory, request, jsonify
 import os, threading
 from app.extensions import db
 from app.models import Settings
@@ -82,3 +82,8 @@ def join():
 
     # fallback if server_type missing/unsupported
     return render_template("invalid-invite.html", error="Configuration error.")
+
+@public_bp.route("/health", methods=["GET"])
+def health():
+    # If you need to check DB connectivity, do it here.
+    return jsonify(status="ok"), 200
