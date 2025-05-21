@@ -54,7 +54,7 @@ jobs:
         # ───────────────────── Dev Docker image ───────────────────────
     docker-dev:
         if: github.ref == 'refs/heads/main' && github.event_name != 'schedule'
-        needs: [ tailwindcss, i18n ]          # wait for both
+        needs: [ i18n ]          # wait for both
         runs-on: ubuntu-latest
         permissions:
             contents: read
