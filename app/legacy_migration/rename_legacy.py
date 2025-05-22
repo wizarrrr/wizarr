@@ -4,7 +4,7 @@ import sqlite3, pathlib, datetime, json
 # where your “new” DB lives, inside your container
 DB      = pathlib.Path("/data/database/database.db")
 # append timestamp so you don’t collide
-BACKUP  = DB.with_suffix(f".{datetime.datetime.utcnow():%Y%m%d-%H%M%S}.old")
+BACKUP  = DB.with_suffix(f".{datetime.datetime.now(datetime.UTC):%Y%m%d-%H%M%S}.old")
 # marker file path for the importer to notice
 MARKER  = pathlib.Path("/data/database/legacy_backup.json")
 
