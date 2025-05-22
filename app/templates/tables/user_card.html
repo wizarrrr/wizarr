@@ -70,7 +70,7 @@
         
         <!-- Actions footer -->
         <div class="flex justify-end p-3 bg-gray-50 dark:bg-gray-700">
-            <!--<button id="edit" 
+            <button id="edit" 
                     class="inline-flex items-center justify-center p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 mr-2"
                     hx-get="/user/{{ user.id }}" 
                     hx-target="#modal-user" 
@@ -79,7 +79,7 @@
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                 </svg>
-            </button>-->
+            </button>
             <button id="delete" 
                     class="inline-flex items-center justify-center p-2 text-red-500 rounded-lg hover:text-white hover:bg-red-500 dark:text-red-400 dark:hover:text-white dark:hover:bg-red-600"
                     hx-get="/users/table?delete={{ user.id }}"
