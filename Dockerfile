@@ -28,12 +28,10 @@ COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-CMD [
-  "uv", "run", "gunicorn",
-  "--config", "gunicorn.conf.py",
-  "--preload",
-  "--workers", "4",
-  "--bind", "0.0.0.0:5690",
-  "--umask", "007",
-  "run:app"
-]
+CMD uv run gunicorn \
+    --config gunicorn.conf.py \
+    --preload \
+    --workers 4 \
+    --bind 0.0.0.0:5690 \
+    --umask 007 \
+    run:app
