@@ -24,7 +24,8 @@ services:
     ports:
       - 5690:5690
     volumes:
-      - /path/to/appdata/config:/data/database
+      - /path/to/appdata/config/database:/data/database
+      - /path/to/appdata/config/wizard:/data/wizard_steps
     environment:
       - APP_URL=https://wizarr.domain.com #URL at which you will access and share 
       - DISABLE_BUILTIN_AUTH=false #Set to true ONLY if you are using another auth provider (Authelia, Authentik, etc)
@@ -55,7 +56,8 @@ Then, restart all services defined in the Compose file:
   -e DISABLE_BUILTIN_AUTH=false \
   -e TZ=Europe/London \
   -p 5690:5690 \
-  -v /path/to/appdata/config:/data/database \
+  -v /path/to/appdata/config/database:/data/database \
+  -v /path/to/appdata/config/wizard:/data/wizard_steps
   --restart unless-stopped \
   ghcr.io/wizarrrr/wizarr:dev
 </code></pre>
