@@ -7,6 +7,7 @@ RUN apk add --no-cache curl tzdata
 RUN apk add --no-cache --virtual .build-deps && \
     curl -fsSL https://astral.sh/uv/install.sh -o /uv-installer.sh && \
     sh /uv-installer.sh && \
+    chmod +x /root/.local/bin/uv && \
     rm /uv-installer.sh && \
     apk del .build-deps
 
@@ -38,6 +39,7 @@ EXPOSE 5690
 USER wizarr
 
 ENTRYPOINT ["sh", "-c", "set -eu; uv run python -m app.legacy_migration.rename_legacy; uv run flask db upgrade; uv run python -m app.legacy_migration.import_legacy; exec \"$@\"", "--"]
+
 CMD uv run gunicorn \
     --config gunicorn.conf.py \
     --preload \
