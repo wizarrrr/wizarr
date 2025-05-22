@@ -1,15 +1,10 @@
-# 1. grab uv from Astral’s official distroless image
-FROM ghcr.io/astral-sh/uv:alpine AS uv-dist
-
-# 2. your real Python image
 FROM python:3.12-alpine
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 RUN apk add --no-cache curl tzdata
 
-# copy in the uv binaries (they’re standalone, no ~/.local trickery)
-COPY --from=uv-dist /uv /uvx /usr/local/bin/
 
-ENV PATH="/usr/local/bin:${PATH}"
+#ENV PATH="/usr/local/bin:${PATH}"
 
 # now create your non-root user
 RUN addgroup -S wizarr \
