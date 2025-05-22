@@ -12,10 +12,9 @@ class SettingsForm(FlaskForm):
     server_url    = StringField("Server URL",    validators=[DataRequired()])
     api_key       = StringField("API Key",       validators=[Optional()])
     libraries     = StringField("Libraries",     validators=[Optional()])
-    overseerr_url = StringField("Overseerr URL", validators=[Optional(), URL()])
+    overseerr_url = StringField("Overseerr/Ombi URL", validators=[Optional(), URL()])
     ombi_api_key  = StringField("Ombi API Key",  validators=[Optional()])
     discord_id    = StringField("Discord ID",    validators=[Optional()])
-    custom_html   = TextAreaField("Custom HTML", validators=[Optional()])
 
     def __init__(self, install_mode: bool = False, *args, **kwargs):
         super().__init__(*args, **kwargs)

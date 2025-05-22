@@ -34,7 +34,7 @@
                     <p class="mt-2 pb-2 text-sm text-red-600 dark:text-red-500"><span
                         class="font-medium">{{ error }}</span></p>
                     <form class="space-y-4 md:space-y-6" hx-post="{{ url_for(request.endpoint) }}"
-                          hx-target="#content"
+                          hx-target="#tab-body"
                           hx-swap="innerHTML">
                         <div>
                             <label for="name"

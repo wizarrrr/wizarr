@@ -20,7 +20,7 @@ def dashboard():
         .filter_by(key="server_verified")
         .first()
     )
-    if not server_verified or server_verified.value != "true":
+    if not server_verified:
         return redirect("/setup/")
     return render_template("admin.html")
 
