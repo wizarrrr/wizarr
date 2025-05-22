@@ -20,7 +20,6 @@ services:
   wizarr:
     container_name: wizarr
     image: ghcr.io/wizarrrr/wizarr:dev #DEVELOPMENT BRANCH
-    #user: 1000:1000 #Optional but recommended, sets the user uid that Wizarr will run with
     ports:
       - 5690:5690
     volumes:
