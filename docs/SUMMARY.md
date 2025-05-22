@@ -11,7 +11,7 @@
 
 * [Single-Sign-On (SSO)](using-wizarr/single-sign-on-sso.md)
 * [Discord Integration](using-wizarr/discord-integration.md)
-* [Custom The Wizard](using-wizarr/customise-steps.md)
+* [Customise The Wizard](using-wizarr/customise-steps.md)
 
 ## ⛑️ Support
 
