@@ -17,7 +17,8 @@ def _mode() -> str:
           .scalar()
     )
 
-def list_users():
+def list_users(clear_cache: bool = False):
+    _plex_list.cache_clear() if clear_cache else None
     return _plex_list() if _mode() == "plex" else _jf_list()
 
 def delete_user(db_id: int):

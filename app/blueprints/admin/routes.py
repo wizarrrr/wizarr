@@ -1,18 +1,16 @@
 import logging
 from flask import Blueprint, render_template, request, redirect, abort, url_for
 from app.services.invites import create_invite
-from app.services.jellyfin_client import JellyfinClient
 from app.services.media_service import list_users, delete_user
-from app.services.plex_client import PlexClient
-from app.services import invites as invite_service
 from app.services.update_check import needs_update
-from app.extensions import db
-from app.models import Invitation, Notification, Settings, User
+from app.extensions import db, htmx
+from app.models import Invitation, Settings, User
 import os
 from flask_login import login_required
 import datetime
 
 admin_bp = Blueprint("admin", __name__)
+
 
 @admin_bp.route("/admin")
 @login_required
@@ -25,6 +23,7 @@ def dashboard():
     if not server_verified or server_verified.value != "true":
         return redirect("/setup/")
     return render_template("admin.html")
+
 
 # Invitations – landing page
 @admin_bp.route("/invite", methods=["GET", "POST"])
@@ -67,6 +66,7 @@ def invite():
         server_type=server_type,
     )
 
+
 # standalone /invites page (shell around HTMX)
 @admin_bp.route("/invites")
 @login_required
@@ -74,6 +74,7 @@ def invites():
     if not request.headers.get("HX-Request"):
         return redirect(url_for(".dashboard"))
     return render_template("admin/invites.html")
+
 
 # HTMX partial for the table cards
 @admin_bp.route("/invite/table", methods=["POST"])
@@ -117,11 +118,13 @@ def invite_table():
         rightnow=now,
     )
 
+
 # Users
 @admin_bp.route("/users")
 @login_required
 def users():
     return render_template("admin/users.html")  # static shell
+
 
 @admin_bp.route("/users/table")
 @login_required
@@ -136,31 +139,25 @@ def users_table():
         logging.error("Error fetching users: %s", exc)
     return render_template("tables/user_card.html", users=users)
 
+
 @admin_bp.route("/user/<int:db_id>", methods=["GET", "POST"])
 @login_required
-def user_detail(db_id):
-    if not request.headers.get("HX-Request"):
-        return redirect(url_for(".dashboard"))
+def user_detail(db_id: int):
+    """
+    • GET  → return the small expiry-edit modal
+    • POST → update expiry then return the *entire* card grid
+    """
+    user = User.query.get_or_404(db_id)
 
-    # server type
-    server_type_setting = (
-        Settings.query
-        .filter_by(key="server_type")
-        .first()
-    )
-    server_type = server_type_setting.value if server_type_setting else None
+    if request.method == "POST":
+        raw = request.form.get("expires")          # "" or 2025-05-22T14:00
+        user.expires = datetime.datetime.fromisoformat(raw).date() if raw else None
+        db.session.commit()
 
-    if server_type == "plex":
-        plex = PlexClient()
-        info = plex.get_user(db_id)
-        if request.method == "POST":
-            plex.update_user(info, request.form)
-    else:
-        jf = JellyfinClient()
-        user_record = User.query.get(db_id)
-        jf_id = user_record.token if user_record else None
-        info = jf.get_user(jf_id)
-        if request.method == "POST":
-            info = jf.update_user(jf_id, request.form) or info
+        # Re-render the grid the same way /users/table does
+        
+        users = list_users(clear_cache=True)
+        return render_template("tables/user_card.html", users=users)
 
-    return render_template("admin/user.html", user=info, db_id=db_id)
+    # ── GET → serve the compact modal ─────────────────────────────
+    return render_template("admin/user_modal.html", user=user)
