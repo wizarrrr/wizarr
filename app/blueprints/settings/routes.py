@@ -1,7 +1,8 @@
 # app/blueprints/settings/routes.py
 import logging
 
-from flask import Blueprint, request, render_template, redirect, url_for, flash, jsonify, session
+from flask import Blueprint, request, render_template, redirect, url_for, flash, jsonify, session, make_response
+
 from flask_login import login_required
 from flask_babel import _
 
@@ -75,7 +76,9 @@ def server_settings():
         # if we were in setup, jump to admin dashboard
         if setup_mode:
             session.pop("in_setup", None)
-            return redirect(url_for("admin.dashboard"))
+            resp = make_response("", 204)
+            resp.headers["HX-Redirect"] = url_for("admin.dashboard")
+            return resp
 
         # otherwise stay on settings page
         current.update(data)
