@@ -82,7 +82,7 @@ with app.app_context():
             used               = bool(used),
             used_at            = datetime.datetime.fromisoformat(used_at) if used_at else None,
             created            = datetime.datetime.fromisoformat(created),
-            used_by            = used_by,
+            used_by_id            = used_by,
             expires            = datetime.datetime.fromisoformat(expires) if expires else None,
             unlimited          = bool(unlimited),
             duration           = duration or "",
