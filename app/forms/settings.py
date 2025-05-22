@@ -1,14 +1,15 @@
 # app/forms/settings.py
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, TextAreaField
-from wtforms.validators import DataRequired, URL, Optional
+from wtforms.validators import DataRequired, Optional, URL
+
 
 class SettingsForm(FlaskForm):
     server_type   = SelectField("Server Type",
                     choices=[("plex", "Plex"), ("jellyfin", "Jellyfin")],
                     validators=[DataRequired()])
     server_name   = StringField("Server Name",   validators=[DataRequired()])
-    server_url    = StringField("Server URL",    validators=[URL(), DataRequired()])
+    server_url    = StringField("Server URL",    validators=[DataRequired()])
     api_key       = StringField("API Key",       validators=[Optional()])
     libraries     = StringField("Libraries",     validators=[Optional()])
     overseerr_url = StringField("Overseerr URL", validators=[Optional(), URL()])
