@@ -11,6 +11,7 @@ auth_bp = Blueprint("auth", __name__)
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
     if os.getenv("DISABLE_BUILTIN_AUTH", "").lower() == "true":
+        login_user(AdminUser(), remember=bool(request.form.get("remember")))
         return redirect("/")
 
     if request.method == "GET":
