@@ -1,12 +1,14 @@
 FROM python:3.12-alpine
 
-# Install runtime and build dependencies
-RUN apk add --no-cache --virtual .build-deps curl && \
+# Install curl separately so it remains available for healthcheck
+RUN apk add --no-cache curl tzdata
+
+# Install build dependencies for uv installation
+RUN apk add --no-cache --virtual .build-deps && \
     curl -fsSL https://astral.sh/uv/install.sh -o /uv-installer.sh && \
     sh /uv-installer.sh && \
     rm /uv-installer.sh && \
-    apk del .build-deps && \
-    apk add --no-cache tzdata
+    apk del .build-deps
 
 # Ensure the installed binary is on the `PATH`
 ENV PATH="/root/.local/bin/:$PATH"
