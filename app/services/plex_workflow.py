@@ -19,8 +19,7 @@ def handle_oauth_token(app, token: str, code: str) -> None:
     with app.app_context():
         account = MyPlexAccount(token=token)
         email   = account.email
-        _invite_user(email, code)
-    
+        
         # remove any existing DB user with that email
         db.session.query(User).filter(User.email == email).delete(synchronize_session=False)
         db.session.commit()
@@ -42,8 +41,12 @@ def handle_oauth_token(app, token: str, code: str) -> None:
             code=code,
             expires=expires,
         )
+        
         db.session.add(new_user)
         db.session.commit()
+        
+        # Now invite the user to Plex and associate them with the invitation
+        _invite_user(email, code, new_user.id)
     
         notify(
             "User Joined",
@@ -59,7 +62,7 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         ).start()
 
 
-def _invite_user(email: str, code: str) -> None:
+def _invite_user(email: str, code: str, user_id: int = None) -> None:
     client = PlexClient()
     inv = Invitation.query.filter_by(code=code).first()
     # fetch default libraries if none set on invite
@@ -81,7 +84,9 @@ def _invite_user(email: str, code: str) -> None:
     logging.info("Invited %s to Plex", email)
 
     # mark invitation as used (unless unlimited) and record who/when
-    inv.used_by = email
+    if user_id:
+        user = User.query.get(user_id)
+        inv.used_by = user
     inv.used_at = datetime.datetime.now()
     if not inv.unlimited:
         inv.used = True

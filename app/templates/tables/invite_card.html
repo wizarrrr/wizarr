@@ -17,7 +17,11 @@
                 </span>
                 {% else %}
                 <span class="inline-flex rounded-full px-2 py-1 text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-700 dark:text-orange-100">
-                    {{ invite.used_by }}
+                    {% if invite.used_by %}
+                        {{ invite.used_by.username }}
+                    {% else %}
+                        {{ _("Used") }}
+                    {% endif %}
                 </span>
                 {% endif %}
             </div>
