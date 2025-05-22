@@ -20,8 +20,10 @@
                 <div>
                     <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ user.username }}</h3>
                     <p class="text-sm text-gray-500 dark:text-gray-400">
-                        {% if user.email and user.email != "empty" %}
+                        {% if user.email and user.email != "None" %}
                         {{ user.email }}
+                        {% else %}
+                        {{ _("Home User") }}
                         {% endif %}
                     </p>
                 </div>
