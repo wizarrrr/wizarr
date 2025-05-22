@@ -1,8 +1,9 @@
 # app/blueprints/settings/routes.py
 import logging
 
-from flask import Blueprint, request, render_template, redirect, url_for, flash, jsonify
+from flask import Blueprint, request, render_template, redirect, url_for, flash, jsonify, session
 from flask_login import login_required
+from flask_babel import _
 
 from app.services.plex_client     import scan_libraries as scan_plex
 from app.services.jellyfin_client import scan_libraries as scan_jf
@@ -37,11 +38,18 @@ def _check_server_connection(data: dict) -> bool:
         return check_plex(data["server_url"], data["api_key"])
     return check_jellyfin(data["server_url"], data["api_key"])
 
-@settings_bp.route("/", methods=["GET", "POST"])
+@settings_bp.get("/")
 @login_required
-def secure_settings():
-    current = _load_settings()
+def page():
+    return render_template("settings/page.html")
 
+
+@settings_bp.route("/server", methods=["GET", "POST"])
+@login_required
+def server_settings():
+    setup_mode = bool(session.get("in_setup"))
+
+    current = _load_settings()
     form = SettingsForm(
         formdata=request.form if request.method == "POST" else None,
         data=current,
@@ -50,28 +58,34 @@ def secure_settings():
     if form.validate_on_submit():
         data = form.data.copy()
         data.pop("csrf_token", None)
-
-        # handle multi-select libraries field
+        # handle multi-select libraries
         selected = request.form.getlist("libraries")
         data["libraries"] = ", ".join(selected) if selected else current.get("libraries", "")
 
         if not _check_server_connection(data):
-            return render_template("settings.html", form=form)
+            # re-render in either setup or normal mode
+            return render_template("partials/server_form.html", form=form, setup_mode=setup_mode)
 
+
+        # save settings to DB
+        data['server_verified'] = True
         _save_settings(data)
         flash("Settings saved successfully!", "success")
-        current.update(data)  # so form re-renders with fresh values
 
-    # HTMX partial
-    if request.headers.get("HX-Request"):
-        return render_template("settings.html", form=form)
+        # if we were in setup, jump to admin dashboard
+        if setup_mode:
+            session.pop("in_setup", None)
+            return redirect(url_for("admin.dashboard"))
 
-    # Show errors on failed POST
-    if request.method == "POST" and form.errors:
-        return render_template("settings.html", form=form)
+        # otherwise stay on settings page
+        current.update(data)
 
-    # Normal GET → back to dashboard
-    return redirect(url_for("admin.dashboard"))
+    # If HTMX partial, or POST with errors, just re-render the form
+    if request.headers.get("HX-Request") or (request.method == "POST" and form.errors):
+        return render_template("partials/server_form.html", form=form, setup_mode=setup_mode)
+
+    # Normal GET (non-HTMX) and not in setup: show settings index
+    return redirect(url_for("settings.page"))
 
 @settings_bp.route("/scan-libraries", methods=["POST"])
 @login_required

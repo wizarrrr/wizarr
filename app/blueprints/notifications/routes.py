@@ -4,14 +4,14 @@ from app.extensions import db
 from app.models import Notification
 from app.services.notifications import _discord, _ntfy  # your existing helpers
 
-notify_bp = Blueprint("notify", __name__, url_prefix="/admin/notifications")
+notify_bp = Blueprint("notify", __name__, url_prefix="/settings/notifications")
 
 @notify_bp.route("/", methods=["GET"])
 @login_required
 def list_agents():
     # replace peewee .select() with SQLAlchemy .query.all()
     agents = Notification.query.all()
-    return render_template("admin/notifications.html", agents=agents)
+    return render_template("settings/notifications.html", agents=agents)
 
 @notify_bp.route("/create", methods=["GET", "POST"])
 @login_required
