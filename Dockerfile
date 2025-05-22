@@ -4,15 +4,17 @@ FROM python:3.12-alpine
 RUN apk add --no-cache curl tzdata
 
 # Install build dependencies for uv installation
-RUN apk add --no-cache --virtual .build-deps && \
-    curl -fsSL https://astral.sh/uv/install.sh -o /uv-installer.sh && \
-    sh /uv-installer.sh && \
-    chmod +x /root/.local/bin/uv && \
-    rm /uv-installer.sh && \
-    apk del .build-deps
+RUN apk add --no-cache --virtual .build-deps \
+      curl \
+    && curl -fsSL https://astral.sh/uv/install.sh -o /uv-installer.sh \
+    && sh /uv-installer.sh \
+    && mv /root/.local/bin/uv /usr/local/bin/uv \
+    && rm /uv-installer.sh \
+    && apk del .build-deps
+
 
 # Ensure the installed binary is on the `PATH`
-ENV PATH="/root/.local/bin/:$PATH"
+#ENV PATH="/root/.local/bin/:$PATH"
 
 # Create non-root user and group
 RUN addgroup -S wizarr && adduser -S wizarr -G wizarr
