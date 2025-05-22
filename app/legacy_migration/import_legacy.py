@@ -26,7 +26,7 @@ KEY_MAP = {
     "server_name":         "server_name",
     "server_type":         "server_type",
     "server_url":          "server_url",
-    "server_api_key":      "api_key",
+    #"server_api_key":      "api_key", not imported as it would be open to internet if not configured
     "overseerr_url":       "overseerr_url",
     "ombi_api_key":        "ombi_api_key",
     "discord_id":          "discord_id",
