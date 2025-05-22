@@ -34,6 +34,7 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
 EXPOSE 5690
 
 COPY docker-entrypoint.sh /usr/local/bin/
+RUN chown wizarr:wizarr /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Switch to non-root user
