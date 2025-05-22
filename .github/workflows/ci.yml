@@ -54,16 +54,14 @@ jobs:
         # ───────────────────── Dev Docker image ───────────────────────
     docker-dev:
         if: github.ref == 'refs/heads/main' && github.event_name != 'schedule'
-        needs: [ i18n ]          # wait for both
+        needs: [ i18n ]
         runs-on: ubuntu-latest
         permissions:
             contents: read
             packages: write
-        
+
         steps:
             -   uses: actions/checkout@v4
-            
-
 
             -   uses: actions/download-artifact@v4
                 with:
@@ -71,17 +69,31 @@ jobs:
                     path: app/translations/
             
             # Log in to GitHub Container Registry
-            -   uses: docker/login-action@v3
+            -   name: Log in to GHCR
+                uses: docker/login-action@v3
                 with:
                     registry: ghcr.io
                     username: ${{ github.actor }}
                     password: ${{ secrets.GITHUB_TOKEN }}
             
-            # Build and push the :dev image
-            -   name: Build and push :dev image
+            # (Optional) Set up a Buildx builder
+            -   name: Set up QEMU
+                uses: docker/setup-qemu-action@v3
+
+            -   name: Set up Buildx
+                uses: docker/setup-buildx-action@v3
+                with:
+                    install: true
+            
+            # Build AND push multi-arch image in one shot
+            -   name: Build & push multi-arch :dev image
                 uses: docker/build-push-action@v5
                 with:
                     context: .
                     push: true
-                    tags: ghcr.io/${{ github.repository_owner }}/wizarr:dev
-                    build-args: BUILD_ENV=development
+                    platforms: linux/amd64,linux/arm64
+                    tags: |
+                        ghcr.io/${{ github.repository_owner }}/wizarr:dev
+                    # Optional layer cache, super handy on rebuilds:
+                    cache-from: type=gha
+                    cache-to: type=gha,mode=max
