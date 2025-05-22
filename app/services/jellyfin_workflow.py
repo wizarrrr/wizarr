@@ -68,7 +68,7 @@ def join(username: str, password: str, confirm: str, email: str, code: str) -> t
         db.session.commit()
 
         # mark invite used and notify
-        _mark_invite_used(inv, email)
+        _mark_invite_used(inv, new_user)
         notify("New User", f"User {username} has joined your server!", "tada")
         return True, ""
 
@@ -78,11 +78,11 @@ def join(username: str, password: str, confirm: str, email: str, code: str) -> t
         return False, "An unexpected error occurred."
 
 
-def _mark_invite_used(inv: Invitation, email: str) -> None:
+def _mark_invite_used(inv: Invitation, user: User) -> None:
     """Mark the invitation as used in the database."""
     inv.used = True if not inv.unlimited else inv.used
     inv.used_at = datetime.datetime.now()
-    inv.used_by = email
+    inv.used_by = user
     db.session.commit()
 
 def _folder_name_to_id(name: str, cache: dict[str, str]) -> str | None:
