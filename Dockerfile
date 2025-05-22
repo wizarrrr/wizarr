@@ -14,7 +14,7 @@ RUN uv sync --locked
 #ENV PATH="/root/.local/bin:/home/wizarruser/.local/bin:$PATH"
 
 # Switch to non-root user
-USER wizarruser
+#USER wizarruser
 
 #Healthcheck 
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
