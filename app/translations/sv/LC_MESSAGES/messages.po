@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-21 12:05+0100\n"
+"POT-Creation-Date: 2025-05-22 10:06+0000\n"
 "PO-Revision-Date: 2023-03-15 13:38+0000\n"
 "Last-Translator: thu3n <elias.thuen@gmail.com>\n"
 "Language: sv\n"
@@ -79,11 +79,11 @@ msgid "Scan For Libraries"
 msgstr "Skanna för bibliotek"
 
 #: app/templates/settings.html:126 app/templates/settings.html:134
-#: app/templates/settings.html:143 app/templates/settings.html:152
+#: app/templates/settings.html:143
 msgid "Optional, leave empty to disable"
 msgstr ""
 
-#: app/templates/settings.html:164
+#: app/templates/settings.html:155
 msgid "Save"
 msgstr "Spara"
 
@@ -406,216 +406,13 @@ msgstr "Obegränsad"
 msgid "There are currently no users."
 msgstr ""
 
-#: app/templates/wizard/requests.html:4
-msgid "Automatic Media Requests"
-msgstr "Automatiska Media Förfrågningar"
-
-#: app/templates/wizard/requests.html:9
-msgid ""
-"We are excited to offer you a wide selection of media to choose from. If "
-"you're having trouble finding\n"
-"    something you like, don't worry! We have a user-friendly request "
-"system that can automatically search for the\n"
-"    media you're looking for. "
+#: app/templates/wizard/frame.html:34
+msgid "Previous"
 msgstr ""
-"Vi är glada att kunna erbjuda dig ett brett utbud av titlar att välja "
-"mellan. Om du har svårt att hitta\n"
-" något du gillar, oroa dig inte! Vi har ett användarvänligt "
-"förfrågningssystem som automatiskt kan söka efter\n"
-" de titlar du söker. "
 
-#: app/templates/wizard/requests.html:23
-msgid "Request any available Movie or TV Show"
-msgstr "Förfråga efter en tillgänglig film eller TV-serie"
-
-#: app/templates/wizard/requests.html:33
-msgid ""
-"Requested media will be automatically downloaded and added to the library"
-" (if available)"
+#: app/templates/wizard/frame.html:42
+msgid "Next"
 msgstr ""
-"Förfrågad titel kommer att automatiskt laddas ner och läggas till i "
-"biblioteket (om tillgängligt)"
-
-#: app/templates/wizard/requests.html:43
-msgid "If enabled, receive notifications"
-msgstr "Om det är tillgängligt, lägg till notiser"
-
-#: app/templates/wizard/requests.html:50
-msgid "Check it Out"
-msgstr "Kolla in"
-
-#: app/templates/wizard/jellyfin/download.html:3
-msgid ""
-"Join & Download Jellyfin\n"
-"            for this device"
-msgstr ""
-"Gå med och ladda ner Jellyfin\n"
-"            till denna enhet"
-
-#: app/templates/wizard/jellyfin/download.html:8
-msgid ""
-"Great news! You now have access to our server's media collection. Let's "
-"make sure you know how to use\n"
-"        it with Jellyfin."
-msgstr ""
-"Fantastiska nyheter! Du har nu tillgång till vår servers media samling. "
-"Låt oss se till att du vet hur du använder det\n"
-"        med Jellyfin."
-
-#: app/templates/wizard/jellyfin/download.html:11
-msgid ""
-"Planning on watching Movies on this device? Download Jellyfin for this "
-"device."
-msgstr ""
-"Kommer du att titta på filmer och serier på den här enheten? Ladda ner "
-"Jellyfin för denna enhet här."
-
-#: app/templates/wizard/jellyfin/download.html:14
-#: app/templates/wizard/plex/download.html:14
-msgid "Download"
-msgstr "Ladda ner"
-
-#: app/templates/wizard/jellyfin/tips.html:4
-msgid "Eh, So, What is Jellyfin exactly?"
-msgstr "Okej, så vad är Jellyfin?"
-
-#: app/templates/wizard/jellyfin/tips.html:7
-msgid ""
-"Jellyfin is a platform that lets you stream all your favorite movies, TV "
-"shows, and music in one place.\n"
-"        It's like having your own personal movie theater right at your "
-"fingertips! Think of it as a digital library of\n"
-"        your favorite content that you can access from anywhere, on any "
-"device - your phone, tablet, laptop, smart TV,\n"
-"        you name it."
-msgstr ""
-"Jellyfin är en plattform som låter dig strömma alla dina favorit filmer, "
-"tv-serier och musik på en plats.\n"
-"        Det är som att ha sin egen personliga film salong vid sina "
-"fingerspetsar! Tänkt på det som ett digitalt bibliotek av\n"
-"        ditt favoritinnehåll som du kan komma åt var du än är och på "
-"vilken enhet du vill (telefon, surfplatta, bärbar dator eller smart TV),"
-"\n"
-"        du bestämmer."
-
-#: app/templates/wizard/jellyfin/tips.html:13
-#: app/templates/wizard/plex/tips.html:12
-msgid "Right, so how do I watch stuff?"
-msgstr "Jag förstår, hur kollar jag på innehållet?"
-
-#: app/templates/wizard/jellyfin/tips.html:16
-msgid ""
-"It couldn't be simpler! Jellyfin is available on a wide variety of "
-"devices including laptops, tablets,\n"
-"        smartphones, and TVs. All you need to do is download the Jellyfin"
-" app on your device, sign in with your account,\n"
-"        and\n"
-"        you're ready to start streaming your media. It's that easy!"
-msgstr ""
-"Det kan inte vara enklare! Jellyfin finns tillgängligt på massor av "
-"enheter, datorer, surfplatta, telefoner och smart-tv. \n"
-"Allt du behöver göra är att leta reda på var Jellyfin appar finns. \n"
-"Logga sedan in med ditt konto, så är du redo att strömma!"
-
-#: app/templates/wizard/jellyfin/tips.html:25
-msgid "Open Jellyfin"
-msgstr "Öppna Jellyfin"
-
-#: app/templates/wizard/plex/download.html:3
-msgid ""
-"Join & Download Plex\n"
-"            for this device"
-msgstr ""
-"Gå med & ladda ner Plex\n"
-"            för denna enhet"
-
-#: app/templates/wizard/plex/download.html:8
-msgid ""
-"Great news! You now have access to our server's media collection. Let's "
-"make sure you know how to use\n"
-"        it with Plex."
-msgstr ""
-"Fantastiska nyheter! Nu har du åtkomst till vår media samling. Gå vidare "
-"för att veta hur du använder \n"
-"         det med Plex."
-
-#: app/templates/wizard/plex/download.html:11
-msgid "Planning on watching Movies on this device? Download Plex for this device."
-msgstr ""
-"Kommer du att titta på filmer och serier på den här enheten? Ladda ner "
-"Plex här."
-
-#: app/templates/wizard/plex/tips.html:4
-msgid "Eh, So, What is Plex exactly?"
-msgstr "Okej, så vad är Plex?"
-
-#: app/templates/wizard/plex/tips.html:7
-msgid ""
-"Great question! Plex is a software that allows individuals to share their"
-" media collections with others. If\n"
-"    you've received this invitation, it means someone wants to share "
-"their library with you. With Plex, you'll have\n"
-"    access to all of the movies, TV shows, music, and photos that are "
-"stored on their server. Enjoy!"
-msgstr ""
-"Bra fråga! Plex är ett program som tillåter ägaren att dela med sig av "
-"sitt innehåll till andra. Har du fått en inbjudan så betyder det att "
-"någon vill dela sitt innehåll med dig. Med Plex så kommer du att få "
-"tillgång till Filmer, Serier, Musik och bilder som de vill dela med sig "
-"av på sin server till dig!"
-
-#: app/templates/wizard/plex/tips.html:15
-msgid ""
-"It couldn't be simpler! Plex is available on a wide variety of devices "
-"including laptops, tablets,\n"
-"    smartphones, and TVs. All you need to do is download the Plex app on "
-"your device, sign in with your account, and\n"
-"    you're ready to start streaming your media. It's that easy!"
-msgstr ""
-"Plex finns tillgängligt på massor av enheter, datorer, surfplatta, \n"
-"    telefoner och smart-tv. Allt du behöver göra är att leta reda på Plex"
-" där appar finns. Logga sedan in med ditt konto, \n"
-"    så är du redo att strömma!"
-
-#: app/templates/wizard/plex/tips.html:20
-msgid "How can I make sure to have the best experience?"
-msgstr "Hur kan jag säkerställa så att jag får den bästa upplevelsen?"
-
-#: app/templates/wizard/plex/tips.html:23
-msgid ""
-"Because Plex is a free service, they promote their own content before the"
-" awesome content your friend is now\n"
-"    sharing with you - they also, by default, play content at a lower "
-"quality. "
-msgstr ""
-"Eftersom att Plex är en gratis plattform i sig, så behöver dom på "
-"intäkter igenom att visa sitt eget innehåll av filmer och serier. \n"
-"    Det är de första du ser när du loggar in på Plex - de spelar även upp"
-" innehåll i lägre kvalité. "
-
-#: app/templates/wizard/plex/tips.html:26
-msgid "No need to worry though, this can be easily resolved"
-msgstr "Det är dock enkelt att fixa"
-
-#: app/templates/wizard/plex/tips.html:26
-msgid ""
-"We highly\n"
-"      recommend you to go through those steps first!"
-msgstr ""
-"Vi rekommenderar starkt\n"
-"      att du går igenom det steg för steg!"
-
-#: app/templates/wizard/plex/tips.html:33
-msgid "Configure Plex in your browser"
-msgstr "Konfigurera Plex in din webbläsare"
-
-#: app/templates/wizard/plex/tips.html:58
-msgid "Configure Plex's app on your computer, mobile device or TV"
-msgstr "Konfigurera Plex applikationen på din dator, mobila enhet eller din TV"
-
-#: app/templates/wizard/plex/tips.html:86
-msgid "Open Plex"
-msgstr "Öppna Plex"
 
 #~ msgid ""
 #~ "Request\n"
@@ -1136,4 +933,246 @@ msgstr "Öppna Plex"
 
 #~ msgid "Update available. Click here."
 #~ msgstr "Uppdatering tillgänglig. Klicka här."
+
+#~ msgid "Automatic Media Requests"
+#~ msgstr "Automatiska Media Förfrågningar"
+
+#~ msgid ""
+#~ "We are excited to offer you a "
+#~ "wide selection of media to choose "
+#~ "from. If you're having trouble finding"
+#~ "\n"
+#~ "    something you like, don't worry! "
+#~ "We have a user-friendly request "
+#~ "system that can automatically search for"
+#~ " the\n"
+#~ "    media you're looking for. "
+#~ msgstr ""
+#~ "Vi är glada att kunna erbjuda dig"
+#~ " ett brett utbud av titlar att "
+#~ "välja mellan. Om du har svårt att"
+#~ " hitta\n"
+#~ " något du gillar, oroa dig inte!"
+#~ " Vi har ett användarvänligt "
+#~ "förfrågningssystem som automatiskt kan söka"
+#~ " efter\n"
+#~ " de titlar du söker. "
+
+#~ msgid "Request any available Movie or TV Show"
+#~ msgstr "Förfråga efter en tillgänglig film eller TV-serie"
+
+#~ msgid ""
+#~ "Requested media will be automatically "
+#~ "downloaded and added to the library "
+#~ "(if available)"
+#~ msgstr ""
+#~ "Förfrågad titel kommer att automatiskt "
+#~ "laddas ner och läggas till i "
+#~ "biblioteket (om tillgängligt)"
+
+#~ msgid "If enabled, receive notifications"
+#~ msgstr "Om det är tillgängligt, lägg till notiser"
+
+#~ msgid "Check it Out"
+#~ msgstr "Kolla in"
+
+#~ msgid ""
+#~ "Join & Download Jellyfin\n"
+#~ "            for this device"
+#~ msgstr ""
+#~ "Gå med och ladda ner Jellyfin\n"
+#~ "            till denna enhet"
+
+#~ msgid ""
+#~ "Great news! You now have access to"
+#~ " our server's media collection. Let's "
+#~ "make sure you know how to use\n"
+#~ ""
+#~ "        it with Jellyfin."
+#~ msgstr ""
+#~ "Fantastiska nyheter! Du har nu tillgång"
+#~ " till vår servers media samling. Låt"
+#~ " oss se till att du vet hur "
+#~ "du använder det\n"
+#~ "        med Jellyfin."
+
+#~ msgid ""
+#~ "Planning on watching Movies on this "
+#~ "device? Download Jellyfin for this "
+#~ "device."
+#~ msgstr ""
+#~ "Kommer du att titta på filmer och"
+#~ " serier på den här enheten? Ladda "
+#~ "ner Jellyfin för denna enhet här."
+
+#~ msgid "Download"
+#~ msgstr "Ladda ner"
+
+#~ msgid "Eh, So, What is Jellyfin exactly?"
+#~ msgstr "Okej, så vad är Jellyfin?"
+
+#~ msgid ""
+#~ "Jellyfin is a platform that lets "
+#~ "you stream all your favorite movies, "
+#~ "TV shows, and music in one place."
+#~ "\n"
+#~ "        It's like having your own "
+#~ "personal movie theater right at your "
+#~ "fingertips! Think of it as a "
+#~ "digital library of\n"
+#~ "        your favorite content that you"
+#~ " can access from anywhere, on any "
+#~ "device - your phone, tablet, laptop, "
+#~ "smart TV,\n"
+#~ "        you name it."
+#~ msgstr ""
+#~ "Jellyfin är en plattform som låter "
+#~ "dig strömma alla dina favorit filmer,"
+#~ " tv-serier och musik på en "
+#~ "plats.\n"
+#~ "        Det är som att ha sin "
+#~ "egen personliga film salong vid sina "
+#~ "fingerspetsar! Tänkt på det som ett "
+#~ "digitalt bibliotek av\n"
+#~ "        ditt favoritinnehåll som du kan"
+#~ " komma åt var du än är och "
+#~ "på vilken enhet du vill (telefon, "
+#~ "surfplatta, bärbar dator eller smart "
+#~ "TV),\n"
+#~ "        du bestämmer."
+
+#~ msgid "Right, so how do I watch stuff?"
+#~ msgstr "Jag förstår, hur kollar jag på innehållet?"
+
+#~ msgid ""
+#~ "It couldn't be simpler! Jellyfin is "
+#~ "available on a wide variety of "
+#~ "devices including laptops, tablets,\n"
+#~ "        smartphones, and TVs. All you"
+#~ " need to do is download the "
+#~ "Jellyfin app on your device, sign "
+#~ "in with your account,\n"
+#~ "        and\n"
+#~ "        you're ready to start streaming your media. It's that easy!"
+#~ msgstr ""
+#~ "Det kan inte vara enklare! Jellyfin "
+#~ "finns tillgängligt på massor av enheter,"
+#~ " datorer, surfplatta, telefoner och "
+#~ "smart-tv. \n"
+#~ "Allt du behöver göra är att leta reda på var Jellyfin appar finns. \n"
+#~ "Logga sedan in med ditt konto, så är du redo att strömma!"
+
+#~ msgid "Open Jellyfin"
+#~ msgstr "Öppna Jellyfin"
+
+#~ msgid ""
+#~ "Join & Download Plex\n"
+#~ "            for this device"
+#~ msgstr ""
+#~ "Gå med & ladda ner Plex\n"
+#~ "            för denna enhet"
+
+#~ msgid ""
+#~ "Great news! You now have access to"
+#~ " our server's media collection. Let's "
+#~ "make sure you know how to use\n"
+#~ ""
+#~ "        it with Plex."
+#~ msgstr ""
+#~ "Fantastiska nyheter! Nu har du åtkomst"
+#~ " till vår media samling. Gå vidare"
+#~ " för att veta hur du använder \n"
+#~ ""
+#~ "         det med Plex."
+
+#~ msgid ""
+#~ "Planning on watching Movies on this "
+#~ "device? Download Plex for this device."
+#~ msgstr ""
+#~ "Kommer du att titta på filmer och"
+#~ " serier på den här enheten? Ladda "
+#~ "ner Plex här."
+
+#~ msgid "Eh, So, What is Plex exactly?"
+#~ msgstr "Okej, så vad är Plex?"
+
+#~ msgid ""
+#~ "Great question! Plex is a software "
+#~ "that allows individuals to share their"
+#~ " media collections with others. If\n"
+#~ "    you've received this invitation, it"
+#~ " means someone wants to share their"
+#~ " library with you. With Plex, you'll"
+#~ " have\n"
+#~ "    access to all of the movies,"
+#~ " TV shows, music, and photos that "
+#~ "are stored on their server. Enjoy!"
+#~ msgstr ""
+#~ "Bra fråga! Plex är ett program som"
+#~ " tillåter ägaren att dela med sig "
+#~ "av sitt innehåll till andra. Har "
+#~ "du fått en inbjudan så betyder det"
+#~ " att någon vill dela sitt innehåll"
+#~ " med dig. Med Plex så kommer du"
+#~ " att få tillgång till Filmer, Serier,"
+#~ " Musik och bilder som de vill "
+#~ "dela med sig av på sin server "
+#~ "till dig!"
+
+#~ msgid ""
+#~ "It couldn't be simpler! Plex is "
+#~ "available on a wide variety of "
+#~ "devices including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you "
+#~ "need to do is download the Plex"
+#~ " app on your device, sign in "
+#~ "with your account, and\n"
+#~ "    you're ready to start streaming your media. It's that easy!"
+#~ msgstr ""
+#~ "Plex finns tillgängligt på massor av enheter, datorer, surfplatta, \n"
+#~ "    telefoner och smart-tv. Allt "
+#~ "du behöver göra är att leta reda"
+#~ " på Plex där appar finns. Logga "
+#~ "sedan in med ditt konto, \n"
+#~ "    så är du redo att strömma!"
+
+#~ msgid "How can I make sure to have the best experience?"
+#~ msgstr "Hur kan jag säkerställa så att jag får den bästa upplevelsen?"
+
+#~ msgid ""
+#~ "Because Plex is a free service, "
+#~ "they promote their own content before"
+#~ " the awesome content your friend is"
+#~ " now\n"
+#~ "    sharing with you - they also,"
+#~ " by default, play content at a "
+#~ "lower quality. "
+#~ msgstr ""
+#~ "Eftersom att Plex är en gratis "
+#~ "plattform i sig, så behöver dom på"
+#~ " intäkter igenom att visa sitt eget"
+#~ " innehåll av filmer och serier. \n"
+#~ "    Det är de första du ser "
+#~ "när du loggar in på Plex - "
+#~ "de spelar även upp innehåll i "
+#~ "lägre kvalité. "
+
+#~ msgid "No need to worry though, this can be easily resolved"
+#~ msgstr "Det är dock enkelt att fixa"
+
+#~ msgid ""
+#~ "We highly\n"
+#~ "      recommend you to go through those steps first!"
+#~ msgstr ""
+#~ "Vi rekommenderar starkt\n"
+#~ "      att du går igenom det steg för steg!"
+
+#~ msgid "Configure Plex in your browser"
+#~ msgstr "Konfigurera Plex in din webbläsare"
+
+#~ msgid "Configure Plex's app on your computer, mobile device or TV"
+#~ msgstr "Konfigurera Plex applikationen på din dator, mobila enhet eller din TV"
+
+#~ msgid "Open Plex"
+#~ msgstr "Öppna Plex"
 
