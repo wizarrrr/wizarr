@@ -466,6 +466,9 @@ You may pass an object with the following properties:
   discretion, as a last resort. Even then, one should avoid using this flag when
   running tests, if possible.
 
+* `ignoreInvalidMapping`: Optional. When `true`, instead of throwing error on
+  invalid mapping, it will be ignored.
+
 ```js
 var generator = new sourceMap.SourceMapGenerator({
   file: "my-generated-javascript-file.js",
@@ -473,14 +476,18 @@ var generator = new sourceMap.SourceMapGenerator({
 });
 ```
 
-#### SourceMapGenerator.fromSourceMap(sourceMapConsumer)
+#### SourceMapGenerator.fromSourceMap(sourceMapConsumer, sourceMapGeneratorOptions)
 
 Creates a new `SourceMapGenerator` from an existing `SourceMapConsumer` instance.
 
 * `sourceMapConsumer` The SourceMap.
 
+* `sourceMapGeneratorOptions` options that will be passed to the SourceMapGenerator constructor which used under the hood.
+
 ```js
-var generator = sourceMap.SourceMapGenerator.fromSourceMap(consumer);
+var generator = sourceMap.SourceMapGenerator.fromSourceMap(consumer, {
+  ignoreInvalidMapping: true,
+});
 ```
 
 #### SourceMapGenerator.prototype.addMapping(mapping)
