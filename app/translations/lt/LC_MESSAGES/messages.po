@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-22 10:06+0000\n"
+"POT-Creation-Date: 2025-05-23 03:47+0000\n"
 "PO-Revision-Date: 2023-02-27 21:14+0000\n"
 "Last-Translator: Luke Keude <kingrun424@gmail.com>\n"
 "Language: lt\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/auth/routes.py:42
+#: app/blueprints/auth/routes.py:43
 #, fuzzy
 msgid "Invalid username or password"
 msgstr "Neteisingas Prisijungimo vardas arba Slaptažodis"
@@ -42,7 +42,7 @@ msgstr "Kvietimai"
 msgid "Users"
 msgstr "Vartotojai"
 
-#: app/templates/admin.html:46
+#: app/templates/admin.html:46 app/templates/settings/page.html:3
 msgid "Settings"
 msgstr "Nustatymai"
 
@@ -72,21 +72,13 @@ msgid "Sign in"
 msgstr "Prisijungti"
 
 #: app/templates/settings.html:13
-msgid "Server Settings"
+#, fuzzy
+msgid "Server settings"
 msgstr "Serverio nustatymai"
 
-#: app/templates/admin/invite.html:111 app/templates/settings.html:110
-msgid "Scan For Libraries"
-msgstr "Ieškoti bibliotekų"
-
-#: app/templates/settings.html:126 app/templates/settings.html:134
-#: app/templates/settings.html:143
-msgid "Optional, leave empty to disable"
+#: app/templates/settings.html:22
+msgid "Notification agents"
 msgstr ""
-
-#: app/templates/settings.html:155
-msgid "Save"
-msgstr "Išsaugoti"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
 #: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
@@ -98,9 +90,7 @@ msgstr "Jus pakvietė prisijungti į %(name)s serverį!"
 msgid "Join the Plex Server"
 msgstr "Prisijunkite prie Plex serverio"
 
-#: app/templates/tables/global-users.html:19
-#: app/templates/tables/invite_table.html:4
-#: app/templates/tables/user_card.html:55 app/templates/user-plex-login.html:29
+#: app/templates/tables/user_card.html:57 app/templates/user-plex-login.html:29
 #: app/templates/user-plex-login.html:40
 msgid "Invite Code"
 msgstr "Pakvietimo kodas"
@@ -178,9 +168,8 @@ msgstr "1 savaitė"
 msgid "1 month"
 msgstr "1 mėnuo"
 
-#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:56
-#: app/templates/tables/invite_table.html:48
-#: app/templates/tables/user_card.html:44
+#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:60
+#: app/templates/tables/user_card.html:46
 msgid "Never"
 msgstr "Niekada"
 
@@ -198,8 +187,7 @@ msgid "Invite to Plex Home"
 msgstr "Pakvietimo kodas"
 
 #: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
-#: app/templates/tables/invite_card.html:82
-#: app/templates/tables/invite_table.html:13
+#: app/templates/tables/invite_card.html:86
 msgid "Duration"
 msgstr "Trukmė"
 
@@ -222,9 +210,8 @@ msgstr ""
 "                                        po\n"
 "                                        dienų. (1-999)"
 
-#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:92
-#: app/templates/tables/invite_table.html:11
-#: app/templates/tables/user_card.html:65
+#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
+#: app/templates/tables/user_card.html:67
 #, fuzzy
 msgid "Allow Downloads"
 msgstr "Parsisiųsti"
@@ -236,6 +223,11 @@ msgid ""
 msgstr ""
 "Konkrečios\n"
 "              Bibliotekos"
+
+#: app/templates/admin/invite.html:111
+#: app/templates/partials/server_form.html:87
+msgid "Scan For Libraries"
+msgstr "Ieškoti bibliotekų"
 
 #: app/templates/admin/invite.html:119
 msgid "Create Invitation"
@@ -257,27 +249,23 @@ msgstr "Atgal"
 msgid "Share"
 msgstr "Dalintis"
 
-#: app/templates/admin/notifications.html:11
-msgid "Notification Agents"
+#: app/templates/admin/user_modal.html:17
+msgid "Edit expiry"
 msgstr ""
 
-#: app/templates/admin/notifications.html:27
-#, fuzzy
-msgid "Delete"
-msgstr "Numatyti"
+#: app/templates/admin/user_modal.html:27
+msgid "Expiry date (leave blank for never)"
+msgstr ""
 
-#: app/templates/admin/notifications.html:37
-#, fuzzy
-msgid "Create Agent"
-msgstr "Sukurti paskyrą"
+#: app/templates/admin/user_modal.html:41
+#: app/templates/modals/create-notification-agent.html:85
+msgid "Cancel"
+msgstr ""
 
-#: app/templates/admin/user.html:44
-msgid "User Configuration"
-msgstr "Vartotojų nustatymai"
-
-#: app/templates/admin/user.html:90
-msgid "User Policy"
-msgstr "Vartotojų politika"
+#: app/templates/admin/user_modal.html:48
+#: app/templates/partials/server_form.html:132
+msgid "Save"
+msgstr "Išsaugoti"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
@@ -334,76 +322,95 @@ msgstr ""
 msgid "Test & Create Agent"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:85
-msgid "Cancel"
+#: app/templates/partials/server_form.html:13
+msgid "Server Settings"
+msgstr "Serverio nustatymai"
+
+#: app/templates/partials/server_form.html:103
+#: app/templates/partials/server_form.html:111
+#: app/templates/partials/server_form.html:120
+msgid "Optional, leave empty to disable"
 msgstr ""
+
+#: app/templates/settings/notifications.html:11
+msgid "Notification Agents"
+msgstr ""
+
+#: app/templates/settings/notifications.html:27
+#, fuzzy
+msgid "Delete"
+msgstr "Numatyti"
+
+#: app/templates/settings/notifications.html:37
+#, fuzzy
+msgid "Create Agent"
+msgstr "Sukurti paskyrą"
+
+#: app/templates/settings/page.html:24
+#, fuzzy
+msgid "Server"
+msgstr "Niekada"
+
+#: app/templates/settings/page.html:39
+#, fuzzy
+msgid "Notifications"
+msgstr "Kvietimai"
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"
 msgstr "Sąrankos vedlys"
-
-#: app/templates/tables/global-users.html:13
-msgid "Name"
-msgstr "Vardas"
-
-#: app/templates/tables/global-users.html:16
-#: app/templates/tables/invite_card.html:40
-#: app/templates/tables/invite_table.html:7
-#: app/templates/tables/user_card.html:37
-msgid "Expires"
-msgstr "Baigia galioti"
-
-#: app/templates/tables/global-users.html:22
-msgid "Actions"
-msgstr "Veiksmai"
 
 #: app/templates/tables/invite_card.html:3
 msgid "There are currently no invitations."
 msgstr ""
 
 #: app/templates/tables/invite_card.html:16
-#: app/templates/tables/invite_table.html:22
 msgid "Available"
 msgstr "Prieinami"
 
-#: app/templates/tables/invite_card.html:32
-#: app/templates/tables/invite_table.html:6
-msgid "Created"
-msgstr "Sukurta"
-
-#: app/templates/tables/invite_card.html:43
-#: app/templates/tables/invite_table.html:35
-msgid "Expired"
-msgstr "Pasibaigęs galiojimo laikas"
-
-#: app/templates/tables/invite_card.html:47
-#: app/templates/tables/invite_table.html:5
+#: app/templates/tables/invite_card.html:23
+#: app/templates/tables/invite_card.html:51
 msgid "Used"
 msgstr "Panaudota"
 
-#: app/templates/tables/invite_card.html:66
-#: app/templates/tables/invite_table.html:9
+#: app/templates/tables/invite_card.html:36
+msgid "Created"
+msgstr "Sukurta"
+
+#: app/templates/tables/invite_card.html:44
+#: app/templates/tables/user_card.html:39
+msgid "Expires"
+msgstr "Baigia galioti"
+
+#: app/templates/tables/invite_card.html:47
+msgid "Expired"
+msgstr "Pasibaigęs galiojimo laikas"
+
+#: app/templates/tables/invite_card.html:70
 msgid "Libraries"
 msgstr "Bibliotekos"
 
-#: app/templates/tables/invite_card.html:71
-#: app/templates/tables/invite_table.html:73
+#: app/templates/tables/invite_card.html:75
 msgid "Default"
 msgstr "Numatyti"
 
-#: app/templates/tables/invite_card.html:82
+#: app/templates/tables/invite_card.html:86
 #, fuzzy
 msgid "days"
 msgstr "1 diena"
 
-#: app/templates/tables/invite_card.html:102
-#: app/templates/tables/invite_table.html:8
+#: app/templates/tables/invite_card.html:106
 msgid "Unlimited"
 msgstr "Neribota"
 
 #: app/templates/tables/user_card.html:3
 msgid "There are currently no users."
 msgstr ""
+
+#: app/templates/tables/user_card.html:26
+#, fuzzy
+msgid "Home User"
+msgstr "Pradinis"
 
 #: app/templates/wizard/frame.html:34
 msgid "Previous"
@@ -1157,4 +1164,16 @@ msgstr ""
 
 #~ msgid "Open Plex"
 #~ msgstr "Atidaryti \"Plex\""
+
+#~ msgid "User Configuration"
+#~ msgstr "Vartotojų nustatymai"
+
+#~ msgid "User Policy"
+#~ msgstr "Vartotojų politika"
+
+#~ msgid "Name"
+#~ msgstr "Vardas"
+
+#~ msgid "Actions"
+#~ msgstr "Veiksmai"
 
