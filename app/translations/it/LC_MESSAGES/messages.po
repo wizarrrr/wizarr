@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-22 10:06+0000\n"
+"POT-Creation-Date: 2025-05-23 03:47+0000\n"
 "PO-Revision-Date: 2023-04-27 08:47+0000\n"
 "Last-Translator: eggermn <egger.mn@gmail.com>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/auth/routes.py:42
+#: app/blueprints/auth/routes.py:43
 #, fuzzy
 msgid "Invalid username or password"
 msgstr "Nome utente o password non validi"
@@ -40,7 +40,7 @@ msgstr "Inviti"
 msgid "Users"
 msgstr "Utenti"
 
-#: app/templates/admin.html:46
+#: app/templates/admin.html:46 app/templates/settings/page.html:3
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -71,21 +71,12 @@ msgstr "Registrati"
 
 #: app/templates/settings.html:13
 #, fuzzy
-msgid "Server Settings"
+msgid "Server settings"
 msgstr "Cambia le impostazioni del server"
 
-#: app/templates/admin/invite.html:111 app/templates/settings.html:110
-msgid "Scan For Libraries"
-msgstr "Cerca librerie"
-
-#: app/templates/settings.html:126 app/templates/settings.html:134
-#: app/templates/settings.html:143
-msgid "Optional, leave empty to disable"
+#: app/templates/settings.html:22
+msgid "Notification agents"
 msgstr ""
-
-#: app/templates/settings.html:155
-msgid "Save"
-msgstr "Salva"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
 #: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
@@ -97,9 +88,7 @@ msgstr "Sei stato invitato ad unirti al server di %(name)s!"
 msgid "Join the Plex Server"
 msgstr "Unisciti al server Plex"
 
-#: app/templates/tables/global-users.html:19
-#: app/templates/tables/invite_table.html:4
-#: app/templates/tables/user_card.html:55 app/templates/user-plex-login.html:29
+#: app/templates/tables/user_card.html:57 app/templates/user-plex-login.html:29
 #: app/templates/user-plex-login.html:40
 msgid "Invite Code"
 msgstr "Codice d'invito"
@@ -179,9 +168,8 @@ msgstr "1 settimana"
 msgid "1 month"
 msgstr "1 mese"
 
-#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:56
-#: app/templates/tables/invite_table.html:48
-#: app/templates/tables/user_card.html:44
+#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:60
+#: app/templates/tables/user_card.html:46
 msgid "Never"
 msgstr "Mai"
 
@@ -199,8 +187,7 @@ msgid "Invite to Plex Home"
 msgstr "Codice d'invito"
 
 #: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
-#: app/templates/tables/invite_card.html:82
-#: app/templates/tables/invite_table.html:13
+#: app/templates/tables/invite_card.html:86
 #, fuzzy
 msgid "Duration"
 msgstr "Durata"
@@ -225,9 +212,8 @@ msgstr ""
 "                                        numero di\n"
 "                                        giorni. (1-999)"
 
-#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:92
-#: app/templates/tables/invite_table.html:11
-#: app/templates/tables/user_card.html:65
+#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
+#: app/templates/tables/user_card.html:67
 #, fuzzy
 msgid "Allow Downloads"
 msgstr "Scarica"
@@ -239,6 +225,11 @@ msgid ""
 msgstr ""
 "Specifica\n"
 "                                Librerie"
+
+#: app/templates/admin/invite.html:111
+#: app/templates/partials/server_form.html:87
+msgid "Scan For Libraries"
+msgstr "Cerca librerie"
 
 #: app/templates/admin/invite.html:119
 msgid "Create Invitation"
@@ -260,27 +251,23 @@ msgstr "Indietro"
 msgid "Share"
 msgstr "Condividi"
 
-#: app/templates/admin/notifications.html:11
-msgid "Notification Agents"
+#: app/templates/admin/user_modal.html:17
+msgid "Edit expiry"
 msgstr ""
 
-#: app/templates/admin/notifications.html:27
-#, fuzzy
-msgid "Delete"
-msgstr "Predefinito"
-
-#: app/templates/admin/notifications.html:37
-#, fuzzy
-msgid "Create Agent"
-msgstr "Crea un account"
-
-#: app/templates/admin/user.html:44
-msgid "User Configuration"
+#: app/templates/admin/user_modal.html:27
+msgid "Expiry date (leave blank for never)"
 msgstr ""
 
-#: app/templates/admin/user.html:90
-msgid "User Policy"
+#: app/templates/admin/user_modal.html:41
+#: app/templates/modals/create-notification-agent.html:85
+msgid "Cancel"
 msgstr ""
+
+#: app/templates/admin/user_modal.html:48
+#: app/templates/partials/server_form.html:132
+msgid "Save"
+msgstr "Salva"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
@@ -337,78 +324,96 @@ msgstr ""
 msgid "Test & Create Agent"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:85
-msgid "Cancel"
+#: app/templates/partials/server_form.html:13
+#, fuzzy
+msgid "Server Settings"
+msgstr "Cambia le impostazioni del server"
+
+#: app/templates/partials/server_form.html:103
+#: app/templates/partials/server_form.html:111
+#: app/templates/partials/server_form.html:120
+msgid "Optional, leave empty to disable"
 msgstr ""
+
+#: app/templates/settings/notifications.html:11
+msgid "Notification Agents"
+msgstr ""
+
+#: app/templates/settings/notifications.html:27
+#, fuzzy
+msgid "Delete"
+msgstr "Predefinito"
+
+#: app/templates/settings/notifications.html:37
+#, fuzzy
+msgid "Create Agent"
+msgstr "Crea un account"
+
+#: app/templates/settings/page.html:24
+#, fuzzy
+msgid "Server"
+msgstr "Mai"
+
+#: app/templates/settings/page.html:39
+#, fuzzy
+msgid "Notifications"
+msgstr "Inviti"
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"
 msgstr "Configura Wizarr"
-
-#: app/templates/tables/global-users.html:13
-#, fuzzy
-msgid "Name"
-msgstr "Nome utente"
-
-#: app/templates/tables/global-users.html:16
-#: app/templates/tables/invite_card.html:40
-#: app/templates/tables/invite_table.html:7
-#: app/templates/tables/user_card.html:37
-msgid "Expires"
-msgstr "Scade"
-
-#: app/templates/tables/global-users.html:22
-#, fuzzy
-msgid "Actions"
-msgstr "Inviti"
 
 #: app/templates/tables/invite_card.html:3
 msgid "There are currently no invitations."
 msgstr ""
 
 #: app/templates/tables/invite_card.html:16
-#: app/templates/tables/invite_table.html:22
 msgid "Available"
 msgstr "Disponibile"
 
-#: app/templates/tables/invite_card.html:32
-#: app/templates/tables/invite_table.html:6
-msgid "Created"
-msgstr "Creato"
-
-#: app/templates/tables/invite_card.html:43
-#: app/templates/tables/invite_table.html:35
-msgid "Expired"
-msgstr "Scaduto"
-
-#: app/templates/tables/invite_card.html:47
-#: app/templates/tables/invite_table.html:5
+#: app/templates/tables/invite_card.html:23
+#: app/templates/tables/invite_card.html:51
 msgid "Used"
 msgstr "Usato"
 
-#: app/templates/tables/invite_card.html:66
-#: app/templates/tables/invite_table.html:9
+#: app/templates/tables/invite_card.html:36
+msgid "Created"
+msgstr "Creato"
+
+#: app/templates/tables/invite_card.html:44
+#: app/templates/tables/user_card.html:39
+msgid "Expires"
+msgstr "Scade"
+
+#: app/templates/tables/invite_card.html:47
+msgid "Expired"
+msgstr "Scaduto"
+
+#: app/templates/tables/invite_card.html:70
 msgid "Libraries"
 msgstr "Librerie"
 
-#: app/templates/tables/invite_card.html:71
-#: app/templates/tables/invite_table.html:73
+#: app/templates/tables/invite_card.html:75
 msgid "Default"
 msgstr "Predefinito"
 
-#: app/templates/tables/invite_card.html:82
+#: app/templates/tables/invite_card.html:86
 #, fuzzy
 msgid "days"
 msgstr "1 giorno"
 
-#: app/templates/tables/invite_card.html:102
-#: app/templates/tables/invite_table.html:8
+#: app/templates/tables/invite_card.html:106
 msgid "Unlimited"
 msgstr "Illimitato"
 
 #: app/templates/tables/user_card.html:3
 msgid "There are currently no users."
 msgstr ""
+
+#: app/templates/tables/user_card.html:26
+#, fuzzy
+msgid "Home User"
+msgstr "Home"
 
 #: app/templates/wizard/frame.html:34
 msgid "Previous"
@@ -1170,4 +1175,16 @@ msgstr ""
 
 #~ msgid "Open Plex"
 #~ msgstr "Apri Plex"
+
+#~ msgid "User Configuration"
+#~ msgstr ""
+
+#~ msgid "User Policy"
+#~ msgstr ""
+
+#~ msgid "Name"
+#~ msgstr "Nome utente"
+
+#~ msgid "Actions"
+#~ msgstr "Inviti"
 
