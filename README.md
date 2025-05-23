@@ -64,4 +64,9 @@ A big thank you to these amazing contributors who’ve helped build and maintain
 
 ## 📸 Screenshots
 
-Screenshots of the new version coming soon. Stay tuned!
+![Accept Invite](./screenshots/accept_invite.jpeg)
+![Home](./screenshots/home.jpeg)
+![Invitations](./screenshots/invitations.jpeg)
+![Settings](./screenshots/settings.jpeg)
+![Users](./screenshots/users.jpeg)
+![Wizarr](./screenshots/wizarr.jpeg)
