@@ -4,10 +4,13 @@
     <input
       type="checkbox"
       name="libraries"
-      value="{{ lib }}"
-      {% if lib in selected %}checked{% endif %}
-      class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500"
+      value="{{ lib.external_id }}"
+      id="lib-{{ loop.index }}"
+      {% if lib.enabled %}checked{% endif %}
+      class="w-4 h-4 ..."
     />
-    <label class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ lib }}</label>
+    <label for="lib-{{ loop.index }}" class="ml-2 text-sm text-gray-600 dark:text-gray-400">
+      {{ lib.name }}
+    </label>
   </div>
 {% endfor %}

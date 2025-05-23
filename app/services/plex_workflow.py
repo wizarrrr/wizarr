@@ -7,7 +7,7 @@ from plexapi.myplex import MyPlexAccount
 from cachetools import cached, TTLCache
 from flask import copy_current_request_context
 from app.extensions import db
-from app.models import Invitation, User, Settings
+from app.models import Invitation, User, Settings, Library
 from .plex_client import PlexClient
 from .notifications import notify  # your existing helper
 
@@ -72,7 +72,18 @@ def _invite_user(email: str, code: str, user_id: int = None) -> None:
           .filter_by(key="libraries")
           .scalar()
     ) or ""
-    libs = (inv.specific_libraries or libs_setting).split(", ")
+    
+    
+    if inv.libraries:
+        libs = [lib.external_id for lib in inv.libraries]
+    else:
+        # fall back to your “global” set of enabled libraries:
+        libs = [
+            lib.external_id
+            for lib in Library.query.filter_by(enabled=True).all()
+        ]
+
+    
 
     allow_sync = bool(inv.plex_allow_sync)
 

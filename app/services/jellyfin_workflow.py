@@ -4,7 +4,7 @@ import re
 from sqlalchemy import or_
 
 from app.extensions import db
-from app.models import Invitation, User, Settings
+from app.models import Invitation, User, Settings, Library
 from .jellyfin_client import JellyfinClient
 from .notifications import notify
 from .invites import is_invite_valid  # helper moved to services/helpers.py
@@ -15,68 +15,75 @@ from .invites import is_invite_valid  # helper moved to services/helpers.py
 EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 
 def join(username: str, password: str, confirm: str, email: str, code: str) -> tuple[bool, str]:
-    client = JellyfinClient()
     """Return (success, error-msg) – called from the /wizard front end."""
-    # validate inputs
+    client = JellyfinClient()
+
+    # 1) Validate inputs
     if not EMAIL_RE.fullmatch(email):
         return False, "Invalid e-mail address."
     if not 8 <= len(password) <= 20:
-        return False, "Password must be 8-20 characters."
+        return False, "Password must be 8–20 characters."
     if password != confirm:
         return False, "Passwords do not match."
 
-    # validate invite code
+    # 2) Validate invite code
     ok, msg = is_invite_valid(code)
     if not ok:
         return False, msg
 
-    # check user/email uniqueness
-    existing = User.query.filter(or_(User.username == username,
-                                     User.email == email)).first()
+    # 3) Check user/email uniqueness
+    existing = User.query.filter(
+        or_(User.username == username, User.email == email)
+    ).first()
     if existing:
         return False, "User or e-mail already exists."
 
     try:
-        # create on Jellyfin side
+        # 4) Create on Jellyfin side
         user_id = client.create_user(username, password)
 
-        # load invite and settings
+        # 5) Figure out which libraries to give
         inv = Invitation.query.filter_by(code=code).first()
-        libs_setting = (
-            db.session.query(Settings.value)
-                      .filter_by(key="libraries")
-                      .scalar()
-        ) or ""
-        sections = (inv.specific_libraries or libs_setting).split(", ")
+
+        if inv.libraries:
+            sections = [lib.external_id for lib in inv.libraries]
+        else:
+            # fall back to your “global” set of enabled libraries:
+            sections = [
+                lib.external_id
+                for lib in Library.query.filter_by(enabled=True).all()
+            ]
+
         set_specific_folders(client, user_id, sections)
 
-        # compute expiry
+        # 7) Compute expiry date
         expires = None
         if inv.duration:
-            expires = datetime.datetime.now() + datetime.timedelta(days=int(inv.duration))
+            days = int(inv.duration)
+            expires = datetime.datetime.utcnow() + datetime.timedelta(days=days)
 
-        # create DB user
+        # 8) Persist our own User record
         new_user = User(
             username=username,
             email=email,
             password=password,
             token=user_id,
             code=code,
-            expires=expires
+            expires=expires,
         )
         db.session.add(new_user)
         db.session.commit()
 
-        # mark invite used and notify
+        # 9) Mark invite used & notify
         _mark_invite_used(inv, new_user)
-        notify("New User", f"User {username} has joined your server!", "tada")
+        notify("New User", f"User {username} has joined your server! 🎉")
+
         return True, ""
 
     except Exception as exc:
+        logging.error("Jellyfin join error", exc_info=True)
         db.session.rollback()
-        logging.error("Jellyfin join error: %s", exc, exc_info=True)
         return False, "An unexpected error occurred."
-
 
 def _mark_invite_used(inv: Invitation, user: User) -> None:
     """Mark the invitation as used in the database."""
