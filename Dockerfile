@@ -22,7 +22,11 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
 
 EXPOSE 5690
 
-ENTRYPOINT ["sh", "-c", "set -eu; uv run python -m app.legacy_migration.rename_legacy; uv run flask db upgrade; uv run python -m app.legacy_migration.import_legacy; exec \"$@\"", "--"]
+COPY /data/wizard_steps /opt/default_wizard_steps
+
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 CMD uv run gunicorn \
     --config gunicorn.conf.py \
