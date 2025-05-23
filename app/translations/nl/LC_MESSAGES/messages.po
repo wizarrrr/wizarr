@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-22 10:06+0000\n"
+"POT-Creation-Date: 2025-05-23 03:47+0000\n"
 "PO-Revision-Date: 2023-04-30 16:48+0000\n"
 "Last-Translator: Laurant Marijnissen <laurant@gigafyde.dev>\n"
 "Language: nl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/auth/routes.py:42
+#: app/blueprints/auth/routes.py:43
 #, fuzzy
 msgid "Invalid username or password"
 msgstr "Ongeldige gebruikersnaam of wachtwoord"
@@ -40,7 +40,7 @@ msgstr "Uitnodigingen"
 msgid "Users"
 msgstr "Gebruikers"
 
-#: app/templates/admin.html:46
+#: app/templates/admin.html:46 app/templates/settings/page.html:3
 msgid "Settings"
 msgstr "Instellingen"
 
@@ -70,21 +70,13 @@ msgid "Sign in"
 msgstr "Inloggen"
 
 #: app/templates/settings.html:13
-msgid "Server Settings"
+#, fuzzy
+msgid "Server settings"
 msgstr "Server Instellingen"
 
-#: app/templates/admin/invite.html:111 app/templates/settings.html:110
-msgid "Scan For Libraries"
-msgstr "Bibliotheken scannen"
-
-#: app/templates/settings.html:126 app/templates/settings.html:134
-#: app/templates/settings.html:143
-msgid "Optional, leave empty to disable"
+#: app/templates/settings.html:22
+msgid "Notification agents"
 msgstr ""
-
-#: app/templates/settings.html:155
-msgid "Save"
-msgstr "Opslaan"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
 #: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
@@ -96,9 +88,7 @@ msgstr "Je bent uitgenodigd voor %(name)s!"
 msgid "Join the Plex Server"
 msgstr "Neem deel aan de Plex server"
 
-#: app/templates/tables/global-users.html:19
-#: app/templates/tables/invite_table.html:4
-#: app/templates/tables/user_card.html:55 app/templates/user-plex-login.html:29
+#: app/templates/tables/user_card.html:57 app/templates/user-plex-login.html:29
 #: app/templates/user-plex-login.html:40
 msgid "Invite Code"
 msgstr "Uitnodigingscode"
@@ -172,9 +162,8 @@ msgstr "1 week"
 msgid "1 month"
 msgstr "1 maand"
 
-#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:56
-#: app/templates/tables/invite_table.html:48
-#: app/templates/tables/user_card.html:44
+#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:60
+#: app/templates/tables/user_card.html:46
 msgid "Never"
 msgstr "Nooit"
 
@@ -192,8 +181,7 @@ msgid "Invite to Plex Home"
 msgstr "Uitnodigingscode"
 
 #: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
-#: app/templates/tables/invite_card.html:82
-#: app/templates/tables/invite_table.html:13
+#: app/templates/tables/invite_card.html:86
 #, fuzzy
 msgid "Duration"
 msgstr "Vervaldatum"
@@ -213,9 +201,8 @@ msgid ""
 "                                        days. (1-999)"
 msgstr ""
 
-#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:92
-#: app/templates/tables/invite_table.html:11
-#: app/templates/tables/user_card.html:65
+#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
+#: app/templates/tables/user_card.html:67
 #, fuzzy
 msgid "Allow Downloads"
 msgstr "Download"
@@ -226,6 +213,11 @@ msgid ""
 "Specific\n"
 "                                Libraries"
 msgstr "Plex Bibliotheken"
+
+#: app/templates/admin/invite.html:111
+#: app/templates/partials/server_form.html:87
+msgid "Scan For Libraries"
+msgstr "Bibliotheken scannen"
 
 #: app/templates/admin/invite.html:119
 msgid "Create Invitation"
@@ -247,27 +239,23 @@ msgstr "Terug"
 msgid "Share"
 msgstr "Deel"
 
-#: app/templates/admin/notifications.html:11
-msgid "Notification Agents"
+#: app/templates/admin/user_modal.html:17
+msgid "Edit expiry"
 msgstr ""
 
-#: app/templates/admin/notifications.html:27
-#, fuzzy
-msgid "Delete"
-msgstr "Standaard"
-
-#: app/templates/admin/notifications.html:37
-#, fuzzy
-msgid "Create Agent"
-msgstr "Maak een account"
-
-#: app/templates/admin/user.html:44
-msgid "User Configuration"
+#: app/templates/admin/user_modal.html:27
+msgid "Expiry date (leave blank for never)"
 msgstr ""
 
-#: app/templates/admin/user.html:90
-msgid "User Policy"
+#: app/templates/admin/user_modal.html:41
+#: app/templates/modals/create-notification-agent.html:85
+msgid "Cancel"
 msgstr ""
+
+#: app/templates/admin/user_modal.html:48
+#: app/templates/partials/server_form.html:132
+msgid "Save"
+msgstr "Opslaan"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
@@ -320,80 +308,97 @@ msgstr "Plex Bibliotheken"
 msgid "Test & Create Agent"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:85
-msgid "Cancel"
+#: app/templates/partials/server_form.html:13
+msgid "Server Settings"
+msgstr "Server Instellingen"
+
+#: app/templates/partials/server_form.html:103
+#: app/templates/partials/server_form.html:111
+#: app/templates/partials/server_form.html:120
+msgid "Optional, leave empty to disable"
 msgstr ""
+
+#: app/templates/settings/notifications.html:11
+msgid "Notification Agents"
+msgstr ""
+
+#: app/templates/settings/notifications.html:27
+#, fuzzy
+msgid "Delete"
+msgstr "Standaard"
+
+#: app/templates/settings/notifications.html:37
+#, fuzzy
+msgid "Create Agent"
+msgstr "Maak een account"
+
+#: app/templates/settings/page.html:24
+#, fuzzy
+msgid "Server"
+msgstr "Nooit"
+
+#: app/templates/settings/page.html:39
+#, fuzzy
+msgid "Notifications"
+msgstr "Uitnodigingen"
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"
 msgstr "Configureer Wizarr"
-
-#: app/templates/tables/global-users.html:13
-#, fuzzy
-msgid "Name"
-msgstr "Gebruikersnaam"
-
-#: app/templates/tables/global-users.html:16
-#: app/templates/tables/invite_card.html:40
-#: app/templates/tables/invite_table.html:7
-#: app/templates/tables/user_card.html:37
-msgid "Expires"
-msgstr "Verloopt"
-
-#: app/templates/tables/global-users.html:22
-#, fuzzy
-msgid "Actions"
-msgstr "Uitnodigingen"
 
 #: app/templates/tables/invite_card.html:3
 msgid "There are currently no invitations."
 msgstr ""
 
 #: app/templates/tables/invite_card.html:16
-#: app/templates/tables/invite_table.html:22
 msgid "Available"
 msgstr "Beschikbaar"
 
-#: app/templates/tables/invite_card.html:32
-#: app/templates/tables/invite_table.html:6
+#: app/templates/tables/invite_card.html:23
+#: app/templates/tables/invite_card.html:51
+msgid "Used"
+msgstr "Gebruikt"
+
+#: app/templates/tables/invite_card.html:36
 msgid "Created"
 msgstr "Aangemaakt"
 
-#: app/templates/tables/invite_card.html:43
-#: app/templates/tables/invite_table.html:35
+#: app/templates/tables/invite_card.html:44
+#: app/templates/tables/user_card.html:39
+msgid "Expires"
+msgstr "Verloopt"
+
+#: app/templates/tables/invite_card.html:47
 #, fuzzy
 msgid "Expired"
 msgstr "Verloopt"
 
-#: app/templates/tables/invite_card.html:47
-#: app/templates/tables/invite_table.html:5
-msgid "Used"
-msgstr "Gebruikt"
-
-#: app/templates/tables/invite_card.html:66
-#: app/templates/tables/invite_table.html:9
+#: app/templates/tables/invite_card.html:70
 #, fuzzy
 msgid "Libraries"
 msgstr "Plex Bibliotheken"
 
-#: app/templates/tables/invite_card.html:71
-#: app/templates/tables/invite_table.html:73
+#: app/templates/tables/invite_card.html:75
 msgid "Default"
 msgstr "Standaard"
 
-#: app/templates/tables/invite_card.html:82
+#: app/templates/tables/invite_card.html:86
 #, fuzzy
 msgid "days"
 msgstr "1 dag"
 
-#: app/templates/tables/invite_card.html:102
-#: app/templates/tables/invite_table.html:8
+#: app/templates/tables/invite_card.html:106
 msgid "Unlimited"
 msgstr "Ongelimiteerd"
 
 #: app/templates/tables/user_card.html:3
 msgid "There are currently no users."
 msgstr ""
+
+#: app/templates/tables/user_card.html:26
+#, fuzzy
+msgid "Home User"
+msgstr "Home"
 
 #: app/templates/wizard/frame.html:34
 msgid "Previous"
@@ -1106,4 +1111,16 @@ msgstr ""
 
 #~ msgid "Open Plex"
 #~ msgstr ""
+
+#~ msgid "User Configuration"
+#~ msgstr ""
+
+#~ msgid "User Policy"
+#~ msgstr ""
+
+#~ msgid "Name"
+#~ msgstr "Gebruikersnaam"
+
+#~ msgid "Actions"
+#~ msgstr "Uitnodigingen"
 
