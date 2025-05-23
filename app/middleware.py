@@ -10,5 +10,5 @@ def require_onboarding():
         .filter_by(key="server_verified")
         .first()
     )
-    if not server_verified or server_verified.value != True:
+    if not server_verified or server_verified.value != "true":
         return redirect(url_for('setup.onboarding'))

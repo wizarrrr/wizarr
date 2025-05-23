@@ -2,6 +2,13 @@ from datetime import datetime
 from .extensions import db
 from flask_login import UserMixin
 
+invite_libraries = db.Table(
+    "invite_library",
+    db.Column("invite_id", db.Integer, db.ForeignKey("invitation.id"), primary_key=True),
+    db.Column("library_id", db.Integer, db.ForeignKey("library.id"), primary_key=True),
+)
+
+
 class Invitation(db.Model):
     __tablename__ = 'invitation'
     id = db.Column(db.Integer, primary_key=True)
@@ -18,11 +25,19 @@ class Invitation(db.Model):
     plex_allow_sync = db.Column(db.Boolean, default=False, nullable=False)
     plex_home = db.Column(db.Boolean, default=False, nullable=False)
 
+    libraries = db.relationship(
+        "Library",
+        secondary=invite_libraries,
+        back_populates="invites",
+    )
+
+
 class Settings(db.Model):
     __tablename__ = 'settings'
     id = db.Column(db.Integer, primary_key=True)
     key = db.Column(db.String, unique=True, nullable=False)
     value = db.Column(db.String, nullable=True)
+
 
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
@@ -35,6 +50,7 @@ class User(db.Model, UserMixin):
     expires = db.Column(db.DateTime, nullable=True)
     password = db.Column(db.String, nullable=True)
 
+
 class Notification(db.Model):
     __tablename__ = 'notification'
     id = db.Column(db.Integer, primary_key=True)
@@ -44,9 +60,26 @@ class Notification(db.Model):
     username = db.Column(db.String, nullable=True)
     password = db.Column(db.String, nullable=True)
 
+
 class AdminUser(UserMixin):
     id = "admin"
+
     @property
     def username(self):
-        from .models import Settings
         return Settings.query.filter_by(key="admin_username").first().value
+
+
+class Library(db.Model):
+    __tablename__ = "library"
+
+    id = db.Column(db.Integer, primary_key=True)
+    external_id = db.Column(db.String, unique=True, nullable=False)  # e.g. Plex folder ID
+    name = db.Column(db.String, nullable=False)
+    enabled = db.Column(db.Boolean, default=True, nullable=False)
+
+    # backref gives Invitation.libraries automatically
+    invites = db.relationship(
+        "Invitation",
+        secondary=invite_libraries,
+        back_populates="libraries",
+    )
