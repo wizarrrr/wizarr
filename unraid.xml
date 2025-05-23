@@ -3,7 +3,7 @@
     <Name>Wizarr</Name>
     <Repository>ghcr.io/wizarrrr/wizarr</Repository>
     <Registry>https://github.com/wizarrrr/wizarr/pkgs/container/wizarr</Registry>
-    <TemplateURL>https://github.com/Wizarrrr/wizarr/blob/master/unraid.xml</TemplateURL>
+    <TemplateURL>https://github.com/Wizarrrr/wizarr/blob/main/unraid.xml</TemplateURL>
     <Network>bridge</Network>
     <Privileged>false</Privileged>
     <Shell>bash</Shell>
@@ -14,7 +14,7 @@
     </Overview>
     <Category>MediaServer:Other</Category>
     <WebUI>http://[IP]:[PORT:5690]/</WebUI>
-    <Icon>https://github.com/Wizarrrr/wizarr/raw/master/screenshots/wizard.png</Icon>
+    <Icon>https://github.com/Wizarrrr/wizarr/raw/main/screenshots/wizard.png</Icon>
     <ExtraParams>--restart unless-stopped</ExtraParams>
     <Networking>
         <Mode>bridge</Mode>
