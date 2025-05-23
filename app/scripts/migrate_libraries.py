@@ -4,13 +4,11 @@
 import os
 import click
 from flask import Flask
-from app import create_app, db
+from app import db
 from app.models import Settings, Library, Invitation
 
-@click.command()
-def migrate_libraries():
+def migrate_libraries(app):
     """Migrate old comma-strings into the new Library + invite_library tables."""
-    app = create_app()
     with app.app_context():
         # 1) load and split the global Settings.libraries
         row = Settings.query.filter_by(key="libraries").first()
@@ -52,6 +50,3 @@ def migrate_libraries():
         #     db.engine.execute("ALTER TABLE invitation DROP COLUMN specific_libraries")
 
         click.echo("✅ Migration complete.")
-
-if __name__ == "__main__":
-    migrate_libraries()
