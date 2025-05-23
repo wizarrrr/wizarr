@@ -1,16 +1,12 @@
 # Wizarr
 
-> 🚀 **Development Relaunched:** We're excited to announce that **Wizarr is back in active development**!  
-> We're in the process of **rewriting the entire app** to make it more powerful, secure, and easier to use.  
-> In the meantime, please use the `:dev` Docker image to follow the latest changes and updates.
-> 
-> The current version of Wizar (v4.2.0) is considered **legacy**.
+> 🚀 **Development Relaunched:** We're excited to announce that **Wizarr is back in active development**!
+
 
 <img src="./app/static/wizarr-logo.png" height="200">
 
-<a href="https://hosted.weblate.org/engage/wizarr/">
-  <img src="https://hosted.weblate.org/widgets/wizarr/-/app/svg-badge.svg" alt="Translation Status" />
-</a>
+![GitHub Sponsors](https://img.shields.io/github/sponsors/mtthidoteu?style=plastic&link=https%3A%2F%2Fgithub.com%2Fsponsors%2Fmtthidoteu)
+
 
 ---
 
@@ -49,7 +45,7 @@ We use Weblate to make Wizarr accessible in many languages.
 Want to help translate? Click below!
 
 <a href="https://hosted.weblate.org/engage/wizarr/">
-  <img src="https://hosted.weblate.org/widgets/wizarr/-/app/multi-auto.svg" alt="Translation Status" />
+<img src="https://hosted.weblate.org/widget/wizarr/wizarr-universal/287x66-grey.png" alt="Translation status" />
 </a>
 
 ---
