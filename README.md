@@ -35,8 +35,6 @@ Check out our documentation for how to install and run Wizarr:
 
 📚 https://docs.wizarr.dev/getting-started/installation
 
-> ⚠️ Note: The app is currently undergoing a full rewrite. For the latest version under active development, please use the `:dev` Docker image.
-
 ---
 
 ## 🌍 Translations
