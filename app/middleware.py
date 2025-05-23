@@ -3,7 +3,7 @@ from flask import request, redirect, url_for
 from app.models import Settings
 
 def require_onboarding():
-    if request.path.startswith('/setup') or request.path.startswith('/static'):
+    if request.path.startswith('/setup') or request.path.startswith('/static') or request.path.startswith('/settings'):
         return
     server_verified = (
         Settings.query
