@@ -14,13 +14,13 @@
     </Overview>
     <Category>MediaServer:Other</Category>
     <WebUI>http://[IP]:[PORT:5690]/</WebUI>
-    <Icon>https://github.com/Wizarrrr/wizarr/raw/main/screenshots/wizard.png</Icon>
+    <Icon>https://github.com/wizarrrr/wizarr/raw/main/app/static/wizarr-logo.png> goes to the new</Icon>
     <ExtraParams>--restart unless-stopped</ExtraParams>
     <Networking>
         <Mode>bridge</Mode>
         <Publish>
             <Port>
-                <HostPort>5690</HostPort>
+                <HostPort>5690</HostPort>   
                 <ContainerPort>5690</ContainerPort>
                 <Protocol>tcp</Protocol>
             </Port>
