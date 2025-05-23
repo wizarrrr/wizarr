@@ -3,6 +3,22 @@
 from app import create_app, db
 from app.models import Settings, Library, Invitation
 
+def update_server_verified(app): 
+    #Function to convert server_verified = "true" to server_verified = True
+    with app.app_context():
+        # 1) load the Settings row
+        row = Settings.query.filter_by(key="server_verified").first()
+        if not row or not row.value:
+            # nothing to migrate
+            return
+
+        # 2) convert string to boolean
+        if row.value == "1":
+            row.value = "true"
+
+        db.session.commit()
+    
+
 def run_library_migration(app):
     """Idempotently pull old comma-list out of Settings.libraries,
        turn them into Library rows & Invitation<>Library links,
