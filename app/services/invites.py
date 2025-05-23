@@ -14,7 +14,7 @@ def _generate_code() -> str:
 def is_invite_valid(code: str) -> Tuple[bool, str]:
     # Try to load the Invitation by code (case-insensitive)
     invitation = Invitation.query.filter(
-        db.func.lower(Invitation.code) == code.lower()
+        db.func.lower(Invitation.code) == code.lower() #case insensitive
     ).first()
     if not invitation:
         return False, "Invalid code"
