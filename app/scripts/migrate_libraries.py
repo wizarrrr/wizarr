@@ -1,52 +1,50 @@
-#!/usr/bin/env python3
-# scripts/migrate_libraries.py
+# app/scripts/migrate_libraries.py
 
-import os
-import click
-from flask import Flask
-from app import db
+from app import create_app, db
 from app.models import Settings, Library, Invitation
 
-def migrate_libraries(app):
-    """Migrate old comma-strings into the new Library + invite_library tables."""
+def run_library_migration(app):
+    """Idempotently pull old comma-list out of Settings.libraries,
+       turn them into Library rows & Invitation<>Library links,
+       then delete that Settings entry so future runs skip it."""
     with app.app_context():
-        # 1) load and split the global Settings.libraries
+        # 1) load the Settings row
         row = Settings.query.filter_by(key="libraries").first()
-        old_global = []
-        if row and row.value:
-            old_global = [s.strip() for s in row.value.split(",") if s.strip()]
+        if not row or not row.value:
+            # nothing to migrate
+            return
 
-        # 2) upsert each as a Library record, enabled=True
-        for ext in old_global:
+        # 2) parse out all the ext-ids
+        old_ext_ids = [s.strip() for s in row.value.split(",") if s.strip()]
+        if not old_ext_ids:
+            # empty list → just delete and quit
+            db.session.delete(row)
+            db.session.commit()
+            return
+
+        # 3) upsert each global Library record
+        for ext in old_ext_ids:
             lib = Library.query.filter_by(external_id=ext).first()
             if not lib:
-                lib = Library(external_id=ext, name=ext, enabled=True)
-                db.session.add(lib)
+                db.session.add(Library(external_id=ext, name=ext, enabled=True))
 
-        # clear out the old global setting
-        if row:
-            row.value = ""
+        # 4) remove that Settings row entirely so we never run again
+        db.session.delete(row)
+
         db.session.commit()
-        click.echo(f"Imported {len(old_global)} global libraries → Library table.")
 
-        # 3) for each existing invitation, migrate its specific_libraries
-        invites = Invitation.query.all()
-        count = 0
-        for inv in invites:
+        # 5) now wire up per-invite links
+        total_links = 0
+        for inv in Invitation.query:
             if inv.specific_libraries:
-                choices = [s.strip() for s in inv.specific_libraries.split(",") if s.strip()]
-                for ext in choices:
+                parts = [s.strip() for s in inv.specific_libraries.split(",") if s.strip()]
+                for ext in parts:
                     lib = Library.query.filter_by(external_id=ext).first()
                     if lib and lib not in inv.libraries:
                         inv.libraries.append(lib)
-                        count += 1
-                # clear out the old string
+                        total_links += 1
+                # clear out the old CSV field
                 inv.specific_libraries = None
+
         db.session.commit()
-        click.echo(f"Wired up {count} invite↔library links.")
-
-        # 4) (optional) drop the old specific_libraries column
-        #     You can do that via Alembic in a separate revision, or here:
-        #     db.engine.execute("ALTER TABLE invitation DROP COLUMN specific_libraries")
-
-        click.echo("✅ Migration complete.")
+        print(f"[migrate_libraries] created {len(old_ext_ids)} Library rows and {total_links} invite links.")
