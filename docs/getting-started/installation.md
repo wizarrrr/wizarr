@@ -19,7 +19,7 @@ Define the `wizarr` service in your `docker-compose.yml` as follows:
 services:
   wizarr:
     container_name: wizarr
-    image: ghcr.io/wizarrrr/wizarr:dev #DEVELOPMENT BRANCH
+    image: ghcr.io/wizarrrr/wizarr
     ports:
       - 5690:5690
     volumes:
@@ -58,7 +58,7 @@ Then, restart all services defined in the Compose file:
   -v /path/to/appdata/config/database:/data/database \
   -v /path/to/appdata/config/wizard:/data/wizard_steps
   --restart unless-stopped \
-  ghcr.io/wizarrrr/wizarr:dev
+  ghcr.io/wizarrrr/wizarr
 </code></pre>
 
 **Updating**
