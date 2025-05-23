@@ -1,6 +1,7 @@
 from flask import Flask
 from .config import DevelopmentConfig
 from .extensions import init_extensions, db
+from .middleware import require_onboarding
 from .models import Invitation, Settings, User, Notification
 
 from .error_handlers import register_error_handlers
@@ -38,4 +39,5 @@ def create_app(config_object=DevelopmentConfig):
 
     register_error_handlers(app)
     
+    app.before_request(require_onboarding)
     return app
