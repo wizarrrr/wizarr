@@ -69,4 +69,4 @@ A big thank you to these amazing contributors who’ve helped build and maintain
 ![Invitations](./screenshots/invitations.jpeg)
 ![Settings](./screenshots/settings.jpeg)
 ![Users](./screenshots/users.jpeg)
-![Wizarr](./screenshots/wizarr.jpeg)
+![Wizarr](./screenshots/wizard.jpeg)
