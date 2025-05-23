@@ -12,8 +12,10 @@ def _generate_code() -> str:
     return ''.join(secrets.choice(CODESET) for _ in range(CODESIZE))
 
 def is_invite_valid(code: str) -> Tuple[bool, str]:
-    # Try to load the Invitation by code
-    invitation = Invitation.query.filter_by(code=code).first()
+    # Try to load the Invitation by code (case-insensitive)
+    invitation = Invitation.query.filter(
+        db.func.lower(Invitation.code) == code.lower()
+    ).first()
     if not invitation:
         return False, "Invalid code"
     now = datetime.datetime.now()
