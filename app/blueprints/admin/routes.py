@@ -37,7 +37,9 @@ def invite():
         except ValueError:
             return abort(401)  # duplicate / malformed code
 
-        link = f"{os.getenv('APP_URL')}/j/{invite.code}"
+        link = f"{request.host_url}j/{invite.code}"
+
+        #link = f"{os.getenv('APP_URL')}/j/{invite.code}"
         invitations = (
             Invitation.query
             .order_by(Invitation.created.desc())
@@ -48,7 +50,6 @@ def invite():
             link=link,
             invitations=invitations,
             server_type=server_type,
-            url=os.getenv("APP_URL"),
         )
 
     # GET
