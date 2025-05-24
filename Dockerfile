@@ -10,6 +10,8 @@ COPY . /data
 # Run uv sync
 RUN uv sync --locked
 
+RUN pybabel compile -d app/translations
+
 # Ensure the installed binary is on the `PATH`
 #ENV PATH="/root/.local/bin:/home/wizarruser/.local/bin:$PATH"
 
