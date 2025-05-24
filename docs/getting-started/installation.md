@@ -26,7 +26,6 @@ services:
       - /path/to/appdata/config/database:/data/database
       - /path/to/appdata/config/wizard:/data/wizard_steps
     environment:
-      - APP_URL=https://wizarr.domain.com #URL at which you will access and share 
       - DISABLE_BUILTIN_AUTH=false #Set to true ONLY if you are using another auth provider (Authelia, Authentik, etc)
       - TZ=Europe/London #Set your timezone here
 ```
@@ -51,7 +50,6 @@ Then, restart all services defined in the Compose file:
 
 <pre class="language-docker"><code class="lang-docker"><strong>docker run -d \
 </strong>  --name wizarr \
-  -e APP_URL=https://wizarr.domain.com \
   -e DISABLE_BUILTIN_AUTH=false \
   -e TZ=Europe/London \
   -p 5690:5690 \
