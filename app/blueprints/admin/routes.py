@@ -39,7 +39,6 @@ def invite():
 
         link = f"{request.host_url}j/{invite.code}"
 
-        #link = f"{os.getenv('APP_URL')}/j/{invite.code}"
         invitations = (
             Invitation.query
             .order_by(Invitation.created.desc())

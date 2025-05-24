@@ -40,11 +40,6 @@
     </Data>
     <Environment>
         <Variable>
-            <Value>http://localhost:5690</Value>
-            <Name>APP_URL</Name>
-            <Mode/>
-        </Variable>
-        <Variable>
             <Value>false</Value>
             <Name>DISABLE_BUILTIN_AUTH</Name>
             <Mode/>
@@ -57,9 +52,6 @@
             Description="Wizard Steps Mapping in order to customise steps shown to users (optional)" Type="Path" Display="always" Required="false" Mask="false"/>
     <Config Name="WebUI" Target="5690" Default="5690" Mode="tcp" Description="Web Port" Type="Port" Display="always"
             Required="true" Mask="false"/>
-    <Config Name="Application URL" Target="APP_URL" Default="http://localhost:5690" Mode=""
-            Description="URL at which you will access your application" Type="Variable" Display="always" Required="true"
-            Mask="false"/>
     <Config Name="Disable In-Built Auth" Target="DISABLE_BUILTIN_AUTH" Default="false" Mode=""
             Description="Only set to true if you are using another Authentication method, see docs" Type="Variable"
             Display="always" Required="false" Mask="false"/>
