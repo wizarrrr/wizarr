@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, send_from_directory, request, jsonify
+from flask import Blueprint, redirect, render_template, send_from_directory, request, jsonify, url_for
 import os, threading
 from app.extensions import db
 from app.models import Settings
@@ -76,7 +76,7 @@ def join():
             args=(app, token, code),
             daemon=True
         ).start()
-        return redirect(os.getenv("APP_URL") + "/wizard/")
+        return redirect(url_for("wizard.start"))
     elif server_type == "jellyfin":
         return render_template("signup-jellyfin.html", code=code)
 
