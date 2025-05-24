@@ -7,22 +7,25 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-23 03:47+0000\n"
+"POT-Creation-Date: 2025-05-24 22:10+0000\n"
 "PO-Revision-Date: 2025-05-24 08:58+0000\n"
 "Last-Translator: Ben Avermate <weblate@benavermate.be>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/"
-"wizarr-universal/nl/>\n"
 "Language: nl\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/wizarr-"
+"universal/nl/>\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/auth/routes.py:43
+#: app/blueprints/auth/routes.py:44
 msgid "Invalid username or password"
 msgstr "Ongeldige gebruikersnaam of wachtwoord"
+
+#: app/blueprints/settings/routes.py:131
+msgid "Library scan failed"
+msgstr ""
 
 #: app/templates/admin.html:5
 msgid "Admin"
@@ -40,7 +43,7 @@ msgstr "Uitnodigingen"
 msgid "Users"
 msgstr "Gebruikers"
 
-#: app/templates/admin.html:46 app/templates/settings/page.html:3
+#: app/templates/admin.html:46 app/templates/settings/index.html:3
 msgid "Settings"
 msgstr "Instellingen"
 
@@ -202,8 +205,8 @@ msgid ""
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
-"Indien ingevuld, zullen gebruikers van de Plex server verwijderd worden na "
-"een\n"
+"Indien ingevuld, zullen gebruikers van de Plex server verwijderd worden "
+"na een\n"
 "                                        aantal\n"
 "                                        dagen. (1-999)"
 
@@ -221,7 +224,7 @@ msgstr ""
 "                                Bibliotheken"
 
 #: app/templates/admin/invite.html:111
-#: app/templates/partials/server_form.html:87
+#: app/templates/settings/partials/server_form.html:87
 msgid "Scan For Libraries"
 msgstr "Bibliotheken scannen"
 
@@ -259,7 +262,7 @@ msgid "Cancel"
 msgstr "Annuleren"
 
 #: app/templates/admin/user_modal.html:48
-#: app/templates/partials/server_form.html:132
+#: app/templates/settings/partials/server_form.html:132
 msgid "Save"
 msgstr "Opslaan"
 
@@ -315,16 +318,13 @@ msgstr ""
 msgid "Test & Create Agent"
 msgstr "Test & creëer Agent"
 
-#: app/templates/partials/server_form.html:13
-msgid "Server Settings"
-msgstr "Server Instellingen"
+#: app/templates/settings/index.html:24
+msgid "Server"
+msgstr "Server"
 
-#: app/templates/partials/server_form.html:103
-#: app/templates/partials/server_form.html:111
-#: app/templates/partials/server_form.html:120
-#, fuzzy
-msgid "Optional, leave empty to disable"
-msgstr "Optioneel, laat leeg om te vergrendelen"
+#: app/templates/settings/index.html:39
+msgid "Notifications"
+msgstr "Meldingen"
 
 #: app/templates/settings/notifications.html:11
 #, fuzzy
@@ -339,13 +339,16 @@ msgstr "Verwijderen"
 msgid "Create Agent"
 msgstr "Creëer Agent"
 
-#: app/templates/settings/page.html:24
-msgid "Server"
-msgstr "Server"
+#: app/templates/settings/partials/server_form.html:13
+msgid "Server Settings"
+msgstr "Server Instellingen"
 
-#: app/templates/settings/page.html:39
-msgid "Notifications"
-msgstr "Meldingen"
+#: app/templates/settings/partials/server_form.html:103
+#: app/templates/settings/partials/server_form.html:111
+#: app/templates/settings/partials/server_form.html:120
+#, fuzzy
+msgid "Optional, leave empty to disable"
+msgstr "Optioneel, laat leeg om te vergrendelen"
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"
@@ -1125,3 +1128,4 @@ msgstr "Volgende"
 
 #~ msgid "Actions"
 #~ msgstr "Uitnodigingen"
+
