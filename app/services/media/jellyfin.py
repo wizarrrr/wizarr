@@ -21,7 +21,10 @@ class JellyfinClient(MediaClient):
 
     def __init__(self):
         super().__init__(url_key="server_url", token_key="api_key")
-        self.hdrs = {"X-Emby-Token": self.token}
+
+    @property
+    def hdrs(self):
+        return {"X-Emby-Token": self.token}
 
     def get(self, path: str):
         r = requests.get(f"{self.url}{path}", headers=self.hdrs, timeout=10)
