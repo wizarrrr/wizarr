@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, render_template, request, redirect, abort, url_for
 from app.services.invites import create_invite
-from app.services.media_service import list_users, delete_user
+from app.services.media.service import list_users, delete_user
 from app.services.update_check import needs_update
 from app.extensions import db, htmx
 from app.models import Invitation, Settings, User

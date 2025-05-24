@@ -3,7 +3,7 @@ from typing import List
 
 from app.extensions import db
 from app.models import User
-from app.services.media_service import delete_user  # facade (Plex / Jellyfin aware)
+from app.services.media.service import delete_user  # facade (Plex / Jellyfin aware)
 
 def delete_user_if_expired() -> List[int]:
     """

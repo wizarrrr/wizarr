@@ -6,8 +6,7 @@ from flask import Blueprint, request, render_template, redirect, url_for, flash,
 from flask_login import login_required
 from flask_babel import _
 
-from app.services.plex_client     import scan_libraries as scan_plex
-from app.services.jellyfin_client import scan_libraries as scan_jf
+from app.services.media.service import scan_libraries as scan_media
 from ...models import Settings, Library
 from ...forms.settings import SettingsForm
 from ...services.servers  import check_plex, check_jellyfin
@@ -122,9 +121,9 @@ def scan_libraries():
 
     # 2) fetch upstream libraries
     try:
-        raw = scan_plex(url, key) if stype=="plex" else scan_jf(url, key)
+        raw = scan_media(url=url, token=key, server_type=stype)
         # unify into list of (external_id, display_name)
-        items = raw.items() if isinstance(raw, dict) else [(name,name) for name in raw]
+        items = raw.items() if isinstance(raw, dict) else [(name, name) for name in raw]
     except Exception as exc:
         logging.warning("Library scan failed: %s", exc)
         return "<div class='text-red-500'>%s</div>" % _("Library scan failed")
