@@ -90,6 +90,7 @@ def invite_table():
 
     invites = (
         Invitation.query
+        .options(db.joinedload(Invitation.libraries))  # Eager load libraries
         .order_by(Invitation.created.desc())
         .all()
     )

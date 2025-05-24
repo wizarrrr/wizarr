@@ -100,6 +100,6 @@ def scan_libraries(url: str, token: str) -> dict[str, str]:
     )
     resp.raise_for_status()
     return {
-        item["Name"]: item["Id"]
+        item["Id"]: item["Name"]
         for item in resp.json()["Items"]
     }
