@@ -37,7 +37,7 @@
                                onclick="showOptions()">{{ _("Advanced Options") }}</a>
 
                         </div>
-                        <div class="hidden  " id="advanced">
+                        <div class="hidden" id="advanced">
                             <div class="flex items-center mb-4">
                                 <input id="unlimited" name="unlimited" type="checkbox" value="  "
                                        class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -92,7 +92,7 @@
                                 <div class="flex items-center mb-4">
                                     <input id="allowsync" name="allowsync" type="checkbox" value="  "
                                            class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="unlimited"
+                                    <label for="allowsync"
                                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Allow Downloads") }}</label>
                                 </div>
                             {% endif %}
@@ -151,6 +151,7 @@
             </div>
         </div>
     </div>
+</section>
     <script>
         function copyLink() {
             // Get the text field
@@ -170,10 +171,6 @@
 
         function showOptions() {
             var x = document.getElementById("advanced");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
+            x.classList.toggle("hidden");
         }
     </script>

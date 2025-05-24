@@ -15,13 +15,6 @@ admin_bp = Blueprint("admin", __name__)
 @admin_bp.route("/admin")
 @login_required
 def dashboard():
-    server_verified = (
-        Settings.query
-        .filter_by(key="server_verified")
-        .first()
-    )
-    if not server_verified:
-        return redirect("/setup/")
     return render_template("admin.html")
 
 
@@ -31,7 +24,12 @@ def dashboard():
 def invite():
     if not request.headers.get("HX-Request"):
         return redirect(url_for(".dashboard"))
-
+    server_type_setting = (
+        Settings.query
+        .filter_by(key="server_type")
+        .first()
+    )
+    server_type = server_type_setting.value if server_type_setting else None
     if request.method == "POST":
         try:
             code = request.form.get("code") or None
@@ -49,16 +47,12 @@ def invite():
             "admin/invite.html",
             link=link,
             invitations=invitations,
+            server_type=server_type,
             url=os.getenv("APP_URL"),
         )
 
     # GET
-    server_type_setting = (
-        Settings.query
-        .filter_by(key="server_type")
-        .first()
-    )
-    server_type = server_type_setting.value if server_type_setting else None
+    
     return render_template(
         "admin/invite.html",
         needUpdate=needs_update(),
