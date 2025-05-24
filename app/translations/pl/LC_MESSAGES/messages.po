@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-23 03:47+0000\n"
+"POT-Creation-Date: 2025-05-24 10:42+0000\n"
 "PO-Revision-Date: 2023-02-27 18:42+0000\n"
 "Last-Translator: Adrian Konopczynski <adrikonop@anomalie.ga>\n"
 "Language: pl\n"
@@ -20,10 +20,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/auth/routes.py:43
+#: app/blueprints/auth/routes.py:44
 #, fuzzy
 msgid "Invalid username or password"
 msgstr "Nieprawidłowa nazwa użytkownika lub hasło"
+
+#: app/blueprints/settings/routes.py:130
+msgid "Library scan failed"
+msgstr ""
 
 #: app/templates/admin.html:5
 msgid "Admin"
@@ -41,7 +45,7 @@ msgstr "Zaproszenia"
 msgid "Users"
 msgstr "Użytkownicy"
 
-#: app/templates/admin.html:46 app/templates/settings/page.html:3
+#: app/templates/admin.html:46 app/templates/settings/index.html:3
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -216,7 +220,7 @@ msgid ""
 msgstr "Biblioteki specyficzne"
 
 #: app/templates/admin/invite.html:111
-#: app/templates/partials/server_form.html:87
+#: app/templates/settings/partials/server_form.html:87
 msgid "Scan For Libraries"
 msgstr "Wyszukaj biblioteki"
 
@@ -254,7 +258,7 @@ msgid "Cancel"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:48
-#: app/templates/partials/server_form.html:132
+#: app/templates/settings/partials/server_form.html:132
 msgid "Save"
 msgstr "Zapisz"
 
@@ -309,16 +313,15 @@ msgstr "Kod zaproszenia"
 msgid "Test & Create Agent"
 msgstr ""
 
-#: app/templates/partials/server_form.html:13
+#: app/templates/settings/index.html:24
 #, fuzzy
-msgid "Server Settings"
-msgstr "Zmień ustawienia serwera"
+msgid "Server"
+msgstr "Nigdy"
 
-#: app/templates/partials/server_form.html:103
-#: app/templates/partials/server_form.html:111
-#: app/templates/partials/server_form.html:120
-msgid "Optional, leave empty to disable"
-msgstr ""
+#: app/templates/settings/index.html:39
+#, fuzzy
+msgid "Notifications"
+msgstr "Zaproszenia"
 
 #: app/templates/settings/notifications.html:11
 msgid "Notification Agents"
@@ -334,15 +337,16 @@ msgstr "Standard"
 msgid "Create Agent"
 msgstr "Utwórz konto"
 
-#: app/templates/settings/page.html:24
+#: app/templates/settings/partials/server_form.html:13
 #, fuzzy
-msgid "Server"
-msgstr "Nigdy"
+msgid "Server Settings"
+msgstr "Zmień ustawienia serwera"
 
-#: app/templates/settings/page.html:39
-#, fuzzy
-msgid "Notifications"
-msgstr "Zaproszenia"
+#: app/templates/settings/partials/server_form.html:103
+#: app/templates/settings/partials/server_form.html:111
+#: app/templates/settings/partials/server_form.html:120
+msgid "Optional, leave empty to disable"
+msgstr ""
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"

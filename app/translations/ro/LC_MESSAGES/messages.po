@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-23 03:47+0000\n"
+"POT-Creation-Date: 2025-05-24 10:42+0000\n"
 "PO-Revision-Date: 2023-05-04 16:49+0000\n"
 "Last-Translator: Serbanescu Bogdan <sherbibv@gmail.com>\n"
 "Language: ro\n"
@@ -20,10 +20,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/auth/routes.py:43
+#: app/blueprints/auth/routes.py:44
 #, fuzzy
 msgid "Invalid username or password"
 msgstr "Nume de utilizator sau parolă incorectă"
+
+#: app/blueprints/settings/routes.py:130
+msgid "Library scan failed"
+msgstr ""
 
 #: app/templates/admin.html:5
 msgid "Admin"
@@ -41,7 +45,7 @@ msgstr "Invitații"
 msgid "Users"
 msgstr "Utilizatori"
 
-#: app/templates/admin.html:46 app/templates/settings/page.html:3
+#: app/templates/admin.html:46 app/templates/settings/index.html:3
 msgid "Settings"
 msgstr "Setări"
 
@@ -224,7 +228,7 @@ msgstr ""
 "                                Specifice"
 
 #: app/templates/admin/invite.html:111
-#: app/templates/partials/server_form.html:87
+#: app/templates/settings/partials/server_form.html:87
 msgid "Scan For Libraries"
 msgstr "Scanează Pentru Biblioteci"
 
@@ -262,7 +266,7 @@ msgid "Cancel"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:48
-#: app/templates/partials/server_form.html:132
+#: app/templates/settings/partials/server_form.html:132
 msgid "Save"
 msgstr "Salvare"
 
@@ -321,15 +325,15 @@ msgstr ""
 msgid "Test & Create Agent"
 msgstr ""
 
-#: app/templates/partials/server_form.html:13
-msgid "Server Settings"
-msgstr "Setări server"
+#: app/templates/settings/index.html:24
+#, fuzzy
+msgid "Server"
+msgstr "Niciodată"
 
-#: app/templates/partials/server_form.html:103
-#: app/templates/partials/server_form.html:111
-#: app/templates/partials/server_form.html:120
-msgid "Optional, leave empty to disable"
-msgstr ""
+#: app/templates/settings/index.html:39
+#, fuzzy
+msgid "Notifications"
+msgstr "Invitații"
 
 #: app/templates/settings/notifications.html:11
 msgid "Notification Agents"
@@ -345,15 +349,15 @@ msgstr "Implicit"
 msgid "Create Agent"
 msgstr "Creează un cont"
 
-#: app/templates/settings/page.html:24
-#, fuzzy
-msgid "Server"
-msgstr "Niciodată"
+#: app/templates/settings/partials/server_form.html:13
+msgid "Server Settings"
+msgstr "Setări server"
 
-#: app/templates/settings/page.html:39
-#, fuzzy
-msgid "Notifications"
-msgstr "Invitații"
+#: app/templates/settings/partials/server_form.html:103
+#: app/templates/settings/partials/server_form.html:111
+#: app/templates/settings/partials/server_form.html:120
+msgid "Optional, leave empty to disable"
+msgstr ""
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"
