@@ -56,7 +56,6 @@ def invite():
     return render_template(
         "admin/invite.html",
         needUpdate=needs_update(),
-        url=os.getenv("APP_URL"),
         server_type=server_type,
     )
 
