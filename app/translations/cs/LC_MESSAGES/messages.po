@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-23 03:47+0000\n"
+"POT-Creation-Date: 2025-05-24 10:42+0000\n"
 "PO-Revision-Date: 2023-05-03 08:52+0000\n"
 "Last-Translator: Tomáš Plášek <tom.plasek05@gmail.com>\n"
 "Language: cs\n"
@@ -19,10 +19,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/auth/routes.py:43
+#: app/blueprints/auth/routes.py:44
 #, fuzzy
 msgid "Invalid username or password"
 msgstr "Neplatné Uživatelské jméno nebo Heslo"
+
+#: app/blueprints/settings/routes.py:130
+msgid "Library scan failed"
+msgstr ""
 
 #: app/templates/admin.html:5
 msgid "Admin"
@@ -41,7 +45,7 @@ msgstr "Pozvánky"
 msgid "Users"
 msgstr "Uživatelé"
 
-#: app/templates/admin.html:46 app/templates/settings/page.html:3
+#: app/templates/admin.html:46 app/templates/settings/index.html:3
 msgid "Settings"
 msgstr "Nastavení"
 
@@ -220,7 +224,7 @@ msgid ""
 msgstr ""
 
 #: app/templates/admin/invite.html:111
-#: app/templates/partials/server_form.html:87
+#: app/templates/settings/partials/server_form.html:87
 msgid "Scan For Libraries"
 msgstr "Skenovat knihovny"
 
@@ -258,7 +262,7 @@ msgid "Cancel"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:48
-#: app/templates/partials/server_form.html:132
+#: app/templates/settings/partials/server_form.html:132
 msgid "Save"
 msgstr "Uložit"
 
@@ -317,15 +321,15 @@ msgstr ""
 msgid "Test & Create Agent"
 msgstr ""
 
-#: app/templates/partials/server_form.html:13
-msgid "Server Settings"
-msgstr "Nastavení serveru"
+#: app/templates/settings/index.html:24
+#, fuzzy
+msgid "Server"
+msgstr "Nikdy"
 
-#: app/templates/partials/server_form.html:103
-#: app/templates/partials/server_form.html:111
-#: app/templates/partials/server_form.html:120
-msgid "Optional, leave empty to disable"
-msgstr ""
+#: app/templates/settings/index.html:39
+#, fuzzy
+msgid "Notifications"
+msgstr "Pozvánky"
 
 #: app/templates/settings/notifications.html:11
 msgid "Notification Agents"
@@ -341,15 +345,15 @@ msgstr "Základní"
 msgid "Create Agent"
 msgstr "Vytvořit účet"
 
-#: app/templates/settings/page.html:24
-#, fuzzy
-msgid "Server"
-msgstr "Nikdy"
+#: app/templates/settings/partials/server_form.html:13
+msgid "Server Settings"
+msgstr "Nastavení serveru"
 
-#: app/templates/settings/page.html:39
-#, fuzzy
-msgid "Notifications"
-msgstr "Pozvánky"
+#: app/templates/settings/partials/server_form.html:103
+#: app/templates/settings/partials/server_form.html:111
+#: app/templates/settings/partials/server_form.html:120
+msgid "Optional, leave empty to disable"
+msgstr ""
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"
