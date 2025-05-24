@@ -41,6 +41,15 @@ Check out our documentation for how to install and run Wizarr:
 
 ---
 
+## Sponsorship
+Thank you to our sponsor for supporting Wizarr development!
+
+<a href="https://elfhosted.com">
+  <img src="https://store.elfhosted.com/wp-content/uploads/2024/11/logo.svg" height="50" alt="Elfhosted" />
+</a>
+
+---
+
 ## 🌍 Translations
 
 We use Weblate to make Wizarr accessible in many languages.  
