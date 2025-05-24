@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify, abort, render_template, redirect
 from flask_login import login_required
-from app.services.jellyfin_client   import JellyfinClient
-from app.services.jellyfin_workflow import join
+from app.services.media.jellyfin import JellyfinClient, join
 
 
 jellyfin_bp = Blueprint("jellyfin", __name__, url_prefix="/jf")

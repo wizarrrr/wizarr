@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, abort
 from flask_login import login_required
-from app.services.plex_client import PlexClient
+from app.services.media.plex import PlexClient
 from cachetools import TTLCache, cached
 
 plex_bp = Blueprint("plex", __name__, url_prefix="/plex")

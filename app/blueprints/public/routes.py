@@ -3,7 +3,7 @@ import os, threading
 from app.extensions import db
 from app.models import Settings
 from app.services.invites import is_invite_valid
-from app.services.plex_workflow import handle_oauth_token
+from app.services.media.plex import handle_oauth_token
 from app.services.ombi_client import run_all_importers
 
 public_bp = Blueprint("public", __name__)
