@@ -1,99 +1,52 @@
-name: wizarr-ci
+name: wizarr-ci   # main “code + Docker” pipeline
 
 on:
-    push:
-        branches:
-            - main
-    pull_request: { }
-    schedule:
-        # nightly i18n refresh
-        -   cron: '13 3 * * *'
-    workflow_dispatch: { }
+  push:
+    branches: [ main ]
+    paths-ignore:     # skip pure-translation commits
+      - 'app/translations/**'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - 'app/translations/**'
+  workflow_dispatch: {}   # manual run
 
 env:
-    PYTHON_VERSION: '3.12'
-    NODE_VERSION: '20'
+  PYTHON_VERSION: '3.12'
+  NODE_VERSION:  '20'
 
 jobs:
-    # ──────────────────────── Babel / i18n ────────────────────────
-    i18n:
-        runs-on: ubuntu-latest
-        steps:
-            -   uses: actions/checkout@v4
+  docker-dev:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
-            -   name: Install uv
-                uses: astral-sh/setup-uv@v5
+    steps:
+      - uses: actions/checkout@v4
 
-            -   name: "Set up Python"
-                uses: actions/setup-python@v5
-                with:
-                    python-version-file: "pyproject.toml"
+      # ─────── Docker bits ───────
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-            -   name: Extract / update / compile messages
-                run: |
-                    uv run pybabel extract -F babel.cfg -k _l -o messages.pot .
-                    uv run pybabel update  -i messages.pot -d app/translations
-                    uv run    pybabel compile -d app/translations
-            
-            # Publish compiled .mo files for docker-dev
-            -   uses: actions/upload-artifact@v4
-                with:
-                    name: translations
-                    path: app/translations/**/*.mo
-                    retention-days: 7
-            
-            # Optional PR with updated .po / .mo files
-            -   name: Create i18n update PR
-                if: github.ref == 'refs/heads/main'
-                uses: peter-evans/create-pull-request@v6
-                with:
-                    commit-message: 'i18n: update PO & MO files'
-                    branch: i18n-updates
-                    title: 'Automatic i18n sync'
-                    body: 'This PR updates translation templates and compiled files.'
-        # ───────────────────── Dev Docker image ───────────────────────
-    docker-dev:
-        if: github.ref == 'refs/heads/main' && github.event_name != 'schedule'
-        needs: [ i18n ]
-        runs-on: ubuntu-latest
-        permissions:
-            contents: read
-            packages: write
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
-        steps:
-            -   uses: actions/checkout@v4
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          install: true
 
-            -   uses: actions/download-artifact@v4
-                with:
-                    name: translations
-                    path: app/translations/
-            
-            # Log in to GitHub Container Registry
-            -   name: Log in to GHCR
-                uses: docker/login-action@v3
-                with:
-                    registry: ghcr.io
-                    username: ${{ github.actor }}
-                    password: ${{ secrets.GITHUB_TOKEN }}
-            
-            # (Optional) Set up a Buildx builder
-            -   name: Set up QEMU
-                uses: docker/setup-qemu-action@v3
-
-            -   name: Set up Buildx
-                uses: docker/setup-buildx-action@v3
-                with:
-                    install: true
-            
-            # Build AND push multi-arch image in one shot
-            -   name: Build & push multi-arch :dev image
-                uses: docker/build-push-action@v5
-                with:
-                    context: .
-                    push: true
-                    platforms: linux/amd64,linux/arm64
-                    tags: |
-                        ghcr.io/${{ github.repository_owner }}/wizarr:dev
-                    # Optional layer cache, super handy on rebuilds:
-                    cache-from: type=gha
-                    cache-to: type=gha,mode=max
+      - name: Build & push multi-arch :dev image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: ghcr.io/${{ github.repository_owner }}/wizarr:dev
+          cache-from: type=gha
+          cache-to:   type=gha,mode=max
