@@ -64,9 +64,11 @@ def server_settings():
         data.pop("csrf_token", None)
 
         chosen = set(request.form.getlist("libraries"))
-        for lib in Library.query:
-            lib.enabled = (lib.external_id in chosen)
-        db.session.commit()
+        # Only update enabled state if at least one library is selected
+        if chosen:
+            for lib in Library.query:
+                lib.enabled = (lib.external_id in chosen)
+            db.session.commit()
 
         if not _check_server_connection(data):
             # HTMX‐render of the same form with errors
@@ -147,3 +149,4 @@ def scan_libraries():
       "partials/library_checkboxes.html",
       libs=all_libs
     )
+
