@@ -69,10 +69,10 @@
                     </svg>
                     {{ _("Libraries") }}: 
                     <span class="ml-1 truncate">
-                        {% if invite.specific_libraries %}
-                        {{ invite.specific_libraries }}
+                        {% if invite.libraries %}
+                            {{ invite.libraries|map(attribute='name')|join(', ') }}
                         {% else %}
-                        {{ _("Default") }}
+                            {{ _("Default") }}
                         {% endif %}
                     </span>
                 </div>
