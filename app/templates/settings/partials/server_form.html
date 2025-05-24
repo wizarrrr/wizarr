@@ -149,7 +149,7 @@
 <script>
     // when user types in field `requests_url`, and requests url is not empty, remove hiden form `ombi_api` div, if not add the hidden class
     document.getElementById("requests_url").addEventListener("input", function () {
-        if (document.getElementById("requests_url").value != "") {
+        if (document.getElementById("requests_url").value !== "") {
             document.getElementById("ombi_api").classList.remove("hidden");
         } else {
             document.getElementById("ombi_api").classList.add("hidden");
