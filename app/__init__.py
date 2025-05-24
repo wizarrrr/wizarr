@@ -6,14 +6,12 @@ from .models import Invitation, Settings, User, Notification
 
 from .error_handlers import register_error_handlers
 from .logging_config import configure_logging
-from .validate_env   import validate_env
 
 VERSION = "2.2.0"
 
 def create_app(config_object=DevelopmentConfig):
     print("Creating app")
-    configure_logging()   # ① logging is ready
-    validate_env()        # ② crash fast if mis-configured
+    configure_logging()   # ① logging is ready     # ② crash fast if mis-configured
     
     app = Flask(__name__)
     app.config.from_object(config_object)
