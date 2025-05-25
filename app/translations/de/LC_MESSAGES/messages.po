@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-05-24 18:39+0000\n"
 "PO-Revision-Date: 2025-05-26 00:01+0000\n"
-"Last-Translator: steen <t.tietgen@googlemail.com>\n"
+"Last-Translator: retardgerman <jan.cebulla@icloud.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/wizarr/"
 "wizarr-universal/de/>\n"
 "Language: de\n"
@@ -21,7 +21,6 @@ msgstr ""
 "Generated-By: Babel 2.17.0\n"
 
 #: app/blueprints/auth/routes.py:44
-#, fuzzy
 msgid "Invalid username or password"
 msgstr "Ungültiger Benutzername oder Passwort"
 
@@ -74,9 +73,8 @@ msgid "Sign in"
 msgstr "Einloggen"
 
 #: app/templates/settings.html:13
-#, fuzzy
 msgid "Server settings"
-msgstr "Servereinstellungen ändern"
+msgstr "Servereinstellungen"
 
 #: app/templates/settings.html:22
 msgid "Notification agents"
@@ -294,7 +292,7 @@ msgstr "Neuer Dienst"
 msgid ""
 "Username\n"
 "                                (optional)"
-msgstr "Einladung Code"
+msgstr "Nutzername (optional)"
 
 #: app/templates/modals/create-notification-agent.html:65
 msgid "Password (optional)"
