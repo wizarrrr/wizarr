@@ -8,190 +8,196 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2025-05-26 00:01+0000\n"
+"Last-Translator: Maxim Kovalev <maxkovalev23@gmail.com>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/ru/>\n"
 "Language: ru\n"
-"Language-Team: none\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 5.12-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/blueprints/auth/routes.py:44
 msgid "Invalid username or password"
-msgstr ""
+msgstr "Неверные имя пользователя или пароль"
 
 #: app/blueprints/settings/routes.py:131
 msgid "Library scan failed"
-msgstr ""
+msgstr "Ошибка сканирования библиотеки"
 
 #: app/templates/admin.html:5
 msgid "Admin"
-msgstr ""
+msgstr "Администратор"
 
 #: app/templates/admin.html:31
 msgid "Home"
-msgstr ""
+msgstr "Домой"
 
 #: app/templates/admin.html:36
 msgid "Invitations"
-msgstr ""
+msgstr "Приглашения"
 
 #: app/templates/admin.html:41
 msgid "Users"
-msgstr ""
+msgstr "Пользователи"
 
 #: app/templates/admin.html:46 app/templates/settings/index.html:3
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 #: app/templates/invalid-invite.html:16
 msgid "Invalid Invitation"
-msgstr ""
+msgstr "Недействительное приглашение"
 
 #: app/templates/login.html:18
 msgid "Login"
-msgstr ""
+msgstr "Логин"
 
 #: app/templates/login.html:23 app/templates/welcome-jellyfin.html:30
 msgid "Username"
-msgstr ""
+msgstr "Имя пользователя"
 
 #: app/templates/login.html:29 app/templates/welcome-jellyfin.html:47
 msgid "Password"
-msgstr ""
+msgstr "Пароль"
 
 #: app/templates/login.html:41
 msgid "Remember me"
-msgstr ""
+msgstr "Запомнить"
 
 #: app/templates/login.html:46
 msgid "Sign in"
-msgstr ""
+msgstr "Авторизация"
 
 #: app/templates/settings.html:13
 msgid "Server settings"
-msgstr ""
+msgstr "Настройки сервера"
 
 #: app/templates/settings.html:22
 msgid "Notification agents"
-msgstr ""
+msgstr "Менеджеры уведомлений"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
 #: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr ""
+msgstr "Вы были приглашены присоединиться к серверу %(name)s!"
 
 #: app/templates/user-plex-login.html:23
 msgid "Join the Plex Server"
-msgstr ""
+msgstr "Присоединиться к серверу Plex"
 
 #: app/templates/tables/user_card.html:57 app/templates/user-plex-login.html:29
 #: app/templates/user-plex-login.html:40
 msgid "Invite Code"
-msgstr ""
+msgstr "Код приглашения"
 
 #: app/templates/user-plex-login.html:45
 msgid "Oops!"
-msgstr ""
+msgstr "Опаньки!"
 
 #: app/templates/user-plex-login.html:52
 msgid "Join"
-msgstr ""
+msgstr "Присоединиться"
 
 #: app/templates/users.html:5
 msgid "Invite User"
-msgstr ""
+msgstr "Пригласить пользователя"
 
 #: app/templates/welcome-jellyfin.html:22
 msgid "Set up Account"
-msgstr ""
+msgstr "Настроить аккаунт"
 
 #: app/templates/welcome-jellyfin.html:38
 msgid "Email"
-msgstr ""
+msgstr "Электронная почта"
 
 #: app/templates/welcome-jellyfin.html:55
 msgid ""
 "Confirm\n"
 "                                password"
 msgstr ""
+"Подтвердить\n"
+"                                пароль"
 
 #: app/templates/welcome-jellyfin.html:63
 msgid ""
 "Invite\n"
 "                                Code"
 msgstr ""
+"Приглашение\n"
+"                                код"
 
 #: app/templates/setup/admin_account.html:58
 #: app/templates/welcome-jellyfin.html:72
 msgid "Create an account"
-msgstr ""
+msgstr "Создать аккаунт"
 
 #: app/templates/admin/invite.html:6
 msgid "Quick Invite"
-msgstr ""
+msgstr "Быстрое приглашение"
 
 #: app/templates/admin/invite.html:12
 msgid "Invite user"
-msgstr ""
+msgstr "Пригласить пользователя"
 
 #: app/templates/admin/invite.html:18
 msgid "Invite Code String"
-msgstr ""
+msgstr "Строка кода приглашения"
 
 #: app/templates/admin/invite.html:19
 msgid "(optional)"
-msgstr ""
+msgstr "(опционально)"
 
 #: app/templates/admin/invite.html:26
 msgid "Expiration"
-msgstr ""
+msgstr "Срок действия"
 
 #: app/templates/admin/invite.html:29
 msgid "1 day"
-msgstr ""
+msgstr "1 день"
 
 #: app/templates/admin/invite.html:30
 msgid "1 week"
-msgstr ""
+msgstr "1 неделя"
 
 #: app/templates/admin/invite.html:31
 msgid "1 month"
-msgstr ""
+msgstr "1 месяц"
 
 #: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:60
 #: app/templates/tables/user_card.html:46
 msgid "Never"
-msgstr ""
+msgstr "Никогда"
 
 #: app/templates/admin/invite.html:37
 msgid "Advanced Options"
-msgstr ""
+msgstr "Дополнительные настройки"
 
 #: app/templates/admin/invite.html:45
 msgid "Unlimited Usages"
-msgstr ""
+msgstr "Неограниченное число использований"
 
 #: app/templates/admin/invite.html:53
 msgid "Invite to Plex Home"
-msgstr ""
+msgstr "Пригласить в Plex Home"
 
 #: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
 #: app/templates/tables/invite_card.html:86
 msgid "Duration"
-msgstr ""
+msgstr "Длительность"
 
 #: app/templates/admin/invite.html:63
 msgid "(in days)"
-msgstr ""
+msgstr "(в днях)"
 
 #: app/templates/admin/invite.html:74
 msgid "Show Information"
-msgstr ""
+msgstr "Показать информацию"
 
 #: app/templates/admin/invite.html:80
 msgid ""
@@ -199,200 +205,210 @@ msgid ""
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
+"При активации, пользователь (и-) с приглашением будут удалены с сервера Plex "
+"через\n"
+"                                        количество\n"
+"                                        дней. (1-999)"
 
 #: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
 #: app/templates/tables/user_card.html:67
 msgid "Allow Downloads"
-msgstr ""
+msgstr "Разрешить загрузки"
 
 #: app/templates/admin/invite.html:102
 msgid ""
 "Specific\n"
 "                                Libraries"
 msgstr ""
+"Конкретные\n"
+"                                библиотеки"
 
 #: app/templates/admin/invite.html:111
 #: app/templates/settings/partials/server_form.html:87
 msgid "Scan For Libraries"
-msgstr ""
+msgstr "Найти библиотеки"
 
 #: app/templates/admin/invite.html:119
 msgid "Create Invitation"
-msgstr ""
+msgstr "Создать приглашение"
 
 #: app/templates/admin/invite.html:126
 msgid "Successfully generated an Invitation!"
-msgstr ""
+msgstr "Приглашение успешно создано!"
 
 #: app/templates/admin/invite.html:131
 msgid "Link has been copied to clipboard!"
-msgstr ""
+msgstr "Ссылка скопирована в буфер обмена!"
 
 #: app/templates/admin/invite.html:139
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #: app/templates/admin/invite.html:144
 msgid "Share"
-msgstr ""
+msgstr "Поделиться"
 
 #: app/templates/admin/user_modal.html:17
 msgid "Edit expiry"
-msgstr ""
+msgstr "Изменить срок действия"
 
 #: app/templates/admin/user_modal.html:27
 msgid "Expiry date (leave blank for never)"
-msgstr ""
+msgstr "Срок действия (оставить пустым для бессрочного)"
 
 #: app/templates/admin/user_modal.html:41
 #: app/templates/modals/create-notification-agent.html:85
 msgid "Cancel"
-msgstr ""
+msgstr "Отменить"
 
 #: app/templates/admin/user_modal.html:48
 #: app/templates/settings/partials/server_form.html:132
 msgid "Save"
-msgstr ""
+msgstr "Сохранить"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
-msgstr ""
+msgstr "Доступ запрещен."
 
 #: app/templates/error/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr ""
+msgstr "Вы пытаетесь сделать то, чего вам делать не стоит..."
 
 #: app/templates/error/404.html:19
 msgid "Something's missing."
-msgstr ""
+msgstr "Чего-то не хватает."
 
 #: app/templates/error/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
+msgstr "К сожалению, мы не можем найти эту страницу. Видимо, ее не существует!"
 
 #: app/templates/error/500.html:19
 msgid "Internal Server Error."
-msgstr ""
+msgstr "Внутренняя ошибка сервера."
 
 #: app/templates/error/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr ""
+msgstr " Что-то пошло не так. Повторите попытку позже."
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "Новый менеджер"
 
 #: app/templates/modals/create-notification-agent.html:60
 msgid ""
 "Username\n"
 "                                (optional)"
 msgstr ""
+"Имя пользователя\n"
+"                                (опционально)"
 
 #: app/templates/modals/create-notification-agent.html:65
 msgid "Password (optional)"
-msgstr ""
+msgstr "Пароль (опционально)"
 
 #: app/templates/modals/create-notification-agent.html:70
 msgid ""
 "Agent\n"
 "                                URL"
 msgstr ""
+"Менеджер\n"
+"                                Ссылка"
 
 #: app/templates/modals/create-notification-agent.html:81
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Проверить и добавить менеджер"
 
 #: app/templates/settings/index.html:24
 msgid "Server"
-msgstr ""
+msgstr "Сервер"
 
 #: app/templates/settings/index.html:39
 msgid "Notifications"
-msgstr ""
+msgstr "Уведомления"
 
 #: app/templates/settings/notifications.html:11
 msgid "Notification Agents"
-msgstr ""
+msgstr "Менеджеры уведомлений"
 
 #: app/templates/settings/notifications.html:27
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: app/templates/settings/notifications.html:37
 msgid "Create Agent"
-msgstr ""
+msgstr "Создать менеджера"
 
 #: app/templates/settings/partials/server_form.html:13
 msgid "Server Settings"
-msgstr ""
+msgstr "Настройки сервера"
 
 #: app/templates/settings/partials/server_form.html:103
 #: app/templates/settings/partials/server_form.html:111
 #: app/templates/settings/partials/server_form.html:120
 msgid "Optional, leave empty to disable"
-msgstr ""
+msgstr "Опционально, оставьте пустым или отключите"
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"
-msgstr ""
+msgstr "Настроить Wizarr"
 
 #: app/templates/tables/invite_card.html:3
 msgid "There are currently no invitations."
-msgstr ""
+msgstr "Нет действующих приглашений."
 
 #: app/templates/tables/invite_card.html:16
 msgid "Available"
-msgstr ""
+msgstr "Доступно"
 
 #: app/templates/tables/invite_card.html:23
 #: app/templates/tables/invite_card.html:51
 msgid "Used"
-msgstr ""
+msgstr "Использовано"
 
 #: app/templates/tables/invite_card.html:36
 msgid "Created"
-msgstr ""
+msgstr "Создано"
 
 #: app/templates/tables/invite_card.html:44
 #: app/templates/tables/user_card.html:39
 msgid "Expires"
-msgstr ""
+msgstr "Срок действия"
 
 #: app/templates/tables/invite_card.html:47
 msgid "Expired"
-msgstr ""
+msgstr "Просрочено"
 
 #: app/templates/tables/invite_card.html:70
 msgid "Libraries"
-msgstr ""
+msgstr "Библиотеки"
 
 #: app/templates/tables/invite_card.html:75
 msgid "Default"
-msgstr ""
+msgstr "По умолчанию"
 
 #: app/templates/tables/invite_card.html:86
 msgid "days"
-msgstr ""
+msgstr "дней"
 
 #: app/templates/tables/invite_card.html:106
 msgid "Unlimited"
-msgstr ""
+msgstr "Не ограничено"
 
 #: app/templates/tables/user_card.html:3
 msgid "There are currently no users."
-msgstr ""
+msgstr "Сейчас пользователи отсутствуют."
 
 #: app/templates/tables/user_card.html:26
 msgid "Home User"
-msgstr ""
+msgstr "Домашний пользователь"
 
 #: app/templates/wizard/frame.html:34
 msgid "Previous"
-msgstr ""
+msgstr "Предыдущий"
 
 #: app/templates/wizard/frame.html:42
 msgid "Next"
-msgstr ""
+msgstr "Следующий"
 
 #~ msgid ""
 #~ "Request\n"
@@ -658,4 +674,3 @@ msgstr ""
 
 #~ msgid "Actions"
 #~ msgstr ""
-
