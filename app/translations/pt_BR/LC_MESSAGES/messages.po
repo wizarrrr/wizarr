@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: 2023-03-09 16:41+0000\n"
-"Last-Translator: Pedro fRADE <pfrade1996@protonmail.com>\n"
+"PO-Revision-Date: 2025-05-26 00:01+0000\n"
+"Last-Translator: ClankJake <nascimentoaragao@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
+"wizarr/wizarr-universal/pt_BR/>\n"
 "Language: pt_BR\n"
-"Language-Team: Portuguese (Brazil) "
-"<https://hosted.weblate.org/projects/wizarr/app/pt_BR/>\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.12-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/blueprints/auth/routes.py:44
@@ -26,7 +27,7 @@ msgstr "Nome de usuário ou senha inválida"
 
 #: app/blueprints/settings/routes.py:131
 msgid "Library scan failed"
-msgstr ""
+msgstr "Falha na verificação da biblioteca"
 
 #: app/templates/admin.html:5
 msgid "Admin"
@@ -80,7 +81,7 @@ msgstr "Alterar configurações do servidor"
 
 #: app/templates/settings.html:22
 msgid "Notification agents"
-msgstr ""
+msgstr "Agentes de notificação"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
 #: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
@@ -191,7 +192,7 @@ msgstr "Código do convite"
 #: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
 #: app/templates/tables/invite_card.html:86
 msgid "Duration"
-msgstr "Tempo de Duração"
+msgstr "Duração"
 
 #: app/templates/admin/invite.html:63
 msgid "(in days)"
@@ -256,16 +257,16 @@ msgstr "Compartilhar"
 
 #: app/templates/admin/user_modal.html:17
 msgid "Edit expiry"
-msgstr ""
+msgstr "Editar expiração"
 
 #: app/templates/admin/user_modal.html:27
 msgid "Expiry date (leave blank for never)"
-msgstr ""
+msgstr "Data de validade (deixe em branco para nunca)"
 
 #: app/templates/admin/user_modal.html:41
 #: app/templates/modals/create-notification-agent.html:85
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: app/templates/admin/user_modal.html:48
 #: app/templates/settings/partials/server_form.html:132
@@ -298,7 +299,7 @@ msgstr " Algo deu errado. Por favor, tente novamente mais tarde."
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "Novo Agente"
 
 #: app/templates/modals/create-notification-agent.html:60
 #, fuzzy
@@ -325,7 +326,7 @@ msgstr ""
 
 #: app/templates/modals/create-notification-agent.html:81
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Teste & Criar Agente"
 
 #: app/templates/settings/index.html:24
 #, fuzzy
@@ -339,7 +340,7 @@ msgstr "Convites"
 
 #: app/templates/settings/notifications.html:11
 msgid "Notification Agents"
-msgstr ""
+msgstr "Agentes de Notificação"
 
 #: app/templates/settings/notifications.html:27
 #, fuzzy
@@ -360,7 +361,7 @@ msgstr "Alterar configurações do servidor"
 #: app/templates/settings/partials/server_form.html:111
 #: app/templates/settings/partials/server_form.html:120
 msgid "Optional, leave empty to disable"
-msgstr ""
+msgstr "Opcional, deixe em branco para desabilitar"
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"
@@ -368,7 +369,7 @@ msgstr "Configurar Wizarr"
 
 #: app/templates/tables/invite_card.html:3
 msgid "There are currently no invitations."
-msgstr ""
+msgstr "No momento não há convites."
 
 #: app/templates/tables/invite_card.html:16
 msgid "Available"
@@ -411,7 +412,7 @@ msgstr "Ilimitado"
 
 #: app/templates/tables/user_card.html:3
 msgid "There are currently no users."
-msgstr ""
+msgstr "Não há usuários no momento."
 
 #: app/templates/tables/user_card.html:26
 #, fuzzy
@@ -420,11 +421,11 @@ msgstr "Início"
 
 #: app/templates/wizard/frame.html:34
 msgid "Previous"
-msgstr ""
+msgstr "Anterior"
 
 #: app/templates/wizard/frame.html:42
 msgid "Next"
-msgstr ""
+msgstr "Próxima"
 
 #~ msgid ""
 #~ "We are excited to offer you a "
@@ -1119,4 +1120,3 @@ msgstr ""
 
 #~ msgid "Actions"
 #~ msgstr "Ações"
-
