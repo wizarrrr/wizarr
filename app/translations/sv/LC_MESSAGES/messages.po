@@ -8,25 +8,25 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: 2023-03-15 13:38+0000\n"
-"Last-Translator: thu3n <elias.thuen@gmail.com>\n"
+"PO-Revision-Date: 2025-05-26 00:01+0000\n"
+"Last-Translator: Hannes Brolin Lagerstedt <mainhannes@gmail.com>\n"
+"Language-Team: Swedish <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/sv/>\n"
 "Language: sv\n"
-"Language-Team: Swedish "
-"<https://hosted.weblate.org/projects/wizarr/app/sv/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.12-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/blueprints/auth/routes.py:44
-#, fuzzy
 msgid "Invalid username or password"
 msgstr "Felaktigt användarnamn eller lösenord"
 
 #: app/blueprints/settings/routes.py:131
 msgid "Library scan failed"
-msgstr ""
+msgstr "Bibliotek hittades inte"
 
 #: app/templates/admin.html:5
 msgid "Admin"
@@ -38,7 +38,7 @@ msgstr "Hem"
 
 #: app/templates/admin.html:36
 msgid "Invitations"
-msgstr "Inbjudan"
+msgstr "Inbjudningar"
 
 #: app/templates/admin.html:41
 msgid "Users"
@@ -49,9 +49,8 @@ msgid "Settings"
 msgstr "Inställningar"
 
 #: app/templates/invalid-invite.html:16
-#, fuzzy
 msgid "Invalid Invitation"
-msgstr "Inbjudan"
+msgstr "Ogiltig Inbjudan"
 
 #: app/templates/login.html:18
 msgid "Login"
@@ -74,13 +73,12 @@ msgid "Sign in"
 msgstr "Logga in"
 
 #: app/templates/settings.html:13
-#, fuzzy
 msgid "Server settings"
-msgstr "Ändra serverinställningar"
+msgstr "Serverinställningar"
 
 #: app/templates/settings.html:22
 msgid "Notification agents"
-msgstr ""
+msgstr "Notifikationsagenter"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
 #: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
@@ -107,7 +105,7 @@ msgstr "Gå med"
 
 #: app/templates/users.html:5
 msgid "Invite User"
-msgstr "Bjud in användare"
+msgstr "Bjud in Användare"
 
 #: app/templates/welcome-jellyfin.html:22
 msgid "Set up Account"
@@ -140,7 +138,7 @@ msgstr "Skapa ett konto"
 
 #: app/templates/admin/invite.html:6
 msgid "Quick Invite"
-msgstr "Snabb inbjudningar"
+msgstr "Snabbinbjudning"
 
 #: app/templates/admin/invite.html:12
 msgid "Invite user"
@@ -184,14 +182,13 @@ msgid "Unlimited Usages"
 msgstr "Obegränsad användning"
 
 #: app/templates/admin/invite.html:53
-#, fuzzy
 msgid "Invite to Plex Home"
-msgstr "Inbjudningskod"
+msgstr "Bjud in till Plex Home"
 
 #: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
 #: app/templates/tables/invite_card.html:86
 msgid "Duration"
-msgstr "Löper ut"
+msgstr "Varaktighet"
 
 #: app/templates/admin/invite.html:63
 msgid "(in days)"
@@ -214,9 +211,8 @@ msgstr ""
 
 #: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
 #: app/templates/tables/user_card.html:67
-#, fuzzy
 msgid "Allow Downloads"
-msgstr "Ladda ner"
+msgstr "Tillåt nedladdningar"
 
 #: app/templates/admin/invite.html:102
 msgid ""
@@ -229,7 +225,7 @@ msgstr ""
 #: app/templates/admin/invite.html:111
 #: app/templates/settings/partials/server_form.html:87
 msgid "Scan For Libraries"
-msgstr "Skanna för bibliotek"
+msgstr "Sök efter bibliotek"
 
 #: app/templates/admin/invite.html:119
 msgid "Create Invitation"
@@ -253,16 +249,16 @@ msgstr "Dela"
 
 #: app/templates/admin/user_modal.html:17
 msgid "Edit expiry"
-msgstr ""
+msgstr "Ändra utgångstid"
 
 #: app/templates/admin/user_modal.html:27
 msgid "Expiry date (leave blank for never)"
-msgstr ""
+msgstr "Utgångsdatum (lämna tomt för aldrig)"
 
 #: app/templates/admin/user_modal.html:41
 #: app/templates/modals/create-notification-agent.html:85
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: app/templates/admin/user_modal.html:48
 #: app/templates/settings/partials/server_form.html:132
@@ -295,69 +291,61 @@ msgstr " Något har gått fel. Vänligen försök igen senare."
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "Ny agent"
 
 #: app/templates/modals/create-notification-agent.html:60
-#, fuzzy
 msgid ""
 "Username\n"
 "                                (optional)"
 msgstr ""
-"Inbjudnings\n"
-"                                kod"
+"Användarnamn\n"
+"                                (valfritt)"
 
 #: app/templates/modals/create-notification-agent.html:65
-#, fuzzy
 msgid "Password (optional)"
-msgstr "(valfritt)"
+msgstr "Lösenord(valfritt)"
 
 #: app/templates/modals/create-notification-agent.html:70
-#, fuzzy
 msgid ""
 "Agent\n"
 "                                URL"
 msgstr ""
-"Inbjudnings\n"
-"                                kod"
+"Agent\n"
+"                                URL"
 
 #: app/templates/modals/create-notification-agent.html:81
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Testa & Skapa Agent"
 
 #: app/templates/settings/index.html:24
-#, fuzzy
 msgid "Server"
-msgstr "Aldrig"
+msgstr "Server"
 
 #: app/templates/settings/index.html:39
-#, fuzzy
 msgid "Notifications"
-msgstr "Inbjudan"
+msgstr "Notifieringar"
 
 #: app/templates/settings/notifications.html:11
 msgid "Notification Agents"
-msgstr ""
+msgstr "Notifierings Agenter"
 
 #: app/templates/settings/notifications.html:27
-#, fuzzy
 msgid "Delete"
-msgstr "Standard"
+msgstr "Ta bort"
 
 #: app/templates/settings/notifications.html:37
-#, fuzzy
 msgid "Create Agent"
-msgstr "Skapa ett konto"
+msgstr "Lägg till Agent"
 
 #: app/templates/settings/partials/server_form.html:13
-#, fuzzy
 msgid "Server Settings"
-msgstr "Ändra serverinställningar"
+msgstr "Serverinställningar"
 
 #: app/templates/settings/partials/server_form.html:103
 #: app/templates/settings/partials/server_form.html:111
 #: app/templates/settings/partials/server_form.html:120
 msgid "Optional, leave empty to disable"
-msgstr ""
+msgstr "Valfritt, lämna tomt för att avaktivera"
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"
@@ -365,7 +353,7 @@ msgstr "Konfigurera Wizarr"
 
 #: app/templates/tables/invite_card.html:3
 msgid "There are currently no invitations."
-msgstr ""
+msgstr "Det finns inga inbjudningar."
 
 #: app/templates/tables/invite_card.html:16
 msgid "Available"
@@ -398,9 +386,8 @@ msgid "Default"
 msgstr "Standard"
 
 #: app/templates/tables/invite_card.html:86
-#, fuzzy
 msgid "days"
-msgstr "1 dag"
+msgstr "dagar"
 
 #: app/templates/tables/invite_card.html:106
 msgid "Unlimited"
@@ -408,20 +395,19 @@ msgstr "Obegränsad"
 
 #: app/templates/tables/user_card.html:3
 msgid "There are currently no users."
-msgstr ""
+msgstr "Det finns för närvarande inga användare."
 
 #: app/templates/tables/user_card.html:26
-#, fuzzy
 msgid "Home User"
-msgstr "Hem"
+msgstr "Home användare"
 
 #: app/templates/wizard/frame.html:34
 msgid "Previous"
-msgstr ""
+msgstr "Föregående"
 
 #: app/templates/wizard/frame.html:42
 msgid "Next"
-msgstr ""
+msgstr "Nästa"
 
 #~ msgid ""
 #~ "Request\n"
@@ -1196,4 +1182,3 @@ msgstr ""
 
 #~ msgid "Actions"
 #~ msgstr "Inbjudan"
-
