@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: 2023-03-02 08:38+0000\n"
-"Last-Translator: Rémi Guerrero <remidu34070@hotmail.fr>\n"
+"PO-Revision-Date: 2025-05-28 10:05+0000\n"
+"Last-Translator: Matthieu B <matthieu@jaseroque.com>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/fr/>\n"
 "Language: fr\n"
-"Language-Team: French "
-"<https://hosted.weblate.org/projects/wizarr/app/fr/>\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.12-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/blueprints/auth/routes.py:44
@@ -49,9 +50,8 @@ msgid "Settings"
 msgstr "Paramètres"
 
 #: app/templates/invalid-invite.html:16
-#, fuzzy
 msgid "Invalid Invitation"
-msgstr "Invitations"
+msgstr "Invitation Invalide"
 
 #: app/templates/login.html:18
 msgid "Login"
@@ -74,19 +74,18 @@ msgid "Sign in"
 msgstr "Se connecter"
 
 #: app/templates/settings.html:13
-#, fuzzy
 msgid "Server settings"
 msgstr "Paramètres du serveur"
 
 #: app/templates/settings.html:22
 msgid "Notification agents"
-msgstr ""
+msgstr "Agents de Notifications"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
 #: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr "Vous avez été invité à rejoindre %(name)s !"
+msgstr "Vous avez été invité à rejoindre %(name)s !"
 
 #: app/templates/user-plex-login.html:23
 msgid "Join the Plex Server"
@@ -99,7 +98,7 @@ msgstr "Code d'invitation"
 
 #: app/templates/user-plex-login.html:45
 msgid "Oops!"
-msgstr "Oups !"
+msgstr "Oups !"
 
 #: app/templates/user-plex-login.html:52
 msgid "Join"
@@ -1225,4 +1224,3 @@ msgstr ""
 
 #~ msgid "Actions"
 #~ msgstr "Actions"
-
