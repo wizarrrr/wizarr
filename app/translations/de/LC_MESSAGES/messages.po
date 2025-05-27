@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: 2025-05-26 00:01+0000\n"
-"Last-Translator: retardgerman <jan.cebulla@icloud.com>\n"
+"PO-Revision-Date: 2025-05-28 10:05+0000\n"
+"Last-Translator: Jonas Riecken <jonas@riecken.me>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/wizarr/"
 "wizarr-universal/de/>\n"
 "Language: de\n"
@@ -119,13 +119,14 @@ msgstr "E-Mail"
 msgid ""
 "Confirm\n"
 "                                password"
-msgstr "Bestätige das Passwort"
+msgstr "Password Bestätigen"
 
 #: app/templates/welcome-jellyfin.html:63
+#, fuzzy
 msgid ""
 "Invite\n"
 "                                Code"
-msgstr "Einladung Code"
+msgstr "Einladungscode"
 
 #: app/templates/setup/admin_account.html:58
 #: app/templates/welcome-jellyfin.html:72
@@ -195,13 +196,14 @@ msgid "Show Information"
 msgstr "Informationen anzeigen"
 
 #: app/templates/admin/invite.html:80
+#, fuzzy
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a\n"
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
-"Wenn eingestellt, werden eingeladene Benutzer nach einer bestimmten "
-"Anzahl von Tagen vom Plex-Server entfernt. (1-999)"
+"Wenn aktiviert, werden eingeladene Benutzer nach einer bestimmten Anzahl von "
+"Tagen vom Plex-Server entfernt. (1-999)"
 
 #: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
 #: app/templates/tables/user_card.html:67
@@ -328,7 +330,7 @@ msgstr "Löschen"
 #: app/templates/settings/notifications.html:37
 #, fuzzy
 msgid "Create Agent"
-msgstr "Ein Konto erstellen"
+msgstr "Agent erstellen"
 
 #: app/templates/settings/partials/server_form.html:13
 msgid "Server Settings"
