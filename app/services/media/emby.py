@@ -96,7 +96,7 @@ class EmbyClient(MediaClient):
                     email="empty",
                     code="empty",
                     password="empty",
-                )
+                ) 
                 db.session.add(new)
         db.session.commit()
 
