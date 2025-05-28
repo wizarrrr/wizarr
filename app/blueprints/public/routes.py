@@ -37,7 +37,7 @@ def invite(code):
     server_type_setting = Settings.query.filter_by(key="server_type").first()
     server_type = server_type_setting.value if server_type_setting else None
 
-    if server_type == "jellyfin":
+    if server_type == "jellyfin" or server_type == "emby":
         return render_template("welcome-jellyfin.html", code=code)
     return render_template("user-plex-login.html", code=code)
 
