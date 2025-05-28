@@ -53,7 +53,7 @@ class EmbyClient(MediaClient):
         # Update the user's password
         self.post(
             f"/Users/{user_id}/Password",
-            {"Id": user_id, "NewPw": password, "ResetPassword": False},
+            {"Id": user_id, "NewPw": password, "ResetPassword": True},
         )
         return user_id
 
