@@ -52,12 +52,22 @@ class EmbyClient(MediaClient):
         user = self.post("/Users/New", {"Name": username}).json()
         user_id = user["Id"]
         
-        # Step 2: Set password - REMOVE ResetPassword: true as it clears the password!
-        # Use the simple format that works
-        self.post(
-            f"/Users/{user_id}/Password",
-            {"NewPw": password}  # Simple format without ResetPassword
-        )
+        # Step 2: Set password
+        try:
+            logging.info(f"Setting password for user {username} (ID: {user_id})")
+            password_response = self.post(
+                f"/Users/{user_id}/Password",
+                {
+                    "NewPw": password,
+                    "CurrentPw": "",  # No current password for new users
+                    "ResetPassword": False  # Important! Don't reset password
+                }
+            )
+            logging.info(f"Password set response: {password_response.status_code}")
+        except Exception as e:
+            logging.error(f"Failed to set password for user {username}: {str(e)}")
+            # Continue with user creation even if password setting fails
+            # as we may need to debug further
         
         return user_id
         
