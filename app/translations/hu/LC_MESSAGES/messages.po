@@ -8,32 +8,31 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: 2023-03-02 08:38+0000\n"
-"Last-Translator: Peter Tomka <peter.tomka@gmail.com>\n"
+"PO-Revision-Date: 2025-05-28 10:05+0000\n"
+"Last-Translator: hyperMBz <hypermb@ymail.com>\n"
+"Language-Team: Hungarian <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/hu/>\n"
 "Language: hu\n"
-"Language-Team: Hungarian "
-"<https://hosted.weblate.org/projects/wizarr/app/hu/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.12-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/blueprints/auth/routes.py:44
-#, fuzzy
 msgid "Invalid username or password"
 msgstr "Helytelen felhasználónév vagy jelszó"
 
 #: app/blueprints/settings/routes.py:131
 msgid "Library scan failed"
-msgstr ""
+msgstr "A könyvtár beolvasása sikertelen"
 
 #: app/templates/admin.html:5
 msgid "Admin"
 msgstr "Admin"
 
 #: app/templates/admin.html:31
-#, fuzzy
 msgid "Home"
 msgstr "Kezdőlap"
 
@@ -50,9 +49,8 @@ msgid "Settings"
 msgstr "Beállítások"
 
 #: app/templates/invalid-invite.html:16
-#, fuzzy
 msgid "Invalid Invitation"
-msgstr "Meghívások"
+msgstr "Érvénytelen meghívó"
 
 #: app/templates/login.html:18
 msgid "Login"
@@ -75,60 +73,63 @@ msgid "Sign in"
 msgstr "Bejelentkezés"
 
 #: app/templates/settings.html:13
-#, fuzzy
 msgid "Server settings"
 msgstr "Szerver beállítások"
 
 #: app/templates/settings.html:22
 msgid "Notification agents"
-msgstr ""
+msgstr "Értesítési ügynökök"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
 #: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr ""
+msgstr "Meghívást kaptál a %(name)s szerverre!"
 
 #: app/templates/user-plex-login.html:23
 msgid "Join the Plex Server"
-msgstr ""
+msgstr "Csatlakozás a Plex kiszolgálóhoz"
 
 #: app/templates/tables/user_card.html:57 app/templates/user-plex-login.html:29
 #: app/templates/user-plex-login.html:40
 msgid "Invite Code"
-msgstr ""
+msgstr "Meghívó kód"
 
 #: app/templates/user-plex-login.html:45
 msgid "Oops!"
-msgstr ""
+msgstr "Hoppá!"
 
 #: app/templates/user-plex-login.html:52
 msgid "Join"
-msgstr ""
+msgstr "Csatlakozzon a"
 
 #: app/templates/users.html:5
 msgid "Invite User"
-msgstr ""
+msgstr "Felhasználó Meghívása"
 
 #: app/templates/welcome-jellyfin.html:22
 msgid "Set up Account"
-msgstr ""
+msgstr "Fiók beállítása"
 
 #: app/templates/welcome-jellyfin.html:38
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #: app/templates/welcome-jellyfin.html:55
 msgid ""
 "Confirm\n"
 "                                password"
 msgstr ""
+"Megerősítés\n"
+"                                jelszó"
 
 #: app/templates/welcome-jellyfin.html:63
 msgid ""
 "Invite\n"
 "                                Code"
 msgstr ""
+"Meghívó\n"
+"                                Kód"
 
 #: app/templates/setup/admin_account.html:58
 #: app/templates/welcome-jellyfin.html:72
@@ -137,65 +138,65 @@ msgstr "Fiók létrehozása"
 
 #: app/templates/admin/invite.html:6
 msgid "Quick Invite"
-msgstr ""
+msgstr "Gyors meghívás"
 
 #: app/templates/admin/invite.html:12
 msgid "Invite user"
-msgstr ""
+msgstr "Felhasználó meghívása"
 
 #: app/templates/admin/invite.html:18
 msgid "Invite Code String"
-msgstr ""
+msgstr "Meghívó kódsorozat"
 
 #: app/templates/admin/invite.html:19
 msgid "(optional)"
-msgstr ""
+msgstr "(opcionális)"
 
 #: app/templates/admin/invite.html:26
 msgid "Expiration"
-msgstr ""
+msgstr "Lejárat"
 
 #: app/templates/admin/invite.html:29
 msgid "1 day"
-msgstr ""
+msgstr "1 nap"
 
 #: app/templates/admin/invite.html:30
 msgid "1 week"
-msgstr ""
+msgstr "1 hét"
 
 #: app/templates/admin/invite.html:31
 msgid "1 month"
-msgstr ""
+msgstr "1 hónap"
 
 #: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:60
 #: app/templates/tables/user_card.html:46
 msgid "Never"
-msgstr ""
+msgstr "Soha"
 
 #: app/templates/admin/invite.html:37
 msgid "Advanced Options"
-msgstr ""
+msgstr "Speciális beállítások"
 
 #: app/templates/admin/invite.html:45
 msgid "Unlimited Usages"
-msgstr ""
+msgstr "Korlátlan használat"
 
 #: app/templates/admin/invite.html:53
 msgid "Invite to Plex Home"
-msgstr ""
+msgstr "Meghívás a Plex Home-ra"
 
 #: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
 #: app/templates/tables/invite_card.html:86
 msgid "Duration"
-msgstr ""
+msgstr "Időtartam"
 
 #: app/templates/admin/invite.html:63
 msgid "(in days)"
-msgstr ""
+msgstr "(napokban)"
 
 #: app/templates/admin/invite.html:74
 msgid "Show Information"
-msgstr ""
+msgstr "Információk megjelenítése"
 
 #: app/templates/admin/invite.html:80
 msgid ""
@@ -203,140 +204,148 @@ msgid ""
 "                                        number of\n"
 "                                        days. (1-999)"
 msgstr ""
+"Ha be van állítva, akkor a meghívott felhasználó(k) eltávolításra kerülnek a "
+"Plex kiszolgálóról, miután a\n"
+"                                        szám után\n"
+"                                        nap után. (1-999)"
 
 #: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
 #: app/templates/tables/user_card.html:67
 msgid "Allow Downloads"
-msgstr ""
+msgstr "Letöltések engedélyezése"
 
 #: app/templates/admin/invite.html:102
 msgid ""
 "Specific\n"
 "                                Libraries"
 msgstr ""
+"Speciális\n"
+"                                Könyvtárak"
 
 #: app/templates/admin/invite.html:111
 #: app/templates/settings/partials/server_form.html:87
 msgid "Scan For Libraries"
-msgstr "Könytvárak keresése"
+msgstr "Könyvtárak keresése"
 
 #: app/templates/admin/invite.html:119
 msgid "Create Invitation"
-msgstr ""
+msgstr "Meghívó létrehozása"
 
 #: app/templates/admin/invite.html:126
 msgid "Successfully generated an Invitation!"
-msgstr ""
+msgstr "Sikeresen generált meghívót!"
 
 #: app/templates/admin/invite.html:131
 msgid "Link has been copied to clipboard!"
-msgstr ""
+msgstr "A linket a vágólapra másoltuk!"
 
 #: app/templates/admin/invite.html:139
 msgid "Back"
-msgstr ""
+msgstr "Vissza"
 
 #: app/templates/admin/invite.html:144
 msgid "Share"
-msgstr ""
+msgstr "Megosztás"
 
 #: app/templates/admin/user_modal.html:17
 msgid "Edit expiry"
-msgstr ""
+msgstr "Szerkesztés lejárat"
 
 #: app/templates/admin/user_modal.html:27
 msgid "Expiry date (leave blank for never)"
-msgstr ""
+msgstr "Lejárati idő (üresen hagyva, ha soha)"
 
 #: app/templates/admin/user_modal.html:41
 #: app/templates/modals/create-notification-agent.html:85
 msgid "Cancel"
-msgstr ""
+msgstr "Törölje"
 
 #: app/templates/admin/user_modal.html:48
 #: app/templates/settings/partials/server_form.html:132
 msgid "Save"
-msgstr ""
+msgstr "Mentés"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
-msgstr ""
+msgstr "Engedély megtagadva."
 
 #: app/templates/error/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr ""
+msgstr "Olyasmit próbálsz csinálni, amit nem kellene..."
 
 #: app/templates/error/404.html:19
 msgid "Something's missing."
-msgstr ""
+msgstr "Valami hiányzik."
 
 #: app/templates/error/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
+msgstr "Sajnáljuk, nem találjuk az oldalt. Úgy tűnik, hogy nem létezik!"
 
 #: app/templates/error/500.html:19
 msgid "Internal Server Error."
-msgstr ""
+msgstr "Belső szerver hiba."
 
 #: app/templates/error/500.html:21
 msgid " Something has gone wrong. Please try again later."
-msgstr ""
+msgstr " Valami elromlott. Kérjük, próbálja meg később újra."
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "Új ügynök"
 
 #: app/templates/modals/create-notification-agent.html:60
 msgid ""
 "Username\n"
 "                                (optional)"
 msgstr ""
+"Felhasználónév\n"
+"                                (opcionális)"
 
 #: app/templates/modals/create-notification-agent.html:65
 msgid "Password (optional)"
-msgstr ""
+msgstr "Jelszó (nem kötelező)"
 
 #: app/templates/modals/create-notification-agent.html:70
 msgid ""
 "Agent\n"
 "                                URL"
 msgstr ""
+"ügynök\n"
+"                                URL"
 
 #: app/templates/modals/create-notification-agent.html:81
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Teszt és ügynök létrehozása"
 
 #: app/templates/settings/index.html:24
 msgid "Server"
-msgstr ""
+msgstr "Szerver"
 
 #: app/templates/settings/index.html:39
-#, fuzzy
 msgid "Notifications"
-msgstr "Meghívások"
+msgstr "Értesítések"
 
 #: app/templates/settings/notifications.html:11
 msgid "Notification Agents"
-msgstr ""
+msgstr "Értesítési Ügynökök"
 
 #: app/templates/settings/notifications.html:27
 msgid "Delete"
-msgstr ""
+msgstr "Töröl"
 
 #: app/templates/settings/notifications.html:37
-#, fuzzy
 msgid "Create Agent"
-msgstr "Fiók létrehozása"
+msgstr "Ügynök Létrehozása"
 
 #: app/templates/settings/partials/server_form.html:13
 msgid "Server Settings"
-msgstr "Szerver beállítások"
+msgstr "Szerver Beállítások"
 
 #: app/templates/settings/partials/server_form.html:103
 #: app/templates/settings/partials/server_form.html:111
 #: app/templates/settings/partials/server_form.html:120
 msgid "Optional, leave empty to disable"
-msgstr ""
+msgstr "Nem kötelező, a letiltáshoz hagyja üresen"
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"
@@ -344,62 +353,61 @@ msgstr "Wizarr beállítása"
 
 #: app/templates/tables/invite_card.html:3
 msgid "There are currently no invitations."
-msgstr ""
+msgstr "Jelenleg nincsenek meghívók."
 
 #: app/templates/tables/invite_card.html:16
 msgid "Available"
-msgstr ""
+msgstr "Elérhető"
 
 #: app/templates/tables/invite_card.html:23
 #: app/templates/tables/invite_card.html:51
 msgid "Used"
-msgstr ""
+msgstr "Használt"
 
 #: app/templates/tables/invite_card.html:36
 msgid "Created"
-msgstr ""
+msgstr "Létrehozva"
 
 #: app/templates/tables/invite_card.html:44
 #: app/templates/tables/user_card.html:39
 msgid "Expires"
-msgstr ""
+msgstr "Lejár"
 
 #: app/templates/tables/invite_card.html:47
 msgid "Expired"
-msgstr ""
+msgstr "Lejárt"
 
 #: app/templates/tables/invite_card.html:70
 msgid "Libraries"
-msgstr ""
+msgstr "Könyvtárak"
 
 #: app/templates/tables/invite_card.html:75
 msgid "Default"
-msgstr ""
+msgstr "Alapértelmezett"
 
 #: app/templates/tables/invite_card.html:86
 msgid "days"
-msgstr ""
+msgstr "napok"
 
 #: app/templates/tables/invite_card.html:106
 msgid "Unlimited"
-msgstr ""
+msgstr "Korlátlan"
 
 #: app/templates/tables/user_card.html:3
 msgid "There are currently no users."
-msgstr ""
+msgstr "Jelenleg nincsenek felhasználók."
 
 #: app/templates/tables/user_card.html:26
-#, fuzzy
 msgid "Home User"
-msgstr "Kezdőlap"
+msgstr "Otthoni Felhasználó"
 
 #: app/templates/wizard/frame.html:34
 msgid "Previous"
-msgstr ""
+msgstr "Előző"
 
 #: app/templates/wizard/frame.html:42
 msgid "Next"
-msgstr ""
+msgstr "Következő"
 
 #~ msgid "Change Server Settings"
 #~ msgstr ""
@@ -667,4 +675,3 @@ msgstr ""
 
 #~ msgid "Actions"
 #~ msgstr ""
-
