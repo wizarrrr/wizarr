@@ -24,7 +24,20 @@ def _mark_invite_used(inv: Invitation, user: User) -> None:
 
 # Helper function to find folder ID from name
 def _folder_name_to_id(name: str, cache: dict[str, str]) -> str | None:
-    return cache.get(name)
+    # Look up by name in the cache dictionary
+    # In Emby, keys are IDs and values are names
+    for folder_id, folder_name in cache.items():
+        if folder_name == name:
+            return folder_id
+    
+    # If not found by exact name, try case-insensitive match
+    for folder_id, folder_name in cache.items():
+        if folder_name.lower() == name.lower():
+            return folder_id
+            
+    # If still not found, log and return None
+    logging.warning(f"Could not find library ID for name: {name}")
+    return None
 
 # Set specific folders for a user
 def set_specific_folders(client: EmbyClient, user_id: str, names: list[str]):
@@ -33,15 +46,36 @@ def set_specific_folders(client: EmbyClient, user_id: str, names: list[str]):
     folder_ids = [_folder_name_to_id(n, mapping) for n in names]
     folder_ids = [fid for fid in folder_ids if fid]
     
+    # Comprehensive Emby permission policy
     policy_patch = {
-        "EnableAllFolders": not folder_ids,
-        "EnabledFolders": folder_ids,
+        # Library access settings
+        "EnableAllFolders": not folder_ids,  # False if we want to specify folders
+        "EnabledFolders": folder_ids,       # List of specific folder IDs to grant access to
+        
+        # Content access permissions
+        "EnableMediaPlayback": True,
+        "EnableAudioPlaybackTranscoding": True,
+        "EnableVideoPlaybackTranscoding": True,
+        "EnablePlaybackRemuxing": True,
+        "EnableContentDownloading": True,
+        "EnableSubtitleDownloading": True,
+        "EnableSubtitleManagement": True,
+        
+        # Additional permissions needed for proper library view
+        "EnableLiveTvAccess": True,
+        "EnableLiveTvManagement": False,
+        "EnableMediaConversion": True,
+        "EnableAllChannels": True,
+        "EnableAllDevices": True,
+        "EnablePublicSharing": False
     }
     
     # Get current policy and update it
     user_data = client.get_user(user_id)
     current = user_data.get("Policy", {})
     current.update(policy_patch)
+    
+    logging.info(f"Setting permissions for user {user_id} with folders: {folder_ids}")
     
     # Apply updated policy
     client.set_policy(user_id, current)
@@ -102,6 +136,22 @@ def join(username: str, password: str, confirm: str, email: str, code: str) -> t
         # Step 1: Create the user in Emby
         user_id = client.create_user(username, password)
         logging.info(f"Emby user created with ID: {user_id}")
+        
+        # Step 2: Set initial default permissions
+        initial_policy = {
+            "IsAdministrator": False,
+            "IsHidden": False,
+            "IsDisabled": False,
+            "EnableUserPreferenceAccess": True,
+            "EnableRemoteControlOfOtherUsers": False,
+            "EnableSharedDeviceControl": False,
+            "EnableRemoteAccess": True,
+            "EnableMediaPlayback": True,
+            "EnableAllChannels": True,
+            "EnableAllDevices": True,
+        }
+        client.set_policy(user_id, initial_policy)
+        logging.info(f"Set initial permissions for user {username}")
         
         # Get invitation record
         inv = Invitation.query.filter_by(code=code).first()
