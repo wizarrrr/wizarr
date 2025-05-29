@@ -2,15 +2,49 @@ from flask import Blueprint, request, jsonify, abort, render_template, redirect
 from flask_login import login_required
 from app.services.media.emby import EmbyClient
 import logging
+import datetime
 
 # Create an Emby version of the join function similar to Jellyfin
-from app.services.invites import is_invite_valid, _mark_invite_used
-from app.models import User, Invitation
+from app.services.invites import is_invite_valid
+from app.models import User, Invitation, Library
 from app.extensions import db
+from sqlalchemy import or_
+from app.services.notifications import notify
 import re
 
 # Reuse the same email regex as jellyfin
 EMAIL_RE = re.compile(r"[^@]+@[^@]+\.[^@]+")
+
+# Define the mark_invite_used function like in jellyfin.py
+def _mark_invite_used(inv: Invitation, user: User) -> None:
+    inv.used = True if not inv.unlimited else inv.used
+    inv.used_at = datetime.datetime.now()
+    inv.used_by = user
+    db.session.commit()
+
+# Helper function to find folder ID from name
+def _folder_name_to_id(name: str, cache: dict[str, str]) -> str | None:
+    return cache.get(name)
+
+# Set specific folders for a user
+def set_specific_folders(client: EmbyClient, user_id: str, names: list[str]):
+    mapping = client.libraries()
+    
+    folder_ids = [_folder_name_to_id(n, mapping) for n in names]
+    folder_ids = [fid for fid in folder_ids if fid]
+    
+    policy_patch = {
+        "EnableAllFolders": not folder_ids,
+        "EnabledFolders": folder_ids,
+    }
+    
+    # Get current policy and update it
+    user_data = client.get_user(user_id)
+    current = user_data.get("Policy", {})
+    current.update(policy_patch)
+    
+    # Apply updated policy
+    client.set_policy(user_id, current)
 
 emby_bp = Blueprint("emby", __name__, url_prefix="/emby")
 
@@ -53,9 +87,13 @@ def join(username: str, password: str, confirm: str, email: str, code: str) -> t
     ok, msg = is_invite_valid(code)
     if not ok:
         return False, msg
-    
-    # Get invitation record
-    inv = Invitation.query.filter_by(code=code).first()
+        
+    # Check for existing users with same username/email
+    existing = User.query.filter(
+        or_(User.username == username, User.email == email)
+    ).first()
+    if existing:
+        return False, "User or e-mail already exists."
     
     try:
         # Create the user in Emby
@@ -65,43 +103,27 @@ def join(username: str, password: str, confirm: str, email: str, code: str) -> t
         user_id = client.create_user(username, password)
         logging.info(f"Emby user created with ID: {user_id}")
         
-        # Step 2: Set user policy based on invitation settings
-        policy = {
-            "IsAdministrator": False,
-            "IsHidden": False,
-            "IsDisabled": False,
-            "EnableUserPreferenceAccess": True,
-            "AccessSchedules": [],
-            "BlockedTags": [],
-            "EnableRemoteControlOfOtherUsers": False,
-            "EnableSharedDeviceControl": False,
-            "EnableRemoteAccess": True,
-            "EnableLiveTvManagement": False,
-            "EnableLiveTvAccess": True,
-            "EnableMediaPlayback": True,
-            "EnableAudioPlaybackTranscoding": True,
-            "EnableVideoPlaybackTranscoding": True,
-            "EnablePlaybackRemuxing": True,
-            "EnableContentDeletion": False,
-            "EnableContentDownloading": True,
-            "EnableSubtitleDownloading": True,
-            "EnableSubtitleManagement": True,
-            "EnableSyncTranscoding": True,
-            "EnableMediaConversion": True,
-            "EnableAllDevices": True,
-        }
+        # Get invitation record
+        inv = Invitation.query.filter_by(code=code).first()
         
-        # Apply the policy to the user
-        client.set_policy(user_id, policy)
-        logging.info(f"Applied policy for Emby user: {username}")
-        
-        # Get user expiry from invitation
-        if inv.expires_val == "week":
-            expires = 7
-        elif inv.expires_val == "month":
-            expires = 30
+        # Step 2: Set library permissions based on invitation settings
+        if inv.libraries:
+            sections = [lib.external_id for lib in inv.libraries]
         else:
-            expires = None
+            sections = [
+                lib.external_id
+                for lib in Library.query.filter_by(enabled=True).all()
+            ]
+            
+        # Apply folder permissions
+        set_specific_folders(client, user_id, sections)
+        logging.info(f"Applied library permissions for Emby user: {username}")
+        
+        # Calculate expiration date if needed
+        expires = None
+        if inv.duration:
+            days = int(inv.duration)
+            expires = datetime.datetime.utcnow() + datetime.timedelta(days=days)
         
         # Create local user record
         new_user = User(
@@ -118,6 +140,7 @@ def join(username: str, password: str, confirm: str, email: str, code: str) -> t
         
         # Mark invitation as used
         _mark_invite_used(inv, new_user)
+        notify("New User", f"User {username} has joined your Emby server! 🎉", tags="tada")
         
         # Return success
         return True, ""
@@ -143,4 +166,5 @@ def public_join():
                           username=request.form["username"],
                           email=request.form["email"],
                           code=request.form["code"],
+                          server_type="emby",
                           error=msg)
