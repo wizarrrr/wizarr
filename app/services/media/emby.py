@@ -46,20 +46,21 @@ class EmbyClient(MediaClient):
             for item in self.get("/Library/MediaFolders").json()["Items"]
         }
 
-def create_user(self, username: str, password: str) -> str:
-    """Create user and set password"""
-    # Step 1: Create user without password
-    user = self.post("/Users/New", {"Name": username}).json()
-    user_id = user["Id"]
-    
-    # Step 2: Set password - REMOVE ResetPassword: true as it clears the password!
-    # Use the simple format that works
-    self.post(
-        f"/Users/{user_id}/Password",
-        {"NewPw": password}  # Simple format without ResetPassword
-    )
-    
-    return user_id
+    def create_user(self, username: str, password: str) -> str:
+        """Create user and set password"""
+        # Step 1: Create user without password
+        user = self.post("/Users/New", {"Name": username}).json()
+        user_id = user["Id"]
+        
+        # Step 2: Set password - REMOVE ResetPassword: true as it clears the password!
+        # Use the simple format that works
+        self.post(
+            f"/Users/{user_id}/Password",
+            {"NewPw": password}  # Simple format without ResetPassword
+        )
+        
+        return user_id
+        
     def set_policy(self, user_id: str, policy: dict) -> None:
         self.post(f"/Users/{user_id}/Policy", policy)
 
