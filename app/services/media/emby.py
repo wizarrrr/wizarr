@@ -172,23 +172,38 @@ def set_specific_folders(client: EmbyClient, user_id: str, names: list[str]):
         user_id: The ID of the user to set permissions for
         names: List of library external_ids to enable for the user
     """
+    # Get all available libraries
     mapping = client.libraries()
+    all_folder_ids = list(mapping.keys())
     
+    # Convert names to folder IDs
     folder_ids = [folder_name_to_id(n, mapping) for n in names]
     folder_ids = [fid for fid in folder_ids if fid]
     
-    # Keep it simple like in jellyfin.py
+    # Critical fix: Determine which folders to exclude
+    # This is required for Emby to properly restrict access
+    excluded_folder_ids = []
+    if folder_ids and len(folder_ids) < len(all_folder_ids):
+        # Create excluded_subfolder entries in the format required by Emby
+        for folder_id in all_folder_ids:
+            if folder_id not in folder_ids:
+                # Format: folderId_subfolderId (we use 0 as subfolder ID since we exclude the entire folder)
+                excluded_folder_ids.append(f"{folder_id}_0")
+    
+    # Build policy patch with excluded folders
     policy_patch = {
         "EnableAllFolders": not folder_ids,
         "EnabledFolders": folder_ids,
+        "ExcludedSubFolders": excluded_folder_ids
     }
     
-    # Get current policy and update it (just like jellyfin.py)
+    # Log detailed information about what we're setting
+    logging.info(f"Enabling folders: {folder_ids}")
+    logging.info(f"Excluding folders: {excluded_folder_ids}")
+    
+    # Get current policy and update it
     current = client.get_user(user_id)["Policy"]
     current.update(policy_patch)
-    
-    # Log what we're setting
-    logging.info(f"Setting folders for user {user_id}: {folder_ids}")
     
     # Apply the policy
     client.set_policy(user_id, current)
