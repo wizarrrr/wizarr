@@ -141,75 +141,56 @@ def mark_invite_used(inv: Invitation, user: User) -> None:
     db.session.commit()
 
 
-def folder_name_to_id(name_or_id: str, cache: dict[str, str]) -> str | None:
-    """Convert a folder name to its ID using the provided cache mapping
+def folder_name_to_id(name: str, cache: dict[str, str]) -> str | None:
+    """Convert a folder ID or name to its ID
     
     Args:
-        name_or_id: Either a library name or a library ID
+        name: Either a library name or a library ID
         cache: Dictionary mapping library IDs to library names
         
     Returns:
         The library ID if found, None otherwise
     """
-    # First check if name_or_id is already a valid ID in the cache
-    if name_or_id in cache:
-        return name_or_id
+    # Check if the name is already a valid ID
+    if name in cache:
+        return name
     
-    # Look up by name in the cache dictionary
-    # In Emby, keys are IDs and values are names
+    # Otherwise, try to find the ID by name
     for folder_id, folder_name in cache.items():
-        if folder_name == name_or_id:
+        if folder_name == name:
             return folder_id
     
-    # If not found by exact name, try case-insensitive match
-    for folder_id, folder_name in cache.items():
-        if folder_name.lower() == name_or_id.lower():
-            return folder_id
-            
-    # If still not found, log and return None
-    logging.warning(f"Could not find library ID for name: {name_or_id}")
+    # Not found
     return None
 
 
 def set_specific_folders(client: EmbyClient, user_id: str, names: list[str]):
-    """Set specific folders for a user"""
+    """Set specific folders for a user based on selected libraries
+    
+    Args:
+        client: The Emby client instance
+        user_id: The ID of the user to set permissions for
+        names: List of library external_ids to enable for the user
+    """
     mapping = client.libraries()
     
     folder_ids = [folder_name_to_id(n, mapping) for n in names]
     folder_ids = [fid for fid in folder_ids if fid]
     
-    # Comprehensive Emby permission policy
+    # Keep it simple like in jellyfin.py
     policy_patch = {
-        # Library access settings
-        "EnableAllFolders": not folder_ids,  # False if we want to specify folders
-        "EnabledFolders": folder_ids,       # List of specific folder IDs to grant access to
-        
-        # Content access permissions
-        "EnableMediaPlayback": True,
-        "EnableAudioPlaybackTranscoding": True,
-        "EnableVideoPlaybackTranscoding": True,
-        "EnablePlaybackRemuxing": True,
-        "EnableContentDownloading": True,
-        "EnableSubtitleDownloading": True,
-        "EnableSubtitleManagement": True,
-        
-        # Additional permissions needed for proper library view
-        "EnableLiveTvAccess": True,
-        "EnableLiveTvManagement": False,
-        "EnableMediaConversion": True,
-        "EnableAllChannels": True,
-        "EnableAllDevices": True,
-        "EnablePublicSharing": False
+        "EnableAllFolders": not folder_ids,
+        "EnabledFolders": folder_ids,
     }
     
-    # Get current policy and update it
-    user_data = client.get_user(user_id)
-    current = user_data.get("Policy", {})
+    # Get current policy and update it (just like jellyfin.py)
+    current = client.get_user(user_id).json()["Policy"]
     current.update(policy_patch)
     
-    logging.info(f"Setting permissions for user {user_id} with folders: {folder_ids}")
+    # Log what we're setting
+    logging.info(f"Setting folders for user {user_id}: {folder_ids}")
     
-    # Apply updated policy
+    # Apply the policy
     client.set_policy(user_id, current)
 
 
@@ -245,35 +226,24 @@ def join(username: str, password: str, confirm: str, email: str, code: str) -> t
         user_id = client.create_user(username, password)
         logging.info(f"Emby user created with ID: {user_id}")
         
-        # Step 2: Set initial default permissions
-        initial_policy = {
-            "IsAdministrator": False,
-            "IsHidden": False,
-            "IsDisabled": False,
-            "EnableUserPreferenceAccess": True,
-            "EnableRemoteControlOfOtherUsers": False,
-            "EnableSharedDeviceControl": False,
-            "EnableRemoteAccess": True,
-            "EnableMediaPlayback": True,
-            "EnableAllChannels": True,
-            "EnableAllDevices": True,
-        }
-        client.set_policy(user_id, initial_policy)
-        logging.info(f"Set initial permissions for user {username}")
-        
-        # Get invitation record
+        # Step 2: Get invitation record to determine library access
         inv = Invitation.query.filter_by(code=code).first()
         
-        # Step 3: Set library permissions based on invitation settings
+        # Step 3: Determine which libraries to grant access to
         if inv.libraries:
+            logging.info(f"Using specific libraries from invitation: {[lib.name for lib in inv.libraries]}")
             sections = [lib.external_id for lib in inv.libraries]
         else:
+            logging.info("No specific libraries in invitation, using all enabled libraries")
             sections = [
                 lib.external_id
                 for lib in Library.query.filter_by(enabled=True).all()
             ]
+        
+        logging.info(f"Library IDs to enable: {sections}")
             
-        # Apply folder permissions
+        # Step 4: Apply folder permissions directly (skip initial policy)
+        # This avoids any potential conflicts between multiple policy updates
         set_specific_folders(client, user_id, sections)
         logging.info(f"Applied library permissions for Emby user: {username}")
         
