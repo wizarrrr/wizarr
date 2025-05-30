@@ -184,7 +184,7 @@ def set_specific_folders(client: EmbyClient, user_id: str, names: list[str]):
     }
     
     # Get current policy and update it (just like jellyfin.py)
-    current = client.get_user(user_id).json()["Policy"]
+    current = client.get_user(user_id)["Policy"]
     current.update(policy_patch)
     
     # Log what we're setting
