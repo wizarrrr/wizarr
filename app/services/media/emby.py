@@ -172,68 +172,72 @@ def set_specific_folders(client: EmbyClient, user_id: str, names: list[str]):
         user_id: The ID of the user to set permissions for
         names: List of library external_ids to enable for the user
     """
-    # Directly request all media folders from Emby
-    try:
-        response = client.get("/Library/MediaFolders")
-        media_folders_data = response.json()
-        all_emby_folders = media_folders_data.get("Items", [])
+    # Directly get all available library folders from Emby
+    response = client.get("/Library/MediaFolders")
+    all_folders = response.json().get("Items", [])
+    mapping = {item["Id"]: item["Name"] for item in all_folders}
+    
+    # Log all available folders
+    logging.info(f"All available Emby libraries: {[f'{id}: {name}' for id, name in mapping.items()]}")
+    
+    # Convert requested library names/IDs to folder IDs
+    folder_ids = []
+    for name in names:
+        if name in mapping:  # Direct ID match
+            folder_ids.append(name)
+        else:  # Try to find by name
+            for folder_id, folder_name in mapping.items():
+                if folder_name == name:
+                    folder_ids.append(folder_id)
+                    break
+    
+    logging.info(f"User will have access to these libraries: {[mapping.get(fid, fid) for fid in folder_ids]}")
+    
+    # Get the user's current data
+    user_data = client.get_user(user_id)
+    
+    # Create a complete new policy with all necessary permissions
+    policy = {
+        # Core user settings
+        "IsAdministrator": False,
+        "IsHidden": False,
+        "IsDisabled": False,
         
-        # Debug log the complete folder data
-        logging.info(f"All available Emby folders: {[f['Id'] + ': ' + f['Name'] for f in all_emby_folders]}")
-        
-        # Get mapping of IDs to names
-        mapping = {item["Id"]: item["Name"] for item in all_emby_folders}
-        all_folder_ids = [item["Id"] for item in all_emby_folders]
-        
-        logging.info(f"Total media folders found: {len(all_folder_ids)}")
-    except Exception as e:
-        logging.error(f"Error retrieving media folders: {str(e)}")
-        mapping = client.libraries()  # Fall back to original method
-        all_folder_ids = list(mapping.keys())
-    
-    # Convert provided external_ids to folder IDs (they should already be folder IDs)
-    folder_ids = [folder_name_to_id(n, mapping) for n in names]
-    folder_ids = [fid for fid in folder_ids if fid]
-    
-    logging.info(f"Requested library IDs: {names}")
-    logging.info(f"Matched folder IDs: {folder_ids}")
-    
-    # Create excluded folders list with proper format
-    excluded_folder_ids = []
-    
-    if folder_ids:
-        # Get all excluded folder IDs
-        excluded_ids = [fid for fid in all_folder_ids if fid not in folder_ids]
-        
-        # Format: folderId_0 (Emby format for excluding entire folders)
-        excluded_folder_ids = [f"{folder_id}_0" for folder_id in excluded_ids]
-    
-    # Set critical policy settings
-    policy_patch = {
-        "EnableAllFolders": False,  # Always set to False when specifying folders
+        # Library access settings - THIS IS THE CRITICAL PART
+        "EnableAllFolders": len(folder_ids) == len(mapping),  # True only if all folders requested
         "EnabledFolders": folder_ids,
-        "ExcludedSubFolders": excluded_folder_ids
+        
+        # Content access permissions
+        "EnableMediaPlayback": True,
+        "EnableAudioPlaybackTranscoding": True,
+        "EnableVideoPlaybackTranscoding": True,
+        "EnablePlaybackRemuxing": True,
+        "EnableContentDownloading": True,
+        "EnableSubtitleDownloading": True,
+        "EnableSubtitleManagement": True,
+        "EnableUserPreferenceAccess": True,
+        "EnableRemoteAccess": True,
+        
+        # Additional permissions for complete functionality
+        "EnableLiveTvAccess": True,
+        "EnableMediaConversion": True,
+        "EnableAllChannels": True,
+        "EnableAllDevices": True,
+        
+        # Permissions that should be disabled
+        "EnableLiveTvManagement": False,
+        "EnablePublicSharing": False,
+        "EnableRemoteControlOfOtherUsers": False,
+        "EnableSharedDeviceControl": False
     }
     
-    # Log detailed information about what we're setting
-    logging.info(f"Setting policy: EnableAllFolders={False}")
-    logging.info(f"Enabling folders: {folder_ids} ({len(folder_ids)} folders)")
-    logging.info(f"Excluding folders: {excluded_folder_ids} ({len(excluded_folder_ids)} folders)")
+    # Log the policy we're about to apply
+    logging.info(f"Setting user policy with EnableAllFolders={policy['EnableAllFolders']}")
+    logging.info(f"Enabled libraries: {[mapping.get(fid, fid) for fid in policy['EnabledFolders']]}")
     
-    # Get current policy and update it
-    current = client.get_user(user_id)["Policy"]
-    
-    # Log the original policy
-    if "EnabledFolders" in current:
-        logging.info(f"Original EnabledFolders: {current['EnabledFolders']}")
-    if "ExcludedSubFolders" in current:
-        logging.info(f"Original ExcludedSubFolders: {current['ExcludedSubFolders']}")
-    
-    # Update the policy
-    current.update(policy_patch)
-    
-    # Apply the policy
-    client.set_policy(user_id, current)
+    # Skip merging with existing policy - just set the whole thing
+    logging.info("Applying complete permission policy instead of patching")
+    client.set_policy(user_id, policy)
 
 
 def join(username: str, password: str, confirm: str, email: str, code: str) -> tuple[bool, str]:
