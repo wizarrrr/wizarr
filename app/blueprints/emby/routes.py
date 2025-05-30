@@ -1,84 +1,13 @@
 from flask import Blueprint, request, jsonify, abort, render_template, redirect
 from flask_login import login_required
-from app.services.media.emby import EmbyClient
 import logging
 import datetime
 
-# Create an Emby version of the join function similar to Jellyfin
-from app.services.invites import is_invite_valid
+# Import models needed for routes
 from app.models import User, Invitation, Library
-from app.extensions import db
-from sqlalchemy import or_
-from app.services.notifications import notify
-import re
 
-# Reuse the same email regex as jellyfin
-EMAIL_RE = re.compile(r"[^@]+@[^@]+\.[^@]+")
-
-# Define the mark_invite_used function like in jellyfin.py
-def _mark_invite_used(inv: Invitation, user: User) -> None:
-    inv.used = True if not inv.unlimited else inv.used
-    inv.used_at = datetime.datetime.now()
-    inv.used_by = user
-    db.session.commit()
-
-# Helper function to find folder ID from name
-def _folder_name_to_id(name: str, cache: dict[str, str]) -> str | None:
-    # Look up by name in the cache dictionary
-    # In Emby, keys are IDs and values are names
-    for folder_id, folder_name in cache.items():
-        if folder_name == name:
-            return folder_id
-    
-    # If not found by exact name, try case-insensitive match
-    for folder_id, folder_name in cache.items():
-        if folder_name.lower() == name.lower():
-            return folder_id
-            
-    # If still not found, log and return None
-    logging.warning(f"Could not find library ID for name: {name}")
-    return None
-
-# Set specific folders for a user
-def set_specific_folders(client: EmbyClient, user_id: str, names: list[str]):
-    mapping = client.libraries()
-    
-    folder_ids = [_folder_name_to_id(n, mapping) for n in names]
-    folder_ids = [fid for fid in folder_ids if fid]
-    
-    # Comprehensive Emby permission policy
-    policy_patch = {
-        # Library access settings
-        "EnableAllFolders": not folder_ids,  # False if we want to specify folders
-        "EnabledFolders": folder_ids,       # List of specific folder IDs to grant access to
-        
-        # Content access permissions
-        "EnableMediaPlayback": True,
-        "EnableAudioPlaybackTranscoding": True,
-        "EnableVideoPlaybackTranscoding": True,
-        "EnablePlaybackRemuxing": True,
-        "EnableContentDownloading": True,
-        "EnableSubtitleDownloading": True,
-        "EnableSubtitleManagement": True,
-        
-        # Additional permissions needed for proper library view
-        "EnableLiveTvAccess": True,
-        "EnableLiveTvManagement": False,
-        "EnableMediaConversion": True,
-        "EnableAllChannels": True,
-        "EnableAllDevices": True,
-        "EnablePublicSharing": False
-    }
-    
-    # Get current policy and update it
-    user_data = client.get_user(user_id)
-    current = user_data.get("Policy", {})
-    current.update(policy_patch)
-    
-    logging.info(f"Setting permissions for user {user_id} with folders: {folder_ids}")
-    
-    # Apply updated policy
-    client.set_policy(user_id, current)
+# Import the EmbyClient and all helper functions from the service module
+from app.services.media.emby import EmbyClient, join, mark_invite_used, folder_name_to_id, set_specific_folders
 
 emby_bp = Blueprint("emby", __name__, url_prefix="/emby")
 
@@ -105,100 +34,7 @@ def scan_specific():
     client = EmbyClient()
     return jsonify(client.libraries())
 
-# Define the join function for Emby users
-def join(username: str, password: str, confirm: str, email: str, code: str) -> tuple[bool, str]:
-    client = EmbyClient()
-    
-    # Validate input data
-    if not EMAIL_RE.fullmatch(email):
-        return False, "Invalid e-mail address."
-    if not 8 <= len(password) <= 20:
-        return False, "Password must be 8–20 characters."
-    if password != confirm:
-        return False, "Passwords do not match."
-    
-    # Validate invitation code
-    ok, msg = is_invite_valid(code)
-    if not ok:
-        return False, msg
-        
-    # Check for existing users with same username/email
-    existing = User.query.filter(
-        or_(User.username == username, User.email == email)
-    ).first()
-    if existing:
-        return False, "User or e-mail already exists."
-    
-    try:
-        # Create the user in Emby
-        logging.info(f"Creating Emby user: {username}")
-        
-        # Step 1: Create the user in Emby
-        user_id = client.create_user(username, password)
-        logging.info(f"Emby user created with ID: {user_id}")
-        
-        # Step 2: Set initial default permissions
-        initial_policy = {
-            "IsAdministrator": False,
-            "IsHidden": False,
-            "IsDisabled": False,
-            "EnableUserPreferenceAccess": True,
-            "EnableRemoteControlOfOtherUsers": False,
-            "EnableSharedDeviceControl": False,
-            "EnableRemoteAccess": True,
-            "EnableMediaPlayback": True,
-            "EnableAllChannels": True,
-            "EnableAllDevices": True,
-        }
-        client.set_policy(user_id, initial_policy)
-        logging.info(f"Set initial permissions for user {username}")
-        
-        # Get invitation record
-        inv = Invitation.query.filter_by(code=code).first()
-        
-        # Step 2: Set library permissions based on invitation settings
-        if inv.libraries:
-            sections = [lib.external_id for lib in inv.libraries]
-        else:
-            sections = [
-                lib.external_id
-                for lib in Library.query.filter_by(enabled=True).all()
-            ]
-            
-        # Apply folder permissions
-        set_specific_folders(client, user_id, sections)
-        logging.info(f"Applied library permissions for Emby user: {username}")
-        
-        # Calculate expiration date if needed
-        expires = None
-        if inv.duration:
-            days = int(inv.duration)
-            expires = datetime.datetime.utcnow() + datetime.timedelta(days=days)
-        
-        # Create local user record
-        new_user = User(
-            username=username,
-            email=email,
-            password="emby-user",  # Not used for auth, just a placeholder
-            token=user_id,
-            code=code,
-            expires=expires,
-        )
-        
-        db.session.add(new_user)
-        db.session.commit()
-        
-        # Mark invitation as used
-        _mark_invite_used(inv, new_user)
-        notify("New User", f"User {username} has joined your Emby server! 🎉", tags="tada")
-        
-        # Return success
-        return True, ""
-        
-    except Exception as e:
-        logging.error(f"Emby join error: {str(e)}", exc_info=True)
-        db.session.rollback()
-        return False, "An unexpected error occurred during user creation."
+# The join function is now defined in app.services.media.emby
 
 # Public join endpoint called from the wizard form
 @emby_bp.route("/join", methods=["POST"])
