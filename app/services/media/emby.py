@@ -199,15 +199,7 @@ def set_specific_folders(client: EmbyClient, user_id: str, names: list[str]):
         "EnableMediaConversion": True,
         "EnableAllChannels": True,
         "EnableAllDevices": True,
-        "EnablePublicSharing": False,
-        
-        # Critical Emby permissions needed for full library access
-        "EnableAllLibraries": not folder_ids,  # Same logic as EnableAllFolders
-        "EnabledLibraries": folder_ids,       # Same IDs as EnabledFolders
-        "EnableLibraryAccess": True,          # Required for accessing library content
-        "EnableAllChannels": True,            # Required for accessing all channels
-        "EnableAllDevices": True,             # Required for accessing from all devices
-        "EnableUserPreferenceAccess": True    # Allow user to set their own preferences
+        "EnablePublicSharing": False
     }
     
     # Get current policy and update it
