@@ -172,10 +172,13 @@ def set_specific_folders(client: EmbyClient, user_id: str, names: list[str]):
         user_id: The ID of the user to set permissions for
         names: List of library external_ids to enable for the user
     """
-    # Directly get all available library folders from Emby
+    # Get all available library folders from Emby
     response = client.get("/Library/MediaFolders")
     all_folders = response.json().get("Items", [])
+    
+    # Create ID to Name mapping
     mapping = {item["Id"]: item["Name"] for item in all_folders}
+    all_folder_ids = list(mapping.keys())
     
     # Log all available folders
     logging.info(f"All available Emby libraries: {[f'{id}: {name}' for id, name in mapping.items()]}")
@@ -191,52 +194,87 @@ def set_specific_folders(client: EmbyClient, user_id: str, names: list[str]):
                     folder_ids.append(folder_id)
                     break
     
-    logging.info(f"User will have access to these libraries: {[mapping.get(fid, fid) for fid in folder_ids]}")
+    # Remove any None values or duplicates
+    folder_ids = list(set([fid for fid in folder_ids if fid]))
     
-    # Get the user's current data
+    # Determine which folders to exclude
+    excluded_ids = [fid for fid in all_folder_ids if fid not in folder_ids]
+    excluded_folder_ids = [f"{folder_id}_0" for folder_id in excluded_ids]
+    
+    # Get current user policy
     user_data = client.get_user(user_id)
+    current_policy = user_data.get("Policy", {})
     
-    # Create a complete new policy with all necessary permissions
-    policy = {
-        # Core user settings
-        "IsAdministrator": False,
-        "IsHidden": False,
-        "IsDisabled": False,
+    # When giving access to all libraries
+    if len(folder_ids) == len(all_folder_ids):
+        logging.info("User will have access to ALL libraries")
+        policy = {
+            # Core settings
+            "IsAdministrator": False,
+            "IsHidden": False,
+            "IsDisabled": False,
+            
+            # Library access - ALL LIBRARIES
+            "EnableAllFolders": True,
+            "EnabledFolders": all_folder_ids,
+            "ExcludedSubFolders": [],
+            
+            # Standard media permissions
+            "EnableMediaPlayback": True,
+            "EnableAudioPlaybackTranscoding": True,
+            "EnableVideoPlaybackTranscoding": True,
+            "EnablePlaybackRemuxing": True,
+            "EnableContentDownloading": True,
+            "ForceRemoteSourceTranscoding": False
+        }
+    # When giving access to a subset of libraries
+    else:
+        logging.info(f"User will have access to these libraries: {[mapping.get(fid, fid) for fid in folder_ids]}")
+        logging.info(f"User will NOT have access to: {[mapping.get(fid, fid) for fid in excluded_ids]}")
         
-        # Library access settings - THIS IS THE CRITICAL PART
-        "EnableAllFolders": len(folder_ids) == len(mapping),  # True only if all folders requested
-        "EnabledFolders": folder_ids,
-        
-        # Content access permissions
-        "EnableMediaPlayback": True,
-        "EnableAudioPlaybackTranscoding": True,
-        "EnableVideoPlaybackTranscoding": True,
-        "EnablePlaybackRemuxing": True,
-        "EnableContentDownloading": True,
+        policy = {
+            # Core settings
+            "IsAdministrator": False,
+            "IsHidden": False,
+            "IsDisabled": False,
+            
+            # Library access - SPECIFIC LIBRARIES
+            "EnableAllFolders": False,
+            "EnabledFolders": folder_ids,
+            "ExcludedSubFolders": excluded_folder_ids,
+            
+            # Standard media permissions
+            "EnableMediaPlayback": True,
+            "EnableAudioPlaybackTranscoding": True,
+            "EnableVideoPlaybackTranscoding": True,
+            "EnablePlaybackRemuxing": True,
+            "EnableContentDownloading": True,
+            "ForceRemoteSourceTranscoding": False
+        }
+    
+    # Add any additional settings needed for proper user functionality
+    additional_settings = {
         "EnableSubtitleDownloading": True,
         "EnableSubtitleManagement": True,
-        "EnableUserPreferenceAccess": True,
         "EnableRemoteAccess": True,
-        
-        # Additional permissions for complete functionality
         "EnableLiveTvAccess": True,
+        "EnableLiveTvManagement": False,
+        "EnableSharedDeviceControl": False,
+        "EnableRemoteControlOfOtherUsers": False,
+        "EnablePublicSharing": False,
+        "EnableUserPreferenceAccess": True,
         "EnableMediaConversion": True,
         "EnableAllChannels": True,
-        "EnableAllDevices": True,
-        
-        # Permissions that should be disabled
-        "EnableLiveTvManagement": False,
-        "EnablePublicSharing": False,
-        "EnableRemoteControlOfOtherUsers": False,
-        "EnableSharedDeviceControl": False
+        "EnableAllDevices": True
     }
+    policy.update(additional_settings)
     
-    # Log the policy we're about to apply
-    logging.info(f"Setting user policy with EnableAllFolders={policy['EnableAllFolders']}")
-    logging.info(f"Enabled libraries: {[mapping.get(fid, fid) for fid in policy['EnabledFolders']]}")
+    # Log what we're setting
+    logging.info(f"Setting EnableAllFolders={policy['EnableAllFolders']}")
+    logging.info(f"Setting EnabledFolders={policy['EnabledFolders']}")
+    logging.info(f"Setting ExcludedSubFolders={policy['ExcludedSubFolders']}")
     
-    # Skip merging with existing policy - just set the whole thing
-    logging.info("Applying complete permission policy instead of patching")
+    # Apply the policy
     client.set_policy(user_id, policy)
 
 
