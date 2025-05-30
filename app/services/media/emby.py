@@ -172,110 +172,72 @@ def set_specific_folders(client: EmbyClient, user_id: str, names: list[str]):
         user_id: The ID of the user to set permissions for
         names: List of library external_ids to enable for the user
     """
-    # Get all available library folders from Emby
+    # Following the same simple approach as the working Jellyfin implementation
+    logging.info(f"Setting folder access for user {user_id} with libraries: {names}")
+    
+    # Get all media folders
     response = client.get("/Library/MediaFolders")
-    all_folders = response.json().get("Items", [])
+    media_folders = response.json().get("Items", [])
     
-    # Create ID to Name mapping
-    mapping = {item["Id"]: item["Name"] for item in all_folders}
-    all_folder_ids = list(mapping.keys())
+    # Create mapping (match Jellyfin's approach with both ID→Name and Name→ID)
+    id_to_name = {item["Id"]: item["Name"] for item in media_folders}
+    name_to_id = {item["Name"]: item["Id"] for item in media_folders}
     
-    # Log all available folders
-    logging.info(f"All available Emby libraries: {[f'{id}: {name}' for id, name in mapping.items()]}")
+    # Debug info
+    logging.info(f"Available libraries: {', '.join([f'{id}: {name}' for id, name in id_to_name.items()])}")
     
-    # Convert requested library names/IDs to folder IDs
+    # Convert names to IDs, handling both cases where names could be IDs or actual names
     folder_ids = []
     for name in names:
-        if name in mapping:  # Direct ID match
+        # If it's already an ID
+        if name in id_to_name:
             folder_ids.append(name)
-        else:  # Try to find by name
-            for folder_id, folder_name in mapping.items():
-                if folder_name == name:
-                    folder_ids.append(folder_id)
-                    break
+            logging.info(f"Found direct ID match for {name}: {id_to_name[name]}")
+        # If it's a name
+        elif name in name_to_id:
+            folder_ids.append(name_to_id[name])
+            logging.info(f"Found name match for {name}: {name_to_id[name]}")
+        else:
+            logging.warning(f"Could not find library matching: {name}")
     
-    # Remove any None values or duplicates
+    # Remove duplicates and None values
     folder_ids = list(set([fid for fid in folder_ids if fid]))
     
-    # Determine which folders to exclude
-    excluded_ids = [fid for fid in all_folder_ids if fid not in folder_ids]
-    excluded_folder_ids = [f"{folder_id}_0" for folder_id in excluded_ids]
-    
-    # Get current user policy
-    user_data = client.get_user(user_id)
-    current_policy = user_data.get("Policy", {})
-    
-    # When giving access to all libraries
-    if len(folder_ids) == len(all_folder_ids):
-        logging.info("User will have access to ALL libraries")
-        policy = {
-            # Core settings
-            "IsAdministrator": False,
-            "IsHidden": False,
-            "IsDisabled": False,
-            
-            # Library access - ALL LIBRARIES
-            "EnableAllFolders": True,
-            "EnabledFolders": all_folder_ids,
-            "ExcludedSubFolders": [],
-            
-            # Standard media permissions
-            "EnableMediaPlayback": True,
-            "EnableAudioPlaybackTranscoding": True,
-            "EnableVideoPlaybackTranscoding": True,
-            "EnablePlaybackRemuxing": True,
-            "EnableContentDownloading": True,
-            "ForceRemoteSourceTranscoding": False
-        }
-    # When giving access to a subset of libraries
+    # Log what we found
+    if folder_ids:
+        logging.info(f"Matched {len(folder_ids)} libraries: {[id_to_name.get(fid, fid) for fid in folder_ids]}")
     else:
-        logging.info(f"User will have access to these libraries: {[mapping.get(fid, fid) for fid in folder_ids]}")
-        logging.info(f"User will NOT have access to: {[mapping.get(fid, fid) for fid in excluded_ids]}")
-        
-        policy = {
-            # Core settings
-            "IsAdministrator": False,
-            "IsHidden": False,
-            "IsDisabled": False,
-            
-            # Library access - SPECIFIC LIBRARIES
-            "EnableAllFolders": False,
-            "EnabledFolders": folder_ids,
-            "ExcludedSubFolders": excluded_folder_ids,
-            
-            # Standard media permissions
-            "EnableMediaPlayback": True,
-            "EnableAudioPlaybackTranscoding": True,
-            "EnableVideoPlaybackTranscoding": True,
-            "EnablePlaybackRemuxing": True,
-            "EnableContentDownloading": True,
-            "ForceRemoteSourceTranscoding": False
-        }
+        logging.warning("No matching libraries found, user will have no access")
     
-    # Add any additional settings needed for proper user functionality
-    additional_settings = {
-        "EnableSubtitleDownloading": True,
-        "EnableSubtitleManagement": True,
-        "EnableRemoteAccess": True,
-        "EnableLiveTvAccess": True,
-        "EnableLiveTvManagement": False,
-        "EnableSharedDeviceControl": False,
-        "EnableRemoteControlOfOtherUsers": False,
-        "EnablePublicSharing": False,
-        "EnableUserPreferenceAccess": True,
-        "EnableMediaConversion": True,
-        "EnableAllChannels": True,
-        "EnableAllDevices": True
+    # Create simple policy patch - IDENTICAL to Jellyfin implementation
+    policy_patch = {
+        "EnableAllFolders": not folder_ids,  # True if empty list, False otherwise
+        "EnabledFolders": folder_ids,
     }
-    policy.update(additional_settings)
     
-    # Log what we're setting
-    logging.info(f"Setting EnableAllFolders={policy['EnableAllFolders']}")
-    logging.info(f"Setting EnabledFolders={policy['EnabledFolders']}")
-    logging.info(f"Setting ExcludedSubFolders={policy['ExcludedSubFolders']}")
+    # Get current policy
+    current = client.get_user(user_id)["Policy"]
     
-    # Apply the policy
-    client.set_policy(user_id, policy)
+    # Log what we're doing
+    logging.info(f"Setting EnableAllFolders={policy_patch['EnableAllFolders']}")
+    logging.info(f"Setting EnabledFolders={policy_patch['EnabledFolders']}")
+    
+    # Update current policy with our changes
+    current.update(policy_patch)
+    
+    # Make sure essential playback permissions are enabled
+    playback_permissions = {
+        "EnableMediaPlayback": True,
+        "EnableAudioPlaybackTranscoding": True,
+        "EnableVideoPlaybackTranscoding": True,
+        "EnablePlaybackRemuxing": True,
+        "EnableContentDownloading": True,
+        "EnableRemoteAccess": True,
+    }
+    current.update(playback_permissions)
+    
+    # Apply the updated policy
+    client.set_policy(user_id, current)
 
 
 def join(username: str, password: str, confirm: str, email: str, code: str) -> tuple[bool, str]:
