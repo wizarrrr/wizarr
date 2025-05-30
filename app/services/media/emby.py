@@ -172,37 +172,64 @@ def set_specific_folders(client: EmbyClient, user_id: str, names: list[str]):
         user_id: The ID of the user to set permissions for
         names: List of library external_ids to enable for the user
     """
-    # Get all available libraries
-    mapping = client.libraries()
-    all_folder_ids = list(mapping.keys())
+    # Directly request all media folders from Emby
+    try:
+        response = client.get("/Library/MediaFolders")
+        media_folders_data = response.json()
+        all_emby_folders = media_folders_data.get("Items", [])
+        
+        # Debug log the complete folder data
+        logging.info(f"All available Emby folders: {[f['Id'] + ': ' + f['Name'] for f in all_emby_folders]}")
+        
+        # Get mapping of IDs to names
+        mapping = {item["Id"]: item["Name"] for item in all_emby_folders}
+        all_folder_ids = [item["Id"] for item in all_emby_folders]
+        
+        logging.info(f"Total media folders found: {len(all_folder_ids)}")
+    except Exception as e:
+        logging.error(f"Error retrieving media folders: {str(e)}")
+        mapping = client.libraries()  # Fall back to original method
+        all_folder_ids = list(mapping.keys())
     
-    # Convert names to folder IDs
+    # Convert provided external_ids to folder IDs (they should already be folder IDs)
     folder_ids = [folder_name_to_id(n, mapping) for n in names]
     folder_ids = [fid for fid in folder_ids if fid]
     
-    # Critical fix: Determine which folders to exclude
-    # This is required for Emby to properly restrict access
-    excluded_folder_ids = []
-    if folder_ids and len(folder_ids) < len(all_folder_ids):
-        # Create excluded_subfolder entries in the format required by Emby
-        for folder_id in all_folder_ids:
-            if folder_id not in folder_ids:
-                # Format: folderId_subfolderId (we use 0 as subfolder ID since we exclude the entire folder)
-                excluded_folder_ids.append(f"{folder_id}_0")
+    logging.info(f"Requested library IDs: {names}")
+    logging.info(f"Matched folder IDs: {folder_ids}")
     
-    # Build policy patch with excluded folders
+    # Create excluded folders list with proper format
+    excluded_folder_ids = []
+    
+    if folder_ids:
+        # Get all excluded folder IDs
+        excluded_ids = [fid for fid in all_folder_ids if fid not in folder_ids]
+        
+        # Format: folderId_0 (Emby format for excluding entire folders)
+        excluded_folder_ids = [f"{folder_id}_0" for folder_id in excluded_ids]
+    
+    # Set critical policy settings
     policy_patch = {
-        "EnableAllFolders": not folder_ids,
+        "EnableAllFolders": False,  # Always set to False when specifying folders
         "EnabledFolders": folder_ids,
         "ExcludedSubFolders": excluded_folder_ids
     }
     
     # Log detailed information about what we're setting
-    logging.info(f"Enabling folders: {folder_ids}")
-    logging.info(f"Excluding folders: {excluded_folder_ids}")
+    logging.info(f"Setting policy: EnableAllFolders={False}")
+    logging.info(f"Enabling folders: {folder_ids} ({len(folder_ids)} folders)")
+    logging.info(f"Excluding folders: {excluded_folder_ids} ({len(excluded_folder_ids)} folders)")
     
     # Get current policy and update it
     current = client.get_user(user_id)["Policy"]
+    
+    # Log the original policy
+    if "EnabledFolders" in current:
+        logging.info(f"Original EnabledFolders: {current['EnabledFolders']}")
+    if "ExcludedSubFolders" in current:
+        logging.info(f"Original ExcludedSubFolders: {current['ExcludedSubFolders']}")
+    
+    # Update the policy
     current.update(policy_patch)
     
     # Apply the policy
