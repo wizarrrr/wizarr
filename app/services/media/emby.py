@@ -141,21 +141,33 @@ def mark_invite_used(inv: Invitation, user: User) -> None:
     db.session.commit()
 
 
-def folder_name_to_id(name: str, cache: dict[str, str]) -> str | None:
-    """Convert a folder name to its ID using the provided cache mapping"""
+def folder_name_to_id(name_or_id: str, cache: dict[str, str]) -> str | None:
+    """Convert a folder name to its ID using the provided cache mapping
+    
+    Args:
+        name_or_id: Either a library name or a library ID
+        cache: Dictionary mapping library IDs to library names
+        
+    Returns:
+        The library ID if found, None otherwise
+    """
+    # First check if name_or_id is already a valid ID in the cache
+    if name_or_id in cache:
+        return name_or_id
+    
     # Look up by name in the cache dictionary
     # In Emby, keys are IDs and values are names
     for folder_id, folder_name in cache.items():
-        if folder_name == name:
+        if folder_name == name_or_id:
             return folder_id
     
     # If not found by exact name, try case-insensitive match
     for folder_id, folder_name in cache.items():
-        if folder_name.lower() == name.lower():
+        if folder_name.lower() == name_or_id.lower():
             return folder_id
             
     # If still not found, log and return None
-    logging.warning(f"Could not find library ID for name: {name}")
+    logging.warning(f"Could not find library ID for name: {name_or_id}")
     return None
 
 
