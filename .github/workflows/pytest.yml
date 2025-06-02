@@ -37,12 +37,3 @@ jobs:
       run: |
         uv run pytest --verbose
         
-    - name: Upload test results
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: pytest-results
-        path: |
-          test-results/
-          .coverage
-        if-no-files-found: ignore
