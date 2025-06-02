@@ -53,7 +53,7 @@ class BaseConfig:
     TEMPLATES_AUTO_RELOAD = True
     SECRET_KEY = get_or_create_secret("SECRET_KEY", generate_secret_key)
     # Sessions
-    SESSION_TYPE = 'filesystem'  # Required session type configuration
+    SESSION_TYPE = 'cachelib'  # Changed from 'filesystem' to 'cachelib'
     SESSION_CACHELIB = FileSystemCache(str(BASE_DIR / "database" / "sessions"))
     # Babel / i18n
     LANGUAGES = {
