@@ -38,7 +38,7 @@ def invite(code):
     server_type = server_type_setting.value if server_type_setting else None
 
     if server_type == "jellyfin" or server_type == "emby":
-        return render_template("welcome-jellyfin.html", code=code)
+        return render_template("welcome-jellyfin.html", code=code, server_type=server_type)
     return render_template("user-plex-login.html", code=code)
 
 # ─── POST /join  (Plex OAuth or Jellyfin signup) ────────────────────────────
@@ -77,8 +77,8 @@ def join():
             daemon=True
         ).start()
         return redirect(url_for("wizard.start"))
-    elif server_type == "jellyfin":
-        return render_template("signup-jellyfin.html", code=code)
+    elif server_type == "jellyfin" or server_type == "emby":
+        return render_template("welcome-jellyfin.html", code=code, server_type=server_type)
 
     # fallback if server_type missing/unsupported
     return render_template("invalid-invite.html", error="Configuration error.")
