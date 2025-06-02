@@ -99,11 +99,13 @@
 </div>
 
 <script>
-    // Handle delete button animations
-    document.querySelectorAll('button#delete').forEach(button => {
-        button.addEventListener('click', function () {
-            this.closest('.animate__animated').classList.add('animate__fadeOut');
-        });
+    // Remove the existing delete button click handler and replace with htmx event
+    document.body.addEventListener('htmx:beforeSend', function(event) {
+        // Check if the event is from a delete button
+        if (event.detail.elt.id === 'delete') {
+            // Apply the animation only when the request is actually being sent (after confirmation)
+            event.detail.elt.closest('.animate__animated').classList.add('animate__fadeOut');
+        }
     });
 
     // Modal closing functionality
