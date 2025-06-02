@@ -8,6 +8,8 @@ from app.models import Invitation, Settings, User
 import os
 from flask_login import login_required
 import datetime
+from urllib.parse import urlparse
+
 
 admin_bp = Blueprint("admin", __name__)
 
@@ -37,7 +39,11 @@ def invite():
         except ValueError:
             return abort(401)  # duplicate / malformed code
 
-        link = f"{request.host_url}j/{invite.code}"
+        current_url = request.headers.get('HX-Current-URL')
+        parsed_url = urlparse(current_url)
+        host_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
+
+        link = f"{host_url}/j/{invite.code}"
 
         invitations = (
             Invitation.query
