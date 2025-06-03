@@ -1,0 +1,16 @@
+# .github/workflows/verify-translations.yml
+name: verify-translations
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'app/translations/**.po'
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile .mo
+        run: |
+          pipx run babel pybabel compile -d app/translations

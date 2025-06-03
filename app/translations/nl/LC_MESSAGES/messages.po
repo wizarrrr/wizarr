@@ -1,0 +1,1127 @@
+# Dutch translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-05-23 03:47+0000\n"
+"PO-Revision-Date: 2025-05-24 08:58+0000\n"
+"Last-Translator: Ben Avermate <weblate@benavermate.be>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/nl/>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.12-dev\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app/blueprints/auth/routes.py:43
+msgid "Invalid username or password"
+msgstr "Ongeldige gebruikersnaam of wachtwoord"
+
+#: app/templates/admin.html:5
+msgid "Admin"
+msgstr "Administrator"
+
+#: app/templates/admin.html:31
+msgid "Home"
+msgstr "Home"
+
+#: app/templates/admin.html:36
+msgid "Invitations"
+msgstr "Uitnodigingen"
+
+#: app/templates/admin.html:41
+msgid "Users"
+msgstr "Gebruikers"
+
+#: app/templates/admin.html:46 app/templates/settings/page.html:3
+msgid "Settings"
+msgstr "Instellingen"
+
+#: app/templates/invalid-invite.html:16
+msgid "Invalid Invitation"
+msgstr "Ongeldige Uitnodiging"
+
+#: app/templates/login.html:18
+msgid "Login"
+msgstr "Login"
+
+#: app/templates/login.html:23 app/templates/welcome-jellyfin.html:30
+msgid "Username"
+msgstr "Gebruikersnaam"
+
+#: app/templates/login.html:29 app/templates/welcome-jellyfin.html:47
+msgid "Password"
+msgstr "Wachtwoord"
+
+#: app/templates/login.html:41
+msgid "Remember me"
+msgstr "Onthouden"
+
+#: app/templates/login.html:46
+msgid "Sign in"
+msgstr "Inloggen"
+
+#: app/templates/settings.html:13
+msgid "Server settings"
+msgstr "Server Instellingen"
+
+#: app/templates/settings.html:22
+#, fuzzy
+msgid "Notification agents"
+msgstr "Meldingsagenten"
+
+#: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
+#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
+#, python-format
+msgid "You've been invited to join the %(name)s server!"
+msgstr "Je bent uitgenodigd voor %(name)s server!"
+
+#: app/templates/user-plex-login.html:23
+msgid "Join the Plex Server"
+msgstr "Neem deel aan de Plex server"
+
+#: app/templates/tables/user_card.html:57 app/templates/user-plex-login.html:29
+#: app/templates/user-plex-login.html:40
+msgid "Invite Code"
+msgstr "Uitnodigingscode"
+
+#: app/templates/user-plex-login.html:45
+msgid "Oops!"
+msgstr "Oeps!"
+
+#: app/templates/user-plex-login.html:52
+msgid "Join"
+msgstr "Meedoen"
+
+#: app/templates/users.html:5
+msgid "Invite User"
+msgstr "Gebruiker uitnodigen"
+
+#: app/templates/welcome-jellyfin.html:22
+msgid "Set up Account"
+msgstr "Maak een account aan"
+
+#: app/templates/welcome-jellyfin.html:38
+msgid "Email"
+msgstr "Email"
+
+#: app/templates/welcome-jellyfin.html:55
+msgid ""
+"Confirm\n"
+"                                password"
+msgstr ""
+"Bevestig\n"
+"                                wachtwoord"
+
+#: app/templates/welcome-jellyfin.html:63
+msgid ""
+"Invite\n"
+"                                Code"
+msgstr ""
+"Uitnodiging\n"
+"                                Code"
+
+#: app/templates/setup/admin_account.html:58
+#: app/templates/welcome-jellyfin.html:72
+msgid "Create an account"
+msgstr "Maak een account"
+
+#: app/templates/admin/invite.html:6
+msgid "Quick Invite"
+msgstr "Snelle uitnodiging"
+
+#: app/templates/admin/invite.html:12
+msgid "Invite user"
+msgstr "Gebruiker uitnodigen"
+
+#: app/templates/admin/invite.html:18
+msgid "Invite Code String"
+msgstr "Uitnodigingscode"
+
+#: app/templates/admin/invite.html:19
+msgid "(optional)"
+msgstr "(optioneel)"
+
+#: app/templates/admin/invite.html:26
+msgid "Expiration"
+msgstr "Vervaldatum"
+
+#: app/templates/admin/invite.html:29
+msgid "1 day"
+msgstr "1 dag"
+
+#: app/templates/admin/invite.html:30
+msgid "1 week"
+msgstr "1 week"
+
+#: app/templates/admin/invite.html:31
+msgid "1 month"
+msgstr "1 maand"
+
+#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:60
+#: app/templates/tables/user_card.html:46
+msgid "Never"
+msgstr "Nooit"
+
+#: app/templates/admin/invite.html:37
+msgid "Advanced Options"
+msgstr "Geavanceerde Opties"
+
+#: app/templates/admin/invite.html:45
+msgid "Unlimited Usages"
+msgstr "Ongelimiteerd te gebruiken"
+
+#: app/templates/admin/invite.html:53
+msgid "Invite to Plex Home"
+msgstr "Uitnodiging voor Plex Home"
+
+#: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
+#: app/templates/tables/invite_card.html:86
+msgid "Duration"
+msgstr "Duur"
+
+#: app/templates/admin/invite.html:63
+msgid "(in days)"
+msgstr "(in dagen)"
+
+#: app/templates/admin/invite.html:74
+msgid "Show Information"
+msgstr "Toon Informatie"
+
+#: app/templates/admin/invite.html:80
+#, fuzzy
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a\n"
+"                                        number of\n"
+"                                        days. (1-999)"
+msgstr ""
+"Indien ingevuld, zullen gebruikers van de Plex server verwijderd worden na "
+"een\n"
+"                                        aantal\n"
+"                                        dagen. (1-999)"
+
+#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
+#: app/templates/tables/user_card.html:67
+msgid "Allow Downloads"
+msgstr "Downloads toegestaan"
+
+#: app/templates/admin/invite.html:102
+msgid ""
+"Specific\n"
+"                                Libraries"
+msgstr ""
+"Specifieke\n"
+"                                Bibliotheken"
+
+#: app/templates/admin/invite.html:111
+#: app/templates/partials/server_form.html:87
+msgid "Scan For Libraries"
+msgstr "Bibliotheken scannen"
+
+#: app/templates/admin/invite.html:119
+msgid "Create Invitation"
+msgstr "Maak een uitnodiging"
+
+#: app/templates/admin/invite.html:126
+msgid "Successfully generated an Invitation!"
+msgstr "De uitnodiging werd met succes aangemaakt!"
+
+#: app/templates/admin/invite.html:131
+msgid "Link has been copied to clipboard!"
+msgstr "De link werd gekopieerd naar je klembord!"
+
+#: app/templates/admin/invite.html:139
+msgid "Back"
+msgstr "Terug"
+
+#: app/templates/admin/invite.html:144
+msgid "Share"
+msgstr "Deel"
+
+#: app/templates/admin/user_modal.html:17
+msgid "Edit expiry"
+msgstr "Pas verval aan"
+
+#: app/templates/admin/user_modal.html:27
+msgid "Expiry date (leave blank for never)"
+msgstr "Vervaldatum (laat leeg voor nooit)"
+
+#: app/templates/admin/user_modal.html:41
+#: app/templates/modals/create-notification-agent.html:85
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: app/templates/admin/user_modal.html:48
+#: app/templates/partials/server_form.html:132
+msgid "Save"
+msgstr "Opslaan"
+
+#: app/templates/error/401.html:20
+msgid "Permission denied."
+msgstr "Toegang geweigerd."
+
+#: app/templates/error/401.html:23
+msgid "You are attempting to do something you shouldn't be doing..."
+msgstr "Je probeert iets te doen waarvoor je geen toestemming hebt..."
+
+#: app/templates/error/404.html:19
+msgid "Something's missing."
+msgstr "Er ontbreekt iets."
+
+#: app/templates/error/404.html:21
+msgid "Sorry, we can't find that page. It doesn't seem to exist!"
+msgstr "Sorry, we kunnen deze pagina niet vinden. Deze lijkt niet te bestaan!"
+
+#: app/templates/error/500.html:19
+msgid "Internal Server Error."
+msgstr "Interne serverfout."
+
+#: app/templates/error/500.html:21
+msgid " Something has gone wrong. Please try again later."
+msgstr " Er is iets misgelopen. Probeer later opnieuw."
+
+#: app/templates/modals/create-notification-agent.html:31
+msgid "New Agent"
+msgstr "Nieuwe agent"
+
+#: app/templates/modals/create-notification-agent.html:60
+msgid ""
+"Username\n"
+"                                (optional)"
+msgstr ""
+"Gebruikersnaam\n"
+"                                (optioneel)"
+
+#: app/templates/modals/create-notification-agent.html:65
+msgid "Password (optional)"
+msgstr "Wachtwoord (optioneel)"
+
+#: app/templates/modals/create-notification-agent.html:70
+msgid ""
+"Agent\n"
+"                                URL"
+msgstr ""
+"Agent\n"
+"                                URL"
+
+#: app/templates/modals/create-notification-agent.html:81
+msgid "Test & Create Agent"
+msgstr "Test & creëer Agent"
+
+#: app/templates/partials/server_form.html:13
+msgid "Server Settings"
+msgstr "Server Instellingen"
+
+#: app/templates/partials/server_form.html:103
+#: app/templates/partials/server_form.html:111
+#: app/templates/partials/server_form.html:120
+#, fuzzy
+msgid "Optional, leave empty to disable"
+msgstr "Optioneel, laat leeg om te vergrendelen"
+
+#: app/templates/settings/notifications.html:11
+#, fuzzy
+msgid "Notification Agents"
+msgstr "Meldingsagenten"
+
+#: app/templates/settings/notifications.html:27
+msgid "Delete"
+msgstr "Verwijderen"
+
+#: app/templates/settings/notifications.html:37
+msgid "Create Agent"
+msgstr "Creëer Agent"
+
+#: app/templates/settings/page.html:24
+msgid "Server"
+msgstr "Server"
+
+#: app/templates/settings/page.html:39
+msgid "Notifications"
+msgstr "Meldingen"
+
+#: app/templates/setup/admin_account.html:14
+msgid "Setup Wizarr"
+msgstr "Configureer Wizarr"
+
+#: app/templates/tables/invite_card.html:3
+msgid "There are currently no invitations."
+msgstr "Er zijn momenteel geen uitnodigingen."
+
+#: app/templates/tables/invite_card.html:16
+msgid "Available"
+msgstr "Beschikbaar"
+
+#: app/templates/tables/invite_card.html:23
+#: app/templates/tables/invite_card.html:51
+msgid "Used"
+msgstr "Gebruikt"
+
+#: app/templates/tables/invite_card.html:36
+msgid "Created"
+msgstr "Aangemaakt"
+
+#: app/templates/tables/invite_card.html:44
+#: app/templates/tables/user_card.html:39
+msgid "Expires"
+msgstr "Verloopt"
+
+#: app/templates/tables/invite_card.html:47
+msgid "Expired"
+msgstr "Vervallen"
+
+#: app/templates/tables/invite_card.html:70
+msgid "Libraries"
+msgstr "Bibliotheken"
+
+#: app/templates/tables/invite_card.html:75
+msgid "Default"
+msgstr "Standaard"
+
+#: app/templates/tables/invite_card.html:86
+msgid "days"
+msgstr "dagen"
+
+#: app/templates/tables/invite_card.html:106
+msgid "Unlimited"
+msgstr "Ongelimiteerd"
+
+#: app/templates/tables/user_card.html:3
+msgid "There are currently no users."
+msgstr "Er zijn momenteel geen gebruikers."
+
+#: app/templates/tables/user_card.html:26
+#, fuzzy
+msgid "Home User"
+msgstr "Thuisgebruiker"
+
+#: app/templates/wizard/frame.html:34
+msgid "Previous"
+msgstr "Vorige"
+
+#: app/templates/wizard/frame.html:42
+msgid "Next"
+msgstr "Volgende"
+
+#~ msgid "That email does not match any Plex account. Please try again."
+#~ msgstr ""
+#~ "Het e-mailadres komt niet overeen met"
+#~ " een bestaande Plex account. Probeer "
+#~ "opnieuw."
+
+#~ msgid "This user is already invited to this server."
+#~ msgstr "Deze gebruiker is al uitgenodigd voor deze server."
+
+#~ msgid "The email entered appears to be invalid."
+#~ msgstr "Ongeldig e-mailadres."
+
+#~ msgid "Something went wrong. Please try again or contact an administrator."
+#~ msgstr ""
+#~ "Er is iets misgelopen. Probeer opnieuw"
+#~ " of neem contact op met de "
+#~ "administrator."
+
+#~ msgid "I've logged in but I am overwhelmed with content!"
+#~ msgstr "Ik ben ingelogd maar word overstelpt met inhoud!"
+
+#~ msgid ""
+#~ "While Plex is a free service, they"
+#~ " do have to generate revenue in "
+#~ "order to continue providing the "
+#~ "platform. One way they do this is"
+#~ " by displaying their own content "
+#~ "before the content of the server "
+#~ "you are joining."
+#~ msgstr ""
+#~ "Plex is gratis te gebruiken, maar "
+#~ "moet inkomsten genereren voor het "
+#~ "blijven aanbieden van hun platform. Een"
+#~ " manier waarop ze die inkomsten "
+#~ "genereren is door hun eigen content "
+#~ "te tonen vóór deze van de server"
+#~ " waar je lid van wordt."
+
+#~ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
+#~ msgstr "Op het linkerdeel van je scherm zie je een menu. Klik op de "
+
+#~ msgid "More"
+#~ msgstr "Meer"
+
+#~ msgid "button to reveal all the different types of media you have access to."
+#~ msgstr "knop om alle mediatypes te tonen waartot je toegang hebt."
+
+#~ msgid ""
+#~ "To avoid seeing Plex's content first,"
+#~ " we recommend hiding it. To do "
+#~ "this, select all the content types "
+#~ "you don't want (such as 'Movies "
+#~ "and TV on Plex') and 'Unpin' them"
+#~ " from your home screen. This way "
+#~ "you'll only see the content that "
+#~ "you really want to watch!"
+#~ msgstr ""
+#~ "Om te vermijden dat je de inhoud"
+#~ " van Plex eerst ziet, raden we "
+#~ "aan deze te verbergen. Om dit te"
+#~ " doen selecteer je alle inhoudstypes "
+#~ "die je niet wenst (zoals 'Movies "
+#~ "and TV on Plex') en 'Ontpin' je"
+#~ " deze van je startscherm. Op deze "
+#~ "manier zie je enkel de inhoud die"
+#~ " je echt wil zien."
+
+#~ msgid "Now that everything we"
+#~ msgstr "Nu dat alles wat we"
+
+#~ msgid "don't"
+#~ msgstr "niet"
+
+#~ msgid "want is out of the way, we can focus on the things we "
+#~ msgstr "willen opgeruimd is, kunnen we ons focussen op wat we "
+
+#~ msgid "do"
+#~ msgstr "wel"
+
+#~ msgid " want!"
+#~ msgstr " willen!"
+
+#~ msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
+#~ msgstr "Pin de secties films/tvseries van %(name)s!"
+
+#~ msgid ""
+#~ "By default, Plex plays all content "
+#~ "at a lower quality. This can be"
+#~ " a bit of a disappointment. But "
+#~ "don't worry, it's a simple fix! "
+#~ "You can easily change the settings "
+#~ "to increase the quality of the "
+#~ "media that you're streaming."
+#~ msgstr ""
+#~ "Standaard toont Plex alle inhoud op "
+#~ "een lagere kwaliteit. Dit kan een "
+#~ "teleurstelling zijn. Maar maak je geen"
+#~ " zorgen, het is gemakkelijk op te "
+#~ "lossen. Je kan eenvoudig de instelling"
+#~ " wijzigen om de kwaliteit van de "
+#~ "stream te verhogen."
+
+#~ msgid "Go to the Plex "
+#~ msgstr "Ga naar Plex "
+
+#~ msgid "Settings "
+#~ msgstr "Instellingen "
+
+#~ msgid ""
+#~ "page. This is usually in the top"
+#~ " right hand corner, depending on the"
+#~ " device you are on."
+#~ msgstr ""
+#~ "pagina. Dit zou in de rechterbovenhoek"
+#~ " zijn, afhankelijk van het toestel "
+#~ "waarop je zit."
+
+#~ msgid "Go to the "
+#~ msgstr "Ga naar "
+
+#~ msgid "Quality"
+#~ msgstr "Kwaliteit"
+
+#~ msgid "or"
+#~ msgstr "of"
+
+#~ msgid "Video"
+#~ msgstr "Video"
+
+#~ msgid "settings."
+#~ msgstr "instellingen."
+
+#~ msgid "Set the "
+#~ msgstr "Zet "
+
+#~ msgid "Remote/Internet Streaming"
+#~ msgstr "Internet streamen"
+
+#~ msgid "to "
+#~ msgstr "op "
+
+#~ msgid "Maximum/Original"
+#~ msgstr "Maximum/Origineel"
+
+#~ msgid "Local Streaming "
+#~ msgstr "Thuis streamen "
+
+#~ msgid ""
+#~ "And there you have it! In case "
+#~ "you encounter buffering issues, remember "
+#~ "that you can always adjust the "
+#~ "playback quality just like you do "
+#~ "in YouTube. This way you can get"
+#~ " the best streaming experience possible."
+#~ msgstr ""
+#~ "Klaar! Als je problemen ondervindt met"
+#~ " het bufferen, kan je altijd de "
+#~ "kwaliteit verlagen zoals je bij YouTube"
+#~ " doet. Zo heb je steeds de "
+#~ "beste streamingervaring."
+
+#~ msgid ""
+#~ "Because Plex is a free service, "
+#~ "they promote their own content before"
+#~ " the awesome content your friend is"
+#~ " now sharing with you - they "
+#~ "also, by default, play content at "
+#~ "a lower quality. "
+#~ msgstr ""
+
+#~ msgid "We highly recommend you to go through those steps first!"
+#~ msgstr ""
+
+#~ msgid "Join our Discord Server"
+#~ msgstr "Word lid van de Discord server"
+
+#~ msgid "How to Use Plex?"
+#~ msgstr "Hoe gebruik je Plex?"
+
+#~ msgid "Requesting Media"
+#~ msgstr "Media aanvragen"
+
+#~ msgid "Join & Download Plex for this device"
+#~ msgstr "Doe mee en download Plex voor dit apparaat"
+
+#~ msgid ""
+#~ "Great news! You now have access to"
+#~ " our server's media collection. Let's "
+#~ "make sure you know how to use "
+#~ "it with Plex."
+#~ msgstr ""
+#~ "Goed nieuws! Je hebt nu toegang "
+#~ "tot de mediacollectie van deze server."
+#~ " Laten we even tonen hoe je "
+#~ "deze gebruikt met Plex."
+
+#~ msgid "Skip"
+#~ msgstr "Overslaan"
+
+#~ msgid ""
+#~ "Congratulations on joining %(name)s! You're"
+#~ " now one step closer to enjoying "
+#~ "all kinds of amazing\n"
+#~ "        content."
+#~ msgstr ""
+#~ "Bedankt om de uitnodiging van Plex "
+#~ "te accepteren! Je bent nu één stap"
+#~ " dichter om de inhoud van deze "
+#~ "mediaserver te bekijken. "
+
+#~ msgid ""
+#~ "Great question! Plex is a software "
+#~ "that allows individuals to share their"
+#~ " media collections with others. If\n"
+#~ "      you've received this invitation, "
+#~ "it means someone wants to share "
+#~ "their library with you. With Plex, "
+#~ "you'll have\n"
+#~ "      access to all of the movies,"
+#~ " TV shows, music, and photos that "
+#~ "are stored on their server. Enjoy!"
+#~ msgstr ""
+#~ "Goede vraag! Plex is software waarmee"
+#~ " het mogelijk is om je mediacollectie"
+#~ " met anderen te delen. Wanneer je "
+#~ "een uitnodiging ontvangt, betekent dat "
+#~ "dat iemand haar mediabibliotheek met je"
+#~ " wil delen. Met Plex heb je "
+#~ "toegang tot alle films, series, muziek"
+#~ " of foto's dat op deze server "
+#~ "staat. Veel plezier!"
+
+#~ msgid ""
+#~ "It couldn't be simpler! Plex is "
+#~ "available on a wide variety of "
+#~ "devices including laptops, tablets,\n"
+#~ "      smartphones, and TVs. All you "
+#~ "need to do is download the Plex"
+#~ " app on your device, sign in "
+#~ "with your account, and\n"
+#~ "      you're ready to start streaming your media. It's that easy!"
+#~ msgstr ""
+#~ "Plex is beschikbaar voor laptops, "
+#~ "tablets, smartphones en TV's. Het enige"
+#~ " dat je moet doen is de Plex"
+#~ " applicatie op je toestel downloaden "
+#~ "en inloggen met je account. Nu ben"
+#~ " je klaar om te kijken, zo "
+#~ "simpel is het!"
+
+#~ msgid ""
+#~ "Because Plex is a free service, "
+#~ "they promote their own content before"
+#~ " the awesome content your friend is"
+#~ " now\n"
+#~ "      sharing with you - they "
+#~ "also, by default, play content at "
+#~ "a lower quality. "
+#~ msgstr ""
+
+#~ msgid ""
+#~ "We highly\n"
+#~ "        recommend you to go through those steps first!"
+#~ msgstr ""
+
+#~ msgid "You've been invited to join %(name)s!"
+#~ msgstr "Je bent uitgenodigd voor %(name)s!"
+
+#~ msgid ""
+#~ "To join our Plex server, create a"
+#~ " Plex account! Once you're done, come"
+#~ " back here!"
+#~ msgstr ""
+#~ "Om toegang tot de Plex server te"
+#~ " verkrijgen, heb je een Plex account"
+#~ " nodig. Zodra je dit hebt, kan "
+#~ "je terug naar hier komen!"
+
+#~ msgid "Create Plex Account"
+#~ msgstr "Maak een Plex account"
+
+#~ msgid "I have a Plex Account"
+#~ msgstr "Ik heb al een Plex account"
+
+#~ msgid "Used At"
+#~ msgstr "Gebruikt op"
+
+#~ msgid "Copy"
+#~ msgstr "Kopieer"
+
+#~ msgid "Delete"
+#~ msgstr "Verwijder"
+
+#~ msgid "Accept Invitation"
+#~ msgstr "Accepteer uitnodiging"
+
+#~ msgid "Accept our invitation"
+#~ msgstr "Accepteer onze uitnodiging"
+
+#~ msgid "We have sent an invitation to your Plex Account! Almost there!"
+#~ msgstr ""
+#~ "We hebben een uitnodiging verstuurd naar"
+#~ " je Plex account! Je bent er "
+#~ "bijna!"
+
+#~ msgid ""
+#~ "Click the button below to be taken"
+#~ " to Plex, here you will see an"
+#~ " invitation from us."
+#~ msgstr ""
+#~ "Klik op de onderstaande knop om "
+#~ "naar Plex te gaan. Hier zal je "
+#~ "een uitnodiging vinden."
+
+#~ msgid "Accept"
+#~ msgstr "Accepteer"
+
+#~ msgid "Next"
+#~ msgstr "Volgende"
+
+#~ msgid "Great! Now, let's get you invited!"
+#~ msgstr "Geweldig! Laten we je nu een uitnodiging sturen!"
+
+#~ msgid "Your Plex email"
+#~ msgstr "Je Plex e-mailadres"
+
+#~ msgid "Don't have a Plex account, yet?"
+#~ msgstr "Heb je nog geen Plex account?"
+
+#~ msgid "Get one here."
+#~ msgstr "Maak hier eentje."
+
+#~ msgid "Plex URL"
+#~ msgstr "Plex URL"
+
+#~ msgid "Plex Display Name"
+#~ msgstr "Plex Gebruikersnaam"
+
+#~ msgid "Plex Token"
+#~ msgstr "Plex Toegangstoken"
+
+#~ msgid "Request instance (Ombi, Overseerr...)"
+#~ msgstr "URL verzoeksysteem (Ombi, Overseerr...)"
+
+#~ msgid "Discord Server ID"
+#~ msgstr "Discord Server ID"
+
+#~ msgid ""
+#~ "Environment Variables are being\n"
+#~ "                    deprecated and replaced by"
+#~ " a secure sign-up. Please visit \n"
+#~ ""
+#~ "\n"
+#~ msgstr ""
+#~ "Environment Variables worden stopgezet en "
+#~ "vervangen door veilig aanmelden. Bezoek "
+
+#~ msgid ""
+#~ "/settings.\n"
+#~ "                        See Repo for more info"
+#~ msgstr "/instellingen. Bekijk Repo voor meer informatie"
+
+#~ msgid ""
+#~ "Custom\n"
+#~ "              HTML"
+#~ msgstr ""
+
+#~ msgid "Plex Requests"
+#~ msgstr "Plex verzoeken"
+
+#~ msgid ""
+#~ "Server Display\n"
+#~ "              Name"
+#~ msgstr "Plex weergavenaam"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "              URL"
+#~ msgstr "Plex Token"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "              Token / API Key"
+#~ msgstr "Plex Token"
+
+#~ msgid "Server Libraries"
+#~ msgstr "Plex Bibliotheken"
+
+#~ msgid ""
+#~ "Request\n"
+#~ "              instance (Ombi, Overseerr...)"
+#~ msgstr "URL verzoeksysteem (Ombi, Overseerr...)"
+
+#~ msgid ""
+#~ "Discord\n"
+#~ "              Server ID"
+#~ msgstr ""
+#~ "Word lid van de Discord\n"
+#~ "…………………………Server!"
+
+#~ msgid "Verify and Confirm"
+#~ msgstr "Verifiëren en bevestigen"
+
+#~ msgid "Great!"
+#~ msgstr "Geweldig!"
+
+#~ msgid "Change Server Settings"
+#~ msgstr "Wijzig serverinstellingen"
+
+#~ msgid "Invite Used"
+#~ msgstr "Gebruiker uitnodigen"
+
+#~ msgid "User"
+#~ msgstr "Gebruiker"
+
+#~ msgid "Home User"
+#~ msgstr "Gebruiker uitnodigen"
+
+#~ msgid "Passwords do not match."
+#~ msgstr "Wachtwoorden komen niet overeen."
+
+#~ msgid "Username must be between 3 and 15 characters."
+#~ msgstr "De gebruikersnaam moet tussen de 3 en 15 tekens bevatten."
+
+#~ msgid "Password must be between 3 and 40 characters."
+#~ msgstr "Het wachtwoord moet tussen de 3 en 40 tekens bevatten."
+
+#~ msgid "You must select at least one library."
+#~ msgstr "Je moet minstens één bibliotheek selecteren."
+
+#~ msgid "It is likely that your token does not work."
+#~ msgstr "Mogelijk werkt je toegangstoken niet."
+
+#~ msgid "Unable to connect to your Plex server. See Logs for more information."
+#~ msgstr ""
+#~ "De verbinding met je Plex server "
+#~ "is onderbroken. Bekijk de Logs voor "
+#~ "meer informatie."
+
+#~ msgid "Unable to connect to your Jellyfin server."
+#~ msgstr "Er is geen verbinding mogelijk met de Jellyfin server."
+
+#~ msgid "Confirm password"
+#~ msgstr "Bevestig wachtwoord"
+
+#~ msgid ""
+#~ "Server Display\n"
+#~ "                Name"
+#~ msgstr "Plex weergavenaam"
+
+#~ msgid "Server"
+#~ msgstr "Server"
+
+#~ msgid "Server URL"
+#~ msgstr "Server URL"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "                Token / API Key"
+#~ msgstr "Plex Token"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "                Libraries"
+#~ msgstr "Plex Bibliotheken"
+
+#~ msgid ""
+#~ "Request\n"
+#~ "                instance (Ombi, Overseerr...) URL"
+#~ msgstr "URL verzoeksysteem (Ombi, Overseerr...)"
+
+#~ msgid "Ombi API Key (Only used for user import currently.)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Discord\n"
+#~ "                Server ID"
+#~ msgstr ""
+#~ "Word lid van de Discord\n"
+#~ "…………………………Server!"
+
+#~ msgid ""
+#~ "Custom\n"
+#~ "                HTML"
+#~ msgstr ""
+#~ "Aangepaste\n"
+#~ "                HTML"
+
+#~ msgid "Attention!"
+#~ msgstr "Aandacht!"
+
+#~ msgid "Update available. Click here."
+#~ msgstr "Update beschikbaar. Klik hier."
+
+#~ msgid "Automatic Media Requests"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "We are excited to offer you a "
+#~ "wide selection of media to choose "
+#~ "from. If you're having trouble finding"
+#~ "\n"
+#~ "    something you like, don't worry! "
+#~ "We have a user-friendly request "
+#~ "system that can automatically search for"
+#~ " the\n"
+#~ "    media you're looking for. "
+#~ msgstr ""
+#~ "Je hebt de keuze uit een "
+#~ "uitgebreide mediacollectie. Als je niet "
+#~ "meteen vindt wat je zoekt, is er"
+#~ " een gebruiksvriendelijk verzoeksysteem dat "
+#~ "automatisch de media die je zoekt "
+#~ "kan tonen. "
+
+#~ msgid "Request any available Movie or TV Show"
+#~ msgstr "Maak een verzoek voor eender welke beschikbare film of tvserie"
+
+#~ msgid ""
+#~ "Requested media will be automatically "
+#~ "downloaded and added to the library "
+#~ "(if available)"
+#~ msgstr ""
+#~ "Aangevraagde media zal automatisch worden "
+#~ "gedownload en toegevoegd aan de "
+#~ "bibliotheek (indien beschikbaar)"
+
+#~ msgid "If enabled, receive notifications"
+#~ msgstr "Indien ingeschakeld, ontvang notificaties"
+
+#~ msgid "Check it Out"
+#~ msgstr "Bekijken"
+
+#~ msgid ""
+#~ "Join & Download Jellyfin\n"
+#~ "            for this device"
+#~ msgstr "Doe mee en download Plex voor dit apparaat"
+
+#~ msgid ""
+#~ "Great news! You now have access to"
+#~ " our server's media collection. Let's "
+#~ "make sure you know how to use\n"
+#~ ""
+#~ "        it with Jellyfin."
+#~ msgstr ""
+#~ "Goed nieuws! Je hebt nu toegang "
+#~ "tot de mediacollectie van deze server."
+#~ " Laten we even tonen hoe je "
+#~ "deze gebruikt met Plex."
+
+#~ msgid ""
+#~ "Planning on watching Movies on this "
+#~ "device? Download Jellyfin for this "
+#~ "device."
+#~ msgstr ""
+#~ "Ben je van plan om media te "
+#~ "bekijken op dit toestel? Download dan"
+#~ " Plex voor dit toestel."
+
+#~ msgid "Download"
+#~ msgstr "Download"
+
+#~ msgid "Eh, So, What is Jellyfin exactly?"
+#~ msgstr "Ok, maar wat is Plex nu precies?"
+
+#~ msgid ""
+#~ "Jellyfin is a platform that lets "
+#~ "you stream all your favorite movies, "
+#~ "TV shows, and music in one place."
+#~ "\n"
+#~ "        It's like having your own "
+#~ "personal movie theater right at your "
+#~ "fingertips! Think of it as a "
+#~ "digital library of\n"
+#~ "        your favorite content that you"
+#~ " can access from anywhere, on any "
+#~ "device - your phone, tablet, laptop, "
+#~ "smart TV,\n"
+#~ "        you name it."
+#~ msgstr ""
+
+#~ msgid "Right, so how do I watch stuff?"
+#~ msgstr "Goed, hoe bekijk je iets?"
+
+#~ msgid ""
+#~ "It couldn't be simpler! Jellyfin is "
+#~ "available on a wide variety of "
+#~ "devices including laptops, tablets,\n"
+#~ "        smartphones, and TVs. All you"
+#~ " need to do is download the "
+#~ "Jellyfin app on your device, sign "
+#~ "in with your account,\n"
+#~ "        and\n"
+#~ "        you're ready to start streaming your media. It's that easy!"
+#~ msgstr ""
+#~ "Plex is beschikbaar voor laptops, "
+#~ "tablets, smartphones en TV's. Het enige"
+#~ " dat je moet doen is de Plex"
+#~ " applicatie op je toestel downloaden "
+#~ "en inloggen met je account. Nu ben"
+#~ " je klaar om te kijken, zo "
+#~ "simpel is het!"
+
+#~ msgid "Open Jellyfin"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Join & Download Plex\n"
+#~ "            for this device"
+#~ msgstr "Doe mee en download Plex voor dit apparaat"
+
+#~ msgid ""
+#~ "Great news! You now have access to"
+#~ " our server's media collection. Let's "
+#~ "make sure you know how to use\n"
+#~ ""
+#~ "        it with Plex."
+#~ msgstr ""
+#~ "Goed nieuws! Je hebt nu toegang "
+#~ "tot de mediacollectie van deze server."
+#~ " Laten we even tonen hoe je "
+#~ "deze gebruikt met Plex."
+
+#~ msgid ""
+#~ "Planning on watching Movies on this "
+#~ "device? Download Plex for this device."
+#~ msgstr ""
+#~ "Ben je van plan om media te "
+#~ "bekijken op dit toestel? Download dan"
+#~ " Plex voor dit toestel."
+
+#~ msgid "Eh, So, What is Plex exactly?"
+#~ msgstr "Ok, maar wat is Plex nu precies?"
+
+#~ msgid ""
+#~ "Great question! Plex is a software "
+#~ "that allows individuals to share their"
+#~ " media collections with others. If\n"
+#~ "    you've received this invitation, it"
+#~ " means someone wants to share their"
+#~ " library with you. With Plex, you'll"
+#~ " have\n"
+#~ "    access to all of the movies,"
+#~ " TV shows, music, and photos that "
+#~ "are stored on their server. Enjoy!"
+#~ msgstr ""
+#~ "Goede vraag! Plex is software waarmee"
+#~ " het mogelijk is om je mediacollectie"
+#~ " met anderen te delen. Wanneer je "
+#~ "een uitnodiging ontvangt, betekent dat "
+#~ "dat iemand haar mediabibliotheek met je"
+#~ " wil delen. Met Plex heb je "
+#~ "toegang tot alle films, series, muziek"
+#~ " of foto's dat op deze server "
+#~ "staat. Veel plezier!"
+
+#~ msgid ""
+#~ "It couldn't be simpler! Plex is "
+#~ "available on a wide variety of "
+#~ "devices including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you "
+#~ "need to do is download the Plex"
+#~ " app on your device, sign in "
+#~ "with your account, and\n"
+#~ "    you're ready to start streaming your media. It's that easy!"
+#~ msgstr ""
+#~ "Plex is beschikbaar voor laptops, "
+#~ "tablets, smartphones en TV's. Het enige"
+#~ " dat je moet doen is de Plex"
+#~ " applicatie op je toestel downloaden "
+#~ "en inloggen met je account. Nu ben"
+#~ " je klaar om te kijken, zo "
+#~ "simpel is het!"
+
+#~ msgid "How can I make sure to have the best experience?"
+#~ msgstr "Hoe zorg ik voor de beste kijkervaring?"
+
+#~ msgid ""
+#~ "Because Plex is a free service, "
+#~ "they promote their own content before"
+#~ " the awesome content your friend is"
+#~ " now\n"
+#~ "    sharing with you - they also,"
+#~ " by default, play content at a "
+#~ "lower quality. "
+#~ msgstr ""
+
+#~ msgid "No need to worry though, this can be easily resolved"
+#~ msgstr "Maar geen probleem, dit is gemakkelijk op te lossen!"
+
+#~ msgid ""
+#~ "We highly\n"
+#~ "      recommend you to go through those steps first!"
+#~ msgstr ""
+
+#~ msgid "Configure Plex in your browser"
+#~ msgstr ""
+
+#~ msgid "Configure Plex's app on your computer, mobile device or TV"
+#~ msgstr ""
+
+#~ msgid "Open Plex"
+#~ msgstr ""
+
+#~ msgid "User Configuration"
+#~ msgstr ""
+
+#~ msgid "User Policy"
+#~ msgstr ""
+
+#~ msgid "Name"
+#~ msgstr "Gebruikersnaam"
+
+#~ msgid "Actions"
+#~ msgstr "Uitnodigingen"

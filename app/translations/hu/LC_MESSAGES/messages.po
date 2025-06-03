@@ -1,0 +1,677 @@
+# Hungarian translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-05-24 18:39+0000\n"
+"PO-Revision-Date: 2025-05-28 10:05+0000\n"
+"Last-Translator: hyperMBz <hypermb@ymail.com>\n"
+"Language-Team: Hungarian <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/hu/>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.12-dev\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app/blueprints/auth/routes.py:44
+msgid "Invalid username or password"
+msgstr "Helytelen felhasználónév vagy jelszó"
+
+#: app/blueprints/settings/routes.py:131
+msgid "Library scan failed"
+msgstr "A könyvtár beolvasása sikertelen"
+
+#: app/templates/admin.html:5
+msgid "Admin"
+msgstr "Admin"
+
+#: app/templates/admin.html:31
+msgid "Home"
+msgstr "Kezdőlap"
+
+#: app/templates/admin.html:36
+msgid "Invitations"
+msgstr "Meghívások"
+
+#: app/templates/admin.html:41
+msgid "Users"
+msgstr "Felhasználók"
+
+#: app/templates/admin.html:46 app/templates/settings/index.html:3
+msgid "Settings"
+msgstr "Beállítások"
+
+#: app/templates/invalid-invite.html:16
+msgid "Invalid Invitation"
+msgstr "Érvénytelen meghívó"
+
+#: app/templates/login.html:18
+msgid "Login"
+msgstr "Bejelentkezés"
+
+#: app/templates/login.html:23 app/templates/welcome-jellyfin.html:30
+msgid "Username"
+msgstr "Felhasználónév"
+
+#: app/templates/login.html:29 app/templates/welcome-jellyfin.html:47
+msgid "Password"
+msgstr "Jelszó"
+
+#: app/templates/login.html:41
+msgid "Remember me"
+msgstr "Emlékezz rám"
+
+#: app/templates/login.html:46
+msgid "Sign in"
+msgstr "Bejelentkezés"
+
+#: app/templates/settings.html:13
+msgid "Server settings"
+msgstr "Szerver beállítások"
+
+#: app/templates/settings.html:22
+msgid "Notification agents"
+msgstr "Értesítési ügynökök"
+
+#: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
+#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
+#, python-format
+msgid "You've been invited to join the %(name)s server!"
+msgstr "Meghívást kaptál a %(name)s szerverre!"
+
+#: app/templates/user-plex-login.html:23
+msgid "Join the Plex Server"
+msgstr "Csatlakozás a Plex kiszolgálóhoz"
+
+#: app/templates/tables/user_card.html:57 app/templates/user-plex-login.html:29
+#: app/templates/user-plex-login.html:40
+msgid "Invite Code"
+msgstr "Meghívó kód"
+
+#: app/templates/user-plex-login.html:45
+msgid "Oops!"
+msgstr "Hoppá!"
+
+#: app/templates/user-plex-login.html:52
+msgid "Join"
+msgstr "Csatlakozzon a"
+
+#: app/templates/users.html:5
+msgid "Invite User"
+msgstr "Felhasználó Meghívása"
+
+#: app/templates/welcome-jellyfin.html:22
+msgid "Set up Account"
+msgstr "Fiók beállítása"
+
+#: app/templates/welcome-jellyfin.html:38
+msgid "Email"
+msgstr "E-mail"
+
+#: app/templates/welcome-jellyfin.html:55
+msgid ""
+"Confirm\n"
+"                                password"
+msgstr ""
+"Megerősítés\n"
+"                                jelszó"
+
+#: app/templates/welcome-jellyfin.html:63
+msgid ""
+"Invite\n"
+"                                Code"
+msgstr ""
+"Meghívó\n"
+"                                Kód"
+
+#: app/templates/setup/admin_account.html:58
+#: app/templates/welcome-jellyfin.html:72
+msgid "Create an account"
+msgstr "Fiók létrehozása"
+
+#: app/templates/admin/invite.html:6
+msgid "Quick Invite"
+msgstr "Gyors meghívás"
+
+#: app/templates/admin/invite.html:12
+msgid "Invite user"
+msgstr "Felhasználó meghívása"
+
+#: app/templates/admin/invite.html:18
+msgid "Invite Code String"
+msgstr "Meghívó kódsorozat"
+
+#: app/templates/admin/invite.html:19
+msgid "(optional)"
+msgstr "(opcionális)"
+
+#: app/templates/admin/invite.html:26
+msgid "Expiration"
+msgstr "Lejárat"
+
+#: app/templates/admin/invite.html:29
+msgid "1 day"
+msgstr "1 nap"
+
+#: app/templates/admin/invite.html:30
+msgid "1 week"
+msgstr "1 hét"
+
+#: app/templates/admin/invite.html:31
+msgid "1 month"
+msgstr "1 hónap"
+
+#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:60
+#: app/templates/tables/user_card.html:46
+msgid "Never"
+msgstr "Soha"
+
+#: app/templates/admin/invite.html:37
+msgid "Advanced Options"
+msgstr "Speciális beállítások"
+
+#: app/templates/admin/invite.html:45
+msgid "Unlimited Usages"
+msgstr "Korlátlan használat"
+
+#: app/templates/admin/invite.html:53
+msgid "Invite to Plex Home"
+msgstr "Meghívás a Plex Home-ra"
+
+#: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
+#: app/templates/tables/invite_card.html:86
+msgid "Duration"
+msgstr "Időtartam"
+
+#: app/templates/admin/invite.html:63
+msgid "(in days)"
+msgstr "(napokban)"
+
+#: app/templates/admin/invite.html:74
+msgid "Show Information"
+msgstr "Információk megjelenítése"
+
+#: app/templates/admin/invite.html:80
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a\n"
+"                                        number of\n"
+"                                        days. (1-999)"
+msgstr ""
+"Ha be van állítva, akkor a meghívott felhasználó(k) eltávolításra kerülnek a "
+"Plex kiszolgálóról, miután a\n"
+"                                        szám után\n"
+"                                        nap után. (1-999)"
+
+#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
+#: app/templates/tables/user_card.html:67
+msgid "Allow Downloads"
+msgstr "Letöltések engedélyezése"
+
+#: app/templates/admin/invite.html:102
+msgid ""
+"Specific\n"
+"                                Libraries"
+msgstr ""
+"Speciális\n"
+"                                Könyvtárak"
+
+#: app/templates/admin/invite.html:111
+#: app/templates/settings/partials/server_form.html:87
+msgid "Scan For Libraries"
+msgstr "Könyvtárak keresése"
+
+#: app/templates/admin/invite.html:119
+msgid "Create Invitation"
+msgstr "Meghívó létrehozása"
+
+#: app/templates/admin/invite.html:126
+msgid "Successfully generated an Invitation!"
+msgstr "Sikeresen generált meghívót!"
+
+#: app/templates/admin/invite.html:131
+msgid "Link has been copied to clipboard!"
+msgstr "A linket a vágólapra másoltuk!"
+
+#: app/templates/admin/invite.html:139
+msgid "Back"
+msgstr "Vissza"
+
+#: app/templates/admin/invite.html:144
+msgid "Share"
+msgstr "Megosztás"
+
+#: app/templates/admin/user_modal.html:17
+msgid "Edit expiry"
+msgstr "Szerkesztés lejárat"
+
+#: app/templates/admin/user_modal.html:27
+msgid "Expiry date (leave blank for never)"
+msgstr "Lejárati idő (üresen hagyva, ha soha)"
+
+#: app/templates/admin/user_modal.html:41
+#: app/templates/modals/create-notification-agent.html:85
+msgid "Cancel"
+msgstr "Törölje"
+
+#: app/templates/admin/user_modal.html:48
+#: app/templates/settings/partials/server_form.html:132
+msgid "Save"
+msgstr "Mentés"
+
+#: app/templates/error/401.html:20
+msgid "Permission denied."
+msgstr "Engedély megtagadva."
+
+#: app/templates/error/401.html:23
+msgid "You are attempting to do something you shouldn't be doing..."
+msgstr "Olyasmit próbálsz csinálni, amit nem kellene..."
+
+#: app/templates/error/404.html:19
+msgid "Something's missing."
+msgstr "Valami hiányzik."
+
+#: app/templates/error/404.html:21
+msgid "Sorry, we can't find that page. It doesn't seem to exist!"
+msgstr "Sajnáljuk, nem találjuk az oldalt. Úgy tűnik, hogy nem létezik!"
+
+#: app/templates/error/500.html:19
+msgid "Internal Server Error."
+msgstr "Belső szerver hiba."
+
+#: app/templates/error/500.html:21
+msgid " Something has gone wrong. Please try again later."
+msgstr " Valami elromlott. Kérjük, próbálja meg később újra."
+
+#: app/templates/modals/create-notification-agent.html:31
+msgid "New Agent"
+msgstr "Új ügynök"
+
+#: app/templates/modals/create-notification-agent.html:60
+msgid ""
+"Username\n"
+"                                (optional)"
+msgstr ""
+"Felhasználónév\n"
+"                                (opcionális)"
+
+#: app/templates/modals/create-notification-agent.html:65
+msgid "Password (optional)"
+msgstr "Jelszó (nem kötelező)"
+
+#: app/templates/modals/create-notification-agent.html:70
+msgid ""
+"Agent\n"
+"                                URL"
+msgstr ""
+"ügynök\n"
+"                                URL"
+
+#: app/templates/modals/create-notification-agent.html:81
+msgid "Test & Create Agent"
+msgstr "Teszt és ügynök létrehozása"
+
+#: app/templates/settings/index.html:24
+msgid "Server"
+msgstr "Szerver"
+
+#: app/templates/settings/index.html:39
+msgid "Notifications"
+msgstr "Értesítések"
+
+#: app/templates/settings/notifications.html:11
+msgid "Notification Agents"
+msgstr "Értesítési Ügynökök"
+
+#: app/templates/settings/notifications.html:27
+msgid "Delete"
+msgstr "Töröl"
+
+#: app/templates/settings/notifications.html:37
+msgid "Create Agent"
+msgstr "Ügynök Létrehozása"
+
+#: app/templates/settings/partials/server_form.html:13
+msgid "Server Settings"
+msgstr "Szerver Beállítások"
+
+#: app/templates/settings/partials/server_form.html:103
+#: app/templates/settings/partials/server_form.html:111
+#: app/templates/settings/partials/server_form.html:120
+msgid "Optional, leave empty to disable"
+msgstr "Nem kötelező, a letiltáshoz hagyja üresen"
+
+#: app/templates/setup/admin_account.html:14
+msgid "Setup Wizarr"
+msgstr "Wizarr beállítása"
+
+#: app/templates/tables/invite_card.html:3
+msgid "There are currently no invitations."
+msgstr "Jelenleg nincsenek meghívók."
+
+#: app/templates/tables/invite_card.html:16
+msgid "Available"
+msgstr "Elérhető"
+
+#: app/templates/tables/invite_card.html:23
+#: app/templates/tables/invite_card.html:51
+msgid "Used"
+msgstr "Használt"
+
+#: app/templates/tables/invite_card.html:36
+msgid "Created"
+msgstr "Létrehozva"
+
+#: app/templates/tables/invite_card.html:44
+#: app/templates/tables/user_card.html:39
+msgid "Expires"
+msgstr "Lejár"
+
+#: app/templates/tables/invite_card.html:47
+msgid "Expired"
+msgstr "Lejárt"
+
+#: app/templates/tables/invite_card.html:70
+msgid "Libraries"
+msgstr "Könyvtárak"
+
+#: app/templates/tables/invite_card.html:75
+msgid "Default"
+msgstr "Alapértelmezett"
+
+#: app/templates/tables/invite_card.html:86
+msgid "days"
+msgstr "napok"
+
+#: app/templates/tables/invite_card.html:106
+msgid "Unlimited"
+msgstr "Korlátlan"
+
+#: app/templates/tables/user_card.html:3
+msgid "There are currently no users."
+msgstr "Jelenleg nincsenek felhasználók."
+
+#: app/templates/tables/user_card.html:26
+msgid "Home User"
+msgstr "Otthoni Felhasználó"
+
+#: app/templates/wizard/frame.html:34
+msgid "Previous"
+msgstr "Előző"
+
+#: app/templates/wizard/frame.html:42
+msgid "Next"
+msgstr "Következő"
+
+#~ msgid "Change Server Settings"
+#~ msgstr ""
+
+#~ msgid "Invite Used"
+#~ msgstr ""
+
+#~ msgid "User"
+#~ msgstr ""
+
+#~ msgid "Home User"
+#~ msgstr ""
+
+#~ msgid "Passwords do not match."
+#~ msgstr "A jelszók nem egyeznek."
+
+#~ msgid "Username must be between 3 and 15 characters."
+#~ msgstr "A felhasználónév hossza 3 és 15 karakter között kell lennie."
+
+#~ msgid "Password must be between 3 and 40 characters."
+#~ msgstr "A jelszó hossza 3 és 40 karakter között kell lennie."
+
+#~ msgid "You must select at least one library."
+#~ msgstr "Legalább egy könyvtárat ki kell választanod."
+
+#~ msgid "It is likely that your token does not work."
+#~ msgstr "Valószínű, hogy nem működik a tokened."
+
+#~ msgid "Unable to connect to your Plex server. See Logs for more information."
+#~ msgstr ""
+#~ "Nincs kapcsolat a Plex szervereddel. "
+#~ "További információ a naplófájlokban."
+
+#~ msgid "Unable to connect to your Jellyfin server."
+#~ msgstr "Nincs kapcsolat a Jellyfin szervereddel."
+
+#~ msgid "Confirm password"
+#~ msgstr "Jelszó megerősítése"
+
+#~ msgid ""
+#~ "Server Display\n"
+#~ "                Name"
+#~ msgstr ""
+#~ "Szerver megjelenjtési\n"
+#~ "                 neve"
+
+#~ msgid "Server"
+#~ msgstr "Szerver"
+
+#~ msgid "Server URL"
+#~ msgstr "Szerver URL"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "                Token / API Key"
+#~ msgstr ""
+#~ "Szerver\n"
+#~ "                Token / API Key"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "                Libraries"
+#~ msgstr ""
+#~ "Szerver\n"
+#~ "                könyvtárak"
+
+#~ msgid ""
+#~ "Request\n"
+#~ "                instance (Ombi, Overseerr...) URL"
+#~ msgstr ""
+#~ "Kérés\n"
+#~ "                példány (Ombi, Overseerr...)"
+
+#~ msgid "Ombi API Key (Only used for user import currently.)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Discord\n"
+#~ "                Server ID"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Custom\n"
+#~ "                HTML"
+#~ msgstr ""
+
+#~ msgid "Attention!"
+#~ msgstr ""
+
+#~ msgid "Update available. Click here."
+#~ msgstr ""
+
+#~ msgid "Automatic Media Requests"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "We are excited to offer you a "
+#~ "wide selection of media to choose "
+#~ "from. If you're having trouble finding"
+#~ "\n"
+#~ "    something you like, don't worry! "
+#~ "We have a user-friendly request "
+#~ "system that can automatically search for"
+#~ " the\n"
+#~ "    media you're looking for. "
+#~ msgstr ""
+
+#~ msgid "Request any available Movie or TV Show"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Requested media will be automatically "
+#~ "downloaded and added to the library "
+#~ "(if available)"
+#~ msgstr ""
+
+#~ msgid "If enabled, receive notifications"
+#~ msgstr ""
+
+#~ msgid "Check it Out"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Join & Download Jellyfin\n"
+#~ "            for this device"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Great news! You now have access to"
+#~ " our server's media collection. Let's "
+#~ "make sure you know how to use\n"
+#~ ""
+#~ "        it with Jellyfin."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Planning on watching Movies on this "
+#~ "device? Download Jellyfin for this "
+#~ "device."
+#~ msgstr ""
+
+#~ msgid "Download"
+#~ msgstr ""
+
+#~ msgid "Eh, So, What is Jellyfin exactly?"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Jellyfin is a platform that lets "
+#~ "you stream all your favorite movies, "
+#~ "TV shows, and music in one place."
+#~ "\n"
+#~ "        It's like having your own "
+#~ "personal movie theater right at your "
+#~ "fingertips! Think of it as a "
+#~ "digital library of\n"
+#~ "        your favorite content that you"
+#~ " can access from anywhere, on any "
+#~ "device - your phone, tablet, laptop, "
+#~ "smart TV,\n"
+#~ "        you name it."
+#~ msgstr ""
+
+#~ msgid "Right, so how do I watch stuff?"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "It couldn't be simpler! Jellyfin is "
+#~ "available on a wide variety of "
+#~ "devices including laptops, tablets,\n"
+#~ "        smartphones, and TVs. All you"
+#~ " need to do is download the "
+#~ "Jellyfin app on your device, sign "
+#~ "in with your account,\n"
+#~ "        and\n"
+#~ "        you're ready to start streaming your media. It's that easy!"
+#~ msgstr ""
+
+#~ msgid "Open Jellyfin"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Join & Download Plex\n"
+#~ "            for this device"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Great news! You now have access to"
+#~ " our server's media collection. Let's "
+#~ "make sure you know how to use\n"
+#~ ""
+#~ "        it with Plex."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Planning on watching Movies on this "
+#~ "device? Download Plex for this device."
+#~ msgstr ""
+
+#~ msgid "Eh, So, What is Plex exactly?"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Great question! Plex is a software "
+#~ "that allows individuals to share their"
+#~ " media collections with others. If\n"
+#~ "    you've received this invitation, it"
+#~ " means someone wants to share their"
+#~ " library with you. With Plex, you'll"
+#~ " have\n"
+#~ "    access to all of the movies,"
+#~ " TV shows, music, and photos that "
+#~ "are stored on their server. Enjoy!"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "It couldn't be simpler! Plex is "
+#~ "available on a wide variety of "
+#~ "devices including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you "
+#~ "need to do is download the Plex"
+#~ " app on your device, sign in "
+#~ "with your account, and\n"
+#~ "    you're ready to start streaming your media. It's that easy!"
+#~ msgstr ""
+
+#~ msgid "How can I make sure to have the best experience?"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Because Plex is a free service, "
+#~ "they promote their own content before"
+#~ " the awesome content your friend is"
+#~ " now\n"
+#~ "    sharing with you - they also,"
+#~ " by default, play content at a "
+#~ "lower quality. "
+#~ msgstr ""
+
+#~ msgid "No need to worry though, this can be easily resolved"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "We highly\n"
+#~ "      recommend you to go through those steps first!"
+#~ msgstr ""
+
+#~ msgid "Configure Plex in your browser"
+#~ msgstr ""
+
+#~ msgid "Configure Plex's app on your computer, mobile device or TV"
+#~ msgstr ""
+
+#~ msgid "Open Plex"
+#~ msgstr ""
+
+#~ msgid "User Configuration"
+#~ msgstr ""
+
+#~ msgid "User Policy"
+#~ msgstr ""
+
+#~ msgid "Name"
+#~ msgstr ""
+
+#~ msgid "Actions"
+#~ msgstr ""

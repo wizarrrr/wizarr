@@ -1,0 +1,900 @@
+# Catalan translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-05-24 18:39+0000\n"
+"PO-Revision-Date: 2023-05-15 18:52+0000\n"
+"Last-Translator: Bernat <btqqryrzo@mozmail.com>\n"
+"Language: ca\n"
+"Language-Team: Catalan "
+"<https://hosted.weblate.org/projects/wizarr/app/ca/>\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app/blueprints/auth/routes.py:44
+#, fuzzy
+msgid "Invalid username or password"
+msgstr "Nom d'usuari o contrassenya incorrecte"
+
+#: app/blueprints/settings/routes.py:131
+msgid "Library scan failed"
+msgstr ""
+
+#: app/templates/admin.html:5
+msgid "Admin"
+msgstr "Administrador"
+
+#: app/templates/admin.html:31
+msgid "Home"
+msgstr "Inici"
+
+#: app/templates/admin.html:36
+msgid "Invitations"
+msgstr "Invitacions"
+
+#: app/templates/admin.html:41
+msgid "Users"
+msgstr "Usuaris"
+
+#: app/templates/admin.html:46 app/templates/settings/index.html:3
+msgid "Settings"
+msgstr "Configuració"
+
+#: app/templates/invalid-invite.html:16
+#, fuzzy
+msgid "Invalid Invitation"
+msgstr "Invitacions"
+
+#: app/templates/login.html:18
+msgid "Login"
+msgstr "Iniciar sessió"
+
+#: app/templates/login.html:23 app/templates/welcome-jellyfin.html:30
+msgid "Username"
+msgstr "Nom d'usuari"
+
+#: app/templates/login.html:29 app/templates/welcome-jellyfin.html:47
+msgid "Password"
+msgstr "Contrassenya"
+
+#: app/templates/login.html:41
+msgid "Remember me"
+msgstr "Recorda'm"
+
+#: app/templates/login.html:46
+msgid "Sign in"
+msgstr "Registrar-se"
+
+#: app/templates/settings.html:13
+#, fuzzy
+msgid "Server settings"
+msgstr "Configuració del servidor"
+
+#: app/templates/settings.html:22
+msgid "Notification agents"
+msgstr ""
+
+#: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
+#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
+#, python-format
+msgid "You've been invited to join the %(name)s server!"
+msgstr "T'han convidat a unir-te al servidor %(name)s!"
+
+#: app/templates/user-plex-login.html:23
+msgid "Join the Plex Server"
+msgstr "Uneix-te al servidor de Plex"
+
+#: app/templates/tables/user_card.html:57 app/templates/user-plex-login.html:29
+#: app/templates/user-plex-login.html:40
+msgid "Invite Code"
+msgstr "Codi d'invitació"
+
+#: app/templates/user-plex-login.html:45
+msgid "Oops!"
+msgstr "Vaja!"
+
+#: app/templates/user-plex-login.html:52
+msgid "Join"
+msgstr "Uneix-te"
+
+#: app/templates/users.html:5
+msgid "Invite User"
+msgstr "Convidar l'usuari"
+
+#: app/templates/welcome-jellyfin.html:22
+msgid "Set up Account"
+msgstr "Crea un Compte"
+
+#: app/templates/welcome-jellyfin.html:38
+msgid "Email"
+msgstr "Correu electrònic"
+
+#: app/templates/welcome-jellyfin.html:55
+msgid ""
+"Confirm\n"
+"                                password"
+msgstr ""
+"Confirma\n"
+"la contrassenya"
+
+#: app/templates/welcome-jellyfin.html:63
+msgid ""
+"Invite\n"
+"                                Code"
+msgstr ""
+"Codi\n"
+"d'invitació"
+
+#: app/templates/setup/admin_account.html:58
+#: app/templates/welcome-jellyfin.html:72
+msgid "Create an account"
+msgstr "Crea un compte"
+
+#: app/templates/admin/invite.html:6
+msgid "Quick Invite"
+msgstr "Invitació ràpida"
+
+#: app/templates/admin/invite.html:12
+msgid "Invite user"
+msgstr "Convidar l'usuari"
+
+#: app/templates/admin/invite.html:18
+msgid "Invite Code String"
+msgstr "Convida cadena de codi"
+
+#: app/templates/admin/invite.html:19
+msgid "(optional)"
+msgstr "(opcional)"
+
+#: app/templates/admin/invite.html:26
+msgid "Expiration"
+msgstr "Expiració"
+
+#: app/templates/admin/invite.html:29
+msgid "1 day"
+msgstr "1 dia"
+
+#: app/templates/admin/invite.html:30
+msgid "1 week"
+msgstr "1 setmana"
+
+#: app/templates/admin/invite.html:31
+msgid "1 month"
+msgstr "1 mes"
+
+#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:60
+#: app/templates/tables/user_card.html:46
+msgid "Never"
+msgstr "Mai"
+
+#: app/templates/admin/invite.html:37
+msgid "Advanced Options"
+msgstr "Opcions avançades"
+
+#: app/templates/admin/invite.html:45
+msgid "Unlimited Usages"
+msgstr "Usos il·limitats"
+
+#: app/templates/admin/invite.html:53
+#, fuzzy
+msgid "Invite to Plex Home"
+msgstr "Codi d'invitació"
+
+#: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
+#: app/templates/tables/invite_card.html:86
+msgid "Duration"
+msgstr "Duració"
+
+#: app/templates/admin/invite.html:63
+msgid "(in days)"
+msgstr "(en dies)"
+
+#: app/templates/admin/invite.html:74
+msgid "Show Information"
+msgstr "Mostra informació"
+
+#: app/templates/admin/invite.html:80
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a\n"
+"                                        number of\n"
+"                                        days. (1-999)"
+msgstr ""
+"Quan configurat, els usuaris convidats seran eliminats del servidor de "
+"Plex després d'un\n"
+"nombre de\n"
+"dies. (1-999)"
+
+#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
+#: app/templates/tables/user_card.html:67
+#, fuzzy
+msgid "Allow Downloads"
+msgstr "Baixa"
+
+#: app/templates/admin/invite.html:102
+msgid ""
+"Specific\n"
+"                                Libraries"
+msgstr ""
+"Biblioteques\n"
+"específiques"
+
+#: app/templates/admin/invite.html:111
+#: app/templates/settings/partials/server_form.html:87
+msgid "Scan For Libraries"
+msgstr "Busca biblioteques"
+
+#: app/templates/admin/invite.html:119
+msgid "Create Invitation"
+msgstr "Crear Invitació"
+
+#: app/templates/admin/invite.html:126
+msgid "Successfully generated an Invitation!"
+msgstr "S'ha generat una invitació correctament!"
+
+#: app/templates/admin/invite.html:131
+msgid "Link has been copied to clipboard!"
+msgstr "L'enllaç s'ha copiat al porta-retalls!"
+
+#: app/templates/admin/invite.html:139
+msgid "Back"
+msgstr "Enrere"
+
+#: app/templates/admin/invite.html:144
+msgid "Share"
+msgstr "Compartir"
+
+#: app/templates/admin/user_modal.html:17
+msgid "Edit expiry"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:27
+msgid "Expiry date (leave blank for never)"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:41
+#: app/templates/modals/create-notification-agent.html:85
+msgid "Cancel"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:48
+#: app/templates/settings/partials/server_form.html:132
+msgid "Save"
+msgstr "Guardar"
+
+#: app/templates/error/401.html:20
+msgid "Permission denied."
+msgstr "Permís denegat."
+
+#: app/templates/error/401.html:23
+msgid "You are attempting to do something you shouldn't be doing..."
+msgstr "Estàs intentant fer alguna cosa que no hauries de fer..."
+
+#: app/templates/error/404.html:19
+msgid "Something's missing."
+msgstr "Falta alguna cosa."
+
+#: app/templates/error/404.html:21
+msgid "Sorry, we can't find that page. It doesn't seem to exist!"
+msgstr "Ho sentim, no podem trobar aquesta pàgina. Sembla que no existeix!"
+
+#: app/templates/error/500.html:19
+msgid "Internal Server Error."
+msgstr "Error del servidor intern."
+
+#: app/templates/error/500.html:21
+msgid " Something has gone wrong. Please try again later."
+msgstr " Alguna cosa ha anat malament. Si us plau, intenta-ho més tard."
+
+#: app/templates/modals/create-notification-agent.html:31
+msgid "New Agent"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:60
+#, fuzzy
+msgid ""
+"Username\n"
+"                                (optional)"
+msgstr ""
+"Codi\n"
+"d'invitació"
+
+#: app/templates/modals/create-notification-agent.html:65
+#, fuzzy
+msgid "Password (optional)"
+msgstr "(opcional)"
+
+#: app/templates/modals/create-notification-agent.html:70
+#, fuzzy
+msgid ""
+"Agent\n"
+"                                URL"
+msgstr ""
+"Codi\n"
+"d'invitació"
+
+#: app/templates/modals/create-notification-agent.html:81
+msgid "Test & Create Agent"
+msgstr ""
+
+#: app/templates/settings/index.html:24
+#, fuzzy
+msgid "Server"
+msgstr "Mai"
+
+#: app/templates/settings/index.html:39
+#, fuzzy
+msgid "Notifications"
+msgstr "Invitacions"
+
+#: app/templates/settings/notifications.html:11
+msgid "Notification Agents"
+msgstr ""
+
+#: app/templates/settings/notifications.html:27
+#, fuzzy
+msgid "Delete"
+msgstr "Predeterminat"
+
+#: app/templates/settings/notifications.html:37
+#, fuzzy
+msgid "Create Agent"
+msgstr "Crea un compte"
+
+#: app/templates/settings/partials/server_form.html:13
+#, fuzzy
+msgid "Server Settings"
+msgstr "Configuració del servidor"
+
+#: app/templates/settings/partials/server_form.html:103
+#: app/templates/settings/partials/server_form.html:111
+#: app/templates/settings/partials/server_form.html:120
+msgid "Optional, leave empty to disable"
+msgstr ""
+
+#: app/templates/setup/admin_account.html:14
+msgid "Setup Wizarr"
+msgstr "Configurar Wizarr"
+
+#: app/templates/tables/invite_card.html:3
+msgid "There are currently no invitations."
+msgstr ""
+
+#: app/templates/tables/invite_card.html:16
+msgid "Available"
+msgstr "Disponible"
+
+#: app/templates/tables/invite_card.html:23
+#: app/templates/tables/invite_card.html:51
+msgid "Used"
+msgstr "Utilitzat"
+
+#: app/templates/tables/invite_card.html:36
+msgid "Created"
+msgstr "Creat"
+
+#: app/templates/tables/invite_card.html:44
+#: app/templates/tables/user_card.html:39
+msgid "Expires"
+msgstr "Expira"
+
+#: app/templates/tables/invite_card.html:47
+msgid "Expired"
+msgstr "Caducat"
+
+#: app/templates/tables/invite_card.html:70
+msgid "Libraries"
+msgstr "Biblioteques"
+
+#: app/templates/tables/invite_card.html:75
+msgid "Default"
+msgstr "Predeterminat"
+
+#: app/templates/tables/invite_card.html:86
+#, fuzzy
+msgid "days"
+msgstr "1 dia"
+
+#: app/templates/tables/invite_card.html:106
+msgid "Unlimited"
+msgstr "Il·limitat"
+
+#: app/templates/tables/user_card.html:3
+msgid "There are currently no users."
+msgstr ""
+
+#: app/templates/tables/user_card.html:26
+#, fuzzy
+msgid "Home User"
+msgstr "Inici"
+
+#: app/templates/wizard/frame.html:34
+msgid "Previous"
+msgstr ""
+
+#: app/templates/wizard/frame.html:42
+msgid "Next"
+msgstr ""
+
+#~ msgid "Accept Invitation"
+#~ msgstr "Accepta la invitació"
+
+#~ msgid "Accept our invitation"
+#~ msgstr "Accepta la nostra invitació"
+
+#~ msgid "We have sent an invitation to your Plex Account! Almost there!"
+#~ msgstr "Hem enviat una invitació al teu compte de Plex! Ja gairebé estem!"
+
+#~ msgid ""
+#~ "Click the button below to be taken"
+#~ " to Plex, here you will see an"
+#~ " invitation from us."
+#~ msgstr ""
+#~ "Fes clic al botó següent per ser"
+#~ " portat a Plex, allà veuràs una "
+#~ "invitació nostra."
+
+#~ msgid "Accept"
+#~ msgstr "Acceptar"
+
+#~ msgid "Next"
+#~ msgstr "Següent"
+
+#~ msgid "Great! Now, let's get you invited!"
+#~ msgstr "Genial! Ara, anem a convidar-te!"
+
+#~ msgid "Your Plex email"
+#~ msgstr "El teu correu de Plex"
+
+#~ msgid "Don't have a Plex account, yet?"
+#~ msgstr "Encara no tens un compte de Plex?"
+
+#~ msgid "Get one here."
+#~ msgstr "Fes-te un aquí."
+
+#~ msgid "Plex URL"
+#~ msgstr "URL de Plex"
+
+#~ msgid "Plex Display Name"
+#~ msgstr "Nom públic de Plex"
+
+#~ msgid "Plex Token"
+#~ msgstr "Token de Plex"
+
+#~ msgid "Request instance (Ombi, Overseerr...)"
+#~ msgstr "Sol·licitud d'instància (Ombi, Overseerr, etc.)"
+
+#~ msgid "Discord Server ID"
+#~ msgstr "ID del servidor de Discord"
+
+#~ msgid ""
+#~ "Environment Variables are being\n"
+#~ "                    deprecated and replaced by"
+#~ " a secure sign-up. Please visit \n"
+#~ ""
+#~ "\n"
+#~ msgstr ""
+#~ "Les Variables d'Entorn estan sent "
+#~ "obsoletes i substituïdes per un registre"
+#~ " segur. Si us plau, visiteu "
+
+#~ msgid ""
+#~ "/settings.\n"
+#~ "                        See Repo for more info"
+#~ msgstr "/Configuració. Veure Repo per a més informació"
+
+#~ msgid "Plex Requests"
+#~ msgstr "Sol·licituds de Plex"
+
+#~ msgid ""
+#~ "Server Display\n"
+#~ "              Name"
+#~ msgstr ""
+#~ "Nom públic\n"
+#~ "del servidor"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "              URL"
+#~ msgstr ""
+#~ "URL\n"
+#~ "del servidor"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "              Token / API Key"
+#~ msgstr ""
+#~ "Token\n"
+#~ "del servidor / Clau API"
+
+#~ msgid "Server Libraries"
+#~ msgstr "Biblioteques del servidor"
+
+#~ msgid ""
+#~ "Request\n"
+#~ "              instance (Ombi, Overseerr...)"
+#~ msgstr ""
+#~ "Sol·licita\n"
+#~ "instància (Ombi, Overseerr, etc.)"
+
+#~ msgid ""
+#~ "Discord\n"
+#~ "              Server ID"
+#~ msgstr ""
+#~ "ID del servidor\n"
+#~ "de Discord"
+
+#~ msgid "Verify and Confirm"
+#~ msgstr "Verificar i Confirmar"
+
+#~ msgid "Great!"
+#~ msgstr "Genial!"
+
+#~ msgid "Change Server Settings"
+#~ msgstr "Canvia la configuració del servidor"
+
+#~ msgid "Invite Used"
+#~ msgstr "Invitació utilitzada"
+
+#~ msgid "User"
+#~ msgstr "Usuari"
+
+#~ msgid "Home User"
+#~ msgstr "Usuari local"
+
+#~ msgid "Passwords do not match."
+#~ msgstr "Les contrassenyes no coincideixen."
+
+#~ msgid "Username must be between 3 and 15 characters."
+#~ msgstr "El nom d'usuari ha de tenir entre 3 i 15 caràcters."
+
+#~ msgid "Password must be between 3 and 40 characters."
+#~ msgstr "La contrassenya ha de tenir entre 3 i 40 caràcters."
+
+#~ msgid "You must select at least one library."
+#~ msgstr "Has de seleccionar almenys una biblioteca."
+
+#~ msgid "It is likely that your token does not work."
+#~ msgstr "És probable que el teu token no funcioni."
+
+#~ msgid "Unable to connect to your Plex server. See Logs for more information."
+#~ msgstr ""
+#~ "Impossible conectar-se al teu servidor"
+#~ " de Plex. Mira els Logs per a"
+#~ " més informació."
+
+#~ msgid "Unable to connect to your Jellyfin server."
+#~ msgstr "Impossible conectar-se al teu servidor de Jellyfin."
+
+#~ msgid "Confirm password"
+#~ msgstr "Confirma la contrassenya"
+
+#~ msgid ""
+#~ "Server Display\n"
+#~ "                Name"
+#~ msgstr ""
+#~ "Nom públic\n"
+#~ "del servidor"
+
+#~ msgid "Server"
+#~ msgstr "Servidor"
+
+#~ msgid "Server URL"
+#~ msgstr "URL del servidor"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "                Token / API Key"
+#~ msgstr ""
+#~ "Token\n"
+#~ "del servidor / Clau API"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "                Libraries"
+#~ msgstr ""
+#~ "Biblioteques\n"
+#~ "del servidor"
+
+#~ msgid ""
+#~ "Request\n"
+#~ "                instance (Ombi, Overseerr...) URL"
+#~ msgstr ""
+#~ "Sol·licita\n"
+#~ "instància (Ombi, Overseerr...)"
+
+#~ msgid "Ombi API Key (Only used for user import currently.)"
+#~ msgstr "Clau API Ombi (Només usada per importar usuaris)"
+
+#~ msgid ""
+#~ "Discord\n"
+#~ "                Server ID"
+#~ msgstr ""
+#~ "ID del\n"
+#~ "servidor de Discord"
+
+#~ msgid ""
+#~ "Custom\n"
+#~ "                HTML"
+#~ msgstr ""
+#~ "HTML\n"
+#~ "personalitzat"
+
+#~ msgid "Attention!"
+#~ msgstr "Atenció!"
+
+#~ msgid "Update available. Click here."
+#~ msgstr "Actualització disponible. Clica aquí."
+
+#~ msgid "Automatic Media Requests"
+#~ msgstr "Sol·licituds automàtiques de mitjans"
+
+#~ msgid ""
+#~ "We are excited to offer you a "
+#~ "wide selection of media to choose "
+#~ "from. If you're having trouble finding"
+#~ "\n"
+#~ "    something you like, don't worry! "
+#~ "We have a user-friendly request "
+#~ "system that can automatically search for"
+#~ " the\n"
+#~ "    media you're looking for. "
+#~ msgstr ""
+#~ "Ens complau oferir-vos una àmplia "
+#~ "selecció de mitjans per triar. Si "
+#~ "teniu problemes per trobar\n"
+#~ "alguna cosa que us agradi, no us"
+#~ " preocupeu! Disposem d'un sistema de "
+#~ "sol·licitud fàcil d'utilitzar que pot\n"
+#~ "cercar automàticament els mitjans que busqueu. "
+
+#~ msgid "Request any available Movie or TV Show"
+#~ msgstr "Sol·licita qualsevol pel·lícula o programa de televisió disponible"
+
+#~ msgid ""
+#~ "Requested media will be automatically "
+#~ "downloaded and added to the library "
+#~ "(if available)"
+#~ msgstr ""
+#~ "Els mitjans sol·licitats es baixaran "
+#~ "automàticament i s'afegiran a la "
+#~ "biblioteca (si estan disponibles)"
+
+#~ msgid "If enabled, receive notifications"
+#~ msgstr "Si està activat, rep notificacions"
+
+#~ msgid "Check it Out"
+#~ msgstr "Comprova-ho"
+
+#~ msgid ""
+#~ "Join & Download Jellyfin\n"
+#~ "            for this device"
+#~ msgstr ""
+#~ "Uneix-te i baixa Jellyfin\n"
+#~ "per a aquest dispositiu"
+
+#~ msgid ""
+#~ "Great news! You now have access to"
+#~ " our server's media collection. Let's "
+#~ "make sure you know how to use\n"
+#~ ""
+#~ "        it with Jellyfin."
+#~ msgstr ""
+#~ "Bones notícies! Ara tens accés a "
+#~ "la col·lecció de mitjans del nostre "
+#~ "servidor. Assegurem-nos que saps com"
+#~ "\n"
+#~ "utilitzar-la amb Jellyfin."
+
+#~ msgid ""
+#~ "Planning on watching Movies on this "
+#~ "device? Download Jellyfin for this "
+#~ "device."
+#~ msgstr ""
+#~ "Estàs pensant en veure pel·lícules en"
+#~ " aquest dispositiu? Baixa Jellyfin per "
+#~ "a aquest dispositiu."
+
+#~ msgid "Download"
+#~ msgstr "Baixa"
+
+#~ msgid "Eh, So, What is Jellyfin exactly?"
+#~ msgstr "Eh, doncs, què és exactament Jellyfin?"
+
+#~ msgid ""
+#~ "Jellyfin is a platform that lets "
+#~ "you stream all your favorite movies, "
+#~ "TV shows, and music in one place."
+#~ "\n"
+#~ "        It's like having your own "
+#~ "personal movie theater right at your "
+#~ "fingertips! Think of it as a "
+#~ "digital library of\n"
+#~ "        your favorite content that you"
+#~ " can access from anywhere, on any "
+#~ "device - your phone, tablet, laptop, "
+#~ "smart TV,\n"
+#~ "        you name it."
+#~ msgstr ""
+#~ "Jellyfin és una plataforma que et "
+#~ "permet reproduir totes les teves "
+#~ "pel·lícules, sèries de TV i música "
+#~ "preferides en un sol lloc.\n"
+#~ "És com tenir la teva pròpia sala"
+#~ " de cinema personal al teu abast! "
+#~ "Penseu com a una llibreria digital "
+#~ "del\n"
+#~ "teu contingut preferit a la que "
+#~ "pots accedir des de qualsevol lloc, "
+#~ "en qualsevol dispositiu - el teu "
+#~ "mòbil, tauleta, portàtil, Smart TV,\n"
+#~ "el que vulguis."
+
+#~ msgid "Right, so how do I watch stuff?"
+#~ msgstr "D'acord, llavors, com puc veure coses?"
+
+#~ msgid ""
+#~ "It couldn't be simpler! Jellyfin is "
+#~ "available on a wide variety of "
+#~ "devices including laptops, tablets,\n"
+#~ "        smartphones, and TVs. All you"
+#~ " need to do is download the "
+#~ "Jellyfin app on your device, sign "
+#~ "in with your account,\n"
+#~ "        and\n"
+#~ "        you're ready to start streaming your media. It's that easy!"
+#~ msgstr ""
+#~ "No podria ser més senzill! Plex "
+#~ "està disponible en una gran varietat "
+#~ "de dispositius, com ara ordinadors "
+#~ "portàtils,\n"
+#~ "tauletes, telèfons intel·ligents i televisors."
+#~ " Tot el que has de fer és "
+#~ "descarregar l'aplicació Jellyfin al vostre "
+#~ "dispositiu, iniciar sessió amb el vostre"
+#~ " compte\n"
+#~ "i\n"
+#~ "ja estaràs preparat per començar a "
+#~ "veure els teus mitjans. Així de "
+#~ "fàcil!"
+
+#~ msgid "Open Jellyfin"
+#~ msgstr "Obrir Jellyfin"
+
+#~ msgid ""
+#~ "Join & Download Plex\n"
+#~ "            for this device"
+#~ msgstr ""
+#~ "Uneix-te i baixa Plex\n"
+#~ "per a aquest dispositiu"
+
+#~ msgid ""
+#~ "Great news! You now have access to"
+#~ " our server's media collection. Let's "
+#~ "make sure you know how to use\n"
+#~ ""
+#~ "        it with Plex."
+#~ msgstr ""
+#~ "Bones notícies! Ara tens accés a "
+#~ "la col·lecció de mitjans del nostre "
+#~ "servidor. Assegurem-nos que saps com"
+#~ "\n"
+#~ "utilitzar-la amb Plex."
+
+#~ msgid ""
+#~ "Planning on watching Movies on this "
+#~ "device? Download Plex for this device."
+#~ msgstr ""
+#~ "Estàs pensant en veure pel·lícules en"
+#~ " aquest dispositiu? Baixa Plex per a"
+#~ " aquest dispositiu."
+
+#~ msgid "Eh, So, What is Plex exactly?"
+#~ msgstr "Eh, doncs, què és exactament Plex?"
+
+#~ msgid ""
+#~ "Great question! Plex is a software "
+#~ "that allows individuals to share their"
+#~ " media collections with others. If\n"
+#~ "    you've received this invitation, it"
+#~ " means someone wants to share their"
+#~ " library with you. With Plex, you'll"
+#~ " have\n"
+#~ "    access to all of the movies,"
+#~ " TV shows, music, and photos that "
+#~ "are stored on their server. Enjoy!"
+#~ msgstr ""
+#~ "Gran pregunta! Plex és un programari "
+#~ "que permet a les persones compartir "
+#~ "les seves col·leccions multimèdia amb "
+#~ "altres persones.\n"
+#~ "Si has rebut aquesta invitació, vol "
+#~ "dir que algú vol compartir la seva"
+#~ " biblioteca amb tu. Amb Plex, tindràs"
+#~ " accés a totes\n"
+#~ "les pel·lícules, programes de televisió, "
+#~ "música i fotos que s'emmagatzemen al "
+#~ "seu servidor. Gaudeix!"
+
+#~ msgid ""
+#~ "It couldn't be simpler! Plex is "
+#~ "available on a wide variety of "
+#~ "devices including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you "
+#~ "need to do is download the Plex"
+#~ " app on your device, sign in "
+#~ "with your account, and\n"
+#~ "    you're ready to start streaming your media. It's that easy!"
+#~ msgstr ""
+#~ "No podria ser més senzill! Plex "
+#~ "està disponible en una gran varietat "
+#~ "de dispositius, com ara ordinadors "
+#~ "portàtils,\n"
+#~ "tauletes, telèfons intel·ligents i televisors."
+#~ " Tot el que has de fer és "
+#~ "descarregar l'aplicació Plex al vostre "
+#~ "dispositiu, iniciar\n"
+#~ "sessió amb el vostre compte i ja"
+#~ " estaràs preparat per començar a "
+#~ "veure els teus mitjans. Així de "
+#~ "fàcil!"
+
+#~ msgid "How can I make sure to have the best experience?"
+#~ msgstr "Com puc assegurar-me de tenir la millor experiència?"
+
+#~ msgid ""
+#~ "Because Plex is a free service, "
+#~ "they promote their own content before"
+#~ " the awesome content your friend is"
+#~ " now\n"
+#~ "    sharing with you - they also,"
+#~ " by default, play content at a "
+#~ "lower quality. "
+#~ msgstr ""
+#~ "Com que Plex és un servei gratuït,"
+#~ " promocionen el seu propi contingut "
+#~ "abans que el contingut fantàstic\n"
+#~ "que el teu amic està compartint "
+#~ "amb tu; també, per defecte, reprodueixen"
+#~ " contingut a una qualitat inferior. "
+
+#~ msgid "No need to worry though, this can be easily resolved"
+#~ msgstr "No cal que et preocupis, això es pot resoldre fàcilment"
+
+#~ msgid ""
+#~ "We highly\n"
+#~ "      recommend you to go through those steps first!"
+#~ msgstr ""
+#~ "Et recomanem\n"
+#~ "que segueixis aquests passos primer!"
+
+#~ msgid "Configure Plex in your browser"
+#~ msgstr "Configura Plex al teu navegador"
+
+#~ msgid "Configure Plex's app on your computer, mobile device or TV"
+#~ msgstr ""
+#~ "Configureu l'aplicació de Plex al vostre"
+#~ " ordinador, dispositiu mòbil o televisor"
+
+#~ msgid "Open Plex"
+#~ msgstr "Obre Plex"
+
+#~ msgid "User Configuration"
+#~ msgstr "Configuració d'usuari"
+
+#~ msgid "User Policy"
+#~ msgstr "Política d'usuari"
+
+#~ msgid "Name"
+#~ msgstr "Nom"
+
+#~ msgid "Actions"
+#~ msgstr "Accions"
+

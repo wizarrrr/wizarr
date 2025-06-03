@@ -1,0 +1,33 @@
+# .github/workflows/i18n-template.yml
+name: refresh-pot
+on:
+  schedule:
+    - cron: '13 03 * * *'   # once a night
+  workflow_dispatch: {}      # manual run
+
+jobs:
+  pot:
+    runs-on: ubuntu-latest
+    # don’t run if the commit came from the Weblate bot
+    if: github.actor != 'weblate'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: pyproject.toml 
+
+      - name: Re-generate POT
+        run: |
+          uv run pybabel extract -F babel.cfg -k _l -o messages.pot .
+          if ! git diff --quiet messages.pot; then
+            git config user.name  "i18n-bot"
+            git config user.email "i18n-bot@users.noreply.github.com"
+            git add messages.pot
+            git commit -m "i18n: refresh POT [skip ci]"
+            git push
+          fi

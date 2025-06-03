@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn-nav{
+  @apply inline-flex items-center px-4 py-2 text-sm font-medium
+         bg-white text-gray-500 border border-gray-300 rounded-lg
+         hover:bg-gray-100 hover:text-gray-700
+         dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400
+         dark:hover:bg-gray-700 dark:hover:text-white;
+}
+
+.tab-btn {
+  @apply text-sm font-medium py-2 bg-gray-100 dark:bg-gray-700
+         rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600
+         focus:outline-none focus:ring-2 focus:ring-primary
+         text-gray-700 dark:text-gray-300;
+}

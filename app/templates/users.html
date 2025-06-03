@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+{{ _("Invite User") }}
+{% endblock %}
+
+
+
+
+{% block main %}
+
+{% include "admin-nav.html" %}
+
+<div tabindex="-1" 
+    class="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
+    <div id="user-modal" class="relative w-full h-full max-w-md md:h-auto">
+    </div>
+</div>
+
+{% endblock %}
