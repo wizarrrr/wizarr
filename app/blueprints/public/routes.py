@@ -5,6 +5,7 @@ from app.models import Settings
 from app.services.invites import is_invite_valid
 from app.services.media.plex import handle_oauth_token
 from app.services.ombi_client import run_all_importers
+from app.forms.join import JoinForm
 
 public_bp = Blueprint("public", __name__)
 
@@ -38,7 +39,13 @@ def invite(code):
     server_type = server_type_setting.value if server_type_setting else None
 
     if server_type == "jellyfin" or server_type == "emby":
-        return render_template("welcome-jellyfin.html", code=code, server_type=server_type)
+        form = JoinForm()
+        form.code.data = code
+        return render_template(
+            "welcome-jellyfin.html",
+            form=form,
+            server_type=server_type,
+        )
     return render_template("user-plex-login.html", code=code)
 
 # ─── POST /join  (Plex OAuth or Jellyfin signup) ────────────────────────────

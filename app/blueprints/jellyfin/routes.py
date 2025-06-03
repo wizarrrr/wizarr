@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, abort, render_template, redirect
 from flask_login import login_required
 from app.services.media.jellyfin import JellyfinClient, join
+from app.forms.join import JoinForm
 
 
 jellyfin_bp = Blueprint("jellyfin", __name__, url_prefix="/jf")
@@ -31,18 +32,23 @@ def scan_specific():
 # Public join endpoint called from the wizard form
 @jellyfin_bp.route("/join", methods=["POST"])
 def public_join():
-    client = JellyfinClient()
-    ok, msg = join(
-        username = request.form["username"],
-        password = request.form["password"],
-        confirm  = request.form["confirm-password"],
-        email    = request.form["email"],
-        code     = request.form["code"],
+    form = JoinForm()
+    if form.validate_on_submit():
+        ok, msg = join(
+            username=form.username.data,
+            password=form.password.data,
+            confirm=form.confirm_password.data,
+            email=form.email.data,
+            code=form.code.data,
+        )
+        if ok:
+            return redirect("/wizard/")
+        error = msg
+    else:
+        error = None
+    return render_template(
+        "welcome-jellyfin.html",
+        form=form,
+        server_type="jellyfin",
+        error=error,
     )
-    if ok:
-        return redirect("/wizard/")
-    return render_template("welcome-jellyfin.html",
-                           username=request.form["username"],
-                           email=request.form["email"],
-                           code=request.form["code"],
-                           error=msg)
