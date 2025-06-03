@@ -1,0 +1,53 @@
+<div id="modal"
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+     hx-target="this" hx-swap="outerHTML">
+    <div class="relative w-full max-w-sm rounded-lg
+              bg-white shadow-xl p-6
+              dark:bg-gray-800 dark:shadow-gray-900/50">
+
+        <!-- close button -->
+        <button type="button"
+                class="absolute top-3 right-3 text-gray-400 hover:text-gray-600
+                   dark:hover:text-white"
+                onclick="document.getElementById('modal').classList.add('hidden')">
+            &times;
+        </button>
+
+        <h2 class="mb-4 text-xl font-semibold text-gray-900 dark:text-gray-100">
+            {{ _("Edit expiry") }} – {{ user.username or user.email }}
+        </h2>
+
+        <form
+            hx-post="{{ url_for('admin.user_detail', db_id=user.id) }}"
+            hx-target="#user_table"
+            hx-swap="outerHTML">
+
+            <label for="expires"
+                   class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+                {{ _("Expiry date (leave blank for never)") }}
+            </label>
+
+            <input id="expires" name="expires" type="datetime-local"
+                   value="{{ user.expires|default('', true) and user.expires.strftime('%Y-%m-%dT%H:%M') or '' }}"
+                   class="w-full mb-4 rounded-lg border-gray-300
+                    dark:bg-gray-700 dark:border-gray-600 dark:text-white
+                    focus:ring-primary focus:border-primary">
+
+            <div class="flex justify-end space-x-2">
+                <button type="button"
+                        class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700
+                       dark:bg-gray-600 dark:text-gray-200"
+                        onclick="document.getElementById('modal').classList.add('hidden')">
+                    {{ _("Cancel") }}
+                </button>
+
+                <button type="submit"
+                        class="px-4 py-2 rounded-lg bg-primary text-white
+                       hover:bg-primary_hover"
+                        onclick="document.getElementById('modal').classList.add('hidden')">
+                    {{ _("Save") }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

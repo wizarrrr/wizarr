@@ -1,0 +1,10 @@
+services:
+    wizarr:
+        build: .
+        ports:
+            - 5690:5690
+        volumes:
+            - ./test-data:/data/database
+        environment:
+            - TZ=Europe/London
+            #- WIZARR_API_KEY= # Optional: uncomment and create your own key to enable /api/status endpoint

@@ -1,0 +1,326 @@
+<section class="py-5 bg-gray-50 dark:bg-gray-900 animate__animated animate__fadeIn">
+  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
+    <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+      {{ _("Quick Invite") }}
+    </a>
+    <div
+      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+    >
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+          {{ _("Invite user") }}
+        </h1>
+
+        {% if not link %}
+          <form class="space-y-4 md:space-y-6" hx-post="/invite" hx-target="#content" hx-swap="innerHTML">
+            <!-- Invite Code -->
+            <div>
+              <label
+                for="code"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                {{ _("Invite Code String") }}
+                <span class="text-gray-500 ml-1">({{ _("optional") }})</span>
+              </label>
+              <input
+                minlength="6"
+                maxlength="6"
+                type="text"
+                name="code"
+                id="code"
+                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                       focus:ring-primary focus:border-primary block w-full p-2.5
+                       dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
+                placeholder="XMFGEJI"
+              >
+            </div>
+
+            <!-- Expiration Dropdown -->
+            <div>
+              <label
+                for="expires"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+              >
+                {{ _("Expiration") }}
+              </label>
+              <select
+                id="expires"
+                name="expires"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                       focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                       dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option value="day">{{ _("1 day") }}</option>
+                <option value="week">{{ _("1 week") }}</option>
+                <option value="month">{{ _("1 month") }}</option>
+                <option value="never">{{ _("Never") }}</option>
+              </select>
+            </div>
+
+            <!-- Advanced Options Toggle -->
+            <div>
+              <a
+                href="#"
+                class="block mb-2 text-sm font-medium text-secondary dark:text-primary cursor-pointer"
+                onclick="event.preventDefault(); showAdvanced();"
+              >
+                {{ _("Advanced Options") }}
+              </a>
+            </div>
+
+            <!-- ADVANCED OPTIONS CONTAINER -->
+            <div id="advanced" class="hidden space-y-6 border-t border-gray-200 pt-6 dark:border-gray-700">
+              <!-- Invite Settings Section -->
+              <div class="space-y-4">
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                  {{ _("Invite Settings") }}
+                </h2>
+                <!-- Unlimited Usage -->
+                <div class="flex items-center">
+                  <input
+                    id="unlimited"
+                    name="unlimited"
+                    type="checkbox"
+                    value="true"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300
+                           focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  >
+                  <label
+                    for="unlimited"
+                    class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >
+                    {{ _("Unlimited Usages") }}
+                  </label>
+                </div>
+
+                <!-- Duration (in days) -->
+                <div>
+                  <label
+                    for="duration"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    {{ _("Duration") }}
+                    <span class="text-gray-500 ml-1">({{ _("in days") }})</span>
+                    <button
+                      data-popover-target="popover-description"
+                      data-popover-placement="bottom-end"
+                      type="button"
+                      class="ml-1"
+                    >
+                      <svg
+                        class="w-4 h-4 text-gray-400 hover:text-gray-500"
+                        aria-hidden="true"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                      <span class="sr-only">{{ _("Show Information") }}</span>
+                    </button>
+                  </label>
+                  <div
+                    data-popover
+                    id="popover-description"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block text-sm font-light text-gray-500
+                           transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72
+                           dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400"
+                  >
+                    <div class="p-3 space-y-2">
+                      <h3 class="font-semibold text-gray-900 dark:text-white">{{ _("Duration") }}</h3>
+                      <p>
+                        {{ _("When set, invited user(s) will be removed from the Plex server after a number of days. (1-999)") }}
+                      </p>
+                    </div>
+                    <div data-popper-arrow></div>
+                  </div>
+                  <input
+                    id="duration"
+                    name="duration"
+                    type="number"
+                    min="1"
+                    max="999"
+                    class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                           focus:ring-primary focus:border-primary block w-full p-2.5
+                           dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
+                  >
+                </div>
+              </div>
+
+              <!-- Media-Specific Settings Section -->
+              <div class="space-y-4">
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                  {{ _("Media-Specific Settings") }}
+                </h2>
+
+                {% if server_type == "plex" %}
+                  <!-- Invite to Plex Home -->
+                  <div class="flex items-center">
+                    <input
+                      id="plex_home"
+                      name="plex_home"
+                      type="checkbox"
+                      value="true"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300
+                             focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    >
+                    <label
+                      for="plex_home"
+                      class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      {{ _("Invite to Plex Home") }}
+                    </label>
+                  </div>
+
+                  <!-- Allow Downloads -->
+                  <div class="flex items-center">
+                    <input
+                      id="allowsync"
+                      name="allowsync"
+                      type="checkbox"
+                      value="true"
+                      {% if allow_downloads_plex %}checked{% endif %}
+                      class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300
+                             focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    >
+                    <label
+                      for="allowsync"
+                      class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      {{ _("Allow Downloads") }}
+                    </label>
+                  </div>
+
+                  <!-- Allow Live TV Access -->
+                  <div class="flex items-center">
+                    <input
+                      id="plex_allow_channels"
+                      name="plex_allow_channels"
+                      type="checkbox"
+                      value="true"
+                      {% if allow_tv_plex %}checked{% endif %}
+                      class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300
+                             focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    >
+                    <label
+                      for="plex_allow_channels"
+                      class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      {{ _("Allow Live TV Access") }}
+                    </label>
+                  </div>
+
+                  <!-- Specific Libraries (Scan for Libraries) -->
+                  <div>
+                    <label
+                      for="plex_libraries"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      {{ _("Specific Libraries") }}
+                    </label>
+                    <a
+                      class="block mb-2 text-sm text-secondary dark:text-primary cursor-pointer"
+                      hx-post="{{ url_for('settings.scan_libraries') }}"
+                      hx-include="[name=server_type],[name=server_url],[name=api_key]"
+                      hx-target="#libraries"
+                      hx-swap="innerHTML"
+                    >
+                      {{ _("Scan For Libraries") }}
+                    </a>
+                    <div id="libraries" class="space-y-2"></div>
+                  </div>
+                {% else %}
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    {{ _("No media-specific options available for your chosen server type.") }}
+                  </p>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300
+                     font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover"
+            >
+              {{ _("Create Invitation") }}
+            </button>
+          </form>
+        {% endif %}
+
+        {% if link %}
+          <div>
+            <label
+              for="link"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              {{ _("Successfully generated an Invitation!") }}
+            </label>
+            <input
+              disabled
+              type="text"
+              name="link"
+              id="link"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                     focus:ring-primary focus:border-primary block w-full p-2.5
+                     dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              value="{{ link }}"
+            >
+            <p
+              id="successfully_copied"
+              class="mt-2 text-sm text-green-600 dark:text-green-500"
+              hidden
+            >
+              {{ _("Link has been copied to clipboard!") }}
+            </p>
+          </div>
+          <div class="flex space-x-4 mt-4">
+            <div class="w-1/2 text-center">
+              <a hx-get="/invite" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">
+                <button
+                  type="button"
+                  class="py-2.5 px-5 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-secondary
+                         hover:bg-secondary_hover rounded-lg border border-gray-200 hover:bg-secondary_hover
+                         focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700
+                         dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                >
+                  {{ _("Back") }}
+                </button>
+              </a>
+            </div>
+            <div class="w-1/2 text-center">
+              <button
+                onclick="copyLink()"
+                type="button"
+                class="w-3/4 text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300
+                       font-medium rounded-lg text-sm px-3 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover"
+              >
+                {{ _("Share") }}
+              </button>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function copyLink() {
+    const copyText = document.getElementById("link");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+    navigator.clipboard.writeText(copyText.value);
+    document.getElementById("successfully_copied").hidden = false;
+  }
+
+  function showAdvanced() {
+    const adv = document.getElementById("advanced");
+    adv.classList.toggle("hidden");
+  }
+</script>

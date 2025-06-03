@@ -1,0 +1,864 @@
+# Chinese (Simplified) translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-05-24 18:39+0000\n"
+"PO-Revision-Date: 2023-02-27 18:42+0000\n"
+"Last-Translator: 江海炎 <jiang948502378@gmail.com>\n"
+"Language: zh_Hans\n"
+"Language-Team: Chinese (Simplified) "
+"<https://hosted.weblate.org/projects/wizarr/app/zh_Hans/>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app/blueprints/auth/routes.py:44
+#, fuzzy
+msgid "Invalid username or password"
+msgstr "用户名或密码错误"
+
+#: app/blueprints/settings/routes.py:131
+msgid "Library scan failed"
+msgstr ""
+
+#: app/templates/admin.html:5
+msgid "Admin"
+msgstr "管理员"
+
+#: app/templates/admin.html:31
+msgid "Home"
+msgstr "主页"
+
+#: app/templates/admin.html:36
+msgid "Invitations"
+msgstr "邀请"
+
+#: app/templates/admin.html:41
+msgid "Users"
+msgstr "用户"
+
+#: app/templates/admin.html:46 app/templates/settings/index.html:3
+msgid "Settings"
+msgstr "设置"
+
+#: app/templates/invalid-invite.html:16
+#, fuzzy
+msgid "Invalid Invitation"
+msgstr "邀请"
+
+#: app/templates/login.html:18
+msgid "Login"
+msgstr "登录"
+
+#: app/templates/login.html:23 app/templates/welcome-jellyfin.html:30
+msgid "Username"
+msgstr "用户名"
+
+#: app/templates/login.html:29 app/templates/welcome-jellyfin.html:47
+msgid "Password"
+msgstr "密码"
+
+#: app/templates/login.html:41
+msgid "Remember me"
+msgstr "记住我"
+
+#: app/templates/login.html:46
+msgid "Sign in"
+msgstr "登录"
+
+#: app/templates/settings.html:13
+#, fuzzy
+msgid "Server settings"
+msgstr "更改服务器设置"
+
+#: app/templates/settings.html:22
+msgid "Notification agents"
+msgstr ""
+
+#: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
+#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
+#, python-format
+msgid "You've been invited to join the %(name)s server!"
+msgstr "您已经被邀请加入 %(name)s 服务器！"
+
+#: app/templates/user-plex-login.html:23
+msgid "Join the Plex Server"
+msgstr "加入 Plex 服务器"
+
+#: app/templates/tables/user_card.html:57 app/templates/user-plex-login.html:29
+#: app/templates/user-plex-login.html:40
+msgid "Invite Code"
+msgstr "邀请代码"
+
+#: app/templates/user-plex-login.html:45
+msgid "Oops!"
+msgstr "啊噢！"
+
+#: app/templates/user-plex-login.html:52
+msgid "Join"
+msgstr "加入"
+
+#: app/templates/users.html:5
+msgid "Invite User"
+msgstr "邀请用户"
+
+#: app/templates/welcome-jellyfin.html:22
+msgid "Set up Account"
+msgstr "设置帐户"
+
+#: app/templates/welcome-jellyfin.html:38
+msgid "Email"
+msgstr "邮件"
+
+#: app/templates/welcome-jellyfin.html:55
+msgid ""
+"Confirm\n"
+"                                password"
+msgstr ""
+"确认\n"
+"                                密码"
+
+#: app/templates/welcome-jellyfin.html:63
+msgid ""
+"Invite\n"
+"                                Code"
+msgstr ""
+"邀请\n"
+"                                代码"
+
+#: app/templates/setup/admin_account.html:58
+#: app/templates/welcome-jellyfin.html:72
+msgid "Create an account"
+msgstr "创建一个账号"
+
+#: app/templates/admin/invite.html:6
+msgid "Quick Invite"
+msgstr "快速邀请"
+
+#: app/templates/admin/invite.html:12
+msgid "Invite user"
+msgstr "邀请用户"
+
+#: app/templates/admin/invite.html:18
+msgid "Invite Code String"
+msgstr "邀请代码"
+
+#: app/templates/admin/invite.html:19
+msgid "(optional)"
+msgstr "（可选）"
+
+#: app/templates/admin/invite.html:26
+msgid "Expiration"
+msgstr "到期"
+
+#: app/templates/admin/invite.html:29
+msgid "1 day"
+msgstr "1天"
+
+#: app/templates/admin/invite.html:30
+msgid "1 week"
+msgstr "1个星期"
+
+#: app/templates/admin/invite.html:31
+msgid "1 month"
+msgstr "1个月"
+
+#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:60
+#: app/templates/tables/user_card.html:46
+msgid "Never"
+msgstr "从不"
+
+#: app/templates/admin/invite.html:37
+msgid "Advanced Options"
+msgstr "高级选项"
+
+#: app/templates/admin/invite.html:45
+msgid "Unlimited Usages"
+msgstr "无限制使用"
+
+#: app/templates/admin/invite.html:53
+#, fuzzy
+msgid "Invite to Plex Home"
+msgstr "邀请代码"
+
+#: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
+#: app/templates/tables/invite_card.html:86
+msgid "Duration"
+msgstr "持续时间"
+
+#: app/templates/admin/invite.html:63
+msgid "(in days)"
+msgstr "（以天为单位）"
+
+#: app/templates/admin/invite.html:74
+msgid "Show Information"
+msgstr "显示信息"
+
+#: app/templates/admin/invite.html:80
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a\n"
+"                                        number of\n"
+"                                        days. (1-999)"
+msgstr ""
+"当设置时，被邀请的用户将在以下情况下被从Plex服务器上删除\n"
+"                                        用户数目\n"
+"                                        天后从Plex服务器上删除。(1-999)"
+
+#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
+#: app/templates/tables/user_card.html:67
+#, fuzzy
+msgid "Allow Downloads"
+msgstr "下载"
+
+#: app/templates/admin/invite.html:102
+msgid ""
+"Specific\n"
+"                                Libraries"
+msgstr ""
+"特定\n"
+"                                媒体库"
+
+#: app/templates/admin/invite.html:111
+#: app/templates/settings/partials/server_form.html:87
+msgid "Scan For Libraries"
+msgstr "扫描媒体库"
+
+#: app/templates/admin/invite.html:119
+msgid "Create Invitation"
+msgstr "创建邀请"
+
+#: app/templates/admin/invite.html:126
+msgid "Successfully generated an Invitation!"
+msgstr "已成功生成邀请！"
+
+#: app/templates/admin/invite.html:131
+msgid "Link has been copied to clipboard!"
+msgstr "链接已复制到剪贴板！"
+
+#: app/templates/admin/invite.html:139
+msgid "Back"
+msgstr "返回"
+
+#: app/templates/admin/invite.html:144
+msgid "Share"
+msgstr "分享"
+
+#: app/templates/admin/user_modal.html:17
+msgid "Edit expiry"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:27
+msgid "Expiry date (leave blank for never)"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:41
+#: app/templates/modals/create-notification-agent.html:85
+msgid "Cancel"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:48
+#: app/templates/settings/partials/server_form.html:132
+msgid "Save"
+msgstr "保存"
+
+#: app/templates/error/401.html:20
+msgid "Permission denied."
+msgstr "权限不足。"
+
+#: app/templates/error/401.html:23
+msgid "You are attempting to do something you shouldn't be doing..."
+msgstr "你试图做一些你不应该做的事情。。。"
+
+#: app/templates/error/404.html:19
+msgid "Something's missing."
+msgstr "有些东西不见了。"
+
+#: app/templates/error/404.html:21
+msgid "Sorry, we can't find that page. It doesn't seem to exist!"
+msgstr "抱歉，我们找不到该页面。它似乎不存在！"
+
+#: app/templates/error/500.html:19
+msgid "Internal Server Error."
+msgstr "内部服务器错误。"
+
+#: app/templates/error/500.html:21
+msgid " Something has gone wrong. Please try again later."
+msgstr " 出了点问题。请稍后再试。"
+
+#: app/templates/modals/create-notification-agent.html:31
+msgid "New Agent"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:60
+#, fuzzy
+msgid ""
+"Username\n"
+"                                (optional)"
+msgstr ""
+"邀请\n"
+"                                代码"
+
+#: app/templates/modals/create-notification-agent.html:65
+#, fuzzy
+msgid "Password (optional)"
+msgstr "（可选）"
+
+#: app/templates/modals/create-notification-agent.html:70
+#, fuzzy
+msgid ""
+"Agent\n"
+"                                URL"
+msgstr ""
+"邀请\n"
+"                                代码"
+
+#: app/templates/modals/create-notification-agent.html:81
+msgid "Test & Create Agent"
+msgstr ""
+
+#: app/templates/settings/index.html:24
+#, fuzzy
+msgid "Server"
+msgstr "从不"
+
+#: app/templates/settings/index.html:39
+#, fuzzy
+msgid "Notifications"
+msgstr "邀请"
+
+#: app/templates/settings/notifications.html:11
+msgid "Notification Agents"
+msgstr ""
+
+#: app/templates/settings/notifications.html:27
+#, fuzzy
+msgid "Delete"
+msgstr "默认"
+
+#: app/templates/settings/notifications.html:37
+#, fuzzy
+msgid "Create Agent"
+msgstr "创建一个账号"
+
+#: app/templates/settings/partials/server_form.html:13
+#, fuzzy
+msgid "Server Settings"
+msgstr "更改服务器设置"
+
+#: app/templates/settings/partials/server_form.html:103
+#: app/templates/settings/partials/server_form.html:111
+#: app/templates/settings/partials/server_form.html:120
+msgid "Optional, leave empty to disable"
+msgstr ""
+
+#: app/templates/setup/admin_account.html:14
+msgid "Setup Wizarr"
+msgstr "设置Wizarr"
+
+#: app/templates/tables/invite_card.html:3
+msgid "There are currently no invitations."
+msgstr ""
+
+#: app/templates/tables/invite_card.html:16
+msgid "Available"
+msgstr "允许的"
+
+#: app/templates/tables/invite_card.html:23
+#: app/templates/tables/invite_card.html:51
+msgid "Used"
+msgstr "已使用"
+
+#: app/templates/tables/invite_card.html:36
+msgid "Created"
+msgstr "创建"
+
+#: app/templates/tables/invite_card.html:44
+#: app/templates/tables/user_card.html:39
+msgid "Expires"
+msgstr "到期"
+
+#: app/templates/tables/invite_card.html:47
+msgid "Expired"
+msgstr "已到期"
+
+#: app/templates/tables/invite_card.html:70
+msgid "Libraries"
+msgstr "媒体库"
+
+#: app/templates/tables/invite_card.html:75
+msgid "Default"
+msgstr "默认"
+
+#: app/templates/tables/invite_card.html:86
+#, fuzzy
+msgid "days"
+msgstr "1天"
+
+#: app/templates/tables/invite_card.html:106
+msgid "Unlimited"
+msgstr "无限制"
+
+#: app/templates/tables/user_card.html:3
+msgid "There are currently no users."
+msgstr ""
+
+#: app/templates/tables/user_card.html:26
+#, fuzzy
+msgid "Home User"
+msgstr "主页"
+
+#: app/templates/wizard/frame.html:34
+msgid "Previous"
+msgstr ""
+
+#: app/templates/wizard/frame.html:42
+msgid "Next"
+msgstr ""
+
+#~ msgid "Accept Invitation"
+#~ msgstr ""
+
+#~ msgid "Accept our invitation"
+#~ msgstr ""
+
+#~ msgid "We have sent an invitation to your Plex Account! Almost there!"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Click the button below to be taken"
+#~ " to Plex, here you will see an"
+#~ " invitation from us."
+#~ msgstr ""
+
+#~ msgid "Accept"
+#~ msgstr ""
+
+#~ msgid "Next"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Environment Variables are being deprecated "
+#~ "and replaced by a secure sign-up."
+#~ " Please visit "
+#~ msgstr ""
+
+#~ msgid "/settings. See Repo for more info"
+#~ msgstr ""
+
+#~ msgid "Great! Now, let's get you invited!"
+#~ msgstr ""
+
+#~ msgid "Your Plex email"
+#~ msgstr ""
+
+#~ msgid "Don't have a Plex account, yet?"
+#~ msgstr ""
+
+#~ msgid "Get one here."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Plex Display\n"
+#~ "              Name"
+#~ msgstr ""
+
+#~ msgid "Plex URL"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Plex\n"
+#~ "              Token"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Plex\n"
+#~ "              Libraries"
+#~ msgstr ""
+
+#~ msgid "Plex Display Name"
+#~ msgstr ""
+
+#~ msgid "Plex Token"
+#~ msgstr ""
+
+#~ msgid "Plex Libraries"
+#~ msgstr ""
+
+#~ msgid "Request instance (Ombi, Overseerr...)"
+#~ msgstr ""
+
+#~ msgid "Discord Server ID"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Environment Variables are being\n"
+#~ "                    deprecated and replaced by"
+#~ " a secure sign-up. Please visit \n"
+#~ ""
+#~ "\n"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "/settings.\n"
+#~ "                        See Repo for more info"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Server\n"
+#~ "              Libraries"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Custom\n"
+#~ "              HTML"
+#~ msgstr ""
+
+#~ msgid "Plex Requests"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Server Display\n"
+#~ "              Name"
+#~ msgstr ""
+#~ "服务器\n"
+#~ "              名称"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "              URL"
+#~ msgstr ""
+#~ "服务器\n"
+#~ "              URL"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "              Token / API Key"
+#~ msgstr ""
+#~ "服务器\n"
+#~ "              Token / API Key"
+
+#~ msgid "Server Libraries"
+#~ msgstr "服务器媒体库"
+
+#~ msgid ""
+#~ "Request\n"
+#~ "              instance (Ombi, Overseerr...)"
+#~ msgstr ""
+#~ "请求\n"
+#~ "              实例 (Ombi, Overseerr...)"
+
+#~ msgid ""
+#~ "Discord\n"
+#~ "              Server ID"
+#~ msgstr ""
+#~ "Discord\n"
+#~ "              服务器ID"
+
+#~ msgid "Verify and Confirm"
+#~ msgstr "验证和确认"
+
+#~ msgid "Great!"
+#~ msgstr "卧槽太jb牛逼了！"
+
+#~ msgid "Invite Used"
+#~ msgstr "邀请用户"
+
+#~ msgid "User"
+#~ msgstr "用户"
+
+#~ msgid "Home User"
+#~ msgstr "家庭用户"
+
+#~ msgid "Passwords do not match."
+#~ msgstr "密码不正确。"
+
+#~ msgid "Username must be between 3 and 15 characters."
+#~ msgstr "用户名必须在3-15 个字符之间。"
+
+#~ msgid "Password must be between 3 and 40 characters."
+#~ msgstr "密码必须在3到40个字符之间。"
+
+#~ msgid "You must select at least one library."
+#~ msgstr "您必须至少选择一个库。"
+
+#~ msgid "It is likely that your token does not work."
+#~ msgstr "您的令牌很可能不起作用。"
+
+#~ msgid "Unable to connect to your Plex server. See Logs for more information."
+#~ msgstr "无法连接到Plex服务器。有关详细信息，请参阅日志。"
+
+#~ msgid "Unable to connect to your Jellyfin server."
+#~ msgstr "无法连接到你的Jellyfin服务器。"
+
+#~ msgid "Confirm password"
+#~ msgstr "确认密码"
+
+#~ msgid ""
+#~ "Server Display\n"
+#~ "                Name"
+#~ msgstr ""
+#~ "服务器\n"
+#~ "              名称"
+
+#~ msgid "Server"
+#~ msgstr "服务器网址"
+
+#~ msgid "Server URL"
+#~ msgstr "服务器网址"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "                Token / API Key"
+#~ msgstr ""
+#~ "服务器\n"
+#~ "              Token / API Key"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "                Libraries"
+#~ msgstr ""
+#~ "服务器\n"
+#~ "                媒体库"
+
+#~ msgid ""
+#~ "Request\n"
+#~ "                instance (Ombi, Overseerr...) URL"
+#~ msgstr ""
+#~ "请求\n"
+#~ "              实例 (Ombi, Overseerr...)"
+
+#~ msgid "Ombi API Key (Only used for user import currently.)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Discord\n"
+#~ "                Server ID"
+#~ msgstr ""
+#~ "Discord\n"
+#~ "                服务器ID"
+
+#~ msgid ""
+#~ "Custom\n"
+#~ "                HTML"
+#~ msgstr ""
+#~ "自定义\n"
+#~ "                HTML"
+
+#~ msgid "Attention!"
+#~ msgstr "注意！"
+
+#~ msgid "Update available. Click here."
+#~ msgstr "更新可用。请单击此处。"
+
+#~ msgid "Automatic Media Requests"
+#~ msgstr "自动媒体请求"
+
+#~ msgid ""
+#~ "We are excited to offer you a "
+#~ "wide selection of media to choose "
+#~ "from. If you're having trouble finding"
+#~ "\n"
+#~ "    something you like, don't worry! "
+#~ "We have a user-friendly request "
+#~ "system that can automatically search for"
+#~ " the\n"
+#~ "    media you're looking for. "
+#~ msgstr ""
+#~ "我们很高兴能为您提供广泛的媒体选择。如果没找到您想要看的\n"
+#~ "    电影或者电视剧，别担心！我们有一个全自动求片系统\n"
+#~ "    可以搜寻和下载您正在寻找的资源。 "
+
+#~ msgid "Request any available Movie or TV Show"
+#~ msgstr "请求任何可用的电影或电视剧"
+
+#~ msgid ""
+#~ "Requested media will be automatically "
+#~ "downloaded and added to the library "
+#~ "(if available)"
+#~ msgstr "请求的媒体将自动下载并添加到库中（如果有资源的话）"
+
+#~ msgid "If enabled, receive notifications"
+#~ msgstr "如果成功的话，则接收通知"
+
+#~ msgid "Check it Out"
+#~ msgstr "检查"
+
+#~ msgid ""
+#~ "Join & Download Jellyfin\n"
+#~ "            for this device"
+#~ msgstr ""
+#~ "加入并下载Jellyfin\n"
+#~ "            适用于此设备"
+
+#~ msgid ""
+#~ "Great news! You now have access to"
+#~ " our server's media collection. Let's "
+#~ "make sure you know how to use\n"
+#~ ""
+#~ "        it with Jellyfin."
+#~ msgstr ""
+#~ "好消息!你现在可以访问我们服务器的媒体收藏\n"
+#~ "        让我们确保您知道如何在Jellyfin上使用它。"
+
+#~ msgid ""
+#~ "Planning on watching Movies on this "
+#~ "device? Download Jellyfin for this "
+#~ "device."
+#~ msgstr "计划在此设备上观看电影？下载适用于此设备的Jellyfin。"
+
+#~ msgid "Download"
+#~ msgstr "下载"
+
+#~ msgid "Eh, So, What is Jellyfin exactly?"
+#~ msgstr "嗯，那么，Jellyfin 到底是什么？"
+
+#~ msgid ""
+#~ "Jellyfin is a platform that lets "
+#~ "you stream all your favorite movies, "
+#~ "TV shows, and music in one place."
+#~ "\n"
+#~ "        It's like having your own "
+#~ "personal movie theater right at your "
+#~ "fingertips! Think of it as a "
+#~ "digital library of\n"
+#~ "        your favorite content that you"
+#~ " can access from anywhere, on any "
+#~ "device - your phone, tablet, laptop, "
+#~ "smart TV,\n"
+#~ "        you name it."
+#~ msgstr ""
+#~ "Jellyfin 是一个平台，让你在一个地方播放所有你喜欢的电影、电视节目和音乐。\n"
+#~ "         这就像拥有自己的个人电影院一样触手可及！将其视为您喜爱的内容的数字图书馆， \n"
+#~ "        您可以从任何地方在任何设备上访问您最喜欢的内容\n"
+#~ "        （手机、平板电脑、笔记本电脑、智能电视）。"
+
+#~ msgid "Right, so how do I watch stuff?"
+#~ msgstr "对，那我该怎么使用它来观看？"
+
+#~ msgid ""
+#~ "It couldn't be simpler! Jellyfin is "
+#~ "available on a wide variety of "
+#~ "devices including laptops, tablets,\n"
+#~ "        smartphones, and TVs. All you"
+#~ " need to do is download the "
+#~ "Jellyfin app on your device, sign "
+#~ "in with your account,\n"
+#~ "        and\n"
+#~ "        you're ready to start streaming your media. It's that easy!"
+#~ msgstr ""
+#~ "这再简单不过了!Jellyfin可以在各种设备上使用，包括笔记本电脑、平板电脑。 智能手机和电视。\n"
+#~ "        你所需要做的就是在你的设备上下载Jellyfin应用程序，用你的账户登录。 \n"
+#~ "        然后\n"
+#~ "        你就已经可以观看流媒体了。就是这么简单！"
+
+#~ msgid "Open Jellyfin"
+#~ msgstr "打开Jellyfin"
+
+#~ msgid ""
+#~ "Join & Download Plex\n"
+#~ "            for this device"
+#~ msgstr ""
+#~ "加入并下载Plex \n"
+#~ "            用于此设备"
+
+#~ msgid ""
+#~ "Great news! You now have access to"
+#~ " our server's media collection. Let's "
+#~ "make sure you know how to use\n"
+#~ ""
+#~ "        it with Plex."
+#~ msgstr ""
+#~ "好消息！您现在可以访问我们服务器的媒体列表。\n"
+#~ "         让我们确保您知道如何在plex上 使用它。"
+
+#~ msgid ""
+#~ "Planning on watching Movies on this "
+#~ "device? Download Plex for this device."
+#~ msgstr "计划在此设备上观看电影？下载适用于此设备的Plex。"
+
+#~ msgid "Eh, So, What is Plex exactly?"
+#~ msgstr "呃，那么，Plex到底是什么？"
+
+#~ msgid ""
+#~ "Great question! Plex is a software "
+#~ "that allows individuals to share their"
+#~ " media collections with others. If\n"
+#~ "    you've received this invitation, it"
+#~ " means someone wants to share their"
+#~ " library with you. With Plex, you'll"
+#~ " have\n"
+#~ "    access to all of the movies,"
+#~ " TV shows, music, and photos that "
+#~ "are stored on their server. Enjoy!"
+#~ msgstr ""
+#~ "好问题！Plex是一款允许个人与他人共享媒体库的软件。\n"
+#~ "    如果您收到邀请，这意味着有人想与您共享他们的库。 \n"
+#~ "    使用Plex，您可以访问存储在服务器上的所有电影、电视节目、音乐和照片。享受它吧！"
+
+#~ msgid ""
+#~ "It couldn't be simpler! Plex is "
+#~ "available on a wide variety of "
+#~ "devices including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you "
+#~ "need to do is download the Plex"
+#~ " app on your device, sign in "
+#~ "with your account, and\n"
+#~ "    you're ready to start streaming your media. It's that easy!"
+#~ msgstr ""
+#~ "这再简单不过了！Plex可用于各种设备 包括笔记本电脑、平板电脑、智能手机和电视。\n"
+#~ "    您需要做的就是 在您的设备上下载Plex应用程序，使用您的帐户登录。\n"
+#~ "    然后你就已经可以观看流媒体了。就是这么简单！"
+
+#~ msgid "How can I make sure to have the best experience?"
+#~ msgstr "我如何才能确保获得最佳体验？"
+
+#~ msgid ""
+#~ "Because Plex is a free service, "
+#~ "they promote their own content before"
+#~ " the awesome content your friend is"
+#~ " now\n"
+#~ "    sharing with you - they also,"
+#~ " by default, play content at a "
+#~ "lower quality. "
+#~ msgstr ""
+#~ "因为Plex是一项免费服务，但是在默认情况下\n"
+#~ "    他们会在你与你的朋友分享精彩内容之前会以较低的质量播放并推广自己的内容。 "
+
+#~ msgid "No need to worry though, this can be easily resolved"
+#~ msgstr "不必担心，这很容易解决"
+
+#~ msgid ""
+#~ "We highly\n"
+#~ "      recommend you to go through those steps first!"
+#~ msgstr ""
+#~ "我们强烈建议\n"
+#~ "      您先完成这些步骤！"
+
+#~ msgid "Configure Plex in your browser"
+#~ msgstr "在浏览器中配置Plex"
+
+#~ msgid "Configure Plex's app on your computer, mobile device or TV"
+#~ msgstr "在您的计算机、移动设备或电视上配置Plex的应用程序"
+
+#~ msgid "Open Plex"
+#~ msgstr "打开Plex"
+
+#~ msgid "User Configuration"
+#~ msgstr ""
+
+#~ msgid "User Policy"
+#~ msgstr ""
+
+#~ msgid "Name"
+#~ msgstr "用户名"
+
+#~ msgid "Actions"
+#~ msgstr "邀请"
+

@@ -1,0 +1,16 @@
+{# templates/partials/library_checkboxes.html #}
+{% for lib in libs %}
+  <div class="flex items-center">
+    <input
+      type="checkbox"
+      name="libraries"
+      value="{{ lib.external_id }}"
+      id="lib-{{ loop.index }}"
+      {% if lib.enabled %}checked{% endif %}
+      class="w-4 h-4 ..."
+    />
+    <label for="lib-{{ loop.index }}" class="ml-2 text-sm text-gray-600 dark:text-gray-400">
+      {{ lib.name }}
+    </label>
+  </div>
+{% endfor %}
