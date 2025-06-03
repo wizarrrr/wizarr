@@ -40,6 +40,16 @@ def invite():
     )
     allow_downloads_plex = allow_downloads_plex.value if allow_downloads_plex else False
 
+    allow_tv_plex =  (
+        Settings.query
+        .filter_by(key="allow_tv_plex")
+        .first()
+    )
+    
+    allow_tv_plex = allow_tv_plex.value if allow_tv_plex else False
+
+
+
     if request.method == "POST":
         try:
             code = request.form.get("code") or None
@@ -64,6 +74,7 @@ def invite():
             invitations=invitations,
             server_type=server_type,
             allow_downloads_plex=allow_downloads_plex,
+            allow_tv_plex=allow_tv_plex,
         )
 
     # GET
@@ -73,6 +84,8 @@ def invite():
         needUpdate=needs_update(),
         server_type=server_type,
         allow_downloads_plex=allow_downloads_plex,
+        allow_tv_plex=allow_tv_plex,
+
     )
 
 
