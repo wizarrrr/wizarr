@@ -7,7 +7,6 @@ from .models import Invitation, Settings, User, Notification
 from .error_handlers import register_error_handlers
 from .logging_config import configure_logging
 
-VERSION = "2.2.0"
 
 def create_app(config_object=DevelopmentConfig):
     print("Creating app")

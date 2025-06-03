@@ -2,7 +2,7 @@ import logging
 from flask import Blueprint, render_template, request, redirect, abort, url_for
 from app.services.invites import create_invite
 from app.services.media.service import list_users, delete_user
-from app.services.update_check import needs_update
+from app.services.update_check import check_update_available, get_sponsors
 from app.extensions import db, htmx
 from app.models import Invitation, Settings, User
 import os
@@ -10,14 +10,21 @@ from flask_login import login_required
 import datetime
 from urllib.parse import urlparse
 
-
 admin_bp = Blueprint("admin", __name__)
 
 
 @admin_bp.route("/admin")
 @login_required
 def dashboard():
-    return render_template("admin.html")
+    __version__ = os.getenv("APP_VERSION", "dev")
+    update_available = check_update_available(__version__)
+    sponsors = get_sponsors()
+    print(sponsors)
+
+    return render_template("admin.html",
+                           update_available=update_available,
+                           sponsors=sponsors,
+                           version=__version__)
 
 
 # Invitations – landing page
@@ -40,15 +47,13 @@ def invite():
     )
     allow_downloads_plex = allow_downloads_plex.value if allow_downloads_plex else False
 
-    allow_tv_plex =  (
+    allow_tv_plex = (
         Settings.query
         .filter_by(key="allow_tv_plex")
         .first()
     )
-    
+
     allow_tv_plex = allow_tv_plex.value if allow_tv_plex else False
-
-
 
     if request.method == "POST":
         try:
@@ -78,10 +83,9 @@ def invite():
         )
 
     # GET
-    
+
     return render_template(
         "admin/invite.html",
-        needUpdate=needs_update(),
         server_type=server_type,
         allow_downloads_plex=allow_downloads_plex,
         allow_tv_plex=allow_tv_plex,
@@ -173,12 +177,12 @@ def user_detail(db_id: int):
     user = User.query.get_or_404(db_id)
 
     if request.method == "POST":
-        raw = request.form.get("expires")          # "" or 2025-05-22T14:00
+        raw = request.form.get("expires")  # "" or 2025-05-22T14:00
         user.expires = datetime.datetime.fromisoformat(raw).date() if raw else None
         db.session.commit()
 
         # Re-render the grid the same way /users/table does
-        
+
         users = list_users(clear_cache=True)
         return render_template("tables/user_card.html", users=users)
 
