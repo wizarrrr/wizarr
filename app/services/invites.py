@@ -51,6 +51,7 @@ def create_invite(form: Any) -> Invitation:
         # no more comma‐string here:
         plex_allow_sync = bool(form.get("allowsync")),
         plex_home       = bool(form.get("plex_home")),
+        plex_allow_channels = bool(form.get("plex_allow_channels")),
     )
     db.session.add(invite)
     db.session.flush()  # so invite.id exists, but not yet committed

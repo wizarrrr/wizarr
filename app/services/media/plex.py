@@ -42,16 +42,16 @@ class PlexClient(MediaClient):
         raise NotImplementedError(
             "PlexClient does not support create_user; use invite_friend or invite_home"
         )
-    def invite_friend(self, email: str, sections: list[str], allow_sync: bool):
+    def invite_friend(self, email: str, sections: list[str], allow_sync: bool, allow_channels: bool):
         self.admin.inviteFriend(
             user=email, server=self.server,
-            sections=sections, allowSync=allow_sync,
+            sections=sections, allowSync=allow_sync, allowChannels=allow_channels
         )
 
-    def invite_home(self, email: str, sections: list[str], allow_sync: bool):
+    def invite_home(self, email: str, sections: list[str], allow_sync: bool, allow_channels: bool):
         self.admin.createExistingUser(
             user=email, server=self.server,
-            sections=sections, allowSync=allow_sync,
+            sections=sections, allowSync=allow_sync, allowChannels=allow_channels
         )
 
     def get_user(self, db_id: int) -> dict:
@@ -193,11 +193,12 @@ def _invite_user(email: str, code: str, user_id: int = None) -> None:
         ]
 
     allow_sync = bool(inv.plex_allow_sync)
+    allow_tv = bool(inv.plex_allow_tv)
 
     if inv.plex_home:
-        client.invite_home(email, libs, allow_sync)
+        client.invite_home(email, libs, allow_sync, allow_tv)
     else:
-        client.invite_friend(email, libs, allow_sync)
+        client.invite_friend(email, libs, allow_sync, allow_tv)
 
     logging.info("Invited %s to Plex", email)
 

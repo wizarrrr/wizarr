@@ -22,8 +22,9 @@ class Invitation(db.Model):
     unlimited = db.Column(db.Boolean, nullable=True)
     duration = db.Column(db.String, nullable=True)
     specific_libraries = db.Column(db.String, nullable=True)
-    plex_allow_sync = db.Column(db.Boolean, default=False, nullable=False)
-    plex_home = db.Column(db.Boolean, default=False, nullable=False)
+    plex_allow_sync = db.Column(db.Boolean, default=False, nullable=True)
+    plex_home = db.Column(db.Boolean, default=False, nullable=True)
+    plex_allow_channels = db.Column(db.Boolean, default=False, nullable=True)
 
     libraries = db.relationship(
         "Library",
