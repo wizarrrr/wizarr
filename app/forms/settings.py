@@ -18,7 +18,6 @@ class SettingsForm(FlaskForm):
     ombi_api_key  = StringField("Ombi API Key",  validators=[Optional()])
     discord_id    = StringField("Discord ID",    validators=[Optional()])
     allow_downloads_plex = BooleanField("Allow Downloads", default=False)
-    invite_to_plex_home = BooleanField("Invite to Plex Home", default=False)
 
     def __init__(self, install_mode: bool = False, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -36,6 +35,5 @@ class SettingsForm(FlaskForm):
         # If server type is not Plex, ensure Plex-specific settings are False
         if self.server_type.data != "plex":
             self.allow_downloads_plex.data = False
-            self.invite_to_plex_home.data = False
 
         return True
