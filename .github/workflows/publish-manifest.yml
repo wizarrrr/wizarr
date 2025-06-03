@@ -31,27 +31,31 @@ jobs:
                         }
                       }' --paginate -q '.data.user.sponsorshipsAsMaintainer.nodes[]' \
                       > sponsors.json
-      
+
 
             -   name: Build manifest.json
-                shell: bash        # explicit, though bash is the default on ubuntu-latest
+                shell: bash
                 run: |
                     python <<'PY'
-                    import json, datetime, os, pathlib
+                    import json, os, pathlib
+                    from datetime import datetime, timezone
+                    
                     latest = os.getenv('GITHUB_REF', '')
                     if latest.startswith('refs/tags/'):
-                        latest = latest.split('/')[-1].lstrip('v')   # e.g. v1.7.0 → 1.7.0
+                        latest = latest.split('/')[-1].lstrip('v')
                     else:
                         latest = 'dev'
                     
+                    with open('sponsors.json') as f:
+                        sponsors = json.load(f)         # now a valid array
+                    
                     manifest = {
                         "latest_version": latest,
-                        "released": datetime.datetime.utcnow().isoformat(timespec='seconds') + 'Z',
-                        "sponsors": json.load(open('sponsors.json'))
+                        "released": datetime.now(timezone.utc).isoformat(timespec='seconds'),
+                        "sponsors": sponsors
                     }
                     pathlib.Path('manifest.json').write_text(json.dumps(manifest, indent=2))
                     PY
-            
             # ---- Publish to Pages branch ----
             -   name: Deploy to gh-pages
                 uses: peaceiris/actions-gh-pages@v4
