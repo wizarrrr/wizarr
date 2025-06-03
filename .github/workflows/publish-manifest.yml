@@ -1,63 +1,62 @@
 name: Publish manifest
 on:
-  workflow_dispatch: {}
-  push:
-    tags: ["v*"]          # run on every new release tag, eg v1.7.0
-  schedule:
-    - cron: "3 2 * * *"   # refresh sponsors daily at 02:03 UTC
+    workflow_dispatch: { }
+    push:
+        tags: [ "v*" ]          # run on every new release tag, eg v1.7.0
+    schedule:
+        -   cron: "3 2 * * *"   # refresh sponsors daily at 02:03 UTC
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ secrets.SPONSORS_TOKEN }}
-    steps:
-      - uses: actions/checkout@v4
+    build:
+        runs-on: ubuntu-latest
+        env:
+            GH_TOKEN: ${{ secrets.SPONSORS_TOKEN }}
+            SPONSOR_LOGIN: "mtthidoteu"
+        steps:
+            -   uses: actions/checkout@v4
+            
+            # ---- Pull your sponsor list via GraphQL ----
+            -   name: Fetch sponsors
+                run: |
+                    gh api graphql -F login="$SPONSOR_LOGIN" -f query='
+                      query($login:String!, $cursor:String) {
+                        user(login:$login) {
+                          sponsorshipsAsMaintainer(first:100, after:$cursor) {
+                            pageInfo { hasNextPage endCursor }
+                            nodes {
+                              sponsorEntity { ... on User { login url avatarUrl }
+                                              ... on Organization { login url avatarUrl } }
+                            }
+                          }
+                        }
+                      }' --paginate -q '.data.user.sponsorshipsAsMaintainer.nodes[]' \
+                      > sponsors.json
+      
 
-      # ---- Pull your sponsor list via GraphQL ----
-      - name: Fetch sponsors
-        run: |
-          gh api graphql -f query='
-            query($login:String!, $cursor:String) {
-              user(login:$login) {
-                sponsorshipsAsMaintainer(first:100, after:$cursor) {
-                  pageInfo { hasNextPage endCursor }
-                  nodes {
-                    sponsorEntity {
-                      ... on User { login url avatarUrl }
-                      ... on Organization { login url avatarUrl }
+            -   name: Build manifest.json
+                shell: bash        # explicit, though bash is the default on ubuntu-latest
+                run: |
+                    python <<'PY'
+                    import json, datetime, os, pathlib
+                    latest = os.getenv('GITHUB_REF', '')
+                    if latest.startswith('refs/tags/'):
+                        latest = latest.split('/')[-1].lstrip('v')   # e.g. v1.7.0 → 1.7.0
+                    else:
+                        latest = 'dev'
+                    
+                    manifest = {
+                        "latest_version": latest,
+                        "released": datetime.datetime.utcnow().isoformat(timespec='seconds') + 'Z',
+                        "sponsors": json.load(open('sponsors.json'))
                     }
-                  }
-                }
-              }
-            }' -f login=${{ github.repository_owner }} \
-            --paginate -q '.data.user.sponsorshipsAsMaintainer.nodes[]' \
-            > sponsors.json
-
-      - name: Build manifest.json
-        shell: bash        # explicit, though bash is the default on ubuntu-latest
-        run: |
-            python <<'PY'
-            import json, datetime, os, pathlib
-            latest = os.getenv('GITHUB_REF', '')
-            if latest.startswith('refs/tags/'):
-                latest = latest.split('/')[-1].lstrip('v')   # e.g. v1.7.0 → 1.7.0
-            else:
-                latest = 'dev'
-        
-            manifest = {
-                "latest_version": latest,
-                "released": datetime.datetime.utcnow().isoformat(timespec='seconds') + 'Z',
-                "sponsors": json.load(open('sponsors.json'))
-            }
-            pathlib.Path('manifest.json').write_text(json.dumps(manifest, indent=2))
-            PY
-
-      # ---- Publish to Pages branch ----
-      - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: .
-          keep_files: true
+                    pathlib.Path('manifest.json').write_text(json.dumps(manifest, indent=2))
+                    PY
+            
+            # ---- Publish to Pages branch ----
+            -   name: Deploy to gh-pages
+                uses: peaceiris/actions-gh-pages@v4
+                with:
+                    github_token: ${{ secrets.GITHUB_TOKEN }}
+                    publish_branch: gh-pages
+                    publish_dir: .
+                    keep_files: true
