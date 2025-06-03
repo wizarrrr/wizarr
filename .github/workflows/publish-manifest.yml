@@ -7,67 +7,77 @@ on:
         -   cron: "3 2 * * *"   # refresh sponsors daily at 02:03 UTC
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        env:
-            GH_TOKEN: ${{ secrets.SPONSORS_TOKEN }}
-            SPONSOR_LOGIN: "mtthidoteu"
-        steps:
-            -   uses: actions/checkout@v4
-            
-            # ---- Pull your sponsor list via GraphQL ----
-            -   name: Fetch sponsors
-                shell: bash
-                run: |
-                    gh api graphql \
-                      -F login="$SPONSOR_LOGIN" \
-                      -F query='
-                        query($login:String!, $cursor:String) {
-                          user(login:$login) {
-                            sponsorshipsAsMaintainer(first:100, after:$cursor) {
-                              pageInfo { hasNextPage endCursor }
-                              nodes {
-                                sponsorEntity {
-                                  ... on User        { login url avatarUrl }
-                                  ... on Organization { login url avatarUrl }
-                                }
-                              }
-                            }
-                          }
-                        }' \
-                      --paginate \
-                      -q '.data.user.sponsorshipsAsMaintainer.nodes[]' \
-                    | jq -s '.' > sponsors.json
-            
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.SPONSORS_TOKEN }}
+      SPONSOR_LOGIN: "mtthidoteu"
+    steps:
+      - uses: actions/checkout@v4
 
-            -   name: Build manifest.json
-                shell: bash
-                run: |
-                    python <<'PY'
-                    import json, os, pathlib
-                    from datetime import datetime, timezone
-                    
-                    latest = os.getenv('GITHUB_REF', '')
-                    if latest.startswith('refs/tags/'):
-                        latest = latest.split('/')[-1].lstrip('v')
-                    else:
-                        latest = 'dev'
-                    
-                    with open('sponsors.json') as f:
-                        sponsors = json.load(f)         # now a valid array
-                    
-                    manifest = {
-                        "latest_version": latest,
-                        "released": datetime.now(timezone.utc).isoformat(timespec='seconds'),
-                        "sponsors": sponsors
+      # (1) Fetch sponsors as before
+      - name: Fetch sponsors
+        shell: bash
+        run: |
+          gh api graphql \
+            -F login="$SPONSOR_LOGIN" \
+            -F query='
+              query($login:String!, $cursor:String) {
+                user(login:$login) {
+                  sponsorshipsAsMaintainer(first:100, after:$cursor) {
+                    pageInfo { hasNextPage endCursor }
+                    nodes {
+                      sponsorEntity {
+                        ... on User        { login url avatarUrl }
+                        ... on Organization { login url avatarUrl }
+                      }
                     }
-                    pathlib.Path('manifest.json').write_text(json.dumps(manifest, indent=2))
-                    PY
-            # ---- Publish to Pages branch ----
-            -   name: Deploy to gh-pages
-                uses: peaceiris/actions-gh-pages@v4
-                with:
-                    github_token: ${{ secrets.GITHUB_TOKEN }}
-                    publish_branch: gh-pages
-                    publish_dir: .
-                    keep_files: true
+                  }
+                }
+              }' \
+            --paginate \
+            -q '.data.user.sponsorshipsAsMaintainer.nodes[]' \
+          | jq -s '.' > sponsors.json
+
+      # (2) Build manifest.json as before
+      - name: Build manifest.json
+        shell: bash
+        run: |
+          python <<'PY'
+          import json, os, pathlib
+          from datetime import datetime, timezone
+
+          latest = os.getenv('GITHUB_REF', '')
+          if latest.startswith('refs/tags/'):
+              latest = latest.split('/')[-1].lstrip('v')
+          else:
+              latest = 'dev'
+
+          with open('sponsors.json') as f:
+              sponsors = json.load(f)
+
+          manifest = {
+              "latest_version": latest,
+              "released": datetime.now(timezone.utc).isoformat(timespec='seconds'),
+              "sponsors": sponsors
+          }
+          pathlib.Path('manifest.json').write_text(json.dumps(manifest, indent=2))
+          PY
+
+      # ─────────────────────────────────────────────────────────────────
+      # (3) Create a dedicated folder and move only manifest.json there
+      # ─────────────────────────────────────────────────────────────────
+      - name: Prepare deploy directory
+        shell: bash
+        run: |
+          mkdir deploy
+          mv manifest.json deploy/
+
+      # (4) Push just that folder to gh-pages
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: deploy
+          keep_files: true
