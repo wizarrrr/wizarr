@@ -65,7 +65,7 @@
   </div>
 </nav>
 
-<div id="content">
+<div id="content" hx-get="/invite" hx-trigger="load" hx-swap="innerHTML">
   {% include "admin/invite.html" %}
 </div>
 
