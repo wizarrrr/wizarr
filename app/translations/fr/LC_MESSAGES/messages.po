@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: 2025-05-28 10:05+0000\n"
-"Last-Translator: Matthieu B <matthieu@jaseroque.com>\n"
+"PO-Revision-Date: 2025-06-02 22:02+0000\n"
+"Last-Translator: PortX Charge <nocore9@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr/"
 "wizarr-universal/fr/>\n"
 "Language: fr\n"
@@ -27,7 +27,7 @@ msgstr "Nom d'utilisateur ou mot de passe invalide"
 
 #: app/blueprints/settings/routes.py:131
 msgid "Library scan failed"
-msgstr ""
+msgstr "Scan de la librairie échoué"
 
 #: app/templates/admin.html:5
 msgid "Admin"
@@ -183,9 +183,8 @@ msgid "Unlimited Usages"
 msgstr "Utilisations illimitées"
 
 #: app/templates/admin/invite.html:53
-#, fuzzy
 msgid "Invite to Plex Home"
-msgstr "Code d'invitation"
+msgstr "Inviter au Plex Home"
 
 #: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
 #: app/templates/tables/invite_card.html:86
@@ -212,9 +211,8 @@ msgstr ""
 
 #: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
 #: app/templates/tables/user_card.html:67
-#, fuzzy
 msgid "Allow Downloads"
-msgstr "Télécharger"
+msgstr "Autoriser les téléchargements"
 
 #: app/templates/admin/invite.html:102
 msgid ""
@@ -251,16 +249,16 @@ msgstr "Partager"
 
 #: app/templates/admin/user_modal.html:17
 msgid "Edit expiry"
-msgstr ""
+msgstr "Editer l'expiration"
 
 #: app/templates/admin/user_modal.html:27
 msgid "Expiry date (leave blank for never)"
-msgstr ""
+msgstr "Date d'expiration (laissez vide pour jamais)"
 
 #: app/templates/admin/user_modal.html:41
 #: app/templates/modals/create-notification-agent.html:85
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: app/templates/admin/user_modal.html:48
 #: app/templates/settings/partials/server_form.html:132
@@ -293,58 +291,51 @@ msgstr " Quelque chose s'est mal passé. Veuillez réessayer plus tard."
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "Nouvel Agent"
 
 #: app/templates/modals/create-notification-agent.html:60
-#, fuzzy
 msgid ""
 "Username\n"
 "                                (optional)"
 msgstr ""
-"Code\n"
-"d’invitation"
+"Nom d'utilisateur\n"
+"……………………………(facultatif)"
 
 #: app/templates/modals/create-notification-agent.html:65
-#, fuzzy
 msgid "Password (optional)"
-msgstr "(facultatif)"
+msgstr "Mot de passe (facultatif)"
 
 #: app/templates/modals/create-notification-agent.html:70
-#, fuzzy
 msgid ""
 "Agent\n"
 "                                URL"
 msgstr ""
-"Code\n"
-"d’invitation"
+"Agent\n"
+"……………URL"
 
 #: app/templates/modals/create-notification-agent.html:81
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Tester & Créer l'Agent"
 
 #: app/templates/settings/index.html:24
-#, fuzzy
 msgid "Server"
-msgstr "Type de serveur"
+msgstr "Serveur"
 
 #: app/templates/settings/index.html:39
-#, fuzzy
 msgid "Notifications"
-msgstr "Invitations"
+msgstr "Notifications"
 
 #: app/templates/settings/notifications.html:11
 msgid "Notification Agents"
-msgstr ""
+msgstr "Agents de Notification"
 
 #: app/templates/settings/notifications.html:27
-#, fuzzy
 msgid "Delete"
-msgstr "Défaut"
+msgstr "Supprimer"
 
 #: app/templates/settings/notifications.html:37
-#, fuzzy
 msgid "Create Agent"
-msgstr "Créer un compte"
+msgstr "Créer un Agent"
 
 #: app/templates/settings/partials/server_form.html:13
 msgid "Server Settings"
@@ -354,7 +345,7 @@ msgstr "Paramètres du serveur"
 #: app/templates/settings/partials/server_form.html:111
 #: app/templates/settings/partials/server_form.html:120
 msgid "Optional, leave empty to disable"
-msgstr ""
+msgstr "Facultatif, laissez vide pour désactiver"
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"
@@ -362,7 +353,7 @@ msgstr "Configurer Wizarr"
 
 #: app/templates/tables/invite_card.html:3
 msgid "There are currently no invitations."
-msgstr ""
+msgstr "Il n'y a actuellement aucune invitations."
 
 #: app/templates/tables/invite_card.html:16
 msgid "Available"
@@ -395,9 +386,8 @@ msgid "Default"
 msgstr "Défaut"
 
 #: app/templates/tables/invite_card.html:86
-#, fuzzy
 msgid "days"
-msgstr "1 jour"
+msgstr "jours"
 
 #: app/templates/tables/invite_card.html:106
 msgid "Unlimited"
@@ -405,20 +395,20 @@ msgstr "Illimité"
 
 #: app/templates/tables/user_card.html:3
 msgid "There are currently no users."
-msgstr ""
+msgstr "Il n'y a actuellement aucun utilisateurs."
 
 #: app/templates/tables/user_card.html:26
 #, fuzzy
 msgid "Home User"
-msgstr "Accueil"
+msgstr "Utilisateurs Locaux"
 
 #: app/templates/wizard/frame.html:34
 msgid "Previous"
-msgstr ""
+msgstr "Précédent"
 
 #: app/templates/wizard/frame.html:42
 msgid "Next"
-msgstr ""
+msgstr "Suivant"
 
 #~ msgid ""
 #~ "Request\n"
