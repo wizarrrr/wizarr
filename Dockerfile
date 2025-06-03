@@ -12,12 +12,6 @@ RUN uv sync --locked
 
 RUN uv run pybabel compile -d app/translations
 
-# Ensure the installed binary is on the `PATH`
-#ENV PATH="/root/.local/bin:/home/wizarruser/.local/bin:$PATH"
-
-# Switch to non-root user
-#USER wizarruser
-
 #Healthcheck 
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
   CMD curl -fs http://localhost:5690/health || exit 1
