@@ -1,5 +1,6 @@
 name: Publish manifest
 on:
+  workflow_dispatch: {}
   push:
     tags: ["v*"]          # run on every new release tag, eg v1.7.0
   schedule:
