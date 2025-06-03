@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths-ignore:     # skip pure-translation commits
       - 'app/translations/**'
+      - .github/
   workflow_dispatch: {}   # manual run
 
 env:
