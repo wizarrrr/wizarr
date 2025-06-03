@@ -1,10 +1,10 @@
 name: Publish manifest
 on:
-    workflow_dispatch: { }
-    push:
-        tags: [ "v*" ]          # run on every new release tag, eg v1.7.0
-    schedule:
-        -   cron: "3 2 * * *"   # refresh sponsors daily at 02:03 UTC
+  workflow_dispatch: {}
+  push:
+    tags: ["20*"]                 # still fires on tag pushes, but cron/manual also work
+  schedule:
+    - cron: "3 2 * * *"          # 02:03 UTC nightly
 
 jobs:
   build:
@@ -12,10 +12,18 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.SPONSORS_TOKEN }}
       SPONSOR_LOGIN: "mtthidoteu"
-    steps:
-      - uses: actions/checkout@v4
 
-      # (1) Fetch sponsors as before
+    steps:
+      # -----------------------------------------------------------
+      # Grab the source *and* every tag so we can look up the latest.
+      # -----------------------------------------------------------
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0           # ← crucial for git describe
+
+      # -----------------------------------------------------------
+      # (1) Fetch sponsors – unchanged
+      # -----------------------------------------------------------
       - name: Fetch sponsors
         shell: bash
         run: |
@@ -39,19 +47,30 @@ jobs:
             -q '.data.user.sponsorshipsAsMaintainer.nodes[]' \
           | jq -s '.' > sponsors.json
 
-      # (2) Build manifest.json as before
+      # -----------------------------------------------------------
+      # 🆕 (2) Work out the latest tag name
+      # -----------------------------------------------------------
+      - name: Determine latest version
+        id: get_version
+        shell: bash
+        run: |
+          git fetch --tags --force                    # no-ops if already present
+          tag=$(git describe --tags --abbrev=0)       # e.g. v2025.5.1  OR  2025.5.1
+          echo "latest_version=${tag#v}" >> "$GITHUB_OUTPUT"
+
+      # -----------------------------------------------------------
+      # (3) Build manifest.json
+      # -----------------------------------------------------------
       - name: Build manifest.json
         shell: bash
+        env:
+          LATEST_VERSION: ${{ steps.get_version.outputs.latest_version }}
         run: |
           python <<'PY'
           import json, os, pathlib
           from datetime import datetime, timezone
 
-          latest = os.getenv('GITHUB_REF', '')
-          if latest.startswith('refs/tags/'):
-              latest = latest.split('/')[-1].lstrip('v')
-          else:
-              latest = 'dev'
+          latest = os.environ["LATEST_VERSION"]          # always present now
 
           with open('sponsors.json') as f:
               sponsors = json.load(f)
@@ -64,16 +83,17 @@ jobs:
           pathlib.Path('manifest.json').write_text(json.dumps(manifest, indent=2))
           PY
 
-      # ─────────────────────────────────────────────────────────────────
-      # (3) Create a dedicated folder and move only manifest.json there
-      # ─────────────────────────────────────────────────────────────────
+      # -----------------------------------------------------------
+      # (4) Prepare deploy directory
+      # -----------------------------------------------------------
       - name: Prepare deploy directory
-        shell: bash
         run: |
-          mkdir deploy
+          mkdir -p deploy
           mv manifest.json deploy/
 
-      # (4) Push just that folder to gh-pages
+      # -----------------------------------------------------------
+      # (5) Deploy to gh-pages – unchanged
+      # -----------------------------------------------------------
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
