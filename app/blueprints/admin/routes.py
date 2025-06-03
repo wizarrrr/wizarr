@@ -40,13 +40,6 @@ def invite():
     )
     allow_downloads_plex = allow_downloads_plex.value if allow_downloads_plex else False
 
-    invite_to_plex_home = (
-        Settings.query
-        .filter_by(key="invite_to_plex_home")
-        .first()
-    )
-    invite_to_plex_home = invite_to_plex_home.value if invite_to_plex_home else False
-
     if request.method == "POST":
         try:
             code = request.form.get("code") or None
@@ -71,7 +64,6 @@ def invite():
             invitations=invitations,
             server_type=server_type,
             allow_downloads_plex=allow_downloads_plex,
-            invite_to_plex_home=invite_to_plex_home,
         )
 
     # GET
@@ -81,7 +73,6 @@ def invite():
         needUpdate=needs_update(),
         server_type=server_type,
         allow_downloads_plex=allow_downloads_plex,
-        invite_to_plex_home=invite_to_plex_home,
     )
 
 
