@@ -45,6 +45,10 @@ RUN chown -R wizarruser:wizarrgroup /data
 RUN mkdir /.cache
 RUN chown -R wizarruser:wizarrgroup /.cache
 
+
+ARG APP_VERSION=dev
+ENV APP_VERSION=${APP_VERSION}
+
 # ─── 4. Copy extra files and fix ownership ─────────────────────────────────
 
 # Healthcheck: curl to localhost:5690/health
