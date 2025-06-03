@@ -17,21 +17,24 @@ jobs:
             
             # ---- Pull your sponsor list via GraphQL ----
             -   name: Fetch sponsors
+                shell: bash
                 run: |
-                    gh api graphql -F login="$SPONSOR_LOGIN" -f query='
+                    gh api graphql -F login="$SPONSOR_LOGIN" -f '
                       query($login:String!, $cursor:String) {
                         user(login:$login) {
                           sponsorshipsAsMaintainer(first:100, after:$cursor) {
                             pageInfo { hasNextPage endCursor }
                             nodes {
-                              sponsorEntity { ... on User { login url avatarUrl }
-                                              ... on Organization { login url avatarUrl } }
+                              sponsorEntity {
+                                ... on User        { login url avatarUrl }
+                                ... on Organization { login url avatarUrl }
+                              }
                             }
                           }
                         }
-                      }' --paginate -q '.data.user.sponsorshipsAsMaintainer.nodes[]' \
-                      > sponsors.json
-
+                      }' --paginate \
+                      -q '.data.user.sponsorshipsAsMaintainer.nodes[]' \
+                    | jq -s '.' > sponsors.json          # ⬅️  wrap the stream into ONE JSON array
 
             -   name: Build manifest.json
                 shell: bash
