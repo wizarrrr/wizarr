@@ -67,11 +67,8 @@
         </div>
     </nav>
 
-    <div id="content" hx-get="/invite" hx-trigger="load" hx-swap="innerHTML">
-        {% include "admin/invite.html" %}
-
-
-    </div>
+    <div id="content" hx-get="/invite" hx-trigger="load" hx-swap="innerHTML"></div>
+  
     <!-- Support Banner (Flask/Jinja) -->
     <div id="support-banner"
          class="fixed bottom-0 left-0 w-full bg-gray-800 text-white text-center flex flex-col sm:flex-row justify-center items-center gap-4 py-2 z-50">
