@@ -111,98 +111,116 @@ class JellyfinClient(MediaClient):
 
         return User.query.all()
 
+    # --- helpers -----------------------------------------------------
 
+    def _password_for_db(self, password: str) -> str:
+        """Return the password value to store in the local DB."""
+        return password
 
-
-# ─── Public sign-up flow ─────────────────────────────────────────────────
-def join(username: str, password: str, confirm: str, email: str, code: str) -> tuple[bool, str]:
-    client = JellyfinClient()
-
-    if not EMAIL_RE.fullmatch(email):
-        return False, "Invalid e-mail address."
-    if not 8 <= len(password) <= 20:
-        return False, "Password must be 8–20 characters."
-    if password != confirm:
-        return False, "Passwords do not match."
-
-    ok, msg = is_invite_valid(code)
-    if not ok:
-        return False, msg
-
-    existing = User.query.filter(
-        or_(User.username == username, User.email == email)
-    ).first()
-    if existing:
-        return False, "User or e-mail already exists."
-
-    try:
-        user_id = client.create_user(username, password)
-
-        inv = Invitation.query.filter_by(code=code).first()
-
-        if inv.libraries:
-            sections = [lib.external_id for lib in inv.libraries]
-        else:
-            sections = [
-                lib.external_id
-                for lib in Library.query.filter_by(enabled=True).all()
-            ]
-
-        set_specific_folders(client, user_id, sections)
-
-        expires = None
-        if inv.duration:
-            days = int(inv.duration)
-            expires = datetime.datetime.utcnow() + datetime.timedelta(days=days)
-
-        new_user = User(
-            username=username,
-            email=email,
-            password=password,
-            token=user_id,
-            code=code,
-            expires=expires,
-        )
-        db.session.add(new_user)
+    @staticmethod
+    def _mark_invite_used(inv: Invitation, user: User) -> None:
+        inv.used = True if not inv.unlimited else inv.used
+        inv.used_at = datetime.datetime.now()
+        inv.used_by = user
         db.session.commit()
 
-        _mark_invite_used(inv, new_user)
-        notify("New User", f"User {username} has joined your server! 🎉",  tags="tada")
+    @staticmethod
+    def _folder_name_to_id(name: str, cache: dict[str, str]) -> str | None:
+        """Resolve a folder name or ID to the server ID."""
 
-        return True, ""
+        # Allow passing the actual ID directly
+        if name in cache.values():
+            return name
 
-    except Exception:
-        logging.error("Jellyfin join error", exc_info=True)
-        db.session.rollback()
-        return False, "An unexpected error occurred."
+        return cache.get(name)
 
+    def _set_specific_folders(self, user_id: str, names: list[str]):
+        mapping = {
+            item["Name"]: item["Id"]
+            for item in self.get("/Library/MediaFolders").json()["Items"]
+        }
 
-def _mark_invite_used(inv: Invitation, user: User) -> None:
-    inv.used = True if not inv.unlimited else inv.used
-    inv.used_at = datetime.datetime.now()
-    inv.used_by = user
-    db.session.commit()
+        # Also map IDs directly for convenience
+        mapping.update({v: v for v in mapping.values()})
 
+        folder_ids = [self._folder_name_to_id(n, mapping) for n in names]
+        folder_ids = [fid for fid in folder_ids if fid]
 
-def _folder_name_to_id(name: str, cache: dict[str, str]) -> str | None:
-    return cache.get(name)
+        policy_patch = {
+            "EnableAllFolders": not folder_ids,
+            "EnabledFolders": folder_ids,
+        }
 
+        current = self.get(f"/Users/{user_id}").json()["Policy"]
+        current.update(policy_patch)
+        self.set_policy(user_id, current)
 
-def set_specific_folders(client: JellyfinClient, user_id: str, names: list[str]):
-    mapping = {item["Name"]: item["Id"]
-               for item in client.get("/Library/MediaFolders").json()["Items"]}
+    # --- public sign-up ---------------------------------------------
 
-    folder_ids = [_folder_name_to_id(n, mapping) for n in names]
-    folder_ids = [fid for fid in folder_ids if fid]
+    def join(
+        self, username: str, password: str, confirm: str, email: str, code: str
+    ) -> tuple[bool, str]:
+        if not EMAIL_RE.fullmatch(email):
+            return False, "Invalid e-mail address."
+        if not 8 <= len(password) <= 20:
+            return False, "Password must be 8–20 characters."
+        if password != confirm:
+            return False, "Passwords do not match."
 
-    policy_patch = {
-        "EnableAllFolders": not folder_ids,
-        "EnabledFolders": folder_ids,
-    }
+        ok, msg = is_invite_valid(code)
+        if not ok:
+            return False, msg
 
-    current = client.get(f"/Users/{user_id}").json()["Policy"]
-    current.update(policy_patch)
-    client.set_policy(user_id, current)
+        existing = User.query.filter(
+            or_(User.username == username, User.email == email)
+        ).first()
+        if existing:
+            return False, "User or e-mail already exists."
+
+        try:
+            user_id = self.create_user(username, password)
+
+            inv = Invitation.query.filter_by(code=code).first()
+
+            if inv.libraries:
+                sections = [lib.external_id for lib in inv.libraries]
+            else:
+                sections = [
+                    lib.external_id
+                    for lib in Library.query.filter_by(enabled=True).all()
+                ]
+
+            self._set_specific_folders(user_id, sections)
+
+            expires = None
+            if inv.duration:
+                days = int(inv.duration)
+                expires = datetime.datetime.utcnow() + datetime.timedelta(days=days)
+
+            new_user = User(
+                username=username,
+                email=email,
+                password=self._password_for_db(password),
+                token=user_id,
+                code=code,
+                expires=expires,
+            )
+            db.session.add(new_user)
+            db.session.commit()
+
+            self._mark_invite_used(inv, new_user)
+            notify(
+                "New User",
+                f"User {username} has joined your server! 🎉",
+                tags="tada",
+            )
+
+            return True, ""
+
+        except Exception:  # noqa: BLE001
+            logging.error("Jellyfin join error", exc_info=True)
+            db.session.rollback()
+            return False, "An unexpected error occurred."
 
 
 # ─── Admin-side helpers – mirror the Plex API we already exposed ──────────
