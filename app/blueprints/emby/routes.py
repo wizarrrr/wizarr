@@ -7,7 +7,7 @@ import datetime
 from app.models import User, Invitation, Library
 
 # Import the EmbyClient and all helper functions from the service module
-from app.services.media.emby import EmbyClient, join, mark_invite_used, folder_name_to_id, set_specific_folders
+from app.services.media.emby import EmbyClient
 from app.forms.join import JoinForm
 
 emby_bp = Blueprint("emby", __name__, url_prefix="/emby")
@@ -42,7 +42,8 @@ def scan_specific():
 def public_join():
     form = JoinForm()
     if form.validate_on_submit():
-        ok, msg = join(
+        client = EmbyClient()
+        ok, msg = client.join(
             username=form.username.data,
             password=form.password.data,
             confirm=form.confirm_password.data,
