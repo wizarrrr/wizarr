@@ -38,6 +38,8 @@ COPY . /data
 RUN uv sync --locked
 RUN uv run pybabel compile -d app/translations
 
+RUN npm --prefix app/static/ install app/static/
+
 # Ensure that "wizarruser" owns everything in /data, so it can read/write if needed.
 # If your code needs to write to /data (e.g. logs, caches), this is essential.
 RUN chown -R wizarruser:wizarrgroup /data
