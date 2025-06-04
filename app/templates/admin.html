@@ -6,11 +6,11 @@
 {% endblock %}
 {% block main %}
     {% if update_available %}
-    <div class="w-full bg-primary text-white text-center py-1">
-        <a href="https://docs.wizarr.dev/getting-started/installation">
-            <span class="font-medium">A new update is available!</span>
-        </a>
-    </div>
+        <div class="w-full bg-primary text-white text-center py-1">
+            <a href="https://docs.wizarr.dev/getting-started/installation">
+                <span class="font-medium">A new update is available!</span>
+            </a>
+        </div>
     {% endif %}
     <nav class="border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
         <div class="container flex flex-wrap items-center justify-between mx-auto">
@@ -93,13 +93,13 @@
             {% for s in sponsors %}
                 {% set p = s.sponsorEntity %}
                 <a href="{{ p.url }}" target="_blank" rel="noopener"
-                   class="flex flex-row items-center animate__animated {% if not loop.first %}hidden{% else %}animate__fadeIn{% endif %}">
-
-                    <span class="text-xs mr-2 text-gray-300">Thank you,</span>
+                   class="flex items-center w-80 justify-center animate__animated {% if not loop.first %}hidden{% else %}animate__fadeIn{% endif %}">
+                    <span class="text-xs mr-2 text-gray-300 truncate">Thank you,</span>
                     <img src="{{ p.avatarUrl }}" alt="{{ p.login }}" width="36" height="36"
-                         class="rounded-full shadow-lg">
-                    <span class="text-xs ml-2 text-gray-300">{{ p.login|capitalize }}</span>
+                         class="rounded-full shadow-lg flex-shrink-0">
+                    <span class="text-xs ml-2 text-gray-300 truncate">{{ p.login|capitalize }}</span>
                 </a>
+
             {% endfor %}
         </div>
 
