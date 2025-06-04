@@ -102,9 +102,18 @@ class EmbyClient(JellyfinClient):
 
     def _set_specific_folders(self, user_id: str, names: list[str]):
         """Set library access for a user and ensure playback permissions."""
-        super()._set_specific_folders(user_id, names)
+        mapping = {
+            item["Name"]: item["Id"]
+            for item in self.get("/Library/MediaFolders").json()["Items"]
+        }
+        mapping.update({v: v for v in mapping.values()})
 
-        playback_permissions = {
+        folder_ids = [self._folder_name_to_id(n, mapping) for n in names]
+        folder_ids = [fid for fid in folder_ids if fid]
+
+        policy_patch = {
+            "EnableAllFolders": not folder_ids,
+            "EnabledFolders": folder_ids,
             "EnableMediaPlayback": True,
             "EnableAudioPlaybackTranscoding": True,
             "EnableVideoPlaybackTranscoding": True,
@@ -114,5 +123,5 @@ class EmbyClient(JellyfinClient):
         }
 
         current = self.get(f"/Users/{user_id}").json()["Policy"]
-        current.update(playback_permissions)
+        current.update(policy_patch)
         self.set_policy(user_id, current)
