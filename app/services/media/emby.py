@@ -99,3 +99,20 @@ class EmbyClient(JellyfinClient):
     def _password_for_db(self, password: str) -> str:
         """Return placeholder password for local DB."""
         return "emby-user"
+
+    def _set_specific_folders(self, user_id: str, names: list[str]):
+        """Set library access for a user and ensure playback permissions."""
+        super()._set_specific_folders(user_id, names)
+
+        playback_permissions = {
+            "EnableMediaPlayback": True,
+            "EnableAudioPlaybackTranscoding": True,
+            "EnableVideoPlaybackTranscoding": True,
+            "EnablePlaybackRemuxing": True,
+            "EnableContentDownloading": True,
+            "EnableRemoteAccess": True,
+        }
+
+        current = self.get(f"/Users/{user_id}").json()["Policy"]
+        current.update(playback_permissions)
+        self.set_policy(user_id, current)
