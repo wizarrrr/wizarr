@@ -3473,6 +3473,14 @@ input:checked + .toggle-bg {
 }
 
 @media (prefers-color-scheme: dark) {
+  .dark\:block {
+    display: block;
+  }
+
+  .dark\:hidden {
+    display: none;
+  }
+
   .dark\:border {
     border-width: 1px;
   }
