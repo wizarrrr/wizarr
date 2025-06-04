@@ -3,7 +3,7 @@
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto">
     <div
       id="settings"
-      class="animate__animated w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+      class="animate__animated w-full bg-white rounded-lg shadow-sm dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
     >
       <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
         <div class="flex justify-between items-center">
@@ -110,7 +110,7 @@
             {# Allow Downloads #}
             <div class="flex items-center">
               {{ form.allow_downloads_plex(
-                  class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 rounded-sm border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 ) }}
               {{ form.allow_downloads_plex.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300") }}
               {% for err in form.allow_downloads_plex.errors %}
@@ -120,7 +120,7 @@
             {# Allow TV #}
             <div class="flex items-center">
               {{ form.allow_tv_plex(
-                  class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 rounded-sm border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 ) }}
               {{ form.allow_tv_plex.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300") }}
               {% for err in form.allow_tv_plex.errors %}
@@ -170,7 +170,7 @@
           <div>
             <button
               type="submit"
-              class="w-full text-white bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover"
+              class="w-full text-white bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-hidden focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover"
             >
               {{ _("Save") }}
             </button>
