@@ -4,8 +4,8 @@ FROM python:3.12-alpine
 # Copy the UV binaries from the "astral-sh/uv" image
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# Install curl (for the HEALTHCHECK) and tzdata (if you need timezones)
-RUN apk add --no-cache curl tzdata
+# Install curl (for the HEALTHCHECK), tzdata (if you need timezones), and nodejs (for npm)
+RUN apk add --no-cache curl tzdata nodejs npm
 
 # ─── 1. Create a non-root user and group ────────────────────────────────────
 
@@ -37,6 +37,8 @@ COPY . /data
 # or building assets often needs root privileges.
 RUN uv sync --locked
 RUN uv run pybabel compile -d app/translations
+
+RUN npm --prefix app/static/ install
 
 # Ensure that "wizarruser" owns everything in /data, so it can read/write if needed.
 # If your code needs to write to /data (e.g. logs, caches), this is essential.
