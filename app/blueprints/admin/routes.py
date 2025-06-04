@@ -5,6 +5,7 @@ from app.services.media.service import list_users, delete_user
 from app.services.update_check import check_update_available, get_sponsors
 from app.extensions import db, htmx
 from app.models import Invitation, Settings, User
+from app.blueprints.settings.routes import _load_settings
 import os
 from flask_login import login_required
 import datetime
@@ -33,27 +34,12 @@ def dashboard():
 def invite():
     if not request.headers.get("HX-Request"):
         return redirect(url_for(".dashboard"))
-    server_type_setting = (
-        Settings.query
-        .filter_by(key="server_type")
-        .first()
-    )
-    server_type = server_type_setting.value if server_type_setting else None
 
-    allow_downloads_plex = (
-        Settings.query
-        .filter_by(key="allow_downloads_plex")
-        .first()
-    )
-    allow_downloads_plex = allow_downloads_plex.value if allow_downloads_plex else False
-
-    allow_tv_plex = (
-        Settings.query
-        .filter_by(key="allow_tv_plex")
-        .first()
-    )
-
-    allow_tv_plex = allow_tv_plex.value if allow_tv_plex else False
+    # Load all settings using the helper function that handles boolean conversion
+    settings = _load_settings()
+    server_type = settings.get("server_type")
+    allow_downloads_plex = settings.get("allow_downloads_plex", False)
+    allow_tv_plex = settings.get("allow_tv_plex", False)
 
     if request.method == "POST":
         try:
