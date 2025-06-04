@@ -53,6 +53,7 @@
                                 <option selected>Choose a service</option>
                                 <option value="ntfy">Ntfy</option>
                                 <option value="discord">Discord</option>
+                                <option value="apprise">Apprise</option>
                             </select>
                         </div>
                         <div id="credentialsSection" style="display: none;">
@@ -104,6 +105,12 @@
             credentialsSection.style.display = 'block';
         } else {
             credentialsSection.style.display = 'none';
+        }
+        const urlEle = document.getElementById('url');
+        if (value === 'apprise') {
+            urlEle.placeholder = "e.g. apprise://hostname/token";
+        } else {
+            urlEle.placeholder = "e.g. https://example.com";
         }
     }
 </script>

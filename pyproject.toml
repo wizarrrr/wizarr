@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "apprise>=1.9.3",
     "boto3>=1.38.18",
     "cachetools>=5.5.2",
     "email-validator>=2.2.0",
