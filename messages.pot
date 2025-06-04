@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-03 03:54+0000\n"
+"POT-Creation-Date: 2025-06-04 03:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,15 +29,15 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: app/templates/admin.html:31
+#: app/templates/admin.html:34
 msgid "Home"
 msgstr ""
 
-#: app/templates/admin.html:36
+#: app/templates/admin.html:38
 msgid "Invitations"
 msgstr ""
 
-#: app/templates/admin.html:41
+#: app/templates/admin.html:42
 msgid "Users"
 msgstr ""
 
@@ -53,11 +53,11 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: app/templates/login.html:23 app/templates/welcome-jellyfin.html:30
+#: app/templates/login.html:23
 msgid "Username"
 msgstr ""
 
-#: app/templates/login.html:29 app/templates/welcome-jellyfin.html:47
+#: app/templates/login.html:29
 msgid "Password"
 msgstr ""
 
@@ -108,129 +108,126 @@ msgstr ""
 msgid "Set up Account"
 msgstr ""
 
-#: app/templates/welcome-jellyfin.html:38
-msgid "Email"
-msgstr ""
-
-#: app/templates/welcome-jellyfin.html:55
-msgid ""
-"Confirm\n"
-"                                password"
-msgstr ""
-
-#: app/templates/welcome-jellyfin.html:63
-msgid ""
-"Invite\n"
-"                                Code"
-msgstr ""
-
 #: app/templates/setup/admin_account.html:58
-#: app/templates/welcome-jellyfin.html:72
+#: app/templates/welcome-jellyfin.html:71
 msgid "Create an account"
 msgstr ""
 
-#: app/templates/admin/invite.html:6
+#: app/templates/admin/invite.html:4
 msgid "Quick Invite"
 msgstr ""
 
-#: app/templates/admin/invite.html:12
+#: app/templates/admin/invite.html:11
 msgid "Invite user"
 msgstr ""
 
-#: app/templates/admin/invite.html:18
+#: app/templates/admin/invite.html:22
 msgid "Invite Code String"
 msgstr ""
 
-#: app/templates/admin/invite.html:19
-msgid "(optional)"
+#: app/templates/admin/invite.html:23
+msgid "optional"
 msgstr ""
 
-#: app/templates/admin/invite.html:26
+#: app/templates/admin/invite.html:44
 msgid "Expiration"
 msgstr ""
 
-#: app/templates/admin/invite.html:29
+#: app/templates/admin/invite.html:53
 msgid "1 day"
 msgstr ""
 
-#: app/templates/admin/invite.html:30
+#: app/templates/admin/invite.html:54
 msgid "1 week"
 msgstr ""
 
-#: app/templates/admin/invite.html:31
+#: app/templates/admin/invite.html:55
 msgid "1 month"
 msgstr ""
 
-#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:60
+#: app/templates/admin/invite.html:56 app/templates/tables/invite_card.html:60
 #: app/templates/tables/user_card.html:46
 msgid "Never"
 msgstr ""
 
-#: app/templates/admin/invite.html:37
+#: app/templates/admin/invite.html:67
 msgid "Advanced Options"
 msgstr ""
 
-#: app/templates/admin/invite.html:45
+#: app/templates/admin/invite.html:76
+msgid "Invite Settings"
+msgstr ""
+
+#: app/templates/admin/invite.html:92
 msgid "Unlimited Usages"
 msgstr ""
 
-#: app/templates/admin/invite.html:53
-msgid "Invite to Plex Home"
-msgstr ""
-
-#: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
+#: app/templates/admin/invite.html:102 app/templates/admin/invite.html:135
 #: app/templates/tables/invite_card.html:86
 msgid "Duration"
 msgstr ""
 
-#: app/templates/admin/invite.html:63
-msgid "(in days)"
+#: app/templates/admin/invite.html:103
+msgid "in days"
 msgstr ""
 
-#: app/templates/admin/invite.html:74
+#: app/templates/admin/invite.html:123
 msgid "Show Information"
 msgstr ""
 
-#: app/templates/admin/invite.html:80
+#: app/templates/admin/invite.html:137
 msgid ""
-"When set, invited user(s) will be removed from the Plex server after a\n"
-"                                        number of\n"
-"                                        days. (1-999)"
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
 msgstr ""
 
-#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
+#: app/templates/admin/invite.html:158
+msgid "Media-Specific Settings"
+msgstr ""
+
+#: app/templates/admin/invite.html:176
+msgid "Invite to Plex Home"
+msgstr ""
+
+#: app/templates/admin/invite.html:195 app/templates/tables/invite_card.html:96
 #: app/templates/tables/user_card.html:67
 msgid "Allow Downloads"
 msgstr ""
 
-#: app/templates/admin/invite.html:102
-msgid ""
-"Specific\n"
-"                                Libraries"
+#: app/templates/admin/invite.html:214
+msgid "Allow Live TV Access"
 msgstr ""
 
-#: app/templates/admin/invite.html:111
-#: app/templates/settings/partials/server_form.html:87
+#: app/templates/admin/invite.html:224
+msgid "Specific Libraries"
+msgstr ""
+
+#: app/templates/admin/invite.html:233
+#: app/templates/settings/partials/server_form.html:95
 msgid "Scan For Libraries"
 msgstr ""
 
-#: app/templates/admin/invite.html:119
+#: app/templates/admin/invite.html:239
+msgid "No media-specific options available for your chosen server type."
+msgstr ""
+
+#: app/templates/admin/invite.html:251
 msgid "Create Invitation"
 msgstr ""
 
-#: app/templates/admin/invite.html:126
+#: app/templates/admin/invite.html:262
 msgid "Successfully generated an Invitation!"
 msgstr ""
 
-#: app/templates/admin/invite.html:131
+#: app/templates/admin/invite.html:279
 msgid "Link has been copied to clipboard!"
 msgstr ""
 
-#: app/templates/admin/invite.html:139
+#: app/templates/admin/invite.html:292
 msgid "Back"
 msgstr ""
 
-#: app/templates/admin/invite.html:144
+#: app/templates/admin/invite.html:303
 msgid "Share"
 msgstr ""
 
@@ -248,7 +245,7 @@ msgid "Cancel"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:48
-#: app/templates/settings/partials/server_form.html:132
+#: app/templates/settings/partials/server_form.html:175
 msgid "Save"
 msgstr ""
 
@@ -324,9 +321,9 @@ msgstr ""
 msgid "Server Settings"
 msgstr ""
 
-#: app/templates/settings/partials/server_form.html:103
-#: app/templates/settings/partials/server_form.html:111
-#: app/templates/settings/partials/server_form.html:120
+#: app/templates/settings/partials/server_form.html:137
+#: app/templates/settings/partials/server_form.html:150
+#: app/templates/settings/partials/server_form.html:162
 msgid "Optional, leave empty to disable"
 msgstr ""
 
