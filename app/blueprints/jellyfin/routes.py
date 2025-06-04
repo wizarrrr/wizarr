@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, abort, render_template, redirect
 from flask_login import login_required
-from app.services.media.jellyfin import JellyfinClient, join
+from app.services.media.jellyfin import JellyfinClient
 from app.forms.join import JoinForm
 
 
@@ -34,7 +34,8 @@ def scan_specific():
 def public_join():
     form = JoinForm()
     if form.validate_on_submit():
-        ok, msg = join(
+        client = JellyfinClient()
+        ok, msg = client.join(
             username=form.username.data,
             password=form.password.data,
             confirm=form.confirm_password.data,
