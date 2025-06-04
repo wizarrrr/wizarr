@@ -52,10 +52,9 @@ class EmbyClient(JellyfinClient):
     def _set_specific_folders(self, user_id: str, names: list[str]):
         """Set library access for a user and ensure playback permissions."""
         items = self.get("/Library/MediaFolders").json()["Items"]
-        mapping = {i["Name"]: i["Id"] for i in items}
-        # allow lookup by GUID or existing id
-        mapping.update({i["Guid"]: i["Id"] for i in items})
-        mapping.update({i["Id"]: i["Id"] for i in items})
+        mapping = {i["Name"]: i["Guid"] for i in items}
+        
+        print(mapping)
 
         folder_ids = [self._folder_name_to_id(n, mapping) for n in names]
         folder_ids = [fid for fid in folder_ids if fid]
