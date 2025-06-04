@@ -5,8 +5,10 @@
     {{ _("Admin") }}
 {% endblock %}
 {% block main %}
-    <div class="w-full bg-yellow-500 text-yellow-900 text-center py-2">
-        <span class="font-medium">A new update is available!</span>
+    <div class="w-full bg-primary text-white text-center py-1">
+        <a href="https://docs.wizarr.dev/getting-started/installation">
+            <span class="font-medium">A new update is available!</span>
+        </a>
     </div>
     <nav class="border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
         <div class="container flex flex-wrap items-center justify-between mx-auto">
@@ -68,10 +70,10 @@
     </nav>
 
     <div id="content" hx-get="/invite" hx-trigger="load" hx-swap="innerHTML"></div>
-  
+
     <!-- Support Banner (Flask/Jinja) -->
     <div id="support-banner"
-         class="fixed bottom-0 left-0 w-full bg-gray-800 text-white text-center flex flex-col sm:flex-row justify-center items-center gap-4 py-2 z-50">
+         class="fixed bottom-0 left-0 w-full bg-gray-800 text-white text-center flex flex-col sm:flex-row justify-center items-center gap-4 py-1 z-50">
         <!-- Call-to-action -->
         <span class="text-sm sm:text-base">
         If you like Wizarr, please
