@@ -5,14 +5,16 @@ module.exports = {
         "./node_modules/flowbite/**/*.js",
         "../../wizard_steps/**/*.md",],
     theme: {
-        extend: {},
-        colors: {
-            primary: '#fe4155',
-            primary_hover: '#982633',
-            secondary: '#533c5b',
-            secondary_hover: '#332538'
-            // ...
-        }
+        extend: {
+            colors: {
+                primary: '#fe4155',
+                primary_hover: '#982633',
+                secondary: '#533c5b',
+                secondary_hover: '#332538'
+                // ...
+            }
+        },
+
     },
     plugins: [
         require("flowbite/plugin"),
