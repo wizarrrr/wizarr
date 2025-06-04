@@ -1,9 +1,6 @@
 import logging
 import re
-import datetime
 
-from app.extensions import db
-from app.models import User
 from .jellyfin import JellyfinClient
 from .client_base import register_media_client
 
@@ -16,8 +13,9 @@ class EmbyClient(JellyfinClient):
     """Wrapper around the Emby REST API using credentials from Settings."""
 
     def libraries(self) -> dict[str, str]:
+        """Return mapping of library GUIDs to names."""
         return {
-            item["Id"]: item["Name"]
+            item["Guid"]: item["Name"]
             for item in self.get("/Library/MediaFolders").json()["Items"]
         }
 
@@ -46,55 +44,6 @@ class EmbyClient(JellyfinClient):
         
         return user_id
         
-    def set_policy(self, user_id: str, policy: dict) -> None:
-        self.post(f"/Users/{user_id}/Policy", policy)
-
-    def delete_user(self, user_id: str) -> None:
-        self.delete(f"/Users/{user_id}")
-
-    def get_user(self, emby_id: str) -> dict:
-        return self.get(f"/Users/{emby_id}").json()
-
-    def update_user(self, emby_id: str, form: dict) -> dict | None:
-        current = self.get_user(emby_id)
-
-        for key, val in form.items():
-            for section in ("Policy", "Configuration"):
-                if key in current[section]:
-                    target = current[section][key]
-                    if isinstance(target, bool):
-                        val = (val == "True")
-                    elif isinstance(target, int):
-                        val = int(val)
-                    elif isinstance(target, list):
-                        val = [] if val == "" else val.split(", ")
-                    current[section][key] = val
-
-        return self.post(f"/Users/{emby_id}", current).json()
-
-    def list_users(self) -> list[User]:
-        """Sync users from Emby into the local DB and return the list of User records."""
-        emby_users = {u["Id"]: u for u in self.get("/Users").json()}
-
-        for emby in emby_users.values():
-            existing = User.query.filter_by(token=emby["Id"]).first()
-            if not existing:
-                new = User(
-                    token=emby["Id"],
-                    username=emby["Name"],
-                    email="empty",
-                    code="empty",
-                    password="empty",
-                ) 
-                db.session.add(new)
-        db.session.commit()
-
-        for dbu in User.query.all():
-            if dbu.token not in emby_users:
-                db.session.delete(dbu)
-        db.session.commit()
-
-        return User.query.all()
 
     def _password_for_db(self, password: str) -> str:
         """Return placeholder password for local DB."""
@@ -102,11 +51,11 @@ class EmbyClient(JellyfinClient):
 
     def _set_specific_folders(self, user_id: str, names: list[str]):
         """Set library access for a user and ensure playback permissions."""
-        mapping = {
-            item["Name"]: item["Id"]
-            for item in self.get("/Library/MediaFolders").json()["Items"]
-        }
-        mapping.update({v: v for v in mapping.values()})
+        items = self.get("/Library/MediaFolders").json()["Items"]
+        mapping = {i["Name"]: i["Id"] for i in items}
+        # allow lookup by GUID or existing id
+        mapping.update({i["Guid"]: i["Id"] for i in items})
+        mapping.update({i["Id"]: i["Id"] for i in items})
 
         folder_ids = [self._folder_name_to_id(n, mapping) for n in names]
         folder_ids = [fid for fid in folder_ids if fid]
