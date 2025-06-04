@@ -126,6 +126,12 @@ class JellyfinClient(MediaClient):
 
     @staticmethod
     def _folder_name_to_id(name: str, cache: dict[str, str]) -> str | None:
+        """Resolve a folder name or ID to the server ID."""
+
+        # Allow passing the actual ID directly
+        if name in cache.values():
+            return name
+
         return cache.get(name)
 
     def _set_specific_folders(self, user_id: str, names: list[str]):
@@ -133,6 +139,9 @@ class JellyfinClient(MediaClient):
             item["Name"]: item["Id"]
             for item in self.get("/Library/MediaFolders").json()["Items"]
         }
+
+        # Also map IDs directly for convenience
+        mapping.update({v: v for v in mapping.values()})
 
         folder_ids = [self._folder_name_to_id(n, mapping) for n in names]
         folder_ids = [fid for fid in folder_ids if fid]
