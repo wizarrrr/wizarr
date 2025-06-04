@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, make_response, 
 from flask_login import login_required
 from app.extensions import db
 from app.models import Notification
-from app.services.notifications import _discord, _ntfy  # your existing helpers
+from app.services.notifications import _discord, _ntfy, _apprise  # your existing helpers
 
 notify_bp = Blueprint("notify", __name__, url_prefix="/settings/notifications")
 
@@ -34,6 +34,12 @@ def create():
                 "Wizarr test message",
                 "Wizarr", "tada",
                 form["url"], form["username"], form["password"]
+            )
+        elif form["type"] == "apprise":
+            ok = _apprise(
+                "Wizarr test message",
+                "Wizarr", "tada",
+                form["url"]
             )
 
         if ok:
