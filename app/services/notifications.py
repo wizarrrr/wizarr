@@ -1,3 +1,4 @@
+import apprise
 import logging
 import json
 import base64
@@ -36,6 +37,23 @@ def _ntfy(
             base64.b64encode(creds.encode()).decode()
     return _send(url, msg, headers)
 
+def _apprise(msg: str, title: str, tags: str, url: str) -> bool:
+    try:
+        apprise_client = apprise.Apprise()
+        apprise_client.add(url)
+
+        result = apprise_client.notify(
+            title=title,
+            body=msg
+        )
+
+        logging.info(f"Apprise notification {'sent' if result else 'failed'}: {title}")
+        return result
+
+    except Exception as e:
+        logging.error(f"Error sending Apprise notification: {e}")
+        return False
+
 def notify(title: str, message: str, tags: str):
     """Broadcast to every configured agent."""
     for agent in Notification.query.all():
@@ -46,3 +64,5 @@ def notify(title: str, message: str, tags: str):
                 message, title, tags,
                 agent.url, agent.username, agent.password
             )
+        elif agent.type == "apprise":
+            _apprise(message, title, tags, agent.url)
