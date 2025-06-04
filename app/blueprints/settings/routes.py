@@ -16,12 +16,24 @@ settings_bp = Blueprint("settings", __name__, url_prefix="/settings")
 
 def _load_settings() -> dict:
     # Load all rows and build a dict
-    return {s.key: s.value for s in Settings.query.all()}
+    settings = {s.key: s.value for s in Settings.query.all()}
+    
+    # Convert specific boolean fields from strings to booleans
+    boolean_fields = ["allow_downloads_plex", "allow_tv_plex"]
+    for field in boolean_fields:
+        if field in settings:
+            settings[field] = settings[field].lower() == "true"
+    
+    return settings
 
 def _save_settings(data: dict) -> None:
     """Upsert each key/value in one go."""
     try:
         for key, value in data.items():
+            # Convert boolean values to "true"/"false" strings
+            if isinstance(value, bool):
+                value = "true" if value else "false"
+            
             setting = Settings.query.filter_by(key=key).first()
             if setting:
                 setting.value = value
@@ -49,6 +61,7 @@ def page():
 def server_settings():
     setup_mode = bool(session.get("in_setup"))
     current = _load_settings()  # { key: value }
+    
     # load all known libraries to build checkboxes
     all_libs = Library.query.order_by(Library.name).all()
     # turn comma-list into list of external_ids
@@ -87,7 +100,7 @@ def server_settings():
 
         if setup_mode:
             print("Setup mode: redirecting to dashboard")
-            # consume the “in_setup” flag and tell HTMX to redirect
+            # consume the "in_setup" flag and tell HTMX to redirect
             session.pop("in_setup")
             resp = make_response("", 204)
             resp.headers["HX-Redirect"] = url_for("admin.dashboard")
