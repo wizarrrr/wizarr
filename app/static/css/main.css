@@ -1993,7 +1993,7 @@
   .flex-1 {
     flex: 1;
   }
-  .shrink {
+  .flex-shrink {
     flex-shrink: 1;
   }
   .shrink-0 {
@@ -3092,6 +3092,12 @@
       }
     }
   }
+  .focus\:outline-none {
+    &:focus {
+      --tw-outline-style: none;
+      outline-style: none;
+    }
+  }
   .sm\:my-8 {
     @media (width >= 40rem) {
       margin-block: calc(var(--spacing) * 8);
@@ -4069,7 +4075,7 @@
     vertical-align: middle;
     background-origin: border-box;
     user-select: none;
-    shrink: 0;
+    flex-shrink: 0;
     height: 1rem;
     width: 1rem;
     color: var(--color-blue-600);
