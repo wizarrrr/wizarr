@@ -117,7 +117,7 @@ class JellyfinClient(MediaClient):
             for key in ("Id", "Guid"):
                 if key in item:
                     folders[item[key]] = name
-        print(folders)
+
         users = User.query.all()
         for u in users:
             jf = jf_users.get(u.token)
@@ -142,7 +142,6 @@ class JellyfinClient(MediaClient):
             u.libraries = ", ".join(libs)
 
         return users
-
 
     # --- helpers -----------------------------------------------------
 

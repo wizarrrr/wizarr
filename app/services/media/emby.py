@@ -59,7 +59,6 @@ class EmbyClient(JellyfinClient):
         items = self.get("/Library/MediaFolders").json()["Items"]
         mapping = {i["Name"]: i["Guid"] for i in items}
         
-        print(mapping)
 
         folder_ids = [self._folder_name_to_id(n, mapping) for n in names]
         folder_ids = [fid for fid in folder_ids if fid]
