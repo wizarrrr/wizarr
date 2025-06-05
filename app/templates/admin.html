@@ -51,6 +51,14 @@
                     <li>
                         <button hx-get="/settings" hx-trigger="click" hx-target="#content" hx-swap="innerHTML"
                                 hx-push-url="#settings"
+                                class="block py-2 pl-3 pr-4 text-gray-700 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{{ _("Invitations") }}</button>
+                    </li>
+                    <li>
+                        <button hx-get="/users" hx-trigger="click" hx-target="#content" hx-swap="innerHTML"
+                                class="block py-2 pl-3 pr-4 text-gray-700 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{{ _("Users") }}</button>
+                    </li>
+                    <li>
+                        <button hx-get="/settings/" hx-trigger="click" hx-target="#content" hx-swap="innerHTML"
                                 class="block py-2 pl-3 pr-4 text-gray-700 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{{ _("Settings") }}</button>
                     </li>
                     <li>
