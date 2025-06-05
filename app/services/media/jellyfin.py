@@ -109,8 +109,7 @@ class JellyfinClient(MediaClient):
                 db.session.delete(dbu)
         db.session.commit()
 
-        # Map folder IDs to names once for all users
-        folders = {}
+       folders = {}
         for item in self.get("/Library/MediaFolders").json()["Items"]:
             name = item.get("Name")
             if not name:
@@ -143,6 +142,7 @@ class JellyfinClient(MediaClient):
             u.libraries = ", ".join(libs)
 
         return users
+
 
     # --- helpers -----------------------------------------------------
 
