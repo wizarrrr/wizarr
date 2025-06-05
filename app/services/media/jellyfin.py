@@ -109,7 +109,26 @@ class JellyfinClient(MediaClient):
                 db.session.delete(dbu)
         db.session.commit()
 
-        return User.query.all()
+        # Map folder IDs to names once for all users
+        folders = {
+            item.get("Id") or item.get("Guid"): item["Name"]
+            for item in self.get("/Library/MediaFolders").json()["Items"]
+        }
+
+        users = User.query.all()
+        for u in users:
+            jf = jf_users.get(u.token)
+            if jf:
+                detail = self.get(f"/Users/{u.token}").json()
+                policy = detail.get("Policy", {})
+                if policy.get("EnableAllFolders"):
+                    libs = list(folders.values())
+                else:
+                    ids = policy.get("EnabledFolders", [])
+                    libs = [folders.get(fid, fid) for fid in ids]
+                u.libraries = ", ".join(libs)
+
+        return users
 
     # --- helpers -----------------------------------------------------
 
