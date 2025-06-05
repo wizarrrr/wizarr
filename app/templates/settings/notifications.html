@@ -4,7 +4,7 @@
     <section class="bg-gray-50 dark:bg-gray-900 animate__animated animate__fadeIn">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto">
             <div id="settings"
-                 class="animate__animated w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                 class="animate__animated w-full bg-white rounded-lg shadow-sm dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                     <div class="flex justify-between items-center">
                         <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -13,7 +13,7 @@
                     </div>
                     <div class="space-y-4 md:space-y-6">
                         {% for agent in agents %}
-                            <div class="bg-gray-50 rounded-lg shadow dark:shadow-lg p-6 dark:bg-gray-700">
+                            <div class="bg-gray-50 rounded-lg shadow-sm dark:shadow-lg p-6 dark:bg-gray-700">
                                 <h2 class="text-lg font-medium text-gray-900 dark:text-white">{{ agent.name }}</h2>
                                 <div class="mt-2 flex items-center">
                                     <span
@@ -34,7 +34,7 @@
                                 hx-target="#create-modal"
                                 hx-trigger="click" id="create-agent-button"
                                 _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
-                                class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">{{ _("Create Agent") }}
+                                class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-hidden focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">{{ _("Create Agent") }}
                         </button>
                     </div>
 

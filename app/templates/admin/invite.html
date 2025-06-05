@@ -4,7 +4,7 @@
             {{ _("Quick Invite") }}
         </a>
         <div
-            class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+            class="w-full bg-white rounded-lg shadow-sm dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
         >
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -128,7 +128,7 @@
                                         id="popover-description"
                                         role="tooltip"
                                         class="absolute z-10 invisible inline-block text-sm font-light text-gray-500
-                           transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72
+                           transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-xs opacity-0 w-72
                            dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400"
                                     >
                                         <div class="p-3 space-y-2">
@@ -242,7 +242,7 @@
                         <!-- Submit Button -->
                         <button
                             type="submit"
-                            class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300
+                            class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-hidden focus:ring-amber-300
                      font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover"
                         >
                             {{ _("Create Invitation") }}
@@ -281,7 +281,7 @@
                             <a hx-get="/invite" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">
                                 <button
                                     type="button"
-                                    class="py-2.5 px-5 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-secondary
+                                    class="py-2.5 px-5 mb-2 text-sm font-medium text-gray-900 focus:outline-hidden bg-secondary
                          hover:bg-secondary_hover rounded-lg border border-gray-200 hover:bg-secondary_hover
                          focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700
                          dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
@@ -294,7 +294,7 @@
                             <button
                                 onclick="copyLink()"
                                 type="button"
-                                class="w-3/4 text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-amber-300
+                                class="w-3/4 text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-hidden focus:ring-amber-300
                        font-medium rounded-lg text-sm px-3 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover"
                             >
                                 {{ _("Share") }}
