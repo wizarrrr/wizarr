@@ -1,6 +1,10 @@
 # Start from the official Python 3.12 Alpine image
 FROM python:3.12-alpine
 
+# Set default environment variables for user/group IDs
+ENV PUID=1000
+ENV PGID=1000
+
 # Copy the UV binaries from the "astral-sh/uv" image
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
@@ -10,17 +14,13 @@ RUN apk add --no-cache curl tzdata nodejs npm
 # ─── 1. Create a non-root user and group ────────────────────────────────────
 
 # Create a group called "wizarrgroup" and a user "wizarruser" in that group.
-# - -S flag means "system" (no encrypted password, no login shell).
-# -G flag adds the user to the group.
-#
-# We’ll choose UID 1000 / GID 1000 as an example, but you can change those
-# to whatever you like (or leave them out, and Alpine will pick UID/GID ≥1000).
-RUN addgroup -S wizarrgroup && \
-    adduser -S -G wizarrgroup -u 1000 wizarruser
+# Using the environment variables for UID and GID
+RUN addgroup -S -g ${PGID} wizarrgroup && \
+    adduser -S -G wizarrgroup -u ${PUID} wizarruser
 
 # ─── 2. Copy your application code ──────────────────────────────────────────
 
-# Set up the working directory for our code. We’ll put everything under /data.
+# Set up the working directory for our code. We'll put everything under /data.
 WORKDIR /data
 
 # Copy the entire build context (your source code) into /data.
@@ -29,7 +29,7 @@ COPY . /data
 
 
 # If you also have files under /opt/default_wizard_steps, make sure that
-# wizarruser can access them too. We’ll adjust ownership after we copy them below.
+# wizarruser can access them too. We'll adjust ownership after we copy them below.
 
 # ─── 3. Run your build steps (still as root) ───────────────────────────────
 
