@@ -57,6 +57,14 @@
                     {{ _("Invite Code") }}: <span class="ml-1 font-medium">{{ user.code }}</span>
                 </div>
                 {% endif %}
+
+                {% if user.libraries %}
+                <div class="flex items-center">
+                    <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 4h12v12H4z"/></svg>
+                    {{ _("Libraries") }}: <span class="ml-1 font-medium">{{ user.libraries }}</span>
+                </div>
+                {% endif %}
                 
                 <!-- Server Type specific information -->
                 {% if user.allowSync is defined %}
