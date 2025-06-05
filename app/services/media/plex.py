@@ -121,10 +121,25 @@ class PlexClient(MediaClient):
         db.session.commit()
 
         users = db.session.query(User).all()
+
+        # Map all library ids to titles for quick lookup
+        all_sections = {lib.key: lib.title for lib in self.server.library.sections()}
+
         for u in users:
             p = plex_users.get(u.email)
             if p:
                 u.photo = p.thumb
+
+                share = next(
+                    (s for s in p.servers if s.machineIdentifier == server_id),
+                    None,
+                )
+                if share:
+                    if share.allLibraries:
+                        libs = list(all_sections.values())
+                    else:
+                        libs = [sec.title for sec in share.sections()]
+                    u.libraries = ", ".join(libs)
 
         return users
 
