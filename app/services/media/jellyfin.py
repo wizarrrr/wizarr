@@ -109,7 +109,8 @@ class JellyfinClient(MediaClient):
                 db.session.delete(dbu)
         db.session.commit()
 
-       folders = {}
+                libs = list(dict.fromkeys(folders.values()))
+                libs = list(dict.fromkeys(libs))
         for item in self.get("/Library/MediaFolders").json()["Items"]:
             name = item.get("Name")
             if not name:
