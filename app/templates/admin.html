@@ -34,11 +34,23 @@
                     class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-gray-50 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                     <li>
                         <button hx-get="/invite" hx-trigger="click" hx-target="#content" hx-swap="innerHTML"
+                                hx-push-url="#"
                                 class="block py-2 pl-3 pr-4 text-gray-700 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                                 aria-current="page">{{ _("Home") }}</button>
                     </li>
                     <li>
                         <button hx-get="/invites" hx-trigger="click" hx-target="#content" hx-swap="innerHTML"
+                                hx-push-url="#invites"
+                                class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{{ _("Invitations") }}</button>
+                    </li>
+                    <li>
+                        <button hx-get="/users" hx-trigger="click" hx-target="#content" hx-swap="innerHTML"
+                                hx-push-url="#users"
+                                class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{{ _("Users") }}</button>
+                    </li>
+                    <li>
+                        <button hx-get="/settings" hx-trigger="click" hx-target="#content" hx-swap="innerHTML"
+                                hx-push-url="#settings"
                                 class="block py-2 pl-3 pr-4 text-gray-700 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{{ _("Invitations") }}</button>
                     </li>
                     <li>
@@ -71,7 +83,24 @@
         </div>
     </nav>
 
-    <div id="content" hx-get="/invite" hx-trigger="load" hx-swap="innerHTML"></div>
+    <div id="content"></div>
+
+    <div
+        hx-get="/invite"
+        hx-target="#content"
+        hx-swap="innerHTML"
+        hx-trigger="load[!['#invites', '#users', '#settings'].includes(window.location.hash)]"
+        style="display:none">
+    </div>
+    {% for page in ['invites', 'users', 'settings'] %}
+    <div
+        hx-get="/{{ page }}"
+        hx-target="#content"
+        hx-swap="innerHTML"
+        hx-trigger="load[window.location.hash === '#{{ page }}']"
+        style="display:none">
+    </div>
+    {% endfor %}
 
     <!-- Support Banner (Flask/Jinja) -->
     <div id="support-banner"
