@@ -109,6 +109,29 @@ class JellyfinClient(MediaClient):
                 db.session.delete(dbu)
         db.session.commit()
 
+def list_users(self) -> list[User]:
+        """Sync users from Jellyfin into the local DB and return the list of User records."""
+        jf_users = {u["Id"]: u for u in self.get("/Users").json()}
+
+        for jf in jf_users.values():
+            existing = User.query.filter_by(token=jf["Id"]).first()
+            if not existing:
+                new = User(
+                    token=jf["Id"],
+                    username=jf["Name"],
+                    email="empty",
+                    code="empty",
+                    password="empty"
+                )
+                db.session.add(new)
+        db.session.commit()
+
+        for dbu in User.query.all():
+            if dbu.token not in jf_users:
+                db.session.delete(dbu)
+        db.session.commit()
+
+        return User.query.all()
         def _dedup(seq: list[str]) -> list[str]:
             seen = set()
             out: list[str] = []
@@ -153,6 +176,7 @@ class JellyfinClient(MediaClient):
             u.libraries = ", ".join(libs)
 
         return users
+
 
     # --- helpers -----------------------------------------------------
 
