@@ -1,6 +1,6 @@
 # Installation
 
-### Docker&#x20;
+### Docker
 
 {% hint style="warning" %}
 Be sure to replace`/path/to/appdata/config` in the below examples with a valid host directory path. If this volume mount is not configured correctly, your Wizarr settings/data will not be persisted when the container is recreated (e.g., when updating the image or rebooting your machine).
@@ -20,6 +20,7 @@ services:
   wizarr:
     container_name: wizarr
     image: ghcr.io/wizarrrr/wizarr
+    user: 1000:1000 #Set UID/GID
     ports:
       - 5690:5690
     volumes:
@@ -48,10 +49,11 @@ Then, restart all services defined in the Compose file:
 {% tab title="Docker CLI" %}
 **Installation**
 
-<pre class="language-docker"><code class="lang-docker"><strong>docker run -d \
+<pre class="language-bash"><code class="lang-bash"><strong>docker run -d \
 </strong>  --name wizarr \
   -e DISABLE_BUILTIN_AUTH=false \
   -e TZ=Europe/London \
+  --user 1000:1000 \ #Set UID/GID to run container as
   -p 5690:5690 \
   -v /path/to/appdata/config/database:/data/database \
   -v /path/to/appdata/config/wizard:/data/wizard_steps
