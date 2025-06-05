@@ -109,7 +109,7 @@ class JellyfinClient(MediaClient):
                 db.session.delete(dbu)
         db.session.commit()
 
-       folders = {}
+        folders = {}
         for item in self.get("/Library/MediaFolders").json()["Items"]:
             name = item.get("Name")
             if not name:
@@ -117,7 +117,7 @@ class JellyfinClient(MediaClient):
             for key in ("Id", "Guid"):
                 if key in item:
                     folders[item[key]] = name
-
+        print(folders)
         users = User.query.all()
         for u in users:
             jf = jf_users.get(u.token)
