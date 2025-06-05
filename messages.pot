@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-04 03:54+0000\n"
+"POT-Creation-Date: 2025-06-05 03:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Invalid username or password"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:131
+#: app/blueprints/settings/routes.py:144
 msgid "Library scan failed"
 msgstr ""
 
@@ -29,19 +29,19 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: app/templates/admin.html:34
+#: app/templates/admin.html:38
 msgid "Home"
 msgstr ""
 
-#: app/templates/admin.html:38
+#: app/templates/admin.html:42
 msgid "Invitations"
 msgstr ""
 
-#: app/templates/admin.html:42
+#: app/templates/admin.html:46
 msgid "Users"
 msgstr ""
 
-#: app/templates/admin.html:46 app/templates/settings/index.html:3
+#: app/templates/admin.html:50 app/templates/settings/index.html:3
 msgid "Settings"
 msgstr ""
 
@@ -198,36 +198,32 @@ msgstr ""
 msgid "Allow Live TV Access"
 msgstr ""
 
-#: app/templates/admin/invite.html:224
+#: app/templates/admin/invite.html:226
 msgid "Specific Libraries"
 msgstr ""
 
-#: app/templates/admin/invite.html:233
+#: app/templates/admin/invite.html:235
 #: app/templates/settings/partials/server_form.html:95
 msgid "Scan For Libraries"
 msgstr ""
 
-#: app/templates/admin/invite.html:239
-msgid "No media-specific options available for your chosen server type."
-msgstr ""
-
-#: app/templates/admin/invite.html:251
+#: app/templates/admin/invite.html:248
 msgid "Create Invitation"
 msgstr ""
 
-#: app/templates/admin/invite.html:262
+#: app/templates/admin/invite.html:259
 msgid "Successfully generated an Invitation!"
 msgstr ""
 
-#: app/templates/admin/invite.html:279
+#: app/templates/admin/invite.html:276
 msgid "Link has been copied to clipboard!"
 msgstr ""
 
-#: app/templates/admin/invite.html:292
+#: app/templates/admin/invite.html:289
 msgid "Back"
 msgstr ""
 
-#: app/templates/admin/invite.html:303
+#: app/templates/admin/invite.html:300
 msgid "Share"
 msgstr ""
 
@@ -240,7 +236,7 @@ msgid "Expiry date (leave blank for never)"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:41
-#: app/templates/modals/create-notification-agent.html:85
+#: app/templates/modals/create-notification-agent.html:86
 msgid "Cancel"
 msgstr ""
 
@@ -277,23 +273,23 @@ msgstr ""
 msgid "New Agent"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:60
+#: app/templates/modals/create-notification-agent.html:61
 msgid ""
 "Username\n"
 "                                (optional)"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:65
+#: app/templates/modals/create-notification-agent.html:66
 msgid "Password (optional)"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:70
+#: app/templates/modals/create-notification-agent.html:71
 msgid ""
 "Agent\n"
 "                                URL"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:81
+#: app/templates/modals/create-notification-agent.html:82
 msgid "Test & Create Agent"
 msgstr ""
 
