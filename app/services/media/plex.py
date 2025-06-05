@@ -193,7 +193,7 @@ def _invite_user(email: str, code: str, user_id: int = None) -> None:
         ]
 
     allow_sync = bool(inv.plex_allow_sync)
-    allow_tv = bool(inv.plex_allow_tv)
+    allow_tv = bool(inv.plex_allow_channels)
 
     if inv.plex_home:
         client.invite_home(email, libs, allow_sync, allow_tv)
