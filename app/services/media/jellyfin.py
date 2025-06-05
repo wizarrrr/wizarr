@@ -109,7 +109,7 @@ class JellyfinClient(MediaClient):
                 db.session.delete(dbu)
         db.session.commit()
 
-def list_users(self) -> list[User]:
+    def list_users(self) -> list[User]:
         """Sync users from Jellyfin into the local DB and return the list of User records."""
         jf_users = {u["Id"]: u for u in self.get("/Users").json()}
 
