@@ -13,11 +13,16 @@ class EmbyClient(JellyfinClient):
     """Wrapper around the Emby REST API using credentials from Settings."""
 
     def libraries(self) -> dict[str, str]:
-        """Return mapping of library GUIDs to names."""
-        return {
-            item["Guid"]: item["Name"]
-            for item in self.get("/Library/MediaFolders").json()["Items"]
-        }
+        """Return mapping of library identifiers to names."""
+        mapping: dict[str, str] = {}
+        for item in self.get("/Library/MediaFolders").json()["Items"]:
+            name = item.get("Name")
+            if not name:
+                continue
+            for key in ("Id", "Guid"):
+                if key in item:
+                    mapping[item[key]] = name
+        return mapping
 
     def create_user(self, username: str, password: str) -> str:
         """Create user and set password"""
@@ -54,7 +59,6 @@ class EmbyClient(JellyfinClient):
         items = self.get("/Library/MediaFolders").json()["Items"]
         mapping = {i["Name"]: i["Guid"] for i in items}
         
-        print(mapping)
 
         folder_ids = [self._folder_name_to_id(n, mapping) for n in names]
         folder_ids = [fid for fid in folder_ids if fid]
