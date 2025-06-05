@@ -11,7 +11,6 @@ from app.services.notifications import notify
 from app.services.invites import is_invite_valid
 from .client_base import MediaClient, register_media_client
 
-
 EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 
 
@@ -222,6 +221,4 @@ class JellyfinClient(MediaClient):
             db.session.rollback()
             return False, "An unexpected error occurred."
 
-
 # ─── Admin-side helpers – mirror the Plex API we already exposed ──────────
-
