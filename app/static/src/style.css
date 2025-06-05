@@ -1,6 +1,39 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin 'flowbite/plugin';
+@plugin '@tailwindcss/typography';
+
+@source '../../templates/**/*.html';
+@source '../../templates/*.html';
+@source '../node_modules/flowbite/**/*.js';
+@source '../../../wizard_steps/**/*.md';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-primary: #fe4155;
+  --color-primary_hover: #982633;
+  --color-secondary: #533c5b;
+  --color-secondary_hover: #332538;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 .btn-nav{
   @apply inline-flex items-center px-4 py-2 text-sm font-medium
@@ -13,6 +46,6 @@
 .tab-btn {
   @apply text-sm font-medium py-2 bg-gray-100 dark:bg-gray-700
          rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600
-         focus:outline-none focus:ring-2 focus:ring-primary
+         focus:outline-hidden focus:ring-2 focus:ring-primary
          text-gray-700 dark:text-gray-300;
 }
