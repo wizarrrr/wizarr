@@ -35,6 +35,21 @@
   }
 }
 
+/*
+Set the default cursor for buttons.
+*/
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+/*
+Make sure disabled buttons don't get the pointer cursor.
+*/
+:disabled {
+  cursor: default;
+}
+
 .btn-nav{
   @apply inline-flex items-center px-4 py-2 text-sm font-medium
          bg-white text-gray-500 border border-gray-300 rounded-lg
