@@ -3,16 +3,18 @@
         <div hx-get="/users/table" hx-trigger="load" hx-target="#user_table" hx-swap="outerHTML"
             class="p-4 mb-6 rounded-lg overflow-x-auto ">
             <div class="relative sm:rounded-lg">
-                <div class="hidden flex px-5 py-5 items-center justify-between pb-4 bg-white dark:bg-gray-900">
-                    <div >
-                        <select disabled id="action"
-                            class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option selected>Action (currently unavailable)</option>
-                            <option>Delete</option>
+                <div class="flex px-5 py-5 items-center justify-between pb-4 bg-white dark:bg-gray-900">
+                    <div>
+                        <label for="status-filter" class="sr-only">Filter</label>
+                        <select id="status-filter"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="all">{{ _("All") }}</option>
+                            <option value="active">{{ _("Active") }}</option>
+                            <option value="expired">{{ _("Expired") }}</option>
                         </select>
                     </div>
 
-                    <label for="table-search" class="sr-only">Search</label>
+                    <label for="table-search-users" class="sr-only">Search</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor"
@@ -23,8 +25,8 @@
                             </svg>
                         </div>
                         <input type="text" id="table-search-users"
-                            class="hidden block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Search for users">
+                            class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="{{ _('Search for users') }}">
                     </div>
                 </div>
                 <div id="user_table">
@@ -88,4 +90,49 @@
         }
     }
 
+</script>
+<script>
+    function setupUserFilter() {
+        const search = document.getElementById('table-search-users');
+        const filter = document.getElementById('status-filter');
+        if (!search || !filter) return;
+
+        function applyFilter() {
+            const query = search.value.toLowerCase();
+            const status = filter.value;
+            const cards = document.querySelectorAll('#user_table .user-card');
+            let any = false;
+            cards.forEach(card => {
+                const username = card.dataset.username;
+                const email = card.dataset.email;
+                const expired = card.dataset.expired === 'true';
+                const matchesSearch = username.includes(query) || email.includes(query);
+                const matchesStatus = status === 'all' || (status === 'active' && !expired) || (status === 'expired' && expired);
+                if (matchesSearch && matchesStatus) {
+                    card.classList.remove('hidden');
+                    any = true;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+            const noRes = document.getElementById('no_results');
+            if (noRes) {
+                if (any) {
+                    noRes.classList.add('hidden');
+                } else {
+                    noRes.classList.remove('hidden');
+                }
+            }
+        }
+
+        search.addEventListener('input', applyFilter);
+        filter.addEventListener('change', applyFilter);
+        applyFilter();
+    }
+
+    document.body.addEventListener('htmx:afterSwap', function(evt) {
+        if (evt.detail.target.id === 'user_table') {
+            setupUserFilter();
+        }
+    });
 </script>

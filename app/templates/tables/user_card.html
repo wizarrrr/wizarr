@@ -4,7 +4,10 @@
     {% else %}
     
     {% for user in users %}
-    <div class="mb-4 animate__animated flex flex-col justify-between bg-white dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-xs overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="user-card mb-4 animate__animated flex flex-col justify-between bg-white dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-xs overflow-hidden border border-gray-200 dark:border-gray-700"
+         data-username="{{ user.username|lower }}"
+         data-email="{{ user.email|lower }}"
+         data-expired="{% if user.expires and user.expires < now %}true{% else %}false{% endif %}">
         <div class="p-4">
             <!-- Header with username and photo -->
             <div class="flex items-center mb-3">
@@ -94,7 +97,9 @@
             </button>
         </div>
     </div>
+    </div>
     {% endfor %}
+    <p id="no_results" class="hidden text-center col-span-full dark:text-white">{{ _("No users match your filters.") }}</p>
     {% endif %}
 </div>
 

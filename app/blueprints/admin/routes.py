@@ -150,7 +150,8 @@ def users_table():
         users = list_users() or []
     except Exception as exc:
         logging.error("Error fetching users: %s", exc)
-    return render_template("tables/user_card.html", users=users)
+    now = datetime.datetime.now()
+    return render_template("tables/user_card.html", users=users, now=now)
 
 
 @admin_bp.route("/user/<int:db_id>", methods=["GET", "POST"])
@@ -170,7 +171,8 @@ def user_detail(db_id: int):
         # Re-render the grid the same way /users/table does
 
         users = list_users(clear_cache=True)
-        return render_template("tables/user_card.html", users=users)
+        now = datetime.datetime.now()
+        return render_template("tables/user_card.html", users=users, now=now)
 
     # ── GET → serve the compact modal ─────────────────────────────
     return render_template("admin/user_modal.html", user=user)
