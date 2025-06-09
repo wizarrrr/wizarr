@@ -44,7 +44,16 @@
             <Name>DISABLE_BUILTIN_AUTH</Name>
             <Mode/>
         </Variable>
-
+        <Variable>
+            <Value>99</Value>
+            <Name>PUID</Name>
+            <Mode/>
+        </Variable>
+        <Variable>
+            <Value>100</Value>
+            <Name>PGID</Name>
+            <Mode/>
+        </Variable>    
     </Environment>
     <Config Name="Database Folder" Target="/data/database" Default="/mnt/user/appdata/wizarr/database" Mode="rw"
             Description="Database Folder" Type="Path" Display="always" Required="true" Mask="false"/>
@@ -52,6 +61,12 @@
             Description="Wizard Steps Mapping in order to customise steps shown to users (optional)" Type="Path" Display="always" Required="false" Mask="false"/>
     <Config Name="WebUI" Target="5690" Default="5690" Mode="tcp" Description="Web Port" Type="Port" Display="always"
             Required="true" Mask="false"/>
+    <Config Name="User to run application as" Target="PUID" Default="99" Mode=""
+            Description="Leave as default if you are unsure." Type="Variable"
+            Display="always" Required="true" Mask="false"/>
+    <Config Name="Group to run application as" Target="PGID" Default="100" Mode=""
+            Description="Leave as default if you are unsure" Type="Variable"
+            Display="always" Required="true" Mask="false"/>    
     <Config Name="Disable In-Built Auth" Target="DISABLE_BUILTIN_AUTH" Default="false" Mode=""
             Description="Only set to true if you are using another Authentication method, see docs" Type="Variable"
             Display="always" Required="false" Mask="false"/>
