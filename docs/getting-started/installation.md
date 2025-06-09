@@ -20,13 +20,14 @@ services:
   wizarr:
     container_name: wizarr
     image: ghcr.io/wizarrrr/wizarr
-    user: 1000:1000 #Set UID/GID
     ports:
       - 5690:5690
     volumes:
       - /path/to/appdata/config/database:/data/database
       - /path/to/appdata/config/wizard:/data/wizard_steps
     environment:
+      - PUID=1000 #Set UID
+      - PGID=1000 #Set GID
       - DISABLE_BUILTIN_AUTH=false #Set to true ONLY if you are using another auth provider (Authelia, Authentik, etc)
       - TZ=Europe/London #Set your timezone here
 ```
