@@ -53,8 +53,8 @@ Then, restart all services defined in the Compose file:
 <pre class="language-bash"><code class="lang-bash"><strong>docker run -d \
 </strong>  --name wizarr \
   -e DISABLE_BUILTIN_AUTH=false \
+  -e PUID=1000 -e PGID=1000 \
   -e TZ=Europe/London \
-  --user 1000:1000 \ #Set UID/GID to run container as
   -p 5690:5690 \
   -v /path/to/appdata/config/database:/data/database \
   -v /path/to/appdata/config/wizard:/data/wizard_steps
