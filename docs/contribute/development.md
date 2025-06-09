@@ -10,9 +10,8 @@ If you want to contribute to Wizarr, here is how
 
 1. Clone the repository with `git clone git@github.com:Wizarrrr/wizarr.git`
 2. Move into the directory `cd wizarr`
-3. (Optional but recommended) Create a python virtual environment with `uv venv`
-4. Start Wizarr with `uv run flask run`
-5. Wizarr is now accessible at http://127.0.0.1:5000
+3. Start Wizarr with `uv run flask run`
+4. Wizarr is now accessible at http://127.0.0.1:5000
 
 ### Running Tests
 
