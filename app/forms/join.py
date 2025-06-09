@@ -16,7 +16,7 @@ class JoinForm(FlaskForm):
         "Password",
         validators=[
             DataRequired(),
-            Length(min=8, max=20),
+            Length(min=8, message="Password must be at least 8 characters."),
             Regexp(
                 r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$',
                 message="Password must contain at least one uppercase letter, one lowercase letter, and one number.",
