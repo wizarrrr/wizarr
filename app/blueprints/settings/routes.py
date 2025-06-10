@@ -51,6 +51,7 @@ def _check_server_connection(data: dict) -> tuple[bool, str]:
     return check_jellyfin(data["server_url"], data["api_key"])
 
 @settings_bp.get("")
+@settings_bp.get("/")
 @login_required
 def page():
     return render_template("settings/index.html")
