@@ -20,6 +20,7 @@ def create_app(config_object=DevelopmentConfig):
     init_extensions(app)
     print("Finished Initialising app")
     from .models import Invitation, Settings, User, Notification
+    from .tasks import maintenance
 
     
     # 2. blueprints

@@ -21,7 +21,7 @@ def init_extensions(app):
     sess.init_app(app)
     babel.init_app(app, locale_selector=_select_locale)
     #scheduler.init_app(app)
-    #scheduler.start()
+   #scheduler.start()
     htmx.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
