@@ -9,7 +9,7 @@
             <div class="flex gap-2">
                 <button
                     class="tab-btn flex-1 flex items-center justify-center gap-1"
-                    hx-get="{{ url_for('settings.server_settings') }}"
+                    hx-get="{{ url_for('servers.list_servers') }}"
                     hx-target="#tab-body" hx-swap="innerHTML"
                     hx-trigger="load,click"           {# ← load FIRST + every click #}
                 >
