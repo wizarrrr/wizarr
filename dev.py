@@ -6,8 +6,7 @@ def check_node_installation():
     print("Checking Node.js and npm installation...")
     try:
         node_version = subprocess.run(
-            "node --version",
-            shell=True,
+            ["node", "--version"],
             capture_output=True,
             text=True,
             check=True
@@ -15,8 +14,7 @@ def check_node_installation():
         print(f"✓ Node.js {node_version} is installed")
 
         npm_version = subprocess.run(
-            "npm --version",
-            shell=True,
+            ["npm", "--version"],
             capture_output=True,
             text=True,
             check=True
@@ -32,8 +30,7 @@ def check_uv_installation():
     print("Checking uv installation...")
     try:
         uv_version = subprocess.run(
-            "uv --version",
-            shell=True,
+            ["uv", "--version"],
             capture_output=True,
             text=True,
             check=True
@@ -46,12 +43,12 @@ def check_uv_installation():
         sys.exit(1)
 
 def run_command(command, cwd=None):
-    print(f"Running: {command}")
+    print(f"Running: {' '.join(command)}")
     try:
-        process = subprocess.Popen(command, shell=True, cwd=cwd)
+        process = subprocess.Popen(command, cwd=cwd)
         process.wait()
         if process.returncode != 0:
-            print(f"Error running command: {command}")
+            print(f"Error running command: {' '.join(command)}")
             print(f"Error code: {process.returncode}")
             sys.exit(1)
     except KeyboardInterrupt:
@@ -60,7 +57,7 @@ def run_command(command, cwd=None):
         process.wait()
         sys.exit(0)
     except Exception as e:
-        print(f"Error running command: {command}")
+        print(f"Error running command: {' '.join(command)}")
         print(f"Error: {e}")
         sys.exit(1)
 
@@ -72,31 +69,31 @@ def main():
     static_dir = project_root / "app" / "static"
 
     print("Compiling translations...")
-    run_command("uv run pybabel compile -d app/translations")
+    run_command(["uv", "run", "pybabel", "compile", "-d", "app/translations"])
 
     print("Running database setup...")
     print("1. Renaming legacy database...")
-    run_command("uv run python -m app.legacy_migration.rename_legacy")
+    run_command(["uv", "run", "python", "-m", "app.legacy_migration.rename_legacy"])
     
     print("2. Applying alembic migrations...")
-    run_command("uv run flask db upgrade")
+    run_command(["uv", "run", "flask", "db", "upgrade"])
     
     print("3. Importing legacy data...")
-    run_command("uv run python -m app.legacy_migration.import_legacy")
+    run_command(["uv", "run", "python", "-m", "app.legacy_migration.import_legacy"])
 
     print("Installing/updating npm dependencies...")
-    run_command("npm install", cwd=static_dir)
+    run_command(["npm", "install"], cwd=static_dir)
 
     # Start the Tailwind watcher in the background
     print("Starting Tailwind watcher...")
     tailwind_process = subprocess.Popen(
-        "npm run watch:css",
+        ["npm", "run", "watch:css"],
         cwd=static_dir
     )
 
     try:
         print("Starting Flask development server...")
-        run_command("uv run flask run --debug")
+        run_command(["uv", "run", "flask", "run", "--debug"])
     finally:
         # Ensure we clean up the Tailwind process when Flask exits
         tailwind_process.terminate()
