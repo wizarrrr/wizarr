@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "Wizarr",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:css": "npx @tailwindcss/cli -i src/style.css -o css/main.css",
+    "watch:css": "npx @tailwindcss/cli -i src/style.css -o css/main.css --watch"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@tailwindcss/cli": "^4.1.8",
     "@tailwindcss/typography": "^0.5.16",
     "tailwindcss": "^4.1.8"
   },

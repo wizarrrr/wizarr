@@ -90,9 +90,8 @@ def main():
     # Start the Tailwind watcher in the background
     print("Starting Tailwind watcher...")
     tailwind_process = subprocess.Popen(
-        "./watch-tailwind.sh",
-        cwd=static_dir,
-        shell=True
+        "npm run watch:css",
+        cwd=static_dir
     )
 
     try:
