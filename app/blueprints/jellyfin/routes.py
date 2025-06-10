@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, abort, render_template, redirect
+from flask import Blueprint, request, jsonify, abort, render_template, redirect, session
 from flask_login import login_required
 from app.services.media.jellyfin import JellyfinClient
 from app.forms.join import JoinForm
@@ -43,6 +43,7 @@ def public_join():
             code=form.code.data,
         )
         if ok:
+            session["wizard_access"] = form.code.data
             return redirect("/wizard/")
         error = msg
     else:
