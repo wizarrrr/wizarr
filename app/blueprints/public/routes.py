@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, send_from_directory, request, jsonify, url_for
+from flask import Blueprint, redirect, render_template, send_from_directory, request, jsonify, url_for, session
 import os, threading
 from app.extensions import db
 from app.models import Settings
@@ -83,6 +83,7 @@ def join():
             args=(app, token, code),
             daemon=True
         ).start()
+        session["wizard_access"] = code
         return redirect(url_for("wizard.start"))
     elif server_type == "jellyfin" or server_type == "emby":
         return render_template("welcome-jellyfin.html", code=code, server_type=server_type)
