@@ -11,7 +11,7 @@ If you want to contribute to Wizarr, here is how
 
 1. Clone the repository with `git clone https://github.com/wizarrrr/wizarr.git`
 2. Move into the directory `cd wizarr`
-3. Start Wizarr with `uv run python dev.py`
+3. Start Wizarr with `uv run dev.py`
 4. Wizarr is now accessible at http://127.0.0.1:5000
 
 ### Running Tests
