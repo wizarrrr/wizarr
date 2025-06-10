@@ -2,7 +2,7 @@ import logging, requests
 from plexapi.server import PlexServer
 from requests.exceptions import RequestException
 from plexapi.exceptions import PlexApiException
-from typing import Callable, Any, Tuple, Optional
+from typing import Callable, Any, Tuple
 
 # Raised when a server returns a non-200 status code.
 class ServerResponseError(Exception):
@@ -14,7 +14,7 @@ class ServerResponseError(Exception):
 # Handle connection errors for both Plex and Jellyfin servers.
 def handle_connection_error(e: Exception, server_type: str) -> Tuple[bool, str]:
     if isinstance(e, ServerResponseError):
-        error_msg = f"Server returned status code {e.status_code}"
+        error_msg = str(e)
         logging.error("%s check failed: %s → %s", server_type, e.url, e.status_code)
     elif isinstance(e, PlexApiException):
         error_msg = f"{server_type} server returned an error: {str(e)}"
