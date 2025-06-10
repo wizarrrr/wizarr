@@ -13,9 +13,19 @@ PGID=${PGID:-1000}
 if [ "$(id -u)" = "0" ]; then
     echo "[entrypoint] 👤 Setting up user environment with PUID=$PUID and PGID=$PGID"
     
-    # Create group and user
-    addgroup -S -g "$PGID" wizarrgroup
-    adduser -S -G wizarrgroup -u "$PUID" wizarruser
+    # Check if the group already exists
+    if ! getent group wizarrgroup > /dev/null 2>&1; then
+        addgroup -S -g "$PGID" wizarrgroup
+    else
+        echo "[entrypoint] ⚠️ Group 'wizarrgroup' already exists, skipping creation."
+    fi
+
+    # Check if the user already exists
+    if ! id wizarruser > /dev/null 2>&1; then
+        adduser -S -G wizarrgroup -u "$PUID" wizarruser
+    else
+        echo "[entrypoint] ⚠️ User 'wizarruser' already exists, skipping creation."
+    fi
     
     # Fix ownership of important directories
     echo "[entrypoint] 🔧 Fixing ownership of directories..."
