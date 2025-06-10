@@ -1,13 +1,22 @@
 from flask_babel import _
 from pathlib import Path
 import frontmatter, markdown
-from flask import Blueprint, render_template, abort, request
+from flask import Blueprint, render_template, abort, request, session, redirect
+from flask_login import current_user
 from app.models import Settings
 from app.services.ombi_client import run_all_importers
 
 
 wizard_bp = Blueprint("wizard", __name__, url_prefix="/wizard")
 BASE_DIR  = Path(__file__).resolve().parent.parent.parent.parent / "wizard_steps"
+
+# Only allow access right after signup or when logged in
+@wizard_bp.before_request
+def restrict_wizard():
+    if current_user.is_authenticated:
+        return
+    if not session.get("wizard_access"):
+        return redirect("/")
 
 
 # ─── helpers ────────────────────────────────────────────────────
