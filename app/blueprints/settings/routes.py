@@ -44,7 +44,7 @@ def _save_settings(data: dict) -> None:
         db.session.rollback()
         raise
 
-def _check_server_connection(data: dict) -> bool:
+def _check_server_connection(data: dict) -> tuple[bool, str]:
     stype = data["server_type"]
     if stype == "plex":
         return check_plex(data["server_url"], data["api_key"])
@@ -83,7 +83,10 @@ def server_settings():
                 lib.enabled = (lib.external_id in chosen)
             db.session.commit()
 
-        if not _check_server_connection(data):
+        ok, error_msg = _check_server_connection(data)
+        if not ok:
+            # Add the error message to the form
+            form.server_url.errors = [error_msg]
             # HTMX‐render of the same form with errors
             return render_template(
                 "settings/partials/server_form.html",
