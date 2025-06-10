@@ -48,8 +48,18 @@ def check_uv_installation():
 def run_command(command, cwd=None):
     print(f"Running: {command}")
     try:
-        subprocess.run(command, shell=True, check=True, cwd=cwd)
-    except subprocess.CalledProcessError as e:
+        process = subprocess.Popen(command, shell=True, cwd=cwd)
+        process.wait()
+        if process.returncode != 0:
+            print(f"Error running command: {command}")
+            print(f"Error code: {process.returncode}")
+            sys.exit(1)
+    except KeyboardInterrupt:
+        print("\nReceived interrupt signal. Shutting down...")
+        process.terminate()
+        process.wait()
+        sys.exit(0)
+    except Exception as e:
         print(f"Error running command: {command}")
         print(f"Error: {e}")
         sys.exit(1)
@@ -87,7 +97,7 @@ def main():
 
     try:
         print("Starting Flask development server...")
-        run_command(f"uv run flask run --debug")
+        run_command("uv run flask run --debug")
     finally:
         # Ensure we clean up the Tailwind process when Flask exits
         tailwind_process.terminate()
