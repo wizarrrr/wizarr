@@ -28,6 +28,23 @@ def check_node_installation():
         print("You can download them from: https://nodejs.org/")
         sys.exit(1)
 
+def check_uv_installation():
+    print("Checking uv installation...")
+    try:
+        uv_version = subprocess.run(
+            "uv --version",
+            shell=True,
+            capture_output=True,
+            text=True,
+            check=True
+        ).stdout.strip()
+        print(f"✓ uv {uv_version} is installed")
+    except subprocess.CalledProcessError:
+        print("❌ uv is not installed!")
+        print("Please install uv before running this script.")
+        print("You can download it from: https://docs.astral.sh/uv/getting-started/installation/")
+        sys.exit(1)
+
 def run_command(command, cwd=None):
     print(f"Running: {command}")
     try:
@@ -39,6 +56,7 @@ def run_command(command, cwd=None):
 
 def main():
     check_node_installation()
+    check_uv_installation()
 
     project_root = Path(__file__).parent
     static_dir = project_root / "app" / "static"
