@@ -27,9 +27,9 @@
                     <div>
                         <label for="code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                             _("Invite Code") }}</label>
-                        <input type="code" name="code" id="code"
+                        <input minlength="6" type="code" name="code" id="code"
                             class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="XMFGEJI" value="{{ code }}" required="">
+                            placeholder="E.g. XMFGEJIKNQ" value="{{ code }}" required="">
                         <input type="hidden" name="token" id="token" value="">
                     </div>
                     {% endif %}
@@ -39,9 +39,9 @@
                             class="block mb-2 text-sm font-medium text-red-700 dark:text-red-500">{{
                             _("Invite Code")
                             }}</label>
-                        <input type="code" name="code" id="code" minlength="6" maxlength="6"
+                        <input minlength="6" type="code" name="code" id="code"
                             class="bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400"
-                            placeholder="XMFGEJI" required="">
+                            placeholder="E.g. XMFGEJIKNQ" required="">
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ _("Oops!")
                                 }}</span>
                             {{ code_error }}</p>
