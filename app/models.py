@@ -45,7 +45,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     token = db.Column(db.String, nullable=False)
     username = db.Column(db.String, nullable=False)
-    email = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=True)
     code = db.Column(db.String, nullable=False)
     photo = db.Column(db.String, nullable=True)
     expires = db.Column(db.DateTime, nullable=True)

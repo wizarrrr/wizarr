@@ -159,7 +159,7 @@ class JellyfinClient(MediaClient):
     def join(
         self, username: str, password: str, confirm: str, email: str, code: str
     ) -> tuple[bool, str]:
-        if not EMAIL_RE.fullmatch(email):
+        if email and not EMAIL_RE.fullmatch(email):
             return False, "Invalid e-mail address."
         if not 8 <= len(password) <= 20:
             return False, "Password must be 8–20 characters."
