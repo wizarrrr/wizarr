@@ -9,7 +9,7 @@ from flask_babel import _
 from app.services.media.service import scan_libraries as scan_media
 from ...models import Settings, Library
 from ...forms.settings import SettingsForm
-from ...services.servers  import check_plex, check_jellyfin
+from ...services.servers  import check_plex, check_jellyfin, check_emby
 from ...extensions import db
 
 settings_bp = Blueprint("settings", __name__, url_prefix="/settings")
@@ -48,7 +48,10 @@ def _check_server_connection(data: dict) -> tuple[bool, str]:
     stype = data["server_type"]
     if stype == "plex":
         return check_plex(data["server_url"], data["api_key"])
-    return check_jellyfin(data["server_url"], data["api_key"])
+    elif stype == "emby":
+        return check_emby(data["server_url"], data["api_key"])
+    else:
+        return check_jellyfin(data["server_url"], data["api_key"])
 
 @settings_bp.get("")
 @settings_bp.get("/")
