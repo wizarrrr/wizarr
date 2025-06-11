@@ -4,7 +4,7 @@ from app.services.invites import create_invite
 from app.services.media.service import list_users, delete_user
 from app.services.update_check import check_update_available, get_sponsors
 from app.extensions import db, htmx
-from app.models import Invitation, Settings, User
+from app.models import Invitation, Settings, User, MediaServer
 from app.blueprints.settings.routes import _load_settings
 import os
 from flask_login import login_required
@@ -36,15 +36,19 @@ def invite():
         return redirect(url_for(".dashboard"))
 
     # Load all settings using the helper function that handles boolean conversion
-    settings = _load_settings()
-    server_type = settings.get("server_type")
-    allow_downloads_plex = settings.get("allow_downloads_plex", False)
-    allow_tv_plex = settings.get("allow_tv_plex", False)
+    servers = MediaServer.query.all()
+    selected_id = int(request.form.get("server_id", servers[0].id if servers else 0)) if request.method == "POST" else (servers[0].id if servers else 0)
+    current_server = MediaServer.query.get(selected_id) if selected_id else None
+    server_type = current_server.server_type if current_server else None
+    allow_downloads_plex = current_server.allow_downloads_plex if current_server else False
+    allow_tv_plex = current_server.allow_tv_plex if current_server else False
 
     if request.method == "POST":
         try:
             code = request.form.get("code") or None
             invite = create_invite(request.form)
+            invite.server_id = selected_id
+            db.session.commit()
         except ValueError:
             return abort(401)  # duplicate / malformed code
 
@@ -66,6 +70,8 @@ def invite():
             server_type=server_type,
             allow_downloads_plex=allow_downloads_plex,
             allow_tv_plex=allow_tv_plex,
+            servers=servers,
+            current_server_id=selected_id,
         )
 
     # GET
@@ -75,6 +81,8 @@ def invite():
         server_type=server_type,
         allow_downloads_plex=allow_downloads_plex,
         allow_tv_plex=allow_tv_plex,
+        servers=servers,
+        current_server_id=selected_id,
 
     )
 
@@ -117,12 +125,7 @@ def invite_table():
                 )
             inv.expired = inv.expires < now
 
-    server_type_setting = (
-        Settings.query
-        .filter_by(key="server_type")
-        .first()
-    )
-    server_type = server_type_setting.value if server_type_setting else None
+    server_type = invites[0].server.server_type if invites else None
 
     return render_template(
         "tables/invite_card.html",
@@ -136,18 +139,20 @@ def invite_table():
 @admin_bp.route("/users")
 @login_required
 def users():
-    return render_template("admin/users.html")  # static shell
+    servers = MediaServer.query.all()
+    return render_template("admin/users.html", servers=servers)
 
 
 @admin_bp.route("/users/table")
 @login_required
 def users_table():
+    sid = request.args.get("server_id", type=int)
     if (uid := request.args.get("delete")):
-        delete_user(int(uid))
+        delete_user(int(uid), server_id=sid)
 
     users = []
     try:
-        users = list_users() or []
+        users = list_users(server_id=sid) or []
     except Exception as exc:
         logging.error("Error fetching users: %s", exc)
     return render_template("tables/user_card.html", users=users)
@@ -169,7 +174,7 @@ def user_detail(db_id: int):
 
         # Re-render the grid the same way /users/table does
 
-        users = list_users(clear_cache=True)
+        users = list_users(clear_cache=True, server_id=user.server_id)
         return render_template("tables/user_card.html", users=users)
 
     # ── GET → serve the compact modal ─────────────────────────────

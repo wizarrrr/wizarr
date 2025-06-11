@@ -12,6 +12,8 @@ invite_libraries = db.Table(
 class Invitation(db.Model):
     __tablename__ = 'invitation'
     id = db.Column(db.Integer, primary_key=True)
+    server_id = db.Column(db.Integer, db.ForeignKey('media_server.id'), nullable=True)
+    server = db.relationship('MediaServer')
     code = db.Column(db.String, nullable=False)
     used = db.Column(db.Boolean, default=False, nullable=False)
     used_at = db.Column(db.DateTime, nullable=True)
@@ -43,6 +45,8 @@ class Settings(db.Model):
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
+    server_id = db.Column(db.Integer, db.ForeignKey('media_server.id'), nullable=True)
+    server = db.relationship('MediaServer')
     token = db.Column(db.String, nullable=False)
     username = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
@@ -84,3 +88,19 @@ class Library(db.Model):
         secondary=invite_libraries,
         back_populates="libraries",
     )
+
+
+class MediaServer(db.Model):
+    __tablename__ = "media_server"
+
+    id = db.Column(db.Integer, primary_key=True)
+    server_type = db.Column(db.String, nullable=False)
+    server_name = db.Column(db.String, nullable=False)
+    server_url = db.Column(db.String, nullable=False)
+    api_key = db.Column(db.String, nullable=True)
+    libraries = db.Column(db.String, nullable=True)
+    allow_downloads_plex = db.Column(db.Boolean, default=False, nullable=True)
+    allow_tv_plex = db.Column(db.Boolean, default=False, nullable=True)
+    overseerr_url = db.Column(db.String, nullable=True)
+    ombi_api_key = db.Column(db.String, nullable=True)
+    discord_id = db.Column(db.String, nullable=True)

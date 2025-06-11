@@ -12,7 +12,7 @@
                 </h1>
 
                 {% if not link %}
-                    <form class="space-y-4 md:space-y-6" hx-post="/invite" hx-target="#content" hx-swap="innerHTML">
+                    <form class="space-y-4 md:space-y-6" hx-post="/invite" hx-target="#content" hx-swap="innerHTML" hx-include="#server_id">
                         <!-- Invite Code -->
                         <div>
                             <label
@@ -22,18 +22,26 @@
                                 {{ _("Invite Code String") }}
                                 <span class="text-gray-500 ml-1">({{ _("optional") }})</span>
                             </label>
-                            <input
-                                minlength="6"
-                                maxlength="12"
-                                type="text"
-                                name="code"
-                                id="code"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                        <input
+                            minlength="6"
+                            maxlength="12"
+                            type="text"
+                            name="code"
+                            id="code"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                        focus:ring-primary focus:border-primary block w-full p-2.5
                        dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
-                                placeholder="XMFGEJI"
-                            >
-                        </div>
+                            placeholder="XMFGEJI"
+                        >
+                    </div>
+                    <div>
+                        <label for="server_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Server") }}</label>
+                        <select id="server_id" name="server_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                            {% for s in servers %}
+                                <option value="{{ s.id }}" {% if s.id == current_server_id %}selected{% endif %}>{{ s.server_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
                         <!-- Expiration Dropdown -->
                         <div>

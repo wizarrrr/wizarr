@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, render_template, send_from_directory, request, jsonify, url_for, session
 import os, threading
 from app.extensions import db
-from app.models import Settings
+from app.models import Settings, Invitation, MediaServer
 from app.services.invites import is_invite_valid
 from app.services.media.plex import handle_oauth_token
 from app.services.ombi_client import run_all_importers
@@ -34,9 +34,9 @@ def invite(code):
     if not valid:
         return render_template("invalid-invite.html", error=msg)
 
-    # fetch server_type setting
-    server_type_setting = Settings.query.filter_by(key="server_type").first()
-    server_type = server_type_setting.value if server_type_setting else None
+    invitation = Invitation.query.filter_by(code=code).first()
+    server = MediaServer.query.get(invitation.server_id) if invitation else None
+    server_type = server.server_type if server else None
 
     if server_type == "jellyfin" or server_type == "emby":
         form = JoinForm()
@@ -68,8 +68,9 @@ def join():
         )
 
     # fetch server_type one more time
-    server_type_setting = Settings.query.filter_by(key="server_type").first()
-    server_type = server_type_setting.value if server_type_setting else None
+    invitation = Invitation.query.filter_by(code=code).first()
+    server = MediaServer.query.get(invitation.server_id) if invitation else None
+    server_type = server.server_type if server else None
 
     
     
@@ -80,13 +81,15 @@ def join():
         # run Plex OAuth in background
         threading.Thread(
             target=handle_oauth_token,
-            args=(app, token, code),
+            args=(app, token, code, server.id),
             daemon=True
         ).start()
         session["wizard_access"] = code
         return redirect(url_for("wizard.start"))
     elif server_type == "jellyfin" or server_type == "emby":
-        return render_template("welcome-jellyfin.html", code=code, server_type=server_type)
+        form = JoinForm()
+        form.code.data = code
+        return render_template("welcome-jellyfin.html", code=code, server_type=server_type, form=form)
 
     # fallback if server_type missing/unsupported
     return render_template("invalid-invite.html", error="Configuration error.")
