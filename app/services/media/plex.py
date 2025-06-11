@@ -10,6 +10,7 @@ from app.extensions import db
 from app.models import Invitation, User, Settings, Library
 from app.services.notifications import notify
 from .client_base import MediaClient, register_media_client
+from .service import get_client
 
 
 @register_media_client("plex")
@@ -133,7 +134,7 @@ class PlexClient(MediaClient):
 
 # ─── Invite & onboarding ──────────────────────────────────────────────────
 
-def handle_oauth_token(app, token: str, code: str) -> None:
+def handle_oauth_token(app, token: str, code: str, server_id: int) -> None:
     """Called after Plex OAuth handshake; create DB user and invite to Plex."""
     with app.app_context():
         account = MyPlexAccount(token=token)
@@ -143,6 +144,7 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         db.session.commit()
 
         inv = Invitation.query.filter_by(code=code).first()
+        inv_server_id = inv.server_id or server_id
         duration = inv.duration
         expires = (
             datetime.datetime.now() +
@@ -156,11 +158,12 @@ def handle_oauth_token(app, token: str, code: str) -> None:
             username=account.username,
             code=code,
             expires=expires,
+            server_id=inv_server_id,
         )
         db.session.add(new_user)
         db.session.commit()
 
-        _invite_user(email, code, new_user.id)
+        _invite_user(email, code, new_user.id, inv_server_id)
 
         notify(
             "User Joined",
@@ -170,14 +173,15 @@ def handle_oauth_token(app, token: str, code: str) -> None:
 
         threading.Thread(
             target=_post_join_setup,
-            args=(app, token),
+            args=(app, token, inv_server_id),
             daemon=True
         ).start()
 
 
-def _invite_user(email: str, code: str, user_id: int = None) -> None:
-    client = PlexClient()
+def _invite_user(email: str, code: str, user_id: int = None, server_id: int | None = None) -> None:
     inv = Invitation.query.filter_by(code=code).first()
+    sid = server_id or (inv.server_id if inv else None)
+    client = get_client(server_id=sid)
     libs_setting = (
         db.session.query(Settings.value)
         .filter_by(key="libraries")
@@ -213,9 +217,9 @@ def _invite_user(email: str, code: str, user_id: int = None) -> None:
     db.session.commit()
 
 
-def _post_join_setup(app, token: str):
+def _post_join_setup(app, token: str, server_id: int):
     with app.app_context():
-        client = PlexClient()
+        client = get_client(server_id=server_id)
         try:
             user = MyPlexAccount(token=token)
             user.acceptInvite(client.admin.email)

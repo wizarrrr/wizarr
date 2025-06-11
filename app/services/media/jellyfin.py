@@ -203,6 +203,7 @@ class JellyfinClient(MediaClient):
                 token=user_id,
                 code=code,
                 expires=expires,
+                server_id=inv.server_id,
             )
             db.session.add(new_user)
             db.session.commit()
