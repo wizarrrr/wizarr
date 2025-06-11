@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-10 03:56+0000\n"
+"POT-Creation-Date: 2025-06-11 03:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Invalid username or password"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:144
+#: app/blueprints/settings/routes.py:148
 msgid "Library scan failed"
 msgstr ""
 
@@ -29,19 +29,19 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: app/templates/admin.html:39
+#: app/templates/admin.html:40
 msgid "Home"
 msgstr ""
 
-#: app/templates/admin.html:44
+#: app/templates/admin.html:45
 msgid "Invitations"
 msgstr ""
 
-#: app/templates/admin.html:49
+#: app/templates/admin.html:50
 msgid "Users"
 msgstr ""
 
-#: app/templates/admin.html:54 app/templates/settings/index.html:3
+#: app/templates/admin.html:55 app/templates/settings/index.html:3
 msgid "Settings"
 msgstr ""
 
@@ -92,6 +92,11 @@ msgstr ""
 msgid "Invite Code"
 msgstr ""
 
+#: app/templates/admin/invite.html:33 app/templates/user-plex-login.html:32
+#: app/templates/user-plex-login.html:44
+msgid "E.g. XMFGEJIKNQ"
+msgstr ""
+
 #: app/templates/user-plex-login.html:45
 msgid "Oops!"
 msgstr ""
@@ -129,101 +134,101 @@ msgstr ""
 msgid "optional"
 msgstr ""
 
-#: app/templates/admin/invite.html:44
+#: app/templates/admin/invite.html:43
 msgid "Expiration"
 msgstr ""
 
-#: app/templates/admin/invite.html:53
+#: app/templates/admin/invite.html:52
 msgid "1 day"
 msgstr ""
 
-#: app/templates/admin/invite.html:54
+#: app/templates/admin/invite.html:53
 msgid "1 week"
 msgstr ""
 
-#: app/templates/admin/invite.html:55
+#: app/templates/admin/invite.html:54
 msgid "1 month"
 msgstr ""
 
-#: app/templates/admin/invite.html:56 app/templates/tables/invite_card.html:60
+#: app/templates/admin/invite.html:55 app/templates/tables/invite_card.html:60
 #: app/templates/tables/user_card.html:46
 msgid "Never"
 msgstr ""
 
-#: app/templates/admin/invite.html:67
+#: app/templates/admin/invite.html:66
 msgid "Advanced Options"
 msgstr ""
 
-#: app/templates/admin/invite.html:76
+#: app/templates/admin/invite.html:75
 msgid "Invite Settings"
 msgstr ""
 
-#: app/templates/admin/invite.html:92
+#: app/templates/admin/invite.html:91
 msgid "Unlimited Usages"
 msgstr ""
 
-#: app/templates/admin/invite.html:102 app/templates/admin/invite.html:135
+#: app/templates/admin/invite.html:101 app/templates/admin/invite.html:134
 #: app/templates/tables/invite_card.html:86
 msgid "Duration"
 msgstr ""
 
-#: app/templates/admin/invite.html:103
+#: app/templates/admin/invite.html:102
 msgid "in days"
 msgstr ""
 
-#: app/templates/admin/invite.html:123
+#: app/templates/admin/invite.html:122
 msgid "Show Information"
 msgstr ""
 
-#: app/templates/admin/invite.html:137
+#: app/templates/admin/invite.html:136
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
 msgstr ""
 
-#: app/templates/admin/invite.html:158
+#: app/templates/admin/invite.html:157
 msgid "Media-Specific Settings"
 msgstr ""
 
-#: app/templates/admin/invite.html:176
+#: app/templates/admin/invite.html:175
 msgid "Invite to Plex Home"
 msgstr ""
 
-#: app/templates/admin/invite.html:195 app/templates/tables/invite_card.html:96
+#: app/templates/admin/invite.html:194 app/templates/tables/invite_card.html:96
 #: app/templates/tables/user_card.html:67
 msgid "Allow Downloads"
 msgstr ""
 
-#: app/templates/admin/invite.html:214
+#: app/templates/admin/invite.html:213
 msgid "Allow Live TV Access"
 msgstr ""
 
-#: app/templates/admin/invite.html:226
+#: app/templates/admin/invite.html:225
 msgid "Specific Libraries"
 msgstr ""
 
-#: app/templates/admin/invite.html:235
+#: app/templates/admin/invite.html:234
 #: app/templates/settings/partials/server_form.html:95
 msgid "Scan For Libraries"
 msgstr ""
 
-#: app/templates/admin/invite.html:248
+#: app/templates/admin/invite.html:247
 msgid "Create Invitation"
 msgstr ""
 
-#: app/templates/admin/invite.html:259
+#: app/templates/admin/invite.html:258
 msgid "Successfully generated an Invitation!"
 msgstr ""
 
-#: app/templates/admin/invite.html:276
+#: app/templates/admin/invite.html:275
 msgid "Link has been copied to clipboard!"
 msgstr ""
 
-#: app/templates/admin/invite.html:289
+#: app/templates/admin/invite.html:288
 msgid "Back"
 msgstr ""
 
-#: app/templates/admin/invite.html:300
+#: app/templates/admin/invite.html:299
 msgid "Share"
 msgstr ""
 
