@@ -1,6 +1,15 @@
 <section class="py-8 animate__animated animate__fadeIn">
     <div class="container px-4 mx-auto">
-        <div hx-post="/invite/table" hx-trigger="load" hx-target="#invite_table" hx-swap="outerHTML"
+        <div class="flex gap-4 mb-4">
+            <select id="invite_server_filter" name="server" class="w-full sm:w-56 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" hx-post="/invite/table" hx-target="#invite_table" hx-swap="outerHTML" hx-include="#invite_server_filter">
+                <option value="">All Servers</option>
+                {% for s in servers %}
+                <option value="{{ s.id }}">{{ s.name }} ({{ s.server_type }})</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div hx-post="/invite/table" hx-trigger="load" hx-target="#invite_table" hx-swap="outerHTML" hx-include="#invite_server_filter"
             class="p-4 mb-6 overflow-x-auto ">
 
             <div id="invite_table"></div>
