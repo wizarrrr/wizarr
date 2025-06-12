@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="p-8 max-w-xl mx-auto">
+  <h1 class="text-2xl mb-4">Add Media Server</h1>
+  <form method="post">
+    {{ form.csrf_token }}
+    <div class="mb-4">
+      {{ form.server_name.label(class="block mb-1 text-sm font-medium text-gray-700") }}
+      {{ form.server_name(class="w-full border rounded px-3 py-2") }}
+      {% for err in form.server_name.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
+    </div>
+    <div class="mb-4">
+      {{ form.server_type.label(class="block mb-1 text-sm font-medium text-gray-700") }}
+      {{ form.server_type(class="w-full border rounded px-3 py-2") }}
+      {% for err in form.server_type.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
+    </div>
+    <div class="mb-4">
+      {{ form.server_url.label(class="block mb-1 text-sm font-medium text-gray-700") }}
+      {{ form.server_url(class="w-full border rounded px-3 py-2") }}
+      {% for err in form.server_url.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
+    </div>
+    <div class="mb-4">
+      {{ form.api_key.label(class="block mb-1 text-sm font-medium text-gray-700") }}
+      {{ form.api_key(class="w-full border rounded px-3 py-2", type="password") }}
+      {% for err in form.api_key.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
+    </div>
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+  </form>
+</section>
+{% endblock %} 

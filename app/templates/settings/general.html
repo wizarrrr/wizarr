@@ -1,0 +1,33 @@
+<section class="bg-gray-50 dark:bg-gray-900 animate__animated animate__fadeIn">
+  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto">
+    <div class="w-full bg-white rounded-lg shadow-sm dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">{{ _("General Settings") }}</h1>
+        <form method="post" hx-post="{{ url_for('settings.general_settings') }}" hx-target="#tab-body" hx-swap="innerHTML" class="space-y-4">
+          {{ form.csrf_token }}
+          <div>
+            {{ form.server_name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+            {{ form.server_name(class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
+            {% for err in form.server_name.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
+          </div>
+          <div>
+            {{ form.overseerr_url.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+            {{ form.overseerr_url(class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
+            {% for err in form.overseerr_url.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
+          </div>
+          <div>
+            {{ form.ombi_api_key.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+            {{ form.ombi_api_key(class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", type="password") }}
+            {% for err in form.ombi_api_key.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
+          </div>
+          <div>
+            {{ form.discord_id.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+            {{ form.discord_id(class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
+            {% for err in form.discord_id.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
+          </div>
+          <button type="submit" class="w-full text-white bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-hidden focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">{{ _("Save") }}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section> 
