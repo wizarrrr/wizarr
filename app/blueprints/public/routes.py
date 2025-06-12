@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, render_template, send_from_directory, request, jsonify, url_for, session
 import os, threading
 from app.extensions import db
-from app.models import Settings, Invitation, MediaServer
+from app.models import Settings
 from app.services.invites import is_invite_valid
 from app.services.media.plex import handle_oauth_token
 from app.services.ombi_client import run_all_importers
@@ -30,17 +30,15 @@ def favicon():
 # ─── Invite link  /j/<code> ─────────────────────────────────────────────────
 @public_bp.route("/j/<code>")
 def invite(code):
-    invitation = Invitation.query.filter(
-        db.func.lower(Invitation.code) == code.lower()
-    ).first()
     valid, msg = is_invite_valid(code)
     if not valid:
         return render_template("invalid-invite.html", error=msg)
 
-    server = invitation.server or MediaServer.query.first()
-    server_type = server.server_type if server else None
+    # fetch server_type setting
+    server_type_setting = Settings.query.filter_by(key="server_type").first()
+    server_type = server_type_setting.value if server_type_setting else None
 
-    if server_type in ("jellyfin", "emby", "audiobookshelf"):
+    if server_type == "jellyfin" or server_type == "emby":
         form = JoinForm()
         form.code.data = code
         return render_template(
@@ -56,9 +54,6 @@ def join():
     code  = request.form.get("code")
     token = request.form.get("token")
 
-    invitation = Invitation.query.filter(
-        db.func.lower(Invitation.code) == code.lower()
-    ).first()
     valid, msg = is_invite_valid(code)
     if not valid:
         # server_name for rendering error
@@ -72,9 +67,12 @@ def join():
             code_error=msg
         )
 
-    server = invitation.server or MediaServer.query.first()
-    server_type = server.server_type if server else None
+    # fetch server_type one more time
+    server_type_setting = Settings.query.filter_by(key="server_type").first()
+    server_type = server_type_setting.value if server_type_setting else None
 
+    
+    
     from flask import current_app
     app = current_app._get_current_object()
     
@@ -87,7 +85,7 @@ def join():
         ).start()
         session["wizard_access"] = code
         return redirect(url_for("wizard.start"))
-    elif server_type in ("jellyfin", "emby", "audiobookshelf"):
+    elif server_type == "jellyfin" or server_type == "emby":
         return render_template("welcome-jellyfin.html", code=code, server_type=server_type)
 
     # fallback if server_type missing/unsupported
