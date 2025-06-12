@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-11 03:56+0000\n"
+"POT-Creation-Date: 2025-06-12 03:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,8 +21,58 @@ msgstr ""
 msgid "Invalid username or password"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:148
+#: app/blueprints/settings/routes.py:151
 msgid "Library scan failed"
+msgstr ""
+
+#: app/services/servers.py:13
+#, python-format
+msgid "Server returned status code %(status_code)s"
+msgstr ""
+
+#: app/services/servers.py:21
+#, python-format
+msgid "%(server_type)s server returned an error: %(error)s"
+msgstr ""
+
+#: app/services/servers.py:24
+#, python-format
+msgid ""
+"Could not connect to the %(server_type)s server. Please check if the "
+"server is running and the URL is correct."
+msgstr ""
+
+#: app/services/servers.py:27
+#, python-format
+msgid ""
+"Connection to %(server_type)s server timed out. Please check if the "
+"server is running and accessible."
+msgstr ""
+
+#: app/services/servers.py:30
+#, python-format
+msgid ""
+"An error occurred while connecting to the %(server_type)s server: "
+"%(error)s"
+msgstr ""
+
+#: app/services/servers.py:33
+#, python-format
+msgid ""
+"An unexpected error occurred while connecting to the %(server_type)s "
+"server: %(error)s"
+msgstr ""
+
+#: app/services/servers.py:42
+msgid "Plex"
+msgstr ""
+
+#: app/services/servers.py:54
+msgid "Jellyfin"
+msgstr ""
+
+#: app/services/servers.py:60
+msgid "Emby"
 msgstr ""
 
 #: app/templates/admin.html:5
