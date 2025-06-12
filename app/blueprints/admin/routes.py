@@ -103,7 +103,9 @@ def invites():
 @admin_bp.route("/invite/table", methods=["POST"])
 @login_required
 def invite_table():
-    server_filter = request.args.get("server")
+    # HTMX uses POST with hx-include to send the <select name="server"> value
+    # so prefer form data, but keep query-string fallback for direct links
+    server_filter = request.form.get("server") or request.args.get("server")
     if (code := request.args.get("delete")):
         (
             Invitation.query
