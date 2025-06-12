@@ -7,10 +7,9 @@ from plexapi.server import PlexServer
 from plexapi.myplex import MyPlexAccount
 
 from app.extensions import db
-from app.models import Invitation, User, Settings, Library, MediaServer
+from app.models import Invitation, User, Settings, Library
 from app.services.notifications import notify
 from .client_base import MediaClient, register_media_client
-from app.services.media.service import get_client_for_media_server
 
 
 @register_media_client("plex")
@@ -101,13 +100,7 @@ class PlexClient(MediaClient):
             for u in self.admin.users()
             if any(s.machineIdentifier == server_id for s in u.servers)
         }
-        db_users = (
-            db.session.query(User)
-            .filter(
-                db.or_(User.server_id.is_(None), User.server_id == getattr(self, 'server_id', None))
-            )
-            .all()
-        )
+        db_users = db.session.query(User).all()
 
         known_emails = set(plex_users.keys())
         for db_user in db_users:
@@ -116,23 +109,18 @@ class PlexClient(MediaClient):
         db.session.commit()
 
         for plex_user in plex_users.values():
-            existing = db.session.query(User).filter_by(email=plex_user.email, server_id=getattr(self, 'server_id', None)).first()
+            existing = db.session.query(User).filter_by(email=plex_user.email).first()
             if not existing:
                 new_user = User(
                     email=plex_user.email or "None",
                     username=plex_user.title,
                     token="None",
-                    code="None",
-                    server_id=getattr(self, 'server_id', None),
+                    code="None"
                 )
                 db.session.add(new_user)
         db.session.commit()
 
-        users = (
-            db.session.query(User)
-            .filter(User.server_id == getattr(self, 'server_id', None))
-            .all()
-        )
+        users = db.session.query(User).all()
         for u in users:
             p = plex_users.get(u.email)
             if p:
@@ -151,20 +139,14 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         account = MyPlexAccount(token=token)
         email = account.email
 
-        inv = Invitation.query.filter_by(code=code).first()
-        server = inv.server if inv and inv.server else MediaServer.query.first()
-        server_id = server.id if server else None
-
-        # remove any previous account with same email on this server
-        db.session.query(User).filter(
-            User.email == email,
-            User.server_id == server_id
-        ).delete(synchronize_session=False)
+        db.session.query(User).filter(User.email == email).delete(synchronize_session=False)
         db.session.commit()
 
-        duration = inv.duration if inv else None
+        inv = Invitation.query.filter_by(code=code).first()
+        duration = inv.duration
         expires = (
-            datetime.datetime.now() + datetime.timedelta(days=int(duration))
+            datetime.datetime.now() +
+            datetime.timedelta(days=int(duration))
             if duration else None
         )
 
@@ -174,12 +156,11 @@ def handle_oauth_token(app, token: str, code: str) -> None:
             username=account.username,
             code=code,
             expires=expires,
-            server_id=server_id,
         )
         db.session.add(new_user)
         db.session.commit()
 
-        _invite_user(email, code, new_user.id, server)
+        _invite_user(email, code, new_user.id)
 
         notify(
             "User Joined",
@@ -194,17 +175,21 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         ).start()
 
 
-def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> None:
+def _invite_user(email: str, code: str, user_id: int = None) -> None:
+    client = PlexClient()
     inv = Invitation.query.filter_by(code=code).first()
-    client = get_client_for_media_server(server)
+    libs_setting = (
+        db.session.query(Settings.value)
+        .filter_by(key="libraries")
+        .scalar()
+    ) or ""
 
-    # libraries list
     if inv.libraries:
         libs = [lib.external_id for lib in inv.libraries]
     else:
         libs = [
             lib.external_id
-            for lib in Library.query.filter_by(enabled=True, server_id=server.id).all()
+            for lib in Library.query.filter_by(enabled=True).all()
         ]
 
     allow_sync = bool(inv.plex_allow_sync)

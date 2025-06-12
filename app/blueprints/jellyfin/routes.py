@@ -2,8 +2,6 @@ from flask import Blueprint, request, jsonify, abort, render_template, redirect,
 from flask_login import login_required
 from app.services.media.jellyfin import JellyfinClient
 from app.forms.join import JoinForm
-from app.models import Invitation, MediaServer
-from app.services.media.service import get_client_for_media_server
 
 
 jellyfin_bp = Blueprint("jellyfin", __name__, url_prefix="/jf")
@@ -36,10 +34,7 @@ def scan_specific():
 def public_join():
     form = JoinForm()
     if form.validate_on_submit():
-        # Determine server from invitation
-        inv = Invitation.query.filter_by(code=form.code.data).first()
-        server = inv.server if inv else MediaServer.query.first()
-        client = get_client_for_media_server(server)
+        client = JellyfinClient()
         ok, msg = client.join(
             username=form.username.data,
             password=form.password.data,
