@@ -1,5 +1,5 @@
 # Start from the official Python 3.12 Alpine image
-FROM python:3.12-alpine
+FROM python:3.13-alpine
 
 # Set default environment variables for user/group IDs
 ENV PUID=1000

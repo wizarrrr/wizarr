@@ -9,7 +9,8 @@ from flask_babel import _
 from app.services.media.service import scan_libraries as scan_media
 from ...models import Settings, Library
 from ...forms.settings import SettingsForm
-from ...services.servers  import check_plex, check_jellyfin, check_emby
+from ...forms.general import GeneralSettingsForm
+from ...services.servers  import check_plex, check_jellyfin, check_emby, check_audiobookshelf
 from ...extensions import db
 
 settings_bp = Blueprint("settings", __name__, url_prefix="/settings")
@@ -50,6 +51,8 @@ def _check_server_connection(data: dict) -> tuple[bool, str]:
         return check_plex(data["server_url"], data["api_key"])
     elif stype == "emby":
         return check_emby(data["server_url"], data["api_key"])
+    elif stype == "audiobookshelf":
+        return check_audiobookshelf(data["server_url"], data["api_key"])
     else:
         return check_jellyfin(data["server_url"], data["api_key"])
 
@@ -169,4 +172,17 @@ def scan_libraries():
       "partials/library_checkboxes.html",
       libs=all_libs
     )
+
+@settings_bp.route('/general', methods=['GET', 'POST'])
+@login_required
+def general_settings():
+    current = _load_settings()
+    form = GeneralSettingsForm(formdata=request.form if request.method=='POST' else None, data=current)
+    if form.validate_on_submit():
+        data = form.data.copy(); data.pop('csrf_token', None)
+        _save_settings(data)
+        flash(_('Settings saved successfully!'), 'success')
+    if request.headers.get('HX-Request'):
+        return render_template('settings/general.html', form=form)
+    return redirect(url_for('settings.page'))
 

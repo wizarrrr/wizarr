@@ -7,7 +7,7 @@ from ...extensions import db
 from ...models import Settings, AdminUser
 from ...forms.setup import AdminAccountForm
 from ...forms.settings import SettingsForm
-from ...services.servers import check_plex, check_jellyfin, check_emby
+from ...services.servers import check_plex, check_jellyfin, check_emby, check_audiobookshelf
 from sqlalchemy.exc import IntegrityError
 
 setup_bp = Blueprint("setup", __name__, url_prefix="/setup")
@@ -44,9 +44,9 @@ def onboarding():
             s["admin_password"].value = generate_password_hash(form.password.data, "scrypt")
             db.session.commit()
             login_user(AdminUser())
-            flash("Admin account created – let’s hook up your media server.", "success")
-            # → Redirect into server‐settings in setup mode
-            # remember we’re still in setup
+            flash("Admin account created – let's hook up your media server.", "success")
+            # → Redirect into server-settings in setup mode
+            # remember we're still in setup
             session["in_setup"] = True
             
             return redirect(url_for("settings.server_settings"))
@@ -61,9 +61,11 @@ def _probe_server(form):
         ok = check_plex(form.server_url.data, form.api_key.data)
     elif form.server_type.data == "emby":
         ok = check_emby(form.server_url.data, form.api_key.data)
+    elif form.server_type.data == "audiobookshelf":
+        ok = check_audiobookshelf(form.server_url.data, form.api_key.data)
     else:
         ok = check_jellyfin(form.server_url.data, form.api_key.data)
 
     if not ok:
-        flash("Couldn’t reach your server – double-check the URL/token.", "danger")
+        flash("Couldn't reach your server – double-check the URL/token.", "danger")
     return ok
