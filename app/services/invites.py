@@ -4,7 +4,7 @@ import string
 from typing import Any, Tuple
 
 from app.extensions import db
-from app.models import Invitation, Library
+from app.models import Invitation, Library, MediaServer
 
 CODESIZE = 10
 CODESET = string.ascii_uppercase + string.digits
@@ -44,6 +44,13 @@ def create_invite(form: Any) -> Invitation:
         "never": None,
     }
 
+    # lookup server id from form or default first
+    server_id = form.get("server_id") or None
+    if server_id:
+        server = MediaServer.query.get(int(server_id))
+    else:
+        server = MediaServer.query.first()
+
     invite = Invitation(
         code=code,
         used=False,
@@ -56,6 +63,7 @@ def create_invite(form: Any) -> Invitation:
         plex_allow_sync=bool(form.get("allowsync")),
         plex_home=bool(form.get("plex_home")),
         plex_allow_channels=bool(form.get("plex_allow_channels")),
+        server=server,
     )
     db.session.add(invite)
     db.session.flush()  # so invite.id exists, but not yet committed

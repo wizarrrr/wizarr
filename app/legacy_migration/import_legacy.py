@@ -109,6 +109,16 @@ with app.app_context():
         db.session.add(usr)
     db.session.commit()
 
-# Clean up
-marker.unlink()
+# ─── CLEAN‐UP ────────────────────────────────────────────────────────────────
+# Remove the marker file.  We pass `missing_ok=True` (Python ≥3.8) so that the
+# script can safely be re-run without crashing if the marker was already
+# deleted in a previous run.
+
+try:
+    marker.unlink(missing_ok=True)  # type: ignore[arg-type]
+except AttributeError:
+    # Fallback for Python <3.8
+    if marker.exists():
+        marker.unlink()
+
 print("[import_legacy] import complete")
