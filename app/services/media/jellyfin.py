@@ -98,28 +98,17 @@ class JellyfinClient(MediaClient):
                     username=jf["Name"],
                     email="empty",
                     code="empty",
-                    password="empty",
-                    server_id=getattr(self, 'server_id', None),
+                    password="empty"
                 )
                 db.session.add(new)
         db.session.commit()
 
-        # delete local users for this server that no longer exist upstream
-        to_check = (
-            User.query
-            .filter(User.server_id == getattr(self, 'server_id', None))
-            .all()
-        )
-        for dbu in to_check:
+        for dbu in User.query.all():
             if dbu.token not in jf_users:
                 db.session.delete(dbu)
         db.session.commit()
 
-        return (
-            User.query
-            .filter(User.server_id == getattr(self, 'server_id', None))
-            .all()
-        )
+        return User.query.all()
 
     # --- helpers -----------------------------------------------------
 
@@ -182,8 +171,7 @@ class JellyfinClient(MediaClient):
             return False, msg
 
         existing = User.query.filter(
-            or_(User.username == username, User.email == email),
-            User.server_id == getattr(self, 'server_id', None)
+            or_(User.username == username, User.email == email)
         ).first()
         if existing:
             return False, "User or e-mail already exists."
@@ -198,7 +186,7 @@ class JellyfinClient(MediaClient):
             else:
                 sections = [
                     lib.external_id
-                    for lib in Library.query.filter_by(enabled=True, server_id=inv.server.id if inv.server else None).all()
+                    for lib in Library.query.filter_by(enabled=True).all()
                 ]
 
             self._set_specific_folders(user_id, sections)
@@ -215,7 +203,6 @@ class JellyfinClient(MediaClient):
                 token=user_id,
                 code=code,
                 expires=expires,
-                server_id=inv.server.id if inv.server else None,
             )
             db.session.add(new_user)
             db.session.commit()

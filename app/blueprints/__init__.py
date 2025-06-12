@@ -9,9 +9,6 @@ from .notifications.routes import notify_bp
 from .jellyfin.routes import jellyfin_bp
 from .api.status import status_bp
 from .emby.routes import emby_bp
-from .media_servers.routes import media_servers_bp
-from .audiobookshelf.routes import abs_bp
 
 all_blueprints = (public_bp, wizard_bp, admin_bp, auth_bp,
-                  settings_bp, setup_bp, plex_bp, notify_bp, jellyfin_bp, emby_bp, abs_bp, status_bp,
-                  media_servers_bp)
+                  settings_bp, setup_bp, plex_bp, notify_bp, jellyfin_bp, emby_bp, status_bp)

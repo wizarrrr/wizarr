@@ -58,26 +58,3 @@ def check_emby(url: str, token: str) -> tuple[bool, str]:
         return check_jellyfin_or_emby_internal(url, token)
     except Exception as e:
         return handle_connection_error(e, _("Emby"))
-
-def check_audiobookshelf(url: str, token: str) -> tuple[bool, str]:
-    """Validate Audiobookshelf credentials.
-
-    The most lightweight endpoint to probe is ``/ping`` which returns
-    ``{"success": true}`` without requiring authentication.  When a
-    token is provided we additionally fetch ``/api/libraries`` to verify
-    the token works and that we can access the libraries list.
-    """
-    try:
-        # 1) base connectivity – even works on brand-new instances
-        resp = requests.get(f"{url.rstrip('/')}/ping", timeout=10)
-        if resp.status_code != 200:
-            raise ServerResponseError(resp.status_code, resp.url)
-
-        if token:
-            headers = {"Authorization": f"Bearer {token}"}
-            lib_resp = requests.get(f"{url.rstrip('/')}/api/libraries", headers=headers, timeout=10)
-            if lib_resp.status_code != 200:
-                raise ServerResponseError(lib_resp.status_code, lib_resp.url)
-        return True, ""
-    except Exception as e:
-        return handle_connection_error(e, _("Audiobookshelf"))
