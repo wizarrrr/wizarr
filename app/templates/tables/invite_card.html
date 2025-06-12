@@ -10,6 +10,9 @@
             <div class="flex justify-between items-start mb-3">
                 <div class="font-medium text-gray-900 dark:text-white">
                     {{ invite.code }}
+                    {% if invite.server %}
+                    <span class="text-xs inline-block font-medium bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded ml-1 dark:bg-purple-800 dark:text-purple-100">{{ invite.server.name }}</span>
+                    {% endif %}
                 </div>
                 {% if not invite.used %}
                 <span class="inline-flex rounded-full px-2 py-1 text-xs font-medium bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100">

@@ -18,8 +18,14 @@ EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 class JellyfinClient(MediaClient):
     """Wrapper around the Jellyfin REST API using credentials from Settings."""
 
-    def __init__(self):
-        super().__init__(url_key="server_url", token_key="api_key")
+    def __init__(self, *args, **kwargs):
+        # Ensure default url/token keys if caller didn't override.
+        if "url_key" not in kwargs:
+            kwargs["url_key"] = "server_url"
+        if "token_key" not in kwargs:
+            kwargs["token_key"] = "api_key"
+
+        super().__init__(*args, **kwargs)
 
     @property
     def hdrs(self):
@@ -98,17 +104,28 @@ class JellyfinClient(MediaClient):
                     username=jf["Name"],
                     email="empty",
                     code="empty",
-                    password="empty"
+                    password="empty",
+                    server_id=getattr(self, 'server_id', None),
                 )
                 db.session.add(new)
         db.session.commit()
 
-        for dbu in User.query.all():
+        # delete local users for this server that no longer exist upstream
+        to_check = (
+            User.query
+            .filter(User.server_id == getattr(self, 'server_id', None))
+            .all()
+        )
+        for dbu in to_check:
             if dbu.token not in jf_users:
                 db.session.delete(dbu)
         db.session.commit()
 
-        return User.query.all()
+        return (
+            User.query
+            .filter(User.server_id == getattr(self, 'server_id', None))
+            .all()
+        )
 
     # --- helpers -----------------------------------------------------
 
@@ -171,7 +188,8 @@ class JellyfinClient(MediaClient):
             return False, msg
 
         existing = User.query.filter(
-            or_(User.username == username, User.email == email)
+            or_(User.username == username, User.email == email),
+            User.server_id == getattr(self, 'server_id', None)
         ).first()
         if existing:
             return False, "User or e-mail already exists."
@@ -186,7 +204,7 @@ class JellyfinClient(MediaClient):
             else:
                 sections = [
                     lib.external_id
-                    for lib in Library.query.filter_by(enabled=True).all()
+                    for lib in Library.query.filter_by(enabled=True, server_id=inv.server.id if inv.server else None).all()
                 ]
 
             self._set_specific_folders(user_id, sections)
@@ -203,6 +221,7 @@ class JellyfinClient(MediaClient):
                 token=user_id,
                 code=code,
                 expires=expires,
+                server_id=inv.server.id if inv.server else None,
             )
             db.session.add(new_user)
             db.session.commit()

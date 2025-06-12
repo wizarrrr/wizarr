@@ -1,7 +1,30 @@
 <section class="py-8">
     <div class="container px-4 mx-auto animate__animated animate__fadeIn">
-        <div hx-get="/users/table" hx-trigger="load" hx-target="#user_table" hx-swap="outerHTML"
-            class="p-4 mb-6 rounded-lg overflow-x-auto ">
+        <!-- Filters -->
+        <div class="p-4 mb-6 flex flex-col md:flex-row md:items-center gap-4">
+            <div class="flex-1 flex gap-4 flex-col sm:flex-row">
+                <select id="server_filter" name="server" class="w-full sm:w-56 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" hx-get="/users/table" hx-target="#user_table" hx-swap="outerHTML" hx-include="#server_filter,#search_query,#order_sel">
+                    <option value="">All Servers</option>
+                    {% for s in servers %}
+                    <option value="{{ s.id }}">{{ s.name }} ({{ s.server_type }})</option>
+                    {% endfor %}
+                </select>
+
+                <input id="search_query" name="q" type="text" placeholder="Search users…" class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" hx-get="/users/table" hx-trigger="keyup changed delay:300ms" hx-target="#user_table" hx-swap="outerHTML" hx-include="#server_filter,#search_query,#order_sel" />
+
+                <select id="order_sel" name="order" class="w-full sm:w-40 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" hx-get="/users/table" hx-target="#user_table" hx-swap="outerHTML" hx-include="#server_filter,#search_query,#order_sel">
+                    <option value="name_asc">Name ⬆︎</option>
+                    <option value="name_desc">Name ⬇︎</option>
+                </select>
+            </div>
+            <div id="link-bar" class="hidden flex gap-2">
+              <button hx-post="/users/link" hx-include=".link-check:checked" hx-target="#user_table" hx-swap="outerHTML" class="bg-primary text-white px-3 py-1 rounded">Link</button>
+              <button hx-post="/users/unlink" hx-include=".link-check:checked" hx-target="#user_table" hx-swap="outerHTML" class="bg-secondary text-white px-3 py-1 rounded">Unlink</button>
+              <button hx-post="/users/bulk-delete" hx-include=".link-check:checked" hx-target="#user_table" hx-swap="outerHTML" class="bg-red-600 text-white px-3 py-1 rounded">Delete</button>
+            </div>
+        </div>
+        <div hx-get="/users/table" hx-trigger="load" hx-target="#user_table" hx-swap="outerHTML" hx-include="#server_filter,#search_query,#order_sel"
+            class="p-4 mb-6 overflow-x-auto">
             <div class="relative sm:rounded-lg">
                 <div class="hidden flex px-5 py-5 items-center justify-between pb-4 bg-white dark:bg-gray-900">
                     <div >
@@ -88,4 +111,7 @@
         }
     }
 
+</script>
+<script>
+ document.addEventListener('change',e=>{ if(e.target.classList.contains('link-check')){ const any=document.querySelectorAll('.link-check:checked').length>=1; document.getElementById('link-bar').classList.toggle('hidden',!any);} });
 </script>

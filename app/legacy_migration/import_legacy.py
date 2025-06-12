@@ -34,49 +34,65 @@ KEY_MAP = {
 
 app = create_app()
 with app.app_context():
+    # Check if an admin user exists
+    admin_setting = Settings.query.filter_by(key="admin_username").first()
+    if not admin_setting or not admin_setting.value:
+        print("[import_legacy] No admin user found, skipping server settings import")
+        # Still import invitations and users
+        import_invitations = True
+        import_users = True
+    else:
+        import_invitations = True
+        import_users = True
+        import_settings = True
+
     # ─── 1) IMPORT SETTINGS ─────────────────────────────────
+    if import_settings:
     # Load all old settings into a dict so we can prefer override
-    old = {k: v for k, v in cur.execute("SELECT key, value FROM settings")}
-    for old_key, val in old.items():
-        if old_key == "version":
-            continue
+        old = {k: v for k, v in cur.execute("SELECT key, value FROM settings")}
+        for old_key, val in old.items():
+            if old_key == "version":
+                continue
 
-        new_key = KEY_MAP.get(old_key)
-        if not new_key:
-            continue
+            new_key = KEY_MAP.get(old_key)
+            if not new_key:
+                continue
 
-        # if both override and raw URL exist, skip the raw URL
-        if old_key == "server_url" and old.get("server_url_override"):
-            continue
+            # if both override and raw URL exist, skip the raw URL
+            if old_key == "server_url" and old.get("server_url_override"):
+                continue
 
-        # parse booleans or leave strings intact
-        v = val
-        if new_key == "server_verified":
-            v = v.lower() == "true"
+            # parse booleans or leave strings intact
+            v = val
+            if new_key == "server_verified":
+                v = v.lower() == "true"
 
-        # find-or-create, then assign
-        row = db.session.query(Settings).filter_by(key=new_key).first()
-        if row:
-            row.value = v
-        else:
-            db.session.add(Settings(key=new_key, value=v))
+            # find-or-create, then assign
+            row = db.session.query(Settings).filter_by(key=new_key).first()
+            if row:
+                row.value = v
+            else:
+                db.session.add(Settings(key=new_key, value=v))
 
     db.session.commit()
 
     # ─── 2) IMPORT INVITATIONS ───────────────────────────────
-    for (
-        code, used, used_at, created, used_by,
-        expires, unlimited, duration,
-        specific_libraries, plex_allow_sync
-    ) in cur.execute("""
+    if import_invitations:
+        for (
+            code, used, used_at, created, used_by,
+            expires, unlimited, duration,
+            specific_libraries, plex_allow_sync
+        ) in cur.execute("""
         SELECT code, used, used_at, created, used_by,
                expires, unlimited, duration,
                specific_libraries, plex_allow_sync
           FROM invitations
     """):
-        if db.session.query(Invitation).filter_by(code=code).first():
-            continue
+        # Skip if invitation code already exists
+            if db.session.query(Invitation).filter_by(code=code).first():
+                continue
 
+        # Create new invitation record
         inv = Invitation(
             code               = code,
             used               = bool(used),
@@ -93,11 +109,12 @@ with app.app_context():
     db.session.commit()
 
     # ─── 3) IMPORT USERS ────────────────────────────────────
-    for token, username, email, code, expires in cur.execute(
-        "SELECT token, username, email, code, expires FROM users"
-    ):
-        if db.session.query(User).filter_by(token=token).first():
-            continue
+    if import_users:
+        for token, username, email, code, expires in cur.execute(
+            "SELECT token, username, email, code, expires FROM users"
+        ):
+            if db.session.query(User).filter_by(token=token).first():
+                continue
 
         usr = User(
             token    = token,
@@ -109,6 +126,16 @@ with app.app_context():
         db.session.add(usr)
     db.session.commit()
 
-# Clean up
-marker.unlink()
+# ─── CLEAN‐UP ────────────────────────────────────────────────────────────────
+# Remove the marker file.  We pass `missing_ok=True` (Python ≥3.8) so that the
+# script can safely be re-run without crashing if the marker was already
+# deleted in a previous run.
+
+try:
+    marker.unlink(missing_ok=True)  # type: ignore[arg-type]
+except AttributeError:
+    # Fallback for Python <3.8
+    if marker.exists():
+        marker.unlink()
+
 print("[import_legacy] import complete")

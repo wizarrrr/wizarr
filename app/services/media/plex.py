@@ -7,17 +7,35 @@ from plexapi.server import PlexServer
 from plexapi.myplex import MyPlexAccount
 
 from app.extensions import db
-from app.models import Invitation, User, Settings, Library
+from app.models import Invitation, User, Settings, Library, MediaServer
 from app.services.notifications import notify
 from .client_base import MediaClient, register_media_client
+from app.services.media.service import get_client_for_media_server
 
 
 @register_media_client("plex")
 class PlexClient(MediaClient):
     """Wrapper that connects to Plex using admin credentials."""
 
-    def __init__(self):
-        super().__init__(url_key="server_url", token_key="api_key")
+    def __init__(self, *args, **kwargs):
+        """Initialise the Plex client.
+
+        ``MediaClient`` now supports passing a fully populated
+        ``MediaServer`` row via ``media_server=…``.  We therefore accept an
+        arbitrary signature and forward it to the superclass so that callers
+        like ``get_client_for_media_server`` can leverage this without
+        modification here.
+        """
+
+        # Keep legacy fallback behaviour (url_key / token_key) by providing
+        # the default kwargs if the caller did *not* override them.
+        if "url_key" not in kwargs:
+            kwargs["url_key"] = "server_url"
+        if "token_key" not in kwargs:
+            kwargs["token_key"] = "api_key"
+
+        super().__init__(*args, **kwargs)
+
         self._server = None
         self._admin = None
 
@@ -100,7 +118,13 @@ class PlexClient(MediaClient):
             for u in self.admin.users()
             if any(s.machineIdentifier == server_id for s in u.servers)
         }
-        db_users = db.session.query(User).all()
+        db_users = (
+            db.session.query(User)
+            .filter(
+                db.or_(User.server_id.is_(None), User.server_id == getattr(self, 'server_id', None))
+            )
+            .all()
+        )
 
         known_emails = set(plex_users.keys())
         for db_user in db_users:
@@ -109,18 +133,23 @@ class PlexClient(MediaClient):
         db.session.commit()
 
         for plex_user in plex_users.values():
-            existing = db.session.query(User).filter_by(email=plex_user.email).first()
+            existing = db.session.query(User).filter_by(email=plex_user.email, server_id=getattr(self, 'server_id', None)).first()
             if not existing:
                 new_user = User(
                     email=plex_user.email or "None",
                     username=plex_user.title,
                     token="None",
-                    code="None"
+                    code="None",
+                    server_id=getattr(self, 'server_id', None),
                 )
                 db.session.add(new_user)
         db.session.commit()
 
-        users = db.session.query(User).all()
+        users = (
+            db.session.query(User)
+            .filter(User.server_id == getattr(self, 'server_id', None))
+            .all()
+        )
         for u in users:
             p = plex_users.get(u.email)
             if p:
@@ -139,14 +168,20 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         account = MyPlexAccount(token=token)
         email = account.email
 
-        db.session.query(User).filter(User.email == email).delete(synchronize_session=False)
+        inv = Invitation.query.filter_by(code=code).first()
+        server = inv.server if inv and inv.server else MediaServer.query.first()
+        server_id = server.id if server else None
+
+        # remove any previous account with same email on this server
+        db.session.query(User).filter(
+            User.email == email,
+            User.server_id == server_id
+        ).delete(synchronize_session=False)
         db.session.commit()
 
-        inv = Invitation.query.filter_by(code=code).first()
-        duration = inv.duration
+        duration = inv.duration if inv else None
         expires = (
-            datetime.datetime.now() +
-            datetime.timedelta(days=int(duration))
+            datetime.datetime.now() + datetime.timedelta(days=int(duration))
             if duration else None
         )
 
@@ -156,11 +191,12 @@ def handle_oauth_token(app, token: str, code: str) -> None:
             username=account.username,
             code=code,
             expires=expires,
+            server_id=server_id,
         )
         db.session.add(new_user)
         db.session.commit()
 
-        _invite_user(email, code, new_user.id)
+        _invite_user(email, code, new_user.id, server)
 
         notify(
             "User Joined",
@@ -175,21 +211,17 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         ).start()
 
 
-def _invite_user(email: str, code: str, user_id: int = None) -> None:
-    client = PlexClient()
+def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> None:
     inv = Invitation.query.filter_by(code=code).first()
-    libs_setting = (
-        db.session.query(Settings.value)
-        .filter_by(key="libraries")
-        .scalar()
-    ) or ""
+    client = get_client_for_media_server(server)
 
+    # libraries list
     if inv.libraries:
         libs = [lib.external_id for lib in inv.libraries]
     else:
         libs = [
             lib.external_id
-            for lib in Library.query.filter_by(enabled=True).all()
+            for lib in Library.query.filter_by(enabled=True, server_id=server.id).all()
         ]
 
     allow_sync = bool(inv.plex_allow_sync)
@@ -218,6 +250,7 @@ def _post_join_setup(app, token: str):
         client = PlexClient()
         try:
             user = MyPlexAccount(token=token)
+            
             user.acceptInvite(client.admin.email)
             user.enableViewStateSync()
             _opt_out_online_sources(user)
