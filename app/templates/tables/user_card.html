@@ -78,12 +78,21 @@
         
         <!-- Actions footer -->
         <div class="flex justify-end p-3 bg-gray-50 dark:bg-gray-700">
+            <!-- More details -->
+            <button id="details"
+                    class="inline-flex items-center justify-center p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 mr-2"
+                    hx-get="/user/{{ user.id }}/details"
+                    hx-target="#modal-user"
+                    hx-swap="innerHTML">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 10A8 8 0 11-2 10a8 8 0 0120 0zM9 13h2v2H9v-2zm0-8h2v6H9V5z"></path>
+                </svg>
+            </button>
             <button id="edit" 
                     class="inline-flex items-center justify-center p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 mr-2"
                     hx-get="/user/{{ user.id }}" 
                     hx-target="#modal-user" 
-                    hx-swap="innerHTML"
-                    onclick="document.getElementById('modal').classList.remove('hidden');">
+                    hx-swap="innerHTML">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                 </svg>
@@ -137,4 +146,11 @@
     });
 
     document.addEventListener('change',e=>{ if(e.target.classList.contains('link-check')){ const any=document.querySelectorAll('.link-check:checked').length; document.getElementById('link-bar').classList.toggle('hidden',!any);}});
+
+    // ensure modal overlay only becomes visible once new content is rendered
+    document.body.addEventListener('htmx:afterSwap', function (event) {
+        if (event.detail.target && event.detail.target.id === 'modal-user') {
+            document.getElementById('modal').classList.remove('hidden');
+        }
+    });
 </script>

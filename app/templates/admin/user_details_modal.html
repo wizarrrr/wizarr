@@ -1,0 +1,85 @@
+<div id="modal"
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+     hx-target="this" hx-swap="outerHTML">
+    <div class="relative w-full max-w-md rounded-lg bg-white shadow-xl p-6 dark:bg-gray-800 dark:shadow-gray-900/50 animate__animated animate__fadeIn">
+
+        <!-- Close button -->
+        <button type="button"
+                class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-white"
+                onclick="document.getElementById('modal').classList.add('hidden')">
+            &times;
+        </button>
+
+        <!-- Header -->
+        <div class="flex items-center mb-4">
+            {% if user.photo %}
+            <img class="w-12 h-12 rounded-full mr-3" src="{{ user.photo }}" alt="{{ user.username }}">
+            {% else %}
+            <div class="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center mr-3">
+                <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                </svg>
+            </div>
+            {% endif %}
+            <div>
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">{{ user.username }}</h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ user.email or 'Home User' }}</p>
+            </div>
+        </div>
+
+        <!-- Details body -->
+        <div class="space-y-6 text-sm text-gray-600 dark:text-gray-300">
+            <!-- Join date -->
+            <div class="flex items-center">
+                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1z"></path>
+                </svg>
+                <span class="font-medium mr-1">{{ _('Joined') }}:</span>
+                {{ join_date|default(_('Unknown')) if join_date else _('Unknown') }}
+            </div>
+
+            <!-- Account sections -->
+            {% for info in accounts_info %}
+            <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="font-medium text-gray-900 dark:text-gray-100">{{ info.server_name }}</span>
+                    <span class="text-xs font-semibold px-2 py-0.5 rounded-full
+                        {% if info.server_type == 'plex' %}bg-orange-100 text-orange-800 dark:bg-orange-600 dark:text-white
+                        {% elif info.server_type in ['audiobookshelf','abs'] %}bg-blue-100 text-blue-800 dark:bg-blue-600 dark:text-white
+                        {% else %}bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200{% endif %}">
+                        {{ info.server_type|capitalize }}
+                    </span>
+                </div>
+                <p class="mb-3 text-gray-500 dark:text-gray-400"><span class="font-medium">{{ _('Username') }}:</span> {{ info.username }}</p>
+
+                <!-- Libraries -->
+                <p class="font-medium mb-1">{{ _('Libraries') }}:</p>
+                {% if info.libraries %}
+                <ul class="list-disc list-inside ml-5 space-y-1 mb-2">
+                    {% for lib in info.libraries %}
+                    <li>{{ lib }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="ml-5 text-gray-500 dark:text-gray-400 mb-2">{{ _('All libraries') }}</p>
+                {% endif %}
+
+                <!-- Policies -->
+                {% if info.policies %}
+                <p class="font-medium mb-1">{{ _('Policies') }}:</p>
+                <ul class="list-disc list-inside ml-5 space-y-1">
+                    {% for key, val in info.policies.items() %}
+                    <li>{{ key }}: <span class="font-medium">{{ val }}</span></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Actions -->
+        <div class="flex justify-end mt-6">
+            <button type="button" class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary_hover" onclick="document.getElementById('modal').classList.add('hidden')">{{ _('Close') }}</button>
+        </div>
+    </div>
+</div> 
