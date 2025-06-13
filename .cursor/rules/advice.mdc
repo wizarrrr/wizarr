@@ -1,0 +1,55 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+General Philosophy
+
+    Development must be clean, organised, and modular.
+
+    Blueprints should be used for all route definitions (Flask Blueprints).
+
+    Functions and logic should follow object-oriented design as much as reasonably possible — prefer methods on classes over loose functions when appropriate.
+
+    The architecture should prioritise:
+
+        Modularity — break code into meaningful, reusable parts.
+
+        Reusability — avoid code duplication, favour composition or inheritance.
+
+        Maintainability — code should be easy to read, test, and refactor.
+
+Behavioural Rules for the Agent
+
+    During code generation or modification, evaluate whether each component aligns with the principles above.
+
+    If you find any code that:
+
+        mixes concerns (e.g. routes and logic in the same file),
+
+        is procedural when it could be object-oriented,
+
+        is overly complex or repetitive,
+
+        violates modularity,
+
+    you are encouraged to refactor or replace it, as long as:
+
+        functionality is preserved,
+
+        no features are broken,
+
+        and the refactor brings the code closer to the principles above.
+
+Memory & Logging
+
+    Record everything useful that you learn or infer during code editing or generation.
+
+    Append new insights, reusable patterns, architectural decisions, or discovered limitations to this file (.cursor/advice.mdc).
+
+    Format them as new bullet points or sections where appropriate — maintain a tidy and readable structure.
+
+________
+BELOW IS MEMORY
+________
+
