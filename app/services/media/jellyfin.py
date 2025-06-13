@@ -18,8 +18,14 @@ EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 class JellyfinClient(MediaClient):
     """Wrapper around the Jellyfin REST API using credentials from Settings."""
 
-    def __init__(self):
-        super().__init__(url_key="server_url", token_key="api_key")
+    def __init__(self, *args, **kwargs):
+        # Ensure default url/token keys if caller didn't override.
+        if "url_key" not in kwargs:
+            kwargs["url_key"] = "server_url"
+        if "token_key" not in kwargs:
+            kwargs["token_key"] = "api_key"
+
+        super().__init__(*args, **kwargs)
 
     @property
     def hdrs(self):

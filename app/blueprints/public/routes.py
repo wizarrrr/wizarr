@@ -56,6 +56,8 @@ def join():
     code  = request.form.get("code")
     token = request.form.get("token")
 
+    print("Got Token: ", token)
+
     invitation = Invitation.query.filter(
         db.func.lower(Invitation.code) == code.lower()
     ).first()

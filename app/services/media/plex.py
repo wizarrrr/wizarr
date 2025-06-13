@@ -17,8 +17,25 @@ from app.services.media.service import get_client_for_media_server
 class PlexClient(MediaClient):
     """Wrapper that connects to Plex using admin credentials."""
 
-    def __init__(self):
-        super().__init__(url_key="server_url", token_key="api_key")
+    def __init__(self, *args, **kwargs):
+        """Initialise the Plex client.
+
+        ``MediaClient`` now supports passing a fully populated
+        ``MediaServer`` row via ``media_server=…``.  We therefore accept an
+        arbitrary signature and forward it to the superclass so that callers
+        like ``get_client_for_media_server`` can leverage this without
+        modification here.
+        """
+
+        # Keep legacy fallback behaviour (url_key / token_key) by providing
+        # the default kwargs if the caller did *not* override them.
+        if "url_key" not in kwargs:
+            kwargs["url_key"] = "server_url"
+        if "token_key" not in kwargs:
+            kwargs["token_key"] = "api_key"
+
+        super().__init__(*args, **kwargs)
+
         self._server = None
         self._admin = None
 
@@ -233,6 +250,7 @@ def _post_join_setup(app, token: str):
         client = PlexClient()
         try:
             user = MyPlexAccount(token=token)
+            
             user.acceptInvite(client.admin.email)
             user.enableViewStateSync()
             _opt_out_online_sources(user)

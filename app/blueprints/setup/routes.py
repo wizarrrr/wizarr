@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash
 from flask_login import login_user
 
 from ...extensions import db
-from ...models import Settings, AdminUser
+from ...models import Settings, AdminUser, MediaServer
 from ...forms.setup import AdminAccountForm
 from ...forms.settings import SettingsForm
 from ...services.servers import check_plex, check_jellyfin, check_emby, check_audiobookshelf
@@ -45,16 +45,17 @@ def onboarding():
             db.session.commit()
             login_user(AdminUser())
             flash("Admin account created – let's hook up your media server.", "success")
-            # → Redirect into server-settings in setup mode
-            # remember we're still in setup
+            # → Redirect to settings page
             session["in_setup"] = True
-            
-            return redirect(url_for("settings.server_settings"))
-
+            return redirect(url_for("settings.page"))
         return render_template("setup/admin_account.html", form=form)
 
-    # If admin already exists, just forward you into server settings
-    return redirect(url_for("settings.server_settings", setup=1))
+    # If admin already exists, check if a MediaServer exists
+    if not MediaServer.query.first():
+        session["in_setup"] = True
+        return redirect(url_for("settings.page"))
+    # Setup complete, go to admin
+    return redirect(url_for("admin.dashboard"))
 
 def _probe_server(form):
     if form.server_type.data == "plex":

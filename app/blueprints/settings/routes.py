@@ -7,7 +7,7 @@ from flask_login import login_required
 from flask_babel import _
 
 from app.services.media.service import scan_libraries as scan_media
-from ...models import Settings, Library
+from ...models import Settings, Library, MediaServer
 from ...forms.settings import SettingsForm
 from ...forms.general import GeneralSettingsForm
 from ...services.servers  import check_plex, check_jellyfin, check_emby, check_audiobookshelf
@@ -103,19 +103,45 @@ def server_settings():
                 setup_mode=setup_mode
             )
 
+        # Check if a MediaServer already exists
+        existing_server = MediaServer.query.first()
+        if existing_server:
+            # Update existing server
+            existing_server.name = data["server_name"]
+            existing_server.server_type = data["server_type"]
+            existing_server.url = data["server_url"]
+            existing_server.api_key = data.get("api_key")
+            existing_server.allow_downloads_plex = bool(data.get("allow_downloads_plex"))
+            existing_server.allow_tv_plex = bool(data.get("allow_tv_plex"))
+            existing_server.verified = True
+            db.session.commit()
+        else:
+            # Create new server
+            server = MediaServer(
+                name=data["server_name"],
+                server_type=data["server_type"],
+                url=data["server_url"],
+                api_key=data.get("api_key"),
+                allow_downloads_plex=bool(data.get("allow_downloads_plex")),
+                allow_tv_plex=bool(data.get("allow_tv_plex")),
+                verified=True,
+            )
+            db.session.add(server)
+            db.session.commit()
+
         # persist into Settings
         data["server_verified"] = "true"
         _save_settings(data)
         flash("Settings saved successfully!", "success")
 
         if setup_mode:
-            print("Setup mode: redirecting to dashboard")
-            # consume the "in_setup" flag and tell HTMX to redirect
-            session.pop("in_setup")
+            # Only mark setup complete and redirect if this is the first server
+            if MediaServer.query.count() == 1:
+                print("Setup mode: redirecting to dashboard (first server added)")
+                session.pop("in_setup", None)
             resp = make_response("", 204)
             resp.headers["HX-Redirect"] = url_for("admin.dashboard")
             return resp
-
         # re-render form in normal mode
         prechecked = set(chosen)
 

@@ -58,20 +58,22 @@ def upgrade():
     allow_dl    = (s.get('allow_downloads_plex', 'false').lower() == 'true')
     allow_tv    = (s.get('allow_tv_plex', 'false').lower() == 'true')
 
+    # Only create a MediaServer if there is a non-empty URL (i.e., legacy config exists)
+    if url:
     # Insert row
-    res = conn.execute(
-        insert(media_server).values(
-            name=name,
-            server_type=server_type,
-            url=url,
-            api_key=api_key,
-            allow_downloads_plex=allow_dl,
-            allow_tv_plex=allow_tv,
-            verified=True,
-            created_at=datetime.datetime.utcnow(),
+        res = conn.execute(
+            insert(media_server).values(
+                name=name,
+                server_type=server_type,
+                url=url,
+                api_key=api_key,
+                allow_downloads_plex=allow_dl,
+                allow_tv_plex=allow_tv,
+                verified=True,
+                created_at=datetime.datetime.utcnow(),
+            )
         )
-    )
-    server_id = res.inserted_primary_key[0]
+        server_id = res.inserted_primary_key[0]
 
     # Update related tables where server_id is NULL
     conn.execute(
@@ -86,6 +88,7 @@ def upgrade():
 
     # Remove migrated Settings rows
     conn.execute(settings_tbl.delete().where(settings_tbl.c.key.in_(SETTINGS_KEYS)))
+    # else: do nothing (no legacy config to migrate)
 
 
 def downgrade():

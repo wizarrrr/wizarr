@@ -32,7 +32,7 @@ def upgrade():
         sa.Column('verified', sa.Boolean(), nullable=False),
         sa.Column('created_at', sa.DateTime(), nullable=False),
         sa.PrimaryKeyConstraint('id')
-        )
+    )
 
     with op.batch_alter_table('library', schema=None) as batch_op:
         batch_op.add_column(sa.Column('server_id', sa.Integer(), nullable=True))

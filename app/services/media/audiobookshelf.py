@@ -35,13 +35,18 @@ class AudiobookshelfClient(MediaClient):
 
     EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 
-    def __init__(self):
-        # Audiobookshelf stores its global token and URL in the same
-        # Settings keys as the other server types.
-        super().__init__(url_key="server_url", token_key="api_key")
+    def __init__(self, *args, **kwargs):
+        # Provide defaults so legacy code keeps working if the caller didn't
+        # specify explicit keys / MediaServer.
+        if "url_key" not in kwargs:
+            kwargs["url_key"] = "server_url"
+        if "token_key" not in kwargs:
+            kwargs["token_key"] = "api_key"
 
+        super().__init__(*args, **kwargs)
+
+        # Strip trailing slash to keep URL join sane.
         if self.url and self.url.endswith("/"):
-            # avoid double slashes later on
             self.url = self.url.rstrip("/")
 
     # ------------------------------------------------------------------

@@ -42,12 +42,10 @@ def get_client_for_media_server(server: MediaServer):
     cls = CLIENTS.get(server.server_type)
     if not cls:
         raise ValueError(f"Unsupported media server type: {server.server_type}")
-    client = cls()
-    client.url = server.url
-    client.token = server.api_key
-    client.server_id = server.id
-    # keep reference for sync logic
-    client.server_row = server
+
+    # MediaClient can now accept the row directly which centralises
+    # credential handling and attribute population.
+    client = cls(media_server=server)
     return client
 
 

@@ -14,6 +14,12 @@ def migrate_single_to_multi(app):
         if MediaServer.query.first() is not None:
             return
 
+        # Check if an admin user exists
+        admin_setting = Settings.query.filter_by(key="admin_username").first()
+        if not admin_setting or not admin_setting.value:
+            # No admin user yet, do not auto-create a MediaServer
+            return
+
         # Gather legacy settings
         keys = [
             "server_name",
