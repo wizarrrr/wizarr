@@ -75,20 +75,20 @@ def upgrade():
         )
         server_id = res.inserted_primary_key[0]
 
-    # Update related tables where server_id is NULL
-    conn.execute(
-        update(library_tbl).where(library_tbl.c.server_id.is_(None)).values(server_id=server_id)
-    )
-    conn.execute(
-        update(user_tbl).where(user_tbl.c.server_id.is_(None)).values(server_id=server_id)
-    )
-    conn.execute(
-        update(invite_tbl).where(invite_tbl.c.server_id.is_(None)).values(server_id=server_id)
-    )
+        # Update related tables where server_id is NULL
+        conn.execute(
+            update(library_tbl).where(library_tbl.c.server_id.is_(None)).values(server_id=server_id)
+        )
+        conn.execute(
+            update(user_tbl).where(user_tbl.c.server_id.is_(None)).values(server_id=server_id)
+        )
+        conn.execute(
+            update(invite_tbl).where(invite_tbl.c.server_id.is_(None)).values(server_id=server_id)
+        )
 
-    # Remove migrated Settings rows
-    conn.execute(settings_tbl.delete().where(settings_tbl.c.key.in_(SETTINGS_KEYS)))
-    # else: do nothing (no legacy config to migrate)
+        # Remove migrated Settings rows
+        conn.execute(settings_tbl.delete().where(settings_tbl.c.key.in_(SETTINGS_KEYS)))
+        # else: do nothing (no legacy config to migrate)
 
 
 def downgrade():

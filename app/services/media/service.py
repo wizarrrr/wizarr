@@ -4,6 +4,7 @@ from app.extensions import db
 from app.models import Settings, User, MediaServer, Identity
 from .client_base import CLIENTS
 from collections import defaultdict
+import re
 
 
 def _mode() -> str:
@@ -150,27 +151,46 @@ def scan_libraries_for_server(server: MediaServer):
     return client.libraries()
 
 
+EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
+
+
 def _auto_link_identities():
-    """Ensure users sharing the same email are grouped under one Identity."""
+    """Group accounts that share the *same, valid* email address.
+
+    Users imported from Plex/Jellyfin which lack a real email often use
+    placeholders like "None" or "empty".  Linking those together would create
+    one giant pseudo-identity, so we now skip addresses that don't match a
+    simple *user@host* pattern.
+    """
+
     users = (
         db.session.query(User)
         .filter(User.email.isnot(None))
         .all()
     )
+
     buckets: dict[str, list[User]] = defaultdict(list)
     for u in users:
-        buckets[u.email.lower()].append(u)
+        email = (u.email or "").strip()
+        if not EMAIL_RE.fullmatch(email):
+            # ignore invalid / placeholder addresses
+            continue
+        buckets[email.lower()].append(u)
+
     for same in buckets.values():
         if len(same) < 2:
             continue  # nothing to link
+
         identity = same[0].identity or Identity(
             primary_email=same[0].email,
             primary_username=same[0].username,
         )
         db.session.add(identity)
         db.session.flush()
+
         for u in same:
             u.identity_id = identity.id
+
     db.session.commit()
 
 

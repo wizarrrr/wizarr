@@ -113,20 +113,46 @@ class AudiobookshelfClient(MediaClient):
         # Index by ABS user‐id for quick lookups
         raw_by_id = {u["id"]: u for u in raw_users}
 
-        # Ensure we have a local record for every remote account so that
-        # the admin UI can render something sensible.
+        # ------------------------------------------------------------------
+        # 1) Add new users or update basic fields so the UI has fresh data
+        # ------------------------------------------------------------------
         for uid, remote in raw_by_id.items():
-            db_row = User.query.filter_by(token=uid, server_id=getattr(self, "server_id", None)).first()
+            db_row = (
+                User.query
+                .filter_by(token=uid, server_id=getattr(self, "server_id", None))
+                .first()
+            )
             if not db_row:
                 db_row = User(
                     token=uid,
                     username=remote.get("username", "abs-user"),
                     email=remote.get("email", ""),
-                    code="abs",  # placeholder
+                    code="empty",  # placeholder – signifies "no invite code"
                     password="abs",  # placeholder
                     server_id=getattr(self, "server_id", None),
                 )
                 db.session.add(db_row)
+            else:
+                # Simple field refresh (username/email might have changed)
+                db_row.username = remote.get("username", db_row.username)
+                db_row.email = remote.get("email", db_row.email)
+
+        db.session.commit()
+
+        # ------------------------------------------------------------------
+        # 2) Remove local users that have disappeared upstream.  This keeps
+        #    the Wizarr DB in sync so "ghost" accounts don't show up as
+        #    "Local" after they were deleted on the ABS server.
+        # ------------------------------------------------------------------
+        to_check = (
+            User.query
+            .filter(User.server_id == getattr(self, "server_id", None))
+            .all()
+        )
+        for local in to_check:
+            if local.token not in raw_by_id:
+                db.session.delete(local)
+
         db.session.commit()
 
         return (
@@ -137,7 +163,7 @@ class AudiobookshelfClient(MediaClient):
 
     # --- user management ------------------------------------------------
 
-    def create_user(self, username: str, password: str, *, is_admin: bool = False) -> str:
+    def create_user(self, username: str, password: str, email: str,  *, is_admin: bool = False) -> str:
         """Create a user and return the Audiobookshelf user‐ID.
 
         The ABS API expects at least ``username``.  A password can be an
@@ -146,6 +172,8 @@ class AudiobookshelfClient(MediaClient):
         payload = {
             "username": username,
             "password": password,
+            "isActive": True,
+            "email": email,
             "type": "admin" if is_admin else "user",
         }
         resp = requests.post(
@@ -225,7 +253,7 @@ class AudiobookshelfClient(MediaClient):
             return False, "User or e-mail already exists."
 
         try:
-            user_id = self.create_user(username, password)
+            user_id = self.create_user(username, password, email=email)
             if not user_id:
                 return False, "Audiobookshelf did not return a user id – please verify the server URL/token."
             inv = Invitation.query.filter_by(code=code).first()

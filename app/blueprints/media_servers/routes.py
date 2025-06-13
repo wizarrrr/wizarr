@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, make_response
 from flask_login import login_required
 from app.extensions import db
-from app.models import MediaServer, Library
+from app.models import MediaServer, Library, User
 from app.forms.settings import SettingsForm  # reuse existing form for now
 from app.services.servers import check_plex, check_jellyfin, check_emby, check_audiobookshelf
 from app.services.media.service import scan_libraries_for_server
@@ -129,6 +129,15 @@ def edit_server(server_id):
 def delete_server():
     server_id = request.args.get("delete")
     if server_id:
+        # 1) Delete local DB users that belong to this server so no ghost
+        #    accounts linger once the server entry is gone.
+        (
+            User.query
+            .filter(User.server_id == int(server_id))
+            .delete(synchronize_session=False)
+        )
+
+        # 2) Finally remove the MediaServer itself.
         MediaServer.query.filter_by(id=server_id).delete(synchronize_session=False)
         db.session.commit()
     return "", 204 

@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, render_template, request, redirect, abort, url_for
 from app.services.invites import create_invite
-from app.services.media.service import list_users, delete_user, list_users_all_servers, list_users_for_server, scan_libraries_for_server
+from app.services.media.service import list_users, delete_user, list_users_all_servers, list_users_for_server, scan_libraries_for_server, EMAIL_RE
 from app.services.update_check import check_update_available, get_sponsors
 from app.extensions import db, htmx
 from app.models import Invitation, Settings, User, MediaServer, Library, Identity
@@ -329,10 +329,26 @@ def bulk_delete_users():
 
 # Helper: group and enrich users for display
 def _group_users_for_display(user_list):
-    """Collapse multiple User rows (linked identity or same email) into primary cards."""
-    groups = {}
+    """Collapse multiple User rows into primary cards.
+
+    • Accounts that share the same `identity_id` are always grouped.
+    • If no identity link exists, we *only* group by e-mail when the address
+      looks like a real one according to the same regex used by the automatic
+      linker.  This prevents users imported from Plex/ABS that have blank or
+      placeholder addresses ("None", "", etc.) from being merged together.
+    """
+
+    groups: dict[str, list] = {}
     for u in user_list:
-        key = u.identity_id if u.identity_id else f"email:{u.email}"
+        if u.identity_id:
+            key = f"id:{u.identity_id}"
+        else:
+            email = (u.email or "").strip()
+            if EMAIL_RE.fullmatch(email):
+                key = f"email:{email.lower()}"
+            else:
+                # Fallback to the user record itself → no unintended merging
+                key = f"user:{u.id}"
         groups.setdefault(key, []).append(u)
 
     cards = []
