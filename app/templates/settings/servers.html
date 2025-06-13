@@ -1,0 +1,52 @@
+<div id="create-server-modal"></div>
+
+<section class="py-8 animate__animated animate__fadeIn">
+    <div class="container px-4 mx-auto">
+        <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+            {{ _("Media Servers") }}
+        </h1>
+
+        <div class="grid grid-cols-1 gap-4 animate__animated" id="servers_grid">
+            {% for s in servers %}
+            <div class="mb-4 animate__animated flex flex-col justify-between bg-white dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-xs overflow-hidden border border-gray-200 dark:border-gray-700">
+                <div class="p-4">
+                    <h2 class="text-lg font-medium text-gray-900 dark:text-white">{{ s.name }}</h2>
+                    <div class="mt-2 flex items-center text-sm text-gray-600 dark:text-gray-400">
+                        <span class="mr-4">{{ s.server_type|title }}</span>
+                        <span class="mr-4">{{ s.url }}</span>
+                        <span>{{ '✅' if s.verified else '❌' }}</span>
+                    </div>
+                </div>
+                <div class="flex justify-end p-3 bg-gray-50 dark:bg-gray-700">
+                    <button hx-get="{{ url_for('media_servers.edit_server', server_id=s.id) }}"
+                            hx-target="#create-server-modal" hx-trigger="click"
+                            _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
+                            class="inline-flex items-center justify-center p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 mr-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                        </svg>
+                    </button>
+                    <button hx-delete="{{ url_for('media_servers.delete_server', delete=s.id) }}"
+                            hx-target="#tab-body" hx-swap="innerHTML swap:0.5s"
+                            hx-confirm="Are you sure you wish to delete {{ s.name }} ?"
+                            class="inline-flex items-center justify-center p-2 text-red-500 rounded-lg hover:text-white hover:bg-red-500 dark:text-red-400 dark:hover:text-white dark:hover:bg-red-600">
+                        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="flex items-center justify-center mt-6">
+            <button hx-get="{{ url_for('media_servers.create_server') }}"
+                    hx-target="#create-server-modal"
+                    hx-trigger="click"
+                    _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
+                    class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-hidden focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
+                {{ _("Add Server") }}
+            </button>
+        </div>
+    </div>
+</section> 
