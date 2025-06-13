@@ -61,7 +61,12 @@ def _steps(server: str, cfg: dict):
 
 def _render(post: frontmatter.Post, ctx: dict) -> str:
     from flask import render_template_string
-    md = render_template_string(post.content, **ctx)
+    # Jinja templates inside the markdown files expect a top-level `settings` variable.
+    # Build a context copy that exposes the current config dictionary via this key
+    # while still passing through all existing entries and utilities (e.g. the _() gettext).
+    _vars = ctx.copy()
+    _vars.setdefault("settings", ctx)  # avoid overwriting if already provided
+    md = render_template_string(post.content, **_vars)
     return markdown.markdown(md, extensions=["fenced_code", "tables", "attr_list"])
 
 

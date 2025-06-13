@@ -366,3 +366,71 @@ def _group_users_for_display(user_list):
         primary.allowSync = allow_sync
         cards.append(primary)
     return cards
+
+@admin_bp.route("/user/<int:db_id>/details")
+@login_required
+def user_details_modal(db_id: int):
+    """Return a read-only modal with extended information about a user.
+
+    The modal shows:
+    • Join date (if available)
+    • List of libraries they can access (server-specific)
+    • Policy / configuration flags returned by the MediaClient
+    """
+    import logging
+    from app.services.media.service import get_client_for_media_server
+    from app.models import Library
+
+    user = User.query.get_or_404(db_id)
+
+    # ── Join / creation date ─────────────────────────────────────────────
+    join_date = None
+    if user.identity and user.identity.created_at:
+        join_date = user.identity.created_at
+
+    # Determine all linked accounts (same identity) or fallback to current
+    if user.identity_id:
+        accounts = list(user.identity.accounts)
+    else:
+        accounts = [user]
+
+    accounts_info = []
+
+    for acct in accounts:
+        srv = acct.server
+        info: dict = {
+            "server_type": srv.server_type if srv else "local",
+            "server_name": srv.name if srv else "Local",
+            "username": acct.username,
+            "libraries": None,
+            "policies": None,
+        }
+
+        if srv:
+            try:
+                client = get_client_for_media_server(srv)
+                if hasattr(client, "get_user"):
+                    # Plex helper expects DB row id; others typically expect the upstream user-id which we store in token.
+                    arg = acct.id if srv.server_type == "plex" else acct.token
+                    details = client.get_user(arg)
+                    raw_sections = (details.get("Policy", {}) or {}).get("sections")
+                    if raw_sections and isinstance(raw_sections, (list, tuple, set)):
+                        libs_q = (
+                            Library.query
+                            .filter(Library.external_id.in_(raw_sections), Library.server_id == srv.id)
+                            .order_by(Library.name)
+                            .all()
+                        )
+                        info["libraries"] = [lib.name for lib in libs_q] or list(raw_sections)
+                    info["policies"] = details.get("Configuration") or details.get("Policy")
+            except Exception as exc:
+                logging.error("Failed to fetch user details for account %s/%s: %s", acct.id, acct.username, exc)
+
+        accounts_info.append(info)
+
+    return render_template(
+        "admin/user_details_modal.html",
+        user=user,
+        join_date=join_date,
+        accounts_info=accounts_info,
+    )

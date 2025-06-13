@@ -22,7 +22,7 @@ import re
 import requests
 
 from app.extensions import db
-from app.models import User, Invitation
+from app.models import User, Invitation, Library
 from .client_base import MediaClient, register_media_client
 
 
@@ -228,6 +228,33 @@ class AudiobookshelfClient(MediaClient):
         inv.used_by = user
         db.session.commit()
 
+    def _set_specific_libraries(self, user_id: str, library_ids: List[str]):
+        """Restrict the given *user* to the supplied library IDs.
+
+        If *library_ids* is empty, the account will be granted access to all
+        libraries (ABS default behaviour).
+        """
+        # Fetch current user object so that we do not accidentally wipe other fields
+        try:
+            current = self.get_user(user_id)
+        except Exception as exc:
+            logging.warning("ABS: failed to read user %s – %s", user_id, exc)
+            return
+
+        perms = current.get("permissions", {}) or {}
+        perms["accessAllLibraries"] = False if library_ids else True
+
+        patch = {
+            "permissions": perms,
+            # Root-level list of library IDs that the user may access
+            "librariesAccessible": library_ids if library_ids else [],
+        }
+
+        try:
+            self.update_user(user_id, patch)
+        except Exception:
+            logging.exception("ABS: failed to update permissions for %s", user_id)
+
     def join(self, username: str, password: str, confirm: str, email: str, code: str):
         """Public invite flow for Audiobookshelf users."""
         from sqlalchemy import or_
@@ -258,17 +285,47 @@ class AudiobookshelfClient(MediaClient):
                 return False, "Audiobookshelf did not return a user id – please verify the server URL/token."
             inv = Invitation.query.filter_by(code=code).first()
 
-            # NOTE: Audiobookshelf by default grants access to all
-            # libraries.  Fine for now – per-library restriction could be
-            # added later by using the permissions endpoint.
+            # ------------------------------------------------------------------
+            # 1) Restrict library access (if requested)
+            # ------------------------------------------------------------------
+            if inv.libraries:
+                # Use libraries tied to the invite
+                lib_ids = [lib.external_id for lib in inv.libraries]
+            else:
+                # Fallback to all *enabled* libraries for this server
+                lib_ids = [
+                    lib.external_id
+                    for lib in Library.query.filter_by(
+                        enabled=True,
+                        server_id=inv.server.id if inv.server else None,
+                    ).all()
+                ]
 
-            # 2) Store locally
+            # Apply the permission patch – empty list → all libraries
+            self._set_specific_libraries(user_id, lib_ids)
+
+            # ------------------------------------------------------------------
+            # 2) Calculate expiry time (optional duration on invite)
+            # ------------------------------------------------------------------
+            import datetime as _dt
+
+            expires = None
+            if inv.duration:
+                try:
+                    expires = _dt.datetime.utcnow() + _dt.timedelta(days=int(inv.duration))
+                except Exception:
+                    logging.warning("ABS: invalid duration on invite %s", inv.code)
+
+            # ------------------------------------------------------------------
+            # 3) Store locally
+            # ------------------------------------------------------------------
             local = User(
                 token=user_id,
                 username=username,
                 email=email,
                 code=code,
                 password=self._password_for_db(password),
+                expires=expires,
                 server_id=getattr(self, "server_id", None),
             )
             db.session.add(local)
@@ -279,7 +336,7 @@ class AudiobookshelfClient(MediaClient):
                 logging.exception("ABS join failed during DB commit")
                 return False, "Internal error while saving the account."
 
-            # 3) mark invite used
+            # 4) mark invite used
             self._mark_invite_used(inv, local)
 
             return True, ""
