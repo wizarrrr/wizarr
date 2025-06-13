@@ -19,6 +19,7 @@ class SettingsForm(FlaskForm):
     overseerr_url = StringField("Overseerr/Ombi URL", validators=[Optional(), URL()])
     ombi_api_key  = StringField("Ombi API Key",  validators=[Optional()])
     discord_id    = StringField("Discord ID",    validators=[Optional()])
+    external_url  = StringField("External URL", validators=[Optional()])
     
 
     def __init__(self, install_mode: bool = False, *args, **kwargs):

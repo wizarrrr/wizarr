@@ -26,8 +26,12 @@
                             </select>
                         </div>
                         <div>
-                            <label for="server_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">URL</label>
+                            <label for="server_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">URL (Internal)</label>
                             <input type="text" name="server_url" id="server_url" value="{{ server.url }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required>
+                        </div>
+                        <div>
+                            <label for="external_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">External URL (Optional)</label>
+                            <input type="text" name="external_url" id="external_url" value="{{ server.external_url or '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                         </div>
                         <div>
                             <label for="api_key" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">API Key</label>

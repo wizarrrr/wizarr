@@ -111,6 +111,7 @@ def server_settings():
             existing_server.server_type = data["server_type"]
             existing_server.url = data["server_url"]
             existing_server.api_key = data.get("api_key")
+            existing_server.external_url = data.get("external_url")
             existing_server.allow_downloads_plex = bool(data.get("allow_downloads_plex"))
             existing_server.allow_tv_plex = bool(data.get("allow_tv_plex"))
             existing_server.verified = True
@@ -122,6 +123,7 @@ def server_settings():
                 server_type=data["server_type"],
                 url=data["server_url"],
                 api_key=data.get("api_key"),
+                external_url=data.get("external_url"),
                 allow_downloads_plex=bool(data.get("allow_downloads_plex")),
                 allow_tv_plex=bool(data.get("allow_tv_plex")),
                 verified=True,

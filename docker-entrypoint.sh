@@ -14,16 +14,16 @@ if [ "$(id -u)" = "0" ]; then
   EXISTING_USER="$(getent passwd "$PUID"  | cut -d: -f1 || true)"
   EXISTING_GRP="$(getent group  "$PGID"  | cut -d: -f1 || true)"
 
-  # Decide what account we’ll run as
+  # Decide what account we'll run as
   TARGET_USER="${EXISTING_USER:-wizarruser}"
   TARGET_GRP="${EXISTING_GRP:-wizarrgroup}"
 
-  # Create group only if the GID isn’t taken
+  # Create group only if the GID isn't taken
   if [ -z "$EXISTING_GRP" ]; then
     addgroup -S -g "$PGID" "$TARGET_GRP"
   fi
 
-  # Create user only if the UID isn’t taken
+  # Create user only if the UID isn't taken
   if [ -z "$EXISTING_USER" ]; then
     adduser  -S -G "$TARGET_GRP" -u "$PUID" "$TARGET_USER"
   else
@@ -41,20 +41,36 @@ fi
 echo "[entrypoint] 👍 Running as $(id -un):$(id -gn) ($(id -u):$(id -g))"
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 2) Seed wizard steps if the target is truly empty (no visible files at all)
+# 2) Seed wizard steps per-server
+#
+#   • For every directory inside $DEFAULT (e.g. plex/ jellyfin/ …) we check if
+#     the matching subdir in $TARGET exists **and** contains at least one
+#     visible file.  Only if it's empty (or missing) do we copy in the
+#     defaults for that server type.  This allows users to customise the steps
+#     for one media server without having to keep copies for all others.
 # ─────────────────────────────────────────────────────────────────────────────
+
 TARGET=/data/wizard_steps
 DEFAULT=/opt/default_wizard_steps
 
-# ensure the directory exists
+# ensure both directories exist
 mkdir -p "$TARGET"
 
-# only proceed if DEFAULT has content and TARGET really has zero entries
-if [ -d "$DEFAULT" ] && [ -z "$(find "$TARGET" -mindepth 1 -print -quit)" ]; then
-  echo "[entrypoint] ✨ Seeding default wizard steps into $TARGET…"
-  cp -a "$DEFAULT/." "$TARGET/"
-else
-  echo "[entrypoint] skipping wizard-steps seed (already populated)"
+if [ -d "$DEFAULT" ]; then
+  for src in "$DEFAULT"/*; do
+    [ -d "$src" ] || continue  # skip non-dirs
+    name="$(basename "$src")"
+    dst="$TARGET/$name"
+
+    # The dst folder is considered "empty" if it has no regular files
+    if [ ! -d "$dst" ] || [ -z "$(find "$dst" -type f -print -quit 2>/dev/null)" ]; then
+      echo "[entrypoint] ✨ Seeding default wizard steps for $name…"
+      mkdir -p "$dst"
+      cp -a "$src/." "$dst/"
+    else
+      echo "[entrypoint] ↩️  Custom wizard steps for $name detected – keeping user files"
+    fi
+  done
 fi
 
 # ─────────────────────────────────────────────────────────────────────────────

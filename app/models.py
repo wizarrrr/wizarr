@@ -84,6 +84,7 @@ class MediaServer(db.Model):
     server_type = db.Column(db.String, nullable=False)  # plex, jellyfin, emby, etc.
     url = db.Column(db.String, nullable=False)
     api_key = db.Column(db.String, nullable=True)
+    external_url = db.Column(db.String, nullable=True)  # Optional public address
 
     # Plex‐specific toggles (ignored by other server types)
     allow_downloads_plex = db.Column(db.Boolean, default=False, nullable=False)
