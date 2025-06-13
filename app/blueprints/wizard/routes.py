@@ -3,7 +3,7 @@ from pathlib import Path
 import frontmatter, markdown
 from flask import Blueprint, render_template, abort, request, session, redirect
 from flask_login import current_user
-from app.models import Settings
+from app.models import Settings, MediaServer
 from app.services.ombi_client import run_all_importers
 
 
@@ -21,7 +21,22 @@ def restrict_wizard():
 
 # ─── helpers ────────────────────────────────────────────────────
 def _settings() -> dict[str, str | None]:
-    return {s.key: s.value for s in Settings.query.all()}
+    data = {s.key: s.value for s in Settings.query.all()}
+
+    # Prefer the explicitly configured external URL if present
+    if data.get("external_url"):
+        data.setdefault("server_url", data["external_url"])
+
+    # Otherwise, derive from MediaServer row (external_url -> url)
+    if "server_url" not in data or not data["server_url"]:
+        # Determine server_type preference
+        stype = data.get("server_type")
+        row = (
+            MediaServer.query.filter_by(server_type=stype).first() if stype else MediaServer.query.first()
+        )
+        if row:
+            data["server_url"] = row.external_url or row.url
+    return data
 
 
 def _eligible(post: frontmatter.Post, cfg: dict) -> bool:

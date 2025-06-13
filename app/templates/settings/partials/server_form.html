@@ -68,6 +68,15 @@
             {% endfor %}
           </div>
 
+          {# External URL #}
+          <div>
+            {{ form.external_url.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+            {{ form.external_url(class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", placeholder=_("Optional public address users should visit")) }}
+            {% for err in form.external_url.errors %}
+              <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ err }}</p>
+            {% endfor %}
+          </div>
+
           {# API Key #}
           <div>
             {{ form.api_key.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
