@@ -409,20 +409,62 @@ def user_details_modal(db_id: int):
         if srv:
             try:
                 client = get_client_for_media_server(srv)
-                if hasattr(client, "get_user"):
-                    # Plex helper expects DB row id; others typically expect the upstream user-id which we store in token.
-                    arg = acct.id if srv.server_type == "plex" else acct.token
-                    details = client.get_user(arg)
-                    raw_sections = (details.get("Policy", {}) or {}).get("sections")
-                    if raw_sections and isinstance(raw_sections, (list, tuple, set)):
-                        libs_q = (
-                            Library.query
-                            .filter(Library.external_id.in_(raw_sections), Library.server_id == srv.id)
-                            .order_by(Library.name)
-                            .all()
-                        )
-                        info["libraries"] = [lib.name for lib in libs_q] or list(raw_sections)
-                    info["policies"] = details.get("Configuration") or details.get("Policy")
+                if not hasattr(client, "get_user"):
+                    raise AttributeError("Client lacks get_user()")
+
+                # Plex helper expects DB row id; others typically use upstream id stored in token.
+                user_arg = acct.id if srv.server_type == "plex" else acct.token
+                details = client.get_user(user_arg)
+
+                lib_ids: list[str] | None = None
+
+                if srv.server_type == "plex":
+                    # Custom API wrapper returns Policy.sections
+                    lib_ids = (details.get("Policy", {}) or {}).get("sections") or []
+
+                elif srv.server_type in ("jellyfin", "emby"):
+                    pol = details.get("Policy", {}) or {}
+                    enable_all = pol.get("EnableAllFolders", False)
+                    enabled = pol.get("EnabledFolders", []) or []
+                    if not enable_all and enabled:
+                        lib_ids = enabled
+                    else:
+                        # access to all – fallback to None to trigger 'all' UI
+                        lib_ids = None
+
+                elif srv.server_type in ("audiobookshelf", "abs"):
+                    all_flag = (details.get("permissions", {}) or {}).get("accessAllLibraries", False)
+                    enabled = details.get("librariesAccessible", []) or []
+                    if not all_flag and enabled:
+                        lib_ids = enabled
+                    else:
+                        lib_ids = None  # all libraries
+
+                # Map IDs to names when possible
+                if lib_ids is not None:
+                    libs_q = (
+                        Library.query
+                        .filter(Library.external_id.in_(lib_ids), Library.server_id == srv.id)
+                        .order_by(Library.name)
+                        .all()
+                    )
+                    names = [lib.name for lib in libs_q]
+                    # Preserve IDs with no matching DB row so user sees something
+                    missing = [lid for lid in lib_ids if lid not in {l.external_id for l in libs_q}]
+                    info["libraries"] = names + missing
+                else:
+                    # lib_ids None means full access – pick all enabled libs for server
+                    libs_q = (
+                        Library.query
+                        .filter_by(server_id=srv.id)
+                        .order_by(Library.name)
+                        .all()
+                    )
+                    info["libraries"] = [lib.name for lib in libs_q]
+
+                # Store policies / config for optional display
+                info["policies"] = details.get("Configuration") or details.get("Policy") or details.get("permissions")
+
             except Exception as exc:
                 logging.error("Failed to fetch user details for account %s/%s: %s", acct.id, acct.username, exc)
 
