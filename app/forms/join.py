@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, Regexp
+from wtforms.validators import DataRequired, Optional, Length, Email, EqualTo, Regexp
 
 
 class JoinForm(FlaskForm):
@@ -9,8 +9,8 @@ class JoinForm(FlaskForm):
         validators=[DataRequired()],
     )
     email = StringField(
-        "Email",
-        validators=[DataRequired(), Email()],
+        "Email (optional)",
+        validators=[Optional(), Email()],
     )
     password = PasswordField(
         "Password",
