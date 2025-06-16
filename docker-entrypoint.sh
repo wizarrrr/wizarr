@@ -6,6 +6,8 @@ echo "[entrypoint] 🚀 Starting Wizarr container…"
 # ───────── 1) Create or reuse the chosen UID/GID ──────────
 PUID="${PUID:-1000}"
 PGID="${PGID:-1000}"
+DEFAULT_UID=1000
+DEFAULT_GID=1000
 
 if [ "$(id -u)" = "0" ]; then
   echo "[entrypoint] 👤 Wanted UID=$PUID  GID=$PGID"
