@@ -32,7 +32,17 @@ if [ "$(id -u)" = "0" ]; then
   fi
 
   # Fix ownership of bind-mounts
-  chown -R "$TARGET_USER":"$TARGET_GRP" /data /.cache /opt/default_wizard_steps
+  if [ "$PUID:$PGID" != "$DEFAULT_UID:$DEFAULT_GID" ]; then
+    echo "[entrypoint] ⚙️  Fixing ownership for custom UID/GID…"
+    # Only recurse into the truly live dirs
+    chown -R "$TARGET_USER":"$TARGET_GRP" \
+      /data/database /data/wizard_steps /.cache /opt/default_wizard_steps
+
+    find /data -type d -not -user "$PUID" \
+      -exec chown "$PUID":"$PGID" {} +
+  else
+    echo "[entrypoint] ⚙️  Default UID/GID; skipping chown."
+  fi
 
   # Re-exec as that user
   exec su-exec "$TARGET_USER":"$TARGET_GRP" "$0" "$@"

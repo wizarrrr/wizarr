@@ -16,8 +16,9 @@ RUN apk add --no-cache curl tzdata nodejs npm su-exec
 # Set up the working directory for our code. We'll put everything under /data.
 WORKDIR /data
 
-# Copy the entire build context (your source code) into /data.
-COPY . /data
+# Copy your source as UID 1000/GID 1000 at build time,
+# so default users never need a runtime chown.
+COPY --chown=1000:1000 . /data
 
 # ─── 3. Run your build steps (still as root) ───────────────────────────────
 
