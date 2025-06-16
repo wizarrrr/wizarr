@@ -13,6 +13,17 @@ BASE_DIR  = Path(__file__).resolve().parent.parent.parent.parent / "wizard_steps
 # Only allow access right after signup or when logged in
 @wizard_bp.before_request
 def restrict_wizard():
+    # Determine if the Wizard ACL is enabled (default: True)
+    acl_row = Settings.query.filter_by(key="wizard_acl_enabled").first()
+    acl_enabled = True  # default behaviour – restrict access
+    if acl_row and acl_row.value is not None:
+        acl_enabled = str(acl_row.value).lower() != "false"
+
+    # Skip further checks if the ACL feature is disabled
+    if not acl_enabled:
+        return  # Allow everyone
+
+    # Enforce ACL: allow only authenticated users or invited sessions
     if current_user.is_authenticated:
         return
     if not session.get("wizard_access"):
@@ -107,7 +118,7 @@ def start():
             server_type = inv.server.server_type
 
     if not server_type:
-        server_type = _settings().get("server_type", "plex") or "plex"
+        server_type = _clear().get("server_type", "plex") or "plex"
 
     return _serve(server_type, 0)
 
