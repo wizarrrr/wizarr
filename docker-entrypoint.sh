@@ -4,10 +4,10 @@ set -eu
 echo "[entrypoint] 🚀 Starting Wizarr container…"
 
 # ───────── 1) Create or reuse the chosen UID/GID ──────────
-PUID="${PUID:-1000}"
-PGID="${PGID:-1000}"
-DEFAULT_UID=1000
-DEFAULT_GID=1000
+DEFAULT_UID='1000'
+DEFAULT_GID='1000'
+PUID="${PUID:-$DEFAULT_UID}"
+PGID="${PGID:-$DEFAULT_GID}"
 
 if [ "$(id -u)" = "0" ]; then
   echo "[entrypoint] 👤 Wanted UID=$PUID  GID=$PGID"
@@ -33,12 +33,14 @@ if [ "$(id -u)" = "0" ]; then
     adduser "$EXISTING_USER" "$TARGET_GRP" || true
   fi
 
+  # Only recurse into the truly live dirs
+  echo "[entrypoint] ⚙️  Fixing ownership for bind mounts…"
+  chown -R "$TARGET_USER":"$TARGET_GRP" \
+    /data/database /data/wizard_steps /.cache /opt/default_wizard_steps
+
   # Fix ownership of bind-mounts
   if [ "$PUID:$PGID" != "$DEFAULT_UID:$DEFAULT_GID" ]; then
     echo "[entrypoint] ⚙️  Fixing ownership for custom UID/GID…"
-    # Only recurse into the truly live dirs
-    chown -R "$TARGET_USER":"$TARGET_GRP" \
-      /data/database /data/wizard_steps /.cache /opt/default_wizard_steps
 
     find /data -type d -not -user "$PUID" \
       -exec chown "$PUID":"$PGID" {} +
