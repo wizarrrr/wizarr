@@ -20,10 +20,10 @@ def _load_settings() -> dict:
     settings = {s.key: s.value for s in Settings.query.all()}
     
     # Convert specific boolean fields from strings to booleans
-    boolean_fields = ["allow_downloads_plex", "allow_tv_plex"]
+    boolean_fields = ["allow_downloads_plex", "allow_tv_plex", "wizard_acl_enabled"]
     for field in boolean_fields:
-        if field in settings:
-            settings[field] = settings[field].lower() == "true"
+        if field in settings and settings[field] is not None:
+            settings[field] = str(settings[field]).lower() == "true"
     
     return settings
 
