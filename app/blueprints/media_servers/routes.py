@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, make_response
+from flask import Blueprint, render_template, request, redirect, url_for, flash, make_response, jsonify, render_template_string
 from flask_login import login_required
 from app.extensions import db
 from app.models import MediaServer, Library, User
@@ -142,4 +142,43 @@ def delete_server():
         # 2) Finally remove the MediaServer itself.
         MediaServer.query.filter_by(id=server_id).delete(synchronize_session=False)
         db.session.commit()
-    return "", 204 
+    return "", 204
+
+
+# -------------------------- NEW ENDPOINT ---------------------------
+# Quick connectivity check for a given server. Returns {connected: bool, error: str}
+# This is used by the settings UI to display real-time connection status on page load.
+
+
+@media_servers_bp.get("/<int:server_id>/ping")
+@login_required
+def ping_server(server_id):
+    """Return JSON reflecting whether a media server is currently reachable."""
+    server = MediaServer.query.get_or_404(server_id)
+
+    ok, error_msg = _check_connection(
+        {
+            "server_type": server.server_type,
+            "server_url": server.url,
+            "api_key": server.api_key,
+        }
+    )
+
+    # If HTMX request, return a badge HTML snippet so it can replace itself.
+    if request.headers.get("HX-Request"):
+        if ok:
+            cls = "bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100"
+            text = "Connected"
+        else:
+            cls = "bg-red-100 text-red-800 dark:bg-red-700 dark:text-red-100"
+            text = "Connection Error"
+
+        snippet = render_template_string(
+            '<span class="inline-flex rounded-full px-2 py-0.5 text-xs font-medium ' + cls + '" title="{{ error_msg }}">{{ text }}</span>',
+            text=text,
+            error_msg=error_msg or ""
+        )
+        return snippet
+
+    # Non-HTMX fallback (e.g., API call)
+    return jsonify({"connected": ok, "error": error_msg if not ok else None}) 

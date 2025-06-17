@@ -8,15 +8,59 @@
 
         <div class="grid grid-cols-1 gap-4 animate__animated" id="servers_grid">
             {% for s in servers %}
-            <div class="mb-4 animate__animated flex flex-col justify-between bg-white dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-xs overflow-hidden border border-gray-200 dark:border-gray-700">
+            <div class="mb-4 animate__animated flex flex-col justify-between bg-white dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-xs overflow-hidden border border-gray-200 dark:border-gray-700" data-server-id="{{ s.id }}">
                 <div class="p-4">
-                    <h2 class="text-lg font-medium text-gray-900 dark:text-white">{{ s.name }}</h2>
-                    <div class="mt-2 flex items-center text-sm text-gray-600 dark:text-gray-400">
-                        <span class="mr-4">{{ s.server_type|title }}</span>
-                        <span class="mr-4">{{ s.url }}</span>
-                        <span>{{ '✅' if s.verified else '❌' }}</span>
+                    <!-- Header -->
+                    <div class="flex justify-between items-start mb-3">
+                        <h2 class="text-lg font-medium text-gray-900 dark:text-white truncate" title="{{ s.name }}">{{ s.name }}</h2>
+                        <span class="text-xs inline-block font-medium px-1.5 py-0.5 rounded
+                            {% if s.server_type in ['plex'] %}bg-orange-100 text-orange-800 dark:bg-orange-600 dark:text-white
+                            {% elif s.server_type in ['audiobookshelf','abs'] %}bg-blue-100 text-blue-800 dark:bg-blue-600 dark:text-white
+                            {% else %}bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200{% endif %}">
+                            {{ s.server_type|title }}
+                        </span>
+                    </div>
+
+                    <!-- Details -->
+                    <div class="space-y-2 text-sm text-gray-500 dark:text-gray-400">
+                        <!-- URL -->
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.293 2.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-8 8a1 1 0 01-.707.293H5a1 1 0 01-1-1v-4a1 1 0 01.293-.707l8-8zM5 12v3h3l7-7-3-3-7 7z"></path>
+                            </svg>
+                            <a href="{{ s.url }}" target="_blank" rel="noopener" class="truncate hover:underline text-primary dark:text-primary_hover">{{ s.url }}</a>
+                        </div>
+
+                        <!-- Verification Status -->
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-1.5 {% if s.verified %}text-green-500{% else %}text-red-500{% endif %}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                {% if s.verified %}
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                {% else %}
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.536-10.121a1 1 0 00-1.414-1.414L10 8.586 7.879 6.465a1 1 0 00-1.414 1.414L8.586 10l-2.121 2.121a1 1 0 001.414 1.414L10 11.414l2.121 2.121a1 1 0 001.414-1.414L11.414 10l2.122-2.121z" clip-rule="evenodd"></path>
+                                {% endif %}
+                            </svg>
+                            <span class="ml-1 inline-flex rounded-full px-2 py-0.5 text-xs font-medium
+                                {% if s.verified %}bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100
+                                {% else %}bg-red-100 text-red-800 dark:bg-red-700 dark:text-red-100{% endif %}">
+                                {{ _("Verified") if s.verified else _("Unverified") }}
+                            </span>
+
+                            <!-- Connection status badge (auto-updates via HTMX) -->
+                            <span hx-get="{{ url_for('media_servers.ping_server', server_id=s.id) }}"
+                                  hx-trigger="load"
+                                  hx-swap="outerHTML"
+                                  class="ml-2 inline-flex rounded-full px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100">
+                                {{ _("Checking...") }}
+                            </span>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Divider -->
+                <hr class="border-t border-gray-200 dark:border-gray-700" />
+
+                <!-- Actions -->
                 <div class="flex justify-end p-3 bg-gray-50 dark:bg-gray-700">
                     <button hx-get="{{ url_for('media_servers.edit_server', server_id=s.id) }}"
                             hx-target="#create-server-modal" hx-trigger="click"
