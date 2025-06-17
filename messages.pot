@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-16 04:01+0000\n"
+"POT-Creation-Date: 2025-06-17 03:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -336,7 +336,7 @@ msgstr ""
 
 #: app/templates/admin/user_modal.html:48
 #: app/templates/modals/edit-server.html:58
-#: app/templates/settings/general.html:28
+#: app/templates/settings/general.html:72
 #: app/templates/settings/partials/server_form.html:184
 msgid "Save"
 msgstr ""
@@ -402,8 +402,33 @@ msgstr ""
 msgid "Edit Server"
 msgstr ""
 
-#: app/templates/settings/general.html:5
+#: app/templates/settings/general.html:7
 msgid "General Settings"
+msgstr ""
+
+#: app/templates/settings/general.html:16
+msgid "Display"
+msgstr ""
+
+#: app/templates/settings/general.html:26
+msgid "Integrations"
+msgstr ""
+
+#: app/templates/settings/general.html:31
+#: app/templates/settings/general.html:41
+#: app/templates/settings/general.html:54
+#: app/templates/settings/partials/server_form.html:146
+#: app/templates/settings/partials/server_form.html:159
+#: app/templates/settings/partials/server_form.html:171
+msgid "Optional, leave empty to disable"
+msgstr ""
+
+#: app/templates/settings/general.html:49
+msgid "Community"
+msgstr ""
+
+#: app/templates/settings/general.html:62
+msgid "Access Control"
 msgstr ""
 
 #: app/templates/settings/index.html:24
@@ -436,12 +461,6 @@ msgstr ""
 
 #: app/templates/settings/partials/server_form.html:74
 msgid "Optional public address users should visit"
-msgstr ""
-
-#: app/templates/settings/partials/server_form.html:146
-#: app/templates/settings/partials/server_form.html:159
-#: app/templates/settings/partials/server_form.html:171
-msgid "Optional, leave empty to disable"
 msgstr ""
 
 #: app/templates/setup/admin_account.html:14
