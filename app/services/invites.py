@@ -6,15 +6,24 @@ from typing import Any, Tuple
 from app.extensions import db
 from app.models import Invitation, Library, MediaServer
 
-CODESIZE = 10
+MIN_CODESIZE = 6  # Minimum allowed invite code length
+MAX_CODESIZE = 10  # Maximum allowed invite code length (default for generated codes)
 CODESET = string.ascii_uppercase + string.digits
+
+# Backwards-compat alias for existing usages
+CODESIZE = MAX_CODESIZE
 
 
 def _generate_code() -> str:
-    return "".join(secrets.choice(CODESET) for _ in range(CODESIZE))
+    """Generate a random invite code using the full *maximum* length (10 characters)."""
+    return "".join(secrets.choice(CODESET) for _ in range(MAX_CODESIZE))
 
 
 def is_invite_valid(code: str) -> Tuple[bool, str]:
+    # Quick length sanity check before hitting DB
+    if not (MIN_CODESIZE <= len(code) <= MAX_CODESIZE):
+        return False, "Invalid code length"
+
     # Try to load the Invitation by code (case-insensitive)
     invitation = Invitation.query.filter(
         db.func.lower(Invitation.code) == code.lower()  # case insensitive
@@ -33,7 +42,8 @@ def create_invite(form: Any) -> Invitation:
     """Takes a WTForms or dict-like `form` with the same keys as your old version."""
     # generate or validate provided code
     code = (form.get("code") or _generate_code()).upper()
-    if len(code) != CODESIZE or Invitation.query.filter_by(code=code).first():
+
+    if not (MIN_CODESIZE <= len(code) <= MAX_CODESIZE) or Invitation.query.filter_by(code=code).first():
         raise ValueError("Invalid or duplicate code")
 
     now = datetime.datetime.now()
