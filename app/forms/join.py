@@ -29,5 +29,6 @@ class JoinForm(FlaskForm):
     )
     code = StringField(
         "Invite Code",
-        validators=[DataRequired()],
+        validators=[DataRequired(), Length(min=6, max=10)],
+        render_kw={"minlength": 6, "maxlength": 10},
     )
