@@ -219,7 +219,19 @@ def user_detail(db_id: int):
         # Re-render the grid the same way /users/table does
         all_dict = list_users_all_servers()
         users_flat = [u for lst in all_dict.values() for u in lst]
-        return render_template('tables/user_card.html', users=_group_users_for_display(users_flat))
+        response = render_template('tables/user_card.html', users=_group_users_for_display(users_flat))
+        # Add a script to close the modal after swap
+        response += """
+<script>
+  setTimeout(function() {
+    var modal = document.getElementById('modal');
+    if (modal) modal.classList.add('hidden');
+    var modalUser = document.getElementById('modal-user');
+    if (modalUser) while (modalUser.firstChild) { modalUser.removeChild(modalUser.firstChild); }
+  }, 50);
+</script>
+"""
+        return response
 
     # ── GET → serve the compact modal ─────────────────────────────
     return render_template("admin/user_modal.html", user=user)
@@ -476,3 +488,39 @@ def user_details_modal(db_id: int):
         join_date=join_date,
         accounts_info=accounts_info,
     )
+
+# ──────────────────────────────────────────────────────────────────────
+# Identity nickname editor
+
+
+@admin_bp.route('/identity/<int:identity_id>', methods=['GET', 'POST'])
+@login_required
+def edit_identity(identity_id):
+    """Create / update a nickname for an Identity row via HTMX modal."""
+    from app.models import Identity
+    identity = Identity.query.get_or_404(identity_id)
+
+    if request.method == 'POST':
+        nickname = request.form.get('nickname', '').strip() or None
+        identity.nickname = nickname
+        db.session.commit()
+
+        # After save, re-render the user cards grid (same as other actions)
+        all_dict = list_users_all_servers()
+        users_flat = [u for lst in all_dict.values() for u in lst]
+        response = render_template('tables/user_card.html', users=_group_users_for_display(users_flat))
+        # Add a script to close the modal after swap
+        response += """
+<script>
+  setTimeout(function() {
+    var modal = document.getElementById('modal');
+    if (modal) modal.classList.add('hidden');
+    var modalUser = document.getElementById('modal-user');
+    if (modalUser) while (modalUser.firstChild) { modalUser.removeChild(modalUser.firstChild); }
+  }, 50);
+</script>
+"""
+        return response
+
+    # GET → return modal form
+    return render_template('modals/edit-identity.html', identity=identity)

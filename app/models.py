@@ -119,4 +119,5 @@ class Identity(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     primary_email = db.Column(db.String, nullable=True)
     primary_username = db.Column(db.String, nullable=True)
+    nickname = db.Column(db.String, nullable=True)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
