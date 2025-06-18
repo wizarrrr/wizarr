@@ -100,7 +100,7 @@ class Library(db.Model):
     __tablename__ = "library"
 
     id = db.Column(db.Integer, primary_key=True)
-    external_id = db.Column(db.String, unique=True, nullable=False)  # e.g. Plex folder ID
+    external_id = db.Column(db.String, nullable=False)  # e.g. Plex folder ID
     name = db.Column(db.String, nullable=False)
     enabled = db.Column(db.Boolean, default=True, nullable=False)
     server_id = db.Column(db.Integer, db.ForeignKey('media_server.id'), nullable=True)
@@ -111,6 +111,10 @@ class Library(db.Model):
         "Invitation",
         secondary=invite_libraries,
         back_populates="libraries",
+    )
+
+    __table_args__ = (
+        db.UniqueConstraint("external_id", "server_id", name="uq_library_external_server"),
     )
 
 
