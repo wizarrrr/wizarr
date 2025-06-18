@@ -141,9 +141,16 @@ def server_settings():
             if MediaServer.query.count() == 1:
                 print("Setup mode: redirecting to dashboard (first server added)")
                 session.pop("in_setup", None)
-            resp = make_response("", 204)
-            resp.headers["HX-Redirect"] = url_for("admin.dashboard")
-            return resp
+
+            # HTMX requests honour HX-Redirect header, regular form POSTs need a
+            # classic HTTP redirect.  Support both so users are never stuck on
+            # the settings page after first-time setup.
+            if request.headers.get("HX-Request"):
+                resp = make_response("", 204)
+                resp.headers["HX-Redirect"] = url_for("admin.dashboard")
+                return resp
+            else:
+                return redirect(url_for("admin.dashboard"))
         # re-render form in normal mode
         prechecked = set(chosen)
 
