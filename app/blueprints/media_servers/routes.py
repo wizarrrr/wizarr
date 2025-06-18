@@ -57,9 +57,8 @@ def create_server():
         chosen = request.form.getlist('libraries')
         if chosen:
             for fid in chosen:
-                lib = Library.query.filter_by(external_id=fid).first()
+                lib = Library.query.filter_by(external_id=fid, server_id=server.id).first()
                 if lib:
-                    lib.server_id = server.id
                     lib.enabled = True
                 else:
                     db.session.add(Library(external_id=fid, name=fid, server_id=server.id, enabled=True))
