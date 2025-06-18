@@ -1,0 +1,19 @@
+<div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate__animated animate__fadeIn">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-md">
+    <div class="p-6">
+      <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">{{ _("Edit Identity") }}</h2>
+      <form hx-post="{{ url_for('admin.edit_identity', identity_id=identity.id) }}" hx-target="#user_table" hx-swap="outerHTML swap:0.5s">
+        <div class="mb-4">
+          <label for="nickname" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ _("Nickname") }}</label>
+          <input type="text" id="nickname" name="nickname" value="{{ identity.nickname or '' }}"
+                 class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-primary focus:ring-primary sm:text-sm" placeholder="Enter nickname">
+        </div>
+        <div class="flex justify-end space-x-2">
+          <button type="button" onclick="document.getElementById('modal').classList.add('hidden')"
+                  class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">{{ _("Cancel") }}</button>
+          <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary_hover focus:outline-none">{{ _("Save") }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> 
