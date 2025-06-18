@@ -24,17 +24,32 @@ def upgrade():
     conn = op.get_bind()
     insp = sa.inspect(conn)
 
-    # Detect the current unique constraint name on external_id (varies per DB)
+    # Attempt to locate the single-column unique constraint on external_id.
+    # We check both exact list equality and 1-item set match to be safe.
     old_uq_name = None
-    for uq in insp.get_unique_constraints('library'):
-        if uq.get("column_names") == ["external_id"]:
+    for uq in insp.get_unique_constraints("library"):
+        cols = uq.get("column_names") or []
+        if len(cols) == 1 and cols[0] == "external_id":
             old_uq_name = uq["name"]
             break
+
+    # Some SQLite DDL auto-generates an index like "sqlite_autoindex_library_1".
+    # If we didn't find it via inspector, fall back to that conventional name so
+    # batch_op.drop_constraint works for most databases.
+    fallback_names = ["uq_library_external_id", "external_id", "sqlite_autoindex_library_1"]
 
     # Use batch mode so SQLite can handle the changes
     with op.batch_alter_table("library", schema=None) as batch_op:
         if old_uq_name:
             batch_op.drop_constraint(old_uq_name, type_="unique")
+        else:
+            for nm in fallback_names:
+                try:
+                    batch_op.drop_constraint(nm, type_="unique")
+                    break
+                except Exception:
+                    # Ignore if this name doesn't exist in the target DB
+                    pass
         batch_op.create_unique_constraint(
             "uq_library_external_server", ["external_id", "server_id"]
         )
