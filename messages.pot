@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-18 03:56+0000\n"
+"POT-Creation-Date: 2025-06-19 03:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,11 +21,11 @@ msgstr ""
 msgid "Invalid username or password"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:182
+#: app/blueprints/settings/routes.py:189
 msgid "Library scan failed"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:212
+#: app/blueprints/settings/routes.py:219
 msgid "Settings saved successfully!"
 msgstr ""
 
@@ -145,7 +145,7 @@ msgstr ""
 msgid "Join the Plex Server"
 msgstr ""
 
-#: app/templates/tables/user_card.html:63 app/templates/user-plex-login.html:29
+#: app/templates/tables/user_card.html:81 app/templates/user-plex-login.html:29
 #: app/templates/user-plex-login.html:40
 msgid "Invite Code"
 msgstr ""
@@ -209,7 +209,7 @@ msgid "1 month"
 msgstr ""
 
 #: app/templates/admin/invite.html:55 app/templates/tables/invite_card.html:63
-#: app/templates/tables/user_card.html:52
+#: app/templates/tables/user_card.html:70
 msgid "Never"
 msgstr ""
 
@@ -253,7 +253,7 @@ msgid "Invite to Plex Home"
 msgstr ""
 
 #: app/templates/admin/invite.html:194 app/templates/tables/invite_card.html:99
-#: app/templates/tables/user_card.html:73
+#: app/templates/tables/user_card.html:91
 msgid "Allow Downloads"
 msgstr ""
 
@@ -330,11 +330,13 @@ msgstr ""
 #: app/templates/admin/user_modal.html:41
 #: app/templates/modals/create-notification-agent.html:86
 #: app/templates/modals/create-server.html:56
+#: app/templates/modals/edit-identity.html:13
 #: app/templates/modals/edit-server.html:59
 msgid "Cancel"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:48
+#: app/templates/modals/edit-identity.html:14
 #: app/templates/modals/edit-server.html:58
 #: app/templates/settings/general.html:72
 #: app/templates/settings/partials/server_form.html:184
@@ -396,6 +398,14 @@ msgstr ""
 
 #: app/templates/modals/create-server.html:55
 msgid "Test & Add"
+msgstr ""
+
+#: app/templates/modals/edit-identity.html:4
+msgid "Edit Identity"
+msgstr ""
+
+#: app/templates/modals/edit-identity.html:7
+msgid "Nickname"
 msgstr ""
 
 #: app/templates/modals/edit-server.html:10
@@ -497,7 +507,7 @@ msgid "Created"
 msgstr ""
 
 #: app/templates/tables/invite_card.html:47
-#: app/templates/tables/user_card.html:45
+#: app/templates/tables/user_card.html:63
 msgid "Expires"
 msgstr ""
 
