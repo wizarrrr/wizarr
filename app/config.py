@@ -63,7 +63,7 @@ class BaseConfig:
         "pl": "polish",
     }
     BABEL_DEFAULT_LOCALE = "en"
-    BABEL_TRANSLATION_DIRECTORIES = str(BASE_DIR / "translations")
+    BABEL_TRANSLATION_DIRECTORIES = str(BASE_DIR / "app" / "translations")
     # Scheduler
     SCHEDULER_API_ENABLED = True
     # SQLAlchemy

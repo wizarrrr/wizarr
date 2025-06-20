@@ -81,3 +81,29 @@ def check_audiobookshelf(url: str, token: str) -> tuple[bool, str]:
         return True, ""
     except Exception as e:
         return handle_connection_error(e, _("Audiobookshelf"))
+
+# ---------------------------------------------------------------------------
+# RomM – new media-server backend
+# ---------------------------------------------------------------------------
+
+def check_romm(url: str, token: str) -> tuple[bool, str]:
+    """Quick connectivity check for a RomM instance.
+
+    We perform a lightweight GET request to ``/api/platforms`` which is
+    available to any authenticated user and returns a list of platforms in
+    JSON.  When *token* is set we send it as a *Bearer* header.
+    """
+    try:
+        headers = {"Accept": "application/json"}
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
+
+        resp = requests.get(f"{url.rstrip('/')}/api/platforms", headers=headers, timeout=10)
+        if resp.status_code != 200:
+            raise ServerResponseError(resp.status_code, resp.url)
+        # Basic sanity check – ensure response is JSON list
+        if not isinstance(resp.json(), list):
+            raise ValueError("Unexpected RomM response format")
+        return True, ""
+    except Exception as e:
+        return handle_connection_error(e, _("RomM"))

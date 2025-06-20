@@ -132,3 +132,59 @@ class MediaClient(ABC):
     @abstractmethod
     def get_user(self, *args, **kwargs):
         raise NotImplementedError
+
+# ---------------------------------------------------------------------------
+# Shared helpers for simple REST JSON backends
+# ---------------------------------------------------------------------------
+
+
+import logging
+import requests
+
+
+class RestApiMixin(MediaClient):
+    """Mixin that adds minimal HTTP helpers for JSON-based REST APIs.
+
+    Subclasses only need to implement ``_headers`` if they require
+    authentication headers beyond the defaults.  The mixin centralises
+    logging, error handling and URL joining so individual back-ends can keep
+    their method bodies small and readable.
+    """
+
+    # ------------------------------------------------------------------
+    # Customisation hooks
+    # ------------------------------------------------------------------
+
+    def _headers(self) -> dict[str, str]:  # noqa: D401
+        """Return default headers for every request (override as needed)."""
+        return {
+            "Accept": "application/json",
+        }
+
+    # ------------------------------------------------------------------
+    # Thin wrappers around ``requests`` so subclasses never import it
+    # ------------------------------------------------------------------
+
+    def _request(self, method: str, path: str, **kwargs):
+        url = f"{self.url.rstrip('/')}{path}"
+        hdrs = {**self._headers(), **kwargs.pop("headers", {})}
+
+        logging.info("%s %s", method.upper(), url)
+        resp = requests.request(method, url, headers=hdrs, timeout=10, **kwargs)
+        logging.info("→ %s", resp.status_code)
+        resp.raise_for_status()
+        return resp
+
+    # Convenience helpers ------------------------------------------------
+
+    def get(self, path: str, **kwargs):
+        return self._request("GET", path, **kwargs)
+
+    def post(self, path: str, **kwargs):
+        return self._request("POST", path, **kwargs)
+
+    def patch(self, path: str, **kwargs):
+        return self._request("PATCH", path, **kwargs)
+
+    def delete(self, path: str, **kwargs):
+        return self._request("DELETE", path, **kwargs)

@@ -118,7 +118,7 @@ def start():
             server_type = inv.server.server_type
 
     if not server_type:
-        server_type = _clear().get("server_type", "plex") or "plex"
+        server_type = _settings().get("server_type", "plex") or "plex"
 
     return _serve(server_type, 0)
 

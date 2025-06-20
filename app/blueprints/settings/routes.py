@@ -10,7 +10,7 @@ from app.services.media.service import scan_libraries as scan_media
 from ...models import Settings, Library, MediaServer
 from ...forms.settings import SettingsForm
 from ...forms.general import GeneralSettingsForm
-from ...services.servers  import check_plex, check_jellyfin, check_emby, check_audiobookshelf
+from ...services.servers  import check_plex, check_jellyfin, check_emby, check_audiobookshelf, check_romm
 from ...extensions import db
 
 settings_bp = Blueprint("settings", __name__, url_prefix="/settings")
@@ -53,6 +53,8 @@ def _check_server_connection(data: dict) -> tuple[bool, str]:
         return check_emby(data["server_url"], data["api_key"])
     elif stype == "audiobookshelf":
         return check_audiobookshelf(data["server_url"], data["api_key"])
+    elif stype == "romm":
+        return check_romm(data["server_url"], data["api_key"])
     else:
         return check_jellyfin(data["server_url"], data["api_key"])
 
