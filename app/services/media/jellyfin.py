@@ -9,13 +9,13 @@ from app.extensions import db
 from app.models import Invitation, User, Settings, Library
 from app.services.notifications import notify
 from app.services.invites import is_invite_valid
-from .client_base import MediaClient, register_media_client
+from .client_base import RestApiMixin, register_media_client
 
 EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 
 
 @register_media_client("jellyfin")
-class JellyfinClient(MediaClient):
+class JellyfinClient(RestApiMixin):
     """Wrapper around the Jellyfin REST API using credentials from Settings."""
 
     def __init__(self, *args, **kwargs):
@@ -27,32 +27,10 @@ class JellyfinClient(MediaClient):
 
         super().__init__(*args, **kwargs)
 
-    @property
-    def hdrs(self):
-        return {"X-Emby-Token": self.token}
+    # RestApiMixin overrides -------------------------------------------
 
-    def get(self, path: str):
-        r = requests.get(f"{self.url}{path}", headers=self.hdrs, timeout=10)
-        logging.info("GET  %s%s → %s", self.url, path, r.status_code)
-        r.raise_for_status()
-        return r
-
-    def post(self, path: str, payload: dict):
-        r = requests.post(
-            f"{self.url}{path}",
-            json=payload,
-            headers=self.hdrs,
-            timeout=10
-        )
-        logging.info("POST %s%s → %s", self.url, path, r.status_code)
-        r.raise_for_status()
-        return r
-
-    def delete(self, path: str):
-        r = requests.delete(f"{self.url}{path}", headers=self.hdrs, timeout=10)
-        logging.info("DEL  %s%s → %s", self.url, path, r.status_code)
-        r.raise_for_status()
-        return r
+    def _headers(self) -> dict[str, str]:  # type: ignore[override]
+        return {"X-Emby-Token": self.token} if self.token else {}
 
     def libraries(self) -> dict[str, str]:
         return {

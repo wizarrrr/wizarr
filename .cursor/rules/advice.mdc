@@ -53,3 +53,27 @@ ________
 BELOW IS MEMORY
 ________
 
+Media-Server Integration Checklist
+
+    • When adding a new media-server backend (e.g. RomM) ensure **all** of the following are updated so it appears and functions across the UI:
+        1. Create a client subclass in `app/services/media/<name>.py` and register it via `@register_media_client`.
+        2. Import that client in `app/services/media/__init__.py` so registration occurs at import time.
+        3. Implement a `check_<name>()` helper in `app/services/servers.py` for lightweight connectivity tests.
+        4. Extend `_check_connection()` in `app/blueprints/media_servers/routes.py` to call the new helper.
+        5. Add the server type to `SettingsForm` choices (`app/forms/settings.py`).
+        6. Add the `<option value="<name>">` entry in the following templates so the option is visible:
+            • `app/templates/modals/create-server.html`
+            • `app/templates/modals/edit-server.html`
+        7. If the general settings form builds its `<select>` from `SettingsForm`, it will pick up the new choice automatically; otherwise update the template.
+        8. Provide any new icons/images in `app/static` if the UI references them.
+
+    Following this checklist keeps future integrations consistent, discoverable, and functional end-to-end.
+
+Pythonic REST API Helper
+
+    • Use `RestApiMixin` (in `app/services/media/client_base.py`) as the base for simple JSON HTTP backends.
+        – Provides `get/ post/ patch/ delete` wrappers with consistent logging and error handling.
+        – Override `_headers()` to inject authentication (e.g. Bearer or X-Emby-Token).
+    • New clients should subclass `RestApiMixin` instead of reinventing request helpers.
+    • Audiobookshelf, RomM, Jellyfin, and Emby now use the mixin; Plex still uses `plexapi` SDK and is exempt.
+

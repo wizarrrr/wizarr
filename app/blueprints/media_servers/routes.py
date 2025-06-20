@@ -3,7 +3,7 @@ from flask_login import login_required
 from app.extensions import db
 from app.models import MediaServer, Library, User
 from app.forms.settings import SettingsForm  # reuse existing form for now
-from app.services.servers import check_plex, check_jellyfin, check_emby, check_audiobookshelf
+from app.services.servers import check_plex, check_jellyfin, check_emby, check_audiobookshelf, check_romm
 from app.services.media.service import scan_libraries_for_server
 
 media_servers_bp = Blueprint("media_servers", __name__, url_prefix="/settings/servers")
@@ -17,6 +17,8 @@ def _check_connection(data: dict):
         return check_emby(data["server_url"], data["api_key"])
     elif stype == "audiobookshelf":
         return check_audiobookshelf(data["server_url"], data["api_key"])
+    elif stype == "romm":
+        return check_romm(data["server_url"], data["api_key"])
     else:
         return check_jellyfin(data["server_url"], data["api_key"])
 

@@ -19,15 +19,13 @@ import logging
 from typing import Any, Dict, List
 import re
 
-import requests
-
 from app.extensions import db
 from app.models import User, Invitation, Library
-from .client_base import MediaClient, register_media_client
+from .client_base import RestApiMixin, register_media_client
 
 
 @register_media_client("audiobookshelf")
-class AudiobookshelfClient(MediaClient):
+class AudiobookshelfClient(RestApiMixin):
     """Very small wrapper around the Audiobookshelf REST API."""
 
     #: API prefix that all modern ABS endpoints share
@@ -50,30 +48,6 @@ class AudiobookshelfClient(MediaClient):
             self.url = self.url.rstrip("/")
 
     # ------------------------------------------------------------------
-    # Internal helpers
-    # ------------------------------------------------------------------
-
-    @property
-    def _headers(self) -> Dict[str, str]:
-        """Return default headers incl. auth token (if set)."""
-        hdrs: Dict[str, str] = {}
-        if self.token:
-            hdrs["Authorization"] = f"Bearer {self.token}"
-        return hdrs
-
-    def _get(self, path: str):
-        """GET ``path`` relative to the server root.
-
-        Raises ``requests.HTTPError`` on non-2xx so the caller can handle
-        it in a single place.
-        """
-        url = f"{self.url}{path}"
-        logging.info("ABS GET  %s", url)
-        resp = requests.get(url, headers=self._headers, timeout=10)
-        resp.raise_for_status()
-        return resp
-
-    # ------------------------------------------------------------------
     # Public API expected by Wizarr
     # ------------------------------------------------------------------
 
@@ -86,7 +60,7 @@ class AudiobookshelfClient(MediaClient):
         ``{"libraries": [ … ]}``.
         """
         try:
-            data = self._get(f"{self.API_PREFIX}/libraries").json()
+            data = self.get(f"{self.API_PREFIX}/libraries").json()
             # May have drilldown or direct list depending on ABS version
             libs = data.get("libraries", data)
             return {item["id"]: item["name"] for item in libs}
@@ -104,7 +78,7 @@ class AudiobookshelfClient(MediaClient):
         still on the TODO list.
         """
         try:
-            data = self._get(f"{self.API_PREFIX}/users").json()
+            data = self.get(f"{self.API_PREFIX}/users").json()
             raw_users: List[Dict[str, Any]] = data.get("users", data)  # ABS may wrap list in {"users": [...]}
         except Exception as exc:
             logging.warning("ABS: failed to list users – %s", exc)
@@ -176,12 +150,7 @@ class AudiobookshelfClient(MediaClient):
             "email": email,
             "type": "admin" if is_admin else "user",
         }
-        resp = requests.post(
-            f"{self.url}{self.API_PREFIX}/users",
-            json=payload,
-            headers=self._headers,
-            timeout=10,
-        )
+        resp = self.post(f"{self.API_PREFIX}/users", json=payload)
         resp.raise_for_status()
         data = resp.json()
         uid = data.get("id") or data.get("user", {}).get("id")
@@ -189,29 +158,20 @@ class AudiobookshelfClient(MediaClient):
 
     def update_user(self, user_id: str, payload: Dict[str, Any]):
         """PATCH arbitrary fields on a user object."""
-        resp = requests.patch(
-            f"{self.url}{self.API_PREFIX}/users/{user_id}",
-            json=payload,
-            headers=self._headers,
-            timeout=10,
-        )
+        resp = self.patch(f"{self.API_PREFIX}/users/{user_id}", json=payload)
         resp.raise_for_status()
         return resp.json()
 
     def delete_user(self, user_id: str):
         """Delete a user permanently from Audiobookshelf."""
-        resp = requests.delete(
-            f"{self.url}{self.API_PREFIX}/users/{user_id}",
-            headers=self._headers,
-            timeout=10,
-        )
+        resp = self.delete(f"{self.API_PREFIX}/users/{user_id}")
         # 204 No Content or 200
         if resp.status_code not in (200, 204):
             resp.raise_for_status()
 
     def get_user(self, user_id: str):
         """Return a full user object from Audiobookshelf."""
-        return self._get(f"{self.API_PREFIX}/users/{user_id}").json()
+        return self.get(f"{self.API_PREFIX}/users/{user_id}").json()
 
     # ------------------------------------------------------------------
     # Public sign-up (invite links)
