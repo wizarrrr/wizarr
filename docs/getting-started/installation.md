@@ -93,7 +93,7 @@ docker run -d ...
 5. Click apply and access "Wizarr" at your `<ServerIP:HostPort>` in a web browser.
 
 
-##TrueNas Fangtooth
+# TrueNas Fangtooth
 
 1. Discover Apps
    
@@ -102,15 +102,15 @@ docker run -d ...
 2. Custom App
 
    ![image](https://github.com/user-attachments/assets/43e9ee74-3430-4dd5-8a82-0907f9877262)
-3. Qucik install if you know what your doing.
+3. Quick install if you know what your doing.
 
    ![image](https://github.com/user-attachments/assets/fae99bb7-ee49-49cf-a611-007074a9ab5e)
    
-#All other steps below are every single thing that needs to be changed. Also only things that need to be setup.
+*All other steps below are every single thing that needs to be changed. Also only things that need to be setup.*
 
 4. Use only what is used in pictures following. Don't change anything unless you know what your doing. For storage locations make changes to match your setup.
 
-<a href="ghcr.io/wizarrrr/wizarr">ghcr.io/wizarrrr/wizarr</a>
+<i><b>Repository:</b></i> <a href="ghcr.io/wizarrrr/wizarr">ghcr.io/wizarrrr/wizarr</a> 
    
    ![image](https://github.com/user-attachments/assets/e4a91eb3-58d8-4ab5-8f1c-fdb775b408a6)
    
