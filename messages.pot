@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-20 03:54+0000\n"
+"POT-Creation-Date: 2025-06-21 03:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,11 +21,11 @@ msgstr ""
 msgid "Invalid username or password"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:189
+#: app/blueprints/settings/routes.py:191
 msgid "Library scan failed"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:219
+#: app/blueprints/settings/routes.py:221
 msgid "Settings saved successfully!"
 msgstr ""
 
@@ -81,6 +81,10 @@ msgstr ""
 
 #: app/services/servers.py:83
 msgid "Audiobookshelf"
+msgstr ""
+
+#: app/services/servers.py:109
+msgid "RomM"
 msgstr ""
 
 #: app/templates/admin.html:5
@@ -329,15 +333,15 @@ msgstr ""
 
 #: app/templates/admin/user_modal.html:41
 #: app/templates/modals/create-notification-agent.html:86
-#: app/templates/modals/create-server.html:56
+#: app/templates/modals/create-server.html:57
 #: app/templates/modals/edit-identity.html:13
-#: app/templates/modals/edit-server.html:59
+#: app/templates/modals/edit-server.html:60
 msgid "Cancel"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:48
 #: app/templates/modals/edit-identity.html:14
-#: app/templates/modals/edit-server.html:58
+#: app/templates/modals/edit-server.html:59
 #: app/templates/settings/general.html:72
 #: app/templates/settings/partials/server_form.html:184
 msgid "Save"
@@ -392,11 +396,11 @@ msgid "Test & Create Agent"
 msgstr ""
 
 #: app/templates/modals/create-server.html:10
-#: app/templates/settings/servers.html:92
+#: app/templates/settings/servers.html:104
 msgid "Add Server"
 msgstr ""
 
-#: app/templates/modals/create-server.html:55
+#: app/templates/modals/create-server.html:56
 msgid "Test & Add"
 msgstr ""
 
@@ -475,6 +479,10 @@ msgstr ""
 
 #: app/templates/settings/servers.html:54
 msgid "Checking..."
+msgstr ""
+
+#: app/templates/settings/servers.html:68
+msgid "Preview Wizard"
 msgstr ""
 
 #: app/templates/settings/partials/server_form.html:13
