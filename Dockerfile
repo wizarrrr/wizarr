@@ -28,7 +28,7 @@ RUN uv sync --locked
 RUN uv run pybabel compile -d app/translations
 
 RUN npm --prefix app/static/ install
-RUN npm --prefix app/static/ run build:css
+RUN npm --prefix app/static/ run build
 
 # Create directories that need to be writable
 RUN mkdir -p /.cache
