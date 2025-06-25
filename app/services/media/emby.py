@@ -22,7 +22,7 @@ class EmbyClient(JellyfinClient):
     def create_user(self, username: str, password: str) -> str:
         """Create user and set password"""
         # Step 1: Create user without password
-        user = self.post("/Users/New", {"Name": username}).json()
+        user = self.post("/Users/New", json={"Name": username}).json()
         user_id = user["Id"]
         
         # Step 2: Set password
@@ -30,7 +30,7 @@ class EmbyClient(JellyfinClient):
             logging.info(f"Setting password for user {username} (ID: {user_id})")
             password_response = self.post(
                 f"/Users/{user_id}/Password",
-                {
+                json={
                     "NewPw": password,
                     "CurrentPw": "",  # No current password for new users
                     "ResetPassword": False  # Important! Don't reset password
