@@ -3,7 +3,7 @@ from pathlib import Path
 import frontmatter, markdown
 from flask import Blueprint, render_template, abort, request, session, redirect
 from flask_login import current_user
-from app.models import Settings, MediaServer, Invitation
+from app.models import Settings, MediaServer, Invitation, WizardStep
 from app.services.ombi_client import run_all_importers
 
 
@@ -32,31 +32,57 @@ def restrict_wizard():
 
 # ─── helpers ────────────────────────────────────────────────────
 def _settings() -> dict[str, str | None]:
-    data = {s.key: s.value for s in Settings.query.all()}
+    # Load all Settings rows **except** legacy server-specific keys. Those have
+    # been migrated to the dedicated ``MediaServer`` table and should no longer
+    # be sourced from the generic key/value store.
+    LEGACY_KEYS: set[str] = {
+        "server_type",
+        "server_url",
+        "external_url",
+        "api_key",
+        "server_name",
+    }
 
-    # 1️⃣  Override via current invitation (if any)
+    data: dict[str, str | None] = {
+        s.key: s.value for s in Settings.query.all() if s.key not in LEGACY_KEYS
+    }
+
+    # ------------------------------------------------------------------
+    # Determine the *active* server context in the following order of
+    # precedence:
+    #   1️⃣  Explicit invitation (wizard_access session key)
+    #   2️⃣  First configured MediaServer row (arbitrary default)
+    # If neither exists, the Wizard still needs sensible fallbacks so the
+    # markdown templates render without errors.
+    # ------------------------------------------------------------------
+
+    srv = None
+
+    # 1️⃣  Invitation override
     inv_code = session.get("wizard_access")
     if inv_code:
         inv = Invitation.query.filter_by(code=inv_code).first()
         if inv and inv.server:
             srv = inv.server
-            data["server_type"] = srv.server_type
-            # Prefer external_url; fallback to internal url
-            data["server_url"] = srv.external_url or srv.url
 
-    # Prefer the explicitly configured external URL if present
-    if data.get("external_url"):
-        data.setdefault("server_url", data["external_url"])
+    # 2️⃣  Fallback to the first MediaServer row (if any)
+    if srv is None:
+        srv = MediaServer.query.first()
 
-    # Otherwise, derive from MediaServer row (external_url -> url)
-    if "server_url" not in data or not data["server_url"]:
-        # Determine server_type preference
-        stype = data.get("server_type")
-        row = (
-            MediaServer.query.filter_by(server_type=stype).first() if stype else MediaServer.query.first()
-        )
-        if row:
-            data["server_url"] = row.external_url or row.url
+    # Populate the derived server fields so that existing Jinja templates that
+    # reference ``settings.server_*`` continue to work seamlessly.
+    if srv is not None:
+        data["server_type"] = srv.server_type
+        data["server_url"] = srv.external_url or srv.url
+        if srv.external_url:
+            data["external_url"] = srv.external_url
+        if getattr(srv, "name", None):
+            data["server_name"] = srv.name
+
+    # If still missing, supply sane defaults to avoid KeyErrors in templates.
+    data.setdefault("server_type", "plex")
+    data.setdefault("server_url", "")
+
     return data
 
 
@@ -66,6 +92,49 @@ def _eligible(post: frontmatter.Post, cfg: dict) -> bool:
 
 
 def _steps(server: str, cfg: dict):
+    """Return ordered wizard steps for *server* filtered by eligibility.
+
+    Preference order:
+        1. Rows from the new *wizard_step* table (if any exist for the given
+           server_type).
+        2. Legacy markdown files shipped in the repository (fallback).
+    """
+
+    # ─── 1) DB-backed steps ────────────────────────────────────────────────
+    try:
+        db_rows = (
+            WizardStep.query
+            .filter_by(server_type=server)
+            .order_by(WizardStep.position)
+            .all()
+        )
+    except Exception:
+        db_rows = []  # table may not exist during migrations/tests
+
+    if db_rows:
+        class _RowAdapter:
+            """Lightweight shim exposing the subset of frontmatter.Post API
+            used by helper functions: `.content` property and `.get()` for
+            access to `requires` metadata.
+            """
+
+            __slots__ = ("content", "_requires")
+
+            def __init__(self, row: "WizardStep"):
+                self.content = row.markdown
+                self._requires = row.requires or []
+
+            # frontmatter.Post.get(key, default)
+            def get(self, key, default=None):
+                if key == "requires":
+                    return self._requires
+                return default
+
+        steps = [_RowAdapter(r) for r in db_rows if _eligible(_RowAdapter(r), cfg)]
+        if steps:
+            return steps
+
+    # ─── 2) Fallback to bundled markdown files ─────────────────────────────
     files = sorted((BASE_DIR / server).glob("*.md"))
     return [frontmatter.load(f) for f in files if _eligible(frontmatter.load(f), cfg)]
 
@@ -118,7 +187,10 @@ def start():
             server_type = inv.server.server_type
 
     if not server_type:
-        server_type = _settings().get("server_type", "plex") or "plex"
+        # Use the first configured media server – wizard steps rely on the
+        # server_type folder name (plex / emby / etc.).
+        first_srv = MediaServer.query.first()
+        server_type = first_srv.server_type if first_srv else "plex"
 
     return _serve(server_type, 0)
 
