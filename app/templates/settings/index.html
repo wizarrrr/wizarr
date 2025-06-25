@@ -1,68 +1,133 @@
-{# templates/settings/page.html #}
-{% extends "base.html" %}
-{% block title %}{{ _("Settings") }}{% endblock %}
-
-{% block main %}
-    <section class="flex flex-col items-center justify-center px-6 py-8">
-        <div class="w-full max-w-md space-y-6">
-
-            <div class="flex gap-2">
-                <button
-                    class="tab-btn flex-1 flex items-center justify-center gap-1"
-                    hx-get="{{ url_for('settings.general_settings') }}"
-                    hx-target="#tab-body" hx-swap="innerHTML"
-                    hx-trigger="load,click"           {# ← load FIRST + every click #}
+{# templates/settings/page.html #} {% extends "base.html" %} {% block title %}{{
+_("Settings") }}{% endblock %} {% block main %}
+<section class="flex flex-col items-center justify-center px-6 py-8">
+    <div class="w-full max-w-md space-y-6">
+        <div class="flex gap-2">
+            <button
+                class="tab-btn flex-1 flex items-center justify-center gap-1"
+                hx-get="{{ url_for('settings.general_settings') }}"
+                hx-target="#tab-body"
+                hx-swap="innerHTML"
+                hx-trigger="load,click"
+                {#
+                ←
+                load
+                FIRST
+                +
+                every
+                click
+                #}
+            >
+                <svg
+                    class="w-6 h-6 text-gray-800 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
                 >
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                         viewBox="0 0 24 24">
-                        <path fill-rule="evenodd"
-                              d="M5 5a2 2 0 0 0-2 2v3a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7a2 2 0 0 0-2-2H5Zm9 2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H14Zm3 0a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17ZM3 17v-3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm11-2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H14Zm3 0a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17Z"
-                              clip-rule="evenodd"/>
-                    </svg>
+                    <path
+                        fill-rule="evenodd"
+                        d="M5 5a2 2 0 0 0-2 2v3a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7a2 2 0 0 0-2-2H5Zm9 2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H14Zm3 0a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17ZM3 17v-3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm11-2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H14Zm3 0a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17Z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
 
-                    {{ _("General") }}
-                </button>
+                {{ _("General") }}
+            </button>
 
-                <button
-                    class="tab-btn flex-1 flex items-center justify-center gap-1"
-                    hx-get="{{ url_for('notify.list_agents') }}"
-                    hx-target="#tab-body" hx-swap="innerHTML"
-                    hx-trigger="click"           {# ← only on click #}
+            <button
+                class="tab-btn flex-1 flex items-center justify-center gap-1"
+                hx-get="{{ url_for('notify.list_agents') }}"
+                hx-target="#tab-body"
+                hx-swap="innerHTML"
+                hx-trigger="click"
+                {#
+                ←
+                only
+                on
+                click
+                #}
+            >
+                <svg
+                    class="w-6 h-6 text-gray-800 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
                 >
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                         viewBox="0 0 24 24">
-                        <path
-                            d="M17.133 12.632v-1.8a5.407 5.407 0 0 0-4.154-5.262.955.955 0 0 0 .021-.106V3.1a1 1 0 0 0-2 0v2.364a.933.933 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C6.867 15.018 5 15.614 5 16.807 5 17.4 5 18 5.538 18h12.924C19 18 19 17.4 19 16.807c0-1.193-1.867-1.789-1.867-4.175Zm-13.267-.8a1 1 0 0 1-1-1 9.424 9.424 0 0 1 2.517-6.391A1.001 1.001 0 1 1 6.854 5.8a7.43 7.43 0 0 0-1.988 5.037 1 1 0 0 1-1 .995Zm16.268 0a1 1 0 0 1-1-1A7.431 7.431 0 0 0 17.146 5.8a1 1 0 0 1 1.471-1.354 9.424 9.424 0 0 1 2.517 6.391 1 1 0 0 1-1 .995ZM8.823 19a3.453 3.453 0 0 0 6.354 0H8.823Z"/>
-                    </svg>
+                    <path
+                        d="M17.133 12.632v-1.8a5.407 5.407 0 0 0-4.154-5.262.955.955 0 0 0 .021-.106V3.1a1 1 0 0 0-2 0v2.364a.933.933 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C6.867 15.018 5 15.614 5 16.807 5 17.4 5 18 5.538 18h12.924C19 18 19 17.4 19 16.807c0-1.193-1.867-1.789-1.867-4.175Zm-13.267-.8a1 1 0 0 1-1-1 9.424 9.424 0 0 1 2.517-6.391A1.001 1.001 0 1 1 6.854 5.8a7.43 7.43 0 0 0-1.988 5.037 1 1 0 0 1-1 .995Zm16.268 0a1 1 0 0 1-1-1A7.431 7.431 0 0 0 17.146 5.8a1 1 0 0 1 1.471-1.354 9.424 9.424 0 0 1 2.517 6.391 1 1 0 0 1-1 .995ZM8.823 19a3.453 3.453 0 0 0 6.354 0H8.823Z"
+                    />
+                </svg>
 
-                    {{ _("Notifications") }}
-                </button>
+                {{ _("Alerts") }}
+            </button>
 
-                <button
-                    class="tab-btn flex-1 flex items-center justify-center gap-1"
-                    hx-get="{{ url_for('media_servers.list_servers') }}"
-                    hx-target="#tab-body" hx-swap="innerHTML"
-                    hx-trigger="click"           {# ← only on click #}
+            <button
+                class="tab-btn flex-1 flex items-center justify-center gap-1"
+                hx-get="{{ url_for('media_servers.list_servers') }}"
+                hx-target="#tab-body"
+                hx-swap="innerHTML"
+                hx-trigger="click"
+                {#
+                ←
+                only
+                on
+                click
+                #}
+            >
+                <svg
+                    class="w-6 h-6 text-gray-800 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
                 >
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v4H3V5a2 2 0 0 1 2-2ZM3 11h18v4H3v-4Zm0 6h18v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2Z"/></svg>
-                    {{ _("Servers") }}
-                </button>
+                    <path
+                        d="M5 3h14a2 2 0 0 1 2 2v4H3V5a2 2 0 0 1 2-2ZM3 11h18v4H3v-4Zm0 6h18v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2Z"
+                    />
+                </svg>
+                {{ _("Servers") }}
+            </button>
 
-                <button
-                    class="tab-btn flex-1 flex items-center justify-center gap-1"
-                    hx-get="{{ url_for('wizard_admin.list_steps') }}"
-                    hx-target="#tab-body" hx-swap="innerHTML"
-                    hx-trigger="click"
+            <button
+                class="tab-btn flex-1 flex items-center justify-center gap-1"
+                hx-get="{{ url_for('wizard_admin.list_steps') }}"
+                hx-target="#tab-body"
+                hx-swap="innerHTML"
+                hx-trigger="click"
+            >
+                <svg
+                    class="w-6 h-6 text-gray-800 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
                 >
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 0 1 2 2v2H5V4a2 2 0 0 1 2-2ZM5 8h14v2H5V8Zm0 4h14v2H5v-2Zm0 4h14v2a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-2Z"/></svg>
-                    {{ _("Wizard") }}
-                </button>
-            </div>
-
-            <div id="tab-body" class="animate__animated animate__fadeIn"></div>
-
+                    <path
+                        fill-rule="evenodd"
+                        d="M8 5a1 1 0 0 1 1-1h11a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-1a1 1 0 1 1 0-2h1V6H9a1 1 0 0 1-1-1Z"
+                        clip-rule="evenodd"
+                    />
+                    <path
+                        fill-rule="evenodd"
+                        d="M4 7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H4Zm0 11v-5.5h11V18H4Z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+                {{ _("Wizard") }}
+            </button>
         </div>
-    </section>
+
+        <div id="tab-body" class="animate__animated animate__fadeIn"></div>
+    </div>
+</section>
 {% endblock %}
