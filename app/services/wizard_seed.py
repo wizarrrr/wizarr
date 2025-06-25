@@ -8,6 +8,7 @@ from flask import current_app
 
 from app.extensions import db
 from app.models import WizardStep
+from sqlalchemy import inspect  # NEW
 
 # Folder containing the bundled markdown files (wizard_steps/<server>/*.md)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent / "wizard_steps"
@@ -68,6 +69,15 @@ def import_default_wizard_steps() -> None:
 
     # Skip entirely when running under pytest / testing
     if current_app.config.get("TESTING"):
+        return
+
+    # ─── Guard: table might not exist (first run before migrations) ─────────
+    # Avoid querying WizardStep if its table is absent to prevent errors when
+    # the app factory is invoked by commands that run *before* Alembic
+    # migrations (e.g. `flask db upgrade`).  In that scenario the bootstrap
+    # should be a no-op and will run again once the app starts for real.
+    inspector = inspect(db.engine)
+    if not inspector.has_table(WizardStep.__tablename__):
         return
 
     # ------------------------------------------------------------------
