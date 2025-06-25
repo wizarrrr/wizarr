@@ -41,11 +41,11 @@ class JellyfinClient(RestApiMixin):
     def create_user(self, username: str, password: str) -> str:
         return self.post(
             "/Users/New",
-            {"Name": username, "Password": password}
+            json={"Name": username, "Password": password}
         ).json()["Id"]
 
     def set_policy(self, user_id: str, policy: dict) -> None:
-        self.post(f"/Users/{user_id}/Policy", policy)
+        self.post(f"/Users/{user_id}/Policy", json=policy)
 
     def delete_user(self, user_id: str) -> None:
         self.delete(f"/Users/{user_id}")
@@ -68,7 +68,7 @@ class JellyfinClient(RestApiMixin):
                         val = [] if val == "" else val.split(", ")
                     current[section][key] = val
 
-        return self.post(f"/Users/{jf_id}", current).json()
+        return self.post(f"/Users/{jf_id}", json=current).json()
 
     def list_users(self) -> list[User]:
         """Sync users from Jellyfin into the local DB and return the list of User records."""
