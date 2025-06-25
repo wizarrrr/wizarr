@@ -39,4 +39,14 @@ def create_app(config_object=DevelopmentConfig):
     register_error_handlers(app)
     
     app.before_request(require_onboarding)
+
+    # ─── Seed default wizard steps (no-ops if already present or in TESTING) ───
+    with app.app_context():
+        try:
+            from .services.wizard_seed import import_default_wizard_steps
+            import_default_wizard_steps()
+        except Exception as exc:
+            # Non-fatal – log and continue startup to avoid blocking the app
+            app.logger.warning("Wizard step bootstrap failed: %s", exc)
+
     return app

@@ -6,6 +6,7 @@
 
   <meta charset="utf-8">
   <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tiny-mde.min.css') }}" />
   <link rel="stylesheet" href="{{ url_for ('static', filename='node_modules/animate.css/animate.min.css') }}">
     <script src="{{ url_for('static', filename='node_modules/htmx.org/dist/htmx.min.js') }}"></script>
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
@@ -45,6 +46,10 @@
   <script src="{{url_for('static', filename='node_modules/@alpinejs/collapse/dist/cdn.min.js')}}"></script>
 
   <script src="{{url_for('static', filename='js/dark-mode-switch.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/tiny-mde.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/init-tinymde.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/sortable.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/wizard-steps.js') }}"></script>
 
 </body>
 

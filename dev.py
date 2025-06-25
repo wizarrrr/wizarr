@@ -84,6 +84,9 @@ def main():
     print("Installing/updating npm dependencies...")
     run_command(["npm", "install"], cwd=static_dir)
 
+    print("Building static assets (CSS & JS)...")
+    run_command(["npm", "run", "build"], cwd=static_dir)
+
     # Start the Tailwind watcher in the background
     print("Starting Tailwind watcher...")
     tailwind_process = subprocess.Popen(

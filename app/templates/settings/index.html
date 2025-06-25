@@ -49,6 +49,16 @@
                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v4H3V5a2 2 0 0 1 2-2ZM3 11h18v4H3v-4Zm0 6h18v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2Z"/></svg>
                     {{ _("Servers") }}
                 </button>
+
+                <button
+                    class="tab-btn flex-1 flex items-center justify-center gap-1"
+                    hx-get="{{ url_for('wizard_admin.list_steps') }}"
+                    hx-target="#tab-body" hx-swap="innerHTML"
+                    hx-trigger="click"
+                >
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 0 1 2 2v2H5V4a2 2 0 0 1 2-2ZM5 8h14v2H5V8Zm0 4h14v2H5v-2Zm0 4h14v2a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-2Z"/></svg>
+                    {{ _("Wizard") }}
+                </button>
             </div>
 
             <div id="tab-body" class="animate__animated animate__fadeIn"></div>
