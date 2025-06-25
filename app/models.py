@@ -125,3 +125,56 @@ class Identity(db.Model):
     primary_username = db.Column(db.String, nullable=True)
     nickname = db.Column(db.String, nullable=True)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
+
+class WizardStep(db.Model):
+    """Markdown wizard page stored in the database instead of loose files.
+
+    Each *server_type* (plex, jellyfin, …) owns an ordered list of steps with
+    an integer *position* starting at 0.  A `(server_type, position)` unique
+    constraint guarantees a stable order without gaps.
+    """
+    __tablename__ = "wizard_step"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    # Target backend this step is meant for (plex / emby / etc.)
+    server_type = db.Column(db.String, nullable=False)
+
+    # Sort index within the server group – lower numbers appear first
+    position = db.Column(db.Integer, nullable=False)
+
+    # Optional page title – if omitted we will derive it from the first H1 in
+    # the markdown when serving the wizard.
+    title = db.Column(db.String, nullable=True)
+
+    # Markdown source (front-end will render client-side preview)
+    markdown = db.Column(db.Text, nullable=False)
+
+    # List of setting keys that must evaluate to truthy for the step to show.
+    # Mirrors the existing `requires:` front-matter array in the legacy files.
+    requires = db.Column(db.JSON, nullable=True)
+
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    updated_at = db.Column(
+        db.DateTime,
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    __table_args__ = (
+        db.UniqueConstraint("server_type", "position", name="uq_step_server_pos"),
+    )
+
+    # ── convenience helpers ─────────────────────────────────────────────
+    def to_dict(self):
+        """Return serialisable representation (for JSON responses)."""
+        return {
+            "id": self.id,
+            "server_type": self.server_type,
+            "position": self.position,
+            "title": self.title,
+            "markdown": self.markdown,
+            "requires": self.requires or [],
+        }
