@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-25 03:58+0000\n"
+"POT-Creation-Date: 2025-06-26 03:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -103,7 +103,7 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: app/templates/admin.html:55 app/templates/settings/index.html:3
+#: app/templates/admin.html:55 app/templates/settings/index.html:2
 msgid "Settings"
 msgstr ""
 
@@ -336,14 +336,18 @@ msgstr ""
 #: app/templates/modals/create-server.html:57
 #: app/templates/modals/edit-identity.html:13
 #: app/templates/modals/edit-server.html:60
+#: app/templates/modals/wizard-step-form.html:41
+#: app/templates/settings/wizard/form.html:39
 msgid "Cancel"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:48
 #: app/templates/modals/edit-identity.html:14
 #: app/templates/modals/edit-server.html:59
+#: app/templates/modals/wizard-step-form.html:42
 #: app/templates/settings/general.html:72
 #: app/templates/settings/partials/server_form.html:184
+#: app/templates/settings/wizard/form.html:32
 msgid "Save"
 msgstr ""
 
@@ -396,7 +400,7 @@ msgid "Test & Create Agent"
 msgstr ""
 
 #: app/templates/modals/create-server.html:10
-#: app/templates/settings/servers.html:104
+#: app/templates/settings/servers.html:95
 msgid "Add Server"
 msgstr ""
 
@@ -414,6 +418,11 @@ msgstr ""
 
 #: app/templates/modals/edit-server.html:10
 msgid "Edit Server"
+msgstr ""
+
+#: app/templates/modals/wizard-step-form.html:37
+#: app/templates/settings/wizard/form.html:28
+msgid "Comma-separated setting keys (leave empty for always visible)"
 msgstr ""
 
 #: app/templates/settings/general.html:7
@@ -445,16 +454,20 @@ msgstr ""
 msgid "Access Control"
 msgstr ""
 
-#: app/templates/settings/index.html:24
+#: app/templates/settings/index.html:37
 msgid "General"
 msgstr ""
 
-#: app/templates/settings/index.html:40
-msgid "Notifications"
+#: app/templates/settings/index.html:67
+msgid "Alerts"
 msgstr ""
 
-#: app/templates/settings/index.html:50
+#: app/templates/settings/index.html:96
 msgid "Servers"
+msgstr ""
+
+#: app/templates/settings/index.html:126
+msgid "Wizard"
 msgstr ""
 
 #: app/templates/settings/notifications.html:6
@@ -481,16 +494,44 @@ msgstr ""
 msgid "Checking..."
 msgstr ""
 
-#: app/templates/settings/servers.html:68
-msgid "Preview Wizard"
-msgstr ""
-
 #: app/templates/settings/partials/server_form.html:13
 msgid "Server Settings"
 msgstr ""
 
 #: app/templates/settings/partials/server_form.html:74
 msgid "Optional public address users should visit"
+msgstr ""
+
+#: app/templates/settings/wizard/form.html:37
+msgid "Preview"
+msgstr ""
+
+#: app/templates/settings/wizard/index.html:5
+msgid "Wizard Steps"
+msgstr ""
+
+#: app/templates/settings/wizard/index.html:8
+msgid "Create step"
+msgstr ""
+
+#: app/templates/settings/wizard/index.html:12
+msgid "No steps found."
+msgstr ""
+
+#: app/templates/settings/wizard/index.html:21
+msgid "Preview Wizard"
+msgstr ""
+
+#: app/templates/settings/wizard/index.html:33
+msgid "Untitled"
+msgstr ""
+
+#: app/templates/settings/wizard/index.html:38
+msgid "Edit"
+msgstr ""
+
+#: app/templates/settings/wizard/index.html:40
+msgid "Delete"
 msgstr ""
 
 #: app/templates/setup/admin_account.html:14
