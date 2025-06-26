@@ -13,8 +13,9 @@ from sqlalchemy import inspect  # NEW
 # Folder containing the bundled markdown files (wizard_steps/<server>/*.md)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent / "wizard_steps"
 
-# Directory where *custom* wizard step markdown may exist (former bind-mount)
-CUSTOM_DIR = Path("/data/wizard_steps")
+# No override directory – wizard steps are now managed from the UI.  The
+# bundled markdown files are only used to bootstrap **new** installations or
+# to append *new* default steps introduced in later upgrades.
 
 
 def _gather_step_files() -> List[Path]:
@@ -59,12 +60,21 @@ def _parse_markdown(path: Path) -> dict:
     }
 
 
-def import_default_wizard_steps() -> None:
-    """Seed the DB with wizard steps bundled as markdown files.
+def _collect_builtin_files() -> dict[str, list[Path]]:
+    """Return mapping *server_type* → list[Path] for built-in markdown files."""
+    return _collect_server_files(BASE_DIR)
 
-    • For every *server_type* directory create rows ordered lexicographically by
-      filename.  Import only if **no** WizardStep rows for that server exist –
-      so local edits survive restarts/upgrades.
+
+def import_default_wizard_steps() -> None:
+    """Ensure the database contains at least the bundled *default* wizard
+    steps shipped with Wizarr.
+
+    • For every *server_type* directory import the markdown files in
+      lexicographical order.
+    • Rows that already exist (same *server_type*, *position*) are left
+      untouched so UI edits persist.
+    • Missing rows are appended – this covers both fresh installations (zero
+      rows) and software upgrades that introduce *new* default pages.
     """
 
     # Skip entirely when running under pytest / testing
@@ -81,30 +91,34 @@ def import_default_wizard_steps() -> None:
         return
 
     # ------------------------------------------------------------------
-    # 1. Prepare source pools – custom dir has precedence over built-in ones
+    # 1. Gather built-in wizard step markdown files
     # ------------------------------------------------------------------
-    custom_sources  = _collect_server_files(CUSTOM_DIR)
-    builtin_sources = _collect_server_files(BASE_DIR)
+    builtin_sources = _collect_builtin_files()
 
-    # Merge keys so we cover servers that exist only in one of the pools.
-    all_servers: set[str] = set(custom_sources) | set(builtin_sources)
+    # Nothing to do if repository contains no markdown assets
+    if not builtin_sources:
+        return
 
-    for server_type in sorted(all_servers):
-        # Skip import for servers that already have at least one step row
-        exists = (
-            db.session.query(WizardStep.id)
-            .filter_by(server_type=server_type)
-            .limit(1)
-            .scalar()
-        )
-        if exists:
-            continue
+    # ------------------------------------------------------------------
+    # 2. For each server_type ensure *all* default steps exist – we insert
+    #    rows *individually* so existing user edits remain intact.
+    # ------------------------------------------------------------------
+    for server_type, files in builtin_sources.items():
+        # Sort files for deterministic position assignment
+        files_sorted = sorted(files)
 
-        # Prefer custom markdown if present; otherwise use built-in defaults
-        files = custom_sources.get(server_type) or builtin_sources.get(server_type) or []
+        for pos, path in enumerate(files_sorted):
+            # Skip if a row already exists for this (server_type, position)
+            exists = (
+                db.session.query(WizardStep.id)
+                .filter_by(server_type=server_type, position=pos)
+                .limit(1)
+                .scalar()
+            )
+            if exists:
+                continue
 
-        # Sort files for stable ordering
-        for pos, path in enumerate(sorted(files)):
+            # Create new row for missing step
             meta = _parse_markdown(path)
             step = WizardStep(
                 server_type=server_type,
@@ -115,4 +129,9 @@ def import_default_wizard_steps() -> None:
             )
             db.session.add(step)
 
-    db.session.commit() 
+    db.session.commit()
+
+    # NOTE: existing steps that the admin has modified via the UI are left
+    # untouched.  Likewise we do not attempt to remove steps that no longer
+    # exist upstream – they might hold valuable custom edits made by the
+    # admin.  This function therefore acts as an *append-only* bootstrap. 
