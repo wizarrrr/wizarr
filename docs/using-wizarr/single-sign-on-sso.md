@@ -19,6 +19,7 @@ In order to make the invitation process available for non signed in users, make 
         - '^/j(/.*)?$'
         - '^/static(/.*)?$'
         - '^/setup(/.*)?$'
+        - '^/wizard(/.*)?$'
       policy: bypass
 ```
 {% endtab %}
@@ -29,6 +30,7 @@ In order to make the invitation process available for non signed in users, make 
 - '^/j/'
 - '^/setup/*'
 - '^/static/'
+- '^/wizard/'
 ```
 {% endtab %}
 {% endtabs %}
