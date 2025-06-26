@@ -77,8 +77,8 @@
             {% endfor %}
           </div>
 
-          {# API Key #}
-          <div>
+          {# API Key (hidden for RomM) #}
+          <div id="api-key-div">
             {{ form.api_key.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
             {{ form.api_key(
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white",
@@ -91,13 +91,38 @@
             {% endfor %}
           </div>
 
+          {# RomM credentials (username/password) #}
+          <div id="romm-options" class="hidden">
+            <div>
+              {{ form.server_username.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.server_username(
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white",
+                  placeholder="admin"
+              ) }}
+              {% for err in form.server_username.errors %}
+                <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ err }}</p>
+              {% endfor %}
+            </div>
+            <div>
+              {{ form.server_password.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.server_password(
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white",
+                  type="password",
+                  autocomplete="off"
+              ) }}
+              {% for err in form.server_password.errors %}
+                <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ err }}</p>
+              {% endfor %}
+            </div>
+          </div>
+
           <div>
             {{ form.libraries.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
             <a
               id="scan-btn"
               class="block mb-2 text-sm text-secondary dark:text-primary cursor-pointer"
               hx-post="{{ url_for('settings.scan_libraries') }}"
-              hx-include="[name=server_type],[name=server_url],[name=api_key]"
+              hx-include="[name=server_type],[name=server_url],[name=api_key],[name=server_username],[name=server_password]"
               hx-target="#libraries"
               hx-swap="innerHTML"
             >
@@ -196,27 +221,44 @@
     const plexOptionsDiv    = document.getElementById("plex-options");
     const overseerrUrlInput = document.getElementById("overseerr_url_input");
     const ombiApiDiv        = document.getElementById("ombi_api");
+    const rommOptionsDiv    = document.getElementById("romm-options");
+    const apiKeyDiv         = document.getElementById("api-key-div");
 
-    if (!serverTypeSelect || !plexOptionsDiv || !overseerrUrlInput || !ombiApiDiv) {
+    if (!serverTypeSelect || !plexOptionsDiv || !overseerrUrlInput || !ombiApiDiv || !rommOptionsDiv || !apiKeyDiv) {
       console.error("Missing expected elements:", {
         serverTypeSelect,
         plexOptionsDiv,
         overseerrUrlInput,
-        ombiApiDiv
+        ombiApiDiv,
+        rommOptionsDiv,
+        apiKeyDiv
       });
       return;
     }
 
-    // Show/hide Plex fields
-    function togglePlexOptions() {
-      if (serverTypeSelect.value === "plex") {
+    // Show/hide options
+    function toggleOptions() {
+      const type = serverTypeSelect.value;
+
+      // Plex specific
+      if (type === "plex") {
         plexOptionsDiv.classList.remove("hidden");
       } else {
         plexOptionsDiv.classList.add("hidden");
       }
+
+      // RomM credentials vs API key
+      if (type === "romm") {
+        rommOptionsDiv.classList.remove("hidden");
+        apiKeyDiv.classList.add("hidden");
+      } else {
+        rommOptionsDiv.classList.add("hidden");
+        apiKeyDiv.classList.remove("hidden");
+      }
+
+      toggleOmbiApiVisibility();
     }
 
-    // Show/hide Ombi API field
     function toggleOmbiApiVisibility() {
       if (overseerrUrlInput.value.trim() !== "") {
         ombiApiDiv.classList.remove("hidden");
@@ -226,11 +268,11 @@
     }
 
     // --- RUN IMMEDIATELY ---
-    togglePlexOptions();
+    toggleOptions();
     toggleOmbiApiVisibility();
 
     // Listen for future changes
-    serverTypeSelect.addEventListener("change", togglePlexOptions);
+    serverTypeSelect.addEventListener("change", toggleOptions);
     overseerrUrlInput.addEventListener("input", toggleOmbiApiVisibility);
   })();
 </script>

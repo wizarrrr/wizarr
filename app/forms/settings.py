@@ -13,6 +13,8 @@ class SettingsForm(FlaskForm):
     server_name   = StringField("Server Name",   validators=[DataRequired()])
     server_url    = StringField("Server URL",    validators=[DataRequired()])
     api_key       = StringField("API Key",       validators=[Optional()])
+    server_username = StringField("RomM Username", validators=[Optional()])
+    server_password = StringField("RomM Password", validators=[Optional()])
     libraries     = StringField("Libraries",     validators=[Optional()])
     allow_downloads_plex = BooleanField("Allow Downloads", default=False, validators=[Optional()])
     allow_tv_plex = BooleanField("Allow Live TV", default=False, validators=[Optional()])

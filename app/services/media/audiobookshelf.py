@@ -20,7 +20,7 @@ from typing import Any, Dict, List
 import re
 
 from app.extensions import db
-from app.models import User, Invitation, Library
+from app.models import User, Library
 from .client_base import RestApiMixin, register_media_client
 
 
@@ -302,4 +302,13 @@ class AudiobookshelfClient(RestApiMixin):
             return True, ""
         except Exception as exc:
             logging.error("ABS join failed: %s", exc, exc_info=True)
-            return False, "Failed to create user – please contact the admin." 
+            return False, "Failed to create user – please contact the admin."
+
+    # RestApiMixin overrides -------------------------------------------------
+
+    def _headers(self) -> Dict[str, str]:  # type: ignore[override]
+        """Return default headers including Authorization if a token is set."""
+        headers: Dict[str, str] = {"Accept": "application/json"}
+        if getattr(self, "token", None):
+            headers["Authorization"] = f"Bearer {self.token}"
+        return headers 

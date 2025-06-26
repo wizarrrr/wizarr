@@ -53,9 +53,13 @@ def public_join():
         error = msg
     else:
         error = None
+
+    # Maintain the server type (jellyfin / emby / audiobookshelf / romm) for template logic
+    server_type = (inv.server.server_type if inv and inv.server else "jellyfin") if 'inv' in locals() else "jellyfin"
+
     return render_template(
         "welcome-jellyfin.html",
         form=form,
-        server_type="jellyfin",
+        server_type=server_type,
         error=error,
     )

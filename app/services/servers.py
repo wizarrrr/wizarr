@@ -91,12 +91,12 @@ def check_romm(url: str, token: str) -> tuple[bool, str]:
 
     We perform a lightweight GET request to ``/api/platforms`` which is
     available to any authenticated user and returns a list of platforms in
-    JSON.  When *token* is set we send it as a *Bearer* header.
+    JSON.  When *token* is set we send it as a *Basic* header.
     """
     try:
         headers = {"Accept": "application/json"}
         if token:
-            headers["Authorization"] = f"Bearer {token}"
+            headers["Authorization"] = f"Basic {token}"
 
         resp = requests.get(f"{url.rstrip('/')}/api/platforms", headers=headers, timeout=10)
         if resp.status_code != 200:
