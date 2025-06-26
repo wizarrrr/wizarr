@@ -1,5 +1,6 @@
 # app/blueprints/settings/routes.py
 import logging
+import base64
 
 from flask import Blueprint, request, render_template, redirect, url_for, flash, jsonify, session, make_response
 
@@ -54,7 +55,14 @@ def _check_server_connection(data: dict) -> tuple[bool, str]:
     elif stype == "audiobookshelf":
         return check_audiobookshelf(data["server_url"], data["api_key"])
     elif stype == "romm":
-        return check_romm(data["server_url"], data["api_key"])
+        # Derive token from supplied credentials if api_key missing
+        token = data.get("api_key")
+        if not token:
+            username = data.get("server_username", "").strip()
+            password = data.get("server_password", "").strip()
+            if username and password:
+                token = base64.b64encode(f"{username}:{password}".encode()).decode()
+        return check_romm(data["server_url"], token or "")
     else:
         return check_jellyfin(data["server_url"], data["api_key"])
 
@@ -174,9 +182,15 @@ def server_settings():
 def scan_libraries():
     # 1) credentials: prefer form → fallback to DB
     s = {r.key: r.value for r in Settings.query.all()}
-    stype = request.form.get("server_type") or s["server_type"]
-    url   = request.form.get("server_url")    or s["server_url"]
-    key   = request.form.get("api_key")       or s["api_key"]
+    stype = request.form.get("server_type") or s.get("server_type")
+    url   = request.form.get("server_url")    or s.get("server_url")
+    key   = request.form.get("api_key")       or s.get("api_key")
+
+    if stype == "romm" and (not key):
+        username = request.form.get("server_username")
+        password = request.form.get("server_password")
+        if username and password:
+            key = base64.b64encode(f"{username}:{password}".encode()).decode()
 
     if not url or not key:
         return jsonify({"error":"missing"}), 400

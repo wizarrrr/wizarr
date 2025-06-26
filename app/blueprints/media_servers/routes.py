@@ -5,6 +5,7 @@ from app.models import MediaServer, Library, User
 from app.forms.settings import SettingsForm  # reuse existing form for now
 from app.services.servers import check_plex, check_jellyfin, check_emby, check_audiobookshelf, check_romm
 from app.services.media.service import scan_libraries_for_server
+import base64
 
 media_servers_bp = Blueprint("media_servers", __name__, url_prefix="/settings/servers")
 
@@ -18,6 +19,10 @@ def _check_connection(data: dict):
     elif stype == "audiobookshelf":
         return check_audiobookshelf(data["server_url"], data["api_key"])
     elif stype == "romm":
+        username = data.get("server_username", "").strip()
+        password = data.get("server_password", "").strip()
+        if username and password:
+            data["api_key"] = base64.b64encode(f"{username}:{password}".encode()).decode()
         return check_romm(data["server_url"], data["api_key"])
     else:
         return check_jellyfin(data["server_url"], data["api_key"])
@@ -37,6 +42,14 @@ def list_servers():
 def create_server():
     if request.method == "POST":
         data = request.form.to_dict()
+
+        # --- RomM: derive API key from credentials ------------------
+        if data.get("server_type") == "romm":
+            username = data.get("server_username", "").strip()
+            password = data.get("server_password", "").strip()
+            if username and password:
+                data["api_key"] = base64.b64encode(f"{username}:{password}".encode()).decode()
+
         ok, error_msg = _check_connection(data)
         if not ok:
             # Re-render modal with error
@@ -104,6 +117,13 @@ def edit_server(server_id):
     server = MediaServer.query.get_or_404(server_id)
     if request.method == "POST":
         data = request.form.to_dict()
+
+        if data.get("server_type") == "romm":
+            username = data.get("server_username", "").strip()
+            password = data.get("server_password", "").strip()
+            if username and password:
+                data["api_key"] = base64.b64encode(f"{username}:{password}".encode()).decode()
+
         ok, error_msg = _check_connection(data)
         if not ok:
             resp = make_response(render_template("modals/edit-server.html", server=server, error=error_msg))

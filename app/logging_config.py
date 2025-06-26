@@ -32,6 +32,13 @@ LOGGING_CONFIG = {
         "handlers": ["console"],
         "level": LOG_LEVEL,
     },
+    "loggers": {
+        "app.services.media.romm": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+    }
 }
 
 def configure_logging() -> None:

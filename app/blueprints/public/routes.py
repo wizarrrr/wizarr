@@ -40,7 +40,7 @@ def invite(code):
     server = invitation.server or MediaServer.query.first()
     server_type = server.server_type if server else None
 
-    if server_type in ("jellyfin", "emby", "audiobookshelf"):
+    if server_type in ("jellyfin", "emby", "audiobookshelf", "romm"):
         form = JoinForm()
         form.code.data = code
         return render_template(
@@ -89,7 +89,7 @@ def join():
         ).start()
         session["wizard_access"] = code
         return redirect(url_for("wizard.start"))
-    elif server_type in ("jellyfin", "emby", "audiobookshelf"):
+    elif server_type in ("jellyfin", "emby", "audiobookshelf", "romm"):
         return render_template("welcome-jellyfin.html", code=code, server_type=server_type)
 
     # fallback if server_type missing/unsupported
