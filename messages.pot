@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-26 03:57+0000\n"
+"POT-Creation-Date: 2025-06-30 04:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,11 +21,11 @@ msgstr ""
 msgid "Invalid username or password"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:191
+#: app/blueprints/settings/routes.py:205
 msgid "Library scan failed"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:221
+#: app/blueprints/settings/routes.py:235
 msgid "Settings saved successfully!"
 msgstr ""
 
@@ -270,7 +270,7 @@ msgid "Specific Libraries"
 msgstr ""
 
 #: app/templates/admin/invite.html:234
-#: app/templates/settings/partials/server_form.html:104
+#: app/templates/settings/partials/server_form.html:129
 msgid "Scan For Libraries"
 msgstr ""
 
@@ -333,9 +333,9 @@ msgstr ""
 
 #: app/templates/admin/user_modal.html:41
 #: app/templates/modals/create-notification-agent.html:86
-#: app/templates/modals/create-server.html:57
+#: app/templates/modals/create-server.html:67
 #: app/templates/modals/edit-identity.html:13
-#: app/templates/modals/edit-server.html:60
+#: app/templates/modals/edit-server.html:70
 #: app/templates/modals/wizard-step-form.html:41
 #: app/templates/settings/wizard/form.html:39
 msgid "Cancel"
@@ -343,10 +343,10 @@ msgstr ""
 
 #: app/templates/admin/user_modal.html:48
 #: app/templates/modals/edit-identity.html:14
-#: app/templates/modals/edit-server.html:59
+#: app/templates/modals/edit-server.html:69
 #: app/templates/modals/wizard-step-form.html:42
 #: app/templates/settings/general.html:72
-#: app/templates/settings/partials/server_form.html:184
+#: app/templates/settings/partials/server_form.html:209
 #: app/templates/settings/wizard/form.html:32
 msgid "Save"
 msgstr ""
@@ -404,7 +404,7 @@ msgstr ""
 msgid "Add Server"
 msgstr ""
 
-#: app/templates/modals/create-server.html:56
+#: app/templates/modals/create-server.html:66
 msgid "Test & Add"
 msgstr ""
 
@@ -440,9 +440,9 @@ msgstr ""
 #: app/templates/settings/general.html:31
 #: app/templates/settings/general.html:41
 #: app/templates/settings/general.html:54
-#: app/templates/settings/partials/server_form.html:146
-#: app/templates/settings/partials/server_form.html:159
 #: app/templates/settings/partials/server_form.html:171
+#: app/templates/settings/partials/server_form.html:184
+#: app/templates/settings/partials/server_form.html:196
 msgid "Optional, leave empty to disable"
 msgstr ""
 
