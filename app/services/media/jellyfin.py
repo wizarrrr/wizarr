@@ -177,7 +177,7 @@ class JellyfinClient(RestApiMixin):
             inv = Invitation.query.filter_by(code=code).first()
 
             if inv.libraries:
-                sections = [lib.external_id for lib in inv.libraries]
+                sections = [lib.external_id for lib in inv.libraries if lib.server_id == (inv.server.id if inv.server else None)]
             else:
                 sections = [
                     lib.external_id
