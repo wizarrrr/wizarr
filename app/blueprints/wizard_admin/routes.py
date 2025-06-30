@@ -37,7 +37,25 @@ def list_steps():
     grouped: dict[str, list[WizardStep]] = {}
     for row in rows:
         grouped.setdefault(row.server_type, []).append(row)
-    return render_template("settings/wizard/index.html", grouped=grouped)
+
+    # When requested via HTMX we return only the inner fragment that is meant
+    # to be swapped into the <div id="tab-body"> container on the settings
+    # page.  For a normal full-page navigation we extend the base layout so
+    # the <head> section is populated and styling/scripts remain intact.
+    tmpl = (
+        "settings/wizard/index.html"
+        if request.headers.get("HX-Request")
+        else "settings/page.html"  # fallback renders full settings page
+    )
+
+    # For the full page fallback we have to render the *entire* settings page
+    # with the wizard tab pre-selected.  Rather than duplicating that layout
+    # we reuse the existing generic settings page helper and pass a query
+    # parameter that the template looks for to auto-open the correct tab.
+    if tmpl == "settings/page.html":
+        return redirect(url_for("settings.page") + "#wizard")
+
+    return render_template(tmpl, grouped=grouped)
 
 
 @wizard_admin_bp.route("/create", methods=["GET", "POST"])
@@ -114,7 +132,15 @@ def delete_step(step_id: int):
     db.session.delete(step)
     db.session.commit()
     flash("Step deleted", "success")
-    return redirect(url_for("wizard_admin.list_steps"))
+
+    # For HTMX requests return the updated steps list fragment so the client
+    # can refresh the table without a full page reload. Otherwise fall back
+    # to a normal redirect which lands on the full settings page (wizard tab
+    # pre-selected) to keep the UI consistent and fully styled.
+    if request.headers.get("HX-Request"):
+        return list_steps()
+
+    return redirect(url_for("settings.page") + "#wizard")
 
 
 @wizard_admin_bp.route("/reorder", methods=["POST"])

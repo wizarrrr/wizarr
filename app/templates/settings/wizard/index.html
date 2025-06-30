@@ -36,7 +36,10 @@
               <button hx-get="{{ url_for('wizard_admin.edit_step', step_id=step.id) }}"
                       hx-target="#step-modal" hx-trigger="click"
                       class="text-blue-600 hover:underline text-sm mr-2">{{ _("Edit") }}</button>
-              <form method="post" action="{{ url_for('wizard_admin.delete_step', step_id=step.id) }}" class="inline">
+              <form method="post" action="{{ url_for('wizard_admin.delete_step', step_id=step.id) }}" class="inline"
+                    hx-post="{{ url_for('wizard_admin.delete_step', step_id=step.id) }}"
+                    hx-target="#tab-body" hx-swap="innerHTML"
+                    hx-confirm="{{ _('Are you sure you want to delete this step?') }}">
                 <button type="submit" class="text-red-600 hover:underline text-sm">{{ _("Delete") }}</button>
               </form>
             </span>
