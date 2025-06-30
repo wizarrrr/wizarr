@@ -249,7 +249,7 @@ class AudiobookshelfClient(RestApiMixin):
             # ------------------------------------------------------------------
             if inv.libraries:
                 # Use libraries tied to the invite
-                lib_ids = [lib.external_id for lib in inv.libraries]
+                lib_ids = [lib.external_id for lib in inv.libraries if lib.server_id == (inv.server.id if inv.server else None)]
             else:
                 # Fallback to all *enabled* libraries for this server
                 lib_ids = [

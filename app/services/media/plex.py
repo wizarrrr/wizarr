@@ -217,9 +217,10 @@ def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> No
     client = get_client_for_media_server(server)
 
     # libraries list
-    if inv.libraries:
-        libs = [lib.external_id for lib in inv.libraries]
-    else:
+    libs = [lib.external_id for lib in inv.libraries if lib.server_id == server.id] if inv.libraries else []
+
+    if not libs:
+        # Fallback to *all* enabled libraries for this server
         libs = [
             lib.external_id
             for lib in Library.query.filter_by(enabled=True, server_id=server.id).all()
