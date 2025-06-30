@@ -76,7 +76,7 @@
                     {{ _("Libraries") }}: 
                     <span class="ml-1 truncate">
                         {% if invite.libraries %}
-                            {{ invite.libraries|map(attribute='name')|join(', ') }}
+                            {{ (invite.display_libraries if invite.display_libraries is defined else invite.libraries|map(attribute='name'))|join(', ') }}
                         {% else %}
                             {{ _("Default") }}
                         {% endif %}

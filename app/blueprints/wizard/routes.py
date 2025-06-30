@@ -1,7 +1,7 @@
 from flask_babel import _
 from pathlib import Path
 import frontmatter, markdown
-from flask import Blueprint, render_template, abort, request, session, redirect
+from flask import Blueprint, render_template, abort, request, session, redirect, url_for
 from flask_login import current_user
 from app.models import Settings, MediaServer, Invitation, WizardStep
 from app.services.ombi_client import run_all_importers
@@ -183,12 +183,16 @@ def start():
     server_type = None
     if inv_code:
         inv = Invitation.query.filter_by(code=inv_code).first()
-        if inv and inv.server:
-            server_type = inv.server.server_type
+        if inv and inv.servers:
+            server_order = sorted(inv.servers, key=lambda s: s.server_type)
+            if len(server_order) > 1:
+                # store ordered list in session and redirect to combo route
+                session['wizard_server_order'] = [s.server_type for s in server_order]
+                return redirect(url_for('wizard.combo', idx=0))
+            else:
+                server_type = server_order[0].server_type
 
     if not server_type:
-        # Use the first configured media server – wizard steps rely on the
-        # server_type folder name (plex / emby / etc.).
         first_srv = MediaServer.query.first()
         server_type = first_srv.server_type if first_srv else "plex"
 
@@ -198,3 +202,34 @@ def start():
 @wizard_bp.route("/<server>/<int:idx>")
 def step(server, idx):
     return _serve(server, idx)
+
+
+# ─── combined wizard for multi-server invites ─────────────────────────────
+
+@wizard_bp.route('/combo/<int:idx>')
+def combo(idx: int):
+    cfg = _settings()
+    order = session.get('wizard_server_order') or []
+    if not order:
+        # fallback to normal wizard
+        return redirect(url_for('wizard.start'))
+
+    # concatenate steps preserving order
+    steps: list = []
+    for stype in order:
+        steps.extend(_steps(stype, cfg))
+
+    if not steps:
+        abort(404)
+
+    idx = max(0, min(idx, len(steps)-1))
+    html = _render(steps[idx], cfg | {"_": _})
+
+    return render_template(
+        "wizard/frame.html",
+        body_html=html,
+        idx=idx,
+        max_idx=len(steps)-1,
+        server_type='combo',
+        direction=request.values.get('dir',''),
+    )

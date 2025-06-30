@@ -151,6 +151,9 @@ def invite_table():
                 inv.expires = datetime.datetime.strptime(inv.expires, "%Y-%m-%d %H:%M")
             inv.expired = inv.expires < now
 
+        # unique library names for display
+        inv.display_libraries = sorted({lib.name for lib in inv.libraries})
+
     return render_template(
         "tables/invite_card.html",
         server_type=server_type,
