@@ -8,7 +8,7 @@ import requests
 from app.extensions import db
 from app.models import Invitation, User, Settings, Library
 from app.services.notifications import notify
-from app.services.invites import is_invite_valid
+from app.services.invites import is_invite_valid, mark_server_used
 from .client_base import RestApiMixin, register_media_client
 
 EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
@@ -113,10 +113,9 @@ class JellyfinClient(RestApiMixin):
 
     @staticmethod
     def _mark_invite_used(inv: Invitation, user: User) -> None:
-        inv.used = True if not inv.unlimited else inv.used
-        inv.used_at = datetime.datetime.now()
+        """Mark invitation consumed for the Jellyfin server only."""
         inv.used_by = user
-        db.session.commit()
+        mark_server_used(inv, getattr(user, "server_id", None) or (inv.server.id if inv.server else None))
 
     @staticmethod
     def _folder_name_to_id(name: str, cache: dict[str, str]) -> str | None:

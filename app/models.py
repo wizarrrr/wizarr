@@ -8,6 +8,17 @@ invite_libraries = db.Table(
     db.Column("library_id", db.Integer, db.ForeignKey("library.id"), primary_key=True),
 )
 
+# ─────────────────────────────────────────────────────────────────────────────
+# New association table to enable multi-server invitations  (2025-06)
+invitation_servers = db.Table(
+    "invitation_server",
+    db.Column("invite_id", db.Integer, db.ForeignKey("invitation.id"), primary_key=True),
+    db.Column("server_id", db.Integer, db.ForeignKey("media_server.id"), primary_key=True),
+    # Track per-server usage so a single invite can be consumed independently
+    db.Column("used", db.Boolean, default=False, nullable=False),
+    db.Column("used_at", db.DateTime, nullable=True),
+)
+
 
 class Invitation(db.Model):
     __tablename__ = 'invitation'
@@ -26,11 +37,18 @@ class Invitation(db.Model):
     plex_home = db.Column(db.Boolean, default=False, nullable=True)
     plex_allow_channels = db.Column(db.Boolean, default=False, nullable=True)
     server_id = db.Column(db.Integer, db.ForeignKey('media_server.id'), nullable=True)
-    server = db.relationship('MediaServer', backref=db.backref('invites', lazy=True))
+    server = db.relationship('MediaServer', backref=db.backref('primary_invites', lazy=True))
 
     libraries = db.relationship(
         "Library",
         secondary=invite_libraries,
+        back_populates="invites",
+    )
+
+    # Link to one or many MediaServer rows (multi-server invites)
+    servers = db.relationship(
+        "MediaServer",
+        secondary=invitation_servers,
         back_populates="invites",
     )
 
@@ -94,6 +112,13 @@ class MediaServer(db.Model):
     verified = db.Column(db.Boolean, default=False, nullable=False)
 
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    # Reverse relationship for multi-server invites
+    invites = db.relationship(
+        "Invitation",
+        secondary=invitation_servers,
+        back_populates="servers",
+    )
 
 
 class Library(db.Model):

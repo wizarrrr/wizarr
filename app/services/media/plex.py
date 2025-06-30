@@ -11,6 +11,7 @@ from app.models import Invitation, User, Settings, Library, MediaServer
 from app.services.notifications import notify
 from .client_base import MediaClient, register_media_client
 from app.services.media.service import get_client_for_media_server
+from app.services.invites import mark_server_used
 
 
 @register_media_client("plex")
@@ -237,9 +238,10 @@ def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> No
     if user_id:
         user = User.query.get(user_id)
         inv.used_by = user
-    inv.used_at = datetime.datetime.now()
-    if not inv.unlimited:
-        inv.used = True
+
+    # Mark invite consumed for *this* server (multi-server aware)
+    mark_server_used(inv, server.id)
+
     # clear cached user list so admin UI shows the new invite
     PlexClient.list_users.cache_clear()
     db.session.commit()

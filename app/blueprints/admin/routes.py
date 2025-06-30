@@ -4,7 +4,7 @@ from app.services.invites import create_invite
 from app.services.media.service import list_users, delete_user, list_users_all_servers, list_users_for_server, scan_libraries_for_server, EMAIL_RE
 from app.services.update_check import check_update_available, get_sponsors
 from app.extensions import db, htmx
-from app.models import Invitation, Settings, User, MediaServer, Library, Identity
+from app.models import Invitation, Settings, User, MediaServer, Library, Identity, invitation_servers
 from app.blueprints.settings.routes import _load_settings
 import os
 from flask_login import login_required
@@ -40,10 +40,17 @@ def invite():
     first_server = servers[0] if servers else None
 
     # Determine which server is being targeted (id from form or query)
-    target_server_id = request.form.get("server_id") if request.method == "POST" else request.args.get("server_id")
+    if request.method == "POST":
+        chosen_ids = request.form.getlist("server_ids") or ([request.form.get("server_id")] if request.form.get("server_id") else [])
+    else:
+        chosen_ids = [request.args.get("server_id")] if request.args.get("server_id") else []
+
+    # pick first selected server to drive contextual UI (plex-specific toggles etc.)
     target_server = None
-    if target_server_id:
-        target_server = MediaServer.query.get(int(target_server_id))
+    for sid in chosen_ids:
+        if sid:
+            target_server = MediaServer.query.get(int(sid))
+            break
     if not target_server:
         target_server = first_server
 
@@ -115,6 +122,7 @@ def invite_table():
         db.session.commit()
 
     query = Invitation.query.options(db.joinedload(Invitation.libraries)).order_by(Invitation.created.desc())
+    query = query.options(db.joinedload(Invitation.servers))
     if server_filter:
         query = query.filter(Invitation.server_id == int(server_filter))
         srv = MediaServer.query.get(int(server_filter))
@@ -130,13 +138,17 @@ def invite_table():
     invites = query.all()
     now = datetime.datetime.now()
 
-    # annotate expiry
+    # Map (invite_id, server_id) -> used
+    raw_flags = db.session.execute(invitation_servers.select()).fetchall()
+    flags = {(r.invite_id, r.server_id): r.used for r in raw_flags}
+
+    # annotate invite.servers entries with 'used_flag'
     for inv in invites:
+        for srv in inv.servers:
+            srv.used_flag = flags.get((inv.id, srv.id), False)
         if inv.expires:
             if isinstance(inv.expires, str):
-                inv.expires = datetime.datetime.strptime(
-                    inv.expires, "%Y-%m-%d %H:%M"
-                )
+                inv.expires = datetime.datetime.strptime(inv.expires, "%Y-%m-%d %H:%M")
             inv.expired = inv.expires < now
 
     return render_template(
@@ -240,31 +252,47 @@ def user_detail(db_id: int):
 @admin_bp.post('/invite/scan-libraries')
 @login_required
 def invite_scan_libraries():
+    """Scan libraries for one or multiple selected servers and return grouped checkboxes."""
+
     from app.services.media.service import scan_libraries_for_server
     from app.models import MediaServer, Library
-    sid = request.form.get('server_id')
-    if not sid:
+
+    # Accept either multi-select checkboxes (server_ids) or legacy single server_id
+    ids = request.form.getlist('server_ids') or []
+    if not ids and request.form.get('server_id'):
+        ids = [request.form.get('server_id')]
+
+    if not ids:
         return '<div class="text-red-500">No server selected</div>', 400
-    server = MediaServer.query.get(int(sid))
-    if not server:
-        return '<div class="text-red-500">Invalid server</div>', 400
-    try:
-        raw = scan_libraries_for_server(server)
-        items = raw.items() if isinstance(raw, dict) else [(n,n) for n in raw]
-    except Exception as exc:
-        logging.warning('Library scan failed: %s', exc)
-        return '<div class="text-red-500">Scan failed</div>'
-    seen=set()
-    for fid,name in items:
-        seen.add(fid)
-        lib = Library.query.filter_by(external_id=fid, server_id=server.id).first()
-        if lib:
-            lib.name = name
-        else:
-            db.session.add(Library(external_id=fid,name=name,server_id=server.id))
+
+    servers = MediaServer.query.filter(MediaServer.id.in_(ids)).all()
+    if not servers:
+        return '<div class="text-red-500">Invalid server(s)</div>', 400
+
+    server_libs: dict[int, list[Library]] = {}
+
+    for server in servers:
+        try:
+            raw = scan_libraries_for_server(server)
+            items = raw.items() if isinstance(raw, dict) else [(n, n) for n in raw]
+        except Exception as exc:
+            logging.warning('Library scan failed for %s: %s', server.name, exc)
+            items = []
+
+        for fid, name in items:
+            lib = Library.query.filter_by(external_id=fid, server_id=server.id).first()
+            if lib:
+                lib.name = name
+            else:
+                db.session.add(Library(external_id=fid, name=name, server_id=server.id))
+        db.session.flush()
+        server_libs[server.id] = (
+            Library.query.filter_by(server_id=server.id).order_by(Library.name).all()
+        )
+
     db.session.commit()
-    libs = Library.query.filter_by(server_id=server.id).order_by(Library.name).all()
-    return render_template('partials/library_checkboxes.html', libs=libs)
+
+    return render_template('partials/server_library_picker.html', servers=servers, server_libs=server_libs)
 
 
 @admin_bp.post("/users/link")
