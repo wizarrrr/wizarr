@@ -1,17 +1,13 @@
 {# Render library checkboxes grouped by server #}
 {% for srv in servers %}
-  <div class="border rounded-lg p-4 dark:border-gray-700">
-    <h3 class="text-sm font-semibold mb-2 text-gray-800 dark:text-gray-200 flex items-center gap-1">
-      <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M4 3a2 2 0 00-2 2v1a1 1 0 001 1h14a1 1 0 001-1V5a2 2 0 00-2-2H4z"></path><path fill-rule="evenodd" d="M18 9H2v6a2 2 0 002 2h12a2 2 0 002-2V9z" clip-rule="evenodd"></path></svg>
-      {{ srv.name }} ({{ srv.server_type }})
-    </h3>
-    <div class="grid grid-cols-2 gap-2">
-      {% for lib in server_libs[srv.id] %}
-      <label class="inline-flex items-center">
-        <input type="checkbox" name="libraries" value="{{ lib.external_id }}" class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:bg-gray-700 dark:border-gray-600">
-        <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 truncate">{{ lib.name }}</span>
-      </label>
-      {% endfor %}
-    </div>
-  </div>
+  <ul class="h-48 px-3 py-2 overflow-y-auto text-sm text-gray-700 dark:text-gray-200" >
+    {% for lib in server_libs[srv.id] %}
+    <li>
+      <div class="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+        <input id="lib{{ srv.id }}-{{ lib.id }}" type="checkbox" name="libraries" value="{{ lib.external_id }}" {% if lib.enabled %}checked{% endif %} class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+        <label for="lib{{ srv.id }}-{{ lib.id }}" class="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300 truncate">{{ lib.name }}</label>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
 {% endfor %} 
