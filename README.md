@@ -5,8 +5,6 @@
 
 <img src="./app/static/wizarr-logo.png" height="200">
 
-![GitHub Sponsors](https://img.shields.io/github/sponsors/mtthidoteu?style=plastic&link=https%3A%2F%2Fgithub.com%2Fsponsors%2Fmtthidoteu)
-
 
 ---
 
