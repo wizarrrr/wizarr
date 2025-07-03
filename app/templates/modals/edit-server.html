@@ -58,6 +58,16 @@
                                 <label for="allow_tv_plex" class="ml-2 text-sm text-gray-900 dark:text-white">Allow Live TV</label>
                             </div>
                         </div>
+                        <div id="jellyfin-options" style="display:none;">
+                            <div class="flex items-center">
+                                <input type="checkbox" name="allow_downloads_jellyfin" id="allow_downloads_jellyfin" value="true" {% if server.allow_downloads_jellyfin %}checked{% endif %} class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300">
+                                <label for="allow_downloads_jellyfin" class="ml-2 text-sm text-gray-900 dark:text-white">Allow Downloads</label>
+                            </div>
+                            <div class="flex items-center mt-2">
+                                <input type="checkbox" name="allow_tv_jellyfin" id="allow_tv_jellyfin" value="true" {% if server.allow_tv_jellyfin %}checked{% endif %} class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300">
+                                <label for="allow_tv_jellyfin" class="ml-2 text-sm text-gray-900 dark:text-white">Allow Live TV</label>
+                            </div>
+                        </div>
                         <div class="mt-4">
                             <a hx-post="{{ url_for('media_servers.scan_server_libraries', server_id=server.id) }}" hx-include="[name=server_username],[name=server_password]" hx-target="#libraries" hx-swap="innerHTML" class="text-sm text-secondary cursor-pointer">Scan Libraries</a>
                             <div id="libraries" class="space-y-2 mt-2">
@@ -82,6 +92,7 @@ function updateOptions(){
   document.getElementById('plex-options').style.display = type==='plex' ? 'block' : 'none';
   document.getElementById('romm-options').style.display = type==='romm' ? 'block' : 'none';
   document.getElementById('api-key-div').style.display  = type==='romm' ? 'none'  : 'block';
+  document.getElementById('jellyfin-options').style.display = type==='jellyfin' ? 'block' : 'none';
 }
 document.getElementById('server_type').addEventListener('change',updateOptions);
 updateOptions();

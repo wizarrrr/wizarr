@@ -58,6 +58,10 @@ def invite():
     allow_downloads_plex = bool(getattr(target_server, "allow_downloads_plex", False))
     allow_tv_plex = bool(getattr(target_server, "allow_tv_plex", False))
 
+    # Jellyfin defaults
+    allow_downloads_jellyfin = bool(getattr(target_server, "allow_downloads_jellyfin", False))
+    allow_tv_jellyfin        = bool(getattr(target_server, "allow_tv_jellyfin", False))
+
     if request.method == "POST":
         try:
             invite = create_invite(request.form)
@@ -81,6 +85,8 @@ def invite():
             server_type=server_type,
             allow_downloads_plex=allow_downloads_plex,
             allow_tv_plex=allow_tv_plex,
+            allow_downloads_jellyfin=allow_downloads_jellyfin,
+            allow_tv_jellyfin=allow_tv_jellyfin,
             servers=servers,
             chosen_server_id=target_server.id if target_server else None,
         )
@@ -91,6 +97,8 @@ def invite():
         server_type=server_type,
         allow_downloads_plex=allow_downloads_plex,
         allow_tv_plex=allow_tv_plex,
+        allow_downloads_jellyfin=allow_downloads_jellyfin,
+        allow_tv_jellyfin=allow_tv_jellyfin,
         servers=servers,
         chosen_server_id=target_server.id if target_server else None,
     )

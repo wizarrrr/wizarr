@@ -186,6 +186,24 @@ class JellyfinClient(RestApiMixin):
 
             self._set_specific_folders(user_id, sections)
 
+            # Apply download / Live TV permissions
+            allow_downloads = bool(getattr(inv, 'jellyfin_allow_downloads', False))
+            allow_live_tv   = bool(getattr(inv, 'jellyfin_allow_live_tv', False))
+            # fall back to server defaults if invite flags are false
+            if inv.server:
+                if not allow_downloads:
+                    allow_downloads = bool(getattr(inv.server, 'allow_downloads_jellyfin', False))
+                if not allow_live_tv:
+                    allow_live_tv   = bool(getattr(inv.server, 'allow_tv_jellyfin', False))
+            
+            if allow_downloads or allow_live_tv:
+                current_policy = self.get(f"/Users/{user_id}").json().get("Policy", {})
+                if allow_downloads:
+                    current_policy["EnableDownloads"] = True
+                if allow_live_tv:
+                    current_policy["EnableLiveTvAccess"] = True
+                self.set_policy(user_id, current_policy)
+
             expires = None
             if inv.duration:
                 days = int(inv.duration)

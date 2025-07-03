@@ -64,6 +64,10 @@ def create_server():
             external_url=data.get("external_url"),
             allow_downloads_plex=bool(data.get("allow_downloads_plex")),
             allow_tv_plex=bool(data.get("allow_tv_plex")),
+            
+            # Jellyfin defaults
+            allow_downloads_jellyfin=bool(data.get("allow_downloads_jellyfin")),
+            allow_tv_jellyfin=bool(data.get("allow_tv_jellyfin")),
             verified=True,
         )
         db.session.add(server)
@@ -136,6 +140,8 @@ def edit_server(server_id):
         server.external_url = data.get("external_url")
         server.allow_downloads_plex = bool(data.get("allow_downloads_plex"))
         server.allow_tv_plex = bool(data.get("allow_tv_plex"))
+        server.allow_downloads_jellyfin = bool(data.get("allow_downloads_jellyfin"))
+        server.allow_tv_jellyfin = bool(data.get("allow_tv_jellyfin"))
         # update libraries
         chosen = request.form.getlist('libraries')
         if chosen:

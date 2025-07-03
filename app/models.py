@@ -52,6 +52,10 @@ class Invitation(db.Model):
         back_populates="invites",
     )
 
+    # ── NEW: Jellyfin invite toggles ───────────────────────────────
+    jellyfin_allow_downloads = db.Column(db.Boolean, default=False, nullable=True)
+    jellyfin_allow_live_tv   = db.Column(db.Boolean, default=False, nullable=True)
+
 
 class Settings(db.Model):
     __tablename__ = 'settings'
@@ -107,6 +111,10 @@ class MediaServer(db.Model):
     # Plex‐specific toggles (ignored by other server types)
     allow_downloads_plex = db.Column(db.Boolean, default=False, nullable=False)
     allow_tv_plex = db.Column(db.Boolean, default=False, nullable=False)
+
+    # Jellyfin-specific toggles (ignored by other server types)
+    allow_downloads_jellyfin = db.Column(db.Boolean, default=False, nullable=False)
+    allow_tv_jellyfin        = db.Column(db.Boolean, default=False, nullable=False)
 
     # Whether the connection credentials were validated successfully
     verified = db.Column(db.Boolean, default=False, nullable=False)
