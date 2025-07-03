@@ -48,6 +48,16 @@
                                 <label for="allow_tv_plex" class="ml-2 text-sm text-gray-900 dark:text-white">Allow Live TV</label>
                             </div>
                         </div>
+                        <div id="jellyfin-options" style="display:none;">
+                            <div class="flex items-center">
+                                <input type="checkbox" name="allow_downloads_jellyfin" id="allow_downloads_jellyfin" value="true" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300">
+                                <label for="allow_downloads_jellyfin" class="ml-2 text-sm text-gray-900 dark:text-white">Allow Downloads</label>
+                            </div>
+                            <div class="flex items-center mt-2">
+                                <input type="checkbox" name="allow_tv_jellyfin" id="allow_tv_jellyfin" value="true" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300">
+                                <label for="allow_tv_jellyfin" class="ml-2 text-sm text-gray-900 dark:text-white">Allow Live TV</label>
+                            </div>
+                        </div>
                         <div id="romm-options" style="display:none;">
                             <div>
                                 <label for="server_username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">RomM Username</label>
@@ -77,6 +87,7 @@ function closeModal(){ document.getElementById('create-server-modal').innerHTML=
 function updateOptions(){
   const type=document.getElementById('server_type').value;
   document.getElementById('plex-options').style.display = type==='plex' ? 'block' : 'none';
+  document.getElementById('jellyfin-options').style.display = type==='jellyfin' ? 'block' : 'none';
   document.getElementById('romm-options').style.display = type==='romm' ? 'block' : 'none';
   document.getElementById('api-key-div').style.display  = type==='romm' ? 'none'  : 'block';
 }

@@ -163,6 +163,22 @@
             </div>
           </div>
 
+          {# === Jellyfin-specific options, hidden by default === #}
+          <div id="jellyfin-options" class="space-y-2 hidden">
+            <div class="flex items-center">
+              {{ form.allow_downloads_jellyfin(
+                  class="w-4 h-4 text-blue-600 bg-gray-100 rounded-sm border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              ) }}
+              {{ form.allow_downloads_jellyfin.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300") }}
+            </div>
+            <div class="flex items-center">
+              {{ form.allow_tv_jellyfin(
+                  class="w-4 h-4 text-blue-600 bg-gray-100 rounded-sm border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              ) }}
+              {{ form.allow_tv_jellyfin.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300") }}
+            </div>
+          </div>
+
           {# Overseerr / Ombi URL & API #}
           <div>
             {{ form.overseerr_url.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
@@ -254,6 +270,13 @@
       } else {
         rommOptionsDiv.classList.add("hidden");
         apiKeyDiv.classList.remove("hidden");
+      }
+
+      // Jellyfin specific
+      if (type === "jellyfin") {
+        document.getElementById("jellyfin-options").classList.remove("hidden");
+      } else {
+        document.getElementById("jellyfin-options").classList.add("hidden");
       }
 
       toggleOmbiApiVisibility();

@@ -85,6 +85,10 @@ def create_invite(form: Any) -> Invitation:
         plex_home=bool(form.get("plex_home")),
         plex_allow_channels=bool(form.get("plex_allow_channels")),
         server=primary_server,
+        
+        # New Jellyfin flags
+        jellyfin_allow_downloads=bool(form.get("jellyfin_allow_downloads")),
+        jellyfin_allow_live_tv=bool(form.get("jellyfin_allow_live_tv")),
     )
     db.session.add(invite)
     db.session.flush()  # so invite.id exists, but not yet committed
