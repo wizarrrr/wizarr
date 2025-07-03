@@ -52,6 +52,12 @@ class Invitation(db.Model):
         back_populates="invites",
     )
 
+    # ── NEW: link invitation to an explicit wizard bundle ────────────
+    wizard_bundle_id = db.Column(db.Integer, db.ForeignKey("wizard_bundle.id"), nullable=True)
+    wizard_bundle = db.relationship(
+        "WizardBundle", backref=db.backref("invitations", lazy=True)
+    )
+
     # ── NEW: Jellyfin invite toggles ───────────────────────────────
     jellyfin_allow_downloads = db.Column(db.Boolean, default=False, nullable=True)
     jellyfin_allow_live_tv   = db.Column(db.Boolean, default=False, nullable=True)
@@ -211,3 +217,47 @@ class WizardStep(db.Model):
             "markdown": self.markdown,
             "requires": self.requires or [],
         }
+
+
+# ───────────────────────────────────────────────────────────────────────────────
+# New models powering custom "Wizard Bundles" (2025-07)
+# ───────────────────────────────────────────────────────────────────────────────
+class WizardBundle(db.Model):
+    """A named collection of WizardStep pages shown in fixed order."""
+
+    __tablename__ = "wizard_bundle"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=True)
+
+    # Ordered list of steps belonging to this bundle
+    steps = db.relationship(
+        "WizardBundleStep",
+        back_populates="bundle",
+        cascade="all, delete-orphan",
+        order_by="WizardBundleStep.position",
+    )
+
+
+class WizardBundleStep(db.Model):
+    """Mapping table assigning a WizardStep to a Bundle at a given position."""
+
+    __tablename__ = "wizard_bundle_step"
+
+    id = db.Column(db.Integer, primary_key=True)
+    bundle_id = db.Column(
+        db.Integer, db.ForeignKey("wizard_bundle.id", ondelete="CASCADE"), nullable=False
+    )
+    step_id = db.Column(
+        db.Integer, db.ForeignKey("wizard_step.id", ondelete="CASCADE"), nullable=False
+    )
+    position = db.Column(db.Integer, nullable=False)
+
+    # Relationships
+    bundle = db.relationship("WizardBundle", back_populates="steps")
+    step   = db.relationship("WizardStep")
+
+    __table_args__ = (
+        db.UniqueConstraint("bundle_id", "position", name="uq_bundle_pos"),
+    )

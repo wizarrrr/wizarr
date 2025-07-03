@@ -1,54 +1,109 @@
 {# templates/settings/wizard/index.html #}
 <div id="step-modal"></div>
-<section class="space-y-6">
-  <div class="flex justify-between items-center">
-    <h1 class="text-xl font-bold text-gray-900 dark:text-white">{{ _("Wizard Steps") }}</h1>
-    <button hx-get="{{ url_for('wizard_admin.create_step') }}"
-            hx-target="#step-modal" hx-trigger="click"
-            class="px-3 py-1 rounded bg-primary text-white">{{ _("Create step") }}</button>
+<section class="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-6">
+  <div id="steps-col" class="space-y-6">
+    <div class="flex justify-between items-center">
+      <h1 class="text-xl font-bold text-gray-900 dark:text-white">{{ _("Wizard Steps") }}</h1>
+      <button hx-get="{{ url_for('wizard_admin.create_step') }}"
+              hx-target="#step-modal" hx-trigger="click"
+              class="px-3 py-1 rounded bg-primary text-white">{{ _("Create step") }}</button>
+    </div>
+
+    {% if not grouped %}
+      <p class="text-gray-600 dark:text-gray-300">{{ _("No steps found.") }}</p>
+    {% endif %}
+
+    {% for server, steps in grouped.items() %}
+      <div class="border rounded-md p-4 dark:border-gray-700">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">{{ server|capitalize }}</h2>
+          <a href="{{ url_for('wizard.step', server=server, idx=0) }}" target="_blank"
+             class="inline-flex items-center justify-center p-2 text-gray-800 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:text-white dark:hover:bg-gray-600"
+             title="{{ _('Preview Wizard') }}">
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 14v4.833A1.166 1.166 0 0 1 16.833 20H5.167A1.167 1.167 0 0 1 4 18.833V7.167A1.166 1.166 0 0 1 5.167 6h4.618m4.447-2H20v5.768m-7.889 2.121 7.778-7.778" />
+            </svg>
+          </a>
+        </div>
+        <ol class="wizard-steps bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700" data-server="{{ server }}" data-reorder-url="{{ url_for('wizard_admin.reorder_steps') }}">
+          {% for step in steps %}
+            <li class="flex items-center justify-between px-4 py-3" data-id="{{ step.id }}">
+              <!-- placeholder icon -->
+              <svg class="drag w-4 h-4 cursor-grab text-gray-400 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" /></svg>
+
+              <span class="flex-1 text-sm font-medium text-gray-900 dark:text-white">{{ step.title or _("Untitled") }}</span>
+
+              <span class="flex items-center gap-2">
+                <button hx-get="{{ url_for('wizard_admin.edit_step', step_id=step.id) }}"
+                        hx-target="#step-modal" hx-trigger="click"
+                        class="text-blue-600 hover:underline text-sm mr-2">{{ _("Edit") }}</button>
+                <form method="post" action="{{ url_for('wizard_admin.delete_step', step_id=step.id) }}" class="inline"
+                      hx-post="{{ url_for('wizard_admin.delete_step', step_id=step.id) }}"
+                      hx-target="#tab-body" hx-swap="innerHTML"
+                      hx-confirm="{{ _('Are you sure you want to delete this step?') }}">
+                  <button type="submit" class="text-red-600 hover:underline text-sm">{{ _("Delete") }}</button>
+                </form>
+              </span>
+
+              <!-- grip icon on far right as drag handle -->
+              <svg class="drag w-4 h-4 cursor-grab text-gray-400 ml-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" /></svg>
+            </li>
+          {% endfor %}
+        </ol>
+      </div>
+    {% endfor %}
   </div>
 
-  {% if not grouped %}
-    <p class="text-gray-600 dark:text-gray-300">{{ _("No steps found.") }}</p>
-  {% endif %}
-
-  {% for server, steps in grouped.items() %}
-    <div class="border rounded-md p-4 dark:border-gray-700">
-      <div class="flex items-center justify-between mb-2">
-        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">{{ server|capitalize }}</h2>
-        <a href="{{ url_for('wizard.step', server=server, idx=0) }}" target="_blank"
-           class="inline-flex items-center justify-center p-2 text-gray-800 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:text-white dark:hover:bg-gray-600"
-           title="{{ _('Preview Wizard') }}">
-          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 14v4.833A1.166 1.166 0 0 1 16.833 20H5.167A1.167 1.167 0 0 1 4 18.833V7.167A1.166 1.166 0 0 1 5.167 6h4.618m4.447-2H20v5.768m-7.889 2.121 7.778-7.778" />
-          </svg>
-        </a>
-      </div>
-      <ol class="wizard-steps bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700" data-server="{{ server }}" data-reorder-url="{{ url_for('wizard_admin.reorder_steps') }}">
-        {% for step in steps %}
-          <li class="flex items-center justify-between px-4 py-3" data-id="{{ step.id }}">
-            <!-- placeholder icon -->
-            <svg class="drag w-4 h-4 cursor-grab text-gray-400 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" /></svg>
-
-            <span class="flex-1 text-sm font-medium text-gray-900 dark:text-white">{{ step.title or _("Untitled") }}</span>
-
-            <span class="flex items-center gap-2">
-              <button hx-get="{{ url_for('wizard_admin.edit_step', step_id=step.id) }}"
-                      hx-target="#step-modal" hx-trigger="click"
-                      class="text-blue-600 hover:underline text-sm mr-2">{{ _("Edit") }}</button>
-              <form method="post" action="{{ url_for('wizard_admin.delete_step', step_id=step.id) }}" class="inline"
-                    hx-post="{{ url_for('wizard_admin.delete_step', step_id=step.id) }}"
-                    hx-target="#tab-body" hx-swap="innerHTML"
-                    hx-confirm="{{ _('Are you sure you want to delete this step?') }}">
-                <button type="submit" class="text-red-600 hover:underline text-sm">{{ _("Delete") }}</button>
-              </form>
-            </span>
-
-            <!-- grip icon on far right as drag handle -->
-            <svg class="drag w-4 h-4 cursor-grab text-gray-400 ml-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" /></svg>
-          </li>
-        {% endfor %}
-      </ol>
+  <!-- BUNDLES SECTION -->
+  <div class="mt-10 lg:mt-0 space-y-6" id="bundles-section">
+    <div class="flex justify-between items-center">
+      <h1 class="text-xl font-bold text-gray-900 dark:text-white">{{ _("Wizard Bundles") }}</h1>
+      <button hx-get="{{ url_for('wizard_admin.create_bundle') }}"
+              hx-target="#step-modal" hx-trigger="click"
+              class="px-3 py-1 rounded bg-primary text-white">{{ _("Create bundle") }}</button>
     </div>
-  {% endfor %}
+
+    {% if not bundles %}
+      <p class="text-gray-600 dark:text-gray-300">{{ _("No bundles found.") }}</p>
+    {% endif %}
+
+    {% for b in bundles %}
+      <div class="border rounded-md p-4 dark:border-gray-700">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">{{ b.name }}</h2>
+          <span class="flex items-center gap-2">
+            <button hx-get="{{ url_for('wizard_admin.edit_bundle', bundle_id=b.id) }}"
+                    hx-target="#step-modal" hx-trigger="click"
+                    class="text-blue-600 hover:underline text-sm mr-2">{{ _("Edit") }}</button>
+            <form method="post" action="{{ url_for('wizard_admin.delete_bundle', bundle_id=b.id) }}" class="inline"
+                  hx-post="{{ url_for('wizard_admin.delete_bundle', bundle_id=b.id) }}"
+                  hx-target="#bundles-section" hx-swap="innerHTML"
+                  hx-confirm="{{ _('Are you sure you want to delete this bundle?') }}">
+              <button type="submit" class="text-red-600 hover:underline text-sm">{{ _("Delete") }}</button>
+            </form>
+          </span>
+        </div>
+
+        {% if b.description %}
+          <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">{{ b.description }}</p>
+        {% endif %}
+
+        <ol class="bundle-steps bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700"
+            data-bundle="{{ b.id }}" data-reorder-url="{{ url_for('wizard_admin.reorder_bundle', bundle_id=b.id) }}">
+          {% for bs in b.steps %}
+            <li class="flex items-center justify-between px-4 py-3" data-id="{{ bs.step.id }}">
+              <!-- placeholder icon -->
+              <svg class="drag w-4 h-4 cursor-grab text-gray-400 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" /></svg>
+
+              <span class="flex-1 text-sm font-medium text-gray-900 dark:text-white">{{ bs.step.title or _("Untitled") }}</span>
+            </li>
+          {% endfor %}
+        </ol>
+
+        <button hx-get="{{ url_for('wizard_admin.add_steps_modal', bundle_id=b.id) }}"
+                hx-target="#step-modal" hx-trigger="click"
+                class="mt-3 px-2 py-1 text-xs rounded bg-secondary text-white">{{ _("Add steps") }}</button>
+      </div>
+    {% endfor %}
+  </div>
 </section> 

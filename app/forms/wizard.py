@@ -24,4 +24,12 @@ class WizardStepForm(FlaskForm):
 
     requires = StringField(
         "Requires (comma-separated setting keys)", validators=[Optional()]
-    ) 
+    )
+
+
+class WizardBundleForm(FlaskForm):
+    """Simple form to create / edit a WizardBundle."""
+
+    name = StringField("Name", validators=[DataRequired()])
+    description = StringField("Description", validators=[Optional()])
+    # optional: Steps selection handled in separate UI; keep form minimal 
