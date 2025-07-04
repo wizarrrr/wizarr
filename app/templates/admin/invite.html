@@ -56,6 +56,21 @@
                             </select>
                         </div>
 
+                        {# Wizard bundle selection #}
+                        {% if bundles %}
+                        <div>
+                            <label for="wizard_bundle_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+                                {{ _("Wizard bundle") }}
+                            </label>
+                            <select id="wizard_bundle_id" name="wizard_bundle_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
+                                <option value="">{{ _("Automatic") }}</option>
+                                {% for b in bundles %}
+                                  <option value="{{ b.id }}">{{ b.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+
                         <!-- Advanced Options Toggle -->
                         <div>
                             <a

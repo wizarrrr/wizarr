@@ -78,6 +78,8 @@ def invite():
             .order_by(Invitation.created.desc())
             .all()
         )
+        from app.models import WizardBundle
+        bundles = WizardBundle.query.order_by(WizardBundle.name).all()
         return render_template(
             "admin/invite.html",
             link=link,
@@ -89,9 +91,12 @@ def invite():
             allow_tv_jellyfin=allow_tv_jellyfin,
             servers=servers,
             chosen_server_id=target_server.id if target_server else None,
+            bundles=bundles,
         )
 
     # GET → initial render
+    from app.models import WizardBundle
+    bundles = WizardBundle.query.order_by(WizardBundle.name).all()
     return render_template(
         "admin/invite.html",
         server_type=server_type,
@@ -101,6 +106,7 @@ def invite():
         allow_tv_jellyfin=allow_tv_jellyfin,
         servers=servers,
         chosen_server_id=target_server.id if target_server else None,
+        bundles=bundles,
     )
 
 
