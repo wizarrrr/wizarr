@@ -4,7 +4,7 @@ import logging
 
 from cachetools import cached, TTLCache
 from plexapi.server import PlexServer
-from plexapi.myplex import MyPlexAccount
+from plexapi.myplex import MyPlexAccount, MyPlexInvite
 
 from app.extensions import db
 from app.models import Invitation, User, Settings, Library, MediaServer
@@ -12,6 +12,42 @@ from app.services.notifications import notify
 from .client_base import MediaClient, register_media_client
 from app.services.media.service import get_client_for_media_server
 
+# ---------------------------------------------------------------------------
+# Temporary monkey-patch: Plex removed /api/invites/requests; use v2 endpoint.
+# Remove this block once plexapi supports the new route natively.
+# ---------------------------------------------------------------------------
+_original_accept_invite = MyPlexAccount.acceptInvite  # keep reference for fallback
+
+
+def _accept_invite_v2(self: MyPlexAccount, user):
+    """Replacement for MyPlexAccount.acceptInvite that targets the v2 API.
+
+    Plex switched invite acceptance to
+    POST https://plex.tv/api/v2/shared_servers/{invite.id}/accept.
+    This patch mirrors the original behaviour but against the new path and
+    falls back to the legacy implementation if the v2 route is unavailable.
+    """
+    # Resolve the MyPlexInvite instance (behaves like the original method)
+    invite = (
+        user if isinstance(user, MyPlexInvite) else self.pendingInvite(user, includeSent=False)
+    )
+    if invite is None:
+        # No pending invite found for the given user
+        return None
+
+    url = f"https://plex.tv/api/v2/shared_servers/{invite.id}/accept"
+    response = self._session.post(url)
+
+    # If Plex returns 410 Gone (or similar), try the original implementation
+    if response.status_code == 410:
+        return _original_accept_invite(self, user)
+
+    response.raise_for_status()
+    return response
+
+
+# Apply monkey-patch so all future instances use the new method
+MyPlexAccount.acceptInvite = _accept_invite_v2
 
 @register_media_client("plex")
 class PlexClient(MediaClient):
