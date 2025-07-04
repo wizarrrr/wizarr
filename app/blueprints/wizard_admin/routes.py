@@ -8,6 +8,7 @@ import re
 from app.extensions import db
 from app.models import WizardStep, WizardBundle, WizardBundleStep
 from app.forms.wizard import WizardStepForm, WizardBundleForm
+from app.forms.wizard import SimpleWizardStepForm
 
 wizard_admin_bp = Blueprint(
     "wizard_admin",
@@ -38,19 +39,12 @@ def list_steps():
     for row in rows:
         grouped.setdefault(row.server_type, []).append(row)
 
-    # ── fetch bundles ─────────────────────────────────────────────
-    bundles = (
-        WizardBundle.query
-        .order_by(WizardBundle.id)
-        .all()
-    )
-
     # When requested via HTMX we return only the inner fragment that is meant
     # to be swapped into the <div id="tab-body"> container on the settings
     # page.  For a normal full-page navigation we extend the base layout so
     # the <head> section is populated and styling/scripts remain intact.
     tmpl = (
-        "settings/wizard/index.html"
+        "settings/wizard/steps.html"
         if request.headers.get("HX-Request")
         else "settings/page.html"  # fallback renders full settings page
     )
@@ -62,19 +56,50 @@ def list_steps():
     if tmpl == "settings/page.html":
         return redirect(url_for("settings.page") + "#wizard")
 
-    return render_template(tmpl, grouped=grouped, bundles=bundles)
+    return render_template(tmpl, grouped=grouped)
+
+
+# ─── Bundles view ─────────────────────────────────────────────────────
+
+@wizard_admin_bp.route("/bundles", methods=["GET"])
+@login_required
+def list_bundles():
+    bundles = (
+        WizardBundle.query
+        .order_by(WizardBundle.id)
+        .all()
+    )
+
+    tmpl = (
+        "settings/wizard/bundles.html"
+        if request.headers.get("HX-Request")
+        else "settings/page.html"
+    )
+
+    if tmpl == "settings/page.html":
+        return redirect(url_for("settings.page") + "#wizard")
+
+    return render_template(tmpl, bundles=bundles)
 
 
 @wizard_admin_bp.route("/create", methods=["GET", "POST"])
 @login_required
 def create_step():
-    form = WizardStepForm(request.form if request.method == "POST" else None)
+    bundle_id = request.args.get("bundle_id", type=int)
+    simple    = request.args.get("simple") == "1" or bundle_id is not None
+
+    FormCls = SimpleWizardStepForm if simple else WizardStepForm
+    form = FormCls(request.form if request.method == "POST" else None)
 
     if form.validate_on_submit():
-        # Determine next position within this server_type
+        # When using the simple form we slot the step into a synthetic 'custom'
+        # server_type so ordering is still unique and existing wizard logic is
+        # unaffected.
+        stype = "custom" if simple else form.server_type.data
+
         max_pos = (
             db.session.query(func.max(WizardStep.position))
-            .filter_by(server_type=form.server_type.data)
+            .filter_by(server_type=stype)
             .scalar()
         )
         next_pos = (max_pos or 0) + 1
@@ -82,24 +107,44 @@ def create_step():
         cleaned_md = _strip_localization(form.markdown.data)
 
         step = WizardStep(
-            server_type=form.server_type.data,
+            server_type=stype,
             position=next_pos,
-            title=form.title.data or None,
+            title=getattr(form, "title", None) and form.title.data or None,
             markdown=cleaned_md,
-            requires=[s.strip() for s in (form.requires.data or "").split(",") if s.strip()],
+            requires=[] if simple else [s.strip() for s in (form.requires.data or "").split(",") if s.strip()],
         )
         db.session.add(step)
+        db.session.flush()  # get step.id
+
+        # If created from a bundle context attach immediately
+        if bundle_id:
+            max_bpos = (
+                db.session.query(func.max(WizardBundleStep.position))
+                .filter_by(bundle_id=bundle_id)
+                .scalar()
+            )
+            next_bpos = (max_bpos or 0) + 1
+            db.session.add(WizardBundleStep(bundle_id=bundle_id, step_id=step.id, position=next_bpos))
+
         db.session.commit()
         flash("Step created", "success")
-        return redirect(url_for("wizard_admin.list_steps"))
 
-    # GET – render modal. If HTMX, serve modal partial; otherwise fallback full page.
-    tmpl = (
-        "modals/wizard-step-form.html"
-        if request.headers.get("HX-Request")
-        else "settings/wizard/form.html"
-    )
-    return render_template(tmpl, form=form, action="create")
+        # HTMX target refresh depending on origin
+        if request.headers.get("HX-Request"):
+            return list_bundles() if bundle_id else list_steps()
+
+        return redirect(url_for("wizard_admin.list_bundles" if bundle_id else "wizard_admin.list_steps"))
+
+    # GET – choose modal / full template based on form type
+    if simple:
+        modal_tmpl = "modals/wizard-simple-step-form.html"
+        page_tmpl  = "settings/wizard/simple_form.html"
+    else:
+        modal_tmpl = "modals/wizard-step-form.html"
+        page_tmpl  = "settings/wizard/form.html"
+
+    tmpl = modal_tmpl if request.headers.get("HX-Request") else page_tmpl
+    return render_template(tmpl, form=form, action="create", bundle_id=bundle_id)
 
 
 @wizard_admin_bp.route("/<int:step_id>/edit", methods=["GET", "POST"])
@@ -206,7 +251,7 @@ def create_bundle():
         db.session.add(bundle)
         db.session.commit()
         flash("Bundle created", "success")
-        return redirect(url_for("wizard_admin.list_steps"))
+        return redirect(url_for("wizard_admin.list_bundles"))
 
     tmpl = (
         "modals/wizard-bundle-form.html"
@@ -227,7 +272,7 @@ def edit_bundle(bundle_id: int):
         bundle.description = form.description.data or None
         db.session.commit()
         flash("Bundle updated", "success")
-        return redirect(url_for("wizard_admin.list_steps"))
+        return redirect(url_for("wizard_admin.list_bundles"))
 
     tmpl = (
         "modals/wizard-bundle-form.html"
@@ -246,8 +291,8 @@ def delete_bundle(bundle_id: int):
     flash("Bundle deleted", "success")
 
     if request.headers.get("HX-Request"):
-        return list_steps()
-    return redirect(url_for("settings.page") + "#wizard")
+        return list_bundles()
+    return redirect(url_for("wizard_admin.list_bundles"))
 
 
 @wizard_admin_bp.route("/bundle/<int:bundle_id>/reorder", methods=["POST"])
@@ -319,5 +364,5 @@ def add_steps(bundle_id: int):
     db.session.commit()
     flash("Steps added", "success")
     if request.headers.get("HX-Request"):
-        return list_steps()
-    return redirect(url_for("wizard_admin.list_steps")) 
+        return list_bundles()
+    return redirect(url_for("wizard_admin.list_bundles")) 
