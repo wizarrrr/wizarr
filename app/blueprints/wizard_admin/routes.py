@@ -151,29 +151,38 @@ def create_step():
 @login_required
 def edit_step(step_id: int):
     step = WizardStep.query.get_or_404(step_id)
-    form = WizardStepForm(request.form if request.method == "POST" else None, obj=step)
+
+    simple = step.server_type == "custom"
+    FormCls = SimpleWizardStepForm if simple else WizardStepForm
+    form = FormCls(request.form if request.method == "POST" else None, obj=step)
 
     if form.validate_on_submit():
-        step.server_type = form.server_type.data
-        step.title = form.title.data or None
+        if not simple:
+            step.server_type = form.server_type.data
+            step.requires = [s.strip() for s in (form.requires.data or "").split(",") if s.strip()]
+
+        step.title = getattr(form, "title", None) and form.title.data or None
         cleaned_md = _strip_localization(form.markdown.data)
         step.markdown = cleaned_md
-        step.requires = [s.strip() for s in (form.requires.data or "").split(",") if s.strip()]
+
         db.session.commit()
         flash("Step updated", "success")
-        return redirect(url_for("wizard_admin.list_steps"))
 
-    # Prepopulate requires comma list for GET
+        # HTMX refresh
+        if request.headers.get("HX-Request"):
+            return list_bundles() if simple else list_steps()
+
+        return redirect(url_for("wizard_admin.list_bundles" if simple else "wizard_admin.list_steps"))
+
+    # GET: populate fields
     if request.method == "GET":
-        form.requires.data = ", ".join(step.requires or [])
-        # Pre-fill markdown stripped of localization for a cleaner editing exp.
+        if not simple:
+            form.requires.data = ", ".join(step.requires or [])
         form.markdown.data = _strip_localization(step.markdown)
 
-    tmpl = (
-        "modals/wizard-step-form.html"
-        if request.headers.get("HX-Request")
-        else "settings/wizard/form.html"
-    )
+    modal_tmpl = "modals/wizard-simple-step-form.html" if simple else "modals/wizard-step-form.html"
+    page_tmpl  = "settings/wizard/simple_form.html" if simple else "settings/wizard/form.html"
+    tmpl = modal_tmpl if request.headers.get("HX-Request") else page_tmpl
     return render_template(tmpl, form=form, action="edit", step=step)
 
 
