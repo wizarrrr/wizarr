@@ -49,24 +49,28 @@
                             </div>
                         </div>
                         <div id="plex-options" style="display:none;">
-                            <div class="flex items-center">
-                                <input type="checkbox" name="allow_downloads_plex" id="allow_downloads_plex" value="true" {% if server.allow_downloads_plex %}checked{% endif %} class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300">
-                                <label for="allow_downloads_plex" class="ml-2 text-sm text-gray-900 dark:text-white">Allow Downloads</label>
-                            </div>
-                            <div class="flex items-center mt-2">
-                                <input type="checkbox" name="allow_tv_plex" id="allow_tv_plex" value="true" {% if server.allow_tv_plex %}checked{% endif %} class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300">
-                                <label for="allow_tv_plex" class="ml-2 text-sm text-gray-900 dark:text-white">Allow Live TV</label>
-                            </div>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input id="allow_downloads_plex" name="allow_downloads_plex" type="checkbox" value="true" {% if server.allow_downloads_plex %}checked{% endif %} class="sr-only peer">
+                                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
+                                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Downloads</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer mt-2">
+                                <input id="allow_tv_plex" name="allow_tv_plex" type="checkbox" value="true" {% if server.allow_tv_plex %}checked{% endif %} class="sr-only peer">
+                                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
+                                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Live TV</span>
+                            </label>
                         </div>
                         <div id="jellyfin-options" style="display:none;">
-                            <div class="flex items-center">
-                                <input type="checkbox" name="allow_downloads_jellyfin" id="allow_downloads_jellyfin" value="true" {% if server.allow_downloads_jellyfin %}checked{% endif %} class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300">
-                                <label for="allow_downloads_jellyfin" class="ml-2 text-sm text-gray-900 dark:text-white">Allow Downloads</label>
-                            </div>
-                            <div class="flex items-center mt-2">
-                                <input type="checkbox" name="allow_tv_jellyfin" id="allow_tv_jellyfin" value="true" {% if server.allow_tv_jellyfin %}checked{% endif %} class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300">
-                                <label for="allow_tv_jellyfin" class="ml-2 text-sm text-gray-900 dark:text-white">Allow Live TV</label>
-                            </div>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input id="allow_downloads_jellyfin" name="allow_downloads_jellyfin" type="checkbox" value="true" {% if server.allow_downloads_jellyfin %}checked{% endif %} class="sr-only peer">
+                                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
+                                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Downloads</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer mt-2">
+                                <input id="allow_tv_jellyfin" name="allow_tv_jellyfin" type="checkbox" value="true" {% if server.allow_tv_jellyfin %}checked{% endif %} class="sr-only peer">
+                                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
+                                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Live TV</span>
+                            </label>
                         </div>
                         <div class="mt-4">
                             <a hx-post="{{ url_for('media_servers.scan_server_libraries', server_id=server.id) }}" hx-include="[name=server_username],[name=server_password]" hx-target="#libraries" hx-swap="innerHTML" class="text-sm text-secondary cursor-pointer">Scan Libraries</a>
