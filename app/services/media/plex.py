@@ -253,7 +253,6 @@ def _post_join_setup(app, token: str):
         client = PlexClient()
         try:
             user = MyPlexAccount(token=token)
-            
             user.acceptInvite(client.admin.email)
             user.enableViewStateSync()
             _opt_out_online_sources(user)

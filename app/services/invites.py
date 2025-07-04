@@ -85,6 +85,7 @@ def create_invite(form: Any) -> Invitation:
         plex_home=bool(form.get("plex_home")),
         plex_allow_channels=bool(form.get("plex_allow_channels")),
         server=primary_server,
+        wizard_bundle_id=(int(form.get("wizard_bundle_id")) if form.get("wizard_bundle_id") else None),
         
         # New Jellyfin flags
         jellyfin_allow_downloads=bool(form.get("jellyfin_allow_downloads")),

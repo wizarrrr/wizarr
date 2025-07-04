@@ -31,7 +31,9 @@ def _strip_localization(md: str) -> str:
 def list_steps():
     # Group steps by server_type for display
     rows = (
+        # Exclude custom steps (managed via Wizard Bundles) from the default view
         WizardStep.query
+        .filter(WizardStep.server_type != "custom")
         .order_by(WizardStep.server_type, WizardStep.position)
         .all()
     )
