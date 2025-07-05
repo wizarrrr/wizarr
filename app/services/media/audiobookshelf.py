@@ -183,10 +183,9 @@ class AudiobookshelfClient(RestApiMixin):
 
     @staticmethod
     def _mark_invite_used(inv, user):
-        inv.used = True if not inv.unlimited else inv.used
-        inv.used_at = db.func.now()
         inv.used_by = user
-        db.session.commit()
+        from app.services.invites import mark_server_used
+        mark_server_used(inv, getattr(user, "server_id", None) or (inv.server.id if inv.server else None))
 
     def _set_specific_libraries(self, user_id: str, library_ids: List[str]):
         """Restrict the given *user* to the supplied library IDs.
@@ -250,7 +249,7 @@ class AudiobookshelfClient(RestApiMixin):
             # ------------------------------------------------------------------
             if inv.libraries:
                 # Use libraries tied to the invite
-                lib_ids = [lib.external_id for lib in inv.libraries]
+                lib_ids = [lib.external_id for lib in inv.libraries if lib.server_id == (inv.server.id if inv.server else None)]
             else:
                 # Fallback to all *enabled* libraries for this server
                 lib_ids = [

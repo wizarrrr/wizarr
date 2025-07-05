@@ -23,6 +23,9 @@ class SettingsForm(FlaskForm):
     discord_id    = StringField("Discord ID",    validators=[Optional()])
     external_url  = StringField("External URL", validators=[Optional()])
     
+    # Jellyfin specific
+    allow_downloads_jellyfin = BooleanField("Allow Downloads", default=False, validators=[Optional()])
+    allow_tv_jellyfin       = BooleanField("Allow Live TV", default=False, validators=[Optional()])
 
     def __init__(self, install_mode: bool = False, *args, **kwargs):
         super().__init__(*args, **kwargs)

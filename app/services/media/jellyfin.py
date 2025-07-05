@@ -8,7 +8,7 @@ import requests
 from app.extensions import db
 from app.models import Invitation, User, Settings, Library
 from app.services.notifications import notify
-from app.services.invites import is_invite_valid
+from app.services.invites import is_invite_valid, mark_server_used
 from .client_base import RestApiMixin, register_media_client
 
 EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
@@ -113,10 +113,9 @@ class JellyfinClient(RestApiMixin):
 
     @staticmethod
     def _mark_invite_used(inv: Invitation, user: User) -> None:
-        inv.used = True if not inv.unlimited else inv.used
-        inv.used_at = datetime.datetime.now()
+        """Mark invitation consumed for the Jellyfin server only."""
         inv.used_by = user
-        db.session.commit()
+        mark_server_used(inv, getattr(user, "server_id", None) or (inv.server.id if inv.server else None))
 
     @staticmethod
     def _folder_name_to_id(name: str, cache: dict[str, str]) -> str | None:
@@ -178,7 +177,7 @@ class JellyfinClient(RestApiMixin):
             inv = Invitation.query.filter_by(code=code).first()
 
             if inv.libraries:
-                sections = [lib.external_id for lib in inv.libraries]
+                sections = [lib.external_id for lib in inv.libraries if lib.server_id == (inv.server.id if inv.server else None)]
             else:
                 sections = [
                     lib.external_id
@@ -186,6 +185,24 @@ class JellyfinClient(RestApiMixin):
                 ]
 
             self._set_specific_folders(user_id, sections)
+
+            # Apply download / Live TV permissions
+            allow_downloads = bool(getattr(inv, 'jellyfin_allow_downloads', False))
+            allow_live_tv   = bool(getattr(inv, 'jellyfin_allow_live_tv', False))
+            # fall back to server defaults if invite flags are false
+            if inv.server:
+                if not allow_downloads:
+                    allow_downloads = bool(getattr(inv.server, 'allow_downloads_jellyfin', False))
+                if not allow_live_tv:
+                    allow_live_tv   = bool(getattr(inv.server, 'allow_tv_jellyfin', False))
+            
+            if allow_downloads or allow_live_tv:
+                current_policy = self.get(f"/Users/{user_id}").json().get("Policy", {})
+                if allow_downloads:
+                    current_policy["EnableDownloads"] = True
+                if allow_live_tv:
+                    current_policy["EnableLiveTvAccess"] = True
+                self.set_policy(user_id, current_policy)
 
             expires = None
             if inv.duration:

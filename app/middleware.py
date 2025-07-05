@@ -9,6 +9,5 @@ def require_onboarding():
     admin_setting = Settings.query.filter_by(key="admin_username").first()
     if not admin_setting or not admin_setting.value:
         return redirect(url_for('setup.onboarding'))
-    # Require at least one MediaServer to exist
-    if not MediaServer.query.first():
-        return redirect(url_for('setup.onboarding'))
+    # Allow access to the application even if no MediaServer has been configured yet.
+    # Users can add servers later via the Settings page.

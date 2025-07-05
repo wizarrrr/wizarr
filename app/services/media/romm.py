@@ -28,7 +28,7 @@ from sqlalchemy import or_
 from app.extensions import db
 from app.models import User, Invitation
 from .client_base import RestApiMixin, register_media_client
-from app.services.invites import is_invite_valid
+from app.services.invites import is_invite_valid, mark_server_used
 from app.services.notifications import notify
 import requests  # local import to avoid top-level dependency chatter
 
@@ -282,10 +282,8 @@ class RommClient(RestApiMixin):
 
             # mark invite used
             if inv:
-                inv.used = True if not inv.unlimited else inv.used
-                inv.used_at = datetime.datetime.now()
                 inv.used_by = new_user
-                db.session.commit()
+                mark_server_used(inv, getattr(new_user, "server_id", None) or (inv.server.id if inv.server else None))
 
             notify("New User", f"User {username} has joined your server! 🎉", tags="tada")
 

@@ -8,6 +8,17 @@ invite_libraries = db.Table(
     db.Column("library_id", db.Integer, db.ForeignKey("library.id"), primary_key=True),
 )
 
+# ─────────────────────────────────────────────────────────────────────────────
+# New association table to enable multi-server invitations  (2025-06)
+invitation_servers = db.Table(
+    "invitation_server",
+    db.Column("invite_id", db.Integer, db.ForeignKey("invitation.id"), primary_key=True),
+    db.Column("server_id", db.Integer, db.ForeignKey("media_server.id"), primary_key=True),
+    # Track per-server usage so a single invite can be consumed independently
+    db.Column("used", db.Boolean, default=False, nullable=False),
+    db.Column("used_at", db.DateTime, nullable=True),
+)
+
 
 class Invitation(db.Model):
     __tablename__ = 'invitation'
@@ -26,13 +37,30 @@ class Invitation(db.Model):
     plex_home = db.Column(db.Boolean, default=False, nullable=True)
     plex_allow_channels = db.Column(db.Boolean, default=False, nullable=True)
     server_id = db.Column(db.Integer, db.ForeignKey('media_server.id'), nullable=True)
-    server = db.relationship('MediaServer', backref=db.backref('invites', lazy=True))
+    server = db.relationship('MediaServer', backref=db.backref('primary_invites', lazy=True))
 
     libraries = db.relationship(
         "Library",
         secondary=invite_libraries,
         back_populates="invites",
     )
+
+    # Link to one or many MediaServer rows (multi-server invites)
+    servers = db.relationship(
+        "MediaServer",
+        secondary=invitation_servers,
+        back_populates="invites",
+    )
+
+    # ── NEW: link invitation to an explicit wizard bundle ────────────
+    wizard_bundle_id = db.Column(db.Integer, db.ForeignKey("wizard_bundle.id"), nullable=True)
+    wizard_bundle = db.relationship(
+        "WizardBundle", backref=db.backref("invitations", lazy=True)
+    )
+
+    # ── NEW: Jellyfin invite toggles ───────────────────────────────
+    jellyfin_allow_downloads = db.Column(db.Boolean, default=False, nullable=True)
+    jellyfin_allow_live_tv   = db.Column(db.Boolean, default=False, nullable=True)
 
 
 class Settings(db.Model):
@@ -90,10 +118,21 @@ class MediaServer(db.Model):
     allow_downloads_plex = db.Column(db.Boolean, default=False, nullable=False)
     allow_tv_plex = db.Column(db.Boolean, default=False, nullable=False)
 
+    # Jellyfin-specific toggles (ignored by other server types)
+    allow_downloads_jellyfin = db.Column(db.Boolean, default=False, nullable=False)
+    allow_tv_jellyfin        = db.Column(db.Boolean, default=False, nullable=False)
+
     # Whether the connection credentials were validated successfully
     verified = db.Column(db.Boolean, default=False, nullable=False)
 
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    # Reverse relationship for multi-server invites
+    invites = db.relationship(
+        "Invitation",
+        secondary=invitation_servers,
+        back_populates="servers",
+    )
 
 
 class Library(db.Model):
@@ -178,3 +217,47 @@ class WizardStep(db.Model):
             "markdown": self.markdown,
             "requires": self.requires or [],
         }
+
+
+# ───────────────────────────────────────────────────────────────────────────────
+# New models powering custom "Wizard Bundles" (2025-07)
+# ───────────────────────────────────────────────────────────────────────────────
+class WizardBundle(db.Model):
+    """A named collection of WizardStep pages shown in fixed order."""
+
+    __tablename__ = "wizard_bundle"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=True)
+
+    # Ordered list of steps belonging to this bundle
+    steps = db.relationship(
+        "WizardBundleStep",
+        back_populates="bundle",
+        cascade="all, delete-orphan",
+        order_by="WizardBundleStep.position",
+    )
+
+
+class WizardBundleStep(db.Model):
+    """Mapping table assigning a WizardStep to a Bundle at a given position."""
+
+    __tablename__ = "wizard_bundle_step"
+
+    id = db.Column(db.Integer, primary_key=True)
+    bundle_id = db.Column(
+        db.Integer, db.ForeignKey("wizard_bundle.id", ondelete="CASCADE"), nullable=False
+    )
+    step_id = db.Column(
+        db.Integer, db.ForeignKey("wizard_step.id", ondelete="CASCADE"), nullable=False
+    )
+    position = db.Column(db.Integer, nullable=False)
+
+    # Relationships
+    bundle = db.relationship("WizardBundle", back_populates="steps")
+    step   = db.relationship("WizardStep")
+
+    __table_args__ = (
+        db.UniqueConstraint("bundle_id", "position", name="uq_bundle_pos"),
+    )

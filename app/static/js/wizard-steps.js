@@ -1,6 +1,6 @@
 /* wizard.js */
 function attachSortableLists(root = document) {
-  root.querySelectorAll('.wizard-steps').forEach(container => {
+  root.querySelectorAll('.wizard-steps, .bundle-steps').forEach(container => {
     if (container.dataset.sortableAttached) return;
 
     new Sortable(container, {

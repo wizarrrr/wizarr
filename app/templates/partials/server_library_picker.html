@@ -1,0 +1,13 @@
+{# Render library checkboxes grouped by server #}
+{% for srv in servers %}
+  <ul class="h-48 px-3 py-2 overflow-y-auto text-sm text-gray-700 dark:text-gray-200" >
+      {% for lib in server_libs[srv.id] %}
+    <li>
+      <div class="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+        <input id="lib{{ srv.id }}-{{ lib.id }}" type="checkbox" name="libraries" value="{{ lib.external_id }}" {% if lib.enabled %}checked{% endif %} class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+        <label for="lib{{ srv.id }}-{{ lib.id }}" class="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300 truncate">{{ lib.name }}</label>
+      </div>
+    </li>
+      {% endfor %}
+  </ul>
+{% endfor %} 

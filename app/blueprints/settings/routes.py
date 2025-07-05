@@ -124,6 +124,9 @@ def server_settings():
             existing_server.external_url = data.get("external_url")
             existing_server.allow_downloads_plex = bool(data.get("allow_downloads_plex"))
             existing_server.allow_tv_plex = bool(data.get("allow_tv_plex"))
+            # Jellyfin flags
+            existing_server.allow_downloads_jellyfin = bool(data.get("allow_downloads_jellyfin"))
+            existing_server.allow_tv_jellyfin        = bool(data.get("allow_tv_jellyfin"))
             existing_server.verified = True
             db.session.commit()
         else:
@@ -136,6 +139,9 @@ def server_settings():
                 external_url=data.get("external_url"),
                 allow_downloads_plex=bool(data.get("allow_downloads_plex")),
                 allow_tv_plex=bool(data.get("allow_tv_plex")),
+                # Jellyfin flags
+                allow_downloads_jellyfin=bool(data.get("allow_downloads_jellyfin")),
+                allow_tv_jellyfin=bool(data.get("allow_tv_jellyfin")),
                 verified=True,
             )
             db.session.add(server)

@@ -1,0 +1,25 @@
+{# templates/settings/wizard/bundle_form.html #}
+<section class="max-w-lg mx-auto py-6">
+  <h1 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+    {{ _(action == 'create' and 'Create Wizard Bundle' or 'Edit Wizard Bundle') }}
+  </h1>
+
+  <form method="post" class="space-y-4">
+    {{ form.csrf_token }}
+
+    <div>
+      {{ form.name.label(class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300") }}
+      {{ form.name(class="w-full border rounded p-2 dark:bg-gray-700 dark:border-gray-600") }}
+    </div>
+
+    <div>
+      {{ form.description.label(class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300") }}
+      {{ form.description(class="w-full border rounded p-2 dark:bg-gray-700 dark:border-gray-600") }}
+    </div>
+
+    <div class="flex gap-2">
+      <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _('Save') }}</button>
+      <a href="{{ url_for('wizard_admin.list_steps') }}" class="ml-2 text-gray-600 hover:underline">{{ _('Cancel') }}</a>
+    </div>
+  </form>
+</section> 

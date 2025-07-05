@@ -1,0 +1,25 @@
+{# templates/settings/wizard/simple_form.html #}
+<section class="max-w-3xl mx-auto py-6">
+  <h1 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+    {{ _(action == 'create' and 'Create Step' or 'Edit Step') }}
+  </h1>
+
+  <form method="post" class="space-y-4">
+    {{ form.csrf_token }}
+
+    <div>
+      {{ form.title.label(class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300") }}
+      {{ form.title(class="w-full border rounded p-2 dark:bg-gray-700 dark:border-gray-600") }}
+    </div>
+
+    <div>
+      {{ form.markdown.label(class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300") }}
+      {{ form.markdown(rows="10", class="w-full border rounded p-2 font-mono dark:bg-gray-700 dark:border-gray-600") }}
+    </div>
+
+    <div class="flex gap-2">
+      <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _('Save') }}</button>
+      <a href="{{ url_for('wizard_admin.list_bundles') }}" class="ml-2 text-gray-600 hover:underline">{{ _('Cancel') }}</a>
+    </div>
+  </form>
+</section> 

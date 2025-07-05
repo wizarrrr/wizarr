@@ -4,8 +4,11 @@
     {% else %}
     
     {% for user in users %}
-    <div class="mb-4 animate__animated flex flex-col justify-between bg-white dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-xs overflow-hidden border border-gray-200 dark:border-gray-700 relative">
-        <input type="checkbox" class="link-check absolute top-2 right-2 w-4 h-4" name="uids" value="{{ user.id }}">
+    <label class="mb-4 animate__animated flex flex-col justify-between cursor-pointer bg-white dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-xs overflow-hidden border border-gray-200 dark:border-gray-700 relative transition hover:border-primary hover:shadow peer-checked:border-primary peer-checked:ring-2 peer-checked:ring-primary focus-within:ring-2 focus-within:ring-primary" for="uid{{ user.id }}">
+        <!-- Hidden checkbox used for selection -->
+        <input id="uid{{ user.id }}" type="checkbox" class="sr-only peer link-check" name="uids" value="{{ user.id }}">
+        <!-- Checkmark icon shown when selected -->
+        <svg class="absolute top-2 right-2 w-5 h-5 text-primary opacity-0 peer-checked:opacity-100" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.12a1 1 0 011.414-1.415L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
         <div class="p-4">
             <!-- Header with username and photo -->
             <div class="flex items-center mb-3">
@@ -27,6 +30,7 @@
                             <!-- Edit nickname button -->
                             <button hx-get="{{ url_for('admin.edit_identity', identity_id=user.identity_id) }}"
                                     hx-target="#modal-user" hx-swap="innerHTML"
+                                    onclick="event.stopPropagation()"
                                     class="ml-1 inline-flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-white">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
@@ -95,7 +99,7 @@
         </div>
         
         <!-- Actions footer -->
-        <div class="flex justify-end p-3 bg-gray-50 dark:bg-gray-700">
+        <div class="flex justify-end p-3 bg-gray-50 dark:bg-gray-700" onclick="event.stopPropagation()">
             <!-- More details -->
             <button id="details"
                     class="inline-flex items-center justify-center p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 mr-2"
@@ -129,7 +133,7 @@
                 </svg>
             </button>
         </div>
-    </div>
+    </label>
     {% endfor %}
     {% endif %}
 </div>

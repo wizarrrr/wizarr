@@ -11,6 +11,7 @@ from app.models import Invitation, User, Settings, Library, MediaServer
 from app.services.notifications import notify
 from .client_base import MediaClient, register_media_client
 from app.services.media.service import get_client_for_media_server
+from app.services.invites import mark_server_used
 
 # ---------------------------------------------------------------------------
 # Temporary monkey-patch: Plex removed /api/invites/requests; use v2 endpoint.
@@ -252,9 +253,10 @@ def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> No
     client = get_client_for_media_server(server)
 
     # libraries list
-    if inv.libraries:
-        libs = [lib.external_id for lib in inv.libraries]
-    else:
+    libs = [lib.external_id for lib in inv.libraries if lib.server_id == server.id] if inv.libraries else []
+
+    if not libs:
+        # Fallback to *all* enabled libraries for this server
         libs = [
             lib.external_id
             for lib in Library.query.filter_by(enabled=True, server_id=server.id).all()
@@ -273,9 +275,10 @@ def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> No
     if user_id:
         user = User.query.get(user_id)
         inv.used_by = user
-    inv.used_at = datetime.datetime.now()
-    if not inv.unlimited:
-        inv.used = True
+
+    # Mark invite consumed for *this* server (multi-server aware)
+    mark_server_used(inv, server.id)
+
     # clear cached user list so admin UI shows the new invite
     PlexClient.list_users.cache_clear()
     db.session.commit()
@@ -286,7 +289,6 @@ def _post_join_setup(app, token: str):
         client = PlexClient()
         try:
             user = MyPlexAccount(token=token)
-            
             user.acceptInvite(client.admin.email)
             user.enableViewStateSync()
             _opt_out_online_sources(user)

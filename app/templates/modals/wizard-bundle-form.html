@@ -1,0 +1,37 @@
+<div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <!-- backdrop -->
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+  <div class="fixed inset-0 z-10 overflow-y-auto">
+    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+        <div class="bg-white dark:bg-gray-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+          <div class="flex justify-between items-center pb-3">
+            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white">
+              {{ _(action == 'create' and 'New Wizard Bundle' or 'Edit Wizard Bundle') }}
+            </h1>
+          </div>
+          <form class="space-y-4" method="post"
+                hx-post="{{ request.path }}"
+                hx-target="#tab-body" hx-swap="innerHTML">
+            {{ form.csrf_token }}
+
+            <div>
+              {{ form.name.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.name(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+            </div>
+            <div>
+              {{ form.description.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.description(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+            </div>
+
+            <div class="flex gap-2 justify-end pt-4">
+              <button type="button" onclick="document.getElementById('step-modal').innerHTML=''" class="px-4 py-2 rounded border border-gray-300 text-gray-700 dark:text-gray-300">{{ _('Cancel') }}</button>
+              <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _('Save') }}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
