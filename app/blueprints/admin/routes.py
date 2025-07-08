@@ -165,7 +165,20 @@ def invite_table():
                 inv.expires = datetime.datetime.strptime(inv.expires, "%Y-%m-%d %H:%M")
             inv.expired = inv.expires < now
 
-        # unique library names for display
+        # Group libraries by server for display
+        server_libs = {}
+        for lib in inv.libraries:
+            server_name = lib.server.name if lib.server else "Unknown Server"
+            if server_name not in server_libs:
+                server_libs[server_name] = []
+            server_libs[server_name].append(lib.name)
+        
+        # Sort libraries within each server group
+        for server_name in server_libs:
+            server_libs[server_name].sort()
+        
+        inv.display_libraries_by_server = server_libs
+        # Keep legacy display_libraries for compatibility
         inv.display_libraries = sorted({lib.name for lib in inv.libraries})
 
     return render_template(

@@ -271,7 +271,6 @@ class RommClient(RestApiMixin):
             new_user = User(
                 username=username,
                 email=email,
-                password=self._password_for_db(password),
                 token=user_id,
                 code=code,
                 expires=expires,

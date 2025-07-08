@@ -69,18 +69,31 @@
                 </div>
                 
                 <!-- Libraries -->
-                <div class="flex items-center">
-                    <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <div class="flex items-start">
+                    <svg class="w-4 h-4 mr-1.5 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
                     </svg>
-                    {{ _("Libraries") }}: 
-                    <span class="ml-1 truncate">
-                        {% if invite.libraries %}
-                            {{ (invite.display_libraries if invite.display_libraries is defined else invite.libraries|map(attribute='name'))|join(', ') }}
-                        {% else %}
-                            {{ _("Default") }}
-                        {% endif %}
-                    </span>
+                    <div class="flex-1 min-w-0">
+                        <span class="text-gray-500 dark:text-gray-400">{{ _("Libraries") }}:</span>
+                        <div class="mt-1">
+                            {% if invite.libraries %}
+                                {% if invite.display_libraries_by_server is defined and invite.display_libraries_by_server %}
+                                    {% for server_name, libraries in invite.display_libraries_by_server.items() %}
+                                    <div class="mb-1">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+                                            {{ server_name }}
+                                        </span>
+                                        <span class="ml-1 text-sm">{{ libraries|join(', ') }}</span>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <span class="text-sm">{{ (invite.display_libraries if invite.display_libraries is defined else invite.libraries|map(attribute='name'))|join(', ') }}</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="text-sm">{{ _("Default") }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Duration if available -->

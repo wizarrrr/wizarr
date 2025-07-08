@@ -79,7 +79,6 @@ class User(db.Model, UserMixin):
     code = db.Column(db.String, nullable=False)
     photo = db.Column(db.String, nullable=True)
     expires = db.Column(db.DateTime, nullable=True)
-    password = db.Column(db.String, nullable=True)
     server_id = db.Column(db.Integer, db.ForeignKey('media_server.id'), nullable=True)
     server = db.relationship('MediaServer', backref=db.backref('users', lazy=True))
     identity_id = db.Column(db.Integer, db.ForeignKey('identity.id'), nullable=True)

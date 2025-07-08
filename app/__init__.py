@@ -2,7 +2,6 @@ from flask import Flask
 from .config import DevelopmentConfig
 from .extensions import init_extensions, db
 from .middleware import require_onboarding
-from .models import Invitation, Settings, User, Notification
 import os
 from .error_handlers import register_error_handlers
 from .logging_config import configure_logging
@@ -20,8 +19,6 @@ def create_app(config_object=DevelopmentConfig):
     print("Initialising extensions")
     init_extensions(app)
     print("Finished Initialising app")
-    from .models import Invitation, Settings, User, Notification
-    from .tasks import maintenance
 
     
     # 2. blueprints

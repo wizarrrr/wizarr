@@ -170,7 +170,6 @@ def password_prompt(code):
                 new_user = User(
                     username=username,
                     email=email,
-                    password=pw,
                     token=uid,
                     code=code,
                     server_id=srv.id,
