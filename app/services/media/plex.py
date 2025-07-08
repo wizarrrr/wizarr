@@ -39,10 +39,7 @@ def _accept_invite_v2(self: MyPlexAccount, user):
     url = f"https://plex.tv/api/v2/shared_servers/{invite.id}/accept"
     response = self._session.post(url)
 
-    # If Plex returns 410 Gone (or similar), try the original implementation
-    if response.status_code == 410:
-        return _original_accept_invite(self, user)
-
+    # Always raise for non-success responses to ensure the v2 endpoint is respected
     response.raise_for_status()
     return response
 
@@ -261,14 +258,32 @@ class PlexClient(MediaClient):
                     client_name = getattr(players[0], 'product', '')
                     device_name = getattr(players[0], 'title', '')
                 
-                # Get artwork URL
+                # Resolve the correct artwork URL.  Prefer the helper properties PlexAPI
+                # exposes (``thumbUrl``) as they already include the base server URL and
+                # authentication token.  Fall back to the first available thumbnail-type
+                # attribute and use ``PlexServer.url`` to construct a fully qualified URL.
+
                 artwork_url = None
-                if hasattr(session, 'thumb') and session.thumb:
-                    # Convert relative path to full URL
-                    if session.thumb.startswith('/'):
-                        artwork_url = f"{self.url}{session.thumb}?X-Plex-Token={self.token}"
-                    else:
-                        artwork_url = session.thumb
+
+                # 1) Use PlexAPI convenience property if present (already absolute incl. token)
+                if getattr(session, "thumbUrl", None):
+                    artwork_url = session.thumbUrl
+                else:
+                    # 2) Check common thumbnail attributes in priority order
+                    thumb_attr = None
+                    for attr in ("thumb", "art", "grandparentThumb", "parentThumb"):
+                        val = getattr(session, attr, None)
+                        if val:
+                            thumb_attr = val
+                            break
+
+                    if thumb_attr:
+                        # Construct absolute URL if we only have a relative key/path.
+                        if thumb_attr.startswith("http"):
+                            artwork_url = thumb_attr  # already absolute
+                        else:
+                            # ``PlexServer.url`` appends the base URL and token automatically.
+                            artwork_url = self.server.url(thumb_attr, includeToken=True)
                 
                 # Get transcoding information
                 transcoding_info = {
