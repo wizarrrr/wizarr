@@ -45,9 +45,10 @@ def upgrade():
     with op.batch_alter_table("invitation", schema=None) as batch_op:
         if 'wizard_bundle_id' not in cols:
             batch_op.add_column(sa.Column("wizard_bundle_id", sa.Integer, nullable=True))
-            batch_op.create_foreign_key(
-                "fk_invitation_bundle", "wizard_bundle", ["wizard_bundle_id"], ["id"]
-            )
+            if conn.dialect.name != 'sqlite':
+                batch_op.create_foreign_key(
+                    "fk_invitation_bundle", "wizard_bundle", ["wizard_bundle_id"], ["id"]
+                )
 
 
 def downgrade():
