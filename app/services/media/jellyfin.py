@@ -82,7 +82,6 @@ class JellyfinClient(RestApiMixin):
                     username=jf["Name"],
                     email="empty",
                     code="empty",
-                    password="empty",
                     server_id=getattr(self, 'server_id', None),
                 )
                 db.session.add(new)
@@ -212,7 +211,6 @@ class JellyfinClient(RestApiMixin):
             new_user = User(
                 username=username,
                 email=email,
-                password=self._password_for_db(password),
                 token=user_id,
                 code=code,
                 expires=expires,

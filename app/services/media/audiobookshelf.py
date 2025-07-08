@@ -283,7 +283,6 @@ class AudiobookshelfClient(RestApiMixin):
                 username=username,
                 email=email,
                 code=code,
-                password=self._password_for_db(password),
                 expires=expires,
                 server_id=getattr(self, "server_id", None),
             )
