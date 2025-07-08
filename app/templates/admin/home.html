@@ -36,7 +36,7 @@
             <div id="nowPlayingContainer" 
                  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
                  hx-get="/now-playing-cards"
-                 hx-trigger="load, every 5s"
+                 hx-trigger="load, every 10s"
                  hx-swap="innerHTML">
                 <!-- Loading placeholder -->
                 <div class="col-span-full flex justify-center items-center py-12">
@@ -194,6 +194,8 @@ function reinitFlowbitePopovers() {
 document.addEventListener('htmx:afterSwap', function(evt) {
     if (evt.target && evt.target.id === 'nowPlayingContainer') {
         reinitFlowbitePopovers();
+        // Restart live-timer so newly swapped cards animate correctly
+        startLiveTimer();
     }
 });
 

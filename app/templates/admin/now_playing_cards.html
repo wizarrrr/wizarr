@@ -31,12 +31,12 @@
              data-session-duration="{{ session.duration_ms }}"
              data-session-position="{{ session.position_ms }}">
             <!-- Media Artwork -->
-            <div class="h-48 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center relative overflow-hidden">
+            <div class="relative w-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 overflow-hidden" style="aspect-ratio: 2 / 3;">
                 {% if session.artwork_url %}
                     <!-- Actual artwork -->
                     <img src="{{ url_for('public.image_proxy') }}?url={{ session.artwork_url|urlencode }}" 
                          alt="{{ session.media_title }}" 
-                         class="w-full h-full object-cover"
+                         class="absolute inset-0 w-full h-full object-cover"
                          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <!-- Fallback icon (hidden by default) -->
                     <div class="w-full h-full absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800" style="display: none;">
