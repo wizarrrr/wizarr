@@ -34,7 +34,7 @@
             <div class="h-48 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center relative overflow-hidden">
                 {% if session.artwork_url %}
                     <!-- Actual artwork -->
-                    <img src="{{ session.artwork_url }}" 
+                    <img src="{{ url_for('public.image_proxy') }}?url={{ session.artwork_url|urlencode }}" 
                          alt="{{ session.media_title }}" 
                          class="w-full h-full object-cover"
                          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">

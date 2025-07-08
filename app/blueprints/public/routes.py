@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, send_from_directory, request, jsonify, url_for, session
+from flask import Blueprint, redirect, render_template, send_from_directory, request, jsonify, url_for, session, Response
 import os
 from app.extensions import db
 from app.models import Settings, Invitation, MediaServer, User
@@ -6,6 +6,7 @@ from app.services.invites import is_invite_valid
 from app.services.media.plex import handle_oauth_token
 from app.services.ombi_client import run_all_importers
 from app.forms.join import JoinForm
+import requests, base64, urllib.parse
 
 public_bp = Blueprint("public", __name__)
 
@@ -189,3 +190,24 @@ def password_prompt(code):
 
     # GET request – show form
     return render_template("choose-password.html", code=code)
+
+# ─── Image proxy to allow internal artwork URLs ─────────────────────────────
+@public_bp.route('/image-proxy')
+def image_proxy():
+    raw = request.args.get('url')
+    if not raw:
+        return Response(status=400)
+    url = urllib.parse.unquote_plus(raw)
+    # rudimentary security – allow only http/https
+    if not url.startswith(('http://', 'https://')):
+        return Response(status=400)
+    try:
+        r = requests.get(url, timeout=10, stream=True)
+        r.raise_for_status()
+        content_type = r.headers.get('Content-Type', 'image/jpeg')
+        resp = Response(r.content, content_type=content_type)
+        # cache 1h
+        resp.headers['Cache-Control'] = 'public, max-age=3600'
+        return resp
+    except Exception:
+        return Response(status=502)
