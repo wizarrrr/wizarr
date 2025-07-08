@@ -1,154 +1,168 @@
-{# templates/settings/page.html #} {% extends "base.html" %} {% block title %}{{
-_("Settings") }}{% endblock %} {% block main %}
-<section class="flex flex-col items-center justify-center px-6 py-8">
-    <div class="w-full max-w-md space-y-6">
-        <div class="flex gap-2">
+{# templates/settings/index.html #}
+{% extends "base.html" %}
+{% block title %}{{ _("Settings") }}{% endblock %}
+{% block main %}
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <!-- Mobile header with menu toggle -->
+    <div class="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between px-4 h-16">
+            <h1 class="text-xl font-semibold text-gray-800 dark:text-white">{{ _("Settings") }}</h1>
             <button
-                class="tab-btn flex-1 flex items-center justify-center gap-1"
-                hx-get="{{ url_for('settings.general_settings') }}"
-                hx-target="#tab-body"
-                hx-swap="innerHTML"
-                hx-trigger="load,click"
-                {#
-                ←
-                load
-                FIRST
-                +
-                every
-                click
-                #}
+                id="mobile-menu-toggle"
+                class="p-2 rounded-md text-gray-500 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+                aria-label="Toggle menu"
             >
-                <svg
-                    class="w-6 h-6 text-gray-800 dark:text-white"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        fill-rule="evenodd"
-                        d="M5 5a2 2 0 0 0-2 2v3a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7a2 2 0 0 0-2-2H5Zm9 2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H14Zm3 0a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17ZM3 17v-3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm11-2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H14Zm3 0a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17Z"
-                        clip-rule="evenodd"
-                    />
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
-
-                {{ _("General") }}
-            </button>
-
-            <button
-                class="tab-btn flex-1 flex items-center justify-center gap-1"
-                hx-get="{{ url_for('notify.list_agents') }}"
-                hx-target="#tab-body"
-                hx-swap="innerHTML"
-                hx-trigger="click"
-                {#
-                ←
-                only
-                on
-                click
-                #}
-            >
-                <svg
-                    class="w-6 h-6 text-gray-800 dark:text-white"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        d="M17.133 12.632v-1.8a5.407 5.407 0 0 0-4.154-5.262.955.955 0 0 0 .021-.106V3.1a1 1 0 0 0-2 0v2.364a.933.933 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C6.867 15.018 5 15.614 5 16.807 5 17.4 5 18 5.538 18h12.924C19 18 19 17.4 19 16.807c0-1.193-1.867-1.789-1.867-4.175Zm-13.267-.8a1 1 0 0 1-1-1 9.424 9.424 0 0 1 2.517-6.391A1.001 1.001 0 1 1 6.854 5.8a7.43 7.43 0 0 0-1.988 5.037 1 1 0 0 1-1 .995Zm16.268 0a1 1 0 0 1-1-1A7.431 7.431 0 0 0 17.146 5.8a1 1 0 0 1 1.471-1.354 9.424 9.424 0 0 1 2.517 6.391 1 1 0 0 1-1 .995ZM8.823 19a3.453 3.453 0 0 0 6.354 0H8.823Z"
-                    />
-                </svg>
-
-                {{ _("Alerts") }}
-            </button>
-
-            <button
-                class="tab-btn flex-1 flex items-center justify-center gap-1"
-                hx-get="{{ url_for('media_servers.list_servers') }}"
-                hx-target="#tab-body"
-                hx-swap="innerHTML"
-                hx-trigger="click"
-                {#
-                ←
-                only
-                on
-                click
-                #}
-            >
-                <svg
-                    class="w-6 h-6 text-gray-800 dark:text-white"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        d="M5 3h14a2 2 0 0 1 2 2v4H3V5a2 2 0 0 1 2-2ZM3 11h18v4H3v-4Zm0 6h18v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2Z"
-                    />
-                </svg>
-                {{ _("Servers") }}
-            </button>
-
-            <button
-                class="tab-btn flex-1 flex items-center justify-center gap-1"
-                hx-get="{{ url_for('admin_accounts.list_admins') }}"
-                hx-target="#tab-body"
-                hx-swap="innerHTML"
-                hx-trigger="click"
-            >
-                <svg
-                    class="w-6 h-6 text-gray-800 dark:text-white"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                </svg>
-                {{ _("Admins") }}
-            </button>
-
-            <button
-                class="tab-btn flex-1 flex items-center justify-center gap-1"
-                hx-get="{{ url_for('wizard_admin.list_steps') }}"
-                hx-target="#tab-body"
-                hx-swap="innerHTML"
-                hx-trigger="click"
-            >
-                <svg
-                    class="w-6 h-6 text-gray-800 dark:text-white"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        fill-rule="evenodd"
-                        d="M8 5a1 1 0 0 1 1-1h11a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-1a1 1 0 1 1 0-2h1V6H9a1 1 0 0 1-1-1Z"
-                        clip-rule="evenodd"
-                    />
-                    <path
-                        fill-rule="evenodd"
-                        d="M4 7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H4Zm0 11v-5.5h11V18H4Z"
-                        clip-rule="evenodd"
-                    />
-                </svg>
-                {{ _("Wizard") }}
             </button>
         </div>
-
-        <div id="tab-body" class="animate__animated animate__fadeIn"></div>
     </div>
-</section>
+
+    <!-- Sidebar navigation -->
+    <aside
+        id="sidebar"
+        class="fixed left-0 z-30 w-72 h-full transition-transform -translate-x-full lg:translate-x-0 lg:static lg:inset-0"
+        aria-label="Sidebar"
+    >
+        <div class="h-full px-3 py-4 overflow-y-auto bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
+            <!-- Desktop header -->
+            <div class="hidden lg:block mb-8 px-3">
+                <h1 class="text-2xl font-bold text-gray-800 dark:text-white">{{ _("Settings") }}</h1>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ _("Manage your application preferences") }}</p>
+            </div>
+
+            <!-- Navigation items -->
+            <ul class="space-y-2 font-medium">
+                <li>
+                    <button
+                        class="settings-nav-item flex items-center w-full p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                        hx-get="{{ url_for('settings.general_settings') }}"
+                        hx-target="#settings-content"
+                        hx-swap="innerHTML"
+                        hx-trigger="load,click"
+                        hx-on="htmx:afterRequest: highlightNavItem(this)"
+                    >
+                        <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="ml-3">{{ _("General") }}</span>
+                    </button>
+                </li>
+                <li>
+                    <button
+                        class="settings-nav-item flex items-center w-full p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                        hx-get="{{ url_for('notify.list_agents') }}"
+                        hx-target="#settings-content"
+                        hx-swap="innerHTML"
+                        hx-trigger="click"
+                        hx-on="htmx:afterRequest: highlightNavItem(this)"
+                    >
+                        <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
+                        </svg>
+                        <span class="ml-3">{{ _("Notifications") }}</span>
+                    </button>
+                </li>
+                <li>
+                    <button
+                        class="settings-nav-item flex items-center w-full p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                        hx-get="{{ url_for('media_servers.list_servers') }}"
+                        hx-target="#settings-content"
+                        hx-swap="innerHTML"
+                        hx-trigger="click"
+                        hx-on="htmx:afterRequest: highlightNavItem(this)"
+                    >
+                        <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="ml-3">{{ _("Media Servers") }}</span>
+                    </button>
+                </li>
+                <li>
+                    <button
+                        class="settings-nav-item flex items-center w-full p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                        hx-get="{{ url_for('admin_accounts.list_admins') }}"
+                        hx-target="#settings-content"
+                        hx-swap="innerHTML"
+                        hx-trigger="click"
+                        hx-on="htmx:afterRequest: highlightNavItem(this)"
+                    >
+                        <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
+                        </svg>
+                        <span class="ml-3">{{ _("Administrators") }}</span>
+                    </button>
+                </li>
+                <li>
+                    <button
+                        class="settings-nav-item flex items-center w-full p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                        hx-get="{{ url_for('wizard_admin.list_steps') }}"
+                        hx-target="#settings-content"
+                        hx-swap="innerHTML"
+                        hx-trigger="click"
+                        hx-on="htmx:afterRequest: highlightNavItem(this)"
+                    >
+                        <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V8z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="ml-3">{{ _("Setup Wizard") }}</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Mobile overlay -->
+    <div
+        id="sidebar-overlay"
+        class="fixed inset-0 z-20 bg-gray-900 bg-opacity-50 hidden lg:hidden"
+        onclick="toggleMobileMenu()"
+    ></div>
+
+    <!-- Main content area -->
+    <main class="lg:ml-72 pt-16 lg:pt-0">
+        <div id="settings-content" class="p-4 lg:p-8 animate__animated animate__fadeIn">
+            <!-- Content will be loaded here via HTMX -->
+        </div>
+    </main>
+</div>
+
+<script>
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        
+        sidebar.classList.toggle('-translate-x-full');
+        overlay.classList.toggle('hidden');
+    }
+
+    // Add click event to mobile menu toggle button
+    document.getElementById('mobile-menu-toggle').addEventListener('click', toggleMobileMenu);
+
+    // Highlight active navigation item
+    function highlightNavItem(clickedItem) {
+        // Remove active class from all nav items
+        document.querySelectorAll('.settings-nav-item').forEach(item => {
+            item.classList.remove('bg-gray-100', 'dark:bg-gray-700');
+        });
+        
+        // Add active class to clicked item
+        clickedItem.classList.add('bg-gray-100', 'dark:bg-gray-700');
+        
+        // Close mobile menu if open
+        if (window.innerWidth < 1024) {
+            toggleMobileMenu();
+        }
+    }
+
+    // Set initial active state
+    document.addEventListener('DOMContentLoaded', function() {
+        const firstNavItem = document.querySelector('.settings-nav-item');
+        if (firstNavItem) {
+            firstNavItem.classList.add('bg-gray-100', 'dark:bg-gray-700');
+        }
+    });
+</script>
 {% endblock %}
