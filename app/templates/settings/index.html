@@ -1,6 +1,11 @@
 {# templates/settings/index.html #}
 {% extends "base.html" %}
 {% block title %}{{ _("Settings") }}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/settings-custom.css') }}" />
+{% endblock %}
+
 {% block main %}
 <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
     <!-- Mobile header with menu toggle -->

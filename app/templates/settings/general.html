@@ -1,100 +1,139 @@
-<section class="bg-gray-50 dark:bg-gray-900 animate__animated animate__fadeIn">
-  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto">
-    <div class="w-full bg-white rounded-lg shadow-sm dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-      <div class="p-6 space-y-6 md:space-y-8 sm:p-8">
-        <div class="flex justify-between items-center">
-          <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            {{ _("General Settings") }}
-          </h1>
-        </div>
-
-        <form method="post" hx-post="{{ url_for('settings.general_settings') }}" hx-target="#tab-body" hx-swap="innerHTML" class="space-y-6">
-          {{ form.csrf_token }}
-
-          {# ───── Display ──────────────────────────────────────── #}
-          <div class="space-y-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Display") }}</h2>
-            <div>
-              {{ form.server_name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-              {{ form.server_name(class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
-              {% for err in form.server_name.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
-            </div>
-          </div>
-
-          {# ───── Integrations ─────────────────────────────────── #}
-          <div class="space-y-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Integrations") }}</h2>
-            <div>
-              {{ form.overseerr_url.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-              {{ form.overseerr_url(
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white",
-                  placeholder=_("Optional, leave empty to disable"),
-                  id="overseerr_url_input"
-               ) }}
-              {% for err in form.overseerr_url.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
-            </div>
-            <div id="ombi_api" class="hidden">
-              {{ form.ombi_api_key.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
-              {{ form.ombi_api_key(
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white",
-                  type="password",
-                  placeholder=_("Optional, leave empty to disable")
-                ) }}
-              {% for err in form.ombi_api_key.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
-            </div>
-          </div>
-
-          {# ───── Community ────────────────────────────────────── #}
-          <div class="space-y-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Community") }}</h2>
-            <div>
-              {{ form.discord_id.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-              {{ form.discord_id(
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white",
-                  placeholder=_("Optional, leave empty to disable")
-                ) }}
-              {% for err in form.discord_id.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
-            </div>
-          </div>
-
-          {# ───── Access Control ───────────────────────────────── #}
-          <div class="space-y-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Access Control") }}</h2>
-            <div class="flex items-center">
-              <label class="inline-flex items-center cursor-pointer">
-                {{ form.wizard_acl_enabled(class="sr-only peer") }}
-                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
-                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ form.wizard_acl_enabled.label.text }}</span>
-              </label>
-            </div>
-          </div>
-
-          {# ───── Submit ───────────────────────────────────────── #}
-          <div>
-            <button type="submit" class="w-full text-white bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-hidden focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
-              {{ _("Save") }}
-            </button>
-          </div>
-        </form>
-      </div>
+<div class="max-w-4xl mx-auto animate__animated animate__fadeIn">
+    <!-- Page header -->
+    <div class="mb-6">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ _("General Settings") }}</h2>
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ _("Configure basic application settings and integrations") }}</p>
     </div>
-  </div>
-</section>
+
+    <!-- Settings form -->
+    <form method="post" hx-post="{{ url_for('settings.general_settings') }}" hx-target="#settings-content" hx-swap="innerHTML">
+        {{ form.csrf_token }}
+        
+        <div class="space-y-6">
+            <!-- Display Settings Card -->
+            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.83 2.77a1 1 0 011.32-.2l8 5a1 1 0 010 1.7l-8 5a1 1 0 01-1.54-.84V3.57a1 1 0 01.22-.64zM9 4.8v10.4L15.2 10 9 4.8z" clip-rule="evenodd"/>
+                    </svg>
+                    {{ _("Display") }}
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        {{ form.server_name.label(class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1") }}
+                        {{ form.server_name(class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm") }}
+                        {% for err in form.server_name.errors %}
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ err }}</p>
+                        {% endfor %}
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ _("This name will be displayed throughout the application") }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Integrations Card -->
+            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/>
+                        <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/>
+                    </svg>
+                    {{ _("Integrations") }}
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        {{ form.overseerr_url.label(class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1") }}
+                        {{ form.overseerr_url(
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm",
+                            placeholder=_("https://overseerr.example.com"),
+                            id="overseerr_url_input"
+                        ) }}
+                        {% for err in form.overseerr_url.errors %}
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ err }}</p>
+                        {% endfor %}
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ _("Connect to Overseerr or Ombi for media requests") }}</p>
+                    </div>
+                    
+                    <div id="ombi_api" class="hidden">
+                        {{ form.ombi_api_key.label(class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1") }}
+                        {{ form.ombi_api_key(
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm",
+                            type="password",
+                            placeholder=_("API key for Ombi integration")
+                        ) }}
+                        {% for err in form.ombi_api_key.errors %}
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ err }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Community Card -->
+            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                    </svg>
+                    {{ _("Community") }}
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        {{ form.discord_id.label(class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1") }}
+                        {{ form.discord_id(
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm",
+                            placeholder=_("1234567890")
+                        ) }}
+                        {% for err in form.discord_id.errors %}
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ err }}</p>
+                        {% endfor %}
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ _("Your Discord server ID for community features") }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Access Control Card -->
+            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                    </svg>
+                    {{ _("Access Control") }}
+                </h3>
+                <div class="space-y-4">
+                    <label class="flex items-center cursor-pointer">
+                        {{ form.wizard_acl_enabled(class="sr-only peer") }}
+                        <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/25 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                        <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-200">{{ form.wizard_acl_enabled.label.text }}</span>
+                    </label>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ _("When enabled, users must be logged in to access the setup wizard") }}</p>
+                </div>
+            </div>
+
+            <!-- Save button -->
+            <div class="flex justify-end">
+                <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-gray-800">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                    {{ _("Save Changes") }}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
 
 <script>
-  (function () {
-    const overseerrUrlInput = document.getElementById("overseerr_url_input");
-    const ombiApiDiv        = document.getElementById("ombi_api");
+    (function () {
+        const overseerrUrlInput = document.getElementById("overseerr_url_input");
+        const ombiApiDiv = document.getElementById("ombi_api");
 
-    function toggleOmbi() {
-      if (!overseerrUrlInput) return;
-      const hasUrl = overseerrUrlInput.value.trim().length > 0;
-      ombiApiDiv.classList.toggle("hidden", !hasUrl);
-    }
+        function toggleOmbi() {
+            if (!overseerrUrlInput) return;
+            const hasUrl = overseerrUrlInput.value.trim().length > 0;
+            ombiApiDiv.classList.toggle("hidden", !hasUrl);
+        }
 
-    overseerrUrlInput.addEventListener("input", toggleOmbi);
-    // Initial state on page load
-    toggleOmbi();
-  })();
+        overseerrUrlInput.addEventListener("input", toggleOmbi);
+        // Initial state on page load
+        toggleOmbi();
+    })();
 </script> 
-</section> 

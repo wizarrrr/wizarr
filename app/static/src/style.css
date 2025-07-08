@@ -1,4 +1,5 @@
-@import 'tailwindcss';
+@import 'tailwindcss/theme.css';
+@import 'tailwindcss/utilities.css';
 
 @plugin 'flowbite/plugin';
 @plugin '@tailwindcss/typography';
@@ -63,4 +64,68 @@ Make sure disabled buttons don't get the pointer cursor.
          rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600
          focus:outline-hidden focus:ring-2 focus:ring-primary
          text-gray-700 dark:text-gray-300;
+}
+
+/* Settings Sidebar Styles */
+#sidebar {
+  @apply bg-white dark:bg-gray-800;
+  transition: transform 0.3s ease-in-out;
+}
+
+@media (max-width: 1023px) {
+  #sidebar {
+    position: fixed;
+    top: 64px; /* Below mobile header */
+    bottom: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Active nav item indicator */
+.settings-nav-item.active {
+  @apply bg-gray-100 dark:bg-gray-700;
+  position: relative;
+}
+
+.settings-nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 70%;
+  @apply bg-primary;
+  border-radius: 0 2px 2px 0;
+}
+
+/* Smooth hover transitions */
+.settings-nav-item {
+  transition: all 0.2s ease;
+}
+
+/* Drag handle cursor */
+.drag {
+  cursor: grab;
+}
+
+.drag:active {
+  cursor: grabbing;
+}
+
+/* Sortable ghost element */
+.sortable-ghost {
+  @apply opacity-50;
+}
+
+/* Sortable drag element */
+.sortable-drag {
+  @apply opacity-0;
+}
+
+/* Improve mobile tap targets */
+@media (max-width: 640px) {
+  .settings-nav-item {
+    @apply p-4;
+  }
 }

@@ -1,99 +1,132 @@
 <div id="create-server-modal"></div>
 
-<section class="py-8 animate__animated animate__fadeIn">
-    <div class="container px-4 mx-auto">
-        <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-            {{ _("Media Servers") }}
-        </h1>
+<div class="max-w-4xl mx-auto animate__animated animate__fadeIn">
+    <!-- Page header -->
+    <div class="mb-6">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ _("Media Servers") }}</h2>
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ _("Manage your connected media servers") }}</p>
+    </div>
 
-        <div class="grid grid-cols-1 gap-4 animate__animated" id="servers_grid">
-            {% for s in servers %}
-            <div class="mb-4 animate__animated flex flex-col justify-between bg-white dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-xs overflow-hidden border border-gray-200 dark:border-gray-700" data-server-id="{{ s.id }}">
-                <div class="p-4">
-                    <!-- Header -->
-                    <div class="flex justify-between items-start mb-3">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-white truncate" title="{{ s.name }}">{{ s.name }}</h2>
-                        <span class="text-xs inline-block font-medium px-1.5 py-0.5 rounded
-                            {% if s.server_type in ['plex'] %}bg-orange-100 text-orange-800 dark:bg-orange-600 dark:text-white
-                            {% elif s.server_type in ['audiobookshelf','abs'] %}bg-blue-100 text-blue-800 dark:bg-blue-600 dark:text-white
-                            {% else %}bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200{% endif %}">
-                            {{ s.server_type|title }}
+    <!-- Servers grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="servers_grid">
+        {% for s in servers %}
+        <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200" data-server-id="{{ s.id }}">
+            <!-- Server header -->
+            <div class="p-4 sm:p-5">
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white truncate" title="{{ s.name }}">{{ s.name }}</h3>
+                    <span class="ml-2 text-xs inline-block font-medium px-2 py-1 rounded-full
+                        {% if s.server_type in ['plex'] %}bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300
+                        {% elif s.server_type in ['jellyfin'] %}bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300
+                        {% elif s.server_type in ['emby'] %}bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300
+                        {% elif s.server_type in ['audiobookshelf','abs'] %}bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300
+                        {% elif s.server_type in ['romm'] %}bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300
+                        {% else %}bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300{% endif %}">
+                        {{ s.server_type|title }}
+                    </span>
+                </div>
+
+                <!-- Server details -->
+                <div class="space-y-2">
+                    <!-- URL -->
+                    <div class="flex items-center text-sm">
+                        <svg class="w-4 h-4 mr-2 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                        </svg>
+                        <a href="{{ s.url }}" target="_blank" rel="noopener" class="truncate hover:underline text-primary dark:text-primary_hover max-w-[70%]">{{ s.url }}</a>
+                    </div>
+
+                    <!-- Status row -->
+                    <div class="flex items-center gap-2">
+                        <!-- Verification status -->
+                        <span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium
+                            {% if s.verified %}bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300
+                            {% else %}bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300{% endif %}">
+                            {% if s.verified %}
+                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            {% else %}
+                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                </svg>
+                            {% endif %}
+                            {{ _("Verified") if s.verified else _("Unverified") }}
+                        </span>
+
+                        <!-- Connection status badge -->
+                        <span hx-get="{{ url_for('media_servers.ping_server', server_id=s.id) }}"
+                              hx-trigger="load"
+                              hx-swap="outerHTML"
+                              class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                            <svg class="w-3 h-3 mr-1 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                                <circle cx="10" cy="10" r="2"/>
+                            </svg>
+                            {{ _("Checking...") }}
                         </span>
                     </div>
-
-                    <!-- Details -->
-                    <div class="space-y-2 text-sm text-gray-500 dark:text-gray-400">
-                        <!-- URL -->
-                        <div class="flex items-center">
-                            <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12.293 2.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-8 8a1 1 0 01-.707.293H5a1 1 0 01-1-1v-4a1 1 0 01.293-.707l8-8zM5 12v3h3l7-7-3-3-7 7z"></path>
-                            </svg>
-                            <a href="{{ s.url }}" target="_blank" rel="noopener" class="truncate hover:underline text-primary dark:text-primary_hover">{{ s.url }}</a>
-                        </div>
-
-                        <!-- Verification Status -->
-                        <div class="flex items-center">
-                            <svg class="w-4 h-4 mr-1.5 {% if s.verified %}text-green-500{% else %}text-red-500{% endif %}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                {% if s.verified %}
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                {% else %}
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.536-10.121a1 1 0 00-1.414-1.414L10 8.586 7.879 6.465a1 1 0 00-1.414 1.414L8.586 10l-2.121 2.121a1 1 0 001.414 1.414L10 11.414l2.121 2.121a1 1 0 001.414-1.414L11.414 10l2.122-2.121z" clip-rule="evenodd"></path>
-                                {% endif %}
-                            </svg>
-                            <span class="ml-1 inline-flex rounded-full px-2 py-0.5 text-xs font-medium
-                                {% if s.verified %}bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100
-                                {% else %}bg-red-100 text-red-800 dark:bg-red-700 dark:text-red-100{% endif %}">
-                                {{ _("Verified") if s.verified else _("Unverified") }}
-                            </span>
-
-                            <!-- Connection status badge (auto-updates via HTMX) -->
-                            <span hx-get="{{ url_for('media_servers.ping_server', server_id=s.id) }}"
-                                  hx-trigger="load"
-                                  hx-swap="outerHTML"
-                                  class="ml-2 inline-flex rounded-full px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100">
-                                {{ _("Checking...") }}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Divider -->
-                <hr class="border-t border-gray-200 dark:border-gray-700" />
-
-                <!-- Actions -->
-                <div class="flex justify-end p-3 bg-gray-50 dark:bg-gray-700 space-x-2">
-                    <button hx-get="{{ url_for('media_servers.edit_server', server_id=s.id) }}"
-                            hx-target="#create-server-modal" hx-trigger="click"
-                            _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
-                            class="inline-flex items-center justify-center p-2 text-gray-800 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 mr-2">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                            </svg>
-                              
-                    </button>
-                    <button hx-delete="{{ url_for('media_servers.delete_server', delete=s.id) }}"
-                            hx-target="#tab-body" hx-swap="innerHTML swap:0.5s"
-                            hx-confirm="Are you sure you wish to delete {{ s.name }} ?"
-                            class="inline-flex items-center justify-center p-2 text-red-500 rounded-lg hover:text-white hover:bg-red-500 dark:text-red-400 dark:hover:text-white dark:hover:bg-red-600">
-
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                        </svg>
-                          
-                    </button>
                 </div>
             </div>
-            {% endfor %}
-        </div>
 
-        <div class="flex items-center justify-center mt-6">
+            <!-- Actions footer -->
+            <div class="flex justify-end p-3 bg-gray-50 dark:bg-gray-700/50 border-t border-gray-200 dark:border-gray-700">
+                <button hx-get="{{ url_for('media_servers.edit_server', server_id=s.id) }}"
+                        hx-target="#create-server-modal" 
+                        hx-trigger="click"
+                        _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
+                        class="inline-flex items-center p-2 text-gray-700 rounded-md hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-600 transition-colors mr-1"
+                        title="{{ _('Edit server') }}">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                </button>
+                <button hx-delete="{{ url_for('media_servers.delete_server', delete=s.id) }}"
+                        hx-target="#settings-content" 
+                        hx-swap="innerHTML swap:0.5s"
+                        hx-confirm="{{ _('Are you sure you wish to delete') }} {{ s.name }}?"
+                        class="inline-flex items-center p-2 text-red-600 rounded-md hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900/40 transition-colors"
+                        title="{{ _('Delete server') }}">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Add server card -->
+        <button hx-get="{{ url_for('media_servers.create_server') }}"
+                hx-target="#create-server-modal"
+                hx-trigger="click"
+                _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
+                class="group bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-primary dark:hover:border-primary hover:shadow-md transition-all duration-200 p-8 flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary">
+            <svg class="w-12 h-12 mb-3 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            <span class="text-sm font-medium">{{ _("Add Server") }}</span>
+        </button>
+    </div>
+
+    <!-- Empty state -->
+    {% if not servers %}
+    <div class="text-center py-12">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("No servers") }}</h3>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _("Get started by adding a new media server.") }}</p>
+        <div class="mt-6">
             <button hx-get="{{ url_for('media_servers.create_server') }}"
                     hx-target="#create-server-modal"
                     hx-trigger="click"
                     _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
-                    class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-hidden focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
+                    class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-gray-800">
+                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                </svg>
                 {{ _("Add Server") }}
             </button>
         </div>
     </div>
-</section> 
+    {% endif %}
+</div> 

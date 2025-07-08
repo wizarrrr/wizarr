@@ -1,53 +1,80 @@
 <div id="create-admin-modal"></div>
 
-<section class="py-8 animate__animated animate__fadeIn">
-    <div class="container px-4 mx-auto">
-        <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-            {{ _("Administrators") }}
-        </h1>
+<div class="max-w-4xl mx-auto animate__animated animate__fadeIn">
+    <!-- Page header -->
+    <div class="mb-6">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ _("Administrators") }}</h2>
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ _("Manage admin accounts with full system access") }}</p>
+    </div>
 
-        <div class="grid grid-cols-1 gap-4 animate__animated" id="admins_grid">
-            {% for a in admins %}
-            <div class="flex items-center justify-between bg-white dark:bg-gray-800 rounded-lg shadow-xs p-4 border border-gray-200 dark:border-gray-700" data-admin-id="{{ a.id }}">
+    <!-- Admins list -->
+    <div class="space-y-4" id="admins_grid">
+        {% for a in admins %}
+        <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200" data-admin-id="{{ a.id }}">
+            <div class="p-4 sm:px-6 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
-                    <span class="text-gray-900 dark:text-white font-medium">{{ a.username }}</span>
+                    <div class="flex-shrink-0">
+                        <div class="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-medium text-gray-900 dark:text-white">{{ a.username }}</h4>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">{{ _("Administrator") }}</p>
+                    </div>
                 </div>
-                <div class="space-x-2">
+                
+                <div class="flex items-center gap-1">
                     <button hx-get="{{ url_for('admin_accounts.edit_admin', admin_id=a.id) }}"
                             hx-target="#create-admin-modal"
                             hx-trigger="click"
                             _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
-                            class="inline-flex items-center justify-center p-2 text-gray-800 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:text-white dark:hover:bg-gray-600">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                            class="inline-flex items-center p-2 text-gray-700 rounded-md hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
+                            title="{{ _('Edit admin') }}">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
                     </button>
                     <button hx-delete="{{ url_for('admin_accounts.delete_admin') }}?delete={{ a.id }}"
-                            hx-target="#tab-body" hx-swap="innerHTML swap:0.5s"
-                            hx-confirm="Are you sure you wish to delete {{ a.username }} ?"
-                            class="inline-flex items-center justify-center p-2 text-red-500 rounded-lg hover:text-white hover:bg-red-500 dark:text-red-400 dark:hover:text-white dark:hover:bg-red-600">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            hx-target="#settings-content" 
+                            hx-swap="innerHTML swap:0.5s"
+                            hx-confirm="{{ _('Are you sure you wish to delete') }} {{ a.username }}?"
+                            class="inline-flex items-center p-2 text-red-600 rounded-md hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900/40 transition-colors"
+                            title="{{ _('Delete admin') }}">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                         </svg>
                     </button>
                 </div>
             </div>
-            {% else %}
-            <p class="text-gray-500 dark:text-gray-400">{{ _("No administrators yet.") }}</p>
-            {% endfor %}
         </div>
+        {% endfor %}
 
-        <div class="flex items-center justify-center mt-6">
+        <!-- Add admin button (always visible) -->
+        <div class="flex justify-center mt-6">
             <button hx-get="{{ url_for('admin_accounts.create_admin') }}"
                     hx-target="#create-admin-modal"
                     hx-trigger="click"
                     _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
-                    class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-hidden focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
-                {{ _("Add Admin") }}
+                    class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-gray-800">
+                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                </svg>
+                {{ _("Add Administrator") }}
             </button>
         </div>
     </div>
-</section> 
+
+    <!-- Empty state -->
+    {% if not admins %}
+    <div class="text-center py-12">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("No administrators") }}</h3>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _("Start by adding your first administrator account.") }}</p>
+    </div>
+    {% endif %}
+</div> 
