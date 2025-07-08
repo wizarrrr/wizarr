@@ -84,6 +84,39 @@ class User(db.Model, UserMixin):
     identity_id = db.Column(db.Integer, db.ForeignKey('identity.id'), nullable=True)
     identity = db.relationship('Identity', backref=db.backref('accounts', lazy=True))
 
+# ───────────────────────────────────────────────────────────────────────────────
+#  Multi-admin support (2025-07)
+# ───────────────────────────────────────────────────────────────────────────────
+class AdminAccount(db.Model, UserMixin):
+    """Dedicated model for administrator accounts.
+
+    Replaces the legacy single-admin credentials that were stored as plain
+    settings rows (``admin_username`` / ``admin_password``).  Each admin has a
+    unique *username* and a hashed *password* (scrypt).  Because we inherit
+    :class:`flask_login.UserMixin`, instances can be returned directly from
+    ``login_user`` / ``user_loader``.
+    """
+
+    __tablename__ = "admin_account"
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String, unique=True, nullable=False)
+    password_hash = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    # ── helpers ────────────────────────────────────────────────────────────
+    def set_password(self, raw_password: str):
+        """Hash *raw_password* with *scrypt* and store it."""
+        from werkzeug.security import generate_password_hash  # local import to avoid circular
+
+        self.password_hash = generate_password_hash(raw_password, "scrypt")
+
+    def check_password(self, raw_password: str) -> bool:
+        """Validate *raw_password* against the stored *password_hash*."""
+        from werkzeug.security import check_password_hash  # local import to avoid circular
+
+        return check_password_hash(self.password_hash, raw_password)
+
 
 class Notification(db.Model):
     __tablename__ = 'notification'

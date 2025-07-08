@@ -31,11 +31,26 @@ def init_extensions(app):
 
 @login_manager.user_loader
 def load_user(user_id):
-    from .models import AdminUser
+    """Translate *user_id* from the session back into a user instance.
 
+    Two cases are supported for backward-compatibility:
+
+    1. ``"admin"`` – legacy constant representing the sole admin account
+       backed by ``Settings`` rows.  We keep it around so existing sessions
+       remain valid after upgrading.
+    2. A decimal string – primary key of an ``AdminAccount`` row.
+    """
+
+    from .models import AdminAccount, AdminUser  # imported lazily to avoid circular deps
+
+    # ── legacy single-admin token ───────────────────────────────────────────
     if user_id == "admin":
         return AdminUser()
-    # no DB-backed users for now
+
+    # ── new multi-admin accounts ───────────────────────────────────────────
+    if user_id.isdigit():
+        return AdminAccount.query.get(int(user_id))
+
     return None
 
 def _select_locale():

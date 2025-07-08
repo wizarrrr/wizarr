@@ -1,10 +1,9 @@
 # app/blueprints/setup/routes.py
 from flask import Blueprint, render_template, redirect, url_for, flash, session
-from werkzeug.security import generate_password_hash
 from flask_login import login_user
 
 from ...extensions import db
-from ...models import Settings, AdminUser, MediaServer
+from ...models import Settings, AdminUser, AdminAccount, MediaServer
 from ...forms.setup import AdminAccountForm
 from ...forms.settings import SettingsForm
 from ...services.servers import check_plex, check_jellyfin, check_emby, check_audiobookshelf
@@ -36,14 +35,24 @@ def onboarding():
     _ensure_keys_exist()
     s = _settings_as_dict()
 
-    # ───── Step 1: create admin account ───────────────────────────
-    if not s["admin_username"].value or not s["admin_password"].value:
+    # ── Step 1: create admin account ───────────────────────────
+    if not AdminAccount.query.first():
         form = AdminAccountForm()
         if form.validate_on_submit():
+            # Store credentials in new AdminAccount model
+            account = AdminAccount(username=form.username.data)
+            account.set_password(form.password.data)
+            db.session.add(account)
+
+            # Also persist username/password to Settings for backward
+            # compatibility – this will be removed in a future release once
+            # the entire codebase migrates.
             s["admin_username"].value = form.username.data
-            s["admin_password"].value = generate_password_hash(form.password.data, "scrypt")
+            s["admin_password"].value = account.password_hash
+
             db.session.commit()
-            login_user(AdminUser())
+
+            login_user(account)
             flash("Admin account created – welcome!", "success")
             # → Redirect straight to admin dashboard instead of the onboarding wizard
             session["in_setup"] = True

@@ -1,0 +1,1 @@
+from .routes import admin_accounts_bp  # noqa: F401 

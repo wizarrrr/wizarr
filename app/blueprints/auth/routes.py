@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, session, url_for
 from werkzeug.security import check_password_hash
-from app.models import Settings, AdminUser
+from app.models import Settings, AdminUser, AdminAccount
 from app.extensions import db
 import os, logging
 from flask_babel import _
@@ -21,6 +21,12 @@ def login():
     username = request.form.get("username")
     password = request.form.get("password")
 
+    # ── 1) Multi-admin accounts (preferred) ────────────────────────────
+    if (account := AdminAccount.query.filter_by(username=username).first()):
+        if account.check_password(password):
+            login_user(account, remember=bool(request.form.get("remember")))
+            return redirect("/")
+
     # fetch the stored admin credentials
     admin_username = (
         db.session
@@ -36,7 +42,7 @@ def login():
     )
 
     if username == admin_username and check_password_hash(admin_password_hash, password):
-        # ❑ auto-migrate sha256 → scrypt
+        # Legacy single-admin (Settings table)
         login_user(AdminUser(), remember=bool(request.form.get("remember")))
         return redirect("/")
 

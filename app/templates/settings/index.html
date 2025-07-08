@@ -98,6 +98,27 @@ _("Settings") }}{% endblock %} {% block main %}
 
             <button
                 class="tab-btn flex-1 flex items-center justify-center gap-1"
+                hx-get="{{ url_for('admin_accounts.list_admins') }}"
+                hx-target="#tab-body"
+                hx-swap="innerHTML"
+                hx-trigger="click"
+            >
+                <svg
+                    class="w-6 h-6 text-gray-800 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                </svg>
+                {{ _("Admins") }}
+            </button>
+
+            <button
+                class="tab-btn flex-1 flex items-center justify-center gap-1"
                 hx-get="{{ url_for('wizard_admin.list_steps') }}"
                 hx-target="#tab-body"
                 hx-swap="innerHTML"
