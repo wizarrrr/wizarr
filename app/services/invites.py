@@ -101,8 +101,12 @@ def create_invite(form: Any) -> Invitation:
     # === NEW: wire up the many-to-many ===
     selected = form.getlist("libraries")  # these are your external_ids
     if selected:
-        # look up the Library objects
-        libs = Library.query.filter(Library.external_id.in_(selected)).all()
+        # Look up the Library objects, but only for the selected servers to avoid orphaned libraries
+        server_ids = [s.id for s in servers]
+        libs = Library.query.filter(
+            Library.external_id.in_(selected),
+            Library.server_id.in_(server_ids)
+        ).all()
         invite.libraries = libs
     # if `selected` is empty, we simply leave invite.libraries = []
 

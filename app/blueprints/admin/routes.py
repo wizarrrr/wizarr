@@ -165,10 +165,13 @@ def invite_table():
                 inv.expires = datetime.datetime.strptime(inv.expires, "%Y-%m-%d %H:%M")
             inv.expired = inv.expires < now
 
-        # Group libraries by server for display
+        # Group libraries by server for display (filter out orphaned libraries)
         server_libs = {}
         for lib in inv.libraries:
-            server_name = lib.server.name if lib.server else "Unknown Server"
+            # Skip libraries that don't have a proper server association
+            if not lib.server:
+                continue
+            server_name = lib.server.name
             if server_name not in server_libs:
                 server_libs[server_name] = []
             server_libs[server_name].append(lib.name)
@@ -178,8 +181,8 @@ def invite_table():
             server_libs[server_name].sort()
         
         inv.display_libraries_by_server = server_libs
-        # Keep legacy display_libraries for compatibility
-        inv.display_libraries = sorted({lib.name for lib in inv.libraries})
+        # Keep legacy display_libraries for compatibility (also filter orphaned)
+        inv.display_libraries = sorted({lib.name for lib in inv.libraries if lib.server})
 
     return render_template(
         "tables/invite_card.html",
