@@ -5,6 +5,7 @@ from app.extensions import db
 import os, logging
 from flask_babel import _
 from flask_login import login_user
+from flask_login import logout_user, login_required
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -48,3 +49,13 @@ def login():
 
     logging.warning("Failed login for user %s", username)
     return render_template("login.html", error=_("Invalid username or password"))
+
+
+# ── Logout ────────────────────────────────────────────────────────────
+
+@auth_bp.route("/logout", methods=["GET"])
+@login_required
+def logout():
+    """Terminate session and redirect to login page."""
+    logout_user()
+    return redirect(url_for("auth.login"))
