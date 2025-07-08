@@ -3,7 +3,7 @@ from pathlib import Path
 import frontmatter, markdown
 from flask import Blueprint, render_template, abort, request, session, redirect, url_for
 from flask_login import current_user
-from app.models import Settings, MediaServer, Invitation, WizardStep
+from app.models import Settings, MediaServer, Invitation, WizardStep, WizardBundle, WizardBundleStep
 from app.services.ombi_client import run_all_importers
 
 
@@ -183,6 +183,15 @@ def start():
     server_type = None
     if inv_code:
         inv = Invitation.query.filter_by(code=inv_code).first()
+
+        # ── 1️⃣ explicit bundle override ───────────────────────────
+        if inv and inv.wizard_bundle_id:
+            session['wizard_bundle_id'] = inv.wizard_bundle_id
+            # drop any server order session var to avoid conflicts
+            session.pop('wizard_server_order', None)
+            return redirect(url_for('wizard.bundle_view', idx=0))
+
+        # ── 2️⃣ multi-server combo logic ───────────────────────────
         if inv and inv.servers:
             server_order = sorted(inv.servers, key=lambda s: s.server_type)
             if len(server_order) > 1:
@@ -231,5 +240,50 @@ def combo(idx: int):
         idx=idx,
         max_idx=len(steps)-1,
         server_type='combo',
+        direction=request.values.get('dir',''),
+    )
+
+# ─── bundle-specific wizard route ──────────────────────────────
+
+@wizard_bp.route('/bundle/<int:idx>')
+def bundle_view(idx: int):
+    bundle_id = session.get('wizard_bundle_id')
+    if not bundle_id:
+        return redirect(url_for('wizard.start'))
+
+    bundle = WizardBundle.query.get(bundle_id)
+    if not bundle:
+        abort(404)
+
+    # ordered steps via association table
+    ordered = (
+        WizardBundleStep.query
+        .filter_by(bundle_id=bundle_id)
+        .order_by(WizardBundleStep.position)
+        .all()
+    )
+    steps_raw = [r.step for r in ordered]
+
+    # adapt to frontmatter-like interface
+    class _RowAdapter:
+        __slots__ = ('content',)
+        def __init__(self, row: WizardStep):
+            self.content = row.markdown
+        def get(self, key, default=None):
+            return None
+
+    steps = [_RowAdapter(s) for s in steps_raw]
+    if not steps:
+        abort(404)
+
+    idx = max(0, min(idx, len(steps)-1))
+    html = _render(steps[idx], _settings() | {'_': _})
+
+    return render_template(
+        'wizard/frame.html',
+        body_html=html,
+        idx=idx,
+        max_idx=len(steps)-1,
+        server_type='bundle',
         direction=request.values.get('dir',''),
     )

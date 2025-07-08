@@ -10,7 +10,14 @@
       {{ _('Custom') }}
     </button>
   </div>
-  <button hx-get="{{ url_for('wizard_admin.create_bundle') }}"
-          hx-target="#step-modal" hx-trigger="click"
-          class="px-3 py-1 rounded bg-secondary text-white">{{ _('Create bundle') }}</button>
+  <div class="flex gap-2">
+    {% if is_default %}
+    <button hx-get="{{ url_for('wizard_admin.create_step') }}"
+            hx-target="#step-modal" hx-trigger="click"
+            class="px-3 py-1 rounded bg-primary text-white">{{ _('Create step') }}</button>
+    {% endif %}
+    <button hx-get="{{ url_for('wizard_admin.create_bundle') }}"
+            hx-target="#step-modal" hx-trigger="click"
+            class="px-3 py-1 rounded bg-secondary text-white">{{ _('Create bundle') }}</button>
+  </div>
 </div> 
