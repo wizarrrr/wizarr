@@ -35,7 +35,7 @@
                         <!-- Main Navigation -->
                         <ul class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
                             {% set tabs = [
-                              ("/invite", "#", "Home"),
+                              ("/home", "#", "Home"),
                               ("/invites", "#invites", "Invitations"),
                               ("/users", "#users", "Users"),
                               ("/settings", "#settings", "Settings")
@@ -79,7 +79,7 @@
         <div id="content" class="flex-1 overflow-y-auto"></div>
 
         <div
-            hx-get="/invite"
+            hx-get="/home"
             hx-target="#content"
             hx-swap="innerHTML"
             hx-trigger="load[!['#invites', '#users', '#settings'].includes(window.location.hash)]"

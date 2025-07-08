@@ -133,6 +133,21 @@ class MediaClient(ABC):
     def get_user(self, *args, **kwargs):
         raise NotImplementedError
 
+    @abstractmethod
+    def now_playing(self):
+        """Return a list of currently playing sessions for this media server.
+        
+        Returns:
+            list: A list of session dictionaries with standardized keys including:
+                - user_name: Name of the user currently playing
+                - media_title: Title of the media being played  
+                - media_type: Type of media (movie, episode, track, etc.)
+                - progress: Playback progress (0.0 to 1.0)
+                - state: Playback state (playing, paused, buffering, stopped)
+                - session_id: Unique identifier for the session
+        """
+        raise NotImplementedError
+
 # ---------------------------------------------------------------------------
 # Shared helpers for simple REST JSON backends
 # ---------------------------------------------------------------------------

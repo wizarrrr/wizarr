@@ -1,0 +1,220 @@
+{% if error %}
+    <div class="col-span-full text-center py-12">
+        <div class="text-red-500 dark:text-red-400">
+            <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h3 class="text-lg font-medium mb-2">{{ _("Unable to load now playing") }}</h3>
+            <p>{{ _("There was an error connecting to your media servers") }}</p>
+        </div>
+    </div>
+{% elif not sessions %}
+    <div class="col-span-full text-center py-12">
+        <div class="text-gray-500 dark:text-gray-400">
+            <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <h3 class="text-lg font-medium mb-2">{{ _("No one is watching") }}</h3>
+            <p>{{ _("No active media sessions found across your servers") }}</p>
+        </div>
+    </div>
+{% else %}
+    {% for session in sessions %}
+        {% set progress_percent = (session.progress * 100) | round %}
+        {% set duration = session.duration_ms %}
+        {% set position = session.position_ms %}
+        
+        <div class="session-card bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 relative"
+             data-popover-target="popover-{{ session.session_id }}" data-popover-trigger="hover" data-popover-placement="bottom"
+             data-session-id="{{ session.session_id }}"
+             data-session-state="{{ session.state }}"
+             data-session-duration="{{ session.duration_ms }}"
+             data-session-position="{{ session.position_ms }}">
+            <!-- Media Artwork -->
+            <div class="h-48 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center relative overflow-hidden">
+                {% if session.artwork_url %}
+                    <!-- Actual artwork -->
+                    <img src="{{ session.artwork_url }}" 
+                         alt="{{ session.media_title }}" 
+                         class="w-full h-full object-cover"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <!-- Fallback icon (hidden by default) -->
+                    <div class="w-full h-full absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800" style="display: none;">
+                {% endif %}
+                <!-- Media Type Icon (shown when no artwork or as fallback) -->
+                {% if session.media_type == 'movie' %}
+                    <svg class="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2M7 4h10M7 4v16a1 1 0 001 1h8a1 1 0 001-1V4M9 8h6M9 12h6M9 16h6"></path>
+                    </svg>
+                {% elif session.media_type == 'episode' %}
+                    <svg class="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>
+                {% elif session.media_type == 'audiobook' %}
+                    <svg class="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                {% elif session.media_type == 'podcast' %}
+                    <svg class="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                    </svg>
+                {% elif session.media_type == 'track' %}
+                    <svg class="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path>
+                    </svg>
+                {% else %}
+                    <svg class="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                {% endif %}
+                {% if session.artwork_url %}
+                    </div>
+                {% endif %}
+                
+                <!-- State Badge -->
+                <div class="absolute top-3 right-3 bg-black bg-opacity-60 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                    <!-- State Icon -->
+                    {% if session.state == 'playing' %}
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        {{ _("Playing") }}
+                    {% elif session.state == 'paused' %}
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                        {{ _("Paused") }}
+                    {% elif session.state == 'buffering' %}
+                        <svg class="w-3 h-3 animate-spin" fill="currentColor" viewBox="0 0 24 24"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6z"/></svg>
+                        {{ _("Buffering") }}
+                    {% else %}
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm10 0h2v12h-2z"/></svg>
+                        {{ session.state|title }}
+                    {% endif %}
+                </div>
+                
+                <!-- Server Badge -->
+                {% if session.server_name %}
+                    <div class="absolute top-3 left-3 bg-primary text-white px-2 py-1 rounded text-xs font-medium">
+                        {{ session.server_name }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Content -->
+            <div class="p-4">
+                <h3 class="font-semibold text-gray-900 dark:text-white text-sm mb-1 line-clamp-2">{{ session.media_title }}</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">{{ session.user_name }}</p>
+                
+                <!-- Progress Bar -->
+                <div class="mb-2">
+                    <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+                        <span class="time-position">
+                            {% if position %}
+                                {% set pos_seconds = (position / 1000) | int %}
+                                {% set pos_mins = (pos_seconds / 60) | int %}
+                                {% set pos_secs = pos_seconds % 60 %}
+                                {{ "%d:%02d" | format(pos_mins, pos_secs) }}
+                            {% else %}
+                                0:00
+                            {% endif %}
+                        </span>
+                        <span>
+                            {% if duration %}
+                                {% set dur_seconds = (duration / 1000) | int %}
+                                {% set dur_mins = (dur_seconds / 60) | int %}
+                                {% set dur_secs = dur_seconds % 60 %}
+                                {{ "%d:%02d" | format(dur_mins, dur_secs) }}
+                            {% else %}
+                                0:00
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div class="bg-primary h-2 rounded-full transition-all duration-300 progress-bar" style="width: {{ progress_percent }}%"></div>
+                    </div>
+                </div>
+                
+                <!-- Device/Client Info -->
+                <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                    <span class="truncate">{{ session.client or session.device_name or _("Unknown Device") }}</span>
+                    <span class="ml-2 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs">{{ session.media_type|title }}</span>
+                </div>
+            </div>
+        </div>
+
+<!-- Flowbite Popover for session details -->
+<div id="popover-{{ session.session_id }}" role="tooltip"
+     class="absolute z-50 invisible inline-block w-80 text-sm text-gray-300 bg-gray-900 border border-gray-700 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 dark:bg-gray-800">
+    <div class="p-4 space-y-4">
+        <h4 class="text-center font-semibold text-yellow-400 text-base">{{ _("Session Details") }}</h4>
+        <div class="grid grid-cols-2 gap-x-6 gap-y-1">
+            <div>
+                <span class="text-gray-400">{{ _("Client") }}:</span>
+                <div class="font-medium text-white break-words">{{ session.client }}</div>
+            </div>
+            <div>
+                <span class="text-gray-400">{{ _("Device") }}:</span>
+                <div class="font-medium text-white break-words">{{ session.device_name }}</div>
+            </div>
+            <div>
+                <span class="text-gray-400">{{ _("User") }}:</span>
+                <div class="font-medium text-white break-words">{{ session.user_name }}</div>
+            </div>
+            <div>
+                <span class="text-gray-400">{{ _("Type") }}:</span>
+                <div class="font-medium text-white break-words">{{ session.media_type|title }}</div>
+            </div>
+            <div>
+                <span class="text-gray-400">{{ _("Status") }}:</span>
+                <div class="font-medium text-white flex items-center gap-1">
+                    {% if session.state == 'playing' %}
+                        <span class="w-2 h-2 bg-green-500 rounded-full"></span>{{ _("Playing") }}
+                    {% elif session.state == 'paused' %}
+                        <span class="w-2 h-2 bg-yellow-500 rounded-full"></span>{{ _("Paused") }}
+                    {% else %}
+                        <span class="w-2 h-2 bg-gray-500 rounded-full"></span>{{ session.state|title }}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <span class="text-gray-400">{{ _("Progress") }}:</span>
+                <div class="font-medium text-white">{{ (session.progress*100)|round(1) }}%</div>
+            </div>
+            <div>
+                <span class="text-gray-400">{{ _("Server") }}:</span>
+                <div class="font-medium text-white">{{ session.server_name }}</div>
+            </div>
+            <div>
+                <span class="text-gray-400">{{ _("Session") }}:</span>
+                <div class="font-mono text-xs text-white">{{ session.session_id[:8] }}...</div>
+            </div>
+        </div>
+        <hr class="border-gray-600">
+        <h5 class="text-center text-yellow-400 text-sm font-semibold">{{ _("Stream Info") }}</h5>
+        <div class="grid grid-cols-2 gap-x-6 gap-y-1 text-xs">
+            <div class="col-span-2 flex items-center gap-1">
+                <span class="text-gray-400">{{ _("Method") }}:</span>
+                <span class="font-medium text-white">
+                    {% if session.transcoding.direct_play %}{{ _("Direct Play") }}{% elif session.transcoding.is_transcoding %}{{ _("Transcoding") }}{% else %}{{ _("Direct Stream") }}{% endif %}
+                </span>
+            </div>
+            <div>
+                <span class="text-gray-400">Video:</span><span class="font-medium text-white"> {{ session.transcoding.video_codec or '-' }}</span>
+            </div>
+            <div>
+                <span class="text-gray-400">Audio:</span><span class="font-medium text-white"> {{ session.transcoding.audio_codec or '-' }}</span>
+            </div>
+            <div>
+                <span class="text-gray-400">Res:</span><span class="font-medium text-white"> {{ session.transcoding.video_resolution or '-' }}</span>
+            </div>
+            <div>
+                <span class="text-gray-400">Cont.:</span><span class="font-medium text-white"> {{ session.transcoding.container or '-' }}</span>
+            </div>
+            {% if session.transcoding.is_transcoding and session.transcoding.transcoding_speed %}
+            <div class="col-span-2">
+                <span class="text-gray-400">Speed:</span><span class="font-medium text-white"> {{ "%.1f"|format(session.transcoding.transcoding_speed) }}x</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div data-popper-arrow></div>
+</div>
+{% endfor %}
+{% endif %} 

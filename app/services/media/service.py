@@ -5,6 +5,7 @@ from app.models import Settings, User, MediaServer, Identity
 from .client_base import CLIENTS
 from collections import defaultdict
 import re
+import logging
 
 
 def _mode() -> str:
@@ -105,7 +106,6 @@ def delete_user(db_id: int) -> None:
             client.delete_user(user.token)
     except Exception as exc:
         # log but still remove locally so UI stays consistent
-        import logging
         logging.error("Remote deletion failed: %s", exc)
 
     db.session.delete(user)
@@ -149,6 +149,71 @@ def scan_libraries_for_server(server: MediaServer):
     """Scan libraries for the given server and upsert into our Library table."""
     client = get_client_for_media_server(server)
     return client.libraries()
+
+
+def get_now_playing_all_servers():
+    """Get now playing status from all configured media servers.
+    
+    Returns:
+        list: A list of session dictionaries from all servers, with server info included.
+              Each session includes:
+              - All standard now_playing fields (user_name, media_title, etc.)
+              - server_name: Name of the media server
+              - server_type: Type of media server (plex, jellyfin, etc.)
+              - server_id: ID of the MediaServer record
+    """
+    all_sessions = []
+    
+    # Get all configured media servers
+    servers = db.session.query(MediaServer).all()
+    
+    for server in servers:
+        try:
+            client = get_client_for_media_server(server)
+            sessions = client.now_playing()
+            
+            # Add server information to each session
+            for session in sessions:
+                session["server_name"] = server.name
+                session["server_type"] = server.server_type
+                session["server_id"] = server.id
+                all_sessions.append(session)
+                
+        except Exception as exc:
+            logging.warning(f"Failed to get now playing from server {server.name} ({server.server_type}): {exc}")
+            continue
+    
+    return all_sessions
+
+
+def get_now_playing_for_server(server_id: int):
+    """Get now playing status from a specific media server.
+    
+    Args:
+        server_id: ID of the MediaServer to query
+        
+    Returns:
+        list: A list of session dictionaries from the specified server.
+    """
+    server = db.session.query(MediaServer).filter_by(id=server_id).first()
+    if not server:
+        return []
+    
+    try:
+        client = get_client_for_media_server(server)
+        sessions = client.now_playing()
+        
+        # Add server information to each session
+        for session in sessions:
+            session["server_name"] = server.name
+            session["server_type"] = server.server_type
+            session["server_id"] = server.id
+        
+        return sessions
+        
+    except Exception as exc:
+        logging.warning(f"Failed to get now playing from server {server.name} ({server.server_type}): {exc}")
+        return []
 
 
 EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")

@@ -195,6 +195,146 @@ class PlexClient(MediaClient):
         return users
 
 
+    def now_playing(self) -> list[dict]:
+        """Return a list of currently playing sessions from Plex.
+        
+        Returns:
+            list: A list of session dictionaries with standardized keys.
+        """
+        try:
+            sessions = self.server.sessions()
+            now_playing_sessions = []
+            
+            for session in sessions:
+                # Only include sessions that are actively playing
+                if not hasattr(session, 'viewOffset') or session.viewOffset is None:
+                    continue
+                
+                # Calculate progress (0.0 to 1.0)
+                progress = 0.0
+                if hasattr(session, 'duration') and session.duration and session.viewOffset:
+                    progress = session.viewOffset / session.duration
+                    progress = max(0.0, min(1.0, progress))  # Clamp between 0 and 1
+                
+                # Determine media type
+                media_type = getattr(session, 'type', 'unknown').lower()
+                
+                # Get media title - handle different types
+                media_title = getattr(session, 'title', 'Unknown')
+                if media_type == 'episode':
+                    # For TV episodes, include series and episode info
+                    grandparent_title = getattr(session, 'grandparentTitle', '')
+                    season_num = getattr(session, 'parentIndex', None)
+                    episode_num = getattr(session, 'index', None)
+                    if grandparent_title:
+                        media_title = f"{grandparent_title}"
+                        if season_num and episode_num:
+                            media_title += f" S{season_num:02d}E{episode_num:02d}"
+                        media_title += f" - {getattr(session, 'title', '')}"
+                
+                # Get playback state from players
+                state = "stopped"
+                players = getattr(session, 'players', [])
+                if players:
+                    player_state = getattr(players[0], 'state', 'stopped')
+                    if player_state == 'paused':
+                        state = "paused"
+                    elif player_state == 'playing':
+                        state = "playing"
+                    elif player_state == 'buffering':
+                        state = "buffering"
+                
+                # Get user info
+                user_info = "Unknown User"
+                if hasattr(session, 'usernames') and session.usernames:
+                    user_info = session.usernames[0]
+                elif hasattr(session, 'users') and session.users:
+                    user_info = session.users[0].title
+                
+                # Get session ID
+                session_id = getattr(session, 'sessionKey', '')
+                
+                # Get client info
+                client_name = ""
+                device_name = ""
+                if players:
+                    client_name = getattr(players[0], 'product', '')
+                    device_name = getattr(players[0], 'title', '')
+                
+                # Get artwork URL
+                artwork_url = None
+                if hasattr(session, 'thumb') and session.thumb:
+                    # Convert relative path to full URL
+                    if session.thumb.startswith('/'):
+                        artwork_url = f"{self.url}{session.thumb}?X-Plex-Token={self.token}"
+                    else:
+                        artwork_url = session.thumb
+                
+                # Get transcoding information
+                transcoding_info = {
+                    "is_transcoding": False,
+                    "video_codec": None,
+                    "audio_codec": None,
+                    "container": None,
+                    "video_resolution": None,
+                    "transcoding_speed": None,
+                    "direct_play": True
+                }
+                
+                # Check for transcoding session
+                if hasattr(session, 'transcodeSessions') and session.transcodeSessions:
+                    transcoding_info["is_transcoding"] = True
+                    transcoding_info["direct_play"] = False
+                    transcode_session = session.transcodeSessions[0]
+                    transcoding_info["video_codec"] = getattr(transcode_session, 'videoCodec', None)
+                    transcoding_info["audio_codec"] = getattr(transcode_session, 'audioCodec', None)
+                    transcoding_info["container"] = getattr(transcode_session, 'container', None)
+                    transcoding_info["transcoding_speed"] = getattr(transcode_session, 'speed', None)
+                
+                # Check media info for resolution and codecs
+                if hasattr(session, 'media') and session.media:
+                    media = session.media[0] if session.media else None
+                    if media:
+                        if hasattr(media, 'videoResolution'):
+                            transcoding_info["video_resolution"] = media.videoResolution
+                        if hasattr(media, 'parts') and media.parts:
+                            part = media.parts[0]
+                            if hasattr(part, 'streams'):
+                                for stream in part.streams:
+                                    if hasattr(stream, 'streamType'):
+                                        if stream.streamType == 1:  # Video stream
+                                            if not transcoding_info["video_codec"]:
+                                                transcoding_info["video_codec"] = getattr(stream, 'codec', None)
+                                        elif stream.streamType == 2:  # Audio stream
+                                            if not transcoding_info["audio_codec"]:
+                                                transcoding_info["audio_codec"] = getattr(stream, 'codec', None)
+                            if hasattr(part, 'container'):
+                                if not transcoding_info["container"]:
+                                    transcoding_info["container"] = part.container
+                
+                # Build standardized session info
+                session_info = {
+                    "user_name": user_info,
+                    "media_title": media_title,
+                    "media_type": media_type,
+                    "progress": progress,
+                    "state": state,
+                    "session_id": str(session_id),
+                    "client": client_name,
+                    "device_name": device_name,
+                    "position_ms": getattr(session, 'viewOffset', 0),
+                    "duration_ms": getattr(session, 'duration', 0),
+                    "artwork_url": artwork_url,
+                    "transcoding": transcoding_info,
+                }
+                
+                now_playing_sessions.append(session_info)
+                
+            return now_playing_sessions
+            
+        except Exception as e:
+            logging.error(f"Failed to get now playing from Plex: {e}")
+            return []
 
 
 # ─── Invite & onboarding ──────────────────────────────────────────────────

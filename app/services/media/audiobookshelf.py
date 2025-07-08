@@ -302,6 +302,166 @@ class AudiobookshelfClient(RestApiMixin):
             logging.error("ABS join failed: %s", exc, exc_info=True)
             return False, "Failed to create user – please contact the admin."
 
+    def now_playing(self) -> list[dict]:
+        """Return a list of currently playing sessions from Audiobookshelf.
+        
+        Uses the official /api/sessions endpoint from the AudioBookshelf API.
+        Note: AudioBookshelf may not have active sessions if no users are currently
+        listening to audiobooks or podcasts.
+        
+        Returns:
+            list: A list of session dictionaries with standardized keys.
+        """
+        try:
+            # Use the official sessions endpoint from AudioBookshelf API docs
+            endpoint = f"{self.API_PREFIX}/sessions"
+            logging.debug(f"ABS: Getting sessions from: {endpoint}")
+            
+            resp = self.get(endpoint)
+            sessions_data = resp.json()
+            
+            now_playing_sessions = []
+            
+            # Handle different possible response formats
+            sessions = sessions_data
+            if isinstance(sessions_data, dict):
+                if "sessions" in sessions_data:
+                    sessions = sessions_data["sessions"]
+                elif "items" in sessions_data:
+                    sessions = sessions_data["items"]
+                elif "data" in sessions_data:
+                    sessions = sessions_data["data"]
+            
+            if not isinstance(sessions, list):
+                sessions = [sessions] if sessions else []
+            
+            for session in sessions:
+                if not isinstance(session, dict):
+                    continue
+                
+                # Check if this session has active playback
+                is_playing = False
+                playback_position = 0
+                duration = 0
+                state = "stopped"
+                
+                # Look for playback information in various possible structures
+                if session.get("isActive"):
+                    is_playing = True
+                    state = "playing"
+                elif session.get("playing"):
+                    is_playing = True
+                    state = "playing"
+                elif session.get("isPaused"):
+                    is_playing = True
+                    state = "paused"
+                
+                # Skip sessions that aren't actively playing
+                if not is_playing:
+                    continue
+                
+                # Extract progress information
+                playback_position = session.get("currentTime", 0) or session.get("position", 0)
+                duration = session.get("duration", 0) or session.get("totalDuration", 0)
+                
+                # Calculate progress (0.0 to 1.0)
+                progress = 0.0
+                if duration and playback_position:
+                    progress = playback_position / duration
+                    progress = max(0.0, min(1.0, progress))
+                
+                # Get user information
+                user_name = session.get("user", {}).get("username", "Unknown User")
+                if isinstance(user_name, str):
+                    pass  # user_name is already a string
+                else:
+                    user_name = session.get("userId", "Unknown User")
+                
+                # Get media information
+                media_info = session.get("libraryItem", {}) or session.get("item", {})
+                media_title = media_info.get("title", "Unknown")
+                
+                # Determine media type (audiobook or podcast)
+                media_type = "audiobook"  # Default for ABS
+                if media_info.get("mediaType") == "podcast":
+                    media_type = "podcast"
+                elif "podcast" in media_title.lower():
+                    media_type = "podcast"
+                
+                # Get session ID
+                session_id = session.get("id", "") or session.get("sessionId", "")
+                
+                # Get client info if available
+                client_name = session.get("client", "") or session.get("appName", "")
+                device_name = session.get("deviceInfo", {}).get("deviceName", "") or session.get("device", "")
+                
+                # Get artwork URL
+                artwork_url = None
+                if media_info:
+                    # Try different possible cover art fields
+                    cover_path = (
+                        media_info.get("media", {}).get("coverPath") or
+                        media_info.get("coverPath") or
+                        media_info.get("cover") or
+                        media_info.get("media", {}).get("cover")
+                    )
+                    if cover_path:
+                        # Convert relative path to full URL
+                        if cover_path.startswith('/'):
+                            artwork_url = f"{self.url}{cover_path}"
+                        elif not cover_path.startswith('http'):
+                            artwork_url = f"{self.url}/{cover_path}"
+                        else:
+                            artwork_url = cover_path
+                
+                # Get transcoding information (AudiobookShelf typically doesn't transcode)
+                transcoding_info = {
+                    "is_transcoding": False,
+                    "video_codec": None,
+                    "audio_codec": None,
+                    "container": None,
+                    "video_resolution": None,
+                    "transcoding_speed": None,
+                    "direct_play": True
+                }
+                
+                # Try to get audio format info if available
+                if media_info:
+                    media_data = media_info.get("media", {})
+                    # AudiobookShelf might have audio format info
+                    if "audioFiles" in media_data and media_data["audioFiles"]:
+                        audio_file = media_data["audioFiles"][0]
+                        transcoding_info["audio_codec"] = audio_file.get("format", "").upper()
+                        transcoding_info["container"] = audio_file.get("format", "")
+                    elif "tracks" in media_data and media_data["tracks"]:
+                        track = media_data["tracks"][0]
+                        transcoding_info["audio_codec"] = track.get("format", "").upper()
+                        transcoding_info["container"] = track.get("format", "")
+                
+                # Build standardized session info
+                session_info = {
+                    "user_name": user_name,
+                    "media_title": media_title,
+                    "media_type": media_type,
+                    "progress": progress,
+                    "state": state,
+                    "session_id": str(session_id),
+                    "client": client_name,
+                    "device_name": device_name,
+                    "position_ms": int(playback_position * 1000) if playback_position else 0,
+                    "duration_ms": int(duration * 1000) if duration else 0,
+                    "artwork_url": artwork_url,
+                    "transcoding": transcoding_info,
+                }
+                
+                now_playing_sessions.append(session_info)
+            
+            return now_playing_sessions
+            
+        except Exception as e:
+            logging.error(f"Failed to get now playing from AudioBookshelf: {e}")
+            return []
+
     # RestApiMixin overrides -------------------------------------------------
 
     def _headers(self) -> Dict[str, str]:  # type: ignore[override]
