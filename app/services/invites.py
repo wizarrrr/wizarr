@@ -4,7 +4,9 @@ import string
 from typing import Any, Tuple
 
 from app.extensions import db
-from app.models import Invitation, Library, MediaServer
+from app.models import Invitation, Library, MediaServer, invitation_servers
+
+from sqlalchemy import and_  # type: ignore
 
 MIN_CODESIZE = 6  # Minimum allowed invite code length
 MAX_CODESIZE = 10  # Maximum allowed invite code length (default for generated codes)
@@ -54,12 +56,22 @@ def create_invite(form: Any) -> Invitation:
         "never": None,
     }
 
-    # lookup server id from form or default first
-    server_id = form.get("server_id") or None
-    if server_id:
-        server = MediaServer.query.get(int(server_id))
-    else:
-        server = MediaServer.query.first()
+    # ── servers ────────────────────────────────────────────────────────────
+    # NEW: allow selecting multiple servers.  Legacy single‐select field
+    #       continues to work for backwards compatibility.
+    server_ids = form.getlist("server_ids") or []
+    if not server_ids and form.get("server_id"):
+        server_ids = [form.get("server_id")]
+
+    if not server_ids:
+        # Fallback – default to the first configured server (if any)
+        default_server = MediaServer.query.first()
+        server_ids = [default_server.id] if default_server else []
+
+    servers = MediaServer.query.filter(MediaServer.id.in_(server_ids)).all()
+
+    # Keep legacy `server` column for the FIRST selected server (or None)
+    primary_server = servers[0] if servers else None
 
     invite = Invitation(
         code=code,
@@ -69,14 +81,22 @@ def create_invite(form: Any) -> Invitation:
         expires=expires_lookup.get(form.get("expires")),
         unlimited=bool(form.get("unlimited")),
         duration=form.get("duration") or None,
-        # no more comma‐string here:
         plex_allow_sync=bool(form.get("allowsync")),
         plex_home=bool(form.get("plex_home")),
         plex_allow_channels=bool(form.get("plex_allow_channels")),
-        server=server,
+        server=primary_server,
+        wizard_bundle_id=(int(form.get("wizard_bundle_id")) if form.get("wizard_bundle_id") else None),
+        
+        # New Jellyfin flags
+        jellyfin_allow_downloads=bool(form.get("jellyfin_allow_downloads")),
+        jellyfin_allow_live_tv=bool(form.get("jellyfin_allow_live_tv")),
     )
     db.session.add(invite)
     db.session.flush()  # so invite.id exists, but not yet committed
+
+    # Attach the selected servers via the new association table
+    if servers:
+        invite.servers = servers
 
     # === NEW: wire up the many-to-many ===
     selected = form.getlist("libraries")  # these are your external_ids
@@ -88,3 +108,34 @@ def create_invite(form: Any) -> Invitation:
 
     db.session.commit()
     return invite
+
+
+# ─── Multi-server helpers ───────────────────────────────────────────────────
+
+def mark_server_used(inv: Invitation, server_id: int) -> None:
+    """Mark the invitation as used for a specific server.
+
+    When all attached servers are used we also flip the legacy `inv.used` flag
+    so older paths continue to see the invite as consumed.
+    """
+    db.session.execute(
+        invitation_servers.update()
+        .where(
+            and_(
+                invitation_servers.c.invite_id == inv.id,
+                invitation_servers.c.server_id == server_id,
+            )
+        )
+        .values(used=True, used_at=datetime.datetime.now())
+    )
+
+    # Check if *all* servers are now used
+    row = db.session.execute(
+        invitation_servers.select()
+        .where(invitation_servers.c.invite_id == inv.id)
+    ).all()
+    if row and all(r.used for r in row):  # type: ignore[attr-defined]
+        inv.used = True
+        inv.used_at = datetime.datetime.now()
+
+    db.session.commit()
