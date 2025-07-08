@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, render_template, request, redirect, abort, url_for
 from app.services.invites import create_invite
-from app.services.media.service import list_users, delete_user, list_users_all_servers, list_users_for_server, scan_libraries_for_server, EMAIL_RE
+from app.services.media.service import list_users, delete_user, list_users_all_servers, list_users_for_server, scan_libraries_for_server, EMAIL_RE, get_now_playing_all_servers
 from app.services.update_check import check_update_available, get_sponsors
 from app.extensions import db, htmx
 from app.models import Invitation, Settings, User, MediaServer, Library, Identity, invitation_servers
@@ -26,6 +26,29 @@ def dashboard():
                            update_available=update_available,
                            sponsors=sponsors,
                            version=__version__)
+
+
+# New home dashboard with now playing cards
+@admin_bp.route("/home")
+@login_required
+def home():
+    if not request.headers.get("HX-Request"):
+        return redirect(url_for(".dashboard"))
+    
+    servers = MediaServer.query.order_by(MediaServer.name).all()
+    return render_template("admin/home.html", servers=servers)
+
+
+# HTMX endpoint for now playing cards
+@admin_bp.route("/now-playing-cards")
+@login_required  
+def now_playing_cards():
+    try:
+        sessions = get_now_playing_all_servers()
+        return render_template("admin/now_playing_cards.html", sessions=sessions)
+    except Exception as e:
+        logging.error(f"Failed to get now playing data: {e}")
+        return render_template("admin/now_playing_cards.html", sessions=[], error=str(e))
 
 
 # Invitations – landing page

@@ -233,4 +233,135 @@ class JellyfinClient(RestApiMixin):
             db.session.rollback()
             return False, "An unexpected error occurred."
 
+    def now_playing(self) -> list[dict]:
+        """Return a list of currently playing sessions from Jellyfin.
+        
+        Returns:
+            list: A list of session dictionaries with standardized keys.
+        """
+        try:
+            sessions = self.get("/Sessions").json()
+            now_playing_sessions = []
+            
+            for session in sessions:
+                # Only include sessions that are actually playing media
+                if session.get("NowPlayingItem") is None:
+                    continue
+                    
+                now_playing_item = session["NowPlayingItem"]
+                play_state = session.get("PlayState", {})
+                
+                # Calculate progress (0.0 to 1.0)
+                progress = 0.0
+                if play_state.get("PositionTicks") and now_playing_item.get("RunTimeTicks"):
+                    progress = play_state["PositionTicks"] / now_playing_item["RunTimeTicks"]
+                    progress = max(0.0, min(1.0, progress))  # Clamp between 0 and 1
+                
+                # Determine media type
+                media_type = now_playing_item.get("Type", "unknown").lower()
+                
+                # Get media title - handle different types
+                media_title = now_playing_item.get("Name", "Unknown")
+                if media_type == "episode":
+                    # For TV episodes, include series and episode info
+                    series_name = now_playing_item.get("SeriesName", "")
+                    season_num = now_playing_item.get("ParentIndexNumber", "")
+                    episode_num = now_playing_item.get("IndexNumber", "")
+                    if series_name:
+                        media_title = f"{series_name}"
+                        if season_num and episode_num:
+                            media_title += f" S{season_num:02d}E{episode_num:02d}"
+                        media_title += f" - {now_playing_item.get('Name', '')}"
+                
+                # Get playback state
+                state = "stopped"
+                if play_state.get("IsPaused"):
+                    state = "paused"
+                elif play_state.get("PositionTicks") is not None:
+                    state = "playing"
+                
+                # Get user info
+                user_info = session.get("UserName", "Unknown User")
+                
+                # Get session ID
+                session_id = session.get("Id", "")
+                
+                # Get artwork URL
+                artwork_url = None
+                item_id = now_playing_item.get("Id")
+                if item_id:
+                    # Use Primary image type for poster/thumbnail
+                    artwork_url = f"{self.url}/Items/{item_id}/Images/Primary"
+                    if self.token:
+                        artwork_url += f"?api_key={self.token}"
+                
+                # Get transcoding information
+                transcoding_info = {
+                    "is_transcoding": False,
+                    "video_codec": None,
+                    "audio_codec": None,
+                    "container": None,
+                    "video_resolution": None,
+                    "transcoding_speed": None,
+                    "direct_play": True
+                }
+                
+                # Check transcoding info from session
+                if session.get("TranscodingInfo"):
+                    transcode_info = session["TranscodingInfo"]
+                    transcoding_info["is_transcoding"] = True
+                    transcoding_info["direct_play"] = False
+                    transcoding_info["video_codec"] = transcode_info.get("VideoCodec")
+                    transcoding_info["audio_codec"] = transcode_info.get("AudioCodec")
+                    transcoding_info["container"] = transcode_info.get("Container")
+                    transcoding_info["transcoding_speed"] = transcode_info.get("TranscodingFramerate")
+                
+                # Check for direct stream vs transcode
+                if session.get("PlayMethod"):
+                    play_method = session["PlayMethod"]
+                    if play_method == "DirectPlay":
+                        transcoding_info["direct_play"] = True
+                        transcoding_info["is_transcoding"] = False
+                    elif play_method in ["DirectStream", "Transcode"]:
+                        transcoding_info["direct_play"] = False
+                        if play_method == "Transcode":
+                            transcoding_info["is_transcoding"] = True
+                
+                # Get media stream info
+                if now_playing_item.get("MediaStreams"):
+                    for stream in now_playing_item["MediaStreams"]:
+                        if stream.get("Type") == "Video" and not transcoding_info["video_codec"]:
+                            transcoding_info["video_codec"] = stream.get("Codec")
+                            transcoding_info["video_resolution"] = stream.get("DisplayTitle") or f"{stream.get('Width', '?')}x{stream.get('Height', '?')}"
+                        elif stream.get("Type") == "Audio" and not transcoding_info["audio_codec"]:
+                            transcoding_info["audio_codec"] = stream.get("Codec")
+                
+                # Get container info
+                if not transcoding_info["container"]:
+                    transcoding_info["container"] = now_playing_item.get("Container")
+                
+                # Build standardized session info
+                session_info = {
+                    "user_name": user_info,
+                    "media_title": media_title,
+                    "media_type": media_type,
+                    "progress": progress,
+                    "state": state,
+                    "session_id": session_id,
+                    "client": session.get("Client", ""),
+                    "device_name": session.get("DeviceName", ""),
+                    "position_ms": play_state.get("PositionTicks", 0) // 10000,  # Convert from ticks to ms
+                    "duration_ms": now_playing_item.get("RunTimeTicks", 0) // 10000,  # Convert from ticks to ms
+                    "artwork_url": artwork_url,
+                    "transcoding": transcoding_info,
+                }
+                
+                now_playing_sessions.append(session_info)
+                
+            return now_playing_sessions
+            
+        except Exception as e:
+            logging.error(f"Failed to get now playing from Jellyfin: {e}")
+            return []
+
 # ─── Admin-side helpers – mirror the Plex API we already exposed ──────────

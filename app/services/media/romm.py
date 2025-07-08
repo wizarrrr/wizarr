@@ -219,6 +219,21 @@ class RommClient(RestApiMixin):
         """Return value stored in local DB for the given raw password."""
         return password  # no hashing for now – keep consistent with other svc
 
+    def now_playing(self) -> list[dict]:
+        """Return a list of currently playing sessions from RomM.
+        
+        Note: RomM is a ROM/game collection management server that does not 
+        provide session tracking or "now playing" functionality in its API.
+        This method always returns an empty list.
+        
+        Returns:
+            list: Always returns an empty list since RomM doesn't track active sessions.
+        """
+        # RomM API doesn't provide session/now-playing endpoints
+        # It's focused on ROM collection management, not active gaming sessions
+        logging.debug("ROMM: No session tracking available - RomM doesn't provide now-playing functionality")
+        return []
+
     def join(
         self,
         *,
