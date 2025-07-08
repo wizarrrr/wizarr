@@ -44,10 +44,10 @@ def onboarding():
             s["admin_password"].value = generate_password_hash(form.password.data, "scrypt")
             db.session.commit()
             login_user(AdminUser())
-            flash("Admin account created – let's hook up your media server.", "success")
-            # → Redirect to settings page
+            flash("Admin account created – welcome!", "success")
+            # → Redirect straight to admin dashboard instead of the onboarding wizard
             session["in_setup"] = True
-            return redirect(url_for("settings.page"))
+            return redirect(url_for("admin.dashboard"))
         return render_template("setup/admin_account.html", form=form)
 
     # If admin already exists, check if a MediaServer exists

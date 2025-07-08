@@ -1,0 +1,16 @@
+{# Shared sub-navigation for Wizard settings #}
+<div class="flex justify-between items-center">
+  <div class="flex gap-2">
+    <button class="px-3 py-1 rounded {{ 'bg-primary text-white' if is_default else 'bg-gray-200 dark:bg-gray-700' }}"
+            hx-get="{{ url_for('wizard_admin.list_steps') }}" hx-target="#tab-body" hx-swap="innerHTML">
+      {{ _('Default') }}
+    </button>
+    <button class="px-3 py-1 rounded {{ 'bg-primary text-white' if not is_default else 'bg-gray-200 dark:bg-gray-700' }}"
+            hx-get="{{ url_for('wizard_admin.list_bundles') }}" hx-target="#tab-body" hx-swap="innerHTML">
+      {{ _('Custom') }}
+    </button>
+  </div>
+  <button hx-get="{{ url_for('wizard_admin.create_bundle') }}"
+          hx-target="#step-modal" hx-trigger="click"
+          class="px-3 py-1 rounded bg-secondary text-white">{{ _('Create bundle') }}</button>
+</div> 
