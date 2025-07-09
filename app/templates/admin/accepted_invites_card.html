@@ -33,9 +33,10 @@
             </div>
 
             {% if inv.server %}
-            <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
-                {{ inv.server.name }}
-            </span>
+            <div class="ml-2 flex items-center gap-1">
+                {{ inv.server.server_type|server_type_tag }}
+                <span class="text-xs text-gray-500 dark:text-gray-400">{{ inv.server.name }}</span>
+            </div>
             {% endif %}
         </li>
         {% endfor %}

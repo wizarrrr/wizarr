@@ -77,19 +77,7 @@
                             <div class="flex items-center justify-between mt-2">
                                 <div class="flex items-center gap-2">
                                     <!-- Server Type Indicator -->
-                                    {% if item.server_type == 'plex' %}
-                                        <div class="w-3 h-3 bg-orange-500 rounded-full"></div>
-                                    {% elif item.server_type == 'jellyfin' %}
-                                        <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
-                                    {% elif item.server_type == 'emby' %}
-                                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-                                    {% elif item.server_type == 'audiobookshelf' %}
-                                        <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
-                                    {% elif item.server_type == 'romm' %}
-                                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                                    {% else %}
-                                        <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
-                                    {% endif %}
+                                    {{ item.server_type|server_type_tag }}
                                     
                                     <span class="text-xs text-gray-500 dark:text-gray-400 truncate">
                                         {{ item.server_name }}

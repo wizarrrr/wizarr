@@ -46,19 +46,7 @@
                     <div class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
                         <div class="flex items-center gap-2">
                             <!-- Server Type Icon -->
-                            {% if server.type == 'plex' %}
-                                <div class="w-4 h-4 bg-orange-500 rounded"></div>
-                            {% elif server.type == 'jellyfin' %}
-                                <div class="w-4 h-4 bg-purple-500 rounded"></div>
-                            {% elif server.type == 'emby' %}
-                                <div class="w-4 h-4 bg-green-500 rounded"></div>
-                            {% elif server.type == 'audiobookshelf' %}
-                                <div class="w-4 h-4 bg-blue-500 rounded"></div>
-                            {% elif server.type == 'romm' %}
-                                <div class="w-4 h-4 bg-red-500 rounded"></div>
-                            {% else %}
-                                <div class="w-4 h-4 bg-gray-500 rounded"></div>
-                            {% endif %}
+                            {{ server.type|server_type_tag }}
                             
                             <div>
                                 <div class="text-sm font-medium text-gray-900 dark:text-white">{{ server.name }}</div>
