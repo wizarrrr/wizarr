@@ -66,8 +66,19 @@ def edit_admin(admin_id):
 @admin_accounts_bp.route("/", methods=["DELETE"])
 @login_required
 def delete_admin():
+    """Delete an admin account and return updated list for HTMX requests."""
     admin_id = request.args.get("delete")
+
     if admin_id:
+        # Use synchronize_session=False for performance; no loaded objects are in session
         AdminAccount.query.filter_by(id=int(admin_id)).delete(synchronize_session=False)
         db.session.commit()
-    return "", 204 
+
+    # If the request came from HTMX, send back the refreshed admins partial so the
+    # client can swap it in seamlessly (keeping the UI in sync without a full page reload).
+    if request.headers.get("HX-Request"):
+        admins = AdminAccount.query.order_by(AdminAccount.username).all()
+        return render_template("settings/admins.html", admins=admins)
+
+    # Non-HTMX fall-back: redirect back to the list page
+    return redirect(url_for("admin_accounts.list_admins")) 
