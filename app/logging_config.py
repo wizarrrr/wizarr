@@ -1,7 +1,7 @@
 import logging.config, os, sys
 from pathlib import Path
 
-LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
+LOG_LEVEL = os.getenv("LOG_LEVEL", "WARNING").upper()
 
 LOGGING_CONFIG = {
     "version": 1,
