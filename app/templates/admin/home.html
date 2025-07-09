@@ -17,37 +17,58 @@
             </button>
         </div>
 
-        <!-- Now Playing Section -->
-        <div class="mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m2-10v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h8l4 4z"></path>
-                    </svg>
-                    {{ _("Now Playing") }}
-                </h2>
-                <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span>{{ _("Live") }}</span>
+        <!-- Dashboard grid -->
+        <div class="dashboard-grid grid grid-cols-1 lg:grid-cols-3 grid-rows-2 gap-8">
+
+            <!-- Now Playing Section (top row, spans full width) -->
+            <div class="col-span-1 lg:col-span-3 h-[40vh] flex flex-col relative z-20">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m2-10v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h8l4 4z"></path>
+                        </svg>
+                        {{ _("Now Playing") }}
+                    </h2>
+                    <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span>{{ _("Live") }}</span>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Now Playing Cards Container -->
-            <div id="nowPlayingContainer" 
-                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-                 hx-get="/now-playing-cards"
-                 hx-trigger="load, every 10s"
-                 hx-swap="innerHTML">
-                <!-- Loading placeholder -->
-                <div class="col-span-full flex justify-center items-center py-12">
-                    <div class="text-center">
-                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-                        <p class="text-gray-500 dark:text-gray-400">{{ _("Loading now playing...") }}</p>
+
+                <!-- Now Playing Cards Container -->
+                <div id="nowPlayingContainer" 
+                     class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 flex-1 overflow-y-auto auto-rows-max"
+                     hx-get="/now-playing-cards"
+                     hx-trigger="load, every 10s"
+                     hx-swap="innerHTML">
+                    <!-- Loading placeholder -->
+                    <div class="col-span-full flex justify-center items-center py-12">
+                        <div class="text-center">
+                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+                            <p class="text-gray-500 dark:text-gray-400">{{ _("Loading now playing...") }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Latest Accepted Invites Card (bottom-left) -->
+            <div class="col-span-1">
+                <div id="latestInvitesContainer"
+                     class="animate__animated animate__fadeIn h-full"
+                     hx-get="/accepted-invites-card"
+                     hx-trigger="load, every 30s"
+                     hx-swap="innerHTML">
+                    <!-- Loading placeholder -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 h-full flex flex-col justify-center items-center">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mb-2"></div>
+                        <p class="text-center text-sm text-gray-500 dark:text-gray-400">{{ _("Loading invites…") }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Placeholder for future widgets (bottom-right) -->
+            <div class="col-span-1 hidden lg:block"></div>
         </div>
-    </div>
 
     <!-- Invite Modal -->
     <div id="inviteModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">

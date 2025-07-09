@@ -608,3 +608,52 @@ def edit_identity(identity_id):
 
     # GET → return modal form
     return render_template('modals/edit-identity.html', identity=identity)
+
+
+# HTMX endpoint for latest accepted invitations card
+@admin_bp.route("/accepted-invites-card")
+@login_required
+def accepted_invites_card():
+    """Return a small card with the most recent accepted invitations.
+
+    The card is rendered as a standalone fragment suitable for embedding via
+    HTMX. We fetch the *n* most recent invitations that have been used (either
+    the legacy ``Invitation.used`` flag or per-server usage via the
+    ``invitation_servers`` association table).
+    """
+
+    # Number of entries to display – keep the card compact
+    LIMIT = 6
+
+    # --- build a sub-query that also covers multi-server invites -------------
+    # For invites that target multiple servers, the ``Invitation.used`` flag
+    # reflects the *primary* invite only.  To catch per-server acceptances we
+    # fall back to the association table and treat any row with
+    # ``invitation_servers.used = True`` as an acceptance.
+    from sqlalchemy import or_, func
+
+    # ``Invitation.used`` covers the common case.  For the association table we
+    # gather the *invite_id* values that are marked used.
+    used_invite_ids = (
+        db.session.query(invitation_servers.c.invite_id)
+        .filter(invitation_servers.c.used.is_(True))
+        .subquery()
+    )
+
+    query = (
+        Invitation.query
+        # eager-load the user + primary server to avoid N+1 lookup
+        .options(
+            db.joinedload(Invitation.used_by),
+            db.joinedload(Invitation.server),
+        )
+        .filter(
+            or_(Invitation.used.is_(True), Invitation.id.in_(used_invite_ids))
+        )
+        .order_by(Invitation.used_at.desc().nullslast(), Invitation.created.desc())
+        .limit(LIMIT)
+    )
+
+    invites = query.all()
+
+    return render_template("admin/accepted_invites_card.html", invites=invites)

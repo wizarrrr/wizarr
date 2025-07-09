@@ -31,7 +31,7 @@
              data-session-duration="{{ session.duration_ms }}"
              data-session-position="{{ session.position_ms }}">
             <!-- Media Artwork -->
-            <div class="relative w-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 overflow-hidden" style="aspect-ratio: 2 / 3;">
+            <div class="relative w-full h-32 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 overflow-hidden">
                 {% if session.artwork_url %}
                     <!-- Actual artwork -->
                     <img src="{{ url_for('public.image_proxy') }}?url={{ session.artwork_url|urlencode }}" 
@@ -141,7 +141,7 @@
 
 <!-- Flowbite Popover for session details -->
 <div id="popover-{{ session.session_id }}" role="tooltip"
-     class="absolute z-50 invisible inline-block w-80 text-sm text-gray-300 bg-gray-900 border border-gray-700 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 dark:bg-gray-800">
+     class="absolute invisible inline-block w-80 text-sm text-gray-300 bg-gray-900 border border-gray-700 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 dark:bg-gray-800" style="z-index: 9999;">
     <div class="p-4 space-y-4">
         <h4 class="text-center font-semibold text-yellow-400 text-base">{{ _("Session Details") }}</h4>
         <div class="grid grid-cols-2 gap-x-6 gap-y-1">
