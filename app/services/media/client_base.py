@@ -148,6 +148,19 @@ class MediaClient(ABC):
         """
         raise NotImplementedError
 
+    @abstractmethod
+    def statistics(self):
+        """Return server statistics including library counts, user activity, etc.
+        
+        Returns:
+            dict: A dictionary containing:
+                - library_stats: Library breakdown with counts per type
+                - user_stats: User activity and count information
+                - server_stats: Server health and performance metrics
+                - content_stats: Content consumption and popular items
+        """
+        raise NotImplementedError
+
 # ---------------------------------------------------------------------------
 # Shared helpers for simple REST JSON backends
 # ---------------------------------------------------------------------------

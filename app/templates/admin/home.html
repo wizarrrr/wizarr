@@ -17,11 +17,11 @@
             </button>
         </div>
 
-        <!-- Dashboard grid -->
-        <div class="dashboard-grid grid grid-cols-1 lg:grid-cols-3 grid-rows-2 gap-8">
-
-            <!-- Now Playing Section (top row, spans full width) -->
-            <div class="col-span-1 lg:col-span-3 h-[40vh] flex flex-col relative z-20">
+        <!-- Dashboard Grid Layout -->
+        <div class="dashboard-content space-y-6">
+            
+            <!-- Now Playing Section (adaptive height based on content) -->
+            <div id="nowPlayingSection" class="transition-all duration-500 ease-in-out">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-2xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                         <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -30,44 +30,56 @@
                         {{ _("Now Playing") }}
                     </h2>
                     <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <span>{{ _("Live") }}</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        {{ _("Refreshes every 30s") }}
                     </div>
                 </div>
-
-                <!-- Now Playing Cards Container -->
-                <div id="nowPlayingContainer" 
-                     class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 flex-1 overflow-y-auto auto-rows-max"
+                
+                <div id="nowPlayingContent" 
+                     class="relative z-20"
                      hx-get="/now-playing-cards"
-                     hx-trigger="load, every 10s"
+                     hx-trigger="load, every 30s"
                      hx-swap="innerHTML">
-                    <!-- Loading placeholder -->
-                    <div class="col-span-full flex justify-center items-center py-12">
-                        <div class="text-center">
-                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-                            <p class="text-gray-500 dark:text-gray-400">{{ _("Loading now playing...") }}</p>
+                    <!-- Now playing cards container -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                        <!-- Loading placeholder -->
+                        <div class="col-span-full flex justify-center items-center py-12">
+                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Latest Accepted Invites Card (bottom-left) -->
-            <div class="col-span-1">
+            <!-- Widget Grid - main widgets row -->
+            <div id="widgetGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-6 transition-all duration-500 ease-in-out">
+                <!-- Latest Accepted Invites Card -->
                 <div id="latestInvitesContainer"
-                     class="animate__animated animate__fadeIn h-full"
+                     class="min-h-[400px]"
                      hx-get="/accepted-invites-card"
                      hx-trigger="load, every 30s"
                      hx-swap="innerHTML">
                     <!-- Loading placeholder -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 h-full flex flex-col justify-center items-center">
-                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mb-2"></div>
-                        <p class="text-center text-sm text-gray-500 dark:text-gray-400">{{ _("Loading invites…") }}</p>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 h-full flex items-center justify-center">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto"></div>
+                    </div>
+                </div>
+
+                <!-- Server Health Card -->
+                <div id="serverHealthContainer"
+                     class="min-h-[400px]"
+                     hx-get="/server-health-card"
+                     hx-trigger="load, every 45s"
+                     hx-swap="innerHTML">
+                    <!-- Loading placeholder -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 h-full flex items-center justify-center">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Placeholder for future widgets (bottom-right) -->
-            <div class="col-span-1 hidden lg:block"></div>
+            <!-- Removed additional widgets (Library Breakdown & Recent Content) -->
         </div>
 
     <!-- Invite Modal -->
@@ -126,59 +138,33 @@ document.getElementById('inviteModal').addEventListener('click', function(e) {
     }
 });
 
-// Live timer updates for now playing sessions
-let liveTimerInterval = null;
+// Live timestamp updating
+let liveTimers = [];
 
-function startLiveTimer() {
-    // Clear any existing interval
-    if (liveTimerInterval) {
-        clearInterval(liveTimerInterval);
-    }
-    
-    liveTimerInterval = setInterval(updateLiveTimers, 1000);
-}
-
-function updateLiveTimers() {
-    const sessions = document.querySelectorAll('[data-session-id]');
-    
-    sessions.forEach(session => {
-        const state = session.getAttribute('data-session-state');
-        const duration = parseInt(session.getAttribute('data-session-duration') || '0');
-        let position = parseInt(session.getAttribute('data-session-position') || '0');
-        
-        // Only update if playing
-        if (state === 'playing' && duration > 0) {
-            // Increment position by 1 second (1000ms)
-            position += 1000;
-            
-            // Don't exceed duration
-            if (position > duration) {
-                position = duration;
-            }
-            
-            // Update stored position
-            session.setAttribute('data-session-position', position.toString());
-            
-            // Calculate new progress
-            const progress = position / duration;
-            const progressPercent = Math.round(progress * 100);
-            
-            // Update progress bar
-            const progressBar = session.querySelector('.progress-bar');
-            if (progressBar) {
-                progressBar.style.width = progressPercent + '%';
-            }
-            
-            // Update time display
-            const timeDisplay = session.querySelector('.time-position');
-            if (timeDisplay) {
-                const posSeconds = Math.floor(position / 1000);
-                const posMins = Math.floor(posSeconds / 60);
-                const posSecsRemainder = posSeconds % 60;
-                timeDisplay.textContent = `${posMins}:${posSecsRemainder.toString().padStart(2, '0')}`;
-            }
+function startLiveTimers() {
+    // Find all live timestamp elements and start their timers
+    document.querySelectorAll('[data-timestamp]').forEach(function(elem) {
+        const timestamp = parseInt(elem.getAttribute('data-timestamp'));
+        if (timestamp) {
+            const timer = setInterval(function() {
+                const now = Math.floor(Date.now() / 1000);
+                const diff = now - timestamp;
+                elem.textContent = formatDuration(diff);
+            }, 1000);
+            liveTimers.push(timer);
         }
     });
+}
+
+function formatDuration(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    
+    if (hours > 0) {
+        return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+    return `${minutes}:${secs.toString().padStart(2, '0')}`;
 }
 
 // Re-init Flowbite popovers when HTMX swaps in new now-playing cards
@@ -213,19 +199,27 @@ function reinitFlowbitePopovers() {
 }
 
 document.addEventListener('htmx:afterSwap', function(evt) {
-    if (evt.target && evt.target.id === 'nowPlayingContainer') {
+    if (evt.target && evt.target.id === 'nowPlayingContent') {
         reinitFlowbitePopovers();
         // Restart live-timer so newly swapped cards animate correctly
-        startLiveTimer();
+        liveTimers.forEach(timer => clearInterval(timer));
+        liveTimers = [];
+        startLiveTimers();
+        
+        // Removed adaptive additionalWidgets logic since those widgets are no longer present
     }
 });
 
-document.addEventListener('DOMContentLoaded', reinitFlowbitePopovers);
-// Start timer on initial page load
-document.addEventListener('DOMContentLoaded', function() {
-    startLiveTimer();
-});
-</script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize live timers
+            startLiveTimers();
+            
+            // Initialize Flowbite popovers
+            reinitFlowbitePopovers();
+            
+            // Removed adaptive additionalWidgets logic since those widgets are no longer present
+        });
+        </script>
 
 <style>
 .line-clamp-2 {
@@ -268,13 +262,13 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 /* Grid container adjustments for hover effects */
-#nowPlayingContainer {
+#nowPlayingContent {
     perspective: 1000px;
     overflow: visible; /* Allow cards to overflow outside grid */
 }
 
 /* Smooth transitions for grid items */
-#nowPlayingContainer > div {
+#nowPlayingContent > div {
     transition: all 0.3s ease;
     overflow: visible;
 }

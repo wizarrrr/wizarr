@@ -51,6 +51,17 @@ def get_client_for_media_server(server: MediaServer):
     return client
 
 
+def get_media_client(server_type: str, media_server: MediaServer = None):
+    """Return a configured MediaClient instance for the given server type and optional MediaServer.
+    
+    This is an alias/wrapper around get_client_for_media_server for consistency.
+    """
+    if media_server:
+        return get_client_for_media_server(media_server)
+    else:
+        return get_client(server_type)
+
+
 def list_users(clear_cache: bool = False):
     """
     Return current users from the configured media server, syncing local DB as needed.

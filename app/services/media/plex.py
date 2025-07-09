@@ -351,6 +351,151 @@ class PlexClient(MediaClient):
             logging.error(f"Failed to get now playing from Plex: {e}")
             return []
 
+    def statistics(self):
+        """Return comprehensive Plex server statistics.
+        
+        Returns:
+            dict: Server statistics including library counts, user activity, etc.
+        """
+        try:
+            stats = {
+                "library_stats": {},
+                "user_stats": {},
+                "server_stats": {},
+                "content_stats": {}
+            }
+            
+            # Library statistics
+            library_stats = {}
+            try:
+                sections = self.server.library.sections()
+                for section in sections:
+                    library_type = getattr(section, 'type', 'unknown')
+                    if library_type not in library_stats:
+                        library_stats[library_type] = {
+                            "count": 0,
+                            "sections": []
+                        }
+                    
+                    # Get item count for this section
+                    try:
+                        section_size = len(section.all())
+                        library_stats[library_type]["count"] += section_size
+                        library_stats[library_type]["sections"].append({
+                            "name": section.title,
+                            "size": section_size,
+                            "key": section.key
+                        })
+                    except Exception as e:
+                        logging.warning(f"Failed to get size for section {section.title}: {e}")
+                        library_stats[library_type]["sections"].append({
+                            "name": section.title,
+                            "size": 0,
+                            "key": section.key
+                        })
+                        
+                stats["library_stats"] = library_stats
+            except Exception as e:
+                logging.error(f"Failed to get Plex library stats: {e}")
+                stats["library_stats"] = {}
+            
+            # User statistics
+            try:
+                users = self.server.myPlexAccount().users()
+                total_users = len(users) + 1  # +1 for account owner
+                
+                # Get active sessions for current activity
+                sessions = self.server.sessions()
+                active_users = len(set(session.usernames[0] if session.usernames else "Unknown" 
+                                     for session in sessions))
+                
+                stats["user_stats"] = {
+                    "total_users": total_users,
+                    "active_users": active_users,
+                    "active_sessions": len(sessions)
+                }
+            except Exception as e:
+                logging.error(f"Failed to get Plex user stats: {e}")
+                stats["user_stats"] = {
+                    "total_users": 0,
+                    "active_users": 0,
+                    "active_sessions": 0
+                }
+            
+            # Server statistics
+            try:
+                # Get server info
+                server_info = {
+                    "version": getattr(self.server, 'version', 'Unknown'),
+                    "platform": getattr(self.server, 'platform', 'Unknown'),
+                    "platform_version": getattr(self.server, 'platformVersion', 'Unknown'),
+                    "updated_at": getattr(self.server, 'updatedAt', None)
+                }
+                
+                # Get transcode sessions
+                transcode_sessions = self.server.transcodeSessions()
+                transcoding_count = len(transcode_sessions)
+                
+                stats["server_stats"] = {
+                    **server_info,
+                    "transcoding_sessions": transcoding_count,
+                    "total_sessions": len(self.server.sessions())
+                }
+            except Exception as e:
+                logging.error(f"Failed to get Plex server stats: {e}")
+                stats["server_stats"] = {}
+            
+            # Content statistics - get popular/recent content
+            try:
+                content_stats = {
+                    "recently_added": [],
+                    "on_deck": [],
+                    "popular": []
+                }
+                
+                # Get recently added items (limit to 5)
+                try:
+                    recent = self.server.library.recentlyAdded()[:5]
+                    for item in recent:
+                        content_stats["recently_added"].append({
+                            "title": getattr(item, 'title', 'Unknown'),
+                            "type": getattr(item, 'type', 'unknown'),
+                            "added_at": getattr(item, 'addedAt', None),
+                            "library": getattr(item, 'librarySectionTitle', 'Unknown')
+                        })
+                except Exception as e:
+                    logging.warning(f"Failed to get recently added: {e}")
+                
+                # Get On Deck items
+                try:
+                    on_deck = self.server.library.onDeck()[:5]
+                    for item in on_deck:
+                        content_stats["on_deck"].append({
+                            "title": getattr(item, 'title', 'Unknown'),
+                            "type": getattr(item, 'type', 'unknown'),
+                            "progress": getattr(item, 'viewOffset', 0),
+                            "library": getattr(item, 'librarySectionTitle', 'Unknown')
+                        })
+                except Exception as e:
+                    logging.warning(f"Failed to get On Deck: {e}")
+                
+                stats["content_stats"] = content_stats
+            except Exception as e:
+                logging.error(f"Failed to get Plex content stats: {e}")
+                stats["content_stats"] = {}
+            
+            return stats
+            
+        except Exception as e:
+            logging.error(f"Failed to get Plex statistics: {e}")
+            return {
+                "library_stats": {},
+                "user_stats": {},
+                "server_stats": {},
+                "content_stats": {},
+                "error": str(e)
+            }
+
 
 # ─── Invite & onboarding ──────────────────────────────────────────────────
 
