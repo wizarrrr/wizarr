@@ -411,6 +411,193 @@ class AudiobookshelfClient(RestApiMixin):
 
         return active
 
+    def statistics(self):
+        """Return comprehensive AudiobookShelf server statistics.
+        
+        Returns:
+            dict: Server statistics including library counts, user activity, etc.
+        """
+        try:
+            stats = {
+                "library_stats": {},
+                "user_stats": {},
+                "server_stats": {},
+                "content_stats": {}
+            }
+            
+            # Library statistics
+            try:
+                libraries_response = self.get(f"{self.API_PREFIX}/libraries").json()
+                libraries = libraries_response.get("libraries", libraries_response)
+                library_stats = {}
+                
+                for lib in libraries:
+                    # AudiobookShelf has book and podcast libraries
+                    media_type = lib.get("mediaType", "books")
+                    if media_type not in library_stats:
+                        library_stats[media_type] = {
+                            "count": 0,
+                            "sections": []
+                        }
+                    
+                    # Get item count for this library
+                    try:
+                        items_response = self.get(f"{self.API_PREFIX}/libraries/{lib['id']}/items", params={
+                            "limit": 1,
+                            "page": 0
+                        }).json()
+                        
+                        item_count = items_response.get("total", 0)
+                        library_stats[media_type]["count"] += item_count
+                        library_stats[media_type]["sections"].append({
+                            "name": lib["name"],
+                            "size": item_count,
+                            "id": lib["id"]
+                        })
+                    except Exception as e:
+                        logging.warning(f"Failed to get size for library {lib['name']}: {e}")
+                        library_stats[media_type]["sections"].append({
+                            "name": lib["name"],
+                            "size": 0,
+                            "id": lib["id"]
+                        })
+                
+                stats["library_stats"] = library_stats
+            except Exception as e:
+                logging.error(f"Failed to get AudiobookShelf library stats: {e}")
+                stats["library_stats"] = {}
+            
+            # User statistics
+            try:
+                users_response = self.get(f"{self.API_PREFIX}/users").json()
+                users = users_response.get("users", users_response)
+                total_users = len(users)
+                
+                # Get active sessions for current activity
+                sessions_response = self.get(f"{self.API_PREFIX}/sessions", params={
+                    "itemsPerPage": 10,
+                    "page": 0
+                }).json()
+                
+                # Filter sessions that are recent (within last minute)
+                import time
+                now_ms = int(time.time() * 1000)
+                active_sessions = []
+                for session in sessions_response.get("sessions", []):
+                    updated_at = session.get("updatedAt", 0)
+                    if now_ms - updated_at <= 60_000:  # Within 1 minute
+                        active_sessions.append(session)
+                
+                active_users = len(set(s.get("userId", "unknown") for s in active_sessions))
+                
+                stats["user_stats"] = {
+                    "total_users": total_users,
+                    "active_users": active_users,
+                    "active_sessions": len(active_sessions)
+                }
+            except Exception as e:
+                logging.error(f"Failed to get AudiobookShelf user stats: {e}")
+                stats["user_stats"] = {
+                    "total_users": 0,
+                    "active_users": 0,
+                    "active_sessions": 0
+                }
+            
+            # Server statistics
+            try:
+                # AudiobookShelf doesn't have a dedicated system info endpoint
+                # We'll use basic info from libraries and sessions
+                stats["server_stats"] = {
+                    "version": "Unknown",  # ABS doesn't expose version via API
+                    "server_name": "AudiobookShelf Server",
+                    "total_sessions": 0,
+                    "transcoding_sessions": 0  # ABS doesn't typically transcode
+                }
+                
+                # Get session count
+                try:
+                    sessions_response = self.get(f"{self.API_PREFIX}/sessions", params={
+                        "itemsPerPage": 1,
+                        "page": 0
+                    }).json()
+                    stats["server_stats"]["total_sessions"] = sessions_response.get("total", 0)
+                except Exception as e:
+                    logging.warning(f"Failed to get session count: {e}")
+                    
+            except Exception as e:
+                logging.error(f"Failed to get AudiobookShelf server stats: {e}")
+                stats["server_stats"] = {}
+            
+            # Content statistics
+            try:
+                content_stats = {
+                    "recently_added": [],
+                    "continue_listening": [],
+                    "popular": []
+                }
+                
+                # Get recently added items across all libraries
+                try:
+                    libraries_response = self.get(f"{self.API_PREFIX}/libraries").json()
+                    libraries = libraries_response.get("libraries", libraries_response)
+                    
+                    for lib in libraries[:2]:  # Limit to first 2 libraries for performance
+                        try:
+                            items_response = self.get(f"{self.API_PREFIX}/libraries/{lib['id']}/items", params={
+                                "limit": 3,
+                                "sort": "addedAt",
+                                "desc": 1
+                            }).json()
+                            
+                            for item in items_response.get("results", []):
+                                media = item.get("media", {})
+                                content_stats["recently_added"].append({
+                                    "title": media.get("metadata", {}).get("title", "Unknown"),
+                                    "type": lib.get("mediaType", "book"),
+                                    "added_at": item.get("addedAt"),
+                                    "library": lib["name"]
+                                })
+                        except Exception as e:
+                            logging.warning(f"Failed to get recent items for library {lib['name']}: {e}")
+                            
+                except Exception as e:
+                    logging.warning(f"Failed to get recently added: {e}")
+                
+                # Get continue listening items (recent sessions with progress)
+                try:
+                    sessions_response = self.get(f"{self.API_PREFIX}/sessions", params={
+                        "itemsPerPage": 5,
+                        "page": 0
+                    }).json()
+                    
+                    for session in sessions_response.get("sessions", []):
+                        if session.get("currentTime", 0) > 0:  # Has progress
+                            content_stats["continue_listening"].append({
+                                "title": session.get("displayTitle", "Unknown"),
+                                "type": session.get("mediaType", "book"),
+                                "progress": session.get("currentTime", 0) / max(session.get("duration", 1), 1),
+                                "library": "Unknown"
+                            })
+                except Exception as e:
+                    logging.warning(f"Failed to get continue listening: {e}")
+                
+                stats["content_stats"] = content_stats
+            except Exception as e:
+                logging.error(f"Failed to get AudiobookShelf content stats: {e}")
+                stats["content_stats"] = {}
+            
+            return stats
+            
+        except Exception as e:
+            logging.error(f"Failed to get AudiobookShelf statistics: {e}")
+            return {
+                "library_stats": {},
+                "user_stats": {},
+                "server_stats": {},
+                "content_stats": {},
+                "error": str(e)
+            }
+
     # RestApiMixin overrides -------------------------------------------------
 
     def _headers(self) -> Dict[str, str]:  # type: ignore[override]

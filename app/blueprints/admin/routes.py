@@ -657,3 +657,59 @@ def accepted_invites_card():
     invites = query.all()
 
     return render_template("admin/accepted_invites_card.html", invites=invites)
+
+
+# HTMX endpoint for server health card
+@admin_bp.route("/server-health-card")
+@login_required
+def server_health_card():
+    """Return a card showing health status of all media servers."""
+    try:
+        import requests
+        
+        base_url = request.url_root.rstrip('/')
+        response = requests.get(f"{base_url}/settings/servers/statistics/all", 
+                              cookies=request.cookies, timeout=10)
+        
+        if response.status_code == 200:
+            all_stats = response.json()
+            
+            server_health = []
+            
+            for server_id, stats in all_stats.items():
+                server_info = {
+                    "id": server_id,
+                    "name": stats.get("server_name", "Unknown"),
+                    "type": stats.get("server_type", "unknown"),
+                    "online": "error" not in stats,
+                    "error": stats.get("error", None)
+                }
+                
+                if "error" not in stats:
+                    server_stats = stats.get("server_stats", {})
+                    user_stats = stats.get("user_stats", {})
+                    
+                    server_info.update({
+                        "version": server_stats.get("version", "Unknown"),
+                        "active_sessions": user_stats.get("active_sessions", 0),
+                        "transcoding": server_stats.get("transcoding_sessions", 0),
+                        "total_users": user_stats.get("total_users", 0)
+                    })
+                
+                server_health.append(server_info)
+            
+            # Sort by online status and name
+            server_health.sort(key=lambda x: (not x["online"], x["name"]))
+            
+            return render_template("admin/server_health_card.html", 
+                                 servers=server_health,
+                                 success=True)
+        else:
+            return render_template("admin/server_health_card.html", 
+                                 success=False, 
+                                 error="Failed to fetch server health")
+            
+    except Exception as e:
+        return render_template("admin/server_health_card.html", 
+                             success=False, 
+                             error=f"Error: {str(e)}")

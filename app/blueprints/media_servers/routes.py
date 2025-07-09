@@ -208,4 +208,116 @@ def ping_server(server_id):
         return snippet
 
     # Non-HTMX fallback (e.g., API call)
-    return jsonify({"connected": ok, "error": error_msg if not ok else None}) 
+    return jsonify({"connected": ok, "error": error_msg if not ok else None})
+
+
+# -------------------------- STATISTICS ENDPOINTS ---------------------------
+
+@media_servers_bp.get("/<int:server_id>/statistics")
+@login_required
+def get_server_statistics(server_id):
+    """Return comprehensive statistics for a specific media server."""
+    server = MediaServer.query.get_or_404(server_id)
+    
+    try:
+        # Import the service to get the appropriate client
+        from app.services.media.service import get_media_client
+        
+        client = get_media_client(server.server_type, media_server=server)
+        if not client:
+            return jsonify({
+                "error": f"No client available for server type: {server.server_type}"
+            }), 400
+        
+        stats = client.statistics()
+        stats["server_name"] = server.name
+        stats["server_type"] = server.server_type
+        stats["server_id"] = server.id
+        
+        return jsonify(stats)
+        
+    except Exception as e:
+        return jsonify({
+            "error": f"Failed to get statistics: {str(e)}",
+            "server_name": server.name,
+            "server_type": server.server_type,
+            "server_id": server.id
+        }), 500
+
+
+@media_servers_bp.get("/statistics/all")
+@login_required  
+def get_all_statistics():
+    """Return statistics for all configured media servers."""
+    servers = MediaServer.query.all()
+    all_stats = {}
+    
+    for server in servers:
+        try:
+            from app.services.media.service import get_media_client
+            
+            client = get_media_client(server.server_type, media_server=server)
+            if client:
+                stats = client.statistics()
+                stats["server_name"] = server.name
+                stats["server_type"] = server.server_type
+                stats["server_id"] = server.id
+                all_stats[server.id] = stats
+            else:
+                all_stats[server.id] = {
+                    "error": f"No client available for server type: {server.server_type}",
+                    "server_name": server.name,
+                    "server_type": server.server_type,
+                    "server_id": server.id
+                }
+        except Exception as e:
+            all_stats[server.id] = {
+                "error": f"Failed to get statistics: {str(e)}",
+                "server_name": server.name,
+                "server_type": server.server_type,
+                "server_id": server.id
+            }
+    
+    return jsonify(all_stats)
+
+
+@media_servers_bp.get("/statistics/<server_type>")
+@login_required
+def get_statistics_by_type(server_type):
+    """Return statistics for all servers of a specific type."""
+    servers = MediaServer.query.filter_by(server_type=server_type).all()
+    
+    if not servers:
+        return jsonify({
+            "error": f"No servers found of type: {server_type}"
+        }), 404
+    
+    type_stats = {}
+    
+    for server in servers:
+        try:
+            from app.services.media.service import get_media_client
+            
+            client = get_media_client(server.server_type, media_server=server)
+            if client:
+                stats = client.statistics()
+                stats["server_name"] = server.name
+                stats["server_type"] = server.server_type
+                stats["server_id"] = server.id
+                type_stats[server.id] = stats
+            else:
+                type_stats[server.id] = {
+                    "error": f"No client available for server type: {server.server_type}",
+                    "server_name": server.name,
+                    "server_type": server.server_type,
+                    "server_id": server.id
+                }
+        except Exception as e:
+            type_stats[server.id] = {
+                "error": f"Failed to get statistics: {str(e)}",
+                "server_name": server.name,
+                "server_type": server.server_type,
+                "server_id": server.id
+            }
+    
+    return jsonify(type_stats) 
