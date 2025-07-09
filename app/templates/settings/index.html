@@ -2,9 +2,9 @@
 _("Settings") }}{% endblock %} {% block main %}
 <section class="flex flex-col items-center justify-center px-6 py-8">
     <div class="w-full max-w-md space-y-6">
-        <div class="flex gap-2">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:flex gap-2">
             <button
-                class="tab-btn flex-1 flex items-center justify-center gap-1"
+                class="tab-btn w-full flex flex-col md:flex-row items-center justify-center gap-1"
                 hx-get="{{ url_for('settings.general_settings') }}"
                 hx-target="#tab-body"
                 hx-swap="innerHTML"
@@ -38,7 +38,7 @@ _("Settings") }}{% endblock %} {% block main %}
             </button>
 
             <button
-                class="tab-btn flex-1 flex items-center justify-center gap-1"
+                class="tab-btn w-full flex flex-col md:flex-row items-center justify-center gap-1"
                 hx-get="{{ url_for('notify.list_agents') }}"
                 hx-target="#tab-body"
                 hx-swap="innerHTML"
@@ -68,7 +68,7 @@ _("Settings") }}{% endblock %} {% block main %}
             </button>
 
             <button
-                class="tab-btn flex-1 flex items-center justify-center gap-1"
+                class="tab-btn w-full flex flex-col md:flex-row items-center justify-center gap-1"
                 hx-get="{{ url_for('media_servers.list_servers') }}"
                 hx-target="#tab-body"
                 hx-swap="innerHTML"
@@ -97,7 +97,7 @@ _("Settings") }}{% endblock %} {% block main %}
             </button>
 
             <button
-                class="tab-btn flex-1 flex items-center justify-center gap-1"
+                class="tab-btn w-full flex flex-col md:flex-row items-center justify-center gap-1"
                 hx-get="{{ url_for('admin_accounts.list_admins') }}"
                 hx-target="#tab-body"
                 hx-swap="innerHTML"
@@ -118,7 +118,7 @@ _("Settings") }}{% endblock %} {% block main %}
             </button>
 
             <button
-                class="tab-btn flex-1 flex items-center justify-center gap-1"
+                class="tab-btn w-full flex flex-col md:flex-row items-center justify-center gap-1"
                 hx-get="{{ url_for('wizard_admin.list_steps') }}"
                 hx-target="#tab-body"
                 hx-swap="innerHTML"
