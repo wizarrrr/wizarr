@@ -2,18 +2,18 @@
 
 * [Introduction](README.md)
 
-## 💾 Getting-Started
+## Getting-Started
 
 * [Installation](getting-started/installation.md)
 * [Reverse Proxy](getting-started/reverse-proxy.md)
 
-## 💭 Using Wizarr
+## Using Wizarr
 
 * [Single-Sign-On (SSO)](using-wizarr/single-sign-on-sso.md)
 * [Discord Integration](using-wizarr/discord-integration.md)
 * [Customise The Wizard](using-wizarr/customise-steps.md)
 
-## ⛑️ Support
+## Support
 
 * [Discord](support/discord.md)
 
