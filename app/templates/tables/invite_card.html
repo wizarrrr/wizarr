@@ -11,10 +11,12 @@
                 <div class="font-medium text-gray-900 dark:text-white">
                     {{ invite.code }}
                     {% for srv in invite.servers %}
-                    <span class="text-xs inline-block font-medium px-1.5 py-0.5 rounded ml-1
-                        {% if srv.used_flag %}bg-orange-100 text-orange-800 dark:bg-orange-700 dark:text-orange-100{% else %}bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100{% endif %}">
-                        {{ srv.name }}
-                    </span>
+                    <div class="inline-block ml-1">
+                        {{ srv.server_type|server_type_tag }}
+                        <span class="text-xs {% if srv.used_flag %}text-orange-600 dark:text-orange-400{% else %}text-green-600 dark:text-green-400{% endif %} ml-1">
+                            {{ srv.name }}
+                        </span>
+                    </div>
                     {% endfor %}
                 </div>
                 {% if not invite.used %}
@@ -80,9 +82,13 @@
                                 {% if invite.display_libraries_by_server is defined and invite.display_libraries_by_server %}
                                     {% for server_name, libraries in invite.display_libraries_by_server.items() %}
                                     <div class="mb-1">
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
-                                            {{ server_name }}
-                                        </span>
+                                        {% set server_lib = invite.libraries|selectattr('server')|selectattr('server.name', 'equalto', server_name)|first %}
+                                        {% if server_lib and server_lib.server %}
+                                            {{ server_lib.server.server_type|server_type_tag }}
+                                        {% else %}
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">Unknown</span>
+                                        {% endif %}
+                                        <span class="text-xs text-gray-500 dark:text-gray-400 ml-1">{{ server_name }}</span>
                                         <span class="ml-1 text-sm">{{ libraries|join(', ') }}</span>
                                     </div>
                                     {% endfor %}

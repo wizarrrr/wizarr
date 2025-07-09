@@ -24,23 +24,17 @@
             <div id="nowPlayingSection" class="transition-all duration-500 ease-in-out">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-2xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m2-10v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h8l4 4z"></path>
-                        </svg>
+                        <svg class="w-6 h-6 text-primary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M8.6 5.2A1 1 0 0 0 7 6v12a1 1 0 0 0 1.6.8l8-6a1 1 0 0 0 0-1.6l-8-6Z" clip-rule="evenodd"/>
+                          </svg>
                         {{ _("Now Playing") }}
                     </h2>
-                    <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                        </svg>
-                        {{ _("Refreshes every 30s") }}
-                    </div>
                 </div>
                 
                 <div id="nowPlayingContent" 
                      class="relative z-20"
                      hx-get="/now-playing-cards"
-                     hx-trigger="load, every 30s"
+                     hx-trigger="load, every 10s"
                      hx-swap="innerHTML">
                     <!-- Now playing cards container -->
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
@@ -173,15 +167,23 @@ function reinitFlowbitePopovers() {
         initFlowbite(); // official helper (ES module / CDN helper)
     } else if (window.Flowbite && typeof window.Flowbite.init === 'function') {
         window.Flowbite.init();
-    } else {
-        // Fallback – manually attach hover listeners for data-popover-target
+    }
+    // After Flowbite (or fallback) initialises, explicitly set the placement to bottom
+    document.querySelectorAll('[data-popover-target]').forEach(trigger => {
+        const targetId = trigger.getAttribute('data-popover-target');
+        const pop = document.getElementById(targetId);
+        if (pop) {
+            pop.setAttribute('data-popper-placement', 'bottom');
+        }
+    });
+
+    // Manual fallback binding when Flowbite JS is not available
+    if (!(typeof initFlowbite === 'function' || (window.Flowbite && typeof window.Flowbite.init === 'function'))) {
         document.querySelectorAll('[data-popover-target]').forEach(trigger => {
             if (trigger.dataset.popoverBound) return; // skip if already bound
             const targetId = trigger.getAttribute('data-popover-target');
             const pop = document.getElementById(targetId);
             if (!pop) return;
-            // ensure arrow orientation for bottom placement
-            pop.setAttribute('data-popper-placement', 'bottom');
             const show = () => {
                 pop.classList.remove('invisible', 'opacity-0');
             };
