@@ -13,12 +13,7 @@
                     <!-- Header -->
                     <div class="flex justify-between items-start mb-3">
                         <h2 class="text-lg font-medium text-gray-900 dark:text-white truncate" title="{{ s.name }}">{{ s.name }}</h2>
-                        <span class="text-xs inline-block font-medium px-1.5 py-0.5 rounded
-                            {% if s.server_type in ['plex'] %}bg-orange-100 text-orange-800 dark:bg-orange-600 dark:text-white
-                            {% elif s.server_type in ['audiobookshelf','abs'] %}bg-blue-100 text-blue-800 dark:bg-blue-600 dark:text-white
-                            {% else %}bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200{% endif %}">
-                            {{ s.server_type|title }}
-                        </span>
+                        {{ s.server_type|server_type_tag }}
                     </div>
 
                     <!-- Details -->

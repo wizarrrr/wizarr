@@ -43,12 +43,7 @@
             <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
                 <div class="flex items-center justify-between mb-2">
                     <span class="font-medium text-gray-900 dark:text-gray-100">{{ info.server_name }}</span>
-                    <span class="text-xs font-semibold px-2 py-0.5 rounded-full
-                        {% if info.server_type == 'plex' %}bg-orange-100 text-orange-800 dark:bg-orange-600 dark:text-white
-                        {% elif info.server_type in ['audiobookshelf','abs'] %}bg-blue-100 text-blue-800 dark:bg-blue-600 dark:text-white
-                        {% else %}bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200{% endif %}">
-                        {{ info.server_type|capitalize }}
-                    </span>
+                    {{ info.server_type|server_type_tag }}
                 </div>
                 <p class="mb-3 text-gray-500 dark:text-gray-400"><span class="font-medium">{{ _('Username') }}:</span> {{ info.username }}</p>
 

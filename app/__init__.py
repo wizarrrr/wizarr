@@ -34,6 +34,10 @@ def create_app(config_object=DevelopmentConfig):
     app.context_processor(inject_server_name)
 
     register_error_handlers(app)
+
+    # Register custom Jinja filters
+    from .jinja_filters import register_filters
+    register_filters(app)
     
     app.before_request(require_onboarding)
 
