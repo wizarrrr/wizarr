@@ -4,7 +4,7 @@ _("Settings") }}{% endblock %} {% block main %}
     <div class="w-full max-w-md space-y-6">
         <div class="grid grid-cols-2 sm:grid-cols-3 md:flex gap-2">
             <button
-                class="tab-btn w-full flex flex-col md:flex-row items-center justify-center gap-1"
+                class="tab-btn w-full md:flex-1 flex flex-col md:flex-row items-center justify-center gap-1"
                 hx-get="{{ url_for('settings.general_settings') }}"
                 hx-target="#tab-body"
                 hx-swap="innerHTML"
@@ -38,7 +38,7 @@ _("Settings") }}{% endblock %} {% block main %}
             </button>
 
             <button
-                class="tab-btn w-full flex flex-col md:flex-row items-center justify-center gap-1"
+                class="tab-btn w-full md:flex-1 flex flex-col md:flex-row items-center justify-center gap-1"
                 hx-get="{{ url_for('notify.list_agents') }}"
                 hx-target="#tab-body"
                 hx-swap="innerHTML"
@@ -68,7 +68,7 @@ _("Settings") }}{% endblock %} {% block main %}
             </button>
 
             <button
-                class="tab-btn w-full flex flex-col md:flex-row items-center justify-center gap-1"
+                class="tab-btn w-full md:flex-1 flex flex-col md:flex-row items-center justify-center gap-1"
                 hx-get="{{ url_for('media_servers.list_servers') }}"
                 hx-target="#tab-body"
                 hx-swap="innerHTML"
@@ -97,7 +97,7 @@ _("Settings") }}{% endblock %} {% block main %}
             </button>
 
             <button
-                class="tab-btn w-full flex flex-col md:flex-row items-center justify-center gap-1"
+                class="tab-btn w-full md:flex-1 flex flex-col md:flex-row items-center justify-center gap-1"
                 hx-get="{{ url_for('admin_accounts.list_admins') }}"
                 hx-target="#tab-body"
                 hx-swap="innerHTML"
@@ -118,7 +118,7 @@ _("Settings") }}{% endblock %} {% block main %}
             </button>
 
             <button
-                class="tab-btn w-full flex flex-col md:flex-row items-center justify-center gap-1"
+                class="tab-btn w-full md:flex-1 flex flex-col md:flex-row items-center justify-center gap-1"
                 hx-get="{{ url_for('wizard_admin.list_steps') }}"
                 hx-target="#tab-body"
                 hx-swap="innerHTML"
@@ -151,4 +151,19 @@ _("Settings") }}{% endblock %} {% block main %}
         <div id="tab-body" class="animate__animated animate__fadeIn"></div>
     </div>
 </section>
+
+{# ───────────────── htmx-helper to highlight the active tab ───────────────── #}
+<script>
+  document.body.addEventListener("htmx:afterRequest", (evt) => {
+    const btn = evt.detail.elt;
+    if (btn.classList.contains("tab-btn")) {
+      document.querySelectorAll(".tab-btn").forEach((b) => {
+        b.classList.remove("text-primary", "ring-2", "ring-primary");
+        b.classList.add("text-gray-700", "dark:text-gray-300");
+      });
+      btn.classList.remove("text-gray-700", "dark:text-gray-300");
+      btn.classList.add("text-primary", "ring-2", "ring-primary");
+    }
+  });
+</script>
 {% endblock %}
