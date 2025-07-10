@@ -1,81 +1,161 @@
-<section class="bg-gray-50 dark:bg-gray-900 animate__animated animate__fadeIn">
-  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto">
-    <div class="w-full bg-white rounded-lg shadow-sm dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-      <div class="p-6 space-y-6 md:space-y-8 sm:p-8">
-        <div class="flex justify-between items-center">
-          <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            {{ _("General Settings") }}
-          </h1>
+<section class="animate__animated animate__fadeIn">
+  <div class="p-6 space-y-8">
+    <!-- Page Header -->
+    <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ _("General Settings") }}</h1>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ _("Configure your application's basic settings and preferences") }}</p>
         </div>
+      </div>
+    </div>
 
-        <form method="post" hx-post="{{ url_for('settings.general_settings') }}" hx-target="#tab-body" hx-swap="innerHTML" class="space-y-6">
+    <!-- Settings Content -->
+    <div class="w-full">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="p-6">
+
+        <form method="post" hx-post="{{ url_for('settings.general_settings') }}" hx-target="#tab-body" hx-swap="innerHTML" class="space-y-4">
           {{ form.csrf_token }}
 
           {# ───── Display ──────────────────────────────────────── #}
           <div class="space-y-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Display") }}</h2>
-            <div>
-              {{ form.server_name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-              {{ form.server_name(class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
-              {% for err in form.server_name.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
+            <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+              <div class="flex items-center gap-3">
+                <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    <circle cx="12" cy="8" r="2.5"/>
+                    <path d="M12 13c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Display") }}</h2>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Configure how your application appears to users") }}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="col-span-1 md:col-span-2">
+                {{ form.server_name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.server_name(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
+                {% for err in form.server_name.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
             </div>
           </div>
 
           {# ───── Integrations ─────────────────────────────────── #}
           <div class="space-y-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Integrations") }}</h2>
-            <div>
-              {{ form.overseerr_url.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-              {{ form.overseerr_url(
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white",
-                  placeholder=_("Optional, leave empty to disable"),
-                  id="overseerr_url_input"
-               ) }}
-              {% for err in form.overseerr_url.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
+            <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+              <div class="flex items-center gap-3">
+                <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    <path d="M12 6v6l4 2"/>
+                  </svg>
+                </div>
+                <div>
+                  <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Integrations") }}</h2>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Connect with external services and applications") }}</p>
+                </div>
+              </div>
             </div>
-            <div id="ombi_api" class="hidden">
-              {{ form.ombi_api_key.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
-              {{ form.ombi_api_key(
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white",
-                  type="password",
-                  placeholder=_("Optional, leave empty to disable")
-                ) }}
-              {% for err in form.ombi_api_key.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="col-span-1 md:col-span-2">
+                {{ form.overseerr_url.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.overseerr_url(
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white",
+                    placeholder=_("Optional, leave empty to disable"),
+                    id="overseerr_url_input"
+                 ) }}
+                {% for err in form.overseerr_url.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+              <div id="ombi_api" class="hidden col-span-1 md:col-span-2">
+                {{ form.ombi_api_key.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.ombi_api_key(
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white",
+                    type="password",
+                    placeholder=_("Optional, leave empty to disable")
+                  ) }}
+                {% for err in form.ombi_api_key.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
             </div>
           </div>
 
           {# ───── Community ────────────────────────────────────── #}
           <div class="space-y-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Community") }}</h2>
-            <div>
-              {{ form.discord_id.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-              {{ form.discord_id(
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white",
-                  placeholder=_("Optional, leave empty to disable")
-                ) }}
-              {% for err in form.discord_id.errors %}<p class="text-red-500 text-sm">{{ err }}</p>{% endfor %}
+            <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+              <div class="flex items-center gap-3">
+                <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-4.8c0-1.45.81-2.77 2.08-3.43L8.58 8.1c.33-.16.7-.1.98.15l3.15 2.88c.28.25.71.25.99 0l3.15-2.88c.28-.25.65-.31.98-.15l2.5 1.67C21.19 10.43 22 11.75 22 13.2V18c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Community") }}</h2>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Connect with your community and social platforms") }}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="col-span-1 md:col-span-2">
+                {{ form.discord_id.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.discord_id(
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white",
+                    placeholder=_("Optional, leave empty to disable")
+                  ) }}
+                {% for err in form.discord_id.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
             </div>
           </div>
 
           {# ───── Access Control ───────────────────────────────── #}
           <div class="space-y-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Access Control") }}</h2>
-            <div class="flex items-center">
-              <label class="inline-flex items-center cursor-pointer">
-                {{ form.wizard_acl_enabled(class="sr-only peer") }}
-                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
-                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ form.wizard_acl_enabled.label.text }}</span>
-              </label>
+            <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+              <div class="flex items-center gap-3">
+                <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                    <path d="M10 17l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Access Control") }}</h2>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Manage user access and permissions") }}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <label class="text-sm font-medium text-gray-900 dark:text-white">{{ form.wizard_acl_enabled.label.text }}</label>
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">{{ _("Control access to the wizard setup process") }}</p>
+                </div>
+                <label class="inline-flex items-center cursor-pointer">
+                  {{ form.wizard_acl_enabled(class="sr-only peer") }}
+                  <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
+                </label>
+              </div>
             </div>
           </div>
 
           {# ───── Submit ───────────────────────────────────────── #}
-          <div>
-            <button type="submit" class="w-full text-white bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-hidden focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
-              {{ _("Save") }}
-            </button>
+          <div class="pt-6 border-t border-gray-200 dark:border-gray-700">
+            <div class="flex flex-col sm:flex-row gap-4 sm:justify-end">
+              <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg text-sm focus:ring-4 focus:ring-primary/20 transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                {{ _("Save Settings") }}
+              </button>
+            </div>
           </div>
         </form>
+        </div>
       </div>
     </div>
   </div>
