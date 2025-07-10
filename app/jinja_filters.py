@@ -31,7 +31,7 @@ def server_type_tag(server_type: str) -> Markup:
     # Always use black text for better contrast on these pastel backgrounds.
     text = escape(server_type.title() if server_type else "Unknown")
     html = (
-        f'<span class="text-xs inline-block font-medium px-1.5 py-0.5 rounded" '
+        f'<span class="text-xs inline-block font-medium px-2 py-0.5 rounded-lg" '
         f'style="background-color: {colour}; color: #000;">{text}</span>'
     )
     return Markup(html)
