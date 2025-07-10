@@ -39,29 +39,10 @@ def _accept_invite_v2(self: MyPlexAccount, user):
     #     b) If the caller passed a username / e-mail → resolve it via
     #        the new v2 shared-servers endpoint.
     # ------------------------------------------------------------------
-    if isinstance(user, MyPlexInvite):
-        invite_id = user.id
-    else:
-        resp = self._session.get(
-            "https://plex.tv/api/v2/shared_servers", params={"includeSent": 0}
-        )
-        resp.raise_for_status()
-        for item in resp.json():
-            if (
-                item.get("invitedEmail") == user
-                or str(item.get("invitedId")) == str(user)
-                or item.get("invitedUsername") == user
-            ):
-                invite_id = item["id"]
-                break
-        else:
-            # No pending invite found for the given user
-            return None
-
-    # ------------------------------------------------------------------
-    # 2) Send the *accept* call to the new v2 endpoint.
-    # ------------------------------------------------------------------
-    url = f"https://plex.tv/api/v2/shared_servers/{invite_id}/accept"
+    
+    invite = user if isinstance(user, MyPlexInvite) else self.pendingInvite(user, includeSent=False)
+    
+    url = f"https://plex.tv/api/v2/shared_servers/{invite.id}/accept"
     response = self._session.post(url)
     response.raise_for_status()
     return response
