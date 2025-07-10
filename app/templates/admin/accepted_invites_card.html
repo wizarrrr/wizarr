@@ -1,5 +1,5 @@
 {# Translation helper '_' is provided globally by Flask-Babel – no local override needed #}
-<div class="relative z-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 w-full" x-data>
+<div class="relative z-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full h-full flex flex-col" x-data>
     <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
         <!-- Icon -->
         <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -9,7 +9,7 @@
     </h2>
 
     {% if invites %}
-    <ul class="divide-y divide-gray-200 dark:divide-gray-700 max-h-64 overflow-y-auto pr-1">
+    <ul class="divide-y divide-gray-200 dark:divide-gray-700 flex-1 overflow-y-auto pr-1">
         {% for inv in invites %}
         <li class="flex items-center py-2">
             <!-- Avatar / placeholder -->
