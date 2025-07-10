@@ -677,25 +677,34 @@ def server_health_card():
             server_health = []
             
             for server_id, stats in all_stats.items():
+                # ----------------------
+                # Improved offline detection: even if no explicit "error" key
+                # an unreachable REST backend returns *empty* server_stats.  We
+                # therefore mark the server online only when we have *some*
+                # server_stats content in addition to the absence of "error".
+                # ----------------------
+
+                server_stats = stats.get("server_stats", {}) or {}
+                user_stats   = stats.get("user_stats", {}) or {}
+
+                is_online = ("error" not in stats) and bool(server_stats)
+
                 server_info = {
                     "id": server_id,
                     "name": stats.get("server_name", "Unknown"),
                     "type": stats.get("server_type", "unknown"),
-                    "online": "error" not in stats,
+                    "online": is_online,
                     "error": stats.get("error", None)
                 }
-                
-                if "error" not in stats:
-                    server_stats = stats.get("server_stats", {})
-                    user_stats = stats.get("user_stats", {})
-                    
+
+                if is_online:
                     server_info.update({
                         "version": server_stats.get("version", "Unknown"),
                         "active_sessions": user_stats.get("active_sessions", 0),
                         "transcoding": server_stats.get("transcoding_sessions", 0),
                         "total_users": user_stats.get("total_users", 0)
                     })
-                
+
                 server_health.append(server_info)
             
             # Sort by online status and name
