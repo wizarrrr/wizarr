@@ -4,7 +4,7 @@
     <div class="fixed inset-0 z-10 overflow-y-auto">
         <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 dark:bg-gray-800">
+                <div id="inviteModalContent" class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 dark:bg-gray-800">
                     <div class="flex justify-between items-center pb-3">
                         <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                             {% if not link %}{{ _("Create Invitation") }}{% else %}{{ _("Invitation Created") }}{% endif %}
@@ -365,9 +365,17 @@ document.body.addEventListener('htmx:afterSwap', function(evt) {
         if (link) {
             // Refresh the invitations table on the main page
             htmx.ajax('POST', '/invite/table', {
-                target: '#invites-container',
-                swap: 'innerHTML'
+                target: '#invite_table',
+                swap: 'outerHTML',
+                values: {
+                    server: document.getElementById('invite_server_filter')?.value || ''
+                }
             });
+            
+            // Auto-close modal after a short delay to let user see the success message
+            setTimeout(function() {
+                closeInviteModal();
+            }, 2000);
         }
     }
 });
