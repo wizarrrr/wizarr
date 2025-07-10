@@ -64,3 +64,27 @@ Make sure disabled buttons don't get the pointer cursor.
          focus:outline-hidden focus:ring-2 focus:ring-primary
          text-gray-700 dark:text-gray-300;
 }
+
+/* Enhanced modal backdrop with blur */
+.modal-backdrop {
+  background: rgba(107, 114, 128, 0.75) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  z-index: 2147483647 !important;
+}
+
+/* Ensure modals are always on top */
+.modal-container {
+  z-index: 2147483647 !important;
+  position: relative !important;
+}
+
+/* Additional fix for modal overlay issues */
+.modal-container > .fixed.inset-0 {
+  z-index: 2147483647 !important;
+}
+
+/* Force hide all other elements when modal is open */
+.modal-container ~ * {
+  z-index: 1 !important;
+}

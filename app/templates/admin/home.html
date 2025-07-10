@@ -76,46 +76,22 @@
             <!-- Removed additional widgets (Library Breakdown & Recent Content) -->
         </div>
 
-    <!-- Invite Modal -->
-    <div id="inviteModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Create New Invite") }}</h3>
-                <button 
-                    onclick="closeInviteModal()"
-                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                >
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-            <div id="inviteModalContent" class="p-6">
-                <!-- Invite form will be loaded here -->
-                <div class="flex justify-center items-center py-8">
-                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Invite Modal Container -->
+    <div id="invite-modal"></div>
 </section>
 
 <script>
 // Modal functions
 function openInviteModal() {
-    const modal = document.getElementById('inviteModal');
-    modal.classList.remove('hidden');
-    
-    // Load invite form
+    // Load invite form into the modal container
     htmx.ajax('GET', '/invite', {
-        target: '#inviteModalContent',
+        target: '#invite-modal',
         swap: 'innerHTML'
     });
 }
 
 function closeInviteModal() {
-    const modal = document.getElementById('inviteModal');
-    modal.classList.add('hidden');
+    document.getElementById('invite-modal').innerHTML = '';
 }
 
 // Close modal on escape key
@@ -125,15 +101,9 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Close modal on backdrop click
-document.getElementById('inviteModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeInviteModal();
-    }
-});
-
 // Live timestamp updating
 let liveTimers = [];
+let nowPlayingTimers = [];
 
 function startLiveTimers() {
     // Find all live timestamp elements and start their timers
@@ -148,6 +118,50 @@ function startLiveTimers() {
             liveTimers.push(timer);
         }
     });
+}
+
+function startNowPlayingTimers() {
+    // Clear existing timers
+    nowPlayingTimers.forEach(timer => clearInterval(timer));
+    nowPlayingTimers = [];
+    
+    // Find all now playing cards and start live time updates
+    document.querySelectorAll('.now-playing-card[data-session-state="playing"]').forEach(function(card) {
+        const duration = parseInt(card.getAttribute('data-session-duration')) || 0;
+        const initialPosition = parseInt(card.getAttribute('data-session-position')) || 0;
+        const sessionId = card.getAttribute('data-session-id');
+        
+        if (duration > 0 && sessionId) {
+            let currentPosition = initialPosition;
+            const startTime = Date.now();
+            
+            const timer = setInterval(function() {
+                // Calculate elapsed time since timer started (in milliseconds)
+                const elapsed = Date.now() - startTime;
+                // Add elapsed time to initial position
+                const newPosition = currentPosition + elapsed;
+                
+                // Don't exceed duration
+                if (newPosition < duration) {
+                    updateCardTime(card, newPosition, duration);
+                } else {
+                    clearInterval(timer);
+                }
+            }, 1000);
+            
+            nowPlayingTimers.push(timer);
+        }
+    });
+}
+
+function updateCardTime(card, position, duration) {
+    const timeDisplay = card.querySelector('.flex.justify-between.text-xs span:first-child');
+    if (timeDisplay) {
+        const posSeconds = Math.floor(position / 1000);
+        const posMins = Math.floor(posSeconds / 60);
+        const posSecsRemainder = posSeconds % 60;
+        timeDisplay.textContent = `${posMins}:${posSecsRemainder.toString().padStart(2, '0')}`;
+    }
 }
 
 function formatDuration(seconds) {
@@ -208,6 +222,9 @@ document.addEventListener('htmx:afterSwap', function(evt) {
         liveTimers = [];
         startLiveTimers();
         
+        // Start live time updates for now playing cards
+        startNowPlayingTimers();
+        
         // Removed adaptive additionalWidgets logic since those widgets are no longer present
     }
 });
@@ -215,6 +232,9 @@ document.addEventListener('htmx:afterSwap', function(evt) {
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize live timers
             startLiveTimers();
+            
+            // Initialize now playing timers
+            startNowPlayingTimers();
             
             // Initialize Flowbite popovers
             reinitFlowbitePopovers();

@@ -104,7 +104,7 @@ def invite():
         from app.models import WizardBundle
         bundles = WizardBundle.query.order_by(WizardBundle.name).all()
         return render_template(
-            "admin/invite.html",
+            "modals/invite.html",
             link=link,
             invitations=invitations,
             server_type=server_type,
@@ -121,7 +121,7 @@ def invite():
     from app.models import WizardBundle
     bundles = WizardBundle.query.order_by(WizardBundle.name).all()
     return render_template(
-        "admin/invite.html",
+        "modals/invite.html",
         server_type=server_type,
         allow_downloads_plex=allow_downloads_plex,
         allow_tv_plex=allow_tv_plex,

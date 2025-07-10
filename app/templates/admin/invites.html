@@ -1,5 +1,20 @@
 <section class="py-8 animate__animated animate__fadeIn">
     <div class="container px-4 mx-auto">
+        <!-- Header with New Invite button -->
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ _("Invitations") }}</h1>
+            <button 
+                id="newInviteBtn"
+                class="bg-primary hover:bg-primary_hover text-white font-medium px-6 py-3 rounded-lg shadow-lg transition-all duration-200 flex items-center gap-2"
+                onclick="openInviteModal()"
+            >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+                {{ _("New Invite") }}
+            </button>
+        </div>
+        
         <div class="flex gap-4 mb-4">
             <select id="invite_server_filter" name="server" class="w-full sm:w-56 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" hx-post="/invite/table" hx-target="#invite_table" hx-swap="outerHTML" hx-include="#invite_server_filter">
                 <option value="">All Servers</option>
@@ -17,8 +32,30 @@
         </div>
 
     </div>
+
+    <!-- Invite Modal -->
+    <div id="invite-modal"></div>
 </section>
 <script>
+// Modal functions
+function openInviteModal() {
+    // Load invite form into the modal container
+    htmx.ajax('GET', '/invite', {
+        target: '#invite-modal',
+        swap: 'innerHTML'
+    });
+}
+
+function closeInviteModal() {
+    document.getElementById('invite-modal').innerHTML = '';
+}
+
+// Close modal on escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeInviteModal();
+    }
+});
 
     function tableCopyLink(invite_code) {
         var url = window.location.origin;
