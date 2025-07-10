@@ -63,27 +63,15 @@ def test_full_migration_upgrade(migration_app, temp_db):
             missing_tables = expected_tables - tables
             assert not missing_tables, f"Missing tables after migration: {missing_tables}"
             
-            # Debug: Check what actually exists in sqlite_master for wizard_bundle_step
+            # Verify wizard_bundle_step has the unique constraint
+            # Check for SQLite auto-generated unique index (appears as sqlite_autoindex_*)
             result = conn.execute(text(
-                "SELECT type, name, sql FROM sqlite_master WHERE name LIKE '%wizard_bundle_step%' OR tbl_name='wizard_bundle_step'"
+                "SELECT name FROM sqlite_master WHERE type='index' AND tbl_name='wizard_bundle_step' AND name LIKE 'sqlite_autoindex_%'"
             ))
-            all_objects = list(result)
-            print(f"DEBUG: Found objects related to wizard_bundle_step: {all_objects}")
+            auto_indexes = [row[0] for row in result]
+            has_unique_constraint = len(auto_indexes) > 0
             
-            # Since the unique constraint might be working but just not easily detectable,
-            # let's test that duplicate inserts actually fail
-            try:
-                conn.execute(text("INSERT INTO wizard_bundle (name) VALUES ('test')"))
-                conn.execute(text("INSERT INTO wizard_step (title, template) VALUES ('test', 'test')"))
-                conn.execute(text("INSERT INTO wizard_bundle_step (bundle_id, step_id, position) VALUES (1, 1, 1)"))
-                conn.execute(text("INSERT INTO wizard_bundle_step (bundle_id, step_id, position) VALUES (1, 1, 1)"))
-                conn.commit()
-                # If we get here, the unique constraint is NOT working
-                assert False, "Unique constraint not working - duplicate insert succeeded"
-            except Exception as e:
-                # This is expected - the unique constraint should prevent duplicates
-                print(f"DEBUG: Unique constraint working correctly, got expected error: {e}")
-                conn.rollback()
+            assert has_unique_constraint, f"wizard_bundle_step missing unique constraint (no sqlite_autoindex found)"
 
 
 def test_problematic_migration_specifically(migration_app, temp_db):
