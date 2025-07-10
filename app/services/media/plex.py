@@ -4,7 +4,7 @@ import logging
 
 from cachetools import cached, TTLCache
 from plexapi.server import PlexServer
-from plexapi.myplex import MyPlexAccount, MyPlexInvite
+from plexapi.myplex import MyPlexAccount
 
 from app.extensions import db
 from app.models import Invitation, User, Settings, Library, MediaServer
@@ -14,41 +14,86 @@ from app.services.media.service import get_client_for_media_server
 from app.services.invites import mark_server_used
 
 # ---------------------------------------------------------------------------
-# Temporary monkey-patch: Plex removed /api/invites/requests; use v2 endpoint.
-# Remove this block once plexapi supports the new route natively.
+# Monkey-patch: acceptInvite that uses /api/v2/shared_servers routes
 # ---------------------------------------------------------------------------
-_original_accept_invite = MyPlexAccount.acceptInvite  # keep reference for fallback
-
-
-def _accept_invite_v2(self: MyPlexAccount, user):
-    """Replacement for MyPlexAccount.acceptInvite that targets the v2 API.
-
-    Plex switched invite acceptance to
-    POST https://plex.tv/api/v2/shared_servers/{invite.id}/accept.
-    This implementation resolves the *invite ID* using the new `/api/v2/shared_servers`
-    endpoint as well so that it no longer touches the legacy
-    `/api/invites/requests` endpoint (which now returns *410 Gone*).
-
-    If anything in the new flow fails we transparently fall back to the
-    original PlexAPI code path to preserve backwards compatibility with
-    self-hosted or older Plex versions.
+def _accept_invite_v2(self: MyPlexAccount, owner):
     """
+    Accept a pending server share via the v2 API
+    (list → accept) without hitting the deprecated v1 endpoint.
+    """
+
+    base = "https://clients.plex.tv"
+
+    # 1) Build the full identity query-string Plex expects.
+    #    Plex returns HTTP 400 unless *all* usual X-Plex-* fields are present
+    #    in the **query string**.  The session headers created by PlexAPI
+    #    contain only a subset (sometimes just the token), so we copy what is
+    #    there *and* add sensible defaults for the rest.
+
+    params = {
+        k: v
+        for k, v in self._session.headers.items()
+        if k.startswith("X-Plex-") and k != "X-Plex-Provides"
+    }
+
     # ------------------------------------------------------------------
-    # 1) Determine the *invite object* we are supposed to accept.
-    #     a) If the caller already provided an invite instance → use it.
-    #     b) If the caller passed a username / e-mail → resolve it via
-    #        the new v2 shared-servers endpoint.
+    # Fill in any missing identity fields with fall-back values.  They do
+    # not need to be perfect – Plex validates presence, not content.
     # ------------------------------------------------------------------
-    
-    invite = user if isinstance(user, MyPlexInvite) else self.pendingInvite(user, includeSent=False)
-    
-    url = f"https://plex.tv/api/v2/shared_servers/{invite.id}/accept"
-    response = self._session.post(url)
-    response.raise_for_status()
-    return response
+    defaults = {
+        "X-Plex-Product": "Wizarr",
+        "X-Plex-Version": "1.0",
+        "X-Plex-Client-Identifier": "wizarr-client",
+        "X-Plex-Platform": "Python",
+        "X-Plex-Platform-Version": "3",
+        "X-Plex-Device": "Server",
+        "X-Plex-Device-Name": "Wizarr",
+        "X-Plex-Model": "server",
+        "X-Plex-Device-Screen-Resolution": "1920x1080",
+        "X-Plex-Features": "external-media,indirect-media,hub-style-list",
+        "X-Plex-Language": "en",
+    }
+
+    for key, value in defaults.items():
+        params.setdefault(key, value)
+
+    # ensure we always pass a valid token
+    params["X-Plex-Token"] = self.authToken
+
+    # 2) Normal headers – we keep Accept here, *not* on the query-string
+    hdrs = {"Accept": "application/json"}
+
+    # ---- list pending invites ------------------------------------------------
+    url_list = f"{base}/api/v2/shared_servers/invites/received/pending"
+    resp = self._session.get(url_list, params=params, headers=hdrs)
+    resp.raise_for_status()
+    invites = resp.json()                             # list[dict]
+
+    # ---- find the invite that matches the owner we were given ---------------
+    def _matches(inv):
+        o = inv.get("owner", {})
+        return owner in (o.get("username"), o.get("email"), o.get("title"), o.get("friendlyName"))
+
+    try:
+        inv = next(i for i in invites if _matches(i))
+    except StopIteration:
+        raise ValueError(f"No pending invite from '{owner}' found")
+
+    # Each invitation can include one or more shared servers; pick the first
+    shared_servers = inv.get("sharedServers")
+    if not shared_servers:
+        raise ValueError("Invite structure missing 'sharedServers' list")
+
+    invite_id = shared_servers[0]["id"]
+
+    # ---- accept it -----------------------------------------------------------
+    url_accept = f"{base}/api/v2/shared_servers/{invite_id}/accept"
+    resp = self._session.post(url_accept, params=params, headers=hdrs)
+    resp.raise_for_status()
+    return resp
 
 
-# Apply monkey-patch so all future instances use the new method
+# Activate the patch
 MyPlexAccount.acceptInvite = _accept_invite_v2
 
 @register_media_client("plex")
@@ -501,7 +546,7 @@ class PlexClient(MediaClient):
             }
 
 
-# ─── Invite & onboarding ──────────────────────────────────────────────────
+# ─── Invite & onboarding ────────────────────────────────────────────────
 
 def handle_oauth_token(app, token: str, code: str) -> None:
     """Called after Plex OAuth handshake; create DB user and invite to Plex."""
@@ -593,7 +638,8 @@ def _post_join_setup(app, token: str):
         client = PlexClient()
         try:
             user = MyPlexAccount(token=token)
-            user.acceptInvite(client.admin.email)
+            # use username as the v2 API returns only username, not e-mail
+            user.acceptInvite(client.admin.username)
             user.enableViewStateSync()
             _opt_out_online_sources(user)
         except Exception as exc:
