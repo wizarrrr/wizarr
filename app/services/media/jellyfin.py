@@ -82,6 +82,28 @@ class JellyfinClient(RestApiMixin):
                     username=jf["Name"],
                     email="empty",
                     code="empty",
+                    password="empty"
+                )
+                db.session.add(new)
+        db.session.commit()
+
+        for dbu in User.query.all():
+            if dbu.token not in jf_users:
+                db.session.delete(dbu)
+        db.session.commit()
+
+    def list_users(self) -> list[User]:
+        """Sync users from Jellyfin into the local DB and return the list of User records."""
+        jf_users = {u["Id"]: u for u in self.get("/Users").json()}
+
+        for jf in jf_users.values():
+            existing = User.query.filter_by(token=jf["Id"], server_id=getattr(self, 'server_id', None)).first()
+            if not existing:
+                new = User(
+                    token=jf["Id"],
+                    username=jf["Name"],
+                    email="empty",
+                    code="empty",
                     server_id=getattr(self, 'server_id', None),
                 )
                 db.session.add(new)
@@ -98,11 +120,7 @@ class JellyfinClient(RestApiMixin):
                 db.session.delete(dbu)
         db.session.commit()
 
-        return (
-            User.query
-            .filter(User.server_id == getattr(self, 'server_id', None))
-            .all()
-        )
+        return User.query.filter(User.server_id == getattr(self, 'server_id', None)).all()
 
     # --- helpers -----------------------------------------------------
 
