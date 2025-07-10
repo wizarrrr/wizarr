@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-09 04:01+0000\n"
+"POT-Creation-Date: 2025-07-10 04:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -128,7 +128,7 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:53 app/templates/login.html:23
+#: app/templates/admin/user_details_modal.html:48 app/templates/login.html:23
 #: app/templates/modals/create-admin.html:17
 #: app/templates/modals/edit-admin.html:17
 msgid "Username"
@@ -160,7 +160,7 @@ msgstr ""
 msgid "Join the Plex Server"
 msgstr ""
 
-#: app/templates/tables/user_card.html:85 app/templates/user-plex-login.html:29
+#: app/templates/tables/user_card.html:81 app/templates/user-plex-login.html:29
 #: app/templates/user-plex-login.html:40
 msgid "Invite Code"
 msgstr ""
@@ -191,6 +191,18 @@ msgstr ""
 msgid "Create an account"
 msgstr ""
 
+#: app/templates/admin/accepted_invites_card.html:8
+msgid "Latest Accepted Invites"
+msgstr ""
+
+#: app/templates/admin/accepted_invites_card.html:28
+msgid "Deleted user"
+msgstr ""
+
+#: app/templates/admin/accepted_invites_card.html:45
+msgid "No recent invitations have been accepted."
+msgstr ""
+
 #: app/templates/admin/home.html:6
 msgid "Dashboard"
 msgstr ""
@@ -199,19 +211,11 @@ msgstr ""
 msgid "New Invite"
 msgstr ""
 
-#: app/templates/admin/home.html:27
+#: app/templates/admin/home.html:30
 msgid "Now Playing"
 msgstr ""
 
-#: app/templates/admin/home.html:31
-msgid "Live"
-msgstr ""
-
-#: app/templates/admin/home.html:45
-msgid "Loading now playing..."
-msgstr ""
-
-#: app/templates/admin/home.html:56
+#: app/templates/admin/home.html:83
 msgid "Create New Invite"
 msgstr ""
 
@@ -239,8 +243,8 @@ msgstr ""
 msgid "1 month"
 msgstr ""
 
-#: app/templates/admin/invite.html:42 app/templates/tables/invite_card.html:66
-#: app/templates/tables/user_card.html:74
+#: app/templates/admin/invite.html:42 app/templates/tables/invite_card.html:68
+#: app/templates/tables/user_card.html:70
 msgid "Never"
 msgstr ""
 
@@ -265,7 +269,7 @@ msgid "Unlimited Usages"
 msgstr ""
 
 #: app/templates/admin/invite.html:92 app/templates/admin/invite.html:125
-#: app/templates/tables/invite_card.html:105
+#: app/templates/tables/invite_card.html:111
 msgid "Duration"
 msgstr ""
 
@@ -292,8 +296,8 @@ msgid "Invite to Plex Home"
 msgstr ""
 
 #: app/templates/admin/invite.html:172 app/templates/admin/invite.html:183
-#: app/templates/tables/invite_card.html:115
-#: app/templates/tables/user_card.html:95
+#: app/templates/tables/invite_card.html:121
+#: app/templates/tables/user_card.html:91
 msgid "Allow Downloads"
 msgstr ""
 
@@ -330,12 +334,40 @@ msgid "Link has been copied to clipboard!"
 msgstr ""
 
 #: app/templates/admin/invite.html:277
-#: app/templates/admin/user_details_modal.html:82
+#: app/templates/admin/user_details_modal.html:77
 msgid "Close"
 msgstr ""
 
 #: app/templates/admin/invite.html:285
 msgid "Create Another"
+msgstr ""
+
+#: app/templates/admin/library_breakdown_card.html:8
+msgid "Library Breakdown"
+msgstr ""
+
+#: app/templates/admin/library_breakdown_card.html:79
+msgid "Per Server"
+msgstr ""
+
+#: app/templates/admin/library_breakdown_card.html:101
+#: app/templates/admin/library_breakdown_card.html:115
+msgid "No libraries found"
+msgstr ""
+
+#: app/templates/admin/library_breakdown_card.html:116
+msgid "Configure your media servers to see library statistics"
+msgstr ""
+
+#: app/templates/admin/library_breakdown_card.html:128
+msgid "Failed to load libraries"
+msgstr ""
+
+#: app/templates/admin/library_breakdown_card.html:129
+#: app/templates/admin/recent_content_card.html:126
+#: app/templates/admin/server_health_card.html:169
+#: app/templates/admin/server_stats_card.html:81
+msgid "Unknown error occurred"
 msgstr ""
 
 #: app/templates/admin/now_playing_cards.html:7
@@ -354,78 +386,165 @@ msgstr ""
 msgid "No active media sessions found across your servers"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:79
-#: app/templates/admin/now_playing_cards.html:168
-msgid "Playing"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:82
-#: app/templates/admin/now_playing_cards.html:170
-msgid "Paused"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:85
-msgid "Buffering"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:136
-msgid "Unknown Device"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:146
+#: app/templates/admin/now_playing_cards.html:139
 msgid "Session Details"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:149
+#: app/templates/admin/now_playing_cards.html:142
 msgid "Client"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:153
+#: app/templates/admin/now_playing_cards.html:146
 msgid "Device"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:157
+#: app/templates/admin/now_playing_cards.html:150
 msgid "User"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:161
+#: app/templates/admin/now_playing_cards.html:154
 msgid "Type"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:165
+#: app/templates/admin/now_playing_cards.html:158
 msgid "Status"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:177
+#: app/templates/admin/now_playing_cards.html:161
+msgid "Playing"
+msgstr ""
+
+#: app/templates/admin/now_playing_cards.html:163
+msgid "Paused"
+msgstr ""
+
+#: app/templates/admin/now_playing_cards.html:170
 msgid "Progress"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:181
+#: app/templates/admin/now_playing_cards.html:174
 msgid "Server"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:185
+#: app/templates/admin/now_playing_cards.html:178
 msgid "Session"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:190
+#: app/templates/admin/now_playing_cards.html:183
 msgid "Stream Info"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:193
+#: app/templates/admin/now_playing_cards.html:186
 msgid "Method"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:195
+#: app/templates/admin/now_playing_cards.html:188
 msgid "Direct Play"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:195
+#: app/templates/admin/now_playing_cards.html:188
+#: app/templates/admin/server_health_card.html:74
+#: app/templates/admin/server_health_card.html:102
 msgid "Transcoding"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:195
+#: app/templates/admin/now_playing_cards.html:188
 msgid "Direct Stream"
+msgstr ""
+
+#: app/templates/admin/recent_content_card.html:8
+msgid "Recently Added"
+msgstr ""
+
+#: app/templates/admin/recent_content_card.html:101
+msgid "Showing latest 10 items"
+msgstr ""
+
+#: app/templates/admin/recent_content_card.html:112
+msgid "No recent content found"
+msgstr ""
+
+#: app/templates/admin/recent_content_card.html:113
+msgid "Add some content to your media servers to see it here"
+msgstr ""
+
+#: app/templates/admin/recent_content_card.html:125
+msgid "Failed to load recent content"
+msgstr ""
+
+#: app/templates/admin/server_health_card.html:8
+msgid "Server Health"
+msgstr ""
+
+#: app/templates/admin/server_health_card.html:48
+#: app/templates/admin/server_stats_card.html:35
+msgid "Online"
+msgstr ""
+
+#: app/templates/admin/server_health_card.html:52
+msgid "Offline"
+msgstr ""
+
+#: app/templates/admin/server_health_card.html:65
+#: app/templates/admin/server_stats_card.html:29
+msgid "Active"
+msgstr ""
+
+#: app/templates/admin/server_health_card.html:83
+#: app/templates/admin/server_stats_card.html:23
+msgid "Users"
+msgstr ""
+
+#: app/templates/admin/server_health_card.html:95
+msgid "Active Sessions"
+msgstr ""
+
+#: app/templates/admin/server_health_card.html:120
+msgid "Server is currently unreachable"
+msgstr ""
+
+#: app/templates/admin/server_health_card.html:136
+msgid "of"
+msgstr ""
+
+#: app/templates/admin/server_health_card.html:138
+msgid "servers online"
+msgstr ""
+
+#: app/templates/admin/server_health_card.html:143
+msgid "server(s) need attention"
+msgstr ""
+
+#: app/templates/admin/server_health_card.html:155
+msgid "No servers configured"
+msgstr ""
+
+#: app/templates/admin/server_health_card.html:156
+msgid "Add media servers to monitor their health"
+msgstr ""
+
+#: app/templates/admin/server_health_card.html:168
+msgid "Failed to load server health"
+msgstr ""
+
+#: app/templates/admin/server_stats_card.html:8
+msgid "Server Overview"
+msgstr ""
+
+#: app/templates/admin/server_stats_card.html:17
+msgid "Items"
+msgstr ""
+
+#: app/templates/admin/server_stats_card.html:41
+msgid "Server Breakdown"
+msgstr ""
+
+#: app/templates/admin/server_stats_card.html:68
+msgid "No active servers found"
+msgstr ""
+
+#: app/templates/admin/server_stats_card.html:80
+msgid "Failed to load statistics"
 msgstr ""
 
 #: app/templates/admin/user_details_modal.html:37
@@ -436,16 +555,16 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:56
-#: app/templates/tables/invite_card.html:77
+#: app/templates/admin/user_details_modal.html:51
+#: app/templates/tables/invite_card.html:79
 msgid "Libraries"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:64
+#: app/templates/admin/user_details_modal.html:59
 msgid "All libraries"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:69
+#: app/templates/admin/user_details_modal.html:64
 msgid "Policies"
 msgstr ""
 
@@ -585,7 +704,7 @@ msgid "Test & Create Agent"
 msgstr ""
 
 #: app/templates/modals/create-server.html:10
-#: app/templates/settings/servers.html:95
+#: app/templates/settings/servers.html:90
 msgid "Add Server"
 msgstr ""
 
@@ -695,15 +814,15 @@ msgstr ""
 msgid "Media Servers"
 msgstr ""
 
-#: app/templates/settings/servers.html:46
+#: app/templates/settings/servers.html:41
 msgid "Verified"
 msgstr ""
 
-#: app/templates/settings/servers.html:46
+#: app/templates/settings/servers.html:41
 msgid "Unverified"
 msgstr ""
 
-#: app/templates/settings/servers.html:54
+#: app/templates/settings/servers.html:49
 msgid "Checking..."
 msgstr ""
 
@@ -720,7 +839,7 @@ msgid "Scan For Libraries"
 msgstr ""
 
 #: app/templates/settings/wizard/_sub_nav.html:6
-#: app/templates/tables/invite_card.html:93
+#: app/templates/tables/invite_card.html:99
 msgid "Default"
 msgstr ""
 
@@ -796,33 +915,33 @@ msgstr ""
 msgid "There are currently no invitations."
 msgstr ""
 
-#: app/templates/tables/invite_card.html:22
+#: app/templates/tables/invite_card.html:24
 msgid "Available"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:29
-#: app/templates/tables/invite_card.html:57
+#: app/templates/tables/invite_card.html:31
+#: app/templates/tables/invite_card.html:59
 msgid "Used"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:42
+#: app/templates/tables/invite_card.html:44
 msgid "Created"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:50
-#: app/templates/tables/user_card.html:67
+#: app/templates/tables/invite_card.html:52
+#: app/templates/tables/user_card.html:63
 msgid "Expires"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:53
+#: app/templates/tables/invite_card.html:55
 msgid "Expired"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:105
+#: app/templates/tables/invite_card.html:111
 msgid "days"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:125
+#: app/templates/tables/invite_card.html:131
 msgid "Unlimited"
 msgstr ""
 
