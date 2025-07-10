@@ -52,10 +52,15 @@ def upgrade():
 
 
 def downgrade():
+    conn = op.get_bind()
+    
     with op.batch_alter_table("invitation", schema=None) as batch_op:
-        batch_op.drop_constraint("fk_invitation_bundle", type_="foreignkey")
+        if conn.dialect.name != 'sqlite':
+            batch_op.drop_constraint("fk_invitation_bundle", type_="foreignkey")
         batch_op.drop_column("wizard_bundle_id")
 
-    op.drop_constraint("uq_bundle_pos", "wizard_bundle_step", type_="unique")
+    with op.batch_alter_table("wizard_bundle_step", schema=None) as batch_op:
+        batch_op.drop_constraint("uq_bundle_pos", type_="unique")
+    
     op.drop_table("wizard_bundle_step")
     op.drop_table("wizard_bundle") 
