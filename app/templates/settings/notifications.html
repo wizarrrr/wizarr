@@ -1,43 +1,106 @@
 <div id="create-modal"></div>
 
-<section class="py-8 animate__animated animate__fadeIn">
-    <div class="container px-4 mx-auto">
-        <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-            {{ _("Notification Agents") }}
-        </h1>
-
-        <div class="grid grid-cols-1 gap-4 animate__animated" id="agents_grid">
-            {% for agent in agents %}
-            <div class="mb-4 animate__animated flex flex-col justify-between bg-white dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-xs overflow-hidden border border-gray-200 dark:border-gray-700">
-                <div class="p-4">
-                    <h2 class="text-lg font-medium text-gray-900 dark:text-white">{{ agent.name }}</h2>
-                    <div class="mt-2 flex items-center">
-                        <span class="flex items-center text-sm text-gray-600 dark:text-gray-400">{{ agent.type }}</span>
-                    </div>
-                </div>
-                <div class="flex justify-end p-3 bg-gray-50 dark:bg-gray-700">
-                    <button hx-delete="{{ url_for('notify.delete_agent', delete=agent.id) }}"
-                            hx-target="#content" hx-swap="innerHTML swap:0.5s"
-                            hx-confirm="Are you sure you wish to delete {{ agent.name }} ?"
-                            class="inline-flex items-center justify-center p-2 text-red-500 rounded-lg hover:text-white hover:bg-red-500 dark:text-red-400 dark:hover:text-white dark:hover:bg-red-600">
-                        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            {% endfor %}
+<section class="animate__animated animate__fadeIn">
+  <div class="p-6 space-y-8">
+    <!-- Page Header -->
+    <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ _("Notification Agents") }}</h1>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ _("Configure notification services to alert you about important events") }}</p>
         </div>
-
-        <div class="flex items-center justify-center mt-6">
-            <button hx-get="{{ url_for('notify.create') }}"
-                    hx-target="#create-modal"
-                    hx-trigger="click" id="create-agent-button"
-                    _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
-                    class="bg-primary hover:bg-amber-700 focus:ring-4 focus:outline-hidden focus:ring-amber-300 text-white font-medium rounded-lg px-5 py-2.5 text-sm dark:bg-primary dark:hover:bg-amber-700 dark:focus:ring-primary_hover">
-                {{ _("Create Agent") }}
-            </button>
-        </div>
+        <button 
+          hx-get="{{ url_for('notify.create') }}"
+          hx-target="#create-modal"
+          hx-trigger="click" 
+          _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
+          class="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium rounded-lg transition-colors shadow-sm"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          {{ _("Add Agent") }}
+        </button>
+      </div>
     </div>
+
+    <!-- Content -->
+    <div class="w-full">
+      {% if agents %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="agents_grid">
+          {% for agent in agents %}
+            <div class="group bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
+              <div class="p-6">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-3">
+                    <div class="flex-shrink-0 w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                      </svg>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                      <h3 class="text-lg font-semibold text-gray-900 dark:text-white truncate">{{ agent.name }}</h3>
+                      <p class="text-sm text-gray-600 dark:text-gray-400 capitalize">{{ agent.type }}</p>
+                    </div>
+                  </div>
+                  
+                  <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button 
+                      hx-delete="{{ url_for('notify.delete_agent', delete=agent.id) }}"
+                      hx-target="#tab-body" 
+                      hx-swap="innerHTML"
+                      hx-confirm="{{ _('Are you sure you want to delete') }} {{ agent.name }}?"
+                      class="inline-flex items-center justify-center w-8 h-8 text-red-600 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                      title="{{ _('Delete agent') }}"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <div class="flex items-center justify-between text-sm">
+                    <span class="text-gray-600 dark:text-gray-400">{{ _("Status") }}</span>
+                    <span class="inline-flex items-center gap-1 text-green-600 dark:text-green-400">
+                      <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                      {{ _("Active") }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+          <div class="p-12 text-center">
+            <div class="max-w-sm mx-auto">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM4 19h6v-7a1 1 0 011-1h4a1 1 0 011 1v7h6M4 9V6a2 2 0 012-2h12a2 2 0 012 2v3"></path>
+              </svg>
+              <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-white">{{ _("No notification agents") }}</h3>
+              <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ _("Get started by creating your first notification agent") }}</p>
+              <div class="mt-6">
+                <button 
+                  hx-get="{{ url_for('notify.create') }}"
+                  hx-target="#create-modal"
+                  hx-trigger="click" 
+                  _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
+                  class="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                  </svg>
+                  {{ _("Add Agent") }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
 </section>
 
