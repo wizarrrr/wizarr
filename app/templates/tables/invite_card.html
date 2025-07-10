@@ -82,12 +82,6 @@
                                 {% if invite.display_libraries_by_server is defined and invite.display_libraries_by_server %}
                                     {% for server_name, libraries in invite.display_libraries_by_server.items() %}
                                     <div class="mb-1">
-                                        {% set server_lib = invite.libraries|selectattr('server')|selectattr('server.name', 'equalto', server_name)|first %}
-                                        {% if server_lib and server_lib.server %}
-                                            {{ server_lib.server.server_type|server_type_tag }}
-                                        {% else %}
-                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">Unknown</span>
-                                        {% endif %}
                                         <span class="text-xs text-gray-500 dark:text-gray-400 ml-1">{{ server_name }}</span>
                                         <span class="ml-1 text-sm">{{ libraries|join(', ') }}</span>
                                     </div>
