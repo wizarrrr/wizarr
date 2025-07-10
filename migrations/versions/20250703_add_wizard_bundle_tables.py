@@ -35,9 +35,7 @@ def upgrade():
             sa.Column("bundle_id", sa.Integer, sa.ForeignKey("wizard_bundle.id", ondelete="CASCADE"), nullable=False),
             sa.Column("step_id", sa.Integer, sa.ForeignKey("wizard_step.id", ondelete="CASCADE"), nullable=False),
             sa.Column("position", sa.Integer, nullable=False),
-        )
-        op.create_unique_constraint(
-            "uq_bundle_pos", "wizard_bundle_step", ["bundle_id", "position"]
+            sa.UniqueConstraint("bundle_id", "position", name="uq_bundle_pos")
         )
 
     cols = {c['name'] for c in insp.get_columns('invitation')}
@@ -53,14 +51,18 @@ def upgrade():
 
 def downgrade():
     conn = op.get_bind()
+    insp = inspect(conn)
     
+    # Handle invitation table changes
     with op.batch_alter_table("invitation", schema=None) as batch_op:
         if conn.dialect.name != 'sqlite':
             batch_op.drop_constraint("fk_invitation_bundle", type_="foreignkey")
         batch_op.drop_column("wizard_bundle_id")
 
-    with op.batch_alter_table("wizard_bundle_step", schema=None) as batch_op:
-        batch_op.drop_constraint("uq_bundle_pos", type_="unique")
+    # For SQLite, just drop the tables - constraints will be removed automatically
+    # For other databases, we could drop constraints individually if needed
+    if insp.has_table("wizard_bundle_step"):
+        op.drop_table("wizard_bundle_step")
     
-    op.drop_table("wizard_bundle_step")
-    op.drop_table("wizard_bundle") 
+    if insp.has_table("wizard_bundle"):
+        op.drop_table("wizard_bundle") 
