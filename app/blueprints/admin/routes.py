@@ -20,7 +20,6 @@ def dashboard():
     __version__ = os.getenv("APP_VERSION", "dev")
     update_available = check_update_available(__version__)
     sponsors = get_sponsors()
-    print(sponsors)
 
     return render_template("admin.html",
                            update_available=update_available,
