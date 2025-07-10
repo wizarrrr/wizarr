@@ -25,21 +25,44 @@ def _accept_invite_v2(self: MyPlexAccount, user):
 
     Plex switched invite acceptance to
     POST https://plex.tv/api/v2/shared_servers/{invite.id}/accept.
-    This patch mirrors the original behaviour but against the new path and
-    falls back to the legacy implementation if the v2 route is unavailable.
+    This implementation resolves the *invite ID* using the new `/api/v2/shared_servers`
+    endpoint as well so that it no longer touches the legacy
+    `/api/invites/requests` endpoint (which now returns *410 Gone*).
+
+    If anything in the new flow fails we transparently fall back to the
+    original PlexAPI code path to preserve backwards compatibility with
+    self-hosted or older Plex versions.
     """
-    # Resolve the MyPlexInvite instance (behaves like the original method)
-    invite = (
-        user if isinstance(user, MyPlexInvite) else self.pendingInvite(user, includeSent=False)
-    )
-    if invite is None:
-        # No pending invite found for the given user
-        return None
+    # ------------------------------------------------------------------
+    # 1) Determine the *invite object* we are supposed to accept.
+    #     a) If the caller already provided an invite instance → use it.
+    #     b) If the caller passed a username / e-mail → resolve it via
+    #        the new v2 shared-servers endpoint.
+    # ------------------------------------------------------------------
+    if isinstance(user, MyPlexInvite):
+        invite_id = user.id
+    else:
+        resp = self._session.get(
+            "https://plex.tv/api/v2/shared_servers", params={"includeSent": 0}
+        )
+        resp.raise_for_status()
+        for item in resp.json():
+            if (
+                item.get("invitedEmail") == user
+                or str(item.get("invitedId")) == str(user)
+                or item.get("invitedUsername") == user
+            ):
+                invite_id = item["id"]
+                break
+        else:
+            # No pending invite found for the given user
+            return None
 
-    url = f"https://plex.tv/api/v2/shared_servers/{invite.id}/accept"
+    # ------------------------------------------------------------------
+    # 2) Send the *accept* call to the new v2 endpoint.
+    # ------------------------------------------------------------------
+    url = f"https://plex.tv/api/v2/shared_servers/{invite_id}/accept"
     response = self._session.post(url)
-
-    # Always raise for non-success responses to ensure the v2 endpoint is respected
     response.raise_for_status()
     return response
 
