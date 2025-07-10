@@ -97,6 +97,11 @@ def run_migrations_online():
     connectable = get_engine()
 
     with connectable.connect() as connection:
+        # Enable batch mode for SQLite to handle constraint operations
+        # Only set render_as_batch if it's not already configured
+        if 'render_as_batch' not in conf_args:
+            conf_args['render_as_batch'] = connection.dialect.name == 'sqlite'
+        
         context.configure(
             connection=connection,
             target_metadata=get_metadata(),
