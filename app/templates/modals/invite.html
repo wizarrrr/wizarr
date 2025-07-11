@@ -163,7 +163,6 @@
 
                             </div>
                             <!-- Server Selection OUTSIDE advanced -->
-                            {% if servers|length > 1 %}
                             <div class="space-y-2 mt-6">
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     {{ _("Target servers") }}
@@ -233,10 +232,6 @@
                                 </div>
                                 <input type="hidden" id="server_id" name="server_id" value="{{ chosen_server_id }}">
                             </div>
-                            {% else %}
-                            <input type="hidden" id="server_id" name="server_id" value="{{ servers[0].id if servers else '' }}">
-                            <input type="hidden" name="server_ids" value="{{ servers[0].id if servers else '' }}">
-                            {% endif %}
 
                             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-gray-800">
                                 <button type="submit" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-primary_hover sm:ml-3 sm:w-auto">{{ _("Create Invitation") }}</button>

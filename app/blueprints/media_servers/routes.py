@@ -25,10 +25,6 @@ def _check_connection(data: dict):
             data["api_key"] = base64.b64encode(f"{username}:{password}".encode()).decode()
         return check_romm(data["server_url"], data["api_key"])
     elif stype == "komga":
-        username = data.get("komga_username", "").strip()
-        password = data.get("komga_password", "").strip()
-        if username and password:
-            data["api_key"] = f"{username}:{password}"
         return check_komga(data["server_url"], data["api_key"])
     else:
         return check_jellyfin(data["server_url"], data["api_key"])
@@ -55,13 +51,6 @@ def create_server():
             password = data.get("server_password", "").strip()
             if username and password:
                 data["api_key"] = base64.b64encode(f"{username}:{password}".encode()).decode()
-        
-        # --- Komga: derive API key from credentials ------------------
-        elif data.get("server_type") == "komga":
-            username = data.get("komga_username", "").strip()
-            password = data.get("komga_password", "").strip()
-            if username and password:
-                data["api_key"] = f"{username}:{password}"
 
         ok, error_msg = _check_connection(data)
         if not ok:
@@ -140,12 +129,6 @@ def edit_server(server_id):
             password = data.get("server_password", "").strip()
             if username and password:
                 data["api_key"] = base64.b64encode(f"{username}:{password}".encode()).decode()
-        
-        elif data.get("server_type") == "komga":
-            username = data.get("komga_username", "").strip()
-            password = data.get("komga_password", "").strip()
-            if username and password:
-                data["api_key"] = f"{username}:{password}"
 
         ok, error_msg = _check_connection(data)
         if not ok:

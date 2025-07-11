@@ -113,22 +113,12 @@ def check_komga(url: str, token: str) -> tuple[bool, str]:
 
     We perform a lightweight GET request to ``/api/v1/libraries`` which is
     available to authenticated users and returns a list of libraries in
-    JSON. When *token* is set we parse it as username:password and send
-    it as a *Basic* authentication header.
+    JSON. When *token* is set we send it as a *Bearer* header.
     """
-    import base64
     try:
         headers = {"Accept": "application/json"}
         if token:
-            # Parse username:password format and encode as Basic auth
-            if ':' in token:
-                encoded_credentials = base64.b64encode(token.encode()).decode()
-                headers["Authorization"] = f"Basic {encoded_credentials}"
-            else:
-                # Fallback: assume it's just a password with default username
-                credentials = f"admin:{token}"
-                encoded_credentials = base64.b64encode(credentials.encode()).decode()
-                headers["Authorization"] = f"Basic {encoded_credentials}"
+            headers["Authorization"] = f"Bearer {token}"
 
         resp = requests.get(f"{url.rstrip('/')}/api/v1/libraries", headers=headers, timeout=10)
         if resp.status_code != 200:
