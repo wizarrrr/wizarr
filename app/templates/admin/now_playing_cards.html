@@ -1,214 +1,113 @@
 {% if error %}
+    <!-- Error state -->
     <div class="col-span-full text-center py-12">
         <div class="text-red-500 dark:text-red-400">
-            <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
+            <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <h3 class="text-lg font-medium mb-2">{{ _("Unable to load now playing") }}</h3>
             <p>{{ _("There was an error connecting to your media servers") }}</p>
         </div>
     </div>
 {% elif not sessions %}
+    <!-- Empty state -->
     <div class="col-span-full text-center py-12">
         <div class="text-gray-500 dark:text-gray-400">
-            <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-            </svg>
+            <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             <h3 class="text-lg font-medium mb-2">{{ _("No one is watching") }}</h3>
             <p>{{ _("No active media sessions found across your servers") }}</p>
         </div>
     </div>
 {% else %}
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+    <!-- Wrapper grid (auto‑fit wider cards) -->
+    <div class="grid gap-6" style="grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));">
     {% for session in sessions %}
-        {% set progress_percent = (session.progress * 100) | round %}
-        {% set duration = session.duration_ms %}
-        {% set position = session.position_ms %}
-        
-        <div class="now-playing-card session-card bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 relative"
-             data-popover-target="popover-{{ session.session_id }}" data-popover-trigger="hover" data-popover-placement="bottom"
-             data-session-id="{{ session.session_id }}"
-             data-session-state="{{ session.state }}"
-             data-session-duration="{{ session.duration_ms }}"
-             data-session-position="{{ session.position_ms }}">
-            
-            <!-- Media Artwork - Square aspect ratio for compact cards -->
-            <div class="relative w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 overflow-hidden">
-                {% if session.artwork_url %}
-                    <!-- Actual artwork -->
-                    <img src="{{ url_for('public.image_proxy') }}?url={{ session.artwork_url|urlencode }}" 
-                         alt="{{ session.media_title }}" 
-                         class="absolute inset-0 w-full h-full object-cover"
-                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <!-- Fallback icon (hidden by default) -->
-                    <div class="w-full h-full absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800" style="display: none;">
-                {% endif %}
-                <!-- Media Type Icon (shown when no artwork or as fallback) -->
-                {% if session.media_type == 'movie' %}
-                    <svg class="w-6 h-6 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2M7 4h10M7 4v16a1 1 0 001 1h8a1 1 0 001-1V4M9 8h6M9 12h6M9 16h6"></path>
-                    </svg>
-                {% elif session.media_type == 'episode' %}
-                    <svg class="w-6 h-6 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                    </svg>
-                {% elif session.media_type == 'audiobook' %}
-                    <svg class="w-6 h-6 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                    </svg>
-                {% elif session.media_type == 'podcast' %}
-                    <svg class="w-6 h-6 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
-                    </svg>
-                {% elif session.media_type == 'track' %}
-                    <svg class="w-6 h-6 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path>
-                    </svg>
-                {% else %}
-                    <svg class="w-6 h-6 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                {% endif %}
-                {% if session.artwork_url %}
-                    </div>
-                {% endif %}
-                
-                <!-- State Badge - smaller and positioned at top-right -->
-                <div class="absolute top-1 right-1 bg-black bg-opacity-75 text-white px-1 py-0.5 rounded text-xs flex items-center">
-                    {% if session.state == 'playing' %}
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                    {% elif session.state == 'paused' %}
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                    {% elif session.state == 'buffering' %}
-                        <svg class="w-3 h-3 animate-spin" fill="currentColor" viewBox="0 0 24 24"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6z"/></svg>
-                    {% else %}
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm10 0h2v12h-2z"/></svg>
-                    {% endif %}
-                </div>
-                
-                <!-- Server Badge - smaller and positioned at top-left -->
-                {% if session.server_name %}
-                    <div class="absolute top-1 left-1 bg-primary text-white px-1 py-0.5 rounded text-xs font-medium">
-                        {{ session.server_name[:3] }}
-                    </div>
-                {% endif %}
-                
-                <!-- Progress overlay at bottom -->
-                <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50">
-                    <div class="bg-primary h-1" style="width: {{ progress_percent }}%"></div>
-                </div>
-            </div>
-            
-            <!-- Compact Content - Only essential info -->
-            <div class="p-2">
-                <h3 class="font-medium text-gray-900 dark:text-white text-xs leading-tight mb-1 line-clamp-2" title="{{ session.media_title }}">
-                    {{ session.media_title }}
-                </h3>
-                <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ session.user_name }}</p>
-                
-                <!-- Time info - very compact -->
-                <div class="flex justify-between text-xs text-gray-400 mt-1">
-                    <span>
-                        {% if position %}
-                            {% set pos_seconds = (position / 1000) | int %}
-                            {% set pos_mins = (pos_seconds / 60) | int %}
-                            {% set pos_secs = pos_seconds % 60 %}
-                            {{ "%d:%02d" | format(pos_mins, pos_secs) }}
-                        {% else %}
-                            0:00
-                        {% endif %}
-                    </span>
-                    <span>
-                        {% if duration %}
-                            {% set dur_seconds = (duration / 1000) | int %}
-                            {% set dur_mins = (dur_seconds / 60) | int %}
-                            {% set dur_secs = dur_seconds % 60 %}
-                            {{ "%d:%02d" | format(dur_mins, dur_secs) }}
-                        {% else %}
-                            0:00
-                        {% endif %}
-                    </span>
-                </div>
-            </div>
-        </div>
+        {% set progress_percent = (session.progress * 100) | round(1) %}
+        {% set duration        = session.duration_ms %}
+        {% set position        = session.position_ms %}
+        {% set is_transcoding  = session.transcoding.is_transcoding %}
+        {% set direct_play     = session.transcoding.direct_play %}
 
-<!-- Flowbite Popover for session details -->
-<div id="popover-{{ session.session_id }}" role="tooltip"
-     class="absolute invisible inline-block w-80 text-sm text-gray-300 bg-gray-900 border border-gray-700 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 dark:bg-gray-800" style="z-index: 9999;">
-    <div class="p-4 space-y-4">
-        <h4 class="text-center font-semibold text-yellow-400 text-base">{{ _("Session Details") }}</h4>
-        <div class="grid grid-cols-2 gap-x-6 gap-y-1">
-            <div>
-                <span class="text-gray-400">{{ _("Client") }}:</span>
-                <div class="font-medium text-white break-words">{{ session.client }}</div>
-            </div>
-            <div>
-                <span class="text-gray-400">{{ _("Device") }}:</span>
-                <div class="font-medium text-white break-words">{{ session.device_name }}</div>
-            </div>
-            <div>
-                <span class="text-gray-400">{{ _("User") }}:</span>
-                <div class="font-medium text-white break-words">{{ session.user_name }}</div>
-            </div>
-            <div>
-                <span class="text-gray-400">{{ _("Type") }}:</span>
-                <div class="font-medium text-white break-words">{{ session.media_type|title }}</div>
-            </div>
-            <div>
-                <span class="text-gray-400">{{ _("Status") }}:</span>
-                <div class="font-medium text-white flex items-center gap-1">
+        <!-- ──────────────── Wide rectangle card ──────────────── -->
+        <div class="now-playing-card relative flex bg-gray-800/70 rounded-xl shadow-lg overflow-hidden border border-gray-700 hover:shadow-2xl transition-all duration-300">
+
+            {# Blurred background thumbnail #}
+            {% if session.thumbnail_url %}
+            <div class="absolute inset-0 -z-10 bg-center bg-cover blur-xl opacity-25" style="background-image: url('{{ url_for('public.image_proxy') }}?url={{ session.thumbnail_url|urlencode }}')"></div>
+            {% endif %}
+            <!-- Poster -->
+            <div class="relative w-44 md:w-48 flex-none">
+                {% if session.artwork_url %}
+                    <img src="{{ url_for('public.image_proxy') }}?url={{ session.artwork_url|urlencode }}" alt="{{ session.media_title }}" class="w-full h-full object-cover"/>
+                {% else %}
+                    <div class="w-full h-full flex items-center justify-center bg-gray-700">
+                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2M7 4h10M7 4v16a1 1 0 001 1h8a1 1 0 001-1V4M9 8h6M9 12h6M9 16h6"/></svg>
+                    </div>
+                {% endif %}
+
+                <!-- Play / pause badge -->
+                <div class="absolute top-1 left-1 bg-black/80 rounded p-1">
                     {% if session.state == 'playing' %}
-                        <span class="w-2 h-2 bg-green-500 rounded-full"></span>{{ _("Playing") }}
+                        <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     {% elif session.state == 'paused' %}
-                        <span class="w-2 h-2 bg-yellow-500 rounded-full"></span>{{ _("Paused") }}
+                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6zm8-14v14h4V5h-4z"/></svg>
                     {% else %}
-                        <span class="w-2 h-2 bg-gray-500 rounded-full"></span>{{ session.state|title }}
+                        <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm10 0h2v12h-2z"/></svg>
                     {% endif %}
                 </div>
             </div>
-            <div>
-                <span class="text-gray-400">{{ _("Progress") }}:</span>
-                <div class="font-medium text-white">{{ (session.progress*100)|round(1) }}%</div>
+
+            <!-- Info panel -->
+            <div class="flex flex-col justify-between p-6 space-y-3 text-gray-300 flex-grow min-w-0">
+                <!-- Header row -->
+                <div class="flex items-start justify-between gap-4">
+                    <h3 class="text-xl font-semibold text-white leading-snug break-words" title="{{ session.media_title }}">{{ session.media_title }}</h3>
+                </div>
+
+                <!-- Meta line -->
+                <p class="text-sm text-gray-400">
+                    {{ session.user_name }} • {{ session.client }} ({{ session.device_name }})
+                </p>
+
+                <!-- Time & state row -->
+                <div class="flex items-center gap-4 flex-wrap text-base">
+                    {% if position and duration %}
+                        {% set pos_seconds = (position // 1000) %}
+                        {% set dur_seconds = (duration // 1000) %}
+                        <span class="text-white">{{ (pos_seconds // 60) }}:{% if (pos_seconds % 60) < 10 %}0{% endif %}{{ pos_seconds % 60 }} / {{ (dur_seconds // 60) }}:{% if (dur_seconds % 60) < 10 %}0{% endif %}{{ dur_seconds % 60 }}</span>
+                    {% endif %}
+                    <span class="px-2.5 py-0.5 rounded text-xs font-medium {% if session.state=='playing' %}bg-green-600{% elif session.state=='paused' %}bg-yellow-500{% else %}bg-gray-600{% endif %} uppercase">{{ session.state|title }}</span>
+                    <span class="rounded px-2 py-0.5 text-xs font-semibold uppercase tracking-wide whitespace-nowrap {% if is_transcoding %}bg-red-600{% elif direct_play %}bg-green-600{% else %}bg-yellow-600{% endif %}">
+                        {% if is_transcoding %}Transcode{% elif direct_play %}Direct Play{% else %}Direct Stream{% endif %}
+                    </span>
+                </div>
+
+                <!-- Divider -->
+                <hr class="border-gray-700">
+
+                <!-- Technical details grid -->
+                <div class="grid grid-cols-2 gap-y-1 gap-x-8 text-sm">
+                    <div><span class="text-gray-400">Video:</span> <span class="text-white">{{ session.transcoding.video_codec or '-' }}</span></div>
+                    <div><span class="text-gray-400">Audio:</span> <span class="text-white">{{ session.transcoding.audio_codec or '-' }}</span></div>
+                    <div><span class="text-gray-400">Resolution:</span> <span class="text-white">{{ session.transcoding.video_resolution or '-' }}</span></div>
+                    <div><span class="text-gray-400">Container:</span> <span class="text-white">{{ session.transcoding.container or '-' }}</span></div>
+                    {% if session.transcoding.is_transcoding and session.transcoding.transcoding_speed %}
+                        <div class="col-span-2"><span class="text-gray-400">Speed:</span> <span class="text-white">{{ "%.1f"|format(session.transcoding.transcoding_speed) }}x</span></div>
+                    {% endif %}
+                    <div class="col-span-2"><span class="text-gray-400">Server:</span> <span class="text-white">{{ session.server_name }}</span></div>
+                </div>
             </div>
-            <div>
-                <span class="text-gray-400">{{ _("Server") }}:</span>
-                <div class="font-medium text-white">{{ session.server_name }}</div>
+
+            <!-- Server type icon (top-right of entire card) -->
+            <div class="absolute top-3 right-3 w-10 h-10 rounded-lg p-1 flex items-center justify-center" title="{{ session.server_type|title }}">
+                {% if session.server_type in ['plex', 'jellyfin', 'emby', 'audiobookshelf'] %}
+                    <img src="{{ url_for('static', filename='img/svg-logos/' + session.server_type + '.svg') }}" alt="{{ session.server_type|title }}" class="w-8 h-8 object-contain" />
+                {% endif %}
             </div>
-            <div>
-                <span class="text-gray-400">{{ _("Session") }}:</span>
-                <div class="font-mono text-xs text-white">{{ session.session_id[:8] }}...</div>
+            <!-- Progress bar -->
+            <div class="absolute bottom-0 left-0 right-0 h-1.5 bg-black/60">
+                <div class="bg-primary h-full" style="width: calc({{ progress_percent }} * 1%);"></div>
             </div>
         </div>
-        <hr class="border-gray-600">
-        <h5 class="text-center text-yellow-400 text-sm font-semibold">{{ _("Stream Info") }}</h5>
-        <div class="grid grid-cols-2 gap-x-6 gap-y-1 text-xs">
-            <div class="col-span-2 flex items-center gap-1">
-                <span class="text-gray-400">{{ _("Method") }}:</span>
-                <span class="font-medium text-white">
-                    {% if session.transcoding.direct_play %}{{ _("Direct Play") }}{% elif session.transcoding.is_transcoding %}{{ _("Transcoding") }}{% else %}{{ _("Direct Stream") }}{% endif %}
-                </span>
-            </div>
-            <div>
-                <span class="text-gray-400">Video:</span><span class="font-medium text-white"> {{ session.transcoding.video_codec or '-' }}</span>
-            </div>
-            <div>
-                <span class="text-gray-400">Audio:</span><span class="font-medium text-white"> {{ session.transcoding.audio_codec or '-' }}</span>
-            </div>
-            <div>
-                <span class="text-gray-400">Res:</span><span class="font-medium text-white"> {{ session.transcoding.video_resolution or '-' }}</span>
-            </div>
-            <div>
-                <span class="text-gray-400">Cont.:</span><span class="font-medium text-white"> {{ session.transcoding.container or '-' }}</span>
-            </div>
-            {% if session.transcoding.is_transcoding and session.transcoding.transcoding_speed %}
-            <div class="col-span-2">
-                <span class="text-gray-400">Speed:</span><span class="font-medium text-white"> {{ "%.1f"|format(session.transcoding.transcoding_speed) }}x</span>
-            </div>
-            {% endif %}
-        </div>
+        <!-- ──────────────────────────────────────────────────────── -->
+    {% endfor %}
     </div>
-    <div data-popper-arrow></div>
-</div>
-{% endfor %}
-    </div>
-{% endif %} 
+{% endif %}

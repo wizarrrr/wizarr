@@ -309,72 +309,66 @@ class PlexClient(MediaClient):
                 
                 # Resolve the correct artwork URL.  Prefer the helper properties PlexAPI
                 # exposes (``thumbUrl``) as they already include the base server URL and
-                # authentication token.  Fall back to the first available thumbnail-type
-                # attribute and use ``PlexServer.url`` to construct a fully qualified URL.
+                # authentication token.  However, if the session provides Image tags we
+                # prefer the first one marked as a *cover poster* to achieve a richer
+                # artwork experience.
 
                 artwork_url = None
+                # 0) Prefer the first Image tag whose ``type`` is "coverPoster" (if any)
+                images_attr = getattr(session, "image", None)
+                if images_attr:
+                    images_list = images_attr if isinstance(images_attr, (list, tuple, set)) else [images_attr]
+                    for img in images_list:
+                        if getattr(img, "type", None) == "coverPoster":
+                            # Attempt to resolve an absolute URL for the image
+                            img_key = getattr(img, "key", None) or getattr(img, "thumb", None)
+                            if img_key:
+                                artwork_url = (
+                                    img_key if str(img_key).startswith("http") else self.server.url(img_key, includeToken=True)
+                                )
+                            elif getattr(img, "thumbUrl", None):
+                                artwork_url = img.thumbUrl
+                            elif getattr(img, "url", None):
+                                artwork_url = img.url
+                            if artwork_url:
+                                break
 
-                # 1) Use PlexAPI convenience property if present (already absolute incl. token)
-                if getattr(session, "thumbUrl", None):
+                # 1) Fallback to more reliable poster-like attributes (already absolute path
+                #    or converted to absolute):
+                for attr in ("grandparentThumb", "parentThumb", "art"):
+                    if artwork_url is not None:
+                        break
+                    val = getattr(session, attr, None)
+                    if val:
+                        artwork_url = val if str(val).startswith("http") else self.server.url(val, includeToken=True)
+
+                # 2) Ultimate fallback – PlexAPI's thumbUrl (may return a frame thumbnail).
+                if artwork_url is None and getattr(session, "thumbUrl", None):
                     artwork_url = session.thumbUrl
-                else:
-                    # 2) Check common thumbnail attributes in priority order
-                    thumb_attr = None
-                    for attr in ("thumb", "art", "grandparentThumb", "parentThumb"):
-                        val = getattr(session, attr, None)
-                        if val:
-                            thumb_attr = val
-                            break
+                
+                # Simplified transcoding / media details -----------------------
+                is_transcoding = bool(getattr(session, 'transcodeSessions', []))
+                transcode_speed = None
+                if is_transcoding:
+                    transcode_speed = getattr(session.transcodeSessions[0], 'speed', None)
 
-                    if thumb_attr:
-                        # Construct absolute URL if we only have a relative key/path.
-                        if thumb_attr.startswith("http"):
-                            artwork_url = thumb_attr  # already absolute
-                        else:
-                            # ``PlexServer.url`` appends the base URL and token automatically.
-                            artwork_url = self.server.url(thumb_attr, includeToken=True)
-                
-                # Get transcoding information
+                video_codec = audio_codec = container = video_resolution = None
+                if getattr(session, 'media', None):
+                    media_obj = session.media[0]
+                    video_codec = getattr(media_obj, 'videoCodec', None)
+                    audio_codec = getattr(media_obj, 'audioCodec', None)
+                    container = getattr(media_obj, 'container', None)
+                    video_resolution = getattr(media_obj, 'videoResolution', None)
+
                 transcoding_info = {
-                    "is_transcoding": False,
-                    "video_codec": None,
-                    "audio_codec": None,
-                    "container": None,
-                    "video_resolution": None,
-                    "transcoding_speed": None,
-                    "direct_play": True
+                    "is_transcoding": is_transcoding,
+                    "video_codec": video_codec,
+                    "audio_codec": audio_codec,
+                    "container": container,
+                    "video_resolution": video_resolution,
+                    "transcoding_speed": transcode_speed,
+                    "direct_play": not is_transcoding,
                 }
-                
-                # Check for transcoding session
-                if hasattr(session, 'transcodeSessions') and session.transcodeSessions:
-                    transcoding_info["is_transcoding"] = True
-                    transcoding_info["direct_play"] = False
-                    transcode_session = session.transcodeSessions[0]
-                    transcoding_info["video_codec"] = getattr(transcode_session, 'videoCodec', None)
-                    transcoding_info["audio_codec"] = getattr(transcode_session, 'audioCodec', None)
-                    transcoding_info["container"] = getattr(transcode_session, 'container', None)
-                    transcoding_info["transcoding_speed"] = getattr(transcode_session, 'speed', None)
-                
-                # Check media info for resolution and codecs
-                if hasattr(session, 'media') and session.media:
-                    media = session.media[0] if session.media else None
-                    if media:
-                        if hasattr(media, 'videoResolution'):
-                            transcoding_info["video_resolution"] = media.videoResolution
-                        if hasattr(media, 'parts') and media.parts:
-                            part = media.parts[0]
-                            if hasattr(part, 'streams'):
-                                for stream in part.streams:
-                                    if hasattr(stream, 'streamType'):
-                                        if stream.streamType == 1:  # Video stream
-                                            if not transcoding_info["video_codec"]:
-                                                transcoding_info["video_codec"] = getattr(stream, 'codec', None)
-                                        elif stream.streamType == 2:  # Audio stream
-                                            if not transcoding_info["audio_codec"]:
-                                                transcoding_info["audio_codec"] = getattr(stream, 'codec', None)
-                            if hasattr(part, 'container'):
-                                if not transcoding_info["container"]:
-                                    transcoding_info["container"] = part.container
                 
                 # Build standardized session info
                 session_info = {
@@ -390,6 +384,7 @@ class PlexClient(MediaClient):
                     "duration_ms": getattr(session, 'duration', 0),
                     "artwork_url": artwork_url,
                     "transcoding": transcoding_info,
+                    "thumbnail_url": session.thumbUrl
                 }
                 
                 now_playing_sessions.append(session_info)
