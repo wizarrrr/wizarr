@@ -74,8 +74,9 @@ A big thank you to these amazing contributors who’ve helped build and maintain
 ## 📸 Screenshots
 
 ![Accept Invite](./screenshots/accept_invite.jpeg)
-![Home](./screenshots/home.jpeg)
-![Invitations](./screenshots/invitations.jpeg)
-![Settings](./screenshots/settings.jpeg)
-![Users](./screenshots/users.jpeg)
+![Home](./screenshots/dashboard.png)
+![Invitations](./screenshots/invitations.png)
+![Settings](./screenshots/edit-servers.png)
+![Users](./screenshots/users.png)
 ![Wizarr](./screenshots/wizard.jpeg)
+![Edit Wizard](./screenshots/edit-wizard.png)
