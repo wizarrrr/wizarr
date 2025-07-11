@@ -286,14 +286,33 @@ class JellyfinClient(RestApiMixin):
                 # Get session ID
                 session_id = session.get("Id", "")
                 
-                # Get artwork URL
-                artwork_url = None
+                # ------------------------------------------------------------------
+                # Poster & secondary artwork (thumbnail / backdrop)
+                # ------------------------------------------------------------------
+                poster_url: str | None = None
+                thumb_url:  str | None = None
+
                 item_id = now_playing_item.get("Id")
                 if item_id:
-                    # Use Primary image type for poster/thumbnail
-                    artwork_url = f"{self.url}/Items/{item_id}/Images/Primary"
-                    if self.token:
-                        artwork_url += f"?api_key={self.token}"
+                    base_params = f"?api_key={self.token}" if self.token else ""
+
+                    # 1) Primary image → treat as poster (vertical artwork)
+                    poster_url = f"{self.url}/Items/{item_id}/Images/Primary{base_params}"
+
+                    # 2) Secondary artwork – attempt to fetch Thumb first (16:9) then Backdrop
+                    #    Many Jellyfin libraries have thumbs/backdrops for movies/episodes.
+                    thumb_candidates = [
+                        f"{self.url}/Items/{item_id}/Images/Thumb{base_params}",
+                        f"{self.url}/Items/{item_id}/Images/Backdrop{base_params}",
+                    ]
+
+                    # We don’t strictly check if the image exists (extra HTTP head) to
+                    # avoid overhead.  Clients should gracefully handle 404 by falling
+                    # back to the poster.
+                    thumb_url = thumb_candidates[0]
+
+                # Keep legacy name for backward-compatibility in templates / API
+                artwork_url = poster_url
                 
                 # Get transcoding information
                 transcoding_info = {
@@ -353,6 +372,7 @@ class JellyfinClient(RestApiMixin):
                     "position_ms": play_state.get("PositionTicks", 0) // 10000,  # Convert from ticks to ms
                     "duration_ms": now_playing_item.get("RunTimeTicks", 0) // 10000,  # Convert from ticks to ms
                     "artwork_url": artwork_url,
+                    "thumbnail_url": thumb_url,
                     "transcoding": transcoding_info,
                 }
                 

@@ -377,16 +377,32 @@ class AudiobookshelfClient(RestApiMixin):
             client = raw.get("mediaPlayer", "")
 
             # --- artwork -------------------------------------------------------
-            artwork_url: str | None = None
+
+            # Primary & secondary artwork --------------------------------------
+            poster_url: str | None = None
+            thumb_url:  str | None = None
+
             li_id = raw.get("libraryItemId")
             if li_id:
-                # Direct cover endpoint provided by ABS – avoids extra lookups
-                artwork_url = f"{self.url}{self.API_PREFIX}/items/{li_id}/cover"
-            else:
-                # Fallback to imageUrl from podcast RSS if present
+                # Cover endpoint (vertical poster)
+                poster_url = f"{self.url}{self.API_PREFIX}/items/{li_id}/cover"
+
+                # Try to leverage the preview/thumbnail endpoint if the server
+                # version supports it.  ABS provides automatic resizing via the
+                # optional width/height query params.  We keep it simple and
+                # request a 400-pixel wide version which most dashboards can
+                # display without additional processing.
+                thumb_url = f"{poster_url}?width=400"
+
+            # RSS image fallback – some podcast sessions won’t have a library
+            # item ID.  In that case we rely on the RSS <image> URL which is
+            # already a square thumbnail.
+            if poster_url is None:
                 meta = raw.get("mediaMetadata", {})
-                if meta.get("imageUrl"):
-                    artwork_url = meta["imageUrl"]
+                poster_url = meta.get("imageUrl")
+                thumb_url  = poster_url
+
+            artwork_url = poster_url
 
             # --- transcoding ----------------------------------------------------
             play_method = raw.get("playMethod", 0)  # 0 = direct play
@@ -406,6 +422,7 @@ class AudiobookshelfClient(RestApiMixin):
                 "position_ms": int(pos * 1000),
                 "duration_ms": int(duration * 1000),
                 "artwork_url": artwork_url,
+                "thumbnail_url": thumb_url,
                 "transcoding": transcoding_info,
             })
 
