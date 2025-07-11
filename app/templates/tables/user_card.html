@@ -31,7 +31,8 @@
                             <button hx-get="{{ url_for('admin.edit_identity', identity_id=user.identity_id) }}"
                                     hx-target="#modal-user" hx-swap="innerHTML"
                                     onclick="event.stopPropagation()"
-                                    class="ml-1 inline-flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-white">
+                                    title="{{ _('Edit nickname') }}"
+                                    class="ml-2 inline-flex items-center justify-center w-6 h-6 text-gray-500 hover:text-primary hover:bg-gray-100 dark:text-gray-400 dark:hover:text-primary dark:hover:bg-gray-700 rounded transition-colors">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                                 </svg>

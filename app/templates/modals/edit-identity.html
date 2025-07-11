@@ -16,11 +16,11 @@
                             <span class="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <form hx-post="{{ url_for('admin.edit_identity', identity_id=identity.id) }}" hx-target="#user_table" hx-swap="outerHTML swap:0.5s">
-                        <div class="mb-4">
-                            <label for="nickname" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ _("Nickname") }}</label>
+                    <form hx-post="{{ url_for('admin.edit_identity', identity_id=identity.id) }}" hx-target="#user_table" hx-swap="outerHTML swap:0.5s" class="space-y-4 md:space-y-6">
+                        <div>
+                            <label for="nickname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Nickname") }}</label>
                             <input type="text" id="nickname" name="nickname" value="{{ identity.nickname or '' }}"
-                                   class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-primary focus:ring-primary sm:text-sm" placeholder="Enter nickname">
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Enter nickname">
                         </div>
                         <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-gray-800">
                             <button type="submit" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-primary_hover sm:ml-3 sm:w-auto">{{ _("Save") }}</button>

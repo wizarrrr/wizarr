@@ -2,16 +2,16 @@
 
 {% block content %}
 <section class="p-8">
-  <h1 class="text-2xl mb-4">Media Servers</h1>
-  <a href="{{ url_for('media_servers.create_server') }}" class="bg-blue-600 text-white px-4 py-2 rounded">Add Server</a>
+  <h1 class="text-2xl mb-4">{{ _("Media Servers") }}</h1>
+  <a href="{{ url_for('media_servers.create_server') }}" class="bg-blue-600 text-white px-4 py-2 rounded">{{ _("Add Server") }}</a>
   <table class="min-w-full mt-6 border">
     <thead>
       <tr>
-        <th class="px-4 py-2 border">Name</th>
-        <th class="px-4 py-2 border">Type</th>
-        <th class="px-4 py-2 border">URL</th>
-        <th class="px-4 py-2 border">Verified</th>
-        <th class="px-4 py-2 border">Actions</th>
+        <th class="px-4 py-2 border">{{ _("Name") }}</th>
+        <th class="px-4 py-2 border">{{ _("Type") }}</th>
+        <th class="px-4 py-2 border">{{ _("URL") }}</th>
+        <th class="px-4 py-2 border">{{ _("Verified") }}</th>
+        <th class="px-4 py-2 border">{{ _("Actions") }}</th>
       </tr>
     </thead>
     <tbody>
@@ -22,15 +22,15 @@
         <td class="px-4 py-2 border">{{ s.url }}</td>
         <td class="px-4 py-2 border">{{ '✅' if s.verified else '❌' }}</td>
         <td class="px-4 py-2 border text-right">
-          <a href="{{ url_for('media_servers.edit_server', server_id=s.id) }}" class="text-blue-600 mr-2">Edit</a>
-          <form action="{{ url_for('media_servers.delete_server', server_id=s.id) }}" method="post" style="display:inline" onsubmit="return confirm('Delete this server?');">
-            <button type="submit" class="text-red-600">Delete</button>
+          <a href="{{ url_for('media_servers.edit_server', server_id=s.id) }}" class="text-blue-600 mr-2">{{ _("Edit") }}</a>
+          <form action="{{ url_for('media_servers.delete_server', server_id=s.id) }}" method="post" style="display:inline" onsubmit="return confirm('{{ _("Delete this server?") }}');">
+            <button type="submit" class="text-red-600">{{ _("Delete") }}</button>
           </form>
         </td>
       </tr>
       {% else %}
       <tr>
-        <td colspan="4" class="px-4 py-6 text-center text-gray-500">No servers configured yet.</td>
+        <td colspan="5" class="px-4 py-6 text-center text-gray-500">{{ _("No servers configured yet.") }}</td>
       </tr>
       {% endfor %}
     </tbody>
