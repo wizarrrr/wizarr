@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-11 04:06+0000\n"
+"POT-Creation-Date: 2025-07-11 12:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -85,6 +85,10 @@ msgstr ""
 
 #: app/services/servers.py:109
 msgid "RomM"
+msgstr ""
+
+#: app/services/servers.py:131
+msgid "Komga"
 msgstr ""
 
 #: app/templates/admin.html:5
@@ -449,7 +453,7 @@ msgid "Policies"
 msgstr ""
 
 #: app/templates/admin/user_details_modal.html:77
-#: app/templates/modals/invite.html:306
+#: app/templates/modals/invite.html:301
 msgid "Close"
 msgstr ""
 
@@ -465,11 +469,11 @@ msgstr ""
 #: app/templates/modals/bundle-add-steps.html:32
 #: app/templates/modals/create-admin.html:34
 #: app/templates/modals/create-notification-agent.html:86
-#: app/templates/modals/create-server.html:81
+#: app/templates/modals/create-server.html:82
 #: app/templates/modals/edit-admin.html:34
 #: app/templates/modals/edit-identity.html:27
-#: app/templates/modals/edit-server.html:84
-#: app/templates/modals/invite.html:243
+#: app/templates/modals/edit-server.html:85
+#: app/templates/modals/invite.html:238
 #: app/templates/modals/wizard-bundle-form.html:29
 #: app/templates/modals/wizard-simple-step-form.html:28
 #: app/templates/modals/wizard-step-form.html:41
@@ -482,7 +486,7 @@ msgstr ""
 #: app/templates/admin/user_modal.html:48
 #: app/templates/modals/edit-admin.html:33
 #: app/templates/modals/edit-identity.html:26
-#: app/templates/modals/edit-server.html:83
+#: app/templates/modals/edit-server.html:84
 #: app/templates/modals/wizard-bundle-form.html:30
 #: app/templates/modals/wizard-simple-step-form.html:29
 #: app/templates/modals/wizard-step-form.html:42
@@ -586,7 +590,7 @@ msgstr ""
 msgid "Add Server"
 msgstr ""
 
-#: app/templates/modals/create-server.html:80
+#: app/templates/modals/create-server.html:81
 msgid "Test & Add"
 msgstr ""
 
@@ -610,7 +614,7 @@ msgstr ""
 msgid "Edit Server"
 msgstr ""
 
-#: app/templates/modals/invite.html:10 app/templates/modals/invite.html:242
+#: app/templates/modals/invite.html:10 app/templates/modals/invite.html:237
 msgid "Create Invitation"
 msgstr ""
 
@@ -686,49 +690,49 @@ msgid ""
 "number of days. (1-999)"
 msgstr ""
 
-#: app/templates/modals/invite.html:169
+#: app/templates/modals/invite.html:168
 msgid "Target servers"
 msgstr ""
 
-#: app/templates/modals/invite.html:186
+#: app/templates/modals/invite.html:185
 msgid "Invite to Plex Home"
 msgstr ""
 
-#: app/templates/modals/invite.html:191 app/templates/modals/invite.html:202
+#: app/templates/modals/invite.html:190 app/templates/modals/invite.html:201
 #: app/templates/tables/invite_card.html:115
 #: app/templates/tables/user_card.html:91
 msgid "Allow Downloads"
 msgstr ""
 
-#: app/templates/modals/invite.html:196 app/templates/modals/invite.html:207
+#: app/templates/modals/invite.html:195 app/templates/modals/invite.html:206
 msgid "Allow Live TV Access"
 msgstr ""
 
-#: app/templates/modals/invite.html:219
+#: app/templates/modals/invite.html:218
 msgid "Select Libraries"
 msgstr ""
 
-#: app/templates/modals/invite.html:226
+#: app/templates/modals/invite.html:225
 msgid "Loading…"
 msgstr ""
 
-#: app/templates/modals/invite.html:254
+#: app/templates/modals/invite.html:249
 msgid "Successfully generated an Invitation!"
 msgstr ""
 
-#: app/templates/modals/invite.html:262
+#: app/templates/modals/invite.html:257
 msgid "Invitation Link"
 msgstr ""
 
-#: app/templates/modals/invite.html:281
+#: app/templates/modals/invite.html:276
 msgid "Copy"
 msgstr ""
 
-#: app/templates/modals/invite.html:289
+#: app/templates/modals/invite.html:284
 msgid "Link has been copied to clipboard!"
 msgstr ""
 
-#: app/templates/modals/invite.html:299
+#: app/templates/modals/invite.html:294
 msgid "Create Another"
 msgstr ""
 
