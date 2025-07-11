@@ -155,12 +155,23 @@ function startNowPlayingTimers() {
 }
 
 function updateCardTime(card, position, duration) {
-    const timeDisplay = card.querySelector('.flex.justify-between.text-xs span:first-child');
+    const timeDisplay = card.querySelector('.session-time-display');
+    const progressBar = card.querySelector('.session-progress-bar');
+    
     if (timeDisplay) {
         const posSeconds = Math.floor(position / 1000);
+        const durSeconds = Math.floor(duration / 1000);
         const posMins = Math.floor(posSeconds / 60);
+        const durMins = Math.floor(durSeconds / 60);
         const posSecsRemainder = posSeconds % 60;
-        timeDisplay.textContent = `${posMins}:${posSecsRemainder.toString().padStart(2, '0')}`;
+        const durSecsRemainder = durSeconds % 60;
+        
+        timeDisplay.textContent = `${posMins}:${posSecsRemainder.toString().padStart(2, '0')} / ${durMins}:${durSecsRemainder.toString().padStart(2, '0')}`;
+    }
+    
+    if (progressBar && duration > 0) {
+        const progressPercent = (position / duration) * 100;
+        progressBar.style.width = `${Math.min(progressPercent, 100)}%`;
     }
 }
 
