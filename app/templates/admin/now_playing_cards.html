@@ -65,7 +65,7 @@
             <div class="flex flex-col justify-between p-3 space-y-2 text-gray-300 flex-grow min-w-0 overflow-hidden">
                 <!-- Header row -->
                 <div class="flex items-start justify-between gap-2">
-                    <h3 class="text-sm font-semibold text-white leading-tight break-words line-clamp-2" title="{{ session.media_title }}">{{ session.media_title }}</h3>
+                    <h3 class="text-sm font-semibold text-white leading-tight break-words line-clamp-2 pr-8" title="{{ session.media_title }}">{{ session.media_title }}</h3>
                 </div>
 
                 <!-- Meta line -->
@@ -74,7 +74,7 @@
                 </p>
 
                 <!-- Time & state row -->
-                <div class="flex items-center gap-2 flex-wrap text-xs">
+                <div class="flex items-center gap-2 text-xs">
                     {% if position and duration %}
                         {% set pos_seconds = (position // 1000) %}
                         {% set dur_seconds = (duration // 1000) %}

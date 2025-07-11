@@ -233,6 +233,76 @@ class JellyfinClient(RestApiMixin):
             db.session.rollback()
             return False, "An unexpected error occurred."
 
+    def _get_artwork_urls(self, item_id: str, media_type: str = "", series_id: str = None) -> dict[str, str | None]:
+        """
+        Get artwork URLs for an item using remote image providers.
+        
+        Args:
+            item_id: The Jellyfin item ID
+            media_type: The type of media (movie, episode, etc.)
+            series_id: The series ID for TV episodes
+            
+        Returns:
+            Dictionary with artwork_url, fallback_artwork_url, and thumbnail_url
+        """
+        if not item_id:
+            return {"artwork_url": None, "fallback_artwork_url": None, "thumbnail_url": None}
+        
+        # For TV episodes, use the series poster instead of episode thumbnail
+        poster_item_id = series_id if (media_type == "episode" and series_id) else item_id
+        
+        try:
+            # Get remote poster images
+            poster_response = self.get(f"/Items/{poster_item_id}/RemoteImages", params={
+                "type": "Primary",
+                "limit": 2
+            }).json()
+            
+            artwork_url = None
+            fallback_artwork_url = None
+            thumbnail_url = None
+            
+            # Get the best poster
+            if poster_response.get("Images"):
+                images = poster_response["Images"]
+                if images:
+                    artwork_url = images[0].get("Url")
+                    fallback_artwork_url = images[0].get("ThumbnailUrl") or artwork_url
+            
+            # For thumbnails, try backdrops
+            try:
+                backdrop_response = self.get(f"/Items/{poster_item_id}/RemoteImages", params={
+                    "type": "Backdrop",
+                    "limit": 1
+                }).json()
+                
+                if backdrop_response.get("Images"):
+                    thumbnail_url = backdrop_response["Images"][0].get("Url")
+            except Exception:
+                pass
+            
+            # If no thumbnail, use the poster
+            if not thumbnail_url:
+                thumbnail_url = fallback_artwork_url
+            
+            return {
+                "artwork_url": artwork_url,
+                "fallback_artwork_url": fallback_artwork_url,
+                "thumbnail_url": thumbnail_url
+            }
+            
+        except Exception as e:
+            logging.warning(f"Failed to get remote images for item {item_id}: {e}")
+            
+            # Simple fallback to direct URLs
+            base_params = f"?api_key={self.token}" if self.token else ""
+            fallback_url = f"{self.url}/Items/{poster_item_id}/Images/Primary{base_params}"
+            return {
+                "artwork_url": fallback_url,
+                "fallback_artwork_url": fallback_url,
+                "thumbnail_url": fallback_url
+            }
+
     def now_playing(self) -> list[dict]:
         """Return a list of currently playing sessions from Jellyfin.
         
@@ -287,36 +357,12 @@ class JellyfinClient(RestApiMixin):
                 session_id = session.get("Id", "")
                 
                 # ------------------------------------------------------------------
-                # Poster & secondary artwork (thumbnail / backdrop)
+                # Poster & secondary artwork (thumbnail / backdrop) - IMPROVED
                 # ------------------------------------------------------------------
-                artwork_url: str | None = None
-                fallback_artwork_url: str | None = None
-                thumbnail_url: str | None = None
-
                 item_id = now_playing_item.get("Id")
-                if item_id:
-                    base_params = f"?api_key={self.token}" if self.token else ""
-
-                    # 1) For artwork, try to get proper poster-style images
-                    if media_type in ['movie', 'series']:
-                        # For movies/shows, try Box image type first (more likely to be poster-style)
-                        artwork_url = f"{self.url}/Items/{item_id}/Images/Box{base_params}&width=300&height=450"
-                        # Fallback to Primary with poster aspect ratio constraints
-                        fallback_artwork_url = f"{self.url}/Items/{item_id}/Images/Primary{base_params}&width=300&height=450"
-                    else:
-                        # For other media types, use Primary as-is
-                        artwork_url = f"{self.url}/Items/{item_id}/Images/Primary{base_params}"
-                        fallback_artwork_url = artwork_url
-
-                    # 2) For thumbnail, try to get landscape/backdrop images
-                    thumbnail_candidates = [
-                        f"{self.url}/Items/{item_id}/Images/Thumb{base_params}",
-                        f"{self.url}/Items/{item_id}/Images/Backdrop{base_params}",
-                        f"{self.url}/Items/{item_id}/Images/Primary{base_params}",     # Fallback to primary
-                    ]
-
-                    thumbnail_url = thumbnail_candidates[0]
-
+                series_id = now_playing_item.get("SeriesId")  # For TV episodes
+                artwork_info = self._get_artwork_urls(item_id, media_type, series_id)
+                
                 # Get transcoding information
                 transcoding_info = {
                     "is_transcoding": False,
@@ -374,9 +420,9 @@ class JellyfinClient(RestApiMixin):
                     "device_name": session.get("DeviceName", ""),
                     "position_ms": play_state.get("PositionTicks", 0) // 10000,  # Convert from ticks to ms
                     "duration_ms": now_playing_item.get("RunTimeTicks", 0) // 10000,  # Convert from ticks to ms
-                    "artwork_url": artwork_url,
-                    "fallback_artwork_url": fallback_artwork_url,
-                    "thumbnail_url": thumbnail_url,
+                    "artwork_url": artwork_info["artwork_url"],
+                    "fallback_artwork_url": artwork_info["fallback_artwork_url"],
+                    "thumbnail_url": artwork_info["thumbnail_url"],
                     "transcoding": transcoding_info,
                 }
                 
