@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-11 12:59+0000\n"
+"POT-Creation-Date: 2025-07-11 13:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,16 +17,156 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
+#: app/blueprints/admin_accounts/routes.py:35
+msgid "Admin created"
+msgstr ""
+
+#: app/blueprints/admin_accounts/routes.py:59
+msgid "Admin updated"
+msgstr ""
+
 #: app/blueprints/auth/routes.py:51
 msgid "Invalid username or password"
+msgstr ""
+
+#: app/blueprints/settings/routes.py:153 app/blueprints/settings/routes.py:241
+msgid "Settings saved successfully!"
 msgstr ""
 
 #: app/blueprints/settings/routes.py:211
 msgid "Library scan failed"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:241
-msgid "Settings saved successfully!"
+#: app/blueprints/setup/routes.py:57
+msgid "Admin account created – welcome!"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:133
+msgid "Step created"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:172
+msgid "Step updated"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:198
+msgid "Step deleted"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:265
+msgid "Bundle created"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:286
+msgid "Bundle updated"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:303
+msgid "Bundle deleted"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:377
+msgid "Steps added"
+msgstr ""
+
+#: app/forms/admin.py:9
+msgid "Username must be 3 to 15 characters."
+msgstr ""
+
+#: app/forms/admin.py:13
+msgid "Password must be at least 8 characters."
+msgstr ""
+
+#: app/forms/admin.py:16
+msgid ""
+"Password must contain at least one uppercase letter, one lowercase "
+"letter, and one number."
+msgstr ""
+
+#: app/forms/admin.py:22 app/forms/admin.py:28
+#: app/templates/admin/user_details_modal.html:57 app/templates/login.html:23
+#: app/templates/modals/create-admin.html:17
+#: app/templates/modals/edit-admin.html:17
+msgid "Username"
+msgstr ""
+
+#: app/forms/admin.py:23 app/templates/choose-password.html:23
+#: app/templates/login.html:29 app/templates/modals/create-admin.html:22
+msgid "Password"
+msgstr ""
+
+#: app/forms/admin.py:24 app/forms/admin.py:32
+#: app/templates/modals/create-admin.html:27
+#: app/templates/modals/edit-admin.html:27
+msgid "Confirm password"
+msgstr ""
+
+#: app/forms/admin.py:24 app/forms/admin.py:32
+msgid "Passwords must match."
+msgstr ""
+
+#: app/forms/admin.py:31
+msgid "New Password"
+msgstr ""
+
+#: app/forms/admin.py:41
+msgid "Please confirm the new password."
+msgstr ""
+
+#: app/forms/settings.py:10
+msgid "Server Type"
+msgstr ""
+
+#: app/forms/settings.py:14
+msgid "Server Name"
+msgstr ""
+
+#: app/forms/settings.py:15
+msgid "Server URL"
+msgstr ""
+
+#: app/forms/settings.py:16
+msgid "API Key"
+msgstr ""
+
+#: app/forms/settings.py:17
+msgid "RomM Username"
+msgstr ""
+
+#: app/forms/settings.py:18
+msgid "RomM Password"
+msgstr ""
+
+#: app/forms/settings.py:19 app/templates/admin/user_details_modal.html:60
+#: app/templates/tables/invite_card.html:79
+msgid "Libraries"
+msgstr ""
+
+#: app/forms/settings.py:20 app/forms/settings.py:28
+#: app/templates/modals/invite.html:190 app/templates/modals/invite.html:201
+#: app/templates/tables/invite_card.html:115
+#: app/templates/tables/user_card.html:92
+msgid "Allow Downloads"
+msgstr ""
+
+#: app/forms/settings.py:21 app/forms/settings.py:29
+msgid "Allow Live TV"
+msgstr ""
+
+#: app/forms/settings.py:22
+msgid "Overseerr/Ombi URL"
+msgstr ""
+
+#: app/forms/settings.py:23
+msgid "Ombi API Key"
+msgstr ""
+
+#: app/forms/settings.py:24
+msgid "Discord ID"
+msgstr ""
+
+#: app/forms/settings.py:25
+msgid "External URL"
 msgstr ""
 
 #: app/services/servers.py:13
@@ -107,11 +247,6 @@ msgstr ""
 msgid "Choose a password for the remaining servers"
 msgstr ""
 
-#: app/templates/choose-password.html:23 app/templates/login.html:29
-#: app/templates/modals/create-admin.html:22
-msgid "Password"
-msgstr ""
-
 #: app/templates/choose-password.html:27
 msgid "Confirm Password"
 msgstr ""
@@ -130,12 +265,6 @@ msgstr ""
 
 #: app/templates/login.html:18
 msgid "Login"
-msgstr ""
-
-#: app/templates/admin/user_details_modal.html:48 app/templates/login.html:23
-#: app/templates/modals/create-admin.html:17
-#: app/templates/modals/edit-admin.html:17
-msgid "Username"
 msgstr ""
 
 #: app/templates/login.html:41
@@ -164,7 +293,7 @@ msgstr ""
 msgid "Join the Plex Server"
 msgstr ""
 
-#: app/templates/tables/user_card.html:81 app/templates/user-plex-login.html:29
+#: app/templates/tables/user_card.html:82 app/templates/user-plex-login.html:29
 #: app/templates/user-plex-login.html:40
 msgid "Invite Code"
 msgstr ""
@@ -284,6 +413,7 @@ msgid "User"
 msgstr ""
 
 #: app/templates/admin/now_playing_cards.html:154
+#: app/templates/servers/index.html:11
 msgid "Type"
 msgstr ""
 
@@ -431,41 +561,54 @@ msgstr ""
 msgid "Failed to load statistics"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:37
+#: app/templates/admin/user_details_modal.html:10
+msgid "User Details"
+msgstr ""
+
+#: app/templates/admin/user_details_modal.html:46
 msgid "Joined"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:38
+#: app/templates/admin/user_details_modal.html:47
 msgid "Unknown"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:51
-#: app/templates/tables/invite_card.html:79
-msgid "Libraries"
-msgstr ""
-
-#: app/templates/admin/user_details_modal.html:59
+#: app/templates/admin/user_details_modal.html:68
 msgid "All libraries"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:64
+#: app/templates/admin/user_details_modal.html:73
 msgid "Policies"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:77
+#: app/templates/admin/user_details_modal.html:89
 #: app/templates/modals/invite.html:301
 msgid "Close"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:17
+#: app/templates/admin/user_modal.html:10
 msgid "Edit expiry"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:27
+#: app/templates/admin/user_modal.html:31
 msgid "Expiry date (leave blank for never)"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:41
+#: app/templates/admin/user_modal.html:42
+#: app/templates/modals/edit-admin.html:33
+#: app/templates/modals/edit-identity.html:26
+#: app/templates/modals/edit-server.html:84
+#: app/templates/modals/wizard-bundle-form.html:30
+#: app/templates/modals/wizard-simple-step-form.html:29
+#: app/templates/modals/wizard-step-form.html:42
+#: app/templates/settings/partials/server_form.html:225
+#: app/templates/settings/wizard/bundle_form.html:21
+#: app/templates/settings/wizard/form.html:32
+#: app/templates/settings/wizard/simple_form.html:21
+msgid "Save"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:47
 #: app/templates/modals/bundle-add-steps.html:32
 #: app/templates/modals/create-admin.html:34
 #: app/templates/modals/create-notification-agent.html:86
@@ -483,20 +626,6 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:48
-#: app/templates/modals/edit-admin.html:33
-#: app/templates/modals/edit-identity.html:26
-#: app/templates/modals/edit-server.html:84
-#: app/templates/modals/wizard-bundle-form.html:30
-#: app/templates/modals/wizard-simple-step-form.html:29
-#: app/templates/modals/wizard-step-form.html:42
-#: app/templates/settings/partials/server_form.html:225
-#: app/templates/settings/wizard/bundle_form.html:21
-#: app/templates/settings/wizard/form.html:32
-#: app/templates/settings/wizard/simple_form.html:21
-msgid "Save"
-msgstr ""
-
 #: app/templates/admin/users.html:21
 msgid "Link"
 msgstr ""
@@ -505,7 +634,7 @@ msgstr ""
 msgid "Unlink"
 msgstr ""
 
-#: app/templates/admin/users.html:23
+#: app/templates/admin/users.html:23 app/templates/servers/index.html:27
 msgid "Delete"
 msgstr ""
 
@@ -556,11 +685,6 @@ msgstr ""
 msgid "Add Administrator"
 msgstr ""
 
-#: app/templates/modals/create-admin.html:27
-#: app/templates/modals/edit-admin.html:27
-msgid "Confirm password"
-msgstr ""
-
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
 msgstr ""
@@ -586,7 +710,7 @@ msgid "Test & Create Agent"
 msgstr ""
 
 #: app/templates/modals/create-server.html:10
-#: app/templates/settings/servers.html:90
+#: app/templates/servers/index.html:6 app/templates/settings/servers.html:90
 msgid "Add Server"
 msgstr ""
 
@@ -647,7 +771,7 @@ msgid "1 month"
 msgstr ""
 
 #: app/templates/modals/invite.html:61 app/templates/tables/invite_card.html:68
-#: app/templates/tables/user_card.html:70
+#: app/templates/tables/user_card.html:71
 msgid "Never"
 msgstr ""
 
@@ -698,12 +822,6 @@ msgstr ""
 msgid "Invite to Plex Home"
 msgstr ""
 
-#: app/templates/modals/invite.html:190 app/templates/modals/invite.html:201
-#: app/templates/tables/invite_card.html:115
-#: app/templates/tables/user_card.html:91
-msgid "Allow Downloads"
-msgstr ""
-
 #: app/templates/modals/invite.html:195 app/templates/modals/invite.html:206
 msgid "Allow Live TV Access"
 msgstr ""
@@ -739,6 +857,38 @@ msgstr ""
 #: app/templates/modals/wizard-step-form.html:37
 #: app/templates/settings/wizard/form.html:28
 msgid "Comma-separated setting keys (leave empty for always visible)"
+msgstr ""
+
+#: app/templates/servers/index.html:5 app/templates/settings/servers.html:6
+msgid "Media Servers"
+msgstr ""
+
+#: app/templates/servers/index.html:10
+msgid "Name"
+msgstr ""
+
+#: app/templates/servers/index.html:12
+msgid "URL"
+msgstr ""
+
+#: app/templates/servers/index.html:13 app/templates/settings/servers.html:41
+msgid "Verified"
+msgstr ""
+
+#: app/templates/servers/index.html:14
+msgid "Actions"
+msgstr ""
+
+#: app/templates/servers/index.html:25
+msgid "Edit"
+msgstr ""
+
+#: app/templates/servers/index.html:26
+msgid "Delete this server?"
+msgstr ""
+
+#: app/templates/servers/index.html:33
+msgid "No servers configured yet."
 msgstr ""
 
 #: app/templates/settings/admins.html:6
@@ -865,14 +1015,6 @@ msgstr ""
 
 #: app/templates/settings/notifications.html:85
 msgid "Get started by creating your first notification agent"
-msgstr ""
-
-#: app/templates/settings/servers.html:6
-msgid "Media Servers"
-msgstr ""
-
-#: app/templates/settings/servers.html:41
-msgid "Verified"
 msgstr ""
 
 #: app/templates/settings/servers.html:41
@@ -1013,7 +1155,7 @@ msgid "Created"
 msgstr ""
 
 #: app/templates/tables/invite_card.html:52
-#: app/templates/tables/user_card.html:63
+#: app/templates/tables/user_card.html:64
 msgid "Expires"
 msgstr ""
 
@@ -1035,6 +1177,10 @@ msgstr ""
 
 #: app/templates/tables/user_card.html:3
 msgid "There are currently no users."
+msgstr ""
+
+#: app/templates/tables/user_card.html:34
+msgid "Edit nickname"
 msgstr ""
 
 #: app/templates/wizard/frame.html:34
