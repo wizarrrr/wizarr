@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-10 04:01+0000\n"
+"POT-Creation-Date: 2025-07-11 04:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -165,7 +165,7 @@ msgstr ""
 msgid "Invite Code"
 msgstr ""
 
-#: app/templates/admin/invite.html:20 app/templates/user-plex-login.html:32
+#: app/templates/modals/invite.html:39 app/templates/user-plex-login.html:32
 #: app/templates/user-plex-login.html:44
 msgid "E.g. XMFGEJIKNQ"
 msgstr ""
@@ -207,7 +207,7 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: app/templates/admin/home.html:16
+#: app/templates/admin/home.html:16 app/templates/admin/invites.html:14
 msgid "New Invite"
 msgstr ""
 
@@ -215,131 +215,8 @@ msgstr ""
 msgid "Now Playing"
 msgstr ""
 
-#: app/templates/admin/home.html:83
-msgid "Create New Invite"
-msgstr ""
-
-#: app/templates/admin/invite.html:9
-msgid "Invite Code String"
-msgstr ""
-
-#: app/templates/admin/invite.html:10
-msgid "optional"
-msgstr ""
-
-#: app/templates/admin/invite.html:30
-msgid "Expiration"
-msgstr ""
-
-#: app/templates/admin/invite.html:39
-msgid "1 day"
-msgstr ""
-
-#: app/templates/admin/invite.html:40
-msgid "1 week"
-msgstr ""
-
-#: app/templates/admin/invite.html:41
-msgid "1 month"
-msgstr ""
-
-#: app/templates/admin/invite.html:42 app/templates/tables/invite_card.html:68
-#: app/templates/tables/user_card.html:70
-msgid "Never"
-msgstr ""
-
-#: app/templates/admin/invite.html:50
-msgid "Wizard bundle"
-msgstr ""
-
-#: app/templates/admin/invite.html:53
-msgid "Automatic"
-msgstr ""
-
-#: app/templates/admin/invite.html:68
-msgid "Advanced Options"
-msgstr ""
-
-#: app/templates/admin/invite.html:77
-msgid "Invite Settings"
-msgstr ""
-
-#: app/templates/admin/invite.html:83
-msgid "Unlimited Usages"
-msgstr ""
-
-#: app/templates/admin/invite.html:92 app/templates/admin/invite.html:125
-#: app/templates/tables/invite_card.html:111
-msgid "Duration"
-msgstr ""
-
-#: app/templates/admin/invite.html:93
-msgid "in days"
-msgstr ""
-
-#: app/templates/admin/invite.html:113
-msgid "Show Information"
-msgstr ""
-
-#: app/templates/admin/invite.html:127
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-
-#: app/templates/admin/invite.html:150
-msgid "Target servers"
-msgstr ""
-
-#: app/templates/admin/invite.html:167
-msgid "Invite to Plex Home"
-msgstr ""
-
-#: app/templates/admin/invite.html:172 app/templates/admin/invite.html:183
-#: app/templates/tables/invite_card.html:121
-#: app/templates/tables/user_card.html:91
-msgid "Allow Downloads"
-msgstr ""
-
-#: app/templates/admin/invite.html:177 app/templates/admin/invite.html:188
-msgid "Allow Live TV Access"
-msgstr ""
-
-#: app/templates/admin/invite.html:200
-msgid "Select Libraries"
-msgstr ""
-
-#: app/templates/admin/invite.html:207
-msgid "Loading…"
-msgstr ""
-
-#: app/templates/admin/invite.html:222
-msgid "Create Invitation"
-msgstr ""
-
-#: app/templates/admin/invite.html:232
-msgid "Successfully generated an Invitation!"
-msgstr ""
-
-#: app/templates/admin/invite.html:240
-msgid "Invitation Link"
-msgstr ""
-
-#: app/templates/admin/invite.html:259
-msgid "Copy"
-msgstr ""
-
-#: app/templates/admin/invite.html:267
-msgid "Link has been copied to clipboard!"
-msgstr ""
-
-#: app/templates/admin/invite.html:277
-#: app/templates/admin/user_details_modal.html:77
-msgid "Close"
-msgstr ""
-
-#: app/templates/admin/invite.html:285
-msgid "Create Another"
+#: app/templates/admin/invites.html:5
+msgid "Invitations"
 msgstr ""
 
 #: app/templates/admin/library_breakdown_card.html:8
@@ -407,6 +284,7 @@ msgid "Type"
 msgstr ""
 
 #: app/templates/admin/now_playing_cards.html:158
+#: app/templates/settings/notifications.html:65
 msgid "Status"
 msgstr ""
 
@@ -423,6 +301,7 @@ msgid "Progress"
 msgstr ""
 
 #: app/templates/admin/now_playing_cards.html:174
+#: app/templates/settings/wizard/index.html:47
 msgid "Server"
 msgstr ""
 
@@ -487,6 +366,7 @@ msgstr ""
 
 #: app/templates/admin/server_health_card.html:65
 #: app/templates/admin/server_stats_card.html:29
+#: app/templates/settings/notifications.html:68
 msgid "Active"
 msgstr ""
 
@@ -568,6 +448,11 @@ msgstr ""
 msgid "Policies"
 msgstr ""
 
+#: app/templates/admin/user_details_modal.html:77
+#: app/templates/modals/invite.html:306
+msgid "Close"
+msgstr ""
+
 #: app/templates/admin/user_modal.html:17
 msgid "Edit expiry"
 msgstr ""
@@ -582,8 +467,9 @@ msgstr ""
 #: app/templates/modals/create-notification-agent.html:86
 #: app/templates/modals/create-server.html:81
 #: app/templates/modals/edit-admin.html:34
-#: app/templates/modals/edit-identity.html:13
+#: app/templates/modals/edit-identity.html:27
 #: app/templates/modals/edit-server.html:84
+#: app/templates/modals/invite.html:243
 #: app/templates/modals/wizard-bundle-form.html:29
 #: app/templates/modals/wizard-simple-step-form.html:28
 #: app/templates/modals/wizard-step-form.html:41
@@ -595,12 +481,11 @@ msgstr ""
 
 #: app/templates/admin/user_modal.html:48
 #: app/templates/modals/edit-admin.html:33
-#: app/templates/modals/edit-identity.html:14
+#: app/templates/modals/edit-identity.html:26
 #: app/templates/modals/edit-server.html:83
 #: app/templates/modals/wizard-bundle-form.html:30
 #: app/templates/modals/wizard-simple-step-form.html:29
 #: app/templates/modals/wizard-step-form.html:42
-#: app/templates/settings/general.html:75
 #: app/templates/settings/partials/server_form.html:225
 #: app/templates/settings/wizard/bundle_form.html:21
 #: app/templates/settings/wizard/form.html:32
@@ -617,11 +502,6 @@ msgid "Unlink"
 msgstr ""
 
 #: app/templates/admin/users.html:23
-#: app/templates/settings/wizard/bundles.html:23
-#: app/templates/settings/wizard/bundles.html:49
-#: app/templates/settings/wizard/index.html:48
-#: app/templates/settings/wizard/index.html:82
-#: app/templates/settings/wizard/steps.html:36
 msgid "Delete"
 msgstr ""
 
@@ -654,9 +534,7 @@ msgid "Add steps to bundle"
 msgstr ""
 
 #: app/templates/modals/bundle-add-steps.html:23
-#: app/templates/settings/wizard/bundles.html:39
-#: app/templates/settings/wizard/index.html:38
-#: app/templates/settings/wizard/index.html:98
+#: app/templates/settings/wizard/bundles.html:47
 #: app/templates/settings/wizard/steps.html:27
 msgid "Untitled"
 msgstr ""
@@ -720,16 +598,138 @@ msgstr ""
 msgid "New Password (optional)"
 msgstr ""
 
-#: app/templates/modals/edit-identity.html:4
+#: app/templates/modals/edit-identity.html:10
 msgid "Edit Identity"
 msgstr ""
 
-#: app/templates/modals/edit-identity.html:7
+#: app/templates/modals/edit-identity.html:21
 msgid "Nickname"
 msgstr ""
 
 #: app/templates/modals/edit-server.html:10
 msgid "Edit Server"
+msgstr ""
+
+#: app/templates/modals/invite.html:10 app/templates/modals/invite.html:242
+msgid "Create Invitation"
+msgstr ""
+
+#: app/templates/modals/invite.html:10
+msgid "Invitation Created"
+msgstr ""
+
+#: app/templates/modals/invite.html:28
+msgid "Invite Code String"
+msgstr ""
+
+#: app/templates/modals/invite.html:29
+msgid "optional"
+msgstr ""
+
+#: app/templates/modals/invite.html:49
+msgid "Expiration"
+msgstr ""
+
+#: app/templates/modals/invite.html:58
+msgid "1 day"
+msgstr ""
+
+#: app/templates/modals/invite.html:59
+msgid "1 week"
+msgstr ""
+
+#: app/templates/modals/invite.html:60
+msgid "1 month"
+msgstr ""
+
+#: app/templates/modals/invite.html:61 app/templates/tables/invite_card.html:68
+#: app/templates/tables/user_card.html:70
+msgid "Never"
+msgstr ""
+
+#: app/templates/modals/invite.html:69
+msgid "Wizard bundle"
+msgstr ""
+
+#: app/templates/modals/invite.html:72
+msgid "Automatic"
+msgstr ""
+
+#: app/templates/modals/invite.html:87
+msgid "Advanced Options"
+msgstr ""
+
+#: app/templates/modals/invite.html:96
+msgid "Invite Settings"
+msgstr ""
+
+#: app/templates/modals/invite.html:102
+msgid "Unlimited Usages"
+msgstr ""
+
+#: app/templates/modals/invite.html:111 app/templates/modals/invite.html:144
+#: app/templates/tables/invite_card.html:105
+msgid "Duration"
+msgstr ""
+
+#: app/templates/modals/invite.html:112
+msgid "in days"
+msgstr ""
+
+#: app/templates/modals/invite.html:132
+msgid "Show Information"
+msgstr ""
+
+#: app/templates/modals/invite.html:146
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+
+#: app/templates/modals/invite.html:169
+msgid "Target servers"
+msgstr ""
+
+#: app/templates/modals/invite.html:186
+msgid "Invite to Plex Home"
+msgstr ""
+
+#: app/templates/modals/invite.html:191 app/templates/modals/invite.html:202
+#: app/templates/tables/invite_card.html:115
+#: app/templates/tables/user_card.html:91
+msgid "Allow Downloads"
+msgstr ""
+
+#: app/templates/modals/invite.html:196 app/templates/modals/invite.html:207
+msgid "Allow Live TV Access"
+msgstr ""
+
+#: app/templates/modals/invite.html:219
+msgid "Select Libraries"
+msgstr ""
+
+#: app/templates/modals/invite.html:226
+msgid "Loading…"
+msgstr ""
+
+#: app/templates/modals/invite.html:254
+msgid "Successfully generated an Invitation!"
+msgstr ""
+
+#: app/templates/modals/invite.html:262
+msgid "Invitation Link"
+msgstr ""
+
+#: app/templates/modals/invite.html:281
+msgid "Copy"
+msgstr ""
+
+#: app/templates/modals/invite.html:289
+msgid "Link has been copied to clipboard!"
+msgstr ""
+
+#: app/templates/modals/invite.html:299
+msgid "Create Another"
 msgstr ""
 
 #: app/templates/modals/wizard-step-form.html:37
@@ -753,61 +753,114 @@ msgstr ""
 msgid "General Settings"
 msgstr ""
 
-#: app/templates/settings/general.html:16
+#: app/templates/settings/general.html:8
+msgid "Configure your application's basic settings and preferences"
+msgstr ""
+
+#: app/templates/settings/general.html:33
 msgid "Display"
 msgstr ""
 
-#: app/templates/settings/general.html:26
+#: app/templates/settings/general.html:34
+msgid "Configure how your application appears to users"
+msgstr ""
+
+#: app/templates/settings/general.html:59
 msgid "Integrations"
 msgstr ""
 
-#: app/templates/settings/general.html:31
-#: app/templates/settings/general.html:41
-#: app/templates/settings/general.html:54
+#: app/templates/settings/general.html:60
+msgid "Connect with external services and applications"
+msgstr ""
+
+#: app/templates/settings/general.html:70
+#: app/templates/settings/general.html:80
+#: app/templates/settings/general.html:108
 #: app/templates/settings/partials/server_form.html:187
 #: app/templates/settings/partials/server_form.html:200
 #: app/templates/settings/partials/server_form.html:212
 msgid "Optional, leave empty to disable"
 msgstr ""
 
-#: app/templates/settings/general.html:49
+#: app/templates/settings/general.html:97
 msgid "Community"
 msgstr ""
 
-#: app/templates/settings/general.html:62
+#: app/templates/settings/general.html:98
+msgid "Connect with your community and social platforms"
+msgstr ""
+
+#: app/templates/settings/general.html:126
 msgid "Access Control"
 msgstr ""
 
-#: app/templates/settings/index.html:2
+#: app/templates/settings/general.html:127
+msgid "Manage user access and permissions"
+msgstr ""
+
+#: app/templates/settings/general.html:136
+msgid "Control access to the wizard setup process"
+msgstr ""
+
+#: app/templates/settings/general.html:153
+msgid "Save Settings"
+msgstr ""
+
+#: app/templates/settings/index.html:2 app/templates/settings/index.html:7
 msgid "Settings"
 msgstr ""
 
-#: app/templates/settings/index.html:37
+#: app/templates/settings/index.html:8
+msgid "Manage your application settings and preferences"
+msgstr ""
+
+#: app/templates/settings/index.html:25
 msgid "General"
 msgstr ""
 
-#: app/templates/settings/index.html:67
+#: app/templates/settings/index.html:39
 msgid "Alerts"
 msgstr ""
 
-#: app/templates/settings/index.html:96
+#: app/templates/settings/index.html:53
 msgid "Servers"
 msgstr ""
 
-#: app/templates/settings/index.html:117
+#: app/templates/settings/index.html:67
 msgid "Admins"
 msgstr ""
 
-#: app/templates/settings/index.html:147
+#: app/templates/settings/index.html:82
 msgid "Wizard"
 msgstr ""
 
-#: app/templates/settings/notifications.html:6
+#: app/templates/settings/notifications.html:9
 msgid "Notification Agents"
 msgstr ""
 
-#: app/templates/settings/notifications.html:38
-msgid "Create Agent"
+#: app/templates/settings/notifications.html:10
+msgid "Configure notification services to alert you about important events"
+msgstr ""
+
+#: app/templates/settings/notifications.html:22
+#: app/templates/settings/notifications.html:97
+msgid "Add Agent"
+msgstr ""
+
+#: app/templates/settings/notifications.html:52
+msgid "Are you sure you want to delete"
+msgstr ""
+
+#: app/templates/settings/notifications.html:54
+msgid "Delete agent"
+msgstr ""
+
+#: app/templates/settings/notifications.html:84
+msgid "No notification agents"
+msgstr ""
+
+#: app/templates/settings/notifications.html:85
+msgid "Get started by creating your first notification agent"
 msgstr ""
 
 #: app/templates/settings/servers.html:6
@@ -838,73 +891,100 @@ msgstr ""
 msgid "Scan For Libraries"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:6
-#: app/templates/tables/invite_card.html:99
-msgid "Default"
+#: app/templates/settings/wizard/_sub_nav.html:16
+msgid "Default Steps"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:10
-msgid "Custom"
+#: app/templates/settings/wizard/_sub_nav.html:30
+msgid "Custom Bundles"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:17
-#: app/templates/settings/wizard/index.html:12
-msgid "Create step"
+#: app/templates/settings/wizard/_sub_nav.html:47
+msgid "Create"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:21
-msgid "Create bundle"
+#: app/templates/settings/wizard/_sub_nav.html:78
+msgid "Create Step"
+msgstr ""
+
+#: app/templates/settings/wizard/_sub_nav.html:79
+msgid "Add a new wizard step"
+msgstr ""
+
+#: app/templates/settings/wizard/_sub_nav.html:95
+msgid "Create Bundle"
+msgstr ""
+
+#: app/templates/settings/wizard/_sub_nav.html:96
+msgid "Create a collection of steps"
 msgstr ""
 
 #: app/templates/settings/wizard/bundles.html:8
-#: app/templates/settings/wizard/index.html:67
 msgid "No bundles found."
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:18
-#: app/templates/settings/wizard/bundles.html:44
-#: app/templates/settings/wizard/index.html:43
-#: app/templates/settings/wizard/index.html:77
-#: app/templates/settings/wizard/steps.html:31
-msgid "Edit"
-msgstr ""
-
-#: app/templates/settings/wizard/bundles.html:22
-#: app/templates/settings/wizard/index.html:81
+#: app/templates/settings/wizard/bundles.html:26
 msgid "Are you sure you want to delete this bundle?"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:48
-#: app/templates/settings/wizard/index.html:47
-#: app/templates/settings/wizard/steps.html:35
+#: app/templates/settings/wizard/bundles.html:60
+#: app/templates/settings/wizard/index.html:100
+#: app/templates/settings/wizard/steps.html:39
 msgid "Are you sure you want to delete this step?"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:61
-#: app/templates/settings/wizard/index.html:105
+#: app/templates/settings/wizard/bundles.html:77
 msgid "Add step"
 msgstr ""
 
 #: app/templates/settings/wizard/form.html:37
+#: app/templates/settings/wizard/index.html:57
 msgid "Preview"
 msgstr ""
 
-#: app/templates/settings/wizard/index.html:8
+#: app/templates/settings/wizard/index.html:9
 msgid "Wizard Steps"
 msgstr ""
 
-#: app/templates/settings/wizard/index.html:17
-#: app/templates/settings/wizard/steps.html:8
-msgid "No steps found."
+#: app/templates/settings/wizard/index.html:10
+msgid "Manage your wizard steps and bundles for user onboarding"
 msgstr ""
 
-#: app/templates/settings/wizard/index.html:26
+#: app/templates/settings/wizard/index.html:29
+msgid "No wizard steps found"
+msgstr ""
+
+#: app/templates/settings/wizard/index.html:30
+msgid "Get started by creating your first wizard step"
+msgstr ""
+
+#: app/templates/settings/wizard/index.html:48
+msgid "steps configured"
+msgstr ""
+
+#: app/templates/settings/wizard/index.html:53
 #: app/templates/settings/wizard/steps.html:17
 msgid "Preview Wizard"
 msgstr ""
 
-#: app/templates/settings/wizard/index.html:63
-msgid "Wizard Bundles"
+#: app/templates/settings/wizard/index.html:76
+msgid "Untitled Step"
+msgstr ""
+
+#: app/templates/settings/wizard/index.html:79
+msgid "Step"
+msgstr ""
+
+#: app/templates/settings/wizard/index.html:90
+msgid "Edit step"
+msgstr ""
+
+#: app/templates/settings/wizard/index.html:102
+msgid "Delete step"
+msgstr ""
+
+#: app/templates/settings/wizard/steps.html:8
+msgid "No steps found."
 msgstr ""
 
 #: app/templates/setup/admin_account.html:14
@@ -937,11 +1017,15 @@ msgstr ""
 msgid "Expired"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:111
+#: app/templates/tables/invite_card.html:93
+msgid "Default"
+msgstr ""
+
+#: app/templates/tables/invite_card.html:105
 msgid "days"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:131
+#: app/templates/tables/invite_card.html:125
 msgid "Unlimited"
 msgstr ""
 
