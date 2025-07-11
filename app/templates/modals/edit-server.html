@@ -49,16 +49,6 @@
                                 <input type="password" name="server_password" id="server_password" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             </div>
                         </div>
-                        <div id="komga-options" style="display:none;">
-                            <div>
-                                <label for="komga_username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Komga Username</label>
-                                <input type="text" name="komga_username" id="komga_username" placeholder="admin" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                            </div>
-                            <div>
-                                <label for="komga_password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Komga Password</label>
-                                <input type="password" name="komga_password" id="komga_password" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                            </div>
-                        </div>
                         <div id="plex-options" style="display:none;">
                             <label class="inline-flex items-center cursor-pointer">
                                 <input id="allow_downloads_plex" name="allow_downloads_plex" type="checkbox" value="true" {% if server.allow_downloads_plex %}checked{% endif %} class="sr-only peer">
@@ -84,7 +74,7 @@
                             </label>
                         </div>
                         <div class="mt-4">
-                            <a hx-post="{{ url_for('media_servers.scan_server_libraries', server_id=server.id) }}" hx-include="[name=server_username],[name=server_password],[name=komga_username],[name=komga_password]" hx-target="#libraries" hx-swap="innerHTML" class="text-sm text-secondary cursor-pointer">Scan Libraries</a>
+                            <a hx-post="{{ url_for('media_servers.scan_server_libraries', server_id=server.id) }}" hx-include="[name=server_username],[name=server_password]" hx-target="#libraries" hx-swap="innerHTML" class="text-sm text-secondary cursor-pointer">Scan Libraries</a>
                             <div id="libraries" class="space-y-2 mt-2">
                                 {% set libs = server.libraries|sort(attribute='name') %}
                                 {% include 'partials/library_checkboxes.html' with context %}
@@ -106,8 +96,7 @@ function updateOptions(){
   const type=document.getElementById('server_type').value;
   document.getElementById('plex-options').style.display = type==='plex' ? 'block' : 'none';
   document.getElementById('romm-options').style.display = type==='romm' ? 'block' : 'none';
-  document.getElementById('komga-options').style.display = type==='komga' ? 'block' : 'none';
-  document.getElementById('api-key-div').style.display  = (type==='romm' || type==='komga') ? 'none'  : 'block';
+  document.getElementById('api-key-div').style.display  = type==='romm' ? 'none'  : 'block';
   document.getElementById('jellyfin-options').style.display = type==='jellyfin' ? 'block' : 'none';
 }
 document.getElementById('server_type').addEventListener('change',updateOptions);

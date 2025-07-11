@@ -1,7 +1,6 @@
 import datetime
 import logging
 import re
-import base64
 from typing import Dict, List, Any
 from sqlalchemy import or_
 
@@ -16,39 +15,19 @@ EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 
 @register_media_client("komga")
 class KomgaClient(RestApiMixin):
-    """Wrapper around the Komga REST API using Basic Authentication."""
+    """Wrapper around the Komga REST API using credentials from Settings."""
 
     def __init__(self, *args, **kwargs):
-        # Komga uses username/password for Basic Auth, not API keys
         if "url_key" not in kwargs:
             kwargs["url_key"] = "server_url"
         if "token_key" not in kwargs:
-            kwargs["token_key"] = "api_key"  # Keep using api_key but parse it as username:password
+            kwargs["token_key"] = "api_key"
         super().__init__(*args, **kwargs)
-        
-        # For Basic Auth, we need both username and password
-        # Parse the token field as "username:password" format
-        self.username = None
-        self.password = None
-        
-        if self.token:
-            if ':' in self.token:
-                # Split username:password format
-                parts = self.token.split(':', 1)
-                self.username = parts[0]
-                self.password = parts[1]
-            else:
-                # Fallback: assume it's just a password and use default username
-                self.username = "admin"
-                self.password = self.token
 
     def _headers(self) -> Dict[str, str]:
         headers = {"Accept": "application/json"}
-        if self.username and self.password:
-            # Use Basic Authentication instead of Bearer token
-            credentials = f"{self.username}:{self.password}"
-            encoded_credentials = base64.b64encode(credentials.encode()).decode()
-            headers["Authorization"] = f"Basic {encoded_credentials}"
+        if self.token:
+            headers["Authorization"] = f"Bearer {self.token}"
         return headers
 
     def libraries(self) -> Dict[str, str]:
@@ -66,7 +45,6 @@ class KomgaClient(RestApiMixin):
 
     def create_user(self, username: str, password: str, email: str) -> str:
         """Create a new Komga user and return the user ID."""
-        # Corrected payload format based on actual Komga API
         payload = {
             "email": email,
             "password": password,
