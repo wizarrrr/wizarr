@@ -3,7 +3,7 @@ from flask_login import login_required
 from app.extensions import db
 from app.models import MediaServer, Library, User
 from app.forms.settings import SettingsForm  # reuse existing form for now
-from app.services.servers import check_plex, check_jellyfin, check_emby, check_audiobookshelf, check_romm
+from app.services.servers import check_plex, check_jellyfin, check_emby, check_audiobookshelf, check_romm, check_komga
 from app.services.media.service import scan_libraries_for_server
 import base64
 
@@ -24,6 +24,12 @@ def _check_connection(data: dict):
         if username and password:
             data["api_key"] = base64.b64encode(f"{username}:{password}".encode()).decode()
         return check_romm(data["server_url"], data["api_key"])
+    elif stype == "komga":
+        username = data.get("komga_username", "").strip()
+        password = data.get("komga_password", "").strip()
+        if username and password:
+            data["api_key"] = f"{username}:{password}"
+        return check_komga(data["server_url"], data["api_key"])
     else:
         return check_jellyfin(data["server_url"], data["api_key"])
 
@@ -49,6 +55,13 @@ def create_server():
             password = data.get("server_password", "").strip()
             if username and password:
                 data["api_key"] = base64.b64encode(f"{username}:{password}".encode()).decode()
+        
+        # --- Komga: derive API key from credentials ------------------
+        elif data.get("server_type") == "komga":
+            username = data.get("komga_username", "").strip()
+            password = data.get("komga_password", "").strip()
+            if username and password:
+                data["api_key"] = f"{username}:{password}"
 
         ok, error_msg = _check_connection(data)
         if not ok:
@@ -127,6 +140,12 @@ def edit_server(server_id):
             password = data.get("server_password", "").strip()
             if username and password:
                 data["api_key"] = base64.b64encode(f"{username}:{password}".encode()).decode()
+        
+        elif data.get("server_type") == "komga":
+            username = data.get("komga_username", "").strip()
+            password = data.get("komga_password", "").strip()
+            if username and password:
+                data["api_key"] = f"{username}:{password}"
 
         ok, error_msg = _check_connection(data)
         if not ok:

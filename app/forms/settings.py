@@ -7,7 +7,7 @@ from wtforms.validators import DataRequired, Optional, URL
 class SettingsForm(FlaskForm):
     server_type   = SelectField(
         "Server Type",
-        choices=[("plex", "Plex"), ("jellyfin", "Jellyfin"), ("emby", "Emby"), ("audiobookshelf", "Audiobookshelf"), ("romm", "Romm")],
+        choices=[("plex", "Plex"), ("jellyfin", "Jellyfin"), ("emby", "Emby"), ("audiobookshelf", "Audiobookshelf"), ("romm", "Romm"), ("komga", "Komga")],
         validators=[DataRequired()],
     )
     server_name   = StringField("Server Name",   validators=[DataRequired()])
