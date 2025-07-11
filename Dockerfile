@@ -58,6 +58,6 @@ CMD ["uv", "run", "gunicorn", \
      "--config", "gunicorn.conf.py", \
      "--preload", \
      "--workers", "4", \
-     "--bind", "0.0.0.0:${WIZARR_PORT:-5690}", \
+     "--bind", "0.0.0.0:5690", \
      "--umask", "007", \
      "run:app"]
