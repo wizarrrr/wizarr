@@ -150,7 +150,7 @@ def server_settings():
         # persist into Settings
         data["server_verified"] = "true"
         _save_settings(data)
-        flash("Settings saved successfully!", "success")
+        flash(_("Settings saved successfully!"), "success")
 
         if setup_mode:
             # Only mark setup complete and redirect if this is the first server

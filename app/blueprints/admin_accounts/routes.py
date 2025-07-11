@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, make_response
 from flask_login import login_required
+from flask_babel import _
 
 from app.extensions import db
 from app.models import AdminAccount
@@ -31,7 +32,7 @@ def create_admin():
             acc.set_password(form.password.data)
             db.session.add(acc)
             db.session.commit()
-            flash("Admin created", "success")
+            flash(_("Admin created"), "success")
             return redirect(url_for("admin_accounts.list_admins"))
     # GET or POST-with-errors: render modal
     if request.headers.get("HX-Request"):
@@ -55,7 +56,7 @@ def edit_admin(admin_id):
             if form.password.data:
                 acc.set_password(form.password.data)
             db.session.commit()
-            flash("Admin updated", "success")
+            flash(_("Admin updated"), "success")
             return redirect(url_for("admin_accounts.list_admins"))
     if request.headers.get("HX-Request"):
         return render_template("modals/edit-admin.html", form=form, admin=acc)

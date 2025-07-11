@@ -1,6 +1,7 @@
 # app/blueprints/setup/routes.py
 from flask import Blueprint, render_template, redirect, url_for, flash, session
 from flask_login import login_user
+from flask_babel import _
 
 from ...extensions import db
 from ...models import Settings, AdminUser, AdminAccount, MediaServer
@@ -53,7 +54,7 @@ def onboarding():
             db.session.commit()
 
             login_user(account)
-            flash("Admin account created – welcome!", "success")
+            flash(_("Admin account created – welcome!"), "success")
             # → Redirect straight to admin dashboard instead of the onboarding wizard
             session["in_setup"] = True
             return redirect(url_for("admin.dashboard"))

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
 from flask_login import login_required
+from flask_babel import gettext as _
 from sqlalchemy import func
 import re
 
@@ -129,7 +130,7 @@ def create_step():
             db.session.add(WizardBundleStep(bundle_id=bundle_id, step_id=step.id, position=next_bpos))
 
         db.session.commit()
-        flash("Step created", "success")
+        flash(_("Step created"), "success")
 
         # HTMX target refresh depending on origin
         if request.headers.get("HX-Request"):
@@ -168,7 +169,7 @@ def edit_step(step_id: int):
         step.markdown = cleaned_md
 
         db.session.commit()
-        flash("Step updated", "success")
+        flash(_("Step updated"), "success")
 
         # HTMX refresh
         if request.headers.get("HX-Request"):
@@ -194,7 +195,7 @@ def delete_step(step_id: int):
     step = WizardStep.query.get_or_404(step_id)
     db.session.delete(step)
     db.session.commit()
-    flash("Step deleted", "success")
+    flash(_("Step deleted"), "success")
 
     # For HTMX requests return the updated steps list fragment so the client
     # can refresh the table without a full page reload. Otherwise fall back
@@ -261,7 +262,7 @@ def create_bundle():
         bundle = WizardBundle(name=form.name.data, description=form.description.data or None)
         db.session.add(bundle)
         db.session.commit()
-        flash("Bundle created", "success")
+        flash(_("Bundle created"), "success")
         return redirect(url_for("wizard_admin.list_bundles"))
 
     tmpl = (
@@ -282,7 +283,7 @@ def edit_bundle(bundle_id: int):
         bundle.name = form.name.data
         bundle.description = form.description.data or None
         db.session.commit()
-        flash("Bundle updated", "success")
+        flash(_("Bundle updated"), "success")
         return redirect(url_for("wizard_admin.list_bundles"))
 
     tmpl = (
@@ -299,7 +300,7 @@ def delete_bundle(bundle_id: int):
     bundle = WizardBundle.query.get_or_404(bundle_id)
     db.session.delete(bundle)
     db.session.commit()
-    flash("Bundle deleted", "success")
+    flash(_("Bundle deleted"), "success")
 
     if request.headers.get("HX-Request"):
         return list_bundles()
@@ -373,7 +374,7 @@ def add_steps(bundle_id: int):
         )
         next_pos += 1
     db.session.commit()
-    flash("Steps added", "success")
+    flash(_("Steps added"), "success")
     if request.headers.get("HX-Request"):
         return list_bundles()
     return redirect(url_for("wizard_admin.list_bundles")) 
