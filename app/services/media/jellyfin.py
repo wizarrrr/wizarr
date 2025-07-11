@@ -289,31 +289,34 @@ class JellyfinClient(RestApiMixin):
                 # ------------------------------------------------------------------
                 # Poster & secondary artwork (thumbnail / backdrop)
                 # ------------------------------------------------------------------
-                poster_url: str | None = None
-                thumb_url:  str | None = None
+                artwork_url: str | None = None
+                fallback_artwork_url: str | None = None
+                thumbnail_url: str | None = None
 
                 item_id = now_playing_item.get("Id")
                 if item_id:
                     base_params = f"?api_key={self.token}" if self.token else ""
 
-                    # 1) Primary image → treat as poster (vertical artwork)
-                    poster_url = f"{self.url}/Items/{item_id}/Images/Primary{base_params}"
+                    # 1) For artwork, try to get proper poster-style images
+                    if media_type in ['movie', 'series']:
+                        # For movies/shows, try Box image type first (more likely to be poster-style)
+                        artwork_url = f"{self.url}/Items/{item_id}/Images/Box{base_params}&width=300&height=450"
+                        # Fallback to Primary with poster aspect ratio constraints
+                        fallback_artwork_url = f"{self.url}/Items/{item_id}/Images/Primary{base_params}&width=300&height=450"
+                    else:
+                        # For other media types, use Primary as-is
+                        artwork_url = f"{self.url}/Items/{item_id}/Images/Primary{base_params}"
+                        fallback_artwork_url = artwork_url
 
-                    # 2) Secondary artwork – attempt to fetch Thumb first (16:9) then Backdrop
-                    #    Many Jellyfin libraries have thumbs/backdrops for movies/episodes.
-                    thumb_candidates = [
+                    # 2) For thumbnail, try to get landscape/backdrop images
+                    thumbnail_candidates = [
                         f"{self.url}/Items/{item_id}/Images/Thumb{base_params}",
                         f"{self.url}/Items/{item_id}/Images/Backdrop{base_params}",
+                        f"{self.url}/Items/{item_id}/Images/Primary{base_params}",     # Fallback to primary
                     ]
 
-                    # We don’t strictly check if the image exists (extra HTTP head) to
-                    # avoid overhead.  Clients should gracefully handle 404 by falling
-                    # back to the poster.
-                    thumb_url = thumb_candidates[0]
+                    thumbnail_url = thumbnail_candidates[0]
 
-                # Keep legacy name for backward-compatibility in templates / API
-                artwork_url = poster_url
-                
                 # Get transcoding information
                 transcoding_info = {
                     "is_transcoding": False,
@@ -372,7 +375,8 @@ class JellyfinClient(RestApiMixin):
                     "position_ms": play_state.get("PositionTicks", 0) // 10000,  # Convert from ticks to ms
                     "duration_ms": now_playing_item.get("RunTimeTicks", 0) // 10000,  # Convert from ticks to ms
                     "artwork_url": artwork_url,
-                    "thumbnail_url": thumb_url,
+                    "fallback_artwork_url": fallback_artwork_url,
+                    "thumbnail_url": thumbnail_url,
                     "transcoding": transcoding_info,
                 }
                 
