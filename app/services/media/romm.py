@@ -235,10 +235,16 @@ class RommClient(RestApiMixin):
         return []
 
     def statistics(self):
-        """Return comprehensive RomM server statistics.
+        """Return essential RomM server statistics for the dashboard.
+        
+        Only collects data actually used by the UI:
+        - Server version for health card (Unknown for RomM)
+        - Active sessions count for health card (always 0 for RomM)
+        - Transcoding sessions count for health card (always 0 for RomM)
+        - Total users count for health card
         
         Returns:
-            dict: Server statistics including library counts, user activity, etc.
+            dict: Server statistics with minimal API calls
         """
         try:
             stats = {
@@ -248,171 +254,29 @@ class RommClient(RestApiMixin):
                 "content_stats": {}
             }
             
-            # Library statistics (platforms in RomM)
-            try:
-                platforms_response = self.get(f"{self.API_PREFIX}/platforms").json()
-                library_stats = {}
-                
-                for platform in platforms_response:
-                    platform_name = platform.get("name", platform.get("id", "unknown"))
-                    
-                    # Get ROM count for this platform
-                    try:
-                        roms_response = self.get(f"{self.API_PREFIX}/roms", params={
-                            "platform_id": platform["id"],
-                            "limit": 1,
-                            "offset": 0
-                        }).json()
-                        
-                        rom_count = roms_response.get("total", 0)
-                        
-                        # Group by console type/generation if possible
-                        platform_type = "retro_gaming"  # RomM is all retro gaming
-                        if platform_type not in library_stats:
-                            library_stats[platform_type] = {
-                                "count": 0,
-                                "sections": []
-                            }
-                        
-                        library_stats[platform_type]["count"] += rom_count
-                        library_stats[platform_type]["sections"].append({
-                            "name": platform_name,
-                            "size": rom_count,
-                            "id": platform["id"]
-                        })
-                    except Exception as e:
-                        logging.warning(f"Failed to get ROM count for platform {platform_name}: {e}")
-                        if "retro_gaming" not in library_stats:
-                            library_stats["retro_gaming"] = {
-                                "count": 0,
-                                "sections": []
-                            }
-                        library_stats["retro_gaming"]["sections"].append({
-                            "name": platform_name,
-                            "size": 0,
-                            "id": platform["id"]
-                        })
-                
-                stats["library_stats"] = library_stats
-            except Exception as e:
-                logging.error(f"Failed to get RomM library stats: {e}")
-                stats["library_stats"] = {}
-            
-            # User statistics
+            # User statistics - only what's displayed in UI
             try:
                 users_response = self.get(f"{self.API_PREFIX}/users").json()
-                total_users = len(users_response)
-                
-                # RomM doesn't have active sessions like media servers
-                # It's a collection manager, not a streaming service
                 stats["user_stats"] = {
-                    "total_users": total_users,
-                    "active_users": 0,  # No session concept in RomM
-                    "active_sessions": 0
+                    "total_users": len(users_response),
+                    "active_sessions": 0  # RomM doesn't have sessions concept
                 }
             except Exception as e:
                 logging.error(f"Failed to get RomM user stats: {e}")
                 stats["user_stats"] = {
                     "total_users": 0,
-                    "active_users": 0,
                     "active_sessions": 0
                 }
             
-            # Server statistics
+            # Server statistics - minimal data
             try:
-                # RomM doesn't expose much server info via API
-                # Get basic platform and ROM counts
-                try:
-                    platforms_response = self.get(f"{self.API_PREFIX}/platforms").json()
-                    platform_count = len(platforms_response)
-                except Exception:
-                    platform_count = 0
-                
-                # Try to get total ROM count across all platforms
-                try:
-                    roms_response = self.get(f"{self.API_PREFIX}/roms", params={
-                        "limit": 1,
-                        "offset": 0
-                    }).json()
-                    total_roms = roms_response.get("total", 0)
-                except Exception:
-                    total_roms = 0
-                
                 stats["server_stats"] = {
                     "version": "Unknown",  # RomM doesn't expose version via API
-                    "server_name": "RomM Server",
-                    "total_platforms": platform_count,
-                    "total_roms": total_roms,
-                    "total_sessions": 0,  # Not applicable for RomM
-                    "transcoding_sessions": 0  # Not applicable for RomM
+                    "transcoding_sessions": 0  # RomM doesn't transcode
                 }
             except Exception as e:
                 logging.error(f"Failed to get RomM server stats: {e}")
                 stats["server_stats"] = {}
-            
-            # Content statistics
-            try:
-                content_stats = {
-                    "recently_added": [],
-                    "popular_platforms": [],
-                    "largest_collections": []
-                }
-                
-                # Get recently added ROMs
-                try:
-                    recent_roms = self.get(f"{self.API_PREFIX}/roms", params={
-                        "limit": 5,
-                        "offset": 0,
-                        "order_by": "created_at",
-                        "order_dir": "desc"
-                    }).json()
-                    
-                    for rom in recent_roms.get("items", []):
-                        content_stats["recently_added"].append({
-                            "title": rom.get("name", "Unknown ROM"),
-                            "type": "rom",
-                            "added_at": rom.get("created_at"),
-                            "platform": rom.get("platform_name", "Unknown Platform")
-                        })
-                except Exception as e:
-                    logging.warning(f"Failed to get recently added ROMs: {e}")
-                
-                # Get platform stats for popular platforms
-                try:
-                    platforms_response = self.get(f"{self.API_PREFIX}/platforms").json()
-                    platform_rom_counts = []
-                    
-                    for platform in platforms_response[:10]:  # Limit for performance
-                        try:
-                            roms_response = self.get(f"{self.API_PREFIX}/roms", params={
-                                "platform_id": platform["id"],
-                                "limit": 1
-                            }).json()
-                            rom_count = roms_response.get("total", 0)
-                            platform_rom_counts.append({
-                                "name": platform.get("name", platform["id"]),
-                                "rom_count": rom_count,
-                                "id": platform["id"]
-                            })
-                        except Exception:
-                            platform_rom_counts.append({
-                                "name": platform.get("name", platform["id"]),
-                                "rom_count": 0,
-                                "id": platform["id"]
-                            })
-                    
-                    # Sort by ROM count and take top 5
-                    platform_rom_counts.sort(key=lambda x: x["rom_count"], reverse=True)
-                    content_stats["popular_platforms"] = platform_rom_counts[:5]
-                    content_stats["largest_collections"] = platform_rom_counts[:5]
-                    
-                except Exception as e:
-                    logging.warning(f"Failed to get platform statistics: {e}")
-                
-                stats["content_stats"] = content_stats
-            except Exception as e:
-                logging.error(f"Failed to get RomM content stats: {e}")
-                stats["content_stats"] = {}
             
             return stats
             

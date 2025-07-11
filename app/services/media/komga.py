@@ -199,10 +199,16 @@ class KomgaClient(RestApiMixin):
         return []
 
     def statistics(self) -> Dict[str, Any]:
-        """Return comprehensive Komga server statistics.
+        """Return essential Komga server statistics for the dashboard.
+        
+        Only collects data actually used by the UI:
+        - Server version for health card
+        - Active sessions count for health card (always 0 for Komga)
+        - Transcoding sessions count for health card (always 0 for Komga)
+        - Total users count for health card
         
         Returns:
-            dict: Server statistics including library counts, user activity, etc.
+            dict: Server statistics with minimal API calls
         """
         try:
             stats = {
@@ -212,121 +218,30 @@ class KomgaClient(RestApiMixin):
                 "content_stats": {}
             }
             
-            # Library statistics
-            try:
-                libraries_response = self.get("/api/v1/libraries").json()
-                library_stats = {}
-                
-                for lib in libraries_response:
-                    lib_type = "comics"
-                    if lib_type not in library_stats:
-                        library_stats[lib_type] = {
-                            "count": 0,
-                            "sections": []
-                        }
-                    
-                    try:
-                        series_response = self.get(f"/api/v1/libraries/{lib['id']}/series", params={"size": 1}).json()
-                        series_count = series_response.get("totalElements", 0)
-                        
-                        library_stats[lib_type]["count"] += series_count
-                        library_stats[lib_type]["sections"].append({
-                            "name": lib["name"],
-                            "size": series_count,
-                            "id": lib["id"]
-                        })
-                    except Exception as e:
-                        logging.warning(f"Failed to get series count for library {lib['name']}: {e}")
-                        library_stats[lib_type]["sections"].append({
-                            "name": lib["name"],
-                            "size": 0,
-                            "id": lib["id"]
-                        })
-                
-                stats["library_stats"] = library_stats
-            except Exception as e:
-                logging.error(f"Failed to get Komga library stats: {e}")
-                stats["library_stats"] = {}
-            
-            # User statistics
+            # User statistics - only what's displayed in UI
             try:
                 users_response = self.get("/api/v1/users").json()
-                total_users = len(users_response)
-                
                 stats["user_stats"] = {
-                    "total_users": total_users,
-                    "active_users": 0,
-                    "active_sessions": 0
+                    "total_users": len(users_response),
+                    "active_sessions": 0  # Komga doesn't have active sessions concept
                 }
             except Exception as e:
                 logging.error(f"Failed to get Komga user stats: {e}")
                 stats["user_stats"] = {
                     "total_users": 0,
-                    "active_users": 0,
                     "active_sessions": 0
                 }
             
-            # Server statistics  
+            # Server statistics - only version
             try:
                 actuator_response = self.get("/api/v1/actuator/info").json()
-                
-                total_series = 0
-                total_books = 0
-                try:
-                    libraries_response = self.get("/api/v1/libraries").json()
-                    for lib in libraries_response:
-                        try:
-                            series_response = self.get(f"/api/v1/libraries/{lib['id']}/series", params={"size": 1}).json()
-                            total_series += series_response.get("totalElements", 0)
-                            
-                            books_response = self.get(f"/api/v1/libraries/{lib['id']}/books", params={"size": 1}).json()
-                            total_books += books_response.get("totalElements", 0)
-                        except Exception:
-                            pass
-                except Exception:
-                    pass
-                
                 stats["server_stats"] = {
                     "version": actuator_response.get("build", {}).get("version", "Unknown"),
-                    "server_name": "Komga Server",
-                    "total_series": total_series,
-                    "total_books": total_books,
-                    "total_sessions": 0,
-                    "transcoding_sessions": 0
+                    "transcoding_sessions": 0  # Komga doesn't transcode
                 }
             except Exception as e:
                 logging.error(f"Failed to get Komga server stats: {e}")
                 stats["server_stats"] = {}
-            
-            # Content statistics
-            try:
-                content_stats = {
-                    "recently_added": [],
-                    "popular_series": [],
-                    "reading_progress": []
-                }
-                
-                # Get recently added series
-                try:
-                    recent_response = self.get("/api/v1/series", params={
-                        "size": 5,
-                        "sort": "createdDate,desc"
-                    }).json()
-                    
-                    for series in recent_response.get("content", []):
-                        content_stats["recently_added"].append({
-                            "title": series.get("metadata", {}).get("title", "Unknown"),
-                            "type": "series",
-                            "added_at": series.get("createdDate"),
-                            "library": series.get("libraryId", "Unknown")
-                        })
-                except Exception as e:
-                    logging.warning(f"Failed to get recently added series: {e}")
-                
-                stats["content_stats"] = content_stats
-            except Exception as e:
-                logging.error(f"Failed to get Komga content stats: {e}")
-                stats["content_stats"] = {}
             
             return stats
             

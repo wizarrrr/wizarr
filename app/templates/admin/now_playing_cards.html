@@ -27,7 +27,11 @@
         {% set direct_play     = session.transcoding.direct_play %}
 
         <!-- ──────────────── Wide rectangle card ──────────────── -->
-        <div class="now-playing-card relative flex bg-gray-800/70 rounded-lg shadow-lg overflow-hidden border border-gray-700 hover:shadow-xl transition-all duration-300 h-44 md:h-48">
+        <div class="now-playing-card relative flex bg-gray-800/70 rounded-lg shadow-lg overflow-hidden border border-gray-700 hover:shadow-xl transition-all duration-300 h-44 md:h-48"
+             data-session-state="{{ session.state }}"
+             data-session-duration="{{ duration }}"
+             data-session-position="{{ position }}"
+             data-session-id="{{ session.session_id }}">
 
             {# Blurred background thumbnail #}
             {% if session.thumbnail_url %}
@@ -78,7 +82,7 @@
                     {% if position and duration %}
                         {% set pos_seconds = (position // 1000) %}
                         {% set dur_seconds = (duration // 1000) %}
-                        <span class="text-white text-xs">{{ (pos_seconds // 60) }}:{% if (pos_seconds % 60) < 10 %}0{% endif %}{{ pos_seconds % 60 }} / {{ (dur_seconds // 60) }}:{% if (dur_seconds % 60) < 10 %}0{% endif %}{{ dur_seconds % 60 }}</span>
+                        <span class="session-time-display text-white text-xs">{{ (pos_seconds // 60) }}:{% if (pos_seconds % 60) < 10 %}0{% endif %}{{ pos_seconds % 60 }} / {{ (dur_seconds // 60) }}:{% if (dur_seconds % 60) < 10 %}0{% endif %}{{ dur_seconds % 60 }}</span>
                     {% endif %}
                     <span class="px-1.5 py-0.5 rounded text-xs font-medium {% if session.state=='playing' %}bg-green-600{% elif session.state=='paused' %}bg-yellow-500{% else %}bg-gray-600{% endif %} uppercase">{{ session.state|title }}</span>
                     <span class="rounded px-1.5 py-0.5 text-xs font-semibold uppercase tracking-wide whitespace-nowrap {% if is_transcoding %}bg-red-600{% elif direct_play %}bg-green-600{% else %}bg-yellow-600{% endif %}">
@@ -110,7 +114,7 @@
             </div>
             <!-- Progress bar -->
             <div class="absolute bottom-0 left-0 right-0 h-1 bg-black/60">
-                <div class="bg-primary h-full" style="width: calc({{ progress_percent }} * 1%);"></div>
+                <div class="session-progress-bar bg-primary h-full" style="width: calc({{ progress_percent }} * 1%);"></div>
             </div>
         </div>
         <!-- ──────────────────────────────────────────────────────── -->
