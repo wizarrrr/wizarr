@@ -648,7 +648,7 @@ def accepted_invites_card():
             db.joinedload(Invitation.servers),
         )
         .filter(
-            or_(Invitation.used.is_(True), Invitation.id.in_(used_invite_ids))
+            or_(Invitation.used.is_(True), Invitation.id.in_(used_invite_ids.select()))
         )
         .order_by(Invitation.used_at.desc().nullslast(), Invitation.created.desc())
         .limit(LIMIT)
@@ -666,10 +666,18 @@ def server_health_card():
     """Return a card showing health status of all media servers."""
     try:
         import requests
-        
-        base_url = request.url_root.rstrip('/')
-        response = requests.get(f"{base_url}/settings/servers/statistics/all", 
-                              cookies=request.cookies, timeout=10)
+        from urllib.parse import urlparse
+
+        # Look at HX-Current-URL if HTMX, else fall back to url_root
+        current_url = request.headers.get("HX-Current-URL", request.url_root)
+        parsed = urlparse(current_url)
+        base_url = f"{parsed.scheme}://{parsed.netloc}"
+
+        response = requests.get(
+            f"{base_url}/settings/servers/statistics/all",
+            cookies=request.cookies,
+            timeout=10
+        )
         
         if response.status_code == 200:
             all_stats = response.json()
