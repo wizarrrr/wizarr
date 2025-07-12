@@ -138,11 +138,54 @@ class PlexClient(MediaClient):
         """Return a mapping of external_id to display name for each Plex library section."""
         return {lib.title: lib.title for lib in self.server.library.sections()}
 
+    def scan_libraries(self, url: str = None, token: str = None) -> dict[str, str]:
+        """Scan available libraries on this Plex server.
+        
+        Args:
+            url: Optional server URL override
+            token: Optional API token override
+            
+        Returns:
+            dict: Library name -> library title mapping
+        """
+        if url and token:
+            # Use override credentials for scanning
+            try:
+                from plexapi.server import PlexServer
+                temp_server = PlexServer(url, token)
+                return {lib.title: lib.title for lib in temp_server.library.sections()}
+            except Exception as e:
+                logging.error(f"Failed to scan Plex libraries with override credentials: {e}")
+                return {}
+        else:
+            # Use saved credentials
+            return self.libraries()
+
     def create_user(self, *args, **kwargs):
         """Plex does not support direct user creation; use invite_friend or invite_home."""
         raise NotImplementedError(
             "PlexClient does not support create_user; use invite_friend or invite_home"
         )
+
+    def join(self, username: str, password: str, confirm: str, email: str, code: str) -> tuple[bool, str]:
+        """Plex does not support direct user creation via join.
+        
+        Plex uses an email-based invitation system instead of direct user creation.
+        Users must be invited via email and then accept the invitation through Plex's UI.
+        
+        Args:
+            username: Username for the new account (unused for Plex)
+            password: Password for the new account (unused for Plex)
+            confirm: Password confirmation (unused for Plex)
+            email: Email address for the invitation
+            code: Invitation code
+            
+        Returns:
+            tuple: (False, error_message) - Plex doesn't support direct joining
+        """
+        return False, ("Plex does not support direct user creation. "
+                      "Users must be invited via email and accept through Plex's interface. "
+                      "Please use the admin panel to send Plex invitations.")
     def invite_friend(self, email: str, sections: list[str], allow_sync: bool, allow_channels: bool):
         self.admin.inviteFriend(
             user=email, server=self.server,
@@ -481,15 +524,16 @@ def handle_oauth_token(app, token: str, code: str) -> None:
             if duration else None
         )
 
-        new_user = User(
-            token=token,
-            email=email,
-            username=account.username,
-            code=code,
-            expires=expires,
-            server_id=server_id,
-        )
-        db.session.add(new_user)
+        # Use the identity linking helper for multi-server invitations
+        client = PlexClient(media_server=server)
+        new_user = client._create_user_with_identity_linking({
+            'token': token,
+            'email': email,
+            'username': account.username,
+            'code': code,
+            'expires': expires,
+            'server_id': server_id,
+        })
         db.session.commit()
 
         _invite_user(email, code, new_user.id, server)

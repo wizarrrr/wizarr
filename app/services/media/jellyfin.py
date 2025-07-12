@@ -38,6 +38,32 @@ class JellyfinClient(RestApiMixin):
             for item in self.get("/Library/MediaFolders").json()["Items"]
         }
 
+    def scan_libraries(self, url: str = None, token: str = None) -> dict[str, str]:
+        """Scan available libraries on this Jellyfin server.
+        
+        Args:
+            url: Optional server URL override
+            token: Optional API token override
+            
+        Returns:
+            dict: Library name -> library ID mapping
+        """
+        if url and token:
+            # Use override credentials for scanning
+            headers = {"X-Emby-Token": token}
+            response = requests.get(
+                f"{url.rstrip('/')}/Library/MediaFolders",
+                headers=headers,
+                timeout=10
+            )
+            response.raise_for_status()
+            items = response.json()["Items"]
+        else:
+            # Use saved credentials
+            items = self.get("/Library/MediaFolders").json()["Items"]
+        
+        return {item["Name"]: item["Id"] for item in items}
+
     def create_user(self, username: str, password: str) -> str:
         return self.post(
             "/Users/New",
@@ -114,7 +140,7 @@ class JellyfinClient(RestApiMixin):
     def _mark_invite_used(inv: Invitation, user: User) -> None:
         """Mark invitation consumed for the Jellyfin server only."""
         inv.used_by = user
-        mark_server_used(inv, getattr(user, "server_id", None) or (inv.server.id if inv.server else None))
+        mark_server_used(inv, getattr(user, "server_id", None))
 
     @staticmethod
     def _folder_name_to_id(name: str, cache: dict[str, str]) -> str | None:
@@ -175,12 +201,13 @@ class JellyfinClient(RestApiMixin):
 
             inv = Invitation.query.filter_by(code=code).first()
 
+            current_server_id = getattr(self, "server_id", None)
             if inv.libraries:
-                sections = [lib.external_id for lib in inv.libraries if lib.server_id == (inv.server.id if inv.server else None)]
+                sections = [lib.external_id for lib in inv.libraries if lib.server_id == current_server_id]
             else:
                 sections = [
                     lib.external_id
-                    for lib in Library.query.filter_by(enabled=True, server_id=inv.server.id if inv.server else None).all()
+                    for lib in Library.query.filter_by(enabled=True, server_id=current_server_id).all()
                 ]
 
             self._set_specific_folders(user_id, sections)
@@ -188,12 +215,16 @@ class JellyfinClient(RestApiMixin):
             # Apply download / Live TV permissions
             allow_downloads = bool(getattr(inv, 'jellyfin_allow_downloads', False))
             allow_live_tv   = bool(getattr(inv, 'jellyfin_allow_live_tv', False))
-            # fall back to server defaults if invite flags are false
-            if inv.server:
+            # fall back to current server defaults if invite flags are false
+            current_server = None
+            if current_server_id:
+                from app.models import MediaServer
+                current_server = MediaServer.query.get(current_server_id)
+            if current_server:
                 if not allow_downloads:
-                    allow_downloads = bool(getattr(inv.server, 'allow_downloads_jellyfin', False))
+                    allow_downloads = bool(getattr(current_server, 'allow_downloads_jellyfin', False))
                 if not allow_live_tv:
-                    allow_live_tv   = bool(getattr(inv.server, 'allow_tv_jellyfin', False))
+                    allow_live_tv   = bool(getattr(current_server, 'allow_tv_jellyfin', False))
             
             # Always update policy to explicitly set permissions (both True and False)
             current_policy = self.get(f"/Users/{user_id}").json().get("Policy", {})
@@ -206,15 +237,14 @@ class JellyfinClient(RestApiMixin):
                 days = int(inv.duration)
                 expires = datetime.datetime.utcnow() + datetime.timedelta(days=days)
 
-            new_user = User(
-                username=username,
-                email=email,
-                token=user_id,
-                code=code,
-                expires=expires,
-                server_id=inv.server.id if inv.server else None,
-            )
-            db.session.add(new_user)
+            new_user = self._create_user_with_identity_linking({
+                'username': username,
+                'email': email,
+                'token': user_id,
+                'code': code,
+                'expires': expires,
+                'server_id': current_server_id,
+            })
             db.session.commit()
 
             self._mark_invite_used(inv, new_user)

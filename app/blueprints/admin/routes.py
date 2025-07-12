@@ -645,6 +645,7 @@ def accepted_invites_card():
         .options(
             db.joinedload(Invitation.used_by),
             db.joinedload(Invitation.server),
+            db.joinedload(Invitation.servers),
         )
         .filter(
             or_(Invitation.used.is_(True), Invitation.id.in_(used_invite_ids))

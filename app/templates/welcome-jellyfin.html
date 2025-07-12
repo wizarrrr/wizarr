@@ -25,7 +25,7 @@
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ error }}</span></p>
                     {% endif %}
 
-                    <form class="space-y-4 md:space-y-6" action="{% if server_type == 'emby' %}{{ url_for('emby.public_join') }}{% else %}{{ url_for('jellyfin.public_join') }}{% endif %}" method="POST">
+                    <form class="space-y-4 md:space-y-6" action="{{ url_for('public.process_invitation') }}" method="POST">
                         {{ form.hidden_tag() }}
 
                         <div>
