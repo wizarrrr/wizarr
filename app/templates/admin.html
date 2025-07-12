@@ -59,7 +59,7 @@
                             <span class="text-gray-700 dark:text-gray-300 text-sm font-medium">Hi, {{ current_user.username }}</span>
                             
                             <!-- Logout -->
-                            <a href="{{ url_for('auth.logout') }}" 
+                            <a href="{{ url_for('auth.login') }}" 
                                class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-white text-sm px-3 py-1 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200">
                                 {{ _("Logout") }}
                             </a>
