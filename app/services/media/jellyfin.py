@@ -195,13 +195,11 @@ class JellyfinClient(RestApiMixin):
                 if not allow_live_tv:
                     allow_live_tv   = bool(getattr(inv.server, 'allow_tv_jellyfin', False))
             
-            if allow_downloads or allow_live_tv:
-                current_policy = self.get(f"/Users/{user_id}").json().get("Policy", {})
-                if allow_downloads:
-                    current_policy["EnableDownloads"] = True
-                if allow_live_tv:
-                    current_policy["EnableLiveTvAccess"] = True
-                self.set_policy(user_id, current_policy)
+            # Always update policy to explicitly set permissions (both True and False)
+            current_policy = self.get(f"/Users/{user_id}").json().get("Policy", {})
+            current_policy["EnableDownloads"] = allow_downloads
+            current_policy["EnableLiveTvAccess"] = allow_live_tv
+            self.set_policy(user_id, current_policy)
 
             expires = None
             if inv.duration:
