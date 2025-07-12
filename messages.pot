@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-11 13:30+0000\n"
+"POT-Creation-Date: 2025-07-12 04:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -380,89 +380,20 @@ msgstr ""
 msgid "Unknown error occurred"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:7
+#: app/templates/admin/now_playing_cards.html:6
 msgid "Unable to load now playing"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:8
+#: app/templates/admin/now_playing_cards.html:7
 msgid "There was an error connecting to your media servers"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:17
+#: app/templates/admin/now_playing_cards.html:15
 msgid "No one is watching"
 msgstr ""
 
-#: app/templates/admin/now_playing_cards.html:18
+#: app/templates/admin/now_playing_cards.html:16
 msgid "No active media sessions found across your servers"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:139
-msgid "Session Details"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:142
-msgid "Client"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:146
-msgid "Device"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:150
-msgid "User"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:154
-#: app/templates/servers/index.html:11
-msgid "Type"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:158
-#: app/templates/settings/notifications.html:65
-msgid "Status"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:161
-msgid "Playing"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:163
-msgid "Paused"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:170
-msgid "Progress"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:174
-#: app/templates/settings/wizard/index.html:47
-msgid "Server"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:178
-msgid "Session"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:183
-msgid "Stream Info"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:186
-msgid "Method"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:188
-msgid "Direct Play"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:188
-#: app/templates/admin/server_health_card.html:74
-#: app/templates/admin/server_health_card.html:102
-msgid "Transcoding"
-msgstr ""
-
-#: app/templates/admin/now_playing_cards.html:188
-msgid "Direct Stream"
 msgstr ""
 
 #: app/templates/admin/recent_content_card.html:8
@@ -502,6 +433,11 @@ msgstr ""
 #: app/templates/admin/server_stats_card.html:29
 #: app/templates/settings/notifications.html:68
 msgid "Active"
+msgstr ""
+
+#: app/templates/admin/server_health_card.html:74
+#: app/templates/admin/server_health_card.html:102
+msgid "Transcoding"
 msgstr ""
 
 #: app/templates/admin/server_health_card.html:83
@@ -867,6 +803,10 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
+#: app/templates/servers/index.html:11
+msgid "Type"
+msgstr ""
+
 #: app/templates/servers/index.html:12
 msgid "URL"
 msgstr ""
@@ -1009,6 +949,10 @@ msgstr ""
 msgid "Delete agent"
 msgstr ""
 
+#: app/templates/settings/notifications.html:65
+msgid "Status"
+msgstr ""
+
 #: app/templates/settings/notifications.html:84
 msgid "No notification agents"
 msgstr ""
@@ -1102,6 +1046,10 @@ msgstr ""
 
 #: app/templates/settings/wizard/index.html:30
 msgid "Get started by creating your first wizard step"
+msgstr ""
+
+#: app/templates/settings/wizard/index.html:47
+msgid "Server"
 msgstr ""
 
 #: app/templates/settings/wizard/index.html:48
