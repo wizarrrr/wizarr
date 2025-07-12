@@ -1,7 +1,13 @@
 ---
-title: "Quick Tips"
+title: "Tips for the best experience"
 ---
 
-1. {{ _("Enable dark mode") }}
-2. {{ _("Set reading direction for manga") }}
-3. {{ _("Use keyboard arrows to turn pages") }}
+## 📖 {{ _("Get the best reading experience") }}
+
+{{ _("Kavita has some handy settings to make reading more comfortable:") }}
+
+1. **{{ _("Set reading direction") }}** – {{ _("Settings → Reader → set manga to right-to-left") }}
+2. **{{ _("Enable dark mode") }}** – {{ _("Perfect for night reading") }}
+3. **{{ _("Use keyboard shortcuts") }}** – {{ _("Space for next page, arrows to navigate") }}
+
+*Happy reading!* 📚

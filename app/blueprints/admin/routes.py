@@ -629,14 +629,17 @@ def accepted_invites_card():
     # reflects the *primary* invite only.  To catch per-server acceptances we
     # fall back to the association table and treat any row with
     # ``invitation_servers.used = True`` as an acceptance.
-    from sqlalchemy import or_, func
+    from sqlalchemy import or_, func, select
 
     # ``Invitation.used`` covers the common case.  For the association table we
     # gather the *invite_id* values that are marked used.
+    # Build a *select()* of invite IDs that were accepted via the
+    # ``invitation_servers`` association table.  Using an explicit *select()*
+    # avoids SQLAlchemy 2.x warnings about implicit coercion of Subquery
+    # objects when used inside ``IN ( ... )`` clauses.
     used_invite_ids = (
-        db.session.query(invitation_servers.c.invite_id)
-        .filter(invitation_servers.c.used.is_(True))
-        .subquery()
+        select(invitation_servers.c.invite_id)
+        .where(invitation_servers.c.used.is_(True))
     )
 
     query = (
@@ -648,7 +651,7 @@ def accepted_invites_card():
             db.joinedload(Invitation.servers),
         )
         .filter(
-            or_(Invitation.used.is_(True), Invitation.id.in_(used_invite_ids.select()))
+            or_(Invitation.used.is_(True), Invitation.id.in_(used_invite_ids))
         )
         .order_by(Invitation.used_at.desc().nullslast(), Invitation.created.desc())
         .limit(LIMIT)
