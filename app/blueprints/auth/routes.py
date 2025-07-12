@@ -47,7 +47,12 @@ def login():
         login_user(AdminUser(), remember=bool(request.form.get("remember")))
         return redirect("/")
 
-    logging.warning("Failed login for user %s", username)
+    # Get IP address from headers or fallback to remote_addr
+    client_ip = request.headers.get("X-Forwarded-For", request.remote_addr).split(",")[0].strip()
+
+    # Log failed login with IP
+    logging.warning(f"AUTH FAIL: Failed login for user '{username}' from {client_ip}")
+
     return render_template("login.html", error=_("Invalid username or password"))
 
 
