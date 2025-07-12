@@ -14,4 +14,4 @@ title: "Welcome to Kavita!"
 {{ _("Open Kavita in your browser, sign in with your new account, "
       "and start reading. You can also use mobile apps for a better experience.") }}
 
-[{{ _("Open Kavita") }}]({{ server_url }}){:target="_blank" .btn}
+[{{ _("Open Kavita") }}]({{ external_url }}){:target="_blank" .btn}

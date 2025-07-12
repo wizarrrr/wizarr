@@ -18,6 +18,6 @@ title: "Mobile Apps"
 
 {{ _("Use this OPDS URL in your reader app:") }}
 
-`{{ server_url }}/api/opds`
+`{{ external_url }}/api/opds`
 
 {{ _("Login with your Kavita username and password.") }}
