@@ -647,7 +647,7 @@ def accepted_invites_card():
             db.joinedload(Invitation.server),
         )
         .filter(
-            or_(Invitation.used.is_(True), Invitation.id.in_(used_invite_ids))
+            or_(Invitation.used.is_(True), Invitation.id.in_(used_invite_ids.select()))
         )
         .order_by(Invitation.used_at.desc().nullslast(), Invitation.created.desc())
         .limit(LIMIT)
