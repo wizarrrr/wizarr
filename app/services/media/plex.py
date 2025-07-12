@@ -212,7 +212,14 @@ class PlexClient(MediaClient):
                 "allowChannels": plex_user.allowChannels,
                 "allowSync": plex_user.allowSync,
             },
-            "Policy": {"sections": "na"},
+            # Use an empty list to indicate that we could not (or do not need to) resolve
+            # the list of library section IDs for this Plex user.  Returning a non-iterable
+            # value such as the previous string "na" broke downstream queries that expect
+            # an *iterable* when building SQLAlchemy ``IN ( ... )`` expressions.
+            #
+            # An empty list is safe because the admin UI will simply render “all libraries”
+            # for Plex users unless a concrete subset is provided.
+            "Policy": {"sections": []},
         }
 
     def update_user(self, info: dict, form: dict) -> None:
