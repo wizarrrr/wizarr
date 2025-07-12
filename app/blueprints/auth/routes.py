@@ -47,8 +47,11 @@ def login():
         login_user(AdminUser(), remember=bool(request.form.get("remember")))
         return redirect("/")
 
-    # Get IP address from headers or fallback to remote_addr
-    client_ip = request.headers.get("X-Forwarded-For", request.remote_addr).split(",")[0].strip()
+    # Get IP address: prefer Cloudflare's header, then X-Forwarded-For, then remote_addr
+    client_ip = (
+        request.headers.get("CF-Connecting-IP")
+        or request.headers.get("X-Forwarded-For", request.remote_addr).split(",")[0].strip()
+    )
 
     # Log failed login with IP
     logging.warning(f"AUTH FAIL: Failed login for user '{username}' from {client_ip}")
