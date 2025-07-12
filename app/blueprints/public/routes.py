@@ -31,27 +31,24 @@ def favicon():
 # ─── Invite link  /j/<code> ─────────────────────────────────────────────────
 @public_bp.route("/j/<code>")
 def invite(code):
-    invitation = Invitation.query.filter(
-        db.func.lower(Invitation.code) == code.lower()
-    ).first()
-    valid, msg = is_invite_valid(code)
-    if not valid:
-        return render_template("invalid-invite.html", error=msg)
+    from app.services.invitation_processor import InvitationProcessor
+    
+    processor = InvitationProcessor()
+    result = processor.process_invitation_display(code)
+    return result.to_flask_response()
 
-    server = invitation.server or MediaServer.query.first()
-    server_type = server.server_type if server else None
+# ─── Unified invitation processing ─────────────────────────────────────────
+@public_bp.route("/invitation/process", methods=["POST"])
+def process_invitation():
+    """Unified route for processing all invitation types"""
+    from app.services.invitation_processor import InvitationProcessor
+    
+    processor = InvitationProcessor()
+    form_data = request.form.to_dict()
+    result = processor.process_invitation_submission(form_data)
+    return result.to_flask_response()
 
-    if server_type in ("jellyfin", "emby", "audiobookshelf", "romm"):
-        form = JoinForm()
-        form.code.data = code
-        return render_template(
-            "welcome-jellyfin.html",
-            form=form,
-            server_type=server_type,
-        )
-    return render_template("user-plex-login.html", code=code)
-
-# ─── POST /join  (Plex OAuth or Jellyfin signup) ────────────────────────────
+# ─── POST /join  (Legacy Plex OAuth route - kept for compatibility) ────────
 @public_bp.route("/join", methods=["POST"])
 def join():
     code  = request.form.get("code")
@@ -97,7 +94,7 @@ def join():
         # No other servers → continue to wizard as before
         session["wizard_access"] = code
         return redirect(url_for("wizard.start"))
-    elif server_type in ("jellyfin", "emby", "audiobookshelf", "romm"):
+    elif server_type in ("jellyfin", "emby", "audiobookshelf", "romm", "kavita", "komga"):
         return render_template("welcome-jellyfin.html", code=code, server_type=server_type)
 
     # fallback if server_type missing/unsupported

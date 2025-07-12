@@ -32,7 +32,14 @@
                 </p>
             </div>
 
-            {% if inv.server %}
+            {% if inv.servers %}
+            {% for srv in inv.servers %}
+            <div class="ml-2 flex items-center gap-1">
+                {{ srv.server_type|server_type_tag }}
+                <span class="text-xs text-gray-500 dark:text-gray-400">{{ srv.name }}</span>
+            </div>
+            {% endfor %}
+            {% elif inv.server %}
             <div class="ml-2 flex items-center gap-1">
                 {{ inv.server.server_type|server_type_tag }}
                 <span class="text-xs text-gray-500 dark:text-gray-400">{{ inv.server.name }}</span>

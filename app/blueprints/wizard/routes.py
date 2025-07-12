@@ -31,6 +31,46 @@ def restrict_wizard():
 
 
 # ─── helpers ────────────────────────────────────────────────────
+def _get_server_context(server_type: str) -> dict[str, str | None]:
+    """Get server-specific context variables for a given server type"""
+    # Find the server for this specific server type
+    # Priority: 1) From invitation servers, 2) First server of this type
+    
+    server = None
+    
+    # 1️⃣ Check if we have an invitation with specific servers
+    inv_code = session.get("wizard_access")
+    if inv_code:
+        inv = Invitation.query.filter_by(code=inv_code).first()
+        if inv and inv.servers:
+            # Find the server of the requested type
+            server = next((s for s in inv.servers if s.server_type == server_type), None)
+    
+    # 2️⃣ Fallback to first server of this type
+    if server is None:
+        server = MediaServer.query.filter_by(server_type=server_type).first()
+    
+    # 3️⃣ Last resort: any server
+    if server is None:
+        server = MediaServer.query.first()
+    
+    context = {}
+    if server:
+        # Server-specific variables that steps can use
+        context["external_url"] = server.external_url or server.url or ""
+        context["server_url"] = server.url or ""
+        context["server_name"] = getattr(server, "name", "") or ""
+        context["server_type"] = server.server_type
+    else:
+        # Fallback values to prevent template errors
+        context["external_url"] = ""
+        context["server_url"] = ""
+        context["server_name"] = ""
+        context["server_type"] = server_type
+    
+    return context
+
+
 def _settings() -> dict[str, str | None]:
     # Load all Settings rows **except** legacy server-specific keys. Those have
     # been migrated to the dedicated ``MediaServer`` table and should no longer
@@ -139,13 +179,19 @@ def _steps(server: str, cfg: dict):
     return [frontmatter.load(f) for f in files if _eligible(frontmatter.load(f), cfg)]
 
 
-def _render(post: frontmatter.Post, ctx: dict) -> str:
+def _render(post: frontmatter.Post, ctx: dict, server_type: str = None) -> str:
     from flask import render_template_string
     # Jinja templates inside the markdown files expect a top-level `settings` variable.
     # Build a context copy that exposes the current config dictionary via this key
     # while still passing through all existing entries and utilities (e.g. the _() gettext).
     _vars = ctx.copy()
     _vars.setdefault("settings", ctx)  # avoid overwriting if already provided
+    
+    # Add server-specific variables for the current step
+    if server_type:
+        server_context = _get_server_context(server_type)
+        _vars.update(server_context)
+    
     md = render_template_string(post.content, **_vars)
     return markdown.markdown(md, extensions=["fenced_code", "tables", "attr_list"])
 
@@ -160,7 +206,7 @@ def _serve(server: str, idx: int):
     direction = request.values.get("dir", "")
 
     idx = max(0, min(idx, len(steps) - 1))
-    html = _render(steps[idx], cfg | {"_": _})
+    html = _render(steps[idx], cfg | {"_": _}, server_type=server)
 
     return render_template(
         "wizard/frame.html",
@@ -223,16 +269,25 @@ def combo(idx: int):
         # fallback to normal wizard
         return redirect(url_for('wizard.start'))
 
-    # concatenate steps preserving order
+    # concatenate steps preserving order AND track which server each step belongs to
     steps: list = []
+    step_server_mapping: list = []  # Track which server type each step belongs to
+    
     for stype in order:
-        steps.extend(_steps(stype, cfg))
+        server_steps = _steps(stype, cfg)
+        steps.extend(server_steps)
+        # Add server type for each step
+        step_server_mapping.extend([stype] * len(server_steps))
 
     if not steps:
         abort(404)
 
     idx = max(0, min(idx, len(steps)-1))
-    html = _render(steps[idx], cfg | {"_": _})
+    
+    # Get the server type for the current step
+    current_server_type = step_server_mapping[idx] if idx < len(step_server_mapping) else order[0]
+    
+    html = _render(steps[idx], cfg | {"_": _}, server_type=current_server_type)
 
     return render_template(
         "wizard/frame.html",
@@ -277,7 +332,11 @@ def bundle_view(idx: int):
         abort(404)
 
     idx = max(0, min(idx, len(steps)-1))
-    html = _render(steps[idx], _settings() | {'_': _})
+    
+    # Get the server type for the current step from the WizardStep
+    current_server_type = steps_raw[idx].server_type if idx < len(steps_raw) else None
+    
+    html = _render(steps[idx], _settings() | {'_': _}, server_type=current_server_type)
 
     return render_template(
         'wizard/frame.html',

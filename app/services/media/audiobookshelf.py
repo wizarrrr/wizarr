@@ -68,6 +68,36 @@ class AudiobookshelfClient(RestApiMixin):
             logging.warning("ABS: failed to fetch libraries – %s", exc)
             return {}
 
+    def scan_libraries(self, url: str = None, token: str = None) -> dict[str, str]:
+        """Scan available libraries on this Audiobookshelf server.
+        
+        Args:
+            url: Optional server URL override
+            token: Optional API token override
+            
+        Returns:
+            dict: Library name -> library ID mapping
+        """
+        import requests
+        
+        if url and token:
+            # Use override credentials for scanning
+            headers = {"Authorization": f"Bearer {token}"}
+            response = requests.get(
+                f"{url.rstrip('/')}/api/libraries",
+                headers=headers,
+                timeout=10
+            )
+            response.raise_for_status()
+            data = response.json()
+            libs = data.get("libraries", data)
+        else:
+            # Use saved credentials
+            data = self.get(f"{self.API_PREFIX}/libraries").json()
+            libs = data.get("libraries", data)
+        
+        return {item["name"]: item["id"] for item in libs}
+
     # --- users ---------------------------------------------------------
 
     def list_users(self) -> List[User]:
@@ -185,7 +215,7 @@ class AudiobookshelfClient(RestApiMixin):
     def _mark_invite_used(inv, user):
         inv.used_by = user
         from app.services.invites import mark_server_used
-        mark_server_used(inv, getattr(user, "server_id", None) or (inv.server.id if inv.server else None))
+        mark_server_used(inv, getattr(user, "server_id", None))
 
     def _set_specific_libraries(self, user_id: str, library_ids: List[str]):
         """Restrict the given *user* to the supplied library IDs.
@@ -247,16 +277,17 @@ class AudiobookshelfClient(RestApiMixin):
             # ------------------------------------------------------------------
             # 1) Restrict library access (if requested)
             # ------------------------------------------------------------------
+            current_server_id = getattr(self, "server_id", None)
             if inv.libraries:
-                # Use libraries tied to the invite
-                lib_ids = [lib.external_id for lib in inv.libraries if lib.server_id == (inv.server.id if inv.server else None)]
+                # Use libraries tied to the invite for THIS server
+                lib_ids = [lib.external_id for lib in inv.libraries if lib.server_id == current_server_id]
             else:
                 # Fallback to all *enabled* libraries for this server
                 lib_ids = [
                     lib.external_id
                     for lib in Library.query.filter_by(
                         enabled=True,
-                        server_id=inv.server.id if inv.server else None,
+                        server_id=current_server_id,
                     ).all()
                 ]
 

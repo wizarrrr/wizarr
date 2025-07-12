@@ -76,6 +76,46 @@ class RommClient(RestApiMixin):
             logging.warning("ROMM: failed to fetch platforms – %s", exc)
             return {}
 
+    def scan_libraries(self, url: str = None, token: str = None) -> dict[str, str]:
+        """Scan available platforms on this RomM server.
+        
+        Args:
+            url: Optional server URL override
+            token: Optional API token override
+            
+        Returns:
+            dict: Platform name -> platform ID mapping
+        """
+        import requests
+        import base64
+        
+        if url and token:
+            # Use override credentials for scanning
+            try:
+                # RomM uses basic auth with token as password
+                auth_header = base64.b64encode(f"admin:{token}".encode()).decode()
+                headers = {"Authorization": f"Basic {auth_header}"}
+                response = requests.get(
+                    f"{url.rstrip('/')}/api/platforms",
+                    headers=headers,
+                    timeout=10
+                )
+                response.raise_for_status()
+                data = response.json()
+            except Exception as e:
+                logging.error(f"Failed to scan RomM platforms with override credentials: {e}")
+                return {}
+        else:
+            # Use saved credentials
+            try:
+                r = self.get(f"{self.API_PREFIX}/platforms")
+                data = r.json()
+            except Exception as e:
+                logging.error(f"Failed to get RomM platforms with saved credentials: {e}")
+                return {}
+        
+        return {p.get("name", p["id"]): p["id"] for p in data}
+
     # ------------------------------------------------------------------
     # Wizarr API – users (read-only)
     # ------------------------------------------------------------------
@@ -339,21 +379,20 @@ class RommClient(RestApiMixin):
                 days = int(inv.duration)
                 expires = datetime.datetime.utcnow() + datetime.timedelta(days=days)
 
-            new_user = User(
-                username=username,
-                email=email,
-                token=user_id,
-                code=code,
-                expires=expires,
-                server_id=inv.server.id if inv and inv.server else None,
-            )
-            db.session.add(new_user)
+            new_user = self._create_user_with_identity_linking({
+                'username': username,
+                'email': email,
+                'token': user_id,
+                'code': code,
+                'expires': expires,
+                'server_id': getattr(self, "server_id", None),
+            })
             db.session.commit()
 
             # mark invite used
             if inv:
                 inv.used_by = new_user
-                mark_server_used(inv, getattr(new_user, "server_id", None) or (inv.server.id if inv.server else None))
+                mark_server_used(inv, getattr(new_user, "server_id", None))
 
             notify("New User", f"User {username} has joined your server! 🎉", tags="tada")
 

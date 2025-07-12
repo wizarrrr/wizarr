@@ -8,7 +8,7 @@ from flask_babel import lazy_gettext as _l
 class SettingsForm(FlaskForm):
     server_type   = SelectField(
         _l("Server Type"),
-        choices=[("plex", "Plex"), ("jellyfin", "Jellyfin"), ("emby", "Emby"), ("audiobookshelf", "Audiobookshelf"), ("romm", "Romm"), ("komga", "Komga")],
+        choices=[("plex", "Plex"), ("jellyfin", "Jellyfin"), ("emby", "Emby"), ("audiobookshelf", "Audiobookshelf"), ("romm", "Romm"), ("komga", "Komga"), ("kavita", "Kavita")],
         validators=[DataRequired()],
     )
     server_name   = StringField(_l("Server Name"),   validators=[DataRequired()])

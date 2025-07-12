@@ -49,5 +49,15 @@ def create_app(config_object=DevelopmentConfig):
         except Exception as exc:
             # Non-fatal – log and continue startup to avoid blocking the app
             app.logger.warning("Wizard step bootstrap failed: %s", exc)
+        
+        # ─── Run wizard migrations (update external_url references) ───
+        try:
+            from .services.wizard_migration import run_wizard_migrations
+            migration_success = run_wizard_migrations()
+            if not migration_success:
+                app.logger.warning("Wizard step migrations had issues - check logs for details")
+        except Exception as exc:
+            # Non-fatal – log and continue startup to avoid blocking the app
+            app.logger.warning("Wizard step migration failed: %s", exc)
 
     return app

@@ -43,6 +43,35 @@ class KomgaClient(RestApiMixin):
             logging.error(f"Failed to get Komga libraries: {e}")
             return {}
 
+    def scan_libraries(self, url: str = None, token: str = None) -> dict[str, str]:
+        """Scan available libraries on this Komga server.
+        
+        Args:
+            url: Optional server URL override
+            token: Optional API token override
+            
+        Returns:
+            dict: Library name -> library ID mapping
+        """
+        import requests
+        
+        if url and token:
+            # Use override credentials for scanning
+            headers = {"Authorization": f"Bearer {token}"}
+            response = requests.get(
+                f"{url.rstrip('/')}/api/v1/libraries",
+                headers=headers,
+                timeout=10
+            )
+            response.raise_for_status()
+            libraries = response.json()
+        else:
+            # Use saved credentials
+            response = self.get("/api/v1/libraries")
+            libraries = response.json()
+        
+        return {lib["name"]: lib["id"] for lib in libraries}
+
     def create_user(self, username: str, password: str, email: str) -> str:
         """Create a new Komga user and return the user ID."""
         payload = {
@@ -143,12 +172,13 @@ class KomgaClient(RestApiMixin):
 
             inv = Invitation.query.filter_by(code=code).first()
 
+            current_server_id = getattr(self, "server_id", None)
             if inv.libraries:
-                library_ids = [lib.external_id for lib in inv.libraries if lib.server_id == (inv.server.id if inv.server else None)]
+                library_ids = [lib.external_id for lib in inv.libraries if lib.server_id == current_server_id]
             else:
                 library_ids = [
                     lib.external_id
-                    for lib in Library.query.filter_by(enabled=True, server_id=inv.server.id if inv.server else None).all()
+                    for lib in Library.query.filter_by(enabled=True, server_id=current_server_id).all()
                 ]
 
             self._set_library_access(user_id, library_ids)
@@ -158,19 +188,18 @@ class KomgaClient(RestApiMixin):
                 days = int(inv.duration)
                 expires = datetime.datetime.utcnow() + datetime.timedelta(days=days)
 
-            new_user = User(
-                username=username,
-                email=email,
-                token=user_id,
-                code=code,
-                expires=expires,
-                server_id=inv.server.id if inv.server else None,
-            )
-            db.session.add(new_user)
+            new_user = self._create_user_with_identity_linking({
+                'username': username,
+                'email': email,
+                'token': user_id,
+                'code': code,
+                'expires': expires,
+                'server_id': current_server_id,
+            })
             db.session.commit()
 
             inv.used_by = new_user
-            mark_server_used(inv, getattr(new_user, "server_id", None) or (inv.server.id if inv.server else None))
+            mark_server_used(inv, getattr(new_user, "server_id", None))
 
             notify(
                 "New User",

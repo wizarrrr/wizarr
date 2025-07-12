@@ -14,7 +14,7 @@ from abc import ABC, abstractmethod
 from typing import Optional
 
 from app.extensions import db
-from app.models import Settings, MediaServer
+from app.models import Settings, MediaServer, User, Identity
 
 # ---------------------------------------------------------------------------
 # Registry helpers
@@ -113,6 +113,32 @@ class MediaClient(ABC):
         self.url: str = row.url  # type: ignore[attr-defined]
         self.token: str = row.api_key  # type: ignore[attr-defined]
 
+    def _create_user_with_identity_linking(self, user_kwargs: dict) -> User:
+        """Create a User record with automatic identity linking for multi-server invitations.
+        
+        This helper ensures that users created from the same invitation code are
+        automatically linked to a shared Identity, even when they don't have valid
+        email addresses that would trigger the normal email-based linking.
+        
+        Args:
+            user_kwargs: Dictionary of User model attributes
+            
+        Returns:
+            User: The created User record with identity_id set if applicable
+        """
+        code = user_kwargs.get('code')
+        
+        # Check if this is part of a multi-server invitation
+        if code:
+            existing_user = User.query.filter_by(code=code).first()
+            if existing_user and existing_user.identity_id:
+                # Link to existing identity from same invitation
+                user_kwargs['identity_id'] = existing_user.identity_id
+        
+        new_user = User(**user_kwargs)
+        db.session.add(new_user)
+        return new_user
+
     @abstractmethod
     def libraries(self):
         raise NotImplementedError
@@ -158,6 +184,35 @@ class MediaClient(ABC):
                 - user_stats: User activity and count information
                 - server_stats: Server health and performance metrics
                 - content_stats: Content consumption and popular items
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def join(self, username: str, password: str, confirm: str, email: str, code: str):
+        """Process user invitation for this media server.
+        
+        Args:
+            username: Username for the new account
+            password: Password for the new account
+            confirm: Password confirmation
+            email: Email address for the new account
+            code: Invitation code being used
+            
+        Returns:
+            tuple: (success: bool, message: str)
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def scan_libraries(self, url: str = None, token: str = None):
+        """Scan available libraries on this media server.
+        
+        Args:
+            url: Optional server URL override
+            token: Optional API token override
+            
+        Returns:
+            dict: Library name -> library ID mapping
         """
         raise NotImplementedError
 

@@ -129,3 +129,46 @@ def check_komga(url: str, token: str) -> tuple[bool, str]:
         return True, ""
     except Exception as e:
         return handle_connection_error(e, _("Komga"))
+
+def check_kavita(url: str, token: str) -> tuple[bool, str]:
+    """Quick connectivity check for a Kavita instance.
+
+    We perform a lightweight GET request to ``/api/Health`` which is
+    available to check server health. If an API key is provided, we authenticate
+    to get a JWT token and test access to libraries.
+    """
+    try:
+        headers = {"Accept": "application/json", "Content-Type": "application/json"}
+        
+        # First check health endpoint (no auth required)
+        resp = requests.get(f"{url.rstrip('/')}/api/Health", headers=headers, timeout=10)
+        if resp.status_code != 200:
+            raise ServerResponseError(resp.status_code, resp.url)
+        
+        # If API key provided, authenticate and test access
+        if token:
+            # Step 1: Use API key to get JWT token
+            auth_url = f"{url.rstrip('/')}/api/Plugin/authenticate"
+            auth_params = {"apiKey": token, "pluginName": "Wizarr"}
+            auth_resp = requests.post(auth_url, params=auth_params, headers=headers, timeout=10)
+            if auth_resp.status_code != 200:
+                raise ServerResponseError(auth_resp.status_code, auth_resp.url)
+            
+            auth_data = auth_resp.json()
+            jwt_token = auth_data.get("token", "")
+            if not jwt_token:
+                raise ValueError("No JWT token returned from Kavita authentication")
+            
+            # Step 2: Use JWT token to test library access
+            jwt_headers = {**headers, "Authorization": f"Bearer {jwt_token}"}
+            lib_resp = requests.get(f"{url.rstrip('/')}/api/Library/libraries", headers=jwt_headers, timeout=10)
+            if lib_resp.status_code != 200:
+                raise ServerResponseError(lib_resp.status_code, lib_resp.url)
+            
+            # Basic sanity check – ensure response is JSON list
+            if not isinstance(lib_resp.json(), list):
+                raise ValueError("Unexpected Kavita response format")
+        
+        return True, ""
+    except Exception as e:
+        return handle_connection_error(e, _("Kavita"))

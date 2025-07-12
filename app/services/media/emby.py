@@ -19,6 +19,34 @@ class EmbyClient(JellyfinClient):
             for item in self.get("/Library/MediaFolders").json()["Items"]
         }
 
+    def scan_libraries(self, url: str = None, token: str = None) -> dict[str, str]:
+        """Scan available libraries on this Emby server.
+        
+        Args:
+            url: Optional server URL override
+            token: Optional API token override
+            
+        Returns:
+            dict: Library name -> library GUID mapping
+        """
+        import requests
+        
+        if url and token:
+            # Use override credentials for scanning
+            headers = {"X-Emby-Token": token}
+            response = requests.get(
+                f"{url.rstrip('/')}/Library/MediaFolders",
+                headers=headers,
+                timeout=10
+            )
+            response.raise_for_status()
+            items = response.json()["Items"]
+        else:
+            # Use saved credentials
+            items = self.get("/Library/MediaFolders").json()["Items"]
+        
+        return {item["Name"]: item["Guid"] for item in items}
+
     def statistics(self):
         """Return essential Emby server statistics for the dashboard.
         
