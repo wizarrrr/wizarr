@@ -88,3 +88,46 @@ Make sure disabled buttons don't get the pointer cursor.
 .modal-container ~ * {
   z-index: 1 !important;
 }
+
+/* Mobile modal improvements for better scrolling */
+@media (max-width: 768px) {
+  .modal-container .fixed.inset-0 {
+    padding: 1rem 0.5rem;
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .modal-container .min-h-full {
+    min-height: auto;
+    max-height: calc(100vh - 2rem);
+    width: 100%;
+    margin: 0;
+  }
+  
+  .modal-container .transform {
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    width: 100%;
+    margin: 0.5rem auto;
+  }
+  
+  /* Ensure modal content scrolls properly on mobile */
+  .modal-container .bg-white {
+    display: flex;
+    flex-direction: column;
+    max-height: inherit;
+  }
+  
+  /* Make form content scrollable if needed */
+  .modal-container .space-y-4,
+  .modal-container .space-y-6 {
+    overflow-y: auto;
+    flex: 1;
+  }
+  
+  /* Ensure action buttons stay at bottom */
+  .modal-container .bg-gray-50 {
+    margin-top: auto;
+    flex-shrink: 0;
+  }
+}
