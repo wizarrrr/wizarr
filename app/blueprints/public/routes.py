@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, send_from_directory, request, jsonify, url_for, session, Response
+from flask import Blueprint, redirect, render_template, send_from_directory, request, jsonify, url_for, session, Response, current_app
 import os
 from app.extensions import db
 from app.models import Settings, Invitation, MediaServer, User
@@ -104,6 +104,15 @@ def join():
 def health():
     # If you need to check DB connectivity, do it here.
     return jsonify(status="ok"), 200
+
+@public_bp.route("/static/manifest.json")
+def manifest():
+    """Serve the PWA manifest file with correct content type"""
+    return send_from_directory(
+        os.path.join(current_app.root_path, 'static'),
+        'manifest.json',
+        mimetype='application/manifest+json'
+    )
 
 # ─── Password prompt for multi-server invites ───────────────────────────────
 
