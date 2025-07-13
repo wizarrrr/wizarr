@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-12 04:01+0000\n"
+"POT-Creation-Date: 2025-07-13 04:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "Admin updated"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:51
+#: app/blueprints/auth/routes.py:59
 msgid "Invalid username or password"
 msgstr ""
 
@@ -231,6 +231,10 @@ msgstr ""
 msgid "Komga"
 msgstr ""
 
+#: app/services/servers.py:174
+msgid "Kavita"
+msgstr ""
+
 #: app/templates/admin.html:5
 msgid "Admin"
 msgstr ""
@@ -332,7 +336,7 @@ msgstr ""
 msgid "Deleted user"
 msgstr ""
 
-#: app/templates/admin/accepted_invites_card.html:45
+#: app/templates/admin/accepted_invites_card.html:52
 msgid "No recent invitations have been accepted."
 msgstr ""
 
@@ -533,7 +537,7 @@ msgstr ""
 #: app/templates/admin/user_modal.html:42
 #: app/templates/modals/edit-admin.html:33
 #: app/templates/modals/edit-identity.html:26
-#: app/templates/modals/edit-server.html:84
+#: app/templates/modals/edit-server.html:85
 #: app/templates/modals/wizard-bundle-form.html:30
 #: app/templates/modals/wizard-simple-step-form.html:29
 #: app/templates/modals/wizard-step-form.html:42
@@ -548,10 +552,10 @@ msgstr ""
 #: app/templates/modals/bundle-add-steps.html:32
 #: app/templates/modals/create-admin.html:34
 #: app/templates/modals/create-notification-agent.html:86
-#: app/templates/modals/create-server.html:82
+#: app/templates/modals/create-server.html:83
 #: app/templates/modals/edit-admin.html:34
 #: app/templates/modals/edit-identity.html:27
-#: app/templates/modals/edit-server.html:85
+#: app/templates/modals/edit-server.html:86
 #: app/templates/modals/invite.html:238
 #: app/templates/modals/wizard-bundle-form.html:29
 #: app/templates/modals/wizard-simple-step-form.html:28
@@ -650,7 +654,7 @@ msgstr ""
 msgid "Add Server"
 msgstr ""
 
-#: app/templates/modals/create-server.html:81
+#: app/templates/modals/create-server.html:82
 msgid "Test & Add"
 msgstr ""
 
