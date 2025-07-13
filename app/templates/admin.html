@@ -82,10 +82,10 @@
             </div>
         </header>
 
-        <div id="content" class="flex-1 overflow-y-auto pb-16 md:pb-0"></div>
+        <div id="content" class="flex-1 overflow-y-auto content-with-mobile-nav md:pb-0"></div>
 
         <!-- Mobile Bottom Navigation -->
-        <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 z-50">
+        <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 z-50 mobile-nav">
             <div class="grid grid-cols-4 h-16">
                 {% set mobile_tabs = [
                   ("/home", "#", "Home", "m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5"),

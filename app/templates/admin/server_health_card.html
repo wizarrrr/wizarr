@@ -58,12 +58,9 @@
                             {# --- Server Statistics --- #}
                             {%- set show_active = server.type in ['plex', 'emby', 'jellyfin', 'audiobookshelf'] -%}
                             {%- set show_transcoding = server.type in ['plex', 'emby', 'jellyfin'] -%}
-                            {%- set col_count = 1 -%} {# Users column is always shown #}
-                            {%- if show_active %}{% set col_count = col_count + 1 %}{% endif -%}
-                            {%- if show_transcoding %}{% set col_count = col_count + 1 %}{% endif -%}
-                            <div class="grid grid-cols-{{ col_count }} gap-3 text-center">
+                            <div class="flex justify-center gap-6 text-center">
                                 {% if show_active %}
-                                <div>
+                                <div class="flex-1">
                                     <div class="text-base font-bold text-gray-900 dark:text-white">
                                         {{ server.active_sessions or 0 }}
                                     </div>
@@ -74,7 +71,7 @@
                                 {% endif %}
 
                                 {% if show_transcoding %}
-                                <div>
+                                <div class="flex-1">
                                     <div class="text-base font-bold text-gray-900 dark:text-white">
                                         {{ server.transcoding or 0 }}
                                     </div>
@@ -84,7 +81,7 @@
                                 </div>
                                 {% endif %}
 
-                                <div>
+                                <div class="flex-1">
                                     <div class="text-base font-bold text-gray-900 dark:text-white">
                                         {{ server.total_users or 0 }}
                                     </div>
