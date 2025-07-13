@@ -4,7 +4,8 @@ import base64
 from flask import Blueprint, request, jsonify, current_app, session, url_for, render_template
 from flask_login import login_required, current_user
 from webauthn import generate_registration_options, verify_registration_response, generate_authentication_options, verify_authentication_response
-from webauthn.helpers.structs import AuthenticatorSelectionCriteria, UserVerificationRequirement, RegistrationCredential, AuthenticationCredential
+from webauthn.helpers.structs import AuthenticatorSelectionCriteria, UserVerificationRequirement, AuthenticationCredential
+from webauthn.helpers import parse_registration_credential_json, parse_authentication_credential_json
 from webauthn.helpers.cose import COSEAlgorithmIdentifier
 from app.models import WebAuthnCredential, AdminAccount
 from app.extensions import db
@@ -142,7 +143,7 @@ def register_complete():
         return jsonify({"error": "No registration in progress"}), 400
     
     try:
-        credential = RegistrationCredential.parse_raw(json.dumps(credential_data["credential"]))
+        credential = parse_registration_credential_json(credential_data["credential"])
         
         rp_id, rp_name, origin = get_rp_config()
         
@@ -238,7 +239,7 @@ def authenticate_complete():
         return jsonify({"error": "User not found"}), 404
     
     try:
-        credential = AuthenticationCredential.parse_raw(json.dumps(credential_data["credential"]))
+        credential = parse_authentication_credential_json(credential_data["credential"])
         
         db_credential = WebAuthnCredential.query.filter_by(
             credential_id=credential.raw_id,
