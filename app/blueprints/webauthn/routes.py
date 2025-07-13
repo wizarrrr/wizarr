@@ -39,10 +39,21 @@ def get_rp_config():
     else:
         # Fallback to standard request headers
         host = request.headers.get('Host', 'localhost:5000')
-        scheme = 'https' if request.is_secure else 'http'
+        
+        # Detect HTTPS from various reverse proxy headers
+        is_https = (
+            request.is_secure or
+            request.headers.get('X-Forwarded-Proto', '').lower() == 'https' or
+            request.headers.get('X-Forwarded-Ssl', '').lower() == 'on' or
+            request.headers.get('X-Url-Scheme', '').lower() == 'https' or
+            request.headers.get('X-Forwarded-Protocol', '').lower() == 'https'
+        )
+        
+        scheme = 'https' if is_https else 'http'
         hostname = host.split(':')[0]
         origin = f"{scheme}://{host}"
-        current_app.logger.info(f"Using request headers: Host={host}, scheme={scheme}")
+        current_app.logger.info(f"Using request headers: Host={host}, scheme={scheme}, is_https={is_https}")
+        current_app.logger.info(f"Proxy headers: X-Forwarded-Proto={request.headers.get('X-Forwarded-Proto')}, X-Forwarded-Ssl={request.headers.get('X-Forwarded-Ssl')}")
     
     # WebAuthn RP_ID must match the hostname exactly for proper origin validation
     rp_id = hostname
@@ -64,6 +75,10 @@ def debug_headers():
         'Origin': request.headers.get('Origin'),
         'Referer': request.headers.get('Referer'),
         'User-Agent': request.headers.get('User-Agent'),
+        'X-Forwarded-Proto': request.headers.get('X-Forwarded-Proto'),
+        'X-Forwarded-Ssl': request.headers.get('X-Forwarded-Ssl'),
+        'X-Url-Scheme': request.headers.get('X-Url-Scheme'),
+        'X-Forwarded-Protocol': request.headers.get('X-Forwarded-Protocol'),
         'is_secure': request.is_secure,
         'url': request.url,
         'base_url': request.base_url,
