@@ -11,19 +11,19 @@
     {% if success %}
         {% if servers %}
             <div class="flex-1 overflow-y-auto">
-                <div class="space-y-3">
+                <div class="space-y-2">
                     {% for server in servers %}
-                    <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4 
+                    <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-3 
                               {% if server.online %}bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800{% else %}bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800{% endif %}">
                         
                         <!-- Server Header -->
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="flex items-center gap-3">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
                                 <!-- Status Indicator -->
                                 {% if server.online %}
-                                    <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                                 {% else %}
-                                    <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                    <div class="w-2 h-2 bg-red-500 rounded-full"></div>
                                 {% endif %}
                                 
                                 <!-- Server Type Icon -->
@@ -44,11 +44,11 @@
                             
                             <!-- Status Badge -->
                             {% if server.online %}
-                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
                                     {{ _("Online") }}
                                 </span>
                             {% else %}
-                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">
                                     {{ _("Offline") }}
                                 </span>
                             {% endif %}
@@ -61,10 +61,10 @@
                             {%- set col_count = 1 -%} {# Users column is always shown #}
                             {%- if show_active %}{% set col_count = col_count + 1 %}{% endif -%}
                             {%- if show_transcoding %}{% set col_count = col_count + 1 %}{% endif -%}
-                            <div class="grid grid-cols-{{ col_count }} gap-4 text-center">
+                            <div class="grid grid-cols-{{ col_count }} gap-3 text-center">
                                 {% if show_active %}
                                 <div>
-                                    <div class="text-lg font-bold text-gray-900 dark:text-white">
+                                    <div class="text-base font-bold text-gray-900 dark:text-white">
                                         {{ server.active_sessions or 0 }}
                                     </div>
                                     <div class="text-xs text-gray-500 dark:text-gray-400">
@@ -75,7 +75,7 @@
 
                                 {% if show_transcoding %}
                                 <div>
-                                    <div class="text-lg font-bold text-gray-900 dark:text-white">
+                                    <div class="text-base font-bold text-gray-900 dark:text-white">
                                         {{ server.transcoding or 0 }}
                                     </div>
                                     <div class="text-xs text-gray-500 dark:text-gray-400">
@@ -85,7 +85,7 @@
                                 {% endif %}
 
                                 <div>
-                                    <div class="text-lg font-bold text-gray-900 dark:text-white">
+                                    <div class="text-base font-bold text-gray-900 dark:text-white">
                                         {{ server.total_users or 0 }}
                                     </div>
                                     <div class="text-xs text-gray-500 dark:text-gray-400">
@@ -96,18 +96,18 @@
 
                             {# --- Activity Indicators --- #}
                             {% if (show_active and server.active_sessions > 0) or (show_transcoding and server.transcoding > 0) %}
-                                <div class="mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
-                                    <div class="flex items-center justify-center gap-4 text-xs">
+                                <div class="mt-2 pt-2 border-t border-gray-200 dark:border-gray-600">
+                                    <div class="flex items-center justify-center gap-3 text-xs">
                                         {% if show_active and server.active_sessions > 0 %}
                                             <div class="flex items-center gap-1 text-green-600 dark:text-green-400">
-                                                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                                <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
                                                 {{ _("Active Sessions") }}
                                             </div>
                                         {% endif %}
 
                                         {% if show_transcoding and server.transcoding > 0 %}
                                             <div class="flex items-center gap-1 text-orange-600 dark:text-orange-400">
-                                                <div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                                                <div class="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></div>
                                                 {{ _("Transcoding") }}
                                             </div>
                                         {% endif %}
@@ -118,13 +118,13 @@
                         {% else %}
                             <!-- Error Information -->
                             {% if server.error %}
-                                <div class="mt-3 p-2 bg-red-100 dark:bg-red-900/20 rounded">
+                                <div class="mt-2 p-2 bg-red-100 dark:bg-red-900/20 rounded">
                                     <p class="text-xs text-red-700 dark:text-red-400">
                                         {{ server.error[:100] }}{% if server.error|length > 100 %}...{% endif %}
                                     </p>
                                 </div>
                             {% else %}
-                                <div class="mt-3 text-center">
+                                <div class="mt-2 text-center">
                                     <p class="text-xs text-gray-500 dark:text-gray-400">
                                         {{ _("Server is currently unreachable") }}
                                     </p>
@@ -138,7 +138,7 @@
                 <!-- Summary -->
                 {% set online_count = servers|selectattr("online")|list|length %}
                 {% set total_count = servers|length %}
-                <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+                <div class="mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
                     <div class="text-center">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
                             <span class="font-medium text-green-600 dark:text-green-400">{{ online_count }}</span>

@@ -1,6 +1,6 @@
 {# Translation helper '_' is provided globally by Flask-Babel – no local override needed #}
-<div class="relative z-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full h-full flex flex-col" x-data>
-    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+<div class="relative z-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 w-full h-full flex flex-col" x-data>
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
         <!-- Icon -->
         <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14v7" />
@@ -11,13 +11,13 @@
     {% if invites %}
     <ul class="divide-y divide-gray-200 dark:divide-gray-700 flex-1 overflow-y-auto pr-1">
         {% for inv in invites %}
-        <li class="flex items-center py-2">
+        <li class="flex items-center py-1.5">
             <!-- Avatar / placeholder -->
             {% if inv.used_by and inv.used_by.photo %}
-            <img src="{{ inv.used_by.photo }}" alt="{{ inv.used_by.username }}" class="w-8 h-8 rounded-full object-cover mr-3" />
+            <img src="{{ inv.used_by.photo }}" alt="{{ inv.used_by.username }}" class="w-6 h-6 rounded-full object-cover mr-2" />
             {% else %}
-            <span class="inline-flex items-center justify-center w-8 h-8 mr-3 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <span class="inline-flex items-center justify-center w-6 h-6 mr-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 2a5 5 0 100 10a5 5 0 000-10zm-7 16a7 7 0 0114 0H3z" />
                 </svg>
             </span>
@@ -32,19 +32,19 @@
                 </p>
             </div>
 
-            {% if inv.servers %}
-            {% for srv in inv.servers %}
-            <div class="ml-2 flex items-center gap-1">
-                {{ srv.server_type|server_type_tag }}
-                <span class="text-xs text-gray-500 dark:text-gray-400">{{ srv.name }}</span>
+            <div class="ml-1.5 flex items-center gap-1 flex-shrink-0">
+                {% if inv.servers %}
+                {% for srv in inv.servers %}
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+                    {{ srv.name }}
+                </span>
+                {% endfor %}
+                {% elif inv.server %}
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+                    {{ inv.server.name }}
+                </span>
+                {% endif %}
             </div>
-            {% endfor %}
-            {% elif inv.server %}
-            <div class="ml-2 flex items-center gap-1">
-                {{ inv.server.server_type|server_type_tag }}
-                <span class="text-xs text-gray-500 dark:text-gray-400">{{ inv.server.name }}</span>
-            </div>
-            {% endif %}
         </li>
         {% endfor %}
     </ul>
