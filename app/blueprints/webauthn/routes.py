@@ -205,24 +205,17 @@ def register_complete():
 
 @webauthn_bp.route("/webauthn/authenticate/begin", methods=["POST"])
 def authenticate_begin():
-    """Begin WebAuthn authentication process."""
-    username = request.get_json().get("username")
-    if not username:
-        return jsonify({"error": "Username required"}), 400
-    
+    """Begin WebAuthn authentication process (usernameless)."""
     rp_id, rp_name, origin = get_rp_config()
     
-    admin_account = AdminAccount.query.filter_by(username=username).first()
-    if not admin_account:
-        return jsonify({"error": "User not found"}), 404
-    
-    credentials = WebAuthnCredential.query.filter_by(admin_account_id=admin_account.id).all()
-    if not credentials:
-        return jsonify({"error": "No passkeys registered for this user"}), 404
+    # Get all credentials from all admin accounts for usernameless authentication
+    all_credentials = WebAuthnCredential.query.all()
+    if not all_credentials:
+        return jsonify({"error": "No passkeys registered"}), 404
     
     allow_credentials = [
         {"id": cred.credential_id, "type": "public-key"}
-        for cred in credentials
+        for cred in all_credentials
     ]
     
     authentication_options = generate_authentication_options(
@@ -232,34 +225,51 @@ def authenticate_begin():
     )
     
     session["webauthn_challenge"] = authentication_options.challenge
-    session["webauthn_username"] = username
+    # Don't store username since we're doing usernameless auth
     
-    return jsonify(authentication_options)
+    # Convert to JSON-serializable format
+    def base64url_encode(data):
+        return base64.urlsafe_b64encode(data).decode('utf-8').rstrip('=')
+    
+    options_dict = {
+        "challenge": base64url_encode(authentication_options.challenge),
+        "timeout": authentication_options.timeout,
+        "rpId": authentication_options.rp_id,
+        "allowCredentials": [
+            {
+                "id": base64url_encode(cred.id),
+                "type": cred.type,
+                "transports": cred.transports
+            }
+            for cred in (authentication_options.allow_credentials or [])
+        ],
+        "userVerification": authentication_options.user_verification
+    }
+    
+    return jsonify(options_dict)
 
 @webauthn_bp.route("/webauthn/authenticate/complete", methods=["POST"])
 def authenticate_complete():
-    """Complete WebAuthn authentication process."""
+    """Complete WebAuthn authentication process (usernameless)."""
     credential_data = request.get_json()
     challenge = session.get("webauthn_challenge")
-    username = session.get("webauthn_username")
     
-    if not challenge or not username:
+    if not challenge:
         return jsonify({"error": "No authentication in progress"}), 400
-    
-    admin_account = AdminAccount.query.filter_by(username=username).first()
-    if not admin_account:
-        return jsonify({"error": "User not found"}), 404
     
     try:
         credential = parse_authentication_credential_json(credential_data["credential"])
         
+        # Find the credential by credential_id (usernameless authentication)
         db_credential = WebAuthnCredential.query.filter_by(
-            credential_id=credential.raw_id,
-            admin_account_id=admin_account.id
+            credential_id=credential.raw_id
         ).first()
         
         if not db_credential:
             return jsonify({"error": "Credential not found"}), 404
+        
+        # Get the admin account associated with this credential
+        admin_account = db_credential.admin_account
         
         rp_id, rp_name, origin = get_rp_config()
         
@@ -278,7 +288,7 @@ def authenticate_complete():
         db.session.commit()
         
         session.pop("webauthn_challenge", None)
-        session.pop("webauthn_username", None)
+        # No username to clean up in usernameless authentication
         
         from flask_login import login_user
         login_user(admin_account, remember=True)
