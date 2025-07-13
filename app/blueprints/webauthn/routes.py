@@ -4,7 +4,7 @@ import base64
 from flask import Blueprint, request, jsonify, current_app, session, url_for, render_template
 from flask_login import login_required, current_user
 from webauthn import generate_registration_options, verify_registration_response, generate_authentication_options, verify_authentication_response
-from webauthn.helpers.structs import AuthenticatorSelectionCriteria, UserVerificationRequirement, AuthenticationCredential
+from webauthn.helpers.structs import AuthenticatorSelectionCriteria, UserVerificationRequirement, AuthenticationCredential, PublicKeyCredentialDescriptor
 from webauthn.helpers import parse_registration_credential_json, parse_authentication_credential_json
 from webauthn.helpers.cose import COSEAlgorithmIdentifier
 from app.models import WebAuthnCredential, AdminAccount
@@ -214,7 +214,7 @@ def authenticate_begin():
         return jsonify({"error": "No passkeys registered"}), 404
     
     allow_credentials = [
-        {"id": cred.credential_id, "type": "public-key"}
+        PublicKeyCredentialDescriptor(id=cred.credential_id)
         for cred in all_credentials
     ]
     
@@ -239,7 +239,7 @@ def authenticate_begin():
             {
                 "id": base64url_encode(cred.id),
                 "type": cred.type,
-                "transports": cred.transports
+                "transports": cred.transports if hasattr(cred, 'transports') else []
             }
             for cred in (authentication_options.allow_credentials or [])
         ],
