@@ -11,11 +11,30 @@
     <script src="{{ url_for('static', filename='node_modules/htmx.org/dist/htmx.min.js') }}"></script>
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+
   <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover, user-scalable=no">
 
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Wizarr">
   <meta name="HandheldFriendly" content="true" />
+  
+  <!-- PWA Theme Color -->
+  <meta name="theme-color" content="#3b82f6">
+  
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/pwa-icons/icon-152x152.png') }}">
+  <link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='img/pwa-icons/icon-72x72.png') }}">
+  <link rel="apple-touch-icon" sizes="96x96" href="{{ url_for('static', filename='img/pwa-icons/icon-96x96.png') }}">
+  <link rel="apple-touch-icon" sizes="128x128" href="{{ url_for('static', filename='img/pwa-icons/icon-128x128.png') }}">
+  <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='img/pwa-icons/icon-144x144.png') }}">
+  <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='img/pwa-icons/icon-152x152.png') }}">
+  <link rel="apple-touch-icon" sizes="192x192" href="{{ url_for('static', filename='img/pwa-icons/icon-192x192.png') }}">
+  <link rel="apple-touch-icon" sizes="384x384" href="{{ url_for('static', filename='img/pwa-icons/icon-384x384.png') }}">
+  <link rel="apple-touch-icon" sizes="512x512" href="{{ url_for('static', filename='img/pwa-icons/icon-512x512.png') }}">
 
   <meta name="robots" content="noindex">
 
@@ -50,6 +69,7 @@
   <script src="{{ url_for('static', filename='js/init-tinymde.js') }}"></script>
   <script src="{{ url_for('static', filename='js/sortable.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/wizard-steps.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/pwa-registration.js') }}"></script>
 
 </body>
 
