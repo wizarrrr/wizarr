@@ -169,38 +169,35 @@ def register_complete():
             expected_rp_id=rp_id,
         )
         
-        current_app.logger.info(f"Registration verification result: {verification.verified}")
+        current_app.logger.info(f"Registration verification successful")
         
-        if verification.verified:
-            # Use the name from session, fall back to provided name or default
-            credential_name = passkey_name or credential_data.get("name", f"Passkey {len(current_user.webauthn_credentials) + 1}")
-            
-            new_credential = WebAuthnCredential(
-                admin_account_id=current_user.id,
-                credential_id=verification.credential_id,
-                public_key=verification.credential_public_key,
-                sign_count=verification.sign_count,
-                name=credential_name
-            )
-            
-            db.session.add(new_credential)
-            db.session.commit()
-            
-            # Clean up session data
-            session.pop("webauthn_challenge", None)
-            session.pop("webauthn_user_id", None)
-            session.pop("passkey_name", None)
-            
-            current_app.logger.info(f"Successfully registered passkey '{credential_name}' for user {current_user.username}")
-            
-            return jsonify({
-                "verified": True,
-                "credential_id": base64.b64encode(verification.credential_id).decode('utf-8'),
-                "name": credential_name
-            })
-        else:
-            current_app.logger.warning(f"Registration verification failed for user {current_user.username}")
-            return jsonify({"error": "Registration verification failed"}), 400
+        # If verify_registration_response() returns without exception, registration is verified
+        # Use the name from session, fall back to provided name or default
+        credential_name = passkey_name or credential_data.get("name", f"Passkey {len(current_user.webauthn_credentials) + 1}")
+        
+        new_credential = WebAuthnCredential(
+            admin_account_id=current_user.id,
+            credential_id=verification.credential_id,
+            public_key=verification.credential_public_key,
+            sign_count=verification.sign_count,
+            name=credential_name
+        )
+        
+        db.session.add(new_credential)
+        db.session.commit()
+        
+        # Clean up session data
+        session.pop("webauthn_challenge", None)
+        session.pop("webauthn_user_id", None)
+        session.pop("passkey_name", None)
+        
+        current_app.logger.info(f"Successfully registered passkey '{credential_name}' for user {current_user.username}")
+        
+        return jsonify({
+            "verified": True,
+            "credential_id": base64.b64encode(verification.credential_id).decode('utf-8'),
+            "name": credential_name
+        })
             
     except Exception as e:
         current_app.logger.error(f"WebAuthn registration error: {str(e)}", exc_info=True)
@@ -275,23 +272,21 @@ def authenticate_complete():
             credential_current_sign_count=db_credential.sign_count,
         )
         
-        if verification.verified:
-            db_credential.sign_count = verification.new_sign_count
-            db_credential.last_used_at = db.func.now()
-            db.session.commit()
-            
-            session.pop("webauthn_challenge", None)
-            session.pop("webauthn_username", None)
-            
-            from flask_login import login_user
-            login_user(admin_account, remember=True)
-            
-            return jsonify({
-                "verified": True,
-                "redirect": url_for("admin.index")
-            })
-        else:
-            return jsonify({"error": "Authentication verification failed"}), 400
+        # If verify_authentication_response() returns without exception, authentication is verified
+        db_credential.sign_count = verification.new_sign_count
+        db_credential.last_used_at = db.func.now()
+        db.session.commit()
+        
+        session.pop("webauthn_challenge", None)
+        session.pop("webauthn_username", None)
+        
+        from flask_login import login_user
+        login_user(admin_account, remember=True)
+        
+        return jsonify({
+            "verified": True,
+            "redirect": url_for("admin.index")
+        })
             
     except Exception as e:
         current_app.logger.error(f"WebAuthn authentication error: {str(e)}")
