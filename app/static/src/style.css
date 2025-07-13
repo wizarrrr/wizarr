@@ -89,6 +89,61 @@ Make sure disabled buttons don't get the pointer cursor.
   z-index: 1 !important;
 }
 
+/* PWA Safe Area Support for iPhone */
+@supports (padding-top: env(safe-area-inset-top)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  /* Reset body padding in full-screen mode when we have mobile nav */
+  body:has(.mobile-nav) {
+    padding-bottom: 0;
+  }
+}
+
+/* Ensure content respects safe areas in standalone mode */
+@media (display-mode: standalone) {
+  body {
+    padding-top: max(env(safe-area-inset-top), 0px);
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+    padding-left: max(env(safe-area-inset-left), 0px);
+    padding-right: max(env(safe-area-inset-right), 0px);
+  }
+  
+  /* Adjust fixed positioned elements for safe areas */
+  .fixed {
+    top: env(safe-area-inset-top);
+    bottom: env(safe-area-inset-bottom);
+    left: env(safe-area-inset-left);
+    right: env(safe-area-inset-right);
+  }
+  
+  /* Mobile bottom navigation safe area */
+  .mobile-nav {
+    padding-bottom: env(safe-area-inset-bottom);
+    /* Fallback for older browsers */
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+  }
+  
+  /* Adjust content area to account for mobile nav with safe area */
+  .content-with-mobile-nav {
+    padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+    /* Fallback for older browsers */
+    padding-bottom: calc(4rem + max(env(safe-area-inset-bottom), 0px));
+  }
+  
+  /* Additional mobile adjustments for devices with safe areas */
+  @media (max-width: 768px) {
+    .content-with-mobile-nav {
+      /* Ensure content doesn't get hidden under mobile nav */
+      min-height: calc(100vh - 4rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    }
+  }
+}
+
 /* Mobile modal improvements for better scrolling */
 @media (max-width: 768px) {
   .modal-container .fixed.inset-0 {
