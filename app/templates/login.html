@@ -25,7 +25,7 @@ Login
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="marvin" required="">
           </div>
-          <div>
+          <div id="password-section">
             <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Password") }}</label>
             <input type="password" name="password" id="password" placeholder="••••••••"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -42,12 +42,142 @@ Login
               </div>
             </div>
           </div>
-          <button type="submit"
+          <button type="submit" id="password-login"
             class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-hidden focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">{{ _("Sign in") }}</button>
         </form>
+        
+        <div class="mt-4">
+          <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">{{ _("Or") }}</span>
+            </div>
+          </div>
+          <button type="button" id="passkey-login"
+            class="mt-4 w-full flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+            {{ _("Sign in with Passkey") }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const passkeyLoginBtn = document.getElementById('passkey-login');
+    const usernameInput = document.getElementById('username');
+    
+    passkeyLoginBtn.addEventListener('click', async function() {
+        const username = usernameInput.value.trim();
+        if (!username) {
+            alert('{{ _("Please enter your username first") }}');
+            usernameInput.focus();
+            return;
+        }
+        
+        try {
+            passkeyLoginBtn.disabled = true;
+            passkeyLoginBtn.innerHTML = `
+                <div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600 mr-2"></div>
+                {{ _("Authenticating...") }}
+            `;
+            
+            // Begin authentication
+            const beginResponse = await fetch('/webauthn/authenticate/begin', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: username })
+            });
+            
+            if (!beginResponse.ok) {
+                const error = await beginResponse.json();
+                throw new Error(error.error || '{{ _("Authentication failed") }}');
+            }
+            
+            const options = await beginResponse.json();
+            
+            // Convert base64url to Uint8Array for WebAuthn API
+            options.challenge = base64urlToUint8Array(options.challenge);
+            if (options.allowCredentials) {
+                options.allowCredentials = options.allowCredentials.map(cred => ({
+                    ...cred,
+                    id: base64urlToUint8Array(cred.id)
+                }));
+            }
+            
+            // Get credential
+            const credential = await navigator.credentials.get({ publicKey: options });
+            
+            // Complete authentication
+            const completeResponse = await fetch('/webauthn/authenticate/complete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    credential: {
+                        id: credential.id,
+                        rawId: uint8ArrayToBase64url(credential.rawId),
+                        response: {
+                            clientDataJSON: uint8ArrayToBase64url(credential.response.clientDataJSON),
+                            authenticatorData: uint8ArrayToBase64url(credential.response.authenticatorData),
+                            signature: uint8ArrayToBase64url(credential.response.signature),
+                            userHandle: credential.response.userHandle ? uint8ArrayToBase64url(credential.response.userHandle) : null
+                        },
+                        type: credential.type
+                    }
+                })
+            });
+            
+            if (completeResponse.ok) {
+                const result = await completeResponse.json();
+                if (result.verified && result.redirect) {
+                    window.location.href = result.redirect;
+                } else {
+                    throw new Error('{{ _("Authentication failed") }}');
+                }
+            } else {
+                const error = await completeResponse.json();
+                throw new Error(error.error || '{{ _("Authentication failed") }}');
+            }
+            
+        } catch (error) {
+            console.error('Passkey authentication failed:', error);
+            alert(error.message || '{{ _("Passkey authentication failed. Please try again or use your password.") }}');
+        } finally {
+            passkeyLoginBtn.disabled = false;
+            passkeyLoginBtn.innerHTML = `
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+                {{ _("Sign in with Passkey") }}
+            `;
+        }
+    });
+    
+    function base64urlToUint8Array(base64url) {
+        const base64 = base64url.replace(/-/g, '+').replace(/_/g, '/');
+        const padded = base64.padEnd(base64.length + (4 - base64.length % 4) % 4, '=');
+        const binary = atob(padded);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+        }
+        return bytes;
+    }
+    
+    function uint8ArrayToBase64url(array) {
+        const binary = String.fromCharCode(...array);
+        const base64 = btoa(binary);
+        return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+    }
+});
+</script>
 
 {% endblock %}

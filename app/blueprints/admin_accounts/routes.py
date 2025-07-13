@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, make_response
-from flask_login import login_required
+from flask import Blueprint, render_template, request, redirect, url_for, flash, make_response, jsonify
+from flask_login import login_required, current_user
 from flask_babel import _
 
 from app.extensions import db
@@ -82,4 +82,58 @@ def delete_admin():
         return render_template("settings/admins.html", admins=admins)
 
     # Non-HTMX fall-back: redirect back to the list page
-    return redirect(url_for("admin_accounts.list_admins")) 
+    return redirect(url_for("admin_accounts.list_admins"))
+
+
+
+
+# Add a route for user profile that's not under the settings prefix
+from flask import Blueprint as AdminBlueprint
+from app.blueprints.admin.routes import admin_bp
+
+@admin_bp.route("/profile", methods=["GET"])
+@login_required
+def user_profile():
+    """Render user profile page."""
+    return render_template("profile.html")
+
+
+@admin_bp.route("/profile/change-password", methods=["POST"])
+@login_required
+def change_password():
+    """Change user password with HTMX response."""
+    
+    if not isinstance(current_user, AdminAccount):
+        return render_template("components/password_result.html", 
+                             error="Only admin accounts can change passwords")
+    
+    current_password = request.form.get("current_password")
+    new_password = request.form.get("new_password")
+    confirm_password = request.form.get("confirm_password")
+    
+    # Validation
+    if not current_password or not new_password or not confirm_password:
+        return render_template("components/password_result.html", 
+                             error="All password fields are required")
+    
+    if new_password != confirm_password:
+        return render_template("components/password_result.html", 
+                             error="New passwords do not match")
+    
+    if not current_user.check_password(current_password):
+        return render_template("components/password_result.html", 
+                             error="Current password is incorrect")
+    
+    if len(new_password) < 6:
+        return render_template("components/password_result.html", 
+                             error="New password must be at least 6 characters long")
+    
+    try:
+        current_user.set_password(new_password)
+        db.session.commit()
+        return render_template("components/password_result.html", 
+                             success="Password changed successfully")
+    except Exception as e:
+        db.session.rollback()
+        return render_template("components/password_result.html", 
+                             error="Failed to change password") 

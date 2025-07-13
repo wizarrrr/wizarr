@@ -1,0 +1,44 @@
+{% if passkeys %}
+    <div class="space-y-3">
+        {% for passkey in passkeys %}
+        <div class="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div class="flex items-center space-x-3">
+                <div class="flex-shrink-0">
+                    <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1721 9z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">{{ passkey.name }}</h4>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                        {{ _("Added") }}: {{ passkey.created_at.strftime('%Y-%m-%d') }}
+                        {% if passkey.last_used_at %}
+                        • {{ _("Last used") }}: {{ passkey.last_used_at.strftime('%Y-%m-%d') }}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            <button hx-delete="/webauthn/credentials/{{ passkey.id }}"
+                    hx-target="#passkey-list"
+                    hx-swap="innerHTML"
+                    hx-confirm="Are you sure you want to delete this passkey?"
+                    class="text-red-600 hover:text-red-700 p-1">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="text-center py-6 text-gray-500 dark:text-gray-400">
+        <svg class="mx-auto h-12 w-12 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1721 9z"></path>
+        </svg>
+        <p class="text-sm">{{ _("No passkeys registered") }}</p>
+        <p class="text-xs mt-1">{{ _("Add your first passkey for enhanced security") }}</p>
+    </div>
+{% endif %}
