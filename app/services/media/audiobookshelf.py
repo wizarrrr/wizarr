@@ -476,51 +476,46 @@ class AudiobookshelfClient(RestApiMixin):
                 "library_stats": {},
                 "user_stats": {},
                 "server_stats": {},
-                "content_stats": {}
+                "content_stats": {},
             }
-            
-            # Get active sessions once - used for both user and server stats
-            sessions_response = self.get(f"{self.API_PREFIX}/sessions", params={
-                "itemsPerPage": 10,
-                "page": 0
-            }).json()
-            
-            # Filter sessions that are recent (within last minute)
-            import time
-            now_ms = int(time.time() * 1000)
-            active_sessions = []
-            for session in sessions_response.get("sessions", []):
-                updated_at = session.get("updatedAt", 0)
-                if now_ms - updated_at <= 60_000:  # Within 1 minute
-                    active_sessions.append(session)
-            
-            # User statistics - only what's displayed in UI
+
+            # ------------------------------------------------------------------
+            # Active sessions – reuse the same pagination / freshness logic as
+            # *now_playing()* so numbers stay in sync across the dashboard.
+            # ------------------------------------------------------------------
             try:
-                users_response = self.get(f"{self.API_PREFIX}/users").json()
-                users = users_response.get("users", users_response)
-                stats["user_stats"] = {
-                    "total_users": len(users),
-                    "active_sessions": len(active_sessions)
-                }
-            except Exception as e:
-                logging.error(f"Failed to get AudiobookShelf user stats: {e}")
-                stats["user_stats"] = {
-                    "total_users": 0,
-                    "active_sessions": 0
-                }
-            
-            # Server statistics - minimal data
+                active_sessions = self.now_playing()
+            except Exception as exc:
+                logging.error("ABS statistics: failed to calculate active sessions – %s", exc)
+                active_sessions = []
+
+            # ------------------------------------------------------------------
+            # User statistics – we only need total count for the health card.
+            # ------------------------------------------------------------------
+            total_users = 0
             try:
-                stats["server_stats"] = {
-                    "version": "Unknown",  # ABS doesn't expose version via API
-                    "transcoding_sessions": 0  # ABS doesn't typically transcode
-                }
-            except Exception as e:
-                logging.error(f"Failed to get AudiobookShelf server stats: {e}")
-                stats["server_stats"] = {}
-            
+                users_resp = self.get(f"{self.API_PREFIX}/users").json()
+                users_list = users_resp.get("users", users_resp)
+                total_users = len(users_list) if isinstance(users_list, list) else 0
+            except Exception as exc:
+                logging.error("ABS statistics: failed to fetch users – %s", exc)
+
+            stats["user_stats"] = {
+                "total_users": total_users,
+                "active_sessions": len(active_sessions),
+            }
+
+            # ------------------------------------------------------------------
+            # Server statistics – ABS doesn't expose version or transcoding
+            # count via the API (yet) so we fill with sane defaults.
+            # ------------------------------------------------------------------
+            stats["server_stats"] = {
+                "version": "Unknown",
+                "transcoding_sessions": 0,
+            }
+
             return stats
-            
+
         except Exception as e:
             logging.error(f"Failed to get AudiobookShelf statistics: {e}")
             return {
@@ -528,7 +523,7 @@ class AudiobookshelfClient(RestApiMixin):
                 "user_stats": {},
                 "server_stats": {},
                 "content_stats": {},
-                "error": str(e)
+                "error": str(e),
             }
 
     # RestApiMixin overrides -------------------------------------------------
