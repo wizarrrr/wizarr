@@ -55,8 +55,14 @@
                         </div>
                         
                         {% if server.online %}
-                            <!-- Server Statistics -->
-                            <div class="grid grid-cols-3 gap-4 text-center">
+                            {# --- Server Statistics --- #}
+                            {%- set show_active = server.type in ['plex', 'emby', 'jellyfin', 'audiobookshelf'] -%}
+                            {%- set show_transcoding = server.type in ['plex', 'emby', 'jellyfin'] -%}
+                            {%- set col_count = 1 -%} {# Users column is always shown #}
+                            {%- if show_active %}{% set col_count = col_count + 1 %}{% endif -%}
+                            {%- if show_transcoding %}{% set col_count = col_count + 1 %}{% endif -%}
+                            <div class="grid grid-cols-{{ col_count }} gap-4 text-center">
+                                {% if show_active %}
                                 <div>
                                     <div class="text-lg font-bold text-gray-900 dark:text-white">
                                         {{ server.active_sessions or 0 }}
@@ -65,7 +71,9 @@
                                         {{ _("Active") }}
                                     </div>
                                 </div>
-                                
+                                {% endif %}
+
+                                {% if show_transcoding %}
                                 <div>
                                     <div class="text-lg font-bold text-gray-900 dark:text-white">
                                         {{ server.transcoding or 0 }}
@@ -74,7 +82,8 @@
                                         {{ _("Transcoding") }}
                                     </div>
                                 </div>
-                                
+                                {% endif %}
+
                                 <div>
                                     <div class="text-lg font-bold text-gray-900 dark:text-white">
                                         {{ server.total_users or 0 }}
@@ -84,19 +93,19 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            <!-- Activity Indicators -->
-                            {% if server.active_sessions > 0 or server.transcoding > 0 %}
+
+                            {# --- Activity Indicators --- #}
+                            {% if (show_active and server.active_sessions > 0) or (show_transcoding and server.transcoding > 0) %}
                                 <div class="mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
                                     <div class="flex items-center justify-center gap-4 text-xs">
-                                        {% if server.active_sessions > 0 %}
+                                        {% if show_active and server.active_sessions > 0 %}
                                             <div class="flex items-center gap-1 text-green-600 dark:text-green-400">
                                                 <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                                                 {{ _("Active Sessions") }}
                                             </div>
                                         {% endif %}
-                                        
-                                        {% if server.transcoding > 0 %}
+
+                                        {% if show_transcoding and server.transcoding > 0 %}
                                             <div class="flex items-center gap-1 text-orange-600 dark:text-orange-400">
                                                 <div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
                                                 {{ _("Transcoding") }}
