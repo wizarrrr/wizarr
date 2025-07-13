@@ -15,6 +15,7 @@ from .kavita.routes import kavita_bp
 from .komga.routes import komga_bp
 from .wizard_admin.routes import wizard_admin_bp
 from .admin_accounts.routes import admin_accounts_bp
+from .webauthn.routes import webauthn_bp
 
 # NOTE: Server-specific join routes (jellyfin_bp, emby_bp, abs_bp, kavita_bp, komga_bp) 
 # are now deprecated in favor of the unified invitation processor.
@@ -22,4 +23,4 @@ from .admin_accounts.routes import admin_accounts_bp
 
 all_blueprints = (public_bp, wizard_bp, admin_bp, auth_bp,
                   settings_bp, setup_bp, plex_bp, notify_bp, jellyfin_bp, emby_bp, abs_bp, kavita_bp, komga_bp, status_bp,
-                  media_servers_bp, wizard_admin_bp, admin_accounts_bp)
+                  media_servers_bp, wizard_admin_bp, admin_accounts_bp, webauthn_bp)

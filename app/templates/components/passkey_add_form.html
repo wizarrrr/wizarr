@@ -1,0 +1,35 @@
+<div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center" style="z-index: 9999;">
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 m-4 max-w-md w-full">
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ _("Add New Passkey") }}</h3>
+        
+        <form hx-post="/webauthn/register-start" 
+              hx-target="#passkey-modal-container" 
+              hx-swap="innerHTML">
+            <div class="mb-4">
+                <label for="passkey-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    {{ _("Passkey Name") }}
+                </label>
+                <input type="text" 
+                       name="name" 
+                       id="passkey-name" 
+                       required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                       placeholder="{{ _('e.g., My iPhone, Work Laptop') }}">
+            </div>
+            
+            <div class="flex justify-end space-x-3">
+                <button type="button" 
+                        hx-get="/webauthn/close-modal"
+                        hx-target="#passkey-modal-container"
+                        hx-swap="innerHTML"
+                        class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">
+                    {{ _("Cancel") }}
+                </button>
+                <button type="submit" 
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md">
+                    {{ _("Create Passkey") }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

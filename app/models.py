@@ -293,3 +293,20 @@ class WizardBundleStep(db.Model):
     __table_args__ = (
         db.UniqueConstraint("bundle_id", "position", name="uq_bundle_pos"),
     )
+
+
+class WebAuthnCredential(db.Model):
+    """WebAuthn credential storage for passkey authentication."""
+    
+    __tablename__ = "webauthn_credential"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    admin_account_id = db.Column(db.Integer, db.ForeignKey("admin_account.id"), nullable=False)
+    credential_id = db.Column(db.LargeBinary, nullable=False, unique=True)
+    public_key = db.Column(db.LargeBinary, nullable=False)
+    sign_count = db.Column(db.Integer, default=0, nullable=False)
+    name = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    last_used_at = db.Column(db.DateTime, nullable=True)
+    
+    admin_account = db.relationship("AdminAccount", backref=db.backref("webauthn_credentials", lazy=True, cascade="all, delete-orphan"))
