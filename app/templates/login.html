@@ -75,13 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const usernameInput = document.getElementById('username');
     
     passkeyLoginBtn.addEventListener('click', async function() {
-        const username = usernameInput.value.trim();
-        if (!username) {
-            alert('{{ _("Please enter your username first") }}');
-            usernameInput.focus();
-            return;
-        }
-        
         try {
             passkeyLoginBtn.disabled = true;
             passkeyLoginBtn.innerHTML = `
@@ -89,11 +82,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 {{ _("Authenticating...") }}
             `;
             
-            // Begin authentication
+            // Begin authentication (usernameless)
             const beginResponse = await fetch('/webauthn/authenticate/begin', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: username })
+                body: JSON.stringify({})
             });
             
             if (!beginResponse.ok) {
