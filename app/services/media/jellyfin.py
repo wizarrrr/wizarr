@@ -177,17 +177,18 @@ class JellyfinClient(RestApiMixin):
 
             self._set_specific_folders(user_id, sections)
 
-            allow_downloads = bool(getattr(inv, 'jellyfin_allow_downloads', False))
-            allow_live_tv = bool(getattr(inv, 'jellyfin_allow_live_tv', False))
+            # Use universal columns
+            allow_downloads = bool(getattr(inv, 'allow_downloads', False))
+            allow_live_tv = bool(getattr(inv, 'allow_live_tv', False))
             
             if server_id:
                 from app.models import MediaServer
                 current_server = MediaServer.query.get(server_id)
                 if current_server:
                     if not allow_downloads:
-                        allow_downloads = bool(getattr(current_server, 'allow_downloads_jellyfin', False))
+                        allow_downloads = bool(getattr(current_server, 'allow_downloads', False))
                     if not allow_live_tv:
-                        allow_live_tv = bool(getattr(current_server, 'allow_tv_jellyfin', False))
+                        allow_live_tv = bool(getattr(current_server, 'allow_live_tv', False))
             
             current_policy = self.get(f"/Users/{user_id}").json().get("Policy", {})
             current_policy["EnableDownloads"] = allow_downloads

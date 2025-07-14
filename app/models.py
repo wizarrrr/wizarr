@@ -58,9 +58,13 @@ class Invitation(db.Model):
         "WizardBundle", backref=db.backref("invitations", lazy=True)
     )
 
-    # ── NEW: Jellyfin invite toggles ───────────────────────────────
-    jellyfin_allow_downloads = db.Column(db.Boolean, default=False, nullable=True)
-    jellyfin_allow_live_tv   = db.Column(db.Boolean, default=False, nullable=True)
+    # Universal invite toggles (work for all server types)
+    allow_downloads = db.Column(db.Boolean, default=False, nullable=True)
+    allow_live_tv = db.Column(db.Boolean, default=False, nullable=True)
+    
+    # Emby-specific invite toggles (for new Emby fields that don't exist in legacy)
+    emby_allow_downloads = db.Column(db.Boolean, default=False, nullable=True)
+    emby_allow_live_tv   = db.Column(db.Boolean, default=False, nullable=True)
 
 
 class Settings(db.Model):
@@ -146,13 +150,13 @@ class MediaServer(db.Model):
     api_key = db.Column(db.String, nullable=True)
     external_url = db.Column(db.String, nullable=True)  # Optional public address
 
-    # Plex‐specific toggles (ignored by other server types)
-    allow_downloads_plex = db.Column(db.Boolean, default=False, nullable=False)
-    allow_tv_plex = db.Column(db.Boolean, default=False, nullable=False)
-
-    # Jellyfin-specific toggles (ignored by other server types)
-    allow_downloads_jellyfin = db.Column(db.Boolean, default=False, nullable=False)
-    allow_tv_jellyfin        = db.Column(db.Boolean, default=False, nullable=False)
+    # Universal media server toggles (work for all server types)
+    allow_downloads = db.Column(db.Boolean, default=False, nullable=False)
+    allow_live_tv = db.Column(db.Boolean, default=False, nullable=False)
+    
+    # Emby-specific toggles (for new Emby fields that don't exist in legacy)
+    allow_downloads_emby = db.Column(db.Boolean, default=False, nullable=False)
+    allow_tv_emby        = db.Column(db.Boolean, default=False, nullable=False)
 
     # Whether the connection credentials were validated successfully
     verified = db.Column(db.Boolean, default=False, nullable=False)

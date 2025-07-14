@@ -66,12 +66,14 @@ def create_server():
             url=data["server_url"],
             api_key=data.get("api_key"),
             external_url=data.get("external_url"),
-            allow_downloads_plex=bool(data.get("allow_downloads_plex")),
-            allow_tv_plex=bool(data.get("allow_tv_plex")),
             
-            # Jellyfin defaults
-            allow_downloads_jellyfin=bool(data.get("allow_downloads_jellyfin")),
-            allow_tv_jellyfin=bool(data.get("allow_tv_jellyfin")),
+            # Universal options (work for all server types)
+            allow_downloads=bool(data.get("allow_downloads")),
+            allow_live_tv=bool(data.get("allow_live_tv")),
+            
+            # Emby-specific options (for new Emby fields)
+            allow_downloads_emby=bool(data.get("allow_downloads_emby")),
+            allow_tv_emby=bool(data.get("allow_tv_emby")),
             verified=True,
         )
         db.session.add(server)
@@ -142,10 +144,13 @@ def edit_server(server_id):
         server.url = data["server_url"]
         server.api_key = data.get("api_key")
         server.external_url = data.get("external_url")
-        server.allow_downloads_plex = bool(data.get("allow_downloads_plex"))
-        server.allow_tv_plex = bool(data.get("allow_tv_plex"))
-        server.allow_downloads_jellyfin = bool(data.get("allow_downloads_jellyfin"))
-        server.allow_tv_jellyfin = bool(data.get("allow_tv_jellyfin"))
+        # Universal options (work for all server types)
+        server.allow_downloads = bool(data.get("allow_downloads"))
+        server.allow_live_tv = bool(data.get("allow_live_tv"))
+        
+        # Emby-specific options (for new Emby fields)
+        server.allow_downloads_emby = bool(data.get("allow_downloads_emby"))
+        server.allow_tv_emby = bool(data.get("allow_tv_emby"))
         # update libraries
         chosen = request.form.getlist('libraries')
         if chosen:

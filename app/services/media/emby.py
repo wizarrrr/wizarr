@@ -156,10 +156,66 @@ class EmbyClient(JellyfinClient):
             "EnableAudioPlaybackTranscoding": True,
             "EnableVideoPlaybackTranscoding": True,
             "EnablePlaybackRemuxing": True,
-            "EnableContentDownloading": True,
             "EnableRemoteAccess": True,
         }
 
         current = self.get(f"/Users/{user_id}").json()["Policy"]
         current.update(policy_patch)
         self.set_policy(user_id, current)
+
+    def join(self, username: str, password: str, confirm: str, email: str, code: str) -> tuple[bool, str]:
+        """Override join method to handle universal download and live TV settings."""
+        # Call the parent join method first
+        success, message = super().join(username, password, confirm, email, code)
+        
+        if not success:
+            return success, message
+            
+        # Get the invitation and server information
+        from app.models import Invitation, MediaServer
+        
+        inv = Invitation.query.filter_by(code=code).first()
+        if not inv:
+            return False, "Invalid invitation code."
+        
+        server_id = getattr(self, 'server_id', None)
+        if not server_id:
+            return success, message
+            
+        current_server = MediaServer.query.get(server_id)
+        if not current_server:
+            return success, message
+            
+        # Get the user that was just created
+        from app.models import User
+        from sqlalchemy import or_
+        
+        user = User.query.filter(
+            or_(User.username == username, User.email == email),
+            User.server_id == server_id
+        ).first()
+        
+        if not user:
+            return success, message
+            
+        # Determine download and live TV settings using universal columns
+        allow_downloads = bool(getattr(inv, 'allow_downloads', False))
+        allow_live_tv = bool(getattr(inv, 'allow_live_tv', False))
+        
+        # Fall back to server defaults if not set on invitation
+        if not allow_downloads:
+            allow_downloads = bool(getattr(current_server, 'allow_downloads', False))
+        if not allow_live_tv:
+            allow_live_tv = bool(getattr(current_server, 'allow_live_tv', False))
+            
+        # Update the user policy with download and live TV settings
+        try:
+            current_policy = self.get(f"/Users/{user.token}").json().get("Policy", {})
+            current_policy["EnableContentDownloading"] = allow_downloads
+            current_policy["EnableLiveTvAccess"] = allow_live_tv
+            self.set_policy(user.token, current_policy)
+        except Exception as e:
+            logging.error(f"Failed to set Emby download/live TV permissions for user {username}: {str(e)}")
+            # Don't fail the join process for this
+            
+        return success, message
