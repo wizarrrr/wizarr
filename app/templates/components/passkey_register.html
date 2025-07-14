@@ -20,21 +20,11 @@
 </div>
 
 <script>
-// Auto-start WebAuthn registration immediately (HTMX templates load after DOMContentLoaded)
 (function() {
-    console.log('Passkey registration script loaded');
-    
     const options = {{ options | tojson }};
-    console.log('Options loaded:', options);
-    console.log('RP ID:', options.rp.id);
-    console.log('RP Name:', options.rp.name);
-    console.log('Current location:', window.location.href);
-    console.log('Window origin:', window.location.origin);
-    console.log('Options RP object:', JSON.stringify(options.rp, null, 2));
     
     // Convert base64url to Uint8Array for WebAuthn API
     function base64urlToUint8Array(base64url) {
-        // Add padding if needed
         const padded = base64url + '==='.slice(0, (4 - base64url.length % 4) % 4);
         const base64 = padded.replace(/-/g, '+').replace(/_/g, '/');
         const binary = atob(base64);
@@ -63,39 +53,14 @@
     }
     
     // Check WebAuthn availability
-    if (!window.PublicKeyCredential) {
-        console.error('WebAuthn not supported');
+    if (!window.PublicKeyCredential || !navigator.credentials) {
         alert('WebAuthn not supported in this browser');
         return;
     }
     
-    if (!navigator.credentials) {
-        console.error('navigator.credentials not available');
-        alert('navigator.credentials not available');
-        return;
-    }
-    
-    // Additional WebAuthn debugging
-    console.log('PublicKeyCredential available:', !!window.PublicKeyCredential);
-    console.log('WebAuthn available:', 'credentials' in navigator && 'create' in navigator.credentials);
-    
-    // WebAuthn debugging - show current configuration
-    console.log('Window hostname:', window.location.hostname);
-    console.log('Window origin:', window.location.origin);
-    console.log('RP ID:', options.rp.id);
-    console.log('RP ID matches hostname:', options.rp.id === window.location.hostname);
-    
-    // Note: WebAuthn will validate origin internally, no need to construct expected origin
-    
     // Start registration
-    console.log('Starting WebAuthn registration with options:', options);
-    console.log('Full publicKey object being passed to WebAuthn:', JSON.stringify(options, null, 2));
-    
     navigator.credentials.create({ publicKey: options })
         .then(credential => {
-            console.log('WebAuthn credential created:', credential);
-            
-            // Send completed registration to server
             const registrationData = {
                 name: '{{ name }}',
                 credential: {
@@ -109,8 +74,6 @@
                 }
             };
             
-            console.log('Sending registration data:', registrationData);
-            
             return fetch('/webauthn/register/complete', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -118,26 +81,21 @@
             });
         })
         .then(response => {
-            console.log('Registration response status:', response.status);
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
             return response.json();
         })
         .then(result => {
-            console.log('Registration result:', result);
             if (result.verified) {
-                // Close modal and refresh passkey list
                 htmx.ajax('GET', '/webauthn/close-modal', '#passkey-modal-container');
                 htmx.ajax('GET', '/webauthn/list', '#passkey-list');
             } else {
-                console.error('Registration verification failed:', result);
                 htmx.ajax('GET', '/webauthn/add-form', '#passkey-modal-container');
                 alert('{{ _("Failed to register passkey") }}: ' + (result.error || 'Unknown error'));
             }
         })
         .catch(error => {
-            console.error('Registration process failed:', error);
             htmx.ajax('GET', '/webauthn/add-form', '#passkey-modal-container');
             alert('{{ _("Failed to complete passkey registration") }}: ' + error.message);
         });

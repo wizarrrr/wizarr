@@ -16,31 +16,24 @@ def get_rp_config():
     from flask import request
     from urllib.parse import urlparse
     
-    # Default values
-    default_rp_name = "Wizarr"
-    
-    # Check if we have environment overrides
+    # Environment overrides
     env_rp_id = os.environ.get("WEBAUTHN_RP_ID")
-    env_rp_name = os.environ.get("WEBAUTHN_RP_NAME")
+    env_rp_name = os.environ.get("WEBAUTHN_RP_NAME", "Wizarr")
     env_origin = os.environ.get("WEBAUTHN_ORIGIN")
     
-    # If environment variables are set, use them
-    if env_rp_id and env_rp_name and env_origin:
-        current_app.logger.info(f"Using environment WebAuthn config: {env_rp_id}, {env_origin}")
+    if env_rp_id and env_origin:
         return env_rp_id, env_rp_name, env_origin
     
     # For HTMX requests, prefer HX-Current-URL header
     current_url = request.headers.get('HX-Current-URL')
     if current_url:
-        current_app.logger.info(f"Using HX-Current-URL: {current_url}")
         parsed = urlparse(current_url)
         hostname = parsed.hostname
         origin = f"{parsed.scheme}://{parsed.netloc}"
     else:
-        # Fallback to standard request headers
         host = request.headers.get('Host', 'localhost:5000')
         
-        # Detect HTTPS from various reverse proxy headers
+        # Detect HTTPS from reverse proxy headers
         is_https = (
             request.is_secure or
             request.headers.get('X-Forwarded-Proto', '').lower() == 'https' or
@@ -52,49 +45,8 @@ def get_rp_config():
         scheme = 'https' if is_https else 'http'
         hostname = host.split(':')[0]
         origin = f"{scheme}://{host}"
-        current_app.logger.info(f"Using request headers: Host={host}, scheme={scheme}, is_https={is_https}")
-        current_app.logger.info(f"Proxy headers: X-Forwarded-Proto={request.headers.get('X-Forwarded-Proto')}, X-Forwarded-Ssl={request.headers.get('X-Forwarded-Ssl')}")
     
-    # WebAuthn RP_ID must match the hostname exactly for proper origin validation
-    rp_id = hostname
-    
-    current_app.logger.info(f"Final WebAuthn config: rp_id={rp_id}, origin={origin}")
-    
-    return rp_id, default_rp_name, origin
-
-
-@webauthn_bp.route("/webauthn/debug", methods=["GET", "POST"])
-@login_required  
-def debug_headers():
-    """Debug endpoint to check request headers."""
-    from flask import request
-    headers_info = {
-        'Host': request.headers.get('Host'),
-        'HX-Current-URL': request.headers.get('HX-Current-URL'),
-        'HX-Request': request.headers.get('HX-Request'),
-        'Origin': request.headers.get('Origin'),
-        'Referer': request.headers.get('Referer'),
-        'User-Agent': request.headers.get('User-Agent'),
-        'X-Forwarded-Proto': request.headers.get('X-Forwarded-Proto'),
-        'X-Forwarded-Ssl': request.headers.get('X-Forwarded-Ssl'),
-        'X-Url-Scheme': request.headers.get('X-Url-Scheme'),
-        'X-Forwarded-Protocol': request.headers.get('X-Forwarded-Protocol'),
-        'is_secure': request.is_secure,
-        'url': request.url,
-        'base_url': request.base_url,
-        'url_root': request.url_root,
-    }
-    
-    rp_id, rp_name, origin = get_rp_config()
-    
-    return jsonify({
-        'headers': headers_info,
-        'webauthn_config': {
-            'rp_id': rp_id,
-            'rp_name': rp_name,
-            'origin': origin
-        }
-    })
+    return hostname, env_rp_name, origin
 
 
 
@@ -149,17 +101,11 @@ def register_complete():
     expected_user_id = session.get("webauthn_user_id")
     passkey_name = session.get("passkey_name")
     
-    current_app.logger.info(f"Registration completion attempt for user {current_user.username}")
-    current_app.logger.info(f"Challenge present: {challenge is not None}")
-    current_app.logger.info(f"Expected user ID present: {expected_user_id is not None}")
-    current_app.logger.info(f"Passkey name: {passkey_name}")
-    
     if not challenge or not expected_user_id:
         return jsonify({"error": "No registration in progress"}), 400
     
     try:
         credential = parse_registration_credential_json(credential_data["credential"])
-        
         rp_id, rp_name, origin = get_rp_config()
         
         verification = verify_registration_response(
@@ -169,10 +115,6 @@ def register_complete():
             expected_rp_id=rp_id,
         )
         
-        current_app.logger.info(f"Registration verification successful")
-        
-        # If verify_registration_response() returns without exception, registration is verified
-        # Use the name from session, fall back to provided name or default
         credential_name = passkey_name or credential_data.get("name", f"Passkey {len(current_user.webauthn_credentials) + 1}")
         
         new_credential = WebAuthnCredential(
@@ -191,8 +133,6 @@ def register_complete():
         session.pop("webauthn_user_id", None)
         session.pop("passkey_name", None)
         
-        current_app.logger.info(f"Successfully registered passkey '{credential_name}' for user {current_user.username}")
-        
         return jsonify({
             "verified": True,
             "credential_id": base64.b64encode(verification.credential_id).decode('utf-8'),
@@ -200,7 +140,6 @@ def register_complete():
         })
             
     except Exception as e:
-        current_app.logger.error(f"WebAuthn registration error: {str(e)}", exc_info=True)
         return jsonify({"error": f"Registration failed: {str(e)}"}), 400
 
 @webauthn_bp.route("/webauthn/authenticate/begin", methods=["POST"])
@@ -225,13 +164,12 @@ def authenticate_begin():
     )
     
     session["webauthn_challenge"] = authentication_options.challenge
-    # Don't store username since we're doing usernameless auth
     
     # Convert to JSON-serializable format
     def base64url_encode(data):
         return base64.urlsafe_b64encode(data).decode('utf-8').rstrip('=')
     
-    options_dict = {
+    return jsonify({
         "challenge": base64url_encode(authentication_options.challenge),
         "timeout": authentication_options.timeout,
         "rpId": authentication_options.rp_id,
@@ -244,9 +182,7 @@ def authenticate_begin():
             for cred in (authentication_options.allow_credentials or [])
         ],
         "userVerification": authentication_options.user_verification
-    }
-    
-    return jsonify(options_dict)
+    })
 
 @webauthn_bp.route("/webauthn/authenticate/complete", methods=["POST"])
 def authenticate_complete():
@@ -282,13 +218,12 @@ def authenticate_complete():
             credential_current_sign_count=db_credential.sign_count,
         )
         
-        # If verify_authentication_response() returns without exception, authentication is verified
+        # Update credential usage
         db_credential.sign_count = verification.new_sign_count
         db_credential.last_used_at = db.func.now()
         db.session.commit()
         
         session.pop("webauthn_challenge", None)
-        # No username to clean up in usernameless authentication
         
         from flask_login import login_user
         login_user(admin_account, remember=True)
@@ -299,7 +234,6 @@ def authenticate_complete():
         })
             
     except Exception as e:
-        current_app.logger.error(f"WebAuthn authentication error: {str(e)}")
         return jsonify({"error": "Authentication failed"}), 400
 
 @webauthn_bp.route("/webauthn/credentials", methods=["GET"])
@@ -418,9 +352,6 @@ def register_start_htmx():
         def base64url_encode(data):
             return base64.urlsafe_b64encode(data).decode('utf-8').rstrip('=')
         
-        current_app.logger.info(f"Creating options_dict with RP ID: {registration_options.rp.id}")
-        current_app.logger.info(f"Registration options RP: {registration_options.rp}")
-        
         options_dict = {
             "challenge": base64url_encode(registration_options.challenge),
             "rp": {
@@ -454,6 +385,5 @@ def register_start_htmx():
                              options=options_dict, name=name)
         
     except Exception as e:
-        current_app.logger.error(f"WebAuthn registration start error: {str(e)}")
         return render_template("components/passkey_error.html", 
                              error="Failed to start passkey registration")
