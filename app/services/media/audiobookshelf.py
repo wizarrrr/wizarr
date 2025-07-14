@@ -101,69 +101,51 @@ class AudiobookshelfClient(RestApiMixin):
     # --- users ---------------------------------------------------------
 
     def list_users(self) -> List[User]:
-        """Read users from Audiobookshelf and reflect them locally.
+        """Read users from Audiobookshelf and reflect them locally."""
+        server_id = getattr(self, "server_id", None)
+        if server_id is None:
+            return []
 
-        At the moment we *only* sync users that already exist in the
-        local DB.  Creating new users and managing their permissions is
-        still on the TODO list.
-        """
         try:
             data = self.get(f"{self.API_PREFIX}/users").json()
-            raw_users: List[Dict[str, Any]] = data.get("users", data)  # ABS may wrap list in {"users": [...]}
+            raw_users: List[Dict[str, Any]] = data.get("users", data)
         except Exception as exc:
             logging.warning("ABS: failed to list users – %s", exc)
             return []
 
-        # Index by ABS user‐id for quick lookups
         raw_by_id = {u["id"]: u for u in raw_users}
 
-        # ------------------------------------------------------------------
-        # 1) Add new users or update basic fields so the UI has fresh data
-        # ------------------------------------------------------------------
-        for uid, remote in raw_by_id.items():
-            db_row = (
-                User.query
-                .filter_by(token=uid, server_id=getattr(self, "server_id", None))
-                .first()
-            )
-            if not db_row:
-                db_row = User(
-                    token=uid,
-                    username=remote.get("username", "abs-user"),
-                    email=remote.get("email", ""),
-                    code="empty",  # placeholder – signifies "no invite code"
-                    password="abs",  # placeholder
-                    server_id=getattr(self, "server_id", None),
-                )
-                db.session.add(db_row)
-            else:
-                # Simple field refresh (username/email might have changed)
-                db_row.username = remote.get("username", db_row.username)
-                db_row.email = remote.get("email", db_row.email)
+        try:
+            # Add new users or update existing ones
+            for uid, remote in raw_by_id.items():
+                db_row = User.query.filter_by(token=uid, server_id=server_id).first()
+                if not db_row:
+                    db_row = User(
+                        token=uid,
+                        username=remote.get("username", "abs-user"),
+                        email=remote.get("email", ""),
+                        code="empty",
+                        server_id=server_id,
+                    )
+                    db.session.add(db_row)
+                else:
+                    db_row.username = remote.get("username", db_row.username)
+                    db_row.email = remote.get("email", db_row.email)
 
-        db.session.commit()
+            # Remove users that no longer exist upstream
+            to_check = User.query.filter(User.server_id == server_id).all()
+            for local in to_check:
+                if local.token not in raw_by_id:
+                    db.session.delete(local)
 
-        # ------------------------------------------------------------------
-        # 2) Remove local users that have disappeared upstream.  This keeps
-        #    the Wizarr DB in sync so "ghost" accounts don't show up as
-        #    "Local" after they were deleted on the ABS server.
-        # ------------------------------------------------------------------
-        to_check = (
-            User.query
-            .filter(User.server_id == getattr(self, "server_id", None))
-            .all()
-        )
-        for local in to_check:
-            if local.token not in raw_by_id:
-                db.session.delete(local)
+            db.session.commit()
 
-        db.session.commit()
+        except Exception as exc:
+            logging.error("ABS: failed to sync users – %s", exc)
+            db.session.rollback()
+            return []
 
-        return (
-            User.query
-            .filter(User.server_id == getattr(self, "server_id", None))
-            .all()
-        )
+        return User.query.filter(User.server_id == server_id).all()
 
     # --- user management ------------------------------------------------
 
@@ -215,7 +197,7 @@ class AudiobookshelfClient(RestApiMixin):
     def _mark_invite_used(inv, user):
         inv.used_by = user
         from app.services.invites import mark_server_used
-        mark_server_used(inv, getattr(user, "server_id", None))
+        mark_server_used(inv, user.server_id)
 
     def _set_specific_libraries(self, user_id: str, library_ids: List[str]):
         """Restrict the given *user* to the supplied library IDs.
@@ -261,9 +243,13 @@ class AudiobookshelfClient(RestApiMixin):
         if not ok:
             return False, msg
 
+        server_id = getattr(self, "server_id", None)
+        if server_id is None:
+            return False, "Server configuration error"
+
         existing = User.query.filter(
             or_(User.username == username, User.email == email),
-            User.server_id == getattr(self, "server_id", None)
+            User.server_id == server_id
         ).first()
         if existing:
             return False, "User or e-mail already exists."
@@ -271,67 +257,48 @@ class AudiobookshelfClient(RestApiMixin):
         try:
             user_id = self.create_user(username, password, email=email)
             if not user_id:
-                return False, "Audiobookshelf did not return a user id – please verify the server URL/token."
+                return False, "Failed to create user on server"
+            
             inv = Invitation.query.filter_by(code=code).first()
 
-            # ------------------------------------------------------------------
-            # 1) Restrict library access (if requested)
-            # ------------------------------------------------------------------
-            current_server_id = getattr(self, "server_id", None)
+            # Set library access
             if inv.libraries:
-                # Use libraries tied to the invite for THIS server
-                lib_ids = [lib.external_id for lib in inv.libraries if lib.server_id == current_server_id]
+                lib_ids = [lib.external_id for lib in inv.libraries if lib.server_id == server_id]
             else:
-                # Fallback to all *enabled* libraries for this server
                 lib_ids = [
                     lib.external_id
-                    for lib in Library.query.filter_by(
-                        enabled=True,
-                        server_id=current_server_id,
-                    ).all()
+                    for lib in Library.query.filter_by(enabled=True, server_id=server_id).all()
                 ]
-
-            # Apply the permission patch – empty list → all libraries
             self._set_specific_libraries(user_id, lib_ids)
 
-            # ------------------------------------------------------------------
-            # 2) Calculate expiry time (optional duration on invite)
-            # ------------------------------------------------------------------
-            import datetime as _dt
-
+            # Calculate expiry
             expires = None
             if inv.duration:
                 try:
+                    import datetime as _dt
                     expires = _dt.datetime.utcnow() + _dt.timedelta(days=int(inv.duration))
                 except Exception:
-                    logging.warning("ABS: invalid duration on invite %s", inv.code)
+                    pass
 
-            # ------------------------------------------------------------------
-            # 3) Store locally
-            # ------------------------------------------------------------------
+            # Store locally
             local = User(
                 token=user_id,
                 username=username,
                 email=email,
                 code=code,
                 expires=expires,
-                server_id=getattr(self, "server_id", None),
+                server_id=server_id,
             )
             db.session.add(local)
-            try:
-                db.session.commit()
-            except Exception:
-                db.session.rollback()
-                logging.exception("ABS join failed during DB commit")
-                return False, "Internal error while saving the account."
+            db.session.commit()
 
-            # 4) mark invite used
             self._mark_invite_used(inv, local)
-
             return True, ""
+            
         except Exception as exc:
-            logging.error("ABS join failed: %s", exc, exc_info=True)
-            return False, "Failed to create user – please contact the admin."
+            logging.error("ABS join failed: %s", exc)
+            db.session.rollback()
+            return False, "Failed to create user"
 
     def now_playing(self) -> list[dict]:
         """Return active sessions (updated within the last minute).
