@@ -21,7 +21,7 @@ LOGGING_CONFIG = {
         # ○ add a rotating-file handler if you fancy
         # "file": {
         #     "class": "logging.handlers.RotatingFileHandler",
-        #     "filename": Path(__file__).resolve().parent.parent / "logs" / "app.log",
+        #     "filename": str(Path(__file__).resolve().parent.parent / "logs" / "wizarr.log"),
         #     "maxBytes": 5_000_000,
         #     "backupCount": 3,
         #     "formatter": "default",
@@ -43,4 +43,8 @@ LOGGING_CONFIG = {
 
 def configure_logging() -> None:
     """Call this once at start-up."""
+    if "file" in LOGGING_CONFIG.get("handlers", {}):
+        log_path = Path(LOGGING_CONFIG["handlers"]["file"]["filename"])
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+
     logging.config.dictConfig(LOGGING_CONFIG)
