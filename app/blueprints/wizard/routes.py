@@ -207,9 +207,14 @@ def _serve(server: str, idx: int):
 
     idx = max(0, min(idx, len(steps) - 1))
     html = _render(steps[idx], cfg | {"_": _}, server_type=server)
+    
+    if not request.headers.get("HX-Request"):
+        page = "wizard/frame.html"
+    else:
+        page = "wizard/steps.html"
 
     return render_template(
-        "wizard/frame.html",
+        page,
         body_html=html,
         idx=idx,
         max_idx=len(steps) - 1,
@@ -288,9 +293,14 @@ def combo(idx: int):
     current_server_type = step_server_mapping[idx] if idx < len(step_server_mapping) else order[0]
     
     html = _render(steps[idx], cfg | {"_": _}, server_type=current_server_type)
+    
+    if not request.headers.get("HX-Request"):
+        page = "wizard/frame.html"
+    else:
+        page = "wizard/steps.html"
 
     return render_template(
-        "wizard/frame.html",
+        page,
         body_html=html,
         idx=idx,
         max_idx=len(steps)-1,
@@ -337,9 +347,14 @@ def bundle_view(idx: int):
     current_server_type = steps_raw[idx].server_type if idx < len(steps_raw) else None
     
     html = _render(steps[idx], _settings() | {'_': _}, server_type=current_server_type)
+    
+    if not request.headers.get("HX-Request"):
+        page = "wizard/frame.html"
+    else:
+        page = "wizard/steps.html"
 
     return render_template(
-        'wizard/frame.html',
+        page,
         body_html=html,
         idx=idx,
         max_idx=len(steps)-1,
