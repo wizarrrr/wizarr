@@ -38,8 +38,7 @@
 
   <meta name="robots" content="noindex">
 
-  <title>{% block title %}{% endblock %} - {{ _(server_name) }}</title>
-
+  <title>{% block title %}{% endblock %}{% if title %}-{% endif %}{{ _(server_name) }}</title>
   <meta property="og:title" content="{% block og_title %}{% endblock %}" />
   <meta property="og:description" content="{% block og_description %}{% endblock %}" />
 
