@@ -295,7 +295,7 @@ def authenticate_complete():
         
         return jsonify({
             "verified": True,
-            "redirect": url_for("admin.index")
+            "redirect": url_for("admin.dashboard")
         })
             
     except Exception as e:
