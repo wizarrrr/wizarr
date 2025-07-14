@@ -17,11 +17,11 @@ logger = logging.getLogger('alembic.env')
 
 def get_engine():
     try:
-        # this works with Flask-SQLAlchemy>=3
-        return current_app.extensions['migrate'].db.engine
-    except (TypeError, AttributeError):
         # this works with Flask-SQLAlchemy<3 and Alchemical
         return current_app.extensions['migrate'].db.get_engine()
+    except (TypeError, AttributeError):
+        # this works with Flask-SQLAlchemy>=3
+        return current_app.extensions['migrate'].db.engine
 
 
 def get_engine_url():
@@ -97,11 +97,6 @@ def run_migrations_online():
     connectable = get_engine()
 
     with connectable.connect() as connection:
-        # Enable batch mode for SQLite to handle constraint operations
-        # Only set render_as_batch if it's not already configured
-        if 'render_as_batch' not in conf_args:
-            conf_args['render_as_batch'] = connection.dialect.name == 'sqlite'
-        
         context.configure(
             connection=connection,
             target_metadata=get_metadata(),

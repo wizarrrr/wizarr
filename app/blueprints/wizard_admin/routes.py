@@ -7,7 +7,7 @@ from sqlalchemy import func
 import re
 
 from app.extensions import db
-from app.models import WizardStep, WizardBundle, WizardBundleStep
+from app.models import WizardStep, WizardBundle, WizardBundleStep, MediaServer
 from app.forms.wizard import WizardStepForm, WizardBundleForm
 from app.forms.wizard import SimpleWizardStepForm
 
@@ -41,6 +41,10 @@ def list_steps():
     grouped: dict[str, list[WizardStep]] = {}
     for row in rows:
         grouped.setdefault(row.server_type, []).append(row)
+
+    # Filter: show only servers that are currently configured/enabled
+    active_types = {srv.server_type for srv in MediaServer.query.all()}
+    grouped = {stype: steps for stype, steps in grouped.items() if stype in active_types}
 
     # When requested via HTMX we return only the inner fragment that is meant
     # to be swapped into the <div id="tab-body"> container on the settings

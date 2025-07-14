@@ -50,26 +50,14 @@
                                 <input type="password" name="server_password" id="server_password" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             </div>
                         </div>
-                        <div id="plex-options" style="display:none;">
+                        <div id="media-server-options" style="display:none;">
                             <label class="inline-flex items-center cursor-pointer">
-                                <input id="allow_downloads_plex" name="allow_downloads_plex" type="checkbox" value="true" {% if server.allow_downloads_plex %}checked{% endif %} class="sr-only peer">
+                                <input id="allow_downloads" name="allow_downloads" type="checkbox" value="true" {% if server.allow_downloads %}checked{% endif %} class="sr-only peer">
                                 <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
                                 <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Downloads</span>
                             </label>
                             <label class="inline-flex items-center cursor-pointer mt-2">
-                                <input id="allow_tv_plex" name="allow_tv_plex" type="checkbox" value="true" {% if server.allow_tv_plex %}checked{% endif %} class="sr-only peer">
-                                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
-                                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Live TV</span>
-                            </label>
-                        </div>
-                        <div id="jellyfin-options" style="display:none;">
-                            <label class="inline-flex items-center cursor-pointer">
-                                <input id="allow_downloads_jellyfin" name="allow_downloads_jellyfin" type="checkbox" value="true" {% if server.allow_downloads_jellyfin %}checked{% endif %} class="sr-only peer">
-                                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
-                                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Downloads</span>
-                            </label>
-                            <label class="inline-flex items-center cursor-pointer mt-2">
-                                <input id="allow_tv_jellyfin" name="allow_tv_jellyfin" type="checkbox" value="true" {% if server.allow_tv_jellyfin %}checked{% endif %} class="sr-only peer">
+                                <input id="allow_live_tv" name="allow_live_tv" type="checkbox" value="true" {% if server.allow_live_tv %}checked{% endif %} class="sr-only peer">
                                 <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
                                 <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Live TV</span>
                             </label>
@@ -95,10 +83,11 @@
 function closeModal(){ document.getElementById('create-server-modal').innerHTML=''; }
 function updateOptions(){
   const type=document.getElementById('server_type').value;
-  document.getElementById('plex-options').style.display = type==='plex' ? 'block' : 'none';
+  // Show universal media server options for Plex, Jellyfin, and Emby
+  const showMediaOptions = ['plex', 'jellyfin', 'emby'].includes(type);
+  document.getElementById('media-server-options').style.display = showMediaOptions ? 'block' : 'none';
   document.getElementById('romm-options').style.display = type==='romm' ? 'block' : 'none';
   document.getElementById('api-key-div').style.display  = type==='romm' ? 'none'  : 'block';
-  document.getElementById('jellyfin-options').style.display = type==='jellyfin' ? 'block' : 'none';
 }
 document.getElementById('server_type').addEventListener('change',updateOptions);
 updateOptions();
