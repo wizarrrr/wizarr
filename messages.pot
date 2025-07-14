@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-13 04:07+0000\n"
+"POT-Creation-Date: 2025-07-14 04:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,6 +92,7 @@ msgstr ""
 
 #: app/forms/admin.py:23 app/templates/choose-password.html:23
 #: app/templates/login.html:29 app/templates/modals/create-admin.html:22
+#: app/templates/profile.html:25
 msgid "Password"
 msgstr ""
 
@@ -105,7 +106,7 @@ msgstr ""
 msgid "Passwords must match."
 msgstr ""
 
-#: app/forms/admin.py:31
+#: app/forms/admin.py:31 app/templates/profile.html:42
 msgid "New Password"
 msgstr ""
 
@@ -239,7 +240,11 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: app/templates/admin.html:64
+#: app/templates/admin.html:73
+msgid "Profile"
+msgstr ""
+
+#: app/templates/admin.html:83
 msgid "Logout"
 msgstr ""
 
@@ -277,6 +282,51 @@ msgstr ""
 
 #: app/templates/login.html:46
 msgid "Sign in"
+msgstr ""
+
+#: app/templates/login.html:55
+msgid "Or"
+msgstr ""
+
+#: app/templates/login.html:64 app/templates/login.html:159
+msgid "Sign in with Passkey"
+msgstr ""
+
+#: app/templates/login.html:80
+msgid "Please enter your username first"
+msgstr ""
+
+#: app/templates/login.html:89
+msgid "Authenticating..."
+msgstr ""
+
+#: app/templates/login.html:101 app/templates/login.html:142
+#: app/templates/login.html:146
+msgid "Authentication failed"
+msgstr ""
+
+#: app/templates/login.html:151
+msgid "Passkey authentication failed. Please try again or use your password."
+msgstr ""
+
+#: app/templates/profile.html:13
+msgid "Administrator"
+msgstr ""
+
+#: app/templates/profile.html:27
+msgid "Change your account password for security."
+msgstr ""
+
+#: app/templates/profile.html:35
+msgid "Current Password"
+msgstr ""
+
+#: app/templates/profile.html:49
+msgid "Confirm New Password"
+msgstr ""
+
+#: app/templates/profile.html:56
+msgid "Change Password"
 msgstr ""
 
 #: app/templates/settings.html:13
@@ -379,7 +429,7 @@ msgstr ""
 
 #: app/templates/admin/library_breakdown_card.html:129
 #: app/templates/admin/recent_content_card.html:126
-#: app/templates/admin/server_health_card.html:169
+#: app/templates/admin/server_health_card.html:175
 #: app/templates/admin/server_stats_card.html:81
 msgid "Unknown error occurred"
 msgstr ""
@@ -433,51 +483,51 @@ msgstr ""
 msgid "Offline"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:65
+#: app/templates/admin/server_health_card.html:68
 #: app/templates/admin/server_stats_card.html:29
 #: app/templates/settings/notifications.html:68
 msgid "Active"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:74
-#: app/templates/admin/server_health_card.html:102
+#: app/templates/admin/server_health_card.html:79
+#: app/templates/admin/server_health_card.html:108
 msgid "Transcoding"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:83
+#: app/templates/admin/server_health_card.html:89
 #: app/templates/admin/server_stats_card.html:23
 msgid "Users"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:95
+#: app/templates/admin/server_health_card.html:101
 msgid "Active Sessions"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:120
+#: app/templates/admin/server_health_card.html:126
 msgid "Server is currently unreachable"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:136
+#: app/templates/admin/server_health_card.html:142
 msgid "of"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:138
+#: app/templates/admin/server_health_card.html:144
 msgid "servers online"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:143
+#: app/templates/admin/server_health_card.html:149
 msgid "server(s) need attention"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:155
+#: app/templates/admin/server_health_card.html:161
 msgid "No servers configured"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:156
+#: app/templates/admin/server_health_card.html:162
 msgid "Add media servers to monitor their health"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:168
+#: app/templates/admin/server_health_card.html:174
 msgid "Failed to load server health"
 msgstr ""
 
@@ -522,6 +572,7 @@ msgid "Policies"
 msgstr ""
 
 #: app/templates/admin/user_details_modal.html:89
+#: app/templates/components/passkey_error.html:17
 #: app/templates/modals/invite.html:301
 msgid "Close"
 msgstr ""
@@ -549,6 +600,8 @@ msgid "Save"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:47
+#: app/templates/components/passkey_add_form.html:26
+#: app/templates/components/passkey_register.html:16
 #: app/templates/modals/bundle-add-steps.html:32
 #: app/templates/modals/create-admin.html:34
 #: app/templates/modals/create-notification-agent.html:86
@@ -576,6 +629,75 @@ msgstr ""
 
 #: app/templates/admin/users.html:23 app/templates/servers/index.html:27
 msgid "Delete"
+msgstr ""
+
+#: app/templates/components/passkey_add_form.html:3
+msgid "Add New Passkey"
+msgstr ""
+
+#: app/templates/components/passkey_add_form.html:10
+msgid "Passkey Name"
+msgstr ""
+
+#: app/templates/components/passkey_add_form.html:17
+msgid "e.g., My iPhone, Work Laptop"
+msgstr ""
+
+#: app/templates/components/passkey_add_form.html:30
+#: app/templates/components/passkey_register.html:3
+msgid "Create Passkey"
+msgstr ""
+
+#: app/templates/components/passkey_error.html:7
+msgid "Error"
+msgstr ""
+
+#: app/templates/components/passkey_list.html:15
+msgid "Added"
+msgstr ""
+
+#: app/templates/components/passkey_list.html:17
+msgid "Last used"
+msgstr ""
+
+#: app/templates/components/passkey_list.html:41
+msgid "No passkeys registered"
+msgstr ""
+
+#: app/templates/components/passkey_list.html:42
+msgid "Add your first passkey for enhanced security"
+msgstr ""
+
+#: app/templates/components/passkey_management.html:7
+msgid "Passkeys"
+msgstr ""
+
+#: app/templates/components/passkey_management.html:13
+msgid "Add Passkey"
+msgstr ""
+
+#: app/templates/components/passkey_management.html:16
+msgid "Manage your passkeys for passwordless authentication."
+msgstr ""
+
+#: app/templates/components/passkey_management.html:25
+msgid "Loading passkeys..."
+msgstr ""
+
+#: app/templates/components/passkey_register.html:7
+msgid "Creating passkey for"
+msgstr ""
+
+#: app/templates/components/passkey_register.html:8
+msgid "Please follow your device's prompts to complete setup"
+msgstr ""
+
+#: app/templates/components/passkey_register.html:136
+msgid "Failed to register passkey"
+msgstr ""
+
+#: app/templates/components/passkey_register.html:142
+msgid "Failed to complete passkey registration"
 msgstr ""
 
 #: app/templates/error/401.html:20
