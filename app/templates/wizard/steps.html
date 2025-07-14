@@ -1,0 +1,39 @@
+{# templates/wizard/steps.html #}
+<div id="wizard-wrapper"
+     class="min-h-screen flex flex-col justify-center items-center
+            px-4 py-8 animate__animated
+            {% if direction == 'prev' %} animate__fadeInLeft
+            {% elif direction == 'next' %} animate__fadeInRight
+            {% endif %}">
+
+  <!-- CARD -->
+  <div class="p-6 max-w-md w-full
+              bg-white border border-gray-200 rounded-lg shadow-md
+              dark:bg-gray-800 dark:border-gray-700">
+
+      <!-- Typography helpers -->
+      <div class="prose prose-slate dark:prose-invert
+                  text-gray-800 dark:text-gray-200 max-w-none">
+          {{ body_html|safe }}
+      </div>
+  </div>
+
+  <!-- NAV BUTTONS -->
+  <div class="flex justify-center space-x-4 mt-6">
+      <a  hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
+          hx-vals='{"dir":"prev"}'
+          hx-target="#wizard-wrapper" hx-swap="outerHTML"
+          class="btn-nav"
+          {% if idx == 0 %}style="display:none"{% endif %}>
+          ‹ {{ _("Previous") }}
+      </a>
+
+      <a  hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
+          hx-vals='{"dir":"next"}'
+          hx-target="#wizard-wrapper" hx-swap="outerHTML"
+          class="btn-nav"
+          {% if idx == max_idx %}style="display:none"{% endif %}>
+          {{ _("Next") }} ›
+      </a>
+  </div>
+</div>

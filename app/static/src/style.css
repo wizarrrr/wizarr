@@ -131,3 +131,7 @@ Make sure disabled buttons don't get the pointer cursor.
     flex-shrink: 0;
   }
 }
+
+#wizard-wrapper.htmx-added {
+  opacity: 0;
+}
