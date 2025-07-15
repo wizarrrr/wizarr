@@ -13,7 +13,7 @@ class TestConfig(BaseConfig):
 
 @pytest.fixture(scope="session")
 def app():
-    app = create_app(TestConfig)
+    app = create_app(TestConfig)  # type: ignore[arg-type]
     with app.app_context():
         db.create_all()
     yield app

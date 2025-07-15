@@ -25,7 +25,7 @@ def init_extensions(app):
     # scheduler.start()
     htmx.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = "auth.login"
+    login_manager.login_view = "auth.login"  # type: ignore[assignment]
     db.init_app(app)
     migrate.init_app(app, db)
 

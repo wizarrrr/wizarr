@@ -26,7 +26,9 @@ def test_create_wizard_step(session):
     session.commit()
 
     fetched = WizardStep.query.first()
+    assert fetched is not None
     assert fetched.title == "Welcome"
+    assert fetched.to_dict() is not None
     assert fetched.to_dict()["server_type"] == "plex"
 
 

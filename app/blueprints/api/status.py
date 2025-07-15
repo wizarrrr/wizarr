@@ -26,12 +26,12 @@ def status():
         invites = Invitation.query.count()
         # Pending = not used and not expired
         pending = Invitation.query.filter(
-            not Invitation.used,
-            (Invitation.expires is None) | (Invitation.expires >= now),
+            Invitation.used.is_(False),
+            (Invitation.expires.is_(None)) | (Invitation.expires >= now),
         ).count()
         # Expired if invitation time less than now
         expired = Invitation.query.filter(
-            Invitation.expires is not None, Invitation.expires < now
+            Invitation.expires.is_not(None), Invitation.expires < now
         ).count()
 
         return jsonify(

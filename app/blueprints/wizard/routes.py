@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import frontmatter
-import markdown
 from flask import Blueprint, abort, redirect, render_template, request, session, url_for
 from flask_babel import _
 from flask_login import current_user
@@ -139,8 +138,14 @@ def _settings() -> dict[str, str | None]:
     return data
 
 
-def _eligible(post: frontmatter.Post, cfg: dict) -> bool:
-    need = post.get("requires", [])
+def _eligible(post, cfg: dict) -> bool:
+    """Check if a post/step is eligible based on requirements."""
+    if hasattr(post, "get"):
+        # frontmatter.Post or _RowAdapter
+        need = post.get("requires", [])
+    else:
+        # Handle other types
+        need = getattr(post, "requires", []) or []
     return all(cfg.get(k) for k in need)
 
 
@@ -183,31 +188,38 @@ def _steps(server: str, cfg: dict):
                     return self._requires
                 return default
 
+            def __iter__(self):
+                """Make _RowAdapter iterable for compatibility."""
+                return iter([self])
+
         steps = [_RowAdapter(r) for r in db_rows if _eligible(_RowAdapter(r), cfg)]
         if steps:
             return steps
 
     # ─── 2) Fallback to bundled markdown files ─────────────────────────────
     files = sorted((BASE_DIR / server).glob("*.md"))
-    return [frontmatter.load(f) for f in files if _eligible(frontmatter.load(f), cfg)]
+    return [
+        frontmatter.load(str(f))
+        for f in files
+        if _eligible(frontmatter.load(str(f)), cfg)
+    ]
 
 
-def _render(post: frontmatter.Post, ctx: dict, server_type: str = None) -> str:
+def _render(post, ctx: dict, server_type: str | None = None) -> str:
+    """Render a post (frontmatter.Post or _RowAdapter) with context."""
     from flask import render_template_string
 
     # Jinja templates inside the markdown files expect a top-level `settings` variable.
     # Build a context copy that exposes the current config dictionary via this key
     # while still passing through all existing entries and utilities (e.g. the _() gettext).
-    _vars = ctx.copy()
-    _vars.setdefault("settings", ctx)  # avoid overwriting if already provided
+    render_ctx = ctx.copy()
+    render_ctx["settings"] = ctx
 
-    # Add server-specific variables for the current step
-    if server_type:
-        server_context = _get_server_context(server_type)
-        _vars.update(server_context)
+    # Add server_type to context if provided and not None
+    if server_type is not None:
+        render_ctx["server_type"] = server_type
 
-    md = render_template_string(post.content, **_vars)
-    return markdown.markdown(md, extensions=["fenced_code", "tables", "attr_list"])
+    return render_template_string(post.content, **render_ctx)
 
 
 def _serve(server: str, idx: int):

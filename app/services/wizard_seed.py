@@ -41,7 +41,7 @@ def _collect_server_files(root: Path) -> dict[str, list[Path]]:
 
 
 def _parse_markdown(path: Path) -> dict:
-    post = frontmatter.load(path)
+    post = frontmatter.load(str(path))
     requires = post.get("requires", [])  # list[str]
     title = post.get("title")
 
