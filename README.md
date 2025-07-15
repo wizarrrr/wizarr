@@ -1,6 +1,6 @@
 # Wizarr
 > 🚀 **Development Relaunched:** We're excited to announce that **Wizarr is back in active development**!
-
+<br></br>
 <p align="center">
 
 <img src="./app/static/wizarr-logo.png" height="200">
