@@ -1,5 +1,5 @@
 from app.extensions import db
-from app.models import Settings, MediaServer, Library, User, Invitation
+from app.models import Invitation, Library, MediaServer, Settings, User
 
 
 def migrate_single_to_multi(app):
@@ -30,11 +30,7 @@ def migrate_single_to_multi(app):
             "allow_tv_plex",
             "server_verified",
         ]
-        rows = (
-            Settings.query
-            .filter(Settings.key.in_(keys))
-            .all()
-        )
+        rows = Settings.query.filter(Settings.key.in_(keys)).all()
         legacy = {r.key: r.value for r in rows}
 
         # Need at minimum a URL to create a server record
@@ -63,4 +59,6 @@ def migrate_single_to_multi(app):
         Invitation.query.filter_by(server_id=None).update({"server_id": server.id})
         db.session.commit()
 
-        print(f"[migrate_media_server] Created initial MediaServer(id={server.id}) and linked existing data.") 
+        print(
+            f"[migrate_media_server] Created initial MediaServer(id={server.id}) and linked existing data."
+        )

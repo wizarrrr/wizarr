@@ -1,14 +1,24 @@
-from flask_babel import _
 from pathlib import Path
-import frontmatter, markdown
-from flask import Blueprint, render_template, abort, request, session, redirect, url_for
+
+import frontmatter
+import markdown
+from flask import Blueprint, abort, redirect, render_template, request, session, url_for
+from flask_babel import _
 from flask_login import current_user
-from app.models import Settings, MediaServer, Invitation, WizardStep, WizardBundle, WizardBundleStep
+
+from app.models import (
+    Invitation,
+    MediaServer,
+    Settings,
+    WizardBundle,
+    WizardBundleStep,
+    WizardStep,
+)
 from app.services.ombi_client import run_all_importers
 
-
 wizard_bp = Blueprint("wizard", __name__, url_prefix="/wizard")
-BASE_DIR  = Path(__file__).resolve().parent.parent.parent.parent / "wizard_steps"
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent / "wizard_steps"
+
 
 # Only allow access right after signup or when logged in
 @wizard_bp.before_request
@@ -21,13 +31,14 @@ def restrict_wizard():
 
     # Skip further checks if the ACL feature is disabled
     if not acl_enabled:
-        return  # Allow everyone
+        return None  # Allow everyone
 
     # Enforce ACL: allow only authenticated users or invited sessions
     if current_user.is_authenticated:
-        return
+        return None
     if not session.get("wizard_access"):
         return redirect("/")
+    return None
 
 
 # ─── helpers ────────────────────────────────────────────────────
@@ -35,25 +46,27 @@ def _get_server_context(server_type: str) -> dict[str, str | None]:
     """Get server-specific context variables for a given server type"""
     # Find the server for this specific server type
     # Priority: 1) From invitation servers, 2) First server of this type
-    
+
     server = None
-    
+
     # 1️⃣ Check if we have an invitation with specific servers
     inv_code = session.get("wizard_access")
     if inv_code:
         inv = Invitation.query.filter_by(code=inv_code).first()
         if inv and inv.servers:
             # Find the server of the requested type
-            server = next((s for s in inv.servers if s.server_type == server_type), None)
-    
+            server = next(
+                (s for s in inv.servers if s.server_type == server_type), None
+            )
+
     # 2️⃣ Fallback to first server of this type
     if server is None:
         server = MediaServer.query.filter_by(server_type=server_type).first()
-    
+
     # 3️⃣ Last resort: any server
     if server is None:
         server = MediaServer.query.first()
-    
+
     context = {}
     if server:
         # Server-specific variables that steps can use
@@ -67,7 +80,7 @@ def _get_server_context(server_type: str) -> dict[str, str | None]:
         context["server_url"] = ""
         context["server_name"] = ""
         context["server_type"] = server_type
-    
+
     return context
 
 
@@ -143,8 +156,7 @@ def _steps(server: str, cfg: dict):
     # ─── 1) DB-backed steps ────────────────────────────────────────────────
     try:
         db_rows = (
-            WizardStep.query
-            .filter_by(server_type=server)
+            WizardStep.query.filter_by(server_type=server)
             .order_by(WizardStep.position)
             .all()
         )
@@ -152,6 +164,7 @@ def _steps(server: str, cfg: dict):
         db_rows = []  # table may not exist during migrations/tests
 
     if db_rows:
+
         class _RowAdapter:
             """Lightweight shim exposing the subset of frontmatter.Post API
             used by helper functions: `.content` property and `.get()` for
@@ -181,23 +194,24 @@ def _steps(server: str, cfg: dict):
 
 def _render(post: frontmatter.Post, ctx: dict, server_type: str = None) -> str:
     from flask import render_template_string
+
     # Jinja templates inside the markdown files expect a top-level `settings` variable.
     # Build a context copy that exposes the current config dictionary via this key
     # while still passing through all existing entries and utilities (e.g. the _() gettext).
     _vars = ctx.copy()
     _vars.setdefault("settings", ctx)  # avoid overwriting if already provided
-    
+
     # Add server-specific variables for the current step
     if server_type:
         server_context = _get_server_context(server_type)
         _vars.update(server_context)
-    
+
     md = render_template_string(post.content, **_vars)
     return markdown.markdown(md, extensions=["fenced_code", "tables", "attr_list"])
 
 
 def _serve(server: str, idx: int):
-    cfg   = _settings()
+    cfg = _settings()
     steps = _steps(server, cfg)
     if not steps:
         abort(404)
@@ -207,16 +221,20 @@ def _serve(server: str, idx: int):
 
     idx = max(0, min(idx, len(steps) - 1))
     html = _render(steps[idx], cfg | {"_": _}, server_type=server)
+    
+    if not request.headers.get("HX-Request"):
+        page = "wizard/frame.html"
+    else:
+        page = "wizard/steps.html"
 
     return render_template(
-        "wizard/frame.html",
+        page,
         body_html=html,
         idx=idx,
         max_idx=len(steps) - 1,
         server_type=server,
-        direction=direction,          # ← NEW
+        direction=direction,  # ← NEW
     )
-
 
 
 # ─── routes ─────────────────────────────────────────────────────
@@ -232,20 +250,19 @@ def start():
 
         # ── 1️⃣ explicit bundle override ───────────────────────────
         if inv and inv.wizard_bundle_id:
-            session['wizard_bundle_id'] = inv.wizard_bundle_id
+            session["wizard_bundle_id"] = inv.wizard_bundle_id
             # drop any server order session var to avoid conflicts
-            session.pop('wizard_server_order', None)
-            return redirect(url_for('wizard.bundle_view', idx=0))
+            session.pop("wizard_server_order", None)
+            return redirect(url_for("wizard.bundle_view", idx=0))
 
         # ── 2️⃣ multi-server combo logic ───────────────────────────
         if inv and inv.servers:
             server_order = sorted(inv.servers, key=lambda s: s.server_type)
             if len(server_order) > 1:
                 # store ordered list in session and redirect to combo route
-                session['wizard_server_order'] = [s.server_type for s in server_order]
-                return redirect(url_for('wizard.combo', idx=0))
-            else:
-                server_type = server_order[0].server_type
+                session["wizard_server_order"] = [s.server_type for s in server_order]
+                return redirect(url_for("wizard.combo", idx=0))
+            server_type = server_order[0].server_type
 
     if not server_type:
         first_srv = MediaServer.query.first()
@@ -261,18 +278,19 @@ def step(server, idx):
 
 # ─── combined wizard for multi-server invites ─────────────────────────────
 
-@wizard_bp.route('/combo/<int:idx>')
+
+@wizard_bp.route("/combo/<int:idx>")
 def combo(idx: int):
     cfg = _settings()
-    order = session.get('wizard_server_order') or []
+    order = session.get("wizard_server_order") or []
     if not order:
         # fallback to normal wizard
-        return redirect(url_for('wizard.start'))
+        return redirect(url_for("wizard.start"))
 
     # concatenate steps preserving order AND track which server each step belongs to
     steps: list = []
     step_server_mapping: list = []  # Track which server type each step belongs to
-    
+
     for stype in order:
         server_steps = _steps(stype, cfg)
         steps.extend(server_steps)
@@ -282,29 +300,38 @@ def combo(idx: int):
     if not steps:
         abort(404)
 
-    idx = max(0, min(idx, len(steps)-1))
-    
+    idx = max(0, min(idx, len(steps) - 1))
+
     # Get the server type for the current step
-    current_server_type = step_server_mapping[idx] if idx < len(step_server_mapping) else order[0]
-    
+    current_server_type = (
+        step_server_mapping[idx] if idx < len(step_server_mapping) else order[0]
+    )
+
     html = _render(steps[idx], cfg | {"_": _}, server_type=current_server_type)
+    
+    if not request.headers.get("HX-Request"):
+        page = "wizard/frame.html"
+    else:
+        page = "wizard/steps.html"
 
     return render_template(
-        "wizard/frame.html",
+        page,
         body_html=html,
         idx=idx,
-        max_idx=len(steps)-1,
-        server_type='combo',
-        direction=request.values.get('dir',''),
+        max_idx=len(steps) - 1,
+        server_type="combo",
+        direction=request.values.get("dir", ""),
     )
+
 
 # ─── bundle-specific wizard route ──────────────────────────────
 
-@wizard_bp.route('/bundle/<int:idx>')
+
+@wizard_bp.route("/bundle/<int:idx>")
 def bundle_view(idx: int):
-    bundle_id = session.get('wizard_bundle_id')
+    bundle_id = session.get("wizard_bundle_id")
     if not bundle_id:
-        return redirect(url_for('wizard.start'))
+        return redirect(url_for("wizard.start"))
 
     bundle = WizardBundle.query.get(bundle_id)
     if not bundle:
@@ -312,8 +339,7 @@ def bundle_view(idx: int):
 
     # ordered steps via association table
     ordered = (
-        WizardBundleStep.query
-        .filter_by(bundle_id=bundle_id)
+        WizardBundleStep.query.filter_by(bundle_id=bundle_id)
         .order_by(WizardBundleStep.position)
         .all()
     )
@@ -321,9 +347,11 @@ def bundle_view(idx: int):
 
     # adapt to frontmatter-like interface
     class _RowAdapter:
-        __slots__ = ('content',)
+        __slots__ = ("content",)
+
         def __init__(self, row: WizardStep):
             self.content = row.markdown
+
         def get(self, key, default=None):
             return None
 
@@ -331,18 +359,29 @@ def bundle_view(idx: int):
     if not steps:
         abort(404)
 
-    idx = max(0, min(idx, len(steps)-1))
+    idx = max(0, min(idx, len(steps) - 1))
     
     # Get the server type for the current step from the WizardStep
     current_server_type = steps_raw[idx].server_type if idx < len(steps_raw) else None
-    
+
     html = _render(steps[idx], _settings() | {'_': _}, server_type=current_server_type)
 
+    if not request.headers.get("HX-Request"):
+        page = "wizard/frame.html"
+    else:
+        page = "wizard/steps.html"
+
     return render_template(
-        'wizard/frame.html',
+        page,
         body_html=html,
         idx=idx,
-        max_idx=len(steps)-1,
-        server_type='bundle',
-        direction=request.values.get('dir',''),
+        max_idx=len(steps) - 1,
+        server_type="bundle",
+        direction=request.values.get("dir", ""),
+    )
+        body_html=html,
+        idx=idx,
+        max_idx=len(steps) - 1,
+        server_type="bundle",
+        direction=request.values.get("dir", ""),
     )

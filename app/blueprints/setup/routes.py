@@ -1,14 +1,17 @@
 # app/blueprints/setup/routes.py
-from flask import Blueprint, render_template, redirect, url_for, flash, session
-from flask_login import login_user
+from flask import Blueprint, flash, redirect, render_template, session, url_for
 from flask_babel import _
+from flask_login import login_user
 
 from ...extensions import db
-from ...models import Settings, AdminUser, AdminAccount, MediaServer
 from ...forms.setup import AdminAccountForm
-from ...forms.settings import SettingsForm
-from ...services.servers import check_plex, check_jellyfin, check_emby, check_audiobookshelf
-from sqlalchemy.exc import IntegrityError
+from ...models import AdminAccount, MediaServer, Settings
+from ...services.servers import (
+    check_audiobookshelf,
+    check_emby,
+    check_jellyfin,
+    check_plex,
+)
 
 setup_bp = Blueprint("setup", __name__, url_prefix="/setup")
 
@@ -21,13 +24,25 @@ def _settings_as_dict():
 def _ensure_keys_exist():
     """Insert missing rows so later code can rely on them."""
     default_keys = [
-        "server_type", "admin_username", "admin_password", "server_verified",
-        "server_url", "api_key", "server_name", "libraries",
-        "overseerr_url", "ombi_api_key", "discord_id", "custom_html"
+        "server_type",
+        "admin_username",
+        "admin_password",
+        "server_verified",
+        "server_url",
+        "api_key",
+        "server_name",
+        "libraries",
+        "overseerr_url",
+        "ombi_api_key",
+        "discord_id",
+        "custom_html",
     ]
     for key in default_keys:
         if not Settings.query.filter_by(key=key).first():
-            db.session.add(Settings(key=key, value=None))
+            setting = Settings()
+            setting.key = key
+            setting.value = None
+            db.session.add(setting)
     db.session.commit()
 
 
@@ -41,7 +56,8 @@ def onboarding():
         form = AdminAccountForm()
         if form.validate_on_submit():
             # Store credentials in new AdminAccount model
-            account = AdminAccount(username=form.username.data)
+            account = AdminAccount()
+            account.username = form.username.data
             account.set_password(form.password.data)
             db.session.add(account)
 
@@ -66,6 +82,7 @@ def onboarding():
         return redirect(url_for("settings.page"))
     # Setup complete, go to admin
     return redirect(url_for("admin.dashboard"))
+
 
 def _probe_server(form):
     if form.server_type.data == "plex":

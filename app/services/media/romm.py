@@ -1,5 +1,20 @@
 from __future__ import annotations
 
+import datetime
+import logging
+import re
+from typing import Any
+
+import requests
+from sqlalchemy import or_
+
+from app.extensions import db
+from app.models import Invitation, User
+from app.services.invites import is_invite_valid, mark_server_used
+from app.services.notifications import notify
+
+from .client_base import RestApiMixin, register_media_client
+
 """Romm media‐server client.
 
 This minimal implementation lets Wizarr recognise RomM as a media‐server
@@ -18,26 +33,13 @@ needs:
 
 """
 
-import logging
-import datetime
-import re
-from typing import Any, Dict, List
-
-from sqlalchemy import or_
-
-from app.extensions import db
-from app.models import User, Invitation
-from .client_base import RestApiMixin, register_media_client
-from app.services.invites import is_invite_valid, mark_server_used
-from app.services.notifications import notify
-import requests  # local import to avoid top-level dependency chatter
-
 # ---------------------------------------------------------------------------
 # Client
 # ---------------------------------------------------------------------------
 
 # Simple e-mail validation (same pattern as other clients)
 EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
+
 
 @register_media_client("romm")
 class RommClient(RestApiMixin):
@@ -51,8 +53,8 @@ class RommClient(RestApiMixin):
         kwargs.setdefault("token_key", "api_key")
         super().__init__(*args, **kwargs)
 
-    def _headers(self) -> Dict[str, str]:  # type: ignore[override]
-        headers: Dict[str, str] = {"Accept": "application/json"}
+    def _headers(self) -> dict[str, str]:  # type: ignore[override]
+        headers: dict[str, str] = {"Accept": "application/json"}
         if self.token:
             headers["Authorization"] = f"Basic {self.token}"
         return headers
@@ -61,7 +63,7 @@ class RommClient(RestApiMixin):
     # Wizarr API – libraries
     # ------------------------------------------------------------------
 
-    def libraries(self) -> Dict[str, str]:
+    def libraries(self) -> dict[str, str]:
         """Return mapping ``platform_id`` → ``display_name``.
 
         RomM's *platforms* endpoint returns JSON like::
@@ -70,7 +72,7 @@ class RommClient(RestApiMixin):
         """
         try:
             r = self.get(f"{self.API_PREFIX}/platforms")
-            data: List[Dict[str, Any]] = r.json()
+            data: list[dict[str, Any]] = r.json()
             return {p["id"]: p.get("name", p["id"]) for p in data}
         except Exception as exc:  # noqa: BLE001
             logging.warning("ROMM: failed to fetch platforms – %s", exc)
@@ -78,17 +80,18 @@ class RommClient(RestApiMixin):
 
     def scan_libraries(self, url: str = None, token: str = None) -> dict[str, str]:
         """Scan available platforms on this RomM server.
-        
+
         Args:
             url: Optional server URL override
             token: Optional API token override
-            
+
         Returns:
             dict: Platform name -> platform ID mapping
         """
-        import requests
         import base64
-        
+
+        import requests
+
         if url and token:
             # Use override credentials for scanning
             try:
@@ -96,14 +99,14 @@ class RommClient(RestApiMixin):
                 auth_header = base64.b64encode(f"admin:{token}".encode()).decode()
                 headers = {"Authorization": f"Basic {auth_header}"}
                 response = requests.get(
-                    f"{url.rstrip('/')}/api/platforms",
-                    headers=headers,
-                    timeout=10
+                    f"{url.rstrip('/')}/api/platforms", headers=headers, timeout=10
                 )
                 response.raise_for_status()
                 data = response.json()
             except Exception as e:
-                logging.error(f"Failed to scan RomM platforms with override credentials: {e}")
+                logging.error(
+                    f"Failed to scan RomM platforms with override credentials: {e}"
+                )
                 return {}
         else:
             # Use saved credentials
@@ -111,16 +114,18 @@ class RommClient(RestApiMixin):
                 r = self.get(f"{self.API_PREFIX}/platforms")
                 data = r.json()
             except Exception as e:
-                logging.error(f"Failed to get RomM platforms with saved credentials: {e}")
+                logging.error(
+                    f"Failed to get RomM platforms with saved credentials: {e}"
+                )
                 return {}
-        
+
         return {p.get("name", p["id"]): p["id"] for p in data}
 
     # ------------------------------------------------------------------
     # Wizarr API – users (read-only)
     # ------------------------------------------------------------------
 
-    def list_users(self) -> List[User]:
+    def list_users(self) -> list[User]:
         """Sync RomM users into local DB (read-only).
 
         Requires the supplied API token to belong to a RomM *admin* user as
@@ -130,12 +135,14 @@ class RommClient(RestApiMixin):
         # chunks of *take*=100 until the returned set is smaller than the
         # requested size, indicating we've reached the end.
 
-        remote_users: List[Dict[str, Any]] = []
+        remote_users: list[dict[str, Any]] = []
         skip, take = 0, 100
         try:
             while True:
-                r = self.get(f"{self.API_PREFIX}/users", params={"skip": skip, "take": take})
-                batch: List[Dict[str, Any]] = r.json()
+                r = self.get(
+                    f"{self.API_PREFIX}/users", params={"skip": skip, "take": take}
+                )
+                batch: list[dict[str, Any]] = r.json()
                 # Some RomM versions wrap the list in {"items": [...]} – handle both.
                 if isinstance(batch, dict) and "items" in batch:
                     batch = batch["items"]  # type: ignore[assignment]
@@ -157,9 +164,9 @@ class RommClient(RestApiMixin):
 
         # 1) upsert basic user rows so Wizarr UI has something to show
         for romm_id, ru in remote_by_id.items():
-            db_row: User | None = (
-                User.query.filter_by(token=romm_id, server_id=getattr(self, "server_id", None)).first()
-            )
+            db_row: User | None = User.query.filter_by(
+                token=romm_id, server_id=getattr(self, "server_id", None)
+            ).first()
             if not db_row:
                 db_row = User(
                     token=romm_id,
@@ -176,16 +183,16 @@ class RommClient(RestApiMixin):
         db.session.commit()
 
         # 2) Remove local users that no longer exist upstream
-        for local in (
-            User.query.filter(User.server_id == getattr(self, "server_id", None)).all()
-        ):
+        for local in User.query.filter(
+            User.server_id == getattr(self, "server_id", None)
+        ).all():
             if local.token not in remote_by_id:
                 db.session.delete(local)
         db.session.commit()
 
-        return (
-            User.query.filter(User.server_id == getattr(self, "server_id", None)).all()
-        )
+        return User.query.filter(
+            User.server_id == getattr(self, "server_id", None)
+        ).all()
 
     # ------------------------------------------------------------------
     # Un-implemented mutating operations
@@ -194,12 +201,14 @@ class RommClient(RestApiMixin):
     # Even though Wizarr currently doesn't expose UI to mutate RomM users, we
     # provide simple wrappers so future work (or API consumers) can call them.
 
-    def create_user(self, username: str, password: str, email: str | None = None) -> str:
+    def create_user(
+        self, username: str, password: str, email: str | None = None
+    ) -> str:
         """Create a RomM user and return the new ``user_id``.
 
         Only *username* and *password* are mandatory according to RomM docs.
         """
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "username": username,
             "password": password,
             "email": email,
@@ -217,9 +226,14 @@ class RommClient(RestApiMixin):
         # If the server expects JSON body instead, fall back once
         if r is not None and r.status_code == 422:
             try:
-                logging.warning("ROMM create_user validation error (params): %s", r.json())
+                logging.warning(
+                    "ROMM create_user validation error (params): %s", r.json()
+                )
             except Exception:
-                logging.warning("ROMM create_user validation 422 (params) with non-JSON body: %s", r.text)
+                logging.warning(
+                    "ROMM create_user validation 422 (params) with non-JSON body: %s",
+                    r.text,
+                )
 
             alt = payload.copy()
             alt["passwordConfirm"] = password  # older builds require this field
@@ -229,7 +243,7 @@ class RommClient(RestApiMixin):
             except requests.HTTPError as exc:
                 r = exc.response  # type: ignore[assignment]
 
-        data: Dict[str, Any] = {}
+        data: dict[str, Any] = {}
         try:
             if r is not None:
                 data = r.json()
@@ -238,7 +252,7 @@ class RommClient(RestApiMixin):
 
         return data.get("id") or data.get("user", {}).get("id")  # type: ignore[return-value]
 
-    def update_user(self, user_id: str, patch: Dict[str, Any]):
+    def update_user(self, user_id: str, patch: dict[str, Any]):
         """PATCH selected fields on a RomM user object."""
         return self.patch(f"{self.API_PREFIX}/users/{user_id}", json=patch).json()
 
@@ -247,7 +261,7 @@ class RommClient(RestApiMixin):
         if resp.status_code not in (200, 204):
             resp.raise_for_status()
 
-    def get_user(self, user_id: str) -> Dict[str, Any]:
+    def get_user(self, user_id: str) -> dict[str, Any]:
         r = self.get(f"{self.API_PREFIX}/users/{user_id}")
         return r.json()
 
@@ -261,28 +275,30 @@ class RommClient(RestApiMixin):
 
     def now_playing(self) -> list[dict]:
         """Return a list of currently playing sessions from RomM.
-        
-        Note: RomM is a ROM/game collection management server that does not 
+
+        Note: RomM is a ROM/game collection management server that does not
         provide session tracking or "now playing" functionality in its API.
         This method always returns an empty list.
-        
+
         Returns:
             list: Always returns an empty list since RomM doesn't track active sessions.
         """
         # RomM API doesn't provide session/now-playing endpoints
         # It's focused on ROM collection management, not active gaming sessions
-        logging.debug("ROMM: No session tracking available - RomM doesn't provide now-playing functionality")
+        logging.debug(
+            "ROMM: No session tracking available - RomM doesn't provide now-playing functionality"
+        )
         return []
 
     def statistics(self):
         """Return essential RomM server statistics for the dashboard.
-        
+
         Only collects data actually used by the UI:
         - Server version for health card (Unknown for RomM)
         - Active sessions count for health card (always 0 for RomM)
         - Transcoding sessions count for health card (always 0 for RomM)
         - Total users count for health card
-        
+
         Returns:
             dict: Server statistics with minimal API calls
         """
@@ -291,35 +307,32 @@ class RommClient(RestApiMixin):
                 "library_stats": {},
                 "user_stats": {},
                 "server_stats": {},
-                "content_stats": {}
+                "content_stats": {},
             }
-            
+
             # User statistics - only what's displayed in UI
             try:
                 users_response = self.get(f"{self.API_PREFIX}/users").json()
                 stats["user_stats"] = {
                     "total_users": len(users_response),
-                    "active_sessions": 0  # RomM doesn't have sessions concept
+                    "active_sessions": 0,  # RomM doesn't have sessions concept
                 }
             except Exception as e:
                 logging.error(f"Failed to get RomM user stats: {e}")
-                stats["user_stats"] = {
-                    "total_users": 0,
-                    "active_sessions": 0
-                }
-            
+                stats["user_stats"] = {"total_users": 0, "active_sessions": 0}
+
             # Server statistics - minimal data
             try:
                 stats["server_stats"] = {
                     "version": "Unknown",  # RomM doesn't expose version via API
-                    "transcoding_sessions": 0  # RomM doesn't transcode
+                    "transcoding_sessions": 0,  # RomM doesn't transcode
                 }
             except Exception as e:
                 logging.error(f"Failed to get RomM server stats: {e}")
                 stats["server_stats"] = {}
-            
+
             return stats
-            
+
         except Exception as e:
             logging.error(f"Failed to get RomM statistics: {e}")
             return {
@@ -327,7 +340,7 @@ class RommClient(RestApiMixin):
                 "user_stats": {},
                 "server_stats": {},
                 "content_stats": {},
-                "error": str(e)
+                "error": str(e),
             }
 
     def join(
@@ -352,14 +365,10 @@ class RommClient(RestApiMixin):
         if not ok:
             return False, msg
 
-        existing = (
-            User.query
-            .filter(
-                or_(User.username == username, User.email == email),
-                User.server_id == getattr(self, "server_id", None),
-            )
-            .first()
-        )
+        existing = User.query.filter(
+            or_(User.username == username, User.email == email),
+            User.server_id == getattr(self, "server_id", None),
+        ).first()
         if existing:
             return False, "User or e-mail already exists."
 
@@ -379,14 +388,16 @@ class RommClient(RestApiMixin):
                 days = int(inv.duration)
                 expires = datetime.datetime.utcnow() + datetime.timedelta(days=days)
 
-            new_user = self._create_user_with_identity_linking({
-                'username': username,
-                'email': email,
-                'token': user_id,
-                'code': code,
-                'expires': expires,
-                'server_id': getattr(self, "server_id", None),
-            })
+            new_user = self._create_user_with_identity_linking(
+                {
+                    "username": username,
+                    "email": email,
+                    "token": user_id,
+                    "code": code,
+                    "expires": expires,
+                    "server_id": getattr(self, "server_id", None),
+                }
+            )
             db.session.commit()
 
             # mark invite used
@@ -394,11 +405,13 @@ class RommClient(RestApiMixin):
                 inv.used_by = new_user
                 mark_server_used(inv, getattr(new_user, "server_id", None))
 
-            notify("New User", f"User {username} has joined your server! 🎉", tags="tada")
+            notify(
+                "New User", f"User {username} has joined your server! 🎉", tags="tada"
+            )
 
             return True, ""
 
         except Exception:  # noqa: BLE001
             logging.error("ROMM join error", exc_info=True)
             db.session.rollback()
-            return False, "An unexpected error occurred." 
+            return False, "An unexpected error occurred."

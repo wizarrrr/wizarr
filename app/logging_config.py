@@ -1,11 +1,13 @@
-import logging.config, os, sys
+import logging.config
+import os
+import sys
 from pathlib import Path
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "WARNING").upper()
 
 LOGGING_CONFIG = {
     "version": 1,
-    "disable_existing_loggers": False,      # keep libs like werkzeug quiet only if you want
+    "disable_existing_loggers": False,  # keep libs like werkzeug quiet only if you want
     "formatters": {
         "default": {
             "format": "%(asctime)s  %(levelname)-8s  %(message)s",
@@ -38,8 +40,9 @@ LOGGING_CONFIG = {
             "handlers": ["console"],
             "propagate": False,
         },
-    }
+    },
 }
+
 
 def configure_logging() -> None:
     """Call this once at start-up."""

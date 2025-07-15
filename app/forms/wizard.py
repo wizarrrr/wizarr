@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SelectField, HiddenField
+from wtforms import HiddenField, SelectField, StringField, TextAreaField
 from wtforms.validators import DataRequired, Optional
 
 
@@ -32,11 +32,11 @@ class WizardBundleForm(FlaskForm):
 
     name = StringField("Name", validators=[DataRequired()])
     description = StringField("Description", validators=[Optional()])
-    # optional: Steps selection handled in separate UI; keep form minimal 
+    # optional: Steps selection handled in separate UI; keep form minimal
 
 
 class SimpleWizardStepForm(FlaskForm):
     """Minimal form for bundle-only steps (no server_type, no requires)."""
 
     title = StringField("Title", validators=[Optional()])
-    markdown = TextAreaField("Markdown", validators=[DataRequired()]) 
+    markdown = TextAreaField("Markdown", validators=[DataRequired()])
