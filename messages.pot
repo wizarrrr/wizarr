@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-14 04:10+0000\n"
+"POT-Creation-Date: 2025-07-15 04:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,31 +41,31 @@ msgstr ""
 msgid "Admin account created – welcome!"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:133
+#: app/blueprints/wizard_admin/routes.py:137
 msgid "Step created"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:172
+#: app/blueprints/wizard_admin/routes.py:176
 msgid "Step updated"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:198
+#: app/blueprints/wizard_admin/routes.py:202
 msgid "Step deleted"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:265
+#: app/blueprints/wizard_admin/routes.py:269
 msgid "Bundle created"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:286
+#: app/blueprints/wizard_admin/routes.py:290
 msgid "Bundle updated"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:303
+#: app/blueprints/wizard_admin/routes.py:307
 msgid "Bundle deleted"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:377
+#: app/blueprints/wizard_admin/routes.py:381
 msgid "Steps added"
 msgstr ""
 
@@ -288,24 +288,20 @@ msgstr ""
 msgid "Or"
 msgstr ""
 
-#: app/templates/login.html:64 app/templates/login.html:159
+#: app/templates/login.html:64 app/templates/login.html:152
 msgid "Sign in with Passkey"
 msgstr ""
 
-#: app/templates/login.html:80
-msgid "Please enter your username first"
-msgstr ""
-
-#: app/templates/login.html:89
+#: app/templates/login.html:82
 msgid "Authenticating..."
 msgstr ""
 
-#: app/templates/login.html:101 app/templates/login.html:142
-#: app/templates/login.html:146
+#: app/templates/login.html:94 app/templates/login.html:135
+#: app/templates/login.html:139
 msgid "Authentication failed"
 msgstr ""
 
-#: app/templates/login.html:151
+#: app/templates/login.html:144
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr ""
 
@@ -588,7 +584,7 @@ msgstr ""
 #: app/templates/admin/user_modal.html:42
 #: app/templates/modals/edit-admin.html:33
 #: app/templates/modals/edit-identity.html:26
-#: app/templates/modals/edit-server.html:85
+#: app/templates/modals/edit-server.html:73
 #: app/templates/modals/wizard-bundle-form.html:30
 #: app/templates/modals/wizard-simple-step-form.html:29
 #: app/templates/modals/wizard-step-form.html:42
@@ -605,10 +601,10 @@ msgstr ""
 #: app/templates/modals/bundle-add-steps.html:32
 #: app/templates/modals/create-admin.html:34
 #: app/templates/modals/create-notification-agent.html:86
-#: app/templates/modals/create-server.html:83
+#: app/templates/modals/create-server.html:71
 #: app/templates/modals/edit-admin.html:34
 #: app/templates/modals/edit-identity.html:27
-#: app/templates/modals/edit-server.html:86
+#: app/templates/modals/edit-server.html:74
 #: app/templates/modals/invite.html:238
 #: app/templates/modals/wizard-bundle-form.html:29
 #: app/templates/modals/wizard-simple-step-form.html:28
@@ -660,27 +656,27 @@ msgstr ""
 msgid "Last used"
 msgstr ""
 
-#: app/templates/components/passkey_list.html:41
+#: app/templates/components/passkey_list.html:40
 msgid "No passkeys registered"
 msgstr ""
 
-#: app/templates/components/passkey_list.html:42
+#: app/templates/components/passkey_list.html:41
 msgid "Add your first passkey for enhanced security"
 msgstr ""
 
-#: app/templates/components/passkey_management.html:7
+#: app/templates/components/passkey_management.html:9
 msgid "Passkeys"
 msgstr ""
 
-#: app/templates/components/passkey_management.html:13
+#: app/templates/components/passkey_management.html:15
 msgid "Add Passkey"
 msgstr ""
 
-#: app/templates/components/passkey_management.html:16
+#: app/templates/components/passkey_management.html:18
 msgid "Manage your passkeys for passwordless authentication."
 msgstr ""
 
-#: app/templates/components/passkey_management.html:25
+#: app/templates/components/passkey_management.html:27
 msgid "Loading passkeys..."
 msgstr ""
 
@@ -692,11 +688,11 @@ msgstr ""
 msgid "Please follow your device's prompts to complete setup"
 msgstr ""
 
-#: app/templates/components/passkey_register.html:136
+#: app/templates/components/passkey_register.html:95
 msgid "Failed to register passkey"
 msgstr ""
 
-#: app/templates/components/passkey_register.html:142
+#: app/templates/components/passkey_register.html:100
 msgid "Failed to complete passkey registration"
 msgstr ""
 
@@ -776,7 +772,7 @@ msgstr ""
 msgid "Add Server"
 msgstr ""
 
-#: app/templates/modals/create-server.html:82
+#: app/templates/modals/create-server.html:70
 msgid "Test & Add"
 msgstr ""
 
