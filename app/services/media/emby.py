@@ -19,7 +19,9 @@ class EmbyClient(JellyfinClient):
             for item in self.get("/Library/MediaFolders").json()["Items"]
         }
 
-    def scan_libraries(self, url: str = None, token: str = None) -> dict[str, str]:
+    def scan_libraries(
+        self, url: str | None = None, token: str | None = None
+    ) -> dict[str, str]:
         """Scan available libraries on this Emby server.
 
         Args:

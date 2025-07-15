@@ -42,7 +42,9 @@ class KomgaClient(RestApiMixin):
             logging.error(f"Failed to get Komga libraries: {e}")
             return {}
 
-    def scan_libraries(self, url: str = None, token: str = None) -> dict[str, str]:
+    def scan_libraries(
+        self, url: str | None = None, token: str | None = None
+    ) -> dict[str, str]:
         """Scan available libraries on this Komga server.
 
         Args:
@@ -162,7 +164,7 @@ class KomgaClient(RestApiMixin):
             inv = Invitation.query.filter_by(code=code).first()
 
             current_server_id = getattr(self, "server_id", None)
-            if inv.libraries:
+            if inv and inv.libraries:
                 library_ids = [
                     lib.external_id
                     for lib in inv.libraries
@@ -179,7 +181,7 @@ class KomgaClient(RestApiMixin):
             self._set_library_access(user_id, library_ids)
 
             expires = None
-            if inv.duration:
+            if inv and inv.duration:
                 days = int(inv.duration)
                 expires = datetime.datetime.utcnow() + datetime.timedelta(days=days)
 
@@ -195,8 +197,11 @@ class KomgaClient(RestApiMixin):
             )
             db.session.commit()
 
-            inv.used_by = new_user
-            mark_server_used(inv, getattr(new_user, "server_id", None))
+            if inv:
+                inv.used_by = new_user
+                server_id = getattr(new_user, "server_id", None)
+                if server_id is not None:
+                    mark_server_used(inv, server_id)
 
             notify(
                 "New User",

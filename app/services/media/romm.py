@@ -78,7 +78,9 @@ class RommClient(RestApiMixin):
             logging.warning("ROMM: failed to fetch platforms – %s", exc)
             return {}
 
-    def scan_libraries(self, url: str = None, token: str = None) -> dict[str, str]:
+    def scan_libraries(
+        self, url: str | None = None, token: str | None = None
+    ) -> dict[str, str]:
         """Scan available platforms on this RomM server.
 
         Args:
@@ -403,7 +405,9 @@ class RommClient(RestApiMixin):
             # mark invite used
             if inv:
                 inv.used_by = new_user
-                mark_server_used(inv, getattr(new_user, "server_id", None))
+                server_id = getattr(new_user, "server_id", None)
+                if server_id is not None:
+                    mark_server_used(inv, server_id)
 
             notify(
                 "New User", f"User {username} has joined your server! 🎉", tags="tada"

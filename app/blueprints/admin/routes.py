@@ -254,7 +254,8 @@ def users_table():
     try:
         if server_id:
             srv = MediaServer.query.get(int(server_id))
-            list_users_for_server(srv)
+            if srv:
+                list_users_for_server(srv)
         else:
             list_users_all_servers()
     except Exception as exc:
@@ -485,7 +486,8 @@ def _group_users_for_display(user_list):
     for lst in groups.values():
         primary = min(lst, key=lambda x: (x.username or ""))
         photo = next((a.photo for a in lst if a.photo), None)
-        expires = min([a.expires for a in lst if a.expires] or [None])
+        expire_dates = [a.expires for a in lst if a.expires]
+        expires = min(expire_dates) if expire_dates else None
         code = next(
             (a.code for a in lst if a.code and a.code not in ("None", "empty")), ""
         )

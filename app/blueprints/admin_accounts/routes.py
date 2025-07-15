@@ -27,11 +27,13 @@ def create_admin():
     form = AdminCreateForm()
     if form.validate_on_submit():
         if AdminAccount.query.filter_by(username=form.username.data).first():
-            form.username.errors.append("Username already exists.")
+            if hasattr(form.username, "errors"):
+                form.username.errors.append("Username already exists.")
         else:
             acc = AdminAccount()
             acc.username = form.username.data
-            acc.set_password(form.password.data)
+            if form.password.data:
+                acc.set_password(form.password.data)
             db.session.add(acc)
             db.session.commit()
             flash(_("Admin created"), "success")
@@ -52,7 +54,8 @@ def edit_admin(admin_id):
         # Username uniqueness check
         other = AdminAccount.query.filter_by(username=form.username.data).first()
         if other and other.id != acc.id:
-            form.username.errors.append("Username already taken")
+            if hasattr(form.username, "errors"):
+                form.username.errors.append("Username already taken")
         else:
             acc.username = form.username.data
             if form.password.data:

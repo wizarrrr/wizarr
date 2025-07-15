@@ -36,7 +36,9 @@ class JellyfinClient(RestApiMixin):
             for item in self.get("/Library/MediaFolders").json()["Items"]
         }
 
-    def scan_libraries(self, url: str = None, token: str = None) -> dict[str, str]:
+    def scan_libraries(
+        self, url: str | None = None, token: str | None = None
+    ) -> dict[str, str]:
         if url and token:
             headers = {"X-Emby-Token": token}
             response = requests.get(
@@ -73,9 +75,13 @@ class JellyfinClient(RestApiMixin):
                     if isinstance(target, bool):
                         val = val == "True"
                     elif isinstance(target, int):
-                        val = int(val)
+                        val = int(val) if isinstance(val, str | int) else 0
                     elif isinstance(target, list):
-                        val = [] if val == "" else val.split(", ")
+                        val = (
+                            []
+                            if val == ""
+                            else (val.split(", ") if isinstance(val, str) else [])
+                        )
                     current[section][key] = val
 
         return self.post(f"/Users/{jf_id}", json=current).json()
@@ -167,7 +173,7 @@ class JellyfinClient(RestApiMixin):
             user_id = self.create_user(username, password)
             inv = Invitation.query.filter_by(code=code).first()
 
-            if inv.libraries:
+            if inv and inv.libraries:
                 sections = [
                     lib.external_id
                     for lib in inv.libraries
@@ -207,7 +213,7 @@ class JellyfinClient(RestApiMixin):
             self.set_policy(user_id, current_policy)
 
             expires = None
-            if inv.duration:
+            if inv and inv.duration:
                 expires = datetime.datetime.utcnow() + datetime.timedelta(
                     days=int(inv.duration)
                 )
@@ -224,7 +230,8 @@ class JellyfinClient(RestApiMixin):
             )
             db.session.commit()
 
-            self._mark_invite_used(inv, new_user)
+            if inv:
+                self._mark_invite_used(inv, new_user)
             notify(
                 "New User", f"User {username} has joined your server! 🎉", tags="tada"
             )
@@ -237,7 +244,7 @@ class JellyfinClient(RestApiMixin):
             return False, "An unexpected error occurred."
 
     def _get_artwork_urls(
-        self, item_id: str, media_type: str = "", series_id: str = None
+        self, item_id: str, media_type: str = "", series_id: str | None = None
     ) -> dict[str, str | None]:
         if not item_id:
             return {

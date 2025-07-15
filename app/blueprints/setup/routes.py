@@ -58,7 +58,8 @@ def onboarding():
             # Store credentials in new AdminAccount model
             account = AdminAccount()
             account.username = form.username.data
-            account.set_password(form.password.data)
+            if form.password.data:
+                account.set_password(form.password.data)
             db.session.add(account)
 
             # Also persist username/password to Settings for backward
