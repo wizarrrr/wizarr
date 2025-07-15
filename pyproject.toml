@@ -43,7 +43,7 @@ dev = [
 [tool.ruff]
 target-version = "py313"
 line-length = 88
-select = [
+lint.select = [
     "E",   # pycodestyle errors
     "W",   # pycodestyle warnings  
     "F",   # pyflakes
@@ -55,12 +55,12 @@ select = [
     "RET", # flake8-return
     "SIM", # flake8-simplify
 ]
-ignore = [
+lint.ignore = [
     "E501", # line too long, handled by formatter
     "T201", # print statements allowed
 ]
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["app"]
 
 [tool.pyright]

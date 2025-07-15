@@ -74,10 +74,6 @@ class Invitation(db.Model):
     allow_downloads = db.Column(db.Boolean, default=False, nullable=True)
     allow_live_tv = db.Column(db.Boolean, default=False, nullable=True)
 
-    # Emby-specific invite toggles (for new Emby fields that don't exist in legacy)
-    emby_allow_downloads = db.Column(db.Boolean, default=False, nullable=True)
-    emby_allow_live_tv = db.Column(db.Boolean, default=False, nullable=True)
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -187,10 +183,6 @@ class MediaServer(db.Model):
     # Universal media server toggles (work for all server types)
     allow_downloads = db.Column(db.Boolean, default=False, nullable=False)
     allow_live_tv = db.Column(db.Boolean, default=False, nullable=False)
-
-    # Emby-specific toggles (for new Emby fields that don't exist in legacy)
-    allow_downloads_emby = db.Column(db.Boolean, default=False, nullable=False)
-    allow_tv_emby = db.Column(db.Boolean, default=False, nullable=False)
 
     # Whether the connection credentials were validated successfully
     verified = db.Column(db.Boolean, default=False, nullable=False)

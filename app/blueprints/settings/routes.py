@@ -37,7 +37,7 @@ def _load_settings() -> dict:
     settings = {s.key: s.value for s in Settings.query.all()}
 
     # Convert specific boolean fields from strings to booleans
-    boolean_fields = ["allow_downloads_plex", "allow_tv_plex", "wizard_acl_enabled"]
+    boolean_fields = ["allow_downloads", "allow_live_tv", "wizard_acl_enabled"]
     for field in boolean_fields:
         if field in settings and settings[field] is not None:
             settings[field] = str(settings[field]).lower() == "true"
@@ -142,15 +142,8 @@ def server_settings():
             existing_server.url = data["server_url"]
             existing_server.api_key = data.get("api_key")
             existing_server.external_url = data.get("external_url")
-            existing_server.allow_downloads_plex = bool(
-                data.get("allow_downloads_plex")
-            )
-            existing_server.allow_tv_plex = bool(data.get("allow_tv_plex"))
-            # Jellyfin flags
-            existing_server.allow_downloads_jellyfin = bool(
-                data.get("allow_downloads_jellyfin")
-            )
-            existing_server.allow_tv_jellyfin = bool(data.get("allow_tv_jellyfin"))
+            existing_server.allow_downloads = bool(data.get("allow_downloads"))
+            existing_server.allow_live_tv = bool(data.get("allow_live_tv"))
             existing_server.verified = True
             db.session.commit()
         else:
@@ -161,11 +154,8 @@ def server_settings():
             server.url = data["server_url"]
             server.api_key = data.get("api_key")
             server.external_url = data.get("external_url")
-            server.allow_downloads_plex = bool(data.get("allow_downloads_plex"))
-            server.allow_tv_plex = bool(data.get("allow_tv_plex"))
-            # Jellyfin flags
-            server.allow_downloads_jellyfin = bool(data.get("allow_downloads_jellyfin"))
-            server.allow_tv_jellyfin = bool(data.get("allow_tv_jellyfin"))
+            server.allow_downloads = bool(data.get("allow_downloads"))
+            server.allow_live_tv = bool(data.get("allow_live_tv"))
             server.verified = True
             db.session.add(server)
             db.session.commit()
