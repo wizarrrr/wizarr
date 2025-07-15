@@ -88,8 +88,8 @@ def create_invite(form: Any) -> Invitation:
         wizard_bundle_id=(int(form.get("wizard_bundle_id")) if form.get("wizard_bundle_id") else None),
         
         # New Jellyfin flags
-        jellyfin_allow_downloads=bool(form.get("jellyfin_allow_downloads")),
-        jellyfin_allow_live_tv=bool(form.get("jellyfin_allow_live_tv")),
+        allow_downloads=bool(form.get("jellyfin_allow_downloads")),
+        allow_live_tv=bool(form.get("jellyfin_allow_live_tv")),
     )
     db.session.add(invite)
     db.session.flush()  # so invite.id exists, but not yet committed
