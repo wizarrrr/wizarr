@@ -109,7 +109,11 @@ def create_invite(form: Any) -> Invitation:
 
     # Attach the selected servers via the new association table
     if servers:
-        invite.servers.extend(servers)
+        # Only add servers that aren't already associated to avoid UNIQUE constraint violation
+        existing_server_ids = {s.id for s in invite.servers}
+        new_servers = [s for s in servers if s.id not in existing_server_ids]
+        if new_servers:
+            invite.servers.extend(new_servers)
 
     # === NEW: wire up the many-to-many ===
     selected = form.getlist("libraries")  # these are your external_ids
@@ -120,7 +124,6 @@ def create_invite(form: Any) -> Invitation:
             Library.external_id.in_(selected), Library.server_id.in_(server_ids)
         ).all()
         invite.libraries.extend(libs)
-    # if `selected` is empty, we simply leave invite.libraries = []
 
     db.session.commit()
     return invite

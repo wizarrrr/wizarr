@@ -17,10 +17,16 @@ invite_libraries = db.Table(
 invitation_servers = db.Table(
     "invitation_server",
     db.Column(
-        "invite_id", db.Integer, db.ForeignKey("invitation.id"), primary_key=True
+        "invite_id",
+        db.Integer,
+        db.ForeignKey("invitation.id", ondelete="CASCADE"),
+        primary_key=True,
     ),
     db.Column(
-        "server_id", db.Integer, db.ForeignKey("media_server.id"), primary_key=True
+        "server_id",
+        db.Integer,
+        db.ForeignKey("media_server.id", ondelete="CASCADE"),
+        primary_key=True,
     ),
     # Track per-server usage so a single invite can be consumed independently
     db.Column("used", db.Boolean, default=False, nullable=False),
