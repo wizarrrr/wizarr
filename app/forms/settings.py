@@ -25,10 +25,10 @@ class SettingsForm(FlaskForm):
     server_username = StringField(str(_l("RomM Username")), validators=[Optional()])
     server_password = StringField(str(_l("RomM Password")), validators=[Optional()])
     libraries = StringField(str(_l("Libraries")), validators=[Optional()])
-    allow_downloads_plex = BooleanField(
+    allow_downloads = BooleanField(
         str(_l("Allow Downloads")), default=False, validators=[Optional()]
     )
-    allow_tv_plex = BooleanField(
+    allow_live_tv = BooleanField(
         str(_l("Allow Live TV")), default=False, validators=[Optional()]
     )
     overseerr_url = StringField(
@@ -38,13 +38,7 @@ class SettingsForm(FlaskForm):
     discord_id = StringField(str(_l("Discord ID")), validators=[Optional()])
     external_url = StringField(str(_l("External URL")), validators=[Optional()])
 
-    # Jellyfin specific
-    allow_downloads_jellyfin = BooleanField(
-        str(_l("Allow Downloads")), default=False, validators=[Optional()]
-    )
-    allow_tv_jellyfin = BooleanField(
-        str(_l("Allow Live TV")), default=False, validators=[Optional()]
-    )
+    # Universal download and live TV options (no longer server-specific)
 
     # Audiobookshelf specific
     allow_downloads_audiobookshelf = BooleanField(

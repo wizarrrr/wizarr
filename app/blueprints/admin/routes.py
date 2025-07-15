@@ -101,19 +101,8 @@ def invite():
         target_server = first_server
 
     server_type = target_server.server_type if target_server else None
-    allow_downloads_plex = bool(getattr(target_server, "allow_downloads_plex", False))
-    allow_tv_plex = bool(getattr(target_server, "allow_tv_plex", False))
-
-    # Jellyfin defaults
-    allow_downloads_jellyfin = bool(
-        getattr(target_server, "allow_downloads_jellyfin", False)
-    )
-    allow_tv_jellyfin = bool(getattr(target_server, "allow_tv_jellyfin", False))
-
-    # Audiobookshelf defaults
-    allow_downloads_audiobookshelf = bool(
-        getattr(target_server, "allow_downloads", True)
-    )
+    allow_downloads = bool(getattr(target_server, "allow_downloads", False))
+    allow_live_tv = bool(getattr(target_server, "allow_live_tv", False))
 
     if request.method == "POST":
         try:
@@ -135,11 +124,8 @@ def invite():
             link=link,
             invitations=invitations,
             server_type=server_type,
-            allow_downloads_plex=allow_downloads_plex,
-            allow_tv_plex=allow_tv_plex,
-            allow_downloads_jellyfin=allow_downloads_jellyfin,
-            allow_tv_jellyfin=allow_tv_jellyfin,
-            allow_downloads_audiobookshelf=allow_downloads_audiobookshelf,
+            allow_downloads=allow_downloads,
+            allow_live_tv=allow_live_tv,
             servers=servers,
             chosen_server_id=target_server.id if target_server else None,
             bundles=bundles,
@@ -152,11 +138,8 @@ def invite():
     return render_template(
         "modals/invite.html",
         server_type=server_type,
-        allow_downloads_plex=allow_downloads_plex,
-        allow_tv_plex=allow_tv_plex,
-        allow_downloads_jellyfin=allow_downloads_jellyfin,
-        allow_tv_jellyfin=allow_tv_jellyfin,
-        allow_downloads_audiobookshelf=allow_downloads_audiobookshelf,
+        allow_downloads=allow_downloads,
+        allow_live_tv=allow_live_tv,
         servers=servers,
         chosen_server_id=target_server.id if target_server else None,
         bundles=bundles,

@@ -76,6 +76,7 @@ def create_invite(form: Any) -> Invitation:
     # Keep legacy `server` column for the FIRST selected server (or None)
     primary_server = servers[0] if servers else None
 
+    # Fix duplicate assignment of allow_downloads and syntax error (missing parenthesis)
     invite = Invitation(
         code=code,
         used=False,
@@ -84,24 +85,31 @@ def create_invite(form: Any) -> Invitation:
         expires=expires_lookup.get(form.get("expires")),
         unlimited=bool(form.get("unlimited")),
         duration=form.get("duration") or None,
-        plex_allow_sync=bool(form.get("allowsync")),
+        plex_allow_sync=bool(form.get("allowsync") or form.get("allow_downloads")),
         plex_home=bool(form.get("plex_home")),
-        plex_allow_channels=bool(form.get("plex_allow_channels")),
+        plex_allow_channels=bool(
+            form.get("plex_allow_channels") or form.get("allow_live_tv")
+        ),
         server=primary_server,
-        wizard_bundle_id=(int(form.get("wizard_bundle_id")) if form.get("wizard_bundle_id") else None),
-        
-        # New Jellyfin flags
-        allow_downloads=bool(form.get("jellyfin_allow_downloads")),
-        allow_live_tv=bool(form.get("jellyfin_allow_live_tv")),
-
-        # Universal download permission (used by Audiobookshelf and others)
-        allow_downloads = bool(form.get("audiobookshelf_allow_downloads"))
+        wizard_bundle_id=(
+            int(form.get("wizard_bundle_id")) if form.get("wizard_bundle_id") else None
+        ),
+        # Unified flags for all servers
+        allow_downloads=bool(
+            form.get("allow_downloads")
+            or form.get("allowsync")
+            or form.get("audiobookshelf_allow_downloads")
+        ),
+        allow_live_tv=bool(
+            form.get("allow_live_tv") or form.get("plex_allow_channels")
+        ),
+    )
     db.session.add(invite)
     db.session.flush()  # so invite.id exists, but not yet committed
 
     # Attach the selected servers via the new association table
     if servers:
-        invite.servers = servers
+        invite.servers.extend(servers)
 
     # === NEW: wire up the many-to-many ===
     selected = form.getlist("libraries")  # these are your external_ids
@@ -111,7 +119,7 @@ def create_invite(form: Any) -> Invitation:
         libs = Library.query.filter(
             Library.external_id.in_(selected), Library.server_id.in_(server_ids)
         ).all()
-        invite.libraries = libs
+        invite.libraries.extend(libs)
     # if `selected` is empty, we simply leave invite.libraries = []
 
     db.session.commit()

@@ -221,7 +221,7 @@ def _serve(server: str, idx: int):
 
     idx = max(0, min(idx, len(steps) - 1))
     html = _render(steps[idx], cfg | {"_": _}, server_type=server)
-    
+
     if not request.headers.get("HX-Request"):
         page = "wizard/frame.html"
     else:
@@ -308,7 +308,7 @@ def combo(idx: int):
     )
 
     html = _render(steps[idx], cfg | {"_": _}, server_type=current_server_type)
-    
+
     if not request.headers.get("HX-Request"):
         page = "wizard/frame.html"
     else:
@@ -360,11 +360,11 @@ def bundle_view(idx: int):
         abort(404)
 
     idx = max(0, min(idx, len(steps) - 1))
-    
+
     # Get the server type for the current step from the WizardStep
     current_server_type = steps_raw[idx].server_type if idx < len(steps_raw) else None
 
-    html = _render(steps[idx], _settings() | {'_': _}, server_type=current_server_type)
+    html = _render(steps[idx], _settings() | {"_": _}, server_type=current_server_type)
 
     if not request.headers.get("HX-Request"):
         page = "wizard/frame.html"
@@ -373,12 +373,6 @@ def bundle_view(idx: int):
 
     return render_template(
         page,
-        body_html=html,
-        idx=idx,
-        max_idx=len(steps) - 1,
-        server_type="bundle",
-        direction=request.values.get("dir", ""),
-    )
         body_html=html,
         idx=idx,
         max_idx=len(steps) - 1,

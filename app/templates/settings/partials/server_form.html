@@ -147,43 +147,27 @@
             {% endfor %}
           </div>
 
-          {# === Plex-specific options, always present but hidden by default === #}
-          <div id="plex-options" class="space-y-2 hidden">
+          {# === Universal options for all server types === #}
+          <div class="space-y-2">
             {# Allow Downloads #}
             <div class="flex items-center">
-              {{ form.allow_downloads_plex(
+              {{ form.allow_downloads(
                   class="w-4 h-4 text-blue-600 bg-gray-100 rounded-sm border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 ) }}
-              {{ form.allow_downloads_plex.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300") }}
-              {% for err in form.allow_downloads_plex.errors %}
+              {{ form.allow_downloads.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300") }}
+              {% for err in form.allow_downloads.errors %}
                 <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ err }}</p>
               {% endfor %}
             </div>
-            {# Allow TV #}
+            {# Allow Live TV #}
             <div class="flex items-center">
-              {{ form.allow_tv_plex(
+              {{ form.allow_live_tv(
                   class="w-4 h-4 text-blue-600 bg-gray-100 rounded-sm border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 ) }}
-              {{ form.allow_tv_plex.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300") }}
-              {% for err in form.allow_tv_plex.errors %}
+              {{ form.allow_live_tv.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300") }}
+              {% for err in form.allow_live_tv.errors %}
                 <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ err }}</p>
               {% endfor %}
-            </div>
-          </div>
-
-          {# === Jellyfin-specific options, hidden by default === #}
-          <div id="jellyfin-options" class="space-y-2 hidden">
-            <div class="flex items-center">
-              {{ form.allow_downloads_jellyfin(
-                  class="w-4 h-4 text-blue-600 bg-gray-100 rounded-sm border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              ) }}
-              {{ form.allow_downloads_jellyfin.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300") }}
-            </div>
-            <div class="flex items-center">
-              {{ form.allow_tv_jellyfin(
-                  class="w-4 h-4 text-blue-600 bg-gray-100 rounded-sm border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              ) }}
-              {{ form.allow_tv_jellyfin.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300") }}
             </div>
           </div>
 

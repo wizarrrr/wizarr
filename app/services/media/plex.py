@@ -498,8 +498,8 @@ def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> No
             for lib in Library.query.filter_by(enabled=True, server_id=server.id).all()
         ]
 
-    allow_sync = bool(inv.plex_allow_sync)
-    allow_tv = bool(inv.plex_allow_channels)
+    allow_sync = bool(inv.allow_downloads)
+    allow_tv = bool(inv.allow_live_tv)
 
     if inv.plex_home:
         client.invite_home(email, libs, allow_sync, allow_tv)
