@@ -76,7 +76,7 @@ def _accept_invite_v2(self: MyPlexAccount, user):
     return resp
 
 
-MyPlexAccount.acceptInvite = _accept_invite_v2
+MyPlexAccount.acceptInvite = _accept_invite_v2  # type: ignore[assignment]
 
 
 @register_media_client("plex")

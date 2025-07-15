@@ -4,6 +4,7 @@ import requests
 from flask_babel import _
 from plexapi.exceptions import PlexApiException
 from plexapi.server import PlexServer
+from requests import exceptions as req_exc
 
 
 # Raised when a server returns a non-200 status code.
@@ -28,19 +29,19 @@ def handle_connection_error(e: Exception, server_type: str) -> tuple[bool, str]:
             error=str(e),
         )
         logging.error("%s API error: %s", server_type, str(e))
-    elif isinstance(e, requests.exceptions.ConnectionError):
+    elif isinstance(e, req_exc.ConnectionError):
         error_msg = _(
             "Could not connect to the %(server_type)s server. Please check if the server is running and the URL is correct.",
             server_type=server_type,
         )
         logging.error("%s connection error: %s", server_type, str(e))
-    elif isinstance(e, requests.exceptions.Timeout):
+    elif isinstance(e, req_exc.Timeout):
         error_msg = _(
             "Connection to %(server_type)s server timed out. Please check if the server is running and accessible.",
             server_type=server_type,
         )
         logging.error("%s connection timeout", server_type)
-    elif isinstance(e, requests.exceptions.RequestException):
+    elif isinstance(e, req_exc.RequestException):
         error_msg = _(
             "An error occurred while connecting to the %(server_type)s server: %(error)s",
             server_type=server_type,

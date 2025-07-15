@@ -8,13 +8,14 @@ modular, class-based, and easy to maintain.
 
 import logging
 from abc import ABC, abstractmethod
+from collections.abc import Iterable
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
+from typing import Any, cast
 
 from flask import redirect, render_template, session
+from sqlalchemy import func
 
-from app.extensions import db
 from app.models import Invitation, MediaServer
 from app.services.invites import is_invite_valid
 from app.services.media.service import get_client_for_media_server
@@ -63,8 +64,12 @@ class InvitationResult:
         if self.redirect_url:
             return redirect(self.redirect_url)
         if self.template_data:
-            return render_template(**self.template_data)
-        # Default error response
+            data = dict(self.template_data)
+            template_name = data.pop("template_name_or_list", None)
+            if template_name is not None:
+                return render_template(template_name, **data)
+            # Fallback if key missing – keeps runtime behaviour identical
+            return render_template(**data)  # type: ignore[arg-type]
         return render_template("invalid-invite.html", error=self.message)
 
 
@@ -321,10 +326,11 @@ class InvitationProcessor:
 
         # Get invitation and servers
         invitation = Invitation.query.filter(
-            db.func.lower(Invitation.code) == code.lower()
+            func.lower(Invitation.code) == code.lower()
         ).first()
 
         servers = self._get_invitation_servers(invitation)
+
         workflow_type = ServerTypeDetector.get_workflow_type(servers)
 
         # For display, we show the appropriate template based on workflow type
@@ -382,22 +388,37 @@ class InvitationProcessor:
 
         # Get invitation and servers
         invitation = Invitation.query.filter(
-            db.func.lower(Invitation.code) == code.lower()
+            func.lower(Invitation.code) == code.lower()
         ).first()
 
         servers = self._get_invitation_servers(invitation)
+
         workflow_type = ServerTypeDetector.get_workflow_type(servers)
 
         # Process with appropriate workflow
         workflow = self.workflows[workflow_type]
         return workflow.process(invitation, servers, form_data)
 
-    def _get_invitation_servers(self, invitation: Invitation) -> list[MediaServer]:
+    def _get_invitation_servers(
+        self, invitation: Invitation | None
+    ) -> list[MediaServer]:
         """Get all servers associated with an invitation"""
-        if invitation.servers:
-            return list(invitation.servers)
-        if invitation.server:
-            return [invitation.server]
+        if not invitation:
+            return []
+
+        if getattr(invitation, "servers", None):
+            try:
+                servers_rel: Iterable[MediaServer] = cast(
+                    Iterable[MediaServer], invitation.servers
+                )
+                return list(servers_rel)  # type: ignore[return-value]
+            except (TypeError, AttributeError):
+                # If servers is not iterable, fall back to empty list
+                pass
+
+        if getattr(invitation, "server", None):
+            return [invitation.server]  # type: ignore[return-value]
+
         # Fallback to first available server
         default_server = MediaServer.query.first()
         return [default_server] if default_server else []

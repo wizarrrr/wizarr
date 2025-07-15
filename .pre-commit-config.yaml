@@ -28,3 +28,10 @@ repos:
         pass_filenames: false
         always_run: true
         stages: [pre-push]
+      - id: ty
+        name: ty
+        entry: uv run ty check
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]

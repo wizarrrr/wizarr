@@ -167,7 +167,8 @@ class AdminUser(UserMixin):
 
     @property
     def username(self):
-        return Settings.query.filter_by(key="admin_username").first().value
+        setting = Settings.query.filter_by(key="admin_username").first()
+        return setting.value if setting else None
 
 
 class MediaServer(db.Model):

@@ -10,6 +10,14 @@ from app.models import Identity, MediaServer, Settings, User
 from .client_base import CLIENTS
 
 
+def _clear_user_cache(client):
+    """Helper to clear user cache if available."""
+    if hasattr(client, "list_users"):
+        list_users_method = client.list_users
+        if hasattr(list_users_method, "cache_clear"):
+            list_users_method.cache_clear()
+
+
 def _mode() -> str:
     """
     Reads the 'server_type' setting from the DB.
@@ -49,7 +57,7 @@ def get_client_for_media_server(server: MediaServer):
     return cls(media_server=server)
 
 
-def get_media_client(server_type: str, media_server: MediaServer = None):
+def get_media_client(server_type: str, media_server: MediaServer | None = None):
     """Return a configured MediaClient instance for the given server type and optional MediaServer.
 
     This is an alias/wrapper around get_client_for_media_server for consistency.
@@ -65,24 +73,16 @@ def list_users(clear_cache: bool = False):
     """
     client = get_client(_mode())
     # clear cache on clients that support it
-    if (
-        clear_cache
-        and hasattr(client, "list_users")
-        and hasattr(client.list_users, "cache_clear")
-    ):
-        client.list_users.cache_clear()
+    if clear_cache:
+        _clear_user_cache(client)
     return client.list_users()
 
 
 def list_users_for_server(server: MediaServer, *, clear_cache: bool = False):
     """List users for a specific MediaServer instance and ensure server_id set."""
     client = get_client_for_media_server(server)
-    if (
-        clear_cache
-        and hasattr(client, "list_users")
-        and hasattr(client.list_users, "cache_clear")
-    ):
-        client.list_users.cache_clear()
+    if clear_cache:
+        _clear_user_cache(client)
     users = client.list_users()
     # ensure linkage
     changed = False
@@ -108,11 +108,16 @@ def delete_user(db_id: int) -> None:
         db.session.commit()
         return
 
+    # server is guaranteed to be not None at this point
+    assert server is not None
+    # Cast to MediaServer to satisfy type checker
+    from typing import cast
+
+    server = cast(MediaServer, server)
     client = get_client_for_media_server(server)
 
     # clear cache pre‐removal if supported
-    if hasattr(client, "list_users") and hasattr(client.list_users, "cache_clear"):
-        client.list_users.cache_clear()
+    _clear_user_cache(client)
 
     try:
         if server.server_type == "plex":
@@ -127,15 +132,13 @@ def delete_user(db_id: int) -> None:
     db.session.delete(user)
     db.session.commit()
 
-    if hasattr(client, "list_users") and hasattr(client.list_users, "cache_clear"):
-        client.list_users.cache_clear()
+    _clear_user_cache(client)
 
 
 def delete_user_for_server(server: MediaServer, db_id: int) -> None:
     """Delete a user from the given MediaServer and local DB."""
     client = get_client_for_media_server(server)
-    if hasattr(client, "list_users") and hasattr(client.list_users, "cache_clear"):
-        client.list_users.cache_clear()
+    _clear_user_cache(client)
 
     user = db.session.get(User, db_id)
     if user:
@@ -148,8 +151,7 @@ def delete_user_for_server(server: MediaServer, db_id: int) -> None:
         db.session.delete(user)
         db.session.commit()
 
-    if hasattr(client, "list_users") and hasattr(client.list_users, "cache_clear"):
-        client.list_users.cache_clear()
+    _clear_user_cache(client)
 
 
 def scan_libraries(

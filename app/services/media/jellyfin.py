@@ -115,7 +115,7 @@ class JellyfinClient(RestApiMixin):
 
     @staticmethod
     def _mark_invite_used(inv: Invitation, user: User) -> None:
-        inv.used_by = user
+        inv.used_by = user  # type: ignore[assignment]
         mark_server_used(inv, user.server_id)
 
     @staticmethod

@@ -153,7 +153,7 @@ class LibraryScanner:
         """
         try:
             # Import here to avoid circular imports
-            from app.services.media import CLIENTS
+            from app.services.media.client_base import CLIENTS
 
             if server_type not in CLIENTS:
                 return False, {}
@@ -181,7 +181,7 @@ class LibraryScanner:
             tuple: (success: bool, libraries: dict)
         """
         try:
-            from app.services.media import CLIENTS
+            from app.services.media.client_base import CLIENTS
 
             if server_type not in CLIENTS:
                 return False, {}

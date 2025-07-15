@@ -79,7 +79,9 @@ def register_begin():
     if not isinstance(current_user, AdminAccount):
         return jsonify({"error": "Only admin accounts can register passkeys"}), 403
 
-    rp_id, rp_name, origin = get_rp_config()
+    rp_id, rp_name, _ = get_rp_config()
+    if not rp_id:
+        return jsonify({"error": "RP ID is required"}), 500
 
     user_id = str(current_user.id).encode("utf-8")
     current_user.username.encode("utf-8")
@@ -88,7 +90,7 @@ def register_begin():
         admin_account_id=current_user.id
     ).all()
     exclude_credentials = [
-        {"id": cred.credential_id, "type": "public-key"}
+        PublicKeyCredentialDescriptor(id=cred.credential_id)
         for cred in existing_credentials
     ]
 
@@ -131,8 +133,9 @@ def register_complete():
 
     try:
         credential = parse_registration_credential_json(credential_data["credential"])
-        rp_id, rp_name, origin = get_rp_config()
-
+        rp_id, _, origin = get_rp_config()
+        if not rp_id:
+            return jsonify({"error": "RP ID is required"}), 500
         verification = verify_registration_response(
             credential=credential,
             expected_challenge=challenge,
@@ -177,7 +180,9 @@ def register_complete():
 @webauthn_bp.route("/webauthn/authenticate/begin", methods=["POST"])
 def authenticate_begin():
     """Begin WebAuthn authentication process (usernameless)."""
-    rp_id, rp_name, origin = get_rp_config()
+    rp_id, _, _ = get_rp_config()
+    if not rp_id:
+        return jsonify({"error": "RP ID is required"}), 500
 
     # Get all credentials from all admin accounts for usernameless authentication
     all_credentials = WebAuthnCredential.query.all()
@@ -243,8 +248,9 @@ def authenticate_complete():
         # Get the admin account associated with this credential
         admin_account = db_credential.admin_account
 
-        rp_id, rp_name, origin = get_rp_config()
-
+        rp_id, _, origin = get_rp_config()
+        if not rp_id:
+            return jsonify({"error": "RP ID is required"}), 500
         verification = verify_authentication_response(
             credential=credential,
             expected_challenge=challenge,
@@ -366,7 +372,12 @@ def register_start_htmx():
         )
 
     try:
-        rp_id, rp_name, origin = get_rp_config()
+        rp_id, rp_name, _ = get_rp_config()
+        if not rp_id:
+            return render_template(
+                "components/passkey_error.html",
+                error="RP ID is required",
+            )
 
         user_id = str(current_user.id).encode("utf-8")
 
@@ -374,7 +385,7 @@ def register_start_htmx():
             admin_account_id=current_user.id
         ).all()
         exclude_credentials = [
-            {"id": cred.credential_id, "type": "public-key"}
+            PublicKeyCredentialDescriptor(id=cred.credential_id)
             for cred in existing_credentials
         ]
 
@@ -428,6 +439,8 @@ def register_start_htmx():
             ],
             "authenticatorSelection": {
                 "userVerification": registration_options.authenticator_selection.user_verification
+                if registration_options.authenticator_selection is not None
+                else None
             },
         }
 

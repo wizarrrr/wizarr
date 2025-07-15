@@ -14,7 +14,7 @@ def delete_user_if_expired() -> list[int]:
     now = datetime.datetime.now()
     # SQLAlchemy version of: User.select().where(User.expires.is_null(False) & (User.expires < now))
     expired_rows = User.query.filter(
-        User.expires is not None,  # not null
+        User.expires.is_not(None),  # not null
         User.expires < now,
     ).all()
 

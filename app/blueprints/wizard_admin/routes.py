@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from typing import cast
 
 from flask import (
     Blueprint,
@@ -109,7 +110,8 @@ def create_step():
         # When using the simple form we slot the step into a synthetic 'custom'
         # server_type so ordering is still unique and existing wizard logic is
         # unaffected.
-        stype = "custom" if simple else form.server_type.data
+        server_type_attr = getattr(form, "server_type", None)
+        stype = "custom" if simple else (server_type_attr and server_type_attr.data)
 
         max_pos = (
             db.session.query(func.max(WizardStep.position))
@@ -118,8 +120,9 @@ def create_step():
         )
         next_pos = (max_pos or 0) + 1
 
-        cleaned_md = _strip_localization(form.markdown.data)
+        cleaned_md = _strip_localization(form.markdown.data or "")
 
+        requires_attr = getattr(form, "requires", None)
         step = WizardStep(
             server_type=stype,
             position=next_pos,
@@ -128,7 +131,9 @@ def create_step():
             requires=[]
             if simple
             else [
-                s.strip() for s in (form.requires.data or "").split(",") if s.strip()
+                s.strip()
+                for s in (requires_attr and requires_attr.data or "").split(",")
+                if s.strip()
             ],
         )
         db.session.add(step)
@@ -184,13 +189,16 @@ def edit_step(step_id: int):
 
     if form.validate_on_submit():
         if not simple:
-            step.server_type = form.server_type.data
+            server_type_attr = getattr(form, "server_type", None)
+            step.server_type = server_type_attr.data if server_type_attr else "custom"
+            requires_attr = getattr(form, "requires", None)
+            requires_data = requires_attr.data if requires_attr else ""
             step.requires = [
-                s.strip() for s in (form.requires.data or "").split(",") if s.strip()
+                s.strip() for s in (requires_data or "").split(",") if s.strip()
             ]
 
         step.title = getattr(form, "title", None) and form.title.data or None
-        cleaned_md = _strip_localization(form.markdown.data)
+        cleaned_md = _strip_localization(form.markdown.data or "")
         step.markdown = cleaned_md
 
         db.session.commit()
@@ -209,7 +217,9 @@ def edit_step(step_id: int):
     # GET: populate fields
     if request.method == "GET":
         if not simple:
-            form.requires.data = ", ".join(step.requires or [])
+            requires_attr = getattr(form, "requires", None)
+            if requires_attr:
+                requires_attr.data = ", ".join(step.requires or [])
         form.markdown.data = _strip_localization(step.markdown)
 
     modal_tmpl = (
@@ -246,9 +256,10 @@ def delete_step(step_id: int):
 @login_required
 def reorder_steps():
     """Accept JSON array of step IDs in new order for a given server_type."""
-    order = request.json
-    if not isinstance(order, list):
+    order_raw = request.json
+    if not isinstance(order_raw, list):
         abort(400)
+    order = cast(list[int], order_raw)
 
     rows = WizardStep.query.filter(WizardStep.id.in_(order)).all()
     id_to_row = {r.id: r for r in rows}
@@ -349,9 +360,10 @@ def delete_bundle(bundle_id: int):
 @wizard_admin_bp.route("/bundle/<int:bundle_id>/reorder", methods=["POST"])
 @login_required
 def reorder_bundle(bundle_id: int):
-    order = request.json  # expects list of step IDs in new order
-    if not isinstance(order, list):
+    order_raw = request.json  # expects list of step IDs in new order
+    if not isinstance(order_raw, list):
         abort(400)
+    order = cast(list[int], order_raw)
 
     rows = WizardBundleStep.query.filter(
         WizardBundleStep.bundle_id == bundle_id,

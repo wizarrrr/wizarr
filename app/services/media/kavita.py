@@ -487,7 +487,7 @@ class KavitaClient(RestApiMixin):
     @staticmethod
     def _mark_invite_used(inv: Invitation, user: User) -> None:
         """Mark invitation consumed for the Kavita server only."""
-        inv.used_by = user
+        inv.used_by = user  # type: ignore[assignment]
         server_id = getattr(user, "server_id", None)
         if server_id is not None:
             mark_server_used(inv, server_id)
