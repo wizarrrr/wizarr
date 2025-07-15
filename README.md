@@ -27,7 +27,7 @@ Create a unique invite link and share it with users — they’ll be automatical
 
 ## ✨ Major Features
 
-- Automatic invitations for Plex, Jellyfin, Emby, AudiobookShelf, Komga, and Romm
+- Automatic invitations for Plex, Jellyfin, Emby, AudiobookShelf, Komga, Kavita and Romm
 - Secure, user-friendly invitation process
 - Plug-and-play SSO support*
 - Multi-tiered invitation access
