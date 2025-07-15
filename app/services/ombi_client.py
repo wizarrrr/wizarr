@@ -1,8 +1,11 @@
 import logging
+
 import requests
+
 from app.models import Settings, User
 
 __all__ = ["run_user_importer", "delete_user"]
+
 
 def _cfg():
     """Fetch Ombi/Overseerr URL and API key from the DB."""
@@ -13,10 +16,11 @@ def _cfg():
         key_row.value if key_row else None,
     )
 
+
 def run_user_importer(name: str):
     url, key = _cfg()
     if not url or not key:
-        return
+        return None
 
     try:
         resp = requests.post(
@@ -29,13 +33,15 @@ def run_user_importer(name: str):
     except Exception as exc:
         logging.error("Ombi importer error: %s", exc)
 
+
 def run_all_importers():
-    run_user_importer("jellyfin")   # extend when plex/emby needed
+    run_user_importer("jellyfin")  # extend when plex/emby needed
+
 
 def delete_user(internal_token: str):
     url, key = _cfg()
     if not url or not key:
-        return
+        return None
 
     # 1. Get Ombi user list
     try:
@@ -46,16 +52,15 @@ def delete_user(internal_token: str):
         ).json()
     except Exception as exc:
         logging.error("Ombi list users failed: %s", exc)
-        return
+        return None
 
     # 2. Map our internal token → User → Ombi ID
     wiz_user = User.query.filter_by(token=internal_token).first()
     if not wiz_user:
-        return
+        return None
 
     ombi_id = next(
-        (u["id"] for u in users if u.get("userName") == wiz_user.username),
-        None
+        (u["id"] for u in users if u.get("userName") == wiz_user.username), None
     )
 
     if ombi_id:
@@ -69,3 +74,4 @@ def delete_user(internal_token: str):
             return resp
         except Exception as exc:
             logging.error("Ombi delete user error: %s", exc)
+    return None

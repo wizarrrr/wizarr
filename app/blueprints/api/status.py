@@ -1,13 +1,15 @@
 import datetime
-import traceback
 import os
+import traceback
 
 from flask import Blueprint, jsonify, request
-from app.models import User, Invitation
+
+from app.models import Invitation, User
 
 status_bp = Blueprint("status", __name__, url_prefix="/api")
 
 API_KEY = os.environ.get("WIZARR_API_KEY")
+
 
 @status_bp.route("/status", methods=["GET"])
 def status():
@@ -24,21 +26,17 @@ def status():
         invites = Invitation.query.count()
         # Pending = not used and not expired
         pending = Invitation.query.filter(
-            Invitation.used == False,
-            (Invitation.expires == None) | (Invitation.expires >= now)
+            not Invitation.used,
+            (Invitation.expires is None) | (Invitation.expires >= now),
         ).count()
         # Expired if invitation time less than now
         expired = Invitation.query.filter(
-            Invitation.expires != None,
-            Invitation.expires < now
+            Invitation.expires is not None, Invitation.expires < now
         ).count()
 
-        return jsonify({
-            "users": users,
-            "invites": invites,
-            "pending": pending,
-            "expired": expired
-        })
+        return jsonify(
+            {"users": users, "invites": invites, "pending": pending, "expired": expired}
+        )
 
     except Exception as e:
         traceback.print_exc()

@@ -1,32 +1,49 @@
 # app/blueprints/settings/routes.py
-import logging
 import base64
+import logging
 
-from flask import Blueprint, request, render_template, redirect, url_for, flash, jsonify, session, make_response
-
-from flask_login import login_required
+from flask import (
+    Blueprint,
+    flash,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 from flask_babel import _
+from flask_login import login_required
 
 from app.services.media.service import scan_libraries as scan_media
-from ...models import Settings, Library, MediaServer
-from ...forms.settings import SettingsForm
-from ...forms.general import GeneralSettingsForm
-from ...services.servers  import check_plex, check_jellyfin, check_emby, check_audiobookshelf, check_romm
+
 from ...extensions import db
+from ...forms.general import GeneralSettingsForm
+from ...forms.settings import SettingsForm
+from ...models import Library, MediaServer, Settings
+from ...services.servers import (
+    check_audiobookshelf,
+    check_emby,
+    check_jellyfin,
+    check_plex,
+    check_romm,
+)
 
 settings_bp = Blueprint("settings", __name__, url_prefix="/settings")
+
 
 def _load_settings() -> dict:
     # Load all rows and build a dict
     settings = {s.key: s.value for s in Settings.query.all()}
-    
+
     # Convert specific boolean fields from strings to booleans
     boolean_fields = ["allow_downloads_plex", "allow_tv_plex", "wizard_acl_enabled"]
     for field in boolean_fields:
         if field in settings and settings[field] is not None:
             settings[field] = str(settings[field]).lower() == "true"
-    
+
     return settings
+
 
 def _save_settings(data: dict) -> None:
     """Upsert each key/value in one go."""
@@ -35,26 +52,30 @@ def _save_settings(data: dict) -> None:
             # Convert boolean values to "true"/"false" strings
             if isinstance(value, bool):
                 value = "true" if value else "false"
-            
+
             setting = Settings.query.filter_by(key=key).first()
             if setting:
                 setting.value = value
             else:
-                db.session.add(Settings(key=key, value=value))
+                setting = Settings()
+                setting.key = key
+                setting.value = value
+                db.session.add(setting)
         db.session.commit()
     except Exception:
         db.session.rollback()
         raise
 
+
 def _check_server_connection(data: dict) -> tuple[bool, str]:
     stype = data["server_type"]
     if stype == "plex":
         return check_plex(data["server_url"], data["api_key"])
-    elif stype == "emby":
+    if stype == "emby":
         return check_emby(data["server_url"], data["api_key"])
-    elif stype == "audiobookshelf":
+    if stype == "audiobookshelf":
         return check_audiobookshelf(data["server_url"], data["api_key"])
-    elif stype == "romm":
+    if stype == "romm":
         # Derive token from supplied credentials if api_key missing
         token = data.get("api_key")
         if not token:
@@ -63,8 +84,8 @@ def _check_server_connection(data: dict) -> tuple[bool, str]:
             if username and password:
                 token = base64.b64encode(f"{username}:{password}".encode()).decode()
         return check_romm(data["server_url"], token or "")
-    else:
-        return check_jellyfin(data["server_url"], data["api_key"])
+    return check_jellyfin(data["server_url"], data["api_key"])
+
 
 @settings_bp.get("")
 @settings_bp.get("/")
@@ -78,15 +99,14 @@ def page():
 def server_settings():
     setup_mode = bool(session.get("in_setup"))
     current = _load_settings()  # { key: value }
-    
+
     # load all known libraries to build checkboxes
     all_libs = Library.query.order_by(Library.name).all()
     # turn comma-list into list of external_ids
     prechecked = set((current.get("libraries") or "").split(", "))
 
     form = SettingsForm(
-        formdata=request.form if request.method=="POST" else None,
-        data=current
+        formdata=request.form if request.method == "POST" else None, data=current
     )
 
     if form.validate_on_submit():
@@ -97,7 +117,7 @@ def server_settings():
         # Only update enabled state if at least one library is selected
         if chosen:
             for lib in Library.query:
-                lib.enabled = (lib.external_id in chosen)
+                lib.enabled = lib.external_id in chosen
             db.session.commit()
 
         ok, error_msg = _check_server_connection(data)
@@ -110,7 +130,7 @@ def server_settings():
                 form=form,
                 all_libs=all_libs,
                 prechecked=set(chosen),
-                setup_mode=setup_mode
+                setup_mode=setup_mode,
             )
 
         # Check if a MediaServer already exists
@@ -122,28 +142,31 @@ def server_settings():
             existing_server.url = data["server_url"]
             existing_server.api_key = data.get("api_key")
             existing_server.external_url = data.get("external_url")
-            existing_server.allow_downloads_plex = bool(data.get("allow_downloads_plex"))
+            existing_server.allow_downloads_plex = bool(
+                data.get("allow_downloads_plex")
+            )
             existing_server.allow_tv_plex = bool(data.get("allow_tv_plex"))
             # Jellyfin flags
-            existing_server.allow_downloads_jellyfin = bool(data.get("allow_downloads_jellyfin"))
-            existing_server.allow_tv_jellyfin        = bool(data.get("allow_tv_jellyfin"))
+            existing_server.allow_downloads_jellyfin = bool(
+                data.get("allow_downloads_jellyfin")
+            )
+            existing_server.allow_tv_jellyfin = bool(data.get("allow_tv_jellyfin"))
             existing_server.verified = True
             db.session.commit()
         else:
             # Create new server
-            server = MediaServer(
-                name=data["server_name"],
-                server_type=data["server_type"],
-                url=data["server_url"],
-                api_key=data.get("api_key"),
-                external_url=data.get("external_url"),
-                allow_downloads_plex=bool(data.get("allow_downloads_plex")),
-                allow_tv_plex=bool(data.get("allow_tv_plex")),
-                # Jellyfin flags
-                allow_downloads_jellyfin=bool(data.get("allow_downloads_jellyfin")),
-                allow_tv_jellyfin=bool(data.get("allow_tv_jellyfin")),
-                verified=True,
-            )
+            server = MediaServer()
+            server.name = data["server_name"]
+            server.server_type = data["server_type"]
+            server.url = data["server_url"]
+            server.api_key = data.get("api_key")
+            server.external_url = data.get("external_url")
+            server.allow_downloads_plex = bool(data.get("allow_downloads_plex"))
+            server.allow_tv_plex = bool(data.get("allow_tv_plex"))
+            # Jellyfin flags
+            server.allow_downloads_jellyfin = bool(data.get("allow_downloads_jellyfin"))
+            server.allow_tv_jellyfin = bool(data.get("allow_tv_jellyfin"))
+            server.verified = True
             db.session.add(server)
             db.session.commit()
 
@@ -165,8 +188,7 @@ def server_settings():
                 resp = make_response("", 204)
                 resp.headers["HX-Redirect"] = url_for("admin.dashboard")
                 return resp
-            else:
-                return redirect(url_for("admin.dashboard"))
+            return redirect(url_for("admin.dashboard"))
         # re-render form in normal mode
         prechecked = set(chosen)
 
@@ -177,11 +199,12 @@ def server_settings():
             form=form,
             all_libs=all_libs,
             prechecked=prechecked,
-            setup_mode=setup_mode
+            setup_mode=setup_mode,
         )
 
     # fallback: non‐HTMX GET → back to index
     return redirect(url_for("settings.page"))
+
 
 @settings_bp.route("/scan-libraries", methods=["POST"])
 @login_required
@@ -189,8 +212,8 @@ def scan_libraries():
     # 1) credentials: prefer form → fallback to DB
     s = {r.key: r.value for r in Settings.query.all()}
     stype = request.form.get("server_type") or s.get("server_type")
-    url   = request.form.get("server_url")    or s.get("server_url")
-    key   = request.form.get("api_key")       or s.get("api_key")
+    url = request.form.get("server_url") or s.get("server_url")
+    key = request.form.get("api_key") or s.get("api_key")
 
     if stype == "romm" and (not key):
         username = request.form.get("server_username")
@@ -199,7 +222,18 @@ def scan_libraries():
             key = base64.b64encode(f"{username}:{password}".encode()).decode()
 
     if not url or not key:
-        return jsonify({"error":"missing"}), 400
+        missing_fields = []
+        if not url:
+            missing_fields.append(_("Server URL"))
+        if not key:
+            missing_fields.append(
+                _("API Key") if stype != "romm" else _("Username/Password")
+            )
+
+        error_message = _("Missing required fields: {fields}").format(
+            fields=", ".join(missing_fields)
+        )
+        return f"<div class='text-red-500 p-3 border border-red-300 rounded-lg bg-red-50 dark:bg-red-900 dark:border-red-700'><strong>{_('Error')}:</strong> {error_message}</div>"
 
     # 2) fetch upstream libraries
     try:
@@ -208,7 +242,8 @@ def scan_libraries():
         items = raw.items() if isinstance(raw, dict) else [(name, name) for name in raw]
     except Exception as exc:
         logging.warning("Library scan failed: %s", exc)
-        return "<div class='text-red-500'>%s</div>" % _("Library scan failed")
+        error_message = str(exc) if str(exc) else _("Library scan failed")
+        return f"<div class='text-red-500 p-3 border border-red-300 rounded-lg bg-red-50 dark:bg-red-900 dark:border-red-700'><strong>{_('Error')}:</strong> {error_message}</div>"
 
     # 3) upsert into our Library table
     seen_ids = set()
@@ -216,30 +251,35 @@ def scan_libraries():
         seen_ids.add(fid)
         lib = Library.query.filter_by(external_id=fid).first()
         if lib:
-            lib.name = name   # keep names fresh
+            lib.name = name  # keep names fresh
         else:
-            db.session.add(Library(external_id=fid, name=name))
+            lib = Library()
+            lib.external_id = fid
+            lib.name = name
+            db.session.add(lib)
     # delete any that upstream no longer offers
-    Library.query.filter(~Library.external_id.in_(seen_ids)).delete(synchronize_session=False)
+    Library.query.filter(~Library.external_id.in_(seen_ids)).delete(
+        synchronize_session=False
+    )
     db.session.commit()
 
     # 4) render checkboxes off our Library.enabled
     all_libs = Library.query.order_by(Library.name).all()
-    return render_template(
-      "partials/library_checkboxes.html",
-      libs=all_libs
-    )
+    return render_template("partials/library_checkboxes.html", libs=all_libs)
 
-@settings_bp.route('/general', methods=['GET', 'POST'])
+
+@settings_bp.route("/general", methods=["GET", "POST"])
 @login_required
 def general_settings():
     current = _load_settings()
-    form = GeneralSettingsForm(formdata=request.form if request.method=='POST' else None, data=current)
+    form = GeneralSettingsForm(
+        formdata=request.form if request.method == "POST" else None, data=current
+    )
     if form.validate_on_submit():
-        data = form.data.copy(); data.pop('csrf_token', None)
+        data = form.data.copy()
+        data.pop("csrf_token", None)
         _save_settings(data)
-        flash(_('Settings saved successfully!'), 'success')
-    if request.headers.get('HX-Request'):
-        return render_template('settings/general.html', form=form)
-    return redirect(url_for('settings.page'))
-
+        flash(_("Settings saved successfully!"), "success")
+    if request.headers.get("HX-Request"):
+        return render_template("settings/general.html", form=form)
+    return redirect(url_for("settings.page"))

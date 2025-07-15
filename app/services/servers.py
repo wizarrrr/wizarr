@@ -1,38 +1,61 @@
-import logging, requests
-from plexapi.server import PlexServer
-from requests.exceptions import RequestException
-from plexapi.exceptions import PlexApiException
-from typing import Callable, Any, Tuple
+import logging
+
+import requests
 from flask_babel import _
+from plexapi.exceptions import PlexApiException
+from plexapi.server import PlexServer
+
 
 # Raised when a server returns a non-200 status code.
 class ServerResponseError(Exception):
     def __init__(self, status_code: int, url: str):
         self.status_code = status_code
         self.url = url
-        super().__init__(_("Server returned status code %(status_code)s", status_code=status_code))
+        super().__init__(
+            _("Server returned status code %(status_code)s", status_code=status_code)
+        )
+
 
 # Handle connection errors for both Plex and Jellyfin servers.
-def handle_connection_error(e: Exception, server_type: str) -> Tuple[bool, str]:
+def handle_connection_error(e: Exception, server_type: str) -> tuple[bool, str]:
     if isinstance(e, ServerResponseError):
         error_msg = str(e)
         logging.error("%s check failed: %s → %s", server_type, e.url, e.status_code)
     elif isinstance(e, PlexApiException):
-        error_msg = _("%(server_type)s server returned an error: %(error)s", server_type=server_type, error=str(e))
+        error_msg = _(
+            "%(server_type)s server returned an error: %(error)s",
+            server_type=server_type,
+            error=str(e),
+        )
         logging.error("%s API error: %s", server_type, str(e))
     elif isinstance(e, requests.exceptions.ConnectionError):
-        error_msg = _("Could not connect to the %(server_type)s server. Please check if the server is running and the URL is correct.", server_type=server_type)
+        error_msg = _(
+            "Could not connect to the %(server_type)s server. Please check if the server is running and the URL is correct.",
+            server_type=server_type,
+        )
         logging.error("%s connection error: %s", server_type, str(e))
     elif isinstance(e, requests.exceptions.Timeout):
-        error_msg = _("Connection to %(server_type)s server timed out. Please check if the server is running and accessible.", server_type=server_type)
+        error_msg = _(
+            "Connection to %(server_type)s server timed out. Please check if the server is running and accessible.",
+            server_type=server_type,
+        )
         logging.error("%s connection timeout", server_type)
     elif isinstance(e, requests.exceptions.RequestException):
-        error_msg = _("An error occurred while connecting to the %(server_type)s server: %(error)s", server_type=server_type, error=str(e))
+        error_msg = _(
+            "An error occurred while connecting to the %(server_type)s server: %(error)s",
+            server_type=server_type,
+            error=str(e),
+        )
         logging.error("%s request error: %s", server_type, str(e))
     else:
-        error_msg = _("An unexpected error occurred while connecting to the %(server_type)s server: %(error)s", server_type=server_type, error=str(e))
+        error_msg = _(
+            "An unexpected error occurred while connecting to the %(server_type)s server: %(error)s",
+            server_type=server_type,
+            error=str(e),
+        )
         logging.error("%s check failed: %s", server_type, str(e), exc_info=True)
     return False, error_msg
+
 
 def check_plex(url: str, token: str) -> tuple[bool, str]:
     try:
@@ -41,11 +64,13 @@ def check_plex(url: str, token: str) -> tuple[bool, str]:
     except Exception as e:
         return handle_connection_error(e, _("Plex"))
 
+
 def check_jellyfin_or_emby_internal(url: str, token: str) -> tuple[bool, str]:
     resp = requests.get(f"{url}/Users", headers={"X-Emby-Token": token}, timeout=10)
     if resp.status_code != 200:
         raise ServerResponseError(resp.status_code, resp.url)
     return True, ""
+
 
 def check_jellyfin(url: str, token: str) -> tuple[bool, str]:
     try:
@@ -53,11 +78,13 @@ def check_jellyfin(url: str, token: str) -> tuple[bool, str]:
     except Exception as e:
         return handle_connection_error(e, _("Jellyfin"))
 
+
 def check_emby(url: str, token: str) -> tuple[bool, str]:
     try:
         return check_jellyfin_or_emby_internal(url, token)
     except Exception as e:
         return handle_connection_error(e, _("Emby"))
+
 
 def check_audiobookshelf(url: str, token: str) -> tuple[bool, str]:
     """Validate Audiobookshelf credentials.
@@ -75,16 +102,20 @@ def check_audiobookshelf(url: str, token: str) -> tuple[bool, str]:
 
         if token:
             headers = {"Authorization": f"Bearer {token}"}
-            lib_resp = requests.get(f"{url.rstrip('/')}/api/libraries", headers=headers, timeout=10)
+            lib_resp = requests.get(
+                f"{url.rstrip('/')}/api/libraries", headers=headers, timeout=10
+            )
             if lib_resp.status_code != 200:
                 raise ServerResponseError(lib_resp.status_code, lib_resp.url)
         return True, ""
     except Exception as e:
         return handle_connection_error(e, _("Audiobookshelf"))
 
+
 # ---------------------------------------------------------------------------
 # RomM – new media-server backend
 # ---------------------------------------------------------------------------
+
 
 def check_romm(url: str, token: str) -> tuple[bool, str]:
     """Quick connectivity check for a RomM instance.
@@ -98,7 +129,9 @@ def check_romm(url: str, token: str) -> tuple[bool, str]:
         if token:
             headers["Authorization"] = f"Basic {token}"
 
-        resp = requests.get(f"{url.rstrip('/')}/api/platforms", headers=headers, timeout=10)
+        resp = requests.get(
+            f"{url.rstrip('/')}/api/platforms", headers=headers, timeout=10
+        )
         if resp.status_code != 200:
             raise ServerResponseError(resp.status_code, resp.url)
         # Basic sanity check – ensure response is JSON list
@@ -107,6 +140,7 @@ def check_romm(url: str, token: str) -> tuple[bool, str]:
         return True, ""
     except Exception as e:
         return handle_connection_error(e, _("RomM"))
+
 
 def check_komga(url: str, token: str) -> tuple[bool, str]:
     """Quick connectivity check for a Komga instance.
@@ -120,7 +154,9 @@ def check_komga(url: str, token: str) -> tuple[bool, str]:
         if token:
             headers["Authorization"] = f"Bearer {token}"
 
-        resp = requests.get(f"{url.rstrip('/')}/api/v1/libraries", headers=headers, timeout=10)
+        resp = requests.get(
+            f"{url.rstrip('/')}/api/v1/libraries", headers=headers, timeout=10
+        )
         if resp.status_code != 200:
             raise ServerResponseError(resp.status_code, resp.url)
         # Basic sanity check – ensure response is JSON list
@@ -129,6 +165,7 @@ def check_komga(url: str, token: str) -> tuple[bool, str]:
         return True, ""
     except Exception as e:
         return handle_connection_error(e, _("Komga"))
+
 
 def check_kavita(url: str, token: str) -> tuple[bool, str]:
     """Quick connectivity check for a Kavita instance.
@@ -139,36 +176,44 @@ def check_kavita(url: str, token: str) -> tuple[bool, str]:
     """
     try:
         headers = {"Accept": "application/json", "Content-Type": "application/json"}
-        
+
         # First check health endpoint (no auth required)
-        resp = requests.get(f"{url.rstrip('/')}/api/Health", headers=headers, timeout=10)
+        resp = requests.get(
+            f"{url.rstrip('/')}/api/Health", headers=headers, timeout=10
+        )
         if resp.status_code != 200:
             raise ServerResponseError(resp.status_code, resp.url)
-        
+
         # If API key provided, authenticate and test access
         if token:
             # Step 1: Use API key to get JWT token
             auth_url = f"{url.rstrip('/')}/api/Plugin/authenticate"
             auth_params = {"apiKey": token, "pluginName": "Wizarr"}
-            auth_resp = requests.post(auth_url, params=auth_params, headers=headers, timeout=10)
+            auth_resp = requests.post(
+                auth_url, params=auth_params, headers=headers, timeout=10
+            )
             if auth_resp.status_code != 200:
                 raise ServerResponseError(auth_resp.status_code, auth_resp.url)
-            
+
             auth_data = auth_resp.json()
             jwt_token = auth_data.get("token", "")
             if not jwt_token:
                 raise ValueError("No JWT token returned from Kavita authentication")
-            
+
             # Step 2: Use JWT token to test library access
             jwt_headers = {**headers, "Authorization": f"Bearer {jwt_token}"}
-            lib_resp = requests.get(f"{url.rstrip('/')}/api/Library/libraries", headers=jwt_headers, timeout=10)
+            lib_resp = requests.get(
+                f"{url.rstrip('/')}/api/Library/libraries",
+                headers=jwt_headers,
+                timeout=10,
+            )
             if lib_resp.status_code != 200:
                 raise ServerResponseError(lib_resp.status_code, lib_resp.url)
-            
+
             # Basic sanity check – ensure response is JSON list
             if not isinstance(lib_resp.json(), list):
                 raise ValueError("Unexpected Kavita response format")
-        
+
         return True, ""
     except Exception as e:
         return handle_connection_error(e, _("Kavita"))

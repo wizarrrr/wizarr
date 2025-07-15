@@ -1,11 +1,13 @@
 """Facade that dispatches media user management to Plex or Jellyfin."""
 
-from app.extensions import db
-from app.models import Settings, User, MediaServer, Identity
-from .client_base import CLIENTS
-from collections import defaultdict
-import re
 import logging
+import re
+from collections import defaultdict
+
+from app.extensions import db
+from app.models import Identity, MediaServer, Settings, User
+
+from .client_base import CLIENTS
 
 
 def _mode() -> str:
@@ -13,15 +15,12 @@ def _mode() -> str:
     Reads the 'server_type' setting from the DB.
     Falls back to None if it isn't set.
     """
-    return (
-        db.session
-          .query(Settings.value)
-          .filter_by(key="server_type")
-          .scalar()
-    )
+    return db.session.query(Settings.value).filter_by(key="server_type").scalar()
 
 
-def get_client(server_type: str | None = None, url: str | None = None, token: str | None = None):
+def get_client(
+    server_type: str | None = None, url: str | None = None, token: str | None = None
+):
     """
     Instantiate the MediaClient for the given server_type, optionally overriding URL/token.
     """
@@ -29,8 +28,8 @@ def get_client(server_type: str | None = None, url: str | None = None, token: st
         server_type = _mode()
     try:
         cls = CLIENTS[server_type]
-    except KeyError:
-        raise ValueError(f"Unsupported media server type: {server_type}")
+    except KeyError as exc:
+        raise ValueError(f"Unsupported media server type: {server_type}") from exc
     client = cls()
     if url:
         client.url = url
@@ -47,19 +46,17 @@ def get_client_for_media_server(server: MediaServer):
 
     # MediaClient can now accept the row directly which centralises
     # credential handling and attribute population.
-    client = cls(media_server=server)
-    return client
+    return cls(media_server=server)
 
 
 def get_media_client(server_type: str, media_server: MediaServer = None):
     """Return a configured MediaClient instance for the given server type and optional MediaServer.
-    
+
     This is an alias/wrapper around get_client_for_media_server for consistency.
     """
     if media_server:
         return get_client_for_media_server(media_server)
-    else:
-        return get_client(server_type)
+    return get_client(server_type)
 
 
 def list_users(clear_cache: bool = False):
@@ -68,7 +65,11 @@ def list_users(clear_cache: bool = False):
     """
     client = get_client(_mode())
     # clear cache on clients that support it
-    if clear_cache and hasattr(client, 'list_users') and hasattr(client.list_users, 'cache_clear'):
+    if (
+        clear_cache
+        and hasattr(client, "list_users")
+        and hasattr(client.list_users, "cache_clear")
+    ):
         client.list_users.cache_clear()
     return client.list_users()
 
@@ -76,7 +77,11 @@ def list_users(clear_cache: bool = False):
 def list_users_for_server(server: MediaServer, *, clear_cache: bool = False):
     """List users for a specific MediaServer instance and ensure server_id set."""
     client = get_client_for_media_server(server)
-    if clear_cache and hasattr(client, 'list_users') and hasattr(client.list_users, 'cache_clear'):
+    if (
+        clear_cache
+        and hasattr(client, "list_users")
+        and hasattr(client.list_users, "cache_clear")
+    ):
         client.list_users.cache_clear()
     users = client.list_users()
     # ensure linkage
@@ -106,12 +111,12 @@ def delete_user(db_id: int) -> None:
     client = get_client_for_media_server(server)
 
     # clear cache pre‐removal if supported
-    if hasattr(client, 'list_users') and hasattr(client.list_users, 'cache_clear'):
+    if hasattr(client, "list_users") and hasattr(client.list_users, "cache_clear"):
         client.list_users.cache_clear()
 
     try:
-        if server.server_type == 'plex':
-            if user.email and user.email != 'None':
+        if server.server_type == "plex":
+            if user.email and user.email != "None":
                 client.delete_user(user.email)
         else:
             client.delete_user(user.token)
@@ -122,32 +127,34 @@ def delete_user(db_id: int) -> None:
     db.session.delete(user)
     db.session.commit()
 
-    if hasattr(client, 'list_users') and hasattr(client.list_users, 'cache_clear'):
+    if hasattr(client, "list_users") and hasattr(client.list_users, "cache_clear"):
         client.list_users.cache_clear()
 
 
 def delete_user_for_server(server: MediaServer, db_id: int) -> None:
     """Delete a user from the given MediaServer and local DB."""
     client = get_client_for_media_server(server)
-    if hasattr(client, 'list_users') and hasattr(client.list_users, 'cache_clear'):
+    if hasattr(client, "list_users") and hasattr(client.list_users, "cache_clear"):
         client.list_users.cache_clear()
 
     user = db.session.get(User, db_id)
     if user:
-        if server.server_type == 'plex':
+        if server.server_type == "plex":
             email = user.email
-            if email and email != 'None':
+            if email and email != "None":
                 client.delete_user(email)
         else:
             client.delete_user(user.token)
         db.session.delete(user)
         db.session.commit()
 
-    if hasattr(client, 'list_users') and hasattr(client.list_users, 'cache_clear'):
+    if hasattr(client, "list_users") and hasattr(client.list_users, "cache_clear"):
         client.list_users.cache_clear()
 
 
-def scan_libraries(url: str | None = None, token: str | None = None, server_type: str | None = None):
+def scan_libraries(
+    url: str | None = None, token: str | None = None, server_type: str | None = None
+):
     """
     Fetch available libraries from the media server, given optional credentials or using Settings.
     Returns a mapping of external_id -> display_name.
@@ -164,7 +171,7 @@ def scan_libraries_for_server(server: MediaServer):
 
 def get_now_playing_all_servers():
     """Get now playing status from all configured media servers.
-    
+
     Returns:
         list: A list of session dictionaries from all servers, with server info included.
               Each session includes:
@@ -174,56 +181,60 @@ def get_now_playing_all_servers():
               - server_id: ID of the MediaServer record
     """
     all_sessions = []
-    
+
     # Get all configured media servers
     servers = db.session.query(MediaServer).all()
-    
+
     for server in servers:
         try:
             client = get_client_for_media_server(server)
             sessions = client.now_playing()
-            
+
             # Add server information to each session
             for session in sessions:
                 session["server_name"] = server.name
                 session["server_type"] = server.server_type
                 session["server_id"] = server.id
                 all_sessions.append(session)
-                
+
         except Exception as exc:
-            logging.warning(f"Failed to get now playing from server {server.name} ({server.server_type}): {exc}")
+            logging.warning(
+                f"Failed to get now playing from server {server.name} ({server.server_type}): {exc}"
+            )
             continue
-    
+
     return all_sessions
 
 
 def get_now_playing_for_server(server_id: int):
     """Get now playing status from a specific media server.
-    
+
     Args:
         server_id: ID of the MediaServer to query
-        
+
     Returns:
         list: A list of session dictionaries from the specified server.
     """
     server = db.session.query(MediaServer).filter_by(id=server_id).first()
     if not server:
         return []
-    
+
     try:
         client = get_client_for_media_server(server)
         sessions = client.now_playing()
-        
+
         # Add server information to each session
         for session in sessions:
             session["server_name"] = server.name
             session["server_type"] = server.server_type
             session["server_id"] = server.id
-        
+
         return sessions
-        
+
     except Exception as exc:
-        logging.warning(f"Failed to get now playing from server {server.name} ({server.server_type}): {exc}")
+        logging.warning(
+            f"Failed to get now playing from server {server.name} ({server.server_type}): {exc}"
+        )
         return []
 
 
@@ -239,11 +250,7 @@ def _auto_link_identities():
     simple *user@host* pattern.
     """
 
-    users = (
-        db.session.query(User)
-        .filter(User.email.isnot(None))
-        .all()
-    )
+    users = db.session.query(User).filter(User.email.isnot(None)).all()
 
     buckets: dict[str, list[User]] = defaultdict(list)
     for u in users:
