@@ -205,6 +205,12 @@
                                                     <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
                                                     <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Allow Live TV Access") }}</span>
                                                 </label>
+                                            {% elif s.server_type == "audiobookshelf" %}
+                                                <label class="inline-flex items-center cursor-pointer">
+                                                    <input id="audiobookshelf_allow_downloads_{{ s.id }}" name="audiobookshelf_allow_downloads" type="checkbox" value="true" {% if s.allow_downloads %}checked{% endif %} class="sr-only peer">
+                                                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
+                                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Allow Downloads") }}</span>
+                                                </label>
                                             {% endif %}
 
                                             <!-- Library dropdown-search -->
@@ -258,7 +264,7 @@
                                 </label>
                                 <div class="flex items-center space-x-2">
                                     <input
-                                        disabled
+                                        readonly
                                         type="text"
                                         name="link"
                                         id="link"
@@ -367,10 +373,7 @@ document.body.addEventListener('htmx:afterSwap', function(evt) {
                 }
             });
             
-            // Auto-close modal after a short delay to let user see the success message
-            setTimeout(function() {
-                closeInviteModal();
-            }, 2000);
+            // Removed auto-close to allow users ample time to copy the link manually
         }
     }
 });

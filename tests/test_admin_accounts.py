@@ -1,5 +1,3 @@
-import pytest
-
 from app.extensions import db
 from app.models import AdminAccount
 
@@ -29,4 +27,4 @@ def test_admin_login(client, app):
     resp = client.post("/login", data={"username": "bob", "password": "Password1"})
     # Should redirect to / on success (302 Found)
     assert resp.status_code in {302, 303}
-    assert resp.headers["Location"].endswith("/") 
+    assert resp.headers["Location"].endswith("/")

@@ -4,8 +4,9 @@ Revision ID: 20250702_add_jellyfin_options
 Revises: 20250620_add_invitation_server
 Create Date: 2025-07-02 21:15:00
 """
-from alembic import op
+
 import sqlalchemy as sa
+from alembic import op
 
 # revision identifiers, used by Alembic.
 revision = "20250702_add_jellyfin_options"
@@ -38,8 +39,12 @@ def upgrade():
 
     # ── Invitation: per-invite overrides ───────────────────────────
     with op.batch_alter_table("invitation", schema=None) as batch_op:
-        batch_op.add_column(sa.Column("jellyfin_allow_downloads", sa.Boolean(), nullable=True))
-        batch_op.add_column(sa.Column("jellyfin_allow_live_tv", sa.Boolean(), nullable=True))
+        batch_op.add_column(
+            sa.Column("jellyfin_allow_downloads", sa.Boolean(), nullable=True)
+        )
+        batch_op.add_column(
+            sa.Column("jellyfin_allow_live_tv", sa.Boolean(), nullable=True)
+        )
 
     # ── Safety net: drop lingering library_old copy (SQLite only) ──
     conn = op.get_bind()
@@ -58,4 +63,4 @@ def downgrade():
 
     with op.batch_alter_table("media_server", schema=None) as batch_op:
         batch_op.drop_column("allow_tv_jellyfin")
-        batch_op.drop_column("allow_downloads_jellyfin") 
+        batch_op.drop_column("allow_downloads_jellyfin")

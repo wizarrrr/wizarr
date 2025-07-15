@@ -1,6 +1,8 @@
 # app/error_handlers.py
-from flask import render_template
 import logging
+
+from flask import render_template
+
 
 def register_error_handlers(app):
     @app.errorhandler(500)

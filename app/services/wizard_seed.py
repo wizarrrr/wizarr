@@ -1,14 +1,13 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import List
 
 import frontmatter
 from flask import current_app
+from sqlalchemy import inspect  # NEW
 
 from app.extensions import db
 from app.models import WizardStep
-from sqlalchemy import inspect  # NEW
 
 # Folder containing the bundled markdown files (wizard_steps/<server>/*.md)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent / "wizard_steps"
@@ -18,7 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent / "wizard_steps"
 # to append *new* default steps introduced in later upgrades.
 
 
-def _gather_step_files() -> List[Path]:
+def _gather_step_files() -> list[Path]:
     """Return all bundled markdown files."""
     if not BASE_DIR.exists():
         return []
@@ -134,4 +133,4 @@ def import_default_wizard_steps() -> None:
     # NOTE: existing steps that the admin has modified via the UI are left
     # untouched.  Likewise we do not attempt to remove steps that no longer
     # exist upstream – they might hold valuable custom edits made by the
-    # admin.  This function therefore acts as an *append-only* bootstrap. 
+    # admin.  This function therefore acts as an *append-only* bootstrap.
