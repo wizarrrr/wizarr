@@ -10,18 +10,20 @@
 
 from __future__ import annotations
 
+import logging
 from abc import ABC, abstractmethod
-from typing import Optional
+
+import requests
 
 from app.extensions import db
-from app.models import Settings, MediaServer, User, Identity
+from app.models import MediaServer, Settings, User
 
 # ---------------------------------------------------------------------------
 # Registry helpers
 # ---------------------------------------------------------------------------
 
 # Holds mapping of server_type -> MediaClient subclass
-CLIENTS: dict[str, type["MediaClient"]] = {}
+CLIENTS: dict[str, type[MediaClient]] = {}
 
 
 def register_media_client(name: str):
@@ -38,6 +40,7 @@ def register_media_client(name: str):
         return cls
 
     return decorator
+
 
 # ---------------------------------------------------------------------------
 # Base class
@@ -56,12 +59,15 @@ class MediaClient(ABC):
        compatibility – these will be removed in a future release.
     """
 
+    url: str | None
+    token: str | None
+
     # NOTE: keep *url_key* & *token_key* keyword arguments so older subclass
     # calls (e.g. super().__init__(url_key="server_url")) continue to work.
 
     def __init__(
         self,
-        media_server: Optional[MediaServer] = None,
+        media_server: MediaServer | None = None,
         *,
         url_key: str = "server_url",
         token_key: str = "api_key",
@@ -79,9 +85,7 @@ class MediaClient(ABC):
         server_type = getattr(self.__class__, "_server_type", None)
         if server_type:
             row = (
-                db.session.query(MediaServer)
-                .filter_by(server_type=server_type)
-                .first()
+                db.session.query(MediaServer).filter_by(server_type=server_type).first()
             )
             if row is not None:
                 self._attach_server_row(row)
@@ -94,12 +98,8 @@ class MediaClient(ABC):
         # callers relying on those attributes should migrate to supply a
         # MediaServer.
 
-        self.url = (
-            db.session.query(Settings.value).filter_by(key=url_key).scalar()
-        )
-        self.token = (
-            db.session.query(Settings.value).filter_by(key=token_key).scalar()
-        )
+        self.url = db.session.query(Settings.value).filter_by(key=url_key).scalar()
+        self.token = db.session.query(Settings.value).filter_by(key=token_key).scalar()
 
     # ------------------------------------------------------------------
     # Helpers
@@ -110,31 +110,31 @@ class MediaClient(ABC):
 
         self.server_row: MediaServer = row
         self.server_id: int = row.id  # type: ignore[attr-defined]
-        self.url: str = row.url  # type: ignore[attr-defined]
-        self.token: str = row.api_key  # type: ignore[attr-defined]
+        self.url = row.url  # type: ignore[attr-defined]
+        self.token = row.api_key  # type: ignore[attr-defined]
 
     def _create_user_with_identity_linking(self, user_kwargs: dict) -> User:
         """Create a User record with automatic identity linking for multi-server invitations.
-        
+
         This helper ensures that users created from the same invitation code are
         automatically linked to a shared Identity, even when they don't have valid
         email addresses that would trigger the normal email-based linking.
-        
+
         Args:
             user_kwargs: Dictionary of User model attributes
-            
+
         Returns:
             User: The created User record with identity_id set if applicable
         """
-        code = user_kwargs.get('code')
-        
+        code = user_kwargs.get("code")
+
         # Check if this is part of a multi-server invitation
         if code:
             existing_user = User.query.filter_by(code=code).first()
             if existing_user and existing_user.identity_id:
                 # Link to existing identity from same invitation
-                user_kwargs['identity_id'] = existing_user.identity_id
-        
+                user_kwargs["identity_id"] = existing_user.identity_id
+
         new_user = User(**user_kwargs)
         db.session.add(new_user)
         return new_user
@@ -160,13 +160,18 @@ class MediaClient(ABC):
         raise NotImplementedError
 
     @abstractmethod
+    def list_users(self, *args, **kwargs):
+        """Return a list of users for this media server. Subclasses must implement."""
+        raise NotImplementedError
+
+    @abstractmethod
     def now_playing(self):
         """Return a list of currently playing sessions for this media server.
-        
+
         Returns:
             list: A list of session dictionaries with standardized keys including:
                 - user_name: Name of the user currently playing
-                - media_title: Title of the media being played  
+                - media_title: Title of the media being played
                 - media_type: Type of media (movie, episode, track, etc.)
                 - progress: Playback progress (0.0 to 1.0)
                 - state: Playback state (playing, paused, buffering, stopped)
@@ -177,7 +182,7 @@ class MediaClient(ABC):
     @abstractmethod
     def statistics(self):
         """Return server statistics including library counts, user activity, etc.
-        
+
         Returns:
             dict: A dictionary containing:
                 - library_stats: Library breakdown with counts per type
@@ -190,39 +195,36 @@ class MediaClient(ABC):
     @abstractmethod
     def join(self, username: str, password: str, confirm: str, email: str, code: str):
         """Process user invitation for this media server.
-        
+
         Args:
             username: Username for the new account
             password: Password for the new account
             confirm: Password confirmation
             email: Email address for the new account
             code: Invitation code being used
-            
+
         Returns:
             tuple: (success: bool, message: str)
         """
         raise NotImplementedError
 
     @abstractmethod
-    def scan_libraries(self, url: str = None, token: str = None):
+    def scan_libraries(self, url: str | None = None, token: str | None = None):
         """Scan available libraries on this media server.
-        
+
         Args:
             url: Optional server URL override
             token: Optional API token override
-            
+
         Returns:
             dict: Library name -> library ID mapping
         """
         raise NotImplementedError
 
+
 # ---------------------------------------------------------------------------
 # Shared helpers for simple REST JSON backends
 # ---------------------------------------------------------------------------
-
-
-import logging
-import requests
 
 
 class RestApiMixin(MediaClient):
@@ -249,7 +251,9 @@ class RestApiMixin(MediaClient):
     # ------------------------------------------------------------------
 
     def _request(self, method: str, path: str, **kwargs):
-        url = f"{self.url.rstrip('/')}{path}"
+        if self.url is None:
+            raise ValueError("Media server URL is not set.")
+        url = f"{self.url.rstrip('/')}" + path
         hdrs = {**self._headers(), **kwargs.pop("headers", {})}
 
         logging.info("%s %s", method.upper(), url)

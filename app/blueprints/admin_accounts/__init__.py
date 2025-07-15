@@ -1,1 +1,1 @@
-from .routes import admin_accounts_bp  # noqa: F401 
+# Blueprint is imported directly in parent __init__.py

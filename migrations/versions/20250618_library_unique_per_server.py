@@ -4,11 +4,12 @@ Revision ID: 20250618_library_unique_per_server
 Revises: 124ededf80dc
 Create Date: 2025-06-18 21:00:00
 """
-from alembic import op
-import sqlalchemy as sa
 
-revision = '20250618_library_unique_per_server'
-down_revision = '124ededf80dc'
+import sqlalchemy as sa
+from alembic import op
+
+revision = "20250618_library_unique_per_server"
+down_revision = "124ededf80dc"
 branch_labels = None
 depends_on = None
 
@@ -41,8 +42,12 @@ def upgrade():
             sa.Column("external_id", sa.String, nullable=False),
             sa.Column("name", sa.String, nullable=False),
             sa.Column("enabled", sa.Boolean, nullable=False, default=True),
-            sa.Column("server_id", sa.Integer, sa.ForeignKey("media_server.id"), nullable=True),
-            sa.UniqueConstraint("external_id", "server_id", name="uq_library_external_server"),
+            sa.Column(
+                "server_id", sa.Integer, sa.ForeignKey("media_server.id"), nullable=True
+            ),
+            sa.UniqueConstraint(
+                "external_id", "server_id", name="uq_library_external_server"
+            ),
         )
 
         # 3) copy data
@@ -63,10 +68,10 @@ def upgrade():
     for uq in insp.get_unique_constraints("library"):
         cols = uq.get("column_names") or []
         if len(cols) == 1 and cols[0] == "external_id":
-            try:
+            from contextlib import suppress
+
+            with suppress(Exception):
                 op.drop_constraint(uq["name"], "library", type_="unique")
-            except Exception:
-                pass  # ignore if already gone
 
     # 2) Ensure composite unique(external_id, server_id) exists ------------------
     with op.batch_alter_table("library", schema=None) as batch_op:
@@ -78,4 +83,4 @@ def upgrade():
 def downgrade():
     with op.batch_alter_table("library", schema=None) as batch_op:
         batch_op.drop_constraint("uq_library_external_server", type_="unique")
-        batch_op.create_unique_constraint("uq_library_external_id", ["external_id"]) 
+        batch_op.create_unique_constraint("uq_library_external_id", ["external_id"])

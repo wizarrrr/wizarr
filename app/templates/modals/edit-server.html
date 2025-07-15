@@ -56,14 +56,30 @@
                                 <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
                                 <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Downloads</span>
                             </label>
-                            <label class="inline-flex items-center cursor-pointer mt-2">
+                            <label id="allow-live-tv-option-edit" class="inline-flex items-center cursor-pointer mt-2">
                                 <input id="allow_live_tv" name="allow_live_tv" type="checkbox" value="true" {% if server.allow_live_tv %}checked{% endif %} class="sr-only peer">
                                 <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
                                 <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Live TV</span>
                             </label>
                         </div>
                         <div class="mt-4">
-                            <a hx-post="{{ url_for('media_servers.scan_server_libraries', server_id=server.id) }}" hx-include="[name=server_username],[name=server_password]" hx-target="#libraries" hx-swap="innerHTML" class="text-sm text-secondary cursor-pointer">Scan Libraries</a>
+                            <a 
+                                hx-post="{{ url_for('media_servers.scan_server_libraries', server_id=server.id) }}" 
+                                hx-include="[name=server_username],[name=server_password]" 
+                                hx-target="#libraries" 
+                                hx-swap="innerHTML"
+                                hx-indicator="#scan-indicator-edit"
+                                class="text-sm text-secondary cursor-pointer hover:text-primary transition-colors"
+                            >
+                                Scan Libraries
+                            </a>
+                            <span id="scan-indicator-edit" class="htmx-indicator text-sm text-gray-500 ml-2">
+                                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-gray-500 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Scanning...
+                            </span>
                             <div id="libraries" class="space-y-2 mt-2">
                                 {% set libs = server.libraries|sort(attribute='name') %}
                                 {% include 'partials/library_checkboxes.html' with context %}
@@ -83,9 +99,16 @@
 function closeModal(){ document.getElementById('create-server-modal').innerHTML=''; }
 function updateOptions(){
   const type=document.getElementById('server_type').value;
-  // Show universal media server options for Plex, Jellyfin, and Emby
-  const showMediaOptions = ['plex', 'jellyfin', 'emby'].includes(type);
+  // Show universal media server options for Plex, Jellyfin, Emby, and Audiobookshelf
+  const showMediaOptions = ['plex', 'jellyfin', 'emby', 'audiobookshelf'].includes(type);
   document.getElementById('media-server-options').style.display = showMediaOptions ? 'block' : 'none';
+  
+  // Hide "Allow Live TV" for Audiobookshelf since it doesn't support Live TV
+  const allowLiveTvOption = document.getElementById('allow-live-tv-option-edit');
+  if (allowLiveTvOption) {
+    allowLiveTvOption.style.display = type === 'audiobookshelf' ? 'none' : 'block';
+  }
+  
   document.getElementById('romm-options').style.display = type==='romm' ? 'block' : 'none';
   document.getElementById('api-key-div').style.display  = type==='romm' ? 'none'  : 'block';
 }

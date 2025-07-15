@@ -1,17 +1,19 @@
 import datetime
-import threading
 import logging
+import threading
 
-from cachetools import cached, TTLCache
-from plexapi.server import PlexServer
+from cachetools import TTLCache, cached
 from plexapi.myplex import MyPlexAccount
+from plexapi.server import PlexServer
 
 from app.extensions import db
-from app.models import Invitation, User, Settings, Library, MediaServer
-from app.services.notifications import notify
-from .client_base import MediaClient, register_media_client
-from app.services.media.service import get_client_for_media_server
+from app.models import Invitation, Library, MediaServer, User
 from app.services.invites import mark_server_used
+from app.services.media.service import get_client_for_media_server
+from app.services.notifications import notify
+
+from .client_base import MediaClient, register_media_client
+
 
 def _accept_invite_v2(self: MyPlexAccount, owner):
     """Accept a pending server share via the v2 API."""
@@ -50,12 +52,17 @@ def _accept_invite_v2(self: MyPlexAccount, owner):
 
     def _matches(inv):
         o = inv.get("owner", {})
-        return owner in (o.get("username"), o.get("email"), o.get("title"), o.get("friendlyName"))
+        return owner in (
+            o.get("username"),
+            o.get("email"),
+            o.get("title"),
+            o.get("friendlyName"),
+        )
 
     try:
         inv = next(i for i in invites if _matches(i))
-    except StopIteration:
-        raise ValueError(f"No pending invite from '{owner}' found")
+    except StopIteration as exc:
+        raise ValueError(f"No pending invite from '{owner}' found") from exc
 
     shared_servers = inv.get("sharedServers")
     if not shared_servers:
@@ -68,7 +75,9 @@ def _accept_invite_v2(self: MyPlexAccount, owner):
     resp.raise_for_status()
     return resp
 
+
 MyPlexAccount.acceptInvite = _accept_invite_v2
+
 
 @register_media_client("plex")
 class PlexClient(MediaClient):
@@ -103,6 +112,7 @@ class PlexClient(MediaClient):
         if url and token:
             try:
                 from plexapi.server import PlexServer
+
                 temp_server = PlexServer(url, token)
                 return {lib.title: lib.title for lib in temp_server.library.sections()}
             except Exception as e:
@@ -112,20 +122,38 @@ class PlexClient(MediaClient):
             return self.libraries()
 
     def create_user(self, *args, **kwargs):
-        raise NotImplementedError("PlexClient does not support create_user; use invite_friend or invite_home")
-
-    def join(self, username: str, password: str, confirm: str, email: str, code: str) -> tuple[bool, str]:
-        return False, "Plex does not support direct user creation. Users must be invited via email."
-    def invite_friend(self, email: str, sections: list[str], allow_sync: bool, allow_channels: bool):
-        self.admin.inviteFriend(
-            user=email, server=self.server,
-            sections=sections, allowSync=allow_sync, allowChannels=allow_channels
+        raise NotImplementedError(
+            "PlexClient does not support create_user; use invite_friend or invite_home"
         )
 
-    def invite_home(self, email: str, sections: list[str], allow_sync: bool, allow_channels: bool):
+    def join(
+        self, username: str, password: str, confirm: str, email: str, code: str
+    ) -> tuple[bool, str]:
+        return (
+            False,
+            "Plex does not support direct user creation. Users must be invited via email.",
+        )
+
+    def invite_friend(
+        self, email: str, sections: list[str], allow_sync: bool, allow_channels: bool
+    ):
+        self.admin.inviteFriend(
+            user=email,
+            server=self.server,
+            sections=sections,
+            allowSync=allow_sync,
+            allowChannels=allow_channels,
+        )
+
+    def invite_home(
+        self, email: str, sections: list[str], allow_sync: bool, allow_channels: bool
+    ):
         self.admin.createExistingUser(
-            user=email, server=self.server,
-            sections=sections, allowSync=allow_sync, allowChannels=allow_channels
+            user=email,
+            server=self.server,
+            sections=sections,
+            allowSync=allow_sync,
+            allowChannels=allow_channels,
         )
 
     def get_user(self, db_id: int) -> dict:
@@ -177,7 +205,10 @@ class PlexClient(MediaClient):
         db_users = (
             db.session.query(User)
             .filter(
-                db.or_(User.server_id.is_(None), User.server_id == getattr(self, 'server_id', None))
+                db.or_(
+                    User.server_id.is_(None),
+                    User.server_id == getattr(self, "server_id", None),
+                )
             )
             .all()
         )
@@ -189,21 +220,27 @@ class PlexClient(MediaClient):
         db.session.commit()
 
         for plex_user in plex_users.values():
-            existing = db.session.query(User).filter_by(email=plex_user.email, server_id=getattr(self, 'server_id', None)).first()
+            existing = (
+                db.session.query(User)
+                .filter_by(
+                    email=plex_user.email, server_id=getattr(self, "server_id", None)
+                )
+                .first()
+            )
             if not existing:
                 new_user = User(
                     email=plex_user.email or "None",
                     username=plex_user.title,
                     token="None",
                     code="None",
-                    server_id=getattr(self, 'server_id', None),
+                    server_id=getattr(self, "server_id", None),
                 )
                 db.session.add(new_user)
         db.session.commit()
 
         users = (
             db.session.query(User)
-            .filter(User.server_id == getattr(self, 'server_id', None))
+            .filter(User.server_id == getattr(self, "server_id", None))
             .all()
         )
         for u in users:
@@ -213,59 +250,76 @@ class PlexClient(MediaClient):
 
         return users
 
-
     def now_playing(self) -> list[dict]:
         try:
             sessions = self.server.sessions()
             now_playing_sessions = []
-            
+
             for session in sessions:
-                if not hasattr(session, 'viewOffset') or session.viewOffset is None:
+                if not hasattr(session, "viewOffset") or session.viewOffset is None:
                     continue
-                
+
                 progress = 0.0
-                if hasattr(session, 'duration') and session.duration and session.viewOffset:
+                if (
+                    hasattr(session, "duration")
+                    and session.duration
+                    and session.viewOffset
+                ):
                     progress = max(0.0, min(1.0, session.viewOffset / session.duration))
-                
-                media_type = getattr(session, 'type', 'unknown').lower()
-                
-                media_title = getattr(session, 'title', 'Unknown')
-                if media_type == 'episode':
-                    grandparent_title = getattr(session, 'grandparentTitle', '')
-                    season_num = getattr(session, 'parentIndex', None)
-                    episode_num = getattr(session, 'index', None)
+
+                media_type = getattr(session, "type", "unknown").lower()
+
+                media_title = getattr(session, "title", "Unknown")
+                if media_type == "episode":
+                    grandparent_title = getattr(session, "grandparentTitle", "")
+                    season_num = getattr(session, "parentIndex", None)
+                    episode_num = getattr(session, "index", None)
                     if grandparent_title:
                         media_title = f"{grandparent_title}"
                         if season_num and episode_num:
                             media_title += f" S{season_num:02d}E{episode_num:02d}"
                         media_title += f" - {getattr(session, 'title', '')}"
-                
-                players = getattr(session, 'players', [])
+
+                players = getattr(session, "players", [])
                 state = "stopped"
                 if players:
-                    player_state = getattr(players[0], 'state', 'stopped')
-                    state = {"paused": "paused", "playing": "playing", "buffering": "buffering"}.get(player_state, "stopped")
-                
+                    player_state = getattr(players[0], "state", "stopped")
+                    state = {
+                        "paused": "paused",
+                        "playing": "playing",
+                        "buffering": "buffering",
+                    }.get(player_state, "stopped")
+
                 user_info = "Unknown User"
-                if hasattr(session, 'usernames') and session.usernames:
+                if hasattr(session, "usernames") and session.usernames:
                     user_info = session.usernames[0]
-                elif hasattr(session, 'users') and session.users:
+                elif hasattr(session, "users") and session.users:
                     user_info = session.users[0].title
-                
+
                 client_name = device_name = ""
                 if players:
-                    client_name = getattr(players[0], 'product', '')
-                    device_name = getattr(players[0], 'title', '')
-                
+                    client_name = getattr(players[0], "product", "")
+                    device_name = getattr(players[0], "title", "")
+
                 artwork_url = None
                 images_attr = getattr(session, "image", None)
                 if images_attr:
-                    images_list = images_attr if isinstance(images_attr, (list, tuple, set)) else [images_attr]
+                    images_list = (
+                        images_attr
+                        if isinstance(images_attr, list | tuple | set)
+                        else [images_attr]
+                    )
                     for img in images_list:
                         if getattr(img, "type", None) == "coverPoster":
-                            img_key = getattr(img, "key", None) or getattr(img, "thumb", None)
+                            img_key = getattr(img, "key", None) or getattr(
+                                img, "thumb", None
+                            )
                             if img_key:
-                                artwork_url = img_key if str(img_key).startswith("http") else self.server.url(img_key, includeToken=True)
+                                artwork_url = (
+                                    img_key
+                                    if str(img_key).startswith("http")
+                                    else self.server.url(img_key, includeToken=True)
+                                )
                             elif getattr(img, "thumbUrl", None):
                                 artwork_url = img.thumbUrl
                             elif getattr(img, "url", None):
@@ -278,23 +332,29 @@ class PlexClient(MediaClient):
                         break
                     val = getattr(session, attr, None)
                     if val:
-                        artwork_url = val if str(val).startswith("http") else self.server.url(val, includeToken=True)
+                        artwork_url = (
+                            val
+                            if str(val).startswith("http")
+                            else self.server.url(val, includeToken=True)
+                        )
 
                 if artwork_url is None and getattr(session, "thumbUrl", None):
                     artwork_url = session.thumbUrl
-                
-                is_transcoding = bool(getattr(session, 'transcodeSessions', []))
+
+                is_transcoding = bool(getattr(session, "transcodeSessions", []))
                 transcode_speed = None
                 if is_transcoding:
-                    transcode_speed = getattr(session.transcodeSessions[0], 'speed', None)
+                    transcode_speed = getattr(
+                        session.transcodeSessions[0], "speed", None
+                    )
 
                 video_codec = audio_codec = container = video_resolution = None
-                if getattr(session, 'media', None):
+                if getattr(session, "media", None):
                     media_obj = session.media[0]
-                    video_codec = getattr(media_obj, 'videoCodec', None)
-                    audio_codec = getattr(media_obj, 'audioCodec', None)
-                    container = getattr(media_obj, 'container', None)
-                    video_resolution = getattr(media_obj, 'videoResolution', None)
+                    video_codec = getattr(media_obj, "videoCodec", None)
+                    audio_codec = getattr(media_obj, "audioCodec", None)
+                    container = getattr(media_obj, "container", None)
+                    video_resolution = getattr(media_obj, "videoResolution", None)
 
                 transcoding_info = {
                     "is_transcoding": is_transcoding,
@@ -305,27 +365,27 @@ class PlexClient(MediaClient):
                     "transcoding_speed": transcode_speed,
                     "direct_play": not is_transcoding,
                 }
-                
+
                 session_info = {
                     "user_name": user_info,
                     "media_title": media_title,
                     "media_type": media_type,
                     "progress": progress,
                     "state": state,
-                    "session_id": str(getattr(session, 'sessionKey', '')),
+                    "session_id": str(getattr(session, "sessionKey", "")),
                     "client": client_name,
                     "device_name": device_name,
-                    "position_ms": getattr(session, 'viewOffset', 0),
-                    "duration_ms": getattr(session, 'duration', 0),
+                    "position_ms": getattr(session, "viewOffset", 0),
+                    "duration_ms": getattr(session, "duration", 0),
                     "artwork_url": artwork_url,
                     "transcoding": transcoding_info,
-                    "thumbnail_url": session.thumbUrl
+                    "thumbnail_url": session.thumbUrl,
                 }
-                
+
                 now_playing_sessions.append(session_info)
-                
+
             return now_playing_sessions
-            
+
         except Exception as e:
             logging.error(f"Failed to get now playing from Plex: {e}")
             return []
@@ -336,33 +396,33 @@ class PlexClient(MediaClient):
                 "library_stats": {},
                 "user_stats": {},
                 "server_stats": {},
-                "content_stats": {}
+                "content_stats": {},
             }
-            
+
             sessions = self.server.sessions()
             transcode_sessions = self.server.transcodeSessions()
-            
+
             try:
                 users = self.server.myPlexAccount().users()
                 stats["user_stats"] = {
                     "total_users": len(users) + 1,
-                    "active_sessions": len(sessions)
+                    "active_sessions": len(sessions),
                 }
             except Exception as e:
                 logging.error(f"Failed to get Plex user stats: {e}")
                 stats["user_stats"] = {"total_users": 0, "active_sessions": 0}
-            
+
             try:
                 stats["server_stats"] = {
-                    "version": getattr(self.server, 'version', 'Unknown'),
-                    "transcoding_sessions": len(transcode_sessions)
+                    "version": getattr(self.server, "version", "Unknown"),
+                    "transcoding_sessions": len(transcode_sessions),
                 }
             except Exception as e:
                 logging.error(f"Failed to get Plex server stats: {e}")
                 stats["server_stats"] = {}
-            
+
             return stats
-            
+
         except Exception as e:
             logging.error(f"Failed to get Plex statistics: {e}")
             return {
@@ -370,11 +430,12 @@ class PlexClient(MediaClient):
                 "user_stats": {},
                 "server_stats": {},
                 "content_stats": {},
-                "error": str(e)
+                "error": str(e),
             }
 
 
 # ─── Invite & onboarding ────────────────────────────────────────────────
+
 
 def handle_oauth_token(app, token: str, code: str) -> None:
     with app.app_context():
@@ -386,40 +447,38 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         server_id = server.id if server else None
 
         db.session.query(User).filter(
-            User.email == email,
-            User.server_id == server_id
+            User.email == email, User.server_id == server_id
         ).delete(synchronize_session=False)
         db.session.commit()
 
         duration = inv.duration if inv else None
         expires = (
             datetime.datetime.now() + datetime.timedelta(days=int(duration))
-            if duration else None
+            if duration
+            else None
         )
 
         client = PlexClient(media_server=server)
-        new_user = client._create_user_with_identity_linking({
-            'token': token,
-            'email': email,
-            'username': account.username,
-            'code': code,
-            'expires': expires,
-            'server_id': server_id,
-        })
+        new_user = client._create_user_with_identity_linking(
+            {
+                "token": token,
+                "email": email,
+                "username": account.username,
+                "code": code,
+                "expires": expires,
+                "server_id": server_id,
+            }
+        )
         db.session.commit()
 
         _invite_user(email, code, new_user.id, server)
 
         notify(
-            "User Joined",
-            f"User {account.username} has joined your server!",
-            "tada"
+            "User Joined", f"User {account.username} has joined your server!", "tada"
         )
 
         threading.Thread(
-            target=_post_join_setup,
-            args=(app, token),
-            daemon=True
+            target=_post_join_setup, args=(app, token), daemon=True
         ).start()
 
 
@@ -427,7 +486,11 @@ def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> No
     inv = Invitation.query.filter_by(code=code).first()
     client = get_client_for_media_server(server)
 
-    libs = [lib.external_id for lib in inv.libraries if lib.server_id == server.id] if inv.libraries else []
+    libs = (
+        [lib.external_id for lib in inv.libraries if lib.server_id == server.id]
+        if inv.libraries
+        else []
+    )
 
     if not libs:
         libs = [
@@ -473,5 +536,3 @@ def _opt_out_online_sources(user: MyPlexAccount):
 
 
 # ─── User queries / mutate ────────────────────────────────────────────────
-
-

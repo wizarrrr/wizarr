@@ -1,5 +1,14 @@
 from __future__ import annotations
 
+import logging
+import re
+from typing import Any
+
+from app.extensions import db
+from app.models import Library, User
+
+from .client_base import RestApiMixin, register_media_client
+
 """Minimal Audiobookshelf media‐server client.
 
 This aims to provide just enough functionality so that Wizarr can:
@@ -14,14 +23,6 @@ haven't mapped yet.  The corresponding methods therefore raise
 ``NotImplementedError`` so that callers know this path isn't available
 for Audiobookshelf yet.
 """
-
-import logging
-from typing import Any, Dict, List
-import re
-
-from app.extensions import db
-from app.models import User, Library
-from .client_base import RestApiMixin, register_media_client
 
 
 @register_media_client("audiobookshelf")
@@ -53,7 +54,7 @@ class AudiobookshelfClient(RestApiMixin):
 
     # --- libraries -----------------------------------------------------
 
-    def libraries(self) -> Dict[str, str]:
+    def libraries(self) -> dict[str, str]:
         """Return mapping of ``library_id`` → ``display_name``.
 
         Audiobookshelf exposes ``GET /api/libraries`` which returns
@@ -70,23 +71,21 @@ class AudiobookshelfClient(RestApiMixin):
 
     def scan_libraries(self, url: str = None, token: str = None) -> dict[str, str]:
         """Scan available libraries on this Audiobookshelf server.
-        
+
         Args:
             url: Optional server URL override
             token: Optional API token override
-            
+
         Returns:
             dict: Library name -> library ID mapping
         """
         import requests
-        
+
         if url and token:
             # Use override credentials for scanning
             headers = {"Authorization": f"Bearer {token}"}
             response = requests.get(
-                f"{url.rstrip('/')}/api/libraries",
-                headers=headers,
-                timeout=10
+                f"{url.rstrip('/')}/api/libraries", headers=headers, timeout=10
             )
             response.raise_for_status()
             data = response.json()
@@ -95,12 +94,12 @@ class AudiobookshelfClient(RestApiMixin):
             # Use saved credentials
             data = self.get(f"{self.API_PREFIX}/libraries").json()
             libs = data.get("libraries", data)
-        
+
         return {item["name"]: item["id"] for item in libs}
 
     # --- users ---------------------------------------------------------
 
-    def list_users(self) -> List[User]:
+    def list_users(self) -> list[User]:
         """Read users from Audiobookshelf and reflect them locally."""
         server_id = getattr(self, "server_id", None)
         if server_id is None:
@@ -108,7 +107,7 @@ class AudiobookshelfClient(RestApiMixin):
 
         try:
             data = self.get(f"{self.API_PREFIX}/users").json()
-            raw_users: List[Dict[str, Any]] = data.get("users", data)
+            raw_users: list[dict[str, Any]] = data.get("users", data)
         except Exception as exc:
             logging.warning("ABS: failed to list users – %s", exc)
             return []
@@ -149,26 +148,44 @@ class AudiobookshelfClient(RestApiMixin):
 
     # --- user management ------------------------------------------------
 
-    def create_user(self, username: str, password: str, email: str,  *, is_admin: bool = False) -> str:
+    def create_user(
+        self,
+        username: str,
+        password: str,
+        email: str,
+        *,
+        is_admin: bool = False,
+        allow_downloads: bool = True,
+    ) -> str:
         """Create a user and return the Audiobookshelf user‐ID.
 
         The ABS API expects at least ``username``.  A password can be an
         empty string (guest), but Wizarr always passes one.
         """
+        permissions = {
+            "download": allow_downloads,
+            "update": False,
+            "delete": False,
+            "upload": False,
+            "accessAllLibraries": False,
+            "accessAllTags": True,
+            "accessExplicitContent": True,
+        }
+
         payload = {
             "username": username,
             "password": password,
             "isActive": True,
             "email": email,
-            "type": "admin" if is_admin else "user",
+            "type": "admin" if is_admin else ("user" if allow_downloads else "guest"),
+            "permissions": permissions,
         }
         resp = self.post(f"{self.API_PREFIX}/users", json=payload)
         resp.raise_for_status()
         data = resp.json()
-        uid = data.get("id") or data.get("user", {}).get("id")
-        return uid
+        return data.get("id") or data.get("user", {}).get("id")
 
-    def update_user(self, user_id: str, payload: Dict[str, Any]):
+    def update_user(self, user_id: str, payload: dict[str, Any]):
         """PATCH arbitrary fields on a user object."""
         resp = self.patch(f"{self.API_PREFIX}/users/{user_id}", json=payload)
         resp.raise_for_status()
@@ -197,9 +214,12 @@ class AudiobookshelfClient(RestApiMixin):
     def _mark_invite_used(inv, user):
         inv.used_by = user
         from app.services.invites import mark_server_used
+
         mark_server_used(inv, user.server_id)
 
-    def _set_specific_libraries(self, user_id: str, library_ids: List[str]):
+    def _set_specific_libraries(
+        self, user_id: str, library_ids: list[str], allow_downloads: bool = True
+    ):
         """Restrict the given *user* to the supplied library IDs.
 
         If *library_ids* is empty, the account will be granted access to all
@@ -213,12 +233,15 @@ class AudiobookshelfClient(RestApiMixin):
             return
 
         perms = current.get("permissions", {}) or {}
-        perms["accessAllLibraries"] = False if library_ids else True
+        perms["accessAllLibraries"] = not library_ids
+        perms["download"] = allow_downloads
 
         patch = {
             "permissions": perms,
             # Root-level list of library IDs that the user may access
             "librariesAccessible": library_ids if library_ids else [],
+            # Update user type based on download permission
+            "type": "user" if allow_downloads else "guest",
         }
 
         try:
@@ -229,8 +252,9 @@ class AudiobookshelfClient(RestApiMixin):
     def join(self, username: str, password: str, confirm: str, email: str, code: str):
         """Public invite flow for Audiobookshelf users."""
         from sqlalchemy import or_
-        from app.services.invites import is_invite_valid
+
         from app.models import Invitation, User
+        from app.services.invites import is_invite_valid
 
         if not self.EMAIL_RE.fullmatch(email):
             return False, "Invalid e-mail address."
@@ -249,34 +273,50 @@ class AudiobookshelfClient(RestApiMixin):
 
         existing = User.query.filter(
             or_(User.username == username, User.email == email),
-            User.server_id == server_id
+            User.server_id == server_id,
         ).first()
         if existing:
             return False, "User or e-mail already exists."
 
         try:
-            user_id = self.create_user(username, password, email=email)
+            inv = Invitation.query.filter_by(code=code).first()
+
+            # Get download permission from invitation (default to True if not set)
+            allow_downloads = getattr(inv, "allow_downloads", True)
+            if allow_downloads is None:
+                allow_downloads = True
+
+            user_id = self.create_user(
+                username, password, email=email, allow_downloads=allow_downloads
+            )
             if not user_id:
                 return False, "Failed to create user on server"
-            
-            inv = Invitation.query.filter_by(code=code).first()
 
             # Set library access
             if inv.libraries:
-                lib_ids = [lib.external_id for lib in inv.libraries if lib.server_id == server_id]
+                lib_ids = [
+                    lib.external_id
+                    for lib in inv.libraries
+                    if lib.server_id == server_id
+                ]
             else:
                 lib_ids = [
                     lib.external_id
-                    for lib in Library.query.filter_by(enabled=True, server_id=server_id).all()
+                    for lib in Library.query.filter_by(
+                        enabled=True, server_id=server_id
+                    ).all()
                 ]
-            self._set_specific_libraries(user_id, lib_ids)
+            self._set_specific_libraries(user_id, lib_ids, allow_downloads)
 
             # Calculate expiry
             expires = None
             if inv.duration:
                 try:
                     import datetime as _dt
-                    expires = _dt.datetime.utcnow() + _dt.timedelta(days=int(inv.duration))
+
+                    expires = _dt.datetime.utcnow() + _dt.timedelta(
+                        days=int(inv.duration)
+                    )
                 except Exception:
                     pass
 
@@ -294,7 +334,7 @@ class AudiobookshelfClient(RestApiMixin):
 
             self._mark_invite_used(inv, local)
             return True, ""
-            
+
         except Exception as exc:
             logging.error("ABS join failed: %s", exc)
             db.session.rollback()
@@ -371,14 +411,17 @@ class AudiobookshelfClient(RestApiMixin):
 
             # --- device / client ----------------------------------------------
             device_info = raw.get("deviceInfo", {})
-            device_name = f"{device_info.get('osName', '')} {device_info.get('browserName', '')}".strip() or "Unknown Device"
+            device_name = (
+                f"{device_info.get('osName', '')} {device_info.get('browserName', '')}".strip()
+                or "Unknown Device"
+            )
             client = raw.get("mediaPlayer", "")
 
             # --- artwork -------------------------------------------------------
 
             # Primary & secondary artwork --------------------------------------
             poster_url: str | None = None
-            thumb_url:  str | None = None
+            thumb_url: str | None = None
 
             li_id = raw.get("libraryItemId")
             if li_id:
@@ -398,7 +441,7 @@ class AudiobookshelfClient(RestApiMixin):
             if poster_url is None:
                 meta = raw.get("mediaMetadata", {})
                 poster_url = meta.get("imageUrl")
-                thumb_url  = poster_url
+                thumb_url = poster_url
 
             artwork_url = poster_url
 
@@ -408,33 +451,35 @@ class AudiobookshelfClient(RestApiMixin):
                 "is_transcoding": False,
                 "direct_play": play_method == 0,
             }
-            active.append({
-                "user_name": user_display,
-                "media_title": title,
-                "media_type": media_type,
-                "progress": progress,
-                "state": "playing",  # ABS has no explicit pause flag yet
-                "session_id": session_id,
-                "client": client,
-                "device_name": device_name,
-                "position_ms": int(pos * 1000),
-                "duration_ms": int(duration * 1000),
-                "artwork_url": artwork_url,
-                "thumbnail_url": thumb_url,
-                "transcoding": transcoding_info,
-            })
+            active.append(
+                {
+                    "user_name": user_display,
+                    "media_title": title,
+                    "media_type": media_type,
+                    "progress": progress,
+                    "state": "playing",  # ABS has no explicit pause flag yet
+                    "session_id": session_id,
+                    "client": client,
+                    "device_name": device_name,
+                    "position_ms": int(pos * 1000),
+                    "duration_ms": int(duration * 1000),
+                    "artwork_url": artwork_url,
+                    "thumbnail_url": thumb_url,
+                    "transcoding": transcoding_info,
+                }
+            )
 
         return active
 
     def statistics(self):
         """Return essential AudiobookShelf server statistics for the dashboard.
-        
+
         Only collects data actually used by the UI:
         - Server version for health card (Unknown for ABS)
-        - Active sessions count for health card  
+        - Active sessions count for health card
         - Transcoding sessions count for health card (always 0 for ABS)
         - Total users count for health card
-        
+
         Returns:
             dict: Server statistics with minimal API calls
         """
@@ -453,7 +498,9 @@ class AudiobookshelfClient(RestApiMixin):
             try:
                 active_sessions = self.now_playing()
             except Exception as exc:
-                logging.error("ABS statistics: failed to calculate active sessions – %s", exc)
+                logging.error(
+                    "ABS statistics: failed to calculate active sessions – %s", exc
+                )
                 active_sessions = []
 
             # ------------------------------------------------------------------
@@ -495,9 +542,9 @@ class AudiobookshelfClient(RestApiMixin):
 
     # RestApiMixin overrides -------------------------------------------------
 
-    def _headers(self) -> Dict[str, str]:  # type: ignore[override]
+    def _headers(self) -> dict[str, str]:  # type: ignore[override]
         """Return default headers including Authorization if a token is set."""
-        headers: Dict[str, str] = {"Accept": "application/json"}
+        headers: dict[str, str] = {"Accept": "application/json"}
         if getattr(self, "token", None):
             headers["Authorization"] = f"Bearer {self.token}"
-        return headers 
+        return headers

@@ -1,10 +1,14 @@
-from datetime import datetime, timezone
-from .extensions import db
+from datetime import UTC, datetime
+
 from flask_login import UserMixin
+
+from .extensions import db
 
 invite_libraries = db.Table(
     "invite_library",
-    db.Column("invite_id", db.Integer, db.ForeignKey("invitation.id"), primary_key=True),
+    db.Column(
+        "invite_id", db.Integer, db.ForeignKey("invitation.id"), primary_key=True
+    ),
     db.Column("library_id", db.Integer, db.ForeignKey("library.id"), primary_key=True),
 )
 
@@ -12,8 +16,12 @@ invite_libraries = db.Table(
 # New association table to enable multi-server invitations  (2025-06)
 invitation_servers = db.Table(
     "invitation_server",
-    db.Column("invite_id", db.Integer, db.ForeignKey("invitation.id"), primary_key=True),
-    db.Column("server_id", db.Integer, db.ForeignKey("media_server.id"), primary_key=True),
+    db.Column(
+        "invite_id", db.Integer, db.ForeignKey("invitation.id"), primary_key=True
+    ),
+    db.Column(
+        "server_id", db.Integer, db.ForeignKey("media_server.id"), primary_key=True
+    ),
     # Track per-server usage so a single invite can be consumed independently
     db.Column("used", db.Boolean, default=False, nullable=False),
     db.Column("used_at", db.DateTime, nullable=True),
@@ -21,14 +29,14 @@ invitation_servers = db.Table(
 
 
 class Invitation(db.Model):
-    __tablename__ = 'invitation'
+    __tablename__ = "invitation"
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String, nullable=False)
     used = db.Column(db.Boolean, default=False, nullable=False)
     used_at = db.Column(db.DateTime, nullable=True)
-    created = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
-    used_by_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
-    used_by = db.relationship('User', backref=db.backref('invitations', lazy=True))
+    created = db.Column(db.DateTime, default=lambda: datetime.now(UTC), nullable=False)
+    used_by_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
+    used_by = db.relationship("User", backref=db.backref("invitations", lazy=True))
     expires = db.Column(db.DateTime, nullable=True)
     unlimited = db.Column(db.Boolean, nullable=True)
     duration = db.Column(db.String, nullable=True)
@@ -36,8 +44,10 @@ class Invitation(db.Model):
     plex_allow_sync = db.Column(db.Boolean, default=False, nullable=True)
     plex_home = db.Column(db.Boolean, default=False, nullable=True)
     plex_allow_channels = db.Column(db.Boolean, default=False, nullable=True)
-    server_id = db.Column(db.Integer, db.ForeignKey('media_server.id'), nullable=True)
-    server = db.relationship('MediaServer', backref=db.backref('primary_invites', lazy=True))
+    server_id = db.Column(db.Integer, db.ForeignKey("media_server.id"), nullable=True)
+    server = db.relationship(
+        "MediaServer", backref=db.backref("primary_invites", lazy=True)
+    )
 
     libraries = db.relationship(
         "Library",
@@ -53,7 +63,9 @@ class Invitation(db.Model):
     )
 
     # ── NEW: link invitation to an explicit wizard bundle ────────────
-    wizard_bundle_id = db.Column(db.Integer, db.ForeignKey("wizard_bundle.id"), nullable=True)
+    wizard_bundle_id = db.Column(
+        db.Integer, db.ForeignKey("wizard_bundle.id"), nullable=True
+    )
     wizard_bundle = db.relationship(
         "WizardBundle", backref=db.backref("invitations", lazy=True)
     )
@@ -61,21 +73,27 @@ class Invitation(db.Model):
     # Universal invite toggles (work for all server types)
     allow_downloads = db.Column(db.Boolean, default=False, nullable=True)
     allow_live_tv = db.Column(db.Boolean, default=False, nullable=True)
-    
+
     # Emby-specific invite toggles (for new Emby fields that don't exist in legacy)
     emby_allow_downloads = db.Column(db.Boolean, default=False, nullable=True)
-    emby_allow_live_tv   = db.Column(db.Boolean, default=False, nullable=True)
+    emby_allow_live_tv = db.Column(db.Boolean, default=False, nullable=True)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 
 class Settings(db.Model):
-    __tablename__ = 'settings'
+    __tablename__ = "settings"
     id = db.Column(db.Integer, primary_key=True)
     key = db.Column(db.String, unique=True, nullable=False)
     value = db.Column(db.String, nullable=True)
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
 
 class User(db.Model, UserMixin):
-    __tablename__ = 'user'
+    __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
     token = db.Column(db.String, nullable=False)
     username = db.Column(db.String, nullable=False)
@@ -83,10 +101,14 @@ class User(db.Model, UserMixin):
     code = db.Column(db.String, nullable=False)
     photo = db.Column(db.String, nullable=True)
     expires = db.Column(db.DateTime, nullable=True)
-    server_id = db.Column(db.Integer, db.ForeignKey('media_server.id'), nullable=True)
-    server = db.relationship('MediaServer', backref=db.backref('users', lazy=True))
-    identity_id = db.Column(db.Integer, db.ForeignKey('identity.id'), nullable=True)
-    identity = db.relationship('Identity', backref=db.backref('accounts', lazy=True))
+    server_id = db.Column(db.Integer, db.ForeignKey("media_server.id"), nullable=True)
+    server = db.relationship("MediaServer", backref=db.backref("users", lazy=True))
+    identity_id = db.Column(db.Integer, db.ForeignKey("identity.id"), nullable=True)
+    identity = db.relationship("Identity", backref=db.backref("accounts", lazy=True))
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
 
 # ───────────────────────────────────────────────────────────────────────────────
 #  Multi-admin support (2025-07)
@@ -106,30 +128,42 @@ class AdminAccount(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
     password_hash = db.Column(db.String, nullable=False)
-    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
 
     # ── helpers ────────────────────────────────────────────────────────────
     def set_password(self, raw_password: str):
         """Hash *raw_password* with *scrypt* and store it."""
-        from werkzeug.security import generate_password_hash  # local import to avoid circular
+        from werkzeug.security import (
+            generate_password_hash,  # local import to avoid circular
+        )
 
         self.password_hash = generate_password_hash(raw_password, "scrypt")
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     def check_password(self, raw_password: str) -> bool:
         """Validate *raw_password* against the stored *password_hash*."""
-        from werkzeug.security import check_password_hash  # local import to avoid circular
+        from werkzeug.security import (
+            check_password_hash,  # local import to avoid circular
+        )
 
         return check_password_hash(self.password_hash, raw_password)
 
 
 class Notification(db.Model):
-    __tablename__ = 'notification'
+    __tablename__ = "notification"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     type = db.Column(db.String, nullable=False)
     url = db.Column(db.String, nullable=False)
     username = db.Column(db.String, nullable=True)
     password = db.Column(db.String, nullable=True)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 
 class AdminUser(UserMixin):
@@ -141,9 +175,9 @@ class AdminUser(UserMixin):
 
 
 class MediaServer(db.Model):
-    __tablename__ = 'media_server'
+    __tablename__ = "media_server"
 
-    id = db.Column(db.Integer, primary_key=True) 
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     server_type = db.Column(db.String, nullable=False)  # plex, jellyfin, emby, etc.
     url = db.Column(db.String, nullable=False)
@@ -153,15 +187,17 @@ class MediaServer(db.Model):
     # Universal media server toggles (work for all server types)
     allow_downloads = db.Column(db.Boolean, default=False, nullable=False)
     allow_live_tv = db.Column(db.Boolean, default=False, nullable=False)
-    
+
     # Emby-specific toggles (for new Emby fields that don't exist in legacy)
     allow_downloads_emby = db.Column(db.Boolean, default=False, nullable=False)
-    allow_tv_emby        = db.Column(db.Boolean, default=False, nullable=False)
+    allow_tv_emby = db.Column(db.Boolean, default=False, nullable=False)
 
     # Whether the connection credentials were validated successfully
     verified = db.Column(db.Boolean, default=False, nullable=False)
 
-    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
 
     # Reverse relationship for multi-server invites
     invites = db.relationship(
@@ -169,6 +205,9 @@ class MediaServer(db.Model):
         secondary=invitation_servers,
         back_populates="servers",
     )
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 
 class Library(db.Model):
@@ -178,8 +217,8 @@ class Library(db.Model):
     external_id = db.Column(db.String, nullable=False)  # e.g. Plex folder ID
     name = db.Column(db.String, nullable=False)
     enabled = db.Column(db.Boolean, default=True, nullable=False)
-    server_id = db.Column(db.Integer, db.ForeignKey('media_server.id'), nullable=True)
-    server = db.relationship('MediaServer', backref=db.backref('libraries', lazy=True))
+    server_id = db.Column(db.Integer, db.ForeignKey("media_server.id"), nullable=True)
+    server = db.relationship("MediaServer", backref=db.backref("libraries", lazy=True))
 
     # backref gives Invitation.libraries automatically
     invites = db.relationship(
@@ -189,17 +228,27 @@ class Library(db.Model):
     )
 
     __table_args__ = (
-        db.UniqueConstraint("external_id", "server_id", name="uq_library_external_server"),
+        db.UniqueConstraint(
+            "external_id", "server_id", name="uq_library_external_server"
+        ),
     )
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 
 class Identity(db.Model):
-    __tablename__ = 'identity'
+    __tablename__ = "identity"
     id = db.Column(db.Integer, primary_key=True)
     primary_email = db.Column(db.String, nullable=True)
     primary_username = db.Column(db.String, nullable=True)
     nickname = db.Column(db.String, nullable=True)
-    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 
 class WizardStep(db.Model):
@@ -209,6 +258,7 @@ class WizardStep(db.Model):
     an integer *position* starting at 0.  A `(server_type, position)` unique
     constraint guarantees a stable order without gaps.
     """
+
     __tablename__ = "wizard_step"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -230,17 +280,22 @@ class WizardStep(db.Model):
     # Mirrors the existing `requires:` front-matter array in the legacy files.
     requires = db.Column(db.JSON, nullable=True)
 
-    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
     updated_at = db.Column(
         db.DateTime,
-        default=lambda: datetime.now(timezone.utc),
-        onupdate=lambda: datetime.now(timezone.utc),
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
         nullable=False,
     )
 
     __table_args__ = (
         db.UniqueConstraint("server_type", "position", name="uq_step_server_pos"),
     )
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     # ── convenience helpers ─────────────────────────────────────────────
     def to_dict(self):
@@ -275,6 +330,9 @@ class WizardBundle(db.Model):
         order_by="WizardBundleStep.position",
     )
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
 
 class WizardBundleStep(db.Model):
     """Mapping table assigning a WizardStep to a Bundle at a given position."""
@@ -283,7 +341,9 @@ class WizardBundleStep(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     bundle_id = db.Column(
-        db.Integer, db.ForeignKey("wizard_bundle.id", ondelete="CASCADE"), nullable=False
+        db.Integer,
+        db.ForeignKey("wizard_bundle.id", ondelete="CASCADE"),
+        nullable=False,
     )
     step_id = db.Column(
         db.Integer, db.ForeignKey("wizard_step.id", ondelete="CASCADE"), nullable=False
@@ -292,25 +352,40 @@ class WizardBundleStep(db.Model):
 
     # Relationships
     bundle = db.relationship("WizardBundle", back_populates="steps")
-    step   = db.relationship("WizardStep")
+    step = db.relationship("WizardStep")
 
     __table_args__ = (
         db.UniqueConstraint("bundle_id", "position", name="uq_bundle_pos"),
     )
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
 
 class WebAuthnCredential(db.Model):
     """WebAuthn credential storage for passkey authentication."""
-    
+
     __tablename__ = "webauthn_credential"
-    
+
     id = db.Column(db.Integer, primary_key=True)
-    admin_account_id = db.Column(db.Integer, db.ForeignKey("admin_account.id"), nullable=False)
+    admin_account_id = db.Column(
+        db.Integer, db.ForeignKey("admin_account.id"), nullable=False
+    )
     credential_id = db.Column(db.LargeBinary, nullable=False, unique=True)
     public_key = db.Column(db.LargeBinary, nullable=False)
     sign_count = db.Column(db.Integer, default=0, nullable=False)
     name = db.Column(db.String, nullable=False)
-    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
     last_used_at = db.Column(db.DateTime, nullable=True)
-    
-    admin_account = db.relationship("AdminAccount", backref=db.backref("webauthn_credentials", lazy=True, cascade="all, delete-orphan"))
+
+    admin_account = db.relationship(
+        "AdminAccount",
+        backref=db.backref(
+            "webauthn_credentials", lazy=True, cascade="all, delete-orphan"
+        ),
+    )
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
