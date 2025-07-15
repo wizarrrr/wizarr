@@ -76,26 +76,26 @@ def create_invite(form: Any) -> Invitation:
     # Keep legacy `server` column for the FIRST selected server (or None)
     primary_server = servers[0] if servers else None
 
-    invite = Invitation()
-    invite.code = code
-    invite.used = False
-    invite.used_at = None
-    invite.created = now
-    invite.expires = expires_lookup.get(form.get("expires"))
-    invite.unlimited = bool(form.get("unlimited"))
-    invite.duration = form.get("duration") or None
-    invite.plex_allow_sync = bool(form.get("allowsync"))
-    invite.plex_home = bool(form.get("plex_home"))
-    invite.plex_allow_channels = bool(form.get("plex_allow_channels"))
-    invite.server = primary_server
-    invite.wizard_bundle_id = (
-        int(form.get("wizard_bundle_id")) if form.get("wizard_bundle_id") else None
-    )
-    # New Jellyfin flags
-    invite.jellyfin_allow_downloads = bool(form.get("jellyfin_allow_downloads"))
-    invite.jellyfin_allow_live_tv = bool(form.get("jellyfin_allow_live_tv"))
-    # Universal download permission (used by Audiobookshelf and others)
-    invite.allow_downloads = bool(form.get("audiobookshelf_allow_downloads"))
+    invite = Invitation(
+        code=code,
+        used=False,
+        used_at=None,
+        created=now,
+        expires=expires_lookup.get(form.get("expires")),
+        unlimited=bool(form.get("unlimited")),
+        duration=form.get("duration") or None,
+        plex_allow_sync=bool(form.get("allowsync")),
+        plex_home=bool(form.get("plex_home")),
+        plex_allow_channels=bool(form.get("plex_allow_channels")),
+        server=primary_server,
+        wizard_bundle_id=(int(form.get("wizard_bundle_id")) if form.get("wizard_bundle_id") else None),
+        
+        # New Jellyfin flags
+        allow_downloads=bool(form.get("jellyfin_allow_downloads")),
+        allow_live_tv=bool(form.get("jellyfin_allow_live_tv")),
+
+        # Universal download permission (used by Audiobookshelf and others)
+        allow_downloads = bool(form.get("audiobookshelf_allow_downloads"))
     db.session.add(invite)
     db.session.flush()  # so invite.id exists, but not yet committed
 
