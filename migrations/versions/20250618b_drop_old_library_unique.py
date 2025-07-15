@@ -4,11 +4,12 @@ Revision ID: 20250618b_drop_old_library_unique
 Revises: 20250618_library_unique_per_server
 Create Date: 2025-06-18 21:20:00
 """
-from alembic import op
-import sqlalchemy as sa
 
-revision = '20250618b_drop_old_library_unique'
-down_revision = '20250618_library_unique_per_server'
+import sqlalchemy as sa
+from alembic import op
+
+revision = "20250618b_drop_old_library_unique"
+down_revision = "20250618_library_unique_per_server"
 branch_labels = None
 depends_on = None
 
@@ -50,4 +51,4 @@ def upgrade():
 
 def downgrade():
     # no reverse migration required
-    pass 
+    pass

@@ -1,15 +1,31 @@
-import logging
-from flask import Blueprint, render_template, request, redirect, abort, url_for
-from app.services.invites import create_invite
-from app.services.media.service import list_users, delete_user, list_users_all_servers, list_users_for_server, scan_libraries_for_server, EMAIL_RE, get_now_playing_all_servers
-from app.services.update_check import check_update_available, get_sponsors
-from app.extensions import db, htmx
-from app.models import Invitation, Settings, User, MediaServer, Library, Identity, invitation_servers
-from app.blueprints.settings.routes import _load_settings
-import os
-from flask_login import login_required
 import datetime
+import logging
+import os
 from urllib.parse import urlparse
+
+from flask import Blueprint, abort, redirect, render_template, request, url_for
+from flask_login import login_required
+
+from app.extensions import db
+from app.models import (
+    Identity,
+    Invitation,
+    Library,
+    MediaServer,
+    Settings,
+    User,
+    invitation_servers,
+)
+from app.services.invites import create_invite
+from app.services.media.service import (
+    EMAIL_RE,
+    delete_user,
+    get_now_playing_all_servers,
+    list_users_all_servers,
+    list_users_for_server,
+    scan_libraries_for_server,
+)
+from app.services.update_check import check_update_available, get_sponsors
 
 admin_bp = Blueprint("admin", __name__)
 
@@ -21,10 +37,12 @@ def dashboard():
     update_available = check_update_available(__version__)
     sponsors = get_sponsors()
 
-    return render_template("admin.html",
-                           update_available=update_available,
-                           sponsors=sponsors,
-                           version=__version__)
+    return render_template(
+        "admin.html",
+        update_available=update_available,
+        sponsors=sponsors,
+        version=__version__,
+    )
 
 
 # New home dashboard with now playing cards
@@ -33,21 +51,23 @@ def dashboard():
 def home():
     if not request.headers.get("HX-Request"):
         return redirect(url_for(".dashboard"))
-    
+
     servers = MediaServer.query.order_by(MediaServer.name).all()
     return render_template("admin/home.html", servers=servers)
 
 
 # HTMX endpoint for now playing cards
 @admin_bp.route("/now-playing-cards")
-@login_required  
+@login_required
 def now_playing_cards():
     try:
         sessions = get_now_playing_all_servers()
         return render_template("admin/now_playing_cards.html", sessions=sessions)
     except Exception as e:
         logging.error(f"Failed to get now playing data: {e}")
-        return render_template("admin/now_playing_cards.html", sessions=[], error=str(e))
+        return render_template(
+            "admin/now_playing_cards.html", sessions=[], error=str(e)
+        )
 
 
 # Invitations – landing page
@@ -63,9 +83,13 @@ def invite():
 
     # Determine which server is being targeted (id from form or query)
     if request.method == "POST":
-        chosen_ids = request.form.getlist("server_ids") or ([request.form.get("server_id")] if request.form.get("server_id") else [])
+        chosen_ids = request.form.getlist("server_ids") or (
+            [request.form.get("server_id")] if request.form.get("server_id") else []
+        )
     else:
-        chosen_ids = [request.args.get("server_id")] if request.args.get("server_id") else []
+        chosen_ids = (
+            [request.args.get("server_id")] if request.args.get("server_id") else []
+        )
 
     # pick first selected server to drive contextual UI (plex-specific toggles etc.)
     target_server = None
@@ -81,8 +105,15 @@ def invite():
     allow_tv_plex = bool(getattr(target_server, "allow_tv_plex", False))
 
     # Jellyfin defaults
-    allow_downloads_jellyfin = bool(getattr(target_server, "allow_downloads_jellyfin", False))
-    allow_tv_jellyfin        = bool(getattr(target_server, "allow_tv_jellyfin", False))
+    allow_downloads_jellyfin = bool(
+        getattr(target_server, "allow_downloads_jellyfin", False)
+    )
+    allow_tv_jellyfin = bool(getattr(target_server, "allow_tv_jellyfin", False))
+
+    # Audiobookshelf defaults
+    allow_downloads_audiobookshelf = bool(
+        getattr(target_server, "allow_downloads", True)
+    )
 
     if request.method == "POST":
         try:
@@ -90,17 +121,14 @@ def invite():
         except ValueError:
             return abort(401)  # duplicate / malformed code
 
-        current_url = request.headers.get('HX-Current-URL')
+        current_url = request.headers.get("HX-Current-URL")
         parsed_url = urlparse(current_url)
         host_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
         link = f"{host_url}/j/{invite.code}"
 
-        invitations = (
-            Invitation.query
-            .order_by(Invitation.created.desc())
-            .all()
-        )
+        invitations = Invitation.query.order_by(Invitation.created.desc()).all()
         from app.models import WizardBundle
+
         bundles = WizardBundle.query.order_by(WizardBundle.name).all()
         return render_template(
             "modals/invite.html",
@@ -111,6 +139,7 @@ def invite():
             allow_tv_plex=allow_tv_plex,
             allow_downloads_jellyfin=allow_downloads_jellyfin,
             allow_tv_jellyfin=allow_tv_jellyfin,
+            allow_downloads_audiobookshelf=allow_downloads_audiobookshelf,
             servers=servers,
             chosen_server_id=target_server.id if target_server else None,
             bundles=bundles,
@@ -118,6 +147,7 @@ def invite():
 
     # GET → initial render
     from app.models import WizardBundle
+
     bundles = WizardBundle.query.order_by(WizardBundle.name).all()
     return render_template(
         "modals/invite.html",
@@ -126,6 +156,7 @@ def invite():
         allow_tv_plex=allow_tv_plex,
         allow_downloads_jellyfin=allow_downloads_jellyfin,
         allow_tv_jellyfin=allow_tv_jellyfin,
+        allow_downloads_audiobookshelf=allow_downloads_audiobookshelf,
         servers=servers,
         chosen_server_id=target_server.id if target_server else None,
         bundles=bundles,
@@ -149,15 +180,13 @@ def invite_table():
     # HTMX uses POST with hx-include to send the <select name="server"> value
     # so prefer form data, but keep query-string fallback for direct links
     server_filter = request.form.get("server") or request.args.get("server")
-    if (code := request.args.get("delete")):
-        (
-            Invitation.query
-            .filter_by(code=code)
-            .delete()
-        )
+    if code := request.args.get("delete"):
+        (Invitation.query.filter_by(code=code).delete())
         db.session.commit()
 
-    query = Invitation.query.options(db.joinedload(Invitation.libraries)).order_by(Invitation.created.desc())
+    query = Invitation.query.options(db.joinedload(Invitation.libraries)).order_by(
+        Invitation.created.desc()
+    )
     query = query.options(db.joinedload(Invitation.servers))
     if server_filter:
         query = query.filter(Invitation.server_id == int(server_filter))
@@ -197,14 +226,16 @@ def invite_table():
             if server_name not in server_libs:
                 server_libs[server_name] = []
             server_libs[server_name].append(lib.name)
-        
+
         # Sort libraries within each server group
         for server_name in server_libs:
             server_libs[server_name].sort()
-        
+
         inv.display_libraries_by_server = server_libs
         # Keep legacy display_libraries for compatibility (also filter orphaned)
-        inv.display_libraries = sorted({lib.name for lib in inv.libraries if lib.server})
+        inv.display_libraries = sorted(
+            {lib.name for lib in inv.libraries if lib.server}
+        )
 
     return render_template(
         "tables/invite_card.html",
@@ -229,10 +260,10 @@ def users_table():
     order = request.args.get("order", "name_asc")
     query_text = request.args.get("q", "").lower()
     # single or multi delete
-    if (uid := request.args.get("delete")):
+    if uid := request.args.get("delete"):
         delete_user(int(uid))
-    if (multi := request.args.get("delete_multi")):
-        for uid in multi.split(','):
+    if multi := request.args.get("delete_multi"):
+        for uid in multi.split(","):
             if uid.isdigit():
                 delete_user(int(uid))
 
@@ -247,15 +278,14 @@ def users_table():
         logging.error("sync users failed: %s", exc)
 
     # 2) build DB query with eager load to keep session bound
-    q = (
-        User.query
-        .options(db.joinedload(User.server))
-    )
+    q = User.query.options(db.joinedload(User.server))
     if server_id:
         q = q.filter(User.server_id == int(server_id))
     if query_text:
         like_pattern = f"%{query_text}%"
-        q = q.filter(db.or_(User.username.ilike(like_pattern), User.email.ilike(like_pattern)))
+        q = q.filter(
+            db.or_(User.username.ilike(like_pattern), User.email.ilike(like_pattern))
+        )
 
     # sorting
     if order == "name_desc":
@@ -286,7 +316,9 @@ def user_detail(db_id: int):
         # Re-render the grid the same way /users/table does
         all_dict = list_users_all_servers()
         users_flat = [u for lst in all_dict.values() for u in lst]
-        response = render_template('tables/user_card.html', users=_group_users_for_display(users_flat))
+        response = render_template(
+            "tables/user_card.html", users=_group_users_for_display(users_flat)
+        )
         # Add a script to close the modal after swap
         response += """
 <script>
@@ -304,18 +336,17 @@ def user_detail(db_id: int):
     return render_template("admin/user_modal.html", user=user)
 
 
-@admin_bp.post('/invite/scan-libraries')
+@admin_bp.post("/invite/scan-libraries")
 @login_required
 def invite_scan_libraries():
     """Scan libraries for one or multiple selected servers and return grouped checkboxes."""
 
-    from app.services.media.service import scan_libraries_for_server
-    from app.models import MediaServer, Library
+    from app.models import Library, MediaServer
 
     # Accept either multi-select checkboxes (server_ids) or legacy single server_id
-    ids = request.form.getlist('server_ids') or []
-    if not ids and request.form.get('server_id'):
-        ids = [request.form.get('server_id')]
+    ids = request.form.getlist("server_ids") or []
+    if not ids and request.form.get("server_id"):
+        ids = [request.form.get("server_id")]
 
     if not ids:
         return '<div class="text-red-500">No server selected</div>', 400
@@ -331,7 +362,7 @@ def invite_scan_libraries():
             raw = scan_libraries_for_server(server)
             items = raw.items() if isinstance(raw, dict) else [(n, n) for n in raw]
         except Exception as exc:
-            logging.warning('Library scan failed for %s: %s', server.name, exc)
+            logging.warning("Library scan failed for %s: %s", server.name, exc)
             items = []
 
         for fid, name in items:
@@ -339,7 +370,11 @@ def invite_scan_libraries():
             if lib:
                 lib.name = name
             else:
-                db.session.add(Library(external_id=fid, name=name, server_id=server.id))
+                lib = Library()
+                lib.external_id = fid
+                lib.name = name
+                lib.server_id = server.id
+                db.session.add(lib)
         db.session.flush()
         server_libs[server.id] = (
             Library.query.filter_by(server_id=server.id).order_by(Library.name).all()
@@ -347,17 +382,24 @@ def invite_scan_libraries():
 
     db.session.commit()
 
-    return render_template('partials/server_library_picker.html', servers=servers, server_libs=server_libs)
+    return render_template(
+        "partials/server_library_picker.html", servers=servers, server_libs=server_libs
+    )
 
 
 @admin_bp.post("/users/link")
 @login_required
 def link_accounts():
-    ids = request.form.getlist('uids')
+    ids = request.form.getlist("uids")
     if len(ids) < 2:
-        return '', 400
+        return "", 400
     users = User.query.filter(User.id.in_(ids)).all()
-    identity = users[0].identity or Identity(primary_email=users[0].email, primary_username=users[0].username)
+    if users[0].identity:
+        identity = users[0].identity
+    else:
+        identity = Identity()
+        identity.primary_email = users[0].email
+        identity.primary_username = users[0].username
     db.session.add(identity)
     db.session.flush()
     for u in users:
@@ -365,9 +407,12 @@ def link_accounts():
     db.session.commit()
     all_dict = list_users_all_servers()
     users_flat = [u for lst in all_dict.values() for u in lst]
-    return render_template('tables/user_card.html', users=_group_users_for_display(users_flat))
+    return render_template(
+        "tables/user_card.html", users=_group_users_for_display(users_flat)
+    )
 
-@admin_bp.post('/users/unlink')
+
+@admin_bp.post("/users/unlink")
 @login_required
 def unlink_account():
     """Unlink one or more selected user accounts from their shared identity.
@@ -376,23 +421,23 @@ def unlink_account():
     allow bulk-unlink just like the link and delete actions.
     """
 
-    ids = request.form.getlist('uids') or []
+    ids = request.form.getlist("uids") or []
     # Fallback for legacy single-param payloads
-    single = request.form.get('uid')
+    single = request.form.get("uid")
     if single:
         ids.append(single)
 
     # Ensure we have at least one uid to process
     ids = [uid for uid in ids if uid and uid.isdigit()]
     if not ids:
-        return '', 400
+        return "", 400
 
     users = User.query.filter(User.id.in_(ids)).all()
     if not users:
-        return '', 400
+        return "", 400
 
     # Track identities that might become orphaned
-    identities_to_check = set(u.identity_id for u in users if u.identity_id)
+    identities_to_check = {u.identity_id for u in users if u.identity_id}
 
     for user in users:
         user.identity = None
@@ -401,6 +446,7 @@ def unlink_account():
 
     # Clean up orphaned Identity rows
     from app.models import Identity  # local import to avoid circular refs
+
     for iid in identities_to_check:
         identity = Identity.query.get(iid)
         if identity and not identity.accounts:
@@ -410,17 +456,23 @@ def unlink_account():
     # Return refreshed grid
     all_dict = list_users_all_servers()
     users_flat = [u for lst in all_dict.values() for u in lst]
-    return render_template('tables/user_card.html', users=_group_users_for_display(users_flat))
+    return render_template(
+        "tables/user_card.html", users=_group_users_for_display(users_flat)
+    )
 
-@admin_bp.post('/users/bulk-delete')
+
+@admin_bp.post("/users/bulk-delete")
 @login_required
 def bulk_delete_users():
-    ids = request.form.getlist('uids')
+    ids = request.form.getlist("uids")
     for uid in ids:
         delete_user(int(uid))
     all_dict = list_users_all_servers()
     users_flat = [u for lst in all_dict.values() for u in lst]
-    return render_template('tables/user_card.html', users=_group_users_for_display(users_flat))
+    return render_template(
+        "tables/user_card.html", users=_group_users_for_display(users_flat)
+    )
+
 
 # Helper: group and enrich users for display
 def _group_users_for_display(user_list):
@@ -451,7 +503,9 @@ def _group_users_for_display(user_list):
         primary = min(lst, key=lambda x: (x.username or ""))
         photo = next((a.photo for a in lst if a.photo), None)
         expires = min([a.expires for a in lst if a.expires] or [None])
-        code = next((a.code for a in lst if a.code and a.code not in ("None","empty")), "")
+        code = next(
+            (a.code for a in lst if a.code and a.code not in ("None", "empty")), ""
+        )
         allow_sync = any(getattr(a, "allowSync", False) for a in lst)
 
         primary.accounts = lst
@@ -461,6 +515,7 @@ def _group_users_for_display(user_list):
         primary.allowSync = allow_sync
         cards.append(primary)
     return cards
+
 
 @admin_bp.route("/user/<int:db_id>/details")
 @login_required
@@ -473,8 +528,8 @@ def user_details_modal(db_id: int):
     • Policy / configuration flags returned by the MediaClient
     """
     import logging
+
     from app.services.media.service import get_client_for_media_server
-    from app.models import Library
 
     user = User.query.get_or_404(db_id)
 
@@ -484,10 +539,7 @@ def user_details_modal(db_id: int):
         join_date = user.identity.created_at
 
     # Determine all linked accounts (same identity) or fallback to current
-    if user.identity_id:
-        accounts = list(user.identity.accounts)
-    else:
-        accounts = [user]
+    accounts = list(user.identity.accounts) if user.identity_id else [user]
 
     accounts_info = []
 
@@ -521,47 +573,59 @@ def user_details_modal(db_id: int):
                     pol = details.get("Policy", {}) or {}
                     enable_all = pol.get("EnableAllFolders", False)
                     enabled = pol.get("EnabledFolders", []) or []
-                    if not enable_all and enabled:
-                        lib_ids = enabled
-                    else:
-                        # access to all – fallback to None to trigger 'all' UI
-                        lib_ids = None
+                    # access to all – fallback to None to trigger 'all' UI
+                    lib_ids = enabled if not enable_all and enabled else None
 
                 elif srv.server_type in ("audiobookshelf", "abs"):
-                    all_flag = (details.get("permissions", {}) or {}).get("accessAllLibraries", False)
+                    all_flag = (details.get("permissions", {}) or {}).get(
+                        "accessAllLibraries", False
+                    )
                     enabled = details.get("librariesAccessible", []) or []
-                    if not all_flag and enabled:
-                        lib_ids = enabled
-                    else:
-                        lib_ids = None  # all libraries
+                    lib_ids = (
+                        enabled if not all_flag and enabled else None
+                    )  # all libraries
 
                 # Map IDs to names when possible
                 if lib_ids is not None:
                     libs_q = (
-                        Library.query
-                        .filter(Library.external_id.in_(lib_ids), Library.server_id == srv.id)
+                        Library.query.filter(
+                            Library.external_id.in_(lib_ids),
+                            Library.server_id == srv.id,
+                        )
                         .order_by(Library.name)
                         .all()
                     )
                     names = [lib.name for lib in libs_q]
                     # Preserve IDs with no matching DB row so user sees something
-                    missing = [lid for lid in lib_ids if lid not in {l.external_id for l in libs_q}]
+                    missing = [
+                        lid
+                        for lid in lib_ids
+                        if lid not in {lib.external_id for lib in libs_q}
+                    ]
                     info["libraries"] = names + missing
                 else:
                     # lib_ids None means full access – pick all enabled libs for server
                     libs_q = (
-                        Library.query
-                        .filter_by(server_id=srv.id)
+                        Library.query.filter_by(server_id=srv.id)
                         .order_by(Library.name)
                         .all()
                     )
                     info["libraries"] = [lib.name for lib in libs_q]
 
                 # Store policies / config for optional display
-                info["policies"] = details.get("Configuration") or details.get("Policy") or details.get("permissions")
+                info["policies"] = (
+                    details.get("Configuration")
+                    or details.get("Policy")
+                    or details.get("permissions")
+                )
 
             except Exception as exc:
-                logging.error("Failed to fetch user details for account %s/%s: %s", acct.id, acct.username, exc)
+                logging.error(
+                    "Failed to fetch user details for account %s/%s: %s",
+                    acct.id,
+                    acct.username,
+                    exc,
+                )
 
         accounts_info.append(info)
 
@@ -572,26 +636,30 @@ def user_details_modal(db_id: int):
         accounts_info=accounts_info,
     )
 
+
 # ──────────────────────────────────────────────────────────────────────
 # Identity nickname editor
 
 
-@admin_bp.route('/identity/<int:identity_id>', methods=['GET', 'POST'])
+@admin_bp.route("/identity/<int:identity_id>", methods=["GET", "POST"])
 @login_required
 def edit_identity(identity_id):
     """Create / update a nickname for an Identity row via HTMX modal."""
     from app.models import Identity
+
     identity = Identity.query.get_or_404(identity_id)
 
-    if request.method == 'POST':
-        nickname = request.form.get('nickname', '').strip() or None
+    if request.method == "POST":
+        nickname = request.form.get("nickname", "").strip() or None
         identity.nickname = nickname
         db.session.commit()
 
         # After save, re-render the user cards grid (same as other actions)
         all_dict = list_users_all_servers()
         users_flat = [u for lst in all_dict.values() for u in lst]
-        response = render_template('tables/user_card.html', users=_group_users_for_display(users_flat))
+        response = render_template(
+            "tables/user_card.html", users=_group_users_for_display(users_flat)
+        )
         # Add a script to close the modal after swap
         response += """
 <script>
@@ -606,7 +674,7 @@ def edit_identity(identity_id):
         return response
 
     # GET → return modal form
-    return render_template('modals/edit-identity.html', identity=identity)
+    return render_template("modals/edit-identity.html", identity=identity)
 
 
 # HTMX endpoint for latest accepted invitations card
@@ -629,7 +697,7 @@ def accepted_invites_card():
     # reflects the *primary* invite only.  To catch per-server acceptances we
     # fall back to the association table and treat any row with
     # ``invitation_servers.used = True`` as an acceptance.
-    from sqlalchemy import or_, func, select
+    from sqlalchemy import or_, select
 
     # ``Invitation.used`` covers the common case.  For the association table we
     # gather the *invite_id* values that are marked used.
@@ -637,9 +705,8 @@ def accepted_invites_card():
     # ``invitation_servers`` association table.  Using an explicit *select()*
     # avoids SQLAlchemy 2.x warnings about implicit coercion of Subquery
     # objects when used inside ``IN ( ... )`` clauses.
-    used_invite_ids = (
-        select(invitation_servers.c.invite_id)
-        .where(invitation_servers.c.used.is_(True))
+    used_invite_ids = select(invitation_servers.c.invite_id).where(
+        invitation_servers.c.used.is_(True)
     )
 
     query = (
@@ -650,9 +717,7 @@ def accepted_invites_card():
             db.joinedload(Invitation.server),
             db.joinedload(Invitation.servers),
         )
-        .filter(
-            or_(Invitation.used.is_(True), Invitation.id.in_(used_invite_ids))
-        )
+        .filter(or_(Invitation.used.is_(True), Invitation.id.in_(used_invite_ids)))
         .order_by(Invitation.used_at.desc().nullslast(), Invitation.created.desc())
         .limit(LIMIT)
     )
@@ -668,8 +733,9 @@ def accepted_invites_card():
 def server_health_card():
     """Return a card showing health status of all media servers."""
     try:
-        import requests
         from urllib.parse import urlparse
+
+        import requests
 
         # Look at HX-Current-URL if HTMX, else fall back to url_root
         current_url = request.headers.get("HX-Current-URL", request.url_root)
@@ -679,14 +745,14 @@ def server_health_card():
         response = requests.get(
             f"{base_url}/settings/servers/statistics/all",
             cookies=request.cookies,
-            timeout=10
+            timeout=10,
         )
-        
+
         if response.status_code == 200:
             all_stats = response.json()
-            
+
             server_health = []
-            
+
             for server_id, stats in all_stats.items():
                 # ----------------------
                 # Improved offline detection: even if no explicit "error" key
@@ -696,7 +762,7 @@ def server_health_card():
                 # ----------------------
 
                 server_stats = stats.get("server_stats", {}) or {}
-                user_stats   = stats.get("user_stats", {}) or {}
+                user_stats = stats.get("user_stats", {}) or {}
 
                 is_online = ("error" not in stats) and bool(server_stats)
 
@@ -705,31 +771,34 @@ def server_health_card():
                     "name": stats.get("server_name", "Unknown"),
                     "type": stats.get("server_type", "unknown"),
                     "online": is_online,
-                    "error": stats.get("error", None)
+                    "error": stats.get("error", None),
                 }
 
                 if is_online:
-                    server_info.update({
-                        "version": server_stats.get("version", "Unknown"),
-                        "active_sessions": user_stats.get("active_sessions", 0),
-                        "transcoding": server_stats.get("transcoding_sessions", 0),
-                        "total_users": user_stats.get("total_users", 0)
-                    })
+                    server_info.update(
+                        {
+                            "version": server_stats.get("version", "Unknown"),
+                            "active_sessions": user_stats.get("active_sessions", 0),
+                            "transcoding": server_stats.get("transcoding_sessions", 0),
+                            "total_users": user_stats.get("total_users", 0),
+                        }
+                    )
 
                 server_health.append(server_info)
-            
+
             # Sort by online status and name
             server_health.sort(key=lambda x: (not x["online"], x["name"]))
-            
-            return render_template("admin/server_health_card.html", 
-                                 servers=server_health,
-                                 success=True)
-        else:
-            return render_template("admin/server_health_card.html", 
-                                 success=False, 
-                                 error="Failed to fetch server health")
-            
+
+            return render_template(
+                "admin/server_health_card.html", servers=server_health, success=True
+            )
+        return render_template(
+            "admin/server_health_card.html",
+            success=False,
+            error="Failed to fetch server health",
+        )
+
     except Exception as e:
-        return render_template("admin/server_health_card.html", 
-                             success=False, 
-                             error=f"Error: {str(e)}")
+        return render_template(
+            "admin/server_health_card.html", success=False, error=f"Error: {str(e)}"
+        )

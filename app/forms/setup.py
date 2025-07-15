@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired, Length, EqualTo, Regexp
+from wtforms import PasswordField, StringField
+from wtforms.validators import DataRequired, EqualTo, Length, Regexp
+
 
 class AdminAccountForm(FlaskForm):
     username = StringField(
@@ -16,12 +17,15 @@ class AdminAccountForm(FlaskForm):
             DataRequired(),
             Length(min=8, message="Password must be at least 8 characters."),
             Regexp(
-                r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$',
+                r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$",
                 message="Password must contain at least one uppercase letter, one lowercase letter, and one number.",
             ),
         ],
     )
     confirm = PasswordField(
         "Confirm password",
-        validators=[DataRequired(), EqualTo("password", message="Passwords must match.")],
+        validators=[
+            DataRequired(),
+            EqualTo("password", message="Passwords must match."),
+        ],
     )

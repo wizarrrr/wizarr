@@ -1,23 +1,22 @@
-import datetime, logging
-from typing import List
+import datetime
+import logging
 
 from app.extensions import db
 from app.models import User
 from app.services.media.service import delete_user  # facade (Plex / Jellyfin aware)
 
-def delete_user_if_expired() -> List[int]:
+
+def delete_user_if_expired() -> list[int]:
     """
     Find users whose `expires` < now, delete them from the media server
     *and* from the Wizarr DB.  Returns a list of db IDs that were removed.
     """
     now = datetime.datetime.now()
     # SQLAlchemy version of: User.select().where(User.expires.is_null(False) & (User.expires < now))
-    expired_rows = (
-        User.query
-            .filter(User.expires != None,  # not null
-                    User.expires < now)
-            .all()
-    )
+    expired_rows = User.query.filter(
+        User.expires is not None,  # not null
+        User.expires < now,
+    ).all()
 
     deleted: list[int] = []
     for user in expired_rows:

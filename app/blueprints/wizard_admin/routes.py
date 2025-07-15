@@ -1,15 +1,24 @@
 from __future__ import annotations
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
-from flask_login import login_required
-from flask_babel import gettext as _
-from sqlalchemy import func
 import re
 
+from flask import (
+    Blueprint,
+    abort,
+    flash,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
+from flask_babel import gettext as _
+from flask_login import login_required
+from sqlalchemy import func
+
 from app.extensions import db
-from app.models import WizardStep, WizardBundle, WizardBundleStep, MediaServer
-from app.forms.wizard import WizardStepForm, WizardBundleForm
-from app.forms.wizard import SimpleWizardStepForm
+from app.forms.wizard import SimpleWizardStepForm, WizardBundleForm, WizardStepForm
+from app.models import MediaServer, WizardBundle, WizardBundleStep, WizardStep
 
 wizard_admin_bp = Blueprint(
     "wizard_admin",
@@ -33,8 +42,7 @@ def list_steps():
     # Group steps by server_type for display
     rows = (
         # Exclude custom steps (managed via Wizard Bundles) from the default view
-        WizardStep.query
-        .filter(WizardStep.server_type != "custom")
+        WizardStep.query.filter(WizardStep.server_type != "custom")
         .order_by(WizardStep.server_type, WizardStep.position)
         .all()
     )
@@ -44,7 +52,9 @@ def list_steps():
 
     # Filter: show only servers that are currently configured/enabled
     active_types = {srv.server_type for srv in MediaServer.query.all()}
-    grouped = {stype: steps for stype, steps in grouped.items() if stype in active_types}
+    grouped = {
+        stype: steps for stype, steps in grouped.items() if stype in active_types
+    }
 
     # When requested via HTMX we return only the inner fragment that is meant
     # to be swapped into the <div id="tab-body"> container on the settings
@@ -68,14 +78,11 @@ def list_steps():
 
 # ─── Bundles view ─────────────────────────────────────────────────────
 
+
 @wizard_admin_bp.route("/bundles", methods=["GET"])
 @login_required
 def list_bundles():
-    bundles = (
-        WizardBundle.query
-        .order_by(WizardBundle.id)
-        .all()
-    )
+    bundles = WizardBundle.query.order_by(WizardBundle.id).all()
 
     tmpl = (
         "settings/wizard/bundles.html"
@@ -93,7 +100,7 @@ def list_bundles():
 @login_required
 def create_step():
     bundle_id = request.args.get("bundle_id", type=int)
-    simple    = request.args.get("simple") == "1" or bundle_id is not None
+    simple = request.args.get("simple") == "1" or bundle_id is not None
 
     FormCls = SimpleWizardStepForm if simple else WizardStepForm
     form = FormCls(request.form if request.method == "POST" else None)
@@ -118,7 +125,11 @@ def create_step():
             position=next_pos,
             title=getattr(form, "title", None) and form.title.data or None,
             markdown=cleaned_md,
-            requires=[] if simple else [s.strip() for s in (form.requires.data or "").split(",") if s.strip()],
+            requires=[]
+            if simple
+            else [
+                s.strip() for s in (form.requires.data or "").split(",") if s.strip()
+            ],
         )
         db.session.add(step)
         db.session.flush()  # get step.id
@@ -131,7 +142,11 @@ def create_step():
                 .scalar()
             )
             next_bpos = (max_bpos or 0) + 1
-            db.session.add(WizardBundleStep(bundle_id=bundle_id, step_id=step.id, position=next_bpos))
+            db.session.add(
+                WizardBundleStep(
+                    bundle_id=bundle_id, step_id=step.id, position=next_bpos
+                )
+            )
 
         db.session.commit()
         flash(_("Step created"), "success")
@@ -140,15 +155,19 @@ def create_step():
         if request.headers.get("HX-Request"):
             return list_bundles() if bundle_id else list_steps()
 
-        return redirect(url_for("wizard_admin.list_bundles" if bundle_id else "wizard_admin.list_steps"))
+        return redirect(
+            url_for(
+                "wizard_admin.list_bundles" if bundle_id else "wizard_admin.list_steps"
+            )
+        )
 
     # GET – choose modal / full template based on form type
     if simple:
         modal_tmpl = "modals/wizard-simple-step-form.html"
-        page_tmpl  = "settings/wizard/simple_form.html"
+        page_tmpl = "settings/wizard/simple_form.html"
     else:
         modal_tmpl = "modals/wizard-step-form.html"
-        page_tmpl  = "settings/wizard/form.html"
+        page_tmpl = "settings/wizard/form.html"
 
     tmpl = modal_tmpl if request.headers.get("HX-Request") else page_tmpl
     return render_template(tmpl, form=form, action="create", bundle_id=bundle_id)
@@ -166,7 +185,9 @@ def edit_step(step_id: int):
     if form.validate_on_submit():
         if not simple:
             step.server_type = form.server_type.data
-            step.requires = [s.strip() for s in (form.requires.data or "").split(",") if s.strip()]
+            step.requires = [
+                s.strip() for s in (form.requires.data or "").split(",") if s.strip()
+            ]
 
         step.title = getattr(form, "title", None) and form.title.data or None
         cleaned_md = _strip_localization(form.markdown.data)
@@ -179,7 +200,11 @@ def edit_step(step_id: int):
         if request.headers.get("HX-Request"):
             return list_bundles() if simple else list_steps()
 
-        return redirect(url_for("wizard_admin.list_bundles" if simple else "wizard_admin.list_steps"))
+        return redirect(
+            url_for(
+                "wizard_admin.list_bundles" if simple else "wizard_admin.list_steps"
+            )
+        )
 
     # GET: populate fields
     if request.method == "GET":
@@ -187,8 +212,14 @@ def edit_step(step_id: int):
             form.requires.data = ", ".join(step.requires or [])
         form.markdown.data = _strip_localization(step.markdown)
 
-    modal_tmpl = "modals/wizard-simple-step-form.html" if simple else "modals/wizard-step-form.html"
-    page_tmpl  = "settings/wizard/simple_form.html" if simple else "settings/wizard/form.html"
+    modal_tmpl = (
+        "modals/wizard-simple-step-form.html"
+        if simple
+        else "modals/wizard-step-form.html"
+    )
+    page_tmpl = (
+        "settings/wizard/simple_form.html" if simple else "settings/wizard/form.html"
+    )
     tmpl = modal_tmpl if request.headers.get("HX-Request") else page_tmpl
     return render_template(tmpl, form=form, action="edit", step=step)
 
@@ -251,9 +282,9 @@ def reorder_steps():
 @login_required
 def preview_markdown():
     from markdown import markdown as md_to_html
+
     raw = request.form.get("markdown", "")
-    html = md_to_html(raw, extensions=["fenced_code", "tables", "attr_list"])
-    return html
+    return md_to_html(raw, extensions=["fenced_code", "tables", "attr_list"])
 
 
 # ─── bundle CRUD ─────────────────────────────────────────────────
@@ -263,7 +294,9 @@ def create_bundle():
     form = WizardBundleForm(request.form if request.method == "POST" else None)
 
     if form.validate_on_submit():
-        bundle = WizardBundle(name=form.name.data, description=form.description.data or None)
+        bundle = WizardBundle(
+            name=form.name.data, description=form.description.data or None
+        )
         db.session.add(bundle)
         db.session.commit()
         flash(_("Bundle created"), "success")
@@ -281,7 +314,9 @@ def create_bundle():
 @login_required
 def edit_bundle(bundle_id: int):
     bundle = WizardBundle.query.get_or_404(bundle_id)
-    form = WizardBundleForm(request.form if request.method == "POST" else None, obj=bundle)
+    form = WizardBundleForm(
+        request.form if request.method == "POST" else None, obj=bundle
+    )
 
     if form.validate_on_submit():
         bundle.name = form.name.data
@@ -350,12 +385,13 @@ def add_steps_modal(bundle_id: int):
     # steps not yet in bundle
     existing_ids = {bs.step_id for bs in bundle.steps}
     available = (
-        WizardStep.query
-        .filter(~WizardStep.id.in_(existing_ids))
+        WizardStep.query.filter(~WizardStep.id.in_(existing_ids))
         .order_by(WizardStep.server_type, WizardStep.position)
         .all()
     )
-    return render_template("modals/bundle-add-steps.html", bundle=bundle, steps=available)
+    return render_template(
+        "modals/bundle-add-steps.html", bundle=bundle, steps=available
+    )
 
 
 @wizard_admin_bp.route("/bundle/<int:bundle_id>/add-steps", methods=["POST"])
@@ -366,19 +402,21 @@ def add_steps(bundle_id: int):
     if not ids:
         abort(400)
     # Determine next position value
-    max_pos = db.session.query(func.max(WizardBundleStep.position)).filter_by(bundle_id=bundle_id).scalar()
+    max_pos = (
+        db.session.query(func.max(WizardBundleStep.position))
+        .filter_by(bundle_id=bundle_id)
+        .scalar()
+    )
     next_pos = (max_pos or 0) + 1
     for sid in ids:
         try:
             sid_int = int(sid)
         except ValueError:
             continue
-        bundle.steps.append(
-            WizardBundleStep(step_id=sid_int, position=next_pos)
-        )
+        bundle.steps.append(WizardBundleStep(step_id=sid_int, position=next_pos))
         next_pos += 1
     db.session.commit()
     flash(_("Steps added"), "success")
     if request.headers.get("HX-Request"):
         return list_bundles()
-    return redirect(url_for("wizard_admin.list_bundles")) 
+    return redirect(url_for("wizard_admin.list_bundles"))
