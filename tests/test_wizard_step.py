@@ -1,8 +1,8 @@
 import pytest
 from sqlalchemy.exc import IntegrityError
 
-from app.models import WizardStep
 from app.extensions import db
+from app.models import WizardStep
 
 
 @pytest.fixture
@@ -40,4 +40,4 @@ def test_unique_server_position_constraint(session):
 
     session.add(b)
     with pytest.raises(IntegrityError):
-        session.commit()  # duplicate position for same server_type 
+        session.commit()  # duplicate position for same server_type

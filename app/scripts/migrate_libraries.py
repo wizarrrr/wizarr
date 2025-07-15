@@ -1,10 +1,11 @@
 # app/scripts/migrate_libraries.py
 
-from app import create_app, db
-from app.models import Settings, Library, Invitation
+from app import db
+from app.models import Invitation, Library, Settings
 
-def update_server_verified(app): 
-    #Function to convert server_verified = "true" to server_verified = True
+
+def update_server_verified(app):
+    # Function to convert server_verified = "true" to server_verified = True
     with app.app_context():
         # 1) load the Settings row
         row = Settings.query.filter_by(key="server_verified").first()
@@ -17,12 +18,12 @@ def update_server_verified(app):
             row.value = "true"
 
         db.session.commit()
-    
+
 
 def run_library_migration(app):
     """Idempotently pull old comma-list out of Settings.libraries,
-       turn them into Library rows & Invitation<>Library links,
-       then delete that Settings entry so future runs skip it."""
+    turn them into Library rows & Invitation<>Library links,
+    then delete that Settings entry so future runs skip it."""
     with app.app_context():
         # 1) load the Settings row
         row = Settings.query.filter_by(key="libraries").first()
@@ -53,7 +54,9 @@ def run_library_migration(app):
         total_links = 0
         for inv in Invitation.query:
             if inv.specific_libraries:
-                parts = [s.strip() for s in inv.specific_libraries.split(",") if s.strip()]
+                parts = [
+                    s.strip() for s in inv.specific_libraries.split(",") if s.strip()
+                ]
                 for ext in parts:
                     lib = Library.query.filter_by(external_id=ext).first()
                     if lib and lib not in inv.libraries:
@@ -63,4 +66,6 @@ def run_library_migration(app):
                 inv.specific_libraries = None
 
         db.session.commit()
-        print(f"[migrate_libraries] created {len(old_ext_ids)} Library rows and {total_links} invite links.")
+        print(
+            f"[migrate_libraries] created {len(old_ext_ids)} Library rows and {total_links} invite links."
+        )
