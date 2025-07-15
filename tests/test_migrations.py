@@ -35,7 +35,7 @@ def migration_app(temp_db):
     config = MigrationTestConfig()
     config.SQLALCHEMY_DATABASE_URI = temp_db
 
-    app = create_app(MigrationTestConfig())  # type: ignore[arg-type]
+    app = create_app(config)  # type: ignore[arg-type]
     yield app
 
 
