@@ -35,18 +35,24 @@ def create():
         # test the connection
         ok = False
         if form["type"] == "discord":
-            ok = _discord("Wizarr test message", form["url"])
+            url = form.get("url")
+            if url:
+                ok = _discord("Wizarr test message", url)
         elif form["type"] == "ntfy":
-            ok = _ntfy(
-                "Wizarr test message",
-                "Wizarr",
-                "tada",
-                form["url"],
-                form["username"],
-                form["password"],
-            )
+            url = form.get("url")
+            if url:
+                ok = _ntfy(
+                    "Wizarr test message",
+                    "Wizarr",
+                    "tada",
+                    url,
+                    form["username"],
+                    form["password"],
+                )
         elif form["type"] == "apprise":
-            ok = _apprise("Wizarr test message", "Wizarr", "tada", form["url"])
+            url = form.get("url")
+            if url:
+                ok = _apprise("Wizarr test message", "Wizarr", "tada", url)
 
         if ok:
             # from Notification.create(**form) to SQLAlchemy ORM

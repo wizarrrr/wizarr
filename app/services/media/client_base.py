@@ -221,6 +221,32 @@ class MediaClient(ABC):
         """
         raise NotImplementedError
 
+    def invite_home(
+        self, email: str, sections: list[str], allow_sync: bool, allow_channels: bool
+    ):
+        """Invite a user to the home server (if supported).
+
+        Args:
+            email: Email address of the user to invite
+            sections: List of library sections to grant access to
+            allow_sync: Whether to allow syncing
+            allow_channels: Whether to allow channel access
+        """
+        raise NotImplementedError("invite_home not implemented for this server type")
+
+    def invite_friend(
+        self, email: str, sections: list[str], allow_sync: bool, allow_channels: bool
+    ):
+        """Invite a user as a friend (if supported).
+
+        Args:
+            email: Email address of the user to invite
+            sections: List of library sections to grant access to
+            allow_sync: Whether to allow syncing
+            allow_channels: Whether to allow channel access
+        """
+        raise NotImplementedError("invite_friend not implemented for this server type")
+
 
 # ---------------------------------------------------------------------------
 # Shared helpers for simple REST JSON backends
@@ -275,3 +301,6 @@ class RestApiMixin(MediaClient):
 
     def delete(self, path: str, **kwargs):
         return self._request("DELETE", path, **kwargs)
+
+    def put(self, path: str, **kwargs):
+        return self._request("PUT", path, **kwargs)

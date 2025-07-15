@@ -69,7 +69,9 @@ class AudiobookshelfClient(RestApiMixin):
             logging.warning("ABS: failed to fetch libraries – %s", exc)
             return {}
 
-    def scan_libraries(self, url: str = None, token: str = None) -> dict[str, str]:
+    def scan_libraries(
+        self, url: str | None = None, token: str | None = None
+    ) -> dict[str, str]:
         """Scan available libraries on this Audiobookshelf server.
 
         Args:
@@ -293,7 +295,7 @@ class AudiobookshelfClient(RestApiMixin):
                 return False, "Failed to create user on server"
 
             # Set library access
-            if inv.libraries:
+            if inv and inv.libraries:
                 lib_ids = [
                     lib.external_id
                     for lib in inv.libraries
@@ -310,7 +312,7 @@ class AudiobookshelfClient(RestApiMixin):
 
             # Calculate expiry
             expires = None
-            if inv.duration:
+            if inv and inv.duration:
                 try:
                     import datetime as _dt
 

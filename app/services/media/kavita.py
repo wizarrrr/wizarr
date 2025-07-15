@@ -98,7 +98,7 @@ class KavitaClient(RestApiMixin):
 
             # Make direct request to avoid circular dependency with _headers()
             # Include pluginName parameter as shown in Kavita docs
-            url = f"{self.url.rstrip('/')}/api/Plugin/authenticate"
+            url = f"{(self.url or '').rstrip('/')}/api/Plugin/authenticate"
             params = {"apiKey": self.token, "pluginName": "Wizarr"}
             headers = {"Content-Type": "application/json"}
 
@@ -133,7 +133,9 @@ class KavitaClient(RestApiMixin):
             logging.error(f"Failed to get Kavita libraries: {e}")
             return {}
 
-    def scan_libraries(self, url: str = None, token: str = None) -> dict[str, str]:
+    def scan_libraries(
+        self, url: str | None = None, token: str | None = None
+    ) -> dict[str, str]:
         """Scan available libraries on this Kavita server.
 
         Args:
@@ -194,7 +196,7 @@ class KavitaClient(RestApiMixin):
         username: str,
         password: str,
         email: str = "",
-        library_ids: list[str] = None,
+        library_ids: list[str] | None = None,
     ) -> str:
         """Create a new user in Kavita using invite + confirm-email flow.
 
@@ -397,7 +399,7 @@ class KavitaClient(RestApiMixin):
 
             # Update fields that exist in form
             for key, val in form.items():
-                if key in current:
+                if current and key in current:
                     current[key] = val
 
             response = self.post("/api/Account/update", json=current)
@@ -486,7 +488,9 @@ class KavitaClient(RestApiMixin):
     def _mark_invite_used(inv: Invitation, user: User) -> None:
         """Mark invitation consumed for the Kavita server only."""
         inv.used_by = user
-        mark_server_used(inv, getattr(user, "server_id", None))
+        server_id = getattr(user, "server_id", None)
+        if server_id is not None:
+            mark_server_used(inv, server_id)
 
     # --- public sign-up ---------------------------------------------
 
@@ -516,17 +520,19 @@ class KavitaClient(RestApiMixin):
             current_server_id = getattr(self, "server_id", None)
 
             # Get library IDs for this server from the invitation
-            library_ids = [
-                str(lib.external_id)
-                for lib in inv.libraries
-                if lib.server_id == current_server_id
-            ]
+            library_ids = []
+            if inv and inv.libraries:
+                library_ids = [
+                    str(lib.external_id)
+                    for lib in inv.libraries
+                    if lib.server_id == current_server_id
+                ]
 
             # Create user in Kavita with library access
             user_identifier = self.create_user(username, password, email, library_ids)
 
             expires = None
-            if inv.duration:
+            if inv and inv.duration:
                 days = int(inv.duration)
                 expires = datetime.datetime.utcnow() + datetime.timedelta(days=days)
 
@@ -544,7 +550,8 @@ class KavitaClient(RestApiMixin):
             )
             db.session.commit()
 
-            self._mark_invite_used(inv, new_user)
+            if inv:
+                self._mark_invite_used(inv, new_user)
 
             # Try to grant library access as fallback (in case invite didn't include libraries)
             if library_ids:
