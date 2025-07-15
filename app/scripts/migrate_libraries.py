@@ -1,6 +1,6 @@
 # app/scripts/migrate_libraries.py
 
-from app import db
+from app.extensions import db
 from app.models import Invitation, Library, Settings
 
 
