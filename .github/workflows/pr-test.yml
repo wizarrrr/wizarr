@@ -1,0 +1,83 @@
+name: Pre-commit Checks
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+    if: github.actor != 'weblate'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version-file: pyproject.toml
+    
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/uv
+        key: ${{ runner.os }}-uv-${{ hashFiles('**/pyproject.toml') }}
+        restore-keys: |
+          ${{ runner.os }}-uv-
+    
+    - name: Install dependencies
+      run: uv sync --locked
+    
+    - name: Run ruff linter
+      run: uv run ruff check --output-format=github .
+    
+    - name: Run ruff formatter
+      run: uv run ruff format --check .
+    
+    - name: Check YAML files
+      run: |
+        python -c "
+        import yaml
+        import glob
+        import sys
+        
+        yaml_files = glob.glob('**/*.yml', recursive=True) + glob.glob('**/*.yaml', recursive=True)
+        errors = []
+        
+        for file in yaml_files:
+            try:
+                with open(file, 'r') as f:
+                    yaml.safe_load(f)
+                    print(f'✓ {file}')
+            except yaml.YAMLError as e:
+                errors.append(f'{file}: {e}')
+                print(f'✗ {file}: {e}')
+        
+        if errors:
+            sys.exit(1)
+        "
+    
+    - name: Check for large files
+      run: |
+        # Check for files larger than 100MB
+        find . -size +100M -not -path './.git/*' -not -path './node_modules/*' | while read file; do
+          echo "Large file detected: $file"
+          exit 1
+        done
+    
+    - name: Check for merge conflict markers
+      run: |
+        if grep -r "<<<<<<< HEAD" . --exclude-dir=.git --exclude-dir=node_modules; then
+          echo "Merge conflict markers found"
+          exit 1
+        fi
+        if grep -r ">>>>>>> " . --exclude-dir=.git --exclude-dir=node_modules; then
+          echo "Merge conflict markers found"
+          exit 1
+        fi
+    
+    - name: Run ty check
+      run: uv run ty check
