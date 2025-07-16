@@ -59,6 +59,7 @@ def _apprise(msg: str, title: str, tags: str, url: str) -> bool:
         logging.error(f"Error sending Apprise notification: {e}")
         return False
 
+
 def _notifiarr(
     msg: str,
     title: str,
@@ -67,34 +68,22 @@ def _notifiarr(
 ) -> bool:
     data = json.dumps(
         {
-            "notification": {
-                "update": False,
-                "name": "Wizarr",
-                "event": ""
-            },
+            "notification": {"update": False, "name": "Wizarr", "event": ""},
             "discord": {
                 "color": "FFFFFF",
-                "ping": {
-                    "pingUser": 0,
-                    "pingRole": 0
-                },
-                "images": {
-                    "thumbnail": "",
-                    "image": ""
-                },
+                "ping": {"pingUser": 0, "pingRole": 0},
+                "images": {"thumbnail": "", "image": ""},
                 "text": {
                     "title": title,
                     "icon": "https://raw.githubusercontent.com/wizarrrr/wizarr/refs/heads/main/app/static/img/pwa-icons/icon-128x128.png",
                     "content": "",
                     "description": msg,
                     "fields": [],
-                    "footer": ""
+                    "footer": "",
                 },
-                "ids": {
-                    "channel": channel_id
-                }
-            }
-         }
+                "ids": {"channel": channel_id},
+            },
+        }
     )
     headers = {"Content-Type": "application/json"}
     return _send(url, data, headers)
