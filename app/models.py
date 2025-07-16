@@ -163,6 +163,7 @@ class Notification(db.Model):
     url = db.Column(db.String, nullable=False)
     username = db.Column(db.String, nullable=True)
     password = db.Column(db.String, nullable=True)
+    channel_id = db.Column(db.Integer, nullable=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

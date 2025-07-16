@@ -6,6 +6,7 @@ from app.models import Notification
 from app.services.notifications import (  # your existing helpers
     _apprise,
     _discord,
+    _notifiarr,
     _ntfy,
 )
 
@@ -30,6 +31,7 @@ def create():
             "type": request.form.get("notification_service"),
             "username": request.form.get("username") or None,
             "password": request.form.get("password") or None,
+            "channel_id": request.form.get("channel_id") or None,
         }
 
         # test the connection
@@ -53,6 +55,18 @@ def create():
             url = form.get("url")
             if url:
                 ok = _apprise("Wizarr test message", "Wizarr", "tada", url)
+        elif form["type"] == "notifiarr":
+            url = form.get("url")
+            channel_id_raw = form.get("channel_id")
+
+            if url and channel_id_raw:
+                channel_id = int(channel_id_raw)
+                ok = _notifiarr(
+                    "Connection established. You will now receive notifications in this channel.",
+                    "Test successful!",
+                    url,
+                    channel_id,
+                )
 
         if ok:
             # from Notification.create(**form) to SQLAlchemy ORM
