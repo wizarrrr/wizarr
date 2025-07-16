@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import frontmatter
+import markdown
 from flask import Blueprint, abort, redirect, render_template, request, session, url_for
 from flask_babel import _
 from flask_login import current_user
@@ -219,7 +220,10 @@ def _render(post, ctx: dict, server_type: str | None = None) -> str:
     if server_type is not None:
         render_ctx["server_type"] = server_type
 
-    return render_template_string(post.content, **render_ctx)
+    return markdown.markdown(
+        render_template_string(post.content, **render_ctx),
+        extensions=["fenced_code", "tables", "attr_list"],
+    )
 
 
 def _serve(server: str, idx: int):
