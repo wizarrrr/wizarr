@@ -6,8 +6,8 @@ from app.models import Notification
 from app.services.notifications import (  # your existing helpers
     _apprise,
     _discord,
-    _ntfy,
     _notifiarr,
+    _ntfy,
 )
 
 notify_bp = Blueprint("notify", __name__, url_prefix="/settings/notifications")
@@ -58,7 +58,7 @@ def create():
         elif form["type"] == "notifiarr":
             url = form.get("url")
             channel_id_raw = form.get("channel_id")
-            
+
             if url and channel_id_raw:
                 channel_id = int(channel_id_raw)
                 ok = _notifiarr("Connection established. You will now receive notifications in this channel.", "Test successful!", url, channel_id)

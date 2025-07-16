@@ -58,7 +58,7 @@ def _apprise(msg: str, title: str, tags: str, url: str) -> bool:
     except Exception as e:
         logging.error(f"Error sending Apprise notification: {e}")
         return False
-    
+
 def _notifiarr(
     msg: str,
     title: str,
