@@ -37,7 +37,24 @@ def server_type_tag(server_type: str) -> Markup:
     return Markup(html)
 
 
+def server_name_tag(server_type: str, server_name: str) -> Markup:
+    """Return a ready-to-use <span> tag with custom text but server_type colours.
+
+    Uses the server_type for determining the background colour but displays
+    the server_name as the text content.
+    """
+    colour = _server_colour(server_type)
+    # Always use black text for better contrast on these pastel backgrounds.
+    text = escape(server_name if server_name else "Unknown")
+    html = (
+        f'<span class="text-xs inline-block font-medium px-2 py-0.5 rounded-lg" '
+        f'style="background-color: {colour}; color: #000;">{text}</span>'
+    )
+    return Markup(html)
+
+
 def register_filters(app):
     """Register the custom Jinja filters on the given Flask *app*."""
     app.jinja_env.filters.setdefault("server_type_tag", server_type_tag)
+    app.jinja_env.filters.setdefault("server_name_tag", server_name_tag)
     app.jinja_env.filters.setdefault("server_colour", _server_colour)

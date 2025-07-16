@@ -4,6 +4,7 @@ import os
 from urllib.parse import urlparse
 
 from flask import Blueprint, abort, redirect, render_template, request, url_for
+from flask_babel import _
 from flask_login import login_required
 
 from app.extensions import db
@@ -156,27 +157,56 @@ def invites():
     return render_template("admin/invites.html", servers=servers)
 
 
-# HTMX partial for the table cards
 @admin_bp.route("/invite/table", methods=["POST"])
 @login_required
 def invite_table():
-    # HTMX uses POST with hx-include to send the <select name="server"> value
-    # so prefer form data, but keep query-string fallback for direct links
+    """
+    HTMX partial that renders the invitation cards grid.
+
+    Accepts:
+      - server filter via POST form data (preferred) or querystring (?server=ID)
+      - delete action via querystring (?delete=CODE)
+
+    Returns the 'tables/invite_card.html' partial.
+    """
+    # ------------------------------------------------------------------
+    # 1. Handle server filter + optional delete action
+    # ------------------------------------------------------------------
     server_filter = request.form.get("server") or request.args.get("server")
+
     if code := request.args.get("delete"):
-        (Invitation.query.filter_by(code=code).delete())
+        Invitation.query.filter_by(code=code).delete()  # no need to parens
         db.session.commit()
 
-    query = Invitation.query.options(db.joinedload(Invitation.libraries)).order_by(
-        Invitation.created.desc()
-    )
-    query = query.options(db.joinedload(Invitation.servers))
+    # ------------------------------------------------------------------
+    # 2. Base query (libraries + servers)
+    # ------------------------------------------------------------------
+    query = Invitation.query.options(
+        db.joinedload(Invitation.libraries).joinedload(Library.server),
+        db.joinedload(Invitation.servers),
+    ).order_by(Invitation.created.desc())
+
+    # NOTE: If an invitation can point to *multiple* servers,
+    # Invitation.server_id won’t filter correctly.
+    # Instead join through the association table.
     if server_filter:
-        query = query.filter(Invitation.server_id == int(server_filter))
-        srv = MediaServer.query.get(int(server_filter))
-        server_type = srv.server_type if srv else None
+        try:
+            server_id = int(server_filter)
+        except ValueError:
+            server_id = None
+        if server_id:
+            # join to association (assuming relationship Invitation.servers)
+            query = Invitation.query.options(
+                db.joinedload(Invitation.libraries).joinedload(Library.server),
+                db.joinedload(Invitation.servers),
+            ).order_by(Invitation.created.desc())
+
+            srv = MediaServer.query.get(server_id)
+            server_type = srv.server_type if srv else None
+        else:
+            server_type = None
     else:
-        server_type = None  # default
+        server_type = None
 
     # fallback: default settings when no filter
     if server_type is None:
@@ -184,48 +214,129 @@ def invite_table():
         server_type = server_type_setting.value if server_type_setting else None
 
     invites = query.all()
+
+    # ------------------------------------------------------------------
+    # 3. Build quick lookup: (invite_id, server_id) -> used bool
+    # ------------------------------------------------------------------
+    raw_flags = db.session.execute(invitation_servers.select()).fetchall()
+    flags = {(r.invite_id, r.server_id): bool(r.used) for r in raw_flags}
+
+    # ------------------------------------------------------------------
+    # 4. Time context (timezone aware strongly recommended)
+    # ------------------------------------------------------------------
+    # If you want local Europe/Paris time, set tzinfo; falling back to naive now.
+    # from zoneinfo import ZoneInfo
+    # now = datetime.datetime.now(tz=ZoneInfo("Europe/Paris"))
     now = datetime.datetime.now()
 
-    # Map (invite_id, server_id) -> used
-    raw_flags = db.session.execute(invitation_servers.select()).fetchall()
-    flags = {(r.invite_id, r.server_id): r.used for r in raw_flags}
-
-    # annotate invite.servers entries with 'used_flag'
+    # ------------------------------------------------------------------
+    # 5. Annotate invitations for the template (view-model enrichment)
+    # ------------------------------------------------------------------
     for inv in invites:
-        for srv in inv.servers:
-            srv.used_flag = flags.get((inv.id, srv.id), False)
+        # ---- expiry / expired ----
         if inv.expires:
             if isinstance(inv.expires, str):
-                inv.expires = datetime.datetime.strptime(inv.expires, "%Y-%m-%d %H:%M")
-            inv.expired = inv.expires < now
+                # Try a couple of formats; adjust as needed.
+                expires_str = inv.expires  # Store as string for type safety
+                for fmt in ("%Y-%m-%d %H:%M", "%Y-%m-%dT%H:%M:%S"):
+                    try:
+                        inv.expires = datetime.datetime.strptime(expires_str, fmt)
+                        break
+                    except ValueError:
+                        continue
+            # ensure we have a datetime before comparing
+            if isinstance(inv.expires, datetime.datetime):
+                inv.expired = inv.expires < now
+                inv.rel_expiry = _rel_string(inv.expires, now)  # NEW
+            else:
+                inv.expired = False
+                inv.rel_expiry = _("Unknown")
+        else:
+            inv.expired = False
+            inv.rel_expiry = _("Never")
 
-        # Group libraries by server for display (filter out orphaned libraries)
-        server_libs = {}
+        # ---- group libraries by server ----
+        server_libs: dict[str, list[str]] = {}
         for lib in inv.libraries:
-            # Skip libraries that don't have a proper server association
-            if not lib.server:
+            if not lib.server:  # orphan guard
                 continue
-            server_name = lib.server.name
-            if server_name not in server_libs:
-                server_libs[server_name] = []
-            server_libs[server_name].append(lib.name)
-
-        # Sort libraries within each server group
-        for server_name in server_libs:
-            server_libs[server_name].sort()
+            server_libs.setdefault(lib.server.name, []).append(lib.name)
+        # Sort names inside each group
+        for lst in server_libs.values():
+            lst.sort()
 
         inv.display_libraries_by_server = server_libs
-        # Keep legacy display_libraries for compatibility (also filter orphaned)
         inv.display_libraries = sorted(
             {lib.name for lib in inv.libraries if lib.server}
         )
 
+        # ---- annotate child servers & compute rollups ----
+        any_used = False
+        all_used = True
+        for srv in inv.servers:
+            used = flags.get((inv.id, srv.id), False)
+            srv.used_flag = used  # keep legacy
+            srv.used = used  # NEW: normalised for template
+            if used:
+                any_used = True
+            else:
+                all_used = False
+
+            # library list for this server (by *server name* key)
+            libs = server_libs.get(srv.name, [])
+            srv.libraries = libs
+            srv.library_count = len(libs)
+
+            # normalise type attr (template looks at srv.type)
+            srv.type = srv.server_type
+
+            # Optional: if you track per-server user redemption, attach here.
+            # setattr(srv, "used_by", <User or None>)
+
+        inv.used = any_used
+        inv.all_used = all_used
+
+        # ---- top-level status dot ----
+        if inv.expired or inv.all_used:
+            inv.top_status = "expired"
+        elif inv.used:
+            inv.top_status = "partial"
+        else:
+            inv.top_status = "ok"
+
+    # ------------------------------------------------------------------
+    # 6. Render partial
+    # ------------------------------------------------------------------
     return render_template(
         "tables/invite_card.html",
         server_type=server_type,
         invitations=invites,
         rightnow=now,
     )
+
+
+# ----------------------------------------------------------------------
+# Helper: tiny relative time formatting
+# ----------------------------------------------------------------------
+def _rel_string(target: datetime.datetime, now: datetime.datetime) -> str:
+    """Return a short relative expiry string: 'in 3d', 'in 5h', 'Expired', etc."""
+    if target <= now:
+        return _("Expired")
+    delta = target - now
+    secs = int(delta.total_seconds())
+    mins = secs // 60
+    hours = mins // 60
+    days = hours // 24
+
+    if days >= 2:
+        return _("in %(n)d d", n=days)  # e.g. in 3 d
+    if days == 1:
+        return _("in 1 d")
+    if hours >= 1:
+        return _("in %(n)d h", n=hours)  # in 5 h
+    if mins >= 1:
+        return _("in %(n)d m", n=mins)  # in 45 m
+    return _("soon")
 
 
 # Users
