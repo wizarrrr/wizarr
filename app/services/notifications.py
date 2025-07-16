@@ -58,6 +58,46 @@ def _apprise(msg: str, title: str, tags: str, url: str) -> bool:
     except Exception as e:
         logging.error(f"Error sending Apprise notification: {e}")
         return False
+    
+def _notifiarr(
+    msg: str,
+    title: str,
+    url: str,
+    channel_id: int,
+) -> bool:
+    data = json.dumps(
+        {
+            "notification": {
+                "update": False,
+                "name": "Wizarr",
+                "event": ""
+            },
+            "discord": {
+                "color": "FFFFFF",
+                "ping": {
+                    "pingUser": 0,
+                    "pingRole": 0
+                },
+                "images": {
+                    "thumbnail": "",
+                    "image": ""
+                },
+                "text": {
+                    "title": title,
+                    "icon": "https://raw.githubusercontent.com/wizarrrr/wizarr/refs/heads/main/app/static/img/pwa-icons/icon-128x128.png",
+                    "content": "",
+                    "description": msg,
+                    "fields": [],
+                    "footer": ""
+                },
+                "ids": {
+                    "channel": channel_id
+                }
+            }
+         }
+    )
+    headers = {"Content-Type": "application/json"}
+    return _send(url, data, headers)
 
 
 def notify(title: str, message: str, tags: str):
@@ -69,3 +109,5 @@ def notify(title: str, message: str, tags: str):
             _ntfy(message, title, tags, agent.url, agent.username, agent.password)
         elif agent.type == "apprise":
             _apprise(message, title, tags, agent.url)
+        elif agent.type == "notifiarr":
+            _notifiarr(message, title, agent.url, agent.channel_id)
