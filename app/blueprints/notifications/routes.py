@@ -31,7 +31,7 @@ def create():
             "type": request.form.get("notification_service"),
             "username": request.form.get("username") or None,
             "password": request.form.get("password") or None,
-            "channel_id" : request.form.get("channel_id") or None,
+            "channel_id": request.form.get("channel_id") or None,
         }
 
         # test the connection
@@ -61,7 +61,12 @@ def create():
 
             if url and channel_id_raw:
                 channel_id = int(channel_id_raw)
-                ok = _notifiarr("Connection established. You will now receive notifications in this channel.", "Test successful!", url, channel_id)
+                ok = _notifiarr(
+                    "Connection established. You will now receive notifications in this channel.",
+                    "Test successful!",
+                    url,
+                    channel_id,
+                )
 
         if ok:
             # from Notification.create(**form) to SQLAlchemy ORM
