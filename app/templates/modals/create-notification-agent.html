@@ -49,17 +49,23 @@
                                 Service</label>
                             <select name="notification_service" id="notification_service"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    onchange="toggleCredentials(this.value)">
+                                    onchange="toggleService(this.value)">
                                 <option selected>Choose a service</option>
-                                <option value="ntfy">Ntfy</option>
-                                <option value="discord">Discord</option>
                                 <option value="apprise">Apprise</option>
+                                <option value="discord">Discord</option>
+                                <option value="notifiarr">Notifiarr</option>
+                                <option value="ntfy">Ntfy</option>
+                                
+                                
                             </select>
                         </div>
-                        <div id="credentialsSection" style="display: none;">
+                        <div id="notifiarrSection" class="notificationAgentInfo" style="display: none;">
+                            <label for="channel_id"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Channel ID") }}</label>
+                            <input type="text" name="channel_id" id="channel_id" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        </div>
+                        <div id="credentialsSection" class="notificationAgentInfo" style="display: none;">
                             <label for="username"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username
-                                (optional)") }}</label>
+                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username (optional)") }}</label>
                             <input type="text" name="username" id="username"
                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <label for="password"
@@ -68,8 +74,7 @@
                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                         <div>
-                            <label for="url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Agent
-                                URL") }}</label>
+                            <label for="url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Agent URL") }}</label>
                             <input type="text" name="url" id="url" placeholder="e.g. https://example.com"
                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                    required>
@@ -99,14 +104,31 @@
         document.getElementById('create-modal').innerHTML = '';
     }
 
-    function toggleCredentials(value) {
-        const credentialsSection = document.getElementById('credentialsSection');
+    function toggleService(value) {
+        const notificationAgentInfo = document.getElementsByClassName('notificationAgentInfo')
+        
+        for (let i = 0; i < notificationAgentInfo.length; i++) {
+            notificationAgentInfo[i].style.display = 'none';
+        }
+
+        // Trigger sections
         if (value === 'ntfy') {
             credentialsSection.style.display = 'block';
-        } else {
-            credentialsSection.style.display = 'none';
         }
+        else if (value === "notifiarr") {
+            notifiarrSection.style.display = 'block';
+        }
+
+        // Trigger required channel_id
+        if (value === 'notifiarr') {
+            document.getElementById("channel_id").required = true
+        } else {
+            document.getElementById("channel_id").required = false
+        }
+
+        // Adjust placeholder text
         const urlEle = document.getElementById('url');
+
         if (value === 'apprise') {
             urlEle.placeholder = "e.g. apprise://hostname/token";
         } else {
