@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-16 04:06+0000\n"
+"POT-Creation-Date: 2025-07-17 04:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,45 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
+
+#: app/blueprints/admin/routes.py:253
+#: app/templates/admin/user_details_modal.html:47
+msgid "Unknown"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:256 app/templates/modals/invite.html:61
+#: app/templates/tables/invite_card.html:52
+#: app/templates/tables/invite_card.html:159
+#: app/templates/tables/user_card.html:71
+msgid "Never"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:324 app/templates/tables/invite_card.html:39
+msgid "Expired"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:332
+#, python-format
+msgid "in %(n)d d"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:334
+msgid "in 1 d"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:336
+#, python-format
+msgid "in %(n)d h"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:338
+#, python-format
+msgid "in %(n)d m"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:339
+msgid "soon"
+msgstr ""
 
 #: app/blueprints/admin_accounts/routes.py:40
 msgid "Admin created"
@@ -153,15 +192,14 @@ msgid "RomM Password"
 msgstr ""
 
 #: app/forms/settings.py:27 app/templates/admin/user_details_modal.html:60
-#: app/templates/tables/invite_card.html:79
+#: app/templates/tables/invite_card.html:196
+#: app/templates/tables/invite_card.html:200
 msgid "Libraries"
 msgstr ""
 
 #: app/forms/settings.py:29 app/forms/settings.py:45
 #: app/templates/modals/invite.html:190 app/templates/modals/invite.html:201
-#: app/templates/modals/invite.html:212
-#: app/templates/tables/invite_card.html:115
-#: app/templates/tables/user_card.html:92
+#: app/templates/modals/invite.html:212 app/templates/tables/user_card.html:92
 msgid "Allow Downloads"
 msgstr ""
 
@@ -570,10 +608,6 @@ msgstr ""
 msgid "Joined"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:47
-msgid "Unknown"
-msgstr ""
-
 #: app/templates/admin/user_details_modal.html:68
 msgid "All libraries"
 msgstr ""
@@ -615,7 +649,7 @@ msgstr ""
 #: app/templates/components/passkey_register.html:16
 #: app/templates/modals/bundle-add-steps.html:32
 #: app/templates/modals/create-admin.html:34
-#: app/templates/modals/create-notification-agent.html:86
+#: app/templates/modals/create-notification-agent.html:91
 #: app/templates/modals/create-server.html:87
 #: app/templates/modals/edit-admin.html:34
 #: app/templates/modals/edit-identity.html:27
@@ -758,23 +792,23 @@ msgstr ""
 msgid "New Agent"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:61
-msgid ""
-"Username\n"
-"                                (optional)"
+#: app/templates/modals/create-notification-agent.html:63
+msgid "Channel ID"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:66
+#: app/templates/modals/create-notification-agent.html:68
+msgid "Username (optional)"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:72
 msgid "Password (optional)"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:71
-msgid ""
-"Agent\n"
-"                                URL"
+#: app/templates/modals/create-notification-agent.html:77
+msgid "Agent URL"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:82
+#: app/templates/modals/create-notification-agent.html:87
 msgid "Test & Create Agent"
 msgstr ""
 
@@ -839,11 +873,6 @@ msgstr ""
 msgid "1 month"
 msgstr ""
 
-#: app/templates/modals/invite.html:61 app/templates/tables/invite_card.html:68
-#: app/templates/tables/user_card.html:71
-msgid "Never"
-msgstr ""
-
 #: app/templates/modals/invite.html:69
 msgid "Wizard bundle"
 msgstr ""
@@ -865,7 +894,7 @@ msgid "Unlimited Usages"
 msgstr ""
 
 #: app/templates/modals/invite.html:111 app/templates/modals/invite.html:144
-#: app/templates/tables/invite_card.html:105
+#: app/templates/tables/invite_card.html:164
 msgid "Duration"
 msgstr ""
 
@@ -1218,42 +1247,62 @@ msgstr ""
 msgid "Setup Wizarr"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:3
+#: app/templates/tables/invite_card.html:43
+#: app/templates/tables/invite_card.html:170
+msgid "Unlimited"
+msgstr ""
+
+#: app/templates/tables/invite_card.html:76
 msgid "There are currently no invitations."
 msgstr ""
 
-#: app/templates/tables/invite_card.html:24
-msgid "Available"
+#: app/templates/tables/invite_card.html:102
+msgid "Copy invite link"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:31
-#: app/templates/tables/invite_card.html:59
-msgid "Used"
+#: app/templates/tables/invite_card.html:116
+msgid "Delete invite"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:44
+#: app/templates/tables/invite_card.html:139
+msgid "Used by"
+msgstr ""
+
+#: app/templates/tables/invite_card.html:139
+msgid "All servers used"
+msgstr ""
+
+#: app/templates/tables/invite_card.html:141
+msgid "Partially used"
+msgstr ""
+
+#: app/templates/tables/invite_card.html:151
 msgid "Created"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:52
+#: app/templates/tables/invite_card.html:154
 #: app/templates/tables/user_card.html:64
 msgid "Expires"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:55
-msgid "Expired"
-msgstr ""
-
-#: app/templates/tables/invite_card.html:93
-msgid "Default"
-msgstr ""
-
-#: app/templates/tables/invite_card.html:105
+#: app/templates/tables/invite_card.html:165
 msgid "days"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:125
-msgid "Unlimited"
+#: app/templates/tables/invite_card.html:169
+msgid "Limit"
+msgstr ""
+
+#: app/templates/tables/invite_card.html:183
+msgid "Used"
+msgstr ""
+
+#: app/templates/tables/invite_card.html:187
+msgid "libs"
+msgstr ""
+
+#: app/templates/tables/invite_card.html:201
+msgid "Default"
 msgstr ""
 
 #: app/templates/tables/user_card.html:3
