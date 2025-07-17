@@ -197,25 +197,31 @@ class EmbyClient(JellyfinClient):
         if not user:
             return success, message
 
-        # Determine download and live TV settings using universal columns
+        # Determine download, live TV, and mobile uploads settings using universal columns
         allow_downloads = bool(getattr(inv, "allow_downloads", False))
         allow_live_tv = bool(getattr(inv, "allow_live_tv", False))
+        allow_mobile_uploads = bool(getattr(inv, "allow_mobile_uploads", False))
 
         # Fall back to server defaults if not set on invitation
         if not allow_downloads:
             allow_downloads = bool(getattr(current_server, "allow_downloads", False))
         if not allow_live_tv:
             allow_live_tv = bool(getattr(current_server, "allow_live_tv", False))
+        if not allow_mobile_uploads:
+            allow_mobile_uploads = bool(
+                getattr(current_server, "allow_mobile_uploads", False)
+            )
 
-        # Update the user policy with download and live TV settings
+        # Update the user policy with download, live TV, and mobile uploads settings
         try:
             current_policy = self.get(f"/Users/{user.token}").json().get("Policy", {})
             current_policy["EnableContentDownloading"] = allow_downloads
             current_policy["EnableLiveTvAccess"] = allow_live_tv
+            current_policy["AllowCameraUpload"] = allow_mobile_uploads
             self.set_policy(user.token, current_policy)
         except Exception as e:
             logging.error(
-                f"Failed to set Emby download/live TV permissions for user {username}: {str(e)}"
+                f"Failed to set Emby download/live TV/mobile uploads permissions for user {username}: {str(e)}"
             )
             # Don't fail the join process for this
 

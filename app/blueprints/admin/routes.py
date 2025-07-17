@@ -3,7 +3,7 @@ import logging
 import os
 from urllib.parse import urlparse
 
-from flask import Blueprint, abort, redirect, render_template, request, url_for
+from flask import Blueprint, redirect, render_template, request, url_for
 from flask_babel import _
 from flask_login import login_required
 
@@ -106,10 +106,25 @@ def invite():
     allow_live_tv = bool(getattr(target_server, "allow_live_tv", False))
 
     if request.method == "POST":
+        from app.models import WizardBundle
+
+        bundles = WizardBundle.query.order_by(WizardBundle.name).all()
+
         try:
             invite = create_invite(request.form)
-        except ValueError:
-            return abort(401)  # duplicate / malformed code
+        except ValueError as e:
+            # Return user-friendly error message
+            error_message = str(e)
+            return render_template(
+                "modals/invite.html",
+                error_message=error_message,
+                server_type=server_type,
+                allow_downloads=allow_downloads,
+                allow_live_tv=allow_live_tv,
+                servers=servers,
+                chosen_server_id=target_server.id if target_server else None,
+                bundles=bundles,
+            ), 400
 
         current_url = request.headers.get("HX-Current-URL")
         parsed_url = urlparse(current_url)
@@ -117,9 +132,6 @@ def invite():
         link = f"{host_url}/j/{invite.code}"
 
         invitations = Invitation.query.order_by(Invitation.created.desc()).all()
-        from app.models import WizardBundle
-
-        bundles = WizardBundle.query.order_by(WizardBundle.name).all()
         return render_template(
             "modals/invite.html",
             link=link,
@@ -284,7 +296,7 @@ def invite_table():
 
             # library list for this server (by *server name* key)
             libs = server_libs.get(srv.name, [])
-            srv.libraries = libs
+            srv.library_names = libs  # Use a non-conflicting attribute name
             srv.library_count = len(libs)
 
             # normalise type attr (template looks at srv.type)

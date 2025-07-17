@@ -41,16 +41,27 @@
                             <input type="text" name="api_key" id="api_key" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                         </div>
                         <div id="media-server-options" style="display:none;">
-                            <label class="inline-flex items-center cursor-pointer">
-                                <input id="allow_downloads" name="allow_downloads" type="checkbox" value="true" class="sr-only peer">
-                                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
-                                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Downloads</span>
-                            </label>
-                            <label id="allow-live-tv-option" class="inline-flex items-center cursor-pointer mt-2">
-                                <input id="allow_live_tv" name="allow_live_tv" type="checkbox" value="true" class="sr-only peer">
-                                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
-                                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Live TV</span>
-                            </label>
+                            <div>
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input id="allow_downloads" name="allow_downloads" type="checkbox" value="true" class="sr-only peer">
+                                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
+                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Downloads</span>
+                                </label>
+                            </div>
+                            <div id="allow-live-tv-option" class="mt-2">
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input id="allow_live_tv" name="allow_live_tv" type="checkbox" value="true" class="sr-only peer">
+                                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
+                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Live TV</span>
+                                </label>
+                            </div>
+                            <div id="allow-mobile-uploads-option" class="mt-2">
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input id="allow_mobile_uploads" name="allow_mobile_uploads" type="checkbox" value="true" class="sr-only peer">
+                                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
+                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Mobile Uploads</span>
+                                </label>
+                            </div>
                         </div>
                         <div id="romm-options" style="display:none;">
                             <div>
@@ -104,6 +115,12 @@ function updateOptions(){
   const allowLiveTvOption = document.getElementById('allow-live-tv-option');
   if (allowLiveTvOption) {
     allowLiveTvOption.style.display = type === 'audiobookshelf' ? 'none' : 'block';
+  }
+  
+  // Hide "Allow Mobile Uploads" for Audiobookshelf and Jellyfin since they don't support mobile uploads
+  const allowMobileUploadsOption = document.getElementById('allow-mobile-uploads-option');
+  if (allowMobileUploadsOption) {
+    allowMobileUploadsOption.style.display = ['plex', 'emby'].includes(type) ? 'block' : 'none';
   }
   
   document.getElementById('romm-options').style.display = type==='romm' ? 'block' : 'none';

@@ -60,21 +60,22 @@ def create_invite(form: Any) -> Invitation:
     }
 
     # ── servers ────────────────────────────────────────────────────────────
-    # NEW: allow selecting multiple servers.  Legacy single‐select field
-    #       continues to work for backwards compatibility.
+    # Get selected server IDs from checkboxes
     server_ids = form.getlist("server_ids") or []
-    if not server_ids and form.get("server_id"):
-        server_ids = [form.get("server_id")]
 
     if not server_ids:
-        # Fallback – default to the first configured server (if any)
-        default_server = MediaServer.query.first()
-        server_ids = [default_server.id] if default_server else []
+        # No servers selected - this is now an error condition
+        raise ValueError("At least one server must be selected")
 
     servers = MediaServer.query.filter(MediaServer.id.in_(server_ids)).all()
 
+    # Sort servers to ensure Plex servers come first for mixed invitations
+    plex_servers = [s for s in servers if s.server_type == "plex"]
+    other_servers = [s for s in servers if s.server_type != "plex"]
+    servers = plex_servers + other_servers
+
     # Keep legacy `server` column for the FIRST selected server (or None)
-    primary_server = servers[0] if servers else None
+    # primary_server = servers[0] if servers else None  # TODO: Re-enable when UNIQUE constraint issue is fixed
 
     # Fix duplicate assignment of allow_downloads and syntax error (missing parenthesis)
     invite = Invitation(
@@ -90,7 +91,7 @@ def create_invite(form: Any) -> Invitation:
         plex_allow_channels=bool(
             form.get("plex_allow_channels") or form.get("allow_live_tv")
         ),
-        server=primary_server,
+        # server=primary_server,  # TODO: Figure out why this causes UNIQUE constraint violation
         wizard_bundle_id=(
             int(form.get("wizard_bundle_id")) if form.get("wizard_bundle_id") else None
         ),
@@ -103,17 +104,23 @@ def create_invite(form: Any) -> Invitation:
         allow_live_tv=bool(
             form.get("allow_live_tv") or form.get("plex_allow_channels")
         ),
+        allow_mobile_uploads=bool(form.get("allow_mobile_uploads")),
     )
     db.session.add(invite)
     db.session.flush()  # so invite.id exists, but not yet committed
 
     # Attach the selected servers via the new association table
     if servers:
-        # Only add servers that aren't already associated to avoid UNIQUE constraint violation
-        existing_server_ids = {s.id for s in invite.servers}
-        new_servers = [s for s in servers if s.id not in existing_server_ids]
-        if new_servers:
-            invite.servers.extend(new_servers)
+        # Clear any existing server associations for this invite to avoid UNIQUE constraint violations
+        # This handles cases where there might be leftover data from previous attempts
+        db.session.execute(
+            invitation_servers.delete().where(
+                invitation_servers.c.invite_id == invite.id
+            )
+        )
+        db.session.flush()  # Ensure the delete is committed before adding new records
+
+        invite.servers.extend(servers)
 
     # === NEW: wire up the many-to-many ===
     selected = form.getlist("libraries")  # these are your external_ids

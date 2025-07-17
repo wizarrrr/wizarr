@@ -18,7 +18,12 @@
                     </div>
                     
                     {% if not link %}
-                        <form class="space-y-4 md:space-y-6" hx-post="/invite" hx-target="#inviteModalContent" hx-swap="innerHTML">
+                        {% if error_message %}
+                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-red-800 dark:text-red-200" role="alert">
+                            {{ error_message }}
+                        </div>
+                        {% endif %}
+                        <form class="space-y-4 md:space-y-6" hx-post="/invite" hx-target="#inviteModalContent" hx-swap="innerHTML" onsubmit="return validateServerSelection()">
                             <!-- Invite Code -->
                             <div>
                                 <label
@@ -194,6 +199,11 @@
                                                     <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
                                                     <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Allow Live TV Access") }}</span>
                                                 </label>
+                                                <label class="inline-flex items-center cursor-pointer">
+                                                    <input id="allow_mobile_uploads_{{ s.id }}" name="allow_mobile_uploads" type="checkbox" value="true" {% if s.allow_mobile_uploads %}checked{% endif %} class="sr-only peer">
+                                                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
+                                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Allow Mobile Uploads") }}</span>
+                                                </label>
                                             {% elif s.server_type == "jellyfin" %}
                                                 <label class="inline-flex items-center cursor-pointer">
                                                     <input id="allow_downloads_{{ s.id }}" name="allow_downloads" type="checkbox" value="true" {% if s.allow_downloads %}checked{% endif %} class="sr-only peer">
@@ -204,6 +214,22 @@
                                                     <input id="allow_live_tv_{{ s.id }}" name="allow_live_tv" type="checkbox" value="true" {% if s.allow_live_tv %}checked{% endif %} class="sr-only peer">
                                                     <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
                                                     <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Allow Live TV Access") }}</span>
+                                                </label>
+                                            {% elif s.server_type == "emby" %}
+                                                <label class="inline-flex items-center cursor-pointer">
+                                                    <input id="allow_downloads_{{ s.id }}" name="allow_downloads" type="checkbox" value="true" {% if s.allow_downloads %}checked{% endif %} class="sr-only peer">
+                                                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
+                                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Allow Downloads") }}</span>
+                                                </label>
+                                                <label class="inline-flex items-center cursor-pointer">
+                                                    <input id="allow_live_tv_{{ s.id }}" name="allow_live_tv" type="checkbox" value="true" {% if s.allow_live_tv %}checked{% endif %} class="sr-only peer">
+                                                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
+                                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Allow Live TV Access") }}</span>
+                                                </label>
+                                                <label class="inline-flex items-center cursor-pointer">
+                                                    <input id="allow_mobile_uploads_{{ s.id }}" name="allow_mobile_uploads" type="checkbox" value="true" {% if s.allow_mobile_uploads %}checked{% endif %} class="sr-only peer">
+                                                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
+                                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Allow Mobile Uploads") }}</span>
                                                 </label>
                                             {% elif s.server_type == "audiobookshelf" %}
                                                 <label class="inline-flex items-center cursor-pointer">
@@ -236,7 +262,6 @@
                                     </label>
                                     {% endfor %}
                                 </div>
-                                <input type="hidden" id="server_id" name="server_id" value="{{ chosen_server_id }}">
                             </div>
 
                             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-gray-800">
@@ -330,15 +355,19 @@ function showAdvanced() {
 }
 
 function updatePrimaryServer() {
-    const boxes = document.querySelectorAll('#server-grid input[type="checkbox"]');
-    const hidden = document.getElementById('server_id');
-    for (let b of boxes) {
-        if (b.checked) {
-            hidden.value = b.value;
-            return;
-        }
+    // This function is no longer needed since we removed the hidden server_id field
+    // Keeping it for now to avoid breaking existing checkbox onchange handlers
+}
+
+function validateServerSelection() {
+    const checkboxes = document.querySelectorAll('#server-grid input[name="server_ids"]');
+    const isAnySelected = Array.from(checkboxes).some(checkbox => checkbox.checked);
+    
+    if (!isAnySelected) {
+        alert('{{ _("Please select at least one server for the invitation.") }}');
+        return false;
     }
-    hidden.value = '';
+    return true;
 }
 
 function toggleDropdown(id){
