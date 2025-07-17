@@ -14,7 +14,7 @@
       srv.name         -> server display name
       srv.used         -> bool
       srv.used_by      -> optional user object (srv.used_by.username)
-      srv.libraries    -> list[str] (library names limited to this server)
+      srv.library_names -> list[str] (library names limited to this server)
       srv.library_count-> int
  
     This self-contained template defines the small macros it needs at top.
@@ -192,9 +192,9 @@
              </svg>
            </summary>
            <div class="px-3 pb-3 pt-0 text-xs space-y-1">
-             {% if srv.libraries %}
+             {% if srv.library_names %}
                <div><span class="opacity-70">{{ _("Libraries") }}:</span>
-                 <span class="ml-1">{{ srv.libraries|join(', ') }}</span>
+                 <span class="ml-1">{{ srv.library_names|join(', ') }}</span>
                </div>
              {% else %}
                <div><span class="opacity-70">{{ _("Libraries") }}:</span>

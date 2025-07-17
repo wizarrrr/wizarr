@@ -79,6 +79,7 @@ class Invitation(db.Model):
     # Universal invite toggles (work for all server types)
     allow_downloads = db.Column(db.Boolean, default=False, nullable=True)
     allow_live_tv = db.Column(db.Boolean, default=False, nullable=True)
+    allow_mobile_uploads = db.Column(db.Boolean, default=False, nullable=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -191,6 +192,7 @@ class MediaServer(db.Model):
     # Universal media server toggles (work for all server types)
     allow_downloads = db.Column(db.Boolean, default=False, nullable=False)
     allow_live_tv = db.Column(db.Boolean, default=False, nullable=False)
+    allow_mobile_uploads = db.Column(db.Boolean, default=False, nullable=False)
 
     # Whether the connection credentials were validated successfully
     verified = db.Column(db.Boolean, default=False, nullable=False)

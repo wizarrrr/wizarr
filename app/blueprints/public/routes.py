@@ -46,10 +46,10 @@ def favicon():
 # ─── Invite link  /j/<code> ─────────────────────────────────────────────────
 @public_bp.route("/j/<code>")
 def invite(code):
-    from app.services.invitation_processor import InvitationProcessor
+    from app.services.invitation_flow import InvitationFlowManager
 
-    processor = InvitationProcessor()
-    result = processor.process_invitation_display(code)
+    manager = InvitationFlowManager()
+    result = manager.process_invitation_display(code)
     return result.to_flask_response()
 
 
@@ -57,11 +57,11 @@ def invite(code):
 @public_bp.route("/invitation/process", methods=["POST"])
 def process_invitation():
     """Unified route for processing all invitation types"""
-    from app.services.invitation_processor import InvitationProcessor
+    from app.services.invitation_flow import InvitationFlowManager
 
-    processor = InvitationProcessor()
+    manager = InvitationFlowManager()
     form_data = request.form.to_dict()
-    result = processor.process_invitation_submission(form_data)
+    result = manager.process_invitation_submission(form_data)
     return result.to_flask_response()
 
 
@@ -95,12 +95,10 @@ def join():
 
     from flask import current_app
 
-    app = current_app
-
     if server_type == "plex":
         # run Plex OAuth invite immediately (blocking – we need the DB row afterwards)
         if token and code:
-            handle_oauth_token(app, token, code)
+            handle_oauth_token(current_app, token, code)
 
         # Determine if there are additional servers attached to the invite
         extra = [

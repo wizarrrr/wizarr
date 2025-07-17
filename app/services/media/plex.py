@@ -137,7 +137,12 @@ class PlexClient(MediaClient):
         )
 
     def invite_friend(
-        self, email: str, sections: list[str], allow_sync: bool, allow_channels: bool
+        self,
+        email: str,
+        sections: list[str],
+        allow_sync: bool,
+        allow_channels: bool,
+        allow_camera_upload: bool = False,
     ):
         self.admin.inviteFriend(
             user=email,
@@ -145,10 +150,16 @@ class PlexClient(MediaClient):
             sections=sections,
             allowSync=allow_sync,
             allowChannels=allow_channels,
+            allowCameraUpload=allow_camera_upload,
         )
 
     def invite_home(
-        self, email: str, sections: list[str], allow_sync: bool, allow_channels: bool
+        self,
+        email: str,
+        sections: list[str],
+        allow_sync: bool,
+        allow_channels: bool,
+        allow_camera_upload: bool = False,
     ):
         self.admin.createExistingUser(
             user=email,
@@ -156,6 +167,7 @@ class PlexClient(MediaClient):
             sections=sections,
             allowSync=allow_sync,
             allowChannels=allow_channels,
+            allowCameraUpload=allow_camera_upload,
         )
 
     def get_user(self, db_id: int) -> dict:
@@ -488,9 +500,7 @@ def handle_oauth_token(app, token: str, code: str) -> None:
             "User Joined", f"User {account.username} has joined your server!", "tada"
         )
 
-        threading.Thread(
-            target=_post_join_setup, args=(app, token), daemon=True
-        ).start()
+        threading.Thread(target=_post_join_setup, args=(token,), daemon=True).start()
 
 
 def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> None:
@@ -514,11 +524,12 @@ def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> No
 
     allow_sync = bool(inv.allow_downloads)
     allow_tv = bool(inv.allow_live_tv)
+    allow_camera_upload = bool(inv.allow_mobile_uploads)
 
     if inv.plex_home:
-        client.invite_home(email, libs, allow_sync, allow_tv)
+        client.invite_home(email, libs, allow_sync, allow_tv, allow_camera_upload)
     else:
-        client.invite_friend(email, libs, allow_sync, allow_tv)
+        client.invite_friend(email, libs, allow_sync, allow_tv, allow_camera_upload)
 
     logging.info("Invited %s to Plex", email)
 
@@ -532,7 +543,12 @@ def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> No
     db.session.commit()
 
 
-def _post_join_setup(app, token: str):
+def _post_join_setup(token: str):
+    from app import create_app
+
+    # Create a new app context for the threaded operation
+    app = create_app()
+
     with app.app_context():
         client = PlexClient()
         try:
