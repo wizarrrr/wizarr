@@ -311,8 +311,6 @@ def invite_table():
         # ---- top-level status dot ----
         if inv.expired or inv.all_used:
             inv.top_status = "expired"
-        elif inv.used:
-            inv.top_status = "partial"
         else:
             inv.top_status = "ok"
 
