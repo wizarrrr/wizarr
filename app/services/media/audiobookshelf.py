@@ -1,11 +1,18 @@
 from __future__ import annotations
 
+import contextlib
+import datetime
 import logging
 import re
+import time
 from typing import Any
 
+import requests
+from sqlalchemy import or_
+
 from app.extensions import db
-from app.models import Library, User
+from app.models import Invitation, Library, User
+from app.services.invites import is_invite_valid, mark_server_used
 
 from .client_base import RestApiMixin, register_media_client
 
@@ -35,17 +42,14 @@ class AudiobookshelfClient(RestApiMixin):
     EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 
     def __init__(self, *args, **kwargs):
-        # Provide defaults so legacy code keeps working if the caller didn't
-        # specify explicit keys / MediaServer.
-        if "url_key" not in kwargs:
-            kwargs["url_key"] = "server_url"
-        if "token_key" not in kwargs:
-            kwargs["token_key"] = "api_key"
+        # Provide defaults for legacy compatibility
+        kwargs.setdefault("url_key", "server_url")
+        kwargs.setdefault("token_key", "api_key")
 
         super().__init__(*args, **kwargs)
 
-        # Strip trailing slash to keep URL join sane.
-        if self.url and self.url.endswith("/"):
+        # Normalize URL
+        if self.url:
             self.url = self.url.rstrip("/")
 
     # ------------------------------------------------------------------
@@ -55,14 +59,9 @@ class AudiobookshelfClient(RestApiMixin):
     # --- libraries -----------------------------------------------------
 
     def libraries(self) -> dict[str, str]:
-        """Return mapping of ``library_id`` → ``display_name``.
-
-        Audiobookshelf exposes ``GET /api/libraries`` which returns
-        ``{"libraries": [ … ]}``.
-        """
+        """Return mapping of library_id → display_name."""
         try:
             data = self.get(f"{self.API_PREFIX}/libraries").json()
-            # May have drilldown or direct list depending on ABS version
             libs = data.get("libraries", data)
             return {item["id"]: item["name"] for item in libs}
         except Exception as exc:
@@ -81,23 +80,22 @@ class AudiobookshelfClient(RestApiMixin):
         Returns:
             dict: Library name -> library ID mapping
         """
-        import requests
+        try:
+            if url and token:
+                headers = {"Authorization": f"Bearer {token}"}
+                response = requests.get(
+                    f"{url.rstrip('/')}/api/libraries", headers=headers, timeout=10
+                )
+                response.raise_for_status()
+                data = response.json()
+            else:
+                data = self.get(f"{self.API_PREFIX}/libraries").json()
 
-        if url and token:
-            # Use override credentials for scanning
-            headers = {"Authorization": f"Bearer {token}"}
-            response = requests.get(
-                f"{url.rstrip('/')}/api/libraries", headers=headers, timeout=10
-            )
-            response.raise_for_status()
-            data = response.json()
             libs = data.get("libraries", data)
-        else:
-            # Use saved credentials
-            data = self.get(f"{self.API_PREFIX}/libraries").json()
-            libs = data.get("libraries", data)
-
-        return {item["name"]: item["id"] for item in libs}
+            return {item["name"]: item["id"] for item in libs}
+        except Exception as exc:
+            logging.warning("ABS: failed to scan libraries – %s", exc)
+            return {}
 
     # --- users ---------------------------------------------------------
 
@@ -215,8 +213,6 @@ class AudiobookshelfClient(RestApiMixin):
     @staticmethod
     def _mark_invite_used(inv, user):
         inv.used_by = user
-        from app.services.invites import mark_server_used
-
         mark_server_used(inv, user.server_id)
 
     def _set_specific_libraries(
@@ -253,11 +249,6 @@ class AudiobookshelfClient(RestApiMixin):
 
     def join(self, username: str, password: str, confirm: str, email: str, code: str):
         """Public invite flow for Audiobookshelf users."""
-        from sqlalchemy import or_
-
-        from app.models import Invitation, User
-        from app.services.invites import is_invite_valid
-
         if not self.EMAIL_RE.fullmatch(email):
             return False, "Invalid e-mail address."
         if not 8 <= len(password) <= 20:
@@ -357,14 +348,10 @@ class AudiobookshelfClient(RestApiMixin):
             # Calculate expiry
             expires = None
             if inv and inv.duration:
-                try:
-                    import datetime as _dt
-
-                    expires = _dt.datetime.utcnow() + _dt.timedelta(
+                with contextlib.suppress(Exception):
+                    expires = datetime.datetime.utcnow() + datetime.timedelta(
                         days=int(inv.duration)
                     )
-                except Exception:
-                    pass
 
             # Store locally
             local = User(
@@ -394,8 +381,6 @@ class AudiobookshelfClient(RestApiMixin):
         10 items per page to retrieve the most recent sessions and filter
         them by activity timestamp.
         """
-        import time
-
         endpoint = f"{self.API_PREFIX}/sessions"
 
         # --- Step 1: read pagination metadata with a minimal request ---------
@@ -590,7 +575,7 @@ class AudiobookshelfClient(RestApiMixin):
 
     def _headers(self) -> dict[str, str]:  # type: ignore[override]
         """Return default headers including Authorization if a token is set."""
-        headers: dict[str, str] = {"Accept": "application/json"}
-        if getattr(self, "token", None):
+        headers = {"Accept": "application/json"}
+        if self.token:
             headers["Authorization"] = f"Bearer {self.token}"
         return headers
