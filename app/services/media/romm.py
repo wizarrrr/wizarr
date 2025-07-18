@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import datetime
 import logging
 import re
@@ -64,18 +65,13 @@ class RommClient(RestApiMixin):
     # ------------------------------------------------------------------
 
     def libraries(self) -> dict[str, str]:
-        """Return mapping ``platform_id`` → ``display_name``.
-
-        RomM's *platforms* endpoint returns JSON like::
-
-            [ {"id": "nes", "name": "Nintendo Entertainment System", ...}, ... ]
-        """
+        """Return mapping of platform_id → display_name."""
         try:
-            r = self.get(f"{self.API_PREFIX}/platforms")
-            data: list[dict[str, Any]] = r.json()
+            response = self.get(f"{self.API_PREFIX}/platforms")
+            data: list[dict[str, Any]] = response.json()
             return {p["id"]: p.get("name", p["id"]) for p in data}
-        except Exception as exc:  # noqa: BLE001
-            logging.warning("ROMM: failed to fetch platforms – %s", exc)
+        except Exception as exc:
+            logging.warning("RomM: failed to fetch platforms – %s", exc)
             return {}
 
     def scan_libraries(
@@ -90,13 +86,8 @@ class RommClient(RestApiMixin):
         Returns:
             dict: Platform name -> platform ID mapping
         """
-        import base64
-
-        import requests
-
-        if url and token:
-            # Use override credentials for scanning
-            try:
+        try:
+            if url and token:
                 # RomM uses basic auth with token as password
                 auth_header = base64.b64encode(f"admin:{token}".encode()).decode()
                 headers = {"Authorization": f"Basic {auth_header}"}
@@ -105,23 +96,15 @@ class RommClient(RestApiMixin):
                 )
                 response.raise_for_status()
                 data = response.json()
-            except Exception as e:
-                logging.error(
-                    f"Failed to scan RomM platforms with override credentials: {e}"
-                )
-                return {}
-        else:
-            # Use saved credentials
-            try:
-                r = self.get(f"{self.API_PREFIX}/platforms")
-                data = r.json()
-            except Exception as e:
-                logging.error(
-                    f"Failed to get RomM platforms with saved credentials: {e}"
-                )
-                return {}
+            else:
+                # Use saved credentials
+                response = self.get(f"{self.API_PREFIX}/platforms")
+                data = response.json()
 
-        return {p.get("name", p["id"]): p["id"] for p in data}
+            return {p.get("name", p["id"]): p["id"] for p in data}
+        except Exception as e:
+            logging.warning("RomM: failed to scan platforms – %s", e)
+            return {}
 
     # ------------------------------------------------------------------
     # Wizarr API – users (read-only)

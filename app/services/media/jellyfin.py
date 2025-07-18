@@ -20,36 +20,55 @@ class JellyfinClient(RestApiMixin):
     """Wrapper around the Jellyfin REST API using credentials from Settings."""
 
     def __init__(self, *args, **kwargs):
-        if "url_key" not in kwargs:
-            kwargs["url_key"] = "server_url"
-        if "token_key" not in kwargs:
-            kwargs["token_key"] = "api_key"
-
+        kwargs.setdefault("url_key", "server_url")
+        kwargs.setdefault("token_key", "api_key")
         super().__init__(*args, **kwargs)
 
     def _headers(self) -> dict[str, str]:  # type: ignore[override]
-        return {"X-Emby-Token": self.token} if self.token else {}
+        """Return default headers including X-Emby-Token if available."""
+        headers = {"Accept": "application/json"}
+        if self.token:
+            headers["X-Emby-Token"] = self.token
+        return headers
 
     def libraries(self) -> dict[str, str]:
-        return {
-            item["Id"]: item["Name"]
-            for item in self.get("/Library/MediaFolders").json()["Items"]
-        }
+        """Return mapping of library_id → display_name."""
+        try:
+            items = self.get("/Library/MediaFolders").json()["Items"]
+            return {item["Id"]: item["Name"] for item in items}
+        except Exception as exc:
+            logging.warning("Jellyfin: failed to fetch libraries – %s", exc)
+            return {}
 
     def scan_libraries(
         self, url: str | None = None, token: str | None = None
     ) -> dict[str, str]:
-        if url and token:
-            headers = {"X-Emby-Token": token}
-            response = requests.get(
-                f"{url.rstrip('/')}/Library/MediaFolders", headers=headers, timeout=10
-            )
-            response.raise_for_status()
-            items = response.json()["Items"]
-        else:
-            items = self.get("/Library/MediaFolders").json()["Items"]
+        """Scan available libraries on this Jellyfin server.
 
-        return {item["Name"]: item["Id"] for item in items}
+        Args:
+            url: Optional server URL override
+            token: Optional API token override
+
+        Returns:
+            dict: Library name -> library ID mapping
+        """
+        try:
+            if url and token:
+                headers = {"X-Emby-Token": token}
+                response = requests.get(
+                    f"{url.rstrip('/')}/Library/MediaFolders",
+                    headers=headers,
+                    timeout=10,
+                )
+                response.raise_for_status()
+                items = response.json()["Items"]
+            else:
+                items = self.get("/Library/MediaFolders").json()["Items"]
+
+            return {item["Name"]: item["Id"] for item in items}
+        except Exception as exc:
+            logging.warning("Jellyfin: failed to scan libraries – %s", exc)
+            return {}
 
     def create_user(self, username: str, password: str) -> str:
         return self.post(
