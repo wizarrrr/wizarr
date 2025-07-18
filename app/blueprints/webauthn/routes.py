@@ -303,8 +303,8 @@ def authenticate_begin():
                 {
                     "id": base64url_encode(cred.id),
                     "type": cred.type,
-                    "transports": cred.transports
-                    if hasattr(cred, "transports")
+                    "transports": list(cred.transports)
+                    if hasattr(cred, "transports") and cred.transports
                     else [],
                 }
                 for cred in (authentication_options.allow_credentials or [])
@@ -547,7 +547,9 @@ def register_start_htmx():
                 {
                     "id": base64url_encode(cred.id),
                     "type": cred.type,
-                    "transports": cred.transports,
+                    "transports": list(cred.transports)
+                    if hasattr(cred, "transports") and cred.transports
+                    else [],
                 }
                 for cred in (registration_options.exclude_credentials or [])
             ],
