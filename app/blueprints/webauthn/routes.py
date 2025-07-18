@@ -27,7 +27,7 @@ from webauthn.helpers.structs import (
     UserVerificationRequirement,
 )
 
-from app.extensions import db
+from app.extensions import db, limiter
 from app.models import AdminAccount, WebAuthnCredential
 
 webauthn_bp = Blueprint("webauthn", __name__)
@@ -245,6 +245,7 @@ def register_complete():
 
 
 @webauthn_bp.route("/webauthn/authenticate/begin", methods=["POST"])
+@limiter.limit("20 per minute")
 def authenticate_begin():
     """Begin WebAuthn authentication process (usernameless or 2FA)."""
     try:
@@ -314,6 +315,7 @@ def authenticate_begin():
 
 
 @webauthn_bp.route("/webauthn/authenticate/complete", methods=["POST"])
+@limiter.limit("20 per minute")
 def authenticate_complete():
     """Complete WebAuthn authentication process (usernameless or 2FA)."""
     credential_data = request.get_json()

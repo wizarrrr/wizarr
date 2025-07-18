@@ -6,13 +6,14 @@ from flask_babel import _
 from flask_login import login_required, login_user, logout_user
 from werkzeug.security import check_password_hash
 
-from app.extensions import db
+from app.extensions import db, limiter
 from app.models import AdminAccount, AdminUser, Settings
 
 auth_bp = Blueprint("auth", __name__)
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
+@limiter.limit("10 per minute")
 def login():
     if os.getenv("DISABLE_BUILTIN_AUTH", "").lower() == "true":
         login_user(AdminUser(), remember=bool(request.form.get("remember")))
@@ -86,6 +87,7 @@ def login():
 
 
 @auth_bp.route("/complete-2fa", methods=["POST"])
+@limiter.limit("10 per minute")
 def complete_2fa():
     """Complete 2FA authentication with passkey."""
     from flask import session
