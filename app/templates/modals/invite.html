@@ -175,7 +175,7 @@
                                 <div id="server-grid" class="flex flex-col space-y-4">
                                     {% for s in servers %}
                                     <label for="srv{{ s.id }}" class="relative flex flex-col items-start w-full cursor-pointer rounded-lg border bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 p-4 shadow-sm transition hover:border-primary hover:shadow peer-checked:border-primary peer-checked:ring-2 peer-checked:ring-primary focus-within:ring-2 focus-within:ring-primary">
-                                        <input type="checkbox" class="sr-only peer" id="srv{{ s.id }}" name="server_ids" value="{{ s.id }}" {% if s.id == chosen_server_id %}checked{% endif %} onchange="updatePrimaryServer()">
+                                        <input type="checkbox" class="sr-only peer" id="srv{{ s.id }}" name="server_ids" value="{{ s.id }}" {% if s.id == chosen_server_id %}checked{% endif %} onchange="updatePrimaryServer(); handleServerToggle(this, {{ s.id }})">
                                         <div class="grow">
                                             <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ s.name }}</p>
                                             {{ s.server_type|server_type_tag }}
@@ -245,7 +245,7 @@
                                                         class="text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-primary_hover font-medium rounded-lg text-xs px-3 py-2 inline-flex items-center"
                                                         data-dropdown-toggle="libMenu{{ s.id }}" data-dropdown-placement="bottom"
                                                         hx-post="/invite/scan-libraries" hx-vals='{"server_ids":"{{ s.id }}"}'
-                                                        hx-target="#libMenu{{ s.id }} .dropdown-content" hx-swap="innerHTML" hx-trigger="click once"
+                                                        hx-target="#libMenu{{ s.id }} .dropdown-content" hx-swap="innerHTML" hx-trigger="click"
                                                         onclick="event.stopPropagation(); toggleDropdown('libMenu{{ s.id }}')">
                                                     {{ _("Select Libraries") }}
                                                     <svg class="w-2.5 h-2.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/></svg>
@@ -363,6 +363,17 @@ function updatePrimaryServer() {
     // Keeping it for now to avoid breaking existing checkbox onchange handlers
 }
 
+function handleServerToggle(checkbox, serverId) {
+    // When a server is unchecked, clear its library dropdown to prevent duplicate submissions
+    if (!checkbox.checked) {
+        const dropdownContent = document.querySelector(`#libMenu${serverId} .dropdown-content`);
+        if (dropdownContent) {
+            // Clear the dropdown content to remove any library checkboxes
+            dropdownContent.innerHTML = '{{ _("Loading…") }}';
+        }
+    }
+}
+
 function validateServerSelection() {
     const checkboxes = document.querySelectorAll('#server-grid input[name="server_ids"]');
     const isAnySelected = Array.from(checkboxes).some(checkbox => checkbox.checked);
@@ -371,6 +382,16 @@ function validateServerSelection() {
         alert('{{ _("Please select at least one server for the invitation.") }}');
         return false;
     }
+    
+    // Disable library checkboxes for unselected servers to prevent them from being submitted
+    checkboxes.forEach(checkbox => {
+        const serverId = checkbox.value;
+        const libraryCheckboxes = document.querySelectorAll(`#libMenu${serverId} input[name="libraries"]`);
+        libraryCheckboxes.forEach(libCheckbox => {
+            libCheckbox.disabled = !checkbox.checked;
+        });
+    });
+    
     return true;
 }
 
