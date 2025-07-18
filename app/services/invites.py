@@ -11,7 +11,6 @@ from app.models import (
     Library,
     MediaServer,
     invitation_servers,
-    invite_libraries,
 )
 
 MIN_CODESIZE = 6  # Minimum allowed invite code length
@@ -128,34 +127,22 @@ def create_invite(form: Any) -> Invitation:
 
         invite.servers.extend(servers)
 
-    # === NEW: wire up the many-to-many ===
+    # Wire up library associations
     selected = form.getlist("libraries")  # these are your external_ids
-    import logging
-
-    logging.info(f"INVITE DEBUG: form.getlist('libraries') returned: {selected}")
     if selected:
         # Look up the Library objects, but only for the selected servers to avoid orphaned libraries
         server_ids = [s.id for s in servers]
-        logging.info(f"INVITE DEBUG: server_ids: {server_ids}")
         libs = Library.query.filter(
             Library.external_id.in_(selected), Library.server_id.in_(server_ids)
         ).all()
-        logging.info(
-            f"INVITE DEBUG: Found {len(libs)} libraries matching selected external_ids"
-        )
+
+        # Important: Due to how SQLAlchemy handles many-to-many relationships,
+        # we need to ensure no duplicate library IDs are added to avoid UNIQUE constraint violations
+        seen_lib_ids = set()
         for lib in libs:
-            logging.info(
-                f"INVITE DEBUG: Library - ID: {lib.id}, external_id: {lib.external_id}, name: {lib.name}, server_id: {lib.server_id}"
-            )
-
-        # Clear any existing library associations for this invite to avoid UNIQUE constraint violations
-        # This handles cases where there might be leftover data from previous attempts
-        db.session.execute(
-            invite_libraries.delete().where(invite_libraries.c.invite_id == invite.id)
-        )
-        db.session.flush()  # Ensure the delete is committed before adding new records
-
-        invite.libraries.extend(libs)
+            if lib.id not in seen_lib_ids:
+                seen_lib_ids.add(lib.id)
+                invite.libraries.append(lib)
 
     db.session.commit()
     return invite
