@@ -6,7 +6,13 @@ from typing import Any
 from sqlalchemy import and_  # type: ignore
 
 from app.extensions import db
-from app.models import Invitation, Library, MediaServer, invitation_servers
+from app.models import (
+    Invitation,
+    Library,
+    MediaServer,
+    invitation_servers,
+    invite_libraries,
+)
 
 MIN_CODESIZE = 6  # Minimum allowed invite code length
 MAX_CODESIZE = 10  # Maximum allowed invite code length (default for generated codes)
@@ -141,6 +147,14 @@ def create_invite(form: Any) -> Invitation:
             logging.info(
                 f"INVITE DEBUG: Library - ID: {lib.id}, external_id: {lib.external_id}, name: {lib.name}, server_id: {lib.server_id}"
             )
+
+        # Clear any existing library associations for this invite to avoid UNIQUE constraint violations
+        # This handles cases where there might be leftover data from previous attempts
+        db.session.execute(
+            invite_libraries.delete().where(invite_libraries.c.invite_id == invite.id)
+        )
+        db.session.flush()  # Ensure the delete is committed before adding new records
+
         invite.libraries.extend(libs)
 
     db.session.commit()
