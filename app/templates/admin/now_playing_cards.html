@@ -3,8 +3,8 @@
     <div class="col-span-full text-center py-12">
         <div class="text-red-500 dark:text-red-400">
             <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <h3 class="text-lg font-medium mb-2">{{ _("Unable to load now playing") }}</h3>
-            <p>{{ _("There was an error connecting to your media servers") }}</p>
+            <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">{{ _("Unable to load now playing") }}</h3>
+            <p class="text-gray-700 dark:text-gray-300">{{ _("There was an error connecting to your media servers") }}</p>
         </div>
     </div>
 {% elif not sessions %}
@@ -12,8 +12,8 @@
     <div class="col-span-full text-center py-12">
         <div class="text-gray-500 dark:text-gray-400">
             <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            <h3 class="text-lg font-medium mb-2">{{ _("No one is watching") }}</h3>
-            <p>{{ _("No active media sessions found across your servers") }}</p>
+            <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">{{ _("No one is watching") }}</h3>
+            <p class="text-gray-700 dark:text-gray-300">{{ _("No active media sessions found across your servers") }}</p>
         </div>
     </div>
 {% else %}
@@ -27,7 +27,7 @@
         {% set direct_play     = session.transcoding.direct_play %}
 
         <!-- ──────────────── Frosted Glass Card ──────────────── -->
-        <div class="now-playing-card relative rounded-xl shadow-2xl overflow-hidden border border-white/20 hover:shadow-3xl transition-all duration-300 min-h-64 backdrop-blur-sm"
+        <div class="now-playing-card relative rounded-xl shadow-2xl overflow-hidden border border-gray-300 dark:border-gray-600 hover:shadow-3xl transition-all duration-300 min-h-64 backdrop-blur-sm bg-white/10 dark:bg-black/10"
              data-session-state="{{ session.state }}"
              data-session-duration="{{ duration }}"
              data-session-position="{{ position }}"
@@ -38,11 +38,11 @@
             {% if bg_image %}
             <div class="absolute inset-0 bg-center bg-cover" style="background-image: url('{{ url_for('public.image_proxy') }}?url={{ bg_image|urlencode }}')"></div>
             {% else %}
-            <div class="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900"></div>
+            <div class="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-800 dark:to-gray-900"></div>
             {% endif %}
             
             {# Frosted glass overlay #}
-            <div class="absolute inset-0 bg-gradient-to-b from-black/85 via-black/75 via-black/60 to-black/40"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-white/85 via-white/75 via-white/60 to-white/40 dark:from-black/85 dark:via-black/75 dark:via-black/60 dark:to-black/40"></div>
             <!-- Content overlay -->
             <div class="relative z-10 flex flex-col min-h-64 p-4">
                 
@@ -52,8 +52,8 @@
                 <div class="flex flex-col flex-grow justify-between">
                     <!-- Title and user info -->
                     <div class="space-y-2 mb-3">
-                        <h3 class="text-lg font-bold text-white leading-tight line-clamp-2 drop-shadow-lg" title="{{ session.media_title }}">{{ session.media_title }}</h3>
-                        <p class="text-sm text-gray-200 drop-shadow">
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white leading-tight line-clamp-2 drop-shadow-lg" title="{{ session.media_title }}">{{ session.media_title }}</h3>
+                        <p class="text-sm text-gray-700 dark:text-gray-200 drop-shadow">
                             {{ session.user_name }} • {{ session.client }} ({{ session.device_name }})
                         </p>
                     </div>
@@ -66,25 +66,25 @@
                                 {% if position and duration %}
                                     {% set pos_seconds = (position // 1000) %}
                                     {% set dur_seconds = (duration // 1000) %}
-                                    <span class="session-time-display bg-black/60 backdrop-blur-sm px-2 py-1 rounded-full text-white font-mono">{{ (pos_seconds // 60) }}:{% if (pos_seconds % 60) < 10 %}0{% endif %}{{ pos_seconds % 60 }} / {{ (dur_seconds // 60) }}:{% if (dur_seconds % 60) < 10 %}0{% endif %}{{ dur_seconds % 60 }}</span>
+                                    <span class="session-time-display bg-white/80 dark:bg-black/60 backdrop-blur-sm px-2 py-1 rounded-full text-gray-900 dark:text-white font-mono">{{ (pos_seconds // 60) }}:{% if (pos_seconds % 60) < 10 %}0{% endif %}{{ pos_seconds % 60 }} / {{ (dur_seconds // 60) }}:{% if (dur_seconds % 60) < 10 %}0{% endif %}{{ dur_seconds % 60 }}</span>
                                 {% endif %}
-                                <span class="px-2 py-1 rounded-full text-xs font-medium bg-black/60 backdrop-blur-sm text-white border {% if is_transcoding %}border-indigo-400/50 text-indigo-200{% elif direct_play %}border-green-400/50 text-green-200{% else %}border-yellow-400/50 text-yellow-200{% endif %} uppercase tracking-wide">
+                                <span class="px-2 py-1 rounded-full text-xs font-medium bg-white/80 dark:bg-black/60 backdrop-blur-sm text-gray-900 dark:text-white border {% if is_transcoding %}border-indigo-400/50 text-indigo-700 dark:text-indigo-200{% elif direct_play %}border-green-400/50 text-green-700 dark:text-green-200{% else %}border-yellow-400/50 text-yellow-700 dark:text-yellow-200{% endif %} uppercase tracking-wide">
                                     {% if is_transcoding %}Transcode{% elif direct_play %}Direct Play{% else %}Direct Stream{% endif %}
                                 </span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <!-- Play state indicator -->
-                                <div class="bg-black/60 backdrop-blur-sm rounded-full p-2">
+                                <div class="bg-white/80 dark:bg-black/60 backdrop-blur-sm rounded-full p-2">
                                     {% if session.state == 'playing' %}
-                                        <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                        <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                                     {% elif session.state == 'paused' %}
-                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6zm8-14v14h4V5h-4z"/></svg>
+                                        <svg class="w-4 h-4 text-yellow-600 dark:text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6zm8-14v14h4V5h-4z"/></svg>
                                     {% else %}
-                                        <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm10 0h2v12h-2z"/></svg>
+                                        <svg class="w-4 h-4 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm10 0h2v12h-2z"/></svg>
                                     {% endif %}
                                 </div>
                                 <!-- Server type icon -->
-                                <div class="bg-black/60 backdrop-blur-sm rounded-full p-2" title="{{ session.server_type|title }}">
+                                <div class="bg-white/80 dark:bg-black/60 backdrop-blur-sm rounded-full p-2" title="{{ session.server_type|title }}">
                                     {% if session.server_type in ['plex', 'jellyfin', 'emby', 'audiobookshelf'] %}
                                         <img src="{{ url_for('static', filename='img/svg-logos/' + session.server_type + '.svg') }}" alt="{{ session.server_type|title }}" class="w-4 h-4 object-contain" />
                                     {% endif %}
@@ -93,24 +93,24 @@
                         </div>
 
                         <!-- Technical details section (scrollable) -->
-                        <div class="bg-black/40 backdrop-blur-sm rounded-lg p-2 border-2 border-white/10 max-h-20 overflow-y-auto scrollbar-none hover:scrollbar-thin hover:scrollbar-track-black/20 hover:scrollbar-thumb-white/30 hover:scrollbar-thumb-rounded-full">
+                        <div class="bg-white/60 dark:bg-black/40 backdrop-blur-sm rounded-lg p-2 border-2 border-gray-300/30 dark:border-white/10 max-h-20 overflow-y-auto scrollbar-none hover:scrollbar-thin hover:scrollbar-track-gray-200/20 dark:hover:scrollbar-track-black/20 hover:scrollbar-thumb-gray-600/30 dark:hover:scrollbar-thumb-white/30 hover:scrollbar-thumb-rounded-full">
                             <div class="grid grid-cols-1 gap-1 text-xs">
                                 <!-- Session Data -->
                                 {% for key, value in session.items() if key not in ['transcoding', 'artwork_url', 'thumbnail_url', 'fallback_artwork_url'] and value is not none and value != '' %}
                                     <div class="flex justify-between items-start">
-                                        <span class="text-gray-300 capitalize font-medium min-w-0 flex-shrink-0 mr-2">{{ key.replace('_', ' ') }}:</span>
-                                        <span class="text-white text-right truncate" title="{{ value }}">{{ value }}</span>
+                                        <span class="text-gray-600 dark:text-gray-300 capitalize font-medium min-w-0 flex-shrink-0 mr-2">{{ key.replace('_', ' ') }}:</span>
+                                        <span class="text-gray-900 dark:text-white text-right truncate" title="{{ value }}">{{ value }}</span>
                                     </div>
                                 {% endfor %}
                                 
                                 <!-- Transcoding Data -->
                                 {% if session.transcoding %}
-                                    <div class="border-t border-gray-600 pt-2 mt-2">
-                                        <div class="text-gray-400 text-xs font-semibold mb-1">TRANSCODING INFO</div>
+                                    <div class="border-t border-gray-400 dark:border-gray-600 pt-2 mt-2">
+                                        <div class="text-gray-500 dark:text-gray-400 text-xs font-semibold mb-1">TRANSCODING INFO</div>
                                         {% for key, value in session.transcoding.items() if value is not none and value != '' and value != false %}
                                             <div class="flex justify-between items-start">
-                                                <span class="text-gray-300 capitalize font-medium min-w-0 flex-shrink-0 mr-2">{{ key.replace('_', ' ') }}:</span>
-                                                <span class="text-white text-right truncate" title="{{ value }}">{{ value if value != true else 'Yes' }}</span>
+                                                <span class="text-gray-600 dark:text-gray-300 capitalize font-medium min-w-0 flex-shrink-0 mr-2">{{ key.replace('_', ' ') }}:</span>
+                                                <span class="text-gray-900 dark:text-white text-right truncate" title="{{ value }}">{{ value if value != true else 'Yes' }}</span>
                                             </div>
                                         {% endfor %}
                                     </div>
@@ -123,7 +123,7 @@
 
 
             <!-- Progress bar -->
-            <div class="absolute bottom-0 left-0 right-0 h-1 bg-black/60">
+            <div class="absolute bottom-0 left-0 right-0 h-1 bg-gray-300/60 dark:bg-black/60">
                 <div class="session-progress-bar bg-primary h-full" style="width: {{ progress_percent }}%;"></div>
             </div>
         </div>
