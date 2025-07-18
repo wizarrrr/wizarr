@@ -45,6 +45,8 @@ def get_rp_config():
     env_origin = os.environ.get("WEBAUTHN_ORIGIN")
 
     if env_rp_id and env_origin:
+        # Validate environment variables for security
+        _validate_secure_origin(env_origin, env_rp_id)
         return env_rp_id, env_rp_name, env_origin
 
     # For HTMX requests, prefer HX-Current-URL header
@@ -69,7 +71,65 @@ def get_rp_config():
         hostname = host.split(":")[0]
         origin = f"{scheme}://{host}"
 
+    # Validate the configuration meets security requirements
+    _validate_secure_origin(origin, hostname)
+
     return hostname, env_rp_name, origin
+
+
+def _validate_secure_origin(origin, rp_id):
+    """Validate that the origin and RP ID meet security requirements for passkeys."""
+    import re
+    from urllib.parse import urlparse
+
+    # Parse the origin
+    parsed_origin = urlparse(origin)
+
+    # Requirement 1: Must use HTTPS
+    if parsed_origin.scheme != "https":
+        raise ValueError(
+            "Passkeys require HTTPS. Current origin uses HTTP. "
+            "Please configure your application to use HTTPS or set WEBAUTHN_ORIGIN environment variable."
+        )
+
+    # Requirement 2: Must use a proper domain name (not IP address)
+    hostname = parsed_origin.hostname or rp_id
+
+    # Check if it's an IP address (IPv4 or IPv6) using Python's built-in validation
+    import ipaddress
+
+    try:
+        # This will succeed if hostname is a valid IP address
+        ipaddress.ip_address(hostname)
+        raise ValueError(
+            f"Passkeys require a domain name, not an IP address. "
+            f"Current hostname '{hostname}' is an IP address. "
+            f"Please use a proper domain name or set WEBAUTHN_RP_ID and WEBAUTHN_ORIGIN environment variables."
+        )
+    except ValueError as e:
+        # If it's not a valid IP address, that's good (unless it's the error we just raised)
+        if "domain name, not an IP address" in str(e):
+            raise
+        # If it's not a valid IP address, continue with domain validation
+
+    # Check for localhost (only allow in development)
+    if hostname in ["localhost", "127.0.0.1", "::1"]:
+        import os
+
+        if os.environ.get("FLASK_ENV") != "development":
+            raise ValueError(
+                f"Passkeys cannot use localhost in production. "
+                f"Current hostname '{hostname}' is localhost. "
+                f"Please use a proper domain name or set WEBAUTHN_RP_ID and WEBAUTHN_ORIGIN environment variables."
+            )
+
+    # Additional validation: ensure it's a valid domain format
+    domain_pattern = r"^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+    if not re.match(domain_pattern, hostname) and hostname not in ["localhost"]:
+        raise ValueError(
+            f"Invalid domain name format: '{hostname}'. "
+            f"Please use a valid domain name or set WEBAUTHN_RP_ID and WEBAUTHN_ORIGIN environment variables."
+        )
 
 
 @webauthn_bp.route("/webauthn/register/begin", methods=["POST"])
@@ -79,7 +139,11 @@ def register_begin():
     if not isinstance(current_user, AdminAccount):
         return jsonify({"error": "Only admin accounts can register passkeys"}), 403
 
-    rp_id, rp_name, _ = get_rp_config()
+    try:
+        rp_id, rp_name, _ = get_rp_config()
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
     if not rp_id:
         return jsonify({"error": "RP ID is required"}), 500
 
@@ -133,7 +197,10 @@ def register_complete():
 
     try:
         credential = parse_registration_credential_json(credential_data["credential"])
-        rp_id, _, origin = get_rp_config()
+        try:
+            rp_id, _, origin = get_rp_config()
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
         if not rp_id:
             return jsonify({"error": "RP ID is required"}), 500
         verification = verify_registration_response(
@@ -180,7 +247,11 @@ def register_complete():
 @webauthn_bp.route("/webauthn/authenticate/begin", methods=["POST"])
 def authenticate_begin():
     """Begin WebAuthn authentication process (usernameless)."""
-    rp_id, _, _ = get_rp_config()
+    try:
+        rp_id, _, _ = get_rp_config()
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
     if not rp_id:
         return jsonify({"error": "RP ID is required"}), 500
 
@@ -248,7 +319,10 @@ def authenticate_complete():
         # Get the admin account associated with this credential
         admin_account = db_credential.admin_account
 
-        rp_id, _, origin = get_rp_config()
+        try:
+            rp_id, _, origin = get_rp_config()
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
         if not rp_id:
             return jsonify({"error": "RP ID is required"}), 500
         verification = verify_authentication_response(
@@ -372,7 +446,13 @@ def register_start_htmx():
         )
 
     try:
-        rp_id, rp_name, _ = get_rp_config()
+        try:
+            rp_id, rp_name, _ = get_rp_config()
+        except ValueError as e:
+            return render_template(
+                "components/passkey_error.html",
+                error=str(e),
+            )
         if not rp_id:
             return render_template(
                 "components/passkey_error.html",
