@@ -26,109 +26,102 @@
         {% set is_transcoding  = session.transcoding.is_transcoding %}
         {% set direct_play     = session.transcoding.direct_play %}
 
-        <!-- ──────────────── Wide rectangle card ──────────────── -->
-        <div class="now-playing-card relative flex bg-gray-800/70 rounded-lg shadow-lg overflow-hidden border border-gray-700 hover:shadow-xl transition-all duration-300 h-44 md:h-48"
+        <!-- ──────────────── Frosted Glass Card ──────────────── -->
+        <div class="now-playing-card relative rounded-xl shadow-2xl overflow-hidden border border-white/20 hover:shadow-3xl transition-all duration-300 min-h-64 backdrop-blur-sm"
              data-session-state="{{ session.state }}"
              data-session-duration="{{ duration }}"
              data-session-position="{{ position }}"
              data-session-id="{{ session.session_id }}">
 
-            {# Blurred background thumbnail #}
-            {% if session.thumbnail_url %}
-            <div class="absolute inset-0 -z-10 bg-center bg-cover blur-xl opacity-25" style="background-image: url('{{ url_for('public.image_proxy') }}?url={{ session.thumbnail_url|urlencode }}')"></div>
+            {# Full background cover image #}
+            {% set bg_image = session.artwork_url or session.fallback_artwork_url %}
+            {% if bg_image %}
+            <div class="absolute inset-0 bg-center bg-cover" style="background-image: url('{{ url_for('public.image_proxy') }}?url={{ bg_image|urlencode }}')"></div>
+            {% else %}
+            <div class="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900"></div>
             {% endif %}
-            <!-- Poster -->
-            <div class="relative w-28 md:w-32 flex-none">
-                <div class="w-full h-full bg-gray-700 rounded-l-lg overflow-hidden">
-                    {% if session.artwork_url %}
-                        <img src="{{ url_for('public.image_proxy') }}?url={{ session.artwork_url|urlencode }}" 
-                             alt="{{ session.media_title }}" 
-                             class="w-full h-full object-cover"
-                             onerror="this.onerror=null; this.src='{{ url_for('public.image_proxy') }}?url={{ session.fallback_artwork_url|urlencode }}';"
-                             />
-                    {% else %}
-                        <div class="w-full h-full flex items-center justify-center bg-gray-700">
-                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2M7 4h10M7 4v16a1 1 0 001 1h8a1 1 0 001-1V4M9 8h6M9 12h6M9 16h6"/></svg>
+            
+            {# Frosted glass overlay with gradient fade toward top #}
+            <div class="absolute inset-0 bg-gradient-to-b from-black/90 via-black/70 to-transparent"></div>
+            <!-- Content overlay -->
+            <div class="relative z-10 flex flex-col min-h-64 p-4">
+                
+
+
+                <!-- Main content area -->
+                <div class="flex flex-col flex-grow justify-between">
+                    <!-- Title and user info -->
+                    <div class="space-y-2 mb-3">
+                        <h3 class="text-lg font-bold text-white leading-tight line-clamp-2 drop-shadow-lg" title="{{ session.media_title }}">{{ session.media_title }}</h3>
+                        <p class="text-sm text-gray-200 drop-shadow">
+                            {{ session.user_name }} • {{ session.client }} ({{ session.device_name }})
+                        </p>
+                    </div>
+
+                    <!-- Bottom section with controls and technical details -->
+                    <div class="space-y-3">
+                        <!-- Time and streaming info with server controls -->
+                        <div class="flex items-center justify-between text-xs">
+                            <div class="flex flex-wrap items-center gap-2">
+                                {% if position and duration %}
+                                    {% set pos_seconds = (position // 1000) %}
+                                    {% set dur_seconds = (duration // 1000) %}
+                                    <span class="session-time-display bg-black/60 backdrop-blur-sm px-2 py-1 rounded-full text-white font-mono">{{ (pos_seconds // 60) }}:{% if (pos_seconds % 60) < 10 %}0{% endif %}{{ pos_seconds % 60 }} / {{ (dur_seconds // 60) }}:{% if (dur_seconds % 60) < 10 %}0{% endif %}{{ dur_seconds % 60 }}</span>
+                                {% endif %}
+                                <span class="px-2 py-1 rounded-full text-xs font-medium bg-black/60 backdrop-blur-sm text-white border {% if is_transcoding %}border-indigo-400/50 text-indigo-200{% elif direct_play %}border-green-400/50 text-green-200{% else %}border-yellow-400/50 text-yellow-200{% endif %} uppercase tracking-wide">
+                                    {% if is_transcoding %}Transcode{% elif direct_play %}Direct Play{% else %}Direct Stream{% endif %}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <!-- Play state indicator -->
+                                <div class="bg-black/60 backdrop-blur-sm rounded-full p-2">
+                                    {% if session.state == 'playing' %}
+                                        <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                    {% elif session.state == 'paused' %}
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6zm8-14v14h4V5h-4z"/></svg>
+                                    {% else %}
+                                        <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm10 0h2v12h-2z"/></svg>
+                                    {% endif %}
+                                </div>
+                                <!-- Server type icon -->
+                                <div class="bg-black/60 backdrop-blur-sm rounded-full p-2" title="{{ session.server_type|title }}">
+                                    {% if session.server_type in ['plex', 'jellyfin', 'emby', 'audiobookshelf'] %}
+                                        <img src="{{ url_for('static', filename='img/svg-logos/' + session.server_type + '.svg') }}" alt="{{ session.server_type|title }}" class="w-4 h-4 object-contain" />
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
-                    {% endif %}
-                </div>
 
-                <!-- Play / pause badge -->
-                <div class="absolute top-0.5 left-0.5 bg-black/80 rounded p-0.5">
-                    {% if session.state == 'playing' %}
-                        <svg class="w-3 h-3 text-green-400" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                    {% elif session.state == 'paused' %}
-                        <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6zm8-14v14h4V5h-4z"/></svg>
-                    {% else %}
-                        <svg class="w-3 h-3 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm10 0h2v12h-2z"/></svg>
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- Info panel -->
-            <div class="flex flex-col justify-between p-3 space-y-2 text-gray-300 flex-grow min-w-0 overflow-hidden">
-                <!-- Header row -->
-                <div class="flex items-start justify-between gap-2">
-                    <h3 class="text-sm font-semibold text-white leading-tight break-words line-clamp-2 pr-8" title="{{ session.media_title }}">{{ session.media_title }}</h3>
-                </div>
-
-                <!-- Meta line -->
-                <p class="text-xs text-gray-400 truncate">
-                    {{ session.user_name }} • {{ session.client }} ({{ session.device_name }})
-                </p>
-
-                <!-- Time & state row -->
-                <div class="flex items-center gap-2 text-xs">
-                    {% if position and duration %}
-                        {% set pos_seconds = (position // 1000) %}
-                        {% set dur_seconds = (duration // 1000) %}
-                        <span class="session-time-display text-white text-xs">{{ (pos_seconds // 60) }}:{% if (pos_seconds % 60) < 10 %}0{% endif %}{{ pos_seconds % 60 }} / {{ (dur_seconds // 60) }}:{% if (dur_seconds % 60) < 10 %}0{% endif %}{{ dur_seconds % 60 }}</span>
-                    {% endif %}
-                    <span class="px-1.5 py-0.5 rounded text-xs font-medium {% if session.state=='playing' %}bg-green-600{% elif session.state=='paused' %}bg-yellow-500{% else %}bg-gray-600{% endif %} uppercase">{{ session.state|title }}</span>
-                    <span class="rounded px-1.5 py-0.5 text-xs font-semibold uppercase tracking-wide whitespace-nowrap {% if is_transcoding %}bg-indigo-600{% elif direct_play %}bg-green-600{% else %}bg-yellow-600{% endif %}">
-                        {% if is_transcoding %}Transcode{% elif direct_play %}Direct Play{% else %}Direct Stream{% endif %}
-                    </span>
-                </div>
-
-                <!-- Divider -->
-                <hr class="border-gray-700">
-
-                <!-- Technical details grid -->
-                <div class="grid grid-cols-2 gap-y-0.5 gap-x-4 text-xs">
-                    {% if session.server_type == 'audiobookshelf' %}
-                        <!-- Audiobookshelf-specific audio metadata -->
-                        <div><span class="text-gray-400">Codec:</span> <span class="text-white">{{ session.audio_codec or '-' }}</span></div>
-                        <div><span class="text-gray-400">Format:</span> <span class="text-white">{{ session.audio_format or '-' }}</span></div>
-                        <div><span class="text-gray-400">Bitrate:</span> <span class="text-white">{{ session.bitrate_kbps or '-' }}</span></div>
-                        {% if session.file_size_mb %}
-                            <div><span class="text-gray-400">Size:</span> <span class="text-white">{{ session.file_size_mb }}</span></div>
-                        {% endif %}
-                        {% if session.audio_file_count and session.audio_file_count > 1 %}
-                            <div><span class="text-gray-400">Files:</span> <span class="text-white">{{ session.audio_file_count }}</span></div>
-                            {% if session.current_file %}
-                                <div class="col-span-2 truncate"><span class="text-gray-400">Current:</span> <span class="text-white" title="{{ session.current_file }}">{{ session.current_file }}</span></div>
-                            {% endif %}
-                        {% endif %}
-                    {% else %}
-                        <!-- Video-based media servers (Plex, Jellyfin, Emby) -->
-                        <div><span class="text-gray-400">Video:</span> <span class="text-white">{{ session.transcoding.video_codec or '-' }}</span></div>
-                        <div><span class="text-gray-400">Audio:</span> <span class="text-white">{{ session.transcoding.audio_codec or '-' }}</span></div>
-                        <div><span class="text-gray-400">Resolution:</span> <span class="text-white">{{ session.transcoding.video_resolution or '-' }}</span></div>
-                        <div><span class="text-gray-400">Container:</span> <span class="text-white">{{ session.transcoding.container or '-' }}</span></div>
-                        {% if session.transcoding.is_transcoding and session.transcoding.transcoding_speed %}
-                            <div class="col-span-2"><span class="text-gray-400">Speed:</span> <span class="text-white">{{ "%.1f"|format(session.transcoding.transcoding_speed) }}x</span></div>
-                        {% endif %}
-                    {% endif %}
-                    <div class="col-span-2 truncate"><span class="text-gray-400">Server:</span> <span class="text-white">{{ session.server_name }}</span></div>
+                        <!-- Technical details section (scrollable) -->
+                        <div class="bg-black/40 backdrop-blur-sm rounded-lg p-2 border border-white/10 max-h-20 overflow-y-auto scrollbar-none hover:scrollbar-thin hover:scrollbar-track-black/20 hover:scrollbar-thumb-white/30 hover:scrollbar-thumb-rounded-full">
+                            <div class="grid grid-cols-1 gap-1 text-xs">
+                                <!-- Session Data -->
+                                {% for key, value in session.items() if key not in ['transcoding', 'artwork_url', 'thumbnail_url', 'fallback_artwork_url'] and value is not none and value != '' %}
+                                    <div class="flex justify-between items-start">
+                                        <span class="text-gray-300 capitalize font-medium min-w-0 flex-shrink-0 mr-2">{{ key.replace('_', ' ') }}:</span>
+                                        <span class="text-white text-right truncate" title="{{ value }}">{{ value }}</span>
+                                    </div>
+                                {% endfor %}
+                                
+                                <!-- Transcoding Data -->
+                                {% if session.transcoding %}
+                                    <div class="border-t border-gray-600 pt-2 mt-2">
+                                        <div class="text-gray-400 text-xs font-semibold mb-1">TRANSCODING INFO</div>
+                                        {% for key, value in session.transcoding.items() if value is not none and value != '' and value != false %}
+                                            <div class="flex justify-between items-start">
+                                                <span class="text-gray-300 capitalize font-medium min-w-0 flex-shrink-0 mr-2">{{ key.replace('_', ' ') }}:</span>
+                                                <span class="text-white text-right truncate" title="{{ value }}">{{ value if value != true else 'Yes' }}</span>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Server type icon (top-right of entire card) -->
-            <div class="absolute top-2 right-2 w-6 h-6 rounded p-0.5 flex items-center justify-center" title="{{ session.server_type|title }}">
-                {% if session.server_type in ['plex', 'jellyfin', 'emby', 'audiobookshelf'] %}
-                    <img src="{{ url_for('static', filename='img/svg-logos/' + session.server_type + '.svg') }}" alt="{{ session.server_type|title }}" class="w-5 h-5 object-contain" />
-                {% endif %}
-            </div>
+
             <!-- Progress bar -->
             <div class="absolute bottom-0 left-0 right-0 h-1 bg-black/60">
                 <div class="session-progress-bar bg-primary h-full" style="width: {{ progress_percent }}%;"></div>

@@ -135,3 +135,48 @@ Make sure disabled buttons don't get the pointer cursor.
 #wizard-wrapper.htmx-added {
   opacity: 0;
 }
+
+/* Custom Scrollbar Styling - Red and Blue Theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(59, 130, 246, 0.1); /* Blue track */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #fe4155, #3b82f6); /* Red to Blue gradient */
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #dc2626, #2563eb); /* Darker red to blue on hover */
+  transform: scale(1.1);
+}
+
+::-webkit-scrollbar-corner {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+/* Firefox scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #fe4155 rgba(59, 130, 246, 0.1);
+}
+
+/* Dark mode scrollbar adjustments */
+.dark ::-webkit-scrollbar-track {
+  background: rgba(59, 130, 246, 0.2);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #fe4155, #60a5fa);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #f87171, #3b82f6);
+}
