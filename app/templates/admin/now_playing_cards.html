@@ -41,8 +41,8 @@
             <div class="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900"></div>
             {% endif %}
             
-            {# Frosted glass overlay with gradient fade toward top #}
-            <div class="absolute inset-0 bg-gradient-to-b from-black/90 via-black/70 to-transparent"></div>
+            {# Frosted glass overlay #}
+            <div class="absolute inset-0 bg-gradient-to-b from-black/85 via-black/75 via-black/60 to-black/40"></div>
             <!-- Content overlay -->
             <div class="relative z-10 flex flex-col min-h-64 p-4">
                 
@@ -93,7 +93,7 @@
                         </div>
 
                         <!-- Technical details section (scrollable) -->
-                        <div class="bg-black/40 backdrop-blur-sm rounded-lg p-2 border border-white/10 max-h-20 overflow-y-auto scrollbar-none hover:scrollbar-thin hover:scrollbar-track-black/20 hover:scrollbar-thumb-white/30 hover:scrollbar-thumb-rounded-full">
+                        <div class="bg-black/40 backdrop-blur-sm rounded-lg p-2 border-2 border-white/10 max-h-20 overflow-y-auto scrollbar-none hover:scrollbar-thin hover:scrollbar-track-black/20 hover:scrollbar-thumb-white/30 hover:scrollbar-thumb-rounded-full">
                             <div class="grid grid-cols-1 gap-1 text-xs">
                                 <!-- Session Data -->
                                 {% for key, value in session.items() if key not in ['transcoding', 'artwork_url', 'thumbnail_url', 'fallback_artwork_url'] and value is not none and value != '' %}
