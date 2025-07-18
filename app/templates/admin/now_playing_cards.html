@@ -85,7 +85,7 @@
                         <span class="session-time-display text-white text-xs">{{ (pos_seconds // 60) }}:{% if (pos_seconds % 60) < 10 %}0{% endif %}{{ pos_seconds % 60 }} / {{ (dur_seconds // 60) }}:{% if (dur_seconds % 60) < 10 %}0{% endif %}{{ dur_seconds % 60 }}</span>
                     {% endif %}
                     <span class="px-1.5 py-0.5 rounded text-xs font-medium {% if session.state=='playing' %}bg-green-600{% elif session.state=='paused' %}bg-yellow-500{% else %}bg-gray-600{% endif %} uppercase">{{ session.state|title }}</span>
-                    <span class="rounded px-1.5 py-0.5 text-xs font-semibold uppercase tracking-wide whitespace-nowrap {% if is_transcoding %}bg-red-600{% elif direct_play %}bg-green-600{% else %}bg-yellow-600{% endif %}">
+                    <span class="rounded px-1.5 py-0.5 text-xs font-semibold uppercase tracking-wide whitespace-nowrap {% if is_transcoding %}bg-indigo-600{% elif direct_play %}bg-green-600{% else %}bg-yellow-600{% endif %}">
                         {% if is_transcoding %}Transcode{% elif direct_play %}Direct Play{% else %}Direct Stream{% endif %}
                     </span>
                 </div>
@@ -95,12 +95,29 @@
 
                 <!-- Technical details grid -->
                 <div class="grid grid-cols-2 gap-y-0.5 gap-x-4 text-xs">
-                    <div><span class="text-gray-400">Video:</span> <span class="text-white">{{ session.transcoding.video_codec or '-' }}</span></div>
-                    <div><span class="text-gray-400">Audio:</span> <span class="text-white">{{ session.transcoding.audio_codec or '-' }}</span></div>
-                    <div><span class="text-gray-400">Resolution:</span> <span class="text-white">{{ session.transcoding.video_resolution or '-' }}</span></div>
-                    <div><span class="text-gray-400">Container:</span> <span class="text-white">{{ session.transcoding.container or '-' }}</span></div>
-                    {% if session.transcoding.is_transcoding and session.transcoding.transcoding_speed %}
-                        <div class="col-span-2"><span class="text-gray-400">Speed:</span> <span class="text-white">{{ "%.1f"|format(session.transcoding.transcoding_speed) }}x</span></div>
+                    {% if session.server_type == 'audiobookshelf' %}
+                        <!-- Audiobookshelf-specific audio metadata -->
+                        <div><span class="text-gray-400">Codec:</span> <span class="text-white">{{ session.audio_codec or '-' }}</span></div>
+                        <div><span class="text-gray-400">Format:</span> <span class="text-white">{{ session.audio_format or '-' }}</span></div>
+                        <div><span class="text-gray-400">Bitrate:</span> <span class="text-white">{{ session.bitrate_kbps or '-' }}</span></div>
+                        {% if session.file_size_mb %}
+                            <div><span class="text-gray-400">Size:</span> <span class="text-white">{{ session.file_size_mb }}</span></div>
+                        {% endif %}
+                        {% if session.audio_file_count and session.audio_file_count > 1 %}
+                            <div><span class="text-gray-400">Files:</span> <span class="text-white">{{ session.audio_file_count }}</span></div>
+                            {% if session.current_file %}
+                                <div class="col-span-2 truncate"><span class="text-gray-400">Current:</span> <span class="text-white" title="{{ session.current_file }}">{{ session.current_file }}</span></div>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <!-- Video-based media servers (Plex, Jellyfin, Emby) -->
+                        <div><span class="text-gray-400">Video:</span> <span class="text-white">{{ session.transcoding.video_codec or '-' }}</span></div>
+                        <div><span class="text-gray-400">Audio:</span> <span class="text-white">{{ session.transcoding.audio_codec or '-' }}</span></div>
+                        <div><span class="text-gray-400">Resolution:</span> <span class="text-white">{{ session.transcoding.video_resolution or '-' }}</span></div>
+                        <div><span class="text-gray-400">Container:</span> <span class="text-white">{{ session.transcoding.container or '-' }}</span></div>
+                        {% if session.transcoding.is_transcoding and session.transcoding.transcoding_speed %}
+                            <div class="col-span-2"><span class="text-gray-400">Speed:</span> <span class="text-white">{{ "%.1f"|format(session.transcoding.transcoding_speed) }}x</span></div>
+                        {% endif %}
                     {% endif %}
                     <div class="col-span-2 truncate"><span class="text-gray-400">Server:</span> <span class="text-white">{{ session.server_name }}</span></div>
                 </div>

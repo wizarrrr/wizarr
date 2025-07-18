@@ -574,31 +574,175 @@ class AudiobookshelfClient(RestApiMixin):
 
             artwork_url = poster_url
 
+            # --- audio metadata ------------------------------------------------
+            audio_metadata = self._get_audio_metadata(li_id, pos) if li_id else {}
+
             # --- transcoding ----------------------------------------------------
             play_method = raw.get("playMethod", 0)  # 0 = direct play
             transcoding_info = {
                 "is_transcoding": False,
                 "direct_play": play_method == 0,
             }
-            active.append(
-                {
-                    "user_name": user_display,
-                    "media_title": title,
-                    "media_type": media_type,
-                    "progress": progress,
-                    "state": "playing",  # ABS has no explicit pause flag yet
-                    "session_id": session_id,
-                    "client": client,
-                    "device_name": device_name,
-                    "position_ms": int(pos * 1000),
-                    "duration_ms": int(duration * 1000),
-                    "artwork_url": artwork_url,
-                    "thumbnail_url": thumb_url,
-                    "transcoding": transcoding_info,
-                }
-            )
+            
+            session_data = {
+                "user_name": user_display,
+                "media_title": title,
+                "media_type": media_type,
+                "progress": progress,
+                "state": "playing",  # ABS has no explicit pause flag yet
+                "session_id": session_id,
+                "client": client,
+                "device_name": device_name,
+                "position_ms": int(pos * 1000),
+                "duration_ms": int(duration * 1000),
+                "artwork_url": artwork_url,
+                "thumbnail_url": thumb_url,
+                "transcoding": transcoding_info,
+            }
+            
+            # Add audio metadata if available
+            if audio_metadata:
+                session_data.update(audio_metadata)
+                
+            active.append(session_data)
 
         return active
+
+    def _get_audio_metadata(self, library_item_id: str, current_position: float = 0) -> dict:
+        """Fetch audio metadata for a library item, identifying the specific file being played.
+        
+        Args:
+            library_item_id: The library item ID to fetch metadata for
+            current_position: Current playback position in seconds to identify specific file
+            
+        Returns:
+            dict: Audio metadata including bitrate, codec, format, etc.
+        """
+        try:
+            # Fetch library item details
+            response = self.get(f"{self.API_PREFIX}/items/{library_item_id}")
+            response.raise_for_status()
+            item_data = response.json()
+            
+            # Extract audio files metadata
+            media = item_data.get("media", {})
+            audio_files = media.get("audioFiles", [])
+            
+            if not audio_files:
+                return {}
+            
+            # Determine which specific audio file is currently being played
+            # based on the current position for multi-file audiobooks
+            current_audio_file = self._find_current_audio_file(audio_files, current_position)
+            primary_audio = current_audio_file or audio_files[0]  # fallback to first file
+            
+            # Get file metadata (nested under 'metadata' key)
+            file_metadata = primary_audio.get("metadata", {})
+            
+            current_file_info = {
+                "filename": file_metadata.get("filename", "Unknown"),
+                "index": primary_audio.get("index", 0) if current_audio_file else 0
+            }
+            
+            audio_metadata = {}
+            
+            # Extract bitrate (directly from audio file object)
+            if "bitRate" in primary_audio:
+                audio_metadata["bitrate"] = primary_audio["bitRate"]
+                audio_metadata["bitrate_kbps"] = f"{primary_audio['bitRate'] // 1000} kbps" if primary_audio["bitRate"] else "Unknown"
+            
+            # Extract codec (directly from audio file object)
+            if "codec" in primary_audio:
+                audio_metadata["audio_codec"] = primary_audio["codec"]
+            
+            # Extract format (directly from audio file object)
+            if "format" in primary_audio:
+                audio_metadata["audio_format"] = primary_audio["format"]
+            
+            # Extract additional useful metadata
+            if "duration" in primary_audio:
+                audio_metadata["file_duration"] = primary_audio["duration"]
+            
+            if "size" in file_metadata:
+                audio_metadata["file_size"] = file_metadata["size"]
+                # Convert to human readable format
+                size_mb = file_metadata["size"] / (1024 * 1024)
+                audio_metadata["file_size_mb"] = f"{size_mb:.1f} MB"
+            
+            # Add essential file information
+            audio_metadata["audio_file_count"] = len(audio_files)
+            audio_metadata["current_file"] = current_file_info["filename"]
+            audio_metadata["current_file_index"] = current_file_info["index"]
+            
+            return audio_metadata
+            
+        except Exception as exc:
+            logging.warning("ABS: failed to fetch audio metadata for item %s – %s", library_item_id, exc)
+            return {}
+    
+    def _find_current_audio_file(self, audio_files: list, current_position: float) -> dict | None:
+        """Find which audio file is currently being played based on position.
+        
+        Args:
+            audio_files: List of audio files from the library item
+            current_position: Current playback position in seconds
+            
+        Returns:
+            dict: The audio file currently being played, or None if not found
+        """
+        if not audio_files or current_position <= 0:
+            return None
+            
+        # Calculate cumulative durations to find which file contains the current position
+        cumulative_duration = 0
+        
+        for audio_file in audio_files:
+            # Duration is directly on the audio file object, not in metadata
+            file_duration = audio_file.get("duration", 0)
+            
+            # Check if current position falls within this file's duration
+            if current_position <= cumulative_duration + file_duration:
+                return audio_file
+                
+            cumulative_duration += file_duration
+            
+        # If position is beyond all files, return the last file
+        return audio_files[-1] if audio_files else None
+
+
+
+    def get_library_item_metadata(self, library_item_id: str) -> dict:
+        """Get detailed metadata for a specific library item.
+        
+        Args:
+            library_item_id: The library item ID to fetch metadata for
+            
+        Returns:
+            dict: Complete library item data with enhanced audio metadata
+        """
+        try:
+            # Fetch library item details
+            response = self.get(f"{self.API_PREFIX}/items/{library_item_id}")
+            response.raise_for_status()
+            item_data = response.json()
+            
+            # Get enhanced audio metadata
+            audio_metadata = self._get_audio_metadata(library_item_id, 0)
+            
+            # Add audio metadata to the response
+            if audio_metadata:
+                if "metadata" not in item_data:
+                    item_data["metadata"] = {}
+                item_data["metadata"]["audio_metadata"] = audio_metadata
+                
+                # Also add it at the top level for easier access
+                item_data["audio_metadata"] = audio_metadata
+            
+            return item_data
+            
+        except Exception as exc:
+            logging.error("ABS: failed to fetch library item metadata for %s – %s", library_item_id, exc)
+            raise
 
     def statistics(self):
         """Return essential AudiobookShelf server statistics for the dashboard.
