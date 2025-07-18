@@ -9,19 +9,19 @@ from app.models import Library, User
 
 from .client_base import RestApiMixin, register_media_client
 
-"""Minimal Audiobookshelf media‐server client.
+"""Audiobookshelf media server client.
 
-This aims to provide just enough functionality so that Wizarr can:
+This client provides functionality for Wizarr to:
   * validate connection credentials (URL & API token)
-  * scan libraries so that they can be enabled / disabled in the UI
-  * list users (read-only) so that the admin section doesn't explode
+  * get server status and version information
+  * scan and manage libraries
+  * list, create, update, and delete users
+  * track active sessions and server statistics
+  * handle user invitations and library access
 
-User management (create / update / delete) isn't currently supported by
-this client – the Audiobookshelf HTTP API requires admin privileges and
-has a few additional concepts (permissions, library access, …) that we
-haven't mapped yet.  The corresponding methods therefore raise
-``NotImplementedError`` so that callers know this path isn't available
-for Audiobookshelf yet.
+The implementation follows the official Audiobookshelf API patterns
+and includes proper error handling, response validation, and support
+for different response formats across ABS versions.
 """
 
 
@@ -52,6 +52,49 @@ class AudiobookshelfClient(RestApiMixin):
     # Public API expected by Wizarr
     # ------------------------------------------------------------------
 
+    def validate_connection(self) -> tuple[bool, str]:
+        """Validate connection to Audiobookshelf server.
+        
+        Returns:
+            tuple: (success: bool, message: str)
+        """
+        try:
+            # Try to get server status first (public endpoint)
+            response = self.get("/status")
+            response.raise_for_status()
+            status_data = response.json()
+            
+            
+            if not status_data.get("isInit", False):
+                return False, "Server is not initialized"
+            
+            # If we have a token, validate it by trying to authorize
+            if getattr(self, "token", None):
+                auth_response = self.post(f"{self.API_PREFIX}/authorize")
+                if auth_response.status_code == 401:
+                    return False, "Invalid API token"
+                auth_response.raise_for_status()
+                
+            return True, "Connection successful"
+            
+        except Exception as exc:
+            logging.error("ABS: connection validation failed – %s", exc)
+            return False, f"Connection failed: {str(exc)}"
+
+    def get_server_status(self) -> dict[str, Any]:
+        """Get server status information.
+        
+        Returns:
+            dict: Server status data
+        """
+        try:
+            response = self.get("/status")
+            response.raise_for_status()
+            return response.json()
+        except Exception as exc:
+            logging.error("ABS: failed to get server status – %s", exc)
+            return {}
+
     # --- libraries -----------------------------------------------------
 
     def libraries(self) -> dict[str, str]:
@@ -61,10 +104,17 @@ class AudiobookshelfClient(RestApiMixin):
         ``{"libraries": [ … ]}``.
         """
         try:
-            data = self.get(f"{self.API_PREFIX}/libraries").json()
-            # May have drilldown or direct list depending on ABS version
-            libs = data.get("libraries", data)
-            return {item["id"]: item["name"] for item in libs}
+            response = self.get(f"{self.API_PREFIX}/libraries")
+            response.raise_for_status()
+            data = response.json()
+            
+            # Handle both direct array and wrapped response formats
+            if isinstance(data, list):
+                libs = data
+            else:
+                libs = data.get("libraries", [])
+            
+            return {item["id"]: item["name"] for item in libs if isinstance(item, dict)}
         except Exception as exc:
             logging.warning("ABS: failed to fetch libraries – %s", exc)
             return {}
@@ -85,19 +135,53 @@ class AudiobookshelfClient(RestApiMixin):
 
         if url and token:
             # Use override credentials for scanning
-            headers = {"Authorization": f"Bearer {token}"}
+            headers = {
+                "Authorization": f"Bearer {token}",
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
             response = requests.get(
-                f"{url.rstrip('/')}/api/libraries", headers=headers, timeout=10
+                f"{url.rstrip('/')}/api/libraries", 
+                headers=headers, 
+                timeout=10
             )
             response.raise_for_status()
             data = response.json()
-            libs = data.get("libraries", data)
+            
+            # Handle both direct array and wrapped response formats
+            if isinstance(data, list):
+                libs = data
+            else:
+                libs = data.get("libraries", [])
         else:
             # Use saved credentials
-            data = self.get(f"{self.API_PREFIX}/libraries").json()
-            libs = data.get("libraries", data)
+            response = self.get(f"{self.API_PREFIX}/libraries")
+            response.raise_for_status()
+            data = response.json()
+            
+            if isinstance(data, list):
+                libs = data
+            else:
+                libs = data.get("libraries", [])
 
-        return {item["name"]: item["id"] for item in libs}
+        return {item["name"]: item["id"] for item in libs if isinstance(item, dict)}
+
+    def get_library(self, library_id: str) -> dict[str, Any]:
+        """Get detailed information about a specific library.
+        
+        Args:
+            library_id: The library ID to fetch
+            
+        Returns:
+            dict: Library details
+        """
+        try:
+            response = self.get(f"{self.API_PREFIX}/libraries/{library_id}")
+            response.raise_for_status()
+            return response.json()
+        except Exception as exc:
+            logging.error("ABS: failed to get library %s – %s", library_id, exc)
+            return {}
 
     # --- users ---------------------------------------------------------
 
@@ -108,8 +192,15 @@ class AudiobookshelfClient(RestApiMixin):
             return []
 
         try:
-            data = self.get(f"{self.API_PREFIX}/users").json()
-            raw_users: list[dict[str, Any]] = data.get("users", data)
+            response = self.get(f"{self.API_PREFIX}/users")
+            response.raise_for_status()
+            data = response.json()
+            
+            # Handle both direct array and wrapped response formats
+            if isinstance(data, list):
+                raw_users = data
+            else:
+                raw_users = data.get("users", [])
         except Exception as exc:
             logging.warning("ABS: failed to list users – %s", exc)
             return []
@@ -182,27 +273,50 @@ class AudiobookshelfClient(RestApiMixin):
             "type": "admin" if is_admin else ("user" if allow_downloads else "guest"),
             "permissions": permissions,
         }
-        resp = self.post(f"{self.API_PREFIX}/users", json=payload)
-        resp.raise_for_status()
-        data = resp.json()
-        return data.get("id") or data.get("user", {}).get("id")
+        try:
+            resp = self.post(f"{self.API_PREFIX}/users", json=payload)
+            self._handle_response_error(resp, "user creation")
+            data = resp.json()
+            
+            # Handle different response formats
+            user_id = data.get("id")
+            if not user_id and "user" in data:
+                user_id = data["user"].get("id")
+            
+            if not user_id:
+                raise Exception("No user ID returned from server")
+                
+            return user_id
+        except Exception as exc:
+            logging.error("ABS: failed to create user – %s", exc)
+            raise
 
     def update_user(self, user_id: str, payload: dict[str, Any]):
         """PATCH arbitrary fields on a user object."""
-        resp = self.patch(f"{self.API_PREFIX}/users/{user_id}", json=payload)
-        resp.raise_for_status()
-        return resp.json()
+        try:
+            resp = self.patch(f"{self.API_PREFIX}/users/{user_id}", json=payload)
+            self._handle_response_error(resp, f"updating user {user_id}")
+            return resp.json()
+        except Exception as exc:
+            logging.error("ABS: failed to update user %s – %s", user_id, exc)
+            raise
 
     def delete_user(self, user_id: str):
         """Delete a user permanently from Audiobookshelf."""
-        resp = self.delete(f"{self.API_PREFIX}/users/{user_id}")
-        # 204 No Content or 200
-        if resp.status_code not in (200, 204):
-            resp.raise_for_status()
+        try:
+            resp = self.delete(f"{self.API_PREFIX}/users/{user_id}")
+            # 204 No Content or 200 are both acceptable
+            if resp.status_code not in (200, 204):
+                self._handle_response_error(resp, f"deleting user {user_id}")
+        except Exception as exc:
+            logging.error("ABS: failed to delete user %s – %s", user_id, exc)
+            raise
 
     def get_user(self, user_id: str):
         """Return a full user object from Audiobookshelf."""
-        return self.get(f"{self.API_PREFIX}/users/{user_id}").json()
+        response = self.get(f"{self.API_PREFIX}/users/{user_id}")
+        response.raise_for_status()
+        return response.json()
 
     # ------------------------------------------------------------------
     # Public sign-up (invite links)
@@ -354,25 +468,29 @@ class AudiobookshelfClient(RestApiMixin):
 
         endpoint = f"{self.API_PREFIX}/sessions"
 
-        # --- Step 1: read pagination metadata with a minimal request ---------
-        query: list[str] = ["itemsPerPage=1", "page=0"]
-        if self.token:
-            query.insert(0, f"token={self.token}")
-        first_page_url = f"{endpoint}?{'&'.join(query)}"
-        meta = self.get(first_page_url).json()
+        try:
+            # --- Step 1: read pagination metadata with a minimal request ---------
+            query_params = {"itemsPerPage": "1", "page": "0"}
+            response = self.get(endpoint, params=query_params)
+            response.raise_for_status()
+            meta = response.json()
 
-        total_sessions: int = meta.get("total", 0)
-        if not total_sessions:
-            return []  # Nothing playing at all
+            total_sessions: int = meta.get("total", 0)
+            if not total_sessions:
+                return []  # Nothing playing at all
 
-        # --- Step 2: fetch the last page with a fixed page size -------------
-        items_per_page = 10  # sane default – plenty for a dashboard
-        last_page = max(0, (total_sessions - 1) // items_per_page)  # zero-based
-        query = [f"itemsPerPage={items_per_page}", f"page={last_page}"]
-        if self.token:
-            query.insert(0, f"token={self.token}")
-        sessions_resp = self.get(f"{endpoint}?{'&'.join(query)}").json()
-        sessions = sessions_resp.get("sessions", [])
+            # --- Step 2: fetch the last page with a fixed page size -------------
+            items_per_page = 10  # sane default – plenty for a dashboard
+            last_page = max(0, (total_sessions - 1) // items_per_page)  # zero-based
+            
+            query_params = {"itemsPerPage": str(items_per_page), "page": str(last_page)}
+            sessions_response = self.get(endpoint, params=query_params)
+            sessions_response.raise_for_status()
+            sessions_data = sessions_response.json()
+            sessions = sessions_data.get("sessions", [])
+        except Exception as exc:
+            logging.error("ABS: failed to fetch sessions – %s", exc)
+            return []
 
         # ------------------------------------------------------------------
         # Build user-id → username mapping so dashboard shows names instead of
@@ -380,13 +498,22 @@ class AudiobookshelfClient(RestApiMixin):
         # ------------------------------------------------------------------
         user_name_by_id: dict[str, str] = {}
         try:
-            users_json = self.get(f"{self.API_PREFIX}/users").json()
-            for u in users_json.get("users", users_json):
+            users_response = self.get(f"{self.API_PREFIX}/users")
+            users_response.raise_for_status()
+            users_json = users_response.json()
+            
+            # Handle both direct array and wrapped response formats
+            if isinstance(users_json, list):
+                users_list = users_json
+            else:
+                users_list = users_json.get("users", [])
+                
+            for u in users_list:
                 if isinstance(u, dict) and u.get("id"):
                     user_name_by_id[str(u["id"])] = u.get("username", "user")
-        except Exception:
+        except Exception as exc:
             # If the call fails we fall back to raw IDs – no fatal error.
-            pass
+            logging.debug("ABS: failed to fetch user names for sessions – %s", exc)
 
         now_ms = int(time.time() * 1000)  # current time in ms (ABS uses ms)
         active: list[dict] = []
@@ -510,8 +637,16 @@ class AudiobookshelfClient(RestApiMixin):
             # ------------------------------------------------------------------
             total_users = 0
             try:
-                users_resp = self.get(f"{self.API_PREFIX}/users").json()
-                users_list = users_resp.get("users", users_resp)
+                users_response = self.get(f"{self.API_PREFIX}/users")
+                users_response.raise_for_status()
+                users_data = users_response.json()
+                
+                # Handle both direct array and wrapped response formats
+                if isinstance(users_data, list):
+                    users_list = users_data
+                else:
+                    users_list = users_data.get("users", [])
+                    
                 total_users = len(users_list) if isinstance(users_list, list) else 0
             except Exception as exc:
                 logging.error("ABS statistics: failed to fetch users – %s", exc)
@@ -546,7 +681,23 @@ class AudiobookshelfClient(RestApiMixin):
 
     def _headers(self) -> dict[str, str]:  # type: ignore[override]
         """Return default headers including Authorization if a token is set."""
-        headers: dict[str, str] = {"Accept": "application/json"}
+        headers: dict[str, str] = {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        }
         if getattr(self, "token", None):
             headers["Authorization"] = f"Bearer {self.token}"
         return headers
+
+    def _handle_response_error(self, response, context: str = ""):
+        """Handle common response errors with better error messages."""
+        if response.status_code == 401:
+            raise Exception(f"Unauthorized: Invalid API token{' for ' + context if context else ''}")
+        elif response.status_code == 403:
+            raise Exception(f"Forbidden: Insufficient permissions{' for ' + context if context else ''}")
+        elif response.status_code == 404:
+            raise Exception(f"Not found{': ' + context if context else ''}")
+        elif response.status_code >= 500:
+            raise Exception(f"Server error ({response.status_code}){' for ' + context if context else ''}")
+        else:
+            response.raise_for_status()
