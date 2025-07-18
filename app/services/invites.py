@@ -124,12 +124,23 @@ def create_invite(form: Any) -> Invitation:
 
     # === NEW: wire up the many-to-many ===
     selected = form.getlist("libraries")  # these are your external_ids
+    import logging
+
+    logging.info(f"INVITE DEBUG: form.getlist('libraries') returned: {selected}")
     if selected:
         # Look up the Library objects, but only for the selected servers to avoid orphaned libraries
         server_ids = [s.id for s in servers]
+        logging.info(f"INVITE DEBUG: server_ids: {server_ids}")
         libs = Library.query.filter(
             Library.external_id.in_(selected), Library.server_id.in_(server_ids)
         ).all()
+        logging.info(
+            f"INVITE DEBUG: Found {len(libs)} libraries matching selected external_ids"
+        )
+        for lib in libs:
+            logging.info(
+                f"INVITE DEBUG: Library - ID: {lib.id}, external_id: {lib.external_id}, name: {lib.name}, server_id: {lib.server_id}"
+            )
         invite.libraries.extend(libs)
 
     db.session.commit()

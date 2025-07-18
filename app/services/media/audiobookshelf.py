@@ -295,19 +295,63 @@ class AudiobookshelfClient(RestApiMixin):
                 return False, "Failed to create user on server"
 
             # Set library access
+            logging.info(
+                "ABS: Invitation libraries check - inv: %s, inv.libraries: %s",
+                inv,
+                inv.libraries if inv else None,
+            )
+
+            # Get all available libraries for this server
+            all_libraries = Library.query.filter_by(
+                enabled=True, server_id=server_id
+            ).all()
+            total_library_count = len(all_libraries)
+
             if inv and inv.libraries:
-                lib_ids = [
-                    lib.external_id
-                    for lib in inv.libraries
-                    if lib.server_id == server_id
+                logging.info(
+                    "ABS: Found %d libraries in invitation", len(inv.libraries)
+                )
+                for lib in inv.libraries:
+                    logging.info(
+                        "ABS: Library - ID: %s, external_id: %s, name: %s, server_id: %s",
+                        lib.id,
+                        lib.external_id,
+                        lib.name,
+                        lib.server_id,
+                    )
+
+                # Get the selected library IDs for this server
+                selected_libs = [
+                    lib for lib in inv.libraries if lib.server_id == server_id
                 ]
+                selected_count = len(selected_libs)
+
+                # Check if all libraries are selected
+                if selected_count == total_library_count:
+                    # All libraries selected - use empty list to trigger accessAllLibraries=true
+                    lib_ids = []
+                    logging.info(
+                        "ABS: All %d libraries selected for user %s - granting full access",
+                        total_library_count,
+                        user_id,
+                    )
+                else:
+                    # Specific libraries selected
+                    lib_ids = [lib.external_id for lib in selected_libs]
+                    logging.info(
+                        "ABS: Setting %d specific libraries for user %s: %s",
+                        selected_count,
+                        user_id,
+                        lib_ids,
+                    )
             else:
-                lib_ids = [
-                    lib.external_id
-                    for lib in Library.query.filter_by(
-                        enabled=True, server_id=server_id
-                    ).all()
-                ]
+                # No specific libraries in invitation - grant access to all
+                lib_ids = []
+                logging.info(
+                    "ABS: No specific libraries in invitation - granting access to all libraries for user %s",
+                    user_id,
+                )
+
             self._set_specific_libraries(user_id, lib_ids, allow_downloads)
 
             # Calculate expiry

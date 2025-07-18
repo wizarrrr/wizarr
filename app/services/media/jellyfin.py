@@ -137,8 +137,8 @@ class JellyfinClient(RestApiMixin):
         folder_ids = [fid for fid in folder_ids if fid]
 
         policy_patch = {
-            "EnableAllFolders": not folder_ids,
-            "EnabledFolders": folder_ids,
+            "EnableAllFolders": False if folder_ids else True,  # noqa: SIM211
+            "EnabledFolders": folder_ids if folder_ids else [],
         }
 
         current = self.get(f"/Users/{user_id}").json()["Policy"]
