@@ -140,18 +140,28 @@ class EmbyClient(JellyfinClient):
         items = self.get("/Library/MediaFolders").json()["Items"]
         mapping = {i["Name"]: i["Guid"] for i in items}
 
+        # Debug logging
+        import logging
+
+        logging.info(f"EMBY: _set_specific_folders called with names: {names}")
+        logging.info(f"EMBY: mapping: {mapping}")
+
         folder_ids = [self._folder_name_to_id(n, mapping) for n in names]
         folder_ids = [fid for fid in folder_ids if fid]
 
+        logging.info(f"EMBY: folder_ids after mapping: {folder_ids}")
+
         policy_patch = {
-            "EnableAllFolders": False if folder_ids else True,  # noqa: SIM211
-            "EnabledFolders": folder_ids if folder_ids else [],
+            "EnableAllFolders": not folder_ids,
+            "EnabledFolders": folder_ids,
             "EnableMediaPlayback": True,
             "EnableAudioPlaybackTranscoding": True,
             "EnableVideoPlaybackTranscoding": True,
             "EnablePlaybackRemuxing": True,
             "EnableRemoteAccess": True,
         }
+
+        logging.info(f"EMBY: Setting policy patch for user {user_id}: {policy_patch}")
 
         current = self.get(f"/Users/{user_id}").json()["Policy"]
         current.update(policy_patch)

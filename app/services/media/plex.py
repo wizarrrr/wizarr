@@ -178,6 +178,19 @@ class PlexClient(MediaClient):
         plex_user = self.admin.user(user_record.email)
         if not plex_user:
             raise ValueError(f"Plex user not found for email {user_record.email}")
+        # Get the sections/libraries this user has access to
+        sections = []
+        try:
+            # Get the user's accessible libraries on this server
+            for user_server in plex_user.servers:
+                if user_server.machineIdentifier == self.server.machineIdentifier:
+                    # Get the section names from the server
+                    sections = [section.title for section in user_server.sections()]
+                    break
+        except Exception as e:
+            logging.warning(f"Failed to get Plex user sections: {e}")
+            sections = []
+
         return {
             "Name": plex_user.title,
             "Id": plex_user.id,
@@ -186,7 +199,7 @@ class PlexClient(MediaClient):
                 "allowChannels": plex_user.allowChannels,
                 "allowSync": plex_user.allowSync,
             },
-            "Policy": {"sections": []},
+            "Policy": {"sections": sections},
         }
 
     def update_user(self, info: dict, form: dict) -> None:
