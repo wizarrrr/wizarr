@@ -1,4 +1,9 @@
-"""Facade that dispatches media user management to Plex or Jellyfin."""
+"""Service layer for media server management.
+
+This module provides a unified interface for managing users, libraries, and
+operations across different media server types. It acts as a facade that
+dispatches requests to the appropriate media client implementation.
+"""
 
 import logging
 import re
@@ -10,35 +15,28 @@ from app.models import Identity, MediaServer, Settings, User
 from .client_base import CLIENTS
 
 
-def _clear_user_cache(client):
+def _clear_user_cache(client) -> None:
     """Helper to clear user cache if available."""
-    if hasattr(client, "list_users"):
-        list_users_method = client.list_users
-        if hasattr(list_users_method, "cache_clear"):
-            list_users_method.cache_clear()
+    if hasattr(client, "list_users") and hasattr(client.list_users, "cache_clear"):
+        client.list_users.cache_clear()
 
 
-def _mode() -> str:
-    """
-    Reads the 'server_type' setting from the DB.
-    Falls back to None if it isn't set.
-    """
+def _mode() -> str | None:
+    """Read the 'server_type' setting from the database."""
     return db.session.query(Settings.value).filter_by(key="server_type").scalar()
 
 
 def get_client(
     server_type: str | None = None, url: str | None = None, token: str | None = None
 ):
-    """
-    Instantiate the MediaClient for the given server_type, optionally overriding URL/token.
-    """
+    """Instantiate the MediaClient for the given server_type, optionally overriding URL/token."""
     if server_type is None:
         server_type = _mode()
-    try:
-        cls = CLIENTS[server_type]
-    except KeyError as exc:
-        raise ValueError(f"Unsupported media server type: {server_type}") from exc
-    client = cls()
+
+    if server_type not in CLIENTS:
+        raise ValueError(f"Unsupported media server type: {server_type}")
+
+    client = CLIENTS[server_type]()
     if url:
         client.url = url
     if token:
@@ -48,13 +46,10 @@ def get_client(
 
 def get_client_for_media_server(server: MediaServer):
     """Return a configured MediaClient instance for the given MediaServer row."""
-    cls = CLIENTS.get(server.server_type)
-    if not cls:
+    if server.server_type not in CLIENTS:
         raise ValueError(f"Unsupported media server type: {server.server_type}")
 
-    # MediaClient can now accept the row directly which centralises
-    # credential handling and attribute population.
-    return cls(media_server=server)
+    return CLIENTS[server.server_type](media_server=server)
 
 
 def get_media_client(server_type: str, media_server: MediaServer | None = None):
@@ -68,11 +63,8 @@ def get_media_client(server_type: str, media_server: MediaServer | None = None):
 
 
 def list_users(clear_cache: bool = False):
-    """
-    Return current users from the configured media server, syncing local DB as needed.
-    """
+    """Return current users from the configured media server, syncing local DB as needed."""
     client = get_client(_mode())
-    # clear cache on clients that support it
     if clear_cache:
         _clear_user_cache(client)
     return client.list_users()
@@ -83,15 +75,19 @@ def list_users_for_server(server: MediaServer, *, clear_cache: bool = False):
     client = get_client_for_media_server(server)
     if clear_cache:
         _clear_user_cache(client)
+
     users = client.list_users()
-    # ensure linkage
+
+    # Ensure server linkage
     changed = False
-    for u in users:
-        if u.server_id != server.id:
-            u.server_id = server.id
+    for user in users:
+        if user.server_id != server.id:
+            user.server_id = server.id
             changed = True
+
     if changed:
         db.session.commit()
+
     return users
 
 

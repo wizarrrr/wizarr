@@ -6,7 +6,12 @@ from typing import Any
 from sqlalchemy import and_  # type: ignore
 
 from app.extensions import db
-from app.models import Invitation, Library, MediaServer, invitation_servers
+from app.models import (
+    Invitation,
+    Library,
+    MediaServer,
+    invitation_servers,
+)
 
 MIN_CODESIZE = 6  # Minimum allowed invite code length
 MAX_CODESIZE = 10  # Maximum allowed invite code length (default for generated codes)
@@ -122,15 +127,31 @@ def create_invite(form: Any) -> Invitation:
 
         invite.servers.extend(servers)
 
-    # === NEW: wire up the many-to-many ===
-    selected = form.getlist("libraries")  # these are your external_ids
+    # Wire up library associations
+    selected = form.getlist("libraries")  # these are now library IDs (not external_ids)
     if selected:
-        # Look up the Library objects, but only for the selected servers to avoid orphaned libraries
-        server_ids = [s.id for s in servers]
-        libs = Library.query.filter(
-            Library.external_id.in_(selected), Library.server_id.in_(server_ids)
-        ).all()
-        invite.libraries.extend(libs)
+        # Convert string IDs to integers and filter out invalid values
+        try:
+            library_ids = [int(lid) for lid in selected if lid.isdigit()]
+        except (ValueError, AttributeError):
+            library_ids = []
+
+        if library_ids:
+            # Look up the Library objects by their IDs
+            # Also ensure they belong to one of the selected servers
+            server_ids = [s.id for s in servers]
+            libs = Library.query.filter(
+                Library.id.in_(library_ids), Library.server_id.in_(server_ids)
+            ).all()
+
+            # Since we're now using unique library IDs from the frontend,
+            # we shouldn't have duplicates, but we'll keep the deduplication
+            # logic as a safety measure
+            seen_lib_ids = set()
+            for lib in libs:
+                if lib.id not in seen_lib_ids:
+                    seen_lib_ids.add(lib.id)
+                    invite.libraries.append(lib)
 
     db.session.commit()
     return invite

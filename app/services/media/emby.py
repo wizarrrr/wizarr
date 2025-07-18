@@ -1,6 +1,11 @@
 import logging
 import re
 
+import requests
+from sqlalchemy import or_
+
+from app.models import Invitation, MediaServer, User
+
 from .client_base import register_media_client
 from .jellyfin import JellyfinClient
 
@@ -14,10 +19,12 @@ class EmbyClient(JellyfinClient):
 
     def libraries(self) -> dict[str, str]:
         """Return mapping of library GUIDs to names."""
-        return {
-            item["Guid"]: item["Name"]
-            for item in self.get("/Library/MediaFolders").json()["Items"]
-        }
+        try:
+            items = self.get("/Library/MediaFolders").json()["Items"]
+            return {item["Guid"]: item["Name"] for item in items}
+        except Exception as exc:
+            logging.warning("Emby: failed to fetch libraries – %s", exc)
+            return {}
 
     def scan_libraries(
         self, url: str | None = None, token: str | None = None
@@ -31,21 +38,23 @@ class EmbyClient(JellyfinClient):
         Returns:
             dict: Library name -> library GUID mapping
         """
-        import requests
+        try:
+            if url and token:
+                headers = {"X-Emby-Token": token}
+                response = requests.get(
+                    f"{url.rstrip('/')}/Library/MediaFolders",
+                    headers=headers,
+                    timeout=10,
+                )
+                response.raise_for_status()
+                items = response.json()["Items"]
+            else:
+                items = self.get("/Library/MediaFolders").json()["Items"]
 
-        if url and token:
-            # Use override credentials for scanning
-            headers = {"X-Emby-Token": token}
-            response = requests.get(
-                f"{url.rstrip('/')}/Library/MediaFolders", headers=headers, timeout=10
-            )
-            response.raise_for_status()
-            items = response.json()["Items"]
-        else:
-            # Use saved credentials
-            items = self.get("/Library/MediaFolders").json()["Items"]
-
-        return {item["Name"]: item["Guid"] for item in items}
+            return {item["Name"]: item["Guid"] for item in items}
+        except Exception as exc:
+            logging.warning("Emby: failed to scan libraries – %s", exc)
+            return {}
 
     def statistics(self):
         """Return essential Emby server statistics for the dashboard.
@@ -107,27 +116,26 @@ class EmbyClient(JellyfinClient):
             }
 
     def create_user(self, username: str, password: str) -> str:
-        """Create user and set password"""
+        """Create user and set password."""
         # Step 1: Create user without password
         user = self.post("/Users/New", json={"Name": username}).json()
         user_id = user["Id"]
 
         # Step 2: Set password
         try:
-            logging.info(f"Setting password for user {username} (ID: {user_id})")
+            logging.info("Setting password for user %s (ID: %s)", username, user_id)
             password_response = self.post(
                 f"/Users/{user_id}/Password",
                 json={
                     "NewPw": password,
                     "CurrentPw": "",  # No current password for new users
-                    "ResetPassword": False,  # Important! Don't reset password
+                    "ResetPassword": False,  # Don't reset password
                 },
             )
-            logging.info(f"Password set response: {password_response.status_code}")
+            logging.info("Password set response: %s", password_response.status_code)
         except Exception as e:
-            logging.error(f"Failed to set password for user {username}: {str(e)}")
+            logging.error("Failed to set password for user %s: %s", username, e)
             # Continue with user creation even if password setting fails
-            # as we may need to debug further
 
         return user_id
 
@@ -140,10 +148,14 @@ class EmbyClient(JellyfinClient):
         items = self.get("/Library/MediaFolders").json()["Items"]
         mapping = {i["Name"]: i["Guid"] for i in items}
 
-        print(mapping)
+        # Debug logging
+        logging.info(f"EMBY: _set_specific_folders called with names: {names}")
+        logging.info(f"EMBY: mapping: {mapping}")
 
         folder_ids = [self._folder_name_to_id(n, mapping) for n in names]
         folder_ids = [fid for fid in folder_ids if fid]
+
+        logging.info(f"EMBY: folder_ids after mapping: {folder_ids}")
 
         policy_patch = {
             "EnableAllFolders": not folder_ids,
@@ -154,6 +166,8 @@ class EmbyClient(JellyfinClient):
             "EnablePlaybackRemuxing": True,
             "EnableRemoteAccess": True,
         }
+
+        logging.info(f"EMBY: Setting policy patch for user {user_id}: {policy_patch}")
 
         current = self.get(f"/Users/{user_id}").json()["Policy"]
         current.update(policy_patch)
@@ -170,8 +184,6 @@ class EmbyClient(JellyfinClient):
             return success, message
 
         # Get the invitation and server information
-        from app.models import Invitation, MediaServer
-
         inv = Invitation.query.filter_by(code=code).first()
         if not inv:
             return False, "Invalid invitation code."
@@ -185,10 +197,6 @@ class EmbyClient(JellyfinClient):
             return success, message
 
         # Get the user that was just created
-        from sqlalchemy import or_
-
-        from app.models import User
-
         user = User.query.filter(
             or_(User.username == username, User.email == email),
             User.server_id == server_id,

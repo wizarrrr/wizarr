@@ -1,11 +1,18 @@
 from __future__ import annotations
 
+import contextlib
+import datetime
 import logging
 import re
+import time
 from typing import Any
 
+import requests
+from sqlalchemy import or_
+
 from app.extensions import db
-from app.models import Library, User
+from app.models import Invitation, Library, User
+from app.services.invites import is_invite_valid, mark_server_used
 
 from .client_base import RestApiMixin, register_media_client
 
@@ -35,17 +42,14 @@ class AudiobookshelfClient(RestApiMixin):
     EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 
     def __init__(self, *args, **kwargs):
-        # Provide defaults so legacy code keeps working if the caller didn't
-        # specify explicit keys / MediaServer.
-        if "url_key" not in kwargs:
-            kwargs["url_key"] = "server_url"
-        if "token_key" not in kwargs:
-            kwargs["token_key"] = "api_key"
+        # Provide defaults for legacy compatibility
+        kwargs.setdefault("url_key", "server_url")
+        kwargs.setdefault("token_key", "api_key")
 
         super().__init__(*args, **kwargs)
 
-        # Strip trailing slash to keep URL join sane.
-        if self.url and self.url.endswith("/"):
+        # Normalize URL
+        if self.url:
             self.url = self.url.rstrip("/")
 
     # ------------------------------------------------------------------
@@ -98,11 +102,7 @@ class AudiobookshelfClient(RestApiMixin):
     # --- libraries -----------------------------------------------------
 
     def libraries(self) -> dict[str, str]:
-        """Return mapping of ``library_id`` → ``display_name``.
-
-        Audiobookshelf exposes ``GET /api/libraries`` which returns
-        ``{"libraries": [ … ]}``.
-        """
+        """Return mapping of library_id → display_name."""
         try:
             response = self.get(f"{self.API_PREFIX}/libraries")
             response.raise_for_status()
@@ -131,40 +131,37 @@ class AudiobookshelfClient(RestApiMixin):
         Returns:
             dict: Library name -> library ID mapping
         """
-        import requests
-
-        if url and token:
-            # Use override credentials for scanning
-            headers = {
-                "Authorization": f"Bearer {token}",
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-            response = requests.get(
-                f"{url.rstrip('/')}/api/libraries", 
-                headers=headers, 
-                timeout=10
-            )
-            response.raise_for_status()
-            data = response.json()
+        try:
+            if url and token:
+                # Use override credentials for scanning
+                headers = {
+                    "Authorization": f"Bearer {token}",
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                }
+                response = requests.get(
+                    f"{url.rstrip('/')}/api/libraries", 
+                    headers=headers, 
+                    timeout=10
+                )
+                response.raise_for_status()
+                data = response.json()
+            else:
+                # Use saved credentials
+                response = self.get(f"{self.API_PREFIX}/libraries")
+                response.raise_for_status()
+                data = response.json()
             
             # Handle both direct array and wrapped response formats
             if isinstance(data, list):
                 libs = data
             else:
                 libs = data.get("libraries", [])
-        else:
-            # Use saved credentials
-            response = self.get(f"{self.API_PREFIX}/libraries")
-            response.raise_for_status()
-            data = response.json()
-            
-            if isinstance(data, list):
-                libs = data
-            else:
-                libs = data.get("libraries", [])
 
-        return {item["name"]: item["id"] for item in libs if isinstance(item, dict)}
+            return {item["name"]: item["id"] for item in libs if isinstance(item, dict)}
+        except Exception as exc:
+            logging.warning("ABS: failed to scan libraries – %s", exc)
+            return {}
 
     def get_library(self, library_id: str) -> dict[str, Any]:
         """Get detailed information about a specific library.
@@ -329,8 +326,6 @@ class AudiobookshelfClient(RestApiMixin):
     @staticmethod
     def _mark_invite_used(inv, user):
         inv.used_by = user
-        from app.services.invites import mark_server_used
-
         mark_server_used(inv, user.server_id)
 
     def _set_specific_libraries(
@@ -367,11 +362,6 @@ class AudiobookshelfClient(RestApiMixin):
 
     def join(self, username: str, password: str, confirm: str, email: str, code: str):
         """Public invite flow for Audiobookshelf users."""
-        from sqlalchemy import or_
-
-        from app.models import Invitation, User
-        from app.services.invites import is_invite_valid
-
         if not self.EMAIL_RE.fullmatch(email):
             return False, "Invalid e-mail address."
         if not 8 <= len(password) <= 20:
@@ -409,32 +399,72 @@ class AudiobookshelfClient(RestApiMixin):
                 return False, "Failed to create user on server"
 
             # Set library access
+            logging.info(
+                "ABS: Invitation libraries check - inv: %s, inv.libraries: %s",
+                inv,
+                inv.libraries if inv else None,
+            )
+
+            # Get all available libraries for this server
+            all_libraries = Library.query.filter_by(
+                enabled=True, server_id=server_id
+            ).all()
+            total_library_count = len(all_libraries)
+
             if inv and inv.libraries:
-                lib_ids = [
-                    lib.external_id
-                    for lib in inv.libraries
-                    if lib.server_id == server_id
+                logging.info(
+                    "ABS: Found %d libraries in invitation", len(inv.libraries)
+                )
+                for lib in inv.libraries:
+                    logging.info(
+                        "ABS: Library - ID: %s, external_id: %s, name: %s, server_id: %s",
+                        lib.id,
+                        lib.external_id,
+                        lib.name,
+                        lib.server_id,
+                    )
+
+                # Get the selected library IDs for this server
+                selected_libs = [
+                    lib for lib in inv.libraries if lib.server_id == server_id
                 ]
+                selected_count = len(selected_libs)
+
+                # Check if all libraries are selected
+                if selected_count == total_library_count:
+                    # All libraries selected - use empty list to trigger accessAllLibraries=true
+                    lib_ids = []
+                    logging.info(
+                        "ABS: All %d libraries selected for user %s - granting full access",
+                        total_library_count,
+                        user_id,
+                    )
+                else:
+                    # Specific libraries selected
+                    lib_ids = [lib.external_id for lib in selected_libs]
+                    logging.info(
+                        "ABS: Setting %d specific libraries for user %s: %s",
+                        selected_count,
+                        user_id,
+                        lib_ids,
+                    )
             else:
-                lib_ids = [
-                    lib.external_id
-                    for lib in Library.query.filter_by(
-                        enabled=True, server_id=server_id
-                    ).all()
-                ]
+                # No specific libraries in invitation - grant access to all
+                lib_ids = []
+                logging.info(
+                    "ABS: No specific libraries in invitation - granting access to all libraries for user %s",
+                    user_id,
+                )
+
             self._set_specific_libraries(user_id, lib_ids, allow_downloads)
 
             # Calculate expiry
             expires = None
             if inv and inv.duration:
-                try:
-                    import datetime as _dt
-
-                    expires = _dt.datetime.utcnow() + _dt.timedelta(
+                with contextlib.suppress(Exception):
+                    expires = datetime.datetime.utcnow() + datetime.timedelta(
                         days=int(inv.duration)
                     )
-                except Exception:
-                    pass
 
             # Store locally
             local = User(
@@ -464,8 +494,6 @@ class AudiobookshelfClient(RestApiMixin):
         10 items per page to retrieve the most recent sessions and filter
         them by activity timestamp.
         """
-        import time
-
         endpoint = f"{self.API_PREFIX}/sessions"
 
         try:

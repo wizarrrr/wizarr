@@ -15,9 +15,32 @@ Login
       class="w-full bg-white rounded-lg shadow-sm dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
       <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
         <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-          {{ _("Login") }}
+          {% if show_2fa %}
+            {{ _("Two-Factor Authentication") }}
+          {% else %}
+            {{ _("Login") }}
+          {% endif %}
         </h1>
         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ error }}</p>
+        
+        {% if show_2fa %}
+        <div class="mb-4 p-4 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-800 rounded-lg">
+          <div class="flex items-center">
+            <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+            <div>
+              <p class="text-sm text-blue-800 dark:text-blue-200">
+                {{ _("Welcome back, {}!").format(username) }}
+              </p>
+              <p class="text-sm text-blue-600 dark:text-blue-400">
+                {{ _("Please authenticate with your passkey to complete login.") }}
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% if not show_2fa %}
         <form class="space-y-4 md:space-y-6" action="/login" method="POST">
           <div>
             <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username") }}</label>
@@ -45,8 +68,31 @@ Login
           <button type="submit" id="password-login"
             class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-hidden focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">{{ _("Sign in") }}</button>
         </form>
+        {% endif %}
         
+        {% if show_2fa or has_passkeys %}
         <div class="mt-4">
+          {% if show_2fa %}
+          <!-- 2FA Mode: Only show passkey authentication -->
+          <button type="button" id="passkey-login"
+            class="w-full flex items-center justify-center px-4 py-2 border border-blue-300 dark:border-blue-600 rounded-lg text-sm font-medium text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-800">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+            {{ _("Authenticate with Passkey") }}
+          </button>
+          
+          <!-- Back to login button -->
+          <button type="button" id="back-to-login"
+            class="mt-2 w-full flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            {{ _("Back to Login") }}
+          </button>
+          {% elif has_passkeys %}
+          <!-- Normal Mode: Show "Or" divider and passkey option -->
           <div class="relative">
             <div class="absolute inset-0 flex items-center">
               <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
@@ -63,7 +109,9 @@ Login
             </svg>
             {{ _("Sign in with Passkey") }}
           </button>
+          {% endif %}
         </div>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -73,6 +121,14 @@ Login
 document.addEventListener('DOMContentLoaded', function() {
     const passkeyLoginBtn = document.getElementById('passkey-login');
     const usernameInput = document.getElementById('username');
+    const backToLoginBtn = document.getElementById('back-to-login');
+    
+    // Handle back to login button
+    if (backToLoginBtn) {
+        backToLoginBtn.addEventListener('click', function() {
+            window.location.href = '/login';
+        });
+    }
     
     passkeyLoginBtn.addEventListener('click', async function() {
         try {
@@ -130,7 +186,20 @@ document.addEventListener('DOMContentLoaded', function() {
             if (completeResponse.ok) {
                 const result = await completeResponse.json();
                 if (result.verified && result.redirect) {
-                    window.location.href = result.redirect;
+                    // For 2FA completion, we need to make a POST request to complete the login
+                    if (result.redirect.includes('complete-2fa')) {
+                        const completeLoginResponse = await fetch(result.redirect, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' }
+                        });
+                        if (completeLoginResponse.ok) {
+                            window.location.href = '/';
+                        } else {
+                            throw new Error('{{ _("Failed to complete 2FA login") }}');
+                        }
+                    } else {
+                        window.location.href = result.redirect;
+                    }
                 } else {
                     throw new Error('{{ _("Authentication failed") }}');
                 }
@@ -166,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function uint8ArrayToBase64url(array) {
-        const binary = String.fromCharCode(...array);
+        const binary = String.fromCharCode.apply(null, array);
         const base64 = btoa(binary);
         return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
     }

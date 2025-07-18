@@ -27,15 +27,15 @@
                         </div>
 
                         <!-- Verification Status -->
-                        <div class="flex items-center">
-                            <svg class="w-4 h-4 mr-1.5 {% if s.verified %}text-green-500{% else %}text-red-500{% endif %}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 {% if s.verified %}text-green-500{% else %}text-red-500{% endif %}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 {% if s.verified %}
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                                 {% else %}
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.536-10.121a1 1 0 00-1.414-1.414L10 8.586 7.879 6.465a1 1 0 00-1.414 1.414L8.586 10l-2.121 2.121a1 1 0 001.414 1.414L10 11.414l2.121 2.121a1 1 0 001.414-1.414L11.414 10l2.122-2.121z" clip-rule="evenodd"></path>
                                 {% endif %}
                             </svg>
-                            <span class="ml-1 inline-flex rounded-full px-2 py-0.5 text-xs font-medium
+                            <span class="inline-flex rounded-full px-2 py-0.5 text-xs font-medium
                                 {% if s.verified %}bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100
                                 {% else %}bg-red-100 text-red-800 dark:bg-red-700 dark:text-red-100{% endif %}">
                                 {{ _("Verified") if s.verified else _("Unverified") }}
@@ -45,7 +45,7 @@
                             <span hx-get="{{ url_for('media_servers.ping_server', server_id=s.id) }}"
                                   hx-trigger="load"
                                   hx-swap="outerHTML"
-                                  class="ml-2 inline-flex rounded-full px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100">
+                                  class="inline-flex rounded-full px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100">
                                 {{ _("Checking...") }}
                             </span>
                         </div>
