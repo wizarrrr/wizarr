@@ -246,7 +246,7 @@ def register_complete():
 
 @webauthn_bp.route("/webauthn/authenticate/begin", methods=["POST"])
 def authenticate_begin():
-    """Begin WebAuthn authentication process (usernameless)."""
+    """Begin WebAuthn authentication process (usernameless or 2FA)."""
     try:
         rp_id, _, _ = get_rp_config()
     except ValueError as e:
@@ -255,14 +255,31 @@ def authenticate_begin():
     if not rp_id:
         return jsonify({"error": "RP ID is required"}), 500
 
-    # Get all credentials from all admin accounts for usernameless authentication
-    all_credentials = WebAuthnCredential.query.all()
-    if not all_credentials:
-        return jsonify({"error": "No passkeys registered"}), 404
+    # Check if this is a 2FA authentication
+    from flask import session
 
-    allow_credentials = [
-        PublicKeyCredentialDescriptor(id=cred.credential_id) for cred in all_credentials
-    ]
+    pending_2fa_user_id = session.get("pending_2fa_user_id")
+
+    if pending_2fa_user_id:
+        # 2FA mode - only get credentials for the specific user
+        user_credentials = WebAuthnCredential.query.filter_by(
+            admin_account_id=pending_2fa_user_id
+        ).all()
+        if not user_credentials:
+            return jsonify({"error": "No passkeys registered for this user"}), 404
+        allow_credentials = [
+            PublicKeyCredentialDescriptor(id=cred.credential_id)
+            for cred in user_credentials
+        ]
+    else:
+        # Usernameless mode - get all credentials from all admin accounts
+        all_credentials = WebAuthnCredential.query.all()
+        if not all_credentials:
+            return jsonify({"error": "No passkeys registered"}), 404
+        allow_credentials = [
+            PublicKeyCredentialDescriptor(id=cred.credential_id)
+            for cred in all_credentials
+        ]
 
     authentication_options = generate_authentication_options(
         rp_id=rp_id,
@@ -298,7 +315,7 @@ def authenticate_begin():
 
 @webauthn_bp.route("/webauthn/authenticate/complete", methods=["POST"])
 def authenticate_complete():
-    """Complete WebAuthn authentication process (usernameless)."""
+    """Complete WebAuthn authentication process (usernameless or 2FA)."""
     credential_data = request.get_json()
     challenge = session.get("webauthn_challenge")
 
@@ -308,13 +325,25 @@ def authenticate_complete():
     try:
         credential = parse_authentication_credential_json(credential_data["credential"])
 
-        # Find the credential by credential_id (usernameless authentication)
+        # Find the credential by credential_id
         db_credential = WebAuthnCredential.query.filter_by(
             credential_id=credential.raw_id
         ).first()
 
         if not db_credential:
             return jsonify({"error": "Credential not found"}), 404
+
+        # Check if this is 2FA authentication
+        pending_2fa_user_id = session.get("pending_2fa_user_id")
+
+        if (
+            pending_2fa_user_id
+            and db_credential.admin_account_id != pending_2fa_user_id
+        ):
+            # 2FA mode - verify the credential belongs to the pending user
+            return jsonify(
+                {"error": "Credential does not belong to authenticated user"}
+            ), 403
 
         # Get the admin account associated with this credential
         admin_account = db_credential.admin_account
@@ -341,10 +370,13 @@ def authenticate_complete():
 
         session.pop("webauthn_challenge", None)
 
+        if pending_2fa_user_id:
+            # 2FA mode - complete the authentication via the auth route
+            return jsonify({"verified": True, "redirect": url_for("auth.complete_2fa")})
+        # Usernameless mode - login directly
         from flask_login import login_user
 
         login_user(admin_account, remember=True)
-
         return jsonify({"verified": True, "redirect": url_for("admin.dashboard")})
 
     except Exception:

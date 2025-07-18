@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 from app.blueprints.admin.routes import admin_bp
 from app.extensions import db
 from app.forms.admin import AdminCreateForm, AdminUpdateForm
-from app.models import AdminAccount
+from app.models import AdminAccount, WebAuthnCredential
 
 admin_accounts_bp = Blueprint("admin_accounts", __name__, url_prefix="/settings/admins")
 
@@ -150,3 +150,39 @@ def change_password():
         return render_template(
             "components/password_result.html", error="Failed to change password"
         )
+
+
+@admin_accounts_bp.route("/<int:admin_id>/reset-passkeys", methods=["POST"])
+@login_required
+def reset_passkeys(admin_id):
+    """Reset all passkeys for a specific admin account."""
+    admin = AdminAccount.query.get_or_404(admin_id)
+
+    try:
+        # Delete all passkeys for this admin
+        WebAuthnCredential.query.filter_by(admin_account_id=admin_id).delete()
+        db.session.commit()
+        flash(
+            _("All passkeys for {} have been reset").format(admin.username), "success"
+        )
+    except Exception:
+        db.session.rollback()
+        flash(_("Failed to reset passkeys for {}").format(admin.username), "error")
+
+    return redirect(url_for("admin_accounts.list_admins"))
+
+
+@admin_accounts_bp.route("/<int:admin_id>/passkeys", methods=["GET"])
+@login_required
+def admin_passkeys(admin_id):
+    """View passkeys for a specific admin account."""
+    admin = AdminAccount.query.get_or_404(admin_id)
+    passkeys = WebAuthnCredential.query.filter_by(admin_account_id=admin_id).all()
+
+    if request.headers.get("HX-Request"):
+        return render_template(
+            "components/admin_passkeys.html", admin=admin, passkeys=passkeys
+        )
+    return render_template(
+        "components/admin_passkeys.html", admin=admin, passkeys=passkeys
+    )
