@@ -136,13 +136,32 @@ class JellyfinClient(RestApiMixin):
         folder_ids = [self._folder_name_to_id(n, mapping) for n in names]
         folder_ids = [fid for fid in folder_ids if fid]
 
+        # Debug logging
+        import logging
+
+        logging.info(f"JELLYFIN: _set_specific_folders called with names: {names}")
+        logging.info(f"JELLYFIN: mapping: {mapping}")
+        logging.info(f"JELLYFIN: folder_ids after mapping: {folder_ids}")
+
         policy_patch = {
-            "EnableAllFolders": False if folder_ids else True,  # noqa: SIM211
-            "EnabledFolders": folder_ids if folder_ids else [],
+            "EnableAllFolders": not folder_ids,
+            "EnabledFolders": folder_ids,
         }
 
+        logging.info(
+            f"JELLYFIN: Setting policy patch for user {user_id}: {policy_patch}"
+        )
+
         current = self.get(f"/Users/{user_id}").json()["Policy"]
+        logging.info(
+            f"JELLYFIN: Current policy before update: EnableAllFolders={current.get('EnableAllFolders')}, EnabledFolders={current.get('EnabledFolders')}"
+        )
+
         current.update(policy_patch)
+        logging.info(
+            f"JELLYFIN: Final policy to be set: EnableAllFolders={current.get('EnableAllFolders')}, EnabledFolders={current.get('EnabledFolders')}"
+        )
+
         self.set_policy(user_id, current)
 
     # --- public sign-up ---------------------------------------------
@@ -179,6 +198,9 @@ class JellyfinClient(RestApiMixin):
                     for lib in inv.libraries
                     if lib.server_id == server_id
                 ]
+                logging.info(
+                    f"JELLYFIN: Using invitation libraries for user {username}: {sections}"
+                )
             else:
                 sections = [
                     lib.external_id
@@ -186,6 +208,9 @@ class JellyfinClient(RestApiMixin):
                         enabled=True, server_id=server_id
                     ).all()
                 ]
+                logging.info(
+                    f"JELLYFIN: No specific libraries, using all enabled: {sections}"
+                )
 
             self._set_specific_folders(user_id, sections)
 
