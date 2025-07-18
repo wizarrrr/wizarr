@@ -7,7 +7,7 @@ from flask import Blueprint, redirect, render_template, request, url_for
 from flask_babel import _
 from flask_login import login_required
 
-from app.extensions import db
+from app.extensions import db, limiter
 from app.models import (
     Identity,
     Invitation,
@@ -74,6 +74,7 @@ def now_playing_cards():
 # Invitations – landing page
 @admin_bp.route("/invite", methods=["GET", "POST"])
 @login_required
+@limiter.limit("30 per minute")
 def invite():
     if not request.headers.get("HX-Request"):
         return redirect(url_for(".dashboard"))

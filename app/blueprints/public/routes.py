@@ -15,7 +15,7 @@ from flask import (
     url_for,
 )
 
-from app.extensions import db
+from app.extensions import db, limiter
 from app.models import Invitation, MediaServer, Settings, User
 from app.services.invites import is_invite_valid
 from app.services.media.plex import handle_oauth_token
@@ -45,6 +45,7 @@ def favicon():
 
 # ─── Invite link  /j/<code> ─────────────────────────────────────────────────
 @public_bp.route("/j/<code>")
+@limiter.limit("50 per minute")
 def invite(code):
     from app.services.invitation_flow import InvitationFlowManager
 
@@ -55,6 +56,7 @@ def invite(code):
 
 # ─── Unified invitation processing ─────────────────────────────────────────
 @public_bp.route("/invitation/process", methods=["POST"])
+@limiter.limit("20 per minute")
 def process_invitation():
     """Unified route for processing all invitation types"""
     from app.services.invitation_flow import InvitationFlowManager
@@ -67,6 +69,7 @@ def process_invitation():
 
 # ─── POST /join  (Legacy Plex OAuth route - kept for compatibility) ────────
 @public_bp.route("/join", methods=["POST"])
+@limiter.limit("20 per minute")
 def join():
     code = request.form.get("code")
     token = request.form.get("token")
