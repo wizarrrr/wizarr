@@ -254,7 +254,13 @@ accept datetime or string #} {%- if v is string -%} {{ v[:16] }} {%- elif v -%}
 <script>
     function tableCopyLink(invite_code) {
         const url = window.location.origin + "/j/" + invite_code;
-        navigator.clipboard.writeText(url);
+        copyToClipboard(url, (success) => {
+            if (!success) {
+                // Fallback already shows alert, but we can add additional feedback here if needed
+                console.error("Copy failed for invite:", invite_code);
+                return;
+            }
+        });
 
         // Visual feedback: flash icon green + toast
         const icon = document.getElementById("icon_" + invite_code);

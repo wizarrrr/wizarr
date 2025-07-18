@@ -343,10 +343,14 @@
 <script>
 function copyLink() {
     const copyText = document.getElementById("link");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); // For mobile devices
-    navigator.clipboard.writeText(copyText.value);
-    document.getElementById("successfully_copied").hidden = false;
+    copyToClipboard(copyText.value, (success) => {
+        if (success) {
+            document.getElementById("successfully_copied").hidden = false;
+        } else {
+            // Fallback already shows alert, but we can add additional feedback here if needed
+            console.error("Copy failed");
+        }
+    });
 }
 
 function showAdvanced() {

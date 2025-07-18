@@ -50,6 +50,54 @@
     } else {
       document.documentElement.classList.remove('dark');
     }
+
+    // Clipboard utility with fallback support for HTTP contexts
+    function copyToClipboard(text, callback) {
+      // Modern clipboard API (requires HTTPS or localhost)
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          if (callback) callback(true);
+        }).catch(err => {
+          console.warn('Clipboard API failed, trying fallback:', err);
+          fallbackCopy(text, callback);
+        });
+      } else {
+        // Fallback for HTTP contexts
+        fallbackCopy(text, callback);
+      }
+    }
+
+    function fallbackCopy(text, callback) {
+      // Create a temporary textarea element
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      
+      try {
+        // Select and copy the text
+        textarea.select();
+        textarea.setSelectionRange(0, 99999); // For mobile devices
+        
+        const successful = document.execCommand('copy');
+        if (callback) callback(successful);
+        
+        if (!successful) {
+          console.warn('Fallback copy failed');
+          // Last resort: show alert with text to copy manually
+          alert('Please copy this link manually:\n\n' + text);
+        }
+      } catch (err) {
+        console.error('All copy methods failed:', err);
+        if (callback) callback(false);
+        // Last resort: show alert with text to copy manually
+        alert('Please copy this link manually:\n\n' + text);
+      } finally {
+        document.body.removeChild(textarea);
+      }
+    }
   </script>
 </head>
 
