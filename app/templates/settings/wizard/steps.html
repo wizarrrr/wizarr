@@ -1,5 +1,9 @@
 {# templates/settings/wizard/steps.html #}
 <div id="step-modal"></div>
+<script>
+// Clear modal when content is loaded/refreshed
+document.getElementById('step-modal').innerHTML = '';
+</script>
 <section class="space-y-6">
   {% set is_default = True %}
   {% include 'settings/wizard/_sub_nav.html' with context %}

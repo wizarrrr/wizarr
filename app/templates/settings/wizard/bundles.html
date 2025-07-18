@@ -1,5 +1,9 @@
 {# templates/settings/wizard/bundles.html #}
 <div id="step-modal"></div>
+<script>
+// Clear modal when content is loaded/refreshed
+document.getElementById('step-modal').innerHTML = '';
+</script>
 <section class="space-y-6">
   {% set is_default = False %}
   {% include 'settings/wizard/_sub_nav.html' with context %}
@@ -40,6 +44,7 @@
       <ol class="bundle-steps bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700"
           data-bundle="{{ b.id }}" data-reorder-url="{{ url_for('wizard_admin.reorder_bundle', bundle_id=b.id) }}">
         {% for bs in b.steps %}
+          {% if bs.step %}
             <li class="flex items-center justify-between px-4 py-3" data-id="{{ bs.step.id }}">
               <!-- drag handle -->
               <svg class="drag w-4 h-4 cursor-grab text-gray-400 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" /></svg>
@@ -69,6 +74,24 @@
               <!-- grip icon on far right -->
               <svg class="drag w-4 h-4 cursor-grab text-gray-400 ml-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" /></svg>
             </li>
+          {% else %}
+            {# Handle orphaned bundle steps where the step was deleted #}
+            <li class="flex items-center justify-between px-4 py-3 opacity-50">
+              <span class="flex-1 text-sm font-medium text-red-600 dark:text-red-400">{{ _('Step deleted (orphaned)') }}</span>
+              <span class="flex items-center gap-2">
+                <form method="post" action="{{ url_for('wizard_admin.delete_bundle_step', bundle_step_id=bs.id) }}" class="inline"
+                      hx-post="{{ url_for('wizard_admin.delete_bundle_step', bundle_step_id=bs.id) }}"
+                      hx-target="#tab-body" hx-swap="innerHTML"
+                      hx-confirm="{{ _('Are you sure you want to remove this orphaned step?') }}">
+                  <button type="submit" class="inline-flex items-center justify-center p-2 text-red-500 rounded-lg hover:text-white hover:bg-red-500 dark:text-red-400 dark:hover:text-white dark:hover:bg-red-600" title="{{ _('Remove orphaned step') }}">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                    </svg>
+                  </button>
+                </form>
+              </span>
+            </li>
+          {% endif %}
           {% endfor %}
       </ol>
 
