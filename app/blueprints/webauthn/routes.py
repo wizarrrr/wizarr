@@ -241,6 +241,11 @@ def register_complete():
         )
 
     except Exception as e:
+        # Log the full error for debugging
+        import traceback
+
+        print(f"WebAuthn registration error: {str(e)}")
+        print(f"Traceback: {traceback.format_exc()}")
         return jsonify({"error": f"Registration failed: {str(e)}"}), 400
 
 
