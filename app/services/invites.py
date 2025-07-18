@@ -128,21 +128,30 @@ def create_invite(form: Any) -> Invitation:
         invite.servers.extend(servers)
 
     # Wire up library associations
-    selected = form.getlist("libraries")  # these are your external_ids
+    selected = form.getlist("libraries")  # these are now library IDs (not external_ids)
     if selected:
-        # Look up the Library objects, but only for the selected servers to avoid orphaned libraries
-        server_ids = [s.id for s in servers]
-        libs = Library.query.filter(
-            Library.external_id.in_(selected), Library.server_id.in_(server_ids)
-        ).all()
+        # Convert string IDs to integers and filter out invalid values
+        try:
+            library_ids = [int(lid) for lid in selected if lid.isdigit()]
+        except (ValueError, AttributeError):
+            library_ids = []
 
-        # Important: Due to how SQLAlchemy handles many-to-many relationships,
-        # we need to ensure no duplicate library IDs are added to avoid UNIQUE constraint violations
-        seen_lib_ids = set()
-        for lib in libs:
-            if lib.id not in seen_lib_ids:
-                seen_lib_ids.add(lib.id)
-                invite.libraries.append(lib)
+        if library_ids:
+            # Look up the Library objects by their IDs
+            # Also ensure they belong to one of the selected servers
+            server_ids = [s.id for s in servers]
+            libs = Library.query.filter(
+                Library.id.in_(library_ids), Library.server_id.in_(server_ids)
+            ).all()
+
+            # Since we're now using unique library IDs from the frontend,
+            # we shouldn't have duplicates, but we'll keep the deduplication
+            # logic as a safety measure
+            seen_lib_ids = set()
+            for lib in libs:
+                if lib.id not in seen_lib_ids:
+                    seen_lib_ids.add(lib.id)
+                    invite.libraries.append(lib)
 
     db.session.commit()
     return invite
