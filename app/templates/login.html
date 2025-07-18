@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function uint8ArrayToBase64url(array) {
-        const binary = String.fromCharCode(...array);
+        const binary = String.fromCharCode.apply(null, array);
         const base64 = btoa(binary);
         return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
     }
