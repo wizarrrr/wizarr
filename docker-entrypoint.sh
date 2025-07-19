@@ -31,7 +31,6 @@ if [ "$(id -u)" = "0" ]; then
   else
     # Make sure the existing user is in the right group
     usermod -g "$TARGET_GRP" "$EXISTING_USER" || true
-    usermod -aG "$TARGET_GRP" "$EXISTING_USER" || true
   fi
 
   # Only recurse into the truly live dirs
