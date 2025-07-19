@@ -375,14 +375,39 @@ class PlexClient(MediaClient):
                 if artwork_url is None and thumb_url:
                     artwork_url = thumb_url
 
-                transcode_sessions = getattr(session, "transcodeSessions", [])
-                is_transcoding = bool(transcode_sessions)
+                # Check for transcoding using Plex API structure
+                is_transcoding = False
                 transcode_speed = None
-                if is_transcoding and transcode_sessions:
-                    transcode_speed = getattr(transcode_sessions[0], "speed", None)
+                media_list = getattr(session, "media", [])
+
+                # Method 1: Check for TranscodeSession using python-plexapi properties
+                # This is the most reliable method as it directly reflects the actual transcoding state
+                transcode_session = getattr(session, "transcodeSession", None)
+                if transcode_session:
+                    # TranscodeSession object has videoDecision and audioDecision attributes
+                    video_decision = getattr(transcode_session, "videoDecision", None)
+                    audio_decision = getattr(transcode_session, "audioDecision", None)
+
+                    # Only consider it transcoding if either video or audio is actually being transcoded
+                    # "copy" and "direct" mean no transcoding is happening
+                    if video_decision == "transcode" or audio_decision == "transcode":
+                        is_transcoding = True
+                        transcode_speed = getattr(transcode_session, "speed", None)
+
+                # Method 2: Check transcodeSessions list property (fallback)
+                if not is_transcoding and not transcode_session:
+                    transcode_sessions = getattr(session, "transcodeSessions", [])
+                    if transcode_sessions:
+                        # Check each transcode session for actual transcoding
+                        for ts in transcode_sessions:
+                            ts_video_decision = getattr(ts, "videoDecision", None)
+                            ts_audio_decision = getattr(ts, "audioDecision", None)
+                            if ts_video_decision == "transcode" or ts_audio_decision == "transcode":
+                                is_transcoding = True
+                                transcode_speed = getattr(ts, "speed", None)
+                                break
 
                 video_codec = audio_codec = container = video_resolution = None
-                media_list = getattr(session, "media", None)
                 if media_list:
                     media_obj = media_list[0]
                     video_codec = getattr(media_obj, "videoCodec", None)
