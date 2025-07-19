@@ -3,6 +3,7 @@ import logging
 import re
 from typing import Any
 
+import requests
 from sqlalchemy import or_
 
 from app.extensions import db
@@ -20,10 +21,8 @@ class KomgaClient(RestApiMixin):
     """Wrapper around the Komga REST API using credentials from Settings."""
 
     def __init__(self, *args, **kwargs):
-        if "url_key" not in kwargs:
-            kwargs["url_key"] = "server_url"
-        if "token_key" not in kwargs:
-            kwargs["token_key"] = "api_key"
+        kwargs.setdefault("url_key", "server_url")
+        kwargs.setdefault("token_key", "api_key")
         super().__init__(*args, **kwargs)
 
     def _headers(self) -> dict[str, str]:
@@ -54,22 +53,22 @@ class KomgaClient(RestApiMixin):
         Returns:
             dict: Library name -> library ID mapping
         """
-        import requests
+        try:
+            if url and token:
+                headers = {"Authorization": f"Bearer {token}"}
+                response = requests.get(
+                    f"{url.rstrip('/')}/api/v1/libraries", headers=headers, timeout=10
+                )
+                response.raise_for_status()
+                libraries = response.json()
+            else:
+                response = self.get("/api/v1/libraries")
+                libraries = response.json()
 
-        if url and token:
-            # Use override credentials for scanning
-            headers = {"Authorization": f"Bearer {token}"}
-            response = requests.get(
-                f"{url.rstrip('/')}/api/v1/libraries", headers=headers, timeout=10
-            )
-            response.raise_for_status()
-            libraries = response.json()
-        else:
-            # Use saved credentials
-            response = self.get("/api/v1/libraries")
-            libraries = response.json()
-
-        return {lib["name"]: lib["id"] for lib in libraries}
+            return {lib["name"]: lib["id"] for lib in libraries}
+        except Exception as exc:
+            logging.warning("Komga: failed to scan libraries – %s", exc)
+            return {}
 
     def create_user(self, username: str, password: str, email: str) -> str:
         """Create a new Komga user and return the user ID."""

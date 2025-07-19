@@ -105,9 +105,8 @@ class MediaClient(ABC):
     # Helpers
     # ------------------------------------------------------------------
 
-    def _attach_server_row(self, row: MediaServer):
+    def _attach_server_row(self, row: MediaServer) -> None:
         """Populate instance attributes from a MediaServer row."""
-
         self.server_row: MediaServer = row
         self.server_id: int = row.id  # type: ignore[attr-defined]
         self.url = row.url  # type: ignore[attr-defined]
@@ -277,30 +276,43 @@ class RestApiMixin(MediaClient):
     # ------------------------------------------------------------------
 
     def _request(self, method: str, path: str, **kwargs):
+        """Make HTTP request with consistent error handling and logging."""
         if self.url is None:
-            raise ValueError("Media server URL is not set.")
-        url = f"{self.url.rstrip('/')}" + path
-        hdrs = {**self._headers(), **kwargs.pop("headers", {})}
+            raise ValueError("Media server URL is not configured")
+
+        url = f"{self.url.rstrip('/')}{path}"
+        headers = {**self._headers(), **kwargs.pop("headers", {})}
 
         logging.info("%s %s", method.upper(), url)
-        resp = requests.request(method, url, headers=hdrs, timeout=10, **kwargs)
-        logging.info("→ %s", resp.status_code)
-        resp.raise_for_status()
-        return resp
+        try:
+            response = requests.request(
+                method, url, headers=headers, timeout=10, **kwargs
+            )
+            logging.info("→ %s", response.status_code)
+            response.raise_for_status()
+            return response
+        except requests.exceptions.RequestException as e:
+            logging.error("Request failed: %s", e)
+            raise
 
     # Convenience helpers ------------------------------------------------
 
     def get(self, path: str, **kwargs):
+        """Make GET request to API endpoint."""
         return self._request("GET", path, **kwargs)
 
     def post(self, path: str, **kwargs):
+        """Make POST request to API endpoint."""
         return self._request("POST", path, **kwargs)
 
     def patch(self, path: str, **kwargs):
+        """Make PATCH request to API endpoint."""
         return self._request("PATCH", path, **kwargs)
 
     def delete(self, path: str, **kwargs):
+        """Make DELETE request to API endpoint."""
         return self._request("DELETE", path, **kwargs)
 
     def put(self, path: str, **kwargs):
+        """Make PUT request to API endpoint."""
         return self._request("PUT", path, **kwargs)

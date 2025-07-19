@@ -36,7 +36,9 @@
     }
     
     function uint8ArrayToBase64url(array) {
-        const binary = String.fromCharCode(...array);
+        // Convert Uint8Array to base64url string
+        // Use Array.from to handle large arrays properly
+        const binary = Array.from(array, byte => String.fromCharCode(byte)).join('');
         const base64 = btoa(binary);
         return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
     }
@@ -61,14 +63,18 @@
     // Start registration
     navigator.credentials.create({ publicKey: options })
         .then(credential => {
+            // Convert ArrayBuffer values to base64url
+            // The webauthn library expects both id and rawId to be the same base64url value
+            const credentialId = uint8ArrayToBase64url(new Uint8Array(credential.rawId));
+            
             const registrationData = {
                 name: '{{ name }}',
                 credential: {
-                    id: credential.id,
-                    rawId: uint8ArrayToBase64url(credential.rawId),
+                    id: credentialId,  // Both fields must have the same value
+                    rawId: credentialId,  // Both fields must have the same value
                     response: {
-                        clientDataJSON: uint8ArrayToBase64url(credential.response.clientDataJSON),
-                        attestationObject: uint8ArrayToBase64url(credential.response.attestationObject)
+                        clientDataJSON: uint8ArrayToBase64url(new Uint8Array(credential.response.clientDataJSON)),
+                        attestationObject: uint8ArrayToBase64url(new Uint8Array(credential.response.attestationObject))
                     },
                     type: credential.type
                 }

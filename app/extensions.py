@@ -2,6 +2,8 @@ from flask import current_app, request, session
 from flask_apscheduler import APScheduler
 from flask_babel import Babel
 from flask_htmx import HTMX
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_session import Session
@@ -15,6 +17,11 @@ scheduler = APScheduler()
 htmx = HTMX()
 login_manager = LoginManager()
 migrate = Migrate()
+limiter = Limiter(
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://"
+)
 
 
 # Initialize with app
@@ -28,6 +35,8 @@ def init_extensions(app):
     login_manager.login_view = "auth.login"  # type: ignore[assignment]
     db.init_app(app)
     migrate.init_app(app, db)
+    limiter.init_app(app)
+    init_security_headers(app)
 
 
 @login_manager.user_loader
@@ -68,3 +77,29 @@ def _select_locale():
         "lang",
         request.accept_languages.best_match(current_app.config["LANGUAGES"].keys()),
     )
+
+
+def init_security_headers(app):
+    """Initialize security headers for the application."""
+
+    @app.after_request
+    def security_headers(response):
+        # Prevent MIME type sniffing
+        response.headers["X-Content-Type-Options"] = "nosniff"
+
+        # Enable XSS protection
+        response.headers["X-XSS-Protection"] = "1; mode=block"
+
+        # Control referrer information
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+
+        # Prevent framing (clickjacking protection)
+        response.headers["X-Frame-Options"] = "DENY"
+
+        # Enable HSTS if running on HTTPS
+        if request.is_secure:
+            response.headers["Strict-Transport-Security"] = (
+                "max-age=31536000; includeSubDomains"
+            )
+
+        return response

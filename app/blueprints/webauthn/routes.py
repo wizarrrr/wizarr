@@ -27,7 +27,7 @@ from webauthn.helpers.structs import (
     UserVerificationRequirement,
 )
 
-from app.extensions import db
+from app.extensions import db, limiter
 from app.models import AdminAccount, WebAuthnCredential
 
 webauthn_bp = Blueprint("webauthn", __name__)
@@ -45,6 +45,8 @@ def get_rp_config():
     env_origin = os.environ.get("WEBAUTHN_ORIGIN")
 
     if env_rp_id and env_origin:
+        # Validate environment variables for security
+        _validate_secure_origin(env_origin, env_rp_id)
         return env_rp_id, env_rp_name, env_origin
 
     # For HTMX requests, prefer HX-Current-URL header
@@ -69,7 +71,65 @@ def get_rp_config():
         hostname = host.split(":")[0]
         origin = f"{scheme}://{host}"
 
+    # Validate the configuration meets security requirements
+    _validate_secure_origin(origin, hostname)
+
     return hostname, env_rp_name, origin
+
+
+def _validate_secure_origin(origin, rp_id):
+    """Validate that the origin and RP ID meet security requirements for passkeys."""
+    import re
+    from urllib.parse import urlparse
+
+    # Parse the origin
+    parsed_origin = urlparse(origin)
+
+    # Requirement 1: Must use HTTPS
+    if parsed_origin.scheme != "https":
+        raise ValueError(
+            "Passkeys require HTTPS. Current origin uses HTTP. "
+            "Please configure your application to use HTTPS or set WEBAUTHN_ORIGIN environment variable."
+        )
+
+    # Requirement 2: Must use a proper domain name (not IP address)
+    hostname = parsed_origin.hostname or rp_id
+
+    # Check if it's an IP address (IPv4 or IPv6) using Python's built-in validation
+    import ipaddress
+
+    try:
+        # This will succeed if hostname is a valid IP address
+        ipaddress.ip_address(hostname)
+        raise ValueError(
+            f"Passkeys require a domain name, not an IP address. "
+            f"Current hostname '{hostname}' is an IP address. "
+            f"Please use a proper domain name or set WEBAUTHN_RP_ID and WEBAUTHN_ORIGIN environment variables."
+        )
+    except ValueError as e:
+        # If it's not a valid IP address, that's good (unless it's the error we just raised)
+        if "domain name, not an IP address" in str(e):
+            raise
+        # If it's not a valid IP address, continue with domain validation
+
+    # Check for localhost (only allow in development)
+    if hostname in ["localhost", "127.0.0.1", "::1"]:
+        import os
+
+        if os.environ.get("FLASK_ENV") != "development":
+            raise ValueError(
+                f"Passkeys cannot use localhost in production. "
+                f"Current hostname '{hostname}' is localhost. "
+                f"Please use a proper domain name or set WEBAUTHN_RP_ID and WEBAUTHN_ORIGIN environment variables."
+            )
+
+    # Additional validation: ensure it's a valid domain format
+    domain_pattern = r"^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+    if not re.match(domain_pattern, hostname) and hostname not in ["localhost"]:
+        raise ValueError(
+            f"Invalid domain name format: '{hostname}'. "
+            f"Please use a valid domain name or set WEBAUTHN_RP_ID and WEBAUTHN_ORIGIN environment variables."
+        )
 
 
 @webauthn_bp.route("/webauthn/register/begin", methods=["POST"])
@@ -79,7 +139,11 @@ def register_begin():
     if not isinstance(current_user, AdminAccount):
         return jsonify({"error": "Only admin accounts can register passkeys"}), 403
 
-    rp_id, rp_name, _ = get_rp_config()
+    try:
+        rp_id, rp_name, _ = get_rp_config()
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
     if not rp_id:
         return jsonify({"error": "RP ID is required"}), 500
 
@@ -133,7 +197,10 @@ def register_complete():
 
     try:
         credential = parse_registration_credential_json(credential_data["credential"])
-        rp_id, _, origin = get_rp_config()
+        try:
+            rp_id, _, origin = get_rp_config()
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
         if not rp_id:
             return jsonify({"error": "RP ID is required"}), 500
         verification = verify_registration_response(
@@ -174,24 +241,51 @@ def register_complete():
         )
 
     except Exception as e:
+        # Log the full error for debugging
+        import traceback
+
+        print(f"WebAuthn registration error: {str(e)}")
+        print(f"Traceback: {traceback.format_exc()}")
         return jsonify({"error": f"Registration failed: {str(e)}"}), 400
 
 
 @webauthn_bp.route("/webauthn/authenticate/begin", methods=["POST"])
+@limiter.limit("20 per minute")
 def authenticate_begin():
-    """Begin WebAuthn authentication process (usernameless)."""
-    rp_id, _, _ = get_rp_config()
+    """Begin WebAuthn authentication process (usernameless or 2FA)."""
+    try:
+        rp_id, _, _ = get_rp_config()
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
     if not rp_id:
         return jsonify({"error": "RP ID is required"}), 500
 
-    # Get all credentials from all admin accounts for usernameless authentication
-    all_credentials = WebAuthnCredential.query.all()
-    if not all_credentials:
-        return jsonify({"error": "No passkeys registered"}), 404
+    # Check if this is a 2FA authentication
+    from flask import session
 
-    allow_credentials = [
-        PublicKeyCredentialDescriptor(id=cred.credential_id) for cred in all_credentials
-    ]
+    pending_2fa_user_id = session.get("pending_2fa_user_id")
+
+    if pending_2fa_user_id:
+        # 2FA mode - only get credentials for the specific user
+        user_credentials = WebAuthnCredential.query.filter_by(
+            admin_account_id=pending_2fa_user_id
+        ).all()
+        if not user_credentials:
+            return jsonify({"error": "No passkeys registered for this user"}), 404
+        allow_credentials = [
+            PublicKeyCredentialDescriptor(id=cred.credential_id)
+            for cred in user_credentials
+        ]
+    else:
+        # Usernameless mode - get all credentials from all admin accounts
+        all_credentials = WebAuthnCredential.query.all()
+        if not all_credentials:
+            return jsonify({"error": "No passkeys registered"}), 404
+        allow_credentials = [
+            PublicKeyCredentialDescriptor(id=cred.credential_id)
+            for cred in all_credentials
+        ]
 
     authentication_options = generate_authentication_options(
         rp_id=rp_id,
@@ -214,8 +308,8 @@ def authenticate_begin():
                 {
                     "id": base64url_encode(cred.id),
                     "type": cred.type,
-                    "transports": cred.transports
-                    if hasattr(cred, "transports")
+                    "transports": list(cred.transports)
+                    if hasattr(cred, "transports") and cred.transports
                     else [],
                 }
                 for cred in (authentication_options.allow_credentials or [])
@@ -226,8 +320,9 @@ def authenticate_begin():
 
 
 @webauthn_bp.route("/webauthn/authenticate/complete", methods=["POST"])
+@limiter.limit("20 per minute")
 def authenticate_complete():
-    """Complete WebAuthn authentication process (usernameless)."""
+    """Complete WebAuthn authentication process (usernameless or 2FA)."""
     credential_data = request.get_json()
     challenge = session.get("webauthn_challenge")
 
@@ -237,7 +332,7 @@ def authenticate_complete():
     try:
         credential = parse_authentication_credential_json(credential_data["credential"])
 
-        # Find the credential by credential_id (usernameless authentication)
+        # Find the credential by credential_id
         db_credential = WebAuthnCredential.query.filter_by(
             credential_id=credential.raw_id
         ).first()
@@ -245,10 +340,25 @@ def authenticate_complete():
         if not db_credential:
             return jsonify({"error": "Credential not found"}), 404
 
+        # Check if this is 2FA authentication
+        pending_2fa_user_id = session.get("pending_2fa_user_id")
+
+        if (
+            pending_2fa_user_id
+            and db_credential.admin_account_id != pending_2fa_user_id
+        ):
+            # 2FA mode - verify the credential belongs to the pending user
+            return jsonify(
+                {"error": "Credential does not belong to authenticated user"}
+            ), 403
+
         # Get the admin account associated with this credential
         admin_account = db_credential.admin_account
 
-        rp_id, _, origin = get_rp_config()
+        try:
+            rp_id, _, origin = get_rp_config()
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
         if not rp_id:
             return jsonify({"error": "RP ID is required"}), 500
         verification = verify_authentication_response(
@@ -267,10 +377,13 @@ def authenticate_complete():
 
         session.pop("webauthn_challenge", None)
 
+        if pending_2fa_user_id:
+            # 2FA mode - complete the authentication via the auth route
+            return jsonify({"verified": True, "redirect": url_for("auth.complete_2fa")})
+        # Usernameless mode - login directly
         from flask_login import login_user
 
         login_user(admin_account, remember=True)
-
         return jsonify({"verified": True, "redirect": url_for("admin.dashboard")})
 
     except Exception:
@@ -372,7 +485,13 @@ def register_start_htmx():
         )
 
     try:
-        rp_id, rp_name, _ = get_rp_config()
+        try:
+            rp_id, rp_name, _ = get_rp_config()
+        except ValueError as e:
+            return render_template(
+                "components/passkey_error.html",
+                error=str(e),
+            )
         if not rp_id:
             return render_template(
                 "components/passkey_error.html",
@@ -433,7 +552,9 @@ def register_start_htmx():
                 {
                     "id": base64url_encode(cred.id),
                     "type": cred.type,
-                    "transports": cred.transports,
+                    "transports": list(cred.transports)
+                    if hasattr(cred, "transports") and cred.transports
+                    else [],
                 }
                 for cred in (registration_options.exclude_credentials or [])
             ],

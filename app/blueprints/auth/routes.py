@@ -6,20 +6,25 @@ from flask_babel import _
 from flask_login import login_required, login_user, logout_user
 from werkzeug.security import check_password_hash
 
-from app.extensions import db
+from app.extensions import db, limiter
 from app.models import AdminAccount, AdminUser, Settings
 
 auth_bp = Blueprint("auth", __name__)
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
+@limiter.limit("10 per minute")
 def login():
     if os.getenv("DISABLE_BUILTIN_AUTH", "").lower() == "true":
         login_user(AdminUser(), remember=bool(request.form.get("remember")))
         return redirect("/")
 
     if request.method == "GET":
-        return render_template("login.html")
+        # Check if there are any passkeys registered in the system
+        from app.models import WebAuthnCredential
+
+        has_passkeys = WebAuthnCredential.query.first() is not None
+        return render_template("login.html", has_passkeys=has_passkeys)
 
     username = request.form.get("username")
     password = request.form.get("password")
@@ -28,6 +33,19 @@ def login():
     if (
         account := AdminAccount.query.filter_by(username=username).first()
     ) and account.check_password(password):
+        # Check if this account has passkeys registered - if so, require 2FA
+        from app.models import WebAuthnCredential
+
+        if WebAuthnCredential.query.filter_by(admin_account_id=account.id).first():
+            # Store user in session for 2FA verification
+            from flask import session
+
+            session["pending_2fa_user_id"] = account.id
+            session["pending_2fa_remember"] = bool(request.form.get("remember"))
+            return render_template(
+                "login.html", show_2fa=True, username=username, has_passkeys=True
+            )
+        # No passkeys, allow direct login
         login_user(account, remember=bool(request.form.get("remember")))
         return redirect("/")
 
@@ -59,7 +77,55 @@ def login():
     # Log failed login with IP
     logging.warning(f"AUTH FAIL: Failed login for user '{username}' from {client_ip}")
 
-    return render_template("login.html", error=_("Invalid username or password"))
+    # Check if there are any passkeys registered for error page
+    from app.models import WebAuthnCredential
+
+    has_passkeys = WebAuthnCredential.query.first() is not None
+    return render_template(
+        "login.html", error=_("Invalid username or password"), has_passkeys=has_passkeys
+    )
+
+
+@auth_bp.route("/complete-2fa", methods=["POST"])
+@limiter.limit("10 per minute")
+def complete_2fa():
+    """Complete 2FA authentication with passkey."""
+    from flask import session
+
+    user_id = session.get("pending_2fa_user_id")
+    remember = session.get("pending_2fa_remember", False)
+
+    if not user_id:
+        # Check if there are any passkeys registered for error page
+        from app.models import WebAuthnCredential
+
+        has_passkeys = WebAuthnCredential.query.first() is not None
+        return render_template(
+            "login.html",
+            error=_("No pending 2FA authentication"),
+            has_passkeys=has_passkeys,
+        )
+
+    # Get the user account
+    account = AdminAccount.query.get(user_id)
+    if not account:
+        session.pop("pending_2fa_user_id", None)
+        session.pop("pending_2fa_remember", None)
+        # Check if there are any passkeys registered for error page
+        from app.models import WebAuthnCredential
+
+        has_passkeys = WebAuthnCredential.query.first() is not None
+        return render_template(
+            "login.html", error=_("Authentication failed"), has_passkeys=has_passkeys
+        )
+
+    # The actual WebAuthn verification will be handled by the existing WebAuthn route
+    # This route is called after successful WebAuthn authentication
+    session.pop("pending_2fa_user_id", None)
+    session.pop("pending_2fa_remember", None)
+
+    login_user(account, remember=remember)
+    return redirect("/")
 
 
 # ── Logout ────────────────────────────────────────────────────────────
