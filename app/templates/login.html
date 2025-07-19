@@ -164,21 +164,26 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get credential
             const credential = await navigator.credentials.get({ publicKey: options });
             
+            // Convert ArrayBuffer values to base64url
+            // The webauthn library expects both id and rawId to be the same base64url value
+            const credentialId = uint8ArrayToBase64url(new Uint8Array(credential.rawId));
+            
             // Complete authentication
             const completeResponse = await fetch('/webauthn/authenticate/complete', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     credential: {
-                        id: credential.id,
-                        rawId: uint8ArrayToBase64url(credential.rawId),
+                        id: credentialId,  // Both fields must have the same value
+                        rawId: credentialId,  // Both fields must have the same value
                         response: {
-                            clientDataJSON: uint8ArrayToBase64url(credential.response.clientDataJSON),
-                            authenticatorData: uint8ArrayToBase64url(credential.response.authenticatorData),
-                            signature: uint8ArrayToBase64url(credential.response.signature),
-                            userHandle: credential.response.userHandle ? uint8ArrayToBase64url(credential.response.userHandle) : null
+                            clientDataJSON: uint8ArrayToBase64url(new Uint8Array(credential.response.clientDataJSON)),
+                            authenticatorData: uint8ArrayToBase64url(new Uint8Array(credential.response.authenticatorData)),
+                            signature: uint8ArrayToBase64url(new Uint8Array(credential.response.signature)),
+                            userHandle: credential.response.userHandle ? uint8ArrayToBase64url(new Uint8Array(credential.response.userHandle)) : null
                         },
-                        type: credential.type
+                        type: credential.type,
+                        transports: credential.response.getTransports ? credential.response.getTransports() : []
                     }
                 })
             });
@@ -235,7 +240,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function uint8ArrayToBase64url(array) {
-        const binary = String.fromCharCode.apply(null, array);
+        // Process in chunks to avoid "Maximum call stack size exceeded" for large arrays
+        const chunkSize = 8192;
+        let binary = '';
+        for (let i = 0; i < array.length; i += chunkSize) {
+            const chunk = array.slice(i, i + chunkSize);
+            binary += String.fromCharCode.apply(null, chunk);
+        }
         const base64 = btoa(binary);
         return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
     }
