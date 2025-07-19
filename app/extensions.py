@@ -12,13 +12,13 @@ from flask_sqlalchemy import SQLAlchemy
 
 class NoOpLimiter:
     """A no-op limiter for development mode that disables all rate limiting."""
-    
+
     def limit(self, *args, **kwargs):
         """Return a decorator that does nothing."""
         def decorator(func):
             return func
         return decorator
-    
+
     def init_app(self, app):
         """No-op initialization."""
         pass
@@ -40,7 +40,7 @@ limiter = Limiter(
 # Initialize with app
 def init_extensions(app):
     global limiter
-    
+
     sess.init_app(app)
     babel.init_app(app, locale_selector=_select_locale)
     # scheduler.init_app(app)
@@ -50,12 +50,12 @@ def init_extensions(app):
     login_manager.login_view = "auth.login"  # type: ignore[assignment]
     db.init_app(app)
     migrate.init_app(app, db)
-    
+
     # Disable rate limiting in debug/development mode
     if app.debug:
         print("Rate limiting disabled in debug mode")
         limiter = NoOpLimiter()
-    
+
     limiter.init_app(app)
     init_security_headers(app)
 

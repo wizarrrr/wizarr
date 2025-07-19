@@ -379,7 +379,7 @@ class PlexClient(MediaClient):
                 is_transcoding = False
                 transcode_speed = None
                 media_list = getattr(session, "media", [])
-                
+
                 # Method 1: Check for TranscodeSession using python-plexapi properties
                 # This is the most reliable method as it directly reflects the actual transcoding state
                 transcode_session = getattr(session, "transcodeSession", None)
@@ -387,13 +387,13 @@ class PlexClient(MediaClient):
                     # TranscodeSession object has videoDecision and audioDecision attributes
                     video_decision = getattr(transcode_session, "videoDecision", None)
                     audio_decision = getattr(transcode_session, "audioDecision", None)
-                    
+
                     # Only consider it transcoding if either video or audio is actually being transcoded
                     # "copy" and "direct" mean no transcoding is happening
                     if video_decision == "transcode" or audio_decision == "transcode":
                         is_transcoding = True
                         transcode_speed = getattr(transcode_session, "speed", None)
-                
+
                 # Method 2: Check transcodeSessions list property (fallback)
                 if not is_transcoding and not transcode_session:
                     transcode_sessions = getattr(session, "transcodeSessions", [])
