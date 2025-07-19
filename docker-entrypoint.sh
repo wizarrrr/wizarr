@@ -22,15 +22,16 @@ if [ "$(id -u)" = "0" ]; then
 
   # Create group only if the GID isn't taken
   if [ -z "$EXISTING_GRP" ]; then
-    addgroup -S -g "$PGID" "$TARGET_GRP"
+    groupadd -g "$PGID" "$TARGET_GRP" || true
   fi
 
   # Create user only if the UID isn't taken
   if [ -z "$EXISTING_USER" ]; then
-    adduser  -S -G "$TARGET_GRP" -u "$PUID" "$TARGET_USER"
+    useradd -g "$TARGET_GRP" -u "$PUID" -M -N "$TARGET_USER" || true
   else
     # Make sure the existing user is in the right group
-    adduser "$EXISTING_USER" "$TARGET_GRP" || true
+    usermod -g "$TARGET_GRP" "$EXISTING_USER" || true
+    usermod -aG "$TARGET_GRP" "$EXISTING_USER" || true
   fi
 
   # Only recurse into the truly live dirs
