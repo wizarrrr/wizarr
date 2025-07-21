@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: 2023-05-15 18:52+0000\n"
-"Last-Translator: Bernat <btqqryrzo@mozmail.com>\n"
+"PO-Revision-Date: 2025-07-22 14:06+0000\n"
+"Last-Translator: DoeJoohn <oorca@tuta.io>\n"
+"Language-Team: Catalan <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/ca/>\n"
 "Language: ca\n"
-"Language-Team: Catalan "
-"<https://hosted.weblate.org/projects/wizarr/app/ca/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.13-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/blueprints/auth/routes.py:44
@@ -26,7 +27,7 @@ msgstr "Nom d'usuari o contrassenya incorrecte"
 
 #: app/blueprints/settings/routes.py:131
 msgid "Library scan failed"
-msgstr ""
+msgstr "Error en l'escaneig de la biblioteca"
 
 #: app/templates/admin.html:5
 msgid "Admin"
@@ -49,9 +50,8 @@ msgid "Settings"
 msgstr "Configuració"
 
 #: app/templates/invalid-invite.html:16
-#, fuzzy
 msgid "Invalid Invitation"
-msgstr "Invitacions"
+msgstr "Invitació no vàlida"
 
 #: app/templates/login.html:18
 msgid "Login"
@@ -74,13 +74,12 @@ msgid "Sign in"
 msgstr "Registrar-se"
 
 #: app/templates/settings.html:13
-#, fuzzy
 msgid "Server settings"
 msgstr "Configuració del servidor"
 
 #: app/templates/settings.html:22
 msgid "Notification agents"
-msgstr ""
+msgstr "Agents de notificació"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
 #: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
@@ -184,9 +183,8 @@ msgid "Unlimited Usages"
 msgstr "Usos il·limitats"
 
 #: app/templates/admin/invite.html:53
-#, fuzzy
 msgid "Invite to Plex Home"
-msgstr "Codi d'invitació"
+msgstr "Convida a Plex Home"
 
 #: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
 #: app/templates/tables/invite_card.html:86
@@ -214,9 +212,8 @@ msgstr ""
 
 #: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
 #: app/templates/tables/user_card.html:67
-#, fuzzy
 msgid "Allow Downloads"
-msgstr "Baixa"
+msgstr "Permet les baixades"
 
 #: app/templates/admin/invite.html:102
 msgid ""
@@ -253,16 +250,16 @@ msgstr "Compartir"
 
 #: app/templates/admin/user_modal.html:17
 msgid "Edit expiry"
-msgstr ""
+msgstr "Edita la caducitat"
 
 #: app/templates/admin/user_modal.html:27
 msgid "Expiry date (leave blank for never)"
-msgstr ""
+msgstr "Data de caducitat (deixa en blanc si no caduca mai)"
 
 #: app/templates/admin/user_modal.html:41
 #: app/templates/modals/create-notification-agent.html:85
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel·la"
 
 #: app/templates/admin/user_modal.html:48
 #: app/templates/settings/partials/server_form.html:132
@@ -295,21 +292,17 @@ msgstr " Alguna cosa ha anat malament. Si us plau, intenta-ho més tard."
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "Nou agent"
 
 #: app/templates/modals/create-notification-agent.html:60
-#, fuzzy
 msgid ""
 "Username\n"
 "                                (optional)"
-msgstr ""
-"Codi\n"
-"d'invitació"
+msgstr "Usuari (Opcional)"
 
 #: app/templates/modals/create-notification-agent.html:65
-#, fuzzy
 msgid "Password (optional)"
-msgstr "(opcional)"
+msgstr "Contrassenya (opcional)"
 
 #: app/templates/modals/create-notification-agent.html:70
 #, fuzzy
@@ -322,7 +315,7 @@ msgstr ""
 
 #: app/templates/modals/create-notification-agent.html:81
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Prova i crea agent"
 
 #: app/templates/settings/index.html:24
 #, fuzzy
@@ -336,7 +329,7 @@ msgstr "Invitacions"
 
 #: app/templates/settings/notifications.html:11
 msgid "Notification Agents"
-msgstr ""
+msgstr "Agents de notificació"
 
 #: app/templates/settings/notifications.html:27
 #, fuzzy
@@ -357,7 +350,7 @@ msgstr "Configuració del servidor"
 #: app/templates/settings/partials/server_form.html:111
 #: app/templates/settings/partials/server_form.html:120
 msgid "Optional, leave empty to disable"
-msgstr ""
+msgstr "Opcional, deixa-ho buit per desactivar"
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"
@@ -365,7 +358,7 @@ msgstr "Configurar Wizarr"
 
 #: app/templates/tables/invite_card.html:3
 msgid "There are currently no invitations."
-msgstr ""
+msgstr "Actualment no hi ha cap invitació."
 
 #: app/templates/tables/invite_card.html:16
 msgid "Available"
@@ -408,7 +401,7 @@ msgstr "Il·limitat"
 
 #: app/templates/tables/user_card.html:3
 msgid "There are currently no users."
-msgstr ""
+msgstr "Actualment no hi ha cap usuari."
 
 #: app/templates/tables/user_card.html:26
 #, fuzzy
@@ -417,11 +410,11 @@ msgstr "Inici"
 
 #: app/templates/wizard/frame.html:34
 msgid "Previous"
-msgstr ""
+msgstr "Anterior"
 
 #: app/templates/wizard/frame.html:42
 msgid "Next"
-msgstr ""
+msgstr "Següent"
 
 #~ msgid "Accept Invitation"
 #~ msgstr "Accepta la invitació"
@@ -897,4 +890,3 @@ msgstr ""
 
 #~ msgid "Actions"
 #~ msgstr "Accions"
-
