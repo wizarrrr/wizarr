@@ -402,7 +402,10 @@ class PlexClient(MediaClient):
                         for ts in transcode_sessions:
                             ts_video_decision = getattr(ts, "videoDecision", None)
                             ts_audio_decision = getattr(ts, "audioDecision", None)
-                            if ts_video_decision == "transcode" or ts_audio_decision == "transcode":
+                            if (
+                                ts_video_decision == "transcode"
+                                or ts_audio_decision == "transcode"
+                            ):
                                 is_transcoding = True
                                 transcode_speed = getattr(ts, "speed", None)
                                 break
