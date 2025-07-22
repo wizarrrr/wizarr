@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-21 04:12+0000\n"
+"POT-Creation-Date: 2025-07-22 04:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -629,7 +629,7 @@ msgstr ""
 
 #: app/templates/admin/library_breakdown_card.html:129
 #: app/templates/admin/recent_content_card.html:126
-#: app/templates/admin/server_health_card.html:175
+#: app/templates/admin/server_health_card.html:172
 #: app/templates/admin/server_stats_card.html:81
 msgid "Unknown error occurred"
 msgstr ""
@@ -674,60 +674,60 @@ msgstr ""
 msgid "Server Health"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:48
+#: app/templates/admin/server_health_card.html:45
 #: app/templates/admin/server_stats_card.html:35
 msgid "Online"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:52
+#: app/templates/admin/server_health_card.html:49
 msgid "Offline"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:68
+#: app/templates/admin/server_health_card.html:65
 #: app/templates/admin/server_stats_card.html:29
 #: app/templates/settings/notifications.html:68
 msgid "Active"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:79
-#: app/templates/admin/server_health_card.html:108
+#: app/templates/admin/server_health_card.html:76
+#: app/templates/admin/server_health_card.html:105
 msgid "Transcoding"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:89
+#: app/templates/admin/server_health_card.html:86
 #: app/templates/admin/server_stats_card.html:23
 msgid "Users"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:101
+#: app/templates/admin/server_health_card.html:98
 msgid "Active Sessions"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:126
+#: app/templates/admin/server_health_card.html:123
 msgid "Server is currently unreachable"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:142
+#: app/templates/admin/server_health_card.html:139
 msgid "of"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:144
+#: app/templates/admin/server_health_card.html:141
 msgid "servers online"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:149
+#: app/templates/admin/server_health_card.html:146
 msgid "server(s) need attention"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:161
+#: app/templates/admin/server_health_card.html:158
 msgid "No servers configured"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:162
+#: app/templates/admin/server_health_card.html:159
 msgid "Add media servers to monitor their health"
 msgstr ""
 
-#: app/templates/admin/server_health_card.html:174
+#: app/templates/admin/server_health_card.html:171
 msgid "Failed to load server health"
 msgstr ""
 
