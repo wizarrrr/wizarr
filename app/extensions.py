@@ -9,6 +9,11 @@ from flask_migrate import Migrate
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 
+# Define healthcheck endpoint rate limit exemption
+def skip_healthcheck():
+    # Exempt /health from rate limiting
+    return request.path == "/health"
+
 # Instantiate extensions
 db = SQLAlchemy()
 babel = Babel()
@@ -21,8 +26,8 @@ limiter = Limiter(
     key_func=get_remote_address,
     default_limits=["200 per day", "50 per hour"],
     storage_uri="memory://",
+    exempt_when=skip_healthcheck
 )
-
 
 # Initialize with app
 def init_extensions(app):
