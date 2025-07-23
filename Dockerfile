@@ -9,7 +9,7 @@ ENV PGID=1000
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 # Install curl (for the HEALTHCHECK), tzdata (if you need timezones), nodejs (for npm), and su-exec for user switching
-RUN apk add --no-cache curl tzdata nodejs npm su-exec
+RUN apk add --no-cache curl tzdata nodejs npm su-exec shadow
 
 # ─── 2. Copy your application code ──────────────────────────────────────────
 
@@ -18,7 +18,7 @@ WORKDIR /data
 
 # Copy your source as UID 1000/GID 1000 at build time,
 # so default users never need a runtime chown.
-COPY --chown=1000:1000 . /data
+COPY --chown=${PUID}:${PGID} . /data
 
 # ─── 3. Run your build steps (still as root) ───────────────────────────────
 
