@@ -11,7 +11,7 @@
 [![GitHub last commit](https://img.shields.io/github/release-date/wizarrrr/wizarr?style=for-the-badge&logo=github)](https://github.com/wizarrrr/wizarr)
 [![GitHub last release](https://img.shields.io/github/v/release/wizarrrr/wizarr?style=for-the-badge&logo=github)](https://github.com/wizarrrr/wizarr)
 [![GitHub Repo stars](https://img.shields.io/github/stars/wizarrrr/wizarr?style=for-the-badge&logo=github)](https://github.com/wizarrrr/wizarr)
-[![Discord](https://img.shields.io/discord/1020742926856372224?style=for-the-badge&logo=discord)](https://discord.com/invite/mQbyEhWm)
+[![Discord](https://img.shields.io/discord/1020742926856372224?style=for-the-badge&logo=discord)](https://discord.gg/NYxwcjCK9x)
 
 
 ---
