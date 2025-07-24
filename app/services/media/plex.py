@@ -108,6 +108,42 @@ class PlexClient(MediaClient):
     def libraries(self) -> dict[str, str]:
         return {lib.title: lib.title for lib in self.server.library.sections()}
 
+    def get_movie_posters(self, limit: int = 10) -> list[str]:
+        """Get movie poster URLs for background display."""
+        poster_urls = []
+        try:
+            # Get movie libraries
+            for library in self.server.library.sections():
+                if library.type == "movie":
+                    # Get recent movies from this library
+                    movies = library.recentlyAdded(maxresults=limit)
+                    for movie in movies[:limit]:
+                        if hasattr(movie, "posterUrl") and movie.posterUrl:
+                            # Convert to full URL if needed
+                            poster_url = movie.posterUrl
+                            if poster_url.startswith("/"):
+                                poster_url = f"{self.url.rstrip('/')}{poster_url}"
+                            poster_urls.append(poster_url)
+                        elif hasattr(movie, "thumb") and movie.thumb:
+                            # Fallback to thumb
+                            thumb_url = movie.thumb
+                            if thumb_url.startswith("/"):
+                                thumb_url = f"{self.url.rstrip('/')}{thumb_url}"
+                            poster_urls.append(thumb_url)
+
+                        if len(poster_urls) >= limit:
+                            break
+
+                    if len(poster_urls) >= limit:
+                        break
+        except Exception as e:
+            # Log error but don't break the login process
+            import logging
+
+            logging.warning(f"Failed to fetch movie posters: {e}")
+
+        return poster_urls[:limit]
+
     def scan_libraries(
         self, url: str | None = None, token: str | None = None
     ) -> dict[str, str]:

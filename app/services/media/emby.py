@@ -115,6 +115,43 @@ class EmbyClient(JellyfinClient):
                 "error": str(e),
             }
 
+    def get_movie_posters(self, limit: int = 10) -> list[str]:
+        """Get movie poster URLs for background display."""
+        poster_urls = []
+        try:
+            # Get recent movies from all libraries (Emby API is similar to Jellyfin)
+            response = self.get(
+                "/Items",
+                params={
+                    "IncludeItemTypes": "Movie",
+                    "SortBy": "DateCreated",
+                    "SortOrder": "Descending",
+                    "Limit": limit * 2,  # Get more than needed as fallback
+                    "Fields": "PrimaryImageAspectRatio",
+                    "HasPrimaryImage": True,
+                },
+            ).json()
+
+            if response.get("Items"):
+                for item in response["Items"]:
+                    if len(poster_urls) >= limit:
+                        break
+
+                    item_id = item.get("Id")
+                    if item_id:
+                        # Build poster URL for Emby
+                        poster_url = f"{self.url}/Items/{item_id}/Images/Primary"
+                        if self.token:
+                            poster_url += f"?api_key={self.token}"
+                        poster_urls.append(poster_url)
+
+        except Exception as e:
+            import logging
+
+            logging.warning(f"Failed to fetch movie posters from Emby: {e}")
+
+        return poster_urls[:limit]
+
     def create_user(self, username: str, password: str) -> str:
         """Create user and set password."""
         # Step 1: Create user without password

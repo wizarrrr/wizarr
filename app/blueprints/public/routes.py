@@ -141,6 +141,34 @@ def health():
     return jsonify(status="ok"), 200
 
 
+@public_bp.route("/cinema-posters")
+def cinema_posters():
+    """Get movie poster URLs for cinema background display."""
+    try:
+        from app.models import MediaServer
+        from app.services.media.service import get_client_for_media_server
+
+        # Get the primary media server (or first available)
+        server = MediaServer.query.first()
+        if not server:
+            return jsonify([])
+
+        # Get media client for the server
+        client = get_client_for_media_server(server)
+
+        # Check if client has get_movie_posters method
+        if hasattr(client, "get_movie_posters"):
+            poster_urls = client.get_movie_posters(limit=80)
+            return jsonify(poster_urls)
+        return jsonify([])
+
+    except Exception as e:
+        import logging
+
+        logging.warning(f"Failed to fetch cinema posters: {e}")
+        return jsonify([])
+
+
 @public_bp.route("/static/manifest.json")
 def manifest():
     """Serve the PWA manifest file with correct content type"""
