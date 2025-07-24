@@ -7,57 +7,363 @@
 {% block og_description %}{{ _("You've been invited to join the %(name)s server!", name=server_name) }}{% endblock %}
 
 {% block main %}
-<section class="bg-white dark:bg-gray-900">
-    <div class="flex flex-col items-center justify-center px-6 mx-auto h-screen lg:py-0">
-        <h1
-            class="mb-4 text-2xl font-extrabold tracking-tight leading-none text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
-            🧙🏼‍♂️ {{ _("You've been invited to join the %(name)s server!", name=server_name) }}</h1>
-
-        <div class="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-
+<section class="min-h-screen bg-gradient-to-br from-slate-900 via-orange-900 to-slate-900 relative overflow-hidden">
+    <!-- Cinema Background Layer -->
+    <div class="absolute inset-0 overflow-hidden">
+        <!-- Flowing Movie Poster Grid -->
+        <div class="poster-grid-container">
+            <!-- First row flowing left -->
+            <div class="poster-row poster-row-1" data-direction="left">
+                <!-- Posters will be dynamically added here -->
+            </div>
+            
+            <!-- Second row flowing right -->
+            <div class="poster-row poster-row-2" data-direction="right">
+                <!-- Posters will be dynamically added here -->
+            </div>
+            
+            <!-- Third row flowing left -->
+            <div class="poster-row poster-row-3" data-direction="left">
+                <!-- Posters will be dynamically added here -->
+            </div>
+            
+            <!-- Fourth row flowing right -->
+            <div class="poster-row poster-row-4" data-direction="right">
+                <!-- Posters will be dynamically added here -->
+            </div>
         </div>
-        <div
-            class="w-full bg-white rounded-lg shadow-sm dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                    {{ _("Join the Plex Server") }}
-                </h1>
-                <form class="space-y-4 md:space-y-6" action="/join" method="post">
-                    {% if not code_error %}
-                    <div>
-                        <label for="code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
-                            _("Invite Code") }}</label>
-                        <input minlength="6" maxlength="10" type="code" name="code" id="code"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="{{ _('E.g. XMFGEJIKNQ') }}" value="{{ code }}" required="">
-                        <input type="hidden" name="token" id="token" value="">
+    </div>
+    
+    <!-- Overlay gradient to ensure readability -->
+    <div class="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-orange-900/60 to-slate-900/80"></div>
+    
+    <!-- Animated accent elements -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute -top-40 -right-80 w-80 h-80 bg-orange-400 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob"></div>
+        <div class="absolute -bottom-80 -left-40 w-80 h-80 bg-amber-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-blob animation-delay-2000"></div>
+        <div class="absolute top-40 left-40 w-80 h-80 bg-yellow-600 rounded-full mix-blend-multiply filter blur-xl opacity-45 animate-blob animation-delay-4000"></div>
+    </div>
+    
+    <div class="relative flex flex-col items-center justify-center px-6 mx-auto min-h-screen lg:py-0">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="mb-6 text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-orange-200 to-amber-400 leading-tight">
+                You've been invited!
+            </h1>
+            <p class="text-lg md:text-xl text-gray-300 font-light max-w-md mx-auto leading-relaxed">
+                Join the ultimate media server experience.
+            </p>
+        </div>
+
+        <!-- Card Container -->
+        <div class="w-full max-w-md">
+            <div class="bg-gray-800/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden">
+                <div class="p-8 space-y-6">
+                    <div class="text-center">
+                        <h2 class="text-2xl font-bold text-white mb-2">
+                            Enter Code to Continue
+                        </h2>
+                        <p class="text-gray-400 text-sm">
+                            Invitation Code
+                        </p>
                     </div>
-                    {% endif %}
-                    {% if code_error %}
-                    <div>
-                        <label for="username-error"
-                            class="block mb-2 text-sm font-medium text-red-700 dark:text-red-500">{{
-                            _("Invite Code")
-                            }}</label>
-                        <input minlength="6" maxlength="10" type="code" name="code" id="code"
-                            class="bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400"
-                            placeholder="{{ _('E.g. XMFGEJIKNQ') }}" required="">
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ _("Oops!")
-                                }}</span>
-                            {{ code_error }}</p>
-                    </div>
-                    {% endif %}
-                    <button onClick="oauth(); return false;"
-                        class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-hidden focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover">{{
-                        _("Join") }}</button>
-                    </p>
-                </form>
+                    
+                    <form class="space-y-6" action="/join" method="post">
+                        {% if not code_error %}
+                        <div class="space-y-2">
+                            <input 
+                                minlength="6" 
+                                maxlength="10" 
+                                type="text" 
+                                name="code" 
+                                id="code"
+                                class="w-full px-4 py-4 text-center text-lg font-mono tracking-widest 
+                                       bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400
+                                       rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent
+                                       backdrop-blur-sm transition-all duration-200"
+                                placeholder="Enter your code" 
+                                value="{{ code }}" 
+                                required
+                                autocomplete="off">
+                            <input type="hidden" name="token" id="token" value="">
+                        </div>
+                        {% endif %}
+                        
+                        {% if code_error %}
+                        <div class="space-y-2">
+                            <input 
+                                minlength="6" 
+                                maxlength="10" 
+                                type="text" 
+                                name="code" 
+                                id="code"
+                                class="w-full px-4 py-4 text-center text-lg font-mono tracking-widest
+                                       bg-red-900/30 border-2 border-red-500 text-white placeholder-red-300
+                                       rounded-xl focus:ring-2 focus:ring-red-400 focus:border-red-400
+                                       backdrop-blur-sm transition-all duration-200"
+                                placeholder="Enter your code" 
+                                required
+                                autocomplete="off">
+                            <div class="flex items-center space-x-2 text-red-400 text-sm">
+                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span>{{ code_error }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <button 
+                            onClick="oauth(); return false;"
+                            class="w-full py-4 px-6 text-white font-semibold text-lg
+                                   bg-gradient-to-r from-primary to-primary_hover
+                                   hover:from-primary_hover hover:to-primary 
+                                   rounded-xl transition-all duration-200 transform hover:scale-[1.02]
+                                   focus:ring-4 focus:ring-primary/30 focus:outline-none
+                                   shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
+                            Join Server
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Footer text -->
+            <div class="text-center mt-6">
+                <p class="text-gray-400 text-sm">
+                    Secure invitation system powered by Wizarr
+                </p>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Custom animations -->
+<style>
+/* Floating blob animations */
+@keyframes blob {
+    0% {
+        transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+        transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+        transform: translate(0px, 0px) scale(1);
+    }
+}
+
+/* Poster grid container */
+.poster-grid-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    opacity: 0.15;
+}
+
+/* Poster rows */
+.poster-row {
+    position: absolute;
+    height: 180px;
+    width: 300%;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    pointer-events: none;
+}
+
+.poster-row-1 {
+    top: 10%;
+    animation: flow-left 60s linear infinite;
+}
+
+.poster-row-2 {
+    top: 30%;
+    animation: flow-right 50s linear infinite;
+    animation-delay: -10s;
+}
+
+.poster-row-3 {
+    top: 50%;
+    animation: flow-left 55s linear infinite;
+    animation-delay: -20s;
+}
+
+.poster-row-4 {
+    top: 70%;
+    animation: flow-right 65s linear infinite;
+    animation-delay: -30s;
+}
+
+/* Flow animations */
+@keyframes flow-left {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-66.67%);
+    }
+}
+
+@keyframes flow-right {
+    0% {
+        transform: translateX(-66.67%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Individual poster styling */
+.poster-item {
+    width: 120px;
+    height: 160px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #92400e 0%, #451a03 100%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Poster loading state */
+.poster-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, #d97706, #92400e);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+/* Hide loading state when poster loads */
+.poster-item.loaded::before {
+    opacity: 0;
+}
+
+/* Film grain effect */
+.poster-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    border-radius: inherit;
+}
+
+/* Animation classes */
+.animate-blob {
+    animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .poster-row {
+        height: 120px;
+    }
+    
+    .poster-item {
+        width: 80px;
+        height: 110px;
+    }
+    
+    .poster-grid-container {
+        opacity: 0.1;
+    }
+}
+</style>
+
 <script src="https://unpkg.com/bowser@2.7.0/es5.js"></script> <!-- needed for plexHeaders -->
+<script>
+    // Load movie posters for flowing grid background
+    async function loadCinemaPosters() {
+        try {
+            const response = await fetch('/cinema-posters');
+            const posterUrls = await response.json();
+            
+            if (posterUrls && posterUrls.length > 0) {
+                const posterRows = document.querySelectorAll('.poster-row');
+                
+                // Populate each row with posters - ensure seamless repetition
+                posterRows.forEach((row, rowIndex) => {
+                    // Create enough posters to fill the row width + seamless loop
+                    const postersPerRow = 25; // Enough to cover 300% width + smooth loop
+                    
+                    // Create a subset of posters for this row to avoid having all rows identical
+                    const startOffset = Math.floor(rowIndex * posterUrls.length / 4);
+                    const rowPosters = [];
+                    
+                    // Fill row posters array by cycling through available posters
+                    for (let i = 0; i < postersPerRow; i++) {
+                        const posterIndex = (startOffset + i) % posterUrls.length;
+                        rowPosters.push(posterUrls[posterIndex]);
+                    }
+                    
+                    // Create poster elements
+                    rowPosters.forEach(posterUrl => {
+                        const posterItem = document.createElement('div');
+                        posterItem.className = 'poster-item';
+                        
+                        // Preload image
+                        const img = new Image();
+                        img.onload = () => {
+                            posterItem.style.backgroundImage = `url('${posterUrl}')`;
+                            posterItem.classList.add('loaded');
+                        };
+                        img.onerror = () => {
+                            console.warn(`Failed to load poster: ${posterUrl}`);
+                            // Keep the default gradient background
+                        };
+                        img.src = posterUrl;
+                        
+                        row.appendChild(posterItem);
+                    });
+                });
+            } else {
+                // Fallback: create placeholder posters if no URLs available
+                const posterRows = document.querySelectorAll('.poster-row');
+                posterRows.forEach(row => {
+                    for (let i = 0; i < 25; i++) {
+                        const posterItem = document.createElement('div');
+                        posterItem.className = 'poster-item';
+                        row.appendChild(posterItem);
+                    }
+                });
+            }
+        } catch (error) {
+            console.warn('Failed to load cinema posters:', error);
+            // Fallback: create placeholder posters
+            const posterRows = document.querySelectorAll('.poster-row');
+            posterRows.forEach(row => {
+                for (let i = 0; i < 25; i++) {
+                    const posterItem = document.createElement('div');
+                    posterItem.className = 'poster-item';
+                    row.appendChild(posterItem);
+                }
+            });
+        }
+    }
+    
+    // Load posters when page loads
+    document.addEventListener('DOMContentLoaded', loadCinemaPosters);
+</script>
 <script>
     // nanoid package, for generating client-identifier in plexHeaders
     let nanoid = (t = 21) => crypto.getRandomValues(new Uint8Array(t)).reduce(((t, e) => t += (e &= 63) < 36 ? e.toString(36) : e < 62 ? (e - 26).toString(36).toUpperCase() : e > 62 ? "-" : "_"), "");
