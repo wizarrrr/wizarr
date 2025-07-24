@@ -840,14 +840,12 @@ def accepted_invites_card():
 def server_health_card():
     """Return a card showing health status of all media servers."""
     try:
-        from urllib.parse import urlparse
-
         import requests
 
-        # Look at HX-Current-URL if HTMX, else fall back to url_root
-        current_url = request.headers.get("HX-Current-URL", request.url_root)
-        parsed = urlparse(current_url)
-        base_url = f"{parsed.scheme}://{parsed.netloc}"
+        # Use localhost for internal requests to avoid external domain resolution issues
+        # This prevents connection timeouts when the external domain can't be reached internally
+        server_port = request.environ.get("SERVER_PORT") or "5000"
+        base_url = f"http://127.0.0.1:{server_port}"
 
         response = requests.get(
             f"{base_url}/settings/servers/statistics/all",
