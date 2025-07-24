@@ -416,7 +416,7 @@ def user_detail(db_id: int):
 
     if request.method == "POST":
         raw = request.form.get("expires")  # "" or 2025-05-22T14:00
-        user.expires = datetime.datetime.fromisoformat(raw).date() if raw else None
+        user.expires = datetime.datetime.fromisoformat(raw) if raw else None
         db.session.commit()
 
         # Re-render the grid the same way /users/table does
