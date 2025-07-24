@@ -118,18 +118,24 @@ class PlexClient(MediaClient):
                     # Get recent movies from this library
                     movies = library.recentlyAdded(maxresults=limit)
                     for movie in movies[:limit]:
+                        poster_url = None
+
                         if hasattr(movie, "posterUrl") and movie.posterUrl:
-                            # Convert to full URL if needed
                             poster_url = movie.posterUrl
-                            if poster_url.startswith("/"):
-                                poster_url = f"{self.url.rstrip('/')}{poster_url}"
-                            poster_urls.append(poster_url)
                         elif hasattr(movie, "thumb") and movie.thumb:
                             # Fallback to thumb
-                            thumb_url = movie.thumb
-                            if thumb_url.startswith("/"):
-                                thumb_url = f"{self.url.rstrip('/')}{thumb_url}"
-                            poster_urls.append(thumb_url)
+                            poster_url = movie.thumb
+
+                        if poster_url:
+                            # Convert to full URL if needed
+                            if poster_url.startswith("/"):
+                                poster_url = f"{self.url.rstrip('/')}{poster_url}"
+
+                            # Use image proxy for external access
+                            import urllib.parse
+
+                            proxied_url = f"/image-proxy?url={urllib.parse.quote_plus(poster_url)}"
+                            poster_urls.append(proxied_url)
 
                         if len(poster_urls) >= limit:
                             break
