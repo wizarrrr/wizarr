@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-24 04:08+0000\n"
+"POT-Creation-Date: 2025-07-25 04:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -229,7 +229,6 @@ msgstr ""
 #: app/forms/settings.py:29 app/forms/settings.py:45
 #: app/templates/modals/invite.html:195 app/templates/modals/invite.html:211
 #: app/templates/modals/invite.html:222 app/templates/modals/invite.html:238
-#: app/templates/tables/user_card.html:92
 msgid "Allow Downloads"
 msgstr ""
 
@@ -537,32 +536,10 @@ msgstr ""
 msgid "Notification agents"
 msgstr ""
 
-#: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
-#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
+#: app/templates/user-plex-login.html:7 app/templates/welcome-jellyfin.html:7
+#: app/templates/welcome-jellyfin.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr ""
-
-#: app/templates/user-plex-login.html:23
-msgid "Join the Plex Server"
-msgstr ""
-
-#: app/templates/tables/user_card.html:82 app/templates/user-plex-login.html:29
-#: app/templates/user-plex-login.html:40
-msgid "Invite Code"
-msgstr ""
-
-#: app/templates/modals/invite.html:44 app/templates/user-plex-login.html:32
-#: app/templates/user-plex-login.html:44
-msgid "E.g. XMFGEJIKNQ"
-msgstr ""
-
-#: app/templates/user-plex-login.html:45
-msgid "Oops!"
-msgstr ""
-
-#: app/templates/user-plex-login.html:52
-msgid "Join"
 msgstr ""
 
 #: app/templates/users.html:5
@@ -1070,6 +1047,10 @@ msgstr ""
 msgid "optional"
 msgstr ""
 
+#: app/templates/modals/invite.html:44
+msgid "E.g. XMFGEJIKNQ"
+msgstr ""
+
 #: app/templates/modals/invite.html:54
 msgid "Expiration"
 msgstr ""
@@ -1522,6 +1503,10 @@ msgstr ""
 
 #: app/templates/tables/user_card.html:34
 msgid "Edit nickname"
+msgstr ""
+
+#: app/templates/tables/user_card.html:82
+msgid "Invite Code"
 msgstr ""
 
 #: app/templates/wizard/steps.html:28
