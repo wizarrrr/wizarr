@@ -4,7 +4,10 @@ import base64
 import datetime
 import logging
 import re
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from app.services.media.user_details import MediaUserDetails
 
 import requests
 from sqlalchemy import or_
@@ -175,9 +178,18 @@ class RommClient(RestApiMixin):
                 db.session.delete(local)
         db.session.commit()
 
-        return User.query.filter(
+        # Get users with default policy information
+        users = User.query.filter(
             User.server_id == getattr(self, "server_id", None)
         ).all()
+
+        # Add default policy attributes (RomM doesn't have specific download/live TV policies)
+        for user in users:
+            user.allow_downloads = True  # Default to True for gaming apps
+            user.allow_live_tv = False  # RomM doesn't have Live TV
+            user.allow_sync = True  # Default to True for gaming apps
+
+        return users
 
     # ------------------------------------------------------------------
     # Un-implemented mutating operations
@@ -247,8 +259,56 @@ class RommClient(RestApiMixin):
             resp.raise_for_status()
 
     def get_user(self, user_id: str) -> dict[str, Any]:
+        """Get user info in legacy format for backward compatibility."""
+        details = self.get_user_details(user_id)
+        return {
+            "id": details.user_id,
+            "username": details.username,
+            "email": details.email,
+            "role": "ADMIN" if details.is_admin else "VIEWER",
+            "enabled": details.is_enabled,
+            "created_at": details.created_at.isoformat() + "Z"
+            if details.created_at
+            else None,
+        }
+
+    def get_user_details(self, user_id: str) -> MediaUserDetails:
+        """Get detailed user information in standardized format."""
+        from app.models import Library
+        from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
+
+        # Get raw user data from RomM API
         r = self.get(f"{self.API_PREFIX}/users/{user_id}")
-        return r.json()
+        raw_user = r.json()
+
+        # Get all available libraries for this server since RomM gives full access
+        libs_q = (
+            Library.query.filter_by(server_id=self.server_id, enabled=True)
+            .order_by(Library.name)
+            .all()
+        )
+        library_access = [
+            UserLibraryAccess(
+                library_id=lib.external_id, library_name=lib.name, has_access=True
+            )
+            for lib in libs_q
+        ]
+
+        return MediaUserDetails(
+            user_id=str(raw_user.get("id", user_id)),
+            username=raw_user.get("username", "Unknown"),
+            email=raw_user.get("email"),
+            is_admin=raw_user.get("role") == "ADMIN",
+            is_enabled=raw_user.get("enabled", True),
+            created_at=datetime.datetime.fromisoformat(
+                raw_user["created_at"].rstrip("Z")
+            )
+            if raw_user.get("created_at")
+            else None,
+            last_active=None,  # RomM doesn't track last active time
+            library_access=library_access,
+            raw_policies=raw_user,
+        )
 
     # ------------------------------------------------------------------
     # Public sign-up via invites (same contract as other clients)

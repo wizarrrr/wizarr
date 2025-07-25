@@ -227,6 +227,11 @@ class PlexOAuthWorkflow(InvitationWorkflow):
         self, invitation: Invitation, servers: list[MediaServer]
     ) -> InvitationResult:
         """Show Plex OAuth form."""
+        # Get server name (prefer invitation's primary server, fallback to first server or Settings)
+        server_name = None
+        if servers:
+            server_name = servers[0].name
+
         return InvitationResult(
             status=ProcessingStatus.OAUTH_PENDING,
             message="Plex OAuth authentication required",
@@ -236,6 +241,7 @@ class PlexOAuthWorkflow(InvitationWorkflow):
                 "template_name": "user-plex-login.html",
                 "code": invitation.code,
                 "oauth_url": f"/oauth/plex?code={invitation.code}",
+                "server_name": server_name,
             },
         )
 
@@ -268,6 +274,11 @@ class PlexOAuthWorkflow(InvitationWorkflow):
         self, invitation: Invitation, error_message: str
     ) -> InvitationResult:
         """Create result for OAuth errors."""
+        # Get server name from invitation
+        server_name = None
+        if invitation.servers:
+            server_name = invitation.servers[0].name
+
         return InvitationResult(
             status=ProcessingStatus.FAILURE,
             message=error_message,
@@ -277,6 +288,7 @@ class PlexOAuthWorkflow(InvitationWorkflow):
                 "template_name": "user-plex-login.html",
                 "code": invitation.code,
                 "error": error_message,
+                "server_name": server_name,
             },
         )
 
@@ -293,6 +305,14 @@ class MixedWorkflow(InvitationWorkflow):
 
         if not plex_token:
             # Start with Plex OAuth
+            # Get server name from servers (prefer plex server)
+            server_name = None
+            plex_server = next((s for s in servers if s.server_type == "plex"), None)
+            if plex_server:
+                server_name = plex_server.name
+            elif servers:
+                server_name = servers[0].name
+
             return InvitationResult(
                 status=ProcessingStatus.OAUTH_PENDING,
                 message="Plex OAuth authentication required",
@@ -302,6 +322,7 @@ class MixedWorkflow(InvitationWorkflow):
                     "template_name": "user-plex-login.html",
                     "code": invitation.code,
                     "oauth_url": f"/oauth/plex?code={invitation.code}",
+                    "server_name": server_name,
                 },
             )
 

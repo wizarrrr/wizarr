@@ -1,7 +1,10 @@
 import datetime
 import logging
 import re
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from app.services.media.user_details import MediaUserDetails
 
 import requests
 from sqlalchemy import or_
@@ -86,9 +89,62 @@ class KomgaClient(RestApiMixin):
         self.delete(f"/api/v1/users/{user_id}")
 
     def get_user(self, user_id: str) -> dict[str, Any]:
-        """Get a Komga user by ID."""
+        """Get user info in legacy format for backward compatibility."""
+        details = self.get_user_details(user_id)
+        return {
+            "id": details.user_id,
+            "email": details.email,
+            "username": details.username,
+            "roles": ["ADMIN"] if details.is_admin else ["USER"],
+            "createdDate": details.created_at.isoformat() + "Z"
+            if details.created_at
+            else None,
+            "lastActiveDate": details.last_active.isoformat() + "Z"
+            if details.last_active
+            else None,
+        }
+
+    def get_user_details(self, user_id: str) -> "MediaUserDetails":
+        """Get detailed user information in standardized format."""
+        from app.models import Library
+        from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
+
+        # Get raw user data from Komga API
         response = self.get(f"/api/v1/users/{user_id}")
-        return response.json()
+        raw_user = response.json()
+
+        # Get all available libraries for this server since Komga gives full access
+        libs_q = (
+            Library.query.filter_by(server_id=self.server_id, enabled=True)
+            .order_by(Library.name)
+            .all()
+        )
+        library_access = [
+            UserLibraryAccess(
+                library_id=lib.external_id, library_name=lib.name, has_access=True
+            )
+            for lib in libs_q
+        ]
+
+        return MediaUserDetails(
+            user_id=user_id,
+            username=raw_user.get("email", "Unknown"),  # Komga uses email as username
+            email=raw_user.get("email"),
+            is_admin="ADMIN" in raw_user.get("roles", []),
+            is_enabled=True,  # Komga doesn't have a disabled state in API
+            created_at=datetime.datetime.fromisoformat(
+                raw_user["createdDate"].rstrip("Z")
+            )
+            if raw_user.get("createdDate")
+            else None,
+            last_active=datetime.datetime.fromisoformat(
+                raw_user["lastActiveDate"].rstrip("Z")
+            )
+            if raw_user.get("lastActiveDate")
+            else None,
+            library_access=library_access,
+            raw_policies=raw_user,
+        )
 
     def list_users(self) -> list[User]:
         """Sync users from Komga into the local DB and return the list of User records."""
@@ -117,9 +173,18 @@ class KomgaClient(RestApiMixin):
                     db.session.delete(db_user)
             db.session.commit()
 
-            return User.query.filter(
+            # Get users with default policy information
+            users = User.query.filter(
                 User.server_id == getattr(self, "server_id", None)
             ).all()
+
+            # Add default policy attributes (Komga doesn't have specific download/live TV policies)
+            for user in users:
+                user.allow_downloads = True  # Default to True for reading apps
+                user.allow_live_tv = False  # Komga doesn't have Live TV
+                user.allow_sync = True  # Default to True for reading apps
+
+            return users
         except Exception as e:
             logging.error(f"Failed to list Komga users: {e}")
             return []

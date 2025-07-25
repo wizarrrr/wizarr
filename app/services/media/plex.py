@@ -1,6 +1,7 @@
 import datetime
 import logging
 import threading
+from typing import TYPE_CHECKING
 
 from cachetools import TTLCache, cached
 from plexapi.myplex import MyPlexAccount
@@ -13,6 +14,9 @@ from app.services.media.service import get_client_for_media_server
 from app.services.notifications import notify
 
 from .client_base import MediaClient, register_media_client
+
+if TYPE_CHECKING:
+    from app.services.media.user_details import MediaUserDetails
 
 
 def _accept_invite_v2(self: MyPlexAccount, user):
@@ -213,6 +217,20 @@ class PlexClient(MediaClient):
         )
 
     def get_user(self, db_id: int) -> dict:
+        """Get user info in legacy format for backward compatibility."""
+        details = self.get_user_details(db_id)
+        return {
+            "Name": details.username,
+            "Id": details.user_id,
+            "Configuration": details.raw_policies,
+            "Policy": {},
+        }
+
+    def get_user_details(self, db_id: int) -> "MediaUserDetails":
+        """Get detailed user information in standardized format."""
+        from app.models import Library
+        from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
+
         user_record = User.query.get(db_id)
         if not user_record:
             raise ValueError(f"No user found with id {db_id}")
@@ -220,29 +238,56 @@ class PlexClient(MediaClient):
         plex_user = self.admin.user(user_record.email)
         if not plex_user:
             raise ValueError(f"Plex user not found for email {user_record.email}")
-        # Get the sections/libraries this user has access to
+
+        # Extract library access from Plex user
         sections = []
+
         try:
             # Get the user's accessible libraries on this server
             for user_server in plex_user.servers:
                 if user_server.machineIdentifier == self.server.machineIdentifier:
-                    # Get the section names from the server
                     sections = [section.title for section in user_server.sections()]
                     break
         except Exception as e:
             logging.warning(f"Failed to get Plex user sections: {e}")
             sections = []
 
-        return {
-            "Name": plex_user.title,
-            "Id": plex_user.id,
-            "Configuration": {
+        # Convert section titles to library access objects
+        if sections:
+            # Query our database to find matching libraries
+            libs_q = (
+                Library.query.filter(
+                    Library.name.in_(sections),
+                    Library.server_id == self.server_id,
+                )
+                .order_by(Library.name)
+                .all()
+            )
+            library_access = [
+                UserLibraryAccess(
+                    library_id=lib.external_id, library_name=lib.name, has_access=True
+                )
+                for lib in libs_q
+            ]
+        else:
+            # No sections found - return empty list instead of None
+            library_access = []
+
+        return MediaUserDetails(
+            user_id=str(plex_user.id),
+            username=plex_user.title,
+            email=plex_user.email,
+            is_admin=plex_user.admin if hasattr(plex_user, "admin") else False,
+            is_enabled=True,  # Plex doesn't have a disabled state for shared users
+            created_at=None,  # Plex API doesn't provide creation date for shared users
+            last_active=None,  # Plex API doesn't provide last active for shared users
+            library_access=library_access,
+            raw_policies={
                 "allowCameraUpload": plex_user.allowCameraUpload,
                 "allowChannels": plex_user.allowChannels,
                 "allowSync": plex_user.allowSync,
             },
-            "Policy": {"sections": sections},
-        }
+        )
 
     def update_user(self, info: dict, form: dict) -> None:
         self.admin.updateFriend(
@@ -322,6 +367,22 @@ class PlexClient(MediaClient):
             p = plex_users.get(u.email)
             if p:
                 u.photo = p.thumb
+                # Add Plex-specific policy information
+                # For Plex, check allowSync and allowChannels permissions
+                u.allow_downloads = getattr(
+                    p, "allowSync", True
+                )  # Sync permission in Plex
+                u.allow_live_tv = getattr(
+                    p, "allowChannels", True
+                )  # Channel/Live TV access
+                u.allow_sync = getattr(
+                    p, "allowSync", True
+                )  # Same as downloads for Plex
+            else:
+                # Default values if Plex user data not found
+                u.allow_downloads = False
+                u.allow_live_tv = False
+                u.allow_sync = False
 
         return users
 

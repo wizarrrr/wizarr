@@ -5,7 +5,7 @@ import datetime
 import logging
 import re
 import time
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import requests
 from sqlalchemy import or_
@@ -15,6 +15,9 @@ from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid, mark_server_used
 
 from .client_base import RestApiMixin, register_media_client
+
+if TYPE_CHECKING:
+    from app.services.media.user_details import MediaUserDetails
 
 
 @register_media_client("audiobookshelf")
@@ -233,7 +236,29 @@ class AudiobookshelfClient(RestApiMixin):
             db.session.rollback()
             return []
 
-        return User.query.filter(User.server_id == server_id).all()
+        # Get users with policy information
+        users = User.query.filter(User.server_id == server_id).all()
+
+        # Enhance users with policy data from AudiobookShelf
+        for user in users:
+            if user.token in raw_by_id:
+                abs_user = raw_by_id[user.token]
+                permissions = abs_user.get("permissions", {}) or {}
+
+                # Add policy attributes for AudiobookShelf
+                user.allow_downloads = permissions.get("download", True)
+                # AudiobookShelf doesn't have Live TV, so default to False
+                user.allow_live_tv = False
+                user.allow_sync = permissions.get(
+                    "download", True
+                )  # Same as downloads for ABS
+            else:
+                # Default values if user data not found
+                user.allow_downloads = False
+                user.allow_live_tv = False
+                user.allow_sync = False
+
+        return users
 
     # --- user management ------------------------------------------------
 
@@ -309,10 +334,101 @@ class AudiobookshelfClient(RestApiMixin):
             raise
 
     def get_user(self, user_id: str):
-        """Return a full user object from Audiobookshelf."""
+        """Get user info in legacy format for backward compatibility."""
+        details = self.get_user_details(user_id)
+        return {
+            "id": details.user_id,
+            "username": details.username,
+            "email": details.email,
+            "isActive": details.is_enabled,
+            "createdAt": int(details.created_at.timestamp() * 1000)
+            if details.created_at
+            else None,
+            "lastSeen": int(details.last_active.timestamp() * 1000)
+            if details.last_active
+            else None,
+            "permissions": {"admin": details.is_admin},
+        }
+
+    def get_user_details(self, user_id: str) -> MediaUserDetails:
+        """Get detailed user information in standardized format."""
+        from app.models import Library
+        from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
+
+        # Get raw user data from AudiobookShelf API
         response = self.get(f"{self.API_PREFIX}/users/{user_id}")
         response.raise_for_status()
-        return response.json()
+        raw_user = response.json()
+        permissions = raw_user.get("permissions", {}) or {}
+
+        # Extract library access
+        access_all = permissions.get("accessAllLibraries", False)
+        accessible_libs = raw_user.get("librariesAccessible", []) or []
+
+        if not access_all and accessible_libs:
+            # User has restricted library access
+            libs_q = (
+                Library.query.filter(
+                    Library.external_id.in_(accessible_libs),
+                    Library.server_id == self.server_id,
+                )
+                .order_by(Library.name)
+                .all()
+            )
+            library_access = [
+                UserLibraryAccess(
+                    library_id=lib.external_id, library_name=lib.name, has_access=True
+                )
+                for lib in libs_q
+            ]
+        else:
+            # Full access - get all enabled libraries for this server
+            libs_q = (
+                Library.query.filter_by(server_id=self.server_id, enabled=True)
+                .order_by(Library.name)
+                .all()
+            )
+            library_access = [
+                UserLibraryAccess(
+                    library_id=lib.external_id, library_name=lib.name, has_access=True
+                )
+                for lib in libs_q
+            ]
+
+        # Extract only admin-relevant policies information
+        filtered_policies = {
+            "isActive": raw_user.get("isActive", True),
+            "type": raw_user.get("type", "user"),
+            "hasOpenIDLink": raw_user.get("hasOpenIDLink", False),
+        }
+
+        # Add useful permission info
+        if permissions:
+            filtered_policies.update(
+                {
+                    "download": permissions.get("download", False),
+                    "accessAllLibraries": permissions.get("accessAllLibraries", True),
+                    "accessExplicitContent": permissions.get(
+                        "accessExplicitContent", False
+                    ),
+                }
+            )
+
+        return MediaUserDetails(
+            user_id=user_id,
+            username=raw_user.get("username", "Unknown"),
+            email=raw_user.get("email"),
+            is_admin=permissions.get("admin", False),
+            is_enabled=raw_user.get("isActive", True),
+            created_at=datetime.datetime.fromtimestamp(raw_user["createdAt"] / 1000)
+            if raw_user.get("createdAt")
+            else None,
+            last_active=datetime.datetime.fromtimestamp(raw_user["lastSeen"] / 1000)
+            if raw_user.get("lastSeen")
+            else None,
+            library_access=library_access,
+            raw_policies=filtered_policies,
+        )
 
     # ------------------------------------------------------------------
     # Public sign-up (invite links)

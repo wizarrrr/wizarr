@@ -34,7 +34,7 @@ set col = { "ok": "bg-green-500", "expired": "bg-red-500" }[state] if state in
 {% elif invite.expires %}
 <span
     class="px-1.5 py-0.5 rounded-full text-[11px] font-medium bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100"
-    title="{{ invite.expires }}"
+    title="{{ invite.expires|human_date }}"
 >
     {{ invite.rel_expiry }}
 </span>
@@ -45,8 +45,7 @@ set col = { "ok": "bg-green-500", "expired": "bg-red-500" }[state] if state in
     {{ _("Never") }}
 </span>
 {% endif %} {%- endmacro %} {% macro dt(v) -%} {# defensive date formatting:
-accept datetime or string #} {%- if v is string -%} {{ v[:16] }} {%- elif v -%}
-{{ v.strftime("%Y-%m-%d %H:%M") }} {%- else -%} — {%- endif -%} {%- endmacro %}
+accept datetime or string #} {{ v|human_date }} {%- endmacro %}
 {# ------------- /Macros --------------- #}
 
 <div

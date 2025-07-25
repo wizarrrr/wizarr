@@ -90,7 +90,7 @@ def join():
         server_name = name_setting.value if name_setting else None
 
         return render_template(
-            "user-plex-login.html", name=server_name, code=code, code_error=msg
+            "user-plex-login.html", server_name=server_name, code=code, code_error=msg
         )
 
     server = (invitation.server if invitation else None) or MediaServer.query.first()

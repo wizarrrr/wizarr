@@ -1,5 +1,6 @@
 import logging
 import re
+from typing import TYPE_CHECKING
 
 import requests
 from sqlalchemy import or_
@@ -8,6 +9,9 @@ from app.models import Invitation, MediaServer, User
 
 from .client_base import register_media_client
 from .jellyfin import JellyfinClient
+
+if TYPE_CHECKING:
+    pass
 
 # Reuse the same email regex as jellyfin
 EMAIL_RE = re.compile(r"[^@]+@[^@]+\.[^@]+")

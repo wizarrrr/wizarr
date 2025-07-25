@@ -298,7 +298,12 @@ def invite_table():
             # library list for this server (by *server name* key)
             libs = server_libs.get(srv.name, [])
             srv.library_names = libs  # Use a non-conflicting attribute name
-            srv.library_count = len(libs)
+            # If libs is empty (default libraries), count all enabled libraries on this server
+            if libs:
+                srv.library_count = len(libs)
+            else:
+                # Count all enabled libraries on this server for default library invitations
+                srv.library_count = len([lib for lib in srv.libraries if lib.enabled])
 
             # normalise type attr (template looks at srv.type)
             srv.type = srv.server_type
@@ -627,120 +632,17 @@ def _group_users_for_display(user_list):
 @admin_bp.route("/user/<int:db_id>/details")
 @login_required
 def user_details_modal(db_id: int):
-    """Return a read-only modal with extended information about a user.
+    """Return a read-only modal with extended information about a user."""
+    from app.services.user_details import UserDetailsService
 
-    The modal shows:
-    • Join date (if available)
-    • List of libraries they can access (server-specific)
-    • Policy / configuration flags returned by the MediaClient
-    """
-    import logging
-
-    from app.services.media.service import get_client_for_media_server
-
-    user = User.query.get_or_404(db_id)
-
-    # ── Join / creation date ─────────────────────────────────────────────
-    join_date = None
-    if user.identity and user.identity.created_at:
-        join_date = user.identity.created_at
-
-    # Determine all linked accounts (same identity) or fallback to current
-    accounts = list(user.identity.accounts) if user.identity_id else [user]
-
-    accounts_info = []
-
-    for acct in accounts:
-        srv = acct.server
-        info: dict = {
-            "server_type": srv.server_type if srv else "local",
-            "server_name": srv.name if srv else "Local",
-            "username": acct.username,
-            "libraries": None,
-            "policies": None,
-        }
-
-        if srv:
-            try:
-                client = get_client_for_media_server(srv)
-                if not hasattr(client, "get_user"):
-                    raise AttributeError("Client lacks get_user()")
-
-                # Plex helper expects DB row id; others typically use upstream id stored in token.
-                user_arg = acct.id if srv.server_type == "plex" else acct.token
-                details = client.get_user(user_arg)
-
-                lib_ids: list[str] | None = None
-
-                if srv.server_type == "plex":
-                    # Custom API wrapper returns Policy.sections
-                    lib_ids = (details.get("Policy", {}) or {}).get("sections") or []
-
-                elif srv.server_type in ("jellyfin", "emby"):
-                    pol = details.get("Policy", {}) or {}
-                    enable_all = pol.get("EnableAllFolders", False)
-                    enabled = pol.get("EnabledFolders", []) or []
-                    # access to all – fallback to None to trigger 'all' UI
-                    lib_ids = enabled if not enable_all and enabled else None
-
-                elif srv.server_type in ("audiobookshelf", "abs"):
-                    all_flag = (details.get("permissions", {}) or {}).get(
-                        "accessAllLibraries", False
-                    )
-                    enabled = details.get("librariesAccessible", []) or []
-                    lib_ids = (
-                        enabled if not all_flag and enabled else None
-                    )  # all libraries
-
-                # Map IDs to names when possible
-                if lib_ids is not None:
-                    libs_q = (
-                        Library.query.filter(
-                            Library.external_id.in_(lib_ids),
-                            Library.server_id == srv.id,
-                        )
-                        .order_by(Library.name)
-                        .all()
-                    )
-                    names = [lib.name for lib in libs_q]
-                    # Preserve IDs with no matching DB row so user sees something
-                    missing = [
-                        lid
-                        for lid in lib_ids
-                        if lid not in {lib.external_id for lib in libs_q}
-                    ]
-                    info["libraries"] = names + missing
-                else:
-                    # lib_ids None means full access – pick all enabled libs for server
-                    libs_q = (
-                        Library.query.filter_by(server_id=srv.id)
-                        .order_by(Library.name)
-                        .all()
-                    )
-                    info["libraries"] = [lib.name for lib in libs_q]
-
-                # Store policies / config for optional display
-                info["policies"] = (
-                    details.get("Configuration")
-                    or details.get("Policy")
-                    or details.get("permissions")
-                )
-
-            except Exception as exc:
-                logging.error(
-                    "Failed to fetch user details for account %s/%s: %s",
-                    acct.id,
-                    acct.username,
-                    exc,
-                )
-
-        accounts_info.append(info)
+    service = UserDetailsService()
+    details = service.get_user_details(db_id)
 
     return render_template(
         "admin/user_details_modal.html",
-        user=user,
-        join_date=join_date,
-        accounts_info=accounts_info,
+        user=details.user,
+        join_date=details.join_date,
+        accounts_info=details.accounts_info,
     )
 
 

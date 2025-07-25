@@ -1,6 +1,7 @@
 import datetime
 import logging
 import re
+from typing import TYPE_CHECKING
 
 import requests
 from sqlalchemy import or_
@@ -11,6 +12,9 @@ from app.services.invites import is_invite_valid, mark_server_used
 from app.services.notifications import notify
 
 from .client_base import RestApiMixin, register_media_client
+
+if TYPE_CHECKING:
+    from app.services.media.user_details import MediaUserDetails
 
 EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 
@@ -82,7 +86,109 @@ class JellyfinClient(RestApiMixin):
         self.delete(f"/Users/{user_id}")
 
     def get_user(self, jf_id: str) -> dict:
-        return self.get(f"/Users/{jf_id}").json()
+        """Get user info in legacy format for backward compatibility."""
+        details = self.get_user_details(jf_id)
+        return {
+            "Name": details.username,
+            "Id": details.user_id,
+            "Email": details.email,
+            "Policy": details.raw_policies.get("Policy", {})
+            if details.raw_policies
+            else {},
+            "Configuration": details.raw_policies.get("Configuration", {})
+            if details.raw_policies
+            else {},
+        }
+
+    def get_user_details(self, jf_id: str) -> "MediaUserDetails":
+        """Get detailed user information in standardized format."""
+        from app.models import Library
+        from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
+
+        # Get raw user data from Jellyfin API
+        raw_user = self.get(f"/Users/{jf_id}").json()
+        policy = raw_user.get("Policy", {}) or {}
+
+        # Extract library access
+        enable_all = policy.get("EnableAllFolders", False)
+        enabled_folders = policy.get("EnabledFolders", []) or []
+
+        if not enable_all and enabled_folders:
+            # User has restricted library access
+            libs_q = (
+                Library.query.filter(
+                    Library.external_id.in_(enabled_folders),
+                    Library.server_id == self.server_id,
+                )
+                .order_by(Library.name)
+                .all()
+            )
+            library_access = [
+                UserLibraryAccess(
+                    library_id=lib.external_id, library_name=lib.name, has_access=True
+                )
+                for lib in libs_q
+            ]
+        else:
+            # Full access - get all enabled libraries for this server
+            libs_q = (
+                Library.query.filter_by(server_id=self.server_id, enabled=True)
+                .order_by(Library.name)
+                .all()
+            )
+            library_access = [
+                UserLibraryAccess(
+                    library_id=lib.external_id, library_name=lib.name, has_access=True
+                )
+                for lib in libs_q
+            ]
+
+        # Filter raw_policies to only include admin-relevant information
+        filtered_policies = {
+            # User status
+            "IsAdministrator": policy.get("IsAdministrator", False),
+            "IsDisabled": policy.get("IsDisabled", False),
+            "IsHidden": policy.get("IsHidden", False),
+            # Access permissions
+            "EnableRemoteAccess": policy.get("EnableRemoteAccess", True),
+            "EnableLiveTvAccess": policy.get("EnableLiveTvAccess", True),
+            "EnableMediaPlayback": policy.get("EnableMediaPlayback", True),
+            "EnableContentDownloading": policy.get("EnableContentDownloading", True),
+            "EnableSyncTranscoding": policy.get("EnableSyncTranscoding", True),
+            # Management permissions
+            "EnableCollectionManagement": policy.get(
+                "EnableCollectionManagement", False
+            ),
+            "EnableSubtitleManagement": policy.get("EnableSubtitleManagement", False),
+            "EnableLiveTvManagement": policy.get("EnableLiveTvManagement", False),
+            "EnableContentDeletion": policy.get("EnableContentDeletion", False),
+            # Session limits
+            "MaxActiveSessions": policy.get("MaxActiveSessions", 0),
+            "InvalidLoginAttemptCount": policy.get("InvalidLoginAttemptCount", 0),
+            # Last activity
+            "LastLoginDate": raw_user.get("LastLoginDate"),
+            "LastActivityDate": raw_user.get("LastActivityDate"),
+        }
+
+        return MediaUserDetails(
+            user_id=jf_id,
+            username=raw_user.get("Name", "Unknown"),
+            email=raw_user.get("Email"),
+            is_admin=policy.get("IsAdministrator", False),
+            is_enabled=not policy.get("IsDisabled", True),
+            created_at=datetime.datetime.fromisoformat(
+                raw_user["DateCreated"].rstrip("Z")
+            )
+            if raw_user.get("DateCreated")
+            else None,
+            last_active=datetime.datetime.fromisoformat(
+                raw_user["DateLastActivity"].rstrip("Z")
+            )
+            if raw_user.get("DateLastActivity")
+            else None,
+            library_access=library_access,
+            raw_policies=filtered_policies,
+        )
 
     def update_user(self, jf_id: str, form: dict) -> dict | None:
         current = self.get_user(jf_id)
@@ -127,7 +233,27 @@ class JellyfinClient(RestApiMixin):
                 db.session.delete(dbu)
 
         db.session.commit()
-        return User.query.filter(User.server_id == server_id).all()
+
+        # Get users with policy information
+        users = User.query.filter(User.server_id == server_id).all()
+
+        # Enhance users with policy data
+        for user in users:
+            if user.token in jf_users:
+                jf_user = jf_users[user.token]
+                policy = jf_user.get("Policy", {}) or {}
+
+                # Add policy attributes directly to the user object for template access
+                user.allow_downloads = policy.get("EnableContentDownloading", True)
+                user.allow_live_tv = policy.get("EnableLiveTvAccess", True)
+                user.allow_sync = policy.get("EnableSyncTranscoding", True)
+            else:
+                # Default values if user data not found
+                user.allow_downloads = False
+                user.allow_live_tv = False
+                user.allow_sync = False
+
+        return users
 
     def _password_for_db(self, password: str) -> str:
         return password

@@ -3,6 +3,7 @@ import hashlib
 import logging
 import re
 import time
+from typing import TYPE_CHECKING
 from urllib.parse import parse_qs, urlparse
 
 from sqlalchemy import or_
@@ -13,6 +14,9 @@ from app.services.invites import is_invite_valid, mark_server_used
 from app.services.notifications import notify
 
 from .client_base import RestApiMixin, register_media_client
+
+if TYPE_CHECKING:
+    from app.services.media.user_details import MediaUserDetails
 
 EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 
@@ -363,34 +367,85 @@ class KavitaClient(RestApiMixin):
             )
 
     def get_user(self, username: str) -> dict | None:
-        """Return the user object for *username*.
+        """Get user info in legacy format for backward compatibility."""
+        try:
+            details = self.get_user_details(username)
+            return {
+                "id": details.user_id,
+                "username": details.username,
+                "email": details.email,
+                "isAdmin": details.is_admin,
+                "created": details.created_at.isoformat() + "Z"
+                if details.created_at
+                else None,
+                "lastActive": details.last_active.isoformat() + "Z"
+                if details.last_active
+                else None,
+            }
+        except ValueError:
+            return None
 
-        Kavita does **not** expose a dedicated "get-single-user" endpoint.  The
-        only public route is `GET /api/Users` which returns the *full* list.
-        We therefore retrieve the collection once and pick the record that
-        matches the supplied username (case-sensitive, same behaviour as the
-        admin UI).
-        """
+    def get_user_details(self, username: str) -> "MediaUserDetails":
+        """Get detailed user information in standardized format."""
+        from app.services.media.user_details import MediaUserDetails
 
+        # Get raw user data from Kavita API
         try:
             all_users = self.get("/api/Users").json()
         except Exception as exc:
             logging.error("Failed to list Kavita users: %s", exc)
-            return None
+            raise ValueError(f"Failed to fetch Kavita users: {exc}") from exc
 
         if not isinstance(all_users, list):
             logging.warning(
                 "Unexpected response format from /api/Users – expected list"
             )
-            return None
+            raise ValueError("Unexpected response format from Kavita API")
 
+        raw_user = None
         for u in all_users:
             if not isinstance(u, dict):
                 continue
             if u.get("username") == username:
-                return u
+                raw_user = u
+                break
 
-        return None  # not found
+        if not raw_user:
+            raise ValueError(f"Kavita user not found: {username}")
+
+        # Get all available libraries for this server since Kavita gives full access
+        from app.models import Library
+        from app.services.media.user_details import UserLibraryAccess
+
+        libs_q = (
+            Library.query.filter_by(server_id=self.server_id, enabled=True)
+            .order_by(Library.name)
+            .all()
+        )
+        library_access = [
+            UserLibraryAccess(
+                library_id=lib.external_id, library_name=lib.name, has_access=True
+            )
+            for lib in libs_q
+        ]
+
+        return MediaUserDetails(
+            user_id=str(raw_user.get("id", username)),
+            username=raw_user.get("username", username),
+            email=raw_user.get("email"),
+            is_admin=raw_user.get("isAdmin", False),
+            is_enabled=True,  # Kavita doesn't seem to have disabled users concept
+            created_at=datetime.datetime.fromisoformat(raw_user["created"].rstrip("Z"))
+            if raw_user.get("created")
+            else None,
+            last_active=datetime.datetime.fromisoformat(
+                raw_user["lastActive"].rstrip("Z")
+            )
+            if raw_user.get("lastActive")
+            else None,
+            library_access=library_access,
+            raw_policies=raw_user,
+        )
 
     def update_user(self, username: str, form: dict) -> dict | None:
         """Update user *username* in Kavita."""
@@ -471,9 +526,18 @@ class KavitaClient(RestApiMixin):
                     db.session.delete(dbu)
             db.session.commit()
 
-            return User.query.filter(
+            # Get users with default policy information
+            users = User.query.filter(
                 User.server_id == getattr(self, "server_id", None)
             ).all()
+
+            # Add default policy attributes (Kavita doesn't have specific download/live TV policies)
+            for user in users:
+                user.allow_downloads = True  # Default to True for reading apps
+                user.allow_live_tv = False  # Kavita doesn't have Live TV
+                user.allow_sync = True  # Default to True for reading apps
+
+            return users
         except Exception as e:
             logging.error(f"Failed to sync Kavita users: {e}")
             return []

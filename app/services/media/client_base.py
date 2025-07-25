@@ -12,11 +12,15 @@ from __future__ import annotations
 
 import logging
 from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING
 
 import requests
 
 from app.extensions import db
 from app.models import MediaServer, Settings, User
+
+if TYPE_CHECKING:
+    from app.services.media.user_details import MediaUserDetails
 
 # ---------------------------------------------------------------------------
 # Registry helpers
@@ -157,6 +161,31 @@ class MediaClient(ABC):
     @abstractmethod
     def get_user(self, *args, **kwargs):
         raise NotImplementedError
+
+    def get_user_details(self, user_identifier: str | int) -> MediaUserDetails:
+        """Get detailed user information in standardized format.
+
+        Args:
+            user_identifier: User ID, email, or username depending on server type
+
+        Returns:
+            MediaUserDetails: Standardized user details with libraries and policies
+
+        Note:
+            Default implementation delegates to get_user() for backward compatibility.
+            Media clients should override this method to return MediaUserDetails directly.
+        """
+        from app.services.media.user_details import MediaUserDetails
+
+        # Fallback: use existing get_user and attempt basic conversion
+        raw_details = self.get_user(user_identifier)
+
+        return MediaUserDetails(
+            user_id=str(user_identifier),
+            username=raw_details.get("username", "Unknown"),
+            email=raw_details.get("email"),
+            raw_policies=raw_details,
+        )
 
     @abstractmethod
     def list_users(self, *args, **kwargs):
