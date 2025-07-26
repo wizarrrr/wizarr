@@ -81,7 +81,7 @@ A big thank you to these amazing contributors who’ve helped build and maintain
 
 ## 📸 Screenshots
 
-![Accept Invite](./screenshots/accept_invite.jpeg)
+![Accept Invite](./screenshots/new-accept-plex-invite.png)
 ![Home](./screenshots/dashboard.png)
 ![Invitations](./screenshots/invitations.png)
 ![Settings](./screenshots/edit-servers.png)
