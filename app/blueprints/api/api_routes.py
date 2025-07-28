@@ -52,20 +52,25 @@ def list_users():
     """List all users across all media servers."""
     try:
         logger.info("API: Listing all users")
-        users_data = list_users_all_servers()
+        users_by_server = list_users_all_servers()
         
         # Format response
         users_list = []
-        for server_data in users_data:
-            for user in server_data.get("users", []):
+        for server_id, users in users_by_server.items():
+            # Get server info
+            server = MediaServer.query.get(server_id)
+            if not server:
+                continue
+                
+            for user in users:
                 users_list.append({
-                    "id": user.get("id"),
-                    "username": user.get("username"),
-                    "email": user.get("email"),
-                    "server": server_data.get("server_name"),
-                    "server_type": server_data.get("server_type"),
-                    "expires": user.get("expires"),
-                    "created": user.get("created")
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email,
+                    "server": server.name,
+                    "server_type": server.server_type,
+                    "expires": user.expires.isoformat() if user.expires else None,
+                    "created": user.created.isoformat() if hasattr(user, 'created') and user.created else None
                 })
         
         return jsonify({"users": users_list, "count": len(users_list)})
@@ -185,26 +190,48 @@ def create_invitation():
         library_ids = data.get("library_ids", [])
         unlimited = data.get("unlimited", True)
         
-        # Calculate expiry date
-        expires = None
-        if expires_in_days:
-            expires = datetime.datetime.now(datetime.UTC) + datetime.timedelta(days=expires_in_days)
+        # Map expires_in_days to the expected format
+        expires_key = "never"
+        if expires_in_days == 1:
+            expires_key = "day"
+        elif expires_in_days == 7:
+            expires_key = "week"
+        elif expires_in_days == 30:
+            expires_key = "month"
         
-        # Get libraries
-        libraries = []
-        if library_ids:
-            libraries = Library.query.filter(Library.id.in_(library_ids)).all()
+        # Get the first available server if none specified
+        servers = MediaServer.query.filter_by(verified=True).all()
+        if not servers:
+            return jsonify({"error": "No verified servers available"}), 400
+        
+        # Create a form-like object
+        form_data = {
+            "duration": duration,
+            "expires": expires_key,
+            "unlimited": unlimited,
+            "server_ids": [servers[0].id],  # Use first server
+            "libraries": [str(lib_id) for lib_id in library_ids],
+            "allow_downloads": data.get("allow_downloads", False),
+            "allow_live_tv": data.get("allow_live_tv", False),
+            "allow_mobile_uploads": data.get("allow_mobile_uploads", False),
+        }
+        
+        # Create a dict-like object that supports both get() and getlist()
+        class FormLikeDict(dict):
+            def getlist(self, key):
+                value = self.get(key, [])
+                if isinstance(value, list):
+                    return value
+                return [value] if value else []
+        
+        form_obj = FormLikeDict(form_data)
         
         # Create the invitation
         logger.info("API: Creating invitation with duration=%s, expires=%s, libraries=%s", 
-                   duration, expires, [lib.id for lib in libraries])
+                   duration, expires_key, library_ids)
         
-        invitation = create_invite(
-            duration=duration,
-            expires=expires,
-            libraries=libraries,
-            unlimited=unlimited
-        )
+        invitation = create_invite(form_obj)
+        db.session.commit()
         
         return jsonify({
             "message": "Invitation created successfully",

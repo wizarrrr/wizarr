@@ -68,7 +68,7 @@ def create_api_key():
     return render_template("modals/create-api-key.html", form=form, raw_key=raw_key)
 
 
-@api_keys_bp.route("/<int:key_id>/delete", methods=["POST"])
+@api_keys_bp.route("/<int:key_id>/delete", methods=["POST", "DELETE"])
 @login_required
 def delete_api_key(key_id):
     """Delete an API key."""
@@ -80,5 +80,10 @@ def delete_api_key(key_id):
     
     logger.info("Deleted API key '%s' (ID: %d) by admin %s", api_key.name, key_id, current_user.username)
     flash(_("API key deleted successfully"), "success")
+    
+    # If it's an HTMX request, return the updated grid
+    if request.headers.get("HX-Request"):
+        api_keys = ApiKey.query.filter_by(is_active=True).order_by(ApiKey.created_at.desc()).all()
+        return render_template("partials/api_keys_grid.html", api_keys=api_keys)
     
     return redirect(url_for("api_keys.list_api_keys"))
