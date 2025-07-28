@@ -3,7 +3,7 @@
 #### Find your Discord Server ID
 
 1. In Discord, go to your **Server Settings**
-2. Select the **Widget** tab
+2. Select the **Engagement** tab
 3. Enable Server Widget
 4. Choose an Invite Channel (`general` for example)
 5. Copy your **Server ID**
