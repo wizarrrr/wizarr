@@ -52,20 +52,25 @@ def list_users():
     """List all users across all media servers."""
     try:
         logger.info("API: Listing all users")
-        users_data = list_users_all_servers()
+        users_by_server = list_users_all_servers()
         
         # Format response
         users_list = []
-        for server_data in users_data:
-            for user in server_data.get("users", []):
+        for server_id, users in users_by_server.items():
+            # Get server info
+            server = MediaServer.query.get(server_id)
+            if not server:
+                continue
+                
+            for user in users:
                 users_list.append({
-                    "id": user.get("id"),
-                    "username": user.get("username"),
-                    "email": user.get("email"),
-                    "server": server_data.get("server_name"),
-                    "server_type": server_data.get("server_type"),
-                    "expires": user.get("expires"),
-                    "created": user.get("created")
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email,
+                    "server": server.name,
+                    "server_type": server.server_type,
+                    "expires": user.expires.isoformat() if user.expires else None,
+                    "created": user.created.isoformat() if hasattr(user, 'created') and user.created else None
                 })
         
         return jsonify({"users": users_list, "count": len(users_list)})
@@ -146,8 +151,16 @@ def list_invitations():
             # Determine status
             if invite.used:
                 status = "used"
-            elif invite.expires and invite.expires < now:
-                status = "expired" 
+            elif invite.expires:
+                # Handle timezone comparison
+                invite_expires = invite.expires
+                if invite_expires.tzinfo is None:
+                    # If invitation expires is naive, assume UTC
+                    invite_expires = invite_expires.replace(tzinfo=datetime.UTC)
+                if invite_expires < now:
+                    status = "expired" 
+                else:
+                    status = "pending"
             else:
                 status = "pending"
             
@@ -177,7 +190,15 @@ def list_invitations():
 def create_invitation():
     """Create a new invitation."""
     try:
-        data = request.get_json() or {}
+        # Try to get JSON data, handle missing Content-Type gracefully
+        try:
+            data = request.get_json() or {}
+        except Exception:
+            # If JSON parsing fails due to Content-Type, try force parsing
+            try:
+                data = request.get_json(force=True) or {}
+            except Exception:
+                data = {}
         
         # Extract parameters
         expires_in_days = data.get("expires_in_days")
@@ -185,26 +206,48 @@ def create_invitation():
         library_ids = data.get("library_ids", [])
         unlimited = data.get("unlimited", True)
         
-        # Calculate expiry date
-        expires = None
-        if expires_in_days:
-            expires = datetime.datetime.now(datetime.UTC) + datetime.timedelta(days=expires_in_days)
+        # Map expires_in_days to the expected format
+        expires_key = "never"
+        if expires_in_days == 1:
+            expires_key = "day"
+        elif expires_in_days == 7:
+            expires_key = "week"
+        elif expires_in_days == 30:
+            expires_key = "month"
         
-        # Get libraries
-        libraries = []
-        if library_ids:
-            libraries = Library.query.filter(Library.id.in_(library_ids)).all()
+        # Get the first available server if none specified
+        servers = MediaServer.query.filter_by(verified=True).all()
+        if not servers:
+            return jsonify({"error": "No verified servers available"}), 400
+        
+        # Create a form-like object
+        form_data = {
+            "duration": duration,
+            "expires": expires_key,
+            "unlimited": unlimited,
+            "server_ids": [servers[0].id],  # Use first server
+            "libraries": [str(lib_id) for lib_id in library_ids],
+            "allow_downloads": data.get("allow_downloads", False),
+            "allow_live_tv": data.get("allow_live_tv", False),
+            "allow_mobile_uploads": data.get("allow_mobile_uploads", False),
+        }
+        
+        # Create a dict-like object that supports both get() and getlist()
+        class FormLikeDict(dict):
+            def getlist(self, key):
+                value = self.get(key, [])
+                if isinstance(value, list):
+                    return value
+                return [value] if value else []
+        
+        form_obj = FormLikeDict(form_data)
         
         # Create the invitation
         logger.info("API: Creating invitation with duration=%s, expires=%s, libraries=%s", 
-                   duration, expires, [lib.id for lib in libraries])
+                   duration, expires_key, library_ids)
         
-        invitation = create_invite(
-            duration=duration,
-            expires=expires,
-            libraries=libraries,
-            unlimited=unlimited
-        )
+        invitation = create_invite(form_obj)
+        db.session.commit()
         
         return jsonify({
             "message": "Invitation created successfully",
@@ -282,12 +325,72 @@ def list_servers():
                 "id": server.id,
                 "name": server.name,
                 "server_type": server.server_type,
-                "server_url": server.server_url
+                "server_url": server.url,
+                "external_url": server.external_url,
+                "verified": server.verified,
+                "allow_downloads": server.allow_downloads,
+                "allow_live_tv": server.allow_live_tv,
+                "allow_mobile_uploads": server.allow_mobile_uploads,
+                "created_at": server.created_at.isoformat() if server.created_at else None
             })
         
         return jsonify({"servers": servers_list, "count": len(servers_list)})
     
     except Exception as e:
         logger.error("Error listing servers: %s", str(e))
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route("/api-keys", methods=["GET"])
+@require_api_key
+def list_api_keys():
+    """List all active API keys (excluding the key values themselves)."""
+    try:
+        logger.info("API: Listing all API keys")
+        api_keys = ApiKey.query.filter_by(is_active=True).order_by(ApiKey.created_at.desc()).all()
+        
+        keys_list = []
+        for key in api_keys:
+            keys_list.append({
+                "id": key.id,
+                "name": key.name,
+                "created_at": key.created_at.isoformat() if key.created_at else None,
+                "last_used_at": key.last_used_at.isoformat() if key.last_used_at else None,
+                "created_by": key.created_by.username if key.created_by else None
+            })
+        
+        return jsonify({"api_keys": keys_list, "count": len(keys_list)})
+    
+    except Exception as e:
+        logger.error("Error listing API keys: %s", str(e))
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route("/api-keys/<int:key_id>", methods=["DELETE"])
+@require_api_key
+def delete_api_key_via_api(key_id):
+    """Delete an API key via API (soft delete by marking as inactive)."""
+    try:
+        api_key = ApiKey.query.get_or_404(key_id)
+        
+        # Prevent self-deletion by checking if the current request is using this key
+        auth_key = request.headers.get("X-API-Key")
+        if auth_key:
+            key_hash = hashlib.sha256(auth_key.encode()).hexdigest()
+            if key_hash == api_key.key_hash:
+                return jsonify({"error": "Cannot delete the API key currently being used"}), 400
+        
+        # Soft delete by marking as inactive
+        api_key.is_active = False
+        db.session.commit()
+        
+        logger.info("API: Deleted API key '%s' (ID: %d)", api_key.name, key_id)
+        
+        return jsonify({"message": f"API key '{api_key.name}' deleted successfully"})
+    
+    except Exception as e:
+        logger.error("Error deleting API key %d: %s", key_id, str(e))
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
