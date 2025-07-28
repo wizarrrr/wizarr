@@ -151,8 +151,16 @@ def list_invitations():
             # Determine status
             if invite.used:
                 status = "used"
-            elif invite.expires and invite.expires < now:
-                status = "expired" 
+            elif invite.expires:
+                # Handle timezone comparison
+                invite_expires = invite.expires
+                if invite_expires.tzinfo is None:
+                    # If invitation expires is naive, assume UTC
+                    invite_expires = invite_expires.replace(tzinfo=datetime.UTC)
+                if invite_expires < now:
+                    status = "expired" 
+                else:
+                    status = "pending"
             else:
                 status = "pending"
             
@@ -182,7 +190,15 @@ def list_invitations():
 def create_invitation():
     """Create a new invitation."""
     try:
-        data = request.get_json() or {}
+        # Try to get JSON data, handle missing Content-Type gracefully
+        try:
+            data = request.get_json() or {}
+        except Exception:
+            # If JSON parsing fails due to Content-Type, try force parsing
+            try:
+                data = request.get_json(force=True) or {}
+            except Exception:
+                data = {}
         
         # Extract parameters
         expires_in_days = data.get("expires_in_days")
@@ -309,12 +325,72 @@ def list_servers():
                 "id": server.id,
                 "name": server.name,
                 "server_type": server.server_type,
-                "server_url": server.server_url
+                "server_url": server.url,
+                "external_url": server.external_url,
+                "verified": server.verified,
+                "allow_downloads": server.allow_downloads,
+                "allow_live_tv": server.allow_live_tv,
+                "allow_mobile_uploads": server.allow_mobile_uploads,
+                "created_at": server.created_at.isoformat() if server.created_at else None
             })
         
         return jsonify({"servers": servers_list, "count": len(servers_list)})
     
     except Exception as e:
         logger.error("Error listing servers: %s", str(e))
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route("/api-keys", methods=["GET"])
+@require_api_key
+def list_api_keys():
+    """List all active API keys (excluding the key values themselves)."""
+    try:
+        logger.info("API: Listing all API keys")
+        api_keys = ApiKey.query.filter_by(is_active=True).order_by(ApiKey.created_at.desc()).all()
+        
+        keys_list = []
+        for key in api_keys:
+            keys_list.append({
+                "id": key.id,
+                "name": key.name,
+                "created_at": key.created_at.isoformat() if key.created_at else None,
+                "last_used_at": key.last_used_at.isoformat() if key.last_used_at else None,
+                "created_by": key.created_by.username if key.created_by else None
+            })
+        
+        return jsonify({"api_keys": keys_list, "count": len(keys_list)})
+    
+    except Exception as e:
+        logger.error("Error listing API keys: %s", str(e))
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route("/api-keys/<int:key_id>", methods=["DELETE"])
+@require_api_key
+def delete_api_key_via_api(key_id):
+    """Delete an API key via API (soft delete by marking as inactive)."""
+    try:
+        api_key = ApiKey.query.get_or_404(key_id)
+        
+        # Prevent self-deletion by checking if the current request is using this key
+        auth_key = request.headers.get("X-API-Key")
+        if auth_key:
+            key_hash = hashlib.sha256(auth_key.encode()).hexdigest()
+            if key_hash == api_key.key_hash:
+                return jsonify({"error": "Cannot delete the API key currently being used"}), 400
+        
+        # Soft delete by marking as inactive
+        api_key.is_active = False
+        db.session.commit()
+        
+        logger.info("API: Deleted API key '%s' (ID: %d)", api_key.name, key_id)
+        
+        return jsonify({"message": f"API key '{api_key.name}' deleted successfully"})
+    
+    except Exception as e:
+        logger.error("Error deleting API key %d: %s", key_id, str(e))
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
