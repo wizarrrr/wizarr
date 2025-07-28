@@ -290,17 +290,63 @@ def delete_invitation(invitation_id):
 @api_bp.route("/libraries", methods=["GET"])
 @require_api_key
 def list_libraries():
-    """List all available libraries."""
+    """List all available libraries, scanning servers first if needed."""
     try:
         logger.info("API: Listing all libraries")
+        
+        # Get all configured servers
+        servers = MediaServer.query.filter_by(verified=True).all()
+        
+        # Check if we need to scan libraries (if no libraries exist for verified servers)
+        existing_libraries = Library.query.join(MediaServer).filter(MediaServer.verified == True).count()
+        
+        if existing_libraries == 0 and servers:
+            # No libraries found, scan all verified servers first
+            logger.info("API: No libraries found, scanning all verified servers first")
+            from app.services.media.service import scan_libraries_for_server
+            
+            for server in servers:
+                try:
+                    logger.info("API: Scanning libraries for server %s", server.name)
+                    items = scan_libraries_for_server(server)
+                    
+                    # Store the results in the Library table
+                    # items may be dict or list[str]
+                    pairs = (
+                        items.items() if isinstance(items, dict) else [(name, name) for name in items]
+                    )
+                    
+                    for fid, name in pairs:
+                        lib = Library.query.filter_by(external_id=fid, server_id=server.id).first()
+                        if lib:
+                            lib.name = name
+                        else:
+                            lib = Library()
+                            lib.external_id = fid
+                            lib.name = name
+                            lib.server_id = server.id
+                            db.session.add(lib)
+                    
+                    db.session.commit()
+                    logger.info("API: Successfully scanned %d libraries for server %s", len(pairs), server.name)
+                    
+                except Exception as scan_e:
+                    logger.warning("API: Failed to scan libraries for server %s: %s", server.name, str(scan_e))
+                    # Continue with other servers even if one fails
+                    continue
+        
+        # Now get all libraries
         libraries = Library.query.all()
         
         libraries_list = []
         for lib in libraries:
+            server = MediaServer.query.get(lib.server_id)
             libraries_list.append({
                 "id": lib.id,
                 "name": lib.name,
-                "server_id": lib.server_id
+                "server_id": lib.server_id,
+                "server_name": server.name if server else None,
+                "server_type": server.server_type if server else None
             })
         
         return jsonify({"libraries": libraries_list, "count": len(libraries_list)})
