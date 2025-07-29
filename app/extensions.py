@@ -37,7 +37,6 @@ def init_extensions(app):
     db.init_app(app)
     migrate.init_app(app, db)
     limiter.init_app(app)
-    init_security_headers(app)
 
 
 @login_manager.user_loader
@@ -78,29 +77,3 @@ def _select_locale():
         "lang",
         request.accept_languages.best_match(current_app.config["LANGUAGES"].keys()),
     )
-
-
-def init_security_headers(app):
-    """Initialize security headers for the application."""
-
-    @app.after_request
-    def security_headers(response):
-        # Prevent MIME type sniffing
-        response.headers["X-Content-Type-Options"] = "nosniff"
-
-        # Enable XSS protection
-        response.headers["X-XSS-Protection"] = "1; mode=block"
-
-        # Control referrer information
-        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
-
-        # Prevent framing (clickjacking protection)
-        response.headers["X-Frame-Options"] = "DENY"
-
-        # Enable HSTS if running on HTTPS
-        if request.is_secure:
-            response.headers["Strict-Transport-Security"] = (
-                "max-age=31536000; includeSubDomains"
-            )
-
-        return response
