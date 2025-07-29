@@ -1,14 +1,13 @@
 """Test invitation server defaulting behavior."""
 import hashlib
 import json
-from datetime import datetime, timedelta, UTC
 
 import pytest
 
 from app import create_app
-from app.extensions import db
-from app.models import AdminAccount, ApiKey, Invitation, Library, MediaServer
 from app.config import BaseConfig
+from app.extensions import db
+from app.models import AdminAccount, ApiKey, Invitation, MediaServer
 
 
 class TestConfig(BaseConfig):
@@ -23,13 +22,13 @@ def app():
     app = create_app(TestConfig)
     with app.app_context():
         db.create_all()
-        
+
         # Create a test admin account
         admin = AdminAccount(username="testadmin")
         admin.set_password("testpass")
         db.session.add(admin)
         db.session.commit()
-        
+
     yield app
     with app.app_context():
         db.drop_all()
@@ -47,7 +46,7 @@ def api_key(app):
         admin = AdminAccount.query.first()
         raw_key = "test_api_key_12345"
         key_hash = hashlib.sha256(raw_key.encode()).hexdigest()
-        
+
         api_key = ApiKey(
             name="Test API Key",
             key_hash=key_hash,
@@ -56,7 +55,7 @@ def api_key(app):
         )
         db.session.add(api_key)
         db.session.commit()
-        
+
         return raw_key
 
 
@@ -76,23 +75,23 @@ class TestInvitationServerDefaulting:
             )
             db.session.add(server)
             db.session.commit()
-            
+
             # Create invitation without specifying server_ids
             data = {
                 "duration": "30",
                 "unlimited": False
             }
-            
+
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},
                 data=json.dumps(data)
             )
-            
+
             assert response.status_code == 201
             response_data = response.get_json()
             assert "invitation" in response_data
-            
+
             # Verify invitation was created with the single server
             invitation = Invitation.query.first()
             assert invitation is not None
@@ -111,7 +110,7 @@ class TestInvitationServerDefaulting:
                 verified=True
             )
             server2 = MediaServer(
-                name="Server 2", 
+                name="Server 2",
                 server_type="jellyfin",
                 url="http://localhost:8096",
                 api_key="test_key2",
@@ -119,19 +118,19 @@ class TestInvitationServerDefaulting:
             )
             db.session.add_all([server1, server2])
             db.session.commit()
-            
+
             # Try to create invitation without specifying server_ids
             data = {
                 "duration": "30",
                 "unlimited": False
             }
-            
+
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},
                 data=json.dumps(data)
             )
-            
+
             assert response.status_code == 400
             response_data = response.get_json()
             assert "Multiple servers available" in response_data["error"]
@@ -144,7 +143,7 @@ class TestInvitationServerDefaulting:
             # Create two verified servers
             server1 = MediaServer(
                 name="Server 1",
-                server_type="plex", 
+                server_type="plex",
                 url="http://localhost:32400",
                 api_key="test_key1",
                 verified=True
@@ -152,30 +151,30 @@ class TestInvitationServerDefaulting:
             server2 = MediaServer(
                 name="Server 2",
                 server_type="jellyfin",
-                url="http://localhost:8096", 
+                url="http://localhost:8096",
                 api_key="test_key2",
                 verified=True
             )
             db.session.add_all([server1, server2])
             db.session.commit()
-            
+
             # Create invitation specifying server_ids
             data = {
-                "duration": "30", 
+                "duration": "30",
                 "unlimited": False,
                 "server_ids": [server2.id]  # Choose server 2
             }
-            
+
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},
                 data=json.dumps(data)
             )
-            
+
             assert response.status_code == 201
             response_data = response.get_json()
             assert "invitation" in response_data
-            
+
             # Verify invitation was created with the specified server
             invitation = Invitation.query.first()
             assert invitation is not None
@@ -189,26 +188,26 @@ class TestInvitationServerDefaulting:
             server = MediaServer(
                 name="Valid Server",
                 server_type="plex",
-                url="http://localhost:32400", 
+                url="http://localhost:32400",
                 api_key="test_key",
                 verified=True
             )
             db.session.add(server)
             db.session.commit()
-            
+
             # Try to create invitation with invalid server ID
             data = {
                 "duration": "30",
                 "unlimited": False,
                 "server_ids": [99999]  # Non-existent server
             }
-            
+
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},
                 data=json.dumps(data)
             )
-            
+
             assert response.status_code == 400
             response_data = response.get_json()
             assert "not found or not verified" in response_data["error"]
@@ -221,24 +220,24 @@ class TestInvitationServerDefaulting:
                 name="Unverified Server",
                 server_type="plex",
                 url="http://localhost:32400",
-                api_key="test_key", 
+                api_key="test_key",
                 verified=False  # Not verified
             )
             db.session.add(server)
             db.session.commit()
-            
+
             # Try to create invitation (should fail due to no verified servers)
             data = {
                 "duration": "30",
                 "unlimited": False
             }
-            
+
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},
                 data=json.dumps(data)
             )
-            
+
             assert response.status_code == 400
             response_data = response.get_json()
             assert "No verified servers available" in response_data["error"]
@@ -255,7 +254,7 @@ class TestInvitationServerDefaulting:
                 verified=True
             )
             unverified_server = MediaServer(
-                name="Unverified Server", 
+                name="Unverified Server",
                 server_type="jellyfin",
                 url="http://localhost:8096",
                 api_key="test_key2",
@@ -263,23 +262,23 @@ class TestInvitationServerDefaulting:
             )
             db.session.add_all([verified_server, unverified_server])
             db.session.commit()
-            
+
             # Should auto-select the only verified server
             data = {
                 "duration": "30",
                 "unlimited": False
             }
-            
+
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},
                 data=json.dumps(data)
             )
-            
+
             assert response.status_code == 201
             response_data = response.get_json()
             assert "invitation" in response_data
-            
+
             # Verify invitation uses only the verified server
             invitation = Invitation.query.first()
             assert invitation is not None
