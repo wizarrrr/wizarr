@@ -35,7 +35,7 @@ def create_api_key():
     
     if form.validate_on_submit():
         # Check if name already exists
-        existing = ApiKey.query.filter_by(name=form.name.data, is_active=True).first()
+        existing = ApiKey.query.filter_by(name=form.name.data).first()
         if existing:
             form.name.errors = list(form.name.errors) + ["API key with this name already exists."]
         else:
