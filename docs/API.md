@@ -155,7 +155,7 @@ Manage invitation codes for new users.
 
 #### GET `/api/invitations`
 
-List all invitations with their current status.
+List all invitations with their current status and server information.
 
 **Response:**
 ```json
@@ -171,12 +171,35 @@ List all invitations with their current status.
       "used_by": null,
       "duration": "30",
       "unlimited": false,
-      "specific_libraries": null
+      "specific_libraries": null,
+      "display_name": "My Jellyfin Server",
+      "server_names": ["My Jellyfin Server"],
+      "uses_global_setting": false
+    },
+    {
+      "id": 2,
+      "code": "DEF456", 
+      "status": "pending",
+      "created": "2024-07-28T13:00:00Z",
+      "expires": "2024-08-04T13:00:00Z",
+      "used_at": null,
+      "used_by": null,
+      "duration": "unlimited",
+      "unlimited": true,
+      "specific_libraries": null,
+      "display_name": "Plex Server, Jellyfin Server",
+      "server_names": ["Plex Server", "Jellyfin Server"],
+      "uses_global_setting": false
     }
   ],
-  "count": 1
+  "count": 2
 }
 ```
+
+**Response Fields:**
+- `display_name` (string) - The resolved display name for the invitation (either global setting or server names)
+- `server_names` (array) - List of individual server names associated with the invitation
+- `uses_global_setting` (boolean) - Whether the display name comes from global setting or server names
 
 **Status Values:**
 - `pending` - Invitation is active and can be used
@@ -224,10 +247,18 @@ Create a new invitation.
     "code": "DEF456",
     "expires": "2024-08-04T12:00:00Z",
     "duration": "30",
-    "unlimited": false
+    "unlimited": false,
+    "display_name": "My Jellyfin Server",
+    "server_names": ["My Jellyfin Server"],
+    "uses_global_setting": false
   }
 }
 ```
+
+**Response Fields:**
+- `display_name` (string) - The resolved display name for the invitation (either global setting or server names)
+- `server_names` (array) - List of individual server names associated with the invitation
+- `uses_global_setting` (boolean) - Whether the display name comes from global setting or server names
 
 **Example:**
 ```bash
