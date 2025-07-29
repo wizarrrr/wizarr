@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-25 04:07+0000\n"
+"POT-Creation-Date: 2025-07-29 04:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,35 +24,35 @@ msgstr ""
 
 #: app/blueprints/admin/routes.py:269 app/templates/modals/invite.html:66
 #: app/templates/tables/invite_card.html:45
-#: app/templates/tables/invite_card.html:182
+#: app/templates/tables/invite_card.html:181
 #: app/templates/tables/user_card.html:71
 msgid "Never"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:335 app/templates/tables/invite_card.html:26
+#: app/blueprints/admin/routes.py:340 app/templates/tables/invite_card.html:26
 msgid "Expired"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:343
+#: app/blueprints/admin/routes.py:348
 #, python-format
 msgid "in %(n)d d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:345
+#: app/blueprints/admin/routes.py:350
 msgid "in 1 d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:347
+#: app/blueprints/admin/routes.py:352
 #, python-format
 msgid "in %(n)d h"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:349
+#: app/blueprints/admin/routes.py:354
 #, python-format
 msgid "in %(n)d m"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:350
+#: app/blueprints/admin/routes.py:355
 msgid "soon"
 msgstr ""
 
@@ -221,8 +221,8 @@ msgid "RomM Password"
 msgstr ""
 
 #: app/forms/settings.py:27 app/templates/admin/user_details_modal.html:60
-#: app/templates/tables/invite_card.html:231
-#: app/templates/tables/invite_card.html:240
+#: app/templates/tables/invite_card.html:230
+#: app/templates/tables/invite_card.html:239
 msgid "Libraries"
 msgstr ""
 
@@ -811,7 +811,7 @@ msgid "Passkeys for {}"
 msgstr ""
 
 #: app/templates/components/admin_passkeys.html:29
-#: app/templates/tables/invite_card.html:176
+#: app/templates/tables/invite_card.html:175
 msgid "Created"
 msgstr ""
 
@@ -1088,7 +1088,7 @@ msgid "Unlimited Usages"
 msgstr ""
 
 #: app/templates/modals/invite.html:116 app/templates/modals/invite.html:149
-#: app/templates/tables/invite_card.html:186
+#: app/templates/tables/invite_card.html:185
 msgid "Duration"
 msgstr ""
 
@@ -1452,48 +1452,48 @@ msgid "Setup Wizarr"
 msgstr ""
 
 #: app/templates/tables/invite_card.html:32
-#: app/templates/tables/invite_card.html:192
+#: app/templates/tables/invite_card.html:191
 msgid "Unlimited"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:62
+#: app/templates/tables/invite_card.html:61
 msgid "There are currently no invitations."
 msgstr ""
 
-#: app/templates/tables/invite_card.html:107
+#: app/templates/tables/invite_card.html:106
 msgid "Copy invite link"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:133
+#: app/templates/tables/invite_card.html:132
 msgid "Delete invite"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:161
+#: app/templates/tables/invite_card.html:160
 msgid "Used by"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:162
+#: app/templates/tables/invite_card.html:161
 msgid "Used"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:179
+#: app/templates/tables/invite_card.html:178
 #: app/templates/tables/user_card.html:64
 msgid "Expires"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:188
+#: app/templates/tables/invite_card.html:187
 msgid "days"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:191
+#: app/templates/tables/invite_card.html:190
 msgid "Limit"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:212
+#: app/templates/tables/invite_card.html:211
 msgid "libs"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:242
+#: app/templates/tables/invite_card.html:241
 msgid "Default"
 msgstr ""
 
@@ -1507,6 +1507,22 @@ msgstr ""
 
 #: app/templates/tables/user_card.html:82
 msgid "Invite Code"
+msgstr ""
+
+#: app/templates/tables/user_card.html:95
+msgid "Downloads enabled"
+msgstr ""
+
+#: app/templates/tables/user_card.html:101
+msgid "Downloads disabled"
+msgstr ""
+
+#: app/templates/tables/user_card.html:110
+msgid "Live TV enabled"
+msgstr ""
+
+#: app/templates/tables/user_card.html:116
+msgid "Live TV disabled"
 msgstr ""
 
 #: app/templates/wizard/steps.html:28
