@@ -45,6 +45,12 @@ Check out our documentation for how to install and run Wizarr:
 
 📚 https://docs.wizarr.dev/getting-started/installation
 
+## 🔧 API Documentation
+
+Wizarr provides a comprehensive REST API for automation and integration. Check out the complete API documentation:
+
+📖 [API Documentation](docs/API.md)
+
 ---
 
 ## Sponsorship

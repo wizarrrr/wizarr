@@ -158,6 +158,17 @@ def list_invitations():
             else:
                 status = "pending"
 
+            # Get server information for this invitation
+            from app.services.server_name_resolver import get_display_name_info
+            
+            servers = []
+            if invite.servers:
+                servers = list(invite.servers)
+            elif invite.server:
+                servers = [invite.server]
+            
+            display_info = get_display_name_info(servers)
+
             invites_list.append({
                 "id": invite.id,
                 "code": invite.code,
@@ -168,7 +179,10 @@ def list_invitations():
                 "used_by": invite.used_by.username if invite.used_by else None,
                 "duration": invite.duration,
                 "unlimited": invite.unlimited,
-                "specific_libraries": invite.specific_libraries
+                "specific_libraries": invite.specific_libraries,
+                "display_name": display_info["display_name"],
+                "server_names": display_info["server_names"],
+                "uses_global_setting": display_info["uses_global_setting"]
             })
 
         return jsonify({"invitations": invites_list, "count": len(invites_list)})
@@ -268,6 +282,17 @@ def create_invitation():
         invitation = create_invite(form_obj)
         db.session.commit()
 
+        # Get server information for the created invitation
+        from app.services.server_name_resolver import get_display_name_info
+        
+        servers = []
+        if invitation.servers:
+            servers = list(invitation.servers)
+        elif invitation.server:
+            servers = [invitation.server]
+        
+        display_info = get_display_name_info(servers)
+
         return jsonify({
             "message": "Invitation created successfully",
             "invitation": {
@@ -275,7 +300,10 @@ def create_invitation():
                 "code": invitation.code,
                 "expires": invitation.expires.isoformat() if invitation.expires else None,
                 "duration": invitation.duration,
-                "unlimited": invitation.unlimited
+                "unlimited": invitation.unlimited,
+                "display_name": display_info["display_name"],
+                "server_names": display_info["server_names"],
+                "uses_global_setting": display_info["uses_global_setting"]
             }
         }), 201
 

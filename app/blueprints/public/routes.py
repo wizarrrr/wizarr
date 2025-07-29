@@ -85,9 +85,17 @@ def join():
         is_invite_valid(code) if code else (False, "No invitation code provided")
     )
     if not valid:
-        # server_name for rendering error
-        name_setting = Settings.query.filter_by(key="server_name").first()
-        server_name = name_setting.value if name_setting else None
+        # Resolve server name for rendering error
+        from app.services.server_name_resolver import resolve_invitation_server_name
+        
+        # Try to get servers from invitation for error display
+        servers = []
+        if invitation and invitation.servers:
+            servers = list(invitation.servers)
+        elif invitation and invitation.server:
+            servers = [invitation.server]
+        
+        server_name = resolve_invitation_server_name(servers)
 
         return render_template(
             "user-plex-login.html", server_name=server_name, code=code, code_error=msg
@@ -136,8 +144,18 @@ def join():
         "kavita",
         "komga",
     ):
-        # Get server name for the invitation
-        server_name = server.name if server else "Unknown Server"
+        # Get server name for the invitation using the new resolver
+        from app.services.server_name_resolver import resolve_invitation_server_name
+        
+        servers = []
+        if invitation and invitation.servers:
+            servers = list(invitation.servers)
+        elif invitation and invitation.server:
+            servers = [invitation.server]
+        elif server:
+            servers = [server]
+        
+        server_name = resolve_invitation_server_name(servers)
         return render_template(
             "welcome-jellyfin.html", code=code, server_type=server_type, server_name=server_name
         )
