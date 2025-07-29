@@ -33,10 +33,12 @@ def get_client(
     if server_type is None:
         server_type = _mode()
 
-    if server_type not in CLIENTS:
-        raise ValueError(f"Unsupported media server type: {server_type}")
+    if server_type is None:
+        raise ValueError("No media server type configured")
 
-    client_class = CLIENTS[server_type]
+    client_class = CLIENTS.get(server_type)
+    if not client_class:
+        raise ValueError(f"Unsupported media server type: {server_type}")
     client = client_class()
     if url:
         client.url = url
