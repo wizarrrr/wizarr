@@ -36,7 +36,8 @@ def get_client(
     if server_type not in CLIENTS:
         raise ValueError(f"Unsupported media server type: {server_type}")
 
-    client = CLIENTS[server_type]()
+    client_class = CLIENTS[server_type]
+    client = client_class()
     if url:
         client.url = url
     if token:

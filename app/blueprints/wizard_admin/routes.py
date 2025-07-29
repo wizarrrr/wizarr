@@ -208,6 +208,11 @@ def create_preset():
         preset_id = form.preset_id.data
         server_type = form.server_type.data
 
+        # Type check: these should not be None after validation
+        if not preset_id or not server_type:
+            flash("Preset ID and server type are required", "danger")
+            return redirect(url_for("wizard_admin.create_preset"))
+
         # Prepare template variables
         template_vars = {}
         if form.discord_id.data:

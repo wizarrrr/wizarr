@@ -327,7 +327,7 @@ class RestApiMixin(MediaClient):
             logging.info("→ %s", response.status_code)
             response.raise_for_status()
             return response
-        except requests.exceptions.RequestException as e:
+        except Exception as e:
             logging.error("Request failed: %s", e)
             raise
 
