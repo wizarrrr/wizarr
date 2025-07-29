@@ -1,4 +1,3 @@
-import datetime
 import logging
 import threading
 from typing import TYPE_CHECKING
@@ -618,12 +617,9 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         ).delete(synchronize_session=False)
         db.session.commit()
 
-        duration = inv.duration if inv else None
-        expires = (
-            datetime.datetime.now() + datetime.timedelta(days=int(duration))
-            if duration
-            else None
-        )
+        from app.services.expiry import calculate_user_expiry
+
+        expires = calculate_user_expiry(inv, server_id) if inv else None
 
         client = PlexClient(media_server=server)
         new_user = client._create_user_with_identity_linking(

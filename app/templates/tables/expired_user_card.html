@@ -1,0 +1,84 @@
+<div id="expired_users_table">
+    {% if error %}
+        <div class="text-center py-4">
+            <div class="text-red-500 dark:text-red-400">
+                <span class="mr-2">⚠️</span>Error loading expired users: {{ error }}
+            </div>
+        </div>
+    {% elif expired_users %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-4 py-3">Username</th>
+                        <th scope="col" class="px-4 py-3">Email</th>
+                        <th scope="col" class="px-4 py-3">Server</th>
+                        <th scope="col" class="px-4 py-3">Expired At</th>
+                        <th scope="col" class="px-4 py-3">Deleted At</th>
+                        <th scope="col" class="px-4 py-3">Invitation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in expired_users %}
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-4 py-3 font-medium text-gray-900 dark:text-white">
+                            {{ user.username }}
+                        </td>
+                        <td class="px-4 py-3">
+                            {% if user.email %}
+                                <span class="text-blue-600 dark:text-blue-400">{{ user.email }}</span>
+                            {% else %}
+                                <span class="text-gray-400 dark:text-gray-500">No email</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-3">
+                            {% if user.server %}
+                                <div class="flex items-center">
+                                    <span class="inline-flex items-center bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                        {{ user.server.name }}
+                                    </span>
+                                    <span class="ml-2 text-xs text-gray-500 dark:text-gray-400">({{ user.server.server_type }})</span>
+                                </div>
+                            {% else %}
+                                <span class="text-gray-400 dark:text-gray-500">Unknown</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-3">
+                            {% if user.expired_at %}
+                                <span class="text-red-600 dark:text-red-400" title="{{ user.expired_at.strftime('%Y-%m-%d %H:%M:%S UTC') }}">
+                                    {{ user.expired_at.strftime('%Y-%m-%d %H:%M') }}
+                                </span>
+                            {% else %}
+                                <span class="text-gray-400 dark:text-gray-500">Unknown</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-3">
+                            <span class="text-gray-600 dark:text-gray-300" title="{{ user.deleted_at.strftime('%Y-%m-%d %H:%M:%S UTC') }}">
+                                {{ user.deleted_at.strftime('%Y-%m-%d %H:%M') }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3">
+                            {% if user.invitation_code %}
+                                <code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs">{{ user.invitation_code }}</code>
+                            {% else %}
+                                <span class="text-gray-400 dark:text-gray-500">None</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-3 text-xs text-gray-500 dark:text-gray-400 text-center">
+            Showing {{ expired_users|length }} expired user{% if expired_users|length != 1 %}s{% endif %}
+        </div>
+    {% else %}
+        <div class="text-center py-8">
+            <div class="text-gray-500 dark:text-gray-400">
+                <span class="text-2xl mb-2 block">📭</span>
+                <p class="mb-2">No expired users found</p>
+                <p class="text-sm">Users deleted due to expiry will appear here</p>
+            </div>
+        </div>
+    {% endif %}
+</div>

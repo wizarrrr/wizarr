@@ -3,6 +3,7 @@ from .admin_accounts.routes import admin_accounts_bp
 from .api.status import status_bp
 from .audiobookshelf.routes import abs_bp
 from .auth.routes import auth_bp
+from .connections.routes import connections_bp
 from .emby.routes import emby_bp
 from .jellyfin.routes import jellyfin_bp
 from .kavita.routes import kavita_bp
@@ -27,6 +28,7 @@ all_blueprints = (
     admin_bp,
     auth_bp,
     settings_bp,
+    connections_bp,
     setup_bp,
     plex_bp,
     notify_bp,

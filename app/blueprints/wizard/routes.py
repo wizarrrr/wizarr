@@ -139,15 +139,7 @@ def _settings() -> dict[str, str | None]:
     return data
 
 
-def _eligible(post, cfg: dict) -> bool:
-    """Check if a post/step is eligible based on requirements."""
-    if hasattr(post, "get"):
-        # frontmatter.Post or _RowAdapter
-        need = post.get("requires", [])
-    else:
-        # Handle other types
-        need = getattr(post, "requires", []) or []
-    return all(cfg.get(k) for k in need)
+# Removed _eligible function as part of requires system overhaul
 
 
 def _steps(server: str, cfg: dict):
@@ -173,37 +165,29 @@ def _steps(server: str, cfg: dict):
 
         class _RowAdapter:
             """Lightweight shim exposing the subset of frontmatter.Post API
-            used by helper functions: `.content` property and `.get()` for
-            access to `requires` metadata.
+            used by helper functions: `.content` property.
             """
 
-            __slots__ = ("content", "_requires")
+            __slots__ = ("content",)
 
             def __init__(self, row: "WizardStep"):
                 self.content = row.markdown
-                self._requires = row.requires or []
 
-            # frontmatter.Post.get(key, default)
+            # frontmatter.Post.get(key, default) - simplified
             def get(self, key, default=None):
-                if key == "requires":
-                    return self._requires
                 return default
 
             def __iter__(self):
                 """Make _RowAdapter iterable for compatibility."""
                 return iter([self])
 
-        steps = [_RowAdapter(r) for r in db_rows if _eligible(_RowAdapter(r), cfg)]
+        steps = [_RowAdapter(r) for r in db_rows]
         if steps:
             return steps
 
     # ─── 2) Fallback to bundled markdown files ─────────────────────────────
     files = sorted((BASE_DIR / server).glob("*.md"))
-    return [
-        frontmatter.load(str(f))
-        for f in files
-        if _eligible(frontmatter.load(str(f)), cfg)
-    ]
+    return [frontmatter.load(str(f)) for f in files]
 
 
 def _render(post, ctx: dict, server_type: str | None = None) -> str:

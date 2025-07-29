@@ -130,6 +130,7 @@ class MediaClient(ABC):
             User: The created User record with identity_id set if applicable
         """
         code = user_kwargs.get("code")
+        email = user_kwargs.get("email")
 
         # Check if this is part of a multi-server invitation
         if code:
@@ -137,6 +138,12 @@ class MediaClient(ABC):
             if existing_user and existing_user.identity_id:
                 # Link to existing identity from same invitation
                 user_kwargs["identity_id"] = existing_user.identity_id
+
+        # Clean up any expired user records for this email address
+        if email:
+            from app.services.expiry import cleanup_expired_user_by_email
+
+            cleanup_expired_user_by_email(email)
 
         new_user = User(**user_kwargs)
         db.session.add(new_user)

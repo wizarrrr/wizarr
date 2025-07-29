@@ -27,10 +27,24 @@ limiter = Limiter(
 
 # Initialize with app
 def init_extensions(app):
+    import os
+
     sess.init_app(app)
     babel.init_app(app, locale_selector=_select_locale)
-    # scheduler.init_app(app)
-    # scheduler.start()
+
+    # Conditionally enable scheduler based on environment variable
+    if os.getenv("WIZARR_ENABLE_SCHEDULER", "false").lower() in ("true", "1", "yes"):
+        print("🕒 Initializing scheduler for background tasks...")
+        scheduler.init_app(app)
+
+        # Import tasks to register them with the scheduler
+        from app.tasks import maintenance  # noqa: F401
+
+        scheduler.start()
+        print(
+            "✅ Scheduler started - expiry cleanup will run every 1 minute (development mode)"
+        )
+
     htmx.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"  # type: ignore[assignment]

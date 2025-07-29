@@ -1,3 +1,4 @@
+import argparse
 import subprocess
 import sys
 from pathlib import Path
@@ -59,6 +60,27 @@ def run_command(command, cwd=None):
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        description="Wizarr development server",
+        epilog="""
+Examples:
+  python dev.py                    # Start development server (default)
+  python dev.py --scheduler        # Start with background scheduler enabled
+
+The scheduler runs maintenance tasks like:
+  - Expiry cleanup (every 1 minute in dev mode)
+  - User account deletion for expired users
+  - Server-specific expiry enforcement
+        """,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        "--scheduler",
+        action="store_true",
+        help="Enable the background scheduler for testing expiry and maintenance tasks",
+    )
+    args = parser.parse_args()
+
     check_node_installation()
     check_uv_installation()
 
@@ -84,8 +106,23 @@ def main():
     tailwind_process = subprocess.Popen(["npm", "run", "watch:css"], cwd=static_dir)
 
     try:
+        flask_command = ["uv", "run", "flask", "run", "--debug"]
+
+        if args.scheduler:
+            print(
+                "🕒 Scheduler enabled - background tasks will run (expiry cleanup every 1 minute)"
+            )
+            # Set environment variable to enable scheduler
+            import os
+
+            os.environ["WIZARR_ENABLE_SCHEDULER"] = "true"
+        else:
+            print(
+                "ℹ️  Scheduler disabled - use --scheduler flag to enable background tasks"
+            )
+
         print("Starting Flask development server...")
-        run_command(["uv", "run", "flask", "run", "--debug"])
+        run_command(flask_command)
     finally:
         # Ensure we clean up the Tailwind process when Flask exits
         tailwind_process.terminate()

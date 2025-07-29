@@ -56,6 +56,20 @@ _("Settings") }}{% endblock %} {% block main %}
                 <li class="me-2">
                     <button
                         class="tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+                        hx-get="{{ url_for('connections.list_connections') }}"
+                        hx-target="#tab-body"
+                        hx-swap="innerHTML"
+                        hx-trigger="click"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+                        </svg>
+                        {{ _("Connections") }}
+                    </button>
+                </li>
+                <li class="me-2">
+                    <button
+                        class="tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
                         hx-get="{{ url_for('admin_accounts.list_admins') }}"
                         hx-target="#tab-body"
                         hx-swap="innerHTML"

@@ -428,10 +428,13 @@ class RommClient(RestApiMixin):
             # (viewers can see everything).  We therefore don't attempt to
             # filter library access yet – we only need the DB linkage.
 
-            expires = None
-            if inv and inv.duration:
-                days = int(inv.duration)
-                expires = datetime.datetime.utcnow() + datetime.timedelta(days=days)
+            from app.services.expiry import calculate_user_expiry
+
+            expires = (
+                calculate_user_expiry(inv, getattr(self, "server_id", None))
+                if inv
+                else None
+            )
 
             new_user = self._create_user_with_identity_linking(
                 {

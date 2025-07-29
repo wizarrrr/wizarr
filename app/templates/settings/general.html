@@ -45,72 +45,6 @@
             </div>
           </div>
 
-          {# ───── Integrations ─────────────────────────────────── #}
-          <div class="space-y-4">
-            <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
-              <div class="flex items-center gap-3">
-                <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-                    <path d="M12 6v6l4 2"/>
-                  </svg>
-                </div>
-                <div>
-                  <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Integrations") }}</h2>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Connect with external services and applications") }}</p>
-                </div>
-              </div>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="col-span-1 md:col-span-2">
-                {{ form.overseerr_url.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                {{ form.overseerr_url(
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white",
-                    placeholder=_("Optional, leave empty to disable"),
-                    id="overseerr_url_input"
-                 ) }}
-                {% for err in form.overseerr_url.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
-              </div>
-              <div id="ombi_api" class="hidden col-span-1 md:col-span-2">
-                {{ form.ombi_api_key.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                {{ form.ombi_api_key(
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white",
-                    type="password",
-                    placeholder=_("Optional, leave empty to disable")
-                  ) }}
-                {% for err in form.ombi_api_key.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
-              </div>
-            </div>
-          </div>
-
-          {# ───── Community ────────────────────────────────────── #}
-          <div class="space-y-4">
-            <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
-              <div class="flex items-center gap-3">
-                <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-4.8c0-1.45.81-2.77 2.08-3.43L8.58 8.1c.33-.16.7-.1.98.15l3.15 2.88c.28.25.71.25.99 0l3.15-2.88c.28-.25.65-.31.98-.15l2.5 1.67C21.19 10.43 22 11.75 22 13.2V18c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2z"/>
-                  </svg>
-                </div>
-                <div>
-                  <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Community") }}</h2>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Connect with your community and social platforms") }}</p>
-                </div>
-              </div>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="col-span-1 md:col-span-2">
-                {{ form.discord_id.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                {{ form.discord_id(
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white",
-                    placeholder=_("Optional, leave empty to disable")
-                  ) }}
-                {% for err in form.discord_id.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
-              </div>
-            </div>
-          </div>
 
           {# ───── Access Control ───────────────────────────────── #}
           <div class="space-y-4">
@@ -161,20 +95,4 @@
   </div>
 </section>
 
-<script>
-  (function () {
-    const overseerrUrlInput = document.getElementById("overseerr_url_input");
-    const ombiApiDiv        = document.getElementById("ombi_api");
-
-    function toggleOmbi() {
-      if (!overseerrUrlInput) return;
-      const hasUrl = overseerrUrlInput.value.trim().length > 0;
-      ombiApiDiv.classList.toggle("hidden", !hasUrl);
-    }
-
-    overseerrUrlInput.addEventListener("input", toggleOmbi);
-    // Initial state on page load
-    toggleOmbi();
-  })();
-</script> 
-</section> 
+ 

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import contextlib
 import datetime
 import logging
 import re
@@ -574,12 +573,13 @@ class AudiobookshelfClient(RestApiMixin):
             self._set_specific_libraries(user_id, lib_ids, allow_downloads)
 
             # Calculate expiry
-            expires = None
-            if inv and inv.duration:
-                with contextlib.suppress(Exception):
-                    expires = datetime.datetime.utcnow() + datetime.timedelta(
-                        days=int(inv.duration)
-                    )
+            from app.services.expiry import calculate_user_expiry
+
+            expires = (
+                calculate_user_expiry(inv, getattr(self, "server_id", None))
+                if inv
+                else None
+            )
 
             # Store locally
             local = User(

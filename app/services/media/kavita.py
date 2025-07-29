@@ -595,10 +595,9 @@ class KavitaClient(RestApiMixin):
             # Create user in Kavita with library access
             user_identifier = self.create_user(username, password, email, library_ids)
 
-            expires = None
-            if inv and inv.duration:
-                days = int(inv.duration)
-                expires = datetime.datetime.utcnow() + datetime.timedelta(days=days)
+            from app.services.expiry import calculate_user_expiry
+
+            expires = calculate_user_expiry(inv, current_server_id) if inv else None
 
             # Store the user info in Wizarr's database
             # The token field contains either the user ID or email as fallback

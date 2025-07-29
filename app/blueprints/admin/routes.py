@@ -17,6 +17,7 @@ from app.models import (
     User,
     invitation_servers,
 )
+from app.services.expiry import get_expired_users
 from app.services.invites import create_invite
 from app.services.media.service import (
     EMAIL_RE,
@@ -414,14 +415,35 @@ def users_table():
 @login_required
 def user_detail(db_id: int):
     """
-    • GET  → return the small expiry-edit modal
-    • POST → update expiry then return the *entire* card grid
+    • GET  → return the enhanced per-server expiry edit modal
+    • POST → update per-server expiry then return the entire card grid
     """
+    from app.models import Invitation
+    from app.services.expiry import set_server_specific_expiry
+
     user = User.query.get_or_404(db_id)
 
     if request.method == "POST":
-        raw = request.form.get("expires")  # "" or 2025-05-22T14:00
-        user.expires = datetime.datetime.fromisoformat(raw) if raw else None
+        # Handle per-server expiry updates
+
+        # Find the invitation this user was created from
+        invitation = None
+        if user.code:
+            invitation = Invitation.query.filter_by(code=user.code).first()
+
+        # Update expiry for the user's specific server
+        raw_expires = request.form.get("expires")
+        user.expires = (
+            datetime.datetime.fromisoformat(raw_expires) if raw_expires else None
+        )
+
+        # If we have an invitation and server, also update the server-specific expiry
+        if invitation and user.server_id:
+            server_expires = (
+                datetime.datetime.fromisoformat(raw_expires) if raw_expires else None
+            )
+            set_server_specific_expiry(invitation.id, user.server_id, server_expires)
+
         db.session.commit()
 
         # Re-render the grid the same way /users/table does
@@ -443,8 +465,27 @@ def user_detail(db_id: int):
 """
         return response
 
-    # ── GET → serve the compact modal ─────────────────────────────
-    return render_template("admin/user_modal.html", user=user)
+    # ── GET → serve the enhanced modal with server information ────────
+    # Get related accounts if this user is linked via Identity (multi-server setup)
+    related_users = []
+    if user.identity_id:
+        # Get all users that share the same identity (same person across servers)
+        related_users = User.query.filter_by(identity_id=user.identity_id).all()
+    else:
+        # Single user, no identity linking
+        related_users = [user]
+
+    # Get the invitation to show additional context
+    invitation = None
+    if user.code:
+        invitation = Invitation.query.filter_by(code=user.code).first()
+
+    return render_template(
+        "admin/user_modal.html",
+        user=user,
+        related_users=related_users,
+        invitation=invitation,
+    )
 
 
 @admin_bp.post("/invite/scan-libraries")
@@ -808,4 +849,20 @@ def server_health_card():
     except Exception as e:
         return render_template(
             "admin/server_health_card.html", success=False, error=f"Error: {str(e)}"
+        )
+
+
+@admin_bp.route("/expired-users/table")
+@login_required
+def expired_users_table():
+    """Return a table of expired users for monitoring."""
+    try:
+        expired_users = get_expired_users()
+        return render_template(
+            "tables/expired_user_card.html", expired_users=expired_users
+        )
+    except Exception as e:
+        logging.error(f"Failed to get expired users: {e}")
+        return render_template(
+            "tables/expired_user_card.html", expired_users=[], error=str(e)
         )

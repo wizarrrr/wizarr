@@ -31,6 +31,8 @@ invitation_servers = db.Table(
     # Track per-server usage so a single invite can be consumed independently
     db.Column("used", db.Boolean, default=False, nullable=False),
     db.Column("used_at", db.DateTime, nullable=True),
+    # Track per-server expiry (overrides invitation.expires for this specific server)
+    db.Column("expires", db.DateTime, nullable=True),
 )
 
 
@@ -165,6 +167,44 @@ class Notification(db.Model):
     username = db.Column(db.String, nullable=True)
     password = db.Column(db.String, nullable=True)
     channel_id = db.Column(db.Integer, nullable=True)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
+class Connection(db.Model):
+    """Server-to-server mapping for external integrations.
+
+    Allows mapping specific media servers to specific external services,
+    enabling per-server automation: invite from Server X → invite to Service X.
+    Supports multiple connection types with varying requirements.
+    """
+
+    __tablename__ = "ombi_connection"
+    id = db.Column(db.Integer, primary_key=True)
+    connection_type = db.Column(
+        db.String, nullable=False, default="ombi"
+    )  # 'ombi' or 'overseerr'
+    name = db.Column(db.String, nullable=False)
+    url = db.Column(db.String, nullable=True)  # Optional for info-only connections
+    api_key = db.Column(db.String, nullable=True)  # Optional for info-only connections
+    media_server_id = db.Column(
+        db.Integer, db.ForeignKey("media_server.id", ondelete="CASCADE"), nullable=False
+    )
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
+    updated_at = db.Column(
+        db.DateTime,
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
+        nullable=False,
+    )
+
+    # Relationships
+    media_server = db.relationship(
+        "MediaServer", backref=db.backref("connections", lazy=True)
+    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -388,6 +428,31 @@ class WebAuthnCredential(db.Model):
             "webauthn_credentials", lazy=True, cascade="all, delete-orphan"
         ),
     )
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
+class ExpiredUser(db.Model):
+    """Track users that have been deleted due to expiry for monitoring and restoration."""
+
+    __tablename__ = "expired_user"
+
+    id = db.Column(db.Integer, primary_key=True)
+    original_user_id = db.Column(db.Integer, nullable=False)  # Original User.id
+    username = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=True)
+    invitation_code = db.Column(db.String, nullable=True)
+    server_id = db.Column(db.Integer, db.ForeignKey("media_server.id"), nullable=True)
+    server = db.relationship(
+        "MediaServer", backref=db.backref("expired_users", lazy=True)
+    )
+    expired_at = db.Column(
+        db.DateTime, nullable=False
+    )  # When user was supposed to expire
+    deleted_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )  # When user was actually deleted
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

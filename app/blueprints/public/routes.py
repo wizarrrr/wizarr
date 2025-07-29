@@ -219,8 +219,11 @@ def password_prompt(code):
             )
 
         # Provision accounts on remaining servers
+        from app.services.expiry import calculate_user_expiry
         from app.services.invites import mark_server_used
         from app.services.media.service import get_client_for_media_server
+
+        # Calculate expiry will be done per-server to allow server-specific expiry
 
         for srv in invitation.servers:
             if srv.server_type == "plex":
@@ -245,13 +248,17 @@ def password_prompt(code):
 
                 # set library permissions (simplified: full access)
 
-                # store local DB row
+                # Calculate server-specific expiry for this user
+                user_expires = calculate_user_expiry(invitation, srv.id)
+
+                # store local DB row with proper expiry
                 new_user = User()
                 new_user.username = username
                 new_user.email = email
                 new_user.token = uid
                 new_user.code = code
                 new_user.server_id = srv.id
+                new_user.expires = user_expires  # Set expiry based on invitation duration (server-specific)
                 db.session.add(new_user)
                 db.session.commit()
 

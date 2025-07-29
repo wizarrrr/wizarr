@@ -382,11 +382,13 @@ class JellyfinClient(RestApiMixin):
             current_policy["EnableLiveTvAccess"] = allow_live_tv
             self.set_policy(user_id, current_policy)
 
-            expires = None
-            if inv and inv.duration:
-                expires = datetime.datetime.utcnow() + datetime.timedelta(
-                    days=int(inv.duration)
-                )
+            from app.services.expiry import calculate_user_expiry
+
+            expires = (
+                calculate_user_expiry(inv, getattr(self, "server_id", None))
+                if inv
+                else None
+            )
 
             new_user = self._create_user_with_identity_linking(
                 {
