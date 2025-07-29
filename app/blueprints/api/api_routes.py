@@ -205,6 +205,7 @@ def create_invitation():
         duration = data.get("duration", "unlimited")
         library_ids = data.get("library_ids", [])
         unlimited = data.get("unlimited", True)
+        server_ids = data.get("server_ids", [])  # Allow explicit server specification
         
         # Map expires_in_days to the expected format
         expires_key = "never"
@@ -215,17 +216,41 @@ def create_invitation():
         elif expires_in_days == 30:
             expires_key = "month"
         
-        # Get the first available server if none specified
-        servers = MediaServer.query.filter_by(verified=True).all()
-        if not servers:
-            return jsonify({"error": "No verified servers available"}), 400
+        # Handle server selection logic
+        if server_ids:
+            # Server IDs explicitly provided - validate them
+            servers = MediaServer.query.filter(
+                MediaServer.id.in_(server_ids), 
+                MediaServer.verified == True
+            ).all()
+            if len(servers) != len(server_ids):
+                return jsonify({"error": "One or more specified servers not found or not verified"}), 400
+            selected_server_ids = server_ids
+        else:
+            # No server IDs specified - apply defaulting logic
+            verified_servers = MediaServer.query.filter_by(verified=True).all()
+            if not verified_servers:
+                return jsonify({"error": "No verified servers available"}), 400
+            elif len(verified_servers) == 1:
+                # Only one server exists - auto-select it
+                selected_server_ids = [verified_servers[0].id]
+                logger.info("API: Auto-selecting single available server: %s", verified_servers[0].name)
+            else:
+                # Multiple servers exist - require explicit selection
+                return jsonify({
+                    "error": "Multiple servers available. Please specify server_ids in request.", 
+                    "available_servers": [
+                        {"id": s.id, "name": s.name, "server_type": s.server_type} 
+                        for s in verified_servers
+                    ]
+                }), 400
         
         # Create a form-like object
         form_data = {
             "duration": duration,
             "expires": expires_key,
             "unlimited": unlimited,
-            "server_ids": [servers[0].id],  # Use first server
+            "server_ids": selected_server_ids,
             "libraries": [str(lib_id) for lib_id in library_ids],
             "allow_downloads": data.get("allow_downloads", False),
             "allow_live_tv": data.get("allow_live_tv", False),
@@ -243,8 +268,8 @@ def create_invitation():
         form_obj = FormLikeDict(form_data)
         
         # Create the invitation
-        logger.info("API: Creating invitation with duration=%s, expires=%s, libraries=%s", 
-                   duration, expires_key, library_ids)
+        logger.info("API: Creating invitation with duration=%s, expires=%s, libraries=%s, servers=%s", 
+                   duration, expires_key, library_ids, selected_server_ids)
         
         invitation = create_invite(form_obj)
         db.session.commit()
