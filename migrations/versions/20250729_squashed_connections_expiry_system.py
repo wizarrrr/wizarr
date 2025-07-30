@@ -18,50 +18,64 @@ depends_on = None
 
 
 def upgrade():
-    # Create connection table (with connection_type field)
-    op.create_table(
-        "ombi_connection",
-        sa.Column("id", sa.Integer(), nullable=False),
-        sa.Column(
-            "connection_type", sa.String(), nullable=False, server_default="ombi"
-        ),
-        sa.Column("name", sa.String(), nullable=False),
-        sa.Column("url", sa.String(), nullable=True),
-        sa.Column("api_key", sa.String(), nullable=True),
-        sa.Column("media_server_id", sa.Integer(), nullable=False),
-        sa.Column("created_at", sa.DateTime(), nullable=False),
-        sa.Column("updated_at", sa.DateTime(), nullable=False),
-        sa.ForeignKeyConstraint(
-            ["media_server_id"], ["media_server.id"], ondelete="CASCADE"
-        ),
-        sa.PrimaryKeyConstraint("id"),
-    )
-
-    # Add expires column to invitation_servers table for per-server expiry
-    op.add_column(
-        "invitation_server", sa.Column("expires", sa.DateTime(), nullable=True)
-    )
-
-    # Create expired_user table to track deleted users
-    op.create_table(
-        "expired_user",
-        sa.Column("id", sa.Integer(), nullable=False),
-        sa.Column("original_user_id", sa.Integer(), nullable=False),
-        sa.Column("username", sa.String(), nullable=False),
-        sa.Column("email", sa.String(), nullable=True),
-        sa.Column("invitation_code", sa.String(), nullable=True),
-        sa.Column("server_id", sa.Integer(), nullable=True),
-        sa.Column("expired_at", sa.DateTime(), nullable=False),
-        sa.Column("deleted_at", sa.DateTime(), nullable=False),
-        sa.ForeignKeyConstraint(
-            ["server_id"],
-            ["media_server.id"],
-        ),
-        sa.PrimaryKeyConstraint("id"),
-    )
-
     # Get database connection
     connection = op.get_bind()
+
+    # Check if tables already exist (handles interrupted migrations from Watchtower updates)
+    inspector = sa.inspect(connection)
+    existing_tables = inspector.get_table_names()
+
+    # Create connection table (with connection_type field) only if it doesn't exist
+    if "ombi_connection" not in existing_tables:
+        op.create_table(
+            "ombi_connection",
+            sa.Column("id", sa.Integer(), nullable=False),
+            sa.Column(
+                "connection_type", sa.String(), nullable=False, server_default="ombi"
+            ),
+            sa.Column("name", sa.String(), nullable=False),
+            sa.Column("url", sa.String(), nullable=True),
+            sa.Column("api_key", sa.String(), nullable=True),
+            sa.Column("media_server_id", sa.Integer(), nullable=False),
+            sa.Column("created_at", sa.DateTime(), nullable=False),
+            sa.Column("updated_at", sa.DateTime(), nullable=False),
+            sa.ForeignKeyConstraint(
+                ["media_server_id"], ["media_server.id"], ondelete="CASCADE"
+            ),
+            sa.PrimaryKeyConstraint("id"),
+        )
+
+    # Add expires column to invitation_servers table for per-server expiry (only if it doesn't exist)
+    try:
+        existing_columns = [
+            col["name"] for col in inspector.get_columns("invitation_server")
+        ]
+        if "expires" not in existing_columns:
+            op.add_column(
+                "invitation_server", sa.Column("expires", sa.DateTime(), nullable=True)
+            )
+    except Exception:
+        # If invitation_server table doesn't exist, the column add will fail anyway
+        pass
+
+    # Create expired_user table to track deleted users (only if it doesn't exist)
+    if "expired_user" not in existing_tables:
+        op.create_table(
+            "expired_user",
+            sa.Column("id", sa.Integer(), nullable=False),
+            sa.Column("original_user_id", sa.Integer(), nullable=False),
+            sa.Column("username", sa.String(), nullable=False),
+            sa.Column("email", sa.String(), nullable=True),
+            sa.Column("invitation_code", sa.String(), nullable=True),
+            sa.Column("server_id", sa.Integer(), nullable=True),
+            sa.Column("expired_at", sa.DateTime(), nullable=False),
+            sa.Column("deleted_at", sa.DateTime(), nullable=False),
+            sa.ForeignKeyConstraint(
+                ["server_id"],
+                ["media_server.id"],
+            ),
+            sa.PrimaryKeyConstraint("id"),
+        )
 
     # Get current settings values
     result = connection.execute(
