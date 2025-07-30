@@ -7,4 +7,3 @@ services:
             - ./test-data:/data/database
         environment:
             - TZ=Europe/London
-            #- WIZARR_API_KEY= # Optional: uncomment and create your own key to enable /api/status endpoint

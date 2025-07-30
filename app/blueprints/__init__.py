@@ -1,6 +1,8 @@
 from .admin.routes import admin_bp
 from .admin_accounts.routes import admin_accounts_bp
+from .api.api_routes import api_bp
 from .api.status import status_bp
+from .api_keys.routes import api_keys_bp
 from .audiobookshelf.routes import abs_bp
 from .auth.routes import auth_bp
 from .emby.routes import emby_bp
@@ -35,7 +37,9 @@ all_blueprints = (
     abs_bp,
     kavita_bp,
     komga_bp,
+    api_bp,
     status_bp,
+    api_keys_bp,
     media_servers_bp,
     wizard_admin_bp,
     admin_accounts_bp,

@@ -9,6 +9,7 @@ def require_onboarding():
         request.path.startswith("/setup")
         or request.path.startswith("/static")
         or request.path.startswith("/settings")
+        or request.path.startswith("/api")
     ):
         return None
     # Check if an admin user exists

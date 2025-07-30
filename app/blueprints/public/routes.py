@@ -85,15 +85,32 @@ def join():
         is_invite_valid(code) if code else (False, "No invitation code provided")
     )
     if not valid:
-        # server_name for rendering error
-        name_setting = Settings.query.filter_by(key="server_name").first()
-        server_name = name_setting.value if name_setting else None
+        # Resolve server name for rendering error
+        from app.services.server_name_resolver import resolve_invitation_server_name
+        
+        # Try to get servers from invitation for error display
+        servers = []
+        if invitation and invitation.servers:
+            servers = list(invitation.servers)
+        elif invitation and invitation.server:
+            servers = [invitation.server]
+        
+        server_name = resolve_invitation_server_name(servers)
 
         return render_template(
             "user-plex-login.html", server_name=server_name, code=code, code_error=msg
         )
 
-    server = (invitation.server if invitation else None) or MediaServer.query.first()
+    server = (invitation.server if invitation else None)
+    
+    # If no direct server association, try to get from the servers relationship
+    if not server and invitation and invitation.servers:
+        server = invitation.servers[0]  # Use the first server from the relationship
+    
+    # Fallback to any available server
+    if not server:
+        server = MediaServer.query.first()
+        
     server_type = server.server_type if server else None
 
     from flask import current_app
@@ -127,8 +144,20 @@ def join():
         "kavita",
         "komga",
     ):
+        # Get server name for the invitation using the new resolver
+        from app.services.server_name_resolver import resolve_invitation_server_name
+        
+        servers = []
+        if invitation and invitation.servers:
+            servers = list(invitation.servers)
+        elif invitation and invitation.server:
+            servers = [invitation.server]
+        elif server:
+            servers = [server]
+        
+        server_name = resolve_invitation_server_name(servers)
         return render_template(
-            "welcome-jellyfin.html", code=code, server_type=server_type
+            "welcome-jellyfin.html", code=code, server_type=server_type, server_name=server_name
         )
 
     # fallback if server_type missing/unsupported
