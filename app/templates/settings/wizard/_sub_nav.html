@@ -80,7 +80,7 @@
             </div>
           </button>
           <button 
-            hx-get="{{ url_for('wizard_admin.create_step_from_preset') }}"
+            hx-get="{{ url_for('wizard_admin.create_preset') }}"
             hx-target="#step-modal" 
             hx-trigger="click"
             @click="open = false"
