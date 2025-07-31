@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-30 04:12+0000\n"
+"POT-Creation-Date: 2025-07-31 04:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +17,42 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/admin/routes.py:266
+#: app/blueprints/admin/routes.py:267
 #: app/templates/admin/user_details_modal.html:47
 msgid "Unknown"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:269 app/templates/modals/invite.html:66
+#: app/blueprints/admin/routes.py:270 app/templates/modals/invite.html:66
 #: app/templates/tables/invite_card.html:45
 #: app/templates/tables/invite_card.html:181
 #: app/templates/tables/user_card.html:71
 msgid "Never"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:340 app/templates/tables/invite_card.html:26
+#: app/blueprints/admin/routes.py:341 app/templates/tables/invite_card.html:26
 msgid "Expired"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:348
+#: app/blueprints/admin/routes.py:349
 #, python-format
 msgid "in %(n)d d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:350
+#: app/blueprints/admin/routes.py:351
 msgid "in 1 d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:352
+#: app/blueprints/admin/routes.py:353
 #, python-format
 msgid "in %(n)d h"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:354
+#: app/blueprints/admin/routes.py:355
 #, python-format
 msgid "in %(n)d m"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:355
+#: app/blueprints/admin/routes.py:356
 msgid "soon"
 msgstr ""
 
@@ -85,6 +85,18 @@ msgstr ""
 #: app/blueprints/auth/routes.py:119 app/templates/login.html:150
 #: app/templates/login.html:209 app/templates/login.html:213
 msgid "Authentication failed"
+msgstr ""
+
+#: app/blueprints/connections/routes.py:49
+msgid "Connection created successfully!"
+msgstr ""
+
+#: app/blueprints/connections/routes.py:78
+msgid "Connection updated successfully!"
+msgstr ""
+
+#: app/blueprints/connections/routes.py:100
+msgid "Connection deleted successfully!"
 msgstr ""
 
 #: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:272
@@ -121,40 +133,49 @@ msgstr ""
 msgid "Admin account created – welcome!"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:98
+#: app/blueprints/wizard_admin/routes.py:108
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:171
+#: app/blueprints/wizard_admin/routes.py:173
 msgid "Step created"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:219
+#: app/blueprints/wizard_admin/routes.py:246
+msgid "Preset step created successfully"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:254
+#, python-brace-format
+msgid "Error creating preset: {}"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:282
 msgid "Step updated"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:261
+#: app/blueprints/wizard_admin/routes.py:320
 msgid "Step deleted"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:331
+#: app/blueprints/wizard_admin/routes.py:390
 msgid "Bundle created"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:361
+#: app/blueprints/wizard_admin/routes.py:420
 msgid "Bundle updated"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:385
+#: app/blueprints/wizard_admin/routes.py:444
 msgid "Bundle deleted"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:463
+#: app/blueprints/wizard_admin/routes.py:522
 msgid "Steps added"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:475
+#: app/blueprints/wizard_admin/routes.py:534
 msgid "Orphaned step removed"
 msgstr ""
 
@@ -528,14 +549,6 @@ msgstr ""
 msgid "Change Password"
 msgstr ""
 
-#: app/templates/settings.html:13
-msgid "Server settings"
-msgstr ""
-
-#: app/templates/settings.html:22
-msgid "Notification agents"
-msgstr ""
-
 #: app/templates/user-plex-login.html:7 app/templates/welcome-jellyfin.html:7
 #: app/templates/welcome-jellyfin.html:14
 #, python-format
@@ -756,27 +769,58 @@ msgstr ""
 msgid "Edit expiry"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:31
+#: app/templates/admin/user_modal.html:26
+msgid "Server-specific Expiry Management"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:29
+msgid ""
+"This user exists on multiple servers. You can set different expiry dates "
+"for each server."
+msgstr ""
+
+#: app/templates/admin/user_modal.html:40
+msgid "Local"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:55
+msgid "Expiry date"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:66
+msgid "Update"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:72
+msgid "Current expiry"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:74
+msgid "No expiry set"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:91
 msgid "Expiry date (leave blank for never)"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:42
+#: app/templates/admin/user_modal.html:102
 #: app/templates/modals/edit-admin.html:33
 #: app/templates/modals/edit-identity.html:26
 #: app/templates/modals/edit-server.html:100
 #: app/templates/modals/wizard-bundle-form.html:30
 #: app/templates/modals/wizard-simple-step-form.html:29
-#: app/templates/modals/wizard-step-form.html:42
+#: app/templates/modals/wizard-step-form.html:37
 #: app/templates/settings/wizard/bundle_form.html:21
-#: app/templates/settings/wizard/form.html:32
+#: app/templates/settings/wizard/form.html:27
 #: app/templates/settings/wizard/simple_form.html:21
 msgid "Save"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:47
+#: app/templates/admin/user_modal.html:107
 #: app/templates/components/passkey_add_form.html:26
 #: app/templates/components/passkey_register.html:16
 #: app/templates/modals/bundle-add-steps.html:32
+#: app/templates/modals/connection-form.html:158
 #: app/templates/modals/create-admin.html:34
 #: app/templates/modals/create-notification-agent.html:91
 #: app/templates/modals/create-server.html:98
@@ -785,12 +829,38 @@ msgstr ""
 #: app/templates/modals/edit-server.html:101
 #: app/templates/modals/invite.html:269
 #: app/templates/modals/wizard-bundle-form.html:29
+#: app/templates/modals/wizard-preset-form.html:52
 #: app/templates/modals/wizard-simple-step-form.html:28
-#: app/templates/modals/wizard-step-form.html:41
+#: app/templates/modals/wizard-step-form.html:36
+#: app/templates/settings/connections/form.html:192
 #: app/templates/settings/wizard/bundle_form.html:22
-#: app/templates/settings/wizard/form.html:39
+#: app/templates/settings/wizard/form.html:34
+#: app/templates/settings/wizard/preset_form.html:44
 #: app/templates/settings/wizard/simple_form.html:22
 msgid "Cancel"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:117
+msgid "Invitation Details"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:120
+msgid "Code"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:122 app/templates/modals/invite.html:116
+#: app/templates/modals/invite.html:149
+#: app/templates/tables/invite_card.html:185
+msgid "Duration"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:122
+#: app/templates/tables/invite_card.html:187
+msgid "days"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:125
+msgid "Invitation expires"
 msgstr ""
 
 #: app/templates/admin/users.html:21
@@ -802,6 +872,7 @@ msgid "Unlink"
 msgstr ""
 
 #: app/templates/admin/users.html:23 app/templates/servers/index.html:27
+#: app/templates/settings/connections.html:106
 msgid "Delete"
 msgstr ""
 
@@ -974,6 +1045,56 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
+#: app/templates/modals/connection-form.html:9
+#: app/templates/settings/connections/form.html:5
+#: app/templates/settings/connections/form.html:58
+msgid "Add New Connection"
+msgstr ""
+
+#: app/templates/modals/connection-form.html:11
+#: app/templates/settings/connections/form.html:7
+#: app/templates/settings/connections/form.html:47
+#: app/templates/settings/connections/form.html:60
+msgid "Edit Connection"
+msgstr ""
+
+#: app/templates/modals/connection-form.html:22
+msgid "Close modal"
+msgstr ""
+
+#: app/templates/modals/connection-form.html:88
+#: app/templates/settings/connections/form.html:128
+msgid "Overseerr/Jellyseerr Information"
+msgstr ""
+
+#: app/templates/modals/connection-form.html:90
+#: app/templates/settings/connections/form.html:130
+msgid ""
+"Overseerr and Jellyseerr automatically import new users by default. No "
+"API connection is required for Wizarr integration."
+msgstr ""
+
+#: app/templates/modals/connection-form.html:94
+#: app/templates/settings/connections/form.html:133
+msgid "To enable auto-import:"
+msgstr ""
+
+#: app/templates/modals/connection-form.html:95
+msgid ""
+"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
+"new users' and 'Import Jellyfin/Plex users'"
+msgstr ""
+
+#: app/templates/modals/connection-form.html:148
+#: app/templates/settings/connections/form.html:199
+msgid "Create Connection"
+msgstr ""
+
+#: app/templates/modals/connection-form.html:150
+#: app/templates/settings/connections/form.html:201
+msgid "Update Connection"
+msgstr ""
+
 #: app/templates/modals/create-admin.html:10
 msgid "Add Administrator"
 msgstr ""
@@ -1087,11 +1208,6 @@ msgstr ""
 msgid "Unlimited Usages"
 msgstr ""
 
-#: app/templates/modals/invite.html:116 app/templates/modals/invite.html:149
-#: app/templates/tables/invite_card.html:185
-msgid "Duration"
-msgstr ""
-
 #: app/templates/modals/invite.html:117
 msgid "in days"
 msgstr ""
@@ -1155,9 +1271,25 @@ msgstr ""
 msgid "Please select at least one server for the invitation."
 msgstr ""
 
-#: app/templates/modals/wizard-step-form.html:37
-#: app/templates/settings/wizard/form.html:28
-msgid "Comma-separated setting keys (leave empty for always visible)"
+#: app/templates/modals/wizard-preset-form.html:11
+#: app/templates/settings/wizard/preset_form.html:4
+msgid "Add Preset Wizard Step"
+msgstr ""
+
+#: app/templates/modals/wizard-preset-form.html:33
+#: app/templates/settings/wizard/preset_form.html:24
+msgid "Your Discord server ID"
+msgstr ""
+
+#: app/templates/modals/wizard-preset-form.html:39
+#: app/templates/settings/wizard/preset_form.html:30
+msgid "URL to your Overseerr/Ombi instance"
+msgstr ""
+
+#: app/templates/modals/wizard-preset-form.html:53
+#: app/templates/settings/wizard/_sub_nav.html:78
+#: app/templates/settings/wizard/preset_form.html:43
+msgid "Create Step"
 msgstr ""
 
 #: app/templates/servers/index.html:5 app/templates/settings/servers.html:6
@@ -1169,10 +1301,12 @@ msgid "Name"
 msgstr ""
 
 #: app/templates/servers/index.html:11
+#: app/templates/settings/connections.html:34
 msgid "Type"
 msgstr ""
 
 #: app/templates/servers/index.html:12
+#: app/templates/settings/connections.html:36
 msgid "URL"
 msgstr ""
 
@@ -1181,10 +1315,12 @@ msgid "Verified"
 msgstr ""
 
 #: app/templates/servers/index.html:14
+#: app/templates/settings/connections.html:37
 msgid "Actions"
 msgstr ""
 
 #: app/templates/servers/index.html:25
+#: app/templates/settings/connections.html:93
 msgid "Edit"
 msgstr ""
 
@@ -1212,6 +1348,59 @@ msgstr ""
 msgid "Add Admin"
 msgstr ""
 
+#: app/templates/settings/connections.html:7
+#: app/templates/settings/connections/form.html:35
+#: app/templates/settings/index.html:67
+msgid "Connections"
+msgstr ""
+
+#: app/templates/settings/connections.html:8
+msgid "Manage external service connections for automated user invitations"
+msgstr ""
+
+#: app/templates/settings/connections.html:20
+#: app/templates/settings/connections/form.html:45
+msgid "Add Connection"
+msgstr ""
+
+#: app/templates/settings/connections.html:33
+msgid "Connection Name"
+msgstr ""
+
+#: app/templates/settings/connections.html:35
+msgid "Media Server"
+msgstr ""
+
+#: app/templates/settings/connections.html:52
+msgid "Overseerr (Info)"
+msgstr ""
+
+#: app/templates/settings/connections.html:59
+msgid "Ombi"
+msgstr ""
+
+#: app/templates/settings/connections.html:79
+msgid "Auto-import enabled"
+msgstr ""
+
+#: app/templates/settings/connections.html:99
+msgid "Are you sure you want to delete this connection?"
+msgstr ""
+
+#: app/templates/settings/connections.html:121
+msgid "No connections configured"
+msgstr ""
+
+#: app/templates/settings/connections.html:122
+msgid ""
+"Connect your external services to automate user invitations when invites "
+"are created for specific media servers."
+msgstr ""
+
+#: app/templates/settings/connections.html:132
+msgid "Add Your First Connection"
+msgstr ""
+
 #: app/templates/settings/general.html:7
 msgid "General Settings"
 msgstr ""
@@ -1228,44 +1417,23 @@ msgstr ""
 msgid "Configure how your application appears to users"
 msgstr ""
 
-#: app/templates/settings/general.html:59
-msgid "Integrations"
-msgstr ""
-
 #: app/templates/settings/general.html:60
-msgid "Connect with external services and applications"
-msgstr ""
-
-#: app/templates/settings/general.html:70
-#: app/templates/settings/general.html:80
-#: app/templates/settings/general.html:108
-msgid "Optional, leave empty to disable"
-msgstr ""
-
-#: app/templates/settings/general.html:97
-msgid "Community"
-msgstr ""
-
-#: app/templates/settings/general.html:98
-msgid "Connect with your community and social platforms"
-msgstr ""
-
-#: app/templates/settings/general.html:126
 msgid "Access Control"
 msgstr ""
 
-#: app/templates/settings/general.html:127
+#: app/templates/settings/general.html:61
 msgid "Manage user access and permissions"
 msgstr ""
 
-#: app/templates/settings/general.html:136
+#: app/templates/settings/general.html:70
 msgid "Control access to the wizard setup process"
 msgstr ""
 
-#: app/templates/settings/general.html:153
+#: app/templates/settings/general.html:87
 msgid "Save Settings"
 msgstr ""
 
+#: app/templates/settings/connections/form.html:27
 #: app/templates/settings/index.html:2 app/templates/settings/index.html:7
 msgid "Settings"
 msgstr ""
@@ -1286,11 +1454,11 @@ msgstr ""
 msgid "Servers"
 msgstr ""
 
-#: app/templates/settings/index.html:67
+#: app/templates/settings/index.html:81
 msgid "Admins"
 msgstr ""
 
-#: app/templates/settings/index.html:82
+#: app/templates/settings/index.html:96
 msgid "Wizard"
 msgstr ""
 
@@ -1335,6 +1503,50 @@ msgstr ""
 msgid "Checking..."
 msgstr ""
 
+#: app/templates/settings/connections/form.html:65
+msgid "Create a new external service connection for automated user invitations"
+msgstr ""
+
+#: app/templates/settings/connections/form.html:67
+msgid "Update the connection settings"
+msgstr ""
+
+#: app/templates/settings/connections/form.html:89
+msgid "Select the type of connection to configure"
+msgstr ""
+
+#: app/templates/settings/connections/form.html:103
+msgid "A friendly name to identify this connection"
+msgstr ""
+
+#: app/templates/settings/connections/form.html:117
+msgid "Which media server should trigger invitations to this external service"
+msgstr ""
+
+#: app/templates/settings/connections/form.html:135
+msgid "Open your Overseerr/Jellyseerr admin panel"
+msgstr ""
+
+#: app/templates/settings/connections/form.html:136
+msgid "Navigate to Settings → Users"
+msgstr ""
+
+#: app/templates/settings/connections/form.html:137
+msgid "Enable 'Auto-approve new users'"
+msgstr ""
+
+#: app/templates/settings/connections/form.html:138
+msgid "Enable 'Import Jellyfin/Plex users'"
+msgstr ""
+
+#: app/templates/settings/connections/form.html:156
+msgid "The full URL to your external service instance"
+msgstr ""
+
+#: app/templates/settings/connections/form.html:182
+msgid "API key from your external service settings"
+msgstr ""
+
 #: app/templates/settings/wizard/_sub_nav.html:16
 msgid "Default Steps"
 msgstr ""
@@ -1347,19 +1559,23 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:78
-msgid "Create Step"
-msgstr ""
-
 #: app/templates/settings/wizard/_sub_nav.html:79
 msgid "Add a new wizard step"
 msgstr ""
 
 #: app/templates/settings/wizard/_sub_nav.html:95
-msgid "Create Bundle"
+msgid "Add Preset"
 msgstr ""
 
 #: app/templates/settings/wizard/_sub_nav.html:96
+msgid "Create step from template"
+msgstr ""
+
+#: app/templates/settings/wizard/_sub_nav.html:112
+msgid "Create Bundle"
+msgstr ""
+
+#: app/templates/settings/wizard/_sub_nav.html:113
 msgid "Create a collection of steps"
 msgstr ""
 
@@ -1393,7 +1609,7 @@ msgstr ""
 msgid "Add step"
 msgstr ""
 
-#: app/templates/settings/wizard/form.html:37
+#: app/templates/settings/wizard/form.html:32
 #: app/templates/settings/wizard/index.html:61
 msgid "Preview"
 msgstr ""
@@ -1479,10 +1695,6 @@ msgstr ""
 #: app/templates/tables/invite_card.html:178
 #: app/templates/tables/user_card.html:64
 msgid "Expires"
-msgstr ""
-
-#: app/templates/tables/invite_card.html:187
-msgid "days"
 msgstr ""
 
 #: app/templates/tables/invite_card.html:190
