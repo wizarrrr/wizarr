@@ -104,7 +104,7 @@ def upgrade():
         # Get all Plex and Emby servers
         servers_result = connection.execute(
             text(
-                "SELECT id, server_name FROM media_server WHERE server_type IN ('plex', 'emby')"
+                "SELECT id, name FROM media_server WHERE server_type IN ('plex', 'emby')"
             )
         )
 
