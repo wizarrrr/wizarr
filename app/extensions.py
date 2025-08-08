@@ -48,8 +48,12 @@ def init_extensions(app):
         # Import tasks to register them with the scheduler
         from app.tasks import maintenance  # noqa: F401
 
-        # Only start scheduler if not in gunicorn context (gunicorn.conf.py will handle starting)
-        if not os.getenv("SERVER_SOFTWARE", "").startswith("gunicorn"):
+        # Only start scheduler if not in gunicorn worker context (gunicorn.conf.py will handle starting in master)
+        # Check for both gunicorn context and if we're in a worker process
+        is_gunicorn = os.getenv("SERVER_SOFTWARE", "").startswith("gunicorn")
+        is_worker = os.getenv("GUNICORN_WORKER_PID") is not None
+
+        if not is_gunicorn and not is_worker:
             scheduler.start()
             # Determine frequency message based on WIZARR_ENABLE_SCHEDULER (dev mode indicator)
             if os.getenv("WIZARR_ENABLE_SCHEDULER", "false").lower() in (

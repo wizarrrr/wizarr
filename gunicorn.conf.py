@@ -35,3 +35,11 @@ def on_starting(server):
             print(
                 "✅ Gunicorn: Scheduler started - expiry cleanup will run every 15 minutes (production mode)"
             )
+
+
+def worker_int(worker):
+    # this runs once per worker when it starts
+    import os
+
+    # Set environment variable to indicate this is a worker process
+    os.environ["GUNICORN_WORKER_PID"] = str(worker.pid)
