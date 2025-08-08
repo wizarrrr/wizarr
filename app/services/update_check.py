@@ -15,8 +15,6 @@ def _fetch_manifest() -> dict:
         headers={"Accept": "application/json"},
     )
     resp.raise_for_status()
-    print(f"Fetched manifest from {MANIFEST_URL} with status {resp.status_code}")
-    print("Content:", resp.text[:100])  # Log first 100 chars for debugging
     return resp.json()
 
 
