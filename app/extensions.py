@@ -32,18 +32,37 @@ def init_extensions(app):
     sess.init_app(app)
     babel.init_app(app, locale_selector=_select_locale)
 
-    # Conditionally enable scheduler based on environment variable
-    if os.getenv("WIZARR_ENABLE_SCHEDULER", "false").lower() in ("true", "1", "yes"):
+    # Always initialize scheduler (scheduler runs by default to fix issue #756)
+    # Only skip if explicitly disabled via environment variable
+    if os.getenv("WIZARR_DISABLE_SCHEDULER", "false").lower() not in (
+        "true",
+        "1",
+        "yes",
+    ):
         print("🕒 Initializing scheduler for background tasks...")
         scheduler.init_app(app)
 
         # Import tasks to register them with the scheduler
         from app.tasks import maintenance  # noqa: F401
 
-        scheduler.start()
-        print(
-            "✅ Scheduler started - expiry cleanup will run every 1 minute (development mode)"
-        )
+        # Only start scheduler if not in gunicorn context (gunicorn.conf.py will handle starting)
+        if not os.getenv("SERVER_SOFTWARE", "").startswith("gunicorn"):
+            scheduler.start()
+            # Determine frequency message based on WIZARR_ENABLE_SCHEDULER (dev mode indicator)
+            if os.getenv("WIZARR_ENABLE_SCHEDULER", "false").lower() in (
+                "true",
+                "1",
+                "yes",
+            ):
+                print(
+                    "✅ Scheduler started - expiry cleanup will run every 1 minute (development mode)"
+                )
+            else:
+                print(
+                    "✅ Scheduler started - expiry cleanup will run every 15 minutes (production mode)"
+                )
+    else:
+        print("⚠️ Scheduler disabled via WIZARR_DISABLE_SCHEDULER environment variable")
 
     htmx.init_app(app)
     login_manager.init_app(app)

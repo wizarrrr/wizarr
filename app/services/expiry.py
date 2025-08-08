@@ -1,6 +1,5 @@
 import datetime
 import logging
-from datetime import UTC
 
 from app.extensions import db
 from app.models import ExpiredUser, Invitation, User, invitation_servers
@@ -35,7 +34,7 @@ def calculate_user_expiry(
 
     try:
         days = int(invitation.duration)
-        return datetime.datetime.now(UTC) + datetime.timedelta(days=days)
+        return datetime.datetime.now() + datetime.timedelta(days=days)
     except (ValueError, TypeError):
         logging.warning(
             f"Invalid duration '{invitation.duration}' for invitation {invitation.id}"
@@ -113,7 +112,7 @@ def delete_user_if_expired() -> list[int]:
                 invitation_code=user.code,
                 server_id=user.server_id,
                 expired_at=user.expires,
-                deleted_at=datetime.datetime.now(UTC),
+                deleted_at=datetime.datetime.now(),
             )
             db.session.add(expired_user)
             db.session.flush()  # Ensure it's saved before we delete the user
