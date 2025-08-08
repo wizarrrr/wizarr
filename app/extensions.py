@@ -33,8 +33,11 @@ def init_extensions(app):
     babel.init_app(app, locale_selector=_select_locale)
 
     # Always initialize scheduler (scheduler runs by default to fix issue #756)
-    # Only skip if explicitly disabled via environment variable
-    if os.getenv("WIZARR_DISABLE_SCHEDULER", "false").lower() not in (
+    # Only skip if explicitly disabled via environment variable or in test environment
+    is_testing = "pytest" in os.getenv("_", "") or os.getenv("PYTEST_CURRENT_TEST")
+    if not is_testing and os.getenv(
+        "WIZARR_DISABLE_SCHEDULER", "false"
+    ).lower() not in (
         "true",
         "1",
         "yes",
@@ -62,7 +65,12 @@ def init_extensions(app):
                     "✅ Scheduler started - expiry cleanup will run every 15 minutes (production mode)"
                 )
     else:
-        print("⚠️ Scheduler disabled via WIZARR_DISABLE_SCHEDULER environment variable")
+        if is_testing:
+            print("⚠️ Scheduler disabled during testing")
+        else:
+            print(
+                "⚠️ Scheduler disabled via WIZARR_DISABLE_SCHEDULER environment variable"
+            )
 
     htmx.init_app(app)
     login_manager.init_app(app)
