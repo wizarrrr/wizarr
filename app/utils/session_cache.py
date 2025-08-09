@@ -43,16 +43,16 @@ class RobustFileSystemCache(FileSystemCache):
             # Re-raise non-stale file handle errors
             raise error
 
-    def set(self, key, value, timeout=None):
+    def set(self, key, value, timeout=None, mgmt_element=False):
         """Set a cache value with stale file handle error recovery."""
         try:
-            return super().set(key, value, timeout)
+            return super().set(key, value, timeout, mgmt_element=mgmt_element)
         except OSError as e:
             filename = self._get_filename(key)
             self._handle_stale_file_error("set", filename, e)
             # Retry once after cleanup
             try:
-                return super().set(key, value, timeout)
+                return super().set(key, value, timeout, mgmt_element=mgmt_element)
             except OSError as retry_error:
                 if retry_error.errno == 116:
                     logging.error(
