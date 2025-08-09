@@ -3,7 +3,6 @@ import json
 import secrets
 from pathlib import Path
 
-from cachelib.file import FileSystemCache
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -57,7 +56,19 @@ class BaseConfig:
     SECRET_KEY = get_or_create_secret("SECRET_KEY", generate_secret_key)
     # Sessions
     SESSION_TYPE = "cachelib"  # Changed from 'filesystem' to 'cachelib'
-    SESSION_CACHELIB = FileSystemCache(str(BASE_DIR / "database" / "sessions"))
+
+    @property
+    def SESSION_CACHELIB(self):
+        """Create a robust session cache that handles stale file handle errors."""
+        from app.utils.session_cache import RobustFileSystemCache
+
+        return RobustFileSystemCache(
+            str(BASE_DIR / "database" / "sessions"),
+            threshold=1000,  # Max files before cleanup
+            default_timeout=86400,  # 24 hours
+            mode=0o600,  # Restrict file permissions
+        )
+
     # Babel / i18n
     LANGUAGES = {
         "en": "english",

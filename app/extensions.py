@@ -33,14 +33,27 @@ def init_extensions(app):
     babel.init_app(app, locale_selector=_select_locale)
 
     # Always initialize scheduler (scheduler runs by default to fix issue #756)
-    # Only skip if explicitly disabled via environment variable or in test environment
+    # Only skip if explicitly disabled via environment variable, in test environment, or during migrations
     is_testing = "pytest" in os.getenv("_", "") or os.getenv("PYTEST_CURRENT_TEST")
-    if not is_testing and os.getenv(
-        "WIZARR_DISABLE_SCHEDULER", "false"
-    ).lower() not in (
-        "true",
-        "1",
-        "yes",
+    is_migration = (
+        "alembic" in os.getenv("_", "")
+        or any("alembic" in str(arg).lower() for arg in __import__("sys").argv)
+        or any(
+            "db" in str(arg) and ("upgrade" in str(arg) or "migrate" in str(arg))
+            for arg in __import__("sys").argv
+        )
+        or os.getenv("FLASK_SKIP_SCHEDULER") == "true"
+    )
+
+    if (
+        not is_testing
+        and not is_migration
+        and os.getenv("WIZARR_DISABLE_SCHEDULER", "false").lower()
+        not in (
+            "true",
+            "1",
+            "yes",
+        )
     ):
         print("🕒 Initializing scheduler for background tasks...")
         scheduler.init_app(app)
@@ -71,6 +84,8 @@ def init_extensions(app):
     else:
         if is_testing:
             print("⚠️ Scheduler disabled during testing")
+        elif is_migration:
+            print("⚠️ Scheduler disabled during database migration")
         else:
             print(
                 "⚠️ Scheduler disabled via WIZARR_DISABLE_SCHEDULER environment variable"
