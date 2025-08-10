@@ -7,9 +7,17 @@ from .extensions import db
 invite_libraries = db.Table(
     "invite_library",
     db.Column(
-        "invite_id", db.Integer, db.ForeignKey("invitation.id"), primary_key=True
+        "invite_id",
+        db.Integer,
+        db.ForeignKey("invitation.id", ondelete="CASCADE"),
+        primary_key=True,
     ),
-    db.Column("library_id", db.Integer, db.ForeignKey("library.id"), primary_key=True),
+    db.Column(
+        "library_id",
+        db.Integer,
+        db.ForeignKey("library.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
 )
 
 # ─────────────────────────────────────────────────────────────────────────────

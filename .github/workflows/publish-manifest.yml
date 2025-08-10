@@ -55,10 +55,14 @@ jobs:
         shell: bash
         run: |
           git fetch --tags --force                    # no-ops if already present
-          # Get all tags, filter out pre-releases (containing rc, beta, alpha, pre), get latest
-          tag=$(git tag -l --sort=-version:refname | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | head -n1)
+          # Prioritize 2025.x.x format over v4.x.x format for latest version
+          tag=$(git tag -l --sort=-version:refname | grep -E '^2[0-9]+\.[0-9]+\.[0-9]+$' | head -n1)
           if [ -z "$tag" ]; then
-            # Fallback to any tag if no stable versions found
+            # Fallback to v4.x.x format if no 2025.x.x tags found
+            tag=$(git tag -l --sort=-version:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n1)
+          fi
+          if [ -z "$tag" ]; then
+            # Final fallback to any tag
             tag=$(git describe --tags --abbrev=0)
           fi
           echo "latest_version=${tag#v}" >> "$GITHUB_OUTPUT"

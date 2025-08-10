@@ -101,8 +101,16 @@ class InvitationFlowManager:
         servers = []
 
         # Check new many-to-many relationship
-        if hasattr(invitation, "servers") and invitation.servers:
-            servers = list(invitation.servers)
+        if hasattr(invitation, "servers") and invitation.servers is not None:
+            try:
+                # Cast to Any to work around type checking issues with SQLAlchemy relationships
+                from typing import Any, cast
+
+                servers_iter = cast(Any, invitation.servers)
+                servers = list(servers_iter)
+            except (TypeError, AttributeError):
+                # Fallback if servers is not iterable
+                servers = []
 
         # Fallback to legacy single server relationship
         elif hasattr(invitation, "server") and invitation.server:

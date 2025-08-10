@@ -30,11 +30,13 @@ class TestWebAuthnSecurity:
         with pytest.raises(ValueError, match="Passkeys require a domain name"):
             _validate_secure_origin("https://[::1]", "::1")
 
-    def test_validate_secure_origin_localhost_development_only(self):
+    def test_validate_secure_origin_localhost_development_only(self, app):
         """Test that localhost is only allowed in development."""
-        # Test localhost rejection in production
+        # Test localhost rejection in production (override testing flag)
         with (
+            app.app_context(),
             patch.dict("os.environ", {"FLASK_ENV": "production"}),
+            patch.object(app, "config", {**app.config, "TESTING": False}),
             pytest.raises(
                 ValueError, match="Passkeys cannot use localhost in production"
             ),
@@ -42,7 +44,7 @@ class TestWebAuthnSecurity:
             _validate_secure_origin("https://localhost", "localhost")
 
         # Test localhost allowed in development
-        with patch.dict("os.environ", {"FLASK_ENV": "development"}):
+        with app.app_context(), patch.dict("os.environ", {"FLASK_ENV": "development"}):
             # Should not raise an exception
             _validate_secure_origin("https://localhost", "localhost")
 
@@ -82,25 +84,31 @@ class TestWebAuthnSecurity:
 
     def test_get_rp_config_request_based_validation(self, app):
         """Test that request-based configuration is validated."""
+        # Clear environment variables to force request-based config
         with (
+            patch.dict("os.environ", {}, clear=True),
             app.app_context(),
             app.test_request_context("/", headers={"Host": "example.com"}),
             pytest.raises(ValueError, match="Passkeys require HTTPS"),
         ):
             get_rp_config()
 
-            # Test IP address rejection
-            with (
-                app.test_request_context(
-                    "/", headers={"Host": "192.168.1.1", "X-Forwarded-Proto": "https"}
-                ),
-                pytest.raises(ValueError, match="Passkeys require a domain name"),
-            ):
-                get_rp_config()
+        # Test IP address rejection
+        with (
+            patch.dict("os.environ", {}, clear=True),
+            app.app_context(),
+            app.test_request_context(
+                "/", headers={"Host": "192.168.1.1", "X-Forwarded-Proto": "https"}
+            ),
+            pytest.raises(ValueError, match="Passkeys require a domain name"),
+        ):
+            get_rp_config()
 
     def test_get_rp_config_htmx_url_validation(self, app):
         """Test that HTMX current URL is validated."""
+        # Clear environment variables to force request-based config
         with (
+            patch.dict("os.environ", {}, clear=True),
             app.app_context(),
             app.test_request_context(
                 "/", headers={"HX-Current-URL": "http://example.com/path"}
@@ -109,14 +117,16 @@ class TestWebAuthnSecurity:
         ):
             get_rp_config()
 
-            # Test IP address in HX-Current-URL
-            with (
-                app.test_request_context(
-                    "/", headers={"HX-Current-URL": "https://192.168.1.1/path"}
-                ),
-                pytest.raises(ValueError, match="Passkeys require a domain name"),
-            ):
-                get_rp_config()
+        # Test IP address in HX-Current-URL
+        with (
+            patch.dict("os.environ", {}, clear=True),
+            app.app_context(),
+            app.test_request_context(
+                "/", headers={"HX-Current-URL": "https://192.168.1.1/path"}
+            ),
+            pytest.raises(ValueError, match="Passkeys require a domain name"),
+        ):
+            get_rp_config()
 
     def test_get_rp_config_valid_configuration(self, app):
         """Test that valid configurations work properly."""
@@ -137,8 +147,11 @@ class TestWebAuthnSecurity:
                 assert origin == "https://example.com"
 
             # Test valid request-based config
-            with app.test_request_context(
-                "/", headers={"Host": "example.com", "X-Forwarded-Proto": "https"}
+            with (
+                patch.dict("os.environ", {}, clear=True),
+                app.test_request_context(
+                    "/", headers={"Host": "example.com", "X-Forwarded-Proto": "https"}
+                ),
             ):
                 rp_id, rp_name, origin = get_rp_config()
                 assert rp_id == "example.com"

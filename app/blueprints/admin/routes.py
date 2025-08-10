@@ -189,8 +189,12 @@ def invite_table():
     server_filter = request.form.get("server") or request.args.get("server")
 
     if code := request.args.get("delete"):
-        Invitation.query.filter_by(code=code).delete()  # no need to parens
-        db.session.commit()
+        # Find the invitation to delete
+        invitation = Invitation.query.filter_by(code=code).first()
+        if invitation:
+            # Delete the invitation - CASCADE will handle association table cleanup
+            db.session.delete(invitation)
+            db.session.commit()
 
     # ------------------------------------------------------------------
     # 2. Base query (libraries + servers)

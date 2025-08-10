@@ -78,7 +78,7 @@ def upgrade():
                 allow_downloads_plex=allow_dl,
                 allow_tv_plex=allow_tv,
                 verified=True,
-                created_at=datetime.datetime.utcnow(),
+                created_at=datetime.datetime.now(datetime.UTC),
             )
         )
         server_id = res.inserted_primary_key[0]

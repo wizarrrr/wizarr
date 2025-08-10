@@ -112,11 +112,16 @@ def _validate_secure_origin(origin, rp_id):
             raise
         # If it's not a valid IP address, continue with domain validation
 
-    # Check for localhost (only allow in development)
+    # Check for localhost (only allow in development or testing)
     if hostname in ["localhost", "127.0.0.1", "::1"]:
         import os
 
-        if os.environ.get("FLASK_ENV") != "development":
+        from flask import current_app
+
+        is_development = os.environ.get("FLASK_ENV") == "development"
+        is_testing = current_app.config.get("TESTING", False)
+
+        if not (is_development or is_testing):
             raise ValueError(
                 f"Passkeys cannot use localhost in production. "
                 f"Current hostname '{hostname}' is localhost. "

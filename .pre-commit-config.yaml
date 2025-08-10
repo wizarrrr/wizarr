@@ -15,12 +15,6 @@ repos:
 
   - repo: local
     hooks:
-     # - id: pyright
-     #   name: pyright
-    #    entry: uv run pyright
-     #   language: system
-     #   types: [python]
-     ##   require_serial: false
       - id: pytest
         name: pytest
         entry: uv run pytest

@@ -53,7 +53,7 @@ def _apprise(msg: str, title: str, tags: str, url: str) -> bool:
         result = apprise_client.notify(title=title, body=msg)
 
         logging.info(f"Apprise notification {'sent' if result else 'failed'}: {title}")
-        return result
+        return bool(result)
 
     except Exception as e:
         logging.error(f"Error sending Apprise notification: {e}")

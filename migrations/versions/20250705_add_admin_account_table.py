@@ -6,7 +6,7 @@ Create Date: 2025-07-05 00:00:00.000000
 
 """
 
-from datetime import datetime
+import datetime
 
 import sqlalchemy as sa
 from alembic import op
@@ -25,7 +25,12 @@ def upgrade():
         sa.Column("id", sa.Integer(), primary_key=True),
         sa.Column("username", sa.String(), nullable=False, unique=True),
         sa.Column("password_hash", sa.String(), nullable=False),
-        sa.Column("created_at", sa.DateTime(), nullable=False, default=datetime.utcnow),
+        sa.Column(
+            "created_at",
+            sa.DateTime(),
+            nullable=False,
+            default=lambda: datetime.datetime.now(datetime.UTC),
+        ),
     )
 
     # ── 2) Migrate legacy single-admin credentials ─────────────────────────
@@ -43,7 +48,11 @@ def upgrade():
                 "INSERT INTO admin_account (username, password_hash, created_at) "
                 "VALUES (:u, :p, :c)"
             ),
-            {"u": username, "p": password_hash, "c": datetime.utcnow()},
+            {
+                "u": username,
+                "p": password_hash,
+                "c": datetime.datetime.now(datetime.UTC),
+            },
         )
 
 
