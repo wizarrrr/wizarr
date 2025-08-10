@@ -214,11 +214,8 @@ def test_upgrade_from_latest_release(migration_app, temp_db):
     if not latest_release_migration:
         pytest.skip("Could not determine latest release migration")
 
-    # Skip if there are no migrations newer than the release
-    if not _migrations_exist_after_release(latest_release_migration):
-        pytest.skip(
-            f"No migrations newer than release migration {latest_release_migration}"
-        )
+    # Note: We'll run the test even if there are no newer migrations
+    # to ensure the migration infrastructure works properly
 
     with migration_app.app_context():
         # Step 1: Migrate to the latest release version state

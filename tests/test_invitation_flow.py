@@ -436,8 +436,8 @@ class TestIntegrationWithDatabase:
 
             db.session.commit()
 
-            # Link them
-            invitation.server = server
+            # Link them using the many-to-many relationship
+            invitation.servers.append(server)
             db.session.commit()
 
             # Test manager
@@ -483,8 +483,8 @@ class TestEndToEndFlow:
 
             db.session.commit()
 
-            # Link them
-            invitation.server = server
+            # Link them using the many-to-many relationship
+            invitation.servers.append(server)
             db.session.commit()
 
             # Test display
@@ -538,8 +538,8 @@ class TestEndToEndFlow:
 
             db.session.commit()
 
-            # Link them
-            invitation.server = server
+            # Link them using the many-to-many relationship
+            invitation.servers.append(server)
             db.session.commit()
 
             # Test display
