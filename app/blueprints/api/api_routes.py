@@ -27,7 +27,7 @@ def _generate_invitation_url(code):
         host = request.headers.get('Host')
         if host and not host.startswith('localhost'):
             # Only generate full URL for non-localhost hosts
-            scheme = 'https' if request.headers.get('X-Forwarded-Proto') == 'https' or request.is_secure else 'http'
+            scheme = 'https' if request.is_secure else 'http'
             full_url = f"{scheme}://{host}{invite_path}"
             return full_url
         else:
