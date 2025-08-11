@@ -661,7 +661,7 @@ Currently, all API keys have full access to all endpoints. Future versions may i
 
 ## Changelog
 
-- **v2.2.1** - Initial API documentation
+- **v2.2.1** - Added initial API documentation
   - Added comprehensive endpoint documentation
   - Fixed API key deletion UI glitch
   - Improved error handling and response formats
