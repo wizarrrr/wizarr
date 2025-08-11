@@ -56,7 +56,7 @@ def list_users():
         users_list = []
         for server_id, users in users_by_server.items():
             # Get server info
-            server = MediaServer.query.get(server_id)
+            server = db.session.get(MediaServer, server_id)
             if not server:
                 continue
 
@@ -84,7 +84,7 @@ def list_users():
 def delete_user_endpoint(user_id):
     """Delete a user by ID."""
     try:
-        user = User.query.get(user_id)
+        user = db.session.get(User, user_id)
         if not user:
             return jsonify({"error": "User not found"}), 404
 
@@ -106,7 +106,7 @@ def delete_user_endpoint(user_id):
 def extend_user_expiry(user_id):
     """Extend user expiry date."""
     try:
-        user = User.query.get(user_id)
+        user = db.session.get(User, user_id)
         if not user:
             return jsonify({"error": "User not found"}), 404
 
@@ -318,7 +318,7 @@ def create_invitation():
 def delete_invitation(invitation_id):
     """Delete an invitation."""
     try:
-        invitation = Invitation.query.get(invitation_id)
+        invitation = db.session.get(Invitation, invitation_id)
         if not invitation:
             return jsonify({"error": "Invitation not found"}), 404
 
@@ -387,7 +387,7 @@ def list_libraries():
 
         libraries_list = []
         for lib in libraries:
-            server = MediaServer.query.get(lib.server_id)
+            server = db.session.get(MediaServer, lib.server_id)
             libraries_list.append({
                 "id": lib.id,
                 "name": lib.name,
@@ -466,7 +466,9 @@ def list_api_keys():
 def delete_api_key_via_api(key_id):
     """Delete an API key via API (soft delete by marking as inactive)."""
     try:
-        api_key = ApiKey.query.get_or_404(key_id)
+        api_key = db.session.get(ApiKey, key_id)
+        if not api_key:
+            return jsonify({"error": "API key not found"}), 404
 
         # Prevent self-deletion by checking if the current request is using this key
         auth_key = request.headers.get("X-API-Key")
