@@ -2,57 +2,45 @@ import hashlib
 import pytest
 from unittest.mock import patch, MagicMock
 
-from app import create_app
 from app.extensions import db
-from app.models import AdminAccount, ApiKey, MediaServer, Library
+from app.models import AdminAccount, ApiKey, MediaServer, Library, Settings
 
 
-@pytest.fixture
-def app():
-    """Create application for testing."""
-    app = create_app()
-    app.config.update({
-        "TESTING": True,
-        "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
-        "WTF_CSRF_ENABLED": False,
-    })
-    
-    with app.app_context():
-        db.create_all()
-        
-        # Create a test admin account
-        admin = AdminAccount(username="testadmin")
-        admin.set_password("testpass")
-        db.session.add(admin)
-        db.session.commit()
-        
-        yield app
-        
-        db.session.remove()
-        db.drop_all()
-
-
-@pytest.fixture
-def client(app):
-    return app.test_client()
 
 
 @pytest.fixture
 def api_key(app):
     """Create a test API key."""
     with app.app_context():
-        admin = AdminAccount.query.first()
+        # Create admin account if it doesn't exist
+        admin = AdminAccount.query.filter_by(username="testadmin").first()
+        if not admin:
+            admin = AdminAccount(username="testadmin")
+            admin.set_password("testpass")
+            db.session.add(admin)
+            
+        # Create admin_username setting (required by middleware)
+        admin_setting = Settings.query.filter_by(key="admin_username").first()
+        if not admin_setting:
+            admin_setting = Settings(key="admin_username", value="testadmin")
+            db.session.add(admin_setting)
+            
+        db.session.commit()
+        
         raw_key = "test_api_key_12345"
         key_hash = hashlib.sha256(raw_key.encode()).hexdigest()
         
-        api_key = ApiKey(
-            name="Test API Key",
-            key_hash=key_hash,
-            created_by_id=admin.id,
-            is_active=True
-        )
-        db.session.add(api_key)
-        db.session.commit()
+        # Check if API key already exists
+        existing_key = ApiKey.query.filter_by(key_hash=key_hash).first()
+        if not existing_key:
+            api_key = ApiKey(
+                name="Test API Key",
+                key_hash=key_hash,
+                created_by_id=admin.id,
+                is_active=True
+            )
+            db.session.add(api_key)
+            db.session.commit()
         
         return raw_key
 
@@ -61,6 +49,19 @@ def api_key(app):
 def test_server(app):
     """Create a test media server."""
     with app.app_context():
+        # Create admin account if it doesn't exist
+        admin = AdminAccount.query.filter_by(username="testadmin").first()
+        if not admin:
+            admin = AdminAccount(username="testadmin")
+            admin.set_password("testpass")
+            db.session.add(admin)
+            
+        # Create admin_username setting (required by middleware)
+        admin_setting = Settings.query.filter_by(key="admin_username").first()
+        if not admin_setting:
+            admin_setting = Settings(key="admin_username", value="testadmin")
+            db.session.add(admin_setting)
+            
         server = MediaServer(
             name="Test Server",
             server_type="jellyfin",
@@ -83,7 +84,7 @@ def test_api_libraries_without_existing_libraries(client, api_key, test_server):
         "lib3": "Music"
     }
     
-    with patch('app.blueprints.api.api_routes.scan_libraries_for_server') as mock_scan:
+    with patch('app.services.media.service.scan_libraries_for_server') as mock_scan:
         mock_scan.return_value = mock_libraries
         
         response = client.get("/api/libraries", headers={"X-API-Key": api_key})
@@ -124,7 +125,7 @@ def test_api_libraries_with_existing_libraries(client, api_key, test_server):
         db.session.add_all([lib1, lib2])
         db.session.commit()
     
-    with patch('app.blueprints.api.api_routes.scan_libraries_for_server') as mock_scan:
+    with patch('app.services.media.service.scan_libraries_for_server') as mock_scan:
         response = client.get("/api/libraries", headers={"X-API-Key": api_key})
         
         assert response.status_code == 200
@@ -162,7 +163,7 @@ def test_api_libraries_scan_failure_continues(client, api_key, test_server):
             raise Exception("Connection failed")
         return mock_libraries
     
-    with patch('app.blueprints.api.api_routes.scan_libraries_for_server') as mock_scan:
+    with patch('app.services.media.service.scan_libraries_for_server') as mock_scan:
         mock_scan.side_effect = side_effect
         
         response = client.get("/api/libraries", headers={"X-API-Key": api_key})

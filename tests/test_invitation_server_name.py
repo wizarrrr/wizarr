@@ -1,45 +1,28 @@
 import pytest
 from flask import url_for
 
-from app import create_app
 from app.extensions import db
-from app.models import AdminAccount, MediaServer, Invitation
+from app.models import AdminAccount, MediaServer, Invitation, Settings
 
-
-@pytest.fixture
-def app():
-    """Create application for testing."""
-    app = create_app()
-    app.config.update({
-        "TESTING": True,
-        "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
-        "WTF_CSRF_ENABLED": False,
-    })
-    
-    with app.app_context():
-        db.create_all()
-        
-        # Create a test admin account
-        admin = AdminAccount(username="testadmin")
-        admin.set_password("testpass")
-        db.session.add(admin)
-        db.session.commit()
-        
-        yield app
-        
-        db.session.remove()
-        db.drop_all()
-
-
-@pytest.fixture
-def client(app):
-    return app.test_client()
 
 
 @pytest.fixture
 def test_server(app):
     """Create a test media server."""
     with app.app_context():
+        # Create a test admin account if it doesn't exist
+        admin = AdminAccount.query.filter_by(username="testadmin").first()
+        if not admin:
+            admin = AdminAccount(username="testadmin")
+            admin.set_password("testpass")
+            db.session.add(admin)
+            
+        # Create admin_username setting (required by middleware)
+        admin_setting = Settings.query.filter_by(key="admin_username").first()
+        if not admin_setting:
+            admin_setting = Settings(key="admin_username", value="testadmin")
+            db.session.add(admin_setting)
+            
         server = MediaServer(
             name="My Jellyfin Server",
             server_type="jellyfin",
@@ -49,6 +32,8 @@ def test_server(app):
         )
         db.session.add(server)
         db.session.commit()
+        # Refresh to make sure it's attached
+        db.session.refresh(server)
         return server
 
 
@@ -57,7 +42,7 @@ def test_invitation(app, test_server):
     """Create a test invitation associated with a server."""
     with app.app_context():
         invitation = Invitation(
-            code="TESTCODE123",
+            code="TESTCODE12",  # 10 characters - within valid range
             used=False,
             unlimited=False,
             duration="unlimited"
@@ -68,14 +53,15 @@ def test_invitation(app, test_server):
         # Associate with the server using the servers relationship
         invitation.servers.append(test_server)
         db.session.commit()
-        
+        # Refresh to make sure it's attached
+        db.session.refresh(invitation)
         return invitation
 
 
 def test_invitation_page_displays_server_name(client, test_invitation, test_server):
     """Test that invitation page displays the correct server name."""
     
-    response = client.get(f"/join/{test_invitation.code}")
+    response = client.get(f"/j/{test_invitation.code}")
     
     # Should get the welcome page for jellyfin
     assert response.status_code == 200
@@ -90,15 +76,21 @@ def test_invitation_with_no_server_association_falls_back(client, app):
     """Test invitation with no server association falls back gracefully."""
     
     with app.app_context():
+        # Create admin_username setting (required by middleware)
+        admin_setting = Settings.query.filter_by(key="admin_username").first()
+        if not admin_setting:
+            admin_setting = Settings(key="admin_username", value="testadmin")
+            db.session.add(admin_setting)
+        
         # Create an invitation without server association
         invitation = Invitation(
-            code="NOSERVER123",
+            code="NOSERVER12",  # 10 characters - within valid range
             used=False,
             unlimited=False,
             duration="unlimited"
         )
         db.session.add(invitation)
-        
+
         # Create a default server that should be used as fallback
         server = MediaServer(
             name="Default Server",
@@ -110,7 +102,7 @@ def test_invitation_with_no_server_association_falls_back(client, app):
         db.session.add(server)
         db.session.commit()
     
-    response = client.get("/join/NOSERVER123")
+    response = client.get("/j/NOSERVER12")
     
     # Should still work and show the fallback server name
     assert response.status_code == 200
@@ -122,6 +114,12 @@ def test_invitation_with_legacy_server_field(client, app):
     """Test invitation that uses the legacy server field works correctly."""
     
     with app.app_context():
+        # Create admin_username setting (required by middleware)
+        admin_setting = Settings.query.filter_by(key="admin_username").first()
+        if not admin_setting:
+            admin_setting = Settings(key="admin_username", value="testadmin")
+            db.session.add(admin_setting)
+        
         server = MediaServer(
             name="Legacy Server",
             server_type="jellyfin", 
@@ -134,7 +132,7 @@ def test_invitation_with_legacy_server_field(client, app):
         
         # Create invitation with legacy server field set
         invitation = Invitation(
-            code="LEGACY123",
+            code="LEGACY1234",  # 10 characters - within valid range
             used=False,
             unlimited=False,
             duration="unlimited",
@@ -143,7 +141,7 @@ def test_invitation_with_legacy_server_field(client, app):
         db.session.add(invitation)
         db.session.commit()
     
-    response = client.get("/join/LEGACY123")
+    response = client.get("/j/LEGACY1234")
     
     # Should work with legacy server field
     assert response.status_code == 200
@@ -155,6 +153,12 @@ def test_invitation_with_both_server_associations(client, app):
     """Test invitation that has both legacy and new server associations."""
     
     with app.app_context():
+        # Create admin_username setting (required by middleware)
+        admin_setting = Settings.query.filter_by(key="admin_username").first()
+        if not admin_setting:
+            admin_setting = Settings(key="admin_username", value="testadmin")
+            db.session.add(admin_setting)
+        
         legacy_server = MediaServer(
             name="Legacy Server",
             server_type="jellyfin",
@@ -173,7 +177,7 @@ def test_invitation_with_both_server_associations(client, app):
         db.session.flush()
         
         invitation = Invitation(
-            code="BOTH123",
+            code="BOTHCODE12",  # 10 characters - within valid range
             used=False,
             unlimited=False,
             duration="unlimited",
@@ -186,7 +190,7 @@ def test_invitation_with_both_server_associations(client, app):
         invitation.servers.append(new_server)
         db.session.commit()
     
-    response = client.get("/join/BOTH123")
+    response = client.get("/j/BOTHCODE12")
     
     # Should prioritize legacy server field
     assert response.status_code == 200
