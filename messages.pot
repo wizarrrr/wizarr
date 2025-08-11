@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-10 04:11+0000\n"
+"POT-Creation-Date: 2025-08-11 04:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +17,42 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/admin/routes.py:267
+#: app/blueprints/admin/routes.py:271
 #: app/templates/admin/user_details_modal.html:47
 msgid "Unknown"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:270 app/templates/modals/invite.html:66
+#: app/blueprints/admin/routes.py:274 app/templates/modals/invite.html:66
 #: app/templates/tables/invite_card.html:45
 #: app/templates/tables/invite_card.html:181
 #: app/templates/tables/user_card.html:71
 msgid "Never"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:341 app/templates/tables/invite_card.html:26
+#: app/blueprints/admin/routes.py:345 app/templates/tables/invite_card.html:26
 msgid "Expired"
-msgstr ""
-
-#: app/blueprints/admin/routes.py:349
-#, python-format
-msgid "in %(n)d d"
-msgstr ""
-
-#: app/blueprints/admin/routes.py:351
-msgid "in 1 d"
 msgstr ""
 
 #: app/blueprints/admin/routes.py:353
 #, python-format
-msgid "in %(n)d h"
+msgid "in %(n)d d"
 msgstr ""
 
 #: app/blueprints/admin/routes.py:355
+msgid "in 1 d"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:357
+#, python-format
+msgid "in %(n)d h"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:359
 #, python-format
 msgid "in %(n)d m"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:356
+#: app/blueprints/admin/routes.py:360
 msgid "soon"
 msgstr ""
 
