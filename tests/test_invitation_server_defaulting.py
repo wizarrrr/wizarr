@@ -62,8 +62,8 @@ def api_key(app):
 class TestInvitationServerDefaulting:
     """Test server defaulting behavior for invitation creation."""
 
-    def test_single_server_auto_selection(self, app, client, api_key):
-        """Test that with only one server, it gets auto-selected."""
+    def test_single_server_requires_specification(self, app, client, api_key):
+        """Test that even with only one server, server_ids must be specified."""
         with app.app_context():
             # Create one verified server
             server = MediaServer(
@@ -76,7 +76,7 @@ class TestInvitationServerDefaulting:
             db.session.add(server)
             db.session.commit()
 
-            # Create invitation without specifying server_ids
+            # Create invitation without specifying server_ids (should fail)
             data = {
                 "duration": "30",
                 "unlimited": False
@@ -88,11 +88,25 @@ class TestInvitationServerDefaulting:
                 data=json.dumps(data)
             )
 
+            assert response.status_code == 400
+            response_data = response.get_json()
+            assert "error" in response_data
+            assert "Server selection is required" in response_data["error"]
+            assert "available_servers" in response_data
+            assert len(response_data["available_servers"]) == 1
+            assert response_data["available_servers"][0]["name"] == "Only Server"
+
+            # Now create invitation with explicit server_ids (should work)
+            data["server_ids"] = [server.id]
+            response = client.post(
+                "/api/invitations",
+                headers={"X-API-Key": api_key, "Content-Type": "application/json"},
+                data=json.dumps(data)
+            )
+
             assert response.status_code == 201
             response_data = response.get_json()
             assert "invitation" in response_data
-
-            # Verify invitation was created with the single server
             invitation = Invitation.query.first()
             assert invitation is not None
             assert len(invitation.servers) == 1
@@ -133,7 +147,7 @@ class TestInvitationServerDefaulting:
 
             assert response.status_code == 400
             response_data = response.get_json()
-            assert "Multiple servers available" in response_data["error"]
+            assert "Server selection is required" in response_data["error"]
             assert "available_servers" in response_data
             assert len(response_data["available_servers"]) == 2
 
@@ -240,7 +254,10 @@ class TestInvitationServerDefaulting:
 
             assert response.status_code == 400
             response_data = response.get_json()
-            assert "No verified servers available" in response_data["error"]
+            assert "Server selection is required" in response_data["error"]
+            # When no verified servers are available, the available_servers list should be empty
+            assert "available_servers" in response_data
+            assert len(response_data["available_servers"]) == 0
 
     def test_mixed_verified_unverified_servers(self, app, client, api_key):
         """Test behavior with mix of verified and unverified servers."""
@@ -263,12 +280,28 @@ class TestInvitationServerDefaulting:
             db.session.add_all([verified_server, unverified_server])
             db.session.commit()
 
-            # Should auto-select the only verified server
+            # Should require explicit server specification even with only one verified server
             data = {
                 "duration": "30",
                 "unlimited": False
             }
 
+            response = client.post(
+                "/api/invitations",
+                headers={"X-API-Key": api_key, "Content-Type": "application/json"},
+                data=json.dumps(data)
+            )
+
+            assert response.status_code == 400
+            response_data = response.get_json()
+            assert "Server selection is required" in response_data["error"]
+            assert "available_servers" in response_data
+            # Only the verified server should be in available_servers
+            assert len(response_data["available_servers"]) == 1
+            assert response_data["available_servers"][0]["name"] == "Verified Server"
+
+            # Now create invitation with explicit server specification
+            data["server_ids"] = [verified_server.id]
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},

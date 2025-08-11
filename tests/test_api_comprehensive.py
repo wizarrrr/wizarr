@@ -261,6 +261,10 @@ class TestAPIInvitations:
             assert "created" in invitation
             assert "expires" in invitation
             assert "duration" in invitation
+            # Test that URL is included in list response
+            assert "url" in invitation
+            assert invitation["url"].startswith("/j/")
+            assert invitation["code"] in invitation["url"]
     
     def test_create_invitation_unauthorized(self, client):
         """Test invitation creation without authentication."""
@@ -270,6 +274,7 @@ class TestAPIInvitations:
     def test_create_invitation_success(self, client, api_key, sample_data):
         """Test successful invitation creation."""
         data = {
+            "server_ids": [sample_data['server_id']],
             "expires_in_days": 7,
             "duration": "30",
             "unlimited": False,
@@ -288,19 +293,47 @@ class TestAPIInvitations:
         assert "invitation" in response_data
         assert response_data["invitation"]["duration"] == "30"
         assert response_data["invitation"]["unlimited"] == False
+        # Test that URL is included
+        assert "url" in response_data["invitation"]
+        assert response_data["invitation"]["url"].startswith("/j/")
+        assert response_data["invitation"]["code"] in response_data["invitation"]["url"]
     
     def test_create_invitation_default_values(self, client, api_key, sample_data):
         """Test invitation creation with default values."""
         response = client.post(
             "/api/invitations",
             headers={"X-API-Key": api_key, "Content-Type": "application/json"},
-            data=json.dumps({})
+            data=json.dumps({"server_ids": [sample_data['server_id']]})
         )
         assert response.status_code == 201
         
         response_data = response.get_json()
         assert response_data["invitation"]["duration"] == "unlimited"
         assert response_data["invitation"]["unlimited"] == True
+        # Test that URL is included
+        assert "url" in response_data["invitation"]
+        assert response_data["invitation"]["url"].startswith("/j/")
+    
+    def test_create_invitation_requires_server_ids(self, client, api_key, sample_data):
+        """Test that server_ids is now required for invitation creation."""
+        data = {
+            "expires_in_days": 7,
+            "duration": "30",
+            "unlimited": False,
+            "library_ids": [sample_data['library_id']]
+        }
+        
+        response = client.post(
+            "/api/invitations",
+            headers={"X-API-Key": api_key, "Content-Type": "application/json"},
+            data=json.dumps(data)
+        )
+        assert response.status_code == 400
+        
+        response_data = response.get_json()
+        assert "error" in response_data
+        assert "Server selection is required" in response_data["error"]
+        assert "available_servers" in response_data
     
     def test_delete_invitation_unauthorized(self, client, sample_data):
         """Test invitation deletion without authentication."""
@@ -494,15 +527,15 @@ class TestAPIErrorHandling:
             headers={"X-API-Key": api_key, "Content-Type": "application/json"},
             data="invalid json"
         )
-        # Should handle gracefully (creates default invitation) or return appropriate error
-        assert response.status_code in [201, 400, 500]
+        # Should return 400 error due to malformed JSON (and missing server_ids)
+        assert response.status_code == 400
     
-    def test_missing_content_type(self, client, api_key):
+    def test_missing_content_type(self, client, api_key, sample_data):
         """Test handling when Content-Type is missing for JSON endpoints."""
         response = client.post(
             "/api/invitations",
             headers={"X-API-Key": api_key},
-            data=json.dumps({"duration": "30"})
+            data=json.dumps({"duration": "30", "server_ids": [sample_data['server_id']]})
         )
         # Should still work or return appropriate error
         assert response.status_code in [200, 201, 400, 415]

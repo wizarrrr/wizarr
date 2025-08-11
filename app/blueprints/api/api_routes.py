@@ -4,7 +4,7 @@ import logging
 import traceback
 from functools import wraps
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, url_for
 
 from app.extensions import db
 from app.models import ApiKey, Invitation, Library, MediaServer, User
@@ -15,6 +15,29 @@ api_bp = Blueprint("api", __name__, url_prefix="/api")
 
 # Set up logging for API
 logger = logging.getLogger("wizarr.api")
+
+
+def _generate_invitation_url(code):
+    """Generate full invitation URL for the given code."""
+    try:
+        # Try to generate URL using url_for with the public blueprint's invite route
+        invite_path = url_for('public.invite', code=code, _external=False)
+        
+        # Get the host from the current request if available
+        host = request.headers.get('Host')
+        if host and not host.startswith('localhost'):
+            # Only generate full URL for non-localhost hosts
+            scheme = 'https' if request.headers.get('X-Forwarded-Proto') == 'https' or request.is_secure else 'http'
+            full_url = f"{scheme}://{host}{invite_path}"
+            return full_url
+        else:
+            # For localhost or when no host header, return relative URL
+            return invite_path
+            
+    except Exception as e:
+        logger.warning("Failed to generate invitation URL: %s", str(e))
+        # Fallback to basic format
+        return f"/j/{code}"
 
 
 def require_api_key(f):
@@ -172,6 +195,7 @@ def list_invitations():
             invites_list.append({
                 "id": invite.id,
                 "code": invite.code,
+                "url": _generate_invitation_url(invite.code),
                 "status": status,
                 "created": invite.created.isoformat() if invite.created else None,
                 "expires": invite.expires.isoformat() if invite.expires else None,
@@ -224,34 +248,27 @@ def create_invitation():
         elif expires_in_days == 30:
             expires_key = "month"
 
-        # Handle server selection logic
-        if server_ids:
-            # Server IDs explicitly provided - validate them
-            servers = MediaServer.query.filter(
-                MediaServer.id.in_(server_ids),
-                MediaServer.verified
-            ).all()
-            if len(servers) != len(server_ids):
-                return jsonify({"error": "One or more specified servers not found or not verified"}), 400
-            selected_server_ids = server_ids
-        else:
-            # No server IDs specified - apply defaulting logic
+        # Handle server selection logic - server_ids are now required
+        if not server_ids:
+            # No server IDs specified - this is now always an error
             verified_servers = MediaServer.query.filter_by(verified=True).all()
-            if not verified_servers:
-                return jsonify({"error": "No verified servers available"}), 400
-            if len(verified_servers) == 1:
-                # Only one server exists - auto-select it
-                selected_server_ids = [verified_servers[0].id]
-                logger.info("API: Auto-selecting single available server: %s", verified_servers[0].name)
-            else:
-                # Multiple servers exist - require explicit selection
-                return jsonify({
-                    "error": "Multiple servers available. Please specify server_ids in request.",
-                    "available_servers": [
-                        {"id": s.id, "name": s.name, "server_type": s.server_type}
-                        for s in verified_servers
-                    ]
-                }), 400
+            available_servers = [
+                {"id": s.id, "name": s.name, "server_type": s.server_type}
+                for s in verified_servers
+            ]
+            return jsonify({
+                "error": "Server selection is required. Please specify server_ids in request.",
+                "available_servers": available_servers
+            }), 400
+        
+        # Server IDs explicitly provided - validate them
+        servers = MediaServer.query.filter(
+            MediaServer.id.in_(server_ids),
+            MediaServer.verified
+        ).all()
+        if len(servers) != len(server_ids):
+            return jsonify({"error": "One or more specified servers not found or not verified"}), 400
+        selected_server_ids = server_ids
 
         # Create a form-like object
         form_data = {
@@ -298,6 +315,7 @@ def create_invitation():
             "invitation": {
                 "id": invitation.id,
                 "code": invitation.code,
+                "url": _generate_invitation_url(invitation.code),
                 "expires": invitation.expires.isoformat() if invitation.expires else None,
                 "duration": invitation.duration,
                 "unlimited": invitation.unlimited,

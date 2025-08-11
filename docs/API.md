@@ -164,6 +164,7 @@ List all invitations with their current status and server information.
     {
       "id": 1,
       "code": "ABC123",
+      "url": "https://your-wizarr-instance.com/j/ABC123",
       "status": "pending",
       "created": "2024-07-28T12:00:00Z",
       "expires": "2024-08-04T12:00:00Z",
@@ -179,6 +180,7 @@ List all invitations with their current status and server information.
     {
       "id": 2,
       "code": "DEF456", 
+      "url": "https://your-wizarr-instance.com/j/DEF456",
       "status": "pending",
       "created": "2024-07-28T13:00:00Z",
       "expires": "2024-08-04T13:00:00Z",
@@ -197,6 +199,7 @@ List all invitations with their current status and server information.
 ```
 
 **Response Fields:**
+- `url` (string) - Ready-to-use invitation URL that users can click
 - `display_name` (string) - The resolved display name for the invitation (either global setting or server names)
 - `server_names` (array) - List of individual server names associated with the invitation
 - `uses_global_setting` (boolean) - Whether the display name comes from global setting or server names
@@ -219,6 +222,7 @@ Create a new invitation.
 **Request Body:**
 ```json
 {
+  "server_ids": [1, 2],
   "expires_in_days": 7,
   "duration": "30",
   "unlimited": false,
@@ -230,6 +234,7 @@ Create a new invitation.
 ```
 
 **Parameters:**
+- `server_ids` (array, **required**) - Array of server IDs to create invitations for
 - `expires_in_days` (integer, optional) - Days until invitation expires (1, 7, 30, or null for never)
 - `duration` (string, optional) - User access duration in days or "unlimited" (default: "unlimited")
 - `unlimited` (boolean, optional) - Whether user access is unlimited (default: true)
@@ -245,6 +250,7 @@ Create a new invitation.
   "invitation": {
     "id": 2,
     "code": "DEF456",
+    "url": "https://your-wizarr-instance.com/j/DEF456",
     "expires": "2024-08-04T12:00:00Z",
     "duration": "30",
     "unlimited": false,
@@ -256,9 +262,24 @@ Create a new invitation.
 ```
 
 **Response Fields:**
+- `url` (string) - Ready-to-use invitation URL that users can click
 - `display_name` (string) - The resolved display name for the invitation (either global setting or server names)
 - `server_names` (array) - List of individual server names associated with the invitation
 - `uses_global_setting` (boolean) - Whether the display name comes from global setting or server names
+
+**Error Response (Missing server_ids):**
+```json
+{
+  "error": "Server selection is required. Please specify server_ids in request.",
+  "available_servers": [
+    {
+      "id": 1,
+      "name": "Plex Server",
+      "server_type": "plex"
+    }
+  ]
+}
+```
 
 **Example:**
 ```bash
@@ -266,6 +287,7 @@ curl -X POST \
      -H "X-API-Key: your_api_key" \
      -H "Content-Type: application/json" \
      -d '{
+       "server_ids": [1],
        "expires_in_days": 7,
        "duration": "30",
        "unlimited": false,
@@ -550,6 +572,7 @@ print(f"Total users: {status_data['users']}")
 
 # Create invitation
 invitation_data = {
+    "server_ids": [1],
     "expires_in_days": 7,
     "duration": "30",
     "unlimited": False
@@ -564,6 +587,7 @@ response = requests.post(
 if response.status_code == 201:
     invitation = response.json()
     print(f"Created invitation: {invitation['invitation']['code']}")
+    print(f"Invitation URL: {invitation['invitation']['url']}")
 ```
 
 ### JavaScript Example
@@ -589,6 +613,7 @@ fetch(`${BASE_URL}/users`, { headers })
 
 // Create invitation
 const invitationData = {
+    server_ids: [1],
     expires_in_days: 7,
     duration: "30",
     unlimited: false
@@ -603,6 +628,7 @@ fetch(`${BASE_URL}/invitations`, {
 .then(data => {
     if (data.invitation) {
         console.log(`Created invitation: ${data.invitation.code}`);
+        console.log(`Invitation URL: ${data.invitation.url}`);
     }
 });
 ```
