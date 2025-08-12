@@ -48,10 +48,14 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: ghcr.io/${{ github.repository_owner }}/wizarr:dev
           cache-from: |
+            type=gha,scope=wizarr-uv
+            type=gha,scope=wizarr-npm
             type=gha,scope=wizarr-deps
             type=gha,scope=wizarr-builder
             type=gha
           cache-to: |
+            type=gha,mode=max,scope=wizarr-uv
+            type=gha,mode=max,scope=wizarr-npm
             type=gha,mode=max,scope=wizarr-deps
             type=gha,mode=max,scope=wizarr-builder
             type=gha,mode=max

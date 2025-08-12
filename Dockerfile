@@ -1,24 +1,28 @@
 # ─── Stage 1: Dependencies ───────────────────────────────────────────────
-FROM python:3.12-alpine AS deps
-
-# Copy the UV binaries from the "astral-sh/uv" image
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+FROM ghcr.io/astral-sh/uv:python3.13-alpine AS deps
 
 # Install system dependencies
 RUN apk add --no-cache nodejs npm
 
 # Set working directory
-WORKDIR /data
+WORKDIR /app
+
+# Enable bytecode compilation for faster startup
+ENV UV_COMPILE_BYTECODE=1
+
+# Use copy link mode to avoid warnings with cache mounts
+ENV UV_LINK_MODE=copy
 
 # Copy dependency files first for better caching
 COPY pyproject.toml uv.lock ./
+
+# Install Python dependencies only (not project) with cache mount for speed
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-install-project
+
+# Copy npm dependency files and install with cache
 COPY app/static/package*.json ./app/static/
-
-# Install Python dependencies
-RUN uv sync --locked
-
-# Install npm dependencies
-RUN npm --prefix app/static/ install
+RUN npm --prefix app/static/ ci --cache /tmp/npm-cache
 
 # ─── Stage 2: Build assets ────────────────────────────────────────────────
 FROM deps AS builder
@@ -26,6 +30,10 @@ FROM deps AS builder
 # Copy source files needed for building
 COPY app/ ./app/
 COPY babel.cfg ./
+
+# Install the project now that we have source code
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked
 
 # Create directories needed for npm build
 RUN mkdir -p app/static/js app/static/css
@@ -37,27 +45,33 @@ RUN uv run pybabel compile -d app/translations
 RUN npm --prefix app/static/ run build
 
 # ─── Stage 3: Runtime ─────────────────────────────────────────────────────
-FROM python:3.12-alpine
+FROM python:3.13-alpine
 
 # Set default environment variables for user/group IDs
 ENV PUID=1000
 ENV PGID=1000
 
-# Copy the UV binaries
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-
 # Install runtime dependencies only
 RUN apk add --no-cache curl tzdata su-exec
 
-# Set working directory
-WORKDIR /data
+# Set application working directory
+WORKDIR /app
 
-# Copy Python environment from deps stage
-COPY --from=deps /data/.venv /data/.venv
+# Copy Python environment from builder stage (includes project)
+COPY --from=builder /app/.venv /app/.venv
+
+# Make sure we can run uv in the final image
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
 # Copy application code and built assets
-COPY --chown=1000:1000 --from=builder /data/app /data/app
-COPY --chown=1000:1000 . /data
+COPY --chown=1000:1000 --from=builder /app/app /app/app
+COPY --chown=1000:1000 . /app
+
+# Create data directory for database (backward compatibility)
+RUN mkdir -p /data/database
+
+# Create wizard steps config directory
+RUN mkdir -p /etc/wizarr/wizard_steps
 
 # Create directories that need to be writable
 RUN mkdir -p /.cache

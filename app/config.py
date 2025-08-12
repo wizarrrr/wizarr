@@ -1,5 +1,6 @@
 # config.py
 import json
+import os
 import secrets
 from pathlib import Path
 
@@ -13,7 +14,13 @@ load_dotenv(BASE_DIR / ".env")
 # Initialize session cache at module level so Flask-Session can access it
 
 # Ensure database directory exists
-DATABASE_DIR = BASE_DIR / "database"
+# Use /data/database for container deployments, fall back to local for development
+
+
+if os.path.exists("/data"):
+    DATABASE_DIR = Path("/data/database")
+else:
+    DATABASE_DIR = BASE_DIR / "database"
 DATABASE_DIR.mkdir(exist_ok=True)
 
 SESSION_CACHELIB = RobustFileSystemCache(
@@ -91,7 +98,7 @@ class BaseConfig:
     # Scheduler
     SCHEDULER_API_ENABLED = True
     # SQLAlchemy
-    SQLALCHEMY_DATABASE_URI = f"sqlite:///{BASE_DIR / 'database' / 'database.db'}"
+    SQLALCHEMY_DATABASE_URI = f"sqlite:///{DATABASE_DIR / 'database.db'}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
