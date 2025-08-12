@@ -18,7 +18,7 @@ from flask import (
 from app.extensions import db, limiter
 from app.models import Invitation, MediaServer, Settings, User
 from app.services.invites import is_invite_valid
-from app.services.media.plex import handle_oauth_token
+from app.services.media.plex import PlexInvitationError, handle_oauth_token
 
 public_bp = Blueprint("public", __name__)
 
@@ -101,7 +101,34 @@ def join():
     if server_type == "plex":
         # run Plex OAuth invite immediately (blocking – we need the DB row afterwards)
         if token and code:
-            handle_oauth_token(current_app, token, code)
+            try:
+                handle_oauth_token(current_app, token, code)
+            except PlexInvitationError as e:
+                # Show user-friendly error message from Plex API
+                name_setting = Settings.query.filter_by(key="server_name").first()
+                server_name = name_setting.value if name_setting else None
+
+                return render_template(
+                    "user-plex-login.html",
+                    server_name=server_name,
+                    code=code,
+                    code_error=f"Plex invitation failed: {e.message}",
+                )
+            except Exception as e:
+                # Handle any other unexpected errors
+                import logging
+
+                logging.error(f"Unexpected error during Plex OAuth: {e}")
+
+                name_setting = Settings.query.filter_by(key="server_name").first()
+                server_name = name_setting.value if name_setting else None
+
+                return render_template(
+                    "user-plex-login.html",
+                    server_name=server_name,
+                    code=code,
+                    code_error="An unexpected error occurred during invitation. Please try again or contact support.",
+                )
 
         # Determine if there are additional servers attached to the invite
         extra = [

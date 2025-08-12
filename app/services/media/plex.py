@@ -1,4 +1,5 @@
 import logging
+import re
 import threading
 from typing import TYPE_CHECKING
 
@@ -80,6 +81,61 @@ def _accept_invite_v2(self: MyPlexAccount, user):
 
 
 MyPlexAccount.acceptInvite = _accept_invite_v2  # type: ignore[assignment]
+
+
+def extract_plex_error_message(exception) -> str:
+    """
+    Extract human-readable error message from Plex API exceptions.
+
+    Args:
+        exception: Exception from plexapi
+
+    Returns:
+        Human-readable error message
+    """
+    error_message = str(exception)
+
+    # Look for XML response with status attribute in the error message
+    # Format: plexapi.exceptions.BadRequest: (400) bad_request; https://... <Response code="400" status="Error message"/>
+    xml_pattern = r'<Response[^>]+status="([^"]*)"[^>]*/?>'
+    xml_match = re.search(xml_pattern, error_message)
+    if xml_match:
+        return xml_match.group(1)
+
+    # Look for JSON response patterns if XML doesn't work
+    # This handles cases where Plex returns JSON errors
+    json_pattern = r'"message":\s*"([^"]*)"'
+    json_match = re.search(json_pattern, error_message)
+    if json_match:
+        return json_match.group(1)
+
+    # Look for simple status messages in parentheses
+    # Format: (400) some_error_message; ...
+    status_pattern = r"\(\d+\)\s+([^;]+);"
+    status_match = re.search(status_pattern, error_message)
+    if status_match:
+        error_text = status_match.group(1).strip()
+        # Convert snake_case to readable text
+        return error_text.replace("_", " ").title()
+
+    # Fallback to the original exception message but clean it up
+    if hasattr(exception, "message"):
+        return str(exception.message)
+
+    # Last resort: return a cleaned up version of the exception string
+    clean_message = (
+        error_message.split(";")[0] if ";" in error_message else error_message
+    )
+    return clean_message.replace("plexapi.exceptions.", "").replace("BadRequest: ", "")
+
+
+class PlexInvitationError(Exception):
+    """Custom exception for Plex invitation errors with user-friendly messages."""
+
+    def __init__(self, message: str, original_exception=None):
+        self.message = message
+        self.original_exception = original_exception
+        super().__init__(message)
 
 
 @register_media_client("plex")
@@ -189,14 +245,20 @@ class PlexClient(MediaClient):
         allow_channels: bool,
         allow_camera_upload: bool = False,
     ):
-        self.admin.inviteFriend(
-            user=email,
-            server=self.server,
-            sections=sections,
-            allowSync=allow_sync,
-            allowChannels=allow_channels,
-            allowCameraUpload=allow_camera_upload,
-        )
+        try:
+            self.admin.inviteFriend(
+                user=email,
+                server=self.server,
+                sections=sections,
+                allowSync=allow_sync,
+                allowChannels=allow_channels,
+                allowCameraUpload=allow_camera_upload,
+            )
+        except Exception as e:
+            # Extract human-readable error message and raise custom exception
+            error_message = extract_plex_error_message(e)
+            logging.error(f"Failed to invite friend {email}: {error_message}")
+            raise PlexInvitationError(error_message, e) from e
 
     def invite_home(
         self,
@@ -206,14 +268,20 @@ class PlexClient(MediaClient):
         allow_channels: bool,
         allow_camera_upload: bool = False,
     ):
-        self.admin.createExistingUser(
-            user=email,
-            server=self.server,
-            sections=sections,
-            allowSync=allow_sync,
-            allowChannels=allow_channels,
-            allowCameraUpload=allow_camera_upload,
-        )
+        try:
+            self.admin.createExistingUser(
+                user=email,
+                server=self.server,
+                sections=sections,
+                allowSync=allow_sync,
+                allowChannels=allow_channels,
+                allowCameraUpload=allow_camera_upload,
+            )
+        except Exception as e:
+            # Extract human-readable error message and raise custom exception
+            error_message = extract_plex_error_message(e)
+            logging.error(f"Failed to invite home user {email}: {error_message}")
+            raise PlexInvitationError(error_message, e) from e
 
     def get_user(self, db_id: int) -> dict:
         """Get user info in legacy format for backward compatibility."""
@@ -666,10 +734,19 @@ def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> No
     allow_tv = bool(inv.allow_live_tv)
     allow_camera_upload = bool(inv.allow_mobile_uploads)
 
-    if inv.plex_home:
-        client.invite_home(email, libs, allow_sync, allow_tv, allow_camera_upload)
-    else:
-        client.invite_friend(email, libs, allow_sync, allow_tv, allow_camera_upload)
+    try:
+        if inv.plex_home:
+            client.invite_home(email, libs, allow_sync, allow_tv, allow_camera_upload)
+        else:
+            client.invite_friend(email, libs, allow_sync, allow_tv, allow_camera_upload)
+    except PlexInvitationError:
+        # Re-raise PlexInvitationError to preserve the user-friendly message
+        raise
+    except Exception as e:
+        # Handle any other unexpected errors
+        error_message = extract_plex_error_message(e)
+        logging.error(f"Unexpected error inviting {email} to Plex: {error_message}")
+        raise PlexInvitationError(error_message, e) from e
 
     logging.info("Invited %s to Plex", email)
 
