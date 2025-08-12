@@ -99,8 +99,6 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 # By default we run Gunicorn under wizarruser
 CMD ["uv", "run", "gunicorn", \
      "--config", "gunicorn.conf.py", \
-     "--preload", \
-     "--workers", "4", \
      "--bind", "0.0.0.0:5690", \
      "--umask", "007", \
      "run:app"]

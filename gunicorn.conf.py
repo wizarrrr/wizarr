@@ -14,13 +14,17 @@ worker_class = "sync"
 
 def when_ready(server):  # noqa: ARG001
     """Called after the server is started."""
+    print("DEBUG: when_ready() hook called!")
+
     # Set environment to indicate Gunicorn context
     os.environ["SERVER_SOFTWARE"] = "gunicorn"
 
     # Only run migrations if we haven't already done so
     if os.getenv("WIZARR_MIGRATIONS_DONE"):
+        print("DEBUG: Migrations already done, skipping")
         return
 
+    print("DEBUG: Setting WIZARR_MIGRATIONS_DONE flag")
     os.environ["WIZARR_MIGRATIONS_DONE"] = "1"
 
     # Import here to avoid circular imports
