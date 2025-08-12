@@ -478,8 +478,8 @@ class AudiobookshelfClient(RestApiMixin):
         """Public invite flow for Audiobookshelf users."""
         if not self.EMAIL_RE.fullmatch(email):
             return False, "Invalid e-mail address."
-        if not 8 <= len(password) <= 20:
-            return False, "Password must be 8–20 characters."
+        if not 8 <= len(password) <= 128:
+            return False, "Password must be 8–128 characters."
         if password != confirm:
             return False, "Passwords do not match."
 

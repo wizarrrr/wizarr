@@ -563,8 +563,8 @@ class KavitaClient(RestApiMixin):
     ) -> tuple[bool, str]:
         if email and not EMAIL_RE.fullmatch(email):
             return False, "Invalid e-mail address."
-        if not 8 <= len(password) <= 50:
-            return False, "Password must be 8–50 characters."
+        if not 8 <= len(password) <= 128:
+            return False, "Password must be 8–128 characters."
         if password != confirm:
             return False, "Passwords do not match."
 
