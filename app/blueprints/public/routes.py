@@ -127,8 +127,20 @@ def join():
         "kavita",
         "komga",
     ):
+        from app.forms.join import JoinForm
+
+        # Get server name for template
+        name_setting = Settings.query.filter_by(key="server_name").first()
+        server_name = name_setting.value if name_setting else "Media Server"
+
+        form = JoinForm()
+        form.code.data = code
         return render_template(
-            "welcome-jellyfin.html", code=code, server_type=server_type
+            "welcome-jellyfin.html",
+            code=code,
+            server_type=server_type,
+            server_name=server_name,
+            form=form,
         )
 
     # fallback if server_type missing/unsupported

@@ -57,12 +57,11 @@ class BaseConfig:
     # Sessions
     SESSION_TYPE = "cachelib"  # Changed from 'filesystem' to 'cachelib'
 
-    @property
-    def SESSION_CACHELIB(self):
-        """Create a robust session cache that handles stale file handle errors."""
+    def __init__(self):
+        """Initialize session cache as instance attribute."""
         from app.utils.session_cache import RobustFileSystemCache
 
-        return RobustFileSystemCache(
+        self.SESSION_CACHELIB = RobustFileSystemCache(
             str(BASE_DIR / "database" / "sessions"),
             threshold=1000,  # Max files before cleanup
             default_timeout=86400,  # 24 hours
@@ -95,6 +94,12 @@ class BaseConfig:
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
 
+    def __init__(self):
+        super().__init__()
+
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
+
+    def __init__(self):
+        super().__init__()

@@ -137,6 +137,17 @@ def create_invite(form: Any) -> Invitation:
             library_ids = []
 
         if library_ids:
+            # Clear any existing library associations for this invite to avoid UNIQUE constraint violations
+            # This handles cases where there might be leftover data from previous attempts
+            from app.models import invite_libraries
+
+            db.session.execute(
+                invite_libraries.delete().where(
+                    invite_libraries.c.invite_id == invite.id
+                )
+            )
+            db.session.flush()  # Ensure the delete is committed before adding new records
+
             # Look up the Library objects by their IDs
             # Also ensure they belong to one of the selected servers
             server_ids = [s.id for s in servers]
