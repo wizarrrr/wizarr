@@ -5,12 +5,26 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+from app.utils.session_cache import RobustFileSystemCache
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
-# Define secrets file location next to database
-SECRETS_FILE = BASE_DIR / "database" / "secrets.json"
+# Initialize session cache at module level so Flask-Session can access it
+
+# Ensure database directory exists
 DATABASE_DIR = BASE_DIR / "database"
+DATABASE_DIR.mkdir(exist_ok=True)
+
+SESSION_CACHELIB = RobustFileSystemCache(
+    str(DATABASE_DIR / "sessions"),
+    threshold=1000,  # Max files before cleanup
+    default_timeout=86400,  # 24 hours
+    mode=0o600,  # Restrict file permissions
+)
+
+# Define secrets file location next to database
+SECRETS_FILE = DATABASE_DIR / "secrets.json"
 
 
 def generate_secret_key():
@@ -56,17 +70,7 @@ class BaseConfig:
     SECRET_KEY = get_or_create_secret("SECRET_KEY", generate_secret_key)
     # Sessions
     SESSION_TYPE = "cachelib"  # Changed from 'filesystem' to 'cachelib'
-
-    def __init__(self):
-        """Initialize session cache as instance attribute."""
-        from app.utils.session_cache import RobustFileSystemCache
-
-        self.SESSION_CACHELIB = RobustFileSystemCache(
-            str(BASE_DIR / "database" / "sessions"),
-            threshold=1000,  # Max files before cleanup
-            default_timeout=86400,  # 24 hours
-            mode=0o600,  # Restrict file permissions
-        )
+    SESSION_CACHELIB = SESSION_CACHELIB  # Reference the module-level cache
 
     # Babel / i18n
     LANGUAGES = {
@@ -94,12 +98,6 @@ class BaseConfig:
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
 
-    def __init__(self):
-        super().__init__()
-
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
-
-    def __init__(self):
-        super().__init__()
