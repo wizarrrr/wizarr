@@ -27,6 +27,9 @@ FROM deps AS builder
 COPY app/ ./app/
 COPY babel.cfg ./
 
+# Create directories needed for npm build
+RUN mkdir -p app/static/js app/static/css
+
 # Build translations
 RUN uv run pybabel compile -d app/translations
 
