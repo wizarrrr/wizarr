@@ -3,6 +3,7 @@ import os
 
 from flask import (
     Blueprint,
+    current_app,
     jsonify,
     render_template,
     request,
@@ -249,8 +250,8 @@ def register_complete():
         # Log the full error for debugging
         import traceback
 
-        print(f"WebAuthn registration error: {str(e)}")
-        print(f"Traceback: {traceback.format_exc()}")
+        current_app.logger.error(f"WebAuthn registration error: {str(e)}")
+        current_app.logger.debug(f"Traceback: {traceback.format_exc()}")
         return jsonify({"error": f"Registration failed: {str(e)}"}), 400
 
 

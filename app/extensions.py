@@ -6,8 +6,9 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_login import LoginManager
 from flask_migrate import Migrate
-from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
+
+from flask_session import Session
 
 # Instantiate extensions
 db = SQLAlchemy()
@@ -28,6 +29,8 @@ limiter = Limiter(
 # Initialize with app
 def init_extensions(app):
     import os
+
+    from .startup_logger import startup_logger
 
     sess.init_app(app)
     babel.init_app(app, locale_selector=_select_locale)
@@ -55,11 +58,11 @@ def init_extensions(app):
             "yes",
         )
     ):
-        print("🕒 Initializing scheduler for background tasks...")
+        startup_logger.step("Initializing background scheduler", "🕒")
         scheduler.init_app(app)
 
         # Import tasks to register them with the scheduler
-        from app.tasks import maintenance  # noqa: F401
+        from app.tasks import maintenance as _  # noqa: F401
 
         # Only start scheduler if not in gunicorn worker context (gunicorn.conf.py will handle starting in master)
         # Check for both gunicorn context and if we're in a worker process
@@ -69,27 +72,19 @@ def init_extensions(app):
         if not is_gunicorn and not is_worker:
             scheduler.start()
             # Determine frequency message based on WIZARR_ENABLE_SCHEDULER (dev mode indicator)
-            if os.getenv("WIZARR_ENABLE_SCHEDULER", "false").lower() in (
+            dev_mode = os.getenv("WIZARR_ENABLE_SCHEDULER", "false").lower() in (
                 "true",
                 "1",
                 "yes",
-            ):
-                print(
-                    "✅ Scheduler started - expiry cleanup will run every 1 minute (development mode)"
-                )
-            else:
-                print(
-                    "✅ Scheduler started - expiry cleanup will run every 15 minutes (production mode)"
-                )
+            )
+            startup_logger.scheduler_status(enabled=True, dev_mode=dev_mode)
     else:
         if is_testing:
-            print("⚠️ Scheduler disabled during testing")
+            startup_logger.warning("Scheduler disabled during testing")
         elif is_migration:
-            print("⚠️ Scheduler disabled during database migration")
+            startup_logger.warning("Scheduler disabled during database migration")
         else:
-            print(
-                "⚠️ Scheduler disabled via WIZARR_DISABLE_SCHEDULER environment variable"
-            )
+            startup_logger.warning("Scheduler disabled via WIZARR_DISABLE_SCHEDULER")
 
     htmx.init_app(app)
     login_manager.init_app(app)

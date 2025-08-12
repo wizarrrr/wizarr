@@ -13,7 +13,6 @@ plex_bp = Blueprint("plex", __name__, url_prefix="/plex")
 def scan():
     plex_url = request.args.get("plex_url")
     plex_token = request.args.get("plex_token")
-    print(plex_url, plex_token)
     if not plex_url or not plex_token:
         abort(400)
     try:

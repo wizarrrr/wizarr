@@ -168,7 +168,7 @@ def server_settings():
         if setup_mode:
             # Only mark setup complete and redirect if this is the first server
             if MediaServer.query.count() == 1:
-                print("Setup mode: redirecting to dashboard (first server added)")
+                # Setup complete: first server added, redirect to dashboard
                 session.pop("in_setup", None)
 
             # HTMX requests honour HX-Redirect header, regular form POSTs need a

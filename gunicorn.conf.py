@@ -8,38 +8,46 @@ def on_starting(server):
     # this runs once, in the Gunicorn master
     import os
 
+    from app.startup_logger import startup_logger
+
     # Set environment variable to indicate we're in gunicorn context
     os.environ["SERVER_SOFTWARE"] = "gunicorn"
 
+    # Create app (this will run startup sequence)
     app = create_app()
 
+    # Run Gunicorn-specific migrations (silent in app creation)
+    startup_logger.database_migration("server verification", "verifying media servers")
     update_server_verified(app)
 
+    startup_logger.database_migration("library migration", "updating library structure")
     run_library_migration(app)
 
+    startup_logger.database_migration(
+        "media server migration", "single to multi-server"
+    )
     migrate_single_to_multi(app)
 
     # Scheduler is already initialized in extensions.py, just start it
     if scheduler._scheduler and not scheduler.running:
         scheduler.start()
         # Determine frequency message based on WIZARR_ENABLE_SCHEDULER (dev mode indicator)
-        if os.getenv("WIZARR_ENABLE_SCHEDULER", "false").lower() in (
+        dev_mode = os.getenv("WIZARR_ENABLE_SCHEDULER", "false").lower() in (
             "true",
             "1",
             "yes",
-        ):
-            print(
-                "✅ Gunicorn: Scheduler started - expiry cleanup will run every 1 minute (development mode)"
-            )
-        else:
-            print(
-                "✅ Gunicorn: Scheduler started - expiry cleanup will run every 15 minutes (production mode)"
-            )
+        )
+        startup_logger.scheduler_status(enabled=True, dev_mode=dev_mode)
 
 
 def worker_int(worker):
     # this runs once per worker when it starts
     import os
 
+    from app.startup_logger import startup_logger
+
     # Set environment variable to indicate this is a worker process
     os.environ["GUNICORN_WORKER_PID"] = str(worker.pid)
+
+    # Log worker ready status (will only show for worker processes)
+    startup_logger.worker_ready(str(worker.pid))

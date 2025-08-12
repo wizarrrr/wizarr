@@ -74,8 +74,6 @@ def join():
     code = request.form.get("code")
     token = request.form.get("token")
 
-    print("Got Token: ", token)
-
     invitation = None
     if code:
         invitation = Invitation.query.filter(
