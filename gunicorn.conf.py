@@ -13,8 +13,9 @@ workers = 4
 worker_class = "sync"
 
 
-def on_starting(server):  # noqa: ARG001
-    """Gunicorn master process startup - runs once before workers spawn."""
+# Preload the app at module level (runs once when Gunicorn loads this config)
+def _create_preloaded_app():
+    """Create the application once during Gunicorn startup."""
     # Set environment to indicate Gunicorn context
     os.environ["SERVER_SOFTWARE"] = "gunicorn"
 
@@ -54,6 +55,16 @@ def on_starting(server):  # noqa: ARG001
             logger.scheduler_status(enabled=True, dev_mode=dev_mode)
 
     logger.complete()
+    return app
+
+
+# Create the app once when this module is loaded (true preloading)
+application = _create_preloaded_app()
+
+
+def on_starting(server):  # noqa: ARG001
+    """Gunicorn master process startup - app already preloaded."""
+    pass  # App already created above
 
 
 def post_worker_init(worker):

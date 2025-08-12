@@ -95,28 +95,17 @@ def is_gunicorn_worker() -> bool:
     return bool(os.getenv("GUNICORN_WORKER_PID"))
 
 
+# Global flag to ensure startup only shows once
+_startup_shown = False
+
+
 def should_show_startup() -> bool:
     """Determine if startup sequence should be shown."""
-    import atexit
-    import fcntl
-    import tempfile
+    global _startup_shown
 
-    # Create a lock file to ensure only one process shows startup
-    lock_file_path = os.path.join(tempfile.gettempdir(), "wizarr_startup.lock")
-
-    try:
-        # Try to acquire exclusive lock
-        lock_fd = os.open(lock_file_path, os.O_CREAT | os.O_WRONLY | os.O_TRUNC)
-        fcntl.flock(lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-
-        # Clean up lock file on exit
-        atexit.register(
-            lambda: os.unlink(lock_file_path)
-            if os.path.exists(lock_file_path)
-            else None
-        )
-
-        return True
-    except OSError:
-        # Another process is already showing startup
+    # Only show once per container lifecycle
+    if _startup_shown:
         return False
+
+    _startup_shown = True
+    return True

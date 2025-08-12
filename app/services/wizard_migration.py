@@ -35,7 +35,7 @@ def update_wizard_external_url_references() -> tuple[bool, str]:
         ).all()
 
         if not steps_with_old_pattern:
-            logger.info(
+            logger.debug(
                 "No wizard steps found with legacy {{ settings.external_url }} pattern"
             )
             return True, "No wizard steps needed updating"
