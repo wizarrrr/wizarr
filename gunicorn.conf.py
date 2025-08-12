@@ -16,16 +16,25 @@ def on_starting(server):
     # Create app (this will run startup sequence)
     app = create_app()
 
-    # Run Gunicorn-specific migrations (silent in app creation)
-    startup_logger.database_migration("server verification", "verifying media servers")
+    # Run Gunicorn-specific migrations (show only if startup sequence is running)
+    show_migrations = os.getenv("WIZARR_STARTUP_SHOWN") is None
+
+    if show_migrations:
+        startup_logger.database_migration(
+            "server verification", "verifying media servers"
+        )
     update_server_verified(app)
 
-    startup_logger.database_migration("library migration", "updating library structure")
+    if show_migrations:
+        startup_logger.database_migration(
+            "library migration", "updating library structure"
+        )
     run_library_migration(app)
 
-    startup_logger.database_migration(
-        "media server migration", "single to multi-server"
-    )
+    if show_migrations:
+        startup_logger.database_migration(
+            "media server migration", "single to multi-server"
+        )
     migrate_single_to_multi(app)
 
     # Scheduler is already initialized in extensions.py, just start it
@@ -37,7 +46,8 @@ def on_starting(server):
             "1",
             "yes",
         )
-        startup_logger.scheduler_status(enabled=True, dev_mode=dev_mode)
+        if show_migrations:
+            startup_logger.scheduler_status(enabled=True, dev_mode=dev_mode)
 
 
 def worker_int(worker):

@@ -11,7 +11,18 @@ import time
 class StartupLogger:
     """Centralized logger for application startup with process awareness."""
 
+    _instance = None
+    _has_shown_startup = False
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
     def __init__(self):
+        if hasattr(self, "_initialized"):
+            return
+        self._initialized = True
         self._is_master_process = self._detect_master_process()
         self._startup_start_time = time.time()
         self._step_count = 0
@@ -19,13 +30,16 @@ class StartupLogger:
 
     def _detect_master_process(self) -> bool:
         """Detect if this is the master process or a worker."""
-        # In Gunicorn master process
-        is_gunicorn = os.getenv("SERVER_SOFTWARE", "").startswith("gunicorn")
-        is_worker = os.getenv("GUNICORN_WORKER_PID") is not None
+        # Check if we're in a Gunicorn worker process
+        if os.getenv("GUNICORN_WORKER_PID"):
+            return False
 
-        # Master process is Gunicorn but not a worker
-        # OR Flask development server (not Gunicorn at all)
-        return (is_gunicorn and not is_worker) or not is_gunicorn
+        # Use class-level flag to ensure only one process shows startup
+        if not StartupLogger._has_shown_startup:
+            StartupLogger._has_shown_startup = True
+            return True
+
+        return False
 
     def _print_if_master(self, message: str, force: bool = False) -> None:
         """Print message only if this is the master process, unless forced."""
@@ -51,9 +65,9 @@ class StartupLogger:
         if self._is_master_process:
             print(f"\n🚀 Starting up... ({total_steps} steps)")
 
-    def step(self, message: str, emoji: str = "⚙️") -> None:
+    def step(self, message: str, emoji: str = "⚙️", show: bool = True) -> None:
         """Log a startup step with progress indicator."""
-        if not self._is_master_process:
+        if not self._is_master_process or not show:
             return
 
         self._step_count += 1
