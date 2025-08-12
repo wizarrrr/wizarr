@@ -52,19 +52,48 @@ def when_ready(server):  # noqa: ARG001
         # Start scheduler (should already be initialized)
         from app.extensions import scheduler
 
+        # Debug: Check scheduler state
+        print(
+            f"DEBUG: Scheduler state - hasattr(_scheduler): {hasattr(scheduler, '_scheduler')}"
+        )
+        if hasattr(scheduler, "_scheduler"):
+            print(f"DEBUG: _scheduler exists: {scheduler._scheduler is not None}")
+            if scheduler._scheduler:
+                print(f"DEBUG: Scheduler running: {scheduler.running}")
+
         if (
             hasattr(scheduler, "_scheduler")
             and scheduler._scheduler
             and not scheduler.running
         ):
-            scheduler.start()
-            dev_mode = os.getenv("WIZARR_ENABLE_SCHEDULER", "false").lower() in (
-                "true",
-                "1",
-                "yes",
-            )
-            logger.scheduler_status(enabled=True, dev_mode=dev_mode)
+            try:
+                scheduler.start()
+                dev_mode = os.getenv("WIZARR_ENABLE_SCHEDULER", "false").lower() in (
+                    "true",
+                    "1",
+                    "yes",
+                )
+                logger.scheduler_status(enabled=True, dev_mode=dev_mode)
+                print("DEBUG: Successfully started scheduler")
+            except Exception as e:
+                print(f"DEBUG: Failed to start scheduler: {e}")
+                logger.warning(f"Could not start scheduler: {e}")
+        else:
+            # Show why scheduler wasn't started
+            if not hasattr(scheduler, "_scheduler"):
+                print("DEBUG: Scheduler not initialized - no _scheduler attribute")
+                logger.warning("Scheduler not initialized")
+            elif not scheduler._scheduler:
+                print("DEBUG: Scheduler _scheduler is None")
+                logger.warning("Scheduler instance is None")
+            elif scheduler.running:
+                print("DEBUG: Scheduler already running")
+                logger.success("Scheduler already running")
+            else:
+                print("DEBUG: Unknown scheduler state")
+                logger.warning("Unknown scheduler state")
 
+    # Complete the startup sequence
     logger.complete()
 
 

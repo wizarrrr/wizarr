@@ -93,4 +93,10 @@ def create_app(config_object=DevelopmentConfig):
     if show_startup:
         logger.step("Finalizing application setup", "✨")
 
+        # Only show completion here if not in Gunicorn (Gunicorn master will handle it)
+        from .logging_helpers import is_gunicorn_master
+
+        if not is_gunicorn_master():
+            logger.complete()
+
     return app
