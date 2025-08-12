@@ -1,34 +1,60 @@
-# Start from the official Python 3.12 Alpine image
-FROM python:3.13-alpine
+# ─── Stage 1: Dependencies ───────────────────────────────────────────────
+FROM python:3.12-alpine AS deps
+
+# Copy the UV binaries from the "astral-sh/uv" image
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+# Install system dependencies
+RUN apk add --no-cache nodejs npm
+
+# Set working directory
+WORKDIR /data
+
+# Copy dependency files first for better caching
+COPY pyproject.toml uv.lock ./
+COPY app/static/package*.json ./app/static/
+
+# Install Python dependencies
+RUN uv sync --locked
+
+# Install npm dependencies
+RUN npm --prefix app/static/ install
+
+# ─── Stage 2: Build assets ────────────────────────────────────────────────
+FROM deps AS builder
+
+# Copy source files needed for building
+COPY app/ ./app/
+COPY babel.cfg ./
+
+# Build translations
+RUN uv run pybabel compile -d app/translations
+
+# Build static assets
+RUN npm --prefix app/static/ run build
+
+# ─── Stage 3: Runtime ─────────────────────────────────────────────────────
+FROM python:3.12-alpine
 
 # Set default environment variables for user/group IDs
 ENV PUID=1000
 ENV PGID=1000
 
-# Copy the UV binaries from the "astral-sh/uv" image
+# Copy the UV binaries
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# Install curl (for the HEALTHCHECK), tzdata (if you need timezones), nodejs (for npm), and su-exec for user switching
-RUN apk add --no-cache curl tzdata nodejs npm su-exec
+# Install runtime dependencies only
+RUN apk add --no-cache curl tzdata su-exec
 
-# ─── 2. Copy your application code ──────────────────────────────────────────
-
-# Set up the working directory for our code. We'll put everything under /data.
+# Set working directory
 WORKDIR /data
 
-# Copy your source as UID 1000/GID 1000 at build time,
-# so default users never need a runtime chown.
+# Copy Python environment from deps stage
+COPY --from=deps /data/.venv /data/.venv
+
+# Copy application code and built assets
+COPY --chown=1000:1000 --from=builder /data/app /data/app
 COPY --chown=1000:1000 . /data
-
-# ─── 3. Run your build steps (still as root) ───────────────────────────────
-
-# We run the build steps as root first, because installing packages
-# or building assets often needs root privileges.
-RUN uv sync --locked
-RUN uv run pybabel compile -d app/translations
-
-RUN npm --prefix app/static/ install
-RUN npm --prefix app/static/ run build
 
 # Create directories that need to be writable
 RUN mkdir -p /.cache
