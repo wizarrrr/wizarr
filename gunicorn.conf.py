@@ -1,63 +1,58 @@
+# Gunicorn configuration with industry-standard patterns
+import os
+
 from app import create_app
 from app.extensions import scheduler
+from app.logging_helpers import AppLogger
 from app.scripts.migrate_libraries import run_library_migration, update_server_verified
 from app.scripts.migrate_media_server import migrate_single_to_multi
 
+# Enable preload_app for proper master/worker separation
+preload_app = True
 
-def on_starting(server):
-    # this runs once, in the Gunicorn master
-    import os
+# Global app instance (created once in master)
+application = None
 
-    from app.startup_logger import startup_logger
 
-    # Set environment variable to indicate we're in gunicorn context
+def on_starting(server):  # noqa: ARG001
+    """Gunicorn master process startup - runs once before workers spawn."""
+    global application
+
+    # Set environment to indicate Gunicorn context
     os.environ["SERVER_SOFTWARE"] = "gunicorn"
 
-    # Create app (this will run startup sequence)
-    app = create_app()
+    # Create app instance with startup sequence
+    logger = AppLogger("wizarr.master")
+    application = create_app()
 
-    # Run Gunicorn-specific migrations (show only if startup sequence is running)
-    show_migrations = os.getenv("WIZARR_STARTUP_SHOWN") is None
+    # Run master-only migrations and setup
+    with application.app_context():
+        logger.database_migration("server verification", "verifying media servers")
+        update_server_verified(application)
 
-    if show_migrations:
-        startup_logger.database_migration(
-            "server verification", "verifying media servers"
-        )
-    update_server_verified(app)
+        logger.database_migration("library migration", "updating library structure")
+        run_library_migration(application)
 
-    if show_migrations:
-        startup_logger.database_migration(
-            "library migration", "updating library structure"
-        )
-    run_library_migration(app)
+        logger.database_migration("media server migration", "single to multi-server")
+        migrate_single_to_multi(application)
 
-    if show_migrations:
-        startup_logger.database_migration(
-            "media server migration", "single to multi-server"
-        )
-    migrate_single_to_multi(app)
+        # Start scheduler in master process
+        if scheduler._scheduler and not scheduler.running:
+            scheduler.start()
+            dev_mode = os.getenv("WIZARR_ENABLE_SCHEDULER", "false").lower() in (
+                "true",
+                "1",
+                "yes",
+            )
+            logger.scheduler_status(enabled=True, dev_mode=dev_mode)
 
-    # Scheduler is already initialized in extensions.py, just start it
-    if scheduler._scheduler and not scheduler.running:
-        scheduler.start()
-        # Determine frequency message based on WIZARR_ENABLE_SCHEDULER (dev mode indicator)
-        dev_mode = os.getenv("WIZARR_ENABLE_SCHEDULER", "false").lower() in (
-            "true",
-            "1",
-            "yes",
-        )
-        if show_migrations:
-            startup_logger.scheduler_status(enabled=True, dev_mode=dev_mode)
+    logger.complete()
 
 
-def worker_int(worker):
-    # this runs once per worker when it starts
-    import os
-
-    from app.startup_logger import startup_logger
-
-    # Set environment variable to indicate this is a worker process
+def post_worker_init(worker):
+    """Worker process initialization - runs once per worker after spawn."""
+    # Set worker environment
     os.environ["GUNICORN_WORKER_PID"] = str(worker.pid)
 
-    # Log worker ready status (will only show for worker processes)
-    startup_logger.worker_ready(str(worker.pid))
+    # Workers inherit the preloaded app - no additional setup needed
+    # Silent worker initialization for clean output

@@ -28,64 +28,44 @@ limiter = Limiter(
 
 # Initialize with app
 def init_extensions(app):
+    """Initialize Flask extensions with clean separation of concerns."""
     import os
 
-    from .startup_logger import startup_logger
+    from .logging_helpers import is_gunicorn_worker
 
+    # Core extensions initialization
     sess.init_app(app)
     babel.init_app(app, locale_selector=_select_locale)
 
-    # Always initialize scheduler (scheduler runs by default to fix issue #756)
-    # Only skip if explicitly disabled via environment variable, in test environment, or during migrations
-    is_testing = "pytest" in os.getenv("_", "") or os.getenv("PYTEST_CURRENT_TEST")
-    is_migration = (
-        "alembic" in os.getenv("_", "")
+    # Scheduler initialization - simplified logic
+    should_skip_scheduler = (
+        "pytest" in os.getenv("_", "")
+        or os.getenv("PYTEST_CURRENT_TEST")
+        or "alembic" in os.getenv("_", "")
         or any("alembic" in str(arg).lower() for arg in __import__("sys").argv)
         or any(
             "db" in str(arg) and ("upgrade" in str(arg) or "migrate" in str(arg))
             for arg in __import__("sys").argv
         )
         or os.getenv("FLASK_SKIP_SCHEDULER") == "true"
+        or os.getenv("WIZARR_DISABLE_SCHEDULER", "false").lower()
+        in ("true", "1", "yes")
     )
 
-    if (
-        not is_testing
-        and not is_migration
-        and os.getenv("WIZARR_DISABLE_SCHEDULER", "false").lower()
-        not in (
-            "true",
-            "1",
-            "yes",
-        )
-    ):
-        startup_logger.step("Initializing background scheduler", "🕒")
+    if not should_skip_scheduler:
         scheduler.init_app(app)
 
         # Import tasks to register them with the scheduler
         from app.tasks import maintenance as _  # noqa: F401
 
-        # Only start scheduler if not in gunicorn worker context (gunicorn.conf.py will handle starting in master)
-        # Check for both gunicorn context and if we're in a worker process
-        is_gunicorn = os.getenv("SERVER_SOFTWARE", "").startswith("gunicorn")
-        is_worker = os.getenv("GUNICORN_WORKER_PID") is not None
-
-        if not is_gunicorn and not is_worker:
+        # Only start scheduler in standalone Flask (not in Gunicorn context)
+        # Gunicorn master will handle starting the scheduler
+        if not is_gunicorn_worker() and not os.getenv("SERVER_SOFTWARE", "").startswith(
+            "gunicorn"
+        ):
             scheduler.start()
-            # Determine frequency message based on WIZARR_ENABLE_SCHEDULER (dev mode indicator)
-            dev_mode = os.getenv("WIZARR_ENABLE_SCHEDULER", "false").lower() in (
-                "true",
-                "1",
-                "yes",
-            )
-            startup_logger.scheduler_status(enabled=True, dev_mode=dev_mode)
-    else:
-        if is_testing:
-            startup_logger.warning("Scheduler disabled during testing")
-        elif is_migration:
-            startup_logger.warning("Scheduler disabled during database migration")
-        else:
-            startup_logger.warning("Scheduler disabled via WIZARR_DISABLE_SCHEDULER")
 
+    # Continue with remaining extensions
     htmx.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"  # type: ignore[assignment]
