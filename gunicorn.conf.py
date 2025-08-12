@@ -1,4 +1,4 @@
-# Gunicorn configuration with proper preload and logging
+# Gunicorn configuration with clean logging
 import logging
 import os
 
@@ -7,21 +7,23 @@ loglevel = "WARNING"
 accesslog = None  # Disable access logs for clean output
 errorlog = "-"  # Only errors to stderr
 
-# Enable preload_app for proper master/worker separation
-preload_app = True
+# Standard Gunicorn settings
 workers = 4
 worker_class = "sync"
 
 
-# Preload the app at module level (runs once when Gunicorn loads this config)
-def _create_preloaded_app():
-    """Create the application once during Gunicorn startup."""
+def when_ready(server):  # noqa: ARG001
+    """Called after the server is started."""
     # Set environment to indicate Gunicorn context
     os.environ["SERVER_SOFTWARE"] = "gunicorn"
 
+    # Only run migrations if we haven't already done so
+    if os.getenv("WIZARR_MIGRATIONS_DONE"):
+        return
+
+    os.environ["WIZARR_MIGRATIONS_DONE"] = "1"
+
     # Import here to avoid circular imports
-    from app import create_app
-    from app.extensions import scheduler
     from app.logging_helpers import AppLogger
     from app.scripts.migrate_libraries import (
         run_library_migration,
@@ -29,9 +31,12 @@ def _create_preloaded_app():
     )
     from app.scripts.migrate_media_server import migrate_single_to_multi
 
-    # Create app instance with startup sequence (happens once)
     logger = AppLogger("wizarr.master")
-    app = create_app()
+
+    # Get the already-created app from run.py
+    import run
+
+    app = run.app
 
     # Run master-only migrations and setup
     with app.app_context():
@@ -44,8 +49,14 @@ def _create_preloaded_app():
         logger.database_migration("media server migration", "single to multi-server")
         migrate_single_to_multi(app)
 
-        # Start scheduler in master process
-        if scheduler._scheduler and not scheduler.running:
+        # Start scheduler (should already be initialized)
+        from app.extensions import scheduler
+
+        if (
+            hasattr(scheduler, "_scheduler")
+            and scheduler._scheduler
+            and not scheduler.running
+        ):
             scheduler.start()
             dev_mode = os.getenv("WIZARR_ENABLE_SCHEDULER", "false").lower() in (
                 "true",
@@ -55,16 +66,6 @@ def _create_preloaded_app():
             logger.scheduler_status(enabled=True, dev_mode=dev_mode)
 
     logger.complete()
-    return app
-
-
-# Create the app once when this module is loaded (true preloading)
-application = _create_preloaded_app()
-
-
-def on_starting(server):  # noqa: ARG001
-    """Gunicorn master process startup - app already preloaded."""
-    pass  # App already created above
 
 
 def post_worker_init(worker):
