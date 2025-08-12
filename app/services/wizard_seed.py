@@ -125,7 +125,7 @@ def import_default_wizard_steps() -> None:
                 f"Upgrade detected: importing wizard steps for {len(server_types_to_import)} new server types: {sorted(server_types_to_import)}"
             )
         else:
-            current_app.logger.info("Upgrade detected: no new server types to import")
+            current_app.logger.debug("Upgrade detected: no new server types to import")
 
     # ------------------------------------------------------------------
     # 4. Import steps for determined server types only

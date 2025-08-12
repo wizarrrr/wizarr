@@ -97,9 +97,26 @@ def is_gunicorn_worker() -> bool:
 
 def should_show_startup() -> bool:
     """Determine if startup sequence should be shown."""
-    # Only show in master process, standalone Flask, or development
-    return (
-        is_gunicorn_master()
-        or (not os.getenv("SERVER_SOFTWARE"))
-        or os.getenv("FLASK_ENV") == "development"
-    )
+    import atexit
+    import fcntl
+    import tempfile
+
+    # Create a lock file to ensure only one process shows startup
+    lock_file_path = os.path.join(tempfile.gettempdir(), "wizarr_startup.lock")
+
+    try:
+        # Try to acquire exclusive lock
+        lock_fd = os.open(lock_file_path, os.O_CREAT | os.O_WRONLY | os.O_TRUNC)
+        fcntl.flock(lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+
+        # Clean up lock file on exit
+        atexit.register(
+            lambda: os.unlink(lock_file_path)
+            if os.path.exists(lock_file_path)
+            else None
+        )
+
+        return True
+    except OSError:
+        # Another process is already showing startup
+        return False
