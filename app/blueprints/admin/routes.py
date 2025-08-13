@@ -17,7 +17,7 @@ from app.models import (
     User,
     invitation_servers,
 )
-from app.services.expiry import get_expired_users
+from app.services.expiry import get_expired_users, get_expiring_this_week_users
 from app.services.invites import create_invite
 from app.services.media.service import (
     EMAIL_RE,
@@ -364,8 +364,19 @@ def _rel_string(target: datetime.datetime, now: datetime.datetime) -> str:
 @admin_bp.route("/users")
 @login_required
 def users():
+    if not request.headers.get("HX-Request"):
+        return redirect(url_for(".dashboard"))
+
     servers = MediaServer.query.order_by(MediaServer.name).all()
-    return render_template("admin/users.html", servers=servers)
+    expiring_users = get_expiring_this_week_users()
+    expired_users = get_expired_users()
+
+    return render_template(
+        "admin/users.html",
+        servers=servers,
+        expiring_users=expiring_users,
+        expired_users=expired_users,
+    )
 
 
 @admin_bp.route("/users/table")
@@ -869,4 +880,20 @@ def expired_users_table():
         logging.error(f"Failed to get expired users: {e}")
         return render_template(
             "tables/expired_user_card.html", expired_users=[], error=str(e)
+        )
+
+
+@admin_bp.route("/expiring-users/table")
+@login_required
+def expiring_users_table():
+    """Return a table of users expiring within the next week."""
+    try:
+        expiring_users = get_expiring_this_week_users()
+        return render_template(
+            "tables/expiring_user_card.html", expiring_users=expiring_users
+        )
+    except Exception as e:
+        logging.error(f"Failed to get expiring users: {e}")
+        return render_template(
+            "tables/expiring_user_card.html", expiring_users=[], error=str(e)
         )

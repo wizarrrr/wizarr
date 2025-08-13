@@ -170,3 +170,46 @@ def get_expired_users() -> list[ExpiredUser]:
         .order_by(ExpiredUser.deleted_at.desc())
         .all()
     )
+
+
+def get_expiring_this_week_users() -> list[dict]:
+    """
+    Get all active users whose expiry date is within the next 7 days.
+
+    Returns:
+        List of dictionaries with user data and calculated days left
+    """
+    now = datetime.datetime.now()
+    one_week_from_now = now + datetime.timedelta(days=7)
+
+    users = (
+        User.query.options(db.joinedload(User.server), db.joinedload(User.identity))
+        .filter(
+            User.expires.is_not(None),  # Has an expiry date
+            User.expires > now,  # Not already expired
+            User.expires <= one_week_from_now,  # Expires within a week
+        )
+        .order_by(User.expires.asc())
+        .all()
+    )
+
+    # Add calculated days left to each user
+    result = []
+    for user in users:
+        days_left = (user.expires - now).total_seconds() / 86400
+        days_left_int = max(
+            1, int(round(days_left))
+        )  # Ensure it's an integer, minimum 1
+        result.append(
+            {
+                "user": user,
+                "days_left": days_left_int,
+                "urgency": "critical"
+                if days_left <= 1
+                else "urgent"
+                if days_left <= 3
+                else "soon",
+            }
+        )
+
+    return result

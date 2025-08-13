@@ -708,7 +708,13 @@ def handle_oauth_token(app, token: str, code: str) -> None:
             "User Joined", f"User {account.username} has joined your server!", "tada"
         )
 
-        threading.Thread(target=_post_join_setup, args=(token,), daemon=True).start()
+        # Pass only what we need: server credentials, not the entire Flask app
+        client = PlexClient()
+        server_url = client.url
+        api_token = client.token
+        threading.Thread(
+            target=_post_join_setup, args=(server_url, api_token, token), daemon=True
+        ).start()
 
 
 def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> None:
@@ -760,22 +766,20 @@ def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> No
     db.session.commit()
 
 
-def _post_join_setup(token: str):
-    from app import create_app
+def _post_join_setup(server_url: str, api_token: str, token: str):
+    # Create a PlexServer instance directly without Flask context dependencies
+    from plexapi.server import PlexServer
 
-    # Create a new app context for the threaded operation
-    app = create_app()
-
-    with app.app_context():
-        client = PlexClient()
-        try:
-            user = MyPlexAccount(token=token)
-            # use username as the v2 API returns only username, not e-mail
-            user.acceptInvite(client.admin.username)
-            user.enableViewStateSync()
-            _opt_out_online_sources(user)
-        except Exception as exc:
-            logging.error("Post-join setup failed: %s", exc)
+    try:
+        server = PlexServer(server_url, api_token)
+        user = MyPlexAccount(token=token)
+        # use username as the v2 API returns only username, not e-mail
+        admin_account = server.myPlexAccount()
+        user.acceptInvite(admin_account.username)
+        user.enableViewStateSync()
+        _opt_out_online_sources(user)
+    except Exception as exc:
+        logging.error("Post-join setup failed: %s", exc)
 
 
 def _opt_out_online_sources(user: MyPlexAccount):

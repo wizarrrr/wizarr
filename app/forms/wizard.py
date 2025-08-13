@@ -12,6 +12,8 @@ class WizardStepForm(FlaskForm):
             ("emby", "Emby"),
             ("audiobookshelf", "Audiobookshelf"),
             ("romm", "Romm"),
+            ("komga", "Komga"),
+            ("kavita", "Kavita"),
         ],
         validators=[DataRequired()],
     )
@@ -36,6 +38,8 @@ class WizardPresetForm(FlaskForm):
             ("emby", "Emby"),
             ("audiobookshelf", "Audiobookshelf"),
             ("romm", "Romm"),
+            ("komga", "Komga"),
+            ("kavita", "Kavita"),
         ],
         validators=[DataRequired()],
     )
