@@ -1,4 +1,5 @@
 """Test invitation server defaulting behavior."""
+
 import hashlib
 import json
 
@@ -51,7 +52,7 @@ def api_key(app):
             name="Test API Key",
             key_hash=key_hash,
             created_by_id=admin.id,
-            is_active=True
+            is_active=True,
         )
         db.session.add(api_key)
         db.session.commit()
@@ -71,21 +72,18 @@ class TestInvitationServerDefaulting:
                 server_type="plex",
                 url="http://localhost:32400",
                 api_key="test_key",
-                verified=True
+                verified=True,
             )
             db.session.add(server)
             db.session.commit()
 
             # Create invitation without specifying server_ids (should fail)
-            data = {
-                "duration": "30",
-                "unlimited": False
-            }
+            data = {"duration": "30", "unlimited": False}
 
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},
-                data=json.dumps(data)
+                data=json.dumps(data),
             )
 
             assert response.status_code == 400
@@ -101,7 +99,7 @@ class TestInvitationServerDefaulting:
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},
-                data=json.dumps(data)
+                data=json.dumps(data),
             )
 
             assert response.status_code == 201
@@ -121,28 +119,25 @@ class TestInvitationServerDefaulting:
                 server_type="plex",
                 url="http://localhost:32400",
                 api_key="test_key1",
-                verified=True
+                verified=True,
             )
             server2 = MediaServer(
                 name="Server 2",
                 server_type="jellyfin",
                 url="http://localhost:8096",
                 api_key="test_key2",
-                verified=True
+                verified=True,
             )
             db.session.add_all([server1, server2])
             db.session.commit()
 
             # Try to create invitation without specifying server_ids
-            data = {
-                "duration": "30",
-                "unlimited": False
-            }
+            data = {"duration": "30", "unlimited": False}
 
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},
-                data=json.dumps(data)
+                data=json.dumps(data),
             )
 
             assert response.status_code == 400
@@ -160,14 +155,14 @@ class TestInvitationServerDefaulting:
                 server_type="plex",
                 url="http://localhost:32400",
                 api_key="test_key1",
-                verified=True
+                verified=True,
             )
             server2 = MediaServer(
                 name="Server 2",
                 server_type="jellyfin",
                 url="http://localhost:8096",
                 api_key="test_key2",
-                verified=True
+                verified=True,
             )
             db.session.add_all([server1, server2])
             db.session.commit()
@@ -176,13 +171,13 @@ class TestInvitationServerDefaulting:
             data = {
                 "duration": "30",
                 "unlimited": False,
-                "server_ids": [server2.id]  # Choose server 2
+                "server_ids": [server2.id],  # Choose server 2
             }
 
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},
-                data=json.dumps(data)
+                data=json.dumps(data),
             )
 
             assert response.status_code == 201
@@ -204,7 +199,7 @@ class TestInvitationServerDefaulting:
                 server_type="plex",
                 url="http://localhost:32400",
                 api_key="test_key",
-                verified=True
+                verified=True,
             )
             db.session.add(server)
             db.session.commit()
@@ -213,13 +208,13 @@ class TestInvitationServerDefaulting:
             data = {
                 "duration": "30",
                 "unlimited": False,
-                "server_ids": [99999]  # Non-existent server
+                "server_ids": [99999],  # Non-existent server
             }
 
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},
-                data=json.dumps(data)
+                data=json.dumps(data),
             )
 
             assert response.status_code == 400
@@ -235,21 +230,18 @@ class TestInvitationServerDefaulting:
                 server_type="plex",
                 url="http://localhost:32400",
                 api_key="test_key",
-                verified=False  # Not verified
+                verified=False,  # Not verified
             )
             db.session.add(server)
             db.session.commit()
 
             # Try to create invitation (should fail due to no verified servers)
-            data = {
-                "duration": "30",
-                "unlimited": False
-            }
+            data = {"duration": "30", "unlimited": False}
 
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},
-                data=json.dumps(data)
+                data=json.dumps(data),
             )
 
             assert response.status_code == 400
@@ -268,28 +260,25 @@ class TestInvitationServerDefaulting:
                 server_type="plex",
                 url="http://localhost:32400",
                 api_key="test_key1",
-                verified=True
+                verified=True,
             )
             unverified_server = MediaServer(
                 name="Unverified Server",
                 server_type="jellyfin",
                 url="http://localhost:8096",
                 api_key="test_key2",
-                verified=False
+                verified=False,
             )
             db.session.add_all([verified_server, unverified_server])
             db.session.commit()
 
             # Should require explicit server specification even with only one verified server
-            data = {
-                "duration": "30",
-                "unlimited": False
-            }
+            data = {"duration": "30", "unlimited": False}
 
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},
-                data=json.dumps(data)
+                data=json.dumps(data),
             )
 
             assert response.status_code == 400
@@ -305,7 +294,7 @@ class TestInvitationServerDefaulting:
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},
-                data=json.dumps(data)
+                data=json.dumps(data),
             )
 
             assert response.status_code == 201

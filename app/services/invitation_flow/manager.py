@@ -100,8 +100,8 @@ class InvitationFlowManager:
         """Get servers associated with invitation (same logic as existing system)."""
         servers = []
 
-        # Check new many-to-many relationship
-        if hasattr(invitation, "servers") and invitation.servers is not None:
+        # Check new many-to-many relationship first
+        if hasattr(invitation, "servers") and invitation.servers:
             try:
                 # Cast to Any to work around type checking issues with SQLAlchemy relationships
                 from typing import Any, cast
@@ -113,11 +113,11 @@ class InvitationFlowManager:
                 servers = []
 
         # Fallback to legacy single server relationship
-        elif hasattr(invitation, "server") and invitation.server:
+        if not servers and hasattr(invitation, "server") and invitation.server:
             servers = [invitation.server]
 
         # Final fallback to first available server
-        else:
+        if not servers:
             default_server = MediaServer.query.first()
             if default_server:
                 servers = [default_server]

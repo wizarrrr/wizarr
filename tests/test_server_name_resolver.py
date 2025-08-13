@@ -1,14 +1,15 @@
 """Test server name resolution for invitations."""
+
 import pytest
 
 from app import create_app
 from app.config import BaseConfig
 from app.extensions import db
-from app.models import MediaServer, Settings, Invitation
+from app.models import MediaServer, Settings
 from app.services.server_name_resolver import (
-    resolve_invitation_server_name,
     get_display_name_info,
-    get_server_names_for_api
+    get_server_names_for_api,
+    resolve_invitation_server_name,
 )
 
 
@@ -44,7 +45,7 @@ class TestServerNameResolver:
                 server_type="jellyfin",
                 url="http://localhost:8096",
                 api_key="test_key",
-                verified=True
+                verified=True,
             )
             db.session.add(server)
             db.session.commit()
@@ -61,9 +62,9 @@ class TestServerNameResolver:
                 server_type="jellyfin",
                 url="http://localhost:8096",
                 api_key="test_key",
-                verified=True
+                verified=True,
             )
-            
+
             # Create default Wizarr setting
             setting = Settings(key="server_name", value="Wizarr")
             db.session.add_all([server, setting])
@@ -81,9 +82,9 @@ class TestServerNameResolver:
                 server_type="jellyfin",
                 url="http://localhost:8096",
                 api_key="test_key",
-                verified=True
+                verified=True,
             )
-            
+
             # Create custom global setting
             setting = Settings(key="server_name", value="My Custom Media Center")
             db.session.add_all([server, setting])
@@ -101,14 +102,14 @@ class TestServerNameResolver:
                 server_type="plex",
                 url="http://localhost:32400",
                 api_key="test_key1",
-                verified=True
+                verified=True,
             )
             server2 = MediaServer(
                 name="Jellyfin Server",
                 server_type="jellyfin",
                 url="http://localhost:8096",
                 api_key="test_key2",
-                verified=True
+                verified=True,
             )
             db.session.add_all([server1, server2])
             db.session.commit()
@@ -125,16 +126,16 @@ class TestServerNameResolver:
                 server_type="plex",
                 url="http://localhost:32400",
                 api_key="test_key1",
-                verified=True
+                verified=True,
             )
             server2 = MediaServer(
                 name="Jellyfin Server",
                 server_type="jellyfin",
                 url="http://localhost:8096",
                 api_key="test_key2",
-                verified=True
+                verified=True,
             )
-            
+
             # Create custom global setting
             setting = Settings(key="server_name", value="My Home Media Hub")
             db.session.add_all([server1, server2, setting])
@@ -158,20 +159,20 @@ class TestServerNameResolver:
                 server_type="plex",
                 url="http://localhost:32400",
                 api_key="test_key1",
-                verified=True
+                verified=True,
             )
             server2 = MediaServer(
                 name="Jellyfin Server",
                 server_type="jellyfin",
                 url="http://localhost:8096",
                 api_key="test_key2",
-                verified=True
+                verified=True,
             )
             db.session.add_all([server1, server2])
             db.session.commit()
 
             info = get_display_name_info([server1, server2])
-            
+
             assert info["display_name"] == "Plex Server, Jellyfin Server"
             assert info["server_names"] == ["Plex Server", "Jellyfin Server"]
             assert info["uses_global_setting"] is False
@@ -185,14 +186,14 @@ class TestServerNameResolver:
                 server_type="jellyfin",
                 url="http://localhost:8096",
                 api_key="test_key",
-                verified=True
+                verified=True,
             )
             setting = Settings(key="server_name", value="Custom Name")
             db.session.add_all([server, setting])
             db.session.commit()
 
             info = get_display_name_info([server])
-            
+
             assert info["display_name"] == "Custom Name"
             assert info["server_names"] == ["My Server"]
             assert info["uses_global_setting"] is True
@@ -203,10 +204,10 @@ class TestServerNameResolver:
         with app.app_context():
             server1 = MediaServer(name="Server 1", server_type="plex")
             server2 = MediaServer(name="Server 2", server_type="jellyfin")
-            
+
             names = get_server_names_for_api([server1, server2])
             assert names == ["Server 1", "Server 2"]
-            
+
             # Test empty list
             names = get_server_names_for_api([])
             assert names == []

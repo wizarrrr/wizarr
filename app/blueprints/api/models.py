@@ -97,7 +97,9 @@ invitation_create_request = api.model(
     "InvitationCreateRequest",
     {
         "server_ids": fields.List(
-            fields.Integer, required=True, description="Array of server IDs"
+            fields.Integer,
+            required=False,
+            description="Array of server IDs (required, but validated by API for better error messages)",
         ),
         "expires_in_days": fields.Integer(
             description="Days until invitation expires (1, 7, 30, or null)",
@@ -139,7 +141,12 @@ library_model = api.model(
     {
         "id": fields.Integer(description="Library ID"),
         "name": fields.String(description="Library name"),
+        "external_id": fields.String(
+            description="External library ID from media server"
+        ),
         "server_id": fields.Integer(description="Server ID this library belongs to"),
+        "server_name": fields.String(description="Server name this library belongs to"),
+        "enabled": fields.Boolean(description="Whether this library is enabled"),
     },
 )
 

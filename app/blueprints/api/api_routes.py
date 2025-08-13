@@ -7,12 +7,13 @@ import traceback
 from functools import wraps
 
 from flask import Blueprint, request
-from flask_restx import Resource
+from flask_restx import Resource, abort
 
 from app.extensions import api, db
 from app.models import ApiKey, Invitation, Library, MediaServer, User
 from app.services.invites import create_invite
 from app.services.media.service import delete_user, list_users_all_servers
+from app.services.server_name_resolver import get_display_name_info
 
 from .models import (
     api_key_list_model,
@@ -57,7 +58,7 @@ def require_api_key(f):
         auth_key = request.headers.get("X-API-Key")
         if not auth_key:
             logger.warning("API request without API key from %s", request.remote_addr)
-            return {"error": "API key required"}, 401
+            abort(401, error="Unauthorized")
 
         # Hash the provided key to compare with stored hash
         key_hash = hashlib.sha256(auth_key.encode()).hexdigest()
@@ -67,7 +68,7 @@ def require_api_key(f):
             logger.warning(
                 "API request with invalid API key from %s", request.remote_addr
             )
-            return {"error": "Invalid API key"}, 401
+            abort(401, error="Unauthorized")
 
         # Update last used timestamp
         api_key.last_used_at = datetime.datetime.now(datetime.UTC)
@@ -106,6 +107,30 @@ def _generate_invitation_url(code):
         return f"/j/{code}"
 
 
+def _calculate_invitation_status(invitation):
+    """Calculate the current status of an invitation based on its fields."""
+    from datetime import UTC, datetime
+
+    if invitation.used:
+        return "used"
+
+    # Check if invitation has expired
+    if invitation.expires:
+        # Handle timezone-aware/naive datetime comparison
+        now = datetime.now(UTC)
+        expires = invitation.expires
+
+        # If expires is naive, assume it's UTC
+        if expires.tzinfo is None:
+            expires = expires.replace(tzinfo=UTC)
+
+        if expires <= now:
+            return "expired"
+
+    # Otherwise it's pending
+    return "pending"
+
+
 @status_ns.route("")
 class StatusResource(Resource):
     @api.doc("get_status", security="apikey")
@@ -119,10 +144,32 @@ class StatusResource(Resource):
             logger.info("API: Getting system status")
 
             # Get statistics
+            from datetime import UTC, datetime
+
             total_users = User.query.count()
             total_invitations = Invitation.query.count()
-            pending_invitations = Invitation.query.filter_by(status="pending").count()
-            expired_invitations = Invitation.query.filter_by(status="expired").count()
+
+            # Calculate pending invitations: not used and (no expiry or not expired yet)
+            now = datetime.now(UTC)
+
+            # Get all unused invitations to check their status properly
+            all_invitations = Invitation.query.filter(Invitation.used.is_(False)).all()
+            pending_invitations = 0
+            expired_invitations = 0
+
+            for invitation in all_invitations:
+                if invitation.expires is None:
+                    pending_invitations += 1
+                else:
+                    expires = invitation.expires
+                    # Handle timezone-naive datetime
+                    if expires.tzinfo is None:
+                        expires = expires.replace(tzinfo=UTC)
+
+                    if expires > now:
+                        pending_invitations += 1
+                    else:
+                        expired_invitations += 1
 
             return {
                 "users": total_users,
@@ -192,18 +239,18 @@ class UserResource(Resource):
     @require_api_key
     def delete(self, user_id):
         """Delete a specific user by ID."""
+        # Find user first, outside try block
+        user = db.session.get(User, user_id)
+        if not user:
+            abort(404, error="User not found")
+
+        # Get server info for the user
+        server = db.session.get(MediaServer, user.server_id)
+        if not server:
+            abort(404, error="Server not found for user")
+
         try:
             logger.info("API: Deleting user %s", user_id)
-
-            # Find user across all servers
-            user = User.query.get(user_id)
-            if not user:
-                return {"error": "User not found"}, 404
-
-            # Get server info for the user
-            server = db.session.get(MediaServer, user.server_id)
-            if not server:
-                return {"error": "Server not found for user"}, 404
 
             # Delete user using the service (takes only user.id)
             delete_user(user.id)
@@ -226,17 +273,17 @@ class UserExtendResource(Resource):
     @require_api_key
     def post(self, user_id):
         """Extend a user's expiry date."""
+        # Find user first, outside try block to allow abort to work properly
+        user = db.session.get(User, user_id)
+        if not user:
+            abort(404, error="User not found")
+
         try:
             logger.info("API: Extending expiry for user %s", user_id)
 
             # Get request data
             data = api.payload or {}
             days = data.get("days", 30)
-
-            # Find user
-            user = User.query.get(user_id)
-            if not user:
-                return {"error": "User not found"}, 404
 
             # Extend expiry
             if user.expires:
@@ -276,19 +323,27 @@ class InvitationsListResource(Resource):
             invitations_list = []
 
             for invitation in invitations:
-                # Get server names
-                server_names = []
-                if invitation.server_id:
+                # Get servers associated with the invitation
+                servers = []
+
+                # Check new multi-server relationship first
+                if invitation.servers:
+                    servers = invitation.servers
+                # Fall back to legacy single server field
+                elif invitation.server_id:
                     server = db.session.get(MediaServer, invitation.server_id)
                     if server:
-                        server_names.append(server.name)
+                        servers = [server]
+
+                # Use server name resolver for display name logic
+                display_info = get_display_name_info(servers)
 
                 invitations_list.append(
                     {
                         "id": invitation.id,
                         "code": invitation.code,
                         "url": _generate_invitation_url(invitation.code),
-                        "status": invitation.status,
+                        "status": _calculate_invitation_status(invitation),
                         "created": invitation.created.isoformat()
                         if invitation.created
                         else None,
@@ -304,11 +359,9 @@ class InvitationsListResource(Resource):
                         else "unlimited",
                         "unlimited": invitation.unlimited,
                         "specific_libraries": invitation.specific_libraries,
-                        "display_name": ", ".join(server_names)
-                        if server_names
-                        else "Unknown",
-                        "server_names": server_names,
-                        "uses_global_setting": False,  # Simplified for now
+                        "display_name": display_info["display_name"],
+                        "server_names": display_info["server_names"],
+                        "uses_global_setting": display_info["uses_global_setting"],
                     }
                 )
 
@@ -321,7 +374,7 @@ class InvitationsListResource(Resource):
 
     @api.doc("create_invitation", security="apikey")
     @api.expect(invitation_create_request)
-    @api.marshal_with(invitation_create_response, code=201)
+    @api.response(201, "Invitation created successfully", invitation_create_response)
     @api.response(400, "Bad request - missing required fields", error_model)
     @api.response(401, "Invalid or missing API key", error_model)
     @api.response(500, "Internal server error", error_model)
@@ -341,10 +394,30 @@ class InvitationsListResource(Resource):
                     {"id": s.id, "name": s.name, "server_type": s.server_type}
                     for s in servers
                 ]
-                return {
+                # Return error response without marshalling
+                response_data = {
                     "error": "Server selection is required. Please specify server_ids in request.",
                     "available_servers": available_servers,
-                }, 400
+                }
+                from flask import jsonify, make_response
+
+                return make_response(jsonify(response_data), 400)
+
+            # Validate that all server IDs exist and are verified
+            servers = MediaServer.query.filter(
+                MediaServer.id.in_(server_ids), MediaServer.verified
+            ).all()
+
+            found_server_ids = {s.id for s in servers}
+            invalid_ids = [sid for sid in server_ids if sid not in found_server_ids]
+
+            if invalid_ids:
+                from flask import jsonify, make_response
+
+                response_data = {
+                    "error": f"Server IDs {invalid_ids} not found or not verified"
+                }
+                return make_response(jsonify(response_data), 400)
 
             # Create a form-like object that create_invite expects
             class FormLike:
@@ -405,12 +478,16 @@ class InvitationsListResource(Resource):
                         "uses_global_setting": False,
                     },
                 }, 201
-            return {"error": "Failed to create invitation"}, 500
+            from flask import jsonify, make_response
+
+            return make_response(jsonify({"error": "Failed to create invitation"}), 500)
 
         except Exception as e:
             logger.error("Error creating invitation: %s", str(e))
             logger.error(traceback.format_exc())
-            return {"error": "Internal server error"}, 500
+            from flask import jsonify, make_response
+
+            return make_response(jsonify({"error": "Internal server error"}), 500)
 
 
 @invitations_ns.route("/<int:invitation_id>")
@@ -423,12 +500,13 @@ class InvitationResource(Resource):
     @require_api_key
     def delete(self, invitation_id):
         """Delete a specific invitation."""
+        # Find invitation first, outside try block
+        invitation = db.session.get(Invitation, invitation_id)
+        if not invitation:
+            abort(404, error="Invitation not found")
+
         try:
             logger.info("API: Deleting invitation %s", invitation_id)
-
-            invitation = Invitation.query.get(invitation_id)
-            if not invitation:
-                return {"error": "Invitation not found"}, 404
 
             code = invitation.code
             db.session.delete(invitation)
@@ -455,10 +533,70 @@ class LibrariesResource(Resource):
             logger.info("API: Listing all libraries")
 
             libraries = Library.query.all()
-            libraries_list = [
-                {"id": lib.id, "name": lib.name, "server_id": lib.server_id}
-                for lib in libraries
-            ]
+
+            # If no libraries exist, scan all servers to populate them
+            if not libraries:
+                logger.info("No libraries found, scanning all verified servers")
+                servers = MediaServer.query.filter_by(verified=True).all()
+                for server in servers:
+                    try:
+                        logger.info(f"Scanning libraries for server {server.name}")
+                        from app.services.media.service import scan_libraries_for_server
+
+                        library_data = scan_libraries_for_server(server)
+
+                        # Create Library records for each scanned library
+                        for external_id, name in library_data.items():
+                            # Check if library already exists to avoid duplicates
+                            existing = Library.query.filter_by(
+                                external_id=external_id, server_id=server.id
+                            ).first()
+
+                            if not existing:
+                                library = Library(
+                                    external_id=external_id,
+                                    name=name,
+                                    server_id=server.id,
+                                    enabled=True,
+                                )
+                                db.session.add(library)
+
+                        db.session.commit()
+                        logger.info(
+                            f"Added {len(library_data)} libraries for server {server.name}"
+                        )
+
+                    except Exception as e:
+                        logger.error(
+                            f"Failed to scan libraries for server {server.name}: {str(e)}"
+                        )
+                        # Continue with other servers even if one fails
+                        continue
+
+                # Re-query libraries after scanning
+                libraries = Library.query.all()
+
+            libraries_list = []
+
+            for lib in libraries:
+                # Get server name
+                server = (
+                    db.session.get(MediaServer, lib.server_id)
+                    if lib.server_id
+                    else None
+                )
+                server_name = server.name if server else "Unknown"
+
+                libraries_list.append(
+                    {
+                        "id": lib.id,
+                        "name": lib.name,
+                        "external_id": lib.external_id,
+                        "server_id": lib.server_id,
+                        "server_name": server_name,
+                        "enabled": lib.enabled,
+                    }
+                )
 
             return {"libraries": libraries_list, "count": len(libraries_list)}
 
@@ -486,7 +624,7 @@ class ServersResource(Resource):
                     "id": server.id,
                     "name": server.name,
                     "server_type": server.server_type,
-                    "server_url": server.server_url,
+                    "server_url": server.url,
                     "external_url": getattr(server, "external_url", None),
                     "verified": server.verified,
                     "allow_downloads": getattr(server, "allow_downloads", False),
@@ -555,12 +693,13 @@ class ApiKeyResource(Resource):
     @require_api_key
     def delete(self, key_id):
         """Delete a specific API key (soft delete - marks as inactive)."""
+        # Find API key first, outside try block
+        api_key = db.session.get(ApiKey, key_id)
+        if not api_key:
+            abort(404, error="API key not found")
+
         try:
             logger.info("API: Deleting API key %s", key_id)
-
-            api_key = ApiKey.query.get(key_id)
-            if not api_key:
-                return {"error": "API key not found"}, 404
 
             # Check if trying to delete the currently used key
             auth_key = request.headers.get("X-API-Key")
