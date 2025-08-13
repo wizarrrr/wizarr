@@ -2,6 +2,9 @@
 import logging
 import os
 
+# Add immediate debug to check if config is loaded
+print("DEBUG: gunicorn.conf.py loaded!")
+
 # Reduce log level to prevent INFO spam
 loglevel = "WARNING"
 accesslog = None  # Disable access logs for clean output
@@ -10,6 +13,13 @@ errorlog = "-"  # Only errors to stderr
 # Standard Gunicorn settings
 workers = 4
 worker_class = "sync"
+
+print("DEBUG: Gunicorn config variables set")
+
+
+def on_starting(server):  # noqa: ARG001
+    """Called just before the master process is initialized."""
+    print("DEBUG: on_starting() hook called!")
 
 
 def when_ready(server):  # noqa: ARG001
