@@ -45,6 +45,13 @@ Check out our documentation for how to install and run Wizarr:
 
 📚 https://docs.wizarr.dev/getting-started/installation
 
+## 🔧 API Documentation
+
+Wizarr provides a comprehensive REST API for automation and integration with **automatic OpenAPI/Swagger documentation**:
+
+📖 **Interactive API Documentation**: `http://your-wizarr-instance/api/docs/`  
+📋 **OpenAPI Specification**: `http://your-wizarr-instance/api/swagger.json`
+
 ---
 
 ## Sponsorship

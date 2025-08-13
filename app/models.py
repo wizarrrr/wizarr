@@ -441,6 +441,30 @@ class WebAuthnCredential(db.Model):
         super().__init__(**kwargs)
 
 
+class ApiKey(db.Model):
+    """API keys for external access to Wizarr's API endpoints."""
+
+    __tablename__ = "api_key"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)  # User-friendly name for the key
+    key_hash = db.Column(db.String, nullable=False, unique=True)  # Hashed API key
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
+    last_used_at = db.Column(db.DateTime, nullable=True)
+    created_by_id = db.Column(
+        db.Integer, db.ForeignKey("admin_account.id"), nullable=False
+    )
+    created_by = db.relationship(
+        "AdminAccount", backref=db.backref("api_keys", lazy=True)
+    )
+    is_active = db.Column(db.Boolean, default=True, nullable=False)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
 class ExpiredUser(db.Model):
     """Track users that have been deleted due to expiry for monitoring and restoration."""
 

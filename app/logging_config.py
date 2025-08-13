@@ -40,6 +40,11 @@ LOGGING_CONFIG = {
             "handlers": ["console"],
             "propagate": False,
         },
+        "wizarr.api": {
+            "level": "INFO",
+            "handlers": ["console"],
+            "propagate": False,
+        },
         "alembic": {
             "level": "ERROR",
             "handlers": ["console"],

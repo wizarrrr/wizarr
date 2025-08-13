@@ -96,6 +96,20 @@ _("Settings") }}{% endblock %} {% block main %}
                         {{ _("Wizard") }}
                     </button>
                 </li>
+                <li class="me-2">
+                    <button
+                        class="tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+                        hx-get="{{ url_for('api_keys.list_api_keys') }}"
+                        hx-target="#tab-body"
+                        hx-swap="innerHTML"
+                        hx-trigger="click"
+                    >
+                        <svg class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M7 14c-1.66 0-3 1.34-3 3 0 1.31.84 2.41 2 2.83V21h2v-1.17c1.16-.42 2-1.52 2-2.83 0-1.66-1.34-3-3-3zM20.5 10.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5zm0-2c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5S18 12.38 18 11s1.12-2.5 2.5-2.5zM9 11V8.5c0-.83.67-1.5 1.5-1.5S12 7.67 12 8.5V11h2V8.5C14 6.57 12.43 5 10.5 5S7 6.57 7 8.5V11H6c-.55 0-1 .45-1 1v7c0 .55.45 1 1 1h9c.55 0 1-.45 1-1v-7c0-.55-.45-1-1-1H9z"/>
+                        </svg>
+                        {{ _("API Keys") }}
+                    </button>
+                </li>
             </ul>
         </div>
 
