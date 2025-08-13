@@ -3,7 +3,7 @@ import logging
 import os
 from urllib.parse import urlparse
 
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, Response, redirect, render_template, request, url_for
 from flask_babel import _
 from flask_login import login_required
 
@@ -468,23 +468,9 @@ def user_detail(db_id: int):
 
         db.session.commit()
 
-        # Re-render the grid the same way /users/table does
-        all_dict = list_users_all_servers()
-        users_flat = [u for lst in all_dict.values() for u in lst]
-        response = render_template(
-            "tables/user_card.html", users=_group_users_for_display(users_flat)
-        )
-        # Add a script to close the modal after swap
-        response += """
-<script>
-  setTimeout(function() {
-    var modal = document.getElementById('modal');
-    if (modal) modal.classList.add('hidden');
-    var modalUser = document.getElementById('modal-user');
-    if (modalUser) while (modalUser.firstChild) { modalUser.removeChild(modalUser.firstChild); }
-  }, 50);
-</script>
-"""
+        # Close the modal and refresh the user table to preserve filters/sorting
+        response = Response("")
+        response.headers["HX-Trigger"] = "closeModal, refreshUserTable"
         return response
 
     # ── GET → serve the enhanced modal with server information ────────
@@ -579,11 +565,11 @@ def link_accounts():
     for u in users:
         u.identity = identity
     db.session.commit()
-    all_dict = list_users_all_servers()
-    users_flat = [u for lst in all_dict.values() for u in lst]
-    return render_template(
-        "tables/user_card.html", users=_group_users_for_display(users_flat)
-    )
+
+    # Trigger user table refresh to preserve filters/sorting
+    response = Response("")
+    response.headers["HX-Trigger"] = "refreshUserTable"
+    return response
 
 
 @admin_bp.post("/users/unlink")
@@ -627,12 +613,10 @@ def unlink_account():
             db.session.delete(identity)
     db.session.commit()
 
-    # Return refreshed grid
-    all_dict = list_users_all_servers()
-    users_flat = [u for lst in all_dict.values() for u in lst]
-    return render_template(
-        "tables/user_card.html", users=_group_users_for_display(users_flat)
-    )
+    # Trigger user table refresh to preserve filters/sorting
+    response = Response("")
+    response.headers["HX-Trigger"] = "refreshUserTable"
+    return response
 
 
 @admin_bp.post("/users/bulk-delete")
@@ -641,11 +625,11 @@ def bulk_delete_users():
     ids = request.form.getlist("uids")
     for uid in ids:
         delete_user(int(uid))
-    all_dict = list_users_all_servers()
-    users_flat = [u for lst in all_dict.values() for u in lst]
-    return render_template(
-        "tables/user_card.html", users=_group_users_for_display(users_flat)
-    )
+
+    # Trigger user table refresh to preserve filters/sorting
+    response = Response("")
+    response.headers["HX-Trigger"] = "refreshUserTable"
+    return response
 
 
 # Helper: group and enrich users for display
@@ -736,23 +720,9 @@ def edit_identity(identity_id):
         identity.nickname = nickname
         db.session.commit()
 
-        # After save, re-render the user cards grid (same as other actions)
-        all_dict = list_users_all_servers()
-        users_flat = [u for lst in all_dict.values() for u in lst]
-        response = render_template(
-            "tables/user_card.html", users=_group_users_for_display(users_flat)
-        )
-        # Add a script to close the modal after swap
-        response += """
-<script>
-  setTimeout(function() {
-    var modal = document.getElementById('modal');
-    if (modal) modal.classList.add('hidden');
-    var modalUser = document.getElementById('modal-user');
-    if (modalUser) while (modalUser.firstChild) { modalUser.removeChild(modalUser.firstChild); }
-  }, 50);
-</script>
-"""
+        # Close the modal and refresh the user table to preserve filters/sorting
+        response = Response("")
+        response.headers["HX-Trigger"] = "closeModal, refreshUserTable"
         return response
 
     # GET → return modal form

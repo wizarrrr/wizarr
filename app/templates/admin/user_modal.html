@@ -46,8 +46,6 @@
                                 </div>
                                 
                                 <form hx-post="{{ url_for('admin.user_detail', db_id=related_user.id) }}"
-                                      hx-target="#user_table"
-                                      hx-swap="outerHTML"
                                       class="flex items-end gap-3">
                                     <div class="flex-1">
                                         <label for="expires_{{ related_user.id }}" 
@@ -61,8 +59,7 @@
                                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                                     </div>
                                     <button type="submit"
-                                            class="inline-flex items-center px-3 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-primary_focus dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_focus"
-                                            onclick="document.getElementById('modal').classList.add('hidden')">
+                                            class="inline-flex items-center px-3 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-primary_focus dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_focus">
                                         {{ _("Update") }}
                                     </button>
                                 </form>
@@ -81,8 +78,6 @@
                     {% else %}
                     <!-- Single server user management -->
                     <form hx-post="{{ url_for('admin.user_detail', db_id=user.id) }}"
-                          hx-target="#user_table"
-                          hx-swap="outerHTML"
                           class="space-y-4 md:space-y-6">
 
                         <div>
@@ -97,8 +92,7 @@
 
                         <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-gray-800">
                             <button type="submit"
-                                    class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-primary_hover sm:ml-3 sm:w-auto"
-                                    onclick="document.getElementById('modal').classList.add('hidden')">
+                                    class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-primary_hover sm:ml-3 sm:w-auto">
                                 {{ _("Save") }}
                             </button>
                             <button type="button"

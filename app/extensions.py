@@ -57,8 +57,17 @@ def init_extensions(app):
 
         scheduler.init_app(app)
 
-        # Import tasks to register them with the scheduler
-        from app.tasks import maintenance as _  # noqa: F401
+        # Register tasks with the scheduler
+        from app.tasks.maintenance import _get_expiry_check_interval, check_expiring
+
+        # Add the task to the scheduler, passing the app instance
+        scheduler.add_job(
+            id="check_expiring",
+            func=lambda: check_expiring(app),
+            trigger="interval",
+            minutes=_get_expiry_check_interval(),
+            replace_existing=True,
+        )
 
         # Start the scheduler - Flask-APScheduler handles Gunicorn coordination
         try:

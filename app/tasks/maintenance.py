@@ -1,7 +1,6 @@
 import logging
 import os
 
-from app.extensions import scheduler
 from app.services.expiry import delete_user_if_expired
 
 
@@ -13,12 +12,25 @@ def _get_expiry_check_interval():
     return 15  # Production mode: every 15 minutes
 
 
-@scheduler.task("interval", id="check_expiring", minutes=_get_expiry_check_interval())
-def check_expiring():
-    """Check for and delete expired users."""
-    from flask import current_app
+def check_expiring(app=None):
+    """Check for and delete expired users.
 
-    with current_app.app_context():
+    Args:
+        app: Flask application instance. If None, will try to get from current context.
+    """
+    if app is None:
+        from flask import current_app
+
+        try:
+            app = current_app._get_current_object()
+        except RuntimeError:
+            # If we're outside application context, we need the app to be passed
+            logging.error(
+                "check_expiring called outside application context and no app provided"
+            )
+            return
+
+    with app.app_context():
         deleted = delete_user_if_expired()
         if len(deleted) > 0:
             logging.info("🧹 Expiry cleanup: Deleted %s expired users.", len(deleted))
