@@ -474,7 +474,9 @@ class AudiobookshelfClient(RestApiMixin):
         except Exception:
             logging.exception("ABS: failed to update permissions for %s", user_id)
 
-    def join(self, username: str, password: str, confirm: str, email: str, code: str):
+    def _do_join(
+        self, username: str, password: str, confirm: str, email: str, code: str
+    ):
         """Public invite flow for Audiobookshelf users."""
         if not self.EMAIL_RE.fullmatch(email):
             return False, "Invalid e-mail address."

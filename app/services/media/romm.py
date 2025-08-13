@@ -15,7 +15,6 @@ from sqlalchemy import or_
 from app.extensions import db
 from app.models import Invitation, User
 from app.services.invites import is_invite_valid, mark_server_used
-from app.services.notifications import notify
 
 from .client_base import RestApiMixin, register_media_client
 
@@ -388,9 +387,8 @@ class RommClient(RestApiMixin):
                 "error": str(e),
             }
 
-    def join(
+    def _do_join(
         self,
-        *,
         username: str,
         password: str,
         confirm: str,
@@ -454,10 +452,6 @@ class RommClient(RestApiMixin):
                 server_id = getattr(new_user, "server_id", None)
                 if server_id is not None:
                     mark_server_used(inv, server_id)
-
-            notify(
-                "New User", f"User {username} has joined your server! 🎉", tags="tada"
-            )
 
             return True, ""
 

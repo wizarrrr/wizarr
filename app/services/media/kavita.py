@@ -11,7 +11,6 @@ from sqlalchemy import or_
 from app.extensions import db
 from app.models import Invitation, User
 from app.services.invites import is_invite_valid, mark_server_used
-from app.services.notifications import notify
 
 from .client_base import RestApiMixin, register_media_client
 
@@ -558,7 +557,7 @@ class KavitaClient(RestApiMixin):
 
     # --- public sign-up ---------------------------------------------
 
-    def join(
+    def _do_join(
         self, username: str, password: str, confirm: str, email: str, code: str
     ) -> tuple[bool, str]:
         if email and not EMAIL_RE.fullmatch(email):
@@ -668,12 +667,6 @@ class KavitaClient(RestApiMixin):
                     )
             else:
                 logging.info(f"No libraries specified for Kavita user {username}")
-
-            notify(
-                "Kavita User Created",
-                f"User '{username}' has been successfully created in Kavita.",
-                tags="user",
-            )
 
             return (
                 True,

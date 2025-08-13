@@ -12,7 +12,6 @@ from sqlalchemy import or_
 from app.extensions import db
 from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid, mark_server_used
-from app.services.notifications import notify
 
 from .client_base import RestApiMixin, register_media_client
 
@@ -200,7 +199,7 @@ class KomgaClient(RestApiMixin):
         except Exception as e:
             logging.warning(f"Failed to set library access for user {user_id}: {e}")
 
-    def join(
+    def _do_join(
         self, username: str, password: str, confirm: str, email: str, code: str
     ) -> tuple[bool, str]:
         """Handle public sign-up via invite for Komga servers."""
@@ -265,12 +264,6 @@ class KomgaClient(RestApiMixin):
                 server_id = getattr(new_user, "server_id", None)
                 if server_id is not None:
                     mark_server_used(inv, server_id)
-
-            notify(
-                "New User",
-                f"User {username} has joined your server! 🎉",
-                tags="tada",
-            )
 
             return True, ""
 

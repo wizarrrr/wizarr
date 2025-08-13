@@ -229,7 +229,7 @@ class PlexClient(MediaClient):
             "PlexClient does not support create_user; use invite_friend or invite_home"
         )
 
-    def join(
+    def _do_join(
         self, username: str, password: str, confirm: str, email: str, code: str
     ) -> tuple[bool, str]:
         return (

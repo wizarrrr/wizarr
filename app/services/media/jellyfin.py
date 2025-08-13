@@ -9,7 +9,6 @@ from sqlalchemy import or_
 from app.extensions import db
 from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid, mark_server_used
-from app.services.notifications import notify
 
 from .client_base import RestApiMixin, register_media_client
 
@@ -311,7 +310,7 @@ class JellyfinClient(RestApiMixin):
 
     # --- public sign-up ---------------------------------------------
 
-    def join(
+    def _do_join(
         self, username: str, password: str, confirm: str, email: str, code: str
     ) -> tuple[bool, str]:
         if not EMAIL_RE.fullmatch(email):
@@ -404,9 +403,6 @@ class JellyfinClient(RestApiMixin):
 
             if inv:
                 self._mark_invite_used(inv, new_user)
-            notify(
-                "New User", f"User {username} has joined your server! 🎉", tags="tada"
-            )
 
             return True, ""
 
