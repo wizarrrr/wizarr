@@ -14,7 +14,6 @@
           <form class="space-y-4" method="post"
                 hx-post="{{ request.path }}"
                 hx-target="#tab-body" hx-swap="innerHTML">
-            {{ form.csrf_token }}
 
             <div>
               {{ form.name.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}

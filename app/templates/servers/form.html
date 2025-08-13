@@ -4,7 +4,6 @@
 <section class="p-8 max-w-xl mx-auto">
   <h1 class="text-2xl mb-4">Add Media Server</h1>
   <form method="post">
-    {{ form.csrf_token }}
     <div class="mb-4">
       {{ form.server_name.label(class="block mb-1 text-sm font-medium text-gray-700") }}
       {{ form.server_name(class="w-full border rounded px-3 py-2") }}

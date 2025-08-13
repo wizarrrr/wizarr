@@ -111,7 +111,6 @@ def server_settings():
 
     if form.validate_on_submit():
         data = form.data.copy()
-        data.pop("csrf_token", None)
 
         chosen = set(request.form.getlist("libraries"))
         # Only update enabled state if at least one library is selected
@@ -267,7 +266,6 @@ def general_settings():
     )
     if form.validate_on_submit():
         data = form.data.copy()
-        data.pop("csrf_token", None)
         _save_settings(data)
         flash(_("Settings saved successfully!"), "success")
     if request.headers.get("HX-Request"):

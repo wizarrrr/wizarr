@@ -8,7 +8,6 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_restx import Api
 from flask_sqlalchemy import SQLAlchemy
-from flask_wtf.csrf import CSRFProtect
 
 from flask_session import Session
 
@@ -20,7 +19,6 @@ scheduler = APScheduler()
 htmx = HTMX()
 login_manager = LoginManager()
 migrate = Migrate()
-csrf = CSRFProtect()
 limiter = Limiter(
     key_func=get_remote_address,
     default_limits=[],  # No default limits
@@ -109,7 +107,6 @@ def init_extensions(app):
     htmx.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"  # type: ignore[assignment]
-    csrf.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
     limiter.init_app(app)
