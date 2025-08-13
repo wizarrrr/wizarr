@@ -26,7 +26,7 @@ def update_wizard_external_url_references() -> tuple[bool, str]:
             # Test if we can query the table
             WizardStep.query.count()
         except Exception as e:
-            logger.info(f"WizardStep table not available, skipping migration: {e}")
+            logger.debug(f"WizardStep table not available, skipping migration: {e}")
             return True, "WizardStep table not available, skipping migration"
 
         # Find all wizard steps that contain the old pattern
@@ -35,7 +35,7 @@ def update_wizard_external_url_references() -> tuple[bool, str]:
         ).all()
 
         if not steps_with_old_pattern:
-            logger.info(
+            logger.debug(
                 "No wizard steps found with legacy {{ settings.external_url }} pattern"
             )
             return True, "No wizard steps needed updating"
@@ -82,7 +82,9 @@ def update_wizard_external_url_references() -> tuple[bool, str]:
                 logger.error(error_msg)
                 return False, error_msg
         else:
-            logger.info("All wizard steps already use the correct external_url pattern")
+            logger.debug(
+                "All wizard steps already use the correct external_url pattern"
+            )
             return True, "All wizard steps already up-to-date"
 
     except Exception as e:
@@ -106,7 +108,7 @@ def run_wizard_migrations() -> bool:
             logger.debug("Skipping wizard migrations during testing")
             return True
 
-        logger.info("Running wizard step migrations...")
+        logger.debug("Running wizard step migrations...")
 
         # Update external_url references
         success, message = update_wizard_external_url_references()
@@ -114,7 +116,7 @@ def run_wizard_migrations() -> bool:
             logger.error(f"Wizard migration failed: {message}")
             return False
 
-        logger.info("Wizard step migrations completed successfully")
+        logger.debug("Wizard step migrations completed successfully")
         return True
 
     except Exception as e:

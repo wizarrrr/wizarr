@@ -46,6 +46,7 @@ class TestInvitationFlowManager:
 
         assert result.status == ProcessingStatus.INVALID_INVITATION
         assert result.message == "Invalid invitation"
+        assert result.template_data is not None
         assert result.template_data["template_name"] == "invalid-invite.html"
 
     @patch("app.services.invitation_flow.manager.is_invite_valid")
@@ -348,6 +349,7 @@ class TestFormBasedWorkflow:
             result = workflow.show_initial_form(mock_invitation, [mock_server])
 
             assert result.status == ProcessingStatus.AUTHENTICATION_REQUIRED
+            assert result.template_data is not None
             assert result.template_data["template_name"] == "welcome-jellyfin.html"
 
     @patch("app.services.invitation_flow.workflows.StrategyFactory")
@@ -434,8 +436,8 @@ class TestIntegrationWithDatabase:
 
             db.session.commit()
 
-            # Link them
-            invitation.server = server
+            # Link them using the many-to-many relationship
+            invitation.servers.append(server)
             db.session.commit()
 
             # Test manager
@@ -481,8 +483,8 @@ class TestEndToEndFlow:
 
             db.session.commit()
 
-            # Link them
-            invitation.server = server
+            # Link them using the many-to-many relationship
+            invitation.servers.append(server)
             db.session.commit()
 
             # Test display
@@ -490,6 +492,7 @@ class TestEndToEndFlow:
             display_result = manager.process_invitation_display("E2E123")
 
             assert display_result.status == ProcessingStatus.AUTHENTICATION_REQUIRED
+            assert display_result.template_data is not None
             assert (
                 display_result.template_data["template_name"] == "welcome-jellyfin.html"
             )
@@ -535,8 +538,8 @@ class TestEndToEndFlow:
 
             db.session.commit()
 
-            # Link them
-            invitation.server = server
+            # Link them using the many-to-many relationship
+            invitation.servers.append(server)
             db.session.commit()
 
             # Test display
@@ -544,6 +547,7 @@ class TestEndToEndFlow:
             display_result = manager.process_invitation_display("PLEX123")
 
             assert display_result.status == ProcessingStatus.OAUTH_PENDING
+            assert display_result.template_data is not None
             assert (
                 display_result.template_data["template_name"] == "user-plex-login.html"
             )

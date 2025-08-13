@@ -3,6 +3,7 @@ import os
 
 from flask import (
     Blueprint,
+    current_app,
     jsonify,
     render_template,
     request,
@@ -112,11 +113,16 @@ def _validate_secure_origin(origin, rp_id):
             raise
         # If it's not a valid IP address, continue with domain validation
 
-    # Check for localhost (only allow in development)
+    # Check for localhost (only allow in development or testing)
     if hostname in ["localhost", "127.0.0.1", "::1"]:
         import os
 
-        if os.environ.get("FLASK_ENV") != "development":
+        from flask import current_app
+
+        is_development = os.environ.get("FLASK_ENV") == "development"
+        is_testing = current_app.config.get("TESTING", False)
+
+        if not (is_development or is_testing):
             raise ValueError(
                 f"Passkeys cannot use localhost in production. "
                 f"Current hostname '{hostname}' is localhost. "
@@ -244,8 +250,8 @@ def register_complete():
         # Log the full error for debugging
         import traceback
 
-        print(f"WebAuthn registration error: {str(e)}")
-        print(f"Traceback: {traceback.format_exc()}")
+        current_app.logger.error(f"WebAuthn registration error: {str(e)}")
+        current_app.logger.debug(f"Traceback: {traceback.format_exc()}")
         return jsonify({"error": f"Registration failed: {str(e)}"}), 400
 
 

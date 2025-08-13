@@ -1,0 +1,88 @@
+<div class="relative modal-container" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <!-- backdrop -->
+  <div class="fixed inset-0 modal-backdrop transition-opacity"></div>
+
+  <div class="fixed inset-0 z-10 overflow-y-auto">
+    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl">
+        <div class="bg-white dark:bg-gray-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+          <div class="flex justify-between items-center pb-3">
+            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white">
+              {{ _('Add Preset Wizard Step') }}
+            </h1>
+          </div>
+          <form class="space-y-4" method="post"
+                hx-post="{{ request.path }}"
+                hx-target="#tab-body" hx-swap="innerHTML">
+            {{ form.csrf_token }}
+
+            <div>
+              {{ form.server_type.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.server_type(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+            </div>
+
+            <div>
+              {{ form.preset_id.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.preset_id(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white", id="preset-select") }}
+            </div>
+
+            <!-- Preset variable fields - shown/hidden based on selection -->
+            <div id="discord-fields" class="preset-fields" style="display: none;">
+              {{ form.discord_id.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.discord_id(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white", placeholder="123456789012345678") }}
+              <p class="text-xs text-gray-500 mt-1">{{ _('Your Discord server ID') }}</p>
+            </div>
+
+            <div id="overseerr-fields" class="preset-fields" style="display: none;">
+              {{ form.overseerr_url.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.overseerr_url(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white", placeholder="https://overseerr.example.com") }}
+              <p class="text-xs text-gray-500 mt-1">{{ _('URL to your Overseerr/Ombi instance') }}</p>
+            </div>
+
+            <!-- Preset descriptions -->
+            <div id="preset-descriptions" class="text-sm text-gray-600 dark:text-gray-400">
+              {% for preset in presets %}
+              <div id="preset-desc-{{ preset.id }}" class="preset-description" style="display: none;">
+                {{ preset.description }}
+              </div>
+              {% endfor %}
+            </div>
+
+            <div class="flex gap-2 justify-end pt-4">
+              <button type="button" onclick="document.getElementById('step-modal').innerHTML=''" class="px-4 py-2 rounded border border-gray-300 text-gray-700 dark:text-gray-300">{{ _('Cancel') }}</button>
+              <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _('Create Step') }}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showPresetFields() {
+      const selectedPreset = document.getElementById('preset-select').value;
+      
+      // Hide all preset fields and descriptions
+      document.querySelectorAll('.preset-fields').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.preset-description').forEach(el => el.style.display = 'none');
+      
+      // Show relevant fields and description
+      if (selectedPreset === 'discord_community') {
+        document.getElementById('discord-fields').style.display = 'block';
+        document.getElementById('preset-desc-discord_community').style.display = 'block';
+      } else if (selectedPreset === 'overseerr_requests') {
+        document.getElementById('overseerr-fields').style.display = 'block';
+        document.getElementById('preset-desc-overseerr_requests').style.display = 'block';
+      }
+    }
+
+    // Show/hide preset fields based on selection
+    document.getElementById('preset-select').addEventListener('change', showPresetFields);
+    
+    // Initialize fields on page load
+    document.addEventListener('DOMContentLoaded', showPresetFields);
+    
+    // Also trigger immediately in case DOMContentLoaded already fired
+    showPresetFields();
+  </script>
+</div>

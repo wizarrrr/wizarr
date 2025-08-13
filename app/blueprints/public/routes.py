@@ -18,7 +18,7 @@ from flask import (
 from app.extensions import db, limiter
 from app.models import Invitation, MediaServer, Settings, User
 from app.services.invites import is_invite_valid
-from app.services.media.plex import handle_oauth_token
+from app.services.media.plex import PlexInvitationError, handle_oauth_token
 
 public_bp = Blueprint("public", __name__)
 
@@ -74,8 +74,6 @@ def join():
     code = request.form.get("code")
     token = request.form.get("token")
 
-    print("Got Token: ", token)
-
     invitation = None
     if code:
         invitation = Invitation.query.filter(
@@ -87,30 +85,35 @@ def join():
     if not valid:
         # Resolve server name for rendering error
         from app.services.server_name_resolver import resolve_invitation_server_name
-        
+
         # Try to get servers from invitation for error display
         servers = []
         if invitation and invitation.servers:
             servers = list(invitation.servers)
         elif invitation and invitation.server:
             servers = [invitation.server]
-        
+
         server_name = resolve_invitation_server_name(servers)
 
         return render_template(
             "user-plex-login.html", server_name=server_name, code=code, code_error=msg
         )
 
-    server = (invitation.server if invitation else None)
-    
-    # If no direct server association, try to get from the servers relationship
-    if not server and invitation and invitation.servers:
-        server = invitation.servers[0]  # Use the first server from the relationship
-    
-    # Fallback to any available server
+    # Get the appropriate server for this invitation
+    server = None
+    if invitation:
+        # Prioritize new many-to-many relationship
+        if hasattr(invitation, "servers") and invitation.servers:
+            # For legacy /join route, prioritize Plex servers first (backward compatibility)
+            plex_servers = [s for s in invitation.servers if s.server_type == "plex"]
+            server = plex_servers[0] if plex_servers else invitation.servers[0]
+        # Fallback to legacy single server relationship
+        elif invitation.server:
+            server = invitation.server
+
+    # Final fallback to any server (maintain existing behavior)
     if not server:
         server = MediaServer.query.first()
-        
     server_type = server.server_type if server else None
 
     from flask import current_app
@@ -118,7 +121,34 @@ def join():
     if server_type == "plex":
         # run Plex OAuth invite immediately (blocking – we need the DB row afterwards)
         if token and code:
-            handle_oauth_token(current_app, token, code)
+            try:
+                handle_oauth_token(current_app, token, code)
+            except PlexInvitationError as e:
+                # Show user-friendly error message from Plex API
+                name_setting = Settings.query.filter_by(key="server_name").first()
+                server_name = name_setting.value if name_setting else None
+
+                return render_template(
+                    "user-plex-login.html",
+                    server_name=server_name,
+                    code=code,
+                    code_error=f"Plex invitation failed: {e.message}",
+                )
+            except Exception as e:
+                # Handle any other unexpected errors
+                import logging
+
+                logging.error(f"Unexpected error during Plex OAuth: {e}")
+
+                name_setting = Settings.query.filter_by(key="server_name").first()
+                server_name = name_setting.value if name_setting else None
+
+                return render_template(
+                    "user-plex-login.html",
+                    server_name=server_name,
+                    code=code,
+                    code_error="An unexpected error occurred during invitation. Please try again or contact support.",
+                )
 
         # Determine if there are additional servers attached to the invite
         extra = [
@@ -144,20 +174,34 @@ def join():
         "kavita",
         "komga",
     ):
-        # Get server name for the invitation using the new resolver
-        from app.services.server_name_resolver import resolve_invitation_server_name
-        
-        servers = []
-        if invitation and invitation.servers:
-            servers = list(invitation.servers)
-        elif invitation and invitation.server:
-            servers = [invitation.server]
-        elif server:
-            servers = [server]
-        
-        server_name = resolve_invitation_server_name(servers)
+        from app.forms.join import JoinForm
+
+        # Get server name for the invitation using the new resolver if available
+        try:
+            from app.services.server_name_resolver import resolve_invitation_server_name
+
+            servers = []
+            if invitation and invitation.servers:
+                servers = list(invitation.servers)
+            elif invitation and invitation.server:
+                servers = [invitation.server]
+            elif server:
+                servers = [server]
+
+            server_name = resolve_invitation_server_name(servers)
+        except ImportError:
+            # Fallback to legacy approach if resolver not available
+            name_setting = Settings.query.filter_by(key="server_name").first()
+            server_name = name_setting.value if name_setting else "Media Server"
+
+        form = JoinForm()
+        form.code.data = code
         return render_template(
-            "welcome-jellyfin.html", code=code, server_type=server_type, server_name=server_name
+            "welcome-jellyfin.html",
+            code=code,
+            server_type=server_type,
+            server_name=server_name,
+            form=form,
         )
 
     # fallback if server_type missing/unsupported
@@ -248,8 +292,11 @@ def password_prompt(code):
             )
 
         # Provision accounts on remaining servers
+        from app.services.expiry import calculate_user_expiry
         from app.services.invites import mark_server_used
         from app.services.media.service import get_client_for_media_server
+
+        # Calculate expiry will be done per-server to allow server-specific expiry
 
         for srv in invitation.servers:
             if srv.server_type == "plex":
@@ -274,13 +321,17 @@ def password_prompt(code):
 
                 # set library permissions (simplified: full access)
 
-                # store local DB row
+                # Calculate server-specific expiry for this user
+                user_expires = calculate_user_expiry(invitation, srv.id)
+
+                # store local DB row with proper expiry
                 new_user = User()
                 new_user.username = username
                 new_user.email = email
                 new_user.token = uid
                 new_user.code = code
                 new_user.server_id = srv.id
+                new_user.expires = user_expires  # Set expiry based on invitation duration (server-specific)
                 db.session.add(new_user)
                 db.session.commit()
 

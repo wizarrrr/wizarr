@@ -50,12 +50,21 @@ jobs:
       # -----------------------------------------------------------
       # 🆕 (2) Work out the latest tag name
       # -----------------------------------------------------------
-      - name: Determine latest version
+      - name: Determine latest stable version
         id: get_version
         shell: bash
         run: |
           git fetch --tags --force                    # no-ops if already present
-          tag=$(git describe --tags --abbrev=0)       # e.g. v2025.5.1  OR  2025.5.1
+          # Prioritize 2025.x.x format over v4.x.x format for latest version
+          tag=$(git tag -l --sort=-version:refname | grep -E '^2[0-9]+\.[0-9]+\.[0-9]+$' | head -n1)
+          if [ -z "$tag" ]; then
+            # Fallback to v4.x.x format if no 2025.x.x tags found
+            tag=$(git tag -l --sort=-version:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n1)
+          fi
+          if [ -z "$tag" ]; then
+            # Final fallback to any tag
+            tag=$(git describe --tags --abbrev=0)
+          fi
           echo "latest_version=${tag#v}" >> "$GITHUB_OUTPUT"
 
       # -----------------------------------------------------------

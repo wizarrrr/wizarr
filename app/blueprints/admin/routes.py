@@ -3,7 +3,7 @@ import logging
 import os
 from urllib.parse import urlparse
 
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, Response, redirect, render_template, request, url_for
 from flask_babel import _
 from flask_login import login_required
 
@@ -17,6 +17,7 @@ from app.models import (
     User,
     invitation_servers,
 )
+from app.services.expiry import get_expired_users, get_expiring_this_week_users
 from app.services.invites import create_invite
 from app.services.media.service import (
     EMAIL_RE,
@@ -188,8 +189,12 @@ def invite_table():
     server_filter = request.form.get("server") or request.args.get("server")
 
     if code := request.args.get("delete"):
-        Invitation.query.filter_by(code=code).delete()  # no need to parens
-        db.session.commit()
+        # Find the invitation to delete
+        invitation = Invitation.query.filter_by(code=code).first()
+        if invitation:
+            # Delete the invitation - CASCADE will handle association table cleanup
+            db.session.delete(invitation)
+            db.session.commit()
 
     # ------------------------------------------------------------------
     # 2. Base query (libraries + servers)
@@ -359,8 +364,19 @@ def _rel_string(target: datetime.datetime, now: datetime.datetime) -> str:
 @admin_bp.route("/users")
 @login_required
 def users():
+    if not request.headers.get("HX-Request"):
+        return redirect(url_for(".dashboard"))
+
     servers = MediaServer.query.order_by(MediaServer.name).all()
-    return render_template("admin/users.html", servers=servers)
+    expiring_users = get_expiring_this_week_users()
+    expired_users = get_expired_users()
+
+    return render_template(
+        "admin/users.html",
+        servers=servers,
+        expiring_users=expiring_users,
+        expired_users=expired_users,
+    )
 
 
 @admin_bp.route("/users/table")
@@ -389,7 +405,10 @@ def users_table():
         logging.error("sync users failed: %s", exc)
 
     # 2) build DB query with eager load to keep session bound
-    q = User.query.options(db.joinedload(User.server))
+    # Join with Invitation to get invited date for sorting
+    q = User.query.options(db.joinedload(User.server)).outerjoin(
+        Invitation, User.code == Invitation.code
+    )
     if server_id:
         q = q.filter(User.server_id == int(server_id))
     if query_text:
@@ -401,6 +420,10 @@ def users_table():
     # sorting
     if order == "name_desc":
         q = q.order_by(db.func.lower(User.username).desc())
+    elif order == "invited_asc":
+        q = q.order_by(Invitation.created.asc().nullslast())
+    elif order == "invited_desc":
+        q = q.order_by(Invitation.created.desc().nullslast())
     else:
         q = q.order_by(db.func.lower(User.username))
 
@@ -414,37 +437,63 @@ def users_table():
 @login_required
 def user_detail(db_id: int):
     """
-    • GET  → return the small expiry-edit modal
-    • POST → update expiry then return the *entire* card grid
+    • GET  → return the enhanced per-server expiry edit modal
+    • POST → update per-server expiry then return the entire card grid
     """
+    from app.models import Invitation
+    from app.services.expiry import set_server_specific_expiry
+
     user = User.query.get_or_404(db_id)
 
     if request.method == "POST":
-        raw = request.form.get("expires")  # "" or 2025-05-22T14:00
-        user.expires = datetime.datetime.fromisoformat(raw) if raw else None
+        # Handle per-server expiry updates
+
+        # Find the invitation this user was created from
+        invitation = None
+        if user.code:
+            invitation = Invitation.query.filter_by(code=user.code).first()
+
+        # Update expiry for the user's specific server
+        raw_expires = request.form.get("expires")
+        user.expires = (
+            datetime.datetime.fromisoformat(raw_expires) if raw_expires else None
+        )
+
+        # If we have an invitation and server, also update the server-specific expiry
+        if invitation and user.server_id:
+            server_expires = (
+                datetime.datetime.fromisoformat(raw_expires) if raw_expires else None
+            )
+            set_server_specific_expiry(invitation.id, user.server_id, server_expires)
+
         db.session.commit()
 
-        # Re-render the grid the same way /users/table does
-        all_dict = list_users_all_servers()
-        users_flat = [u for lst in all_dict.values() for u in lst]
-        response = render_template(
-            "tables/user_card.html", users=_group_users_for_display(users_flat)
-        )
-        # Add a script to close the modal after swap
-        response += """
-<script>
-  setTimeout(function() {
-    var modal = document.getElementById('modal');
-    if (modal) modal.classList.add('hidden');
-    var modalUser = document.getElementById('modal-user');
-    if (modalUser) while (modalUser.firstChild) { modalUser.removeChild(modalUser.firstChild); }
-  }, 50);
-</script>
-"""
+        # Close the modal and refresh the user table to preserve filters/sorting
+        response = Response("")
+        response.headers["HX-Trigger"] = "closeModal, refreshUserTable"
         return response
 
-    # ── GET → serve the compact modal ─────────────────────────────
-    return render_template("admin/user_modal.html", user=user)
+    # ── GET → serve the enhanced modal with server information ────────
+    # Get related accounts if this user is linked via Identity (multi-server setup)
+    related_users = []
+    if user.identity_id:
+        # Get all users that share the same identity (same person across servers)
+        related_users = User.query.filter_by(identity_id=user.identity_id).all()
+    else:
+        # Single user, no identity linking
+        related_users = [user]
+
+    # Get the invitation to show additional context
+    invitation = None
+    if user.code:
+        invitation = Invitation.query.filter_by(code=user.code).first()
+
+    return render_template(
+        "admin/user_modal.html",
+        user=user,
+        related_users=related_users,
+        invitation=invitation,
+    )
 
 
 @admin_bp.post("/invite/scan-libraries")
@@ -516,11 +565,11 @@ def link_accounts():
     for u in users:
         u.identity = identity
     db.session.commit()
-    all_dict = list_users_all_servers()
-    users_flat = [u for lst in all_dict.values() for u in lst]
-    return render_template(
-        "tables/user_card.html", users=_group_users_for_display(users_flat)
-    )
+
+    # Trigger user table refresh to preserve filters/sorting
+    response = Response("")
+    response.headers["HX-Trigger"] = "refreshUserTable"
+    return response
 
 
 @admin_bp.post("/users/unlink")
@@ -564,12 +613,10 @@ def unlink_account():
             db.session.delete(identity)
     db.session.commit()
 
-    # Return refreshed grid
-    all_dict = list_users_all_servers()
-    users_flat = [u for lst in all_dict.values() for u in lst]
-    return render_template(
-        "tables/user_card.html", users=_group_users_for_display(users_flat)
-    )
+    # Trigger user table refresh to preserve filters/sorting
+    response = Response("")
+    response.headers["HX-Trigger"] = "refreshUserTable"
+    return response
 
 
 @admin_bp.post("/users/bulk-delete")
@@ -578,11 +625,11 @@ def bulk_delete_users():
     ids = request.form.getlist("uids")
     for uid in ids:
         delete_user(int(uid))
-    all_dict = list_users_all_servers()
-    users_flat = [u for lst in all_dict.values() for u in lst]
-    return render_template(
-        "tables/user_card.html", users=_group_users_for_display(users_flat)
-    )
+
+    # Trigger user table refresh to preserve filters/sorting
+    response = Response("")
+    response.headers["HX-Trigger"] = "refreshUserTable"
+    return response
 
 
 # Helper: group and enrich users for display
@@ -620,11 +667,21 @@ def _group_users_for_display(user_list):
         )
         allow_sync = any(getattr(a, "allowSync", False) for a in lst)
 
+        # Get the invitation date from the earliest invite code
+        invited_dates = []
+        for a in lst:
+            if hasattr(a, "code") and a.code and a.code not in ("None", "empty"):
+                invitation = Invitation.query.filter_by(code=a.code).first()
+                if invitation and invitation.created:
+                    invited_dates.append(invitation.created)
+        invited_date = min(invited_dates) if invited_dates else None
+
         primary.accounts = lst
         primary.photo = photo or primary.photo
         primary.expires = expires
         primary.code = code
         primary.allowSync = allow_sync
+        primary.invited_date = invited_date
         cards.append(primary)
     return cards
 
@@ -663,23 +720,9 @@ def edit_identity(identity_id):
         identity.nickname = nickname
         db.session.commit()
 
-        # After save, re-render the user cards grid (same as other actions)
-        all_dict = list_users_all_servers()
-        users_flat = [u for lst in all_dict.values() for u in lst]
-        response = render_template(
-            "tables/user_card.html", users=_group_users_for_display(users_flat)
-        )
-        # Add a script to close the modal after swap
-        response += """
-<script>
-  setTimeout(function() {
-    var modal = document.getElementById('modal');
-    if (modal) modal.classList.add('hidden');
-    var modalUser = document.getElementById('modal-user');
-    if (modalUser) while (modalUser.firstChild) { modalUser.removeChild(modalUser.firstChild); }
-  }, 50);
-</script>
-"""
+        # Close the modal and refresh the user table to preserve filters/sorting
+        response = Response("")
+        response.headers["HX-Trigger"] = "closeModal, refreshUserTable"
         return response
 
     # GET → return modal form
@@ -808,4 +851,36 @@ def server_health_card():
     except Exception as e:
         return render_template(
             "admin/server_health_card.html", success=False, error=f"Error: {str(e)}"
+        )
+
+
+@admin_bp.route("/expired-users/table")
+@login_required
+def expired_users_table():
+    """Return a table of expired users for monitoring."""
+    try:
+        expired_users = get_expired_users()
+        return render_template(
+            "tables/expired_user_card.html", expired_users=expired_users
+        )
+    except Exception as e:
+        logging.error(f"Failed to get expired users: {e}")
+        return render_template(
+            "tables/expired_user_card.html", expired_users=[], error=str(e)
+        )
+
+
+@admin_bp.route("/expiring-users/table")
+@login_required
+def expiring_users_table():
+    """Return a table of users expiring within the next week."""
+    try:
+        expiring_users = get_expiring_this_week_users()
+        return render_template(
+            "tables/expiring_user_card.html", expiring_users=expiring_users
+        )
+    except Exception as e:
+        logging.error(f"Failed to get expiring users: {e}")
+        return render_template(
+            "tables/expiring_user_card.html", expiring_users=[], error=str(e)
         )

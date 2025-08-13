@@ -18,8 +18,18 @@ from flask_login import login_required
 from sqlalchemy import func
 
 from app.extensions import db
-from app.forms.wizard import SimpleWizardStepForm, WizardBundleForm, WizardStepForm
+from app.forms.wizard import (
+    SimpleWizardStepForm,
+    WizardBundleForm,
+    WizardPresetForm,
+    WizardStepForm,
+)
 from app.models import MediaServer, WizardBundle, WizardBundleStep, WizardStep
+from app.services.wizard_presets import (
+    create_step_from_preset,
+    get_available_presets,
+    get_preset_title,
+)
 
 wizard_admin_bp = Blueprint(
     "wizard_admin",
@@ -136,19 +146,11 @@ def create_step():
 
         cleaned_md = _strip_localization(form.markdown.data or "")
 
-        requires_attr = getattr(form, "requires", None)
         step = WizardStep(
             server_type=stype,
             position=next_pos,
             title=getattr(form, "title", None) and form.title.data or None,
             markdown=cleaned_md,
-            requires=[]
-            if simple
-            else [
-                s.strip()
-                for s in (requires_attr and requires_attr.data or "").split(",")
-                if s.strip()
-            ],
         )
         db.session.add(step)
         db.session.flush()  # get step.id
@@ -192,6 +194,72 @@ def create_step():
     return render_template(tmpl, form=form, action="create", bundle_id=bundle_id)
 
 
+@wizard_admin_bp.route("/create-preset", methods=["GET", "POST"])
+@login_required
+def create_preset():
+    """Create wizard step from preset template."""
+    form = WizardPresetForm(request.form if request.method == "POST" else None)
+
+    # Populate preset choices
+    presets = get_available_presets()
+    form.preset_id.choices = [(p.id, p.name) for p in presets]
+
+    if form.validate_on_submit():
+        preset_id = form.preset_id.data
+        server_type = form.server_type.data
+
+        # Type check: these should not be None after validation
+        if not preset_id or not server_type:
+            flash("Preset ID and server type are required", "danger")
+            return redirect(url_for("wizard_admin.create_preset"))
+
+        # Prepare template variables
+        template_vars = {}
+        if form.discord_id.data:
+            template_vars["discord_id"] = form.discord_id.data
+        if form.overseerr_url.data:
+            template_vars["overseerr_url"] = form.overseerr_url.data
+
+        try:
+            # Create step content from preset
+            markdown_content = create_step_from_preset(preset_id, **template_vars)
+            title = get_preset_title(preset_id)
+
+            # Find next position for this server type
+            max_pos = (
+                db.session.query(func.max(WizardStep.position))
+                .filter_by(server_type=server_type)
+                .scalar()
+            )
+            next_pos = (max_pos or 0) + 1
+
+            # Create the step
+            step = WizardStep(
+                server_type=server_type,
+                position=next_pos,
+                title=title,
+                markdown=markdown_content,
+            )
+            db.session.add(step)
+            db.session.commit()
+
+            flash(_("Preset step created successfully"), "success")
+
+            # HTMX refresh
+            if request.headers.get("HX-Request"):
+                return list_steps()
+            return redirect(url_for("wizard_admin.list_steps"))
+
+        except KeyError as e:
+            flash(_("Error creating preset: {}").format(str(e)), "error")
+
+    modal_tmpl = "modals/wizard-preset-form.html"
+    page_tmpl = "settings/wizard/preset_form.html"
+    tmpl = modal_tmpl if request.headers.get("HX-Request") else page_tmpl
+
+    return render_template(tmpl, form=form, presets=presets, action="create")
+
+
 @wizard_admin_bp.route("/<int:step_id>/edit", methods=["GET", "POST"])
 @login_required
 def edit_step(step_id: int):
@@ -205,11 +273,6 @@ def edit_step(step_id: int):
         if not simple:
             server_type_attr = getattr(form, "server_type", None)
             step.server_type = server_type_attr.data if server_type_attr else "custom"
-            requires_attr = getattr(form, "requires", None)
-            requires_data = requires_attr.data if requires_attr else ""
-            step.requires = [
-                s.strip() for s in (requires_data or "").split(",") if s.strip()
-            ]
 
         step.title = getattr(form, "title", None) and form.title.data or None
         cleaned_md = _strip_localization(form.markdown.data or "")
@@ -230,10 +293,6 @@ def edit_step(step_id: int):
 
     # GET: populate fields
     if request.method == "GET":
-        if not simple:
-            requires_attr = getattr(form, "requires", None)
-            if requires_attr:
-                requires_attr.data = ", ".join(step.requires or [])
         form.markdown.data = _strip_localization(step.markdown)
 
     modal_tmpl = (

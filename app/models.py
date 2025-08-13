@@ -7,9 +7,17 @@ from .extensions import db
 invite_libraries = db.Table(
     "invite_library",
     db.Column(
-        "invite_id", db.Integer, db.ForeignKey("invitation.id"), primary_key=True
+        "invite_id",
+        db.Integer,
+        db.ForeignKey("invitation.id", ondelete="CASCADE"),
+        primary_key=True,
     ),
-    db.Column("library_id", db.Integer, db.ForeignKey("library.id"), primary_key=True),
+    db.Column(
+        "library_id",
+        db.Integer,
+        db.ForeignKey("library.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
 )
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -31,6 +39,8 @@ invitation_servers = db.Table(
     # Track per-server usage so a single invite can be consumed independently
     db.Column("used", db.Boolean, default=False, nullable=False),
     db.Column("used_at", db.DateTime, nullable=True),
+    # Track per-server expiry (overrides invitation.expires for this specific server)
+    db.Column("expires", db.DateTime, nullable=True),
 )
 
 
@@ -165,6 +175,44 @@ class Notification(db.Model):
     username = db.Column(db.String, nullable=True)
     password = db.Column(db.String, nullable=True)
     channel_id = db.Column(db.Integer, nullable=True)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
+class Connection(db.Model):
+    """Server-to-server mapping for external integrations.
+
+    Allows mapping specific media servers to specific external services,
+    enabling per-server automation: invite from Server X → invite to Service X.
+    Supports multiple connection types with varying requirements.
+    """
+
+    __tablename__ = "ombi_connection"
+    id = db.Column(db.Integer, primary_key=True)
+    connection_type = db.Column(
+        db.String, nullable=False, default="ombi"
+    )  # 'ombi' or 'overseerr'
+    name = db.Column(db.String, nullable=False)
+    url = db.Column(db.String, nullable=True)  # Optional for info-only connections
+    api_key = db.Column(db.String, nullable=True)  # Optional for info-only connections
+    media_server_id = db.Column(
+        db.Integer, db.ForeignKey("media_server.id", ondelete="CASCADE"), nullable=False
+    )
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
+    updated_at = db.Column(
+        db.DateTime,
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
+        nullable=False,
+    )
+
+    # Relationships
+    media_server = db.relationship(
+        "MediaServer", backref=db.backref("connections", lazy=True)
+    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -395,9 +443,9 @@ class WebAuthnCredential(db.Model):
 
 class ApiKey(db.Model):
     """API keys for external access to Wizarr's API endpoints."""
-    
+
     __tablename__ = "api_key"
-    
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)  # User-friendly name for the key
     key_hash = db.Column(db.String, nullable=False, unique=True)  # Hashed API key
@@ -405,9 +453,38 @@ class ApiKey(db.Model):
         db.DateTime, default=lambda: datetime.now(UTC), nullable=False
     )
     last_used_at = db.Column(db.DateTime, nullable=True)
-    created_by_id = db.Column(db.Integer, db.ForeignKey("admin_account.id"), nullable=False)
-    created_by = db.relationship("AdminAccount", backref=db.backref("api_keys", lazy=True))
+    created_by_id = db.Column(
+        db.Integer, db.ForeignKey("admin_account.id"), nullable=False
+    )
+    created_by = db.relationship(
+        "AdminAccount", backref=db.backref("api_keys", lazy=True)
+    )
     is_active = db.Column(db.Boolean, default=True, nullable=False)
-    
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
+class ExpiredUser(db.Model):
+    """Track users that have been deleted due to expiry for monitoring and restoration."""
+
+    __tablename__ = "expired_user"
+
+    id = db.Column(db.Integer, primary_key=True)
+    original_user_id = db.Column(db.Integer, nullable=False)  # Original User.id
+    username = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=True)
+    invitation_code = db.Column(db.String, nullable=True)
+    server_id = db.Column(db.Integer, db.ForeignKey("media_server.id"), nullable=True)
+    server = db.relationship(
+        "MediaServer", backref=db.backref("expired_users", lazy=True)
+    )
+    expired_at = db.Column(
+        db.DateTime, nullable=False
+    )  # When user was supposed to expire
+    deleted_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )  # When user was actually deleted
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

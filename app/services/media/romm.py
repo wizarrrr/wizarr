@@ -15,7 +15,6 @@ from sqlalchemy import or_
 from app.extensions import db
 from app.models import Invitation, User
 from app.services.invites import is_invite_valid, mark_server_used
-from app.services.notifications import notify
 
 from .client_base import RestApiMixin, register_media_client
 
@@ -388,9 +387,8 @@ class RommClient(RestApiMixin):
                 "error": str(e),
             }
 
-    def join(
+    def _do_join(
         self,
-        *,
         username: str,
         password: str,
         confirm: str,
@@ -401,8 +399,8 @@ class RommClient(RestApiMixin):
 
         if not EMAIL_RE.fullmatch(email):
             return False, "Invalid e-mail address."
-        if not 8 <= len(password) <= 20:
-            return False, "Password must be 8–20 characters."
+        if not 8 <= len(password) <= 128:
+            return False, "Password must be 8–128 characters."
         if password != confirm:
             return False, "Passwords do not match."
 
@@ -428,10 +426,13 @@ class RommClient(RestApiMixin):
             # (viewers can see everything).  We therefore don't attempt to
             # filter library access yet – we only need the DB linkage.
 
-            expires = None
-            if inv and inv.duration:
-                days = int(inv.duration)
-                expires = datetime.datetime.utcnow() + datetime.timedelta(days=days)
+            from app.services.expiry import calculate_user_expiry
+
+            expires = (
+                calculate_user_expiry(inv, getattr(self, "server_id", None))
+                if inv
+                else None
+            )
 
             new_user = self._create_user_with_identity_linking(
                 {
@@ -451,10 +452,6 @@ class RommClient(RestApiMixin):
                 server_id = getattr(new_user, "server_id", None)
                 if server_id is not None:
                     mark_server_used(inv, server_id)
-
-            notify(
-                "New User", f"User {username} has joined your server! 🎉", tags="tada"
-            )
 
             return True, ""
 

@@ -12,6 +12,8 @@ class WizardStepForm(FlaskForm):
             ("emby", "Emby"),
             ("audiobookshelf", "Audiobookshelf"),
             ("romm", "Romm"),
+            ("komga", "Komga"),
+            ("kavita", "Kavita"),
         ],
         validators=[DataRequired()],
     )
@@ -22,9 +24,35 @@ class WizardStepForm(FlaskForm):
 
     markdown = TextAreaField("Markdown", validators=[DataRequired()])
 
-    requires = StringField(
-        "Requires (comma-separated setting keys)", validators=[Optional()]
+    # Removed requires field as part of requires system overhaul
+
+
+class WizardPresetForm(FlaskForm):
+    """Form for creating wizard steps from presets."""
+
+    server_type = SelectField(
+        "Server Type",
+        choices=[
+            ("plex", "Plex"),
+            ("jellyfin", "Jellyfin"),
+            ("emby", "Emby"),
+            ("audiobookshelf", "Audiobookshelf"),
+            ("romm", "Romm"),
+            ("komga", "Komga"),
+            ("kavita", "Kavita"),
+        ],
+        validators=[DataRequired()],
     )
+
+    preset_id = SelectField(
+        "Preset",
+        choices=[],  # Will be populated dynamically
+        validators=[DataRequired()],
+    )
+
+    # Variables for preset templates
+    discord_id = StringField("Discord Server ID", validators=[Optional()])
+    overseerr_url = StringField("Overseerr/Ombi URL", validators=[Optional()])
 
 
 class WizardBundleForm(FlaskForm):

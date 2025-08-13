@@ -58,7 +58,4 @@ def migrate_single_to_multi(app):
         User.query.filter_by(server_id=None).update({"server_id": server.id})
         Invitation.query.filter_by(server_id=None).update({"server_id": server.id})
         db.session.commit()
-
-        print(
-            f"[migrate_media_server] Created initial MediaServer(id={server.id}) and linked existing data."
-        )
+        # Migration completed silently - details logged by caller if needed

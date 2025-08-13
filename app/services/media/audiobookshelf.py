@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import contextlib
 import datetime
 import logging
 import re
@@ -475,12 +474,14 @@ class AudiobookshelfClient(RestApiMixin):
         except Exception:
             logging.exception("ABS: failed to update permissions for %s", user_id)
 
-    def join(self, username: str, password: str, confirm: str, email: str, code: str):
+    def _do_join(
+        self, username: str, password: str, confirm: str, email: str, code: str
+    ):
         """Public invite flow for Audiobookshelf users."""
         if not self.EMAIL_RE.fullmatch(email):
             return False, "Invalid e-mail address."
-        if not 8 <= len(password) <= 20:
-            return False, "Password must be 8–20 characters."
+        if not 8 <= len(password) <= 128:
+            return False, "Password must be 8–128 characters."
         if password != confirm:
             return False, "Passwords do not match."
 
@@ -574,12 +575,13 @@ class AudiobookshelfClient(RestApiMixin):
             self._set_specific_libraries(user_id, lib_ids, allow_downloads)
 
             # Calculate expiry
-            expires = None
-            if inv and inv.duration:
-                with contextlib.suppress(Exception):
-                    expires = datetime.datetime.utcnow() + datetime.timedelta(
-                        days=int(inv.duration)
-                    )
+            from app.services.expiry import calculate_user_expiry
+
+            expires = (
+                calculate_user_expiry(inv, getattr(self, "server_id", None))
+                if inv
+                else None
+            )
 
             # Store locally
             local = User(

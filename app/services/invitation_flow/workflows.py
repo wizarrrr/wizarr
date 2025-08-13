@@ -10,6 +10,7 @@ from flask import session
 
 from app.models import Invitation, MediaServer
 from app.services.media.service import get_client_for_media_server
+from app.services.ombi_client import invite_user_to_connections
 
 from .results import InvitationResult, ProcessingStatus, ServerResult
 from .strategies import StrategyFactory
@@ -65,6 +66,29 @@ class InvitationWorkflow(ABC):
 
                 if ok:
                     successful.append(result)
+
+                    # Invite user to connected external services (Ombi/Overseerr)
+                    try:
+                        connection_results = invite_user_to_connections(
+                            username=form_data.get("username", ""),
+                            email=form_data.get("email", ""),
+                            server_id=server.id,
+                        )
+
+                        # Log connection results for debugging
+                        for conn_result in connection_results:
+                            if conn_result["status"] == "success":
+                                self.logger.info(
+                                    f"User {form_data.get('username')} invited to {conn_result['connection_name']}"
+                                )
+                            elif conn_result["status"] == "error":
+                                self.logger.warning(
+                                    f"Failed to invite user to {conn_result['connection_name']}: {conn_result['message']}"
+                                )
+                    except Exception as e:
+                        self.logger.error(
+                            f"Error inviting user to connections for server {server.name}: {e}"
+                        )
                 else:
                     failed.append(result)
 

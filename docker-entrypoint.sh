@@ -33,17 +33,24 @@ if [ "$(id -u)" = "0" ]; then
     adduser "$EXISTING_USER" "$TARGET_GRP" || true
   fi
 
-  # Only recurse into the truly live dirs
+  # Ensure critical data directories exist
+  mkdir -p /data/database
+  
+  # Create wizard_steps directory in /etc for template customization
+  mkdir -p /etc/wizarr/wizard_steps
+  
+  # Only recurse into the truly live dirs and cache
   echo "[entrypoint] ⚙️  Fixing ownership for bind mounts…"
   chown -R "$TARGET_USER":"$TARGET_GRP" \
-    /data/database /data/wizard_steps /.cache /opt/default_wizard_steps
+    /data/database /etc/wizarr/wizard_steps /.cache /opt/default_wizard_steps
 
-  # Fix ownership of bind-mounts
+  # Fix ownership of bind-mounts (only persistent data directories)
   if [ "$PUID:$PGID" != "$DEFAULT_UID:$DEFAULT_GID" ]; then
     echo "[entrypoint] ⚙️  Fixing ownership for custom UID/GID…"
 
-    find /data -type d -not -user "$PUID" \
-      -exec chown "$PUID":"$PGID" {} +
+    # Fix ownership of persistent user data only
+    [ -d /data/database ] && chown -R "$PUID":"$PGID" /data/database
+    [ -d /etc/wizarr/wizard_steps ] && chown -R "$PUID":"$PGID" /etc/wizarr/wizard_steps
   else
     echo "[entrypoint] ⚙️  Default UID/GID; skipping chown."
   fi
@@ -55,16 +62,20 @@ fi
 echo "[entrypoint] 👍 Running as $(id -un):$(id -gn) ($(id -u):$(id -g))"
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 2) Seed wizard steps per-server
+# 2) Seed wizard steps per-server (SEEDING ONLY)
+#
+#   NOTE: Wizard steps are managed through the database/frontend UI. This seeding
+#   process only provides DEFAULT markdown files that get imported into the DB
+#   on first run or when new server types are added.
 #
 #   • For every directory inside $DEFAULT (e.g. plex/ jellyfin/ …) we check if
 #     the matching subdir in $TARGET exists **and** contains at least one
 #     visible file.  Only if it's empty (or missing) do we copy in the
-#     defaults for that server type.  This allows users to customise the steps
-#     for one media server without having to keep copies for all others.
+#     defaults for that server type.  This allows users to customise the DEFAULT
+#     templates for one media server without having to keep copies for all others.
 # ─────────────────────────────────────────────────────────────────────────────
 
-TARGET=/data/wizard_steps
+TARGET=/etc/wizarr/wizard_steps
 DEFAULT=/opt/default_wizard_steps
 
 # ensure both directories exist
@@ -92,7 +103,7 @@ fi
 # ─────────────────────────────────────────────────────────────────────────────
 
 echo "[entrypoint] 🔧 Applying alembic migrations…"
-uv run flask db upgrade
+FLASK_SKIP_SCHEDULER=true uv run flask db upgrade
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 4) Hand off to your CMD (e.g. gunicorn)

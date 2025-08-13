@@ -1,5 +1,158 @@
 <section class="py-8">
     <div class="container px-4 mx-auto animate__animated animate__fadeIn">
+        <!-- User Status Sections Grid -->
+        {% if (expiring_users and expiring_users|length > 0) or (expired_users and expired_users|length > 0) %}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 p-4 mb-6">
+            <!-- Expiring This Week Section -->
+            {% if expiring_users and expiring_users|length > 0 %}
+            <div class="bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <span class="text-2xl">⏰</span>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                Expiring This Week
+                            </h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Users whose access will expire within 7 days</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ expiring_users|length }}</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">users</div>
+                    </div>
+                </div>
+                
+                <!-- Render expiring users directly in template -->
+                <div class="space-y-3 max-h-80 overflow-y-auto pr-1">
+                    {% for item in expiring_users %}
+                        <div class="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                            <!-- Left side: User info with avatar -->
+                            <div class="flex items-center space-x-3">
+                                <!-- Avatar -->
+                                <div class="flex-shrink-0 w-8 h-8 bg-gray-100 dark:bg-gray-600 rounded-full flex items-center justify-center">
+                                    <span class="text-xs font-medium text-gray-600 dark:text-gray-300">
+                                        {% if item.user.identity and item.user.identity.primary_username %}
+                                            {{ item.user.identity.primary_username[0]|upper }}
+                                        {% else %}
+                                            {{ item.user.username[0]|upper }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                
+                                <!-- User details -->
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                        {% if item.user.identity and item.user.identity.primary_username %}
+                                            {{ item.user.identity.primary_username }}
+                                        {% else %}
+                                            {{ item.user.username }}
+                                        {% endif %}
+                                    </div>
+                                    <div class="text-xs text-gray-500 dark:text-gray-400">
+                                        Expires {{ item.user.expires.strftime('%Y-%m-%d %H:%M') if item.user.expires else 'Never' }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Right side: Days left badge -->
+                            <div class="flex items-center space-x-2">
+                                <!-- Server badge (optional, small) -->
+                                {% if item.user.server %}
+                                    <span class="hidden sm:inline-flex items-center bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded dark:bg-gray-700 dark:text-gray-300">
+                                        {{ item.user.server.server_type }}
+                                    </span>
+                                {% endif %}
+                                
+                                <!-- Days left with urgency color -->
+                                <span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded {% if item.urgency == 'critical' %}bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300{% elif item.urgency == 'urgent' %}bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300{% else %}bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300{% endif %}">
+                                    {{ item.days_left|int }} day{% if item.days_left != 1 %}s{% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Summary info -->
+                <div class="mt-3 text-xs text-gray-500 dark:text-gray-400 text-center">
+                    {{ expiring_users|length }} user{% if expiring_users|length != 1 %}s{% endif %} expiring within the next week{% if expiring_users|length > 5 %} - scroll to view all{% endif %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Recently Expired Users Section -->
+            {% if expired_users and expired_users|length > 0 %}
+            <div class="bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <span class="text-2xl">🗑️</span>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                Recently Expired Users
+                            </h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Users whose access has expired and been deleted</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ expired_users|length }}</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">users</div>
+                    </div>
+                </div>
+                
+                <!-- Render expired users directly in template -->
+                <div class="space-y-3 max-h-80 overflow-y-auto pr-1">
+                    {% for user in expired_users %}
+                        <div class="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                            <!-- Left side: User info with avatar -->
+                            <div class="flex items-center space-x-3">
+                                <!-- Avatar -->
+                                <div class="flex-shrink-0 w-8 h-8 bg-gray-100 dark:bg-gray-600 rounded-full flex items-center justify-center">
+                                    <span class="text-xs font-medium text-gray-600 dark:text-gray-300">
+                                        {{ user.username[0]|upper if user.username else '?' }}
+                                    </span>
+                                </div>
+                                
+                                <!-- User details -->
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                        {{ user.username or 'Unknown' }}
+                                    </div>
+                                    <div class="text-xs text-gray-500 dark:text-gray-400">
+                                        Expired {{ user.expired_at.strftime('%Y-%m-%d %H:%M') if user.expired_at else 'Unknown' }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Right side: Server badge and status -->
+                            <div class="flex items-center space-x-2">
+                                <!-- Server badge (optional, small) -->
+                                {% if user.server %}
+                                    <span class="hidden sm:inline-flex items-center bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded dark:bg-gray-700 dark:text-gray-300">
+                                        {{ user.server.server_type }}
+                                    </span>
+                                {% endif %}
+                                
+                                <!-- Expired status badge -->
+                                <span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300">
+                                    Expired
+                                </span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Summary info -->
+                <div class="mt-3 text-xs text-gray-500 dark:text-gray-400 text-center">
+                    {{ expired_users|length }} expired user{% if expired_users|length != 1 %}s{% endif %}{% if expired_users|length > 5 %} - scroll to view all{% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
         <!-- Filters -->
         <div class="p-4 mb-6 flex flex-col md:flex-row md:items-center gap-4">
             <div class="flex-1 flex gap-4 flex-col sm:flex-row">
@@ -12,9 +165,11 @@
 
                 <input id="search_query" name="q" type="text" placeholder="Search users…" class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" hx-get="/users/table" hx-trigger="keyup changed delay:300ms" hx-target="#user_table" hx-swap="outerHTML" hx-include="#server_filter,#search_query,#order_sel" />
 
-                <select id="order_sel" name="order" class="w-full sm:w-40 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" hx-get="/users/table" hx-target="#user_table" hx-swap="outerHTML" hx-include="#server_filter,#search_query,#order_sel">
+                <select id="order_sel" name="order" class="w-full sm:w-56 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" hx-get="/users/table" hx-target="#user_table" hx-swap="outerHTML" hx-include="#server_filter,#search_query,#order_sel">
                     <option value="name_asc">Name ⬆︎</option>
                     <option value="name_desc">Name ⬇︎</option>
+                    <option value="invited_asc">Invited ⬆︎</option>
+                    <option value="invited_desc">Invited ⬇︎</option>
                 </select>
             </div>
             <div id="link-bar" class="hidden flex gap-2">
@@ -71,6 +226,36 @@
             </div>
 
         </div>
+
+        <!-- All Expired Users Section -->
+        <div class="p-4 mb-6">
+            <div class="bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <span class="text-2xl">📚</span>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                All Expired Users
+                            </h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Complete history of users whose access has expired and been deleted</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div hx-get="/expired-users/table" hx-trigger="load" hx-target="#expired_users_table" hx-swap="outerHTML"
+                     id="expired_users_table">
+                    <div class="text-center py-8">
+                        <svg aria-hidden="true" class="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                        </svg>
+                        <span class="text-gray-500 dark:text-gray-400">Loading expired users history...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 <div id="modal"
@@ -88,6 +273,45 @@
         else {
             document.getElementById("error_message").classList.remove("hidden");
             document.getElementById("error_message").innerHTML = "An error occurred. Please try again later.";
+        }
+    });
+
+    // Handle HTMX triggers
+    document.body.addEventListener('htmx:afterRequest', function(event) {
+        const triggers = event.detail.xhr.getResponseHeader('HX-Trigger');
+        if (triggers) {
+            console.log('HTMX triggers received:', triggers);
+            
+            if (triggers.includes('closeModal')) {
+                console.log('Closing modal');
+                closeModal();
+            }
+            
+            if (triggers.includes('refreshUserTable')) {
+                console.log('Refreshing user table');
+                
+                // Get current filter values
+                const serverFilter = document.getElementById('server_filter').value;
+                const searchQuery = document.getElementById('search_query').value;
+                const orderSel = document.getElementById('order_sel').value;
+                
+                console.log('Filter values:', { serverFilter, searchQuery, orderSel });
+                
+                // Build query string with current filters
+                const params = new URLSearchParams();
+                if (serverFilter) params.set('server', serverFilter);
+                if (searchQuery) params.set('q', searchQuery);
+                if (orderSel) params.set('order', orderSel);
+                
+                const url = '/users/table?' + params.toString();
+                console.log('Making HTMX request to:', url);
+                
+                // Make HTMX request to refresh the user table with current filters
+                htmx.ajax('GET', url, {
+                    target: '#user_table',
+                    swap: 'outerHTML'
+                });
+            }
         }
     });
 

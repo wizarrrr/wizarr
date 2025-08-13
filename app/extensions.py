@@ -6,8 +6,9 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_login import LoginManager
 from flask_migrate import Migrate
-from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
+
+from flask_session import Session
 
 # Instantiate extensions
 db = SQLAlchemy()
@@ -27,10 +28,60 @@ limiter = Limiter(
 
 # Initialize with app
 def init_extensions(app):
+    """Initialize Flask extensions with clean separation of concerns."""
+    import os
+
+    # Core extensions initialization
     sess.init_app(app)
     babel.init_app(app, locale_selector=_select_locale)
-    # scheduler.init_app(app)
-    # scheduler.start()
+
+    # Scheduler initialization - Flask-APScheduler handles Gunicorn properly
+    should_skip_scheduler = (
+        "pytest" in os.getenv("_", "")
+        or os.getenv("PYTEST_CURRENT_TEST")
+        or "alembic" in os.getenv("_", "")
+        or any("alembic" in str(arg).lower() for arg in __import__("sys").argv)
+        or any(
+            "db" in str(arg) and ("upgrade" in str(arg) or "migrate" in str(arg))
+            for arg in __import__("sys").argv
+        )
+        or os.getenv("FLASK_SKIP_SCHEDULER") == "true"
+        or os.getenv("WIZARR_DISABLE_SCHEDULER", "false").lower()
+        in ("true", "1", "yes")
+    )
+
+    if not should_skip_scheduler:
+        # Configure Flask-APScheduler for Gunicorn compatibility
+        app.config["SCHEDULER_API_ENABLED"] = False  # Disable API for security
+        app.config["SCHEDULER_JOBSTORE_URL"] = app.config.get("SQLALCHEMY_DATABASE_URI")
+
+        scheduler.init_app(app)
+
+        # Register tasks with the scheduler
+        from app.tasks.maintenance import _get_expiry_check_interval, check_expiring
+
+        # Add the task to the scheduler, passing the app instance
+        scheduler.add_job(
+            id="check_expiring",
+            func=lambda: check_expiring(app),
+            trigger="interval",
+            minutes=_get_expiry_check_interval(),
+            replace_existing=True,
+        )
+
+        # Start the scheduler - Flask-APScheduler handles Gunicorn coordination
+        try:
+            if not scheduler.running:
+                scheduler.start()
+                app.logger.info("APScheduler started successfully")
+            else:
+                app.logger.info("APScheduler already running")
+        except Exception as e:
+            app.logger.warning(f"Failed to start APScheduler: {e}")
+
+    # Continue with remaining extensions
+
+    # Continue with remaining extensions
     htmx.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"  # type: ignore[assignment]

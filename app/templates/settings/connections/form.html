@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {% if action == 'create' %}
+    {{ _("Add New Connection") }}
+  {% else %}
+    {{ _("Edit Connection") }}
+  {% endif %}
+{% endblock %}
+
+{% block main %}
+<section class="px-4 py-6 sm:px-6 lg:px-8">
+  <div class="max-w-2xl mx-auto">
+    
+    <!-- Page Header -->
+    <div class="mb-8">
+      <div class="flex items-center mb-4">
+        <a href="{{ url_for('settings.page') }}#connections" class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white mr-3">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </a>
+        <nav class="flex" aria-label="Breadcrumb">
+          <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+              <a href="{{ url_for('settings.page') }}" class="text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                {{ _("Settings") }}
+              </a>
+            </li>
+            <li>
+              <div class="flex items-center">
+                <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" fill="none" viewBox="0 0 6 10">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                </svg>
+                <a href="{{ url_for('settings.page') }}#connections" class="ms-1 text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">{{ _("Connections") }}</a>
+              </div>
+            </li>
+            <li aria-current="page">
+              <div class="flex items-center">
+                <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" fill="none" viewBox="0 0 6 10">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                </svg>
+                <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">
+                  {% if action == 'create' %}
+                    {{ _("Add Connection") }}
+                  {% else %}
+                    {{ _("Edit Connection") }}
+                  {% endif %}
+                </span>
+              </div>
+            </li>
+          </ol>
+        </nav>
+      </div>
+      
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+        {% if action == 'create' %}
+          {{ _("Add New Connection") }}
+        {% else %}
+          {{ _("Edit Connection") }}
+        {% endif %}
+      </h1>
+      <p class="mt-2 text-gray-600 dark:text-gray-400">
+        {% if action == 'create' %}
+          {{ _("Create a new external service connection for automated user invitations") }}
+        {% else %}
+          {{ _("Update the connection settings") }}
+        {% endif %}
+      </p>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="p-6">
+        <form method="POST" class="space-y-6">
+          {{ form.hidden_tag() }}
+
+          <!-- Connection Type -->
+          <div>
+            {{ form.connection_type.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+            {{ form.connection_type(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary", onchange="this.form.submit()") }}
+            {% if form.connection_type.errors %}
+              <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                {% for error in form.connection_type.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _("Select the type of connection to configure") }}</p>
+          </div>
+
+          <!-- Connection Name -->
+          <div>
+            {{ form.name.label(class="block mb-2 text-sm font-medium " + ("text-gray-500" if form.connection_type.data == 'overseerr' else "text-gray-900 dark:text-white")) }}
+            {{ form.name(class="text-sm rounded-lg block w-full p-2.5 " + ("bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" if form.connection_type.data == 'overseerr' else "bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"), disabled=(form.connection_type.data == 'overseerr')) }}
+            {% if form.name.errors %}
+              <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                {% for error in form.name.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _("A friendly name to identify this connection") }}</p>
+          </div>
+
+          <!-- Media Server -->
+          <div>
+            {{ form.media_server_id.label(class="block mb-2 text-sm font-medium " + ("text-gray-500" if form.connection_type.data == 'overseerr' else "text-gray-900 dark:text-white")) }}
+            {{ form.media_server_id(class="text-sm rounded-lg block w-full p-2.5 " + ("bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" if form.connection_type.data == 'overseerr' else "bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"), disabled=(form.connection_type.data == 'overseerr')) }}
+            {% if form.media_server_id.errors %}
+              <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                {% for error in form.media_server_id.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _("Which media server should trigger invitations to this external service") }}</p>
+          </div>
+
+          {% if form.connection_type.data == 'overseerr' %}
+            <!-- Overseerr Info Section -->
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+              <div class="flex items-start">
+                <svg class="w-6 h-6 text-blue-500 mt-1 mr-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                </svg>
+                <div>
+                  <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">{{ _("Overseerr/Jellyseerr Information") }}</h3>
+                  <p class="text-gray-600 dark:text-gray-300 mb-4">
+                    {{ _("Overseerr and Jellyseerr automatically import new users by default. No API connection is required for Wizarr integration.") }}
+                  </p>
+                  <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                    <h4 class="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">{{ _("To enable auto-import:") }}</h4>
+                    <ol class="text-sm text-blue-800 dark:text-blue-200 space-y-1 list-decimal list-inside">
+                      <li>{{ _("Open your Overseerr/Jellyseerr admin panel") }}</li>
+                      <li>{{ _("Navigate to Settings → Users") }}</li>
+                      <li>{{ _("Enable 'Auto-approve new users'") }}</li>
+                      <li>{{ _("Enable 'Import Jellyfin/Plex users'") }}</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <!-- URL -->
+            <div>
+              {{ form.url.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.url(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary", placeholder="https://service.example.com") }}
+              {% if form.url.errors %}
+                <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {% for error in form.url.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
+              <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _("The full URL to your external service instance") }}</p>
+            </div>
+
+            <!-- API Key -->
+            <div>
+              {{ form.api_key.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+              <div class="relative">
+                {{ form.api_key(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 pr-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary", type="password", placeholder="Enter API key") }}
+                <button 
+                  type="button" 
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  onclick="togglePassword(this)"
+                >
+                  <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                  </svg>
+                </button>
+              </div>
+              {% if form.api_key.errors %}
+                <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {% for error in form.api_key.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
+              <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _("API key from your external service settings") }}</p>
+            </div>
+          {% endif %}
+
+          <!-- Form Actions -->
+          <div class="flex items-center justify-end space-x-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <a 
+              href="{{ url_for('settings.page') }}#connections" 
+              class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+            >
+              {{ _("Cancel") }}
+            </a>
+            <button 
+              type="submit" 
+              class="text-white bg-primary hover:bg-primary-dark focus:ring-4 focus:outline-none focus:ring-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+              {% if action == 'create' %}
+                {{ _("Create Connection") }}
+              {% else %}
+                {{ _("Update Connection") }}
+              {% endif %}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function togglePassword(button) {
+  const input = button.parentElement.querySelector('input');
+  const icon = button.querySelector('svg');
+  
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.innerHTML = `
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+    `;
+  } else {
+    input.type = 'password';
+    icon.innerHTML = `
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+    `;
+  }
+}
+</script>
+{% endblock %}

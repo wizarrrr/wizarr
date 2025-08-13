@@ -18,6 +18,7 @@ import requests
 
 from app.extensions import db
 from app.models import MediaServer, Settings, User
+from app.services.notifications import notify
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
@@ -130,6 +131,7 @@ class MediaClient(ABC):
             User: The created User record with identity_id set if applicable
         """
         code = user_kwargs.get("code")
+        email = user_kwargs.get("email")
 
         # Check if this is part of a multi-server invitation
         if code:
@@ -137,6 +139,12 @@ class MediaClient(ABC):
             if existing_user and existing_user.identity_id:
                 # Link to existing identity from same invitation
                 user_kwargs["identity_id"] = existing_user.identity_id
+
+        # Clean up any expired user records for this email address
+        if email:
+            from app.services.expiry import cleanup_expired_user_by_email
+
+            cleanup_expired_user_by_email(email)
 
         new_user = User(**user_kwargs)
         db.session.add(new_user)
@@ -220,9 +228,46 @@ class MediaClient(ABC):
         """
         raise NotImplementedError
 
-    @abstractmethod
     def join(self, username: str, password: str, confirm: str, email: str, code: str):
         """Process user invitation for this media server.
+
+        This is a template method that handles notifications after successful user creation.
+        Subclasses should implement _do_join() instead of overriding this method.
+
+        Args:
+            username: Username for the new account
+            password: Password for the new account
+            confirm: Password confirmation
+            email: Email address for the new account
+            code: Invitation code being used
+
+        Returns:
+            tuple: (success: bool, message: str)
+        """
+        # Call the concrete implementation
+        success, message = self._do_join(username, password, confirm, email, code)
+
+        # Send notification on successful join
+        if success:
+            try:
+                notify(
+                    "New User",
+                    f"User {username} has joined your server! 🎉",
+                    tags="tada",
+                )
+            except Exception as e:
+                logging.warning(f"Failed to send join notification: {e}")
+
+        return success, message
+
+    @abstractmethod
+    def _do_join(
+        self, username: str, password: str, confirm: str, email: str, code: str
+    ):
+        """Process user invitation for this media server (implementation method).
+
+        This method should be implemented by subclasses to handle the actual user creation logic.
+        Notifications are handled automatically by the public join() method.
 
         Args:
             username: Username for the new account
@@ -320,7 +365,7 @@ class RestApiMixin(MediaClient):
             logging.info("→ %s", response.status_code)
             response.raise_for_status()
             return response
-        except requests.exceptions.RequestException as e:
+        except Exception as e:
             logging.error("Request failed: %s", e)
             raise
 

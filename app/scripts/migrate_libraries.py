@@ -66,6 +66,4 @@ def run_library_migration(app):
                 inv.specific_libraries = None
 
         db.session.commit()
-        print(
-            f"[migrate_libraries] created {len(old_ext_ids)} Library rows and {total_links} invite links."
-        )
+        # Migration completed silently - details logged by caller if needed

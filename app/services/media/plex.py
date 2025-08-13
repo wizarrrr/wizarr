@@ -1,5 +1,5 @@
-import datetime
 import logging
+import re
 import threading
 from typing import TYPE_CHECKING
 
@@ -81,6 +81,61 @@ def _accept_invite_v2(self: MyPlexAccount, user):
 
 
 MyPlexAccount.acceptInvite = _accept_invite_v2  # type: ignore[assignment]
+
+
+def extract_plex_error_message(exception) -> str:
+    """
+    Extract human-readable error message from Plex API exceptions.
+
+    Args:
+        exception: Exception from plexapi
+
+    Returns:
+        Human-readable error message
+    """
+    error_message = str(exception)
+
+    # Look for XML response with status attribute in the error message
+    # Format: plexapi.exceptions.BadRequest: (400) bad_request; https://... <Response code="400" status="Error message"/>
+    xml_pattern = r'<Response[^>]+status="([^"]*)"[^>]*/?>'
+    xml_match = re.search(xml_pattern, error_message)
+    if xml_match:
+        return xml_match.group(1)
+
+    # Look for JSON response patterns if XML doesn't work
+    # This handles cases where Plex returns JSON errors
+    json_pattern = r'"message":\s*"([^"]*)"'
+    json_match = re.search(json_pattern, error_message)
+    if json_match:
+        return json_match.group(1)
+
+    # Look for simple status messages in parentheses
+    # Format: (400) some_error_message; ...
+    status_pattern = r"\(\d+\)\s+([^;]+);"
+    status_match = re.search(status_pattern, error_message)
+    if status_match:
+        error_text = status_match.group(1).strip()
+        # Convert snake_case to readable text
+        return error_text.replace("_", " ").title()
+
+    # Fallback to the original exception message but clean it up
+    if hasattr(exception, "message"):
+        return str(exception.message)
+
+    # Last resort: return a cleaned up version of the exception string
+    clean_message = (
+        error_message.split(";")[0] if ";" in error_message else error_message
+    )
+    return clean_message.replace("plexapi.exceptions.", "").replace("BadRequest: ", "")
+
+
+class PlexInvitationError(Exception):
+    """Custom exception for Plex invitation errors with user-friendly messages."""
+
+    def __init__(self, message: str, original_exception=None):
+        self.message = message
+        self.original_exception = original_exception
+        super().__init__(message)
 
 
 @register_media_client("plex")
@@ -174,7 +229,7 @@ class PlexClient(MediaClient):
             "PlexClient does not support create_user; use invite_friend or invite_home"
         )
 
-    def join(
+    def _do_join(
         self, username: str, password: str, confirm: str, email: str, code: str
     ) -> tuple[bool, str]:
         return (
@@ -190,14 +245,20 @@ class PlexClient(MediaClient):
         allow_channels: bool,
         allow_camera_upload: bool = False,
     ):
-        self.admin.inviteFriend(
-            user=email,
-            server=self.server,
-            sections=sections,
-            allowSync=allow_sync,
-            allowChannels=allow_channels,
-            allowCameraUpload=allow_camera_upload,
-        )
+        try:
+            self.admin.inviteFriend(
+                user=email,
+                server=self.server,
+                sections=sections,
+                allowSync=allow_sync,
+                allowChannels=allow_channels,
+                allowCameraUpload=allow_camera_upload,
+            )
+        except Exception as e:
+            # Extract human-readable error message and raise custom exception
+            error_message = extract_plex_error_message(e)
+            logging.error(f"Failed to invite friend {email}: {error_message}")
+            raise PlexInvitationError(error_message, e) from e
 
     def invite_home(
         self,
@@ -207,14 +268,20 @@ class PlexClient(MediaClient):
         allow_channels: bool,
         allow_camera_upload: bool = False,
     ):
-        self.admin.createExistingUser(
-            user=email,
-            server=self.server,
-            sections=sections,
-            allowSync=allow_sync,
-            allowChannels=allow_channels,
-            allowCameraUpload=allow_camera_upload,
-        )
+        try:
+            self.admin.createExistingUser(
+                user=email,
+                server=self.server,
+                sections=sections,
+                allowSync=allow_sync,
+                allowChannels=allow_channels,
+                allowCameraUpload=allow_camera_upload,
+            )
+        except Exception as e:
+            # Extract human-readable error message and raise custom exception
+            error_message = extract_plex_error_message(e)
+            logging.error(f"Failed to invite home user {email}: {error_message}")
+            raise PlexInvitationError(error_message, e) from e
 
     def get_user(self, db_id: int) -> dict:
         """Get user info in legacy format for backward compatibility."""
@@ -608,7 +675,17 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         email = account.email
 
         inv = Invitation.query.filter_by(code=code).first()
-        server = inv.server if inv and inv.server else MediaServer.query.first()
+        # Use the new multi-server relationship instead of legacy server
+        if inv and inv.servers:
+            # Get the first Plex server from the invitation's server list
+            plex_servers = [s for s in inv.servers if s.server_type == "plex"]
+            server = plex_servers[0] if plex_servers else inv.servers[0]
+        elif inv and inv.server:
+            # Fallback to legacy single server relationship
+            server = inv.server
+        else:
+            # Last resort fallback
+            server = MediaServer.query.first()
         if not server:
             raise ValueError("No media server found")
         server_id = server.id
@@ -618,12 +695,9 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         ).delete(synchronize_session=False)
         db.session.commit()
 
-        duration = inv.duration if inv else None
-        expires = (
-            datetime.datetime.now() + datetime.timedelta(days=int(duration))
-            if duration
-            else None
-        )
+        from app.services.expiry import calculate_user_expiry
+
+        expires = calculate_user_expiry(inv, server_id) if inv else None
 
         client = PlexClient(media_server=server)
         new_user = client._create_user_with_identity_linking(
@@ -644,7 +718,13 @@ def handle_oauth_token(app, token: str, code: str) -> None:
             "User Joined", f"User {account.username} has joined your server!", "tada"
         )
 
-        threading.Thread(target=_post_join_setup, args=(token,), daemon=True).start()
+        # Pass only what we need: server credentials, not the entire Flask app
+        client = PlexClient()
+        server_url = client.url
+        api_token = client.token
+        threading.Thread(
+            target=_post_join_setup, args=(server_url, api_token, token), daemon=True
+        ).start()
 
 
 def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> None:
@@ -670,10 +750,19 @@ def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> No
     allow_tv = bool(inv.allow_live_tv)
     allow_camera_upload = bool(inv.allow_mobile_uploads)
 
-    if inv.plex_home:
-        client.invite_home(email, libs, allow_sync, allow_tv, allow_camera_upload)
-    else:
-        client.invite_friend(email, libs, allow_sync, allow_tv, allow_camera_upload)
+    try:
+        if inv.plex_home:
+            client.invite_home(email, libs, allow_sync, allow_tv, allow_camera_upload)
+        else:
+            client.invite_friend(email, libs, allow_sync, allow_tv, allow_camera_upload)
+    except PlexInvitationError:
+        # Re-raise PlexInvitationError to preserve the user-friendly message
+        raise
+    except Exception as e:
+        # Handle any other unexpected errors
+        error_message = extract_plex_error_message(e)
+        logging.error(f"Unexpected error inviting {email} to Plex: {error_message}")
+        raise PlexInvitationError(error_message, e) from e
 
     logging.info("Invited %s to Plex", email)
 
@@ -687,22 +776,20 @@ def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> No
     db.session.commit()
 
 
-def _post_join_setup(token: str):
-    from app import create_app
+def _post_join_setup(server_url: str, api_token: str, token: str):
+    # Create a PlexServer instance directly without Flask context dependencies
+    from plexapi.server import PlexServer
 
-    # Create a new app context for the threaded operation
-    app = create_app()
-
-    with app.app_context():
-        client = PlexClient()
-        try:
-            user = MyPlexAccount(token=token)
-            # use username as the v2 API returns only username, not e-mail
-            user.acceptInvite(client.admin.username)
-            user.enableViewStateSync()
-            _opt_out_online_sources(user)
-        except Exception as exc:
-            logging.error("Post-join setup failed: %s", exc)
+    try:
+        server = PlexServer(server_url, api_token)
+        user = MyPlexAccount(token=token)
+        # use username as the v2 API returns only username, not e-mail
+        admin_account = server.myPlexAccount()
+        user.acceptInvite(admin_account.username)
+        user.enableViewStateSync()
+        _opt_out_online_sources(user)
+    except Exception as exc:
+        logging.error("Post-join setup failed: %s", exc)
 
 
 def _opt_out_online_sources(user: MyPlexAccount):

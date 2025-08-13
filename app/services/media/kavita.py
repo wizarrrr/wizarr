@@ -11,7 +11,6 @@ from sqlalchemy import or_
 from app.extensions import db
 from app.models import Invitation, User
 from app.services.invites import is_invite_valid, mark_server_used
-from app.services.notifications import notify
 
 from .client_base import RestApiMixin, register_media_client
 
@@ -558,13 +557,13 @@ class KavitaClient(RestApiMixin):
 
     # --- public sign-up ---------------------------------------------
 
-    def join(
+    def _do_join(
         self, username: str, password: str, confirm: str, email: str, code: str
     ) -> tuple[bool, str]:
         if email and not EMAIL_RE.fullmatch(email):
             return False, "Invalid e-mail address."
-        if not 8 <= len(password) <= 50:
-            return False, "Password must be 8–50 characters."
+        if not 8 <= len(password) <= 128:
+            return False, "Password must be 8–128 characters."
         if password != confirm:
             return False, "Passwords do not match."
 
@@ -595,10 +594,9 @@ class KavitaClient(RestApiMixin):
             # Create user in Kavita with library access
             user_identifier = self.create_user(username, password, email, library_ids)
 
-            expires = None
-            if inv and inv.duration:
-                days = int(inv.duration)
-                expires = datetime.datetime.utcnow() + datetime.timedelta(days=days)
+            from app.services.expiry import calculate_user_expiry
+
+            expires = calculate_user_expiry(inv, current_server_id) if inv else None
 
             # Store the user info in Wizarr's database
             # The token field contains either the user ID or email as fallback
@@ -669,12 +667,6 @@ class KavitaClient(RestApiMixin):
                     )
             else:
                 logging.info(f"No libraries specified for Kavita user {username}")
-
-            notify(
-                "Kavita User Created",
-                f"User '{username}' has been successfully created in Kavita.",
-                tags="user",
-            )
 
             return (
                 True,

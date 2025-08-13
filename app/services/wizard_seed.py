@@ -13,8 +13,9 @@ from app.models import WizardStep
 BASE_DIR = Path(__file__).resolve().parent.parent.parent / "wizard_steps"
 
 # No override directory – wizard steps are now managed from the UI.  The
-# bundled markdown files are only used to bootstrap **new** installations or
-# to append *new* default steps introduced in later upgrades.
+# bundled markdown files are only used to:
+# 1. Bootstrap fresh installations with all default steps
+# 2. Add steps for NEW server types on upgrades (not new steps for existing types)
 
 
 def _gather_step_files() -> list[Path]:
@@ -65,15 +66,12 @@ def _collect_builtin_files() -> dict[str, list[Path]]:
 
 
 def import_default_wizard_steps() -> None:
-    """Ensure the database contains at least the bundled *default* wizard
-    steps shipped with Wizarr.
+    """Ensure the database contains wizard steps for server types.
 
-    • For every *server_type* directory import the markdown files in
-      lexicographical order.
-    • Rows that already exist (same *server_type*, *position*) are left
-      untouched so UI edits persist.
-    • Missing rows are appended – this covers both fresh installations (zero
-      rows) and software upgrades that introduce *new* default pages.
+    Behavior:
+    • First installation (empty wizard_step table): Import all default steps
+    • Upgrades: Only import steps for NEW server types that don't exist in DB yet
+    • Existing steps are never modified to preserve UI customizations
     """
 
     # Skip entirely when running under pytest / testing
@@ -99,25 +97,45 @@ def import_default_wizard_steps() -> None:
         return
 
     # ------------------------------------------------------------------
-    # 2. For each server_type ensure *all* default steps exist – we insert
-    #    rows *individually* so existing user edits remain intact.
+    # 2. Check if this is a fresh installation or upgrade
     # ------------------------------------------------------------------
-    for server_type, files in builtin_sources.items():
-        # Sort files for deterministic position assignment
+    existing_server_types = set(
+        db.session.query(WizardStep.server_type).distinct().all()
+    )
+    existing_server_types = {row[0] for row in existing_server_types}
+
+    is_fresh_install = len(existing_server_types) == 0
+
+    # ------------------------------------------------------------------
+    # 3. Determine which server types to process
+    # ------------------------------------------------------------------
+    if is_fresh_install:
+        # Fresh install: import all server types
+        server_types_to_import = set(builtin_sources.keys())
+        current_app.logger.info(
+            f"Fresh install detected: importing wizard steps for all {len(server_types_to_import)} server types"
+        )
+    else:
+        # Upgrade: only import NEW server types not in database
+        available_server_types = set(builtin_sources.keys())
+        server_types_to_import = available_server_types - existing_server_types
+
+        if server_types_to_import:
+            current_app.logger.info(
+                f"Upgrade detected: importing wizard steps for {len(server_types_to_import)} new server types: {sorted(server_types_to_import)}"
+            )
+        else:
+            current_app.logger.debug("Upgrade detected: no new server types to import")
+
+    # ------------------------------------------------------------------
+    # 4. Import steps for determined server types only
+    # ------------------------------------------------------------------
+    for server_type in server_types_to_import:
+        files = builtin_sources[server_type]
         files_sorted = sorted(files)
 
         for pos, path in enumerate(files_sorted):
-            # Skip if a row already exists for this (server_type, position)
-            exists = (
-                db.session.query(WizardStep.id)
-                .filter_by(server_type=server_type, position=pos)
-                .limit(1)
-                .scalar()
-            )
-            if exists:
-                continue
-
-            # Create new row for missing step
+            # Create new row for this step
             meta = _parse_markdown(path)
             step = WizardStep(
                 server_type=server_type,
@@ -128,9 +146,11 @@ def import_default_wizard_steps() -> None:
             )
             db.session.add(step)
 
-    db.session.commit()
+    if server_types_to_import:
+        db.session.commit()
+        current_app.logger.info(
+            f"Successfully imported wizard steps for: {sorted(server_types_to_import)}"
+        )
 
-    # NOTE: existing steps that the admin has modified via the UI are left
-    # untouched.  Likewise we do not attempt to remove steps that no longer
-    # exist upstream – they might hold valuable custom edits made by the
-    # admin.  This function therefore acts as an *append-only* bootstrap.
+    # NOTE: existing steps are never modified to preserve UI customizations.
+    # This function only imports steps for server types that don't exist yet.

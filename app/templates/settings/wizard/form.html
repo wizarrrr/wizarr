@@ -22,11 +22,6 @@
       {{ form.markdown(rows="10", class="w-full border rounded p-2 font-mono dark:bg-gray-700 dark:border-gray-600") }}
     </div>
 
-    <div>
-      {{ form.requires.label(class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300") }}
-      {{ form.requires(class="w-full border rounded p-2 dark:bg-gray-700 dark:border-gray-600") }}
-      <p class="text-xs text-gray-500 mt-1">{{ _('Comma-separated setting keys (leave empty for always visible)') }}</p>
-    </div>
 
     <div class="flex gap-2">
       <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _('Save') }}</button>
