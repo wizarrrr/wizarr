@@ -1,509 +1,583 @@
+"""Flask-RESTX API routes with OpenAPI documentation."""
+
 import datetime
 import hashlib
 import logging
 import traceback
 from functools import wraps
 
-from flask import Blueprint, jsonify, request, url_for
+from flask import Blueprint, request
+from flask_restx import Resource
 
-from app.extensions import db
+from app.extensions import api, db
 from app.models import ApiKey, Invitation, Library, MediaServer, User
 from app.services.invites import create_invite
 from app.services.media.service import delete_user, list_users_all_servers
 
+from .models import (
+    api_key_list_model,
+    error_model,
+    invitation_create_request,
+    invitation_create_response,
+    invitation_list_model,
+    library_list_model,
+    server_list_model,
+    status_model,
+    success_message_model,
+    user_extend_request,
+    user_extend_response,
+    user_list_model,
+)
+
+# Create the Blueprint for the API
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 
-# Set up logging for API
+# Initialize Flask-RESTX with the blueprint
+api.init_app(api_bp)
+
+# Set up logging
 logger = logging.getLogger("wizarr.api")
 
-
-def _generate_invitation_url(code):
-    """Generate full invitation URL for the given code."""
-    try:
-        # Try to generate URL using url_for with the public blueprint's invite route
-        invite_path = url_for('public.invite', code=code, _external=False)
-        
-        # Get the host from the current request if available
-        host = request.headers.get('Host')
-        if host and not host.startswith('localhost'):
-            # Only generate full URL for non-localhost hosts
-            scheme = 'https' if request.is_secure else 'http'
-            full_url = f"{scheme}://{host}{invite_path}"
-            return full_url
-        else:
-            # For localhost or when no host header, return relative URL
-            return invite_path
-            
-    except Exception as e:
-        logger.warning("Failed to generate invitation URL: %s", str(e))
-        # Fallback to basic format
-        return f"/j/{code}"
+# Create namespaces for organizing endpoints
+status_ns = api.namespace("status", description="System status operations")
+users_ns = api.namespace("users", description="User management operations")
+invitations_ns = api.namespace(
+    "invitations", description="Invitation management operations"
+)
+libraries_ns = api.namespace("libraries", description="Library information operations")
+servers_ns = api.namespace("servers", description="Server information operations")
+api_keys_ns = api.namespace("api-keys", description="API key management operations")
 
 
 def require_api_key(f):
     """Decorator to require valid API key for endpoint access."""
+
     @wraps(f)
     def decorated_function(*args, **kwargs):
         auth_key = request.headers.get("X-API-Key")
         if not auth_key:
             logger.warning("API request without API key from %s", request.remote_addr)
-            return jsonify({"error": "API key required"}), 401
+            return {"error": "API key required"}, 401
 
         # Hash the provided key to compare with stored hash
         key_hash = hashlib.sha256(auth_key.encode()).hexdigest()
         api_key = ApiKey.query.filter_by(key_hash=key_hash, is_active=True).first()
 
         if not api_key:
-            logger.warning("API request with invalid API key from %s", request.remote_addr)
-            return jsonify({"error": "Invalid API key"}), 401
+            logger.warning(
+                "API request with invalid API key from %s", request.remote_addr
+            )
+            return {"error": "Invalid API key"}, 401
 
         # Update last used timestamp
         api_key.last_used_at = datetime.datetime.now(datetime.UTC)
         db.session.commit()
 
-        logger.info("API request authenticated with key '%s' from %s", api_key.name, request.remote_addr)
+        logger.info(
+            "API request authenticated with key '%s' from %s",
+            api_key.name,
+            request.remote_addr,
+        )
         return f(*args, **kwargs)
 
     return decorated_function
 
 
-@api_bp.route("/users", methods=["GET"])
-@require_api_key
-def list_users():
-    """List all users across all media servers."""
+def _generate_invitation_url(code):
+    """Generate full invitation URL for the given code."""
     try:
-        logger.info("API: Listing all users")
-        users_by_server = list_users_all_servers()
+        from flask import url_for
 
-        # Format response
-        users_list = []
-        for server_id, users in users_by_server.items():
-            # Get server info
-            server = db.session.get(MediaServer, server_id)
-            if not server:
-                continue
+        # Try to generate URL using url_for with the public blueprint's invite route
+        invite_path = url_for("public.invite", code=code, _external=False)
 
-            for user in users:
-                users_list.append({
-                    "id": user.id,
-                    "username": user.username,
-                    "email": user.email,
-                    "server": server.name,
-                    "server_type": server.server_type,
-                    "expires": user.expires.isoformat() if user.expires else None,
-                    "created": user.created.isoformat() if hasattr(user, 'created') and user.created else None
-                })
-
-        return jsonify({"users": users_list, "count": len(users_list)})
+        # Get the host from the current request if available
+        host = request.headers.get("Host")
+        if host and not host.startswith("localhost"):
+            # Only generate full URL for non-localhost hosts
+            scheme = "https" if request.is_secure else "http"
+            return f"{scheme}://{host}{invite_path}"
+        # For localhost or when no host header, return relative URL
+        return invite_path
 
     except Exception as e:
-        logger.error("Error listing users: %s", str(e))
-        traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
+        logger.warning("Failed to generate invitation URL: %s", str(e))
+        # Fallback to basic format
+        return f"/j/{code}"
 
 
-@api_bp.route("/users/<int:user_id>", methods=["DELETE"])
-@require_api_key
-def delete_user_endpoint(user_id):
-    """Delete a user by ID."""
-    try:
-        user = db.session.get(User, user_id)
-        if not user:
-            return jsonify({"error": "User not found"}), 404
-
-        logger.info("API: Deleting user %s (ID: %d)", user.username, user_id)
-        result = delete_user(user.server_id, user.token)
-
-        if result:
-            return jsonify({"message": f"User {user.username} deleted successfully"})
-        return jsonify({"error": "Failed to delete user"}), 500
-
-    except Exception as e:
-        logger.error("Error deleting user %d: %s", user_id, str(e))
-        traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
-
-
-@api_bp.route("/users/<int:user_id>/extend", methods=["POST"])
-@require_api_key
-def extend_user_expiry(user_id):
-    """Extend user expiry date."""
-    try:
-        user = db.session.get(User, user_id)
-        if not user:
-            return jsonify({"error": "User not found"}), 404
-
-        data = request.get_json() or {}
-        days = data.get("days", 30)  # Default to 30 days
-
-        if user.expires:
-            new_expiry = user.expires + datetime.timedelta(days=days)
-        else:
-            new_expiry = datetime.datetime.now(datetime.UTC) + datetime.timedelta(days=days)
-
-        user.expires = new_expiry
-        db.session.commit()
-
-        logger.info("API: Extended user %s expiry by %d days to %s", user.username, days, new_expiry)
-        return jsonify({
-            "message": f"User {user.username} expiry extended by {days} days",
-            "new_expiry": new_expiry.isoformat()
-        })
-
-    except Exception as e:
-        logger.error("Error extending user %d expiry: %s", user_id, str(e))
-        traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
-
-
-@api_bp.route("/invitations", methods=["GET"])
-@require_api_key
-def list_invitations():
-    """List all invitations."""
-    try:
-        logger.info("API: Listing all invitations")
-        now = datetime.datetime.now(datetime.UTC)
-
-        invitations = Invitation.query.all()
-        invites_list = []
-
-        for invite in invitations:
-            # Determine status
-            if invite.used:
-                status = "used"
-            elif invite.expires:
-                # Handle timezone comparison
-                invite_expires = invite.expires
-                if invite_expires.tzinfo is None:
-                    # If invitation expires is naive, assume UTC
-                    invite_expires = invite_expires.replace(tzinfo=datetime.UTC)
-                status = "expired" if invite_expires < now else "pending"
-            else:
-                status = "pending"
-
-            # Get server information for this invitation
-            from app.services.server_name_resolver import get_display_name_info
-            
-            servers = []
-            if invite.servers:
-                servers = list(invite.servers)
-            elif invite.server:
-                servers = [invite.server]
-            
-            display_info = get_display_name_info(servers)
-
-            invites_list.append({
-                "id": invite.id,
-                "code": invite.code,
-                "url": _generate_invitation_url(invite.code),
-                "status": status,
-                "created": invite.created.isoformat() if invite.created else None,
-                "expires": invite.expires.isoformat() if invite.expires else None,
-                "used_at": invite.used_at.isoformat() if invite.used_at else None,
-                "used_by": invite.used_by.username if invite.used_by else None,
-                "duration": invite.duration,
-                "unlimited": invite.unlimited,
-                "specific_libraries": invite.specific_libraries,
-                "display_name": display_info["display_name"],
-                "server_names": display_info["server_names"],
-                "uses_global_setting": display_info["uses_global_setting"]
-            })
-
-        return jsonify({"invitations": invites_list, "count": len(invites_list)})
-
-    except Exception as e:
-        logger.error("Error listing invitations: %s", str(e))
-        traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
-
-
-@api_bp.route("/invitations", methods=["POST"])
-@require_api_key
-def create_invitation():
-    """Create a new invitation."""
-    try:
-        # Try to get JSON data, handle missing Content-Type gracefully
+@status_ns.route("")
+class StatusResource(Resource):
+    @api.doc("get_status", security="apikey")
+    @api.marshal_with(status_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def get(self):
+        """Get overall statistics about your Wizarr instance."""
         try:
-            data = request.get_json() or {}
-        except Exception:
-            # If JSON parsing fails due to Content-Type, try force parsing
-            try:
-                data = request.get_json(force=True) or {}
-            except Exception:
-                data = {}
+            logger.info("API: Getting system status")
 
-        # Extract parameters
-        expires_in_days = data.get("expires_in_days")
-        duration = data.get("duration", "unlimited")
-        library_ids = data.get("library_ids", [])
-        unlimited = data.get("unlimited", True)
-        server_ids = data.get("server_ids", [])  # Allow explicit server specification
+            # Get statistics
+            total_users = User.query.count()
+            total_invitations = Invitation.query.count()
+            pending_invitations = Invitation.query.filter_by(status="pending").count()
+            expired_invitations = Invitation.query.filter_by(status="expired").count()
 
-        # Map expires_in_days to the expected format
-        expires_key = "never"
-        if expires_in_days == 1:
-            expires_key = "day"
-        elif expires_in_days == 7:
-            expires_key = "week"
-        elif expires_in_days == 30:
-            expires_key = "month"
-
-        # Handle server selection logic - server_ids are now required
-        if not server_ids:
-            # No server IDs specified - this is now always an error
-            verified_servers = MediaServer.query.filter_by(verified=True).all()
-            available_servers = [
-                {"id": s.id, "name": s.name, "server_type": s.server_type}
-                for s in verified_servers
-            ]
-            return jsonify({
-                "error": "Server selection is required. Please specify server_ids in request.",
-                "available_servers": available_servers
-            }), 400
-        
-        # Server IDs explicitly provided - validate them
-        servers = MediaServer.query.filter(
-            MediaServer.id.in_(server_ids),
-            MediaServer.verified
-        ).all()
-        if len(servers) != len(server_ids):
-            return jsonify({"error": "One or more specified servers not found or not verified"}), 400
-        selected_server_ids = server_ids
-
-        # Create a form-like object
-        form_data = {
-            "duration": duration,
-            "expires": expires_key,
-            "unlimited": unlimited,
-            "server_ids": selected_server_ids,
-            "libraries": [str(lib_id) for lib_id in library_ids],
-            "allow_downloads": data.get("allow_downloads", False),
-            "allow_live_tv": data.get("allow_live_tv", False),
-            "allow_mobile_uploads": data.get("allow_mobile_uploads", False),
-        }
-
-        # Create a dict-like object that supports both get() and getlist()
-        class FormLikeDict(dict):
-            def getlist(self, key):
-                value = self.get(key, [])
-                if isinstance(value, list):
-                    return value
-                return [value] if value else []
-
-        form_obj = FormLikeDict(form_data)
-
-        # Create the invitation
-        logger.info("API: Creating invitation with duration=%s, expires=%s, libraries=%s, servers=%s",
-                   duration, expires_key, library_ids, selected_server_ids)
-
-        invitation = create_invite(form_obj)
-        db.session.commit()
-
-        # Get server information for the created invitation
-        from app.services.server_name_resolver import get_display_name_info
-        
-        servers = []
-        if invitation.servers:
-            servers = list(invitation.servers)
-        elif invitation.server:
-            servers = [invitation.server]
-        
-        display_info = get_display_name_info(servers)
-
-        return jsonify({
-            "message": "Invitation created successfully",
-            "invitation": {
-                "id": invitation.id,
-                "code": invitation.code,
-                "url": _generate_invitation_url(invitation.code),
-                "expires": invitation.expires.isoformat() if invitation.expires else None,
-                "duration": invitation.duration,
-                "unlimited": invitation.unlimited,
-                "display_name": display_info["display_name"],
-                "server_names": display_info["server_names"],
-                "uses_global_setting": display_info["uses_global_setting"]
+            return {
+                "users": total_users,
+                "invites": total_invitations,
+                "pending": pending_invitations,
+                "expired": expired_invitations,
             }
-        }), 201
-
-    except Exception as e:
-        logger.error("Error creating invitation: %s", str(e))
-        traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
+        except Exception as e:
+            logger.error("Error getting system status: %s", str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
 
 
-@api_bp.route("/invitations/<int:invitation_id>", methods=["DELETE"])
-@require_api_key
-def delete_invitation(invitation_id):
-    """Delete an invitation."""
-    try:
-        invitation = db.session.get(Invitation, invitation_id)
-        if not invitation:
-            return jsonify({"error": "Invitation not found"}), 404
+@users_ns.route("")
+class UsersListResource(Resource):
+    @api.doc("list_users", security="apikey")
+    @api.marshal_with(user_list_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def get(self):
+        """List all users across all media servers."""
+        try:
+            logger.info("API: Listing all users")
+            users_by_server = list_users_all_servers()
 
-        logger.info("API: Deleting invitation %s (ID: %d)", invitation.code, invitation_id)
-        db.session.delete(invitation)
-        db.session.commit()
-
-        return jsonify({"message": f"Invitation {invitation.code} deleted successfully"})
-
-    except Exception as e:
-        logger.error("Error deleting invitation %d: %s", invitation_id, str(e))
-        traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
-
-
-@api_bp.route("/libraries", methods=["GET"])
-@require_api_key
-def list_libraries():
-    """List all available libraries, scanning servers first if needed."""
-    try:
-        logger.info("API: Listing all libraries")
-
-        # Get all configured servers
-        servers = MediaServer.query.filter_by(verified=True).all()
-
-        # Check if we need to scan libraries (if no libraries exist for verified servers)
-        existing_libraries = Library.query.join(MediaServer).filter(MediaServer.verified).count()
-
-        if existing_libraries == 0 and servers:
-            # No libraries found, scan all verified servers first
-            logger.info("API: No libraries found, scanning all verified servers first")
-            from app.services.media.service import scan_libraries_for_server
-
-            for server in servers:
-                try:
-                    logger.info("API: Scanning libraries for server %s", server.name)
-                    items = scan_libraries_for_server(server)
-
-                    # Store the results in the Library table
-                    # items may be dict or list[str]
-                    pairs = (
-                        items.items() if isinstance(items, dict) else [(name, name) for name in items]
-                    )
-
-                    for fid, name in pairs:
-                        lib = Library.query.filter_by(external_id=fid, server_id=server.id).first()
-                        if lib:
-                            lib.name = name
-                        else:
-                            lib = Library()
-                            lib.external_id = fid
-                            lib.name = name
-                            lib.server_id = server.id
-                            db.session.add(lib)
-
-                    db.session.commit()
-                    logger.info("API: Successfully scanned %d libraries for server %s", len(pairs), server.name)
-
-                except Exception as scan_e:
-                    logger.warning("API: Failed to scan libraries for server %s: %s", server.name, str(scan_e))
-                    # Continue with other servers even if one fails
+            # Format response
+            users_list = []
+            for server_id, users in users_by_server.items():
+                # Get server info
+                server = db.session.get(MediaServer, server_id)
+                if not server:
                     continue
 
-        # Now get all libraries
-        libraries = Library.query.all()
+                for user in users:
+                    users_list.append(
+                        {
+                            "id": user.id,
+                            "username": user.username,
+                            "email": user.email,
+                            "server": server.name,
+                            "server_type": server.server_type,
+                            "expires": user.expires.isoformat()
+                            if user.expires
+                            else None,
+                            "created": user.created.isoformat()
+                            if hasattr(user, "created") and user.created
+                            else None,
+                        }
+                    )
 
-        libraries_list = []
-        for lib in libraries:
-            server = db.session.get(MediaServer, lib.server_id)
-            libraries_list.append({
-                "id": lib.id,
-                "name": lib.name,
-                "server_id": lib.server_id,
-                "server_name": server.name if server else None,
-                "server_type": server.server_type if server else None
-            })
+            return {"users": users_list, "count": len(users_list)}
 
-        return jsonify({"libraries": libraries_list, "count": len(libraries_list)})
-
-    except Exception as e:
-        logger.error("Error listing libraries: %s", str(e))
-        traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
-
-
-@api_bp.route("/servers", methods=["GET"])
-@require_api_key
-def list_servers():
-    """List all configured media servers."""
-    try:
-        logger.info("API: Listing all media servers")
-        servers = MediaServer.query.all()
-
-        servers_list = []
-        for server in servers:
-            servers_list.append({
-                "id": server.id,
-                "name": server.name,
-                "server_type": server.server_type,
-                "server_url": server.url,
-                "external_url": server.external_url,
-                "verified": server.verified,
-                "allow_downloads": server.allow_downloads,
-                "allow_live_tv": server.allow_live_tv,
-                "allow_mobile_uploads": server.allow_mobile_uploads,
-                "created_at": server.created_at.isoformat() if server.created_at else None
-            })
-
-        return jsonify({"servers": servers_list, "count": len(servers_list)})
-
-    except Exception as e:
-        logger.error("Error listing servers: %s", str(e))
-        traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
+        except Exception as e:
+            logger.error("Error listing users: %s", str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
 
 
-@api_bp.route("/api-keys", methods=["GET"])
-@require_api_key
-def list_api_keys():
-    """List all active API keys (excluding the key values themselves)."""
-    try:
-        logger.info("API: Listing all API keys")
-        api_keys = ApiKey.query.filter_by(is_active=True).order_by(ApiKey.created_at.desc()).all()
+@users_ns.route("/<int:user_id>")
+class UserResource(Resource):
+    @api.doc("delete_user", security="apikey")
+    @api.response(200, "User deleted successfully", success_message_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(404, "User not found", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def delete(self, user_id):
+        """Delete a specific user by ID."""
+        try:
+            logger.info("API: Deleting user %s", user_id)
 
-        keys_list = []
-        for key in api_keys:
-            keys_list.append({
-                "id": key.id,
-                "name": key.name,
-                "created_at": key.created_at.isoformat() if key.created_at else None,
-                "last_used_at": key.last_used_at.isoformat() if key.last_used_at else None,
-                "created_by": key.created_by.username if key.created_by else None
-            })
+            # Find user across all servers
+            user = User.query.get(user_id)
+            if not user:
+                return {"error": "User not found"}, 404
 
-        return jsonify({"api_keys": keys_list, "count": len(keys_list)})
+            # Get server info for the user
+            server = db.session.get(MediaServer, user.server_id)
+            if not server:
+                return {"error": "Server not found for user"}, 404
 
-    except Exception as e:
-        logger.error("Error listing API keys: %s", str(e))
-        traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
+            # Delete user using the service (takes only user.id)
+            delete_user(user.id)
+            return {"message": f"User {user.username} deleted successfully"}
+
+        except Exception as e:
+            logger.error("Error deleting user %s: %s", user_id, str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
 
 
-@api_bp.route("/api-keys/<int:key_id>", methods=["DELETE"])
-@require_api_key
-def delete_api_key_via_api(key_id):
-    """Delete an API key via API (soft delete by marking as inactive)."""
-    try:
-        api_key = db.session.get(ApiKey, key_id)
-        if not api_key:
-            return jsonify({"error": "API key not found"}), 404
+@users_ns.route("/<int:user_id>/extend")
+class UserExtendResource(Resource):
+    @api.doc("extend_user_expiry", security="apikey")
+    @api.expect(user_extend_request)
+    @api.marshal_with(user_extend_response)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(404, "User not found", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def post(self, user_id):
+        """Extend a user's expiry date."""
+        try:
+            logger.info("API: Extending expiry for user %s", user_id)
 
-        # Prevent self-deletion by checking if the current request is using this key
-        auth_key = request.headers.get("X-API-Key")
-        if auth_key:
-            key_hash = hashlib.sha256(auth_key.encode()).hexdigest()
-            if key_hash == api_key.key_hash:
-                return jsonify({"error": "Cannot delete the API key currently being used"}), 400
+            # Get request data
+            data = api.payload or {}
+            days = data.get("days", 30)
 
-        # Soft delete by marking as inactive
-        api_key.is_active = False
-        db.session.commit()
+            # Find user
+            user = User.query.get(user_id)
+            if not user:
+                return {"error": "User not found"}, 404
 
-        logger.info("API: Deleted API key '%s' (ID: %d)", api_key.name, key_id)
+            # Extend expiry
+            if user.expires:
+                new_expiry = user.expires + datetime.timedelta(days=days)
+            else:
+                new_expiry = datetime.datetime.now(datetime.UTC) + datetime.timedelta(
+                    days=days
+                )
 
-        return jsonify({"message": f"API key '{api_key.name}' deleted successfully"})
+            user.expires = new_expiry
+            db.session.commit()
 
-    except Exception as e:
-        logger.error("Error deleting API key %d: %s", key_id, str(e))
-        traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
+            return {
+                "message": f"User {user.username} expiry extended by {days} days",
+                "new_expiry": new_expiry.isoformat(),
+            }
+
+        except Exception as e:
+            logger.error("Error extending user %s expiry: %s", user_id, str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@invitations_ns.route("")
+class InvitationsListResource(Resource):
+    @api.doc("list_invitations", security="apikey")
+    @api.marshal_with(invitation_list_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def get(self):
+        """List all invitations with their current status and server information."""
+        try:
+            logger.info("API: Listing all invitations")
+
+            invitations = Invitation.query.all()
+            invitations_list = []
+
+            for invitation in invitations:
+                # Get server names
+                server_names = []
+                if invitation.server_id:
+                    server = db.session.get(MediaServer, invitation.server_id)
+                    if server:
+                        server_names.append(server.name)
+
+                invitations_list.append(
+                    {
+                        "id": invitation.id,
+                        "code": invitation.code,
+                        "url": _generate_invitation_url(invitation.code),
+                        "status": invitation.status,
+                        "created": invitation.created.isoformat()
+                        if invitation.created
+                        else None,
+                        "expires": invitation.expires.isoformat()
+                        if invitation.expires
+                        else None,
+                        "used_at": invitation.used_at.isoformat()
+                        if invitation.used_at
+                        else None,
+                        "used_by": invitation.used_by,
+                        "duration": str(invitation.duration)
+                        if invitation.duration
+                        else "unlimited",
+                        "unlimited": invitation.unlimited,
+                        "specific_libraries": invitation.specific_libraries,
+                        "display_name": ", ".join(server_names)
+                        if server_names
+                        else "Unknown",
+                        "server_names": server_names,
+                        "uses_global_setting": False,  # Simplified for now
+                    }
+                )
+
+            return {"invitations": invitations_list, "count": len(invitations_list)}
+
+        except Exception as e:
+            logger.error("Error listing invitations: %s", str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+    @api.doc("create_invitation", security="apikey")
+    @api.expect(invitation_create_request)
+    @api.marshal_with(invitation_create_response, code=201)
+    @api.response(400, "Bad request - missing required fields", error_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def post(self):
+        """Create a new invitation."""
+        try:
+            logger.info("API: Creating new invitation")
+
+            data = api.payload or {}
+            server_ids = data.get("server_ids")
+
+            if not server_ids:
+                # Return available servers for selection
+                servers = MediaServer.query.filter_by(verified=True).all()
+                available_servers = [
+                    {"id": s.id, "name": s.name, "server_type": s.server_type}
+                    for s in servers
+                ]
+                return {
+                    "error": "Server selection is required. Please specify server_ids in request.",
+                    "available_servers": available_servers,
+                }, 400
+
+            # Create a form-like object that create_invite expects
+            class FormLike:
+                def __init__(self, data):
+                    self.data = data
+
+                def get(self, key, default=None):
+                    return self.data.get(key, default)
+
+                def getlist(self, key):
+                    val = self.data.get(key, [])
+                    return (
+                        val
+                        if isinstance(val, list)
+                        else [val]
+                        if val is not None
+                        else []
+                    )
+
+            # Map expires_in_days to the format expected by create_invite
+            expires_mapping = {1: "day", 7: "week", 30: "month"}
+            expires_key = expires_mapping.get(data.get("expires_in_days"), "never")
+
+            form_data = FormLike(
+                {
+                    "server_ids": server_ids,
+                    "expires": expires_key,
+                    "duration": data.get("duration", "unlimited"),
+                    "unlimited": data.get("unlimited", True),
+                    "libraries": [
+                        str(lid) for lid in data.get("library_ids", [])
+                    ],  # Convert to strings
+                    "allow_downloads": data.get("allow_downloads", False),
+                    "allow_live_tv": data.get("allow_live_tv", False),
+                    "allow_mobile_uploads": data.get("allow_mobile_uploads", False),
+                }
+            )
+
+            invitation = create_invite(form_data)
+
+            if invitation:
+                server = db.session.get(MediaServer, server_ids[0])
+                return {
+                    "message": "Invitation created successfully",
+                    "invitation": {
+                        "id": invitation.id,
+                        "code": invitation.code,
+                        "url": _generate_invitation_url(invitation.code),
+                        "expires": invitation.expires.isoformat()
+                        if invitation.expires
+                        else None,
+                        "duration": str(invitation.duration)
+                        if invitation.duration
+                        else "unlimited",
+                        "unlimited": invitation.unlimited,
+                        "display_name": server.name if server else "Unknown",
+                        "server_names": [server.name] if server else [],
+                        "uses_global_setting": False,
+                    },
+                }, 201
+            return {"error": "Failed to create invitation"}, 500
+
+        except Exception as e:
+            logger.error("Error creating invitation: %s", str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@invitations_ns.route("/<int:invitation_id>")
+class InvitationResource(Resource):
+    @api.doc("delete_invitation", security="apikey")
+    @api.response(200, "Invitation deleted successfully", success_message_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(404, "Invitation not found", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def delete(self, invitation_id):
+        """Delete a specific invitation."""
+        try:
+            logger.info("API: Deleting invitation %s", invitation_id)
+
+            invitation = Invitation.query.get(invitation_id)
+            if not invitation:
+                return {"error": "Invitation not found"}, 404
+
+            code = invitation.code
+            db.session.delete(invitation)
+            db.session.commit()
+
+            return {"message": f"Invitation {code} deleted successfully"}
+
+        except Exception as e:
+            logger.error("Error deleting invitation %s: %s", invitation_id, str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@libraries_ns.route("")
+class LibrariesResource(Resource):
+    @api.doc("list_libraries", security="apikey")
+    @api.marshal_with(library_list_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def get(self):
+        """List all available libraries across all servers."""
+        try:
+            logger.info("API: Listing all libraries")
+
+            libraries = Library.query.all()
+            libraries_list = [
+                {"id": lib.id, "name": lib.name, "server_id": lib.server_id}
+                for lib in libraries
+            ]
+
+            return {"libraries": libraries_list, "count": len(libraries_list)}
+
+        except Exception as e:
+            logger.error("Error listing libraries: %s", str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@servers_ns.route("")
+class ServersResource(Resource):
+    @api.doc("list_servers", security="apikey")
+    @api.marshal_with(server_list_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def get(self):
+        """List all configured media servers."""
+        try:
+            logger.info("API: Listing all servers")
+
+            servers = MediaServer.query.all()
+            servers_list = [
+                {
+                    "id": server.id,
+                    "name": server.name,
+                    "server_type": server.server_type,
+                    "server_url": server.server_url,
+                    "external_url": getattr(server, "external_url", None),
+                    "verified": server.verified,
+                    "allow_downloads": getattr(server, "allow_downloads", False),
+                    "allow_live_tv": getattr(server, "allow_live_tv", False),
+                    "allow_mobile_uploads": getattr(
+                        server, "allow_mobile_uploads", False
+                    ),
+                    "created_at": server.created_at.isoformat()
+                    if hasattr(server, "created_at") and server.created_at
+                    else None,
+                }
+                for server in servers
+            ]
+
+            return {"servers": servers_list, "count": len(servers_list)}
+
+        except Exception as e:
+            logger.error("Error listing servers: %s", str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@api_keys_ns.route("")
+class ApiKeysResource(Resource):
+    @api.doc("list_api_keys", security="apikey")
+    @api.marshal_with(api_key_list_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def get(self):
+        """List all active API keys (excluding the actual key values for security)."""
+        try:
+            logger.info("API: Listing all API keys")
+
+            api_keys = ApiKey.query.filter_by(is_active=True).all()
+            keys_list = [
+                {
+                    "id": key.id,
+                    "name": key.name,
+                    "created_at": key.created_at.isoformat()
+                    if key.created_at
+                    else None,
+                    "last_used_at": key.last_used_at.isoformat()
+                    if key.last_used_at
+                    else None,
+                    "created_by": getattr(key, "created_by", "admin"),
+                }
+                for key in api_keys
+            ]
+
+            return {"api_keys": keys_list, "count": len(keys_list)}
+
+        except Exception as e:
+            logger.error("Error listing API keys: %s", str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@api_keys_ns.route("/<int:key_id>")
+class ApiKeyResource(Resource):
+    @api.doc("delete_api_key", security="apikey")
+    @api.response(200, "API key deleted successfully", success_message_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(404, "API key not found", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def delete(self, key_id):
+        """Delete a specific API key (soft delete - marks as inactive)."""
+        try:
+            logger.info("API: Deleting API key %s", key_id)
+
+            api_key = ApiKey.query.get(key_id)
+            if not api_key:
+                return {"error": "API key not found"}, 404
+
+            # Check if trying to delete the currently used key
+            auth_key = request.headers.get("X-API-Key")
+            if auth_key:
+                current_key_hash = hashlib.sha256(auth_key.encode()).hexdigest()
+                if api_key.key_hash == current_key_hash:
+                    return {
+                        "error": "Cannot delete the API key currently being used"
+                    }, 400
+
+            key_name = api_key.name
+            api_key.is_active = False
+            db.session.commit()
+
+            return {"message": f"API key '{key_name}' deleted successfully"}
+
+        except Exception as e:
+            logger.error("Error deleting API key %s: %s", key_id, str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500

@@ -6,6 +6,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_restx import Api
 from flask_sqlalchemy import SQLAlchemy
 
 from flask_session import Session
@@ -24,6 +25,27 @@ limiter = Limiter(
     storage_uri="memory://",
     enabled=False,  # Explicitly disabled by default
 )
+
+# Initialize Flask-RESTX API with OpenAPI configuration
+# This will be initialized later with the blueprint in api_routes.py
+api = Api(
+    title="Wizarr API",
+    version="2.2.1",
+    description="Multi-server invitation manager for Plex, Jellyfin, Emby & AudiobookShelf",
+    doc="/docs/",  # Swagger UI will be available at /api/docs/
+    validate=True,
+    ordered=True,
+)
+
+# Define API key security scheme for OpenAPI
+api.authorizations = {
+    "apikey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key",
+        "description": "API key required for all endpoints",
+    }
+}
 
 
 # Initialize with app
@@ -88,6 +110,7 @@ def init_extensions(app):
     db.init_app(app)
     migrate.init_app(app, db)
     limiter.init_app(app)
+    # Flask-RESTX API will be initialized with the blueprint
 
 
 @login_manager.user_loader
