@@ -405,7 +405,10 @@ def users_table():
         logging.error("sync users failed: %s", exc)
 
     # 2) build DB query with eager load to keep session bound
-    q = User.query.options(db.joinedload(User.server))
+    # Join with Invitation to get invited date for sorting
+    q = User.query.options(db.joinedload(User.server)).outerjoin(
+        Invitation, User.code == Invitation.code
+    )
     if server_id:
         q = q.filter(User.server_id == int(server_id))
     if query_text:
@@ -417,6 +420,10 @@ def users_table():
     # sorting
     if order == "name_desc":
         q = q.order_by(db.func.lower(User.username).desc())
+    elif order == "invited_asc":
+        q = q.order_by(Invitation.created.asc().nullslast())
+    elif order == "invited_desc":
+        q = q.order_by(Invitation.created.desc().nullslast())
     else:
         q = q.order_by(db.func.lower(User.username))
 
@@ -676,11 +683,21 @@ def _group_users_for_display(user_list):
         )
         allow_sync = any(getattr(a, "allowSync", False) for a in lst)
 
+        # Get the invitation date from the earliest invite code
+        invited_dates = []
+        for a in lst:
+            if hasattr(a, "code") and a.code and a.code not in ("None", "empty"):
+                invitation = Invitation.query.filter_by(code=a.code).first()
+                if invitation and invitation.created:
+                    invited_dates.append(invitation.created)
+        invited_date = min(invited_dates) if invited_dates else None
+
         primary.accounts = lst
         primary.photo = photo or primary.photo
         primary.expires = expires
         primary.code = code
         primary.allowSync = allow_sync
+        primary.invited_date = invited_date
         cards.append(primary)
     return cards
 

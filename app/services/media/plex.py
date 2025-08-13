@@ -675,7 +675,17 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         email = account.email
 
         inv = Invitation.query.filter_by(code=code).first()
-        server = inv.server if inv and inv.server else MediaServer.query.first()
+        # Use the new multi-server relationship instead of legacy server
+        if inv and inv.servers:
+            # Get the first Plex server from the invitation's server list
+            plex_servers = [s for s in inv.servers if s.server_type == "plex"]
+            server = plex_servers[0] if plex_servers else inv.servers[0]
+        elif inv and inv.server:
+            # Fallback to legacy single server relationship
+            server = inv.server
+        else:
+            # Last resort fallback
+            server = MediaServer.query.first()
         if not server:
             raise ValueError("No media server found")
         server_id = server.id
