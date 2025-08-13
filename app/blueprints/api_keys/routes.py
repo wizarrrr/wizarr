@@ -24,7 +24,7 @@ def list_api_keys():
     )
 
     if request.headers.get("HX-Request"):
-        return render_template("settings/api_keys.html", api_keys=api_keys)
+        return render_template("partials/api_keys_grid.html", api_keys=api_keys)
     return render_template("settings/api_keys.html", api_keys=api_keys)
 
 
