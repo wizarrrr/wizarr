@@ -91,7 +91,22 @@ def join():
             "user-plex-login.html", server_name=server_name, code=code, code_error=msg
         )
 
-    server = (invitation.server if invitation else None) or MediaServer.query.first()
+    # Get the appropriate server for this invitation
+    server = None
+    if invitation:
+        # Prioritize new many-to-many relationship
+        if hasattr(invitation, "servers") and invitation.servers:
+            # For legacy /join route, prioritize Plex servers first (backward compatibility)
+            plex_servers = [s for s in invitation.servers if s.server_type == "plex"]
+            server = plex_servers[0] if plex_servers else invitation.servers[0]
+        # Fallback to legacy single server relationship
+        elif invitation.server:
+            server = invitation.server
+
+    # Final fallback to any server (maintain existing behavior)
+    if not server:
+        server = MediaServer.query.first()
+
     server_type = server.server_type if server else None
 
     from flask import current_app
