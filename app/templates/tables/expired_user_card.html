@@ -6,70 +6,50 @@
             </div>
         </div>
     {% elif expired_users %}
-        <!-- Modern card-based layout for expired users -->
-        <div class="space-y-4">
+        <!-- Clean list layout matching the main users page design -->
+        <div class="space-y-3">
             {% for user in expired_users %}
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 hover:shadow-sm transition-shadow">
                     <!-- Left side: User info with avatar -->
-                    <div class="flex items-center space-x-4 mb-3 sm:mb-0">
+                    <div class="flex items-center space-x-3">
                         <!-- Avatar -->
-                        <div class="flex-shrink-0 w-10 h-10 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center">
-                            <span class="text-sm font-medium text-gray-600 dark:text-gray-300">
+                        <div class="flex-shrink-0 w-8 h-8 bg-gray-100 dark:bg-gray-600 rounded-full flex items-center justify-center">
+                            <span class="text-xs font-medium text-gray-600 dark:text-gray-300">
                                 {{ user.username[0]|upper if user.username else '?' }}
                             </span>
                         </div>
                         
                         <!-- User details -->
-                        <div class="flex-grow">
-                            <div class="text-base font-semibold text-gray-900 dark:text-white">
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 dark:text-white">
                                 {{ user.username or 'Unknown User' }}
                             </div>
-                            <div class="text-sm text-gray-600 dark:text-gray-400">
+                            <div class="text-xs text-gray-500 dark:text-gray-400">
                                 {% if user.email %}
-                                    <span class="text-blue-600 dark:text-blue-400">{{ user.email }}</span>
-                                {% else %}
-                                    <span class="text-gray-500">No email</span>
+                                    {{ user.email }}
+                                {% endif %}
+                                {% if user.invitation_code %}
+                                    {% if user.email %} • {% endif %}
+                                    Invitation: {{ user.invitation_code }}
                                 {% endif %}
                             </div>
-                            {% if user.invitation_code %}
-                                <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    Invitation: <code class="bg-gray-200 dark:bg-gray-600 px-1.5 py-0.5 rounded text-xs">{{ user.invitation_code }}</code>
-                                </div>
-                            {% endif %}
+                            <div class="text-xs text-gray-500 dark:text-gray-400">
+                                Expired: {{ user.expired_at.strftime('%Y-%m-%d %H:%M') if user.expired_at else 'Unknown' }}
+                                {% if user.deleted_at %}
+                                    • Deleted: {{ user.deleted_at.strftime('%Y-%m-%d %H:%M') }}
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                     
-                    <!-- Right side: Server info, dates, and status -->
-                    <div class="flex flex-col sm:items-end space-y-2">
-                        <!-- Server info -->
-                        <div class="flex items-center space-x-2">
-                            {% if user.server %}
-                                <span class="inline-flex items-center bg-gray-100 text-gray-800 text-xs px-2.5 py-1 rounded dark:bg-gray-700 dark:text-gray-300">
-                                    {{ user.server.server_type }}
-                                </span>
-                                <span class="hidden sm:inline text-xs text-gray-500 dark:text-gray-400">{{ user.server.name }}</span>
-                            {% else %}
-                                <span class="inline-flex items-center bg-gray-100 text-gray-800 text-xs px-2.5 py-1 rounded dark:bg-gray-700 dark:text-gray-300">
-                                    Unknown Server
-                                </span>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Dates info -->
-                        <div class="flex flex-col sm:items-end text-xs text-gray-500 dark:text-gray-400">
-                            <div class="mb-1">
-                                <span class="text-red-600 dark:text-red-400">Expired:</span>
-                                {% if user.expired_at %}
-                                    {{ user.expired_at.strftime('%Y-%m-%d %H:%M') }}
-                                {% else %}
-                                    Unknown
-                                {% endif %}
-                            </div>
-                            <div>
-                                <span class="text-gray-600 dark:text-gray-300">Deleted:</span>
-                                {{ user.deleted_at.strftime('%Y-%m-%d %H:%M') if user.deleted_at else 'Unknown' }}
-                            </div>
-                        </div>
+                    <!-- Right side: Server badge and status -->
+                    <div class="flex items-center space-x-2">
+                        <!-- Server badge -->
+                        {% if user.server %}
+                            <span class="hidden sm:inline-flex items-center bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded dark:bg-gray-700 dark:text-gray-300">
+                                {{ user.server.server_type }}
+                            </span>
+                        {% endif %}
                         
                         <!-- Status badge -->
                         <span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">
@@ -80,15 +60,11 @@
             {% endfor %}
         </div>
         
-        <!-- Summary footer with count -->
-        <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-600">
-            <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
-                <div>
-                    Showing {{ expired_users|length }} expired user{% if expired_users|length != 1 %}s{% endif %}
-                </div>
-                <div class="text-xs">
-                    Users are automatically deleted when their access expires
-                </div>
+        <!-- Summary footer -->
+        <div class="mt-4 pt-3 border-t border-gray-200 dark:border-gray-600">
+            <div class="text-xs text-gray-500 dark:text-gray-400 text-center">
+                {{ expired_users|length }} expired user{% if expired_users|length != 1 %}s{% endif %} total
+                <span class="hidden sm:inline"> • Users are automatically deleted when their access expires</span>
             </div>
         </div>
     {% else %}
