@@ -75,7 +75,6 @@
                         </div>
                         <div class="mt-4">
                             <button 
-                                type="button"
                                 hx-post="{{ url_for('media_servers.scan_server_libraries', server_id=server.id) }}" 
                                 hx-include="[name=server_username],[name=server_password]" 
                                 hx-target="#libraries" 
