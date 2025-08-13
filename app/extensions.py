@@ -31,13 +31,11 @@ def init_extensions(app):
     """Initialize Flask extensions with clean separation of concerns."""
     import os
 
-    from .logging_helpers import is_gunicorn_worker
-
     # Core extensions initialization
     sess.init_app(app)
     babel.init_app(app, locale_selector=_select_locale)
 
-    # Scheduler initialization - simplified logic
+    # Scheduler initialization - Flask-APScheduler handles Gunicorn properly
     should_skip_scheduler = (
         "pytest" in os.getenv("_", "")
         or os.getenv("PYTEST_CURRENT_TEST")
@@ -53,17 +51,19 @@ def init_extensions(app):
     )
 
     if not should_skip_scheduler:
+        # Configure Flask-APScheduler for Gunicorn compatibility
+        app.config["SCHEDULER_API_ENABLED"] = False  # Disable API for security
+        app.config["SCHEDULER_JOBSTORE_URL"] = app.config.get("SQLALCHEMY_DATABASE_URI")
+
         scheduler.init_app(app)
 
         # Import tasks to register them with the scheduler
         from app.tasks import maintenance as _  # noqa: F401
 
-        # Only start scheduler in standalone Flask (not in Gunicorn context)
-        # Gunicorn master will handle starting the scheduler
-        if not is_gunicorn_worker() and not os.getenv("SERVER_SOFTWARE", "").startswith(
-            "gunicorn"
-        ):
-            scheduler.start()
+        # Flask-APScheduler handles Gunicorn master/worker coordination automatically
+        scheduler.start()
+
+    # Continue with remaining extensions
 
     # Continue with remaining extensions
     htmx.init_app(app)
