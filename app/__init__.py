@@ -89,14 +89,27 @@ def create_app(config_object=DevelopmentConfig):
             # Non-fatal – log and continue startup to avoid blocking the app
             logger.warning(f"Wizard step migration failed: {exc}")
 
-    # Step 8: Startup complete
+    # Step 8: Show scheduler status and complete startup
     if show_startup:
         logger.step("Finalizing application setup", "✨")
 
-        # Only show completion here if not in Gunicorn (Gunicorn master will handle it)
-        from .logging_helpers import is_gunicorn_master
+        # Show scheduler status right in the main startup sequence
+        from .extensions import scheduler
 
-        if not is_gunicorn_master():
-            logger.complete()
+        if scheduler and hasattr(scheduler, "scheduler") and scheduler.scheduler:
+            if scheduler.running:
+                dev_mode = os.getenv("WIZARR_ENABLE_SCHEDULER", "false").lower() in (
+                    "true",
+                    "1",
+                    "yes",
+                )
+                logger.scheduler_status(enabled=True, dev_mode=dev_mode)
+            else:
+                logger.info("Scheduler initialized but not running")
+        else:
+            logger.info("Scheduler disabled")
+
+        # Complete startup sequence
+        logger.complete()
 
     return app

@@ -60,8 +60,15 @@ def init_extensions(app):
         # Import tasks to register them with the scheduler
         from app.tasks import maintenance as _  # noqa: F401
 
-        # Flask-APScheduler handles Gunicorn master/worker coordination automatically
-        scheduler.start()
+        # Start the scheduler - Flask-APScheduler handles Gunicorn coordination
+        try:
+            if not scheduler.running:
+                scheduler.start()
+                app.logger.info("APScheduler started successfully")
+            else:
+                app.logger.info("APScheduler already running")
+        except Exception as e:
+            app.logger.warning(f"Failed to start APScheduler: {e}")
 
     # Continue with remaining extensions
 
