@@ -302,7 +302,7 @@
 
 <script src="https://unpkg.com/bowser@2.7.0/es5.js"></script> <!-- needed for plexHeaders -->
 <script>
-    // Load movie posters for flowing grid background
+    // Load movie posters for flowing grid background with progressive loading
     async function loadCinemaPosters() {
         try {
             const response = await fetch('/cinema-posters');
@@ -310,11 +310,12 @@
             
             if (posterUrls && posterUrls.length > 0) {
                 const posterRows = document.querySelectorAll('.poster-row');
+                let loadQueue = [];
                 
                 // Populate each row with posters - ensure seamless repetition
                 posterRows.forEach((row, rowIndex) => {
-                    // Create enough posters to fill the row width + seamless loop
-                    const postersPerRow = 25; // Enough to cover 300% width + smooth loop
+                    // Reduced from 25 to 20 posters per row for better performance
+                    const postersPerRow = 20; 
                     
                     // Create a subset of posters for this row to avoid having all rows identical
                     const startOffset = Math.floor(rowIndex * posterUrls.length / 4);
@@ -326,49 +327,89 @@
                         rowPosters.push(posterUrls[posterIndex]);
                     }
                     
-                    // Create poster elements
-                    rowPosters.forEach(posterUrl => {
+                    // Create poster elements immediately but load images progressively
+                    rowPosters.forEach((posterUrl, index) => {
                         const posterItem = document.createElement('div');
                         posterItem.className = 'poster-item';
-                        
-                        // Preload image
-                        const img = new Image();
-                        img.onload = () => {
-                            posterItem.style.backgroundImage = `url('${posterUrl}')`;
-                            posterItem.classList.add('loaded');
-                        };
-                        img.onerror = () => {
-                            console.warn(`Failed to load poster: ${posterUrl}`);
-                            // Keep the default gradient background
-                        };
-                        img.src = posterUrl;
-                        
                         row.appendChild(posterItem);
+                        
+                        // Add to load queue with priority (visible items first)
+                        loadQueue.push({
+                            element: posterItem,
+                            url: posterUrl,
+                            priority: rowIndex < 2 ? 1 : 2  // Top 2 rows get priority
+                        });
                     });
                 });
+                
+                // Progressive loading with batching
+                await loadPostersInBatches(loadQueue);
+                
             } else {
-                // Fallback: create placeholder posters if no URLs available
-                const posterRows = document.querySelectorAll('.poster-row');
-                posterRows.forEach(row => {
-                    for (let i = 0; i < 25; i++) {
-                        const posterItem = document.createElement('div');
-                        posterItem.className = 'poster-item';
-                        row.appendChild(posterItem);
-                    }
-                });
+                createPlaceholderPosters();
             }
         } catch (error) {
             console.warn('Failed to load cinema posters:', error);
-            // Fallback: create placeholder posters
-            const posterRows = document.querySelectorAll('.poster-row');
-            posterRows.forEach(row => {
-                for (let i = 0; i < 25; i++) {
-                    const posterItem = document.createElement('div');
-                    posterItem.className = 'poster-item';
-                    row.appendChild(posterItem);
-                }
-            });
+            createPlaceholderPosters();
         }
+    }
+    
+    // Load posters in batches to avoid overwhelming the browser
+    async function loadPostersInBatches(loadQueue) {
+        // Sort by priority (visible items first)
+        loadQueue.sort((a, b) => a.priority - b.priority);
+        
+        const batchSize = 8; // Load 8 images at a time
+        const delay = 100; // 100ms delay between batches
+        
+        for (let i = 0; i < loadQueue.length; i += batchSize) {
+            const batch = loadQueue.slice(i, i + batchSize);
+            
+            // Load batch concurrently
+            const promises = batch.map(item => loadPosterImage(item.element, item.url));
+            await Promise.allSettled(promises);
+            
+            // Small delay before next batch
+            if (i + batchSize < loadQueue.length) {
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+        }
+    }
+    
+    // Load individual poster with timeout
+    function loadPosterImage(element, url) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            const timeout = setTimeout(() => {
+                resolve(); // Resolve anyway to continue with other images
+            }, 2000); // 2s timeout per image
+            
+            img.onload = () => {
+                clearTimeout(timeout);
+                element.style.backgroundImage = `url('${url}')`;
+                element.classList.add('loaded');
+                resolve();
+            };
+            
+            img.onerror = () => {
+                clearTimeout(timeout);
+                resolve(); // Keep default gradient background
+            };
+            
+            img.src = url;
+        });
+    }
+    
+    // Create placeholder posters fallback
+    function createPlaceholderPosters() {
+        const posterRows = document.querySelectorAll('.poster-row');
+        posterRows.forEach(row => {
+            for (let i = 0; i < 20; i++) { // Reduced from 25 to 20
+                const posterItem = document.createElement('div');
+                posterItem.className = 'poster-item';
+                row.appendChild(posterItem);
+            }
+        });
     }
     
     // Load posters when page loads

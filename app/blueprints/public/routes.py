@@ -218,8 +218,23 @@ def health():
 def cinema_posters():
     """Get movie poster URLs for cinema background display."""
     try:
+        import time
+
+        from flask import current_app
+
         from app.models import MediaServer
         from app.services.media.service import get_client_for_media_server
+
+        # Cache key for poster URLs
+        cache_key = "cinema_posters"
+        cache_duration = 1800  # 30 minutes
+
+        # Check cache first
+        cached_data = current_app.config.get("POSTER_CACHE", {})
+        cached_entry = cached_data.get(cache_key)
+
+        if cached_entry and (time.time() - cached_entry["timestamp"]) < cache_duration:
+            return jsonify(cached_entry["data"])
 
         # Get the primary media server (or first available)
         server = MediaServer.query.first()
@@ -230,10 +245,19 @@ def cinema_posters():
         client = get_client_for_media_server(server)
 
         # Check if client has get_movie_posters method
+        poster_urls = []
         if hasattr(client, "get_movie_posters"):
             poster_urls = client.get_movie_posters(limit=80)
-            return jsonify(poster_urls)
-        return jsonify([])
+
+        # Cache the results
+        if "POSTER_CACHE" not in current_app.config:
+            current_app.config["POSTER_CACHE"] = {}
+        current_app.config["POSTER_CACHE"][cache_key] = {
+            "data": poster_urls,
+            "timestamp": time.time(),
+        }
+
+        return jsonify(poster_urls)
 
     except Exception as e:
         import logging
@@ -360,12 +384,50 @@ def image_proxy():
     # rudimentary security – allow only http/https
     if not url.startswith(("http://", "https://")):
         return Response(status=400)
+
+    # Server-side image cache
+    import hashlib
+    import time
+
+    from flask import current_app
+
+    # Create cache key from URL
+    cache_key = f"img_{hashlib.md5(url.encode()).hexdigest()}"
+    cache_duration = 3600  # 1 hour
+
+    # Check cache first
+    cached_data = current_app.config.get("IMAGE_CACHE", {})
+    cached_entry = cached_data.get(cache_key)
+
+    if cached_entry and (time.time() - cached_entry["timestamp"]) < cache_duration:
+        resp = Response(cached_entry["data"], content_type=cached_entry["content_type"])
+        resp.headers["Cache-Control"] = "public, max-age=3600"
+        return resp
+
     try:
-        r = requests.get(url, timeout=10, stream=True)
+        r = requests.get(url, timeout=5, stream=True)  # Reduced timeout from 10s to 5s
         r.raise_for_status()
         content_type = r.headers.get("Content-Type", "image/jpeg")
-        resp = Response(r.content, content_type=content_type)
-        # cache 1h
+        image_data = r.content
+
+        # Cache the image data
+        if "IMAGE_CACHE" not in current_app.config:
+            current_app.config["IMAGE_CACHE"] = {}
+        current_app.config["IMAGE_CACHE"][cache_key] = {
+            "data": image_data,
+            "content_type": content_type,
+            "timestamp": time.time(),
+        }
+
+        # Clean up old cache entries (simple LRU)
+        if len(current_app.config["IMAGE_CACHE"]) > 200:  # Keep max 200 images
+            oldest_key = min(
+                current_app.config["IMAGE_CACHE"].keys(),
+                key=lambda k: current_app.config["IMAGE_CACHE"][k]["timestamp"],
+            )
+            del current_app.config["IMAGE_CACHE"][oldest_key]
+
+        resp = Response(image_data, content_type=content_type)
         resp.headers["Cache-Control"] = "public, max-age=3600"
         return resp
     except Exception:
