@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-13 03:58+0000\n"
+"POT-Creation-Date: 2025-08-14 03:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,6 +74,16 @@ msgstr ""
 msgid "Failed to reset passkeys for {}"
 msgstr ""
 
+#: app/blueprints/api_keys/routes.py:68
+msgid ""
+"API key created successfully. Please copy it now as it won't be shown "
+"again."
+msgstr ""
+
+#: app/blueprints/api_keys/routes.py:110
+msgid "API key deleted successfully"
+msgstr ""
+
 #: app/blueprints/auth/routes.py:85
 msgid "Invalid username or password"
 msgstr ""
@@ -99,33 +109,33 @@ msgstr ""
 msgid "Connection deleted successfully!"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:272
+#: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:270
 msgid "Settings saved successfully!"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:217 app/forms/settings.py:23
+#: app/blueprints/settings/routes.py:216 app/forms/settings.py:23
 msgid "Server URL"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:220 app/forms/settings.py:24
+#: app/blueprints/settings/routes.py:219 app/forms/settings.py:24
 msgid "API Key"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:220
+#: app/blueprints/settings/routes.py:219
 msgid "Username/Password"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:223
+#: app/blueprints/settings/routes.py:222
 #, python-brace-format
 msgid "Missing required fields: {fields}"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:226 app/blueprints/settings/routes.py:236
+#: app/blueprints/settings/routes.py:225 app/blueprints/settings/routes.py:235
 #: app/templates/components/passkey_error.html:7
 msgid "Error"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:235
+#: app/blueprints/settings/routes.py:234
 msgid "Library scan failed"
 msgstr ""
 
@@ -783,95 +793,96 @@ msgstr ""
 msgid "Local"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:55
+#: app/templates/admin/user_modal.html:53
 msgid "Expiry date"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:66
+#: app/templates/admin/user_modal.html:63
 msgid "Update"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:72
+#: app/templates/admin/user_modal.html:69
 msgid "Current expiry"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:74
+#: app/templates/admin/user_modal.html:71
 msgid "No expiry set"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:91
+#: app/templates/admin/user_modal.html:86
 msgid "Expiry date (leave blank for never)"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:102
+#: app/templates/admin/user_modal.html:96
 #: app/templates/modals/edit-admin.html:33
 #: app/templates/modals/edit-identity.html:26
-#: app/templates/modals/edit-server.html:100
-#: app/templates/modals/wizard-bundle-form.html:30
-#: app/templates/modals/wizard-simple-step-form.html:29
-#: app/templates/modals/wizard-step-form.html:37
-#: app/templates/settings/wizard/bundle_form.html:21
-#: app/templates/settings/wizard/form.html:27
-#: app/templates/settings/wizard/simple_form.html:21
+#: app/templates/modals/edit-server.html:103
+#: app/templates/modals/wizard-bundle-form.html:29
+#: app/templates/modals/wizard-simple-step-form.html:28
+#: app/templates/modals/wizard-step-form.html:36
+#: app/templates/settings/wizard/bundle_form.html:20
+#: app/templates/settings/wizard/form.html:26
+#: app/templates/settings/wizard/simple_form.html:20
 msgid "Save"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:107
+#: app/templates/admin/user_modal.html:101
 #: app/templates/components/passkey_add_form.html:26
 #: app/templates/components/passkey_register.html:16
-#: app/templates/modals/bundle-add-steps.html:32
+#: app/templates/modals/bundle-add-steps.html:31
 #: app/templates/modals/connection-form.html:158
 #: app/templates/modals/create-admin.html:34
+#: app/templates/modals/create-api-key.html:66
 #: app/templates/modals/create-notification-agent.html:91
-#: app/templates/modals/create-server.html:98
+#: app/templates/modals/create-server.html:102
 #: app/templates/modals/edit-admin.html:34
 #: app/templates/modals/edit-identity.html:27
-#: app/templates/modals/edit-server.html:101
+#: app/templates/modals/edit-server.html:104
 #: app/templates/modals/invite.html:269
-#: app/templates/modals/wizard-bundle-form.html:29
-#: app/templates/modals/wizard-preset-form.html:52
-#: app/templates/modals/wizard-simple-step-form.html:28
-#: app/templates/modals/wizard-step-form.html:36
+#: app/templates/modals/wizard-bundle-form.html:28
+#: app/templates/modals/wizard-preset-form.html:51
+#: app/templates/modals/wizard-simple-step-form.html:27
+#: app/templates/modals/wizard-step-form.html:35
 #: app/templates/settings/connections/form.html:192
-#: app/templates/settings/wizard/bundle_form.html:22
-#: app/templates/settings/wizard/form.html:34
-#: app/templates/settings/wizard/preset_form.html:44
-#: app/templates/settings/wizard/simple_form.html:22
+#: app/templates/settings/wizard/bundle_form.html:21
+#: app/templates/settings/wizard/form.html:33
+#: app/templates/settings/wizard/preset_form.html:43
+#: app/templates/settings/wizard/simple_form.html:21
 msgid "Cancel"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:117
+#: app/templates/admin/user_modal.html:111
 msgid "Invitation Details"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:120
+#: app/templates/admin/user_modal.html:114
 msgid "Code"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:122 app/templates/modals/invite.html:116
+#: app/templates/admin/user_modal.html:116 app/templates/modals/invite.html:116
 #: app/templates/modals/invite.html:149
 #: app/templates/tables/invite_card.html:185
 msgid "Duration"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:122
+#: app/templates/admin/user_modal.html:116
 #: app/templates/tables/invite_card.html:187
 msgid "days"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:125
+#: app/templates/admin/user_modal.html:119
 msgid "Invitation expires"
 msgstr ""
 
-#: app/templates/admin/users.html:21
+#: app/templates/admin/users.html:176
 msgid "Link"
 msgstr ""
 
-#: app/templates/admin/users.html:22
+#: app/templates/admin/users.html:177
 msgid "Unlink"
 msgstr ""
 
-#: app/templates/admin/users.html:23 app/templates/servers/index.html:27
+#: app/templates/admin/users.html:178 app/templates/servers/index.html:27
 #: app/templates/settings/connections.html:106
 msgid "Delete"
 msgstr ""
@@ -1030,17 +1041,17 @@ msgstr ""
 msgid "Add steps to bundle"
 msgstr ""
 
-#: app/templates/modals/bundle-add-steps.html:23
+#: app/templates/modals/bundle-add-steps.html:22
 #: app/templates/settings/wizard/bundles.html:52
 #: app/templates/settings/wizard/steps.html:31
 msgid "Untitled"
 msgstr ""
 
-#: app/templates/modals/bundle-add-steps.html:27
+#: app/templates/modals/bundle-add-steps.html:26
 msgid "All steps are already included."
 msgstr ""
 
-#: app/templates/modals/bundle-add-steps.html:33
+#: app/templates/modals/bundle-add-steps.html:32
 #: app/templates/modals/create-admin.html:33
 msgid "Add"
 msgstr ""
@@ -1099,6 +1110,46 @@ msgstr ""
 msgid "Add Administrator"
 msgstr ""
 
+#: app/templates/modals/create-api-key.html:11
+msgid "API Key Created"
+msgstr ""
+
+#: app/templates/modals/create-api-key.html:13
+#: app/templates/settings/api_keys.html:17
+#: app/templates/settings/general.html:113
+msgid "Create API Key"
+msgstr ""
+
+#: app/templates/modals/create-api-key.html:26
+msgid "API Key Created Successfully"
+msgstr ""
+
+#: app/templates/modals/create-api-key.html:29
+msgid ""
+"Your API key has been created. Please copy it now as it will not be shown"
+" again."
+msgstr ""
+
+#: app/templates/modals/create-api-key.html:35
+msgid "Copy to clipboard"
+msgstr ""
+
+#: app/templates/modals/create-api-key.html:42
+msgid "Name:"
+msgstr ""
+
+#: app/templates/modals/create-api-key.html:48
+msgid "Done"
+msgstr ""
+
+#: app/templates/modals/create-api-key.html:57
+msgid "API Key Name"
+msgstr ""
+
+#: app/templates/modals/create-api-key.html:60
+msgid "Enter a descriptive name to help you identify this API key later."
+msgstr ""
+
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
 msgstr ""
@@ -1128,7 +1179,7 @@ msgstr ""
 msgid "Add Server"
 msgstr ""
 
-#: app/templates/modals/create-server.html:97
+#: app/templates/modals/create-server.html:101
 msgid "Test & Add"
 msgstr ""
 
@@ -1276,20 +1327,32 @@ msgstr ""
 msgid "Add Preset Wizard Step"
 msgstr ""
 
-#: app/templates/modals/wizard-preset-form.html:33
-#: app/templates/settings/wizard/preset_form.html:24
+#: app/templates/modals/wizard-preset-form.html:32
+#: app/templates/settings/wizard/preset_form.html:23
 msgid "Your Discord server ID"
 msgstr ""
 
-#: app/templates/modals/wizard-preset-form.html:39
-#: app/templates/settings/wizard/preset_form.html:30
+#: app/templates/modals/wizard-preset-form.html:38
+#: app/templates/settings/wizard/preset_form.html:29
 msgid "URL to your Overseerr/Ombi instance"
 msgstr ""
 
-#: app/templates/modals/wizard-preset-form.html:53
+#: app/templates/modals/wizard-preset-form.html:52
 #: app/templates/settings/wizard/_sub_nav.html:78
-#: app/templates/settings/wizard/preset_form.html:43
+#: app/templates/settings/wizard/preset_form.html:42
 msgid "Create Step"
+msgstr ""
+
+#: app/templates/partials/api_keys_grid.html:29
+msgid "Delete API Key"
+msgstr ""
+
+#: app/templates/partials/api_keys_grid.html:45
+msgid "No API keys"
+msgstr ""
+
+#: app/templates/partials/api_keys_grid.html:46
+msgid "Get started by creating a new API key."
 msgstr ""
 
 #: app/templates/servers/index.html:5 app/templates/settings/servers.html:6
@@ -1348,6 +1411,10 @@ msgstr ""
 msgid "Add Admin"
 msgstr ""
 
+#: app/templates/settings/api_keys.html:7
+msgid "API Keys"
+msgstr ""
+
 #: app/templates/settings/connections.html:7
 #: app/templates/settings/connections/form.html:35
 #: app/templates/settings/index.html:67
@@ -1401,35 +1468,55 @@ msgstr ""
 msgid "Add Your First Connection"
 msgstr ""
 
-#: app/templates/settings/general.html:7
+#: app/templates/settings/general.html:9
 msgid "General Settings"
 msgstr ""
 
-#: app/templates/settings/general.html:8
+#: app/templates/settings/general.html:10
 msgid "Configure your application's basic settings and preferences"
 msgstr ""
 
-#: app/templates/settings/general.html:33
+#: app/templates/settings/general.html:34
 msgid "Display"
 msgstr ""
 
-#: app/templates/settings/general.html:34
+#: app/templates/settings/general.html:35
 msgid "Configure how your application appears to users"
 msgstr ""
 
-#: app/templates/settings/general.html:60
+#: app/templates/settings/general.html:61
 msgid "Access Control"
 msgstr ""
 
-#: app/templates/settings/general.html:61
+#: app/templates/settings/general.html:62
 msgid "Manage user access and permissions"
 msgstr ""
 
-#: app/templates/settings/general.html:70
+#: app/templates/settings/general.html:71
 msgid "Control access to the wizard setup process"
 msgstr ""
 
-#: app/templates/settings/general.html:87
+#: app/templates/settings/general.html:93
+msgid "API Key Management"
+msgstr ""
+
+#: app/templates/settings/general.html:94
+msgid "Manage API keys for accessing Wizarr programmatically"
+msgstr ""
+
+#: app/templates/settings/general.html:102
+msgid "Your API Keys"
+msgstr ""
+
+#: app/templates/settings/general.html:103
+msgid "Create and manage API keys for external applications"
+msgstr ""
+
+#: app/templates/settings/general.html:124
+msgid "Loading API keys..."
+msgstr ""
+
+#: app/templates/settings/general.html:137
 msgid "Save Settings"
 msgstr ""
 
@@ -1609,7 +1696,7 @@ msgstr ""
 msgid "Add step"
 msgstr ""
 
-#: app/templates/settings/wizard/form.html:32
+#: app/templates/settings/wizard/form.html:31
 #: app/templates/settings/wizard/index.html:61
 msgid "Preview"
 msgstr ""
@@ -1718,22 +1805,26 @@ msgid "Edit nickname"
 msgstr ""
 
 #: app/templates/tables/user_card.html:82
+msgid "Invited"
+msgstr ""
+
+#: app/templates/tables/user_card.html:92
 msgid "Invite Code"
 msgstr ""
 
-#: app/templates/tables/user_card.html:95
+#: app/templates/tables/user_card.html:105
 msgid "Downloads enabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:101
+#: app/templates/tables/user_card.html:111
 msgid "Downloads disabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:110
+#: app/templates/tables/user_card.html:120
 msgid "Live TV enabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:116
+#: app/templates/tables/user_card.html:126
 msgid "Live TV disabled"
 msgstr ""
 
