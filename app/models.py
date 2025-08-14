@@ -43,6 +43,31 @@ invitation_servers = db.Table(
     db.Column("expires", db.DateTime, nullable=True),
 )
 
+# ────────────────────────────────────────────────────────────────────────────
+# New association table for tracking invitation usage by users (2025-08)
+# ────────────────────────────────────────────────────────────────────────────
+invitation_users = db.Table(
+    "invitation_user",
+    db.Column(
+        "invite_id",
+        db.Integer,
+        db.ForeignKey("invitation.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
+    db.Column(
+        "user_id",
+        db.Integer,
+        db.ForeignKey("user.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
+    # Track when this user used this invitation
+    db.Column(
+        "used_at", db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    ),
+    # Track which server the user was created on when using this invitation
+    db.Column("server_id", db.Integer, db.ForeignKey("media_server.id"), nullable=True),
+)
+
 
 class Invitation(db.Model):
     __tablename__ = "invitation"
@@ -51,8 +76,19 @@ class Invitation(db.Model):
     used = db.Column(db.Boolean, default=False, nullable=False)
     used_at = db.Column(db.DateTime, nullable=True)
     created = db.Column(db.DateTime, default=lambda: datetime.now(UTC), nullable=False)
+
+    # DEPRECATED: Legacy single-user relationship for backward compatibility
+    # Will be removed in a future version - use 'users' relationship instead
     used_by_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
-    used_by = db.relationship("User", backref=db.backref("invitations", lazy=True))
+    used_by = db.relationship("User", foreign_keys=[used_by_id])
+
+    # NEW: Many-to-many relationship to track all users who used this invitation
+    users = db.relationship(
+        "User",
+        secondary=invitation_users,
+        backref=db.backref("used_invitations", lazy=True),
+        lazy="dynamic",
+    )
     expires = db.Column(db.DateTime, nullable=True)
     unlimited = db.Column(db.Boolean, nullable=True)
     duration = db.Column(db.String, nullable=True)
@@ -93,6 +129,23 @@ class Invitation(db.Model):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+    # Helper methods for the new many-to-many relationship
+    def get_all_users(self):
+        """Get all users who have used this invitation."""
+        return self.users.all()
+
+    def get_user_count(self):
+        """Get the total number of users who have used this invitation."""
+        return self.users.count()
+
+    def get_first_user(self):
+        """Get the first user who used this invitation (for backward compatibility)."""
+        return self.users.first()
+
+    def has_user(self, user):
+        """Check if a specific user has used this invitation."""
+        return self.users.filter_by(id=user.id).first() is not None
 
 
 class Settings(db.Model):

@@ -1,4 +1,5 @@
 import datetime
+import logging
 import secrets
 import string
 from typing import Any
@@ -11,6 +12,7 @@ from app.models import (
     Library,
     MediaServer,
     invitation_servers,
+    invitation_users,
 )
 
 MIN_CODESIZE = 6  # Minimum allowed invite code length
@@ -179,6 +181,9 @@ def mark_server_used(inv: Invitation, server_id: int) -> None:
 
     This function automatically infers the user association from the invitation's
     used_by field or by finding a user with matching invitation code and server.
+
+    After marking as used, it syncs users from the media server to ensure the
+    newly created user appears in the users list.
     """
     db.session.execute(
         invitation_servers.update()
@@ -191,27 +196,71 @@ def mark_server_used(inv: Invitation, server_id: int) -> None:
         .values(used=True, used_at=datetime.datetime.now())
     )
 
-    # Check if *all* servers are now used
+    # Check if *all* servers are now used (only for limited invitations)
     row = db.session.execute(
         invitation_servers.select().where(invitation_servers.c.invite_id == inv.id)
     ).all()
-    if row and all(r.used for r in row):  # type: ignore[attr-defined]
+    if row and all(r.used for r in row) and not inv.unlimited:  # type: ignore[attr-defined]
+        # For limited invitations, mark as fully used when all servers are used
+        # For unlimited invitations, this should already be True from the first usage
         inv.used = True
         inv.used_at = datetime.datetime.now()
 
-    # Smart user association: set used_by_id if not already set
-    # This fixes the "Deleted user" issue by automatically finding the associated user
-    if not inv.used_by_id:
-        # Try to use the already set used_by relationship
-        if inv.used_by:
-            inv.used_by_id = inv.used_by.id
-        else:
-            # Fallback: find a user with matching invitation code and server
-            from app.models import User
+    # Find the user who used this invitation on this server
+    from app.models import User
 
-            user = User.query.filter_by(code=inv.code, server_id=server_id).first()
-            if user:
-                inv.used_by_id = user.id
-                inv.used_by = user
+    user = User.query.filter_by(code=inv.code, server_id=server_id).first()
+
+    if user:
+        # Add this user to the invitation's users if not already present
+        # This handles the many-to-many relationship properly
+        existing_usage = db.session.execute(
+            invitation_users.select().where(
+                and_(
+                    invitation_users.c.invite_id == inv.id,
+                    invitation_users.c.user_id == user.id,
+                )
+            )
+        ).first()
+
+        if not existing_usage:
+            # Record this user's usage of the invitation
+            db.session.execute(
+                invitation_users.insert().values(
+                    invite_id=inv.id,
+                    user_id=user.id,
+                    used_at=datetime.datetime.now(),
+                    server_id=server_id,
+                )
+            )
+            logging.info(
+                f"Recorded usage of invitation {inv.code} by user {user.username} on server {server_id}"
+            )
+
+        # Maintain backward compatibility: set used_by_id to the first user if not set
+        if not inv.used_by_id:
+            inv.used_by_id = user.id
+            inv.used_by = user
+
+    # For unlimited invitations, mark as used after first usage
+    # This allows the invitation to show up correctly in the admin interface
+    if inv.unlimited and not inv.used:
+        inv.used = True
+        inv.used_at = datetime.datetime.now()
 
     db.session.commit()
+
+    # Sync users from the media server to ensure the newly created user appears in the database
+    try:
+        server = MediaServer.query.get(server_id)
+        if server:
+            from app.services.media.service import list_users_for_server
+
+            list_users_for_server(server)
+            logging.info(
+                f"Synced users for server {server.name} after invitation {inv.code} was marked as used"
+            )
+    except Exception as exc:
+        logging.error(
+            f"Failed to sync users for server {server_id} after marking invitation {inv.code} as used: {exc}"
+        )
