@@ -39,11 +39,31 @@ def run_library_migration(app):
             db.session.commit()
             return
 
-        # 3) upsert each global Library record
-        for ext in old_ext_ids:
-            lib = Library.query.filter_by(external_id=ext).first()
-            if not lib:
-                db.session.add(Library(external_id=ext, name=ext, enabled=True))
+        # 3) upsert each Library record associated with available servers
+        # In multi-server Wizarr, we don't create orphaned global libraries
+        from app.models import MediaServer
+
+        servers = MediaServer.query.filter_by(verified=True).all()
+        if not servers:
+            # No verified servers available - skip creating libraries
+            # This prevents orphaned libraries without server association
+            pass
+        else:
+            # Create libraries for each verified server if they don't exist
+            for server in servers:
+                for ext in old_ext_ids:
+                    lib = Library.query.filter_by(
+                        external_id=ext, server_id=server.id
+                    ).first()
+                    if not lib:
+                        db.session.add(
+                            Library(
+                                external_id=ext,
+                                name=ext,
+                                enabled=True,
+                                server_id=server.id,
+                            )
+                        )
 
         # 4) remove that Settings row entirely so we never run again
         db.session.delete(row)
@@ -51,17 +71,35 @@ def run_library_migration(app):
         db.session.commit()
 
         # 5) now wire up per-invite links
+        # Link libraries to invitations based on their associated server(s)
         total_links = 0
         for inv in Invitation.query:
             if inv.specific_libraries:
                 parts = [
                     s.strip() for s in inv.specific_libraries.split(",") if s.strip()
                 ]
-                for ext in parts:
-                    lib = Library.query.filter_by(external_id=ext).first()
-                    if lib and lib not in inv.libraries:
-                        inv.libraries.append(lib)
-                        total_links += 1
+
+                # Get relevant servers for this invitation
+                invitation_servers = []
+                if inv.servers:  # Multi-server relationship
+                    invitation_servers = inv.servers
+                elif inv.server_id:  # Legacy single server
+                    from app.models import MediaServer
+
+                    server = MediaServer.query.get(inv.server_id)
+                    if server:
+                        invitation_servers = [server]
+
+                # Link libraries from the invitation's servers
+                for server in invitation_servers:
+                    for ext in parts:
+                        lib = Library.query.filter_by(
+                            external_id=ext, server_id=server.id
+                        ).first()
+                        if lib and lib not in inv.libraries:
+                            inv.libraries.append(lib)
+                            total_links += 1
+
                 # clear out the old CSV field
                 inv.specific_libraries = None
 

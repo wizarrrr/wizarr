@@ -338,6 +338,20 @@ class InvitationsListResource(Resource):
                 # Use server name resolver for display name logic
                 display_info = get_display_name_info(servers)
 
+                # Convert specific_libraries from string to list of integers
+                specific_libraries = []
+                if invitation.specific_libraries:
+                    try:
+                        # Parse comma-separated string to list of integers
+                        specific_libraries = [
+                            int(lib_id.strip())
+                            for lib_id in invitation.specific_libraries.split(",")
+                            if lib_id.strip().isdigit()
+                        ]
+                    except (ValueError, AttributeError):
+                        # If parsing fails, use empty list
+                        specific_libraries = []
+
                 invitations_list.append(
                     {
                         "id": invitation.id,
@@ -358,7 +372,7 @@ class InvitationsListResource(Resource):
                         if invitation.duration
                         else "unlimited",
                         "unlimited": invitation.unlimited,
-                        "specific_libraries": invitation.specific_libraries,
+                        "specific_libraries": specific_libraries,
                         "display_name": display_info["display_name"],
                         "server_names": display_info["server_names"],
                         "uses_global_setting": display_info["uses_global_setting"],
