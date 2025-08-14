@@ -28,7 +28,7 @@
                     {{ user.username }}
                 </p>
                 <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {{ user.created.strftime('%Y-%m-%d %H:%M') if user.created else _("Unknown date") }}
+                    {{ _("Recently joined") }}
                 </p>
             </div>
 
@@ -65,7 +65,7 @@
                     {{ user.username }}
                 </p>
                 <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {{ user.created.strftime('%Y-%m-%d %H:%M') if user.created else _("Unknown date") }}
+                    {{ inv.used_at.strftime('%Y-%m-%d %H:%M') if inv.used_at else inv.created.strftime('%Y-%m-%d %H:%M') }}
                 </p>
             </div>
 
