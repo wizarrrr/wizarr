@@ -202,6 +202,7 @@ def invite_table():
     query = Invitation.query.options(
         db.joinedload(Invitation.libraries).joinedload(Library.server),
         db.joinedload(Invitation.servers),
+        db.joinedload(Invitation.users),  # NEW: Load all users who used this invitation
     ).order_by(Invitation.created.desc())
 
     # NOTE: If an invitation can point to *multiple* servers,
@@ -217,6 +218,9 @@ def invite_table():
             query = Invitation.query.options(
                 db.joinedload(Invitation.libraries).joinedload(Library.server),
                 db.joinedload(Invitation.servers),
+                db.joinedload(
+                    Invitation.users
+                ),  # NEW: Load all users who used this invitation
             ).order_by(Invitation.created.desc())
 
             srv = MediaServer.query.get(server_id)
@@ -765,7 +769,10 @@ def accepted_invites_card():
         Invitation.query
         # eager-load the user + primary server to avoid N+1 lookup
         .options(
-            db.joinedload(Invitation.used_by),
+            db.joinedload(Invitation.used_by),  # Keep for backward compatibility
+            db.joinedload(
+                Invitation.users
+            ),  # NEW: Load all users who used this invitation
             db.joinedload(Invitation.server),
             db.joinedload(Invitation.servers),
         )

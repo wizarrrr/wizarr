@@ -87,7 +87,7 @@ class Invitation(db.Model):
         "User",
         secondary=invitation_users,
         backref=db.backref("used_invitations", lazy=True),
-        lazy="dynamic",
+        lazy="select",
     )
     expires = db.Column(db.DateTime, nullable=True)
     unlimited = db.Column(db.Boolean, nullable=True)
@@ -133,19 +133,20 @@ class Invitation(db.Model):
     # Helper methods for the new many-to-many relationship
     def get_all_users(self):
         """Get all users who have used this invitation."""
-        return self.users.all()
+        return list(self.users)
 
     def get_user_count(self):
         """Get the total number of users who have used this invitation."""
-        return self.users.count()
+        return len(list(self.users))
 
     def get_first_user(self):
         """Get the first user who used this invitation (for backward compatibility)."""
-        return self.users.first()
+        users_list = list(self.users)
+        return users_list[0] if users_list else None
 
     def has_user(self, user):
         """Check if a specific user has used this invitation."""
-        return self.users.filter_by(id=user.id).first() is not None
+        return user in list(self.users)
 
 
 class Settings(db.Model):
