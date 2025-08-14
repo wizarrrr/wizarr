@@ -35,14 +35,11 @@ COPY babel.cfg ./
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked
 
-# Create directories needed for npm build
-RUN mkdir -p app/static/js app/static/css
-
 # Build translations
 RUN uv run pybabel compile -d app/translations
 
-# Build static assets
-RUN npm --prefix app/static/ run build
+# Ensure static directories exist and build static assets
+RUN mkdir -p app/static/js app/static/css && npm --prefix app/static/ run build
 
 # ─── Stage 3: Runtime ─────────────────────────────────────────────────────
 FROM python:3.13-alpine
