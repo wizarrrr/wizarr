@@ -176,6 +176,9 @@ def mark_server_used(inv: Invitation, server_id: int) -> None:
 
     When all attached servers are used we also flip the legacy `inv.used` flag
     so older paths continue to see the invite as consumed.
+
+    This function automatically infers the user association from the invitation's
+    used_by field or by finding a user with matching invitation code and server.
     """
     db.session.execute(
         invitation_servers.update()
@@ -195,5 +198,20 @@ def mark_server_used(inv: Invitation, server_id: int) -> None:
     if row and all(r.used for r in row):  # type: ignore[attr-defined]
         inv.used = True
         inv.used_at = datetime.datetime.now()
+
+    # Smart user association: set used_by_id if not already set
+    # This fixes the "Deleted user" issue by automatically finding the associated user
+    if not inv.used_by_id:
+        # Try to use the already set used_by relationship
+        if inv.used_by:
+            inv.used_by_id = inv.used_by.id
+        else:
+            # Fallback: find a user with matching invitation code and server
+            from app.models import User
+
+            user = User.query.filter_by(code=inv.code, server_id=server_id).first()
+            if user:
+                inv.used_by_id = user.id
+                inv.used_by = user
 
     db.session.commit()
