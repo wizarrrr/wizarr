@@ -8,56 +8,76 @@
         {{ _("Latest Accepted Invites") }}
     </h2>
 
-    {% if invites %}
+    {% if recent_users %}
     <ul class="divide-y divide-gray-200 dark:divide-gray-700 flex-1 overflow-y-auto pr-1">
-        {% for inv in invites %}
+        {% for user in recent_users %}
         <li class="flex items-center py-1.5">
-            <!-- Avatar / placeholder (for first user, or generic if multiple) -->
-            {% set first_user = inv.get_first_user() or inv.used_by %}
-            {% set user_count = inv.get_user_count() %}
-            {% if user_count == 1 and first_user and first_user.photo %}
-                <img src="{{ first_user.photo }}" alt="{{ first_user.username }}" class="w-6 h-6 rounded-full object-cover mr-2" />
+            <!-- User avatar -->
+            {% if user.photo %}
+                <img src="{{ user.photo }}" alt="{{ user.username }}" class="w-6 h-6 rounded-full object-cover mr-2" />
             {% else %}
                 <span class="inline-flex items-center justify-center w-6 h-6 mr-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
-                    {% if user_count > 1 %}
-                        <span class="text-xs font-semibold">{{ user_count }}</span>
-                    {% else %}
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 2a5 5 0 100 10a5 5 0 000-10zm-7 16a7 7 0 0114 0H3z" />
-                        </svg>
-                    {% endif %}
+                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 2a5 5 0 100 10a5 5 0 000-10zm-7 16a7 7 0 0114 0H3z" />
+                    </svg>
                 </span>
             {% endif %}
 
             <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
-                    {% set all_users = inv.get_all_users() %}
-                    {% set user_count = all_users|length %}
-                    {% if user_count > 0 %}
-                        {{ all_users|map(attribute='username')|join(', ') }}
-                    {% else %}
-                        {{ _("Deleted user") }}
-                    {% endif %}
+                    {{ user.username }}
                 </p>
                 <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {{ inv.used_at.strftime('%Y-%m-%d %H:%M') if inv.used_at else inv.created.strftime('%Y-%m-%d %H:%M') }}
+                    {{ user.created.strftime('%Y-%m-%d %H:%M') if user.created else _("Unknown date") }}
                 </p>
             </div>
 
             <div class="ml-1.5 flex items-center gap-1 flex-shrink-0">
-                {% if inv.servers %}
-                {% for srv in inv.servers %}
+                {% if user.server %}
                 <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
-                    {{ srv.name }}
-                </span>
-                {% endfor %}
-                {% elif inv.server %}
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
-                    {{ inv.server.name }}
+                    {{ user.server.name }}
                 </span>
                 {% endif %}
             </div>
         </li>
+        {% endfor %}
+    </ul>
+    {% elif invites %}
+    <!-- Fallback to old invitation-based display if recent_users not available -->
+    <ul class="divide-y divide-gray-200 dark:divide-gray-700 flex-1 overflow-y-auto pr-1">
+        {% for inv in invites %}
+        {% set all_users = inv.get_all_users() %}
+        {% for user in all_users %}
+        <li class="flex items-center py-1.5">
+            <!-- User avatar -->
+            {% if user.photo %}
+                <img src="{{ user.photo }}" alt="{{ user.username }}" class="w-6 h-6 rounded-full object-cover mr-2" />
+            {% else %}
+                <span class="inline-flex items-center justify-center w-6 h-6 mr-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
+                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 2a5 5 0 100 10a5 5 0 000-10zm-7 16a7 7 0 0114 0H3z" />
+                    </svg>
+                </span>
+            {% endif %}
+
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                    {{ user.username }}
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
+                    {{ user.created.strftime('%Y-%m-%d %H:%M') if user.created else _("Unknown date") }}
+                </p>
+            </div>
+
+            <div class="ml-1.5 flex items-center gap-1 flex-shrink-0">
+                {% if user.server %}
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+                    {{ user.server.name }}
+                </span>
+                {% endif %}
+            </div>
+        </li>
+        {% endfor %}
         {% endfor %}
     </ul>
     {% else %}
