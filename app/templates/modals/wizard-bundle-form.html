@@ -14,6 +14,7 @@
           <form class="space-y-4" method="post"
                 hx-post="{{ request.path }}"
                 hx-target="#tab-body" hx-swap="innerHTML">
+            {{ form.hidden_tag() }}
 
             <div>
               {{ form.name.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
@@ -25,7 +26,7 @@
             </div>
 
             <div class="flex gap-2 justify-end pt-4">
-              <button type="button" onclick="document.getElementById('step-modal').innerHTML=''" class="px-4 py-2 rounded border border-gray-300 text-gray-700 dark:text-gray-300">{{ _('Cancel') }}</button>
+              <button type="button" onclick="const modal = document.getElementById('step-modal'); if (modal) modal.innerHTML = ''" class="px-4 py-2 rounded border border-gray-300 text-gray-700 dark:text-gray-300">{{ _('Cancel') }}</button>
               <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _('Save') }}</button>
             </div>
           </form>

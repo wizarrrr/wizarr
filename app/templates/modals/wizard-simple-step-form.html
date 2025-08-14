@@ -12,6 +12,7 @@
           <form class="space-y-4" method="post"
                 hx-post="{{ request.path }}{{ '?' + request.query_string.decode('utf-8') if request.query_string else '' }}"
                 hx-target="#tab-body" hx-swap="innerHTML">
+            {{ form.hidden_tag() }}
 
             <div>
               {{ form.title.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}

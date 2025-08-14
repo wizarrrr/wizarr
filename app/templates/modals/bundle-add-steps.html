@@ -14,6 +14,7 @@
           <form class="space-y-4" method="post"
                 hx-post="{{ url_for('wizard_admin.add_steps', bundle_id=bundle.id) }}"
                 hx-target="#tab-body" hx-swap="innerHTML">
+            {{ form.hidden_tag() }}
 
             <div class="max-h-96 overflow-y-auto border rounded p-2 space-y-1">
               {% for step in steps %}
