@@ -209,33 +209,6 @@ def mark_server_used(
         inv.used = True
         inv.used_at = datetime.datetime.now()
 
-    # Sync users from the media server in background thread to avoid blocking invitation acceptance
-    server = MediaServer.query.get(server_id)
-    if server:
-
-        def sync_users_async():
-            """Sync users from media server in background thread."""
-            from flask import current_app
-
-            with current_app.app_context():
-                try:
-                    from app.services.media.service import list_users_for_server
-
-                    list_users_for_server(server)
-                    logging.info(
-                        f"Synced users for server {server.name} when marking invitation {inv.code} as used"
-                    )
-                except Exception as exc:
-                    logging.error(
-                        f"Failed to sync users for server {server_id} when marking invitation {inv.code} as used: {exc}"
-                    )
-
-        # Start user sync in background thread - don't block invitation flow
-        import threading
-
-        sync_thread = threading.Thread(target=sync_users_async, daemon=True)
-        sync_thread.start()
-
     # Find or use the provided user who used this invitation on this server
     from app.models import User
 

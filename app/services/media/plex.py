@@ -713,6 +713,12 @@ def handle_oauth_token(app, token: str, code: str) -> None:
 
         _invite_user(email, code, new_user.id, server)
 
+        # Mark invitation as used for this server
+        if inv:
+            from app.services.invites import mark_server_used
+
+            mark_server_used(inv, server_id, new_user)
+
         notify(
             "User Joined", f"User {account.username} has joined your server!", "tada"
         )
