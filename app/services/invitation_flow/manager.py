@@ -136,4 +136,5 @@ class InvitationFlowManager:
             successful_servers=[],
             failed_servers=[],
             template_data={"template_name": "invalid-invite.html", "error": message},
+            session_data={"invitation_in_progress": True},
         )

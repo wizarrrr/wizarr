@@ -67,6 +67,24 @@ class InvitationWorkflow(ABC):
                 if ok:
                     successful.append(result)
 
+                    # Mark invitation as used for this server
+                    from app.models import Invitation
+                    from app.services.invites import mark_server_used
+
+                    invitation = Invitation.query.filter_by(
+                        code=invitation_code
+                    ).first()
+                    if invitation:
+                        # Find the user that was created for this server
+                        from app.models import User
+
+                        user = User.query.filter_by(
+                            code=invitation_code, server_id=server.id
+                        ).first()
+                        if user:
+                            invitation.used_by = user  # type: ignore[assignment]
+                        mark_server_used(invitation, server.id, user)
+
                     # Invite user to connected external services (Ombi/Overseerr)
                     try:
                         connection_results = invite_user_to_connections(
@@ -127,7 +145,10 @@ class InvitationWorkflow(ABC):
             successful_servers=successful,
             failed_servers=failed,
             redirect_url="/wizard/",
-            session_data={"wizard_access": invitation_code},
+            session_data={
+                "wizard_access": invitation_code,
+                "invitation_in_progress": True,
+            },
         )
 
 
@@ -163,6 +184,7 @@ class FormBasedWorkflow(InvitationWorkflow):
                 "server_name": server_name,
                 "servers": servers,
             },
+            session_data={"invitation_in_progress": True},
         )
 
     def process_submission(
@@ -217,6 +239,7 @@ class FormBasedWorkflow(InvitationWorkflow):
                 "servers": servers,
                 "error": error_message,
             },
+            session_data={"invitation_in_progress": True},
         )
 
     def _create_server_error_result(
@@ -256,6 +279,7 @@ class FormBasedWorkflow(InvitationWorkflow):
                 "servers": servers,
                 "error": error_text,
             },
+            session_data={"invitation_in_progress": True},
         )
 
 
@@ -282,6 +306,7 @@ class PlexOAuthWorkflow(InvitationWorkflow):
                 "oauth_url": f"/oauth/plex?code={invitation.code}",
                 "server_name": server_name,
             },
+            session_data={"invitation_in_progress": True},
         )
 
     def process_submission(
@@ -329,6 +354,7 @@ class PlexOAuthWorkflow(InvitationWorkflow):
                 "error": error_message,
                 "server_name": server_name,
             },
+            session_data={"invitation_in_progress": True},
         )
 
 
@@ -363,6 +389,7 @@ class MixedWorkflow(InvitationWorkflow):
                     "oauth_url": f"/oauth/plex?code={invitation.code}",
                     "server_name": server_name,
                 },
+                session_data={"invitation_in_progress": True},
             )
 
         if other_servers:
@@ -379,6 +406,7 @@ class MixedWorkflow(InvitationWorkflow):
                     "plex_token": plex_token,
                     "local_servers": other_servers,
                 },
+                session_data={"invitation_in_progress": True},
             )
 
         # Only Plex servers, proceed with processing

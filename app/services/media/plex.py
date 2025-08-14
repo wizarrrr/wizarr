@@ -9,7 +9,6 @@ from plexapi.server import PlexServer
 
 from app.extensions import db
 from app.models import Invitation, Library, MediaServer, User
-from app.services.invites import mark_server_used
 from app.services.media.service import get_client_for_media_server
 from app.services.notifications import notify
 
@@ -718,13 +717,17 @@ def handle_oauth_token(app, token: str, code: str) -> None:
             "User Joined", f"User {account.username} has joined your server!", "tada"
         )
 
-        # Pass only what we need: server credentials, not the entire Flask app
+        # Pass only what we need: server credentials and Flask app instance
         # Use the specific server that was determined for this invitation
+        from flask import current_app
+
         post_setup_client = PlexClient(media_server=server)
         server_url = post_setup_client.url
         api_token = post_setup_client.token
         threading.Thread(
-            target=_post_join_setup, args=(server_url, api_token, token), daemon=True
+            target=_post_join_setup,
+            args=(current_app._get_current_object(), server_url, api_token, token),
+            daemon=True,
         ).start()
 
 
@@ -767,30 +770,40 @@ def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> No
 
     logging.info("Invited %s to Plex", email)
 
-    if user_id:
-        user = User.query.get(user_id)
-        if user:
-            inv.used_by = user
-
-    mark_server_used(inv, server.id)
     PlexClient.list_users.cache_clear()
     db.session.commit()
 
 
-def _post_join_setup(server_url: str, api_token: str, token: str):
-    # Create a PlexServer instance directly without Flask context dependencies
+def _post_join_setup(app, server_url: str, api_token: str, token: str):
+    # Create a PlexServer instance with Flask app context
     from plexapi.server import PlexServer
 
-    try:
-        server = PlexServer(server_url, api_token)
-        user = MyPlexAccount(token=token)
-        # use username as the v2 API returns only username, not e-mail
-        admin_account = server.myPlexAccount()
-        user.acceptInvite(admin_account.username)
-        user.enableViewStateSync()
-        _opt_out_online_sources(user)
-    except Exception as exc:
-        logging.error("Post-join setup failed: %s", exc)
+    with app.app_context():
+        try:
+            server = PlexServer(server_url, api_token)
+            user = MyPlexAccount(token=token)
+            # use username as the v2 API returns only username, not e-mail
+            admin_account = server.myPlexAccount()
+            user.acceptInvite(admin_account.username)
+            user.enableViewStateSync()
+            _opt_out_online_sources(user)
+        except ValueError as exc:
+            if "No pending invite" in str(exc):
+                # This is expected - the invite was already accepted in the main flow
+                logging.info(
+                    "Invite already accepted, proceeding with remaining setup: %s", exc
+                )
+                try:
+                    # Still try to enable view state sync and opt out of online sources
+                    user = MyPlexAccount(token=token)
+                    user.enableViewStateSync()
+                    _opt_out_online_sources(user)
+                except Exception as setup_exc:
+                    logging.warning("Partial post-join setup failed: %s", setup_exc)
+            else:
+                logging.error("Post-join setup failed with ValueError: %s", exc)
+        except Exception as exc:
+            logging.error("Post-join setup failed: %s", exc)
 
 
 def _opt_out_online_sources(user: MyPlexAccount):

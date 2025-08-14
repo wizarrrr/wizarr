@@ -11,7 +11,7 @@ from sqlalchemy import or_
 
 from app.extensions import db
 from app.models import Invitation, Library, User
-from app.services.invites import is_invite_valid, mark_server_used
+from app.services.invites import is_invite_valid
 
 from .client_base import RestApiMixin, register_media_client
 
@@ -437,11 +437,6 @@ class AudiobookshelfClient(RestApiMixin):
         """Return the password value to store in the local DB (plain)."""
         return password
 
-    @staticmethod
-    def _mark_invite_used(inv, user):
-        inv.used_by = user
-        mark_server_used(inv, user.server_id)
-
     def _set_specific_libraries(
         self, user_id: str, library_ids: list[str], allow_downloads: bool = True
     ):
@@ -595,7 +590,6 @@ class AudiobookshelfClient(RestApiMixin):
             db.session.add(local)
             db.session.commit()
 
-            self._mark_invite_used(inv, local)
             return True, ""
 
         except Exception as exc:

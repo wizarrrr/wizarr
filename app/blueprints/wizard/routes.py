@@ -37,6 +37,14 @@ def restrict_wizard():
     if current_user.is_authenticated:
         return None
     if not session.get("wizard_access"):
+        # Check if this is coming from an invitation process
+        # Allow access if they have recently used an invitation
+        if (
+            session.get("invitation_in_progress")
+            or request.referrer
+            and "/j/" in request.referrer
+        ):
+            return None
         return redirect("/")
     return None
 

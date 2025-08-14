@@ -11,7 +11,7 @@ from sqlalchemy import or_
 
 from app.extensions import db
 from app.models import Invitation, Library, User
-from app.services.invites import is_invite_valid, mark_server_used
+from app.services.invites import is_invite_valid
 
 from .client_base import RestApiMixin, register_media_client
 
@@ -247,7 +247,7 @@ class KomgaClient(RestApiMixin):
 
             expires = calculate_user_expiry(inv, current_server_id) if inv else None
 
-            new_user = self._create_user_with_identity_linking(
+            self._create_user_with_identity_linking(
                 {
                     "username": username,
                     "email": email,
@@ -258,12 +258,6 @@ class KomgaClient(RestApiMixin):
                 }
             )
             db.session.commit()
-
-            if inv:
-                inv.used_by = new_user
-                server_id = getattr(new_user, "server_id", None)
-                if server_id is not None:
-                    mark_server_used(inv, server_id)
 
             return True, ""
 

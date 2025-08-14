@@ -10,7 +10,7 @@ from sqlalchemy import or_
 
 from app.extensions import db
 from app.models import Invitation, User
-from app.services.invites import is_invite_valid, mark_server_used
+from app.services.invites import is_invite_valid
 
 from .client_base import RestApiMixin, register_media_client
 
@@ -547,14 +547,6 @@ class KavitaClient(RestApiMixin):
         """Return the password value to store in the local DB."""
         return password
 
-    @staticmethod
-    def _mark_invite_used(inv: Invitation, user: User) -> None:
-        """Mark invitation consumed for the Kavita server only."""
-        inv.used_by = user  # type: ignore[assignment]
-        server_id = getattr(user, "server_id", None)
-        if server_id is not None:
-            mark_server_used(inv, server_id)
-
     # --- public sign-up ---------------------------------------------
 
     def _do_join(
@@ -600,7 +592,7 @@ class KavitaClient(RestApiMixin):
 
             # Store the user info in Wizarr's database
             # The token field contains either the user ID or email as fallback
-            new_user = self._create_user_with_identity_linking(
+            self._create_user_with_identity_linking(
                 {
                     "username": username,
                     "email": email or "empty",
@@ -611,9 +603,6 @@ class KavitaClient(RestApiMixin):
                 }
             )
             db.session.commit()
-
-            if inv:
-                self._mark_invite_used(inv, new_user)
 
             # Try to grant library access as fallback (in case invite didn't include libraries)
             if library_ids:

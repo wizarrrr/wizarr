@@ -397,16 +397,27 @@ def users_table():
             if uid.isdigit():
                 delete_user(int(uid))
 
-    # 1) ensure data synced from media servers
-    try:
-        if server_id:
-            srv = MediaServer.query.get(int(server_id))
-            if srv:
-                list_users_for_server(srv)
-        else:
-            list_users_all_servers()
-    except Exception as exc:
-        logging.error("sync users failed: %s", exc)
+    # 1) ensure data synced from media servers (in background thread)
+    def sync_users_async():
+        """Sync users from media servers in background thread."""
+        from flask import current_app
+
+        with current_app.app_context():
+            try:
+                if server_id:
+                    srv = MediaServer.query.get(int(server_id))
+                    if srv:
+                        list_users_for_server(srv)
+                else:
+                    list_users_all_servers()
+            except Exception as exc:
+                logging.error("sync users failed: %s", exc)
+
+    # Start user sync in background thread - don't block UI rendering
+    import threading
+
+    sync_thread = threading.Thread(target=sync_users_async, daemon=True)
+    sync_thread.start()
 
     # 2) build DB query with eager load to keep session bound
     # Join with Invitation to get invited date for sorting

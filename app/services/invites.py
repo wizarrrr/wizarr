@@ -11,6 +11,7 @@ from app.models import (
     Invitation,
     Library,
     MediaServer,
+    User,
     invitation_servers,
     invitation_users,
 )
@@ -173,7 +174,9 @@ def create_invite(form: Any) -> Invitation:
 # ─── Multi-server helpers ───────────────────────────────────────────────────
 
 
-def mark_server_used(inv: Invitation, server_id: int) -> None:
+def mark_server_used(
+    inv: Invitation, server_id: int, user: "User | None" = None
+) -> None:
     """Mark the invitation as used for a specific server.
 
     When all attached servers are used we also flip the legacy `inv.used` flag
@@ -206,10 +209,55 @@ def mark_server_used(inv: Invitation, server_id: int) -> None:
         inv.used = True
         inv.used_at = datetime.datetime.now()
 
-    # Find the user who used this invitation on this server
+    # Sync users from the media server in background thread to avoid blocking invitation acceptance
+    server = MediaServer.query.get(server_id)
+    if server:
+
+        def sync_users_async():
+            """Sync users from media server in background thread."""
+            from flask import current_app
+
+            with current_app.app_context():
+                try:
+                    from app.services.media.service import list_users_for_server
+
+                    list_users_for_server(server)
+                    logging.info(
+                        f"Synced users for server {server.name} when marking invitation {inv.code} as used"
+                    )
+                except Exception as exc:
+                    logging.error(
+                        f"Failed to sync users for server {server_id} when marking invitation {inv.code} as used: {exc}"
+                    )
+
+        # Start user sync in background thread - don't block invitation flow
+        import threading
+
+        sync_thread = threading.Thread(target=sync_users_async, daemon=True)
+        sync_thread.start()
+
+    # Find or use the provided user who used this invitation on this server
     from app.models import User
 
-    user = User.query.filter_by(code=inv.code, server_id=server_id).first()
+    if not user:
+        # No user provided, try to find by invitation code and server
+        # Debug: List all users for this server and invitation code
+        all_users = User.query.filter_by(server_id=server_id).all()
+        users_with_code = User.query.filter_by(code=inv.code).all()
+        logging.info(
+            f"Debug: Server {server_id} has {len(all_users)} total users, "
+            f"{len(users_with_code)} users with code '{inv.code}'"
+        )
+        for u in users_with_code:
+            logging.info(
+                f"  User with code '{inv.code}': {u.username} (server_id={u.server_id})"
+            )
+
+        user = User.query.filter_by(code=inv.code, server_id=server_id).first()
+    else:
+        logging.info(
+            f"Using provided user {user.username} for invitation {inv.code} on server {server_id}"
+        )
 
     if user:
         # Add this user to the invitation's users if not already present
@@ -234,13 +282,20 @@ def mark_server_used(inv: Invitation, server_id: int) -> None:
                 )
             )
             logging.info(
-                f"Recorded usage of invitation {inv.code} by user {user.username} on server {server_id}"
+                f"Successfully recorded usage of invitation {inv.code} by user {user.username} on server {server_id}"
             )
 
         # Maintain backward compatibility: set used_by_id to the first user if not set
         if not inv.used_by_id:
             inv.used_by_id = user.id
             inv.used_by = user
+    else:
+        # User not found even after syncing - this is an issue
+        logging.error(
+            f"User not found for invitation {inv.code} on server {server_id} even after syncing. "
+            f"Available users on this server: {[u.username + f'(code={u.code})' for u in all_users]}. "
+            f"The invitation-user relationship cannot be created."
+        )
 
     # For unlimited invitations, mark as used after first usage
     # This allows the invitation to show up correctly in the admin interface
@@ -249,18 +304,3 @@ def mark_server_used(inv: Invitation, server_id: int) -> None:
         inv.used_at = datetime.datetime.now()
 
     db.session.commit()
-
-    # Sync users from the media server to ensure the newly created user appears in the database
-    try:
-        server = MediaServer.query.get(server_id)
-        if server:
-            from app.services.media.service import list_users_for_server
-
-            list_users_for_server(server)
-            logging.info(
-                f"Synced users for server {server.name} after invitation {inv.code} was marked as used"
-            )
-    except Exception as exc:
-        logging.error(
-            f"Failed to sync users for server {server_id} after marking invitation {inv.code} as used: {exc}"
-        )

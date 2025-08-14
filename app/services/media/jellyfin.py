@@ -8,7 +8,7 @@ from sqlalchemy import or_
 
 from app.extensions import db
 from app.models import Invitation, Library, User
-from app.services.invites import is_invite_valid, mark_server_used
+from app.services.invites import is_invite_valid
 
 from .client_base import RestApiMixin, register_media_client
 
@@ -258,11 +258,6 @@ class JellyfinClient(RestApiMixin):
         return password
 
     @staticmethod
-    def _mark_invite_used(inv: Invitation, user: User) -> None:
-        inv.used_by = user  # type: ignore[assignment]
-        mark_server_used(inv, user.server_id)
-
-    @staticmethod
     def _folder_name_to_id(name: str, cache: dict[str, str]) -> str | None:
         if name in cache.values():
             return name
@@ -389,7 +384,7 @@ class JellyfinClient(RestApiMixin):
                 else None
             )
 
-            new_user = self._create_user_with_identity_linking(
+            self._create_user_with_identity_linking(
                 {
                     "username": username,
                     "email": email,
@@ -400,9 +395,6 @@ class JellyfinClient(RestApiMixin):
                 }
             )
             db.session.commit()
-
-            if inv:
-                self._mark_invite_used(inv, new_user)
 
             return True, ""
 

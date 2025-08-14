@@ -109,6 +109,19 @@ class InvitationManager:
 
                 if ok:
                     success_count += 1
+
+                    # Mark invitation as used for this server
+                    from app.services.invites import mark_server_used
+
+                    invitation = Invitation.query.filter_by(code=code).first()
+                    if invitation:
+                        # Find the user that was created for this server
+                        user = User.query.filter_by(
+                            code=code, server_id=server.id
+                        ).first()
+                        if user:
+                            invitation.used_by = user  # type: ignore[assignment]
+                        mark_server_used(invitation, server.id, user)
                 else:
                     errors.append(f"{server.name} ({server.server_type}): {msg}")
 
