@@ -60,10 +60,9 @@ COPY --from=builder /app/.venv /app/.venv
 # Make sure we can run uv in the final image
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
-# Copy application code and built assets from builder
+# Copy application code and built assets
 COPY --chown=1000:1000 --from=builder /app/app /app/app
-COPY --chown=1000:1000 --from=builder /app/wizard_steps /app/wizard_steps
-COPY --chown=1000:1000 --from=builder /app/gunicorn.conf.py /app/run.py /app/
+COPY --chown=1000:1000 . /app
 
 # Create data directory for database (backward compatibility)
 RUN mkdir -p /data/database
@@ -84,9 +83,11 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
 # Expose port 5690
 EXPOSE 5690
 
-# Copy wizard steps into /opt and entrypoint script
-COPY --from=builder /app/wizard_steps /opt/default_wizard_steps
-COPY --from=builder /app/docker-entrypoint.sh /usr/local/bin/
+# Copy any wizard steps into /opt
+COPY wizard_steps /opt/default_wizard_steps
+
+# Copy entrypoint script and make it executable
+COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Entrypoint and default CMD
