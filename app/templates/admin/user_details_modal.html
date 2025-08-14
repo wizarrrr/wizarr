@@ -51,8 +51,8 @@
                         {% for info in accounts_info %}
                         <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
                             <div class="flex items-center justify-between mb-2">
-                                <span class="font-medium text-gray-900 dark:text-white">{{ info.server_name }}</span>
-                                {{ info.server_type|server_type_tag }}
+                                <span class="font-medium text-gray-900 dark:text-white">{{ _('Account Details') }}</span>
+                                {{ info.server_type|server_name_tag(info.server_name) }}
                             </div>
                             <p class="mb-3 text-gray-500 dark:text-gray-400"><span class="font-medium">{{ _('Username') }}:</span> {{ info.username }}</p>
 

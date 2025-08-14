@@ -47,8 +47,11 @@
                     {% set accs = user.accounts if user.accounts is defined else [user] %}
                     <div class="mt-1 flex flex-wrap gap-1">
                         {% for acct in accs %}
-                        {% set stype = acct.server.server_type if acct.server else 'local' %}
-                        {{ stype|server_type_tag }}
+                        {% if acct.server %}
+                        {{ acct.server.server_type|server_name_tag(acct.server.name) }}
+                        {% else %}
+                        {{ 'local'|server_type_tag }}
+                        {% endif %}
                         {% endfor %}
                     </div>
                 </div>

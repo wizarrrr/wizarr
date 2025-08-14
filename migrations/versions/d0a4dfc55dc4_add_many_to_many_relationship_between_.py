@@ -107,6 +107,51 @@ def upgrade():
             f"Migration: Recovered {recovered_count} additional invitation-user relationships from User.code field"
         )
 
+    # Step 3: Fix server usage flags for invitations that have users
+    # This ensures the frontend will display users correctly by marking servers as used
+    # when invitations have associated users
+    print("Migration: Fixing server usage flags for consistency...")
+
+    # Find invitations that have users but servers not marked as used
+    invitations_with_users = connection.execute(
+        sa.text("""
+        SELECT DISTINCT iu.invite_id
+        FROM invitation_user iu
+    """)
+    ).fetchall()
+
+    server_fixes = 0
+    for row in invitations_with_users:
+        invite_id = row.invite_id
+
+        # Mark all servers for this invitation as used if they aren't already
+        result = connection.execute(
+            sa.text("""
+            UPDATE invitation_server
+            SET used = 1, used_at = CURRENT_TIMESTAMP
+            WHERE invite_id = :invite_id AND used = 0
+        """),
+            {"invite_id": invite_id},
+        )
+
+        if result.rowcount > 0:
+            server_fixes += result.rowcount
+
+        # Also ensure the main invitation is marked as used
+        connection.execute(
+            sa.text("""
+            UPDATE invitation
+            SET used = 1, used_at = COALESCE(used_at, CURRENT_TIMESTAMP)
+            WHERE id = :invite_id AND used = 0
+        """),
+            {"invite_id": invite_id},
+        )
+
+    if server_fixes > 0:
+        print(
+            f"Migration: Fixed {server_fixes} server usage flags for data consistency"
+        )
+
     # ### end Alembic commands ###
 
 

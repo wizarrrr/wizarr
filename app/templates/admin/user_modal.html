@@ -34,11 +34,11 @@
                             <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
                                 <div class="flex items-center justify-between mb-3">
                                     <div class="flex items-center">
-                                        {% set server_type = related_user.server.server_type if related_user.server else 'local' %}
-                                        {{ server_type|server_type_tag }}
-                                        <span class="ml-2 text-sm font-medium text-gray-900 dark:text-white">
-                                            {{ related_user.server.name if related_user.server else _("Local") }}
-                                        </span>
+                                        {% if related_user.server %}
+                                        {{ related_user.server.server_type|server_name_tag(related_user.server.name) }}
+                                        {% else %}
+                                        {{ 'local'|server_type_tag }}
+                                        {% endif %}
                                     </div>
                                     <span class="text-xs text-gray-500 dark:text-gray-400">
                                         ID: {{ related_user.id }}

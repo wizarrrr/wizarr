@@ -157,12 +157,13 @@ accept datetime or string #} {{ v|human_date }} {%- endmacro %}
             <!-- used by summary (only show when relevant) -->
             {% if invite.all_used %}
             <div class="text-xs text-amber-600 dark:text-amber-300">
-                {% set user_count = invite.get_user_count() %}
-                {% if user_count == 1 %}
-                    {% set first_user = invite.get_first_user() %}
-                    {{ _("Used by") }} {{ first_user.username if first_user else _("Unknown user") }}
-                {% elif user_count > 1 %}
-                    {{ _("Used by %(count)d users", count=user_count) }}
+                {% set all_users = invite.get_all_users() %}
+                {% set user_count = all_users|length %}
+                {% if user_count > 0 %}
+                    <div>
+                        <span class="opacity-70">{{ _("Used by") }}:</span>
+                        <span class="ml-1">{{ all_users|map(attribute='username')|join(', ') }}</span>
+                    </div>
                 {% else %}
                     {{ _("Used") }}
                 {% endif %}
