@@ -180,6 +180,12 @@
         </div>
         <div hx-get="/users/table" hx-trigger="load" hx-target="#user_table" hx-swap="outerHTML" hx-include="#server_filter,#search_query,#order_sel"
             class="p-4 mb-6 overflow-x-auto">
+            <!-- Hidden element to trigger user sync polling -->
+            <div hx-get="/hx/users/sync" 
+                 hx-trigger="load delay:2s" 
+                 hx-include="#server_filter"
+                 hx-swap="none">
+            </div>
             <div class="relative sm:rounded-lg">
                 <div class="hidden flex px-5 py-5 items-center justify-between pb-4 bg-white dark:bg-gray-900">
                     <div >

@@ -397,29 +397,7 @@ def users_table():
             if uid.isdigit():
                 delete_user(int(uid))
 
-    # 1) ensure data synced from media servers (in background thread)
-    def sync_users_async():
-        """Sync users from media servers in background thread."""
-        from flask import current_app
-
-        with current_app.app_context():
-            try:
-                if server_id:
-                    srv = MediaServer.query.get(int(server_id))
-                    if srv:
-                        list_users_for_server(srv)
-                else:
-                    list_users_all_servers()
-            except Exception as exc:
-                logging.error("sync users failed: %s", exc)
-
-    # Start user sync in background thread - don't block UI rendering
-    import threading
-
-    sync_thread = threading.Thread(target=sync_users_async, daemon=True)
-    sync_thread.start()
-
-    # 2) build DB query with eager load to keep session bound
+    # Build DB query with eager load to keep session bound
     # Join with Invitation to get invited date for sorting
     q = User.query.options(db.joinedload(User.server)).outerjoin(
         Invitation, User.code == Invitation.code
@@ -901,4 +879,31 @@ def expiring_users_table():
         logging.error(f"Failed to get expiring users: {e}")
         return render_template(
             "tables/expiring_user_card.html", expiring_users=[], error=str(e)
+        )
+
+
+@admin_bp.route("/hx/users/sync")
+@login_required
+def sync_users():
+    """Sync users from media servers and return success status."""
+    try:
+        server_id = request.args.get("server")
+
+        if server_id:
+            srv = MediaServer.query.get(int(server_id))
+            if srv:
+                list_users_for_server(srv)
+        else:
+            list_users_all_servers()
+
+        # Return empty response with HX-Trigger to refresh the user table
+        response = Response("", status=200)
+        response.headers["HX-Trigger"] = "refreshUserTable"
+        return response
+    except Exception as exc:
+        logging.error("sync users failed: %s", exc)
+        return (
+            '{"status": "error", "message": "Sync failed"}',
+            500,
+            {"Content-Type": "application/json"},
         )
