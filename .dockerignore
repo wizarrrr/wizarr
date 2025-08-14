@@ -41,9 +41,11 @@ unraid.xml
 # Node modules (handled separately in multi-stage build)
 node_modules/
 
-# Built assets (will be built in container)
-app/static/css/
-app/static/js/
+# Built assets (external dependencies will be built in container)
+app/static/css/main.css
+app/static/js/sortable.min.js
+app/static/js/tiny-mde.min.js
+app/static/css/tiny-mde.min.css
 
 # Hidden files (except those we need)
 .*
