@@ -719,9 +719,10 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         )
 
         # Pass only what we need: server credentials, not the entire Flask app
-        client = PlexClient()
-        server_url = client.url
-        api_token = client.token
+        # Use the specific server that was determined for this invitation
+        post_setup_client = PlexClient(media_server=server)
+        server_url = post_setup_client.url
+        api_token = post_setup_client.token
         threading.Thread(
             target=_post_join_setup, args=(server_url, api_token, token), daemon=True
         ).start()
