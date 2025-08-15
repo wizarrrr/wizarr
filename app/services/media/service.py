@@ -128,6 +128,25 @@ def delete_user(db_id: int) -> None:
         # log but still remove locally so UI stays consistent
         logging.error("Remote deletion failed: %s", exc)
 
+    # Delete user from connected companion apps (Ombi, Overseerr, Audiobookrequest, etc.)
+    try:
+        from app.services.ombi_client import delete_user_from_connections
+
+        connection_results = delete_user_from_connections(user.token)
+
+        # Log companion app deletion results
+        for result in connection_results:
+            if result["status"] == "success":
+                logging.info(
+                    f"User {user.username} deleted from companion app {result.get('connection_name')}"
+                )
+            elif result["status"] == "error":
+                logging.warning(
+                    f"Failed to delete user from {result.get('connection_name')}: {result.get('message')}"
+                )
+    except Exception as exc:
+        logging.error(f"Error deleting user from companion apps: {exc}")
+
     db.session.delete(user)
     db.session.commit()
 
@@ -147,6 +166,26 @@ def delete_user_for_server(server: MediaServer, db_id: int) -> None:
                 client.delete_user(email)
         else:
             client.delete_user(user.token)
+
+        # Delete user from connected companion apps (Ombi, Overseerr, Audiobookrequest, etc.)
+        try:
+            from app.services.ombi_client import delete_user_from_connections
+
+            connection_results = delete_user_from_connections(user.token)
+
+            # Log companion app deletion results
+            for result in connection_results:
+                if result["status"] == "success":
+                    logging.info(
+                        f"User {user.username} deleted from companion app {result.get('connection_name')}"
+                    )
+                elif result["status"] == "error":
+                    logging.warning(
+                        f"Failed to delete user from {result.get('connection_name')}: {result.get('message')}"
+                    )
+        except Exception as exc:
+            logging.error(f"Error deleting user from companion apps: {exc}")
+
         db.session.delete(user)
         db.session.commit()
 

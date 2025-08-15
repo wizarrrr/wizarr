@@ -3,6 +3,7 @@ import logging
 import requests
 
 from app.models import Connection, Settings, User
+from app.services.companions import get_companion_client
 
 __all__ = [
     "run_user_importer",
@@ -32,7 +33,9 @@ def get_connection_for_server(
     ).first()
 
 
-def invite_user_to_connections(username: str, email: str, server_id: int) -> list[dict]:
+def invite_user_to_connections(
+    username: str, email: str, server_id: int, password: str = ""
+) -> list[dict]:
     """
     Invite a user to all connected external services for the given media server.
 
@@ -40,6 +43,7 @@ def invite_user_to_connections(username: str, email: str, server_id: int) -> lis
         username: Username of the user to invite
         email: Email address of the user
         server_id: Media server ID to check for connections
+        password: Password for the user (optional, defaults to empty string)
 
     Returns:
         List of results with connection details and success status
@@ -50,93 +54,36 @@ def invite_user_to_connections(username: str, email: str, server_id: int) -> lis
     connections = Connection.query.filter_by(media_server_id=server_id).all()
 
     for connection in connections:
-        if connection.connection_type == "overseerr":
-            # Overseerr connections are info-only, no actual API calls needed
-            results.append(
-                {
-                    "connection_name": connection.name,
-                    "connection_type": "overseerr",
-                    "status": "info_only",
-                    "message": "Overseerr auto-imports users automatically",
-                }
-            )
-            continue
+        try:
+            # Get the appropriate companion client for this connection type
+            client_class = get_companion_client(connection.connection_type)
+            client = client_class()
 
-        if connection.connection_type == "ombi":
-            # Ombi connections require API calls
-            result = _invite_user_to_ombi(username, email, connection)
+            # Use the client to invite the user
+            result = client.invite_user(username, email, connection, password)
             results.append(
                 {
                     "connection_name": connection.name,
-                    "connection_type": "ombi",
+                    "connection_type": connection.connection_type,
                     "status": result["status"],
                     "message": result["message"],
                 }
             )
+        except ValueError as exc:
+            # Unknown connection type
+            logging.error(
+                "Unknown connection type %s: %s", connection.connection_type, exc
+            )
+            results.append(
+                {
+                    "connection_name": connection.name,
+                    "connection_type": connection.connection_type,
+                    "status": "error",
+                    "message": f"Unknown connection type: {connection.connection_type}",
+                }
+            )
 
     return results
-
-
-def _invite_user_to_ombi(username: str, email: str, connection: Connection) -> dict:
-    """
-    Invite a user to a specific Ombi connection.
-
-    Args:
-        username: Username to invite
-        email: Email address
-        connection: Connection object with URL and API key
-
-    Returns:
-        Dict with status and message
-    """
-    if not connection.url or not connection.api_key:
-        return {"status": "error", "message": "Connection missing URL or API key"}
-
-    try:
-        # Create user in Ombi
-        resp = requests.post(
-            f"{connection.url}/api/v1/Identity",
-            headers={"ApiKey": connection.api_key},
-            json={
-                "userName": username,
-                "email": email,
-                "password": "",  # Ombi will generate or user will set via email
-                "claims": [
-                    {
-                        "type": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
-                        "value": username,
-                    },
-                    {
-                        "type": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
-                        "value": email,
-                    },
-                ],
-            },
-            timeout=10,
-        )
-
-        if resp.status_code in [200, 201]:
-            logging.info("Ombi user creation for %s → %s", username, resp.status_code)
-            return {
-                "status": "success",
-                "message": f"User invited to {connection.name}",
-            }
-        logging.warning(
-            "Ombi user creation failed for %s → %s: %s",
-            username,
-            resp.status_code,
-            resp.text,
-        )
-        return {
-            "status": "error",
-            "message": f"Failed to invite user to {connection.name}: HTTP {resp.status_code}",
-        }
-    except Exception as exc:
-        logging.error("Ombi user creation error for %s: %s", username, exc)
-        return {
-            "status": "error",
-            "message": f"Error inviting user to {connection.name}: {str(exc)}",
-        }
 
 
 def run_user_importer(name: str):
@@ -189,101 +136,36 @@ def delete_user_from_connections(internal_token: str) -> list[dict]:
         connections = Connection.query.filter_by(media_server_id=server_id).all()
 
     for connection in connections:
-        if connection.connection_type == "overseerr":
-            # Overseerr connections are info-only, no deletion needed
-            results.append(
-                {
-                    "connection_name": connection.name,
-                    "connection_type": "overseerr",
-                    "status": "info_only",
-                    "message": "Overseerr users managed automatically",
-                }
-            )
-            continue
+        try:
+            # Get the appropriate companion client for this connection type
+            client_class = get_companion_client(connection.connection_type)
+            client = client_class()
 
-        if connection.connection_type == "ombi":
-            # Ombi connections require API calls
-            result = _delete_user_from_ombi(wiz_user.username, connection)
+            # Use the client to delete the user
+            result = client.delete_user(wiz_user.username, connection)
             results.append(
                 {
                     "connection_name": connection.name,
-                    "connection_type": "ombi",
+                    "connection_type": connection.connection_type,
                     "status": result["status"],
                     "message": result["message"],
                 }
             )
+        except ValueError as exc:
+            # Unknown connection type
+            logging.error(
+                "Unknown connection type %s: %s", connection.connection_type, exc
+            )
+            results.append(
+                {
+                    "connection_name": connection.name,
+                    "connection_type": connection.connection_type,
+                    "status": "error",
+                    "message": f"Unknown connection type: {connection.connection_type}",
+                }
+            )
 
     return results
-
-
-def _delete_user_from_ombi(username: str, connection: Connection) -> dict:
-    """
-    Delete a user from a specific Ombi connection.
-
-    Args:
-        username: Username to delete
-        connection: Connection object with URL and API key
-
-    Returns:
-        Dict with status and message
-    """
-    if not connection.url or not connection.api_key:
-        return {"status": "error", "message": "Connection missing URL or API key"}
-
-    try:
-        # 1. Get Ombi user list
-        users = requests.get(
-            f"{connection.url}/api/v1/Identity/Users",
-            headers={"ApiKey": connection.api_key},
-            timeout=5,
-        ).json()
-
-        # 2. Find user by username
-        ombi_user = next((u for u in users if u.get("userName") == username), None)
-
-        if not ombi_user:
-            return {
-                "status": "warning",
-                "message": f"User {username} not found in {connection.name}",
-            }
-
-        # 3. Delete user
-        resp = requests.delete(
-            f"{connection.url}/api/v1/Identity/{ombi_user['id']}",
-            headers={"ApiKey": connection.api_key},
-            timeout=5,
-        )
-
-        if resp.status_code in [200, 204]:
-            logging.info(
-                "Ombi delete user %s from %s → %s",
-                username,
-                connection.name,
-                resp.status_code,
-            )
-            return {
-                "status": "success",
-                "message": f"User deleted from {connection.name}",
-            }
-        logging.warning(
-            "Ombi delete user failed for %s from %s → %s",
-            username,
-            connection.name,
-            resp.status_code,
-        )
-        return {
-            "status": "error",
-            "message": f"Failed to delete user from {connection.name}: HTTP {resp.status_code}",
-        }
-
-    except Exception as exc:
-        logging.error(
-            "Ombi delete user error for %s from %s: %s", username, connection.name, exc
-        )
-        return {
-            "status": "error",
-            "message": f"Error deleting user from {connection.name}: {str(exc)}",
-        }
 
 
 def delete_user(internal_token: str):

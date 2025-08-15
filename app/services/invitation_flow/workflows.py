@@ -91,6 +91,7 @@ class InvitationWorkflow(ABC):
                             username=form_data.get("username", ""),
                             email=form_data.get("email", ""),
                             server_id=server.id,
+                            password=form_data.get("password", ""),
                         )
 
                         # Log connection results for debugging

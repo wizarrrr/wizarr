@@ -3,6 +3,7 @@ from wtforms import SelectField, StringField
 from wtforms.validators import URL, DataRequired, Optional
 
 from app.models import MediaServer
+from app.services.companions import list_companion_types
 
 
 class ConnectionForm(FlaskForm):
@@ -19,11 +20,8 @@ class ConnectionForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Connection type choices
-        self.connection_type.choices = [
-            ("ombi", "Ombi"),
-            ("overseerr", "Overseerr/Jellyseerr (Info Only)"),
-        ]
+        # Connection type choices - dynamically generated from registered companion clients
+        self.connection_type.choices = list_companion_types()
 
         # Populate media server choices
         self.media_server_id.choices = [

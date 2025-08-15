@@ -41,7 +41,7 @@
         <!-- Connection Type -->
         <div>
           {{ form.connection_type.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-          {{ form.connection_type(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary", **{"hx-get": url_for("connections.create_connection"), "hx-target": "#connection-modal", "hx-swap": "innerHTML", "hx-trigger": "change", "hx-include": "[name='connection_type']"}) }}
+          {{ form.connection_type(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary", **{"hx-get": url_for("connections.create_connection"), "hx-target": "closest .relative", "hx-swap": "outerHTML", "hx-trigger": "change", "hx-include": "[name='connection_type']"}) }}
           {% if form.connection_type.errors %}
             <div class="mt-1 text-sm text-red-600 dark:text-red-400">
               {% for error in form.connection_type.errors %}
@@ -138,6 +138,20 @@
           </div>
         {% endif %}
 
+        <!-- Test Result Area -->
+        <div id="test-result-area" class="mt-4"></div>
+        
+        <!-- Test Spinner -->
+        <div id="test-spinner" class="htmx-indicator mt-4 p-4 text-center">
+          <div class="inline-flex items-center">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            {{ _("Testing connection...") }}
+          </div>
+        </div>
+
         <!-- Modal Footer -->
         <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
           <button 
@@ -150,6 +164,20 @@
               {{ _("Update Connection") }}
             {% endif %}
           </button>
+          
+          {% if form.connection_type.data != 'overseerr' %}
+          <button 
+            type="button" 
+            class="py-2.5 px-5 ms-3 text-sm font-medium text-blue-700 focus:outline-none bg-blue-50 rounded-lg border border-blue-200 hover:bg-blue-100 focus:z-10 focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-700 dark:bg-blue-900 dark:text-blue-400 dark:border-blue-600 dark:hover:text-white dark:hover:bg-blue-800"
+            hx-post="{{ url_for('connections.test_connection') }}"
+            hx-target="#test-result-area"
+            hx-include="form"
+            hx-indicator="#test-spinner"
+          >
+            {{ _("Test Connection") }}
+          </button>
+          {% endif %}
+          
           <button 
             type="button" 
             class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
@@ -181,4 +209,5 @@ function togglePassword(button) {
     `;
   }
 }
+
 </script>
