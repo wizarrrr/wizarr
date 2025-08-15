@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-14 03:59+0000\n"
+"POT-Creation-Date: 2025-08-15 03:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +17,42 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/admin/routes.py:271
+#: app/blueprints/admin/routes.py:275
 #: app/templates/admin/user_details_modal.html:47
 msgid "Unknown"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:274 app/templates/modals/invite.html:66
+#: app/blueprints/admin/routes.py:278 app/templates/modals/invite.html:66
 #: app/templates/tables/invite_card.html:45
-#: app/templates/tables/invite_card.html:181
-#: app/templates/tables/user_card.html:71
+#: app/templates/tables/invite_card.html:189
+#: app/templates/tables/user_card.html:74
 msgid "Never"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:345 app/templates/tables/invite_card.html:26
+#: app/blueprints/admin/routes.py:349 app/templates/tables/invite_card.html:26
 msgid "Expired"
-msgstr ""
-
-#: app/blueprints/admin/routes.py:353
-#, python-format
-msgid "in %(n)d d"
-msgstr ""
-
-#: app/blueprints/admin/routes.py:355
-msgid "in 1 d"
 msgstr ""
 
 #: app/blueprints/admin/routes.py:357
 #, python-format
-msgid "in %(n)d h"
+msgid "in %(n)d d"
 msgstr ""
 
 #: app/blueprints/admin/routes.py:359
+msgid "in 1 d"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:361
+#, python-format
+msgid "in %(n)d h"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:363
 #, python-format
 msgid "in %(n)d m"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:360
+#: app/blueprints/admin/routes.py:364
 msgid "soon"
 msgstr ""
 
@@ -252,8 +252,8 @@ msgid "RomM Password"
 msgstr ""
 
 #: app/forms/settings.py:27 app/templates/admin/user_details_modal.html:60
-#: app/templates/tables/invite_card.html:230
-#: app/templates/tables/invite_card.html:239
+#: app/templates/tables/invite_card.html:238
+#: app/templates/tables/invite_card.html:247
 msgid "Libraries"
 msgstr ""
 
@@ -582,11 +582,11 @@ msgstr ""
 msgid "Latest Accepted Invites"
 msgstr ""
 
-#: app/templates/admin/accepted_invites_card.html:28
-msgid "Deleted user"
+#: app/templates/admin/accepted_invites_card.html:31
+msgid "Recently joined"
 msgstr ""
 
-#: app/templates/admin/accepted_invites_card.html:52
+#: app/templates/admin/accepted_invites_card.html:84
 msgid "No recent invitations have been accepted."
 msgstr ""
 
@@ -759,6 +759,10 @@ msgstr ""
 msgid "Joined"
 msgstr ""
 
+#: app/templates/admin/user_details_modal.html:54
+msgid "Account Details"
+msgstr ""
+
 #: app/templates/admin/user_details_modal.html:68
 msgid "All libraries"
 msgstr ""
@@ -789,10 +793,6 @@ msgid ""
 "for each server."
 msgstr ""
 
-#: app/templates/admin/user_modal.html:40
-msgid "Local"
-msgstr ""
-
 #: app/templates/admin/user_modal.html:53
 msgid "Expiry date"
 msgstr ""
@@ -817,9 +817,9 @@ msgstr ""
 #: app/templates/modals/edit-admin.html:33
 #: app/templates/modals/edit-identity.html:26
 #: app/templates/modals/edit-server.html:103
-#: app/templates/modals/wizard-bundle-form.html:29
-#: app/templates/modals/wizard-simple-step-form.html:28
-#: app/templates/modals/wizard-step-form.html:36
+#: app/templates/modals/wizard-bundle-form.html:30
+#: app/templates/modals/wizard-simple-step-form.html:29
+#: app/templates/modals/wizard-step-form.html:37
 #: app/templates/settings/wizard/bundle_form.html:20
 #: app/templates/settings/wizard/form.html:26
 #: app/templates/settings/wizard/simple_form.html:20
@@ -829,7 +829,7 @@ msgstr ""
 #: app/templates/admin/user_modal.html:101
 #: app/templates/components/passkey_add_form.html:26
 #: app/templates/components/passkey_register.html:16
-#: app/templates/modals/bundle-add-steps.html:31
+#: app/templates/modals/bundle-add-steps.html:32
 #: app/templates/modals/connection-form.html:158
 #: app/templates/modals/create-admin.html:34
 #: app/templates/modals/create-api-key.html:66
@@ -839,10 +839,10 @@ msgstr ""
 #: app/templates/modals/edit-identity.html:27
 #: app/templates/modals/edit-server.html:104
 #: app/templates/modals/invite.html:269
-#: app/templates/modals/wizard-bundle-form.html:28
-#: app/templates/modals/wizard-preset-form.html:51
-#: app/templates/modals/wizard-simple-step-form.html:27
-#: app/templates/modals/wizard-step-form.html:35
+#: app/templates/modals/wizard-bundle-form.html:29
+#: app/templates/modals/wizard-preset-form.html:52
+#: app/templates/modals/wizard-simple-step-form.html:28
+#: app/templates/modals/wizard-step-form.html:36
 #: app/templates/settings/connections/form.html:192
 #: app/templates/settings/wizard/bundle_form.html:21
 #: app/templates/settings/wizard/form.html:33
@@ -861,12 +861,12 @@ msgstr ""
 
 #: app/templates/admin/user_modal.html:116 app/templates/modals/invite.html:116
 #: app/templates/modals/invite.html:149
-#: app/templates/tables/invite_card.html:185
+#: app/templates/tables/invite_card.html:193
 msgid "Duration"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:116
-#: app/templates/tables/invite_card.html:187
+#: app/templates/tables/invite_card.html:195
 msgid "days"
 msgstr ""
 
@@ -893,7 +893,7 @@ msgid "Passkeys for {}"
 msgstr ""
 
 #: app/templates/components/admin_passkeys.html:29
-#: app/templates/tables/invite_card.html:175
+#: app/templates/tables/invite_card.html:183
 msgid "Created"
 msgstr ""
 
@@ -1041,17 +1041,17 @@ msgstr ""
 msgid "Add steps to bundle"
 msgstr ""
 
-#: app/templates/modals/bundle-add-steps.html:22
+#: app/templates/modals/bundle-add-steps.html:23
 #: app/templates/settings/wizard/bundles.html:52
 #: app/templates/settings/wizard/steps.html:31
 msgid "Untitled"
 msgstr ""
 
-#: app/templates/modals/bundle-add-steps.html:26
+#: app/templates/modals/bundle-add-steps.html:27
 msgid "All steps are already included."
 msgstr ""
 
-#: app/templates/modals/bundle-add-steps.html:32
+#: app/templates/modals/bundle-add-steps.html:33
 #: app/templates/modals/create-admin.html:33
 msgid "Add"
 msgstr ""
@@ -1327,17 +1327,17 @@ msgstr ""
 msgid "Add Preset Wizard Step"
 msgstr ""
 
-#: app/templates/modals/wizard-preset-form.html:32
+#: app/templates/modals/wizard-preset-form.html:33
 #: app/templates/settings/wizard/preset_form.html:23
 msgid "Your Discord server ID"
 msgstr ""
 
-#: app/templates/modals/wizard-preset-form.html:38
+#: app/templates/modals/wizard-preset-form.html:39
 #: app/templates/settings/wizard/preset_form.html:29
 msgid "URL to your Overseerr/Ombi instance"
 msgstr ""
 
-#: app/templates/modals/wizard-preset-form.html:52
+#: app/templates/modals/wizard-preset-form.html:53
 #: app/templates/settings/wizard/_sub_nav.html:78
 #: app/templates/settings/wizard/preset_form.html:42
 msgid "Create Step"
@@ -1755,7 +1755,7 @@ msgid "Setup Wizarr"
 msgstr ""
 
 #: app/templates/tables/invite_card.html:32
-#: app/templates/tables/invite_card.html:191
+#: app/templates/tables/invite_card.html:199
 msgid "Unlimited"
 msgstr ""
 
@@ -1771,28 +1771,28 @@ msgstr ""
 msgid "Delete invite"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:160
+#: app/templates/tables/invite_card.html:164
 msgid "Used by"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:161
+#: app/templates/tables/invite_card.html:168
 msgid "Used"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:178
-#: app/templates/tables/user_card.html:64
+#: app/templates/tables/invite_card.html:186
+#: app/templates/tables/user_card.html:67
 msgid "Expires"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:190
+#: app/templates/tables/invite_card.html:198
 msgid "Limit"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:211
+#: app/templates/tables/invite_card.html:219
 msgid "libs"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:241
+#: app/templates/tables/invite_card.html:249
 msgid "Default"
 msgstr ""
 
@@ -1804,27 +1804,27 @@ msgstr ""
 msgid "Edit nickname"
 msgstr ""
 
-#: app/templates/tables/user_card.html:82
+#: app/templates/tables/user_card.html:85
 msgid "Invited"
 msgstr ""
 
-#: app/templates/tables/user_card.html:92
+#: app/templates/tables/user_card.html:95
 msgid "Invite Code"
 msgstr ""
 
-#: app/templates/tables/user_card.html:105
+#: app/templates/tables/user_card.html:108
 msgid "Downloads enabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:111
+#: app/templates/tables/user_card.html:114
 msgid "Downloads disabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:120
+#: app/templates/tables/user_card.html:123
 msgid "Live TV enabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:126
+#: app/templates/tables/user_card.html:129
 msgid "Live TV disabled"
 msgstr ""
 
