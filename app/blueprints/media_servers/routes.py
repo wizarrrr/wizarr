@@ -22,6 +22,7 @@ from app.services.servers import (
     check_jellyfin,
     check_kavita,
     check_komga,
+    check_navidrome,
     check_plex,
     check_romm,
 )
@@ -49,6 +50,8 @@ def _check_connection(data: dict):
         return check_komga(data["server_url"], data["api_key"])
     if stype == "kavita":
         return check_kavita(data["server_url"], data["api_key"])
+    if stype == "navidrome":
+        return check_navidrome(data["server_url"], data["api_key"])
     return check_jellyfin(data["server_url"], data["api_key"])
 
 
