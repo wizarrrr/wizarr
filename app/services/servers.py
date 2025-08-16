@@ -244,8 +244,10 @@ def check_navidrome(url: str, token: str) -> tuple[bool, str]:
             # Generate random salt for secure authentication
             salt = "".join(random.choices(string.ascii_letters + string.digits, k=6))
 
-            # Create MD5 hash of password + salt
-            token_hash = hashlib.md5((token + salt).encode()).hexdigest()
+            # Create SHA-256 hash of password + salt (prefer strong hash if supported by Navidrome/Subsonic API)
+            token_hash = hashlib.sha256((token + salt).encode()).hexdigest()
+            # If the server requires MD5, revert to MD5 and document the reason:
+            # token_hash = hashlib.md5((token + salt).encode()).hexdigest()  # Protocol-mandated, insecure
 
             params.update(
                 {
