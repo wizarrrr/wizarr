@@ -25,7 +25,7 @@ services:
     ports:
       - 5690:5690
     volumes:
-      - /path/to/appdata/config/database:/data/database
+      - /path/to/appdata:/data
     environment:
       - PUID=1000 #Set UID
       - PGID=1000 #Set GID
@@ -57,7 +57,7 @@ Then, restart all services defined in the Compose file:
   -e PUID=1000 -e PGID=1000 \
   -e TZ=Europe/London \
   -p 5690:5690 \
-  -v /path/to/appdata/config/database:/data/database \
+  -v /path/to/appdata:/data \
   --restart unless-stopped \
   ghcr.io/wizarrrr/wizarr
 </code></pre>
