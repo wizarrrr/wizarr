@@ -1236,7 +1236,6 @@ dependencies = [
     { name = "gunicorn" },
     { name = "markdown" },
     { name = "packaging" },
-    { name = "playwright" },
     { name = "plexapi" },
     { name = "python-dotenv" },
     { name = "python-frontmatter" },
@@ -1252,6 +1251,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "playwright" },
     { name = "pre-commit" },
     { name = "pyright" },
     { name = "pytest" },
@@ -1278,7 +1278,6 @@ requires-dist = [
     { name = "gunicorn", specifier = ">=23.0.0" },
     { name = "markdown", specifier = ">=3.8" },
     { name = "packaging", specifier = ">=25.0" },
-    { name = "playwright", specifier = ">=1.54.0" },
     { name = "plexapi", specifier = ">=4.17.0" },
     { name = "python-dotenv", specifier = ">=1.1.0" },
     { name = "python-frontmatter", specifier = ">=1.1.0" },
@@ -1294,6 +1293,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "playwright", specifier = ">=1.54.0" },
     { name = "pre-commit", specifier = ">=4.0.1" },
     { name = "pyright", specifier = ">=1.1.400" },
     { name = "pytest", specifier = ">=8.3.5" },
