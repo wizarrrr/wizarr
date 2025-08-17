@@ -55,7 +55,7 @@ RUN apk add --no-cache curl tzdata su-exec
 WORKDIR /app
 
 # Copy Python environment from builder stage (includes project)
-COPY --from=builder /app/.venv /app/.venv
+COPY --chown=1000:1000 --from=builder /app/.venv /app/.venv
 
 # Make sure we can run uv in the final image
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
