@@ -38,11 +38,11 @@ def invitation_setup(app):
         # Create valid invitation
         invitation = Invitation(
             code="E2ETEST123",
-            server_id=server.id,
             duration="30",
             used=False,
             unlimited=False,
         )
+        invitation.servers = [server]
         db.session.add(invitation)
         db.session.commit()
 
@@ -158,10 +158,10 @@ class TestInvitationUserJourney:
 
             expired_invitation = Invitation(
                 code="EXPIRED123",
-                server_id=server.id,
                 expires=datetime.now(UTC) - timedelta(hours=1),
                 used=False,
             )
+            expired_invitation.servers = [server]
             db.session.add(expired_invitation)
             db.session.commit()
 

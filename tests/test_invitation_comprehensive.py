@@ -92,7 +92,7 @@ class TestInvitationValidation:
         """Test that used unlimited invitations are still valid."""
         with app.app_context():
             # Create used unlimited invitation
-            invite = Invitation(code="UNLIMITED123", used=True, unlimited=True)
+            invite = Invitation(code="UNLIMITED12", used=True, unlimited=True)
             db.session.add(invite)
             db.session.commit()
 
@@ -109,7 +109,7 @@ class TestSingleServerInvitations:
         """Setup for each test."""
         setup_mock_servers()
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_successful_jellyfin_invitation(self, mock_get_client, app):
         """Test successful invitation process for Jellyfin server."""
         with app.app_context():
@@ -128,18 +128,18 @@ class TestSingleServerInvitations:
             db.session.flush()
 
             invite = Invitation(
-                code="JELLYFIN123",
-                server_id=server.id,
+                code="JELLYFIN12",
                 duration="30",
                 used=False,
                 unlimited=False,
             )
+            invite.servers = [server]
             db.session.add(invite)
             db.session.commit()
 
             # Process invitation
             success, redirect_code, errors = InvitationManager.process_invitation(
-                code="JELLYFIN123",
+                code="JELLYFIN12",
                 username="testuser",
                 password="testpass123",
                 confirm_password="testpass123",
@@ -148,7 +148,7 @@ class TestSingleServerInvitations:
 
             # Verify results
             assert success
-            assert redirect_code == "JELLYFIN123"
+            assert redirect_code == "JELLYFIN12"
             assert len(errors) == 0
 
             # Verify user was created in mock
@@ -159,12 +159,12 @@ class TestSingleServerInvitations:
             assert created_user.email == "test@example.com"
 
             # Verify database user was created
-            db_user = User.query.filter_by(code="JELLYFIN123").first()
+            db_user = User.query.filter_by(code="JELLYFIN12").first()
             assert db_user is not None
             assert db_user.username == "testuser"
             assert db_user.server_id == server.id
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_plex_invitation_with_oauth(self, mock_get_client, app):
         """Test Plex invitation that might use OAuth flow."""
         with app.app_context():
@@ -183,11 +183,11 @@ class TestSingleServerInvitations:
 
             invite = Invitation(
                 code="PLEX123",
-                server_id=server.id,
                 plex_home=True,
                 plex_allow_sync=True,
                 unlimited=True,
             )
+            invite.servers = [server]
             db.session.add(invite)
             db.session.commit()
 
@@ -211,7 +211,7 @@ class TestSingleServerInvitations:
                 created_user.email == "plex@example.com"
             )  # Plex uses email as primary identifier
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_server_connection_failure(self, mock_get_client, app):
         """Test handling of server connection failures."""
         with app.app_context():
@@ -231,7 +231,8 @@ class TestSingleServerInvitations:
             db.session.add(server)
             db.session.flush()
 
-            invite = Invitation(code="FAIL123", server_id=server.id)
+            invite = Invitation(code="FAIL123")
+            invite.servers = [server]
             db.session.add(invite)
             db.session.commit()
 
@@ -253,7 +254,7 @@ class TestSingleServerInvitations:
                 for error in errors
             )
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_user_creation_failure(self, mock_get_client, app):
         """Test handling when user creation fails on media server."""
         with app.app_context():
@@ -273,7 +274,8 @@ class TestSingleServerInvitations:
             db.session.add(server)
             db.session.flush()
 
-            invite = Invitation(code="BADUSER123", server_id=server.id)
+            invite = Invitation(code="BADUSER123")
+            invite.servers = [server]
             db.session.add(invite)
             db.session.commit()
 
@@ -300,7 +302,7 @@ class TestMultiServerInvitations:
         """Setup for each test."""
         setup_mock_servers()
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_multi_server_success(self, mock_get_client, app):
         """Test successful multi-server invitation."""
         with app.app_context():
@@ -366,7 +368,7 @@ class TestMultiServerInvitations:
                 len(identities) <= 1
             )  # Should be linked to same identity or both None
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_multi_server_partial_failure(self, mock_get_client, app):
         """Test multi-server invitation where one server fails."""
         with app.app_context():
@@ -427,7 +429,7 @@ class TestMultiServerInvitations:
             ]
             assert len(jellyfin_users) == 1
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_multi_server_complete_failure(self, mock_get_client, app):
         """Test multi-server invitation where all servers fail."""
         with app.app_context():
@@ -484,7 +486,7 @@ class TestInvitationLibraryAssignment:
         """Setup for each test."""
         setup_mock_servers()
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_specific_library_assignment(self, mock_get_client, app):
         """Test invitation with specific library restrictions."""
         with app.app_context():
@@ -512,7 +514,8 @@ class TestInvitationLibraryAssignment:
             db.session.flush()
 
             # Create invitation with specific libraries
-            invite = Invitation(code="SPECIFIC123", server_id=server.id)
+            invite = Invitation(code="SPECIFIC12")
+            invite.servers = [server]
             invite.libraries = [lib1, lib2]  # Only Movies and TV
             db.session.add(invite)
             db.session.commit()
@@ -523,7 +526,7 @@ class TestInvitationLibraryAssignment:
 
             # Process invitation
             success, redirect_code, errors = InvitationManager.process_invitation(
-                code="SPECIFIC123",
+                code="SPECIFIC12",
                 username="libuser",
                 password="testpass123",
                 confirm_password="testpass123",
@@ -545,7 +548,7 @@ class TestInvitationLibraryAssignment:
 class TestInvitationExpiry:
     """Test invitation expiry and duration handling."""
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_user_expiry_calculation(self, mock_get_client, app):
         """Test that users get proper expiry dates based on invitation duration."""
         with app.app_context():
@@ -562,9 +565,9 @@ class TestInvitationExpiry:
             # Create invitation with 7-day duration
             invite = Invitation(
                 code="EXPIRY123",
-                server_id=server.id,
                 duration="7",  # 7 days
             )
+            invite.servers = [server]
             db.session.add(invite)
             db.session.commit()
 

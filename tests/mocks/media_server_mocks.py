@@ -192,6 +192,12 @@ class MockJellyfinClient:
         except Exception as e:
             return False, str(e)
 
+    def join(
+        self, username: str, password: str, confirm: str, email: str, code: str
+    ) -> tuple[bool, str]:
+        """Public join method that delegates to _do_join."""
+        return self._do_join(username, password, confirm, email, code)
+
 
 class MockPlexClient:
     """Mock Plex client that simulates PlexAPI responses."""
@@ -242,6 +248,12 @@ class MockPlexClient:
         except Exception as e:
             return False, f"Plex error: {str(e)}"
 
+    def join(
+        self, username: str, password: str, confirm: str, email: str, code: str
+    ) -> tuple[bool, str]:
+        """Public join method that delegates to _do_join."""
+        return self._do_join(username, password, confirm, email, code)
+
 
 class MockAudiobookshelfClient:
     """Mock Audiobookshelf client."""
@@ -280,6 +292,12 @@ class MockAudiobookshelfClient:
 
         except Exception as e:
             return False, f"Audiobookshelf error: {str(e)}"
+
+    def join(
+        self, username: str, password: str, confirm: str, email: str, code: str
+    ) -> tuple[bool, str]:
+        """Public join method that delegates to _do_join."""
+        return self._do_join(username, password, confirm, email, code)
 
 
 # Factory function to create mock clients

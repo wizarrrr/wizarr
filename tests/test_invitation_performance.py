@@ -43,7 +43,8 @@ class TestInvitationPerformance:
             db.session.add(server)
             db.session.flush()
 
-            invitation = Invitation(code="PERF123", server_id=server.id, unlimited=True)
+            invitation = Invitation(code="PERF123", unlimited=True)
+            invitation.servers = [server]
             db.session.add(invitation)
             db.session.commit()
 
@@ -89,9 +90,9 @@ class TestInvitationPerformance:
 
             invitation = Invitation(
                 code="CONCURRENT123",
-                server_id=server.id,
                 unlimited=True,  # Allow multiple uses
             )
+            invitation.servers = [server]
             db.session.add(invitation)
             db.session.commit()
 
@@ -223,9 +224,8 @@ class TestInvitationLoadTesting:
             # Create 100 invitations
             invitations = []
             for i in range(100):
-                invitation = Invitation(
-                    code=f"LOAD{i:03d}", server_id=server.id, unlimited=True
-                )
+                invitation = Invitation(code=f"LOAD{i:03d}", unlimited=True)
+                invitation.servers = [server]
                 invitations.append(invitation)
                 db.session.add(invitation)
             db.session.commit()
@@ -273,10 +273,10 @@ class TestInvitationLoadTesting:
             for i in range(500):  # 500 invitations
                 invitation = Invitation(
                     code=f"DBLOAD{i:04d}",
-                    server_id=server.id,
                     unlimited=False,
                     used=(i % 3 == 0),  # Every 3rd invitation is used
                 )
+                invitation.servers = [server]
                 db.session.add(invitation)
 
                 if invitation.used:
@@ -333,9 +333,8 @@ class TestInvitationMemoryUsage:
             db.session.add(server)
             db.session.flush()
 
-            invitation = Invitation(
-                code="MEMORY123", server_id=server.id, unlimited=True
-            )
+            invitation = Invitation(code="MEMORY123", unlimited=True)
+            invitation.servers = [server]
             db.session.add(invitation)
             db.session.commit()
 
@@ -390,9 +389,8 @@ class TestInvitationErrorRecovery:
             db.session.add(server)
             db.session.flush()
 
-            invitation = Invitation(
-                code="RECOVERY123", server_id=server.id, unlimited=True
-            )
+            invitation = Invitation(code="RECOVERY123", unlimited=True)
+            invitation.servers = [server]
             db.session.add(invitation)
             db.session.commit()
 
