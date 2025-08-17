@@ -38,7 +38,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-dev
 
 # Build translations
-RUN uv run pybabel compile -d app/translations
+RUN uv run --no-dev pybabel compile -d app/translations
 
 # Ensure static directories exist and build static assets
 RUN mkdir -p app/static/js app/static/css && npm --prefix app/static/ run build
