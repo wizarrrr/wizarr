@@ -634,9 +634,9 @@ class PlexClient(MediaClient):
             transcode_sessions = self.server.transcodeSessions()
 
             try:
-                users = self.server.myPlexAccount().users()
+                users = self.list_users()
                 stats["user_stats"] = {
-                    "total_users": len(users) + 1,
+                    "total_users": len(users),
                     "active_sessions": len(sessions),
                 }
             except Exception as e:
