@@ -13,6 +13,8 @@ jobs:
     # ──────────────────── Docker Pre-Release Image ────────────────────
     pre-release:
         runs-on: ubuntu-latest
+        # Only run for prerelease releases
+        if: ${{ github.event.release.prerelease }}
         permissions:
             contents: read
             packages: write
