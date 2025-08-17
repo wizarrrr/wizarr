@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-15 03:59+0000\n"
+"POT-Creation-Date: 2025-08-17 04:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -97,16 +97,44 @@ msgstr ""
 msgid "Authentication failed"
 msgstr ""
 
-#: app/blueprints/connections/routes.py:49
-msgid "Connection created successfully!"
+#: app/blueprints/connections/routes.py:52
+#: app/blueprints/connections/routes.py:188
+msgid "Connection type is required"
+msgstr ""
+
+#: app/blueprints/connections/routes.py:65
+#, python-format
+msgid "Connection test failed: %(message)s"
+msgstr ""
+
+#: app/blueprints/connections/routes.py:75
+msgid "Connection test successful!"
 msgstr ""
 
 #: app/blueprints/connections/routes.py:78
+#: app/blueprints/connections/routes.py:204
+msgid "Unknown connection type"
+msgstr ""
+
+#: app/blueprints/connections/routes.py:95
+msgid "Connection created successfully!"
+msgstr ""
+
+#: app/blueprints/connections/routes.py:124
 msgid "Connection updated successfully!"
 msgstr ""
 
-#: app/blueprints/connections/routes.py:100
+#: app/blueprints/connections/routes.py:146
 msgid "Connection deleted successfully!"
+msgstr ""
+
+#: app/blueprints/connections/routes.py:165
+msgid "Please refresh the page and try again (CSRF token expired)"
+msgstr ""
+
+#: app/blueprints/connections/routes.py:170
+#, python-format
+msgid "Invalid form data: %(errors)s"
 msgstr ""
 
 #: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:270
@@ -830,7 +858,7 @@ msgstr ""
 #: app/templates/components/passkey_add_form.html:26
 #: app/templates/components/passkey_register.html:16
 #: app/templates/modals/bundle-add-steps.html:32
-#: app/templates/modals/connection-form.html:158
+#: app/templates/modals/connection-form.html:186
 #: app/templates/modals/create-admin.html:34
 #: app/templates/modals/create-api-key.html:66
 #: app/templates/modals/create-notification-agent.html:91
@@ -883,7 +911,7 @@ msgid "Unlink"
 msgstr ""
 
 #: app/templates/admin/users.html:178 app/templates/servers/index.html:27
-#: app/templates/settings/connections.html:106
+#: app/templates/settings/connections.html:120
 msgid "Delete"
 msgstr ""
 
@@ -1096,14 +1124,22 @@ msgid ""
 "new users' and 'Import Jellyfin/Plex users'"
 msgstr ""
 
-#: app/templates/modals/connection-form.html:148
+#: app/templates/modals/connection-form.html:151
+msgid "Testing connection..."
+msgstr ""
+
+#: app/templates/modals/connection-form.html:162
 #: app/templates/settings/connections/form.html:199
 msgid "Create Connection"
 msgstr ""
 
-#: app/templates/modals/connection-form.html:150
+#: app/templates/modals/connection-form.html:164
 #: app/templates/settings/connections/form.html:201
 msgid "Update Connection"
+msgstr ""
+
+#: app/templates/modals/connection-form.html:177
+msgid "Test Connection"
 msgstr ""
 
 #: app/templates/modals/create-admin.html:10
@@ -1383,7 +1419,7 @@ msgid "Actions"
 msgstr ""
 
 #: app/templates/servers/index.html:25
-#: app/templates/settings/connections.html:93
+#: app/templates/settings/connections.html:107
 msgid "Edit"
 msgstr ""
 
@@ -1446,25 +1482,29 @@ msgstr ""
 msgid "Ombi"
 msgstr ""
 
-#: app/templates/settings/connections.html:79
+#: app/templates/settings/connections.html:66
+msgid "Audiobookrequest"
+msgstr ""
+
+#: app/templates/settings/connections.html:93
 msgid "Auto-import enabled"
 msgstr ""
 
-#: app/templates/settings/connections.html:99
+#: app/templates/settings/connections.html:113
 msgid "Are you sure you want to delete this connection?"
 msgstr ""
 
-#: app/templates/settings/connections.html:121
+#: app/templates/settings/connections.html:135
 msgid "No connections configured"
 msgstr ""
 
-#: app/templates/settings/connections.html:122
+#: app/templates/settings/connections.html:136
 msgid ""
 "Connect your external services to automate user invitations when invites "
 "are created for specific media servers."
 msgstr ""
 
-#: app/templates/settings/connections.html:132
+#: app/templates/settings/connections.html:146
 msgid "Add Your First Connection"
 msgstr ""
 
