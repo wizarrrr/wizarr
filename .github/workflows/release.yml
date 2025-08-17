@@ -43,6 +43,7 @@ jobs:
                     platforms: linux/amd64,linux/arm64
                     tags: |
                         ghcr.io/${{ github.repository_owner }}/wizarr:latest
+                        ghcr.io/${{ github.repository_owner }}/wizarr:beta
                         ghcr.io/${{ github.repository_owner }}/wizarr:${{ github.event.release.tag_name }}
                     build-args: |
                         APP_VERSION=${{ github.event.release.tag_name }}
