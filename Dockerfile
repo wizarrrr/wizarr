@@ -42,7 +42,7 @@ RUN uv run pybabel compile -d app/translations
 RUN mkdir -p app/static/js app/static/css && npm --prefix app/static/ run build
 
 # ─── Stage 3: Runtime ─────────────────────────────────────────────────────
-FROM python:3.13-alpine
+FROM ghcr.io/astral-sh/uv:python3.13-alpine
 
 # Set default environment variables for user/group IDs
 ENV PUID=1000
@@ -56,9 +56,6 @@ WORKDIR /app
 
 # Copy Python environment from builder stage (includes project)
 COPY --chown=1000:1000 --from=builder /app/.venv /app/.venv
-
-# Make sure we can run uv in the final image
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
 # Copy application code and built assets
 COPY --chown=1000:1000 --from=builder /app/app /app/app
