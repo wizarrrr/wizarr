@@ -93,7 +93,7 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 # By default we run Gunicorn under wizarruser
-CMD ["uv", "run", "gunicorn", \
+CMD ["uv", "run", "--no-dev", "gunicorn", \
      "--config", "gunicorn.conf.py", \
      "--bind", "0.0.0.0:5690", \
      "--umask", "007", \
