@@ -29,7 +29,7 @@ class TestInvitationPerformance:
         """Setup for each test."""
         setup_mock_servers()
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_single_invitation_processing_time(self, mock_get_client, app):
         """Test time to process a single invitation."""
         with app.app_context():
@@ -74,7 +74,7 @@ class TestInvitationPerformance:
                 f"Processing took {processing_time:.3f}s, expected < 1.0s"
             )
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_concurrent_invitation_processing(self, mock_get_client, app):
         """Test processing multiple invitations concurrently."""
         with app.app_context():
@@ -141,7 +141,7 @@ class TestInvitationPerformance:
             created_users = get_mock_state().users
             assert len(created_users) == num_users
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_multi_server_invitation_performance(self, mock_get_client, app):
         """Test performance of multi-server invitation processing."""
         with app.app_context():
@@ -207,7 +207,7 @@ class TestInvitationLoadTesting:
         """Setup for each test."""
         setup_mock_servers()
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_invitation_validation_performance(self, mock_get_client, app):
         """Test performance of invitation validation under load."""
         with app.app_context():
@@ -255,7 +255,7 @@ class TestInvitationLoadTesting:
             )
             assert max_time < 0.05, f"Max validation time {max_time:.4f}s too slow"
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_database_performance_under_load(self, mock_get_client, app):
         """Test database performance with many invitation records."""
         with app.app_context():
@@ -316,7 +316,7 @@ class TestInvitationLoadTesting:
 class TestInvitationMemoryUsage:
     """Test memory usage during invitation processing."""
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_memory_efficient_processing(self, mock_get_client, app):
         """Test that invitation processing doesn't leak memory."""
         import gc
@@ -375,7 +375,7 @@ class TestInvitationErrorRecovery:
         """Setup for each test."""
         setup_mock_servers()
 
-    @patch("app.services.media.service.get_client_for_media_server")
+    @patch("app.services.invitation_manager.get_client_for_media_server")
     def test_recovery_from_server_failures(self, mock_get_client, app):
         """Test system recovery when servers fail under load."""
         with app.app_context():

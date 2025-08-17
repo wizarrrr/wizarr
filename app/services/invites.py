@@ -48,6 +48,20 @@ def is_invite_valid(code: str) -> tuple[bool, str]:
     return True, "okay"
 
 
+def _get_form_list(form: Any, key: str) -> list[str]:
+    """Get list from form, handling both WTForms and dict."""
+    if hasattr(form, "getlist"):
+        # WTForms object
+        return form.getlist(key) or []
+    # Regular dict
+    value = form.get(key, [])
+    if isinstance(value, list):
+        return value
+    if value:
+        return [str(value)]
+    return []
+
+
 def create_invite(form: Any) -> Invitation:
     """Takes a WTForms or dict-like `form` with the same keys as your old version."""
     # generate or validate provided code
@@ -69,7 +83,7 @@ def create_invite(form: Any) -> Invitation:
 
     # ── servers ────────────────────────────────────────────────────────────
     # Get selected server IDs from checkboxes
-    server_ids = form.getlist("server_ids") or []
+    server_ids = _get_form_list(form, "server_ids")
 
     if not server_ids:
         # No servers selected - this is now an error condition
@@ -131,7 +145,9 @@ def create_invite(form: Any) -> Invitation:
         invite.servers.extend(servers)
 
     # Wire up library associations
-    selected = form.getlist("libraries")  # these are now library IDs (not external_ids)
+    selected = _get_form_list(
+        form, "libraries"
+    )  # these are now library IDs (not external_ids)
     if selected:
         # Convert string IDs to integers and filter out invalid values
         try:

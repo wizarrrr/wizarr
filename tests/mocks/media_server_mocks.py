@@ -65,7 +65,25 @@ class MockJellyfinClient:
     def __init__(self, url: str = None, token: str = None, **kwargs):
         self.url = url or "http://localhost:8096"
         self.token = token or "mock-api-key"
-        self.server_id = kwargs.get("server_id", 1)
+        self.server_id = kwargs.get("server_id")
+
+    def _create_user_with_identity_linking(self, user_kwargs: dict):
+        """Mock version of the database user creation."""
+        from app.extensions import db
+        from app.models import User
+
+        # Check if this is part of a multi-server invitation
+        code = user_kwargs.get("code")
+        if code:
+            existing_user = User.query.filter_by(code=code).first()
+            if existing_user and existing_user.identity_id:
+                # Link to existing identity from same invitation
+                user_kwargs["identity_id"] = existing_user.identity_id
+
+        new_user = User(**user_kwargs)
+        db.session.add(new_user)
+        db.session.flush()  # Get the ID immediately
+        return new_user
 
     def validate_connection(self) -> tuple[bool, str]:
         """Simulate connection validation."""
@@ -158,6 +176,12 @@ class MockJellyfinClient:
         self, username: str, password: str, confirm: str, email: str, code: str
     ) -> tuple[bool, str]:
         """Mock implementation of invitation join process."""
+        # Check connection health first
+        if not mock_state.connection_healthy:
+            return False, "Connection failed"
+        if not mock_state.api_key_valid:
+            return False, "Invalid API key"
+
         # Basic validation
         if password != confirm:
             return False, "Passwords do not match"
@@ -167,16 +191,36 @@ class MockJellyfinClient:
             return False, f"Failed to create user {username}"
 
         try:
-            # Simulate user creation
+            # Simulate user creation in mock state
             user_id = self.create_user(username, password)
 
             # Set email
             mock_state.users[user_id].email = email
 
-            # Set default libraries (simulate library assignment)
-            enabled_libs = [
-                lib_id for lib_id, lib in mock_state.libraries.items() if lib.enabled
-            ]
+            # Set libraries based on invitation (like real clients do)
+            from app.models import Invitation, Library
+
+            inv = Invitation.query.filter_by(code=code).first()
+            if inv and inv.libraries:
+                # Use invitation-specific libraries
+                enabled_libs = [
+                    lib.external_id
+                    for lib in inv.libraries
+                    if lib.server_id == self.server_id
+                ]
+            else:
+                # Use all enabled libraries for server (fallback)
+                enabled_libs = (
+                    [
+                        lib.external_id
+                        for lib in Library.query.filter_by(
+                            enabled=True, server_id=self.server_id
+                        ).all()
+                    ]
+                    if self.server_id
+                    else list(mock_state.libraries.keys())
+                )
+
             self._set_specific_folders(user_id, enabled_libs)
 
             # Set default policy
@@ -186,6 +230,24 @@ class MockJellyfinClient:
                 "IsAdministrator": False,
             }
             self.set_policy(user_id, default_policy)
+
+            # Create user in database (like real clients do)
+            from app.models import Invitation
+            from app.services.expiry import calculate_user_expiry
+
+            inv = Invitation.query.filter_by(code=code).first()
+            expires = calculate_user_expiry(inv, self.server_id) if inv else None
+
+            self._create_user_with_identity_linking(
+                {
+                    "username": username,
+                    "email": email,
+                    "token": user_id,
+                    "code": code,
+                    "expires": expires,
+                    "server_id": self.server_id,
+                }
+            )
 
             return True, ""
 
@@ -205,7 +267,25 @@ class MockPlexClient:
     def __init__(self, url: str = None, token: str = None, **kwargs):
         self.url = url or "http://localhost:32400"
         self.token = token or "mock-plex-token"
-        self.server_id = kwargs.get("server_id", 2)
+        self.server_id = kwargs.get("server_id")
+
+    def _create_user_with_identity_linking(self, user_kwargs: dict):
+        """Mock version of the database user creation."""
+        from app.extensions import db
+        from app.models import User
+
+        # Check if this is part of a multi-server invitation
+        code = user_kwargs.get("code")
+        if code:
+            existing_user = User.query.filter_by(code=code).first()
+            if existing_user and existing_user.identity_id:
+                # Link to existing identity from same invitation
+                user_kwargs["identity_id"] = existing_user.identity_id
+
+        new_user = User(**user_kwargs)
+        db.session.add(new_user)
+        db.session.flush()  # Get the ID immediately
+        return new_user
 
     def validate_connection(self) -> tuple[bool, str]:
         """Simulate connection validation."""
@@ -225,6 +305,12 @@ class MockPlexClient:
         self, username: str, password: str, confirm: str, email: str, code: str
     ) -> tuple[bool, str]:
         """Mock Plex invitation join process."""
+        # Check connection health first
+        if not mock_state.connection_healthy:
+            return False, "Plex server unreachable"
+        if not mock_state.api_key_valid:
+            return False, "Invalid Plex token"
+
         if password != confirm:
             return False, "Passwords do not match"
         if "@" not in email:
@@ -243,6 +329,25 @@ class MockPlexClient:
                     mock_state.libraries.keys()
                 ),  # Plex gets all libraries by default
             )
+
+            # Create user in database (like real clients do)
+            from app.models import Invitation
+            from app.services.expiry import calculate_user_expiry
+
+            inv = Invitation.query.filter_by(code=code).first()
+            expires = calculate_user_expiry(inv, self.server_id) if inv else None
+
+            self._create_user_with_identity_linking(
+                {
+                    "username": username,
+                    "email": email,
+                    "token": user_id,
+                    "code": code,
+                    "expires": expires,
+                    "server_id": self.server_id,
+                }
+            )
+
             return True, ""
 
         except Exception as e:
@@ -261,7 +366,25 @@ class MockAudiobookshelfClient:
     def __init__(self, url: str = None, token: str = None, **kwargs):
         self.url = url or "http://localhost:13378"
         self.token = token or "mock-abs-token"
-        self.server_id = kwargs.get("server_id", 3)
+        self.server_id = kwargs.get("server_id")
+
+    def _create_user_with_identity_linking(self, user_kwargs: dict):
+        """Mock version of the database user creation."""
+        from app.extensions import db
+        from app.models import User
+
+        # Check if this is part of a multi-server invitation
+        code = user_kwargs.get("code")
+        if code:
+            existing_user = User.query.filter_by(code=code).first()
+            if existing_user and existing_user.identity_id:
+                # Link to existing identity from same invitation
+                user_kwargs["identity_id"] = existing_user.identity_id
+
+        new_user = User(**user_kwargs)
+        db.session.add(new_user)
+        db.session.flush()  # Get the ID immediately
+        return new_user
 
     def validate_connection(self) -> tuple[bool, str]:
         if not mock_state.connection_healthy:
@@ -275,6 +398,10 @@ class MockAudiobookshelfClient:
     def _do_join(
         self, username: str, password: str, confirm: str, email: str, code: str
     ) -> tuple[bool, str]:
+        # Check connection health first
+        if not mock_state.connection_healthy:
+            return False, "Audiobookshelf server unreachable"
+
         if password != confirm:
             return False, "Passwords do not match"
         if username in mock_state.create_user_failures:
@@ -288,6 +415,25 @@ class MockAudiobookshelfClient:
                 email=email,
                 policy={"isActive": True, "canDownload": True},
             )
+
+            # Create user in database (like real clients do)
+            from app.models import Invitation
+            from app.services.expiry import calculate_user_expiry
+
+            inv = Invitation.query.filter_by(code=code).first()
+            expires = calculate_user_expiry(inv, self.server_id) if inv else None
+
+            self._create_user_with_identity_linking(
+                {
+                    "username": username,
+                    "email": email,
+                    "token": user_id,
+                    "code": code,
+                    "expires": expires,
+                    "server_id": self.server_id,
+                }
+            )
+
             return True, ""
 
         except Exception as e:

@@ -68,7 +68,7 @@ class TestInvitationUserJourney:
         mock_get_client.return_value = mock_client
 
         # Navigate to invitation page
-        page.goto(f"{live_server.url}{invitation_setup['invitation_url']}")
+        page.goto(f"{live_server.url()()}{invitation_setup['invitation_url']}")
 
         # Verify invitation page loads
         expect(page.locator("h1")).to_contain_text("Join Test Jellyfin Server")
@@ -114,7 +114,7 @@ class TestInvitationUserJourney:
         mock_get_client.return_value = mock_client
 
         # Navigate to invitation page
-        page.goto(f"{live_server.url}{invitation_setup['invitation_url']}")
+        page.goto(f"{live_server.url()()}{invitation_setup['invitation_url']}")
 
         # Test empty form submission
         page.click("button[type='submit']")
@@ -166,7 +166,7 @@ class TestInvitationUserJourney:
             db.session.commit()
 
         # Navigate to expired invitation
-        page.goto(f"{live_server.url}/j/EXPIRED123")
+        page.goto(f"{live_server.url()}/j/EXPIRED123")
 
         # Should show expiry error
         expect(page.locator("body")).to_contain_text("expired", ignore_case=True)
@@ -177,7 +177,7 @@ class TestInvitationUserJourney:
     def test_invalid_invitation_code(self, page: Page, live_server):
         """Test that invalid invitation codes show 404 or error page."""
         # Navigate to non-existent invitation
-        page.goto(f"{live_server.url}/j/INVALIDCODE123")
+        page.goto(f"{live_server.url()}/j/INVALIDCODE123")
 
         # Should show error (either 404 or invalid invitation message)
         page.wait_for_load_state("networkidle")
@@ -205,7 +205,7 @@ class TestInvitationUserJourney:
         mock_get_client.return_value = mock_client
 
         # Navigate to invitation page
-        page.goto(f"{live_server.url}{invitation_setup['invitation_url']}")
+        page.goto(f"{live_server.url()()}{invitation_setup['invitation_url']}")
 
         # Fill and submit form
         page.fill("input[name='username']", "erroruser")
@@ -266,7 +266,7 @@ class TestMultiServerInvitationFlow:
         mock_get_client.side_effect = get_client_side_effect
 
         # Navigate to invitation page
-        page.goto(f"{live_server.url}/j/MULTI123")
+        page.goto(f"{live_server.url()}/j/MULTI123")
 
         # Should show multi-server invitation info
         expect(page.locator("body")).to_contain_text("Jellyfin Server")
@@ -332,7 +332,7 @@ class TestMultiServerInvitationFlow:
         mock_get_client.side_effect = get_client_side_effect
 
         # Navigate and submit
-        page.goto(f"{live_server.url}/j/PARTIAL123")
+        page.goto(f"{live_server.url()}/j/PARTIAL123")
         page.fill("input[name='username']", "partialuser")
         page.fill("input[name='password']", "testpass123")
         page.fill("input[name='confirm']", "testpass123")
@@ -358,7 +358,7 @@ class TestInvitationUIComponents:
         self, page: Page, live_server, invitation_setup
     ):
         """Test basic accessibility of invitation form."""
-        page.goto(f"{live_server.url}{invitation_setup['invitation_url']}")
+        page.goto(f"{live_server.url()()}{invitation_setup['invitation_url']}")
 
         # Check for form labels
         expect(
@@ -383,7 +383,7 @@ class TestInvitationUIComponents:
         """Test invitation page on different screen sizes."""
         # Test desktop
         page.set_viewport_size({"width": 1920, "height": 1080})
-        page.goto(f"{live_server.url}{invitation_setup['invitation_url']}")
+        page.goto(f"{live_server.url()()}{invitation_setup['invitation_url']}")
         expect(page.locator("form")).to_be_visible()
 
         # Test tablet

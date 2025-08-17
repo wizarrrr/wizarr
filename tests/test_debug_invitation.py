@@ -11,7 +11,7 @@ def test_debug_unlimited_invitation(app):
     """Debug test for unlimited invitation validation."""
     with app.app_context():
         # Create used unlimited invitation
-        invite = Invitation(code="UNLIMITED123", used=True, unlimited=True)
+        invite = Invitation(code="UNLIMIT123", used=True, unlimited=True)
         db.session.add(invite)
         db.session.commit()
 

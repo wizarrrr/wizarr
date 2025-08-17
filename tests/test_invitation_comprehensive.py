@@ -55,7 +55,7 @@ class TestInvitationValidation:
             # Test validation
             is_valid, message = is_invite_valid(invite.code)
             assert is_valid
-            assert message == ""
+            assert message == "okay"
 
     def test_expired_invitation(self, app):
         """Test that expired invitations are rejected."""
@@ -92,7 +92,7 @@ class TestInvitationValidation:
         """Test that used unlimited invitations are still valid."""
         with app.app_context():
             # Create used unlimited invitation
-            invite = Invitation(code="UNLIMITED12", used=True, unlimited=True)
+            invite = Invitation(code="UNLIMIT123", used=True, unlimited=True)
             db.session.add(invite)
             db.session.commit()
 
@@ -113,11 +113,7 @@ class TestSingleServerInvitations:
     def test_successful_jellyfin_invitation(self, mock_get_client, app):
         """Test successful invitation process for Jellyfin server."""
         with app.app_context():
-            # Setup mock client
-            mock_client = create_mock_client("jellyfin", server_id=1)
-            mock_get_client.return_value = mock_client
-
-            # Create server and invitation
+            # Create server and invitation first
             server = MediaServer(
                 name="Test Jellyfin",
                 server_type="jellyfin",
@@ -126,6 +122,10 @@ class TestSingleServerInvitations:
             )
             db.session.add(server)
             db.session.flush()
+
+            # Setup mock client with correct server ID
+            mock_client = create_mock_client("jellyfin", server_id=server.id)
+            mock_get_client.return_value = mock_client
 
             invite = Invitation(
                 code="JELLYFIN12",
@@ -168,9 +168,6 @@ class TestSingleServerInvitations:
     def test_plex_invitation_with_oauth(self, mock_get_client, app):
         """Test Plex invitation that might use OAuth flow."""
         with app.app_context():
-            mock_client = create_mock_client("plex", server_id=2)
-            mock_get_client.return_value = mock_client
-
             # Create Plex server
             server = MediaServer(
                 name="Test Plex",
@@ -180,6 +177,9 @@ class TestSingleServerInvitations:
             )
             db.session.add(server)
             db.session.flush()
+
+            mock_client = create_mock_client("plex", server_id=server.id)
+            mock_get_client.return_value = mock_client
 
             invite = Invitation(
                 code="PLEX123",
@@ -215,12 +215,6 @@ class TestSingleServerInvitations:
     def test_server_connection_failure(self, mock_get_client, app):
         """Test handling of server connection failures."""
         with app.app_context():
-            # Simulate connection failure
-            simulate_server_failure()
-
-            mock_client = create_mock_client("jellyfin", server_id=1)
-            mock_get_client.return_value = mock_client
-
             # Create server and invitation
             server = MediaServer(
                 name="Failing Server",
@@ -230,6 +224,12 @@ class TestSingleServerInvitations:
             )
             db.session.add(server)
             db.session.flush()
+
+            # Simulate connection failure
+            simulate_server_failure()
+
+            mock_client = create_mock_client("jellyfin", server_id=server.id)
+            mock_get_client.return_value = mock_client
 
             invite = Invitation(code="FAIL123")
             invite.servers = [server]
@@ -258,12 +258,6 @@ class TestSingleServerInvitations:
     def test_user_creation_failure(self, mock_get_client, app):
         """Test handling when user creation fails on media server."""
         with app.app_context():
-            # Simulate user creation failure
-            simulate_user_creation_failure(["baduser"])
-
-            mock_client = create_mock_client("jellyfin", server_id=1)
-            mock_get_client.return_value = mock_client
-
             # Create server and invitation
             server = MediaServer(
                 name="Test Server",
@@ -273,6 +267,12 @@ class TestSingleServerInvitations:
             )
             db.session.add(server)
             db.session.flush()
+
+            # Simulate user creation failure
+            simulate_user_creation_failure(["baduser"])
+
+            mock_client = create_mock_client("jellyfin", server_id=server.id)
+            mock_get_client.return_value = mock_client
 
             invite = Invitation(code="BADUSER123")
             invite.servers = [server]
@@ -591,7 +591,9 @@ class TestInvitationExpiry:
             assert db_user.expires is not None
 
             # Should expire in approximately 7 days
-            expected_expiry = datetime.now(UTC) + timedelta(days=7)
+            expected_expiry = datetime.now() + timedelta(
+                days=7
+            )  # Use naive datetime like the database
             time_diff = abs((db_user.expires - expected_expiry).total_seconds())
             assert time_diff < 60  # Within 1 minute of expected
 
