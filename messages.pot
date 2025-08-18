@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-17 04:02+0000\n"
+"POT-Creation-Date: 2025-08-18 04:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -141,11 +141,11 @@ msgstr ""
 msgid "Settings saved successfully!"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:216 app/forms/settings.py:23
+#: app/blueprints/settings/routes.py:216 app/forms/settings.py:24
 msgid "Server URL"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:219 app/forms/settings.py:24
+#: app/blueprints/settings/routes.py:219 app/forms/settings.py:25
 msgid "API Key"
 msgstr ""
 
@@ -267,47 +267,47 @@ msgstr ""
 msgid "Server Type"
 msgstr ""
 
-#: app/forms/settings.py:22
+#: app/forms/settings.py:23
 msgid "Server Name"
 msgstr ""
 
-#: app/forms/settings.py:25
+#: app/forms/settings.py:26
 msgid "RomM Username"
 msgstr ""
 
-#: app/forms/settings.py:26
+#: app/forms/settings.py:27
 msgid "RomM Password"
 msgstr ""
 
-#: app/forms/settings.py:27 app/templates/admin/user_details_modal.html:60
+#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:60
 #: app/templates/tables/invite_card.html:238
 #: app/templates/tables/invite_card.html:247
 msgid "Libraries"
 msgstr ""
 
-#: app/forms/settings.py:29 app/forms/settings.py:45
+#: app/forms/settings.py:30 app/forms/settings.py:46
 #: app/templates/modals/invite.html:195 app/templates/modals/invite.html:211
 #: app/templates/modals/invite.html:222 app/templates/modals/invite.html:238
 msgid "Allow Downloads"
 msgstr ""
 
-#: app/forms/settings.py:32
+#: app/forms/settings.py:33
 msgid "Allow Live TV"
 msgstr ""
 
-#: app/forms/settings.py:35
+#: app/forms/settings.py:36
 msgid "Overseerr/Ombi URL"
 msgstr ""
 
-#: app/forms/settings.py:37
+#: app/forms/settings.py:38
 msgid "Ombi API Key"
 msgstr ""
 
-#: app/forms/settings.py:38
+#: app/forms/settings.py:39
 msgid "Discord ID"
 msgstr ""
 
-#: app/forms/settings.py:39
+#: app/forms/settings.py:40
 msgid "External URL"
 msgstr ""
 
@@ -375,6 +375,10 @@ msgstr ""
 
 #: app/services/servers.py:220
 msgid "Kavita"
+msgstr ""
+
+#: app/services/servers.py:277
+msgid "Navidrome"
 msgstr ""
 
 #: app/templates/admin.html:5
@@ -844,7 +848,7 @@ msgstr ""
 #: app/templates/admin/user_modal.html:96
 #: app/templates/modals/edit-admin.html:33
 #: app/templates/modals/edit-identity.html:26
-#: app/templates/modals/edit-server.html:103
+#: app/templates/modals/edit-server.html:104
 #: app/templates/modals/wizard-bundle-form.html:30
 #: app/templates/modals/wizard-simple-step-form.html:29
 #: app/templates/modals/wizard-step-form.html:37
@@ -862,10 +866,10 @@ msgstr ""
 #: app/templates/modals/create-admin.html:34
 #: app/templates/modals/create-api-key.html:66
 #: app/templates/modals/create-notification-agent.html:91
-#: app/templates/modals/create-server.html:102
+#: app/templates/modals/create-server.html:103
 #: app/templates/modals/edit-admin.html:34
 #: app/templates/modals/edit-identity.html:27
-#: app/templates/modals/edit-server.html:104
+#: app/templates/modals/edit-server.html:105
 #: app/templates/modals/invite.html:269
 #: app/templates/modals/wizard-bundle-form.html:29
 #: app/templates/modals/wizard-preset-form.html:52
@@ -1215,7 +1219,7 @@ msgstr ""
 msgid "Add Server"
 msgstr ""
 
-#: app/templates/modals/create-server.html:101
+#: app/templates/modals/create-server.html:102
 msgid "Test & Add"
 msgstr ""
 
