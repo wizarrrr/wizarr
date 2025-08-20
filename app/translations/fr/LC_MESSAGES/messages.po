@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: 2025-06-02 22:02+0000\n"
-"Last-Translator: PortX Charge <nocore9@gmail.com>\n"
+"PO-Revision-Date: 2025-08-20 11:19+0000\n"
+"Last-Translator: Martin <jacobmartin03@hotmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr/"
 "wizarr-universal/fr/>\n"
 "Language: fr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.13\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/blueprints/auth/routes.py:44
@@ -27,7 +27,7 @@ msgstr "Nom d'utilisateur ou mot de passe invalide"
 
 #: app/blueprints/settings/routes.py:131
 msgid "Library scan failed"
-msgstr "Scan de la librairie échoué"
+msgstr "Échec de l'analyse de la bibliothèque"
 
 #: app/templates/admin.html:5
 msgid "Admin"
@@ -253,7 +253,7 @@ msgstr "Editer l'expiration"
 
 #: app/templates/admin/user_modal.html:27
 msgid "Expiry date (leave blank for never)"
-msgstr "Date d'expiration (laissez vide pour jamais)"
+msgstr "Date d'expiration (laisser vide pour aucune)"
 
 #: app/templates/admin/user_modal.html:41
 #: app/templates/modals/create-notification-agent.html:85
