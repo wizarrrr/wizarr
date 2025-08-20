@@ -734,8 +734,8 @@ def accepted_invites_card():
     ``invitation_servers`` association table).
     """
 
-    # Number of entries to display – keep the card compact
-    LIMIT = 6
+    # Number of entries to display – allow up to 13 before scrolling
+    LIMIT = 13
 
     # --- build a sub-query that also covers multi-server invites -------------
     # For invites that target multiple servers, the ``Invitation.used`` flag
