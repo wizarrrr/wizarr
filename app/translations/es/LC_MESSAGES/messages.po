@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: 2025-08-20 11:20+0000\n"
+"PO-Revision-Date: 2025-08-21 12:02+0000\n"
 "Last-Translator: Elkin Torres <elkinjosetm@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/wizarr/"
 "wizarr-universal/es/>\n"
@@ -73,7 +73,6 @@ msgid "Sign in"
 msgstr "Iniciar sesión"
 
 #: app/templates/settings.html:13
-#, fuzzy
 msgid "Server settings"
 msgstr "Ajustes del servidor"
 
@@ -212,9 +211,8 @@ msgstr ""
 
 #: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
 #: app/templates/tables/user_card.html:67
-#, fuzzy
 msgid "Allow Downloads"
-msgstr "Descargar"
+msgstr "Permitir descargas"
 
 #: app/templates/admin/invite.html:102
 msgid ""
@@ -293,58 +291,51 @@ msgstr " Algo ha ido mal. Por favor, prueba de nuevo más tarde."
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "Nuevo Agente"
 
 #: app/templates/modals/create-notification-agent.html:60
-#, fuzzy
 msgid ""
 "Username\n"
 "                                (optional)"
 msgstr ""
-"Código\n"
-"                                de invitación"
+"Nombre de usuario\n"
+"                                (opcional)"
 
 #: app/templates/modals/create-notification-agent.html:65
-#, fuzzy
 msgid "Password (optional)"
-msgstr "(opcional)"
+msgstr "Contraseña (opcional)"
 
 #: app/templates/modals/create-notification-agent.html:70
-#, fuzzy
 msgid ""
 "Agent\n"
 "                                URL"
 msgstr ""
-"Código\n"
-"                                de invitación"
+"Agente\n"
+"                                URL"
 
 #: app/templates/modals/create-notification-agent.html:81
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Probar & Crear Agente"
 
 #: app/templates/settings/index.html:24
-#, fuzzy
 msgid "Server"
-msgstr "Nunca"
+msgstr "Servidor"
 
 #: app/templates/settings/index.html:39
-#, fuzzy
 msgid "Notifications"
-msgstr "Invitaciones"
+msgstr "Notificaciones"
 
 #: app/templates/settings/notifications.html:11
 msgid "Notification Agents"
-msgstr ""
+msgstr "Agentes de Notificaciones"
 
 #: app/templates/settings/notifications.html:27
-#, fuzzy
 msgid "Delete"
-msgstr "Predeterminado"
+msgstr "Borrar"
 
 #: app/templates/settings/notifications.html:37
-#, fuzzy
 msgid "Create Agent"
-msgstr "Crear una cuenta"
+msgstr "Crear Agente"
 
 #: app/templates/settings/partials/server_form.html:13
 msgid "Server Settings"
@@ -395,9 +386,8 @@ msgid "Default"
 msgstr "Predeterminado"
 
 #: app/templates/tables/invite_card.html:86
-#, fuzzy
 msgid "days"
-msgstr "Un día"
+msgstr "Días"
 
 #: app/templates/tables/invite_card.html:106
 msgid "Unlimited"
@@ -408,7 +398,6 @@ msgid "There are currently no users."
 msgstr "Actualmente no hay usuarios."
 
 #: app/templates/tables/user_card.html:26
-#, fuzzy
 msgid "Home User"
 msgstr "Inicio"
 
