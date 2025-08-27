@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import json
 import re
+import tempfile
+from datetime import datetime
 from typing import cast
 
 from flask import (
@@ -11,6 +14,7 @@ from flask import (
     redirect,
     render_template,
     request,
+    send_file,
     url_for,
 )
 from flask_babel import gettext as _
@@ -21,10 +25,12 @@ from app.extensions import db
 from app.forms.wizard import (
     SimpleWizardStepForm,
     WizardBundleForm,
+    WizardImportForm,
     WizardPresetForm,
     WizardStepForm,
 )
 from app.models import MediaServer, WizardBundle, WizardBundleStep, WizardStep
+from app.services.wizard_export_import import WizardExportImportService
 from app.services.wizard_presets import (
     create_step_from_preset,
     get_available_presets,
@@ -536,3 +542,145 @@ def delete_bundle_step(bundle_step_id: int):
     if request.headers.get("HX-Request"):
         return list_bundles()
     return redirect(url_for("wizard_admin.list_bundles"))
+
+
+# ─── Export/Import functionality ─────────────────────────────────────
+@wizard_admin_bp.route("/export/<server_type>", methods=["GET"])
+@login_required
+def export_server_steps(server_type: str):
+    """Export wizard steps for a specific server type as JSON file."""
+    try:
+        service = WizardExportImportService()
+        export_data = service.export_steps_by_server_type(server_type)
+
+        if not export_data.steps:
+            flash(
+                _("No steps found for server type: {}").format(server_type), "warning"
+            )
+            if request.headers.get("HX-Request"):
+                return list_steps()
+            return redirect(url_for("wizard_admin.list_steps"))
+
+        # Create temporary file for download
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".json", delete=False, encoding="utf-8"
+        ) as temp_file:
+            json.dump(export_data.to_dict(), temp_file, indent=2, ensure_ascii=False)
+            temp_file_path = temp_file.name
+
+        # Generate filename with server type and current date
+        filename = f"wizard_steps_{server_type}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+
+        return send_file(
+            temp_file_path,
+            as_attachment=True,
+            download_name=filename,
+            mimetype="application/json",
+        )
+
+    except Exception as e:
+        flash(_("Export failed: {}").format(str(e)), "error")
+        if request.headers.get("HX-Request"):
+            return list_steps()
+        return redirect(url_for("wizard_admin.list_steps"))
+
+
+@wizard_admin_bp.route("/export/bundle/<int:bundle_id>", methods=["GET"])
+@login_required
+def export_bundle(bundle_id: int):
+    """Export a wizard bundle as JSON file."""
+    try:
+        service = WizardExportImportService()
+        export_data = service.export_bundle(bundle_id)
+
+        # Create temporary file for download
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".json", delete=False, encoding="utf-8"
+        ) as temp_file:
+            json.dump(export_data.to_dict(), temp_file, indent=2, ensure_ascii=False)
+            temp_file_path = temp_file.name
+
+        # Generate filename with bundle name and current date
+        bundle_name = export_data.bundle.name.replace(" ", "_").lower()
+        filename = f"wizard_bundle_{bundle_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+
+        return send_file(
+            temp_file_path,
+            as_attachment=True,
+            download_name=filename,
+            mimetype="application/json",
+        )
+
+    except ValueError as e:
+        flash(_("Export failed: {}").format(str(e)), "error")
+        if request.headers.get("HX-Request"):
+            return list_bundles()
+        return redirect(url_for("wizard_admin.list_bundles"))
+    except Exception as e:
+        flash(_("Export failed: {}").format(str(e)), "error")
+        if request.headers.get("HX-Request"):
+            return list_bundles()
+        return redirect(url_for("wizard_admin.list_bundles"))
+
+
+@wizard_admin_bp.route("/import", methods=["GET", "POST"])
+@login_required
+def import_steps():
+    """Import wizard steps from uploaded JSON file."""
+    form = WizardImportForm()
+
+    if request.method == "GET":
+        # Show import form/modal
+        tmpl = (
+            "modals/wizard-import-form.html"
+            if request.headers.get("HX-Request")
+            else "settings/wizard/import_form.html"
+        )
+        return render_template(tmpl, form=form)
+
+    # POST - handle file upload using form validation
+    if not form.validate_on_submit():
+        # Form validation failed
+        tmpl = (
+            "modals/wizard-import-form.html"
+            if request.headers.get("HX-Request")
+            else "settings/wizard/import_form.html"
+        )
+        return render_template(tmpl, form=form)
+
+    try:
+        # Read and parse JSON
+        file = form.file.data
+        content = file.read().decode("utf-8")
+        import_data = json.loads(content)
+
+        # Check for replace existing flag
+        replace_existing = form.replace_existing.data
+
+        # Import data (steps or bundle)
+        service = WizardExportImportService()
+        result = service.import_data(import_data, replace_existing=replace_existing)
+
+        if result.success:
+            success_msg = _("Successfully imported {} items").format(
+                result.imported_count
+            )
+            if result.updated_count > 0:
+                success_msg += _(" and updated {} existing items").format(
+                    result.updated_count
+                )
+            flash(success_msg, "success")
+        else:
+            flash(_("Import failed: {}").format(result.message), "error")
+            for error in result.errors:
+                flash(error, "error")
+
+    except json.JSONDecodeError:
+        flash(_("Invalid JSON file"), "error")
+    except Exception as e:
+        flash(_("Import failed: {}").format(str(e)), "error")
+
+    # Return updated view
+    if request.headers.get("HX-Request"):
+        return list_steps()
+    return redirect(url_for("wizard_admin.list_steps"))

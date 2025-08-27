@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import HiddenField, SelectField, StringField, TextAreaField
+from flask_wtf.file import FileAllowed, FileField, FileRequired
+from wtforms import BooleanField, HiddenField, SelectField, StringField, TextAreaField
 from wtforms.validators import DataRequired, Optional
 
 
@@ -68,3 +69,21 @@ class SimpleWizardStepForm(FlaskForm):
 
     title = StringField("Title", validators=[Optional()])
     markdown = TextAreaField("Markdown", validators=[DataRequired()])
+
+
+class WizardImportForm(FlaskForm):
+    """Form for importing wizard steps or bundles from JSON files."""
+
+    file = FileField(
+        "JSON File",
+        validators=[
+            FileRequired("Please select a JSON file to import."),
+            FileAllowed(["json"], "Only JSON files are allowed."),
+        ],
+    )
+
+    replace_existing = BooleanField(
+        "Replace Existing",
+        default=False,
+        description="Check to replace existing data, leave unchecked to merge with existing.",
+    )

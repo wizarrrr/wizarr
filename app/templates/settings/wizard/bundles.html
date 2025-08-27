@@ -17,6 +17,13 @@ document.getElementById('step-modal').innerHTML = '';
       <div class="flex items-center justify-between mb-2">
         <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">{{ b.name }}</h2>
         <span class="flex items-center gap-2">
+          <a href="{{ url_for('wizard_admin.export_bundle', bundle_id=b.id) }}"
+             class="inline-flex items-center justify-center p-2 text-gray-600 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
+             title="{{ _('Export %(bundle_name)s Bundle', bundle_name=b.name) }}">
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+              <path fill-rule="evenodd" d="M9 7V2.221a2 2 0 0 0-.5.365L4.586 6.5a2 2 0 0 0-.365.5H9Zm2 0V2h7a2 2 0 0 1 2 2v9.293l-2-2a1 1 0 0 0-1.414 1.414l.293.293h-6.586a1 1 0 1 0 0 2h6.586l-.293.293A1 1 0 0 0 18 16.707l2-2V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9h5a2 2 0 0 0 2-2Z" clip-rule="evenodd"/>
+            </svg>
+          </a>
           <button hx-get="{{ url_for('wizard_admin.edit_bundle', bundle_id=b.id) }}"
                   hx-target="#step-modal" hx-trigger="click"
                   class="inline-flex items-center justify-center p-2 text-gray-800 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:text-white dark:hover:bg-gray-600">

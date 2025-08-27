@@ -1,0 +1,165 @@
+<div class="relative modal-container" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <!-- backdrop -->
+  <div class="fixed inset-0 modal-backdrop transition-opacity"></div>
+
+  <div class="fixed inset-0 z-10 overflow-y-auto">
+    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+        <div class="bg-white dark:bg-gray-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+          <div class="flex justify-between items-center pb-3">
+            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white">
+              {{ _('Import Wizard Steps') }}
+            </h1>
+            <button type="button" 
+                    onclick="document.getElementById('step-modal').innerHTML=''" 
+                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+              </svg>
+            </button>
+          </div>
+
+          <form class="space-y-4" method="post" enctype="multipart/form-data"
+                hx-post="{{ url_for('wizard_admin.import_steps') }}"
+                hx-target="#tab-body" hx-swap="innerHTML"
+                hx-encoding="multipart/form-data">
+            {{ form.hidden_tag() }}
+
+            <!-- File Upload -->
+            <div>
+              {{ form.file.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+              <div class="flex items-center justify-center w-full">
+                <label for="{{ form.file.id }}" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
+                  <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                    </svg>
+                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                      <span class="font-semibold">{{ _('Click to upload') }}</span> {{ _('or drag and drop') }}
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ _('JSON files only') }}</p>
+                  </div>
+                  {{ form.file(class="hidden", accept=".json") }}
+                </label>
+              </div>
+              {% if form.file.errors %}
+                <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {% for error in form.file.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <!-- Import Options -->
+            <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
+              <h3 class="text-sm font-medium text-gray-900 dark:text-white mb-3">{{ _('Import Options') }}</h3>
+              
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  {{ form.replace_existing(class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600") }}
+                </div>
+                <div class="ml-3 text-sm">
+                  {{ form.replace_existing.label(class="font-medium text-gray-900 dark:text-white") }}
+                  <p class="text-gray-500 dark:text-gray-400">{{ _('When checked, existing steps will be replaced. When unchecked, imported steps will be merged with existing ones.') }}</p>
+                </div>
+              </div>
+              
+              {% if form.replace_existing.errors %}
+                <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {% for error in form.replace_existing.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <!-- Warning Notice -->
+            <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
+              <div class="flex">
+                <svg class="flex-shrink-0 w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="ml-3">
+                  <h3 class="text-sm font-medium text-amber-800 dark:text-amber-200">{{ _('Important Notice') }}</h3>
+                  <p class="mt-1 text-sm text-amber-700 dark:text-amber-300">
+                    {{ _('This action will modify your wizard steps configuration. Make sure to backup your current steps before importing if you want to preserve them.') }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="flex gap-2 justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
+              <button type="button" 
+                      onclick="document.getElementById('step-modal').innerHTML=''" 
+                      class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-primary/25 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700">
+                {{ _('Cancel') }}
+              </button>
+              <button type="submit" 
+                      class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:ring-4 focus:outline-none focus:ring-primary/25 rounded-lg">
+                <span class="flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                  </svg>
+                  {{ _('Import Steps') }}
+                </span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Enhanced file upload with drag and drop feedback
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('{{ form.file.id }}');
+    const label = fileInput.closest('label');
+    
+    // File selection feedback
+    fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const fileName = this.files[0].name;
+            const fileSize = (this.files[0].size / 1024).toFixed(1) + ' KB';
+            
+            // Update the label content
+            const content = label.querySelector('.flex.flex-col');
+            content.innerHTML = `
+                <svg class="w-8 h-8 mb-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <p class="mb-2 text-sm text-gray-700 dark:text-gray-300">
+                    <span class="font-semibold">${fileName}</span>
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">${fileSize}</p>
+            `;
+            label.classList.remove('border-gray-300', 'bg-gray-50');
+            label.classList.add('border-green-300', 'bg-green-50', 'dark:bg-green-900/20');
+        }
+    });
+
+    // Drag and drop styling
+    label.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        this.classList.add('border-primary', 'bg-primary/5');
+    });
+
+    label.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        this.classList.remove('border-primary', 'bg-primary/5');
+    });
+
+    label.addEventListener('drop', function(e) {
+        e.preventDefault();
+        this.classList.remove('border-primary', 'bg-primary/5');
+        
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            fileInput.files = e.dataTransfer.files;
+            fileInput.dispatchEvent(new Event('change'));
+        }
+    });
+});
+</script>

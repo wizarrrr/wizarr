@@ -268,6 +268,9 @@ def general_settings():
         data = form.data.copy()
         _save_settings(data)
         flash(_("Settings saved successfully!"), "success")
+        # Reload settings from database and create a fresh form to display updated values
+        current = _load_settings()
+        form = GeneralSettingsForm(data=current)
     if request.headers.get("HX-Request"):
         return render_template("settings/general.html", form=form)
     return redirect(url_for("settings.page"))

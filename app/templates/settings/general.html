@@ -18,6 +18,7 @@
         <div class="p-6">
 
         <form method="post" hx-post="{{ url_for('settings.general_settings') }}" hx-target="#tab-body" hx-swap="innerHTML" class="space-y-4">
+          {{ form.hidden_tag() }}
 
           {# ───── Display ──────────────────────────────────────── #}
           <div class="space-y-4">
