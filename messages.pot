@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-27 03:43+0000\n"
+"POT-Creation-Date: 2025-08-28 03:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -141,11 +141,11 @@ msgstr ""
 msgid "Settings saved successfully!"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:216 app/forms/settings.py:24
+#: app/blueprints/settings/routes.py:216 app/forms/settings.py:23
 msgid "Server URL"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:219 app/forms/settings.py:25
+#: app/blueprints/settings/routes.py:219 app/forms/settings.py:24
 msgid "API Key"
 msgstr ""
 
@@ -171,50 +171,82 @@ msgstr ""
 msgid "Admin account created – welcome!"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:108
+#: app/blueprints/wizard_admin/routes.py:114
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:173
+#: app/blueprints/wizard_admin/routes.py:179
 msgid "Step created"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:246
+#: app/blueprints/wizard_admin/routes.py:252
 msgid "Preset step created successfully"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:254
+#: app/blueprints/wizard_admin/routes.py:260
 #, python-brace-format
 msgid "Error creating preset: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:282
+#: app/blueprints/wizard_admin/routes.py:288
 msgid "Step updated"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:320
+#: app/blueprints/wizard_admin/routes.py:326
 msgid "Step deleted"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:390
+#: app/blueprints/wizard_admin/routes.py:396
 msgid "Bundle created"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:420
+#: app/blueprints/wizard_admin/routes.py:426
 msgid "Bundle updated"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:444
+#: app/blueprints/wizard_admin/routes.py:450
 msgid "Bundle deleted"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:522
+#: app/blueprints/wizard_admin/routes.py:528
 msgid "Steps added"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:534
+#: app/blueprints/wizard_admin/routes.py:540
 msgid "Orphaned step removed"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:558
+#, python-brace-format
+msgid "No steps found for server type: {}"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:582
+#: app/blueprints/wizard_admin/routes.py:615
+#: app/blueprints/wizard_admin/routes.py:620
+#, python-brace-format
+msgid "Export failed: {}"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:665
+#, python-brace-format
+msgid "Successfully imported {} items"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:669
+#, python-brace-format
+msgid " and updated {} existing items"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:674
+#: app/blueprints/wizard_admin/routes.py:681
+#, python-brace-format
+msgid "Import failed: {}"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:679
+msgid "Invalid JSON file"
 msgstr ""
 
 #: app/forms/admin.py:8
@@ -267,47 +299,47 @@ msgstr ""
 msgid "Server Type"
 msgstr ""
 
-#: app/forms/settings.py:23
+#: app/forms/settings.py:22
 msgid "Server Name"
 msgstr ""
 
-#: app/forms/settings.py:26
+#: app/forms/settings.py:25
 msgid "RomM Username"
 msgstr ""
 
-#: app/forms/settings.py:27
+#: app/forms/settings.py:26
 msgid "RomM Password"
 msgstr ""
 
-#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:60
+#: app/forms/settings.py:27 app/templates/admin/user_details_modal.html:60
 #: app/templates/tables/invite_card.html:238
 #: app/templates/tables/invite_card.html:247
 msgid "Libraries"
 msgstr ""
 
-#: app/forms/settings.py:30 app/forms/settings.py:46
+#: app/forms/settings.py:29 app/forms/settings.py:45
 #: app/templates/modals/invite.html:195 app/templates/modals/invite.html:211
 #: app/templates/modals/invite.html:222 app/templates/modals/invite.html:238
 msgid "Allow Downloads"
 msgstr ""
 
-#: app/forms/settings.py:33
+#: app/forms/settings.py:32
 msgid "Allow Live TV"
 msgstr ""
 
-#: app/forms/settings.py:36
+#: app/forms/settings.py:35
 msgid "Overseerr/Ombi URL"
 msgstr ""
 
-#: app/forms/settings.py:38
+#: app/forms/settings.py:37
 msgid "Ombi API Key"
 msgstr ""
 
-#: app/forms/settings.py:39
+#: app/forms/settings.py:38
 msgid "Discord ID"
 msgstr ""
 
-#: app/forms/settings.py:40
+#: app/forms/settings.py:39
 msgid "External URL"
 msgstr ""
 
@@ -848,7 +880,7 @@ msgstr ""
 #: app/templates/admin/user_modal.html:96
 #: app/templates/modals/edit-admin.html:33
 #: app/templates/modals/edit-identity.html:26
-#: app/templates/modals/edit-server.html:104
+#: app/templates/modals/edit-server.html:103
 #: app/templates/modals/wizard-bundle-form.html:30
 #: app/templates/modals/wizard-simple-step-form.html:29
 #: app/templates/modals/wizard-step-form.html:37
@@ -866,12 +898,13 @@ msgstr ""
 #: app/templates/modals/create-admin.html:34
 #: app/templates/modals/create-api-key.html:66
 #: app/templates/modals/create-notification-agent.html:91
-#: app/templates/modals/create-server.html:103
+#: app/templates/modals/create-server.html:102
 #: app/templates/modals/edit-admin.html:34
 #: app/templates/modals/edit-identity.html:27
-#: app/templates/modals/edit-server.html:105
+#: app/templates/modals/edit-server.html:104
 #: app/templates/modals/invite.html:269
 #: app/templates/modals/wizard-bundle-form.html:29
+#: app/templates/modals/wizard-import-form.html:97
 #: app/templates/modals/wizard-preset-form.html:52
 #: app/templates/modals/wizard-simple-step-form.html:28
 #: app/templates/modals/wizard-step-form.html:36
@@ -1074,8 +1107,8 @@ msgid "Add steps to bundle"
 msgstr ""
 
 #: app/templates/modals/bundle-add-steps.html:23
-#: app/templates/settings/wizard/bundles.html:52
-#: app/templates/settings/wizard/steps.html:31
+#: app/templates/settings/wizard/bundles.html:59
+#: app/templates/settings/wizard/steps.html:40
 msgid "Untitled"
 msgstr ""
 
@@ -1156,7 +1189,7 @@ msgstr ""
 
 #: app/templates/modals/create-api-key.html:13
 #: app/templates/settings/api_keys.html:17
-#: app/templates/settings/general.html:113
+#: app/templates/settings/general.html:114
 msgid "Create API Key"
 msgstr ""
 
@@ -1219,7 +1252,7 @@ msgstr ""
 msgid "Add Server"
 msgstr ""
 
-#: app/templates/modals/create-server.html:102
+#: app/templates/modals/create-server.html:101
 msgid "Test & Add"
 msgstr ""
 
@@ -1362,6 +1395,49 @@ msgstr ""
 msgid "Please select at least one server for the invitation."
 msgstr ""
 
+#: app/templates/modals/wizard-import-form.html:11
+msgid "Import Wizard Steps"
+msgstr ""
+
+#: app/templates/modals/wizard-import-form.html:38
+#: app/templates/settings/wizard/import_form.html:30
+msgid "Click to upload"
+msgstr ""
+
+#: app/templates/modals/wizard-import-form.html:38
+#: app/templates/settings/wizard/import_form.html:30
+msgid "or drag and drop"
+msgstr ""
+
+#: app/templates/modals/wizard-import-form.html:40
+msgid "JSON files only"
+msgstr ""
+
+#: app/templates/modals/wizard-import-form.html:56
+#: app/templates/settings/wizard/import_form.html:56
+msgid "Import Options"
+msgstr ""
+
+#: app/templates/modals/wizard-import-form.html:64
+msgid ""
+"When checked, existing steps will be replaced. When unchecked, imported "
+"steps will be merged with existing ones."
+msgstr ""
+
+#: app/templates/modals/wizard-import-form.html:84
+msgid "Important Notice"
+msgstr ""
+
+#: app/templates/modals/wizard-import-form.html:86
+msgid ""
+"This action will modify your wizard steps configuration. Make sure to "
+"backup your current steps before importing if you want to preserve them."
+msgstr ""
+
+#: app/templates/modals/wizard-import-form.html:105
+msgid "Import Steps"
+msgstr ""
+
 #: app/templates/modals/wizard-preset-form.html:11
 #: app/templates/settings/wizard/preset_form.html:4
 msgid "Add Preset Wizard Step"
@@ -1378,7 +1454,7 @@ msgid "URL to your Overseerr/Ombi instance"
 msgstr ""
 
 #: app/templates/modals/wizard-preset-form.html:53
-#: app/templates/settings/wizard/_sub_nav.html:78
+#: app/templates/settings/wizard/_sub_nav.html:134
 #: app/templates/settings/wizard/preset_form.html:42
 msgid "Create Step"
 msgstr ""
@@ -1520,47 +1596,47 @@ msgstr ""
 msgid "Configure your application's basic settings and preferences"
 msgstr ""
 
-#: app/templates/settings/general.html:34
+#: app/templates/settings/general.html:35
 msgid "Display"
 msgstr ""
 
-#: app/templates/settings/general.html:35
+#: app/templates/settings/general.html:36
 msgid "Configure how your application appears to users"
 msgstr ""
 
-#: app/templates/settings/general.html:61
+#: app/templates/settings/general.html:62
 msgid "Access Control"
 msgstr ""
 
-#: app/templates/settings/general.html:62
+#: app/templates/settings/general.html:63
 msgid "Manage user access and permissions"
 msgstr ""
 
-#: app/templates/settings/general.html:71
+#: app/templates/settings/general.html:72
 msgid "Control access to the wizard setup process"
 msgstr ""
 
-#: app/templates/settings/general.html:93
+#: app/templates/settings/general.html:94
 msgid "API Key Management"
 msgstr ""
 
-#: app/templates/settings/general.html:94
+#: app/templates/settings/general.html:95
 msgid "Manage API keys for accessing Wizarr programmatically"
 msgstr ""
 
-#: app/templates/settings/general.html:102
+#: app/templates/settings/general.html:103
 msgid "Your API Keys"
 msgstr ""
 
-#: app/templates/settings/general.html:103
+#: app/templates/settings/general.html:104
 msgid "Create and manage API keys for external applications"
 msgstr ""
 
-#: app/templates/settings/general.html:124
+#: app/templates/settings/general.html:125
 msgid "Loading API keys..."
 msgstr ""
 
-#: app/templates/settings/general.html:137
+#: app/templates/settings/general.html:138
 msgid "Save Settings"
 msgstr ""
 
@@ -1686,27 +1762,41 @@ msgstr ""
 msgid "Custom Bundles"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:47
+#: app/templates/settings/wizard/_sub_nav.html:48
+#: app/templates/settings/wizard/_sub_nav.html:68
+msgid "Import"
+msgstr ""
+
+#: app/templates/settings/wizard/_sub_nav.html:83
+#: app/templates/settings/wizard/import_form.html:167
+msgid "Import Configuration"
+msgstr ""
+
+#: app/templates/settings/wizard/_sub_nav.html:84
+msgid "Import steps or bundles from JSON file"
+msgstr ""
+
+#: app/templates/settings/wizard/_sub_nav.html:103
 msgid "Create"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:79
+#: app/templates/settings/wizard/_sub_nav.html:135
 msgid "Add a new wizard step"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:95
+#: app/templates/settings/wizard/_sub_nav.html:151
 msgid "Add Preset"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:96
+#: app/templates/settings/wizard/_sub_nav.html:152
 msgid "Create step from template"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:112
+#: app/templates/settings/wizard/_sub_nav.html:168
 msgid "Create Bundle"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:113
+#: app/templates/settings/wizard/_sub_nav.html:169
 msgid "Create a collection of steps"
 msgstr ""
 
@@ -1714,35 +1804,129 @@ msgstr ""
 msgid "No bundles found."
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:30
+#: app/templates/settings/wizard/bundles.html:22
+#, python-format
+msgid "Export %(bundle_name)s Bundle"
+msgstr ""
+
+#: app/templates/settings/wizard/bundles.html:37
 msgid "Are you sure you want to delete this bundle?"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:65
+#: app/templates/settings/wizard/bundles.html:72
 #: app/templates/settings/wizard/index.html:104
-#: app/templates/settings/wizard/steps.html:43
+#: app/templates/settings/wizard/steps.html:52
 msgid "Are you sure you want to delete this step?"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:80
+#: app/templates/settings/wizard/bundles.html:87
 msgid "Step deleted (orphaned)"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:85
+#: app/templates/settings/wizard/bundles.html:92
 msgid "Are you sure you want to remove this orphaned step?"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:86
+#: app/templates/settings/wizard/bundles.html:93
 msgid "Remove orphaned step"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:100
+#: app/templates/settings/wizard/bundles.html:107
 msgid "Add step"
 msgstr ""
 
 #: app/templates/settings/wizard/form.html:31
 #: app/templates/settings/wizard/index.html:61
 msgid "Preview"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:5
+msgid "Import Wizard Configuration"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:8
+msgid ""
+"Import wizard steps or bundles from a JSON file to quickly set up or "
+"restore your wizard configuration."
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:18
+msgid "Select JSON File"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:32
+msgid "Steps or Bundle JSON files only (MAX. 10MB)"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:67
+msgid ""
+"When checked, all existing wizard steps and bundles will be removed and "
+"replaced with the imported configuration. When unchecked, imported items "
+"will be added alongside existing ones."
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:90
+msgid "Important: Backup Recommended"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:93
+msgid "This action will modify your wizard configuration. Consider the following:"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:95
+msgid "Export your current steps and bundles first as a backup"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:96
+msgid "Imported steps will use the file's step ordering and server types"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:97
+msgid "Imported bundles will preserve their step associations and ordering"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:98
+msgid ""
+"If replacing existing configuration, all current steps and bundles will "
+"be permanently removed"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:99
+msgid "Invalid or malformed JSON files will be rejected"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:114
+msgid "Expected JSON Format"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:117
+msgid "The JSON file can contain steps or bundles:"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:120
+msgid "For steps export:"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:132
+msgid "For bundle export:"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:159
+msgid "Back to Steps"
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:242
+msgid "Please select a JSON file to import."
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:249
+msgid "Please select a valid JSON file."
+msgstr ""
+
+#: app/templates/settings/wizard/import_form.html:256
+msgid ""
+"This will permanently replace all existing wizard configuration (steps "
+"and bundles). Are you sure you want to continue?"
 msgstr ""
 
 #: app/templates/settings/wizard/index.html:13
@@ -1770,7 +1954,7 @@ msgid "steps configured"
 msgstr ""
 
 #: app/templates/settings/wizard/index.html:57
-#: app/templates/settings/wizard/steps.html:21
+#: app/templates/settings/wizard/steps.html:29
 msgid "Preview Wizard"
 msgstr ""
 
@@ -1792,6 +1976,11 @@ msgstr ""
 
 #: app/templates/settings/wizard/steps.html:12
 msgid "No steps found."
+msgstr ""
+
+#: app/templates/settings/wizard/steps.html:22
+#, python-format
+msgid "Export %(server)s Steps"
 msgstr ""
 
 #: app/templates/setup/admin_account.html:14
