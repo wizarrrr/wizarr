@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    types: [closed]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -11,18 +15,16 @@ permissions:
   pull-requests: write
 
 jobs:
-  release:
+  create-release-pr:
     runs-on: ubuntu-latest
-    outputs:
-      released: ${{ steps.release.outputs.released }}
-      version: ${{ steps.release.outputs.version }}
+    # Only run on push to main (not on PR merge)
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
-          persist-credentials: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -38,19 +40,104 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Release
-        id: release
+      - name: Check for releasable commits
+        id: check-commits
         run: |
-          # Check if there are releasable commits
           if git log --oneline --grep='^feat\|^fix\|^perf\|^refactor' $(git describe --tags --abbrev=0 2>/dev/null || echo 'HEAD~10')..HEAD | head -1 | grep -q '.'; then
-            echo "Found releasable commits, proceeding with release..."
-            npm run release:ci
-            echo "released=true" >> $GITHUB_OUTPUT
-            echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+            echo "has-changes=true" >> $GITHUB_OUTPUT
+            echo "Found releasable commits"
           else
-            echo "No releasable commits found, skipping release"
-            echo "released=false" >> $GITHUB_OUTPUT
+            echo "has-changes=false" >> $GITHUB_OUTPUT
+            echo "No releasable commits found"
           fi
+
+      - name: Create Release PR
+        if: steps.check-commits.outputs.has-changes == 'true'
+        run: |
+          # Check if release PR already exists
+          if gh pr list --label "automated-release" --state open | grep -q .; then
+            echo "Release PR already exists, skipping creation"
+            exit 0
+          fi
+          
+          # Create release branch
+          BRANCH_NAME="release/automated-$(date +%s)"
+          git checkout -b "$BRANCH_NAME"
+          
+          # Run release-it in dry-run mode to prepare files
+          npm run release:dry -- --no-git.commit --no-git.tag --no-git.push --no-github.release || true
+          
+          # Get the expected version from CalVer plugin
+          NEXT_VERSION=$(npm run release:dry -- --no-git --no-github --no-npm 2>&1 | grep -o "2025\.[0-9]\+\.[0-9]\+" | tail -1 || echo "2025.8.5")
+          
+          # Commit changes
+          git add .
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          
+          git commit -m "chore: prepare release v${NEXT_VERSION}"
+          git push origin "$BRANCH_NAME"
+          
+          # Create PR
+          gh pr create \
+            --title "🚀 Release v${NEXT_VERSION}" \
+            --label "automated-release" \
+            --body "$(cat <<EOF
+          ## Release v${NEXT_VERSION}
+          
+          This PR was automatically created by Release-It based on conventional commits.
+          
+          ### Changes Since Last Release
+          $(git log --pretty=format:"- %s" $(git describe --tags --abbrev=0 2>/dev/null || echo 'HEAD~10')..origin/main | grep -E '^- (feat|fix|perf|refactor)')
+          
+          ### What This PR Does
+          - Updates version to **${NEXT_VERSION}** (CalVer format)
+          - Generates changelog based on conventional commits
+          - Prepares all files for release
+          
+          ### Review Checklist
+          - [ ] Verify version number is correct
+          - [ ] Review CHANGELOG.md entries
+          - [ ] Approve and merge to create release
+          
+          **⚠️ Merging this PR will:**
+          1. Create GitHub release v${NEXT_VERSION}
+          2. Create git tag v${NEXT_VERSION} 
+          3. Trigger Docker image builds
+          EOF
+          )"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  perform-release:
+    runs-on: ubuntu-latest
+    # Only run when a release PR is merged
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'automated-release')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Perform Release
+        run: npm run release:ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
