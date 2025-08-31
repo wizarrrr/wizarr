@@ -1,5 +1,21 @@
 # Changelog
 
+All notable changes to Wizarr will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project uses [Calendar Versioning](https://calver.org/).
+
+
+
+## [2025.8.5](https://github.com/wizarrrr/wizarr/compare/2025.8.4...2025.8.5) (2025-08-31)
+
+
+### 🐛 Bug Fixes
+
+* configure Git identity and authentication for Release-It GitHub Actions ([4ba7d1a](https://github.com/wizarrrr/wizarr/commit/4ba7d1af3be92b78da5a16aa1f4b9afc791acb1e))
+* prevent conventional changelog from overriding CalVer versioning ([74504a7](https://github.com/wizarrrr/wizarr/commit/74504a74f1da28a3da8b3dac58f0a315881ca655))
+
+# Changelog
+
 ## [2025.9.0](https://github.com/wizarrrr/wizarr/compare/2025.8.4...v2025.9.0) (2025-08-31)
 
 
