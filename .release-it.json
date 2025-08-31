@@ -25,7 +25,8 @@
   },
   "plugins": {
     "@csmith/release-it-calver-plugin": {
-      "format": "YYYY.M.MICRO"
+      "format": "yyyy.mm.minor",
+      "increment": "calendar"
     },
     "@release-it/conventional-changelog": {
       "preset": {
