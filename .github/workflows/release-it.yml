@@ -1,0 +1,52 @@
+name: Release-It
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    outputs:
+      released: ${{ steps.release.outputs.released }}
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Release
+        id: release
+        run: |
+          # Check if there are releasable commits
+          if git log --oneline --grep='^feat\|^fix\|^perf\|^refactor' $(git describe --tags --abbrev=0 2>/dev/null || echo 'HEAD~10')..HEAD | head -1 | grep -q '.'; then
+            echo "Found releasable commits, proceeding with release..."
+            npm run release:ci
+            echo "released=true" >> $GITHUB_OUTPUT
+            echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+          else
+            echo "No releasable commits found, skipping release"
+            echo "released=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+  # Note: Docker images are built by the existing release.yml workflow
+  # which triggers on release:published events that Release-It creates

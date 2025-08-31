@@ -1,0 +1,19 @@
+{
+  "name": "wizarr",
+  "version": "2025.9.0",
+  "description": "Multi-server invitation manager for Plex, Jellyfin, Emby & AudiobookShelf",
+  "private": true,
+  "scripts": {
+    "release": "release-it",
+    "release:dry": "release-it --dry-run",
+    "release:ci": "release-it --ci"
+  },
+  "devDependencies": {
+    "release-it": "^17.0.0",
+    "@csmith/release-it-calver-plugin": "^2023.12.0",
+    "@release-it/conventional-changelog": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
