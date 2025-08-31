@@ -19,7 +19,7 @@ COPY pyproject.toml uv.lock ./
 # Install Python dependencies only (not project) with cache mount for speed
 # Exclude dev dependencies for production image
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --locked --no-install-project --no-dev
+    uv sync --no-install-project --no-dev
 
 # Copy npm dependency files and install with cache
 COPY app/static/package*.json ./app/static/
@@ -35,7 +35,7 @@ COPY babel.cfg ./
 # Install the project now that we have source code
 # Exclude dev dependencies for production image
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --locked --no-dev
+    uv sync --no-dev
 
 # Build translations
 RUN uv run --no-dev pybabel compile -d app/translations
