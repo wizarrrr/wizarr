@@ -170,6 +170,7 @@ def _get_latest_release_migration():
         # This is based on the migration history at the time of release
         release_migrations = {
             "2025.8.2": "20250729_squashed_connections_expiry_system",
+            "2025.8.3": "20250729_squashed_connections_expiry_system",  # 2025.8.3 uses same migrations as 2025.8.2
             # Add future releases here as they are tagged
         }
 

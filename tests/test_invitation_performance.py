@@ -101,6 +101,8 @@ class TestInvitationPerformance:
 
             # Function to process invitation
             def process_invitation(user_id):
+                # Small stagger to reduce SQLite concurrency conflicts
+                time.sleep(user_id * 0.01)  # 0-90ms stagger
                 with app.app_context():
                     success, redirect_code, errors = (
                         InvitationManager.process_invitation(

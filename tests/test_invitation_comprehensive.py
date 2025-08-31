@@ -323,7 +323,7 @@ class TestMultiServerInvitations:
             db.session.flush()
 
             # Create multi-server invitation
-            invite = Invitation(code="MULTI123", duration="30", unlimited=False)
+            invite = Invitation(code="COMP_MULTI123", duration="30", unlimited=False)
             invite.servers = [jellyfin_server, plex_server]
             db.session.add(invite)
             db.session.commit()
@@ -340,7 +340,7 @@ class TestMultiServerInvitations:
 
             # Process invitation
             success, redirect_code, errors = InvitationManager.process_invitation(
-                code="MULTI123",
+                code="COMP_MULTI123",
                 username="multiuser",
                 password="testpass123",
                 confirm_password="testpass123",
@@ -349,7 +349,7 @@ class TestMultiServerInvitations:
 
             # Should succeed on both servers
             assert success
-            assert redirect_code == "MULTI123"
+            assert redirect_code == "COMP_MULTI123"
             assert len(errors) == 0  # No errors expected
 
             # Verify users created on both servers
@@ -357,12 +357,10 @@ class TestMultiServerInvitations:
             assert len(mock_users) == 2  # One user per server
 
             # Verify database users
-            db_users = User.query.filter_by(code="MULTI123").all()
+            db_users = User.query.filter_by(code="COMP_MULTI123").all()
             assert len(db_users) == 2
             server_ids = {user.server_id for user in db_users}
-            # Refresh server IDs from database in case they changed during commit
-            db.session.refresh(jellyfin_server)
-            db.session.refresh(plex_server)
+            # Verify that the users were created on the correct servers we just created
             expected_server_ids = {jellyfin_server.id, plex_server.id}
             assert server_ids == expected_server_ids
 
