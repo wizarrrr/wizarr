@@ -160,7 +160,12 @@ class PlexClient(MediaClient):
     @property
     def admin(self) -> MyPlexAccount:
         if self._admin is None:
-            self._admin = MyPlexAccount(token=self.token)
+            try:
+                self._admin = MyPlexAccount(token=self.token)
+            except Exception as e:
+                logging.error(f"Failed to connect to Plex MyPlexAccount: {e}")
+                # Instead of raising, return None and let callers handle it
+                raise ConnectionError(f"Unable to connect to Plex servers: {e}") from e
         return self._admin
 
     def libraries(self) -> dict[str, str]:
@@ -379,7 +384,17 @@ class PlexClient(MediaClient):
         """Sync users from Plex into the local DB and return the list of User records."""
         server_id = self.server.machineIdentifier
 
-        admin_users = self.admin.users()
+        try:
+            admin_users = self.admin.users()
+        except (ConnectionError, Exception) as e:
+            logging.error(f"Failed to connect to Plex admin API: {e}")
+            # Return existing DB users if we can't connect to Plex
+            return (
+                db.session.query(User)
+                .filter(User.server_id == getattr(self, "server_id", None))
+                .all()
+            )
+
         plex_users = {}
         for u in admin_users:
             user_email = getattr(u, "email", None)
@@ -630,19 +645,31 @@ class PlexClient(MediaClient):
                 "content_stats": {},
             }
 
-            sessions = self.server.sessions()
-            transcode_sessions = self.server.transcodeSessions()
+            # Try to get session information from the local server
+            try:
+                sessions = self.server.sessions()
+                transcode_sessions = self.server.transcodeSessions()
+            except Exception as e:
+                logging.warning(f"Failed to get Plex session info: {e}")
+                sessions = []
+                transcode_sessions = []
 
+            # Try to get user stats - this is where the SSL error occurs
             try:
                 users = self.list_users()
                 stats["user_stats"] = {
                     "total_users": len(users),
                     "active_sessions": len(sessions),
                 }
-            except Exception as e:
+            except (ConnectionError, Exception) as e:
                 logging.error(f"Failed to get Plex user stats: {e}")
-                stats["user_stats"] = {"total_users": 0, "active_sessions": 0}
+                stats["user_stats"] = {
+                    "total_users": 0,
+                    "active_sessions": len(sessions),
+                    "connection_error": "Unable to connect to Plex.tv servers",
+                }
 
+            # Try to get server stats
             try:
                 stats["server_stats"] = {
                     "version": getattr(self.server, "version", "Unknown"),
@@ -650,7 +677,11 @@ class PlexClient(MediaClient):
                 }
             except Exception as e:
                 logging.error(f"Failed to get Plex server stats: {e}")
-                stats["server_stats"] = {}
+                stats["server_stats"] = {
+                    "version": "Unknown",
+                    "transcoding_sessions": 0,
+                    "error": str(e),
+                }
 
             return stats
 
@@ -658,8 +689,8 @@ class PlexClient(MediaClient):
             logging.error(f"Failed to get Plex statistics: {e}")
             return {
                 "library_stats": {},
-                "user_stats": {},
-                "server_stats": {},
+                "user_stats": {"total_users": 0, "active_sessions": 0},
+                "server_stats": {"version": "Unknown", "transcoding_sessions": 0},
                 "content_stats": {},
                 "error": str(e),
             }

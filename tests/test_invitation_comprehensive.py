@@ -360,7 +360,11 @@ class TestMultiServerInvitations:
             db_users = User.query.filter_by(code="MULTI123").all()
             assert len(db_users) == 2
             server_ids = {user.server_id for user in db_users}
-            assert server_ids == {jellyfin_server.id, plex_server.id}
+            # Refresh server IDs from database in case they changed during commit
+            db.session.refresh(jellyfin_server)
+            db.session.refresh(plex_server)
+            expected_server_ids = {jellyfin_server.id, plex_server.id}
+            assert server_ids == expected_server_ids
 
             # Verify identity linking (users should share same identity)
             identities = {user.identity_id for user in db_users if user.identity_id}

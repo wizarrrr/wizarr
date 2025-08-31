@@ -11,7 +11,7 @@ import pytest
 from playwright.sync_api import Page, expect
 
 from app.extensions import db
-from app.models import Invitation, MediaServer
+from app.models import AdminAccount, Invitation, MediaServer, Settings
 from tests.mocks.media_server_mocks import (
     create_mock_client,
     get_mock_state,
@@ -24,6 +24,15 @@ def invitation_setup(app):
     """Setup test data for invitation E2E tests."""
     with app.app_context():
         setup_mock_servers()
+
+        # Create admin account to bypass setup redirect
+        admin = AdminAccount(username="testadmin")
+        admin.set_password("testpass")
+        db.session.add(admin)
+
+        # Create admin_username setting to complete setup
+        admin_setting = Settings(key="admin_username", value="testadmin")
+        db.session.add(admin_setting)
 
         # Create media server
         server = MediaServer(
@@ -68,7 +77,7 @@ class TestInvitationUserJourney:
         mock_get_client.return_value = mock_client
 
         # Navigate to invitation page
-        page.goto(f"{live_server.url()()}{invitation_setup['invitation_url']}")
+        page.goto(f"{live_server.url()}{invitation_setup['invitation_url']}")
 
         # Verify invitation page loads
         expect(page.locator("h1")).to_contain_text("Join Test Jellyfin Server")
@@ -114,7 +123,7 @@ class TestInvitationUserJourney:
         mock_get_client.return_value = mock_client
 
         # Navigate to invitation page
-        page.goto(f"{live_server.url()()}{invitation_setup['invitation_url']}")
+        page.goto(f"{live_server.url()}{invitation_setup['invitation_url']}")
 
         # Test empty form submission
         page.click("button[type='submit']")
@@ -205,7 +214,7 @@ class TestInvitationUserJourney:
         mock_get_client.return_value = mock_client
 
         # Navigate to invitation page
-        page.goto(f"{live_server.url()()}{invitation_setup['invitation_url']}")
+        page.goto(f"{live_server.url()}{invitation_setup['invitation_url']}")
 
         # Fill and submit form
         page.fill("input[name='username']", "erroruser")
@@ -358,7 +367,7 @@ class TestInvitationUIComponents:
         self, page: Page, live_server, invitation_setup
     ):
         """Test basic accessibility of invitation form."""
-        page.goto(f"{live_server.url()()}{invitation_setup['invitation_url']}")
+        page.goto(f"{live_server.url()}{invitation_setup['invitation_url']}")
 
         # Check for form labels
         expect(
@@ -383,7 +392,7 @@ class TestInvitationUIComponents:
         """Test invitation page on different screen sizes."""
         # Test desktop
         page.set_viewport_size({"width": 1920, "height": 1080})
-        page.goto(f"{live_server.url()()}{invitation_setup['invitation_url']}")
+        page.goto(f"{live_server.url()}{invitation_setup['invitation_url']}")
         expect(page.locator("form")).to_be_visible()
 
         # Test tablet
