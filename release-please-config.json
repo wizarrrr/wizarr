@@ -3,10 +3,17 @@
   "release-type": "simple",
   "include-component-in-tag": false,
   "include-v-in-tag": true,
-  "versioning": "always-bump-patch",
+  "bootstrap-sha": "6a40e2704852df6de93c1278a6b1216528c3d73c",
   "packages": {
     ".": {
       "package-name": "wizarr",
+      "extra-files": [
+        {
+          "type": "toml",
+          "path": "pyproject.toml",
+          "jsonpath": "$.tool.commitizen.version"
+        }
+      ],
       "changelog-sections": [
         {
           "type": "feat",
@@ -57,13 +64,6 @@
           "type": "style",
           "section": "Styles",
           "hidden": true
-        }
-      ],
-      "extra-files": [
-        {
-          "type": "json",
-          "path": "package.json",
-          "jsonpath": "$.version"
         }
       ]
     }
