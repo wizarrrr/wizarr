@@ -15,7 +15,6 @@ jobs:
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
-      prs_created: ${{ steps.release.outputs.prs_created }}
     steps:
       - uses: googleapis/release-please-action@v4
         id: release
@@ -23,47 +22,8 @@ jobs:
           release-type: python
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
-
-  # Run tests on Release Please PRs
-  test-release-pr:
-    runs-on: ubuntu-latest
-    if: ${{ needs.release-please.outputs.prs_created }}
-    needs: release-please
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version-file: pyproject.toml
-      
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/uv
-          key: ${{ runner.os }}-uv-${{ hashFiles('**/pyproject.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-uv-
-      
-      - name: Install dependencies
-        run: uv sync --locked
-      
-      - name: Run ruff linter
-        run: uv run ruff check --output-format=github .
-      
-      - name: Run ruff formatter
-        run: uv run ruff format --check .
-      
-      - name: Run ty check
-        run: uv run ty check
-      
-      - name: Run tests
-        run: uv run pytest -q
+          # Use personal access token to ensure Release Please PRs trigger other workflows
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
 
   # Note: Docker images are built by the existing release.yml workflow
   # which triggers on release:published events that Release Please creates
