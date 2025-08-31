@@ -14,7 +14,7 @@ ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE=copy
 
 # Copy dependency files first for better caching
-COPY pyproject.toml uv.lock ./
+COPY pyproject.toml ./
 
 # Install Python dependencies only (not project) with cache mount for speed
 # Exclude dev dependencies for production image
