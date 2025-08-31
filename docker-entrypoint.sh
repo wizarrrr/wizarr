@@ -42,7 +42,7 @@ if [ "$(id -u)" = "0" ]; then
   # Only recurse into the truly live dirs and cache
   echo "[entrypoint] ⚙️  Fixing ownership for bind mounts…"
   chown -R "$TARGET_USER":"$TARGET_GRP" \
-    /data/database /etc/wizarr/wizard_steps /.cache /opt/default_wizard_steps
+    /data/database /etc/wizarr/wizard_steps /.cache /opt/default_wizard_steps /app
 
   # Fix ownership of bind-mounts (only persistent data directories)
   if [ "$PUID:$PGID" != "$DEFAULT_UID:$DEFAULT_GID" ]; then
