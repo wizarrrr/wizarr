@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-31 03:44+0000\n"
+"POT-Creation-Date: 2025-09-01 03:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -506,43 +506,47 @@ msgstr ""
 msgid "Complete Setup"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:177
+#: app/templates/hybrid-password-form.html:176
+msgid "Setting up..."
+msgstr ""
+
+#: app/templates/hybrid-password-form.html:184
 msgid "What happens next?"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:180
+#: app/templates/hybrid-password-form.html:187
 msgid "Your Plex account is already set up and ready to use"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:181
+#: app/templates/hybrid-password-form.html:188
 msgid "This password will be used to create accounts on your local servers"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:182
+#: app/templates/hybrid-password-form.html:189
 msgid "You'll be redirected to the setup wizard to complete configuration"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:189
+#: app/templates/hybrid-password-form.html:196
 msgid "Only want to use Plex?"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:192
+#: app/templates/hybrid-password-form.html:199
 msgid "Skip local servers"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:208
+#: app/templates/hybrid-password-form.html:215
 msgid "Password too short"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:211
+#: app/templates/hybrid-password-form.html:218
 msgid "Password strength: Medium"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:214
+#: app/templates/hybrid-password-form.html:221
 msgid "Password strength: Strong"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:226
+#: app/templates/hybrid-password-form.html:233
 msgid "Passwords do not match"
 msgstr ""
 
@@ -638,8 +642,12 @@ msgid "Set up Account"
 msgstr ""
 
 #: app/templates/setup/admin_account.html:58
-#: app/templates/welcome-jellyfin.html:71
+#: app/templates/welcome-jellyfin.html:72
 msgid "Create an account"
+msgstr ""
+
+#: app/templates/welcome-jellyfin.html:78
+msgid "Creating account..."
 msgstr ""
 
 #: app/templates/admin/accepted_invites_card.html:8
