@@ -47,7 +47,7 @@
             </div>
 
             <!-- Widget Grid - main widgets row -->
-            <div id="widgetGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-6 transition-all duration-500 ease-in-out">
+            <div id="widgetGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-6 transition-all duration-500 ease-in-out items-stretch lg:grid-rows-1">
                 <!-- Latest Accepted Invites Card -->
                 <div id="latestInvitesContainer"
                      class="min-h-[400px]"
@@ -255,6 +255,22 @@ document.addEventListener('htmx:afterSwap', function(evt) {
         </script>
 
 <style>
+/* Ensure equal height cards in widget grid on desktop */
+@media (min-width: 1024px) {
+    #widgetGrid {
+        display: grid;
+        grid-template-rows: 1fr;
+        align-items: stretch;
+    }
+    
+    #latestInvitesContainer,
+    #serverHealthContainer {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
 .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
