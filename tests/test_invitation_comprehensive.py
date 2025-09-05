@@ -644,7 +644,7 @@ class TestInvitationMarkingUsed:
             assert invite.used_by == user
 
             # Verify user is in invitation's users collection
-            assert user in invite.users
+            assert user in invite.users  # type: ignore
 
     def test_mark_server_used_multi_server_partial(self, app):
         """Test marking one server as used in multi-server invitation."""
@@ -691,7 +691,7 @@ class TestInvitationMarkingUsed:
             assert invite.used is False  # Not all servers used yet
 
             # But user should be tracked
-            assert user1 in invite.users
+            assert user1 in invite.users  # type: ignore
 
 
 if __name__ == "__main__":

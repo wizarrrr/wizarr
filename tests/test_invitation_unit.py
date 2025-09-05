@@ -161,8 +161,8 @@ class TestInvitationCreation:
             assert invite.unlimited is True
             assert invite.duration == "14"
             assert invite.expires is not None
-            assert len(invite.servers) == 1
-            assert invite.servers[0] == server
+            assert len(invite.servers) == 1  # type: ignore
+            assert invite.servers[0] == server  # type: ignore
 
     def test_create_invitation_with_libraries(self, app):
         """Test creating invitation with specific libraries."""
@@ -199,8 +199,8 @@ class TestInvitationCreation:
             invite = create_invite(form_data)
 
             # Verify library associations
-            assert len(invite.libraries) == 2
-            library_ids = {lib.id for lib in invite.libraries}
+            assert len(invite.libraries) == 2  # type: ignore
+            library_ids = {lib.id for lib in invite.libraries}  # type: ignore
             assert library_ids == {lib1.id, lib2.id}
 
     def test_create_multi_server_invitation(self, app):
@@ -233,8 +233,8 @@ class TestInvitationCreation:
             invite = create_invite(form_data)
 
             # Verify server associations
-            assert len(invite.servers) == 2
-            server_ids = {server.id for server in invite.servers}
+            assert len(invite.servers) == 2  # type: ignore
+            server_ids = {server.id for server in invite.servers}  # type: ignore
             assert server_ids == {server1.id, server2.id}
 
     def test_create_invitation_validation_errors(self, app):
@@ -456,13 +456,13 @@ class TestInvitationRelationships:
             invite = create_invite(form_data)
 
             # Verify server relationships
-            assert len(invite.servers) == 2
-            assert server1 in invite.servers
-            assert server2 in invite.servers
+            assert len(invite.servers) == 2  # type: ignore
+            assert server1 in invite.servers  # type: ignore
+            assert server2 in invite.servers  # type: ignore
 
             # Verify reverse relationship
-            assert invite in server1.invites
-            assert invite in server2.invites
+            assert invite in server1.invites  # type: ignore
+            assert invite in server2.invites  # type: ignore
 
 
 if __name__ == "__main__":

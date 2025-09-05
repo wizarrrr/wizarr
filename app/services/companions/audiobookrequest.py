@@ -5,6 +5,7 @@ Audiobookrequest companion client implementation.
 import logging
 
 import requests
+import requests.exceptions
 
 from app.models import Connection
 

@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass
-from datetime import datetime
+from dataclasses import dataclass, field
+from datetime import UTC, datetime
 from typing import Any
 
 from sqlalchemy import and_
@@ -71,7 +71,7 @@ class WizardExportDTO:
     bundle: WizardBundleDTO | None = None
     export_date: str = ""
     total_count: int = 0
-    server_types: list[str] = None
+    server_types: list[str] = field(default_factory=list)
     export_type: str = "steps"  # "steps" or "bundle"
 
     def to_dict(self) -> dict[str, Any]:
@@ -132,7 +132,7 @@ class WizardExportImportService:
 
         return WizardExportDTO(
             steps=step_dtos,
-            export_date=datetime.utcnow().isoformat(),
+            export_date=datetime.now(UTC).isoformat(),
             total_count=len(step_dtos),
             server_types=[server_type] if step_dtos else [],
             export_type="steps",
@@ -174,7 +174,7 @@ class WizardExportImportService:
 
         return WizardExportDTO(
             bundle=bundle_dto,
-            export_date=datetime.utcnow().isoformat(),
+            export_date=datetime.now(UTC).isoformat(),
             export_type="bundle",
         )
 
@@ -269,9 +269,11 @@ class WizardExportImportService:
 
         # Check required fields
         required_fields = ["server_type", "position", "markdown"]
-        for field in required_fields:
-            if field not in step:
-                errors.append(f"Step {index}: missing required field '{field}'")
+        for required_field in required_fields:
+            if required_field not in step:
+                errors.append(
+                    f"Step {index}: missing required field '{required_field}'"
+                )
 
         # Validate field types
         if "server_type" in step and not isinstance(step["server_type"], str):

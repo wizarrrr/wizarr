@@ -22,7 +22,7 @@ def check_expiring(app=None):
         from flask import current_app
 
         try:
-            app = current_app._get_current_object()
+            app = current_app._get_current_object()  # type: ignore
         except RuntimeError:
             # If we're outside application context, we need the app to be passed
             logging.error(

@@ -778,7 +778,7 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         api_token = post_setup_client.token
         threading.Thread(
             target=_post_join_setup,
-            args=(current_app._get_current_object(), server_url, api_token, token),
+            args=(current_app._get_current_object(), server_url, api_token, token),  # type: ignore
             daemon=True,
         ).start()
 

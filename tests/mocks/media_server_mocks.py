@@ -62,7 +62,7 @@ mock_state = MockMediaServerState()
 class MockJellyfinClient:
     """Mock Jellyfin client that simulates API responses."""
 
-    def __init__(self, url: str = None, token: str = None, **kwargs):
+    def __init__(self, url: str | None = None, token: str | None = None, **kwargs):
         self.url = url or "http://localhost:8096"
         self.token = token or "mock-api-key"
         self.server_id = kwargs.get("server_id")
@@ -264,7 +264,7 @@ class MockJellyfinClient:
 class MockPlexClient:
     """Mock Plex client that simulates PlexAPI responses."""
 
-    def __init__(self, url: str = None, token: str = None, **kwargs):
+    def __init__(self, url: str | None = None, token: str | None = None, **kwargs):
         self.url = url or "http://localhost:32400"
         self.token = token or "mock-plex-token"
         self.server_id = kwargs.get("server_id")
@@ -363,7 +363,7 @@ class MockPlexClient:
 class MockAudiobookshelfClient:
     """Mock Audiobookshelf client."""
 
-    def __init__(self, url: str = None, token: str = None, **kwargs):
+    def __init__(self, url: str | None = None, token: str | None = None, **kwargs):
         self.url = url or "http://localhost:13378"
         self.token = token or "mock-abs-token"
         self.server_id = kwargs.get("server_id")

@@ -601,7 +601,11 @@ def export_bundle(bundle_id: int):
             temp_file_path = temp_file.name
 
         # Generate filename with bundle name and current date
-        bundle_name = export_data.bundle.name.replace(" ", "_").lower()
+        bundle_name = (
+            export_data.bundle.name.replace(" ", "_").lower()
+            if export_data.bundle
+            else "unknown_bundle"
+        )
         filename = f"wizard_bundle_{bundle_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
 
         return send_file(

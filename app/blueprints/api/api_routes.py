@@ -60,8 +60,11 @@ def require_api_key(f):
             logger.warning("API request without API key from %s", request.remote_addr)
             abort(401, error="Unauthorized")
 
+        # Type assertion since we've already checked that auth_key exists
+        assert isinstance(auth_key, str)
+
         # Hash the provided key to compare with stored hash
-        key_hash = hashlib.sha256(auth_key.encode()).hexdigest()
+        key_hash = hashlib.sha256(auth_key.encode("utf-8")).hexdigest()
         api_key = ApiKey.query.filter_by(key_hash=key_hash, is_active=True).first()
 
         if not api_key:
