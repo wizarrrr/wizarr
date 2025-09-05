@@ -74,6 +74,27 @@
                             </div>
                             {% endfor %}
                         </div>
+                        
+                        <!-- Global Notes section for multi-server users -->
+                        <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-600">
+                            <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-2">
+                                {{ _("Notes") }}
+                            </h4>
+                            <form hx-post="{{ url_for('admin.user_detail', db_id=user.id) }}"
+                                  class="space-y-3">
+                                <div>
+                                    <textarea id="notes" name="notes" rows="3"
+                                              placeholder="{{ _('Add notes about this user...') }}"
+                                              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">{{ user.notes|default('', true) }}</textarea>
+                                </div>
+                                <div class="flex justify-end">
+                                    <button type="submit"
+                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-primary_focus dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_focus">
+                                        {{ _("Update Notes") }}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     {% else %}
                     <!-- Single server user management -->
