@@ -60,9 +60,9 @@ jobs:
           if [ -n "$EXISTING_PR" ]; then
             echo "Release PR #$EXISTING_PR already exists - updating with latest commits"
             
-            # Get the latest version that would be generated
-            npm run release -- --dry-run --no-git.tag --no-git.push --no-github.release > /dev/null 2>&1 || true
-            NEXT_VERSION=$(node -p "require('./package.json').version")
+            # Get the next version that would be generated  
+            RELEASE_OUTPUT=$(npm run release -- --dry-run --no-git.tag --no-git.push --no-github.release 2>&1 || true)
+            NEXT_VERSION=$(echo "$RELEASE_OUTPUT" | grep -o "Let's release wizarr ([^)]*)" | grep -o '[0-9]\{4\}\.[0-9]\+\.[0-9]\+)$' | sed 's/)$//' || echo "2025.9.0")
             
             # Update PR description with current commit list
             gh pr edit "$EXISTING_PR" --body "$(cat <<EOF
