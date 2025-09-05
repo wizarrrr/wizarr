@@ -58,11 +58,42 @@ jobs:
           EXISTING_PR=$(gh pr list --label "automated-release" --state open --json number --jq '.[0].number // empty')
           
           if [ -n "$EXISTING_PR" ]; then
-            echo "Release PR #$EXISTING_PR already exists - commits will accumulate naturally"
-            echo "New commits since PR creation will be included automatically when merged"
+            echo "Release PR #$EXISTING_PR already exists - updating with latest commits"
             
-            # Optionally update the PR description to show it's aware of new commits
-            gh pr comment "$EXISTING_PR" --body "🔄 **New commits detected** - they will be included in this release when merged."
+            # Get the latest version that would be generated
+            npm run release -- --dry-run --no-git.tag --no-git.push --no-github.release > /dev/null 2>&1 || true
+            NEXT_VERSION=$(node -p "require('./package.json').version")
+            
+            # Update PR description with current commit list
+            gh pr edit "$EXISTING_PR" --body "$(cat <<EOF
+          ## Release v${NEXT_VERSION}
+          
+          This PR was automatically created and is kept up-to-date by Release-It.
+          
+          ### Changes Since Last Release
+          $(git log --pretty=format:"- %s" $(git describe --tags --abbrev=0 2>/dev/null || echo 'HEAD~10')..HEAD | grep -E '^- (feat|fix|perf|refactor)')
+          
+          ### What This PR Does
+          - Updates version to **${NEXT_VERSION}** (CalVer format)
+          - Generates changelog based on conventional commits
+          - Includes ALL commits made to main since last release
+          
+          ### Review Checklist
+          - [x] Verify version number is correct
+          - [x] Review CHANGELOG.md entries  
+          - [ ] Approve and merge to create release
+          
+          **⚠️ Merging this PR will:**
+          1. Create GitHub release v${NEXT_VERSION}
+          2. Create git tag v${NEXT_VERSION}
+          3. Trigger Docker image builds
+          
+          ---
+          *Last updated: $(date -u '+%Y-%m-%d %H:%M:%S UTC') - This PR updates automatically with new commits*
+          EOF
+          )"
+            
+            echo "✅ Updated PR #$EXISTING_PR with latest commits"
             
           else
             echo "Creating new release PR"
