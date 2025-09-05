@@ -726,6 +726,31 @@ def _group_users_for_display(user_list):
         )
         allow_sync = any(getattr(a, "allowSync", False) for a in lst)
 
+        # Set download and live TV permissions based on database fields
+        # Query database directly since SQLAlchemy objects may not have these attributes loaded
+        user_ids = [a.id for a in lst]
+        if user_ids:
+            # Create placeholders for the IN clause
+            placeholders = ",".join([":id" + str(i) for i in range(len(user_ids))])
+            query_params = {
+                "id" + str(i): user_id for i, user_id in enumerate(user_ids)
+            }
+
+            db_permissions = db.session.execute(
+                db.text(
+                    f"SELECT allow_downloads, allow_live_tv FROM user WHERE id IN ({placeholders})"
+                ),
+                query_params,
+            ).fetchall()
+
+            allow_downloads = any(
+                row[0] for row in db_permissions if row[0] is not None
+            )
+            allow_live_tv = any(row[1] for row in db_permissions if row[1] is not None)
+        else:
+            allow_downloads = False
+            allow_live_tv = False
+
         # Get the invitation date from the earliest invite code
         invited_dates = []
         for a in lst:
@@ -740,6 +765,8 @@ def _group_users_for_display(user_list):
         primary.expires = expires
         primary.code = code
         primary.allowSync = allow_sync
+        primary.allow_downloads = allow_downloads
+        primary.allow_live_tv = allow_live_tv
         primary.invited_date = invited_date
         cards.append(primary)
     return cards

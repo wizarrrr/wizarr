@@ -236,22 +236,46 @@ class JellyfinClient(RestApiMixin):
         # Get users with policy information
         users = User.query.filter(User.server_id == server_id).all()
 
-        # Enhance users with policy data
+        # Enhance users with policy data and update database
         for user in users:
             if user.token in jf_users:
                 jf_user = jf_users[user.token]
                 policy = jf_user.get("Policy", {}) or {}
 
                 # Add policy attributes directly to the user object for template access
-                user.allow_downloads = policy.get("EnableContentDownloading", True)
-                user.allow_live_tv = policy.get("EnableLiveTvAccess", True)
+                allow_downloads = policy.get("EnableContentDownloading", True)
+                allow_live_tv = policy.get("EnableLiveTvAccess", True)
+                user.allow_downloads = allow_downloads
+                user.allow_live_tv = allow_live_tv
                 user.allow_sync = policy.get("EnableSyncTranscoding", True)
+
+                # Update database directly using raw SQL
+                db.session.execute(
+                    db.text(
+                        "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
+                    ),
+                    {
+                        "downloads": allow_downloads,
+                        "live_tv": allow_live_tv,
+                        "id": user.id,
+                    },
+                )
             else:
                 # Default values if user data not found
                 user.allow_downloads = False
                 user.allow_live_tv = False
                 user.allow_sync = False
 
+                # Update database directly using raw SQL
+                db.session.execute(
+                    db.text(
+                        "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
+                    ),
+                    {"downloads": False, "live_tv": False, "id": user.id},
+                )
+
+        # Commit the permission changes to the database
+        db.session.commit()
         return users
 
     def _password_for_db(self, password: str) -> str:

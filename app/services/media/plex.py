@@ -450,21 +450,36 @@ class PlexClient(MediaClient):
                 u.photo = p.thumb
                 # Add Plex-specific policy information
                 # For Plex, check allowSync and allowChannels permissions
-                u.allow_downloads = getattr(
+                allow_downloads = getattr(
                     p, "allowSync", True
                 )  # Sync permission in Plex
-                u.allow_live_tv = getattr(
+                allow_live_tv = getattr(
                     p, "allowChannels", True
                 )  # Channel/Live TV access
-                u.allow_sync = getattr(
-                    p, "allowSync", True
-                )  # Same as downloads for Plex
+
+                # Update database directly using raw SQL
+                db.session.execute(
+                    db.text(
+                        "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
+                    ),
+                    {
+                        "downloads": allow_downloads,
+                        "live_tv": allow_live_tv,
+                        "id": u.id,
+                    },
+                )
             else:
                 # Default values if Plex user data not found
-                u.allow_downloads = False
-                u.allow_live_tv = False
-                u.allow_sync = False
+                # Update database directly using raw SQL
+                db.session.execute(
+                    db.text(
+                        "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
+                    ),
+                    {"downloads": False, "live_tv": False, "id": u.id},
+                )
 
+        # Commit the permission changes to the database
+        db.session.commit()
         return users
 
     def now_playing(self) -> list[dict]:

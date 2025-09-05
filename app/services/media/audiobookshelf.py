@@ -245,18 +245,33 @@ class AudiobookshelfClient(RestApiMixin):
                 permissions = abs_user.get("permissions", {}) or {}
 
                 # Add policy attributes for AudiobookShelf
-                user.allow_downloads = permissions.get("download", True)
+                allow_downloads = permissions.get("download", True)
                 # AudiobookShelf doesn't have Live TV, so default to False
-                user.allow_live_tv = False
-                user.allow_sync = permissions.get(
-                    "download", True
-                )  # Same as downloads for ABS
+                allow_live_tv = False
+
+                # Update database directly using raw SQL
+                db.session.execute(
+                    db.text(
+                        "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
+                    ),
+                    {
+                        "downloads": allow_downloads,
+                        "live_tv": allow_live_tv,
+                        "id": user.id,
+                    },
+                )
             else:
                 # Default values if user data not found
-                user.allow_downloads = False
-                user.allow_live_tv = False
-                user.allow_sync = False
+                # Update database directly using raw SQL
+                db.session.execute(
+                    db.text(
+                        "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
+                    ),
+                    {"downloads": False, "live_tv": False, "id": user.id},
+                )
 
+        # Commit the permission changes to the database
+        db.session.commit()
         return users
 
     # --- user management ------------------------------------------------

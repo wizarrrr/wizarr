@@ -184,10 +184,20 @@ class RommClient(RestApiMixin):
 
         # Add default policy attributes (RomM doesn't have specific download/live TV policies)
         for user in users:
-            user.allow_downloads = True  # Default to True for gaming apps
-            user.allow_live_tv = False  # RomM doesn't have Live TV
-            user.allow_sync = True  # Default to True for gaming apps
+            # RomM defaults: downloads enabled, no Live TV
+            allow_downloads = True  # Default to True for gaming apps
+            allow_live_tv = False  # RomM doesn't have Live TV
 
+            # Update database directly using raw SQL
+            db.session.execute(
+                db.text(
+                    "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
+                ),
+                {"downloads": allow_downloads, "live_tv": allow_live_tv, "id": user.id},
+            )
+
+        # Commit the permission changes to the database
+        db.session.commit()
         return users
 
     # ------------------------------------------------------------------
