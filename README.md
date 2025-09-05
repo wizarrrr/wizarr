@@ -59,9 +59,11 @@ Thank you to our sponsor for supporting Wizarr development!
 
 <a href="https://elfhosted.com">
   <img src="https://store.elfhosted.com/wp-content/uploads/2024/11/logo.svg" height="50" alt="Elfhosted" />
-  <img src=".github/sponsors/kwickflix.tv.png" height="50" alt="kwickflix.tv" />
-
 </a>
+<a href="https://www.kwickflix.tv">
+  <img src=".github/sponsors/kwickflix.tv.png" height="50" alt="kwickflix.tv" />
+</a>
+
 
 ---
 
