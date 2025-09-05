@@ -172,6 +172,7 @@ class User(db.Model, UserMixin):
     server = db.relationship("MediaServer", backref=db.backref("users", lazy=True))
     identity_id = db.Column(db.Integer, db.ForeignKey("identity.id"), nullable=True)
     identity = db.relationship("Identity", backref=db.backref("accounts", lazy=True))
+    notes = db.Column(db.Text, nullable=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

@@ -452,6 +452,9 @@ def user_detail(db_id: int):
             datetime.datetime.fromisoformat(raw_expires) if raw_expires else None
         )
 
+        # Update notes
+        user.notes = request.form.get("notes", "")
+
         # If we have an invitation and server, also update the server-specific expiry
         if invitation and user.server_id:
             server_expires = (

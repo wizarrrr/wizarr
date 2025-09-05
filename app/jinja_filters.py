@@ -93,9 +93,25 @@ def human_date(date_value) -> str:
     return str(date_value)[:16]
 
 
+def nl2br(text: str) -> Markup:
+    """Convert newlines in text to HTML <br> tags.
+
+    This filter is useful for displaying multiline text in templates
+    while preserving line breaks.
+    """
+    if not text:
+        return Markup("")
+
+    # Escape HTML to prevent XSS, then replace newlines with <br> tags
+    escaped_text = escape(text)
+    html = str(escaped_text).replace("\n", "<br>")
+    return Markup(html)
+
+
 def register_filters(app):
     """Register the custom Jinja filters on the given Flask *app*."""
     app.jinja_env.filters.setdefault("server_type_tag", server_type_tag)
     app.jinja_env.filters.setdefault("server_name_tag", server_name_tag)
     app.jinja_env.filters.setdefault("server_colour", _server_colour)
     app.jinja_env.filters.setdefault("human_date", human_date)
+    app.jinja_env.filters.setdefault("nl2br", nl2br)
