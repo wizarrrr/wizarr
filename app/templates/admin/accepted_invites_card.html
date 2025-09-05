@@ -9,8 +9,8 @@
     </h2>
 
     {% if recent_users %}
-    <div class="flex-1 overflow-y-auto max-h-96 lg:max-h-none">
-        <ul class="divide-y divide-gray-200 dark:divide-gray-700 pr-1 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
+    <div class="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
+        <ul class="divide-y divide-gray-200 dark:divide-gray-700 pr-1">
         {% for user in recent_users %}
         <li class="flex items-center py-1.5">
             <!-- User avatar -->
@@ -46,8 +46,8 @@
     </div>
     {% elif invites %}
     <!-- Fallback to old invitation-based display if recent_users not available -->
-    <div class="flex-1 overflow-y-auto max-h-96 lg:max-h-none">
-        <ul class="divide-y divide-gray-200 dark:divide-gray-700 pr-1 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
+    <div class="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
+        <ul class="divide-y divide-gray-200 dark:divide-gray-700 pr-1">
         {% for inv in invites %}
         {% set all_users = inv.get_all_users() %}
         {% for user in all_users %}
