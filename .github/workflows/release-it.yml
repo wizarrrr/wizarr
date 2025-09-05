@@ -60,24 +60,23 @@ jobs:
             exit 0
           fi
           
-          # Create release branch
+          # Run Release-It to prepare release (commit only, no tag/push/release)
+          npm run release -- --no-git.tag --no-git.push --no-github.release
+          
+          # Get the version from the commit Release-It just made
+          NEXT_VERSION=$(node -p "require('./package.json').version")
+          
+          # Move the release commit to a new branch
           BRANCH_NAME="release/automated-$(date +%s)"
-          git checkout -b "$BRANCH_NAME"
           
-          # Run release-it in dry-run mode to prepare files
-          npm run release:dry -- --no-git.commit --no-git.tag --no-git.push --no-github.release || true
+          # Create the branch from the current commit (which has the release changes)
+          git branch "$BRANCH_NAME"
           
-          # Get the expected version from CalVer plugin
-          NEXT_VERSION=$(npm run release:dry -- --no-git --no-github --no-npm 2>&1 | grep -o "2025\.[0-9]\+\.[0-9]\+" | tail -1 || echo "2025.8.5")
+          # Reset main to before the release commit
+          git reset --hard HEAD~1
           
-          # Commit changes
-          git add .
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-            exit 0
-          fi
-          
-          git commit -m "chore: prepare release v${NEXT_VERSION}"
+          # Switch to the release branch and push it
+          git checkout "$BRANCH_NAME"
           git push origin "$BRANCH_NAME"
           
           # Create PR
