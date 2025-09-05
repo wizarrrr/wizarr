@@ -1,6 +1,6 @@
 {# Translation helper '_' is provided globally by Flask-Babel – no local override needed #}
-<div class="relative z-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 w-full h-full flex flex-col" x-data>
-    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+<div class="relative z-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full h-full flex flex-col" x-data>
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
         <!-- Icon -->
         <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14v7" />
@@ -9,7 +9,8 @@
     </h2>
 
     {% if recent_users %}
-    <ul class="divide-y divide-gray-200 dark:divide-gray-700 flex-1 overflow-y-auto max-h-80 pr-1 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
+    <div class="flex-1 overflow-y-auto">
+        <ul class="divide-y divide-gray-200 dark:divide-gray-700 pr-1 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
         {% for user in recent_users %}
         <li class="flex items-center py-1.5">
             <!-- User avatar -->
@@ -41,10 +42,12 @@
             </div>
         </li>
         {% endfor %}
-    </ul>
+        </ul>
+    </div>
     {% elif invites %}
     <!-- Fallback to old invitation-based display if recent_users not available -->
-    <ul class="divide-y divide-gray-200 dark:divide-gray-700 flex-1 overflow-y-auto max-h-80 pr-1 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
+    <div class="flex-1 overflow-y-auto">
+        <ul class="divide-y divide-gray-200 dark:divide-gray-700 pr-1 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
         {% for inv in invites %}
         {% set all_users = inv.get_all_users() %}
         {% for user in all_users %}
@@ -79,8 +82,17 @@
         </li>
         {% endfor %}
         {% endfor %}
-    </ul>
+        </ul>
+    </div>
     {% else %}
-    <p class="text-sm text-gray-500 dark:text-gray-400">{{ _("No recent invitations have been accepted.") }}</p>
+    <div class="flex-1 flex items-center justify-center">
+        <div class="text-center text-gray-500 dark:text-gray-400">
+            <svg class="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14v7" />
+            </svg>
+            <p class="text-sm">{{ _("No recent invitations accepted") }}</p>
+            <p class="text-xs mt-1">{{ _("Accepted invitations will appear here") }}</p>
+        </div>
+    </div>
     {% endif %}
 </div> 
