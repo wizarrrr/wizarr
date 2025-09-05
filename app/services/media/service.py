@@ -192,6 +192,111 @@ def delete_user_for_server(server: MediaServer, db_id: int) -> None:
     _clear_user_cache(client)
 
 
+def remove_user_from_server(user_id: int, server_id: int) -> bool:
+    """Remove a user from a specific server only, preserving other server accounts.
+
+    Args:
+        user_id: The ID of the user record to remove
+        server_id: The ID of the server to remove the user from
+
+    Returns:
+        bool: True if removal was successful, False if user/server not found
+    """
+    user = db.session.get(User, user_id)
+    server = db.session.get(MediaServer, server_id)
+
+    if not user or not server:
+        return False
+
+    # Verify this user actually belongs to this server
+    if user.server_id != server_id:
+        return False
+
+    client = get_client_for_media_server(server)
+    _clear_user_cache(client)
+
+    try:
+        # Remove user from the remote media server
+        if server.server_type == "plex":
+            if user.email and user.email != "None":
+                client.delete_user(user.email)
+        else:
+            client.delete_user(user.token)
+    except Exception as exc:
+        # Log but continue - we still want to remove locally for consistency
+        logging.error(
+            f"Remote deletion failed for user {user.username} from {server.name}: {exc}"
+        )
+
+    # Check if user has accounts on other servers (via identity)
+    if user.identity_id:
+        # Count other accounts for this identity on different servers
+        other_accounts = User.query.filter(
+            User.identity_id == user.identity_id,
+            User.server_id != server_id,
+            User.id != user_id,
+        ).count()
+
+        if other_accounts > 0:
+            # User has accounts on other servers, only delete this account
+            db.session.delete(user)
+            db.session.commit()
+            logging.info(
+                f"Removed user {user.username} from server {server.name}, preserving other server accounts"
+            )
+        else:
+            # This is the user's only account, delete completely including companion apps
+            try:
+                from app.services.ombi_client import delete_user_from_connections
+
+                connection_results = delete_user_from_connections(user.token)
+
+                for result in connection_results:
+                    if result["status"] == "success":
+                        logging.info(
+                            f"User {user.username} deleted from companion app {result.get('connection_name')}"
+                        )
+                    elif result["status"] == "error":
+                        logging.warning(
+                            f"Failed to delete user from {result.get('connection_name')}: {result.get('message')}"
+                        )
+            except Exception as exc:
+                logging.error(f"Error deleting user from companion apps: {exc}")
+
+            db.session.delete(user)
+            db.session.commit()
+            logging.info(
+                f"Removed user {user.username}'s only account from server {server.name}"
+            )
+    else:
+        # No identity link, this is a standalone account - delete it
+        try:
+            from app.services.ombi_client import delete_user_from_connections
+
+            connection_results = delete_user_from_connections(user.token)
+
+            for result in connection_results:
+                if result["status"] == "success":
+                    logging.info(
+                        f"User {user.username} deleted from companion app {result.get('connection_name')}"
+                    )
+                elif result["status"] == "error":
+                    logging.warning(
+                        f"Failed to delete user from {result.get('connection_name')}: {result.get('message')}"
+                    )
+        except Exception as exc:
+            logging.error(f"Error deleting user from companion apps: {exc}")
+
+        db.session.delete(user)
+        db.session.commit()
+        logging.info(
+            f"Removed standalone user {user.username} from server {server.name}"
+        )
+
+    _clear_user_cache(client)
+    return True
+
+
 def scan_libraries(
     url: str | None = None, token: str | None = None, server_type: str | None = None
 ):

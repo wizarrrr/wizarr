@@ -173,9 +173,9 @@
                 </select>
             </div>
             <div id="link-bar" class="hidden flex gap-2">
-              <button hx-post="/users/link" hx-include=".link-check:checked" hx-target="#user_table" hx-swap="outerHTML" class="text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-primary_hover font-medium rounded-lg text-sm px-3 py-2">{{ _("Link") }}</button>
-              <button hx-post="/users/unlink" hx-include=".link-check:checked" hx-target="#user_table" hx-swap="outerHTML" class="text-white bg-secondary hover:bg-secondary_hover focus:ring-4 focus:outline-none focus:ring-secondary_hover font-medium rounded-lg text-sm px-3 py-2">{{ _("Unlink") }}</button>
-              <button hx-post="/users/bulk-delete" hx-include=".link-check:checked" hx-target="#user_table" hx-swap="outerHTML" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2">{{ _("Delete") }}</button>
+              <button hx-post="/users/link" hx-include=".link-check:checked" hx-swap="none" class="text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-primary_hover font-medium rounded-lg text-sm px-3 py-2">{{ _("Link") }}</button>
+              <button hx-post="/users/unlink" hx-include=".link-check:checked" hx-swap="none" class="text-white bg-secondary hover:bg-secondary_hover focus:ring-4 focus:outline-none focus:ring-secondary_hover font-medium rounded-lg text-sm px-3 py-2">{{ _("Unlink") }}</button>
+              <button hx-post="/users/bulk-delete" hx-include=".link-check:checked" hx-swap="none" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2">{{ _("Delete") }}</button>
             </div>
         </div>
         <div hx-get="/users/table" hx-trigger="load" hx-target="#user_table" hx-swap="outerHTML" hx-include="#server_filter,#search_query,#order_sel"

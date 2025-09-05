@@ -118,11 +118,16 @@ class MediaClient(ABC):
         self.token = row.api_key  # type: ignore[attr-defined]
 
     def _create_user_with_identity_linking(self, user_kwargs: dict) -> User:
-        """Create a User record with automatic identity linking for multi-server invitations.
+        """Create a User record with intelligent identity linking based on invitation type.
 
-        This helper ensures that users created from the same invitation code are
-        automatically linked to a shared Identity, even when they don't have valid
-        email addresses that would trigger the normal email-based linking.
+        This helper implements the correct identity linking logic:
+
+        - **Limited invitations**: Always link users with the same code (same person across servers)
+        - **Unlimited invitations**: Only link users with same code AND same email (same person across servers)
+
+        This prevents the bug where different people using the same unlimited invite
+        would get incorrectly linked, while still allowing the same person to be
+        properly linked across multiple servers.
 
         Args:
             user_kwargs: Dictionary of User model attributes
@@ -135,10 +140,26 @@ class MediaClient(ABC):
 
         # Check if this is part of a multi-server invitation
         if code:
-            existing_user = User.query.filter_by(code=code).first()
-            if existing_user and existing_user.identity_id:
-                # Link to existing identity from same invitation
-                user_kwargs["identity_id"] = existing_user.identity_id
+            from app.models import Invitation
+            from app.services.media.service import EMAIL_RE
+
+            invitation = Invitation.query.filter_by(code=code).first()
+
+            if invitation:
+                if not invitation.unlimited:
+                    # LIMITED invites: Always link users with same code (same person across servers)
+                    existing_user = User.query.filter_by(code=code).first()
+                    if existing_user and existing_user.identity_id:
+                        user_kwargs["identity_id"] = existing_user.identity_id
+                else:
+                    # UNLIMITED invites: Only link if same email (same person across servers)
+                    # Different emails = different people, should remain separate
+                    if email and EMAIL_RE.fullmatch(email):
+                        existing_user = User.query.filter_by(
+                            code=code, email=email
+                        ).first()
+                        if existing_user and existing_user.identity_id:
+                            user_kwargs["identity_id"] = existing_user.identity_id
 
         # Clean up any expired user records for this email address
         if email:

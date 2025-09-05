@@ -625,6 +625,69 @@ def bulk_delete_users():
     return response
 
 
+@admin_bp.post("/users/<int:user_id>/remove-from-server/<int:server_id>")
+@login_required
+def remove_user_from_server_endpoint(user_id: int, server_id: int):
+    """Remove a user from a specific server while preserving other server accounts."""
+    from app.services.media.service import remove_user_from_server
+
+    success = remove_user_from_server(user_id, server_id)
+
+    if success:
+        # Trigger user table refresh to show updated server badges
+        response = Response("")
+        response.headers["HX-Trigger"] = "refreshUserTable"
+        return response
+    # Return error response
+    return Response("User or server not found", status=404)
+
+
+@admin_bp.get("/users/<int:user_id>/delete-modal")
+@login_required
+def delete_user_modal(user_id: int):
+    """Show the delete user confirmation modal."""
+    # Find the user and all their accounts (if grouped by identity)
+    user = User.query.get_or_404(user_id)
+
+    # Get all accounts for this user (via identity or just the user itself)
+    if user.identity_id:
+        # User is part of an identity - get all accounts for this identity
+        accounts = User.query.filter_by(identity_id=user.identity_id).all()
+        display_name = user.identity.primary_username or user.username
+        user_email = user.identity.primary_email or user.email
+    else:
+        # Standalone user
+        accounts = [user]
+        display_name = user.username
+        user_email = user.email
+
+    return render_template(
+        "_partials/delete_user_modal.html",
+        accounts=accounts,
+        display_name=display_name,
+        user_email=user_email,
+    )
+
+
+@admin_bp.post("/users/process-deletion")
+@login_required
+def process_user_deletion():
+    """Process the user deletion based on selected server accounts."""
+    selected_accounts = request.form.getlist("server_accounts")
+
+    if not selected_accounts:
+        return Response("No accounts selected", status=400)
+
+    # Remove users from their respective servers
+    for account_id in selected_accounts:
+        delete_user(int(account_id))
+
+    # Trigger user table refresh
+    response = Response("")
+    response.headers["HX-Trigger"] = "refreshUserTable,closeModal"
+    return response
+
+
 # Helper: group and enrich users for display
 def _group_users_for_display(user_list):
     """Collapse multiple User rows into primary cards.
