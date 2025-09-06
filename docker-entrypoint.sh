@@ -102,11 +102,6 @@ fi
 # 3) DB Migrations
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo "[entrypoint] 🔍 Checking migration names…"
-uv run python scripts/migration_name_fixer.py /data/database/database.db || {
-  echo "[entrypoint] ⚠️  Migration name check failed, continuing anyway…"
-}
-
 echo "[entrypoint] 🔧 Applying alembic migrations…"
 FLASK_SKIP_SCHEDULER=true uv run --no-dev flask db upgrade
 
