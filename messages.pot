@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-09-05 03:40+0000\n"
+"POT-Creation-Date: 2025-09-06 03:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -223,29 +223,29 @@ msgid "No steps found for server type: {}"
 msgstr ""
 
 #: app/blueprints/wizard_admin/routes.py:582
-#: app/blueprints/wizard_admin/routes.py:615
-#: app/blueprints/wizard_admin/routes.py:620
+#: app/blueprints/wizard_admin/routes.py:619
+#: app/blueprints/wizard_admin/routes.py:624
 #, python-brace-format
 msgid "Export failed: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:665
+#: app/blueprints/wizard_admin/routes.py:669
 #, python-brace-format
 msgid "Successfully imported {} items"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:669
+#: app/blueprints/wizard_admin/routes.py:673
 #, python-brace-format
 msgid " and updated {} existing items"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:674
-#: app/blueprints/wizard_admin/routes.py:681
+#: app/blueprints/wizard_admin/routes.py:678
+#: app/blueprints/wizard_admin/routes.py:685
 #, python-brace-format
 msgid "Import failed: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:679
+#: app/blueprints/wizard_admin/routes.py:683
 msgid "Invalid JSON file"
 msgstr ""
 
@@ -654,12 +654,16 @@ msgstr ""
 msgid "Latest Accepted Invites"
 msgstr ""
 
-#: app/templates/admin/accepted_invites_card.html:31
+#: app/templates/admin/accepted_invites_card.html:32
 msgid "Recently joined"
 msgstr ""
 
-#: app/templates/admin/accepted_invites_card.html:84
-msgid "No recent invitations have been accepted."
+#: app/templates/admin/accepted_invites_card.html:93
+msgid "No recent invitations accepted"
+msgstr ""
+
+#: app/templates/admin/accepted_invites_card.html:94
+msgid "Accepted invitations will appear here"
 msgstr ""
 
 #: app/templates/admin/home.html:6
@@ -881,11 +885,26 @@ msgstr ""
 msgid "No expiry set"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:86
+#: app/templates/admin/user_modal.html:81
+#: app/templates/admin/user_modal.html:117
+#: app/templates/tables/user_card.html:106
+msgid "Notes"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:87
+#: app/templates/admin/user_modal.html:120
+msgid "Add notes about this user..."
+msgstr ""
+
+#: app/templates/admin/user_modal.html:93
+msgid "Update Notes"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:107
 msgid "Expiry date (leave blank for never)"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:96
+#: app/templates/admin/user_modal.html:127
 #: app/templates/modals/edit-admin.html:33
 #: app/templates/modals/edit-identity.html:26
 #: app/templates/modals/edit-server.html:103
@@ -898,7 +917,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:101
+#: app/templates/admin/user_modal.html:132
 #: app/templates/components/passkey_add_form.html:26
 #: app/templates/components/passkey_register.html:16
 #: app/templates/modals/bundle-add-steps.html:32
@@ -924,26 +943,26 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:111
+#: app/templates/admin/user_modal.html:142
 msgid "Invitation Details"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:114
+#: app/templates/admin/user_modal.html:145
 msgid "Code"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:116 app/templates/modals/invite.html:116
+#: app/templates/admin/user_modal.html:147 app/templates/modals/invite.html:116
 #: app/templates/modals/invite.html:149
 #: app/templates/tables/invite_card.html:193
 msgid "Duration"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:116
+#: app/templates/admin/user_modal.html:147
 #: app/templates/tables/invite_card.html:195
 msgid "days"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:119
+#: app/templates/admin/user_modal.html:150
 msgid "Invitation expires"
 msgstr ""
 
@@ -2053,20 +2072,24 @@ msgstr ""
 msgid "Invite Code"
 msgstr ""
 
-#: app/templates/tables/user_card.html:108
+#: app/templates/tables/user_card.html:121
 msgid "Downloads enabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:114
+#: app/templates/tables/user_card.html:127
 msgid "Downloads disabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:123
+#: app/templates/tables/user_card.html:136
 msgid "Live TV enabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:129
+#: app/templates/tables/user_card.html:142
 msgid "Live TV disabled"
+msgstr ""
+
+#: app/templates/tables/user_card.html:180
+msgid "Remove user"
 msgstr ""
 
 #: app/templates/wizard/steps.html:28
