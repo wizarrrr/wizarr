@@ -334,10 +334,16 @@
 
     // a function called closeModal that add the hidden class to 'modal-div' and deletes all child elements from 'user-modal'
     function closeModal() {
-        document.getElementById('modal').classList.add('hidden');
-        var modal = document.getElementById('modal-user');
-        while (modal.firstChild) {
-            modal.removeChild(modal.firstChild);
+        const modalElement = document.getElementById('modal');
+        const modalUserElement = document.getElementById('modal-user');
+        
+        if (modalElement) {
+            modalElement.classList.add('hidden');
+        }
+        
+        if (modalUserElement) {
+            // Clear all content and event listeners
+            modalUserElement.innerHTML = '';
         }
     }
 

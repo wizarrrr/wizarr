@@ -108,45 +108,53 @@
 </div>
 
 <script>
-    // Handle select all checkbox
-    const selectAllCheckbox = document.getElementById('select_all_servers');
-    const serverCheckboxes = document.querySelectorAll('input[name="server_accounts"]');
-    const submitBtn = document.getElementById('delete_submit_btn');
-    
-    // Toggle all server checkboxes when "select all" is clicked
-    selectAllCheckbox.addEventListener('change', function() {
-        serverCheckboxes.forEach(checkbox => {
-            checkbox.checked = this.checked;
-        });
-        updateSubmitButton();
-    });
-    
-    // Update select all checkbox state when individual checkboxes change
-    serverCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            const allChecked = Array.from(serverCheckboxes).every(cb => cb.checked);
-            const someChecked = Array.from(serverCheckboxes).some(cb => cb.checked);
-            
-            selectAllCheckbox.checked = allChecked;
-            selectAllCheckbox.indeterminate = someChecked && !allChecked;
+    // Initialize modal functionality immediately when content loads
+    (function() {
+        // Handle select all checkbox
+        const selectAllCheckbox = document.getElementById('select_all_servers');
+        const serverCheckboxes = document.querySelectorAll('input[name="server_accounts"]');
+        const submitBtn = document.getElementById('delete_submit_btn');
+        
+        if (!selectAllCheckbox || !submitBtn) {
+            console.warn('Delete modal elements not found');
+            return;
+        }
+        
+        // Toggle all server checkboxes when "select all" is clicked
+        selectAllCheckbox.addEventListener('change', function() {
+            serverCheckboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
             updateSubmitButton();
         });
-    });
-    
-    // Enable/disable submit button based on selections
-    function updateSubmitButton() {
-        const anySelected = Array.from(serverCheckboxes).some(cb => cb.checked);
-        submitBtn.disabled = !anySelected;
         
-        if (selectAllCheckbox.checked) {
-            submitBtn.textContent = '{{ _("Delete from ALL Servers") }}';
-            submitBtn.className = submitBtn.className.replace('bg-red-600 hover:bg-red-700', 'bg-red-800 hover:bg-red-900');
-        } else {
-            submitBtn.textContent = '{{ _("Remove Selected") }}';
-            submitBtn.className = submitBtn.className.replace('bg-red-800 hover:bg-red-900', 'bg-red-600 hover:bg-red-700');
+        // Update select all checkbox state when individual checkboxes change
+        serverCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const allChecked = Array.from(serverCheckboxes).every(cb => cb.checked);
+                const someChecked = Array.from(serverCheckboxes).some(cb => cb.checked);
+                
+                selectAllCheckbox.checked = allChecked;
+                selectAllCheckbox.indeterminate = someChecked && !allChecked;
+                updateSubmitButton();
+            });
+        });
+        
+        // Enable/disable submit button based on selections
+        function updateSubmitButton() {
+            const anySelected = Array.from(serverCheckboxes).some(cb => cb.checked);
+            submitBtn.disabled = !anySelected;
+            
+            if (selectAllCheckbox.checked) {
+                submitBtn.textContent = '{{ _("Delete from ALL Servers") }}';
+                submitBtn.className = submitBtn.className.replace('bg-red-600 hover:bg-red-700', 'bg-red-800 hover:bg-red-900');
+            } else {
+                submitBtn.textContent = '{{ _("Remove Selected") }}';
+                submitBtn.className = submitBtn.className.replace('bg-red-800 hover:bg-red-900', 'bg-red-600 hover:bg-red-700');
+            }
         }
-    }
-    
-    // Initial state
-    updateSubmitButton();
+        
+        // Initial state
+        updateSubmitButton();
+    })();
 </script>

@@ -194,10 +194,16 @@
 
     // Modal closing functionality
     function closeModal() {
-        document.getElementById('modal').classList.add('hidden');
-        var modal = document.getElementById('modal-user');
-        while (modal.firstChild) {
-            modal.removeChild(modal.firstChild);
+        const modalElement = document.getElementById('modal');
+        const modalUserElement = document.getElementById('modal-user');
+        
+        if (modalElement) {
+            modalElement.classList.add('hidden');
+        }
+        
+        if (modalUserElement) {
+            // Clear all content and event listeners
+            modalUserElement.innerHTML = '';
         }
     }
 
