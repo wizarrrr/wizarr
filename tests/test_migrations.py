@@ -171,10 +171,21 @@ def _get_latest_release_migration():
         release_migrations = {
             "2025.8.2": "20250729_squashed_connections_expiry_system",
             "2025.8.3": "20250729_squashed_connections_expiry_system",  # 2025.8.3 uses same migrations as 2025.8.2
+            "2025.9.0": "6c39692d6f32",  # Add the HEAD migration for 2025.9.0
             # Add future releases here as they are tagged
         }
 
-        return release_migrations.get(latest_tag)
+        mapped_migration = release_migrations.get(latest_tag)
+        if mapped_migration:
+            return mapped_migration
+
+        # For unmapped releases, try to use a reasonable fallback based on tag pattern
+        # This provides more robustness for new releases that haven't been mapped yet
+        if latest_tag.startswith("2025."):
+            # Default to the most recent known stable migration
+            return "20250729_squashed_connections_expiry_system"
+
+        return None
     except Exception:
         # Fallback to a known stable release migration if API fails
         return "20250729_squashed_connections_expiry_system"
