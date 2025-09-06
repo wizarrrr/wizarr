@@ -97,7 +97,14 @@
                     </button>
                     <button type="submit" id="delete_submit_btn" disabled
                             class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed rounded-lg">
-                        {{ _("Remove Selected") }}
+                        <span id="delete-btn-text">{{ _("Remove Selected") }}</span>
+                        <span id="delete-btn-loading" class="hidden">
+                            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            {{ _("Deleting user...") }}
+                        </span>
                     </button>
                 </div>
             </form>
@@ -145,13 +152,75 @@
             const anySelected = Array.from(serverCheckboxes).some(cb => cb.checked);
             submitBtn.disabled = !anySelected;
             
+            const btnText = document.getElementById('delete-btn-text');
+            const btnLoading = document.getElementById('delete-btn-loading');
             if (selectAllCheckbox.checked) {
-                submitBtn.textContent = '{{ _("Delete from ALL Servers") }}';
+                btnText.textContent = '{{ _("Delete from ALL Servers") }}';
+                btnLoading.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>{{ _("Deleting from ALL servers...") }}';
                 submitBtn.className = submitBtn.className.replace('bg-red-600 hover:bg-red-700', 'bg-red-800 hover:bg-red-900');
             } else {
-                submitBtn.textContent = '{{ _("Remove Selected") }}';
+                btnText.textContent = '{{ _("Remove Selected") }}';
+                btnLoading.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>{{ _("Deleting user...") }}';
                 submitBtn.className = submitBtn.className.replace('bg-red-800 hover:bg-red-900', 'bg-red-600 hover:bg-red-700');
             }
+        }
+        
+        // HTMX loading state management
+        const form = document.querySelector('form[hx-post*="process_user_deletion"]');
+        if (form) {
+            form.addEventListener('htmx:beforeRequest', function(event) {
+                const btnText = document.getElementById('delete-btn-text');
+                const btnLoading = document.getElementById('delete-btn-loading');
+                const submitButton = document.getElementById('delete_submit_btn');
+                
+                console.log('Before request - showing loading state');
+                
+                if (btnText && btnLoading && submitButton) {
+                    // Disable the button immediately to prevent double submissions
+                    submitButton.disabled = true;
+                    
+                    // Show loading state
+                    btnText.classList.add('hidden');
+                    btnLoading.classList.remove('hidden');
+                }
+            });
+            
+            form.addEventListener('htmx:afterRequest', function(event) {
+                const btnText = document.getElementById('delete-btn-text');
+                const btnLoading = document.getElementById('delete-btn-loading');
+                const submitButton = document.getElementById('delete_submit_btn');
+                
+                console.log('After request - hiding loading state');
+                
+                if (btnText && btnLoading && submitButton) {
+                    // Re-enable button and hide loading
+                    submitButton.disabled = false;
+                    btnText.classList.remove('hidden');
+                    btnLoading.classList.add('hidden');
+                }
+            });
+        }
+        
+        // Also handle direct button click for immediate feedback
+        if (submitBtn) {
+            submitBtn.addEventListener('click', function(e) {
+                // Only show loading if button is enabled and checkboxes are selected
+                if (!this.disabled && Array.from(serverCheckboxes).some(cb => cb.checked)) {
+                    const btnText = document.getElementById('delete-btn-text');
+                    const btnLoading = document.getElementById('delete-btn-loading');
+                    
+                    console.log('Button clicked - showing loading state immediately');
+                    
+                    if (btnText && btnLoading) {
+                        // Small delay to ensure it shows before HTMX takes over
+                        setTimeout(() => {
+                            this.disabled = true;
+                            btnText.classList.add('hidden');
+                            btnLoading.classList.remove('hidden');
+                        }, 10);
+                    }
+                }
+            });
         }
         
         // Initial state
