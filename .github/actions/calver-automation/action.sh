@@ -87,11 +87,13 @@ generate_changelog() {
     local other=""
     
     while IFS= read -r line; do
-        if [[ "$line" =~ ^[a-f0-9]+[[:space:]]+feat(\([^)]+\))?:[[:space:]]*(.*) ]]; then
-            features+="- ${BASH_REMATCH[2]}\n"
-        elif [[ "$line" =~ ^[a-f0-9]+[[:space:]]+fix(\([^)]+\))?:[[:space:]]*(.*) ]]; then
-            fixes+="- ${BASH_REMATCH[2]}\n"
-        elif [[ ! "$line" =~ ^[a-f0-9]+[[:space:]]+(chore|docs|style|refactor|test|ci)(\([^)]+\))?:[[:space:]]* ]]; then
+        if echo "$line" | grep -qE "^[a-f0-9]+ feat(\([^)]+\))?:"; then
+            local commit_msg=$(echo "$line" | sed 's/^[a-f0-9]* feat[^:]*: *//')
+            features+="- $commit_msg\n"
+        elif echo "$line" | grep -qE "^[a-f0-9]+ fix(\([^)]+\))?:"; then
+            local commit_msg=$(echo "$line" | sed 's/^[a-f0-9]* fix[^:]*: *//')
+            fixes+="- $commit_msg\n"
+        elif ! echo "$line" | grep -qE "^[a-f0-9]+ (chore|docs|style|refactor|test|ci)(\([^)]+\))?:"; then
             # Skip maintenance commits, include everything else
             local commit_msg=$(echo "$line" | sed 's/^[a-f0-9]* //')
             other+="- $commit_msg\n"
