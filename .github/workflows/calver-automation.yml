@@ -43,9 +43,13 @@ jobs:
       - name: Summary
         if: steps.release.outputs.release-created == 'true'
         run: |
-          echo "🚀 **Release PR Created!**" >> $GITHUB_STEP_SUMMARY
+          echo "🚀 **Dual Release PRs Created!**" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version**: ${{ steps.release.outputs.tag-name }}" >> $GITHUB_STEP_SUMMARY  
-          echo "- **PR**: #${{ steps.release.outputs.pr-number }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **RC Version**: ${{ steps.release.outputs.tag-name }}-rc.1" >> $GITHUB_STEP_SUMMARY
+          echo "- **Production Version**: ${{ steps.release.outputs.tag-name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **RC PR**: #${{ steps.release.outputs.rc-pr-number }} (merge when ~90% confident)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Release PR**: #${{ steps.release.outputs.pr-number }} (merge when 100% confident)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Merge the PR when ready to create the release and trigger Docker builds!" >> $GITHUB_STEP_SUMMARY
+          echo "## Workflow" >> $GITHUB_STEP_SUMMARY
+          echo "1. **RC PR** → Beta deployment + pre-release + Docker :beta/:rc tags" >> $GITHUB_STEP_SUMMARY
+          echo "2. **Release PR** → Production deployment + release + Docker :latest tag + auto-closes RC PR" >> $GITHUB_STEP_SUMMARY
