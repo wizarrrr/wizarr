@@ -1,0 +1,39 @@
+name: 'CalVer Automation'
+description: 'Creates release PRs with time-based calendar versioning'
+inputs:
+  token:
+    description: 'GitHub token for creating PRs'
+    required: true
+  dry-run:
+    description: 'Run without creating PR (for testing)'
+    required: false
+    default: 'false'
+outputs:
+  release-created:
+    description: 'Whether a release was created'
+    value: ${{ steps.release.outputs.release-created }}
+  tag-name:
+    description: 'The tag name if release was created'
+    value: ${{ steps.release.outputs.tag-name }}
+  pr-number:
+    description: 'The PR number if created/updated'
+    value: ${{ steps.release.outputs.pr-number }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup dependencies
+      shell: bash
+      run: |
+        # Install jq if not available
+        if ! command -v jq &> /dev/null; then
+          sudo apt-get update && sudo apt-get install -y jq
+        fi
+        
+    - name: Generate CalVer Release
+      id: release
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+        DRY_RUN: ${{ inputs.dry-run }}
+      run: ${{ github.action_path }}/action.sh

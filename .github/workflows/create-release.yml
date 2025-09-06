@@ -1,0 +1,58 @@
+name: Create Release
+
+on:
+  pull_request:
+    branches: [main]
+    types: [closed]
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    if: |
+      github.event.pull_request.merged == true && 
+      startsWith(github.event.pull_request.title, 'Release v') &&
+      github.repository_owner == 'wizarrrr'
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      
+      - name: Extract version from PR title
+        id: version
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          VERSION=$(echo "$PR_TITLE" | sed 's/Release v//')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+      
+      - name: Create GitHub Release
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Extract changelog from PR body (remove the footer)
+          PR_BODY="${{ github.event.pull_request.body }}"
+          CHANGELOG=$(echo "$PR_BODY" | sed '/^---$/,$d')
+          
+          # Create the release
+          gh release create "${{ steps.version.outputs.tag }}" \
+            --title "${{ steps.version.outputs.tag }}" \
+            --notes "$CHANGELOG"
+          
+          # Get the release URL for summary
+          RELEASE_URL=$(gh release view "${{ steps.version.outputs.tag }}" --json url --jq .url)
+          echo "html_url=$RELEASE_URL" >> $GITHUB_OUTPUT
+      
+      - name: Summary
+        run: |
+          echo "🎉 **Release Created!**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ steps.version.outputs.tag }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Release URL**: ${{ steps.create_release.outputs.html_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Docker images will be built automatically via the release workflow!" >> $GITHUB_STEP_SUMMARY

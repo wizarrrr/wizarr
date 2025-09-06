@@ -1,0 +1,51 @@
+name: CalVer Automation
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Run in dry-run mode (no PR creation)'
+        type: boolean
+        default: false
+
+env:
+  PYTHON_VERSION: '3.12'
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'wizarrrr'
+    permissions:
+      contents: write
+      pull-requests: write
+      
+    outputs:
+      release-created: ${{ steps.release.outputs.release-created }}
+      tag-name: ${{ steps.release.outputs.tag-name }}
+      pr-number: ${{ steps.release.outputs.pr-number }}
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0  # Need full history for changelog
+      
+      - name: Generate CalVer Release
+        id: release
+        uses: ./.github/actions/calver-automation
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          dry-run: ${{ inputs.dry-run || 'false' }}
+      
+      - name: Summary
+        if: steps.release.outputs.release-created == 'true'
+        run: |
+          echo "🚀 **Release PR Created!**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ steps.release.outputs.tag-name }}" >> $GITHUB_STEP_SUMMARY  
+          echo "- **PR**: #${{ steps.release.outputs.pr-number }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Merge the PR when ready to create the release and trigger Docker builds!" >> $GITHUB_STEP_SUMMARY
