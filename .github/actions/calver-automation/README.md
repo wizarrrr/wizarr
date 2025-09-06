@@ -22,6 +22,17 @@ Simple time-based calendar versioning for Wizarr with automated release manageme
 - `package.json` version field  
 - Auto-generated changelog from commit messages
 
+## Configuration
+
+### GitHub Token Setup
+For PRs to trigger CI workflows (tests, linting), you need a personal access token:
+
+1. Create a fine-grained PAT at https://github.com/settings/tokens?type=beta
+2. Grant permissions: `Contents: Write`, `Pull Requests: Write`, `Actions: Write`
+3. Add as repository secret: `RELEASE_PLEASE_TOKEN`
+
+Without this token, PRs will use `GITHUB_TOKEN` and won't trigger CI workflows.
+
 ## Testing
 
 ```bash
