@@ -103,7 +103,7 @@ fi
 # ─────────────────────────────────────────────────────────────────────────────
 
 echo "[entrypoint] 🔍 Checking migration names…"
-python scripts/migration_name_fixer.py /data/database/database.db || {
+uv run python scripts/migration_name_fixer.py /data/database/database.db || {
   echo "[entrypoint] ⚠️  Migration name check failed, continuing anyway…"
 }
 
