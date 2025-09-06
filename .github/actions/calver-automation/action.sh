@@ -26,7 +26,7 @@ log_error() {
 
 # Get current version from pyproject.toml
 get_current_version() {
-    grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/'
+    grep '^version = ' pyproject.toml | head -1 | sed 's/version = "\(.*\)"/\1/'
 }
 
 # Calculate next CalVer version (YYYY.M.PATCH)
