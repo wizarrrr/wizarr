@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from flask import session
 
 from app.extensions import db
 from app.models import WizardStep
@@ -22,8 +21,8 @@ def test_db_step_requires_interaction_renders_next_disabled(app, client):
             title="Download",
             markdown="# Please download\n[Click me](https://example.com)",
         )
-        # Will add require_interaction on the model in implementation; set via attribute for now
-        setattr(step, "require_interaction", True)
+        # require_interaction is now on the model; set directly
+        step.require_interaction = True
         db.session.add(step)
         db.session.commit()
 

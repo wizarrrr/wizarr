@@ -77,7 +77,7 @@ function attachInteractionGating(root = document) {
     function handler(ev) {
       const t = ev.target;
       if (!t) return;
-      if (t.closest && t.closest('a,button')) enable();
+      if (t.closest && t.closest('a,button') !== null) enable();
     }
 
     // Listen for any click within the content that bubbles/captures from links/buttons
