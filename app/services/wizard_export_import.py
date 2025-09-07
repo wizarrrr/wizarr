@@ -79,7 +79,7 @@ class WizardExportDTO:
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON serialization."""
-        result: = {
+        result = {
             "export_date": self.export_date,
             "export_type": self.export_type,
         }
