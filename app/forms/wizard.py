@@ -25,7 +25,12 @@ class WizardStepForm(FlaskForm):
 
     markdown = TextAreaField("Markdown", validators=[DataRequired()])
 
-    # Removed requires field as part of requires system overhaul
+    # Require explicit user interaction before enabling Next
+    require_interaction = BooleanField(
+        "Require User Interaction",
+        default=False,
+        description="Block the user continuing, until they click a button or link in this step.",
+    )
 
 
 class WizardPresetForm(FlaskForm):
@@ -69,6 +74,13 @@ class SimpleWizardStepForm(FlaskForm):
 
     title = StringField("Title", validators=[Optional()])
     markdown = TextAreaField("Markdown", validators=[DataRequired()])
+
+    # Allow interaction requirement for custom/bundle steps as well
+    require_interaction = BooleanField(
+        "Require User Interaction",
+        default=False,
+        description="Block the user continuing, until they click a button or link in this step.",
+    )
 
 
 class WizardImportForm(FlaskForm):

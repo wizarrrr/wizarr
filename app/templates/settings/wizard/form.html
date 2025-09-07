@@ -21,10 +21,19 @@
       {{ form.markdown(rows="10", class="w-full border rounded p-2 font-mono dark:bg-gray-700 dark:border-gray-600") }}
     </div>
 
+    <div class="flex items-start gap-3">
+      {{ form.require_interaction(class="h-5 w-5 text-primary rounded focus:ring-primary") }}
+      <div class="flex flex-col">
+        <label for="{{ form.require_interaction.id }}" class="text-sm font-medium text-gray-700 dark:text-gray-300 select-none">
+          {{ form.require_interaction.label.text }}
+        </label>
+        <span class="text-xs text-gray-500 dark:text-gray-400">{{ form.require_interaction.description }}</span>
+      </div>
+    </div>
 
     <div class="flex gap-2">
       <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _('Save') }}</button>
-      <button type="button" class="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700" 
+      <button type="button" class="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700"
               hx-post="{{ url_for('wizard_admin.preview_markdown') }}"
               hx-include="[name='markdown']"
               hx-target="#preview-area" hx-swap="innerHTML">
@@ -35,4 +44,4 @@
 
     <div id="preview-area" class="mt-6 border p-4 rounded dark:border-gray-700"></div>
   </form>
-</section> 
+</section>

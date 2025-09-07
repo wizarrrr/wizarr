@@ -24,6 +24,16 @@
               {{ form.markdown(rows="10", class="hidden", id="markdown-textarea") }}
             </div>
 
+            <div class="flex items-start gap-3 mt-2">
+              {{ form.require_interaction(class="h-5 w-5 text-primary rounded focus:ring-primary") }}
+              <div class="flex flex-col">
+                <label for="{{ form.require_interaction.id }}" class="text-sm font-medium text-gray-900 dark:text-white select-none">
+                  {{ form.require_interaction.label.text }}
+                </label>
+                <span class="text-xs text-gray-500 dark:text-gray-400">{{ form.require_interaction.description }}</span>
+              </div>
+            </div>
+
             <div class="flex gap-2 justify-end pt-4">
               <button type="button" onclick="document.getElementById('step-modal').innerHTML=''" class="px-4 py-2 rounded border border-gray-300 text-gray-700 dark:text-gray-300">{{ _('Cancel') }}</button>
               <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _('Save') }}</button>

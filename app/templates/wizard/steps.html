@@ -28,12 +28,14 @@
           ‹ {{ _("Previous") }}
       </a>
 
-      <a  hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
+      <a  id="next-btn"
+          hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
           hx-vals='{"dir":"next"}'
           hx-target="#wizard-wrapper" hx-swap="outerHTML"
           class="btn-nav"
-          {% if idx == max_idx %}style="display:none"{% endif %}>
+          {% if idx == max_idx %}style="display:none"{% endif %}{% if require_interaction %} aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"{% endif %}>
           {{ _("Next") }} ›
       </a>
   </div>
+
 </div>
