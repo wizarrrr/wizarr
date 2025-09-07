@@ -434,7 +434,6 @@ def user_detail(db_id: int):
     • POST → update per-server expiry then return the entire card grid
     """
     from app.models import Invitation
-    from app.services.expiry import set_server_specific_expiry
 
     user = User.query.get_or_404(db_id)
 
@@ -455,12 +454,13 @@ def user_detail(db_id: int):
         # Update notes
         user.notes = request.form.get("notes", "")
 
-        # If we have an invitation and server, also update the server-specific expiry
-        if invitation and user.server_id:
-            server_expires = (
-                datetime.datetime.fromisoformat(raw_expires) if raw_expires else None
-            )
-            set_server_specific_expiry(invitation.id, user.server_id, server_expires)
+        # NOTE: We intentionally do NOT update server-specific expiry here.
+        # Server-specific expiry in invitation_servers is meant for multi-server invitations
+        # where the same user has different expiry dates on different servers.
+        # When editing a user's expiry from the UI, we only want to affect this specific
+        # user, not future users who might be created from the same invitation code.
+        # The server-specific expiry should only be set during invitation creation,
+        # not during individual user editing.
 
         db.session.commit()
 
