@@ -157,6 +157,10 @@ def create_step():
             position=next_pos,
             title=getattr(form, "title", None) and form.title.data or None,
             markdown=cleaned_md,
+            require_interaction=(
+                getattr(form, "require_interaction", None) is not None
+                and bool(form.require_interaction.data)
+            ),
         )
         db.session.add(step)
         db.session.flush()  # get step.id
@@ -283,6 +287,10 @@ def edit_step(step_id: int):
         step.title = getattr(form, "title", None) and form.title.data or None
         cleaned_md = _strip_localization(form.markdown.data or "")
         step.markdown = cleaned_md
+
+        # Update interaction requirement if present on this form
+        if getattr(form, "require_interaction", None) is not None:
+            step.require_interaction = bool(form.require_interaction.data)
 
         db.session.commit()
         flash(_("Step updated"), "success")

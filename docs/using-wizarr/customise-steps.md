@@ -37,6 +37,7 @@ Default steps are server-type specific and will be shown to all users invited to
 - **Title**: Optional override for the step heading
 - **Markdown**: The main content of your step
 - **Requires**: Comma-separated setting keys that must be truthy for the step to display
+- **Require Interaction**: When enabled, users must click a link or button in the step before they can proceed to the next step
 
 ### Conditional Step Display
 
@@ -68,6 +69,7 @@ Bundle steps are different from default steps:
 - **No server type** - they're not tied to a specific media server
 - **Flexible ordering** - drag and drop to reorder steps within the bundle
 - **Custom content** - can include any markdown content you want
+- **Interaction requirements** - can also be configured to require user interaction
 
 ### Assigning Bundles to Invitations
 
@@ -126,24 +128,37 @@ Welcome to our **media server**! Here's what you need to know:
 - **Images**: Use standard Markdown syntax with optional classes
 - **Tailwind classes**: Add `{.class-name}` for custom styling
 
-### Interactive Elements
+### Requiring User Interaction
 
-Make your steps interactive by requiring user engagement:
+You can force users to engage with step content before allowing them to proceed to the next step. This is useful for ensuring users actually download apps, read important information, or acknowledge terms.
+
+#### How It Works
+
+1. **Enable "Require Interaction"** when creating or editing a step in the admin interface
+2. **Add interactive elements** like links or buttons to your step content
+3. **Users must click** on at least one link or button before the "Next" button becomes enabled
+
+#### Example Step Content
 
 ```markdown
----
-title: Download Required
-require: true
----
+# Download the Plex App
 
-# Download the App
+Before you can access our media library, you'll need to download the Plex app for your device.
 
-Please download our app before continuing.
+**Choose your platform:**
 
-[Download Now](https://example.com/download){:target="_blank" .btn}
+[📱 Download for iOS](https://apps.apple.com/app/plex/id383457673){:target="_blank" .btn}
+[🤖 Download for Android](https://play.google.com/store/apps/details?id=com.plexapp.android){:target="_blank" .btn}
+[💻 Download for Windows](https://www.plex.tv/media-server-downloads/?cat=plex+desktop&plat=windows#plex-app){:target="_blank" .btn}
+
+Click one of the download buttons above to continue.
 ```
 
-When `require: true` is set, the Next button stays disabled until the user clicks a link or button.
+#### Visual Feedback
+
+- **Disabled Next Button**: Appears dimmed with reduced opacity until interaction occurs
+- **Visual Indicators**: The button shows "not-allowed" cursor when hovered
+- **Automatic Enable**: As soon as the user clicks any link or button, the Next button becomes active
 
 ***
 
@@ -267,6 +282,7 @@ Only shows if `discord_url` is set in the `requires` field.
 - **Use clear calls-to-action** - make buttons and links obvious
 - **Test on mobile** - many users will access on phones
 - **Include screenshots** - visual aids help understanding
+- **Use interaction requirements wisely** - only require interaction for critical steps like app downloads or terms acceptance
 
 ### Step Organization
 
@@ -306,6 +322,7 @@ If you're upgrading from an older version with file-based steps:
 | Wrong step order | Verify position values in database |
 | Missing steps | Check `requires` field conditions |
 | Bundle not working | Verify bundle assignment on invitation |
+| Next button won't enable | Ensure step has interactive elements (links/buttons) and interaction requirement is properly configured |
 
 ### Debug Tips
 

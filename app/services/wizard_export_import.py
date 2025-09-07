@@ -23,6 +23,7 @@ class WizardStepDTO:
     title: str | None
     markdown: str
     requires: list[str] | None
+    require_interaction: bool = False
 
     @classmethod
     def from_model(cls, step: WizardStep) -> WizardStepDTO:
@@ -33,6 +34,7 @@ class WizardStepDTO:
             title=step.title,
             markdown=step.markdown,
             requires=step.requires or [],
+            require_interaction=bool(getattr(step, "require_interaction", False)),
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -43,6 +45,7 @@ class WizardStepDTO:
             "title": self.title,
             "markdown": self.markdown,
             "requires": self.requires or [],
+            "require_interaction": bool(self.require_interaction),
         }
 
 
@@ -76,7 +79,7 @@ class WizardExportDTO:
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON serialization."""
-        result = {
+        result: = {
             "export_date": self.export_date,
             "export_type": self.export_type,
         }
@@ -298,6 +301,13 @@ class WizardExportImportService:
             elif not all(isinstance(req, str) for req in step["requires"]):
                 errors.append(f"Step {index}: all items in 'requires' must be strings")
 
+        if (
+            "require_interaction" in step
+            and step["require_interaction"] is not None
+            and not isinstance(step["require_interaction"], bool)
+        ):
+            errors.append(f"Step {index}: 'require_interaction' must be a boolean")
+
         return errors
 
     def import_data(
@@ -400,6 +410,10 @@ class WizardExportImportService:
                                 existing_step.title = step_data.get("title")
                                 existing_step.markdown = step_data["markdown"]
                                 existing_step.requires = step_data.get("requires")
+                                if "require_interaction" in step_data:
+                                    existing_step.require_interaction = bool(
+                                        step_data.get("require_interaction") or False
+                                    )
                                 updated_count += 1
                                 continue
 
@@ -416,6 +430,9 @@ class WizardExportImportService:
                             title=step_data.get("title"),
                             markdown=step_data["markdown"],
                             requires=step_data.get("requires"),
+                            require_interaction=bool(
+                                step_data.get("require_interaction") or False
+                            ),
                         )
                         self.session.add(new_step)
                         imported_count += 1
@@ -516,6 +533,9 @@ class WizardExportImportService:
                         title=step_data.get("title"),
                         markdown=step_data["markdown"],
                         requires=step_data.get("requires"),
+                        require_interaction=bool(
+                            step_data.get("require_interaction") or False
+                        ),
                     )
                     self.session.add(wizard_step)
                     self.session.flush()  # Get the step ID

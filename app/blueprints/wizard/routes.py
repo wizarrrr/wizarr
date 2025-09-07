@@ -173,16 +173,20 @@ def _steps(server: str, cfg: dict):
 
         class _RowAdapter:
             """Lightweight shim exposing the subset of frontmatter.Post API
-            used by helper functions: `.content` property.
+            used by helper functions: `.content` property and `.get()`.
             """
 
-            __slots__ = ("content",)
+            __slots__ = ("content", "_require")
 
             def __init__(self, row: "WizardStep"):
                 self.content = row.markdown
+                # Mirror frontmatter key `require` from DB boolean
+                self._require = bool(getattr(row, "require_interaction", False))
 
-            # frontmatter.Post.get(key, default) - simplified
+            # frontmatter.Post.get(key, default)
             def get(self, key, default=None):
+                if key == "require":
+                    return self._require
                 return default
 
             def __iter__(self):
@@ -228,7 +232,15 @@ def _serve(server: str, idx: int):
     direction = request.values.get("dir", "")
 
     idx = max(0, min(idx, len(steps) - 1))
-    html = _render(steps[idx], cfg | {"_": _}, server_type=server)
+    post = steps[idx]
+    html = _render(post, cfg | {"_": _}, server_type=server)
+
+    # Determine if this step requires interaction (front matter `require: true` or DB flag)
+    require_interaction = False
+    try:
+        require_interaction = bool(getattr(post, "get", lambda k, d=None: None)("require", False))
+    except Exception:
+        require_interaction = False
 
     if not request.headers.get("HX-Request"):
         page = "wizard/frame.html"
@@ -242,6 +254,7 @@ def _serve(server: str, idx: int):
         max_idx=len(steps) - 1,
         server_type=server,
         direction=direction,  # ← NEW
+        require_interaction=require_interaction,
     )
 
 
@@ -315,7 +328,14 @@ def combo(idx: int):
         step_server_mapping[idx] if idx < len(step_server_mapping) else order[0]
     )
 
-    html = _render(steps[idx], cfg | {"_": _}, server_type=current_server_type)
+    post = steps[idx]
+    html = _render(post, cfg | {"_": _}, server_type=current_server_type)
+
+    require_interaction = False
+    try:
+        require_interaction = bool(getattr(post, "get", lambda k, d=None: None)("require", False))
+    except Exception:
+        require_interaction = False
 
     if not request.headers.get("HX-Request"):
         page = "wizard/frame.html"
@@ -329,6 +349,7 @@ def combo(idx: int):
         max_idx=len(steps) - 1,
         server_type="combo",
         direction=request.values.get("dir", ""),
+        require_interaction=require_interaction,
     )
 
 
@@ -355,13 +376,16 @@ def bundle_view(idx: int):
 
     # adapt to frontmatter-like interface
     class _RowAdapter:
-        __slots__ = ("content",)
+        __slots__ = ("content", "_require")
 
         def __init__(self, row: WizardStep):
             self.content = row.markdown
+            self._require = bool(getattr(row, "require_interaction", False))
 
         def get(self, key, default=None):
-            return None
+            if key == "require":
+                return self._require
+            return default
 
     steps = [_RowAdapter(s) for s in steps_raw]
     if not steps:
@@ -372,7 +396,14 @@ def bundle_view(idx: int):
     # Get the server type for the current step from the WizardStep
     current_server_type = steps_raw[idx].server_type if idx < len(steps_raw) else None
 
-    html = _render(steps[idx], _settings() | {"_": _}, server_type=current_server_type)
+    post = steps[idx]
+    html = _render(post, _settings() | {"_": _}, server_type=current_server_type)
+
+    require_interaction = False
+    try:
+        require_interaction = bool(getattr(post, "get", lambda k, d=None: None)("require", False))
+    except Exception:
+        require_interaction = False
 
     if not request.headers.get("HX-Request"):
         page = "wizard/frame.html"
@@ -386,4 +417,5 @@ def bundle_view(idx: int):
         max_idx=len(steps) - 1,
         server_type="bundle",
         direction=request.values.get("dir", ""),
+        require_interaction=require_interaction,
     )

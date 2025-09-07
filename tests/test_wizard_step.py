@@ -9,7 +9,13 @@ from app.models import WizardStep
 def session(app):
     """Return a clean database session inside an app context."""
     with app.app_context():
+        # Clean up any existing WizardStep data before the test
+        db.session.query(WizardStep).delete()
+        db.session.commit()
+
         yield db.session
+
+        # Clean up after the test
         db.session.rollback()
 
 

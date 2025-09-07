@@ -385,6 +385,9 @@ class WizardStep(db.Model):
     # Mirrors the existing `requires:` front-matter array in the legacy files.
     requires = db.Column(db.JSON, nullable=True)
 
+    # New: require explicit user interaction before enabling Next
+    require_interaction = db.Column(db.Boolean, default=False, nullable=True)
+
     created_at = db.Column(
         db.DateTime, default=lambda: datetime.now(UTC), nullable=False
     )
@@ -412,6 +415,7 @@ class WizardStep(db.Model):
             "title": self.title,
             "markdown": self.markdown,
             "requires": self.requires or [],
+            "require_interaction": bool(self.require_interaction or False),
         }
 
 
