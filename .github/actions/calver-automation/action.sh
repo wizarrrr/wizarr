@@ -35,10 +35,10 @@ calculate_next_version() {
     local current_year=$(date +%Y)
     local current_month=$(date +%-m)  # No leading zero
     
-    # Parse current version
+    # Parse current version (strip any -rc.X or -beta suffixes)
     local version_year=$(echo "$current_version" | cut -d'.' -f1)
     local version_month=$(echo "$current_version" | cut -d'.' -f2)
-    local version_patch=$(echo "$current_version" | cut -d'.' -f3)
+    local version_patch=$(echo "$current_version" | cut -d'.' -f3 | sed 's/-.*$//')  # Strip -rc.1 or -beta suffixes
     
     log_info "Current: $current_version (Year: $version_year, Month: $version_month, Patch: $version_patch)"
     log_info "Today: $current_year.$current_month"
