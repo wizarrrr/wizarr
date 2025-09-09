@@ -191,26 +191,22 @@ create_release_pr() {
     local changelog="$2"
     local existing_pr="$3"
     
-    local rc_version="${version}-rc.1"
     local pr_title="Release v$version"
-    local pr_body="# 🚀 Production Release v$version
+    local pr_body="# 🚀 Stable Release v$version
 
 $changelog
 
 ---
 
-## Production Release
+## Stable Release
 
-**Merge this PR when**: You're 100% confident and ready for production
+**Merge this PR when**: You're ready for production deployment
 
 **This will**:
 - Create GitHub release \`v$version\`
 - Deploy to production
 - Build Docker images with \`:latest\` and \`v$version\` tags
-- Auto-close the corresponding RC PR
-- Notify production stakeholders
-
-**Beta testing**: Merge the RC PR first for beta deployment and testing
+- Notify stakeholders
 
 ---
 
@@ -273,36 +269,11 @@ main() {
         return 0
     fi
     
-    # Check for existing PRs
-    local existing_rc_pr existing_release_pr
-    existing_rc_pr=$(check_existing_pr "RC v")
+    # Check for existing Release PR
+    local existing_release_pr
     existing_release_pr=$(check_existing_pr "Release v")
     
-    # Create RC branch and PR
-    local rc_version="${next_version}-rc.1"
-    local rc_branch_name="release/v$rc_version"
-    
-    # Always reset RC branch to latest main to ensure it's up to date
-    if git show-ref --verify --quiet "refs/heads/$rc_branch_name"; then
-        git branch -D "$rc_branch_name"  # Delete existing branch
-    fi
-    git checkout -b "$rc_branch_name"  # Create fresh branch from latest main
-    
-    # Update version files for RC
-    update_version_files "$rc_version"
-    
-    # Commit RC changes
-    git add pyproject.toml package.json
-    git commit -m "chore: release candidate v$rc_version" || true
-    
-    # Push RC branch
-    git push origin "$rc_branch_name" --force
-    
-    # Create RC PR
-    local rc_pr_number
-    rc_pr_number=$(create_rc_pr "$next_version" "$changelog" "$existing_rc_pr")
-    
-    # Create Release branch and PR (with production version)
+    # Create Release branch and PR (stable release only)
     local release_branch_name="release/v$next_version"
     
     git checkout main  # Start from main for release branch
@@ -328,14 +299,12 @@ main() {
     local release_pr_number
     release_pr_number=$(create_release_pr "$next_version" "$changelog" "$existing_release_pr")
     
-    log_success "RC PR ready: #$rc_pr_number"
     log_success "Release PR ready: #$release_pr_number"
     
     # Set outputs
     echo "release-created=true" >> "$GITHUB_OUTPUT"
     echo "tag-name=v$next_version" >> "$GITHUB_OUTPUT"
     echo "pr-number=$release_pr_number" >> "$GITHUB_OUTPUT"
-    echo "rc-pr-number=$rc_pr_number" >> "$GITHUB_OUTPUT"
 }
 
 # Run main function
