@@ -1,4 +1,4 @@
-<section class="py-8 animate__animated animate__fadeIn">
+<section class="py-8 animate__animated animate__fadeIn animate__faster">
     <div class="container px-4 mx-auto">
         <!-- Header with New Invite button -->
         <div class="flex justify-between items-center mb-6">
@@ -24,7 +24,7 @@
             </select>
         </div>
 
-        <div hx-post="/invite/table" hx-trigger="load" hx-target="#invite_table" hx-swap="outerHTML" hx-include="#invite_server_filter"
+        <div hx-post="/invite/table" hx-trigger="load" hx-target="#invite_table" hx-swap="outerHTML settle:0ms" hx-include="#invite_server_filter"
             class="p-4 mb-6 overflow-x-auto ">
 
             <div id="invite_table"></div>

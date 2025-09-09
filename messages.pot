@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-09-07 03:41+0000\n"
+"POT-Creation-Date: 2025-09-09 03:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -176,76 +176,76 @@ msgstr ""
 msgid "Cleaned up {} orphaned step(s)"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:179
+#: app/blueprints/wizard_admin/routes.py:183
 msgid "Step created"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:252
+#: app/blueprints/wizard_admin/routes.py:256
 msgid "Preset step created successfully"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:260
+#: app/blueprints/wizard_admin/routes.py:264
 #, python-brace-format
 msgid "Error creating preset: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:288
+#: app/blueprints/wizard_admin/routes.py:296
 msgid "Step updated"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:326
+#: app/blueprints/wizard_admin/routes.py:334
 msgid "Step deleted"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:396
+#: app/blueprints/wizard_admin/routes.py:404
 msgid "Bundle created"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:426
+#: app/blueprints/wizard_admin/routes.py:434
 msgid "Bundle updated"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:450
+#: app/blueprints/wizard_admin/routes.py:458
 msgid "Bundle deleted"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:528
+#: app/blueprints/wizard_admin/routes.py:536
 msgid "Steps added"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:540
+#: app/blueprints/wizard_admin/routes.py:548
 msgid "Orphaned step removed"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:558
+#: app/blueprints/wizard_admin/routes.py:566
 #, python-brace-format
 msgid "No steps found for server type: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:582
-#: app/blueprints/wizard_admin/routes.py:619
-#: app/blueprints/wizard_admin/routes.py:624
+#: app/blueprints/wizard_admin/routes.py:590
+#: app/blueprints/wizard_admin/routes.py:627
+#: app/blueprints/wizard_admin/routes.py:632
 #, python-brace-format
 msgid "Export failed: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:669
+#: app/blueprints/wizard_admin/routes.py:677
 #, python-brace-format
 msgid "Successfully imported {} items"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:673
+#: app/blueprints/wizard_admin/routes.py:681
 #, python-brace-format
 msgid " and updated {} existing items"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:678
-#: app/blueprints/wizard_admin/routes.py:685
+#: app/blueprints/wizard_admin/routes.py:686
+#: app/blueprints/wizard_admin/routes.py:693
 #, python-brace-format
 msgid "Import failed: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:683
+#: app/blueprints/wizard_admin/routes.py:691
 msgid "Invalid JSON file"
 msgstr ""
 
@@ -909,11 +909,11 @@ msgstr ""
 #: app/templates/modals/edit-identity.html:26
 #: app/templates/modals/edit-server.html:103
 #: app/templates/modals/wizard-bundle-form.html:30
-#: app/templates/modals/wizard-simple-step-form.html:29
-#: app/templates/modals/wizard-step-form.html:37
+#: app/templates/modals/wizard-simple-step-form.html:39
+#: app/templates/modals/wizard-step-form.html:46
 #: app/templates/settings/wizard/bundle_form.html:20
-#: app/templates/settings/wizard/form.html:26
-#: app/templates/settings/wizard/simple_form.html:20
+#: app/templates/settings/wizard/form.html:35
+#: app/templates/settings/wizard/simple_form.html:31
 msgid "Save"
 msgstr ""
 
@@ -933,13 +933,13 @@ msgstr ""
 #: app/templates/modals/wizard-bundle-form.html:29
 #: app/templates/modals/wizard-import-form.html:97
 #: app/templates/modals/wizard-preset-form.html:52
-#: app/templates/modals/wizard-simple-step-form.html:28
-#: app/templates/modals/wizard-step-form.html:36
+#: app/templates/modals/wizard-simple-step-form.html:38
+#: app/templates/modals/wizard-step-form.html:45
 #: app/templates/settings/connections/form.html:192
 #: app/templates/settings/wizard/bundle_form.html:21
-#: app/templates/settings/wizard/form.html:33
+#: app/templates/settings/wizard/form.html:42
 #: app/templates/settings/wizard/preset_form.html:43
-#: app/templates/settings/wizard/simple_form.html:21
+#: app/templates/settings/wizard/simple_form.html:32
 msgid "Cancel"
 msgstr ""
 
@@ -1862,7 +1862,7 @@ msgstr ""
 msgid "Add step"
 msgstr ""
 
-#: app/templates/settings/wizard/form.html:31
+#: app/templates/settings/wizard/form.html:40
 #: app/templates/settings/wizard/index.html:61
 msgid "Preview"
 msgstr ""
@@ -2097,6 +2097,10 @@ msgid "Previous"
 msgstr ""
 
 #: app/templates/wizard/steps.html:36
+msgid "Click the link in this step to be able to continue"
+msgstr ""
+
+#: app/templates/wizard/steps.html:37
 msgid "Next"
 msgstr ""
 

@@ -14,7 +14,7 @@
             </div>
         {% endif %}
         <!-- Desktop Navigation -->
-        <nav class="hidden md:block border-gray-200 px-2 sm:px-4 py-2.5 rounded-sm dark:bg-gray-900">
+        <nav hx-ext="preload" class="hidden md:block border-gray-200 px-2 sm:px-4 py-2.5 rounded-sm dark:bg-gray-900">
             <div class="container flex flex-wrap items-center justify-between mx-auto">
                 <a href="/admin" class="flex items-center">
                     <img src="{{ url_for('static', filename='wizarr-logo.png') }}" alt="Wizarr Logo" class="h-8 mr-3">
@@ -32,10 +32,22 @@
                             ] %}
                             {% for href, hash, label in tabs %}
                             <li>
-                                <button hx-get="{{ href }}" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="{{ hash }}"
-                                        class="nav-btn block px-4 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-primary hover:bg-gray-50 dark:hover:text-white dark:hover:bg-gray-800 transition-all duration-200">
+                                <button hx-get="{{ href }}" preload="mouseover" hx-trigger="click" hx-target="#content" hx-swap="innerHTML" hx-push-url="{{ hash }}"
+                                        class="nav-btn block px-4 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-primary hover:bg-gray-50 dark:hover:text-white dark:hover:bg-gray-800 transition-all duration-200"
+                                        onmouseenter="this.nextElementSibling.dispatchEvent(new Event('hover'))">
                                     {{ _(label) }}
                                 </button>
+                                <!-- Page-specific prefetches -->
+                                {% if href == "/home" %}
+                                <div hx-get="/now-playing-cards" hx-trigger="hover once" hx-swap="none" style="display: none;"></div>
+                                {% elif href == "/invites" %}
+                                <div hx-post="/invite/table" hx-trigger="hover once" hx-swap="none" style="display: none;"></div>
+                                {% elif href == "/users" %}
+                                <div hx-get="/users/table" hx-trigger="hover once" hx-swap="none" style="display: none;"></div>
+                                {% elif href == "/settings" %}
+                                <div hx-get="/settings/general" hx-trigger="hover once" hx-swap="none" style="display: none;"></div>
+                                <div hx-get="/settings/api-keys" hx-trigger="hover once" hx-swap="none" style="display: none;"></div>
+                                {% endif %}
                             </li>
                             {% endfor %}
                         </ul>

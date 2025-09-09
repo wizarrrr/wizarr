@@ -480,7 +480,15 @@ class PlexClient(MediaClient):
 
         # Commit the permission changes to the database
         db.session.commit()
+
+        # Cache detailed metadata for all users
+        self._cache_user_metadata_batch(users)
+
         return users
+
+    def _get_user_identifier_for_details(self, user: User) -> str | int | None:
+        """Plex uses database ID for get_user_details."""
+        return user.id
 
     def now_playing(self) -> list[dict]:
         try:

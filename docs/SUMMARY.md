@@ -14,6 +14,11 @@
 * [Customise The Wizard](using-wizarr/customise-steps.md)
 * [Password and Passkey Recovery](using-wizarr/password-passkey-recovery.md)
 
+***
+
+* [Plex](plex/README.md)
+  * [Obtain a Plex token](plex/obtain-a-plex-token.md)
+
 ## Support
 
 * [Discord](support/discord.md)

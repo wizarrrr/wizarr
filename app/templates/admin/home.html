@@ -1,4 +1,4 @@
-<section class="py-8 bg-gray-50 dark:bg-gray-900 animate__animated animate__fadeIn min-h-screen">
+<section class="py-8 bg-gray-50 dark:bg-gray-900 animate__animated animate__fadeIn animate__faster min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header with New Invite button -->
         <div class="flex justify-between items-center mb-8">
@@ -35,7 +35,7 @@
                      class="relative z-20"
                      hx-get="/now-playing-cards"
                      hx-trigger="load, every 10s"
-                     hx-swap="innerHTML">
+                     hx-swap="innerHTML settle:0ms">
                     <!-- Now playing cards container -->
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
                         <!-- Loading placeholder -->
