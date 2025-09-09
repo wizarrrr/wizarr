@@ -1,5 +1,5 @@
 <section class="py-8">
-    <div class="container px-4 mx-auto animate__animated animate__fadeIn">
+    <div class="container px-4 mx-auto animate__animated animate__fadeIn animate__faster">
         <!-- User Status Sections Grid -->
         {% if (expiring_users and expiring_users|length > 0) or (expired_users and expired_users|length > 0) %}
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 p-4 mb-6">
@@ -178,7 +178,7 @@
               <button hx-post="/users/bulk-delete" hx-include=".link-check:checked" hx-swap="none" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2">{{ _("Delete") }}</button>
             </div>
         </div>
-        <div hx-get="/users/table" hx-trigger="load" hx-target="#user_table" hx-swap="outerHTML" hx-include="#server_filter,#search_query,#order_sel"
+        <div hx-get="/users/table" hx-trigger="load" hx-target="#user_table" hx-swap="outerHTML settle:0ms" hx-include="#server_filter,#search_query,#order_sel"
             class="p-4 mb-6 overflow-x-auto">
             <!-- Hidden element to trigger user sync polling -->
             <div hx-get="/hx/users/sync" 

@@ -276,6 +276,10 @@ class JellyfinClient(RestApiMixin):
 
         # Commit the permission changes to the database
         db.session.commit()
+
+        # Cache detailed metadata for all users
+        self._cache_user_metadata_batch(users)
+
         return users
 
     def _password_for_db(self, password: str) -> str:

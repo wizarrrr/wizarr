@@ -99,6 +99,20 @@ class UserDetailsService:
                 policies=None,
             )
 
+        # Check if we have cached metadata
+        if account.has_cached_metadata():
+            # Use cached metadata instead of API call
+            libraries = self._extract_libraries_from_cached_data(server, account)
+
+            return AccountInfo(
+                server_type=server.server_type,
+                server_name=server.name,
+                username=account.username,
+                libraries=libraries,
+                policies=account.get_raw_policies(),
+            )
+
+        # No fresh cache available, fetch from API
         client = get_client_for_media_server(server)
 
         # All clients now implement get_user_details - use the standardized interface
@@ -114,6 +128,22 @@ class UserDetailsService:
             libraries=libraries,
             policies=details.raw_policies,
         )
+
+    def _extract_libraries_from_cached_data(
+        self, server: MediaServer, account: User
+    ) -> list[str]:
+        """Extract library names from cached user data."""
+        library_access_data = account.get_library_access()
+        if not library_access_data:
+            return []
+
+        # Extract library names from cached JSON data
+        accessible_libraries = []
+        for lib in library_access_data:
+            if isinstance(lib, dict) and lib.get("has_access", False):
+                accessible_libraries.append(lib.get("library_name", ""))
+
+        return [name for name in accessible_libraries if name]
 
     def _extract_libraries_from_details(
         self, server: MediaServer, details: MediaUserDetails

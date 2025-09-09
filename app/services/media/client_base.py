@@ -216,6 +216,68 @@ class MediaClient(ABC):
             raw_policies=raw_details,
         )
 
+    def _cache_user_metadata_batch(self, users: list[User]) -> None:
+        """Cache metadata for a batch of users to improve performance.
+
+        This method fetches detailed metadata for each user and caches it in the database
+        to avoid repeated API calls when viewing user details.
+
+        Args:
+            users: List of User objects to cache metadata for
+        """
+        if not users:
+            return
+
+        cached_count = 0
+        for user in users:
+            try:
+                # Determine the appropriate user identifier for this server type
+                user_identifier = self._get_user_identifier_for_details(user)
+                if not user_identifier:
+                    continue
+
+                # Get detailed metadata from the server
+                details = self.get_user_details(user_identifier)
+
+                # Cache the metadata in the User record
+                user.cache_metadata(details)
+                cached_count += 1
+
+            except Exception as e:
+                import logging
+
+                logging.warning(
+                    f"Failed to cache metadata for user {user.username}: {e}"
+                )
+                continue
+
+        if cached_count > 0:
+            try:
+                db.session.commit()
+                import logging
+
+                logging.info(f"Cached metadata for {cached_count} users")
+            except Exception as e:
+                import logging
+
+                logging.error(f"Failed to commit metadata cache: {e}")
+                db.session.rollback()
+
+    def _get_user_identifier_for_details(self, user: User) -> str | int | None:
+        """Get the appropriate identifier to use for get_user_details() calls.
+
+        Different server types use different identifiers (token, email, username).
+        Subclasses should override this method to return the correct identifier.
+
+        Args:
+            user: User record
+
+        Returns:
+            Identifier to use for get_user_details(), or None if unavailable
+        """
+        # Default implementation uses token (works for most servers)
+        return user.token if user.token else None
+
     @abstractmethod
     def list_users(self, *args, **kwargs):
         """Return a list of users for this media server. Subclasses must implement."""

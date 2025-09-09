@@ -164,3 +164,18 @@ Make sure disabled buttons don't get the pointer cursor.
   scrollbar-width: thin;
   scrollbar-color: var(--color-primary) transparent;
 }
+
+/* Fast animations - override animate.css defaults */
+.animate__animated {
+  --animate-duration: 0.3s !important; /* Default was 1s - now 70% faster */
+}
+
+/* Extra fast for critical UI elements */
+.animate__faster {
+  --animate-duration: 0.15s !important; /* Super fast for instant feel */
+}
+
+/* Ultra fast for prefetched content that should appear instantly */
+.animate__fastest {
+  --animate-duration: 0.05s !important; /* Almost instant but still smooth */
+}

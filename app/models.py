@@ -174,8 +174,79 @@ class User(db.Model, UserMixin):
     identity = db.relationship("Identity", backref=db.backref("accounts", lazy=True))
     notes = db.Column(db.Text, nullable=True)
 
+    # Metadata caching fields (only for displayed data)
+    library_access_json = db.Column(db.Text, nullable=True)
+    raw_policies_json = db.Column(db.Text, nullable=True)
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+    def get_library_access(self):
+        """Get deserialized library access data."""
+        import json
+
+        if not self.library_access_json:
+            return None
+        try:
+            return json.loads(self.library_access_json)
+        except (json.JSONDecodeError, TypeError):
+            return None
+
+    def set_library_access(self, library_access):
+        """Set library access data, serializing to JSON."""
+        import json
+
+        if library_access is None:
+            self.library_access_json = None
+        else:
+            # Convert UserLibraryAccess objects to dicts if needed
+            if (
+                isinstance(library_access, list)
+                and library_access
+                and hasattr(library_access[0], "__dict__")
+            ):
+                # Convert dataclass objects to dicts
+                library_access = [
+                    {
+                        "library_id": lib.library_id,
+                        "library_name": lib.library_name,
+                        "has_access": lib.has_access,
+                    }
+                    for lib in library_access
+                ]
+            self.library_access_json = json.dumps(library_access)
+
+    def get_raw_policies(self):
+        """Get deserialized raw policies data."""
+        import json
+
+        if not self.raw_policies_json:
+            return {}
+        try:
+            return json.loads(self.raw_policies_json)
+        except (json.JSONDecodeError, TypeError):
+            return {}
+
+    def set_raw_policies(self, policies):
+        """Set raw policies data, serializing to JSON."""
+        import json
+
+        if policies is None:
+            self.raw_policies_json = None
+        else:
+            self.raw_policies_json = json.dumps(policies)
+
+    def cache_metadata(self, details):
+        """Cache metadata from MediaUserDetails object (only displayed data)."""
+        # Only cache data that's actually displayed in the UI
+        self.set_library_access(details.library_access)
+        self.set_raw_policies(details.raw_policies)
+
+    def has_cached_metadata(self):
+        """Check if user has cached metadata available."""
+        return (
+            self.library_access_json is not None or self.raw_policies_json is not None
+        )
 
 
 # ───────────────────────────────────────────────────────────────────────────────
