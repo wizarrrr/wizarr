@@ -282,11 +282,11 @@ main() {
     local rc_version="${next_version}-rc.1"
     local rc_branch_name="release/v$rc_version"
     
+    # Always reset RC branch to latest main to ensure it's up to date
     if git show-ref --verify --quiet "refs/heads/$rc_branch_name"; then
-        git checkout "$rc_branch_name"
-    else
-        git checkout -b "$rc_branch_name"
+        git branch -D "$rc_branch_name"  # Delete existing branch
     fi
+    git checkout -b "$rc_branch_name"  # Create fresh branch from latest main
     
     # Update version files for RC
     update_version_files "$rc_version"
@@ -306,11 +306,13 @@ main() {
     local release_branch_name="release/v$next_version"
     
     git checkout main  # Start from main for release branch
+    git pull origin main  # Ensure we have latest main
+    
+    # Always reset release branch to latest main to ensure it's up to date
     if git show-ref --verify --quiet "refs/heads/$release_branch_name"; then
-        git checkout "$release_branch_name"
-    else
-        git checkout -b "$release_branch_name"
+        git branch -D "$release_branch_name"  # Delete existing branch
     fi
+    git checkout -b "$release_branch_name"  # Create fresh branch from latest main
     
     # Update version files for release
     update_version_files "$next_version"
