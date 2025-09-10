@@ -123,8 +123,9 @@ class Invitation(db.Model):
     )
 
     # Universal invite toggles (work for all server types)
+    allow_downloads = db.Column(db.Boolean, default=False, nullable=True)
+    allow_live_tv = db.Column(db.Boolean, default=False, nullable=True)
     allow_mobile_uploads = db.Column(db.Boolean, default=False, nullable=True)
-    # Note: allow_downloads and allow_live_tv removed - use properties that read from metadata
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
