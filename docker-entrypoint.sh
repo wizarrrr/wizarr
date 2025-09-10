@@ -38,6 +38,8 @@ if [ "$(id -u)" = "0" ]; then
   
   # Create wizard_steps directory in /etc for template customization
   mkdir -p /etc/wizarr/wizard_steps
+
+  touch /app/uv.lock
   
   # Only recurse into bind mount directories and cache
   echo "[entrypoint] ⚙️  Fixing ownership for bind mounts…"
