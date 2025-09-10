@@ -39,12 +39,12 @@ if [ "$(id -u)" = "0" ]; then
   # Create wizard_steps directory in /etc for template customization
   mkdir -p /etc/wizarr/wizard_steps
 
-  touch /app/uv.lock
   
   # Only recurse into bind mount directories and cache
   echo "[entrypoint] ⚙️  Fixing ownership for bind mounts…"
   chown -R "$TARGET_USER":"$TARGET_GRP" \
-    /data/database /etc/wizarr/wizard_steps /.cache /opt/default_wizard_steps /app/uv.lock
+    /data/database /etc/wizarr/wizard_steps /.cache /opt/default_wizard_steps
+
 
   # Fix ownership of bind-mounts (only persistent data directories)
   if [ "$PUID:$PGID" != "$DEFAULT_UID:$DEFAULT_GID" ]; then
@@ -105,7 +105,7 @@ fi
 # ─────────────────────────────────────────────────────────────────────────────
 
 echo "[entrypoint] 🔧 Applying alembic migrations…"
-FLASK_SKIP_SCHEDULER=true uv run --no-dev flask db upgrade
+FLASK_SKIP_SCHEDULER=true uv run --frozen --no-dev flask db upgrade
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 4) Hand off to your CMD (e.g. gunicorn)

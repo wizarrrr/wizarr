@@ -24,6 +24,18 @@ jobs:
         
         steps:
             -   uses: actions/checkout@v4
+
+            # ─────── Generate uv.lock for reproducible builds ───────
+            -   name: Set up Python
+                uses: actions/setup-python@v5
+                with:
+                    python-version: ${{ env.PYTHON_VERSION }}
+
+            -   name: Install uv
+                uses: astral-sh/setup-uv@v3
+
+            -   name: Generate uv.lock
+                run: uv lock
             
             -   name: Determine version
                 id: version

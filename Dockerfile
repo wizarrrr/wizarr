@@ -14,12 +14,12 @@ ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE=copy
 
 # Copy dependency files first for better caching
-COPY pyproject.toml ./
+COPY pyproject.toml uv.lock ./
 
 # Install Python dependencies only (not project) with cache mount for speed
-# Exclude dev dependencies for production image
+# Use --frozen to ensure reproducible builds from uv.lock
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --no-install-project --no-dev
+    uv sync --frozen --no-install-project --no-dev
 
 # Copy npm dependency files and install with cache
 COPY app/static/package*.json ./app/static/
@@ -33,12 +33,12 @@ COPY app/ ./app/
 COPY babel.cfg ./
 
 # Install the project now that we have source code
-# Exclude dev dependencies for production image
+# Use --frozen to ensure reproducible builds from uv.lock
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --no-dev
+    uv sync --frozen --no-dev
 
 # Build translations
-RUN uv run --no-dev pybabel compile -d app/translations
+RUN uv run --frozen --no-dev pybabel compile -d app/translations
 
 # Ensure static directories exist and build static assets
 RUN mkdir -p app/static/js app/static/css && npm --prefix app/static/ run build
@@ -93,7 +93,7 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 # By default we run Gunicorn under wizarruser
-CMD ["uv", "run", "--no-dev", "gunicorn", \
+CMD ["uv", "run", "--frozen", "--no-dev", "gunicorn", \
      "--config", "gunicorn.conf.py", \
      "--bind", "0.0.0.0:5690", \
      "--umask", "007", \
