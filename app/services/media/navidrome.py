@@ -511,6 +511,72 @@ class NavidromeClient(RestApiMixin):
                 "error": str(e),
             }
 
+    def get_user_count(self) -> int:
+        """Get lightweight user count from database without triggering sync."""
+        try:
+            from app.models import MediaServer, User
+
+            if hasattr(self, "server_id") and self.server_id:
+                count = User.query.filter_by(server_id=self.server_id).count()
+            else:
+                # Fallback for legacy settings: find MediaServer for this server type
+                servers = MediaServer.query.filter_by(server_type="navidrome").all()
+                if servers:
+                    server_ids = [s.id for s in servers]
+                    count = User.query.filter(User.server_id.in_(server_ids)).count()
+                else:
+                    # Ultimate fallback: no easy API for user count in Navidrome
+                    count = 0
+            return count
+        except Exception as e:
+            logging.error(f"Failed to get Navidrome user count from database: {e}")
+            return 0
+
+    def get_server_info(self) -> dict:
+        """Get lightweight server information without triggering user sync."""
+        try:
+            # Navidrome doesn't have traditional sessions/transcoding
+            return {
+                "version": "Unknown",  # Would need API call to get version
+                "transcoding_sessions": 0,  # Navidrome doesn't transcode
+                "active_sessions": 0,  # Would need to implement session tracking
+            }
+        except Exception as e:
+            logging.error(f"Failed to get Navidrome server info: {e}")
+            return {
+                "version": "Unknown",
+                "transcoding_sessions": 0,
+                "active_sessions": 0,
+            }
+
+    def get_readonly_statistics(self) -> dict:
+        """Get lightweight statistics without triggering user synchronization."""
+        try:
+            user_count = self.get_user_count()
+            server_info = self.get_server_info()
+
+            return {
+                "user_stats": {
+                    "total_users": user_count,
+                    "active_sessions": server_info.get("active_sessions", 0),
+                },
+                "server_stats": {
+                    "version": server_info.get("version", "Unknown"),
+                    "transcoding_sessions": server_info.get("transcoding_sessions", 0),
+                },
+                "library_stats": {},
+                "content_stats": {},
+            }
+        except Exception as e:
+            logging.error(f"Failed to get Navidrome readonly statistics: {e}")
+            return {
+                "user_stats": {"total_users": 0, "active_sessions": 0},
+                "server_stats": {"version": "Unknown", "transcoding_sessions": 0},
+                "library_stats": {},
+                "content_stats": {},
+                "error": str(e),
+            }
+
     def _headers(self) -> dict[str, str]:
         """Return default headers for requests."""
         return {

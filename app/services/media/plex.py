@@ -485,10 +485,121 @@ class PlexClient(MediaClient):
             db.session.rollback()
             # Continue without metadata updates rather than failing completely
 
-        # Cache detailed metadata for all users
-        self._cache_user_metadata_batch(users)
+        # Cache detailed metadata for all users from bulk response (no individual API calls)
+        self._cache_user_metadata_from_bulk_response(users, plex_users)
 
         return users
+
+    def _cache_user_metadata_from_bulk_response(
+        self, users: list[User], plex_users: dict
+    ) -> None:
+        """Cache user metadata from bulk API response without individual API calls.
+
+        Args:
+            users: List of User objects to cache metadata for
+            plex_users: Dictionary of plex user objects from bulk admin.users() call
+        """
+        if not users or not plex_users:
+            return
+
+        cached_count = 0
+        for user in users:
+            try:
+                # Get the plex user object from bulk response
+                plex_user = plex_users.get(user.email)
+                if not plex_user:
+                    continue
+
+                # Extract metadata from bulk response (same logic as individual API call)
+                from app.models import Library
+                from app.services.media.user_details import (
+                    MediaUserDetails,
+                    UserLibraryAccess,
+                )
+
+                # Extract library access from Plex user
+                sections = []
+                try:
+                    # Get sections the user has access to
+                    if hasattr(plex_user, "servers") and plex_user.servers:
+                        for server in plex_user.servers:
+                            if hasattr(server, "sections"):
+                                sections.extend(server.sections)
+                except Exception as e:
+                    logging.warning(
+                        f"Failed to get sections for user {user.email}: {e}"
+                    )
+                    sections = []
+
+                # Map sections to library access
+                library_access = []
+                if sections:
+                    for section in sections:
+                        try:
+                            # Find corresponding library in our database
+                            lib = Library.query.filter_by(
+                                external_id=str(section.id), server_id=self.server_id
+                            ).first()
+                            if lib:
+                                library_access.append(
+                                    UserLibraryAccess(
+                                        library_id=str(section.id),
+                                        library_name=lib.name,
+                                        has_access=True,
+                                    )
+                                )
+                        except Exception as e:
+                            logging.warning(
+                                f"Failed to process section {getattr(section, 'title', 'unknown')}: {e}"
+                            )
+                            continue
+                else:
+                    # No specific sections - get all enabled libraries for this server
+                    libs_q = (
+                        Library.query.filter_by(server_id=self.server_id, enabled=True)
+                        .order_by(Library.name)
+                        .all()
+                    )
+                    library_access = [
+                        UserLibraryAccess(
+                            library_id=lib.external_id,
+                            library_name=lib.name,
+                            has_access=True,
+                        )
+                        for lib in libs_q
+                    ]
+
+                # Extract user information
+                username = getattr(plex_user, "title", user.username)
+                email = getattr(plex_user, "email", user.email)
+                is_admin = getattr(plex_user, "admin", False)
+
+                # Create MediaUserDetails object
+                details = MediaUserDetails(
+                    user_id=str(user.id),  # Plex uses database ID for details
+                    username=username,
+                    email=email,
+                    is_admin=is_admin,
+                    is_enabled=True,  # Plex users are enabled if they exist
+                    created_at=None,  # Plex doesn't provide creation date in bulk response
+                    last_active=None,  # Plex doesn't provide last active in bulk response
+                    library_access=library_access,
+                    raw_policies={
+                        "admin": is_admin,
+                        "sections": [getattr(s, "title", "Unknown") for s in sections],
+                    },
+                )
+
+                # Cache the metadata in the User record
+                user.cache_metadata(details)
+                cached_count += 1
+
+            except Exception as e:
+                logging.warning(f"Failed to cache metadata for user {user.email}: {e}")
+                continue
+
+        if cached_count > 0:
+            logging.info(f"Cached metadata for {cached_count} users")
 
     def _get_user_identifier_for_details(self, user: User) -> str | int | None:
         """Plex uses database ID for get_user_details."""
@@ -718,6 +829,87 @@ class PlexClient(MediaClient):
                 "library_stats": {},
                 "user_stats": {"total_users": 0, "active_sessions": 0},
                 "server_stats": {"version": "Unknown", "transcoding_sessions": 0},
+                "content_stats": {},
+                "error": str(e),
+            }
+
+    def get_user_count(self) -> int:
+        """Get lightweight user count from database without triggering Plex.tv sync."""
+        try:
+            # Count existing users in database for this server instead of calling list_users()
+            from app.models import MediaServer, User
+
+            if hasattr(self, "server_id") and self.server_id:
+                count = User.query.filter_by(server_id=self.server_id).count()
+            else:
+                # Fallback for legacy settings: find MediaServer for this server type
+                servers = MediaServer.query.filter_by(server_type="plex").all()
+                if servers:
+                    server_ids = [s.id for s in servers]
+                    count = User.query.filter(User.server_id.in_(server_ids)).count()
+                else:
+                    # Ultimate fallback: try Plex API (expensive)
+                    try:
+                        users = self.list_users()
+                        count = len(users) if users else 0
+                    except Exception as api_error:
+                        logging.warning(f"Plex API fallback failed: {api_error}")
+                        count = 0
+            return count
+        except Exception as e:
+            logging.error(f"Failed to get Plex user count from database: {e}")
+            return 0
+
+    def get_server_info(self) -> dict:
+        """Get lightweight server information without triggering user sync."""
+        try:
+            # Get basic server info and session counts without calling list_users()
+            sessions = []
+            transcode_sessions = []
+
+            try:
+                sessions = self.server.sessions()
+                transcode_sessions = self.server.transcodeSessions()
+            except Exception as e:
+                logging.warning(f"Failed to get Plex session info: {e}")
+
+            return {
+                "version": getattr(self.server, "version", "Unknown"),
+                "transcoding_sessions": len(transcode_sessions),
+                "active_sessions": len(sessions),
+            }
+        except Exception as e:
+            logging.error(f"Failed to get Plex server info: {e}")
+            return {
+                "version": "Unknown",
+                "transcoding_sessions": 0,
+                "active_sessions": 0,
+            }
+
+    def get_readonly_statistics(self) -> dict:
+        """Get lightweight statistics without triggering user synchronization."""
+        try:
+            user_count = self.get_user_count()
+            server_info = self.get_server_info()
+
+            return {
+                "user_stats": {
+                    "total_users": user_count,
+                    "active_sessions": server_info.get("active_sessions", 0),
+                },
+                "server_stats": {
+                    "version": server_info.get("version", "Unknown"),
+                    "transcoding_sessions": server_info.get("transcoding_sessions", 0),
+                },
+                "library_stats": {},  # Minimal for health cards
+                "content_stats": {},  # Minimal for health cards
+            }
+        except Exception as e:
+            logging.error(f"Failed to get Plex readonly statistics: {e}")
+            return {
+                "user_stats": {"total_users": 0, "active_sessions": 0},
+                "server_stats": {"version": "Unknown", "transcoding_sessions": 0},
+                "library_stats": {},
                 "content_stats": {},
                 "error": str(e),
             }

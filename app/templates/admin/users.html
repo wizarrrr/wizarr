@@ -285,7 +285,8 @@
     // Handle HTMX triggers
     document.body.addEventListener('htmx:afterRequest', function(event) {
         const triggers = event.detail.xhr.getResponseHeader('HX-Trigger');
-        if (triggers) {
+        const preloaded = event.detail.xhr.getResponseHeader('HX-Preloaded');
+        if (triggers && !preloaded) {
             console.log('HTMX triggers received:', triggers);
             
             if (triggers.includes('closeModal')) {

@@ -860,7 +860,7 @@ def server_health_card():
         base_url = f"http://127.0.0.1:{server_port}"
 
         response = requests.get(
-            f"{base_url}/settings/servers/statistics/all",
+            f"{base_url}/settings/servers/health/all",
             cookies=request.cookies,
             timeout=10,
         )

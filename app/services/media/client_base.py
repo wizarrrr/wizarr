@@ -300,7 +300,10 @@ class MediaClient(ABC):
 
     @abstractmethod
     def statistics(self):
-        """Return server statistics including library counts, user activity, etc.
+        """Return comprehensive server statistics including library counts, user activity, etc.
+
+        Note: This method may trigger user synchronization and database writes.
+        For health monitoring without database impact, use get_readonly_statistics() instead.
 
         Returns:
             dict: A dictionary containing:
@@ -310,6 +313,70 @@ class MediaClient(ABC):
                 - content_stats: Content consumption and popular items
         """
         raise NotImplementedError
+
+    def get_user_count(self) -> int:
+        """Get lightweight user count without triggering full user sync.
+
+        This method should provide a fast user count for health monitoring
+        without the overhead of syncing user policies or metadata.
+
+        Returns:
+            int: Number of users on the server
+        """
+        # Default implementation uses existing statistics() but subclasses should override
+        try:
+            stats = self.statistics()
+            return stats.get("user_stats", {}).get("total_users", 0)
+        except Exception:
+            return 0
+
+    def get_server_info(self) -> dict:
+        """Get lightweight server information without triggering user sync.
+
+        This method should provide basic server health info for monitoring
+        without the overhead of full user synchronization.
+
+        Returns:
+            dict: Basic server information (version, status, etc.)
+        """
+        # Default implementation uses existing statistics() but subclasses should override
+        try:
+            stats = self.statistics()
+            return {
+                "version": stats.get("server_stats", {}).get("version", "Unknown"),
+                "transcoding_sessions": stats.get("server_stats", {}).get(
+                    "transcoding_sessions", 0
+                ),
+                "active_sessions": stats.get("user_stats", {}).get(
+                    "active_sessions", 0
+                ),
+            }
+        except Exception:
+            return {
+                "version": "Unknown",
+                "transcoding_sessions": 0,
+                "active_sessions": 0,
+            }
+
+    def get_readonly_statistics(self) -> dict:
+        """Get lightweight statistics for health monitoring without database writes.
+
+        This method provides essential server statistics for health cards
+        without triggering heavy user synchronization that can cause database locks.
+        Subclasses should override this to provide efficient readonly access.
+
+        Returns:
+            dict: Lightweight statistics with user count and server info
+        """
+        return {
+            "user_stats": {
+                "total_users": self.get_user_count(),
+                "active_sessions": 0,  # Will be populated by subclass overrides
+            },
+            "server_stats": self.get_server_info(),
+            "library_stats": {},  # Minimal for health cards
+            "content_stats": {},  # Minimal for health cards
+        }
 
     def join(self, username: str, password: str, confirm: str, email: str, code: str):
         """Process user invitation for this media server.

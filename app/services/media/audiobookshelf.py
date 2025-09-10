@@ -284,10 +284,126 @@ class AudiobookshelfClient(RestApiMixin):
             db.session.rollback()
             return []
 
-        # Cache detailed metadata for all users
-        self._cache_user_metadata_batch(users)
+        # Cache detailed metadata for all users from bulk response (no individual API calls)
+        self._cache_user_metadata_from_bulk_response(users, raw_by_id)
 
         return users
+
+    def _cache_user_metadata_from_bulk_response(
+        self, users: list[User], raw_by_id: dict
+    ) -> None:
+        """Cache user metadata from bulk API response without individual API calls.
+
+        Args:
+            users: List of User objects to cache metadata for
+            raw_by_id: Dictionary of raw user data from bulk /api/users response
+        """
+        if not users or not raw_by_id:
+            return
+
+        cached_count = 0
+        for user in users:
+            try:
+                # Get the raw user data from bulk response
+                raw_user = raw_by_id.get(user.token)
+                if not raw_user:
+                    continue
+
+                # Extract metadata from bulk response (same format as individual API call)
+                from app.models import Library
+                from app.services.media.user_details import (
+                    MediaUserDetails,
+                    UserLibraryAccess,
+                )
+
+                permissions = raw_user.get("permissions", {}) or {}
+
+                # Extract library access
+                access_all = permissions.get("accessAllLibraries", False)
+                accessible_libs = raw_user.get("librariesAccessible", []) or []
+
+                if not access_all and accessible_libs:
+                    # User has restricted library access
+                    libs_q = (
+                        Library.query.filter(
+                            Library.external_id.in_(accessible_libs),
+                            Library.server_id == self.server_id,
+                        )
+                        .order_by(Library.name)
+                        .all()
+                    )
+                    library_access = [
+                        UserLibraryAccess(
+                            library_id=lib.external_id,
+                            library_name=lib.name,
+                            has_access=True,
+                        )
+                        for lib in libs_q
+                    ]
+                else:
+                    # Full access - get all enabled libraries for this server
+                    libs_q = (
+                        Library.query.filter_by(server_id=self.server_id, enabled=True)
+                        .order_by(Library.name)
+                        .all()
+                    )
+                    library_access = [
+                        UserLibraryAccess(
+                            library_id=lib.external_id,
+                            library_name=lib.name,
+                            has_access=True,
+                        )
+                        for lib in libs_q
+                    ]
+
+                # Extract only admin-relevant policies information
+                filtered_policies = {
+                    "isActive": raw_user.get("isActive", True),
+                    "admin": permissions.get("admin", False),
+                    "download": permissions.get("download", True),
+                    "update": permissions.get("update", False),
+                    "delete": permissions.get("delete", False),
+                    "upload": permissions.get("upload", False),
+                    "accessAllLibraries": permissions.get("accessAllLibraries", False),
+                    "accessAllTags": permissions.get("accessAllTags", True),
+                    "accessExplicitContent": permissions.get(
+                        "accessExplicitContent", False
+                    ),
+                }
+
+                # Create MediaUserDetails object
+                import datetime
+
+                details = MediaUserDetails(
+                    user_id=user.token,
+                    username=raw_user.get("username", "Unknown"),
+                    email=raw_user.get("email"),
+                    is_admin=permissions.get("admin", False),
+                    is_enabled=raw_user.get("isActive", True),
+                    created_at=datetime.datetime.fromtimestamp(
+                        raw_user["createdAt"] / 1000
+                    )
+                    if raw_user.get("createdAt")
+                    else None,
+                    last_active=datetime.datetime.fromtimestamp(
+                        raw_user["lastSeen"] / 1000
+                    )
+                    if raw_user.get("lastSeen")
+                    else None,
+                    library_access=library_access,
+                    raw_policies=filtered_policies,
+                )
+
+                # Cache the metadata in the User record
+                user.cache_metadata(details)
+                cached_count += 1
+
+            except Exception as e:
+                logging.warning(f"Failed to cache metadata for user {user.token}: {e}")
+                continue
+
+        if cached_count > 0:
+            logging.info(f"Cached metadata for {cached_count} users")
 
     # --- user management ------------------------------------------------
 
@@ -1074,3 +1190,97 @@ class AudiobookshelfClient(RestApiMixin):
                 f"Server error ({response.status_code}){' for ' + context if context else ''}"
             )
         response.raise_for_status()
+
+    def get_user_count(self) -> int:
+        """Get lightweight user count from database without triggering sync."""
+        try:
+            # Count existing users in database for this server instead of API call
+            from app.models import MediaServer, User
+
+            if hasattr(self, "server_id") and self.server_id:
+                count = User.query.filter_by(server_id=self.server_id).count()
+            else:
+                # Fallback for legacy settings: find MediaServer for this server type
+                # and count users for all AudiobookShelf servers
+                abs_servers = MediaServer.query.filter_by(
+                    server_type="audiobookshelf"
+                ).all()
+                if abs_servers:
+                    server_ids = [s.id for s in abs_servers]
+                    count = User.query.filter(User.server_id.in_(server_ids)).count()
+                else:
+                    # Ultimate fallback: API call
+                    try:
+                        users_response = self.get(f"{self.API_PREFIX}/users")
+                        users_response.raise_for_status()
+                        users_data = users_response.json()
+
+                        # Handle both direct array and wrapped response formats
+                        if isinstance(users_data, list):
+                            users_list = users_data
+                        else:
+                            users_list = users_data.get("users", [])
+
+                        count = len(users_list) if isinstance(users_list, list) else 0
+                    except Exception as api_error:
+                        logging.warning(
+                            f"AudiobookShelf API fallback failed: {api_error}"
+                        )
+                        count = 0
+            return count
+        except Exception as e:
+            logging.error(f"Failed to get AudiobookShelf user count from database: {e}")
+            return 0
+
+    def get_server_info(self) -> dict:
+        """Get lightweight server information without triggering user sync."""
+        try:
+            # AudiobookShelf doesn't have traditional "sessions" like Plex/Jellyfin
+            # We can get basic server info though
+            try:
+                status = self.get("/status").json()
+                version = status.get("serverVersion", "Unknown")
+            except Exception as e:
+                logging.warning(f"Failed to get AudiobookShelf server info: {e}")
+                version = "Unknown"
+
+            return {
+                "version": version,
+                "transcoding_sessions": 0,  # AudiobookShelf doesn't transcode
+                "active_sessions": 0,  # Would need to implement session tracking
+            }
+        except Exception as e:
+            logging.error(f"Failed to get AudiobookShelf server info: {e}")
+            return {
+                "version": "Unknown",
+                "transcoding_sessions": 0,
+                "active_sessions": 0,
+            }
+
+    def get_readonly_statistics(self) -> dict:
+        """Get lightweight statistics without triggering user synchronization."""
+        try:
+            user_count = self.get_user_count()
+            server_info = self.get_server_info()
+
+            return {
+                "user_stats": {
+                    "total_users": user_count,
+                    "active_sessions": server_info.get("active_sessions", 0),
+                },
+                "server_stats": {
+                    "version": server_info.get("version", "Unknown"),
+                    "transcoding_sessions": server_info.get("transcoding_sessions", 0),
+                },
+                "library_stats": {},  # Minimal for health cards
+                "content_stats": {},  # Minimal for health cards
+            }
+        except Exception as e:
+            logging.error(f"Failed to get AudiobookShelf readonly statistics: {e}")
+            return {
+                "user_stats": {"total_users": 0, "active_sessions": 0},
+                "server_stats": {"version": "Unknown", "transcoding_sessions": 0},
+                "library_stats": {},
+                "content_stats": {},
+                "error": str(e),
+            }

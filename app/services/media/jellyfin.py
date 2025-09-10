@@ -273,10 +273,119 @@ class JellyfinClient(RestApiMixin):
             db.session.rollback()
             # Continue without metadata updates rather than failing completely
 
-        # Cache detailed metadata for all users
-        self._cache_user_metadata_batch(users)
+        # Cache detailed metadata for all users from bulk response (no individual API calls)
+        self._cache_user_metadata_from_bulk_response(users, jf_users)
 
         return users
+
+    def _cache_user_metadata_from_bulk_response(
+        self, users: list[User], jf_users: dict
+    ) -> None:
+        """Cache user metadata from bulk API response without individual API calls.
+
+        Args:
+            users: List of User objects to cache metadata for
+            jf_users: Dictionary of raw user data from bulk /Users response
+        """
+        if not users or not jf_users:
+            return
+
+        cached_count = 0
+        for user in users:
+            try:
+                # Get the raw user data from bulk response
+                raw_user = jf_users.get(user.token)
+                if not raw_user:
+                    continue
+
+                # Extract metadata from bulk response (same format as individual API call)
+                from app.models import Library
+                from app.services.media.user_details import (
+                    MediaUserDetails,
+                    UserLibraryAccess,
+                )
+
+                policy = raw_user.get("Policy", {}) or {}
+
+                # Extract library access
+                enable_all = policy.get("EnableAllFolders", False)
+                enabled_folders = policy.get("EnabledFolders", []) or []
+
+                if not enable_all and enabled_folders:
+                    # User has restricted library access
+                    libs_q = (
+                        Library.query.filter(
+                            Library.external_id.in_(enabled_folders),
+                            Library.server_id == self.server_id,
+                        )
+                        .order_by(Library.name)
+                        .all()
+                    )
+                    library_access = [
+                        UserLibraryAccess(
+                            library_id=lib.external_id,
+                            library_name=lib.name,
+                            has_access=True,
+                        )
+                        for lib in libs_q
+                    ]
+                else:
+                    # Full access - get all enabled libraries for this server
+                    libs_q = (
+                        Library.query.filter_by(server_id=self.server_id, enabled=True)
+                        .order_by(Library.name)
+                        .all()
+                    )
+                    library_access = [
+                        UserLibraryAccess(
+                            library_id=lib.external_id,
+                            library_name=lib.name,
+                            has_access=True,
+                        )
+                        for lib in libs_q
+                    ]
+
+                # Extract configuration and policy information
+                configuration = raw_user.get("Configuration", {}) or {}
+
+                # Create MediaUserDetails object
+                import datetime
+
+                details = MediaUserDetails(
+                    user_id=user.token,
+                    username=raw_user.get("Name", "Unknown"),
+                    email=raw_user.get("Email"),
+                    is_admin=policy.get("IsAdministrator", False),
+                    is_enabled=not policy.get(
+                        "IsDisabled", False
+                    ),  # IsDisabled=False means enabled
+                    created_at=datetime.datetime.fromisoformat(
+                        raw_user["DateCreated"].replace("Z", "+00:00")
+                    )
+                    if raw_user.get("DateCreated")
+                    else None,
+                    last_active=datetime.datetime.fromisoformat(
+                        raw_user["LastActivityDate"].replace("Z", "+00:00")
+                    )
+                    if raw_user.get("LastActivityDate")
+                    else None,
+                    library_access=library_access,
+                    raw_policies={
+                        "Policy": policy,
+                        "Configuration": configuration,
+                    },
+                )
+
+                # Cache the metadata in the User record
+                user.cache_metadata(details)
+                cached_count += 1
+
+            except Exception as e:
+                logging.warning(f"Failed to cache metadata for user {user.token}: {e}")
+                continue
+
+        if cached_count > 0:
+            logging.info(f"Cached metadata for {cached_count} users")
 
     def _password_for_db(self, password: str) -> str:
         return password
@@ -693,6 +802,108 @@ class JellyfinClient(RestApiMixin):
                 "library_stats": {},
                 "user_stats": {},
                 "server_stats": {},
+                "content_stats": {},
+                "error": str(e),
+            }
+
+    def get_user_count(self) -> int:
+        """Get lightweight user count from database without triggering sync."""
+        try:
+            # Count existing users in database for this server instead of API call
+            from app.models import MediaServer, User
+
+            if hasattr(self, "server_id") and self.server_id:
+                count = User.query.filter_by(server_id=self.server_id).count()
+            else:
+                # Fallback for legacy settings: find MediaServer for this server type
+                server_type = getattr(self, "_server_type", "jellyfin")
+                servers = MediaServer.query.filter_by(server_type=server_type).all()
+                if servers:
+                    server_ids = [s.id for s in servers]
+                    count = User.query.filter(User.server_id.in_(server_ids)).count()
+                else:
+                    # Ultimate fallback: API call
+                    try:
+                        users = self.get("/Users").json()
+                        count = len(users) if isinstance(users, list) else 0
+                    except Exception as api_error:
+                        logging.warning(
+                            f"{self.__class__.__name__} API fallback failed: {api_error}"
+                        )
+                        count = 0
+            return count
+        except Exception as e:
+            logging.error(
+                f"Failed to get {self.__class__.__name__} user count from database: {e}"
+            )
+            return 0
+
+    def get_server_info(self) -> dict:
+        """Get lightweight server information without triggering user sync."""
+        try:
+            # Get basic server info and session counts without calling list_users()
+            sessions = []
+            transcoding_sessions = []
+
+            try:
+                sessions = self.get("/Sessions").json()
+                active_sessions = [s for s in sessions if s.get("NowPlayingItem")]
+                transcoding_sessions = [s for s in sessions if s.get("TranscodingInfo")]
+            except Exception as e:
+                logging.warning(
+                    f"Failed to get {self.__class__.__name__} session info: {e}"
+                )
+                active_sessions = []
+                transcoding_sessions = []
+
+            try:
+                system_info = self.get("/System/Info").json()
+                version = system_info.get("Version", "Unknown")
+            except Exception as e:
+                logging.warning(
+                    f"Failed to get {self.__class__.__name__} system info: {e}"
+                )
+                version = "Unknown"
+
+            return {
+                "version": version,
+                "transcoding_sessions": len(transcoding_sessions),
+                "active_sessions": len(active_sessions),
+            }
+        except Exception as e:
+            logging.error(f"Failed to get {self.__class__.__name__} server info: {e}")
+            return {
+                "version": "Unknown",
+                "transcoding_sessions": 0,
+                "active_sessions": 0,
+            }
+
+    def get_readonly_statistics(self) -> dict:
+        """Get lightweight statistics without triggering user synchronization."""
+        try:
+            user_count = self.get_user_count()
+            server_info = self.get_server_info()
+
+            return {
+                "user_stats": {
+                    "total_users": user_count,
+                    "active_sessions": server_info.get("active_sessions", 0),
+                },
+                "server_stats": {
+                    "version": server_info.get("version", "Unknown"),
+                    "transcoding_sessions": server_info.get("transcoding_sessions", 0),
+                },
+                "library_stats": {},  # Minimal for health cards
+                "content_stats": {},  # Minimal for health cards
+            }
+        except Exception as e:
+            logging.error(
+                f"Failed to get {self.__class__.__name__} readonly statistics: {e}"
+            )
+            return {
+                "user_stats": {"total_users": 0, "active_sessions": 0},
+                "server_stats": {"version": "Unknown", "transcoding_sessions": 0},
+                "library_stats": {},
                 "content_stats": {},
                 "error": str(e),
             }

@@ -298,6 +298,45 @@ def get_server_statistics(server_id):
         ), 500
 
 
+@media_servers_bp.get("/<int:server_id>/health")
+@login_required
+def get_server_health(server_id):
+    """Return lightweight health statistics without triggering user sync."""
+    server = MediaServer.query.get_or_404(server_id)
+
+    try:
+        # Import the service to get the appropriate client
+        from app.services.media.service import get_media_client
+
+        client = get_media_client(server.server_type, media_server=server)
+        if not client:
+            return jsonify(
+                {"error": f"No client available for server type: {server.server_type}"}
+            ), 400
+
+        # Use the new lightweight readonly statistics method
+        stats = client.get_readonly_statistics()
+        stats["server_name"] = server.name
+        stats["server_type"] = server.server_type
+        stats["server_id"] = server.id
+
+        return jsonify(stats)
+
+    except Exception as e:
+        return jsonify(
+            {
+                "error": f"Failed to get health statistics: {str(e)}",
+                "server_name": server.name,
+                "server_type": server.server_type,
+                "server_id": server.id,
+                "user_stats": {"total_users": 0, "active_sessions": 0},
+                "server_stats": {"version": "Unknown", "transcoding_sessions": 0},
+                "library_stats": {},
+                "content_stats": {},
+            }
+        ), 500
+
+
 @media_servers_bp.get("/statistics/all")
 @login_required
 def get_all_statistics():
@@ -386,3 +425,55 @@ def get_statistics_by_type(server_type):
             }
 
     return jsonify(type_stats)
+
+
+@media_servers_bp.get("/health/all")
+@login_required
+def get_all_health():
+    """Return lightweight health statistics for all servers without triggering user sync."""
+    servers = MediaServer.query.all()
+    all_health = {}
+
+    for server in servers:
+        # Extract server data before making client calls to avoid session corruption
+        server_data = {
+            "id": server.id,
+            "name": server.name,
+            "server_type": server.server_type,
+        }
+
+        try:
+            from app.services.media.service import get_media_client
+
+            client = get_media_client(server_data["server_type"], media_server=server)
+            if client:
+                # Use lightweight readonly statistics instead of full statistics
+                stats = client.get_readonly_statistics()
+                stats["server_name"] = server_data["name"]
+                stats["server_type"] = server_data["server_type"]
+                stats["server_id"] = server_data["id"]
+                all_health[server_data["id"]] = stats
+            else:
+                all_health[server_data["id"]] = {
+                    "error": f"No client available for server type: {server_data['server_type']}",
+                    "server_name": server_data["name"],
+                    "server_type": server_data["server_type"],
+                    "server_id": server_data["id"],
+                    "user_stats": {"total_users": 0, "active_sessions": 0},
+                    "server_stats": {"version": "Unknown", "transcoding_sessions": 0},
+                    "library_stats": {},
+                    "content_stats": {},
+                }
+        except Exception as e:
+            all_health[server_data["id"]] = {
+                "error": f"Failed to get health: {str(e)}",
+                "server_name": server_data["name"],
+                "server_type": server_data["server_type"],
+                "server_id": server_data["id"],
+                "user_stats": {"total_users": 0, "active_sessions": 0},
+                "server_stats": {"version": "Unknown", "transcoding_sessions": 0},
+                "library_stats": {},
+                "content_stats": {},
+            }
+
+    return jsonify(all_health)
