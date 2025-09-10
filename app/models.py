@@ -123,9 +123,8 @@ class Invitation(db.Model):
     )
 
     # Universal invite toggles (work for all server types)
-    allow_downloads = db.Column(db.Boolean, default=False, nullable=True)
-    allow_live_tv = db.Column(db.Boolean, default=False, nullable=True)
     allow_mobile_uploads = db.Column(db.Boolean, default=False, nullable=True)
+    # Note: allow_downloads and allow_live_tv removed - use properties that read from metadata
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -248,10 +247,10 @@ class User(db.Model, UserMixin):
             self.library_access_json is not None or self.raw_policies_json is not None
         )
 
-    # Property methods for accessing permissions from metadata
+    # Property methods for accessing permissions from metadata (API source of truth)
     @property
     def allow_downloads(self) -> bool:
-        """Get download permission from cached metadata."""
+        """Get download permission from cached metadata (API is source of truth)."""
         policies = self.get_raw_policies()
 
         # Check standardized key first, then server-specific keys
@@ -267,12 +266,12 @@ class User(db.Model, UserMixin):
         if "EnableContentDownloading" in policies:
             return policies["EnableContentDownloading"]
 
-        # Default fallback
+        # Default to False if no metadata available (API is source of truth)
         return False
 
     @property
     def allow_live_tv(self) -> bool:
-        """Get live TV permission from cached metadata."""
+        """Get live TV permission from cached metadata (API is source of truth)."""
         policies = self.get_raw_policies()
 
         # Check standardized key first, then server-specific keys
@@ -288,7 +287,7 @@ class User(db.Model, UserMixin):
         if "EnableLiveTvAccess" in policies:
             return policies["EnableLiveTvAccess"]
 
-        # Default fallback
+        # Default to False if no metadata available (API is source of truth)
         return False
 
 

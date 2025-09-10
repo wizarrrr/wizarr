@@ -238,7 +238,9 @@ def _serve(server: str, idx: int):
     # Determine if this step requires interaction (front matter `require: true` or DB flag)
     require_interaction = False
     try:
-        require_interaction = bool(getattr(post, "get", lambda k, d=None: None)("require", False))
+        require_interaction = bool(
+            getattr(post, "get", lambda k, d=None: None)("require", False)
+        )
     except Exception:
         require_interaction = False
 
@@ -333,7 +335,9 @@ def combo(idx: int):
 
     require_interaction = False
     try:
-        require_interaction = bool(getattr(post, "get", lambda k, d=None: None)("require", False))
+        require_interaction = bool(
+            getattr(post, "get", lambda k, d=None: None)("require", False)
+        )
     except Exception:
         require_interaction = False
 
@@ -401,7 +405,9 @@ def bundle_view(idx: int):
 
     require_interaction = False
     try:
-        require_interaction = bool(getattr(post, "get", lambda k, d=None: None)("require", False))
+        require_interaction = bool(
+            getattr(post, "get", lambda k, d=None: None)("require", False)
+        )
     except Exception:
         require_interaction = False
 

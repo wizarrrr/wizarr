@@ -306,29 +306,36 @@ def get_all_statistics():
     all_stats = {}
 
     for server in servers:
+        # Extract server data before making client calls to avoid session corruption
+        server_data = {
+            "id": server.id,
+            "name": server.name,
+            "server_type": server.server_type,
+        }
+
         try:
             from app.services.media.service import get_media_client
 
-            client = get_media_client(server.server_type, media_server=server)
+            client = get_media_client(server_data["server_type"], media_server=server)
             if client:
                 stats = client.statistics()
-                stats["server_name"] = server.name
-                stats["server_type"] = server.server_type
-                stats["server_id"] = server.id
-                all_stats[server.id] = stats
+                stats["server_name"] = server_data["name"]
+                stats["server_type"] = server_data["server_type"]
+                stats["server_id"] = server_data["id"]
+                all_stats[server_data["id"]] = stats
             else:
-                all_stats[server.id] = {
-                    "error": f"No client available for server type: {server.server_type}",
-                    "server_name": server.name,
-                    "server_type": server.server_type,
-                    "server_id": server.id,
+                all_stats[server_data["id"]] = {
+                    "error": f"No client available for server type: {server_data['server_type']}",
+                    "server_name": server_data["name"],
+                    "server_type": server_data["server_type"],
+                    "server_id": server_data["id"],
                 }
         except Exception as e:
-            all_stats[server.id] = {
+            all_stats[server_data["id"]] = {
                 "error": f"Failed to get statistics: {str(e)}",
-                "server_name": server.name,
-                "server_type": server.server_type,
-                "server_id": server.id,
+                "server_name": server_data["name"],
+                "server_type": server_data["server_type"],
+                "server_id": server_data["id"],
             }
 
     return jsonify(all_stats)
@@ -346,29 +353,36 @@ def get_statistics_by_type(server_type):
     type_stats = {}
 
     for server in servers:
+        # Extract server data before making client calls to avoid session corruption
+        server_data = {
+            "id": server.id,
+            "name": server.name,
+            "server_type": server.server_type,
+        }
+
         try:
             from app.services.media.service import get_media_client
 
-            client = get_media_client(server.server_type, media_server=server)
+            client = get_media_client(server_data["server_type"], media_server=server)
             if client:
                 stats = client.statistics()
-                stats["server_name"] = server.name
-                stats["server_type"] = server.server_type
-                stats["server_id"] = server.id
-                type_stats[server.id] = stats
+                stats["server_name"] = server_data["name"]
+                stats["server_type"] = server_data["server_type"]
+                stats["server_id"] = server_data["id"]
+                type_stats[server_data["id"]] = stats
             else:
-                type_stats[server.id] = {
-                    "error": f"No client available for server type: {server.server_type}",
-                    "server_name": server.name,
-                    "server_type": server.server_type,
-                    "server_id": server.id,
+                type_stats[server_data["id"]] = {
+                    "error": f"No client available for server type: {server_data['server_type']}",
+                    "server_name": server_data["name"],
+                    "server_type": server_data["server_type"],
+                    "server_id": server_data["id"],
                 }
         except Exception as e:
-            type_stats[server.id] = {
+            type_stats[server_data["id"]] = {
                 "error": f"Failed to get statistics: {str(e)}",
-                "server_name": server.name,
-                "server_type": server.server_type,
-                "server_id": server.id,
+                "server_name": server_data["name"],
+                "server_type": server_data["server_type"],
+                "server_id": server_data["id"],
             }
 
     return jsonify(type_stats)
