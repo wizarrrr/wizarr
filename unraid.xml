@@ -28,13 +28,8 @@
     </Networking>
     <Data>
         <Volume>
-            <HostDir>/mnt/user/appdata/wizarr/database</HostDir>
-            <ContainerDir>/data/database</ContainerDir>
-            <Mode>rw</Mode>
-        </Volume>
-        <Volume>
-            <HostDir>/mnt/user/appdata/wizarr/wizard-config</HostDir>
-            <ContainerDir>/data/database/wizard_steps</ContainerDir>
+            <HostDir>/mnt/user/appdata/wizarr</HostDir>
+            <ContainerDir>/data</ContainerDir>
             <Mode>rw</Mode>
         </Volume>
     </Data>
@@ -57,8 +52,6 @@
     </Environment>
     <Config Name="Database Folder" Target="/data/database" Default="/mnt/user/appdata/wizarr/database" Mode="rw"
             Description="Database Folder" Type="Path" Display="always" Required="true" Mask="false"/>
-    <Config Name="Customise Wizard Steps (Optional)" Target="/data/wizard_steps" Default="/mnt/user/appdata/wizarr/wizard-config" Mode="rw"
-            Description="Wizard Steps Mapping in order to customise steps shown to users (optional)" Type="Path" Display="always" Required="false" Mask="false"/>
     <Config Name="WebUI" Target="5690" Default="5690" Mode="tcp" Description="Web Port" Type="Port" Display="always"
             Required="true" Mask="false"/>
     <Config Name="User to run application as" Target="PUID" Default="99" Mode=""
