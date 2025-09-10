@@ -408,3 +408,10 @@ TASK.md
 cookies.txt
 
 .serena/
+
+# Test media files (keep structure, ignore content)
+tests/test-media/**/*.mp4
+tests/test-media/**/*.mkv
+tests/test-media/**/*.avi
+tests/test-media/**/*.m4a
+tests/test-media/**/*.mp3

@@ -244,34 +244,45 @@ class AudiobookshelfClient(RestApiMixin):
                 abs_user = raw_by_id[user.token]
                 permissions = abs_user.get("permissions", {}) or {}
 
-                # Add policy attributes for AudiobookShelf
-                allow_downloads = permissions.get("download", True)
-                # AudiobookShelf doesn't have Live TV, so default to False
-                allow_live_tv = False
-
-                # Update database directly using raw SQL
-                db.session.execute(
-                    db.text(
-                        "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
+                # Store both server-specific and standardized keys in policies dict
+                audiobookshelf_policies = {
+                    # Server-specific permission keys
+                    "download": permissions.get("download", True),
+                    "update": permissions.get("update", False),
+                    "delete": permissions.get("delete", False),
+                    "upload": permissions.get("upload", False),
+                    "accessAllLibraries": permissions.get("accessAllLibraries", False),
+                    "accessAllTags": permissions.get("accessAllTags", True),
+                    "accessExplicitContent": permissions.get(
+                        "accessExplicitContent", True
                     ),
-                    {
-                        "downloads": allow_downloads,
-                        "live_tv": allow_live_tv,
-                        "id": user.id,
-                    },
-                )
+                    # Standardized permission keys for UI display
+                    "allow_downloads": permissions.get("download", True),
+                    "allow_live_tv": False,  # AudiobookShelf doesn't have Live TV
+                }
+                user.set_raw_policies(audiobookshelf_policies)
             else:
-                # Default values if user data not found
-                # Update database directly using raw SQL
-                db.session.execute(
-                    db.text(
-                        "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
-                    ),
-                    {"downloads": False, "live_tv": False, "id": user.id},
-                )
+                # Default values if user data not found - store in metadata too
+                default_policies = {
+                    "download": False,
+                    "update": False,
+                    "delete": False,
+                    "upload": False,
+                    "accessAllLibraries": False,
+                    "accessAllTags": False,
+                    "accessExplicitContent": False,
+                    "allow_downloads": False,
+                    "allow_live_tv": False,
+                }
+                user.set_raw_policies(default_policies)
 
-        # Commit the permission changes to the database
-        db.session.commit()
+        # Single commit for all metadata updates
+        try:
+            db.session.commit()
+        except Exception as e:
+            logging.error("ABS: failed to update user metadata – %s", e)
+            db.session.rollback()
+            return []
 
         # Cache detailed metadata for all users
         self._cache_user_metadata_batch(users)

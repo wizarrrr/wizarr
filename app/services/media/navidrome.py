@@ -182,34 +182,41 @@ class NavidromeClient(RestApiMixin):
         # Enhance users with policy data from Navidrome
         for user in users:
             if user.username in users_by_name:
-                # Navidrome users can always download/sync music
-                allow_downloads = True
-                # No live TV in music servers
-                allow_live_tv = False
+                navidrome_user = users_by_name[user.username]
 
-                # Update database directly using raw SQL
-                db.session.execute(
-                    db.text(
-                        "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
-                    ),
-                    {
-                        "downloads": allow_downloads,
-                        "live_tv": allow_live_tv,
-                        "id": user.id,
-                    },
-                )
+                # Store both server-specific and standardized keys in policies dict
+                navidrome_policies = {
+                    # Server-specific data (navidrome user info)
+                    "name": navidrome_user.get("name", ""),
+                    "userName": navidrome_user.get("userName", ""),
+                    "isAdmin": navidrome_user.get("isAdmin", False),
+                    "lastFMApiKey": navidrome_user.get("lastFMApiKey", ""),
+                    "listenBrainzToken": navidrome_user.get("listenBrainzToken", ""),
+                    # Standardized permission keys for UI display
+                    "allow_downloads": True,  # Navidrome users can always download/sync music
+                    "allow_live_tv": False,  # No live TV in music servers
+                }
+                user.set_raw_policies(navidrome_policies)
             else:
-                # Default values if user data not found
-                # Update database directly using raw SQL
-                db.session.execute(
-                    db.text(
-                        "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
-                    ),
-                    {"downloads": False, "live_tv": False, "id": user.id},
-                )
+                # Default values if user data not found - store in metadata too
+                default_policies = {
+                    "name": "",
+                    "userName": "",
+                    "isAdmin": False,
+                    "lastFMApiKey": "",
+                    "listenBrainzToken": "",
+                    "allow_downloads": False,
+                    "allow_live_tv": False,
+                }
+                user.set_raw_policies(default_policies)
 
-        # Commit the permission changes to the database
-        db.session.commit()
+        # Single commit for all metadata updates
+        try:
+            db.session.commit()
+        except Exception as e:
+            logging.error("Navidrome: failed to update user metadata – %s", e)
+            db.session.rollback()
+            return []
         return users
 
     def create_user(

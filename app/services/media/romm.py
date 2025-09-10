@@ -184,20 +184,23 @@ class RommClient(RestApiMixin):
 
         # Add default policy attributes (RomM doesn't have specific download/live TV policies)
         for user in users:
-            # RomM defaults: downloads enabled, no Live TV
-            allow_downloads = True  # Default to True for gaming apps
-            allow_live_tv = False  # RomM doesn't have Live TV
+            # Store both server-specific and standardized keys in policies dict
+            romm_policies = {
+                # Server-specific data (RomM user info would go here)
+                "enabled": True,  # RomM users are enabled by default
+                # Standardized permission keys for UI display
+                "allow_downloads": True,  # Default to True for gaming apps
+                "allow_live_tv": False,  # RomM doesn't have Live TV
+            }
+            user.set_raw_policies(romm_policies)
 
-            # Update database directly using raw SQL
-            db.session.execute(
-                db.text(
-                    "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
-                ),
-                {"downloads": allow_downloads, "live_tv": allow_live_tv, "id": user.id},
-            )
-
-        # Commit the permission changes to the database
-        db.session.commit()
+        # Single commit for all metadata updates
+        try:
+            db.session.commit()
+        except Exception as e:
+            logging.error("RomM: failed to update user metadata – %s", e)
+            db.session.rollback()
+            return []
         return users
 
     # ------------------------------------------------------------------

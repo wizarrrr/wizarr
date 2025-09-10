@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # Jellyfin test server - Fresh container, configured via API
+  jellyfin-test:
+    image: jellyfin/jellyfin:latest
+    container_name: wizarr-jellyfin-test
+    ports:
+      - "8096:8096"
+    environment:
+      - JELLYFIN_PublishedServerUrl=http://localhost:8096
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8096/System/Info/Public"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # Plex test server - Fresh container, configured via API
+  plex-test:
+    image: plexinc/pms-docker:latest
+    container_name: wizarr-plex-test
+    ports:
+      - "32400:32400"
+    environment:
+      - PLEX_UID=1000
+      - PLEX_GID=1000
+      - TZ=UTC
+      # Will be claimed via API using test account
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:32400/identity"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+  # Emby test server - Fresh container, configured via API
+  emby-test:
+    image: emby/embyserver:latest
+    container_name: wizarr-emby-test
+    ports:
+      - "8097:8096"
+    environment:
+      - UID=1000
+      - GID=1000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8096/emby/System/Info/Public"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # AudiobookShelf test server - Fresh container, configured via API
+  audiobookshelf-test:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    container_name: wizarr-abs-test
+    ports:
+      - "13378:80"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s

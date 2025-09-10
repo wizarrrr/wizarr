@@ -403,6 +403,7 @@ class PlexClient(MediaClient):
                 s.machineIdentifier == server_id for s in user_servers
             ):
                 plex_users[user_email] = u
+
         db_users = (
             db.session.query(User)
             .filter(
@@ -444,42 +445,45 @@ class PlexClient(MediaClient):
             .filter(User.server_id == getattr(self, "server_id", None))
             .all()
         )
+
+        # Update user metadata using the metadata caching system
         for u in users:
             p = plex_users.get(u.email)
             if p:
                 u.photo = p.thumb
-                # Add Plex-specific policy information
-                # For Plex, check allowSync and allowChannels permissions
-                allow_downloads = getattr(
-                    p, "allowSync", True
-                )  # Sync permission in Plex
-                allow_live_tv = getattr(
-                    p, "allowChannels", True
-                )  # Channel/Live TV access
 
-                # Update database directly using raw SQL
-                db.session.execute(
-                    db.text(
-                        "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
-                    ),
-                    {
-                        "downloads": allow_downloads,
-                        "live_tv": allow_live_tv,
-                        "id": u.id,
-                    },
-                )
+                # Store Plex permissions in raw_policies_json using the proper method
+                plex_policies = {
+                    "allowCameraUpload": getattr(p, "allowCameraUpload", False),
+                    "allowChannels": getattr(p, "allowChannels", True),
+                    "allowSync": getattr(p, "allowSync", True),
+                    # Map Plex permissions to common permission names for display
+                    "allow_downloads": getattr(
+                        p, "allowSync", True
+                    ),  # Sync permission in Plex
+                    "allow_live_tv": getattr(
+                        p, "allowChannels", True
+                    ),  # Channel/Live TV access
+                }
+                u.set_raw_policies(plex_policies)
             else:
-                # Default values if Plex user data not found
-                # Update database directly using raw SQL
-                db.session.execute(
-                    db.text(
-                        "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
-                    ),
-                    {"downloads": False, "live_tv": False, "id": u.id},
-                )
+                # Default values if Plex user data not found - store in metadata too
+                default_policies = {
+                    "allowCameraUpload": False,
+                    "allowChannels": False,
+                    "allowSync": False,
+                    "allow_downloads": False,
+                    "allow_live_tv": False,
+                }
+                u.set_raw_policies(default_policies)
 
-        # Commit the permission changes to the database
-        db.session.commit()
+        # Single commit for all permission changes to reduce lock time
+        try:
+            db.session.commit()
+        except Exception as e:
+            logging.error(f"Failed to update Plex user metadata: {e}")
+            db.session.rollback()
+            # Continue without metadata updates rather than failing completely
 
         # Cache detailed metadata for all users
         self._cache_user_metadata_batch(users)

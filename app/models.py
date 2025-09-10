@@ -248,6 +248,49 @@ class User(db.Model, UserMixin):
             self.library_access_json is not None or self.raw_policies_json is not None
         )
 
+    # Property methods for accessing permissions from metadata
+    @property
+    def allow_downloads(self) -> bool:
+        """Get download permission from cached metadata."""
+        policies = self.get_raw_policies()
+
+        # Check standardized key first, then server-specific keys
+        if "allow_downloads" in policies:
+            return policies["allow_downloads"]
+
+        # Server-specific mappings
+        # Plex: allowSync = download/sync permission
+        if "allowSync" in policies:
+            return policies["allowSync"]
+
+        # Jellyfin/Emby: EnableContentDownloading
+        if "EnableContentDownloading" in policies:
+            return policies["EnableContentDownloading"]
+
+        # Default fallback
+        return False
+
+    @property
+    def allow_live_tv(self) -> bool:
+        """Get live TV permission from cached metadata."""
+        policies = self.get_raw_policies()
+
+        # Check standardized key first, then server-specific keys
+        if "allow_live_tv" in policies:
+            return policies["allow_live_tv"]
+
+        # Server-specific mappings
+        # Plex: allowChannels = live TV/channel access
+        if "allowChannels" in policies:
+            return policies["allowChannels"]
+
+        # Jellyfin/Emby: EnableLiveTvAccess
+        if "EnableLiveTvAccess" in policies:
+            return policies["EnableLiveTvAccess"]
+
+        # Default fallback
+        return False
+
 
 # ───────────────────────────────────────────────────────────────────────────────
 #  Multi-admin support (2025-07)

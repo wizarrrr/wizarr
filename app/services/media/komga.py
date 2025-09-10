@@ -179,9 +179,24 @@ class KomgaClient(RestApiMixin):
 
             # Add default policy attributes (Komga doesn't have specific download/live TV policies)
             for user in users:
-                user.allow_downloads = True  # Default to True for reading apps
-                user.allow_live_tv = False  # Komga doesn't have Live TV
-                user.allow_sync = True  # Default to True for reading apps
+                # Store both server-specific and standardized keys in policies dict
+                komga_policies = {
+                    # Server-specific data (Komga user info would go here)
+                    "enabled": True,  # Komga users are enabled by default
+                    # Standardized permission keys for UI display
+                    "allow_downloads": True,  # Default to True for reading apps
+                    "allow_live_tv": False,  # Komga doesn't have Live TV
+                    "allow_sync": True,  # Default to True for reading apps
+                }
+                user.set_raw_policies(komga_policies)
+
+            # Single commit for all metadata updates
+            try:
+                db.session.commit()
+            except Exception as e:
+                logging.error("Komga: failed to update user metadata – %s", e)
+                db.session.rollback()
+                return []
 
             return users
         except Exception as e:

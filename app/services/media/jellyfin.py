@@ -242,40 +242,36 @@ class JellyfinClient(RestApiMixin):
                 jf_user = jf_users[user.token]
                 policy = jf_user.get("Policy", {}) or {}
 
-                # Add policy attributes directly to the user object for template access
-                allow_downloads = policy.get("EnableContentDownloading", True)
-                allow_live_tv = policy.get("EnableLiveTvAccess", True)
-                user.allow_downloads = allow_downloads
-                user.allow_live_tv = allow_live_tv
-                user.allow_sync = policy.get("EnableSyncTranscoding", True)
-
-                # Update database directly using raw SQL
-                db.session.execute(
-                    db.text(
-                        "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
+                # Store Jellyfin permissions in raw_policies_json using the proper method
+                jellyfin_policies = {
+                    "EnableContentDownloading": policy.get(
+                        "EnableContentDownloading", True
                     ),
-                    {
-                        "downloads": allow_downloads,
-                        "live_tv": allow_live_tv,
-                        "id": user.id,
-                    },
-                )
+                    "EnableLiveTvAccess": policy.get("EnableLiveTvAccess", True),
+                    "EnableSyncTranscoding": policy.get("EnableSyncTranscoding", True),
+                    # Map Jellyfin permissions to common permission names for display
+                    "allow_downloads": policy.get("EnableContentDownloading", True),
+                    "allow_live_tv": policy.get("EnableLiveTvAccess", True),
+                }
+                user.set_raw_policies(jellyfin_policies)
             else:
-                # Default values if user data not found
-                user.allow_downloads = False
-                user.allow_live_tv = False
-                user.allow_sync = False
+                # Default values if user data not found - store in metadata too
+                default_policies = {
+                    "EnableContentDownloading": False,
+                    "EnableLiveTvAccess": False,
+                    "EnableSyncTranscoding": False,
+                    "allow_downloads": False,
+                    "allow_live_tv": False,
+                }
+                user.set_raw_policies(default_policies)
 
-                # Update database directly using raw SQL
-                db.session.execute(
-                    db.text(
-                        "UPDATE user SET allow_downloads = :downloads, allow_live_tv = :live_tv WHERE id = :id"
-                    ),
-                    {"downloads": False, "live_tv": False, "id": user.id},
-                )
-
-        # Commit the permission changes to the database
-        db.session.commit()
+        # Single commit for all metadata updates
+        try:
+            db.session.commit()
+        except Exception as e:
+            logging.error(f"Failed to update Jellyfin user metadata: {e}")
+            db.session.rollback()
+            # Continue without metadata updates rather than failing completely
 
         # Cache detailed metadata for all users
         self._cache_user_metadata_batch(users)
