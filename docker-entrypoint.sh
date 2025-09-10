@@ -39,10 +39,10 @@ if [ "$(id -u)" = "0" ]; then
   # Create wizard_steps directory in /etc for template customization
   mkdir -p /etc/wizarr/wizard_steps
   
-  # Only recurse into the truly live dirs and cache
+  # Only recurse into bind mount directories and cache
   echo "[entrypoint] ⚙️  Fixing ownership for bind mounts…"
   chown -R "$TARGET_USER":"$TARGET_GRP" \
-    /data/database /etc/wizarr/wizard_steps /.cache /opt/default_wizard_steps /app
+    /data/database /etc/wizarr/wizard_steps /.cache /opt/default_wizard_steps
 
   # Fix ownership of bind-mounts (only persistent data directories)
   if [ "$PUID:$PGID" != "$DEFAULT_UID:$DEFAULT_GID" ]; then
