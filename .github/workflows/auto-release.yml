@@ -1,13 +1,17 @@
 name: Auto Release
 
 on:
-  push:
+  pull_request:
     branches: [main]
+    types: [closed]
 
 jobs:
   check-release:
     runs-on: ubuntu-latest
-    if: github.repository_owner == 'wizarrrr'
+    if: |
+      github.event.pull_request.merged == true && 
+      startsWith(github.event.pull_request.title, 'Release v') &&
+      github.repository_owner == 'wizarrrr'
     permissions:
       contents: write
       
@@ -17,27 +21,26 @@ jobs:
         with:
           fetch-depth: 2  # Need to compare with previous commit
           
-      - name: Check for version change
+      - name: Get version info
         id: version-check
         run: |
-          # Get current version
+          # Extract version from Release PR title (e.g., "Release v2025.9.1" -> "2025.9.1")
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          RELEASE_VERSION=$(echo "$PR_TITLE" | sed 's/Release v//')
+          
+          # Get current version from pyproject.toml
           CURRENT_VERSION=$(grep '^version = ' pyproject.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
           
-          # Get previous version from the commit before
-          git checkout HEAD~1
-          PREVIOUS_VERSION=$(grep '^version = ' pyproject.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
-          git checkout -
+          echo "Release PR version: $RELEASE_VERSION"
+          echo "Current code version: $CURRENT_VERSION"
           
-          echo "Current version: $CURRENT_VERSION"
-          echo "Previous version: $PREVIOUS_VERSION"
-          
-          # Check if this is a version bump (and not a pre-release)
-          if [[ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]] && [[ ! "$CURRENT_VERSION" =~ -rc\.|-(alpha|beta|dev) ]]; then
+          # Verify versions match and it's not a pre-release
+          if [[ "$CURRENT_VERSION" == "$RELEASE_VERSION" ]] && [[ ! "$CURRENT_VERSION" =~ -rc\.|-(alpha|beta|dev) ]]; then
             echo "version-changed=true" >> $GITHUB_OUTPUT
             echo "new-version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
-            echo "previous-version=$PREVIOUS_VERSION" >> $GITHUB_OUTPUT
           else
             echo "version-changed=false" >> $GITHUB_OUTPUT
+            echo "Version mismatch or pre-release detected, skipping release creation"
           fi
           
       - name: Generate changelog
@@ -108,22 +111,39 @@ jobs:
           
       - name: Create GitHub Release
         if: steps.version-check.outputs.version-changed == 'true'
+        id: create-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           NEW_VERSION="${{ steps.version-check.outputs.new-version }}"
           
-          gh release create "v$NEW_VERSION" \
-            --title "v$NEW_VERSION" \
-            --notes-file changelog.md
+          # Check if release already exists
+          if gh release view "v$NEW_VERSION" >/dev/null 2>&1; then
+            echo "Release v$NEW_VERSION already exists, skipping creation"
+            echo "release-created=false" >> $GITHUB_OUTPUT
+          else
+            gh release create "v$NEW_VERSION" \
+              --title "v$NEW_VERSION" \
+              --notes-file changelog.md
+            echo "release-created=true" >> $GITHUB_OUTPUT
+          fi
             
       - name: Summary
         if: steps.version-check.outputs.version-changed == 'true'
         run: |
           NEW_VERSION="${{ steps.version-check.outputs.new-version }}"
-          echo "🚀 **Auto-Release Created!**" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version**: v$NEW_VERSION" >> $GITHUB_STEP_SUMMARY
-          echo "- **Release URL**: https://github.com/$GITHUB_REPOSITORY/releases/tag/v$NEW_VERSION" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "This will trigger Docker builds and deployment!" >> $GITHUB_STEP_SUMMARY
+          if [[ "${{ steps.create-release.outputs.release-created }}" == "true" ]]; then
+            echo "🚀 **Auto-Release Created!**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "- **Version**: v$NEW_VERSION" >> $GITHUB_STEP_SUMMARY
+            echo "- **Release URL**: https://github.com/$GITHUB_REPOSITORY/releases/tag/v$NEW_VERSION" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "This will trigger Docker builds and deployment!" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ **Release Already Exists**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "- **Version**: v$NEW_VERSION" >> $GITHUB_STEP_SUMMARY
+            echo "- **Release URL**: https://github.com/$GITHUB_REPOSITORY/releases/tag/v$NEW_VERSION" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Release v$NEW_VERSION already exists, skipped creation." >> $GITHUB_STEP_SUMMARY
+          fi
