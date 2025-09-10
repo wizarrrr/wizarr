@@ -1,0 +1,129 @@
+name: Auto Release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  check-release:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'wizarrrr'
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need to compare with previous commit
+          
+      - name: Check for version change
+        id: version-check
+        run: |
+          # Get current version
+          CURRENT_VERSION=$(grep '^version = ' pyproject.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
+          
+          # Get previous version from the commit before
+          git checkout HEAD~1
+          PREVIOUS_VERSION=$(grep '^version = ' pyproject.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
+          git checkout -
+          
+          echo "Current version: $CURRENT_VERSION"
+          echo "Previous version: $PREVIOUS_VERSION"
+          
+          # Check if this is a version bump (and not a pre-release)
+          if [[ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]] && [[ ! "$CURRENT_VERSION" =~ -rc\.|-(alpha|beta|dev) ]]; then
+            echo "version-changed=true" >> $GITHUB_OUTPUT
+            echo "new-version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+            echo "previous-version=$PREVIOUS_VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "version-changed=false" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Generate changelog
+        if: steps.version-check.outputs.version-changed == 'true'
+        id: changelog
+        run: |
+          NEW_VERSION="${{ steps.version-check.outputs.new-version }}"
+          PREVIOUS_VERSION="${{ steps.version-check.outputs.previous-version }}"
+          
+          # Find the tag for the previous version
+          PREV_TAG="v$PREVIOUS_VERSION"
+          if ! git tag -l | grep -q "^$PREV_TAG$"; then
+            PREV_TAG="$PREVIOUS_VERSION"
+          fi
+          if ! git tag -l | grep -q "^$PREV_TAG$"; then
+            # Fallback to latest tag
+            PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          fi
+          
+          # Generate changelog
+          if [[ -n "$PREV_TAG" ]]; then
+            COMMITS=$(git log "${PREV_TAG}..HEAD" --oneline --no-merges)
+          else
+            COMMITS=$(git log --oneline --no-merges | head -20)  # Last 20 commits if no tag
+          fi
+          
+          if [[ -z "$COMMITS" ]]; then
+            CHANGELOG="No changes since last release."
+          else
+            CHANGELOG="## What's Changed\n\n"
+            
+            # Group commits by type
+            FEATURES=""
+            FIXES=""
+            OTHER=""
+            
+            while IFS= read -r line; do
+              if echo "$line" | grep -qE "^[a-f0-9]+ feat(\([^)]+\))?:"; then
+                COMMIT_MSG=$(echo "$line" | sed 's/^[a-f0-9]* feat[^:]*: *//')
+                FEATURES+="- $COMMIT_MSG\n"
+              elif echo "$line" | grep -qE "^[a-f0-9]+ fix(\([^)]+\))?:"; then
+                COMMIT_MSG=$(echo "$line" | sed 's/^[a-f0-9]* fix[^:]*: *//')
+                FIXES+="- $COMMIT_MSG\n"
+              elif ! echo "$line" | grep -qE "^[a-f0-9]+ (chore|docs|style|refactor|test|ci)(\([^)]+\))?:"; then
+                # Skip maintenance commits, include everything else
+                COMMIT_MSG=$(echo "$line" | sed 's/^[a-f0-9]* //')
+                OTHER+="- $COMMIT_MSG\n"
+              fi
+            done <<< "$COMMITS"
+            
+            if [[ -n "$FEATURES" ]]; then
+              CHANGELOG+="### 🚀 Features\n$FEATURES\n"
+            fi
+            
+            if [[ -n "$FIXES" ]]; then
+              CHANGELOG+="### 🐛 Bug Fixes\n$FIXES\n"
+            fi
+            
+            if [[ -n "$OTHER" ]]; then
+              CHANGELOG+="### 📝 Other Changes\n$OTHER\n"
+            fi
+            
+            CHANGELOG+="\n**Full Changelog**: https://github.com/$GITHUB_REPOSITORY/compare/${PREV_TAG}...v${NEW_VERSION}"
+          fi
+          
+          # Save changelog to file for GitHub release
+          echo -e "$CHANGELOG" > changelog.md
+          
+      - name: Create GitHub Release
+        if: steps.version-check.outputs.version-changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NEW_VERSION="${{ steps.version-check.outputs.new-version }}"
+          
+          gh release create "v$NEW_VERSION" \
+            --title "v$NEW_VERSION" \
+            --notes-file changelog.md
+            
+      - name: Summary
+        if: steps.version-check.outputs.version-changed == 'true'
+        run: |
+          NEW_VERSION="${{ steps.version-check.outputs.new-version }}"
+          echo "🚀 **Auto-Release Created!**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: v$NEW_VERSION" >> $GITHUB_STEP_SUMMARY
+          echo "- **Release URL**: https://github.com/$GITHUB_REPOSITORY/releases/tag/v$NEW_VERSION" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "This will trigger Docker builds and deployment!" >> $GITHUB_STEP_SUMMARY
