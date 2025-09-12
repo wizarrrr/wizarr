@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import base64
-import datetime
 import logging
 import re
 from typing import TYPE_CHECKING, Any
@@ -286,40 +285,40 @@ class RommClient(RestApiMixin):
 
     def get_user_details(self, user_id: str) -> MediaUserDetails:
         """Get detailed user information in standardized format."""
-        from app.models import Library
-        from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
+        from app.services.media.utils import (
+            DateHelper,
+            LibraryAccessHelper,
+            StandardizedPermissions,
+            create_standardized_user_details,
+        )
 
         # Get raw user data from RomM API
         r = self.get(f"{self.API_PREFIX}/users/{user_id}")
         raw_user = r.json()
 
-        # Get all available libraries for this server since RomM gives full access
-        libs_q = (
-            Library.query.filter_by(server_id=self.server_id, enabled=True)
-            .order_by(Library.name)
-            .all()
+        # Extract permissions using utility
+        permissions = StandardizedPermissions.for_basic_server(
+            "romm",
+            is_admin=raw_user.get("role") == "ADMIN",
+            allow_downloads=True,  # ROM files can be downloaded
         )
-        library_access = [
-            UserLibraryAccess(
-                library_id=lib.external_id, library_name=lib.name, has_access=True
-            )
-            for lib in libs_q
-        ]
 
-        return MediaUserDetails(
+        # RomM gives full access to all libraries
+        library_access = LibraryAccessHelper.create_full_access()
+
+        # Parse creation date
+        created_at = DateHelper.parse_iso_date(raw_user.get("created_at"))
+
+        return create_standardized_user_details(
             user_id=str(raw_user.get("id", user_id)),
             username=raw_user.get("username", "Unknown"),
             email=raw_user.get("email"),
-            is_admin=raw_user.get("role") == "ADMIN",
-            is_enabled=raw_user.get("enabled", True),
-            created_at=datetime.datetime.fromisoformat(
-                raw_user["created_at"].rstrip("Z")
-            )
-            if raw_user.get("created_at")
-            else None,
-            last_active=None,  # RomM doesn't track last active time
+            permissions=permissions,
             library_access=library_access,
             raw_policies=raw_user,
+            created_at=created_at,
+            last_active=None,  # RomM doesn't track last active time
+            is_enabled=raw_user.get("enabled", True),
         )
 
     # ------------------------------------------------------------------

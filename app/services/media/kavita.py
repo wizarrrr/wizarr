@@ -1,4 +1,3 @@
-import datetime
 import hashlib
 import logging
 import re
@@ -13,6 +12,12 @@ from app.models import Invitation, User
 from app.services.invites import is_invite_valid
 
 from .client_base import RestApiMixin, register_media_client
+from .utils import (
+    DateHelper,
+    LibraryAccessHelper,
+    StandardizedPermissions,
+    create_standardized_user_details,
+)
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
@@ -386,7 +391,6 @@ class KavitaClient(RestApiMixin):
 
     def get_user_details(self, username: str) -> "MediaUserDetails":
         """Get detailed user information in standardized format."""
-        from app.services.media.user_details import MediaUserDetails
 
         # Get raw user data from Kavita API
         try:
@@ -412,38 +416,31 @@ class KavitaClient(RestApiMixin):
         if not raw_user:
             raise ValueError(f"Kavita user not found: {username}")
 
-        # Get all available libraries for this server since Kavita gives full access
-        from app.models import Library
-        from app.services.media.user_details import UserLibraryAccess
-
-        libs_q = (
-            Library.query.filter_by(server_id=self.server_id, enabled=True)
-            .order_by(Library.name)
-            .all()
+        # Extract standardized permissions using utility
+        permissions = StandardizedPermissions.for_basic_server(
+            server_type="kavita",
+            is_admin=raw_user.get("isAdmin", False),
+            allow_downloads=True,  # Reading app allows downloads by default
         )
-        library_access = [
-            UserLibraryAccess(
-                library_id=lib.external_id, library_name=lib.name, has_access=True
-            )
-            for lib in libs_q
-        ]
 
-        return MediaUserDetails(
+        # Kavita gives full access to all libraries
+        library_access = LibraryAccessHelper.create_full_access()
+
+        # Parse dates using utility
+        created_at = DateHelper.parse_iso_date(raw_user.get("created"))
+        last_active = DateHelper.parse_iso_date(raw_user.get("lastActive"))
+
+        # Create standardized user details using factory function
+        return create_standardized_user_details(
             user_id=str(raw_user.get("id", username)),
             username=raw_user.get("username", username),
             email=raw_user.get("email"),
-            is_admin=raw_user.get("isAdmin", False),
-            is_enabled=True,  # Kavita doesn't seem to have disabled users concept
-            created_at=datetime.datetime.fromisoformat(raw_user["created"].rstrip("Z"))
-            if raw_user.get("created")
-            else None,
-            last_active=datetime.datetime.fromisoformat(
-                raw_user["lastActive"].rstrip("Z")
-            )
-            if raw_user.get("lastActive")
-            else None,
+            permissions=permissions,
             library_access=library_access,
             raw_policies=raw_user,
+            created_at=created_at,
+            last_active=last_active,
+            is_enabled=True,  # Kavita doesn't seem to have disabled users concept
         )
 
     def update_user(self, username: str, form: dict) -> dict | None:
@@ -530,16 +527,23 @@ class KavitaClient(RestApiMixin):
                 User.server_id == getattr(self, "server_id", None)
             ).all()
 
-            # Add default policy attributes (Kavita doesn't have specific download/live TV policies)
+            # Add default policy attributes using standardized permissions
             for user in users:
+                # Get standardized permissions for Kavita
+                permissions = StandardizedPermissions.for_basic_server(
+                    server_type="kavita",
+                    is_admin=False,  # Admin status would need API call to determine
+                    allow_downloads=True,  # Reading app allows downloads by default
+                )
+
                 # Store both server-specific and standardized keys in policies dict
                 kavita_policies = {
                     # Server-specific data (Kavita user info would go here)
                     "enabled": True,  # Kavita users are enabled by default
                     # Standardized permission keys for UI display
-                    "allow_downloads": True,  # Default to True for reading apps
-                    "allow_live_tv": False,  # Kavita doesn't have Live TV
-                    "allow_sync": True,  # Default to True for reading apps
+                    "allow_downloads": permissions.allow_downloads,
+                    "allow_live_tv": permissions.allow_live_tv,
+                    "allow_sync": permissions.allow_downloads,  # Use downloads setting for sync
                 }
                 user.set_raw_policies(kavita_policies)
 

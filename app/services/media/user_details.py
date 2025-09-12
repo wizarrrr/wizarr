@@ -26,10 +26,15 @@ class MediaUserDetails:
     created_at: datetime | None = None
     last_active: datetime | None = None
 
+    # Standardized permissions
+    allow_downloads: bool = False
+    allow_live_tv: bool = False
+    allow_camera_upload: bool = False
+
     # Library access - None means "all libraries"
     library_access: list[UserLibraryAccess] | None = None
 
-    # Server-specific policy/configuration data
+    # Server-specific policy/configuration data (legacy)
     raw_policies: dict[str, Any] | None = None
 
     @property

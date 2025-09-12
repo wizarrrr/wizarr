@@ -31,7 +31,7 @@ class AudiobookrequestClient(CompanionClient):
 
         Args:
             username: Username to invite
-            email: Email address
+            email: Email address (not used by AudioBookRequest API)
             connection: Connection object with URL and API key
             password: Password for the user (optional, defaults to empty string)
 
@@ -43,8 +43,9 @@ class AudiobookrequestClient(CompanionClient):
 
         try:
             # Create user in Audiobookrequest
+            # Note: AudioBookRequest API doesn't use email field, only username/password/group/root
             resp = requests.post(
-                f"{connection.url}/api/users",
+                f"{connection.url}/api/users/",
                 headers={
                     "Authorization": f"Bearer {connection.api_key}",
                     "Content-Type": "application/json",
@@ -53,7 +54,6 @@ class AudiobookrequestClient(CompanionClient):
                     "username": username,
                     "password": password
                     or "temporary_password_123",  # Use provided password or fallback
-                    "email": email,
                     "group": "untrusted",  # Default group (untrusted, trusted, or admin)
                     "root": False,  # Not root user
                 },

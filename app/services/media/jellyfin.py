@@ -1,4 +1,3 @@
-import datetime
 import logging
 import re
 from typing import TYPE_CHECKING
@@ -11,6 +10,12 @@ from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid
 
 from .client_base import RestApiMixin, register_media_client
+from .utils import (
+    DateHelper,
+    LibraryAccessHelper,
+    StandardizedPermissions,
+    create_standardized_user_details,
+)
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
@@ -101,58 +106,39 @@ class JellyfinClient(RestApiMixin):
 
     def get_user_details(self, jf_id: str) -> "MediaUserDetails":
         """Get detailed user information in standardized format."""
-        from app.models import Library
-        from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
-
         # Get raw user data from Jellyfin API
         raw_user = self.get(f"/Users/{jf_id}").json()
         policy = raw_user.get("Policy", {}) or {}
 
-        # Extract library access
+        # Extract standardized permissions using shared utility
+        permissions = StandardizedPermissions.for_jellyfin(policy)
+
+        # Extract library access using shared utility
         enable_all = policy.get("EnableAllFolders", False)
         enabled_folders = policy.get("EnabledFolders", []) or []
 
-        if not enable_all and enabled_folders:
-            # User has restricted library access
-            libs_q = (
-                Library.query.filter(
-                    Library.external_id.in_(enabled_folders),
-                    Library.server_id == self.server_id,
-                )
-                .order_by(Library.name)
-                .all()
-            )
-            library_access = [
-                UserLibraryAccess(
-                    library_id=lib.external_id, library_name=lib.name, has_access=True
-                )
-                for lib in libs_q
-            ]
+        if enable_all or not enabled_folders:
+            library_access = LibraryAccessHelper.create_full_access()
         else:
-            # Full access - get all enabled libraries for this server
-            libs_q = (
-                Library.query.filter_by(server_id=self.server_id, enabled=True)
-                .order_by(Library.name)
-                .all()
+            library_access = LibraryAccessHelper.create_restricted_access(
+                enabled_folders, self.server_id
             )
-            library_access = [
-                UserLibraryAccess(
-                    library_id=lib.external_id, library_name=lib.name, has_access=True
-                )
-                for lib in libs_q
-            ]
+
+        # Parse dates using shared utility
+        created_at = DateHelper.parse_iso_date(raw_user.get("DateCreated"))
+        last_active = DateHelper.parse_iso_date(raw_user.get("DateLastActivity"))
 
         # Filter raw_policies to only include admin-relevant information
         filtered_policies = {
             # User status
-            "IsAdministrator": policy.get("IsAdministrator", False),
+            "IsAdministrator": permissions.is_admin,
             "IsDisabled": policy.get("IsDisabled", False),
             "IsHidden": policy.get("IsHidden", False),
             # Access permissions
             "EnableRemoteAccess": policy.get("EnableRemoteAccess", True),
-            "EnableLiveTvAccess": policy.get("EnableLiveTvAccess", True),
+            "EnableLiveTvAccess": permissions.allow_live_tv,
             "EnableMediaPlayback": policy.get("EnableMediaPlayback", True),
-            "EnableContentDownloading": policy.get("EnableContentDownloading", True),
+            "EnableContentDownloading": permissions.allow_downloads,
             "EnableSyncTranscoding": policy.get("EnableSyncTranscoding", True),
             # Management permissions
             "EnableCollectionManagement": policy.get(
@@ -169,24 +155,17 @@ class JellyfinClient(RestApiMixin):
             "LastActivityDate": raw_user.get("LastActivityDate"),
         }
 
-        return MediaUserDetails(
+        # Create standardized user details using factory function
+        return create_standardized_user_details(
             user_id=jf_id,
             username=raw_user.get("Name", "Unknown"),
             email=raw_user.get("Email"),
-            is_admin=policy.get("IsAdministrator", False),
-            is_enabled=not policy.get("IsDisabled", True),
-            created_at=datetime.datetime.fromisoformat(
-                raw_user["DateCreated"].rstrip("Z")
-            )
-            if raw_user.get("DateCreated")
-            else None,
-            last_active=datetime.datetime.fromisoformat(
-                raw_user["DateLastActivity"].rstrip("Z")
-            )
-            if raw_user.get("DateLastActivity")
-            else None,
+            permissions=permissions,
             library_access=library_access,
             raw_policies=filtered_policies,
+            created_at=created_at,
+            last_active=last_active,
+            is_enabled=not policy.get("IsDisabled", False),
         )
 
     def update_user(self, jf_id: str, form: dict) -> dict | None:
@@ -242,16 +221,17 @@ class JellyfinClient(RestApiMixin):
                 jf_user = jf_users[user.token]
                 policy = jf_user.get("Policy", {}) or {}
 
+                # Extract standardized permissions using shared utility
+                permissions = StandardizedPermissions.for_jellyfin(policy)
+
                 # Store Jellyfin permissions in raw_policies_json using the proper method
                 jellyfin_policies = {
-                    "EnableContentDownloading": policy.get(
-                        "EnableContentDownloading", True
-                    ),
-                    "EnableLiveTvAccess": policy.get("EnableLiveTvAccess", True),
+                    "EnableContentDownloading": permissions.allow_downloads,
+                    "EnableLiveTvAccess": permissions.allow_live_tv,
                     "EnableSyncTranscoding": policy.get("EnableSyncTranscoding", True),
                     # Map Jellyfin permissions to common permission names for display
-                    "allow_downloads": policy.get("EnableContentDownloading", True),
-                    "allow_live_tv": policy.get("EnableLiveTvAccess", True),
+                    "allow_downloads": permissions.allow_downloads,
+                    "allow_live_tv": permissions.allow_live_tv,
                 }
                 user.set_raw_policies(jellyfin_policies)
             else:
@@ -298,82 +278,46 @@ class JellyfinClient(RestApiMixin):
                 if not raw_user:
                     continue
 
-                # Extract metadata from bulk response (same format as individual API call)
-                from app.models import Library
-                from app.services.media.user_details import (
-                    MediaUserDetails,
-                    UserLibraryAccess,
-                )
-
                 policy = raw_user.get("Policy", {}) or {}
 
-                # Extract library access
+                # Extract standardized permissions using shared utility
+                permissions = StandardizedPermissions.for_jellyfin(policy)
+
+                # Extract library access using shared utility
                 enable_all = policy.get("EnableAllFolders", False)
                 enabled_folders = policy.get("EnabledFolders", []) or []
 
-                if not enable_all and enabled_folders:
-                    # User has restricted library access
-                    libs_q = (
-                        Library.query.filter(
-                            Library.external_id.in_(enabled_folders),
-                            Library.server_id == self.server_id,
-                        )
-                        .order_by(Library.name)
-                        .all()
-                    )
-                    library_access = [
-                        UserLibraryAccess(
-                            library_id=lib.external_id,
-                            library_name=lib.name,
-                            has_access=True,
-                        )
-                        for lib in libs_q
-                    ]
+                if enable_all or not enabled_folders:
+                    library_access = LibraryAccessHelper.create_full_access()
                 else:
-                    # Full access - get all enabled libraries for this server
-                    libs_q = (
-                        Library.query.filter_by(server_id=self.server_id, enabled=True)
-                        .order_by(Library.name)
-                        .all()
+                    library_access = LibraryAccessHelper.create_restricted_access(
+                        enabled_folders, self.server_id
                     )
-                    library_access = [
-                        UserLibraryAccess(
-                            library_id=lib.external_id,
-                            library_name=lib.name,
-                            has_access=True,
-                        )
-                        for lib in libs_q
-                    ]
+
+                # Parse dates using shared utility
+                created_at = DateHelper.parse_iso_date(raw_user.get("DateCreated"))
+                last_active = DateHelper.parse_iso_date(
+                    raw_user.get("LastActivityDate")
+                )
 
                 # Extract configuration and policy information
                 configuration = raw_user.get("Configuration", {}) or {}
+                raw_policies = {
+                    "Policy": policy,
+                    "Configuration": configuration,
+                }
 
-                # Create MediaUserDetails object
-                import datetime
-
-                details = MediaUserDetails(
+                # Create standardized user details using factory function
+                details = create_standardized_user_details(
                     user_id=user.token,
                     username=raw_user.get("Name", "Unknown"),
                     email=raw_user.get("Email"),
-                    is_admin=policy.get("IsAdministrator", False),
-                    is_enabled=not policy.get(
-                        "IsDisabled", False
-                    ),  # IsDisabled=False means enabled
-                    created_at=datetime.datetime.fromisoformat(
-                        raw_user["DateCreated"].replace("Z", "+00:00")
-                    )
-                    if raw_user.get("DateCreated")
-                    else None,
-                    last_active=datetime.datetime.fromisoformat(
-                        raw_user["LastActivityDate"].replace("Z", "+00:00")
-                    )
-                    if raw_user.get("LastActivityDate")
-                    else None,
+                    permissions=permissions,
                     library_access=library_access,
-                    raw_policies={
-                        "Policy": policy,
-                        "Configuration": configuration,
-                    },
+                    raw_policies=raw_policies,
+                    created_at=created_at,
+                    last_active=last_active,
+                    is_enabled=not policy.get("IsDisabled", False),
                 )
 
                 # Cache the metadata in the User record

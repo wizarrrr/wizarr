@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import datetime
 import logging
 import re
 import time
@@ -14,6 +13,12 @@ from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid
 
 from .client_base import RestApiMixin, register_media_client
+from .utils import (
+    DateHelper,
+    LibraryAccessHelper,
+    StandardizedPermissions,
+    create_standardized_user_details,
+)
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
@@ -244,6 +249,11 @@ class AudiobookshelfClient(RestApiMixin):
                 abs_user = raw_by_id[user.token]
                 permissions = abs_user.get("permissions", {}) or {}
 
+                # Extract standardized permissions
+                std_permissions = StandardizedPermissions.for_audiobookshelf(
+                    permissions
+                )
+
                 # Store both server-specific and standardized keys in policies dict
                 audiobookshelf_policies = {
                     # Server-specific permission keys
@@ -257,8 +267,8 @@ class AudiobookshelfClient(RestApiMixin):
                         "accessExplicitContent", True
                     ),
                     # Standardized permission keys for UI display
-                    "allow_downloads": permissions.get("download", True),
-                    "allow_live_tv": False,  # AudiobookShelf doesn't have Live TV
+                    "allow_downloads": std_permissions.allow_downloads,
+                    "allow_live_tv": std_permissions.allow_live_tv,
                 }
                 user.set_raw_policies(audiobookshelf_policies)
             else:
@@ -309,44 +319,32 @@ class AudiobookshelfClient(RestApiMixin):
                 if not raw_user:
                     continue
 
-                # Extract metadata from bulk response (same format as individual API call)
-                from app.models import Library
-                from app.services.media.user_details import (
-                    MediaUserDetails,
-                    UserLibraryAccess,
-                )
-
                 permissions = raw_user.get("permissions", {}) or {}
+
+                # Extract standardized permissions
+                std_permissions = StandardizedPermissions.for_audiobookshelf(
+                    permissions
+                )
 
                 # Extract library access
                 access_all = permissions.get("accessAllLibraries", False)
                 accessible_libs = raw_user.get("librariesAccessible", []) or []
 
                 if not access_all and accessible_libs:
-                    # User has restricted library access
-                    libs_q = (
-                        Library.query.filter(
-                            Library.external_id.in_(accessible_libs),
-                            Library.server_id == self.server_id,
-                        )
-                        .order_by(Library.name)
-                        .all()
+                    library_access = LibraryAccessHelper.create_restricted_access(
+                        accessible_libs, self.server_id
                     )
-                    library_access = [
-                        UserLibraryAccess(
-                            library_id=lib.external_id,
-                            library_name=lib.name,
-                            has_access=True,
-                        )
-                        for lib in libs_q
-                    ]
                 else:
                     # Full access - get all enabled libraries for this server
+                    from app.models import Library
+
                     libs_q = (
                         Library.query.filter_by(server_id=self.server_id, enabled=True)
                         .order_by(Library.name)
                         .all()
                     )
+                    from app.services.media.user_details import UserLibraryAccess
+
                     library_access = [
                         UserLibraryAccess(
                             library_id=lib.external_id,
@@ -356,11 +354,11 @@ class AudiobookshelfClient(RestApiMixin):
                         for lib in libs_q
                     ]
 
-                # Extract only admin-relevant policies information
+                # Extract admin-relevant policies information
                 filtered_policies = {
                     "isActive": raw_user.get("isActive", True),
-                    "admin": permissions.get("admin", False),
-                    "download": permissions.get("download", True),
+                    "admin": std_permissions.is_admin,
+                    "download": std_permissions.allow_downloads,
                     "update": permissions.get("update", False),
                     "delete": permissions.get("delete", False),
                     "upload": permissions.get("upload", False),
@@ -371,27 +369,17 @@ class AudiobookshelfClient(RestApiMixin):
                     ),
                 }
 
-                # Create MediaUserDetails object
-                import datetime
-
-                details = MediaUserDetails(
+                # Create MediaUserDetails object using factory function
+                details = create_standardized_user_details(
                     user_id=user.token,
                     username=raw_user.get("username", "Unknown"),
                     email=raw_user.get("email"),
-                    is_admin=permissions.get("admin", False),
-                    is_enabled=raw_user.get("isActive", True),
-                    created_at=datetime.datetime.fromtimestamp(
-                        raw_user["createdAt"] / 1000
-                    )
-                    if raw_user.get("createdAt")
-                    else None,
-                    last_active=datetime.datetime.fromtimestamp(
-                        raw_user["lastSeen"] / 1000
-                    )
-                    if raw_user.get("lastSeen")
-                    else None,
+                    permissions=std_permissions,
                     library_access=library_access,
                     raw_policies=filtered_policies,
+                    created_at=DateHelper.parse_timestamp(raw_user.get("createdAt")),
+                    last_active=DateHelper.parse_timestamp(raw_user.get("lastSeen")),
+                    is_enabled=raw_user.get("isActive", True),
                 )
 
                 # Cache the metadata in the User record
@@ -421,8 +409,12 @@ class AudiobookshelfClient(RestApiMixin):
         The ABS API expects at least ``username``.  A password can be an
         empty string (guest), but Wizarr always passes one.
         """
+        # Use standardized permissions for consistency
+        std_permissions = StandardizedPermissions.for_basic_server(
+            "audiobookshelf", is_admin, allow_downloads
+        )
         permissions = {
-            "download": allow_downloads,
+            "download": std_permissions.allow_downloads,
             "update": False,
             "delete": False,
             "upload": False,
@@ -497,82 +489,46 @@ class AudiobookshelfClient(RestApiMixin):
 
     def get_user_details(self, user_id: str) -> MediaUserDetails:
         """Get detailed user information in standardized format."""
-        from app.models import Library
-        from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
-
         # Get raw user data from AudiobookShelf API
         response = self.get(f"{self.API_PREFIX}/users/{user_id}")
         response.raise_for_status()
         raw_user = response.json()
         permissions = raw_user.get("permissions", {}) or {}
 
+        # Extract standardized permissions
+        std_permissions = StandardizedPermissions.for_audiobookshelf(permissions)
+
         # Extract library access
         access_all = permissions.get("accessAllLibraries", False)
         accessible_libs = raw_user.get("librariesAccessible", []) or []
 
         if not access_all and accessible_libs:
-            # User has restricted library access
-            libs_q = (
-                Library.query.filter(
-                    Library.external_id.in_(accessible_libs),
-                    Library.server_id == self.server_id,
-                )
-                .order_by(Library.name)
-                .all()
+            library_access = LibraryAccessHelper.create_restricted_access(
+                accessible_libs, self.server_id
             )
-            library_access = [
-                UserLibraryAccess(
-                    library_id=lib.external_id, library_name=lib.name, has_access=True
-                )
-                for lib in libs_q
-            ]
         else:
-            # Full access - get all enabled libraries for this server
-            libs_q = (
-                Library.query.filter_by(server_id=self.server_id, enabled=True)
-                .order_by(Library.name)
-                .all()
-            )
-            library_access = [
-                UserLibraryAccess(
-                    library_id=lib.external_id, library_name=lib.name, has_access=True
-                )
-                for lib in libs_q
-            ]
+            library_access = LibraryAccessHelper.create_full_access()
 
-        # Extract only admin-relevant policies information
+        # Extract admin-relevant policies information
         filtered_policies = {
             "isActive": raw_user.get("isActive", True),
             "type": raw_user.get("type", "user"),
             "hasOpenIDLink": raw_user.get("hasOpenIDLink", False),
+            "download": std_permissions.allow_downloads,
+            "accessAllLibraries": permissions.get("accessAllLibraries", True),
+            "accessExplicitContent": permissions.get("accessExplicitContent", False),
         }
 
-        # Add useful permission info
-        if permissions:
-            filtered_policies.update(
-                {
-                    "download": permissions.get("download", False),
-                    "accessAllLibraries": permissions.get("accessAllLibraries", True),
-                    "accessExplicitContent": permissions.get(
-                        "accessExplicitContent", False
-                    ),
-                }
-            )
-
-        return MediaUserDetails(
+        return create_standardized_user_details(
             user_id=user_id,
             username=raw_user.get("username", "Unknown"),
             email=raw_user.get("email"),
-            is_admin=permissions.get("admin", False),
-            is_enabled=raw_user.get("isActive", True),
-            created_at=datetime.datetime.fromtimestamp(raw_user["createdAt"] / 1000)
-            if raw_user.get("createdAt")
-            else None,
-            last_active=datetime.datetime.fromtimestamp(raw_user["lastSeen"] / 1000)
-            if raw_user.get("lastSeen")
-            else None,
+            permissions=std_permissions,
             library_access=library_access,
             raw_policies=filtered_policies,
+            created_at=DateHelper.parse_timestamp(raw_user.get("createdAt")),
+            last_active=DateHelper.parse_timestamp(raw_user.get("lastSeen")),
+            is_enabled=raw_user.get("isActive", True),
         )
 
     # ------------------------------------------------------------------
