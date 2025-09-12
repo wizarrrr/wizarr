@@ -275,3 +275,40 @@ def check_navidrome(url: str, token: str) -> tuple[bool, str]:
         return True, ""
     except Exception as e:
         return handle_connection_error(e, _("Navidrome"))
+
+
+def check_drop(url: str, token: str) -> tuple[bool, str]:
+    """Quick connectivity check for a Drop instance.
+
+    We perform a lightweight request to the ``/api/v1/user`` endpoint to verify
+    the System token has the required permissions for basic API access.
+    """
+    try:
+        # Build request to Drop API
+        headers = {"Accept": "application/json", "Authorization": f"Bearer {token}"}
+
+        # Test connectivity with user endpoint (requires authentication)
+        response = requests.get(
+            f"{url.rstrip('/')}/api/v1/user", headers=headers, timeout=10
+        )
+
+        # Check for successful response
+        if response.status_code == 200:
+            return True, ""
+        if response.status_code == 401:
+            return False, _("Invalid API token or insufficient permissions.")
+        if response.status_code == 403:
+            return False, _("API token lacks required permissions.")
+        response.raise_for_status()
+        return True, ""
+
+    except requests.exceptions.ConnectionError:
+        return False, _("Could not connect to Drop server.")
+    except requests.exceptions.Timeout:
+        return False, _("Connection to Drop server timed out.")
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 404:
+            return False, _("Drop API not found. Check the server URL.")
+        return False, f"Drop API error: {e.response.status_code}"
+    except Exception as e:
+        return handle_connection_error(e, _("Drop"))
