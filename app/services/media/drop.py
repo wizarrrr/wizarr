@@ -6,7 +6,7 @@ and invitation management through a System token with appropriate scopes.
 
 import logging
 import re
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from sqlalchemy import or_
 
@@ -14,6 +14,9 @@ from app.extensions import db
 from app.models import Invitation, User
 from app.services.invites import is_invite_valid
 from app.services.media.client_base import RestApiMixin, register_media_client
+
+if TYPE_CHECKING:
+    from app.services.media.user_details import MediaUserDetails
 
 # Simple email validation pattern
 EMAIL_RE = re.compile(r"[^@]+@[^@]+\.[^@]+")
@@ -139,11 +142,15 @@ class DropClient(RestApiMixin):
                 drop_user = remote_by_id.get(user.token, {})
 
                 drop_policies = {
-                    # Map Drop user properties to standardized policy keys
+                    # Server-specific data
                     "enabled": drop_user.get("enabled", True),
                     "admin": drop_user.get("admin", False),
                     "displayName": drop_user.get("displayName", user.username),
                     "profilePictureObjectId": drop_user.get("profilePictureObjectId"),
+                    # Standardized permission keys for UI display
+                    "allow_downloads": True,  # Drop supports downloads by default
+                    "allow_live_tv": False,  # Drop doesn't support live TV
+                    "allow_camera_upload": False,  # Drop doesn't support camera upload
                 }
                 user.set_raw_policies(drop_policies)
 
@@ -255,7 +262,7 @@ class DropClient(RestApiMixin):
             else None,
         }
 
-    def get_user_details(self, user_id: str):
+    def get_user_details(self, user_id: str) -> "MediaUserDetails":
         """Get detailed user information in standardized format."""
         from app.services.media.user_details import MediaUserDetails
 
@@ -268,11 +275,11 @@ class DropClient(RestApiMixin):
                 user_id=str(raw_user.get("id", user_id)),
                 username=raw_user.get("username", "Unknown"),
                 email=raw_user.get("email"),
-                is_admin=raw_user.get("role") == "ADMIN",
+                is_admin=raw_user.get("admin", False),
                 is_enabled=raw_user.get("enabled", True),
                 created_at=None,  # Would need to parse if available
                 last_active=None,  # Not available in API
-                library_access=[],  # Drop doesn't have traditional libraries
+                library_access=None,  # Drop doesn't have traditional libraries - indicates full access
                 raw_policies=raw_user,
             )
         except Exception as exc:
