@@ -3,7 +3,7 @@ repos:
     rev: v0.12.3
     hooks:
       - id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
+        args: [--fix]
       - id: ruff-format
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
