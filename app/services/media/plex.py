@@ -354,9 +354,11 @@ class PlexClient(MediaClient):
             last_active=None,  # Plex API doesn't provide last active for shared users
             library_access=library_access,
             raw_policies={
-                "allowCameraUpload": plex_user.allowCameraUpload,
-                "allowChannels": plex_user.allowChannels,
-                "allowSync": plex_user.allowSync,
+                "admin": getattr(plex_user, "admin", False),
+                "sections": sections,
+                "allowCameraUpload": getattr(plex_user, "allowCameraUpload", False),
+                "allowChannels": getattr(plex_user, "allowChannels", True),
+                "allowSync": getattr(plex_user, "allowSync", True),
             },
         )
 
@@ -452,8 +454,25 @@ class PlexClient(MediaClient):
             if p:
                 u.photo = p.thumb
 
+                # Get user's accessible sections
+                user_sections = []
+                try:
+                    for user_server in p.servers:
+                        if (
+                            user_server.machineIdentifier
+                            == self.server.machineIdentifier
+                        ):
+                            user_sections = [
+                                section.title for section in user_server.sections()
+                            ]
+                            break
+                except Exception:
+                    user_sections = []
+
                 # Store Plex permissions in raw_policies_json using the proper method
                 plex_policies = {
+                    "admin": getattr(p, "admin", False),
+                    "sections": user_sections,
                     "allowCameraUpload": getattr(p, "allowCameraUpload", False),
                     "allowChannels": getattr(p, "allowChannels", True),
                     "allowSync": getattr(p, "allowSync", True),
@@ -469,6 +488,8 @@ class PlexClient(MediaClient):
             else:
                 # Default values if Plex user data not found - store in metadata too
                 default_policies = {
+                    "admin": False,
+                    "sections": [],
                     "allowCameraUpload": False,
                     "allowChannels": False,
                     "allowSync": False,
@@ -587,6 +608,11 @@ class PlexClient(MediaClient):
                     raw_policies={
                         "admin": is_admin,
                         "sections": [getattr(s, "title", "Unknown") for s in sections],
+                        "allowCameraUpload": getattr(
+                            plex_user, "allowCameraUpload", False
+                        ),
+                        "allowChannels": getattr(plex_user, "allowChannels", True),
+                        "allowSync": getattr(plex_user, "allowSync", True),
                     },
                 )
 
