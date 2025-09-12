@@ -18,6 +18,7 @@ from app.models import Library, MediaServer, User
 from app.services.media.service import scan_libraries_for_server
 from app.services.servers import (
     check_audiobookshelf,
+    check_drop,
     check_emby,
     check_jellyfin,
     check_kavita,
@@ -38,6 +39,8 @@ def _check_connection(data: dict):
         return check_emby(data["server_url"], data["api_key"])
     if stype == "audiobookshelf":
         return check_audiobookshelf(data["server_url"], data["api_key"])
+    if stype == "drop":
+        return check_drop(data["server_url"], data["api_key"])
     if stype == "romm":
         username = data.get("server_username", "").strip()
         password = data.get("server_password", "").strip()
