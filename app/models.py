@@ -174,7 +174,16 @@ class User(db.Model, UserMixin):
     identity = db.relationship("Identity", backref=db.backref("accounts", lazy=True))
     notes = db.Column(db.Text, nullable=True)
 
-    # Metadata caching fields (only for displayed data)
+    # Standardized metadata columns
+    is_admin = db.Column(db.Boolean, nullable=True, default=False)
+    allow_downloads = db.Column(db.Boolean, nullable=True, default=False)
+    allow_live_tv = db.Column(db.Boolean, nullable=True, default=False)
+    allow_camera_upload = db.Column(db.Boolean, nullable=True, default=False)
+    accessible_libraries = db.Column(
+        db.Text, nullable=True
+    )  # JSON array of library names
+
+    # Legacy metadata caching fields (will be phased out)
     library_access_json = db.Column(db.Text, nullable=True)
     raw_policies_json = db.Column(db.Text, nullable=True)
 
@@ -248,48 +257,57 @@ class User(db.Model, UserMixin):
             self.library_access_json is not None or self.raw_policies_json is not None
         )
 
-    # Property methods for accessing permissions from metadata (API source of truth)
-    @property
-    def allow_downloads(self) -> bool:
-        """Get download permission from cached metadata (API is source of truth)."""
-        policies = self.get_raw_policies()
+    def get_accessible_libraries(self):
+        """Get list of accessible library names."""
+        import json
 
-        # Check standardized key first, then server-specific keys
-        if "allow_downloads" in policies:
-            return policies["allow_downloads"]
+        if not self.accessible_libraries:
+            return []
+        try:
+            return json.loads(self.accessible_libraries)
+        except (json.JSONDecodeError, TypeError):
+            return []
 
-        # Server-specific mappings
-        # Plex: allowSync = download/sync permission
-        if "allowSync" in policies:
-            return policies["allowSync"]
+    def set_accessible_libraries(self, libraries: list[str]):
+        """Set list of accessible library names."""
+        import json
 
-        # Jellyfin/Emby: EnableContentDownloading
-        if "EnableContentDownloading" in policies:
-            return policies["EnableContentDownloading"]
+        if libraries is None or not libraries:
+            self.accessible_libraries = None
+        else:
+            self.accessible_libraries = json.dumps(libraries)
 
-        # Default to False if no metadata available (API is source of truth)
-        return False
+    def update_standardized_metadata(self, details):
+        """Update user with standardized metadata from MediaUserDetails."""
+        from app.services.media.user_details import MediaUserDetails
 
-    @property
-    def allow_live_tv(self) -> bool:
-        """Get live TV permission from cached metadata (API is source of truth)."""
-        policies = self.get_raw_policies()
+        if not isinstance(details, MediaUserDetails):
+            return
 
-        # Check standardized key first, then server-specific keys
-        if "allow_live_tv" in policies:
-            return policies["allow_live_tv"]
+        # Update standardized columns
+        self.is_admin = details.is_admin
+        self.allow_downloads = getattr(details, "allow_downloads", False)
+        self.allow_live_tv = getattr(details, "allow_live_tv", False)
+        self.allow_camera_upload = getattr(details, "allow_camera_upload", False)
 
-        # Server-specific mappings
-        # Plex: allowChannels = live TV/channel access
-        if "allowChannels" in policies:
-            return policies["allowChannels"]
+        # Extract library names
+        if details.library_access is None:
+            # Full access - get all server libraries
+            from app.models import Library
 
-        # Jellyfin/Emby: EnableLiveTvAccess
-        if "EnableLiveTvAccess" in policies:
-            return policies["EnableLiveTvAccess"]
-
-        # Default to False if no metadata available (API is source of truth)
-        return False
+            if self.server_id:
+                all_libs = Library.query.filter_by(
+                    server_id=self.server_id, enabled=True
+                ).all()
+                self.set_accessible_libraries([lib.name for lib in all_libs])
+            else:
+                self.set_accessible_libraries([])
+        else:
+            # Specific library access
+            accessible_names = [
+                lib.library_name for lib in details.library_access if lib.has_access
+            ]
+            self.set_accessible_libraries(accessible_names)
 
 
 # ───────────────────────────────────────────────────────────────────────────────

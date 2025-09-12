@@ -1,4 +1,3 @@
-import datetime
 import logging
 import re
 from typing import TYPE_CHECKING, Any
@@ -105,44 +104,41 @@ class KomgaClient(RestApiMixin):
 
     def get_user_details(self, user_id: str) -> "MediaUserDetails":
         """Get detailed user information in standardized format."""
-        from app.models import Library
-        from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
+        from app.services.media.utils import (
+            DateHelper,
+            LibraryAccessHelper,
+            StandardizedPermissions,
+            create_standardized_user_details,
+        )
 
         # Get raw user data from Komga API
         response = self.get(f"/api/v1/users/{user_id}")
         raw_user = response.json()
 
-        # Get all available libraries for this server since Komga gives full access
-        libs_q = (
-            Library.query.filter_by(server_id=self.server_id, enabled=True)
-            .order_by(Library.name)
-            .all()
+        # Extract permissions using utility
+        permissions = StandardizedPermissions.for_basic_server(
+            "komga",
+            is_admin="ADMIN" in raw_user.get("roles", []),
+            allow_downloads=True,  # Comic reader allows downloads
         )
-        library_access = [
-            UserLibraryAccess(
-                library_id=lib.external_id, library_name=lib.name, has_access=True
-            )
-            for lib in libs_q
-        ]
 
-        return MediaUserDetails(
+        # Komga gives full access to all libraries
+        library_access = LibraryAccessHelper.create_full_access()
+
+        # Parse dates
+        created_at = DateHelper.parse_iso_date(raw_user.get("createdDate"))
+        last_active = DateHelper.parse_iso_date(raw_user.get("lastActiveDate"))
+
+        return create_standardized_user_details(
             user_id=user_id,
             username=raw_user.get("email", "Unknown"),  # Komga uses email as username
             email=raw_user.get("email"),
-            is_admin="ADMIN" in raw_user.get("roles", []),
-            is_enabled=True,  # Komga doesn't have a disabled state in API
-            created_at=datetime.datetime.fromisoformat(
-                raw_user["createdDate"].rstrip("Z")
-            )
-            if raw_user.get("createdDate")
-            else None,
-            last_active=datetime.datetime.fromisoformat(
-                raw_user["lastActiveDate"].rstrip("Z")
-            )
-            if raw_user.get("lastActiveDate")
-            else None,
+            permissions=permissions,
             library_access=library_access,
             raw_policies=raw_user,
+            created_at=created_at,
+            last_active=last_active,
+            is_enabled=True,  # Komga doesn't have a disabled state in API
         )
 
     def list_users(self) -> list[User]:

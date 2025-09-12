@@ -317,10 +317,26 @@ class PlexClient(MediaClient):
             # Get the user's accessible libraries on this server
             for user_server in plex_user.servers:
                 if user_server.machineIdentifier == self.server.machineIdentifier:
-                    sections = [section.title for section in user_server.sections()]
-                    break
+                    # Get sections from Plex user server
+                    try:
+                        sections = [section.title for section in user_server.sections()]
+                        break
+                    except TypeError:
+                        # Fallback for different PlexAPI versions
+                        try:
+                            sections_data = user_server.sections()
+                            sections = [section.title for section in sections_data]
+                            break
+                        except Exception:
+                            sections_attr = user_server.sections
+                            if hasattr(sections_attr, "__iter__"):
+                                sections = [
+                                    getattr(section, "title", str(section))
+                                    for section in sections_attr
+                                ]
+                            break
         except Exception as e:
-            logging.warning(f"Failed to get Plex user sections: {e}")
+            logging.error(f"Failed to get Plex user sections: {e}")
             sections = []
 
         # Convert section titles to library access objects
@@ -340,25 +356,42 @@ class PlexClient(MediaClient):
                 )
                 for lib in libs_q
             ]
+
+            # If we have sections but no matching libraries in DB, create them from section names
+            if not library_access and sections:
+                library_access = [
+                    UserLibraryAccess(
+                        library_id=f"plex_{i}", library_name=section, has_access=True
+                    )
+                    for i, section in enumerate(sections)
+                ]
         else:
-            # No sections found - return empty list instead of None
-            library_access = []
+            # No sections found means user has access to all libraries
+            library_access = None
+
+        # Extract standardized permissions from Plex user
+        is_admin = getattr(plex_user, "admin", False)
+        allow_downloads = getattr(plex_user, "allowSync", True)
+        allow_live_tv = getattr(plex_user, "allowChannels", True)
+        allow_camera_upload = getattr(plex_user, "allowCameraUpload", False)
 
         return MediaUserDetails(
             user_id=str(plex_user.id),
             username=plex_user.title,
             email=plex_user.email,
-            is_admin=plex_user.admin if hasattr(plex_user, "admin") else False,
+            is_admin=is_admin,
             is_enabled=True,  # Plex doesn't have a disabled state for shared users
             created_at=None,  # Plex API doesn't provide creation date for shared users
             last_active=None,  # Plex API doesn't provide last active for shared users
+            allow_downloads=allow_downloads,
+            allow_live_tv=allow_live_tv,
+            allow_camera_upload=allow_camera_upload,
             library_access=library_access,
             raw_policies={
-                "admin": getattr(plex_user, "admin", False),
-                "sections": sections,
-                "allowCameraUpload": getattr(plex_user, "allowCameraUpload", False),
-                "allowChannels": getattr(plex_user, "allowChannels", True),
-                "allowSync": getattr(plex_user, "allowSync", True),
+                "admin": is_admin,
+                "allowCameraUpload": allow_camera_upload,
+                "allowChannels": allow_live_tv,
+                "allowSync": allow_downloads,
             },
         )
 
@@ -454,25 +487,9 @@ class PlexClient(MediaClient):
             if p:
                 u.photo = p.thumb
 
-                # Get user's accessible sections
-                user_sections = []
-                try:
-                    for user_server in p.servers:
-                        if (
-                            user_server.machineIdentifier
-                            == self.server.machineIdentifier
-                        ):
-                            user_sections = [
-                                section.title for section in user_server.sections()
-                            ]
-                            break
-                except Exception:
-                    user_sections = []
-
                 # Store Plex permissions in raw_policies_json using the proper method
                 plex_policies = {
                     "admin": getattr(p, "admin", False),
-                    "sections": user_sections,
                     "allowCameraUpload": getattr(p, "allowCameraUpload", False),
                     "allowChannels": getattr(p, "allowChannels", True),
                     "allowSync": getattr(p, "allowSync", True),
@@ -489,7 +506,6 @@ class PlexClient(MediaClient):
                 # Default values if Plex user data not found - store in metadata too
                 default_policies = {
                     "admin": False,
-                    "sections": [],
                     "allowCameraUpload": False,
                     "allowChannels": False,
                     "allowSync": False,
@@ -531,8 +547,7 @@ class PlexClient(MediaClient):
                 if not plex_user:
                     continue
 
-                # Extract metadata from bulk response (same logic as individual API call)
-                from app.models import Library
+                # Extract standardized metadata from bulk response
                 from app.services.media.user_details import (
                     MediaUserDetails,
                     UserLibraryAccess,
@@ -544,80 +559,76 @@ class PlexClient(MediaClient):
                     # Get sections the user has access to
                     if hasattr(plex_user, "servers") and plex_user.servers:
                         for server in plex_user.servers:
-                            if hasattr(server, "sections"):
-                                sections.extend(server.sections)
+                            if (
+                                server.machineIdentifier
+                                == self.server.machineIdentifier
+                            ):
+                                # Get sections from Plex user server
+                                try:
+                                    sections = [
+                                        section.title for section in server.sections()
+                                    ]
+                                    break
+                                except TypeError:
+                                    # Fallback for different PlexAPI versions
+                                    try:
+                                        sections_data = server.sections()
+                                        sections = [
+                                            section.title for section in sections_data
+                                        ]
+                                        break
+                                    except Exception:
+                                        sections_attr = server.sections
+                                        if hasattr(sections_attr, "__iter__"):
+                                            sections = [
+                                                getattr(section, "title", str(section))
+                                                for section in sections_attr
+                                            ]
+                                        break
                 except Exception as e:
                     logging.warning(
                         f"Failed to get sections for user {user.email}: {e}"
                     )
                     sections = []
 
-                # Map sections to library access
-                library_access = []
-                if sections:
-                    for section in sections:
-                        try:
-                            # Find corresponding library in our database
-                            lib = Library.query.filter_by(
-                                external_id=str(section.id), server_id=self.server_id
-                            ).first()
-                            if lib:
-                                library_access.append(
-                                    UserLibraryAccess(
-                                        library_id=str(section.id),
-                                        library_name=lib.name,
-                                        has_access=True,
-                                    )
-                                )
-                        except Exception as e:
-                            logging.warning(
-                                f"Failed to process section {getattr(section, 'title', 'unknown')}: {e}"
-                            )
-                            continue
-                else:
-                    # No specific sections - get all enabled libraries for this server
-                    libs_q = (
-                        Library.query.filter_by(server_id=self.server_id, enabled=True)
-                        .order_by(Library.name)
-                        .all()
-                    )
-                    library_access = [
-                        UserLibraryAccess(
-                            library_id=lib.external_id,
-                            library_name=lib.name,
-                            has_access=True,
-                        )
-                        for lib in libs_q
-                    ]
-
-                # Extract user information
-                username = getattr(plex_user, "title", user.username)
-                email = getattr(plex_user, "email", user.email)
+                # Extract standardized permissions from Plex user
                 is_admin = getattr(plex_user, "admin", False)
+                allow_downloads = getattr(plex_user, "allowSync", True)
+                allow_live_tv = getattr(plex_user, "allowChannels", True)
+                allow_camera_upload = getattr(plex_user, "allowCameraUpload", False)
 
-                # Create MediaUserDetails object
+                # Create MediaUserDetails object with standardized data
                 details = MediaUserDetails(
                     user_id=str(user.id),  # Plex uses database ID for details
-                    username=username,
-                    email=email,
+                    username=getattr(plex_user, "title", user.username),
+                    email=getattr(plex_user, "email", user.email),
                     is_admin=is_admin,
                     is_enabled=True,  # Plex users are enabled if they exist
                     created_at=None,  # Plex doesn't provide creation date in bulk response
                     last_active=None,  # Plex doesn't provide last active in bulk response
-                    library_access=library_access,
+                    allow_downloads=allow_downloads,
+                    allow_live_tv=allow_live_tv,
+                    allow_camera_upload=allow_camera_upload,
+                    library_access=None
+                    if not sections
+                    else [
+                        UserLibraryAccess(
+                            library_id=f"plex_{i}",
+                            library_name=section,
+                            has_access=True,
+                        )
+                        for i, section in enumerate(sections)
+                    ],
                     raw_policies={
                         "admin": is_admin,
-                        "sections": [getattr(s, "title", "Unknown") for s in sections],
-                        "allowCameraUpload": getattr(
-                            plex_user, "allowCameraUpload", False
-                        ),
-                        "allowChannels": getattr(plex_user, "allowChannels", True),
-                        "allowSync": getattr(plex_user, "allowSync", True),
+                        "allowCameraUpload": allow_camera_upload,
+                        "allowChannels": allow_live_tv,
+                        "allowSync": allow_downloads,
                     },
                 )
 
-                # Cache the metadata in the User record
-                user.cache_metadata(details)
+                # Update user with standardized metadata columns
+                user.update_standardized_metadata(details)
                 cached_count += 1
 
             except Exception as e:
@@ -625,7 +636,14 @@ class PlexClient(MediaClient):
                 continue
 
         if cached_count > 0:
-            logging.info(f"Cached metadata for {cached_count} users")
+            logging.info(f"Updated standardized metadata for {cached_count} users")
+
+        # Commit the standardized metadata updates
+        try:
+            db.session.commit()
+        except Exception as e:
+            logging.error(f"Failed to commit standardized metadata: {e}")
+            db.session.rollback()
 
     def _get_user_identifier_for_details(self, user: User) -> str | int | None:
         """Plex uses database ID for get_user_details."""

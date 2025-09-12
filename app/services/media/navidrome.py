@@ -9,8 +9,9 @@ from typing import TYPE_CHECKING, Any
 from sqlalchemy import or_
 
 from app.extensions import db
-from app.models import Invitation, Library, User
+from app.models import Invitation, User
 from app.services.invites import is_invite_valid
+from app.services.media.utils import StandardizedPermissions
 
 from .client_base import RestApiMixin, register_media_client
 
@@ -184,6 +185,9 @@ class NavidromeClient(RestApiMixin):
             if user.username in users_by_name:
                 navidrome_user = users_by_name[user.username]
 
+                # Use standardized permissions helper for consistency
+                permissions = StandardizedPermissions.for_navidrome(navidrome_user)
+
                 # Store both server-specific and standardized keys in policies dict
                 navidrome_policies = {
                     # Server-specific data (navidrome user info)
@@ -193,20 +197,24 @@ class NavidromeClient(RestApiMixin):
                     "lastFMApiKey": navidrome_user.get("lastFMApiKey", ""),
                     "listenBrainzToken": navidrome_user.get("listenBrainzToken", ""),
                     # Standardized permission keys for UI display
-                    "allow_downloads": True,  # Navidrome users can always download/sync music
-                    "allow_live_tv": False,  # No live TV in music servers
+                    "allow_downloads": permissions.allow_downloads,
+                    "allow_live_tv": permissions.allow_live_tv,
                 }
                 user.set_raw_policies(navidrome_policies)
             else:
-                # Default values if user data not found - store in metadata too
+                # Default values if user data not found - use standardized helper
+                default_permissions = StandardizedPermissions.for_basic_server(
+                    "navidrome"
+                )
+
                 default_policies = {
                     "name": "",
                     "userName": "",
                     "isAdmin": False,
                     "lastFMApiKey": "",
                     "listenBrainzToken": "",
-                    "allow_downloads": False,
-                    "allow_live_tv": False,
+                    "allow_downloads": default_permissions.allow_downloads,
+                    "allow_live_tv": default_permissions.allow_live_tv,
                 }
                 user.set_raw_policies(default_policies)
 
@@ -300,44 +308,41 @@ class NavidromeClient(RestApiMixin):
 
     def get_user_details(self, username: str) -> MediaUserDetails:
         """Get detailed user information in standardized format."""
-        from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
+        from app.services.media.utils import (
+            LibraryAccessHelper,
+            StandardizedPermissions,
+            create_standardized_user_details,
+        )
 
         # Get raw user data from Navidrome API
         result = self._subsonic_request("getUser", {"username": username})
         raw_user = result.get("user", {})
 
-        # All users have access to all libraries in Navidrome
-        libs_q = (
-            Library.query.filter_by(server_id=self.server_id, enabled=True)
-            .order_by(Library.name)
-            .all()
-        )
-        library_access = [
-            UserLibraryAccess(
-                library_id=lib.external_id, library_name=lib.name, has_access=True
-            )
-            for lib in libs_q
-        ]
+        # Extract standardized permissions using shared utility
+        permissions = StandardizedPermissions.for_navidrome(raw_user)
+
+        # Navidrome gives full access to all libraries
+        library_access = LibraryAccessHelper.create_full_access()
 
         # Extract policies information
         filtered_policies = {
-            "adminRole": raw_user.get("adminRole", False),
-            "downloadRole": raw_user.get("downloadRole", True),
+            "adminRole": permissions.is_admin,
+            "downloadRole": permissions.allow_downloads,
             "uploadRole": raw_user.get("uploadRole", False),
             "playlistRole": raw_user.get("playlistRole", True),
             "streamRole": raw_user.get("streamRole", True),
         }
 
-        return MediaUserDetails(
+        return create_standardized_user_details(
             user_id=username,
             username=raw_user.get("username", username),
             email=raw_user.get("email"),
-            is_admin=raw_user.get("adminRole", False),
-            is_enabled=True,  # Navidrome doesn't have disabled users concept
-            created_at=None,  # Navidrome doesn't expose creation date
-            last_active=None,  # Navidrome doesn't expose last seen
+            permissions=permissions,
             library_access=library_access,
             raw_policies=filtered_policies,
+            created_at=None,  # Navidrome doesn't expose creation date
+            last_active=None,  # Navidrome doesn't expose last seen
+            is_enabled=True,  # Navidrome doesn't have disabled users concept
         )
 
     def _do_join(

@@ -18,7 +18,10 @@ class AccountInfo:
     server_name: str
     username: str
     libraries: list[str] | None
-    policies: dict | None
+    is_admin: bool
+    allow_downloads: bool
+    allow_live_tv: bool
+    allow_camera_upload: bool
 
 
 @dataclass(frozen=True)
@@ -80,7 +83,10 @@ class UserDetailsService:
                         server_name=server.name if server else "Local",
                         username=account.username,
                         libraries=None,
-                        policies=None,
+                        is_admin=False,
+                        allow_downloads=False,
+                        allow_live_tv=False,
+                        allow_camera_upload=False,
                     )
                 )
 
@@ -96,23 +102,27 @@ class UserDetailsService:
                 server_name="Local",
                 username=account.username,
                 libraries=None,
-                policies=None,
+                is_admin=False,
+                allow_downloads=False,
+                allow_live_tv=False,
+                allow_camera_upload=False,
             )
 
-        # Check if we have cached metadata
-        if account.has_cached_metadata():
-            # Use cached metadata instead of API call
-            libraries = self._extract_libraries_from_cached_data(server, account)
-
+        # Use standardized metadata if available
+        if account.accessible_libraries is not None or account.is_admin is not None:
+            # Use standardized metadata columns
             return AccountInfo(
                 server_type=server.server_type,
                 server_name=server.name,
                 username=account.username,
-                libraries=libraries,
-                policies=account.get_raw_policies(),
+                libraries=account.get_accessible_libraries(),
+                is_admin=account.is_admin or False,
+                allow_downloads=account.allow_downloads or False,
+                allow_live_tv=account.allow_live_tv or False,
+                allow_camera_upload=account.allow_camera_upload or False,
             )
 
-        # No fresh cache available, fetch from API
+        # No standardized metadata available, fetch from API
         client = get_client_for_media_server(server)
 
         # All clients now implement get_user_details - use the standardized interface
@@ -121,12 +131,18 @@ class UserDetailsService:
 
         libraries = self._extract_libraries_from_details(server, details)
 
+        # Update user with standardized metadata for future use
+        account.update_standardized_metadata(details)
+
         return AccountInfo(
             server_type=server.server_type,
             server_name=server.name,
             username=details.username,
             libraries=libraries,
-            policies=details.raw_policies,
+            is_admin=details.is_admin,
+            allow_downloads=details.allow_downloads,
+            allow_live_tv=details.allow_live_tv,
+            allow_camera_upload=details.allow_camera_upload,
         )
 
     def _extract_libraries_from_cached_data(
@@ -149,5 +165,16 @@ class UserDetailsService:
         self, server: MediaServer, details: MediaUserDetails
     ) -> list[str]:
         """Extract library names from MediaUserDetails."""
-        # Since all clients now populate library_access, just return the accessible names
+        # If library_access is None, user has full access - get all server libraries
+        if details.library_access is None:
+            from app.models import Library
+
+            all_libs = (
+                Library.query.filter_by(server_id=server.id, enabled=True)
+                .order_by(Library.name)
+                .all()
+            )
+            return [lib.name for lib in all_libs]
+
+        # Otherwise return the specific accessible library names
         return details.accessible_library_names
