@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-09-12 03:37+0000\n"
+"POT-Creation-Date: 2025-09-13 03:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -141,11 +141,11 @@ msgstr ""
 msgid "Settings saved successfully!"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:216 app/forms/settings.py:23
+#: app/blueprints/settings/routes.py:216 app/forms/settings.py:24
 msgid "Server URL"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:219 app/forms/settings.py:24
+#: app/blueprints/settings/routes.py:219 app/forms/settings.py:25
 msgid "API Key"
 msgstr ""
 
@@ -299,47 +299,47 @@ msgstr ""
 msgid "Server Type"
 msgstr ""
 
-#: app/forms/settings.py:22
+#: app/forms/settings.py:23
 msgid "Server Name"
 msgstr ""
 
-#: app/forms/settings.py:25
+#: app/forms/settings.py:26
 msgid "RomM Username"
 msgstr ""
 
-#: app/forms/settings.py:26
+#: app/forms/settings.py:27
 msgid "RomM Password"
 msgstr ""
 
-#: app/forms/settings.py:27 app/templates/admin/user_details_modal.html:60
+#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:61
 #: app/templates/tables/invite_card.html:238
 #: app/templates/tables/invite_card.html:247
 msgid "Libraries"
 msgstr ""
 
-#: app/forms/settings.py:29 app/forms/settings.py:45
+#: app/forms/settings.py:30 app/forms/settings.py:46
 #: app/templates/modals/invite.html:195 app/templates/modals/invite.html:211
 #: app/templates/modals/invite.html:222 app/templates/modals/invite.html:238
 msgid "Allow Downloads"
 msgstr ""
 
-#: app/forms/settings.py:32
+#: app/forms/settings.py:33
 msgid "Allow Live TV"
 msgstr ""
 
-#: app/forms/settings.py:35
+#: app/forms/settings.py:36
 msgid "Overseerr/Ombi URL"
 msgstr ""
 
-#: app/forms/settings.py:37
+#: app/forms/settings.py:38
 msgid "Ombi API Key"
 msgstr ""
 
-#: app/forms/settings.py:38
+#: app/forms/settings.py:39
 msgid "Discord ID"
 msgstr ""
 
-#: app/forms/settings.py:39
+#: app/forms/settings.py:40
 msgid "External URL"
 msgstr ""
 
@@ -413,7 +413,31 @@ msgstr ""
 msgid "Navidrome"
 msgstr ""
 
-#: app/templates/admin.html:5
+#: app/services/servers.py:299
+msgid "Invalid API token or insufficient permissions."
+msgstr ""
+
+#: app/services/servers.py:301
+msgid "API token lacks required permissions."
+msgstr ""
+
+#: app/services/servers.py:306
+msgid "Could not connect to Drop server."
+msgstr ""
+
+#: app/services/servers.py:308
+msgid "Connection to Drop server timed out."
+msgstr ""
+
+#: app/services/servers.py:311
+msgid "Drop API not found. Check the server URL."
+msgstr ""
+
+#: app/services/servers.py:314
+msgid "Drop"
+msgstr ""
+
+#: app/templates/admin.html:5 app/templates/admin/user_details_modal.html:92
 msgid "Admin"
 msgstr ""
 
@@ -839,15 +863,31 @@ msgstr ""
 msgid "Account Details"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:68
+#: app/templates/admin/user_details_modal.html:78
 msgid "All libraries"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:73
-msgid "Policies"
+#: app/templates/admin/user_details_modal.html:85
+msgid "Permissions"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:89
+#: app/templates/admin/user_details_modal.html:101
+msgid "Downloads"
+msgstr ""
+
+#: app/templates/admin/user_details_modal.html:110
+msgid "Live TV"
+msgstr ""
+
+#: app/templates/admin/user_details_modal.html:119
+msgid "Camera Upload"
+msgstr ""
+
+#: app/templates/admin/user_details_modal.html:128
+msgid "Basic Access"
+msgstr ""
+
+#: app/templates/admin/user_details_modal.html:142
 #: app/templates/components/admin_passkeys.html:58
 #: app/templates/components/admin_passkeys.html:72
 #: app/templates/components/passkey_error.html:17
@@ -907,7 +947,7 @@ msgstr ""
 #: app/templates/admin/user_modal.html:127
 #: app/templates/modals/edit-admin.html:33
 #: app/templates/modals/edit-identity.html:26
-#: app/templates/modals/edit-server.html:103
+#: app/templates/modals/edit-server.html:104
 #: app/templates/modals/wizard-bundle-form.html:30
 #: app/templates/modals/wizard-simple-step-form.html:39
 #: app/templates/modals/wizard-step-form.html:46
@@ -925,10 +965,10 @@ msgstr ""
 #: app/templates/modals/create-admin.html:34
 #: app/templates/modals/create-api-key.html:66
 #: app/templates/modals/create-notification-agent.html:91
-#: app/templates/modals/create-server.html:102
+#: app/templates/modals/create-server.html:103
 #: app/templates/modals/edit-admin.html:34
 #: app/templates/modals/edit-identity.html:27
-#: app/templates/modals/edit-server.html:104
+#: app/templates/modals/edit-server.html:105
 #: app/templates/modals/invite.html:269
 #: app/templates/modals/wizard-bundle-form.html:29
 #: app/templates/modals/wizard-import-form.html:97
@@ -1279,7 +1319,7 @@ msgstr ""
 msgid "Add Server"
 msgstr ""
 
-#: app/templates/modals/create-server.html:101
+#: app/templates/modals/create-server.html:102
 msgid "Test & Add"
 msgstr ""
 
