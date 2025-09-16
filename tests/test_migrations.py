@@ -171,7 +171,9 @@ def _get_latest_release_migration():
         release_migrations = {
             "2025.8.2": "20250729_squashed_connections_expiry_system",
             "2025.8.3": "20250729_squashed_connections_expiry_system",  # 2025.8.3 uses same migrations as 2025.8.2
-            "2025.9.0": "6c39692d6f32",  # Add the HEAD migration for 2025.9.0
+            "v2025.9.1": "39514b0aaad9",  # Latest release with admin column migration
+            "v2025.9.2": "39514b0aaad9",  # Same migration state
+            "v2025.9.3": "39514b0aaad9",  # Same migration state
             # Add future releases here as they are tagged
         }
 
