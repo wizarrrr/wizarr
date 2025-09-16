@@ -39,11 +39,14 @@ jobs:
           PR_BODY="${{ github.event.pull_request.body }}"
           CHANGELOG=$(echo "$PR_BODY" | sed '/^---$/,$d')
 
+          # Save changelog to file to avoid shell injection
+          echo "$CHANGELOG" > changelog.md
+
           # Create the release (explicitly published, not draft)
           echo "Creating published release ${{ steps.version.outputs.tag }}..."
           gh release create "${{ steps.version.outputs.tag }}" \
             --title "${{ steps.version.outputs.tag }}" \
-            --notes "$CHANGELOG" \
+            --notes-file changelog.md \
             --latest
 
           # Verify the release was published (not draft)
