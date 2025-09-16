@@ -81,13 +81,23 @@ def init_extensions(app):
 
         # Register tasks with the scheduler
         from app.tasks.maintenance import _get_expiry_check_interval, check_expiring
+        from app.tasks.update_check import fetch_and_cache_manifest
 
-        # Add the task to the scheduler, passing the app instance
+        # Add the expiry check task to the scheduler, passing the app instance
         scheduler.add_job(
             id="check_expiring",
             func=lambda: check_expiring(app),
             trigger="interval",
             minutes=_get_expiry_check_interval(),
+            replace_existing=True,
+        )
+
+        # Add the manifest fetch task to run every 24 hours
+        scheduler.add_job(
+            id="fetch_manifest",
+            func=lambda: fetch_and_cache_manifest(app),
+            trigger="interval",
+            hours=24,
             replace_existing=True,
         )
 
@@ -111,6 +121,15 @@ def init_extensions(app):
     migrate.init_app(app, db)
     limiter.init_app(app)
     # Flask-RESTX API will be initialized with the blueprint
+
+    # Always fetch manifest on startup after DB is initialized
+    if not should_skip_scheduler:
+        try:
+            from app.tasks.update_check import fetch_and_cache_manifest
+
+            fetch_and_cache_manifest(app)
+        except Exception as e:
+            app.logger.info("Initial manifest fetch failed: %s", e)
 
 
 @login_manager.user_loader

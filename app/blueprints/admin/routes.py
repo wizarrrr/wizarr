@@ -27,7 +27,11 @@ from app.services.media.service import (
     list_users_for_server,
     scan_libraries_for_server,
 )
-from app.services.update_check import check_update_available, get_sponsors
+from app.services.update_check import (
+    check_update_available,
+    get_manifest_last_fetch,
+    get_sponsors,
+)
 
 admin_bp = Blueprint("admin", __name__)
 
@@ -38,12 +42,14 @@ def dashboard():
     __version__ = os.getenv("APP_VERSION", "dev")
     update_available = check_update_available(__version__)
     sponsors = get_sponsors()
+    manifest_last_fetch = get_manifest_last_fetch()
 
     return render_template(
         "admin.html",
         update_available=update_available,
         sponsors=sponsors,
         version=__version__,
+        manifest_last_fetch=manifest_last_fetch,
     )
 
 

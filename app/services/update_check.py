@@ -1,28 +1,19 @@
-import requests
-from cachetools import TTLCache, cached
+import json
+
 from packaging.version import parse as vparse
-
-MANIFEST_URL = "https://wizarrrr.github.io/wizarr/manifest.json"
-TIMEOUT_SECS = 2
-CACHE_HOURS = 6
-
-
-@cached(cache=TTLCache(maxsize=1, ttl=CACHE_HOURS * 3600))
-def _fetch_manifest() -> dict:
-    resp = requests.get(
-        MANIFEST_URL,
-        timeout=TIMEOUT_SECS,
-        headers={"Accept": "application/json"},
-    )
-    resp.raise_for_status()
-    return resp.json()
 
 
 def _manifest() -> dict:
+    """Get cached manifest data from database."""
+    from app.models import Settings
+
     try:
-        return _fetch_manifest()
+        manifest_setting = Settings.query.filter_by(key="cached_manifest").first()
+        if manifest_setting and manifest_setting.value:
+            return json.loads(manifest_setting.value)
+        return {}
     except Exception:
-        # on failure, return empty or last good state if you choose to store it elsewhere
+        # on failure, return empty manifest
         return {}
 
 
@@ -39,3 +30,14 @@ def check_update_available(current_version: str) -> bool:
 def get_sponsors() -> list[dict]:
     """Returns list like [{'login': 'alice', 'url': '…', 'avatarUrl': '…'}, …]."""
     return _manifest().get("sponsors", [])
+
+
+def get_manifest_last_fetch() -> str | None:
+    """Get the timestamp of the last manifest fetch."""
+    from app.models import Settings
+
+    try:
+        timestamp_setting = Settings.query.filter_by(key="manifest_last_fetch").first()
+        return timestamp_setting.value if timestamp_setting else None
+    except Exception:
+        return None
