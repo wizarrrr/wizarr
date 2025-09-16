@@ -10,7 +10,7 @@ jobs:
   compile:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Compile .mo
         run: |
           pipx run babel pybabel compile -d app/translations
