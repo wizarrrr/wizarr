@@ -250,13 +250,18 @@ class AudiobookshelfClient(RestApiMixin):
                 permissions = abs_user.get("permissions", {}) or {}
 
                 # Extract standardized permissions
+                user_type = abs_user.get("type", "user")
                 std_permissions = StandardizedPermissions.for_audiobookshelf(
-                    permissions
+                    permissions, user_type
                 )
 
                 # Store both server-specific and standardized keys in policies dict
                 audiobookshelf_policies = {
+                    # User info
+                    "isActive": abs_user.get("isActive", True),
+                    "type": abs_user.get("type", "user"),
                     # Server-specific permission keys
+                    "admin": std_permissions.is_admin,
                     "download": permissions.get("download", True),
                     "update": permissions.get("update", False),
                     "delete": permissions.get("delete", False),
@@ -274,6 +279,9 @@ class AudiobookshelfClient(RestApiMixin):
             else:
                 # Default values if user data not found - store in metadata too
                 default_policies = {
+                    "isActive": False,
+                    "type": "user",
+                    "admin": False,
                     "download": False,
                     "update": False,
                     "delete": False,
@@ -322,20 +330,17 @@ class AudiobookshelfClient(RestApiMixin):
                 permissions = raw_user.get("permissions", {}) or {}
 
                 # Extract standardized permissions
+                user_type = raw_user.get("type", "user")
                 std_permissions = StandardizedPermissions.for_audiobookshelf(
-                    permissions
+                    permissions, user_type
                 )
 
                 # Extract library access
                 access_all = permissions.get("accessAllLibraries", False)
                 accessible_libs = raw_user.get("librariesAccessible", []) or []
 
-                if not access_all and accessible_libs:
-                    library_access = LibraryAccessHelper.create_restricted_access(
-                        accessible_libs, self.server_id
-                    )
-                else:
-                    # Full access - get all enabled libraries for this server
+                if access_all:
+                    # User has access to all libraries - get all enabled libraries for this server
                     from app.models import Library
 
                     libs_q = (
@@ -353,10 +358,19 @@ class AudiobookshelfClient(RestApiMixin):
                         )
                         for lib in libs_q
                     ]
+                elif accessible_libs:
+                    # User has access to specific libraries
+                    library_access = LibraryAccessHelper.create_restricted_access(
+                        accessible_libs, self.server_id
+                    )
+                else:
+                    # User has no library access
+                    library_access = []
 
                 # Extract admin-relevant policies information
                 filtered_policies = {
                     "isActive": raw_user.get("isActive", True),
+                    "type": raw_user.get("type", "user"),
                     "admin": std_permissions.is_admin,
                     "download": std_permissions.allow_downloads,
                     "update": permissions.get("update", False),
@@ -496,26 +510,55 @@ class AudiobookshelfClient(RestApiMixin):
         permissions = raw_user.get("permissions", {}) or {}
 
         # Extract standardized permissions
-        std_permissions = StandardizedPermissions.for_audiobookshelf(permissions)
+        user_type = raw_user.get("type", "user")
+        std_permissions = StandardizedPermissions.for_audiobookshelf(
+            permissions, user_type
+        )
 
         # Extract library access
         access_all = permissions.get("accessAllLibraries", False)
         accessible_libs = raw_user.get("librariesAccessible", []) or []
 
-        if not access_all and accessible_libs:
+        if access_all:
+            # User has access to all libraries - get all enabled libraries for this server
+            from app.models import Library
+            from app.services.media.user_details import UserLibraryAccess
+
+            libs_q = (
+                Library.query.filter_by(server_id=self.server_id, enabled=True)
+                .order_by(Library.name)
+                .all()
+            )
+
+            library_access = [
+                UserLibraryAccess(
+                    library_id=lib.external_id,
+                    library_name=lib.name,
+                    has_access=True,
+                )
+                for lib in libs_q
+            ]
+        elif accessible_libs:
+            # User has access to specific libraries
             library_access = LibraryAccessHelper.create_restricted_access(
                 accessible_libs, self.server_id
             )
         else:
-            library_access = LibraryAccessHelper.create_full_access()
+            # User has no library access
+            library_access = []
 
         # Extract admin-relevant policies information
         filtered_policies = {
             "isActive": raw_user.get("isActive", True),
             "type": raw_user.get("type", "user"),
+            "admin": std_permissions.is_admin,
             "hasOpenIDLink": raw_user.get("hasOpenIDLink", False),
             "download": std_permissions.allow_downloads,
-            "accessAllLibraries": permissions.get("accessAllLibraries", True),
+            "update": permissions.get("update", False),
+            "delete": permissions.get("delete", False),
+            "upload": permissions.get("upload", False),
+            "accessAllLibraries": permissions.get("accessAllLibraries", False),
+            "accessAllTags": permissions.get("accessAllTags", True),
             "accessExplicitContent": permissions.get("accessExplicitContent", False),
         }
 

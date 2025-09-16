@@ -39,10 +39,18 @@ class StandardizedPermissions:
         return perms
 
     @classmethod
-    def for_audiobookshelf(cls, permissions: dict) -> "StandardizedPermissions":
-        """Extract standardized permissions from AudiobookShelf."""
+    def for_audiobookshelf(
+        cls, permissions: dict, user_type: str = "user"
+    ) -> "StandardizedPermissions":
+        """Extract standardized permissions from AudiobookShelf.
+
+        Args:
+            permissions: The permissions dict from the user object
+            user_type: The user type ("root", "admin", or "user")
+        """
         perms = cls("audiobookshelf")
-        perms.is_admin = permissions.get("admin", False)
+        # AudiobookShelf admin status comes from user.type, not permissions.admin
+        perms.is_admin = user_type in ("root", "admin")
         perms.allow_downloads = permissions.get("download", False)
         perms.allow_live_tv = False  # Not supported
         perms.allow_camera_upload = False  # Not supported
