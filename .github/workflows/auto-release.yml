@@ -1,9 +1,15 @@
-name: Auto Release
+# DISABLED: This workflow is redundant with create-release.yml
+# Both workflows were trying to create releases from the same Release PRs
+# causing conflicts. Using create-release.yml as the canonical release creator.
+
+name: Auto Release (DISABLED)
 
 on:
-  pull_request:
-    branches: [main]
-    types: [closed]
+  # Disabled to avoid conflicts with create-release.yml
+  # pull_request:
+  #   branches: [main]
+  #   types: [closed]
+  workflow_dispatch:  # Keep for manual testing only
 
 jobs:
   check-release:
@@ -71,38 +77,122 @@ jobs:
             CHANGELOG="No changes since last release."
           else
             CHANGELOG="## What's Changed\n\n"
-            
-            # Group commits by type
+
+            # Group commits by type with comprehensive detection
             FEATURES=""
             FIXES=""
+            DOCS=""
+            PERF=""
+            REFACTOR=""
+            TEST=""
+            BUILD=""
+            CI=""
+            STYLE=""
+            CHORE=""
+            BREAKING=""
             OTHER=""
-            
+
             while IFS= read -r line; do
-              if echo "$line" | grep -qE "^[a-f0-9]+ feat(\([^)]+\))?:"; then
-                COMMIT_MSG=$(echo "$line" | sed 's/^[a-f0-9]* feat[^:]*: *//')
+              COMMIT_FULL_MSG=$(echo "$line" | sed 's/^[a-fA-F0-9]* //')
+
+              # Check for breaking changes first (can be any type)
+              if echo "$COMMIT_FULL_MSG" | grep -qE "(BREAKING CHANGE|!):?"; then
+                BREAKING+="- $COMMIT_FULL_MSG\n"
+              # Features
+              elif echo "$line" | grep -qE "^[a-fA-F0-9]+ feat(\([^)]+\))?(!)?:"; then
+                COMMIT_MSG=$(echo "$line" | sed 's/^[a-fA-F0-9]* feat[^:]*: *//')
                 FEATURES+="- $COMMIT_MSG\n"
-              elif echo "$line" | grep -qE "^[a-f0-9]+ fix(\([^)]+\))?:"; then
-                COMMIT_MSG=$(echo "$line" | sed 's/^[a-f0-9]* fix[^:]*: *//')
+              # Bug fixes
+              elif echo "$line" | grep -qE "^[a-fA-F0-9]+ fix(\([^)]+\))?(!)?:"; then
+                COMMIT_MSG=$(echo "$line" | sed 's/^[a-fA-F0-9]* fix[^:]*: *//')
                 FIXES+="- $COMMIT_MSG\n"
-              elif ! echo "$line" | grep -qE "^[a-f0-9]+ (chore|docs|style|refactor|test|ci)(\([^)]+\))?:"; then
-                # Skip maintenance commits, include everything else
-                COMMIT_MSG=$(echo "$line" | sed 's/^[a-f0-9]* //')
-                OTHER+="- $COMMIT_MSG\n"
+              # Documentation
+              elif echo "$line" | grep -qE "^[a-f0-9]+ docs(\([^)]+\))?(!)?:"; then
+                COMMIT_MSG=$(echo "$line" | sed 's/^[a-f0-9]* docs[^:]*: *//')
+                DOCS+="- $COMMIT_MSG\n"
+              # Performance improvements
+              elif echo "$line" | grep -qE "^[a-fA-F0-9]+ perf(\([^)]+\))?(!)?:"; then
+                COMMIT_MSG=$(echo "$line" | sed 's/^[a-fA-F0-9]* perf[^:]*: *//')
+                PERF+="- $COMMIT_MSG\n"
+              # Code refactoring
+              elif echo "$line" | grep -qE "^[a-fA-F0-9]+ refactor(\([^)]+\))?(!)?:"; then
+                COMMIT_MSG=$(echo "$line" | sed 's/^[a-fA-F0-9]* refactor[^:]*: *//')
+                REFACTOR+="- $COMMIT_MSG\n"
+              # Testing
+              elif echo "$line" | grep -qE "^[a-fA-F0-9]+ test(\([^)]+\))?(!)?:"; then
+                COMMIT_MSG=$(echo "$line" | sed 's/^[a-fA-F0-9]* test[^:]*: *//')
+                TEST+="- $COMMIT_MSG\n"
+              # Build system / dependencies
+              elif echo "$line" | grep -qE "^[a-fA-F0-9]+ (build|deps?)(\([^)]+\))?(!)?:"; then
+                COMMIT_MSG=$(echo "$line" | sed 's/^[a-fA-F0-9]* \(build\|deps\?\)[^:]*: *//')
+                BUILD+="- $COMMIT_MSG\n"
+              # CI/CD changes
+              elif echo "$line" | grep -qE "^[a-fA-F0-9]+ ci(\([^)]+\))?(!)?:"; then
+                COMMIT_MSG=$(echo "$line" | sed 's/^[a-fA-F0-9]* ci[^:]*: *//')
+                CI+="- $COMMIT_MSG\n"
+              # Code style changes
+              elif echo "$line" | grep -qE "^[a-fA-F0-9]+ style(\([^)]+\))?(!)?:"; then
+                COMMIT_MSG=$(echo "$line" | sed 's/^[a-fA-F0-9]* style[^:]*: *//')
+                STYLE+="- $COMMIT_MSG\n"
+              # Chores and maintenance
+              elif echo "$line" | grep -qE "^[a-fA-F0-9]+ chore(\([^)]+\))?(!)?:"; then
+                COMMIT_MSG=$(echo "$line" | sed 's/^[a-fA-F0-9]* chore[^:]*: */')
+                CHORE+="- $COMMIT_MSG\n"
+              # Non-conventional commits
+              else
+                OTHER+="- $COMMIT_FULL_MSG\n"
               fi
             done <<< "$COMMITS"
-            
+
+            # Output sections in priority order
+            if [[ -n "$BREAKING" ]]; then
+              CHANGELOG+="### 💥 Breaking Changes\n$BREAKING\n"
+            fi
+
             if [[ -n "$FEATURES" ]]; then
               CHANGELOG+="### 🚀 Features\n$FEATURES\n"
             fi
-            
+
             if [[ -n "$FIXES" ]]; then
               CHANGELOG+="### 🐛 Bug Fixes\n$FIXES\n"
             fi
-            
+
+            if [[ -n "$PERF" ]]; then
+              CHANGELOG+="### ⚡ Performance Improvements\n$PERF\n"
+            fi
+
+            if [[ -n "$REFACTOR" ]]; then
+              CHANGELOG+="### ♻️ Code Refactoring\n$REFACTOR\n"
+            fi
+
+            if [[ -n "$DOCS" ]]; then
+              CHANGELOG+="### 📚 Documentation\n$DOCS\n"
+            fi
+
+            if [[ -n "$TEST" ]]; then
+              CHANGELOG+="### 🧪 Tests\n$TEST\n"
+            fi
+
+            if [[ -n "$BUILD" ]]; then
+              CHANGELOG+="### 🔧 Build System / Dependencies\n$BUILD\n"
+            fi
+
+            if [[ -n "$CI" ]]; then
+              CHANGELOG+="### 👷 CI/CD\n$CI\n"
+            fi
+
+            if [[ -n "$STYLE" ]]; then
+              CHANGELOG+="### 💄 Styling\n$STYLE\n"
+            fi
+
+            if [[ -n "$CHORE" ]]; then
+              CHANGELOG+="### 🧹 Chores\n$CHORE\n"
+            fi
+
             if [[ -n "$OTHER" ]]; then
               CHANGELOG+="### 📝 Other Changes\n$OTHER\n"
             fi
-            
+
             CHANGELOG+="\n**Full Changelog**: https://github.com/$GITHUB_REPOSITORY/compare/${PREV_TAG}...v${NEW_VERSION}"
           fi
           

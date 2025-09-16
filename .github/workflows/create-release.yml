@@ -38,21 +38,37 @@ jobs:
           # Extract changelog from PR body (remove the footer)
           PR_BODY="${{ github.event.pull_request.body }}"
           CHANGELOG=$(echo "$PR_BODY" | sed '/^---$/,$d')
-          
-          # Create the release
+
+          # Create the release (explicitly published, not draft)
+          echo "Creating published release ${{ steps.version.outputs.tag }}..."
           gh release create "${{ steps.version.outputs.tag }}" \
             --title "${{ steps.version.outputs.tag }}" \
-            --notes "$CHANGELOG"
-          
-          # Get the release URL for summary
-          RELEASE_URL=$(gh release view "${{ steps.version.outputs.tag }}" --json url --jq .url)
+            --notes "$CHANGELOG" \
+            --latest
+
+          # Verify the release was published (not draft)
+          RELEASE_INFO=$(gh release view "${{ steps.version.outputs.tag }}" --json isDraft,url)
+          IS_DRAFT=$(echo "$RELEASE_INFO" | jq -r '.isDraft')
+          RELEASE_URL=$(echo "$RELEASE_INFO" | jq -r '.url')
+
+          if [[ "$IS_DRAFT" == "true" ]]; then
+            echo "❌ ERROR: Release was created as draft! This will not trigger wizarr-release workflow."
+            exit 1
+          else
+            echo "✅ Release successfully published and will trigger wizarr-release workflow"
+          fi
+
           echo "html_url=$RELEASE_URL" >> $GITHUB_OUTPUT
       
       - name: Summary
         run: |
-          echo "🎉 **Release Created!**" >> $GITHUB_STEP_SUMMARY
+          echo "🎉 **Release Created & Published!**" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **Version**: ${{ steps.version.outputs.tag }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Release URL**: ${{ steps.create_release.outputs.html_url }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Docker images will be built automatically via the release workflow!" >> $GITHUB_STEP_SUMMARY
+          echo "## What happens next:" >> $GITHUB_STEP_SUMMARY
+          echo "1. ⚙️ **wizarr-release** workflow is now triggered (Docker build)" >> $GITHUB_STEP_SUMMARY
+          echo "2. 📦 Docker images built for linux/amd64 and linux/arm64" >> $GITHUB_STEP_SUMMARY
+          echo "3. 🏷️ Images tagged as \`:latest\` and \`:${{ steps.version.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "4. 🚀 Images pushed to ghcr.io/${{ github.repository_owner }}/wizarr" >> $GITHUB_STEP_SUMMARY
