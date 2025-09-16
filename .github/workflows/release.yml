@@ -23,7 +23,7 @@ jobs:
             packages: write
         
         steps:
-            -   uses: actions/checkout@v4
+            -   uses: actions/checkout@v5
 
             # ─────── Generate uv.lock for reproducible builds ───────
             -   name: Set up Python
