@@ -5,17 +5,47 @@
 
 version: 2
 updates:
+  # Python dependencies via uv
   - package-ecosystem: "uv"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      flask-ecosystem:
+        patterns:
+          - "flask*"
+          - "wtforms*"
+          - "sqlalchemy*"
+      testing-tools:
+        patterns:
+          - "pytest*"
+          - "playwright*"
+      linting-tools:
+        patterns:
+          - "ruff*"
+          - "pyright*"
+          - "pre-commit*"
+
+  # Frontend dependencies
   - package-ecosystem: "npm"
-    # Look for `package.json` and `lock` files in the `root` directory
     directory: "/app/static"
-    # Check the npm registry for updates every day (weekdays)
     schedule:
       interval: "daily"
+    groups:
+      ui-frameworks:
+        patterns:
+          - "flowbite*"
+          - "@tailwindcss/*"
+          - "tailwindcss"
+
+  # GitHub Actions & pre-commit hooks
   - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # Docker base images
+  - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "weekly"
