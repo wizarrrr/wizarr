@@ -9,7 +9,7 @@ import requests
 from app.extensions import db
 from app.models import Settings
 
-MANIFEST_URL = "https://wizarrrr.github.io/wizarr/manifest.json"
+MANIFEST_URL = "https://update.wizarr.dev"
 TIMEOUT_SECS = 10
 
 
