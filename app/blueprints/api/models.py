@@ -56,6 +56,28 @@ user_extend_response = api.model(
     },
 )
 
+user_update_expiry_request = api.model(
+    "UserUpdateExpiryRequest",
+    {
+        "expires": fields.DateTime(
+            description="New expiration date (ISO format). Use null for unlimited access.",
+            required=False,
+            allow_null=True,
+        ),
+    },
+)
+
+user_update_expiry_response = api.model(
+    "UserUpdateExpiryResponse",
+    {
+        "message": fields.String(description="Success message"),
+        "new_expiry": fields.DateTime(
+            description="New expiration date (null for unlimited)",
+            allow_null=True,
+        ),
+    },
+)
+
 # Invitation Models
 invitation_model = api.model(
     "Invitation",

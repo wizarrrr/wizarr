@@ -28,6 +28,8 @@ from .models import (
     user_extend_request,
     user_extend_response,
     user_list_model,
+    user_update_expiry_request,
+    user_update_expiry_response,
 )
 
 # Create the Blueprint for the API
@@ -306,6 +308,69 @@ class UserExtendResource(Resource):
 
         except Exception as e:
             logger.error("Error extending user %s expiry: %s", user_id, str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@users_ns.route("/<int:user_id>/update-expiry")
+class UserUpdateExpiryResource(Resource):
+    @api.doc("update_user_expiry", security="apikey")
+    @api.expect(user_update_expiry_request)
+    @api.marshal_with(user_update_expiry_response)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(404, "User not found", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def put(self, user_id):
+        """Update a user's expiry date to a specific date or unlimited."""
+        # Find user first, outside try block to allow abort to work properly
+        user = db.session.get(User, user_id)
+        if not user:
+            abort(404, error="User not found")
+
+        try:
+            logger.info("API: Updating expiry for user %s", user_id)
+
+            # Get request data
+            data = api.payload or {}
+            new_expiry = data.get("expires")
+
+            # Parse the datetime if provided
+            if new_expiry is not None and isinstance(new_expiry, str):
+                try:
+                    # Parse ISO format datetime string
+                    new_expiry = datetime.datetime.fromisoformat(
+                        new_expiry.replace("Z", "+00:00")
+                    )
+                    # Ensure it's UTC timezone aware
+                    if new_expiry.tzinfo is None:
+                        new_expiry = new_expiry.replace(tzinfo=datetime.UTC)
+                except ValueError as e:
+                    return {
+                        "error": f"Invalid datetime format. Expected ISO format: {str(e)}"
+                    }, 400
+
+            # Update the user's expiry
+            user.expires = new_expiry
+            db.session.commit()
+
+            # Prepare response message
+            if new_expiry is None:
+                message = f"User {user.username} expiry updated to unlimited"
+                response_expiry = None
+            else:
+                message = (
+                    f"User {user.username} expiry updated to {new_expiry.isoformat()}"
+                )
+                response_expiry = new_expiry.isoformat()
+
+            return {
+                "message": message,
+                "new_expiry": response_expiry,
+            }
+
+        except Exception as e:
+            logger.error("Error updating user %s expiry: %s", user_id, str(e))
             logger.error(traceback.format_exc())
             return {"error": "Internal server error"}, 500
 
