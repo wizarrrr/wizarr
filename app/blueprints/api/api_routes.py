@@ -190,15 +190,30 @@ class StatusResource(Resource):
 
 @users_ns.route("")
 class UsersListResource(Resource):
-    @api.doc("list_users", security="apikey")
+    @api.doc(
+        "list_users",
+        security="apikey",
+        params={
+            "username": "Filter by username (exact match)",
+            "email": "Filter by email address (exact match)",
+        },
+    )
     @api.marshal_with(user_list_model)
     @api.response(401, "Invalid or missing API key", error_model)
     @api.response(500, "Internal server error", error_model)
     @require_api_key
     def get(self):
-        """List all users across all media servers."""
+        """List all users across all media servers. Supports filtering by username or email."""
         try:
-            logger.info("API: Listing all users")
+            # Get query parameters
+            username_filter = request.args.get("username")
+            email_filter = request.args.get("email")
+
+            logger.info(
+                "API: Listing all users (username=%s, email=%s)",
+                username_filter,
+                email_filter,
+            )
             users_by_server = list_users_all_servers()
 
             # Format response
@@ -210,6 +225,12 @@ class UsersListResource(Resource):
                     continue
 
                 for user in users:
+                    # Apply filters if specified
+                    if username_filter and user.username != username_filter:
+                        continue
+                    if email_filter and user.email != email_filter:
+                        continue
+
                     users_list.append(
                         {
                             "id": user.id,
