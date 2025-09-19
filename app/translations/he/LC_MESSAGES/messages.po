@@ -8,26 +8,26 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: 2023-04-25 19:51+0000\n"
-"Last-Translator: Kobi Caps <capskobi@gmail.com>\n"
+"PO-Revision-Date: 2025-09-19 10:04+0000\n"
+"Last-Translator: איתם לוין <eyt.lev@gmail.com>\n"
+"Language-Team: Hebrew <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/he/>\n"
 "Language: he\n"
-"Language-Team: Hebrew "
-"<https://hosted.weblate.org/projects/wizarr/app/he/>\n"
-"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 "
-"&& n % 10 == 0) ? 2 : 3));\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
+"n % 10 == 0) ? 2 : 3));\n"
+"X-Generator: Weblate 5.14-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/blueprints/auth/routes.py:44
-#, fuzzy
 msgid "Invalid username or password"
-msgstr "שם משתמש או ססמא שגוי"
+msgstr "שם משתמש או ססמא שגוים"
 
 #: app/blueprints/settings/routes.py:131
 msgid "Library scan failed"
-msgstr ""
+msgstr "סריקת ספריה נכשלה"
 
 #: app/templates/admin.html:5
 msgid "Admin"
@@ -50,9 +50,8 @@ msgid "Settings"
 msgstr "הגדרות"
 
 #: app/templates/invalid-invite.html:16
-#, fuzzy
 msgid "Invalid Invitation"
-msgstr "הזמנות"
+msgstr "הזמנה פגומה"
 
 #: app/templates/login.html:18
 msgid "Login"
@@ -75,13 +74,12 @@ msgid "Sign in"
 msgstr "התחברות"
 
 #: app/templates/settings.html:13
-#, fuzzy
 msgid "Server settings"
 msgstr "הגדרות שרת"
 
 #: app/templates/settings.html:22
 msgid "Notification agents"
-msgstr ""
+msgstr "שירותי התראות"
 
 #: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
 #: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
@@ -181,9 +179,8 @@ msgid "Unlimited Usages"
 msgstr "שימושים לא מוגבלים"
 
 #: app/templates/admin/invite.html:53
-#, fuzzy
 msgid "Invite to Plex Home"
-msgstr "קוד הזמנה"
+msgstr "הזמן לPlex Home"
 
 #: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
 #: app/templates/tables/invite_card.html:86
@@ -207,9 +204,8 @@ msgstr "כאשר מוגדר, משתמש(ים) יוסרו משרת הPlex לאח�
 
 #: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
 #: app/templates/tables/user_card.html:67
-#, fuzzy
 msgid "Allow Downloads"
-msgstr "הורד"
+msgstr "לאפשר הורדות"
 
 #: app/templates/admin/invite.html:102
 msgid ""
@@ -244,16 +240,16 @@ msgstr "שיתוף"
 
 #: app/templates/admin/user_modal.html:17
 msgid "Edit expiry"
-msgstr ""
+msgstr "ערויכת תפוגה"
 
 #: app/templates/admin/user_modal.html:27
 msgid "Expiry date (leave blank for never)"
-msgstr ""
+msgstr "תאריך תפוגה (להשאיר ריק בשביל אף פעם)"
 
 #: app/templates/admin/user_modal.html:41
 #: app/templates/modals/create-notification-agent.html:85
 msgid "Cancel"
-msgstr ""
+msgstr "ביטול"
 
 #: app/templates/admin/user_modal.html:48
 #: app/templates/settings/partials/server_form.html:132
@@ -286,54 +282,51 @@ msgstr " משהו השתבש, נסה שוב מאוחר יותר."
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "שירות חדש"
 
 #: app/templates/modals/create-notification-agent.html:60
-#, fuzzy
 msgid ""
 "Username\n"
 "                                (optional)"
-msgstr "קוד הזמנה"
+msgstr ""
+"שם משתמש\n"
+"(אופציונלי)"
 
 #: app/templates/modals/create-notification-agent.html:65
-#, fuzzy
 msgid "Password (optional)"
-msgstr "(אופציונלי)"
+msgstr "סיסמא (אופציונלי)"
 
 #: app/templates/modals/create-notification-agent.html:70
-#, fuzzy
 msgid ""
 "Agent\n"
 "                                URL"
-msgstr "קוד הזמנה"
+msgstr ""
+"שירות\n"
+"URL"
 
 #: app/templates/modals/create-notification-agent.html:81
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "צור ובדוק שירות"
 
 #: app/templates/settings/index.html:24
-#, fuzzy
 msgid "Server"
-msgstr "אף פעם"
+msgstr "שרת"
 
 #: app/templates/settings/index.html:39
-#, fuzzy
 msgid "Notifications"
-msgstr "הזמנות"
+msgstr "התראות"
 
 #: app/templates/settings/notifications.html:11
 msgid "Notification Agents"
-msgstr ""
+msgstr "שירותי התראות"
 
 #: app/templates/settings/notifications.html:27
-#, fuzzy
 msgid "Delete"
-msgstr "ברירת מחדל"
+msgstr "מחק"
 
 #: app/templates/settings/notifications.html:37
-#, fuzzy
 msgid "Create Agent"
-msgstr "צור חשבון"
+msgstr "צור שירות"
 
 #: app/templates/settings/partials/server_form.html:13
 msgid "Server Settings"
@@ -343,7 +336,7 @@ msgstr "הגדרות שרת"
 #: app/templates/settings/partials/server_form.html:111
 #: app/templates/settings/partials/server_form.html:120
 msgid "Optional, leave empty to disable"
-msgstr ""
+msgstr "אופציונלי, להשאיר ריק בשביל להשבית"
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"
@@ -351,7 +344,7 @@ msgstr "הגדר Wizarr"
 
 #: app/templates/tables/invite_card.html:3
 msgid "There are currently no invitations."
-msgstr ""
+msgstr "אין הזמנות כרגע."
 
 #: app/templates/tables/invite_card.html:16
 msgid "Available"
@@ -384,9 +377,8 @@ msgid "Default"
 msgstr "ברירת מחדל"
 
 #: app/templates/tables/invite_card.html:86
-#, fuzzy
 msgid "days"
-msgstr "יום 1"
+msgstr "ימים"
 
 #: app/templates/tables/invite_card.html:106
 msgid "Unlimited"
@@ -394,20 +386,19 @@ msgstr "בלתי מוגבל"
 
 #: app/templates/tables/user_card.html:3
 msgid "There are currently no users."
-msgstr ""
+msgstr "אין משתמשים כרגע."
 
 #: app/templates/tables/user_card.html:26
-#, fuzzy
 msgid "Home User"
-msgstr "בית"
+msgstr "משתמש בית"
 
 #: app/templates/wizard/frame.html:34
 msgid "Previous"
-msgstr ""
+msgstr "הקודם"
 
 #: app/templates/wizard/frame.html:42
 msgid "Next"
-msgstr ""
+msgstr "הבא"
 
 #~ msgid "Change Server Settings"
 #~ msgstr "שנה הגדרות שרת"
@@ -700,4 +691,3 @@ msgstr ""
 
 #~ msgid "Actions"
 #~ msgstr "פעולות"
-
