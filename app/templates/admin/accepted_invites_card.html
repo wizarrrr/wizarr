@@ -1,5 +1,5 @@
 {# Translation helper '_' is provided globally by Flask-Babel – no local override needed #}
-<div class="relative z-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full h-full flex flex-col" x-data>
+<div class="relative z-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full h-full min-h-0 flex flex-col" x-data>
     <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
         <!-- Icon -->
         <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -9,7 +9,7 @@
     </h2>
 
     {% if recent_users %}
-    <div class="flex-1 overflow-y-auto max-h-72 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
+    <div class="flex-1 overflow-y-auto min-h-0 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
         <ul class="divide-y divide-gray-200 dark:divide-gray-700 pr-1">
         {% for user in recent_users %}
         <li class="flex items-center py-1.5">
@@ -46,7 +46,7 @@
     </div>
     {% elif invites %}
     <!-- Fallback to old invitation-based display if recent_users not available -->
-    <div class="flex-1 overflow-y-auto max-h-72 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
+    <div class="flex-1 overflow-y-auto min-h-0 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
         <ul class="divide-y divide-gray-200 dark:divide-gray-700 pr-1">
         {% for inv in invites %}
         {% set all_users = inv.get_all_users() %}
@@ -83,6 +83,37 @@
         {% endfor %}
         {% endfor %}
         </ul>
+    </div>
+    <div class="mt-4 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+        {% set show_range = start_index and end_index and total %}
+        <div>
+            {% if show_range %}
+                Showing {{ start_index }}-{{ end_index }} of {{ total }}
+            {% endif %}
+        </div>
+        {% if total_pages and total_pages > 1 %}
+        <div class="flex items-center gap-2">
+            <button
+                class="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                hx-get="/accepted-invites-card?page={{ page - 1 }}"
+                hx-target="#latestInvitesContainer"
+                hx-swap="innerHTML"
+                {% if page <= 1 %}disabled{% endif %}
+            >
+                Prev
+            </button>
+            <span>Page {{ page }} / {{ total_pages }}</span>
+            <button
+                class="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                hx-get="/accepted-invites-card?page={{ page + 1 }}"
+                hx-target="#latestInvitesContainer"
+                hx-swap="innerHTML"
+                {% if page >= total_pages %}disabled{% endif %}
+            >
+                Next
+            </button>
+        </div>
+        {% endif %}
     </div>
     {% else %}
     <div class="flex-1 flex items-center justify-center">

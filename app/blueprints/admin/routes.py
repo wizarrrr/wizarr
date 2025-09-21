@@ -1,5 +1,6 @@
 import datetime
 import logging
+import math
 import os
 from urllib.parse import urlparse
 
@@ -802,17 +803,14 @@ def edit_identity(identity_id):
 @admin_bp.route("/accepted-invites-card")
 @login_required
 def accepted_invites_card():
-    """Return a small card with the most recent accepted invitations.
+    """Return a paginated card with the most recent accepted invitations."""
 
-    The card is rendered as a standalone fragment suitable for embedding via
-    HTMX. We fetch the *n* most recent invitations that have been used (either
-    the legacy ``Invitation.used`` flag or per-server usage via the
-    ``invitation_servers`` association table).
-    """
+    page = request.args.get("page", default=1, type=int) or 1
+    if page < 1:
+        page = 1
 
-    # Number of entries to display – limit to 10 for mobile UX
-    # CSS handles scrolling after this limit on mobile
-    LIMIT = 10
+    server_count = MediaServer.query.count()
+    per_page = max(server_count * 3, 3)
 
     # --- build a sub-query that also covers multi-server invites -------------
     # For invites that target multiple servers, the ``Invitation.used`` flag
@@ -844,12 +842,35 @@ def accepted_invites_card():
         )
         .filter(or_(Invitation.used.is_(True), Invitation.id.in_(used_invite_ids)))
         .order_by(Invitation.used_at.desc().nullslast(), Invitation.created.desc())
-        .limit(LIMIT)
     )
 
-    invites = query.all()
+    total = query.count()
 
-    return render_template("admin/accepted_invites_card.html", invites=invites)
+    if total == 0:
+        page = 1
+        total_pages = 1
+        offset = 0
+    else:
+        total_pages = max(math.ceil(total / per_page), 1)
+        if page > total_pages:
+            page = total_pages
+        offset = (page - 1) * per_page
+
+    invites = query.offset(offset).limit(per_page).all()
+    start_index = offset + 1 if total else 0
+    end_index = offset + len(invites)
+
+    return render_template(
+        "admin/accepted_invites_card.html",
+        invites=invites,
+        page=page,
+        per_page=per_page,
+        total=total,
+        total_pages=total_pages,
+        start_index=start_index,
+        end_index=end_index,
+        server_count=server_count,
+    )
 
 
 # HTMX endpoint for server health card
