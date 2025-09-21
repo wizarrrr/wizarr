@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: 2025-06-02 22:02+0000\n"
+"PO-Revision-Date: 2025-09-22 10:01+0000\n"
 "Last-Translator: Maxim Kovalev <maxkovalev23@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/wizarr/"
 "wizarr-universal/ru/>\n"
@@ -18,12 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/blueprints/auth/routes.py:44
 msgid "Invalid username or password"
-msgstr "Неверные имя пользователя или пароль"
+msgstr "Неверное имя пользователя или пароль"
 
 #: app/blueprints/settings/routes.py:131
 msgid "Library scan failed"
@@ -67,7 +67,7 @@ msgstr "Пароль"
 
 #: app/templates/login.html:41
 msgid "Remember me"
-msgstr "Запомнить"
+msgstr "Запомнить меня"
 
 #: app/templates/login.html:46
 msgid "Sign in"
@@ -130,7 +130,7 @@ msgid ""
 "                                Code"
 msgstr ""
 "Приглашение\n"
-"                                код"
+"                                Код"
 
 #: app/templates/setup/admin_account.html:58
 #: app/templates/welcome-jellyfin.html:72
