@@ -293,7 +293,8 @@ class User(db.Model, UserMixin):
         # Extract library names
         if details.library_access is None:
             # Full access - get all server libraries
-            from app.models import Library
+            # Import Library here to avoid circular import
+            from app.models import Library  # type: ignore
 
             if self.server_id:
                 all_libs = Library.query.filter_by(

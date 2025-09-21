@@ -191,7 +191,7 @@ def test_invitation_with_no_server_association_falls_back(client, invitation_no_
     response_text = response.get_data(as_text=True)
     # Just verify that the invitation page is working with some server name
     # The specific server name depends on test execution order
-    assert "Set up Account" in response_text
+    assert "Create Account" in response_text
     assert "You've been invited to join" in response_text
 
 

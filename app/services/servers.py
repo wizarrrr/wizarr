@@ -302,11 +302,11 @@ def check_drop(url: str, token: str) -> tuple[bool, str]:
         response.raise_for_status()
         return True, ""
 
-    except requests.exceptions.ConnectionError:
+    except req_exc.ConnectionError:
         return False, _("Could not connect to Drop server.")
-    except requests.exceptions.Timeout:
+    except req_exc.Timeout:
         return False, _("Connection to Drop server timed out.")
-    except requests.exceptions.HTTPError as e:
+    except req_exc.HTTPError as e:
         if e.response.status_code == 404:
             return False, _("Drop API not found. Check the server URL.")
         return False, f"Drop API error: {e.response.status_code}"
