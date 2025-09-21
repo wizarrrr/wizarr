@@ -52,11 +52,9 @@
                     {% endif %}
                 </div>
                 
-                <!-- Server type icon - top left corner of poster -->
-                <div class="absolute top-2 left-2 w-8 h-8 flex items-start justify-start" title="{{ session.server_type|title }}">
-                    {% if session.server_type in ['plex', 'jellyfin', 'emby', 'audiobookshelf'] %}
-                        <img src="{{ url_for('static', filename='img/svg-logos/' + session.server_type + '.svg') }}" alt="{{ session.server_type|title }}" class="w-8 h-8 object-contain drop-shadow-xs/90" />
-                    {% endif %}
+                <!-- Server tag - top left corner of poster -->
+                <div class="absolute top-2 left-2 flex items-start" title="{{ session.server_name }}">
+                    {{ session.server_type|server_type_tag }}
                 </div>
                 
                 <!-- Info button - bottom right of poster -->
