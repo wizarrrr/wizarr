@@ -7,107 +7,741 @@
 {% block og_description %}{{ _("You've been invited to join the %(name)s server!", name=server_name) }}{% endblock %}
 
 {% block main %}
-<section class="bg-white dark:bg-gray-900">
-    <div class="flex flex-col items-center justify-center px-6 mx-auto h-screen lg:py-0">
-        <h1
-            class="mb-4 text-2xl font-extrabold tracking-tight leading-none text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
-            🧙🏼‍♂️ {{ _("You've been invited to join the %(name)s server!", name=server_name) }}</h1>
+<section id="invite-section" class="min-h-screen bg-gradient-to-br from-slate-900 via-primary/20 to-slate-900 relative overflow-x-hidden overflow-y-auto lg:overflow-hidden">
+    <!-- Animated background elements -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute -top-40 -right-80 w-80 h-80 bg-primary/60 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob"></div>
+        <div class="absolute -bottom-80 -left-40 w-80 h-80 bg-primary rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-blob animation-delay-2000"></div>
+        <div class="absolute top-40 left-40 w-80 h-80 bg-primary_hover rounded-full mix-blend-multiply filter blur-xl opacity-45 animate-blob animation-delay-4000"></div>
+    </div>
 
-        <div
-            class="w-full bg-white rounded-lg shadow-sm dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-            <div>
-                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                    <h1
-                        class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                        {{ _("Set up Account") }}
-                    </h1>
-                    {% if error %}
-                    <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ error }}</span></p>
-                    {% endif %}
+    <!-- Overlay gradient to ensure readability -->
+    <div class="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-primary/10 to-slate-900/80"></div>
 
-                    <form class="space-y-4 md:space-y-6" action="{{ url_for('public.process_invitation') }}" method="POST">
-                        {{ form.hidden_tag() }}
+    <!-- Shimmer particles background -->
+    <div class="shimmer-particles" id="shimmer-container"></div>
 
-                        <div>
-                            {{ form.username.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                            {{ form.username(class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500") }}
-                            {% for err in form.username.errors %}
-                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ err }}</p>
-                            {% endfor %}
+    <div class="relative flex flex-col items-center justify-center px-6 mx-auto min-h-screen lg:py-0">
+        <!-- Header - always visible -->
+        <div class="text-center mb-4 md:mb-8 transition-all duration-500 ease-out" id="page-header">
+            <h1 class="mb-3 md:mb-6 text-3xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-primary/80 to-primary_hover leading-tight">
+                🧙🏼‍♂️ {{ _("You've been invited!") }}
+            </h1>
+            <div class="mb-2 md:mb-4">
+                <p class="text-xs md:text-sm text-gray-400 uppercase tracking-wider font-medium">
+                    {{ _("Welcome to the") }}
+                </p>
+                <p class="text-xl md:text-3xl font-bold text-white mt-1">
+                    {{ server_name }} {{ _("media server") }}
+                </p>
+            </div>
+            <p class="text-base md:text-xl text-gray-300 font-light max-w-md mx-auto leading-relaxed">
+                {{ _("Your magical journey begins here") }} ✨
+            </p>
+        </div>
+
+        <!-- Main Card Container -->
+        <div class="w-full max-w-md transition-all duration-700 ease-out" id="main-container">
+            <div class="bg-gray-800/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700/50 transition-all duration-700 ease-out h-[400px]" id="card-container" style="overflow: hidden;">
+
+                <!-- Welcome Screen -->
+                <div class="p-8 space-y-6 transition-all duration-500 ease-out" id="welcome-screen">
+                    <div class="text-center">
+                        <div class="mx-auto w-16 h-16 bg-gradient-to-r from-primary to-primary_hover rounded-full flex items-center justify-center mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
                         </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">
+                            {{ _("Accept Invitation") }}
+                        </h2>
+                        <p class="text-gray-400 text-sm">
+                            {{ _("Get ready to join the magic") }}
+                        </p>
+                    </div>
 
-                        <div>
-                            {{ form.email.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                            {{ form.email(class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500") }}
-                            {% for err in form.email.errors %}
-                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ err }}</p>
-                            {% endfor %}
-                        </div>
-
-                        <div>
-                            {{ form.password.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                            {{ form.password(class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500") }}
-                            {% for err in form.password.errors %}
-                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ err }}</p>
-                            {% endfor %}
-                        </div>
-
-                        <div>
-                            {{ form.confirm_password.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                            {{ form.confirm_password(class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500") }}
-                            {% for err in form.confirm_password.errors %}
-                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ err }}</p>
-                            {% endfor %}
-                        </div>
-
-                        <div>
-                            {{ form.code.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                            {{ form.code(class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500") }}
-                            {% for err in form.code.errors %}
-                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ err }}</p>
-                            {% endfor %}
-                        </div>
-
-                        <button type="submit" id="submit-btn" class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-hidden focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_hover disabled:opacity-50 disabled:cursor-not-allowed">
-                            <span id="btn-text">{{ _("Create an account") }}</span>
-                            <span id="btn-loading" class="hidden">
-                                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                {{ _("Creating account...") }}
-                            </span>
-                        </button>
-                    </form>
+                    <button
+                        id="accept-invite-btn"
+                        class="w-full py-4 px-6 text-white font-semibold text-lg
+                               bg-gradient-to-r from-primary to-primary_hover
+                               hover:from-primary_hover hover:to-primary
+                               rounded-xl transition-all duration-200 transform hover:scale-[1.02]
+                               focus:ring-4 focus:ring-primary/30 focus:outline-none
+                               shadow-lg hover:shadow-xl">
+                        <span id="button-text">{{ _("Accept Invitation") }} ✨</span>
+                    </button>
                 </div>
+
+                <!-- Account Creation Form (initially hidden) -->
+                <div class="h-full flex flex-col opacity-0 pointer-events-none transition-all duration-500 ease-out absolute inset-0 overflow-hidden hidden" id="form-screen">
+                    <div class="text-center relative py-4 px-6 flex-shrink-0">
+                        <button id="back-btn" class="absolute top-4 left-4 p-2 text-gray-400 hover:text-white transition-colors duration-200">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </button>
+                        <h2 class="text-xl md:text-2xl font-bold text-white mb-1">
+                            {{ _("Create Account") }}
+                        </h2>
+                        <p class="text-gray-400 text-xs md:text-sm">
+                            {{ _("Set up your magical account") }}
+                        </p>
+                    </div>
+
+                    <!-- Form container with error and form content -->
+                    <div class="flex-1 flex flex-col justify-center px-6 pb-4">
+                        {% if error %}
+                        <div class="bg-red-900/30 border border-red-500/50 rounded-lg p-2 mb-3">
+                            <p class="text-red-400 text-xs font-medium">{{ error }}</p>
+                        </div>
+                        {% endif %}
+
+                        <form class="space-y-3 md:space-y-4" action="{{ url_for('public.process_invitation') }}" method="POST">
+                            {{ form.hidden_tag() }}
+
+                            <div class="form-field" data-field="1" style="opacity: 0; transform: translateY(10px);">
+                                <label class="block text-xs font-medium text-gray-300 mb-1">
+                                    <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    </svg>
+                                    {{ _("Username") }}
+                                </label>
+                                {{ form.username(
+                                    class="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
+                                    placeholder=_("Enter your username")
+                                ) }}
+                                {% for err in form.username.errors %}
+                                <p class="text-red-400 text-xs mt-1">{{ err }}</p>
+                                {% endfor %}
+                            </div>
+
+                            <div class="form-field" data-field="2" style="opacity: 0; transform: translateY(10px);">
+                                <label class="block text-xs font-medium text-gray-300 mb-1">
+                                    <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 3.26a2 2 0 001.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                    </svg>
+                                    {{ _("Email") }}
+                                </label>
+                                {{ form.email(
+                                    class="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
+                                    placeholder=_("Enter your email")
+                                ) }}
+                                {% for err in form.email.errors %}
+                                <p class="text-red-400 text-xs mt-1">{{ err }}</p>
+                                {% endfor %}
+                            </div>
+
+                            <div class="form-field" data-field="3" style="opacity: 0; transform: translateY(10px);">
+                                <label class="block text-xs font-medium text-gray-300 mb-1">
+                                    <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                    </svg>
+                                    {{ _("Password") }}
+                                </label>
+                                {{ form.password(
+                                    class="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
+                                    placeholder=_("Create a password")
+                                ) }}
+                                {% for err in form.password.errors %}
+                                <p class="text-red-400 text-xs mt-1">{{ err }}</p>
+                                {% endfor %}
+                            </div>
+
+                            <div class="form-field" data-field="4" style="opacity: 0; transform: translateY(10px);">
+                                <label class="block text-xs font-medium text-gray-300 mb-1">
+                                    <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                    </svg>
+                                    {{ _("Confirm Password") }}
+                                </label>
+                                {{ form.confirm_password(
+                                    class="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
+                                    placeholder=_("Confirm your password")
+                                ) }}
+                                {% for err in form.confirm_password.errors %}
+                                <p class="text-red-400 text-xs mt-1">{{ err }}</p>
+                                {% endfor %}
+                            </div>
+
+                            <div class="form-field" data-field="5" style="opacity: 0; transform: translateY(10px);">
+                                <label class="block text-xs font-medium text-gray-300 mb-1">
+                                    <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1721 9z"></path>
+                                    </svg>
+                                    {{ _("Invite Code") }}
+                                </label>
+                                {{ form.code(
+                                    class="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
+                                    placeholder=_("Enter invite code")
+                                ) }}
+                                {% for err in form.code.errors %}
+                                <p class="text-red-400 text-xs mt-1">{{ err }}</p>
+                                {% endfor %}
+                            </div>
+
+                            <button type="submit" id="submit-btn" class="w-full py-3 px-4 text-white font-semibold text-sm bg-gradient-to-r from-primary to-primary_hover hover:from-primary_hover hover:to-primary rounded-lg transition-all duration-200 transform hover:scale-[1.02] focus:ring-4 focus:ring-primary/30 focus:outline-none shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed form-field" data-field="6" style="opacity: 0; transform: translateY(10px);">
+                                <span id="btn-text">{{ _("Create Account") }}</span>
+                                <span id="btn-loading" class="hidden">
+                                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    {{ _("Creating account...") }}
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer text - desktop only -->
+            <div class="text-center mt-6 transition-all duration-500 ease-out hidden md:block" id="page-footer">
+                <p class="text-gray-400 text-sm">
+                    {{ _("Secure invitation system powered by Wizarr") }}
+                </p>
             </div>
         </div>
     </div>
-    </div>
 </section>
+
+<!-- Anime.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+<!-- Custom animations and styles -->
+<style>
+/* Floating blob animations */
+@keyframes blob {
+    0% {
+        transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+        transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+        transform: translate(0px, 0px) scale(1);
+    }
+}
+
+.animate-blob {
+    animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+/* Smooth form field focus animations */
+.form-field-focus {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(168, 85, 247, 0.15);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .poster-grid-container {
+        opacity: 0.1;
+    }
+}
+
+/* Enhanced focus states */
+input:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.2);
+}
+
+/* Loading animation enhancement */
+.loading-gradient {
+    background: linear-gradient(45deg, #8b5cf6, #6366f1, #8b5cf6);
+    background-size: 200% 200%;
+    animation: gradient-shift 2s ease infinite;
+}
+
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Typewriter cursor */
+.typewriter-cursor {
+    border-right: 2px solid rgba(255, 255, 255, 0.75);
+    animation: blink-caret 0.75s step-end infinite;
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: rgba(255, 255, 255, 0.75); }
+}
+
+/* Background shimmer particle effects */
+.shimmer-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.shimmer-particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: shimmer-float 8s linear infinite;
+}
+
+.shimmer-particle.primary {
+    background: radial-gradient(circle, rgba(var(--color-primary), 0.7) 0%, transparent 70%);
+    animation-duration: 12s;
+}
+
+.shimmer-particle.primary-light {
+    background: radial-gradient(circle, rgba(var(--color-primary), 0.4) 0%, transparent 70%);
+    animation-duration: 10s;
+}
+
+.shimmer-particle.primary-hover {
+    background: radial-gradient(circle, rgba(var(--color-primary-hover), 0.6) 0%, transparent 70%);
+    animation-duration: 14s;
+}
+
+@keyframes shimmer-float {
+    0% {
+        opacity: 0;
+        transform: translateY(100vh) translateX(0) scale(0);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(90vh) translateX(10px) scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translateY(50vh) translateX(-20px) scale(1.2);
+    }
+    90% {
+        opacity: 0.3;
+        transform: translateY(10vh) translateX(30px) scale(0.8);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10vh) translateX(0) scale(0);
+    }
+}
+
+/* Twinkling stars effect */
+.twinkling-star {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+}
+
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    const acceptBtn = document.getElementById('accept-invite-btn');
+    const backBtn = document.getElementById('back-btn');
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const formScreen = document.getElementById('form-screen');
+    const cardContainer = document.getElementById('card-container');
+    const mainContainer = document.getElementById('main-container');
+    const pageHeader = document.getElementById('page-header');
+    const pageFooter = document.getElementById('page-footer');
     const form = document.querySelector('form[action="{{ url_for("public.process_invitation") }}"]');
     const submitBtn = document.getElementById('submit-btn');
     const btnText = document.getElementById('btn-text');
     const btnLoading = document.getElementById('btn-loading');
-    
-    form.addEventListener('submit', function(e) {
-        // Disable the button immediately to prevent double submissions
-        submitBtn.disabled = true;
-        
-        // Show loading state
-        btnText.classList.add('hidden');
-        btnLoading.classList.remove('hidden');
-        
-        // Re-enable button after 5 seconds as a fallback in case of network issues
-        setTimeout(function() {
-            submitBtn.disabled = false;
-            btnText.classList.remove('hidden');
-            btnLoading.classList.add('hidden');
-        }, 5000);
+    const buttonText = document.getElementById('button-text');
+    const layoutWrapper = mainContainer.parentElement;
+
+    // Enhanced typewriter effect using Anime.js
+    function typewriterEffect(element, text, speed = 80) {
+        element.innerHTML = '';
+        element.classList.add('typewriter-cursor');
+
+        return new Promise((resolve) => {
+            anime({
+                targets: { count: 0 },
+                count: text.length,
+                duration: text.length * speed,
+                round: 1,
+                easing: 'linear',
+                update: function(anim) {
+                    element.innerHTML = text.substring(0, Math.round(anim.animatables[0].target.count));
+                },
+                complete: function() {
+                    // Remove cursor after typing
+                    setTimeout(() => {
+                        element.classList.remove('typewriter-cursor');
+                        resolve();
+                    }, 300);
+                }
+            });
+        });
+    }
+
+    // Create background shimmer particles
+    function createShimmerParticles() {
+        const container = document.getElementById('shimmer-container');
+        const particleTypes = ['', 'primary', 'primary-light', 'primary-hover'];
+
+        // Create initial particles
+        for (let i = 0; i < 30; i++) {
+            createShimmerParticle(container, particleTypes);
+        }
+
+        // Continuously create new particles
+        setInterval(() => {
+            createShimmerParticle(container, particleTypes);
+        }, 500);
+
+        // Create twinkling stars
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'twinkling-star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            container.appendChild(star);
+        }
+    }
+
+    function createShimmerParticle(container, particleTypes) {
+        const particle = document.createElement('div');
+        particle.className = 'shimmer-particle';
+
+        // Random type
+        const type = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+        if (type) particle.classList.add(type);
+
+        // Random starting position (bottom of screen)
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.bottom = '-10px';
+
+        // Random animation delay
+        particle.style.animationDelay = Math.random() * 2 + 's';
+
+        container.appendChild(particle);
+
+        // Remove particle after animation completes
+        setTimeout(() => {
+            if (particle.parentNode) {
+                particle.parentNode.removeChild(particle);
+            }
+        }, 15000); // Longest animation is 14s + buffer
+    }
+
+    // Initialize background shimmer particles
+    createShimmerParticles();
+
+    // Smooth container expansion animation
+    acceptBtn.addEventListener('click', async function() {
+        // Prevent multiple clicks
+        acceptBtn.disabled = true;
+
+        try {
+            const isMobile = window.innerWidth < 768;
+            let mobileCardHeight = null;
+
+            // Mobile: Hide header and footer when form appears
+            if (isMobile) {
+                anime({
+                    targets: [pageHeader, pageFooter],
+                    opacity: 0,
+                    translateY: -20,
+                    duration: 400,
+                    easing: 'easeOutQuad'
+                });
+
+                // Shift layout upward so the expanded card stays visible
+                layoutWrapper.style.justifyContent = 'flex-start';
+                layoutWrapper.style.paddingTop = '3rem';
+                layoutWrapper.style.paddingBottom = '2rem';
+            }
+
+            // Step 1: Prepare form screen (hidden initially)
+            formScreen.classList.remove('hidden');
+            formScreen.style.opacity = '0';
+            formScreen.style.pointerEvents = 'none';
+
+            if (isMobile) {
+                mobileCardHeight = Math.max(formScreen.scrollHeight + 48, cardContainer.offsetHeight);
+            }
+
+            // Step 2: Create timeline animation with Anime.js
+            const timeline = anime.timeline({
+                easing: 'cubicBezier(0.4, 0, 0.2, 1)',
+                duration: 800
+            });
+
+            // Container width expansion
+            timeline.add({
+                targets: mainContainer,
+                maxWidth: isMobile ? '100%' : '32rem',
+                duration: 800,
+                easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
+            }, 0);
+
+            // Container height expansion
+            timeline.add({
+                targets: cardContainer,
+                height: isMobile ? `${mobileCardHeight}px` : '520px',
+                duration: 800,
+                easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
+            }, 0);
+
+            // Welcome screen fade out
+            timeline.add({
+                targets: welcomeScreen,
+                opacity: 0,
+                duration: 300,
+                easing: 'easeOutQuad',
+                complete: function() {
+                    welcomeScreen.style.display = 'none';
+                }
+            }, 100);
+
+            // Form screen fades in
+            timeline.add({
+                targets: formScreen,
+                opacity: 1,
+                duration: 400,
+                easing: 'easeInQuad',
+                begin: function() {
+                    formScreen.style.pointerEvents = 'auto';
+                }
+            }, 400);
+
+            // Wait for timeline to finish then show form fields
+            timeline.finished.then(() => {
+                // Animate form fields sequentially
+                const formFields = formScreen.querySelectorAll('.form-field');
+                formFields.forEach((field, index) => {
+                    anime({
+                        targets: field,
+                        opacity: [0, 1],
+                        translateY: [10, 0],
+                        duration: 300,
+                        delay: index * 80, // 80ms delay between each field
+                        easing: 'easeOutQuad'
+                    });
+                });
+
+                // Focus first input after all animations
+                setTimeout(() => {
+                    const firstInput = form.querySelector('input[type="text"], input[type="email"]');
+                    if (firstInput) firstInput.focus();
+                }, formFields.length * 80 + 150);
+
+                if (isMobile) {
+                    cardContainer.style.height = 'auto';
+                    cardContainer.style.minHeight = `${mobileCardHeight}px`;
+                    cardContainer.style.overflow = 'visible';
+                    formScreen.style.position = 'relative';
+                    formScreen.style.height = 'auto';
+                    formScreen.style.overflow = 'visible';
+
+                    requestAnimationFrame(() => {
+                        cardContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                }
+            });
+
+        } catch (error) {
+            console.error('Animation error:', error);
+            // Fallback to simple transition
+            acceptBtn.disabled = false;
+        }
     });
+
+    // Smooth transition back to welcome screen
+    backBtn.addEventListener('click', function() {
+        // Re-enable accept button
+        acceptBtn.disabled = false;
+
+        const isMobile = window.innerWidth < 768;
+
+        const timeline = anime.timeline({
+            easing: 'easeOutQuad',
+            duration: 600
+        });
+
+        // Reset form fields opacity
+        const currentHeight = cardContainer.offsetHeight;
+        const formFields = formScreen.querySelectorAll('.form-field');
+        formFields.forEach(field => {
+            field.style.opacity = '0';
+            field.style.transform = 'translateY(10px)';
+        });
+
+        layoutWrapper.style.justifyContent = '';
+        layoutWrapper.style.paddingTop = '';
+        layoutWrapper.style.paddingBottom = '';
+        cardContainer.style.height = `${currentHeight}px`;
+        cardContainer.style.minHeight = '';
+        cardContainer.style.overflow = 'hidden';
+        formScreen.style.position = '';
+        formScreen.style.height = '';
+        formScreen.style.overflow = '';
+
+        // Form screen fade out
+        timeline.add({
+            targets: formScreen,
+            opacity: 0,
+            duration: 300,
+            complete: function() {
+                formScreen.style.pointerEvents = 'none';
+                formScreen.classList.add('hidden');
+            }
+        });
+
+        // Welcome screen fade in
+        timeline.add({
+            targets: welcomeScreen,
+            opacity: [0, 1],
+            duration: 300,
+            begin: function() {
+                welcomeScreen.style.display = 'block';
+                welcomeScreen.style.pointerEvents = 'auto';
+            }
+        }, 100);
+
+        // Container size reset for both desktop and mobile
+        // Reset container width
+        timeline.add({
+            targets: mainContainer,
+            maxWidth: '28rem',
+            duration: 600,
+            easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
+        }, 0);
+
+        // Reset container height
+        timeline.add({
+            targets: cardContainer,
+            height: '400px',
+            duration: 600,
+            easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
+        }, 0);
+
+        // Mobile: Show header and footer again when going back
+        if (isMobile) {
+            timeline.add({
+                targets: [pageHeader, pageFooter],
+                opacity: 1,
+                translateY: 0,
+                duration: 400,
+                easing: 'easeOutQuad'
+            }, 200); // Start after container animation begins
+        }
+    });
+
+    // Enhanced form field animations with Anime.js
+    const inputs = form.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            anime({
+                targets: this.parentElement,
+                translateY: -2,
+                boxShadow: '0 8px 25px rgba(168, 85, 247, 0.15)',
+                duration: 200,
+                easing: 'easeOutQuad'
+            });
+        });
+
+        input.addEventListener('blur', function() {
+            anime({
+                targets: this.parentElement,
+                translateY: 0,
+                boxShadow: '0 0 0 rgba(168, 85, 247, 0)',
+                duration: 200,
+                easing: 'easeOutQuad'
+            });
+        });
+    });
+
+    // Form submission handling with enhanced animations
+    form.addEventListener('submit', function(e) {
+        const currentSubmitBtn = document.getElementById('submit-btn');
+        const currentBtnText = currentSubmitBtn.querySelector('#button-text') || currentSubmitBtn.querySelector('#btn-text');
+        const currentBtnLoading = document.getElementById('btn-loading');
+
+        if (currentSubmitBtn) {
+            // Disable button and show loading state with animation
+            currentSubmitBtn.disabled = true;
+            currentSubmitBtn.classList.add('loading-gradient');
+
+            anime({
+                targets: currentSubmitBtn,
+                scale: [1, 0.98, 1],
+                duration: 200,
+                easing: 'easeOutQuad'
+            });
+
+            // Show loading state
+            if (currentBtnText) currentBtnText.classList.add('hidden');
+            if (currentBtnLoading) currentBtnLoading.classList.remove('hidden');
+
+            // Re-enable button after 5 seconds as fallback
+            setTimeout(function() {
+                currentSubmitBtn.disabled = false;
+                currentSubmitBtn.classList.remove('loading-gradient');
+                if (currentBtnText) currentBtnText.classList.remove('hidden');
+                if (currentBtnLoading) currentBtnLoading.classList.add('hidden');
+            }, 5000);
+        }
+    });
+
+    // Keyboard navigation enhancements
+    document.addEventListener('keydown', function(e) {
+        // ESC to go back from form to welcome
+        if (e.key === 'Escape' && formScreen.style.opacity === '1') {
+            backBtn.click();
+        }
+
+        // Enter to accept invitation from welcome screen
+        if (e.key === 'Enter' && welcomeScreen.style.opacity !== '0' && !acceptBtn.disabled) {
+            acceptBtn.click();
+        }
+    });
+
+    // Auto-focus management
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                const target = mutation.target;
+                if (target === formScreen && formScreen.style.opacity === '1') {
+                    setTimeout(() => {
+                        const firstInput = form.querySelector('input:not([type="hidden"])');
+                        if (firstInput) firstInput.focus();
+                    }, 100);
+                }
+            }
+        });
+    });
+
+    observer.observe(formScreen, { attributes: true });
 });
 </script>
 {% endblock %}
