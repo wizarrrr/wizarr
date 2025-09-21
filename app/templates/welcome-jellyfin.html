@@ -7,7 +7,7 @@
 {% block og_description %}{{ _("You've been invited to join the %(name)s server!", name=server_name) }}{% endblock %}
 
 {% block main %}
-<section id="invite-section" class="min-h-screen bg-gradient-to-br from-slate-900 via-primary/20 to-slate-900 relative overflow-x-hidden overflow-y-auto lg:overflow-hidden">
+<section id="invite-section" class="min-h-screen bg-gradient-to-br from-gray-100 via-primary/10 to-white dark:from-slate-900 dark:via-primary/20 dark:to-slate-900 relative overflow-x-hidden overflow-y-auto lg:overflow-hidden">
     <!-- Animated background elements -->
     <div class="absolute inset-0 overflow-hidden">
         <div class="absolute -top-40 -right-80 w-80 h-80 bg-primary/60 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob"></div>
@@ -16,7 +16,7 @@
     </div>
 
     <!-- Overlay gradient to ensure readability -->
-    <div class="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-primary/10 to-slate-900/80"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-white/90 via-primary/10 to-white/95 dark:from-slate-900/80 dark:via-primary/10 dark:to-slate-900/80"></div>
 
     <!-- Shimmer particles background -->
     <div class="shimmer-particles" id="shimmer-container"></div>
@@ -24,27 +24,27 @@
     <div class="relative flex flex-col items-center justify-center px-6 mx-auto min-h-screen lg:py-0">
         <!-- Header - always visible -->
         <div class="text-center mb-4 md:mb-8 transition-all duration-500 ease-out" id="page-header">
-            <h1 class="mb-3 md:mb-6 text-3xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-primary/80 to-primary_hover leading-tight">
+            <h1 class="mb-3 md:mb-6 text-3xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-primary to-primary_hover dark:from-white dark:via-primary/80 dark:to-primary_hover leading-tight">
                 {{ _("You've been invited!") }}
             </h1>
             {% if server_name %}
             <div class="mb-2 md:mb-4">
-                <p class="text-xs md:text-sm text-gray-400 uppercase tracking-wider font-medium">
+                <p class="text-xs md:text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider font-medium">
                     {{ _("To join") }}
                 </p>
-                <p class="text-xl md:text-3xl font-bold text-white mt-1">
+                <p class="text-xl md:text-3xl font-bold text-gray-900 dark:text-white mt-1">
                     {{ server_name }}
                 </p>
             </div>
             {% endif %}
-            <p class="text-base md:text-xl text-gray-300 font-light max-w-md mx-auto leading-relaxed">
+            <p class="text-base md:text-xl text-gray-600 dark:text-gray-300 font-light max-w-md mx-auto leading-relaxed">
                 {{ _("Join the ultimate media server experience.") }}
             </p>
         </div>
 
         <!-- Main Card Container -->
         <div class="w-full max-w-md transition-all duration-700 ease-out" id="main-container">
-            <div class="bg-gray-800/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700/50 transition-all duration-700 ease-out h-[400px]" id="card-container" style="overflow: hidden;">
+            <div class="bg-white/90 dark:bg-gray-800/40 backdrop-blur-xl rounded-2xl shadow-xl dark:shadow-2xl border border-gray-200 dark:border-gray-700/50 transition-all duration-700 ease-out h-[400px]" id="card-container" style="overflow: hidden;">
 
                 <!-- Welcome Screen -->
                 <div class="p-8 space-y-6 transition-all duration-500 ease-out" id="welcome-screen">
@@ -54,10 +54,10 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <h2 class="text-2xl font-bold text-white mb-2">
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                             {{ _("Accept Invitation") }}
                         </h2>
-                        <p class="text-gray-400 text-sm">
+                        <p class="text-gray-600 dark:text-gray-400 text-sm">
                             {{ _("Get ready to join the magic") }}
                         </p>
                     </div>
@@ -77,15 +77,15 @@
                 <!-- Account Creation Form (initially hidden) -->
                 <div class="h-full flex flex-col opacity-0 pointer-events-none transition-all duration-500 ease-out absolute inset-0 overflow-hidden hidden" id="form-screen">
                     <div class="text-center relative py-4 px-6 flex-shrink-0">
-                        <button id="back-btn" class="absolute top-4 left-4 p-2 text-gray-400 hover:text-white transition-colors duration-200">
+                        <button id="back-btn" class="absolute top-4 left-4 p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white transition-colors duration-200">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                             </svg>
                         </button>
-                        <h2 class="text-xl md:text-2xl font-bold text-white mb-1">
+                        <h2 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1">
                             {{ _("Create Account") }}
                         </h2>
-                        <p class="text-gray-400 text-xs md:text-sm">
+                        <p class="text-gray-600 dark:text-gray-400 text-xs md:text-sm">
                             {{ _("Set up your magical account") }}
                         </p>
                     </div>
@@ -93,8 +93,8 @@
                     <!-- Form container with error and form content -->
                     <div class="flex-1 flex flex-col justify-center px-6 pb-4">
                         {% if error %}
-                        <div class="bg-red-900/30 border border-red-500/50 rounded-lg p-2 mb-3">
-                            <p class="text-red-400 text-xs font-medium">{{ error }}</p>
+                        <div class="bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-500/50 rounded-lg p-2 mb-3">
+                            <p class="text-red-600 dark:text-red-400 text-xs font-medium">{{ error }}</p>
                         </div>
                         {% endif %}
 
@@ -102,14 +102,14 @@
                             {{ form.hidden_tag() }}
 
                             <div class="form-field" data-field="1" style="opacity: 0; transform: translateY(10px);">
-                                <label class="block text-xs font-medium text-gray-300 mb-1">
+                                <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                     </svg>
                                     {{ _("Username") }}
                                 </label>
                                 {{ form.username(
-                                    class="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
+                                    class="w-full px-3 py-2 bg-white/80 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
                                     placeholder=_("Enter your username")
                                 ) }}
                                 {% for err in form.username.errors %}
@@ -118,14 +118,14 @@
                             </div>
 
                             <div class="form-field" data-field="2" style="opacity: 0; transform: translateY(10px);">
-                                <label class="block text-xs font-medium text-gray-300 mb-1">
+                                <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 3.26a2 2 0 001.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                     </svg>
                                     {{ _("Email") }}
                                 </label>
                                 {{ form.email(
-                                    class="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
+                                    class="w-full px-3 py-2 bg-white/80 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
                                     placeholder=_("Enter your email")
                                 ) }}
                                 {% for err in form.email.errors %}
@@ -134,14 +134,14 @@
                             </div>
 
                             <div class="form-field" data-field="3" style="opacity: 0; transform: translateY(10px);">
-                                <label class="block text-xs font-medium text-gray-300 mb-1">
+                                <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                                     </svg>
                                     {{ _("Password") }}
                                 </label>
                                 {{ form.password(
-                                    class="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
+                                    class="w-full px-3 py-2 bg-white/80 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
                                     placeholder=_("Create a password")
                                 ) }}
                                 {% for err in form.password.errors %}
@@ -150,14 +150,14 @@
                             </div>
 
                             <div class="form-field" data-field="4" style="opacity: 0; transform: translateY(10px);">
-                                <label class="block text-xs font-medium text-gray-300 mb-1">
+                                <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                                     </svg>
                                     {{ _("Confirm Password") }}
                                 </label>
                                 {{ form.confirm_password(
-                                    class="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
+                                    class="w-full px-3 py-2 bg-white/80 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
                                     placeholder=_("Confirm your password")
                                 ) }}
                                 {% for err in form.confirm_password.errors %}
@@ -166,14 +166,14 @@
                             </div>
 
                             <div class="form-field" data-field="5" style="opacity: 0; transform: translateY(10px);">
-                                <label class="block text-xs font-medium text-gray-300 mb-1">
+                                <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1721 9z"></path>
                                     </svg>
                                     {{ _("Invite Code") }}
                                 </label>
                                 {{ form.code(
-                                    class="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
+                                    class="w-full px-3 py-2 bg-white/80 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
                                     placeholder=_("Enter invite code")
                                 ) }}
                                 {% for err in form.code.errors %}
@@ -197,8 +197,8 @@
             </div>
 
             <!-- Footer text - desktop only -->
-            <div class="text-center mt-6 transition-all duration-500 ease-out hidden md:block" id="page-footer">
-                <p class="text-gray-400 text-sm">
+            <div class="text-center mt-6 transition-all duration-500 ease-out hidden md:block text-gray-500 dark:text-gray-400" id="page-footer">
+                <p class="text-gray-600 dark:text-gray-400 text-sm">
                     {{ _("Secure invitation system powered by Wizarr") }}
                 </p>
             </div>
@@ -239,12 +239,6 @@
     animation-delay: 4s;
 }
 
-/* Smooth form field focus animations */
-.form-field-focus {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(168, 85, 247, 0.15);
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .poster-grid-container {
@@ -255,7 +249,7 @@
 /* Enhanced focus states */
 input:focus {
     transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.2);
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-primary) 65%, transparent);
 }
 
 /* Loading animation enhancement */
@@ -273,13 +267,13 @@ input:focus {
 
 /* Typewriter cursor */
 .typewriter-cursor {
-    border-right: 2px solid rgba(255, 255, 255, 0.75);
+    border-right: 2px solid currentColor;
     animation: blink-caret 0.75s step-end infinite;
 }
 
 @keyframes blink-caret {
     from, to { border-color: transparent; }
-    50% { border-color: rgba(255, 255, 255, 0.75); }
+    50% { border-color: currentColor; }
 }
 
 /* Background shimmer particle effects */
@@ -666,7 +660,6 @@ document.addEventListener('DOMContentLoaded', function() {
             anime({
                 targets: this.parentElement,
                 translateY: -2,
-                boxShadow: '0 8px 25px rgba(168, 85, 247, 0.15)',
                 duration: 200,
                 easing: 'easeOutQuad'
             });
@@ -676,7 +669,6 @@ document.addEventListener('DOMContentLoaded', function() {
             anime({
                 targets: this.parentElement,
                 translateY: 0,
-                boxShadow: '0 0 0 rgba(168, 85, 247, 0)',
                 duration: 200,
                 easing: 'easeOutQuad'
             });
