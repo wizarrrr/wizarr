@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-09-21 03:45+0000\n"
+"POT-Creation-Date: 2025-09-22 03:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +17,42 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/admin/routes.py:281
+#: app/blueprints/admin/routes.py:282
 #: app/templates/admin/user_details_modal.html:47
 msgid "Unknown"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:284 app/templates/modals/invite.html:66
+#: app/blueprints/admin/routes.py:285 app/templates/modals/invite.html:66
 #: app/templates/tables/invite_card.html:45
 #: app/templates/tables/invite_card.html:189
 #: app/templates/tables/user_card.html:74
 msgid "Never"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:355 app/templates/tables/invite_card.html:26
+#: app/blueprints/admin/routes.py:356 app/templates/tables/invite_card.html:26
 msgid "Expired"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:363
+#: app/blueprints/admin/routes.py:364
 #, python-format
 msgid "in %(n)d d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:365
+#: app/blueprints/admin/routes.py:366
 msgid "in 1 d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:367
+#: app/blueprints/admin/routes.py:368
 #, python-format
 msgid "in %(n)d h"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:369
+#: app/blueprints/admin/routes.py:370
 #, python-format
 msgid "in %(n)d m"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:370
+#: app/blueprints/admin/routes.py:371
 msgid "soon"
 msgstr ""
 
@@ -268,12 +268,14 @@ msgstr ""
 #: app/templates/hybrid-password-form.html:92 app/templates/login.html:46
 #: app/templates/modals/create-admin.html:17
 #: app/templates/modals/edit-admin.html:17
+#: app/templates/welcome-jellyfin.html:109
 msgid "Username"
 msgstr ""
 
 #: app/forms/admin.py:26 app/templates/choose-password.html:23
 #: app/templates/hybrid-password-form.html:124 app/templates/login.html:52
 #: app/templates/modals/create-admin.html:22 app/templates/profile.html:25
+#: app/templates/welcome-jellyfin.html:141
 msgid "Password"
 msgstr ""
 
@@ -459,6 +461,7 @@ msgstr ""
 
 #: app/templates/choose-password.html:27
 #: app/templates/hybrid-password-form.html:139
+#: app/templates/welcome-jellyfin.html:157
 msgid "Confirm Password"
 msgstr ""
 
@@ -515,6 +518,7 @@ msgid "Your password"
 msgstr ""
 
 #: app/templates/hybrid-password-form.html:143
+#: app/templates/welcome-jellyfin.html:161
 msgid "Confirm your password"
 msgstr ""
 
@@ -652,7 +656,6 @@ msgid "Change Password"
 msgstr ""
 
 #: app/templates/user-plex-login.html:7 app/templates/welcome-jellyfin.html:7
-#: app/templates/welcome-jellyfin.html:14
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr ""
@@ -661,17 +664,67 @@ msgstr ""
 msgid "Invite User"
 msgstr ""
 
-#: app/templates/welcome-jellyfin.html:22
-msgid "Set up Account"
+#: app/templates/welcome-jellyfin.html:28
+msgid "You've been invited!"
 msgstr ""
 
-#: app/templates/setup/admin_account.html:58
-#: app/templates/welcome-jellyfin.html:72
-msgid "Create an account"
+#: app/templates/welcome-jellyfin.html:33
+msgid "To join"
 msgstr ""
 
-#: app/templates/welcome-jellyfin.html:78
+#: app/templates/welcome-jellyfin.html:41
+msgid "Join the ultimate media server experience."
+msgstr ""
+
+#: app/templates/welcome-jellyfin.html:58
+#: app/templates/welcome-jellyfin.html:73
+msgid "Accept Invitation"
+msgstr ""
+
+#: app/templates/welcome-jellyfin.html:61
+msgid "Get ready to join the magic"
+msgstr ""
+
+#: app/templates/welcome-jellyfin.html:86
+#: app/templates/welcome-jellyfin.html:185
+msgid "Create Account"
+msgstr ""
+
+#: app/templates/welcome-jellyfin.html:89
+msgid "Set up your magical account"
+msgstr ""
+
+#: app/templates/welcome-jellyfin.html:113
+msgid "Enter your username"
+msgstr ""
+
+#: app/templates/welcome-jellyfin.html:125
+msgid "Email"
+msgstr ""
+
+#: app/templates/welcome-jellyfin.html:129
+msgid "Enter your email"
+msgstr ""
+
+#: app/templates/welcome-jellyfin.html:145
+msgid "Create a password"
+msgstr ""
+
+#: app/templates/tables/user_card.html:95
+#: app/templates/welcome-jellyfin.html:173
+msgid "Invite Code"
+msgstr ""
+
+#: app/templates/welcome-jellyfin.html:177
+msgid "Enter invite code"
+msgstr ""
+
+#: app/templates/welcome-jellyfin.html:191
 msgid "Creating account..."
+msgstr ""
+
+#: app/templates/welcome-jellyfin.html:202
+msgid "Secure invitation system powered by Wizarr"
 msgstr ""
 
 #: app/templates/admin/accepted_invites_card.html:8
@@ -682,11 +735,11 @@ msgstr ""
 msgid "Recently joined"
 msgstr ""
 
-#: app/templates/admin/accepted_invites_card.html:93
+#: app/templates/admin/accepted_invites_card.html:124
 msgid "No recent invitations accepted"
 msgstr ""
 
-#: app/templates/admin/accepted_invites_card.html:94
+#: app/templates/admin/accepted_invites_card.html:125
 msgid "Accepted invitations will appear here"
 msgstr ""
 
@@ -2054,6 +2107,10 @@ msgstr ""
 msgid "Setup Wizarr"
 msgstr ""
 
+#: app/templates/setup/admin_account.html:58
+msgid "Create an account"
+msgstr ""
+
 #: app/templates/tables/invite_card.html:32
 #: app/templates/tables/invite_card.html:199
 msgid "Unlimited"
@@ -2106,10 +2163,6 @@ msgstr ""
 
 #: app/templates/tables/user_card.html:85
 msgid "Invited"
-msgstr ""
-
-#: app/templates/tables/user_card.html:95
-msgid "Invite Code"
 msgstr ""
 
 #: app/templates/tables/user_card.html:121
