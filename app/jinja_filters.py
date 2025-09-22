@@ -93,6 +93,50 @@ def human_date(date_value) -> str:
     return str(date_value)[:16]
 
 
+def local_date(date_value, format_str="%m/%d %H:%M") -> str:
+    """Convert a UTC datetime to local system timezone and format it."""
+    if not date_value:
+        return "—"
+
+    if isinstance(date_value, str):
+        try:
+            for fmt in [
+                "%Y-%m-%d %H:%M:%S",
+                "%Y-%m-%d %H:%M",
+                "%Y-%m-%dT%H:%M:%S",
+                "%Y-%m-%dT%H:%M:%S.%f",
+                "%Y-%m-%dT%H:%M:%S.%fZ",
+            ]:
+                try:
+                    date_value = datetime.strptime(date_value, fmt)
+                    break
+                except ValueError:
+                    continue
+            else:
+                return str(date_value)[:16]
+        except (ValueError, AttributeError):
+            return str(date_value)[:16]
+
+    if hasattr(date_value, "strftime"):
+        try:
+            if date_value.tzinfo is None:
+                from datetime import UTC
+
+                date_value = date_value.replace(tzinfo=UTC)
+
+            try:
+                system_tz = zoneinfo.ZoneInfo(time.tzname[0])
+                local_time = date_value.astimezone(system_tz)
+            except (ImportError, OSError):
+                local_time = date_value
+
+            return local_time.strftime(format_str)
+        except Exception:
+            return date_value.strftime(format_str)
+
+    return str(date_value)
+
+
 def nl2br(text: str) -> Markup:
     """Convert newlines in text to HTML <br> tags.
 
@@ -133,5 +177,6 @@ def register_filters(app):
     app.jinja_env.filters.setdefault("server_name_tag", server_name_tag)
     app.jinja_env.filters.setdefault("server_colour", _server_colour)
     app.jinja_env.filters.setdefault("human_date", human_date)
+    app.jinja_env.filters.setdefault("local_date", local_date)
     app.jinja_env.filters.setdefault("nl2br", nl2br)
     app.jinja_env.filters.setdefault("render_jinja", render_jinja)
