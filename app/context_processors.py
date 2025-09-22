@@ -18,3 +18,15 @@ def inject_server_name():
             raise
 
     return {"server_name": server_name}
+
+
+def inject_plus_features():
+    """Inject Plus features availability into template context."""
+    try:
+        import plus
+
+        is_plus_enabled = plus.is_plus_enabled()
+    except ImportError:
+        is_plus_enabled = False
+
+    return {"is_plus_enabled": is_plus_enabled}

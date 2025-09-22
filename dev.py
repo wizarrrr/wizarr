@@ -66,11 +66,18 @@ def main():
 Examples:
   python dev.py                    # Start development server (default)
   python dev.py --scheduler        # Start with background scheduler enabled
+  python dev.py --plus             # Start with Plus features enabled
+  python dev.py --plus --scheduler # Start with both Plus and scheduler enabled
 
 The scheduler runs maintenance tasks like:
   - Expiry cleanup (every 1 minute in dev mode)
   - User account deletion for expired users
   - Server-specific expiry enforcement
+
+Plus features include:
+  - Audit logging for admin actions
+  - Advanced analytics and reporting
+  - Enhanced security features
         """,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -78,6 +85,11 @@ The scheduler runs maintenance tasks like:
         "--scheduler",
         action="store_true",
         help="Enable the background scheduler for testing expiry and maintenance tasks",
+    )
+    parser.add_argument(
+        "--plus",
+        action="store_true",
+        help="Enable Plus features including audit logging and advanced analytics",
     )
     args = parser.parse_args()
 
@@ -108,17 +120,27 @@ The scheduler runs maintenance tasks like:
     try:
         flask_command = ["uv", "run", "flask", "run", "--debug"]
 
+        # Set environment variables based on flags
+        import os
+
         if args.scheduler:
             print(
                 "🕒 Scheduler enabled - background tasks will run (expiry cleanup every 1 minute)"
             )
-            # Set environment variable to enable scheduler
-            import os
-
             os.environ["WIZARR_ENABLE_SCHEDULER"] = "true"
         else:
             print(
                 "ℹ️  Scheduler disabled - use --scheduler flag to enable background tasks"
+            )
+
+        if args.plus:
+            print(
+                "⭐ Plus features enabled - audit logging and advanced features available"
+            )
+            os.environ["WIZARR_ENABLE_PLUS"] = "true"
+        else:
+            print(
+                "ℹ️  Plus features disabled - use --plus flag to enable audit logging and advanced features"
             )
 
         print("Starting Flask development server...")

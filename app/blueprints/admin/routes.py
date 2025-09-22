@@ -1072,3 +1072,40 @@ def sync_users():
             500,
             {"Content-Type": "application/json"},
         )
+
+
+# ──────────────────────────────────────────────────────────────────────
+# Plus Features Routes - Only available when Plus is enabled
+# ──────────────────────────────────────────────────────────────────────
+
+
+@admin_bp.route("/plus/audit")
+@login_required
+def plus_audit():
+    """Redirect to Plus audit tab in settings - kept for backwards compatibility."""
+    try:
+        import plus
+
+        if not plus.is_plus_enabled():
+            return redirect(url_for("admin.dashboard"))
+    except ImportError:
+        return redirect(url_for("admin.dashboard"))
+
+    # The actual audit tab is now rendered by the plus blueprint
+    return redirect(url_for("plus_audit.audit_tab"))
+
+
+@admin_bp.route("/activity")
+@login_required
+def activity():
+    """Redirect to activity monitoring dashboard - Plus feature."""
+    try:
+        import plus
+
+        if not plus.is_plus_enabled():
+            return redirect(url_for("admin.dashboard"))
+    except ImportError:
+        return redirect(url_for("admin.dashboard"))
+
+    # Redirect to the activity blueprint
+    return redirect(url_for("activity.activity_dashboard"))
