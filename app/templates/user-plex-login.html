@@ -48,12 +48,12 @@
         <!-- Header -->
         <div class="text-center mb-8">
             <h1 class="mb-6 text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-orange-200 to-amber-400 leading-tight">
-                You've been invited!
+                {{ _("You've been invited!") }}
             </h1>
             {% if server_name %}
             <div class="mb-4">
                 <p class="text-sm text-gray-400 uppercase tracking-wider font-medium">
-                    To join
+                    {{ _("To join") }}
                 </p>
                 <p class="text-2xl md:text-3xl font-bold text-white mt-1">
                     {{ server_name }}
@@ -61,7 +61,7 @@
             </div>
             {% endif %}
             <p class="text-lg md:text-xl text-gray-300 font-light max-w-md mx-auto leading-relaxed">
-                Join the ultimate media server experience.
+                {{ _("Join the ultimate media server experience.") }}
             </p>
         </div>
 
@@ -71,10 +71,10 @@
                 <div class="p-8 space-y-6">
                     <div class="text-center">
                         <h2 class="text-2xl font-bold text-white mb-2">
-                            Enter Code to Continue
+                            {{ _("Enter Code to Continue") }}
                         </h2>
                         <p class="text-gray-400 text-sm">
-                            Invitation Code
+                            {{ _("Invitation Code") }}
                         </p>
                     </div>
                     
@@ -91,7 +91,7 @@
                                        bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400
                                        rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent
                                        backdrop-blur-sm transition-all duration-200"
-                                placeholder="Enter your code" 
+                                placeholder="{{ _('Enter your code') }}" 
                                 value="{{ code }}" 
                                 required
                                 autocomplete="off">
@@ -111,7 +111,7 @@
                                        bg-red-900/30 border-2 border-red-500 text-white placeholder-red-300
                                        rounded-xl focus:ring-2 focus:ring-red-400 focus:border-red-400
                                        backdrop-blur-sm transition-all duration-200"
-                                placeholder="Enter your code" 
+                                placeholder="{{ _('Enter your code') }}" 
                                 required
                                 autocomplete="off">
                             <div class="flex items-center space-x-2 text-red-400 text-sm">
@@ -131,7 +131,7 @@
                                    rounded-xl transition-all duration-200 transform hover:scale-[1.02]
                                    focus:ring-4 focus:ring-primary/30 focus:outline-none
                                    shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
-                            Join Server
+                            {{ _("Join Server") }}
                         </button>
                     </form>
                 </div>
@@ -140,7 +140,7 @@
             <!-- Footer text -->
             <div class="text-center mt-6">
                 <p class="text-gray-400 text-sm">
-                    Secure invitation system powered by Wizarr
+                    {{ _("Secure invitation system powered by Wizarr") }}
                 </p>
             </div>
         </div>
