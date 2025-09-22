@@ -449,7 +449,7 @@ class JellyfinClient(RestApiMixin):
                         )
 
             current_policy = self.get(f"/Users/{user_id}").json().get("Policy", {})
-            current_policy["EnableDownloads"] = allow_downloads
+            current_policy["EnableContentDownloading"] = allow_downloads
             current_policy["EnableLiveTvAccess"] = allow_live_tv
             self.set_policy(user_id, current_policy)
 
