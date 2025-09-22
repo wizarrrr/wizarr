@@ -54,7 +54,7 @@
                 
                 <!-- Server tag - top left corner of poster -->
                 <div class="absolute top-2 left-2 flex items-start" title="{{ session.server_name }}">
-                    {{ session.server_type|server_type_tag }}
+                    {{ session.server_type|server_name_tag(session.server_name) }}
                 </div>
                 
                 <!-- Info button - bottom right of poster -->

@@ -15,7 +15,7 @@ from flask_login import login_required
 
 from app.extensions import db
 from app.models import Library, MediaServer, User
-from app.services.media.service import scan_libraries_for_server
+from app.services.media.service import list_users_for_server, scan_libraries_for_server
 from app.services.servers import (
     check_audiobookshelf,
     check_drop,
@@ -119,6 +119,16 @@ def create_server():
                     lib.enabled = True
                     db.session.add(lib)
             db.session.commit()
+
+        # Automatically sync users from the newly added server
+        try:
+            list_users_for_server(server)
+        except Exception as exc:
+            # Log the error but don't fail the server creation
+            import logging
+
+            logging.error(f"Failed to sync users for new server {server.name}: {exc}")
+
         return redirect(url_for("media_servers.list_servers"))
     # GET
     return render_template("modals/create-server.html", error="")
