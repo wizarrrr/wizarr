@@ -48,6 +48,13 @@ __pycache__/
 # C extensions
 *.so
 
+# Plus template compilation artifacts
+plus/compiled_templates.py
+plus/template_loader.py
+
+# Plus compilation backup
+plus_backup/
+
 # Distribution / packaging
 .Python
 build/
