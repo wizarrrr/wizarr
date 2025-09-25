@@ -180,3 +180,7 @@ def register_filters(app):
     app.jinja_env.filters.setdefault("local_date", local_date)
     app.jinja_env.filters.setdefault("nl2br", nl2br)
     app.jinja_env.filters.setdefault("render_jinja", render_jinja)
+
+    # Add Python built-in functions to Jinja globals
+    app.jinja_env.globals.setdefault("max", max)
+    app.jinja_env.globals.setdefault("min", min)
