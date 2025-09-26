@@ -494,52 +494,25 @@ class JellyfinClient(RestApiMixin):
             series_id if (media_type == "episode" and series_id) else item_id
         )
 
-        try:
-            poster_response = self.get(
-                f"/Items/{poster_item_id}/RemoteImages",
-                params={"type": "Primary", "limit": 2},
-            ).json()
+        # Use direct Jellyfin image endpoints instead of fetching remote metadata
+        # This avoids slow RemoteImages API calls that often timeout
+        base_params = f"?api_key={self.token}" if self.token else ""
 
-            artwork_url = fallback_artwork_url = thumbnail_url = None
+        # Primary artwork for the item (poster)
+        artwork_url = f"{self.url}/Items/{poster_item_id}/Images/Primary{base_params}"
+        fallback_artwork_url = artwork_url
 
-            if poster_response.get("Images"):
-                images = poster_response["Images"]
-                if images:
-                    artwork_url = images[0].get("Url")
-                    fallback_artwork_url = images[0].get("ThumbnailUrl") or artwork_url
+        # For episodes/series, also try to get a backdrop image as thumbnail
+        # But use Primary as fallback to avoid another potentially slow call
+        thumbnail_url = (
+            f"{self.url}/Items/{poster_item_id}/Images/Backdrop{base_params}"
+        )
 
-            try:
-                backdrop_response = self.get(
-                    f"/Items/{poster_item_id}/RemoteImages",
-                    params={"type": "Backdrop", "limit": 1},
-                ).json()
-
-                if backdrop_response.get("Images"):
-                    thumbnail_url = backdrop_response["Images"][0].get("Url")
-            except Exception:
-                pass
-
-            if not thumbnail_url:
-                thumbnail_url = fallback_artwork_url
-
-            return {
-                "artwork_url": artwork_url,
-                "fallback_artwork_url": fallback_artwork_url,
-                "thumbnail_url": thumbnail_url,
-            }
-
-        except Exception as e:
-            logging.warning(f"Failed to get remote images for item {item_id}: {e}")
-
-            base_params = f"?api_key={self.token}" if self.token else ""
-            fallback_url = (
-                f"{self.url}/Items/{poster_item_id}/Images/Primary{base_params}"
-            )
-            return {
-                "artwork_url": fallback_url,
-                "fallback_artwork_url": fallback_url,
-                "thumbnail_url": fallback_url,
-            }
+        return {
+            "artwork_url": artwork_url,
+            "fallback_artwork_url": fallback_artwork_url,
+            "thumbnail_url": thumbnail_url,
+        }
 
     def get_movie_posters(self, limit: int = 10) -> list[str]:
         """Get movie poster URLs for background display."""
