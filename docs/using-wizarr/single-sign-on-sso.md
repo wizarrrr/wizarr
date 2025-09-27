@@ -29,12 +29,13 @@ In order to make the invitation process available for non signed in users, make 
 
 {% tab title="Authentik/Other" %}
 ```
-- '^/join/'
-- '^/j/'
-- '^/setup/*'
-- '^/static/'
-- '^/wizard/'
-- '^/cinema-posters'
+- '^/join($|/.*)'
+- '^/j($|/.*)'
+- '^/static($|/.*)'
+- '^/setup($|/.*)'
+- '^/wizard($|/.*)'
+- '^/image-proxy($|/.*)'
+- '^/cinema-posters($|/.*)'
 ```
 {% endtab %}
 {% endtabs %}
