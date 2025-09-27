@@ -6,6 +6,7 @@ import time
 from typing import TYPE_CHECKING, Any
 
 import requests
+import structlog
 from sqlalchemy import or_
 
 from app.extensions import db
@@ -396,8 +397,8 @@ class AudiobookshelfClient(RestApiMixin):
                     is_enabled=raw_user.get("isActive", True),
                 )
 
-                # Cache the metadata in the User record
-                user.cache_metadata(details)
+                # Update the standardized metadata columns in the User record
+                user.update_standardized_metadata(details)
                 cached_count += 1
 
             except Exception as e:
@@ -405,7 +406,15 @@ class AudiobookshelfClient(RestApiMixin):
                 continue
 
         if cached_count > 0:
-            logging.info(f"Cached metadata for {cached_count} users")
+            # Commit the standardized metadata updates
+            try:
+                db.session.commit()
+                logging.info(
+                    f"Cached metadata for {cached_count} users and committed to database"
+                )
+            except Exception as e:
+                logging.error(f"Failed to commit AudiobookShelf metadata updates: {e}")
+                db.session.rollback()
 
     # --- user management ------------------------------------------------
 
@@ -472,6 +481,24 @@ class AudiobookshelfClient(RestApiMixin):
         except Exception as exc:
             logging.error("ABS: failed to update user %s – %s", user_id, exc)
             raise
+
+    def disable_user(self, user_id: str) -> bool:
+        """Disable a user account on Audiobookshelf.
+
+        Args:
+            user_id: The user's Audiobookshelf ID
+
+        Returns:
+            bool: True if the user was successfully disabled, False otherwise
+        """
+        try:
+            # Audiobookshelf uses isActive field to enable/disable users
+            payload = {"isActive": False}
+            response = self.patch(f"/api/users/{user_id}", json=payload)
+            return response.status_code == 200
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to disable Audiobookshelf user: {e}")
+            return False
 
     def delete_user(self, user_id: str):
         """Delete a user permanently from Audiobookshelf."""

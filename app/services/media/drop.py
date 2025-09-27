@@ -8,6 +8,7 @@ import logging
 import re
 from typing import TYPE_CHECKING, Any
 
+import structlog
 from sqlalchemy import or_
 
 from app.extensions import db
@@ -154,6 +155,12 @@ class DropClient(RestApiMixin):
                 }
                 user.set_raw_policies(drop_policies)
 
+                # Update standardized User model columns
+                user.allow_downloads = True  # Drop supports downloads by default
+                user.allow_live_tv = False  # Drop doesn't support live TV
+                user.allow_camera_upload = False  # Drop doesn't support camera upload
+                user.is_admin = drop_user.get("admin", False)
+
             # Single commit for all metadata updates
             try:
                 db.session.commit()
@@ -238,6 +245,24 @@ class DropClient(RestApiMixin):
         except Exception as exc:
             logging.error("Drop: failed to update user – %s", exc)
             raise
+
+    def disable_user(self, user_id: str) -> bool:
+        """Disable a user account on Drop.
+
+        Args:
+            user_id: The user's Drop ID
+
+        Returns:
+            bool: True if the user was successfully disabled, False otherwise
+        """
+        try:
+            # Drop doesn't have a direct disable feature
+            # Return False to indicate this operation is not supported
+            structlog.get_logger().warning("Drop does not support disabling users")
+            return False
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to disable Drop user: {e}")
+            return False
 
     def delete_user(self, user_id: str):
         """Delete a Drop user."""

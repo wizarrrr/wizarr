@@ -33,8 +33,8 @@ class StandardizedPermissions:
         """Extract standardized permissions from Jellyfin/Emby policy."""
         perms = cls("jellyfin")
         perms.is_admin = policy.get("IsAdministrator", False)
-        perms.allow_downloads = policy.get("EnableContentDownloading", True)
-        perms.allow_live_tv = policy.get("EnableLiveTvAccess", True)
+        perms.allow_downloads = policy.get("EnableContentDownloading", False)
+        perms.allow_live_tv = policy.get("EnableLiveTvAccess", False)
         perms.allow_camera_upload = False  # Not supported
         return perms
 

@@ -6,6 +6,7 @@ import random
 import string
 from typing import TYPE_CHECKING, Any
 
+import structlog
 from sqlalchemy import or_
 
 from app.extensions import db
@@ -201,6 +202,11 @@ class NavidromeClient(RestApiMixin):
                     "allow_live_tv": permissions.allow_live_tv,
                 }
                 user.set_raw_policies(navidrome_policies)
+
+                # Update standardized User model columns
+                user.allow_downloads = permissions.allow_downloads
+                user.allow_live_tv = permissions.allow_live_tv
+                user.is_admin = permissions.is_admin
             else:
                 # Default values if user data not found - use standardized helper
                 default_permissions = StandardizedPermissions.for_basic_server(
@@ -217,6 +223,11 @@ class NavidromeClient(RestApiMixin):
                     "allow_live_tv": default_permissions.allow_live_tv,
                 }
                 user.set_raw_policies(default_policies)
+
+                # Update standardized User model columns with defaults
+                user.allow_downloads = default_permissions.allow_downloads
+                user.allow_live_tv = default_permissions.allow_live_tv
+                user.is_admin = default_permissions.is_admin
 
         # Single commit for all metadata updates
         try:
@@ -281,6 +292,26 @@ class NavidromeClient(RestApiMixin):
         except Exception as exc:
             logging.error("Navidrome: failed to update user %s – %s", username, exc)
             raise
+
+    def disable_user(self, user_id: str) -> bool:
+        """Disable a user account on Navidrome.
+
+        Args:
+            user_id: The user's Navidrome username
+
+        Returns:
+            bool: True if the user was successfully disabled, False otherwise
+        """
+        try:
+            # Navidrome doesn't have a disable feature, we can only delete users
+            # Return False to indicate this operation is not supported
+            structlog.get_logger().warning(
+                "Navidrome does not support disabling users, only deletion"
+            )
+            return False
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to disable Navidrome user: {e}")
+            return False
 
     def delete_user(self, username: str):
         """Delete a user permanently from Navidrome."""

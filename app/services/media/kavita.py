@@ -5,6 +5,7 @@ import time
 from typing import TYPE_CHECKING
 from urllib.parse import parse_qs, urlparse
 
+import structlog
 from sqlalchemy import or_
 
 from app.extensions import db
@@ -459,6 +460,28 @@ class KavitaClient(RestApiMixin):
             logging.error(f"Failed to update Kavita user {username}: {e}")
             return None
 
+    def disable_user(self, user_id: str) -> bool:
+        """Disable a user account on Kavita.
+
+        Args:
+            user_id: The user's Kavita ID
+
+        Returns:
+            bool: True if the user was successfully disabled, False otherwise
+        """
+        try:
+            # For Kavita, we remove all library access to effectively disable the user
+            user_details = self.get(f"/api/Account/users/{user_id}").json()
+            if user_details:
+                # Remove all library access
+                user_details["libraries"] = []
+                response = self.post("/api/Account/update", json=user_details)
+                return response.status_code == 200
+            return False
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to disable Kavita user: {e}")
+            return False
+
     def grant_library_access(self, user_id: str, library_ids: list[str]) -> None:
         """Grant user access to specific libraries."""
         for library_id in library_ids:
@@ -546,6 +569,11 @@ class KavitaClient(RestApiMixin):
                     "allow_sync": permissions.allow_downloads,  # Use downloads setting for sync
                 }
                 user.set_raw_policies(kavita_policies)
+
+                # Update standardized User model columns
+                user.allow_downloads = permissions.allow_downloads
+                user.allow_live_tv = permissions.allow_live_tv
+                user.is_admin = permissions.is_admin
 
             # Single commit for all metadata updates
             try:

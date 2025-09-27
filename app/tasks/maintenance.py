@@ -1,7 +1,9 @@
 import logging
 import os
 
-from app.services.expiry import delete_user_if_expired
+from app.services.expiry import (
+    disable_or_delete_user_if_expired,
+)
 
 
 def _get_expiry_check_interval():
@@ -13,7 +15,7 @@ def _get_expiry_check_interval():
 
 
 def check_expiring(app=None):
-    """Check for and delete expired users.
+    """Check for and process expired users based on expiry action setting.
 
     Args:
         app: Flask application instance. If None, will try to get from current context.
@@ -31,9 +33,11 @@ def check_expiring(app=None):
             return
 
     with app.app_context():
-        deleted = delete_user_if_expired()
-        if len(deleted) > 0:
-            logging.info("🧹 Expiry cleanup: Deleted %s expired users.", len(deleted))
+        processed = disable_or_delete_user_if_expired()
+        if len(processed) > 0:
+            logging.info(
+                "🧹 Expiry cleanup: Processed %s expired users.", len(processed)
+            )
         else:
             # Only log in development mode to avoid spam in production logs
             if os.getenv("WIZARR_ENABLE_SCHEDULER") == "true":

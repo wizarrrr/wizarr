@@ -173,6 +173,7 @@ class User(db.Model, UserMixin):
     identity_id = db.Column(db.Integer, db.ForeignKey("identity.id"), nullable=True)
     identity = db.relationship("Identity", backref=db.backref("accounts", lazy=True))
     notes = db.Column(db.Text, nullable=True)
+    is_disabled = db.Column(db.Boolean, nullable=False, default=False)
 
     # Standardized metadata columns
     is_admin = db.Column(db.Boolean, nullable=True, default=False)
@@ -244,12 +245,6 @@ class User(db.Model, UserMixin):
             self.raw_policies_json = None
         else:
             self.raw_policies_json = json.dumps(policies)
-
-    def cache_metadata(self, details):
-        """Cache metadata from MediaUserDetails object (only displayed data)."""
-        # Only cache data that's actually displayed in the UI
-        self.set_library_access(details.library_access)
-        self.set_raw_policies(details.raw_policies)
 
     def has_cached_metadata(self):
         """Check if user has cached metadata available."""

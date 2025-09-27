@@ -3,6 +3,7 @@ import re
 import threading
 from typing import TYPE_CHECKING
 
+import structlog
 from cachetools import TTLCache, cached
 from plexapi.myplex import MyPlexAccount
 from plexapi.server import PlexServer
@@ -403,6 +404,29 @@ class PlexClient(MediaClient):
             allowChannels=bool(form.get("allowChannels")),
             allowCameraUpload=bool(form.get("allowCameraUpload")),
         )
+
+    def disable_user(self, user_id: str) -> bool:
+        """Disable a user account on Plex.
+
+        Note: Plex doesn't have a direct disable feature for managed users.
+        This implementation removes all library access which effectively disables the account.
+
+        Args:
+            user_id: The user's Plex ID
+
+        Returns:
+            bool: True if the user was successfully disabled, False otherwise
+        """
+        try:
+            # For Plex, we remove all library access to effectively disable the user
+            user = self.my_account.user(user_id)
+            if user:
+                user.removeFriend()
+                return True
+            return False
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to disable Plex user: {e}")
+            return False
 
     def delete_user(self, email: str) -> None:
         """Remove a user from the Plex server."""

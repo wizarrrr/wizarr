@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
 
 import requests
+import structlog
 from sqlalchemy import or_
 
 from app.extensions import db
@@ -193,6 +194,11 @@ class RommClient(RestApiMixin):
             }
             user.set_raw_policies(romm_policies)
 
+            # Update standardized User model columns
+            user.allow_downloads = True  # Default for gaming apps
+            user.allow_live_tv = False  # RomM doesn't have Live TV
+            user.is_admin = False  # Would need API call to determine
+
         # Single commit for all metadata updates
         try:
             db.session.commit()
@@ -263,6 +269,24 @@ class RommClient(RestApiMixin):
     def update_user(self, user_id: str, patch: dict[str, Any]):
         """PATCH selected fields on a RomM user object."""
         return self.patch(f"{self.API_PREFIX}/users/{user_id}", json=patch).json()
+
+    def disable_user(self, user_id: str) -> bool:
+        """Disable a user account on RomM.
+
+        Args:
+            user_id: The user's RomM ID
+
+        Returns:
+            bool: True if the user was successfully disabled, False otherwise
+        """
+        try:
+            # RomM uses enabled field to enable/disable users
+            payload = {"enabled": False}
+            response = self.patch(f"/api/users/{user_id}", json=payload)
+            return response.status_code == 200
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to disable RomM user: {e}")
+            return False
 
     def delete_user(self, user_id: str):
         resp = self.delete(f"{self.API_PREFIX}/users/{user_id}")

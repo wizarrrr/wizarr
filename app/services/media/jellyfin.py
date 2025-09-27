@@ -3,6 +3,7 @@ import re
 from typing import TYPE_CHECKING
 
 import requests
+import structlog
 from sqlalchemy import or_
 
 from app.extensions import db
@@ -189,9 +190,31 @@ class JellyfinClient(RestApiMixin):
 
         return self.post(f"/Users/{jf_id}", json=current).json()
 
+    def disable_user(self, user_id: str) -> bool:
+        """Disable a user account on Jellyfin.
+
+        Args:
+            user_id: The user's Jellyfin ID
+
+        Returns:
+            bool: True if the user was successfully disabled, False otherwise
+        """
+        try:
+            user = self.get_user(user_id)
+            if not user:
+                return False
+
+            user["Policy"]["IsDisabled"] = True
+            response = self.post(f"/Users/{user_id}", json=user)
+            return response.status_code == 204 or response.status_code == 200
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to disable Jellyfin user: {e}")
+            return False
+
     def list_users(self) -> list[User]:
         server_id = getattr(self, "server_id", None)
-        jf_users = {u["Id"]: u for u in self.get("/Users").json()}
+        raw_users = self.get("/Users").json()
+        jf_users = {u["Id"]: u for u in raw_users}
 
         for jf in jf_users.values():
             existing = User.query.filter_by(token=jf["Id"]).first()
@@ -255,6 +278,15 @@ class JellyfinClient(RestApiMixin):
 
         # Cache detailed metadata for all users from bulk response (no individual API calls)
         self._cache_user_metadata_from_bulk_response(users, jf_users)
+
+        # Commit the standardized metadata updates
+        try:
+            db.session.commit()
+        except Exception as e:
+            logging.error(
+                f"JELLYFIN: Failed to commit standardized metadata updates: {e}"
+            )
+            db.session.rollback()
 
         return users
 
@@ -320,8 +352,8 @@ class JellyfinClient(RestApiMixin):
                     is_enabled=not policy.get("IsDisabled", False),
                 )
 
-                # Cache the metadata in the User record
-                user.cache_metadata(details)
+                # Update the standardized metadata columns in the User record
+                user.update_standardized_metadata(details)
                 cached_count += 1
 
             except Exception as e:

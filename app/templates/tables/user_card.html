@@ -7,8 +7,16 @@
     <label class="mb-4 animate__animated flex flex-col justify-between cursor-pointer bg-white dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-xs overflow-hidden border border-gray-200 dark:border-gray-700 relative transition hover:border-primary hover:shadow peer-checked:border-primary peer-checked:ring-2 peer-checked:ring-primary focus-within:ring-2 focus-within:ring-primary" for="uid{{ user.id }}">
         <!-- Hidden checkbox used for selection -->
         <input id="uid{{ user.id }}" type="checkbox" class="sr-only peer link-check" name="uids" value="{{ user.id }}">
-        <!-- Checkmark icon shown when selected -->
+
+        <!-- Disabled status tag (top right) -->
+        {% if user.is_disabled %}
+        <div class="absolute top-2 right-2 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 text-xs font-medium px-2.5 py-0.5 rounded-full border border-red-200 dark:border-red-800">
+            {{ _("Disabled") }}
+        </div>
+        {% else %}
+        <!-- Checkmark icon shown when selected (only if not disabled) -->
         <svg class="absolute top-2 right-2 w-5 h-5 text-primary opacity-0 peer-checked:opacity-100" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.12a1 1 0 011.414-1.415L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+        {% endif %}
         <div class="p-4">
             <!-- Header with username and photo -->
             <div class="flex items-center mb-3">

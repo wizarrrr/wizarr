@@ -184,6 +184,18 @@ class MediaClient(ABC):
         raise NotImplementedError
 
     @abstractmethod
+    def disable_user(self, user_id: str) -> bool:
+        """Disable a user account on the media server.
+
+        Args:
+            user_id: The user's ID on the media server
+
+        Returns:
+            bool: True if the user was successfully disabled, False otherwise
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def delete_user(self, *args, **kwargs):
         raise NotImplementedError
 
@@ -239,8 +251,8 @@ class MediaClient(ABC):
                 # Get detailed metadata from the server
                 details = self.get_user_details(user_identifier)
 
-                # Cache the metadata in the User record
-                user.cache_metadata(details)
+                # Update the standardized metadata columns in the User record
+                user.update_standardized_metadata(details)
                 cached_count += 1
 
             except Exception as e:

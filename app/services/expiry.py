@@ -135,6 +135,130 @@ def delete_user_if_expired() -> list[int]:
     return deleted
 
 
+def get_server_disable_capabilities() -> dict[str, bool]:
+    """Returns a mapping of server types to whether they support user disabling.
+
+    Returns:
+        dict: Server type -> supports disable (True/False)
+    """
+    return {
+        "jellyfin": True,
+        "emby": True,  # Inherits from Jellyfin
+        "plex": False,  # Only supports deletion via removeFriend()
+        "audiobookshelf": True,
+        "kavita": True,  # Removes library access
+        "komga": True,  # Removes library access
+        "romm": True,
+        "navidrome": False,  # Not supported
+        "drop": False,  # Not supported
+    }
+
+
+def disable_or_delete_user_if_expired() -> list[int]:
+    """
+    Find users whose `expires` < now, and either disable or delete them based on
+    the expiry_action setting. Returns a list of db IDs that were processed.
+
+    This function is multi-server aware and will handle users from their specific
+    servers rather than assuming a single global server.
+    """
+    from app.models import Settings
+
+    # Get the expiry action setting, default to delete for backward compatibility
+    expiry_action_setting = Settings.query.filter_by(key="expiry_action").first()
+    expiry_action = expiry_action_setting.value if expiry_action_setting else "delete"
+
+    now = datetime.datetime.now()
+    expired_rows = User.query.filter(
+        User.expires.is_not(None),  # not null
+        User.expires < now,
+    ).all()
+
+    processed: list[int] = []
+    for user in expired_rows:
+        try:
+            # Log the user to expired_users table before processing
+            expired_user = ExpiredUser(
+                original_user_id=user.id,
+                username=user.username,
+                email=user.email,
+                invitation_code=user.code,
+                server_id=user.server_id,
+                expired_at=user.expires,
+                deleted_at=datetime.datetime.now(),
+            )
+            db.session.add(expired_user)
+            db.session.flush()  # Ensure it's saved before we process the user
+
+            # Determine action based on setting and server capability
+            should_disable = (
+                expiry_action == "disable"
+                and user.server
+                and get_server_disable_capabilities().get(
+                    user.server.server_type, False
+                )
+            )
+
+            if should_disable:
+                # Try to disable the user
+                try:
+                    from app.services.media.service import get_client_for_media_server
+
+                    client = get_client_for_media_server(user.server)
+                    if client.disable_user(user.user_id):
+                        # Mark user as disabled in the database
+                        user.is_disabled = True
+                        db.session.add(user)
+                        processed.append(user.id)
+                        logging.info(
+                            "🔒 Expired user %s (%s) disabled on %s",
+                            user.id,
+                            user.username,
+                            user.server.server_type,
+                        )
+                    else:
+                        # Fallback to deletion if disable fails
+                        raise Exception("Disable operation failed")
+                except Exception as disable_exc:
+                    logging.warning(
+                        "Failed to disable user %s, falling back to deletion: %s",
+                        user.id,
+                        disable_exc,
+                    )
+                    # Fallback to deletion
+                    if user.server_id and user.server:
+                        delete_user_for_server(user.server, user.id)
+                    else:
+                        delete_user(user.id)
+                    processed.append(user.id)
+                    logging.info(
+                        "🗑️ Expired user %s (%s) deleted (disable fallback)",
+                        user.id,
+                        user.username,
+                    )
+            else:
+                # Delete the user (either by setting or server doesn't support disable)
+                if user.server_id and user.server:
+                    delete_user_for_server(user.server, user.id)
+                else:
+                    delete_user(user.id)
+                processed.append(user.id)
+                action_reason = (
+                    "setting" if expiry_action == "delete" else "unsupported"
+                )
+                logging.info(
+                    "🗑️ Expired user %s (%s) deleted (%s)",
+                    user.id,
+                    user.username,
+                    action_reason,
+                )
+        except Exception as exc:
+            logging.error("Failed to process expired user %s – %s", user.id, exc)
+
+    db.session.commit()
+    return processed
+
+
 def cleanup_expired_user_by_email(email: str) -> None:
     """
     Remove expired user entries when a new user with the same email is created.

@@ -6,6 +6,7 @@ if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
 
 import requests
+import structlog
 from sqlalchemy import or_
 
 from app.extensions import db
@@ -81,6 +82,25 @@ class KomgaClient(RestApiMixin):
         """Update a Komga user."""
         response = self.patch(f"/api/v1/users/{user_id}", json=updates)
         return response.json()
+
+    def disable_user(self, user_id: str) -> bool:
+        """Disable a user account on Komga.
+
+        Args:
+            user_id: The user's Komga ID
+
+        Returns:
+            bool: True if the user was successfully disabled, False otherwise
+        """
+        try:
+            # Komga doesn't have a direct disable feature
+            # We can remove all library access to effectively disable the user
+            user_data = {"sharedLibrariesIds": []}
+            response = self.patch(f"/api/v2/users/{user_id}", json=user_data)
+            return response.status_code == 204 or response.status_code == 200
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to disable Komga user: {e}")
+            return False
 
     def delete_user(self, user_id: str) -> None:
         """Delete a Komga user."""
@@ -185,6 +205,11 @@ class KomgaClient(RestApiMixin):
                     "allow_sync": True,  # Default to True for reading apps
                 }
                 user.set_raw_policies(komga_policies)
+
+                # Update standardized User model columns
+                user.allow_downloads = True  # Default for reading apps
+                user.allow_live_tv = False  # Komga doesn't have Live TV
+                user.is_admin = False  # Would need API call to determine
 
             # Single commit for all metadata updates
             try:
