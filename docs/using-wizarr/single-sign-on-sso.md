@@ -20,17 +20,22 @@ In order to make the invitation process available for non signed in users, make 
         - '^/static(/.*)?$'
         - '^/setup(/.*)?$'
         - '^/wizard(/.*)?$'
+        - '^/image-proxy(/.*)?$'
+        - '^/cinema-posters(/.*)?$'
+    
       policy: bypass
 ```
 {% endtab %}
 
 {% tab title="Authentik/Other" %}
 ```
-- '^/join/'
-- '^/j/'
-- '^/setup/*'
-- '^/static/'
-- '^/wizard/'
+- '^/join($|/.*)'
+- '^/j($|/.*)'
+- '^/static($|/.*)'
+- '^/setup($|/.*)'
+- '^/wizard($|/.*)'
+- '^/image-proxy($|/.*)'
+- '^/cinema-posters($|/.*)'
 ```
 {% endtab %}
 {% endtabs %}
