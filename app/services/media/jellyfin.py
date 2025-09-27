@@ -41,7 +41,7 @@ class JellyfinClient(RestApiMixin):
         return headers
 
     def libraries(self) -> dict[str, str]:
-        """Return mapping of library_id → display_name."""
+        """Return mapping of library_id → library_name."""
         try:
             items = self.get("/Library/MediaFolders").json()["Items"]
             return {item["Id"]: item["Name"] for item in items}
