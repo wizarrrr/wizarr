@@ -35,12 +35,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
-          # Extract changelog from PR body (remove the footer)
-          PR_BODY="${{ github.event.pull_request.body }}"
-          CHANGELOG=$(echo "$PR_BODY" | sed '/^---$/,$d')
+          # Save PR body to file to avoid shell injection
+          cat > pr_body.md << 'EOF'
+          ${{ github.event.pull_request.body }}
+          EOF
 
-          # Save changelog to file to avoid shell injection
-          echo "$CHANGELOG" > changelog.md
+          # Extract changelog from PR body (remove the footer)
+          sed '/^---$/,$d' pr_body.md > changelog.md
 
           # Create the release (explicitly published, not draft)
           echo "Creating published release ${{ steps.version.outputs.tag }}..."
