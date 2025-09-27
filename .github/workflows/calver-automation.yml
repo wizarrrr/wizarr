@@ -2,7 +2,9 @@ name: CalVer Automation
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - 'release/**'  # Trigger on release branch pushes to update PR description
   workflow_dispatch:
     inputs:
       dry-run:

@@ -55,15 +55,18 @@ calculate_next_version() {
 
 # Get commits since last release
 get_commits_since_last_release() {
-    local last_tag
-    last_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-    
-    if [[ -z "$last_tag" ]]; then
-        # No previous tag, get all commits
+    local last_release_tag
+
+    # Get the latest ACTUAL release tag (not RC or pre-release)
+    # Sort by version and get the latest non-pre-release tag
+    last_release_tag=$(git tag -l | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1 2>/dev/null || echo "")
+
+    if [[ -z "$last_release_tag" ]]; then
+        # No previous release tag, get all commits
         git log --oneline --no-merges
     else
-        # Get commits since last tag
-        git log "${last_tag}..HEAD" --oneline --no-merges
+        # Get commits since last actual release (not RC/beta)
+        git log "${last_release_tag}..HEAD" --oneline --no-merges
     fi
 }
 
@@ -354,18 +357,62 @@ $commit_summary
     fi
 }
 
+# Update existing release PR description with latest changelog
+update_existing_release_pr() {
+    local branch_name="$1"
+
+    # Extract version from branch name (release/v2025.9.6 -> 2025.9.6)
+    local version
+    version=$(echo "$branch_name" | sed 's/release\/v//')
+
+    log_info "Updating Release PR for version: $version"
+
+    # Find the existing release PR for this version
+    local existing_pr
+    existing_pr=$(check_existing_pr "Release v$version")
+
+    if [[ -z "$existing_pr" ]]; then
+        log_warning "No existing Release PR found for v$version"
+        echo "release-created=false" >> "$GITHUB_OUTPUT"
+        return 0
+    fi
+
+    # Generate fresh changelog with latest commits
+    local changelog
+    changelog=$(generate_changelog "$version")
+
+    # Update the PR with fresh content
+    create_release_pr "$version" "$changelog" "$existing_pr"
+
+    log_success "Updated Release PR #$existing_pr with latest changelog"
+
+    # Set outputs
+    echo "release-created=true" >> "$GITHUB_OUTPUT"
+    echo "tag-name=v$version" >> "$GITHUB_OUTPUT"
+    echo "pr-number=$existing_pr" >> "$GITHUB_OUTPUT"
+}
+
 # Main execution
 main() {
     log_info "Starting CalVer Automation..."
-    
+
     # Set up git config
     git config user.name "github-actions[bot]"
     git config user.email "github-actions[bot]@users.noreply.github.com"
-    
+
+    # Check if we're on a release branch - if so, just update the PR
+    local current_branch
+    current_branch=$(git branch --show-current)
+    if [[ "$current_branch" == release/* ]]; then
+        log_info "Running on release branch: $current_branch"
+        update_existing_release_pr "$current_branch"
+        return 0
+    fi
+
     local current_version
     current_version=$(get_current_version)
     log_info "Current version: $current_version"
-    
+
     local next_version
     next_version=$(calculate_next_version "$current_version")
     log_info "Next version: $next_version"
