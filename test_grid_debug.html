@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grid Debug</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="p-8">
+        <h1 class="text-xl mb-4">Proper Grid Structure</h1>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 border-4 border-blue-500">
+            <div class="bg-white border rounded-lg p-4 border-red-500">Card 1</div>
+            <div class="bg-white border rounded-lg p-4 border-red-500">Card 2</div>
+            <div class="bg-white border rounded-lg p-4 border-red-500">Card 3</div>
+            <div class="bg-white border rounded-lg p-4 border-red-500">Card 4</div>
+            <div class="bg-white border rounded-lg p-4 border-red-500">Card 5</div>
+            <div class="bg-white border rounded-lg p-4 border-red-500">Card 6</div>
+        </div>
+
+        <h1 class="text-xl mb-4 mt-8">Nested Structure (Broken)</h1>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 border-4 border-blue-500">
+            <div class="bg-white border rounded-lg p-4 border-red-500">Card 1
+                <div class="bg-white border rounded-lg p-4 border-red-500">Card 2
+                    <div class="bg-white border rounded-lg p-4 border-red-500">Card 3</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
