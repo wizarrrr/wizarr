@@ -50,6 +50,9 @@ class MockMediaClient(MediaClient):
     def scan_libraries(self, url=None, token=None):
         return {"Library 1": "1", "Library 2": "2"}
 
+    def disable_user(self, user_id: str) -> bool:
+        return True
+
 
 class TestIdentityLinkingFix:
     """Test the identity linking fix for unlimited vs limited invitations."""

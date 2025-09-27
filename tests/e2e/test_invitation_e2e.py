@@ -146,6 +146,7 @@ class TestInvitationUserJourney:
         page.fill("input[name='email']", "e2etest@example.com")
 
         # Submit the form
+        expect(page.locator("button[type='submit']")).to_be_visible()
         page.click("button[type='submit']")
 
         # Wait for form submission to complete
@@ -173,11 +174,17 @@ class TestInvitationUserJourney:
         page.goto(f"{live_server.url()}{invitation_setup['invitation_url']}")
 
         # Click "Accept Invitation" button to show the form
+        expect(page.locator("#accept-invite-btn")).to_be_visible()
         page.click("#accept-invite-btn")
-        # Wait for form to fully load and be interactive
-        page.wait_for_timeout(3000)
 
-        # Test empty form submission
+        # Wait for form fields to become visible and interactive
+        expect(page.locator("input[name='username']")).to_be_visible()
+        expect(page.locator("input[name='password']")).to_be_visible()
+        expect(page.locator("input[name='email']")).to_be_visible()
+        page.wait_for_load_state("networkidle")
+
+        # Test empty form submission - wait for submit button to be clickable
+        expect(page.locator("button[type='submit']")).to_be_visible()
         page.click("button[type='submit']")
 
         # Client-side validation should prevent submission of empty form
@@ -185,11 +192,13 @@ class TestInvitationUserJourney:
         # Verify we're still on the invitation page (form wasn't submitted)
         expect(page.locator("body")).to_contain_text("been invited")
 
-        # Test password mismatch
+        # Test password mismatch - wait for form to be ready
+        expect(page.locator("input[name='username']")).to_be_visible()
         page.fill("input[name='username']", "testuser")
         page.fill("input[name='password']", "password123")
         page.fill("input[name='confirm_password']", "differentpassword")
         page.fill("input[name='email']", "test@example.com")
+        expect(page.locator("button[type='submit']")).to_be_visible()
         page.click("button[type='submit']")
 
         # Should show password mismatch error or stay on same page
@@ -198,6 +207,7 @@ class TestInvitationUserJourney:
 
         # Verify form elements are still usable (validation prevents progression)
         # Test that we can still interact with the form fields
+        expect(page.locator("input[name='username']")).to_be_visible()
         page.fill("input[name='username']", "testuser")
         expect(page.locator("input[name='email']")).to_be_visible()
 
@@ -280,6 +290,7 @@ class TestInvitationUserJourney:
         page.fill("input[name='password']", "testpass123")
         page.fill("input[name='confirm_password']", "testpass123")
         page.fill("input[name='email']", "error@example.com")
+        expect(page.locator("button[type='submit']")).to_be_visible()
         page.click("button[type='submit']")
 
         # Should show error (connection refused since no real server running)
