@@ -20,6 +20,9 @@ In order to make the invitation process available for non signed in users, make 
         - '^/static(/.*)?$'
         - '^/setup(/.*)?$'
         - '^/wizard(/.*)?$'
+        - '^/image-proxy(/.*)?$'
+        - '^/cinema-posters(/.*)?$'
+    
       policy: bypass
 ```
 {% endtab %}
@@ -31,6 +34,7 @@ In order to make the invitation process available for non signed in users, make 
 - '^/setup/*'
 - '^/static/'
 - '^/wizard/'
+- '^/cinema-posters'
 ```
 {% endtab %}
 {% endtabs %}
