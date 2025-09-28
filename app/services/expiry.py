@@ -3,7 +3,7 @@ import logging
 
 from app.extensions import db
 from app.models import ExpiredUser, Invitation, User, invitation_servers
-from app.services.media.service import delete_user, delete_user_for_server
+from app.services.media.service import delete_user, delete_user_for_server, disable_user
 
 
 def calculate_user_expiry(
@@ -200,24 +200,19 @@ def disable_or_delete_user_if_expired() -> list[int]:
             )
 
             if should_disable:
-                # Try to disable the user
+                # Try to disable the user using the service function
                 try:
-                    from app.services.media.service import get_client_for_media_server
-
-                    client = get_client_for_media_server(user.server)
-                    if client.disable_user(user.user_id):
-                        # Mark user as disabled in the database
-                        user.is_disabled = True
-                        db.session.add(user)
+                    if disable_user(user.id):
+                        # Successfully disabled the user
                         processed.append(user.id)
                         logging.info(
                             "🔒 Expired user %s (%s) disabled on %s",
                             user.id,
                             user.username,
-                            user.server.server_type,
+                            user.server.server_type if user.server else "unknown",
                         )
                     else:
-                        # Fallback to deletion if disable fails
+                        # Disable failed, fallback to deletion
                         raise Exception("Disable operation failed")
                 except Exception as disable_exc:
                     logging.warning(
@@ -225,7 +220,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
                         user.id,
                         disable_exc,
                     )
-                    # Fallback to deletion
+                    # Fallback to deletion using service functions
                     if user.server_id and user.server:
                         delete_user_for_server(user.server, user.id)
                     else:
@@ -238,6 +233,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
                     )
             else:
                 # Delete the user (either by setting or server doesn't support disable)
+                # Use the service functions for deletion
                 if user.server_id and user.server:
                     delete_user_for_server(user.server, user.id)
                 else:

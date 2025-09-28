@@ -12,7 +12,7 @@ from flask_restx import Resource, abort
 from app.extensions import api, db
 from app.models import ApiKey, Invitation, Library, MediaServer, User
 from app.services.invites import create_invite
-from app.services.media.service import delete_user, list_users_all_servers
+from app.services.media.service import delete_user, disable_user, list_users_all_servers
 from app.services.server_name_resolver import get_display_name_info
 
 from .models import (
@@ -284,6 +284,54 @@ class UserResource(Resource):
 
         except Exception as e:
             logger.error("Error deleting user %s: %s", user_id, str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@users_ns.route("/<int:user_id>/disable")
+class UserDisableResource(Resource):
+    @api.doc("disable_user", security="apikey")
+    @api.response(200, "User disabled successfully", success_message_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(404, "User not found", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def post(self, user_id):
+        """Disable a specific user by ID.
+
+        This will disable the user account on the media server if the server supports it.
+        If the server doesn't support disabling users, it will fall back to deleting the user.
+        """
+        # Find user first, outside try block
+        user = db.session.get(User, user_id)
+        if not user:
+            abort(404, error="User not found")
+
+        # Get server info for the user
+        server = db.session.get(MediaServer, user.server_id)
+        if not server:
+            abort(404, error="Server not found for user")
+
+        try:
+            logger.info("API: Attempting to disable user %s", user_id)
+
+            # Try to disable user
+            result = disable_user(user.id)
+
+            if result:
+                return {"message": f"User {user.username} disabled successfully"}
+            # If disable failed or not supported, fall back to delete
+            logger.info(
+                "Disable failed or not supported, falling back to delete for user %s",
+                user_id,
+            )
+            delete_user(user.id)
+            return {
+                "message": f"User {user.username} deleted (disable not supported by server)"
+            }
+
+        except Exception as e:
+            logger.error("Error disabling user %s: %s", user_id, str(e))
             logger.error(traceback.format_exc())
             return {"error": "Internal server error"}, 500
 

@@ -153,6 +153,62 @@ def delete_user(db_id: int) -> None:
     _clear_user_cache(client)
 
 
+def disable_user(db_id: int) -> bool:
+    """Disable a user on its associated MediaServer.
+
+    Returns True if successful, False otherwise.
+    """
+    user = db.session.get(User, db_id)
+    if not user:
+        logging.error(f"User with id {db_id} not found")
+        return False
+
+    server = user.server
+    if server is None:
+        # No server associated, can't disable remotely
+        logging.warning(f"User {db_id} has no associated server")
+        return False
+
+    # Cast to MediaServer to satisfy type checker
+    from typing import cast
+
+    server = cast(MediaServer, server)
+    client = get_client_for_media_server(server)
+
+    try:
+        # Get the appropriate user identifier based on server type
+        if server.server_type == "plex":
+            # Plex uses email for user operations
+            if user.email and user.email != "None":
+                user_identifier = user.email
+            else:
+                logging.error(f"Plex user {db_id} has no valid email")
+                return False
+        else:
+            # Other servers use token/user_id
+            user_identifier = user.token
+
+        # Call the disable_user method on the client
+        result = client.disable_user(user_identifier)
+
+        if result:
+            logging.info(
+                f"Successfully disabled user {user.username} (ID: {db_id}) on {server.server_type}"
+            )
+            # Clear cache after successful disable
+            _clear_user_cache(client)
+        else:
+            logging.warning(
+                f"Failed to disable user {user.username} (ID: {db_id}) on {server.server_type}"
+            )
+
+        return result
+
+    except Exception as exc:
+        logging.error(f"Error disabling user {db_id}: {exc}")
+        return False
+
+
 def delete_user_for_server(server: MediaServer, db_id: int) -> None:
     """Delete a user from the given MediaServer and local DB."""
     client = get_client_for_media_server(server)
