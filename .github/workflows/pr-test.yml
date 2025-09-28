@@ -42,14 +42,14 @@ jobs:
     
     - name: Check YAML files
       run: |
-        python -c "
+        uv run python -c "
         import yaml
         import glob
         import sys
-        
+
         yaml_files = glob.glob('**/*.yml', recursive=True) + glob.glob('**/*.yaml', recursive=True)
         errors = []
-        
+
         for file in yaml_files:
             try:
                 with open(file, 'r') as f:
@@ -58,7 +58,7 @@ jobs:
             except yaml.YAMLError as e:
                 errors.append(f'{file}: {e}')
                 print(f'✗ {file}: {e}')
-        
+
         if errors:
             sys.exit(1)
         "
