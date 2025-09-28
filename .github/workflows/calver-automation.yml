@@ -34,7 +34,15 @@ jobs:
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
           fetch-depth: 0  # Need full history for changelog
-      
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version-file: pyproject.toml
+
       - name: Generate CalVer Release
         id: release
         uses: ./.github/actions/calver-automation

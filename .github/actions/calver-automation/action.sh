@@ -216,21 +216,29 @@ generate_changelog() {
     echo "**Full Changelog**: https://github.com/$GITHUB_REPOSITORY/compare/v$(get_current_version)...v$version"
 }
 
-# Update version in files
+# Update version in files and sync dependencies
 update_version_files() {
     local new_version="$1"
-    
+
     # Update pyproject.toml
     sed -i.bak "s/^version = \".*\"/version = \"$new_version\"/" pyproject.toml
     sed -i.bak "s/^version = \".*\"/version = \"$new_version\"/" pyproject.toml # commitizen section too
-    
+
     # Update package.json
     jq --arg version "$new_version" '.version = $version' package.json > package.json.tmp && mv package.json.tmp package.json
-    
+
     # Clean up backup files
     rm -f pyproject.toml.bak
-    
+
     log_success "Updated version files to $new_version"
+
+    # Run uv sync to update lock file with new version
+    log_info "Syncing dependencies with uv..."
+    if command -v uv &> /dev/null; then
+        uv sync || log_warning "uv sync failed, continuing anyway"
+    else
+        log_warning "uv not installed, skipping dependency sync"
+    fi
 }
 
 # Check if release PR exists
@@ -466,8 +474,8 @@ main() {
     # Update version files for release
     update_version_files "$next_version"
     
-    # Commit release changes
-    git add pyproject.toml package.json
+    # Commit release changes (including uv.lock if it was updated)
+    git add pyproject.toml package.json uv.lock
     git commit -m "chore: release v$next_version" || true
     
     # Push release branch

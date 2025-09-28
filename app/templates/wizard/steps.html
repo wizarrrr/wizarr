@@ -6,6 +6,22 @@
             {% elif direction == 'next' %} animate__fadeInRight
             {% endif %}">
 
+  <!-- PROGRESS BAR (only show if more than one step) -->
+  {% if max_idx > 0 %}
+  <div class="w-full max-w-md mb-6">
+    <!-- Step indicator -->
+    <div class="flex justify-between items-center mb-2 text-sm text-gray-600 dark:text-gray-400">
+      <span>{{ _("Step") }} {{ idx + 1 }} {{ _("of") }} {{ max_idx + 1 }}</span>
+      <span>{{ ((idx + 1) / (max_idx + 1) * 100) | round | int }}%</span>
+    </div>
+    <!-- Progress bar -->
+    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 overflow-hidden">
+      <div class="h-2.5 rounded-full transition-all duration-500 ease-out"
+           style="width: {{ ((idx + 1) / (max_idx + 1) * 100) }}%; background: linear-gradient(90deg, #fe4155 0%, #fe4155 100%); box-shadow: 0 0 10px rgba(254, 65, 85, 0.3);"></div>
+    </div>
+  </div>
+  {% endif %}
+
   <!-- CARD -->
   <div class="p-6 max-w-md w-full
               bg-white border border-gray-200 rounded-lg shadow-md
