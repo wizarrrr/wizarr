@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-09-27 03:37+0000\n"
+"POT-Creation-Date: 2025-09-28 03:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +25,7 @@ msgstr ""
 #: app/blueprints/admin/routes.py:285 app/templates/modals/invite.html:66
 #: app/templates/tables/invite_card.html:45
 #: app/templates/tables/invite_card.html:189
-#: app/templates/tables/user_card.html:74
+#: app/templates/tables/user_card.html:70
 msgid "Never"
 msgstr ""
 
@@ -731,7 +731,7 @@ msgstr ""
 msgid "Create a password"
 msgstr ""
 
-#: app/templates/tables/user_card.html:95
+#: app/templates/tables/user_card.html:91
 #: app/templates/welcome-jellyfin.html:173
 msgid "Invite Code"
 msgstr ""
@@ -997,7 +997,7 @@ msgstr ""
 
 #: app/templates/admin/user_modal.html:81
 #: app/templates/admin/user_modal.html:117
-#: app/templates/tables/user_card.html:106
+#: app/templates/tables/user_card.html:102
 msgid "Notes"
 msgstr ""
 
@@ -1326,7 +1326,7 @@ msgstr ""
 
 #: app/templates/modals/create-api-key.html:13
 #: app/templates/settings/api_keys.html:17
-#: app/templates/settings/general.html:114
+#: app/templates/settings/general.html:190
 msgid "Create API Key"
 msgstr ""
 
@@ -1753,27 +1753,57 @@ msgstr ""
 msgid "Control access to the wizard setup process"
 msgstr ""
 
+#: app/templates/settings/general.html:93
+msgid "User Management"
+msgstr ""
+
 #: app/templates/settings/general.html:94
+msgid "Configure how users are managed when invitations expire"
+msgstr ""
+
+#: app/templates/settings/general.html:119
+msgid "Server Capabilities"
+msgstr ""
+
+#: app/templates/settings/general.html:123
+msgid "Supports Disable:"
+msgstr ""
+
+#: app/templates/settings/general.html:134
+msgid "Delete Only:"
+msgstr ""
+
+#: app/templates/settings/general.html:144
+msgid ""
+"If 'Disable User' is selected but the server doesn't support it, the user"
+" will be deleted instead."
+msgstr ""
+
+#: app/templates/settings/general.html:152
+msgid "Choose what happens to users when their invitation expires"
+msgstr ""
+
+#: app/templates/settings/general.html:170
 msgid "API Key Management"
 msgstr ""
 
-#: app/templates/settings/general.html:95
+#: app/templates/settings/general.html:171
 msgid "Manage API keys for accessing Wizarr programmatically"
 msgstr ""
 
-#: app/templates/settings/general.html:103
+#: app/templates/settings/general.html:179
 msgid "Your API Keys"
 msgstr ""
 
-#: app/templates/settings/general.html:104
+#: app/templates/settings/general.html:180
 msgid "Create and manage API keys for external applications"
 msgstr ""
 
-#: app/templates/settings/general.html:125
+#: app/templates/settings/general.html:201
 msgid "Loading API keys..."
 msgstr ""
 
-#: app/templates/settings/general.html:138
+#: app/templates/settings/general.html:214
 msgid "Save Settings"
 msgstr ""
 
@@ -2154,7 +2184,8 @@ msgid "Used"
 msgstr ""
 
 #: app/templates/tables/invite_card.html:186
-#: app/templates/tables/user_card.html:67
+#: app/templates/tables/user_card.html:68
+#: app/templates/tables/user_card.html:70
 msgid "Expires"
 msgstr ""
 
@@ -2178,27 +2209,35 @@ msgstr ""
 msgid "Edit nickname"
 msgstr ""
 
-#: app/templates/tables/user_card.html:85
+#: app/templates/tables/user_card.html:42
+msgid "Home User"
+msgstr ""
+
+#: app/templates/tables/user_card.html:81
 msgid "Invited"
 msgstr ""
 
-#: app/templates/tables/user_card.html:121
+#: app/templates/tables/user_card.html:115
+msgid "Disabled"
+msgstr ""
+
+#: app/templates/tables/user_card.html:120
 msgid "Downloads enabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:127
-msgid "Downloads disabled"
-msgstr ""
-
-#: app/templates/tables/user_card.html:136
+#: app/templates/tables/user_card.html:130
 msgid "Live TV enabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:142
-msgid "Live TV disabled"
+#: app/templates/tables/user_card.html:146
+msgid "View details"
 msgstr ""
 
-#: app/templates/tables/user_card.html:180
+#: app/templates/tables/user_card.html:158
+msgid "Edit user"
+msgstr ""
+
+#: app/templates/tables/user_card.html:171
 msgid "Remove user"
 msgstr ""
 
