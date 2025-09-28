@@ -8,28 +8,29 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-09-22 13:02+0000\n"
-"PO-Revision-Date: 2025-08-20 11:19+0000\n"
-"Last-Translator: Martin <jacobmartin03@hotmail.com>\n"
+"PO-Revision-Date: 2025-09-28 10:02+0000\n"
+"Last-Translator: BadiiiX <contact@mehdi-ali.me>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/fr/>\n"
 "Language: fr\n"
-"Language-Team: French <https://hosted.weblate.org/projects/wizarr/wizarr-"
-"universal/fr/>\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.14-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/blueprints/admin/routes.py:282
 #: app/templates/admin/user_details_modal.html:47
 msgid "Unknown"
-msgstr ""
+msgstr "Inconnu(e)"
 
 #: app/blueprints/admin/routes.py:285 app/templates/modals/invite.html:66
 #: app/templates/tables/invite_card.html:45
 #: app/templates/tables/invite_card.html:189
 #: app/templates/tables/user_card.html:74
 msgid "Never"
-msgstr "Type de serveur"
+msgstr "Jamais"
 
 #: app/blueprints/admin/routes.py:356 app/templates/tables/invite_card.html:26
 msgid "Expired"
@@ -38,34 +39,33 @@ msgstr "Expiré"
 #: app/blueprints/admin/routes.py:364
 #, python-format
 msgid "in %(n)d d"
-msgstr ""
+msgstr "dans %(n)d j"
 
 #: app/blueprints/admin/routes.py:366
 msgid "in 1 d"
-msgstr ""
+msgstr "dans 1 j"
 
 #: app/blueprints/admin/routes.py:368
 #, python-format
 msgid "in %(n)d h"
-msgstr ""
+msgstr "dans %(n)d h"
 
 #: app/blueprints/admin/routes.py:370
 #, python-format
 msgid "in %(n)d m"
-msgstr ""
+msgstr "dans %(n)d m"
 
 #: app/blueprints/admin/routes.py:371
 msgid "soon"
-msgstr ""
+msgstr "bientôt"
 
 #: app/blueprints/admin_accounts/routes.py:40
-#, fuzzy
 msgid "Admin created"
-msgstr "Création"
+msgstr "Administrateur créé"
 
 #: app/blueprints/admin_accounts/routes.py:66
 msgid "Admin updated"
-msgstr ""
+msgstr "Administrateur mis à jour"
 
 #: app/blueprints/admin_accounts/routes.py:166
 #, python-brace-format
@@ -82,10 +82,12 @@ msgid ""
 "API key created successfully. Please copy it now as it won't be shown "
 "again."
 msgstr ""
+"La clé API a été créée avec succès. Veuillez la copier maintenant car elle "
+"ne sera plus affichée."
 
 #: app/blueprints/api_keys/routes.py:110
 msgid "API key deleted successfully"
-msgstr ""
+msgstr "La clé API a été supprimée avec succès"
 
 #: app/blueprints/auth/routes.py:85
 #, fuzzy
@@ -98,9 +100,8 @@ msgstr ""
 
 #: app/blueprints/auth/routes.py:119 app/templates/login.html:150
 #: app/templates/login.html:209 app/templates/login.html:213
-#, fuzzy
 msgid "Authentication failed"
-msgstr "Agents de Notification"
+msgstr "Authentification échouée"
 
 #: app/blueprints/connections/routes.py:52
 #: app/blueprints/connections/routes.py:188
@@ -3134,4 +3135,3 @@ msgstr "Suivant"
 
 #~ msgid "Available"
 #~ msgstr "Disponible"
-

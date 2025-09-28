@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-09-22 13:02+0000\n"
-"PO-Revision-Date: 2025-09-26 20:01+0000\n"
+"PO-Revision-Date: 2025-09-28 10:01+0000\n"
 "Last-Translator: Jean-Marc  Burri <gometzler@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/wizarr/"
 "wizarr-universal/de/>\n"
@@ -1341,9 +1341,7 @@ msgstr "Informationen anzeigen"
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
-msgstr ""
-"Wenn diese Option aktiviert ist, werden eingeladene Benutzer nach einer "
-"bestimmten Anzahl von Tagen vom Plex-Server entfernt. (1-999)"
+msgstr "Entfernt eingeladene Benutzer nach X Tagen vom Plex Server. (1–999)"
 
 #: app/templates/modals/invite.html:173
 msgid "Target servers"
@@ -1710,7 +1708,7 @@ msgstr "API-Schlüssel verwalten, um auf Wizarr zuzugreifen"
 
 #: app/templates/settings/general.html:103
 msgid "Your API Keys"
-msgstr "Ihre API-Schlüssel"
+msgstr "Deine API-Schlüssel"
 
 #: app/templates/settings/general.html:104
 msgid "Create and manage API keys for external applications"
@@ -1879,7 +1877,6 @@ msgstr "Schritt hinzufügen"
 
 #: app/templates/settings/wizard/form.html:40
 #: app/templates/settings/wizard/index.html:61
-#, fuzzy
 msgid "Preview"
 msgstr "Vorschau"
 
@@ -2144,7 +2141,6 @@ msgid "Enter Code to Continue"
 msgstr "Gib den Code ein, um fortzufahren"
 
 #: app/templates/user-plex-login.html:77
-#, fuzzy
 msgid "Invitation Code"
 msgstr "Einladungscode"
 
