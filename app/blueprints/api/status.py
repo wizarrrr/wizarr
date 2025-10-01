@@ -1,7 +1,6 @@
 import datetime
 import hashlib
 import logging
-import traceback
 
 from flask import Blueprint, jsonify, request
 
@@ -72,5 +71,4 @@ def status():
 
     except Exception as e:
         logger.error("Error in status endpoint: %s", str(e))
-        traceback.print_exc()
         return jsonify({"error": str(e)}), 500

@@ -108,6 +108,25 @@ def nl2br(text: str) -> Markup:
     return Markup(html)
 
 
+def render_jinja(text: str) -> Markup:
+    """Render a string as a Jinja template.
+
+    This is useful for rendering template syntax stored in the database,
+    such as wizard step titles that contain {{ _('...') }} translation calls.
+    """
+    if not text:
+        return Markup("")
+
+    from flask import render_template_string
+
+    try:
+        rendered = render_template_string(text)
+        return Markup(rendered)
+    except Exception:
+        # If rendering fails, return the original text escaped
+        return Markup(escape(text))
+
+
 def register_filters(app):
     """Register the custom Jinja filters on the given Flask *app*."""
     app.jinja_env.filters.setdefault("server_type_tag", server_type_tag)
@@ -115,3 +134,4 @@ def register_filters(app):
     app.jinja_env.filters.setdefault("server_colour", _server_colour)
     app.jinja_env.filters.setdefault("human_date", human_date)
     app.jinja_env.filters.setdefault("nl2br", nl2br)
+    app.jinja_env.filters.setdefault("render_jinja", render_jinja)

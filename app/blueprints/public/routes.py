@@ -405,7 +405,30 @@ def image_proxy():
         return resp
 
     try:
-        r = requests.get(url, timeout=5, stream=True)  # Reduced timeout from 10s to 5s
+        # Prepare headers for authenticated requests
+        headers = {}
+
+        # Check if this URL needs authentication from any media server
+        from app.models import MediaServer
+
+        all_servers = MediaServer.query.all()
+
+        for server in all_servers:
+            # Check if the URL belongs to this media server
+            if server.url and url.startswith(server.url.rstrip("/")):
+                # Add appropriate authentication based on server type
+                if server.api_key:
+                    if server.server_type == "audiobookshelf":
+                        headers["Authorization"] = f"Bearer {server.api_key}"
+                    elif server.server_type == "jellyfin":
+                        # Jellyfin API key is already in the URL, no additional header needed
+                        pass
+                    elif server.server_type == "plex":
+                        # Plex token is already in the URL, no additional header needed
+                        pass
+                break
+
+        r = requests.get(url, headers=headers, timeout=10, stream=True)
         r.raise_for_status()
         content_type = r.headers.get("Content-Type", "image/jpeg")
         image_data = r.content

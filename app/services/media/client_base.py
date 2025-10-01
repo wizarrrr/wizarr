@@ -310,6 +310,27 @@ class MediaClient(ABC):
         """
         raise NotImplementedError
 
+    def get_recent_items(
+        self, library_id: str | None = None, limit: int = 10
+    ) -> list[dict]:
+        """Get recently added items from the media server.
+
+        Args:
+            library_id: Optional library ID to filter by
+            limit: Maximum number of items to return
+
+        Returns:
+            list: A list of recently added items with standardized keys:
+                - title: Title of the media item
+                - year: Release year (if available)
+                - thumb: Thumbnail URL (if available)
+                - type: Media type (movie, episode, track, etc.)
+                - added_at: Unix timestamp when item was added
+        """
+        # Default implementation returns empty list
+        # Subclasses should override this method
+        return []
+
     @abstractmethod
     def statistics(self):
         """Return comprehensive server statistics including library counts, user activity, etc.

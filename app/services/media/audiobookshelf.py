@@ -190,6 +190,116 @@ class AudiobookshelfClient(RestApiMixin):
             )
             return {"results": [], "total": 0, "limit": limit, "page": page}
 
+    def get_recent_items(
+        self, library_id: str | None = None, limit: int = 10
+    ) -> list[dict]:
+        """Get recently added items from AudiobookShelf server."""
+        try:
+            items = []
+
+            # Get all libraries or specific library if provided
+            if library_id:
+                libraries = [{"id": library_id}]
+            else:
+                try:
+                    libs_response = self.libraries()
+                    libraries = [{"id": lib_id} for lib_id in libs_response]
+                except Exception:
+                    libraries = []
+
+            for library in libraries:
+                if len(items) >= limit:
+                    break
+
+                try:
+                    # Get personalized view which includes recently added items
+                    response = self.get(
+                        f"{self.API_PREFIX}/libraries/{library['id']}/personalized"
+                    )
+                    response.raise_for_status()
+                    data = response.json()
+
+                    # Look for recently added items in the personalized view
+                    for view in data:
+                        if (
+                            view.get("category") == "newestItems"
+                            or "recent" in view.get("label", "").lower()
+                        ):
+                            entities = view.get("entities", [])
+
+                            for entity in entities:
+                                if len(items) >= limit:
+                                    break
+
+                                # Only include items with cover images (posters)
+                                media = entity.get("media", {})
+                                cover_path = media.get("coverPath")
+
+                                if cover_path:
+                                    # Use the proper API endpoint for item covers
+                                    cover_url = (
+                                        f"{self.url}/api/items/{entity.get('id')}/cover"
+                                    )
+
+                                    # Use image proxy for external access
+                                    import urllib.parse
+
+                                    thumb_url = f"/image-proxy?url={urllib.parse.quote_plus(cover_url)}"
+
+                                    # Extract metadata
+                                    metadata = media.get("metadata", {})
+                                    title = metadata.get("title") or entity.get(
+                                        "name", "Unknown"
+                                    )
+
+                                    # Extract year from publication date
+                                    year = None
+                                    pub_year = metadata.get("publishedYear")
+                                    if pub_year:
+                                        from contextlib import suppress
+
+                                        with suppress(ValueError, TypeError):
+                                            year = int(pub_year)
+
+                                    # Get media type (book, podcast, etc.)
+                                    media_type = entity.get("mediaType", "book").lower()
+
+                                    # Get added date
+                                    added_at = entity.get("addedAt")
+                                    if added_at:
+                                        try:
+                                            # Convert timestamp to ISO format
+                                            import datetime
+
+                                            dt = datetime.datetime.fromtimestamp(
+                                                added_at / 1000, tz=datetime.UTC
+                                            )
+                                            added_at = dt.isoformat()
+                                        except Exception:
+                                            added_at = None
+
+                                    items.append(
+                                        {
+                                            "title": title,
+                                            "year": year,
+                                            "thumb": thumb_url,
+                                            "type": media_type,
+                                            "added_at": added_at,
+                                        }
+                                    )
+
+                            # Found recently added items, break from views loop
+                            if items:
+                                break
+
+                except Exception:
+                    continue
+
+            return items
+
+        except Exception:
+            return []
+
     # --- users ---------------------------------------------------------
 
     def list_users(self) -> list[User]:

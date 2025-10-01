@@ -710,6 +710,71 @@ class JellyfinClient(RestApiMixin):
             logging.error(f"Failed to get now playing from Jellyfin: {e}")
             return []
 
+    def get_recent_items(
+        self, library_id: str | None = None, limit: int = 10
+    ) -> list[dict]:
+        """Get recently added items from Jellyfin server."""
+        try:
+            # Use the regular Items endpoint with proper sorting for recently added content
+            # Only include items that have proper vertical poster images (exclude Episodes which use horizontal thumbnails)
+            params = {
+                "SortBy": "DateCreated",
+                "SortOrder": "Descending",
+                "Limit": limit * 2,  # Request more items since we'll filter some out
+                "Fields": "Overview,Genres,DateCreated,ProductionYear",
+                "ImageTypeLimit": 1,
+                "EnableImageTypes": "Primary",
+                "Recursive": True,
+                "IncludeItemTypes": "Movie,Series,MusicAlbum",  # Only types with vertical posters
+            }
+
+            if library_id:
+                params["ParentId"] = library_id
+
+            response = self.get("/Items", params=params)
+            response_data = response.json()
+
+            if not isinstance(response_data, dict) or "Items" not in response_data:
+                return []
+
+            items = []
+            for item in response_data["Items"]:
+                # Stop if we've reached the limit
+                if len(items) >= limit:
+                    break
+
+                # Only show items that have actual poster images (Primary for movies/series)
+                thumb_url = None
+                image_tags = item.get("ImageTags", {})
+
+                # Use Primary image for vertical posters
+                if image_tags.get("Primary"):
+                    thumb_url = f"{self.url}/Items/{item['Id']}/Images/Primary?maxHeight=400&quality=90"
+                    if self.token:
+                        thumb_url += f"&api_key={self.token}"
+
+                if thumb_url:
+                    # Use image proxy for external access
+                    import urllib.parse
+
+                    thumb_url = f"/image-proxy?url={urllib.parse.quote_plus(thumb_url)}"
+
+                    # Only add items that have images
+                    items.append(
+                        {
+                            "title": item.get("Name", "Unknown"),
+                            "year": item.get("ProductionYear"),
+                            "thumb": thumb_url,
+                            "type": item.get("Type", "").lower(),
+                            "added_at": item.get("DateCreated"),
+                        }
+                    )
+
+            return items
+
+        except Exception:
+            return []
+
     def statistics(self):
         try:
             stats = {

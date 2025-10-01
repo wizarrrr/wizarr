@@ -696,3 +696,23 @@ def import_steps():
     if request.headers.get("HX-Request"):
         return list_steps()
     return redirect(url_for("wizard_admin.list_steps"))
+
+
+@wizard_admin_bp.route("/reset/<server_type>", methods=["POST"])
+@login_required
+def reset_server_steps(server_type: str):
+    """Reset wizard steps to defaults for a specific server type."""
+    from app.services.wizard_reset import WizardResetService
+
+    service = WizardResetService()
+    success, message, count = service.reset_server_steps(server_type)
+
+    if success:
+        flash(message, "success")
+    else:
+        flash(message, "error")
+
+    # Return updated view
+    if request.headers.get("HX-Request"):
+        return list_steps()
+    return redirect(url_for("wizard_admin.list_steps"))

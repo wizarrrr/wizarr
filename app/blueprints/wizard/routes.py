@@ -206,6 +206,11 @@ def _render(post, ctx: dict, server_type: str | None = None) -> str:
     """Render a post (frontmatter.Post or _RowAdapter) with context."""
     from flask import render_template_string
 
+    from app.services.wizard_widgets import (
+        process_card_delimiters,
+        process_widget_placeholders,
+    )
+
     # Jinja templates inside the markdown files expect a top-level `settings` variable.
     # Build a context copy that exposes the current config dictionary via this key
     # while still passing through all existing entries and utilities (e.g. the _() gettext).
@@ -216,9 +221,23 @@ def _render(post, ctx: dict, server_type: str | None = None) -> str:
     if server_type is not None:
         render_ctx["server_type"] = server_type
 
+    # FIRST: Process card delimiters (|||) BEFORE widget placeholders
+    content_with_cards = process_card_delimiters(post.content)
+
+    # SECOND: Process widget placeholders BEFORE Jinja rendering
+    # This prevents Jinja from trying to parse {{ widget:... }} syntax
+    content_with_widgets = content_with_cards
+    if server_type:
+        content_with_widgets = process_widget_placeholders(
+            content_with_cards, server_type
+        )
+
+    # THEN: Render Jinja templates in the processed content
+    rendered_content = render_template_string(content_with_widgets, **render_ctx)
+
+    # Use simple markdown configuration - HTML should pass through by default
     return markdown.markdown(
-        render_template_string(post.content, **render_ctx),
-        extensions=["fenced_code", "tables", "attr_list"],
+        rendered_content, extensions=["fenced_code", "tables", "attr_list"]
     )
 
 

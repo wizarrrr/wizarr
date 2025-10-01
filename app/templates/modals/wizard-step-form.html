@@ -27,7 +27,97 @@
             </div>
 
             <div>
-              {{ form.markdown.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+              <div class="flex justify-between items-center mb-1">
+                {{ form.markdown.label(class="text-sm font-medium text-gray-900 dark:text-white") }}
+                <div class="relative" x-data="{ open: false }">
+                  <button
+                    @click="open = !open"
+                    @click.away="open = false"
+                    type="button"
+                    class="inline-flex items-center gap-2 px-3 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium rounded-lg transition-colors duration-200 shadow-sm"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    {{ _('Add...') }}
+                    <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M7 10l5 5 5-5z"/>
+                    </svg>
+                  </button>
+
+                  <!-- Dropdown Menu -->
+                  <div
+                    x-show="open"
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="transform opacity-0 scale-95"
+                    x-transition:enter-end="transform opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="transform opacity-100 scale-100"
+                    x-transition:leave-end="transform opacity-0 scale-95"
+                    class="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-10"
+                  >
+                    <div class="p-1">
+                      <!-- Widgets Section -->
+                      <div class="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 mb-1">
+                        {{ _('Widgets') }}
+                      </div>
+                      <button
+                        type="button"
+                        onclick="insertWidget('recently_added_media')"
+                        @click="open = false"
+                        class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
+                      >
+                        <div class="flex-shrink-0 w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center">
+                          <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"/>
+                          </svg>
+                        </div>
+                        <div class="text-left">
+                          <div class="font-medium">{{ _('Recently Added Media') }}</div>
+                          <div class="text-xs text-gray-500 dark:text-gray-400">{{ _('Show recent content') }}</div>
+                        </div>
+                      </button>
+                      <button
+                        type="button"
+                        onclick="insertWidget('button')"
+                        @click="open = false"
+                        class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
+                      >
+                        <div class="flex-shrink-0 w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center">
+                          <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                          </svg>
+                        </div>
+                        <div class="text-left">
+                          <div class="font-medium">{{ _('Button') }}</div>
+                          <div class="text-xs text-gray-500 dark:text-gray-400">{{ _('Add a clickable link button') }}</div>
+                        </div>
+                      </button>
+
+                      <!-- Elements Section -->
+                      <div class="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 mb-1 mt-2">
+                        {{ _('Elements') }}
+                      </div>
+                      <button
+                        type="button"
+                        onclick="insertCard()"
+                        @click="open = false"
+                        class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
+                      >
+                        <div class="flex-shrink-0 w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                          <svg class="w-4 h-4 text-purple-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                          </svg>
+                        </div>
+                        <div class="text-left">
+                          <div class="font-medium">{{ _('Card') }}</div>
+                          <div class="text-xs text-gray-500 dark:text-gray-400">{{ _('Add a styled content card') }}</div>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
               {{ form.markdown(rows="10", class="hidden", id="markdown-textarea") }}
             </div>
 
@@ -51,3 +141,100 @@
     </div>
   </div>
 </div>
+
+<script>
+function insertWidget(widgetType) {
+  // Don't process empty values (from the placeholder option)
+  if (!widgetType) {
+    return;
+  }
+
+  // Widget syntax based on type
+  let widgetSyntax = '';
+  switch (widgetType) {
+    case 'recently_added_media':
+      widgetSyntax = '\n\n{' + '{ widget:recently_added_media }' + '}\n\n';
+      break;
+    case 'button':
+      widgetSyntax = '\n\n{' + '{ widget:button url="https://example.com" text="Click Here" }' + '}\n\n';
+      break;
+    default:
+      widgetSyntax = '\n\n{' + '{ widget:' + widgetType + ' }' + '}\n\n';
+  }
+
+  // Find the textarea
+  const modal = document.getElementById('step-modal') || document;
+  const textarea = modal.querySelector('textarea[name="markdown"]');
+
+  if (!textarea) {
+    alert('Could not find textarea');
+    return;
+  }
+
+  // Check if TinyMDE editor exists
+  if (textarea.tinyMDEEditor) {
+    // Use TinyMDE's proper API to insert content
+    textarea.tinyMDEEditor.paste(widgetSyntax);
+  } else if (window.TinyMDE && textarea.dataset.tinymdeAttached) {
+    // Try to find the TinyMDE instance another way
+    // Look for the TinyMDE editor in the DOM structure
+    const editorElement = textarea.nextElementSibling;
+    if (editorElement && editorElement._tinyMDEInstance) {
+      editorElement._tinyMDEInstance.paste(widgetSyntax);
+    } else {
+      // Fallback: direct textarea manipulation (clean)
+      const cursorPos = textarea.selectionStart || textarea.value.length;
+      const textBefore = textarea.value.substring(0, cursorPos);
+      const textAfter = textarea.value.substring(textarea.selectionEnd || cursorPos);
+
+      textarea.value = textBefore + widgetSyntax + textAfter;
+      textarea.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  } else {
+    // No TinyMDE, direct textarea manipulation
+    const cursorPos = textarea.selectionStart || textarea.value.length;
+    const textBefore = textarea.value.substring(0, cursorPos);
+    const textAfter = textarea.value.substring(textarea.selectionEnd || cursorPos);
+
+    textarea.value = textBefore + widgetSyntax + textAfter;
+    textarea.focus();
+  }
+}
+
+function insertCard() {
+  const cardSyntax = '\n\n|||\n# Card Title\n\nYour card content here. Supports **markdown** formatting.\n\n* Bullet points\n* Work too\n\n|||\n\n';
+
+  // Find the textarea
+  const modal = document.getElementById('step-modal') || document;
+  const textarea = modal.querySelector('textarea[name="markdown"]');
+
+  if (!textarea) {
+    alert('Could not find textarea');
+    return;
+  }
+
+  // Check if TinyMDE editor exists
+  if (textarea.tinyMDEEditor) {
+    textarea.tinyMDEEditor.paste(cardSyntax);
+  } else if (window.TinyMDE && textarea.dataset.tinymdeAttached) {
+    const editorElement = textarea.nextElementSibling;
+    if (editorElement && editorElement._tinyMDEInstance) {
+      editorElement._tinyMDEInstance.paste(cardSyntax);
+    } else {
+      const cursorPos = textarea.selectionStart || textarea.value.length;
+      const textBefore = textarea.value.substring(0, cursorPos);
+      const textAfter = textarea.value.substring(textarea.selectionEnd || cursorPos);
+
+      textarea.value = textBefore + cardSyntax + textAfter;
+      textarea.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  } else {
+    const cursorPos = textarea.selectionStart || textarea.value.length;
+    const textBefore = textarea.value.substring(0, cursorPos);
+    const textAfter = textarea.value.substring(textarea.selectionEnd || cursorPos);
+
+    textarea.value = textBefore + cardSyntax + textAfter;
+    textarea.focus();
+  }
+}
+</script>

@@ -214,6 +214,95 @@ class PlexClient(MediaClient):
 
         return poster_urls[:limit]
 
+    def get_recent_items(
+        self, library_id: str | None = None, limit: int = 10
+    ) -> list[dict]:
+        """Get recently added items from Plex server."""
+        try:
+            items = []
+
+            # Get all library sections or specific library if provided
+            if library_id:
+                try:
+                    library = self.server.library.sectionByID(library_id)
+                    libraries = [library] if library else []
+                except Exception:
+                    libraries = []
+            else:
+                libraries = list(self.server.library.sections())
+
+            for library in libraries:
+                if len(items) >= limit:
+                    break
+
+                try:
+                    # Get recently added items from this library
+                    recent_items = library.recentlyAdded(maxresults=limit - len(items))
+
+                    for item in recent_items:
+                        if len(items) >= limit:
+                            break
+
+                        # Only use posterUrl - skip items without proper posters
+                        thumb_url = None
+                        if hasattr(item, "posterUrl") and item.posterUrl:
+                            thumb_url = item.posterUrl
+
+                            # Convert relative URLs to full URLs
+                            if thumb_url.startswith("/"):
+                                thumb_url = f"{self.url.rstrip('/')}{thumb_url}"
+
+                            # Use image proxy for external access
+                            import urllib.parse
+
+                            thumb_url = (
+                                f"/image-proxy?url={urllib.parse.quote_plus(thumb_url)}"
+                            )
+
+                            # Extract year from releaseDate
+                            year = None
+                            if hasattr(item, "year") and item.year:
+                                year = item.year
+                            elif (
+                                hasattr(item, "originallyAvailableAt")
+                                and item.originallyAvailableAt
+                            ):
+                                from contextlib import suppress
+
+                                with suppress(Exception):
+                                    year = item.originallyAvailableAt.year
+
+                            # Get item type
+                            item_type = getattr(item, "type", "unknown").lower()
+
+                            # Get added date
+                            added_at = None
+                            if hasattr(item, "addedAt") and item.addedAt:
+                                from contextlib import suppress
+
+                                with suppress(Exception):
+                                    # Convert to ISO format string like Jellyfin
+                                    added_at = item.addedAt.isoformat() + "Z"
+
+                            # Only add items that have poster images
+                            items.append(
+                                {
+                                    "title": getattr(item, "title", "Unknown"),
+                                    "year": year,
+                                    "thumb": thumb_url,
+                                    "type": item_type,
+                                    "added_at": added_at,
+                                }
+                            )
+
+                except Exception:
+                    continue
+
+            return items
+
+        except Exception:
+            return []
+
     def scan_libraries(
         self, url: str | None = None, token: str | None = None
     ) -> dict[str, str]:

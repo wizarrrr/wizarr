@@ -7,7 +7,11 @@ function attachTinyMDE() {
     console.warn('TinyMDE not loaded');
     return;
   }
-  new TinyMDE.Editor({ textarea: textarea });
+
+  // Create TinyMDE editor and store reference for widget insertion
+  const editor = new TinyMDE.Editor({ textarea: textarea });
+  textarea.tinyMDEEditor = editor; // Store reference on textarea
+
   // Style the generated editor to match input fields
   const edRoot = textarea.nextElementSibling; // TinyMDE inserts after textarea
   if (edRoot) {
@@ -21,6 +25,7 @@ function attachTinyMDE() {
       'dark:border-gray-600',
       'dark:text-white'
     );
+    edRoot._tinyMDEInstance = editor; // Also store on DOM element
   }
 }
 
