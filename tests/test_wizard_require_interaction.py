@@ -27,13 +27,14 @@ def test_db_step_requires_interaction_renders_next_disabled(app, client):
 
     _enable_wizard_access(client)
 
-    # Act
-    resp = client.get("/wizard/plex/0", headers={"HX-Request": "true"})
+    # Act - Initial page load (not HTMX) to get full UI chrome with buttons
+    resp = client.get("/wizard/plex/0")
 
     # Assert
     assert resp.status_code == 200
     body = resp.data.decode()
-    assert 'id="next-btn"' in body
+    # After wizard overhaul, button IDs are prefixed with 'wizard-'
+    assert 'id="wizard-next-btn"' in body
     # Next should be disabled when require_interaction is true
     assert 'data-disabled="1"' in body or 'aria-disabled="true"' in body
 
@@ -60,13 +61,14 @@ def test_file_based_front_matter_require_renders_next_disabled(app, client, tmp_
     _enable_wizard_access(client)
 
     try:
-        # Act
-        resp = client.get("/wizard/requiretest/0", headers={"HX-Request": "true"})
+        # Act - Initial page load (not HTMX) to get full UI chrome with buttons
+        resp = client.get("/wizard/requiretest/0")
 
         # Assert
         assert resp.status_code == 200
         body = resp.data.decode()
-        assert 'id="next-btn"' in body
+        # After wizard overhaul, button IDs are prefixed with 'wizard-'
+        assert 'id="wizard-next-btn"' in body
         assert 'data-disabled="1"' in body or 'aria-disabled="true"' in body
     finally:
         # Cleanup
