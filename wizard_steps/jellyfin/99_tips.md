@@ -14,4 +14,4 @@ title: "{{ _('Tips for the best experience') }}"
 
 
 
-{{ widget:button url="https://jellyfin.org" text=_("Go to Jellyfin") }}
+{{ widget:button url="external_url" text=_("Go to Jellyfin") }}

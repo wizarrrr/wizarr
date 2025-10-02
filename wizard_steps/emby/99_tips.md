@@ -14,4 +14,4 @@ title: "{{ _('Tips for the best experience') }}"
 
 
 
-{{ widget:button url="https://emby.media" text=_("Go to Emby") }}
+{{ widget:button url="external_url" text=_("Go to Emby") }}

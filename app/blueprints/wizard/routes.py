@@ -229,7 +229,7 @@ def _render(post, ctx: dict, server_type: str | None = None) -> str:
     content_with_widgets = content_with_cards
     if server_type:
         content_with_widgets = process_widget_placeholders(
-            content_with_cards, server_type
+            content_with_cards, server_type, context=render_ctx
         )
 
     # THEN: Render Jinja templates in the processed content
@@ -252,7 +252,10 @@ def _serve(server: str, idx: int):
 
     idx = max(0, min(idx, len(steps) - 1))
     post = steps[idx]
-    html = _render(post, cfg | {"_": _}, server_type=server)
+
+    # Merge server-specific context (external_url, server_url, etc.) into config
+    server_ctx = _get_server_context(server)
+    html = _render(post, cfg | server_ctx | {"_": _}, server_type=server)
 
     # Determine if this step requires interaction (front matter `require: true` or DB flag)
     require_interaction = False

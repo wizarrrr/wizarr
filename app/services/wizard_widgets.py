@@ -29,7 +29,7 @@ class WizardWidget:
         self.name = name
         self.template = template
 
-    def render(self, server_type: str, **kwargs) -> str:
+    def render(self, server_type: str, context: dict | None = None, **kwargs) -> str:
         """Render the widget with given parameters."""
         try:
             data = self.get_data(server_type, **kwargs)
@@ -192,22 +192,35 @@ class ButtonWidget(WizardWidget):
         # Empty template since we'll override render
         super().__init__("button", "")
 
-    def render(self, server_type: str, **kwargs) -> str:
+    def render(self, server_type: str, context: dict | None = None, **kwargs) -> str:
         """Render the button widget with direct HTML generation."""
         try:
             import html
 
             url = kwargs.get("url", "")
             text = kwargs.get("text", "Click Here")
+            context = context or {}
 
-            # Ensure URL has proper protocol if missing
-            if url and not url.startswith(("http://", "https://", "//")) and "." in url:
-                # If it looks like a domain, prepend https://
-                url = f"https://{url}"
-            # Otherwise keep as-is (might be relative URL)
+            # If URL is a Jinja variable name (no protocol and no slashes), try to resolve it from context
+            if (
+                url
+                and not url.startswith(("http://", "https://", "//", "{{"))
+                and "/" not in url
+            ):
+                # First try to get it from context directly
+                if url in context:
+                    url = context[url]
+                else:
+                    # Try to render it as a Jinja variable
+                    try:
+                        from flask_babel import gettext as _translate
 
-            if not url or not text:
-                return '\n\n<div class="text-sm text-red-500 italic">Button widget requires url and text parameters</div>\n\n'
+                        render_ctx = context.copy()
+                        render_ctx["_"] = _translate
+                        url = render_template_string(f"{{{{ {url} }}}}", **render_ctx)
+                    except Exception:
+                        # If rendering fails, keep original value
+                        pass
 
             # If text contains translation function call, render it first
             text_str = str(text)
@@ -233,6 +246,19 @@ class ButtonWidget(WizardWidget):
                     # If rendering fails, use the text as-is
                     pass
 
+            # Ensure URL has proper protocol if missing
+            if url and not url.startswith(("http://", "https://", "//")) and "." in url:
+                # If it looks like a domain, prepend https://
+                url = f"https://{url}"
+
+            # Validate required parameters after processing
+            if not url:
+                # Empty URL means server not configured - hide button gracefully
+                return ""
+
+            if not text:
+                return '\n\n<div class="text-sm text-red-500 italic">Button widget requires text parameter</div>\n\n'
+
             # Escape for safety
             escaped_text = html.escape(text)
             escaped_url = html.escape(url)
@@ -241,7 +267,7 @@ class ButtonWidget(WizardWidget):
             return f'''
 <div class="flex justify-center w-full my-6">
 <div class="inline-flex">
-    <a href="{escaped_url}" class="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 transition-colors duration-200" target="_blank" rel="noopener noreferrer">
+    <a href="{escaped_url}" class="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary-hover focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary dark:focus:ring-primary-800 transition-colors duration-200" target="_blank" rel="noopener noreferrer">
         {escaped_text}
     </a>
 </div>
@@ -297,7 +323,9 @@ def process_card_delimiters(content: str) -> str:
     return re.sub(pattern, replace_card, content, flags=re.DOTALL)
 
 
-def process_widget_placeholders(content: str, server_type: str) -> str:
+def process_widget_placeholders(
+    content: str, server_type: str, context: dict | None = None
+) -> str:
     """
     Process widget placeholders in markdown content.
 
@@ -306,6 +334,7 @@ def process_widget_placeholders(content: str, server_type: str) -> str:
     {{ widget:recently_added_media limit=6 }}
     {{ widget:button url="https://example.com" text="Click Here" }}
     """
+    context = context or {}
 
     def replace_widget(match):
         full_match = match.group(0)
@@ -356,7 +385,7 @@ def process_widget_placeholders(content: str, server_type: str) -> str:
         # Get widget and render
         widget = WIDGET_REGISTRY.get(widget_name)
         if widget:
-            return widget.render(server_type, **params)
+            return widget.render(server_type, context=context, **params)
         return f'<div class="text-sm text-red-500">Unknown widget: {widget_name}</div>'
 
     # Match {{ widget:... }} patterns
