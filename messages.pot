@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-01 03:48+0000\n"
+"POT-Creation-Date: 2025-10-02 03:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -437,6 +437,21 @@ msgstr ""
 
 #: app/services/servers.py:314
 msgid "Drop"
+msgstr ""
+
+#: app/services/wizard_reset.py:81
+#, python-brace-format
+msgid "No default steps found for server type: {}"
+msgstr ""
+
+#: app/services/wizard_reset.py:100
+#, python-brace-format
+msgid "Reset {} steps for {} (deleted {}, imported {})"
+msgstr ""
+
+#: app/services/wizard_reset.py:115
+#, python-brace-format
+msgid "Failed to reset steps: {}"
 msgstr ""
 
 #: app/templates/admin.html:5 app/templates/admin/user_details_modal.html:92
@@ -1021,7 +1036,7 @@ msgstr ""
 #: app/templates/modals/edit-server.html:104
 #: app/templates/modals/wizard-bundle-form.html:30
 #: app/templates/modals/wizard-simple-step-form.html:39
-#: app/templates/modals/wizard-step-form.html:46
+#: app/templates/modals/wizard-step-form.html:136
 #: app/templates/settings/wizard/bundle_form.html:20
 #: app/templates/settings/wizard/form.html:35
 #: app/templates/settings/wizard/simple_form.html:31
@@ -1045,7 +1060,7 @@ msgstr ""
 #: app/templates/modals/wizard-import-form.html:97
 #: app/templates/modals/wizard-preset-form.html:52
 #: app/templates/modals/wizard-simple-step-form.html:38
-#: app/templates/modals/wizard-step-form.html:45
+#: app/templates/modals/wizard-step-form.html:135
 #: app/templates/settings/connections/form.html:192
 #: app/templates/settings/wizard/bundle_form.html:21
 #: app/templates/settings/wizard/form.html:42
@@ -1246,7 +1261,7 @@ msgstr ""
 
 #: app/templates/modals/bundle-add-steps.html:23
 #: app/templates/settings/wizard/bundles.html:59
-#: app/templates/settings/wizard/steps.html:40
+#: app/templates/settings/wizard/steps.html:52
 msgid "Untitled"
 msgstr ""
 
@@ -1595,6 +1610,42 @@ msgstr ""
 #: app/templates/settings/wizard/_sub_nav.html:134
 #: app/templates/settings/wizard/preset_form.html:42
 msgid "Create Step"
+msgstr ""
+
+#: app/templates/modals/wizard-step-form.html:42
+msgid "Add..."
+msgstr ""
+
+#: app/templates/modals/wizard-step-form.html:62
+msgid "Widgets"
+msgstr ""
+
+#: app/templates/modals/wizard-step-form.html:76
+msgid "Recently Added Media"
+msgstr ""
+
+#: app/templates/modals/wizard-step-form.html:77
+msgid "Show recent content"
+msgstr ""
+
+#: app/templates/modals/wizard-step-form.html:92
+msgid "Button"
+msgstr ""
+
+#: app/templates/modals/wizard-step-form.html:93
+msgid "Add a clickable link button"
+msgstr ""
+
+#: app/templates/modals/wizard-step-form.html:99
+msgid "Elements"
+msgstr ""
+
+#: app/templates/modals/wizard-step-form.html:113
+msgid "Card"
+msgstr ""
+
+#: app/templates/modals/wizard-step-form.html:114
+msgid "Add a styled content card"
 msgstr ""
 
 #: app/templates/partials/api_keys_grid.html:29
@@ -1983,7 +2034,7 @@ msgstr ""
 
 #: app/templates/settings/wizard/bundles.html:72
 #: app/templates/settings/wizard/index.html:104
-#: app/templates/settings/wizard/steps.html:52
+#: app/templates/settings/wizard/steps.html:64
 msgid "Are you sure you want to delete this step?"
 msgstr ""
 
@@ -2122,7 +2173,7 @@ msgid "steps configured"
 msgstr ""
 
 #: app/templates/settings/wizard/index.html:57
-#: app/templates/settings/wizard/steps.html:29
+#: app/templates/settings/wizard/steps.html:41
 msgid "Preview Wizard"
 msgstr ""
 
@@ -2147,7 +2198,19 @@ msgstr ""
 msgid "No steps found."
 msgstr ""
 
-#: app/templates/settings/wizard/steps.html:22
+#: app/templates/settings/wizard/steps.html:23
+#, python-format
+msgid ""
+"Are you sure you want to reset all steps for %(server)s to defaults? This"
+" will delete all custom steps and reimport the default ones."
+msgstr ""
+
+#: app/templates/settings/wizard/steps.html:26
+#, python-format
+msgid "Reset %(server)s Steps to Defaults"
+msgstr ""
+
+#: app/templates/settings/wizard/steps.html:34
 #, python-format
 msgid "Export %(server)s Steps"
 msgstr ""
