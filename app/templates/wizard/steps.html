@@ -9,15 +9,15 @@
      data-max-idx="{{ max_idx }}"
      data-server-type="{{ server_type }}">
 
-  <!-- FLOATING PROGRESS BAR (mobile - fixed at top) -->
+  <!-- FLOATING PROGRESS BAR (mobile - floating at top) -->
   {% if max_idx > 0 %}
   <div id="wizard-progress-mobile" class="wizard-progress-mobile md:hidden">
-    <div class="px-4 py-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+    <div class="wizard-glass-container">
       <div class="flex justify-between items-center mb-2 text-xs text-gray-600 dark:text-gray-400">
         <span>{{ _("Step") }} {{ idx + 1 }} {{ _("of") }} {{ max_idx + 1 }}</span>
         <span class="font-semibold">{{ ((idx + 1) / (max_idx + 1) * 100) | round | int }}%</span>
       </div>
-      <div class="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700 overflow-hidden">
+      <div class="w-full bg-gray-200/50 dark:bg-gray-700/50 rounded-full h-1.5 overflow-hidden">
         <div id="progress-bar-mobile" class="h-1.5 rounded-full transition-all duration-500 ease-out"
              style="width: {{ ((idx + 1) / (max_idx + 1) * 100) }}%; background: linear-gradient(90deg, #fe4155 0%, #fe4155 100%); box-shadow: 0 0 8px rgba(254, 65, 85, 0.3);"></div>
       </div>

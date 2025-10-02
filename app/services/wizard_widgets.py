@@ -267,11 +267,11 @@ class ButtonWidget(WizardWidget):
             escaped_text = html.escape(text)
             escaped_url = html.escape(url)
 
-            # Generate raw HTML directly to avoid any template processing issues
+            # Generate button HTML
             return f'''
 <div class="flex justify-center w-full my-6">
 <div class="inline-flex">
-    <a href="{escaped_url}" class="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary-hover focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary dark:focus:ring-primary-800 transition-colors duration-200" target="_blank" rel="noopener noreferrer">
+    <a href="{escaped_url}" class="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary-hover focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary dark:focus:ring-primary-800 transition-colors duration-200" style="text-decoration: none;" target="_blank" rel="noopener noreferrer">
         {escaped_text}
     </a>
 </div>
@@ -392,6 +392,6 @@ def process_widget_placeholders(
             return widget.render(server_type, context=context, **params)
         return f'<div class="text-sm text-red-500">Unknown widget: {widget_name}</div>'
 
-    # Match {{ widget:... }} patterns
-    pattern = r"\{\{\s*([^}]+)\s*\}\}"
+    # Match {{ widget:... }} patterns specifically (not other {{ }} expressions)
+    pattern = r"\{\{\s*(widget:[^}]+)\s*\}\}"
     return re.sub(pattern, replace_widget, content)

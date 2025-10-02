@@ -201,16 +201,39 @@ Make sure disabled buttons don't get the pointer cursor.
     animation: none !important;
   }
 
-  /* Fixed progress bar at top */
+  /* Floating progress bar at top - no background bar */
   .wizard-progress-mobile {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 40;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    top: 1.5rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 50;
     transition: opacity 0.2s ease;
+  }
+
+  /* Glass morphism container */
+  .wizard-glass-container {
+    background: color-mix(in srgb, rgb(255 255 255) 12%, transparent);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border-radius: 1.5rem;
+    padding: 0.75rem 1rem;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.15),
+      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.5),
+      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.4),
+      0 8px 24px rgba(0, 0, 0, 0.12),
+      0 4px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .dark .wizard-glass-container {
+    background: color-mix(in srgb, rgb(187 187 188) 12%, transparent);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.15),
+      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.12),
+      0 8px 24px rgba(0, 0, 0, 0.3),
+      0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
   /* Prevent flash on load */
@@ -227,26 +250,18 @@ Make sure disabled buttons don't get the pointer cursor.
     max-width: 100%;
   }
 
-  /* Fixed floating nav buttons at bottom */
+  /* Floating nav buttons - no background bar */
   .wizard-nav-mobile {
     position: fixed;
-    bottom: 0;
+    bottom: 2rem;
     left: 0;
     right: 0;
-    z-index: 40;
+    z-index: 50;
     display: flex;
     justify-content: space-between;
-    padding: 1rem;
-    background: linear-gradient(to top, rgb(255 255 255 / 0.95) 0%, rgb(255 255 255 / 0.8) 100%);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-top: 1px solid rgb(229 231 235 / 0.5);
+    padding: 0 1rem;
     transition: opacity 0.2s ease;
-  }
-
-  .dark .wizard-nav-mobile {
-    background: linear-gradient(to top, rgb(31 41 55 / 0.95) 0%, rgb(31 41 55 / 0.8) 100%);
-    border-top-color: rgb(55 65 81 / 0.5);
+    pointer-events: none; /* Allow clicks through empty space */
   }
 
   /* Prevent flash on load */
@@ -254,7 +269,7 @@ Make sure disabled buttons don't get the pointer cursor.
     opacity: 1;
   }
 
-  /* Floating circular buttons */
+  /* Floating circular buttons with glass morphism */
   .wizard-btn-mobile {
     display: flex;
     align-items: center;
@@ -262,26 +277,46 @@ Make sure disabled buttons don't get the pointer cursor.
     width: 3.5rem;
     height: 3.5rem;
     border-radius: 9999px;
-    background: linear-gradient(135deg, #fe4155 0%, #ff5a6d 100%);
+    background: color-mix(in srgb, rgb(255 255 255) 12%, transparent);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
     color: white;
-    box-shadow: 0 4px 12px rgba(254, 65, 85, 0.4), 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.15),
+      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.5),
+      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.4),
+      0 8px 24px rgba(0, 0, 0, 0.12),
+      0 4px 8px rgba(0, 0, 0, 0.08);
     transition: all 0.2s ease;
     cursor: pointer;
-    border: 2px solid rgba(255, 255, 255, 0.2);
     position: relative;
     z-index: 50;
+    pointer-events: all; /* Re-enable clicks on buttons */
+  }
+
+  .dark .wizard-btn-mobile {
+    background: color-mix(in srgb, rgb(187 187 188) 12%, transparent);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.15),
+      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.12),
+      0 8px 24px rgba(0, 0, 0, 0.3),
+      0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
   .wizard-btn-mobile:active {
     transform: scale(0.95);
-    box-shadow: 0 2px 8px rgba(254, 65, 85, 0.3);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.3),
+      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.25),
+      0 4px 12px rgba(0, 0, 0, 0.15),
+      0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .wizard-btn-mobile[aria-disabled="true"] {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
-    background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
-    box-shadow: 0 2px 8px rgba(156, 163, 175, 0.3);
   }
 
   /* Position buttons at edges */
