@@ -901,7 +901,7 @@ class AudiobookshelfClient(RestApiMixin):
                 return []  # Nothing playing at all
 
             # --- Step 2: fetch the last page with a fixed page size -------------
-            items_per_page = 10  # sane default – plenty for a dashboard
+            items_per_page = 20  # fetch more items for dashboard visibility
             last_page = max(0, (total_sessions - 1) // items_per_page)  # zero-based
 
             query_params = {"itemsPerPage": str(items_per_page), "page": str(last_page)}

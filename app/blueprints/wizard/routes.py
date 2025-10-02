@@ -266,20 +266,36 @@ def _serve(server: str, idx: int):
     except Exception:
         require_interaction = False
 
+    # Determine which template to use based on request type
     if not request.headers.get("HX-Request"):
+        # Initial page load - full wrapper with UI chrome
         page = "wizard/frame.html"
     else:
-        page = "wizard/steps.html"
+        # HTMX request - content-only partial
+        page = "wizard/_content.html"
 
-    return render_template(
+    response = render_template(
         page,
         body_html=html,
         idx=idx,
         max_idx=len(steps) - 1,
         server_type=server,
-        direction=direction,  # ← NEW
+        direction=direction,
         require_interaction=require_interaction,
     )
+
+    # Add custom headers for client-side updates (HTMX requests only)
+    if request.headers.get("HX-Request"):
+        from flask import make_response
+
+        resp = make_response(response)
+        resp.headers["X-Wizard-Idx"] = str(idx)
+        resp.headers["X-Require-Interaction"] = (
+            "true" if require_interaction else "false"
+        )
+        return resp
+
+    return response
 
 
 # ─── routes ─────────────────────────────────────────────────────
@@ -363,12 +379,15 @@ def combo(idx: int):
     except Exception:
         require_interaction = False
 
+    # Determine which template to use based on request type
     if not request.headers.get("HX-Request"):
+        # Initial page load - full wrapper with UI chrome
         page = "wizard/frame.html"
     else:
-        page = "wizard/steps.html"
+        # HTMX request - content-only partial
+        page = "wizard/_content.html"
 
-    return render_template(
+    response = render_template(
         page,
         body_html=html,
         idx=idx,
@@ -377,6 +396,19 @@ def combo(idx: int):
         direction=request.values.get("dir", ""),
         require_interaction=require_interaction,
     )
+
+    # Add custom headers for client-side updates (HTMX requests only)
+    if request.headers.get("HX-Request"):
+        from flask import make_response
+
+        resp = make_response(response)
+        resp.headers["X-Wizard-Idx"] = str(idx)
+        resp.headers["X-Require-Interaction"] = (
+            "true" if require_interaction else "false"
+        )
+        return resp
+
+    return response
 
 
 # ─── bundle-specific wizard route ──────────────────────────────
@@ -433,12 +465,15 @@ def bundle_view(idx: int):
     except Exception:
         require_interaction = False
 
+    # Determine which template to use based on request type
     if not request.headers.get("HX-Request"):
+        # Initial page load - full wrapper with UI chrome
         page = "wizard/frame.html"
     else:
-        page = "wizard/steps.html"
+        # HTMX request - content-only partial
+        page = "wizard/_content.html"
 
-    return render_template(
+    response = render_template(
         page,
         body_html=html,
         idx=idx,
@@ -447,3 +482,16 @@ def bundle_view(idx: int):
         direction=request.values.get("dir", ""),
         require_interaction=require_interaction,
     )
+
+    # Add custom headers for client-side updates (HTMX requests only)
+    if request.headers.get("HX-Request"):
+        from flask import make_response
+
+        resp = make_response(response)
+        resp.headers["X-Wizard-Idx"] = str(idx)
+        resp.headers["X-Require-Interaction"] = (
+            "true" if require_interaction else "false"
+        )
+        return resp
+
+    return response

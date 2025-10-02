@@ -58,6 +58,8 @@ class RecentlyAddedMediaWidget(WizardWidget):
                     <div class="carousel-item flex-shrink-0">
                         {% if item.thumb %}
                         <img src="{{ item.thumb }}" alt="{{ item.title }}"
+                             loading="lazy"
+                             decoding="async"
                              class="w-32 h-48 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
                         {% else %}
                         <div class="w-32 h-48 bg-gradient-to-br from-primary/20 to-primary/40 rounded-lg shadow-lg flex items-center justify-center">
@@ -73,6 +75,8 @@ class RecentlyAddedMediaWidget(WizardWidget):
                     <div class="carousel-item flex-shrink-0">
                         {% if item.thumb %}
                         <img src="{{ item.thumb }}" alt="{{ item.title }}"
+                             loading="lazy"
+                             decoding="async"
                              class="w-32 h-48 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
                         {% else %}
                         <div class="w-32 h-48 bg-gradient-to-br from-primary/20 to-primary/40 rounded-lg shadow-lg flex items-center justify-center">
