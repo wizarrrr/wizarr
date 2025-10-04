@@ -287,14 +287,23 @@ function wizardSwipe() {
     threshold: 75,
 
     onTouchStart(e) {
-      this.startX = e.touches[0].clientX;
+      if (!e.touches || !e.touches.length) return;
+      const x = e.touches[0].clientX;
+      this.startX = x;
+      this.currentX = x; // tap without move should not trigger swipe
     },
 
     onTouchMove(e) {
+      if (!e.touches || !e.touches.length) return;
       this.currentX = e.touches[0].clientX;
     },
 
-    onTouchEnd() {
+    onTouchEnd(e) {
+      // Safari may skip touchmove on quick taps; use last changed touch as fallback
+      if (e.changedTouches && e.changedTouches.length) {
+        this.currentX = e.changedTouches[0].clientX;
+      }
+
       const diff = this.startX - this.currentX;
 
       if (Math.abs(diff) > this.threshold) {
