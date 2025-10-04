@@ -50,7 +50,13 @@ _I18N_PATTERN = re.compile(r"{{\s*_\(\s*(['\"])(.*?)\1\s*\)\s*}}", re.DOTALL)
 
 def _strip_localization(md: str) -> str:
     """Remove Jinja gettext wrappers from markdown, leaving plain text."""
-    return _I18N_PATTERN.sub(lambda m: m.group(2), md)
+
+    def _replace(match: re.Match) -> str:
+        text = match.group(2)
+        # Undo lightweight escaping used inside the source markdown
+        return text.replace("\\'", "'").replace('"', '"')
+
+    return _I18N_PATTERN.sub(_replace, md)
 
 
 @wizard_admin_bp.route("/", methods=["GET"])

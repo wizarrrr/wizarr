@@ -2,7 +2,16 @@ from pathlib import Path
 
 import frontmatter
 import markdown
-from flask import Blueprint, abort, redirect, render_template, request, session, url_for
+from flask import (
+    Blueprint,
+    abort,
+    current_app,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 from flask_babel import _
 from flask_login import current_user
 
@@ -204,8 +213,6 @@ def _steps(server: str, cfg: dict):
 
 def _render(post, ctx: dict, server_type: str | None = None) -> str:
     """Render a post (frontmatter.Post or _RowAdapter) with context."""
-    from flask import render_template_string
-
     from app.services.wizard_widgets import (
         process_card_delimiters,
         process_widget_placeholders,
@@ -233,7 +240,9 @@ def _render(post, ctx: dict, server_type: str | None = None) -> str:
         )
 
     # THEN: Render Jinja templates in the processed content
-    rendered_content = render_template_string(content_with_widgets, **render_ctx)
+    env = current_app.jinja_env.overlay(autoescape=False)
+    template = env.from_string(content_with_widgets)
+    rendered_content = template.render(**render_ctx)
 
     # Use simple markdown configuration - HTML should pass through by default
     return markdown.markdown(
