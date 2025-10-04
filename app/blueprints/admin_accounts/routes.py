@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 from flask_babel import _
 from flask_login import current_user, login_required
 
@@ -49,7 +49,9 @@ def create_admin():
 @admin_accounts_bp.route("/<int:admin_id>/edit", methods=["GET", "POST"])
 @login_required
 def edit_admin(admin_id):
-    acc = AdminAccount.query.get_or_404(admin_id)
+    acc = db.session.get(AdminAccount, admin_id)
+    if not acc:
+        abort(404)
     form = AdminUpdateForm(obj=acc)
     if form.validate_on_submit():
         # Username uniqueness check
@@ -156,7 +158,9 @@ def change_password():
 @login_required
 def reset_passkeys(admin_id):
     """Reset all passkeys for a specific admin account."""
-    admin = AdminAccount.query.get_or_404(admin_id)
+    admin = db.session.get(AdminAccount, admin_id)
+    if not admin:
+        abort(404)
 
     try:
         # Delete all passkeys for this admin
@@ -176,7 +180,9 @@ def reset_passkeys(admin_id):
 @login_required
 def admin_passkeys(admin_id):
     """View passkeys for a specific admin account."""
-    admin = AdminAccount.query.get_or_404(admin_id)
+    admin = db.session.get(AdminAccount, admin_id)
+    if not admin:
+        abort(404)
     passkeys = WebAuthnCredential.query.filter_by(admin_account_id=admin_id).all()
 
     if request.headers.get("HX-Request"):

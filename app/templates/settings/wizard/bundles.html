@@ -71,7 +71,27 @@
                    fill="currentColor">
                 <path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" />
               </svg>
-              <span class="flex-1 text-sm font-medium text-gray-900 dark:text-white">{{ bs.step.title or _("Untitled") }}</span>
+
+              <div class="flex-1 flex items-center gap-2">
+                <span class="text-sm font-medium text-gray-900 dark:text-white">{{ bs.step.title or _('Untitled') }}</span>
+
+                <!-- Category badge -->
+                {% if bs.step.category == 'pre_invite' %}
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                    {{ _('Pre-Invite') }}
+                  </span>
+                {% else %}
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
+                    {{ _('Post-Invite') }}
+                  </span>
+                {% endif %}
+
+                <!-- Server type badge -->
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                  {{ bs.step.server_type | title }}
+                </span>
+              </div>
+
               <span class="flex items-center gap-2">
                 <button hx-get="{{ url_for('wizard_admin.edit_step', step_id=bs.step.id) }}"
                         hx-target="#step-modal"

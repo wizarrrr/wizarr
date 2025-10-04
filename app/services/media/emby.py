@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 import requests
 from sqlalchemy import or_
 
+from app.extensions import db
 from app.models import Invitation, MediaServer, User
 
 from .client_base import register_media_client
@@ -233,7 +234,7 @@ class EmbyClient(JellyfinClient):
         if not server_id:
             return success, message
 
-        current_server = MediaServer.query.get(server_id)
+        current_server = db.session.get(MediaServer, server_id)
         if not current_server:
             return success, message
 

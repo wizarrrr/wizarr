@@ -1,21 +1,177 @@
 /* wizard.js */
+
+// Helper function to show toast notifications
+function showToast(message, type = 'info') {
+  // Check if there's a toast container, create if not
+  let toastContainer = document.getElementById('toast-container');
+  if (!toastContainer) {
+    toastContainer = document.createElement('div');
+    toastContainer.id = 'toast-container';
+    toastContainer.className = 'fixed top-4 right-4 z-50 space-y-2';
+    document.body.appendChild(toastContainer);
+  }
+
+  // Create toast element
+  const toast = document.createElement('div');
+  const bgColor = type === 'error' ? 'bg-red-500' : type === 'success' ? 'bg-green-500' : 'bg-blue-500';
+  toast.className = `${bgColor} text-white px-6 py-3 rounded-lg shadow-lg transition-opacity duration-300`;
+  toast.textContent = message;
+
+  toastContainer.appendChild(toast);
+
+  // Auto-remove after 3 seconds
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
 function attachSortableLists(root = document) {
   root.querySelectorAll('.wizard-steps, .bundle-steps').forEach(container => {
     if (container.dataset.sortableAttached) return;
 
-    new Sortable(container, {
+    // Check if this is a category-aware wizard steps list
+    const isCategoryAware = container.classList.contains('wizard-steps') && container.dataset.category;
+
+    const sortableConfig = {
       animation: 150,
       handle: '.drag',
-      ghostClass: 'opacity-50',   // was dragClass
-      onEnd({ to }) {
-        const ids = [...to.children].map(li => Number(li.dataset.id));
-        fetch(to.dataset.reorderUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(ids)
+      ghostClass: 'sortable-ghost',
+      chosenClass: 'sortable-chosen',
+      dragClass: 'sortable-drag',
+      // Prevent empty state placeholder from being draggable
+      filter: '.empty-state-item',
+      // Add visual feedback for valid/invalid drop zones
+      onStart(evt) {
+        // Remove empty state placeholder from all containers when drag starts
+        document.querySelectorAll('.wizard-steps .empty-state-item').forEach(placeholder => {
+          placeholder.style.display = 'none';
         });
+      },
+      onMove(evt) {
+        if (isCategoryAware) {
+          const fromServer = evt.from.dataset.server;
+          const toServer = evt.to.dataset.server;
+          const isValid = fromServer === toServer;
+
+          // Add visual feedback to drop zone
+          if (isValid) {
+            evt.to.classList.add('bg-green-50', 'dark:bg-green-900/20', 'border-green-300', 'dark:border-green-700');
+            evt.to.classList.remove('bg-red-50', 'dark:bg-red-900/20', 'border-red-300', 'dark:border-red-700');
+          } else {
+            evt.to.classList.add('bg-red-50', 'dark:bg-red-900/20', 'border-red-300', 'dark:border-red-700');
+            evt.to.classList.remove('bg-green-50', 'dark:bg-green-900/20', 'border-green-300', 'dark:border-green-700');
+          }
+
+          return isValid;
+        }
+        return true;
+      },
+      onEnd({ to, from }) {
+        // Remove visual feedback classes
+        to.classList.remove('bg-green-50', 'dark:bg-green-900/20', 'border-green-300', 'dark:border-green-700');
+        to.classList.remove('bg-red-50', 'dark:bg-red-900/20', 'border-red-300', 'dark:border-red-700');
+        from.classList.remove('bg-green-50', 'dark:bg-green-900/20', 'border-green-300', 'dark:border-green-700');
+        from.classList.remove('bg-red-50', 'dark:bg-red-900/20', 'border-red-300', 'dark:border-red-700');
+
+        // Manage empty state placeholders
+        // Remove empty state from target container if it now has real steps
+        const toPlaceholder = to.querySelector('.empty-state-item');
+        const toRealSteps = [...to.children].filter(child => !child.classList.contains('empty-state-item'));
+        if (toPlaceholder && toRealSteps.length > 0) {
+          toPlaceholder.remove();
+          to.classList.remove('min-h-[120px]', 'flex', 'items-center', 'justify-center');
+        }
+
+        // Show empty state in source container if it's now empty
+        const fromPlaceholder = from.querySelector('.empty-state-item');
+        const fromRealSteps = [...from.children].filter(child => !child.classList.contains('empty-state-item'));
+        if (fromRealSteps.length === 0 && !fromPlaceholder) {
+          // Create and add empty state placeholder
+          const emptyState = document.createElement('li');
+          emptyState.className = 'empty-state-item flex flex-col items-center justify-center text-center py-8 text-gray-400 dark:text-gray-500 w-full list-none';
+          emptyState.innerHTML = `
+            <svg class="w-12 h-12 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <p class="text-sm">${from.dataset.category === 'pre_invite' ? 'No pre-invite steps configured' : 'No post-invite steps configured'}</p>
+          `;
+          from.appendChild(emptyState);
+          from.classList.add('min-h-[120px]', 'flex', 'items-center', 'justify-center');
+        } else if (fromPlaceholder && fromRealSteps.length === 0) {
+          // Show existing placeholder if container is now empty
+          fromPlaceholder.style.display = '';
+          from.classList.add('min-h-[120px]', 'flex', 'items-center', 'justify-center');
+        }
+
+        if (isCategoryAware) {
+          // Category-aware reordering (for Settings → Wizard page)
+          const serverType = to.dataset.server;
+          const category = to.dataset.category;
+          // Filter out empty state placeholder when collecting step IDs
+          const ids = [...to.children]
+            .filter(li => !li.classList.contains('empty-state-item'))
+            .map(li => Number(li.dataset.id));
+
+          fetch(to.dataset.reorderUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              server_type: serverType,
+              category: category,
+              order: ids
+            })
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Server returned ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (data.status === 'ok') {
+            } else {
+              throw new Error(data.message || 'Failed to reorder steps');
+            }
+          })
+          .catch(error => {
+            console.error('Failed to reorder steps:', error);
+            showToast('Failed to reorder steps. Refreshing page...', 'error');
+            // Reload page to revert UI on error
+            setTimeout(() => location.reload(), 2000);
+          });
+        } else {
+          // Legacy reordering (for bundle steps)
+          // Filter out empty state placeholder when collecting step IDs
+          const ids = [...to.children]
+            .filter(li => !li.classList.contains('empty-state-item'))
+            .map(li => Number(li.dataset.id));
+          fetch(to.dataset.reorderUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(ids)
+          })
+          .catch(error => {
+            console.error('Failed to reorder bundle steps:', error);
+            showToast('Failed to reorder steps', 'error');
+          });
+        }
       }
-    });
+    };
+
+    // For category-aware lists, enable dragging between categories of the same server
+    if (isCategoryAware) {
+      sortableConfig.group = {
+        name: 'wizard-steps-' + container.dataset.server,
+        pull: true,
+        put: function(to, from, dragEl) {
+          // Only allow drops within the same server type
+          return to.el.dataset.server === from.el.dataset.server;
+        }
+      };
+    }
+
+    new Sortable(container, sortableConfig);
     container.dataset.sortableAttached = '1';
   });
 }

@@ -9,9 +9,10 @@ Give your new users a personalized onboarding experience with Wizarr's powerful 
 Wizarr's wizard system supports multiple approaches for creating and managing onboarding steps:
 
 1. **Database-backed steps** (recommended) - Create and manage steps through the admin interface
-2. **Wizard bundles** - Custom sequences of steps for specific invitation types
-3. **Multi-server wizards** - Automatic flows for invitations covering multiple servers
-4. **Legacy file-based steps** - Markdown files as fallback (still supported)
+2. **Pre-invite and post-invite categories** - Show steps before or after users accept invitations ([Learn more](pre-post-invite-steps.md))
+3. **Wizard bundles** - Custom sequences of steps for specific invitation types
+4. **Multi-server wizards** - Automatic flows for invitations covering multiple servers
+5. **Legacy file-based steps** - Markdown files as fallback (still supported)
 
 ***
 
@@ -34,10 +35,13 @@ Default steps are server-type specific and will be shown to all users invited to
 ### Step Fields
 
 - **Server Type**: Which media server this step applies to
+- **Category**: When to show this step - "Before Invite Acceptance" (pre-invite) or "After Invite Acceptance" (post-invite)
 - **Title**: Optional override for the step heading
 - **Markdown**: The main content of your step
 - **Requires**: Comma-separated setting keys that must be truthy for the step to display
 - **Require Interaction**: When enabled, users must click a link or button in the step before they can proceed to the next step
+
+> **New Feature**: The **Category** field allows you to control whether steps are shown before or after users accept invitations. [Learn more about pre-invite and post-invite steps](pre-post-invite-steps.md).
 
 ### Conditional Step Display
 

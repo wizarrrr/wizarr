@@ -7,39 +7,89 @@
      class="wizard-container md:justify-center md:items-center md:px-4 md:py-8"
      data-current-idx="{{ idx }}"
      data-max-idx="{{ max_idx }}"
-     data-server-type="{{ server_type }}">
+     data-server-type="{{ server_type }}"
+     data-phase="{{ phase|default('') }}"
+     data-step-phase="{{ (step_phase or '') }}"
+     data-completion-url="{{ completion_url or '' }}"
+     data-completion-label="{{ completion_label or '' }}"
+     data-next-label="{{ _('Next') }}"
+     data-phase-label-pre="{{ _('Before Invitation') }}"
+     data-phase-label-post="{{ _('After Invitation') }}">
+
+{% set current_step_phase = step_phase or '' %}
+{% set completion_href = completion_url or '' %}
+  {% set completion_label_text = completion_label or _('Continue to Invite') %}
+  {% set default_next_label = _('Next') %}
+  {% set is_pre_phase = phase == 'pre' %}
+  {% set is_last_step = idx == max_idx %}
+  {% set is_pre_final = is_pre_phase and is_last_step and completion_href %}
+
   <!-- FLOATING PROGRESS BAR (mobile - floating at top) -->
   {% if max_idx > 0 %}
-    <div id="wizard-progress-mobile" class="wizard-progress-mobile md:hidden">
-      <div class="wizard-glass-container">
-        <div class="flex justify-between items-center mb-2 text-xs text-gray-600 dark:text-gray-400">
-          <span>{{ _("Step") }} {{ idx + 1 }} {{ _("of") }} {{ max_idx + 1 }}</span>
-          <span class="font-semibold">{{ ((idx + 1) / (max_idx + 1) * 100) | round | int }}%</span>
-        </div>
-        <div class="w-full bg-gray-200/50 dark:bg-gray-700/50 rounded-full h-1.5 overflow-hidden">
-          <div id="progress-bar-mobile"
-               class="h-1.5 rounded-full transition-all duration-500 ease-out"
-               style="width: {{ ((idx + 1) / (max_idx + 1) * 100) }}%;
-                      background: linear-gradient(90deg, #fe4155 0%, #fe4155 100%);
-                      box-shadow: 0 0 8px rgba(254, 65, 85, 0.3)"></div>
-        </div>
+  <div id="wizard-progress-mobile" class="wizard-progress-mobile md:hidden">
+    <div class="wizard-glass-container">
+      <!-- Phase Indicator -->
+      <div id="wizard-phase-container-mobile" class="flex justify-center mb-2" {% if not current_step_phase %}style="display:none"{% endif %}>
+        <span id="wizard-phase-label-mobile"
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                     {% if current_step_phase == 'pre' %}
+                     bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                     {% elif current_step_phase == 'post' %}
+                     bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                     {% endif %}"
+              data-phase-label="mobile">
+          {% if current_step_phase == 'pre' %}
+            {{ _("Before Invitation") }}
+          {% elif current_step_phase == 'post' %}
+            {{ _("After Invitation") }}
+          {% endif %}
+        </span>
       </div>
-    </div>
-    <!-- DESKTOP PROGRESS BAR (centered) -->
-    <div id="wizard-progress-desktop"
-         class="hidden md:block w-full max-w-md mb-6">
-      <div class="flex justify-between items-center mb-2 text-sm text-gray-600 dark:text-gray-400">
+      <div class="flex justify-between items-center mb-2 text-xs text-gray-600 dark:text-gray-400">
         <span>{{ _("Step") }} {{ idx + 1 }} {{ _("of") }} {{ max_idx + 1 }}</span>
-        <span>{{ ((idx + 1) / (max_idx + 1) * 100) | round | int }}%</span>
+        <span class="font-semibold">{{ ((idx + 1) / (max_idx + 1) * 100) | round | int }}%</span>
       </div>
-      <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 overflow-hidden">
-        <div id="progress-bar-desktop"
-             class="h-2.5 rounded-full transition-all duration-500 ease-out"
+      <div class="w-full bg-gray-200/50 dark:bg-gray-700/50 rounded-full h-1.5 overflow-hidden">
+        <div id="progress-bar-mobile"
+             class="h-1.5 rounded-full transition-all duration-500 ease-out"
              style="width: {{ ((idx + 1) / (max_idx + 1) * 100) }}%;
                     background: linear-gradient(90deg, #fe4155 0%, #fe4155 100%);
-                    box-shadow: 0 0 10px rgba(254, 65, 85, 0.3)"></div>
+                    box-shadow: 0 0 8px rgba(254, 65, 85, 0.3)"></div>
       </div>
     </div>
+  </div>
+
+  <!-- DESKTOP PROGRESS BAR (centered) -->
+  <div id="wizard-progress-desktop" class="hidden md:block w-full max-w-md mb-6">
+    <!-- Phase Indicator -->
+    <div id="wizard-phase-container-desktop" class="flex justify-center mb-3" {% if not current_step_phase %}style="display:none"{% endif %}>
+      <span id="wizard-phase-label-desktop"
+            class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                   {% if current_step_phase == 'pre' %}
+                   bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                   {% elif current_step_phase == 'post' %}
+                   bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                   {% endif %}"
+            data-phase-label="desktop">
+        {% if current_step_phase == 'pre' %}
+          {{ _("Before Invitation") }}
+        {% elif current_step_phase == 'post' %}
+          {{ _("After Invitation") }}
+        {% endif %}
+      </span>
+    </div>
+    <div class="flex justify-between items-center mb-2 text-sm text-gray-600 dark:text-gray-400">
+      <span>{{ _("Step") }} {{ idx + 1 }} {{ _("of") }} {{ max_idx + 1 }}</span>
+      <span>{{ ((idx + 1) / (max_idx + 1) * 100) | round | int }}%</span>
+    </div>
+    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 overflow-hidden">
+      <div id="progress-bar-desktop"
+           class="h-2.5 rounded-full transition-all duration-500 ease-out"
+           style="width: {{ ((idx + 1) / (max_idx + 1) * 100) }}%;
+                  background: linear-gradient(90deg, #fe4155 0%, #fe4155 100%);
+                  box-shadow: 0 0 10px rgba(254, 65, 85, 0.3)"></div>
+    </div>
+  </div>
   {% endif %}
   <!-- CARD (full height on mobile, centered on desktop) -->
   <div class="htmx-indicator absolute inset-0 bg-white/80 dark:bg-gray-900/80 flex items-center justify-center z-50">
@@ -58,57 +108,110 @@
   {% include "wizard/_content.html" %}
   <!-- FLOATING NAV BUTTONS (mobile - fixed at bottom) -->
   <div class="wizard-nav-mobile md:hidden">
-    <a id="wizard-prev-btn"
-       hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
-       hx-vals='{"dir":"prev"}'
-       hx-target="#wizard-content"
-       hx-swap="outerHTML swap:0s"
-       hx-indicator=".htmx-indicator"
-       class="wizard-btn-mobile wizard-btn-prev"
-       {% if idx == 0 %}style="display:none"{% endif %}
-       aria-label="{{ _('Previous') }}">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
-      </svg>
-    </a>
-    <a id="wizard-next-btn"
-       hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
-       hx-vals='{"dir":"next"}'
-       hx-target="#wizard-content"
-       hx-swap="outerHTML swap:0s"
-       hx-indicator=".htmx-indicator"
-       class="wizard-btn-mobile wizard-btn-next"
-       {% if idx == max_idx %}style="display:none"{% endif %}
-       {% if require_interaction %}
-         aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"
-       {% endif %}
-       aria-label="{{ _('Next') }}">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
-      </svg>
-    </a>
+      <a  id="wizard-prev-btn"
+          {% if phase == 'pre' %}
+          hx-get="{{ url_for('wizard.pre_wizard', idx=idx-1) }}"
+          {% elif phase == 'post' %}
+          hx-get="{{ url_for('wizard.post_wizard', idx=idx-1) }}"
+          {% else %}
+          hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
+          {% endif %}
+          hx-vals='{"dir":"prev"}'
+          hx-target="#wizard-content"
+          hx-swap="outerHTML swap:0s"
+          hx-indicator=".htmx-indicator"
+          class="wizard-btn-mobile wizard-btn-prev"
+          {% if idx == 0 %}style="display:none"{% endif %}
+          aria-label="{{ _('Previous') }}">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+          </svg>
+      </a>
+
+      <a  id="wizard-next-btn"
+          {% if is_pre_final %}
+          href="{{ completion_href }}"
+          hx-get="{{ completion_href }}"
+          hx-target="#wizard-content"
+          hx-swap="outerHTML swap:0s"
+          hx-indicator=".htmx-indicator"
+          data-final-step="1"
+          {% else %}
+          {% if phase == 'pre' %}
+          hx-get="{{ url_for('wizard.pre_wizard', idx=idx+1) }}"
+          {% elif phase == 'post' %}
+          hx-get="{{ url_for('wizard.post_wizard', idx=idx+1) }}"
+          {% else %}
+          hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
+          {% endif %}
+          hx-vals='{"dir":"next"}'
+          hx-target="#wizard-content"
+          hx-swap="outerHTML swap:0s"
+          hx-indicator=".htmx-indicator"
+          {% endif %}
+          class="wizard-btn-mobile wizard-btn-next"
+          {% if not is_pre_final and idx == max_idx %}style="display:none"{% endif %}
+          data-default-aria-label="{{ default_next_label }}"
+          aria-label="{{ completion_label_text if is_pre_final else default_next_label }}"
+          {% if require_interaction %} aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"{% endif %}>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+          </svg>
+      </a>
   </div>
   <!-- DESKTOP NAV BUTTONS (centered below card) -->
   <div class="hidden md:flex justify-center space-x-4 mt-6">
-    <a id="wizard-prev-btn-desktop"
-       hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
-       hx-vals='{"dir":"prev"}'
-       hx-target="#wizard-content"
-       hx-swap="outerHTML swap:0s"
-       hx-indicator=".htmx-indicator"
-       class="btn-nav"
-       {% if idx == 0 %}style="display:none"{% endif %}>‹ {{ _("Previous") }}</a>
-    <a id="wizard-next-btn-desktop"
-       hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
-       hx-vals='{"dir":"next"}'
-       hx-target="#wizard-content"
-       hx-swap="outerHTML swap:0s"
-       hx-indicator=".htmx-indicator"
-       class="btn-nav"
-       {% if idx == max_idx %}style="display:none"{% endif %}
-       {% if require_interaction %}
-         aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"
-       {% endif %}>{{ _('Next') }} ›</a>
+      <a  id="wizard-prev-btn-desktop"
+          {% if phase == 'pre' %}
+          hx-get="{{ url_for('wizard.pre_wizard', idx=idx-1) }}"
+          {% elif phase == 'post' %}
+          hx-get="{{ url_for('wizard.post_wizard', idx=idx-1) }}"
+          {% else %}
+          hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
+          {% endif %}
+          hx-vals='{"dir":"prev"}'
+          hx-target="#wizard-content"
+          hx-swap="outerHTML swap:0s"
+          hx-indicator=".htmx-indicator"
+          class="btn-nav"
+          {% if idx == 0 %}style="display:none"{% endif %}>
+          ‹ {{ _("Previous") }}
+      </a>
+
+      <a  id="wizard-next-btn-desktop"
+          {% if is_pre_final %}
+          href="{{ completion_href }}"
+          hx-get="{{ completion_href }}"
+          hx-target="#wizard-content"
+          hx-swap="outerHTML swap:0s"
+          hx-indicator=".htmx-indicator"
+          data-final-step="1"
+          {% else %}
+          {% if phase == 'pre' %}
+          hx-get="{{ url_for('wizard.pre_wizard', idx=idx+1) }}"
+          {% elif phase == 'post' %}
+          hx-get="{{ url_for('wizard.post_wizard', idx=idx+1) }}"
+          {% else %}
+          hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
+          {% endif %}
+          hx-vals='{"dir":"next"}'
+          hx-target="#wizard-content"
+          hx-swap="outerHTML swap:0s"
+          hx-indicator=".htmx-indicator"
+          {% endif %}
+          class="btn-nav"
+          {% if not is_pre_final and idx == max_idx %}style="display:none"{% endif %}
+          data-default-html="{{ _("Next") }} ›"
+          data-final-html="{{ completion_label_text }}"
+          data-default-aria-label="{{ default_next_label }}"
+          aria-label="{{ completion_label_text if is_pre_final else default_next_label }}"
+          {% if require_interaction %} aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"{% endif %}>
+          {% if is_pre_final %}
+            {{ completion_label_text }}
+          {% else %}
+            {{ _("Next") }} ›
+          {% endif %}
+      </a>
   </div>
 </div>
 <script>
@@ -130,9 +233,9 @@
      *    - HTMX request:  Returns _content.html ONLY (no UI chrome duplication)
      *
      * 3. State Management:
-     *    - Server sends headers: X-Wizard-Idx, X-Require-Interaction
-     *    - Client updates: Progress bars, button URLs, button visibility
-     *    - Wrapper stores: data-current-idx, data-max-idx, data-server-type
+     *    - Server sends headers: X-Wizard-Idx, X-Require-Interaction, X-Wizard-Step-Phase
+     *    - Client updates: Progress bars, button URLs, button visibility, phase badges
+     *    - Wrapper stores: data-current-idx, data-max-idx, data-server-type, data-phase, data-step-phase
      *
      * 4. Mobile Features:
      *    - Fixed progress bar at top (no scroll)
@@ -171,6 +274,8 @@
 
             this.isInitialized = true;
             console.log('WizardController initialized');
+
+            this.updatePhaseBadges(this.getStepPhase());
         },
 
         getCurrentIdx() {
@@ -185,9 +290,35 @@
             return this.wrapper.dataset.serverType;
         },
 
+        getPhase() {
+            return this.wrapper.dataset.phase || '';
+        },
+
+        getStepPhase() {
+            return this.wrapper.dataset.stepPhase || '';
+        },
+
+        getCompletionUrl() {
+            return this.wrapper.dataset.completionUrl || '';
+        },
+
+        getCompletionLabel() {
+            return this.wrapper.dataset.completionLabel || '';
+        },
+
+        getDefaultNextLabel() {
+            return this.wrapper.dataset.nextLabel || 'Next';
+        },
+
         updateUI(xhr) {
             if (!xhr) {
                 console.error('No XHR object provided');
+                return;
+            }
+
+            const hxRedirect = xhr.getResponseHeader('HX-Redirect');
+            if (hxRedirect) {
+                // HTMX will handle navigation; skip local state updates to avoid errors.
                 return;
             }
 
@@ -195,6 +326,7 @@
             const requireInteraction = xhr.getResponseHeader('X-Require-Interaction') === 'true';
             const maxIdx = this.getMaxIdx();
             const serverType = this.getServerType();
+            const newStepPhase = xhr.getResponseHeader('X-Wizard-Step-Phase');
 
             // Validation
             if (isNaN(newIdx) || isNaN(maxIdx)) {
@@ -222,6 +354,12 @@
 
             // Update wrapper state
             this.wrapper.dataset.currentIdx = newIdx;
+            if (typeof newStepPhase === 'string') {
+                this.wrapper.dataset.stepPhase = newStepPhase;
+            }
+
+            const effectiveStepPhase = typeof newStepPhase === 'string' ? newStepPhase : this.getStepPhase();
+            this.updatePhaseBadges(effectiveStepPhase);
 
             // Update progress
             this.updateProgress(newIdx, maxIdx);
@@ -230,57 +368,98 @@
             this.updateButtons(newIdx, maxIdx, serverType, requireInteraction);
         },
 
+        updatePhaseBadges(phase) {
+            const mobileContainer = document.getElementById('wizard-phase-container-mobile');
+            const desktopContainer = document.getElementById('wizard-phase-container-desktop');
+            const mobileLabel = document.getElementById('wizard-phase-label-mobile');
+            const desktopLabel = document.getElementById('wizard-phase-label-desktop');
+
+            const preLabel = this.wrapper.dataset.phaseLabelPre || 'Before Invitation';
+            const postLabel = this.wrapper.dataset.phaseLabelPost || 'After Invitation';
+            const phaseText = phase === 'pre'
+                ? preLabel
+                : phase === 'post'
+                    ? postLabel
+                    : '';
+
+            const PRE_CLASSES = ['bg-blue-100', 'text-blue-800', 'dark:bg-blue-900', 'dark:text-blue-200'];
+            const POST_CLASSES = ['bg-green-100', 'text-green-800', 'dark:bg-green-900', 'dark:text-green-200'];
+
+            const applyClasses = (el) => {
+                if (!el) return;
+                el.classList.remove(...PRE_CLASSES, ...POST_CLASSES);
+                if (phase === 'pre') {
+                    el.classList.add(...PRE_CLASSES);
+                } else if (phase === 'post') {
+                    el.classList.add(...POST_CLASSES);
+                }
+            };
+
+            const updateLabel = (container, label) => {
+                if (!container || !label) return;
+                if (!phaseText) {
+                    container.style.display = 'none';
+                    return;
+                }
+
+                container.style.display = '';
+                label.textContent = phaseText;
+                applyClasses(label);
+            };
+
+            updateLabel(mobileContainer, mobileLabel);
+            updateLabel(desktopContainer, desktopLabel);
+        },
+
         updateProgress(idx, maxIdx) {
-        const percentage = ((idx + 1) / (maxIdx + 1)) * 100;
+            const percentage = ((idx + 1) / (maxIdx + 1)) * 100;
 
-        // Update progress bars
-        ['progress-bar-mobile', 'progress-bar-desktop'].forEach(id => {
-          const bar = document.getElementById(id);
-          if (bar) bar.style.width = `${percentage}%`;
-        });
+            // Update progress bars
+            ['progress-bar-mobile', 'progress-bar-desktop'].forEach(id => {
+                const bar = document.getElementById(id);
+                if (bar) bar.style.width = `${percentage}%`;
+            });
 
-        // Update text using direct child access
-        ['wizard-progress-mobile', 'wizard-progress-desktop'].forEach(id => {
-          const container = document.getElementById(id);
-          if (container) {
-            const flexDiv = container.querySelector('.flex');
-            if (flexDiv) {
-              const stepSpan = flexDiv.children[0];
-              const percentageSpan = flexDiv.children[1];
+            // Update text using direct child access
+            ['wizard-progress-mobile', 'wizard-progress-desktop'].forEach(id => {
+                const container = document.getElementById(id);
+                if (container) {
+                    const flexDiv = container.querySelector('.flex');
+                    if (flexDiv) {
+                        const stepSpan = flexDiv.children[0];
+                        const percentageSpan = flexDiv.children[1];
 
-              if (stepSpan) {
-                // Preserve the localized text pattern, just update the numbers
-                const currentText = stepSpan.textContent || '';
-                // Replace numbers: first occurrence is current step, second is total steps
-                let numberCount = 0;
-                const updatedText = currentText.replace(/\d+/g, () => {
-                  numberCount++;
-                  return numberCount === 1 ? `${idx + 1}` : `${maxIdx + 1}`;
-                });
-                stepSpan.textContent = updatedText;
-              }
-              if (percentageSpan) {
-                percentageSpan.textContent = `${Math.round(percentage)}%`;
-              }
-            }
-          }
-        });
-      },
+                        if (stepSpan) {
+                            // Preserve the localized text pattern, just update the numbers
+                            const currentText = stepSpan.textContent || '';
+                            // Replace numbers: first occurrence is current step, second is total steps
+                            let numberCount = 0;
+                            const updatedText = currentText.replace(/\d+/g, () => {
+                                numberCount++;
+                                return numberCount === 1 ? `${idx + 1}` : `${maxIdx + 1}`;
+                            });
+                            stepSpan.textContent = updatedText;
+                        }
+                        if (percentageSpan) {
+                            percentageSpan.textContent = `${Math.round(percentage)}%`;
+                        }
+                    }
+                }
+            });
+        },
 
         updateButtons(idx, maxIdx, serverType, requireInteraction) {
-            const buttonConfigs = [{
-                id: 'wizard-prev-btn',
-                isPrev: true
-            }, {
-                id: 'wizard-prev-btn-desktop',
-                isPrev: true
-            }, {
-                id: 'wizard-next-btn',
-                isPrev: false
-            }, {
-                id: 'wizard-next-btn-desktop',
-                isPrev: false
-            }];
+            const phase = this.getPhase();
+            const completionUrl = this.getCompletionUrl();
+            const completionLabel = this.getCompletionLabel();
+            const defaultNextLabel = this.getDefaultNextLabel();
+            const isFinalPreStep = phase === 'pre' && idx === maxIdx && completionUrl;
+            const buttonConfigs = [
+                { id: 'wizard-prev-btn', isPrev: true },
+                { id: 'wizard-prev-btn-desktop', isPrev: true },
+                { id: 'wizard-next-btn', isPrev: false },
+                { id: 'wizard-next-btn-desktop', isPrev: false }
+            ];
 
             buttonConfigs.forEach(({
                 id,
@@ -290,18 +469,55 @@
                 if (!btn) return;
 
                 const targetIdx = isPrev ? idx - 1 : idx + 1;
-                const newUrl = `/wizard/${serverType}/${targetIdx}`;
 
-                // Update URL
-                btn.setAttribute('hx-get', newUrl);
+                // Generate URL based on phase
+                let newUrl;
+                if (phase === 'pre') {
+                    newUrl = `/wizard/pre-wizard/${targetIdx}`;
+                } else if (phase === 'post') {
+                    newUrl = `/wizard/post-wizard/${targetIdx}`;
+                } else {
+                    newUrl = `/wizard/${serverType}/${targetIdx}`;
+                }
 
                 // Update visibility and state
                 if (isPrev) {
                     btn.style.display = idx === 0 ? 'none' : '';
+                    btn.setAttribute('hx-get', newUrl);
                 } else {
-                    btn.style.display = idx === maxIdx ? 'none' : '';
+                    const defaultAriaLabel = btn.dataset.defaultAriaLabel || defaultNextLabel;
 
-                    // Handle interaction requirement
+                    if (isFinalPreStep) {
+                        btn.style.display = '';
+                        btn.setAttribute('href', completionUrl);
+                        btn.dataset.finalStep = '1';
+                        btn.setAttribute('hx-get', completionUrl);
+                        btn.removeAttribute('hx-vals');
+                        btn.setAttribute('hx-target', '#wizard-content');
+                        btn.setAttribute('hx-swap', 'outerHTML swap:0s');
+                        btn.setAttribute('hx-indicator', '.htmx-indicator');
+                        const aria = completionLabel || defaultAriaLabel;
+                        btn.setAttribute('aria-label', aria);
+
+                        if (btn.dataset.finalHtml) {
+                            btn.innerHTML = btn.dataset.finalHtml;
+                        }
+                    } else {
+                        btn.style.display = idx === maxIdx ? 'none' : '';
+                        btn.removeAttribute('href');
+                        delete btn.dataset.finalStep;
+                        btn.setAttribute('hx-get', newUrl);
+                        btn.setAttribute('hx-vals', '{"dir":"next"}');
+                        btn.setAttribute('hx-target', '#wizard-content');
+                        btn.setAttribute('hx-swap', 'outerHTML swap:0s');
+                        btn.setAttribute('hx-indicator', '.htmx-indicator');
+                        btn.setAttribute('aria-label', defaultAriaLabel);
+
+                        if (btn.dataset.defaultHtml) {
+                            btn.innerHTML = btn.dataset.defaultHtml;
+                        }
+                    }
+
                     if (requireInteraction) {
                         btn.setAttribute('aria-disabled', 'true');
                         btn.dataset.disabled = '1';
@@ -311,7 +527,8 @@
                     }
                 }
 
-                console.log(`Button ${id}: URL=${newUrl}, visible=${btn.style.display !== 'none'}`);
+                const logTarget = !isPrev && isFinalPreStep ? completionUrl : newUrl;
+                console.log(`Button ${id}: target=${logTarget}, visible=${btn.style.display !== 'none'}`);
             });
 
             // Reinitialize HTMX

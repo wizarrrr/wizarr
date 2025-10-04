@@ -636,7 +636,7 @@ class PlexClient(MediaClient):
         """Get detailed user information in standardized format."""
         from app.services.media.user_details import MediaUserDetails
 
-        user_record = User.query.get(db_id)
+        user_record = db.session.get(User, db_id)
         if not user_record:
             raise ValueError(f"No user found with id {db_id}")
 

@@ -24,6 +24,12 @@
               {{ form.server_type(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
             </div>
             <div>
+              {{ form.category.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.category(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ _('Choose when this step should be shown to users') }}</p>
+            </div>
+
+            <div>
               {{ form.title.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
               {{ form.title(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
             </div>

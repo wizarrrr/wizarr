@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import cast
 
+from app.extensions import db
 from app.models import MediaServer, User
 from app.services.media.service import get_client_for_media_server
 from app.services.media.user_details import MediaUserDetails
@@ -38,7 +39,11 @@ class UserDetailsService:
 
     def get_user_details(self, db_id: int) -> UserDetailsDTO:
         """Retrieve detailed information for a user including linked accounts."""
-        user = User.query.get_or_404(db_id)
+        from flask import abort
+
+        user = db.session.get(User, db_id)
+        if not user:
+            abort(404)
 
         join_date = self._get_join_date(user)
         accounts = self._get_linked_accounts(user)

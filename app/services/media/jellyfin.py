@@ -494,7 +494,7 @@ class JellyfinClient(RestApiMixin):
             if server_id:
                 from app.models import MediaServer
 
-                current_server = MediaServer.query.get(server_id)
+                current_server = db.session.get(MediaServer, server_id)
                 if current_server:
                     if not allow_downloads:
                         allow_downloads = bool(

@@ -365,3 +365,71 @@ Make sure disabled buttons don't get the pointer cursor.
     border-color: rgb(55 65 81);
   }
 }
+
+/* Wizard Admin - Side-by-side layout for pre/post-invite steps */
+.wizard-steps-container {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+}
+
+.wizard-category-section {
+  @apply border rounded-lg p-4 bg-white dark:bg-gray-800;
+}
+
+.server-group {
+  @apply mb-4 last:mb-0;
+}
+
+.step-list {
+  @apply space-y-2;
+}
+
+.empty-state {
+  @apply text-center py-8 text-gray-400 dark:text-gray-500;
+}
+
+/* Mobile: Stack vertically */
+@media (max-width: 768px) {
+  .wizard-steps-container {
+    @apply grid-cols-1;
+  }
+}
+
+/* Drag-and-drop visual feedback for wizard steps */
+.sortable-ghost {
+  @apply opacity-50 bg-blue-100 dark:bg-blue-900;
+}
+
+.sortable-chosen {
+  @apply ring-2 ring-blue-500;
+}
+
+.sortable-drag {
+  @apply shadow-lg;
+}
+
+.drag-handle {
+  @apply cursor-move text-gray-400 hover:text-gray-600 dark:hover:text-gray-300;
+}
+
+/* Wizard steps list styling */
+.wizard-steps {
+  @apply bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700;
+}
+
+.wizard-steps li:not(.empty-state-item) {
+  @apply flex items-center justify-between px-4 py-3 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700;
+}
+
+/* Empty state items should not have hover effects */
+.wizard-steps li.empty-state-item {
+  @apply transition-none;
+}
+
+/* Ensure drag handles are visible and interactive */
+.wizard-steps .drag {
+  @apply cursor-grab active:cursor-grabbing;
+}
+
+.wizard-steps .drag:active {
+  @apply cursor-grabbing;
+}
