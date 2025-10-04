@@ -241,10 +241,8 @@ class AudiobookshelfClient(RestApiMixin):
                                         f"{self.url}/api/items/{entity.get('id')}/cover"
                                     )
 
-                                    # Use image proxy for external access
-                                    import urllib.parse
-
-                                    thumb_url = f"/image-proxy?url={urllib.parse.quote_plus(cover_url)}"
+                                    # Generate secure proxy URL with opaque token
+                                    thumb_url = self.generate_image_proxy_url(cover_url)
 
                                     # Extract metadata
                                     metadata = media.get("metadata", {})

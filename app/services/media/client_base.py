@@ -117,6 +117,26 @@ class MediaClient(ABC):
         self.url = row.url  # type: ignore[attr-defined]
         self.token = row.api_key  # type: ignore[attr-defined]
 
+    def generate_image_proxy_url(self, image_url: str) -> str:
+        """
+        Generate a secure proxy URL for an image.
+
+        Args:
+            image_url: The raw image URL from the media server
+
+        Returns:
+            Secure proxy URL with opaque token: /image-proxy?token=xxx
+        """
+        from urllib.parse import quote_plus
+
+        from app.services.image_proxy import ImageProxyService
+
+        # Generate opaque token for this URL
+        token = ImageProxyService.generate_token(image_url, server_id=self.server_id)
+
+        # Return proxy URL with token
+        return f"/image-proxy?token={quote_plus(token)}"
+
     def _create_user_with_identity_linking(self, user_kwargs: dict) -> User:
         """Create a User record with intelligent identity linking based on invitation type.
 

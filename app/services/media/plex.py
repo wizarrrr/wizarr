@@ -195,10 +195,8 @@ class PlexClient(MediaClient):
                             if poster_url.startswith("/"):
                                 poster_url = f"{self.url.rstrip('/')}{poster_url}"
 
-                            # Use image proxy for external access
-                            import urllib.parse
-
-                            proxied_url = f"/image-proxy?url={urllib.parse.quote_plus(poster_url)}"
+                            # Generate secure proxy URL with opaque token
+                            proxied_url = self.generate_image_proxy_url(poster_url)
                             poster_urls.append(proxied_url)
 
                         if len(poster_urls) >= limit:
@@ -252,12 +250,8 @@ class PlexClient(MediaClient):
                             if thumb_url.startswith("/"):
                                 thumb_url = f"{self.url.rstrip('/')}{thumb_url}"
 
-                            # Use image proxy for external access
-                            import urllib.parse
-
-                            thumb_url = (
-                                f"/image-proxy?url={urllib.parse.quote_plus(thumb_url)}"
-                            )
+                            # Generate secure proxy URL with opaque token
+                            thumb_url = self.generate_image_proxy_url(thumb_url)
 
                             # Extract year from releaseDate
                             year = None

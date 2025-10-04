@@ -754,10 +754,8 @@ class JellyfinClient(RestApiMixin):
                         thumb_url += f"&api_key={self.token}"
 
                 if thumb_url:
-                    # Use image proxy for external access
-                    import urllib.parse
-
-                    thumb_url = f"/image-proxy?url={urllib.parse.quote_plus(thumb_url)}"
+                    # Generate secure proxy URL with opaque token
+                    thumb_url = self.generate_image_proxy_url(thumb_url)
 
                     # Only add items that have images
                     items.append(
