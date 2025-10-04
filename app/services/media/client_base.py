@@ -437,6 +437,7 @@ class MediaClient(ABC):
                     "New User",
                     f"User {username} has joined your server! 🎉",
                     tags="tada",
+                    event_type="user_joined",
                 )
             except Exception as e:
                 logging.warning(f"Failed to send join notification: {e}")

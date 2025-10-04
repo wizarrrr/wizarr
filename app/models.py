@@ -358,6 +358,9 @@ class Notification(db.Model):
     username = db.Column(db.String, nullable=True)
     password = db.Column(db.String, nullable=True)
     channel_id = db.Column(db.Integer, nullable=True)
+    notification_events = db.Column(
+        db.String, nullable=False, default="user_joined,update_available"
+    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

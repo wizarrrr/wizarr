@@ -45,9 +45,21 @@
                   </div>
                   
                   <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button 
+                    <button
+                      hx-get="{{ url_for('notify.edit', agent_id=agent.id) }}"
+                      hx-target="#create-modal"
+                      hx-trigger="click"
+                      _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
+                      class="inline-flex items-center justify-center w-8 h-8 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                      title="{{ _('Edit agent') }}"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                      </svg>
+                    </button>
+                    <button
                       hx-delete="{{ url_for('notify.delete_agent', delete=agent.id) }}"
-                      hx-target="#tab-body" 
+                      hx-target="#tab-body"
                       hx-swap="innerHTML"
                       hx-confirm="{{ _('Are you sure you want to delete') }} {{ agent.name }}?"
                       class="inline-flex items-center justify-center w-8 h-8 text-red-600 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-lg transition-colors"
@@ -60,13 +72,29 @@
                   </div>
                 </div>
                 
-                <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-3">
                   <div class="flex items-center justify-between text-sm">
                     <span class="text-gray-600 dark:text-gray-400">{{ _("Status") }}</span>
                     <span class="inline-flex items-center gap-1 text-green-600 dark:text-green-400">
                       <div class="w-2 h-2 bg-green-500 rounded-full"></div>
                       {{ _("Active") }}
                     </span>
+                  </div>
+                  <div class="text-sm">
+                    <span class="text-gray-600 dark:text-gray-400 block mb-1">{{ _("Events") }}:</span>
+                    <div class="flex flex-wrap gap-1">
+                      {% set events = agent.notification_events.split(',') if agent.notification_events else [] %}
+                      {% if 'user_joined' in events %}
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                          {{ _("User Joined") }}
+                        </span>
+                      {% endif %}
+                      {% if 'update_available' in events %}
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+                          {{ _("Update Available") }}
+                        </span>
+                      {% endif %}
+                    </div>
                   </div>
                 </div>
               </div>

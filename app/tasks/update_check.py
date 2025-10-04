@@ -102,6 +102,7 @@ def fetch_and_cache_manifest(app=None):
                                     title="Wizarr Update Available",
                                     message=f"A new version of Wizarr is available: {raw_version} → {latest_version}",
                                     tags="update,wizarr",
+                                    event_type="update_available",
                                 )
 
                                 # Record that we've notified about this version

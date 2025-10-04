@@ -1127,7 +1127,10 @@ def handle_oauth_token(app, token: str, code: str) -> None:
             mark_server_used(inv, server_id, new_user)
 
         notify(
-            "User Joined", f"User {account.username} has joined your server!", "tada"
+            "User Joined",
+            f"User {account.username} has joined your server!",
+            "tada",
+            event_type="user_joined",
         )
 
         # Pass only what we need: server credentials and Flask app instance

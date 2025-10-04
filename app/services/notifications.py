@@ -89,9 +89,16 @@ def _notifiarr(
     return _send(url, data, headers)
 
 
-def notify(title: str, message: str, tags: str):
-    """Broadcast to every configured agent."""
+def notify(title: str, message: str, tags: str, event_type: str = "user_joined"):
+    """Broadcast to every configured agent that is subscribed to the event type."""
     for agent in Notification.query.all():
+        # Check if agent is subscribed to this event type
+        subscribed_events = (
+            agent.notification_events.split(",") if agent.notification_events else []
+        )
+        if event_type not in subscribed_events:
+            continue
+
         if agent.type == "discord":
             _discord(message, agent.url)
         elif agent.type == "ntfy":
