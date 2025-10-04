@@ -8,21 +8,22 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-09-22 13:02+0000\n"
-"PO-Revision-Date: 2025-05-28 10:05+0000\n"
-"Last-Translator: hyperMBz <hypermb@ymail.com>\n"
+"PO-Revision-Date: 2025-10-04 13:02+0000\n"
+"Last-Translator: Domonkos Magda <magdadomonkos@gmail.com>\n"
+"Language-Team: Hungarian <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/hu/>\n"
 "Language: hu\n"
-"Language-Team: Hungarian <https://hosted.weblate.org/projects/wizarr"
-"/wizarr-universal/hu/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.14-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/blueprints/admin/routes.py:282
 #: app/templates/admin/user_details_modal.html:47
 msgid "Unknown"
-msgstr ""
+msgstr "Ismeretlen"
 
 #: app/blueprints/admin/routes.py:285 app/templates/modals/invite.html:66
 #: app/templates/tables/invite_card.html:45
@@ -38,54 +39,54 @@ msgstr "Lejárt"
 #: app/blueprints/admin/routes.py:364
 #, python-format
 msgid "in %(n)d d"
-msgstr ""
+msgstr "%(n)d napon belül"
 
 #: app/blueprints/admin/routes.py:366
 msgid "in 1 d"
-msgstr ""
+msgstr "1 napon belül"
 
 #: app/blueprints/admin/routes.py:368
 #, python-format
 msgid "in %(n)d h"
-msgstr ""
+msgstr "%(n)d órán belül"
 
 #: app/blueprints/admin/routes.py:370
 #, python-format
 msgid "in %(n)d m"
-msgstr ""
+msgstr "%(n)d percen belül"
 
 #: app/blueprints/admin/routes.py:371
 msgid "soon"
-msgstr ""
+msgstr "hamarosan"
 
 #: app/blueprints/admin_accounts/routes.py:40
-#, fuzzy
 msgid "Admin created"
-msgstr "Létrehozva"
+msgstr "Admin Létrehozta"
 
 #: app/blueprints/admin_accounts/routes.py:66
 msgid "Admin updated"
-msgstr ""
+msgstr "Admin frissítette"
 
 #: app/blueprints/admin_accounts/routes.py:166
 #, python-brace-format
 msgid "All passkeys for {} have been reset"
-msgstr ""
+msgstr "{} minden kulcsa alaphelyzetbe állítva"
 
 #: app/blueprints/admin_accounts/routes.py:170
 #, python-brace-format
 msgid "Failed to reset passkeys for {}"
-msgstr ""
+msgstr "{} kulcsainak alaphelyzetbe állítása sikertelen"
 
 #: app/blueprints/api_keys/routes.py:68
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown "
 "again."
 msgstr ""
+"API kulcs létrehozva. Másold ki most, mert többször nem tudod megtekinteni."
 
 #: app/blueprints/api_keys/routes.py:110
 msgid "API key deleted successfully"
-msgstr ""
+msgstr "API kulcs sikeresen törölve"
 
 #: app/blueprints/auth/routes.py:85
 msgid "Invalid username or password"
@@ -93,181 +94,174 @@ msgstr "Helytelen felhasználónév vagy jelszó"
 
 #: app/blueprints/auth/routes.py:105
 msgid "No pending 2FA authentication"
-msgstr ""
+msgstr "Nincs függőben lévő 2FA hitelesítés"
 
 #: app/blueprints/auth/routes.py:119 app/templates/login.html:150
 #: app/templates/login.html:209 app/templates/login.html:213
-#, fuzzy
 msgid "Authentication failed"
-msgstr "Értesítési Ügynökök"
+msgstr "Hitelesítés sikertelen"
 
 #: app/blueprints/connections/routes.py:52
 #: app/blueprints/connections/routes.py:188
 msgid "Connection type is required"
-msgstr ""
+msgstr "Kapcsolat típusát kötelező megadni"
 
 #: app/blueprints/connections/routes.py:65
 #, python-format
 msgid "Connection test failed: %(message)s"
-msgstr ""
+msgstr "Csatlakozási próba sikertelen: %(message)s"
 
 #: app/blueprints/connections/routes.py:75
 msgid "Connection test successful!"
-msgstr ""
+msgstr "Csatlakozási próba sikeres!"
 
 #: app/blueprints/connections/routes.py:78
 #: app/blueprints/connections/routes.py:204
 msgid "Unknown connection type"
-msgstr ""
+msgstr "Ismeretlen kapcsolat típus"
 
 #: app/blueprints/connections/routes.py:95
 msgid "Connection created successfully!"
-msgstr ""
+msgstr "Kapcsolat sikeresen létrehozva!"
 
 #: app/blueprints/connections/routes.py:124
 msgid "Connection updated successfully!"
-msgstr ""
+msgstr "Kapcsolat sikeresen frissítve!"
 
 #: app/blueprints/connections/routes.py:146
 msgid "Connection deleted successfully!"
-msgstr ""
+msgstr "Kapcsolat sikeresen törölve!"
 
 #: app/blueprints/connections/routes.py:165
 msgid "Please refresh the page and try again (CSRF token expired)"
-msgstr ""
+msgstr "Kérlek frissítsd az oldalt és próbálkozz újra (CSRF token lejárt)"
 
 #: app/blueprints/connections/routes.py:170
 #, python-format
 msgid "Invalid form data: %(errors)s"
-msgstr ""
+msgstr "Érvénytelen űrlap adat: %(errors)s"
 
 #: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:270
 msgid "Settings saved successfully!"
-msgstr ""
+msgstr "Beállítások sikeresen mentve!"
 
 #: app/blueprints/settings/routes.py:216
-#, fuzzy
 msgid "Server URL"
-msgstr "Szerver"
+msgstr "Szerver URL"
 
 #: app/blueprints/settings/routes.py:219
 msgid "API Key"
-msgstr ""
+msgstr "API Kulcs"
 
 #: app/blueprints/settings/routes.py:219
-#, fuzzy
 msgid "Username/Password"
-msgstr "Helytelen felhasználónév vagy jelszó"
+msgstr "Felhasználónév/Jelszó"
 
 #: app/blueprints/settings/routes.py:222
 #, python-brace-format
 msgid "Missing required fields: {fields}"
-msgstr ""
+msgstr "Hiányzó kötelező mezők: {fields}"
 
 #: app/blueprints/settings/routes.py:225 app/blueprints/settings/routes.py:235
 #: app/templates/components/passkey_error.html:7
 msgid "Error"
-msgstr ""
+msgstr "Hiba"
 
 #: app/blueprints/settings/routes.py:234
 msgid "Library scan failed"
-msgstr "A könyvtár beolvasása sikertelen"
+msgstr "A könyvtár vizsgálat sikertelen"
 
 #: app/blueprints/setup/routes.py:74
 msgid "Admin account created – welcome!"
-msgstr ""
+msgstr "Admin felhasználó létrehozva - üdvözöllek!"
 
 #: app/blueprints/wizard_admin/routes.py:114
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
-msgstr ""
+msgstr "{} darab árva lépés eltávolítva"
 
 #: app/blueprints/wizard_admin/routes.py:183
-#, fuzzy
 msgid "Step created"
-msgstr "Létrehozva"
+msgstr "Lépés létrehozva"
 
 #: app/blueprints/wizard_admin/routes.py:256
 msgid "Preset step created successfully"
-msgstr ""
+msgstr "Minta lépés sikeresen létrehozva"
 
 #: app/blueprints/wizard_admin/routes.py:264
 #, python-brace-format
 msgid "Error creating preset: {}"
-msgstr ""
+msgstr "Hiba a minta létrehozásában: {}"
 
 #: app/blueprints/wizard_admin/routes.py:296
 msgid "Step updated"
-msgstr ""
+msgstr "Lépés frissítve"
 
 #: app/blueprints/wizard_admin/routes.py:334
-#, fuzzy
 msgid "Step deleted"
-msgstr "Töröl"
+msgstr "Lépés törölve"
 
 #: app/blueprints/wizard_admin/routes.py:404
-#, fuzzy
 msgid "Bundle created"
-msgstr "Létrehozva"
+msgstr "Csomag létrehozva"
 
 #: app/blueprints/wizard_admin/routes.py:434
 msgid "Bundle updated"
-msgstr ""
+msgstr "Csomag frissítve"
 
 #: app/blueprints/wizard_admin/routes.py:458
-#, fuzzy
 msgid "Bundle deleted"
-msgstr "Töröl"
+msgstr "Csomag törölve"
 
 #: app/blueprints/wizard_admin/routes.py:536
 msgid "Steps added"
-msgstr ""
+msgstr "Lépés hozzáadva"
 
 #: app/blueprints/wizard_admin/routes.py:548
 msgid "Orphaned step removed"
-msgstr ""
+msgstr "Árva lépés törölve"
 
 #: app/blueprints/wizard_admin/routes.py:566
 #, python-brace-format
 msgid "No steps found for server type: {}"
-msgstr ""
+msgstr "Ilyen típusú szerverhez nincsenek lépések: {}"
 
 #: app/blueprints/wizard_admin/routes.py:590
 #: app/blueprints/wizard_admin/routes.py:627
 #: app/blueprints/wizard_admin/routes.py:632
 #, python-brace-format
 msgid "Export failed: {}"
-msgstr ""
+msgstr "Exportálás sikertelen: {}"
 
 #: app/blueprints/wizard_admin/routes.py:677
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully imported {} items"
-msgstr "Sikeresen generált meghívót!"
+msgstr "{} darab elem sikeresen importálva"
 
 #: app/blueprints/wizard_admin/routes.py:681
 #, python-brace-format
 msgid " and updated {} existing items"
-msgstr ""
+msgstr " és {} darab létező elem frissítve"
 
 #: app/blueprints/wizard_admin/routes.py:686
 #: app/blueprints/wizard_admin/routes.py:693
 #, python-brace-format
 msgid "Import failed: {}"
-msgstr ""
+msgstr "Import sikertelen: {}"
 
 #: app/blueprints/wizard_admin/routes.py:691
 msgid "Invalid JSON file"
-msgstr ""
+msgstr "Érvénytelen JSON fájl"
 
 #: app/services/servers.py:16
 #, python-format
 msgid "Server returned status code %(status_code)s"
-msgstr ""
+msgstr "Szerver %(status_code)s állapot kóddal tért vissza"
 
 #: app/services/servers.py:27
 #, python-format
 msgid "%(server_type)s server returned an error: %(error)s"
-msgstr ""
+msgstr "%(server_type)s szerver %(error)s hibával tért vissza"
 
 #: app/services/servers.py:34
 #, python-format
@@ -275,6 +269,8 @@ msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
 msgstr ""
+"Sikertelen csatlakozás a %(server_type)s szerverhez. Ellenőrizd, hogy a "
+"szerver valóban fut és az URL helyes."
 
 #: app/services/servers.py:40
 #, python-format
@@ -282,6 +278,8 @@ msgid ""
 "Connection to %(server_type)s server timed out. Please check if the "
 "server is running and accessible."
 msgstr ""
+"A %(server_type)s szerverhez sikertelen a csatlakozás, időtúllépés miatt. "
+"Kérlek ellenőrizd, hogy a szerver fut és elérhető."
 
 #: app/services/servers.py:46
 #, python-format
@@ -289,6 +287,8 @@ msgid ""
 "An error occurred while connecting to the %(server_type)s server: "
 "%(error)s"
 msgstr ""
+"Hiba lépett fel a %(server_type)s szerverhez való csatlakozás közben: %"
+"(error)s"
 
 #: app/services/servers.py:53
 #, python-format
@@ -296,62 +296,64 @@ msgid ""
 "An unexpected error occurred while connecting to the %(server_type)s "
 "server: %(error)s"
 msgstr ""
+"Váratlan hiba lépett fel a %(server_type)s szervhez való csatlakozás közben: "
+"%(error)s"
 
 #: app/services/servers.py:66
 msgid "Plex"
-msgstr ""
+msgstr "Plex"
 
 #: app/services/servers.py:80
 msgid "Jellyfin"
-msgstr ""
+msgstr "Jellyfin"
 
 #: app/services/servers.py:87
 msgid "Emby"
-msgstr ""
+msgstr "Emby"
 
 #: app/services/servers.py:113
 msgid "Audiobookshelf"
-msgstr ""
+msgstr "Audiobookshelf"
 
 #: app/services/servers.py:143
 msgid "RomM"
-msgstr ""
+msgstr "RomM"
 
 #: app/services/servers.py:168
 msgid "Komga"
-msgstr ""
+msgstr "Komga"
 
 #: app/services/servers.py:220
 msgid "Kavita"
-msgstr ""
+msgstr "Kavita"
 
 #: app/services/servers.py:277
 msgid "Navidrome"
-msgstr ""
+msgstr "Navidrome"
 
 #: app/services/servers.py:299
 msgid "Invalid API token or insufficient permissions."
-msgstr ""
+msgstr "Érvénytelen API kulcs, vagy nem megfelelő jogosultságok."
 
 #: app/services/servers.py:301
 msgid "API token lacks required permissions."
-msgstr ""
+msgstr "Az API kulcsnak nem megfelelőek a jogosultságai."
 
 #: app/services/servers.py:306
 msgid "Could not connect to Drop server."
-msgstr ""
+msgstr "Nem sikerült csatlakozni a Drop szerverhez."
 
 #: app/services/servers.py:308
 msgid "Connection to Drop server timed out."
-msgstr ""
+msgstr "A Drop szerver csatlakozás sikertelen, idő túllépés miatt."
 
 #: app/services/servers.py:311
 msgid "Drop API not found. Check the server URL."
-msgstr ""
+msgstr "Drop API nem található. Ellenőrizd a szerver URL-t."
 
 #: app/services/servers.py:314
 msgid "Drop"
-msgstr ""
+msgstr "Drop"
 
 #: app/templates/admin.html:5 app/templates/admin/user_details_modal.html:92
 msgid "Admin"
@@ -359,40 +361,39 @@ msgstr "Admin"
 
 #: app/templates/admin.html:85
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: app/templates/admin.html:95
 msgid "Logout"
-msgstr ""
+msgstr "Kijelentkezés"
 
 #: app/templates/admin/accepted_invites_card.html:8
 msgid "Latest Accepted Invites"
-msgstr ""
+msgstr "Utoljára Jóváhagyott Meghívások"
 
 #: app/templates/admin/accepted_invites_card.html:32
 msgid "Recently joined"
-msgstr ""
+msgstr "Utoljára csatlakozott"
 
 #: app/templates/admin/accepted_invites_card.html:124
 msgid "No recent invitations accepted"
-msgstr ""
+msgstr "Nincsenek utoljára jóváhagyott meghívások"
 
 #: app/templates/admin/accepted_invites_card.html:125
 msgid "Accepted invitations will appear here"
-msgstr ""
+msgstr "A jóváhagyott meghívások itt fognak megjelenni"
 
 #: app/templates/admin/home.html:6
 msgid "Dashboard"
-msgstr ""
+msgstr "Kezelőpult"
 
 #: app/templates/admin/home.html:16 app/templates/admin/invites.html:14
-#, fuzzy
 msgid "New Invite"
-msgstr "Gyors meghívás"
+msgstr "Új meghívás"
 
 #: app/templates/admin/home.html:30
 msgid "Now Playing"
-msgstr ""
+msgstr "Most játszott"
 
 #: app/templates/admin/invites.html:5
 msgid "Invitations"
@@ -400,97 +401,91 @@ msgstr "Meghívások"
 
 #: app/templates/admin/library_breakdown_card.html:8
 msgid "Library Breakdown"
-msgstr ""
+msgstr "Könyvtár lebontás"
 
 #: app/templates/admin/library_breakdown_card.html:79
-#, fuzzy
 msgid "Per Server"
-msgstr "Szerver"
+msgstr "Per Szerver"
 
 #: app/templates/admin/library_breakdown_card.html:101
 #: app/templates/admin/library_breakdown_card.html:115
-#, fuzzy
 msgid "No libraries found"
-msgstr "Könyvtárak keresése"
+msgstr "Nem található könyvtár"
 
 #: app/templates/admin/library_breakdown_card.html:116
 msgid "Configure your media servers to see library statistics"
-msgstr ""
+msgstr "A könyvtár statisztikák megjelenítéséhez hozz létre a média szervert"
 
 #: app/templates/admin/library_breakdown_card.html:128
-#, fuzzy
 msgid "Failed to load libraries"
-msgstr "Könyvtárak keresése"
+msgstr "Könyvtárak betöltése sikertelen"
 
 #: app/templates/admin/library_breakdown_card.html:129
 #: app/templates/admin/recent_content_card.html:126
 #: app/templates/admin/server_health_card.html:172
 #: app/templates/admin/server_stats_card.html:81
 msgid "Unknown error occurred"
-msgstr ""
+msgstr "Ismeretlen hiba történt"
 
 #: app/templates/admin/now_playing_cards.html:6
 msgid "Unable to load now playing"
-msgstr ""
+msgstr "Nem lehet betölteni a most játszottakat"
 
 #: app/templates/admin/now_playing_cards.html:7
 msgid "There was an error connecting to your media servers"
-msgstr ""
+msgstr "Hiba lépett fel a média szerverekhez való csatlakozáskor"
 
 #: app/templates/admin/now_playing_cards.html:15
 msgid "No one is watching"
-msgstr ""
+msgstr "Senki nem néz éppen semmit"
 
 #: app/templates/admin/now_playing_cards.html:16
 msgid "No active media sessions found across your servers"
-msgstr ""
+msgstr "Nincsenek aktív média folyamok a szervereiden"
 
 #: app/templates/admin/recent_content_card.html:8
 msgid "Recently Added"
-msgstr ""
+msgstr "Frissen hozzáadva"
 
 #: app/templates/admin/recent_content_card.html:101
 msgid "Showing latest 10 items"
-msgstr ""
+msgstr "A legfrissebb 10 megjelenítése"
 
 #: app/templates/admin/recent_content_card.html:112
 msgid "No recent content found"
-msgstr ""
+msgstr "Nem található friss tartalom"
 
 #: app/templates/admin/recent_content_card.html:113
 msgid "Add some content to your media servers to see it here"
-msgstr ""
+msgstr "Adj hozzá tartalmat a média szervereidhez, hogy itt megjelenjenek"
 
 #: app/templates/admin/recent_content_card.html:125
 msgid "Failed to load recent content"
-msgstr ""
+msgstr "Nem sikerült betölteni a friss tartalmakat"
 
 #: app/templates/admin/server_health_card.html:8
-#, fuzzy
 msgid "Server Health"
-msgstr "Szerver Beállítások"
+msgstr "Szerver állapot"
 
 #: app/templates/admin/server_health_card.html:45
 #: app/templates/admin/server_stats_card.html:35
-#, fuzzy
 msgid "Online"
-msgstr "Csatlakozzon a"
+msgstr "Online"
 
 #: app/templates/admin/server_health_card.html:49
 msgid "Offline"
-msgstr ""
+msgstr "Offline"
 
 #: app/templates/admin/server_health_card.html:65
 #: app/templates/admin/server_stats_card.html:29
 #: app/templates/settings/notifications.html:68
-#, fuzzy
 msgid "Active"
-msgstr "Mentés"
+msgstr "Aktív"
 
 #: app/templates/admin/server_health_card.html:76
 #: app/templates/admin/server_health_card.html:105
 msgid "Transcoding"
-msgstr ""
+msgstr "Transzkódolás"
 
 #: app/templates/admin/server_health_card.html:86
 #: app/templates/admin/server_stats_card.html:23
@@ -499,46 +494,43 @@ msgstr "Felhasználók"
 
 #: app/templates/admin/server_health_card.html:98
 msgid "Active Sessions"
-msgstr ""
+msgstr "Aktív folyamok"
 
 #: app/templates/admin/server_health_card.html:123
 msgid "Server is currently unreachable"
-msgstr ""
+msgstr "A szerver jelenleg nem elérhető"
 
 #: app/templates/admin/server_health_card.html:139
 msgid "of"
-msgstr ""
+msgstr "-ból"
 
 #: app/templates/admin/server_health_card.html:141
-#, fuzzy
 msgid "servers online"
-msgstr "Szerver Beállítások"
+msgstr "online szerverek"
 
 #: app/templates/admin/server_health_card.html:146
-#, fuzzy
 msgid "server(s) need attention"
-msgstr "Szerver Beállítások"
+msgstr "szerver(ek) figyelmet igényel(nek)"
 
 #: app/templates/admin/server_health_card.html:158
 msgid "No servers configured"
-msgstr ""
+msgstr "Nincs konfigurált szerver"
 
 #: app/templates/admin/server_health_card.html:159
 msgid "Add media servers to monitor their health"
-msgstr ""
+msgstr "Adj hozzá média szervert, hogy lásd az állapotukat"
 
 #: app/templates/admin/server_health_card.html:171
 msgid "Failed to load server health"
-msgstr ""
+msgstr "Nem sikerült betölteni a szerver állapotát"
 
 #: app/templates/admin/server_stats_card.html:8
-#, fuzzy
 msgid "Server Overview"
-msgstr "Szerver Beállítások"
+msgstr "Szerver áttekintés"
 
 #: app/templates/admin/server_stats_card.html:17
 msgid "Items"
-msgstr ""
+msgstr "Elemek"
 
 #: app/templates/admin/server_stats_card.html:41
 msgid "Server Breakdown"
@@ -546,24 +538,23 @@ msgstr ""
 
 #: app/templates/admin/server_stats_card.html:68
 msgid "No active servers found"
-msgstr ""
+msgstr "Nincsenek aktív szerverek"
 
 #: app/templates/admin/server_stats_card.html:80
 msgid "Failed to load statistics"
-msgstr ""
+msgstr "Nem sikerült betölteni a statisztikákat"
 
 #: app/templates/admin/user_details_modal.html:10
 msgid "User Details"
-msgstr ""
+msgstr "Felhasználó részletek"
 
 #: app/templates/admin/user_details_modal.html:46
-#, fuzzy
 msgid "Joined"
-msgstr "Csatlakozzon a"
+msgstr "Csatlakozott"
 
 #: app/templates/admin/user_details_modal.html:54
 msgid "Account Details"
-msgstr ""
+msgstr "Fiók részletek"
 
 #: app/templates/admin/user_details_modal.html:61
 #: app/templates/tables/invite_card.html:238
@@ -572,31 +563,28 @@ msgid "Libraries"
 msgstr "Könyvtárak"
 
 #: app/templates/admin/user_details_modal.html:78
-#, fuzzy
 msgid "All libraries"
-msgstr "Könyvtárak"
+msgstr "Minden könyvtár"
 
 #: app/templates/admin/user_details_modal.html:85
-#, fuzzy
 msgid "Permissions"
-msgstr "Engedély megtagadva."
+msgstr "Engedélyek"
 
 #: app/templates/admin/user_details_modal.html:101
-#, fuzzy
 msgid "Downloads"
-msgstr "Letöltések engedélyezése"
+msgstr "Letöltések"
 
 #: app/templates/admin/user_details_modal.html:110
 msgid "Live TV"
-msgstr ""
+msgstr "Élő TV"
 
 #: app/templates/admin/user_details_modal.html:119
 msgid "Camera Upload"
-msgstr ""
+msgstr "Kamera feltöltések"
 
 #: app/templates/admin/user_details_modal.html:128
 msgid "Basic Access"
-msgstr ""
+msgstr "Alap hozzáférés"
 
 #: app/templates/admin/user_details_modal.html:142
 #: app/templates/components/admin_passkeys.html:58
@@ -604,7 +592,7 @@ msgstr ""
 #: app/templates/components/passkey_error.html:17
 #: app/templates/modals/invite.html:332
 msgid "Close"
-msgstr ""
+msgstr "Bezár"
 
 #: app/templates/admin/user_modal.html:10
 msgid "Edit expiry"
@@ -612,51 +600,50 @@ msgstr "Szerkesztés lejárat"
 
 #: app/templates/admin/user_modal.html:26
 msgid "Server-specific Expiry Management"
-msgstr ""
+msgstr "Szerver specifikus lejárat beállítása"
 
 #: app/templates/admin/user_modal.html:29
 msgid ""
 "This user exists on multiple servers. You can set different expiry dates "
 "for each server."
 msgstr ""
+"Ez a felhasználó több szerveren létezik. Különböző lejárati dátumot tudsz "
+"beállítani neki minden szerveren."
 
 #: app/templates/admin/user_modal.html:53
-#, fuzzy
 msgid "Expiry date"
-msgstr "Lejár"
+msgstr "Lejárati dátum"
 
 #: app/templates/admin/user_modal.html:63
 msgid "Update"
-msgstr ""
+msgstr "Frissítés"
 
 #: app/templates/admin/user_modal.html:69
-#, fuzzy
 msgid "Current expiry"
-msgstr "Szerkesztés lejárat"
+msgstr "Jelenlegi lejárat"
 
 #: app/templates/admin/user_modal.html:71
-#, fuzzy
 msgid "No expiry set"
-msgstr "Lejár"
+msgstr "Nincs lejárat beállítva"
 
 #: app/templates/admin/user_modal.html:81
 #: app/templates/admin/user_modal.html:117
 #: app/templates/tables/user_card.html:106
 msgid "Notes"
-msgstr ""
+msgstr "Megjegyzések"
 
 #: app/templates/admin/user_modal.html:87
 #: app/templates/admin/user_modal.html:120
 msgid "Add notes about this user..."
-msgstr ""
+msgstr "Adj hozzá megjegyzést ehhez a felhasználóhoz..."
 
 #: app/templates/admin/user_modal.html:93
 msgid "Update Notes"
-msgstr ""
+msgstr "Megjegyzés frissítése"
 
 #: app/templates/admin/user_modal.html:107
 msgid "Expiry date (leave blank for never)"
-msgstr "Lejárati idő (üresen hagyva, ha soha)"
+msgstr "Lejárati idő (hagyd üresen, ha nincs)"
 
 #: app/templates/admin/user_modal.html:127
 #: app/templates/modals/edit-admin.html:33
@@ -695,16 +682,15 @@ msgstr "Mentés"
 #: app/templates/settings/wizard/preset_form.html:43
 #: app/templates/settings/wizard/simple_form.html:32
 msgid "Cancel"
-msgstr "Törölje"
+msgstr "Mégse"
 
 #: app/templates/admin/user_modal.html:142
-#, fuzzy
 msgid "Invitation Details"
-msgstr "Meghívások"
+msgstr "Meghívás részletek"
 
 #: app/templates/admin/user_modal.html:145
 msgid "Code"
-msgstr ""
+msgstr "Kód"
 
 #: app/templates/admin/user_modal.html:147 app/templates/modals/invite.html:116
 #: app/templates/modals/invite.html:149
@@ -718,18 +704,16 @@ msgid "days"
 msgstr "napok"
 
 #: app/templates/admin/user_modal.html:150
-#, fuzzy
 msgid "Invitation expires"
-msgstr "Meghívások"
+msgstr "Meghívás lejár"
 
 #: app/templates/admin/users.html:176
-#, fuzzy
 msgid "Link"
-msgstr "Bejelentkezés"
+msgstr "Össze csatolás"
 
 #: app/templates/admin/users.html:177
 msgid "Unlink"
-msgstr ""
+msgstr "Csatlakozás bontása"
 
 #: app/templates/admin/users.html:178 app/templates/servers/index.html:27
 #: app/templates/settings/connections.html:120
@@ -738,11 +722,11 @@ msgstr "Töröl"
 
 #: app/templates/choose-password.html:10
 msgid "Complete your access"
-msgstr ""
+msgstr "Fejezd be a hozzáférésed"
 
 #: app/templates/choose-password.html:15
 msgid "Choose a password for the remaining servers"
-msgstr ""
+msgstr "Válassz jelszót a fennmaradó szerverekhez"
 
 #: app/templates/choose-password.html:23
 #: app/templates/hybrid-password-form.html:124 app/templates/login.html:52
@@ -754,22 +738,21 @@ msgstr "Jelszó"
 #: app/templates/choose-password.html:27
 #: app/templates/hybrid-password-form.html:139
 #: app/templates/welcome-jellyfin.html:157
-#, fuzzy
 msgid "Confirm Password"
-msgstr "Jelszó"
+msgstr "Jelszó újra"
 
 #: app/templates/choose-password.html:32
 msgid "Generate a strong random password instead"
-msgstr ""
+msgstr "Generálj egy erős, véletlenszerű jelszót inkább"
 
 #: app/templates/choose-password.html:34
 msgid "Continue"
-msgstr ""
+msgstr "Folytatás"
 
 #: app/templates/components/admin_passkeys.html:5
 #, python-brace-format
 msgid "Passkeys for {}"
-msgstr ""
+msgstr "Belépési kulcsok a {}-hoz"
 
 #: app/templates/components/admin_passkeys.html:29
 #: app/templates/tables/invite_card.html:183
@@ -778,98 +761,98 @@ msgstr "Létrehozva"
 
 #: app/templates/components/admin_passkeys.html:33
 #: app/templates/components/passkey_list.html:17
-#, fuzzy
 msgid "Last used"
-msgstr "Használt"
+msgstr "Utoljára használva"
 
 #: app/templates/components/admin_passkeys.html:54
 msgid "Reset All Passkeys"
-msgstr ""
+msgstr "Minden hozzáférési kulcs visszaállítása"
 
 #: app/templates/components/admin_passkeys.html:68
 msgid "No passkeys registered for this user."
-msgstr ""
+msgstr "Nincs hozzáférési kulcs regisztrálva ehhez a felhasználóhoz."
 
 #: app/templates/components/admin_passkeys.html:80
 msgid "Are you sure you want to delete this passkey?"
-msgstr ""
+msgstr "Biztosan szeretnéd törölni ezt a hozzáférési kulcsot?"
 
 #: app/templates/components/admin_passkeys.html:92
 msgid "Failed to delete passkey"
-msgstr ""
+msgstr "A hozzáférési kulcs törlése sikertelen"
 
 #: app/templates/components/admin_passkeys.html:97
 msgid "An error occurred while deleting the passkey"
-msgstr ""
+msgstr "Hiba történt a hozzáférési kulcs törlésekor"
 
 #: app/templates/components/admin_passkeys.html:103
 #, python-brace-format
 msgid "Are you sure you want to reset ALL passkeys for {}?"
 msgstr ""
+"Biztos vagy benne, hogy MINDEN hozzáférési kulcsot szeretnél törölni ehhez "
+"{}?"
 
 #: app/templates/components/admin_passkeys.html:103
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Ezt a lépést nem lehet vissza vonni."
 
 #: app/templates/components/admin_passkeys.html:112
 msgid "All passkeys have been reset"
-msgstr ""
+msgstr "Minden hozzáférési kulcs vissza állítva"
 
 #: app/templates/components/admin_passkeys.html:115
 msgid "Failed to reset passkeys"
-msgstr ""
+msgstr "A hozzáférési kulcs vissza állítása sikertelen"
 
 #: app/templates/components/admin_passkeys.html:120
 msgid "An error occurred while resetting passkeys"
-msgstr ""
+msgstr "Hiba lépett fel a hozzáférési kulcsok visszaállításakor"
 
 #: app/templates/components/passkey_add_form.html:3
 msgid "Add New Passkey"
-msgstr ""
+msgstr "Új hozzáférési kulcs hozzáadása"
 
 #: app/templates/components/passkey_add_form.html:10
-#, fuzzy
 msgid "Passkey Name"
-msgstr "Felhasználónév"
+msgstr "Hozzáférési kulcs neve"
 
 #: app/templates/components/passkey_add_form.html:17
 msgid "e.g., My iPhone, Work Laptop"
-msgstr ""
+msgstr "pl. Telefonom, Munkahelyi Laptop"
 
 #: app/templates/components/passkey_add_form.html:30
 #: app/templates/components/passkey_register.html:3
-#, fuzzy
 msgid "Create Passkey"
-msgstr "Ügynök Létrehozása"
+msgstr "Hozzáférési kulcs létrehozása"
 
 #: app/templates/components/passkey_list.html:15
 msgid "Added"
-msgstr ""
+msgstr "Hozzáadva"
 
 #: app/templates/components/passkey_list.html:40
 msgid "No passkeys registered"
-msgstr ""
+msgstr "Nincs hozzáférési kulcs regisztrálva"
 
 #: app/templates/components/passkey_list.html:41
 msgid "Add your first passkey for enhanced security"
-msgstr ""
+msgstr "Hozd létre az első hozzáférési kulcsod a nagyobb biztonságért"
 
 #: app/templates/components/passkey_management.html:9
 msgid "Passkeys"
-msgstr ""
+msgstr "Hozzáférési kulcsok"
 
 #: app/templates/components/passkey_management.html:16
 #: app/templates/components/passkey_management.html:25
 msgid "Passkeys require HTTPS connection"
-msgstr ""
+msgstr "A hozzáférési kulcsokhoz HTTPS kapcsolat kell"
 
 #: app/templates/components/passkey_management.html:17
 msgid "Add Passkey"
-msgstr ""
+msgstr "Hozzáférési kulcs hozzáadása"
 
 #: app/templates/components/passkey_management.html:27
 msgid "To use passkeys, please access this page over HTTPS."
 msgstr ""
+"A hozzáférési kulcs használatához, nyisd meg az oldalt HTTPS-en keresztül."
 
 #: app/templates/components/passkey_management.html:29
 msgid "Manage your passkeys for passwordless authentication."
@@ -2596,4 +2579,3 @@ msgstr "Következő"
 
 #~ msgid "Available"
 #~ msgstr "Elérhető"
-
