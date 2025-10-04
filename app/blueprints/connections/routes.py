@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 from flask_babel import gettext as _
 from flask_login import login_required
 
@@ -109,7 +109,9 @@ def create_connection():
 @login_required
 def edit_connection(connection_id: int):
     """Edit an existing connection."""
-    connection = Connection.query.get_or_404(connection_id)
+    connection = db.session.get(Connection, connection_id)
+    if not connection:
+        abort(404)
     form = ConnectionForm(obj=connection)
 
     if form.validate_on_submit():
@@ -138,7 +140,9 @@ def edit_connection(connection_id: int):
 @login_required
 def delete_connection(connection_id: int):
     """Delete a connection."""
-    connection = Connection.query.get_or_404(connection_id)
+    connection = db.session.get(Connection, connection_id)
+    if not connection:
+        abort(404)
 
     db.session.delete(connection)
     db.session.commit()

@@ -542,8 +542,8 @@ class TestInvitationUIComponents:
         expect(page.locator("label").filter(has_text="Password").first).to_be_visible()
         expect(page.locator("label").filter(has_text="Email")).to_be_visible()
 
-        # Check form has proper structure
-        expect(page.locator("form")).to_have_attribute("method", "POST")
+        # Check form has proper structure (HTML attributes are case-insensitive)
+        expect(page.locator("form")).to_have_attribute("method", "post")
 
         # Test keyboard navigation
         page.keyboard.press("Tab")  # Should focus first input

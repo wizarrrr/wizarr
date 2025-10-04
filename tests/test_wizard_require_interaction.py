@@ -15,8 +15,13 @@ def _enable_wizard_access(client):
 def test_db_step_requires_interaction_renders_next_disabled(app, client):
     # Arrange: create a DB-backed step that requires interaction
     with app.app_context():
+        # Clean up any existing steps first to avoid unique constraint violations
+        db.session.query(WizardStep).filter_by(server_type="plex").delete()
+        db.session.commit()
+
         step = WizardStep(
             server_type="plex",
+            category="post_invite",  # Explicitly set category
             position=0,
             title="Download",
             markdown="# Please download\n[Click me](https://example.com)",

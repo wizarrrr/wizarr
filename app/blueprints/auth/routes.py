@@ -107,7 +107,7 @@ def complete_2fa():
         )
 
     # Get the user account
-    account = AdminAccount.query.get(user_id)
+    account = db.session.get(AdminAccount, user_id)
     if not account:
         session.pop("pending_2fa_user_id", None)
         session.pop("pending_2fa_remember", None)
