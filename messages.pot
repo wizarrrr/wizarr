@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-04 03:34+0000\n"
+"POT-Creation-Date: 2025-10-06 03:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -171,81 +171,81 @@ msgstr ""
 msgid "Admin account created – welcome!"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:114
+#: app/blueprints/wizard_admin/routes.py:120
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:183
+#: app/blueprints/wizard_admin/routes.py:189
 msgid "Step created"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:256
+#: app/blueprints/wizard_admin/routes.py:262
 msgid "Preset step created successfully"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:264
+#: app/blueprints/wizard_admin/routes.py:270
 #, python-brace-format
 msgid "Error creating preset: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:296
+#: app/blueprints/wizard_admin/routes.py:302
 msgid "Step updated"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:334
+#: app/blueprints/wizard_admin/routes.py:340
 msgid "Step deleted"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:404
+#: app/blueprints/wizard_admin/routes.py:410
 msgid "Bundle created"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:434
+#: app/blueprints/wizard_admin/routes.py:440
 msgid "Bundle updated"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:458
+#: app/blueprints/wizard_admin/routes.py:464
 msgid "Bundle deleted"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:536
+#: app/blueprints/wizard_admin/routes.py:542
 msgid "Steps added"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:548
+#: app/blueprints/wizard_admin/routes.py:554
 msgid "Orphaned step removed"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:566
+#: app/blueprints/wizard_admin/routes.py:572
 #, python-brace-format
 msgid "No steps found for server type: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:590
-#: app/blueprints/wizard_admin/routes.py:627
-#: app/blueprints/wizard_admin/routes.py:632
+#: app/blueprints/wizard_admin/routes.py:596
+#: app/blueprints/wizard_admin/routes.py:633
+#: app/blueprints/wizard_admin/routes.py:638
 #, python-brace-format
 msgid "Export failed: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:677
+#: app/blueprints/wizard_admin/routes.py:683
 #, python-brace-format
 msgid "Successfully imported {} items"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:681
+#: app/blueprints/wizard_admin/routes.py:687
 #, python-brace-format
 msgid " and updated {} existing items"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:686
-#: app/blueprints/wizard_admin/routes.py:693
+#: app/blueprints/wizard_admin/routes.py:692
+#: app/blueprints/wizard_admin/routes.py:699
 #, python-brace-format
 msgid "Import failed: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:691
+#: app/blueprints/wizard_admin/routes.py:697
 msgid "Invalid JSON file"
 msgstr ""
 
@@ -870,7 +870,7 @@ msgstr ""
 
 #: app/templates/admin/server_health_card.html:65
 #: app/templates/admin/server_stats_card.html:29
-#: app/templates/settings/notifications.html:68
+#: app/templates/settings/notifications.html:80
 msgid "Active"
 msgstr ""
 
@@ -1050,10 +1050,11 @@ msgstr ""
 #: app/templates/modals/connection-form.html:186
 #: app/templates/modals/create-admin.html:34
 #: app/templates/modals/create-api-key.html:66
-#: app/templates/modals/create-notification-agent.html:91
+#: app/templates/modals/create-notification-agent.html:106
 #: app/templates/modals/create-server.html:103
 #: app/templates/modals/edit-admin.html:34
 #: app/templates/modals/edit-identity.html:27
+#: app/templates/modals/edit-notification-agent.html:83
 #: app/templates/modals/edit-server.html:105
 #: app/templates/modals/invite.html:269
 #: app/templates/modals/wizard-bundle-form.html:29
@@ -1381,22 +1382,43 @@ msgid "New Agent"
 msgstr ""
 
 #: app/templates/modals/create-notification-agent.html:63
+#: app/templates/modals/edit-notification-agent.html:39
 msgid "Channel ID"
 msgstr ""
 
 #: app/templates/modals/create-notification-agent.html:68
+#: app/templates/modals/edit-notification-agent.html:44
 msgid "Username (optional)"
 msgstr ""
 
 #: app/templates/modals/create-notification-agent.html:72
+#: app/templates/modals/edit-notification-agent.html:48
 msgid "Password (optional)"
 msgstr ""
 
 #: app/templates/modals/create-notification-agent.html:77
+#: app/templates/modals/edit-notification-agent.html:53
 msgid "Agent URL"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:87
+#: app/templates/modals/create-notification-agent.html:84
+#: app/templates/modals/edit-notification-agent.html:60
+msgid "Notification Events"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:89
+#: app/templates/modals/edit-notification-agent.html:66
+#: app/templates/settings/notifications.html:89
+msgid "User Joined"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:94
+#: app/templates/modals/edit-notification-agent.html:71
+#: app/templates/settings/notifications.html:94
+msgid "Update Available"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:102
 msgid "Test & Create Agent"
 msgstr ""
 
@@ -1423,6 +1445,23 @@ msgstr ""
 
 #: app/templates/modals/edit-identity.html:21
 msgid "Nickname"
+msgstr ""
+
+#: app/templates/modals/edit-notification-agent.html:11
+msgid "Edit Agent"
+msgstr ""
+
+#: app/templates/modals/edit-notification-agent.html:21
+#: app/templates/servers/index.html:10
+msgid "Name"
+msgstr ""
+
+#: app/templates/modals/edit-notification-agent.html:28
+msgid "Notification Service"
+msgstr ""
+
+#: app/templates/modals/edit-notification-agent.html:79
+msgid "Test & Save Changes"
 msgstr ""
 
 #: app/templates/modals/edit-server.html:10
@@ -1664,10 +1703,6 @@ msgstr ""
 msgid "Media Servers"
 msgstr ""
 
-#: app/templates/servers/index.html:10
-msgid "Name"
-msgstr ""
-
 #: app/templates/servers/index.html:11
 #: app/templates/settings/connections.html:34
 msgid "Type"
@@ -1897,27 +1932,35 @@ msgid "Configure notification services to alert you about important events"
 msgstr ""
 
 #: app/templates/settings/notifications.html:22
-#: app/templates/settings/notifications.html:97
+#: app/templates/settings/notifications.html:125
 msgid "Add Agent"
 msgstr ""
 
-#: app/templates/settings/notifications.html:52
+#: app/templates/settings/notifications.html:54
+msgid "Edit agent"
+msgstr ""
+
+#: app/templates/settings/notifications.html:64
 msgid "Are you sure you want to delete"
 msgstr ""
 
-#: app/templates/settings/notifications.html:54
+#: app/templates/settings/notifications.html:66
 msgid "Delete agent"
 msgstr ""
 
-#: app/templates/settings/notifications.html:65
+#: app/templates/settings/notifications.html:77
 msgid "Status"
 msgstr ""
 
 #: app/templates/settings/notifications.html:84
+msgid "Events"
+msgstr ""
+
+#: app/templates/settings/notifications.html:112
 msgid "No notification agents"
 msgstr ""
 
-#: app/templates/settings/notifications.html:85
+#: app/templates/settings/notifications.html:113
 msgid "Get started by creating your first notification agent"
 msgstr ""
 
