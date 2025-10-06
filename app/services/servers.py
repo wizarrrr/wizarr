@@ -148,12 +148,12 @@ def check_komga(url: str, token: str) -> tuple[bool, str]:
 
     We perform a lightweight GET request to ``/api/v1/libraries`` which is
     available to authenticated users and returns a list of libraries in
-    JSON. When *token* is set we send it as a *Bearer* header.
+    JSON. When *token* is set we send it as an *X-API-Key* header.
     """
     try:
         headers = {"Accept": "application/json"}
         if token:
-            headers["Authorization"] = f"Bearer {token}"
+            headers["X-API-Key"] = token
 
         resp = requests.get(
             f"{url.rstrip('/')}/api/v1/libraries", headers=headers, timeout=10

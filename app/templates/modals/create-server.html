@@ -112,22 +112,22 @@
 function closeModal(){ document.getElementById('create-server-modal').innerHTML=''; }
 function updateOptions(){
   const type=document.getElementById('server_type').value;
-  // Show universal media server options for Plex, Jellyfin, Emby, and Audiobookshelf
-  const showMediaOptions = ['plex', 'jellyfin', 'emby', 'audiobookshelf'].includes(type);
+  // Show universal media server options for Plex, Jellyfin, Emby, Audiobookshelf, and Komga
+  const showMediaOptions = ['plex', 'jellyfin', 'emby', 'audiobookshelf', 'komga'].includes(type);
   document.getElementById('media-server-options').style.display = showMediaOptions ? 'block' : 'none';
-  
-  // Hide "Allow Live TV" for Audiobookshelf since it doesn't support Live TV
+
+  // Hide "Allow Live TV" for Audiobookshelf and Komga since they don't support Live TV
   const allowLiveTvOption = document.getElementById('allow-live-tv-option');
   if (allowLiveTvOption) {
-    allowLiveTvOption.style.display = type === 'audiobookshelf' ? 'none' : 'block';
+    allowLiveTvOption.style.display = ['audiobookshelf', 'komga'].includes(type) ? 'none' : 'block';
   }
-  
-  // Hide "Allow Mobile Uploads" for Audiobookshelf and Jellyfin since they don't support mobile uploads
+
+  // Hide "Allow Mobile Uploads" for Audiobookshelf, Jellyfin, and Komga since they don't support mobile uploads
   const allowMobileUploadsOption = document.getElementById('allow-mobile-uploads-option');
   if (allowMobileUploadsOption) {
     allowMobileUploadsOption.style.display = ['plex', 'emby'].includes(type) ? 'block' : 'none';
   }
-  
+
   document.getElementById('romm-options').style.display = type==='romm' ? 'block' : 'none';
   document.getElementById('api-key-div').style.display  = type==='romm' ? 'none'  : 'block';
 }

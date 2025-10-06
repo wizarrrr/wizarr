@@ -1,37 +1,21 @@
 ---
-title: "How to Access Your Comics"
+title: "{{ _('Download Komga Clients') }}"
 ---
 
-# 💻 {{ _("Accessing Your Library") }}
+## 💾 {{ _('Download Komga Clients') }}
 
-## 🌐 {{ _("Web Interface") }}
+{{ _('Komga has many compatible readers from which you can enjoy your comics and manga!') }}
 
-{{ _("The easiest way to start reading is through your web browser:") }}
+|||
+### 📱 {{ _('Read Anywhere') }}
 
-1. **Visit**: {{ server_url }}
-2. **Login**: {{ _("Use the credentials you just created") }}
-3. **Browse**: {{ _("Explore your available comics and series") }}
-4. **Read**: {{ _("Click any comic to start reading online") }}
+{{ _('Komga works with many popular comic readers — install apps on your favorite devices:') }}
 
-[{{ _("Open Komga Web Interface") }}]({{ server_url }}){:target="_blank" .btn}
+- 📱 **{{ _('Mobile') }}**: {{ _('iOS (Panels, Chunky) & Android (Mihon/Tachiyomi, Komga Client)') }}
+- 🖥️ **{{ _('Desktop') }}**: {{ _('Windows (CDisplayEx, YACReader), macOS & Linux (YACReader)') }}
+- 📺 **{{ _('Tablets') }}**: {{ _('iPad & Android tablets with comic reader apps') }}
+- 🌐 **{{ _('Web App') }}**: {{ _('Read instantly in your browser at') }} {{ server_url }}
+- 📖 **{{ _('E-Readers') }}**: {{ _('KOReader and other OPDS-compatible readers') }}
+|||
 
-## 📱 {{ _("Mobile Apps") }}
-
-{{ _("For the best mobile reading experience:") }}
-
-### {{ _("Android") }}
-- **Mihon (Tachiyomi)**: {{ _("Popular manga reader with Komga support") }}
-- **Komga Client**: {{ _("Official Komga mobile app") }}
-- **Moon+ Reader**: {{ _("Support for OPDS feeds") }}
-
-### {{ _("iOS") }}
-- **Panels**: {{ _("Premium comic reader with Komga integration") }}
-- **Chunky Comic Reader**: {{ _("Supports OPDS feeds") }}
-
-## 🖥️ {{ _("Desktop Apps") }}
-
-- **YACReader**: {{ _("Cross-platform comic reader") }}
-- **CDisplayEx**: {{ _("Windows comic reader") }}
-- **Komga Web**: {{ _("Use the web interface in full-screen mode") }}
-
-{{ _("Most apps support OPDS feeds - ask your admin for the OPDS URL if needed.") }} 
+{{ widget:button url="https://komga.org/guides/apps.html" text=_("📚 View Compatible Readers") }}

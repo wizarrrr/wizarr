@@ -1,27 +1,23 @@
 ---
-title: "Welcome to Komga!"
+title: "{{ _('What is Komga?') }}"
 ---
 
-# 📚 {{ _("Welcome to Your Digital Library") }}
+## 📚 {{ _('Welcome to Our Komga Server') }}
 
-{{ _("You've been invited to access our Komga comic and manga library! "
-      "Komga is a digital library server that organizes and serves your comics, "
-      "manga, and digital books.") }}
+{{ _('Great news — you now have access to our **digital comic and manga library** through Komga!') }}
+{{ widget:recently_added_media }}
 
-## 🎯 {{ _("What can you do?") }}
+|||
+### 📖 {{ _('What is Komga?') }}
 
-- **Browse Collections**: {{ _("Explore organized series and collections") }}
-- **Read Online**: {{ _("Read directly in your web browser") }}
-- **Download**: {{ _("Download comics for offline reading") }}
-- **Track Progress**: {{ _("Keep track of what you've read") }}
-- **Multiple Formats**: {{ _("Support for CBZ, CBR, PDF, and more") }}
+{{ _('Komga is a free, open-source media server designed specifically for comics, manga, and digital books. If you\'re here, it means you\'ve been invited to join our library — welcome!') }}
+|||
 
-## 🚀 {{ _("Getting Started") }}
-
-{{ _("You can access Komga through:") }}
-
-1. **Web Interface**: {{ _("Use any web browser to access your library") }}
-2. **Mobile Apps**: {{ _("Download compatible comic reader apps") }}
-3. **Desktop Apps**: {{ _("Use desktop comic readers that support OPDS") }}
-
-{{ _("Let's get you set up!") }} 
+|||
+### 🎯 {{ _('What You\'ll Get') }}
+- {{ _('Access to our constantly updated collection of comics and manga') }}
+- {{ _('Read online directly in your browser') }}
+- {{ _('Download for offline reading on your favorite devices') }}
+- {{ _('Track your reading progress automatically') }}
+- {{ _('Support for multiple formats (CBZ, CBR, PDF, EPUB)') }}
+|||

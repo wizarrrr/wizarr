@@ -421,6 +421,8 @@ def image_proxy():
                     headers["X-Emby-Token"] = server.api_key
                 elif server.server_type == "plex":
                     headers["X-Plex-Token"] = server.api_key
+                elif server.server_type == "komga":
+                    headers["X-API-Key"] = server.api_key
 
         # Fetch the image
         r = requests.get(url, headers=headers, timeout=10, stream=True)
