@@ -10,7 +10,7 @@ from flask import Blueprint, request
 from flask_restx import Resource, abort
 
 from app.extensions import api, db
-from app.models import ApiKey, Invitation, Library, MediaServer, User
+from app.models import AdminAccount, ApiKey, Invitation, Library, MediaServer, User, WebAuthnCredential
 from app.services.invites import create_invite
 from app.services.media.service import delete_user, disable_user, list_users_all_servers
 from app.services.server_name_resolver import get_display_name_info
@@ -50,6 +50,7 @@ invitations_ns = api.namespace(
 libraries_ns = api.namespace("libraries", description="Library information operations")
 servers_ns = api.namespace("servers", description="Server information operations")
 api_keys_ns = api.namespace("api-keys", description="API key management operations")
+admins_ns = api.namespace("admins", description="Admin management operations")
 
 
 def require_api_key(f):
@@ -184,6 +185,54 @@ class StatusResource(Resource):
             }
         except Exception as e:
             logger.error("Error getting system status: %s", str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@admins_ns.route("")
+class AdminListResource(Resource):
+    @api.doc(
+        "list_admins",
+        security="apikey",
+        params={
+            "username": "Filter by username (exact match)",
+        },
+    )
+    @api.marshal_with(admin_list_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def get(self):
+        """List all Wizarr admins. Supports filtering by username."""
+        try:
+            # Get query parameters
+            username_filter = request.args.get("username")
+            logger.info("API: Listing all admins (username=%s)", username_filter)
+            
+            admins = AdminAccount.query.order_by(AdminAccount.username).all()
+            
+            # Format response
+            admins_list = []
+            for admin in admins:
+                # Apply filter if specified
+                if username_filter and admin.username != username_filter:
+                    continue
+
+                passkey_count = WebAuthnCredential.query.filter_by(admin_account_id=admin.id).count()
+                    
+                admins_list.append({
+                    "id": admin.id,
+                    "username": admin.username,
+                    "passkeys": passkey_count,
+                    "created": admin.created_at.isoformat()
+                    if hasattr(admin, "created_at") and admin.created_at
+                    else None,
+                })
+            
+            return {"admins": admins_list, "count": len(admins_list)}
+            
+        except Exception as e:
+            logger.error("Error listing admins: %s", str(e))
             logger.error(traceback.format_exc())
             return {"error": "Internal server error"}, 500
 
