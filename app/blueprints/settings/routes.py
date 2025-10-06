@@ -260,6 +260,8 @@ def scan_libraries():
 @settings_bp.route("/general", methods=["GET", "POST"])
 @login_required
 def general_settings():
+    import os
+
     current = _load_settings()
     form = GeneralSettingsForm(
         formdata=request.form if request.method == "POST" else None, data=current
@@ -271,6 +273,11 @@ def general_settings():
         # Reload settings from database and create a fresh form to display updated values
         current = _load_settings()
         form = GeneralSettingsForm(data=current)
+
+    app_version = os.getenv("APP_VERSION", "dev")
+
     if request.headers.get("HX-Request"):
-        return render_template("settings/general.html", form=form)
+        return render_template(
+            "settings/general.html", form=form, app_version=app_version
+        )
     return redirect(url_for("settings.page"))
