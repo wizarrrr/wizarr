@@ -30,6 +30,8 @@ from .models import (
     user_list_model,
     user_update_expiry_request,
     user_update_expiry_response,
+    admin_list_model,
+    admin_model
 )
 
 # Create the Blueprint for the API
