@@ -33,17 +33,17 @@
              data-session-position="{{ position }}"
              data-session-id="{{ session.session_id }}">
              
-            {% if session.thumbnail_url %}
-            <div class="absolute inset-0 -z-10 bg-center bg-cover blur-xl opacity-25" style="background-image: url('{{ url_for('public.image_proxy') }}?url={{ session.thumbnail_url|urlencode }}')"></div>
+            {% if session.thumbnail_token %}
+            <div class="absolute inset-0 -z-10 bg-center bg-cover blur-xl opacity-25" style="background-image: url('{{ url_for('public.image_proxy') }}?token={{ session.thumbnail_token }}')"></div>
             {% endif %}
             <!-- Poster -->
             <div class="relative w-28 md:w-32 flex-none">
                 <div class="w-full h-full bg-gray-200 dark:bg-gray-700 rounded-l-lg overflow-hidden">
-                    {% if session.artwork_url %}
-                        <img src="{{ url_for('public.image_proxy') }}?url={{ session.artwork_url|urlencode }}" 
-                             alt="{{ session.media_title }}" 
+                    {% if session.artwork_token %}
+                        <img src="{{ url_for('public.image_proxy') }}?token={{ session.artwork_token }}"
+                             alt="{{ session.media_title }}"
                              class="w-full h-full object-cover"
-                             onerror="this.onerror=null; this.src='{{ url_for('public.image_proxy') }}?url={{ session.fallback_artwork_url|urlencode }}';"
+                             {% if session.fallback_artwork_token %}onerror="this.onerror=null; this.src='{{ url_for('public.image_proxy') }}?token={{ session.fallback_artwork_token }}';"{% endif %}
                              />
                     {% else %}
                         <div class="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700">

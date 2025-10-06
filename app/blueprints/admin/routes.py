@@ -70,7 +70,32 @@ def home():
 @login_required
 def now_playing_cards():
     try:
+        from app.services.image_proxy import ImageProxyService
+
         sessions = get_now_playing_all_servers()
+
+        # Generate image proxy tokens for all URLs
+        for session in sessions:
+            server_id = session.get("server_id")
+
+            # Generate token for artwork_url
+            if session.get("artwork_url"):
+                session["artwork_token"] = ImageProxyService.generate_token(
+                    session["artwork_url"], server_id
+                )
+
+            # Generate token for thumbnail_url
+            if session.get("thumbnail_url"):
+                session["thumbnail_token"] = ImageProxyService.generate_token(
+                    session["thumbnail_url"], server_id
+                )
+
+            # Generate token for fallback_artwork_url
+            if session.get("fallback_artwork_url"):
+                session["fallback_artwork_token"] = ImageProxyService.generate_token(
+                    session["fallback_artwork_url"], server_id
+                )
+
         return render_template("admin/now_playing_cards.html", sessions=sessions)
     except Exception as e:
         logging.error(f"Failed to get now playing data: {e}")

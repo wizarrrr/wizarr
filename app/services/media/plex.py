@@ -592,7 +592,11 @@ class PlexClient(MediaClient):
         for u in users:
             p = plex_users.get(u.email)
             if p:
-                u.photo = p.thumb
+                # Convert Plex avatar URL to use image proxy with token
+                if p.thumb:
+                    u.photo = self.generate_image_proxy_url(p.thumb)
+                else:
+                    u.photo = None
 
                 # Store Plex permissions in raw_policies_json using the proper method
                 plex_policies = {
