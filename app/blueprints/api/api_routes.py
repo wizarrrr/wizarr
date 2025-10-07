@@ -32,7 +32,6 @@ from .models import (
     user_update_expiry_request,
     user_update_expiry_response,
     admin_list_model,
-    admin_model
 )
 
 # Create the Blueprint for the API
@@ -211,40 +210,47 @@ class AdminListResource(Resource):
             # Get query parameters
             username_filter = request.args.get("username")
             logger.info("API: Listing all admins (username=%s)", username_filter)
-            
+
             # Optimized query: JOIN admins with passkey counts in single query
             query = (
                 db.session.query(
                     AdminAccount.id,
                     AdminAccount.username,
                     AdminAccount.created_at,
-                    func.count(WebAuthnCredential.id).label('passkey_count')
+                    func.count(WebAuthnCredential.id).label("passkey_count"),
                 )
-                .outerjoin(WebAuthnCredential, AdminAccount.id == WebAuthnCredential.admin_account_id)
-                .group_by(AdminAccount.id, AdminAccount.username, AdminAccount.created_at)
+                .outerjoin(
+                    WebAuthnCredential,
+                    AdminAccount.id == WebAuthnCredential.admin_account_id,
+                )
+                .group_by(
+                    AdminAccount.id, AdminAccount.username, AdminAccount.created_at
+                )
                 .order_by(AdminAccount.username)
             )
-            
+
             # Apply username filter at database level if specified
             if username_filter:
                 query = query.filter(AdminAccount.username == username_filter)
-            
+
             results = query.all()
-            
+
             # Format response
             admins_list = []
             for result in results:
-                admins_list.append({
-                    "id": result.id,
-                    "username": result.username,
-                    "passkeys": result.passkey_count,
-                    "created": result.created_at.isoformat()
-                    if result.created_at
-                    else None,
-                })
-            
+                admins_list.append(
+                    {
+                        "id": result.id,
+                        "username": result.username,
+                        "passkeys": result.passkey_count,
+                        "created": result.created_at.isoformat()
+                        if result.created_at
+                        else None,
+                    }
+                )
+
             return {"admins": admins_list, "count": len(admins_list)}
-            
+
         except Exception as e:
             logger.error("Error listing admins: %s", str(e))
             logger.error(traceback.format_exc())
