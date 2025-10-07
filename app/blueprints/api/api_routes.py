@@ -211,23 +211,34 @@ class AdminListResource(Resource):
             username_filter = request.args.get("username")
             logger.info("API: Listing all admins (username=%s)", username_filter)
             
-            admins = AdminAccount.query.order_by(AdminAccount.username).all()
+            # Optimized query: JOIN admins with passkey counts in single query
+            query = (
+                db.session.query(
+                    AdminAccount.id,
+                    AdminAccount.username,
+                    AdminAccount.created_at,
+                    func.count(WebAuthnCredential.id).label('passkey_count')
+                )
+                .outerjoin(WebAuthnCredential, AdminAccount.id == WebAuthnCredential.admin_account_id)
+                .group_by(AdminAccount.id, AdminAccount.username, AdminAccount.created_at)
+                .order_by(AdminAccount.username)
+            )
+            
+            # Apply username filter at database level if specified
+            if username_filter:
+                query = query.filter(AdminAccount.username == username_filter)
+            
+            results = query.all()
             
             # Format response
             admins_list = []
-            for admin in admins:
-                # Apply filter if specified
-                if username_filter and admin.username != username_filter:
-                    continue
-
-                passkey_count = WebAuthnCredential.query.filter_by(admin_account_id=admin.id).count()
-                    
+            for result in results:
                 admins_list.append({
-                    "id": admin.id,
-                    "username": admin.username,
-                    "passkeys": passkey_count,
-                    "created": admin.created_at.isoformat()
-                    if hasattr(admin, "created_at") and admin.created_at
+                    "id": result.id,
+                    "username": result.username,
+                    "passkeys": result.passkey_count,
+                    "created": result.created_at.isoformat()
+                    if result.created_at
                     else None,
                 })
             
