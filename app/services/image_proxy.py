@@ -5,8 +5,10 @@ This prevents SSRF attacks by not exposing the underlying URL to clients.
 Instead, we generate signed tokens that map to internal URLs.
 """
 
+import base64
 import hashlib
 import hmac
+import json
 import time
 
 from flask import current_app
@@ -36,7 +38,10 @@ class ImageProxyService:
     @classmethod
     def generate_token(cls, url: str, server_id: int | None = None) -> str:
         """
-        Generate an opaque token for an image URL.
+        Generate a stateless signed token for an image URL.
+
+        The token embeds the URL and server_id, signed with HMAC to prevent tampering.
+        This makes tokens work across multiple workers without shared state.
 
         Args:
             url: The internal/media server URL to proxy
@@ -45,21 +50,34 @@ class ImageProxyService:
         Returns:
             Opaque token that can be used with /image-proxy?token=...
         """
-        # Create a deterministic token based on URL and timestamp (hour bucket)
-        # This allows the same URL to reuse tokens within the same hour
-        hour_bucket = int(time.time() / 3600)
-        data = f"{url}:{hour_bucket}".encode()
+        current_time = time.time()
+        hour_bucket = int(current_time / 3600)
 
-        # Generate HMAC signature
-        signature = hmac.new(cls._get_secret(), data, hashlib.sha256).hexdigest()
+        # Create payload with URL, server_id, and expiry info
+        payload = {
+            "url": url,
+            "server_id": server_id,
+            "bucket": hour_bucket,
+        }
 
-        # Use first 32 chars of signature as token (128 bits of entropy)
-        token = signature[:32]
+        # Encode payload as JSON then base64
+        payload_json = json.dumps(payload, separators=(",", ":"))
+        payload_b64 = (
+            base64.urlsafe_b64encode(payload_json.encode()).decode().rstrip("=")
+        )
 
-        # Store mapping in cache
+        # Generate HMAC signature over the payload
+        signature = hmac.new(
+            cls._get_secret(), payload_b64.encode(), hashlib.sha256
+        ).hexdigest()[:16]  # Use 16 chars (64 bits) for compactness
+
+        # Token format: signature.payload
+        token = f"{signature}.{payload_b64}"
+
+        # Also store in cache for faster lookups (optional optimization)
         cls._token_cache[token] = {
             "url": url,
-            "timestamp": time.time(),
+            "timestamp": current_time,
             "server_id": server_id,
         }
 
@@ -71,28 +89,67 @@ class ImageProxyService:
     @classmethod
     def validate_token(cls, token: str) -> dict | None:
         """
-        Validate a token and return the URL mapping.
+        Validate a stateless signed token and return the URL mapping.
 
         Args:
-            token: The opaque token to validate
+            token: The signed token to validate (format: signature.payload)
 
         Returns:
             Dict with 'url' and 'server_id' if valid, None otherwise
         """
-        if not token or len(token) != 32:
+        if not token:
             return None
 
-        # Check cache
-        mapping = cls._token_cache.get(token)
-        if not mapping:
+        # Check cache first for performance (optional optimization)
+        cached_mapping = cls._token_cache.get(token)
+        if cached_mapping:
+            current_time = time.time()
+            if current_time - cached_mapping["timestamp"] < cls.TOKEN_EXPIRY:
+                return {
+                    "url": cached_mapping["url"],
+                    "server_id": cached_mapping.get("server_id"),
+                }
+
+        # Parse token (signature.payload format)
+        parts = token.split(".", 1)
+        if len(parts) != 2:
             return None
 
-        # Check expiry
-        if time.time() - mapping["timestamp"] > cls.TOKEN_EXPIRY:
-            del cls._token_cache[token]
+        signature, payload_b64 = parts
+
+        # Verify HMAC signature
+        expected_sig = hmac.new(
+            cls._get_secret(), payload_b64.encode(), hashlib.sha256
+        ).hexdigest()[:16]
+
+        if not hmac.compare_digest(signature, expected_sig):
             return None
 
-        return {"url": mapping["url"], "server_id": mapping.get("server_id")}
+        # Decode payload
+        try:
+            # Add back padding if needed
+            padding = (4 - len(payload_b64) % 4) % 4
+            payload_b64_padded = payload_b64 + ("=" * padding)
+            payload_json = base64.urlsafe_b64decode(payload_b64_padded).decode()
+            payload = json.loads(payload_json)
+        except (ValueError, json.JSONDecodeError):
+            return None
+
+        # Verify token hasn't expired (allow current hour bucket + previous hour)
+        current_bucket = int(time.time() / 3600)
+        token_bucket = payload.get("bucket")
+
+        if token_bucket is None or current_bucket - token_bucket > 1:
+            return None
+
+        # Cache the validated token for future requests
+        cls._token_cache[token] = {
+            "url": payload["url"],
+            "timestamp": time.time(),
+            "server_id": payload.get("server_id"),
+        }
+
+        return {"url": payload["url"], "server_id": payload.get("server_id")}
 
     @classmethod
     def get_cached_image(cls, token: str) -> dict | None:
