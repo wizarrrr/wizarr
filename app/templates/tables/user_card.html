@@ -281,8 +281,7 @@
         if (event.detail.xhr.status == 429) {
             document.getElementById("error_message").classList.remove("hidden");
             document.getElementById("error_message").innerHTML = "Plex API request limit reached. Please try again later.";
-        }
-        else {
+        } else {
             document.getElementById("error_message").classList.remove("hidden");
             document.getElementById("error_message").innerHTML = "An error occurred. Please try again later.";
         }
@@ -300,7 +299,7 @@
     document.addEventListener('DOMContentLoaded', updateCardSelection);
 
     // ensure modal overlay only becomes visible once new content is rendered
-    document.body.addEventListener('htmx:afterSwap', function (event) {
+    document.body.addEventListener('htmx:afterSwap', function(event) {
         if (event.detail.target && event.detail.target.id === 'modal-user') {
             document.getElementById('modal').classList.remove('hidden');
         }

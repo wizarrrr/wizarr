@@ -308,8 +308,7 @@
         if (event.detail.xhr.status == 429) {
             document.getElementById("error_message").classList.remove("hidden");
             document.getElementById("error_message").innerHTML = "Plex API request limit reached. Please try again later.";
-        }
-        else {
+        } else {
             document.getElementById("error_message").classList.remove("hidden");
             document.getElementById("error_message").innerHTML = "An error occurred. Please try again later.";
         }
@@ -321,31 +320,35 @@
         const preloaded = event.detail.xhr.getResponseHeader('HX-Preloaded');
         if (triggers && !preloaded) {
             console.log('HTMX triggers received:', triggers);
-            
+
             if (triggers.includes('closeModal')) {
                 console.log('Closing modal');
                 closeModal();
             }
-            
+
             if (triggers.includes('refreshUserTable')) {
                 console.log('Refreshing user table');
-                
+
                 // Get current filter values
                 const serverFilter = document.getElementById('server_filter').value;
                 const searchQuery = document.getElementById('search_query').value;
                 const orderSel = document.getElementById('order_sel').value;
-                
-                console.log('Filter values:', { serverFilter, searchQuery, orderSel });
-                
+
+                console.log('Filter values:', {
+                    serverFilter,
+                    searchQuery,
+                    orderSel
+                });
+
                 // Build query string with current filters
                 const params = new URLSearchParams();
                 if (serverFilter) params.set('server', serverFilter);
                 if (searchQuery) params.set('q', searchQuery);
                 if (orderSel) params.set('order', orderSel);
-                
+
                 const url = '/users/table?' + params.toString();
                 console.log('Making HTMX request to:', url);
-                
+
                 // Make HTMX request to refresh the user table with current filters
                 htmx.ajax('GET', url, {
                     target: '#user_table',
@@ -354,13 +357,11 @@
             }
         }
     });
-
 </script>
 <script>
-    
     // when a button is clicked with an id of "delete", add the "animate__fadeOut" to its parent 'tr'
     document.querySelectorAll('button#delete').forEach(button => {
-        button.addEventListener('click', function () {
+        button.addEventListener('click', function() {
             this.closest('tr').classList.add('animate__fadeOut');
         });
     });
@@ -370,18 +371,22 @@
     function closeModal() {
         const modalElement = document.getElementById('modal');
         const modalUserElement = document.getElementById('modal-user');
-        
+
         if (modalElement) {
             modalElement.classList.add('hidden');
         }
-        
+
         if (modalUserElement) {
             // Clear all content and event listeners
             modalUserElement.innerHTML = '';
         }
     }
-
 </script>
 <script>
- document.addEventListener('change',e=>{ if(e.target.classList.contains('link-check')){ const any=document.querySelectorAll('.link-check:checked').length>=1; document.getElementById('link-bar').classList.toggle('hidden',!any);} });
+    document.addEventListener('change', e => {
+        if (e.target.classList.contains('link-check')) {
+            const any = document.querySelectorAll('.link-check:checked').length >= 1;
+            document.getElementById('link-bar').classList.toggle('hidden', !any);
+        }
+    });
 </script>

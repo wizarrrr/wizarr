@@ -80,58 +80,58 @@
   {% endif %}
 </div>
 <script>
-function deletePasskey(passkeyId) {
-    if (confirm('{{ _("Are you sure you want to delete this passkey?") }}')) {
-        fetch(`/webauthn/credentials/${passkeyId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('{{ _("Failed to delete passkey") }}');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('{{ _("An error occurred while deleting the passkey") }}');
-        });
+    function deletePasskey(passkeyId) {
+        if (confirm('{{ _("Are you sure you want to delete this passkey?") }}')) {
+            fetch(`/webauthn/credentials/${passkeyId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('{{ _("Failed to delete passkey") }}');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('{{ _("An error occurred while deleting the passkey") }}');
+                });
+        }
     }
-}
 
-function resetAllPasskeys(adminId, username) {
-    if (confirm(`{{ _("Are you sure you want to reset ALL passkeys for {}?").format('${username}') }} {{ _("This action cannot be undone.") }}`)) {
-        fetch(`/settings/admins/${adminId}/reset-passkeys`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                alert('{{ _("All passkeys have been reset") }}');
-                location.reload();
-            } else {
-                alert('{{ _("Failed to reset passkeys") }}');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('{{ _("An error occurred while resetting passkeys") }}');
-        });
+    function resetAllPasskeys(adminId, username) {
+        if (confirm(`{{ _("Are you sure you want to reset ALL passkeys for {}?").format('${username}') }} {{ _("This action cannot be undone.") }}`)) {
+            fetch(`/settings/admins/${adminId}/reset-passkeys`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('{{ _("All passkeys have been reset") }}');
+                        location.reload();
+                    } else {
+                        alert('{{ _("Failed to reset passkeys") }}');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('{{ _("An error occurred while resetting passkeys") }}');
+                });
+        }
     }
-}
 
-function closeModal() {
-    // Close modal logic - depends on your modal implementation
-    if (window.parent && window.parent.closeModal) {
-        window.parent.closeModal();
-    } else {
-        window.close();
+    function closeModal() {
+        // Close modal logic - depends on your modal implementation
+        if (window.parent && window.parent.closeModal) {
+            window.parent.closeModal();
+        } else {
+            window.close();
+        }
     }
-}
 </script>

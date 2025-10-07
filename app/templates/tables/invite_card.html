@@ -184,117 +184,117 @@ accept datetime or string #} {{ v|human_date }} {%- endmacro %}
     {% endfor %}
   </div>
   <script>
-    function tableCopyLink(invite_code) {
-        const url = window.location.origin + "/j/" + invite_code;
-        copyToClipboard(url, (success) => {
-            if (!success) {
-                // Fallback already shows alert, but we can add additional feedback here if needed
-                console.error("Copy failed for invite:", invite_code);
-                return;
-            }
-        });
+      function tableCopyLink(invite_code) {
+          const url = window.location.origin + "/j/" + invite_code;
+          copyToClipboard(url, (success) => {
+              if (!success) {
+                  // Fallback already shows alert, but we can add additional feedback here if needed
+                  console.error("Copy failed for invite:", invite_code);
+                  return;
+              }
+          });
 
-        // Visual feedback: flash icon green + toast
-        const icon = document.getElementById("icon_" + invite_code);
-        if (icon) {
-            icon.classList.add("text-green-500");
-            setTimeout(() => icon.classList.remove("text-green-500"), 1000);
-        }
-    }
+          // Visual feedback: flash icon green + toast
+          const icon = document.getElementById("icon_" + invite_code);
+          if (icon) {
+              icon.classList.add("text-green-500");
+              setTimeout(() => icon.classList.remove("text-green-500"), 1000);
+          }
+      }
 
-    // Fade out on delete before htmx swap
-    // Use event delegation so we don't rely on duplicate IDs
-    document.addEventListener("htmx:beforeRequest", function (evt) {
-        const btn = evt.target.closest("[data-delete]");
-        if (!btn) return;
-        const card = btn.closest(".animate__animated");
-        if (card) card.classList.add("animate__fadeOut");
-    });
+      // Fade out on delete before htmx swap
+      // Use event delegation so we don't rely on duplicate IDs
+      document.addEventListener("htmx:beforeRequest", function(evt) {
+          const btn = evt.target.closest("[data-delete]");
+          if (!btn) return;
+          const card = btn.closest(".animate__animated");
+          if (card) card.classList.add("animate__fadeOut");
+      });
 
-    // Modern masonry layout with CSS Grid
-    class MasonryLayout {
-        constructor(container) {
-            this.container = container;
-            this.init();
-        }
+      // Modern masonry layout with CSS Grid
+      class MasonryLayout {
+          constructor(container) {
+              this.container = container;
+              this.init();
+          }
 
-        init() {
-            if (!this.container) return;
+          init() {
+              if (!this.container) return;
 
-            // Handle card expansions
-            this.container.addEventListener("toggle", (e) => {
-                if (e.target.matches("details[data-card]")) {
-                    // Small delay to allow content to render
-                    setTimeout(() => this.layoutCards(), 50);
-                }
-            });
+              // Handle card expansions
+              this.container.addEventListener("toggle", (e) => {
+                  if (e.target.matches("details[data-card]")) {
+                      // Small delay to allow content to render
+                      setTimeout(() => this.layoutCards(), 50);
+                  }
+              });
 
-            // Handle window resize
-            let resizeTimer;
-            window.addEventListener("resize", () => {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(() => this.layoutCards(), 100);
-            });
+              // Handle window resize
+              let resizeTimer;
+              window.addEventListener("resize", () => {
+                  clearTimeout(resizeTimer);
+                  resizeTimer = setTimeout(() => this.layoutCards(), 100);
+              });
 
-            // Initial layout
-            setTimeout(() => this.layoutCards(), 100);
-        }
+              // Initial layout
+              setTimeout(() => this.layoutCards(), 100);
+          }
 
-        layoutCards() {
-            const cards = this.container.querySelectorAll("[data-card]");
-            if (!cards.length) return;
+          layoutCards() {
+              const cards = this.container.querySelectorAll("[data-card]");
+              if (!cards.length) return;
 
-            // Reset any existing transforms
-            cards.forEach((card) => {
-                card.style.transform = "";
-                card.style.position = "relative";
-            });
+              // Reset any existing transforms
+              cards.forEach((card) => {
+                  card.style.transform = "";
+                  card.style.position = "relative";
+              });
 
-            // Get container width and calculate columns
-            const containerWidth = this.container.offsetWidth;
-            const gap = 16; // 1rem = 16px
-            const minCardWidth = 280;
-            const columns = Math.floor(
-                (containerWidth + gap) / (minCardWidth + gap)
-            );
+              // Get container width and calculate columns
+              const containerWidth = this.container.offsetWidth;
+              const gap = 16; // 1rem = 16px
+              const minCardWidth = 280;
+              const columns = Math.floor(
+                  (containerWidth + gap) / (minCardWidth + gap)
+              );
 
-            if (columns <= 1) return; // Let natural flow handle single column
+              if (columns <= 1) return; // Let natural flow handle single column
 
-            // Create column height tracker
-            const columnHeights = new Array(columns).fill(0);
-            const cardWidth = Math.floor(
-                (containerWidth - gap * (columns - 1)) / columns
-            );
+              // Create column height tracker
+              const columnHeights = new Array(columns).fill(0);
+              const cardWidth = Math.floor(
+                  (containerWidth - gap * (columns - 1)) / columns
+              );
 
-            // Position each card
-            cards.forEach((card, index) => {
-                const shortestColumn = columnHeights.indexOf(
-                    Math.min(...columnHeights)
-                );
-                const x = shortestColumn * (cardWidth + gap);
-                const y = columnHeights[shortestColumn];
+              // Position each card
+              cards.forEach((card, index) => {
+                  const shortestColumn = columnHeights.indexOf(
+                      Math.min(...columnHeights)
+                  );
+                  const x = shortestColumn * (cardWidth + gap);
+                  const y = columnHeights[shortestColumn];
 
-                card.style.position = "absolute";
-                card.style.left = `${x}px`;
-                card.style.top = `${y}px`;
-                card.style.width = `${cardWidth}px`;
+                  card.style.position = "absolute";
+                  card.style.left = `${x}px`;
+                  card.style.top = `${y}px`;
+                  card.style.width = `${cardWidth}px`;
 
-                // Update column height
-                columnHeights[shortestColumn] += card.offsetHeight + gap;
-            });
+                  // Update column height
+                  columnHeights[shortestColumn] += card.offsetHeight + gap;
+              });
 
-            // Set container height
-            const maxHeight = Math.max(...columnHeights);
-            this.container.style.height = `${maxHeight}px`;
-            this.container.style.position = "relative";
-        }
-    }
+              // Set container height
+              const maxHeight = Math.max(...columnHeights);
+              this.container.style.height = `${maxHeight}px`;
+              this.container.style.position = "relative";
+          }
+      }
 
-    // Initialize masonry layout
-    document.addEventListener("DOMContentLoaded", () => {
-        const container = document.getElementById("invite_table");
-        if (container && container.dataset.masonryLayout) {
-            new MasonryLayout(container);
-        }
-    });
+      // Initialize masonry layout
+      document.addEventListener("DOMContentLoaded", () => {
+          const container = document.getElementById("invite_table");
+          if (container && container.dataset.masonryLayout) {
+              new MasonryLayout(container);
+          }
+      });
   </script>

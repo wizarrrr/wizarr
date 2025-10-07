@@ -142,98 +142,102 @@
   </div>
 </div>
 <script>
-function insertWidget(widgetType) {
-  // Don't process empty values (from the placeholder option)
-  if (!widgetType) {
-    return;
-  }
+    function insertWidget(widgetType) {
+        // Don't process empty values (from the placeholder option)
+        if (!widgetType) {
+            return;
+        }
 
-  // Widget syntax based on type
-  let widgetSyntax = '';
-  switch (widgetType) {
-    case 'recently_added_media':
-      widgetSyntax = '\n\n{' + '{ widget:recently_added_media }' + '}\n\n';
-      break;
-    case 'button':
-      widgetSyntax = '\n\n{' + '{ widget:button url="https://example.com" text="Click Here" }' + '}\n\n';
-      break;
-    default:
-      widgetSyntax = '\n\n{' + '{ widget:' + widgetType + ' }' + '}\n\n';
-  }
+        // Widget syntax based on type
+        let widgetSyntax = '';
+        switch (widgetType) {
+            case 'recently_added_media':
+                widgetSyntax = '\n\n{' + '{ widget:recently_added_media }' + '}\n\n';
+                break;
+            case 'button':
+                widgetSyntax = '\n\n{' + '{ widget:button url="https://example.com" text="Click Here" }' + '}\n\n';
+                break;
+            default:
+                widgetSyntax = '\n\n{' + '{ widget:' + widgetType + ' }' + '}\n\n';
+        }
 
-  // Find the textarea
-  const modal = document.getElementById('step-modal') || document;
-  const textarea = modal.querySelector('textarea[name="markdown"]');
+        // Find the textarea
+        const modal = document.getElementById('step-modal') || document;
+        const textarea = modal.querySelector('textarea[name="markdown"]');
 
-  if (!textarea) {
-    alert('Could not find textarea');
-    return;
-  }
+        if (!textarea) {
+            alert('Could not find textarea');
+            return;
+        }
 
-  // Check if TinyMDE editor exists
-  if (textarea.tinyMDEEditor) {
-    // Use TinyMDE's proper API to insert content
-    textarea.tinyMDEEditor.paste(widgetSyntax);
-  } else if (window.TinyMDE && textarea.dataset.tinymdeAttached) {
-    // Try to find the TinyMDE instance another way
-    // Look for the TinyMDE editor in the DOM structure
-    const editorElement = textarea.nextElementSibling;
-    if (editorElement && editorElement._tinyMDEInstance) {
-      editorElement._tinyMDEInstance.paste(widgetSyntax);
-    } else {
-      // Fallback: direct textarea manipulation (clean)
-      const cursorPos = textarea.selectionStart || textarea.value.length;
-      const textBefore = textarea.value.substring(0, cursorPos);
-      const textAfter = textarea.value.substring(textarea.selectionEnd || cursorPos);
+        // Check if TinyMDE editor exists
+        if (textarea.tinyMDEEditor) {
+            // Use TinyMDE's proper API to insert content
+            textarea.tinyMDEEditor.paste(widgetSyntax);
+        } else if (window.TinyMDE && textarea.dataset.tinymdeAttached) {
+            // Try to find the TinyMDE instance another way
+            // Look for the TinyMDE editor in the DOM structure
+            const editorElement = textarea.nextElementSibling;
+            if (editorElement && editorElement._tinyMDEInstance) {
+                editorElement._tinyMDEInstance.paste(widgetSyntax);
+            } else {
+                // Fallback: direct textarea manipulation (clean)
+                const cursorPos = textarea.selectionStart || textarea.value.length;
+                const textBefore = textarea.value.substring(0, cursorPos);
+                const textAfter = textarea.value.substring(textarea.selectionEnd || cursorPos);
 
-      textarea.value = textBefore + widgetSyntax + textAfter;
-      textarea.dispatchEvent(new Event('input', { bubbles: true }));
+                textarea.value = textBefore + widgetSyntax + textAfter;
+                textarea.dispatchEvent(new Event('input', {
+                    bubbles: true
+                }));
+            }
+        } else {
+            // No TinyMDE, direct textarea manipulation
+            const cursorPos = textarea.selectionStart || textarea.value.length;
+            const textBefore = textarea.value.substring(0, cursorPos);
+            const textAfter = textarea.value.substring(textarea.selectionEnd || cursorPos);
+
+            textarea.value = textBefore + widgetSyntax + textAfter;
+            textarea.focus();
+        }
     }
-  } else {
-    // No TinyMDE, direct textarea manipulation
-    const cursorPos = textarea.selectionStart || textarea.value.length;
-    const textBefore = textarea.value.substring(0, cursorPos);
-    const textAfter = textarea.value.substring(textarea.selectionEnd || cursorPos);
 
-    textarea.value = textBefore + widgetSyntax + textAfter;
-    textarea.focus();
-  }
-}
+    function insertCard() {
+        const cardSyntax = '\n\n|||\n# Card Title\n\nYour card content here. Supports **markdown** formatting.\n\n* Bullet points\n* Work too\n\n|||\n\n';
 
-function insertCard() {
-  const cardSyntax = '\n\n|||\n# Card Title\n\nYour card content here. Supports **markdown** formatting.\n\n* Bullet points\n* Work too\n\n|||\n\n';
+        // Find the textarea
+        const modal = document.getElementById('step-modal') || document;
+        const textarea = modal.querySelector('textarea[name="markdown"]');
 
-  // Find the textarea
-  const modal = document.getElementById('step-modal') || document;
-  const textarea = modal.querySelector('textarea[name="markdown"]');
+        if (!textarea) {
+            alert('Could not find textarea');
+            return;
+        }
 
-  if (!textarea) {
-    alert('Could not find textarea');
-    return;
-  }
+        // Check if TinyMDE editor exists
+        if (textarea.tinyMDEEditor) {
+            textarea.tinyMDEEditor.paste(cardSyntax);
+        } else if (window.TinyMDE && textarea.dataset.tinymdeAttached) {
+            const editorElement = textarea.nextElementSibling;
+            if (editorElement && editorElement._tinyMDEInstance) {
+                editorElement._tinyMDEInstance.paste(cardSyntax);
+            } else {
+                const cursorPos = textarea.selectionStart || textarea.value.length;
+                const textBefore = textarea.value.substring(0, cursorPos);
+                const textAfter = textarea.value.substring(textarea.selectionEnd || cursorPos);
 
-  // Check if TinyMDE editor exists
-  if (textarea.tinyMDEEditor) {
-    textarea.tinyMDEEditor.paste(cardSyntax);
-  } else if (window.TinyMDE && textarea.dataset.tinymdeAttached) {
-    const editorElement = textarea.nextElementSibling;
-    if (editorElement && editorElement._tinyMDEInstance) {
-      editorElement._tinyMDEInstance.paste(cardSyntax);
-    } else {
-      const cursorPos = textarea.selectionStart || textarea.value.length;
-      const textBefore = textarea.value.substring(0, cursorPos);
-      const textAfter = textarea.value.substring(textarea.selectionEnd || cursorPos);
+                textarea.value = textBefore + cardSyntax + textAfter;
+                textarea.dispatchEvent(new Event('input', {
+                    bubbles: true
+                }));
+            }
+        } else {
+            const cursorPos = textarea.selectionStart || textarea.value.length;
+            const textBefore = textarea.value.substring(0, cursorPos);
+            const textAfter = textarea.value.substring(textarea.selectionEnd || cursorPos);
 
-      textarea.value = textBefore + cardSyntax + textAfter;
-      textarea.dispatchEvent(new Event('input', { bubbles: true }));
+            textarea.value = textBefore + cardSyntax + textAfter;
+            textarea.focus();
+        }
     }
-  } else {
-    const cursorPos = textarea.selectionStart || textarea.value.length;
-    const textBefore = textarea.value.substring(0, cursorPos);
-    const textAfter = textarea.value.substring(textarea.selectionEnd || cursorPos);
-
-    textarea.value = textBefore + cardSyntax + textAfter;
-    textarea.focus();
-  }
-}
 </script>

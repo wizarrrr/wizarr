@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{{ _("Admin") }}{% endblock %}
+{% block title %}{{ _("Admin") }}{% endblock title %}
 {% block main %}
   <div class="flex flex-col h-screen">
     {% if update_available %}
@@ -13,7 +13,7 @@
     <nav hx-ext="preload"
          class="hidden md:block border-gray-200 px-2 sm:px-4 py-2.5 rounded-sm dark:bg-gray-900">
       <div class="container flex flex-wrap items-center justify-between mx-auto">
-        <a href="/admin" class="flex items-center">
+        <a href="{{ url_for('admin.home') }}" class="flex items-center">
           <img src="{{ url_for('static', filename='wizarr-logo.png') }}"
                alt="Wizarr Logo"
                class="h-8 mr-3">
@@ -157,7 +157,7 @@
     <!-- Mobile Header (logo only) -->
     <header class="md:hidden border-gray-200 px-4 py-2.5 dark:bg-gray-900 border-b dark:border-gray-700">
       <div class="flex items-center justify-between">
-        <a href="/admin" class="flex items-center">
+        <a href="{{ url_for('admin.home') }}" class="flex items-center">
           <img src="{{ url_for('static', filename='wizarr-logo.png') }}"
                alt="Wizarr Logo"
                class="h-8 mr-3">
@@ -283,81 +283,81 @@
     </div>
   </div>
   <script>
-        (function () {
-            const ROTATE_MS = 3000;
-            const items = Array.from(document.querySelectorAll('#sponsor-carousel a'));
-            if (items.length <= 1) return;
+      (function() {
+          const ROTATE_MS = 3000;
+          const items = Array.from(document.querySelectorAll('#sponsor-carousel a'));
+          if (items.length <= 1) return;
 
-            let current = 0;
-            setInterval(() => {
-                const prev = items[current];
-                // Fade out the current item
-                prev.classList.remove('animate__fadeIn');
-                prev.classList.add('animate__fadeOut');
+          let current = 0;
+          setInterval(() => {
+              const prev = items[current];
+              // Fade out the current item
+              prev.classList.remove('animate__fadeIn');
+              prev.classList.add('animate__fadeOut');
 
-                // After fade-out animation, hide it
-                setTimeout(() => {
-                    prev.classList.add('hidden');
-                    prev.classList.remove('animate__animated', 'animate__fadeOut');
+              // After fade-out animation, hide it
+              setTimeout(() => {
+                  prev.classList.add('hidden');
+                  prev.classList.remove('animate__animated', 'animate__fadeOut');
 
-                    // Show next item with fade-in
-                    current = (current + 1) % items.length;
-                    const next = items[current];
-                    next.classList.remove('hidden');
-                    next.classList.add('animate__animated', 'animate__fadeIn');
-                }, 500); // Animate.css default fade duration (~500ms)
-            }, ROTATE_MS);
-        })();
+                  // Show next item with fade-in
+                  current = (current + 1) % items.length;
+                  const next = items[current];
+                  next.classList.remove('hidden');
+                  next.classList.add('animate__animated', 'animate__fadeIn');
+              }, 500); // Animate.css default fade duration (~500ms)
+          }, ROTATE_MS);
+      })();
   </script>
   <script>
       // Highlight active tab with pill-style background instead of underline
-      function highlightNav(){
-        const hash=window.location.hash||"#";
-        
-        // Highlight desktop navigation
-        document.querySelectorAll('.nav-btn').forEach(btn=>{
-          const target=btn.getAttribute('hx-push-url');
-          if(target===hash){
-            btn.classList.add('bg-primary','text-white','font-semibold','shadow-sm');
-            btn.classList.remove('text-gray-600','dark:text-gray-400','hover:text-primary','hover:bg-gray-50','dark:hover:text-white','dark:hover:bg-gray-800');
-          }else{
-            btn.classList.remove('bg-primary','text-white','font-semibold','shadow-sm');
-            btn.classList.add('text-gray-600','dark:text-gray-400','hover:text-primary','hover:bg-gray-50','dark:hover:text-white','dark:hover:bg-gray-800');
-          }
-        });
+      function highlightNav() {
+          const hash = window.location.hash || "#";
 
-        // Highlight mobile navigation
-        document.querySelectorAll('.mobile-nav-btn').forEach(btn=>{
-          const target=btn.getAttribute('hx-push-url');
-          if(target===hash){
-            btn.classList.add('text-primary','dark:text-primary');
-            btn.classList.remove('text-gray-500','dark:text-gray-400');
-          }else{
-            btn.classList.remove('text-primary','dark:text-primary');
-            btn.classList.add('text-gray-500','dark:text-gray-400');
-          }
-        });
+          // Highlight desktop navigation
+          document.querySelectorAll('.nav-btn').forEach(btn => {
+              const target = btn.getAttribute('hx-push-url');
+              if (target === hash) {
+                  btn.classList.add('bg-primary', 'text-white', 'font-semibold', 'shadow-sm');
+                  btn.classList.remove('text-gray-600', 'dark:text-gray-400', 'hover:text-primary', 'hover:bg-gray-50', 'dark:hover:text-white', 'dark:hover:bg-gray-800');
+              } else {
+                  btn.classList.remove('bg-primary', 'text-white', 'font-semibold', 'shadow-sm');
+                  btn.classList.add('text-gray-600', 'dark:text-gray-400', 'hover:text-primary', 'hover:bg-gray-50', 'dark:hover:text-white', 'dark:hover:bg-gray-800');
+              }
+          });
+
+          // Highlight mobile navigation
+          document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+              const target = btn.getAttribute('hx-push-url');
+              if (target === hash) {
+                  btn.classList.add('text-primary', 'dark:text-primary');
+                  btn.classList.remove('text-gray-500', 'dark:text-gray-400');
+              } else {
+                  btn.classList.remove('text-primary', 'dark:text-primary');
+                  btn.classList.add('text-gray-500', 'dark:text-gray-400');
+              }
+          });
       }
-      
+
       // Mobile theme toggle functionality
       function setupMobileThemeToggle() {
-        const mobileToggle = document.getElementById('mobile-theme-toggle');
-        const desktopToggle = document.getElementById('theme-toggle');
-        
-        if (mobileToggle && desktopToggle) {
-          mobileToggle.addEventListener('click', function() {
-            // Trigger the existing desktop theme toggle functionality
-            desktopToggle.click();
-          });
-        }
+          const mobileToggle = document.getElementById('mobile-theme-toggle');
+          const desktopToggle = document.getElementById('theme-toggle');
+
+          if (mobileToggle && desktopToggle) {
+              mobileToggle.addEventListener('click', function() {
+                  // Trigger the existing desktop theme toggle functionality
+                  desktopToggle.click();
+              });
+          }
       }
-      
-      window.addEventListener('hashchange',highlightNav);
+
+      window.addEventListener('hashchange', highlightNav);
       document.addEventListener('DOMContentLoaded', function() {
-        highlightNav();
-        setupMobileThemeToggle();
+          highlightNav();
+          setupMobileThemeToggle();
       });
       // Also tie into HTMX after content swap to ensure hash may be set programmatically
-      document.body.addEventListener('htmx:afterSwap',highlightNav);
+      document.body.addEventListener('htmx:afterSwap', highlightNav);
   </script>
-{% endblock %}
+{% endblock main %}

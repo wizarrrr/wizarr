@@ -121,12 +121,12 @@
         const selectAllCheckbox = document.getElementById('select_all_servers');
         const serverCheckboxes = document.querySelectorAll('input[name="server_accounts"]');
         const submitBtn = document.getElementById('delete_submit_btn');
-        
+
         if (!selectAllCheckbox || !submitBtn) {
             console.warn('Delete modal elements not found');
             return;
         }
-        
+
         // Toggle all server checkboxes when "select all" is clicked
         selectAllCheckbox.addEventListener('change', function() {
             serverCheckboxes.forEach(checkbox => {
@@ -134,24 +134,24 @@
             });
             updateSubmitButton();
         });
-        
+
         // Update select all checkbox state when individual checkboxes change
         serverCheckboxes.forEach(checkbox => {
             checkbox.addEventListener('change', function() {
                 const allChecked = Array.from(serverCheckboxes).every(cb => cb.checked);
                 const someChecked = Array.from(serverCheckboxes).some(cb => cb.checked);
-                
+
                 selectAllCheckbox.checked = allChecked;
                 selectAllCheckbox.indeterminate = someChecked && !allChecked;
                 updateSubmitButton();
             });
         });
-        
+
         // Enable/disable submit button based on selections
         function updateSubmitButton() {
             const anySelected = Array.from(serverCheckboxes).some(cb => cb.checked);
             submitBtn.disabled = !anySelected;
-            
+
             const btnText = document.getElementById('delete-btn-text');
             const btnLoading = document.getElementById('delete-btn-loading');
             if (selectAllCheckbox.checked) {
@@ -164,7 +164,7 @@
                 submitBtn.className = submitBtn.className.replace('bg-red-800 hover:bg-red-900', 'bg-red-600 hover:bg-red-700');
             }
         }
-        
+
         // HTMX loading state management
         const form = document.querySelector('form[hx-post*="process_user_deletion"]');
         if (form) {
@@ -172,26 +172,26 @@
                 const btnText = document.getElementById('delete-btn-text');
                 const btnLoading = document.getElementById('delete-btn-loading');
                 const submitButton = document.getElementById('delete_submit_btn');
-                
+
                 console.log('Before request - showing loading state');
-                
+
                 if (btnText && btnLoading && submitButton) {
                     // Disable the button immediately to prevent double submissions
                     submitButton.disabled = true;
-                    
+
                     // Show loading state
                     btnText.classList.add('hidden');
                     btnLoading.classList.remove('hidden');
                 }
             });
-            
+
             form.addEventListener('htmx:afterRequest', function(event) {
                 const btnText = document.getElementById('delete-btn-text');
                 const btnLoading = document.getElementById('delete-btn-loading');
                 const submitButton = document.getElementById('delete_submit_btn');
-                
+
                 console.log('After request - hiding loading state');
-                
+
                 if (btnText && btnLoading && submitButton) {
                     // Re-enable button and hide loading
                     submitButton.disabled = false;
@@ -200,7 +200,7 @@
                 }
             });
         }
-        
+
         // Also handle direct button click for immediate feedback
         if (submitBtn) {
             submitBtn.addEventListener('click', function(e) {
@@ -208,9 +208,9 @@
                 if (!this.disabled && Array.from(serverCheckboxes).some(cb => cb.checked)) {
                     const btnText = document.getElementById('delete-btn-text');
                     const btnLoading = document.getElementById('delete-btn-loading');
-                    
+
                     console.log('Button clicked - showing loading state immediately');
-                    
+
                     if (btnText && btnLoading) {
                         // Small delay to ensure it shows before HTMX takes over
                         setTimeout(() => {
@@ -222,7 +222,7 @@
                 }
             });
         }
-        
+
         // Initial state
         updateSubmitButton();
     })();

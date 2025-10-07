@@ -61,30 +61,30 @@
     </div>
   </div>
   <script>
-    function showPresetFields() {
-      const selectedPreset = document.getElementById('preset-select').value;
-      
-      // Hide all preset fields and descriptions
-      document.querySelectorAll('.preset-fields').forEach(el => el.style.display = 'none');
-      document.querySelectorAll('.preset-description').forEach(el => el.style.display = 'none');
-      
-      // Show relevant fields and description
-      if (selectedPreset === 'discord_community') {
-        document.getElementById('discord-fields').style.display = 'block';
-        document.getElementById('preset-desc-discord_community').style.display = 'block';
-      } else if (selectedPreset === 'overseerr_requests') {
-        document.getElementById('overseerr-fields').style.display = 'block';
-        document.getElementById('preset-desc-overseerr_requests').style.display = 'block';
-      }
-    }
+      function showPresetFields() {
+          const selectedPreset = document.getElementById('preset-select').value;
 
-    // Show/hide preset fields based on selection
-    document.getElementById('preset-select').addEventListener('change', showPresetFields);
-    
-    // Initialize fields on page load
-    document.addEventListener('DOMContentLoaded', showPresetFields);
-    
-    // Also trigger immediately in case DOMContentLoaded already fired
-    showPresetFields();
+          // Hide all preset fields and descriptions
+          document.querySelectorAll('.preset-fields').forEach(el => el.style.display = 'none');
+          document.querySelectorAll('.preset-description').forEach(el => el.style.display = 'none');
+
+          // Show relevant fields and description
+          if (selectedPreset === 'discord_community') {
+              document.getElementById('discord-fields').style.display = 'block';
+              document.getElementById('preset-desc-discord_community').style.display = 'block';
+          } else if (selectedPreset === 'overseerr_requests') {
+              document.getElementById('overseerr-fields').style.display = 'block';
+              document.getElementById('preset-desc-overseerr_requests').style.display = 'block';
+          }
+      }
+
+      // Show/hide preset fields based on selection
+      document.getElementById('preset-select').addEventListener('change', showPresetFields);
+
+      // Initialize fields on page load
+      document.addEventListener('DOMContentLoaded', showPresetFields);
+
+      // Also trigger immediately in case DOMContentLoaded already fired
+      showPresetFields();
   </script>
 </div>

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Login{% endblock %}
+{% block title %}Login{% endblock title %}
 {% block main %}
   <section class="bg-gray-50 dark:bg-gray-900">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
@@ -37,7 +37,7 @@
               </div>
             {% endif %}
             {% if not show_2fa %}
-              <form class="space-y-4 md:space-y-6" action="/login" method="POST">
+              <form class="space-y-4 md:space-y-6" action="{{ url_for('auth.login') }}" method="post">
                 <div>
                   <label for="username"
                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -141,137 +141,145 @@
       </div>
     </section>
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const passkeyLoginBtn = document.getElementById('passkey-login');
-    const usernameInput = document.getElementById('username');
-    const backToLoginBtn = document.getElementById('back-to-login');
-    
-    // Handle back to login button
-    if (backToLoginBtn) {
-        backToLoginBtn.addEventListener('click', function() {
-            window.location.href = '/login';
-        });
-    }
-    
-    passkeyLoginBtn.addEventListener('click', async function() {
-        try {
-            passkeyLoginBtn.disabled = true;
-            passkeyLoginBtn.innerHTML = `
+        document.addEventListener('DOMContentLoaded', function() {
+            const passkeyLoginBtn = document.getElementById('passkey-login');
+            const usernameInput = document.getElementById('username');
+            const backToLoginBtn = document.getElementById('back-to-login');
+
+            // Handle back to login button
+            if (backToLoginBtn) {
+                backToLoginBtn.addEventListener('click', function() {
+                    window.location.href = '/login';
+                });
+            }
+
+            passkeyLoginBtn.addEventListener('click', async function() {
+                try {
+                    passkeyLoginBtn.disabled = true;
+                    passkeyLoginBtn.innerHTML = `
                 <div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600 mr-2"></div>
                 {{ _("Authenticating...") }}
             `;
-            
-            // Begin authentication (usernameless)
-            const beginResponse = await fetch('/webauthn/authenticate/begin', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({})
-            });
-            
-            if (!beginResponse.ok) {
-                const error = await beginResponse.json();
-                throw new Error(error.error || '{{ _("Authentication failed") }}');
-            }
-            
-            const options = await beginResponse.json();
-            
-            // Convert base64url to Uint8Array for WebAuthn API
-            options.challenge = base64urlToUint8Array(options.challenge);
-            if (options.allowCredentials) {
-                options.allowCredentials = options.allowCredentials.map(cred => ({
-                    ...cred,
-                    id: base64urlToUint8Array(cred.id)
-                }));
-            }
-            
-            // Get credential
-            const credential = await navigator.credentials.get({ publicKey: options });
-            
-            // Convert ArrayBuffer values to base64url
-            // The webauthn library expects both id and rawId to be the same base64url value
-            const credentialId = uint8ArrayToBase64url(new Uint8Array(credential.rawId));
-            
-            // Complete authentication
-            const completeResponse = await fetch('/webauthn/authenticate/complete', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    credential: {
-                        id: credentialId,  // Both fields must have the same value
-                        rawId: credentialId,  // Both fields must have the same value
-                        response: {
-                            clientDataJSON: uint8ArrayToBase64url(new Uint8Array(credential.response.clientDataJSON)),
-                            authenticatorData: uint8ArrayToBase64url(new Uint8Array(credential.response.authenticatorData)),
-                            signature: uint8ArrayToBase64url(new Uint8Array(credential.response.signature)),
-                            userHandle: credential.response.userHandle ? uint8ArrayToBase64url(new Uint8Array(credential.response.userHandle)) : null
+
+                    // Begin authentication (usernameless)
+                    const beginResponse = await fetch('/webauthn/authenticate/begin', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
                         },
-                        type: credential.type,
-                        transports: credential.response.getTransports ? credential.response.getTransports() : []
+                        body: JSON.stringify({})
+                    });
+
+                    if (!beginResponse.ok) {
+                        const error = await beginResponse.json();
+                        throw new Error(error.error || '{{ _("Authentication failed") }}');
                     }
-                })
-            });
-            
-            if (completeResponse.ok) {
-                const result = await completeResponse.json();
-                if (result.verified && result.redirect) {
-                    // For 2FA completion, we need to make a POST request to complete the login
-                    if (result.redirect.includes('complete-2fa')) {
-                        const completeLoginResponse = await fetch(result.redirect, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' }
-                        });
-                        if (completeLoginResponse.ok) {
-                            window.location.href = '/';
+
+                    const options = await beginResponse.json();
+
+                    // Convert base64url to Uint8Array for WebAuthn API
+                    options.challenge = base64urlToUint8Array(options.challenge);
+                    if (options.allowCredentials) {
+                        options.allowCredentials = options.allowCredentials.map(cred => ({
+                            ...cred,
+                            id: base64urlToUint8Array(cred.id)
+                        }));
+                    }
+
+                    // Get credential
+                    const credential = await navigator.credentials.get({
+                        publicKey: options
+                    });
+
+                    // Convert ArrayBuffer values to base64url
+                    // The webauthn library expects both id and rawId to be the same base64url value
+                    const credentialId = uint8ArrayToBase64url(new Uint8Array(credential.rawId));
+
+                    // Complete authentication
+                    const completeResponse = await fetch('/webauthn/authenticate/complete', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            credential: {
+                                id: credentialId, // Both fields must have the same value
+                                rawId: credentialId, // Both fields must have the same value
+                                response: {
+                                    clientDataJSON: uint8ArrayToBase64url(new Uint8Array(credential.response.clientDataJSON)),
+                                    authenticatorData: uint8ArrayToBase64url(new Uint8Array(credential.response.authenticatorData)),
+                                    signature: uint8ArrayToBase64url(new Uint8Array(credential.response.signature)),
+                                    userHandle: credential.response.userHandle ? uint8ArrayToBase64url(new Uint8Array(credential.response.userHandle)) : null
+                                },
+                                type: credential.type,
+                                transports: credential.response.getTransports ? credential.response.getTransports() : []
+                            }
+                        })
+                    });
+
+                    if (completeResponse.ok) {
+                        const result = await completeResponse.json();
+                        if (result.verified && result.redirect) {
+                            // For 2FA completion, we need to make a POST request to complete the login
+                            if (result.redirect.includes('complete-2fa')) {
+                                const completeLoginResponse = await fetch(result.redirect, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                });
+                                if (completeLoginResponse.ok) {
+                                    window.location.href = '/';
+                                } else {
+                                    throw new Error('{{ _("Failed to complete 2FA login") }}');
+                                }
+                            } else {
+                                window.location.href = result.redirect;
+                            }
                         } else {
-                            throw new Error('{{ _("Failed to complete 2FA login") }}');
+                            throw new Error('{{ _("Authentication failed") }}');
                         }
                     } else {
-                        window.location.href = result.redirect;
+                        const error = await completeResponse.json();
+                        throw new Error(error.error || '{{ _("Authentication failed") }}');
                     }
-                } else {
-                    throw new Error('{{ _("Authentication failed") }}');
-                }
-            } else {
-                const error = await completeResponse.json();
-                throw new Error(error.error || '{{ _("Authentication failed") }}');
-            }
-            
-        } catch (error) {
-            console.error('Passkey authentication failed:', error);
-            alert(error.message || '{{ _("Passkey authentication failed. Please try again or use your password.") }}');
-        } finally {
-            passkeyLoginBtn.disabled = false;
-            passkeyLoginBtn.innerHTML = `
+
+                } catch (error) {
+                    console.error('Passkey authentication failed:', error);
+                    alert(error.message || '{{ _("Passkey authentication failed. Please try again or use your password.") }}');
+                } finally {
+                    passkeyLoginBtn.disabled = false;
+                    passkeyLoginBtn.innerHTML = `
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                 </svg>
                 {{ _("Sign in with Passkey") }}
             `;
-        }
-    });
-    
-    function base64urlToUint8Array(base64url) {
-        const base64 = base64url.replace(/-/g, '+').replace(/_/g, '/');
-        const padded = base64.padEnd(base64.length + (4 - base64.length % 4) % 4, '=');
-        const binary = atob(padded);
-        const bytes = new Uint8Array(binary.length);
-        for (let i = 0; i < binary.length; i++) {
-            bytes[i] = binary.charCodeAt(i);
-        }
-        return bytes;
-    }
-    
-    function uint8ArrayToBase64url(array) {
-        // Process in chunks to avoid "Maximum call stack size exceeded" for large arrays
-        const chunkSize = 8192;
-        let binary = '';
-        for (let i = 0; i < array.length; i += chunkSize) {
-            const chunk = array.slice(i, i + chunkSize);
-            binary += String.fromCharCode.apply(null, chunk);
-        }
-        const base64 = btoa(binary);
-        return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-    }
-});
+                }
+            });
+
+            function base64urlToUint8Array(base64url) {
+                const base64 = base64url.replace(/-/g, '+').replace(/_/g, '/');
+                const padded = base64.padEnd(base64.length + (4 - base64.length % 4) % 4, '=');
+                const binary = atob(padded);
+                const bytes = new Uint8Array(binary.length);
+                for (let i = 0; i < binary.length; i++) {
+                    bytes[i] = binary.charCodeAt(i);
+                }
+                return bytes;
+            }
+
+            function uint8ArrayToBase64url(array) {
+                // Process in chunks to avoid "Maximum call stack size exceeded" for large arrays
+                const chunkSize = 8192;
+                let binary = '';
+                for (let i = 0; i < array.length; i += chunkSize) {
+                    const chunk = array.slice(i, i + chunkSize);
+                    binary += String.fromCharCode.apply(null, chunk);
+                }
+                const base64 = btoa(binary);
+                return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+            }
+        });
     </script>
-  {% endblock %}
+  {% endblock main %}

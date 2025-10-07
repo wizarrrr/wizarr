@@ -402,94 +402,96 @@
   </div>
 </div>
 <script>
-function copyLink() {
-    const copyText = document.getElementById("link");
-    copyToClipboard(copyText.value, (success) => {
-        if (success) {
-            document.getElementById("successfully_copied").hidden = false;
-        } else {
-            // Fallback already shows alert, but we can add additional feedback here if needed
-            console.error("Copy failed");
-        }
-    });
-}
-
-function showAdvanced() {
-    const adv = document.getElementById("advanced");
-    adv.classList.toggle("hidden");
-}
-
-function updatePrimaryServer() {
-    // This function is no longer needed since we removed the hidden server_id field
-    // Keeping it for now to avoid breaking existing checkbox onchange handlers
-}
-
-function handleServerToggle(checkbox, serverId) {
-    // When a server is unchecked, clear its library dropdown to prevent duplicate submissions
-    if (!checkbox.checked) {
-        const dropdownContent = document.querySelector(`#libMenu${serverId} .dropdown-content`);
-        if (dropdownContent) {
-            // Clear the dropdown content to remove any library checkboxes
-            dropdownContent.innerHTML = '{{ _("Loading…") }}';
-        }
-    }
-}
-
-function validateServerSelection() {
-    const checkboxes = document.querySelectorAll('#server-grid input[name="server_ids"]');
-    const isAnySelected = Array.from(checkboxes).some(checkbox => checkbox.checked);
-    
-    if (!isAnySelected) {
-        alert('{{ _("Please select at least one server for the invitation.") }}');
-        return false;
-    }
-    
-    // Disable library checkboxes for unselected servers to prevent them from being submitted
-    checkboxes.forEach(checkbox => {
-        const serverId = checkbox.value;
-        const libraryCheckboxes = document.querySelectorAll(`#libMenu${serverId} input[name="libraries"]`);
-        libraryCheckboxes.forEach(libCheckbox => {
-            libCheckbox.disabled = !checkbox.checked;
+    function copyLink() {
+        const copyText = document.getElementById("link");
+        copyToClipboard(copyText.value, (success) => {
+            if (success) {
+                document.getElementById("successfully_copied").hidden = false;
+            } else {
+                // Fallback already shows alert, but we can add additional feedback here if needed
+                console.error("Copy failed");
+            }
         });
-    });
-    
-    return true;
-}
+    }
 
-function toggleDropdown(id){
-    const el=document.getElementById(id);
-    if(el) { el.classList.toggle('hidden'); }
-}
+    function showAdvanced() {
+        const adv = document.getElementById("advanced");
+        adv.classList.toggle("hidden");
+    }
 
-function createAnother() {
-    // Reload the invite form
-    htmx.ajax('GET', '/invite', {
-        target: '#inviteModalContent',
-        swap: 'innerHTML'
-    });
-}
+    function updatePrimaryServer() {
+        // This function is no longer needed since we removed the hidden server_id field
+        // Keeping it for now to avoid breaking existing checkbox onchange handlers
+    }
 
-function closeInviteModal() {
-    document.getElementById('invite-modal').innerHTML = '';
-}
-
-// Handle successful form submission in modal context
-document.body.addEventListener('htmx:afterSwap', function(evt) {
-    if (evt.detail.target.id === 'inviteModalContent') {
-        // Check if this is the success view
-        const link = document.getElementById('link');
-        if (link) {
-            // Refresh the invitations table on the main page
-            htmx.ajax('POST', '/invite/table', {
-                target: '#invite_table',
-                swap: 'outerHTML',
-                values: {
-                    server: document.getElementById('invite_server_filter')?.value || ''
-                }
-            });
-            
-            // Removed auto-close to allow users ample time to copy the link manually
+    function handleServerToggle(checkbox, serverId) {
+        // When a server is unchecked, clear its library dropdown to prevent duplicate submissions
+        if (!checkbox.checked) {
+            const dropdownContent = document.querySelector(`#libMenu${serverId} .dropdown-content`);
+            if (dropdownContent) {
+                // Clear the dropdown content to remove any library checkboxes
+                dropdownContent.innerHTML = '{{ _("Loading…") }}';
+            }
         }
     }
-});
+
+    function validateServerSelection() {
+        const checkboxes = document.querySelectorAll('#server-grid input[name="server_ids"]');
+        const isAnySelected = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+        if (!isAnySelected) {
+            alert('{{ _("Please select at least one server for the invitation.") }}');
+            return false;
+        }
+
+        // Disable library checkboxes for unselected servers to prevent them from being submitted
+        checkboxes.forEach(checkbox => {
+            const serverId = checkbox.value;
+            const libraryCheckboxes = document.querySelectorAll(`#libMenu${serverId} input[name="libraries"]`);
+            libraryCheckboxes.forEach(libCheckbox => {
+                libCheckbox.disabled = !checkbox.checked;
+            });
+        });
+
+        return true;
+    }
+
+    function toggleDropdown(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.classList.toggle('hidden');
+        }
+    }
+
+    function createAnother() {
+        // Reload the invite form
+        htmx.ajax('GET', '/invite', {
+            target: '#inviteModalContent',
+            swap: 'innerHTML'
+        });
+    }
+
+    function closeInviteModal() {
+        document.getElementById('invite-modal').innerHTML = '';
+    }
+
+    // Handle successful form submission in modal context
+    document.body.addEventListener('htmx:afterSwap', function(evt) {
+        if (evt.detail.target.id === 'inviteModalContent') {
+            // Check if this is the success view
+            const link = document.getElementById('link');
+            if (link) {
+                // Refresh the invitations table on the main page
+                htmx.ajax('POST', '/invite/table', {
+                    target: '#invite_table',
+                    swap: 'outerHTML',
+                    values: {
+                        server: document.getElementById('invite_server_filter')?.value || ''
+                    }
+                });
+
+                // Removed auto-close to allow users ample time to copy the link manually
+            }
+        }
+    });
 </script>

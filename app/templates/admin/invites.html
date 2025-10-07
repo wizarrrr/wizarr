@@ -37,25 +37,25 @@
   <div id="invite-modal"></div>
 </section>
 <script>
-// Modal functions
-function openInviteModal() {
-    // Load invite form into the modal container
-    htmx.ajax('GET', '/invite', {
-        target: '#invite-modal',
-        swap: 'innerHTML'
-    });
-}
-
-function closeInviteModal() {
-    document.getElementById('invite-modal').innerHTML = '';
-}
-
-// Close modal on escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeInviteModal();
+    // Modal functions
+    function openInviteModal() {
+        // Load invite form into the modal container
+        htmx.ajax('GET', '/invite', {
+            target: '#invite-modal',
+            swap: 'innerHTML'
+        });
     }
-});
+
+    function closeInviteModal() {
+        document.getElementById('invite-modal').innerHTML = '';
+    }
+
+    // Close modal on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeInviteModal();
+        }
+    });
 
     function tableCopyLink(invite_code) {
         var url = window.location.origin;

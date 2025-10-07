@@ -161,7 +161,7 @@
 
     function toggleService(value) {
         const notificationAgentInfo = document.getElementsByClassName('notificationAgentInfo')
-        
+
         for (let i = 0; i < notificationAgentInfo.length; i++) {
             notificationAgentInfo[i].style.display = 'none';
         }
@@ -169,8 +169,7 @@
         // Trigger sections
         if (value === 'ntfy') {
             credentialsSection.style.display = 'block';
-        }
-        else if (value === "notifiarr") {
+        } else if (value === "notifiarr") {
             notifiarrSection.style.display = 'block';
         }
 

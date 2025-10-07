@@ -90,20 +90,20 @@
   </div>
 </div>
 <script>
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(function() {
-        // Show a temporary success message
-        const button = event.target.closest('button');
-        const originalContent = button.innerHTML;
-        button.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
-        setTimeout(() => {
-            button.innerHTML = originalContent;
-        }, 2000);
-    });
-}
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(function() {
+            // Show a temporary success message
+            const button = event.target.closest('button');
+            const originalContent = button.innerHTML;
+            button.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+            setTimeout(() => {
+                button.innerHTML = originalContent;
+            }, 2000);
+        });
+    }
 
-function closeModal() {
-    // Refresh the page to show the updated API keys list
-    window.location.reload();
-}
+    function closeModal() {
+        // Refresh the page to show the updated API keys list
+        window.location.reload();
+    }
 </script>

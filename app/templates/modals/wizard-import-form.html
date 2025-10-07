@@ -119,20 +119,20 @@
   </div>
 </div>
 <script>
-// Enhanced file upload with drag and drop feedback
-document.addEventListener('DOMContentLoaded', function() {
-    const fileInput = document.getElementById('{{ form.file.id }}');
-    const label = fileInput.closest('label');
-    
-    // File selection feedback
-    fileInput.addEventListener('change', function() {
-        if (this.files && this.files[0]) {
-            const fileName = this.files[0].name;
-            const fileSize = (this.files[0].size / 1024).toFixed(1) + ' KB';
-            
-            // Update the label content
-            const content = label.querySelector('.flex.flex-col');
-            content.innerHTML = `
+    // Enhanced file upload with drag and drop feedback
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('{{ form.file.id }}');
+        const label = fileInput.closest('label');
+
+        // File selection feedback
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const fileName = this.files[0].name;
+                const fileSize = (this.files[0].size / 1024).toFixed(1) + ' KB';
+
+                // Update the label content
+                const content = label.querySelector('.flex.flex-col');
+                content.innerHTML = `
                 <svg class="w-8 h-8 mb-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
@@ -141,30 +141,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 </p>
                 <p class="text-xs text-gray-500 dark:text-gray-400">${fileSize}</p>
             `;
-            label.classList.remove('border-gray-300', 'bg-gray-50');
-            label.classList.add('border-green-300', 'bg-green-50', 'dark:bg-green-900/20');
-        }
-    });
+                label.classList.remove('border-gray-300', 'bg-gray-50');
+                label.classList.add('border-green-300', 'bg-green-50', 'dark:bg-green-900/20');
+            }
+        });
 
-    // Drag and drop styling
-    label.addEventListener('dragover', function(e) {
-        e.preventDefault();
-        this.classList.add('border-primary', 'bg-primary/5');
-    });
+        // Drag and drop styling
+        label.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('border-primary', 'bg-primary/5');
+        });
 
-    label.addEventListener('dragleave', function(e) {
-        e.preventDefault();
-        this.classList.remove('border-primary', 'bg-primary/5');
-    });
+        label.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('border-primary', 'bg-primary/5');
+        });
 
-    label.addEventListener('drop', function(e) {
-        e.preventDefault();
-        this.classList.remove('border-primary', 'bg-primary/5');
-        
-        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            fileInput.files = e.dataTransfer.files;
-            fileInput.dispatchEvent(new Event('change'));
-        }
+        label.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('border-primary', 'bg-primary/5');
+
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                fileInput.files = e.dataTransfer.files;
+                fileInput.dispatchEvent(new Event('change'));
+            }
+        });
     });
-});
 </script>

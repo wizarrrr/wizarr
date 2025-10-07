@@ -108,225 +108,246 @@
        {% if idx == max_idx %}style="display:none"{% endif %}
        {% if require_interaction %}
          aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"
-       {% endif %}>{{ _("Next") }} ›</a>
+       {% endif %}>{{ _('Next') }} ›</a>
   </div>
 </div>
 <script>
-/**
- * WIZARR WIZARD ARCHITECTURE
- * ==========================
- *
- * A modular, app-like wizard system with fixed UI chrome and smooth content transitions.
- *
- * STRUCTURE:
- * ----------
- * 1. Templates:
- *    - wizard/frame.html        → Full page wrapper (initial load only)
- *    - wizard/steps.html        → Wrapper with UI chrome (progress, buttons)
- *    - wizard/_content.html     → Content-only partial (HTMX swaps)
- *
- * 2. Request Flow:
- *    - Initial load:  Returns frame.html → includes steps.html → includes _content.html
- *    - HTMX request:  Returns _content.html ONLY (no UI chrome duplication)
- *
- * 3. State Management:
- *    - Server sends headers: X-Wizard-Idx, X-Require-Interaction
- *    - Client updates: Progress bars, button URLs, button visibility
- *    - Wrapper stores: data-current-idx, data-max-idx, data-server-type
- *
- * 4. Mobile Features:
- *    - Fixed progress bar at top (no scroll)
- *    - Fixed navigation buttons at bottom (circular, gradient)
- *    - Swipe gestures (left=next, right=prev)
- *    - Content-only scrolling with smooth animations
- *
- * IMPORTANT:
- * ----------
- * - NEVER swap the wrapper (causes UI duplication)
- * - ONLY swap #wizard-content
- * - Progress/buttons update via JavaScript, not DOM replacement
- */
+    /**
+     * WIZARR WIZARD ARCHITECTURE
+     * ==========================
+     *
+     * A modular, app-like wizard system with fixed UI chrome and smooth content transitions.
+     *
+     * STRUCTURE:
+     * ----------
+     * 1. Templates:
+     *    - wizard/frame.html        → Full page wrapper (initial load only)
+     *    - wizard/steps.html        → Wrapper with UI chrome (progress, buttons)
+     *    - wizard/_content.html     → Content-only partial (HTMX swaps)
+     *
+     * 2. Request Flow:
+     *    - Initial load:  Returns frame.html → includes steps.html → includes _content.html
+     *    - HTMX request:  Returns _content.html ONLY (no UI chrome duplication)
+     *
+     * 3. State Management:
+     *    - Server sends headers: X-Wizard-Idx, X-Require-Interaction
+     *    - Client updates: Progress bars, button URLs, button visibility
+     *    - Wrapper stores: data-current-idx, data-max-idx, data-server-type
+     *
+     * 4. Mobile Features:
+     *    - Fixed progress bar at top (no scroll)
+     *    - Fixed navigation buttons at bottom (circular, gradient)
+     *    - Swipe gestures (left=next, right=prev)
+     *    - Content-only scrolling with smooth animations
+     *
+     * IMPORTANT:
+     * ----------
+     * - NEVER swap the wrapper (causes UI duplication)
+     * - ONLY swap #wizard-content
+     * - Progress/buttons update via JavaScript, not DOM replacement
+     */
 
-// Modern wizard controller
-const WizardController = {
-  wrapper: null,
-  isInitialized: false,
+    // Modern wizard controller
+    const WizardController = {
+        wrapper: null,
+        isInitialized: false,
 
-  init() {
-    // Prevent double initialization
-    if (this.isInitialized) return;
+        init() {
+            // Prevent double initialization
+            if (this.isInitialized) return;
 
-    this.wrapper = document.getElementById('wizard-wrapper');
-    if (!this.wrapper) {
-      console.error('Wizard wrapper not found');
-      return;
-    }
+            this.wrapper = document.getElementById('wizard-wrapper');
+            if (!this.wrapper) {
+                console.error('Wizard wrapper not found');
+                return;
+            }
 
-    // Listen for content swaps
-    document.body.addEventListener('htmx:afterSwap', (evt) => {
-      if (evt.detail.target.id === 'wizard-content') {
-        this.updateUI(evt.detail.xhr);
-      }
-    });
+            // Listen for content swaps
+            document.body.addEventListener('htmx:afterSwap', (evt) => {
+                if (evt.detail.target.id === 'wizard-content') {
+                    this.updateUI(evt.detail.xhr);
+                }
+            });
 
-    this.isInitialized = true;
-    console.log('WizardController initialized');
-  },
+            this.isInitialized = true;
+            console.log('WizardController initialized');
+        },
 
-  getCurrentIdx() {
-    return parseInt(this.wrapper.dataset.currentIdx);
-  },
+        getCurrentIdx() {
+            return parseInt(this.wrapper.dataset.currentIdx);
+        },
 
-  getMaxIdx() {
-    return parseInt(this.wrapper.dataset.maxIdx);
-  },
+        getMaxIdx() {
+            return parseInt(this.wrapper.dataset.maxIdx);
+        },
 
-  getServerType() {
-    return this.wrapper.dataset.serverType;
-  },
+        getServerType() {
+            return this.wrapper.dataset.serverType;
+        },
 
-  updateUI(xhr) {
-    if (!xhr) {
-      console.error('No XHR object provided');
-      return;
-    }
+        updateUI(xhr) {
+            if (!xhr) {
+                console.error('No XHR object provided');
+                return;
+            }
 
-    const newIdx = parseInt(xhr.getResponseHeader('X-Wizard-Idx'));
-    const requireInteraction = xhr.getResponseHeader('X-Require-Interaction') === 'true';
-    const maxIdx = this.getMaxIdx();
-    const serverType = this.getServerType();
+            const newIdx = parseInt(xhr.getResponseHeader('X-Wizard-Idx'));
+            const requireInteraction = xhr.getResponseHeader('X-Require-Interaction') === 'true';
+            const maxIdx = this.getMaxIdx();
+            const serverType = this.getServerType();
 
-    // Validation
-    if (isNaN(newIdx) || isNaN(maxIdx)) {
-      console.error('Invalid index values:', { newIdx, maxIdx });
-      return;
-    }
+            // Validation
+            if (isNaN(newIdx) || isNaN(maxIdx)) {
+                console.error('Invalid index values:', {
+                    newIdx,
+                    maxIdx
+                });
+                return;
+            }
 
-    if (newIdx < 0 || newIdx > maxIdx) {
-      console.error('Index out of bounds:', { newIdx, maxIdx });
-      return;
-    }
+            if (newIdx < 0 || newIdx > maxIdx) {
+                console.error('Index out of bounds:', {
+                    newIdx,
+                    maxIdx
+                });
+                return;
+            }
 
-    console.log('✅ Wizard update:', { newIdx, maxIdx, serverType, requireInteraction });
+            console.log('✅ Wizard update:', {
+                newIdx,
+                maxIdx,
+                serverType,
+                requireInteraction
+            });
 
-    // Update wrapper state
-    this.wrapper.dataset.currentIdx = newIdx;
+            // Update wrapper state
+            this.wrapper.dataset.currentIdx = newIdx;
 
-    // Update progress
-    this.updateProgress(newIdx, maxIdx);
+            // Update progress
+            this.updateProgress(newIdx, maxIdx);
 
-    // Update navigation buttons
-    this.updateButtons(newIdx, maxIdx, serverType, requireInteraction);
-  },
+            // Update navigation buttons
+            this.updateButtons(newIdx, maxIdx, serverType, requireInteraction);
+        },
 
-  updateProgress(idx, maxIdx) {
-    const percentage = ((idx + 1) / (maxIdx + 1)) * 100;
+        updateProgress(idx, maxIdx) {
+            const percentage = ((idx + 1) / (maxIdx + 1)) * 100;
 
-    // Update progress bars
-    ['progress-bar-mobile', 'progress-bar-desktop'].forEach(id => {
-      const bar = document.getElementById(id);
-      if (bar) bar.style.width = `${percentage}%`;
-    });
+            // Update progress bars
+            ['progress-bar-mobile', 'progress-bar-desktop'].forEach(id => {
+                const bar = document.getElementById(id);
+                if (bar) bar.style.width = `${percentage}%`;
+            });
 
-    // Update text - find spans by content pattern
-    document.querySelectorAll('#wizard-progress-mobile span, #wizard-progress-desktop span').forEach(span => {
-      const text = span.textContent.trim();
-      if (text.match(/Step \d+/)) {
-        span.textContent = `Step ${idx + 1} of ${maxIdx + 1}`;
-      } else if (text.match(/\d+%/)) {
-        span.textContent = `${Math.round(percentage)}%`;
-      }
-    });
-  },
+            // Update text - find spans by content pattern
+            document.querySelectorAll('#wizard-progress-mobile span, #wizard-progress-desktop span').forEach(span => {
+                const text = span.textContent.trim();
+                if (text.match(/Step \d+/)) {
+                    span.textContent = `Step ${idx + 1} of ${maxIdx + 1}`;
+                } else if (text.match(/\d+%/)) {
+                    span.textContent = `${Math.round(percentage)}%`;
+                }
+            });
+        },
 
-  updateButtons(idx, maxIdx, serverType, requireInteraction) {
-    const buttonConfigs = [
-      { id: 'wizard-prev-btn', isPrev: true },
-      { id: 'wizard-prev-btn-desktop', isPrev: true },
-      { id: 'wizard-next-btn', isPrev: false },
-      { id: 'wizard-next-btn-desktop', isPrev: false }
-    ];
+        updateButtons(idx, maxIdx, serverType, requireInteraction) {
+            const buttonConfigs = [{
+                id: 'wizard-prev-btn',
+                isPrev: true
+            }, {
+                id: 'wizard-prev-btn-desktop',
+                isPrev: true
+            }, {
+                id: 'wizard-next-btn',
+                isPrev: false
+            }, {
+                id: 'wizard-next-btn-desktop',
+                isPrev: false
+            }];
 
-    buttonConfigs.forEach(({ id, isPrev }) => {
-      const btn = document.getElementById(id);
-      if (!btn) return;
+            buttonConfigs.forEach(({
+                id,
+                isPrev
+            }) => {
+                const btn = document.getElementById(id);
+                if (!btn) return;
 
-      const targetIdx = isPrev ? idx - 1 : idx + 1;
-      const newUrl = `/wizard/${serverType}/${targetIdx}`;
+                const targetIdx = isPrev ? idx - 1 : idx + 1;
+                const newUrl = `/wizard/${serverType}/${targetIdx}`;
 
-      // Update URL
-      btn.setAttribute('hx-get', newUrl);
+                // Update URL
+                btn.setAttribute('hx-get', newUrl);
 
-      // Update visibility and state
-      if (isPrev) {
-        btn.style.display = idx === 0 ? 'none' : '';
-      } else {
-        btn.style.display = idx === maxIdx ? 'none' : '';
+                // Update visibility and state
+                if (isPrev) {
+                    btn.style.display = idx === 0 ? 'none' : '';
+                } else {
+                    btn.style.display = idx === maxIdx ? 'none' : '';
 
-        // Handle interaction requirement
-        if (requireInteraction) {
-          btn.setAttribute('aria-disabled', 'true');
-          btn.dataset.disabled = '1';
-        } else {
-          btn.removeAttribute('aria-disabled');
-          delete btn.dataset.disabled;
+                    // Handle interaction requirement
+                    if (requireInteraction) {
+                        btn.setAttribute('aria-disabled', 'true');
+                        btn.dataset.disabled = '1';
+                    } else {
+                        btn.removeAttribute('aria-disabled');
+                        delete btn.dataset.disabled;
+                    }
+                }
+
+                console.log(`Button ${id}: URL=${newUrl}, visible=${btn.style.display !== 'none'}`);
+            });
+
+            // Reinitialize HTMX
+            htmx.process(this.wrapper);
         }
-      }
+    };
 
-      console.log(`Button ${id}: URL=${newUrl}, visible=${btn.style.display !== 'none'}`);
-    });
+    // Swipe gesture handler
+    function wizardSwipe() {
+        return {
+            startX: 0,
+            currentX: 0,
+            threshold: 75,
 
-    // Reinitialize HTMX
-    htmx.process(this.wrapper);
-  }
-};
+            onTouchStart(e) {
+                if (!e.touches || !e.touches.length) return;
+                const x = e.touches[0].clientX;
+                this.startX = x;
+                this.currentX = x; // tap without move should not trigger swipe
+            },
 
-// Swipe gesture handler
-function wizardSwipe() {
-  return {
-    startX: 0,
-    currentX: 0,
-    threshold: 75,
+            onTouchMove(e) {
+                if (!e.touches || !e.touches.length) return;
+                this.currentX = e.touches[0].clientX;
+            },
 
-    onTouchStart(e) {
-      if (!e.touches || !e.touches.length) return;
-      const x = e.touches[0].clientX;
-      this.startX = x;
-      this.currentX = x; // tap without move should not trigger swipe
-    },
+            onTouchEnd(e) {
+                // Safari may skip touchmove on quick taps; use last changed touch as fallback
+                if (e.changedTouches && e.changedTouches.length) {
+                    this.currentX = e.changedTouches[0].clientX;
+                }
 
-    onTouchMove(e) {
-      if (!e.touches || !e.touches.length) return;
-      this.currentX = e.touches[0].clientX;
-    },
+                const diff = this.startX - this.currentX;
 
-    onTouchEnd(e) {
-      // Safari may skip touchmove on quick taps; use last changed touch as fallback
-      if (e.changedTouches && e.changedTouches.length) {
-        this.currentX = e.changedTouches[0].clientX;
-      }
+                if (Math.abs(diff) > this.threshold) {
+                    const btnId = diff > 0 ? 'wizard-next-btn' : 'wizard-prev-btn';
+                    const btn = document.getElementById(btnId);
 
-      const diff = this.startX - this.currentX;
+                    if (btn && btn.style.display !== 'none' && !btn.hasAttribute('aria-disabled')) {
+                        btn.click();
+                    }
+                }
 
-      if (Math.abs(diff) > this.threshold) {
-        const btnId = diff > 0 ? 'wizard-next-btn' : 'wizard-prev-btn';
-        const btn = document.getElementById(btnId);
-
-        if (btn && btn.style.display !== 'none' && !btn.hasAttribute('aria-disabled')) {
-          btn.click();
-        }
-      }
-
-      this.startX = 0;
-      this.currentX = 0;
+                this.startX = 0;
+                this.currentX = 0;
+            }
+        };
     }
-  };
-}
 
-// Initialize controller when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => WizardController.init());
-} else {
-  WizardController.init();
-}
+    // Initialize controller when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => WizardController.init());
+    } else {
+        WizardController.init();
+    }
 </script>

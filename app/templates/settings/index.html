@@ -1,5 +1,5 @@
 {# templates/settings/page.html #} {% extends "base.html" %}
-{% block title %}{{ _("Settings") }}{% endblock %}
+{% block title %}{{ _("Settings") }}{% endblock title %}
 {% block main %}
   <section class="px-4 py-6 sm:px-6 lg:px-8">
     <div class="max-w-6xl mx-auto">
@@ -115,34 +115,34 @@
   </section>
   {# ───────────────── Tab highlighting for horizontal tabs ───────────────── #}
   <script>
-  // Active tab highlighting for horizontal tabs with icons
-  document.body.addEventListener("htmx:afterRequest", (evt) => {
-    const btn = evt.detail.elt;
-    if (btn.classList.contains("tab-btn")) {
-      // Reset all tabs to inactive state
-      document.querySelectorAll(".tab-btn").forEach((b) => {
-        b.classList.remove("text-primary", "border-primary");
-        b.classList.add("text-gray-500", "dark:text-gray-400", "border-transparent");
-        
-        // Reset icon colors
-        const icon = b.querySelector("svg");
-        if (icon) {
-          icon.classList.remove("text-primary");
-          icon.classList.add("text-gray-400", "group-hover:text-gray-500", "dark:text-gray-500", "dark:group-hover:text-gray-300");
-        }
+      // Active tab highlighting for horizontal tabs with icons
+      document.body.addEventListener("htmx:afterRequest", (evt) => {
+          const btn = evt.detail.elt;
+          if (btn.classList.contains("tab-btn")) {
+              // Reset all tabs to inactive state
+              document.querySelectorAll(".tab-btn").forEach((b) => {
+                  b.classList.remove("text-primary", "border-primary");
+                  b.classList.add("text-gray-500", "dark:text-gray-400", "border-transparent");
+
+                  // Reset icon colors
+                  const icon = b.querySelector("svg");
+                  if (icon) {
+                      icon.classList.remove("text-primary");
+                      icon.classList.add("text-gray-400", "group-hover:text-gray-500", "dark:text-gray-500", "dark:group-hover:text-gray-300");
+                  }
+              });
+
+              // Set active tab
+              btn.classList.remove("text-gray-500", "dark:text-gray-400", "border-transparent");
+              btn.classList.add("text-primary", "border-primary");
+
+              // Set active icon
+              const activeIcon = btn.querySelector("svg");
+              if (activeIcon) {
+                  activeIcon.classList.remove("text-gray-400", "group-hover:text-gray-500", "dark:text-gray-500", "dark:group-hover:text-gray-300");
+                  activeIcon.classList.add("text-primary");
+              }
+          }
       });
-      
-      // Set active tab
-      btn.classList.remove("text-gray-500", "dark:text-gray-400", "border-transparent");
-      btn.classList.add("text-primary", "border-primary");
-      
-      // Set active icon
-      const activeIcon = btn.querySelector("svg");
-      if (activeIcon) {
-        activeIcon.classList.remove("text-gray-400", "group-hover:text-gray-500", "dark:text-gray-500", "dark:group-hover:text-gray-300");
-        activeIcon.classList.add("text-primary");
-      }
-    }
-  });
   </script>
-{% endblock %}
+{% endblock main %}

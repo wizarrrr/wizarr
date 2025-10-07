@@ -17,8 +17,7 @@ repos:
     rev: v1.36.4
     hooks:
       - id: djlint-reformat-jinja
-        args: [--lint]
-        files: \.(html|jinja)$
+        args: [--lint --reformat --format-css --format-js]
 
   - repo: local
     hooks:

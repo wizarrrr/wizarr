@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Accept Invite{% endblock %}
-{% block og_title %}{{ _(server_name) }}{% endblock %}
+{% block title %}Accept Invite{% endblock title %}
+{% block og_title %}{{ _(server_name) }}{% endblock og_title %}
 {% block og_description %}
   {{ _("You've been invited to join the %(name)s server!", name=server_name) }}
-{% endblock %}
+{% endblock og_description %}
 {% block main %}
   <section class="min-h-screen bg-gradient-to-br from-slate-900 via-orange-900 to-slate-900 relative overflow-hidden">
     <!-- Cinema Background Layer -->
@@ -63,7 +63,7 @@
               <h2 class="text-2xl font-bold text-white mb-2">{{ _("Enter Code to Continue") }}</h2>
               <p class="text-gray-400 text-sm">{{ _("Invitation Code") }}</p>
             </div>
-            <form class="space-y-6" action="/join" method="post">
+            <form class="space-y-6" action="{{ url_for('public.join') }}" method="post">
               {% if not code_error %}
                 <div class="space-y-2">
                   <input minlength="6"
@@ -115,334 +115,336 @@
   </section>
   <!-- Custom animations -->
   <style>
-/* Floating blob animations */
-@keyframes blob {
-    0% {
-        transform: translate(0px, 0px) scale(1);
-    }
-    33% {
-        transform: translate(30px, -50px) scale(1.1);
-    }
-    66% {
-        transform: translate(-20px, 20px) scale(0.9);
-    }
-    100% {
-        transform: translate(0px, 0px) scale(1);
-    }
-}
+      /* Floating blob animations */
+      @keyframes blob {
+          0% {
+              transform: translate(0px, 0px) scale(1);
+          }
 
-/* Poster grid container */
-.poster-grid-container {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    opacity: 0.15;
-}
+          33% {
+              transform: translate(30px, -50px) scale(1.1);
+          }
 
-/* Poster rows */
-.poster-row {
-    position: absolute;
-    height: 180px;
-    width: 300%;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    pointer-events: none;
-}
+          66% {
+              transform: translate(-20px, 20px) scale(0.9);
+          }
 
-.poster-row-1 {
-    top: 10%;
-    animation: flow-left 60s linear infinite;
-}
+          100% {
+              transform: translate(0px, 0px) scale(1);
+          }
+      }
 
-.poster-row-2 {
-    top: 30%;
-    animation: flow-right 50s linear infinite;
-    animation-delay: -10s;
-}
+      /* Poster grid container */
+      .poster-grid-container {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          opacity: 0.15;
+      }
 
-.poster-row-3 {
-    top: 50%;
-    animation: flow-left 55s linear infinite;
-    animation-delay: -20s;
-}
+      /* Poster rows */
+      .poster-row {
+          position: absolute;
+          height: 180px;
+          width: 300%;
+          display: flex;
+          gap: 20px;
+          align-items: center;
+          pointer-events: none;
+      }
 
-.poster-row-4 {
-    top: 70%;
-    animation: flow-right 65s linear infinite;
-    animation-delay: -30s;
-}
+      .poster-row-1 {
+          top: 10%;
+          animation: flow-left 60s linear infinite;
+      }
 
-/* Flow animations */
-@keyframes flow-left {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-66.67%);
-    }
-}
+      .poster-row-2 {
+          top: 30%;
+          animation: flow-right 50s linear infinite;
+          animation-delay: -10s;
+      }
 
-@keyframes flow-right {
-    0% {
-        transform: translateX(-66.67%);
-    }
-    100% {
-        transform: translateX(0);
-    }
-}
+      .poster-row-3 {
+          top: 50%;
+          animation: flow-left 55s linear infinite;
+          animation-delay: -20s;
+      }
 
-/* Individual poster styling */
-.poster-item {
-    width: 120px;
-    height: 160px;
-    border-radius: 8px;
-    flex-shrink: 0;
-    background: linear-gradient(135deg, #92400e 0%, #451a03 100%);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
+      .poster-row-4 {
+          top: 70%;
+          animation: flow-right 65s linear infinite;
+          animation-delay: -30s;
+      }
 
-/* Poster loading state */
-.poster-item::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(45deg, #d97706, #92400e);
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
-}
+      /* Flow animations */
+      @keyframes flow-left {
+          0% {
+              transform: translateX(0);
+          }
 
-/* Hide loading state when poster loads */
-.poster-item.loaded::before {
-    opacity: 0;
-}
+          100% {
+              transform: translateX(-66.67%);
+          }
+      }
 
-/* Film grain effect */
-.poster-item::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: 
-        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-    mix-blend-mode: overlay;
-    pointer-events: none;
-    border-radius: inherit;
-}
+      @keyframes flow-right {
+          0% {
+              transform: translateX(-66.67%);
+          }
 
-/* Animation classes */
-.animate-blob {
-    animation: blob 7s infinite;
-}
+          100% {
+              transform: translateX(0);
+          }
+      }
 
-.animation-delay-2000 {
-    animation-delay: 2s;
-}
+      /* Individual poster styling */
+      .poster-item {
+          width: 120px;
+          height: 160px;
+          border-radius: 8px;
+          flex-shrink: 0;
+          background: linear-gradient(135deg, #92400e 0%, #451a03 100%);
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+      }
 
-.animation-delay-4000 {
-    animation-delay: 4s;
-}
+      /* Poster loading state */
+      .poster-item::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(45deg, #d97706, #92400e);
+          opacity: 0.8;
+          transition: opacity 0.3s ease;
+      }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .poster-row {
-        height: 120px;
-    }
-    
-    .poster-item {
-        width: 80px;
-        height: 110px;
-    }
-    
-    .poster-grid-container {
-        opacity: 0.1;
-    }
-}
+      /* Hide loading state when poster loads */
+      .poster-item.loaded::before {
+          opacity: 0;
+      }
+
+      /* Film grain effect */
+      .poster-item::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image:
+              radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+          mix-blend-mode: overlay;
+          pointer-events: none;
+          border-radius: inherit;
+      }
+
+      /* Animation classes */
+      .animate-blob {
+          animation: blob 7s infinite;
+      }
+
+      .animation-delay-2000 {
+          animation-delay: 2s;
+      }
+
+      .animation-delay-4000 {
+          animation-delay: 4s;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+          .poster-row {
+              height: 120px;
+          }
+
+          .poster-item {
+              width: 80px;
+              height: 110px;
+          }
+
+          .poster-grid-container {
+              opacity: 0.1;
+          }
+      }
   </style>
   <script src="https://unpkg.com/bowser@2.7.0/es5.js"></script> <!-- needed for plexHeaders -->
   <script>
-    // Load movie posters for flowing grid background with progressive loading
-    async function loadCinemaPosters() {
-        try {
-            const response = await fetch('/cinema-posters');
-            const posterUrls = await response.json();
-            
-            if (posterUrls && posterUrls.length > 0) {
-                const posterRows = document.querySelectorAll('.poster-row');
-                let loadQueue = [];
-                
-                // Populate each row with posters - ensure seamless repetition
-                posterRows.forEach((row, rowIndex) => {
-                    // Reduced from 25 to 20 posters per row for better performance
-                    const postersPerRow = 20; 
-                    
-                    // Create a subset of posters for this row to avoid having all rows identical
-                    const startOffset = Math.floor(rowIndex * posterUrls.length / 4);
-                    const rowPosters = [];
-                    
-                    // Fill row posters array by cycling through available posters
-                    for (let i = 0; i < postersPerRow; i++) {
-                        const posterIndex = (startOffset + i) % posterUrls.length;
-                        rowPosters.push(posterUrls[posterIndex]);
-                    }
-                    
-                    // Create poster elements immediately but load images progressively
-                    rowPosters.forEach((posterUrl, index) => {
-                        const posterItem = document.createElement('div');
-                        posterItem.className = 'poster-item';
-                        row.appendChild(posterItem);
-                        
-                        // Add to load queue with priority (visible items first)
-                        loadQueue.push({
-                            element: posterItem,
-                            url: posterUrl,
-                            priority: rowIndex < 2 ? 1 : 2  // Top 2 rows get priority
-                        });
-                    });
-                });
-                
-                // Progressive loading with batching
-                await loadPostersInBatches(loadQueue);
-                
-            } else {
-                createPlaceholderPosters();
-            }
-        } catch (error) {
-            console.warn('Failed to load cinema posters:', error);
-            createPlaceholderPosters();
-        }
-    }
-    
-    // Load posters in batches to avoid overwhelming the browser
-    async function loadPostersInBatches(loadQueue) {
-        // Sort by priority (visible items first)
-        loadQueue.sort((a, b) => a.priority - b.priority);
-        
-        const batchSize = 8; // Load 8 images at a time
-        const delay = 100; // 100ms delay between batches
-        
-        for (let i = 0; i < loadQueue.length; i += batchSize) {
-            const batch = loadQueue.slice(i, i + batchSize);
-            
-            // Load batch concurrently
-            const promises = batch.map(item => loadPosterImage(item.element, item.url));
-            await Promise.allSettled(promises);
-            
-            // Small delay before next batch
-            if (i + batchSize < loadQueue.length) {
-                await new Promise(resolve => setTimeout(resolve, delay));
-            }
-        }
-    }
-    
-    // Load individual poster with timeout
-    function loadPosterImage(element, url) {
-        return new Promise((resolve) => {
-            const img = new Image();
-            const timeout = setTimeout(() => {
-                resolve(); // Resolve anyway to continue with other images
-            }, 2000); // 2s timeout per image
-            
-            img.onload = () => {
-                clearTimeout(timeout);
-                element.style.backgroundImage = `url('${url}')`;
-                element.classList.add('loaded');
-                resolve();
-            };
-            
-            img.onerror = () => {
-                clearTimeout(timeout);
-                resolve(); // Keep default gradient background
-            };
-            
-            img.src = url;
-        });
-    }
-    
-    // Create placeholder posters fallback
-    function createPlaceholderPosters() {
-        const posterRows = document.querySelectorAll('.poster-row');
-        posterRows.forEach(row => {
-            for (let i = 0; i < 20; i++) { // Reduced from 25 to 20
-                const posterItem = document.createElement('div');
-                posterItem.className = 'poster-item';
-                row.appendChild(posterItem);
-            }
-        });
-    }
-    
-    // Load posters when page loads
-    document.addEventListener('DOMContentLoaded', loadCinemaPosters);
+      // Load movie posters for flowing grid background with progressive loading
+      async function loadCinemaPosters() {
+          try {
+              const response = await fetch('/cinema-posters');
+              const posterUrls = await response.json();
+
+              if (posterUrls && posterUrls.length > 0) {
+                  const posterRows = document.querySelectorAll('.poster-row');
+                  let loadQueue = [];
+
+                  // Populate each row with posters - ensure seamless repetition
+                  posterRows.forEach((row, rowIndex) => {
+                      // Reduced from 25 to 20 posters per row for better performance
+                      const postersPerRow = 20;
+
+                      // Create a subset of posters for this row to avoid having all rows identical
+                      const startOffset = Math.floor(rowIndex * posterUrls.length / 4);
+                      const rowPosters = [];
+
+                      // Fill row posters array by cycling through available posters
+                      for (let i = 0; i < postersPerRow; i++) {
+                          const posterIndex = (startOffset + i) % posterUrls.length;
+                          rowPosters.push(posterUrls[posterIndex]);
+                      }
+
+                      // Create poster elements immediately but load images progressively
+                      rowPosters.forEach((posterUrl, index) => {
+                          const posterItem = document.createElement('div');
+                          posterItem.className = 'poster-item';
+                          row.appendChild(posterItem);
+
+                          // Add to load queue with priority (visible items first)
+                          loadQueue.push({
+                              element: posterItem,
+                              url: posterUrl,
+                              priority: rowIndex < 2 ? 1 : 2 // Top 2 rows get priority
+                          });
+                      });
+                  });
+
+                  // Progressive loading with batching
+                  await loadPostersInBatches(loadQueue);
+
+              } else {
+                  createPlaceholderPosters();
+              }
+          } catch (error) {
+              console.warn('Failed to load cinema posters:', error);
+              createPlaceholderPosters();
+          }
+      }
+
+      // Load posters in batches to avoid overwhelming the browser
+      async function loadPostersInBatches(loadQueue) {
+          // Sort by priority (visible items first)
+          loadQueue.sort((a, b) => a.priority - b.priority);
+
+          const batchSize = 8; // Load 8 images at a time
+          const delay = 100; // 100ms delay between batches
+
+          for (let i = 0; i < loadQueue.length; i += batchSize) {
+              const batch = loadQueue.slice(i, i + batchSize);
+
+              // Load batch concurrently
+              const promises = batch.map(item => loadPosterImage(item.element, item.url));
+              await Promise.allSettled(promises);
+
+              // Small delay before next batch
+              if (i + batchSize < loadQueue.length) {
+                  await new Promise(resolve => setTimeout(resolve, delay));
+              }
+          }
+      }
+
+      // Load individual poster with timeout
+      function loadPosterImage(element, url) {
+          return new Promise((resolve) => {
+              const img = new Image();
+              const timeout = setTimeout(() => {
+                  resolve(); // Resolve anyway to continue with other images
+              }, 2000); // 2s timeout per image
+
+              img.onload = () => {
+                  clearTimeout(timeout);
+                  element.style.backgroundImage = `url('${url}')`;
+                  element.classList.add('loaded');
+                  resolve();
+              };
+
+              img.onerror = () => {
+                  clearTimeout(timeout);
+                  resolve(); // Keep default gradient background
+              };
+
+              img.src = url;
+          });
+      }
+
+      // Create placeholder posters fallback
+      function createPlaceholderPosters() {
+          const posterRows = document.querySelectorAll('.poster-row');
+          posterRows.forEach(row => {
+              for (let i = 0; i < 20; i++) { // Reduced from 25 to 20
+                  const posterItem = document.createElement('div');
+                  posterItem.className = 'poster-item';
+                  row.appendChild(posterItem);
+              }
+          });
+      }
+
+      // Load posters when page loads
+      document.addEventListener('DOMContentLoaded', loadCinemaPosters);
   </script>
   <script>
-    // nanoid package, for generating client-identifier in plexHeaders
-    let nanoid = (t = 21) => crypto.getRandomValues(new Uint8Array(t)).reduce(((t, e) => t += (e &= 63) < 36 ? e.toString(36) : e < 62 ? (e - 26).toString(36).toUpperCase() : e > 62 ? "-" : "_"), "");
+      // nanoid package, for generating client-identifier in plexHeaders
+      let nanoid = (t = 21) => crypto.getRandomValues(new Uint8Array(t)).reduce(((t, e) => t += (e &= 63) < 36 ? e.toString(36) : e < 62 ? (e - 26).toString(36).toUpperCase() : e > 62 ? "-" : "_"), "");
 
-    // adapted from overseerr
-    async function oauth() {
-        let popup = window.open("", "Plex", 'width=600, height=700, toolbar=no, menubar=no');
-        const browser = window.bowser.getParser(window.navigator.userAgent);
-        const plexHeaders = {
-            Accept: 'application/json',
-            'X-Plex-Product': 'Wizarr',
-            'X-Plex-Version': 'Plex OAuth',
-            'X-Plex-Client-Identifier': nanoid(),
-            'X-Plex-Model': 'Plex OAuth',
-            'X-Plex-Platform': browser.getBrowserName(),
-            'X-Plex-Platform-Version': browser.getBrowserVersion(),
-            'X-Plex-Device': browser.getOSName(),
-            'X-Plex-Device-Name': `${browser.getBrowserName()} (Wizarr)`,
-            'X-Plex-Device-Screen-Resolution':
-                `${window.screen.width}x${window.screen.height}`,
-        }
-        const pin = await fetch("https://plex.tv/api/v2/pins?strong=true", {
-            method: "POST",
-            headers: plexHeaders
-        }).then(r => r.json())
+      // adapted from overseerr
+      async function oauth() {
+          let popup = window.open("", "Plex", 'width=600, height=700, toolbar=no, menubar=no');
+          const browser = window.bowser.getParser(window.navigator.userAgent);
+          const plexHeaders = {
+              Accept: 'application/json',
+              'X-Plex-Product': 'Wizarr',
+              'X-Plex-Version': 'Plex OAuth',
+              'X-Plex-Client-Identifier': nanoid(),
+              'X-Plex-Model': 'Plex OAuth',
+              'X-Plex-Platform': browser.getBrowserName(),
+              'X-Plex-Platform-Version': browser.getBrowserVersion(),
+              'X-Plex-Device': browser.getOSName(),
+              'X-Plex-Device-Name': `${browser.getBrowserName()} (Wizarr)`,
+              'X-Plex-Device-Screen-Resolution': `${window.screen.width}x${window.screen.height}`,
+          }
+          const pin = await fetch("https://plex.tv/api/v2/pins?strong=true", {
+              method: "POST",
+              headers: plexHeaders
+          }).then(r => r.json())
 
-        const params = new URLSearchParams({
-            clientID: plexHeaders['X-Plex-Client-Identifier'],
-            'context[device][product]': plexHeaders['X-Plex-Product'],
-            'context[device][version]': plexHeaders['X-Plex-Version'],
-            'context[device][platform]': plexHeaders['X-Plex-Platform'],
-            'context[device][platformVersion]':
-                plexHeaders['X-Plex-Platform-Version'],
-            'context[device][device]': plexHeaders['X-Plex-Device'],
-            'context[device][deviceName]': plexHeaders['X-Plex-Device-Name'],
-            'context[device][model]': plexHeaders['X-Plex-Model'],
-            'context[device][screenResolution]':
-                plexHeaders['X-Plex-Device-Screen-Resolution'],
-            'context[device][layout]': 'desktop',
-            code: pin.code
-        });
+          const params = new URLSearchParams({
+              clientID: plexHeaders['X-Plex-Client-Identifier'],
+              'context[device][product]': plexHeaders['X-Plex-Product'],
+              'context[device][version]': plexHeaders['X-Plex-Version'],
+              'context[device][platform]': plexHeaders['X-Plex-Platform'],
+              'context[device][platformVersion]': plexHeaders['X-Plex-Platform-Version'],
+              'context[device][device]': plexHeaders['X-Plex-Device'],
+              'context[device][deviceName]': plexHeaders['X-Plex-Device-Name'],
+              'context[device][model]': plexHeaders['X-Plex-Model'],
+              'context[device][screenResolution]': plexHeaders['X-Plex-Device-Screen-Resolution'],
+              'context[device][layout]': 'desktop',
+              code: pin.code
+          });
 
-        popup.location.href = `https://app.plex.tv/auth/#!?${params}`;
+          popup.location.href = `https://app.plex.tv/auth/#!?${params}`;
 
-        const authToken = await new Promise((resolve, reject) => {
-            const currentTime = Date.now()
-            const interval = setInterval(async () => {
-                if (popup.closed) return location.reload();
-                const resp = await fetch(`https://plex.tv/api/v2/pins/${pin.id}`, {
-                    headers: plexHeaders
-                }).then(r => r.json())
+          const authToken = await new Promise((resolve, reject) => {
+              const currentTime = Date.now()
+              const interval = setInterval(async () => {
+                  if (popup.closed) return location.reload();
+                  const resp = await fetch(`https://plex.tv/api/v2/pins/${pin.id}`, {
+                      headers: plexHeaders
+                  }).then(r => r.json())
 
-                if (resp?.errors?.length) return location.reload();
-                if (resp?.authToken) {
-                    clearInterval(interval)
-                    resolve(resp.authToken);
-                    return;
-                }
-            }, 1000)
-        });
-        document.querySelector("#token").value = authToken;
+                  if (resp?.errors?.length) return location.reload();
+                  if (resp?.authToken) {
+                      clearInterval(interval)
+                      resolve(resp.authToken);
+                      return;
+                  }
+              }, 1000)
+          });
+          document.querySelector("#token").value = authToken;
 
-        document.forms[0].submit();
-    }
+          document.forms[0].submit();
+      }
   </script>
-{% endblock %}
+{% endblock main %}

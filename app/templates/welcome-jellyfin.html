@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Accept Invite{% endblock %}
-{% block og_title %}{{ _(server_name) }}{% endblock %}
+{% block title %}Accept Invite{% endblock title %}
+{% block og_title %}{{ _(server_name) }}{% endblock og_title %}
 {% block og_description %}
   {{ _("You've been invited to join the %(name)s server!", name=server_name) }}
-{% endblock %}
+{% endblock og_description %}
 {% block main %}
   <section id="invite-section"
            class="min-h-screen bg-gradient-to-br from-gray-100 via-primary/10 to-white dark:from-slate-900 dark:via-primary/20 dark:to-slate-900 relative overflow-x-hidden overflow-y-auto lg:overflow-hidden">
@@ -89,7 +89,7 @@
               {% endif %}
               <form class="space-y-3 md:space-y-4"
                     action="{{ url_for('public.process_invitation') }}"
-                    method="POST">
+                    method="post">
                 {{ form.hidden_tag() }}
                 <div class="form-field"
                      data-field="1"
@@ -221,530 +221,561 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
   <!-- Custom animations and styles -->
   <style>
-/* Floating blob animations */
-@keyframes blob {
-    0% {
-        transform: translate(0px, 0px) scale(1);
-    }
-    33% {
-        transform: translate(30px, -50px) scale(1.1);
-    }
-    66% {
-        transform: translate(-20px, 20px) scale(0.9);
-    }
-    100% {
-        transform: translate(0px, 0px) scale(1);
-    }
-}
+      /* Floating blob animations */
+      @keyframes blob {
+          0% {
+              transform: translate(0px, 0px) scale(1);
+          }
 
-.animate-blob {
-    animation: blob 7s infinite;
-}
+          33% {
+              transform: translate(30px, -50px) scale(1.1);
+          }
 
-.animation-delay-2000 {
-    animation-delay: 2s;
-}
+          66% {
+              transform: translate(-20px, 20px) scale(0.9);
+          }
 
-.animation-delay-4000 {
-    animation-delay: 4s;
-}
+          100% {
+              transform: translate(0px, 0px) scale(1);
+          }
+      }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .poster-grid-container {
-        opacity: 0.1;
-    }
-}
+      .animate-blob {
+          animation: blob 7s infinite;
+      }
 
-/* Enhanced focus states */
-input:focus {
-    transform: translateY(-1px);
-    box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-primary) 65%, transparent);
-}
+      .animation-delay-2000 {
+          animation-delay: 2s;
+      }
 
-/* Loading animation enhancement */
-.loading-gradient {
-    background: linear-gradient(45deg, #8b5cf6, #6366f1, #8b5cf6);
-    background-size: 200% 200%;
-    animation: gradient-shift 2s ease infinite;
-}
+      .animation-delay-4000 {
+          animation-delay: 4s;
+      }
 
-@keyframes gradient-shift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+          .poster-grid-container {
+              opacity: 0.1;
+          }
+      }
 
-/* Typewriter cursor */
-.typewriter-cursor {
-    border-right: 2px solid currentColor;
-    animation: blink-caret 0.75s step-end infinite;
-}
+      /* Enhanced focus states */
+      input:focus {
+          transform: translateY(-1px);
+          box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-primary) 65%, transparent);
+      }
 
-@keyframes blink-caret {
-    from, to { border-color: transparent; }
-    50% { border-color: currentColor; }
-}
+      /* Loading animation enhancement */
+      .loading-gradient {
+          background: linear-gradient(45deg, #8b5cf6, #6366f1, #8b5cf6);
+          background-size: 200% 200%;
+          animation: gradient-shift 2s ease infinite;
+      }
 
-/* Background shimmer particle effects */
-.shimmer-particles {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-    opacity: 0.6;
-}
+      @keyframes gradient-shift {
+          0% {
+              background-position: 0% 50%;
+          }
 
-.shimmer-particle {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
-    border-radius: 50%;
-    animation: shimmer-float 8s linear infinite;
-}
+          50% {
+              background-position: 100% 50%;
+          }
 
-.shimmer-particle.primary {
-    background: radial-gradient(circle, rgba(var(--color-primary), 0.7) 0%, transparent 70%);
-    animation-duration: 12s;
-}
+          100% {
+              background-position: 0% 50%;
+          }
+      }
 
-.shimmer-particle.primary-light {
-    background: radial-gradient(circle, rgba(var(--color-primary), 0.4) 0%, transparent 70%);
-    animation-duration: 10s;
-}
+      /* Typewriter cursor */
+      .typewriter-cursor {
+          border-right: 2px solid currentColor;
+          animation: blink-caret 0.75s step-end infinite;
+      }
 
-.shimmer-particle.primary-hover {
-    background: radial-gradient(circle, rgba(var(--color-primary-hover), 0.6) 0%, transparent 70%);
-    animation-duration: 14s;
-}
+      @keyframes blink-caret {
 
-@keyframes shimmer-float {
-    0% {
-        opacity: 0;
-        transform: translateY(100vh) translateX(0) scale(0);
-    }
-    10% {
-        opacity: 1;
-        transform: translateY(90vh) translateX(10px) scale(1);
-    }
-    50% {
-        opacity: 0.8;
-        transform: translateY(50vh) translateX(-20px) scale(1.2);
-    }
-    90% {
-        opacity: 0.3;
-        transform: translateY(10vh) translateX(30px) scale(0.8);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-10vh) translateX(0) scale(0);
-    }
-}
+          from,
+          to {
+              border-color: transparent;
+          }
 
-/* Twinkling stars effect */
-.twinkling-star {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    background: white;
-    border-radius: 50%;
-    animation: twinkle 3s ease-in-out infinite;
-}
+          50% {
+              border-color: currentColor;
+          }
+      }
 
-@keyframes twinkle {
-    0%, 100% {
-        opacity: 0;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.5);
-    }
-}
+      /* Background shimmer particle effects */
+      .shimmer-particles {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+          opacity: 0.6;
+      }
 
+      .shimmer-particle {
+          position: absolute;
+          width: 2px;
+          height: 2px;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+          border-radius: 50%;
+          animation: shimmer-float 8s linear infinite;
+      }
+
+      .shimmer-particle.primary {
+          background: radial-gradient(circle, rgba(var(--color-primary), 0.7) 0%, transparent 70%);
+          animation-duration: 12s;
+      }
+
+      .shimmer-particle.primary-light {
+          background: radial-gradient(circle, rgba(var(--color-primary), 0.4) 0%, transparent 70%);
+          animation-duration: 10s;
+      }
+
+      .shimmer-particle.primary-hover {
+          background: radial-gradient(circle, rgba(var(--color-primary-hover), 0.6) 0%, transparent 70%);
+          animation-duration: 14s;
+      }
+
+      @keyframes shimmer-float {
+          0% {
+              opacity: 0;
+              transform: translateY(100vh) translateX(0) scale(0);
+          }
+
+          10% {
+              opacity: 1;
+              transform: translateY(90vh) translateX(10px) scale(1);
+          }
+
+          50% {
+              opacity: 0.8;
+              transform: translateY(50vh) translateX(-20px) scale(1.2);
+          }
+
+          90% {
+              opacity: 0.3;
+              transform: translateY(10vh) translateX(30px) scale(0.8);
+          }
+
+          100% {
+              opacity: 0;
+              transform: translateY(-10vh) translateX(0) scale(0);
+          }
+      }
+
+      /* Twinkling stars effect */
+      .twinkling-star {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          background: white;
+          border-radius: 50%;
+          animation: twinkle 3s ease-in-out infinite;
+      }
+
+      @keyframes twinkle {
+
+          0%,
+          100% {
+              opacity: 0;
+              transform: scale(1);
+          }
+
+          50% {
+              opacity: 1;
+              transform: scale(1.5);
+          }
+      }
   </style>
   <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const acceptBtn = document.getElementById('accept-invite-btn');
-    const backBtn = document.getElementById('back-btn');
-    const welcomeScreen = document.getElementById('welcome-screen');
-    const formScreen = document.getElementById('form-screen');
-    const cardContainer = document.getElementById('card-container');
-    const mainContainer = document.getElementById('main-container');
-    const pageHeader = document.getElementById('page-header');
-    const pageFooter = document.getElementById('page-footer');
-    const form = document.querySelector('form[action="{{ url_for("public.process_invitation") }}"]');
-    const submitBtn = document.getElementById('submit-btn');
-    const btnText = document.getElementById('btn-text');
-    const btnLoading = document.getElementById('btn-loading');
-    const buttonText = document.getElementById('button-text');
-    const layoutWrapper = mainContainer.parentElement;
+      document.addEventListener('DOMContentLoaded', function() {
+          const acceptBtn = document.getElementById('accept-invite-btn');
+          const backBtn = document.getElementById('back-btn');
+          const welcomeScreen = document.getElementById('welcome-screen');
+          const formScreen = document.getElementById('form-screen');
+          const cardContainer = document.getElementById('card-container');
+          const mainContainer = document.getElementById('main-container');
+          const pageHeader = document.getElementById('page-header');
+          const pageFooter = document.getElementById('page-footer');
+          const form = document.querySelector('form[action="{{ url_for("public.process_invitation") }}"]');
+          const submitBtn = document.getElementById('submit-btn');
+          const btnText = document.getElementById('btn-text');
+          const btnLoading = document.getElementById('btn-loading');
+          const buttonText = document.getElementById('button-text');
+          const layoutWrapper = mainContainer.parentElement;
 
-    // Enhanced typewriter effect using Anime.js
-    function typewriterEffect(element, text, speed = 80) {
-        element.innerHTML = '';
-        element.classList.add('typewriter-cursor');
+          // Enhanced typewriter effect using Anime.js
+          function typewriterEffect(element, text, speed = 80) {
+              element.innerHTML = '';
+              element.classList.add('typewriter-cursor');
 
-        return new Promise((resolve) => {
-            anime({
-                targets: { count: 0 },
-                count: text.length,
-                duration: text.length * speed,
-                round: 1,
-                easing: 'linear',
-                update: function(anim) {
-                    element.innerHTML = text.substring(0, Math.round(anim.animatables[0].target.count));
-                },
-                complete: function() {
-                    // Remove cursor after typing
-                    setTimeout(() => {
-                        element.classList.remove('typewriter-cursor');
-                        resolve();
-                    }, 300);
-                }
-            });
-        });
-    }
+              return new Promise((resolve) => {
+                  anime({
+                      targets: {
+                          count: 0
+                      },
+                      count: text.length,
+                      duration: text.length * speed,
+                      round: 1,
+                      easing: 'linear',
+                      update: function(anim) {
+                          element.innerHTML = text.substring(0, Math.round(anim.animatables[0].target.count));
+                      },
+                      complete: function() {
+                          // Remove cursor after typing
+                          setTimeout(() => {
+                              element.classList.remove('typewriter-cursor');
+                              resolve();
+                          }, 300);
+                      }
+                  });
+              });
+          }
 
-    // Create background shimmer particles
-    function createShimmerParticles() {
-        const container = document.getElementById('shimmer-container');
-        const particleTypes = ['', 'primary', 'primary-light', 'primary-hover'];
+          // Create background shimmer particles
+          function createShimmerParticles() {
+              const container = document.getElementById('shimmer-container');
+              const particleTypes = ['', 'primary', 'primary-light', 'primary-hover'];
 
-        // Create initial particles
-        for (let i = 0; i < 30; i++) {
-            createShimmerParticle(container, particleTypes);
-        }
+              // Create initial particles
+              for (let i = 0; i < 30; i++) {
+                  createShimmerParticle(container, particleTypes);
+              }
 
-        // Continuously create new particles
-        setInterval(() => {
-            createShimmerParticle(container, particleTypes);
-        }, 500);
+              // Continuously create new particles
+              setInterval(() => {
+                  createShimmerParticle(container, particleTypes);
+              }, 500);
 
-        // Create twinkling stars
-        for (let i = 0; i < 50; i++) {
-            const star = document.createElement('div');
-            star.className = 'twinkling-star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 3 + 's';
-            container.appendChild(star);
-        }
-    }
+              // Create twinkling stars
+              for (let i = 0; i < 50; i++) {
+                  const star = document.createElement('div');
+                  star.className = 'twinkling-star';
+                  star.style.left = Math.random() * 100 + '%';
+                  star.style.top = Math.random() * 100 + '%';
+                  star.style.animationDelay = Math.random() * 3 + 's';
+                  container.appendChild(star);
+              }
+          }
 
-    function createShimmerParticle(container, particleTypes) {
-        const particle = document.createElement('div');
-        particle.className = 'shimmer-particle';
+          function createShimmerParticle(container, particleTypes) {
+              const particle = document.createElement('div');
+              particle.className = 'shimmer-particle';
 
-        // Random type
-        const type = particleTypes[Math.floor(Math.random() * particleTypes.length)];
-        if (type) particle.classList.add(type);
+              // Random type
+              const type = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+              if (type) particle.classList.add(type);
 
-        // Random starting position (bottom of screen)
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.bottom = '-10px';
+              // Random starting position (bottom of screen)
+              particle.style.left = Math.random() * 100 + '%';
+              particle.style.bottom = '-10px';
 
-        // Random animation delay
-        particle.style.animationDelay = Math.random() * 2 + 's';
+              // Random animation delay
+              particle.style.animationDelay = Math.random() * 2 + 's';
 
-        container.appendChild(particle);
+              container.appendChild(particle);
 
-        // Remove particle after animation completes
-        setTimeout(() => {
-            if (particle.parentNode) {
-                particle.parentNode.removeChild(particle);
-            }
-        }, 15000); // Longest animation is 14s + buffer
-    }
+              // Remove particle after animation completes
+              setTimeout(() => {
+                  if (particle.parentNode) {
+                      particle.parentNode.removeChild(particle);
+                  }
+              }, 15000); // Longest animation is 14s + buffer
+          }
 
-    // Initialize background shimmer particles
-    createShimmerParticles();
+          // Initialize background shimmer particles
+          createShimmerParticles();
 
-    // Smooth container expansion animation
-    acceptBtn.addEventListener('click', async function() {
-        // Prevent multiple clicks
-        acceptBtn.disabled = true;
+          // Smooth container expansion animation
+          acceptBtn.addEventListener('click', async function() {
+              // Prevent multiple clicks
+              acceptBtn.disabled = true;
 
-        try {
-            const isMobile = window.innerWidth < 768;
-            let mobileCardHeight = null;
+              try {
+                  const isMobile = window.innerWidth < 768;
+                  let mobileCardHeight = null;
 
-            // Mobile: Hide header and footer when form appears
-            if (isMobile) {
-                anime({
-                    targets: [pageHeader, pageFooter],
-                    opacity: 0,
-                    translateY: -20,
-                    duration: 400,
-                    easing: 'easeOutQuad'
-                });
+                  // Mobile: Hide header and footer when form appears
+                  if (isMobile) {
+                      anime({
+                          targets: [pageHeader, pageFooter],
+                          opacity: 0,
+                          translateY: -20,
+                          duration: 400,
+                          easing: 'easeOutQuad'
+                      });
 
-                // Shift layout upward so the expanded card stays visible
-                layoutWrapper.style.justifyContent = 'flex-start';
-                layoutWrapper.style.paddingTop = '3rem';
-                layoutWrapper.style.paddingBottom = '2rem';
-            }
+                      // Shift layout upward so the expanded card stays visible
+                      layoutWrapper.style.justifyContent = 'flex-start';
+                      layoutWrapper.style.paddingTop = '3rem';
+                      layoutWrapper.style.paddingBottom = '2rem';
+                  }
 
-            // Step 1: Prepare form screen (hidden initially)
-            formScreen.classList.remove('hidden');
-            formScreen.style.opacity = '0';
-            formScreen.style.pointerEvents = 'none';
+                  // Step 1: Prepare form screen (hidden initially)
+                  formScreen.classList.remove('hidden');
+                  formScreen.style.opacity = '0';
+                  formScreen.style.pointerEvents = 'none';
 
-            if (isMobile) {
-                mobileCardHeight = Math.max(formScreen.scrollHeight + 48, cardContainer.offsetHeight);
-            }
+                  if (isMobile) {
+                      mobileCardHeight = Math.max(formScreen.scrollHeight + 48, cardContainer.offsetHeight);
+                  }
 
-            // Step 2: Create timeline animation with Anime.js
-            const timeline = anime.timeline({
-                easing: 'cubicBezier(0.4, 0, 0.2, 1)',
-                duration: 800
-            });
+                  // Step 2: Create timeline animation with Anime.js
+                  const timeline = anime.timeline({
+                      easing: 'cubicBezier(0.4, 0, 0.2, 1)',
+                      duration: 800
+                  });
 
-            // Container width expansion
-            timeline.add({
-                targets: mainContainer,
-                maxWidth: isMobile ? '100%' : '32rem',
-                duration: 800,
-                easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
-            }, 0);
+                  // Container width expansion
+                  timeline.add({
+                      targets: mainContainer,
+                      maxWidth: isMobile ? '100%' : '32rem',
+                      duration: 800,
+                      easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
+                  }, 0);
 
-            // Container height expansion
-            timeline.add({
-                targets: cardContainer,
-                height: isMobile ? `${mobileCardHeight}px` : '520px',
-                duration: 800,
-                easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
-            }, 0);
+                  // Container height expansion
+                  timeline.add({
+                      targets: cardContainer,
+                      height: isMobile ? `${mobileCardHeight}px` : '520px',
+                      duration: 800,
+                      easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
+                  }, 0);
 
-            // Welcome screen fade out
-            timeline.add({
-                targets: welcomeScreen,
-                opacity: 0,
-                duration: 300,
-                easing: 'easeOutQuad',
-                complete: function() {
-                    welcomeScreen.style.display = 'none';
-                }
-            }, 100);
+                  // Welcome screen fade out
+                  timeline.add({
+                      targets: welcomeScreen,
+                      opacity: 0,
+                      duration: 300,
+                      easing: 'easeOutQuad',
+                      complete: function() {
+                          welcomeScreen.style.display = 'none';
+                      }
+                  }, 100);
 
-            // Form screen fades in
-            timeline.add({
-                targets: formScreen,
-                opacity: 1,
-                duration: 400,
-                easing: 'easeInQuad',
-                begin: function() {
-                    formScreen.style.pointerEvents = 'auto';
-                }
-            }, 400);
+                  // Form screen fades in
+                  timeline.add({
+                      targets: formScreen,
+                      opacity: 1,
+                      duration: 400,
+                      easing: 'easeInQuad',
+                      begin: function() {
+                          formScreen.style.pointerEvents = 'auto';
+                      }
+                  }, 400);
 
-            // Wait for timeline to finish then show form fields
-            timeline.finished.then(() => {
-                // Animate form fields sequentially
-                const formFields = formScreen.querySelectorAll('.form-field');
-                formFields.forEach((field, index) => {
-                    anime({
-                        targets: field,
-                        opacity: [0, 1],
-                        translateY: [10, 0],
-                        duration: 300,
-                        delay: index * 80, // 80ms delay between each field
-                        easing: 'easeOutQuad'
-                    });
-                });
+                  // Wait for timeline to finish then show form fields
+                  timeline.finished.then(() => {
+                      // Animate form fields sequentially
+                      const formFields = formScreen.querySelectorAll('.form-field');
+                      formFields.forEach((field, index) => {
+                          anime({
+                              targets: field,
+                              opacity: [0, 1],
+                              translateY: [10, 0],
+                              duration: 300,
+                              delay: index * 80, // 80ms delay between each field
+                              easing: 'easeOutQuad'
+                          });
+                      });
 
-                // Focus first input after all animations
-                setTimeout(() => {
-                    const firstInput = form.querySelector('input[type="text"], input[type="email"]');
-                    if (firstInput) firstInput.focus();
-                }, formFields.length * 80 + 150);
+                      // Focus first input after all animations
+                      setTimeout(() => {
+                          const firstInput = form.querySelector('input[type="text"], input[type="email"]');
+                          if (firstInput) firstInput.focus();
+                      }, formFields.length * 80 + 150);
 
-                if (isMobile) {
-                    cardContainer.style.height = 'auto';
-                    cardContainer.style.minHeight = `${mobileCardHeight}px`;
-                    cardContainer.style.overflow = 'visible';
-                    formScreen.style.position = 'relative';
-                    formScreen.style.height = 'auto';
-                    formScreen.style.overflow = 'visible';
+                      if (isMobile) {
+                          cardContainer.style.height = 'auto';
+                          cardContainer.style.minHeight = `${mobileCardHeight}px`;
+                          cardContainer.style.overflow = 'visible';
+                          formScreen.style.position = 'relative';
+                          formScreen.style.height = 'auto';
+                          formScreen.style.overflow = 'visible';
 
-                    requestAnimationFrame(() => {
-                        cardContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    });
-                }
-            });
+                          requestAnimationFrame(() => {
+                              cardContainer.scrollIntoView({
+                                  behavior: 'smooth',
+                                  block: 'start'
+                              });
+                          });
+                      }
+                  });
 
-        } catch (error) {
-            console.error('Animation error:', error);
-            // Fallback to simple transition
-            acceptBtn.disabled = false;
-        }
-    });
+              } catch (error) {
+                  console.error('Animation error:', error);
+                  // Fallback to simple transition
+                  acceptBtn.disabled = false;
+              }
+          });
 
-    // Smooth transition back to welcome screen
-    backBtn.addEventListener('click', function() {
-        // Re-enable accept button
-        acceptBtn.disabled = false;
+          // Smooth transition back to welcome screen
+          backBtn.addEventListener('click', function() {
+              // Re-enable accept button
+              acceptBtn.disabled = false;
 
-        const isMobile = window.innerWidth < 768;
+              const isMobile = window.innerWidth < 768;
 
-        const timeline = anime.timeline({
-            easing: 'easeOutQuad',
-            duration: 600
-        });
+              const timeline = anime.timeline({
+                  easing: 'easeOutQuad',
+                  duration: 600
+              });
 
-        // Reset form fields opacity
-        const currentHeight = cardContainer.offsetHeight;
-        const formFields = formScreen.querySelectorAll('.form-field');
-        formFields.forEach(field => {
-            field.style.opacity = '0';
-            field.style.transform = 'translateY(10px)';
-        });
+              // Reset form fields opacity
+              const currentHeight = cardContainer.offsetHeight;
+              const formFields = formScreen.querySelectorAll('.form-field');
+              formFields.forEach(field => {
+                  field.style.opacity = '0';
+                  field.style.transform = 'translateY(10px)';
+              });
 
-        layoutWrapper.style.justifyContent = '';
-        layoutWrapper.style.paddingTop = '';
-        layoutWrapper.style.paddingBottom = '';
-        cardContainer.style.height = `${currentHeight}px`;
-        cardContainer.style.minHeight = '';
-        cardContainer.style.overflow = 'hidden';
-        formScreen.style.position = '';
-        formScreen.style.height = '';
-        formScreen.style.overflow = '';
+              layoutWrapper.style.justifyContent = '';
+              layoutWrapper.style.paddingTop = '';
+              layoutWrapper.style.paddingBottom = '';
+              cardContainer.style.height = `${currentHeight}px`;
+              cardContainer.style.minHeight = '';
+              cardContainer.style.overflow = 'hidden';
+              formScreen.style.position = '';
+              formScreen.style.height = '';
+              formScreen.style.overflow = '';
 
-        // Form screen fade out
-        timeline.add({
-            targets: formScreen,
-            opacity: 0,
-            duration: 300,
-            complete: function() {
-                formScreen.style.pointerEvents = 'none';
-                formScreen.classList.add('hidden');
-            }
-        });
+              // Form screen fade out
+              timeline.add({
+                  targets: formScreen,
+                  opacity: 0,
+                  duration: 300,
+                  complete: function() {
+                      formScreen.style.pointerEvents = 'none';
+                      formScreen.classList.add('hidden');
+                  }
+              });
 
-        // Welcome screen fade in
-        timeline.add({
-            targets: welcomeScreen,
-            opacity: [0, 1],
-            duration: 300,
-            begin: function() {
-                welcomeScreen.style.display = 'block';
-                welcomeScreen.style.pointerEvents = 'auto';
-            }
-        }, 100);
+              // Welcome screen fade in
+              timeline.add({
+                  targets: welcomeScreen,
+                  opacity: [0, 1],
+                  duration: 300,
+                  begin: function() {
+                      welcomeScreen.style.display = 'block';
+                      welcomeScreen.style.pointerEvents = 'auto';
+                  }
+              }, 100);
 
-        // Container size reset for both desktop and mobile
-        // Reset container width
-        timeline.add({
-            targets: mainContainer,
-            maxWidth: '28rem',
-            duration: 600,
-            easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
-        }, 0);
+              // Container size reset for both desktop and mobile
+              // Reset container width
+              timeline.add({
+                  targets: mainContainer,
+                  maxWidth: '28rem',
+                  duration: 600,
+                  easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
+              }, 0);
 
-        // Reset container height
-        timeline.add({
-            targets: cardContainer,
-            height: '400px',
-            duration: 600,
-            easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
-        }, 0);
+              // Reset container height
+              timeline.add({
+                  targets: cardContainer,
+                  height: '400px',
+                  duration: 600,
+                  easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
+              }, 0);
 
-        // Mobile: Show header and footer again when going back
-        if (isMobile) {
-            timeline.add({
-                targets: [pageHeader, pageFooter],
-                opacity: 1,
-                translateY: 0,
-                duration: 400,
-                easing: 'easeOutQuad'
-            }, 200); // Start after container animation begins
-        }
-    });
+              // Mobile: Show header and footer again when going back
+              if (isMobile) {
+                  timeline.add({
+                      targets: [pageHeader, pageFooter],
+                      opacity: 1,
+                      translateY: 0,
+                      duration: 400,
+                      easing: 'easeOutQuad'
+                  }, 200); // Start after container animation begins
+              }
+          });
 
-    // Enhanced form field animations with Anime.js
-    const inputs = form.querySelectorAll('input');
-    inputs.forEach(input => {
-        input.addEventListener('focus', function() {
-            anime({
-                targets: this.parentElement,
-                translateY: -2,
-                duration: 200,
-                easing: 'easeOutQuad'
-            });
-        });
+          // Enhanced form field animations with Anime.js
+          const inputs = form.querySelectorAll('input');
+          inputs.forEach(input => {
+              input.addEventListener('focus', function() {
+                  anime({
+                      targets: this.parentElement,
+                      translateY: -2,
+                      duration: 200,
+                      easing: 'easeOutQuad'
+                  });
+              });
 
-        input.addEventListener('blur', function() {
-            anime({
-                targets: this.parentElement,
-                translateY: 0,
-                duration: 200,
-                easing: 'easeOutQuad'
-            });
-        });
-    });
+              input.addEventListener('blur', function() {
+                  anime({
+                      targets: this.parentElement,
+                      translateY: 0,
+                      duration: 200,
+                      easing: 'easeOutQuad'
+                  });
+              });
+          });
 
-    // Form submission handling with enhanced animations
-    form.addEventListener('submit', function(e) {
-        const currentSubmitBtn = document.getElementById('submit-btn');
-        const currentBtnText = currentSubmitBtn.querySelector('#button-text') || currentSubmitBtn.querySelector('#btn-text');
-        const currentBtnLoading = document.getElementById('btn-loading');
+          // Form submission handling with enhanced animations
+          form.addEventListener('submit', function(e) {
+              const currentSubmitBtn = document.getElementById('submit-btn');
+              const currentBtnText = currentSubmitBtn.querySelector('#button-text') || currentSubmitBtn.querySelector('#btn-text');
+              const currentBtnLoading = document.getElementById('btn-loading');
 
-        if (currentSubmitBtn) {
-            // Disable button and show loading state with animation
-            currentSubmitBtn.disabled = true;
-            currentSubmitBtn.classList.add('loading-gradient');
+              if (currentSubmitBtn) {
+                  // Disable button and show loading state with animation
+                  currentSubmitBtn.disabled = true;
+                  currentSubmitBtn.classList.add('loading-gradient');
 
-            anime({
-                targets: currentSubmitBtn,
-                scale: [1, 0.98, 1],
-                duration: 200,
-                easing: 'easeOutQuad'
-            });
+                  anime({
+                      targets: currentSubmitBtn,
+                      scale: [1, 0.98, 1],
+                      duration: 200,
+                      easing: 'easeOutQuad'
+                  });
 
-            // Show loading state
-            if (currentBtnText) currentBtnText.classList.add('hidden');
-            if (currentBtnLoading) currentBtnLoading.classList.remove('hidden');
+                  // Show loading state
+                  if (currentBtnText) currentBtnText.classList.add('hidden');
+                  if (currentBtnLoading) currentBtnLoading.classList.remove('hidden');
 
-            // Re-enable button after 5 seconds as fallback
-            setTimeout(function() {
-                currentSubmitBtn.disabled = false;
-                currentSubmitBtn.classList.remove('loading-gradient');
-                if (currentBtnText) currentBtnText.classList.remove('hidden');
-                if (currentBtnLoading) currentBtnLoading.classList.add('hidden');
-            }, 5000);
-        }
-    });
+                  // Re-enable button after 5 seconds as fallback
+                  setTimeout(function() {
+                      currentSubmitBtn.disabled = false;
+                      currentSubmitBtn.classList.remove('loading-gradient');
+                      if (currentBtnText) currentBtnText.classList.remove('hidden');
+                      if (currentBtnLoading) currentBtnLoading.classList.add('hidden');
+                  }, 5000);
+              }
+          });
 
-    // Keyboard navigation enhancements
-    document.addEventListener('keydown', function(e) {
-        // ESC to go back from form to welcome
-        if (e.key === 'Escape' && formScreen.style.opacity === '1') {
-            backBtn.click();
-        }
+          // Keyboard navigation enhancements
+          document.addEventListener('keydown', function(e) {
+              // ESC to go back from form to welcome
+              if (e.key === 'Escape' && formScreen.style.opacity === '1') {
+                  backBtn.click();
+              }
 
-        // Enter to accept invitation from welcome screen
-        if (e.key === 'Enter' && welcomeScreen.style.opacity !== '0' && !acceptBtn.disabled) {
-            acceptBtn.click();
-        }
-    });
+              // Enter to accept invitation from welcome screen
+              if (e.key === 'Enter' && welcomeScreen.style.opacity !== '0' && !acceptBtn.disabled) {
+                  acceptBtn.click();
+              }
+          });
 
-    // Auto-focus management
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-                const target = mutation.target;
-                if (target === formScreen && formScreen.style.opacity === '1') {
-                    setTimeout(() => {
-                        const firstInput = form.querySelector('input:not([type="hidden"])');
-                        if (firstInput) firstInput.focus();
-                    }, 100);
-                }
-            }
-        });
-    });
+          // Auto-focus management
+          const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                  if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                      const target = mutation.target;
+                      if (target === formScreen && formScreen.style.opacity === '1') {
+                          setTimeout(() => {
+                              const firstInput = form.querySelector('input:not([type="hidden"])');
+                              if (firstInput) firstInput.focus();
+                          }, 100);
+                      }
+                  }
+              });
+          });
 
-    observer.observe(formScreen, { attributes: true });
-});
+          observer.observe(formScreen, {
+              attributes: true
+          });
+      });
   </script>
-{% endblock %}
+{% endblock main %}

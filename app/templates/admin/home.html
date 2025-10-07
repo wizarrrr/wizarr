@@ -79,259 +79,262 @@
     <div id="invite-modal"></div>
   </section>
   <script>
-// Modal functions
-function openInviteModal() {
-    // Load invite form into the modal container
-    htmx.ajax('GET', '/invite', {
-        target: '#invite-modal',
-        swap: 'innerHTML'
-    });
-}
+      // Modal functions
+      function openInviteModal() {
+          // Load invite form into the modal container
+          htmx.ajax('GET', '/invite', {
+              target: '#invite-modal',
+              swap: 'innerHTML'
+          });
+      }
 
-function closeInviteModal() {
-    document.getElementById('invite-modal').innerHTML = '';
-}
+      function closeInviteModal() {
+          document.getElementById('invite-modal').innerHTML = '';
+      }
 
-// Close modal on escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeInviteModal();
-    }
-});
+      // Close modal on escape key
+      document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+              closeInviteModal();
+          }
+      });
 
-// Live timestamp updating
-let liveTimers = [];
-let nowPlayingTimers = [];
+      // Live timestamp updating
+      let liveTimers = [];
+      let nowPlayingTimers = [];
 
-function startLiveTimers() {
-    // Find all live timestamp elements and start their timers
-    document.querySelectorAll('[data-timestamp]').forEach(function(elem) {
-        const timestamp = parseInt(elem.getAttribute('data-timestamp'));
-        if (timestamp) {
-            const timer = setInterval(function() {
-                const now = Math.floor(Date.now() / 1000);
-                const diff = now - timestamp;
-                elem.textContent = formatDuration(diff);
-            }, 1000);
-            liveTimers.push(timer);
-        }
-    });
-}
+      function startLiveTimers() {
+          // Find all live timestamp elements and start their timers
+          document.querySelectorAll('[data-timestamp]').forEach(function(elem) {
+              const timestamp = parseInt(elem.getAttribute('data-timestamp'));
+              if (timestamp) {
+                  const timer = setInterval(function() {
+                      const now = Math.floor(Date.now() / 1000);
+                      const diff = now - timestamp;
+                      elem.textContent = formatDuration(diff);
+                  }, 1000);
+                  liveTimers.push(timer);
+              }
+          });
+      }
 
-function startNowPlayingTimers() {
-    // Clear existing timers
-    nowPlayingTimers.forEach(timer => clearInterval(timer));
-    nowPlayingTimers = [];
-    
-    // Find all now playing cards and start live time updates
-    document.querySelectorAll('.now-playing-card[data-session-state="playing"]').forEach(function(card) {
-        const duration = parseInt(card.getAttribute('data-session-duration')) || 0;
-        const initialPosition = parseInt(card.getAttribute('data-session-position')) || 0;
-        const sessionId = card.getAttribute('data-session-id');
-        
-        if (duration > 0 && sessionId) {
-            let currentPosition = initialPosition;
-            const startTime = Date.now();
-            
-            const timer = setInterval(function() {
-                // Calculate elapsed time since timer started (in milliseconds)
-                const elapsed = Date.now() - startTime;
-                // Add elapsed time to initial position
-                const newPosition = currentPosition + elapsed;
-                
-                // Don't exceed duration
-                if (newPosition < duration) {
-                    updateCardTime(card, newPosition, duration);
-                } else {
-                    clearInterval(timer);
-                }
-            }, 1000);
-            
-            nowPlayingTimers.push(timer);
-        }
-    });
-}
+      function startNowPlayingTimers() {
+          // Clear existing timers
+          nowPlayingTimers.forEach(timer => clearInterval(timer));
+          nowPlayingTimers = [];
 
-function updateCardTime(card, position, duration) {
-    const timeDisplay = card.querySelector('.session-time-display');
-    const progressBar = card.querySelector('.session-progress-bar');
-    
-    if (timeDisplay) {
-        const posSeconds = Math.floor(position / 1000);
-        const durSeconds = Math.floor(duration / 1000);
-        const posMins = Math.floor(posSeconds / 60);
-        const durMins = Math.floor(durSeconds / 60);
-        const posSecsRemainder = posSeconds % 60;
-        const durSecsRemainder = durSeconds % 60;
-        
-        timeDisplay.textContent = `${posMins}:${posSecsRemainder.toString().padStart(2, '0')} / ${durMins}:${durSecsRemainder.toString().padStart(2, '0')}`;
-    }
-    
-    if (progressBar && duration > 0) {
-        const progressPercent = (position / duration) * 100;
-        progressBar.style.width = `${Math.min(progressPercent, 100)}%`;
-    }
-}
+          // Find all now playing cards and start live time updates
+          document.querySelectorAll('.now-playing-card[data-session-state="playing"]').forEach(function(card) {
+              const duration = parseInt(card.getAttribute('data-session-duration')) || 0;
+              const initialPosition = parseInt(card.getAttribute('data-session-position')) || 0;
+              const sessionId = card.getAttribute('data-session-id');
 
-function formatDuration(seconds) {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    
-    if (hours > 0) {
-        return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    }
-    return `${minutes}:${secs.toString().padStart(2, '0')}`;
-}
+              if (duration > 0 && sessionId) {
+                  let currentPosition = initialPosition;
+                  const startTime = Date.now();
 
-// Re-init Flowbite popovers when HTMX swaps in new now-playing cards
-function reinitFlowbitePopovers() {
-    if (typeof initFlowbite === 'function') {
-        initFlowbite(); // official helper (ES module / CDN helper)
-    } else if (window.Flowbite && typeof window.Flowbite.init === 'function') {
-        window.Flowbite.init();
-    }
-    // After Flowbite (or fallback) initialises, explicitly set the placement to bottom
-    document.querySelectorAll('[data-popover-target]').forEach(trigger => {
-        const targetId = trigger.getAttribute('data-popover-target');
-        const pop = document.getElementById(targetId);
-        if (pop) {
-            pop.setAttribute('data-popper-placement', 'bottom');
-        }
-    });
+                  const timer = setInterval(function() {
+                      // Calculate elapsed time since timer started (in milliseconds)
+                      const elapsed = Date.now() - startTime;
+                      // Add elapsed time to initial position
+                      const newPosition = currentPosition + elapsed;
 
-    // Manual fallback binding when Flowbite JS is not available
-    if (!(typeof initFlowbite === 'function' || (window.Flowbite && typeof window.Flowbite.init === 'function'))) {
-        document.querySelectorAll('[data-popover-target]').forEach(trigger => {
-            if (trigger.dataset.popoverBound) return; // skip if already bound
-            const targetId = trigger.getAttribute('data-popover-target');
-            const pop = document.getElementById(targetId);
-            if (!pop) return;
-            const show = () => {
-                pop.classList.remove('invisible', 'opacity-0');
-            };
-            const hide = () => {
-                pop.classList.add('opacity-0');
-                setTimeout(() => pop.classList.add('invisible'), 300);
-            };
-            trigger.addEventListener('mouseenter', show);
-            trigger.addEventListener('mouseleave', hide);
-            pop.addEventListener('mouseenter', show);
-            pop.addEventListener('mouseleave', hide);
-            trigger.dataset.popoverBound = 'true';
-        });
-    }
-}
+                      // Don't exceed duration
+                      if (newPosition < duration) {
+                          updateCardTime(card, newPosition, duration);
+                      } else {
+                          clearInterval(timer);
+                      }
+                  }, 1000);
 
-document.addEventListener('htmx:afterSwap', function(evt) {
-    if (evt.target && evt.target.id === 'nowPlayingContent') {
-        reinitFlowbitePopovers();
-        // Restart live-timer so newly swapped cards animate correctly
-        liveTimers.forEach(timer => clearInterval(timer));
-        liveTimers = [];
-        startLiveTimers();
-        
-        // Start live time updates for now playing cards
-        startNowPlayingTimers();
-        
-        // Removed adaptive additionalWidgets logic since those widgets are no longer present
-    }
-});
+                  nowPlayingTimers.push(timer);
+              }
+          });
+      }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize live timers
-            startLiveTimers();
-            
-            // Initialize now playing timers
-            startNowPlayingTimers();
-            
-            // Initialize Flowbite popovers
-            reinitFlowbitePopovers();
-            
-            // Removed adaptive additionalWidgets logic since those widgets are no longer present
-        });
+      function updateCardTime(card, position, duration) {
+          const timeDisplay = card.querySelector('.session-time-display');
+          const progressBar = card.querySelector('.session-progress-bar');
+
+          if (timeDisplay) {
+              const posSeconds = Math.floor(position / 1000);
+              const durSeconds = Math.floor(duration / 1000);
+              const posMins = Math.floor(posSeconds / 60);
+              const durMins = Math.floor(durSeconds / 60);
+              const posSecsRemainder = posSeconds % 60;
+              const durSecsRemainder = durSeconds % 60;
+
+              timeDisplay.textContent = `${posMins}:${posSecsRemainder.toString().padStart(2, '0')} / ${durMins}:${durSecsRemainder.toString().padStart(2, '0')}`;
+          }
+
+          if (progressBar && duration > 0) {
+              const progressPercent = (position / duration) * 100;
+              progressBar.style.width = `${Math.min(progressPercent, 100)}%`;
+          }
+      }
+
+      function formatDuration(seconds) {
+          const hours = Math.floor(seconds / 3600);
+          const minutes = Math.floor((seconds % 3600) / 60);
+          const secs = seconds % 60;
+
+          if (hours > 0) {
+              return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+          }
+          return `${minutes}:${secs.toString().padStart(2, '0')}`;
+      }
+
+      // Re-init Flowbite popovers when HTMX swaps in new now-playing cards
+      function reinitFlowbitePopovers() {
+          if (typeof initFlowbite === 'function') {
+              initFlowbite(); // official helper (ES module / CDN helper)
+          } else if (window.Flowbite && typeof window.Flowbite.init === 'function') {
+              window.Flowbite.init();
+          }
+          // After Flowbite (or fallback) initialises, explicitly set the placement to bottom
+          document.querySelectorAll('[data-popover-target]').forEach(trigger => {
+              const targetId = trigger.getAttribute('data-popover-target');
+              const pop = document.getElementById(targetId);
+              if (pop) {
+                  pop.setAttribute('data-popper-placement', 'bottom');
+              }
+          });
+
+          // Manual fallback binding when Flowbite JS is not available
+          if (!(typeof initFlowbite === 'function' || (window.Flowbite && typeof window.Flowbite.init === 'function'))) {
+              document.querySelectorAll('[data-popover-target]').forEach(trigger => {
+                  if (trigger.dataset.popoverBound) return; // skip if already bound
+                  const targetId = trigger.getAttribute('data-popover-target');
+                  const pop = document.getElementById(targetId);
+                  if (!pop) return;
+                  const show = () => {
+                      pop.classList.remove('invisible', 'opacity-0');
+                  };
+                  const hide = () => {
+                      pop.classList.add('opacity-0');
+                      setTimeout(() => pop.classList.add('invisible'), 300);
+                  };
+                  trigger.addEventListener('mouseenter', show);
+                  trigger.addEventListener('mouseleave', hide);
+                  pop.addEventListener('mouseenter', show);
+                  pop.addEventListener('mouseleave', hide);
+                  trigger.dataset.popoverBound = 'true';
+              });
+          }
+      }
+
+      document.addEventListener('htmx:afterSwap', function(evt) {
+          if (evt.target && evt.target.id === 'nowPlayingContent') {
+              reinitFlowbitePopovers();
+              // Restart live-timer so newly swapped cards animate correctly
+              liveTimers.forEach(timer => clearInterval(timer));
+              liveTimers = [];
+              startLiveTimers();
+
+              // Start live time updates for now playing cards
+              startNowPlayingTimers();
+
+              // Removed adaptive additionalWidgets logic since those widgets are no longer present
+          }
+      });
+
+      document.addEventListener('DOMContentLoaded', function() {
+          // Initialize live timers
+          startLiveTimers();
+
+          // Initialize now playing timers
+          startNowPlayingTimers();
+
+          // Initialize Flowbite popovers
+          reinitFlowbitePopovers();
+
+          // Removed adaptive additionalWidgets logic since those widgets are no longer present
+      });
   </script>
   <style>
-/* Ensure equal height cards in widget grid on desktop */
-@media (min-width: 1024px) {
-    #widgetGrid {
-        display: grid;
-        grid-template-rows: 1fr;
-        align-items: stretch;
-    }
-    
-    #latestInvitesContainer,
-    #serverHealthContainer {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-}
+      /* Ensure equal height cards in widget grid on desktop */
+      @media (min-width: 1024px) {
+          #widgetGrid {
+              display: grid;
+              grid-template-rows: 1fr;
+              align-items: stretch;
+          }
 
-.line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
+          #latestInvitesContainer,
+          #serverHealthContainer {
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+          }
+      }
 
-/* Blobby hover animation for session cards */
-.session-card {
-    transform-origin: center top;
-    transition: all 0.3s ease; /* simpler transition */
-    overflow: visible;
-}
+      .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+      }
 
-.session-card:hover {
-    position: relative;
-    z-index: 50;
-    /* remove scaling/shadow animation */
-}
+      /* Blobby hover animation for session cards */
+      .session-card {
+          transform-origin: center top;
+          transition: all 0.3s ease;
+          /* simpler transition */
+          overflow: visible;
+      }
 
-/* Remove sibling shrink effect */
-.session-card:hover ~ .session-card {
-    transform: none;
-    opacity: 1;
-}
+      .session-card:hover {
+          position: relative;
+          z-index: 50;
+          /* remove scaling/shadow animation */
+      }
 
-/* Hover overlay animation */
-.hover-overlay {
-    backdrop-filter: blur(8px);
-    border-radius: 0.5rem;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
+      /* Remove sibling shrink effect */
+      .session-card:hover~.session-card {
+          transform: none;
+          opacity: 1;
+      }
 
-/* Ensure cards don't interfere with each other during hover */
-.session-card:hover ~ .session-card {
-    transform: none;
-    opacity: 1;
-}
+      /* Hover overlay animation */
+      .hover-overlay {
+          backdrop-filter: blur(8px);
+          border-radius: 0.5rem;
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
 
-/* Grid container adjustments for hover effects */
-#nowPlayingContent {
-    perspective: 1000px;
-    overflow: visible; /* Allow cards to overflow outside grid */
-}
+      /* Ensure cards don't interfere with each other during hover */
+      .session-card:hover~.session-card {
+          transform: none;
+          opacity: 1;
+      }
 
-/* Smooth transitions for grid items */
-#nowPlayingContent > div {
-    transition: all 0.3s ease;
-    overflow: visible;
-}
+      /* Grid container adjustments for hover effects */
+      #nowPlayingContent {
+          perspective: 1000px;
+          overflow: visible;
+          /* Allow cards to overflow outside grid */
+      }
 
-/* Additional hover effects for better UX */
-.session-card:hover .hover-overlay {
-    animation: slideInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
+      /* Smooth transitions for grid items */
+      #nowPlayingContent>div {
+          transition: all 0.3s ease;
+          overflow: visible;
+      }
 
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
+      /* Additional hover effects for better UX */
+      .session-card:hover .hover-overlay {
+          animation: slideInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      @keyframes slideInUp {
+          from {
+              opacity: 0;
+              transform: translateY(20px) scale(0.95);
+          }
+
+          to {
+              opacity: 1;
+              transform: translateY(0) scale(1);
+          }
+      }
   </style>

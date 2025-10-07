@@ -39,22 +39,22 @@
     </div>
   </form>
   <script>
-    // Show/hide preset fields based on selection
-    document.getElementById('preset-select').addEventListener('change', function() {
-      const selectedPreset = this.value;
-      
-      // Hide all preset fields and descriptions
-      document.querySelectorAll('.preset-fields').forEach(el => el.style.display = 'none');
-      document.querySelectorAll('.preset-description').forEach(el => el.style.display = 'none');
-      
-      // Show relevant fields and description
-      if (selectedPreset === 'discord_community') {
-        document.getElementById('discord-fields').style.display = 'block';
-        document.getElementById('preset-desc-discord_community').style.display = 'block';
-      } else if (selectedPreset === 'overseerr_requests') {
-        document.getElementById('overseerr-fields').style.display = 'block';
-        document.getElementById('preset-desc-overseerr_requests').style.display = 'block';
-      }
-    });
+      // Show/hide preset fields based on selection
+      document.getElementById('preset-select').addEventListener('change', function() {
+          const selectedPreset = this.value;
+
+          // Hide all preset fields and descriptions
+          document.querySelectorAll('.preset-fields').forEach(el => el.style.display = 'none');
+          document.querySelectorAll('.preset-description').forEach(el => el.style.display = 'none');
+
+          // Show relevant fields and description
+          if (selectedPreset === 'discord_community') {
+              document.getElementById('discord-fields').style.display = 'block';
+              document.getElementById('preset-desc-discord_community').style.display = 'block';
+          } else if (selectedPreset === 'overseerr_requests') {
+              document.getElementById('overseerr-fields').style.display = 'block';
+              document.getElementById('preset-desc-overseerr_requests').style.display = 'block';
+          }
+      });
   </script>
 </section>

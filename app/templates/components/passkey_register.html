@@ -22,90 +22,98 @@
   </div>
 </div>
 <script>
-(function() {
-    const options = {{ options | tojson }};
-    
-    // Convert base64url to Uint8Array for WebAuthn API
-    function base64urlToUint8Array(base64url) {
-        const padded = base64url + '==='.slice(0, (4 - base64url.length % 4) % 4);
-        const base64 = padded.replace(/-/g, '+').replace(/_/g, '/');
-        const binary = atob(base64);
-        const bytes = new Uint8Array(binary.length);
-        for (let i = 0; i < binary.length; i++) {
-            bytes[i] = binary.charCodeAt(i);
+    (function() {
+        const options = {
+            {
+                options | tojson
+            }
+        };
+
+        // Convert base64url to Uint8Array for WebAuthn API
+        function base64urlToUint8Array(base64url) {
+            const padded = base64url + '==='.slice(0, (4 - base64url.length % 4) % 4);
+            const base64 = padded.replace(/-/g, '+').replace(/_/g, '/');
+            const binary = atob(base64);
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) {
+                bytes[i] = binary.charCodeAt(i);
+            }
+            return bytes;
         }
-        return bytes;
-    }
-    
-    function uint8ArrayToBase64url(array) {
-        // Convert Uint8Array to base64url string
-        // Use Array.from to handle large arrays properly
-        const binary = Array.from(array, byte => String.fromCharCode(byte)).join('');
-        const base64 = btoa(binary);
-        return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-    }
-    
-    // Prepare options for WebAuthn
-    options.challenge = base64urlToUint8Array(options.challenge);
-    options.user.id = base64urlToUint8Array(options.user.id);
-    
-    if (options.excludeCredentials && options.excludeCredentials.length > 0) {
-        options.excludeCredentials = options.excludeCredentials.map(cred => ({
-            ...cred,
-            id: base64urlToUint8Array(cred.id)
-        }));
-    }
-    
-    // Check WebAuthn availability
-    if (!window.PublicKeyCredential || !navigator.credentials) {
-        alert('WebAuthn not supported in this browser');
-        return;
-    }
-    
-    // Start registration
-    navigator.credentials.create({ publicKey: options })
-        .then(credential => {
-            // Convert ArrayBuffer values to base64url
-            // The webauthn library expects both id and rawId to be the same base64url value
-            const credentialId = uint8ArrayToBase64url(new Uint8Array(credential.rawId));
-            
-            const registrationData = {
-                name: '{{ name }}',
-                credential: {
-                    id: credentialId,  // Both fields must have the same value
-                    rawId: credentialId,  // Both fields must have the same value
-                    response: {
-                        clientDataJSON: uint8ArrayToBase64url(new Uint8Array(credential.response.clientDataJSON)),
-                        attestationObject: uint8ArrayToBase64url(new Uint8Array(credential.response.attestationObject))
+
+        function uint8ArrayToBase64url(array) {
+            // Convert Uint8Array to base64url string
+            // Use Array.from to handle large arrays properly
+            const binary = Array.from(array, byte => String.fromCharCode(byte)).join('');
+            const base64 = btoa(binary);
+            return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+        }
+
+        // Prepare options for WebAuthn
+        options.challenge = base64urlToUint8Array(options.challenge);
+        options.user.id = base64urlToUint8Array(options.user.id);
+
+        if (options.excludeCredentials && options.excludeCredentials.length > 0) {
+            options.excludeCredentials = options.excludeCredentials.map(cred => ({
+                ...cred,
+                id: base64urlToUint8Array(cred.id)
+            }));
+        }
+
+        // Check WebAuthn availability
+        if (!window.PublicKeyCredential || !navigator.credentials) {
+            alert('WebAuthn not supported in this browser');
+            return;
+        }
+
+        // Start registration
+        navigator.credentials.create({
+                publicKey: options
+            })
+            .then(credential => {
+                // Convert ArrayBuffer values to base64url
+                // The webauthn library expects both id and rawId to be the same base64url value
+                const credentialId = uint8ArrayToBase64url(new Uint8Array(credential.rawId));
+
+                const registrationData = {
+                    name: '{{ name }}',
+                    credential: {
+                        id: credentialId, // Both fields must have the same value
+                        rawId: credentialId, // Both fields must have the same value
+                        response: {
+                            clientDataJSON: uint8ArrayToBase64url(new Uint8Array(credential.response.clientDataJSON)),
+                            attestationObject: uint8ArrayToBase64url(new Uint8Array(credential.response.attestationObject))
+                        },
+                        type: credential.type
+                    }
+                };
+
+                return fetch('/webauthn/register/complete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
                     },
-                    type: credential.type
+                    body: JSON.stringify(registrationData)
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
-            };
-            
-            return fetch('/webauthn/register/complete', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(registrationData)
-            });
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-            }
-            return response.json();
-        })
-        .then(result => {
-            if (result.verified) {
-                htmx.ajax('GET', '/webauthn/close-modal', '#passkey-modal-container');
-                htmx.ajax('GET', '/webauthn/list', '#passkey-list');
-            } else {
+                return response.json();
+            })
+            .then(result => {
+                if (result.verified) {
+                    htmx.ajax('GET', '/webauthn/close-modal', '#passkey-modal-container');
+                    htmx.ajax('GET', '/webauthn/list', '#passkey-list');
+                } else {
+                    htmx.ajax('GET', '/webauthn/add-form', '#passkey-modal-container');
+                    alert('{{ _("Failed to register passkey") }}: ' + (result.error || 'Unknown error'));
+                }
+            })
+            .catch(error => {
                 htmx.ajax('GET', '/webauthn/add-form', '#passkey-modal-container');
-                alert('{{ _("Failed to register passkey") }}: ' + (result.error || 'Unknown error'));
-            }
-        })
-        .catch(error => {
-            htmx.ajax('GET', '/webauthn/add-form', '#passkey-modal-container');
-            alert('{{ _("Failed to complete passkey registration") }}: ' + error.message);
-        });
-})();
+                alert('{{ _("Failed to complete passkey registration") }}: ' + error.message);
+            });
+    })();
 </script>

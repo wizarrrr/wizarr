@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet"
@@ -55,71 +55,75 @@
           href="{{ url_for('static', filename='img/pwa-icons/icon-512x512.png') }}">
     <meta name="robots" content="noindex">
     <title>
-      {% block title %}{% endblock %}
+      {% block title %}
+      {% endblock title %}
     - {{ _(server_name) }}</title>
-    <meta property="og:title" content="{% block og_title %}{% endblock %}" />
+    <meta property="og:title"
+          content="{% block og_title %}
+                   {% endblock og_title %}" />
     <meta property="og:description"
           content="{% block og_description %}
-                   {% endblock %}" />
+                   {% endblock og_description %}" />
     <script>
-    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-
-    // Clipboard utility with fallback support for HTTP contexts
-    function copyToClipboard(text, callback) {
-      // Modern clipboard API (requires HTTPS or localhost)
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(text).then(() => {
-          if (callback) callback(true);
-        }).catch(err => {
-          console.warn('Clipboard API failed, trying fallback:', err);
-          fallbackCopy(text, callback);
-        });
-      } else {
-        // Fallback for HTTP contexts
-        fallbackCopy(text, callback);
-      }
-    }
-
-    function fallbackCopy(text, callback) {
-      // Create a temporary textarea element
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      textarea.style.left = '-9999px';
-      document.body.appendChild(textarea);
-      
-      try {
-        // Select and copy the text
-        textarea.select();
-        textarea.setSelectionRange(0, 99999); // For mobile devices
-        
-        const successful = document.execCommand('copy');
-        if (callback) callback(successful);
-        
-        if (!successful) {
-          console.warn('Fallback copy failed');
-          // Last resort: show alert with text to copy manually
-          alert('Please copy this link manually:\n\n' + text);
+        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
         }
-      } catch (err) {
-        console.error('All copy methods failed:', err);
-        if (callback) callback(false);
-        // Last resort: show alert with text to copy manually
-        alert('Please copy this link manually:\n\n' + text);
-      } finally {
-        document.body.removeChild(textarea);
-      }
-    }
+
+        // Clipboard utility with fallback support for HTTP contexts
+        function copyToClipboard(text, callback) {
+            // Modern clipboard API (requires HTTPS or localhost)
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    if (callback) callback(true);
+                }).catch(err => {
+                    console.warn('Clipboard API failed, trying fallback:', err);
+                    fallbackCopy(text, callback);
+                });
+            } else {
+                // Fallback for HTTP contexts
+                fallbackCopy(text, callback);
+            }
+        }
+
+        function fallbackCopy(text, callback) {
+            // Create a temporary textarea element
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+
+            try {
+                // Select and copy the text
+                textarea.select();
+                textarea.setSelectionRange(0, 99999); // For mobile devices
+
+                const successful = document.execCommand('copy');
+                if (callback) callback(successful);
+
+                if (!successful) {
+                    console.warn('Fallback copy failed');
+                    // Last resort: show alert with text to copy manually
+                    alert('Please copy this link manually:\n\n' + text);
+                }
+            } catch (err) {
+                console.error('All copy methods failed:', err);
+                if (callback) callback(false);
+                // Last resort: show alert with text to copy manually
+                alert('Please copy this link manually:\n\n' + text);
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
     </script>
   </head>
   <body class="bg-gray-50 dark:bg-gray-900">
-    {% block main %}{% endblock %}
+    {% block main %}
+    {% endblock main %}
     <link rel="stylesheet"
           href="{{ url_for('static',filename='css/main.css') }}" />
     <script src="{{url_for('static', filename='node_modules/alpinejs/dist/cdn.min.js')}}"></script>
