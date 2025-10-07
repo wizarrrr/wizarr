@@ -17,8 +17,7 @@ repos:
     rev: v1.36.4
     hooks:
       - id: djlint-reformat-jinja
-        files: \.(html|jinja)$
-      - id: djlint-jinja
+        args: [--lint]
         files: \.(html|jinja)$
 
   - repo: local
