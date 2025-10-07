@@ -1,154 +1,120 @@
 {% extends "base.html" %}
-
 {% block title %}Accept Invite{% endblock %}
-
 {% block og_title %}{{ _(server_name) }}{% endblock %}
-
-{% block og_description %}{{ _("You've been invited to join the %(name)s server!", name=server_name) }}{% endblock %}
-
+{% block og_description %}
+  {{ _("You've been invited to join the %(name)s server!", name=server_name) }}
+{% endblock %}
 {% block main %}
-<section class="min-h-screen bg-gradient-to-br from-slate-900 via-orange-900 to-slate-900 relative overflow-hidden">
+  <section class="min-h-screen bg-gradient-to-br from-slate-900 via-orange-900 to-slate-900 relative overflow-hidden">
     <!-- Cinema Background Layer -->
     <div class="absolute inset-0 overflow-hidden">
-        <!-- Flowing Movie Poster Grid -->
-        <div class="poster-grid-container">
-            <!-- First row flowing left -->
-            <div class="poster-row poster-row-1" data-direction="left">
-                <!-- Posters will be dynamically added here -->
-            </div>
-            
-            <!-- Second row flowing right -->
-            <div class="poster-row poster-row-2" data-direction="right">
-                <!-- Posters will be dynamically added here -->
-            </div>
-            
-            <!-- Third row flowing left -->
-            <div class="poster-row poster-row-3" data-direction="left">
-                <!-- Posters will be dynamically added here -->
-            </div>
-            
-            <!-- Fourth row flowing right -->
-            <div class="poster-row poster-row-4" data-direction="right">
-                <!-- Posters will be dynamically added here -->
-            </div>
+      <!-- Flowing Movie Poster Grid -->
+      <div class="poster-grid-container">
+        <!-- First row flowing left -->
+        <div class="poster-row poster-row-1" data-direction="left">
+          <!-- Posters will be dynamically added here -->
         </div>
+        <!-- Second row flowing right -->
+        <div class="poster-row poster-row-2" data-direction="right">
+          <!-- Posters will be dynamically added here -->
+        </div>
+        <!-- Third row flowing left -->
+        <div class="poster-row poster-row-3" data-direction="left">
+          <!-- Posters will be dynamically added here -->
+        </div>
+        <!-- Fourth row flowing right -->
+        <div class="poster-row poster-row-4" data-direction="right">
+          <!-- Posters will be dynamically added here -->
+        </div>
+      </div>
     </div>
-    
     <!-- Overlay gradient to ensure readability -->
     <div class="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-orange-900/60 to-slate-900/80"></div>
-    
     <!-- Animated accent elements -->
     <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute -top-40 -right-80 w-80 h-80 bg-orange-400 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob"></div>
-        <div class="absolute -bottom-80 -left-40 w-80 h-80 bg-amber-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-blob animation-delay-2000"></div>
-        <div class="absolute top-40 left-40 w-80 h-80 bg-yellow-600 rounded-full mix-blend-multiply filter blur-xl opacity-45 animate-blob animation-delay-4000"></div>
+      <div class="absolute -top-40 -right-80 w-80 h-80 bg-orange-400 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob">
+      </div>
+      <div class="absolute -bottom-80 -left-40 w-80 h-80 bg-amber-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-blob animation-delay-2000">
+      </div>
+      <div class="absolute top-40 left-40 w-80 h-80 bg-yellow-600 rounded-full mix-blend-multiply filter blur-xl opacity-45 animate-blob animation-delay-4000">
+      </div>
     </div>
-    
     <div class="relative flex flex-col items-center justify-center px-6 mx-auto min-h-screen lg:py-0">
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="mb-6 text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-orange-200 to-amber-400 leading-tight">
-                {{ _("You've been invited!") }}
-            </h1>
-            {% if server_name %}
-            <div class="mb-4">
-                <p class="text-sm text-gray-400 uppercase tracking-wider font-medium">
-                    {{ _("To join") }}
-                </p>
-                <p class="text-2xl md:text-3xl font-bold text-white mt-1">
-                    {{ server_name }}
-                </p>
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="mb-6 text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-orange-200 to-amber-400 leading-tight">
+          {{ _("You've been invited!") }}
+        </h1>
+        {% if server_name %}
+          <div class="mb-4">
+            <p class="text-sm text-gray-400 uppercase tracking-wider font-medium">{{ _("To join") }}</p>
+            <p class="text-2xl md:text-3xl font-bold text-white mt-1">{{ server_name }}</p>
+          </div>
+        {% endif %}
+        <p class="text-lg md:text-xl text-gray-300 font-light max-w-md mx-auto leading-relaxed">
+          {{ _("Join the ultimate media server experience.") }}
+        </p>
+      </div>
+      <!-- Card Container -->
+      <div class="w-full max-w-md">
+        <div class="bg-gray-800/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden">
+          <div class="p-8 space-y-6">
+            <div class="text-center">
+              <h2 class="text-2xl font-bold text-white mb-2">{{ _("Enter Code to Continue") }}</h2>
+              <p class="text-gray-400 text-sm">{{ _("Invitation Code") }}</p>
             </div>
-            {% endif %}
-            <p class="text-lg md:text-xl text-gray-300 font-light max-w-md mx-auto leading-relaxed">
-                {{ _("Join the ultimate media server experience.") }}
-            </p>
-        </div>
-
-        <!-- Card Container -->
-        <div class="w-full max-w-md">
-            <div class="bg-gray-800/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden">
-                <div class="p-8 space-y-6">
-                    <div class="text-center">
-                        <h2 class="text-2xl font-bold text-white mb-2">
-                            {{ _("Enter Code to Continue") }}
-                        </h2>
-                        <p class="text-gray-400 text-sm">
-                            {{ _("Invitation Code") }}
-                        </p>
-                    </div>
-                    
-                    <form class="space-y-6" action="/join" method="post">
-                        {% if not code_error %}
-                        <div class="space-y-2">
-                            <input 
-                                minlength="6" 
-                                maxlength="10" 
-                                type="text" 
-                                name="code" 
-                                id="code"
-                                class="w-full px-4 py-4 text-center text-lg font-mono tracking-widest 
-                                       bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400
-                                       rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent
-                                       backdrop-blur-sm transition-all duration-200"
-                                placeholder="{{ _('Enter your code') }}" 
-                                value="{{ code }}" 
-                                required
-                                autocomplete="off">
-                            <input type="hidden" name="token" id="token" value="">
-                        </div>
-                        {% endif %}
-                        
-                        {% if code_error %}
-                        <div class="space-y-2">
-                            <input 
-                                minlength="6" 
-                                maxlength="10" 
-                                type="text" 
-                                name="code" 
-                                id="code"
-                                class="w-full px-4 py-4 text-center text-lg font-mono tracking-widest
-                                       bg-red-900/30 border-2 border-red-500 text-white placeholder-red-300
-                                       rounded-xl focus:ring-2 focus:ring-red-400 focus:border-red-400
-                                       backdrop-blur-sm transition-all duration-200"
-                                placeholder="{{ _('Enter your code') }}" 
-                                required
-                                autocomplete="off">
-                            <div class="flex items-center space-x-2 text-red-400 text-sm">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                </svg>
-                                <span>{{ code_error }}</span>
-                            </div>
-                        </div>
-                        {% endif %}
-                        
-                        <button 
-                            onClick="oauth(); return false;"
-                            class="w-full py-4 px-6 text-white font-semibold text-lg
-                                   bg-gradient-to-r from-primary to-primary_hover
-                                   hover:from-primary_hover hover:to-primary 
-                                   rounded-xl transition-all duration-200 transform hover:scale-[1.02]
-                                   focus:ring-4 focus:ring-primary/30 focus:outline-none
-                                   shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
-                            {{ _("Join Server") }}
-                        </button>
-                    </form>
+            <form class="space-y-6" action="/join" method="post">
+              {% if not code_error %}
+                <div class="space-y-2">
+                  <input minlength="6"
+                         maxlength="10"
+                         type="text"
+                         name="code"
+                         id="code"
+                         class="w-full px-4 py-4 text-center text-lg font-mono tracking-widest bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200"
+                         placeholder="{{ _('Enter your code') }}"
+                         value="{{ code }}"
+                         required
+                         autocomplete="off">
+                  <input type="hidden" name="token" id="token" value="">
                 </div>
-            </div>
-            
-            <!-- Footer text -->
-            <div class="text-center mt-6">
-                <p class="text-gray-400 text-sm">
-                    {{ _("Secure invitation system powered by Wizarr") }}
-                </p>
-            </div>
+              {% endif %}
+              {% if code_error %}
+                <div class="space-y-2">
+                  <input minlength="6"
+                         maxlength="10"
+                         type="text"
+                         name="code"
+                         id="code"
+                         class="w-full px-4 py-4 text-center text-lg font-mono tracking-widest bg-red-900/30 border-2 border-red-500 text-white placeholder-red-300 rounded-xl focus:ring-2 focus:ring-red-400 focus:border-red-400 backdrop-blur-sm transition-all duration-200"
+                         placeholder="{{ _('Enter your code') }}"
+                         required
+                         autocomplete="off">
+                  <div class="flex items-center space-x-2 text-red-400 text-sm">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd">
+                      </path>
+                    </svg>
+                    <span>{{ code_error }}</span>
+                  </div>
+                </div>
+              {% endif %}
+              <button onClick="oauth(); return false;"
+                      class="w-full py-4 px-6 text-white font-semibold text-lg bg-gradient-to-r from-primary to-primary_hover hover:from-primary_hover hover:to-primary rounded-xl transition-all duration-200 transform hover:scale-[1.02] focus:ring-4 focus:ring-primary/30 focus:outline-none shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
+                {{ _("Join Server") }}
+              </button>
+            </form>
+          </div>
         </div>
+        <!-- Footer text -->
+        <div class="text-center mt-6">
+          <p class="text-gray-400 text-sm">{{ _("Secure invitation system powered by Wizarr") }}</p>
+        </div>
+      </div>
     </div>
-</section>
-
-<!-- Custom animations -->
-<style>
+  </section>
+  <!-- Custom animations -->
+  <style>
 /* Floating blob animations */
 @keyframes blob {
     0% {
@@ -298,10 +264,9 @@
         opacity: 0.1;
     }
 }
-</style>
-
-<script src="https://unpkg.com/bowser@2.7.0/es5.js"></script> <!-- needed for plexHeaders -->
-<script>
+  </style>
+  <script src="https://unpkg.com/bowser@2.7.0/es5.js"></script> <!-- needed for plexHeaders -->
+  <script>
     // Load movie posters for flowing grid background with progressive loading
     async function loadCinemaPosters() {
         try {
@@ -414,8 +379,8 @@
     
     // Load posters when page loads
     document.addEventListener('DOMContentLoaded', loadCinemaPosters);
-</script>
-<script>
+  </script>
+  <script>
     // nanoid package, for generating client-identifier in plexHeaders
     let nanoid = (t = 21) => crypto.getRandomValues(new Uint8Array(t)).reduce(((t, e) => t += (e &= 63) < 36 ? e.toString(36) : e < 62 ? (e - 26).toString(36).toUpperCase() : e > 62 ? "-" : "_"), "");
 
@@ -479,5 +444,5 @@
 
         document.forms[0].submit();
     }
-</script>
+  </script>
 {% endblock %}

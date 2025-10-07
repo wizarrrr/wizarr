@@ -1,7 +1,9 @@
-<div class="relative modal-container" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div class="relative modal-container"
+     aria-labelledby="modal-title"
+     role="dialog"
+     aria-modal="true">
   <!-- backdrop -->
   <div class="fixed inset-0 modal-backdrop transition-opacity"></div>
-
   <div class="fixed inset-0 z-10 overflow-y-auto">
     <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
       <div class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl">
@@ -11,107 +13,102 @@
               {{ _(action == 'create' and 'New Wizard Step' or 'Edit Wizard Step') }}
             </h1>
           </div>
-          <form class="space-y-4" method="post"
+          <form class="space-y-4"
+                method="post"
                 hx-post="{{ request.path }}"
-                hx-target="#tab-body" hx-swap="innerHTML">
+                hx-target="#tab-body"
+                hx-swap="innerHTML">
             {{ form.hidden_tag() }}
-
             <div>
               {{ form.server_type.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
               {{ form.server_type(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
             </div>
-
             <div>
               {{ form.title.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
               {{ form.title(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
             </div>
-
             <div>
               <div class="flex justify-between items-center mb-1">
                 {{ form.markdown.label(class="text-sm font-medium text-gray-900 dark:text-white") }}
                 <div class="relative" x-data="{ open: false }">
-                  <button
-                    @click="open = !open"
-                    @click.away="open = false"
-                    type="button"
-                    class="inline-flex items-center gap-2 px-3 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium rounded-lg transition-colors duration-200 shadow-sm"
-                  >
+                  <button @click="open = !open"
+                          @click.away="open = false"
+                          type="button"
+                          class="inline-flex items-center gap-2 px-3 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium rounded-lg transition-colors duration-200 shadow-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
-                    {{ _('Add...') }}
-                    <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M7 10l5 5 5-5z"/>
+                    {{ _("Add...") }}
+                    <svg class="w-4 h-4 transition-transform duration-200"
+                         :class="{ 'rotate-180': open }"
+                         fill="currentColor"
+                         viewBox="0 0 24 24">
+                      <path d="M7 10l5 5 5-5z" />
                     </svg>
                   </button>
-
                   <!-- Dropdown Menu -->
-                  <div
-                    x-show="open"
-                    x-transition:enter="transition ease-out duration-100"
-                    x-transition:enter-start="transform opacity-0 scale-95"
-                    x-transition:enter-end="transform opacity-100 scale-100"
-                    x-transition:leave="transition ease-in duration-75"
-                    x-transition:leave-start="transform opacity-100 scale-100"
-                    x-transition:leave-end="transform opacity-0 scale-95"
-                    class="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-10"
-                  >
+                  <div x-show="open"
+                       x-transition:enter="transition ease-out duration-100"
+                       x-transition:enter-start="transform opacity-0 scale-95"
+                       x-transition:enter-end="transform opacity-100 scale-100"
+                       x-transition:leave="transition ease-in duration-75"
+                       x-transition:leave-start="transform opacity-100 scale-100"
+                       x-transition:leave-end="transform opacity-0 scale-95"
+                       class="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-10">
                     <div class="p-1">
                       <!-- Widgets Section -->
                       <div class="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 mb-1">
-                        {{ _('Widgets') }}
+                        {{ _("Widgets") }}
                       </div>
-                      <button
-                        type="button"
-                        onclick="insertWidget('recently_added_media')"
-                        @click="open = false"
-                        class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
-                      >
+                      <button type="button"
+                              onclick="insertWidget('recently_added_media')"
+                              @click="open = false"
+                              class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
                         <div class="flex-shrink-0 w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center">
                           <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"/>
+                            <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z" />
                           </svg>
                         </div>
                         <div class="text-left">
-                          <div class="font-medium">{{ _('Recently Added Media') }}</div>
-                          <div class="text-xs text-gray-500 dark:text-gray-400">{{ _('Show recent content') }}</div>
+                          <div class="font-medium">{{ _("Recently Added Media") }}</div>
+                          <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("Show recent content") }}</div>
                         </div>
                       </button>
-                      <button
-                        type="button"
-                        onclick="insertWidget('button')"
-                        @click="open = false"
-                        class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
-                      >
+                      <button type="button"
+                              onclick="insertWidget('button')"
+                              @click="open = false"
+                              class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
                         <div class="flex-shrink-0 w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center">
-                          <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                          <svg class="w-4 h-4 text-green-500"
+                               fill="none"
+                               stroke="currentColor"
+                               viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                           </svg>
                         </div>
                         <div class="text-left">
-                          <div class="font-medium">{{ _('Button') }}</div>
-                          <div class="text-xs text-gray-500 dark:text-gray-400">{{ _('Add a clickable link button') }}</div>
+                          <div class="font-medium">{{ _("Button") }}</div>
+                          <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("Add a clickable link button") }}</div>
                         </div>
                       </button>
-
                       <!-- Elements Section -->
                       <div class="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 mb-1 mt-2">
-                        {{ _('Elements') }}
+                        {{ _("Elements") }}
                       </div>
-                      <button
-                        type="button"
-                        onclick="insertCard()"
-                        @click="open = false"
-                        class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
-                      >
+                      <button type="button"
+                              onclick="insertCard()"
+                              @click="open = false"
+                              class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
                         <div class="flex-shrink-0 w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center">
-                          <svg class="w-4 h-4 text-purple-500" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                          <svg class="w-4 h-4 text-purple-500"
+                               fill="currentColor"
+                               viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
                           </svg>
                         </div>
                         <div class="text-left">
-                          <div class="font-medium">{{ _('Card') }}</div>
-                          <div class="text-xs text-gray-500 dark:text-gray-400">{{ _('Add a styled content card') }}</div>
+                          <div class="font-medium">{{ _("Card") }}</div>
+                          <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("Add a styled content card") }}</div>
                         </div>
                       </button>
                     </div>
@@ -120,20 +117,23 @@
               </div>
               {{ form.markdown(rows="10", class="hidden", id="markdown-textarea") }}
             </div>
-
             <div class="flex items-start gap-3 mt-2">
               {{ form.require_interaction(class="h-5 w-5 text-primary rounded focus:ring-primary") }}
               <div class="flex flex-col">
-                <label for="{{ form.require_interaction.id }}" class="text-sm font-medium text-gray-900 dark:text-white select-none">
+                <label for="{{ form.require_interaction.id }}"
+                       class="text-sm font-medium text-gray-900 dark:text-white select-none">
                   {{ form.require_interaction.label.text }}
                 </label>
                 <span class="text-xs text-gray-500 dark:text-gray-400">{{ form.require_interaction.description }}</span>
               </div>
             </div>
-
             <div class="flex gap-2 justify-end pt-4">
-              <button type="button" onclick="document.getElementById('step-modal').innerHTML=''" class="px-4 py-2 rounded border border-gray-300 text-gray-700 dark:text-gray-300">{{ _('Cancel') }}</button>
-              <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _('Save') }}</button>
+              <button type="button"
+                      onclick="document.getElementById('step-modal').innerHTML=''"
+                      class="px-4 py-2 rounded border border-gray-300 text-gray-700 dark:text-gray-300">
+                {{ _("Cancel") }}
+              </button>
+              <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _("Save") }}</button>
             </div>
           </form>
         </div>
@@ -141,7 +141,6 @@
     </div>
   </div>
 </div>
-
 <script>
 function insertWidget(widgetType) {
   // Don't process empty values (from the placeholder option)

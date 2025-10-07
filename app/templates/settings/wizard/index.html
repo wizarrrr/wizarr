@@ -11,24 +11,27 @@ document.getElementById('step-modal').innerHTML = '';
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ _("Wizard Steps") }}</h1>
-          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ _("Manage your wizard steps and bundles for user onboarding") }}</p>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            {{ _("Manage your wizard steps and bundles for user onboarding") }}
+          </p>
         </div>
       </div>
     </div>
-
     <!-- Sub Navigation -->
     {% set is_default = True %}
     {% include 'settings/wizard/_sub_nav.html' with context %}
-
     <!-- Content Container -->
     <div class="max-w-4xl">
-
       {% if not grouped %}
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
           <div class="p-12 text-center">
             <div class="max-w-sm mx-auto">
-              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              <svg class="mx-auto h-12 w-12 text-gray-400"
+                   fill="none"
+                   stroke="currentColor"
+                   viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                </path>
               </svg>
               <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-white">{{ _("No wizard steps found") }}</h3>
               <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ _("Get started by creating your first wizard step") }}</p>
@@ -36,7 +39,6 @@ document.getElementById('step-modal').innerHTML = '';
           </div>
         </div>
       {% endif %}
-
       {% for server, steps in grouped.items() %}
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
           <div class="p-6 border-b border-gray-200 dark:border-gray-700">
@@ -52,61 +54,59 @@ document.getElementById('step-modal').innerHTML = '';
                   <p class="text-sm text-gray-600 dark:text-gray-400">{{ steps|length }} {{ _("steps configured") }}</p>
                 </div>
               </div>
-              <a href="{{ url_for('wizard.step', server=server, idx=0) }}" target="_blank"
+              <a href="{{ url_for('wizard.step', server=server, idx=0) }}"
+                 target="_blank"
                  class="inline-flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors"
                  title="{{ _('Preview Wizard') }}">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+                  </path>
                 </svg>
                 {{ _("Preview") }}
               </a>
             </div>
           </div>
-          
           <div class="p-6">
-            <ol class="wizard-steps space-y-3" data-server="{{ server }}" data-reorder-url="{{ url_for('wizard_admin.reorder_steps') }}">
+            <ol class="wizard-steps space-y-3"
+                data-server="{{ server }}"
+                data-reorder-url="{{ url_for('wizard_admin.reorder_steps') }}">
               {% for step in steps %}
-                <li class="group flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border-2 border-dashed border-transparent hover:border-gray-300 dark:hover:border-gray-600 transition-colors" data-id="{{ step.id }}">
+                <li class="group flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border-2 border-dashed border-transparent hover:border-gray-300 dark:hover:border-gray-600 transition-colors"
+                    data-id="{{ step.id }}">
                   <!-- Drag Handle -->
                   <div class="drag cursor-grab active:cursor-grabbing">
-                    <svg class="w-5 h-5 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-5 h-5 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300"
+                         fill="currentColor"
+                         viewBox="0 0 20 20">
                       <path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" />
                     </svg>
                   </div>
-
                   <!-- Step Content -->
                   <div class="flex-1 min-w-0">
-                    <h3 class="text-sm font-medium text-gray-900 dark:text-white truncate">
-                      {{ step.title or _("Untitled Step") }}
-                    </h3>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      {{ _("Step") }} #{{ loop.index }}
-                    </p>
+                    <h3 class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ step.title or _("Untitled Step") }}</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ _("Step") }} #{{ loop.index }}</p>
                   </div>
-
                   <!-- Actions -->
                   <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button 
-                      hx-get="{{ url_for('wizard_admin.edit_step', step_id=step.id) }}"
-                      hx-target="#step-modal" 
-                      hx-trigger="click"
-                      class="inline-flex items-center justify-center w-8 h-8 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                      title="{{ _('Edit step') }}"
-                    >
+                    <button hx-get="{{ url_for('wizard_admin.edit_step', step_id=step.id) }}"
+                            hx-target="#step-modal"
+                            hx-trigger="click"
+                            class="inline-flex items-center justify-center w-8 h-8 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                            title="{{ _('Edit step') }}">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                        </path>
                       </svg>
                     </button>
-                    <button 
-                      hx-post="{{ url_for('wizard_admin.delete_step', step_id=step.id) }}"
-                      hx-target="#tab-body" 
-                      hx-swap="innerHTML"
-                      hx-confirm="{{ _('Are you sure you want to delete this step?') }}"
-                      class="inline-flex items-center justify-center w-8 h-8 text-red-600 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                      title="{{ _('Delete step') }}"
-                    >
+                    <button hx-post="{{ url_for('wizard_admin.delete_step', step_id=step.id) }}"
+                            hx-target="#tab-body"
+                            hx-swap="innerHTML"
+                            hx-confirm="{{ _('Are you sure you want to delete this step?') }}"
+                            class="inline-flex items-center justify-center w-8 h-8 text-red-600 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                            title="{{ _('Delete step') }}">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                        </path>
                       </svg>
                     </button>
                   </div>
@@ -118,4 +118,4 @@ document.getElementById('step-modal').innerHTML = '';
       {% endfor %}
     </div>
   </div>
-</section> 
+</section>

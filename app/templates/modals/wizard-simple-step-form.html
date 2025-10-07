@@ -1,4 +1,7 @@
-<div class="relative modal-container" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div class="relative modal-container"
+     aria-labelledby="modal-title"
+     role="dialog"
+     aria-modal="true">
   <div class="fixed inset-0 modal-backdrop transition-opacity"></div>
   <div class="fixed inset-0 z-10 overflow-y-auto">
     <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
@@ -9,38 +12,41 @@
               {{ _(action == 'create' and 'New Step' or 'Edit Step') }}
             </h1>
           </div>
-          <form class="space-y-4" method="post"
-                hx-post="{{ request.path }}{{ '?' + request.query_string.decode('utf-8') if request.query_string else '' }}"
-                hx-target="#tab-body" hx-swap="innerHTML">
+          <form class="space-y-4"
+                method="post"
+                hx-post="{{ request.path }}{{ '?' + request.query_string.decode("utf-8") if request.query_string else '' }}"
+                hx-target="#tab-body"
+                hx-swap="innerHTML">
             {{ form.hidden_tag() }}
-
             <div>
               {{ form.title.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
               {{ form.title(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
             </div>
-
             <div>
               {{ form.markdown.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
               {{ form.markdown(rows="10", class="hidden", id="markdown-textarea") }}
             </div>
-
             <div class="flex items-start gap-3 mt-2">
               {{ form.require_interaction(class="h-5 w-5 text-primary rounded focus:ring-primary") }}
               <div class="flex flex-col">
-                <label for="{{ form.require_interaction.id }}" class="text-sm font-medium text-gray-900 dark:text-white select-none">
+                <label for="{{ form.require_interaction.id }}"
+                       class="text-sm font-medium text-gray-900 dark:text-white select-none">
                   {{ form.require_interaction.label.text }}
                 </label>
                 <span class="text-xs text-gray-500 dark:text-gray-400">{{ form.require_interaction.description }}</span>
               </div>
             </div>
-
             <div class="flex gap-2 justify-end pt-4">
-              <button type="button" onclick="document.getElementById('step-modal').innerHTML=''" class="px-4 py-2 rounded border border-gray-300 text-gray-700 dark:text-gray-300">{{ _('Cancel') }}</button>
-              <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _('Save') }}</button>
+              <button type="button"
+                      onclick="document.getElementById('step-modal').innerHTML=''"
+                      class="px-4 py-2 rounded border border-gray-300 text-gray-700 dark:text-gray-300">
+                {{ _("Cancel") }}
+              </button>
+              <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _("Save") }}</button>
             </div>
           </form>
         </div>
       </div>
     </div>
   </div>
-</div> 
+</div>

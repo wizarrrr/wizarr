@@ -8,107 +8,109 @@
      data-current-idx="{{ idx }}"
      data-max-idx="{{ max_idx }}"
      data-server-type="{{ server_type }}">
-
   <!-- FLOATING PROGRESS BAR (mobile - floating at top) -->
   {% if max_idx > 0 %}
-  <div id="wizard-progress-mobile" class="wizard-progress-mobile md:hidden">
-    <div class="wizard-glass-container">
-      <div class="flex justify-between items-center mb-2 text-xs text-gray-600 dark:text-gray-400">
+    <div id="wizard-progress-mobile" class="wizard-progress-mobile md:hidden">
+      <div class="wizard-glass-container">
+        <div class="flex justify-between items-center mb-2 text-xs text-gray-600 dark:text-gray-400">
+          <span>{{ _("Step") }} {{ idx + 1 }} {{ _("of") }} {{ max_idx + 1 }}</span>
+          <span class="font-semibold">{{ ((idx + 1) / (max_idx + 1) * 100) | round | int }}%</span>
+        </div>
+        <div class="w-full bg-gray-200/50 dark:bg-gray-700/50 rounded-full h-1.5 overflow-hidden">
+          <div id="progress-bar-mobile"
+               class="h-1.5 rounded-full transition-all duration-500 ease-out"
+               style="width: {{ ((idx + 1) / (max_idx + 1) * 100) }}%;
+                      background: linear-gradient(90deg, #fe4155 0%, #fe4155 100%);
+                      box-shadow: 0 0 8px rgba(254, 65, 85, 0.3)"></div>
+        </div>
+      </div>
+    </div>
+    <!-- DESKTOP PROGRESS BAR (centered) -->
+    <div id="wizard-progress-desktop"
+         class="hidden md:block w-full max-w-md mb-6">
+      <div class="flex justify-between items-center mb-2 text-sm text-gray-600 dark:text-gray-400">
         <span>{{ _("Step") }} {{ idx + 1 }} {{ _("of") }} {{ max_idx + 1 }}</span>
-        <span class="font-semibold">{{ ((idx + 1) / (max_idx + 1) * 100) | round | int }}%</span>
+        <span>{{ ((idx + 1) / (max_idx + 1) * 100) | round | int }}%</span>
       </div>
-      <div class="w-full bg-gray-200/50 dark:bg-gray-700/50 rounded-full h-1.5 overflow-hidden">
-        <div id="progress-bar-mobile" class="h-1.5 rounded-full transition-all duration-500 ease-out"
-             style="width: {{ ((idx + 1) / (max_idx + 1) * 100) }}%; background: linear-gradient(90deg, #fe4155 0%, #fe4155 100%); box-shadow: 0 0 8px rgba(254, 65, 85, 0.3);"></div>
+      <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 overflow-hidden">
+        <div id="progress-bar-desktop"
+             class="h-2.5 rounded-full transition-all duration-500 ease-out"
+             style="width: {{ ((idx + 1) / (max_idx + 1) * 100) }}%;
+                    background: linear-gradient(90deg, #fe4155 0%, #fe4155 100%);
+                    box-shadow: 0 0 10px rgba(254, 65, 85, 0.3)"></div>
       </div>
     </div>
-  </div>
-
-  <!-- DESKTOP PROGRESS BAR (centered) -->
-  <div id="wizard-progress-desktop" class="hidden md:block w-full max-w-md mb-6">
-    <div class="flex justify-between items-center mb-2 text-sm text-gray-600 dark:text-gray-400">
-      <span>{{ _("Step") }} {{ idx + 1 }} {{ _("of") }} {{ max_idx + 1 }}</span>
-      <span>{{ ((idx + 1) / (max_idx + 1) * 100) | round | int }}%</span>
-    </div>
-    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 overflow-hidden">
-      <div id="progress-bar-desktop" class="h-2.5 rounded-full transition-all duration-500 ease-out"
-           style="width: {{ ((idx + 1) / (max_idx + 1) * 100) }}%; background: linear-gradient(90deg, #fe4155 0%, #fe4155 100%); box-shadow: 0 0 10px rgba(254, 65, 85, 0.3);"></div>
-    </div>
-  </div>
   {% endif %}
-
   <!-- CARD (full height on mobile, centered on desktop) -->
   <div class="htmx-indicator absolute inset-0 bg-white/80 dark:bg-gray-900/80 flex items-center justify-center z-50">
     <div class="flex flex-col items-center gap-3">
-      <svg class="animate-spin h-8 w-8 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <svg class="animate-spin h-8 w-8 text-primary"
+           xmlns="http://www.w3.org/2000/svg"
+           fill="none"
+           viewBox="0 0 24 24">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+        </path>
       </svg>
       <span class="text-sm text-gray-600 dark:text-gray-400">Loading...</span>
     </div>
   </div>
   {% include "wizard/_content.html" %}
-
   <!-- FLOATING NAV BUTTONS (mobile - fixed at bottom) -->
   <div class="wizard-nav-mobile md:hidden">
-      <a  id="wizard-prev-btn"
-          hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
-          hx-vals='{"dir":"prev"}'
-          hx-target="#wizard-content"
-          hx-swap="outerHTML swap:0s"
-          hx-indicator=".htmx-indicator"
-          class="wizard-btn-mobile wizard-btn-prev"
-          {% if idx == 0 %}style="display:none"{% endif %}
-          aria-label="{{ _('Previous') }}">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
-          </svg>
-      </a>
-
-      <a  id="wizard-next-btn"
-          hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
-          hx-vals='{"dir":"next"}'
-          hx-target="#wizard-content"
-          hx-swap="outerHTML swap:0s"
-          hx-indicator=".htmx-indicator"
-          class="wizard-btn-mobile wizard-btn-next"
-          {% if idx == max_idx %}style="display:none"{% endif %}
-          {% if require_interaction %} aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"{% endif %}
-          aria-label="{{ _('Next') }}">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
-          </svg>
-      </a>
+    <a id="wizard-prev-btn"
+       hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
+       hx-vals='{"dir":"prev"}'
+       hx-target="#wizard-content"
+       hx-swap="outerHTML swap:0s"
+       hx-indicator=".htmx-indicator"
+       class="wizard-btn-mobile wizard-btn-prev"
+       {% if idx == 0 %}style="display:none"{% endif %}
+       aria-label="{{ _('Previous') }}">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+      </svg>
+    </a>
+    <a id="wizard-next-btn"
+       hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
+       hx-vals='{"dir":"next"}'
+       hx-target="#wizard-content"
+       hx-swap="outerHTML swap:0s"
+       hx-indicator=".htmx-indicator"
+       class="wizard-btn-mobile wizard-btn-next"
+       {% if idx == max_idx %}style="display:none"{% endif %}
+       {% if require_interaction %}
+         aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"
+       {% endif %}
+       aria-label="{{ _('Next') }}">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+      </svg>
+    </a>
   </div>
-
   <!-- DESKTOP NAV BUTTONS (centered below card) -->
   <div class="hidden md:flex justify-center space-x-4 mt-6">
-      <a  id="wizard-prev-btn-desktop"
-          hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
-          hx-vals='{"dir":"prev"}'
-          hx-target="#wizard-content"
-          hx-swap="outerHTML swap:0s"
-          hx-indicator=".htmx-indicator"
-          class="btn-nav"
-          {% if idx == 0 %}style="display:none"{% endif %}>
-          ‹ {{ _("Previous") }}
-      </a>
-
-      <a  id="wizard-next-btn-desktop"
-          hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
-          hx-vals='{"dir":"next"}'
-          hx-target="#wizard-content"
-          hx-swap="outerHTML swap:0s"
-          hx-indicator=".htmx-indicator"
-          class="btn-nav"
-          {% if idx == max_idx %}style="display:none"{% endif %}
-          {% if require_interaction %} aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"{% endif %}>
-          {{ _("Next") }} ›
-      </a>
+    <a id="wizard-prev-btn-desktop"
+       hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
+       hx-vals='{"dir":"prev"}'
+       hx-target="#wizard-content"
+       hx-swap="outerHTML swap:0s"
+       hx-indicator=".htmx-indicator"
+       class="btn-nav"
+       {% if idx == 0 %}style="display:none"{% endif %}>‹ {{ _("Previous") }}</a>
+    <a id="wizard-next-btn-desktop"
+       hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
+       hx-vals='{"dir":"next"}'
+       hx-target="#wizard-content"
+       hx-swap="outerHTML swap:0s"
+       hx-indicator=".htmx-indicator"
+       class="btn-nav"
+       {% if idx == max_idx %}style="display:none"{% endif %}
+       {% if require_interaction %}
+         aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"
+       {% endif %}>{{ _("Next") }} ›</a>
   </div>
-
 </div>
-
 <script>
 /**
  * WIZARR WIZARD ARCHITECTURE

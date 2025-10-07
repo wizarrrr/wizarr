@@ -1,45 +1,58 @@
-<div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6" x-data="{ isHttps: window.location.protocol === 'https:' }">
-    <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center gap-3">
-
-            <svg class="w-7 h-7" :class="isHttps ? 'text-gray-400' : 'text-gray-300'" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14v3m4-6V7a3 3 0 1 1 6 0v4M5 11h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
-              </svg>
-              
-            <h2 class="text-xl font-semibold" :class="isHttps ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-500'">{{ _("Passkeys") }}</h2>
-        </div>
-        <button hx-get="/webauthn/add-form" 
-                hx-target="#passkey-modal-container" 
-                hx-swap="innerHTML"
-                :disabled="!isHttps"
-                :class="isHttps ? 'bg-primary hover:bg-primary_hover text-white font-medium py-2 px-4 rounded-lg text-sm' : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 font-medium py-2 px-4 rounded-lg text-sm cursor-not-allowed'"
-                :title="!isHttps ? '{{ _("Passkeys require HTTPS connection") }}' : ''">
-            {{ _("Add Passkey") }}
-        </button>
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6"
+     x-data="{ isHttps: window.location.protocol === 'https:' }">
+  <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center gap-3">
+      <svg class="w-7 h-7"
+           :class="isHttps ? 'text-gray-400' : 'text-gray-300'"
+           aria-hidden="true"
+           xmlns="http://www.w3.org/2000/svg"
+           width="24"
+           height="24"
+           fill="none"
+           viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14v3m4-6V7a3 3 0 1 1 6 0v4M5 11h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z" />
+      </svg>
+      <h2 class="text-xl font-semibold"
+          :class="isHttps ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-500'">
+        {{ _("Passkeys") }}
+      </h2>
     </div>
-    <div x-show="!isHttps" class="mb-4 p-3 bg-yellow-100 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-700 rounded-lg">
-        <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-            </svg>
-            <span class="text-sm font-medium text-yellow-800 dark:text-yellow-200">{{ _("Passkeys require HTTPS connection") }}</span>
-        </div>
-        <p class="text-sm text-yellow-700 dark:text-yellow-300 mt-1">{{ _("To use passkeys, please access this page over HTTPS.") }}</p>
+    <button hx-get="/webauthn/add-form"
+            hx-target="#passkey-modal-container"
+            hx-swap="innerHTML"
+            :disabled="!isHttps"
+            :class="isHttps ? 'bg-primary hover:bg-primary_hover text-white font-medium py-2 px-4 rounded-lg text-sm' : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 font-medium py-2 px-4 rounded-lg text-sm cursor-not-allowed'"
+            :title="!isHttps ? '{{ _("Passkeys require HTTPS connection") }}' : ''">{{ _("Add Passkey") }}</button>
+  </div>
+  <div x-show="!isHttps"
+       class="mb-4 p-3 bg-yellow-100 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-700 rounded-lg">
+    <div class="flex items-center gap-2">
+      <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400"
+           fill="none"
+           stroke="currentColor"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z">
+        </path>
+      </svg>
+      <span class="text-sm font-medium text-yellow-800 dark:text-yellow-200">{{ _("Passkeys require HTTPS connection") }}</span>
     </div>
-    <p class="text-gray-600 dark:text-gray-400 mb-4" :class="!isHttps && 'opacity-50'">{{ _("Manage your passkeys for passwordless authentication.") }}</p>
-
-    <div id="passkey-list" 
-         :class="!isHttps && 'opacity-50 pointer-events-none'"
-         hx-get="/webauthn/list" 
-         hx-trigger="load"
-         hx-swap="innerHTML">
-        <!-- Passkeys will be loaded here -->
-        <div class="text-center py-4">
-            <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-            <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ _("Loading passkeys...") }}</span>
-        </div>
+    <p class="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
+      {{ _("To use passkeys, please access this page over HTTPS.") }}
+    </p>
+  </div>
+  <p class="text-gray-600 dark:text-gray-400 mb-4"
+     :class="!isHttps && 'opacity-50'">{{ _("Manage your passkeys for passwordless authentication.") }}</p>
+  <div id="passkey-list"
+       :class="!isHttps && 'opacity-50 pointer-events-none'"
+       hx-get="/webauthn/list"
+       hx-trigger="load"
+       hx-swap="innerHTML">
+    <!-- Passkeys will be loaded here -->
+    <div class="text-center py-4">
+      <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+      <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ _("Loading passkeys...") }}</span>
     </div>
+  </div>
 </div>
-
 <!-- Modal container for passkey operations -->
 <div id="passkey-modal-container"></div>

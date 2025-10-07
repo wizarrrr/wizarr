@@ -14,251 +14,176 @@ at templates/tables/invite_card.html and render with:
 render_template("tables/invite_card.html", invitations=invites,
 server_type=server_type, rightnow=now)
 ------------------------------------------------------------------- #} {#
----------------- Macros ---------------- #} {% macro status_dot(state) -%} {%-
-set col = { "ok": "bg-green-500", "expired": "bg-red-500" }[state] if state in
-["ok","expired"] else "bg-gray-400" -%}
-<span class="inline-block w-2.5 h-2.5 rounded-full {{ col }}"></span>
-{%- endmacro %} {% macro relative_expiry_badge(invite) -%} {% if invite.expired
-%}
-<span
-    class="px-1.5 py-0.5 rounded-full text-[11px] font-medium bg-red-100 text-red-800 dark:bg-red-700 dark:text-red-100"
->
-    {{ _("Expired") }}
-</span>
-{% elif invite.unlimited %}
-<span
-    class="px-1.5 py-0.5 rounded-full text-[11px] font-medium bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100"
->
-    ∞ {{ _("Unlimited") }}
-</span>
-{% elif invite.expires %}
-<span
-    class="px-1.5 py-0.5 rounded-full text-[11px] font-medium bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100"
-    title="{{ invite.expires|human_date }}"
->
-    {{ invite.rel_expiry }}
-</span>
-{% else %}
-<span
-    class="px-1.5 py-0.5 rounded-full text-[11px] font-medium bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100"
->
-    {{ _("Never") }}
-</span>
-{% endif %} {%- endmacro %} {% macro dt(v) -%} {# defensive date formatting:
+---------------- Macros ---------------- #}
+{% macro status_dot(state) -%}
+  {%-
+  set col = { "ok": "bg-green-500", "expired": "bg-red-500" }[state] if state in
+  ["ok","expired"] else "bg-gray-400" -%}
+  <span class="inline-block w-2.5 h-2.5 rounded-full {{ col }}"></span>
+{%- endmacro %}
+{% macro relative_expiry_badge(invite) -%}
+  {% if invite.expired
+    %}
+    <span class="px-1.5 py-0.5 rounded-full text-[11px] font-medium bg-red-100 text-red-800 dark:bg-red-700 dark:text-red-100">
+      {{ _("Expired") }}
+    </span>
+  {% elif invite.unlimited %}
+    <span class="px-1.5 py-0.5 rounded-full text-[11px] font-medium bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100">
+      ∞ {{ _("Unlimited") }}
+    </span>
+  {% elif invite.expires %}
+    <span class="px-1.5 py-0.5 rounded-full text-[11px] font-medium bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100"
+          title="{{ invite.expires|human_date }}">{{ invite.rel_expiry }}</span>
+  {% else %}
+    <span class="px-1.5 py-0.5 rounded-full text-[11px] font-medium bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100">
+      {{ _("Never") }}
+    </span>
+  {% endif %}
+{%- endmacro %}
+{% macro dt(v) -%}
+  {# defensive date formatting:
 accept datetime or string #} {{ v|human_date }} {%- endmacro %}
-{# ------------- /Macros --------------- #}
-
-<div
-    id="invite_table"
-    class="grid gap-4 animate__animated"
-    style="
-        grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-    "
-    data-masonry-layout="true"
->
+  {# ------------- /Macros --------------- #}
+  <div id="invite_table"
+       class="grid gap-4 animate__animated"
+       style="grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr))"
+       data-masonry-layout="true">
     {% if not invitations %}
-    <p class="text-center w-full dark:text-white">
-        {{ _("There are currently no invitations.") }}
-    </p>
-    {% endif %} {% for invite in invitations %}
-
-    <details
-        id="inv_{{ invite.code }}"
-        class="group animate__animated flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-xs border border-gray-200 dark:border-gray-700 overflow-hidden"
-        data-card="true"
-    >
-        <summary
-            class="cursor-pointer list-none focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 p-4 flex flex-col gap-2 sm:gap-1"
-        >
-            <!-- top row: status + code + actions -->
-            <div class="flex items-center justify-between gap-2">
-                <button
-                    type="button"
+      <p class="text-center w-full dark:text-white">{{ _("There are currently no invitations.") }}</p>
+    {% endif %}
+    {% for invite in invitations %}
+      <details id="inv_{{ invite.code }}"
+               class="group animate__animated flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-xs border border-gray-200 dark:border-gray-700 overflow-hidden"
+               data-card="true">
+        <summary class="cursor-pointer list-none focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 p-4 flex flex-col gap-2 sm:gap-1">
+          <!-- top row: status + code + actions -->
+          <div class="flex items-center justify-between gap-2">
+            <button type="button"
                     onclick="tableCopyLink('{{ invite.code }}')"
-                    class="flex items-center gap-2 group/code"
-                >
-                    {{ status_dot(invite.top_status) }}
-                    <span
-                        class="font-semibold text-gray-900 dark:text-white tracking-wide"
-                    >
-                        {{ invite.code }}
-                    </span>
-                </button>
-                <div class="flex items-center gap-2">
-                    <!-- Expand/Collapse indicator -->
-                    <div class="flex items-center justify-center p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                        <svg
-                            class="w-4 h-4 transition-transform duration-200 group-open:rotate-180"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
-                    </div>
-                    <button
-                        onclick="tableCopyLink('{{ invite.code }}')"
-                        id="copy_{{ invite.code}}"
-                        class="inline-flex items-center justify-center p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                        title="{{ _('Copy invite link') }}"
-                    >
-                        <svg
-                          id="icon_{{ invite.code }}"
-                          class="w-5 h-5"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-6 5h6m-6 4h6M10 3v4h4V3h-4Z"
-                          />
-                        </svg>
-                    </button>
-                    <button
-                        id="del_{{ invite.code }}"
-                        class="inline-flex items-center justify-center p-1.5 rounded text-red-500 hover:text-white hover:bg-red-500 dark:text-red-400 dark:hover:text-white dark:hover:bg-red-600"
-                        hx-post="/invite/table?delete={{ invite.code }}"
-                        hx-trigger="click"
-                        hx-target="#invite_table"
-                        hx-swap="outerHTML swap:0.5s"
-                        title="{{ _('Delete invite') }}"
-                        data-delete="{{ invite.code }}"
-                    >
-                        <svg
-                            class="w-5 h-5"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                clip-rule="evenodd"
-                            ></path>
-                        </svg>
-                    </button>
-                </div>
+                    class="flex items-center gap-2 group/code">
+              {{ status_dot(invite.top_status) }}
+              <span class="font-semibold text-gray-900 dark:text-white tracking-wide">{{ invite.code }}</span>
+            </button>
+            <div class="flex items-center gap-2">
+              <!-- Expand/Collapse indicator -->
+              <div class="flex items-center justify-center p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+                <svg class="w-4 h-4 transition-transform duration-200 group-open:rotate-180"
+                     viewBox="0 0 20 20"
+                     fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <button onclick="tableCopyLink('{{ invite.code }}')"
+                      id="copy_{{ invite.code }}"
+                      class="inline-flex items-center justify-center p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                      title="{{ _('Copy invite link') }}">
+                <svg id="icon_{{ invite.code }}"
+                     class="w-5 h-5"
+                     aria-hidden="true"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-6 5h6m-6 4h6M10 3v4h4V3h-4Z" />
+                </svg>
+              </button>
+              <button id="del_{{ invite.code }}"
+                      class="inline-flex items-center justify-center p-1.5 rounded text-red-500 hover:text-white hover:bg-red-500 dark:text-red-400 dark:hover:text-white dark:hover:bg-red-600"
+                      hx-post="/invite/table?delete={{ invite.code }}"
+                      hx-trigger="click"
+                      hx-target="#invite_table"
+                      hx-swap="outerHTML swap:0.5s"
+                      title="{{ _('Delete invite') }}"
+                      data-delete="{{ invite.code }}">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd">
+                  </path>
+                </svg>
+              </button>
             </div>
-
-            <!-- meta line: server chips + expiry badge -->
-            <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
-                {% for srv in invite.servers %} {{
-                srv.type|server_name_tag(srv.name) }} {% endfor %} {{
-                relative_expiry_badge(invite) }}
-            </div>
-
-            <!-- used by summary (only show when relevant) -->
-            {% if invite.all_used %}
+          </div>
+          <!-- meta line: server chips + expiry badge -->
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
+            {% for srv in invite.servers %}{{ srv.type|server_name_tag(srv.name) }}{% endfor %}
+            {{ relative_expiry_badge(invite) }}
+          </div>
+          <!-- used by summary (only show when relevant) -->
+          {% if invite.all_used %}
             <div class="text-xs text-amber-600 dark:text-amber-300">
-                {% set all_users = invite.get_all_users() %}
-                {% set user_count = all_users|length %}
-                {% if user_count > 0 %}
-                    <div>
-                        <span class="opacity-70">{{ _("Used by") }}:</span>
-                        <span class="ml-1">{{ all_users|map(attribute='username')|join(', ') }}</span>
-                    </div>
-                {% else %}
-                    {{ _("Used") }}
-                {% endif %}
+              {% set all_users = invite.get_all_users() %}
+              {% set user_count = all_users|length %}
+              {% if user_count > 0 %}
+                <div>
+                  <span class="opacity-70">{{ _("Used by") }}:</span>
+                  <span class="ml-1">{{ all_users|map(attribute='username') |join(', ') }}</span>
+                </div>
+              {% else %}
+                {{ _("Used") }}
+              {% endif %}
             </div>
-            {% endif %}
+          {% endif %}
         </summary>
-
         {# -------------------------- EXPANDED PANEL --------------------------
         #}
-        <div
-            class="px-4 pb-4 pt-0 text-sm text-gray-600 dark:text-gray-300 space-y-4 group-open:animate-[fadeIn_.2s_ease]"
-        >
-            <!-- invite-level meta -->
-            <div
-                class="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 text-xs opacity-80"
-            >
-                <span>{{ _("Created") }}:</span>
-                <span class="font-medium">{{ dt(invite.created) }}</span>
-
-                <span>{{ _("Expires") }}:</span>
-                <span class="font-medium">
-                    {% if invite.expires %} {{ dt(invite.expires) }} {% else %}
-                    {{ _("Never") }} {% endif %}
-                </span>
-
-                {% if invite.duration %}
-                <span>{{ _("Duration") }}:</span>
-                <span class="font-medium"
-                    >{{ invite.duration }} {{ _("days") }}</span
-                >
-                {% endif %} {% if invite.unlimited %}
-                <span>{{ _("Limit") }}:</span>
-                <span class="font-medium">{{ _("Unlimited") }}</span>
-                {% endif %}
-            </div>
-
-            <!-- per-server accordion -->
-            <div class="space-y-2">
-                {% for srv in invite.servers %}
-                <details
-                    class="group/server rounded border border-gray-200 dark:border-gray-600"
-                >
-                    <summary
-                        class="flex items-center justify-between px-3 py-2 cursor-pointer list-none gap-2"
-                    >
-                        <div class="flex items-center gap-2 flex-wrap">
-                            {{ srv.type|server_type_tag }}
-                            <span
-                                class="text-xs font-medium text-gray-900 dark:text-gray-100"
-                                >{{ srv.name }}</span
-                            >
-                            <span class="text-[11px] opacity-70">
-                                {{ srv.library_count }} {{ _("libs") }}
-                            </span>
-                        </div>
-                        <svg
-                            class="w-4 h-4 text-gray-400 group-open/server:rotate-90 transition-transform"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M6 6l4 4 4-4"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
-                    </summary>
-                    <div class="px-3 pb-3 pt-0 text-xs space-y-1">
-                        {% if srv.library_names %}
-                        <div>
-                            <span class="opacity-70"
-                                >{{ _("Libraries") }}:</span
-                            >
-                            <span class="ml-1"
-                                >{{ srv.library_names|join(', ') }}</span
-                            >
-                        </div>
-                        {% else %}
-                        <div>
-                            <span class="opacity-70"
-                                >{{ _("Libraries") }}:</span
-                            >
-                            <span class="ml-1">{{ _("Default") }}</span>
-                        </div>
-                        {% endif %}
+        <div class="px-4 pb-4 pt-0 text-sm text-gray-600 dark:text-gray-300 space-y-4 group-open:animate-[fadeIn_.2s_ease]">
+          <!-- invite-level meta -->
+          <div class="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 text-xs opacity-80">
+            <span>{{ _("Created") }}:</span>
+            <span class="font-medium">{{ dt(invite.created) }}</span>
+            <span>{{ _("Expires") }}:</span>
+            <span class="font-medium">
+              {% if invite.expires %}
+                {{ dt(invite.expires) }}
+              {% else %}
+                {{ _("Never") }}
+              {% endif %}
+            </span>
+            {% if invite.duration %}
+              <span>{{ _("Duration") }}:</span>
+              <span class="font-medium">{{ invite.duration }} {{ _("days") }}</span>
+            {% endif %}
+            {% if invite.unlimited %}
+              <span>{{ _("Limit") }}:</span>
+              <span class="font-medium">{{ _("Unlimited") }}</span>
+            {% endif %}
+          </div>
+          <!-- per-server accordion -->
+          <div class="space-y-2">
+            {% for srv in invite.servers %}
+              <details class="group/server rounded border border-gray-200 dark:border-gray-600">
+                <summary class="flex items-center justify-between px-3 py-2 cursor-pointer list-none gap-2">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    {{ srv.type|server_type_tag }}
+                    <span class="text-xs font-medium text-gray-900 dark:text-gray-100">{{ srv.name }}</span>
+                    <span class="text-[11px] opacity-70">{{ srv.library_count }} {{ _("libs") }}</span>
+                  </div>
+                  <svg class="w-4 h-4 text-gray-400 group-open/server:rotate-90 transition-transform"
+                       viewBox="0 0 20 20"
+                       fill="currentColor">
+                    <path fill-rule="evenodd" d="M6 6l4 4 4-4" clip-rule="evenodd" />
+                  </svg>
+                </summary>
+                <div class="px-3 pb-3 pt-0 text-xs space-y-1">
+                  {% if srv.library_names %}
+                    <div>
+                      <span class="opacity-70">{{ _("Libraries") }}:</span>
+                      <span class="ml-1">{{ srv.library_names|join(", ") }}</span>
                     </div>
-                </details>
-                {% endfor %}
-            </div>
+                  {% else %}
+                    <div>
+                      <span class="opacity-70">{{ _("Libraries") }}:</span>
+                      <span class="ml-1">{{ _("Default") }}</span>
+                    </div>
+                  {% endif %}
+                </div>
+              </details>
+            {% endfor %}
+          </div>
         </div>
-    </details>
-    {# end invite card #} {% endfor %}
-</div>
-
-<script>
+      </details>
+      {# end invite card #}
+    {% endfor %}
+  </div>
+  <script>
     function tableCopyLink(invite_code) {
         const url = window.location.origin + "/j/" + invite_code;
         copyToClipboard(url, (success) => {
@@ -372,4 +297,4 @@ accept datetime or string #} {{ v|human_date }} {%- endmacro %}
             new MasonryLayout(container);
         }
     });
-</script>
+  </script>

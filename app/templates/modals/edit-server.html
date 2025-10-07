@@ -1,113 +1,188 @@
-<div class="relative modal-container" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 modal-backdrop transition-opacity"></div>
-
-    <div class="fixed inset-0 z-10 overflow-y-auto">
-        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 dark:bg-gray-800">
-                    <div class="flex justify-between items-center pb-3">
-                        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            {{ _("Edit Server") }}
-                        </h1>
-                    </div>
-                    <p class="mt-2 pb-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ error }}</span></p>
-                    <form class="space-y-4 md:space-y-6" hx-post="{{ url_for('media_servers.edit_server', server_id=server.id) }}" hx-target="#tab-body" hx-swap="innerHTML">
-                        <div>
-                            <label for="server_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input type="text" name="server_name" id="server_name" value="{{ server.name }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required>
-                        </div>
-                        <div>
-                            <label for="server_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Server Type</label>
-                            <select name="server_type" id="server_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                                <option value="plex" {% if server.server_type=='plex' %}selected{% endif %}>Plex</option>
-                                <option value="jellyfin" {% if server.server_type=='jellyfin' %}selected{% endif %}>Jellyfin</option>
-                                <option value="emby" {% if server.server_type=='emby' %}selected{% endif %}>Emby</option>
-                                <option value="audiobookshelf" {% if server.server_type=='audiobookshelf' %}selected{% endif %}>Audiobookshelf</option>
-                                <option value="romm" {% if server.server_type=='romm' %}selected{% endif %}>Romm</option>
-                                <option value="komga" {% if server.server_type=='komga' %}selected{% endif %}>Komga</option>
-                                <option value="kavita" {% if server.server_type=='kavita' %}selected{% endif %}>Kavita</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="server_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">URL (Internal)</label>
-                            <input type="text" name="server_url" id="server_url" value="{{ server.url }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required>
-                        </div>
-                        <div>
-                            <label for="external_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">External URL (Optional)</label>
-                            <input type="text" name="external_url" id="external_url" value="{{ server.external_url or '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                        </div>
-                        <div id="api-key-div">
-                            <label for="api_key" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">API Key</label>
-                            <input type="text" name="api_key" id="api_key" value="{{ server.api_key }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                        </div>
-                        <div id="romm-options" style="display:none;">
-                            <div>
-                                <label for="server_username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">RomM Username</label>
-                                <input type="text" name="server_username" id="server_username" placeholder="admin" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                            </div>
-                            <div>
-                                <label for="server_password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">RomM Password</label>
-                                <input type="password" name="server_password" id="server_password" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                            </div>
-                        </div>
-                        <div id="media-server-options" style="display:none;">
-                            <div>
-                                <label class="inline-flex items-center cursor-pointer">
-                                    <input id="allow_downloads" name="allow_downloads" type="checkbox" value="true" {% if server.allow_downloads %}checked{% endif %} class="sr-only peer">
-                                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Downloads</span>
-                                </label>
-                            </div>
-                            <div id="allow-live-tv-option-edit" class="mt-2">
-                                <label class="inline-flex items-center cursor-pointer">
-                                    <input id="allow_live_tv" name="allow_live_tv" type="checkbox" value="true" {% if server.allow_live_tv %}checked{% endif %} class="sr-only peer">
-                                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Live TV</span>
-                                </label>
-                            </div>
-                            <div id="allow-mobile-uploads-option-edit" class="mt-2">
-                                <label class="inline-flex items-center cursor-pointer">
-                                    <input id="allow_mobile_uploads" name="allow_mobile_uploads" type="checkbox" value="true" {% if server.allow_mobile_uploads %}checked{% endif %} class="sr-only peer">
-                                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Mobile Uploads</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <button 
-                                hx-post="{{ url_for('media_servers.scan_server_libraries', server_id=server.id) }}" 
-                                hx-include="[name=server_username],[name=server_password]" 
-                                hx-target="#libraries" 
-                                hx-swap="innerHTML"
-                                hx-indicator="#scan-indicator-edit"
-                                class="bg-primary hover:bg-primary_hover text-white font-medium px-5 py-2 rounded-lg shadow-lg transition-all duration-200 flex items-center gap-2"
-                            >
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                                </svg>
-                                Scan Libraries
-                            </button>
-                            <span id="scan-indicator-edit" class="htmx-indicator text-sm text-gray-500 ml-2">
-                                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-gray-500 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Scanning...
-                            </span>
-                            <div id="libraries" class="space-y-2 mt-2">
-                                {% set libs = server.libraries|sort(attribute='name') %}
-                                {% include 'partials/library_checkboxes.html' with context %}
-                            </div>
-                        </div>
-                        <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-gray-800">
-                            <button type="submit" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-primary_hover sm:ml-3 sm:w-auto">{{ _("Save") }}</button>
-                            <button onclick="closeModal()" type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">{{ _("Cancel") }}</button>
-                        </div>
-                    </form>
-                </div>
+<div class="relative modal-container"
+     aria-labelledby="modal-title"
+     role="dialog"
+     aria-modal="true">
+  <div class="fixed inset-0 modal-backdrop transition-opacity"></div>
+  <div class="fixed inset-0 z-10 overflow-y-auto">
+    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+        <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 dark:bg-gray-800">
+          <div class="flex justify-between items-center pb-3">
+            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+              {{ _("Edit Server") }}
+            </h1>
+          </div>
+          <p class="mt-2 pb-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ error }}</span>
+          </p>
+          <form class="space-y-4 md:space-y-6"
+                hx-post="{{ url_for('media_servers.edit_server', server_id=server.id) }}"
+                hx-target="#tab-body"
+                hx-swap="innerHTML">
+            <div>
+              <label for="server_name"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+              <input type="text"
+                     name="server_name"
+                     id="server_name"
+                     value="{{ server.name }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                     required>
             </div>
+            <div>
+              <label for="server_type"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Server Type</label>
+              <select name="server_type"
+                      id="server_type"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                <option value="plex" {% if server.server_type=='plex' %}selected{% endif %}>Plex</option>
+                <option value="jellyfin"
+                        {% if server.server_type=='jellyfin' %}selected{% endif %}>Jellyfin</option>
+                <option value="emby" {% if server.server_type=='emby' %}selected{% endif %}>Emby</option>
+                <option value="audiobookshelf"
+                        {% if server.server_type=='audiobookshelf' %}selected{% endif %}>Audiobookshelf</option>
+                <option value="romm" {% if server.server_type=='romm' %}selected{% endif %}>Romm</option>
+                <option value="komga" {% if server.server_type=='komga' %}selected{% endif %}>Komga</option>
+                <option value="kavita"
+                        {% if server.server_type=='kavita' %}selected{% endif %}>Kavita</option>
+              </select>
+            </div>
+            <div>
+              <label for="server_url"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">URL (Internal)</label>
+              <input type="text"
+                     name="server_url"
+                     id="server_url"
+                     value="{{ server.url }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                     required>
+            </div>
+            <div>
+              <label for="external_url"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                External URL (Optional)
+              </label>
+              <input type="text"
+                     name="external_url"
+                     id="external_url"
+                     value="{{ server.external_url or '' }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+            <div id="api-key-div">
+              <label for="api_key"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">API Key</label>
+              <input type="text"
+                     name="api_key"
+                     id="api_key"
+                     value="{{ server.api_key }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+            <div id="romm-options" style="display:none;">
+              <div>
+                <label for="server_username"
+                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">RomM Username</label>
+                <input type="text"
+                       name="server_username"
+                       id="server_username"
+                       placeholder="admin"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+              </div>
+              <div>
+                <label for="server_password"
+                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">RomM Password</label>
+                <input type="password"
+                       name="server_password"
+                       id="server_password"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+              </div>
+            </div>
+            <div id="media-server-options" style="display:none;">
+              <div>
+                <label class="inline-flex items-center cursor-pointer">
+                  <input id="allow_downloads"
+                         name="allow_downloads"
+                         type="checkbox"
+                         value="true"
+                         {% if server.allow_downloads %}checked{% endif %}
+                         class="sr-only peer">
+                  <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
+                  </div>
+                  <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Downloads</span>
+                </label>
+              </div>
+              <div id="allow-live-tv-option-edit" class="mt-2">
+                <label class="inline-flex items-center cursor-pointer">
+                  <input id="allow_live_tv"
+                         name="allow_live_tv"
+                         type="checkbox"
+                         value="true"
+                         {% if server.allow_live_tv %}checked{% endif %}
+                         class="sr-only peer">
+                  <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
+                  </div>
+                  <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Live TV</span>
+                </label>
+              </div>
+              <div id="allow-mobile-uploads-option-edit" class="mt-2">
+                <label class="inline-flex items-center cursor-pointer">
+                  <input id="allow_mobile_uploads"
+                         name="allow_mobile_uploads"
+                         type="checkbox"
+                         value="true"
+                         {% if server.allow_mobile_uploads %}checked{% endif %}
+                         class="sr-only peer">
+                  <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
+                  </div>
+                  <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Mobile Uploads</span>
+                </label>
+              </div>
+            </div>
+            <div class="mt-4">
+              <button hx-post="{{ url_for('media_servers.scan_server_libraries', server_id=server.id) }}"
+                      hx-include="[name=server_username],[name=server_password]"
+                      hx-target="#libraries"
+                      hx-swap="innerHTML"
+                      hx-indicator="#scan-indicator-edit"
+                      class="bg-primary hover:bg-primary_hover text-white font-medium px-5 py-2 rounded-lg shadow-lg transition-all duration-200 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                  </path>
+                </svg>
+                Scan Libraries
+              </button>
+              <span id="scan-indicator-edit"
+                    class="htmx-indicator text-sm text-gray-500 ml-2">
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-gray-500 inline"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                  </path>
+                </svg>
+                Scanning...
+              </span>
+              <div id="libraries" class="space-y-2 mt-2">
+                {% set libs = server.libraries|sort(attribute='name') %}
+                {% include 'partials/library_checkboxes.html' with context %}
+              </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-gray-800">
+              <button type="submit"
+                      class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-primary_hover sm:ml-3 sm:w-auto">
+                {{ _("Save") }}
+              </button>
+              <button onclick="closeModal()"
+                      type="button"
+                      class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+                {{ _("Cancel") }}
+              </button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 <script>
 function closeModal(){ document.getElementById('create-server-modal').innerHTML=''; }
@@ -134,4 +209,4 @@ function updateOptions(){
 }
 document.getElementById('server_type').addEventListener('change',updateOptions);
 updateOptions();
-</script> 
+</script>

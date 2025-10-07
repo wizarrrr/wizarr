@@ -1,5 +1,4 @@
 <div id="create-api-key-modal"></div>
-
 <section class="animate__animated animate__fadeIn">
   <div class="p-6 space-y-8">
     <!-- Page Header -->
@@ -7,223 +6,238 @@
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ _("General Settings") }}</h1>
-          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ _("Configure your application's basic settings and preferences") }}</p>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            {{ _("Configure your application's basic settings and preferences") }}
+          </p>
         </div>
         <div class="text-right">
           <p class="text-xs text-gray-500 dark:text-gray-400">{{ _("Version") }}</p>
-          <a class="text-sm font-semibold text-gray-700 dark:text-gray-300" href="https://github.com/wizarrrr/wizarr/releases/tag/{{ app_version }}">{{ app_version }}</a>
+          <a class="text-sm font-semibold text-gray-700 dark:text-gray-300"
+             href="https://github.com/wizarrrr/wizarr/releases/tag/{{ app_version }}">{{ app_version }}</a>
         </div>
       </div>
     </div>
-
     <!-- Settings Content -->
     <div class="w-full">
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
         <div class="p-6">
-
-        <form method="post" hx-post="{{ url_for('settings.general_settings') }}" hx-target="#tab-body" hx-swap="innerHTML" class="space-y-4">
-          {{ form.hidden_tag() }}
-
-          {# ───── Display ──────────────────────────────────────── #}
-          <div class="space-y-4">
-            <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
-              <div class="flex items-center gap-3">
-                <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-                    <circle cx="12" cy="8" r="2.5"/>
-                    <path d="M12 13c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-                  </svg>
+          <form method="post"
+                hx-post="{{ url_for('settings.general_settings') }}"
+                hx-target="#tab-body"
+                hx-swap="innerHTML"
+                class="space-y-4">
+            {{ form.hidden_tag() }}
+            {# ───── Display ──────────────────────────────────────── #}
+            <div class="space-y-4">
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+                <div class="flex items-center gap-3">
+                  <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                      <circle cx="12" cy="8" r="2.5" />
+                      <path d="M12 13c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Display") }}</h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Configure how your application appears to users") }}</p>
+                  </div>
                 </div>
-                <div>
-                  <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Display") }}</h2>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Configure how your application appears to users") }}</p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="col-span-1 md:col-span-2">
+                  {{ form.server_name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                  {{ form.server_name(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
+                  {% for err in form.server_name.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
                 </div>
               </div>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="col-span-1 md:col-span-2">
-                {{ form.server_name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                {{ form.server_name(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
-                {% for err in form.server_name.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
-              </div>
-            </div>
-          </div>
-
-
-          {# ───── Access Control ───────────────────────────────── #}
-          <div class="space-y-4">
-            <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
-              <div class="flex items-center gap-3">
-                <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
-                    <path d="M10 17l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
-                  </svg>
-                </div>
-                <div>
-                  <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Access Control") }}</h2>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Manage user access and permissions") }}</p>
+            {# ───── Access Control ───────────────────────────────── #}
+            <div class="space-y-4">
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+                <div class="flex items-center gap-3">
+                  <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+                      <path d="M10 17l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Access Control") }}</h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Manage user access and permissions") }}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
-              <div class="flex items-center justify-between">
-                <div>
-                  <label class="text-sm font-medium text-gray-900 dark:text-white">{{ form.wizard_acl_enabled.label.text }}</label>
-                  <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">{{ _("Control access to the wizard setup process") }}</p>
-                </div>
-                <label class="inline-flex items-center cursor-pointer">
-                  {{ form.wizard_acl_enabled(class="sr-only peer") }}
-                  <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          {# ───── User Management ──────────────────────────── #}
-          <div class="space-y-4">
-            <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
-              <div class="flex items-center gap-3">
-                <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
-                    <path d="M10 17l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
-                  </svg>
-                </div>
-                <div>
-                  <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("User Management") }}</h2>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Configure how users are managed when invitations expire") }}</p>
+              <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <label class="text-sm font-medium text-gray-900 dark:text-white">{{ form.wizard_acl_enabled.label.text }}</label>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">{{ _("Control access to the wizard setup process") }}</p>
+                  </div>
+                  <label class="inline-flex items-center cursor-pointer">
+                    {{ form.wizard_acl_enabled(class="sr-only peer") }}
+                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
+                    </div>
+                  </label>
                 </div>
               </div>
             </div>
-
-            <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
-              <div class="space-y-4">
-                <div>
-                  <div class="flex items-center gap-2 mb-2">
-                    {{ form.expiry_action.label(class="text-sm font-medium text-gray-900 dark:text-white") }}
-                    <div class="relative" x-data="{ open: false }">
-                      <button type="button" @click="open = !open"
-                              class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
-                        </svg>
-                      </button>
-                      <div x-show="open" @click.away="open = false"
-                           x-transition:enter="transition ease-out duration-200"
-                           x-transition:enter-start="opacity-0 scale-95"
-                           x-transition:enter-end="opacity-100 scale-100"
-                           x-transition:leave="transition ease-in duration-75"
-                           x-transition:leave-start="opacity-100 scale-100"
-                           x-transition:leave-end="opacity-0 scale-95"
-                           class="absolute bottom-full left-0 mb-2 w-80 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg p-4 z-10">
-                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">{{ _("Server Capabilities") }}</h4>
-                        <div class="space-y-2 text-sm">
-                          <div class="grid grid-cols-2 gap-2">
-                            <div>
-                              <p class="font-medium text-green-600 dark:text-green-400 mb-1">{{ _("Supports Disable:") }}</p>
-                              <ul class="text-gray-600 dark:text-gray-300 space-y-1">
-                                <li>• Jellyfin</li>
-                                <li>• Emby</li>
-                                <li>• Audiobookshelf</li>
-                                <li>• Kavita</li>
-                                <li>• Komga</li>
-                                <li>• RomM</li>
-                              </ul>
+            {# ───── User Management ──────────────────────────── #}
+            <div class="space-y-4">
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+                <div class="flex items-center gap-3">
+                  <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+                      <path d="M10 17l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("User Management") }}</h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                      {{ _("Configure how users are managed when invitations expire") }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                <div class="space-y-4">
+                  <div>
+                    <div class="flex items-center gap-2 mb-2">
+                      {{ form.expiry_action.label(class="text-sm font-medium text-gray-900 dark:text-white") }}
+                      <div class="relative" x-data="{ open: false }">
+                        <button type="button"
+                                @click="open = !open"
+                                class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z" />
+                          </svg>
+                        </button>
+                        <div x-show="open"
+                             @click.away="open = false"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute bottom-full left-0 mb-2 w-80 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg p-4 z-10">
+                          <h4 class="font-medium text-gray-900 dark:text-white mb-2">{{ _("Server Capabilities") }}</h4>
+                          <div class="space-y-2 text-sm">
+                            <div class="grid grid-cols-2 gap-2">
+                              <div>
+                                <p class="font-medium text-green-600 dark:text-green-400 mb-1">{{ _("Supports Disable:") }}</p>
+                                <ul class="text-gray-600 dark:text-gray-300 space-y-1">
+                                  <li>• Jellyfin</li>
+                                  <li>• Emby</li>
+                                  <li>• Audiobookshelf</li>
+                                  <li>• Kavita</li>
+                                  <li>• Komga</li>
+                                  <li>• RomM</li>
+                                </ul>
+                              </div>
+                              <div>
+                                <p class="font-medium text-red-600 dark:text-red-400 mb-1">{{ _("Delete Only:") }}</p>
+                                <ul class="text-gray-600 dark:text-gray-300 space-y-1">
+                                  <li>• Plex</li>
+                                  <li>• Navidrome</li>
+                                  <li>• Drop</li>
+                                </ul>
+                              </div>
                             </div>
-                            <div>
-                              <p class="font-medium text-red-600 dark:text-red-400 mb-1">{{ _("Delete Only:") }}</p>
-                              <ul class="text-gray-600 dark:text-gray-300 space-y-1">
-                                <li>• Plex</li>
-                                <li>• Navidrome</li>
-                                <li>• Drop</li>
-                              </ul>
+                            <div class="pt-2 border-t border-gray-200 dark:border-gray-600">
+                              <p class="text-xs text-gray-500 dark:text-gray-400">
+                                {{ _("If 'Disable User' is selected but the server doesn't support it, the user will be deleted instead.") }}
+                              </p>
                             </div>
-                          </div>
-                          <div class="pt-2 border-t border-gray-200 dark:border-gray-600">
-                            <p class="text-xs text-gray-500 dark:text-gray-400">
-                              {{ _("If 'Disable User' is selected but the server doesn't support it, the user will be deleted instead.") }}
-                            </p>
                           </div>
                         </div>
                       </div>
                     </div>
+                    {{ form.expiry_action(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                      {{ _("Choose what happens to users when their invitation expires") }}
+                    </p>
+                    {% for err in form.expiry_action.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
                   </div>
-                  {{ form.expiry_action(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
-                  <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">{{ _("Choose what happens to users when their invitation expires") }}</p>
-                  {% for err in form.expiry_action.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
                 </div>
               </div>
             </div>
-          </div>
-
-          {# ───── API Key Management ─────────────────────────── #}
-          <div class="space-y-4">
-            <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
-              <div class="flex items-center gap-3">
-                <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <svg class="w-4 h-4 text-primary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M6.94318 11h-.85227l.96023-2.90909h1.07954L9.09091 11h-.85227l-.63637-2.10795h-.02272L6.94318 11Zm-.15909-1.14773h1.60227v.59093H6.78409v-.59093ZM9.37109 11V8.09091h1.25571c.2159 0 .4048.04261.5667.12784.162.08523.2879.20502.3779.35937.0899.15436.1349.33476.1349.5412 0 .20833-.0464.38873-.1392.54119-.0918.15246-.2211.26989-.3878.35229-.1657.0824-.3593.1236-.5809.1236h-.75003v-.61367h.59093c.0928 0 .1719-.0161.2372-.0483.0663-.03314.1169-.08002.152-.14062.036-.06061.054-.13211.054-.21449 0-.08334-.018-.15436-.054-.21307-.0351-.05966-.0857-.10511-.152-.13636-.0653-.0322-.1444-.0483-.2372-.0483h-.2784V11h-.78981Zm3.41481-2.90909V11h-.7898V8.09091h.7898Z"/>
-                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M8.31818 2c-.55228 0-1 .44772-1 1v.72878c-.06079.0236-.12113.04809-.18098.07346l-.55228-.53789c-.38828-.37817-1.00715-.37817-1.39543 0L3.30923 5.09564c-.19327.18824-.30229.44659-.30229.71638 0 .26979.10902.52813.30229.71637l.52844.51468c-.01982.04526-.03911.0908-.05785.13662H3c-.55228 0-1 .44771-1 1v2.58981c0 .5523.44772 1 1 1h.77982c.01873.0458.03802.0914.05783.1366l-.52847.5147c-.19327.1883-.30228.4466-.30228.7164 0 .2698.10901.5281.30228.7164l1.88026 1.8313c.38828.3781 1.00715.3781 1.39544 0l.55228-.5379c.05987.0253.12021.0498.18102.0734v.7288c0 .5523.44772 1 1 1h2.65912c.5523 0 1-.4477 1-1v-.7288c.1316-.0511.2612-.1064.3883-.1657l.5435.2614v.4339c0 .5523.4477 1 1 1H14v.0625c0 .5523.4477 1 1 1h.0909v.0625c0 .5523.4477 1 1 1h.6844l.4952.4823c1.1648 1.1345 3.0214 1.1345 4.1863 0l.2409-.2347c.1961-.191.3053-.454.3022-.7277-.0031-.2737-.1183-.5342-.3187-.7207l-6.2162-5.7847c.0173-.0398.0342-.0798.0506-.12h.7799c.5522 0 1-.4477 1-1V8.17969c0-.55229-.4478-1-1-1h-.7799c-.0187-.04583-.038-.09139-.0578-.13666l.5284-.51464c.1933-.18824.3023-.44659.3023-.71638 0-.26979-.109-.52813-.3023-.71637l-1.8803-1.8313c-.3883-.37816-1.0071-.37816-1.3954 0l-.5523.53788c-.0598-.02536-.1201-.04985-.1809-.07344V3c0-.55228-.4477-1-1-1H8.31818Z"/>
-                  </svg>
+            {# ───── API Key Management ─────────────────────────── #}
+            <div class="space-y-4">
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+                <div class="flex items-center gap-3">
+                  <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-primary"
+                         aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg"
+                         width="24"
+                         height="24"
+                         fill="none"
+                         viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M6.94318 11h-.85227l.96023-2.90909h1.07954L9.09091 11h-.85227l-.63637-2.10795h-.02272L6.94318 11Zm-.15909-1.14773h1.60227v.59093H6.78409v-.59093ZM9.37109 11V8.09091h1.25571c.2159 0 .4048.04261.5667.12784.162.08523.2879.20502.3779.35937.0899.15436.1349.33476.1349.5412 0 .20833-.0464.38873-.1392.54119-.0918.15246-.2211.26989-.3878.35229-.1657.0824-.3593.1236-.5809.1236h-.75003v-.61367h.59093c.0928 0 .1719-.0161.2372-.0483.0663-.03314.1169-.08002.152-.14062.036-.06061.054-.13211.054-.21449 0-.08334-.018-.15436-.054-.21307-.0351-.05966-.0857-.10511-.152-.13636-.0653-.0322-.1444-.0483-.2372-.0483h-.2784V11h-.78981Zm3.41481-2.90909V11h-.7898V8.09091h.7898Z" />
+                      <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M8.31818 2c-.55228 0-1 .44772-1 1v.72878c-.06079.0236-.12113.04809-.18098.07346l-.55228-.53789c-.38828-.37817-1.00715-.37817-1.39543 0L3.30923 5.09564c-.19327.18824-.30229.44659-.30229.71638 0 .26979.10902.52813.30229.71637l.52844.51468c-.01982.04526-.03911.0908-.05785.13662H3c-.55228 0-1 .44771-1 1v2.58981c0 .5523.44772 1 1 1h.77982c.01873.0458.03802.0914.05783.1366l-.52847.5147c-.19327.1883-.30228.4466-.30228.7164 0 .2698.10901.5281.30228.7164l1.88026 1.8313c.38828.3781 1.00715.3781 1.39544 0l.55228-.5379c.05987.0253.12021.0498.18102.0734v.7288c0 .5523.44772 1 1 1h2.65912c.5523 0 1-.4477 1-1v-.7288c.1316-.0511.2612-.1064.3883-.1657l.5435.2614v.4339c0 .5523.4477 1 1 1H14v.0625c0 .5523.4477 1 1 1h.0909v.0625c0 .5523.4477 1 1 1h.6844l.4952.4823c1.1648 1.1345 3.0214 1.1345 4.1863 0l.2409-.2347c.1961-.191.3053-.454.3022-.7277-.0031-.2737-.1183-.5342-.3187-.7207l-6.2162-5.7847c.0173-.0398.0342-.0798.0506-.12h.7799c.5522 0 1-.4477 1-1V8.17969c0-.55229-.4478-1-1-1h-.7799c-.0187-.04583-.038-.09139-.0578-.13666l.5284-.51464c.1933-.18824.3023-.44659.3023-.71638 0-.26979-.109-.52813-.3023-.71637l-1.8803-1.8313c-.3883-.37816-1.0071-.37816-1.3954 0l-.5523.53788c-.0598-.02536-.1201-.04985-.1809-.07344V3c0-.55228-.4477-1-1-1H8.31818Z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("API Key Management") }}</h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                      {{ _("Manage API keys for accessing Wizarr programmatically") }}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("API Key Management") }}</h2>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Manage API keys for accessing Wizarr programmatically") }}</p>
+              </div>
+              <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                <div class="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 class="text-sm font-medium text-gray-900 dark:text-white">{{ _("Your API Keys") }}</h3>
+                    <p class="text-xs text-gray-600 dark:text-gray-400">{{ _("Create and manage API keys for external applications") }}</p>
+                  </div>
+                  <button hx-get="{{ url_for('api_keys.create_api_key') }}"
+                          hx-target="#create-api-key-modal"
+                          hx-trigger="click"
+                          _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
+                          class="inline-flex items-center px-3 py-2 bg-primary text-white rounded-lg hover:bg-primary_hover focus:outline-none focus:ring-4 focus:ring-primary/20 text-sm font-medium shadow-xs transition-colors">
+                    <svg class="w-4 h-4 mr-2"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    {{ _("Create API Key") }}
+                  </button>
+                </div>
+                <div hx-get="{{ url_for('api_keys.list_api_keys') }}"
+                     hx-trigger="load"
+                     hx-target="this"
+                     hx-swap="innerHTML">
+                  <div class="text-center py-4">
+                    <div class="animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent text-primary rounded-full"
+                         role="status"
+                         aria-label="loading"></div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">{{ _("Loading API keys...") }}</p>
+                  </div>
                 </div>
               </div>
             </div>
-            
-            <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
-              <div class="flex items-center justify-between mb-4">
-                <div>
-                  <h3 class="text-sm font-medium text-gray-900 dark:text-white">{{ _("Your API Keys") }}</h3>
-                  <p class="text-xs text-gray-600 dark:text-gray-400">{{ _("Create and manage API keys for external applications") }}</p>
-                </div>
-                <button hx-get="{{ url_for('api_keys.create_api_key') }}"
-                        hx-target="#create-api-key-modal"
-                        hx-trigger="click"
-                        _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
-                        class="inline-flex items-center px-3 py-2 bg-primary text-white rounded-lg hover:bg-primary_hover focus:outline-none focus:ring-4 focus:ring-primary/20 text-sm font-medium shadow-xs transition-colors">
-                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            {# ───── Submit ───────────────────────────────────────── #}
+            <div class="pt-6 border-t border-gray-200 dark:border-gray-700">
+              <div class="flex flex-col sm:flex-row gap-4 sm:justify-end">
+                <button type="submit"
+                        class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg text-sm focus:ring-4 focus:ring-primary/20 transition-colors">
+                  <svg class="w-4 h-4 mr-2"
+                       fill="none"
+                       stroke="currentColor"
+                       viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                   </svg>
-                  {{ _("Create API Key") }}
+                  {{ _("Save Settings") }}
                 </button>
               </div>
-              
-              <div hx-get="{{ url_for('api_keys.list_api_keys') }}"
-                   hx-trigger="load"
-                   hx-target="this"
-                   hx-swap="innerHTML">
-                <div class="text-center py-4">
-                  <div class="animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent text-primary rounded-full" role="status" aria-label="loading">
-                  </div>
-                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">{{ _("Loading API keys...") }}</p>
-                </div>
-              </div>
             </div>
-          </div>
-
-          {# ───── Submit ───────────────────────────────────────── #}
-          <div class="pt-6 border-t border-gray-200 dark:border-gray-700">
-            <div class="flex flex-col sm:flex-row gap-4 sm:justify-end">
-              <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg text-sm focus:ring-4 focus:ring-primary/20 transition-colors">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                {{ _("Save Settings") }}
-              </button>
-            </div>
-          </div>
-        </form>
+          </form>
         </div>
       </div>
     </div>
   </div>
 </section>
-
- 

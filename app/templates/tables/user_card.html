@@ -1,191 +1,245 @@
-<div id="user_table" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 animate__animated">
-    {% if not users %}
+<div id="user_table"
+     class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 animate__animated">
+  {% if not users %}
     <p id="error_message" class="text-center col-span-full dark:text-white">{{ _("There are currently no users.") }}</p>
-    {% else %}
-
+  {% else %}
     {% for user in users %}
-    <!-- Hidden checkbox used for selection -->
-    <input id="uid{{ user.id }}" type="checkbox" class="sr-only link-check" name="uids" value="{{ user.id }}">
-    <label class="cursor-pointer block group transition-all duration-200 hover:shadow-md hover:-translate-y-1 animate__animated bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 relative user-card" for="uid{{ user.id }}" data-user-id="{{ user.id }}">
-
-            <!-- Card content -->
-            <div class="p-6 h-full">
-                <div class="flex flex-col h-full">
-                    <!-- User Header -->
-                    <div class="flex items-start justify-between">
-                        <div class="flex items-center space-x-3">
-                            {% if user.photo %}
-                            <img class="h-12 w-12 rounded-full" src="{{ user.photo }}" alt="{{ user.username }}">
-                            {% else %}
-                            <div class="h-12 w-12 rounded-full bg-primary/10 text-primary font-semibold flex items-center justify-center">
-                                {% set display_name = user.identity.nickname if user.identity_id and user.identity and user.identity.nickname else user.username %}
-                                {{ display_name[:2]|upper }}
-                            </div>
-                            {% endif %}
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center">
-                                    {% set display_name = user.identity.nickname if user.identity_id and user.identity and user.identity.nickname else user.username %}
-                                    <h3 class="font-semibold text-foreground dark:text-white truncate">{{ display_name }}</h3>
-                                    {% if user.identity_id %}
-                                    <!-- Edit nickname button -->
-                                    <button hx-get="{{ url_for('admin.edit_identity', identity_id=user.identity_id) }}"
-                                            hx-target="#modal-user" hx-swap="innerHTML"
-                                            onclick="event.stopPropagation()"
-                                            title="{{ _('Edit nickname') }}"
-                                            class="ml-2 inline-flex items-center justify-center w-6 h-6 text-muted-foreground hover:text-primary hover:bg-gray-100 dark:text-gray-400 dark:hover:text-primary dark:hover:bg-gray-700 rounded transition-colors">
-                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                        </svg>
-                                    </button>
-                                    {% endif %}
-                                </div>
-                                <p class="text-sm text-muted-foreground dark:text-gray-400 truncate">{{ user.email or _('Home User') }}</p>
-                            </div>
-                        </div>
-
-                        <!-- Status Badge -->
-                        {% set accs = user.accounts if user.accounts is defined else [user] %}
-                        {% for acct in accs %}
-                        {% if acct.server %}
-                        {{ acct.server.server_type|server_name_tag(acct.server.name) }}
-                        {% else %}
-                        {{ 'local'|server_type_tag }}
-                        {% endif %}
-                        {% endfor %}
-                        <!-- Checkmark icon shown when selected -->
-                        <svg class="absolute top-2 right-2 w-5 h-5 text-primary opacity-0 peer-checked:opacity-100" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.12a1 1 0 011.414-1.415L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                    </div>
-
-                    <!-- User Info -->
-                    <div class="space-y-2 flex-1 mt-4">
-                        <!-- Expires information -->
-                        <div class="flex items-center text-sm text-muted-foreground dark:text-gray-400">
-                            <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>
-                                {% if user.expires %}
-                                {{ _("Expires") }}: {{ user.expires|human_date }}
-                                {% else %}
-                                {{ _("Expires") }}: {{ _("Never") }}
-                                {% endif %}
-                            </span>
-                        </div>
-
-                        <!-- Invited date -->
-                        {% if user.invited_date %}
-                        <div class="flex items-center text-sm text-muted-foreground dark:text-gray-400">
-                            <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>{{ _("Invited") }}: {{ user.invited_date|human_date }}</span>
-                        </div>
-                        {% endif %}
-
-                        <!-- Invite code -->
-                        {% if user.code and user.code != "None" and user.code != "empty" %}
-                        <div class="flex items-center text-sm text-muted-foreground dark:text-gray-400">
-                            <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path>
-                            </svg>
-                            <span>{{ _("Invite Code") }}: {{ user.code }}</span>
-                        </div>
-                        {% endif %}
-
-                        <!-- Notes -->
-                        {% if user.notes and user.notes.strip() %}
-                        <div class="flex items-start text-sm text-muted-foreground dark:text-gray-400">
-                            <svg class="h-4 w-4 mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>
-                            </svg>
-                            <div class="flex-1">
-                                <span>{{ _("Notes") }}:</span>
-                                <div class="text-gray-700 dark:text-gray-300 text-xs mt-0.5 break-words">{{ user.notes|nl2br|safe }}</div>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Permissions & Actions -->
-                    <div class="flex items-center justify-between mt-auto pt-4" onclick="event.stopPropagation()">
-                        <div class="flex items-center space-x-3">
-                            <!-- User disabled indicator -->
-                            {% if user.is_disabled %}
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400 border border-red-200 dark:border-red-800">
-                                {{ _("Disabled") }}
-                            </span>
-                            {% else %}
-                            <!-- Downloads policy indicator -->
-                            {% if user.allow_downloads %}
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400" title="{{ _('Downloads enabled') }}">
-                                <svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
-                                </svg>
-                                DL
-                            </span>
-                            {% endif %}
-
-                            <!-- Live TV policy indicator -->
-                            {% if user.allow_live_tv %}
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400" title="{{ _('Live TV enabled') }}">
-                                <svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125Z"/>
-                                </svg>
-                                TV
-                            </span>
-                            {% endif %}
-                            {% endif %}
-                        </div>
-
-                        <div class="flex items-center space-x-2">
-                            <!-- View details -->
-                            <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-colors"
-                                    hx-get="/user/{{ user.id }}/details"
-                                    hx-target="#modal-user"
-                                    hx-swap="innerHTML"
-                                    title="{{ _('View details') }}">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                            </button>
-
-                            <!-- Edit user -->
-                            <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-colors"
-                                    hx-get="/user/{{ user.id }}"
-                                    hx-target="#modal-user"
-                                    hx-swap="innerHTML"
-                                    title="{{ _('Edit user') }}">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/>
-                                    <path d="m15 5 4 4"/>
-                                </svg>
-                            </button>
-
-                            <!-- Delete user -->
-                            <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-white bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 rounded-md transition-colors"
-                                    hx-get="{{ url_for('admin.delete_user_modal', user_id=user.id) }}"
-                                    hx-target="#modal-user"
-                                    hx-swap="innerHTML"
-                                    onclick="event.stopPropagation()"
-                                    title="{{ _('Remove user') }}">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 11v6"/>
-                                    <path d="M14 11v6"/>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
-                                    <path d="M3 6h18"/>
-                                    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+      <!-- Hidden checkbox used for selection -->
+      <input id="uid{{ user.id }}"
+             type="checkbox"
+             class="sr-only link-check"
+             name="uids"
+             value="{{ user.id }}">
+      <label class="cursor-pointer block group transition-all duration-200 hover:shadow-md hover:-translate-y-1 animate__animated bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 relative user-card"
+             for="uid{{ user.id }}"
+             data-user-id="{{ user.id }}">
+        <!-- Card content -->
+        <div class="p-6 h-full">
+          <div class="flex flex-col h-full">
+            <!-- User Header -->
+            <div class="flex items-start justify-between">
+              <div class="flex items-center space-x-3">
+                {% if user.photo %}
+                  <img class="h-12 w-12 rounded-full"
+                       src="{{ user.photo }}"
+                       alt="{{ user.username }}">
+                {% else %}
+                  <div class="h-12 w-12 rounded-full bg-primary/10 text-primary font-semibold flex items-center justify-center">
+                    {% set display_name = user.identity.nickname if user.identity_id and user.identity and user.identity.nickname else user.username %}
+                    {{ display_name[:2]|upper }}
+                  </div>
+                {% endif %}
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center">
+                    {% set display_name = user.identity.nickname if user.identity_id and user.identity and user.identity.nickname else user.username %}
+                    <h3 class="font-semibold text-foreground dark:text-white truncate">{{ display_name }}</h3>
+                    {% if user.identity_id %}
+                      <!-- Edit nickname button -->
+                      <button hx-get="{{ url_for('admin.edit_identity', identity_id=user.identity_id) }}"
+                              hx-target="#modal-user"
+                              hx-swap="innerHTML"
+                              onclick="event.stopPropagation()"
+                              title="{{ _('Edit nickname') }}"
+                              class="ml-2 inline-flex items-center justify-center w-6 h-6 text-muted-foreground hover:text-primary hover:bg-gray-100 dark:text-gray-400 dark:hover:text-primary dark:hover:bg-gray-700 rounded transition-colors">
+                        <svg class="w-4 h-4"
+                             fill="currentColor"
+                             viewBox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg">
+                          <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                          </path>
+                        </svg>
+                      </button>
+                    {% endif %}
+                  </div>
+                  <p class="text-sm text-muted-foreground dark:text-gray-400 truncate">{{ user.email or _("Home User") }}</p>
                 </div>
+              </div>
+              <!-- Status Badge -->
+              {% set accs = user.accounts if user.accounts is defined else [user] %}
+              {% for acct in accs %}
+                {% if acct.server %}
+                  {{ acct.server.server_type|server_name_tag(acct.server.name) }}
+                {% else %}
+                  {{ 'local'|server_type_tag }}
+                {% endif %}
+              {% endfor %}
+              <!-- Checkmark icon shown when selected -->
+              <svg class="absolute top-2 right-2 w-5 h-5 text-primary opacity-0 peer-checked:opacity-100"
+                   xmlns="http://www.w3.org/2000/svg"
+                   fill="currentColor"
+                   viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.12a1 1 0 011.414-1.415L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd">
+                </path>
+              </svg>
             </div>
-        </label>
+            <!-- User Info -->
+            <div class="space-y-2 flex-1 mt-4">
+              <!-- Expires information -->
+              <div class="flex items-center text-sm text-muted-foreground dark:text-gray-400">
+                <svg class="h-4 w-4 mr-2"
+                     fill="currentColor"
+                     viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd">
+                  </path>
+                </svg>
+                <span>
+                  {% if user.expires %}
+                    {{ _("Expires") }}: {{ user.expires|human_date }}
+                  {% else %}
+                    {{ _("Expires") }}: {{ _("Never") }}
+                  {% endif %}
+                </span>
+              </div>
+              <!-- Invited date -->
+              {% if user.invited_date %}
+                <div class="flex items-center text-sm text-muted-foreground dark:text-gray-400">
+                  <svg class="h-4 w-4 mr-2"
+                       fill="currentColor"
+                       viewBox="0 0 20 20"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd">
+                    </path>
+                  </svg>
+                  <span>{{ _("Invited") }}: {{ user.invited_date|human_date }}</span>
+                </div>
+              {% endif %}
+              <!-- Invite code -->
+              {% if user.code and user.code != "None" and user.code != "empty" %}
+                <div class="flex items-center text-sm text-muted-foreground dark:text-gray-400">
+                  <svg class="h-4 w-4 mr-2"
+                       fill="currentColor"
+                       viewBox="0 0 20 20"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path>
+                  </svg>
+                  <span>{{ _("Invite Code") }}: {{ user.code }}</span>
+                </div>
+              {% endif %}
+              <!-- Notes -->
+              {% if user.notes and user.notes.strip() %}
+                <div class="flex items-start text-sm text-muted-foreground dark:text-gray-400">
+                  <svg class="h-4 w-4 mr-2 mt-0.5"
+                       fill="currentColor"
+                       viewBox="0 0 20 20"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd">
+                    </path>
+                  </svg>
+                  <div class="flex-1">
+                    <span>{{ _("Notes") }}:</span>
+                    <div class="text-gray-700 dark:text-gray-300 text-xs mt-0.5 break-words">{{ user.notes|nl2br|safe }}</div>
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+            <!-- Permissions & Actions -->
+            <div class="flex items-center justify-between mt-auto pt-4"
+                 onclick="event.stopPropagation()">
+              <div class="flex items-center space-x-3">
+                <!-- User disabled indicator -->
+                {% if user.is_disabled %}
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400 border border-red-200 dark:border-red-800">
+                    {{ _("Disabled") }}
+                  </span>
+                {% else %}
+                  <!-- Downloads policy indicator -->
+                  {% if user.allow_downloads %}
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
+                          title="{{ _('Downloads enabled') }}">
+                      <svg class="w-3 h-3 mr-1"
+                           fill="none"
+                           viewBox="0 0 24 24"
+                           stroke-width="1.5"
+                           stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                      </svg>
+                      DL
+                    </span>
+                  {% endif %}
+                  <!-- Live TV policy indicator -->
+                  {% if user.allow_live_tv %}
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400"
+                          title="{{ _('Live TV enabled') }}">
+                      <svg class="w-3 h-3 mr-1"
+                           fill="none"
+                           viewBox="0 0 24 24"
+                           stroke-width="1.5"
+                           stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125Z" />
+                      </svg>
+                      TV
+                    </span>
+                  {% endif %}
+                {% endif %}
+              </div>
+              <div class="flex items-center space-x-2">
+                <!-- View details -->
+                <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-colors"
+                        hx-get="/user/{{ user.id }}/details"
+                        hx-target="#modal-user"
+                        hx-swap="innerHTML"
+                        title="{{ _('View details') }}">
+                  <svg class="h-4 w-4"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round"
+                       viewBox="0 0 24 24"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </button>
+                <!-- Edit user -->
+                <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-colors"
+                        hx-get="/user/{{ user.id }}"
+                        hx-target="#modal-user"
+                        hx-swap="innerHTML"
+                        title="{{ _('Edit user') }}">
+                  <svg class="h-4 w-4"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round"
+                       viewBox="0 0 24 24"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+                    <path d="m15 5 4 4" />
+                  </svg>
+                </button>
+                <!-- Delete user -->
+                <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-white bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 rounded-md transition-colors"
+                        hx-get="{{ url_for('admin.delete_user_modal', user_id=user.id) }}"
+                        hx-target="#modal-user"
+                        hx-swap="innerHTML"
+                        onclick="event.stopPropagation()"
+                        title="{{ _('Remove user') }}">
+                  <svg class="h-4 w-4"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round"
+                       viewBox="0 0 24 24"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 11v6" />
+                    <path d="M14 11v6" />
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                    <path d="M3 6h18" />
+                    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </label>
     {% endfor %}
-    {% endif %}
+  {% endif %}
 </div>
-
 <script>
     // Note: Delete animation removed - now handled by modal confirmation
 

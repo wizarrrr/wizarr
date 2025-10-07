@@ -1,65 +1,48 @@
 {# templates/setup/admin_account.html #}
 {% extends "base.html" %}
-
 {% block title %}Setup Wizarr{% endblock %}
-
 {% block main %}
-<section class="bg-gray-50 dark:bg-gray-900">
-  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
-    <a class="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">Wizarr</a>
-
-    <div class="w-full bg-white rounded-lg shadow-sm dark:border sm:max-w-md dark:bg-gray-800 dark:border-gray-700">
-      <div class="p-6 space-y-6">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
-          {{ _("Setup Wizarr") }}
-        </h1>
-
-        {# flash-level messages (e.g. from validate_on_submit) #}
-        {% with msgs = get_flashed_messages(with_categories=true) %}
-          {% if msgs %}
-            {% for cat, msg in msgs %}
-              <p class="text-{{ 'green' if cat=='success' else 'red' }}-600">{{ msg }}</p>
-            {% endfor %}
-          {% endif %}
-        {% endwith %}
-
-        <form method="post" action="{{ url_for('setup.onboarding') }}" class="space-y-5">
-          {{ form.hidden_tag() }}  {# ⬅ CSRF + any other hidden fields #}
-
-          {# Username #}
-          <div>
-            {{ form.username.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-            {{ form.username(class="w-full p-2.5 rounded-lg border bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
-            {% for err in form.username.errors %}
-              <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ err }}</p>
-            {% endfor %}
-          </div>
-
-          {# Password #}
-          <div>
-            {{ form.password.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-            {{ form.password(class="w-full p-2.5 rounded-lg border bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
-            {% for err in form.password.errors %}
-              <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ err }}</p>
-            {% endfor %}
-          </div>
-
-          {# Confirm #}
-          <div>
-            {{ form.confirm.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-            {{ form.confirm(class="w-full p-2.5 rounded-lg border bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
-            {% for err in form.confirm.errors %}
-              <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ err }}</p>
-            {% endfor %}
-          </div>
-
-          <button type="submit"
-                  class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-hidden focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-            {{ _("Create an account") }}
-          </button>
-        </form>
+  <section class="bg-gray-50 dark:bg-gray-900">
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
+      <a class="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">Wizarr</a>
+      <div class="w-full bg-white rounded-lg shadow-sm dark:border sm:max-w-md dark:bg-gray-800 dark:border-gray-700">
+        <div class="p-6 space-y-6">
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ _("Setup Wizarr") }}</h1>
+          {# flash-level messages (e.g. from validate_on_submit) #}
+          {% with msgs = get_flashed_messages(with_categories=true) %}
+            {% if msgs %}
+              {% for cat, msg in msgs %}<p class="text-{{ 'green' if cat=='success' else 'red' }}-600">{{ msg }}</p>{% endfor %}
+            {% endif %}
+          {% endwith %}
+          <form method="post"
+                action="{{ url_for('setup.onboarding') }}"
+                class="space-y-5">
+            {{ form.hidden_tag() }}  {# ⬅ CSRF + any other hidden fields #}
+            {# Username #}
+            <div>
+              {{ form.username.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.username(class="w-full p-2.5 rounded-lg border bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+              {% for err in form.username.errors %}<p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ err }}</p>{% endfor %}
+            </div>
+            {# Password #}
+            <div>
+              {{ form.password.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.password(class="w-full p-2.5 rounded-lg border bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+              {% for err in form.password.errors %}<p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ err }}</p>{% endfor %}
+            </div>
+            {# Confirm #}
+            <div>
+              {{ form.confirm.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.confirm(class="w-full p-2.5 rounded-lg border bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+              {% for err in form.confirm.errors %}<p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ err }}</p>{% endfor %}
+            </div>
+            <button type="submit"
+                    class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-hidden focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+              {{ _("Create an account") }}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 {% endblock %}

@@ -1,14 +1,13 @@
 {# templates/wizard/_content.html - Content-only partial for HTMX swaps #}
 <div id="wizard-content"
-     class="wizard-content
-            animate__animated
-            {% if direction == 'prev' %} animate__fadeInLeft
-            {% elif direction == 'next' %} animate__fadeInRight
+     class="wizard-content animate__animated
+            {% if direction == 'prev' %}
+              animate__fadeInLeft
+            {% elif direction == 'next' %}
+              animate__fadeInRight
             {% endif %}"
-     style="--animate-duration: 0.2s;">
-    <div class="prose prose-slate dark:prose-invert
-                text-gray-800 dark:text-gray-200 max-w-none
-                prose-sm md:prose-base">
-        {{ body_html|safe }}
-    </div>
+     style="--animate-duration: 0.2s">
+  <div class="prose prose-slate dark:prose-invert text-gray-800 dark:text-gray-200 max-w-none prose-sm md:prose-base">
+    {{ body_html|safe }}
+  </div>
 </div>

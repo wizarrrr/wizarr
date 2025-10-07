@@ -1,5 +1,4 @@
 <div id="create-modal"></div>
-
 <section class="animate__animated animate__fadeIn">
   <div class="p-6 space-y-8">
     <!-- Page Header -->
@@ -7,15 +6,15 @@
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ _("Notification Agents") }}</h1>
-          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ _("Configure notification services to alert you about important events") }}</p>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            {{ _("Configure notification services to alert you about important events") }}
+          </p>
         </div>
-        <button 
-          hx-get="{{ url_for('notify.create') }}"
-          hx-target="#create-modal"
-          hx-trigger="click" 
-          _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
-          class="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium rounded-lg transition-colors shadow-sm"
-        >
+        <button hx-get="{{ url_for('notify.create') }}"
+                hx-target="#create-modal"
+                hx-trigger="click"
+                _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
+                class="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium rounded-lg transition-colors shadow-sm">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
           </svg>
@@ -23,11 +22,11 @@
         </button>
       </div>
     </div>
-
     <!-- Content -->
     <div class="w-full">
       {% if agents %}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="agents_grid">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+             id="agents_grid">
           {% for agent in agents %}
             <div class="group bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
               <div class="p-6">
@@ -35,7 +34,7 @@
                   <div class="flex items-center gap-3">
                     <div class="flex-shrink-0 w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
                       <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                       </svg>
                     </div>
                     <div class="min-w-0 flex-1">
@@ -43,35 +42,31 @@
                       <p class="text-sm text-gray-600 dark:text-gray-400 capitalize">{{ agent.type }}</p>
                     </div>
                   </div>
-                  
                   <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button
-                      hx-get="{{ url_for('notify.edit', agent_id=agent.id) }}"
-                      hx-target="#create-modal"
-                      hx-trigger="click"
-                      _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
-                      class="inline-flex items-center justify-center w-8 h-8 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                      title="{{ _('Edit agent') }}"
-                    >
+                    <button hx-get="{{ url_for('notify.edit', agent_id=agent.id) }}"
+                            hx-target="#create-modal"
+                            hx-trigger="click"
+                            _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
+                            class="inline-flex items-center justify-center w-8 h-8 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                            title="{{ _('Edit agent') }}">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                        </path>
                       </svg>
                     </button>
-                    <button
-                      hx-delete="{{ url_for('notify.delete_agent', delete=agent.id) }}"
-                      hx-target="#tab-body"
-                      hx-swap="innerHTML"
-                      hx-confirm="{{ _('Are you sure you want to delete') }} {{ agent.name }}?"
-                      class="inline-flex items-center justify-center w-8 h-8 text-red-600 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                      title="{{ _('Delete agent') }}"
-                    >
+                    <button hx-delete="{{ url_for('notify.delete_agent', delete=agent.id) }}"
+                            hx-target="#tab-body"
+                            hx-swap="innerHTML"
+                            hx-confirm="{{ _("Are you sure you want to delete") }} {{ agent.name }}?"
+                            class="inline-flex items-center justify-center w-8 h-8 text-red-600 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                            title="{{ _("Delete agent") }}">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                        </path>
                       </svg>
                     </button>
                   </div>
                 </div>
-                
                 <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-3">
                   <div class="flex items-center justify-between text-sm">
                     <span class="text-gray-600 dark:text-gray-400">{{ _("Status") }}</span>
@@ -105,20 +100,25 @@
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
           <div class="p-12 text-center">
             <div class="max-w-sm mx-auto">
-              <svg class="mx-auto h-12 w-12 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                <path fill-rule="evenodd" d="M3.559 4.544c.355-.35.834-.544 1.33-.544H19.11c.496 0 .975.194 1.33.544.356.35.559.829.559 1.331v9.25c0 .502-.203.981-.559 1.331-.355.35-.834.544-1.33.544H15.5l-2.7 3.6a1 1 0 0 1-1.6 0L8.5 17H4.889c-.496 0-.975-.194-1.33-.544A1.868 1.868 0 0 1 3 15.125v-9.25c0-.502.203-.981.559-1.331ZM7.556 7.5a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2h-8Zm0 3.5a1 1 0 1 0 0 2H12a1 1 0 1 0 0-2H7.556Z" clip-rule="evenodd"/>
+              <svg class="mx-auto h-12 w-12 text-gray-400"
+                   aria-hidden="true"
+                   xmlns="http://www.w3.org/2000/svg"
+                   width="24"
+                   height="24"
+                   fill="currentColor"
+                   viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M3.559 4.544c.355-.35.834-.544 1.33-.544H19.11c.496 0 .975.194 1.33.544.356.35.559.829.559 1.331v9.25c0 .502-.203.981-.559 1.331-.355.35-.834.544-1.33.544H15.5l-2.7 3.6a1 1 0 0 1-1.6 0L8.5 17H4.889c-.496 0-.975-.194-1.33-.544A1.868 1.868 0 0 1 3 15.125v-9.25c0-.502.203-.981.559-1.331ZM7.556 7.5a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2h-8Zm0 3.5a1 1 0 1 0 0 2H12a1 1 0 1 0 0-2H7.556Z" clip-rule="evenodd" />
               </svg>
-              
               <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-white">{{ _("No notification agents") }}</h3>
-              <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ _("Get started by creating your first notification agent") }}</p>
+              <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                {{ _("Get started by creating your first notification agent") }}
+              </p>
               <div class="mt-6">
-                <button 
-                  hx-get="{{ url_for('notify.create') }}"
-                  hx-target="#create-modal"
-                  hx-trigger="click" 
-                  _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
-                  class="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium rounded-lg transition-colors"
-                >
+                <button hx-get="{{ url_for('notify.create') }}"
+                        hx-target="#create-modal"
+                        hx-trigger="click"
+                        _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium rounded-lg transition-colors">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                   </svg>
@@ -132,4 +132,3 @@
     </div>
   </div>
 </section>
-

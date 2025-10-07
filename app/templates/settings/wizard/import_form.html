@@ -1,46 +1,44 @@
 {# templates/settings/wizard/import_form.html #}
 <section class="max-w-2xl mx-auto py-6">
   <div class="mb-6">
-    <h1 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
-      {{ _('Import Wizard Configuration') }}
-    </h1>
+    <h1 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{{ _("Import Wizard Configuration") }}</h1>
     <p class="text-gray-600 dark:text-gray-300">
-      {{ _('Import wizard steps or bundles from a JSON file to quickly set up or restore your wizard configuration.') }}
+      {{ _("Import wizard steps or bundles from a JSON file to quickly set up or restore your wizard configuration.") }}
     </p>
   </div>
-
   <form method="post" enctype="multipart/form-data" class="space-y-6">
     {{ form.hidden_tag() }}
-
     <!-- File Upload Section -->
     <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-      <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-        {{ _('Select JSON File') }}
-      </h2>
-      
+      <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">{{ _("Select JSON File") }}</h2>
       <div>
         {{ form.file.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
         <div class="flex items-center justify-center w-full">
-          <label for="{{ form.file.id }}" class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
+          <label for="{{ form.file.id }}"
+                 class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
             <div class="flex flex-col items-center justify-center pt-5 pb-6">
-              <svg class="w-10 h-10 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+              <svg class="w-10 h-10 mb-4 text-gray-500 dark:text-gray-400"
+                   aria-hidden="true"
+                   xmlns="http://www.w3.org/2000/svg"
+                   fill="none"
+                   viewBox="0 0 20 16">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
               </svg>
               <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                <span class="font-semibold">{{ _('Click to upload') }}</span> {{ _('or drag and drop') }}
+                <span class="font-semibold">{{ _("Click to upload") }}</span> {{ _("or drag and drop") }}
               </p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">{{ _('Steps or Bundle JSON files only (MAX. 10MB)') }}</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">{{ _("Steps or Bundle JSON files only (MAX. 10MB)") }}</p>
             </div>
             {{ form.file(class="hidden", accept=".json") }}
           </label>
         </div>
-        
         {% if form.file.errors %}
           <div class="mt-2 text-sm text-red-600 dark:text-red-400">
             {% for error in form.file.errors %}
               <p class="flex items-center gap-1">
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd">
+                  </path>
                 </svg>
                 {{ error }}
               </p>
@@ -49,13 +47,9 @@
         {% endif %}
       </div>
     </div>
-
     <!-- Import Options Section -->
     <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-      <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-        {{ _('Import Options') }}
-      </h2>
-      
+      <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">{{ _("Import Options") }}</h2>
       <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
         <div class="flex items-start">
           <div class="flex items-center h-5">
@@ -64,182 +58,183 @@
           <div class="ml-3 text-sm">
             {{ form.replace_existing.label(class="font-medium text-gray-900 dark:text-white") }}
             <p class="mt-1 text-gray-500 dark:text-gray-400">
-              {{ _('When checked, all existing wizard steps and bundles will be removed and replaced with the imported configuration. When unchecked, imported items will be added alongside existing ones.') }}
+              {{ _("When checked, all existing wizard steps and bundles will be removed and replaced with the imported configuration. When unchecked, imported items will be added alongside existing ones.") }}
             </p>
           </div>
         </div>
-        
         {% if form.replace_existing.errors %}
           <div class="mt-2 text-sm text-red-600 dark:text-red-400">
-            {% for error in form.replace_existing.errors %}
-              <p>{{ error }}</p>
-            {% endfor %}
+            {% for error in form.replace_existing.errors %}<p>{{ error }}</p>{% endfor %}
           </div>
         {% endif %}
       </div>
     </div>
-
     <!-- Warning Section -->
     <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
       <div class="flex">
-        <svg class="flex-shrink-0 w-5 h-5 text-amber-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+        <svg class="flex-shrink-0 w-5 h-5 text-amber-400 mt-0.5"
+             fill="currentColor"
+             viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd">
+          </path>
         </svg>
         <div class="ml-3">
-          <h3 class="text-sm font-medium text-amber-800 dark:text-amber-200">
-            {{ _('Important: Backup Recommended') }}
-          </h3>
+          <h3 class="text-sm font-medium text-amber-800 dark:text-amber-200">{{ _("Important: Backup Recommended") }}</h3>
           <div class="mt-2 text-sm text-amber-700 dark:text-amber-300">
-            <p>{{ _('This action will modify your wizard configuration. Consider the following:') }}</p>
+            <p>{{ _("This action will modify your wizard configuration. Consider the following:") }}</p>
             <ul class="mt-2 ml-4 space-y-1 list-disc">
-              <li>{{ _('Export your current steps and bundles first as a backup') }}</li>
+              <li>{{ _("Export your current steps and bundles first as a backup") }}</li>
               <li>{{ _('Imported steps will use the file\'s step ordering and server types') }}</li>
-              <li>{{ _('Imported bundles will preserve their step associations and ordering') }}</li>
-              <li>{{ _('If replacing existing configuration, all current steps and bundles will be permanently removed') }}</li>
-              <li>{{ _('Invalid or malformed JSON files will be rejected') }}</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Expected JSON Format Section -->
-    <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-      <div class="flex">
-        <svg class="flex-shrink-0 w-5 h-5 text-blue-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-        </svg>
-        <div class="ml-3">
-          <h3 class="text-sm font-medium text-blue-800 dark:text-blue-200">
-            {{ _('Expected JSON Format') }}
-          </h3>
-          <div class="mt-2 text-sm text-blue-700 dark:text-blue-300">
-            <p class="mb-2">{{ _('The JSON file can contain steps or bundles:') }}</p>
-            <div class="space-y-3">
-              <div>
-                <p class="font-medium mb-1">{{ _('For steps export:') }}</p>
-                <pre class="bg-blue-100 dark:bg-blue-800 p-2 rounded text-xs overflow-x-auto"><code>[
-  {
-    "server_type": "plex",
-    "title": "Step Title",
-    "markdown": "Step content in markdown",
-    "order": 1
-  },
-  ...
-]</code></pre>
-              </div>
-              <div>
-                <p class="font-medium mb-1">{{ _('For bundle export:') }}</p>
-                <pre class="bg-blue-100 dark:bg-blue-800 p-2 rounded text-xs overflow-x-auto"><code>{
-  "name": "Bundle Name",
-  "description": "Bundle description",
-  "steps": [
-    {
-      "title": "Step Title",
-      "markdown": "Step content in markdown",
-      "order": 1
-    },
-    ...
-  ]
-}</code></pre>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Form Actions -->
-    <div class="flex gap-3 justify-between">
-      <a href="{{ url_for('wizard_admin.list_steps') }}" 
-         class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
-        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-        </svg>
-        {{ _('Back to Steps') }}
-      </a>
-      
-      <button type="submit" 
-              class="inline-flex items-center px-6 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:ring-4 focus:outline-none focus:ring-primary/25 rounded-lg transition-colors">
-        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
-        </svg>
-        {{ _('Import Configuration') }}
-      </button>
-    </div>
-  </form>
-</section>
-
-<script>
-// Enhanced file upload with drag and drop feedback
-document.addEventListener('DOMContentLoaded', function() {
-    const fileInput = document.getElementById('{{ form.file.id }}');
-    const label = fileInput.closest('label');
-    
-    // File selection feedback
-    fileInput.addEventListener('change', function() {
-        if (this.files && this.files[0]) {
-            const file = this.files[0];
-            const fileName = file.name;
-            const fileSize = (file.size / 1024).toFixed(1) + ' KB';
-            const isValidType = file.type === 'application/json' || fileName.endsWith('.json');
-            
-            // Update the label content
-            const content = label.querySelector('.flex.flex-col');
-            const iconColor = isValidType ? 'text-green-500' : 'text-red-500';
-            const iconPath = isValidType ? 
-                'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' :
-                'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z';
-            
-            content.innerHTML = `
-                <svg class="w-10 h-10 mb-4 ${iconColor}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPath}"></path>
-                </svg>
-                <p class="mb-2 text-sm ${isValidType ? 'text-gray-700 dark:text-gray-300' : 'text-red-600 dark:text-red-400'}">
-                    <span class="font-semibold">${fileName}</span>
-                </p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">${fileSize}</p>
-                ${!isValidType ? '<p class="text-xs text-red-600 dark:text-red-400 mt-1">Invalid file type</p>' : ''}
-            `;
-            
-            // Update styling
-            label.classList.remove('border-gray-300', 'bg-gray-50', 'border-green-300', 'bg-green-50', 'border-red-300', 'bg-red-50');
-            if (isValidType) {
-                label.classList.add('border-green-300', 'bg-green-50', 'dark:bg-green-900/20');
-            } else {
-                label.classList.add('border-red-300', 'bg-red-50', 'dark:bg-red-900/20');
-            }
-        }
-    });
-
-    // Drag and drop styling
-    ['dragenter', 'dragover'].forEach(eventName => {
-        label.addEventListener(eventName, function(e) {
-            e.preventDefault();
-            this.classList.add('border-primary', 'bg-primary/5');
-        });
-    });
-
-    ['dragleave', 'drop'].forEach(eventName => {
-        label.addEventListener(eventName, function(e) {
-            e.preventDefault();
-            this.classList.remove('border-primary', 'bg-primary/5');
-        });
-    });
-
-    label.addEventListener('drop', function(e) {
-        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            fileInput.files = e.dataTransfer.files;
-            fileInput.dispatchEvent(new Event('change'));
-        }
-    });
-
-    // Form validation
-    const form = document.querySelector('form');
-    form.addEventListener('submit', function(e) {
-        if (!fileInput.files || !fileInput.files[0]) {
-            e.preventDefault();
-            alert('{{ _("Please select a JSON file to import.") }}');
+                              <li>{{ _('Imported bundles will preserve their step associations and ordering') }}</li>
+                              <li>{{ _('If replacing existing configuration, all current steps and bundles will be permanently removed') }}</li>
+                              <li>{{ _('Invalid or malformed JSON files will be rejected') }}</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Expected JSON Format Section -->
+                    <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                      <div class="flex">
+                        <svg class="flex-shrink-0 w-5 h-5 text-blue-400 mt-0.5"
+                             fill="currentColor"
+                             viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd">
+                          </path>
+                        </svg>
+                        <div class="ml-3">
+                          <h3 class="text-sm font-medium text-blue-800 dark:text-blue-200">{{ _('Expected JSON Format') }}</h3>
+                          <div class="mt-2 text-sm text-blue-700 dark:text-blue-300">
+                            <p class="mb-2">{{ _('The JSON file can contain steps or bundles:') }}</p>
+                            <div class="space-y-3">
+                              <div>
+                                <p class="font-medium mb-1">{{ _('For steps export:') }}</p>
+                                <pre class="bg-blue-100 dark:bg-blue-800 p-2 rounded text-xs overflow-x-auto"><code>[
+                  {
+                    "server_type": "plex",
+                    "title": "Step Title",
+                    "markdown": "Step content in markdown",
+                    "order": 1
+                  },
+                  ...
+                ]</code></pre>
+                              </div>
+                              <div>
+                                <p class="font-medium mb-1">{{ _('For bundle export:') }}</p>
+                                <pre class="bg-blue-100 dark:bg-blue-800 p-2 rounded text-xs overflow-x-auto"><code>{
+                  "name": "Bundle Name",
+                  "description": "Bundle description",
+                  "steps": [
+                    {
+                      "title": "Step Title",
+                      "markdown": "Step content in markdown",
+                      "order": 1
+                    },
+                    ...
+                  ]
+                }</code></pre>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Form Actions -->
+                    <div class="flex gap-3 justify-between">
+                      <a href="{{ url_for('wizard_admin.list_steps') }}"
+                         class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
+                        <svg class="w-4 h-4 mr-2"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        {{ _('Back to Steps') }}
+                      </a>
+                      <button type="submit"
+                              class="inline-flex items-center px-6 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:ring-4 focus:outline-none focus:ring-primary/25 rounded-lg transition-colors">
+                        <svg class="w-4 h-4 mr-2"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10">
+                          </path>
+                        </svg>
+                        {{ _('Import Configuration') }}
+                      </button>
+                    </div>
+                  </form>
+                </section>
+                <script>
+                // Enhanced file upload with drag and drop feedback
+                document.addEventListener('DOMContentLoaded', function() {
+                    const fileInput = document.getElementById('{{ form.file.id }}');
+                    const label = fileInput.closest('label');
+                    
+                    // File selection feedback
+                    fileInput.addEventListener('change', function() {
+                        if (this.files && this.files[0]) {
+                            const file = this.files[0];
+                            const fileName = file.name;
+                            const fileSize = (file.size / 1024).toFixed(1) + ' KB';
+                            const isValidType = file.type === 'application/json' || fileName.endsWith('.json');
+                            
+                            // Update the label content
+                            const content = label.querySelector('.flex.flex-col');
+                            const iconColor = isValidType ? 'text-green-500' : 'text-red-500';
+                            const iconPath = isValidType ? 
+                                'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' :
+                                'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z';
+                            
+                            content.innerHTML = `
+                                <svg class="w-10 h-10 mb-4 ${iconColor}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPath}"></path>
+                                </svg>
+                                <p class="mb-2 text-sm ${isValidType ? 'text-gray-700 dark:text-gray-300' : 'text-red-600 dark:text-red-400'}">
+                                    <span class="font-semibold">${fileName}</span>
+                                </p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">${fileSize}</p>
+                                ${!isValidType ? '<p class="text-xs text-red-600 dark:text-red-400 mt-1">Invalid file type</p>' : ''}
+                            `;
+                            
+                            // Update styling
+                            label.classList.remove('border-gray-300', 'bg-gray-50', 'border-green-300', 'bg-green-50', 'border-red-300', 'bg-red-50');
+                            if (isValidType) {
+                                label.classList.add('border-green-300', 'bg-green-50', 'dark:bg-green-900/20');
+                            } else {
+                                label.classList.add('border-red-300', 'bg-red-50', 'dark:bg-red-900/20');
+                            }
+                        }
+                    });
+                
+                    // Drag and drop styling
+                    ['dragenter', 'dragover'].forEach(eventName => {
+                        label.addEventListener(eventName, function(e) {
+                            e.preventDefault();
+                            this.classList.add('border-primary', 'bg-primary/5');
+                        });
+                    });
+                
+                    ['dragleave', 'drop'].forEach(eventName => {
+                        label.addEventListener(eventName, function(e) {
+                            e.preventDefault();
+                            this.classList.remove('border-primary', 'bg-primary/5');
+                        });
+                    });
+                
+                    label.addEventListener('drop', function(e) {
+                        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                            fileInput.files = e.dataTransfer.files;
+                            fileInput.dispatchEvent(new Event('change'));
+                        }
+                    });
+                
+                    // Form validation
+                    const form = document.querySelector('form');
+                    form.addEventListener('submit', function(e) {
+                        if (!fileInput.files || !fileInput.files[0]) {
+                            e.preventDefault();
+                            alert('{{ _("Please select a JSON file to import.") }}');
             return false;
         }
 

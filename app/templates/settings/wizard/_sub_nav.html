@@ -2,171 +2,165 @@
 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
   <!-- Segmented Control for Default/Custom -->
   <div class="inline-flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1 max-w-fit">
-    <button 
-      class="wizard-tab-btn px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 {{ 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm' if is_default else 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300' }}"
-      hx-get="{{ url_for('wizard_admin.list_steps') }}" 
-      hx-target="#tab-body" 
-      hx-swap="innerHTML"
-      data-tab="default"
-    >
+    <button class="wizard-tab-btn px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 {{ 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm' if is_default else 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300' }}"
+            hx-get="{{ url_for('wizard_admin.list_steps') }}"
+            hx-target="#tab-body"
+            hx-swap="innerHTML"
+            data-tab="default">
       <span class="flex items-center gap-2">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
         </svg>
-        {{ _('Default Steps') }}
+        {{ _("Default Steps") }}
       </span>
     </button>
-    <button 
-      class="wizard-tab-btn px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 {{ 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm' if not is_default else 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300' }}"
-      hx-get="{{ url_for('wizard_admin.list_bundles') }}" 
-      hx-target="#tab-body" 
-      hx-swap="innerHTML"
-      data-tab="custom"
-    >
+    <button class="wizard-tab-btn px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 {{ 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm' if not is_default else 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300' }}"
+            hx-get="{{ url_for('wizard_admin.list_bundles') }}"
+            hx-target="#tab-body"
+            hx-swap="innerHTML"
+            data-tab="custom">
       <span class="flex items-center gap-2">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
         </svg>
-        {{ _('Custom Bundles') }}
+        {{ _("Custom Bundles") }}
       </span>
     </button>
   </div>
-
   <!-- Action Buttons -->
   <div class="flex gap-2">
     <!-- Export/Import Dropdown -->
     <div class="relative" x-data="{ open: false }">
-      <button 
-        @click="open = !open"
-        @click.away="open = false"
-        class="inline-flex items-center gap-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded-lg transition-colors duration-200 shadow-sm"
-        type="button"
-      >
+      <button @click="open = !open"
+              @click.away="open = false"
+              class="inline-flex items-center gap-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded-lg transition-colors duration-200 shadow-sm"
+              type="button">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4">
+          </path>
         </svg>
-        {{ _('Import') }}
-        <svg class="w-4 h-4 ml-1 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M7 10l5 5 5-5z"/>
+        {{ _("Import") }}
+        <svg class="w-4 h-4 ml-1 transition-transform duration-200"
+             :class="{ 'rotate-180': open }"
+             fill="currentColor"
+             viewBox="0 0 24 24">
+          <path d="M7 10l5 5 5-5z" />
         </svg>
       </button>
-      
       <!-- Export/Import Dropdown Menu -->
-      <div 
-        x-show="open"
-        x-transition:enter="transition ease-out duration-100"
-        x-transition:enter-start="transform opacity-0 scale-95"
-        x-transition:enter-end="transform opacity-100 scale-100"
-        x-transition:leave="transition ease-in duration-75"
-        x-transition:leave-start="transform opacity-100 scale-100"
-        x-transition:leave-end="transform opacity-0 scale-95"
-        class="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-10"
-      >
+      <div x-show="open"
+           x-transition:enter="transition ease-out duration-100"
+           x-transition:enter-start="transform opacity-0 scale-95"
+           x-transition:enter-end="transform opacity-100 scale-100"
+           x-transition:leave="transition ease-in duration-75"
+           x-transition:leave-start="transform opacity-100 scale-100"
+           x-transition:leave-end="transform opacity-0 scale-95"
+           class="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-10">
         <div class="p-1">
           <!-- Import Section -->
           <div class="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 mb-1">
-            {{ _('Import') }}
+            {{ _("Import") }}
           </div>
-          <button 
-            hx-get="{{ url_for('wizard_admin.import_steps') }}"
-            hx-target="#step-modal" 
-            hx-trigger="click"
-            @click="open = false"
-            class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
-          >
+          <button hx-get="{{ url_for('wizard_admin.import_steps') }}"
+                  hx-target="#step-modal"
+                  hx-trigger="click"
+                  @click="open = false"
+                  class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
             <div class="flex-shrink-0 w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center">
-              <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l-3-3m3 3l3-3m-3 3V5M3 17v3a2 2 0 002 2h14a2 2 0 002-2v-3"></path>
+              <svg class="w-4 h-4 text-blue-500"
+                   fill="none"
+                   stroke="currentColor"
+                   viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l-3-3m3 3l3-3m-3 3V5M3 17v3a2 2 0 002 2h14a2 2 0 002-2v-3">
+                </path>
               </svg>
             </div>
             <div class="text-left">
-              <div class="font-medium">{{ _('Import Configuration') }}</div>
-              <div class="text-xs text-gray-500 dark:text-gray-400">{{ _('Import steps or bundles from JSON file') }}</div>
+              <div class="font-medium">{{ _("Import Configuration") }}</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("Import steps or bundles from JSON file") }}</div>
             </div>
           </button>
-          
         </div>
       </div>
     </div>
-
     <!-- Create Dropdown -->
     <div class="relative" x-data="{ open: false }">
-      <button 
-        @click="open = !open"
-        @click.away="open = false"
-        class="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium rounded-lg transition-colors duration-200 shadow-sm"
-        type="button"
-      >
+      <button @click="open = !open"
+              @click.away="open = false"
+              class="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium rounded-lg transition-colors duration-200 shadow-sm"
+              type="button">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
-        {{ _('Create') }}
-        <svg class="w-4 h-4 ml-1 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M7 10l5 5 5-5z"/>
+        {{ _("Create") }}
+        <svg class="w-4 h-4 ml-1 transition-transform duration-200"
+             :class="{ 'rotate-180': open }"
+             fill="currentColor"
+             viewBox="0 0 24 24">
+          <path d="M7 10l5 5 5-5z" />
         </svg>
       </button>
-      
       <!-- Dropdown Menu -->
-      <div 
-        x-show="open"
-        x-transition:enter="transition ease-out duration-100"
-        x-transition:enter-start="transform opacity-0 scale-95"
-        x-transition:enter-end="transform opacity-100 scale-100"
-        x-transition:leave="transition ease-in duration-75"
-        x-transition:leave-start="transform opacity-100 scale-100"
-        x-transition:leave-end="transform opacity-0 scale-95"
-        class="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-10"
-      >
+      <div x-show="open"
+           x-transition:enter="transition ease-out duration-100"
+           x-transition:enter-start="transform opacity-0 scale-95"
+           x-transition:enter-end="transform opacity-100 scale-100"
+           x-transition:leave="transition ease-in duration-75"
+           x-transition:leave-start="transform opacity-100 scale-100"
+           x-transition:leave-end="transform opacity-0 scale-95"
+           class="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-10">
         <div class="p-1">
-          <button 
-            hx-get="{% if is_default %}{{ url_for('wizard_admin.create_step') }}{% else %}{{ url_for('wizard_admin.create_step', simple=1) }}{% endif %}"
-            hx-target="#step-modal" 
-            hx-trigger="click"
-            @click="open = false"
-            class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
-          >
+          <button hx-get="{% if is_default %}
+                            {{ url_for("wizard_admin.create_step") }}
+                          {% else %}
+                            {{ url_for('wizard_admin.create_step', simple=1) }}
+                          {% endif %}"
+                  hx-target="#step-modal"
+                  hx-trigger="click"
+                  @click="open = false"
+                  class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
             <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
               <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
               </svg>
             </div>
             <div class="text-left">
-              <div class="font-medium">{{ _('Create Step') }}</div>
-              <div class="text-xs text-gray-500 dark:text-gray-400">{{ _('Add a new wizard step') }}</div>
+              <div class="font-medium">{{ _("Create Step") }}</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("Add a new wizard step") }}</div>
             </div>
           </button>
-          <button 
-            hx-get="{{ url_for('wizard_admin.create_preset') }}"
-            hx-target="#step-modal" 
-            hx-trigger="click"
-            @click="open = false"
-            class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
-          >
+          <button hx-get="{{ url_for('wizard_admin.create_preset') }}"
+                  hx-target="#step-modal"
+                  hx-trigger="click"
+                  @click="open = false"
+                  class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
             <div class="flex-shrink-0 w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center">
-              <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              <svg class="w-4 h-4 text-green-500"
+                   fill="currentColor"
+                   viewBox="0 0 24 24">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
             <div class="text-left">
-              <div class="font-medium">{{ _('Add Preset') }}</div>
-              <div class="text-xs text-gray-500 dark:text-gray-400">{{ _('Create step from template') }}</div>
+              <div class="font-medium">{{ _("Add Preset") }}</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("Create step from template") }}</div>
             </div>
           </button>
-          <button 
-            hx-get="{{ url_for('wizard_admin.create_bundle') }}"
-            hx-target="#step-modal" 
-            hx-trigger="click"
-            @click="open = false"
-            class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
-          >
+          <button hx-get="{{ url_for('wizard_admin.create_bundle') }}"
+                  hx-target="#step-modal"
+                  hx-trigger="click"
+                  @click="open = false"
+                  class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
             <div class="flex-shrink-0 w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center">
-              <svg class="w-4 h-4 text-secondary" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
+              <svg class="w-4 h-4 text-secondary"
+                   fill="currentColor"
+                   viewBox="0 0 24 24">
+                <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z" />
               </svg>
             </div>
             <div class="text-left">
-              <div class="font-medium">{{ _('Create Bundle') }}</div>
-              <div class="text-xs text-gray-500 dark:text-gray-400">{{ _('Create a collection of steps') }}</div>
+              <div class="font-medium">{{ _("Create Bundle") }}</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("Create a collection of steps") }}</div>
             </div>
           </button>
         </div>
@@ -174,5 +168,3 @@
     </div>
   </div>
 </div>
-
- 

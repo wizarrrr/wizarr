@@ -1,129 +1,119 @@
 {# Translation helper '_' is provided globally by Flask-Babel – no local override needed #}
-<div class="relative z-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full h-full min-h-0 flex flex-col" x-data>
-    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-        <!-- Icon -->
-        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14v7" />
-        </svg>
-        {{ _("Latest Accepted Invites") }}
-    </h2>
-
-    {% if recent_users %}
+<div class="relative z-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full h-full min-h-0 flex flex-col"
+     x-data>
+  <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+    <!-- Icon -->
+    <svg class="w-5 h-5 text-primary"
+         fill="none"
+         stroke="currentColor"
+         viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14v7" />
+    </svg>
+    {{ _("Latest Accepted Invites") }}
+  </h2>
+  {% if recent_users %}
     <div class="flex-1 overflow-y-auto min-h-0 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
-        <ul class="divide-y divide-gray-200 dark:divide-gray-700 pr-1">
+      <ul class="divide-y divide-gray-200 dark:divide-gray-700 pr-1">
         {% for user in recent_users %}
-        <li class="flex items-center py-1.5">
+          <li class="flex items-center py-1.5">
             <!-- User avatar -->
             {% if user.photo %}
-                <img src="{{ user.photo }}" alt="{{ user.username }}" class="w-6 h-6 rounded-full object-cover mr-2" />
+              <img src="{{ user.photo }}"
+                   alt="{{ user.username }}"
+                   class="w-6 h-6 rounded-full object-cover mr-2" />
             {% else %}
-                <span class="inline-flex items-center justify-center w-6 h-6 mr-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
-                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 2a5 5 0 100 10a5 5 0 000-10zm-7 16a7 7 0 0114 0H3z" />
-                    </svg>
-                </span>
+              <span class="inline-flex items-center justify-center w-6 h-6 mr-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 2a5 5 0 100 10a5 5 0 000-10zm-7 16a7 7 0 0114 0H3z" />
+                </svg>
+              </span>
             {% endif %}
-
             <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
-                    {{ user.username }}
-                </p>
-                <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {{ _("Recently joined") }}
-                </p>
+              <p class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ user.username }}</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ _("Recently joined") }}</p>
             </div>
-
             <div class="ml-1.5 flex items-center gap-1 flex-shrink-0">
-                {% if user.server %}
+              {% if user.server %}
                 <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
-                    {{ user.server.name }}
+                  {{ user.server.name }}
                 </span>
-                {% endif %}
+              {% endif %}
             </div>
-        </li>
+          </li>
         {% endfor %}
-        </ul>
+      </ul>
     </div>
-    {% elif invites %}
+  {% elif invites %}
     <!-- Fallback to old invitation-based display if recent_users not available -->
     <div class="flex-1 overflow-y-auto min-h-0 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
-        <ul class="divide-y divide-gray-200 dark:divide-gray-700 pr-1">
+      <ul class="divide-y divide-gray-200 dark:divide-gray-700 pr-1">
         {% for inv in invites %}
-        {% set all_users = inv.get_all_users() %}
-        {% for user in all_users %}
-        <li class="flex items-center py-1.5">
-            <!-- User avatar -->
-            {% if user.photo %}
-                <img src="{{ user.photo }}" alt="{{ user.username }}" class="w-6 h-6 rounded-full object-cover mr-2" />
-            {% else %}
+          {% set all_users = inv.get_all_users() %}
+          {% for user in all_users %}
+            <li class="flex items-center py-1.5">
+              <!-- User avatar -->
+              {% if user.photo %}
+                <img src="{{ user.photo }}"
+                     alt="{{ user.username }}"
+                     class="w-6 h-6 rounded-full object-cover mr-2" />
+              {% else %}
                 <span class="inline-flex items-center justify-center w-6 h-6 mr-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
-                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 2a5 5 0 100 10a5 5 0 000-10zm-7 16a7 7 0 0114 0H3z" />
-                    </svg>
+                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 2a5 5 0 100 10a5 5 0 000-10zm-7 16a7 7 0 0114 0H3z" />
+                  </svg>
                 </span>
-            {% endif %}
-
-            <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
-                    {{ user.username }}
-                </p>
+              {% endif %}
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ user.username }}</p>
                 <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {{ inv.used_at.strftime('%Y-%m-%d %H:%M') if inv.used_at else inv.created.strftime('%Y-%m-%d %H:%M') }}
+                  {{ inv.used_at.strftime("%Y-%m-%d %H:%M") if inv.used_at else inv.created.strftime('%Y-%m-%d %H:%M') }}
                 </p>
-            </div>
-
-            <div class="ml-1.5 flex items-center gap-1 flex-shrink-0">
+              </div>
+              <div class="ml-1.5 flex items-center gap-1 flex-shrink-0">
                 {% if user.server %}
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
                     {{ user.server.name }}
-                </span>
+                  </span>
                 {% endif %}
-            </div>
-        </li>
+              </div>
+            </li>
+          {% endfor %}
         {% endfor %}
-        {% endfor %}
-        </ul>
+      </ul>
     </div>
     <div class="mt-4 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-        {% set show_range = start_index and end_index and total %}
-        <div>
-            {% if show_range %}
-                Showing {{ start_index }}-{{ end_index }} of {{ total }}
-            {% endif %}
-        </div>
-        {% if total_pages and total_pages > 1 %}
+      {% set show_range = start_index and end_index and total %}
+      <div>
+        {% if show_range %}Showing {{ start_index }}-{{ end_index }} of {{ total }}{% endif %}
+      </div>
+      {% if total_pages and total_pages > 1 %}
         <div class="flex items-center gap-2">
-            <button
-                class="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed"
-                hx-get="/accepted-invites-card?page={{ page - 1 }}"
-                hx-target="#latestInvitesContainer"
-                hx-swap="innerHTML"
-                {% if page <= 1 %}disabled{% endif %}
-            >
-                Prev
-            </button>
-            <span>Page {{ page }} / {{ total_pages }}</span>
-            <button
-                class="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed"
-                hx-get="/accepted-invites-card?page={{ page + 1 }}"
-                hx-target="#latestInvitesContainer"
-                hx-swap="innerHTML"
-                {% if page >= total_pages %}disabled{% endif %}
-            >
-                Next
-            </button>
+          <button class="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                  hx-get="/accepted-invites-card?page={{ page - 1 }}"
+                  hx-target="#latestInvitesContainer"
+                  hx-swap="innerHTML"
+                  {% if page <= 1 %}disabled{% endif %}>Prev</button>
+          <span>Page {{ page }} / {{ total_pages }}</span>
+          <button class="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                  hx-get="/accepted-invites-card?page={{ page + 1 }}"
+                  hx-target="#latestInvitesContainer"
+                  hx-swap="innerHTML"
+                  {% if page >= total_pages %}disabled{% endif %}>Next</button>
         </div>
-        {% endif %}
+      {% endif %}
     </div>
-    {% else %}
+  {% else %}
     <div class="flex-1 flex items-center justify-center">
-        <div class="text-center text-gray-500 dark:text-gray-400">
-            <svg class="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14v7" />
-            </svg>
-            <p class="text-sm">{{ _("No recent invitations accepted") }}</p>
-            <p class="text-xs mt-1">{{ _("Accepted invitations will appear here") }}</p>
-        </div>
+      <div class="text-center text-gray-500 dark:text-gray-400">
+        <svg class="w-12 h-12 mx-auto mb-4"
+             fill="none"
+             stroke="currentColor"
+             viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14v7" />
+        </svg>
+        <p class="text-sm">{{ _("No recent invitations accepted") }}</p>
+        <p class="text-xs mt-1">{{ _("Accepted invitations will appear here") }}</p>
+      </div>
     </div>
-    {% endif %}
-</div> 
+  {% endif %}
+</div>

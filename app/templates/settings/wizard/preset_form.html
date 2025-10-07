@@ -1,49 +1,43 @@
 {# templates/settings/wizard/preset_form.html #}
 <section class="max-w-3xl mx-auto py-6">
-  <h1 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">
-    {{ _('Add Preset Wizard Step') }}
-  </h1>
-
+  <h1 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">{{ _("Add Preset Wizard Step") }}</h1>
   <form method="post" class="space-y-4">
-
     <div>
       {{ form.server_type.label(class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300") }}
       {{ form.server_type(class="w-full border rounded p-2 dark:bg-gray-700 dark:border-gray-600") }}
     </div>
-
     <div>
       {{ form.preset_id.label(class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300") }}
       {{ form.preset_id(class="w-full border rounded p-2 dark:bg-gray-700 dark:border-gray-600", id="preset-select") }}
     </div>
-
     <!-- Preset variable fields - shown/hidden based on selection -->
     <div id="discord-fields" class="preset-fields" style="display: none;">
       {{ form.discord_id.label(class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300") }}
       {{ form.discord_id(class="w-full border rounded p-2 dark:bg-gray-700 dark:border-gray-600", placeholder="123456789012345678") }}
-      <p class="text-xs text-gray-500 mt-1">{{ _('Your Discord server ID') }}</p>
+      <p class="text-xs text-gray-500 mt-1">{{ _("Your Discord server ID") }}</p>
     </div>
-
     <div id="overseerr-fields" class="preset-fields" style="display: none;">
       {{ form.overseerr_url.label(class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300") }}
       {{ form.overseerr_url(class="w-full border rounded p-2 dark:bg-gray-700 dark:border-gray-600", placeholder="https://overseerr.example.com") }}
-      <p class="text-xs text-gray-500 mt-1">{{ _('URL to your Overseerr/Ombi instance') }}</p>
+      <p class="text-xs text-gray-500 mt-1">{{ _("URL to your Overseerr/Ombi instance") }}</p>
     </div>
-
     <!-- Preset descriptions -->
-    <div id="preset-descriptions" class="text-sm text-gray-600 dark:text-gray-400">
+    <div id="preset-descriptions"
+         class="text-sm text-gray-600 dark:text-gray-400">
       {% for preset in presets %}
-      <div id="preset-desc-{{ preset.id }}" class="preset-description p-3 bg-gray-50 dark:bg-gray-800 rounded" style="display: none;">
-        <strong>{{ preset.name }}:</strong> {{ preset.description }}
-      </div>
+        <div id="preset-desc-{{ preset.id }}"
+             class="preset-description p-3 bg-gray-50 dark:bg-gray-800 rounded"
+             style="display: none">
+          <strong>{{ preset.name }}:</strong> {{ preset.description }}
+        </div>
       {% endfor %}
     </div>
-
     <div class="flex gap-2">
-      <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _('Create Step') }}</button>
-      <a href="{{ url_for('wizard_admin.list_steps') }}" class="ml-2 text-gray-600 hover:underline">{{ _('Cancel') }}</a>
+      <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _("Create Step") }}</button>
+      <a href="{{ url_for('wizard_admin.list_steps') }}"
+         class="ml-2 text-gray-600 hover:underline">{{ _("Cancel") }}</a>
     </div>
   </form>
-
   <script>
     // Show/hide preset fields based on selection
     document.getElementById('preset-select').addEventListener('change', function() {

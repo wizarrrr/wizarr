@@ -1,86 +1,84 @@
 <section class="py-8 bg-gray-50 dark:bg-gray-900 animate__animated animate__fadeIn animate__faster min-h-screen">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Header with New Invite button -->
-        <div class="flex justify-between items-center mb-8">
-            <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ _("Dashboard") }}</h1>
-            </div>
-            <button 
-                id="newInviteBtn"
-                class="bg-primary hover:bg-primary_hover text-white font-medium px-6 py-3 rounded-lg shadow-lg transition-all duration-200 flex items-center gap-2"
-                onclick="openInviteModal()"
-            >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                </svg>
-                {{ _("New Invite") }}
-            </button>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header with New Invite button -->
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ _("Dashboard") }}</h1>
+      </div>
+      <button id="newInviteBtn"
+              class="bg-primary hover:bg-primary_hover text-white font-medium px-6 py-3 rounded-lg shadow-lg transition-all duration-200 flex items-center gap-2"
+              onclick="openInviteModal()">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        {{ _("New Invite") }}
+      </button>
+    </div>
+    <!-- Dashboard Grid Layout -->
+    <div class="dashboard-content space-y-6">
+      <!-- Now Playing Section (adaptive height based on content) -->
+      <div id="nowPlayingSection"
+           class="transition-all duration-500 ease-in-out">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+            <svg class="w-6 h-6 text-primary"
+                 aria-hidden="true"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="24"
+                 height="24"
+                 fill="currentColor"
+                 viewBox="0 0 24 24">
+              <path fill-rule="evenodd" d="M8.6 5.2A1 1 0 0 0 7 6v12a1 1 0 0 0 1.6.8l8-6a1 1 0 0 0 0-1.6l-8-6Z" clip-rule="evenodd" />
+            </svg>
+            {{ _("Now Playing") }}
+          </h2>
         </div>
-
-        <!-- Dashboard Grid Layout -->
-        <div class="dashboard-content space-y-6">
-            
-            <!-- Now Playing Section (adaptive height based on content) -->
-            <div id="nowPlayingSection" class="transition-all duration-500 ease-in-out">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                        <svg class="w-6 h-6 text-primary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd" d="M8.6 5.2A1 1 0 0 0 7 6v12a1 1 0 0 0 1.6.8l8-6a1 1 0 0 0 0-1.6l-8-6Z" clip-rule="evenodd"/>
-                          </svg>
-                        {{ _("Now Playing") }}
-                    </h2>
-                </div>
-                
-                <div id="nowPlayingContent" 
-                     class="relative z-20"
-                     hx-get="/now-playing-cards"
-                     hx-trigger="load, every 10s"
-                     hx-swap="innerHTML settle:0ms">
-                    <!-- Now playing cards container -->
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                        <!-- Loading placeholder -->
-                        <div class="col-span-full flex justify-center items-center py-12">
-                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                        </div>
-                    </div>
-                </div>
+        <div id="nowPlayingContent"
+             class="relative z-20"
+             hx-get="/now-playing-cards"
+             hx-trigger="load, every 10s"
+             hx-swap="innerHTML settle:0ms">
+          <!-- Now playing cards container -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            <!-- Loading placeholder -->
+            <div class="col-span-full flex justify-center items-center py-12">
+              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             </div>
-
-            <!-- Widget Grid - main widgets row -->
-            <div id="widgetGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-6 transition-all duration-500 ease-in-out items-stretch lg:grid-rows-1">
-                <!-- Latest Accepted Invites Card -->
-                <div id="latestInvitesContainer"
-                     class="min-h-[400px]"
-                     hx-get="/accepted-invites-card"
-                     hx-trigger="load, every 30s"
-                     hx-swap="innerHTML">
-                    <!-- Loading placeholder -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 h-full flex items-center justify-center">
-                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto"></div>
-                    </div>
-                </div>
-
-                <!-- Server Health Card -->
-                <div id="serverHealthContainer"
-                     class="min-h-[400px]"
-                     hx-get="/server-health-card"
-                     hx-trigger="load, every 45s"
-                     hx-swap="innerHTML">
-                    <!-- Loading placeholder -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 h-full flex items-center justify-center">
-                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Removed additional widgets (Library Breakdown & Recent Content) -->
+          </div>
         </div>
-
+      </div>
+      <!-- Widget Grid - main widgets row -->
+      <div id="widgetGrid"
+           class="grid grid-cols-1 lg:grid-cols-2 gap-6 transition-all duration-500 ease-in-out items-stretch lg:grid-rows-1">
+        <!-- Latest Accepted Invites Card -->
+        <div id="latestInvitesContainer"
+             class="min-h-[400px]"
+             hx-get="/accepted-invites-card"
+             hx-trigger="load, every 30s"
+             hx-swap="innerHTML">
+          <!-- Loading placeholder -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 h-full flex items-center justify-center">
+            <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto"></div>
+          </div>
+        </div>
+        <!-- Server Health Card -->
+        <div id="serverHealthContainer"
+             class="min-h-[400px]"
+             hx-get="/server-health-card"
+             hx-trigger="load, every 45s"
+             hx-swap="innerHTML">
+          <!-- Loading placeholder -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 h-full flex items-center justify-center">
+            <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Removed additional widgets (Library Breakdown & Recent Content) -->
+    </div>
     <!-- Invite Modal Container -->
     <div id="invite-modal"></div>
-</section>
-
-<script>
+  </section>
+  <script>
 // Modal functions
 function openInviteModal() {
     // Load invite form into the modal container
@@ -252,9 +250,8 @@ document.addEventListener('htmx:afterSwap', function(evt) {
             
             // Removed adaptive additionalWidgets logic since those widgets are no longer present
         });
-        </script>
-
-<style>
+  </script>
+  <style>
 /* Ensure equal height cards in widget grid on desktop */
 @media (min-width: 1024px) {
     #widgetGrid {
@@ -337,4 +334,4 @@ document.addEventListener('htmx:afterSwap', function(evt) {
         transform: translateY(0) scale(1);
     }
 }
-</style> 
+  </style>

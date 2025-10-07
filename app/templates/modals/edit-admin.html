@@ -1,44 +1,59 @@
-<div class="relative modal-container" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 modal-backdrop transition-opacity"></div>
-
-    <div class="fixed inset-0 z-10 overflow-y-auto">
-        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md dark:bg-gray-800">
-                <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 dark:bg-gray-800">
-                    <div class="flex justify-between items-center pb-3">
-                        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            {{ _("Edit Administrator") }}
-                        </h1>
-                    </div>
-
-                    <form class="space-y-4 md:space-y-6" hx-post="{{ url_for('admin_accounts.edit_admin', admin_id=admin.id) }}" hx-target="#tab-body" hx-swap="innerHTML">
-                        {{ form.hidden_tag() }}
-                        <div>
-                            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username") }}</label>
-                            {{ form.username(class_="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
-                            {% for e in form.username.errors %}<p class="text-red-500 text-xs">{{ e }}</p>{% endfor %}
-                        </div>
-                        <div>
-                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("New Password (optional)") }}</label>
-                            {{ form.password(class_="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
-                            {% for e in form.password.errors %}<p class="text-red-500 text-xs">{{ e }}</p>{% endfor %}
-                        </div>
-                        <div>
-                            <label for="confirm" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Confirm password") }}</label>
-                            {{ form.confirm(class_="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
-                            {% for e in form.confirm.errors %}<p class="text-red-500 text-xs">{{ e }}</p>{% endfor %}
-                        </div>
-
-                        <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-gray-800">
-                            <button type="submit" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-primary_hover sm:ml-3 sm:w-auto">{{ _("Save") }}</button>
-                            <button onclick="closeModal()" type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">{{ _("Cancel") }}</button>
-                        </div>
-                    </form>
-                </div>
+<div class="relative modal-container"
+     aria-labelledby="modal-title"
+     role="dialog"
+     aria-modal="true">
+  <div class="fixed inset-0 modal-backdrop transition-opacity"></div>
+  <div class="fixed inset-0 z-10 overflow-y-auto">
+    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md dark:bg-gray-800">
+        <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 dark:bg-gray-800">
+          <div class="flex justify-between items-center pb-3">
+            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+              {{ _("Edit Administrator") }}
+            </h1>
+          </div>
+          <form class="space-y-4 md:space-y-6"
+                hx-post="{{ url_for('admin_accounts.edit_admin', admin_id=admin.id) }}"
+                hx-target="#tab-body"
+                hx-swap="innerHTML">
+            {{ form.hidden_tag() }}
+            <div>
+              <label for="username"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username") }}</label>
+              {{ form.username(class_="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
+              {% for e in form.username.errors %}<p class="text-red-500 text-xs">{{ e }}</p>{% endfor %}
             </div>
+            <div>
+              <label for="password"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                {{ _("New Password (optional)") }}
+              </label>
+              {{ form.password(class_="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
+              {% for e in form.password.errors %}<p class="text-red-500 text-xs">{{ e }}</p>{% endfor %}
+            </div>
+            <div>
+              <label for="confirm"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                {{ _("Confirm password") }}
+              </label>
+              {{ form.confirm(class_="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
+              {% for e in form.confirm.errors %}<p class="text-red-500 text-xs">{{ e }}</p>{% endfor %}
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-gray-800">
+              <button type="submit"
+                      class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-primary_hover sm:ml-3 sm:w-auto">
+                {{ _("Save") }}
+              </button>
+              <button onclick="closeModal()"
+                      type="button"
+                      class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+                {{ _("Cancel") }}
+              </button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
+  </div>
 </div>
-<script>
-function closeModal(){ document.getElementById('create-admin-modal').innerHTML=''; }
-</script> 
+<script>function closeModal(){ document.getElementById('create-admin-modal').innerHTML=''; }</script>

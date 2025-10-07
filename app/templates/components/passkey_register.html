@@ -1,24 +1,26 @@
-<div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center" style="z-index: 9999;">
-    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 m-4 max-w-md w-full">
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ _("Create Passkey") }}</h3>
-        
-        <div class="text-center">
-            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-4"></div>
-            <p class="text-gray-600 dark:text-gray-400 mb-2">{{ _("Creating passkey for") }} <strong>{{ name }}</strong></p>
-            <p class="text-sm text-gray-500 dark:text-gray-500">{{ _("Please follow your device's prompts to complete setup") }}</p>
-        </div>
-        
-        <div class="mt-6 flex justify-center">
-            <button hx-get="/webauthn/close-modal"
-                    hx-target="#passkey-modal-container"
-                    hx-swap="innerHTML"
-                    class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">
-                {{ _("Cancel") }}
-            </button>
-        </div>
+<div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center"
+     style="z-index: 9999">
+  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 m-4 max-w-md w-full">
+    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ _("Create Passkey") }}</h3>
+    <div class="text-center">
+      <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-4"></div>
+      <p class="text-gray-600 dark:text-gray-400 mb-2">
+        {{ _("Creating passkey for") }} <strong>{{ name }}</strong>
+      </p>
+      <p class="text-sm text-gray-500 dark:text-gray-500">
+        {{ _("Please follow your device's prompts to complete setup") }}
+      </p>
     </div>
+    <div class="mt-6 flex justify-center">
+      <button hx-get="/webauthn/close-modal"
+              hx-target="#passkey-modal-container"
+              hx-swap="innerHTML"
+              class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">
+        {{ _("Cancel") }}
+      </button>
+    </div>
+  </div>
 </div>
-
 <script>
 (function() {
     const options = {{ options | tojson }};

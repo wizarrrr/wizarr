@@ -1,93 +1,152 @@
-<div class="relative modal-container" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 modal-backdrop transition-opacity"></div>
-
-    <div class="fixed inset-0 z-10 overflow-y-auto ">
-        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 ">
-            <div
-                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 dark:bg-gray-800">
-                    <div class="flex justify-between items-center pb-3">
-                        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            {{ _("Edit Agent") }}
-                        </h1>
-                    </div>
-                    <p class="mt-2 pb-2 text-sm text-red-600 dark:text-red-500"><span
-                        class="font-medium">{{ error }}</span></p>
-                    <form class="space-y-4 md:space-y-6" hx-post="{{ url_for('notify.edit', agent_id=agent.id) }}"
-                          hx-target="#tab-body"
-                          hx-swap="innerHTML">
-                        <div>
-                            <label for="name"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Name") }}</label>
-                            <input type="text" name="name" id="name" value="{{ agent.name }}" placeholder='e.g. "My Agent"'
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                   required>
-                        </div>
-                        <div>
-                            <label for="notification_service"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Notification Service") }}</label>
-                            <select name="notification_service" id="notification_service"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    onchange="toggleService(this.value)">
-                                <option value="apprise" {% if agent.type == 'apprise' %}selected{% endif %}>Apprise</option>
-                                <option value="discord" {% if agent.type == 'discord' %}selected{% endif %}>Discord</option>
-                                <option value="notifiarr" {% if agent.type == 'notifiarr' %}selected{% endif %}>Notifiarr</option>
-                                <option value="ntfy" {% if agent.type == 'ntfy' %}selected{% endif %}>Ntfy</option>
-                            </select>
-                        </div>
-                        <div id="notifiarrSection" class="notificationAgentInfo" style="display: {% if agent.type == 'notifiarr' %}block{% else %}none{% endif %};">
-                            <label for="channel_id"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Channel ID") }}</label>
-                            <input type="text" name="channel_id" id="channel_id" value="{{ agent.channel_id or '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" {% if agent.type == 'notifiarr' %}required{% endif %} />
-                        </div>
-                        <div id="credentialsSection" class="notificationAgentInfo" style="display: {% if agent.type == 'ntfy' %}block{% else %}none{% endif %};">
-                            <label for="username"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Username (optional)") }}</label>
-                            <input type="text" name="username" id="username" value="{{ agent.username or '' }}"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <label for="password"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Password (optional)") }}</label>
-                            <input type="password" name="password" id="password" value="{{ agent.password or '' }}"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label for="url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Agent URL") }}</label>
-                            <input type="text" name="url" id="url" value="{{ agent.url }}" placeholder="e.g. https://example.com"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                   required>
-                        </div>
-
-                        <div>
-                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Notification Events") }}</label>
-                            <div class="space-y-2">
-                                {% set events = agent.notification_events.split(',') if agent.notification_events else [] %}
-                                <div class="flex items-center">
-                                    <input type="checkbox" name="event_user_joined" id="event_user_joined" value="user_joined" {% if 'user_joined' in events %}checked{% endif %}
-                                           class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="event_user_joined" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("User Joined") }}</label>
-                                </div>
-                                <div class="flex items-center">
-                                    <input type="checkbox" name="event_update_available" id="event_update_available" value="update_available" {% if 'update_available' in events %}checked{% endif %}
-                                           class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="event_update_available" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Update Available") }}</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-gray-800">
-                            <button type="submit"
-                                    class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-primary_hover sm:ml-3 sm:w-auto">
-                                {{ _("Test & Save Changes") }}
-                            </button>
-                            <button onclick="closeModal()" type="button"
-                                    class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
-                                {{ _("Cancel") }}
-                            </button>
-                        </div>
-                    </form>
-                </div>
+<div class="relative modal-container"
+     aria-labelledby="modal-title"
+     role="dialog"
+     aria-modal="true">
+  <div class="fixed inset-0 modal-backdrop transition-opacity"></div>
+  <div class="fixed inset-0 z-10 overflow-y-auto ">
+    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+        <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 dark:bg-gray-800">
+          <div class="flex justify-between items-center pb-3">
+            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+              {{ _("Edit Agent") }}
+            </h1>
+          </div>
+          <p class="mt-2 pb-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ error }}</span>
+          </p>
+          <form class="space-y-4 md:space-y-6"
+                hx-post="{{ url_for('notify.edit', agent_id=agent.id) }}"
+                hx-target="#tab-body"
+                hx-swap="innerHTML">
+            <div>
+              <label for="name"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Name") }}</label>
+              <input type="text"
+                     name="name"
+                     id="name"
+                     value="{{ agent.name }}"
+                     placeholder='e.g. "My Agent"'
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                     required>
             </div>
+            <div>
+              <label for="notification_service"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                {{ _("Notification Service") }}
+              </label>
+              <select name="notification_service"
+                      id="notification_service"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      onchange="toggleService(this.value)">
+                <option value="apprise" {% if agent.type == 'apprise' %}selected{% endif %}>Apprise</option>
+                <option value="discord" {% if agent.type == 'discord' %}selected{% endif %}>Discord</option>
+                <option value="notifiarr"
+                        {% if agent.type == 'notifiarr' %}selected{% endif %}>Notifiarr</option>
+                <option value="ntfy" {% if agent.type == 'ntfy' %}selected{% endif %}>Ntfy</option>
+              </select>
+            </div>
+            <div id="notifiarrSection"
+                 class="notificationAgentInfo"
+                 style="display:
+                        {% if agent.type == 'notifiarr' %}
+                          block
+                        {% else %}
+                          none
+                        {% endif %}">
+              <label for="channel_id"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Channel ID") }}</label>
+              <input type="text"
+                     name="channel_id"
+                     id="channel_id"
+                     value="{{ agent.channel_id or '' }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                     {% if agent.type == 'notifiarr' %}required{% endif %} />
+            </div>
+            <div id="credentialsSection"
+                 class="notificationAgentInfo"
+                 style="display:
+                        {% if agent.type == 'ntfy' %}
+                          block
+                        {% else %}
+                          none
+                        {% endif %}">
+              <label for="username"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                {{ _("Username (optional)") }}
+              </label>
+              <input type="text"
+                     name="username"
+                     id="username"
+                     value="{{ agent.username or '' }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <label for="password"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                {{ _("Password (optional)") }}
+              </label>
+              <input type="password"
+                     name="password"
+                     id="password"
+                     value="{{ agent.password or '' }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
+            <div>
+              <label for="url"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Agent URL") }}</label>
+              <input type="text"
+                     name="url"
+                     id="url"
+                     value="{{ agent.url }}"
+                     placeholder="e.g. https://example.com"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                     required>
+            </div>
+            <div>
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Notification Events") }}</label>
+              <div class="space-y-2">
+                {% set events = agent.notification_events.split(',') if agent.notification_events else [] %}
+                <div class="flex items-center">
+                  <input type="checkbox"
+                         name="event_user_joined"
+                         id="event_user_joined"
+                         value="user_joined"
+                         {% if 'user_joined' in events %}checked{% endif %}
+                         class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                  <label for="event_user_joined"
+                         class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    {{ _("User Joined") }}
+                  </label>
+                </div>
+                <div class="flex items-center">
+                  <input type="checkbox"
+                         name="event_update_available"
+                         id="event_update_available"
+                         value="update_available"
+                         {% if 'update_available' in events %}checked{% endif %}
+                         class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                  <label for="event_update_available"
+                         class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    {{ _("Update Available") }}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-gray-800">
+              <button type="submit"
+                      class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-primary_hover sm:ml-3 sm:w-auto">
+                {{ _("Test & Save Changes") }}
+              </button>
+              <button onclick="closeModal()"
+                      type="button"
+                      class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+                {{ _("Cancel") }}
+              </button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 <script>
     function closeModal() {
