@@ -854,19 +854,24 @@ def accepted_invites_card():
         invitation_servers.c.used.is_(True)
     )
 
-    # Build a flattened list of recent users from all invitations
+    # Query user-invitation pairs with proper timestamp ordering
     # This ensures pagination counts actual displayed entries, not just invitations
-    from app.models.users import User
+    from sqlalchemy import func
 
-    all_users = (
-        User.query.join(User.invitations)
-        .options(db.joinedload(User.server))
+    user_invite_pairs = (
+        db.session.query(
+            User.id,
+            func.coalesce(Invitation.used_at, Invitation.created).label("joined_at"),
+        )
+        .join(User.used_invitations)
         .filter(or_(Invitation.used.is_(True), Invitation.id.in_(used_invite_ids)))
-        .order_by(User.created.desc())
+        .order_by(
+            func.coalesce(Invitation.used_at, Invitation.created).desc(), User.id.desc()
+        )
         .all()
     )
 
-    total = len(all_users)
+    total = len(user_invite_pairs)
 
     if total == 0:
         page = 1
@@ -878,7 +883,22 @@ def accepted_invites_card():
         if page > total_pages:
             page = total_pages
         offset = (page - 1) * per_page
-        recent_users = all_users[offset : offset + per_page]
+        paginated_pairs = user_invite_pairs[offset : offset + per_page]
+
+        # Load full User objects for the paginated results
+        user_ids = [pair.id for pair in paginated_pairs]
+        recent_users = (
+            User.query.filter(User.id.in_(user_ids))
+            .options(db.joinedload(User.server))
+            .all()
+        )
+
+        # Create a dict to attach timestamps and sort users to match the pagination order
+        timestamps = {pair.id: pair.joined_at for pair in paginated_pairs}
+        user_order = {pair.id: idx for idx, pair in enumerate(paginated_pairs)}
+        recent_users.sort(key=lambda u: user_order.get(u.id, 999))
+        for user in recent_users:
+            user.joined_at = timestamps.get(user.id)
 
     start_index = offset + 1 if total else 0
     end_index = offset + len(recent_users)
