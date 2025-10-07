@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-06 03:42+0000\n"
+"POT-Creation-Date: 2025-10-07 03:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +17,42 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/admin/routes.py:282
+#: app/blueprints/admin/routes.py:307
 #: app/templates/admin/user_details_modal.html:47
 msgid "Unknown"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:285 app/templates/modals/invite.html:66
+#: app/blueprints/admin/routes.py:310 app/templates/modals/invite.html:66
 #: app/templates/tables/invite_card.html:45
 #: app/templates/tables/invite_card.html:189
 #: app/templates/tables/user_card.html:70
 msgid "Never"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:356 app/templates/tables/invite_card.html:26
+#: app/blueprints/admin/routes.py:381 app/templates/tables/invite_card.html:26
 msgid "Expired"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:364
+#: app/blueprints/admin/routes.py:389
 #, python-format
 msgid "in %(n)d d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:366
+#: app/blueprints/admin/routes.py:391
 msgid "in 1 d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:368
+#: app/blueprints/admin/routes.py:393
 #, python-format
 msgid "in %(n)d h"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:370
+#: app/blueprints/admin/routes.py:395
 #, python-format
 msgid "in %(n)d m"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:371
+#: app/blueprints/admin/routes.py:396
 msgid "soon"
 msgstr ""
 
@@ -137,7 +137,7 @@ msgstr ""
 msgid "Invalid form data: %(errors)s"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:270
+#: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:272
 msgid "Settings saved successfully!"
 msgstr ""
 
@@ -322,6 +322,7 @@ msgstr ""
 #: app/forms/settings.py:30 app/forms/settings.py:46
 #: app/templates/modals/invite.html:195 app/templates/modals/invite.html:211
 #: app/templates/modals/invite.html:222 app/templates/modals/invite.html:238
+#: app/templates/modals/invite.html:244
 msgid "Allow Downloads"
 msgstr ""
 
@@ -977,7 +978,7 @@ msgstr ""
 #: app/templates/components/admin_passkeys.html:58
 #: app/templates/components/admin_passkeys.html:72
 #: app/templates/components/passkey_error.html:17
-#: app/templates/modals/invite.html:332
+#: app/templates/modals/invite.html:338
 msgid "Close"
 msgstr ""
 
@@ -1033,7 +1034,7 @@ msgstr ""
 #: app/templates/admin/user_modal.html:127
 #: app/templates/modals/edit-admin.html:33
 #: app/templates/modals/edit-identity.html:26
-#: app/templates/modals/edit-server.html:104
+#: app/templates/modals/edit-server.html:103
 #: app/templates/modals/wizard-bundle-form.html:30
 #: app/templates/modals/wizard-simple-step-form.html:39
 #: app/templates/modals/wizard-step-form.html:136
@@ -1051,12 +1052,12 @@ msgstr ""
 #: app/templates/modals/create-admin.html:34
 #: app/templates/modals/create-api-key.html:66
 #: app/templates/modals/create-notification-agent.html:106
-#: app/templates/modals/create-server.html:103
+#: app/templates/modals/create-server.html:102
 #: app/templates/modals/edit-admin.html:34
 #: app/templates/modals/edit-identity.html:27
 #: app/templates/modals/edit-notification-agent.html:83
-#: app/templates/modals/edit-server.html:105
-#: app/templates/modals/invite.html:269
+#: app/templates/modals/edit-server.html:104
+#: app/templates/modals/invite.html:275
 #: app/templates/modals/wizard-bundle-form.html:29
 #: app/templates/modals/wizard-import-form.html:97
 #: app/templates/modals/wizard-preset-form.html:52
@@ -1343,7 +1344,7 @@ msgstr ""
 
 #: app/templates/modals/create-api-key.html:13
 #: app/templates/settings/api_keys.html:17
-#: app/templates/settings/general.html:190
+#: app/templates/settings/general.html:194
 msgid "Create API Key"
 msgstr ""
 
@@ -1427,7 +1428,7 @@ msgstr ""
 msgid "Add Server"
 msgstr ""
 
-#: app/templates/modals/create-server.html:102
+#: app/templates/modals/create-server.html:101
 msgid "Test & Add"
 msgstr ""
 
@@ -1468,7 +1469,7 @@ msgstr ""
 msgid "Edit Server"
 msgstr ""
 
-#: app/templates/modals/invite.html:10 app/templates/modals/invite.html:268
+#: app/templates/modals/invite.html:10 app/templates/modals/invite.html:274
 msgid "Create Invitation"
 msgstr ""
 
@@ -1555,35 +1556,35 @@ msgstr ""
 msgid "Allow Mobile Uploads"
 msgstr ""
 
-#: app/templates/modals/invite.html:250
+#: app/templates/modals/invite.html:256
 msgid "Select Libraries"
 msgstr ""
 
-#: app/templates/modals/invite.html:257 app/templates/modals/invite.html:372
+#: app/templates/modals/invite.html:263 app/templates/modals/invite.html:378
 msgid "Loading…"
 msgstr ""
 
-#: app/templates/modals/invite.html:280
+#: app/templates/modals/invite.html:286
 msgid "Successfully generated an Invitation!"
 msgstr ""
 
-#: app/templates/modals/invite.html:288
+#: app/templates/modals/invite.html:294
 msgid "Invitation Link"
 msgstr ""
 
-#: app/templates/modals/invite.html:307
+#: app/templates/modals/invite.html:313
 msgid "Copy"
 msgstr ""
 
-#: app/templates/modals/invite.html:315
+#: app/templates/modals/invite.html:321
 msgid "Link has been copied to clipboard!"
 msgstr ""
 
-#: app/templates/modals/invite.html:325
+#: app/templates/modals/invite.html:331
 msgid "Create Another"
 msgstr ""
 
-#: app/templates/modals/invite.html:382
+#: app/templates/modals/invite.html:388
 msgid "Please select at least one server for the invitation."
 msgstr ""
 
@@ -1820,77 +1821,81 @@ msgstr ""
 msgid "Configure your application's basic settings and preferences"
 msgstr ""
 
-#: app/templates/settings/general.html:35
+#: app/templates/settings/general.html:13
+msgid "Version"
+msgstr ""
+
+#: app/templates/settings/general.html:39
 msgid "Display"
 msgstr ""
 
-#: app/templates/settings/general.html:36
+#: app/templates/settings/general.html:40
 msgid "Configure how your application appears to users"
 msgstr ""
 
-#: app/templates/settings/general.html:62
+#: app/templates/settings/general.html:66
 msgid "Access Control"
 msgstr ""
 
-#: app/templates/settings/general.html:63
+#: app/templates/settings/general.html:67
 msgid "Manage user access and permissions"
 msgstr ""
 
-#: app/templates/settings/general.html:72
+#: app/templates/settings/general.html:76
 msgid "Control access to the wizard setup process"
 msgstr ""
 
-#: app/templates/settings/general.html:93
+#: app/templates/settings/general.html:97
 msgid "User Management"
 msgstr ""
 
-#: app/templates/settings/general.html:94
+#: app/templates/settings/general.html:98
 msgid "Configure how users are managed when invitations expire"
 msgstr ""
 
-#: app/templates/settings/general.html:119
+#: app/templates/settings/general.html:123
 msgid "Server Capabilities"
 msgstr ""
 
-#: app/templates/settings/general.html:123
+#: app/templates/settings/general.html:127
 msgid "Supports Disable:"
 msgstr ""
 
-#: app/templates/settings/general.html:134
+#: app/templates/settings/general.html:138
 msgid "Delete Only:"
 msgstr ""
 
-#: app/templates/settings/general.html:144
+#: app/templates/settings/general.html:148
 msgid ""
 "If 'Disable User' is selected but the server doesn't support it, the user"
 " will be deleted instead."
 msgstr ""
 
-#: app/templates/settings/general.html:152
+#: app/templates/settings/general.html:156
 msgid "Choose what happens to users when their invitation expires"
 msgstr ""
 
-#: app/templates/settings/general.html:170
+#: app/templates/settings/general.html:174
 msgid "API Key Management"
 msgstr ""
 
-#: app/templates/settings/general.html:171
+#: app/templates/settings/general.html:175
 msgid "Manage API keys for accessing Wizarr programmatically"
 msgstr ""
 
-#: app/templates/settings/general.html:179
+#: app/templates/settings/general.html:183
 msgid "Your API Keys"
 msgstr ""
 
-#: app/templates/settings/general.html:180
+#: app/templates/settings/general.html:184
 msgid "Create and manage API keys for external applications"
 msgstr ""
 
-#: app/templates/settings/general.html:201
+#: app/templates/settings/general.html:205
 msgid "Loading API keys..."
 msgstr ""
 
-#: app/templates/settings/general.html:214
+#: app/templates/settings/general.html:218
 msgid "Save Settings"
 msgstr ""
 
