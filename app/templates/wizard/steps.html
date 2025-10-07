@@ -533,6 +533,11 @@
 
             // Reinitialize HTMX
             htmx.process(this.wrapper);
+
+            // Reinitialize interaction gating for the new step
+            if (typeof attachInteractionGating === 'function') {
+                attachInteractionGating(this.wrapper);
+            }
         }
     };
 

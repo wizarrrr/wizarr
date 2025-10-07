@@ -178,14 +178,25 @@ function attachSortableLists(root = document) {
 
 // Attach Next-button gating that requires an interaction inside step content
 function attachInteractionGating(root = document) {
-  const next = root.querySelector('#next-btn');
-  if (!next) return;
-  if (next.dataset.interactionGatingAttached === '1') return;
-  next.dataset.interactionGatingAttached = '1';
+  // Handle both mobile and desktop next buttons (updated after button refactoring)
+  const mobileNext = root.querySelector('#wizard-next-btn');
+  const desktopNext = root.querySelector('#wizard-next-btn-desktop');
 
-  // Only activate if the server rendered this step as requiring interaction
-  if (next.dataset.disabled === '1') {
-    const content = root.querySelector('#wizard-wrapper .prose');
+  // Get all next buttons that exist
+  const nextButtons = [mobileNext, desktopNext].filter(btn => btn !== null);
+
+  if (nextButtons.length === 0) return;
+
+  // Check if any button requires interaction (they should all have same state)
+  const requiresInteraction = nextButtons.some(btn => btn.dataset.disabled === '1');
+  if (!requiresInteraction) return;
+
+  // Process each button
+  nextButtons.forEach(next => {
+    if (next.dataset.interactionGatingAttached === '1') return;
+    next.dataset.interactionGatingAttached = '1';
+
+    const content = root.querySelector('#wizard-wrapper .prose') || root.querySelector('#wizard-content .prose');
 
     // 1) Hard-disable HTMX by removing hx-get temporarily
     const savedHxGet = next.getAttribute('hx-get');
@@ -210,7 +221,19 @@ function attachInteractionGating(root = document) {
     next.addEventListener('click', clickBlocker, true);  // capture
     next.addEventListener('keydown', keyBlocker, true);  // capture
 
-    function enable() {
+    // 3) Apply disabled affordance & interaction lock
+    next.setAttribute('tabindex', '-1');
+    next.style.opacity = '0.6';
+    next.style.cursor = 'not-allowed';
+
+    // Store button-specific handlers for cleanup
+    next._clickBlocker = clickBlocker;
+    next._keyBlocker = keyBlocker;
+  });
+
+  // Shared enable function that enables ALL next buttons at once
+  function enableAllButtons() {
+    nextButtons.forEach(next => {
       // Restore HTMX capability first
       if (next.dataset.savedHxGet != null) {
         next.setAttribute('hx-get', next.dataset.savedHxGet);
@@ -224,26 +247,37 @@ function attachInteractionGating(root = document) {
       next.style.opacity = '';
       next.style.cursor = '';
 
-      // Remove blockers & listeners
-      next.removeEventListener('click', clickBlocker, true);
-      next.removeEventListener('keydown', keyBlocker, true);
-      if (content) content.removeEventListener('click', handler, true);
+      // Remove blockers using stored references
+      if (next._clickBlocker) {
+        next.removeEventListener('click', next._clickBlocker, true);
+        delete next._clickBlocker;
+      }
+      if (next._keyBlocker) {
+        next.removeEventListener('keydown', next._keyBlocker, true);
+        delete next._keyBlocker;
+      }
+    });
+
+    // Remove content listener
+    const content = root.querySelector('#wizard-wrapper .prose') || root.querySelector('#wizard-content .prose');
+    if (content && content._interactionHandler) {
+      content.removeEventListener('click', content._interactionHandler, true);
+      delete content._interactionHandler;
     }
+  }
 
-    function handler(ev) {
-      const t = ev.target;
-      if (!t) return;
-      if (t.closest && t.closest('a,button') !== null) enable();
-    }
+  // Single interaction handler for the content area
+  function handler(ev) {
+    const t = ev.target;
+    if (!t) return;
+    if (t.closest && t.closest('a,button') !== null) enableAllButtons();
+  }
 
-    // Listen for any click within the content that bubbles/captures from links/buttons
-    if (content) content.addEventListener('click', handler, true);
-
-    // 3) Apply disabled affordance & interaction lock
-    next.setAttribute('tabindex', '-1');
-    // Keep pointer events so the tooltip is visible while disabled
-    next.style.opacity = '0.6';
-    next.style.cursor = 'not-allowed';
+  // Listen for any click within the content that bubbles/captures from links/buttons
+  const content = root.querySelector('#wizard-wrapper .prose') || root.querySelector('#wizard-content .prose');
+  if (content) {
+    content.addEventListener('click', handler, true);
+    content._interactionHandler = handler; // Store for cleanup
   }
 }
 
