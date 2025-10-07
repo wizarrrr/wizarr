@@ -854,40 +854,38 @@ def accepted_invites_card():
         invitation_servers.c.used.is_(True)
     )
 
-    query = (
-        Invitation.query
-        # eager-load the user + primary server to avoid N+1 lookup
-        .options(
-            db.joinedload(Invitation.used_by),  # Keep for backward compatibility
-            db.joinedload(
-                Invitation.users
-            ),  # NEW: Load all users who used this invitation
-            db.joinedload(Invitation.server),
-            db.joinedload(Invitation.servers),
-        )
+    # Build a flattened list of recent users from all invitations
+    # This ensures pagination counts actual displayed entries, not just invitations
+    from app.models.users import User
+
+    all_users = (
+        User.query.join(User.invitations)
+        .options(db.joinedload(User.server))
         .filter(or_(Invitation.used.is_(True), Invitation.id.in_(used_invite_ids)))
-        .order_by(Invitation.used_at.desc().nullslast(), Invitation.created.desc())
+        .order_by(User.created.desc())
+        .all()
     )
 
-    total = query.count()
+    total = len(all_users)
 
     if total == 0:
         page = 1
         total_pages = 1
         offset = 0
+        recent_users = []
     else:
         total_pages = max(math.ceil(total / per_page), 1)
         if page > total_pages:
             page = total_pages
         offset = (page - 1) * per_page
+        recent_users = all_users[offset : offset + per_page]
 
-    invites = query.offset(offset).limit(per_page).all()
     start_index = offset + 1 if total else 0
-    end_index = offset + len(invites)
+    end_index = offset + len(recent_users)
 
     return render_template(
         "admin/accepted_invites_card.html",
-        invites=invites,
+        recent_users=recent_users,
         page=page,
         per_page=per_page,
         total=total,
