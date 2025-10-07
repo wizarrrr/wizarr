@@ -266,7 +266,7 @@ class TestAPIAdmins:
         assert "count" in data
         assert data["count"] == len(data["admins"])
 
-        # Check user data structure
+        # Check admin data structure
         if data["admins"]:
             admin = data["admins"][0]
             assert "id" in admin
