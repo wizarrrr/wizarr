@@ -231,24 +231,41 @@
         },
 
         updateProgress(idx, maxIdx) {
-            const percentage = ((idx + 1) / (maxIdx + 1)) * 100;
+        const percentage = ((idx + 1) / (maxIdx + 1)) * 100;
 
-            // Update progress bars
-            ['progress-bar-mobile', 'progress-bar-desktop'].forEach(id => {
-                const bar = document.getElementById(id);
-                if (bar) bar.style.width = `${percentage}%`;
-            });
+        // Update progress bars
+        ['progress-bar-mobile', 'progress-bar-desktop'].forEach(id => {
+          const bar = document.getElementById(id);
+          if (bar) bar.style.width = `${percentage}%`;
+        });
 
-            // Update text - find spans by content pattern
-            document.querySelectorAll('#wizard-progress-mobile span, #wizard-progress-desktop span').forEach(span => {
-                const text = span.textContent.trim();
-                if (text.match(/Step \d+/)) {
-                    span.textContent = `Step ${idx + 1} of ${maxIdx + 1}`;
-                } else if (text.match(/\d+%/)) {
-                    span.textContent = `${Math.round(percentage)}%`;
-                }
-            });
-        },
+        // Update text using direct child access
+        ['wizard-progress-mobile', 'wizard-progress-desktop'].forEach(id => {
+          const container = document.getElementById(id);
+          if (container) {
+            const flexDiv = container.querySelector('.flex');
+            if (flexDiv) {
+              const stepSpan = flexDiv.children[0];
+              const percentageSpan = flexDiv.children[1];
+
+              if (stepSpan) {
+                // Preserve the localized text pattern, just update the numbers
+                const currentText = stepSpan.textContent || '';
+                // Replace numbers: first occurrence is current step, second is total steps
+                let numberCount = 0;
+                const updatedText = currentText.replace(/\d+/g, () => {
+                  numberCount++;
+                  return numberCount === 1 ? `${idx + 1}` : `${maxIdx + 1}`;
+                });
+                stepSpan.textContent = updatedText;
+              }
+              if (percentageSpan) {
+                percentageSpan.textContent = `${Math.round(percentage)}%`;
+              }
+            }
+          }
+        });
+      },
 
         updateButtons(idx, maxIdx, serverType, requireInteraction) {
             const buttonConfigs = [{
