@@ -404,28 +404,12 @@ def image_proxy():
     server_id = mapping.get("server_id")
 
     try:
-        # Prepare headers for authenticated requests
-        headers = {}
+        # Prepare headers for authenticated requests (cached per server)
+        headers = ImageProxyService.get_server_headers(server_id).copy()
 
-        # If we have a server_id, use it to get auth credentials
-        if server_id:
-            from app.models import MediaServer
-
-            server = MediaServer.query.get(server_id)
-            if server and server.api_key:
-                if server.server_type == "audiobookshelf":
-                    headers["Authorization"] = f"Bearer {server.api_key}"
-                elif server.server_type == "jellyfin":
-                    headers["X-MediaBrowser-Token"] = server.api_key
-                elif server.server_type == "emby":
-                    headers["X-Emby-Token"] = server.api_key
-                elif server.server_type == "plex":
-                    headers["X-Plex-Token"] = server.api_key
-                elif server.server_type == "komga":
-                    headers["X-API-Key"] = server.api_key
-
-        # Fetch the image
-        r = requests.get(url, headers=headers, timeout=10, stream=True)
+        # Fetch the image using a pooled session to reuse TCP/TLS handshakes
+        session = ImageProxyService.get_session(url, server_id)
+        r = session.get(url, headers=headers, timeout=(5, 15))
         r.raise_for_status()
         content_type = r.headers.get("Content-Type", "image/jpeg")
         image_data = r.content
@@ -437,5 +421,7 @@ def image_proxy():
         resp.headers["Cache-Control"] = "public, max-age=3600"
         return resp
 
+    except requests.RequestException:
+        return Response(status=502)
     except Exception:
         return Response(status=502)

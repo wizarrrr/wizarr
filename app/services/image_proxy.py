@@ -9,9 +9,16 @@ import base64
 import hashlib
 import hmac
 import json
+import threading
 import time
+from collections import OrderedDict
+from collections.abc import Hashable
+from typing import Any
+from urllib.parse import urlparse
 
+import requests
 from flask import current_app
+from requests.adapters import HTTPAdapter
 
 
 class ImageProxyService:
@@ -21,13 +28,29 @@ class ImageProxyService:
     # Structure: {token: {"url": str, "timestamp": float, "server_id": int}}
     _token_cache: dict[str, dict] = {}
 
-    # Cache for image data
-    # Structure: {token: {"data": bytes, "content_type": str, "timestamp": float}}
-    _image_cache: dict[str, dict] = {}
+    # Cache for image data (in-memory LRU with byte and count limits)
+    # Structure: OrderedDict[token] = {"data": bytes, "content_type": str, "timestamp": float, "size": int}
+    _image_cache: OrderedDict[str, dict[str, Any]] = OrderedDict()
+    _image_cache_lock = threading.Lock()
+    _total_image_bytes = 0
+
+    # Cache for auth headers per media server
+    _server_header_cache: dict[int, dict[str, Any]] = {}
+    _server_header_cache_lock = threading.Lock()
+
+    # Connection pool per server/host
+    _session_cache: OrderedDict[Hashable, dict[str, Any]] = OrderedDict()
+    _session_cache_lock = threading.Lock()
 
     TOKEN_EXPIRY = 3600  # 1 hour
     IMAGE_CACHE_EXPIRY = 3600  # 1 hour
-    MAX_CACHE_SIZE = 200  # Max number of cached images
+    IMAGE_CACHE_MAX_ENTRIES = 300
+    IMAGE_CACHE_MAX_BYTES = 20 * 1024 * 1024  # 20 MB
+    IMAGE_CACHE_MAX_SINGLE_BYTES = 4 * 1024 * 1024  # Skip caching images >4 MB
+    SERVER_HEADER_TTL = 300  # 5 minutes
+    SESSION_CACHE_MAX_ENTRIES = 12
+
+    _token_cache_lock = threading.Lock()
 
     @classmethod
     def _get_secret(cls) -> bytes:
@@ -75,14 +98,13 @@ class ImageProxyService:
         token = f"{signature}.{payload_b64}"
 
         # Also store in cache for faster lookups (optional optimization)
-        cls._token_cache[token] = {
-            "url": url,
-            "timestamp": current_time,
-            "server_id": server_id,
-        }
-
-        # Clean up old tokens
-        cls._cleanup_token_cache()
+        with cls._token_cache_lock:
+            cls._token_cache[token] = {
+                "url": url,
+                "timestamp": current_time,
+                "server_id": server_id,
+            }
+            cls._cleanup_token_cache_locked()
 
         return token
 
@@ -101,7 +123,8 @@ class ImageProxyService:
             return None
 
         # Check cache first for performance (optional optimization)
-        cached_mapping = cls._token_cache.get(token)
+        with cls._token_cache_lock:
+            cached_mapping = cls._token_cache.get(token)
         if cached_mapping:
             current_time = time.time()
             if current_time - cached_mapping["timestamp"] < cls.TOKEN_EXPIRY:
@@ -143,11 +166,12 @@ class ImageProxyService:
             return None
 
         # Cache the validated token for future requests
-        cls._token_cache[token] = {
-            "url": payload["url"],
-            "timestamp": time.time(),
-            "server_id": payload.get("server_id"),
-        }
+        with cls._token_cache_lock:
+            cls._token_cache[token] = {
+                "url": payload["url"],
+                "timestamp": time.time(),
+                "server_id": payload.get("server_id"),
+            }
 
         return {"url": payload["url"], "server_id": payload.get("server_id")}
 
@@ -159,36 +183,131 @@ class ImageProxyService:
         Returns:
             Dict with 'data' and 'content_type' if cached, None otherwise
         """
-        cached = cls._image_cache.get(token)
-        if not cached:
-            return None
+        with cls._image_cache_lock:
+            cached = cls._image_cache.get(token)
+            if not cached:
+                return None
 
-        # Check expiry
-        if time.time() - cached["timestamp"] > cls.IMAGE_CACHE_EXPIRY:
-            del cls._image_cache[token]
-            return None
+            # Check expiry
+            if time.time() - cached["timestamp"] > cls.IMAGE_CACHE_EXPIRY:
+                cls._evict_image_locked(token)
+                return None
 
-        return {"data": cached["data"], "content_type": cached["content_type"]}
+            # Move to end to mark as recently used
+            cls._image_cache.move_to_end(token)
+
+            return {
+                "data": cached["data"],
+                "content_type": cached["content_type"],
+            }
 
     @classmethod
     def cache_image(cls, token: str, data: bytes, content_type: str) -> None:
         """Cache image data for a token."""
-        cls._image_cache[token] = {
-            "data": data,
-            "content_type": content_type,
-            "timestamp": time.time(),
-        }
+        image_size = len(data)
+        if image_size > cls.IMAGE_CACHE_MAX_SINGLE_BYTES:
+            return
 
-        # Clean up old cache entries (simple LRU)
-        if len(cls._image_cache) > cls.MAX_CACHE_SIZE:
-            oldest_token = min(
-                cls._image_cache.keys(),
-                key=lambda k: cls._image_cache[k]["timestamp"],
-            )
-            del cls._image_cache[oldest_token]
+        with cls._image_cache_lock:
+            existing = cls._image_cache.pop(token, None)
+            if existing:
+                cls._total_image_bytes -= existing.get("size", 0)
+                if cls._total_image_bytes < 0:
+                    cls._total_image_bytes = 0
+
+            cls._image_cache[token] = {
+                "data": data,
+                "content_type": content_type,
+                "timestamp": time.time(),
+                "size": image_size,
+            }
+            cls._image_cache.move_to_end(token)
+            cls._total_image_bytes += image_size
+            cls._enforce_image_cache_limits_locked()
 
     @classmethod
-    def _cleanup_token_cache(cls) -> None:
+    def get_server_headers(cls, server_id: int | None) -> dict[str, str]:
+        """Return cached auth headers for a media server."""
+        if not server_id:
+            return {}
+
+        now = time.time()
+        with cls._server_header_cache_lock:
+            cached = cls._server_header_cache.get(server_id)
+            if cached and (now - cached["timestamp"] < cls.SERVER_HEADER_TTL):
+                return cached["headers"]
+
+        from app.models import MediaServer  # Local import to avoid circulars
+
+        server = MediaServer.query.get(server_id)
+        headers: dict[str, str] = {}
+        if server and server.api_key:
+            if server.server_type == "audiobookshelf":
+                headers["Authorization"] = f"Bearer {server.api_key}"
+            elif server.server_type == "jellyfin":
+                headers["X-MediaBrowser-Token"] = server.api_key
+            elif server.server_type == "emby":
+                headers["X-Emby-Token"] = server.api_key
+            elif server.server_type == "plex":
+                headers["X-Plex-Token"] = server.api_key
+            elif server.server_type == "komga":
+                headers["X-API-Key"] = server.api_key
+
+        with cls._server_header_cache_lock:
+            cls._server_header_cache[server_id] = {
+                "headers": headers,
+                "timestamp": now,
+            }
+
+        return headers
+
+    @classmethod
+    def get_session(cls, url: str, server_id: int | None) -> requests.Session:
+        """Return a pooled requests Session keyed by server_id/host."""
+        cache_key = cls._session_cache_key(url, server_id)
+
+        with cls._session_cache_lock:
+            entry = cls._session_cache.get(cache_key)
+            if entry:
+                entry["last_used"] = time.time()
+                cls._session_cache.move_to_end(cache_key)
+                return entry["session"]
+
+            session = requests.Session()
+            adapter = HTTPAdapter(pool_connections=4, pool_maxsize=8)
+            session.mount("http://", adapter)
+            session.mount("https://", adapter)
+
+            cls._session_cache[cache_key] = {
+                "session": session,
+                "last_used": time.time(),
+            }
+            cls._session_cache.move_to_end(cache_key)
+            cls._trim_session_cache_locked()
+            return session
+
+    @classmethod
+    def _session_cache_key(
+        cls, url: str, server_id: int | None
+    ) -> tuple[str, Hashable]:
+        if server_id:
+            return ("server", server_id)
+
+        parsed = urlparse(url)
+        host = (parsed.scheme or "http", parsed.netloc)
+        return ("host", host)
+
+    @classmethod
+    def _trim_session_cache_locked(cls) -> None:
+        """Ensure we do not keep more sessions than required."""
+        while len(cls._session_cache) > cls.SESSION_CACHE_MAX_ENTRIES:
+            key, entry = cls._session_cache.popitem(last=False)
+            session = entry.get("session")
+            if session:
+                session.close()
+
+    @classmethod
+    def _cleanup_token_cache_locked(cls) -> None:
         """Remove expired tokens from cache."""
         current_time = time.time()
         expired = [
@@ -198,3 +317,36 @@ class ImageProxyService:
         ]
         for token in expired:
             del cls._token_cache[token]
+
+    @classmethod
+    def _evict_image_locked(cls, token: str) -> None:
+        """Remove image cache entry and update counters (expects lock held)."""
+        cached = cls._image_cache.pop(token, None)
+        if cached:
+            cls._total_image_bytes -= cached.get("size", 0)
+            if cls._total_image_bytes < 0:
+                cls._total_image_bytes = 0
+
+    @classmethod
+    def _enforce_image_cache_limits_locked(cls) -> None:
+        """Evict old images until count and byte limits are satisfied."""
+        current_time = time.time()
+
+        # Remove expired entries first
+        expired_tokens = [
+            token
+            for token, details in cls._image_cache.items()
+            if current_time - details["timestamp"] > cls.IMAGE_CACHE_EXPIRY
+        ]
+        for token in expired_tokens:
+            cls._evict_image_locked(token)
+
+        # Enforce entry count
+        while len(cls._image_cache) > cls.IMAGE_CACHE_MAX_ENTRIES:
+            oldest_token = next(iter(cls._image_cache))
+            cls._evict_image_locked(oldest_token)
+
+        # Enforce byte size
+        while cls._total_image_bytes > cls.IMAGE_CACHE_MAX_BYTES and cls._image_cache:
+            oldest_token = next(iter(cls._image_cache))
+            cls._evict_image_locked(oldest_token)
