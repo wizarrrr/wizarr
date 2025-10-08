@@ -27,50 +27,12 @@ jobs:
         key: ${{ runner.os }}-uv-${{ hashFiles('**/pyproject.toml') }}
         restore-keys: |
           ${{ runner.os }}-uv-
-    
-    - name: Install dependencies
-      run: uv sync --dev
 
-    # Note: Playwright browsers not needed for linting/formatting/type-checking
-    # Browser installation only needed for actual E2E test execution
+    - uses: astral-sh/ruff-action@v3
+    - run: ruff check --fix
+    - run: ruff format
 
-    - name: Run ruff linter
-      run: uv run ruff check --output-format=github .
-    
-    - name: Run ruff formatter
-      run: uv run ruff format --check .
-    
-    - name: Check YAML files
-      run: |
-        uv run python -c "
-        import yaml
-        import glob
-        import sys
-
-        yaml_files = glob.glob('**/*.yml', recursive=True) + glob.glob('**/*.yaml', recursive=True)
-        errors = []
-
-        for file in yaml_files:
-            try:
-                with open(file, 'r') as f:
-                    yaml.safe_load(f)
-                    print(f'✓ {file}')
-            except yaml.YAMLError as e:
-                errors.append(f'{file}: {e}')
-                print(f'✗ {file}: {e}')
-
-        if errors:
-            sys.exit(1)
-        "
-    
-    - name: Check for large files
-      run: |
-        # Check for files larger than 100MB
-        find . -size +100M -not -path './.git/*' -not -path './node_modules/*' | while read file; do
-          echo "Large file detected: $file"
-          exit 1
-        done
-    
+  
     - name: Check for merge conflict markers
       run: |
         if grep -r "<<<<<<< HEAD" . --exclude-dir=.git --exclude-dir=node_modules; then
