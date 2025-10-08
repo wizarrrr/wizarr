@@ -8,21 +8,22 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-09-22 13:02+0000\n"
-"PO-Revision-Date: 2023-02-27 18:42+0000\n"
-"Last-Translator: 江海炎 <jiang948502378@gmail.com>\n"
+"PO-Revision-Date: 2025-10-08 13:07+0000\n"
+"Last-Translator: 刘付苏 <liufusucc@gmail.com>\n"
+"Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
+"projects/wizarr/wizarr-universal/zh_Hans/>\n"
 "Language: zh_Hans\n"
-"Language-Team: Chinese (Simplified) "
-"<https://hosted.weblate.org/projects/wizarr/app/zh_Hans/>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.14-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/blueprints/admin/routes.py:282
 #: app/templates/admin/user_details_modal.html:47
 msgid "Unknown"
-msgstr ""
+msgstr "未确认"
 
 #: app/blueprints/admin/routes.py:285 app/templates/modals/invite.html:66
 #: app/templates/tables/invite_card.html:45
@@ -38,54 +39,53 @@ msgstr "已到期"
 #: app/blueprints/admin/routes.py:364
 #, python-format
 msgid "in %(n)d d"
-msgstr ""
+msgstr "还有 %(n) d 天"
 
 #: app/blueprints/admin/routes.py:366
 msgid "in 1 d"
-msgstr ""
+msgstr "还有 1 天"
 
 #: app/blueprints/admin/routes.py:368
 #, python-format
 msgid "in %(n)d h"
-msgstr ""
+msgstr "还有 n小时"
 
 #: app/blueprints/admin/routes.py:370
 #, python-format
 msgid "in %(n)d m"
-msgstr ""
+msgstr "%(n)d米"
 
 #: app/blueprints/admin/routes.py:371
 msgid "soon"
-msgstr ""
+msgstr "很快"
 
 #: app/blueprints/admin_accounts/routes.py:40
-#, fuzzy
 msgid "Admin created"
-msgstr "创建"
+msgstr "管理员创建"
 
 #: app/blueprints/admin_accounts/routes.py:66
 msgid "Admin updated"
-msgstr ""
+msgstr "管理员更新"
 
 #: app/blueprints/admin_accounts/routes.py:166
 #, python-brace-format
 msgid "All passkeys for {} have been reset"
-msgstr ""
+msgstr "{} 的所有密钥已重置"
 
 #: app/blueprints/admin_accounts/routes.py:170
 #, python-brace-format
 msgid "Failed to reset passkeys for {}"
-msgstr ""
+msgstr "{} 的密钥重置失败"
 
 #: app/blueprints/api_keys/routes.py:68
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown "
 "again."
-msgstr ""
+msgstr "API 密钥创建成功。请立即复制，此密钥后续将不再显示。"
 
 #: app/blueprints/api_keys/routes.py:110
 msgid "API key deleted successfully"
-msgstr ""
+msgstr "API 密钥删除成功"
 
 #: app/blueprints/auth/routes.py:85
 #, fuzzy
@@ -94,7 +94,7 @@ msgstr "用户名或密码错误"
 
 #: app/blueprints/auth/routes.py:105
 msgid "No pending 2FA authentication"
-msgstr ""
+msgstr "无待处理的双重身份验证"
 
 #: app/blueprints/auth/routes.py:119 app/templates/login.html:150
 #: app/templates/login.html:209 app/templates/login.html:213
@@ -2767,4 +2767,3 @@ msgstr ""
 
 #~ msgid "Available"
 #~ msgstr "允许的"
-

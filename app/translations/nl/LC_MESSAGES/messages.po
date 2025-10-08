@@ -8,21 +8,22 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-09-22 13:02+0000\n"
-"PO-Revision-Date: 2025-05-24 08:58+0000\n"
-"Last-Translator: Ben Avermate <weblate@benavermate.be>\n"
+"PO-Revision-Date: 2025-10-08 13:07+0000\n"
+"Last-Translator: Ernst Murk <ernstmurk@casema.nl>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/nl/>\n"
 "Language: nl\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/wizarr-"
-"universal/nl/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.14-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/blueprints/admin/routes.py:282
 #: app/templates/admin/user_details_modal.html:47
 msgid "Unknown"
-msgstr ""
+msgstr "Onbekend"
 
 #: app/blueprints/admin/routes.py:285 app/templates/modals/invite.html:66
 #: app/templates/tables/invite_card.html:45
@@ -56,36 +57,37 @@ msgstr ""
 
 #: app/blueprints/admin/routes.py:371
 msgid "soon"
-msgstr ""
+msgstr "binnenkort"
 
 #: app/blueprints/admin_accounts/routes.py:40
-#, fuzzy
 msgid "Admin created"
-msgstr "Aangemaakt"
+msgstr "Beheerder aangemaakt"
 
 #: app/blueprints/admin_accounts/routes.py:66
 msgid "Admin updated"
-msgstr ""
+msgstr "Beheerder bijgewerkt"
 
 #: app/blueprints/admin_accounts/routes.py:166
 #, python-brace-format
 msgid "All passkeys for {} have been reset"
-msgstr ""
+msgstr "Alle passkeys voor {} zijn gereset"
 
 #: app/blueprints/admin_accounts/routes.py:170
 #, python-brace-format
 msgid "Failed to reset passkeys for {}"
-msgstr ""
+msgstr "Niet gelukt om de passkeys voor {} opnieuw in te stellen"
 
 #: app/blueprints/api_keys/routes.py:68
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown "
 "again."
 msgstr ""
+"API sleutel succesvol aangemaakt. Kopieer dit nu omdat het niet meer getoond "
+"zal worden."
 
 #: app/blueprints/api_keys/routes.py:110
 msgid "API key deleted successfully"
-msgstr ""
+msgstr "API sleutel succesvol verwijderd"
 
 #: app/blueprints/auth/routes.py:85
 msgid "Invalid username or password"
@@ -93,89 +95,86 @@ msgstr "Ongeldige gebruikersnaam of wachtwoord"
 
 #: app/blueprints/auth/routes.py:105
 msgid "No pending 2FA authentication"
-msgstr ""
+msgstr "Geen openstaande 2FA authenicatie"
 
 #: app/blueprints/auth/routes.py:119 app/templates/login.html:150
 #: app/templates/login.html:209 app/templates/login.html:213
-#, fuzzy
 msgid "Authentication failed"
-msgstr "Meldingsagenten"
+msgstr "Authenticatie gefaald"
 
 #: app/blueprints/connections/routes.py:52
 #: app/blueprints/connections/routes.py:188
 msgid "Connection type is required"
-msgstr ""
+msgstr "Verbindingstype is verplicht"
 
 #: app/blueprints/connections/routes.py:65
 #, python-format
 msgid "Connection test failed: %(message)s"
-msgstr ""
+msgstr "Verbinding test gefaald: %(message)s"
 
 #: app/blueprints/connections/routes.py:75
 msgid "Connection test successful!"
-msgstr ""
+msgstr "Verbinding test succesvol!"
 
 #: app/blueprints/connections/routes.py:78
 #: app/blueprints/connections/routes.py:204
 msgid "Unknown connection type"
-msgstr ""
+msgstr "Onbekende verbindingstype"
 
 #: app/blueprints/connections/routes.py:95
 msgid "Connection created successfully!"
-msgstr ""
+msgstr "Verbinding succesvol aangemaakt!"
 
 #: app/blueprints/connections/routes.py:124
 msgid "Connection updated successfully!"
-msgstr ""
+msgstr "Verbinding succesvol aangepast!"
 
 #: app/blueprints/connections/routes.py:146
 msgid "Connection deleted successfully!"
-msgstr ""
+msgstr "Verbinding succesvol verwijderd!"
 
 #: app/blueprints/connections/routes.py:165
 msgid "Please refresh the page and try again (CSRF token expired)"
-msgstr ""
+msgstr "Ververs de pagina en probeer opnieuw (CSRF token verlopen)"
 
 #: app/blueprints/connections/routes.py:170
 #, python-format
 msgid "Invalid form data: %(errors)s"
-msgstr ""
+msgstr "Ongeldige formuliergegevens: %(errors)s"
 
 #: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:270
 msgid "Settings saved successfully!"
-msgstr ""
+msgstr "Instellingen succesvol opgeslagen!"
 
 #: app/blueprints/settings/routes.py:216
-#, fuzzy
 msgid "Server URL"
-msgstr "Server"
+msgstr "Server URL"
 
 #: app/blueprints/settings/routes.py:219
 msgid "API Key"
-msgstr ""
+msgstr "API Sleutel"
 
 #: app/blueprints/settings/routes.py:219
-#, fuzzy
 msgid "Username/Password"
-msgstr "Ongeldige gebruikersnaam of wachtwoord"
+msgstr "Gebruikersnaam/Wachtwoord"
 
 #: app/blueprints/settings/routes.py:222
 #, python-brace-format
 msgid "Missing required fields: {fields}"
-msgstr ""
+msgstr "Ontbrekende verplichte velden: {fields}"
 
 #: app/blueprints/settings/routes.py:225 app/blueprints/settings/routes.py:235
 #: app/templates/components/passkey_error.html:7
 msgid "Error"
-msgstr ""
+msgstr "Fout"
 
 #: app/blueprints/settings/routes.py:234
 msgid "Library scan failed"
-msgstr ""
+msgstr "Bibliotheek scan mislukt"
 
 #: app/blueprints/setup/routes.py:74
 msgid "Admin account created – welcome!"
-msgstr ""
+msgstr "Beheerder account aangemaakt - welkom!"
 
 #: app/blueprints/wizard_admin/routes.py:114
 #, python-brace-format
@@ -183,91 +182,87 @@ msgid "Cleaned up {} orphaned step(s)"
 msgstr ""
 
 #: app/blueprints/wizard_admin/routes.py:183
-#, fuzzy
 msgid "Step created"
-msgstr "Aangemaakt"
+msgstr "Stap aangemaakt"
 
 #: app/blueprints/wizard_admin/routes.py:256
 msgid "Preset step created successfully"
-msgstr ""
+msgstr "Vooraf ingestelde stap succesvol aangemaakt"
 
 #: app/blueprints/wizard_admin/routes.py:264
 #, python-brace-format
 msgid "Error creating preset: {}"
-msgstr ""
+msgstr "Fout bij het maken van voorinstelling: {}"
 
 #: app/blueprints/wizard_admin/routes.py:296
 msgid "Step updated"
-msgstr ""
+msgstr "Stap gewijzigd"
 
 #: app/blueprints/wizard_admin/routes.py:334
-#, fuzzy
 msgid "Step deleted"
-msgstr "Verwijderen"
+msgstr "Stap verwijderd"
 
 #: app/blueprints/wizard_admin/routes.py:404
-#, fuzzy
 msgid "Bundle created"
-msgstr "Aangemaakt"
+msgstr "Bundel aangemaakt"
 
 #: app/blueprints/wizard_admin/routes.py:434
 msgid "Bundle updated"
-msgstr ""
+msgstr "Bundel gewijzigd"
 
 #: app/blueprints/wizard_admin/routes.py:458
-#, fuzzy
 msgid "Bundle deleted"
-msgstr "Verwijderen"
+msgstr "Bundel verwijderd"
 
 #: app/blueprints/wizard_admin/routes.py:536
 msgid "Steps added"
-msgstr ""
+msgstr "Stappen toegevoegd"
 
 #: app/blueprints/wizard_admin/routes.py:548
 msgid "Orphaned step removed"
-msgstr ""
+msgstr "Verweesdestap verwijderd"
 
 #: app/blueprints/wizard_admin/routes.py:566
 #, python-brace-format
 msgid "No steps found for server type: {}"
-msgstr ""
+msgstr "Geen stappen gevonden voor server type: {}"
 
 #: app/blueprints/wizard_admin/routes.py:590
 #: app/blueprints/wizard_admin/routes.py:627
 #: app/blueprints/wizard_admin/routes.py:632
 #, python-brace-format
 msgid "Export failed: {}"
-msgstr ""
+msgstr "Export gefaald: {}"
 
 #: app/blueprints/wizard_admin/routes.py:677
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully imported {} items"
-msgstr "De uitnodiging werd met succes aangemaakt!"
+msgstr "Succesvol geïmporteerd {} items"
 
 #: app/blueprints/wizard_admin/routes.py:681
 #, python-brace-format
 msgid " and updated {} existing items"
-msgstr ""
+msgstr " en bijgewerkt {} bestaande items"
 
 #: app/blueprints/wizard_admin/routes.py:686
 #: app/blueprints/wizard_admin/routes.py:693
 #, python-brace-format
 msgid "Import failed: {}"
-msgstr ""
+msgstr "Import gefaald: {}"
 
 #: app/blueprints/wizard_admin/routes.py:691
 msgid "Invalid JSON file"
-msgstr ""
+msgstr "Foutieve JSON bestand"
 
 #: app/services/servers.py:16
 #, python-format
 msgid "Server returned status code %(status_code)s"
-msgstr ""
+msgstr "Server geeft status code %(status_code)s"
 
 #: app/services/servers.py:27
 #, python-format
 msgid "%(server_type)s server returned an error: %(error)s"
-msgstr ""
+msgstr "%(server_type)s server heeft een fout teruggekeerd: %(error)s"
 
 #: app/services/servers.py:34
 #, python-format
@@ -275,6 +270,8 @@ msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
 msgstr ""
+"Kan geen verbinding maken met de %(server_type)s server. Controleer of de "
+"server aan staat en de URL klopt."
 
 #: app/services/servers.py:40
 #, python-format
@@ -3046,4 +3043,3 @@ msgstr "Volgende"
 
 #~ msgid "Available"
 #~ msgstr "Beschikbaar"
-
