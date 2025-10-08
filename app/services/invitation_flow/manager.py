@@ -95,7 +95,6 @@ class InvitationFlowManager:
 
             # If pre-invite steps exist and not completed, redirect to pre-wizard
             if pre_steps_exist and not pre_wizard_complete:
-                # Requirement 7.2: Redirect to /pre-wizard if pre-invite steps exist and not completed
                 return InvitationResult(
                     status=ProcessingStatus.REDIRECT_REQUIRED,
                     message="Pre-wizard steps required",

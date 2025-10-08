@@ -4,8 +4,6 @@ Final integration tests for wizard pre/post-invite steps refactor.
 This test suite provides comprehensive end-to-end testing of the complete
 invitation flow with pre and post-wizard steps across multiple service types,
 multi-server invitations, wizard bundles, and error scenarios.
-
-Requirements: 15.2, 15.4
 """
 
 from datetime import UTC, datetime, timedelta

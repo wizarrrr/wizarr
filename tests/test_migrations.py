@@ -368,7 +368,7 @@ def test_wizard_step_category_migration_upgrade(migration_app, temp_db):
             conn.commit()
 
         # Now run the category migration
-        upgrade(revision="20251004_add_category_to_wizard_step")
+        upgrade(revision="20251005_add_category_to_wizard_step")
 
         # Verify the migration succeeded
         with engine.connect() as conn:
@@ -412,7 +412,7 @@ def test_wizard_step_category_migration_downgrade(migration_app, temp_db):
     """Test that the category field migration can be downgraded without data loss."""
     with migration_app.app_context():
         # Run migrations up to and including the category migration
-        upgrade(revision="20251004_add_category_to_wizard_step")
+        upgrade(revision="20251005_add_category_to_wizard_step")
 
         # Insert test data with both pre_invite and post_invite steps
         engine = create_engine(temp_db)
@@ -480,7 +480,7 @@ def test_wizard_step_category_unique_constraint(migration_app, temp_db):
     """Test that the unique constraint works correctly with category field."""
     with migration_app.app_context():
         # Run migrations up to and including the category migration
-        upgrade(revision="20251004_add_category_to_wizard_step")
+        upgrade(revision="20251005_add_category_to_wizard_step")
 
         engine = create_engine(temp_db)
         with engine.connect() as conn:

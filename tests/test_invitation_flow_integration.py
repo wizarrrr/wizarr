@@ -7,8 +7,6 @@ Tests verify the complete user journey through the invitation system:
 - Flow with no pre-invite steps
 - Flow with no post-invite steps
 - Flow with both pre and post-invite steps
-
-Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 15.2
 """
 
 import pytest
@@ -86,10 +84,7 @@ class TestCompleteInvitationFlow:
     def test_complete_flow_with_pre_and_post_steps(
         self, client, app, setup_invitation_with_steps
     ):
-        """Test complete flow: invite link → pre-wizard → join → post-wizard.
-
-        Requirements: 7.1, 7.2, 7.3, 7.4, 15.2
-        """
+        """Test complete flow: invite link → pre-wizard → join → post-wizard."""
         with app.app_context():
             # Step 1: Access invitation link /j/<code>
             response = client.get("/j/FLOW123", follow_redirects=False)
@@ -124,10 +119,7 @@ class TestCompleteInvitationFlow:
     def test_bypass_prevention_cannot_skip_pre_wizard(
         self, client, app, setup_invitation_with_steps
     ):
-        """Test that users cannot bypass pre-wizard steps.
-
-        Requirements: 7.1, 7.2, 7.6, 15.2
-        """
+        """Test that users cannot bypass pre-wizard steps."""
         with app.app_context():
             # Try to access join page directly without completing pre-wizard
             response = client.get("/j/FLOW123", follow_redirects=False)
@@ -208,10 +200,7 @@ class TestFlowWithoutPreInviteSteps:
     def test_flow_without_pre_invite_steps(
         self, client, app, setup_invitation_without_pre_steps
     ):
-        """Test flow when no pre-invite steps exist - should go directly to join.
-
-        Requirements: 7.5, 15.2
-        """
+        """Test flow when no pre-invite steps exist - should go directly to join."""
         with app.app_context():
             # Access invitation link
             response = client.get("/j/NOPREFLOW", follow_redirects=False)
@@ -281,10 +270,7 @@ class TestFlowWithoutPostInviteSteps:
     def test_flow_without_post_invite_steps(
         self, client, app, setup_invitation_without_post_steps
     ):
-        """Test flow when no post-invite steps exist.
-
-        Requirements: 15.2
-        """
+        """Test flow when no post-invite steps exist."""
         with app.app_context():
             # Access invitation link - should redirect to pre-wizard
             response = client.get("/j/NOPOSTFLOW", follow_redirects=False)

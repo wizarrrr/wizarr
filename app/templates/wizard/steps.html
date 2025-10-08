@@ -15,29 +15,64 @@
      data-next-label="{{ _('Next') }}"
      data-phase-label-pre="{{ _('Before Invitation') }}"
      data-phase-label-post="{{ _('After Invitation') }}">
-
-{% set current_step_phase = step_phase or '' %}
-{% set completion_href = completion_url or '' %}
+  {% set current_step_phase = step_phase or '' %}
+  {% set completion_href = completion_url or '' %}
   {% set completion_label_text = completion_label or _('Continue to Invite') %}
   {% set default_next_label = _('Next') %}
   {% set is_pre_phase = phase == 'pre' %}
   {% set is_last_step = idx == max_idx %}
   {% set is_pre_final = is_pre_phase and is_last_step and completion_href %}
-
   <!-- FLOATING PROGRESS BAR (mobile - floating at top) -->
   {% if max_idx > 0 %}
-  <div id="wizard-progress-mobile" class="wizard-progress-mobile md:hidden">
-    <div class="wizard-glass-container">
+    <div id="wizard-progress-mobile" class="wizard-progress-mobile md:hidden">
+      <div class="wizard-glass-container">
+        <!-- Phase Indicator -->
+        <div id="wizard-phase-container-mobile"
+             class="flex justify-center mb-2"
+             {% if not current_step_phase %}style="display:none"{% endif %}>
+          <span id="wizard-phase-label-mobile"
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                       {% if current_step_phase == 'pre' %}
+                         bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                       {% elif current_step_phase == 'post' %}
+                         bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                       {% endif %}"
+                data-phase-label="mobile">
+            {% if current_step_phase == 'pre' %}
+              {{ _("Before Invitation") }}
+            {% elif current_step_phase == 'post' %}
+              {{ _("After Invitation") }}
+            {% endif %}
+          </span>
+        </div>
+        <div class="flex justify-between items-center mb-2 text-xs text-gray-600 dark:text-gray-400">
+          <span>{{ _("Step") }} {{ idx + 1 }} {{ _("of") }} {{ max_idx + 1 }}</span>
+          <span class="font-semibold">{{ ((idx + 1) / (max_idx + 1) * 100) | round | int }}%</span>
+        </div>
+        <div class="w-full bg-gray-200/50 dark:bg-gray-700/50 rounded-full h-1.5 overflow-hidden">
+          <div id="progress-bar-mobile"
+               class="h-1.5 rounded-full transition-all duration-500 ease-out"
+               style="width: {{ ((idx + 1) / (max_idx + 1) * 100) }}%;
+                      background: linear-gradient(90deg, #fe4155 0%, #fe4155 100%);
+                      box-shadow: 0 0 8px rgba(254, 65, 85, 0.3)"></div>
+        </div>
+      </div>
+    </div>
+    <!-- DESKTOP PROGRESS BAR (centered) -->
+    <div id="wizard-progress-desktop"
+         class="hidden md:block w-full max-w-md mb-6">
       <!-- Phase Indicator -->
-      <div id="wizard-phase-container-mobile" class="flex justify-center mb-2" {% if not current_step_phase %}style="display:none"{% endif %}>
-        <span id="wizard-phase-label-mobile"
-              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+      <div id="wizard-phase-container-desktop"
+           class="flex justify-center mb-3"
+           {% if not current_step_phase %}style="display:none"{% endif %}>
+        <span id="wizard-phase-label-desktop"
+              class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
                      {% if current_step_phase == 'pre' %}
-                     bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                       bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
                      {% elif current_step_phase == 'post' %}
-                     bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                       bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
                      {% endif %}"
-              data-phase-label="mobile">
+              data-phase-label="desktop">
           {% if current_step_phase == 'pre' %}
             {{ _("Before Invitation") }}
           {% elif current_step_phase == 'post' %}
@@ -45,51 +80,18 @@
           {% endif %}
         </span>
       </div>
-      <div class="flex justify-between items-center mb-2 text-xs text-gray-600 dark:text-gray-400">
+      <div class="flex justify-between items-center mb-2 text-sm text-gray-600 dark:text-gray-400">
         <span>{{ _("Step") }} {{ idx + 1 }} {{ _("of") }} {{ max_idx + 1 }}</span>
-        <span class="font-semibold">{{ ((idx + 1) / (max_idx + 1) * 100) | round | int }}%</span>
+        <span>{{ ((idx + 1) / (max_idx + 1) * 100) | round | int }}%</span>
       </div>
-      <div class="w-full bg-gray-200/50 dark:bg-gray-700/50 rounded-full h-1.5 overflow-hidden">
-        <div id="progress-bar-mobile"
-             class="h-1.5 rounded-full transition-all duration-500 ease-out"
+      <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 overflow-hidden">
+        <div id="progress-bar-desktop"
+             class="h-2.5 rounded-full transition-all duration-500 ease-out"
              style="width: {{ ((idx + 1) / (max_idx + 1) * 100) }}%;
                     background: linear-gradient(90deg, #fe4155 0%, #fe4155 100%);
-                    box-shadow: 0 0 8px rgba(254, 65, 85, 0.3)"></div>
+                    box-shadow: 0 0 10px rgba(254, 65, 85, 0.3)"></div>
       </div>
     </div>
-  </div>
-
-  <!-- DESKTOP PROGRESS BAR (centered) -->
-  <div id="wizard-progress-desktop" class="hidden md:block w-full max-w-md mb-6">
-    <!-- Phase Indicator -->
-    <div id="wizard-phase-container-desktop" class="flex justify-center mb-3" {% if not current_step_phase %}style="display:none"{% endif %}>
-      <span id="wizard-phase-label-desktop"
-            class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
-                   {% if current_step_phase == 'pre' %}
-                   bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
-                   {% elif current_step_phase == 'post' %}
-                   bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
-                   {% endif %}"
-            data-phase-label="desktop">
-        {% if current_step_phase == 'pre' %}
-          {{ _("Before Invitation") }}
-        {% elif current_step_phase == 'post' %}
-          {{ _("After Invitation") }}
-        {% endif %}
-      </span>
-    </div>
-    <div class="flex justify-between items-center mb-2 text-sm text-gray-600 dark:text-gray-400">
-      <span>{{ _("Step") }} {{ idx + 1 }} {{ _("of") }} {{ max_idx + 1 }}</span>
-      <span>{{ ((idx + 1) / (max_idx + 1) * 100) | round | int }}%</span>
-    </div>
-    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 overflow-hidden">
-      <div id="progress-bar-desktop"
-           class="h-2.5 rounded-full transition-all duration-500 ease-out"
-           style="width: {{ ((idx + 1) / (max_idx + 1) * 100) }}%;
-                  background: linear-gradient(90deg, #fe4155 0%, #fe4155 100%);
-                  box-shadow: 0 0 10px rgba(254, 65, 85, 0.3)"></div>
-    </div>
-  </div>
   {% endif %}
   <!-- CARD (full height on mobile, centered on desktop) -->
   <div class="htmx-indicator absolute inset-0 bg-white/80 dark:bg-gray-900/80 flex items-center justify-center z-50">
@@ -108,110 +110,100 @@
   {% include "wizard/_content.html" %}
   <!-- FLOATING NAV BUTTONS (mobile - fixed at bottom) -->
   <div class="wizard-nav-mobile md:hidden">
-      <a  id="wizard-prev-btn"
-          {% if phase == 'pre' %}
-          hx-get="{{ url_for('wizard.pre_wizard', idx=idx-1) }}"
-          {% elif phase == 'post' %}
-          hx-get="{{ url_for('wizard.post_wizard', idx=idx-1) }}"
-          {% else %}
-          hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
-          {% endif %}
-          hx-vals='{"dir":"prev"}'
-          hx-target="#wizard-content"
-          hx-swap="outerHTML swap:0s"
-          hx-indicator=".htmx-indicator"
-          class="wizard-btn-mobile wizard-btn-prev"
-          {% if idx == 0 %}style="display:none"{% endif %}
-          aria-label="{{ _('Previous') }}">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
-          </svg>
-      </a>
-
-      <a  id="wizard-next-btn"
-          {% if is_pre_final %}
-          href="{{ completion_href }}"
-          hx-get="{{ completion_href }}"
-          hx-target="#wizard-content"
-          hx-swap="outerHTML swap:0s"
-          hx-indicator=".htmx-indicator"
-          data-final-step="1"
-          {% else %}
-          {% if phase == 'pre' %}
-          hx-get="{{ url_for('wizard.pre_wizard', idx=idx+1) }}"
-          {% elif phase == 'post' %}
-          hx-get="{{ url_for('wizard.post_wizard', idx=idx+1) }}"
-          {% else %}
-          hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
-          {% endif %}
-          hx-vals='{"dir":"next"}'
-          hx-target="#wizard-content"
-          hx-swap="outerHTML swap:0s"
-          hx-indicator=".htmx-indicator"
-          {% endif %}
-          class="wizard-btn-mobile wizard-btn-next"
-          {% if not is_pre_final and idx == max_idx %}style="display:none"{% endif %}
-          data-default-aria-label="{{ default_next_label }}"
-          aria-label="{{ completion_label_text if is_pre_final else default_next_label }}"
-          {% if require_interaction %} aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"{% endif %}>
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
-          </svg>
-      </a>
+    <a id="wizard-prev-btn"
+       {% if phase == 'pre' %}
+         hx-get="{{ url_for('wizard.pre_wizard', idx=idx-1) }}"
+       {% elif phase == 'post' %}
+         hx-get="{{ url_for('wizard.post_wizard', idx=idx-1) }}"
+       {% else %}
+         hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
+       {% endif %}
+       hx-vals='{"dir":"prev"}'
+       hx-target="#wizard-content"
+       hx-swap="outerHTML swap:0s"
+       hx-indicator=".htmx-indicator"
+       class="wizard-btn-mobile wizard-btn-prev"
+       {% if idx == 0 %}style="display:none"{% endif %}
+       aria-label="{{ _('Previous') }}">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+      </svg>
+    </a>
+    <a id="wizard-next-btn"
+       {% if is_pre_final %}
+         href="{{ completion_href }}" hx-get="{{ completion_href }}" hx-target="#wizard-content" hx-swap="outerHTML swap:0s" hx-indicator=".htmx-indicator" data-final-step="1"
+       {% else %}
+         {% if phase == 'pre' %}
+           hx-get="{{ url_for('wizard.pre_wizard', idx=idx+1) }}"
+         {% elif phase == 'post' %}
+           hx-get="{{ url_for('wizard.post_wizard', idx=idx+1) }}"
+         {% else %}
+           hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
+         {% endif %}
+       hx-vals='{"dir":"next"}'
+       hx-target="#wizard-content"
+       hx-swap="outerHTML swap:0s"
+       hx-indicator=".htmx-indicator"
+       {% endif %}
+       class="wizard-btn-mobile wizard-btn-next"
+       {% if not is_pre_final and idx == max_idx %}style="display:none"{% endif %}
+       data-default-aria-label="{{ default_next_label }}"
+       aria-label="{{ completion_label_text if is_pre_final else default_next_label }}"
+       {% if require_interaction %}
+         aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"
+       {% endif %}>
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+      </svg>
+    </a>
   </div>
   <!-- DESKTOP NAV BUTTONS (centered below card) -->
   <div class="hidden md:flex justify-center space-x-4 mt-6">
-      <a  id="wizard-prev-btn-desktop"
-          {% if phase == 'pre' %}
-          hx-get="{{ url_for('wizard.pre_wizard', idx=idx-1) }}"
-          {% elif phase == 'post' %}
-          hx-get="{{ url_for('wizard.post_wizard', idx=idx-1) }}"
-          {% else %}
-          hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
-          {% endif %}
-          hx-vals='{"dir":"prev"}'
-          hx-target="#wizard-content"
-          hx-swap="outerHTML swap:0s"
-          hx-indicator=".htmx-indicator"
-          class="btn-nav"
-          {% if idx == 0 %}style="display:none"{% endif %}>
-          ‹ {{ _("Previous") }}
-      </a>
-
-      <a  id="wizard-next-btn-desktop"
-          {% if is_pre_final %}
-          href="{{ completion_href }}"
-          hx-get="{{ completion_href }}"
-          hx-target="#wizard-content"
-          hx-swap="outerHTML swap:0s"
-          hx-indicator=".htmx-indicator"
-          data-final-step="1"
-          {% else %}
-          {% if phase == 'pre' %}
-          hx-get="{{ url_for('wizard.pre_wizard', idx=idx+1) }}"
-          {% elif phase == 'post' %}
-          hx-get="{{ url_for('wizard.post_wizard', idx=idx+1) }}"
-          {% else %}
-          hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
-          {% endif %}
-          hx-vals='{"dir":"next"}'
-          hx-target="#wizard-content"
-          hx-swap="outerHTML swap:0s"
-          hx-indicator=".htmx-indicator"
-          {% endif %}
-          class="btn-nav"
-          {% if not is_pre_final and idx == max_idx %}style="display:none"{% endif %}
-          data-default-html="{{ _("Next") }} ›"
-          data-final-html="{{ completion_label_text }}"
-          data-default-aria-label="{{ default_next_label }}"
-          aria-label="{{ completion_label_text if is_pre_final else default_next_label }}"
-          {% if require_interaction %} aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"{% endif %}>
-          {% if is_pre_final %}
-            {{ completion_label_text }}
-          {% else %}
-            {{ _("Next") }} ›
-          {% endif %}
-      </a>
+    <a id="wizard-prev-btn-desktop"
+       {% if phase == 'pre' %}
+         hx-get="{{ url_for('wizard.pre_wizard', idx=idx-1) }}"
+       {% elif phase == 'post' %}
+         hx-get="{{ url_for('wizard.post_wizard', idx=idx-1) }}"
+       {% else %}
+         hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
+       {% endif %}
+       hx-vals='{"dir":"prev"}'
+       hx-target="#wizard-content"
+       hx-swap="outerHTML swap:0s"
+       hx-indicator=".htmx-indicator"
+       class="btn-nav"
+       {% if idx == 0 %}style="display:none"{% endif %}>‹ {{ _("Previous") }}</a>
+    <a id="wizard-next-btn-desktop"
+       {% if is_pre_final %}
+         href="{{ completion_href }}" hx-get="{{ completion_href }}" hx-target="#wizard-content" hx-swap="outerHTML swap:0s" hx-indicator=".htmx-indicator" data-final-step="1"
+       {% else %}
+         {% if phase == 'pre' %}
+           hx-get="{{ url_for('wizard.pre_wizard', idx=idx+1) }}"
+         {% elif phase == 'post' %}
+           hx-get="{{ url_for('wizard.post_wizard', idx=idx+1) }}"
+         {% else %}
+           hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
+         {% endif %}
+       hx-vals='{"dir":"next"}'
+       hx-target="#wizard-content"
+       hx-swap="outerHTML swap:0s"
+       hx-indicator=".htmx-indicator"
+       {% endif %}
+       class="btn-nav"
+       {% if not is_pre_final and idx == max_idx %}style="display:none"{% endif %}
+       data-default-html="{{ _('Next') }} ›"
+       data-final-html="{{ completion_label_text }}"
+       data-default-aria-label="{{ default_next_label }}"
+       aria-label="{{ completion_label_text if is_pre_final else default_next_label }}"
+       {% if require_interaction %}
+         aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"
+       {% endif %}>
+      {% if is_pre_final %}
+        {{ completion_label_text }}
+      {% else %}
+        {{ _("Next") }} ›
+      {% endif %}
+    </a>
   </div>
 </div>
 <script>
@@ -235,7 +227,14 @@
      * 3. State Management:
      *    - Server sends headers: X-Wizard-Idx, X-Require-Interaction, X-Wizard-Step-Phase
      *    - Client updates: Progress bars, button URLs, button visibility, phase badges
-     *    - Wrapper stores: data-current-idx, data-max-idx, data-server-type, data-phase, data-step-phase
+     *    - Wrapper stores:
+     *        - data-current-idx: Current wizard step index (int, 0-based)
+     *        - data-max-idx: Maximum wizard step index (int)
+     *        - data-server-type: Type of server being configured (string, e.g., "plex", "jellyfin")
+     *        - data-phase: Current wizard phase (string, "pre" or "post")
+     *        - data-step-phase: Current step phase (string, "pre" or "post" for pre-invite/post-invite)
+     *      These attributes are updated by the server and client-side JS to synchronize UI state,
+     *      drive progress bar, navigation button logic, and ensure correct HTMX swaps.
      *
      * 4. Mobile Features:
      *    - Fixed progress bar at top (no scroll)
@@ -376,11 +375,11 @@
 
             const preLabel = this.wrapper.dataset.phaseLabelPre || 'Before Invitation';
             const postLabel = this.wrapper.dataset.phaseLabelPost || 'After Invitation';
-            const phaseText = phase === 'pre'
-                ? preLabel
-                : phase === 'post'
-                    ? postLabel
-                    : '';
+            const phaseText = phase === 'pre' ?
+                preLabel :
+                phase === 'post' ?
+                postLabel :
+                '';
 
             const PRE_CLASSES = ['bg-blue-100', 'text-blue-800', 'dark:bg-blue-900', 'dark:text-blue-200'];
             const POST_CLASSES = ['bg-green-100', 'text-green-800', 'dark:bg-green-900', 'dark:text-green-200'];
@@ -454,12 +453,19 @@
             const completionLabel = this.getCompletionLabel();
             const defaultNextLabel = this.getDefaultNextLabel();
             const isFinalPreStep = phase === 'pre' && idx === maxIdx && completionUrl;
-            const buttonConfigs = [
-                { id: 'wizard-prev-btn', isPrev: true },
-                { id: 'wizard-prev-btn-desktop', isPrev: true },
-                { id: 'wizard-next-btn', isPrev: false },
-                { id: 'wizard-next-btn-desktop', isPrev: false }
-            ];
+            const buttonConfigs = [{
+                id: 'wizard-prev-btn',
+                isPrev: true
+            }, {
+                id: 'wizard-prev-btn-desktop',
+                isPrev: true
+            }, {
+                id: 'wizard-next-btn',
+                isPrev: false
+            }, {
+                id: 'wizard-next-btn-desktop',
+                isPrev: false
+            }];
 
             buttonConfigs.forEach(({
                 id,

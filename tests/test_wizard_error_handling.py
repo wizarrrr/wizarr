@@ -7,8 +7,6 @@ Tests cover:
 - Session expiration handling (Requirement 13.2, 13.5)
 - Database query failure fallbacks (Requirement 13.3)
 - Graceful degradation for missing steps (Requirement 13.6)
-
-Requirements: 13.1, 13.2, 13.3, 13.4, 13.5, 13.6, 13.7, 15.1
 """
 
 import datetime

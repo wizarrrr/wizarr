@@ -1,8 +1,8 @@
 """Add category field to wizard_step table
 
-Revision ID: 20251004_add_category_to_wizard_step
-Revises: fd5a34530162
-Create Date: 2025-10-04 12:44:00.000000
+Revision ID: 20251005_add_category_to_wizard_step
+Revises: 08a6c8fb44db
+Create Date: 2025-10-05 14:00:00.000000
 
 """
 
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = "20251004_add_category_to_wizard_step"
-down_revision = "fd5a34530162"
+revision = "20251005_add_category_to_wizard_step"
+down_revision = "08a6c8fb44db"
 branch_labels = None
 depends_on = None
 

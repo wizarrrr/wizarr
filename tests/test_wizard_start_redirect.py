@@ -5,8 +5,6 @@ The start() function should intelligently redirect users based on their context:
 - Authenticated users → /post-wizard
 - Users with invite code → /pre-wizard
 - Others → home page
-
-Requirements: 8.8, 12.4, 12.5, 15.2
 """
 
 import pytest
@@ -54,10 +52,7 @@ class TestWizardStartRedirect:
             assert "/wizard/" in rules
 
     def test_authenticated_user_redirects_to_post_wizard(self, app, client, session):
-        """Test that authenticated users are redirected to /post-wizard.
-
-        Requirement: 8.8, 12.5
-        """
+        """Test that authenticated users are redirected to /post-wizard."""
         # Create admin user
         admin = AdminAccount(username="testadmin")
         admin.set_password("testpass123")
@@ -93,8 +88,6 @@ class TestWizardStartRedirect:
 
         This simulates a user who has just accepted an invitation and has
         the wizard_access session flag set.
-
-        Requirement: 8.8, 12.5
         """
         # Create media server and invitation
         server = MediaServer(
@@ -144,8 +137,6 @@ class TestWizardStartRedirect:
 
         Users who access /wizard directly without being authenticated
         or having an invite code should be redirected to the home page.
-
-        Requirement: 8.8, 12.4
         """
         # Create media server (needed for the app to function)
         server = MediaServer(
@@ -169,8 +160,6 @@ class TestWizardStartRedirect:
 
         The /wizard endpoint should continue to work for existing links
         and bookmarks, redirecting appropriately based on user context.
-
-        Requirement: 12.5
         """
         # Create admin user and media server
         admin = AdminAccount(username="testadmin")
@@ -195,10 +184,7 @@ class TestWizardStartRedirect:
         assert "/wizard/post-wizard" in response.location
 
     def test_backward_compatibility_without_context(self, app, client, session):
-        """Test backward compatibility redirects to home when no context.
-
-        Requirement: 12.5
-        """
+        """Test backward compatibility redirects to home when no context."""
         # Create media server (needed for the app to function)
         server = MediaServer(
             name="Test Plex",

@@ -56,10 +56,7 @@ class TestPostWizardAuthentication:
     """Test authentication requirements for post-wizard endpoint."""
 
     def test_redirect_to_login_when_not_authenticated(self, app, client):
-        """Test that unauthenticated users without wizard_access are redirected.
-
-        Requirement: 8.5
-        """
+        """Test that unauthenticated users without wizard_access are redirected."""
         # Try to access post-wizard without authentication or wizard_access
         response = client.get("/wizard/post-wizard", follow_redirects=False)
 
@@ -68,10 +65,7 @@ class TestPostWizardAuthentication:
         assert response.location in ["/login", "/"]
 
     def test_allow_access_with_wizard_access_session(self, app, client, session):
-        """Test that users with wizard_access session can access post-wizard.
-
-        Requirement: 8.5
-        """
+        """Test that users with wizard_access session can access post-wizard."""
         # Create server
         server = MediaServer(
             name="Test Jellyfin",
@@ -112,10 +106,7 @@ class TestPostWizardStepFiltering:
     """Test that post-wizard only shows post_invite category steps."""
 
     def test_only_display_post_invite_steps(self, app, client, session):
-        """Test that only post_invite category steps are displayed.
-
-        Requirement: 8.3
-        """
+        """Test that only post_invite category steps are displayed."""
         # Create server
         server = MediaServer(
             name="Test Jellyfin",
@@ -169,10 +160,7 @@ class TestPostWizardCompletion:
     def test_redirect_to_completion_when_no_post_invite_steps(
         self, app, client, session
     ):
-        """Test redirect to completion page when no post-invite steps exist.
-
-        Requirement: 8.2
-        """
+        """Test redirect to completion page when no post-invite steps exist."""
         # Delete all wizard steps to ensure none exist
         session.query(WizardStep).delete()
         session.commit()
@@ -207,10 +195,7 @@ class TestPostWizardCompletion:
         assert response.location == "/wizard/complete"
 
     def test_clear_invite_data_on_completion(self, app, client, session):
-        """Test that invite data is cleared when no post-invite steps exist.
-
-        Requirement: 8.7, 9.4
-        """
+        """Test that invite data is cleared when no post-invite steps exist."""
         # Delete all wizard steps to ensure none exist
         session.query(WizardStep).delete()
         session.commit()
@@ -247,10 +232,7 @@ class TestPostWizardCompletion:
             assert "wizard_access" not in sess
 
     def test_clear_invite_data_after_completing_all_steps(self, app, client, session):
-        """Test that invite data is cleared after completing all post-wizard steps.
-
-        Requirement: 8.7, 9.4
-        """
+        """Test that invite data is cleared after completing all post-wizard steps."""
         # Delete all wizard steps first
         session.query(WizardStep).delete()
         session.commit()

@@ -55,13 +55,11 @@ def restrict_wizard():
     if current_user.is_authenticated:
         return None
 
-    # Requirement 13.2: Validate invite code on each request for pre-wizard routes
     if request.endpoint and "pre_wizard" in request.endpoint:
         invite_code = InviteCodeManager.get_invite_code()
         if invite_code:
             is_valid, invitation = InviteCodeManager.validate_invite_code(invite_code)
             if not is_valid:
-                # Requirement 13.2: User-friendly error message for expired session
                 flash(
                     _(
                         "Your invitation has expired or is no longer valid. Please request a new invitation."
@@ -323,7 +321,6 @@ def _render(post, ctx: dict, server_type: str | None = None) -> str:
             rendered_content, extensions=["fenced_code", "tables", "attr_list"]
         )
     except Exception as e:
-        # Requirement 13.6: Log error and return graceful fallback
         current_app.logger.error(
             f"Error rendering wizard step for {server_type}: {e}", exc_info=True
         )
@@ -483,18 +480,14 @@ def pre_wizard(idx: int = 0):
     For multi-server invitations, this redirects to the combo route with
     category=pre_invite to show steps from all servers in sequence.
 
-    Requirements: 6.1-6.8, 13.1, 13.2, 13.5
-
     Args:
         idx: Current step index (default: 0)
 
     Returns:
         Rendered wizard template or redirect response
     """
-    # Requirement 13.1: Validate invite code from session
     invite_code = InviteCodeManager.get_invite_code()
     if not invite_code:
-        # Requirement 13.1: User-friendly error message for invalid invite code
         flash(_("Invalid or expired invitation"), "error")
         current_app.logger.warning("Pre-wizard accessed without invite code in session")
         return redirect(url_for("public.index"))
@@ -502,7 +495,6 @@ def pre_wizard(idx: int = 0):
     is_valid, invitation = InviteCodeManager.validate_invite_code(invite_code)
 
     if not is_valid or not invitation:
-        # Requirement 13.1, 13.2: User-friendly error for invalid/expired invitation
         flash(_("Invalid or expired invitation"), "error")
         current_app.logger.warning(
             f"Pre-wizard accessed with invalid invite code: {invite_code}"
@@ -518,7 +510,6 @@ def pre_wizard(idx: int = 0):
             # Access the relationship - SQLAlchemy will load it
             servers = list(invitation.servers)  # type: ignore
     except Exception as e:
-        # Requirement 13.3: Database query error handling with fallback
         current_app.logger.error(
             f"Error loading servers for invitation {invite_code}: {e}", exc_info=True
         )
@@ -550,7 +541,6 @@ def pre_wizard(idx: int = 0):
 
     # Handle case where no servers are configured
     if not server_type:
-        # Requirement 13.6: Graceful degradation when no servers configured
         flash(
             _(
                 "No media servers are configured. Please contact the administrator to set up a media server."
@@ -565,11 +555,9 @@ def pre_wizard(idx: int = 0):
         cfg = _settings()
         steps = _steps(server_type, cfg, category="pre_invite")
     except Exception as e:
-        # Requirement 13.3: Database query error handling
         current_app.logger.error(
             f"Error loading pre-wizard steps for {server_type}: {e}", exc_info=True
         )
-        # Requirement 13.6: Graceful degradation - redirect to join page
         flash(
             _("Unable to load wizard steps. Proceeding to invitation acceptance."),
             "warning",
@@ -638,8 +626,6 @@ def post_wizard(idx: int = 0):
     For multi-server invitations, this redirects to the combo route with
     category=post_invite to show steps from all servers in sequence.
 
-    Requirements: 8.1-8.8, 13.2, 13.3, 13.5, 13.6
-
     Args:
         idx: Current step index (default: 0)
 
@@ -649,7 +635,6 @@ def post_wizard(idx: int = 0):
     # Check authentication (user must have accepted invitation)
     # Allow access if user is authenticated OR has wizard_access session
     if not current_user.is_authenticated and not session.get("wizard_access"):
-        # Requirement 13.2: User-friendly message for session expiration
         flash(_("Please log in to continue"), "warning")
         current_app.logger.warning("Post-wizard accessed without authentication")
         return redirect(url_for("auth.login"))
@@ -663,7 +648,6 @@ def post_wizard(idx: int = 0):
         try:
             invitation = Invitation.query.filter_by(code=inv_code).first()
         except Exception as e:
-            # Requirement 13.3: Database query error handling
             current_app.logger.error(
                 f"Error querying invitation {inv_code}: {e}", exc_info=True
             )
@@ -676,7 +660,6 @@ def post_wizard(idx: int = 0):
                 if hasattr(invitation, "servers") and invitation.servers:
                     servers = list(invitation.servers)  # type: ignore
             except Exception as e:
-                # Requirement 13.3: Database query error handling with fallback
                 current_app.logger.error(
                     f"Error loading servers for invitation {inv_code}: {e}",
                     exc_info=True,
@@ -715,13 +698,11 @@ def post_wizard(idx: int = 0):
             if first_srv:
                 server_type = first_srv.server_type
         except Exception as e:
-            # Requirement 13.3: Database query error handling
             current_app.logger.error(
                 f"Error querying media servers: {e}", exc_info=True
             )
 
         if not server_type:
-            # Requirement 13.6: Graceful degradation when no servers configured
             flash(
                 _(
                     "No media servers are configured. Please contact the administrator to set up a media server."
@@ -743,7 +724,6 @@ def post_wizard(idx: int = 0):
             .all()
         )
     except Exception as e:
-        # Requirement 13.3: Database query error handling
         current_app.logger.error(
             f"Error querying post-wizard steps for {server_type}: {e}", exc_info=True
         )
@@ -751,7 +731,6 @@ def post_wizard(idx: int = 0):
 
     if not db_steps:
         # No post-invite steps in database, redirect to completion page
-        # Requirement 8.2: Redirect to completion page when no post-invite steps exist
         return redirect(url_for("wizard.complete"))
 
     # Get post-invite steps (will use db_steps or fall back to legacy files)
@@ -759,7 +738,6 @@ def post_wizard(idx: int = 0):
         cfg = _settings()
         steps = _steps(server_type, cfg, category="post_invite")
     except Exception as e:
-        # Requirement 13.3, 13.6: Database error with graceful degradation
         current_app.logger.error(
             f"Error loading post-wizard steps for {server_type}: {e}", exc_info=True
         )
@@ -776,7 +754,6 @@ def post_wizard(idx: int = 0):
     direction = request.values.get("dir", "")
     if direction == "next" and (len(steps) == 1 or idx >= len(steps)):
         # User completed all post-wizard steps
-        # Requirement 8.7: Redirect to completion page after completing all steps
         return redirect(url_for("wizard.complete"))
 
     # Render wizard using existing _serve_wizard logic
@@ -791,11 +768,8 @@ def complete():
     - Success message confirming setup is complete
     - Clear call-to-action to proceed to the application
     - Automatic cleanup of all invitation-related session data
-
-    Requirements: 8.2, 8.7, 9.4
     """
     # Clear all invitation-related session data
-    # Requirement 9.4: Clear all invitation-related data on completion
     InviteCodeManager.clear_invite_data()
     session.pop("wizard_access", None)
     session.pop("wizard_server_order", None)
@@ -818,8 +792,6 @@ def start():
     - Authenticated users → /post-wizard (they've already accepted an invitation)
     - Users with invite code → /pre-wizard (they're in the invitation flow)
     - Others → home page (no context available)
-
-    Requirements: 8.8, 12.4, 12.5
     """
     run_all_importers()
 
@@ -879,8 +851,6 @@ def combo(idx: int):
     from all servers in the invitation. It supports both pre-invite and post-invite
     categories, determined by the 'category' query parameter.
 
-    Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 13.3, 13.5, 13.6
-
     Args:
         idx: Current step index
 
@@ -893,7 +863,6 @@ def combo(idx: int):
     try:
         cfg = _settings()
     except Exception as e:
-        # Requirement 13.3: Database error handling
         current_app.logger.error(
             f"Error loading settings for combo wizard: {e}", exc_info=True
         )
@@ -920,7 +889,6 @@ def combo(idx: int):
     completion_label = _("Continue to Invite") if phase == "pre" else None
 
     # Concatenate steps preserving order AND track which server each step belongs to
-    # Requirements 10.1, 10.2: Concatenate pre/post-invite steps for all servers
     steps: list = []
     step_server_mapping: list = []  # Track which server type each step belongs to
 
@@ -929,16 +897,13 @@ def combo(idx: int):
         try:
             server_steps = _steps(stype, cfg, category=category)
             steps.extend(server_steps)
-            # Requirement 10.3: Maintain server type tracking for each step
             step_server_mapping.extend([stype] * len(server_steps))
         except Exception as e:
-            # Requirement 13.3, 13.6: Log error but continue with other servers
             current_app.logger.error(
                 f"Error loading steps for {stype}/{category} in combo wizard: {e}",
                 exc_info=True,
             )
 
-    # Requirements 10.5, 10.6: Handle case where no steps exist for any server
     if not steps:
         if category == "pre_invite":
             # No pre-invite steps for any server - mark complete and redirect to join
@@ -947,10 +912,8 @@ def combo(idx: int):
                 return redirect(url_for("public.invite", code=invite_code))
             return redirect(url_for("wizard.start"))
         # No post-invite steps for any server - redirect to completion
-        # Requirement 10.6: Redirect to completion page when no post-invite steps exist
         return redirect(url_for("wizard.complete"))
 
-    # Requirement 10.4: Ensure progress is maintained across server transitions
     idx = max(0, min(idx, len(steps) - 1))
 
     # Check if we're on the last step and moving forward
@@ -963,10 +926,8 @@ def combo(idx: int):
                 return redirect(url_for("public.invite", code=invite_code))
             return redirect(url_for("wizard.start"))
         # Completed all post-invite steps for all servers
-        # Requirement 8.7: Redirect to completion page after completing all steps
         return redirect(url_for("wizard.complete"))
 
-    # Requirement 10.3: Get the server type for the current step
     current_server_type = (
         step_server_mapping[idx] if idx < len(step_server_mapping) else order[0]
     )
@@ -1033,8 +994,6 @@ def bundle_view(idx: int):
     Note: This function has custom logic for loading steps from bundles,
     so it doesn't use _serve_wizard() directly. However, it maintains the same
     rendering logic and template structure.
-
-    Requirements: 11.1-11.7, 13.3, 13.5, 13.6
     """
     bundle_id = session.get("wizard_bundle_id")
     if not bundle_id:
@@ -1046,7 +1005,6 @@ def bundle_view(idx: int):
     try:
         bundle = db.session.get(WizardBundle, bundle_id)
     except Exception as e:
-        # Requirement 13.3: Database query error handling
         current_app.logger.error(
             f"Error loading wizard bundle {bundle_id}: {e}", exc_info=True
         )
@@ -1066,7 +1024,6 @@ def bundle_view(idx: int):
         )
         steps_raw = [r.step for r in ordered]
     except Exception as e:
-        # Requirement 13.3: Database query error handling
         current_app.logger.error(
             f"Error loading steps for bundle {bundle_id}: {e}", exc_info=True
         )
@@ -1088,7 +1045,6 @@ def bundle_view(idx: int):
 
     steps = [_RowAdapter(s) for s in steps_raw]
     if not steps:
-        # Requirement 13.6: Graceful degradation for empty bundle
         current_app.logger.warning(f"Wizard bundle {bundle_id} has no steps")
         flash(_("This wizard bundle has no steps configured."), "warning")
         return redirect(url_for("wizard.start"))
@@ -1112,7 +1068,6 @@ def bundle_view(idx: int):
         settings = _settings()
         html = _render(post, settings | {"_": _}, server_type=current_server_type)
     except Exception as e:
-        # Requirement 13.6: Graceful degradation for rendering errors
         current_app.logger.error(
             f"Error rendering bundle step {idx} for bundle {bundle_id}: {e}",
             exc_info=True,
