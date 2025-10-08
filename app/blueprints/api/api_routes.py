@@ -11,12 +11,21 @@ from flask_restx import Resource, abort
 from sqlalchemy import func
 
 from app.extensions import api, db
-from app.models import AdminAccount, ApiKey, Invitation, Library, MediaServer, User, WebAuthnCredential
+from app.models import (
+    AdminAccount,
+    ApiKey,
+    Invitation,
+    Library,
+    MediaServer,
+    User,
+    WebAuthnCredential,
+)
 from app.services.invites import create_invite
 from app.services.media.service import delete_user, disable_user, list_users_all_servers
 from app.services.server_name_resolver import get_display_name_info
 
 from .models import (
+    admin_list_model,
     api_key_list_model,
     error_model,
     invitation_create_request,
@@ -31,7 +40,6 @@ from .models import (
     user_list_model,
     user_update_expiry_request,
     user_update_expiry_response,
-    admin_list_model,
 )
 
 # Create the Blueprint for the API
