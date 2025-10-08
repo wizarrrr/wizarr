@@ -8,9 +8,10 @@ from functools import wraps
 
 from flask import Blueprint, request
 from flask_restx import Resource, abort
+from sqlalchemy import func
 
 from app.extensions import api, db
-from app.models import ApiKey, Invitation, Library, MediaServer, User
+from app.models import AdminAccount, ApiKey, Invitation, Library, MediaServer, User, WebAuthnCredential
 from app.services.invites import create_invite
 from app.services.media.service import delete_user, disable_user, list_users_all_servers
 from app.services.server_name_resolver import get_display_name_info
@@ -30,6 +31,7 @@ from .models import (
     user_list_model,
     user_update_expiry_request,
     user_update_expiry_response,
+    admin_list_model,
 )
 
 # Create the Blueprint for the API
@@ -50,6 +52,7 @@ invitations_ns = api.namespace(
 libraries_ns = api.namespace("libraries", description="Library information operations")
 servers_ns = api.namespace("servers", description="Server information operations")
 api_keys_ns = api.namespace("api-keys", description="API key management operations")
+admins_ns = api.namespace("admins", description="Admin management operations")
 
 
 def require_api_key(f):
@@ -184,6 +187,72 @@ class StatusResource(Resource):
             }
         except Exception as e:
             logger.error("Error getting system status: %s", str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@admins_ns.route("")
+class AdminListResource(Resource):
+    @api.doc(
+        "list_admins",
+        security="apikey",
+        params={
+            "username": "Filter by username (exact match)",
+        },
+    )
+    @api.marshal_with(admin_list_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def get(self):
+        """List all Wizarr admins. Supports filtering by username."""
+        try:
+            # Get query parameters
+            username_filter = request.args.get("username")
+            logger.info("API: Listing all admins (username=%s)", username_filter)
+
+            # Optimized query: JOIN admins with passkey counts in single query
+            query = (
+                db.session.query(
+                    AdminAccount.id,
+                    AdminAccount.username,
+                    AdminAccount.created_at,
+                    func.count(WebAuthnCredential.id).label("passkey_count"),
+                )
+                .outerjoin(
+                    WebAuthnCredential,
+                    AdminAccount.id == WebAuthnCredential.admin_account_id,
+                )
+                .group_by(
+                    AdminAccount.id, AdminAccount.username, AdminAccount.created_at
+                )
+                .order_by(AdminAccount.username)
+            )
+
+            # Apply username filter at database level if specified
+            if username_filter:
+                query = query.filter(AdminAccount.username == username_filter)
+
+            results = query.all()
+
+            # Format response
+            admins_list = []
+            for result in results:
+                admins_list.append(
+                    {
+                        "id": result.id,
+                        "username": result.username,
+                        "passkeys": result.passkey_count,
+                        "created": result.created_at.isoformat()
+                        if result.created_at
+                        else None,
+                    }
+                )
+
+            return {"admins": admins_list, "count": len(admins_list)}
+
+        except Exception as e:
+            logger.error("Error listing admins: %s", str(e))
             logger.error(traceback.format_exc())
             return {"error": "Internal server error"}, 500
 

@@ -15,6 +15,25 @@ status_model = api.model(
     },
 )
 
+# Admin Models
+admin_model = api.model(
+    "Admin",
+    {
+        "id": fields.Integer(description="Admin ID"),
+        "username": fields.String(description="Admin username"),
+        "passkeys": fields.Integer(description="Number of passkeys for this admin"),
+        "created": fields.DateTime(description="Creation date (ISO format)"),
+    },
+)
+
+admin_list_model = api.model(
+    "AdminList",
+    {
+        "admins": fields.List(fields.Nested(admin_model)),
+        "count": fields.Integer(description="Total number of admins"),
+    },
+)
+
 # User Models
 user_model = api.model(
     "User",
