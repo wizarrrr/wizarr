@@ -16,7 +16,7 @@ from app.services.notifications import notify
 from .client_base import MediaClient, register_media_client
 
 if TYPE_CHECKING:
-    from app.services.media.user_details import MediaUserDetails
+    from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
 
 
 def _accept_invite_v2(self: MyPlexAccount, user):
@@ -171,6 +171,257 @@ class PlexClient(MediaClient):
 
     def libraries(self) -> dict[str, str]:
         return {lib.title: lib.title for lib in self.server.library.sections()}
+
+    @staticmethod
+    def _is_user_restricted(plex_user) -> bool:
+        """Infer whether a Plex user has restricted library access."""
+        restricted_attr = getattr(plex_user, "restricted", None)
+        if restricted_attr is None:
+            return False
+
+        value = str(restricted_attr).strip().lower()
+        return value not in ("", "0", "false", "no", "none")
+
+    def _extract_shared_section_titles(self, server_share) -> list[str]:
+        """Safely extract shared library titles from a Plex server share."""
+        if not server_share:
+            return []
+
+        sections_data = None
+        try:
+            sections_data = server_share.sections()
+        except TypeError:
+            # Some plexapi versions expose ``sections`` as an iterable attribute
+            sections_data = getattr(server_share, "sections", None)
+        except Exception as exc:  # pragma: no cover - defensive logging
+            logging.warning(
+                "PLEX: Failed to fetch shared sections for '%s': %s",
+                getattr(server_share, "name", "unknown"),
+                exc,
+            )
+            return []
+
+        if sections_data is None:
+            return []
+
+        if callable(sections_data):
+            try:
+                sections_data = sections_data()
+            except Exception as exc:  # pragma: no cover - defensive logging
+                logging.warning(
+                    "PLEX: Failed to call sections() for '%s': %s",
+                    getattr(server_share, "name", "unknown"),
+                    exc,
+                )
+                return []
+
+        titles: list[str] = []
+        try:
+            for section in sections_data or []:
+                if hasattr(section, "shared") and section.shared is False:
+                    continue
+                title = getattr(section, "title", None) or str(section)
+                if title:
+                    titles.append(title)
+        except Exception as exc:  # pragma: no cover - defensive logging
+            logging.warning(
+                "PLEX: Failed to parse shared section titles for '%s': %s",
+                getattr(server_share, "name", "unknown"),
+                exc,
+            )
+            return []
+
+        return titles
+
+    def _build_library_access_from_names(
+        self, names: list[str]
+    ) -> list["UserLibraryAccess"]:
+        """Create UserLibraryAccess entries from a list of library names."""
+        from app.services.media.user_details import UserLibraryAccess
+
+        cleaned = [name for name in names if name]
+        if not cleaned:
+            return []
+
+        libs_q = (
+            Library.query.filter(
+                Library.server_id == self.server_id,
+                Library.name.in_(cleaned),
+            )
+            .order_by(Library.name)
+            .all()
+        )
+        libs_by_name = {lib.name: lib for lib in libs_q}
+
+        access_list: list[UserLibraryAccess] = []
+        fallback_index = 0
+        seen: set[str] = set()
+
+        for name in cleaned:
+            if name in seen:
+                continue
+            seen.add(name)
+
+            lib = libs_by_name.get(name)
+            if lib:
+                access_list.append(
+                    UserLibraryAccess(
+                        library_id=lib.external_id,
+                        library_name=lib.name,
+                        has_access=True,
+                    )
+                )
+            else:
+                access_list.append(
+                    UserLibraryAccess(
+                        library_id=f"plex_{fallback_index}",
+                        library_name=name,
+                        has_access=True,
+                    )
+                )
+                fallback_index += 1
+
+        return access_list
+
+    def _fetch_user_sections_via_token(self, plex_user) -> list[str]:
+        """Fetch library section titles by impersonating the user with their token."""
+        try:
+            user_token = plex_user.get_token(self.server.machineIdentifier)
+        except Exception as exc:  # pragma: no cover - defensive logging
+            logging.warning(
+                "PLEX: Failed to retrieve token for user %s: %s",
+                getattr(plex_user, "email", getattr(plex_user, "username", "unknown")),
+                exc,
+            )
+            return []
+
+        if not user_token:
+            return []
+
+        try:
+            user_server = PlexServer(self.url, user_token)
+            return [
+                section.title
+                for section in user_server.library.sections()
+                if getattr(section, "title", None)
+            ]
+        except Exception as exc:  # pragma: no cover - defensive logging
+            logging.warning(
+                "PLEX: Failed to fetch sections via user token for %s: %s",
+                getattr(plex_user, "email", getattr(plex_user, "username", "unknown")),
+                exc,
+            )
+            return []
+
+    def _resolve_library_access(
+        self,
+        plex_user,
+        db_user: User | None,
+        server_library_names: list[str],
+    ) -> tuple[list["UserLibraryAccess"] | None, bool]:
+        """Determine library access information for a Plex user."""
+        total_library_count = len(server_library_names)
+
+        matching_share = None
+        for server_share in getattr(plex_user, "servers", []) or []:
+            machine_id = getattr(server_share, "machineIdentifier", None)
+            if machine_id == self.server.machineIdentifier:
+                matching_share = server_share
+                break
+
+        section_titles: list[str] = []
+        if matching_share:
+            section_titles = self._extract_shared_section_titles(matching_share)
+
+        if not section_titles:
+            token_titles = self._fetch_user_sections_via_token(plex_user)
+            if token_titles:
+                section_titles = token_titles
+
+        share_all_libraries = bool(
+            matching_share and getattr(matching_share, "allLibraries", False)
+        )
+        shared_library_count = (
+            getattr(matching_share, "numLibraries", 0) if matching_share else 0
+        )
+        is_restricted = self._is_user_restricted(plex_user)
+
+        if share_all_libraries and section_titles:
+            unique_count = len({name for name in section_titles if name})
+            if (
+                unique_count
+                and total_library_count
+                and unique_count < total_library_count
+                or (
+                    unique_count
+                    and shared_library_count
+                    and unique_count < shared_library_count
+                )
+            ):
+                share_all_libraries = False
+
+        if (
+            share_all_libraries
+            and is_restricted
+            or (
+                share_all_libraries
+                and shared_library_count
+                and total_library_count
+                and shared_library_count < total_library_count
+            )
+        ):
+            share_all_libraries = False
+
+        accessible_names: list[str] = [name for name in section_titles if name]
+
+        if not accessible_names and db_user:
+            cached_names = db_user.get_accessible_libraries()
+            if cached_names:
+                accessible_names = list(cached_names)
+            else:
+                cached_access = db_user.get_library_access() or []
+                for entry in cached_access:
+                    if isinstance(entry, dict):
+                        if entry.get("has_access"):
+                            name = entry.get("library_name")
+                            if name:
+                                accessible_names.append(name)
+                    else:
+                        has_access = getattr(entry, "has_access", False)
+                        if has_access:
+                            name = getattr(entry, "library_name", None)
+                            if name:
+                                accessible_names.append(name)
+
+        deduped_names: list[str] = []
+        seen_names: set[str] = set()
+        for name in accessible_names:
+            if not name or name in seen_names:
+                continue
+            seen_names.add(name)
+            deduped_names.append(name)
+        accessible_names = deduped_names
+
+        if not accessible_names:
+            if share_all_libraries and not is_restricted:
+                return None, False
+            logging.debug(
+                "PLEX: Restricted access unresolved for user %s",
+                getattr(plex_user, "email", getattr(plex_user, "username", "unknown")),
+            )
+            return None, True
+
+        if (
+            share_all_libraries
+            and server_library_names
+            and len(accessible_names) == len(server_library_names)
+        ):
+            return None, False
+
+        return (
+            self._build_library_access_from_names(accessible_names),
+            False,
+        )
 
     def get_movie_posters(self, limit: int = 10) -> list[str]:
         """Get movie poster URLs for background display."""
@@ -383,8 +634,7 @@ class PlexClient(MediaClient):
 
     def get_user_details(self, db_id: int) -> "MediaUserDetails":
         """Get detailed user information in standardized format."""
-        from app.models import Library
-        from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
+        from app.services.media.user_details import MediaUserDetails
 
         user_record = User.query.get(db_id)
         if not user_record:
@@ -394,64 +644,16 @@ class PlexClient(MediaClient):
         if not plex_user:
             raise ValueError(f"Plex user not found for email {user_record.email}")
 
-        # Extract library access from Plex user
-        sections = []
+        server_libraries = (
+            Library.query.filter_by(server_id=self.server_id, enabled=True)
+            .order_by(Library.name)
+            .all()
+        )
+        server_library_names = [lib.name for lib in server_libraries]
 
-        try:
-            # Get the user's accessible libraries on this server
-            for user_server in plex_user.servers:
-                if user_server.machineIdentifier == self.server.machineIdentifier:
-                    # Get sections from Plex user server
-                    try:
-                        sections = [section.title for section in user_server.sections()]
-                        break
-                    except TypeError:
-                        # Fallback for different PlexAPI versions
-                        try:
-                            sections_data = user_server.sections()
-                            sections = [section.title for section in sections_data]
-                            break
-                        except Exception:
-                            sections_attr = user_server.sections
-                            if hasattr(sections_attr, "__iter__"):
-                                sections = [
-                                    getattr(section, "title", str(section))
-                                    for section in sections_attr
-                                ]
-                            break
-        except Exception as e:
-            logging.error(f"Failed to get Plex user sections: {e}")
-            sections = []
-
-        # Convert section titles to library access objects
-        if sections:
-            # Query our database to find matching libraries
-            libs_q = (
-                Library.query.filter(
-                    Library.name.in_(sections),
-                    Library.server_id == self.server_id,
-                )
-                .order_by(Library.name)
-                .all()
-            )
-            library_access = [
-                UserLibraryAccess(
-                    library_id=lib.external_id, library_name=lib.name, has_access=True
-                )
-                for lib in libs_q
-            ]
-
-            # If we have sections but no matching libraries in DB, create them from section names
-            if not library_access and sections:
-                library_access = [
-                    UserLibraryAccess(
-                        library_id=f"plex_{i}", library_name=section, has_access=True
-                    )
-                    for i, section in enumerate(sections)
-                ]
-        else:
-            # No sections found means user has access to all libraries
-            library_access = None
+        library_access, library_access_unknown = self._resolve_library_access(
+            plex_user, user_record, server_library_names
+        )
 
         # Extract standardized permissions from Plex user
         is_admin = getattr(plex_user, "admin", False)
@@ -477,6 +679,7 @@ class PlexClient(MediaClient):
                 "allowChannels": allow_live_tv,
                 "allowSync": allow_downloads,
             },
+            library_access_unknown=library_access_unknown,
         )
 
     def update_user(self, info: dict, form: dict) -> None:
@@ -650,6 +853,12 @@ class PlexClient(MediaClient):
         if not users or not plex_users:
             return
 
+        server_libraries = (
+            Library.query.filter_by(server_id=self.server_id, enabled=True)
+            .order_by(Library.name)
+            .all()
+        )
+        server_library_names = [lib.name for lib in server_libraries]
         cached_count = 0
         for user in users:
             try:
@@ -658,55 +867,17 @@ class PlexClient(MediaClient):
                 if not plex_user:
                     continue
 
-                # Extract standardized metadata from bulk response
-                from app.services.media.user_details import (
-                    MediaUserDetails,
-                    UserLibraryAccess,
-                )
-
-                # Extract library access from Plex user
-                sections = []
-                try:
-                    # Get sections the user has access to
-                    if hasattr(plex_user, "servers") and plex_user.servers:
-                        for server in plex_user.servers:
-                            if (
-                                server.machineIdentifier
-                                == self.server.machineIdentifier
-                            ):
-                                # Get sections from Plex user server
-                                try:
-                                    sections = [
-                                        section.title for section in server.sections()
-                                    ]
-                                    break
-                                except TypeError:
-                                    # Fallback for different PlexAPI versions
-                                    try:
-                                        sections_data = server.sections()
-                                        sections = [
-                                            section.title for section in sections_data
-                                        ]
-                                        break
-                                    except Exception:
-                                        sections_attr = server.sections
-                                        if hasattr(sections_attr, "__iter__"):
-                                            sections = [
-                                                getattr(section, "title", str(section))
-                                                for section in sections_attr
-                                            ]
-                                        break
-                except Exception as e:
-                    logging.warning(
-                        f"Failed to get sections for user {user.email}: {e}"
-                    )
-                    sections = []
+                from app.services.media.user_details import MediaUserDetails
 
                 # Extract standardized permissions from Plex user
                 is_admin = getattr(plex_user, "admin", False)
                 allow_downloads = getattr(plex_user, "allowSync", True)
                 allow_live_tv = getattr(plex_user, "allowChannels", True)
                 allow_camera_upload = getattr(plex_user, "allowCameraUpload", False)
+
+                library_access, library_access_unknown = self._resolve_library_access(
+                    plex_user, user, server_library_names
+                )
 
                 # Create MediaUserDetails object with standardized data
                 details = MediaUserDetails(
@@ -720,22 +891,14 @@ class PlexClient(MediaClient):
                     allow_downloads=allow_downloads,
                     allow_live_tv=allow_live_tv,
                     allow_camera_upload=allow_camera_upload,
-                    library_access=None
-                    if not sections
-                    else [
-                        UserLibraryAccess(
-                            library_id=f"plex_{i}",
-                            library_name=section,
-                            has_access=True,
-                        )
-                        for i, section in enumerate(sections)
-                    ],
+                    library_access=library_access,
                     raw_policies={
                         "admin": is_admin,
                         "allowCameraUpload": allow_camera_upload,
                         "allowChannels": allow_live_tv,
                         "allowSync": allow_downloads,
                     },
+                    library_access_unknown=library_access_unknown,
                 )
 
                 # Update user with standardized metadata columns

@@ -49,6 +49,10 @@ dev = [
     "djlint>=1.36.4",
 ]
 
+[tool.uv]
+# Disable dev extras when running plain `uv run` inside production containers.
+default-groups = []
+
 [tool.ruff]
 target-version = "py313"
 line-length = 88

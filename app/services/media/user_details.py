@@ -36,6 +36,8 @@ class MediaUserDetails:
 
     # Server-specific policy/configuration data (legacy)
     raw_policies: dict[str, Any] | None = None
+    # True when the backend could not determine restricted libraries
+    library_access_unknown: bool = False
 
     @property
     def has_library_restrictions(self) -> bool:

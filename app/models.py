@@ -279,25 +279,21 @@ class User(db.Model, UserMixin):
         if not isinstance(details, MediaUserDetails):
             return
 
+        skip_library_update = getattr(details, "library_access_unknown", False)
+
         # Update standardized columns
         self.is_admin = details.is_admin
         self.allow_downloads = getattr(details, "allow_downloads", False)
         self.allow_live_tv = getattr(details, "allow_live_tv", False)
         self.allow_camera_upload = getattr(details, "allow_camera_upload", False)
 
+        if skip_library_update:
+            return
+
         # Extract library names
         if details.library_access is None:
-            # Full access - get all server libraries
-            # Import Library here to avoid circular import
-            from app.models import Library  # type: ignore
-
-            if self.server_id:
-                all_libs = Library.query.filter_by(
-                    server_id=self.server_id, enabled=True
-                ).all()
-                self.set_accessible_libraries([lib.name for lib in all_libs])
-            else:
-                self.set_accessible_libraries([])
+            # Full access - represent as None to display "All libraries"
+            self.set_accessible_libraries(None)
         else:
             # Specific library access
             accessible_names = [

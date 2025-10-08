@@ -129,7 +129,7 @@ class UserDetailsService:
         user_arg = account.id if server.server_type == "plex" else account.token
         details: MediaUserDetails = client.get_user_details(user_arg)
 
-        libraries = self._extract_libraries_from_details(server, details)
+        libraries = self._extract_libraries_from_details(server, account, details)
 
         # Update user with standardized metadata for future use
         account.update_standardized_metadata(details)
@@ -162,19 +162,16 @@ class UserDetailsService:
         return [name for name in accessible_libraries if name]
 
     def _extract_libraries_from_details(
-        self, server: MediaServer, details: MediaUserDetails
-    ) -> list[str]:
+        self, server: MediaServer, account: User, details: MediaUserDetails
+    ) -> list[str] | None:
         """Extract library names from MediaUserDetails."""
-        # If library_access is None, user has full access - get all server libraries
-        if details.library_access is None:
-            from app.models import Library
+        if getattr(details, "library_access_unknown", False):
+            cached = self._extract_libraries_from_cached_data(server, account)
+            return cached or []
 
-            all_libs = (
-                Library.query.filter_by(server_id=server.id, enabled=True)
-                .order_by(Library.name)
-                .all()
-            )
-            return [lib.name for lib in all_libs]
+        # If library_access is None, user has full access
+        if details.library_access is None:
+            return None
 
         # Otherwise return the specific accessible library names
         return details.accessible_library_names
