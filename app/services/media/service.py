@@ -5,14 +5,20 @@ operations across different media server types. It acts as a facade that
 dispatches requests to the appropriate media client implementation.
 """
 
+import copy
 import logging
 import re
 from collections import defaultdict
+from time import monotonic
+from typing import Any
 
 from app.extensions import db
 from app.models import Identity, MediaServer, Settings, User
 
 from .client_base import CLIENTS
+
+_NOW_PLAYING_CACHE_TTL = 5.0  # seconds
+_now_playing_cache: dict[str, Any] = {"timestamp": 0.0, "sessions": []}
 
 
 def _clear_user_cache(client) -> None:
@@ -370,7 +376,9 @@ def scan_libraries_for_server(server: MediaServer):
     return client.libraries()
 
 
-def get_now_playing_all_servers():
+def get_now_playing_all_servers(
+    *, use_cache: bool = True, cache_ttl: float = _NOW_PLAYING_CACHE_TTL
+):
     """Get now playing status from all configured media servers.
 
     Returns:
@@ -381,6 +389,12 @@ def get_now_playing_all_servers():
               - server_type: Type of media server (plex, jellyfin, etc.)
               - server_id: ID of the MediaServer record
     """
+    if use_cache:
+        now = monotonic()
+        cached_ts = _now_playing_cache.get("timestamp", 0.0)
+        if now - cached_ts <= cache_ttl:
+            return copy.deepcopy(_now_playing_cache.get("sessions", []))
+
     all_sessions = []
 
     # Get all configured media servers
@@ -403,6 +417,11 @@ def get_now_playing_all_servers():
                 f"Failed to get now playing from server {server.name} ({server.server_type}): {exc}"
             )
             continue
+
+    if use_cache:
+        _now_playing_cache["timestamp"] = monotonic()
+        _now_playing_cache["sessions"] = all_sessions
+        return copy.deepcopy(all_sessions)
 
     return all_sessions
 

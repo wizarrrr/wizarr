@@ -2,6 +2,7 @@ import datetime
 import logging
 import math
 import os
+from collections import defaultdict
 from urllib.parse import urlparse
 
 from flask import Blueprint, Response, redirect, render_template, request, url_for
@@ -937,6 +938,21 @@ def server_health_card():
 
         if response.status_code == 200:
             all_stats = response.json()
+            sessions = get_now_playing_all_servers()
+
+            active_counts = defaultdict(int)
+            transcoding_counts = defaultdict(int)
+            for session in sessions:
+                server_key = session.get("server_id")
+                if server_key is None:
+                    continue
+                key = str(server_key)
+                active_counts[key] += 1
+                transcoding_info = session.get("transcoding") or {}
+                if isinstance(transcoding_info, dict) and transcoding_info.get(
+                    "is_transcoding"
+                ):
+                    transcoding_counts[key] += 1
 
             server_health = []
 
@@ -952,6 +968,7 @@ def server_health_card():
                 user_stats = stats.get("user_stats", {}) or {}
 
                 is_online = ("error" not in stats) and bool(server_stats)
+                server_key = str(server_id)
 
                 server_info = {
                     "id": server_id,
@@ -962,11 +979,18 @@ def server_health_card():
                 }
 
                 if is_online:
+                    active_sessions = active_counts.get(
+                        server_key, user_stats.get("active_sessions", 0)
+                    )
+                    transcoding_sessions = transcoding_counts.get(
+                        server_key, server_stats.get("transcoding_sessions", 0)
+                    )
+
                     server_info.update(
                         {
                             "version": server_stats.get("version", "Unknown"),
-                            "active_sessions": user_stats.get("active_sessions", 0),
-                            "transcoding": server_stats.get("transcoding_sessions", 0),
+                            "active_sessions": active_sessions,
+                            "transcoding": transcoding_sessions,
                             "total_users": user_stats.get("total_users", 0),
                         }
                     )

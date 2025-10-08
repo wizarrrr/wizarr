@@ -42,7 +42,8 @@ class ImageProxyService:
     _session_cache: OrderedDict[Hashable, dict[str, Any]] = OrderedDict()
     _session_cache_lock = threading.Lock()
 
-    TOKEN_EXPIRY = 3600  # 1 hour
+    TOKEN_EXPIRY = 24 * 3600  # Tokens remain valid for 24 hours
+    TOKEN_BUCKET_SECONDS = 3600  # Bucket tokens hourly to keep payload compact
     IMAGE_CACHE_EXPIRY = 3600  # 1 hour
     IMAGE_CACHE_MAX_ENTRIES = 300
     IMAGE_CACHE_MAX_BYTES = 20 * 1024 * 1024  # 20 MB
@@ -74,13 +75,13 @@ class ImageProxyService:
             Opaque token that can be used with /image-proxy?token=...
         """
         current_time = time.time()
-        hour_bucket = int(current_time / 3600)
+        bucket = int(current_time / cls.TOKEN_BUCKET_SECONDS)
 
         # Create payload with URL, server_id, and expiry info
         payload = {
             "url": url,
             "server_id": server_id,
-            "bucket": hour_bucket,
+            "bucket": bucket,
         }
 
         # Encode payload as JSON then base64
@@ -158,11 +159,18 @@ class ImageProxyService:
         except (ValueError, json.JSONDecodeError):
             return None
 
-        # Verify token hasn't expired (allow current hour bucket + previous hour)
-        current_bucket = int(time.time() / 3600)
+        # Verify token hasn't expired within the allowed validity window
+        current_bucket = int(time.time() / cls.TOKEN_BUCKET_SECONDS)
         token_bucket = payload.get("bucket")
 
-        if token_bucket is None or current_bucket - token_bucket > 1:
+        if token_bucket is None:
+            return None
+
+        bucket_diff = current_bucket - token_bucket
+        if bucket_diff < 0:
+            return None
+
+        if bucket_diff * cls.TOKEN_BUCKET_SECONDS > cls.TOKEN_EXPIRY:
             return None
 
         # Cache the validated token for future requests
