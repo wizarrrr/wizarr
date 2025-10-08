@@ -246,6 +246,35 @@ class TestAPIUsers:
         assert data["error"] == "User not found"
 
 
+class TestAPIAdmins:
+    """Test the API admins endpoints."""
+
+    def test_list_admins_unauthorized(self, client):
+        """Test admins list without authentication."""
+        response = client.get("/api/admins")
+        assert response.status_code == 401
+        data = response.get_json()
+        assert data["error"] == "Unauthorized"
+
+    def test_list_admins_success(self, client, api_key, sample_data):
+        """Test successful admins list."""
+        response = client.get("/api/admins", headers={"X-API-Key": api_key})
+        assert response.status_code == 200
+
+        data = response.get_json()
+        assert "admins" in data
+        assert "count" in data
+        assert data["count"] == len(data["admins"])
+
+        # Check admin data structure
+        if data["admins"]:
+            admin = data["admins"][0]
+            assert "id" in admin
+            assert "username" in admin
+            assert "passkeys" in admin
+            assert "created" in admin
+
+
 class TestAPIInvitations:
     """Test the API invitations endpoints."""
 
