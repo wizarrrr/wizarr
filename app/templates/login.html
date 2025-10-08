@@ -1,5 +1,7 @@
 {% extends "base.html" %}
-{% block title %}Login{% endblock title %}
+{% block title %}
+  Login
+{% endblock title %}
 {% block main %}
   <section class="bg-gray-50 dark:bg-gray-900">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
@@ -37,7 +39,9 @@
               </div>
             {% endif %}
             {% if not show_2fa %}
-              <form class="space-y-4 md:space-y-6" action="{{ url_for('auth.login') }}" method="post">
+              <form class="space-y-4 md:space-y-6"
+                    action="{{ url_for('auth.login') }}"
+                    method="post">
                 <div>
                   <label for="username"
                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

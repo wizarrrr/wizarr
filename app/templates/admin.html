@@ -1,5 +1,7 @@
 {% extends "base.html" %}
-{% block title %}{{ _("Admin") }}{% endblock title %}
+{% block title %}
+  {{ _("Admin") }}
+{% endblock title %}
 {% block main %}
   <div class="flex flex-col h-screen">
     {% if update_available %}

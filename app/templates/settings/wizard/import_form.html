@@ -85,31 +85,31 @@
             <ul class="mt-2 ml-4 space-y-1 list-disc">
               <li>{{ _("Export your current steps and bundles first as a backup") }}</li>
               <li>{{ _("Imported steps will use the file's step ordering and server types") }}</li>
-                              <li>{{ _("Imported bundles will preserve their step associations and ordering") }}</li>
-                              <li>{{ _("If replacing existing configuration, all current steps and bundles will be permanently removed") }}</li>
-                              <li>{{ _("Invalid or malformed JSON files will be rejected") }}</li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Expected JSON Format Section -->
-                    <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                      <div class="flex">
-                        <svg class="flex-shrink-0 w-5 h-5 text-blue-400 mt-0.5"
-                             fill="currentColor"
-                             viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd">
-                          </path>
-                        </svg>
-                        <div class="ml-3">
-                          <h3 class="text-sm font-medium text-blue-800 dark:text-blue-200">{{ _('Expected JSON Format') }}</h3>
-                          <div class="mt-2 text-sm text-blue-700 dark:text-blue-300">
-                            <p class="mb-2">{{ _('The JSON file can contain steps or bundles:') }}</p>
-                            <div class="space-y-3">
-                              <div>
-                                <p class="font-medium mb-1">{{ _('For steps export:') }}</p>
-                                <pre class="bg-blue-100 dark:bg-blue-800 p-2 rounded text-xs overflow-x-auto"><code>[
+              <li>{{ _("Imported bundles will preserve their step associations and ordering") }}</li>
+              <li>{{ _("If replacing existing configuration, all current steps and bundles will be permanently removed") }}</li>
+              <li>{{ _("Invalid or malformed JSON files will be rejected") }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Expected JSON Format Section -->
+    <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+      <div class="flex">
+        <svg class="flex-shrink-0 w-5 h-5 text-blue-400 mt-0.5"
+             fill="currentColor"
+             viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd">
+          </path>
+        </svg>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-blue-800 dark:text-blue-200">{{ _("Expected JSON Format") }}</h3>
+          <div class="mt-2 text-sm text-blue-700 dark:text-blue-300">
+            <p class="mb-2">{{ _("The JSON file can contain steps or bundles:") }}</p>
+            <div class="space-y-3">
+              <div>
+                <p class="font-medium mb-1">{{ _("For steps export:") }}</p>
+                <pre class="bg-blue-100 dark:bg-blue-800 p-2 rounded text-xs overflow-x-auto"><code>[
                                                   {
                                                     "server_type": "plex",
                                                     "title": "Step Title",
@@ -118,10 +118,10 @@
                                                   },
                                                   ...
                                                 ]</code></pre>
-                              </div>
-                              <div>
-                                <p class="font-medium mb-1">{{ _('For bundle export:') }}</p>
-                                <pre class="bg-blue-100 dark:bg-blue-800 p-2 rounded text-xs overflow-x-auto"><code>{
+              </div>
+              <div>
+                <p class="font-medium mb-1">{{ _("For bundle export:") }}</p>
+                <pre class="bg-blue-100 dark:bg-blue-800 p-2 rounded text-xs overflow-x-auto"><code>{
                                                   "name": "Bundle Name",
                                                   "description": "Bundle description",
                                                   "steps": [
@@ -133,39 +133,39 @@
                                                     ...
                                                   ]
                                                 }</code></pre>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Form Actions -->
-                    <div class="flex gap-3 justify-between">
-                      <a href="{{ url_for('wizard_admin.list_steps') }}"
-                         class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
-                        <svg class="w-4 h-4 mr-2"
-                             fill="none"
-                             stroke="currentColor"
-                             viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                        </svg>
-                        {{ _('Back to Steps') }}
-                      </a>
-                      <button type="submit"
-                              class="inline-flex items-center px-6 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:ring-4 focus:outline-none focus:ring-primary/25 rounded-lg transition-colors">
-                        <svg class="w-4 h-4 mr-2"
-                             fill="none"
-                             stroke="currentColor"
-                             viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10">
-                          </path>
-                        </svg>
-                        {{ _('Import Configuration') }}
-                      </button>
-                    </div>
-                  </form>
-                </section>
-                <script>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Form Actions -->
+    <div class="flex gap-3 justify-between">
+      <a href="{{ url_for('wizard_admin.list_steps') }}"
+         class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
+        <svg class="w-4 h-4 mr-2"
+             fill="none"
+             stroke="currentColor"
+             viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        {{ _("Back to Steps") }}
+      </a>
+      <button type="submit"
+              class="inline-flex items-center px-6 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:ring-4 focus:outline-none focus:ring-primary/25 rounded-lg transition-colors">
+        <svg class="w-4 h-4 mr-2"
+             fill="none"
+             stroke="currentColor"
+             viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10">
+          </path>
+        </svg>
+        {{ _("Import Configuration") }}
+      </button>
+    </div>
+  </form>
+</section>
+<script>
                     // Enhanced file upload with drag and drop feedback
                     document.addEventListener('DOMContentLoaded', function() {
                         const fileInput = document.getElementById('{{ form.file.id }}');
@@ -255,4 +255,4 @@
                             }
                         });
                     });
-                </script>
+</script>

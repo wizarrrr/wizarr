@@ -31,18 +31,9 @@ jobs:
     - uses: astral-sh/ruff-action@v3
     - run: ruff check --fix
     - run: ruff format
-
-  
-    - name: Check for merge conflict markers
-      run: |
-        if grep -r "<<<<<<< HEAD" . --exclude-dir=.git --exclude-dir=node_modules; then
-          echo "Merge conflict markers found"
-          exit 1
-        fi
-        if grep -r ">>>>>>> " . --exclude-dir=.git --exclude-dir=node_modules; then
-          echo "Merge conflict markers found"
-          exit 1
-        fi
+    
+    - name: Run djlint
+      run: uv run djlint app/templates --check --profile=jinja
     
     - name: Run ty check
       run: |

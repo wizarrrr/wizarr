@@ -1,6 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Accept Invite{% endblock title %}
-{% block og_title %}{{ _(server_name) }}{% endblock og_title %}
+{% block title %}
+  Accept Invite
+{% endblock title %}
+{% block og_title %}
+  {{ _(server_name) }}
+{% endblock og_title %}
 {% block og_description %}
   {{ _("You've been invited to join the %(name)s server!", name=server_name) }}
 {% endblock og_description %}
