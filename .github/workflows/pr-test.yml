@@ -19,7 +19,8 @@ jobs:
       uses: actions/setup-python@v6
       with:
         python-version-file: pyproject.toml
-    
+
+
     - name: Cache dependencies
       uses: actions/cache@v4
       with:
@@ -27,6 +28,9 @@ jobs:
         key: ${{ runner.os }}-uv-${{ hashFiles('**/pyproject.toml') }}
         restore-keys: |
           ${{ runner.os }}-uv-
+      
+    - name: Install dependencies
+      run: uv sync --dev
 
     - uses: astral-sh/ruff-action@v3
     - run: ruff check --fix
