@@ -75,6 +75,7 @@ lint.ignore = [
 
 [tool.ruff.lint.isort]
 known-first-party = ["app"]
+known-third-party = ["flask_session"]
 
 [tool.pyright]
 include = ["app", "tests"]

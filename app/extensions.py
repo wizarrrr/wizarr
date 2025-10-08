@@ -7,9 +7,8 @@ from flask_limiter.util import get_remote_address
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_restx import Api
-from flask_sqlalchemy import SQLAlchemy
-
 from flask_session import Session
+from flask_sqlalchemy import SQLAlchemy
 
 # Instantiate extensions
 db = SQLAlchemy()
