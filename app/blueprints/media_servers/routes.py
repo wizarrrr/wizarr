@@ -220,10 +220,11 @@ def edit_server(server_id):
 def delete_server():
     server_id = request.args.get("delete")
     if server_id:
+        server_id = int(server_id)
         # 1) Delete local DB users that belong to this server so no ghost
         #    accounts linger once the server entry is gone.
         (
-            User.query.filter(User.server_id == int(server_id)).delete(
+            User.query.filter(User.server_id == server_id).delete(
                 synchronize_session=False
             )
         )
@@ -231,7 +232,10 @@ def delete_server():
         # 2) Finally remove the MediaServer itself.
         MediaServer.query.filter_by(id=server_id).delete(synchronize_session=False)
         db.session.commit()
-    return "", 204
+    if request.headers.get("HX-Request"):
+        servers = MediaServer.query.order_by(MediaServer.name).all()
+        return render_template("settings/servers.html", servers=servers)
+    return redirect(url_for("media_servers.list_servers"))
 
 
 # -------------------------- NEW ENDPOINT ---------------------------
