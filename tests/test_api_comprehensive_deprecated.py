@@ -500,12 +500,12 @@ class TestAPIKeyManagement:
             data = response.get_json()
             assert "deleted successfully" in data["message"]
 
-            todays_date = datetime.now().strftime("%Y%m%d")
+            created = api_key_2.created.strftime("%Y%m%d_%H%M%S")
 
             # Verify the key is marked as inactive
             db.session.refresh(api_key_2)
             assert not api_key_2.is_active
-            assert "-del_{todays_date}" in api_key_2.name
+            assert "_{created}-del" in api_key_2.name
 
     def test_api_key_last_used_updated(self, client, api_key):
         """Test that API key last_used_at is updated when used."""

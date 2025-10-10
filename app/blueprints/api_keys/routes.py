@@ -98,9 +98,9 @@ def delete_api_key(key_id):
     api_key = ApiKey.query.get_or_404(key_id)
 
     # Soft delete by marking as inactive and rename so the name can be reused
-    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+    created = api_key.created.strftime("%Y%m%d_%H%M%S")
     key_name = api_key.name
-    api_key.name = f"{key_name}-del_{current_time}"
+    api_key.name = f"{key_name}_{created}-del"
     api_key.is_active = False
     db.session.commit()
 
