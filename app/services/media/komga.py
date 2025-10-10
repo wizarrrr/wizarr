@@ -111,7 +111,9 @@ class KomgaClient(RestApiMixin):
         try:
             # Komga doesn't have a direct enable feature
             # Return False to indicate this operation is not supported
-            structlog.get_logger().warning("Komga does not support enabling users. They need to be given library access.")
+            structlog.get_logger().warning(
+                "Komga does not support enabling users. They need to be given library access."
+            )
             return False
         except Exception as e:
             structlog.get_logger().error(f"Failed to enable Komga user: {e}")
@@ -122,7 +124,7 @@ class KomgaClient(RestApiMixin):
 
         Args:
             user_id: The user's Komga ID
-            enable: If True, enables the user (sets IsDisabled=False). 
+            enable: If True, enables the user (sets IsDisabled=False).
                 If False (default), disables the user (sets IsDisabled=True).
 
         Returns:
@@ -130,7 +132,7 @@ class KomgaClient(RestApiMixin):
         """
         try:
             if enable is True:
-                return enable_user(self, user_id) # Enable not supported
+                return enable_user(self, user_id)  # Enable not supported
             # Komga doesn't have a direct disable feature
             # We can remove all library access to effectively disable the user
             user_data = {"sharedLibrariesIds": []}

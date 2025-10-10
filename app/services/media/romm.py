@@ -280,7 +280,7 @@ class RommClient(RestApiMixin):
             bool: True if the user was successfully enabled, False otherwise
         """
         try:
-            return disable_user(self, user_id, True) # True = enable
+            return disable_user(self, user_id, True)  # True = enable
         except Exception as e:
             structlog.get_logger().error(f"Failed to enable RomM user: {e}")
             return False
@@ -290,7 +290,7 @@ class RommClient(RestApiMixin):
 
         Args:
             user_id: The user's RomM ID
-            enable: If True, enables the user (sets IsDisabled=False). 
+            enable: If True, enables the user (sets IsDisabled=False).
                 If False (default), disables the user (sets IsDisabled=True).
 
         Returns:

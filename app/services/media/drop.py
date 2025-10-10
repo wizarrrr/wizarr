@@ -258,7 +258,9 @@ class DropClient(RestApiMixin):
         try:
             # Drop doesn't have a direct disable/enable feature
             # Return False to indicate this operation is not supported
-            structlog.get_logger().warning("Drop does not support disabling/enabling users")
+            structlog.get_logger().warning(
+                "Drop does not support disabling/enabling users"
+            )
             return False
         except Exception as e:
             structlog.get_logger().error(f"Failed to enable Drop user: {e}")
@@ -269,7 +271,7 @@ class DropClient(RestApiMixin):
 
         Args:
             user_id: The user's Drop ID
-            enable: If True, enables the user (sets IsDisabled=False). 
+            enable: If True, enables the user (sets IsDisabled=False).
                 If False (default), disables the user (sets IsDisabled=True).
 
         Returns:
@@ -277,7 +279,7 @@ class DropClient(RestApiMixin):
         """
         try:
             if enable is True:
-                return enable_user(self, user_id) # Enable not supported
+                return enable_user(self, user_id)  # Enable not supported
             # Drop doesn't have a direct disable feature
             # Return False to indicate this operation is not supported
             structlog.get_logger().warning("Drop does not support disabling users")

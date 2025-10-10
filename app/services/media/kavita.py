@@ -472,7 +472,9 @@ class KavitaClient(RestApiMixin):
         try:
             # Kavita doesn't have a direct enable feature
             # Return False to indicate this operation is not supported
-            structlog.get_logger().warning("Kavita does not support enabling users. They need to be given library access.")
+            structlog.get_logger().warning(
+                "Kavita does not support enabling users. They need to be given library access."
+            )
             return False
         except Exception as e:
             structlog.get_logger().error(f"Failed to enable Kavita user: {e}")
@@ -483,7 +485,7 @@ class KavitaClient(RestApiMixin):
 
         Args:
             user_id: The user's Kavita ID
-            enable: If True, enables the user (sets IsDisabled=False). 
+            enable: If True, enables the user (sets IsDisabled=False).
                 If False (default), disables the user (sets IsDisabled=True).
 
         Returns:
@@ -491,7 +493,7 @@ class KavitaClient(RestApiMixin):
         """
         try:
             if enable is True:
-                return enable_user(self, user_id) # Enable not supported
+                return enable_user(self, user_id)  # Enable not supported
             # For Kavita, we remove all library access to effectively disable the user
             user_details = self.get(f"/api/Account/users/{user_id}").json()
             if user_details:

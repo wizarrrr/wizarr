@@ -305,7 +305,9 @@ class NavidromeClient(RestApiMixin):
         try:
             # Navidrome doesn't have a direct enable feature
             # Return False to indicate this operation is not supported
-            structlog.get_logger().warning("Navidrome does not support enabling users. They need to be given library access.")
+            structlog.get_logger().warning(
+                "Navidrome does not support enabling users. They need to be given library access."
+            )
             return False
         except Exception as e:
             structlog.get_logger().error(f"Failed to enable Navidrome user: {e}")
@@ -316,7 +318,7 @@ class NavidromeClient(RestApiMixin):
 
         Args:
             user_id: The user's Navidrome username
-            enable: If True, enables the user (sets IsDisabled=False). 
+            enable: If True, enables the user (sets IsDisabled=False).
                 If False (default), disables the user (sets IsDisabled=True).
 
         Returns:
@@ -324,7 +326,7 @@ class NavidromeClient(RestApiMixin):
         """
         try:
             if enable is True:
-                return enable_user(self, user_id) # Enable not supported
+                return enable_user(self, user_id)  # Enable not supported
             # Navidrome doesn't have a disable feature, we can only delete users
             # Return False to indicate this operation is not supported
             structlog.get_logger().warning(

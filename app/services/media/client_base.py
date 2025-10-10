@@ -221,7 +221,7 @@ class MediaClient(ABC):
 
         Args:
             user_id: The user's ID on the media server
-            enable: If True, enables the user (sets IsDisabled=False). 
+            enable: If True, enables the user (sets IsDisabled=False).
                 If False (default), disables the user (sets IsDisabled=True).
 
         Returns:
