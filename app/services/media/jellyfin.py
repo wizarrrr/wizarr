@@ -195,6 +195,8 @@ class JellyfinClient(RestApiMixin):
 
         Args:
             user_id: The user's Jellyfin ID
+            enable: If True, enables the user (sets IsDisabled=False). 
+                If False (default), disables the user (sets IsDisabled=True).
 
         Returns:
             bool: True if the user was successfully disabled, False otherwise
