@@ -938,7 +938,10 @@ class ApiKeyResource(Resource):
                         "error": "Cannot delete the API key currently being used"
                     }, 400
 
+            # Soft delete by marking as inactive and rename so the name can be reused
+            current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
             key_name = api_key.name
+            api_key.name = f"{key_name}-del_{current_time}"
             api_key.is_active = False
             db.session.commit()
 
