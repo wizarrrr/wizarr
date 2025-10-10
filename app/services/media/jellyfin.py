@@ -190,7 +190,7 @@ class JellyfinClient(RestApiMixin):
 
         return self.post(f"/Users/{jf_id}", json=current).json()
 
-    def disable_user(self, user_id: str) -> bool:
+    def disable_user(self, user_id: str, enable: bool = False) -> bool:
         """Disable a user account on Jellyfin.
 
         Args:
@@ -200,12 +200,14 @@ class JellyfinClient(RestApiMixin):
             bool: True if the user was successfully disabled, False otherwise
         """
         try:
-            user = self.get_user(user_id)
-            if not user:
+            raw_user = self.get(f"/Users/{user_id}").json()
+            if not raw_user:
                 return False
 
-            user["Policy"]["IsDisabled"] = True
-            response = self.post(f"/Users/{user_id}", json=user)
+            policy = raw_user.get("Policy", {})
+            policy["IsDisabled"] = not enable
+
+            response = self.post(f"/Users/{user_id}/Policy", json=policy)
             return response.status_code == 204 or response.status_code == 200
         except Exception as e:
             structlog.get_logger().error(f"Failed to disable Jellyfin user: {e}")
