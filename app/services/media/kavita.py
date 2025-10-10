@@ -460,16 +460,38 @@ class KavitaClient(RestApiMixin):
             logging.error(f"Failed to update Kavita user {username}: {e}")
             return None
 
-    def disable_user(self, user_id: str) -> bool:
-        """Disable a user account on Kavita.
+    def enable_user(self, user_id: str) -> bool:
+        """Enable a user account on Kavita.
 
         Args:
             user_id: The user's Kavita ID
 
         Returns:
+            bool: True if the user was successfully enabled, False otherwise
+        """
+        try:
+            # Kavita doesn't have a direct enable feature
+            # Return False to indicate this operation is not supported
+            structlog.get_logger().warning("Kavita does not support enabling users. They need to be given library access.")
+            return False
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to enable Kavita user: {e}")
+            return False
+
+    def disable_user(self, user_id: str, enable: bool = False) -> bool:
+        """Disable a user account on Kavita.
+
+        Args:
+            user_id: The user's Kavita ID
+            enable: If True, enables the user (sets IsDisabled=False). 
+                If False (default), disables the user (sets IsDisabled=True).
+
+        Returns:
             bool: True if the user was successfully disabled, False otherwise
         """
         try:
+            if enable is True:
+                return enable_user(self, user_id) # Enable not supported
             # For Kavita, we remove all library access to effectively disable the user
             user_details = self.get(f"/api/Account/users/{user_id}").json()
             if user_details:
@@ -479,7 +501,8 @@ class KavitaClient(RestApiMixin):
                 return response.status_code == 200
             return False
         except Exception as e:
-            structlog.get_logger().error(f"Failed to disable Kavita user: {e}")
+            action = "enable" if enable else "disable"
+            structlog.get_logger().error(f"Failed to {action} Kavita user: {e}")
             return False
 
     def grant_library_access(self, user_id: str, library_ids: list[str]) -> None:

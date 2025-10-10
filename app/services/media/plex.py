@@ -691,7 +691,25 @@ class PlexClient(MediaClient):
             allowCameraUpload=bool(form.get("allowCameraUpload")),
         )
 
-    def disable_user(self, user_id: str) -> bool:
+    def enable_user(self, user_id: str) -> bool:
+        """Enable a user account on Plex.
+
+        Args:
+            user_id: The user's Plex ID
+
+        Returns:
+            bool: True if the user was successfully enabled, False otherwise
+        """
+        try:
+            # Plex doesn't have a direct disable/enable feature
+            # Return False to indicate this operation is not supported
+            structlog.get_logger().warning("Plex does not support disabling/enabling users")
+            return False
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to enable Plex user: {e}")
+            return False
+
+    def disable_user(self, user_id: str, enable: bool = False) -> bool:
         """Disable a user account on Plex.
 
         Note: Plex doesn't have a direct disable feature for managed users.
@@ -699,11 +717,15 @@ class PlexClient(MediaClient):
 
         Args:
             user_id: The user's Plex ID
+            enable: If True, enables the user (sets IsDisabled=False). 
+                If False (default), disables the user (sets IsDisabled=True).
 
         Returns:
             bool: True if the user was successfully disabled, False otherwise
         """
         try:
+            if enable is True:
+                return enable_user(self, user_id) # Enable not supported
             # For Plex, we remove all library access to effectively disable the user
             user = self.my_account.user(user_id)
             if user:
@@ -711,7 +733,8 @@ class PlexClient(MediaClient):
                 return True
             return False
         except Exception as e:
-            structlog.get_logger().error(f"Failed to disable Plex user: {e}")
+            action = "enable" if enable else "disable"
+            structlog.get_logger().error(f"Failed to {action} Plex user: {e}")
             return False
 
     def delete_user(self, email: str) -> None:

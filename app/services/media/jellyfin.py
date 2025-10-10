@@ -190,6 +190,21 @@ class JellyfinClient(RestApiMixin):
 
         return self.post(f"/Users/{jf_id}", json=current).json()
 
+    def enable_user(self, user_id: str) -> bool:
+        """Enable a user account on Jellyfin.
+
+        Args:
+            user_id: The user's Jellyfin ID
+
+        Returns:
+            bool: True if the user was successfully enabled, False otherwise
+        """
+        try:
+            return disable_user(self, user_id, True) # True = enable
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to enable Jellyfin user: {e}")
+            return False
+
     def disable_user(self, user_id: str, enable: bool = False) -> bool:
         """Disable a user account on Jellyfin.
 
@@ -212,7 +227,8 @@ class JellyfinClient(RestApiMixin):
             response = self.post(f"/Users/{user_id}/Policy", json=policy)
             return response.status_code == 204 or response.status_code == 200
         except Exception as e:
-            structlog.get_logger().error(f"Failed to disable Jellyfin user: {e}")
+            action = "enable" if enable else "disable"
+            structlog.get_logger().error(f"Failed to {action} Jellyfin user: {e}")
             return False
 
     def list_users(self) -> list[User]:

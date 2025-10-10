@@ -365,6 +365,52 @@ class UserResource(Resource):
             return {"error": "Internal server error"}, 500
 
 
+@users_ns.route("/<int:user_id>/enable")
+class UserDisableResource(Resource):
+    @api.doc("enable_user", security="apikey")
+    @api.response(200, "User enabled successfully", success_message_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(404, "User not found", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def post(self, user_id):
+        """Enable a specific user by ID.
+
+        This will enable the user account on the media server if the server supports it.
+        """
+        # Find user first, outside try block
+        user = db.session.get(User, user_id)
+        if not user:
+            abort(404, error="User not found")
+
+        # Get server info for the user
+        server = db.session.get(MediaServer, user.server_id)
+        if not server:
+            abort(404, error="Server not found for user")
+
+        try:
+            logger.info("API: Attempting to enable user %s", user_id)
+
+            # Try to enable user
+            result = enable_user(user.id)
+
+            if result:
+                return {"message": f"User {user.username} enabled successfully"}
+            # If enable failed or not supported,
+            logger.info(
+                "Enable failed or not supported for user %s",
+                user_id,
+            )
+            return {
+                "message": f"Enable failed or not supported for user {user.username}"
+            }
+
+        except Exception as e:
+            logger.error("Error enabling user %s: %s", user_id, str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
 @users_ns.route("/<int:user_id>/disable")
 class UserDisableResource(Resource):
     @api.doc("disable_user", security="apikey")

@@ -293,16 +293,38 @@ class NavidromeClient(RestApiMixin):
             logging.error("Navidrome: failed to update user %s – %s", username, exc)
             raise
 
-    def disable_user(self, user_id: str) -> bool:
+    def enable_user(self, user_id: str) -> bool:
+        """Enable a user account on Navidrome.
+
+        Args:
+            user_id: The user's Navidrome ID
+
+        Returns:
+            bool: True if the user was successfully enabled, False otherwise
+        """
+        try:
+            # Navidrome doesn't have a direct enable feature
+            # Return False to indicate this operation is not supported
+            structlog.get_logger().warning("Navidrome does not support enabling users. They need to be given library access.")
+            return False
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to enable Navidrome user: {e}")
+            return False
+
+    def disable_user(self, user_id: str, enable: bool = False) -> bool:
         """Disable a user account on Navidrome.
 
         Args:
             user_id: The user's Navidrome username
+            enable: If True, enables the user (sets IsDisabled=False). 
+                If False (default), disables the user (sets IsDisabled=True).
 
         Returns:
             bool: True if the user was successfully disabled, False otherwise
         """
         try:
+            if enable is True:
+                return enable_user(self, user_id) # Enable not supported
             # Navidrome doesn't have a disable feature, we can only delete users
             # Return False to indicate this operation is not supported
             structlog.get_logger().warning(
@@ -310,7 +332,8 @@ class NavidromeClient(RestApiMixin):
             )
             return False
         except Exception as e:
-            structlog.get_logger().error(f"Failed to disable Navidrome user: {e}")
+            action = "enable" if enable else "disable"
+            structlog.get_logger().error(f"Failed to {action} Navidrome user: {e}")
             return False
 
     def delete_user(self, username: str):
