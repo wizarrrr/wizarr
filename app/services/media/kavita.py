@@ -460,6 +460,26 @@ class KavitaClient(RestApiMixin):
             logging.error(f"Failed to update Kavita user {username}: {e}")
             return None
 
+    def enable_user(self, user_id: str) -> bool:
+        """Enable a user account on Kavita.
+
+        Args:
+            user_id: The user's Kavita ID
+
+        Returns:
+            bool: True if the user was successfully enabled, False otherwise
+        """
+        try:
+            # Kavita doesn't have a direct enable feature
+            # Return False to indicate this operation is not supported
+            structlog.get_logger().warning(
+                "Kavita does not support enabling users. They need to be given library access."
+            )
+            return False
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to enable Kavita user: {e}")
+            return False
+
     def disable_user(self, user_id: str) -> bool:
         """Disable a user account on Kavita.
 
