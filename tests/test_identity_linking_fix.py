@@ -53,6 +53,9 @@ class MockMediaClient(MediaClient):
     def disable_user(self, user_id: str) -> bool:
         return True
 
+    def enable_user(self, user_id: str) -> bool:
+        return True
+
 
 class TestIdentityLinkingFix:
     """Test the identity linking fix for unlimited vs limited invitations."""
