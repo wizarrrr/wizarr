@@ -21,7 +21,7 @@ from app.models import (
     WebAuthnCredential,
 )
 from app.services.invites import create_invite
-from app.services.media.service import delete_user, disable_user, list_users_all_servers
+from app.services.media.service import delete_user, disable_user, enable_user, list_users_all_servers
 from app.services.server_name_resolver import get_display_name_info
 
 from .models import (
@@ -366,7 +366,7 @@ class UserResource(Resource):
 
 
 @users_ns.route("/<int:user_id>/enable")
-class UserDisableResource(Resource):
+class UserEnableResource(Resource):
     @api.doc("enable_user", security="apikey")
     @api.response(200, "User enabled successfully", success_message_model)
     @api.response(401, "Invalid or missing API key", error_model)
