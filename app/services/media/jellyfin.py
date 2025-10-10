@@ -190,13 +190,11 @@ class JellyfinClient(RestApiMixin):
 
         return self.post(f"/Users/{jf_id}", json=current).json()
 
-    def disable_user(self, user_id: str, enable: bool = False) -> bool:
+    def disable_user(self, user_id: str) -> bool:
         """Disable a user account on Jellyfin.
 
         Args:
             user_id: The user's Jellyfin ID
-            enable: If True, enables the user (sets IsDisabled=False).
-                If False (default), disables the user (sets IsDisabled=True).
 
         Returns:
             bool: True if the user was successfully disabled, False otherwise
@@ -207,7 +205,7 @@ class JellyfinClient(RestApiMixin):
                 return False
 
             policy = raw_user.get("Policy", {})
-            policy["IsDisabled"] = not enable
+            policy["IsDisabled"] = True
 
             response = self.post(f"/Users/{user_id}/Policy", json=policy)
             return response.status_code == 204 or response.status_code == 200
