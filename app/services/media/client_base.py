@@ -204,7 +204,7 @@ class MediaClient(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def enable_user(self, user_id: str, enable: bool = False) -> bool:
+    def enable_user(self, user_id: str) -> bool:
         """Enable a user account on the media server.
 
         Args:
