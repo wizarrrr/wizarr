@@ -216,13 +216,11 @@ class MediaClient(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def disable_user(self, user_id: str, enable: bool = False) -> bool:
+    def disable_user(self, user_id: str) -> bool:
         """Disable a user account on the media server.
 
         Args:
-            user_id: The user's ID on the media server
-            enable: If True, enables the user (sets IsDisabled=False).
-                If False (default), disables the user (sets IsDisabled=True).
+            user_id: The user's ID on the media serverFailed to disable
 
         Returns:
             bool: True if the user was successfully disabled, False otherwise

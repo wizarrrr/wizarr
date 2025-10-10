@@ -25,7 +25,7 @@ from app.services.media.service import (
     delete_user,
     disable_user,
     enable_user,
-    list_users_all_servers
+    list_users_all_servers,
 )
 from app.services.server_name_resolver import get_display_name_info
 

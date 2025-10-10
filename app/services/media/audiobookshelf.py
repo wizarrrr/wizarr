@@ -600,30 +600,30 @@ class AudiobookshelfClient(RestApiMixin):
             bool: True if the user was successfully enabled, False otherwise
         """
         try:
-            return disable_user(self, user_id, True)  # True = enable
+            # Audiobookshelf uses isActive field to enable/disable users
+            payload = {"isActive": True}
+            response = self.patch(f"/api/users/{user_id}", json=payload)
+            return response.status_code == 200
         except Exception as e:
             structlog.get_logger().error(f"Failed to enable Audiobookshelf user: {e}")
             return False
 
-    def disable_user(self, user_id: str, enable: bool = False) -> bool:
+    def disable_user(self, user_id: str) -> bool:
         """Disable a user account on Audiobookshelf.
 
         Args:
             user_id: The user's Audiobookshelf ID
-            enable: If True, enables the user (sets IsDisabled=False).
-                If False (default), disables the user (sets IsDisabled=True).
 
         Returns:
             bool: True if the user was successfully disabled, False otherwise
         """
         try:
             # Audiobookshelf uses isActive field to enable/disable users
-            payload = {"isActive": enable}
+            payload = {"isActive": False}
             response = self.patch(f"/api/users/{user_id}", json=payload)
             return response.status_code == 200
         except Exception as e:
-            action = "enable" if enable else "disable"
-            structlog.get_logger().error(f"Failed to {action} Audiobookshelf user: {e}")
+            structlog.get_logger().error(f"Failed to disable Audiobookshelf user: {e}")
             return False
 
     def delete_user(self, user_id: str):

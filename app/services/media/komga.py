@@ -119,28 +119,23 @@ class KomgaClient(RestApiMixin):
             structlog.get_logger().error(f"Failed to enable Komga user: {e}")
             return False
 
-    def disable_user(self, user_id: str, enable: bool = False) -> bool:
+    def disable_user(self, user_id: str) -> bool:
         """Disable a user account on Komga.
 
         Args:
             user_id: The user's Komga ID
-            enable: If True, enables the user (sets IsDisabled=False).
-                If False (default), disables the user (sets IsDisabled=True).
 
         Returns:
             bool: True if the user was successfully disabled, False otherwise
         """
         try:
-            if enable is True:
-                return enable_user(self, user_id)  # Enable not supported
             # Komga doesn't have a direct disable feature
             # We can remove all library access to effectively disable the user
             user_data = {"sharedLibrariesIds": []}
             response = self.patch(f"/api/v2/users/{user_id}", json=user_data)
             return response.status_code == 204 or response.status_code == 200
         except Exception as e:
-            action = "enable" if enable else "disable"
-            structlog.get_logger().error(f"Failed to {action} Komga user: {e}")
+            structlog.get_logger().error(f"Failed to disable Komga user: {e}")
             return False
 
     def delete_user(self, user_id: str) -> None:

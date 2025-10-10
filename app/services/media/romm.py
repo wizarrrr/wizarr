@@ -280,30 +280,30 @@ class RommClient(RestApiMixin):
             bool: True if the user was successfully enabled, False otherwise
         """
         try:
-            return disable_user(self, user_id, True)  # True = enable
+            # RomM uses enabled field to enable/disable users
+            payload = {"enabled": True}
+            response = self.patch(f"/api/users/{user_id}", json=payload)
+            return response.status_code == 200
         except Exception as e:
             structlog.get_logger().error(f"Failed to enable RomM user: {e}")
             return False
 
-    def disable_user(self, user_id: str, enable: bool = False) -> bool:
+    def disable_user(self, user_id: str) -> bool:
         """Disable a user account on RomM.
 
         Args:
             user_id: The user's RomM ID
-            enable: If True, enables the user (sets IsDisabled=False).
-                If False (default), disables the user (sets IsDisabled=True).
 
         Returns:
             bool: True if the user was successfully disabled, False otherwise
         """
         try:
             # RomM uses enabled field to enable/disable users
-            payload = {"enabled": enable}
+            payload = {"enabled": False}
             response = self.patch(f"/api/users/{user_id}", json=payload)
             return response.status_code == 200
         except Exception as e:
-            action = "enable" if enable else "disable"
-            structlog.get_logger().error(f"Failed to {action} RomM user: {e}")
+            structlog.get_logger().error(f"Failed to disable RomM user: {e}")
             return False
 
     def delete_user(self, user_id: str):
