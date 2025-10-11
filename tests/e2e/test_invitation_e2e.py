@@ -542,7 +542,7 @@ class TestInvitationUIComponents:
         expect(page.locator("label").filter(has_text="Password").first).to_be_visible()
         expect(page.locator("label").filter(has_text="Email")).to_be_visible()
 
-        # Check form has proper structure
+        # Check form has proper structure (HTML method attribute is uppercase)
         expect(page.locator("form")).to_have_attribute("method", "POST")
 
         # Test keyboard navigation

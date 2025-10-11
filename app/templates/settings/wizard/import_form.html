@@ -166,27 +166,27 @@
   </form>
 </section>
 <script>
-                    // Enhanced file upload with drag and drop feedback
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const fileInput = document.getElementById('{{ form.file.id }}');
-                        const label = fileInput.closest('label');
+    // Enhanced file upload with drag and drop feedback
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('{{ form.file.id }}');
+        const label = fileInput.closest('label');
 
-                        // File selection feedback
-                        fileInput.addEventListener('change', function() {
-                            if (this.files && this.files[0]) {
-                                const file = this.files[0];
-                                const fileName = file.name;
-                                const fileSize = (file.size / 1024).toFixed(1) + ' KB';
-                                const isValidType = file.type === 'application/json' || fileName.endsWith('.json');
+        // File selection feedback
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                const fileName = file.name;
+                const fileSize = (file.size / 1024).toFixed(1) + ' KB';
+                const isValidType = file.type === 'application/json' || fileName.endsWith('.json');
 
-                                // Update the label content
-                                const content = label.querySelector('.flex.flex-col');
-                                const iconColor = isValidType ? 'text-green-500' : 'text-red-500';
-                                const iconPath = isValidType ?
-                                    'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' :
-                                    'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z';
+                // Update the label content
+                const content = label.querySelector('.flex.flex-col');
+                const iconColor = isValidType ? 'text-green-500' : 'text-red-500';
+                const iconPath = isValidType ?
+                    'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' :
+                    'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z';
 
-                                content.innerHTML = `
+                content.innerHTML = `
                                                                 <svg class="w-10 h-10 mb-4 ${iconColor}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPath}"></path>
                                                                 </svg>
@@ -197,62 +197,62 @@
                                                                 ${!isValidType ? '<p class="text-xs text-red-600 dark:text-red-400 mt-1">Invalid file type</p>' : ''}
                                                             `;
 
-                                // Update styling
-                                label.classList.remove('border-gray-300', 'bg-gray-50', 'border-green-300', 'bg-green-50', 'border-red-300', 'bg-red-50');
-                                if (isValidType) {
-                                    label.classList.add('border-green-300', 'bg-green-50', 'dark:bg-green-900/20');
-                                } else {
-                                    label.classList.add('border-red-300', 'bg-red-50', 'dark:bg-red-900/20');
-                                }
-                            }
-                        });
+                // Update styling
+                label.classList.remove('border-gray-300', 'bg-gray-50', 'border-green-300', 'bg-green-50', 'border-red-300', 'bg-red-50');
+                if (isValidType) {
+                    label.classList.add('border-green-300', 'bg-green-50', 'dark:bg-green-900/20');
+                } else {
+                    label.classList.add('border-red-300', 'bg-red-50', 'dark:bg-red-900/20');
+                }
+            }
+        });
 
-                        // Drag and drop styling
-                        ['dragenter', 'dragover'].forEach(eventName => {
-                            label.addEventListener(eventName, function(e) {
-                                e.preventDefault();
-                                this.classList.add('border-primary', 'bg-primary/5');
-                            });
-                        });
+        // Drag and drop styling
+        ['dragenter', 'dragover'].forEach(eventName => {
+            label.addEventListener(eventName, function(e) {
+                e.preventDefault();
+                this.classList.add('border-primary', 'bg-primary/5');
+            });
+        });
 
-                        ['dragleave', 'drop'].forEach(eventName => {
-                            label.addEventListener(eventName, function(e) {
-                                e.preventDefault();
-                                this.classList.remove('border-primary', 'bg-primary/5');
-                            });
-                        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            label.addEventListener(eventName, function(e) {
+                e.preventDefault();
+                this.classList.remove('border-primary', 'bg-primary/5');
+            });
+        });
 
-                        label.addEventListener('drop', function(e) {
-                            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-                                fileInput.files = e.dataTransfer.files;
-                                fileInput.dispatchEvent(new Event('change'));
-                            }
-                        });
+        label.addEventListener('drop', function(e) {
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                fileInput.files = e.dataTransfer.files;
+                fileInput.dispatchEvent(new Event('change'));
+            }
+        });
 
-                        // Form validation
-                        const form = document.querySelector('form');
-                        form.addEventListener('submit', function(e) {
-                            if (!fileInput.files || !fileInput.files[0]) {
-                                e.preventDefault();
-                                alert('{{ _("Please select a JSON file to import.") }}');
-                                return false;
-                            }
+        // Form validation
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(e) {
+            if (!fileInput.files || !fileInput.files[0]) {
+                e.preventDefault();
+                alert('{{ _("Please select a JSON file to import.") }}');
+                return false;
+            }
 
-                            const file = fileInput.files[0];
-                            if (!file.name.endsWith('.json') && file.type !== 'application/json') {
-                                e.preventDefault();
-                                alert('{{ _("Please select a valid JSON file.") }}');
-                                return false;
-                            }
+            const file = fileInput.files[0];
+            if (!file.name.endsWith('.json') && file.type !== 'application/json') {
+                e.preventDefault();
+                alert('{{ _("Please select a valid JSON file.") }}');
+                return false;
+            }
 
-                            // Show confirmation for replace existing
-                            const replaceCheckbox = document.getElementById('{{ form.replace_existing.id }}');
-                            if (replaceCheckbox && replaceCheckbox.checked) {
-                                if (!confirm('{{ _("This will permanently replace all existing wizard configuration (steps and bundles). Are you sure you want to continue?") }}')) {
-                                    e.preventDefault();
-                                    return false;
-                                }
-                            }
-                        });
-                    });
+            // Show confirmation for replace existing
+            const replaceCheckbox = document.getElementById('{{ form.replace_existing.id }}');
+            if (replaceCheckbox && replaceCheckbox.checked) {
+                if (!confirm('{{ _("This will permanently replace all existing wizard configuration (steps and bundles). Are you sure you want to continue?") }}')) {
+                    e.preventDefault();
+                    return false;
+                }
+            }
+        });
+    });
 </script>

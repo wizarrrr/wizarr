@@ -86,7 +86,7 @@ def run_library_migration(app):
                 elif inv.server_id:  # Legacy single server
                     from app.models import MediaServer
 
-                    server = MediaServer.query.get(inv.server_id)
+                    server = db.session.get(MediaServer, inv.server_id)
                     if server:
                         invitation_servers = [server]
 

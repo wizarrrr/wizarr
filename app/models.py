@@ -487,8 +487,11 @@ class WizardStep(db.Model):
     """Markdown wizard page stored in the database instead of loose files.
 
     Each *server_type* (plex, jellyfin, …) owns an ordered list of steps with
-    an integer *position* starting at 0.  A `(server_type, position)` unique
-    constraint guarantees a stable order without gaps.
+    an integer *position* starting at 0.  A `(server_type, category, position)` unique
+    constraint guarantees a stable order without gaps within each category.
+
+    The *category* field distinguishes between 'pre_invite' (shown before invitation
+    acceptance) and 'post_invite' (shown after invitation acceptance) steps.
     """
 
     __tablename__ = "wizard_step"
@@ -498,7 +501,15 @@ class WizardStep(db.Model):
     # Target backend this step is meant for (plex / emby / etc.)
     server_type = db.Column(db.String, nullable=False)
 
-    # Sort index within the server group – lower numbers appear first
+    # Category: 'pre_invite' or 'post_invite' - determines when step is shown
+    category = db.Column(
+        db.String,
+        nullable=False,
+        default="post_invite",
+        server_default="post_invite",
+    )
+
+    # Sort index within the server group and category – lower numbers appear first
     position = db.Column(db.Integer, nullable=False)
 
     # Optional page title – if omitted we will derive it from the first H1 in
@@ -526,7 +537,9 @@ class WizardStep(db.Model):
     )
 
     __table_args__ = (
-        db.UniqueConstraint("server_type", "position", name="uq_step_server_pos"),
+        db.UniqueConstraint(
+            "server_type", "category", "position", name="uq_step_server_category_pos"
+        ),
     )
 
     def __init__(self, **kwargs):
@@ -538,6 +551,7 @@ class WizardStep(db.Model):
         return {
             "id": self.id,
             "server_type": self.server_type,
+            "category": self.category,
             "position": self.position,
             "title": self.title,
             "markdown": self.markdown,
