@@ -501,7 +501,7 @@ class TestAPIKeyManagement:
             assert "deleted successfully" in data["message"]
 
             created = api_key_2.created_at.strftime("%Y%m%d_%H%M%S")
-            suffix = "_{created}-del"
+            suffix = f"_{created}-del"
 
             # Verify the key is marked as inactive
             db.session.refresh(api_key_2)
