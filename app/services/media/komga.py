@@ -99,6 +99,26 @@ class KomgaClient(RestApiMixin):
         response = self.patch(f"/api/v2/users/{user_id}", json=updates)
         return response.json()
 
+    def enable_user(self, user_id: str) -> bool:
+        """Enable a user account on Komga.
+
+        Args:
+            user_id: The user's Komga ID
+
+        Returns:
+            bool: True if the user was successfully enabled, False otherwise
+        """
+        try:
+            # Komga doesn't have a direct enable feature
+            # Return False to indicate this operation is not supported
+            structlog.get_logger().warning(
+                "Komga does not support enabling users. They need to be given library access."
+            )
+            return False
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to enable Komga user: {e}")
+            return False
+
     def disable_user(self, user_id: str) -> bool:
         """Disable a user account on Komga.
 

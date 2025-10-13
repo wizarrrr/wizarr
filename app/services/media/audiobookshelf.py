@@ -590,6 +590,24 @@ class AudiobookshelfClient(RestApiMixin):
             logging.error("ABS: failed to update user %s – %s", user_id, exc)
             raise
 
+    def enable_user(self, user_id: str) -> bool:
+        """Enable a user account on Audiobookshelf.
+
+        Args:
+            user_id: The user's Audiobookshelf ID
+
+        Returns:
+            bool: True if the user was successfully enabled, False otherwise
+        """
+        try:
+            # Audiobookshelf uses isActive field to enable/disable users
+            payload = {"isActive": True}
+            response = self.patch(f"/api/users/{user_id}", json=payload)
+            return response.status_code == 200
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to enable Audiobookshelf user: {e}")
+            return False
+
     def disable_user(self, user_id: str) -> bool:
         """Disable a user account on Audiobookshelf.
 

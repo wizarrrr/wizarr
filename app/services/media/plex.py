@@ -691,6 +691,26 @@ class PlexClient(MediaClient):
             allowCameraUpload=bool(form.get("allowCameraUpload")),
         )
 
+    def enable_user(self, user_id: str) -> bool:
+        """Enable a user account on Plex.
+
+        Args:
+            user_id: The user's Plex ID
+
+        Returns:
+            bool: True if the user was successfully enabled, False otherwise
+        """
+        try:
+            # Plex doesn't have a direct disable/enable feature
+            # Return False to indicate this operation is not supported
+            structlog.get_logger().warning(
+                "Plex does not support disabling/enabling users"
+            )
+            return False
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to enable Plex user: {e}")
+            return False
+
     def disable_user(self, user_id: str) -> bool:
         """Disable a user account on Plex.
 
