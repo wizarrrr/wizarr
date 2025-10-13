@@ -1,7 +1,7 @@
 """Add Plus features: audit logging and activity monitoring
 
 Revision ID: 20250921_plus_features
-Revises: 39514b0aaad9
+Revises: 08a6c8fb44db
 Create Date: 2025-09-21 15:22:00.164026
 
 """
@@ -11,7 +11,7 @@ from alembic import op
 
 # revision identifiers, used by Alembic.
 revision = "20250921_plus_features"
-down_revision = "39514b0aaad9"
+down_revision = "08a6c8fb44db"
 branch_labels = None
 depends_on = None
 
