@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-09-22 13:02+0000\n"
-"PO-Revision-Date: 2025-10-15 02:07+0000\n"
+"PO-Revision-Date: 2025-10-15 13:00+0000\n"
 "Last-Translator: Emil Friis Osmann <Emilfriisosmann@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/wizarr/"
 "wizarr-universal/da/>\n"
@@ -81,11 +81,11 @@ msgstr "Nulstilling af adgangsnøgler for {} fejlede"
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown "
 "again."
-msgstr ""
+msgstr "API-nøgle skabt med succes. Kopier det nu, da det ikke vises igen."
 
 #: app/blueprints/api_keys/routes.py:110
 msgid "API key deleted successfully"
-msgstr ""
+msgstr "API-tasten slettet med succes"
 
 #: app/blueprints/auth/routes.py:85
 msgid "Invalid username or password"
@@ -93,56 +93,56 @@ msgstr "Ugyldigt brugernavn eller adgangskode"
 
 #: app/blueprints/auth/routes.py:105
 msgid "No pending 2FA authentication"
-msgstr ""
+msgstr "Ingen af 2FA-godkendelse"
 
 #: app/blueprints/auth/routes.py:119 app/templates/login.html:150
 #: app/templates/login.html:209 app/templates/login.html:213
 msgid "Authentication failed"
-msgstr ""
+msgstr "Godkendelse mislykkedes"
 
 #: app/blueprints/connections/routes.py:52
 #: app/blueprints/connections/routes.py:188
 msgid "Connection type is required"
-msgstr ""
+msgstr "Tilslutningstype er påkrævet"
 
 #: app/blueprints/connections/routes.py:65
 #, python-format
 msgid "Connection test failed: %(message)s"
-msgstr ""
+msgstr "Tilslutningstest mislykkedes: %(message)s"
 
 #: app/blueprints/connections/routes.py:75
 msgid "Connection test successful!"
-msgstr ""
+msgstr "Tilslutningstest vellykket!"
 
 #: app/blueprints/connections/routes.py:78
 #: app/blueprints/connections/routes.py:204
 msgid "Unknown connection type"
-msgstr ""
+msgstr "Ukendt tilslutningstype"
 
 #: app/blueprints/connections/routes.py:95
 msgid "Connection created successfully!"
-msgstr ""
+msgstr "Tilslutning skabt med succes!"
 
 #: app/blueprints/connections/routes.py:124
 msgid "Connection updated successfully!"
-msgstr ""
+msgstr "Tilslutning opdateret med succes!"
 
 #: app/blueprints/connections/routes.py:146
 msgid "Connection deleted successfully!"
-msgstr ""
+msgstr "Tilslutning slettet med succes!"
 
 #: app/blueprints/connections/routes.py:165
 msgid "Please refresh the page and try again (CSRF token expired)"
-msgstr ""
+msgstr "Opdater siden og prøv igen (CSRF token udløbet)"
 
 #: app/blueprints/connections/routes.py:170
 #, python-format
 msgid "Invalid form data: %(errors)s"
-msgstr ""
+msgstr "Ugyldige formulardata: %(errors)s"
 
 #: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:270
 msgid "Settings saved successfully!"
-msgstr ""
+msgstr "Indstillinger gemt med succes!"
 
 #: app/blueprints/settings/routes.py:216
 msgid "Server URL"
@@ -159,12 +159,12 @@ msgstr "Brugernavn/Adgangskode"
 #: app/blueprints/settings/routes.py:222
 #, python-brace-format
 msgid "Missing required fields: {fields}"
-msgstr ""
+msgstr "Manglende nødvendige felter: {fields}"
 
 #: app/blueprints/settings/routes.py:225 app/blueprints/settings/routes.py:235
 #: app/templates/components/passkey_error.html:7
 msgid "Error"
-msgstr ""
+msgstr "  "
 
 #: app/blueprints/settings/routes.py:234
 msgid "Library scan failed"
@@ -172,12 +172,12 @@ msgstr "Skan af bibliotek fejlet"
 
 #: app/blueprints/setup/routes.py:74
 msgid "Admin account created – welcome!"
-msgstr ""
+msgstr "Admin konto oprettet – velkommen!"
 
 #: app/blueprints/wizard_admin/routes.py:114
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
-msgstr ""
+msgstr "Renset op {} forældreløs trin(er)"
 
 #: app/blueprints/wizard_admin/routes.py:183
 msgid "Step created"
@@ -185,12 +185,12 @@ msgstr "Skridt oprettet"
 
 #: app/blueprints/wizard_admin/routes.py:256
 msgid "Preset step created successfully"
-msgstr ""
+msgstr "Forudindstilling trin oprettet med succes"
 
 #: app/blueprints/wizard_admin/routes.py:264
 #, python-brace-format
 msgid "Error creating preset: {}"
-msgstr ""
+msgstr "Fejl ved oprettelse af forudindstilling: {}"
 
 #: app/blueprints/wizard_admin/routes.py:296
 msgid "Step updated"
@@ -218,49 +218,49 @@ msgstr "Skridt tilføjet"
 
 #: app/blueprints/wizard_admin/routes.py:548
 msgid "Orphaned step removed"
-msgstr ""
+msgstr "Forældreløse trin fjernet"
 
 #: app/blueprints/wizard_admin/routes.py:566
 #, python-brace-format
 msgid "No steps found for server type: {}"
-msgstr ""
+msgstr "Ingen trin fundet for servertype: {}"
 
 #: app/blueprints/wizard_admin/routes.py:590
 #: app/blueprints/wizard_admin/routes.py:627
 #: app/blueprints/wizard_admin/routes.py:632
 #, python-brace-format
 msgid "Export failed: {}"
-msgstr ""
+msgstr "Eksport mislykkedes: {}"
 
 #: app/blueprints/wizard_admin/routes.py:677
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully imported {} items"
-msgstr "Det lykkedes at oprette en invitation!"
+msgstr "Importeret {} elementer succesfuldt"
 
 #: app/blueprints/wizard_admin/routes.py:681
 #, python-brace-format
 msgid " and updated {} existing items"
-msgstr ""
+msgstr " og opdateret {} eksisterende elementer"
 
 #: app/blueprints/wizard_admin/routes.py:686
 #: app/blueprints/wizard_admin/routes.py:693
 #, python-brace-format
 msgid "Import failed: {}"
-msgstr ""
+msgstr "Import mislykkedes: {}"
 
 #: app/blueprints/wizard_admin/routes.py:691
 msgid "Invalid JSON file"
-msgstr ""
+msgstr "Ugyldig JSON-fil"
 
 #: app/services/servers.py:16
 #, python-format
 msgid "Server returned status code %(status_code)s"
-msgstr ""
+msgstr "Server returneret statuskode %(status_code)s"
 
 #: app/services/servers.py:27
 #, python-format
 msgid "%(server_type)s server returned an error: %(error)s"
-msgstr ""
+msgstr "%(server_type)s serveren returnerede en fejl: %(error)s"
 
 #: app/services/servers.py:34
 #, python-format
@@ -268,6 +268,8 @@ msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
 msgstr ""
+"Kan ikke oprette forbindelse til serveren %(server_type)s. Kontrollér, om "
+"serveren kører, og webadressen er korrekt."
 
 #: app/services/servers.py:40
 #, python-format
@@ -275,6 +277,8 @@ msgid ""
 "Connection to %(server_type)s server timed out. Please check if the "
 "server is running and accessible."
 msgstr ""
+"Tilslutning til %(server_type)s serveren timed ud. Kontrollér, om serveren "
+"kører og er tilgængelig."
 
 #: app/services/servers.py:46
 #, python-format
@@ -282,6 +286,7 @@ msgid ""
 "An error occurred while connecting to the %(server_type)s server: "
 "%(error)s"
 msgstr ""
+"En fejl opstod, mens du tilslutter til %(server_type)s-serveren: %(error)s"
 
 #: app/services/servers.py:53
 #, python-format
@@ -289,62 +294,64 @@ msgid ""
 "An unexpected error occurred while connecting to the %(server_type)s "
 "server: %(error)s"
 msgstr ""
+"En uventet fejl opstod, mens du tilslutter til %(server_type)s-serveren: %"
+"(error)s"
 
 #: app/services/servers.py:66
 msgid "Plex"
-msgstr ""
+msgstr "Plex"
 
 #: app/services/servers.py:80
 msgid "Jellyfin"
-msgstr ""
+msgstr "Jellyfin"
 
 #: app/services/servers.py:87
 msgid "Emby"
-msgstr ""
+msgstr "Emby"
 
 #: app/services/servers.py:113
 msgid "Audiobookshelf"
-msgstr ""
+msgstr "Audiobookshelf"
 
 #: app/services/servers.py:143
 msgid "RomM"
-msgstr ""
+msgstr "RomM"
 
 #: app/services/servers.py:168
 msgid "Komga"
-msgstr ""
+msgstr "Komga"
 
 #: app/services/servers.py:220
 msgid "Kavita"
-msgstr ""
+msgstr "Kavita"
 
 #: app/services/servers.py:277
 msgid "Navidrome"
-msgstr ""
+msgstr "Navidrome"
 
 #: app/services/servers.py:299
 msgid "Invalid API token or insufficient permissions."
-msgstr ""
+msgstr "Ugyldig API token eller utilstrækkelige tilladelser."
 
 #: app/services/servers.py:301
 msgid "API token lacks required permissions."
-msgstr ""
+msgstr "API token mangler nødvendige tilladelser."
 
 #: app/services/servers.py:306
 msgid "Could not connect to Drop server."
-msgstr ""
+msgstr "Kan ikke oprette forbindelse til Drop server."
 
 #: app/services/servers.py:308
 msgid "Connection to Drop server timed out."
-msgstr ""
+msgstr "Tilslutning til at Drop server udløbet på tid."
 
 #: app/services/servers.py:311
 msgid "Drop API not found. Check the server URL."
-msgstr ""
+msgstr "Drop API ikke fundet. Tjek server-URL'en."
 
 #: app/services/servers.py:314
 msgid "Drop"
-msgstr ""
+msgstr "Drop"
 
 #: app/templates/admin.html:5 app/templates/admin/user_details_modal.html:92
 msgid "Admin"
@@ -352,31 +359,31 @@ msgstr "Admin"
 
 #: app/templates/admin.html:85
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: app/templates/admin.html:95
 msgid "Logout"
-msgstr ""
+msgstr "Log ud"
 
 #: app/templates/admin/accepted_invites_card.html:8
 msgid "Latest Accepted Invites"
-msgstr ""
+msgstr "Seneste accepterede Inviter"
 
 #: app/templates/admin/accepted_invites_card.html:32
 msgid "Recently joined"
-msgstr ""
+msgstr "Senest tilmeldte"
 
 #: app/templates/admin/accepted_invites_card.html:124
 msgid "No recent invitations accepted"
-msgstr ""
+msgstr "Ingen seneste accepterede invitationer"
 
 #: app/templates/admin/accepted_invites_card.html:125
 msgid "Accepted invitations will appear here"
-msgstr ""
+msgstr "Accepterede invitationer vises her"
 
 #: app/templates/admin/home.html:6
 msgid "Dashboard"
-msgstr ""
+msgstr "Instrumentpanel"
 
 #: app/templates/admin/home.html:16 app/templates/admin/invites.html:14
 msgid "New Invite"
@@ -392,7 +399,7 @@ msgstr "Invitationer"
 
 #: app/templates/admin/library_breakdown_card.html:8
 msgid "Library Breakdown"
-msgstr ""
+msgstr "Biblioteketsoversigt"
 
 #: app/templates/admin/library_breakdown_card.html:79
 msgid "Per Server"
@@ -405,55 +412,55 @@ msgstr "Ingen biblioteker fundet"
 
 #: app/templates/admin/library_breakdown_card.html:116
 msgid "Configure your media servers to see library statistics"
-msgstr ""
+msgstr "Konfigurer dine medieservere for at se biblioteksstatistik"
 
 #: app/templates/admin/library_breakdown_card.html:128
-#, fuzzy
 msgid "Failed to load libraries"
-msgstr "Scan for biblioteker"
+msgstr "Indlæsning af biblioteker fejlet"
 
 #: app/templates/admin/library_breakdown_card.html:129
 #: app/templates/admin/recent_content_card.html:126
 #: app/templates/admin/server_health_card.html:172
 #: app/templates/admin/server_stats_card.html:81
 msgid "Unknown error occurred"
-msgstr ""
+msgstr "Ukendt fejl opstod"
 
 #: app/templates/admin/now_playing_cards.html:6
 msgid "Unable to load now playing"
-msgstr ""
+msgstr "Ikke muligt at indlæse afspilninger"
 
 #: app/templates/admin/now_playing_cards.html:7
 msgid "There was an error connecting to your media servers"
-msgstr ""
+msgstr "Der var en fejl i forbindelsen til dine medieafspillere"
 
 #: app/templates/admin/now_playing_cards.html:15
 msgid "No one is watching"
-msgstr ""
+msgstr "Ingen ser noget"
 
 #: app/templates/admin/now_playing_cards.html:16
 msgid "No active media sessions found across your servers"
-msgstr ""
+msgstr "Ingen aktive mediesessioner fundet på dine servere"
 
 #: app/templates/admin/recent_content_card.html:8
 msgid "Recently Added"
-msgstr ""
+msgstr "Senest tilføjet"
 
 #: app/templates/admin/recent_content_card.html:101
+#, fuzzy
 msgid "Showing latest 10 items"
-msgstr ""
+msgstr "Viser seneste 10 emner"
 
 #: app/templates/admin/recent_content_card.html:112
 msgid "No recent content found"
-msgstr ""
+msgstr "Ingen nylig indhold fundet"
 
 #: app/templates/admin/recent_content_card.html:113
 msgid "Add some content to your media servers to see it here"
-msgstr ""
+msgstr "Tilføj noget indhold til dine medieservere for at se det her"
 
 #: app/templates/admin/recent_content_card.html:125
 msgid "Failed to load recent content"
-msgstr ""
+msgstr "Indlæsning af seneste indhold fejlet"
 
 #: app/templates/admin/server_health_card.html:8
 msgid "Server Health"
@@ -466,7 +473,7 @@ msgstr "Online"
 
 #: app/templates/admin/server_health_card.html:49
 msgid "Offline"
-msgstr ""
+msgstr "Offline"
 
 #: app/templates/admin/server_health_card.html:65
 #: app/templates/admin/server_stats_card.html:29
@@ -477,7 +484,7 @@ msgstr "Aktiv"
 #: app/templates/admin/server_health_card.html:76
 #: app/templates/admin/server_health_card.html:105
 msgid "Transcoding"
-msgstr ""
+msgstr "Transcoding"
 
 #: app/templates/admin/server_health_card.html:86
 #: app/templates/admin/server_stats_card.html:23
@@ -486,36 +493,36 @@ msgstr "Brugere"
 
 #: app/templates/admin/server_health_card.html:98
 msgid "Active Sessions"
-msgstr ""
+msgstr "Aktive sessioner"
 
 #: app/templates/admin/server_health_card.html:123
 msgid "Server is currently unreachable"
-msgstr ""
+msgstr "Server er i øjeblikket utilgængelig"
 
 #: app/templates/admin/server_health_card.html:139
+#, fuzzy
 msgid "of"
-msgstr ""
+msgstr "af"
 
 #: app/templates/admin/server_health_card.html:141
 msgid "servers online"
 msgstr "servere online"
 
 #: app/templates/admin/server_health_card.html:146
-#, fuzzy
 msgid "server(s) need attention"
-msgstr "Serverindstillinger"
+msgstr "server(e) har brug for opmærksomhed"
 
 #: app/templates/admin/server_health_card.html:158
 msgid "No servers configured"
-msgstr ""
+msgstr "Ingen servere konfigureret"
 
 #: app/templates/admin/server_health_card.html:159
 msgid "Add media servers to monitor their health"
-msgstr ""
+msgstr "Tilføj medieservere til at overvåge deres helbred"
 
 #: app/templates/admin/server_health_card.html:171
 msgid "Failed to load server health"
-msgstr ""
+msgstr "Indlæsning af server sundhed fejlet"
 
 #: app/templates/admin/server_stats_card.html:8
 msgid "Server Overview"
@@ -523,23 +530,23 @@ msgstr "Server Oversigt"
 
 #: app/templates/admin/server_stats_card.html:17
 msgid "Items"
-msgstr ""
+msgstr "Elementer"
 
 #: app/templates/admin/server_stats_card.html:41
 msgid "Server Breakdown"
-msgstr ""
+msgstr "Serveroversigt"
 
 #: app/templates/admin/server_stats_card.html:68
 msgid "No active servers found"
-msgstr ""
+msgstr "Ingen aktive servere fundet"
 
 #: app/templates/admin/server_stats_card.html:80
 msgid "Failed to load statistics"
-msgstr ""
+msgstr "Indlæsning af statistik fejlet"
 
 #: app/templates/admin/user_details_modal.html:10
 msgid "User Details"
-msgstr ""
+msgstr "Brugeroplysninger"
 
 #: app/templates/admin/user_details_modal.html:46
 msgid "Joined"
@@ -547,7 +554,7 @@ msgstr "Tilmeldt"
 
 #: app/templates/admin/user_details_modal.html:54
 msgid "Account Details"
-msgstr ""
+msgstr "Kontooplysninger"
 
 #: app/templates/admin/user_details_modal.html:61
 #: app/templates/tables/invite_card.html:238
@@ -569,15 +576,15 @@ msgstr "Downloads"
 
 #: app/templates/admin/user_details_modal.html:110
 msgid "Live TV"
-msgstr ""
+msgstr "Live TV"
 
 #: app/templates/admin/user_details_modal.html:119
 msgid "Camera Upload"
-msgstr ""
+msgstr "Kamera Upload"
 
 #: app/templates/admin/user_details_modal.html:128
 msgid "Basic Access"
-msgstr ""
+msgstr "Grundlæggende adgang"
 
 #: app/templates/admin/user_details_modal.html:142
 #: app/templates/components/admin_passkeys.html:58
@@ -585,7 +592,7 @@ msgstr ""
 #: app/templates/components/passkey_error.html:17
 #: app/templates/modals/invite.html:332
 msgid "Close"
-msgstr ""
+msgstr "Luk"
 
 #: app/templates/admin/user_modal.html:10
 msgid "Edit expiry"
@@ -593,13 +600,15 @@ msgstr "Ændre udløb"
 
 #: app/templates/admin/user_modal.html:26
 msgid "Server-specific Expiry Management"
-msgstr ""
+msgstr "Serverspecifik Udløbsstyring"
 
 #: app/templates/admin/user_modal.html:29
 msgid ""
 "This user exists on multiple servers. You can set different expiry dates "
 "for each server."
 msgstr ""
+"Denne bruger findes på flere servere. Du kan indstille forskellige "
+"udløbsdatoer for hver server."
 
 #: app/templates/admin/user_modal.html:53
 msgid "Expiry date"
@@ -607,31 +616,30 @@ msgstr "Udløbsdato"
 
 #: app/templates/admin/user_modal.html:63
 msgid "Update"
-msgstr ""
+msgstr "Opdatér"
 
 #: app/templates/admin/user_modal.html:69
 msgid "Current expiry"
-msgstr ""
+msgstr "Nuværende udløb"
 
 #: app/templates/admin/user_modal.html:71
-#, fuzzy
 msgid "No expiry set"
-msgstr "Udløber"
+msgstr "Ingen udløbsdato sat"
 
 #: app/templates/admin/user_modal.html:81
 #: app/templates/admin/user_modal.html:117
 #: app/templates/tables/user_card.html:106
 msgid "Notes"
-msgstr ""
+msgstr "Noter"
 
 #: app/templates/admin/user_modal.html:87
 #: app/templates/admin/user_modal.html:120
 msgid "Add notes about this user..."
-msgstr ""
+msgstr "Tilføj noter om denne bruger..."
 
 #: app/templates/admin/user_modal.html:93
 msgid "Update Notes"
-msgstr ""
+msgstr "Opdater Noter"
 
 #: app/templates/admin/user_modal.html:107
 msgid "Expiry date (leave blank for never)"
@@ -714,11 +722,11 @@ msgstr "Slet"
 
 #: app/templates/choose-password.html:10
 msgid "Complete your access"
-msgstr ""
+msgstr "Færdiggør din adgang"
 
 #: app/templates/choose-password.html:15
 msgid "Choose a password for the remaining servers"
-msgstr ""
+msgstr "Vælg en adgangskode til de resterende servere"
 
 #: app/templates/choose-password.html:23
 #: app/templates/hybrid-password-form.html:124 app/templates/login.html:52
@@ -735,7 +743,7 @@ msgstr "Bekræft Adgangskode"
 
 #: app/templates/choose-password.html:32
 msgid "Generate a strong random password instead"
-msgstr ""
+msgstr "Generer en stærk tilfældig adgangskode i stedet"
 
 #: app/templates/choose-password.html:34
 msgid "Continue"
@@ -744,7 +752,7 @@ msgstr "Fortsæt"
 #: app/templates/components/admin_passkeys.html:5
 #, python-brace-format
 msgid "Passkeys for {}"
-msgstr ""
+msgstr "Adgangsnøgler til {}"
 
 #: app/templates/components/admin_passkeys.html:29
 #: app/templates/tables/invite_card.html:183
@@ -758,48 +766,48 @@ msgstr "Sidst brugt"
 
 #: app/templates/components/admin_passkeys.html:54
 msgid "Reset All Passkeys"
-msgstr ""
+msgstr "Nulstil alle Adgangsnøgler"
 
 #: app/templates/components/admin_passkeys.html:68
 msgid "No passkeys registered for this user."
-msgstr ""
+msgstr "Ingen passkeys registreret for denne bruger."
 
 #: app/templates/components/admin_passkeys.html:80
 msgid "Are you sure you want to delete this passkey?"
-msgstr ""
+msgstr "Er du sikker på, at du vil slette denne adgangsnøgle?"
 
 #: app/templates/components/admin_passkeys.html:92
 msgid "Failed to delete passkey"
-msgstr ""
+msgstr "Sletning af adgangsnøgle fejlet"
 
 #: app/templates/components/admin_passkeys.html:97
 msgid "An error occurred while deleting the passkey"
-msgstr ""
+msgstr "En fejl opstod, ved sletning af adgangsnøgle"
 
 #: app/templates/components/admin_passkeys.html:103
 #, python-brace-format
 msgid "Are you sure you want to reset ALL passkeys for {}?"
-msgstr ""
+msgstr "Er du sikker på, at du vil nulstille ALLE adgangsnøgler for {}?"
 
 #: app/templates/components/admin_passkeys.html:103
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Denne handling kan ikke fortrydes."
 
 #: app/templates/components/admin_passkeys.html:112
 msgid "All passkeys have been reset"
-msgstr ""
+msgstr "Alle adgangsnøgler er nulstillet"
 
 #: app/templates/components/admin_passkeys.html:115
 msgid "Failed to reset passkeys"
-msgstr ""
+msgstr "Nulstilling ad adgangsnøgler fejlet"
 
 #: app/templates/components/admin_passkeys.html:120
 msgid "An error occurred while resetting passkeys"
-msgstr ""
+msgstr "En fejl opstod, under nulstilling af adgangsnøgler"
 
 #: app/templates/components/passkey_add_form.html:3
 msgid "Add New Passkey"
-msgstr ""
+msgstr "Tilføj Ny Adgangsnøgle"
 
 #: app/templates/components/passkey_add_form.html:10
 msgid "Passkey Name"
@@ -807,7 +815,7 @@ msgstr "Adgangsnøgle Navn"
 
 #: app/templates/components/passkey_add_form.html:17
 msgid "e.g., My iPhone, Work Laptop"
-msgstr ""
+msgstr "f.eks. Min iPhone, arbejdscomputer"
 
 #: app/templates/components/passkey_add_form.html:30
 #: app/templates/components/passkey_register.html:3
@@ -820,11 +828,11 @@ msgstr "Tilføjet"
 
 #: app/templates/components/passkey_list.html:40
 msgid "No passkeys registered"
-msgstr ""
+msgstr "Ingen adgangsnøgler registreret"
 
 #: app/templates/components/passkey_list.html:41
 msgid "Add your first passkey for enhanced security"
-msgstr ""
+msgstr "Tilføj din adgangsnøgle for forbedret sikkerhed"
 
 #: app/templates/components/passkey_management.html:9
 msgid "Passkeys"
@@ -833,39 +841,39 @@ msgstr "Adgangsnøgler"
 #: app/templates/components/passkey_management.html:16
 #: app/templates/components/passkey_management.html:25
 msgid "Passkeys require HTTPS connection"
-msgstr ""
+msgstr "Adgangsnøgler kræver HTTPS-forbindelse"
 
 #: app/templates/components/passkey_management.html:17
 msgid "Add Passkey"
-msgstr ""
+msgstr "Tilføj Adgangsnøgle"
 
 #: app/templates/components/passkey_management.html:27
 msgid "To use passkeys, please access this page over HTTPS."
-msgstr ""
+msgstr "For at bruge passkeys skal du have adgang til denne side via HTTPS."
 
 #: app/templates/components/passkey_management.html:29
 msgid "Manage your passkeys for passwordless authentication."
-msgstr ""
+msgstr "Administrer dine passkeys til godkendelse uden adgangskode."
 
 #: app/templates/components/passkey_management.html:39
 msgid "Loading passkeys..."
-msgstr ""
+msgstr "Indlæser adgangsnøgler…"
 
 #: app/templates/components/passkey_register.html:7
 msgid "Creating passkey for"
-msgstr ""
+msgstr "Opretter adgangsnøgle for"
 
 #: app/templates/components/passkey_register.html:8
 msgid "Please follow your device's prompts to complete setup"
-msgstr ""
+msgstr "Følg din enheds anvisninger for at fuldføre opsætningen"
 
 #: app/templates/components/passkey_register.html:101
 msgid "Failed to register passkey"
-msgstr ""
+msgstr "Registrering af adgangsnøgle fejlet"
 
 #: app/templates/components/passkey_register.html:106
 msgid "Failed to complete passkey registration"
-msgstr ""
+msgstr "Færdiggørelse af adgangsnøgle registrering fejlede"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
@@ -893,19 +901,19 @@ msgstr " Noget er gået galt. Prøv venligst igen senere."
 
 #: app/templates/hybrid-password-form.html:7
 msgid "Complete your account setup for local servers"
-msgstr ""
+msgstr "Gennemfør din kontoopsætning for lokale servere"
 
 #: app/templates/hybrid-password-form.html:13
 msgid "Complete Your Account Setup"
-msgstr ""
+msgstr "Færdiggør opsætning af din konto"
 
 #: app/templates/hybrid-password-form.html:24
 msgid "Plex Authentication Complete!"
-msgstr ""
+msgstr "Plex Godkendelse Færdig!"
 
 #: app/templates/hybrid-password-form.html:25
 msgid "Now please set a password for your local server accounts."
-msgstr ""
+msgstr "Nu skal du angive en adgangskode til dine lokale serverkonti."
 
 #: app/templates/hybrid-password-form.html:33
 msgid "Local Servers"
@@ -913,7 +921,7 @@ msgstr "Lokale Servere"
 
 #: app/templates/hybrid-password-form.html:66
 msgid "Set Password for Local Servers"
-msgstr ""
+msgstr "Indstil adgangskode til lokale servere"
 
 #: app/templates/hybrid-password-form.html:76
 msgid "Error!"
@@ -933,7 +941,7 @@ msgstr "Dit brugernavn"
 
 #: app/templates/hybrid-password-form.html:108
 msgid "Email Address"
-msgstr ""
+msgstr "Email Adresse"
 
 #: app/templates/hybrid-password-form.html:112
 msgid "your.email@example.com"
@@ -946,48 +954,49 @@ msgstr "Din adgangskode"
 #: app/templates/hybrid-password-form.html:143
 #: app/templates/welcome-jellyfin.html:161
 msgid "Confirm your password"
-msgstr ""
+msgstr "Bekræft din adgangskode"
 
 #: app/templates/hybrid-password-form.html:160
 msgid "I agree to the"
-msgstr ""
+msgstr "Jeg accepterer"
 
 #: app/templates/hybrid-password-form.html:162
 msgid "Terms and Conditions"
-msgstr ""
+msgstr "Vilkår og betingelser"
 
 #: app/templates/hybrid-password-form.html:170
 msgid "Complete Setup"
-msgstr ""
+msgstr "Færdiggør Opsætning"
 
 #: app/templates/hybrid-password-form.html:176
-#, fuzzy
 msgid "Setting up..."
-msgstr "Indstillinger"
+msgstr "Opsætter…"
 
 #: app/templates/hybrid-password-form.html:184
 msgid "What happens next?"
-msgstr ""
+msgstr "Hvad sker der som det næste?"
 
 #: app/templates/hybrid-password-form.html:187
 msgid "Your Plex account is already set up and ready to use"
-msgstr ""
+msgstr "Din Plex-konto er allerede konfigureret og klar til brug"
 
 #: app/templates/hybrid-password-form.html:188
 msgid "This password will be used to create accounts on your local servers"
 msgstr ""
+"Denne adgangskode vil blive brugt til at oprette konti på dine lokale servere"
 
 #: app/templates/hybrid-password-form.html:189
 msgid "You'll be redirected to the setup wizard to complete configuration"
 msgstr ""
+"Du bliver viderestillet til opsætningsguiden for at fuldføre konfiguration"
 
 #: app/templates/hybrid-password-form.html:196
 msgid "Only want to use Plex?"
-msgstr ""
+msgstr "Vil du kun bruge Plex?"
 
 #: app/templates/hybrid-password-form.html:199
 msgid "Skip local servers"
-msgstr ""
+msgstr "Spring over lokale servere"
 
 #: app/templates/hybrid-password-form.html:215
 msgid "Password too short"
@@ -995,15 +1004,15 @@ msgstr "Adgangskode for kort"
 
 #: app/templates/hybrid-password-form.html:218
 msgid "Password strength: Medium"
-msgstr ""
+msgstr "Adgangskodestyrke: Medium"
 
 #: app/templates/hybrid-password-form.html:221
 msgid "Password strength: Strong"
-msgstr ""
+msgstr "Adgangskodestyrke: Stærk"
 
 #: app/templates/hybrid-password-form.html:233
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Adgangskoderne stemmer ikke overens."
 
 #: app/templates/invalid-invite.html:16
 msgid "Invalid Invitation"
@@ -1011,7 +1020,7 @@ msgstr "Ugyldig Invitation"
 
 #: app/templates/login.html:19
 msgid "Two-Factor Authentication"
-msgstr ""
+msgstr "To-Faktor Godkendelse"
 
 #: app/templates/login.html:21
 msgid "Login"
@@ -1020,11 +1029,11 @@ msgstr "Login"
 #: app/templates/login.html:34
 #, python-brace-format
 msgid "Welcome back, {}!"
-msgstr ""
+msgstr "Velkommen tilbage, {}!"
 
 #: app/templates/login.html:37
 msgid "Please authenticate with your passkey to complete login."
-msgstr ""
+msgstr "Venligst godkend med din adgangsnøgle for at fuldføre login."
 
 #: app/templates/login.html:64
 msgid "Remember me"
@@ -1036,11 +1045,11 @@ msgstr "Log ind"
 
 #: app/templates/login.html:83
 msgid "Authenticate with Passkey"
-msgstr ""
+msgstr "Godkend med Adgangsnøgle"
 
 #: app/templates/login.html:92
 msgid "Back to Login"
-msgstr ""
+msgstr "Tilbage til Log ind"
 
 #: app/templates/login.html:101
 msgid "Or"
@@ -1048,23 +1057,25 @@ msgstr "Eller"
 
 #: app/templates/login.html:110 app/templates/login.html:226
 msgid "Sign in with Passkey"
-msgstr ""
+msgstr "Log ind med Adgangsnøgle"
 
 #: app/templates/login.html:138
 msgid "Authenticating..."
-msgstr ""
+msgstr "Godkender…"
 
 #: app/templates/login.html:203
 msgid "Failed to complete 2FA login"
-msgstr ""
+msgstr "Fuldførelse af 2FA login fejlede"
 
 #: app/templates/login.html:218
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr ""
+"Godkendelse af adgangsnøgle mislykkedes. Prøv igen eller brug din "
+"adgangskode."
 
 #: app/templates/modals/bundle-add-steps.html:11
 msgid "Add steps to bundle"
-msgstr ""
+msgstr "Tilføj trin til bundt"
 
 #: app/templates/modals/bundle-add-steps.html:23
 #: app/templates/settings/wizard/bundles.html:59
@@ -1074,7 +1085,7 @@ msgstr "Unavngivet"
 
 #: app/templates/modals/bundle-add-steps.html:27
 msgid "All steps are already included."
-msgstr ""
+msgstr "Alle trin er allerede inkluderet."
 
 #: app/templates/modals/bundle-add-steps.html:33
 #: app/templates/modals/create-admin.html:33
@@ -1085,14 +1096,14 @@ msgstr "Tilføj"
 #: app/templates/settings/connections/form.html:5
 #: app/templates/settings/connections/form.html:58
 msgid "Add New Connection"
-msgstr ""
+msgstr "Tilføj ny forbindelse"
 
 #: app/templates/modals/connection-form.html:11
 #: app/templates/settings/connections/form.html:7
 #: app/templates/settings/connections/form.html:47
 #: app/templates/settings/connections/form.html:60
 msgid "Edit Connection"
-msgstr ""
+msgstr "Rediger forbindelse"
 
 #: app/templates/modals/connection-form.html:22
 msgid "Close modal"
@@ -1101,29 +1112,34 @@ msgstr ""
 #: app/templates/modals/connection-form.html:88
 #: app/templates/settings/connections/form.html:128
 msgid "Overseerr/Jellyseerr Information"
-msgstr ""
+msgstr "Oplysninger om Overseerr/Jellyseerr"
 
 #: app/templates/modals/connection-form.html:90
 #: app/templates/settings/connections/form.html:130
+#, fuzzy
 msgid ""
 "Overseerr and Jellyseerr automatically import new users by default. No "
 "API connection is required for Wizarr integration."
 msgstr ""
+"Overseerr og Jellyseerr importerer automatisk nye brugere som standard. "
+"Ingen API-forbindelse er nødvendig for Wizarr integration."
 
 #: app/templates/modals/connection-form.html:94
 #: app/templates/settings/connections/form.html:133
 msgid "To enable auto-import:"
-msgstr ""
+msgstr "For at aktivere automatisk import:"
 
 #: app/templates/modals/connection-form.html:95
 msgid ""
 "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
 "new users' and 'Import Jellyfin/Plex users'"
 msgstr ""
+"Gå til dine Overseerr/Jellyseerr-indstillinger → Brugere → Aktivér 'Auto-"
+"godkend nye brugere' og 'Importer Jellyfin/Plex-brugere'"
 
 #: app/templates/modals/connection-form.html:151
 msgid "Testing connection..."
-msgstr ""
+msgstr "Tester forbindelse…"
 
 #: app/templates/modals/connection-form.html:162
 #: app/templates/settings/connections/form.html:199
@@ -1133,15 +1149,15 @@ msgstr "Opret Forbindelse"
 #: app/templates/modals/connection-form.html:164
 #: app/templates/settings/connections/form.html:201
 msgid "Update Connection"
-msgstr ""
+msgstr "Opdatér Forbindelse"
 
 #: app/templates/modals/connection-form.html:177
 msgid "Test Connection"
-msgstr ""
+msgstr "Test Forbindelse"
 
 #: app/templates/modals/create-admin.html:10
 msgid "Add Administrator"
-msgstr ""
+msgstr "Tilføj administrator"
 
 #: app/templates/modals/create-admin.html:27
 #: app/templates/modals/edit-admin.html:27
@@ -1160,13 +1176,15 @@ msgstr "Opret API Nøgle"
 
 #: app/templates/modals/create-api-key.html:26
 msgid "API Key Created Successfully"
-msgstr ""
+msgstr "API Nøgle oprettet succesfuldt"
 
 #: app/templates/modals/create-api-key.html:29
 msgid ""
 "Your API key has been created. Please copy it now as it will not be shown"
 " again."
 msgstr ""
+"Din API-nøgle er blevet oprettet. Kopier det nu, da det ikke vil blive vist "
+"igen."
 
 #: app/templates/modals/create-api-key.html:35
 msgid "Copy to clipboard"
@@ -1182,11 +1200,13 @@ msgstr "Færdig"
 
 #: app/templates/modals/create-api-key.html:57
 msgid "API Key Name"
-msgstr ""
+msgstr "API-Nøgle Navn"
 
 #: app/templates/modals/create-api-key.html:60
 msgid "Enter a descriptive name to help you identify this API key later."
 msgstr ""
+"Indtast et beskrivende navn for at hjælpe dig med at identificere denne API-"
+"nøgle senere."
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
@@ -1194,7 +1214,7 @@ msgstr "Ny Agent"
 
 #: app/templates/modals/create-notification-agent.html:63
 msgid "Channel ID"
-msgstr ""
+msgstr "Kanal-id"
 
 #: app/templates/modals/create-notification-agent.html:68
 msgid "Username (optional)"
@@ -1206,7 +1226,7 @@ msgstr "Password (valgfrit)"
 
 #: app/templates/modals/create-notification-agent.html:77
 msgid "Agent URL"
-msgstr ""
+msgstr "Agent URL"
 
 #: app/templates/modals/create-notification-agent.html:87
 msgid "Test & Create Agent"
@@ -1219,20 +1239,19 @@ msgstr "Tilføj Server"
 
 #: app/templates/modals/create-server.html:102
 msgid "Test & Add"
-msgstr ""
+msgstr "Test & Tilføj"
 
 #: app/templates/modals/edit-admin.html:10
 msgid "Edit Administrator"
-msgstr ""
+msgstr "Rediger administrator"
 
 #: app/templates/modals/edit-admin.html:22
-#, fuzzy
 msgid "New Password (optional)"
-msgstr "(valgfrit)"
+msgstr "Ny adgangskode (valgfrit)"
 
 #: app/templates/modals/edit-identity.html:10
 msgid "Edit Identity"
-msgstr ""
+msgstr "Rediger identitet"
 
 #: app/templates/modals/edit-identity.html:21
 msgid "Nickname"
@@ -1260,7 +1279,7 @@ msgstr "valgfrit"
 
 #: app/templates/modals/invite.html:44
 msgid "E.g. XMFGEJIKNQ"
-msgstr ""
+msgstr "F.eks. XMFGEJIKNQ"
 
 #: app/templates/modals/invite.html:54
 msgid "Expiration"
@@ -1307,25 +1326,20 @@ msgid "Show Information"
 msgstr "Vis oplysninger"
 
 #: app/templates/modals/invite.html:151
-#, fuzzy
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
 msgstr ""
-"Når den er indstillet, vil inviterede brugere blive fjernet fra Plex-"
-"serveren efter et\n"
-"                                        antal\n"
-"                                        dage. (1-999)"
+"Når angivet, fjernes inviterede brugere fra Plex-serveren efter et antal "
+"dage. (1-999)"
 
 #: app/templates/modals/invite.html:173
-#, fuzzy
 msgid "Target servers"
-msgstr "Aldrig"
+msgstr "Måleservere"
 
 #: app/templates/modals/invite.html:190
-#, fuzzy
 msgid "Invite to Plex Home"
-msgstr "Invitationskode"
+msgstr "Inviter til Plex Home"
 
 #: app/templates/modals/invite.html:195 app/templates/modals/invite.html:211
 #: app/templates/modals/invite.html:222 app/templates/modals/invite.html:238
@@ -1335,12 +1349,11 @@ msgstr "Tillad Downloads"
 #: app/templates/modals/invite.html:200 app/templates/modals/invite.html:216
 #: app/templates/modals/invite.html:227
 msgid "Allow Live TV Access"
-msgstr ""
+msgstr "Tillad Live TV Adgang"
 
 #: app/templates/modals/invite.html:205 app/templates/modals/invite.html:232
-#, fuzzy
 msgid "Allow Mobile Uploads"
-msgstr "Download"
+msgstr "Tillad Mobile Uploads"
 
 #: app/templates/modals/invite.html:250
 #, fuzzy
@@ -1375,7 +1388,7 @@ msgstr "Opret en konto"
 
 #: app/templates/modals/invite.html:382
 msgid "Please select at least one server for the invitation."
-msgstr ""
+msgstr "Vælg mindst én server for invitationen."
 
 #: app/templates/modals/wizard-import-form.html:11
 msgid "Import Wizard Steps"
@@ -1384,16 +1397,16 @@ msgstr ""
 #: app/templates/modals/wizard-import-form.html:38
 #: app/templates/settings/wizard/import_form.html:30
 msgid "Click to upload"
-msgstr ""
+msgstr "Klik for at uploade"
 
 #: app/templates/modals/wizard-import-form.html:38
 #: app/templates/settings/wizard/import_form.html:30
 msgid "or drag and drop"
-msgstr ""
+msgstr "eller træk og slip"
 
 #: app/templates/modals/wizard-import-form.html:40
 msgid "JSON files only"
-msgstr ""
+msgstr "Kun JSON-filer"
 
 #: app/templates/modals/wizard-import-form.html:56
 #: app/templates/settings/wizard/import_form.html:56
@@ -1406,10 +1419,12 @@ msgid ""
 "When checked, existing steps will be replaced. When unchecked, imported "
 "steps will be merged with existing ones."
 msgstr ""
+"Hvis valgt, vil de eksisterende trin erstattes. Hvis ikke valgt, vil "
+"importerede trin fusioneres med eksisterende."
 
 #: app/templates/modals/wizard-import-form.html:84
 msgid "Important Notice"
-msgstr ""
+msgstr "Vigtig meddelelse"
 
 #: app/templates/modals/wizard-import-form.html:86
 msgid ""
@@ -1419,7 +1434,7 @@ msgstr ""
 
 #: app/templates/modals/wizard-import-form.html:105
 msgid "Import Steps"
-msgstr ""
+msgstr "Importér trin"
 
 #: app/templates/modals/wizard-preset-form.html:11
 #: app/templates/settings/wizard/preset_form.html:4
@@ -1429,12 +1444,12 @@ msgstr ""
 #: app/templates/modals/wizard-preset-form.html:33
 #: app/templates/settings/wizard/preset_form.html:23
 msgid "Your Discord server ID"
-msgstr ""
+msgstr "Din Discord server ID"
 
 #: app/templates/modals/wizard-preset-form.html:39
 #: app/templates/settings/wizard/preset_form.html:29
 msgid "URL to your Overseerr/Ombi instance"
-msgstr ""
+msgstr "URL til din Overseerr/Ombi-instans"
 
 #: app/templates/modals/wizard-preset-form.html:53
 #: app/templates/settings/wizard/_sub_nav.html:134
@@ -1450,11 +1465,11 @@ msgstr "Standard"
 
 #: app/templates/partials/api_keys_grid.html:45
 msgid "No API keys"
-msgstr ""
+msgstr "Ingen API nøgler"
 
 #: app/templates/partials/api_keys_grid.html:46
 msgid "Get started by creating a new API key."
-msgstr ""
+msgstr "Kom i gang med at oprette en ny API-nøgle."
 
 #: app/templates/profile.html:13
 msgid "Administrator"
@@ -1462,7 +1477,7 @@ msgstr "Administrator"
 
 #: app/templates/profile.html:27
 msgid "Change your account password for security."
-msgstr ""
+msgstr "Ændre din adgangskode for sikkerhed."
 
 #: app/templates/profile.html:35
 #, fuzzy
@@ -1476,7 +1491,7 @@ msgstr "Adgangskode"
 
 #: app/templates/profile.html:49
 msgid "Confirm New Password"
-msgstr ""
+msgstr "Bekræft Ny Adgangskode"
 
 #: app/templates/profile.html:56
 #, fuzzy
@@ -1518,11 +1533,11 @@ msgstr "Ændre"
 
 #: app/templates/servers/index.html:26
 msgid "Delete this server?"
-msgstr ""
+msgstr "Slet denne server?"
 
 #: app/templates/servers/index.html:33
 msgid "No servers configured yet."
-msgstr ""
+msgstr "Ingen servere konfigureret endnu."
 
 #: app/templates/settings/admins.html:6
 msgid "Administrators"
@@ -1530,11 +1545,11 @@ msgstr "Administratorer"
 
 #: app/templates/settings/admins.html:24
 msgid "Manage Passkeys"
-msgstr ""
+msgstr "Administrer Adgangsnøgler"
 
 #: app/templates/settings/admins.html:50
 msgid "No administrators yet."
-msgstr ""
+msgstr "Ingen administratorer endnu."
 
 #: app/templates/settings/admins.html:60
 #, fuzzy
@@ -1543,7 +1558,7 @@ msgstr "Admin"
 
 #: app/templates/settings/api_keys.html:7
 msgid "API Keys"
-msgstr ""
+msgstr "API Nøgler"
 
 #: app/templates/settings/connections.html:7
 #: app/templates/settings/connections/form.html:35
@@ -1554,6 +1569,8 @@ msgstr "Forbindelser"
 #: app/templates/settings/connections.html:8
 msgid "Manage external service connections for automated user invitations"
 msgstr ""
+"Administrer eksterne serviceforbindelser for automatiserede "
+"brugerinvitationer"
 
 #: app/templates/settings/connections.html:20
 #: app/templates/settings/connections/form.html:45
@@ -1563,7 +1580,7 @@ msgstr "Avancerede indstillinger"
 
 #: app/templates/settings/connections.html:33
 msgid "Connection Name"
-msgstr ""
+msgstr "Tilslutningsnavn"
 
 #: app/templates/settings/connections.html:35
 #, fuzzy
@@ -1572,7 +1589,7 @@ msgstr "Aldrig"
 
 #: app/templates/settings/connections.html:52
 msgid "Overseerr (Info)"
-msgstr ""
+msgstr "Overseerr (Info)"
 
 #: app/templates/settings/connections.html:59
 msgid "Ombi"
@@ -1584,69 +1601,74 @@ msgstr "Audiobookrequest"
 
 #: app/templates/settings/connections.html:93
 msgid "Auto-import enabled"
-msgstr ""
+msgstr "Automatisk import aktiveret"
 
 #: app/templates/settings/connections.html:113
 msgid "Are you sure you want to delete this connection?"
-msgstr ""
+msgstr "Er du sikker på, at du vil slette denne forbindelse?"
 
 #: app/templates/settings/connections.html:135
 msgid "No connections configured"
-msgstr ""
+msgstr "Ingen forbindelser konfigureret"
 
 #: app/templates/settings/connections.html:136
 msgid ""
 "Connect your external services to automate user invitations when invites "
 "are created for specific media servers."
 msgstr ""
+"Opret forbindelse til dine eksterne tjenester for at automatisere "
+"brugerinvitationer, når der oprettes invitationer til specifikke "
+"medieservere."
 
 #: app/templates/settings/connections.html:146
 msgid "Add Your First Connection"
-msgstr ""
+msgstr "Tilføj din første forbindelse"
 
 #: app/templates/settings/connections/form.html:65
 msgid "Create a new external service connection for automated user invitations"
 msgstr ""
+"Opret en ny ekstern tjenesteforbindelse til automatiserede brugerinvitationer"
 
 #: app/templates/settings/connections/form.html:67
 msgid "Update the connection settings"
-msgstr ""
+msgstr "Opdater forbindelsesindstillingerne"
 
 #: app/templates/settings/connections/form.html:89
 msgid "Select the type of connection to configure"
-msgstr ""
+msgstr "Vælg typen af forbindelse for at konfigurere"
 
 #: app/templates/settings/connections/form.html:103
 msgid "A friendly name to identify this connection"
-msgstr ""
+msgstr "Et venligt navn til at identificere denne forbindelse"
 
 #: app/templates/settings/connections/form.html:117
 msgid "Which media server should trigger invitations to this external service"
 msgstr ""
+"Hvilken medieserver skal udløse invitationer til denne eksterne tjeneste"
 
 #: app/templates/settings/connections/form.html:135
 msgid "Open your Overseerr/Jellyseerr admin panel"
-msgstr ""
+msgstr "Åbn dit Overseerr/Jellyseerr administratorpanel"
 
 #: app/templates/settings/connections/form.html:136
 msgid "Navigate to Settings → Users"
-msgstr ""
+msgstr "Naviger til Indstillinger → Brugere"
 
 #: app/templates/settings/connections/form.html:137
 msgid "Enable 'Auto-approve new users'"
-msgstr ""
+msgstr "Aktivér \"Auto-godkend nye brugere''"
 
 #: app/templates/settings/connections/form.html:138
 msgid "Enable 'Import Jellyfin/Plex users'"
-msgstr ""
+msgstr "Aktivér 'Import Jellyfin/Plex-brugere''"
 
 #: app/templates/settings/connections/form.html:156
 msgid "The full URL to your external service instance"
-msgstr ""
+msgstr "Den fulde URL til din eksterne serviceinstans"
 
 #: app/templates/settings/connections/form.html:182
 msgid "API key from your external service settings"
-msgstr ""
+msgstr "API-nøgle fra dine eksterne serviceindstillinger"
 
 #: app/templates/settings/general.html:9
 #, fuzzy
@@ -1655,23 +1677,23 @@ msgstr "Serverindstillinger"
 
 #: app/templates/settings/general.html:10
 msgid "Configure your application's basic settings and preferences"
-msgstr ""
+msgstr "Konfigurer din applikations grundlæggende indstillinger og præferencer"
 
 #: app/templates/settings/general.html:35
 msgid "Display"
-msgstr ""
+msgstr "Display"
 
 #: app/templates/settings/general.html:36
 msgid "Configure how your application appears to users"
-msgstr ""
+msgstr "Konfigurer, hvordan din ansøgning vises for brugerne"
 
 #: app/templates/settings/general.html:62
 msgid "Access Control"
-msgstr ""
+msgstr "Adgangskontrol"
 
 #: app/templates/settings/general.html:63
 msgid "Manage user access and permissions"
-msgstr ""
+msgstr "Administrer brugeradgang og tilladelser"
 
 #: app/templates/settings/general.html:72
 msgid "Control access to the wizard setup process"
@@ -1679,23 +1701,23 @@ msgstr ""
 
 #: app/templates/settings/general.html:94
 msgid "API Key Management"
-msgstr ""
+msgstr "API Nøglestyring"
 
 #: app/templates/settings/general.html:95
 msgid "Manage API keys for accessing Wizarr programmatically"
-msgstr ""
+msgstr "Administrer API nøgler til adgang til Wizarr programmatisk"
 
 #: app/templates/settings/general.html:103
 msgid "Your API Keys"
-msgstr ""
+msgstr "Dine API-nøgler"
 
 #: app/templates/settings/general.html:104
 msgid "Create and manage API keys for external applications"
-msgstr ""
+msgstr "Opret og administrer API-nøgler til eksterne applikationer"
 
 #: app/templates/settings/general.html:125
 msgid "Loading API keys..."
-msgstr ""
+msgstr "Indlæser API nøgler..."
 
 #: app/templates/settings/general.html:138
 #, fuzzy
@@ -1709,7 +1731,7 @@ msgstr "Indstillinger"
 
 #: app/templates/settings/index.html:8
 msgid "Manage your application settings and preferences"
-msgstr ""
+msgstr "Administrer dine applikationsindstillinger og præferencer"
 
 #: app/templates/settings/index.html:26
 msgid "General"
@@ -1737,7 +1759,7 @@ msgstr "Notifikations Agenter"
 
 #: app/templates/settings/notifications.html:10
 msgid "Configure notification services to alert you about important events"
-msgstr ""
+msgstr "Konfigurer meddelelser til at advare dig om vigtige begivenheder"
 
 #: app/templates/settings/notifications.html:22
 #: app/templates/settings/notifications.html:97
@@ -1747,7 +1769,7 @@ msgstr "Opret en konto"
 
 #: app/templates/settings/notifications.html:52
 msgid "Are you sure you want to delete"
-msgstr ""
+msgstr "Er du sikker på du vil slette"
 
 #: app/templates/settings/notifications.html:54
 #, fuzzy
@@ -1765,7 +1787,7 @@ msgstr "Invitationer"
 
 #: app/templates/settings/notifications.html:85
 msgid "Get started by creating your first notification agent"
-msgstr ""
+msgstr "Kom i gang med at oprette din første meddelelsesagent"
 
 #: app/templates/settings/servers.html:41
 msgid "Unverified"
@@ -1782,7 +1804,7 @@ msgstr "Standard"
 
 #: app/templates/settings/wizard/_sub_nav.html:30
 msgid "Custom Bundles"
-msgstr ""
+msgstr "Brugerdefinerede bundter"
 
 #: app/templates/settings/wizard/_sub_nav.html:48
 #: app/templates/settings/wizard/_sub_nav.html:68
@@ -1792,11 +1814,11 @@ msgstr "Importer"
 #: app/templates/settings/wizard/_sub_nav.html:83
 #: app/templates/settings/wizard/import_form.html:167
 msgid "Import Configuration"
-msgstr ""
+msgstr "Importér konfiguration"
 
 #: app/templates/settings/wizard/_sub_nav.html:84
 msgid "Import steps or bundles from JSON file"
-msgstr ""
+msgstr "Importér trin eller bundter fra JSON-fil"
 
 #: app/templates/settings/wizard/_sub_nav.html:103
 msgid "Create"
@@ -1812,7 +1834,7 @@ msgstr ""
 
 #: app/templates/settings/wizard/_sub_nav.html:152
 msgid "Create step from template"
-msgstr ""
+msgstr "Opret trin fra skabelon"
 
 #: app/templates/settings/wizard/_sub_nav.html:168
 #, fuzzy
@@ -1821,47 +1843,47 @@ msgstr "Oprettet"
 
 #: app/templates/settings/wizard/_sub_nav.html:169
 msgid "Create a collection of steps"
-msgstr ""
+msgstr "Opret en samling af trin"
 
 #: app/templates/settings/wizard/bundles.html:12
 msgid "No bundles found."
-msgstr ""
+msgstr "Ingen bundter fundet."
 
 #: app/templates/settings/wizard/bundles.html:22
 #, python-format
 msgid "Export %(bundle_name)s Bundle"
-msgstr ""
+msgstr "Eksporter %(bundle_name)s Bundt"
 
 #: app/templates/settings/wizard/bundles.html:37
 msgid "Are you sure you want to delete this bundle?"
-msgstr ""
+msgstr "Er du sikker på, at du vil slette dette bundt?"
 
 #: app/templates/settings/wizard/bundles.html:72
 #: app/templates/settings/wizard/index.html:104
 #: app/templates/settings/wizard/steps.html:52
 msgid "Are you sure you want to delete this step?"
-msgstr ""
+msgstr "Er du sikker på, at du vil slette dette trin?"
 
 #: app/templates/settings/wizard/bundles.html:87
 msgid "Step deleted (orphaned)"
-msgstr ""
+msgstr "Trin slettet (forældreløse)"
 
 #: app/templates/settings/wizard/bundles.html:92
 msgid "Are you sure you want to remove this orphaned step?"
-msgstr ""
+msgstr "Er du sikker på, at du vil fjerne dette forældreløse skridt?"
 
 #: app/templates/settings/wizard/bundles.html:93
 msgid "Remove orphaned step"
-msgstr ""
+msgstr "Fjern forældreløs trin"
 
 #: app/templates/settings/wizard/bundles.html:107
 msgid "Add step"
-msgstr ""
+msgstr "Tilføj trin"
 
 #: app/templates/settings/wizard/form.html:40
 #: app/templates/settings/wizard/index.html:61
 msgid "Preview"
-msgstr ""
+msgstr "Forhåndsvisning"
 
 #: app/templates/settings/wizard/import_form.html:5
 msgid "Import Wizard Configuration"
@@ -1875,11 +1897,11 @@ msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:18
 msgid "Select JSON File"
-msgstr ""
+msgstr "Vælg JSON Fil"
 
 #: app/templates/settings/wizard/import_form.html:32
 msgid "Steps or Bundle JSON files only (MAX. 10MB)"
-msgstr ""
+msgstr "Trin eller Bundle JSON-filer kun (MAX. 10MB)"
 
 #: app/templates/settings/wizard/import_form.html:67
 msgid ""
@@ -1890,61 +1912,63 @@ msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:90
 msgid "Important: Backup Recommended"
-msgstr ""
+msgstr "Vigtigt: Backup anbefalet"
 
 #: app/templates/settings/wizard/import_form.html:93
 msgid "This action will modify your wizard configuration. Consider the following:"
-msgstr ""
+msgstr "Denne handling vil ændre din guide konfiguration. Overvej følgende:"
 
 #: app/templates/settings/wizard/import_form.html:95
 msgid "Export your current steps and bundles first as a backup"
-msgstr ""
+msgstr "Eksporter dine nuværende trin og bundter som backup først"
 
 #: app/templates/settings/wizard/import_form.html:96
 msgid "Imported steps will use the file's step ordering and server types"
-msgstr ""
+msgstr "Importerede trin vil bruge filens trinrækkefølger og servertyper"
 
 #: app/templates/settings/wizard/import_form.html:97
 msgid "Imported bundles will preserve their step associations and ordering"
-msgstr ""
+msgstr "Importerede bundter bevarer deres trintilknytninger og rækkefølge"
 
 #: app/templates/settings/wizard/import_form.html:98
 msgid ""
 "If replacing existing configuration, all current steps and bundles will "
 "be permanently removed"
 msgstr ""
+"Hvis du udskifter eksisterende konfiguration, fjernes alle aktuelle trin og "
+"bundter permanent"
 
 #: app/templates/settings/wizard/import_form.html:99
 msgid "Invalid or malformed JSON files will be rejected"
-msgstr ""
+msgstr "Ugyldige eller misdannede JSON-filer vil blive afvist"
 
 #: app/templates/settings/wizard/import_form.html:114
 msgid "Expected JSON Format"
-msgstr ""
+msgstr "Forventet JSON Format"
 
 #: app/templates/settings/wizard/import_form.html:117
 msgid "The JSON file can contain steps or bundles:"
-msgstr ""
+msgstr "JSON-filen kan indeholde trin eller bundter:"
 
 #: app/templates/settings/wizard/import_form.html:120
 msgid "For steps export:"
-msgstr ""
+msgstr "Til trineksport:"
 
 #: app/templates/settings/wizard/import_form.html:132
 msgid "For bundle export:"
-msgstr ""
+msgstr "Til bundt eksport:"
 
 #: app/templates/settings/wizard/import_form.html:159
 msgid "Back to Steps"
-msgstr ""
+msgstr "Tilbage til trin"
 
 #: app/templates/settings/wizard/import_form.html:242
 msgid "Please select a JSON file to import."
-msgstr ""
+msgstr "Vælg venligst en JSON-fil for at importere."
 
 #: app/templates/settings/wizard/import_form.html:249
 msgid "Please select a valid JSON file."
-msgstr ""
+msgstr "Vælg en gyldig JSON-fil."
 
 #: app/templates/settings/wizard/import_form.html:256
 msgid ""
@@ -1974,7 +1998,7 @@ msgstr "Server"
 
 #: app/templates/settings/wizard/index.html:52
 msgid "steps configured"
-msgstr ""
+msgstr "trin konfigureret"
 
 #: app/templates/settings/wizard/index.html:57
 #: app/templates/settings/wizard/steps.html:29
@@ -1992,7 +2016,7 @@ msgstr "Skridt"
 
 #: app/templates/settings/wizard/index.html:94
 msgid "Edit step"
-msgstr ""
+msgstr "Rediger trin"
 
 #: app/templates/settings/wizard/index.html:106
 #, fuzzy
@@ -2001,12 +2025,12 @@ msgstr "Standard"
 
 #: app/templates/settings/wizard/steps.html:12
 msgid "No steps found."
-msgstr ""
+msgstr "Ingen trin fundet."
 
 #: app/templates/settings/wizard/steps.html:22
 #, python-format
 msgid "Export %(server)s Steps"
-msgstr ""
+msgstr "Eksporter %(server)s Trin"
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"
@@ -2027,7 +2051,7 @@ msgstr "Der er i øjeblikket ingen invitationer."
 
 #: app/templates/tables/invite_card.html:106
 msgid "Copy invite link"
-msgstr ""
+msgstr "Kopier invitationslink"
 
 #: app/templates/tables/invite_card.html:132
 #, fuzzy
@@ -2066,7 +2090,7 @@ msgstr "Der er i øjeblikket ingen brugere."
 
 #: app/templates/tables/user_card.html:34
 msgid "Edit nickname"
-msgstr ""
+msgstr "Rediger kaldenavn"
 
 #: app/templates/tables/user_card.html:85
 msgid "Invited"
@@ -2074,19 +2098,19 @@ msgstr "Inviteret"
 
 #: app/templates/tables/user_card.html:121
 msgid "Downloads enabled"
-msgstr ""
+msgstr "Downloads aktiveret"
 
 #: app/templates/tables/user_card.html:127
 msgid "Downloads disabled"
-msgstr ""
+msgstr "Downloads deaktiveret"
 
 #: app/templates/tables/user_card.html:136
 msgid "Live TV enabled"
-msgstr ""
+msgstr "Live TV aktiveret"
 
 #: app/templates/tables/user_card.html:142
 msgid "Live TV disabled"
-msgstr ""
+msgstr "Live TV deaktiveret"
 
 #: app/templates/tables/user_card.html:180
 #, fuzzy
@@ -2100,7 +2124,7 @@ msgstr "Du er blevet inviteret til at tilmelde dig %(name)s server!"
 
 #: app/templates/user-plex-login.html:51 app/templates/welcome-jellyfin.html:28
 msgid "You've been invited!"
-msgstr ""
+msgstr "Du er blevet inviteret!"
 
 #: app/templates/user-plex-login.html:56 app/templates/welcome-jellyfin.html:33
 #, fuzzy
@@ -2109,7 +2133,7 @@ msgstr "Tilmeld"
 
 #: app/templates/user-plex-login.html:64 app/templates/welcome-jellyfin.html:41
 msgid "Join the ultimate media server experience."
-msgstr ""
+msgstr "Deltag i den ultimative medie serveroplevelse."
 
 #: app/templates/user-plex-login.html:74
 #, fuzzy
@@ -2134,7 +2158,7 @@ msgstr "Tilmeld dig Plex-serveren"
 #: app/templates/user-plex-login.html:143
 #: app/templates/welcome-jellyfin.html:202
 msgid "Secure invitation system powered by Wizarr"
-msgstr ""
+msgstr "Sikker invitationssystem drevet af Wizarr"
 
 #: app/templates/users.html:5
 msgid "Invite User"
@@ -2148,7 +2172,7 @@ msgstr "Opret invitation"
 
 #: app/templates/welcome-jellyfin.html:61
 msgid "Get ready to join the magic"
-msgstr ""
+msgstr "Gør dig klar til at deltage i magien"
 
 #: app/templates/welcome-jellyfin.html:86
 #: app/templates/welcome-jellyfin.html:185
@@ -2163,7 +2187,7 @@ msgstr "Oprettelse af konto"
 
 #: app/templates/welcome-jellyfin.html:113
 msgid "Enter your username"
-msgstr ""
+msgstr "Indtast dit brugernavn"
 
 #: app/templates/welcome-jellyfin.html:125
 msgid "Email"
@@ -2171,7 +2195,7 @@ msgstr "Email"
 
 #: app/templates/welcome-jellyfin.html:129
 msgid "Enter your email"
-msgstr ""
+msgstr "Indtast din e-mail"
 
 #: app/templates/welcome-jellyfin.html:145
 #, fuzzy
@@ -2199,7 +2223,7 @@ msgstr "Tidligere"
 
 #: app/templates/wizard/steps.html:36
 msgid "Click the link in this step to be able to continue"
-msgstr ""
+msgstr "Klik på linket i dette trin for at kunne fortsætte"
 
 #: app/templates/wizard/steps.html:37
 msgid "Next"
