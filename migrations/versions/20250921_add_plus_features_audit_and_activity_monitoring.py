@@ -58,7 +58,7 @@ def upgrade():
         sa.Column("season_number", sa.Integer(), nullable=True),
         sa.Column("episode_number", sa.Integer(), nullable=True),
         sa.Column("started_at", sa.DateTime(), nullable=False),
-        sa.Column("ended_at", sa.DateTime(), nullable=True),
+        sa.Column("active", sa.Boolean(), nullable=False, server_default=sa.text("1")),
         sa.Column("duration_ms", sa.BigInteger(), nullable=True),
         sa.Column("final_position_ms", sa.BigInteger(), nullable=True),
         sa.Column("progress_percent", sa.Float(), nullable=True),
@@ -97,7 +97,7 @@ def upgrade():
         unique=False,
     )
     op.create_index(
-        "ix_activity_session_ended_at", "activity_session", ["ended_at"], unique=False
+        "ix_activity_session_active", "activity_session", ["active"], unique=False
     )
     op.create_index(
         "ix_activity_session_media_type",
@@ -194,7 +194,7 @@ def downgrade():
     )  # From third migration
     op.drop_index("ix_activity_session_session_id", table_name="activity_session")
     op.drop_index("ix_activity_session_media_type", table_name="activity_session")
-    op.drop_index("ix_activity_session_ended_at", table_name="activity_session")
+    op.drop_index("ix_activity_session_active", table_name="activity_session")
     op.drop_index("ix_activity_session_started_at", table_name="activity_session")
     op.drop_index("ix_activity_session_user_name", table_name="activity_session")
     op.drop_index("ix_activity_session_server_id", table_name="activity_session")

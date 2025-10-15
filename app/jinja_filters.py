@@ -1,6 +1,16 @@
+import contextlib
+import os
+import time
 from datetime import datetime
 
 from markupsafe import Markup, escape
+
+try:
+    from zoneinfo import ZoneInfo
+except (
+    ImportError
+):  # pragma: no cover - Python <3.9 not officially supported but handle gracefully
+    ZoneInfo = None
 
 # Mapping of server types to their desired pastel background colours
 _SERVER_TAG_COLOURS = {
@@ -13,6 +23,40 @@ _SERVER_TAG_COLOURS = {
 }
 
 _DEFAULT_COLOUR = "#E0E0E0"  # neutral grey fallback
+
+
+def _resolve_local_timezone():
+    """Determine the timezone to use for rendering timestamps."""
+    tz_name = os.environ.get("TZ")
+
+    if tz_name and hasattr(time, "tzset"):
+        with contextlib.suppress(Exception):
+            time.tzset()
+
+    if ZoneInfo is not None:
+        # First try explicit TZ environment variable
+        if tz_name:
+            try:
+                return ZoneInfo(tz_name)
+            except Exception:
+                pass
+
+        # Fall back to system tzname if available
+        try:
+            local_name = time.tzname[0] if time.tzname else None
+            if local_name:
+                return ZoneInfo(local_name)
+        except Exception:
+            pass
+
+    # Fallback: use the system local timezone as determined by datetime
+    try:
+        return datetime.now().astimezone().tzinfo
+    except Exception:
+        return None
+
+
+_LOCAL_TIMEZONE = _resolve_local_timezone()
 
 
 def _server_colour(server_type: str) -> str:
@@ -124,11 +168,11 @@ def local_date(date_value, format_str="%m/%d %H:%M") -> str:
 
                 date_value = date_value.replace(tzinfo=UTC)
 
-            try:
-                system_tz = zoneinfo.ZoneInfo(time.tzname[0])
-                local_time = date_value.astimezone(system_tz)
-            except (ImportError, OSError):
-                local_time = date_value
+            target_tz = _LOCAL_TIMEZONE
+            if target_tz is not None:
+                local_time = date_value.astimezone(target_tz)
+            else:
+                local_time = date_value.astimezone()
 
             return local_time.strftime(format_str)
         except Exception:

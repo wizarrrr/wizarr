@@ -10,6 +10,7 @@ from datetime import UTC, datetime, timedelta
 from typing import Any
 
 from app.models import MediaServer, db
+from plus.activity.services.identity_resolution import apply_identity_resolution
 
 
 class HistoricalDataService:
@@ -20,6 +21,8 @@ class HistoricalDataService:
         self.media_server = MediaServer.query.get(server_id)
         if not self.media_server:
             raise ValueError(f"Media server {server_id} not found")
+        # Cache Plex item lookups to avoid repeated API calls when resolving durations
+        self._duration_cache: dict[str, int] = {}
 
     def import_plex_history(
         self, days_back: int = 30, max_results: int = 1000
@@ -58,10 +61,17 @@ class HistoricalDataService:
                 maxresults=max_results, mindate=min_date
             )
 
+            account_lookup = self._build_plex_account_lookup(client)
+
+            # Reset the cache for each import run so we avoid stale lookups between servers
+            self._duration_cache.clear()
+
             imported_sessions = []
             for entry in history_entries:
                 try:
-                    activity_session = self._process_plex_history_entry(entry)
+                    activity_session = self._process_plex_history_entry(
+                        entry, account_lookup, client
+                    )
                     if activity_session:
                         imported_sessions.append(activity_session)
                 except Exception as e:
@@ -92,14 +102,52 @@ class HistoricalDataService:
                 "total_stored": 0,
             }
 
-    def _process_plex_history_entry(self, entry):
+    def _build_plex_account_lookup(self, client):
+        """Build mapping from Plex account ID to human friendly name."""
+        lookup = {}
+        try:
+            for account in client.server.systemAccounts():
+                name = (
+                    getattr(account, "name", None)
+                    or getattr(account, "username", None)
+                    or getattr(account, "title", None)
+                    or ""
+                )
+                lookup[str(getattr(account, "id", ""))] = name or ""
+        except Exception as exc:
+            logging.debug(f"Unable to build Plex account lookup: {exc}")
+        return lookup
+
+    def _process_plex_history_entry(self, entry, account_lookup, client):
         """Process a single Plex history entry into ActivitySession format."""
         try:
-            from plus.activity.models import ActivitySession
+            from plus.activity.domain.models import ActivitySession
 
-            # Extract user data
-            user_name = getattr(entry, "accountName", "Unknown User")
-            user_id = str(getattr(entry, "accountID", "unknown"))
+            # Extract user data with multiple fallbacks because Plex history differs by server version
+            account = getattr(entry, "account", None)
+            user_name = None
+            user_id = None
+
+            if account is not None:
+                user_name = getattr(account, "title", None) or getattr(
+                    account, "name", None
+                )
+                user_id = getattr(account, "id", None)
+
+            if not user_name:
+                user_name = getattr(entry, "accountName", None) or getattr(
+                    entry, "username", None
+                )
+            if not user_id:
+                user_id = getattr(entry, "accountID", None) or getattr(
+                    entry, "userID", None
+                )
+
+            user_id = str(user_id or getattr(entry, "accountID", "unknown"))
+            mapped_name = account_lookup.get(user_id)
+            if mapped_name:
+                user_name = mapped_name
+            user_name = user_name or mapped_name or "Unknown User"
 
             # Extract media data
             media_title = getattr(entry, "title", "Unknown Media")
@@ -130,14 +178,20 @@ class HistoricalDataService:
                 viewed_at = viewed_at.replace(tzinfo=UTC)
 
             # Extract duration and progress with null safety
-            duration_ms = getattr(entry, "duration", 0) or 0
-            view_offset = getattr(entry, "viewOffset", 0) or 0
-            progress_percent = 0.0
+            duration_ms, duration_source = self._extract_duration(entry, client)
 
-            if duration_ms and view_offset and duration_ms > 0 and view_offset > 0:
-                progress_percent = min(
-                    100.0, max(0.0, (view_offset / duration_ms) * 100)
-                )
+            raw_view_offset = getattr(entry, "viewOffset", None)
+            if raw_view_offset is None:
+                raw_view_offset = 0
+            view_offset = max(int(raw_view_offset or 0), 0)
+
+            # Estimate session start/end times using view_offset (Plex provides end time in viewed_at)
+            if duration_ms > 0:
+                started_at = viewed_at - timedelta(milliseconds=duration_ms)
+            elif view_offset > 0:
+                started_at = viewed_at - timedelta(milliseconds=view_offset)
+            else:
+                started_at = viewed_at
 
             # Generate unique session ID for historical data
             session_id = f"historical_{getattr(entry, 'ratingKey', 'unknown')}_{user_id}_{int(viewed_at.timestamp())}"
@@ -152,6 +206,10 @@ class HistoricalDataService:
                 "library_name": getattr(entry, "librarySectionTitle", None),
                 "imported_from": "plex_history",
                 "import_timestamp": datetime.now(UTC).isoformat(),
+                "historical_viewed_at": viewed_at.isoformat(),
+                "status": "ended",
+                "historical_duration_source": duration_source,
+                "historical_duration_ms": duration_ms or None,
             }
 
             # Create ActivitySession for historical data
@@ -167,15 +225,21 @@ class HistoricalDataService:
                 series_name=series_name,
                 season_number=season_number,
                 episode_number=episode_number,
-                started_at=viewed_at,
-                ended_at=viewed_at,  # Historical data - mark as completed
+                started_at=started_at,
+                active=False,
                 duration_ms=duration_ms,
-                final_position_ms=view_offset,
-                progress_percent=progress_percent,
             )
 
             # Set metadata
             activity_session.set_metadata(metadata)
+
+            if apply_identity_resolution:
+                try:
+                    apply_identity_resolution(activity_session)
+                except Exception as exc:
+                    logging.debug(
+                        f"Identity resolution failed for historical entry: {exc}"
+                    )
 
             return activity_session
 
@@ -183,10 +247,61 @@ class HistoricalDataService:
             logging.warning(f"Failed to process Plex history entry: {e}")
             return None
 
+    def _extract_duration(self, entry, client) -> tuple[int, str]:
+        """Best-effort extraction of media duration for Plex history items."""
+        duration_sources = [
+            ("duration", "history_entry_duration"),
+            ("parentDuration", "history_parent_duration"),
+            ("grandparentDuration", "history_grandparent_duration"),
+            ("originalDuration", "history_original_duration"),
+        ]
+
+        for attr, source in duration_sources:
+            value = getattr(entry, attr, None)
+            if isinstance(value, (int, float)) and value > 0:
+                return int(value), source
+
+        # Inspect raw metadata if available
+        metadata = getattr(entry, "_data", None)
+        if isinstance(metadata, dict):
+            for key in ("duration", "originalDuration"):
+                value = metadata.get(key)
+                if isinstance(value, (int, float)) and value > 0:
+                    return int(value), f"history_metadata_{key}"
+
+        rating_key = getattr(entry, "ratingKey", None)
+        if rating_key:
+            cached = self._duration_cache.get(str(rating_key))
+            if cached:
+                return cached, "cached_item_duration"
+
+            try:
+                item = client.server.fetchItem(rating_key)
+            except Exception as exc:
+                logging.debug(
+                    "Unable to fetch Plex item %s for duration lookup: %s",
+                    rating_key,
+                    exc,
+                )
+            else:
+                for attr, source in (
+                    ("duration", "item_duration"),
+                    ("originalDuration", "item_original_duration"),
+                ):
+                    value = getattr(item, attr, None)
+                    if isinstance(value, (int, float)) and value > 0:
+                        ms_value = int(value)
+                        self._duration_cache[str(rating_key)] = ms_value
+                        return ms_value, source
+                # Cache negative result to avoid repeated lookups for the same key
+                self._duration_cache[str(rating_key)] = 0
+
+        return 0, "unknown"
+
     def _store_activity_sessions(self, sessions: list) -> int:
         """Store activity sessions in the database."""
         try:
-            from plus.activity.models import ActivitySession
+            from plus.activity.domain.models import ActivitySession
 
             stored_count = 0
             for session in sessions:
@@ -215,7 +330,7 @@ class HistoricalDataService:
     def get_import_statistics(self) -> dict[str, Any]:
         """Get statistics about imported historical data."""
         try:
-            from plus.activity.models import ActivitySession
+            from plus.activity.domain.models import ActivitySession
 
             # Get basic counts for imported historical data
             imported_query = ActivitySession.query.filter(
@@ -270,7 +385,7 @@ class HistoricalDataService:
     def clear_historical_data(self) -> dict[str, Any]:
         """Clear all imported historical data for this server."""
         try:
-            from plus.activity.models import ActivitySession
+            from plus.activity.domain.models import ActivitySession
 
             # Delete only imported historical data, not live activity data
             deleted_count = ActivitySession.query.filter(

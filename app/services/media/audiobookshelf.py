@@ -943,7 +943,25 @@ class AudiobookshelfClient(RestApiMixin):
             # --- basic metadata ------------------------------------------------
             session_id = str(raw.get("id", ""))
             user_id = str(raw.get("userId", ""))
-            user_display = local_usernames.get(user_id) or user_id or "Unknown"
+
+            user_info = raw.get("user") or {}
+            if not isinstance(user_info, dict):
+                user_info = {}
+
+            abs_username = (
+                user_info.get("username")
+                or user_info.get("displayName")
+                or user_info.get("name")
+            )
+
+            user_display = (
+                local_usernames.get(user_id)
+                or raw.get("userDisplayName")
+                or raw.get("username")
+                or abs_username
+                or user_id
+                or "Unknown"
+            )
             media_type = raw.get("mediaType", "book")
             title = raw.get("displayTitle", "Unknown")
 
