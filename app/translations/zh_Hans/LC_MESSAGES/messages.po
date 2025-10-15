@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-09-22 13:02+0000\n"
-"PO-Revision-Date: 2025-10-08 13:07+0000\n"
-"Last-Translator: 刘付苏 <liufusucc@gmail.com>\n"
+"PO-Revision-Date: 2025-10-15 13:00+0000\n"
+"Last-Translator: wolfling45 <tdwangfei@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/wizarr/wizarr-universal/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -88,9 +88,8 @@ msgid "API key deleted successfully"
 msgstr "API 密钥删除成功"
 
 #: app/blueprints/auth/routes.py:85
-#, fuzzy
 msgid "Invalid username or password"
-msgstr "用户名或密码错误"
+msgstr "用户名或密码无效"
 
 #: app/blueprints/auth/routes.py:105
 msgid "No pending 2FA authentication"
@@ -99,259 +98,257 @@ msgstr "无待处理的双重身份验证"
 #: app/blueprints/auth/routes.py:119 app/templates/login.html:150
 #: app/templates/login.html:209 app/templates/login.html:213
 msgid "Authentication failed"
-msgstr ""
+msgstr "认证失败"
 
 #: app/blueprints/connections/routes.py:52
 #: app/blueprints/connections/routes.py:188
 msgid "Connection type is required"
-msgstr ""
+msgstr "连接类型为必填项"
 
 #: app/blueprints/connections/routes.py:65
 #, python-format
 msgid "Connection test failed: %(message)s"
-msgstr ""
+msgstr "连接测试失败：%(message)s"
 
 #: app/blueprints/connections/routes.py:75
 msgid "Connection test successful!"
-msgstr ""
+msgstr "连接测试成功！"
 
 #: app/blueprints/connections/routes.py:78
 #: app/blueprints/connections/routes.py:204
 msgid "Unknown connection type"
-msgstr ""
+msgstr "未知连接类型"
 
 #: app/blueprints/connections/routes.py:95
 msgid "Connection created successfully!"
-msgstr ""
+msgstr "连接创建成功！"
 
 #: app/blueprints/connections/routes.py:124
 msgid "Connection updated successfully!"
-msgstr ""
+msgstr "连接更新成功！"
 
 #: app/blueprints/connections/routes.py:146
 msgid "Connection deleted successfully!"
-msgstr ""
+msgstr "连接删除成功！"
 
 #: app/blueprints/connections/routes.py:165
 msgid "Please refresh the page and try again (CSRF token expired)"
-msgstr ""
+msgstr "请刷新页面并重试（CSRF 令牌已过期）"
 
 #: app/blueprints/connections/routes.py:170
 #, python-format
 msgid "Invalid form data: %(errors)s"
-msgstr ""
+msgstr "表单数据无效：%(errors)s"
 
 #: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:270
 msgid "Settings saved successfully!"
-msgstr ""
+msgstr "设置保存成功！"
 
 #: app/blueprints/settings/routes.py:216
-#, fuzzy
 msgid "Server URL"
-msgstr "从不"
+msgstr "服务器 URL"
 
 #: app/blueprints/settings/routes.py:219
 msgid "API Key"
-msgstr ""
+msgstr "API 密钥"
 
 #: app/blueprints/settings/routes.py:219
-#, fuzzy
 msgid "Username/Password"
-msgstr "用户名或密码错误"
+msgstr "用户名/密码"
 
 #: app/blueprints/settings/routes.py:222
 #, python-brace-format
 msgid "Missing required fields: {fields}"
-msgstr ""
+msgstr "缺少必填字段：{fields}"
 
 #: app/blueprints/settings/routes.py:225 app/blueprints/settings/routes.py:235
 #: app/templates/components/passkey_error.html:7
 msgid "Error"
-msgstr ""
+msgstr "错误"
 
 #: app/blueprints/settings/routes.py:234
 msgid "Library scan failed"
-msgstr ""
+msgstr "媒体库扫描失败"
 
 #: app/blueprints/setup/routes.py:74
 msgid "Admin account created – welcome!"
-msgstr ""
+msgstr "管理员账户创建成功 – 欢迎！"
 
 #: app/blueprints/wizard_admin/routes.py:114
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
-msgstr ""
+msgstr "清理了 {} 个孤立步骤"
 
 #: app/blueprints/wizard_admin/routes.py:183
-#, fuzzy
 msgid "Step created"
-msgstr "创建"
+msgstr "步骤已创建"
 
 #: app/blueprints/wizard_admin/routes.py:256
 msgid "Preset step created successfully"
-msgstr ""
+msgstr "预设步骤创建成功"
 
 #: app/blueprints/wizard_admin/routes.py:264
 #, python-brace-format
 msgid "Error creating preset: {}"
-msgstr ""
+msgstr "创建预设时出错：{}"
 
 #: app/blueprints/wizard_admin/routes.py:296
 msgid "Step updated"
-msgstr ""
+msgstr "步骤已更新"
 
 #: app/blueprints/wizard_admin/routes.py:334
-#, fuzzy
 msgid "Step deleted"
-msgstr "默认"
+msgstr "步骤已删除"
 
 #: app/blueprints/wizard_admin/routes.py:404
 #, fuzzy
 msgid "Bundle created"
-msgstr "创建"
+msgstr "捆绑包已创建"
 
 #: app/blueprints/wizard_admin/routes.py:434
+#, fuzzy
 msgid "Bundle updated"
-msgstr ""
+msgstr "捆绑包已更新"
 
 #: app/blueprints/wizard_admin/routes.py:458
 #, fuzzy
 msgid "Bundle deleted"
-msgstr "默认"
+msgstr "捆绑包已删除"
 
 #: app/blueprints/wizard_admin/routes.py:536
 msgid "Steps added"
-msgstr ""
+msgstr "步骤已添加"
 
 #: app/blueprints/wizard_admin/routes.py:548
 msgid "Orphaned step removed"
-msgstr ""
+msgstr "孤立步骤已移除"
 
 #: app/blueprints/wizard_admin/routes.py:566
 #, python-brace-format
 msgid "No steps found for server type: {}"
-msgstr ""
+msgstr "未找到服务器类型 {} 的步骤"
 
 #: app/blueprints/wizard_admin/routes.py:590
 #: app/blueprints/wizard_admin/routes.py:627
 #: app/blueprints/wizard_admin/routes.py:632
 #, python-brace-format
 msgid "Export failed: {}"
-msgstr ""
+msgstr "导出失败：{}"
 
 #: app/blueprints/wizard_admin/routes.py:677
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully imported {} items"
-msgstr "已成功生成邀请！"
+msgstr "成功导入 {} 个项目"
 
 #: app/blueprints/wizard_admin/routes.py:681
 #, python-brace-format
 msgid " and updated {} existing items"
-msgstr ""
+msgstr " .并更新了 {} 个现有项目"
 
 #: app/blueprints/wizard_admin/routes.py:686
 #: app/blueprints/wizard_admin/routes.py:693
 #, python-brace-format
 msgid "Import failed: {}"
-msgstr ""
+msgstr "导入失败：{}"
 
 #: app/blueprints/wizard_admin/routes.py:691
 msgid "Invalid JSON file"
-msgstr ""
+msgstr "无效的 JSON 文件"
 
 #: app/services/servers.py:16
 #, python-format
 msgid "Server returned status code %(status_code)s"
-msgstr ""
+msgstr "服务器返回状态码 %(status_code)s"
 
 #: app/services/servers.py:27
 #, python-format
 msgid "%(server_type)s server returned an error: %(error)s"
-msgstr ""
+msgstr "%(server_type)s 服务器返回错误：%(error)s"
 
 #: app/services/servers.py:34
 #, python-format
 msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
-msgstr ""
+msgstr "无法连接到 %(server_type)s 服务器。请检查服务器是否正在运行以及 URL 是否正确"
+"。"
 
 #: app/services/servers.py:40
 #, python-format
 msgid ""
 "Connection to %(server_type)s server timed out. Please check if the "
 "server is running and accessible."
-msgstr ""
+msgstr "连接到 %(server_type)s 服务器超时。请检查服务器是否正在运行且可访问。"
 
 #: app/services/servers.py:46
 #, python-format
 msgid ""
 "An error occurred while connecting to the %(server_type)s server: "
 "%(error)s"
-msgstr ""
+msgstr "连接到 %(server_type)s 服务器时发生错误：%(error)s"
 
 #: app/services/servers.py:53
 #, python-format
 msgid ""
 "An unexpected error occurred while connecting to the %(server_type)s "
 "server: %(error)s"
-msgstr ""
+msgstr "连接到 %(server_type)s 服务器时发生意外错误：%(error)s"
 
 #: app/services/servers.py:66
 msgid "Plex"
-msgstr ""
+msgstr "Plex"
 
 #: app/services/servers.py:80
 msgid "Jellyfin"
-msgstr ""
+msgstr "Jellyfin"
 
 #: app/services/servers.py:87
 msgid "Emby"
-msgstr ""
+msgstr "Emby"
 
 #: app/services/servers.py:113
 msgid "Audiobookshelf"
-msgstr ""
+msgstr "Audiobookshelf"
 
 #: app/services/servers.py:143
 msgid "RomM"
-msgstr ""
+msgstr "RomM"
 
 #: app/services/servers.py:168
 msgid "Komga"
-msgstr ""
+msgstr "Komga"
 
 #: app/services/servers.py:220
 msgid "Kavita"
-msgstr ""
+msgstr "Kavita"
 
 #: app/services/servers.py:277
 msgid "Navidrome"
-msgstr ""
+msgstr "Navidrome"
 
 #: app/services/servers.py:299
 msgid "Invalid API token or insufficient permissions."
-msgstr ""
+msgstr "无效的 API 令牌或权限不足。"
 
 #: app/services/servers.py:301
 msgid "API token lacks required permissions."
-msgstr ""
+msgstr "API 令牌缺少所需权限。"
 
 #: app/services/servers.py:306
 msgid "Could not connect to Drop server."
-msgstr ""
+msgstr "无法连接到 Drop 服务器。"
 
 #: app/services/servers.py:308
 msgid "Connection to Drop server timed out."
-msgstr ""
+msgstr "连接到 Drop 服务器超时。"
 
 #: app/services/servers.py:311
 msgid "Drop API not found. Check the server URL."
-msgstr ""
+msgstr "未找到 Drop API。请检查服务器 URL。"
 
 #: app/services/servers.py:314
 msgid "Drop"
-msgstr ""
+msgstr "Drop"
 
 #: app/templates/admin.html:5 app/templates/admin/user_details_modal.html:92
 msgid "Admin"
@@ -359,40 +356,39 @@ msgstr "管理员"
 
 #: app/templates/admin.html:85
 msgid "Profile"
-msgstr ""
+msgstr "个人资料"
 
 #: app/templates/admin.html:95
 msgid "Logout"
-msgstr ""
+msgstr "注销"
 
 #: app/templates/admin/accepted_invites_card.html:8
 msgid "Latest Accepted Invites"
-msgstr ""
+msgstr "最新接受的邀请"
 
 #: app/templates/admin/accepted_invites_card.html:32
 msgid "Recently joined"
-msgstr ""
+msgstr "最近加入的"
 
 #: app/templates/admin/accepted_invites_card.html:124
 msgid "No recent invitations accepted"
-msgstr ""
+msgstr "暂无最近接受的邀请"
 
 #: app/templates/admin/accepted_invites_card.html:125
 msgid "Accepted invitations will appear here"
-msgstr ""
+msgstr "接受的邀请将显示在此处"
 
 #: app/templates/admin/home.html:6
 msgid "Dashboard"
-msgstr ""
+msgstr "仪表板"
 
 #: app/templates/admin/home.html:16 app/templates/admin/invites.html:14
-#, fuzzy
 msgid "New Invite"
-msgstr "快速邀请"
+msgstr "新建邀请"
 
 #: app/templates/admin/home.html:30
 msgid "Now Playing"
-msgstr ""
+msgstr "正在播放"
 
 #: app/templates/admin/invites.html:5
 msgid "Invitations"
@@ -400,22 +396,20 @@ msgstr "邀请"
 
 #: app/templates/admin/library_breakdown_card.html:8
 msgid "Library Breakdown"
-msgstr ""
+msgstr "媒体库分析"
 
 #: app/templates/admin/library_breakdown_card.html:79
-#, fuzzy
 msgid "Per Server"
-msgstr "从不"
+msgstr "每个服务器"
 
 #: app/templates/admin/library_breakdown_card.html:101
 #: app/templates/admin/library_breakdown_card.html:115
-#, fuzzy
 msgid "No libraries found"
-msgstr "扫描媒体库"
+msgstr "未找到媒体库"
 
 #: app/templates/admin/library_breakdown_card.html:116
 msgid "Configure your media servers to see library statistics"
-msgstr ""
+msgstr "配置您的媒体服务器以查看媒体库统计数据"
 
 #: app/templates/admin/library_breakdown_card.html:128
 #, fuzzy
