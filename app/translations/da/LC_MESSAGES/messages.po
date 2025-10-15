@@ -8,21 +8,22 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-09-22 13:02+0000\n"
-"PO-Revision-Date: 2023-04-28 23:48+0000\n"
-"Last-Translator: vp-en <zmwc.vpn@gmail.com>\n"
+"PO-Revision-Date: 2025-10-15 02:07+0000\n"
+"Last-Translator: Emil Friis Osmann <Emilfriisosmann@gmail.com>\n"
+"Language-Team: Danish <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/da/>\n"
 "Language: da\n"
-"Language-Team: Danish "
-"<https://hosted.weblate.org/projects/wizarr/app/da/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.14-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/blueprints/admin/routes.py:282
 #: app/templates/admin/user_details_modal.html:47
 msgid "Unknown"
-msgstr ""
+msgstr "Ukendt"
 
 #: app/blueprints/admin/routes.py:285 app/templates/modals/invite.html:66
 #: app/templates/tables/invite_card.html:45
@@ -38,44 +39,43 @@ msgstr "Udløbet"
 #: app/blueprints/admin/routes.py:364
 #, python-format
 msgid "in %(n)d d"
-msgstr ""
+msgstr "om %(n)d d"
 
 #: app/blueprints/admin/routes.py:366
 msgid "in 1 d"
-msgstr ""
+msgstr "om 1 d"
 
 #: app/blueprints/admin/routes.py:368
 #, python-format
 msgid "in %(n)d h"
-msgstr ""
+msgstr "om %(n)d h"
 
 #: app/blueprints/admin/routes.py:370
 #, python-format
 msgid "in %(n)d m"
-msgstr ""
+msgstr "om %(n)d m"
 
 #: app/blueprints/admin/routes.py:371
 msgid "soon"
-msgstr ""
+msgstr "snart"
 
 #: app/blueprints/admin_accounts/routes.py:40
-#, fuzzy
 msgid "Admin created"
-msgstr "Oprettet"
+msgstr "Oprettet af admin"
 
 #: app/blueprints/admin_accounts/routes.py:66
 msgid "Admin updated"
-msgstr ""
+msgstr "Opdateret af admin"
 
 #: app/blueprints/admin_accounts/routes.py:166
 #, python-brace-format
 msgid "All passkeys for {} have been reset"
-msgstr ""
+msgstr "Alle adgangsnøgler for {} er blevet nulstillet"
 
 #: app/blueprints/admin_accounts/routes.py:170
 #, python-brace-format
 msgid "Failed to reset passkeys for {}"
-msgstr ""
+msgstr "Nulstilling af adgangsnøgler for {} fejlede"
 
 #: app/blueprints/api_keys/routes.py:68
 msgid ""
@@ -88,7 +88,6 @@ msgid "API key deleted successfully"
 msgstr ""
 
 #: app/blueprints/auth/routes.py:85
-#, fuzzy
 msgid "Invalid username or password"
 msgstr "Ugyldigt brugernavn eller adgangskode"
 
@@ -146,18 +145,16 @@ msgid "Settings saved successfully!"
 msgstr ""
 
 #: app/blueprints/settings/routes.py:216
-#, fuzzy
 msgid "Server URL"
-msgstr "Aldrig"
+msgstr "Server URL"
 
 #: app/blueprints/settings/routes.py:219
 msgid "API Key"
-msgstr ""
+msgstr "API Nøgle"
 
 #: app/blueprints/settings/routes.py:219
-#, fuzzy
 msgid "Username/Password"
-msgstr "Ugyldigt brugernavn eller adgangskode"
+msgstr "Brugernavn/Adgangskode"
 
 #: app/blueprints/settings/routes.py:222
 #, python-brace-format
@@ -171,7 +168,7 @@ msgstr ""
 
 #: app/blueprints/settings/routes.py:234
 msgid "Library scan failed"
-msgstr ""
+msgstr "Skan af bibliotek fejlet"
 
 #: app/blueprints/setup/routes.py:74
 msgid "Admin account created – welcome!"
@@ -183,9 +180,8 @@ msgid "Cleaned up {} orphaned step(s)"
 msgstr ""
 
 #: app/blueprints/wizard_admin/routes.py:183
-#, fuzzy
 msgid "Step created"
-msgstr "Oprettet"
+msgstr "Skridt oprettet"
 
 #: app/blueprints/wizard_admin/routes.py:256
 msgid "Preset step created successfully"
@@ -198,30 +194,27 @@ msgstr ""
 
 #: app/blueprints/wizard_admin/routes.py:296
 msgid "Step updated"
-msgstr ""
+msgstr "Skridt opdateret"
 
 #: app/blueprints/wizard_admin/routes.py:334
-#, fuzzy
 msgid "Step deleted"
-msgstr "Standard"
+msgstr "Skridt slettet"
 
 #: app/blueprints/wizard_admin/routes.py:404
-#, fuzzy
 msgid "Bundle created"
-msgstr "Oprettet"
+msgstr "Bundt oprettet"
 
 #: app/blueprints/wizard_admin/routes.py:434
 msgid "Bundle updated"
-msgstr ""
+msgstr "Bundt opdateret"
 
 #: app/blueprints/wizard_admin/routes.py:458
-#, fuzzy
 msgid "Bundle deleted"
-msgstr "Standard"
+msgstr "Bundt slettet"
 
 #: app/blueprints/wizard_admin/routes.py:536
 msgid "Steps added"
-msgstr ""
+msgstr "Skridt tilføjet"
 
 #: app/blueprints/wizard_admin/routes.py:548
 msgid "Orphaned step removed"
@@ -386,13 +379,12 @@ msgid "Dashboard"
 msgstr ""
 
 #: app/templates/admin/home.html:16 app/templates/admin/invites.html:14
-#, fuzzy
 msgid "New Invite"
-msgstr "Hurtig invitation"
+msgstr "Ny Invitation"
 
 #: app/templates/admin/home.html:30
 msgid "Now Playing"
-msgstr ""
+msgstr "Afspilles nu"
 
 #: app/templates/admin/invites.html:5
 msgid "Invitations"
@@ -403,15 +395,13 @@ msgid "Library Breakdown"
 msgstr ""
 
 #: app/templates/admin/library_breakdown_card.html:79
-#, fuzzy
 msgid "Per Server"
-msgstr "Aldrig"
+msgstr "Per Server"
 
 #: app/templates/admin/library_breakdown_card.html:101
 #: app/templates/admin/library_breakdown_card.html:115
-#, fuzzy
 msgid "No libraries found"
-msgstr "Scan for biblioteker"
+msgstr "Ingen biblioteker fundet"
 
 #: app/templates/admin/library_breakdown_card.html:116
 msgid "Configure your media servers to see library statistics"
@@ -466,15 +456,13 @@ msgid "Failed to load recent content"
 msgstr ""
 
 #: app/templates/admin/server_health_card.html:8
-#, fuzzy
 msgid "Server Health"
-msgstr "Serverindstillinger"
+msgstr "Server Helbred"
 
 #: app/templates/admin/server_health_card.html:45
 #: app/templates/admin/server_stats_card.html:35
-#, fuzzy
 msgid "Online"
-msgstr "Tilmeld"
+msgstr "Online"
 
 #: app/templates/admin/server_health_card.html:49
 msgid "Offline"
@@ -483,9 +471,8 @@ msgstr ""
 #: app/templates/admin/server_health_card.html:65
 #: app/templates/admin/server_stats_card.html:29
 #: app/templates/settings/notifications.html:68
-#, fuzzy
 msgid "Active"
-msgstr "Gem"
+msgstr "Aktiv"
 
 #: app/templates/admin/server_health_card.html:76
 #: app/templates/admin/server_health_card.html:105
@@ -510,9 +497,8 @@ msgid "of"
 msgstr ""
 
 #: app/templates/admin/server_health_card.html:141
-#, fuzzy
 msgid "servers online"
-msgstr "Serverindstillinger"
+msgstr "servere online"
 
 #: app/templates/admin/server_health_card.html:146
 #, fuzzy
@@ -532,9 +518,8 @@ msgid "Failed to load server health"
 msgstr ""
 
 #: app/templates/admin/server_stats_card.html:8
-#, fuzzy
 msgid "Server Overview"
-msgstr "Serverindstillinger"
+msgstr "Server Oversigt"
 
 #: app/templates/admin/server_stats_card.html:17
 msgid "Items"
@@ -557,9 +542,8 @@ msgid "User Details"
 msgstr ""
 
 #: app/templates/admin/user_details_modal.html:46
-#, fuzzy
 msgid "Joined"
-msgstr "Tilmeld"
+msgstr "Tilmeldt"
 
 #: app/templates/admin/user_details_modal.html:54
 msgid "Account Details"
@@ -572,19 +556,16 @@ msgid "Libraries"
 msgstr "Biblioteker"
 
 #: app/templates/admin/user_details_modal.html:78
-#, fuzzy
 msgid "All libraries"
-msgstr "Biblioteker"
+msgstr "Alle biblioteker"
 
 #: app/templates/admin/user_details_modal.html:85
-#, fuzzy
 msgid "Permissions"
-msgstr "Tilladelse nægtet."
+msgstr "Tilladelser"
 
 #: app/templates/admin/user_details_modal.html:101
-#, fuzzy
 msgid "Downloads"
-msgstr "Download"
+msgstr "Downloads"
 
 #: app/templates/admin/user_details_modal.html:110
 msgid "Live TV"
@@ -608,7 +589,7 @@ msgstr ""
 
 #: app/templates/admin/user_modal.html:10
 msgid "Edit expiry"
-msgstr ""
+msgstr "Ændre udløb"
 
 #: app/templates/admin/user_modal.html:26
 msgid "Server-specific Expiry Management"
@@ -621,9 +602,8 @@ msgid ""
 msgstr ""
 
 #: app/templates/admin/user_modal.html:53
-#, fuzzy
 msgid "Expiry date"
-msgstr "Udløber"
+msgstr "Udløbsdato"
 
 #: app/templates/admin/user_modal.html:63
 msgid "Update"
@@ -655,7 +635,7 @@ msgstr ""
 
 #: app/templates/admin/user_modal.html:107
 msgid "Expiry date (leave blank for never)"
-msgstr ""
+msgstr "Udløbsdato (blank for aldrig)"
 
 #: app/templates/admin/user_modal.html:127
 #: app/templates/modals/edit-admin.html:33
@@ -694,16 +674,15 @@ msgstr "Gem"
 #: app/templates/settings/wizard/preset_form.html:43
 #: app/templates/settings/wizard/simple_form.html:32
 msgid "Cancel"
-msgstr ""
+msgstr "Annuller"
 
 #: app/templates/admin/user_modal.html:142
-#, fuzzy
 msgid "Invitation Details"
-msgstr "Invitationer"
+msgstr "Invitations Detaljer"
 
 #: app/templates/admin/user_modal.html:145
 msgid "Code"
-msgstr ""
+msgstr "Kode"
 
 #: app/templates/admin/user_modal.html:147 app/templates/modals/invite.html:116
 #: app/templates/modals/invite.html:149
@@ -713,29 +692,25 @@ msgstr "Varighed"
 
 #: app/templates/admin/user_modal.html:147
 #: app/templates/tables/invite_card.html:195
-#, fuzzy
 msgid "days"
-msgstr "1 dag"
+msgstr "dage"
 
 #: app/templates/admin/user_modal.html:150
-#, fuzzy
 msgid "Invitation expires"
-msgstr "Invitationer"
+msgstr "Invitations udløb"
 
 #: app/templates/admin/users.html:176
-#, fuzzy
 msgid "Link"
-msgstr "Login"
+msgstr "Link"
 
 #: app/templates/admin/users.html:177
 msgid "Unlink"
-msgstr ""
+msgstr "Unlink"
 
 #: app/templates/admin/users.html:178 app/templates/servers/index.html:27
 #: app/templates/settings/connections.html:120
-#, fuzzy
 msgid "Delete"
-msgstr "Standard"
+msgstr "Slet"
 
 #: app/templates/choose-password.html:10
 msgid "Complete your access"
@@ -755,9 +730,8 @@ msgstr "Adgangskode"
 #: app/templates/choose-password.html:27
 #: app/templates/hybrid-password-form.html:139
 #: app/templates/welcome-jellyfin.html:157
-#, fuzzy
 msgid "Confirm Password"
-msgstr "Adgangskode"
+msgstr "Bekræft Adgangskode"
 
 #: app/templates/choose-password.html:32
 msgid "Generate a strong random password instead"
@@ -765,7 +739,7 @@ msgstr ""
 
 #: app/templates/choose-password.html:34
 msgid "Continue"
-msgstr ""
+msgstr "Fortsæt"
 
 #: app/templates/components/admin_passkeys.html:5
 #, python-brace-format
@@ -779,9 +753,8 @@ msgstr "Oprettet"
 
 #: app/templates/components/admin_passkeys.html:33
 #: app/templates/components/passkey_list.html:17
-#, fuzzy
 msgid "Last used"
-msgstr "Brugt"
+msgstr "Sidst brugt"
 
 #: app/templates/components/admin_passkeys.html:54
 msgid "Reset All Passkeys"
@@ -829,9 +802,8 @@ msgid "Add New Passkey"
 msgstr ""
 
 #: app/templates/components/passkey_add_form.html:10
-#, fuzzy
 msgid "Passkey Name"
-msgstr "Brugernavn"
+msgstr "Adgangsnøgle Navn"
 
 #: app/templates/components/passkey_add_form.html:17
 msgid "e.g., My iPhone, Work Laptop"
@@ -839,13 +811,12 @@ msgstr ""
 
 #: app/templates/components/passkey_add_form.html:30
 #: app/templates/components/passkey_register.html:3
-#, fuzzy
 msgid "Create Passkey"
-msgstr "Opret en konto"
+msgstr "Opret adgangsnøgle"
 
 #: app/templates/components/passkey_list.html:15
 msgid "Added"
-msgstr ""
+msgstr "Tilføjet"
 
 #: app/templates/components/passkey_list.html:40
 msgid "No passkeys registered"
@@ -857,7 +828,7 @@ msgstr ""
 
 #: app/templates/components/passkey_management.html:9
 msgid "Passkeys"
-msgstr ""
+msgstr "Adgangsnøgler"
 
 #: app/templates/components/passkey_management.html:16
 #: app/templates/components/passkey_management.html:25
@@ -937,9 +908,8 @@ msgid "Now please set a password for your local server accounts."
 msgstr ""
 
 #: app/templates/hybrid-password-form.html:33
-#, fuzzy
 msgid "Local Servers"
-msgstr "Aldrig"
+msgstr "Lokale Servere"
 
 #: app/templates/hybrid-password-form.html:66
 msgid "Set Password for Local Servers"
@@ -947,7 +917,7 @@ msgstr ""
 
 #: app/templates/hybrid-password-form.html:76
 msgid "Error!"
-msgstr ""
+msgstr "Fejl!"
 
 #: app/templates/admin/user_details_modal.html:57
 #: app/templates/hybrid-password-form.html:92 app/templates/login.html:46
@@ -958,9 +928,8 @@ msgid "Username"
 msgstr "Brugernavn"
 
 #: app/templates/hybrid-password-form.html:96
-#, fuzzy
 msgid "Your username"
-msgstr "Brugernavn"
+msgstr "Dit brugernavn"
 
 #: app/templates/hybrid-password-form.html:108
 msgid "Email Address"
@@ -968,12 +937,11 @@ msgstr ""
 
 #: app/templates/hybrid-password-form.html:112
 msgid "your.email@example.com"
-msgstr ""
+msgstr "din.email@example.com"
 
 #: app/templates/hybrid-password-form.html:128
-#, fuzzy
 msgid "Your password"
-msgstr "Adgangskode"
+msgstr "Din adgangskode"
 
 #: app/templates/hybrid-password-form.html:143
 #: app/templates/welcome-jellyfin.html:161
@@ -1022,9 +990,8 @@ msgid "Skip local servers"
 msgstr ""
 
 #: app/templates/hybrid-password-form.html:215
-#, fuzzy
 msgid "Password too short"
-msgstr "Adgangskode"
+msgstr "Adgangskode for kort"
 
 #: app/templates/hybrid-password-form.html:218
 msgid "Password strength: Medium"
@@ -1039,9 +1006,8 @@ msgid "Passwords do not match"
 msgstr ""
 
 #: app/templates/invalid-invite.html:16
-#, fuzzy
 msgid "Invalid Invitation"
-msgstr "Invitationer"
+msgstr "Ugyldig Invitation"
 
 #: app/templates/login.html:19
 msgid "Two-Factor Authentication"
@@ -1078,7 +1044,7 @@ msgstr ""
 
 #: app/templates/login.html:101
 msgid "Or"
-msgstr ""
+msgstr "Eller"
 
 #: app/templates/login.html:110 app/templates/login.html:226
 msgid "Sign in with Passkey"
@@ -1103,9 +1069,8 @@ msgstr ""
 #: app/templates/modals/bundle-add-steps.html:23
 #: app/templates/settings/wizard/bundles.html:59
 #: app/templates/settings/wizard/steps.html:40
-#, fuzzy
 msgid "Untitled"
-msgstr "Ubegrænset"
+msgstr "Unavngivet"
 
 #: app/templates/modals/bundle-add-steps.html:27
 msgid "All steps are already included."
@@ -1114,7 +1079,7 @@ msgstr ""
 #: app/templates/modals/bundle-add-steps.html:33
 #: app/templates/modals/create-admin.html:33
 msgid "Add"
-msgstr ""
+msgstr "Tilføj"
 
 #: app/templates/modals/connection-form.html:9
 #: app/templates/settings/connections/form.html:5
@@ -1162,9 +1127,8 @@ msgstr ""
 
 #: app/templates/modals/connection-form.html:162
 #: app/templates/settings/connections/form.html:199
-#, fuzzy
 msgid "Create Connection"
-msgstr "Opret invitation"
+msgstr "Opret Forbindelse"
 
 #: app/templates/modals/connection-form.html:164
 #: app/templates/settings/connections/form.html:201
@@ -1181,21 +1145,18 @@ msgstr ""
 
 #: app/templates/modals/create-admin.html:27
 #: app/templates/modals/edit-admin.html:27
-#, fuzzy
 msgid "Confirm password"
-msgstr "Adgangskode"
+msgstr "Bekræft adgangskode"
 
 #: app/templates/modals/create-api-key.html:11
-#, fuzzy
 msgid "API Key Created"
-msgstr "Oprettet"
+msgstr "API Nøgle Oprettet"
 
 #: app/templates/modals/create-api-key.html:13
 #: app/templates/settings/api_keys.html:17
 #: app/templates/settings/general.html:114
-#, fuzzy
 msgid "Create API Key"
-msgstr "Opret en konto"
+msgstr "Opret API Nøgle"
 
 #: app/templates/modals/create-api-key.html:26
 msgid "API Key Created Successfully"
@@ -1208,18 +1169,16 @@ msgid ""
 msgstr ""
 
 #: app/templates/modals/create-api-key.html:35
-#, fuzzy
 msgid "Copy to clipboard"
-msgstr "Linket er blevet kopieret til udklipsholderen!"
+msgstr "Kopier til udklipsholderen"
 
 #: app/templates/modals/create-api-key.html:42
-#, fuzzy
 msgid "Name:"
-msgstr "Brugernavn"
+msgstr "Navn:"
 
 #: app/templates/modals/create-api-key.html:48
 msgid "Done"
-msgstr ""
+msgstr "Færdig"
 
 #: app/templates/modals/create-api-key.html:57
 msgid "API Key Name"
@@ -1231,21 +1190,19 @@ msgstr ""
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "Ny Agent"
 
 #: app/templates/modals/create-notification-agent.html:63
 msgid "Channel ID"
 msgstr ""
 
 #: app/templates/modals/create-notification-agent.html:68
-#, fuzzy
 msgid "Username (optional)"
-msgstr "(valgfrit)"
+msgstr "Brugernavn (valgfrit)"
 
 #: app/templates/modals/create-notification-agent.html:72
-#, fuzzy
 msgid "Password (optional)"
-msgstr "(valgfrit)"
+msgstr "Password (valgfrit)"
 
 #: app/templates/modals/create-notification-agent.html:77
 msgid "Agent URL"
@@ -1253,13 +1210,12 @@ msgstr ""
 
 #: app/templates/modals/create-notification-agent.html:87
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Test & Opret Agent"
 
 #: app/templates/modals/create-server.html:10
 #: app/templates/servers/index.html:6 app/templates/settings/servers.html:90
-#, fuzzy
 msgid "Add Server"
-msgstr "Aldrig"
+msgstr "Tilføj Server"
 
 #: app/templates/modals/create-server.html:102
 msgid "Test & Add"
@@ -1280,17 +1236,15 @@ msgstr ""
 
 #: app/templates/modals/edit-identity.html:21
 msgid "Nickname"
-msgstr ""
+msgstr "Kaldenavn"
 
 #: app/templates/modals/edit-server.html:10
-#, fuzzy
 msgid "Edit Server"
-msgstr "Aldrig"
+msgstr "Ændre Server"
 
 #: app/templates/modals/invite.html:10
-#, fuzzy
 msgid "Invitation Created"
-msgstr "Invitationer"
+msgstr "Invitation Oprettet"
 
 #: app/templates/modals/invite.html:10 app/templates/modals/invite.html:268
 msgid "Create Invitation"
@@ -1301,9 +1255,8 @@ msgid "Invite Code String"
 msgstr "Invitationskode String"
 
 #: app/templates/modals/invite.html:34
-#, fuzzy
 msgid "optional"
-msgstr "(valgfrit)"
+msgstr "valgfrit"
 
 #: app/templates/modals/invite.html:44
 msgid "E.g. XMFGEJIKNQ"
@@ -1311,7 +1264,7 @@ msgstr ""
 
 #: app/templates/modals/invite.html:54
 msgid "Expiration"
-msgstr "Udløbsdato"
+msgstr "Udløb"
 
 #: app/templates/modals/invite.html:63
 msgid "1 day"
@@ -1331,25 +1284,23 @@ msgstr ""
 
 #: app/templates/modals/invite.html:77
 msgid "Automatic"
-msgstr ""
+msgstr "Automatisk"
 
 #: app/templates/modals/invite.html:92
 msgid "Advanced Options"
 msgstr "Avancerede indstillinger"
 
 #: app/templates/modals/invite.html:101
-#, fuzzy
 msgid "Invite Settings"
-msgstr "Invitationskode String"
+msgstr "Invitations Indstillinger"
 
 #: app/templates/modals/invite.html:107
 msgid "Unlimited Usages"
 msgstr "Ubegrænsede anvendelser"
 
 #: app/templates/modals/invite.html:117
-#, fuzzy
 msgid "in days"
-msgstr "(i dage)"
+msgstr "i dage"
 
 #: app/templates/modals/invite.html:137
 msgid "Show Information"
@@ -1378,9 +1329,8 @@ msgstr "Invitationskode"
 
 #: app/templates/modals/invite.html:195 app/templates/modals/invite.html:211
 #: app/templates/modals/invite.html:222 app/templates/modals/invite.html:238
-#, fuzzy
 msgid "Allow Downloads"
-msgstr "Download"
+msgstr "Tillad Downloads"
 
 #: app/templates/modals/invite.html:200 app/templates/modals/invite.html:216
 #: app/templates/modals/invite.html:227
@@ -1398,9 +1348,8 @@ msgid "Select Libraries"
 msgstr "Biblioteker"
 
 #: app/templates/modals/invite.html:257 app/templates/modals/invite.html:372
-#, fuzzy
 msgid "Loading…"
-msgstr "Login"
+msgstr "Indlæser…"
 
 #: app/templates/modals/invite.html:280
 msgid "Successfully generated an Invitation!"
@@ -1413,7 +1362,7 @@ msgstr "Invitationer"
 
 #: app/templates/modals/invite.html:307
 msgid "Copy"
-msgstr ""
+msgstr "Kopier"
 
 #: app/templates/modals/invite.html:315
 msgid "Link has been copied to clipboard!"
@@ -1509,7 +1458,7 @@ msgstr ""
 
 #: app/templates/profile.html:13
 msgid "Administrator"
-msgstr ""
+msgstr "Administrator"
 
 #: app/templates/profile.html:27
 msgid "Change your account password for security."
@@ -1540,34 +1489,32 @@ msgid "Media Servers"
 msgstr "Aldrig"
 
 #: app/templates/servers/index.html:10
-#, fuzzy
 msgid "Name"
-msgstr "Brugernavn"
+msgstr "Navn"
 
 #: app/templates/servers/index.html:11
 #: app/templates/settings/connections.html:34
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: app/templates/servers/index.html:12
 #: app/templates/settings/connections.html:36
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: app/templates/servers/index.html:13 app/templates/settings/servers.html:41
 msgid "Verified"
-msgstr ""
+msgstr "Verificeret"
 
 #: app/templates/servers/index.html:14
 #: app/templates/settings/connections.html:37
-#, fuzzy
 msgid "Actions"
-msgstr "Invitationer"
+msgstr "Begivenheder"
 
 #: app/templates/servers/index.html:25
 #: app/templates/settings/connections.html:107
 msgid "Edit"
-msgstr ""
+msgstr "Ændre"
 
 #: app/templates/servers/index.html:26
 msgid "Delete this server?"
@@ -1578,9 +1525,8 @@ msgid "No servers configured yet."
 msgstr ""
 
 #: app/templates/settings/admins.html:6
-#, fuzzy
 msgid "Administrators"
-msgstr "Invitationer"
+msgstr "Administratorer"
 
 #: app/templates/settings/admins.html:24
 msgid "Manage Passkeys"
@@ -1603,7 +1549,7 @@ msgstr ""
 #: app/templates/settings/connections/form.html:35
 #: app/templates/settings/index.html:71
 msgid "Connections"
-msgstr ""
+msgstr "Forbindelser"
 
 #: app/templates/settings/connections.html:8
 msgid "Manage external service connections for automated user invitations"
@@ -1630,11 +1576,11 @@ msgstr ""
 
 #: app/templates/settings/connections.html:59
 msgid "Ombi"
-msgstr ""
+msgstr "Ombi"
 
 #: app/templates/settings/connections.html:66
 msgid "Audiobookrequest"
-msgstr ""
+msgstr "Audiobookrequest"
 
 #: app/templates/settings/connections.html:93
 msgid "Auto-import enabled"
@@ -1767,21 +1713,19 @@ msgstr ""
 
 #: app/templates/settings/index.html:26
 msgid "General"
-msgstr ""
+msgstr "Generelt"
 
 #: app/templates/settings/index.html:41
 msgid "Alerts"
-msgstr ""
+msgstr "Advarsler"
 
 #: app/templates/settings/index.html:56
-#, fuzzy
 msgid "Servers"
-msgstr "Aldrig"
+msgstr "Servere"
 
 #: app/templates/settings/index.html:86
-#, fuzzy
 msgid "Admins"
-msgstr "Admin"
+msgstr "Administratorer"
 
 #: app/templates/settings/index.html:102
 msgid "Wizard"
@@ -1789,7 +1733,7 @@ msgstr ""
 
 #: app/templates/settings/notifications.html:9
 msgid "Notification Agents"
-msgstr ""
+msgstr "Notifikations Agenter"
 
 #: app/templates/settings/notifications.html:10
 msgid "Configure notification services to alert you about important events"
@@ -1812,7 +1756,7 @@ msgstr "Opret en konto"
 
 #: app/templates/settings/notifications.html:65
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: app/templates/settings/notifications.html:84
 #, fuzzy
@@ -1824,13 +1768,12 @@ msgid "Get started by creating your first notification agent"
 msgstr ""
 
 #: app/templates/settings/servers.html:41
-#, fuzzy
 msgid "Unverified"
-msgstr "Ubegrænset"
+msgstr "Uverificeret"
 
 #: app/templates/settings/servers.html:49
 msgid "Checking..."
-msgstr ""
+msgstr "Tjekker..."
 
 #: app/templates/settings/wizard/_sub_nav.html:16
 #, fuzzy
@@ -1844,7 +1787,7 @@ msgstr ""
 #: app/templates/settings/wizard/_sub_nav.html:48
 #: app/templates/settings/wizard/_sub_nav.html:68
 msgid "Import"
-msgstr ""
+msgstr "Importer"
 
 #: app/templates/settings/wizard/_sub_nav.html:83
 #: app/templates/settings/wizard/import_form.html:167
@@ -1856,9 +1799,8 @@ msgid "Import steps or bundles from JSON file"
 msgstr ""
 
 #: app/templates/settings/wizard/_sub_nav.html:103
-#, fuzzy
 msgid "Create"
-msgstr "Oprettet"
+msgstr "Opret"
 
 #: app/templates/settings/wizard/_sub_nav.html:135
 msgid "Add a new wizard step"
@@ -2027,9 +1969,8 @@ msgid "Get started by creating your first wizard step"
 msgstr ""
 
 #: app/templates/settings/wizard/index.html:51
-#, fuzzy
 msgid "Server"
-msgstr "Aldrig"
+msgstr "Server"
 
 #: app/templates/settings/wizard/index.html:52
 msgid "steps configured"
@@ -2047,7 +1988,7 @@ msgstr "Ubegrænsede anvendelser"
 
 #: app/templates/settings/wizard/index.html:83
 msgid "Step"
-msgstr ""
+msgstr "Skridt"
 
 #: app/templates/settings/wizard/index.html:94
 msgid "Edit step"
@@ -2082,7 +2023,7 @@ msgstr "Ubegrænset"
 
 #: app/templates/tables/invite_card.html:61
 msgid "There are currently no invitations."
-msgstr ""
+msgstr "Der er i øjeblikket ingen invitationer."
 
 #: app/templates/tables/invite_card.html:106
 msgid "Copy invite link"
@@ -2108,14 +2049,12 @@ msgid "Expires"
 msgstr "Udløber"
 
 #: app/templates/tables/invite_card.html:198
-#, fuzzy
 msgid "Limit"
-msgstr "Ubegrænset"
+msgstr "Begrænsning"
 
 #: app/templates/tables/invite_card.html:219
-#, fuzzy
 msgid "libs"
-msgstr "Biblioteker"
+msgstr "biblioteker"
 
 #: app/templates/tables/invite_card.html:249
 msgid "Default"
@@ -2123,16 +2062,15 @@ msgstr "Standard"
 
 #: app/templates/tables/user_card.html:3
 msgid "There are currently no users."
-msgstr ""
+msgstr "Der er i øjeblikket ingen brugere."
 
 #: app/templates/tables/user_card.html:34
 msgid "Edit nickname"
 msgstr ""
 
 #: app/templates/tables/user_card.html:85
-#, fuzzy
 msgid "Invited"
-msgstr "Invitationskode"
+msgstr "Inviteret"
 
 #: app/templates/tables/user_card.html:121
 msgid "Downloads enabled"
@@ -2257,7 +2195,7 @@ msgstr "Opret en konto"
 
 #: app/templates/wizard/steps.html:28
 msgid "Previous"
-msgstr ""
+msgstr "Tidligere"
 
 #: app/templates/wizard/steps.html:36
 msgid "Click the link in this step to be able to continue"
@@ -2265,7 +2203,7 @@ msgstr ""
 
 #: app/templates/wizard/steps.html:37
 msgid "Next"
-msgstr ""
+msgstr "Næste"
 
 #~ msgid "Change Server Settings"
 #~ msgstr "Ændre serverindstillingerne"
@@ -2689,4 +2627,3 @@ msgstr ""
 
 #~ msgid "Available"
 #~ msgstr "Tilgængelige"
-
