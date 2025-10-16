@@ -50,9 +50,6 @@ dev = [
     "ty>=0.0.1a20",
     "djlint>=1.36.4",
 ]
-plus = [
-    "websocket-client>=1.6.0",
-]
 
 [tool.uv]
 # Disable dev extras when running plain `uv run` inside production containers.
