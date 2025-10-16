@@ -15,8 +15,6 @@ from typing import Any
 import requests
 import structlog
 
-from app.services.shared.base import BaseService
-
 logger = structlog.get_logger(__name__)
 
 
@@ -41,7 +39,7 @@ class LicenseVerificationError(Exception):
     pass
 
 
-class KeygenLicenseService(BaseService):
+class KeygenLicenseService:
     """Service for verifying Keygen licenses at runtime."""
 
     def __init__(self):
@@ -220,9 +218,9 @@ class KeygenLicenseService(BaseService):
             )
 
         try:
-            from Crypto.Hash import SHA256
-            from Crypto.PublicKey import RSA
-            from Crypto.Signature import PKCS1_v1_5
+            from Crypto.Hash import SHA256  # type: ignore[import-untyped]
+            from Crypto.PublicKey import RSA  # type: ignore[import-untyped]
+            from Crypto.Signature import PKCS1_v1_5  # type: ignore[import-untyped]
         except ImportError as e:
             raise LicenseVerificationError(
                 "pycryptodome library required for offline verification"

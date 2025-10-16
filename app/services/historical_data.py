@@ -1,5 +1,5 @@
 """
-Historical data import service for Plus features.
+Historical data import service for Wizarr.
 
 This service handles importing historical viewing data from media servers
 like Plex into the existing ActivitySession model for unified analytics.
@@ -10,7 +10,7 @@ from datetime import UTC, datetime, timedelta
 from typing import Any
 
 from app.models import MediaServer, db
-from plus.activity.services.identity_resolution import apply_identity_resolution
+from app.services.activity.identity_resolution import apply_identity_resolution
 
 
 class HistoricalDataService:
@@ -121,7 +121,7 @@ class HistoricalDataService:
     def _process_plex_history_entry(self, entry, account_lookup, client):
         """Process a single Plex history entry into ActivitySession format."""
         try:
-            from plus.activity.domain.models import ActivitySession
+            from app.models import ActivitySession
 
             # Extract user data with multiple fallbacks because Plex history differs by server version
             account = getattr(entry, "account", None)
@@ -301,7 +301,7 @@ class HistoricalDataService:
     def _store_activity_sessions(self, sessions: list) -> int:
         """Store activity sessions in the database."""
         try:
-            from plus.activity.domain.models import ActivitySession
+            from app.models import ActivitySession
 
             stored_count = 0
             for session in sessions:
@@ -330,7 +330,7 @@ class HistoricalDataService:
     def get_import_statistics(self) -> dict[str, Any]:
         """Get statistics about imported historical data."""
         try:
-            from plus.activity.domain.models import ActivitySession
+            from app.models import ActivitySession
 
             # Get basic counts for imported historical data
             imported_query = ActivitySession.query.filter(
@@ -385,7 +385,7 @@ class HistoricalDataService:
     def clear_historical_data(self) -> dict[str, Any]:
         """Clear all imported historical data for this server."""
         try:
-            from plus.activity.domain.models import ActivitySession
+            from app.models import ActivitySession
 
             # Delete only imported historical data, not live activity data
             deleted_count = ActivitySession.query.filter(

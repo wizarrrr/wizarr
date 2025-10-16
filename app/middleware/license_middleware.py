@@ -5,7 +5,7 @@ Periodically checks license validity and can disable plus features if license be
 
 import os
 import threading
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 
 import structlog
 from flask import Flask, g, jsonify, request
@@ -110,7 +110,7 @@ class LicenseValidationMiddleware:
         try:
             is_valid, message = license_service.verify_plus_license()
 
-            self.last_validation = datetime.utcnow()
+            self.last_validation = datetime.now(UTC)
             self.license_valid = is_valid
             self.validation_message = message
 
@@ -122,7 +122,7 @@ class LicenseValidationMiddleware:
 
         except Exception as e:
             logger.error("License validation error", error=str(e))
-            self.last_validation = datetime.utcnow()
+            self.last_validation = datetime.now(UTC)
             self.license_valid = False
             self.validation_message = f"Validation error: {str(e)}"
 
@@ -132,7 +132,7 @@ class LicenseValidationMiddleware:
             return False
 
         grace_end = self.last_validation_success + timedelta(seconds=self.grace_period)
-        return datetime.utcnow() < grace_end
+        return datetime.now(UTC) < grace_end
 
     def _should_block_request(self) -> bool:
         """Determine if the current request should be blocked due to license issues."""
@@ -154,7 +154,6 @@ class LicenseValidationMiddleware:
             "/plus/",
             "/api/plus/",
             "/hx/plus/",
-            "/activity/",
             "/audit/",
         ]
 

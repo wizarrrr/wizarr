@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """
-Wrapper for Wizarr Plus Cython compilation.
 The actual implementation is in the plus submodule.
 """
 

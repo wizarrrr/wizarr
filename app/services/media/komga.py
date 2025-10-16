@@ -172,7 +172,8 @@ class KomgaClient(RestApiMixin):
         # Always create restricted access with the actual library IDs
         library_access = (
             LibraryAccessHelper.create_restricted_access(
-                shared_library_ids, getattr(self, "server_id", None)
+                shared_library_ids,
+                self.server_id,  # type: ignore[attr-defined]
             )
             if shared_library_ids
             else []
@@ -329,7 +330,8 @@ class KomgaClient(RestApiMixin):
                 # Always create restricted access with the actual library IDs
                 library_access = (
                     LibraryAccessHelper.create_restricted_access(
-                        shared_library_ids, getattr(self, "server_id", None)
+                        shared_library_ids,
+                        self.server_id,  # type: ignore[attr-defined]
                     )
                     if shared_library_ids
                     else []

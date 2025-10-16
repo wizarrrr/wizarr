@@ -1,4 +1,6 @@
+import json
 from datetime import UTC, datetime
+from typing import Any
 
 from flask_login import UserMixin
 
@@ -674,3 +676,227 @@ class ExpiredUser(db.Model):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+
+class ActivitySession(db.Model):
+    __tablename__ = "activity_session"
+
+    id = db.Column(db.Integer, primary_key=True)
+    server_id = db.Column(db.Integer, db.ForeignKey("media_server.id"), nullable=False)
+    session_id = db.Column(db.String, nullable=False, index=True)
+    reference_id = db.Column(db.Integer, nullable=True, index=True)
+    user_name = db.Column(db.String, nullable=False, index=True)
+    user_id = db.Column(db.String, nullable=True)
+    media_title = db.Column(db.String, nullable=False)
+    media_type = db.Column(db.String, nullable=True, index=True)
+    media_id = db.Column(db.String, nullable=True)
+    series_name = db.Column(db.String, nullable=True)
+    season_number = db.Column(db.Integer, nullable=True)
+    episode_number = db.Column(db.Integer, nullable=True)
+    started_at = db.Column(
+        db.DateTime, nullable=False, index=True, default=lambda: datetime.now(UTC)
+    )
+    active = db.Column(db.Boolean, nullable=False, default=True, index=True)
+    duration_ms = db.Column(db.BigInteger, nullable=True)
+    device_name = db.Column(db.String, nullable=True)
+    client_name = db.Column(db.String, nullable=True)
+    ip_address = db.Column(db.String, nullable=True)
+    platform = db.Column(db.String, nullable=True)
+    player_version = db.Column(db.String, nullable=True)
+    transcoding_info = db.Column(db.Text, nullable=True)
+    session_metadata = db.Column(db.Text, nullable=True)
+    artwork_url = db.Column(db.String, nullable=True)
+    thumbnail_url = db.Column(db.String, nullable=True)
+    wizarr_user_id = db.Column(
+        db.Integer, db.ForeignKey("user.id"), nullable=True, index=True
+    )
+    wizarr_identity_id = db.Column(
+        db.Integer, db.ForeignKey("identity.id"), nullable=True, index=True
+    )
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
+    updated_at = db.Column(
+        db.DateTime,
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
+        nullable=False,
+    )
+
+    server = db.relationship(
+        "MediaServer", backref=db.backref("activity_sessions", lazy=True)
+    )
+    snapshots = db.relationship(
+        "ActivitySnapshot", backref="session", lazy=True, cascade="all, delete-orphan"
+    )
+    wizarr_user = db.relationship("User", foreign_keys=[wizarr_user_id], lazy="joined")
+    wizarr_identity = db.relationship(
+        "Identity", foreign_keys=[wizarr_identity_id], lazy="joined"
+    )
+
+    __table_args__ = (
+        db.Index("ix_activity_session_server_started", "server_id", "started_at"),
+        db.Index("ix_activity_session_user_started", "user_name", "started_at"),
+    )
+
+    def get_transcoding_info(self) -> dict[str, Any]:
+        if not self.transcoding_info:
+            return {}
+        try:
+            return json.loads(self.transcoding_info)
+        except (json.JSONDecodeError, TypeError):
+            return {}
+
+    def set_transcoding_info(self, info: dict[str, Any]):
+        if info is None:
+            self.transcoding_info = None
+        else:
+            self.transcoding_info = json.dumps(info, default=str)
+
+    def get_metadata(self) -> dict[str, Any]:
+        if not self.session_metadata:
+            return {}
+        try:
+            return json.loads(self.session_metadata)
+        except (json.JSONDecodeError, TypeError):
+            return {}
+
+    def set_metadata(self, metadata: dict[str, Any]):
+        if metadata is None:
+            self.session_metadata = None
+        else:
+            self.session_metadata = json.dumps(metadata, default=str)
+
+    @property
+    def duration_minutes(self) -> float | None:
+        if self.duration_ms is None:
+            return None
+        return self.duration_ms / (1000 * 60)
+
+    @property
+    def is_active(self) -> bool:
+        return bool(self.active)
+
+    @property
+    def display_duration_seconds(self) -> int | None:
+        if self.duration_ms:
+            return max(int(self.duration_ms // 1000), 0)
+        return None
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "server_id": self.server_id,
+            "session_id": self.session_id,
+            "user_name": self.user_name,
+            "user_id": self.user_id,
+            "media_title": self.media_title,
+            "media_type": self.media_type,
+            "media_id": self.media_id,
+            "series_name": self.series_name,
+            "season_number": self.season_number,
+            "episode_number": self.episode_number,
+            "started_at": self.started_at.isoformat() if self.started_at else None,
+            "duration_ms": self.duration_ms,
+            "device_name": self.device_name,
+            "client_name": self.client_name,
+            "ip_address": self.ip_address,
+            "platform": self.platform,
+            "player_version": self.player_version,
+            "transcoding_info": self.get_transcoding_info(),
+            "metadata": self.get_metadata(),
+            "artwork_url": self.artwork_url,
+            "thumbnail_url": self.thumbnail_url,
+            "duration_minutes": self.duration_minutes,
+            "display_duration_seconds": self.display_duration_seconds,
+            "is_active": self.is_active,
+            "active": bool(self.active),
+            "wizarr_user_id": self.wizarr_user_id,
+            "wizarr_identity_id": self.wizarr_identity_id,
+            "display_user_name": self.display_user_name,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
+
+    @property
+    def display_user_name(self) -> str:
+        if hasattr(self, "_resolved_identity_name") and self._resolved_identity_name:
+            return self._resolved_identity_name
+
+        identity = None
+        if self.wizarr_identity:
+            identity = self.wizarr_identity
+        elif getattr(self, "wizarr_user", None) and getattr(
+            self.wizarr_user, "identity", None
+        ):
+            identity = self.wizarr_user.identity
+
+        if identity:
+            return identity.nickname or identity.primary_username or self.user_name
+
+        return self.user_name
+
+
+class ActivitySnapshot(db.Model):
+    __tablename__ = "activity_snapshot"
+
+    id = db.Column(db.Integer, primary_key=True)
+    session_id = db.Column(
+        db.Integer,
+        db.ForeignKey("activity_session.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    timestamp = db.Column(
+        db.DateTime, nullable=False, index=True, default=lambda: datetime.now(UTC)
+    )
+    position_ms = db.Column(db.BigInteger, nullable=True)
+    state = db.Column(db.String, nullable=False, index=True)
+    transcoding_details = db.Column(db.Text, nullable=True)
+    bandwidth_kbps = db.Column(db.Integer, nullable=True)
+    quality = db.Column(db.String, nullable=True)
+    subtitle_stream = db.Column(db.String, nullable=True)
+    audio_stream = db.Column(db.String, nullable=True)
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
+
+    __table_args__ = (
+        db.Index("ix_activity_snapshot_session_timestamp", "session_id", "timestamp"),
+    )
+
+    def get_transcoding_details(self) -> dict[str, Any]:
+        if not self.transcoding_details:
+            return {}
+        try:
+            return json.loads(self.transcoding_details)
+        except (json.JSONDecodeError, TypeError):
+            return {}
+
+    def set_transcoding_details(self, details: dict[str, Any]):
+        if details is None:
+            self.transcoding_details = None
+        else:
+            self.transcoding_details = json.dumps(details, default=str)
+
+    @property
+    def position_minutes(self) -> float | None:
+        if self.position_ms is None:
+            return None
+        return self.position_ms / (1000 * 60)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "session_id": self.session_id,
+            "timestamp": self.timestamp.isoformat() if self.timestamp else None,
+            "position_ms": self.position_ms,
+            "state": self.state,
+            "transcoding_details": self.get_transcoding_details(),
+            "bandwidth_kbps": self.bandwidth_kbps,
+            "quality": self.quality,
+            "subtitle_stream": self.subtitle_stream,
+            "audio_stream": self.audio_stream,
+            "position_minutes": self.position_minutes,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+        }

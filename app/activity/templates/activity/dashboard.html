@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _("Activity Monitoring") }} - Wizarr{% endblock %}
+
+{% block main %}
+<div class="container mx-auto px-4 py-6 max-w-7xl">
+    <!-- Header -->
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ _("Activity Monitoring") }}</h1>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _("Real-time and historical media playback activity") }}</p>
+    </div>
+
+    {% if error %}
+        <div class="bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
+            <div class="flex">
+                <svg class="flex-shrink-0 w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-red-800 dark:text-red-200">{{ error }}</h3>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Activity Table -->
+    <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+        <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+                <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 p-4 gap-4">
+                    <div class="w-full md:w-2/5">
+                        <form class="flex items-center" method="GET" hx-get="{{ url_for('activity.activity_dashboard') }}" hx-target="body" hx-push-url="true">
+                            <label for="simple-search" class="sr-only">{{ _("Search") }}</label>
+                            <div class="relative w-full">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input type="text" id="simple-search" name="user_name" value="{{ selected_user_name or '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 h-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="{{ _("Search by username...") }}">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="w-full md:w-3/5 flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end gap-4">
+                        <select name="server_id" id="server-filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full md:w-48 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" onchange="filterActivities()">
+                            <option value="">{{ _("All Servers") }}</option>
+                            {% for server in servers %}
+                                <option value="{{ server.id }}" {% if server.id == selected_server_id %}selected{% endif %}>
+                                    {{ server.server_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <select name="media_type" id="media-type-filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full md:w-48 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" onchange="filterActivities()">
+                            <option value="">{{ _("All Media Types") }}</option>
+                            <option value="movie" {% if selected_media_type == 'movie' %}selected{% endif %}>{{ _("Movies") }}</option>
+                            <option value="episode" {% if selected_media_type == 'episode' %}selected{% endif %}>{{ _("TV Episodes") }}</option>
+                            <option value="track" {% if selected_media_type == 'track' %}selected{% endif %}>{{ _("Music") }}</option>
+                            <option value="audiobook" {% if selected_media_type == 'audiobook' %}selected{% endif %}>{{ _("Audiobooks") }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <div id="activity-table-container"
+                         hx-get="{{ url_for('activity.activity_grid') }}?{{ request.query_string.decode() }}"
+                         hx-trigger="load"
+                         hx-swap="innerHTML">
+                        <!-- Loading placeholder -->
+                        <div class="text-center py-12">
+                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                            <p class="text-gray-500 dark:text-gray-400">{{ _("Loading activity data...") }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+function refreshData() {
+    // Refresh the activity table
+    const params = new URLSearchParams();
+
+    // Get current filter values
+    const userSearch = document.getElementById('simple-search')?.value || '';
+    const serverFilter = document.getElementById('server-filter')?.value || '';
+    const mediaTypeFilter = document.getElementById('media-type-filter')?.value || '';
+
+    // Add parameters if they have values
+    if (userSearch) params.append('user_name', userSearch);
+    if (serverFilter) params.append('server_id', serverFilter);
+    if (mediaTypeFilter) params.append('media_type', mediaTypeFilter);
+
+    // Refresh the table
+    htmx.ajax('GET', '{{ url_for("activity.activity_grid") }}?' + params.toString(), {
+        target: '#activity-table-container'
+    });
+}
+
+function filterActivities() {
+    // Apply filters when dropdowns change
+    refreshData();
+}
+
+// Auto-refresh every 30 seconds for active sessions
+setInterval(() => {
+    refreshData();
+}, 30000);
+</script>
+{% endblock %}

@@ -1098,14 +1098,5 @@ def plus_audit():
 @admin_bp.route("/activity")
 @login_required
 def activity():
-    """Redirect to activity monitoring dashboard - Plus feature."""
-    try:
-        import plus
-
-        if not plus.is_plus_enabled():
-            return redirect(url_for("admin.dashboard"))
-    except ImportError:
-        return redirect(url_for("admin.dashboard"))
-
-    # Redirect to the activity blueprint
+    """Redirect to activity monitoring dashboard."""
     return redirect(url_for("activity.activity_dashboard"))

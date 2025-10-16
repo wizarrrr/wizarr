@@ -1,0 +1,153 @@
+{% from "_partials/macros.html" import loading_spinner %}
+
+<div class="container mx-auto px-4 py-6 max-w-4xl">
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ _("Activity") }}</h1>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _("Manage activity monitoring and historical data") }}</p>
+        </div>
+        <a href="{{ url_for('activity.activity_dashboard') }}" class="btn btn-secondary">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2-2V5a2 2 0 012-2h2a2 2 0 012 2v6a2 2 0 002 2h2a2 2 0 012-2V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2 2z"/>
+            </svg>
+            {{ _("View Dashboard") }}
+        </a>
+    </div>
+
+    {% if error %}
+        <div class="bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
+            <div class="flex">
+                <svg class="flex-shrink-0 w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-red-800 dark:text-red-200">{{ error }}</h3>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-white">{{ _("Monitoring Status") }}</h2>
+        </div>
+        <div class="p-6 space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-sm font-medium text-gray-900 dark:text-white">{{ _("Activity Monitoring") }}</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                        {% if status.monitoring_enabled %}
+                            {{ _("Real-time activity monitoring is enabled") }}
+                        {% else %}
+                            {{ _("Activity monitoring is not available") }}
+                        {% endif %}
+                    </p>
+                </div>
+                <div>
+                    {% if status.monitoring_enabled %}
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            {{ _("Active") }}
+                        </span>
+                    {% else %}
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                            </svg>
+                            {{ _("Inactive") }}
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if status.monitoring_enabled %}
+                <div>
+                    <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-3">{{ _("Server Connections") }}</h4>
+                    {% if status.connection_status %}
+                        <div class="space-y-3">
+                            {% for server_id, conn_status in status.connection_status.items() %}
+                                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                    <div class="flex items-center">
+                                        <span class="w-3 h-3 rounded-full {% if conn_status.connected %}bg-green-400{% else %}bg-red-400{% endif %}"></span>
+                                        <div class="ml-3">
+                                            <p class="text-sm font-medium text-gray-900 dark:text-white">{{ _("Server") }} #{{ server_id }}</p>
+                                            <p class="text-xs text-gray-500 dark:text-gray-400">
+                                                {{ _("Events: {}").format(conn_status.event_count) }}
+                                                {% if conn_status.errors > 0 %}
+                                                    • {{ _("Errors: {}").format(conn_status.errors) }}
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="text-xs text-gray-500 dark:text-gray-400">
+                                        {% if conn_status.last_event %}
+                                            {{ _("Last event: {}").format(conn_status.last_event) }}
+                                        {% else %}
+                                            {{ _("No events yet") }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ _("No server connections active") }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="restartMonitoring()" class="btn btn-secondary">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                        {{ _("Restart Monitoring") }}
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ _("Historical Data Import") }}</h3>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _("Import and manage historical viewing data from media servers") }}</p>
+        </div>
+        <div class="p-6 space-y-4">
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+                {{ _("Historical import and cleanup tasks are available in Plus settings. Links below will open the Plus configuration panel.") }}
+            </p>
+            <div class="flex flex-wrap gap-3">
+                <a href="{{ url_for('plus_settings.settings_tab') }}" class="btn btn-primary">
+                    {{ _("Open Plus Settings") }}
+                </a>
+                <a href="{{ url_for('plus_settings.settings_tab') }}#historical" class="btn btn-secondary">
+                    {{ _("Manage Historical Data") }}
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+function restartMonitoring() {
+    fetch('{{ url_for("activity.activity_settings") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'HX-Request': 'true'
+        },
+        body: new URLSearchParams({action: 'restart_monitoring'})
+    }).then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              window.toast?.success(data.message || '{{ _("Monitoring restarted") }}');
+          } else {
+              window.toast?.error(data.message || '{{ _("Failed to restart monitoring") }}');
+          }
+      })
+      .catch(() => {
+          window.toast?.error('{{ _("Failed to restart monitoring") }}');
+      });
+}
+</script>

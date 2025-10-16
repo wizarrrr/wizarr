@@ -57,8 +57,8 @@ class MockMediaClient(MediaClient):
 class TestIdentityLinkingFix:
     """Test the identity linking fix for unlimited vs limited invitations."""
 
-    def setup_method(self):
-        """Set up test data for each test method."""
+    def _setup_servers(self):
+        """Set up test servers - must be called within app context."""
         # Create test servers
         self.server1 = MediaServer(
             name="Jellyfin Server",
@@ -73,12 +73,12 @@ class TestIdentityLinkingFix:
             api_key="test-key-2",
         )
         db.session.add_all([self.server1, self.server2])
-        db.session.flush()
+        db.session.commit()  # Changed from flush to commit
 
     def test_unlimited_invite_different_users_remain_separate(self, app):
         """Test that DIFFERENT users using the same unlimited invite code remain separate identities."""
         with app.app_context():
-            self.setup_method()
+            self._setup_servers()
 
             # Create unlimited invitation
             form_data = {
@@ -135,7 +135,7 @@ class TestIdentityLinkingFix:
     def test_limited_invite_users_get_linked_across_servers(self, app):
         """Test that users using the same limited invite across servers get linked."""
         with app.app_context():
-            self.setup_method()
+            self._setup_servers()
 
             # Create limited (non-unlimited) multi-server invitation
             form_data = {
@@ -192,7 +192,7 @@ class TestIdentityLinkingFix:
     def test_unlimited_invite_with_same_email_remains_separate(self, app):
         """Test that even with same email, unlimited invite users remain separate."""
         with app.app_context():
-            self.setup_method()
+            self._setup_servers()
 
             # Create unlimited invitation
             form_data = {
@@ -242,7 +242,7 @@ class TestIdentityLinkingFix:
     def test_mixed_scenario_unlimited_then_limited(self, app):
         """Test mixed scenario: unlimited invite first, then limited invite."""
         with app.app_context():
-            self.setup_method()
+            self._setup_servers()
 
             # Create unlimited invitation
             unlimited_form = {
@@ -333,7 +333,7 @@ class TestIdentityLinkingFix:
     def test_edge_case_nonexistent_invitation_code(self, app):
         """Test edge case where invitation code doesn't exist in database."""
         with app.app_context():
-            self.setup_method()
+            self._setup_servers()
 
             mock_client = MockMediaClient(media_server=self.server1)
 
@@ -357,7 +357,7 @@ class TestIdentityLinkingFix:
     def test_same_user_unlimited_invite_multiple_servers(self, app):
         """Test that the SAME user using unlimited invite across servers gets linked."""
         with app.app_context():
-            self.setup_method()
+            self._setup_servers()
 
             # Create unlimited invitation for multiple servers
             form_data = {
@@ -414,7 +414,7 @@ class TestIdentityLinkingFix:
     def test_edge_case_invitation_code_is_none(self, app):
         """Test edge case where invitation code is None."""
         with app.app_context():
-            self.setup_method()
+            self._setup_servers()
 
             mock_client = MockMediaClient(media_server=self.server1)
 

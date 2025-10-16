@@ -10,7 +10,7 @@ try:
 except (
     ImportError
 ):  # pragma: no cover - Python <3.9 not officially supported but handle gracefully
-    ZoneInfo = None
+    ZoneInfo = None  # type: ignore[assignment]
 
 # Mapping of server types to their desired pastel background colours
 _SERVER_TAG_COLOURS = {

@@ -1,3 +1,5 @@
+from app.activity.api.blueprint import activity_bp
+
 from .admin.routes import admin_bp
 from .admin_accounts.routes import admin_accounts_bp
 from .api.api_routes import api_bp
@@ -28,6 +30,7 @@ all_blueprints = (
     public_bp,
     wizard_bp,
     admin_bp,
+    activity_bp,
     auth_bp,
     settings_bp,
     connections_bp,
