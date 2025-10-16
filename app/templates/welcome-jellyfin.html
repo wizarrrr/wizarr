@@ -93,7 +93,7 @@
               {% endif %}
               <form class="space-y-3 md:space-y-4"
                     action="{{ url_for('public.process_invitation') }}"
-                    method="POST">
+                    method="post">
                 {{ form.hidden_tag() }}
                 <div class="form-field"
                      data-field="1"

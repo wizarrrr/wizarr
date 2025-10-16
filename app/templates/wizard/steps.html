@@ -111,12 +111,18 @@
   <!-- FLOATING NAV BUTTONS (mobile - fixed at bottom) -->
   <div class="wizard-nav-mobile md:hidden">
     <a id="wizard-prev-btn"
-       {% if phase == 'pre' %}
-         hx-get="{{ url_for('wizard.pre_wizard', idx=idx-1) }}"
+       {% if server_type == 'combo' %}
+         {% if phase == 'pre' %}
+           hx-get="{{ url_for('wizard.combo', category='pre_invite', idx=idx-1) }}"
+         {% else %}
+           hx-get="{{ url_for('wizard.combo', category='post_invite', idx=idx-1) }}"
+         {% endif %}
+       {% elif phase == 'pre' %}
+       hx-get="{{ url_for('wizard.pre_wizard', idx=idx-1) }}"
        {% elif phase == 'post' %}
-         hx-get="{{ url_for('wizard.post_wizard', idx=idx-1) }}"
+       hx-get="{{ url_for('wizard.post_wizard', idx=idx-1) }}"
        {% else %}
-         hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
+       hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
        {% endif %}
        hx-vals='{"dir":"prev"}'
        hx-target="#wizard-content"
@@ -133,13 +139,19 @@
        {% if is_pre_final %}
          href="{{ completion_href }}" hx-get="{{ completion_href }}" hx-target="#wizard-content" hx-swap="outerHTML swap:0s" hx-indicator=".htmx-indicator" data-final-step="1"
        {% else %}
-         {% if phase == 'pre' %}
-           hx-get="{{ url_for('wizard.pre_wizard', idx=idx+1) }}"
-         {% elif phase == 'post' %}
-           hx-get="{{ url_for('wizard.post_wizard', idx=idx+1) }}"
-         {% else %}
-           hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
-         {% endif %}
+         {% if server_type == 'combo' %}
+           {% if phase == 'pre' %}
+             hx-get="{{ url_for('wizard.combo', category='pre_invite', idx=idx+1) }}"
+           {% else %}
+             hx-get="{{ url_for('wizard.combo', category='post_invite', idx=idx+1) }}"
+           {% endif %}
+       {% elif phase == 'pre' %}
+       hx-get="{{ url_for('wizard.pre_wizard', idx=idx+1) }}"
+       {% elif phase == 'post' %}
+       hx-get="{{ url_for('wizard.post_wizard', idx=idx+1) }}"
+       {% else %}
+       hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
+       {% endif %}
        hx-vals='{"dir":"next"}'
        hx-target="#wizard-content"
        hx-swap="outerHTML swap:0s"
@@ -160,12 +172,18 @@
   <!-- DESKTOP NAV BUTTONS (centered below card) -->
   <div class="hidden md:flex justify-center space-x-4 mt-6">
     <a id="wizard-prev-btn-desktop"
-       {% if phase == 'pre' %}
-         hx-get="{{ url_for('wizard.pre_wizard', idx=idx-1) }}"
+       {% if server_type == 'combo' %}
+         {% if phase == 'pre' %}
+           hx-get="{{ url_for('wizard.combo', category='pre_invite', idx=idx-1) }}"
+         {% else %}
+           hx-get="{{ url_for('wizard.combo', category='post_invite', idx=idx-1) }}"
+         {% endif %}
+       {% elif phase == 'pre' %}
+       hx-get="{{ url_for('wizard.pre_wizard', idx=idx-1) }}"
        {% elif phase == 'post' %}
-         hx-get="{{ url_for('wizard.post_wizard', idx=idx-1) }}"
+       hx-get="{{ url_for('wizard.post_wizard', idx=idx-1) }}"
        {% else %}
-         hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
+       hx-get="{{ url_for('wizard.step', server=server_type, idx=idx-1) }}"
        {% endif %}
        hx-vals='{"dir":"prev"}'
        hx-target="#wizard-content"
@@ -177,13 +195,19 @@
        {% if is_pre_final %}
          href="{{ completion_href }}" hx-get="{{ completion_href }}" hx-target="#wizard-content" hx-swap="outerHTML swap:0s" hx-indicator=".htmx-indicator" data-final-step="1"
        {% else %}
-         {% if phase == 'pre' %}
-           hx-get="{{ url_for('wizard.pre_wizard', idx=idx+1) }}"
-         {% elif phase == 'post' %}
-           hx-get="{{ url_for('wizard.post_wizard', idx=idx+1) }}"
-         {% else %}
-           hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
-         {% endif %}
+         {% if server_type == 'combo' %}
+           {% if phase == 'pre' %}
+             hx-get="{{ url_for('wizard.combo', category='pre_invite', idx=idx+1) }}"
+           {% else %}
+             hx-get="{{ url_for('wizard.combo', category='post_invite', idx=idx+1) }}"
+           {% endif %}
+       {% elif phase == 'pre' %}
+       hx-get="{{ url_for('wizard.pre_wizard', idx=idx+1) }}"
+       {% elif phase == 'post' %}
+       hx-get="{{ url_for('wizard.post_wizard', idx=idx+1) }}"
+       {% else %}
+       hx-get="{{ url_for('wizard.step', server=server_type, idx=idx+1) }}"
+       {% endif %}
        hx-vals='{"dir":"next"}'
        hx-target="#wizard-content"
        hx-swap="outerHTML swap:0s"
@@ -476,9 +500,13 @@
 
                 const targetIdx = isPrev ? idx - 1 : idx + 1;
 
-                // Generate URL based on phase
+                // Generate URL based on phase and server type
                 let newUrl;
-                if (phase === 'pre') {
+                if (serverType === 'combo') {
+                    // Combo wizard uses path-based category routing
+                    const category = phase === 'pre' ? 'pre_invite' : 'post_invite';
+                    newUrl = `/wizard/combo/${category}/${targetIdx}`;
+                } else if (phase === 'pre') {
                     newUrl = `/wizard/pre-wizard/${targetIdx}`;
                 } else if (phase === 'post') {
                     newUrl = `/wizard/post-wizard/${targetIdx}`;

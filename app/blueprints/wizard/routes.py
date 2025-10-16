@@ -532,8 +532,8 @@ def pre_wizard(idx: int = 0):
         server_order = [s.server_type for s in servers]
         session["wizard_server_order"] = server_order
 
-        # Redirect to combo route with pre_invite category
-        return redirect(url_for("wizard.combo", idx=idx, category="pre_invite"))
+        # Redirect to combo route with pre_invite category (path-based)
+        return redirect(url_for("wizard.combo", category="pre_invite"))
 
     # Single server invitation - handle normally
     # Determine server type from invitation
@@ -683,10 +683,8 @@ def post_wizard(idx: int = 0):
                 server_order = [s.server_type for s in servers]
                 session["wizard_server_order"] = server_order
 
-                # Redirect to combo route with post_invite category
-                return redirect(
-                    url_for("wizard.combo", idx=idx, category="post_invite")
-                )
+                # Redirect to combo route with post_invite category (path-based)
+                return redirect(url_for("wizard.combo", category="post_invite"))
 
             # Single server invitation
             server_type = _get_server_type_from_invitation(invitation)
@@ -843,23 +841,29 @@ def step(server, idx):
 # ─── combined wizard for multi-server invites ─────────────────────────────
 
 
-@wizard_bp.route("/combo/<int:idx>")
-def combo(idx: int):
+@wizard_bp.route("/combo/<category>")
+@wizard_bp.route("/combo/<category>/<int:idx>")
+def combo(category: str, idx: int = 0):
     """Combined wizard for multi-server invites with category support.
 
     This route handles multi-server invitations by concatenating wizard steps
     from all servers in the invitation. It supports both pre-invite and post-invite
-    categories, determined by the 'category' query parameter.
+    categories, determined by the category path parameter.
 
     Args:
-        idx: Current step index
-
-    Query Parameters:
-        category: 'pre_invite' or 'post_invite' (default: 'post_invite')
+        category: 'pre_invite' or 'post_invite'
+        idx: Current step index (default: 0)
 
     Returns:
         Rendered wizard template or redirect response
     """
+    # Validate category parameter
+    if category not in ["pre_invite", "post_invite"]:
+        current_app.logger.warning(
+            f"Invalid category '{category}' for combo wizard, defaulting to post_invite"
+        )
+        category = "post_invite"
+
     try:
         cfg = _settings()
     except Exception as e:
@@ -876,11 +880,6 @@ def combo(idx: int):
             "Combo wizard accessed without server order in session"
         )
         return redirect(url_for("wizard.start"))
-
-    # Determine category from query parameter (default: post_invite for backward compatibility)
-    category = request.args.get("category", "post_invite")
-    if category not in ["pre_invite", "post_invite"]:
-        category = "post_invite"
 
     # Determine phase for template rendering
     phase = "pre" if category == "pre_invite" else "post"
@@ -962,6 +961,7 @@ def combo(idx: int):
         direction=direction,
         require_interaction=require_interaction,
         phase=phase,  # Pass phase based on category
+        step_phase=phase,  # Pass step_phase to enable phase badge display
         current_server_type=current_server_type,  # NEW: Pass current server type for display
         completion_url=completion_url,
         completion_label=completion_label,
@@ -975,6 +975,9 @@ def combo(idx: int):
         resp.headers["X-Wizard-Idx"] = str(idx)
         resp.headers["X-Require-Interaction"] = (
             "true" if require_interaction else "false"
+        )
+        resp.headers["X-Wizard-Step-Phase"] = (
+            phase  # FIX: Add phase header for badge updates
         )
         resp.headers["X-Current-Server-Type"] = (
             current_server_type  # NEW: Indicate current server

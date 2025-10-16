@@ -346,7 +346,8 @@ class TestComboWizardErrors:
 
     def test_combo_wizard_without_server_order(self, client):
         """Test combo wizard redirects when no server order in session."""
-        response = client.get("/wizard/combo/0", follow_redirects=False)
+        # Test with new path-based category routing
+        response = client.get("/wizard/combo/pre_invite/0", follow_redirects=False)
         assert response.status_code == 302
         # Should redirect (exact location may vary)
         assert response.location is not None
@@ -360,9 +361,8 @@ class TestComboWizardErrors:
         with patch("app.blueprints.wizard.routes._steps") as mock_steps:
             mock_steps.side_effect = Exception("Database error")
 
-            response = client.get(
-                "/wizard/combo/0?category=pre_invite", follow_redirects=True
-            )
+            # Test with new path-based category routing
+            response = client.get("/wizard/combo/pre_invite/0", follow_redirects=True)
             assert response.status_code == 200
             # Should handle error gracefully
 
