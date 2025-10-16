@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-09-22 13:02+0000\n"
-"PO-Revision-Date: 2025-10-15 13:00+0000\n"
+"PO-Revision-Date: 2025-10-16 05:18+0000\n"
 "Last-Translator: wolfling45 <tdwangfei@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/wizarr/wizarr-universal/zh_Hans/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 #: app/blueprints/admin/routes.py:282
 #: app/templates/admin/user_details_modal.html:47
 msgid "Unknown"
-msgstr "未确认"
+msgstr "未知"
 
 #: app/blueprints/admin/routes.py:285 app/templates/modals/invite.html:66
 #: app/templates/tables/invite_card.html:45
@@ -39,7 +39,7 @@ msgstr "已到期"
 #: app/blueprints/admin/routes.py:364
 #, python-format
 msgid "in %(n)d d"
-msgstr "还有 %(n) d 天"
+msgstr "还有 %(n)d 天"
 
 #: app/blueprints/admin/routes.py:366
 msgid "in 1 d"
@@ -48,12 +48,12 @@ msgstr "还有 1 天"
 #: app/blueprints/admin/routes.py:368
 #, python-format
 msgid "in %(n)d h"
-msgstr "还有 n小时"
+msgstr "还有%(n)d小时"
 
 #: app/blueprints/admin/routes.py:370
 #, python-format
 msgid "in %(n)d m"
-msgstr "%(n)d米"
+msgstr "还有%(n)d分钟"
 
 #: app/blueprints/admin/routes.py:371
 msgid "soon"
@@ -201,19 +201,16 @@ msgid "Step deleted"
 msgstr "步骤已删除"
 
 #: app/blueprints/wizard_admin/routes.py:404
-#, fuzzy
 msgid "Bundle created"
-msgstr "捆绑包已创建"
+msgstr "合集已创建"
 
 #: app/blueprints/wizard_admin/routes.py:434
-#, fuzzy
 msgid "Bundle updated"
-msgstr "捆绑包已更新"
+msgstr "合集已更新"
 
 #: app/blueprints/wizard_admin/routes.py:458
-#, fuzzy
 msgid "Bundle deleted"
-msgstr "捆绑包已删除"
+msgstr "合集已删除"
 
 #: app/blueprints/wizard_admin/routes.py:536
 msgid "Steps added"
@@ -412,79 +409,75 @@ msgid "Configure your media servers to see library statistics"
 msgstr "配置您的媒体服务器以查看媒体库统计数据"
 
 #: app/templates/admin/library_breakdown_card.html:128
-#, fuzzy
 msgid "Failed to load libraries"
-msgstr "扫描媒体库"
+msgstr "加载库失败"
 
 #: app/templates/admin/library_breakdown_card.html:129
 #: app/templates/admin/recent_content_card.html:126
 #: app/templates/admin/server_health_card.html:172
 #: app/templates/admin/server_stats_card.html:81
 msgid "Unknown error occurred"
-msgstr ""
+msgstr "发生未知错误"
 
 #: app/templates/admin/now_playing_cards.html:6
 msgid "Unable to load now playing"
-msgstr ""
+msgstr "无法加载当前播放内容"
 
 #: app/templates/admin/now_playing_cards.html:7
 msgid "There was an error connecting to your media servers"
-msgstr ""
+msgstr "连接到您的媒体服务器时发生错误"
 
 #: app/templates/admin/now_playing_cards.html:15
 msgid "No one is watching"
-msgstr ""
+msgstr "没有人正在观看"
 
 #: app/templates/admin/now_playing_cards.html:16
 msgid "No active media sessions found across your servers"
-msgstr ""
+msgstr "在您的服务器上未找到任何活跃的媒体会话"
 
 #: app/templates/admin/recent_content_card.html:8
 msgid "Recently Added"
-msgstr ""
+msgstr "最近添加的"
 
 #: app/templates/admin/recent_content_card.html:101
 msgid "Showing latest 10 items"
-msgstr ""
+msgstr "显示最新的10个项目"
 
 #: app/templates/admin/recent_content_card.html:112
 msgid "No recent content found"
-msgstr ""
+msgstr "未找到最近的内容"
 
 #: app/templates/admin/recent_content_card.html:113
 msgid "Add some content to your media servers to see it here"
-msgstr ""
+msgstr "添加一些内容到您的媒体服务器中，以便在此处查看"
 
 #: app/templates/admin/recent_content_card.html:125
 msgid "Failed to load recent content"
-msgstr ""
+msgstr "加载最近的内容失败"
 
 #: app/templates/admin/server_health_card.html:8
-#, fuzzy
 msgid "Server Health"
-msgstr "更改服务器设置"
+msgstr "服务器健康状况"
 
 #: app/templates/admin/server_health_card.html:45
 #: app/templates/admin/server_stats_card.html:35
-#, fuzzy
 msgid "Online"
-msgstr "加入"
+msgstr "在线"
 
 #: app/templates/admin/server_health_card.html:49
 msgid "Offline"
-msgstr ""
+msgstr "离线"
 
 #: app/templates/admin/server_health_card.html:65
 #: app/templates/admin/server_stats_card.html:29
 #: app/templates/settings/notifications.html:68
-#, fuzzy
 msgid "Active"
-msgstr "保存"
+msgstr "活动中的"
 
 #: app/templates/admin/server_health_card.html:76
 #: app/templates/admin/server_health_card.html:105
 msgid "Transcoding"
-msgstr ""
+msgstr "转码播放"
 
 #: app/templates/admin/server_health_card.html:86
 #: app/templates/admin/server_stats_card.html:23
@@ -493,71 +486,67 @@ msgstr "用户"
 
 #: app/templates/admin/server_health_card.html:98
 msgid "Active Sessions"
-msgstr ""
+msgstr "活跃会话"
 
 #: app/templates/admin/server_health_card.html:123
 msgid "Server is currently unreachable"
-msgstr ""
+msgstr "服务器当前无法访问"
 
 #: app/templates/admin/server_health_card.html:139
 msgid "of"
-msgstr ""
+msgstr "台服务器中有"
 
 #: app/templates/admin/server_health_card.html:141
-#, fuzzy
 msgid "servers online"
-msgstr "更改服务器设置"
+msgstr "台在线"
 
 #: app/templates/admin/server_health_card.html:146
-#, fuzzy
 msgid "server(s) need attention"
-msgstr "更改服务器设置"
+msgstr "服务器需要注意"
 
 #: app/templates/admin/server_health_card.html:158
 msgid "No servers configured"
-msgstr ""
+msgstr "没有配置服务器"
 
 #: app/templates/admin/server_health_card.html:159
 msgid "Add media servers to monitor their health"
-msgstr ""
+msgstr "添加媒体服务器以监控其健康状况"
 
 #: app/templates/admin/server_health_card.html:171
 msgid "Failed to load server health"
-msgstr ""
+msgstr "加载服务器健康状况失败"
 
 #: app/templates/admin/server_stats_card.html:8
-#, fuzzy
 msgid "Server Overview"
-msgstr "更改服务器设置"
+msgstr "服务器概览"
 
 #: app/templates/admin/server_stats_card.html:17
 msgid "Items"
-msgstr ""
+msgstr "项目"
 
 #: app/templates/admin/server_stats_card.html:41
 msgid "Server Breakdown"
-msgstr ""
+msgstr "服务器明细"
 
 #: app/templates/admin/server_stats_card.html:68
 msgid "No active servers found"
-msgstr ""
+msgstr "未找到活跃的服务器"
 
 #: app/templates/admin/server_stats_card.html:80
 msgid "Failed to load statistics"
-msgstr ""
+msgstr "加载统计数据失败"
 
 #: app/templates/admin/user_details_modal.html:10
 msgid "User Details"
-msgstr ""
+msgstr "用户详情"
 
 #: app/templates/admin/user_details_modal.html:46
-#, fuzzy
 msgid "Joined"
-msgstr "加入"
+msgstr "加入时间"
 
 #: app/templates/admin/user_details_modal.html:54
 msgid "Account Details"
-msgstr ""
+msgstr "账户详情"
 
 #: app/templates/admin/user_details_modal.html:61
 #: app/templates/tables/invite_card.html:238
@@ -566,31 +555,28 @@ msgid "Libraries"
 msgstr "媒体库"
 
 #: app/templates/admin/user_details_modal.html:78
-#, fuzzy
 msgid "All libraries"
-msgstr "媒体库"
+msgstr "所有媒体库"
 
 #: app/templates/admin/user_details_modal.html:85
-#, fuzzy
 msgid "Permissions"
-msgstr "权限不足。"
+msgstr "权限"
 
 #: app/templates/admin/user_details_modal.html:101
-#, fuzzy
 msgid "Downloads"
 msgstr "下载"
 
 #: app/templates/admin/user_details_modal.html:110
 msgid "Live TV"
-msgstr ""
+msgstr "直播电视"
 
 #: app/templates/admin/user_details_modal.html:119
 msgid "Camera Upload"
-msgstr ""
+msgstr "照片上传"
 
 #: app/templates/admin/user_details_modal.html:128
 msgid "Basic Access"
-msgstr ""
+msgstr "基本权限"
 
 #: app/templates/admin/user_details_modal.html:142
 #: app/templates/components/admin_passkeys.html:58
@@ -598,58 +584,56 @@ msgstr ""
 #: app/templates/components/passkey_error.html:17
 #: app/templates/modals/invite.html:332
 msgid "Close"
-msgstr ""
+msgstr "关闭"
 
 #: app/templates/admin/user_modal.html:10
 msgid "Edit expiry"
-msgstr ""
+msgstr "编辑有效期"
 
 #: app/templates/admin/user_modal.html:26
 msgid "Server-specific Expiry Management"
-msgstr ""
+msgstr "服务器特定的有效期管理"
 
 #: app/templates/admin/user_modal.html:29
 msgid ""
 "This user exists on multiple servers. You can set different expiry dates "
 "for each server."
-msgstr ""
+msgstr "此用户存在于多个服务器上。您可以为每个服务器设置不同的有效期日期。"
 
 #: app/templates/admin/user_modal.html:53
-#, fuzzy
 msgid "Expiry date"
-msgstr "到期"
+msgstr "有效期日期"
 
 #: app/templates/admin/user_modal.html:63
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 #: app/templates/admin/user_modal.html:69
 msgid "Current expiry"
-msgstr ""
+msgstr "当前有效期"
 
 #: app/templates/admin/user_modal.html:71
-#, fuzzy
 msgid "No expiry set"
-msgstr "到期"
+msgstr "未设置有效期"
 
 #: app/templates/admin/user_modal.html:81
 #: app/templates/admin/user_modal.html:117
 #: app/templates/tables/user_card.html:106
 msgid "Notes"
-msgstr ""
+msgstr "备注"
 
 #: app/templates/admin/user_modal.html:87
 #: app/templates/admin/user_modal.html:120
 msgid "Add notes about this user..."
-msgstr ""
+msgstr "添加关于此用户的备注..."
 
 #: app/templates/admin/user_modal.html:93
 msgid "Update Notes"
-msgstr ""
+msgstr "更新备注"
 
 #: app/templates/admin/user_modal.html:107
 msgid "Expiry date (leave blank for never)"
-msgstr ""
+msgstr "过期日期（如果永不过期，请留空）"
 
 #: app/templates/admin/user_modal.html:127
 #: app/templates/modals/edit-admin.html:33
@@ -688,56 +672,51 @@ msgstr "保存"
 #: app/templates/settings/wizard/preset_form.html:43
 #: app/templates/settings/wizard/simple_form.html:32
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: app/templates/admin/user_modal.html:142
-#, fuzzy
 msgid "Invitation Details"
-msgstr "邀请"
+msgstr "邀请详情"
 
 #: app/templates/admin/user_modal.html:145
 msgid "Code"
-msgstr ""
+msgstr "邀请码"
 
 #: app/templates/admin/user_modal.html:147 app/templates/modals/invite.html:116
 #: app/templates/modals/invite.html:149
 #: app/templates/tables/invite_card.html:193
 msgid "Duration"
-msgstr "持续时间"
+msgstr "有效期"
 
 #: app/templates/admin/user_modal.html:147
 #: app/templates/tables/invite_card.html:195
-#, fuzzy
 msgid "days"
-msgstr "1天"
+msgstr "天"
 
 #: app/templates/admin/user_modal.html:150
-#, fuzzy
 msgid "Invitation expires"
-msgstr "邀请"
+msgstr "邀请码过期"
 
 #: app/templates/admin/users.html:176
-#, fuzzy
 msgid "Link"
-msgstr "登录"
+msgstr "链接"
 
 #: app/templates/admin/users.html:177
 msgid "Unlink"
-msgstr ""
+msgstr "解除链接"
 
 #: app/templates/admin/users.html:178 app/templates/servers/index.html:27
 #: app/templates/settings/connections.html:120
-#, fuzzy
 msgid "Delete"
-msgstr "默认"
+msgstr "删除"
 
 #: app/templates/choose-password.html:10
 msgid "Complete your access"
-msgstr ""
+msgstr "完成您的访问权限设置"
 
 #: app/templates/choose-password.html:15
 msgid "Choose a password for the remaining servers"
-msgstr ""
+msgstr "为剩余的服务器选择一个密码"
 
 #: app/templates/choose-password.html:23
 #: app/templates/hybrid-password-form.html:124 app/templates/login.html:52
@@ -749,162 +728,158 @@ msgstr "密码"
 #: app/templates/choose-password.html:27
 #: app/templates/hybrid-password-form.html:139
 #: app/templates/welcome-jellyfin.html:157
-#, fuzzy
 msgid "Confirm Password"
-msgstr "密码"
+msgstr "确认密码"
 
 #: app/templates/choose-password.html:32
 msgid "Generate a strong random password instead"
-msgstr ""
+msgstr "生成一个强随机密码代替"
 
 #: app/templates/choose-password.html:34
 msgid "Continue"
-msgstr ""
+msgstr "继续"
 
 #: app/templates/components/admin_passkeys.html:5
 #, python-brace-format
 msgid "Passkeys for {}"
-msgstr ""
+msgstr "{} 的通行密钥"
 
 #: app/templates/components/admin_passkeys.html:29
 #: app/templates/tables/invite_card.html:183
 msgid "Created"
-msgstr "创建"
+msgstr "创建时间"
 
 #: app/templates/components/admin_passkeys.html:33
 #: app/templates/components/passkey_list.html:17
-#, fuzzy
 msgid "Last used"
-msgstr "已使用"
+msgstr "上次使用时间"
 
 #: app/templates/components/admin_passkeys.html:54
 msgid "Reset All Passkeys"
-msgstr ""
+msgstr "重置所有通行密钥"
 
 #: app/templates/components/admin_passkeys.html:68
 msgid "No passkeys registered for this user."
-msgstr ""
+msgstr "该用户未注册任何通行密钥。"
 
 #: app/templates/components/admin_passkeys.html:80
 msgid "Are you sure you want to delete this passkey?"
-msgstr ""
+msgstr "你确定要删除这个通行密钥吗？"
 
 #: app/templates/components/admin_passkeys.html:92
 msgid "Failed to delete passkey"
-msgstr ""
+msgstr "删除通行密钥失败"
 
 #: app/templates/components/admin_passkeys.html:97
 msgid "An error occurred while deleting the passkey"
-msgstr ""
+msgstr "删除通行密钥时发生错误"
 
 #: app/templates/components/admin_passkeys.html:103
 #, python-brace-format
 msgid "Are you sure you want to reset ALL passkeys for {}?"
-msgstr ""
+msgstr "您确定要重置 {} 的所有通行密钥吗？"
 
 #: app/templates/components/admin_passkeys.html:103
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "此操作无法撤销。"
 
 #: app/templates/components/admin_passkeys.html:112
 msgid "All passkeys have been reset"
-msgstr ""
+msgstr "所有通行密钥已重置"
 
 #: app/templates/components/admin_passkeys.html:115
 msgid "Failed to reset passkeys"
-msgstr ""
+msgstr "重置通行密钥失败"
 
 #: app/templates/components/admin_passkeys.html:120
 msgid "An error occurred while resetting passkeys"
-msgstr ""
+msgstr "重置通行密钥时发生错误"
 
 #: app/templates/components/passkey_add_form.html:3
 msgid "Add New Passkey"
-msgstr ""
+msgstr "添加新的通行密钥"
 
 #: app/templates/components/passkey_add_form.html:10
-#, fuzzy
 msgid "Passkey Name"
-msgstr "用户名"
+msgstr "通行密钥名称"
 
 #: app/templates/components/passkey_add_form.html:17
 msgid "e.g., My iPhone, Work Laptop"
-msgstr ""
+msgstr "例如，我的iPhone，工作笔记本电脑"
 
 #: app/templates/components/passkey_add_form.html:30
 #: app/templates/components/passkey_register.html:3
-#, fuzzy
 msgid "Create Passkey"
-msgstr "创建一个账号"
+msgstr "创建通行密钥"
 
 #: app/templates/components/passkey_list.html:15
 msgid "Added"
-msgstr ""
+msgstr "添加时间"
 
 #: app/templates/components/passkey_list.html:40
 msgid "No passkeys registered"
-msgstr ""
+msgstr "没有注册的通行密钥"
 
 #: app/templates/components/passkey_list.html:41
 msgid "Add your first passkey for enhanced security"
-msgstr ""
+msgstr "添加您的第一个通行密钥以增强安全性"
 
 #: app/templates/components/passkey_management.html:9
 msgid "Passkeys"
-msgstr ""
+msgstr "通行密钥"
 
 #: app/templates/components/passkey_management.html:16
 #: app/templates/components/passkey_management.html:25
 msgid "Passkeys require HTTPS connection"
-msgstr ""
+msgstr "通行密钥需要 HTTPS 连接"
 
 #: app/templates/components/passkey_management.html:17
 msgid "Add Passkey"
-msgstr ""
+msgstr "添加通行密钥"
 
 #: app/templates/components/passkey_management.html:27
 msgid "To use passkeys, please access this page over HTTPS."
-msgstr ""
+msgstr "要使用通行密钥，请通过 HTTPS 访问此页面。"
 
 #: app/templates/components/passkey_management.html:29
 msgid "Manage your passkeys for passwordless authentication."
-msgstr ""
+msgstr "管理您的通行密钥以实现无密码认证。"
 
 #: app/templates/components/passkey_management.html:39
 msgid "Loading passkeys..."
-msgstr ""
+msgstr "正在加载通行密钥..."
 
 #: app/templates/components/passkey_register.html:7
 msgid "Creating passkey for"
-msgstr ""
+msgstr "正在创建通行密钥为"
 
 #: app/templates/components/passkey_register.html:8
 msgid "Please follow your device's prompts to complete setup"
-msgstr ""
+msgstr "请按照您设备上的提示完成设置"
 
 #: app/templates/components/passkey_register.html:101
 msgid "Failed to register passkey"
-msgstr ""
+msgstr "注册通行密钥失败"
 
 #: app/templates/components/passkey_register.html:106
 msgid "Failed to complete passkey registration"
-msgstr ""
+msgstr "完成通行密钥注册失败"
 
 #: app/templates/error/401.html:20
 msgid "Permission denied."
-msgstr "权限不足。"
+msgstr "权限被拒绝。"
 
 #: app/templates/error/401.html:23
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr "你试图做一些你不应该做的事情。。。"
+msgstr "你正在尝试做一些你不应该做的事情……"
 
 #: app/templates/error/404.html:19
 msgid "Something's missing."
-msgstr "有些东西不见了。"
+msgstr "缺少了一些东西。"
 
 #: app/templates/error/404.html:21
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "抱歉，我们找不到该页面。它似乎不存在！"
+msgstr "抱歉，我们找不到那个页面。它似乎不存在！"
 
 #: app/templates/error/500.html:19
 msgid "Internal Server Error."
@@ -916,32 +891,31 @@ msgstr " 出了点问题。请稍后再试。"
 
 #: app/templates/hybrid-password-form.html:7
 msgid "Complete your account setup for local servers"
-msgstr ""
+msgstr "完成本地服务器的账户设置"
 
 #: app/templates/hybrid-password-form.html:13
 msgid "Complete Your Account Setup"
-msgstr ""
+msgstr "完成您的账户设置"
 
 #: app/templates/hybrid-password-form.html:24
 msgid "Plex Authentication Complete!"
-msgstr ""
+msgstr "Plex 认证已完成！"
 
 #: app/templates/hybrid-password-form.html:25
 msgid "Now please set a password for your local server accounts."
-msgstr ""
+msgstr "现在请为您的本地服务器账户设置密码。"
 
 #: app/templates/hybrid-password-form.html:33
-#, fuzzy
 msgid "Local Servers"
-msgstr "从不"
+msgstr "本地服务器"
 
 #: app/templates/hybrid-password-form.html:66
 msgid "Set Password for Local Servers"
-msgstr ""
+msgstr "为本地服务器设置密码"
 
 #: app/templates/hybrid-password-form.html:76
 msgid "Error!"
-msgstr ""
+msgstr "错误！"
 
 #: app/templates/admin/user_details_modal.html:57
 #: app/templates/hybrid-password-form.html:92 app/templates/login.html:46
@@ -952,94 +926,89 @@ msgid "Username"
 msgstr "用户名"
 
 #: app/templates/hybrid-password-form.html:96
-#, fuzzy
 msgid "Your username"
-msgstr "用户名"
+msgstr "您的用户名"
 
 #: app/templates/hybrid-password-form.html:108
 msgid "Email Address"
-msgstr ""
+msgstr "电子邮箱地址"
 
 #: app/templates/hybrid-password-form.html:112
 msgid "your.email@example.com"
-msgstr ""
+msgstr "your.email@example.com"
 
 #: app/templates/hybrid-password-form.html:128
-#, fuzzy
 msgid "Your password"
-msgstr "密码"
+msgstr "您的密码"
 
 #: app/templates/hybrid-password-form.html:143
 #: app/templates/welcome-jellyfin.html:161
 msgid "Confirm your password"
-msgstr ""
+msgstr "确认您的密码"
 
 #: app/templates/hybrid-password-form.html:160
 msgid "I agree to the"
-msgstr ""
+msgstr "我同意"
 
 #: app/templates/hybrid-password-form.html:162
 msgid "Terms and Conditions"
-msgstr ""
+msgstr "条款和条件"
 
 #: app/templates/hybrid-password-form.html:170
 msgid "Complete Setup"
-msgstr ""
+msgstr "完成设置"
 
 #: app/templates/hybrid-password-form.html:176
-#, fuzzy
 msgid "Setting up..."
-msgstr "设置"
+msgstr "正在设置..."
 
 #: app/templates/hybrid-password-form.html:184
 msgid "What happens next?"
-msgstr ""
+msgstr "接下来会发生什么？"
 
 #: app/templates/hybrid-password-form.html:187
 msgid "Your Plex account is already set up and ready to use"
-msgstr ""
+msgstr "您的Plex账户已经设置好，可以使用了"
 
 #: app/templates/hybrid-password-form.html:188
 msgid "This password will be used to create accounts on your local servers"
-msgstr ""
+msgstr "此密码将用于在您的本地服务器上创建账户"
 
 #: app/templates/hybrid-password-form.html:189
 msgid "You'll be redirected to the setup wizard to complete configuration"
-msgstr ""
+msgstr "您将被重定向到设置向导以完成配置"
 
 #: app/templates/hybrid-password-form.html:196
 msgid "Only want to use Plex?"
-msgstr ""
+msgstr "只想使用Plex吗？"
 
 #: app/templates/hybrid-password-form.html:199
 msgid "Skip local servers"
-msgstr ""
+msgstr "跳过本地服务器"
 
 #: app/templates/hybrid-password-form.html:215
-#, fuzzy
 msgid "Password too short"
-msgstr "密码"
+msgstr "密码太短"
 
 #: app/templates/hybrid-password-form.html:218
 msgid "Password strength: Medium"
-msgstr ""
+msgstr "密码强度：中等"
 
 #: app/templates/hybrid-password-form.html:221
 msgid "Password strength: Strong"
-msgstr ""
+msgstr "密码强度：强"
 
 #: app/templates/hybrid-password-form.html:233
 msgid "Passwords do not match"
-msgstr ""
+msgstr "密码不匹配"
 
 #: app/templates/invalid-invite.html:16
-#, fuzzy
 msgid "Invalid Invitation"
-msgstr "邀请"
+msgstr "无效的邀请"
 
 #: app/templates/login.html:19
 msgid "Two-Factor Authentication"
-msgstr ""
+msgstr "双重身份验证"
 
 #: app/templates/login.html:21
 msgid "Login"
@@ -1048,11 +1017,11 @@ msgstr "登录"
 #: app/templates/login.html:34
 #, python-brace-format
 msgid "Welcome back, {}!"
-msgstr ""
+msgstr "欢迎回来，{}！"
 
 #: app/templates/login.html:37
 msgid "Please authenticate with your passkey to complete login."
-msgstr ""
+msgstr "请使用您的通行密钥进行身份验证以完成登录。"
 
 #: app/templates/login.html:64
 msgid "Remember me"
@@ -1064,227 +1033,215 @@ msgstr "登录"
 
 #: app/templates/login.html:83
 msgid "Authenticate with Passkey"
-msgstr ""
+msgstr "使用通行密钥进行身份验证"
 
 #: app/templates/login.html:92
 msgid "Back to Login"
-msgstr ""
+msgstr "返回登录页面"
 
 #: app/templates/login.html:101
 msgid "Or"
-msgstr ""
+msgstr "或"
 
 #: app/templates/login.html:110 app/templates/login.html:226
 msgid "Sign in with Passkey"
-msgstr ""
+msgstr "使用通行密钥登录"
 
 #: app/templates/login.html:138
 msgid "Authenticating..."
-msgstr ""
+msgstr "正在验证中..."
 
 #: app/templates/login.html:203
 msgid "Failed to complete 2FA login"
-msgstr ""
+msgstr "无法完成双重认证登录"
 
 #: app/templates/login.html:218
 msgid "Passkey authentication failed. Please try again or use your password."
-msgstr ""
+msgstr "密钥认证失败。请重试或使用您的密码。"
 
 #: app/templates/modals/bundle-add-steps.html:11
 msgid "Add steps to bundle"
-msgstr ""
+msgstr "将步骤添加到捆绑包中"
 
 #: app/templates/modals/bundle-add-steps.html:23
 #: app/templates/settings/wizard/bundles.html:59
 #: app/templates/settings/wizard/steps.html:40
-#, fuzzy
 msgid "Untitled"
-msgstr "无限制"
+msgstr "无标题"
 
 #: app/templates/modals/bundle-add-steps.html:27
 msgid "All steps are already included."
-msgstr ""
+msgstr "所有步骤都已包含在内。"
 
 #: app/templates/modals/bundle-add-steps.html:33
 #: app/templates/modals/create-admin.html:33
 msgid "Add"
-msgstr ""
+msgstr "添加"
 
 #: app/templates/modals/connection-form.html:9
 #: app/templates/settings/connections/form.html:5
 #: app/templates/settings/connections/form.html:58
 msgid "Add New Connection"
-msgstr ""
+msgstr "添加新连接"
 
 #: app/templates/modals/connection-form.html:11
 #: app/templates/settings/connections/form.html:7
 #: app/templates/settings/connections/form.html:47
 #: app/templates/settings/connections/form.html:60
 msgid "Edit Connection"
-msgstr ""
+msgstr "编辑连接"
 
 #: app/templates/modals/connection-form.html:22
 msgid "Close modal"
-msgstr ""
+msgstr "关闭弹窗"
 
 #: app/templates/modals/connection-form.html:88
 #: app/templates/settings/connections/form.html:128
 msgid "Overseerr/Jellyseerr Information"
-msgstr ""
+msgstr "Overseerr/Jellyseerr 信息"
 
 #: app/templates/modals/connection-form.html:90
 #: app/templates/settings/connections/form.html:130
 msgid ""
 "Overseerr and Jellyseerr automatically import new users by default. No "
 "API connection is required for Wizarr integration."
-msgstr ""
+msgstr "Overseerr 和 Jellyseerr 默认会自动导入新用户。Wizarr 集成不需要 API 连接。"
 
 #: app/templates/modals/connection-form.html:94
 #: app/templates/settings/connections/form.html:133
 msgid "To enable auto-import:"
-msgstr ""
+msgstr "要启用自动导入："
 
 #: app/templates/modals/connection-form.html:95
 msgid ""
 "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
 "new users' and 'Import Jellyfin/Plex users'"
-msgstr ""
+msgstr "前往您的 Overseerr/Jellyseerr 设置 → 用户 → 启用“自动批准新用户”和“导入 "
+"Jellyfin/Plex 用户”"
 
 #: app/templates/modals/connection-form.html:151
 msgid "Testing connection..."
-msgstr ""
+msgstr "正在测试连接..."
 
 #: app/templates/modals/connection-form.html:162
 #: app/templates/settings/connections/form.html:199
-#, fuzzy
 msgid "Create Connection"
-msgstr "创建邀请"
+msgstr "创建连接"
 
 #: app/templates/modals/connection-form.html:164
 #: app/templates/settings/connections/form.html:201
 msgid "Update Connection"
-msgstr ""
+msgstr "更新连接"
 
 #: app/templates/modals/connection-form.html:177
 msgid "Test Connection"
-msgstr ""
+msgstr "测试连接"
 
 #: app/templates/modals/create-admin.html:10
 msgid "Add Administrator"
-msgstr ""
+msgstr "添加管理员"
 
 #: app/templates/modals/create-admin.html:27
 #: app/templates/modals/edit-admin.html:27
-#, fuzzy
 msgid "Confirm password"
-msgstr "密码"
+msgstr "确认密码"
 
 #: app/templates/modals/create-api-key.html:11
-#, fuzzy
 msgid "API Key Created"
-msgstr "创建"
+msgstr "API密钥已创建"
 
 #: app/templates/modals/create-api-key.html:13
 #: app/templates/settings/api_keys.html:17
 #: app/templates/settings/general.html:114
-#, fuzzy
 msgid "Create API Key"
-msgstr "创建一个账号"
+msgstr "创建API密钥"
 
 #: app/templates/modals/create-api-key.html:26
 msgid "API Key Created Successfully"
-msgstr ""
+msgstr "API密钥创建成功"
 
 #: app/templates/modals/create-api-key.html:29
 msgid ""
 "Your API key has been created. Please copy it now as it will not be shown"
 " again."
-msgstr ""
+msgstr "您的API密钥已创建。请现在复制它，因为之后将不会再次显示。"
 
 #: app/templates/modals/create-api-key.html:35
-#, fuzzy
 msgid "Copy to clipboard"
-msgstr "链接已复制到剪贴板！"
+msgstr "复制到剪贴板"
 
 #: app/templates/modals/create-api-key.html:42
-#, fuzzy
 msgid "Name:"
-msgstr "用户名"
+msgstr "名称："
 
 #: app/templates/modals/create-api-key.html:48
 msgid "Done"
-msgstr ""
+msgstr "完成"
 
 #: app/templates/modals/create-api-key.html:57
 msgid "API Key Name"
-msgstr ""
+msgstr "API 密钥名称"
 
 #: app/templates/modals/create-api-key.html:60
 msgid "Enter a descriptive name to help you identify this API key later."
-msgstr ""
+msgstr "输入一个描述性的名称，以便您以后能更容易识别这个 API 密钥。"
 
 #: app/templates/modals/create-notification-agent.html:31
 msgid "New Agent"
-msgstr ""
+msgstr "新代理"
 
 #: app/templates/modals/create-notification-agent.html:63
 msgid "Channel ID"
-msgstr ""
+msgstr "频道 ID"
 
 #: app/templates/modals/create-notification-agent.html:68
-#, fuzzy
 msgid "Username (optional)"
-msgstr "（可选）"
+msgstr "用户名（可选）"
 
 #: app/templates/modals/create-notification-agent.html:72
-#, fuzzy
 msgid "Password (optional)"
-msgstr "（可选）"
+msgstr "密码（可选）"
 
 #: app/templates/modals/create-notification-agent.html:77
 msgid "Agent URL"
-msgstr ""
+msgstr "代理URL"
 
 #: app/templates/modals/create-notification-agent.html:87
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "测试并创建代理"
 
 #: app/templates/modals/create-server.html:10
 #: app/templates/servers/index.html:6 app/templates/settings/servers.html:90
-#, fuzzy
 msgid "Add Server"
-msgstr "从不"
+msgstr "添加服务器"
 
 #: app/templates/modals/create-server.html:102
 msgid "Test & Add"
-msgstr ""
+msgstr "测试并创建"
 
 #: app/templates/modals/edit-admin.html:10
 msgid "Edit Administrator"
-msgstr ""
+msgstr "编辑管理员"
 
 #: app/templates/modals/edit-admin.html:22
-#, fuzzy
 msgid "New Password (optional)"
-msgstr "（可选）"
+msgstr "新密码（可选）"
 
 #: app/templates/modals/edit-identity.html:10
 msgid "Edit Identity"
-msgstr ""
+msgstr "编辑身份信息"
 
 #: app/templates/modals/edit-identity.html:21
 msgid "Nickname"
-msgstr ""
+msgstr "昵称"
 
 #: app/templates/modals/edit-server.html:10
-#, fuzzy
 msgid "Edit Server"
-msgstr "从不"
+msgstr "编辑服务器"
 
 #: app/templates/modals/invite.html:10
-#, fuzzy
 msgid "Invitation Created"
-msgstr "邀请"
+msgstr "邀请已创建"
 
 #: app/templates/modals/invite.html:10 app/templates/modals/invite.html:268
 msgid "Create Invitation"
@@ -1295,17 +1252,16 @@ msgid "Invite Code String"
 msgstr "邀请代码"
 
 #: app/templates/modals/invite.html:34
-#, fuzzy
 msgid "optional"
-msgstr "（可选）"
+msgstr "可选"
 
 #: app/templates/modals/invite.html:44
 msgid "E.g. XMFGEJIKNQ"
-msgstr ""
+msgstr "例如XMFGEJIKNQ"
 
 #: app/templates/modals/invite.html:54
 msgid "Expiration"
-msgstr "到期"
+msgstr "到期时间"
 
 #: app/templates/modals/invite.html:63
 msgid "1 day"
@@ -1321,433 +1277,404 @@ msgstr "1个月"
 
 #: app/templates/modals/invite.html:74
 msgid "Wizard bundle"
-msgstr ""
+msgstr "向导页面合集"
 
 #: app/templates/modals/invite.html:77
 msgid "Automatic"
-msgstr ""
+msgstr "自动"
 
 #: app/templates/modals/invite.html:92
 msgid "Advanced Options"
 msgstr "高级选项"
 
 #: app/templates/modals/invite.html:101
-#, fuzzy
 msgid "Invite Settings"
-msgstr "邀请代码"
+msgstr "邀请设置"
 
 #: app/templates/modals/invite.html:107
 msgid "Unlimited Usages"
-msgstr "无限制使用"
+msgstr "不限制使用次数"
 
 #: app/templates/modals/invite.html:117
-#, fuzzy
 msgid "in days"
-msgstr "（以天为单位）"
+msgstr "以天为单位"
 
 #: app/templates/modals/invite.html:137
 msgid "Show Information"
 msgstr "显示信息"
 
 #: app/templates/modals/invite.html:151
-#, fuzzy
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
-msgstr ""
-"当设置时，被邀请的用户将在以下情况下被从Plex服务器上删除\n"
-"                                        用户数目\n"
-"                                        天后从Plex服务器上删除。(1-999)"
+msgstr "设置后，受邀用户将在若干天后从 Plex 服务器中移除。（1-999 天）"
 
 #: app/templates/modals/invite.html:173
-#, fuzzy
 msgid "Target servers"
-msgstr "从不"
+msgstr "目标服务器"
 
 #: app/templates/modals/invite.html:190
-#, fuzzy
 msgid "Invite to Plex Home"
-msgstr "邀请代码"
+msgstr "邀请加入 Plex 家庭"
 
 #: app/templates/modals/invite.html:195 app/templates/modals/invite.html:211
 #: app/templates/modals/invite.html:222 app/templates/modals/invite.html:238
-#, fuzzy
 msgid "Allow Downloads"
-msgstr "下载"
+msgstr "允许下载"
 
 #: app/templates/modals/invite.html:200 app/templates/modals/invite.html:216
 #: app/templates/modals/invite.html:227
 msgid "Allow Live TV Access"
-msgstr ""
+msgstr "允许访问直播电视"
 
 #: app/templates/modals/invite.html:205 app/templates/modals/invite.html:232
-#, fuzzy
 msgid "Allow Mobile Uploads"
-msgstr "下载"
+msgstr "允许移动设备上传"
 
 #: app/templates/modals/invite.html:250
-#, fuzzy
 msgid "Select Libraries"
-msgstr "媒体库"
+msgstr "选择媒体库"
 
 #: app/templates/modals/invite.html:257 app/templates/modals/invite.html:372
-#, fuzzy
 msgid "Loading…"
-msgstr "登录"
+msgstr "加载中……"
 
 #: app/templates/modals/invite.html:280
 msgid "Successfully generated an Invitation!"
 msgstr "已成功生成邀请！"
 
 #: app/templates/modals/invite.html:288
-#, fuzzy
 msgid "Invitation Link"
-msgstr "邀请"
+msgstr "邀请链接"
 
 #: app/templates/modals/invite.html:307
 msgid "Copy"
-msgstr ""
+msgstr "复制"
 
 #: app/templates/modals/invite.html:315
 msgid "Link has been copied to clipboard!"
 msgstr "链接已复制到剪贴板！"
 
 #: app/templates/modals/invite.html:325
-#, fuzzy
 msgid "Create Another"
-msgstr "创建一个账号"
+msgstr "创建另一个"
 
 #: app/templates/modals/invite.html:382
 msgid "Please select at least one server for the invitation."
-msgstr ""
+msgstr "请至少选择一个服务器进行邀请。"
 
 #: app/templates/modals/wizard-import-form.html:11
 msgid "Import Wizard Steps"
-msgstr ""
+msgstr "导入向导步骤"
 
 #: app/templates/modals/wizard-import-form.html:38
 #: app/templates/settings/wizard/import_form.html:30
 msgid "Click to upload"
-msgstr ""
+msgstr "点击上传"
 
 #: app/templates/modals/wizard-import-form.html:38
 #: app/templates/settings/wizard/import_form.html:30
 msgid "or drag and drop"
-msgstr ""
+msgstr "或拖放文件"
 
 #: app/templates/modals/wizard-import-form.html:40
 msgid "JSON files only"
-msgstr ""
+msgstr "仅限 JSON 文件"
 
 #: app/templates/modals/wizard-import-form.html:56
 #: app/templates/settings/wizard/import_form.html:56
-#, fuzzy
 msgid "Import Options"
-msgstr "（可选）"
+msgstr "导入选项"
 
 #: app/templates/modals/wizard-import-form.html:64
 msgid ""
 "When checked, existing steps will be replaced. When unchecked, imported "
 "steps will be merged with existing ones."
-msgstr ""
+msgstr "选中时，将替换现有步骤。未选中时，导入的步骤将与现有步骤合并。"
 
 #: app/templates/modals/wizard-import-form.html:84
 msgid "Important Notice"
-msgstr ""
+msgstr "重要通知"
 
 #: app/templates/modals/wizard-import-form.html:86
 msgid ""
 "This action will modify your wizard steps configuration. Make sure to "
 "backup your current steps before importing if you want to preserve them."
-msgstr ""
+msgstr "此操作将修改您的向导步骤配置。如果您希望保留当前步骤，请在导入前务必备份。"
 
 #: app/templates/modals/wizard-import-form.html:105
 msgid "Import Steps"
-msgstr ""
+msgstr "导入步骤"
 
 #: app/templates/modals/wizard-preset-form.html:11
 #: app/templates/settings/wizard/preset_form.html:4
 msgid "Add Preset Wizard Step"
-msgstr ""
+msgstr "添加预设向导步骤"
 
 #: app/templates/modals/wizard-preset-form.html:33
 #: app/templates/settings/wizard/preset_form.html:23
 msgid "Your Discord server ID"
-msgstr ""
+msgstr "您的Discord服务器ID"
 
 #: app/templates/modals/wizard-preset-form.html:39
 #: app/templates/settings/wizard/preset_form.html:29
 msgid "URL to your Overseerr/Ombi instance"
-msgstr ""
+msgstr "您的Overseerr/Ombi实例的URL链接"
 
 #: app/templates/modals/wizard-preset-form.html:53
 #: app/templates/settings/wizard/_sub_nav.html:134
 #: app/templates/settings/wizard/preset_form.html:42
-#, fuzzy
 msgid "Create Step"
-msgstr "创建一个账号"
+msgstr "创建步骤"
 
 #: app/templates/partials/api_keys_grid.html:29
-#, fuzzy
 msgid "Delete API Key"
-msgstr "默认"
+msgstr "删除API密钥"
 
 #: app/templates/partials/api_keys_grid.html:45
 msgid "No API keys"
-msgstr ""
+msgstr "没有API密钥"
 
 #: app/templates/partials/api_keys_grid.html:46
 msgid "Get started by creating a new API key."
-msgstr ""
+msgstr "开始使用前，请创建一个新的API密钥。"
 
 #: app/templates/profile.html:13
 msgid "Administrator"
-msgstr ""
+msgstr "管理员"
 
 #: app/templates/profile.html:27
 msgid "Change your account password for security."
-msgstr ""
+msgstr "为了安全起见，请更改您的账户密码。"
 
 #: app/templates/profile.html:35
-#, fuzzy
 msgid "Current Password"
-msgstr "密码"
+msgstr "当前密码"
 
 #: app/templates/profile.html:42
-#, fuzzy
 msgid "New Password"
-msgstr "密码"
+msgstr "新密码"
 
 #: app/templates/profile.html:49
 msgid "Confirm New Password"
-msgstr ""
+msgstr "确认新密码"
 
 #: app/templates/profile.html:56
-#, fuzzy
 msgid "Change Password"
-msgstr "密码"
+msgstr "更改密码"
 
 #: app/templates/servers/index.html:5 app/templates/settings/servers.html:6
-#, fuzzy
 msgid "Media Servers"
-msgstr "从不"
+msgstr "媒体服务器"
 
 #: app/templates/servers/index.html:10
-#, fuzzy
 msgid "Name"
-msgstr "用户名"
+msgstr "名称"
 
 #: app/templates/servers/index.html:11
 #: app/templates/settings/connections.html:34
 msgid "Type"
-msgstr ""
+msgstr "类型"
 
 #: app/templates/servers/index.html:12
 #: app/templates/settings/connections.html:36
 msgid "URL"
-msgstr ""
+msgstr "网址URL"
 
 #: app/templates/servers/index.html:13 app/templates/settings/servers.html:41
 msgid "Verified"
-msgstr ""
+msgstr "已验证"
 
 #: app/templates/servers/index.html:14
 #: app/templates/settings/connections.html:37
-#, fuzzy
 msgid "Actions"
-msgstr "邀请"
+msgstr "操作"
 
 #: app/templates/servers/index.html:25
 #: app/templates/settings/connections.html:107
 msgid "Edit"
-msgstr ""
+msgstr "编辑"
 
 #: app/templates/servers/index.html:26
 msgid "Delete this server?"
-msgstr ""
+msgstr "删除此服务器？"
 
 #: app/templates/servers/index.html:33
 msgid "No servers configured yet."
-msgstr ""
+msgstr "尚未配置任何服务器。"
 
 #: app/templates/settings/admins.html:6
-#, fuzzy
 msgid "Administrators"
-msgstr "邀请"
+msgstr "管理员"
 
 #: app/templates/settings/admins.html:24
 msgid "Manage Passkeys"
-msgstr ""
+msgstr "管理通行密钥"
 
 #: app/templates/settings/admins.html:50
 msgid "No administrators yet."
-msgstr ""
+msgstr "目前还没有管理员。"
 
 #: app/templates/settings/admins.html:60
-#, fuzzy
 msgid "Add Admin"
-msgstr "管理员"
+msgstr "添加管理员"
 
 #: app/templates/settings/api_keys.html:7
 msgid "API Keys"
-msgstr ""
+msgstr "API 密钥"
 
 #: app/templates/settings/connections.html:7
 #: app/templates/settings/connections/form.html:35
 #: app/templates/settings/index.html:71
 msgid "Connections"
-msgstr ""
+msgstr "连接"
 
 #: app/templates/settings/connections.html:8
 msgid "Manage external service connections for automated user invitations"
-msgstr ""
+msgstr "管理外部服务连接以实现自动化用户邀请"
 
 #: app/templates/settings/connections.html:20
 #: app/templates/settings/connections/form.html:45
-#, fuzzy
 msgid "Add Connection"
-msgstr "高级选项"
+msgstr "添加连接"
 
 #: app/templates/settings/connections.html:33
 msgid "Connection Name"
-msgstr ""
+msgstr "连接名称"
 
 #: app/templates/settings/connections.html:35
-#, fuzzy
 msgid "Media Server"
-msgstr "从不"
+msgstr "媒体服务器"
 
 #: app/templates/settings/connections.html:52
 msgid "Overseerr (Info)"
-msgstr ""
+msgstr "Overseerr (信息)"
 
 #: app/templates/settings/connections.html:59
 msgid "Ombi"
-msgstr ""
+msgstr "Ombi"
 
 #: app/templates/settings/connections.html:66
 msgid "Audiobookrequest"
-msgstr ""
+msgstr "Audiobookrequest"
 
 #: app/templates/settings/connections.html:93
 msgid "Auto-import enabled"
-msgstr ""
+msgstr "自动导入已启用"
 
 #: app/templates/settings/connections.html:113
 msgid "Are you sure you want to delete this connection?"
-msgstr ""
+msgstr "你确定要删除这个连接吗？"
 
 #: app/templates/settings/connections.html:135
 msgid "No connections configured"
-msgstr ""
+msgstr "未配置任何连接"
 
 #: app/templates/settings/connections.html:136
 msgid ""
 "Connect your external services to automate user invitations when invites "
 "are created for specific media servers."
-msgstr ""
+msgstr "连接您的外部服务，以便在为特定媒体服务器创建邀请时自动发送用户邀请。"
 
 #: app/templates/settings/connections.html:146
 msgid "Add Your First Connection"
-msgstr ""
+msgstr "添加您的第一个连接"
 
 #: app/templates/settings/connections/form.html:65
 msgid "Create a new external service connection for automated user invitations"
-msgstr ""
+msgstr "创建一个新的外部服务连接，用于自动发送用户邀请"
 
 #: app/templates/settings/connections/form.html:67
 msgid "Update the connection settings"
-msgstr ""
+msgstr "更新连接设置"
 
 #: app/templates/settings/connections/form.html:89
 msgid "Select the type of connection to configure"
-msgstr ""
+msgstr "选择要配置的连接类型"
 
 #: app/templates/settings/connections/form.html:103
 msgid "A friendly name to identify this connection"
-msgstr ""
+msgstr "一个友好的名称来标识此连接"
 
 #: app/templates/settings/connections/form.html:117
 msgid "Which media server should trigger invitations to this external service"
-msgstr ""
+msgstr "哪个媒体服务器应该触发对此外部服务的邀请"
 
 #: app/templates/settings/connections/form.html:135
 msgid "Open your Overseerr/Jellyseerr admin panel"
-msgstr ""
+msgstr "打开你的 Overseerr/Jellyseerr 管理面板"
 
 #: app/templates/settings/connections/form.html:136
 msgid "Navigate to Settings → Users"
-msgstr ""
+msgstr "导航到 设置 → 用户"
 
 #: app/templates/settings/connections/form.html:137
 msgid "Enable 'Auto-approve new users'"
-msgstr ""
+msgstr "启用“自动批准新用户”"
 
 #: app/templates/settings/connections/form.html:138
 msgid "Enable 'Import Jellyfin/Plex users'"
-msgstr ""
+msgstr "启用“导入 Jellyfin/Plex 用户”"
 
 #: app/templates/settings/connections/form.html:156
 msgid "The full URL to your external service instance"
-msgstr ""
+msgstr "您外部服务实例的完整 URL"
 
 #: app/templates/settings/connections/form.html:182
 msgid "API key from your external service settings"
-msgstr ""
+msgstr "您外部服务设置中的 API 密钥"
 
 #: app/templates/settings/general.html:9
-#, fuzzy
 msgid "General Settings"
-msgstr "更改服务器设置"
+msgstr "常规设置"
 
 #: app/templates/settings/general.html:10
 msgid "Configure your application's basic settings and preferences"
-msgstr ""
+msgstr "配置您的应用程序的基本设置和偏好"
 
 #: app/templates/settings/general.html:35
 msgid "Display"
-msgstr ""
+msgstr "显示设置"
 
 #: app/templates/settings/general.html:36
 msgid "Configure how your application appears to users"
-msgstr ""
+msgstr "配置您的应用程序呈现给用户的外观方式"
 
 #: app/templates/settings/general.html:62
 msgid "Access Control"
-msgstr ""
+msgstr "访问控制"
 
 #: app/templates/settings/general.html:63
 msgid "Manage user access and permissions"
-msgstr ""
+msgstr "管理用户访问权限和许可"
 
 #: app/templates/settings/general.html:72
 msgid "Control access to the wizard setup process"
-msgstr ""
+msgstr "控制对向导设置过程的访问权限"
 
 #: app/templates/settings/general.html:94
 msgid "API Key Management"
-msgstr ""
+msgstr "API密钥管理"
 
 #: app/templates/settings/general.html:95
 msgid "Manage API keys for accessing Wizarr programmatically"
-msgstr ""
+msgstr "管理用于以编程方式访问Wizarr的API密钥"
 
 #: app/templates/settings/general.html:103
 msgid "Your API Keys"
-msgstr ""
+msgstr "您的API密钥"
 
 #: app/templates/settings/general.html:104
 msgid "Create and manage API keys for external applications"
-msgstr ""
+msgstr "为外部应用程序创建和管理API密钥"
 
 #: app/templates/settings/general.html:125
 msgid "Loading API keys..."
-msgstr ""
+msgstr "正在加载API密钥..."
 
 #: app/templates/settings/general.html:138
-#, fuzzy
 msgid "Save Settings"
-msgstr "更改服务器设置"
+msgstr "保存设置"
 
 #: app/templates/settings/connections/form.html:27
 #: app/templates/settings/index.html:2 app/templates/settings/index.html:7
@@ -1756,309 +1683,298 @@ msgstr "设置"
 
 #: app/templates/settings/index.html:8
 msgid "Manage your application settings and preferences"
-msgstr ""
+msgstr "管理您的应用程序设置和偏好设置"
 
 #: app/templates/settings/index.html:26
 msgid "General"
-msgstr ""
+msgstr "常规设置"
 
 #: app/templates/settings/index.html:41
 msgid "Alerts"
-msgstr ""
+msgstr "提醒设置"
 
 #: app/templates/settings/index.html:56
-#, fuzzy
 msgid "Servers"
-msgstr "从不"
+msgstr "服务器设置"
 
 #: app/templates/settings/index.html:86
-#, fuzzy
 msgid "Admins"
-msgstr "管理员"
+msgstr "管理员设置"
 
 #: app/templates/settings/index.html:102
 msgid "Wizard"
-msgstr ""
+msgstr "向导设置"
 
 #: app/templates/settings/notifications.html:9
 msgid "Notification Agents"
-msgstr ""
+msgstr "通知代理设置"
 
 #: app/templates/settings/notifications.html:10
 msgid "Configure notification services to alert you about important events"
-msgstr ""
+msgstr "配置通知服务以提醒您有关重要事件的信息"
 
 #: app/templates/settings/notifications.html:22
 #: app/templates/settings/notifications.html:97
-#, fuzzy
 msgid "Add Agent"
-msgstr "创建一个账号"
+msgstr "添加代理"
 
 #: app/templates/settings/notifications.html:52
 msgid "Are you sure you want to delete"
-msgstr ""
+msgstr "您确定要删除吗"
 
 #: app/templates/settings/notifications.html:54
-#, fuzzy
 msgid "Delete agent"
-msgstr "创建一个账号"
+msgstr "删除代理"
 
 #: app/templates/settings/notifications.html:65
 msgid "Status"
-msgstr ""
+msgstr "状态"
 
 #: app/templates/settings/notifications.html:84
-#, fuzzy
 msgid "No notification agents"
-msgstr "邀请"
+msgstr "没有通知代理程序"
 
 #: app/templates/settings/notifications.html:85
 msgid "Get started by creating your first notification agent"
-msgstr ""
+msgstr "通过创建您的第一个通知代理程序开始使用"
 
 #: app/templates/settings/servers.html:41
-#, fuzzy
 msgid "Unverified"
-msgstr "无限制"
+msgstr "未验证"
 
 #: app/templates/settings/servers.html:49
 msgid "Checking..."
-msgstr ""
+msgstr "正在检查..."
 
 #: app/templates/settings/wizard/_sub_nav.html:16
-#, fuzzy
 msgid "Default Steps"
-msgstr "默认"
+msgstr "默认步骤"
 
 #: app/templates/settings/wizard/_sub_nav.html:30
 msgid "Custom Bundles"
-msgstr ""
+msgstr "自定义合集"
 
 #: app/templates/settings/wizard/_sub_nav.html:48
 #: app/templates/settings/wizard/_sub_nav.html:68
 msgid "Import"
-msgstr ""
+msgstr "导入"
 
 #: app/templates/settings/wizard/_sub_nav.html:83
 #: app/templates/settings/wizard/import_form.html:167
 msgid "Import Configuration"
-msgstr ""
+msgstr "导入配置"
 
 #: app/templates/settings/wizard/_sub_nav.html:84
 msgid "Import steps or bundles from JSON file"
-msgstr ""
+msgstr "从JSON文件导入步骤或合集"
 
 #: app/templates/settings/wizard/_sub_nav.html:103
-#, fuzzy
 msgid "Create"
 msgstr "创建"
 
 #: app/templates/settings/wizard/_sub_nav.html:135
 msgid "Add a new wizard step"
-msgstr ""
+msgstr "添加新的向导步骤"
 
 #: app/templates/settings/wizard/_sub_nav.html:151
 msgid "Add Preset"
-msgstr ""
+msgstr "添加预设"
 
 #: app/templates/settings/wizard/_sub_nav.html:152
 msgid "Create step from template"
-msgstr ""
+msgstr "从模板创建步骤"
 
 #: app/templates/settings/wizard/_sub_nav.html:168
-#, fuzzy
 msgid "Create Bundle"
-msgstr "创建"
+msgstr "创建合集"
 
 #: app/templates/settings/wizard/_sub_nav.html:169
 msgid "Create a collection of steps"
-msgstr ""
+msgstr "创建一组步骤集合"
 
 #: app/templates/settings/wizard/bundles.html:12
 msgid "No bundles found."
-msgstr ""
+msgstr "未找到任何合集。"
 
 #: app/templates/settings/wizard/bundles.html:22
 #, python-format
 msgid "Export %(bundle_name)s Bundle"
-msgstr ""
+msgstr "导出 %(bundle_name)s 合集"
 
 #: app/templates/settings/wizard/bundles.html:37
 msgid "Are you sure you want to delete this bundle?"
-msgstr ""
+msgstr "你确定要删除这个捆绑包吗？"
 
 #: app/templates/settings/wizard/bundles.html:72
 #: app/templates/settings/wizard/index.html:104
 #: app/templates/settings/wizard/steps.html:52
 msgid "Are you sure you want to delete this step?"
-msgstr ""
+msgstr "你确定要删除这个步骤吗？"
 
 #: app/templates/settings/wizard/bundles.html:87
 msgid "Step deleted (orphaned)"
-msgstr ""
+msgstr "步骤已删除（孤立）"
 
 #: app/templates/settings/wizard/bundles.html:92
 msgid "Are you sure you want to remove this orphaned step?"
-msgstr ""
+msgstr "你确定要移除这个孤立的步骤吗？"
 
 #: app/templates/settings/wizard/bundles.html:93
 msgid "Remove orphaned step"
-msgstr ""
+msgstr "移除孤立步骤"
 
 #: app/templates/settings/wizard/bundles.html:107
 msgid "Add step"
-msgstr ""
+msgstr "添加步骤"
 
 #: app/templates/settings/wizard/form.html:40
 #: app/templates/settings/wizard/index.html:61
 msgid "Preview"
-msgstr ""
+msgstr "预览"
 
 #: app/templates/settings/wizard/import_form.html:5
 msgid "Import Wizard Configuration"
-msgstr ""
+msgstr "导入向导配置"
 
 #: app/templates/settings/wizard/import_form.html:8
 msgid ""
 "Import wizard steps or bundles from a JSON file to quickly set up or "
 "restore your wizard configuration."
-msgstr ""
+msgstr "从 JSON 文件导入向导步骤或合集，以快速设置或恢复您的向导配置。"
 
 #: app/templates/settings/wizard/import_form.html:18
 msgid "Select JSON File"
-msgstr ""
+msgstr "选择 JSON 文件"
 
 #: app/templates/settings/wizard/import_form.html:32
 msgid "Steps or Bundle JSON files only (MAX. 10MB)"
-msgstr ""
+msgstr "仅限步骤或合集 JSON 文件（最大 10MB）"
 
 #: app/templates/settings/wizard/import_form.html:67
 msgid ""
 "When checked, all existing wizard steps and bundles will be removed and "
 "replaced with the imported configuration. When unchecked, imported items "
 "will be added alongside existing ones."
-msgstr ""
+msgstr "选中时，所有现有的向导步骤和合集将被移除，并替换为导入的配置。不选中时，导入"
+"的项目将与现有项目一起添加。"
 
 #: app/templates/settings/wizard/import_form.html:90
 msgid "Important: Backup Recommended"
-msgstr ""
+msgstr "重要：建议备份"
 
 #: app/templates/settings/wizard/import_form.html:93
 msgid "This action will modify your wizard configuration. Consider the following:"
-msgstr ""
+msgstr "此操作将修改您的向导配置。请考虑以下事项："
 
 #: app/templates/settings/wizard/import_form.html:95
 msgid "Export your current steps and bundles first as a backup"
-msgstr ""
+msgstr "首先导出您当前的步骤和合集作为备份"
 
 #: app/templates/settings/wizard/import_form.html:96
 msgid "Imported steps will use the file's step ordering and server types"
-msgstr ""
+msgstr "导入的步骤将使用文件的步骤顺序和服务器类型"
 
 #: app/templates/settings/wizard/import_form.html:97
 msgid "Imported bundles will preserve their step associations and ordering"
-msgstr ""
+msgstr "导入的合集将保留其步骤关联和顺序"
 
 #: app/templates/settings/wizard/import_form.html:98
 msgid ""
 "If replacing existing configuration, all current steps and bundles will "
 "be permanently removed"
-msgstr ""
+msgstr "如果替换现有配置，所有当前步骤和合集将被永久删除"
 
 #: app/templates/settings/wizard/import_form.html:99
 msgid "Invalid or malformed JSON files will be rejected"
-msgstr ""
+msgstr "无效或格式错误的 JSON 文件将被拒绝"
 
 #: app/templates/settings/wizard/import_form.html:114
 msgid "Expected JSON Format"
-msgstr ""
+msgstr "期望的 JSON 格式"
 
 #: app/templates/settings/wizard/import_form.html:117
 msgid "The JSON file can contain steps or bundles:"
-msgstr ""
+msgstr "JSON 文件可以包含步骤或合集："
 
 #: app/templates/settings/wizard/import_form.html:120
 msgid "For steps export:"
-msgstr ""
+msgstr "对于步骤导出："
 
 #: app/templates/settings/wizard/import_form.html:132
 msgid "For bundle export:"
-msgstr ""
+msgstr "对于合集导出："
 
 #: app/templates/settings/wizard/import_form.html:159
 msgid "Back to Steps"
-msgstr ""
+msgstr "返回到步骤"
 
 #: app/templates/settings/wizard/import_form.html:242
 msgid "Please select a JSON file to import."
-msgstr ""
+msgstr "请选择一个要导入的 JSON 文件。"
 
 #: app/templates/settings/wizard/import_form.html:249
 msgid "Please select a valid JSON file."
-msgstr ""
+msgstr "请选择一个有效的 JSON 文件。"
 
 #: app/templates/settings/wizard/import_form.html:256
 msgid ""
 "This will permanently replace all existing wizard configuration (steps "
 "and bundles). Are you sure you want to continue?"
-msgstr ""
+msgstr "这将永久替换所有现有的向导配置（步骤和合集）。您确定要继续吗？"
 
 #: app/templates/settings/wizard/index.html:13
 msgid "Wizard Steps"
-msgstr ""
+msgstr "向导步骤"
 
 #: app/templates/settings/wizard/index.html:14
 msgid "Manage your wizard steps and bundles for user onboarding"
-msgstr ""
+msgstr "管理您的向导步骤和合集以进行用户引导"
 
 #: app/templates/settings/wizard/index.html:33
 msgid "No wizard steps found"
-msgstr ""
+msgstr "未找到向导步骤"
 
 #: app/templates/settings/wizard/index.html:34
 msgid "Get started by creating your first wizard step"
-msgstr ""
+msgstr "开始创建您的第一个向导步骤吧"
 
 #: app/templates/settings/wizard/index.html:51
-#, fuzzy
 msgid "Server"
-msgstr "从不"
+msgstr "服务器"
 
 #: app/templates/settings/wizard/index.html:52
 msgid "steps configured"
-msgstr ""
+msgstr "已配置的步骤"
 
 #: app/templates/settings/wizard/index.html:57
 #: app/templates/settings/wizard/steps.html:29
 msgid "Preview Wizard"
-msgstr ""
+msgstr "预览向导"
 
 #: app/templates/settings/wizard/index.html:80
-#, fuzzy
 msgid "Untitled Step"
-msgstr "无限制使用"
+msgstr "未命名步骤"
 
 #: app/templates/settings/wizard/index.html:83
 msgid "Step"
-msgstr ""
+msgstr "步骤"
 
 #: app/templates/settings/wizard/index.html:94
 msgid "Edit step"
-msgstr ""
+msgstr "编辑步骤"
 
 #: app/templates/settings/wizard/index.html:106
-#, fuzzy
 msgid "Delete step"
-msgstr "默认"
+msgstr "删除步骤"
 
 #: app/templates/settings/wizard/steps.html:12
 msgid "No steps found."
-msgstr ""
+msgstr "未找到步骤。"
 
 #: app/templates/settings/wizard/steps.html:22
 #, python-format
 msgid "Export %(server)s Steps"
-msgstr ""
+msgstr "导出 %(server)s 步骤"
 
 #: app/templates/setup/admin_account.html:14
 msgid "Setup Wizarr"
@@ -2075,21 +1991,19 @@ msgstr "无限制"
 
 #: app/templates/tables/invite_card.html:61
 msgid "There are currently no invitations."
-msgstr ""
+msgstr "目前没有邀请。"
 
 #: app/templates/tables/invite_card.html:106
 msgid "Copy invite link"
-msgstr ""
+msgstr "复制邀请链接"
 
 #: app/templates/tables/invite_card.html:132
-#, fuzzy
 msgid "Delete invite"
-msgstr "默认"
+msgstr "删除邀请"
 
 #: app/templates/tables/invite_card.html:164
-#, fuzzy
 msgid "Used by"
-msgstr "已使用"
+msgstr "使用者"
 
 #: app/templates/tables/invite_card.html:168
 msgid "Used"
@@ -2098,15 +2012,13 @@ msgstr "已使用"
 #: app/templates/tables/invite_card.html:186
 #: app/templates/tables/user_card.html:67
 msgid "Expires"
-msgstr "到期"
+msgstr "到期时间"
 
 #: app/templates/tables/invite_card.html:198
-#, fuzzy
 msgid "Limit"
-msgstr "无限制"
+msgstr "限制"
 
 #: app/templates/tables/invite_card.html:219
-#, fuzzy
 msgid "libs"
 msgstr "媒体库"
 
@@ -2116,37 +2028,35 @@ msgstr "默认"
 
 #: app/templates/tables/user_card.html:3
 msgid "There are currently no users."
-msgstr ""
+msgstr "当前没有用户。"
 
 #: app/templates/tables/user_card.html:34
 msgid "Edit nickname"
-msgstr ""
+msgstr "编辑昵称"
 
 #: app/templates/tables/user_card.html:85
-#, fuzzy
 msgid "Invited"
-msgstr "邀请代码"
+msgstr "已邀请"
 
 #: app/templates/tables/user_card.html:121
 msgid "Downloads enabled"
-msgstr ""
+msgstr "已启用下载功能"
 
 #: app/templates/tables/user_card.html:127
 msgid "Downloads disabled"
-msgstr ""
+msgstr "已禁用下载功能"
 
 #: app/templates/tables/user_card.html:136
 msgid "Live TV enabled"
-msgstr ""
+msgstr "已启用直播电视功能"
 
 #: app/templates/tables/user_card.html:142
 msgid "Live TV disabled"
-msgstr ""
+msgstr "已禁用直播电视功能"
 
 #: app/templates/tables/user_card.html:180
-#, fuzzy
 msgid "Remove user"
-msgstr "主页"
+msgstr "移除用户"
 
 #: app/templates/user-plex-login.html:7 app/templates/welcome-jellyfin.html:7
 #, python-format
@@ -2155,41 +2065,36 @@ msgstr "您已经被邀请加入 %(name)s 服务器！"
 
 #: app/templates/user-plex-login.html:51 app/templates/welcome-jellyfin.html:28
 msgid "You've been invited!"
-msgstr ""
+msgstr "您已收到邀请！"
 
 #: app/templates/user-plex-login.html:56 app/templates/welcome-jellyfin.html:33
-#, fuzzy
 msgid "To join"
 msgstr "加入"
 
 #: app/templates/user-plex-login.html:64 app/templates/welcome-jellyfin.html:41
 msgid "Join the ultimate media server experience."
-msgstr ""
+msgstr "加入终极媒体服务器体验。"
 
 #: app/templates/user-plex-login.html:74
-#, fuzzy
 msgid "Enter Code to Continue"
-msgstr "邀请代码"
+msgstr "输入邀请代码以继续"
 
 #: app/templates/user-plex-login.html:77
-#, fuzzy
 msgid "Invitation Code"
 msgstr "邀请代码"
 
 #: app/templates/user-plex-login.html:94 app/templates/user-plex-login.html:114
-#, fuzzy
 msgid "Enter your code"
-msgstr "邀请代码"
+msgstr "输入您的邀请代码"
 
 #: app/templates/user-plex-login.html:134
-#, fuzzy
 msgid "Join Server"
-msgstr "加入 Plex 服务器"
+msgstr "加入服务器"
 
 #: app/templates/user-plex-login.html:143
 #: app/templates/welcome-jellyfin.html:202
 msgid "Secure invitation system powered by Wizarr"
-msgstr ""
+msgstr "由Wizarr提供支持的安全邀请系统"
 
 #: app/templates/users.html:5
 msgid "Invite User"
@@ -2197,28 +2102,25 @@ msgstr "邀请用户"
 
 #: app/templates/welcome-jellyfin.html:58
 #: app/templates/welcome-jellyfin.html:73
-#, fuzzy
 msgid "Accept Invitation"
-msgstr "创建邀请"
+msgstr "接受邀请"
 
 #: app/templates/welcome-jellyfin.html:61
 msgid "Get ready to join the magic"
-msgstr ""
+msgstr "准备好加入这场魔法吧"
 
 #: app/templates/welcome-jellyfin.html:86
 #: app/templates/welcome-jellyfin.html:185
-#, fuzzy
 msgid "Create Account"
-msgstr "创建一个账号"
+msgstr "创建账户"
 
 #: app/templates/welcome-jellyfin.html:89
-#, fuzzy
 msgid "Set up your magical account"
-msgstr "设置帐户"
+msgstr "设置你的魔法账户"
 
 #: app/templates/welcome-jellyfin.html:113
 msgid "Enter your username"
-msgstr ""
+msgstr "输入您的用户名"
 
 #: app/templates/welcome-jellyfin.html:125
 msgid "Email"
@@ -2226,12 +2128,11 @@ msgstr "邮件"
 
 #: app/templates/welcome-jellyfin.html:129
 msgid "Enter your email"
-msgstr ""
+msgstr "输入您的邮箱地址"
 
 #: app/templates/welcome-jellyfin.html:145
-#, fuzzy
 msgid "Create a password"
-msgstr "创建一个账号"
+msgstr "创建一个密码"
 
 #: app/templates/tables/user_card.html:95
 #: app/templates/welcome-jellyfin.html:173
@@ -2239,26 +2140,24 @@ msgid "Invite Code"
 msgstr "邀请代码"
 
 #: app/templates/welcome-jellyfin.html:177
-#, fuzzy
 msgid "Enter invite code"
-msgstr "邀请代码"
+msgstr "输入邀请代码"
 
 #: app/templates/welcome-jellyfin.html:191
-#, fuzzy
 msgid "Creating account..."
-msgstr "创建一个账号"
+msgstr "正在创建账户..."
 
 #: app/templates/wizard/steps.html:28
 msgid "Previous"
-msgstr ""
+msgstr "上一步"
 
 #: app/templates/wizard/steps.html:36
 msgid "Click the link in this step to be able to continue"
-msgstr ""
+msgstr "点击此步骤中的链接以继续进行操作"
 
 #: app/templates/wizard/steps.html:37
 msgid "Next"
-msgstr ""
+msgstr "下一步"
 
 #~ msgid "Accept Invitation"
 #~ msgstr ""
