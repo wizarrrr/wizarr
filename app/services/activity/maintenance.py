@@ -185,8 +185,8 @@ class ActivityMaintenanceService:
                 cutoff_time = datetime.now(UTC) - timedelta(hours=1)
                 for session in sessions:
                     updated_at = session.updated_at
-                    if updated_at.tzinfo is None:
-                        updated_at = updated_at.replace(tzinfo=UTC)
+                    if updated_at.tzinfo is None:  # type: ignore[union-attr]
+                        updated_at = updated_at.replace(tzinfo=UTC)  # type: ignore[union-attr]
                     if updated_at < cutoff_time:
                         self._end_session_gracefully(session)
                         ended_count += 1
@@ -215,8 +215,8 @@ class ActivityMaintenanceService:
             cutoff_time = datetime.now(UTC) - timedelta(hours=1)
             for session in sessions:
                 updated_at = session.updated_at
-                if updated_at.tzinfo is None:
-                    updated_at = updated_at.replace(tzinfo=UTC)
+                if updated_at.tzinfo is None:  # type: ignore[union-attr]
+                    updated_at = updated_at.replace(tzinfo=UTC)  # type: ignore[union-attr]
                 if updated_at < cutoff_time:
                     self._end_session_gracefully(session)
                     ended_count += 1

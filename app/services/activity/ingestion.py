@@ -228,10 +228,12 @@ class ActivityIngestionService:
             prev_timestamp = prev_session.updated_at or prev_session.started_at
             event_timestamp = event.timestamp
 
-            if prev_timestamp.tzinfo is None and event_timestamp.tzinfo is not None:
+            if prev_timestamp.tzinfo is None and event_timestamp.tzinfo is not None:  # type: ignore[union-attr]
                 prev_timestamp = prev_timestamp.replace(tzinfo=UTC)
-            elif prev_timestamp.tzinfo is not None and event_timestamp.tzinfo is None:
-                event_timestamp = event_timestamp.replace(tzinfo=UTC)
+            elif (
+                prev_timestamp.tzinfo is not None and event_timestamp.tzinfo is not None
+            ):  # type: ignore[union-attr]
+                event_timestamp = event_timestamp.replace(tzinfo=UTC)  # type: ignore[union-attr]
 
             time_gap = event_timestamp - prev_timestamp
             should_group = time_gap.total_seconds() < 1800
