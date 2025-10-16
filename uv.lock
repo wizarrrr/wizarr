@@ -1679,9 +1679,6 @@ dev = [
     { name = "ruff" },
     { name = "ty" },
 ]
-plus = [
-    { name = "websocket-client" },
-]
 
 [package.metadata]
 requires-dist = [
@@ -1730,7 +1727,6 @@ dev = [
     { name = "ruff", specifier = ">=0.13.0" },
     { name = "ty", specifier = ">=0.0.1a20" },
 ]
-plus = [{ name = "websocket-client", specifier = ">=1.6.0" }]
 
 [[package]]
 name = "wrapt"
