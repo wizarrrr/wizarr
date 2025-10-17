@@ -16,6 +16,7 @@ class AudiobookshelfCollector(BaseCollector):
         super().__init__(server, event_callback)
         self.active_sessions: dict[str, dict[str, Any]] = {}
         self.last_seen_sessions: set[str] = set()  # Track session IDs we've seen
+        self.session_start_times: dict[str, datetime] = {}
         self.poll_interval = 30  # Poll every 30 seconds
 
     def _collect_loop(self):
@@ -100,6 +101,7 @@ class AudiobookshelfCollector(BaseCollector):
                 self._emit_session_event(session_data, "session_end")
 
             self.last_seen_sessions.discard(session_id)
+            self.session_start_times.pop(session_id, None)
 
     def _handle_no_active_sessions(self):
         """Handle the case where there are no active sessions."""
@@ -113,6 +115,7 @@ class AudiobookshelfCollector(BaseCollector):
 
         self.last_seen_sessions.clear()
         self.active_sessions.clear()
+        self.session_start_times.clear()
 
     def _extract_session_data_from_polling(
         self, session_data: dict[str, Any]
@@ -168,25 +171,52 @@ class AudiobookshelfCollector(BaseCollector):
                 self.logger.warning("No extracted data available for event emission")
                 return
 
+            session_id = extracted_data["session_id"]
+            event_time = datetime.now(UTC)
+            start_time = self.session_start_times.get(session_id)
+
+            if event_type == "session_start" and start_time is None:
+                start_time = event_time
+                self.session_start_times[session_id] = start_time
+
+            elapsed_ms: int | None = extracted_data.get("duration_ms")
+            if start_time:
+                # Prefer tracked elapsed time for session duration
+                try:
+                    elapsed_seconds = (event_time - start_time).total_seconds()
+                    if elapsed_seconds >= 0:
+                        elapsed_ms = max(int(elapsed_seconds * 1000), 0)
+                except Exception as exc:  # pragma: no cover - defensive
+                    self.logger.debug(
+                        "Failed to compute elapsed time for %s: %s", session_id, exc
+                    )
+
+            media_duration_ms = extracted_data.get("duration_ms")
+            metadata = dict(extracted_data.get("metadata") or {})
+            if media_duration_ms is not None:
+                metadata.setdefault("media_duration_ms", media_duration_ms)
+            if elapsed_ms is not None:
+                metadata["session_elapsed_ms"] = elapsed_ms
+
             event = ActivityEvent(
                 event_type=event_type,
                 server_id=self.server.id,
                 session_id=extracted_data["session_id"],
                 user_name=extracted_data["user_name"],
                 media_title=extracted_data["media_title"],
-                timestamp=datetime.now(UTC),
+                timestamp=event_time,
                 user_id=extracted_data.get("user_id"),
                 media_type=extracted_data.get("media_type"),
                 media_id=extracted_data.get("media_id"),
                 series_name=extracted_data.get("series_name"),
-                duration_ms=extracted_data.get("duration_ms"),
+                duration_ms=elapsed_ms,
                 position_ms=extracted_data.get("position_ms"),
                 device_name=extracted_data.get("device_name"),
                 client_name=extracted_data.get("client_name"),
                 state=extracted_data.get("state"),
                 artwork_url=extracted_data.get("artwork_url"),
                 thumbnail_url=extracted_data.get("thumbnail_url"),
-                metadata=extracted_data.get("metadata"),
+                metadata=metadata,
             )
 
             self.logger.info(
@@ -196,6 +226,9 @@ class AudiobookshelfCollector(BaseCollector):
             self.logger.info(
                 f"✅ Emitted {event_type} event for session {extracted_data['session_id']}"
             )
+
+            if event_type == "session_end":
+                self.session_start_times.pop(session_id, None)
 
         except Exception as e:
             self.logger.error(

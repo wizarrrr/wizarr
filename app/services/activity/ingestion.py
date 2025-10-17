@@ -256,16 +256,26 @@ class ActivityIngestionService:
         session: ActivitySession,
         event: ActivityEvent,
     ) -> ActivitySession:
-        if event.duration_ms is not None:
-            session.duration_ms = event.duration_ms
-        if event.transcoding_info:
-            session.set_transcoding_info(event.transcoding_info)
-
         metadata = session.get_metadata()
         if event.position_ms is not None:
             metadata["last_known_position_ms"] = event.position_ms
         if event.metadata:
             metadata.update(event.metadata)
+
+        total_duration_seconds = metadata.get("total_duration_seconds")
+
+        if event.duration_ms is not None:
+            session.duration_ms = event.duration_ms
+        elif total_duration_seconds is not None:
+            try:
+                session.duration_ms = max(int(float(total_duration_seconds) * 1000), 0)
+            except (TypeError, ValueError):
+                self.logger.debug(
+                    "Invalid total_duration_seconds value: %s", total_duration_seconds
+                )
+
+        if event.transcoding_info:
+            session.set_transcoding_info(event.transcoding_info)
 
         session.set_metadata(metadata if metadata else {})
 

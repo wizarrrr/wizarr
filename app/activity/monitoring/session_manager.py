@@ -399,8 +399,14 @@ class SessionManager:
         # Calculate total duration
         started_at = session_data.get("started_at")
         total_duration = None
+        duration_ms = None
         if started_at:
             total_duration = (transition.timestamp - started_at).total_seconds()
+            if total_duration is not None:
+                try:
+                    duration_ms = max(int(total_duration * 1000), 0)
+                except (TypeError, ValueError):
+                    duration_ms = None
 
         event = ActivityEvent(
             event_type="session_end",
@@ -415,6 +421,7 @@ class SessionManager:
             platform=current_session_data.get("platform", "Unknown"),
             timestamp=transition.timestamp,
             position_ms=transition.view_offset,
+            duration_ms=duration_ms,
             metadata={
                 **transition.metadata,
                 "total_duration_seconds": total_duration,
