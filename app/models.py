@@ -439,6 +439,12 @@ class MediaServer(db.Model):
         secondary=invitation_servers,
         back_populates="servers",
     )
+    historical_import_jobs = db.relationship(
+        "HistoricalImportJob",
+        back_populates="server",
+        lazy="selectin",
+        cascade="all, delete-orphan",
+    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -835,6 +841,69 @@ class ActivitySession(db.Model):
             return identity.nickname or identity.primary_username or self.user_name
 
         return self.user_name
+
+
+class HistoricalImportJob(db.Model):
+    __tablename__ = "historical_import_job"
+
+    id = db.Column(db.Integer, primary_key=True)
+    server_id = db.Column(
+        db.Integer, db.ForeignKey("media_server.id"), nullable=False, index=True
+    )
+    days_back = db.Column(db.Integer, nullable=False)
+    max_results = db.Column(db.Integer, nullable=True)
+    status = db.Column(db.String(32), nullable=False, default="queued", index=True)
+    total_fetched = db.Column(db.Integer, nullable=False, default=0)
+    total_processed = db.Column(db.Integer, nullable=False, default=0)
+    total_stored = db.Column(db.Integer, nullable=False, default=0)
+    error_message = db.Column(db.Text, nullable=True)
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
+    started_at = db.Column(db.DateTime, nullable=True)
+    finished_at = db.Column(db.DateTime, nullable=True)
+    updated_at = db.Column(
+        db.DateTime,
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
+        nullable=False,
+    )
+
+    server = db.relationship(
+        "MediaServer", back_populates="historical_import_jobs", lazy="joined"
+    )
+
+    __table_args__ = (
+        db.Index("ix_historical_import_job_server_status", "server_id", "status"),
+    )
+
+    STATUS_QUEUED = "queued"
+    STATUS_RUNNING = "running"
+    STATUS_COMPLETED = "completed"
+    STATUS_FAILED = "failed"
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    @property
+    def progress_percent(self) -> int:
+        if self.total_fetched and self.total_fetched > 0:
+            return max(
+                0,
+                min(
+                    100,
+                    int((self.total_processed / max(self.total_fetched, 1)) * 100),
+                ),
+            )
+        return 0
+
+    @property
+    def is_active(self) -> bool:
+        return self.status in {self.STATUS_RUNNING, self.STATUS_QUEUED}
+
+    @property
+    def status_label(self) -> str:
+        return self.status.replace("_", " ").title()
 
 
 class ActivitySnapshot(db.Model):

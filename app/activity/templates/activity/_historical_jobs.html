@@ -1,0 +1,65 @@
+{% if jobs %}
+    <div class="space-y-3">
+    {% for job in jobs %}
+        <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow-sm">
+            <div class="flex items-start justify-between gap-3">
+                <div class="space-y-1">
+                    <p class="text-sm font-semibold text-gray-900 dark:text-white">
+                        {{ job.server.name if job.server else _('Unknown Server') }}
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                        {{ _('Range') }}: {{ job.days_back }} {{ _('days') }}
+                        {% if job.max_results %}
+                            • {{ _('Limit') }}: {{ job.max_results }}
+                        {% endif %}
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                        {{ _('Started') }}: {{ job.created_at|local_date('%Y-%m-%d %H:%M') }}
+                    </p>
+                    {% if job.finished_at %}
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                            {{ _('Finished') }}: {{ job.finished_at|local_date('%Y-%m-%d %H:%M') }}
+                        </p>
+                    {% endif %}
+                </div>
+                <div class="text-right">
+                    {% set status_classes = {
+                        'queued': 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200',
+                        'running': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200',
+                        'completed': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200',
+                        'failed': 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-200'
+                    } %}
+                    <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold {{ status_classes.get(job.status, 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200') }}">
+                        {{ job.status_label }}
+                    </span>
+                    <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                        {{ _('Processed') }}: {{ job.total_processed }} / {{ job.total_fetched }}
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                        {{ _('Stored') }}: {{ job.total_stored }}
+                    </p>
+                </div>
+            </div>
+
+            {% if job.is_active %}
+                <div class="mt-3">
+                    <div class="h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                        <div class="h-full bg-blue-500 dark:bg-blue-400" style="width: {{ job.progress_percent }}%"></div>
+                    </div>
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                        {{ _('Import in progress…') }} ({{ job.progress_percent }}%)
+                    </p>
+                </div>
+            {% elif job.error_message %}
+                <p class="mt-3 text-xs text-red-600 dark:text-red-300">
+                    {{ job.error_message }}
+                </p>
+            {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+{% else %}
+    <div class="rounded-lg border border-dashed border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 text-sm text-gray-500 dark:text-gray-400">
+        {{ _('No historical import jobs yet.') }}
+    </div>
+{% endif %}

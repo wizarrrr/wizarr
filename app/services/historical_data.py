@@ -6,8 +6,11 @@ like Plex into the existing ActivitySession model for unified analytics.
 """
 
 import logging
+import threading
 from datetime import UTC, datetime, timedelta
 from typing import Any
+
+from flask import current_app
 
 from app.models import MediaServer, db
 from app.services.activity.identity_resolution import apply_identity_resolution
@@ -24,15 +27,46 @@ class HistoricalDataService:
         # Cache Plex item lookups to avoid repeated API calls when resolving durations
         self._duration_cache: dict[str, int] = {}
 
+    def start_async_import(self, days_back: int, max_results: int | None = None):
+        """
+        Launch a background job to import Plex history data.
+        """
+        from app.models import HistoricalImportJob
+
+        job = HistoricalImportJob(
+            server_id=self.server_id,
+            days_back=days_back,
+            max_results=max_results,
+            status=HistoricalImportJob.STATUS_QUEUED,
+        )
+        db.session.add(job)
+        db.session.commit()
+
+        app = current_app._get_current_object()
+
+        worker = threading.Thread(
+            target=self._run_import_job,
+            args=(app, job.id, self.server_id, days_back, max_results),
+            name=f"historical-import-{job.id}",
+            daemon=True,
+        )
+        worker.start()
+
+        return job
+
     def import_plex_history(
-        self, days_back: int = 30, max_results: int = 1000
+        self,
+        days_back: int = 30,
+        max_results: int | None = 1000,
+        job_id: int | None = None,
     ) -> dict[str, Any]:
         """
         Import historical viewing data from Plex.
 
         Args:
             days_back: Number of days back to import history
-            max_results: Maximum number of entries to import
+            max_results: Maximum number of entries to import (None for unlimited)
+            job_id: Optional job identifier for progress updates
 
         Returns:
             Dictionary with import results
@@ -58,8 +92,21 @@ class HistoricalDataService:
 
             # Get history from Plex using direct server connection
             history_entries = client.server.history(
-                maxresults=max_results, mindate=min_date
+                maxresults=max_results if max_results else None, mindate=min_date
             )
+            total_entries = len(history_entries)
+
+            if job_id is not None:
+                from app.models import HistoricalImportJob
+
+                self._update_job(
+                    job_id,
+                    status=HistoricalImportJob.STATUS_RUNNING,
+                    total_fetched=total_entries,
+                    total_processed=0,
+                    total_stored=0,
+                    error_message=None,
+                )
 
             account_lookup = self._build_plex_account_lookup(client)
 
@@ -74,16 +121,30 @@ class HistoricalDataService:
                     )
                     if activity_session:
                         imported_sessions.append(activity_session)
+                        if job_id is not None and len(imported_sessions) % 25 == 0:
+                            self._update_job(
+                                job_id,
+                                total_processed=len(imported_sessions),
+                            )
                 except Exception as e:
                     logging.warning(f"Failed to process history entry: {e}")
                     continue
 
             # Store in database
-            stored_count = self._store_activity_sessions(imported_sessions)
+            stored_count = self._store_activity_sessions(
+                imported_sessions, job_id=job_id
+            )
+
+            if job_id is not None:
+                self._update_job(
+                    job_id,
+                    total_processed=len(imported_sessions),
+                    total_stored=stored_count,
+                )
 
             return {
                 "success": True,
-                "total_fetched": len(history_entries),
+                "total_fetched": total_entries,
                 "total_processed": len(imported_sessions),
                 "total_stored": stored_count,
                 "date_range": {
@@ -94,6 +155,14 @@ class HistoricalDataService:
 
         except Exception as e:
             logging.error(f"Failed to import Plex history: {e}")
+            if job_id is not None:
+                from app.models import HistoricalImportJob
+
+                self._update_job(
+                    job_id,
+                    status=HistoricalImportJob.STATUS_FAILED,
+                    error_message=str(e),
+                )
             return {
                 "success": False,
                 "error": str(e),
@@ -147,10 +216,16 @@ class HistoricalDataService:
             mapped_name = account_lookup.get(user_id)
             if mapped_name:
                 user_name = mapped_name
-            user_name = user_name or mapped_name or "Unknown User"
 
-            # Extract media data
-            media_title = getattr(entry, "title", "Unknown Media")
+            if isinstance(user_name, str):
+                user_name = user_name.strip()
+            user_name = user_name or "Unknown User"
+
+            # Extract media data with safe fallbacks
+            raw_title = getattr(entry, "title", None)
+            if isinstance(raw_title, str):
+                raw_title = raw_title.strip()
+            media_title = raw_title or "Unknown Media"
             media_type = getattr(entry, "type", "unknown").lower()
             media_id = str(getattr(entry, "ratingKey", ""))
 
@@ -160,12 +235,21 @@ class HistoricalDataService:
             episode_number = None
 
             if media_type == "episode":
-                series_name = getattr(entry, "grandparentTitle", "")
+                series_raw = getattr(entry, "grandparentTitle", None)
+                if isinstance(series_raw, str):
+                    series_raw = series_raw.strip()
+                series_name = series_raw or None
                 season_number = getattr(entry, "parentIndex", None)
                 episode_number = getattr(entry, "index", None)
 
                 # Keep original episode title for media_title
-                media_title = getattr(entry, "title", "Unknown Episode")
+                episode_title = getattr(entry, "title", None)
+                if isinstance(episode_title, str):
+                    episode_title = episode_title.strip()
+                media_title = episode_title or media_title or "Unknown Episode"
+
+            if not media_title:
+                media_title = "Unknown Media"
 
             # Extract viewing time
             viewed_at = getattr(entry, "viewedAt", None)
@@ -298,34 +382,128 @@ class HistoricalDataService:
 
         return 0, "unknown"
 
-    def _store_activity_sessions(self, sessions: list) -> int:
+    def _store_activity_sessions(
+        self, sessions: list, job_id: int | None = None
+    ) -> int:
         """Store activity sessions in the database."""
-        try:
-            from app.models import ActivitySession
+        from app.models import ActivitySession
 
-            stored_count = 0
-            for session in sessions:
-                try:
-                    # Check if session already exists to avoid duplicates
-                    existing = ActivitySession.query.filter_by(
+        stored_count = 0
+
+        for session in sessions:
+            try:
+                # Check if session already exists to avoid duplicates
+                existing = (
+                    ActivitySession.query.filter_by(
                         session_id=session.session_id, server_id=session.server_id
-                    ).first()
+                    )
+                    .with_entities(ActivitySession.id)
+                    .first()
+                )
 
-                    if not existing:
-                        db.session.add(session)
-                        stored_count += 1
-
-                except Exception as e:
-                    logging.warning(f"Failed to store activity session: {e}")
+                if existing:
                     continue
 
-            db.session.commit()
-            return stored_count
+                db.session.add(session)
+                db.session.commit()
+                stored_count += 1
 
-        except Exception as e:
-            logging.error(f"Failed to store activity sessions: {e}")
-            db.session.rollback()
-            return 0
+                if job_id is not None and stored_count % 25 == 0:
+                    self._update_job(job_id, total_stored=stored_count)
+
+            except Exception as exc:
+                logging.warning(
+                    "Failed to store activity session %s (server %s): %s",
+                    getattr(session, "session_id", "unknown"),
+                    getattr(session, "server_id", "unknown"),
+                    exc,
+                    exc_info=True,
+                )
+                db.session.rollback()
+                if job_id is not None:
+                    self._update_job(job_id, error_message=str(exc))
+
+        if job_id is not None:
+            self._update_job(job_id, total_stored=stored_count)
+
+        return stored_count
+
+    @staticmethod
+    def _update_job(job_id: int, **fields) -> None:
+        """Persist updates to a historical import job."""
+        from app.models import HistoricalImportJob
+
+        job = HistoricalImportJob.query.get(job_id)
+        if not job:
+            return
+
+        for key, value in fields.items():
+            setattr(job, key, value)
+        job.updated_at = datetime.now(UTC)
+        db.session.commit()
+
+    @staticmethod
+    def _run_import_job(
+        app,
+        job_id: int,
+        server_id: int,
+        days_back: int,
+        max_results: int | None,
+    ) -> None:
+        """Background worker wrapper for historical imports."""
+        from app.models import HistoricalImportJob
+
+        with app.app_context():
+            job = HistoricalImportJob.query.get(job_id)
+            if not job:
+                logging.error("Historical import job %s not found", job_id)
+                return
+
+            job.status = HistoricalImportJob.STATUS_RUNNING
+            job.started_at = datetime.now(UTC)
+            job.error_message = None
+            job.total_fetched = 0
+            job.total_processed = 0
+            job.total_stored = 0
+            job.updated_at = datetime.now(UTC)
+            db.session.commit()
+
+            service = HistoricalDataService(server_id)
+
+            try:
+                result = service.import_plex_history(
+                    days_back=days_back,
+                    max_results=max_results,
+                    job_id=job_id,
+                )
+                job = HistoricalImportJob.query.get(job_id)
+                if not job:
+                    return
+                if result.get("success"):
+                    job.status = HistoricalImportJob.STATUS_COMPLETED
+                else:
+                    job.status = HistoricalImportJob.STATUS_FAILED
+                    job.error_message = result.get("error")
+                job.total_fetched = result.get("total_fetched", job.total_fetched)
+                job.total_processed = result.get("total_processed", job.total_processed)
+                job.total_stored = result.get("total_stored", job.total_stored)
+                job.updated_at = datetime.now(UTC)
+                db.session.commit()
+            except Exception as exc:
+                logging.error("Historical import job %s failed: %s", job_id, exc)
+                db.session.rollback()
+                job = HistoricalImportJob.query.get(job_id)
+                if job:
+                    job.status = HistoricalImportJob.STATUS_FAILED
+                    job.error_message = str(exc)
+                    job.updated_at = datetime.now(UTC)
+                    db.session.commit()
+            finally:
+                job = HistoricalImportJob.query.get(job_id)
+                if job:
+                    job.finished_at = datetime.now(UTC)
+                    job.updated_at = datetime.now(UTC)
+                    db.session.commit()
 
     def get_import_statistics(self) -> dict[str, Any]:
         """Get statistics about imported historical data."""

@@ -19,16 +19,18 @@ from flask import (
     url_for,
 )
 from flask_login import login_required
+from sqlalchemy.orm import joinedload
 
 try:
     from flask_babel import gettext as _
 
     from app.extensions import db
-    from app.models import MediaServer
+    from app.models import HistoricalImportJob, MediaServer
 except ImportError:
     # For testing without Flask app context
     MediaServer = None  # type: ignore[assignment]
     db = None  # type: ignore[assignment]
+    HistoricalImportJob = None  # type: ignore[assignment]
 
     def _(x):  # type: ignore[no-redef]
         return x
@@ -98,6 +100,7 @@ def _render_activity_settings(
     error: str | None = None,
     success: str | None = None,
     selected_server_id: int | None = None,
+    selected_days_back: int | None = None,
 ):
     """Render the activity settings (full page or partial)."""
     template = _activity_settings_template()
@@ -114,6 +117,8 @@ def _render_activity_settings(
             error = error or _("Failed to load settings")
 
     media_servers = _load_verified_media_servers()
+    if selected_days_back is None:
+        selected_days_back = request.args.get("days_back", type=int, default=30)
 
     return render_template(
         template,
@@ -122,6 +127,7 @@ def _render_activity_settings(
         error=error,
         success=success,
         selected_server_id=selected_server_id,
+        selected_days_back=selected_days_back,
     )
 
 
@@ -130,6 +136,7 @@ def _settings_action_response(
     success: str | None = None,
     error: str | None = None,
     selected_server_id: int | None = None,
+    selected_days_back: int | None = None,
 ):
     """
     Return an appropriate response for activity settings actions.
@@ -140,7 +147,10 @@ def _settings_action_response(
     """
     if request.headers.get("HX-Request"):
         return _render_activity_settings(
-            success=success, error=error, selected_server_id=selected_server_id
+            success=success,
+            error=error,
+            selected_server_id=selected_server_id,
+            selected_days_back=selected_days_back,
         )
 
     if success:
@@ -148,7 +158,10 @@ def _settings_action_response(
     if error:
         flash(error, "error")
 
-    return redirect(url_for("activity.activity_settings"))
+    extra_params: dict[str, object] = {}
+    if selected_days_back is not None:
+        extra_params["days_back"] = selected_days_back
+    return redirect(url_for("activity.activity_settings", **extra_params))
 
 
 def _delete_all_activity_data() -> int:
@@ -518,10 +531,17 @@ def import_historical_activity():
     logger = structlog.get_logger(__name__)
     server_id = request.form.get("server_id", type=int)
     days_back = _parse_int("days_back", 30)
-    max_results = _parse_int("max_results", 1000)
+    days_back = max(1, min(days_back, 365))
+    max_results_raw = request.form.get("max_results")
+    max_results = (
+        _parse_int("max_results", 0) if max_results_raw not in (None, "") else None
+    )
 
     if not server_id:
-        return _settings_action_response(error=_("Please select a media server."))
+        return _settings_action_response(
+            error=_("Please select a media server."),
+            selected_days_back=days_back,
+        )
 
     try:
         if MediaServer is None:
@@ -529,7 +549,11 @@ def import_historical_activity():
 
         media_server = MediaServer.query.get(server_id)
         if not media_server:
-            return _settings_action_response(error=_("Media server not found."))
+            return _settings_action_response(
+                error=_("Media server not found."),
+                selected_server_id=server_id,
+                selected_days_back=days_back,
+            )
 
         if media_server.server_type != "plex":
             return _settings_action_response(
@@ -537,38 +561,28 @@ def import_historical_activity():
                     "Historical data import is currently only supported for Plex servers."
                 ),
                 selected_server_id=server_id,
+                selected_days_back=days_back,
             )
 
         service = HistoricalDataService(server_id)
-        result = service.import_plex_history(
-            days_back=days_back, max_results=max_results
-        )
+        job = service.start_async_import(days_back=days_back, max_results=max_results)
 
-        if result.get("success"):
-            success_message = _(
-                "Successfully imported {} historical entries from the last {} days ({} fetched, {} processed)."
-            ).format(
-                result.get("total_stored", 0),
-                days_back,
-                result.get("total_fetched", 0),
-                result.get("total_processed", 0),
-            )
-            return _settings_action_response(
-                success=success_message, selected_server_id=server_id
-            )
-
-        error_message = _("Failed to import historical data: {}").format(
-            result.get("error", _("Unknown error"))
-        )
+        success_message = _(
+            "Historical import job #{job_id} started for the last {days} days."
+        ).format(job_id=job.id, days=days_back)
         return _settings_action_response(
-            error=error_message, selected_server_id=server_id
+            success=success_message,
+            selected_server_id=server_id,
+            selected_days_back=days_back,
         )
 
     except Exception as exc:
         logger.error("Failed to import historical data: %s", exc, exc_info=True)
         error_message = _("Failed to import historical data: {}").format(str(exc))
         return _settings_action_response(
-            error=error_message, selected_server_id=server_id
+            error=error_message,
+            selected_server_id=server_id,
+            selected_days_back=days_back,
         )
 
 
@@ -607,6 +621,35 @@ def clear_historical_activity():
         return _settings_action_response(
             error=error_message, selected_server_id=server_id
         )
+
+
+@activity_bp.route("/settings/historical-jobs", methods=["GET"])
+@login_required
+def historical_import_jobs():
+    """Return recent historical import jobs for display."""
+    if HistoricalImportJob is None:
+        return render_template(
+            "activity/_historical_jobs.html",
+            jobs=[],
+            selected_server_id=None,
+        )
+
+    server_id = request.args.get("server_id", type=int)
+
+    query = HistoricalImportJob.query.options(
+        joinedload(HistoricalImportJob.server)
+    ).order_by(HistoricalImportJob.created_at.desc())
+
+    if server_id:
+        query = query.filter(HistoricalImportJob.server_id == server_id)
+
+    jobs = query.limit(10).all()
+
+    return render_template(
+        "activity/_historical_jobs.html",
+        jobs=jobs,
+        selected_server_id=server_id,
+    )
 
 
 @activity_bp.route("/settings/historical-data-stats/<int:server_id>")
