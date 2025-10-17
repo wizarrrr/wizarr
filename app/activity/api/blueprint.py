@@ -576,13 +576,13 @@ def import_historical_activity():
                 selected_days_back=days_back,
             )
 
-        supported_servers = {"plex", "jellyfin", "emby"}
+        supported_servers = {"plex", "jellyfin", "emby", "audiobookshelf"}
         server_type = (media_server.server_type or "").lower()
 
         if server_type not in supported_servers:
             return _settings_action_response(
                 error=_(
-                    "Historical data import is currently only supported for Plex, Jellyfin, and Emby servers."
+                    "Historical data import is currently only supported for Plex, Jellyfin, Emby, and AudiobookShelf servers."
                 ),
                 selected_server_id=server_id,
                 selected_days_back=days_back,

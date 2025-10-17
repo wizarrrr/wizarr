@@ -99,7 +99,7 @@
                 </div>
                 <div>
                   <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Historical Data Import") }}</h2>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Fetch watched history from Plex, Jellyfin, or Emby to enrich analytics and dashboards") }}</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Fetch watched history from Plex, Jellyfin, Emby, or AudiobookShelf to enrich analytics and dashboards") }}</p>
                 </div>
               </div>
             </div>
@@ -123,7 +123,7 @@
                             {% if not media_servers %}disabled{% endif %}>
                       <option value="">{{ _("Select a server...") }}</option>
                       {% for server in media_servers %}
-                        {% if server.server_type in ['plex', 'jellyfin', 'emby'] %}
+                        {% if server.server_type in ['plex', 'jellyfin', 'emby', 'audiobookshelf'] %}
                           <option value="{{ server.id }}" {% if selected_server_id == server.id %}selected{% endif %}>
                             {{ server.name }} ({{ server.server_type|title }})
                           </option>
@@ -132,7 +132,7 @@
                     </select>
                   {% else %}
                     <div class="rounded-lg border border-dashed border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900/40 px-4 py-3 text-sm text-gray-600 dark:text-gray-400">
-                      {{ _("No verified Plex, Jellyfin, or Emby servers available. Add and verify a server to enable historical imports.") }}
+                      {{ _("No verified Plex, Jellyfin, Emby, or AudiobookShelf servers available. Add and verify a server to enable historical imports.") }}
                     </div>
                   {% endif %}
                 </div>
