@@ -100,11 +100,7 @@ def server_name_tag(server_type: str, server_name: str) -> Markup:
 
 
 def human_date(date_value) -> str:
-    """Format a date/datetime to be more human-readable.
-
-    Converts datetime objects or ISO strings to a format like:
-    "Jan 15, 2024 at 2:30 PM"
-    """
+    """Format date to 'Jan 15, 2024 at 2:30 PM'."""
     if not date_value:
         return "—"
 
@@ -138,55 +134,34 @@ def human_date(date_value) -> str:
 
 
 def local_date(date_value, format_str="%m/%d %H:%M") -> str:
-    """Convert a UTC datetime to local system timezone and format it."""
+    """Convert UTC datetime to local timezone."""
     if not date_value:
         return "—"
 
+    # Parse string to datetime if needed
     if isinstance(date_value, str):
-        try:
-            for fmt in [
-                "%Y-%m-%d %H:%M:%S",
-                "%Y-%m-%d %H:%M",
-                "%Y-%m-%dT%H:%M:%S",
-                "%Y-%m-%dT%H:%M:%S.%f",
-                "%Y-%m-%dT%H:%M:%S.%fZ",
-            ]:
-                try:
-                    date_value = datetime.strptime(date_value, fmt)
-                    break
-                except ValueError:
-                    continue
-            else:
-                return str(date_value)[:16]
-        except (ValueError, AttributeError):
+        for fmt in ["%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S.%f", "%Y-%m-%dT%H:%M:%S"]:
+            with contextlib.suppress(ValueError):
+                date_value = datetime.strptime(date_value.rstrip("Z"), fmt)
+                break
+        else:
             return str(date_value)[:16]
 
+    # Format datetime object
     if hasattr(date_value, "strftime"):
-        try:
-            if date_value.tzinfo is None:
-                from datetime import UTC
+        if date_value.tzinfo is None:
+            from datetime import UTC
 
-                date_value = date_value.replace(tzinfo=UTC)
+            date_value = date_value.replace(tzinfo=UTC)
 
-            target_tz = _LOCAL_TIMEZONE
-            if target_tz is not None:
-                local_time = date_value.astimezone(target_tz)
-            else:
-                local_time = date_value.astimezone()
-
-            return local_time.strftime(format_str)
-        except Exception:
-            return date_value.strftime(format_str)
+        local_time = date_value.astimezone(_LOCAL_TIMEZONE or None)
+        return local_time.strftime(format_str)
 
     return str(date_value)
 
 
 def nl2br(text: str) -> Markup:
-    """Convert newlines in text to HTML <br> tags.
-
-    This filter is useful for displaying multiline text in templates
-    while preserving line breaks.
-    """
+    """Convert newlines to HTML <br> tags."""
     if not text:
         return Markup("")
 

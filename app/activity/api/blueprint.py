@@ -8,7 +8,16 @@ for managing and viewing media playback activity data.
 from datetime import UTC, datetime, timedelta
 
 import structlog
-from flask import Blueprint, current_app, jsonify, render_template, request
+from flask import (
+    Blueprint,
+    current_app,
+    flash,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from flask_login import login_required
 
 try:
@@ -26,8 +35,9 @@ except ImportError:
 
 
 from app.activity.domain.models import ActivityQuery
-from app.models import ActivitySession
+from app.models import ActivitySession, ActivitySnapshot
 from app.services.activity import ActivityService
+from app.services.historical_data import HistoricalDataService
 
 # Create blueprint
 activity_bp = Blueprint(
@@ -36,6 +46,133 @@ activity_bp = Blueprint(
     url_prefix="/activity",
     template_folder="../templates",
 )
+
+
+# Helper utilities ---------------------------------------------------------
+
+
+def _activity_settings_template() -> str:
+    """Return template path for activity settings based on HX context."""
+    return (
+        "activity/settings_tab.html"
+        if request.headers.get("HX-Request")
+        else "activity/settings.html"
+    )
+
+
+def _default_monitor_status() -> dict[str, object]:
+    """Provide a fallback monitor status structure."""
+    return {"monitoring_enabled": False, "connection_status": {}}
+
+
+def _load_monitor_status() -> dict[str, object]:
+    """Return current activity monitor status."""
+    monitor = getattr(current_app.extensions, "activity_monitor", None)
+    return {
+        "monitoring_enabled": monitor is not None,
+        "connection_status": monitor.get_connection_status() if monitor else {},
+    }
+
+
+def _load_verified_media_servers() -> list:
+    """Return verified media servers available for historical import."""
+    if MediaServer is None:
+        return []
+
+    try:
+        return (
+            MediaServer.query.filter_by(verified=True)
+            .order_by(MediaServer.name.asc())
+            .all()
+        )
+    except Exception as exc:  # pragma: no cover - defensive logging
+        structlog.get_logger(__name__).warning(
+            "Failed to load media servers: %s", exc, exc_info=True
+        )
+        return []
+
+
+def _render_activity_settings(
+    *,
+    status: dict[str, object] | None = None,
+    error: str | None = None,
+    success: str | None = None,
+    selected_server_id: int | None = None,
+):
+    """Render the activity settings (full page or partial)."""
+    template = _activity_settings_template()
+    logger = structlog.get_logger(__name__)
+
+    if status is None:
+        try:
+            status = _load_monitor_status()
+        except Exception as exc:
+            logger.error(
+                "Failed to load activity settings status: %s", exc, exc_info=True
+            )
+            status = _default_monitor_status()
+            error = error or _("Failed to load settings")
+
+    media_servers = _load_verified_media_servers()
+
+    return render_template(
+        template,
+        status=status,
+        media_servers=media_servers,
+        error=error,
+        success=success,
+        selected_server_id=selected_server_id,
+    )
+
+
+def _settings_action_response(
+    *,
+    success: str | None = None,
+    error: str | None = None,
+    selected_server_id: int | None = None,
+):
+    """
+    Return an appropriate response for activity settings actions.
+
+    HTMX requests receive the re-rendered settings partial. Non-HTMX requests
+    flash a message and redirect back to the settings page to avoid duplicate
+    submissions.
+    """
+    if request.headers.get("HX-Request"):
+        return _render_activity_settings(
+            success=success, error=error, selected_server_id=selected_server_id
+        )
+
+    if success:
+        flash(success, "success")
+    if error:
+        flash(error, "error")
+
+    return redirect(url_for("activity.activity_settings"))
+
+
+def _delete_all_activity_data() -> int:
+    """Remove all stored activity sessions and snapshots."""
+    if db is None:
+        raise RuntimeError("Database not initialised")
+
+    try:
+        deleted_snapshots = ActivitySnapshot.query.delete()
+        deleted_sessions = ActivitySession.query.delete()
+        db.session.commit()
+        return (deleted_snapshots or 0) + (deleted_sessions or 0)
+    except Exception as exc:
+        db.session.rollback()
+        raise exc
+
+
+def _parse_int(form_key: str, default: int) -> int:
+    """Parse an integer from request.form with graceful fallback."""
+    try:
+        value = request.form.get(form_key, default)
+        return int(value) if value is not None else default
+    except (TypeError, ValueError):
+        return default
 
 
 # Template filters
@@ -304,33 +441,7 @@ def activity_export():
 @login_required
 def activity_settings():
     """Activity monitoring settings."""
-    if request.method == "GET":
-        try:
-            # Get monitoring status
-            monitor = getattr(current_app.extensions, "activity_monitor", None)
-            status = {
-                "monitoring_enabled": monitor is not None,
-                "connection_status": monitor.get_connection_status() if monitor else {},
-            }
-
-            template = (
-                "activity/settings_tab.html"
-                if request.headers.get("HX-Request")
-                else "activity/settings.html"
-            )
-            return render_template(template, status=status)
-
-        except Exception as e:
-            logger = structlog.get_logger(__name__)
-            logger.error("Failed to load activity settings: %s", e, exc_info=True)
-            template = (
-                "activity/settings_tab.html"
-                if request.headers.get("HX-Request")
-                else "activity/settings.html"
-            )
-            return render_template(template, error=_("Failed to load settings"))
-
-    else:  # POST
+    if request.method == "POST":
         try:
             action = request.form.get("action")
 
@@ -378,3 +489,146 @@ def activity_settings():
             return jsonify(
                 {"success": False, "message": _("Failed to update settings")}
             ), 500
+
+    return _render_activity_settings()
+
+
+@activity_bp.route("/settings/delete-activity-data", methods=["POST"])
+@login_required
+def delete_activity_data():
+    """Delete all stored activity monitoring data."""
+    logger = structlog.get_logger(__name__)
+
+    try:
+        deleted = _delete_all_activity_data()
+        success_message = _(
+            "Activity data has been successfully deleted ({} records)."
+        ).format(deleted)
+        return _settings_action_response(success=success_message)
+    except Exception as exc:
+        logger.error("Failed to delete activity data: %s", exc, exc_info=True)
+        error_message = _("Failed to delete activity data: {}").format(str(exc))
+        return _settings_action_response(error=error_message)
+
+
+@activity_bp.route("/settings/import-historical-data", methods=["POST"])
+@login_required
+def import_historical_activity():
+    """Import historical viewing data for a selected server."""
+    logger = structlog.get_logger(__name__)
+    server_id = request.form.get("server_id", type=int)
+    days_back = _parse_int("days_back", 30)
+    max_results = _parse_int("max_results", 1000)
+
+    if not server_id:
+        return _settings_action_response(error=_("Please select a media server."))
+
+    try:
+        if MediaServer is None:
+            raise RuntimeError("Media server model unavailable")
+
+        media_server = MediaServer.query.get(server_id)
+        if not media_server:
+            return _settings_action_response(error=_("Media server not found."))
+
+        if media_server.server_type != "plex":
+            return _settings_action_response(
+                error=_(
+                    "Historical data import is currently only supported for Plex servers."
+                ),
+                selected_server_id=server_id,
+            )
+
+        service = HistoricalDataService(server_id)
+        result = service.import_plex_history(
+            days_back=days_back, max_results=max_results
+        )
+
+        if result.get("success"):
+            success_message = _(
+                "Successfully imported {} historical entries from the last {} days ({} fetched, {} processed)."
+            ).format(
+                result.get("total_stored", 0),
+                days_back,
+                result.get("total_fetched", 0),
+                result.get("total_processed", 0),
+            )
+            return _settings_action_response(
+                success=success_message, selected_server_id=server_id
+            )
+
+        error_message = _("Failed to import historical data: {}").format(
+            result.get("error", _("Unknown error"))
+        )
+        return _settings_action_response(
+            error=error_message, selected_server_id=server_id
+        )
+
+    except Exception as exc:
+        logger.error("Failed to import historical data: %s", exc, exc_info=True)
+        error_message = _("Failed to import historical data: {}").format(str(exc))
+        return _settings_action_response(
+            error=error_message, selected_server_id=server_id
+        )
+
+
+@activity_bp.route("/settings/clear-historical-data", methods=["POST"])
+@login_required
+def clear_historical_activity():
+    """Remove imported historical data for the selected server."""
+    logger = structlog.get_logger(__name__)
+    server_id = request.form.get("server_id", type=int)
+
+    if not server_id:
+        return _settings_action_response(error=_("Please select a media server."))
+
+    try:
+        service = HistoricalDataService(server_id)
+        result = service.clear_historical_data()
+
+        if result.get("success"):
+            success_message = _("Successfully cleared {} historical entries.").format(
+                result.get("deleted_count", 0)
+            )
+            return _settings_action_response(
+                success=success_message, selected_server_id=server_id
+            )
+
+        error_message = _("Failed to clear historical data: {}").format(
+            result.get("error", _("Unknown error"))
+        )
+        return _settings_action_response(
+            error=error_message, selected_server_id=server_id
+        )
+
+    except Exception as exc:
+        logger.error("Failed to clear historical data: %s", exc, exc_info=True)
+        error_message = _("Failed to clear historical data: {}").format(str(exc))
+        return _settings_action_response(
+            error=error_message, selected_server_id=server_id
+        )
+
+
+@activity_bp.route("/settings/historical-data-stats/<int:server_id>")
+@login_required
+def historical_data_stats(server_id: int):
+    """Expose stored historical data statistics for a server."""
+    try:
+        service = HistoricalDataService(server_id)
+        stats = service.get_import_statistics()
+        return jsonify(stats)
+    except Exception as exc:
+        structlog.get_logger(__name__).error(
+            "Failed to load historical data stats: %s", exc, exc_info=True
+        )
+        return (
+            jsonify(
+                {
+                    "total_entries": 0,
+                    "unique_users": 0,
+                    "date_range": {"oldest": None, "newest": None},
+                    "error": str(exc),
+                }
+            ),
+            500,
+        )

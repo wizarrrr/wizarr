@@ -1,4 +1,9 @@
-"""Add Plus features: audit logging and activity monitoring
+"""Add activity monitoring and audit logging features
+
+This migration adds two feature sets:
+- Activity monitoring (CORE feature): tracks media playback sessions in real-time
+  * Note: Historical data import for activity is a Plus feature
+- Audit logging (PLUS feature): tracks admin actions and system events
 
 Revision ID: 20250921_plus_features
 Revises: 08a6c8fb44db
@@ -17,7 +22,9 @@ depends_on = None
 
 
 def upgrade():
-    # Create audit_log table
+    # ─────────────────────────────────────────────────────────────
+    # Audit Log Table (Plus Feature)
+    # ─────────────────────────────────────────────────────────────
     op.create_table(
         "audit_log",
         sa.Column("id", sa.Integer(), nullable=False),
@@ -43,7 +50,9 @@ def upgrade():
         sa.PrimaryKeyConstraint("id"),
     )
 
-    # Create activity_session table
+    # ─────────────────────────────────────────────────────────────
+    # Activity Monitoring Tables (Core Feature)
+    # ─────────────────────────────────────────────────────────────
     op.create_table(
         "activity_session",
         sa.Column("id", sa.Integer(), nullable=False),
@@ -67,13 +76,11 @@ def upgrade():
         sa.Column("ip_address", sa.String(), nullable=True),
         sa.Column("platform", sa.String(), nullable=True),
         sa.Column("player_version", sa.String(), nullable=True),
-        sa.Column("transcoding_info", sa.Text(), nullable=True),  # JSON
-        sa.Column("session_metadata", sa.Text(), nullable=True),  # JSON
+        sa.Column("transcoding_info", sa.Text(), nullable=True),
+        sa.Column("session_metadata", sa.Text(), nullable=True),
         sa.Column("artwork_url", sa.String(), nullable=True),
         sa.Column("thumbnail_url", sa.String(), nullable=True),
-        sa.Column(
-            "reference_id", sa.Integer(), nullable=True
-        ),  # Added from third migration
+        sa.Column("reference_id", sa.Integer(), nullable=True),
         sa.Column("created_at", sa.DateTime(), nullable=False),
         sa.Column("updated_at", sa.DateTime(), nullable=False),
         sa.ForeignKeyConstraint(
@@ -83,7 +90,6 @@ def upgrade():
         sa.PrimaryKeyConstraint("id"),
     )
 
-    # Create indexes for activity_session
     op.create_index(
         "ix_activity_session_server_id", "activity_session", ["server_id"], unique=False
     )
@@ -116,9 +122,8 @@ def upgrade():
         "activity_session",
         ["reference_id"],
         unique=False,
-    )  # From third migration
+    )
 
-    # Create composite indexes for common queries
     op.create_index(
         "ix_activity_session_server_started",
         "activity_session",
@@ -132,15 +137,14 @@ def upgrade():
         unique=False,
     )
 
-    # Create activity_snapshot table
     op.create_table(
         "activity_snapshot",
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("session_id", sa.Integer(), nullable=False),
         sa.Column("timestamp", sa.DateTime(), nullable=False),
         sa.Column("position_ms", sa.BigInteger(), nullable=True),
-        sa.Column("state", sa.String(), nullable=False),  # playing, paused, stopped
-        sa.Column("transcoding_details", sa.Text(), nullable=True),  # JSON
+        sa.Column("state", sa.String(), nullable=False),
+        sa.Column("transcoding_details", sa.Text(), nullable=True),
         sa.Column("bandwidth_kbps", sa.Integer(), nullable=True),
         sa.Column("quality", sa.String(), nullable=True),
         sa.Column("subtitle_stream", sa.String(), nullable=True),
@@ -152,7 +156,6 @@ def upgrade():
         sa.PrimaryKeyConstraint("id"),
     )
 
-    # Create indexes for activity_snapshot
     op.create_index(
         "ix_activity_snapshot_session_id",
         "activity_snapshot",
@@ -169,7 +172,6 @@ def upgrade():
         "ix_activity_snapshot_state", "activity_snapshot", ["state"], unique=False
     )
 
-    # Create composite index for time-series queries
     op.create_index(
         "ix_activity_snapshot_session_timestamp",
         "activity_snapshot",
@@ -179,7 +181,6 @@ def upgrade():
 
 
 def downgrade():
-    # Drop indexes first
     op.drop_index(
         "ix_activity_snapshot_session_timestamp", table_name="activity_snapshot"
     )
@@ -189,9 +190,7 @@ def downgrade():
 
     op.drop_index("ix_activity_session_user_started", table_name="activity_session")
     op.drop_index("ix_activity_session_server_started", table_name="activity_session")
-    op.drop_index(
-        "ix_activity_session_reference_id", table_name="activity_session"
-    )  # From third migration
+    op.drop_index("ix_activity_session_reference_id", table_name="activity_session")
     op.drop_index("ix_activity_session_session_id", table_name="activity_session")
     op.drop_index("ix_activity_session_media_type", table_name="activity_session")
     op.drop_index("ix_activity_session_active", table_name="activity_session")
@@ -199,7 +198,6 @@ def downgrade():
     op.drop_index("ix_activity_session_user_name", table_name="activity_session")
     op.drop_index("ix_activity_session_server_id", table_name="activity_session")
 
-    # Drop tables
     op.drop_table("activity_snapshot")
     op.drop_table("activity_session")
     op.drop_table("audit_log")
