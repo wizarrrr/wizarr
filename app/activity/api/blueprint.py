@@ -164,6 +164,26 @@ def _settings_action_response(
     return redirect(url_for("activity.activity_settings", **extra_params))
 
 
+def _render_historical_jobs_partial(server_id: int | None):
+    if HistoricalImportJob is None:
+        jobs: list = []
+    else:
+        query = HistoricalImportJob.query.options(
+            joinedload(HistoricalImportJob.server)
+        ).order_by(HistoricalImportJob.created_at.desc())
+
+        if server_id:
+            query = query.filter(HistoricalImportJob.server_id == server_id)
+
+        jobs = query.limit(10).all()
+
+    return render_template(
+        "activity/_historical_jobs.html",
+        jobs=jobs,
+        selected_server_id=server_id,
+    )
+
+
 def _delete_all_activity_data() -> int:
     """Remove all stored activity sessions and snapshots."""
     if db is None:
@@ -533,9 +553,10 @@ def import_historical_activity():
     days_back = _parse_int("days_back", 30)
     days_back = max(1, min(days_back, 365))
     max_results_raw = request.form.get("max_results")
-    max_results = (
-        _parse_int("max_results", 0) if max_results_raw not in (None, "") else None
-    )
+    max_results = None
+    if max_results_raw not in (None, ""):
+        parsed_limit = _parse_int("max_results", 0)
+        max_results = parsed_limit if parsed_limit > 0 else None
 
     if not server_id:
         return _settings_action_response(
@@ -555,10 +576,13 @@ def import_historical_activity():
                 selected_days_back=days_back,
             )
 
-        if media_server.server_type != "plex":
+        supported_servers = {"plex", "jellyfin", "emby"}
+        server_type = (media_server.server_type or "").lower()
+
+        if server_type not in supported_servers:
             return _settings_action_response(
                 error=_(
-                    "Historical data import is currently only supported for Plex servers."
+                    "Historical data import is currently only supported for Plex, Jellyfin, and Emby servers."
                 ),
                 selected_server_id=server_id,
                 selected_days_back=days_back,
@@ -567,9 +591,10 @@ def import_historical_activity():
         service = HistoricalDataService(server_id)
         job = service.start_async_import(days_back=days_back, max_results=max_results)
 
+        server_label = server_type.title()
         success_message = _(
-            "Historical import job #{job_id} started for the last {days} days."
-        ).format(job_id=job.id, days=days_back)
+            "Historical import job #{job_id} started for {server} (last {days} days)."
+        ).format(job_id=job.id, server=server_label, days=days_back)
         return _settings_action_response(
             success=success_message,
             selected_server_id=server_id,
@@ -627,29 +652,34 @@ def clear_historical_activity():
 @login_required
 def historical_import_jobs():
     """Return recent historical import jobs for display."""
+    server_id = request.args.get("server_id", type=int)
+    return _render_historical_jobs_partial(server_id)
+
+
+@activity_bp.route("/settings/historical-jobs/<int:job_id>/delete", methods=["POST"])
+@login_required
+def delete_historical_job(job_id: int):
+    """Delete a historical import job (typically failed/completed ones)."""
     if HistoricalImportJob is None:
-        return render_template(
-            "activity/_historical_jobs.html",
-            jobs=[],
-            selected_server_id=None,
+        return "", 204
+
+    server_id = request.form.get("server_id", type=int)
+    job = HistoricalImportJob.query.get(job_id)
+
+    if not job:
+        return _render_historical_jobs_partial(server_id)
+
+    if job.is_active:
+        return (
+            jsonify(
+                {"error": _("Cannot remove a job that is still queued or running.")}
+            ),
+            400,
         )
 
-    server_id = request.args.get("server_id", type=int)
-
-    query = HistoricalImportJob.query.options(
-        joinedload(HistoricalImportJob.server)
-    ).order_by(HistoricalImportJob.created_at.desc())
-
-    if server_id:
-        query = query.filter(HistoricalImportJob.server_id == server_id)
-
-    jobs = query.limit(10).all()
-
-    return render_template(
-        "activity/_historical_jobs.html",
-        jobs=jobs,
-        selected_server_id=server_id,
-    )
+    db.session.delete(job)
+    db.session.commit()
+    return _render_historical_jobs_partial(server_id)
 
 
 @activity_bp.route("/settings/historical-data-stats/<int:server_id>")

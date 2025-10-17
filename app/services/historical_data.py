@@ -12,7 +12,7 @@ from typing import Any
 
 from flask import current_app
 
-from app.models import MediaServer, db
+from app.models import HistoricalImportJob, MediaServer, db
 from app.services.activity.identity_resolution import apply_identity_resolution
 
 
@@ -31,8 +31,6 @@ class HistoricalDataService:
         """
         Launch a background job to import Plex history data.
         """
-        from app.models import HistoricalImportJob
-
         job = HistoricalImportJob(
             server_id=self.server_id,
             days_back=days_back,
@@ -54,11 +52,42 @@ class HistoricalDataService:
 
         return job
 
+    def import_history(
+        self,
+        days_back: int = 30,
+        max_results: int | None = 1000,
+        job_id: int | None = None,
+    ) -> dict[str, Any]:
+        """Dispatch historical import based on server type."""
+        server_type = (self.media_server.server_type or "").lower()
+
+        if server_type == "plex":
+            return self._import_plex_history(
+                days_back=days_back, max_results=max_results, job_id=job_id
+            )
+        if server_type in {"jellyfin", "emby"}:
+            return self._import_jellyfin_history(
+                days_back=days_back, max_results=max_results, job_id=job_id
+            )
+
+        raise ValueError(f"Historical import not supported for {server_type!r}")
+
     def import_plex_history(
         self,
         days_back: int = 30,
         max_results: int | None = 1000,
         job_id: int | None = None,
+    ) -> dict[str, Any]:
+        """Backward-compatible Plex history import entry point."""
+        return self._import_plex_history(
+            days_back=days_back, max_results=max_results, job_id=job_id
+        )
+
+    def _import_plex_history(
+        self,
+        days_back: int,
+        max_results: int | None,
+        job_id: int | None,
     ) -> dict[str, Any]:
         """
         Import historical viewing data from Plex.
@@ -91,14 +120,14 @@ class HistoricalDataService:
             )
 
             # Get history from Plex using direct server connection
-            history_entries = client.server.history(
-                maxresults=max_results if max_results else None, mindate=min_date
-            )
+            history_kwargs = {"mindate": min_date}
+            if max_results:
+                history_kwargs["maxresults"] = max_results
+
+            history_entries = client.server.history(**history_kwargs)
             total_entries = len(history_entries)
 
             if job_id is not None:
-                from app.models import HistoricalImportJob
-
                 self._update_job(
                     job_id,
                     status=HistoricalImportJob.STATUS_RUNNING,
@@ -156,8 +185,6 @@ class HistoricalDataService:
         except Exception as e:
             logging.error(f"Failed to import Plex history: {e}")
             if job_id is not None:
-                from app.models import HistoricalImportJob
-
                 self._update_job(
                     job_id,
                     status=HistoricalImportJob.STATUS_FAILED,
@@ -170,6 +197,384 @@ class HistoricalDataService:
                 "total_processed": 0,
                 "total_stored": 0,
             }
+
+    def _import_jellyfin_history(
+        self,
+        days_back: int,
+        max_results: int | None,
+        job_id: int | None,
+    ) -> dict[str, Any]:
+        """Import historical playback data from Jellyfin/Emby servers."""
+        from app.services.media import get_media_client
+
+        client = get_media_client(
+            self.media_server.server_type, media_server=self.media_server
+        )
+
+        cutoff = datetime.now(UTC) - timedelta(days=days_back)
+        logging.info(
+            "%s historical import: collecting last %s days (limit=%s)",
+            self.media_server.server_type.title(),
+            days_back,
+            max_results or "unlimited",
+        )
+
+        try:
+            users_response = client.get("/Users").json()
+        except Exception as exc:
+            logging.error("Failed to fetch Jellyfin users: %s", exc)
+            return {
+                "success": False,
+                "error": str(exc),
+                "total_fetched": 0,
+                "total_processed": 0,
+                "total_stored": 0,
+            }
+
+        imported_sessions: list[Any] = []
+        total_seen = 0
+        entries_seen = 0
+        total_record_count: int | None = None
+
+        def maybe_stop() -> bool:
+            return max_results is not None and total_seen >= max_results
+
+        for user in users_response:
+            if maybe_stop():
+                break
+
+            user_id = user.get("Id")
+            if not user_id:
+                continue
+
+            user_name = (user.get("Name") or "Unknown").strip() or "Unknown"
+            start_index = 0
+            page_size = 100
+            exhausted = False
+            user_sessions_before = len(imported_sessions)
+
+            while not exhausted and not maybe_stop():
+                params = {
+                    "Filters": "IsPlayed",
+                    "SortBy": "DatePlayed",
+                    "SortOrder": "Descending",
+                    "IncludeItemTypes": "Movie,Episode",
+                    "Recursive": "true",
+                    "StartIndex": start_index,
+                    "Limit": page_size,
+                    "Fields": "UserData,SeriesInfo,SeasonInfo,BasicSyncInfo",
+                }
+
+                try:
+                    response = client.get(
+                        f"/Users/{user_id}/Items", params=params
+                    ).json()
+                except Exception as exc:
+                    logging.warning(
+                        "Failed to fetch history for Jellyfin user %s: %s",
+                        user_id,
+                        exc,
+                    )
+                    break
+
+                items = response.get("Items", [])
+                if not items:
+                    break
+
+                logging.debug(
+                    "%s history: user %s fetched %s items at index %s",
+                    self.media_server.server_type,
+                    user_name,
+                    len(items),
+                    start_index,
+                )
+
+                entries_seen += len(items)
+                total_record_count = response.get(
+                    "TotalRecordCount", total_record_count
+                )
+
+                if job_id is not None and entries_seen % 100 == 0:
+                    expected_total = (
+                        total_record_count
+                        if total_record_count is not None
+                        else entries_seen
+                    )
+                    self._update_job(
+                        job_id,
+                        total_fetched=expected_total,
+                        total_processed=len(imported_sessions),
+                    )
+
+                for item in items:
+                    if maybe_stop():
+                        break
+
+                    user_data = item.get("UserData") or {}
+                    last_played_raw = user_data.get("LastPlayedDate")
+                    viewed_at = self._parse_datetime(last_played_raw)
+                    if viewed_at is None:
+                        viewed_at = self._ticks_to_datetime(
+                            user_data.get("LastPlayedDateTicks")
+                        )
+                    if not viewed_at:
+                        continue
+
+                    if viewed_at < cutoff:
+                        exhausted = True
+                        continue
+
+                    duration_ms = self._ticks_to_ms(item.get("RunTimeTicks"))
+                    position_ms = self._ticks_to_ms(
+                        user_data.get("PlaybackPositionTicks")
+                    )
+
+                    started_at = viewed_at
+                    if duration_ms and duration_ms > 0:
+                        started_at = viewed_at - timedelta(milliseconds=duration_ms)
+                    elif position_ms and position_ms > 0:
+                        started_at = viewed_at - timedelta(milliseconds=position_ms)
+
+                    media_type = (item.get("Type") or "unknown").lower()
+                    media_title = (
+                        item.get("Name") or "Unknown Media"
+                    ).strip() or "Unknown Media"
+                    media_id = str(item.get("Id") or "")
+                    series_name = item.get("SeriesName") or None
+                    season_number = item.get("ParentIndexNumber")
+                    episode_number = item.get("IndexNumber")
+
+                    session_id = (
+                        f"{self.media_server.server_type}_history_"
+                        f"{media_id}_{user_id}_{int(viewed_at.timestamp())}"
+                    )
+
+                    metadata = {
+                        "imported_from": f"{self.media_server.server_type}_history",
+                        "historical_viewed_at": viewed_at.isoformat(),
+                        "historical_duration_ms": duration_ms or None,
+                        "historical_play_count": user_data.get("PlayCount"),
+                        "historical_position_ms": position_ms or None,
+                        "media_source_id": media_id,
+                        "historical_duration_source": "runtime_ticks"
+                        if duration_ms
+                        else None,
+                        "historical_user_id": str(user_id),
+                    }
+
+                    activity_session = self._build_activity_session(
+                        session_id=session_id,
+                        user_name=user_name,
+                        user_id=str(user_id),
+                        media_title=media_title,
+                        media_type=media_type,
+                        media_id=media_id,
+                        series_name=series_name,
+                        season_number=season_number,
+                        episode_number=episode_number,
+                        started_at=started_at,
+                        duration_ms=duration_ms,
+                        viewed_at=viewed_at,
+                        metadata=metadata,
+                    )
+
+                    if activity_session:
+                        imported_sessions.append(activity_session)
+                        total_seen += 1
+
+                        if job_id is not None and total_seen % 25 == 0:
+                            self._update_job(
+                                job_id,
+                                total_fetched=(
+                                    total_record_count
+                                    if total_record_count is not None
+                                    else entries_seen
+                                ),
+                                total_processed=len(imported_sessions),
+                            )
+
+                if maybe_stop() or exhausted:
+                    break
+
+                start_index += len(items)
+                if len(items) < page_size:
+                    break
+
+            if len(imported_sessions) - user_sessions_before > 0:
+                logging.debug(
+                    "%s history: user %s contributed %s sessions",
+                    self.media_server.server_type,
+                    user_name,
+                    len(imported_sessions) - user_sessions_before,
+                )
+
+        stored_count = self._store_activity_sessions(imported_sessions, job_id=job_id)
+
+        if job_id is not None:
+            expected_total = (
+                total_record_count if total_record_count is not None else entries_seen
+            )
+            self._update_job(
+                job_id,
+                total_fetched=expected_total,
+                total_processed=len(imported_sessions),
+                total_stored=stored_count,
+            )
+
+        logging.info(
+            "%s historical import complete: %s items inspected, %s sessions stored",
+            self.media_server.server_type.title(),
+            entries_seen,
+            stored_count,
+        )
+
+        return {
+            "success": True,
+            "total_fetched": entries_seen,
+            "total_processed": len(imported_sessions),
+            "total_stored": stored_count,
+            "date_range": {
+                "from": cutoff.isoformat(),
+                "to": datetime.now(UTC).isoformat(),
+            },
+        }
+
+    @staticmethod
+    def _ticks_to_ms(value) -> int:
+        try:
+            if value is None:
+                return 0
+            if isinstance(value, str):
+                value = int(value)
+            if isinstance(value, (int, float)):
+                return max(int(value / 10000), 0)
+        except (ValueError, TypeError):
+            return 0
+        return 0
+
+    @staticmethod
+    def _ticks_to_datetime(value) -> datetime | None:
+        try:
+            if value is None:
+                return None
+            if isinstance(value, str):
+                value = int(value)
+            if not isinstance(value, (int, float)):
+                return None
+            ticks = int(value)
+            epoch_offset = 621355968000000000  # ticks between 0001-01-01 and 1970-01-01
+            seconds = (ticks - epoch_offset) / 10_000_000
+            return datetime.fromtimestamp(seconds, UTC)
+        except (ValueError, TypeError, OverflowError):
+            return None
+
+    @staticmethod
+    def _parse_datetime(value) -> datetime | None:
+        if not value:
+            return None
+
+        if isinstance(value, datetime):
+            if value.tzinfo is None:
+                return value.replace(tzinfo=UTC)
+            return value.astimezone(UTC)
+
+        try:
+            if isinstance(value, int):
+                return datetime.fromtimestamp(value, UTC)
+            if isinstance(value, str):
+                cleaned = value.strip()
+                if cleaned.endswith("Z"):
+                    cleaned = cleaned[:-1] + "+00:00"
+                try:
+                    dt = datetime.fromisoformat(cleaned)
+                except ValueError:
+                    # Normalise fractional seconds to microsecond precision
+                    tz_suffix = ""
+                    for sign in ("+", "-"):
+                        idx = cleaned.find(sign, 1)
+                        if idx != -1:
+                            tz_suffix = cleaned[idx:]
+                            cleaned = cleaned[:idx]
+                            break
+
+                    if "." in cleaned:
+                        main, frac = cleaned.split(".", 1)
+                        frac = "".join(ch for ch in frac if ch.isdigit())[:6]
+                        cleaned = main + (f".{frac}" if frac else "")
+                    cleaned = cleaned + tz_suffix
+                    dt = datetime.fromisoformat(cleaned)
+
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=UTC)
+                return dt.astimezone(UTC)
+        except Exception:
+            return None
+
+        return None
+
+    def _build_activity_session(
+        self,
+        *,
+        session_id: str,
+        user_name: str,
+        user_id: str,
+        media_title: str,
+        media_type: str,
+        media_id: str,
+        series_name: str | None,
+        season_number: int | None,
+        episode_number: int | None,
+        started_at: datetime,
+        duration_ms: int,
+        viewed_at: datetime,
+        metadata: dict[str, Any] | None = None,
+    ):
+        from app.models import ActivitySession
+
+        try:
+            session = ActivitySession(
+                server_id=self.server_id,
+                session_id=session_id,
+                user_name=user_name,
+                user_id=user_id,
+                media_title=media_title,
+                media_type=media_type,
+                media_id=media_id,
+                series_name=series_name,
+                season_number=season_number,
+                episode_number=episode_number,
+                started_at=started_at,
+                active=False,
+                duration_ms=duration_ms,
+            )
+
+            combined_metadata = {
+                k: v for k, v in (metadata or {}).items() if v is not None
+            }
+            combined_metadata.setdefault("status", "ended")
+            combined_metadata.setdefault(
+                "imported_from", f"{self.media_server.server_type}_history"
+            )
+            combined_metadata.setdefault(
+                "import_timestamp", datetime.now(UTC).isoformat()
+            )
+            combined_metadata.setdefault("historical_viewed_at", viewed_at.isoformat())
+            session.set_metadata(combined_metadata)
+
+            if apply_identity_resolution:
+                try:
+                    apply_identity_resolution(session)
+                except Exception as exc:  # pragma: no cover - advisory
+                    logging.debug(
+                        "Identity resolution failed for historical session %s: %s",
+                        session.session_id,
+                        exc,
+                    )
+
+            return session
+        except Exception as exc:
+            logging.warning("Failed to build historical activity session: %s", exc)
+            return None
 
     def _build_plex_account_lookup(self, client):
         """Build mapping from Plex account ID to human friendly name."""
@@ -431,8 +836,6 @@ class HistoricalDataService:
     @staticmethod
     def _update_job(job_id: int, **fields) -> None:
         """Persist updates to a historical import job."""
-        from app.models import HistoricalImportJob
-
         job = HistoricalImportJob.query.get(job_id)
         if not job:
             return
@@ -451,8 +854,6 @@ class HistoricalDataService:
         max_results: int | None,
     ) -> None:
         """Background worker wrapper for historical imports."""
-        from app.models import HistoricalImportJob
-
         with app.app_context():
             job = HistoricalImportJob.query.get(job_id)
             if not job:
@@ -471,7 +872,7 @@ class HistoricalDataService:
             service = HistoricalDataService(server_id)
 
             try:
-                result = service.import_plex_history(
+                result = service.import_history(
                     days_back=days_back,
                     max_results=max_results,
                     job_id=job_id,
@@ -504,6 +905,12 @@ class HistoricalDataService:
                     job.finished_at = datetime.now(UTC)
                     job.updated_at = datetime.now(UTC)
                     db.session.commit()
+
+            # Clean up completed jobs so we don't persist history indefinitely
+            job = HistoricalImportJob.query.get(job_id)
+            if job and job.status == HistoricalImportJob.STATUS_COMPLETED:
+                db.session.delete(job)
+                db.session.commit()
 
     def get_import_statistics(self) -> dict[str, Any]:
         """Get statistics about imported historical data."""

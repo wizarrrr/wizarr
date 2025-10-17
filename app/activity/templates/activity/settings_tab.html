@@ -1,187 +1,242 @@
 {% from "_partials/macros.html" import loading_spinner %}
 
-<div class="container mx-auto px-4 py-6 max-w-4xl">
-    <div class="mb-6">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ _("Activity") }}</h1>
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _("Manage activity monitoring and historical data") }}</p>
+<section class="animate__animated animate__fadeIn">
+  <div class="p-6 space-y-8">
+    <!-- Page Header -->
+    <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ _("Activity Settings") }}</h1>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            {{ _("Manage activity monitoring data and import historical sessions") }}
+          </p>
+        </div>
+      </div>
     </div>
 
+    <!-- Alert Messages -->
     {% if error %}
-        <div class="mb-6 rounded-lg border border-red-200 dark:border-red-700 bg-red-50/90 dark:bg-red-900/35 px-4 py-3 text-red-800 dark:text-red-100">
-            <div class="flex items-start gap-3">
-                <span class="inline-flex h-8 w-8 items-center justify-center rounded-md bg-red-100 text-red-500 dark:bg-red-900/50 dark:text-red-200">
-                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                    </svg>
-                </span>
-                <p class="text-sm font-medium leading-5">{{ error }}</p>
-            </div>
+      <div class="rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 px-4 py-3">
+        <div class="flex items-start gap-3">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-md bg-red-100 text-red-500 dark:bg-red-900/40 dark:text-red-200">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+          </span>
+          <p class="text-sm font-medium leading-5 text-red-800 dark:text-red-100">{{ error }}</p>
         </div>
+      </div>
     {% endif %}
+
     {% if success %}
-        <div class="mb-6 rounded-lg border border-green-200 dark:border-green-700 bg-green-50/90 dark:bg-green-900/35 px-4 py-3 text-green-800 dark:text-green-100">
-            <div class="flex items-start gap-3">
-                <span class="inline-flex h-8 w-8 items-center justify-center rounded-md bg-green-100 text-green-600 dark:bg-green-900/50 dark:text-green-200">
-                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                    </svg>
-                </span>
-                <p class="text-sm font-medium leading-5">{{ success }}</p>
-            </div>
+      <div class="rounded-lg border border-green-200 dark:border-green-700 bg-green-50 dark:bg-green-900/20 px-4 py-3">
+        <div class="flex items-start gap-3">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-md bg-green-100 text-green-600 dark:bg-green-900/40 dark:text-green-200">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          </span>
+          <p class="text-sm font-medium leading-5 text-green-800 dark:text-green-100">{{ success }}</p>
         </div>
+      </div>
     {% endif %}
 
-    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ _("Data Management") }}</h3>
-            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                {{ _("Manage live activity data and import historical records from verified servers.") }}
-            </p>
-        </div>
-        <div class="p-6 space-y-6">
-            <div class="flex items-start gap-3">
-                <div class="flex-shrink-0">
-                    <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-red-500/10 text-red-600 dark:bg-red-500/20 dark:text-red-300">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                        </svg>
-                    </div>
+    <!-- Settings Content -->
+    <div class="w-full space-y-6">
+      <!-- Data Management Section -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="p-6">
+          {# ───── Data Management ──────────────────────────────────────── #}
+          <div class="space-y-4">
+            <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+              <div class="flex items-center gap-3">
+                <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                  </svg>
                 </div>
+                <div>
+                  <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Data Management") }}</h2>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Cleanup live telemetry and import historical sessions from connected servers") }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Delete Live Data -->
+            <div class="bg-red-50 dark:bg-red-900/20 rounded-lg p-4 border border-red-200 dark:border-red-800">
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div class="flex-1">
-                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">{{ _("Live Activity Data") }}</h4>
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                        {{ _("Delete all live activity monitoring data. Historical imports remain intact and are unaffected.") }}
-                    </p>
-                    <div class="mt-3">
-                        <form method="POST"
-                              action="{{ url_for('activity.delete_activity_data') }}"
-                              hx-post="{{ url_for('activity.delete_activity_data') }}"
-                              hx-target="#tab-body"
-                              hx-swap="innerHTML"
-                              hx-confirm="{{ _('Are you sure you want to delete all activity monitoring data? This action cannot be undone.') }}">
-                            <button type="submit"
-                                    class="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-500/90 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 transition-colors duration-200">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                </svg>
-                                {{ _("Delete Activity Data") }}
-                            </button>
-                        </form>
-                    </div>
+                  <h3 class="text-sm font-medium text-red-900 dark:text-red-100">{{ _("Live Activity Data") }}</h3>
+                  <p class="mt-1 text-sm text-red-700 dark:text-red-200">{{ _("Remove all current monitoring records.") }}</p>
                 </div>
+                <form method="POST"
+                      action="{{ url_for('activity.delete_activity_data') }}"
+                      hx-post="{{ url_for('activity.delete_activity_data') }}"
+                      hx-target="#tab-body"
+                      hx-swap="innerHTML"
+                      hx-confirm="{{ _('Are you sure you want to delete all activity monitoring data? This action cannot be undone.') }}">
+                  <button type="submit"
+                          class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-sm font-medium shadow-sm transition-colors focus:outline-none focus:ring-4 focus:ring-red-500/20">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    {{ _("Delete Live Data") }}
+                  </button>
+                </form>
+              </div>
             </div>
-
-            <div class="pt-6 border-t border-gray-200 dark:border-gray-700">
-                <div class="flex items-start gap-3">
-                    <div class="flex-shrink-0">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-300">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="text-sm font-medium text-gray-900 dark:text-white">{{ _("Historical Data Import") }}</h4>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                            {{ _("Import historical viewing data from compatible media servers to enrich analytics.") }}
-                        </p>
-
-                        <form method="POST"
-                              action="{{ url_for('activity.import_historical_activity') }}"
-                              hx-post="{{ url_for('activity.import_historical_activity') }}"
-                              hx-target="#tab-body"
-                              hx-swap="innerHTML"
-                              hx-disabled-elt="#historical-import-submit"
-                              id="historical-import-form"
-                              class="mt-4 space-y-6">
-                            <div>
-                                <label for="historical-server-id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    {{ _("Compatible Servers") }}
-                                </label>
-                                {% if media_servers %}
-                                    <select id="historical-server-id"
-                                            name="server_id"
-                                            required
-                                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                                        <option value="">{{ _("Select a server...") }}</option>
-                                        {% for server in media_servers %}
-                                            {% if server.server_type == 'plex' %}
-                                                <option value="{{ server.id }}" {% if selected_server_id == server.id %}selected{% endif %}>
-                                                    {{ server.name }} ({{ server.server_type|title }})
-                                                </option>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                {% else %}
-                                    <div class="px-4 py-3 bg-gray-50 dark:bg-gray-700/50 border border-dashed border-gray-300 dark:border-gray-600 rounded-md text-sm text-gray-600 dark:text-gray-300">
-                                        {{ _("No verified media servers available. Add and verify a server to enable historical imports.") }}
-                                    </div>
-                                {% endif %}
-                            </div>
-
-                            <div>
-                                <label for="import-days-back" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    {{ _("Import Range (days)") }}
-                                </label>
-                                <input type="number"
-                                       id="import-days-back"
-                                       name="days_back"
-                                       min="1"
-                                       max="365"
-                                       step="1"
-                                       value="{{ selected_days_back or 30 }}"
-                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                                       {% if not media_servers %}disabled{% endif %}>
-                                <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                                    {{ _("Choose how many days of history to fetch (1–365).") }}
-                                </p>
-                            </div>
-
-                            <div class="flex flex-wrap gap-3">
-                                <button type="submit"
-                                        id="historical-import-submit"
-                                        class="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white bg-primary hover:bg-primary_hover focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                                        {% if not media_servers %}disabled{% endif %}>
-                                    <span id="historical-import-submit-label" class="inline-flex items-center gap-2">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
-                                        </svg>
-                                        {{ _("Import Historical Data") }}
-                                    </span>
-                                    <span id="historical-import-spinner" class="hidden items-center gap-2">
-                                        <svg class="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
-                                        <span>{{ _("Importing...") }}</span>
-                                    </span>
-                                </button>
-                            </div>
-                        </form>
-                        <div class="pt-6 border-t border-gray-200 dark:border-gray-700">
-                            <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-3">
-                                {{ _("Import Jobs") }}
-                            </h5>
-                            <div id="historical-jobs-container"
-                                 class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4"
-                                 hx-get="{{ url_for('activity.historical_import_jobs') }}{% if selected_server_id %}?server_id={{ selected_server_id }}{% endif %}"
-                                 hx-trigger="load, every 8s"
-                                 hx-target="#historical-jobs-container"
-                                 hx-swap="innerHTML">
-                                {{ loading_spinner(_('Loading recent jobs...')) }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
-    </section>
-</div>
+      </div>
+
+      <!-- Historical Data Import Section -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="p-6">
+          {# ───── Historical Data Import ─────────────────────────────── #}
+          <div class="space-y-4">
+            <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+              <div class="flex items-center gap-3">
+                <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Historical Data Import") }}</h2>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Fetch watched history from Plex, Jellyfin, or Emby to enrich analytics and dashboards") }}</p>
+                </div>
+              </div>
+            </div>
+
+            <form method="POST"
+                  action="{{ url_for('activity.import_historical_activity') }}"
+                  id="historical-import-form"
+                  hx-post="{{ url_for('activity.import_historical_activity') }}"
+                  hx-target="#tab-body"
+                  hx-swap="innerHTML"
+                  hx-disabled-elt="#historical-import-submit"
+                  class="space-y-4">
+              <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div class="md:col-span-2">
+                  <label for="historical-server-id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Compatible Servers") }}</label>
+                  {% if media_servers %}
+                    <select id="historical-server-id"
+                            name="server_id"
+                            required
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                            {% if not media_servers %}disabled{% endif %}>
+                      <option value="">{{ _("Select a server...") }}</option>
+                      {% for server in media_servers %}
+                        {% if server.server_type in ['plex', 'jellyfin', 'emby'] %}
+                          <option value="{{ server.id }}" {% if selected_server_id == server.id %}selected{% endif %}>
+                            {{ server.name }} ({{ server.server_type|title }})
+                          </option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  {% else %}
+                    <div class="rounded-lg border border-dashed border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900/40 px-4 py-3 text-sm text-gray-600 dark:text-gray-400">
+                      {{ _("No verified Plex, Jellyfin, or Emby servers available. Add and verify a server to enable historical imports.") }}
+                    </div>
+                  {% endif %}
+                </div>
+
+                <div>
+                  <label for="import-days-back" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Import Range (days)") }}</label>
+                  <input type="number"
+                         id="import-days-back"
+                         name="days_back"
+                         min="1"
+                         max="365"
+                         step="1"
+                         value="{{ selected_days_back or 30 }}"
+                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                         {% if not media_servers %}disabled{% endif %}>
+                  <p class="mt-1 text-xs text-gray-600 dark:text-gray-400">{{ _("Choose how many days of history to fetch (1–365)") }}</p>
+                </div>
+
+                <div>
+                  <label for="import-max-results" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Result Limit (optional)") }}</label>
+                  <input type="number"
+                         id="import-max-results"
+                         name="max_results"
+                         min="1"
+                         step="1"
+                         placeholder="{{ _('Leave empty for unlimited') }}"
+                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                         {% if not media_servers %}disabled{% endif %}>
+                  <p class="mt-1 text-xs text-gray-600 dark:text-gray-400">{{ _("Default is unlimited – set a number to restrict how many entries are imported") }}</p>
+                </div>
+              </div>
+
+              <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+                <button type="submit"
+                        id="historical-import-submit"
+                        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg text-sm focus:ring-4 focus:ring-primary/20 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+                        {% if not media_servers %}disabled{% endif %}>
+                  <span id="historical-import-submit-label" class="inline-flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                    </svg>
+                    {{ _("Import Historical Data") }}
+                  </span>
+                  <span id="historical-import-spinner" class="hidden items-center gap-2">
+                    <svg class="w-4 h-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>{{ _("Importing...") }}</span>
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Import Jobs Section -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="p-6">
+          {# ───── Import Jobs ─────────────────────────────────────────── #}
+          <div class="space-y-4">
+            <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Import Jobs") }}</h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Track queued, running, and recently completed imports") }}</p>
+                  </div>
+                </div>
+                <button type="button"
+                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 transition-colors"
+                        onclick="refreshHistoricalJobs(true)">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                  </svg>
+                  {{ _("Refresh") }}
+                </button>
+              </div>
+            </div>
+            <div id="historical-jobs-container"
+                 hx-get="{{ url_for('activity.historical_import_jobs') }}{% if selected_server_id %}?server_id={{ selected_server_id }}{% endif %}"
+                 hx-trigger="load, every 8s"
+                 hx-target="#historical-jobs-container"
+                 hx-swap="innerHTML">
+              {{ loading_spinner(_('Loading recent jobs...')) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <script>
 const historicalImportForm = document.getElementById('historical-import-form');
 const historicalServerSelect = document.getElementById('historical-server-id');
 const historicalDaysInput = document.getElementById('import-days-back');
+const historicalMaxResultsInput = document.getElementById('import-max-results');
 const historicalImportButton = document.getElementById('historical-import-submit');
 const historicalImportLabel = document.getElementById('historical-import-submit-label');
 const historicalImportSpinner = document.getElementById('historical-import-spinner');
@@ -201,6 +256,9 @@ function toggleHistoricalImportAvailability() {
 
     if (historicalDaysInput) {
         historicalDaysInput.disabled = !hasServerSelection;
+    }
+    if (historicalMaxResultsInput) {
+        historicalMaxResultsInput.disabled = !hasServerSelection;
     }
 
     refreshHistoricalJobs();
@@ -253,7 +311,7 @@ if (historicalServerSelect) {
 }
 
 toggleHistoricalImportAvailability();
-refreshHistoricalJobs();
+refreshHistoricalJobs(true);
 
 if (historicalImportForm) {
     const stopLoading = () => setHistoricalImportLoading(false);
