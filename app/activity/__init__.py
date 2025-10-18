@@ -28,7 +28,10 @@ def init_app(app: Flask) -> None:
         logger.debug("Skipping activity monitoring in test mode")
         return
 
-    if getattr(app, "debug", False) and os.environ.get("WERKZEUG_RUN_MAIN") != "true":
+    # Skip only in Werkzeug's reloader parent process (development mode)
+    # WERKZEUG_RUN_MAIN is only set when using Flask's development server with reloader
+    # In production (Gunicorn/uWSGI), this env var won't be set, so we should proceed
+    if os.environ.get("WERKZEUG_RUN_MAIN") == "false":
         logger.debug("Skipping activity monitoring in reloader parent process")
         return
 

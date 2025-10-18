@@ -75,6 +75,9 @@ RUN mkdir -p /.cache
 ARG APP_VERSION=dev
 ENV APP_VERSION=${APP_VERSION}
 
+# Set Flask environment to production
+ENV FLASK_ENV=production
+
 # Healthcheck: curl to localhost:5690/health
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
   CMD curl -fs http://localhost:5690/health || exit 1
