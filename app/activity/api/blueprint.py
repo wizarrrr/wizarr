@@ -39,7 +39,7 @@ except ImportError:
 from app.activity.domain.models import ActivityQuery
 from app.models import ActivitySession, ActivitySnapshot
 from app.services.activity import ActivityService
-from app.services.historical_data import HistoricalDataService
+from app.services.historical import HistoricalDataService
 
 # Create blueprint
 activity_bp = Blueprint(
