@@ -103,7 +103,7 @@ class EmbyCollector(BaseCollector):
 
     def _on_open(self, ws):
         """Handle WebSocket connection opened."""
-        self.logger.info(f"Connected to Emby WebSocket for {self.server.server_name}")
+        self.logger.info(f"Connected to Emby WebSocket for {self.server.name}")
 
         # Subscribe to session events
         self._subscribe_to_sessions()

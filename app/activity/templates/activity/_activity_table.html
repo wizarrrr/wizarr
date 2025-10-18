@@ -144,43 +144,19 @@
         </table>
     </div>
 
-    <!-- Pagination using Flowbite design -->
+    <!-- Pagination -->
     {% if total_pages > 1 %}
-    <div class="flex flex-col items-center mt-6">
-        <!-- Flowbite Table Pagination -->
-        <div class="flex flex-col items-center">
-            <!-- Help text -->
-            <span class="text-sm text-gray-700 dark:text-gray-400">
-                {{ _("Showing") }} <span class="font-semibold text-gray-900 dark:text-white">{{ ((page - 1) * 20) + 1 }}</span>
-                {{ _("to") }} <span class="font-semibold text-gray-900 dark:text-white">{{ ((page - 1) * 20) + sessions|length }}</span>
-                {{ _("of") }} <span class="font-semibold text-gray-900 dark:text-white">{{ total_count }}</span> {{ _("entries") }}
-            </span>
+    <div class="flex flex-col items-center mt-6 mb-6">
+        <!-- Help text -->
+        <span class="text-sm text-gray-700 dark:text-gray-400 mb-2">
+            {{ _("Showing") }} <span class="font-semibold text-gray-900 dark:text-white">{{ ((page - 1) * 20) + 1 }}</span>
+            {{ _("to") }} <span class="font-semibold text-gray-900 dark:text-white">{{ ((page - 1) * 20) + sessions|length }}</span>
+            {{ _("of") }} <span class="font-semibold text-gray-900 dark:text-white">{{ total_count }}</span> {{ _("entries") }}
+        </span>
 
-            <!-- Buttons -->
-            <div class="inline-flex mt-2 xs:mt-0">
-                {% if has_prev %}
-                    <button onclick="paginateTo({{ page - 1 }})"
-                            class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-s hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                        {{ _("Prev") }}
-                    </button>
-                {% else %}
-                    <span class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-300 bg-gray-100 border border-gray-300 rounded-s cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-500">
-                        {{ _("Prev") }}
-                    </span>
-                {% endif %}
-
-                {% if has_next %}
-                    <button onclick="paginateTo({{ page + 1 }})"
-                            class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 border-l-0 rounded-e hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                        {{ _("Next") }}
-                    </button>
-                {% else %}
-                    <span class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-300 bg-gray-100 border border-gray-300 border-l-0 rounded-e cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-500">
-                        {{ _("Next") }}
-                    </span>
-                {% endif %}
-            </div>
-        </div>
+        <!-- Numbered Pagination -->
+        {% from '_partials/macros.html' import numbered_pagination %}
+        {{ numbered_pagination(page, total_pages) }}
     </div>
     {% endif %}
 {% endif %}

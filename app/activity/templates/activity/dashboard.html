@@ -46,7 +46,7 @@
                             <option value="">{{ _("All Servers") }}</option>
                             {% for server in servers %}
                                 <option value="{{ server.id }}" {% if server.id == selected_server_id %}selected{% endif %}>
-                                    {{ server.server_name }}
+                                    {{ server.name }}
                                 </option>
                             {% endfor %}
                         </select>

@@ -47,3 +47,143 @@
   {% endif %}
 </div>
 {%- endmacro %}
+
+{% macro numbered_pagination(current_page, total_pages, on_click_fn='paginateTo') -%}
+{# Renders a numbered pagination component with ellipsis for many pages
+   Example: 1, 2, 3, 4, 5, ..., 9 (shows first 5 and last page when > 6 pages)
+
+   Args:
+       current_page: The current active page (1-indexed)
+       total_pages: Total number of pages
+       on_click_fn: JavaScript function to call with page number (default: 'paginateTo')
+#}
+{% if total_pages > 1 %}
+<nav aria-label="{{ _('Page navigation') }}" class="mt-6">
+  <ul class="flex items-center justify-center -space-x-px h-10 text-base">
+    {# Previous button #}
+    <li>
+      {% if current_page > 1 %}
+        <button onclick="{{ on_click_fn }}({{ current_page - 1 }})"
+                class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+          <span class="sr-only">{{ _("Previous") }}</span>
+          <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+          </svg>
+        </button>
+      {% else %}
+        <span class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-300 bg-gray-100 border border-e-0 border-gray-300 rounded-s-lg cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-500">
+          <span class="sr-only">{{ _("Previous") }}</span>
+          <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+          </svg>
+        </span>
+      {% endif %}
+    </li>
+
+    {# Page numbers with ellipsis logic #}
+    {% if total_pages <= 7 %}
+      {# Show all pages if 7 or fewer #}
+      {% for page_num in range(1, total_pages + 1) %}
+        <li>
+          {% if page_num == current_page %}
+            <button onclick="{{ on_click_fn }}({{ page_num }})" aria-current="page"
+                    class="z-10 flex items-center justify-center px-4 h-10 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+              {{ page_num }}
+            </button>
+          {% else %}
+            <button onclick="{{ on_click_fn }}({{ page_num }})"
+                    class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+              {{ page_num }}
+            </button>
+          {% endif %}
+        </li>
+      {% endfor %}
+    {% else %}
+      {# Show abbreviated pagination with ellipsis for 8+ pages #}
+      {# Always show first page #}
+      <li>
+        <button onclick="{{ on_click_fn }}(1)"
+                class="flex items-center justify-center px-4 h-10 leading-tight {% if current_page == 1 %}z-10 text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white{% else %}text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white{% endif %}"
+                {% if current_page == 1 %}aria-current="page"{% endif %}>
+          1
+        </button>
+      </li>
+
+      {% if current_page > 4 %}
+        {# Show ellipsis after first page if current page is far from start #}
+        <li>
+          <span class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
+            ...
+          </span>
+        </li>
+      {% endif %}
+
+      {# Show pages around current page #}
+      {% set start_page = [2, current_page - 2]|max %}
+      {% set end_page = [total_pages - 1, current_page + 2]|min %}
+
+      {# Adjust range to always show 5 pages total when possible #}
+      {% if current_page <= 4 %}
+        {% set end_page = [5, total_pages - 1]|min %}
+      {% elif current_page >= total_pages - 3 %}
+        {% set start_page = [total_pages - 4, 2]|max %}
+      {% endif %}
+
+      {% for page_num in range(start_page, end_page + 1) %}
+        <li>
+          {% if page_num == current_page %}
+            <button onclick="{{ on_click_fn }}({{ page_num }})" aria-current="page"
+                    class="z-10 flex items-center justify-center px-4 h-10 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+              {{ page_num }}
+            </button>
+          {% else %}
+            <button onclick="{{ on_click_fn }}({{ page_num }})"
+                    class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+              {{ page_num }}
+            </button>
+          {% endif %}
+        </li>
+      {% endfor %}
+
+      {% if current_page < total_pages - 3 %}
+        {# Show ellipsis before last page if current page is far from end #}
+        <li>
+          <span class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
+            ...
+          </span>
+        </li>
+      {% endif %}
+
+      {# Always show last page #}
+      <li>
+        <button onclick="{{ on_click_fn }}({{ total_pages }})"
+                class="flex items-center justify-center px-4 h-10 leading-tight {% if current_page == total_pages %}z-10 text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white{% else %}text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white{% endif %}"
+                {% if current_page == total_pages %}aria-current="page"{% endif %}>
+          {{ total_pages }}
+        </button>
+      </li>
+    {% endif %}
+
+    {# Next button #}
+    <li>
+      {% if current_page < total_pages %}
+        <button onclick="{{ on_click_fn }}({{ current_page + 1 }})"
+                class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+          <span class="sr-only">{{ _("Next") }}</span>
+          <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+          </svg>
+        </button>
+      {% else %}
+        <span class="flex items-center justify-center px-4 h-10 leading-tight text-gray-300 bg-gray-100 border border-gray-300 rounded-e-lg cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-500">
+          <span class="sr-only">{{ _("Next") }}</span>
+          <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+          </svg>
+        </span>
+      {% endif %}
+    </li>
+  </ul>
+</nav>
+{% endif %}
+{%- endmacro %}
