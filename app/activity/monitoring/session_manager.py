@@ -8,6 +8,7 @@ state tracking, automatic cleanup, and intelligent session grouping.
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from enum import Enum
+from threading import Lock
 from typing import Any
 
 import structlog
@@ -51,6 +52,7 @@ class SessionManager:
         self.event_callback = event_callback  # Callback to emit events properly
         self.active_sessions: dict[str, dict[str, Any]] = {}
         self.session_timers: dict[str, Any] = {}
+        self._lock = Lock()  # Protect shared state from race conditions
         self.cleanup_interval = 300  # 5 minutes stale session cleanup
 
     def process_alert(self, alert_data: dict[str, Any], server_id: int) -> bool:
@@ -109,11 +111,14 @@ class SessionManager:
                 rating_key = notification.get("ratingKey")
 
                 # Get current session state
-                current_session = self.active_sessions.get(session_key)
-                last_state = None
+                with self._lock:
+                    current_session = self.active_sessions.get(session_key)
+                    last_state = None
 
-                if current_session:
-                    last_state = SessionState(current_session.get("state", "unknown"))
+                    if current_session:
+                        last_state = SessionState(
+                            current_session.get("state", "unknown")
+                        )
 
                 # Create state transition
                 transition = SessionTransition(
@@ -158,28 +163,29 @@ class SessionManager:
         )
 
         # Update session tracking
-        if session_key not in self.active_sessions:
-            self.active_sessions[session_key] = {
-                "session_key": session_key,
-                "started_at": transition.timestamp,
-                "state": to_state.value,
-                "view_offset": transition.view_offset,
-                "server_id": transition.metadata.get("server_id")
-                if transition.metadata
-                else None,
-                "rating_key": transition.metadata.get("rating_key")
-                if transition.metadata
-                else None,
-                "last_updated": transition.timestamp,
-            }
-        else:
-            self.active_sessions[session_key].update(
-                {
+        with self._lock:
+            if session_key not in self.active_sessions:
+                self.active_sessions[session_key] = {
+                    "session_key": session_key,
+                    "started_at": transition.timestamp,
                     "state": to_state.value,
                     "view_offset": transition.view_offset,
+                    "server_id": transition.metadata.get("server_id")
+                    if transition.metadata
+                    else None,
+                    "rating_key": transition.metadata.get("rating_key")
+                    if transition.metadata
+                    else None,
                     "last_updated": transition.timestamp,
                 }
-            )
+            else:
+                self.active_sessions[session_key].update(
+                    {
+                        "state": to_state.value,
+                        "view_offset": transition.view_offset,
+                        "last_updated": transition.timestamp,
+                    }
+                )
 
         # Handle specific state transitions
         if from_state is None and to_state == SessionState.PLAYING:
@@ -253,11 +259,12 @@ class SessionManager:
         )
 
         # Cache the session data including timestamp for duration calculation
-        self.active_sessions[session_key] = {
-            **session_data,
-            "started_at": transition.timestamp,
-            "last_update": transition.timestamp,
-        }
+        with self._lock:
+            self.active_sessions[session_key] = {
+                **session_data,
+                "started_at": transition.timestamp,
+                "last_update": transition.timestamp,
+            }
 
         # Create activity event with rich data from session
         event = ActivityEvent(
@@ -291,8 +298,9 @@ class SessionManager:
         )
 
         # Track pause timestamp for duration calculations
-        if session_key in self.active_sessions:
-            self.active_sessions[session_key]["paused_at"] = transition.timestamp
+        with self._lock:
+            if session_key in self.active_sessions:
+                self.active_sessions[session_key]["paused_at"] = transition.timestamp
 
         # Get complete session data for pause event
         server_id = (
@@ -323,11 +331,12 @@ class SessionManager:
 
         # Calculate pause duration
         pause_duration = None
-        if session_key in self.active_sessions:
-            paused_at = self.active_sessions[session_key].get("paused_at")
-            if paused_at:
-                pause_duration = (transition.timestamp - paused_at).total_seconds()
-                self.active_sessions[session_key].pop("paused_at", None)
+        with self._lock:
+            if session_key in self.active_sessions:
+                paused_at = self.active_sessions[session_key].get("paused_at")
+                if paused_at:
+                    pause_duration = (transition.timestamp - paused_at).total_seconds()
+                    self.active_sessions[session_key].pop("paused_at", None)
 
         # Get complete session data for resume event
         server_id = (
@@ -360,7 +369,8 @@ class SessionManager:
         )
 
         # Clean up session tracking
-        session_data = self.active_sessions.pop(session_key, {})
+        with self._lock:
+            session_data = self.active_sessions.pop(session_key, {})
         self._cancel_cleanup_timer(session_key)
 
         # Debug: Log what's in the cached session data
@@ -436,15 +446,18 @@ class SessionManager:
         session_key = transition.session_key
 
         # Track buffer events frequency
-        if session_key in self.active_sessions:
-            buffer_count = self.active_sessions[session_key].get("buffer_count", 0) + 1
-            self.active_sessions[session_key]["buffer_count"] = buffer_count
-
-            # Only log excessive buffering
-            if buffer_count >= 3:
-                self.logger.warning(
-                    f"🔄 Session {session_key} buffering (count: {buffer_count})"
+        with self._lock:
+            if session_key in self.active_sessions:
+                buffer_count = (
+                    self.active_sessions[session_key].get("buffer_count", 0) + 1
                 )
+                self.active_sessions[session_key]["buffer_count"] = buffer_count
+
+                # Only log excessive buffering
+                if buffer_count >= 3:
+                    self.logger.warning(
+                        f"🔄 Session {session_key} buffering (count: {buffer_count})"
+                    )
 
         # Get complete session data for buffer event
         server_id = (
@@ -491,10 +504,11 @@ class SessionManager:
         """Record periodic progress snapshots."""
         # Only record progress snapshots every 30 seconds to avoid spam
         session_key = transition.session_key
-        session_data = self.active_sessions.get(session_key, {})
-        last_progress = session_data.get(
-            "last_progress_recorded", datetime.min.replace(tzinfo=UTC)
-        )
+        with self._lock:
+            session_data = self.active_sessions.get(session_key, {})
+            last_progress = session_data.get(
+                "last_progress_recorded", datetime.min.replace(tzinfo=UTC)
+            )
 
         if (transition.timestamp - last_progress).total_seconds() >= 30:
             # Get complete session data for progress event
@@ -521,9 +535,11 @@ class SessionManager:
 
             if self.event_callback:
                 self.event_callback(event)
-            self.active_sessions[session_key]["last_progress_recorded"] = (
-                transition.timestamp
-            )
+            with self._lock:
+                if session_key in self.active_sessions:
+                    self.active_sessions[session_key]["last_progress_recorded"] = (
+                        transition.timestamp
+                    )
 
     def _schedule_cleanup(self, session_key: str, timeout_minutes: int = 5):
         """Schedule automatic cleanup for stale sessions (Tautulli-inspired)."""
@@ -537,35 +553,40 @@ class SessionManager:
             timeout_minutes * 60, self._force_stop_session, args=[session_key]
         )
         timer.start()
-        self.session_timers[session_key] = timer
+        with self._lock:
+            self.session_timers[session_key] = timer
 
     def _cancel_cleanup_timer(self, session_key: str):
         """Cancel cleanup timer for a session."""
-        timer = self.session_timers.pop(session_key, None)
+        with self._lock:
+            timer = self.session_timers.pop(session_key, None)
         if timer:
             timer.cancel()
 
     def _force_stop_session(self, session_key: str):
         """Force stop a stale session (Tautulli-inspired)."""
-        if session_key in self.active_sessions:
-            self.logger.warning(f"🧹 Force stopping stale session {session_key}")
+        with self._lock:
+            if session_key not in self.active_sessions:
+                return
+            session_data = self.active_sessions[session_key].copy()
 
-            # Create a synthetic stop transition
-            session_data = self.active_sessions[session_key]
-            transition = SessionTransition(
-                session_key=session_key,
-                from_state=SessionState(session_data.get("state", "unknown")),
-                to_state=SessionState.STOPPED,
-                timestamp=datetime.now(UTC),
-                view_offset=session_data.get("view_offset", 0),
-                metadata={
-                    "server_id": session_data.get("server_id"),
-                    "rating_key": session_data.get("rating_key"),
-                    "force_stopped": True,
-                },
-            )
+        self.logger.warning(f"🧹 Force stopping stale session {session_key}")
 
-            self._handle_state_transition(transition)
+        # Create a synthetic stop transition
+        transition = SessionTransition(
+            session_key=session_key,
+            from_state=SessionState(session_data.get("state", "unknown")),
+            to_state=SessionState.STOPPED,
+            timestamp=datetime.now(UTC),
+            view_offset=session_data.get("view_offset", 0),
+            metadata={
+                "server_id": session_data.get("server_id"),
+                "rating_key": session_data.get("rating_key"),
+                "force_stopped": True,
+            },
+        )
+
+        self._handle_state_transition(transition)
 
     def _map_plex_state(self, plex_state: str) -> SessionState:
         """Map Plex state strings to our SessionState enum."""
@@ -621,17 +642,22 @@ class SessionManager:
 
     def get_active_sessions(self) -> dict[str, dict[str, Any]]:
         """Get all currently active sessions."""
-        return self.active_sessions.copy()
+        with self._lock:
+            return self.active_sessions.copy()
 
     def cleanup_all_sessions(self):
         """Clean up all active sessions (for shutdown)."""
         self.logger.info("Cleaning up all active sessions")
 
-        for session_key in list(self.active_sessions.keys()):
+        with self._lock:
+            session_keys = list(self.active_sessions.keys())
+
+        for session_key in session_keys:
             self._cancel_cleanup_timer(session_key)
 
-        self.active_sessions.clear()
-        self.session_timers.clear()
+        with self._lock:
+            self.active_sessions.clear()
+            self.session_timers.clear()
 
     def _get_session_from_current_activity(
         self, session_key: str, server_id: int

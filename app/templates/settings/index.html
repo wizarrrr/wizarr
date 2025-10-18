@@ -70,10 +70,7 @@
                    fill="none"
                    stroke="currentColor"
                    viewBox="0 0 24 24">
-                <path stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z" />
               </svg>
               {{ _("Activity") }}
             </button>
@@ -128,40 +125,38 @@
             </button>
           </li>
           {% if is_plus_enabled %}
-          <li class="me-2">
-            <button class="tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
-                    hx-get="{{ url_for('plus_settings.settings_tab') }}"
-                    hx-target="#tab-body"
-                    hx-swap="innerHTML"
-                    hx-trigger="click"
-                    preload="mouseover">
-              <svg class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
-                   fill="currentColor"
-                   viewBox="0 0 24 24">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-              </svg>
-              {{ _("Plus") }}
-            </button>
-          </li>
-          <li class="me-2">
-            <button class="tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
-                    hx-get="{{ url_for('plus_audit.audit_tab') }}"
-                    hx-target="#tab-body"
-                    hx-swap="innerHTML"
-                    hx-trigger="click"
-                    preload="mouseover">
-              <svg class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
-                   fill="none"
-                   stroke="currentColor"
-                   viewBox="0 0 24 24">
-                <path stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-              </svg>
-              {{ _("Audit") }}
-            </button>
-          </li>
+            <li class="me-2">
+              <button class="tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+                      hx-get="{{ url_for('plus_settings.settings_tab') }}"
+                      hx-target="#tab-body"
+                      hx-swap="innerHTML"
+                      hx-trigger="click"
+                      preload="mouseover">
+                <svg class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
+                     fill="currentColor"
+                     viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+                {{ _("Plus") }}
+              </button>
+            </li>
+            <li class="me-2">
+              <button class="tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+                      hx-get="{{ url_for('plus_audit.audit_tab') }}"
+                      hx-target="#tab-body"
+                      hx-swap="innerHTML"
+                      hx-trigger="click"
+                      preload="mouseover">
+                <svg class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
+                     fill="none"
+                     stroke="currentColor"
+                     viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                  </path>
+                </svg>
+                {{ _("Audit") }}
+              </button>
+            </li>
           {% endif %}
         </ul>
       </div>

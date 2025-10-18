@@ -115,7 +115,7 @@ def create_app(config_object=DevelopmentConfig):
         logger.step("Checking for Plus features", "⭐")
 
     # Check if plus features should be enabled
-    plus_enabled = os.getenv("WIZARR_ENABLE_PLUS", "false").lower() in (
+    plus_enabled = os.getenv("WIZARR_PLUS_ENABLED", "false").lower() in (
         "true",
         "1",
         "yes",

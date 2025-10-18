@@ -137,7 +137,7 @@ Plus features include:
             print(
                 "⭐ Plus features enabled - audit logging and advanced features available"
             )
-            os.environ["WIZARR_ENABLE_PLUS"] = "true"
+            os.environ["WIZARR_PLUS_ENABLED"] = "true"
         else:
             print(
                 "ℹ️  Plus features disabled - use --plus flag to enable audit logging and advanced features"
