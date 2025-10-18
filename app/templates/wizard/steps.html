@@ -27,24 +27,24 @@
     <div class="wizard-glass-container">
       <!-- Phase Indicator (only shown in preview mode) -->
       {% if phase == 'preview' %}
-      <div id="wizard-phase-container-mobile"
-           class="flex justify-center mb-2"
-           {% if not current_step_phase %}style="display:none"{% endif %}>
-        <span id="wizard-phase-label-mobile"
-              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                     {% if current_step_phase == 'pre' %}
-                       bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
-                     {% elif current_step_phase == 'post' %}
-                       bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
-                     {% endif %}"
-              data-phase-label="mobile">
-          {% if current_step_phase == 'pre' %}
-            {{ _("Before Invitation") }}
-          {% elif current_step_phase == 'post' %}
-            {{ _("After Invitation") }}
-          {% endif %}
-        </span>
-      </div>
+        <div id="wizard-phase-container-mobile"
+             class="flex justify-center mb-2"
+             {% if not current_step_phase %}style="display:none"{% endif %}>
+          <span id="wizard-phase-label-mobile"
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                       {% if current_step_phase == 'pre' %}
+                         bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                       {% elif current_step_phase == 'post' %}
+                         bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                       {% endif %}"
+                data-phase-label="mobile">
+            {% if current_step_phase == 'pre' %}
+              {{ _("Before Invitation") }}
+            {% elif current_step_phase == 'post' %}
+              {{ _("After Invitation") }}
+            {% endif %}
+          </span>
+        </div>
       {% endif %}
       <!-- Progress bar (only shown when there are multiple steps) -->
       {% if max_idx > 0 %}
@@ -67,24 +67,24 @@
        class="hidden md:block w-full max-w-md mb-6">
     <!-- Phase Indicator (only shown in preview mode) -->
     {% if phase == 'preview' %}
-    <div id="wizard-phase-container-desktop"
-         class="flex justify-center mb-3"
-         {% if not current_step_phase %}style="display:none"{% endif %}>
-      <span id="wizard-phase-label-desktop"
-            class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
-                   {% if current_step_phase == 'pre' %}
-                     bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
-                   {% elif current_step_phase == 'post' %}
-                     bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
-                   {% endif %}"
-            data-phase-label="desktop">
-        {% if current_step_phase == 'pre' %}
-          {{ _("Before Invitation") }}
-        {% elif current_step_phase == 'post' %}
-          {{ _("After Invitation") }}
-        {% endif %}
-      </span>
-    </div>
+      <div id="wizard-phase-container-desktop"
+           class="flex justify-center mb-3"
+           {% if not current_step_phase %}style="display:none"{% endif %}>
+        <span id="wizard-phase-label-desktop"
+              class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                     {% if current_step_phase == 'pre' %}
+                       bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                     {% elif current_step_phase == 'post' %}
+                       bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                     {% endif %}"
+              data-phase-label="desktop">
+          {% if current_step_phase == 'pre' %}
+            {{ _("Before Invitation") }}
+          {% elif current_step_phase == 'post' %}
+            {{ _("After Invitation") }}
+          {% endif %}
+        </span>
+      </div>
     {% endif %}
     <!-- Progress bar (only shown when there are multiple steps) -->
     {% if max_idx > 0 %}
