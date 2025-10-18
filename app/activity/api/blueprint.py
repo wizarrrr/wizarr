@@ -700,7 +700,7 @@ def historical_data_stats(server_id: int):
                     "total_entries": 0,
                     "unique_users": 0,
                     "date_range": {"oldest": None, "newest": None},
-                    "error": str(exc),
+                    "error": _("An internal error has occurred."),
                 }
             ),
             500,
