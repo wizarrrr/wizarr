@@ -1,7 +1,7 @@
 """add identity links to activity sessions
 
 Revision ID: 4e1d547c2f7a
-Revises: 08a6c8fb44db
+Revises: 20250921_plus_features
 Create Date: 2025-10-13 19:00:00.000000
 
 """
