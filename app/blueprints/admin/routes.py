@@ -5,7 +5,14 @@ import os
 from collections import defaultdict
 from urllib.parse import urlparse
 
-from flask import Blueprint, Response, redirect, render_template, request, url_for
+from flask import (
+    Blueprint,
+    Response,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from flask_babel import _
 from flask_login import login_required
 
@@ -131,7 +138,7 @@ def invite():
     target_server = None
     for sid in chosen_ids:
         if sid:
-            target_server = MediaServer.query.get(int(sid))
+            target_server = db.session.get(MediaServer, int(sid))
             break
     if not target_server:
         target_server = first_server
@@ -256,7 +263,7 @@ def invite_table():
                 ),  # NEW: Load all users who used this invitation
             ).order_by(Invitation.created.desc())
 
-            srv = MediaServer.query.get(server_id)
+            srv = db.session.get(MediaServer, server_id)
             server_type = srv.server_type if srv else None
         else:
             server_type = None
@@ -468,7 +475,7 @@ def user_detail(db_id: int):
     """
     from app.models import Invitation
 
-    user = User.query.get_or_404(db_id)
+    user = db.get_or_404(User, db_id)
 
     if request.method == "POST":
         # Handle per-server expiry updates
@@ -637,7 +644,7 @@ def unlink_account():
     from app.models import Identity  # local import to avoid circular refs
 
     for iid in identities_to_check:
-        identity = Identity.query.get(iid)
+        identity = db.session.get(Identity, iid)
         if identity and not identity.accounts:
             db.session.delete(identity)
     db.session.commit()
@@ -683,7 +690,7 @@ def remove_user_from_server_endpoint(user_id: int, server_id: int):
 def delete_user_modal(user_id: int):
     """Show the delete user confirmation modal."""
     # Find the user and all their accounts (if grouped by identity)
-    user = User.query.get_or_404(user_id)
+    user = db.get_or_404(User, user_id)
 
     # Get all accounts for this user (via identity or just the user itself)
     if user.identity_id:
@@ -809,7 +816,7 @@ def edit_identity(identity_id):
     """Create / update a nickname for an Identity row via HTMX modal."""
     from app.models import Identity
 
-    identity = Identity.query.get_or_404(identity_id)
+    identity = db.get_or_404(Identity, identity_id)
 
     if request.method == "POST":
         nickname = request.form.get("nickname", "").strip() or None
@@ -1055,7 +1062,7 @@ def sync_users():
         server_id = request.args.get("server")
 
         if server_id:
-            srv = MediaServer.query.get(int(server_id))
+            srv = db.session.get(MediaServer, int(server_id))
             if srv:
                 list_users_for_server(srv)
         else:

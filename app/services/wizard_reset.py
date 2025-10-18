@@ -37,12 +37,16 @@ class WizardResetService:
         }
 
     def get_default_steps_for_server(
-        self, server_type: str
-    ) -> list[tuple[str | None, str, list, int]]:
+        self, server_type: str, category: str = "post_invite"
+    ) -> list[tuple[str | None, str, list, int, str]]:
         """Get default wizard steps from markdown files for a server type.
 
+        Args:
+            server_type: The media server type (plex, jellyfin, etc.)
+            category: The category for the steps ('pre_invite' or 'post_invite')
+
         Returns:
-            List of tuples: (title, markdown_content, requires, position)
+            List of tuples: (title, markdown_content, requires, position, category)
         """
         server_dir = self.base_dir / server_type
         if not server_dir.exists() or not server_dir.is_dir():
@@ -53,26 +57,40 @@ class WizardResetService:
 
         for idx, md_file in enumerate(md_files):
             meta = self._parse_markdown(md_file)
-            steps.append((meta["title"], meta["markdown"], meta["requires"], idx))
+            steps.append(
+                (meta["title"], meta["markdown"], meta["requires"], idx, category)
+            )
 
         return steps
 
-    def reset_server_steps(self, server_type: str) -> tuple[bool, str, int]:
+    def reset_server_steps(
+        self, server_type: str, category: str = "post_invite"
+    ) -> tuple[bool, str, int]:
         """Delete custom steps and reimport defaults for a server type.
 
         Args:
             server_type: The media server type to reset
+            category: The category for the steps ('pre_invite' or 'post_invite')
+                     Defaults to 'post_invite' for backward compatibility
 
         Returns:
             Tuple of (success, message, count)
         """
         try:
-            # Delete existing steps for this server type
-            deleted_count = WizardStep.query.filter_by(server_type=server_type).delete()
+            # Delete existing steps for this server type and category
+            deleted_count = WizardStep.query.filter_by(
+                server_type=server_type, category=category
+            ).delete()
             db.session.flush()
 
-            # Get default steps
-            default_steps = self.get_default_steps_for_server(server_type)
+            # Expunge all objects from the session to clear the identity map
+            # This prevents SQLAlchemy identity map conflicts when creating new
+            # WizardStep objects that may reuse the same primary key IDs as the
+            # deleted objects (common in SQLite which reuses IDs)
+            db.session.expunge_all()
+
+            # Get default steps with the specified category
+            default_steps = self.get_default_steps_for_server(server_type, category)
 
             if not default_steps:
                 db.session.rollback()
@@ -82,10 +100,11 @@ class WizardResetService:
                     0,
                 )
 
-            # Import default steps
-            for title, markdown, requires, position in default_steps:
+            # Import default steps with category
+            for title, markdown, requires, position, step_category in default_steps:
                 step = WizardStep(
                     server_type=server_type,
+                    category=step_category,
                     position=position,
                     title=title,
                     markdown=markdown,

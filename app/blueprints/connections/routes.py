@@ -109,7 +109,7 @@ def create_connection():
 @login_required
 def edit_connection(connection_id: int):
     """Edit an existing connection."""
-    connection = Connection.query.get_or_404(connection_id)
+    connection = db.get_or_404(Connection, connection_id)
     form = ConnectionForm(obj=connection)
 
     if form.validate_on_submit():
@@ -138,7 +138,7 @@ def edit_connection(connection_id: int):
 @login_required
 def delete_connection(connection_id: int):
     """Delete a connection."""
-    connection = Connection.query.get_or_404(connection_id)
+    connection = db.get_or_404(Connection, connection_id)
 
     db.session.delete(connection)
     db.session.commit()

@@ -270,6 +270,24 @@ class RommClient(RestApiMixin):
         """PATCH selected fields on a RomM user object."""
         return self.patch(f"{self.API_PREFIX}/users/{user_id}", json=patch).json()
 
+    def enable_user(self, user_id: str) -> bool:
+        """Enable a user account on RomM.
+
+        Args:
+            user_id: The user's RomM ID
+
+        Returns:
+            bool: True if the user was successfully enabled, False otherwise
+        """
+        try:
+            # RomM uses enabled field to enable/disable users
+            payload = {"enabled": True}
+            response = self.patch(f"/api/users/{user_id}", json=payload)
+            return response.status_code == 200
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to enable RomM user: {e}")
+            return False
+
     def disable_user(self, user_id: str) -> bool:
         """Disable a user account on RomM.
 

@@ -636,7 +636,7 @@ class PlexClient(MediaClient):
         """Get detailed user information in standardized format."""
         from app.services.media.user_details import MediaUserDetails
 
-        user_record = User.query.get(db_id)
+        user_record = db.session.get(User, db_id)
         if not user_record:
             raise ValueError(f"No user found with id {db_id}")
 
@@ -690,6 +690,26 @@ class PlexClient(MediaClient):
             allowChannels=bool(form.get("allowChannels")),
             allowCameraUpload=bool(form.get("allowCameraUpload")),
         )
+
+    def enable_user(self, user_id: str) -> bool:
+        """Enable a user account on Plex.
+
+        Args:
+            user_id: The user's Plex ID
+
+        Returns:
+            bool: True if the user was successfully enabled, False otherwise
+        """
+        try:
+            # Plex doesn't have a direct disable/enable feature
+            # Return False to indicate this operation is not supported
+            structlog.get_logger().warning(
+                "Plex does not support disabling/enabling users"
+            )
+            return False
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to enable Plex user: {e}")
+            return False
 
     def disable_user(self, user_id: str) -> bool:
         """Disable a user account on Plex.

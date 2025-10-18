@@ -190,6 +190,29 @@ class JellyfinClient(RestApiMixin):
 
         return self.post(f"/Users/{jf_id}", json=current).json()
 
+    def enable_user(self, user_id: str) -> bool:
+        """Enable a user account on Jellyfin.
+
+        Args:
+            user_id: The user's Jellyfin ID
+
+        Returns:
+            bool: True if the user was successfully enabled, False otherwise
+        """
+        try:
+            raw_user = self.get(f"/Users/{user_id}").json()
+            if not raw_user:
+                return False
+
+            policy = raw_user.get("Policy", {})
+            policy["IsDisabled"] = False
+
+            response = self.post(f"/Users/{user_id}/Policy", json=policy)
+            return response.status_code == 204 or response.status_code == 200
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to enable Jellyfin user: {e}")
+            return False
+
     def disable_user(self, user_id: str) -> bool:
         """Disable a user account on Jellyfin.
 
@@ -200,12 +223,14 @@ class JellyfinClient(RestApiMixin):
             bool: True if the user was successfully disabled, False otherwise
         """
         try:
-            user = self.get_user(user_id)
-            if not user:
+            raw_user = self.get(f"/Users/{user_id}").json()
+            if not raw_user:
                 return False
 
-            user["Policy"]["IsDisabled"] = True
-            response = self.post(f"/Users/{user_id}", json=user)
+            policy = raw_user.get("Policy", {})
+            policy["IsDisabled"] = True
+
+            response = self.post(f"/Users/{user_id}/Policy", json=policy)
             return response.status_code == 204 or response.status_code == 200
         except Exception as e:
             structlog.get_logger().error(f"Failed to disable Jellyfin user: {e}")
@@ -469,7 +494,7 @@ class JellyfinClient(RestApiMixin):
             if server_id:
                 from app.models import MediaServer
 
-                current_server = MediaServer.query.get(server_id)
+                current_server = db.session.get(MediaServer, server_id)
                 if current_server:
                     if not allow_downloads:
                         allow_downloads = bool(
