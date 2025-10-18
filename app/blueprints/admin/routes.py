@@ -8,7 +8,6 @@ from urllib.parse import urlparse
 from flask import (
     Blueprint,
     Response,
-    abort,
     redirect,
     render_template,
     request,
@@ -476,9 +475,7 @@ def user_detail(db_id: int):
     """
     from app.models import Invitation
 
-    user = db.session.get(User, db_id)
-    if not user:
-        abort(404)
+    user = db.get_or_404(User, db_id)
 
     if request.method == "POST":
         # Handle per-server expiry updates
@@ -693,9 +690,7 @@ def remove_user_from_server_endpoint(user_id: int, server_id: int):
 def delete_user_modal(user_id: int):
     """Show the delete user confirmation modal."""
     # Find the user and all their accounts (if grouped by identity)
-    user = db.session.get(User, user_id)
-    if not user:
-        abort(404)
+    user = db.get_or_404(User, user_id)
 
     # Get all accounts for this user (via identity or just the user itself)
     if user.identity_id:
@@ -821,9 +816,7 @@ def edit_identity(identity_id):
     """Create / update a nickname for an Identity row via HTMX modal."""
     from app.models import Identity
 
-    identity = db.session.get(Identity, identity_id)
-    if not identity:
-        abort(404)
+    identity = db.get_or_404(Identity, identity_id)
 
     if request.method == "POST":
         nickname = request.form.get("nickname", "").strip() or None

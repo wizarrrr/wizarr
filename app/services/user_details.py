@@ -39,11 +39,7 @@ class UserDetailsService:
 
     def get_user_details(self, db_id: int) -> UserDetailsDTO:
         """Retrieve detailed information for a user including linked accounts."""
-        from flask import abort
-
-        user = db.session.get(User, db_id)
-        if not user:
-            abort(404)
+        user = db.get_or_404(User, db_id)
 
         join_date = self._get_join_date(user)
         accounts = self._get_linked_accounts(user)

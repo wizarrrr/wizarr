@@ -1,6 +1,5 @@
 from flask import (
     Blueprint,
-    abort,
     make_response,
     redirect,
     render_template,
@@ -110,9 +109,7 @@ def create():
 @notify_bp.route("/edit/<int:agent_id>", methods=["GET", "POST"])
 @login_required
 def edit(agent_id):
-    agent = db.session.get(Notification, agent_id)
-    if not agent:
-        abort(404)
+    agent = db.get_or_404(Notification, agent_id)
 
     if request.method == "POST":
         # Collect selected events from checkboxes
