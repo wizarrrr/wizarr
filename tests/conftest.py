@@ -57,3 +57,77 @@ def client(app):
 @pytest.fixture
 def runner(app):
     return app.test_cli_runner()
+
+
+@pytest.fixture
+def session(app):
+    """Provide a clean database session for tests that explicitly request it.
+
+    This fixture ensures test isolation by cleaning up all test data
+    before and after the test runs.
+    """
+    from app.models import (
+        AdminAccount,
+        Invitation,
+        MediaServer,
+        Settings,
+        WizardStep,
+    )
+
+    with app.app_context():
+        # Clean up before the test to ensure fresh state
+        db.session.rollback()
+        # Delete all test data in correct order (respecting foreign keys)
+        db.session.execute(db.text("DELETE FROM wizard_bundle_step"))
+        db.session.execute(db.text("DELETE FROM wizard_bundle"))
+        db.session.execute(db.text("DELETE FROM invitation_server"))
+        db.session.execute(db.text("DELETE FROM invitation_user"))
+        db.session.query(WizardStep).delete()
+        db.session.query(Invitation).delete()
+        db.session.query(MediaServer).delete()
+        db.session.query(AdminAccount).delete()
+        db.session.query(Settings).delete()
+        db.session.commit()
+
+        yield db.session
+
+        # Clean up after the test
+        db.session.rollback()
+        # Delete all test data in correct order (respecting foreign keys)
+        db.session.execute(db.text("DELETE FROM wizard_bundle_step"))
+        db.session.execute(db.text("DELETE FROM wizard_bundle"))
+        db.session.execute(db.text("DELETE FROM invitation_server"))
+        db.session.execute(db.text("DELETE FROM invitation_user"))
+        db.session.query(WizardStep).delete()
+        db.session.query(Invitation).delete()
+        db.session.query(MediaServer).delete()
+        db.session.query(AdminAccount).delete()
+        db.session.query(Settings).delete()
+        db.session.commit()
+
+
+@pytest.fixture(autouse=True)
+def cleanup_redirect_loop_data(app):
+    """Automatically clean up data that causes redirect loops between tests.
+
+    This minimal cleanup runs for all tests to prevent redirect loops while
+    preserving data that other fixtures may need.
+    """
+    from app.models import Settings
+
+    # No cleanup before the test - let fixtures set up their data
+    yield
+
+    # After the test, remove only the admin_username setting to prevent
+    # redirect loops in subsequent tests
+    try:
+        with app.app_context():
+            db.session.rollback()
+            # Only delete the specific setting that causes redirect loops
+            admin_setting = Settings.query.filter_by(key="admin_username").first()
+            if admin_setting:
+                db.session.delete(admin_setting)
+                db.session.commit()
+    except Exception:
+        # Silently ignore cleanup errors (e.g., if app context is not available)
+        pass
