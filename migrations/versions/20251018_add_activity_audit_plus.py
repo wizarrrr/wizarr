@@ -6,8 +6,8 @@ This migration combines the Plus feature additions:
 - Historical import: background jobs for importing past playback data
 - Identity linking: connects activity sessions to Wizarr users/identities
 
-Revision ID: 20250921_add_plus
-Revises: 08a6c8fb44db
+Revision ID: 20251018_add_activity_audit_plus
+Revises: 20251005_add_category_to_wizard_step
 Create Date: 2025-09-21 15:22:00.164026
 
 """
@@ -17,7 +17,7 @@ from alembic import op
 
 # revision identifiers, used by Alembic.
 revision = "20251018_add_activity_audit_plus"
-down_revision = "08a6c8fb44db"
+down_revision = "20251005_add_category_to_wizard_step"
 branch_labels = None
 depends_on = None
 
